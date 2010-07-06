@@ -1,0 +1,7 @@
+Dieser Code darf in unserer Gruppe nur unter folgenden Bedingungen verwendet werden (Zitat John Maloney, MIT):
+
+a. you do not share the source code with others (sharing it within your research group is ok)
+b. you do not use the code in a commercial product
+c. you understand that I don't have time to answer many questions 
+
+Sollte doch jemand einen Code davon in einem Projekt verwenden diesen am Besten gut kennzeichnen, damit er ggf. wieder entfernt werden kann.
