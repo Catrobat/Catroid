@@ -1,0 +1,321 @@
+; A thread is a list:
+;
+;	1 running?		becomes false when thread stops
+;	2 owner			script owner (a sprite or the stage)
+;	3 oldstate		state saved when a block runs a sublist of commands
+;	4 cmds			current command list
+;	5 ip			index of the current command in cmds
+;	6 end-msecs		used by timed commmads such as glide
+;	7 tmp			used by timed commmads and repeat
+;
+; <threads> is a global list of running threads
+; <current-thread> is the thread currently being run by step-thread
+; <yield?> is set to true when the current thread wishes to yield
+; <stopall> is set to true when the stopall command is invoked
+
+to thread-startup
+	stop-all-threads
+	let [ fields [running? owner oldstate cmds ip end-msecs tmp]
+				field "]
+	dotimes [i count :fields] [
+		make "field nth :i :fields
+		define word "thread- :field [] (se [output nth] :i [:<current-thread>])
+		define word "set-thread- :field [v] (se [setnth] :i [:<current-thread> :v])
+	]
+end
+
+to stop-all-threads
+	if (name? "<threads>) [
+		dolist [thrd :<threads>][abort-thread :thrd]]
+	make "<threads> []
+	make "<stopall> true
+end
+
+to abort-thread :<current-thread>
+	stop-thread
+	if thread-ip > count thread-cmds [stop]
+	let [
+		cmd item thread-ip thread-cmds
+		chan get thread-owner "midichan]
+	if list? thread-tmp [stop]
+	if list? :chan [stop]
+	if ((first :cmd) = "noteOn:duration:elapsed:from:) [midinoteoff :chan thread-tmp]
+	if ((first :cmd) = "drum:duration:elapsed:from:) [midinoteoff 10 thread-tmp]
+	if ((first :cmd) = "doPlaySoundAndWait) [stopSound thread-tmp]
+end
+
+to stop-thread
+	set-thread-running? false
+	let [topCmds item 4 (thread-top :<current-thread>)]
+	if not empty? :topCmds [put (first :topCmds) "thread []]
+end
+
+; return the thread for the top-level command list for this thread
+to thread-top :thrd
+	loop [
+		if empty? (item 3 :thrd) [output :thrd]
+		make "thrd (item 3 :thrd)]
+end
+
+; start a thread for a hat block and return the thread object
+to start-script :sprite :hat :isKeyEvent
+	let [cmdList butfirst :hat]
+	if empty? :cmdList [output [false]]
+	let [oldThrd get (first :cmdList) "thread]
+	if not empty? :oldThrd [
+		if (first :oldThrd) [ ; the thread for this hat is running
+			ifelse :isKeyEvent
+				[output [false]]
+				[abort-thread :oldThrd]]]
+	let [newThrd start-thread :sprite :cmdList]
+	put (first :cmdList) "thread :newThrd
+	output :newThrd
+end
+
+; start a thread and return the thread object
+to start-thread :sprite :cmds
+	let [thrd (list true :sprite [] :cmds 1 [] [])]
+	make "<threads> lput :thrd :<threads>
+	output :thrd
+end
+
+; step each thread in <threads> and remove any threads that are no longer running
+to step-all-threads
+	let [oldThreads :<threads>]
+	make "<threads> []
+	make "<stopall> false
+	dolist [thrd :oldThreads] [
+		carefully [step-thread :thrd][print "error abort-thread :thrd]
+;;;xxx	step-thread :thrd
+		if :<stopall> [
+			dolist [t :oldThreads][abort-thread :t]
+			stop]]
+	dolist [thrd :oldThreads] [if first :thrd [make "<threads> lput :thrd :<threads>]]
+end
+
+; step a thread until it yields
+to step-thread :<current-thread>
+	if not thread-running? [stop]
+	talkto thread-owner
+	let [<yield?> false]
+	loop [
+		if thread-ip > count thread-cmds [end-list]
+		if :<yield?> [stop]
+		run eval-all-args (item thread-ip thread-cmds)
+		updatePenTrails
+		if :<yield?> [stop]
+		set-thread-ip thread-ip + 1]
+end
+
+; run the given list of commands (used by control structure commands)
+to run-list :cmdList
+	set-thread-oldstate copylist :<current-thread>
+	set-thread-cmds :cmdList
+	set-thread-ip 0
+	set-thread-end-msecs []
+	set-thread-tmp []
+end
+
+to end-list
+	ifelse empty? thread-oldstate
+		[stop-thread yield]
+		[ let [oldstate thread-oldstate]
+			set-thread-oldstate (item 3 :oldstate)
+			set-thread-cmds (item 4 :oldstate)
+			set-thread-ip (item 5 :oldstate)
+			set-thread-end-msecs (item 6 :oldstate)
+			set-thread-tmp (item 7 :oldstate)
+			if thread-ip > count thread-cmds [end-list stop]
+			let [cmd first (item thread-ip thread-cmds)]
+			if (or (:cmd = "doForever)(:cmd = "doForeverIf)(:cmd = "doRepeat)(:cmd = "doUntil)) [yield]
+		]
+end
+
+; if the argument is a list, evaluate it. otherwise, return it
+to eval-arg :arg
+	if number? :arg [output :arg]
+	if quoted? :arg [output :arg]
+	if string? :arg [output quote :arg]
+	if color? :arg [output :arg]
+	if sprite? :arg [output :arg]
+	if list? :arg [
+		if ((count :arg) = 1) [
+			if (list? first :arg) [make "arg first :arg]]
+		output eval-expression eval-all-args :arg]
+	if :arg = true [output :arg]
+	if :arg = false [output :arg]
+	output quote :arg
+end
+
+; evaluate an expression whose arguments have already been evaluted
+to eval-expression :expr
+	if (count :expr) = 0 [output :expr]
+	let [op item 1 :expr]
+	if (count :expr) = 3 [
+		if (count first :expr) < 3 [
+			let [
+					op item 1 :expr
+					arg1 eval-arg item 2 :expr
+					arg2 eval-arg item 3 :expr]
+			if (member? :op [< = >]) [output eval-comparision :expr]
+
+			make "arg1 coerceToNumber :arg1
+			make "arg2 coerceToNumber :arg2
+			if "+ = :op [output :arg1 + :arg2]
+			if "- = :op [output :arg1 - :arg2]
+			if "* = :op [output :arg1 * :arg2]
+			if "/ = :op [output :arg1 / :arg2]
+			if "\\ = :op [
+				let [n :arg1 % :arg2]
+				if :n < 0 [make "n :n + abs :arg2]
+				output :n]
+			if "& = :op [output (and :arg1 :arg2)]
+			if (char 124) = :op [output (or :arg1 :arg2)]]]	; 124 is | (vertical bar)
+
+	let [v run :expr]
+	if (string? :v) [make "v quote :v]
+	output :v
+end
+
+to eval-comparision :expr
+	let [
+		op item 1 :expr
+		arg1 eval-arg item 2 :expr
+		arg2 eval-arg item 3 :expr]
+
+	if quoted? :arg1 [make "arg1 unquote :arg1]
+	if quoted? :arg2 [make "arg2 unquote :arg2]
+	if isNumberFormat :arg1 [make "arg1 coerceToNumber :arg1]
+	if isNumberFormat :arg2 [make "arg2 coerceToNumber :arg2]
+	if (and (string? :arg1)(string? :arg2)) [
+		if "< = :op [output (strcmp :arg1 :arg2) < 0]
+		if "= = :op [output (strcmp :arg1 :arg2) = 0]
+		if "> = :op [output (strcmp :arg1 :arg2) > 0]]
+	if (and (string? :arg1)(number? :arg2)) [
+		ifelse isNumberFormat :arg1
+			[make "arg1 coerceToNumber :arg1]
+			[output false]]
+	if (and (number? :arg1)(string? :arg2)) [
+		ifelse isNumberFormat :arg2
+			[make "arg2 coerceToNumber :arg2]
+			[output false]]
+
+	if "< = :op [output :arg1 < :arg2]
+	if "= = :op [output :arg1 = :arg2]
+	if "> = :op [output :arg1 > :arg2]
+end
+
+to coerceToNumber :o
+	if number? :o [output :o]
+	if quoted? :o [make "o unquote :o]
+	if string? :o [
+		if (count :o) = 0 [output 0]
+		ifelse isNumberFormat :o
+			[output 0 + :o]
+			[output 0]]
+	output :o
+end
+
+; return a copy of the given command with all of its arguments evaluated
+; however, do not evalute the arguments if the command is a control structure
+to eval-all-args :cmd
+	let [new-cmd copylist :cmd]
+	if is-control? :cmd [output :new-cmd]
+	dotimes [i (count :cmd) - 1] [
+		setitem :i + 2 :new-cmd (eval-arg item :i + 2 :cmd)]
+	if (count :new-cmd) > 0 [coerce-number-args :new-cmd]
+	output :new-cmd
+end
+
+; coerce selected arguments of the given command to numbers if necessary
+to coerce-number-args :cmd
+	let [op first :cmd]
+
+	; coerce all arguments of these commands to numbers
+	if member? :op [
+		forward: turnRight: turnLeft: gotoX:y: glideSecs:toX:y:elapsed:from: changeXposBy: xpos: changeYposBy: ypos:
+		setSizeTo: goBackByLayers:
+		drum:duration:elapsed:from: rest:elapsed:from: noteOn:duration:elapsed:from:
+		midiInstrument: changeVolumeBy: setVolumeTo: changeTempoBy: setTempoTo:
+		changePenHueBy: setPenHueTo: changePenShadeBy: setPenShadeTo: changePenSizeBy: penSize: changeSizeBy:
+		wait:elapsed:from: randomFrom:to: rounded] [
+			dotimes [i count :cmd] [
+				if :i > 0 [setnth :i :cmd (coerceToNumber nth :i :cmd)]]]
+
+	; coerce the last argument of these commands to a number
+	if member? :op [
+		computeFunction:of:
+		say:duration:elapsed:from: think:duration:elapsed:from:
+		changeGraphicEffect:by: setGraphicEffect:to:] [
+			let [i count :cmd]
+			setitem :i :cmd (coerceToNumber item :i :cmd)]
+end
+
+define yield [] [make "<yield?> true]
+
+; ******* control structures *******
+
+; return true if the given command is a control structure
+; (i.e. it decided when and how to evalutate it's arguments)
+to is-control? :cmd
+	if (count :cmd) = 0 [output false]
+	output member? first :cmd [doForever doForeverIf doIf doIfElse doRepeat doUntil doWaitUntil]
+end
+
+to is-true? :expr
+	if :expr = "false [output false]
+	output eval-arg :expr
+end
+
+to doForever :cmdList
+	run-list :cmdList
+end
+
+to doForeverIf :expr :cmdList
+	ifelse is-true? :expr
+		[run-list :cmdList]
+		[yield]
+end
+
+to doIf :expr :cmdList
+	if is-true? :expr [
+		set-thread-ip thread-ip + 1
+		run-list :cmdList]
+end
+
+to doIfElse :expr :trueCmdList :falseCmdList
+	set-thread-ip thread-ip + 1
+	ifelse is-true? :expr
+		[run-list :trueCmdList]
+		[run-list :falseCmdList]
+end
+
+to doRepeat :count :cmdList
+	if empty? thread-tmp [set-thread-tmp coerceToNumber eval-arg :count]
+	if thread-tmp < 1 [set-thread-tmp [] stop]	; repeat finished
+	set-thread-tmp thread-tmp - 1
+	run-list :cmdList
+end
+
+to doUntil :expr :cmdList
+	if not is-true? :expr [run-list :cmdList]
+end
+
+define doWaitUntil [expr] [if not is-true? :expr [yield]]
+
+define doReturn [] [stop-thread yield]
+
+to doAsk :question
+	if list? thread-tmp [
+		if askPromptShowing? [yield stop]
+		ifelse (and (sprite? thread-owner) (not thread-owner = stage) (isVisible thread-owner))
+			[talkto thread-owner
+			 askbubble :question
+			 showAskPrompt "||]
+			[showAskPrompt :question]
+		set-thread-tmp "askInProgress
+	]
+	if askPromptShowing? [yield stop]
+	askbubble "||
+	set-thread-tmp []
+end
