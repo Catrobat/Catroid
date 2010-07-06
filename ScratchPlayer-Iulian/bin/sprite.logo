@@ -1,0 +1,228 @@
+; This file defines the structure of a sprite and how to read in a Scratch project.
+; The entry points are sprite, open, and openurl.
+
+to sprite-startup
+	; builtin sprite fields: xpos ypos costume
+	let [fields [name costumes sounds scripts vars listvars listwatchers midichan volume cindex]]
+	dolist [i (se :fields)] [
+		define :i [] (se [output get who] quote :i)
+		define (word "set :i) [val] (se [put who] quote :i [:val])]
+	make "<tempo> 60
+end
+
+; lookup a sprite by name
+to sprite :name
+	if :name = get stage "name [output stage]
+	dolist [spr sprites] [if :name = get :spr "name [output :spr]]
+	error (se [no sprite named] :name)
+end
+
+to open :projname
+	install-objtable readprojfile (word :projname ".sb)
+end
+
+to openold :projname
+	install-objtable readprojfile (word :projname ".scratch)
+end
+
+to openurl
+	install-objtable readprojurl
+end
+
+to install-objtable :objtable
+	clearall
+	make "<tempo> 60
+	setsprites []
+	dolist [entry :objtable] [
+		if (or ((item 2 :entry) = 124) ((item 2 :entry) = 125)) [add-extracted-object :entry]
+		if ((item 2 :entry) = 155) [init-watcher :entry]
+	]
+	dolist [entry :objtable] [
+		if ((item 2 :entry) = 175) [init-list-watcher :entry]
+	]
+	redrawall
+	timerReset
+end
+
+; add a sprite/stage extracted from the given table entry
+to add-extracted-object :o
+	let [
+		spr item 1 :o
+		id item 2 :o
+		version item 3 :o
+		pos item 4 :o
+		cost extract-costume (item 15 :o)
+		flags item 8 :o
+		sname item 10 :o
+		sscale item 1 item 17 :o
+		degrees item 18 :o
+		rstyle item 19 :o]
+	talkto :spr
+	setname :sname
+	setcostumes extract-costume-list :o
+	setsounds extract-sounds :o
+	setscripts extract-scripts :o
+	setvars extract-variables :o
+	setcostume (item 2 :cost) (item 3 :cost) (item 4 :cost)
+	setvolume 100
+	setDraggable false
+	setcindex []
+	setlistvars []
+	setlistwatchers makelist 0
+	if :id = 124 [	; this object is a sprite
+		setscale :sscale
+		if (logand :flags 1) = 1 [hide]
+		setheading :degrees + 90
+		setrotationstyle stylenum :rstyle
+		setx (item 1 :pos) + (item 3 :cost) - 240
+		sety 180 - ((item 2 :pos) + (item 4 :cost))
+		if (:version > 1) [
+			setvolume (item 20 :o)
+			setDraggable (item 22 :o)]
+		if (:version > 2) [setlistvars extract-listvars (item 24 :o)]
+	]
+	if :id = 125 [	; this object is the stage
+		setstage :spr
+		setsprites []
+		dolist [obj (item 6 :o)][
+			if sprite? :obj [setsprites (lput :obj sprites)]
+			if watcher? :obj [setsprites (lput :obj sprites)]]
+		if (:version > 3) [
+			setvolume (item 21 :o)
+			make "<tempo> (item 22 :o)]
+		if (:version > 4) [setlistvars extract-listvars (item 24 :o)]
+	]
+end
+
+; extract a list of costumes from a sprite/stage object table entry
+to extract-costume-list :x
+	let [
+		medialist item 14 :x
+		result []]
+	dolist [m :medialist] [
+		if (item 2 :m) = 162 [make "result lput (extract-costume :m) :result]]
+	output :result
+end
+
+; extract a costume record from the given ImageMedia object table entry
+; output a 4-typle: (<name><image><rotCenter x><rotCenter y>)
+to extract-costume :m
+	let [
+		name item 4 :m
+		img item 5 :m
+		rotCenter item 6 :m]
+	if (item 3 :m) > 2 [ ; ImageMedia version 4 or later, use compositeForm if not nil
+		if (not list? (item 8 :m)) [ ; image was jpeg compressed; expand and save
+				make "img jpegDecode (item 8 :m)
+				setitem 5 :m :img
+				setitem 8 :m []]]
+	if (item 3 :m) > 3 [ ; ImageMedia version 4 or later, use compositeForm if not nil
+		if (not list? (item 9 :m)) [make "img (item 9 :m)]]
+	output (se :name :img (item 1 :rotCenter)(item 2 :rotCenter))
+end
+
+; extract a list of sounds from a sprite/stage object table entry
+; each sound is a pair (<name><sound>)
+to extract-sounds :o
+	let [
+		medialist item 14 :o
+		result []]
+	dolist [m :medialist] [
+		if (item 2 :m) = 164 [
+			let [
+				name item 4 :m
+				snd item 5 :m]
+			make "result lput (se :name :snd) :result]]
+	output :result
+end
+
+; extract a list of scripts from a sprite/stage object table entry
+to extract-scripts :o
+	let [
+		slist item 12 :o
+		result []]
+	dolist [s :slist] [make "result lput (item 2 :s) :result]
+	output :result
+end
+
+to stylenum :styleName
+	if (:styleName = "normal) [output 0]
+	if (:styleName = "leftRight) [output 1]
+	if (:styleName = "none) [output 2]
+	output 0
+end
+
+; extract the variables for the given sprite/stage object table entry
+; return an empty list whose property list contains the variable bindings.
+to extract-variables :o
+	let [
+		varlist item 11 :o
+		i 1
+		result makelist 0]
+	repeat ((count :varlist) / 2) [
+		put :result (intern item :i :varlist) (item :i + 1 :varlist)
+		make "i :i + 2
+	]
+	output :result
+end
+
+; extract the list variables for the given array of (name, list) pairs
+; return an empty list whose property list contains the list variable bindings.
+to extract-listvars :pairs
+	let [
+		i 1
+		vname []
+		val []
+		result makelist 0]
+	repeat ((count :pairs) / 2) [
+		make "vname (intern item :i :pairs)
+		make "val (item 13 (item :i + 1 :pairs))
+		put :result :vname :val
+		make "i :i + 2
+	]
+	output :result
+end
+
+; initialize the Watcher for the given object table entry
+to init-watcher :o
+	let [
+		w item 1 :o
+		version item 3 :o
+		box item 4 :o
+		title item 17 :o
+		readout item 18 :o
+		readoutFrame item 19 :o
+		readoutBox item 4 :readoutFrame
+		slider item 20 :o
+		target item 14 :readout
+		op item 15 :readout
+		param item 17 :readout]
+	if (string? :param) [make "param intern :param]
+	setWatcherXY :w ((item 1 :box) + 1) ((item 2 :box) + 26)
+	setWatcherColorAndLabel :w (item 7 :readoutFrame) (item 12 :title)
+	if (:version > 3) [setWatcherSliderMinMax :w (item 24 :o) (item 25 :o)]
+	ifelse ((count :slider) > 0)
+		[setWatcherMode :w 2]
+		[if ((item 4 :readoutBox) - (item 2 :readoutBox)) > 14 [setWatcherMode :w 3]]
+	put :w "target :target
+	put :w "op :op
+	put :w "param :param
+end
+
+; initialize the ListWatcher for the given object table entry
+to init-list-watcher :o
+	if not (sprite? (item 5 :o)) [stop]	; do nothing if owner is nil (i.e. watcher is not showing)
+	let [
+		w newListWatcher
+		version item 3 :o
+		box item 4 :o
+		listName item 12 :o
+		listContents item 13 :o
+		listTarget item 14 :o]
+	put (get :listTarget "listwatchers) intern :listName :w
+	setListWatcherXY :w ((item 1 :box) + 1) ((item 2 :box) + 26)
+	setListWatcherWidthHeight :w ((item 3 :box) - (item 1 :box)) ((item 4 :box) - (item 2 :box))
+	if not (:listTarget = stage) [make "listName (word (get :listTarget "name) "| | :listName)]
+	setListWatcherLabel :w :listName
+	setListWatcherList :w :listContents
+end
