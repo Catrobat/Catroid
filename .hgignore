@@ -1,0 +1,9 @@
+syntax: glob
+
+.project
+.classpath
+.settings
+local.properties
+bin/*
+build/*
+gen/*
