@@ -1,7 +1,0 @@
-#!/bin/sh
-rm -f *.class
-mv ScratchApplet.java ScratchApplet.jav
-javac *.java
-mv ScratchApplet.jav ScratchApplet.java
-jar -cmf player.mf ../ScratchPlayer.jar *.class skin/*
-rm -f *.class
