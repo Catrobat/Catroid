@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<menu
-  xmlns:android="http://schemas.android.com/apk/res/android">
-<item android:id="@+id/stagemenuStart" android:title="@string/stagemenu_start" />
-<item android:id="@+id/stagemenuStop" android:title="@string/stagemenu_stop" />
-</menu>
