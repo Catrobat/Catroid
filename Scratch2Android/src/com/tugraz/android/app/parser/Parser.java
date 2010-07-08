@@ -2,6 +2,7 @@ package com.tugraz.android.app.parser;
 
 
 import java.io.InputStream;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 
@@ -20,14 +21,37 @@ public class Parser {
 
 	public Parser() {}
 	
-	public void parse(InputStream stream){
+	/**
+	 * Parses the project file and returns a list of commands
+	 * @param stream the input stream to read out
+	 * @return a List of Commands
+	 */
+	public List parse(InputStream stream){
+		List list = null;
 		try {
-			doc = builder.parse(stream);
-			NodeList animals = doc.getElementsByTagName("animals");
+			doc = builder.parse(stream);	
 		}
 		catch (Exception e) {
 			//TODO implement
 		}
+		NodeList commands = doc.getElementsByTagName("command");
+		for (int i=0; i<commands.getLength(); i++) {
+			int id = Integer.parseInt(commands.item(i).getAttributes().getNamedItem("id").getNodeValue());
+			String path = "";
+			int time = 0;
+			switch (id){
+			case CMD_SET_BACKGROUND:
+			case CMD_SET_SOUND:
+				path = commands.item(i).getFirstChild().getAttributes().getNamedItem("path").getNodeValue();
+				break;
+			case CMD_WAIT:
+				time = Integer.parseInt(commands.item(i).getNodeValue());
+			}
+			Command command = new Command(id, path, time);
+			list.add(command);
+			
+		}
+		return list;
 	}
 	
 }
