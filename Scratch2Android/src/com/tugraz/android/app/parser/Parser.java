@@ -1,6 +1,7 @@
 package com.tugraz.android.app.parser;
 
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.List;
 
@@ -53,8 +54,19 @@ public class Parser {
 		}
 		return list;
 	}
+
+	/**
+	 * Writes the command list to an XML file
+	 * @param commandList the command list to save
+	 * @param path the path where to save the XML file
+	 */
+	public void writeToXlm(List commandList, String path) {
+		//TODO implement
+	}
+	
 	
 }
+
 
 
 //InputStream in = getResources().openRawResource(R.raw.myXmlFile);
