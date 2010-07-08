@@ -1,8 +1,8 @@
 syntax: glob
 
-.project
-.classpath
-.settings
+#.project
+#.classpath
+#.settings
 local.properties
 bin/*
 build/*
