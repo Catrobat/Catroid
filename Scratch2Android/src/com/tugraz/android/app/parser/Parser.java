@@ -13,6 +13,10 @@ import android.util.Xml;
 public class Parser {
 	private DocumentBuilder builder;
 	private Document doc;
+	
+	final static int CMD_SET_BACKGROUND = 000;
+	final static int CMD_SET_SOUND = 100;
+	final static int CMD_WAIT = 200;
 
 	public Parser() {}
 	
