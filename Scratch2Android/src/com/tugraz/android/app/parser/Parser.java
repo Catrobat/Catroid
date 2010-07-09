@@ -81,7 +81,6 @@ public class Parser {
 	/**
 	 * Writes the command list to an XML file
 	 * @param commandList the command list to save
-	 * @param path the path where to save the XML file
 	 */
 	public String toXml(List commandList) {
 		doc = builder.newDocument(); //TODO eventuell nachher checken ob sich was veraendert hat und nur das aendern
