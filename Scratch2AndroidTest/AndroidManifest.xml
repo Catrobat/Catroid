@@ -4,10 +4,11 @@
       android:versionCode="1"
       android:versionName="1.0">
     <application android:icon="@drawable/icon" android:label="@string/app_name">
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	
 	
     <uses-library android:name="android.test.runner" />
     </application>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-sdk android:minSdkVersion="7" />
     <instrumentation android:targetPackage="com.tugraz.android.app" android:name="android.test.InstrumentationTestRunner" />
 </manifest> 
