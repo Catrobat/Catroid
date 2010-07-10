@@ -35,12 +35,6 @@ public class ParserTest extends AndroidTestCase {
 		File file = null;
 		try {
 			file = File.createTempFile("project", "xml");
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
-		try {
 			if(file.canWrite()){
 				OutputStream stream = new FileOutputStream(file);
 				stream.write(testXml.getBytes());
@@ -48,7 +42,8 @@ public class ParserTest extends AndroidTestCase {
 			}
 		}
 		catch (IOException e){
-			//TODO exception handling
+			Log.e("ParserTest", "Writing Test XML to file failed");
+			e.printStackTrace();
 		}
 		List list =null;
 		try {
@@ -56,7 +51,8 @@ public class ParserTest extends AndroidTestCase {
 			list = parser.parse(stream);
 		}
 		catch (FileNotFoundException e){
-			//TODO exception handling
+			Log.e("ParserTest", "Reading from test XML file failed!");
+			e.printStackTrace();
 		}
 		Log.i("ParserTest", testXml);
 		String xml = parser.toXml(list);
