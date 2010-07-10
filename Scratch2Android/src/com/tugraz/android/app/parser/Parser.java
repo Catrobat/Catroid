@@ -69,7 +69,7 @@ public class Parser {
 				break;
 			case CMD_WAIT:
 				//if (commands.item(i).getNodeValue() != null)
-					time = Integer.parseInt(commands.item(i).getNodeValue());
+					time = Integer.parseInt(commands.item(i).getFirstChild().getNodeValue());
 			}
 			Command command = new Command(id, path, time);
 			list.add(command);
