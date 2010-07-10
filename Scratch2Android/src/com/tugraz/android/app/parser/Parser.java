@@ -21,6 +21,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xmlpull.v1.XmlSerializer;
 
+import android.util.Log;
 import android.util.Xml;
 
 public class Parser {
@@ -54,7 +55,7 @@ public class Parser {
 			doc = builder.parse(stream);	
 		}
 		catch (Exception e) {
-			//TODO implement
+			Log.e("Parser", "A parser error occured");
 			e.printStackTrace();
 		}
 		NodeList commands = doc.getElementsByTagName("command");
@@ -139,6 +140,7 @@ public class Parser {
 	    	//return writer.toString();
 		}
 	    catch (Exception e){
+	    	Log.e("Parser","An error occured in toXml");
 	    	e.printStackTrace();
 	    }
 	    
@@ -146,19 +148,5 @@ public class Parser {
 		
 
 	}
-	
-	
+		
 }
-
-
-
-
-//InputStream in = getResources().openRawResource(R.raw.myXmlFile);
-//DocumentBuilder builder = DocumentBuilderFactory
-//  .newInstance().newDocumentBuilder();
-//Document doc = builder.parse(in, null);
-//NodeList animals = doc.getElementsByTagName("animal");
-//for (int i=0;i<animals.getLength();i++) {
-//  items.add(((Element)animals.item(i)).getAttribute("species"));
-//}
-//in.close();
