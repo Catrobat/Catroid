@@ -2,4 +2,7 @@
 <resources>
     <string name="hello">Hello World!</string>
     <string name="app_name">Scratch2Android</string>
+    
+    <string name="stagemenu_construction_site">Zur Baustelle</string>
+    <string name="stagemenu_start">Abspielen</string>
 </resources>
