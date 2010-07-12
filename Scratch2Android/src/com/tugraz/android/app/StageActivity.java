@@ -3,10 +3,14 @@ package com.tugraz.android.app;
 
 
 
+import java.io.Closeable;
+
 import com.tugraz.android.app.stage.StageView;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Path.FillType;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,17 +19,18 @@ import android.view.ViewGroup.LayoutParams;
 
 public class StageActivity extends Activity {
 
-	private static StageView stage;
+	private static StageView mStage;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 
-		stage = new StageView(this);
+		mStage = new StageView(this);
 
+		LayoutParams params = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT); //TODO change!!
 		setContentView(R.layout.stage);
-		addContentView(stage, null);
+		addContentView(mStage, params);
 		
 		// we only want portrait mode atm
 		//setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -53,15 +58,22 @@ public class StageActivity extends Activity {
 		return true;
 	}
 	
-	private void start(){
-		//TODO implement
+	/**
+	 * starts the StageViewThread
+	 */
+	private void start(){ //TODO funktioniert beim erneuten ausfuehren, wenn die stage schon laueft nicht
+		if (mStage.getThread().isRunning()){
+			mStage.getThread().setRunning(false); 
+			
+		}
+		mStage.getThread().setRunning(true);
+		mStage.getThread().start();
 	}
 	
-	private void stop(){
-		//TODO implement
-	}
-	
+	/**
+	 * closes the StageActivity
+	 */
 	private void toMainActivity(){
-		//TODO implement
+		finish(); //TODO kommt man dann richtig zur baustelle zurueck?
 	}
 }

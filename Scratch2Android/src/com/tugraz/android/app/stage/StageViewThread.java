@@ -26,16 +26,21 @@ public class StageViewThread extends Thread {
 	private Context context;
 	private int mX = 0;
 	private int mY = 0;
-	private int mKeyCode = -1;
+	
 
 	public StageViewThread(SurfaceHolder holder, Context context,
 			Handler handler) {
 		mSurfaceHolder = holder;
 		this.context = context;
+		this.setName("StageViewThread");
 	}
 
 	public void setRunning(boolean b) {
 		mRun = b;
+	}
+	
+	public boolean isRunning(){
+		return mRun;
 	}
 
 	public void run() {
@@ -58,28 +63,16 @@ public class StageViewThread extends Thread {
 		}
 	}
 
-    public void doKeyDown(int keyCode, KeyEvent msg) {  
-         mKeyCode = keyCode;  
-     }  
-     public void doKeyUp(int keyCode, KeyEvent msg) { 
-    	 if (((keyCode == KeyEvent.KEYCODE_DPAD_UP) || (keyCode == KeyEvent.KEYCODE_DPAD_DOWN)) && ((mKeyCode == KeyEvent.KEYCODE_DPAD_UP) || (mKeyCode == KeyEvent.KEYCODE_DPAD_DOWN)))
-    		 mKeyCode = -1;  
-    	 if (((keyCode == KeyEvent.KEYCODE_DPAD_LEFT) || (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT)) && ((mKeyCode == KeyEvent.KEYCODE_DPAD_LEFT) || (mKeyCode == KeyEvent.KEYCODE_DPAD_RIGHT)))
-    		 mKeyCode = -1;  
-     }  
 	
+	/**
+	 * Draws the stage.
+	 */
 	protected void doDraw(Canvas canvas) {
 		Paint paint = new Paint();
 
 		Resources res = context.getResources();
 		BitmapDrawable myImage = (BitmapDrawable) res
-				.getDrawable(R.drawable.icon);
-
-		// for key events
-		if (mKeyCode == KeyEvent.KEYCODE_DPAD_UP) mY--;
-		if (mKeyCode == KeyEvent.KEYCODE_DPAD_DOWN) mY++;
-		if (mKeyCode == KeyEvent.KEYCODE_DPAD_LEFT) mX--;
-		if (mKeyCode == KeyEvent.KEYCODE_DPAD_RIGHT) mX++;
+				.getDrawable(R.drawable.icon);  //TODO umaendern in richtiges bild
 		
 		paint.setStyle(Paint.Style.FILL);
 		paint.setColor(Color.WHITE);
@@ -88,14 +81,6 @@ public class StageViewThread extends Thread {
 				paint);
 		canvas.drawBitmap(myImage.getBitmap(), mX, mY, null);
 
-		//mX++;
-		//mY++;
-		// String str = "";
-		// if (mKeyCode == KeyEvent.KEYCODE_DPAD_UP) str = "DPAD_UP";
-		// if (mKeyCode == KeyEvent.KEYCODE_DPAD_DOWN) str = "DPAD_DOWN";
-		// if (mKeyCode == KeyEvent.KEYCODE_DPAD_LEFT) str = "DPAD_LEFT";
-		// if (mKeyCode == KeyEvent.KEYCODE_DPAD_RIGHT) str = "DPAD_RIGHT";
-		// canvas.drawText("keyCode>" + mKeyCode + " " + str, 0, 40, paint);
 	}
 
 }

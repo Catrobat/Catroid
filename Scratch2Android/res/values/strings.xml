@@ -3,6 +3,9 @@
     <string name="hello">Hello World!</string>
     <string name="app_name">Scratch2Android</string>
     
+    <string name="construction_site">Baustelle</string>
+    <string name="stage">Bühne</string>
+    
     <string name="stagemenu_construction_site">Zur Baustelle</string>
     <string name="stagemenu_start">Abspielen</string>
 </resources>
