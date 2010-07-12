@@ -56,17 +56,6 @@ public class StageView extends SurfaceView implements SurfaceHolder.Callback {
 		}
 
 	}
-    @Override  
-    public boolean onKeyDown(int keyCode, KeyEvent event) {  
-        mThread.doKeyDown(keyCode, event);  
-        return super.onKeyDown(keyCode, event);  
-    }  
-    @Override  
-    public boolean onKeyUp(int keyCode, KeyEvent event) {  
-        mThread.doKeyUp(keyCode, event);  
-        return super.onKeyUp(keyCode, event);  
-    } 
-
 	public StageViewThread getThread() {
 		return mThread;
 
