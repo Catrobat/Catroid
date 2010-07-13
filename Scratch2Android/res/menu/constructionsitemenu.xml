@@ -3,5 +3,5 @@
   xmlns:android="http://schemas.android.com/apk/res/android">
 <item android:title="@string/construction_site_play" android:id="@+id/play"></item>
 <item android:title="@string/reset" android:id="@+id/reset"></item>
-<item android:title="@string/quit" android:id="@+id/quit"></item>
+
 </menu>
