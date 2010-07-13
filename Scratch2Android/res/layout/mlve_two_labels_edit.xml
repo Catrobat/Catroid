@@ -5,6 +5,6 @@
   android:layout_height="wrap_content" android:orientation="vertical">
 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Bsp.: Warte" android:id="@+id/NameTextView"></TextView>
 <LinearLayout android:id="@+id/LinearLayout01" android:layout_width="wrap_content" android:layout_height="wrap_content"><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Millisekunden" android:id="@+id/ValueTextView"></TextView>
-<EditText android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="100" android:inputType="number|numberDecimal" android:maxLines="1" android:maxLength="3" android:id="@+id/InputValueEditText"></EditText>
+<EditText android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="100" android:inputType="number|numberDecimal" android:maxLines="1" android:maxLength="3" android:id="@+id/InputValueEditText" android:enabled="true"></EditText>
 </LinearLayout>
 </LinearLayout>
