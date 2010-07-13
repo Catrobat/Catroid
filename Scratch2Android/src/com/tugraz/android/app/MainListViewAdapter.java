@@ -26,18 +26,15 @@ public class MainListViewAdapter extends BaseAdapter{
 	
 	
 
-	@Override
 	public int getCount() {
 		return mList.size();
 	}
 
-	@Override
 	public Object getItem(int arg0) {
 		
 		return mList.get(arg0);
 	}
 
-	@Override
 	public long getItemId(int position) {
 		//Testfall schreiben
 		String type = mList.get(position).get(BrickDefine.BRICK_ID);
@@ -47,7 +44,6 @@ public class MainListViewAdapter extends BaseAdapter{
 			return Integer.valueOf(type).intValue();
 	}
 
-	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		//TODO check convertView
 		//TODO Reuse Views
@@ -102,6 +98,7 @@ public class MainListViewAdapter extends BaseAdapter{
 		
 		}
 	}
+
 	
 
 }

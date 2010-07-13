@@ -79,7 +79,10 @@ public class MainActivity extends Activity {
     
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-    	finish();
+    	AdapterView.AdapterContextMenuInfo info;
+    	info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+    	mList.remove(info.position);
+        adapter.notifyDataSetChanged();
     	return true;
     };
 
@@ -95,15 +98,10 @@ public class MainActivity extends Activity {
             return true;
             
         case R.id.reset:
-        	//TODO to be refactored later
         	mList.clear();
-        	mMainListView = (ListView) findViewById(R.id.MainListView);
-            mMainListView.setAdapter(adapter);       	   
+        	adapter.notifyDataSetChanged();
             return true;
-            
-        case R.id.quit:
-            finish();
-            return true;
+   
         default:
             return super.onOptionsItemSelected(item);
         }
