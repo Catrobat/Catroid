@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -44,7 +43,7 @@ public class Parser {
 	}
 	
 	/**
-	 * Parses the project file and returns an ArrayList with the commands/bricks
+	 * Parses the project file and returns an ArrayList with the bricks
 	 * @param stream the input stream to read out
 	 * @return a ArrayList of of HashMaps representing the bricks
 	 */
@@ -57,20 +56,20 @@ public class Parser {
 			Log.e("Parser", "A parser error occured");
 			e.printStackTrace();
 		}
-		NodeList commands = doc.getElementsByTagName("command");
-		for (int i=0; i<commands.getLength(); i++) {
-			int commandType = Integer.parseInt(commands.item(i).getAttributes().getNamedItem("id").getNodeValue());
+		NodeList bricks = doc.getElementsByTagName("command");
+		for (int i=0; i<bricks.getLength(); i++) {
+			int brickType = Integer.parseInt(bricks.item(i).getAttributes().getNamedItem("id").getNodeValue());
 			String value = "";
-			switch (commandType){
+			switch (brickType){
 			case BrickDefine.SET_BACKGROUND:
 			case BrickDefine.PLAY_SOUND:
-				value = commands.item(i).getFirstChild().getAttributes().getNamedItem("path").getNodeValue();
+				value = bricks.item(i).getFirstChild().getAttributes().getNamedItem("path").getNodeValue();
 				break;
 			case BrickDefine.WAIT:
 				//if (commands.item(i).getNodeValue() != null)
-					value = commands.item(i).getFirstChild().getNodeValue();
+					value = bricks.item(i).getFirstChild().getNodeValue();
 			}
-			HashMap<String, String> map = getCommandMap(value, commandType);
+			HashMap<String, String> map = getBrickMap(value, brickType);
 			list.add(map);
 			
 		}
@@ -78,10 +77,10 @@ public class Parser {
 	}
 
 	/**
-	 * Writes the command list to an XML file
-	 * @param commandList the command list to save
+	 * Writes the brick list to an XML file
+	 * @param an ArrayList of HashMaps containing the bricks
 	 */
-	public String toXml(ArrayList<HashMap<String,String>> commandList) {
+	public String toXml(ArrayList<HashMap<String,String>> brickList) {
 		doc = builder.newDocument(); //TODO eventuell nachher checken ob sich was veraendert hat und nur das aendern
 		XmlSerializer serializer = Xml.newSerializer();
 		StringWriter writer = new StringWriter();
@@ -90,8 +89,8 @@ public class Parser {
 	    	serializer.setOutput(writer);
 	    	serializer.startDocument("UTF-8", true);
 	    	serializer.startTag("", "stage");
-	    	for (int i=0; i<commandList.size(); i++) {
-	    		HashMap<String,String> brick = commandList.get(i);
+	    	for (int i=0; i<brickList.size(); i++) {
+	    		HashMap<String,String> brick = brickList.get(i);
 	    		
 				switch (Integer.parseInt(brick.get(BrickDefine.BRICK_TYPE))){ //TODO nicht bei jedem durchlauf neue elemente erzeugen sonder nur clonen
 				case BrickDefine.SET_BACKGROUND:
@@ -148,11 +147,11 @@ public class Parser {
 
 	}
 	
-	private HashMap<String, String> getCommandMap(String value, int type) {
-		return getCommandMap("Name", value, type);
+	private HashMap<String, String> getBrickMap(String value, int type) {
+		return getBrickMap("Name", value, type);
 	}
 	
-	private HashMap<String, String> getCommandMap(String name, String value, int type) {
+	private HashMap<String, String> getBrickMap(String name, String value, int type) {
 		HashMap<String, String> map = new HashMap<String, String>();
 		
 		map.put(BrickDefine.BRICK_ID, Integer.toString(mIdCounter));

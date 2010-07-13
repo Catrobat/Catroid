@@ -87,30 +87,30 @@ public class ParserTest extends TestCase {
 	}
 	
 	public void testToXml() {
-		ArrayList<HashMap<String, String>> command_list = new ArrayList<HashMap<String,String>>();;
+		ArrayList<HashMap<String, String>> brickList = new ArrayList<HashMap<String,String>>();;
 	
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put(BrickDefine.BRICK_ID, "0");
 	    map.put(BrickDefine.BRICK_TYPE, Integer.toString(BrickDefine.SET_BACKGROUND));
 	    map.put(BrickDefine.BRICK_NAME, "blabla");
 	    map.put(BrickDefine.BRICK_VALUE, "");
-		command_list.add(map);
+		brickList.add(map);
 		
 		map = new HashMap<String, String>();
 		map.put(BrickDefine.BRICK_ID, "1");
 	    map.put(BrickDefine.BRICK_TYPE, Integer.toString(BrickDefine.PLAY_SOUND));
 	    map.put(BrickDefine.BRICK_NAME, "blabla");
 	    map.put(BrickDefine.BRICK_VALUE, "c:\\sounds\\sound1.wav");
-		command_list.add(map);
+		brickList.add(map);
 		
 		map = new HashMap<String, String>();
 		map.put(BrickDefine.BRICK_ID, "2");
 	    map.put(BrickDefine.BRICK_TYPE, Integer.toString(BrickDefine.WAIT));
 	    map.put(BrickDefine.BRICK_NAME, "blabla");
 	    map.put(BrickDefine.BRICK_VALUE, "100");
-		command_list.add(map);
+		brickList.add(map);
 		
-		String result = parser.toXml(command_list);
+		String result = parser.toXml(brickList);
 		String expected = "<?xml version='1.0' encoding='UTF-8' standalone='yes' ?><stage><command id=\"1001\"><image path=\"\" /></command><command id=\"2001\"><sound path=\"c:\\sounds\\sound1.wav\" /></command><command id=\"1002\">100</command></stage>";
 		Log.i("testToXml result", result);
 		Log.i("testToXml expected", expected);
@@ -118,8 +118,8 @@ public class ParserTest extends TestCase {
 		assertEquals("constructed list with 3 commands", expected, result);
 
 		
-		command_list.clear();
-		result = parser.toXml(command_list);
+		brickList.clear();
+		result = parser.toXml(brickList);
 		expected = "<?xml version='1.0' encoding='UTF-8' standalone='yes' ?><stage />";
 		assertEquals("constructed list without commands", expected, result);
 	
