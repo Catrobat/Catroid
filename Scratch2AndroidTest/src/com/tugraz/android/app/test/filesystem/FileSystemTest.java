@@ -8,6 +8,7 @@ import com.tugraz.android.app.filesystem.FileSystem;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.Environment;
 import android.test.AndroidTestCase;
 
 public class FileSystemTest extends AndroidTestCase {
@@ -85,5 +86,10 @@ public class FileSystemTest extends AndroidTestCase {
 		}
 			
 			assertTrue(available);
+	}
+	
+	public void testSdCardReady(){
+     String state = Environment.getExternalStorageState();  
+        assertTrue(Environment.MEDIA_MOUNTED.equals(state));			     
 	}
 }
