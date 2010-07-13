@@ -1,14 +1,10 @@
 package com.tugraz.android.app.parser;
 
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -16,17 +12,19 @@ import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
+
 import org.w3c.dom.NodeList;
 import org.xmlpull.v1.XmlSerializer;
 
 import android.util.Log;
 import android.util.Xml;
 
+import com.tugraz.android.app.BrickDefine;
+
 public class Parser {
 	private DocumentBuilder builder;
 	private Document doc;
+	private static int mIdCounter = 0;
 	
 	final static int CMD_SET_BACKGROUND = 0;
 	final static int CMD_SET_SOUND = 100;
@@ -45,12 +43,12 @@ public class Parser {
 	}
 	
 	/**
-	 * Parses the project file and returns a list of commands
+	 * Parses the project file and returns an ArrayList with the bricks
 	 * @param stream the input stream to read out
-	 * @return a List of Commands
+	 * @return a ArrayList of of HashMaps representing the bricks
 	 */
-	public List parse(InputStream stream){
-		List list = new ArrayList();
+	public ArrayList<HashMap<String, String>> parse(InputStream stream){
+		ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String,String>>();
 		try {
 			doc = builder.parse(stream);	
 		}
@@ -58,32 +56,31 @@ public class Parser {
 			Log.e("Parser", "A parser error occured");
 			e.printStackTrace();
 		}
-		NodeList commands = doc.getElementsByTagName("command");
-		for (int i=0; i<commands.getLength(); i++) {
-			int id = Integer.parseInt(commands.item(i).getAttributes().getNamedItem("id").getNodeValue());
-			String path = "";
-			int time = 0;
-			switch (id){
-			case CMD_SET_BACKGROUND:
-			case CMD_SET_SOUND:
-				path = commands.item(i).getFirstChild().getAttributes().getNamedItem("path").getNodeValue();
+		NodeList bricks = doc.getElementsByTagName("command");
+		for (int i=0; i<bricks.getLength(); i++) {
+			int brickType = Integer.parseInt(bricks.item(i).getAttributes().getNamedItem("id").getNodeValue());
+			String value = "";
+			switch (brickType){
+			case BrickDefine.SET_BACKGROUND:
+			case BrickDefine.PLAY_SOUND:
+				value = bricks.item(i).getFirstChild().getAttributes().getNamedItem("path").getNodeValue();
 				break;
-			case CMD_WAIT:
+			case BrickDefine.WAIT:
 				//if (commands.item(i).getNodeValue() != null)
-					time = Integer.parseInt(commands.item(i).getFirstChild().getNodeValue());
+					value = bricks.item(i).getFirstChild().getNodeValue();
 			}
-			Command command = new Command(id, path, time);
-			list.add(command);
+			HashMap<String, String> map = getBrickMap(value, brickType);
+			list.add(map);
 			
 		}
 		return list;
 	}
 
 	/**
-	 * Writes the command list to an XML file
-	 * @param commandList the command list to save
+	 * Writes the brick list to an XML file
+	 * @param an ArrayList of HashMaps containing the bricks
 	 */
-	public String toXml(List commandList) {
+	public String toXml(ArrayList<HashMap<String,String>> brickList) {
 		doc = builder.newDocument(); //TODO eventuell nachher checken ob sich was veraendert hat und nur das aendern
 		XmlSerializer serializer = Xml.newSerializer();
 		StringWriter writer = new StringWriter();
@@ -92,10 +89,11 @@ public class Parser {
 	    	serializer.setOutput(writer);
 	    	serializer.startDocument("UTF-8", true);
 	    	serializer.startTag("", "stage");
-	    	for (int i=0; i<commandList.size(); i++) {
-				Command command = (Command) commandList.get(i);
-				switch (command.commandType){ //TODO nicht bei jedem durchlauf neue elemente erzeugen sonder nur clonen
-				case CMD_SET_BACKGROUND:
+	    	for (int i=0; i<brickList.size(); i++) {
+	    		HashMap<String,String> brick = brickList.get(i);
+	    		
+				switch (Integer.parseInt(brick.get(BrickDefine.BRICK_TYPE))){ //TODO nicht bei jedem durchlauf neue elemente erzeugen sonder nur clonen
+				case BrickDefine.SET_BACKGROUND:
 //					Element bkgCommand = doc.createElement("command");
 //					bkgCommand.setAttribute("id", Integer.toString(CMD_SET_BACKGROUND));
 //					Element image = doc.createElement("image");
@@ -103,13 +101,13 @@ public class Parser {
 //					bkgCommand.appendChild(image);
 //					doc.appendChild(bkgCommand);
 					serializer.startTag("", "command");
-					serializer.attribute("", "id", Integer.toString(CMD_SET_BACKGROUND));
+					serializer.attribute("", "id", Integer.toString(BrickDefine.SET_BACKGROUND));
 					serializer.startTag("", "image");
-					serializer.attribute("", "path", command.path);
+					serializer.attribute("", "path", brick.get(BrickDefine.BRICK_VALUE));
 					serializer.endTag("", "image");
 					serializer.endTag("", "command");
 					break;
-				case CMD_SET_SOUND:
+				case BrickDefine.PLAY_SOUND:
 //					Element soundCommand = doc.createElement("command");
 //					soundCommand.setAttribute("id", Integer.toString(CMD_SET_SOUND));
 //					Element sound = doc.createElement("sound");
@@ -117,20 +115,20 @@ public class Parser {
 //					soundCommand.appendChild(sound);
 //					doc.appendChild(soundCommand);
 					serializer.startTag("", "command");
-					serializer.attribute("", "id", Integer.toString(CMD_SET_SOUND));
+					serializer.attribute("", "id", Integer.toString(BrickDefine.PLAY_SOUND));
 					serializer.startTag("", "sound");
-					serializer.attribute("", "path", command.path);
+					serializer.attribute("", "path", brick.get(BrickDefine.BRICK_VALUE));
 					serializer.endTag("", "sound");
 					serializer.endTag("", "command");
 					break;
-				case CMD_WAIT:
+				case BrickDefine.WAIT:
 //					Element waitCommand = doc.createElement("command");
 //					waitCommand.setAttribute("id", Integer.toString(CMD_WAIT));
 //					waitCommand.setNodeValue(Integer.toString(command.time));
 //					doc.appendChild(waitCommand);
 					serializer.startTag("", "command");
-					serializer.attribute("", "id", Integer.toString(CMD_WAIT));
-					serializer.text(Integer.toString(command.time));
+					serializer.attribute("", "id", Integer.toString(BrickDefine.WAIT));
+					serializer.text(brick.get(BrickDefine.BRICK_VALUE));
 					serializer.endTag("", "command");
 					break;
 				}	
@@ -147,6 +145,22 @@ public class Parser {
 	    return writer.toString();
 		
 
+	}
+	
+	private HashMap<String, String> getBrickMap(String value, int type) {
+		return getBrickMap("Name", value, type);
+	}
+	
+	private HashMap<String, String> getBrickMap(String name, String value, int type) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		
+		map.put(BrickDefine.BRICK_ID, Integer.toString(mIdCounter));
+	    map.put(BrickDefine.BRICK_TYPE, Integer.toString(type));
+	    map.put(BrickDefine.BRICK_NAME, name);
+	    map.put(BrickDefine.BRICK_VALUE, value);
+		
+		
+		return map;
 	}
 		
 }
