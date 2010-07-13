@@ -61,7 +61,7 @@ public class FileSystemTest extends AndroidTestCase {
 	public void testDeleteFile(){
 		
         boolean deleted = true;
-        mFileSystem.deleteFile(TEST_FILENAME);
+        mFileSystem.deleteFile(TEST_FILENAME, mCtx);
 		String[] fileNames = mCtx.fileList();
 		for(int i = 0; i < fileNames.length; i++){
 			if(fileNames[i].equals(TEST_FILENAME))
@@ -75,7 +75,7 @@ public class FileSystemTest extends AndroidTestCase {
 	public void testCreateOrOpenFile(){
 		mCtx.deleteFile(TEST_FILENAME);
 		
-		mFileSystem.createOrOpenFile(TEST_FILENAME);
+		mFileSystem.createOrOpenFile(TEST_FILENAME, mCtx);
 		
 		boolean available = false;
 		String[] fileNames = mCtx.fileList();
