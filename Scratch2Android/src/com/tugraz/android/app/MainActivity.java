@@ -39,7 +39,7 @@ public class MainActivity extends Activity {
         map.put(BrickDefine.BRICK_NAME, "Test3");
         map.put(BrickDefine.BRICK_VALUE, "blabla2");
         list.add(map);
-
+        
          
         MainListViewAdapter adapter = new MainListViewAdapter(this, list);
          
