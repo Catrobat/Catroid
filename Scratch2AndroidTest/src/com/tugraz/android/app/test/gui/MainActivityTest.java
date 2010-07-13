@@ -7,12 +7,22 @@ import com.tugraz.android.app.BrickDefine;
 import com.tugraz.android.app.MainActivity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.AndroidTestCase;
+import android.test.TouchUtils;
+import android.view.ContextMenu;
+import android.view.KeyEvent;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ListView;
+import android.widget.TextView;
 
 public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity>{
 
 	private MainActivity mActivity;
+	
+	private ListView mListView;
 	
 	public MainActivityTest() {
 		super("com.tugraz.android.app", MainActivity.class);
@@ -49,10 +59,67 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         
         //TODO hier mehr machen um testdaten korrekt zu laden?
 		
+        mListView = (ListView) mActivity.findViewById(com.tugraz.android.app.R.id.MainListView);
+        
+        
 	}
 	
-	public void testPreConditions() {
-		// we don't have preconditions atm
+//	public void testPreConditions() {
+//		// we don't have preconditions atm
+//	}
+	
+	public void testLongClickOnMainListView() {
+		mActivity.runOnUiThread(
+				new Runnable() {
+					public void run() {
+						mListView.requestFocus();
+						
+						
+					}
+				}
+		);
+		View view = (View) mListView.getChildAt(0);	
+		TouchUtils.longClickView(this, view);
+		this.sendKeys(KeyEvent.KEYCODE_DPAD_DOWN);
+		
+		//TextView menu = (TextView) mActivity.findViewById(com.tugraz.android.app.R.id.delete);
+		//View desiredFocus = (View) menu.getFocusedChild();
+		
+		
+		ListView currentFocus = (ListView) mActivity.getCurrentFocus();
+		CharSequence text = ((MenuItem) currentFocus.getChildAt(0)).getTitle();	
+		
+		assertTrue(text.equals("Löschen"));
+	}
+	
+	public void testDeleteAll(){
+//		mActivity.runOnUiThread(
+//				new Runnable() {
+//					public void run() {
+//						mListView.requestFocus();
+//						
+//						
+//					}
+//				}
+//		);
+		
+		this.sendKeys(KeyEvent.KEYCODE_MENU);
+		this.sendKeys(KeyEvent.KEYCODE_DPAD_DOWN); //TODO remove for newer version
+
+		this.sendKeys(KeyEvent.KEYCODE_DPAD_LEFT);
+		this.sendKeys(KeyEvent.KEYCODE_DPAD_CENTER);
+		
+		
+		assertTrue(mListView.getChildCount()==0);
+	}
+	
+	public void testToStage() {
+		this.sendKeys(KeyEvent.KEYCODE_MENU);
+		this.sendKeys(KeyEvent.KEYCODE_DPAD_CENTER);
+		
+		Context context = (Context) mActivity;
+		
+	
 	}
 
 
