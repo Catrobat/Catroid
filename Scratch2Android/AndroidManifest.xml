@@ -11,6 +11,7 @@
             </intent-filter>
     	</activity>
 		<activity android:name=".MainActivity" android:label="@string/construction_site" />
+
     </application>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-sdk android:minSdkVersion="7" />
