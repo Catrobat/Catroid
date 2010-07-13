@@ -50,9 +50,13 @@ public class MainListViewAdapter extends BaseAdapter{
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		//TODO check convertView
+		//TODO Reuse Views
+		//Type of the Brick
 		String type = mList.get(position).get(BrickDefine.BRICK_TYPE);
+		//Inflater to build the views
 		LayoutInflater inflater = (LayoutInflater)mCtx.getSystemService(
 	      Context.LAYOUT_INFLATER_SERVICE);
+		//Check the type
 		switch(Integer.valueOf(type).intValue()){
 		case (BrickDefine.SET_BACKGROUND): 
 		{
