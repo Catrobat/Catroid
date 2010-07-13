@@ -12,6 +12,8 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -19,7 +21,7 @@ public class MainActivity extends Activity {
     /** Called when the activity is first created. */
 
 	
-	private ListView mMainListView;
+	protected ListView mMainListView;
 	//TODO change public list and adapter
 	public ArrayList<HashMap<String, String>> mList = new ArrayList<HashMap<String,String>>(); 
 	public MainListViewAdapter adapter = new MainListViewAdapter(this, mList);
@@ -48,12 +50,11 @@ public class MainActivity extends Activity {
         map.put(BrickDefine.BRICK_NAME, "Test3");
         map.put(BrickDefine.BRICK_VALUE, "blabla2");
         mList.add(map);
-        
-         
-        
-         
+              
         mMainListView = (ListView) findViewById(R.id.MainListView);
         mMainListView.setAdapter(adapter);
+        this.registerForContextMenu(mMainListView);
+      
     }
 	
     @Override
@@ -71,8 +72,17 @@ public class MainActivity extends Activity {
         } catch (ClassCastException e) {
             return;
         }
-        //long l = getListAdapter().getItemId(info.position);
-    } 
+        adapter.getItemId(info.position);
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.maincontextmenu, menu);
+    }
+    
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+    	finish();
+    	return true;
+    };
+
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -98,7 +108,4 @@ public class MainActivity extends Activity {
             return super.onOptionsItemSelected(item);
         }
     }
-    
-    
-    
-}
+ }

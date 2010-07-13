@@ -67,7 +67,6 @@ public class MainListViewAdapter extends BaseAdapter{
 			TextView text2 = (TextView)view.getChildAt(1);
 			text2.setText("BausteinSetBackground");
 			
-			
 			return view;
 		}
 		case (BrickDefine.PLAY_SOUND): 
@@ -85,7 +84,7 @@ public class MainListViewAdapter extends BaseAdapter{
 			LinearLayout view =  (LinearLayout)inflater.inflate(R.layout.mlve_two_labels_edit, null);
 			TextView text1 = (TextView)view.getChildAt(0);
 			text1.setText("WAIT");
-			  LinearLayout view2 = (LinearLayout)view.getChildAt(1);
+			LinearLayout view2 = (LinearLayout)view.getChildAt(1);
 			  TextView text2 = (TextView) view2.getChildAt(0);
 	          text2.setText("BausteinWait");
 	          EditText etext = (EditText) view2.getChildAt(1);
