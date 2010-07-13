@@ -5,7 +5,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 public class MainActivity extends Activity {
@@ -13,38 +20,83 @@ public class MainActivity extends Activity {
 
 	
 	private ListView mMainListView;
+	//TODO change public list and adapter
+	public ArrayList<HashMap<String, String>> mList = new ArrayList<HashMap<String,String>>(); 
+	public MainListViewAdapter adapter = new MainListViewAdapter(this, mList);
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
         //Bsp.: List; Testdaten
-        ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String,String>>(); 
-        
+               
         HashMap<String, String> map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "1");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
         map.put(BrickDefine.BRICK_NAME, "Test1");
         map.put(BrickDefine.BRICK_VALUE, "bla");
-        list.add(map);
+        mList.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "2");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.PLAY_SOUND));
         map.put(BrickDefine.BRICK_NAME, "Test2");
         map.put(BrickDefine.BRICK_VALUE, "blabla1");
-        list.add(map);
+        mList.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "3");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
         map.put(BrickDefine.BRICK_NAME, "Test3");
         map.put(BrickDefine.BRICK_VALUE, "blabla2");
-        list.add(map);
+        mList.add(map);
         
          
-        MainListViewAdapter adapter = new MainListViewAdapter(this, list);
+        
          
         mMainListView = (ListView) findViewById(R.id.MainListView);
         mMainListView.setAdapter(adapter);
+    }
+	
+    @Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		getMenuInflater().inflate(R.menu.constructionsitemenu, menu);
+		return true;
+	}
+    
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View view,ContextMenuInfo menuInfo) {
+        AdapterView.AdapterContextMenuInfo info;
+        try {
+             info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        } catch (ClassCastException e) {
+            return;
+        }
+        //long l = getListAdapter().getItemId(info.position);
+    } 
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+        case R.id.play:
+        	//TODO: save state
+        	Intent intent = new Intent(MainActivity.this, StageActivity.class);
+            startActivity(intent);
+            return true;
+            
+        case R.id.reset:
+        	//TODO to be refactored later
+        	mList.clear();
+        	mMainListView = (ListView) findViewById(R.id.MainListView);
+            mMainListView.setAdapter(adapter);       	   
+            return true;
+            
+        case R.id.quit:
+            finish();
+            return true;
+        default:
+            return super.onOptionsItemSelected(item);
+        }
     }
     
     

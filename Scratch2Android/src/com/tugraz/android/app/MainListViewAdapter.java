@@ -56,6 +56,7 @@ public class MainListViewAdapter extends BaseAdapter{
 		//Inflater to build the views
 		LayoutInflater inflater = (LayoutInflater)mCtx.getSystemService(
 	      Context.LAYOUT_INFLATER_SERVICE);
+		
 		//Check the type
 		switch(Integer.valueOf(type).intValue()){
 		case (BrickDefine.SET_BACKGROUND): 
@@ -65,6 +66,7 @@ public class MainListViewAdapter extends BaseAdapter{
 			text1.setText("SET_BACKGROUND");
 			TextView text2 = (TextView)view.getChildAt(1);
 			text2.setText("BausteinSetBackground");
+			
 			
 			return view;
 		}
