@@ -7,6 +7,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
@@ -14,6 +16,7 @@ import junit.framework.TestCase;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
+import com.tugraz.android.app.BrickDefine;
 import com.tugraz.android.app.parser.*;
 
 public class ParserTest extends TestCase {
@@ -22,13 +25,13 @@ public class ParserTest extends TestCase {
 	private String testXml =
 	"<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>"+
 	"<stage>"+
-	  "<command id=\"0\">"+
+	  "<command id=\"1001\">"+
 	    "<image path=\"bla.jpg\" />"+
 	  "</command>"+
-	  "<command id=\"200\">"+
+	  "<command id=\"1002\">"+
 	    "5"+
 	  "</command>"+
-	  "<command id=\"100\">"+
+	  "<command id=\"2001\">"+
 	    "<sound path=\"bla.mp3\" />"+
 	  "</command>"+
 	"</stage>";
@@ -66,7 +69,7 @@ public class ParserTest extends TestCase {
 			Log.e("ParserTest", "Writing Test XML to file failed");
 			e.printStackTrace();
 		}
-		List list =null;
+		ArrayList<HashMap<String, String>> list =null;
 		try {
 			InputStream stream = new FileInputStream(file);
 			list = parser.parse(stream);
@@ -84,23 +87,39 @@ public class ParserTest extends TestCase {
 	}
 	
 	public void testToXml() {
-		Vector<Command> command_list = new Vector<Command>();
+		ArrayList<HashMap<String, String>> brickList = new ArrayList<HashMap<String,String>>();;
+	
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put(BrickDefine.BRICK_ID, "0");
+	    map.put(BrickDefine.BRICK_TYPE, Integer.toString(BrickDefine.SET_BACKGROUND));
+	    map.put(BrickDefine.BRICK_NAME, "blabla");
+	    map.put(BrickDefine.BRICK_VALUE, "");
+		brickList.add(map);
 		
-		Command c = new Command(0, "", 0);
-		command_list.add(c);
+		map = new HashMap<String, String>();
+		map.put(BrickDefine.BRICK_ID, "1");
+	    map.put(BrickDefine.BRICK_TYPE, Integer.toString(BrickDefine.PLAY_SOUND));
+	    map.put(BrickDefine.BRICK_NAME, "blabla");
+	    map.put(BrickDefine.BRICK_VALUE, "c:\\sounds\\sound1.wav");
+		brickList.add(map);
 		
-		c = new Command(100, "c:\\sounds\\sound1.wav", 0);
-		command_list.add(c);
+		map = new HashMap<String, String>();
+		map.put(BrickDefine.BRICK_ID, "2");
+	    map.put(BrickDefine.BRICK_TYPE, Integer.toString(BrickDefine.WAIT));
+	    map.put(BrickDefine.BRICK_NAME, "blabla");
+	    map.put(BrickDefine.BRICK_VALUE, "100");
+		brickList.add(map);
 		
-		c = new Command(200, "", 100);
-		command_list.add(c);
+		String result = parser.toXml(brickList);
+		String expected = "<?xml version='1.0' encoding='UTF-8' standalone='yes' ?><stage><command id=\"1001\"><image path=\"\" /></command><command id=\"2001\"><sound path=\"c:\\sounds\\sound1.wav\" /></command><command id=\"1002\">100</command></stage>";
+		Log.i("testToXml result", result);
+		Log.i("testToXml expected", expected);
 		
-		String result = parser.toXml(command_list);
-		String expected = "<?xml version='1.0' encoding='UTF-8' standalone='yes' ?><stage><command id=\"0\"><image path=\"\" /></command><command id=\"100\"><sound path=\"c:\\sounds\\sound1.wav\" /></command><command id=\"200\">100</command></stage>";
 		assertEquals("constructed list with 3 commands", expected, result);
+
 		
-		command_list.clear();
-		result = parser.toXml(command_list);
+		brickList.clear();
+		result = parser.toXml(brickList);
 		expected = "<?xml version='1.0' encoding='UTF-8' standalone='yes' ?><stage />";
 		assertEquals("constructed list without commands", expected, result);
 	
