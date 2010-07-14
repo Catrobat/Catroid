@@ -1,8 +1,6 @@
 package com.tugraz.android.app;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -22,10 +20,6 @@ public class MainActivity extends Activity implements Observer{
 
 	
 	protected ListView mMainListView;
-	//TODO change public list and adapter
-	public ArrayList<HashMap<String, String>> mList = new ArrayList<HashMap<String,String>>();
-	
-	
 	private MainListViewAdapter mAdapter;
 	private ContentManager mContentManager;
 	
@@ -67,7 +61,7 @@ public class MainActivity extends Activity implements Observer{
     public boolean onContextItemSelected(MenuItem item) {
     	AdapterView.AdapterContextMenuInfo info;
     	info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-    	mList.remove(info.position);
+    	mContentManager.remove(info.position);
     	return true;
     };
 
@@ -83,7 +77,7 @@ public class MainActivity extends Activity implements Observer{
             return true;
             
         case R.id.reset:
-        	mList.clear();
+        	mContentManager.clear();
         	mAdapter.notifyDataSetChanged();
             return true;
    
