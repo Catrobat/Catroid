@@ -23,6 +23,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 	private MainActivity mActivity;
 	
 	private ListView mListView;
+	private ListView mMenu;
 	
 	public MainActivityTest() {
 		super("com.tugraz.android.app", MainActivity.class);
@@ -60,7 +61,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         //TODO hier mehr machen um testdaten korrekt zu laden?
 		
         mListView = (ListView) mActivity.findViewById(com.tugraz.android.app.R.id.MainListView);
-        
+        mMenu = (ListView) mActivity.findViewById(com.tugraz.android.app.R.menu.constructionsitemenu);
         
 	}
 	
@@ -72,8 +73,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		mActivity.runOnUiThread(
 				new Runnable() {
 					public void run() {
-						mListView.requestFocus();
-						
+						mListView.requestFocus();	
 						
 					}
 				}
@@ -81,9 +81,11 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		View view = (View) mListView.getChildAt(0);	
 		TouchUtils.longClickView(this, view);
 		this.sendKeys(KeyEvent.KEYCODE_DPAD_DOWN);
+		this.sendKeys(KeyEvent.KEYCODE_DPAD_CENTER);
 		
-		//TextView menu = (TextView) mActivity.findViewById(com.tugraz.android.app.R.id.delete);
+		View menu = mActivity.findViewById(com.tugraz.android.app.R.menu.constructionsitemenu);
 		//View desiredFocus = (View) menu.getFocusedChild();
+		
 		
 		
 		ListView currentFocus = (ListView) mActivity.getCurrentFocus();
@@ -104,9 +106,8 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 //		);
 		
 		this.sendKeys(KeyEvent.KEYCODE_MENU);
-		this.sendKeys(KeyEvent.KEYCODE_DPAD_DOWN); //TODO remove for newer version
-
-		this.sendKeys(KeyEvent.KEYCODE_DPAD_LEFT);
+		
+		this.sendKeys(KeyEvent.KEYCODE_DPAD_RIGHT);
 		this.sendKeys(KeyEvent.KEYCODE_DPAD_CENTER);
 		
 		
