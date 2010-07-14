@@ -3,8 +3,11 @@ package com.tugraz.android.app;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TooManyListenersException;
+
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -14,21 +17,30 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
+import android.view.WindowManager.LayoutParams;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements OnClickListener {
     /** Called when the activity is first created. */
-
+	
+	static final int TOOLBOX_DIALOG = 0;
 	
 	protected ListView mMainListView;
 	//TODO change public list and adapter
 	public ArrayList<HashMap<String, String>> mList = new ArrayList<HashMap<String,String>>(); 
 	public MainListViewAdapter adapter = new MainListViewAdapter(this, mList);
+	
+	private Button mToolboxButton;
+	private Dialog mToolboxDialog;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
+        
+        
         
         //Bsp.: List; Testdaten
                
@@ -54,7 +66,36 @@ public class MainActivity extends Activity {
         mMainListView = (ListView) findViewById(R.id.MainListView);
         mMainListView.setAdapter(adapter);
         this.registerForContextMenu(mMainListView);
+        
+        mToolboxButton = (Button) this.findViewById(R.id.toolbar_button);
+		mToolboxButton.setOnClickListener(this);
       
+    }
+
+    
+    protected Dialog onCreateDialog(int id){
+        switch(id) { //TODO kommt er hier nur einmal her oder bei jedem aufruf?
+        case TOOLBOX_DIALOG:
+        	mToolboxDialog = new Dialog(this);
+        	mToolboxDialog.setContentView(R.layout.toolbox);
+//        	LayoutParams params = mToolboxDialog.getWindow().getAttributes();
+        	//params.width = 100; //TODO hier auf Bildschirmgroesse setzen?
+        	
+        	mToolboxDialog.setTitle("Baukasten");
+        	
+//        	int oldX = params.x;
+//        	for (int i=-100; i<oldX; i++){
+//        		params.x=i;
+//        		dialog.getWindow().setAttributes(params);
+//        	}
+
+            
+            break;
+        default:
+            mToolboxDialog = null;
+        }
+        return mToolboxDialog;
+
     }
 	
     @Override
@@ -106,4 +147,21 @@ public class MainActivity extends Activity {
             return super.onOptionsItemSelected(item);
         }
     }
+
+	@Override
+	public void onClick(View v) {
+		if (v.getId() == R.id.toolbar_button) {
+			openToolbox();
+		}
+		
+	}
+	
+	private void openToolbox(){
+		showDialog(TOOLBOX_DIALOG);
+		LayoutParams params = mToolboxDialog.getWindow().getAttributes();
+		int oldX = params.x;
+		params.x = 400;
+		mToolboxDialog.getWindow().setAttributes(params);
+		
+	}
  }
