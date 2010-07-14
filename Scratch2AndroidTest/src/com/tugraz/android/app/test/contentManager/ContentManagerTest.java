@@ -52,7 +52,7 @@ public class ContentManagerTest extends AndroidTestCase {
         mContentArrayList.add(map);
         
         //3 elements added
-        
+        mContentManager.setArrayList(mContentArrayList);
         mContentManager.remove(1);
         //last element should be on position 1
         assertEquals(mContentArrayList.get(1).get(BrickDefine.BRICK_ID), "3");
@@ -78,13 +78,14 @@ public class ContentManagerTest extends AndroidTestCase {
         map.put(BrickDefine.BRICK_NAME, "Test3");
         map.put(BrickDefine.BRICK_VALUE, "blabla2");
         mContentArrayList.add(map);
-        
+        mContentManager.setArrayList(mContentArrayList);
         //3 elements added
         mContentManager.clear();
         assertEquals(mContentArrayList.size(), 0);
 	}
 	
 	public void testAdd(){
+		mContentManager.setArrayList(mContentArrayList);
 		
 		HashMap<String, String> map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "1");
@@ -140,8 +141,40 @@ public class ContentManagerTest extends AndroidTestCase {
              osw.close();
              
 		 }catch(Exception ex){assertFalse(true);}
-		 
-		 mContentManager.loadContent();
+		 //load content that was saved before in file
+		 mContentManager.loadContent(FILENAME);
+		 //check if the content is the same as written to file
+		 mContentArrayList = mContentManager.getContentArrayList();
+		 assertEquals(mContentArrayList.get(0).get(BrickDefine.BRICK_VALUE), "bla.jpg");
+		 assertEquals(mContentArrayList.get(1).get(BrickDefine.BRICK_VALUE), "5");
+		 assertEquals(mContentArrayList.get(2).get(BrickDefine.BRICK_ID), "2001");
+	}
+	
+	public void testSaveContentLoadContent(){
+		HashMap<String, String> map = new HashMap<String, String>();
+        map.put(BrickDefine.BRICK_ID, "1");
+        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
+        map.put(BrickDefine.BRICK_NAME, "Test1");
+        map.put(BrickDefine.BRICK_VALUE, "bla");
+        mContentArrayList.add(map);
+        map = new HashMap<String, String>();
+        map.put(BrickDefine.BRICK_ID, "2");
+        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.PLAY_SOUND));
+        map.put(BrickDefine.BRICK_NAME, "Test2");
+        map.put(BrickDefine.BRICK_VALUE, "blabla1");
+        mContentArrayList.add(map);
+        map = new HashMap<String, String>();
+        map.put(BrickDefine.BRICK_ID, "3");
+        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
+        map.put(BrickDefine.BRICK_NAME, "Test3");
+        map.put(BrickDefine.BRICK_VALUE, "blabla2");
+        mContentArrayList.add(map);
+        mContentManager.setArrayList(mContentArrayList);
+        
+        mContentManager.saveContent();
+        mContentManager.setArrayList(null);
+        mContentManager.loadContent();
+        assertEquals(mContentArrayList, mContentManager.getContentArrayList());
 	}
 }
 

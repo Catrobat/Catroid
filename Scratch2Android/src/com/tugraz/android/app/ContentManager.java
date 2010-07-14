@@ -68,9 +68,11 @@ public class ContentManager extends Observable{
 		
 	}
 	
-	
-	public void setArrayList(){
-		
+	/**
+	 * test method
+	 */
+	public void setArrayList(ArrayList<HashMap<String, String>> list){
+		mContentArrayList = list;
 	}
 	
 	/**
