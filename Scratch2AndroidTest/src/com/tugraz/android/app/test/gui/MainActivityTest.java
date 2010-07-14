@@ -6,17 +6,11 @@ import java.util.HashMap;
 import com.tugraz.android.app.BrickDefine;
 import com.tugraz.android.app.MainActivity;
 
-import android.app.Activity;
-import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.AndroidTestCase;
 import android.test.TouchUtils;
-import android.view.ContextMenu;
 import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.TextView;
 
 public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity>{
 
@@ -69,7 +63,10 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 //		// we don't have preconditions atm
 //	}
 	
-	public void testLongClickOnMainListView() {
+	/**
+	 * NO AUTOMATED TEST
+	 */
+	public void testContextMenuOnMainList() {
 		mActivity.runOnUiThread(
 				new Runnable() {
 					public void run() {
@@ -83,45 +80,19 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		this.sendKeys(KeyEvent.KEYCODE_DPAD_DOWN);
 		this.sendKeys(KeyEvent.KEYCODE_DPAD_CENTER);
 		
-		View menu = mActivity.findViewById(com.tugraz.android.app.R.menu.constructionsitemenu);
-		//View desiredFocus = (View) menu.getFocusedChild();
-		
-		
-		
-		ListView currentFocus = (ListView) mActivity.getCurrentFocus();
-		CharSequence text = ((MenuItem) currentFocus.getChildAt(0)).getTitle();	
-		
-		assertTrue(text.equals("Löschen"));
 	}
 	
-	public void testDeleteAll(){
-//		mActivity.runOnUiThread(
-//				new Runnable() {
-//					public void run() {
-//						mListView.requestFocus();
-//						
-//						
-//					}
-//				}
-//		);
-		
+	/**
+	 * NO AUTOMATED TEST
+	 */
+	public void testMenuShown(){
+
 		this.sendKeys(KeyEvent.KEYCODE_MENU);
 		
 		this.sendKeys(KeyEvent.KEYCODE_DPAD_RIGHT);
 		this.sendKeys(KeyEvent.KEYCODE_DPAD_CENTER);
 		
-		
-		assertTrue(mListView.getChildCount()==0);
 	}
 	
-	public void testToStage() {
-		this.sendKeys(KeyEvent.KEYCODE_MENU);
-		this.sendKeys(KeyEvent.KEYCODE_DPAD_CENTER);
-		
-		Context context = (Context) mActivity;
-		
-	
-	}
-
 
 }
