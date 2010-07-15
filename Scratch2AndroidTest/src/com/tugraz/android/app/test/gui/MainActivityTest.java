@@ -50,7 +50,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         map.put(BrickDefine.BRICK_VALUE, "blabla2");
         list.add(map);
         
-        mActivity.mList = list;
+        //mActivity.mList = list;
         
         //TODO hier mehr machen um testdaten korrekt zu laden?
 		
