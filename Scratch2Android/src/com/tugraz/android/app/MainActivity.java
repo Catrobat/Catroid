@@ -5,8 +5,10 @@ import java.util.Observable;
 import java.util.Observer;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -28,13 +30,19 @@ public class MainActivity extends Activity implements Observer{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         mContentManager = new ContentManager();
-        mContentManager.loadContent();
-        MainListViewAdapter mAdapter = new MainListViewAdapter(this, mContentManager.getContentArrayList());
-              
+        mContentManager.setObserver(this);
+        mContentManager.setContext(this);
+        mAdapter = new MainListViewAdapter(this, mContentManager.mContentArrayList);
+        
         mMainListView = (ListView) findViewById(R.id.MainListView);
         mMainListView.setAdapter(mAdapter);
+        
+        //Testing
+        //mContentManager.testSet();
+        //mContentManager.saveContent();
+        mContentManager.loadContent();
+        
         this.registerForContextMenu(mMainListView);
-      
     }
 	
     @Override
@@ -78,7 +86,6 @@ public class MainActivity extends Activity implements Observer{
             
         case R.id.reset:
         	mContentManager.clear();
-        	mAdapter.notifyDataSetChanged();
             return true;
    
         default:
@@ -86,7 +93,21 @@ public class MainActivity extends Activity implements Observer{
         }
     }
 
+	@Override
 	public void update(Observable observable, Object data) {
+		Log.d("View1", mAdapter.mList.toString());
+		Log.d("View1", mMainListView.toString());
+
 		mAdapter.notifyDataSetChanged();
+		Log.d("View2", mAdapter.mList.toString());
+		Log.d("View2", mContentManager.getContentArrayList().toString());
 	}
+	
+	//automatic save
+	public void onStop()
+	{
+		mContentManager.saveContent();
+	}
+	
+	
  }
