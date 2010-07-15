@@ -11,6 +11,7 @@
     android:layout_height="fill_parent"
     android:textColor="#FFF"
     android:text="blabla"
+    
   />
   
   
