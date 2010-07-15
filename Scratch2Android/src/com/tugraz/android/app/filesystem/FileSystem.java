@@ -1,5 +1,6 @@
 package com.tugraz.android.app.filesystem;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
@@ -19,11 +20,29 @@ public class FileSystem {
 	 * @param ctx Context
 	 * @return file descriptor output stream to write and read a file
 	 */
-	public FileOutputStream createOrOpenFile(String name, Context ctx){
+	public FileOutputStream createOrOpenFileOutput(String name, Context ctx){
 		FileOutputStream fOut;
 		try {
 			fOut = ctx.openFileOutput(name, Activity.MODE_WORLD_READABLE);
 			return fOut;
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * DONT forget to close the file descriptor
+	 * @param name of file
+	 * @param ctx Context
+	 * @return file descriptor input stream to write and read a file
+	 */
+	public FileInputStream createOrOpenFileInput(String name, Context ctx){
+		FileInputStream fIn;
+		try {
+			fIn = ctx.openFileInput(name);
+			return fIn;
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
