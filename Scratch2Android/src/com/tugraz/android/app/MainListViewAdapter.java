@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,7 @@ import android.widget.TextView;
 
 public class MainListViewAdapter extends BaseAdapter{
     private Context mCtx;
-    private ArrayList<HashMap<String, String>> mList;
+    public ArrayList<HashMap<String, String>> mList;
 
     
 	public MainListViewAdapter(Context context,
@@ -45,6 +46,7 @@ public class MainListViewAdapter extends BaseAdapter{
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
+		Log.d("View", mList.toString());
 		//TODO check convertView
 		//TODO Reuse Views
 		//Type of the Brick
