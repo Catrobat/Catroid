@@ -9,6 +9,7 @@ import com.tugraz.android.app.filesystem.MediaFileLoader;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.test.AndroidTestCase;
+import android.util.Log;
 
 public class MediaFileLoaderTest extends AndroidTestCase{
 
@@ -36,6 +37,9 @@ public class MediaFileLoaderTest extends AndroidTestCase{
 			file = new File(content.get(i).get(MediaFileLoader.PICTURE_PATH));
 			assertTrue(file.exists());
 			assertNotNull(BitmapFactory.decodeFile(content.get(i).get(MediaFileLoader.PICTURE_PATH)));
+//			Log.d("TEST", content.get(i).get(MediaFileLoader.PICTURE_NAME));
+//			Log.d("TEST", content.get(i).get(MediaFileLoader.PICTURE_PATH));
 		}
+		
 	}
 }
