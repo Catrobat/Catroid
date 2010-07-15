@@ -15,17 +15,8 @@ import android.provider.MediaStore;
 public class MediaFileLoader {
 
 	private ArrayList<HashMap<String, String>> mPictureContent;
-	private FileSystem mFileSystem;
 	private Context mCtx;
 	
-	private void getPictureContent(String path){
-		//THIS IS A HINT
-		//Cursor cc = mCtx.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, null, null, null,null);  
-//		startManagingCursor(cc);  
-//		
-//		 ImageView im = new ImageView(mContext);   
-//		 im.setImageURI(Uri.withAppendedPath(MediaStore.Images.Thumbnails.EXTERNAL_CONTENT_URI, ""+id))
-	}
 	
 	public final static String PICTURE_NAME = "pic_name";
 	public final static String PICTURE_PATH = "pic_path";
@@ -37,16 +28,32 @@ public class MediaFileLoader {
 	 * load pictures from sd card
 	 */
 	public void loadPictureContent(){
+		mPictureContent = new ArrayList<HashMap<String,String>>();
 		
-		getPictureContent("ADD PATH HERE");
+		String[] projection = {
+				MediaStore.Images.Media.DATA,				
+				MediaStore.Images.ImageColumns.TITLE};
+		
+		
+		Cursor cursor = mCtx.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, null, null,null);   
+		
+		
+		int column_data_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+		int column_title_index = cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.TITLE);
+		cursor.moveToFirst();
+		
+		HashMap<String,String> map;
+		for(int i = 0; i < cursor.getCount(); i++){
+			map = new HashMap<String, String>();
+			map.put(PICTURE_NAME, cursor.getString(column_title_index));
+			map.put(PICTURE_PATH, cursor.getString(column_data_index));
+			
+			mPictureContent.add(map);
+		}
+		
+		cursor.close();
 	}
 	
-	/**
-	 * load pictures from sd card from specific folder
-	 */
-	public void loadPictureContent(String folderPath){
-		getPictureContent(folderPath);
-	}
 	
 	public ArrayList<HashMap<String, String>> getPictureContent(){
 		return mPictureContent;
