@@ -76,7 +76,7 @@ public class FileSystemTest extends AndroidTestCase {
 	public void testCreateOrOpenFile(){
 		mCtx.deleteFile(TEST_FILENAME);
 		
-		mFileSystem.createOrOpenFile(TEST_FILENAME, mCtx);
+		mFileSystem.createOrOpenFileOutput(TEST_FILENAME, mCtx);
 		
 		boolean available = false;
 		String[] fileNames = mCtx.fileList();
