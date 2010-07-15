@@ -114,10 +114,11 @@ public class ContentManagerTest extends AndroidTestCase {
 		"</stage>";
 	
 	private Context mCtx;
-	private String FILENAME = "cm_manager_test_file";
+	private String FILENAME = "cmmanagerfile.txt";
 	public void testLoadContent(){
 		try {
 			mCtx = getContext().createPackageContext("com.tugraz.android.app", Context.CONTEXT_IGNORE_SECURITY);
+			mContentManager.setContext(mCtx);
 		} catch (NameNotFoundException e) {
 			assertFalse(true);
 		}
@@ -147,10 +148,16 @@ public class ContentManagerTest extends AndroidTestCase {
 		 mContentArrayList = mContentManager.getContentArrayList();
 		 assertEquals(mContentArrayList.get(0).get(BrickDefine.BRICK_VALUE), "bla.jpg");
 		 assertEquals(mContentArrayList.get(1).get(BrickDefine.BRICK_VALUE), "5");
-		 assertEquals(mContentArrayList.get(2).get(BrickDefine.BRICK_ID), "2001");
+		 assertEquals(mContentArrayList.get(2).get(BrickDefine.BRICK_TYPE), "2001");
 	}
 	
 	public void testSaveContentLoadContent(){
+		try {
+			mCtx = getContext().createPackageContext("com.tugraz.android.app", Context.CONTEXT_IGNORE_SECURITY);
+			mContentManager.setContext(mCtx);
+		} catch (NameNotFoundException e) {
+			assertFalse(true);
+		}
 		HashMap<String, String> map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "1");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
@@ -172,7 +179,7 @@ public class ContentManagerTest extends AndroidTestCase {
         mContentManager.setArrayList(mContentArrayList);
         
         mContentManager.saveContent();
-        mContentManager.setArrayList(null);
+        mContentManager.clear();
         mContentManager.loadContent();
         assertEquals(mContentArrayList, mContentManager.getContentArrayList());
 	}
