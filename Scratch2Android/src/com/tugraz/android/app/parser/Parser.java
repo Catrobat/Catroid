@@ -16,15 +16,16 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xmlpull.v1.XmlSerializer;
 
+import com.tugraz.android.app.BrickDefine;
+
 import android.util.Log;
 import android.util.Xml;
 
-import com.tugraz.android.app.BrickDefine;
 
 public class Parser {
 	private DocumentBuilder builder;
 	private Document doc;
-	private static int mIdCounter = 0;
+	private static int mIdCounter = 1;
 	
 	final static int CMD_SET_BACKGROUND = 0;
 	final static int CMD_SET_SOUND = 100;
@@ -48,7 +49,8 @@ public class Parser {
 	 * @return a ArrayList of of HashMaps representing the bricks
 	 */
 	public ArrayList<HashMap<String, String>> parse(InputStream stream){
-		ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String,String>>();
+		ArrayList<HashMap<String, String>> mList = new ArrayList<HashMap<String,String>>();
+		mIdCounter = 1;
 		try {
 			doc = builder.parse(stream);	
 		}
@@ -70,10 +72,11 @@ public class Parser {
 					value = bricks.item(i).getFirstChild().getNodeValue();
 			}
 			HashMap<String, String> map = getBrickMap(value, brickType);
-			list.add(map);
+			mList.add(map);
+			mIdCounter++;
 			
 		}
-		return list;
+		return mList;
 	}
 
 	/**
@@ -155,7 +158,7 @@ public class Parser {
 		HashMap<String, String> map = new HashMap<String, String>();
 		
 		map.put(BrickDefine.BRICK_ID, Integer.toString(mIdCounter));
-	    map.put(BrickDefine.BRICK_TYPE, Integer.toString(type));
+	    map.put(BrickDefine.BRICK_TYPE, String.valueOf(type));
 	    map.put(BrickDefine.BRICK_NAME, name);
 	    map.put(BrickDefine.BRICK_VALUE, value);
 		
