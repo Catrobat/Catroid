@@ -47,11 +47,11 @@ public class ToolboxDialog extends Dialog
 		mSlide_out = AnimationUtils.loadAnimation(mCtx, R.anim.toolbox_out);
 		mSlide_out.setAnimationListener(new AnimationListener() {
 			
-			@Override
+			
 			public void onAnimationStart(Animation animation) {		}
-			@Override
+			
 			public void onAnimationRepeat(Animation animation) {		}
-			@Override
+			
 			public void onAnimationEnd(Animation animation) {
 				close();
 			}
