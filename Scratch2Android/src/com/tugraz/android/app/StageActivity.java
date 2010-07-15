@@ -1,8 +1,5 @@
 package com.tugraz.android.app;
 
-
-
-
 import java.io.Closeable;
 
 import com.tugraz.android.app.stage.StageView;
