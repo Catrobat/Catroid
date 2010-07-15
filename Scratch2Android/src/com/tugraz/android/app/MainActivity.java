@@ -27,7 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class MainActivity extends Activity implements OnClickListener {
+public class MainActivity extends Activity implements OnClickListener  {
     /** Called when the activity is first created. */
 	
 	static final int TOOLBOX_DIALOG = 0;
@@ -38,7 +38,8 @@ public class MainActivity extends Activity implements OnClickListener {
 	public MainListViewAdapter adapter = new MainListViewAdapter(this, mList);
 	
 	private Button mToolboxButton;
-	private Dialog mToolboxDialog;
+	private ToolboxDialog mToolboxDialog;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,20 +82,7 @@ public class MainActivity extends Activity implements OnClickListener {
     protected Dialog onCreateDialog(int id){
         switch(id) { //TODO kommt er hier nur einmal her oder bei jedem aufruf?
         case TOOLBOX_DIALOG:
-        	mToolboxDialog = new Dialog(this);
-        	mToolboxDialog.setContentView(R.layout.toolbox);
-//        	LayoutParams params = mToolboxDialog.getWindow().getAttributes();
-        	//params.width = 100; //TODO hier auf Bildschirmgroesse setzen?
-        	
-        	mToolboxDialog.setTitle("Baukasten");
-        	
-//        	int oldX = params.x;
-//        	for (int i=-100; i<oldX; i++){
-//        		params.x=i;
-//        		dialog.getWindow().setAttributes(params);
-//        	}
-
-            
+        	mToolboxDialog = new ToolboxDialog(this, true, null, 0); //TODO passen argumente so?  
             break;
         default:
             mToolboxDialog = null;
@@ -160,22 +148,9 @@ public class MainActivity extends Activity implements OnClickListener {
 		}
 		
 	}
-	
+		
 	private void openToolbox(){
 		showDialog(TOOLBOX_DIALOG);
-
-		Animation slideInAnimation = AnimationUtils.loadAnimation(this, R.anim.toolbox);
-//		mToolboxDialog.startAnimation(slideInAnimation);
-//		
-//		  LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(this, R.anim.toolboxlayout);
-		  LinearLayout layout = (LinearLayout) findViewById(R.id.toolbox_layout);
-//
-//		  layout.setLayoutAnimation(controller);
-		//TextView view = (TextView) findViewById(R.id.text);
-		layout.startAnimation(slideInAnimation);
-
-		
-
 		
 	}
  }

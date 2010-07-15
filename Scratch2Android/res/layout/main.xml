@@ -28,5 +28,25 @@
 <!--	android:layout_width="fill_parent" -->
 <!--    android:layout_height="fill_parent"-->
 <!--    />-->
-
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/toolbox"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:padding="10dp"
+  android:background="#00F" 
+  android:visibility="invisible"
+  android:clickable="false"
+  >
+  <TextView
+  	android:id="@+id/toolbox_text"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:textColor="#FFF"
+    android:text="blablablablab hihihihih hohoho jaaaaaaaaaaaaaaaaaaaaa"
+    
+  />
+  
+  
+</LinearLayout>
 </RelativeLayout>
