@@ -20,6 +20,7 @@ import android.view.ViewGroup.LayoutParams;
 public class StageActivity extends Activity {
 
 	private static StageView mStage;
+	private ContentManager mContentManager;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,10 @@ public class StageActivity extends Activity {
 
 
 		mStage = new StageView(this);
+		
+		mContentManager = new ContentManager();
+		mContentManager.setContext(this); //TODO funktioniert das mit diesem context?
+		mContentManager.loadContent();
 
 		LayoutParams params = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT); //TODO change!!
 		setContentView(R.layout.stage);
