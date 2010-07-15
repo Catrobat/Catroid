@@ -18,9 +18,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.WindowManager.LayoutParams;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class MainActivity extends Activity implements OnClickListener {
     /** Called when the activity is first created. */
@@ -158,10 +163,19 @@ public class MainActivity extends Activity implements OnClickListener {
 	
 	private void openToolbox(){
 		showDialog(TOOLBOX_DIALOG);
-		LayoutParams params = mToolboxDialog.getWindow().getAttributes();
-		int oldX = params.x;
-		params.x = 400;
-		mToolboxDialog.getWindow().setAttributes(params);
+
+		Animation slideInAnimation = AnimationUtils.loadAnimation(this, R.anim.toolbox);
+//		mToolboxDialog.startAnimation(slideInAnimation);
+//		
+//		  LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(this, R.anim.toolboxlayout);
+		  LinearLayout layout = (LinearLayout) findViewById(R.id.toolbox_layout);
+//
+//		  layout.setLayoutAnimation(controller);
+		//TextView view = (TextView) findViewById(R.id.text);
+		layout.startAnimation(slideInAnimation);
+
+		
+
 		
 	}
  }
