@@ -17,6 +17,7 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.WindowManager.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -139,10 +140,9 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 	public void onStop()
 	{
 		mContentManager.saveContent();
+		super.onStop();
 	}
 	
-	
-
 	@Override
 	public void onClick(View v) {
 		if (v.getId() == R.id.toolbar_button) {
