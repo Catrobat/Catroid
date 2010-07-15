@@ -153,4 +153,8 @@ public class MainActivity extends Activity implements OnClickListener  {
 		showDialog(TOOLBOX_DIALOG);
 		
 	}
+	
+	public ToolboxDialog getToolboxDialog(){
+		return mToolboxDialog;
+	}
  }
