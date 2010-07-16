@@ -80,7 +80,7 @@ public class MainListViewAdapter extends BaseAdapter{
 			
 			//set adapter		
 			final SimpleAdapter adapter = new SimpleAdapter(mCtx, mMediaFileLoader.getPictureContent(), R.layout.picture_spinner,
-					new String[] {MediaFileLoader.PICTURE_PATH, MediaFileLoader.PICTURE_NAME},
+					new String[] {MediaFileLoader.PICTURE_THUMB, MediaFileLoader.PICTURE_NAME},
 	                new int[] {R.id.PictureSpinnerImageView, R.id.PictureSpinnerTextView});
 			spinner.setAdapter(adapter);
 			return view;
