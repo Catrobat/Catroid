@@ -4,6 +4,8 @@ import com.tugraz.android.app.R;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -26,6 +28,7 @@ public class StageViewThread extends Thread {
 	private Context context;
 	private int mX = 0;
 	private int mY = 0;
+	private Bitmap mBackgroundBitmap;
 	
 
 	public StageViewThread(SurfaceHolder holder, Context context,
@@ -37,6 +40,11 @@ public class StageViewThread extends Thread {
 
 	public void setRunning(boolean b) {
 		mRun = b;
+	}
+	
+	public void setBackgroundBitmap(String path){
+		mBackgroundBitmap = BitmapFactory.decodeFile(path);
+		
 	}
 	
 	public boolean isRunning(){
@@ -67,19 +75,23 @@ public class StageViewThread extends Thread {
 	/**
 	 * Draws the stage.
 	 */
-	protected void doDraw(Canvas canvas) {
+	protected synchronized void doDraw(Canvas canvas) {
 		Paint paint = new Paint();
 
-		Resources res = context.getResources();
-		BitmapDrawable myImage = (BitmapDrawable) res
-				.getDrawable(R.drawable.icon);  //TODO umaendern in richtiges bild
+		Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),
+				   R.drawable.icon);
+		
+		
+//		Resources res = context.getResources();
+//		BitmapDrawable myImage = (BitmapDrawable) res
+//				.getDrawable(R.drawable.icon);  //TODO umaendern in richtiges bild
 		
 		paint.setStyle(Paint.Style.FILL);
 		paint.setColor(Color.WHITE);
 		// canvas.drawRect(new Rect(mX + 0, mY + 0, mX + 40, mY + 40), paint);
 		canvas.drawRect(new Rect(0, 0, canvas.getWidth(), canvas.getHeight()),
 				paint);
-		canvas.drawBitmap(myImage.getBitmap(), mX, mY, null);
+		canvas.drawBitmap(bitmap, mX, mY, null);
 
 	}
 

@@ -1,6 +1,7 @@
 package com.tugraz.android.app;
 
 import java.io.Closeable;
+import java.util.HashMap;
 
 import com.tugraz.android.app.stage.StageView;
 
@@ -65,11 +66,37 @@ public class StageActivity extends Activity {
 	 */
 	private void start(){ //TODO funktioniert beim erneuten ausfuehren, wenn die stage schon laueft nicht
 		if (mStage.getThread().isRunning()){
-			mStage.getThread().setRunning(false); 
-			
+			mStage.getThread().setRunning(false); 		
 		}
-		mStage.getThread().setRunning(true);
+		
+		mStage.getThread().setRunning(true); //TODO gehoert das hier her??
 		mStage.getThread().start();
+		
+		for (int i = 0; i<mContentManager.mContentArrayList.size(); i++){
+			HashMap<String,String> map = mContentManager.mContentArrayList.get(i);
+			int type = Integer.parseInt(map.get(BrickDefine.BRICK_TYPE));
+			switch (type){
+				case BrickDefine.SET_BACKGROUND:
+					mStage.getThread().setBackgroundBitmap(map.get(BrickDefine.BRICK_VALUE));					
+				case BrickDefine.PLAY_SOUND:
+					
+					
+					//TODO play sound using the MediaPlayer
+				case BrickDefine.WAIT:
+				try {
+					wait(Integer.parseInt(map.get(BrickDefine.BRICK_VALUE))*1000);
+				} catch (NumberFormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}//TODO how to wait!?
+			}
+					
+		}
+		
+		
 	}
 	
 	/**
