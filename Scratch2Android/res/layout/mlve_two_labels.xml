@@ -5,4 +5,5 @@
   android:layout_height="wrap_content" android:orientation="vertical" android:clickable="true" android:longClickable="true">
 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Bsp.: Setze Hintergrund" android:id="@+id/NameTextView"></TextView>
 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Bild1" android:id="@+id/ValueTextView"></TextView>
+<Spinner android:id="@+id/Spinner01" android:layout_width="wrap_content" android:layout_height="wrap_content"></Spinner>
 </LinearLayout>

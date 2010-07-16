@@ -74,6 +74,8 @@ public class ContentManager extends Observable{
 		e.printStackTrace();
 	  }
 		
+	  testSet();
+	  
         setChanged();
         notifyObservers();
 	}
