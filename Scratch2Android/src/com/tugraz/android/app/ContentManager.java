@@ -60,22 +60,7 @@ public class ContentManager extends Observable{
 	 * load content into data structure
 	 */
 	public void loadContent(){
-		//load
-		FileInputStream scratch = mFilesystem.createOrOpenFileInput(tempFile, mCtx);
-        
-		//parse
-		mContentArrayList.clear();
-		mContentArrayList.addAll(mParser.parse(scratch));
-
-        try {
-			scratch.close();
-	  } catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	  }
-		
-        setChanged();
-        notifyObservers();
+		loadContent(tempFile);
 	}
 	/**
 	 * load content into data structure
@@ -84,18 +69,22 @@ public class ContentManager extends Observable{
 		//load
 		FileInputStream scratch = mFilesystem.createOrOpenFileInput(file, mCtx);
         
-        //parse
-		mContentArrayList.clear();
-        mContentArrayList.addAll((mParser.parse(scratch)));
-        
-        try {
-			scratch.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        setChanged();
-        notifyObservers();
+		if(scratch != null){
+	        //parse
+			mContentArrayList.clear();
+	        mContentArrayList.addAll((mParser.parse(scratch)));
+
+	        try {
+				scratch.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        
+	        setChanged();
+	        notifyObservers();
+		} 
+
 	}
 
 	/**
