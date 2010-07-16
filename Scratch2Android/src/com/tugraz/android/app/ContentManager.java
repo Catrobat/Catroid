@@ -73,7 +73,8 @@ public class ContentManager extends Observable{
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	  }
-		
+	    //testSet();
+	  
         setChanged();
         notifyObservers();
 	}
@@ -141,6 +142,12 @@ public class ContentManager extends Observable{
 	 */
 	public void testSet(){
         HashMap<String, String> map = new HashMap<String, String>();
+        map.put(BrickDefine.BRICK_ID, "3");
+        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
+        map.put(BrickDefine.BRICK_NAME, "Test3");
+        map.put(BrickDefine.BRICK_VALUE, "3");
+        mContentArrayList.add(map);
+        map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "1");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
         map.put(BrickDefine.BRICK_NAME, "Test1");
@@ -152,12 +159,8 @@ public class ContentManager extends Observable{
         map.put(BrickDefine.BRICK_NAME, "Test2");
         map.put(BrickDefine.BRICK_VALUE, "blabla1");
         mContentArrayList.add(map);
-        map = new HashMap<String, String>();
-        map.put(BrickDefine.BRICK_ID, "3");
-        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
-        map.put(BrickDefine.BRICK_NAME, "Test3");
-        map.put(BrickDefine.BRICK_VALUE, "blabla2");
-        mContentArrayList.add(map);
+
+
 	}
 	
 	/**
