@@ -24,6 +24,8 @@ public class MediaFileLoader {
 	public final static String PICTURE_THUMB = "pic_thumb";
 	public final static String PICTURE_ID = "pic_id";
 	
+	public final static String NO_DATA_FOUND = "noDataFound";
+	
 	public MediaFileLoader(Context ctx){
 		mCtx = ctx;
 	}
@@ -32,33 +34,7 @@ public class MediaFileLoader {
 	 */
 	public void loadPictureContent(){
 		mPictureContent = new ArrayList<HashMap<String,String>>();
-		//get thumbnail data
-		
-		String[] projection = {
-				MediaStore.Images.Thumbnails.DATA,
-				MediaStore.Images.Thumbnails.IMAGE_ID};
 
-
-		Cursor cursor = MediaStore.Images.Thumbnails.queryMiniThumbnails(mCtx.getContentResolver(),
-				MediaStore.Images.Thumbnails.EXTERNAL_CONTENT_URI,
-				MediaStore.Images.Thumbnails.MINI_KIND,
-				projection);   
-
-
-		int column_thumb_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Thumbnails.DATA);
-		
-		cursor.moveToFirst();
-
-		HashMap<String,String> map;
-		do{
-			map = new HashMap<String, String>();
-			//TODO insert id and check if same like picture
-			map.put(PICTURE_THUMB, cursor.getString(column_thumb_index));
-			mPictureContent.add(map);
-		}while(cursor.moveToNext());
-		
-		
-		cursor.close();
 		
 		//get picuter data
 		String[] projectionOnOrig = {
@@ -66,26 +42,48 @@ public class MediaFileLoader {
 					MediaStore.Images.ImageColumns.TITLE,
 					MediaStore.Images.Media._ID};
 
-		
-		cursor = MediaStore.Images.Media.query(mCtx.getContentResolver(), MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projectionOnOrig, null, null,MediaStore.Images.Media._ID);   
+		Cursor cursor = MediaStore.Images.Media.query(mCtx.getContentResolver(), MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projectionOnOrig, null, null,MediaStore.Images.Media._ID);   
 		
 		
 		int column_data_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
 		int column_title_index = cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.TITLE);
+		int column_id_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID);
 		
-		cursor.moveToFirst();
-		int count = 0;
-		if(mPictureContent.size() != cursor.getCount())
-			Log.e("MediaFileLoader", "Number of thumbnails not equal to number of pictures");
-		else
-		do{
-			mPictureContent.get(count).put(PICTURE_NAME, cursor.getString(column_title_index));
-			mPictureContent.get(count).put(PICTURE_PATH, cursor.getString(column_data_index));
-			count++;
-		}while(cursor.moveToNext());
+		HashMap<String,String> map;
+		
+		if(cursor.moveToFirst()){
+			do{
+				map = new HashMap<String, String>();
+				map.put(PICTURE_ID, cursor.getString(column_id_index));
+				map.put(PICTURE_NAME, cursor.getString(column_title_index));
+				map.put(PICTURE_PATH, cursor.getString(column_data_index));
+				mPictureContent.add(map);
+			}while(cursor.moveToNext());
+		}
 
+		//Log.d("TEST", mPictureContent.toString());
 		cursor.close();
+
+		//get thumbnail data
 		
+		String[] projection = {
+				MediaStore.Images.Thumbnails.DATA};
+
+
+		//probably ineffective on a high number of pictures
+		for(int i = 0; i < mPictureContent.size(); i++){
+			
+			cursor = MediaStore.Images.Thumbnails.queryMiniThumbnail(
+					mCtx.getContentResolver(), 
+					Integer.parseInt(mPictureContent.get(i).get(PICTURE_ID)), 
+					MediaStore.Images.Thumbnails.MINI_KIND, 
+					projection);
+			
+			if(cursor.moveToFirst())
+				mPictureContent.get(i).put(PICTURE_THUMB, cursor.getString(0));
+			
+			cursor.close();
+		}
 		
 	}
 	
