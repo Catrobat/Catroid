@@ -93,16 +93,23 @@ public class StageActivity extends Activity implements OnCompletionListener, Obs
 	 * executes the next command from the contentArrayList of the contentManager
 	 */
 	private void doNextCommand(){
+		if (mContentManager.mContentArrayList.size()<=mCommandCount){ //abort if mCommandCount has run through all commands to execute
+			mCommandCount = 0;
+			return;
+		}
+		
 		MediaPlayer mp = new MediaPlayer();
 		mp.setOnCompletionListener(this);
 
 		HashMap<String,String> map = mContentManager.mContentArrayList.get(mCommandCount);
+
 		int type = Integer.parseInt(map.get(BrickDefine.BRICK_TYPE));
 		switch (type){
 			case BrickDefine.SET_BACKGROUND:
 				mStage.getThread().setBackgroundBitmap(map.get(BrickDefine.BRICK_VALUE));
 				mCommandCount++;
 				toNextCommand();
+				break;
 				
 			case BrickDefine.PLAY_SOUND:
 				
@@ -127,10 +134,12 @@ public class StageActivity extends Activity implements OnCompletionListener, Obs
                 	
 					mCommandCount++;
 					toNextCommand();
-				//TODO play sound using the MediaPlayer
+					break;
+
 			case BrickDefine.WAIT:
 				mCommandCount++;
 				brickWait(Integer.parseInt(map.get(BrickDefine.BRICK_VALUE)));
+				break;
 		}
 		
 	}
