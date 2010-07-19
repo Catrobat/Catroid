@@ -3,23 +3,21 @@ package com.tugraz.android.app;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class MainListViewAdapter extends BaseAdapter{
+public class ToolboxAdapter extends BaseAdapter{
     private Context mCtx;
     public ArrayList<HashMap<String, String>> mList;
-
+    private ContentManager mContentManager;
     
-	public MainListViewAdapter(Context context,
+	public ToolboxAdapter(Context context,
 			ArrayList<HashMap<String, String>> data) {
 		mCtx = context;
 		mList = data;	
@@ -46,7 +44,6 @@ public class MainListViewAdapter extends BaseAdapter{
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
-		Log.d("View", mList.toString());
 		//TODO check convertView
 		//TODO Reuse Views
 		//Type of the Brick
@@ -65,6 +62,17 @@ public class MainListViewAdapter extends BaseAdapter{
 			TextView text2 = (TextView)view.getChildAt(1);
 			text2.setText("BausteinSetBackground");
 			view.setClickable(true);
+			view.setOnClickListener(new View.OnClickListener() {				
+				@Override
+				public void onClick(View v) {
+					HashMap<String, String> map = new HashMap<String, String>();
+			        map.put(BrickDefine.BRICK_ID, "1");
+			        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
+			        map.put(BrickDefine.BRICK_NAME, "SetBackground");
+			        map.put(BrickDefine.BRICK_VALUE, "bla");
+					mContentManager.add(map);
+				}
+			});
 			return view;
 		}
 		case (BrickDefine.PLAY_SOUND): 
@@ -75,6 +83,19 @@ public class MainListViewAdapter extends BaseAdapter{
 			TextView text2 = (TextView)view.getChildAt(1);
 			text2.setText("BausteinPlaySound");
 			view.setClickable(true);
+            view.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					HashMap<String, String> map = new HashMap<String, String>();
+			        map.put(BrickDefine.BRICK_ID, "2");
+			        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.PLAY_SOUND));
+			        map.put(BrickDefine.BRICK_NAME, "PlaySound");
+			        map.put(BrickDefine.BRICK_VALUE, "bla");
+					mContentManager.add(map);
+					
+				}
+			});
 			return view;
 		}
 		case (BrickDefine.WAIT): 
@@ -83,9 +104,22 @@ public class MainListViewAdapter extends BaseAdapter{
 			TextView text1 = (TextView)view.getChildAt(0);
 			text1.setText("WAIT");
 			LinearLayout view2 = (LinearLayout)view.getChildAt(1);
-			  TextView text2 = (TextView) view2.getChildAt(0);
-	          text2.setText("BausteinWait");
+			TextView text2 = (TextView) view2.getChildAt(0);
+	        text2.setText("BausteinWait");
 	        view.setClickable(true);
+            view.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					HashMap<String, String> map = new HashMap<String, String>();
+			        map.put(BrickDefine.BRICK_ID, "3");
+			        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
+			        map.put(BrickDefine.BRICK_NAME, "Wait");
+			        map.put(BrickDefine.BRICK_VALUE, "bla");
+					mContentManager.add(map);
+					
+				}
+			});
 			return view;
 		}
 		case (BrickDefine.NOT_DEFINED):
@@ -99,6 +133,11 @@ public class MainListViewAdapter extends BaseAdapter{
 	    }
 		
 		}
+	}
+
+	public void setContentManager(ContentManager contentManager) {
+		mContentManager = contentManager;
+		
 	}
 
 	
