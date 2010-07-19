@@ -73,7 +73,8 @@ public class ContentManager extends Observable{
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	  }
-	    //testSet();
+	  	clear();
+	    testSet();
 	  
         setChanged();
         notifyObservers();
