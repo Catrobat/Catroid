@@ -11,6 +11,7 @@ import android.content.Context;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract.CommonDataKinds.BaseTypes;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -23,6 +24,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -55,21 +57,24 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
         mMainListView.setAdapter(mAdapter);
         
         //Testing
-        //mContentManager.testSet();
+        mContentManager.testSet();
         //mContentManager.saveContent();
-        mContentManager.loadContent();
+        //Standard save at end load at begining
+        //mContentManager.loadContent();
         
         this.registerForContextMenu(mMainListView);
         
         mToolboxButton = (Button) this.findViewById(R.id.toolbar_button);
 		mToolboxButton.setOnClickListener(this);
+		
     }
 
     
     protected Dialog onCreateDialog(int id){
         switch(id) { //TODO kommt er hier nur einmal her oder bei jedem aufruf?
         case TOOLBOX_DIALOG:
-        	mToolboxDialog = new ToolboxDialog(this, true, null, 0); //TODO passen argumente so?  
+        	mToolboxDialog = new ToolboxDialog(this, true, null, 0); //TODO passen argumente so? 
+        	mToolboxDialog.setContentManager(mContentManager);
             break;
         default:
             mToolboxDialog = null;
@@ -153,10 +158,12 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 		
 	private void openToolbox(){
 		showDialog(TOOLBOX_DIALOG);
-		
 	}
 	
 	public ToolboxDialog getToolboxDialog(){
 		return mToolboxDialog;
+	}
+	public BaseAdapter getAdapter(){
+		return mAdapter;
 	}
  }
