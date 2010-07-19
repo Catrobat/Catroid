@@ -32,6 +32,7 @@ public class StageActivity extends Activity implements OnCompletionListener, Obs
 	protected boolean isWaiting = false;
 	
 	private int mCommandCount = 0;
+	MediaPlayer mMediaPlayer;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,7 @@ public class StageActivity extends Activity implements OnCompletionListener, Obs
 		mContentManager = new ContentManager();
 		mContentManager.setContext(this); //TODO funktioniert das mit diesem context?
 		mContentManager.loadContent();
+		mMediaPlayer = new MediaPlayer();
 		
 		LayoutParams params = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT); //TODO change!!
 		setContentView(R.layout.stage);
@@ -97,9 +99,7 @@ public class StageActivity extends Activity implements OnCompletionListener, Obs
 			mCommandCount = 0;
 			return;
 		}
-		
-		MediaPlayer mp = new MediaPlayer();
-		mp.setOnCompletionListener(this);
+		mMediaPlayer.setOnCompletionListener(this);
 
 		HashMap<String,String> map = mContentManager.mContentArrayList.get(mCommandCount);
 
@@ -107,22 +107,18 @@ public class StageActivity extends Activity implements OnCompletionListener, Obs
 		switch (type){
 			case BrickDefine.SET_BACKGROUND:
 				mStage.getThread().setBackgroundBitmap(map.get(BrickDefine.BRICK_VALUE));
+				mStage.getThread().mIsDraw = true;
+				
 				mCommandCount++;
 				toNextCommand();
 				break;
 				
 			case BrickDefine.PLAY_SOUND:
-				
-					File filesDir = this.getFilesDir();
-					String path = filesDir.getAbsolutePath();
-					
-					//MediaPlayer mp = new MediaPlayer(); //TODO performancemaessig schlecht!!
-
                 	try {
-                		mp.reset();
-                		mp.setDataSource("/data/data/com.tugraz.android.app/files/sun.mp3");//TODO replace with BrickDefine.BRICK_VALUE
-						mp.prepare();
-					    mp.start();
+                		mMediaPlayer.reset();
+                		mMediaPlayer.setDataSource(map.get(BrickDefine.BRICK_VALUE));
+						mMediaPlayer.prepare();
+					    mMediaPlayer.start();
 					    
                 	}
 					catch (IOException e) {
@@ -185,4 +181,12 @@ public class StageActivity extends Activity implements OnCompletionListener, Obs
 		doNextCommand();
 		
 	}
+	
+	public void onPause() {
+		super.onPause();
+		mMediaPlayer.stop();
+		mMediaPlayer.release();
+	}
+	
+	
 }
