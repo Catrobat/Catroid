@@ -23,6 +23,8 @@ import android.view.SurfaceHolder;
  *
  */
 public class StageViewThread extends Thread {
+	public boolean mIsDraw = false;
+	
 	private boolean mRun = false;
 	private SurfaceHolder mSurfaceHolder;
 	private Context context;
@@ -36,6 +38,8 @@ public class StageViewThread extends Thread {
 		mSurfaceHolder = holder;
 		this.context = context;
 		this.setName("StageViewThread");
+		mBackgroundBitmap = BitmapFactory.decodeResource(context.getResources(),
+				   R.drawable.icon);
 	}
 
 	public void setRunning(boolean b) {
@@ -43,7 +47,9 @@ public class StageViewThread extends Thread {
 	}
 	
 	public void setBackgroundBitmap(String path){
-		mBackgroundBitmap = BitmapFactory.decodeFile(path);
+		synchronized (mBackgroundBitmap){
+			mBackgroundBitmap = BitmapFactory.decodeFile(path);
+		}
 		
 	}
 	
@@ -52,10 +58,9 @@ public class StageViewThread extends Thread {
 	}
 
 	public void run() {
-		boolean isdraw = true;
 		while (mRun) {
 			Canvas c = null;
-			if (isdraw) {
+			if (mIsDraw) {
 				try {
 					c = mSurfaceHolder.lockCanvas(null);
 					synchronized (mSurfaceHolder) {
@@ -80,18 +85,14 @@ public class StageViewThread extends Thread {
 
 		Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),
 				   R.drawable.icon);
-		
-		
-//		Resources res = context.getResources();
-//		BitmapDrawable myImage = (BitmapDrawable) res
-//				.getDrawable(R.drawable.icon);  //TODO umaendern in richtiges bild
-		
+			
 		paint.setStyle(Paint.Style.FILL);
 		paint.setColor(Color.WHITE);
 		// canvas.drawRect(new Rect(mX + 0, mY + 0, mX + 40, mY + 40), paint);
 		canvas.drawRect(new Rect(0, 0, canvas.getWidth(), canvas.getHeight()),
 				paint);
-		canvas.drawBitmap(bitmap, mX, mY, null);
+		canvas.drawBitmap(mBackgroundBitmap, mX, mY, null);
+		mIsDraw = false;
 
 	}
 
