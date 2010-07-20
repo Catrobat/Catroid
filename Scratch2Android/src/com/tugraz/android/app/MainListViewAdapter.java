@@ -9,6 +9,7 @@ import com.tugraz.android.app.filesystem.MediaFileLoader;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -105,6 +106,8 @@ public class MainListViewAdapter extends BaseAdapter{
 			  text.setText("Warte ");
 			  text.setTextColor(Color.BLUE);
 	          EditText etext = (EditText) view.getChildAt(1);
+	          
+	          //etext.addTextChangedListener();
 	          
 	          view.setBackgroundColor(Color.argb(255, 255, 215, 0));
 	        
