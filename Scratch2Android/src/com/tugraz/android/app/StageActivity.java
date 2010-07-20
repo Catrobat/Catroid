@@ -49,8 +49,8 @@ public class StageActivity extends Activity implements OnCompletionListener,
 		setContentView(R.layout.stage);
 		addContentView(mStage, params);
 
-		// we only want portrait mode atm
-		// setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		// we only want portrait mode atm, otherwise the program crashes
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 	}
 
