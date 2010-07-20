@@ -100,6 +100,11 @@ public class StageActivity extends Activity implements OnCompletionListener,
 							// die stage schon laueft nicht
 		if (mStage.getThread().isRunning()) {
 			mStage.getThread().setRunning(false);
+
+			if (mMediaPlayer.isPlaying()){
+				mMediaPlayer.stop();
+				mMediaPlayer.release();
+			}
 		}
 
 		mStage.getThread().setRunning(true); // TODO gehoert das hier her??
