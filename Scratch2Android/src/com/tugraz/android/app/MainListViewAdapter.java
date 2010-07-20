@@ -107,7 +107,8 @@ public class MainListViewAdapter extends BaseAdapter{
 			  text.setTextColor(Color.BLUE);
 	          EditText etext = (EditText) view.getChildAt(1);
 	          
-	          //etext.addTextChangedListener();
+	          
+	          //etext.addTextChangedListener(null);
 	          
 	          view.setBackgroundColor(Color.argb(255, 255, 215, 0));
 	        
