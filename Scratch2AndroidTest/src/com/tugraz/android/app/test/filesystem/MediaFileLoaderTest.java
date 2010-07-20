@@ -31,6 +31,7 @@ public class MediaFileLoaderTest extends AndroidTestCase{
 		ArrayList<HashMap<String, String>> content =  mMediaFileLoader.getPictureContent();
 		File file;
 		
+		Log.d("TEST", "number of image files: "+content.size());
 		assertNotNull(content);
 		
 		for(int i = 0; i < content.size(); i++){
@@ -41,5 +42,22 @@ public class MediaFileLoaderTest extends AndroidTestCase{
 //			Log.d("TEST", content.get(i).get(MediaFileLoader.PICTURE_PATH));
 		}
 		
+	}
+	
+	public void testLoadSoundContent(){
+		mMediaFileLoader.loadSoundContent();
+		ArrayList<HashMap<String, String>> content =  mMediaFileLoader.getSoundContent();
+		File file;
+		
+		Log.d("TEST", "number of sound files: "+content.size());
+		assertNotNull( content);
+		
+		for(int i = 0; i < content.size(); i++){
+			file = new File(content.get(i).get(MediaFileLoader.SOUND_PATH));
+			assertTrue(file.exists());
+			
+			Log.d("TEST", content.get(i).get(MediaFileLoader.SOUND_NAME));
+			Log.d("TEST", content.get(i).get(MediaFileLoader.SOUND_PATH));
+		}
 	}
 }
