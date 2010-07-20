@@ -146,6 +146,12 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 		super.onStop();
 	}
 	
+	public void onPause()
+	{
+		mContentManager.saveContent();
+		super.onPause();
+	}
+	
 	
 	public void onClick(View v) {
 		if (v.getId() == R.id.toolbar_button) {

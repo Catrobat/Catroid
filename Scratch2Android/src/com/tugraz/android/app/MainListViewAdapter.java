@@ -9,11 +9,14 @@ import com.tugraz.android.app.filesystem.MediaFileLoader;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
+import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -59,6 +62,7 @@ public class MainListViewAdapter extends BaseAdapter{
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
+		final HashMap<String, String> brick = mList.get(position);
 		//Log.d("View", mList.toString());
 		//TODO check convertView
 		//TODO Reuse Views
@@ -87,6 +91,22 @@ public class MainListViewAdapter extends BaseAdapter{
 					new String[] {MediaFileLoader.PICTURE_THUMB, MediaFileLoader.PICTURE_NAME},
 	                new int[] {R.id.PictureSpinnerImageView, R.id.PictureSpinnerTextView});
 			spinner.setAdapter(adapter);
+			OnItemSelectedListener listener = new OnItemSelectedListener(){
+
+				@Override
+				public void onItemSelected(AdapterView<?> arg0, View arg1,
+						int arg2, long arg3) {
+						brick.put(BrickDefine.BRICK_VALUE, ((HashMap<String, String>)adapter.getItem(arg2)).get(MediaFileLoader.PICTURE_PATH));
+				}
+
+				@Override
+				public void onNothingSelected(AdapterView<?> arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+			};
+		    spinner.setOnItemSelectedListener(listener);
 			return view;
 		}
 		case (BrickDefine.PLAY_SOUND): 
@@ -107,8 +127,34 @@ public class MainListViewAdapter extends BaseAdapter{
 			  text.setTextColor(Color.BLUE);
 	          EditText etext = (EditText) view.getChildAt(1);
 	          
+etext.setText(brick.get(BrickDefine.BRICK_VALUE));
 	          
-	          //etext.addTextChangedListener(null);
+	          etext.addTextChangedListener(new TextWatcher()
+	          {
+
+				@Override
+				public void afterTextChanged(Editable s) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void beforeTextChanged(CharSequence s, int start,
+						int count, int after) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void onTextChanged(CharSequence s, int start,
+						int before, int count) {
+					brick.remove(BrickDefine.BRICK_VALUE);
+					brick.put(BrickDefine.BRICK_VALUE, s.toString());
+					
+				}
+	        	  
+	        	  
+	          });
 	          
 	          view.setBackgroundColor(Color.argb(255, 255, 215, 0));
 	        
