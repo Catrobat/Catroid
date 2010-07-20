@@ -63,7 +63,7 @@ public class ContentManager extends Observable{
 		loadContent(tempFile);
 	  
 		//load
-		FileInputStream scratch = mFilesystem.createOrOpenFileInput(tempFile, mCtx);
+		/*FileInputStream scratch = mFilesystem.createOrOpenFileInput(tempFile, mCtx);
         
 		//parse
 		mContentArrayList.clear();
@@ -79,7 +79,7 @@ public class ContentManager extends Observable{
 	    //testSet();
 	  
         setChanged();
-        notifyObservers();
+        notifyObservers();*/
 	}
 	/**
 	 * load content into data structure
