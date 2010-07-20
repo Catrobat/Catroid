@@ -7,10 +7,12 @@ import com.tugraz.android.app.filesystem.MediaFileLoader;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -70,12 +72,13 @@ public class MainListViewAdapter extends BaseAdapter{
 		case (BrickDefine.SET_BACKGROUND): 
 		{
 			LinearLayout view = (LinearLayout) inflater.inflate(R.layout.mlve_two_labels, null);
-			TextView text1 = (TextView)view.getChildAt(0);
-			text1.setText(mList.get(position).get(BrickDefine.BRICK_NAME));
-			TextView text2 = (TextView)view.getChildAt(1);
-			text2.setText("TODO set data");
-			
-			Spinner spinner = (Spinner)view.getChildAt(2);
+			//text1.setTextColor(Color.BLUE);
+			TextView text = (TextView)view.getChildAt(0);
+			text.setText("Setze Hintergrund:");
+			//text2.setTextColor(Color.BLUE);
+			view.setBackgroundColor(Color.argb(255, 139, 0, 139));
+
+			Spinner spinner = (Spinner)view.getChildAt(1);
 			
 			
 			//set adapter		
@@ -88,23 +91,25 @@ public class MainListViewAdapter extends BaseAdapter{
 		case (BrickDefine.PLAY_SOUND): 
 		{
 		    LinearLayout view = (LinearLayout) inflater.inflate(R.layout.mlve_two_labels, null);
-			TextView text1 = (TextView)view.getChildAt(0);
-			text1.setText(mList.get(position).get(BrickDefine.BRICK_NAME));
-			TextView text2 = (TextView)view.getChildAt(1);
-			text2.setText("TODO set data");
+			TextView text = (TextView)view.getChildAt(0);
+			text.setText("Spiele Klang:");
+			
+			view.setBackgroundColor(Color.BLUE);
 			
 			return view;
 		}
 		case (BrickDefine.WAIT): 
 		{
 			LinearLayout view =  (LinearLayout)inflater.inflate(R.layout.mlve_two_labels_edit, null);
-			TextView text1 = (TextView)view.getChildAt(0);
-			text1.setText(mList.get(position).get(BrickDefine.BRICK_NAME));
-			LinearLayout view2 = (LinearLayout)view.getChildAt(1);
-			  TextView text2 = (TextView) view2.getChildAt(0);
-			  text2.setText("TODO set data");
-	          EditText etext = (EditText) view2.getChildAt(1);
+			  TextView text = (TextView) view.getChildAt(0);
+			  text.setText("Warte ");
+			  text.setTextColor(Color.BLUE);
+	          EditText etext = (EditText) view.getChildAt(1);
+	          
+	          view.setBackgroundColor(Color.argb(255, 255, 215, 0));
+	        
 			return view;
+			
 		}
 		case (BrickDefine.NOT_DEFINED):
 		{
