@@ -70,6 +70,7 @@ public class StageViewThread extends Thread {
 				} finally {
 					if (c != null)
 						mSurfaceHolder.unlockCanvasAndPost(c);
+					//throw new ThreadDeath();
 				}
 			}
 
