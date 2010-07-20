@@ -70,6 +70,7 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
         switch(id) { //TODO kommt er hier nur einmal her oder bei jedem aufruf?
         case TOOLBOX_DIALOG:
         	mToolboxDialog = new ToolboxDialog(this, true, null, 0); //TODO passen argumente so?  
+        	mToolboxDialog.setContentManager(mContentManager);
             break;
         default:
             mToolboxDialog = null;
