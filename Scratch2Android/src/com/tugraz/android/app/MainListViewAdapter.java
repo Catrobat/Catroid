@@ -151,6 +151,7 @@ public class MainListViewAdapter extends BaseAdapter{
 			  text.setText("Warte ");
 			  text.setTextColor(Color.BLUE);
 	          EditText etext = (EditText) view.getChildAt(1);
+	          etext.setText("1");
 	          
 etext.setText(brick.get(BrickDefine.BRICK_VALUE));
 	          
