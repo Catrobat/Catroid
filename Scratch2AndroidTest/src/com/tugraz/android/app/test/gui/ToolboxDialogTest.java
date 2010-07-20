@@ -64,5 +64,28 @@ public class ToolboxDialogTest extends ActivityInstrumentationTestCase2<MainActi
 		
 	}
 
+	public void testSetNewBrick() {
+		mActivity.runOnUiThread(
+				new Runnable() {
+					public void run() {
+						mButton.requestFocus();	
+						
+					}
+				}
+		);
+//		View view = (View) mListView.getChildAt(0);	
+//		TouchUtils.longClickView(this, view);
+//		this.sendKeys(KeyEvent.KEYCODE_DPAD_DOWN);
+		this.sendKeys(KeyEvent.KEYCODE_DPAD_CENTER);
+		
+		mDialog = mActivity.getToolboxDialog();
+		
+		int sizeBeforeClick = mDialog.mContentArrayList.size();
+		this.sendKeys(KeyEvent.KEYCODE_DPAD_CENTER);
+		int sizeAfterClick = mDialog.mContentArrayList.size();
+		
+		assertTrue(sizeBeforeClick==(sizeAfterClick));
+	}
+	
 
 }
