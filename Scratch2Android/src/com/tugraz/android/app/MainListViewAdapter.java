@@ -153,7 +153,7 @@ public class MainListViewAdapter extends BaseAdapter{
 	          EditText etext = (EditText) view.getChildAt(1);
 	          etext.setText("1");
 	          
-etext.setText(brick.get(BrickDefine.BRICK_VALUE));
+	          etext.setText(brick.get(BrickDefine.BRICK_VALUE));
 	          
 	          etext.addTextChangedListener(new TextWatcher()
 	          {
