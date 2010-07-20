@@ -60,9 +60,6 @@ public class ContentManager extends Observable{
 	 * load content into data structure
 	 */
 	public void loadContent(){
-		loadContent(tempFile);
-	  testSet();
-	  
 		//load
 		FileInputStream scratch = mFilesystem.createOrOpenFileInput(tempFile, mCtx);
         
@@ -76,9 +73,7 @@ public class ContentManager extends Observable{
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	  }
-	  	clear();
-	    testSet();
-	  
+		
         setChanged();
         notifyObservers();
 	}
@@ -89,22 +84,18 @@ public class ContentManager extends Observable{
 		//load
 		FileInputStream scratch = mFilesystem.createOrOpenFileInput(file, mCtx);
         
-		if(scratch != null){
-	        //parse
-			mContentArrayList.clear();
-	        mContentArrayList.addAll((mParser.parse(scratch)));
-
-	        try {
-				scratch.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	        
-	        setChanged();
-	        notifyObservers();
-		} 
-
+        //parse
+		mContentArrayList.clear();
+        mContentArrayList.addAll((mParser.parse(scratch)));
+        
+        try {
+			scratch.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        setChanged();
+        notifyObservers();
 	}
 
 	/**
@@ -150,37 +141,23 @@ public class ContentManager extends Observable{
 	 */
 	public void testSet(){
         HashMap<String, String> map = new HashMap<String, String>();
-        map.put(BrickDefine.BRICK_ID, "3");
-        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
-        map.put(BrickDefine.BRICK_NAME, "Test3");
-        map.put(BrickDefine.BRICK_VALUE, "3");
-        mContentArrayList.add(map);
-        map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "1");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
         map.put(BrickDefine.BRICK_NAME, "Test1");
-        map.put(BrickDefine.BRICK_VALUE, "/data/data/com.tugraz.android.app/files/bild1.jpg");
+        map.put(BrickDefine.BRICK_VALUE, "bla");
         mContentArrayList.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "2");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.PLAY_SOUND));
         map.put(BrickDefine.BRICK_NAME, "Test2");
-        map.put(BrickDefine.BRICK_VALUE, "/data/data/com.tugraz.android.app/files/sun.mp3");
+        map.put(BrickDefine.BRICK_VALUE, "blabla1");
         mContentArrayList.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "3");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
         map.put(BrickDefine.BRICK_NAME, "Test3");
-        map.put(BrickDefine.BRICK_VALUE, "3");
+        map.put(BrickDefine.BRICK_VALUE, "blabla2");
         mContentArrayList.add(map);
-        map = new HashMap<String, String>();
-        map.put(BrickDefine.BRICK_ID, "1");
-        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
-        map.put(BrickDefine.BRICK_NAME, "Test1");
-        map.put(BrickDefine.BRICK_VALUE, "/data/data/com.tugraz.android.app/files/bild2.jpg");
-        mContentArrayList.add(map);
-
-
 	}
 	
 	/**
