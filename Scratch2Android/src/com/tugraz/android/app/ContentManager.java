@@ -61,7 +61,7 @@ public class ContentManager extends Observable{
 	 */
 	public void loadContent(){
 		loadContent(tempFile);
-	  
+	  /*
 		//load
 		FileInputStream scratch = mFilesystem.createOrOpenFileInput(tempFile, mCtx);
         
@@ -75,12 +75,12 @@ public class ContentManager extends Observable{
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	  }
-	  	clear();
+	  	//clear();
 	    //testSet();
 	  
         setChanged();
         notifyObservers();
-	}
+	*/}
 	/**
 	 * load content into data structure
 	 */

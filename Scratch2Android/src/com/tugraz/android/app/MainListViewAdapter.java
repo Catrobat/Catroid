@@ -2,18 +2,25 @@ package com.tugraz.android.app;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Observable;
+import java.util.Observer;
 
 import com.tugraz.android.app.filesystem.MediaFileLoader;
 
 
 import android.content.Context;
+import android.database.DataSetObserver;
 import android.graphics.Color;
 import android.util.Log;
+import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -25,6 +32,7 @@ import android.widget.TextView;
 public class MainListViewAdapter extends BaseAdapter{
     private Context mCtx;
     private MediaFileLoader mMediaFileLoader;
+    public HashMap<String, String> brick;
     
     public ArrayList<HashMap<String, String>> mList;
 
@@ -64,6 +72,8 @@ public class MainListViewAdapter extends BaseAdapter{
 		//TODO Reuse Views
 		//Type of the Brick
 		String type = mList.get(position).get(BrickDefine.BRICK_TYPE);
+		//final HashMap<String, String> brick = mList.get(position);
+		
 		//Inflater to build the views
 		LayoutInflater inflater = (LayoutInflater)mCtx.getSystemService(
 	      Context.LAYOUT_INFLATER_SERVICE);
@@ -81,12 +91,28 @@ public class MainListViewAdapter extends BaseAdapter{
 
 			Spinner spinner = (Spinner)view.getChildAt(1);
 			
-			
 			//set adapter		
 			final SimpleAdapter adapter = new SimpleAdapter(mCtx, mMediaFileLoader.getPictureContent(), R.layout.picture_spinner,
 					new String[] {MediaFileLoader.PICTURE_THUMB, MediaFileLoader.PICTURE_NAME},
 	                new int[] {R.id.PictureSpinnerImageView, R.id.PictureSpinnerTextView});
 			spinner.setAdapter(adapter);
+			
+			/*OnItemSelectedListener listener = new OnItemSelectedListener(){
+
+				@Override
+				public void onItemSelected(AdapterView<?> arg0, View arg1,
+						int arg2, long arg3) {
+					//(brick.put(BrickDefine.BRICK_VALUE, ((HashMap<String, String>)adapter.getItem(0)).get(BrickDefine.BRICK_VALUE));
+				}
+
+				@Override
+				public void onNothingSelected(AdapterView<?> arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+			};
+		    spinner.setOnItemSelectedListener(listener);*/
 			return view;
 		}
 		case (BrickDefine.PLAY_SOUND): 
@@ -106,9 +132,34 @@ public class MainListViewAdapter extends BaseAdapter{
 			  text.setText("Warte ");
 			  text.setTextColor(Color.BLUE);
 	          EditText etext = (EditText) view.getChildAt(1);
+	          etext.setText(brick.get(BrickDefine.BRICK_VALUE));
 	          
-	          
-	          //etext.addTextChangedListener(null);
+	          etext.addTextChangedListener(new TextWatcher()
+	          {
+
+				@Override
+				public void afterTextChanged(Editable s) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void beforeTextChanged(CharSequence s, int start,
+						int count, int after) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void onTextChanged(CharSequence s, int start,
+						int before, int count) {
+					brick.remove(BrickDefine.BRICK_VALUE);
+					brick.put(BrickDefine.BRICK_VALUE, s.toString());
+					
+				}
+	        	  
+	        	  
+	          });
 	          
 	          view.setBackgroundColor(Color.argb(255, 255, 215, 0));
 	        
@@ -128,6 +179,8 @@ public class MainListViewAdapter extends BaseAdapter{
 		}
 	}
 
-	
+
+
+
 
 }
