@@ -39,6 +39,7 @@ public class MainListViewAdapter extends BaseAdapter{
 		
 		mMediaFileLoader = new MediaFileLoader(mCtx);
 		mMediaFileLoader.loadPictureContent();
+		mMediaFileLoader.loadSoundContent();
 	}
 	
 	
@@ -114,6 +115,30 @@ public class MainListViewAdapter extends BaseAdapter{
 		    LinearLayout view = (LinearLayout) inflater.inflate(R.layout.mlve_two_labels, null);
 			TextView text = (TextView)view.getChildAt(0);
 			text.setText("Spiele Klang:");
+			
+			Spinner spinner = (Spinner)view.getChildAt(1);
+         
+			final SimpleAdapter adapter = new SimpleAdapter(mCtx, mMediaFileLoader.getSoundContent(), R.layout.picture_spinner,
+					new String[] {MediaFileLoader.SOUND_THUMB, MediaFileLoader.SOUND_NAME},
+	                new int[] {R.id.PictureSpinnerImageView, R.id.PictureSpinnerTextView});
+			spinner.setAdapter(adapter);
+			OnItemSelectedListener listener = new OnItemSelectedListener(){
+
+				@Override
+				public void onItemSelected(AdapterView<?> arg0, View arg1,
+						int arg2, long arg3) {
+						brick.put(BrickDefine.BRICK_VALUE, ((HashMap<String, String>)adapter.getItem(arg2)).get(MediaFileLoader.SOUND_PATH));
+				}
+
+				@Override
+				public void onNothingSelected(AdapterView<?> arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+			};
+		    spinner.setOnItemSelectedListener(listener);
+
 			
 			view.setBackgroundColor(Color.BLUE);
 			
