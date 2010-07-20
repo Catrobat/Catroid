@@ -88,7 +88,7 @@ public class ToolboxAdapter extends BaseAdapter{
 			        map.put(BrickDefine.BRICK_ID, "1");
 			        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
 			        map.put(BrickDefine.BRICK_NAME, "SetBackground");
-			        map.put(BrickDefine.BRICK_VALUE, "bla");
+			        map.put(BrickDefine.BRICK_VALUE, "1");
 					mContentManager.add(map);
 				}
 			});
@@ -109,7 +109,7 @@ public class ToolboxAdapter extends BaseAdapter{
 			        map.put(BrickDefine.BRICK_ID, "2");
 			        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.PLAY_SOUND));
 			        map.put(BrickDefine.BRICK_NAME, "PlaySound");
-			        map.put(BrickDefine.BRICK_VALUE, "bla");
+			        map.put(BrickDefine.BRICK_VALUE, "1");
 					mContentManager.add(map);
 					
 				}
@@ -133,7 +133,7 @@ public class ToolboxAdapter extends BaseAdapter{
 			        map.put(BrickDefine.BRICK_ID, "3");
 			        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
 			        map.put(BrickDefine.BRICK_NAME, "Wait");
-			        map.put(BrickDefine.BRICK_VALUE, "bla");
+			        map.put(BrickDefine.BRICK_VALUE, "1");
 					mContentManager.add(map);
 					
 				}
