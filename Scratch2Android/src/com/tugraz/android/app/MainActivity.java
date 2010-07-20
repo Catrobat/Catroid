@@ -126,7 +126,7 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
         }
     }
 
-	@Override
+	
 	public void update(Observable observable, Object data) {
 		Log.d("View1", mAdapter.mList.toString());
 		Log.d("View1", mMainListView.toString());
@@ -143,7 +143,7 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 		super.onStop();
 	}
 	
-	@Override
+	
 	public void onClick(View v) {
 		if (v.getId() == R.id.toolbar_button) {
 			openToolbox();
