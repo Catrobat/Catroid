@@ -14,12 +14,14 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
+
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
@@ -108,6 +110,12 @@ public class MainListViewAdapter extends BaseAdapter{
 				
 			};
 		    spinner.setOnItemSelectedListener(listener);
+
+//		    int size = parent.getChildCount();
+//		    LayoutParams params = (LayoutParams) view.getLayoutParams();
+//		    params.addRule(RelativeLayout.ALIGN_BOTTOM, parent.getChildAt(size-1).getId());
+//		    view.setLayoutParams(params);
+
 			return view;
 		}
 		case (BrickDefine.PLAY_SOUND): 
