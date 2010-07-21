@@ -153,13 +153,13 @@ public class ContentManager extends Observable{
         map.put(BrickDefine.BRICK_ID, "1");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.PLAY_SOUND));
         map.put(BrickDefine.BRICK_NAME, "Test3");
-        map.put(BrickDefine.BRICK_VALUE, "/sdcard/See You Again.mp3");
+        map.put(BrickDefine.BRICK_VALUE, "/mnt/sdcard/See You Again.mp3");
         mContentArrayList.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "2");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
         map.put(BrickDefine.BRICK_NAME, "Test1");
-        map.put(BrickDefine.BRICK_VALUE, "/sdcard/hm1.png");
+        map.put(BrickDefine.BRICK_VALUE, "/mnt/sdcard/hm1.png");
         mContentArrayList.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "3");
@@ -171,7 +171,7 @@ public class ContentManager extends Observable{
         map.put(BrickDefine.BRICK_ID, "4");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
         map.put(BrickDefine.BRICK_NAME, "Test1");
-        map.put(BrickDefine.BRICK_VALUE, "/sdcard/hm2.png");
+        map.put(BrickDefine.BRICK_VALUE, "/mnt/sdcard/hm2.png");
         mContentArrayList.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "5");
@@ -183,7 +183,7 @@ public class ContentManager extends Observable{
         map.put(BrickDefine.BRICK_ID, "6");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
         map.put(BrickDefine.BRICK_NAME, "Test1");
-        map.put(BrickDefine.BRICK_VALUE, "/sdcard/hm3.png");
+        map.put(BrickDefine.BRICK_VALUE, "/mnt/sdcard/hm3.png");
         mContentArrayList.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "7");
@@ -195,7 +195,7 @@ public class ContentManager extends Observable{
         map.put(BrickDefine.BRICK_ID, "8");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
         map.put(BrickDefine.BRICK_NAME, "Test1");
-        map.put(BrickDefine.BRICK_VALUE, "/sdcard/hm4.png");
+        map.put(BrickDefine.BRICK_VALUE, "/mnt/sdcard/hm4.png");
         mContentArrayList.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "9");
@@ -207,7 +207,7 @@ public class ContentManager extends Observable{
         map.put(BrickDefine.BRICK_ID, "10");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
         map.put(BrickDefine.BRICK_NAME, "Test1");
-        map.put(BrickDefine.BRICK_VALUE, "/sdcard/hm5.png");
+        map.put(BrickDefine.BRICK_VALUE, "/mnt/sdcard/hm5.png");
         mContentArrayList.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "11");
@@ -219,7 +219,7 @@ public class ContentManager extends Observable{
         map.put(BrickDefine.BRICK_ID, "12");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
         map.put(BrickDefine.BRICK_NAME, "Test1");
-        map.put(BrickDefine.BRICK_VALUE, "/sdcard/hm6.png");
+        map.put(BrickDefine.BRICK_VALUE, "/mnt/sdcard/hm6.png");
         mContentArrayList.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "13");
@@ -231,7 +231,7 @@ public class ContentManager extends Observable{
         map.put(BrickDefine.BRICK_ID, "14");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
         map.put(BrickDefine.BRICK_NAME, "Test1");
-        map.put(BrickDefine.BRICK_VALUE, "/sdcard/hm7.png");
+        map.put(BrickDefine.BRICK_VALUE, "/mnt/sdcard/hm7.png");
         mContentArrayList.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "15");
@@ -243,7 +243,7 @@ public class ContentManager extends Observable{
         map.put(BrickDefine.BRICK_ID, "16");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
         map.put(BrickDefine.BRICK_NAME, "Test1");
-        map.put(BrickDefine.BRICK_VALUE, "/sdcard/hm8.png");
+        map.put(BrickDefine.BRICK_VALUE, "/mnt/sdcard/hm8.png");
         mContentArrayList.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "17");
@@ -255,7 +255,7 @@ public class ContentManager extends Observable{
         map.put(BrickDefine.BRICK_ID, "18");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
         map.put(BrickDefine.BRICK_NAME, "Test1");
-        map.put(BrickDefine.BRICK_VALUE, "/sdcard/hm9.png");
+        map.put(BrickDefine.BRICK_VALUE, "/mnt/sdcard/hm9.png");
         mContentArrayList.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "19");
@@ -266,7 +266,7 @@ public class ContentManager extends Observable{
         map.put(BrickDefine.BRICK_ID, "20");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
         map.put(BrickDefine.BRICK_NAME, "Test1");
-        map.put(BrickDefine.BRICK_VALUE, "/sdcard/hm10.png");
+        map.put(BrickDefine.BRICK_VALUE, "/mnt/sdcard/hm10.png");
         mContentArrayList.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "21");
