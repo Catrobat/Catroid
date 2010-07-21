@@ -57,9 +57,9 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
         mMainListView.setAdapter(mAdapter);
         
         //Testing
-        //mContentManager.testSet();
+        mContentManager.testSet();
         //mContentManager.saveContent();
-        mContentManager.loadContent();
+        //mContentManager.loadContent();
         
         this.registerForContextMenu(mMainListView);
         
