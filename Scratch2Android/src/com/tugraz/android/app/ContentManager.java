@@ -21,14 +21,44 @@ import com.tugraz.android.app.parser.Parser;
  */
 public class ContentManager extends Observable{
 	
-	public ArrayList<HashMap<String, String>> mContentArrayList;
+	private ArrayList<HashMap<String, String>> mContentArrayList;
+	private ArrayList<ArrayList<HashMap<String, String>>> mSpritesAndBackgroundList;
+	
 	private FileSystem mFilesystem;
 	private Parser mParser;
 	private Context mCtx;
 	private static final String mTempFile = "tempFile.txt";
+	private int mCurrentSprite;
 	
 	public ArrayList<HashMap<String, String>> getContentArrayList(){
 		return mContentArrayList;
+	}
+	
+	public ArrayList<ArrayList<HashMap<String, String>>> getSpritesAndBackground(){
+		return mSpritesAndBackgroundList;
+	}
+	
+	public void removeSprite(int position){
+		mSpritesAndBackgroundList.remove(position);
+		if(mCurrentSprite == position)
+		{
+			mContentArrayList = mSpritesAndBackgroundList.get(position);
+		}
+	}
+	
+	public void clearSprites(){
+		mSpritesAndBackgroundList.clear();
+		mContentArrayList.clear();
+		//Fill Dummy Stage
+		mSpritesAndBackgroundList.add(new ArrayList<HashMap<String,String>>());
+        mCurrentSprite = 0;
+	}
+	
+	public void addSprite(ArrayList<HashMap<String, String>> sprite)
+	{
+		mSpritesAndBackgroundList.add(sprite);
+		switchSprite(mSpritesAndBackgroundList.size()-1);
+		//mCurrentSprite = (mSpritesAndBackgroundList.size()-1);
 	}
 	
 	public void remove(int position){
@@ -51,9 +81,12 @@ public class ContentManager extends Observable{
 	}
 	
 	public ContentManager(){
+		mSpritesAndBackgroundList= new ArrayList<ArrayList<HashMap<String, String>>>();
 		mContentArrayList = new ArrayList<HashMap<String, String>>();
 		mFilesystem = new FileSystem();
 		mParser = new Parser();
+		mSpritesAndBackgroundList.add(mContentArrayList);
+		mCurrentSprite = 0;
 	}
 	
 	/**
@@ -66,14 +99,17 @@ public class ContentManager extends Observable{
 	 * load content into data structure
 	 */
 	public void loadContent(String file){
-		//load
+		
 		FileInputStream scratch = mFilesystem.createOrOpenFileInput(file, mCtx);
         
 		if(scratch != null){
-	        //parse
+	        
+			mSpritesAndBackgroundList.clear();
 			mContentArrayList.clear();
-	        mContentArrayList.addAll((mParser.parse(scratch)));
-
+			
+			mSpritesAndBackgroundList.addAll((mParser.parse(scratch)));
+	        mContentArrayList.addAll(mSpritesAndBackgroundList.get(0));
+            mCurrentSprite =0;
 	        try {
 				scratch.close();
 			} catch (IOException e) {
@@ -99,8 +135,8 @@ public class ContentManager extends Observable{
 	 */
 	public void saveContent(String file){
 		FileOutputStream fd = mFilesystem.createOrOpenFileOutput(file, mCtx);
-	    
-		String xml = mParser.toXml(mContentArrayList);
+
+		String xml = mParser.toXml(mSpritesAndBackgroundList);
 		
 		try {
 			fd.write(xml.getBytes());
@@ -124,134 +160,34 @@ public class ContentManager extends Observable{
         map.put(BrickDefine.BRICK_NAME, "Test3");
         map.put(BrickDefine.BRICK_VALUE, "/mnt/sdcard/See You Again.mp3");
         mContentArrayList.add(map);
-        map = new HashMap<String, String>();
-        map.put(BrickDefine.BRICK_ID, "2");
-        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
-        map.put(BrickDefine.BRICK_NAME, "Test1");
-        map.put(BrickDefine.BRICK_VALUE, "/mnt/sdcard/hm1.png");
-        mContentArrayList.add(map);
-        map = new HashMap<String, String>();
-        map.put(BrickDefine.BRICK_ID, "3");
-        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
-        map.put(BrickDefine.BRICK_NAME, "Test2");
-        map.put(BrickDefine.BRICK_VALUE, "2");
-        mContentArrayList.add(map);
-        map = new HashMap<String, String>();
-        map.put(BrickDefine.BRICK_ID, "4");
-        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
-        map.put(BrickDefine.BRICK_NAME, "Test1");
-        map.put(BrickDefine.BRICK_VALUE, "/mnt/sdcard/hm2.png");
-        mContentArrayList.add(map);
-        map = new HashMap<String, String>();
-        map.put(BrickDefine.BRICK_ID, "5");
-        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
-        map.put(BrickDefine.BRICK_NAME, "Test2");
-        map.put(BrickDefine.BRICK_VALUE, "2");
-        mContentArrayList.add(map);
-        map = new HashMap<String, String>();
-        map.put(BrickDefine.BRICK_ID, "6");
-        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
-        map.put(BrickDefine.BRICK_NAME, "Test1");
-        map.put(BrickDefine.BRICK_VALUE, "/mnt/sdcard/hm3.png");
-        mContentArrayList.add(map);
-        map = new HashMap<String, String>();
-        map.put(BrickDefine.BRICK_ID, "7");
-        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
-        map.put(BrickDefine.BRICK_NAME, "Test2");
-        map.put(BrickDefine.BRICK_VALUE, "2");
-        mContentArrayList.add(map);
-        map = new HashMap<String, String>();
-        map.put(BrickDefine.BRICK_ID, "8");
-        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
-        map.put(BrickDefine.BRICK_NAME, "Test1");
-        map.put(BrickDefine.BRICK_VALUE, "/mnt/sdcard/hm4.png");
-        mContentArrayList.add(map);
-        map = new HashMap<String, String>();
-        map.put(BrickDefine.BRICK_ID, "9");
-        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
-        map.put(BrickDefine.BRICK_NAME, "Test2");
-        map.put(BrickDefine.BRICK_VALUE, "2");
-        mContentArrayList.add(map);
-        map = new HashMap<String, String>();
-        map.put(BrickDefine.BRICK_ID, "10");
-        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
-        map.put(BrickDefine.BRICK_NAME, "Test1");
-        map.put(BrickDefine.BRICK_VALUE, "/mnt/sdcard/hm5.png");
-        mContentArrayList.add(map);
-        map = new HashMap<String, String>();
-        map.put(BrickDefine.BRICK_ID, "11");
-        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
-        map.put(BrickDefine.BRICK_NAME, "Test2");
-        map.put(BrickDefine.BRICK_VALUE, "2");
-        mContentArrayList.add(map);
-        map = new HashMap<String, String>();
-        map.put(BrickDefine.BRICK_ID, "12");
-        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
-        map.put(BrickDefine.BRICK_NAME, "Test1");
-        map.put(BrickDefine.BRICK_VALUE, "/mnt/sdcard/hm6.png");
-        mContentArrayList.add(map);
-        map = new HashMap<String, String>();
-        map.put(BrickDefine.BRICK_ID, "13");
-        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
-        map.put(BrickDefine.BRICK_NAME, "Test2");
-        map.put(BrickDefine.BRICK_VALUE, "2");
-        mContentArrayList.add(map);
-        map = new HashMap<String, String>();
-        map.put(BrickDefine.BRICK_ID, "14");
-        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
-        map.put(BrickDefine.BRICK_NAME, "Test1");
-        map.put(BrickDefine.BRICK_VALUE, "/mnt/sdcard/hm7.png");
-        mContentArrayList.add(map);
-        map = new HashMap<String, String>();
-        map.put(BrickDefine.BRICK_ID, "15");
-        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
-        map.put(BrickDefine.BRICK_NAME, "Test2");
-        map.put(BrickDefine.BRICK_VALUE, "2");
-        mContentArrayList.add(map);
-        map = new HashMap<String, String>();
-        map.put(BrickDefine.BRICK_ID, "16");
-        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
-        map.put(BrickDefine.BRICK_NAME, "Test1");
-        map.put(BrickDefine.BRICK_VALUE, "/mnt/sdcard/hm8.png");
-        mContentArrayList.add(map);
-        map = new HashMap<String, String>();
-        map.put(BrickDefine.BRICK_ID, "17");
-        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
-        map.put(BrickDefine.BRICK_NAME, "Test2");
-        map.put(BrickDefine.BRICK_VALUE, "2");
-        mContentArrayList.add(map);
-        map = new HashMap<String, String>();
-        map.put(BrickDefine.BRICK_ID, "18");
-        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
-        map.put(BrickDefine.BRICK_NAME, "Test1");
-        map.put(BrickDefine.BRICK_VALUE, "/mnt/sdcard/hm9.png");
-        mContentArrayList.add(map);
-        map = new HashMap<String, String>();
-        map.put(BrickDefine.BRICK_ID, "19");
-        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
-        map.put(BrickDefine.BRICK_NAME, "Test2");
-        map.put(BrickDefine.BRICK_VALUE, "2");
-        mContentArrayList.add(map);map = new HashMap<String, String>();
-        map.put(BrickDefine.BRICK_ID, "20");
-        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
-        map.put(BrickDefine.BRICK_NAME, "Test1");
-        map.put(BrickDefine.BRICK_VALUE, "/mnt/sdcard/hm10.png");
-        mContentArrayList.add(map);
-        map = new HashMap<String, String>();
-        map.put(BrickDefine.BRICK_ID, "21");
-        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
-        map.put(BrickDefine.BRICK_NAME, "Test2");
-        map.put(BrickDefine.BRICK_VALUE, "2");
-        mContentArrayList.add(map);
-	}
+    }
 	
 	/**
 	 * test method
 	 */
-	public void setArrayList(ArrayList<HashMap<String, String>> list){
+	public void setContentArrayList(ArrayList<HashMap<String, String>> list){
 		mContentArrayList = list;
 		setChanged();
 		notifyObservers();
+	}
+	
+	public void setSpritesAndBackgroundList(ArrayList<ArrayList<HashMap<String, String>>> spritesAndBackground){
+		mSpritesAndBackgroundList = spritesAndBackground;
+		//Check for default stage Object
+		if(mSpritesAndBackgroundList.size() == 0)
+			mSpritesAndBackgroundList.add(new ArrayList<HashMap<String,String>>());
+	}
+	
+	public void switchSprite(int positionNewSprite){
+		mSpritesAndBackgroundList.set(mCurrentSprite, mContentArrayList);
+		saveContent();
+		mContentArrayList.clear();
+		mContentArrayList.addAll(mSpritesAndBackgroundList.get(positionNewSprite));
+		mCurrentSprite = positionNewSprite;
+	}
+	
+	public int getCurrentSprite(){
+		return mCurrentSprite;
 	}
 	
 	public void setObserver(Observer observer)
