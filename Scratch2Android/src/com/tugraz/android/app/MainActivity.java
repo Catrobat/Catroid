@@ -72,6 +72,7 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 		mToolboxButton.setOnClickListener(this);
 		
 		mSpritesToolboxButton = (Button) this.findViewById(R.id.sprites_button);
+		mSpritesToolboxButton.setOnClickListener(this);
     }
 
     
