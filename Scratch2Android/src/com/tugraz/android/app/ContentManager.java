@@ -59,7 +59,7 @@ public class ContentManager extends Observable{
 	public void addSprite(ArrayList<HashMap<String, String>> sprite)
 	{
 		mSpritesAndBackgroundList.add(sprite);
-		switchSprite((mSpritesAndBackgroundList.size()-1));
+		switchSprite((mSpritesAndBackgroundList.size()));
 		mCurrentSprite = (mSpritesAndBackgroundList.size()-1);
 	}
 	
