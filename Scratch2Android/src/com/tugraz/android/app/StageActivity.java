@@ -118,14 +118,14 @@ public class StageActivity extends Activity implements OnCompletionListener,
 	 * executes the next command from the contentArrayList of the contentManager
 	 */
 	private void doNextCommand() {
-		if (mContentManager.getContentArrayList().size() <= mCommandCount) { 
+		if (mContentManager.getSpritesAndBackground().get(0).size() <= mCommandCount) { //TODO at the moment we only want the first element because it's the background
 			// abort if mCommandCount has run through all commands to execute															
 			mCommandCount = 0;
 			return;
 		}
 		mMediaPlayer.setOnCompletionListener(this);
 
-		HashMap<String, String> map = mContentManager.getContentArrayList()
+		HashMap<String, String> map = mContentManager.getSpritesAndBackground().get(0)
 				.get(mCommandCount);
 
 		int type = Integer.parseInt(map.get(BrickDefine.BRICK_TYPE));
