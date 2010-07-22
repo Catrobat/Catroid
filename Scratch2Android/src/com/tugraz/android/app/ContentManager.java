@@ -28,6 +28,7 @@ public class ContentManager extends Observable{
 	private Parser mParser;
 	private Context mCtx;
 	private static final String mTempFile = "tempFile.txt";
+	private int mCurrentSprite;
 	
 	public ArrayList<HashMap<String, String>> getContentArrayList(){
 		return mContentArrayList;
@@ -39,15 +40,23 @@ public class ContentManager extends Observable{
 	
 	public void removeSprite(int position){
 		mSpritesAndBackgroundList.remove(position);
+		if(mCurrentSprite == position)
+		{
+			mContentArrayList = mSpritesAndBackgroundList.get(position);
+		}
 	}
 	
 	public void clearSprites(){
-		mSpritesAndBackgroundList.clear();		
+		mSpritesAndBackgroundList.clear();
+		mContentArrayList.clear();
+        mCurrentSprite = 0;
 	}
 	
 	public void addSprite(ArrayList<HashMap<String, String>> sprite)
 	{
 		mSpritesAndBackgroundList.add(sprite);
+		switchSprite((mSpritesAndBackgroundList.size()-1));
+		mCurrentSprite = (mSpritesAndBackgroundList.size()-1);
 	}
 	
 	public void remove(int position){
@@ -73,6 +82,7 @@ public class ContentManager extends Observable{
 		mContentArrayList = new ArrayList<HashMap<String, String>>();
 		mFilesystem = new FileSystem();
 		mParser = new Parser();
+		mCurrentSprite = 0;
 	}
 	
 	/**
@@ -95,7 +105,7 @@ public class ContentManager extends Observable{
 			
 			mSpritesAndBackgroundList.addAll((mParser.parse(scratch)));
 	        mContentArrayList.addAll(mSpritesAndBackgroundList.get(0));
-
+            mCurrentSprite =0;
 	        try {
 				scratch.close();
 			} catch (IOException e) {
@@ -159,6 +169,18 @@ public class ContentManager extends Observable{
 	
 	public void setSpritesAndBackgroundList(ArrayList<ArrayList<HashMap<String, String>>> spritesAndBackground){
 		mSpritesAndBackgroundList = spritesAndBackground;
+	}
+	
+	public void switchSprite(int positionNewSprite){
+		mSpritesAndBackgroundList.set(mCurrentSprite, mContentArrayList);
+		saveContent();
+		mContentArrayList.clear();
+		mContentArrayList.addAll(mSpritesAndBackgroundList.get(positionNewSprite));
+		mCurrentSprite = positionNewSprite;
+	}
+	
+	public int getCurrentSprite(){
+		return mCurrentSprite;
 	}
 	
 	public void setObserver(Observer observer)
