@@ -102,17 +102,14 @@ public class MainListViewAdapter extends BaseAdapter{
 						int arg2, long arg3) {
 						brick.put(BrickDefine.BRICK_VALUE, ((HashMap<String, String>)adapter.getItem(arg2)).get(MediaFileLoader.PICTURE_PATH));
 				}
-
 				@Override
 				public void onNothingSelected(AdapterView<?> arg0) {
 					// TODO Auto-generated method stub
 					
-				}
-				
+				}				
 			};
 		    spinner.setOnItemSelectedListener(listener);
-		    spinner.setPrompt((CharSequence)brick.get(BrickDefine.BRICK_TYPE));
-		   
+		    spinner.setSelection(getIndexFromElementPicture(adapter, brick.get(BrickDefine.BRICK_VALUE)));
 //		    LayoutParams params = (LayoutParams) view.getLayoutParams();
 //		    params.addRule(RelativeLayout.ALIGN_BOTTOM, parent.getChildAt(size-1).getId());
 //		    view.setLayoutParams(params);
@@ -131,7 +128,7 @@ public class MainListViewAdapter extends BaseAdapter{
 					new String[] {MediaFileLoader.SOUND_THUMB, MediaFileLoader.SOUND_NAME},
 	                new int[] {R.id.PictureSpinnerImageView, R.id.PictureSpinnerTextView});
 			spinner.setAdapter(adapter);
-			spinner.setPrompt(brick.get(BrickDefine.BRICK_TYPE));
+			spinner.setSelection(0);
 			OnItemSelectedListener listener = new OnItemSelectedListener(){
 
 				@Override
@@ -148,10 +145,8 @@ public class MainListViewAdapter extends BaseAdapter{
 				
 			};
 		    spinner.setOnItemSelectedListener(listener);
-
-			
 			view.setBackgroundColor(Color.BLUE);
-			
+			spinner.setSelection(getIndexFromElementSound(adapter, brick.get(BrickDefine.BRICK_VALUE)));
 			return view;
 		}
 		case (BrickDefine.WAIT): 
@@ -209,7 +204,26 @@ public class MainListViewAdapter extends BaseAdapter{
 		
 		}
 	}
-
+  public int  getIndexFromElementPicture(SimpleAdapter adapter, String element) {
+	  ArrayList<HashMap<String, String>> arrayList = mMediaFileLoader.getPictureContent();
+    for(int i = 0; i < adapter.getCount(); i++) {
+      String value = arrayList.get(i).get(MediaFileLoader.PICTURE_PATH);
+	  if(value.equals((element))) {
+	    return i;
+	    }
+	  }
+	return 0;
+	}
+  public int  getIndexFromElementSound(SimpleAdapter adapter, String element) {
+	  ArrayList<HashMap<String, String>> arrayList = mMediaFileLoader.getSoundContent();
+    for(int i = 0; i < adapter.getCount(); i++) {
+      String value = arrayList.get(i).get(MediaFileLoader.SOUND_PATH);
+	  if(value.equals((element))) {
+	    return i;
+	    }
+	  }
+	return 0;
+	}
 	
 
 }
