@@ -53,6 +53,8 @@ public class ContentManager extends Observable{
 		mSpritesAndBackgroundList.clear();
 		mContentArrayList.clear();
 		mSpritesAndBackgroundList.add(mContentArrayList);
+		//Fill Dummy Stage
+		mSpritesAndBackgroundList.add(new ArrayList<HashMap<String,String>>());
         mCurrentSprite = 0;
 	}
 	
@@ -61,6 +63,8 @@ public class ContentManager extends Observable{
 		mSpritesAndBackgroundList.add(sprite);
 		switchSprite((mSpritesAndBackgroundList.size()));
 		mCurrentSprite = (mSpritesAndBackgroundList.size()-1);
+		switchSprite(mSpritesAndBackgroundList.size()-1);
+		//mCurrentSprite = (mSpritesAndBackgroundList.size()-1);
 	}
 	
 	public void remove(int position){
@@ -82,9 +86,11 @@ public class ContentManager extends Observable{
 	}
 	
 	public ContentManager(){
+		mSpritesAndBackgroundList= new ArrayList<ArrayList<HashMap<String, String>>>();
 		mContentArrayList = new ArrayList<HashMap<String, String>>();
 		mFilesystem = new FileSystem();
 		mParser = new Parser();
+		mSpritesAndBackgroundList.add(mContentArrayList);
 		mCurrentSprite = 0;
 	}
 	
@@ -106,8 +112,7 @@ public class ContentManager extends Observable{
 			mSpritesAndBackgroundList.clear();
 			mContentArrayList.clear();
 			
-		    //Comment in if Parser ready	
-			//mSpritesAndBackgroundList.addAll((mParser.parse(scratch)));
+			mSpritesAndBackgroundList.addAll((mParser.parse(scratch)));
 	        mContentArrayList.addAll(mSpritesAndBackgroundList.get(0));
             mCurrentSprite =0;
 	        try {
@@ -135,12 +140,11 @@ public class ContentManager extends Observable{
 	 */
 	public void saveContent(String file){
 		FileOutputStream fd = mFilesystem.createOrOpenFileOutput(file, mCtx);
-	    
-		//Incomment after Parser ready
-		//String xml = mParser.toXml(mSpritesAndBackgroundList);
+
+		String xml = mParser.toXml(mSpritesAndBackgroundList);
 		
 		try {
-			//fd.write(xml.getBytes());
+			fd.write(xml.getBytes());
 			fd.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -174,6 +178,9 @@ public class ContentManager extends Observable{
 	
 	public void setSpritesAndBackgroundList(ArrayList<ArrayList<HashMap<String, String>>> spritesAndBackground){
 		mSpritesAndBackgroundList = spritesAndBackground;
+		//Check for default stage Object
+		if(mSpritesAndBackgroundList.size() == 0)
+			mSpritesAndBackgroundList.add(new ArrayList<HashMap<String,String>>());
 	}
 	
 	public void switchSprite(int positionNewSprite){

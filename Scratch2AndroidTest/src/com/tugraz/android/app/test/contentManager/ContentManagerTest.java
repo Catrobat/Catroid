@@ -20,12 +20,23 @@ public class ContentManagerTest extends AndroidTestCase {
 	private ArrayList<HashMap<String, String>> mContentArrayList;
 	private ArrayList<ArrayList<HashMap<String, String>>> mSpritesAndBackgroundList;
 	
+	private Context mCtx;
+	private String FILENAME = "cmmanagerfile.txt";
+	
 	
 	@Override
 	protected void setUp() throws Exception {
 		mContentArrayList = new ArrayList<HashMap<String,String>>();
 		mSpritesAndBackgroundList = new ArrayList<ArrayList<HashMap<String, String>>>();
 		mContentManager = new ContentManager();
+		try {
+			mCtx = getContext().createPackageContext("com.tugraz.android.app", Context.CONTEXT_IGNORE_SECURITY);
+			mContentManager.setContext(mCtx);
+		} catch (NameNotFoundException e) {
+			assertFalse(true);
+		}
+		
+		
 		super.setUp();
 	}
 
@@ -112,8 +123,8 @@ public class ContentManagerTest extends AndroidTestCase {
         mSpritesAndBackgroundList.add(mContentArrayList);
 		
         mContentManager.clearSprites();
-        assertEquals(mContentArrayList.size(), 0);
-        assertEquals(mSpritesAndBackgroundList.size(), 0);
+        assertEquals(mContentManager.getContentArrayList().size(), 0);
+        assertEquals(mSpritesAndBackgroundList.size(), 1);
 	}
 	
 	public void testClear(){
@@ -142,7 +153,7 @@ public class ContentManagerTest extends AndroidTestCase {
         assertEquals(mContentArrayList.size(), 0);
 	}
 	
-	public void testAdd(){
+	public void testAddBrick(){
 		mContentManager.setContentArrayList(mContentArrayList);
 		
 		HashMap<String, String> map = new HashMap<String, String>();
@@ -155,9 +166,11 @@ public class ContentManagerTest extends AndroidTestCase {
         mContentArrayList = mContentManager.getContentArrayList();
         assertEquals(mContentArrayList.size(), 1);
         assertEquals(mContentArrayList.get(0), map);
+        
 	}
 	
 	public void testAddSprite(){
+		
 		mContentManager.setContentArrayList(mContentArrayList);
 		mContentManager.setSpritesAndBackgroundList(mSpritesAndBackgroundList);
 		
@@ -173,12 +186,13 @@ public class ContentManagerTest extends AndroidTestCase {
         
         mSpritesAndBackgroundList = mContentManager.getSpritesAndBackground();
         
-        assertEquals(mSpritesAndBackgroundList.size(), 1);
+        assertEquals(mSpritesAndBackgroundList.size(), 2);
         assertEquals(mSpritesAndBackgroundList.get(0), mContentArrayList);
 	}
 	
 	private String TESTXML =
 		"<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>"+
+		"<project>"+
 		"<stage>"+
 		  "<command id=\"1001\">"+
 		    "<image path=\"bla.jpg\" />"+
@@ -189,17 +203,25 @@ public class ContentManagerTest extends AndroidTestCase {
 		  "<command id=\"2001\">"+
 		    "<sound path=\"bla.mp3\" />"+
 		  "</command>"+
-		"</stage>";
+		"</stage>"+
+		"<sprite>"+
+		  "<command id=\"4003\">"+
+		    "<image path=\"bla.jpg\" />"+
+		  "</command>"+
+		  "<command id=\"3001\">"+
+		  	"<x>5</x>"+
+		  	"<y>7</y>"+
+		  "</command>"+
+		  "<command id=\"4001\" />"+
+		  "<command id=\"4002\" />"+
+		  "<command id=\"4003\">"+
+		    "<image path=\"bla.jpg\" />"+
+		  "</command>"+
+		"</sprite>"+
+		"</project>";
 	
-	private Context mCtx;
-	private String FILENAME = "cmmanagerfile.txt";
+
 	public void testLoadContent(){
-		try {
-			mCtx = getContext().createPackageContext("com.tugraz.android.app", Context.CONTEXT_IGNORE_SECURITY);
-			mContentManager.setContext(mCtx);
-		} catch (NameNotFoundException e) {
-			assertFalse(true);
-		}
 		
 		 try {     
              // ##### Write a file to the disk #####
@@ -230,12 +252,7 @@ public class ContentManagerTest extends AndroidTestCase {
 	}
 	
 	public void testSaveContentLoadContent(){
-		try {
-			mCtx = getContext().createPackageContext("com.tugraz.android.app", Context.CONTEXT_IGNORE_SECURITY);
-			mContentManager.setContext(mCtx);
-		} catch (NameNotFoundException e) {
-			assertFalse(true);
-		}
+
 		HashMap<String, String> map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "1");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
@@ -255,6 +272,9 @@ public class ContentManagerTest extends AndroidTestCase {
         map.put(BrickDefine.BRICK_VALUE, "blabla2");
         mContentArrayList.add(map);
         mContentManager.setContentArrayList(mContentArrayList);
+        mSpritesAndBackgroundList.add(mContentArrayList);
+        
+        mContentManager.setSpritesAndBackgroundList(mSpritesAndBackgroundList);
         
         mContentManager.saveContent();
         mContentManager.clear();
