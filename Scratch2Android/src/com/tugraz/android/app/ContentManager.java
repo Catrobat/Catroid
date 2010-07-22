@@ -25,7 +25,7 @@ public class ContentManager extends Observable{
 	private FileSystem mFilesystem;
 	private Parser mParser;
 	private Context mCtx;
-	private static final String tempFile = "tempFile.txt";
+	private static final String mTempFile = "tempFile.txt";
 	
 	public ArrayList<HashMap<String, String>> getContentArrayList(){
 		return mContentArrayList;
@@ -60,26 +60,7 @@ public class ContentManager extends Observable{
 	 * load content into data structure
 	 */
 	public void loadContent(){
-		loadContent(tempFile);
-	  
-		//load
-		/*FileInputStream scratch = mFilesystem.createOrOpenFileInput(tempFile, mCtx);
-        
-		//parse
-		mContentArrayList.clear();
-		mContentArrayList.addAll(mParser.parse(scratch));
-
-        try {
-			scratch.close();
-	  } catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	  }
-	  	clear();
-	    //testSet();
-	  
-        setChanged();
-        notifyObservers();*/
+		loadContent(mTempFile);
 	}
 	/**
 	 * load content into data structure
@@ -110,19 +91,7 @@ public class ContentManager extends Observable{
 	 * save content
 	 */
 	public void saveContent(){
-		FileOutputStream fd = mFilesystem.createOrOpenFileOutput(tempFile, mCtx);
-	    
-		String xml = mParser.toXml(mContentArrayList);
-		
-		try {
-			fd.write(xml.getBytes());
-			fd.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
+		saveContent(mTempFile);	
 	}
 	
 	/**
