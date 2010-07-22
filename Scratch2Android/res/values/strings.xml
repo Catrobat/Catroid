@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    
     <string name="delete">Löschen</string>
     <string name="remove">Verschieben</string>
     
@@ -8,7 +9,8 @@
     <string name="app_name">Scratch2Android</string>
     
     <string name="construction_site">Baustelle</string>
-    <string name="toolbar">B\nA\nU\nK\nA\nS\nT\nE\nN</string>
+    <string name="toolbar">S\nT\nE\nI\nN\nE\n</string>
+    <string name="sprites">O\nB\nI\nJ\nE\nK\nT\nE\n</string>
     <string name="stage">Bühne</string>
     
     <string name="construction_site_play">Zur Bühne</string>
