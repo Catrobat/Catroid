@@ -48,9 +48,11 @@ public class Parser {
 	 * @param stream the input stream to read out
 	 * @return a ArrayList of of HashMaps representing the bricks
 	 */
-	public ArrayList<HashMap<String, String>> parse(InputStream stream){
-		ArrayList<HashMap<String, String>> mList = new ArrayList<HashMap<String,String>>();
+	public ArrayList<ArrayList<HashMap<String, String>>> parse(InputStream stream){
+		ArrayList<ArrayList<HashMap<String, String>>> list = new ArrayList<ArrayList<HashMap<String,String>>>();
+		ArrayList<HashMap<String, String>> sublist = new ArrayList<HashMap<String,String>>();
 		mIdCounter = 1;
+		
 		try {
 			doc = builder.parse(stream);	
 		}
@@ -72,18 +74,19 @@ public class Parser {
 					value = bricks.item(i).getFirstChild().getNodeValue();
 			}
 			HashMap<String, String> map = getBrickMap(value, brickType);
-			mList.add(map);
+			sublist.add(map);
+			list.add(sublist);
 			mIdCounter++;
 			
 		}
-		return mList;
+		return list;
 	}
 
 	/**
 	 * Writes the brick list to an XML file
 	 * @param an ArrayList of HashMaps containing the bricks
 	 */
-	public String toXml(ArrayList<HashMap<String,String>> brickList) {
+	public String toXml(ArrayList<ArrayList<HashMap<String,String>>> brickList) {
 		doc = builder.newDocument(); //TODO eventuell nachher checken ob sich was veraendert hat und nur das aendern
 		XmlSerializer serializer = Xml.newSerializer();
 		StringWriter writer = new StringWriter();
@@ -93,7 +96,7 @@ public class Parser {
 	    	serializer.startDocument("UTF-8", true);
 	    	serializer.startTag("", "stage");
 	    	for (int i=0; i<brickList.size(); i++) {
-	    		HashMap<String,String> brick = brickList.get(i);
+	    		HashMap<String,String> brick = brickList.get(0).get(i);
 	    		
 				switch (Integer.parseInt(brick.get(BrickDefine.BRICK_TYPE))){ //TODO nicht bei jedem durchlauf neue elemente erzeugen sonder nur clonen
 				case BrickDefine.SET_BACKGROUND:
