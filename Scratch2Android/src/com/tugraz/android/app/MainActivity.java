@@ -35,6 +35,7 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
     /** Called when the activity is first created. */
 	
 	static final int TOOLBOX_DIALOG = 0;
+	static final int SPRITETOOLBOX_DIALOG = 1;
 	
 	protected ListView mMainListView;
 	private MainListViewAdapter mAdapter;
@@ -44,6 +45,10 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 	private Button mToolboxButton;
 	private ToolboxDialog mToolboxDialog;
 
+	private Button mSpritesToolboxButton;
+    //TODO Eigener ToolboxDialog und eigener ToolboxAdapter
+	private ToolboxDialog mSpritesToolboxDialog;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +70,8 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
         
         mToolboxButton = (Button) this.findViewById(R.id.toolbar_button);
 		mToolboxButton.setOnClickListener(this);
+		
+		mSpritesToolboxButton = (Button) this.findViewById(R.id.sprites_button);
     }
 
     
@@ -74,6 +81,10 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
         	mToolboxDialog = new ToolboxDialog(this, true, null, 0); //TODO passen argumente so?  
         	mToolboxDialog.setContentManager(mContentManager);
             break;
+        case SPRITETOOLBOX_DIALOG:
+        	mToolboxDialog = new ToolboxDialog(this, true, null, 0);
+        	mToolboxDialog.setContentManager(mContentManager);
+        	break;
         default:
             mToolboxDialog = null;
         }
@@ -157,12 +168,20 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 		if (v.getId() == R.id.toolbar_button) {
 			openToolbox();
 		}
+		else if (v.getId() == R.id.sprites_button){
+			openSpriteToolbox();
+		}
 		
 	}
 		
 	private void openToolbox(){
 		showDialog(TOOLBOX_DIALOG);
 		
+	}
+	
+	private void openSpriteToolbox()
+	{
+		showDialog(SPRITETOOLBOX_DIALOG);
 	}
 	
 	public ToolboxDialog getToolboxDialog(){

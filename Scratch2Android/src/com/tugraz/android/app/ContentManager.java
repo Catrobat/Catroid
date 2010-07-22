@@ -39,8 +39,11 @@ public class ContentManager extends Observable{
 	}
 	
 	public void removeSprite(int position){
+		if(position != 0)
+		{
 		mSpritesAndBackgroundList.remove(position);
-		if(mCurrentSprite == position)
+		}
+		if(mCurrentSprite == position)		
 		{
 			mContentArrayList = mSpritesAndBackgroundList.get(position);
 		}
@@ -49,6 +52,7 @@ public class ContentManager extends Observable{
 	public void clearSprites(){
 		mSpritesAndBackgroundList.clear();
 		mContentArrayList.clear();
+		mSpritesAndBackgroundList.add(mContentArrayList);
         mCurrentSprite = 0;
 	}
 	
@@ -69,7 +73,6 @@ public class ContentManager extends Observable{
 		mContentArrayList.clear();
         setChanged();
 		notifyObservers();
-		
 	}
 	
 	public void add(HashMap<String, String> map){
