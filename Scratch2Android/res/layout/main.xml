@@ -2,6 +2,7 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="#606060"
     >
 <Button
 	android:id="@+id/toolbar_button"
@@ -9,18 +10,18 @@
 	android:layout_height="fill_parent"
 	android:text="@string/toolbar"
 	 />
-<TextView 
-	android:id="@+id/construction_site_header" 
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content"
-    android:layout_toRightOf="@id/toolbar_button" 
-    android:text="@string/construction_site"/>
+<!--<TextView -->
+<!--	android:id="@+id/construction_site_header" -->
+<!--    android:layout_width="fill_parent" -->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:layout_toRightOf="@id/toolbar_button" -->
+<!--    android:text="@string/construction_site"/>-->
 <ListView 
 	android:id="@+id/MainListView"
 	android:layout_width="wrap_content" 
 	android:layout_height="wrap_content" 
 	android:layout_toRightOf="@id/toolbar_button"
-	android:layout_below="@id/construction_site_header"
+	android:padding="2dip"
 	 />
 
 </RelativeLayout>
