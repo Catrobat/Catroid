@@ -49,8 +49,8 @@ public class StageActivity extends Activity implements OnCompletionListener,
 		setContentView(R.layout.stage);
 		addContentView(mStage, params);
 
-		// we only want portrait mode atm
-		// setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		// we only want portrait mode atm, otherwise the program crashes
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 	}
 
@@ -100,6 +100,11 @@ public class StageActivity extends Activity implements OnCompletionListener,
 							// die stage schon laueft nicht
 		if (mStage.getThread().isRunning()) {
 			mStage.getThread().setRunning(false);
+
+			if (mMediaPlayer.isPlaying()){
+				mMediaPlayer.stop();
+				mMediaPlayer.release();
+			}
 		}
 
 		mStage.getThread().setRunning(true); // TODO gehoert das hier her??
@@ -113,14 +118,14 @@ public class StageActivity extends Activity implements OnCompletionListener,
 	 * executes the next command from the contentArrayList of the contentManager
 	 */
 	private void doNextCommand() {
-		if (mContentManager.mContentArrayList.size() <= mCommandCount) { 
+		if (mContentManager.getContentArrayList().size() <= mCommandCount) { 
 			// abort if mCommandCount has run through all commands to execute															
 			mCommandCount = 0;
 			return;
 		}
 		mMediaPlayer.setOnCompletionListener(this);
 
-		HashMap<String, String> map = mContentManager.mContentArrayList
+		HashMap<String, String> map = mContentManager.getContentArrayList()
 				.get(mCommandCount);
 
 		int type = Integer.parseInt(map.get(BrickDefine.BRICK_TYPE));

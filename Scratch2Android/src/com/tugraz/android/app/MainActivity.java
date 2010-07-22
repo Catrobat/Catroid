@@ -11,6 +11,7 @@ import android.content.Context;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract.CommonDataKinds.BaseTypes;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -23,6 +24,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -49,15 +51,15 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
         mContentManager = new ContentManager();
         mContentManager.setObserver(this);
         mContentManager.setContext(this);
-        mAdapter = new MainListViewAdapter(this, mContentManager.mContentArrayList);
+        mAdapter = new MainListViewAdapter(this, mContentManager.getContentArrayList());
         
         mMainListView = (ListView) findViewById(R.id.MainListView);
         mMainListView.setAdapter(mAdapter);
         
         //Testing
-        //mContentManager.testSet();
+        mContentManager.testSet();
         //mContentManager.saveContent();
-        mContentManager.loadContent();
+        //mContentManager.loadContent();
         
         this.registerForContextMenu(mMainListView);
         
@@ -70,6 +72,7 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
         switch(id) { //TODO kommt er hier nur einmal her oder bei jedem aufruf?
         case TOOLBOX_DIALOG:
         	mToolboxDialog = new ToolboxDialog(this, true, null, 0); //TODO passen argumente so?  
+        	mToolboxDialog.setContentManager(mContentManager);
             break;
         default:
             mToolboxDialog = null;
@@ -126,7 +129,7 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
         }
     }
 
-	@Override
+	
 	public void update(Observable observable, Object data) {
 		Log.d("View1", mAdapter.mList.toString());
 		Log.d("View1", mMainListView.toString());
@@ -143,7 +146,13 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 		super.onStop();
 	}
 	
-	@Override
+	public void onPause()
+	{
+		mContentManager.saveContent();
+		super.onPause();
+	}
+	
+	
 	public void onClick(View v) {
 		if (v.getId() == R.id.toolbar_button) {
 			openToolbox();
