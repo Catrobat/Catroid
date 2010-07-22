@@ -47,7 +47,7 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 
 	private Button mSpritesToolboxButton;
     //TODO Eigener ToolboxDialog und eigener ToolboxAdapter
-	private ToolboxDialog mSpritesToolboxDialog;
+	private ToolboxSpritesDialog mSpritesToolboxDialog;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,16 +81,16 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
         case TOOLBOX_DIALOG:
         	mToolboxDialog = new ToolboxDialog(this, true, null, 0); //TODO passen argumente so?  
         	mToolboxDialog.setContentManager(mContentManager);
-            break;
+        	return mToolboxDialog;
         case SPRITETOOLBOX_DIALOG:
-        	mToolboxDialog = new ToolboxDialog(this, true, null, 0);
-        	mToolboxDialog.setContentManager(mContentManager);
-        	break;
+        	mSpritesToolboxDialog = new ToolboxSpritesDialog(this, true, null, 0);
+        	mSpritesToolboxDialog.setContentManager(mContentManager);
+        	return mSpritesToolboxDialog;
         default:
             mToolboxDialog = null;
+            return mToolboxDialog;
         }
-        return mToolboxDialog;
-
+       
     }
 	
     @Override
