@@ -14,12 +14,14 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
+
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
@@ -91,6 +93,7 @@ public class MainListViewAdapter extends BaseAdapter{
 			final SimpleAdapter adapter = new SimpleAdapter(mCtx, mMediaFileLoader.getPictureContent(), R.layout.picture_spinner,
 					new String[] {MediaFileLoader.PICTURE_THUMB, MediaFileLoader.PICTURE_NAME},
 	                new int[] {R.id.PictureSpinnerImageView, R.id.PictureSpinnerTextView});
+			
 			spinner.setAdapter(adapter);
 			OnItemSelectedListener listener = new OnItemSelectedListener(){
 
@@ -108,6 +111,12 @@ public class MainListViewAdapter extends BaseAdapter{
 				
 			};
 		    spinner.setOnItemSelectedListener(listener);
+		    spinner.setPrompt((CharSequence)brick.get(BrickDefine.BRICK_TYPE));
+		   
+//		    LayoutParams params = (LayoutParams) view.getLayoutParams();
+//		    params.addRule(RelativeLayout.ALIGN_BOTTOM, parent.getChildAt(size-1).getId());
+//		    view.setLayoutParams(params);
+
 			return view;
 		}
 		case (BrickDefine.PLAY_SOUND): 
@@ -122,6 +131,7 @@ public class MainListViewAdapter extends BaseAdapter{
 					new String[] {MediaFileLoader.SOUND_THUMB, MediaFileLoader.SOUND_NAME},
 	                new int[] {R.id.PictureSpinnerImageView, R.id.PictureSpinnerTextView});
 			spinner.setAdapter(adapter);
+			spinner.setPrompt(brick.get(BrickDefine.BRICK_TYPE));
 			OnItemSelectedListener listener = new OnItemSelectedListener(){
 
 				@Override
@@ -153,7 +163,7 @@ public class MainListViewAdapter extends BaseAdapter{
 	          EditText etext = (EditText) view.getChildAt(1);
 	          etext.setText("1");
 	          
-etext.setText(brick.get(BrickDefine.BRICK_VALUE));
+	          etext.setText(brick.get(BrickDefine.BRICK_VALUE));
 	          
 	          etext.addTextChangedListener(new TextWatcher()
 	          {
