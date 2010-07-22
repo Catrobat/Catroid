@@ -10,6 +10,7 @@ public class BrickDefine {
 	public static final String BRICK_ID = "brick_id";
 	public static final String BRICK_NAME = "brick_name";
 	public static final String BRICK_VALUE = "brick_value";
+	public static final String BRICK_VALUE_1 = "brick_value_1";
 	public static final String BRICK_TYPE = "brick_type";
 	// definition xyyy x = group y = brick id
 	

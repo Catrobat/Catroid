@@ -24,6 +24,7 @@ public class ParserTest extends TestCase {
 	
 	private String testXml =
 	"<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>"+
+	"<project>"+
 	"<stage>"+
 	  "<command id=\"1001\">"+
 	    "<image path=\"bla.jpg\" />"+
@@ -36,10 +37,20 @@ public class ParserTest extends TestCase {
 	  "</command>"+
 	"</stage>"+
 	"<sprite>"+
-	  "<command id=\"1001\">"+
+	  "<command id=\"4003\">"+
 	    "<image path=\"bla.jpg\" />"+
 	  "</command>"+
-	"</sprite>";
+	  "<command id=\"3001\">"+
+	  	"<x>5</x>"+
+	  	"<y>7</y>"+
+	  "</command>"+
+	  "<command id=\"4001\" />"+
+	  "<command id=\"4002\" />"+
+	  "<command id=\"4003\">"+
+	    "<image path=\"bla.jpg\" />"+
+	  "</command>"+
+	"</sprite>"+
+	"</project>";
 	
 	
 	public ParserTest(String name) {

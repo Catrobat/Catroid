@@ -93,8 +93,7 @@ public class ContentManager extends Observable{
 			mSpritesAndBackgroundList.clear();
 			mContentArrayList.clear();
 			
-		    //Comment in if Parser ready	
-			//mSpritesAndBackgroundList.addAll((mParser.parse(scratch)));
+			mSpritesAndBackgroundList.addAll((mParser.parse(scratch)));
 	        mContentArrayList.addAll(mSpritesAndBackgroundList.get(0));
 
 	        try {
@@ -122,9 +121,8 @@ public class ContentManager extends Observable{
 	 */
 	public void saveContent(String file){
 		FileOutputStream fd = mFilesystem.createOrOpenFileOutput(file, mCtx);
-	    
-		//Incomment after Parser ready
-		//String xml = mParser.toXml(mSpritesAndBackgroundList);
+
+		String xml = mParser.toXml(mSpritesAndBackgroundList);
 		
 		try {
 			//fd.write(xml.getBytes());

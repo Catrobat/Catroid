@@ -12,6 +12,7 @@ import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 import org.w3c.dom.NodeList;
 import org.xmlpull.v1.XmlSerializer;
@@ -43,14 +44,8 @@ public class Parser {
 		}
 	}
 	
-	/**
-	 * Parses the project file and returns an ArrayList with the bricks
-	 * @param stream the input stream to read out
-	 * @return a ArrayList of of HashMaps representing the bricks
-	 */
 	public ArrayList<ArrayList<HashMap<String, String>>> parse(InputStream stream){
 		ArrayList<ArrayList<HashMap<String, String>>> list = new ArrayList<ArrayList<HashMap<String,String>>>();
-		ArrayList<HashMap<String, String>> sublist = new ArrayList<HashMap<String,String>>();
 		mIdCounter = 1;
 		
 		try {
@@ -60,93 +55,171 @@ public class Parser {
 			Log.e("Parser", "A parser error occured");
 			e.printStackTrace();
 		}
-		NodeList bricks = doc.getElementsByTagName("command");
+		Node stage = doc.getElementsByTagName("stage").item(0);
+		NodeList sprites = doc.getElementsByTagName("sprite");
+		
+		// first read out stage objects
+		NodeList bricks = stage.getChildNodes();
+		ArrayList<HashMap<String, String>> sublist = new ArrayList<HashMap<String,String>>();
 		for (int i=0; i<bricks.getLength(); i++) {
 			int brickType = Integer.parseInt(bricks.item(i).getAttributes().getNamedItem("id").getNodeValue());
 			String value = "";
+			String value1 = "";
 			switch (brickType){
-			case BrickDefine.SET_BACKGROUND:
-			case BrickDefine.PLAY_SOUND:
-				value = bricks.item(i).getFirstChild().getAttributes().getNamedItem("path").getNodeValue();
-				break;
-			case BrickDefine.WAIT:
-				//if (commands.item(i).getNodeValue() != null)
+				case BrickDefine.SET_BACKGROUND:
+				case BrickDefine.PLAY_SOUND:
+				case BrickDefine.SET_COSTUME:
+					value = bricks.item(i).getFirstChild().getAttributes().getNamedItem("path").getNodeValue();
+					break;
+				case BrickDefine.WAIT:
 					value = bricks.item(i).getFirstChild().getNodeValue();
+					break;
+				case BrickDefine.GO_TO:
+					value = bricks.item(i).getFirstChild().getFirstChild().getNodeValue();
+					value1 = bricks.item(i).getLastChild().getFirstChild().getNodeValue();
+					break;
 			}
-			HashMap<String, String> map = getBrickMap(value, brickType);
+			HashMap<String, String> map = getBrickMap(value, value1, brickType);
 			sublist.add(map);
-			list.add(sublist);
+			
 			mIdCounter++;
 			
 		}
+		
+		list.add(sublist);
+		
+		//then read out sprites
+		for (int j=0; j<sprites.getLength(); j++){
+			bricks = sprites.item(j).getChildNodes();
+			sublist = new ArrayList<HashMap<String,String>>();
+			for (int i=0; i<bricks.getLength(); i++) {
+				int brickType = Integer.parseInt(bricks.item(i).getAttributes().getNamedItem("id").getNodeValue());
+				String value = "";
+				String value1 = "";
+				switch (brickType){
+					case BrickDefine.SET_BACKGROUND:
+					case BrickDefine.PLAY_SOUND:
+					case BrickDefine.SET_COSTUME:
+						value = bricks.item(i).getFirstChild().getAttributes().getNamedItem("path").getNodeValue();
+						break;
+					case BrickDefine.WAIT:
+						value = bricks.item(i).getFirstChild().getNodeValue();
+						break;
+					case BrickDefine.GO_TO:
+						value = bricks.item(i).getFirstChild().getFirstChild().getNodeValue();
+						value1 = bricks.item(i).getLastChild().getFirstChild().getNodeValue();
+						break;
+				}
+				HashMap<String, String> map = getBrickMap(value, value1, brickType);
+				sublist.add(map);
+				mIdCounter++;
+				
+			}
+			list.add(sublist);
+		}
+		
 		return list;
 	}
 
-	/**
-	 * Writes the brick list to an XML file
-	 * @param an ArrayList of HashMaps containing the bricks
-	 */
 	public String toXml(ArrayList<ArrayList<HashMap<String,String>>> brickList) {
 		doc = builder.newDocument(); //TODO eventuell nachher checken ob sich was veraendert hat und nur das aendern
 		XmlSerializer serializer = Xml.newSerializer();
 		StringWriter writer = new StringWriter();
-	    try {
-	    	
+    	
+		try {
 	    	serializer.setOutput(writer);
 	    	serializer.startDocument("UTF-8", true);
-	    	serializer.startTag("", "stage");
-	    	for (int i=0; i<brickList.size(); i++) {
-	    		HashMap<String,String> brick = brickList.get(0).get(i);
-	    		
-				switch (Integer.parseInt(brick.get(BrickDefine.BRICK_TYPE))){ //TODO nicht bei jedem durchlauf neue elemente erzeugen sonder nur clonen
-				case BrickDefine.SET_BACKGROUND:
-//					Element bkgCommand = doc.createElement("command");
-//					bkgCommand.setAttribute("id", Integer.toString(CMD_SET_BACKGROUND));
-//					Element image = doc.createElement("image");
-//					image.setAttribute("path", command.path);
-//					bkgCommand.appendChild(image);
-//					doc.appendChild(bkgCommand);
-					serializer.startTag("", "command");
-					serializer.attribute("", "id", Integer.toString(BrickDefine.SET_BACKGROUND));
-					serializer.startTag("", "image");
-					serializer.attribute("", "path", brick.get(BrickDefine.BRICK_VALUE));
-					serializer.endTag("", "image");
-					serializer.endTag("", "command");
-					break;
-				case BrickDefine.PLAY_SOUND:
-//					Element soundCommand = doc.createElement("command");
-//					soundCommand.setAttribute("id", Integer.toString(CMD_SET_SOUND));
-//					Element sound = doc.createElement("sound");
-//					sound.setAttribute("path", command.path);
-//					soundCommand.appendChild(sound);
-//					doc.appendChild(soundCommand);
-					serializer.startTag("", "command");
-					serializer.attribute("", "id", Integer.toString(BrickDefine.PLAY_SOUND));
-					serializer.startTag("", "sound");
-					serializer.attribute("", "path", brick.get(BrickDefine.BRICK_VALUE));
-					serializer.endTag("", "sound");
-					serializer.endTag("", "command");
-					break;
-				case BrickDefine.WAIT:
-//					Element waitCommand = doc.createElement("command");
-//					waitCommand.setAttribute("id", Integer.toString(CMD_WAIT));
-//					waitCommand.setNodeValue(Integer.toString(command.time));
-//					doc.appendChild(waitCommand);
-					serializer.startTag("", "command");
-					serializer.attribute("", "id", Integer.toString(BrickDefine.WAIT));
-					serializer.text(brick.get(BrickDefine.BRICK_VALUE));
-					serializer.endTag("", "command");
-					break;
-				}	
-	    	}
-	    	serializer.endTag("", "stage");
-	    	serializer.endDocument();
-	    	//return writer.toString();
+	    	serializer.startTag("", "project");
 		}
-	    catch (Exception e){
+		catch (Exception e){
 	    	Log.e("Parser","An error occured in toXml");
 	    	e.printStackTrace();
-	    }
+		}
+		
+		for (int j=0; j<brickList.size(); j++) {
+		    try {
+		    	if (j==0)
+		    		serializer.startTag("", "stage");
+		    	else
+		    		serializer.startTag("", "sprite");
+		    	for (int i=0; i<brickList.get(j).size(); i++) {
+		    		HashMap<String,String> brick = brickList.get(j).get(i);
+		    		
+					switch (Integer.parseInt(brick.get(BrickDefine.BRICK_TYPE))){ //TODO nicht bei jedem durchlauf neue elemente erzeugen sonder nur clonen
+					case BrickDefine.SET_BACKGROUND:
+						serializer.startTag("", "command");
+						serializer.attribute("", "id", Integer.toString(BrickDefine.SET_BACKGROUND));
+						serializer.startTag("", "image");
+						serializer.attribute("", "path", brick.get(BrickDefine.BRICK_VALUE));
+						serializer.endTag("", "image");
+						serializer.endTag("", "command");
+						break;
+					case BrickDefine.PLAY_SOUND:
+						serializer.startTag("", "command");
+						serializer.attribute("", "id", Integer.toString(BrickDefine.PLAY_SOUND));
+						serializer.startTag("", "sound");
+						serializer.attribute("", "path", brick.get(BrickDefine.BRICK_VALUE));
+						serializer.endTag("", "sound");
+						serializer.endTag("", "command");
+						break;
+					case BrickDefine.WAIT:
+						serializer.startTag("", "command");
+						serializer.attribute("", "id", Integer.toString(BrickDefine.WAIT));
+						serializer.text(brick.get(BrickDefine.BRICK_VALUE));
+						serializer.endTag("", "command");
+						break;
+					case BrickDefine.HIDE:
+						serializer.startTag("", "command");
+						serializer.attribute("", "id", Integer.toString(BrickDefine.HIDE));
+						serializer.endTag("", "command");
+						break;
+					case BrickDefine.SHOW:
+						serializer.startTag("", "command");
+						serializer.attribute("", "id", Integer.toString(BrickDefine.SHOW));
+						serializer.endTag("", "command");
+						break;
+					case BrickDefine.SET_COSTUME:
+						serializer.startTag("", "command");
+						serializer.attribute("", "id", Integer.toString(BrickDefine.SET_COSTUME));
+						serializer.startTag("", "image");
+						serializer.attribute("", "path", brick.get(BrickDefine.BRICK_VALUE));
+						serializer.endTag("", "image");
+						serializer.endTag("", "command");
+						break;
+					case BrickDefine.GO_TO:
+						serializer.startTag("", "command");
+						serializer.attribute("", "id", Integer.toString(BrickDefine.GO_TO));
+						serializer.startTag("", "x");
+						serializer.text(brick.get(BrickDefine.BRICK_VALUE));
+						serializer.endTag("", "x");
+						serializer.startTag("", "y");
+						serializer.text(brick.get(BrickDefine.BRICK_VALUE_1));
+						serializer.endTag("", "y");
+						serializer.endTag("", "command");
+						break;
+					
+					}	
+		    	}
+		    	if (j==0)
+		    		serializer.endTag("", "stage");
+		    	else
+		    		serializer.endTag("", "sprite");
+
+			}
+		    catch (Exception e){
+		    	Log.e("Parser","An error occured in toXml");
+		    	e.printStackTrace();
+		    }
+		}
+
+		try{ 
+			serializer.endTag("", "project");
+			serializer.endDocument();
+		}
+		catch (Exception e){
+			Log.e("Parser","An error occured in toXml");
+	    	e.printStackTrace();
+		}
 	    
 	    return writer.toString();
 		
@@ -154,16 +227,21 @@ public class Parser {
 	}
 	
 	private HashMap<String, String> getBrickMap(String value, int type) {
-		return getBrickMap("Name", value, type);
+		return getBrickMap("Name", value, "", type);
 	}
 	
-	private HashMap<String, String> getBrickMap(String name, String value, int type) {
+	private HashMap<String, String> getBrickMap(String value, String value1, int type) {
+		return getBrickMap("Name", value, value1, type);
+	}
+	
+	private HashMap<String, String> getBrickMap(String name, String value, String value1, int type) {
 		HashMap<String, String> map = new HashMap<String, String>();
 		
 		map.put(BrickDefine.BRICK_ID, Integer.toString(mIdCounter));
 	    map.put(BrickDefine.BRICK_TYPE, String.valueOf(type));
 	    map.put(BrickDefine.BRICK_NAME, name);
 	    map.put(BrickDefine.BRICK_VALUE, value);
+	    map.put(BrickDefine.BRICK_VALUE_1, value1);
 		
 		
 		return map;
