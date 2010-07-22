@@ -39,25 +39,42 @@ public class ContentManager extends Observable{
 	}
 	
 	public void removeSprite(int position){
+		if(position != 0)
+		{
 		mSpritesAndBackgroundList.remove(position);
-		if(mCurrentSprite == position)
+		}
+		if(mCurrentSprite == position)		
 		{
 			mContentArrayList = mSpritesAndBackgroundList.get(position);
+			setChanged();
+			notifyObservers();
+		}
+		if(mSpritesAndBackgroundList.size() == 0)
+		{
+			//Fill Dummy Stage
+			mSpritesAndBackgroundList.add(new ArrayList<HashMap<String,String>>());
+			setChanged();
+			notifyObservers();
 		}
 	}
 	
 	public void clearSprites(){
 		mSpritesAndBackgroundList.clear();
 		mContentArrayList.clear();
+		mSpritesAndBackgroundList.add(mContentArrayList);
 		//Fill Dummy Stage
 		mSpritesAndBackgroundList.add(new ArrayList<HashMap<String,String>>());
         mCurrentSprite = 0;
+        setChanged();
+		notifyObservers();
 	}
 	
 	public void addSprite(ArrayList<HashMap<String, String>> sprite)
 	{
 		mSpritesAndBackgroundList.add(sprite);
 		switchSprite(mSpritesAndBackgroundList.size()-1);
+		mCurrentSprite = (mSpritesAndBackgroundList.size()-1);
+		//switchSprite(mSpritesAndBackgroundList.size()-1);
 		//mCurrentSprite = (mSpritesAndBackgroundList.size()-1);
 	}
 	
@@ -71,7 +88,6 @@ public class ContentManager extends Observable{
 		mContentArrayList.clear();
         setChanged();
 		notifyObservers();
-		
 	}
 	
 	public void add(HashMap<String, String> map){
@@ -116,7 +132,11 @@ public class ContentManager extends Observable{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	        
+			if(mSpritesAndBackgroundList.size() == 0)
+			{
+				//Fill Dummy Stage
+				mSpritesAndBackgroundList.add(new ArrayList<HashMap<String,String>>());
+			}
 	        setChanged();
 	        notifyObservers();
 		} 
@@ -160,7 +180,7 @@ public class ContentManager extends Observable{
         map.put(BrickDefine.BRICK_NAME, "Test3");
         map.put(BrickDefine.BRICK_VALUE, "/mnt/sdcard/See You Again.mp3");
         mContentArrayList.add(map);
-    }
+        }
 	
 	/**
 	 * test method
@@ -176,6 +196,8 @@ public class ContentManager extends Observable{
 		//Check for default stage Object
 		if(mSpritesAndBackgroundList.size() == 0)
 			mSpritesAndBackgroundList.add(new ArrayList<HashMap<String,String>>());
+		setChanged();
+		notifyObservers();
 	}
 	
 	public void switchSprite(int positionNewSprite){
@@ -184,6 +206,8 @@ public class ContentManager extends Observable{
 		mContentArrayList.clear();
 		mContentArrayList.addAll(mSpritesAndBackgroundList.get(positionNewSprite));
 		mCurrentSprite = positionNewSprite;
+		setChanged();
+		notifyObservers();
 	}
 	
 	public int getCurrentSprite(){
