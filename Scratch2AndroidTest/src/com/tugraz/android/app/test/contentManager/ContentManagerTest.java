@@ -170,6 +170,7 @@ public class ContentManagerTest extends AndroidTestCase {
 	}
 	
 	public void testAddSprite(){
+		
 		mContentManager.setContentArrayList(mContentArrayList);
 		mContentManager.setSpritesAndBackgroundList(mSpritesAndBackgroundList);
 		
@@ -185,7 +186,7 @@ public class ContentManagerTest extends AndroidTestCase {
         
         mSpritesAndBackgroundList = mContentManager.getSpritesAndBackground();
         
-        assertEquals(mSpritesAndBackgroundList.size(), 1);
+        assertEquals(mSpritesAndBackgroundList.size(), 2);
         assertEquals(mSpritesAndBackgroundList.get(0), mContentArrayList);
 	}
 	
