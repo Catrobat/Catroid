@@ -49,6 +49,8 @@ public class ContentManager extends Observable{
 	public void clearSprites(){
 		mSpritesAndBackgroundList.clear();
 		mContentArrayList.clear();
+		//Fill Dummy Stage
+		mSpritesAndBackgroundList.add(new ArrayList<HashMap<String,String>>());
         mCurrentSprite = 0;
 	}
 	
@@ -171,6 +173,9 @@ public class ContentManager extends Observable{
 	
 	public void setSpritesAndBackgroundList(ArrayList<ArrayList<HashMap<String, String>>> spritesAndBackground){
 		mSpritesAndBackgroundList = spritesAndBackground;
+		//Check for default stage Object
+		if(mSpritesAndBackgroundList.size() == 0)
+			mSpritesAndBackgroundList.add(new ArrayList<HashMap<String,String>>());
 	}
 	
 	public void switchSprite(int positionNewSprite){
