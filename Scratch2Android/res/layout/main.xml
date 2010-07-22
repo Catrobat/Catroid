@@ -4,24 +4,17 @@
     android:layout_height="fill_parent"
     android:background="#606060"
     >
-<Button
+<Button android:layout_width="wrap_content" android:id="@+id/sprites_button" android:text="@string/sprites" android:layout_below="@+id/toolbar_button" android:layout_toLeftOf="@+id/MainListView" android:layout_height="wrap_content"></Button><Button
 	android:id="@+id/toolbar_button"
 	android:layout_width="wrap_content"
-	android:layout_height="fill_parent"
-	android:text="@string/toolbar"
-	 />
+	android:text="@string/toolbar" android:layout_height="wrap_content"/>
 <!--<TextView -->
 <!--	android:id="@+id/construction_site_header" -->
 <!--    android:layout_width="fill_parent" -->
 <!--    android:layout_height="wrap_content"-->
 <!--    android:layout_toRightOf="@id/toolbar_button" -->
 <!--    android:text="@string/construction_site"/>-->
-<ListView 
-	android:id="@+id/MainListView"
-	android:layout_width="wrap_content" 
-	android:layout_height="wrap_content" 
-	android:layout_toRightOf="@id/toolbar_button"
-	android:padding="2dip"
-	 />
+<ListView android:id="@+id/MainListView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toRightOf="@id/toolbar_button" android:padding="2dip"></ListView>
+
 
 </RelativeLayout>
