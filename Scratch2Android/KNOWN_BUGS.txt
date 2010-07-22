@@ -1,0 +1,36 @@
+Known Bugs for Release 1 a.k.a. Apfelsaft:
+-------------------------------------------
+
+solving priority: high, medium, low
+
+--------
+high:
+--------
+
+- Wenn man auf der Buehne auf abspielen drueckt und dann nochmals auf abspielen drueckt stuerzt die app ab
+
+
+--------
+medium
+--------
+
+- es werden nicht fuer alle bilder thumbnails angezeigt
+
+
+--------
+low
+--------
+
+- Skalierung der bilder
+
+--------
+quick fixes: maybe implement a better solution later
+--------
+
+- von vertikal auf horizontale orientierung auf stage-> stürzt ab
+   -> landscape mode im moment deaktiviert
+
+
+
+
+
