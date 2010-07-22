@@ -55,8 +55,8 @@ public class ContentManager extends Observable{
 	public void addSprite(ArrayList<HashMap<String, String>> sprite)
 	{
 		mSpritesAndBackgroundList.add(sprite);
-		switchSprite((mSpritesAndBackgroundList.size()-1));
-		mCurrentSprite = (mSpritesAndBackgroundList.size()-1);
+		switchSprite(mSpritesAndBackgroundList.size()-1);
+		//mCurrentSprite = (mSpritesAndBackgroundList.size()-1);
 	}
 	
 	public void remove(int position){
@@ -79,9 +79,11 @@ public class ContentManager extends Observable{
 	}
 	
 	public ContentManager(){
+		mSpritesAndBackgroundList= new ArrayList<ArrayList<HashMap<String, String>>>();
 		mContentArrayList = new ArrayList<HashMap<String, String>>();
 		mFilesystem = new FileSystem();
 		mParser = new Parser();
+		mSpritesAndBackgroundList.add(mContentArrayList);
 		mCurrentSprite = 0;
 	}
 	
@@ -135,7 +137,7 @@ public class ContentManager extends Observable{
 		String xml = mParser.toXml(mSpritesAndBackgroundList);
 		
 		try {
-			//fd.write(xml.getBytes());
+			fd.write(xml.getBytes());
 			fd.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
