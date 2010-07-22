@@ -9,11 +9,6 @@ high:
 
 - Wenn man auf der Buehne auf abspielen drueckt und dann nochmals auf abspielen drueckt stuerzt die app ab
 
-- Background-Brick überdeckt andere bricks wenn mit thumbnail angezeigt
-
-- verschiedene bilder, klaenge bei baustelle werden dann oft zum ersten zurueckgesetzt -> bei ueberdeckung mit thumbnail 
-
-- wenn neuer baustein eingefügt wird werden die values von allen alten gelöscht
 
 --------
 medium
@@ -21,15 +16,12 @@ medium
 
 - es werden nicht fuer alle bilder thumbnails angezeigt
 
-- Skalierung der bilder
-
-
 
 --------
 low
 --------
 
-
+- Skalierung der bilder
 
 --------
 quick fixes: maybe implement a better solution later
