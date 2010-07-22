@@ -51,7 +51,7 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
         mContentManager = new ContentManager();
         mContentManager.setObserver(this);
         mContentManager.setContext(this);
-        mAdapter = new MainListViewAdapter(this, mContentManager.mContentArrayList);
+        mAdapter = new MainListViewAdapter(this, mContentManager.getContentArrayList());
         
         mMainListView = (ListView) findViewById(R.id.MainListView);
         mMainListView.setAdapter(mAdapter);
