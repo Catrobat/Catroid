@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import com.tugraz.android.app.BrickDefine;
 import com.tugraz.android.app.MainActivity;
+import com.tugraz.android.app.R;
 import com.tugraz.android.app.ToolboxDialog;
 
 import android.test.ActivityInstrumentationTestCase2;
@@ -38,12 +39,8 @@ public class ToolboxDialogTest extends ActivityInstrumentationTestCase2<MainActi
         
 	}
 	
-//	public void testPreConditions() {
-//		// we don't have preconditions atm
-//	}
-	
 	/**
-	 * NO AUTOMATED TEST
+	 * clicks on the toolbox button and checks if the toolbox is showing up
 	 */
 	public void testToolboxShowingUp() {
 		mActivity.runOnUiThread(
@@ -64,5 +61,39 @@ public class ToolboxDialogTest extends ActivityInstrumentationTestCase2<MainActi
 		
 	}
 
+//	public void testSetNewBrick() {
+//		mActivity.runOnUiThread(
+//				new Runnable() {
+//					public void run() {
+//						mButton.requestFocus();	
+//						
+//					}
+//				}
+//		);
+////		View view = (View) mListView.getChildAt(0);	
+////		TouchUtils.longClickView(this, view);
+////		this.sendKeys(KeyEvent.KEYCODE_DPAD_DOWN);
+//		this.sendKeys(KeyEvent.KEYCODE_DPAD_CENTER);
+//		
+//		mDialog = mActivity.getToolboxDialog();
+//		ListView view = (ListView) mActivity.findViewById(R.id.toolboxListView);
+//		View item = view.getChildAt(0);
+//		item.requestFocus();
+//		
+//		this.sendKeys(KeyEvent.KEYCODE_DPAD_CENTER);
+//		
+////		mActivity.runOnUiThread(
+////				new Runnable() {
+////					public void run() {
+////						item.requestFocus();	
+////						
+////					}
+////				}
+////		);
+//		
+//		
+//		assertTrue(true);
+//	}
+	
 
 }
