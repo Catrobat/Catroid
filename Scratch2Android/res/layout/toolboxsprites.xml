@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/toolboxsprites_layout" android:padding="10dp" android:background="#FA0" android:layout_height="fill_parent" android:layout_width="fill_parent">
+<ListView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/stageListView"></ListView>
+<ListView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/spritesListView"></ListView>
+</LinearLayout>

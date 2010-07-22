@@ -70,6 +70,7 @@ public class ContentManagerTest extends AndroidTestCase {
 	}
 	
 	public void testRemoveSprite(){
+		mSpritesAndBackgroundList.add(new ArrayList<HashMap<String,String>>());
 		HashMap<String, String> map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "1");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
@@ -100,9 +101,9 @@ public class ContentManagerTest extends AndroidTestCase {
         mSpritesAndBackgroundList.add(mContentArrayList);
 		
         mContentManager.setSpritesAndBackgroundList(mSpritesAndBackgroundList);
-        mContentManager.removeSprite(0);
+        mContentManager.removeSprite(1);
         
-        assertEquals(mSpritesAndBackgroundList.get(0).get(1).get(BrickDefine.BRICK_ID), "4");
+        assertEquals(mSpritesAndBackgroundList.get(1).get(1).get(BrickDefine.BRICK_ID), "4");
         
 	}
 	
