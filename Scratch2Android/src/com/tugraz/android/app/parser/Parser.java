@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TreeMap;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -44,8 +45,8 @@ public class Parser {
 		}
 	}
 	
-	public ArrayList<ArrayList<HashMap<String, String>>> parse(InputStream stream){
-		ArrayList<ArrayList<HashMap<String, String>>> list = new ArrayList<ArrayList<HashMap<String,String>>>();
+	public TreeMap<String, ArrayList<HashMap<String, String>>> parse(InputStream stream){
+		TreeMap<String, ArrayList<HashMap<String, String>>> list = new TreeMap<String, ArrayList<HashMap<String,String>>>();
 		mIdCounter = 1;
 		
 		try {
@@ -86,12 +87,14 @@ public class Parser {
 			
 		}
 		
-		list.add(sublist);
+		list.put("stage", sublist);
 		
 		//then read out sprites
 		for (int j=0; j<sprites.getLength(); j++){
 			bricks = sprites.item(j).getChildNodes();
 			sublist = new ArrayList<HashMap<String,String>>();
+			String name;
+			name = sprites.item(j).getAttributes().getNamedItem("name").getNodeValue();
 			for (int i=0; i<bricks.getLength(); i++) {
 				int brickType = Integer.parseInt(bricks.item(i).getAttributes().getNamedItem("id").getNodeValue());
 				String value = "";
@@ -115,13 +118,13 @@ public class Parser {
 				mIdCounter++;
 				
 			}
-			list.add(sublist);
+			list.put(name, sublist);
 		}
 		
 		return list;
 	}
 
-	public String toXml(ArrayList<ArrayList<HashMap<String,String>>> brickList) {
+	public String toXml(TreeMap<String, ArrayList<HashMap<String,String>>> brickList) {
 		doc = builder.newDocument(); //TODO eventuell nachher checken ob sich was veraendert hat und nur das aendern
 		XmlSerializer serializer = Xml.newSerializer();
 		StringWriter writer = new StringWriter();
@@ -136,14 +139,22 @@ public class Parser {
 	    	e.printStackTrace();
 		}
 		
-		for (int j=0; j<brickList.size(); j++) {
+		int end = brickList.size();
+		for (int j=0; j<end; j++) {
+			ArrayList<HashMap<String, String>> sprite = brickList.get(brickList.firstKey());
 		    try {
-		    	if (j==0)
-		    		serializer.startTag("", "stage");
+		    	if (brickList.firstKey().equals("stage"))
+		    		{
+		    			serializer.startTag("", "stage");
+		    			serializer.attribute("", "name", brickList.firstKey());
+		    		}
 		    	else
+		    	{
 		    		serializer.startTag("", "sprite");
-		    	for (int i=0; i<brickList.get(j).size(); i++) {
-		    		HashMap<String,String> brick = brickList.get(j).get(i);
+		    	    serializer.attribute("", "name", brickList.firstKey());
+		    	}
+		    	for (int i=0; i<sprite.size(); i++) {
+		    		HashMap<String,String> brick = sprite.get(i);
 		    		
 					switch (Integer.parseInt(brick.get(BrickDefine.BRICK_TYPE))){ //TODO nicht bei jedem durchlauf neue elemente erzeugen sonder nur clonen
 					case BrickDefine.SET_BACKGROUND:
@@ -198,13 +209,13 @@ public class Parser {
 						serializer.endTag("", "command");
 						break;
 					
-					}	
+					}
 		    	}
 		    	if (j==0)
 		    		serializer.endTag("", "stage");
 		    	else
 		    		serializer.endTag("", "sprite");
-
+		    	//brickList.remove(brickList.firstKey());
 			}
 		    catch (Exception e){
 		    	Log.e("Parser","An error occured in toXml");

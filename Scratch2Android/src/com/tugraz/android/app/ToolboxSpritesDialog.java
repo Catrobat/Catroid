@@ -21,8 +21,8 @@ public class ToolboxSpritesDialog extends Dialog
 	private Animation mSlide_in;
 	private Animation mSlide_out;
 	
-	protected ListView mMainListView;
-	private ToolboxAdapter mAdapter;
+	public ListView mMainListView;
+	private ToolboxSpritesAdapter mAdapter;
 	public ArrayList<HashMap<String, String>> mContentArrayList;
 	ContentManager mContentManager;
 	
@@ -70,17 +70,13 @@ public class ToolboxSpritesDialog extends Dialog
 		
 		mToolboxLayout = (LinearLayout) findViewById(R.id.toolboxsprites_layout);
 		
-		//Set Bricks
 		mContentArrayList = new ArrayList<HashMap<String,String>>();
-		
-		testSet();
 		
 		mMainListView = (ListView) findViewById(R.id.spritesListView);
 		
-		mAdapter = new ToolboxAdapter(mCtx, mContentArrayList);
+		mAdapter = new ToolboxSpritesAdapter(mCtx, mContentArrayList);
 		mAdapter.setContentManager(mContentManager);
 		mMainListView.setAdapter(mAdapter);
-	        
 	}
 
 	@Override
