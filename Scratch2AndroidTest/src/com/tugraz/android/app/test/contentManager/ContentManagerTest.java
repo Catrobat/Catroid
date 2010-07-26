@@ -4,6 +4,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TreeMap;
 
 import com.tugraz.android.app.BrickDefine;
 import com.tugraz.android.app.ContentManager;
@@ -18,16 +19,16 @@ public class ContentManagerTest extends AndroidTestCase {
 	private ContentManager mContentManager;
 	
 	private ArrayList<HashMap<String, String>> mContentArrayList;
-	private ArrayList<ArrayList<HashMap<String, String>>> mSpritesAndBackgroundList;
+	private TreeMap<String, ArrayList<HashMap<String, String>>> mSpritesAndBackgroundList;
 	
 	private Context mCtx;
-	private String FILENAME = "cmmanagerfile.txt";
+	private String FILENAME = "cmanagerfile.txt";
 	
 	
 	@Override
 	protected void setUp() throws Exception {
 		mContentArrayList = new ArrayList<HashMap<String,String>>();
-		mSpritesAndBackgroundList = new ArrayList<ArrayList<HashMap<String, String>>>();
+		mSpritesAndBackgroundList = new TreeMap<String, ArrayList<HashMap<String, String>>>();
 		mContentManager = new ContentManager();
 		try {
 			mCtx = getContext().createPackageContext("com.tugraz.android.app", Context.CONTEXT_IGNORE_SECURITY);
@@ -70,7 +71,6 @@ public class ContentManagerTest extends AndroidTestCase {
 	}
 	
 	public void testRemoveSprite(){
-		mSpritesAndBackgroundList.add(new ArrayList<HashMap<String,String>>());
 		HashMap<String, String> map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "1");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
@@ -83,7 +83,7 @@ public class ContentManagerTest extends AndroidTestCase {
         map.put(BrickDefine.BRICK_NAME, "Test2");
         map.put(BrickDefine.BRICK_VALUE, "blabla1");
         mContentArrayList.add(map);
-        mSpritesAndBackgroundList.add(mContentArrayList);
+        mSpritesAndBackgroundList.put("FirstSprite", mContentArrayList);
 		
         mContentArrayList = new ArrayList<HashMap<String, String>>();
         map = new HashMap<String, String>();
@@ -98,12 +98,12 @@ public class ContentManagerTest extends AndroidTestCase {
         map.put(BrickDefine.BRICK_NAME, "Wait");
         map.put(BrickDefine.BRICK_VALUE, "1");
         mContentArrayList.add(map);
-        mSpritesAndBackgroundList.add(mContentArrayList);
+        mSpritesAndBackgroundList.put("SecondSprite", mContentArrayList);
 		
         mContentManager.setSpritesAndBackgroundList(mSpritesAndBackgroundList);
-        mContentManager.removeSprite(1);
+        mContentManager.removeSprite("FirstSprite");
         
-        assertEquals(mSpritesAndBackgroundList.get(1).get(1).get(BrickDefine.BRICK_ID), "4");
+        assertEquals(mSpritesAndBackgroundList.get("SecondSprite").get(1).get(BrickDefine.BRICK_ID), "4");
         
 	}
 	
@@ -121,7 +121,7 @@ public class ContentManagerTest extends AndroidTestCase {
         map.put(BrickDefine.BRICK_NAME, "Test2");
         map.put(BrickDefine.BRICK_VALUE, "blabla1");
         mContentArrayList.add(map);
-        mSpritesAndBackgroundList.add(mContentArrayList);
+        mSpritesAndBackgroundList.put("SomeName", mContentArrayList);
 		
         mContentManager.clearSprites();
         assertEquals(mContentManager.getContentArrayList().size(), 0);
@@ -183,18 +183,18 @@ public class ContentManagerTest extends AndroidTestCase {
         map.put(BrickDefine.BRICK_VALUE, "bla");
         mContentArrayList.add(map);
         
-        mContentManager.addSprite(mContentArrayList);
+        mContentManager.addSprite("FirstSprite", mContentArrayList);
         
         mSpritesAndBackgroundList = mContentManager.getSpritesAndBackground();
         
         assertEquals(mSpritesAndBackgroundList.size(), 2);
-        assertEquals(mSpritesAndBackgroundList.get(0), mContentArrayList);
+        assertEquals(mSpritesAndBackgroundList.get("FirstSprite"), mContentArrayList);
 	}
 	
 	private String TESTXML =
 		"<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>"+
 		"<project>"+
-		"<stage>"+
+		"<stage name=\"Stage\" />"+
 		  "<command id=\"1001\">"+
 		    "<image path=\"bla.jpg\" />"+
 		  "</command>"+
@@ -205,7 +205,7 @@ public class ContentManagerTest extends AndroidTestCase {
 		    "<sound path=\"bla.mp3\" />"+
 		  "</command>"+
 		"</stage>"+
-		"<sprite>"+
+		"<sprite name=\"Stage\" /"+
 		  "<command id=\"4003\">"+
 		    "<image path=\"bla.jpg\" />"+
 		  "</command>"+
@@ -273,7 +273,7 @@ public class ContentManagerTest extends AndroidTestCase {
         map.put(BrickDefine.BRICK_VALUE, "blabla2");
         mContentArrayList.add(map);
         mContentManager.setContentArrayList(mContentArrayList);
-        mSpritesAndBackgroundList.add(mContentArrayList);
+        mSpritesAndBackgroundList.put("FirstSprite", mContentArrayList);
         
         mContentManager.setSpritesAndBackgroundList(mSpritesAndBackgroundList);
         
@@ -298,7 +298,7 @@ public class ContentManagerTest extends AndroidTestCase {
         map.put(BrickDefine.BRICK_NAME, "Test2");
         map.put(BrickDefine.BRICK_VALUE, "blabla1");
         mContentArrayList.add(map);
-        mSpritesAndBackgroundList.add(mContentArrayList);
+        mSpritesAndBackgroundList.put("FirstSprite", mContentArrayList);
         mContentManager.setContentArrayList(mContentArrayList);
         
         mContentArrayList = new ArrayList<HashMap<String,String>>();
@@ -314,14 +314,14 @@ public class ContentManagerTest extends AndroidTestCase {
         map.put(BrickDefine.BRICK_NAME, "hoho");
         map.put(BrickDefine.BRICK_VALUE, "huhu");
         mContentArrayList.add(map);
-        mSpritesAndBackgroundList.add(mContentArrayList);
+        mSpritesAndBackgroundList.put("SecondSprite", mContentArrayList);
         
         mContentManager.setSpritesAndBackgroundList(mSpritesAndBackgroundList);
 		
-	    mContentManager.switchSprite(1);
+	    mContentManager.switchSprite("SecondSprite");
 	    
 	    assertEquals(mContentManager.getContentArrayList().get(1).get(BrickDefine.BRICK_ID), "4");
-	    assertEquals(mContentManager.getCurrentSprite(), 1);
+	    assertEquals(mContentManager.getCurrentSprite(), "SecondSprite");
 	
 	}
 	
