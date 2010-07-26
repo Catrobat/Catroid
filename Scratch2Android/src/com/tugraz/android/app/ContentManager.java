@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.TreeMap;
 
 import android.content.Context;
 
@@ -22,37 +23,38 @@ import com.tugraz.android.app.parser.Parser;
 public class ContentManager extends Observable{
 	
 	private ArrayList<HashMap<String, String>> mContentArrayList;
-	private ArrayList<ArrayList<HashMap<String, String>>> mSpritesAndBackgroundList;
+	private TreeMap<String, ArrayList<HashMap<String, String>>> mSpritesAndBackgroundList;
 	
 	private FileSystem mFilesystem;
 	private Parser mParser;
 	private Context mCtx;
 	private static final String mTempFile = "tempFile.txt";
-	private int mCurrentSprite;
+	private String mCurrentSprite;
+	private ToolboxSpritesDialog mSpritebox;
 	
 	public ArrayList<HashMap<String, String>> getContentArrayList(){
 		return mContentArrayList;
 	}
 	
-	public ArrayList<ArrayList<HashMap<String, String>>> getSpritesAndBackground(){
+	public TreeMap<String, ArrayList<HashMap<String, String>>> getSpritesAndBackground(){
 		return mSpritesAndBackgroundList;
 	}
 	
-	public void removeSprite(int position){
-		if(position != 0)
+	public void removeSprite(String name){
+		if(mSpritesAndBackgroundList.containsKey(name))
 		{
-		mSpritesAndBackgroundList.remove(position);
+		mSpritesAndBackgroundList.remove(name);
 		}
-		if(mCurrentSprite == position)		
+		if(mCurrentSprite.equals(name))		
 		{
-			mContentArrayList = mSpritesAndBackgroundList.get(position);
+			mContentArrayList = mSpritesAndBackgroundList.get(name);
 			setChanged();
 			notifyObservers();
 		}
 		if(mSpritesAndBackgroundList.size() == 0)
 		{
 			//Fill Dummy Stage
-			mSpritesAndBackgroundList.add(new ArrayList<HashMap<String,String>>());
+			mSpritesAndBackgroundList.put("Stage", new ArrayList<HashMap<String,String>>());
 			setChanged();
 			notifyObservers();
 		}
@@ -61,19 +63,19 @@ public class ContentManager extends Observable{
 	public void clearSprites(){
 		mSpritesAndBackgroundList.clear();
 		mContentArrayList.clear();
-		mSpritesAndBackgroundList.add(mContentArrayList);
+		saveContent();
+		mSpritesAndBackgroundList.put("Stage", mContentArrayList);
 		//Fill Dummy Stage
-		mSpritesAndBackgroundList.add(new ArrayList<HashMap<String,String>>());
-        mCurrentSprite = 0;
+		mCurrentSprite = "Stage";
         setChanged();
 		notifyObservers();
 	}
 	
-	public void addSprite(ArrayList<HashMap<String, String>> sprite)
+	public void addSprite(String name, ArrayList<HashMap<String, String>> sprite)
 	{
-		mSpritesAndBackgroundList.add(sprite);
-		switchSprite(mSpritesAndBackgroundList.size()-1);
-		mCurrentSprite = (mSpritesAndBackgroundList.size()-1);
+		mSpritesAndBackgroundList.put(name, sprite);
+		switchSprite(name);
+		mCurrentSprite = name;
 		//switchSprite(mSpritesAndBackgroundList.size()-1);
 		//mCurrentSprite = (mSpritesAndBackgroundList.size()-1);
 	}
@@ -97,12 +99,12 @@ public class ContentManager extends Observable{
 	}
 	
 	public ContentManager(){
-		mSpritesAndBackgroundList= new ArrayList<ArrayList<HashMap<String, String>>>();
+		mSpritesAndBackgroundList= new TreeMap<String, ArrayList<HashMap<String, String>>>();
 		mContentArrayList = new ArrayList<HashMap<String, String>>();
 		mFilesystem = new FileSystem();
 		mParser = new Parser();
-		mSpritesAndBackgroundList.add(mContentArrayList);
-		mCurrentSprite = 0;
+		mSpritesAndBackgroundList.put("Stage", mContentArrayList);
+		mCurrentSprite = "Stage";
 	}
 	
 	/**
@@ -123,9 +125,9 @@ public class ContentManager extends Observable{
 			mSpritesAndBackgroundList.clear();
 			mContentArrayList.clear();
 			
-			mSpritesAndBackgroundList.addAll((mParser.parse(scratch)));
-	        mContentArrayList.addAll(mSpritesAndBackgroundList.get(0));
-            mCurrentSprite =0;
+			mSpritesAndBackgroundList.putAll(mParser.parse(scratch));
+	        mContentArrayList.addAll(mSpritesAndBackgroundList.get("Stage"));
+            mCurrentSprite ="Stage";
 	        try {
 				scratch.close();
 			} catch (IOException e) {
@@ -135,7 +137,7 @@ public class ContentManager extends Observable{
 			if(mSpritesAndBackgroundList.size() == 0)
 			{
 				//Fill Dummy Stage
-				mSpritesAndBackgroundList.add(new ArrayList<HashMap<String,String>>());
+				mSpritesAndBackgroundList.put("Stage", new ArrayList<HashMap<String,String>>());
 			}
 	        setChanged();
 	        notifyObservers();
@@ -154,6 +156,7 @@ public class ContentManager extends Observable{
 	 * save content
 	 */
 	public void saveContent(String file){
+		mSpritesAndBackgroundList.put(mCurrentSprite, mContentArrayList);
 		FileOutputStream fd = mFilesystem.createOrOpenFileOutput(file, mCtx);
 
 		String xml = mParser.toXml(mSpritesAndBackgroundList);
@@ -191,26 +194,26 @@ public class ContentManager extends Observable{
 		notifyObservers();
 	}
 	
-	public void setSpritesAndBackgroundList(ArrayList<ArrayList<HashMap<String, String>>> spritesAndBackground){
+	public void setSpritesAndBackgroundList(TreeMap<String, ArrayList<HashMap<String, String>>> spritesAndBackground){
 		mSpritesAndBackgroundList = spritesAndBackground;
 		//Check for default stage Object
 		if(mSpritesAndBackgroundList.size() == 0)
-			mSpritesAndBackgroundList.add(new ArrayList<HashMap<String,String>>());
+			mSpritesAndBackgroundList.put("Stage", new ArrayList<HashMap<String,String>>());
 		setChanged();
 		notifyObservers();
 	}
 	
-	public void switchSprite(int positionNewSprite){
-		mSpritesAndBackgroundList.set(mCurrentSprite, mContentArrayList);
+	public void switchSprite(String nameNewSprite){
+		mSpritesAndBackgroundList.put(mCurrentSprite, mContentArrayList);
 		saveContent();
 		mContentArrayList.clear();
-		mContentArrayList.addAll(mSpritesAndBackgroundList.get(positionNewSprite));
-		mCurrentSprite = positionNewSprite;
+		mContentArrayList.addAll(mSpritesAndBackgroundList.get(nameNewSprite));
+		mCurrentSprite = nameNewSprite;
 		setChanged();
 		notifyObservers();
 	}
 	
-	public int getCurrentSprite(){
+	public String getCurrentSprite(){
 		return mCurrentSprite;
 	}
 	
@@ -221,6 +224,10 @@ public class ContentManager extends Observable{
 	public void setContext(Context context)
 	{
 		 mCtx = context;
+	}
+	public void setSpriteBox(ToolboxSpritesDialog spritebox)
+	{
+		mSpritebox = spritebox;
 	}
 
 }
