@@ -16,13 +16,13 @@ public class Sprite extends Thread implements Observer{
 	private String mSpriteName;
 	private StageView mStage;
 	private ArrayList<HashMap<String, String>> mCommandList;
-	private MediaPlayer mMediaPlayer; //TODO change MediaPlayer to SoundPool to support multiple sounds simultanieously
+	private SoundManager mSoundManager;
 	private int mCommandCount = 0;
 	
-	public Sprite(StageView view, ArrayList<HashMap<String, String>> commandList, String name, MediaPlayer mp){
+	public Sprite(StageView view, ArrayList<HashMap<String, String>> commandList, String name, SoundManager soundManager){
 		mStage = view;
 		mCommandList = commandList;
-		mMediaPlayer = mp;
+		mSoundManager = soundManager;
 		mSpriteName = name;
 	}
 
@@ -59,17 +59,18 @@ public class Sprite extends Thread implements Observer{
 			break;
 
 		case BrickDefine.PLAY_SOUND: //TODO funktioniert abspielen von mehreren sounds gleichzeitig
-			try {
-				mMediaPlayer.reset();
-				mMediaPlayer.setDataSource(map.get(BrickDefine.BRICK_VALUE));
-				mMediaPlayer.prepare();
-				mMediaPlayer.start();
+//			try {
+//				mMediaPlayer.reset();
+//				mMediaPlayer.setDataSource(map.get(BrickDefine.BRICK_VALUE));
+//				mMediaPlayer.prepare();
+//				mMediaPlayer.start();
+				mSoundManager.playSound(map.get(BrickDefine.BRICK_VALUE));
 
-			} catch (IOException e) {
-				Log.w("Sprite", "Could not play sound file");
-			} catch (IllegalArgumentException e) {
-				Log.w("Sprite", "Could not play sound file");
-			}
+//			} catch (IOException e) {
+//				Log.w("Sprite", "Could not play sound file");
+//			} catch (IllegalArgumentException e) {
+//				Log.w("Sprite", "Could not play sound file");
+//			}
 
 			mCommandCount++;
 			toNextCommand();

@@ -110,7 +110,7 @@ public class StageViewThread extends Thread {
 
 		Iterator<String> keyIterator = mBitmapToPositionMap.keySet().iterator();
 		for (int i=0; i<mBitmapToPositionMap.size(); i++) {
-			Pair<Bitmap, Pair<Float, Float>> bitmapPair = mBitmapToPositionMap.get(keyIterator.next());
+			Pair<Bitmap, Pair<Float, Float>> bitmapPair = mBitmapToPositionMap.get(keyIterator.next()); //TODO wir hier immer nur das letzte bild gezeichnet?
 			canvas.drawBitmap(bitmapPair.first, bitmapPair.second.first, bitmapPair.second.second, null);
 		}
 		mIsDraw = false;
