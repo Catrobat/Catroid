@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="SpriteButtonText">Neuen Sprite anlegen</string>
+    <string name="newsprite">Neues Sprite anlegen</string>
     
     <string name="delete">Löschen</string>
     <string name="remove">Verschieben</string>
