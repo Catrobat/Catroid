@@ -117,7 +117,7 @@ public class StageActivity extends Activity implements OnCompletionListener {
 
 		ArrayList<String> allSpriteNames = mContentManager.getAllSprites();
 		for (int i=0; i < allSpriteNames.size(); i++) {
-			Sprite sprite = new Sprite(mStage, mContentManager.getSpritesAndBackground().get(allSpriteNames.get(i)), mMediaPlayer);
+			Sprite sprite = new Sprite(mStage, mContentManager.getSpritesAndBackground().get(allSpriteNames.get(i)), allSpriteNames.get(i), mMediaPlayer);
 			mSpritesList.add(sprite);
 		}
 		
