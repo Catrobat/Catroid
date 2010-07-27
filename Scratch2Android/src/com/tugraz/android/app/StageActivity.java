@@ -157,7 +157,7 @@ public class StageActivity extends Activity implements OnCompletionListener,
 
 		case BrickDefine.WAIT:
 			mCommandCount++;
-			brickWait(Integer.parseInt(map.get(BrickDefine.BRICK_VALUE)));
+			brickWait(Float.parseFloat(map.get(BrickDefine.BRICK_VALUE)));
 			break;
 		}
 
@@ -185,7 +185,7 @@ public class StageActivity extends Activity implements OnCompletionListener,
 	 * @param sec
 	 *            the seconds to wait
 	 */
-	private void brickWait(int sec) {
+	private void brickWait(float sec) {
 		BrickWait wait = new BrickWait(); // TODO sicher schlechte performance
 											// da jedes mal neues objekt erzeugt
 											// wird

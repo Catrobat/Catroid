@@ -35,6 +35,7 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
     /** Called when the activity is first created. */
 	
 	static final int TOOLBOX_DIALOG = 0;
+	static final int SPRITETOOLBOX_DIALOG = 1;
 	
 	protected ListView mMainListView;
 	private MainListViewAdapter mAdapter;
@@ -44,6 +45,10 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 	private Button mToolboxButton;
 	private ToolboxDialog mToolboxDialog;
 
+	private Button mSpritesToolboxButton;
+    //TODO Eigener ToolboxDialog und eigener ToolboxAdapter
+	private ToolboxSpritesDialog mSpritesToolboxDialog;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,14 +62,17 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
         mMainListView.setAdapter(mAdapter);
         
         //Testing
-        mContentManager.testSet();
+        //mContentManager.testSet();
         //mContentManager.saveContent();
-        //mContentManager.loadContent();
+        mContentManager.loadContent();
         
         this.registerForContextMenu(mMainListView);
         
         mToolboxButton = (Button) this.findViewById(R.id.toolbar_button);
 		mToolboxButton.setOnClickListener(this);
+		
+		mSpritesToolboxButton = (Button) this.findViewById(R.id.sprites_button);
+		mSpritesToolboxButton.setOnClickListener(this);
     }
 
     
@@ -73,12 +81,16 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
         case TOOLBOX_DIALOG:
         	mToolboxDialog = new ToolboxDialog(this, true, null, 0); //TODO passen argumente so?  
         	mToolboxDialog.setContentManager(mContentManager);
-            break;
+        	return mToolboxDialog;
+        case SPRITETOOLBOX_DIALOG:
+        	mSpritesToolboxDialog = new ToolboxSpritesDialog(this, true, null, 0);
+        	mSpritesToolboxDialog.setContentManager(mContentManager);
+        	return mSpritesToolboxDialog;
         default:
             mToolboxDialog = null;
+            return mToolboxDialog;
         }
-        return mToolboxDialog;
-
+       
     }
 	
     @Override
@@ -157,12 +169,20 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 		if (v.getId() == R.id.toolbar_button) {
 			openToolbox();
 		}
+		else if (v.getId() == R.id.sprites_button){
+			openSpriteToolbox();
+		}
 		
 	}
 		
 	private void openToolbox(){
 		showDialog(TOOLBOX_DIALOG);
 		
+	}
+	
+	private void openSpriteToolbox()
+	{
+		showDialog(SPRITETOOLBOX_DIALOG);
 	}
 	
 	public ToolboxDialog getToolboxDialog(){

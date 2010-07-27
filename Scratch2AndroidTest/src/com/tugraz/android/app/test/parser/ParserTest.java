@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
 import java.util.Vector;
 
 import junit.framework.TestCase;
@@ -25,7 +26,7 @@ public class ParserTest extends TestCase {
 	private String testXml =
 	"<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>"+
 	"<project>"+
-	"<stage>"+
+	"<stage name=\"stage\">"+
 	  "<command id=\"1001\">"+
 	    "<image path=\"bla.jpg\" />"+
 	  "</command>"+
@@ -36,7 +37,7 @@ public class ParserTest extends TestCase {
 	    "<sound path=\"bla.mp3\" />"+
 	  "</command>"+
 	"</stage>"+
-	"<sprite>"+
+	"<sprite name=\"sprite\">"+
 	  "<command id=\"4003\">"+
 	    "<image path=\"bla.jpg\" />"+
 	  "</command>"+
@@ -81,7 +82,7 @@ public class ParserTest extends TestCase {
 			Log.e("ParserTest", "Writing Test XML to file failed");
 			e.printStackTrace();
 		}
-		ArrayList<ArrayList<HashMap<String, String>>> list =null;
+		TreeMap<String, ArrayList<HashMap<String, String>>> list =null;
 		try {
 			InputStream stream = new FileInputStream(file);
 			list = parser.parse(stream);
@@ -90,10 +91,10 @@ public class ParserTest extends TestCase {
 			Log.e("ParserTest", "Reading from test XML file failed!");
 			e.printStackTrace();
 		}
-		Log.i("ParserTest", testXml);
+		Log.i("ParserTest: the test string: ", testXml);
 		String xml = parser.toXml(list);
 		
-		Log.i("ParserTest", xml);
+		Log.i("ParserTest the parsed string: ", xml);
 		assertTrue(xml.equals(testXml));
 		
 	}
