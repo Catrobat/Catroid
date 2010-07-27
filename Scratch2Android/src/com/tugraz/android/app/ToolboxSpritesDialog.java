@@ -31,6 +31,7 @@ public class ToolboxSpritesDialog extends Dialog
 	public ListView mMainListView;
 	public EditText mEditText;
 	public Button mSpriteButton;
+	private Button mMainSpriteButton;    
 	private ToolboxSpritesAdapter mAdapter;
 	public ArrayList<String> mContentArrayList;
 	ContentManager mContentManager;
@@ -95,7 +96,7 @@ public class ToolboxSpritesDialog extends Dialog
 			public void onClick(View v) {
 				mContentManager.addSprite(mSpriteText, new ArrayList<HashMap<String,String>>());
 				mAdapter.notifyDataSetChanged();
-			}
+				}
 
 		});
 		mEditText.addTextChangedListener(new TextWatcher()
@@ -151,6 +152,8 @@ public class ToolboxSpritesDialog extends Dialog
 	public void setContentManager(ContentManager contentManager){
 		mContentManager = contentManager;
 	}
+	
+	
 	
 }
 

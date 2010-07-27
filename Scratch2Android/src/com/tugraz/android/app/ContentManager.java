@@ -10,6 +10,7 @@ import java.util.Observer;
 import java.util.TreeMap;
 
 import android.content.Context;
+import android.widget.Button;
 
 
 import com.tugraz.android.app.filesystem.FileSystem;
@@ -69,7 +70,6 @@ public class ContentManager extends Observable{
 		mSpritesAndBackgroundList.put("stage", mContentArrayList);
 		//Fill Dummy Stage
 		mCurrentSprite = "stage";
-		getAllSprites();
         setChanged();
 		notifyObservers();
 	}
@@ -216,7 +216,6 @@ public class ContentManager extends Observable{
 		mContentArrayList.clear();
 		mContentArrayList.addAll(mSpritesAndBackgroundList.get(nameNewSprite));
 		mCurrentSprite = nameNewSprite;
-		getAllSprites();
 		setChanged();
 		notifyObservers();
 	}
@@ -239,6 +238,7 @@ public class ContentManager extends Observable{
 	}
 	
     public ArrayList<String> getAllSprites(){
+    mSpritelist.clear();
     TreeMap<String, ArrayList<HashMap<String, String>>> map = new TreeMap<String, ArrayList<HashMap<String,String>>>();
     map.putAll(mSpritesAndBackgroundList);
     for(int i=0; i<mSpritesAndBackgroundList.size(); i++){

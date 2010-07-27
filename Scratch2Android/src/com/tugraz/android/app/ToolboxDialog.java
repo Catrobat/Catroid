@@ -10,6 +10,7 @@ import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -25,6 +26,7 @@ public class ToolboxDialog extends Dialog
 	private ToolboxAdapter mAdapter;
 	public ArrayList<HashMap<String, String>> mContentArrayList;
 	ContentManager mContentManager;
+	   
 	
 	private LinearLayout mToolboxLayout;
 	
@@ -129,5 +131,7 @@ public class ToolboxDialog extends Dialog
 	public void setContentManager(ContentManager contentManager){
 		mContentManager = contentManager;
 	}
+	
+
 	
 }
