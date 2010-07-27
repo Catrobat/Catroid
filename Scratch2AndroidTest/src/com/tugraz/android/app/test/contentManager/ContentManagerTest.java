@@ -171,10 +171,7 @@ public class ContentManagerTest extends AndroidTestCase {
 	}
 	
 	public void testAddSprite(){
-		
-		mContentManager.setContentArrayList(mContentArrayList);
-		mContentManager.setSpritesAndBackgroundList(mSpritesAndBackgroundList);
-		
+			
 		mContentArrayList = new ArrayList<HashMap<String,String>>();
 		HashMap<String, String> map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "1");
