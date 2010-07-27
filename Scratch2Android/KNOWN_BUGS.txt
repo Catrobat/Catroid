@@ -9,6 +9,8 @@ high:
 
 - Wenn man auf der Buehne auf abspielen drueckt und dann nochmals auf abspielen drueckt stuerzt die app ab
 
+- Wenn man mit zurück-knopf aussteigt wird die baustelle nicht gespeichert
+
 
 --------
 medium
