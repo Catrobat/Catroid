@@ -1,5 +1,8 @@
 package com.tugraz.android.app.stage;
 
+import java.util.Collections;
+import java.util.HashMap;
+
 import com.tugraz.android.app.R;
 
 import android.content.Context;
@@ -12,6 +15,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
+import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.SurfaceHolder;
 
@@ -31,6 +35,7 @@ public class StageViewThread extends Thread {
 	private int mX = 0;
 	private int mY = 0;
 	private Bitmap mBackgroundBitmap;
+	private HashMap<Bitmap, Pair<Float,Float>> mBitmapToPositionMap;
 	
 
 	public StageViewThread(SurfaceHolder holder, Context context,
@@ -38,22 +43,27 @@ public class StageViewThread extends Thread {
 		mSurfaceHolder = holder;
 		this.context = context;
 		this.setName("StageViewThread");
-		mBackgroundBitmap = BitmapFactory.decodeResource(context.getResources(),
-				   R.drawable.icon);
+		//mBackgroundBitmap = BitmapFactory.decodeResource(context.getResources(),
+		//		   R.drawable.icon);
+		mBitmapToPositionMap = (HashMap<Bitmap, Pair<Float, Float>>) Collections.synchronizedMap(new HashMap<Bitmap, Pair<Float,Float>>());
+		//TODO funktioniert der cast da so? 
 	}
 
-	public void setRunning(boolean b) {
+	public synchronized void setRunning(boolean b) {
 		mRun = b;
 	}
 	
 	public void setBackgroundBitmap(String path){
 		synchronized (mBackgroundBitmap){
 			mBackgroundBitmap = BitmapFactory.decodeFile(path);
-		}
-		
+		}	
+	}
+	public void addBitmapToDraw(String path, float x, float y) {
+		Pair<Float,Float> coordinates = new Pair<Float,Float>(x,y);
+		mBitmapToPositionMap.put(BitmapFactory.decodeFile(path), coordinates);
 	}
 	
-	public boolean isRunning(){
+	public synchronized boolean isRunning(){
 		return mRun;
 	}
 

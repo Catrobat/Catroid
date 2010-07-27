@@ -1,12 +1,14 @@
 package com.tugraz.android.app;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
 import com.tugraz.android.app.stage.BrickWait;
 import com.tugraz.android.app.stage.StageView;
+import com.tugraz.android.app.stage.Sprite;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -22,11 +24,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup.LayoutParams;
 
-public class StageActivity extends Activity implements OnCompletionListener,
-		Observer {
+public class StageActivity extends Activity implements OnCompletionListener {
 
 	private static StageView mStage;
 	private ContentManager mContentManager;
+	private ArrayList<Sprite> mSpritesList;
 	protected boolean isWaiting = false;
 
 	private int mCommandCount = 0;
@@ -43,6 +45,8 @@ public class StageActivity extends Activity implements OnCompletionListener,
 		mContentManager.loadContent();
 		
 		mMediaPlayer = new MediaPlayer();
+		
+		mSpritesList = new ArrayList<Sprite>();
 
 		LayoutParams params = new LayoutParams(LayoutParams.FILL_PARENT,
 				LayoutParams.FILL_PARENT); 
@@ -51,6 +55,8 @@ public class StageActivity extends Activity implements OnCompletionListener,
 
 		// we only want portrait mode atm, otherwise the program crashes
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
+		mMediaPlayer.setOnCompletionListener(this); //was in doNextCommant, hope it works also here
 
 	}
 
@@ -80,17 +86,16 @@ public class StageActivity extends Activity implements OnCompletionListener,
 
 	}
 
-	@Override
-	public void update(Observable observable, Object data) {
-		doNextCommand();
-
-	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
 		mMediaPlayer.stop();
 		mMediaPlayer.release();
+	}
+	
+	private void toMainActivity() {
+		finish(); 
 	}
 
 	/**
@@ -110,92 +115,17 @@ public class StageActivity extends Activity implements OnCompletionListener,
 		mStage.getThread().setRunning(true); // TODO gehoert das hier her??
 		mStage.getThread().start();
 
-		doNextCommand();
-
-	}
-
-	/**
-	 * executes the next command from the contentArrayList of the contentManager
-	 */
-	private void doNextCommand() {
-		if (mContentManager.getSpritesAndBackground().get(0).size() <= mCommandCount) { //TODO at the moment we only want the first element because it's the background
-			// abort if mCommandCount has run through all commands to execute															
-			mCommandCount = 0;
-			return;
+		ArrayList<String> allSpriteNames = mContentManager.getAllSprites();
+		for (int i=0; i < allSpriteNames.size(); i++) {
+			Sprite sprite = new Sprite(mStage, mContentManager.getSpritesAndBackground().get(allSpriteNames.get(i)), mMediaPlayer);
+			mSpritesList.add(sprite);
 		}
-		mMediaPlayer.setOnCompletionListener(this);
-
-		HashMap<String, String> map = mContentManager.getSpritesAndBackground().get(0)
-				.get(mCommandCount);
-
-		int type = Integer.parseInt(map.get(BrickDefine.BRICK_TYPE));
-		switch (type) {
-		case BrickDefine.SET_BACKGROUND:
-			mStage.getThread().setBackgroundBitmap(
-					map.get(BrickDefine.BRICK_VALUE));
-			mStage.getThread().mIsDraw = true;
-			mCommandCount++;
-			toNextCommand();
-			break;
-
-		case BrickDefine.PLAY_SOUND: //TODO funktioniert abspielen von mehreren sounds gleichzeitig
-			try {
-				mMediaPlayer.reset();
-				mMediaPlayer.setDataSource(map.get(BrickDefine.BRICK_VALUE));
-				mMediaPlayer.prepare();
-				mMediaPlayer.start();
-
-			} catch (IOException e) {
-				Log.w("StageActivity", "Could not play sound file");
-			} catch (IllegalArgumentException e) {
-				Log.w("StageActivity", "Could not play sound file");
-			}
-
-			mCommandCount++;
-			toNextCommand();
-			break;
-
-		case BrickDefine.WAIT:
-			mCommandCount++;
-			brickWait(Float.parseFloat(map.get(BrickDefine.BRICK_VALUE)));
-			break;
+		
+		for (int i=0; i<mSpritesList.size(); i++) {
+			mSpritesList.get(i).start();
 		}
 
 	}
 
-	/**
-	 * closes the StageActivity
-	 */
-	private void toMainActivity() {
-		finish(); 
-	}
-
-	/**
-	 * a convenient method to call brickWait(0) calling this forces the
-	 * observable to notify the observer within 0 seconds and therefore a new
-	 * command will be executed
-	 */
-	private void toNextCommand() {
-		brickWait(0);
-	}
-
-	/**
-	 * forces the program to wait until sec seconds are over
-	 * 
-	 * @param sec
-	 *            the seconds to wait
-	 */
-	private void brickWait(float sec) {
-		BrickWait wait = new BrickWait(); // TODO sicher schlechte performance
-											// da jedes mal neues objekt erzeugt
-											// wird
-		wait.mWaitTime = sec;
-
-		wait.addObserver(this);
-
-		Thread thread = new Thread(wait);
-		thread.setName("waitingThread");
-		thread.start();
-	}
 
 }
