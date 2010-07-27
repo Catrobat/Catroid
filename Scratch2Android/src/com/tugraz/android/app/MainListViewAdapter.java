@@ -192,6 +192,116 @@ public class MainListViewAdapter extends BaseAdapter{
 			return view;
 			
 		}
+		case (BrickDefine.HIDE):
+		{
+			LinearLayout view =  (LinearLayout)inflater.inflate(R.layout.mlve_one_lable, null);
+			TextView text = (TextView) view.getChildAt(0);
+			text.setText("Hide");
+			view.setBackgroundColor(Color.argb(255, 255, 215, 100));
+			return view;
+		}
+		case (BrickDefine.SHOW):
+		{
+			LinearLayout view =  (LinearLayout)inflater.inflate(R.layout.mlve_one_lable, null);
+			TextView text = (TextView) view.getChildAt(0);
+			text.setText("Show");
+			view.setBackgroundColor(Color.argb(255, 255, 215, 200));
+			return view;
+		}
+		case (BrickDefine.GO_TO):
+		{
+			LinearLayout view =  (LinearLayout)inflater.inflate(R.layout.mlv_one_label_two_edit, null);
+			
+			TextView text = (TextView) view.getChildAt(0);
+			text.setText("GO-TO-XY");
+			
+			EditText textX = (EditText) view.getChildAt(1);
+			textX.setText(brick.get(BrickDefine.BRICK_VALUE));
+			textX.addTextChangedListener(new TextWatcher()
+	          {
+				@Override
+				public void afterTextChanged(Editable s) {
+					// TODO Auto-generated method stub	
+				}
+				@Override
+				public void beforeTextChanged(CharSequence s, int start,
+						int count, int after) {
+					// TODO Auto-generated method stub					
+				}
+				@Override
+				public void onTextChanged(CharSequence s, int start,
+						int before, int count) {
+					brick.remove(BrickDefine.BRICK_VALUE);
+					brick.put(BrickDefine.BRICK_VALUE, s.toString());					
+				} 
+	          });
+			
+			EditText textY = (EditText) view.getChildAt(2);
+			textY.setText(brick.get(BrickDefine.BRICK_VALUE_1));
+			textY.addTextChangedListener(new TextWatcher()
+	          {
+				@Override
+				public void afterTextChanged(Editable s) {
+					// TODO Auto-generated method stub	
+				}
+				@Override
+				public void beforeTextChanged(CharSequence s, int start,
+						int count, int after) {
+					// TODO Auto-generated method stub	
+				}
+				@Override
+				public void onTextChanged(CharSequence s, int start,
+						int before, int count) {
+					brick.remove(BrickDefine.BRICK_VALUE_1);
+					brick.put(BrickDefine.BRICK_VALUE_1, s.toString());	
+				} 
+	          });
+			view.setBackgroundColor(Color.argb(255, 255, 215, 255));
+			return view;
+		}
+		case (BrickDefine.SET_COSTUME): 
+		{
+			LinearLayout view = (LinearLayout) inflater.inflate(R.layout.mlve_two_labels, null);
+			//text1.setTextColor(Color.BLUE);
+			TextView text = (TextView)view.getChildAt(0);
+			text.setText("Setze Kostüm:");
+			//text2.setTextColor(Color.BLUE);
+			view.setBackgroundColor(Color.argb(255, 139, 0, 50));
+
+			Spinner spinner = (Spinner)view.getChildAt(1);
+			
+			
+			//set adapter		
+			final SimpleAdapter adapter = new SimpleAdapter(mCtx, mMediaFileLoader.getPictureContent(), R.layout.picture_spinner,
+					new String[] {MediaFileLoader.PICTURE_THUMB, MediaFileLoader.PICTURE_NAME},
+	                new int[] {R.id.PictureSpinnerImageView, R.id.PictureSpinnerTextView});
+			
+			spinner.setAdapter(adapter);
+			OnItemSelectedListener listener = new OnItemSelectedListener(){
+
+				@Override
+				public void onItemSelected(AdapterView<?> arg0, View arg1,
+						int arg2, long arg3) {
+						brick.put(BrickDefine.BRICK_VALUE, ((HashMap<String, String>)adapter.getItem(arg2)).get(MediaFileLoader.PICTURE_PATH));
+				}
+				@Override
+				public void onNothingSelected(AdapterView<?> arg0) {
+					// TODO Auto-generated method stub
+					
+				}				
+			};
+		    spinner.setOnItemSelectedListener(listener);
+		    spinner.setSelection(getIndexFromElementPicture(adapter, brick.get(BrickDefine.BRICK_VALUE)));
+//		    LayoutParams params = (LayoutParams) view.getLayoutParams();
+//		    params.addRule(RelativeLayout.ALIGN_BOTTOM, parent.getChildAt(size-1).getId());
+//		    view.setLayoutParams(params);
+
+			return view;
+		}
+		
+		
+		
+		
 		case (BrickDefine.NOT_DEFINED):
 		{
 			return inflater.inflate(R.layout.mlve_two_labels, parent);
