@@ -39,7 +39,7 @@ public class FileSystem {
 	 * @return file descriptor input stream to write and read a file
 	 */
 	public FileInputStream createOrOpenFileInput(String name, Context ctx){
-		FileInputStream fIn;
+		FileInputStream fIn = null;
 		try {
 			fIn = ctx.openFileInput(name);
 			return fIn;
@@ -47,7 +47,7 @@ public class FileSystem {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
+		return fIn;
 	}
 	
 	/**
