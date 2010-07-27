@@ -2,7 +2,9 @@ package com.tugraz.android.app.stage;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import com.tugraz.android.app.R;
 
@@ -35,8 +37,7 @@ public class StageViewThread extends Thread {
 	private Context context;
 	private int mX = 0;
 	private int mY = 0;
-	private Bitmap mBackgroundBitmap;
-	private Map<Bitmap, Pair<Float,Float>> mBitmapToPositionMap;
+	private Map<String, Pair<Bitmap,Pair<Float,Float>>> mBitmapToPositionMap;
 	
 
 	public StageViewThread(SurfaceHolder holder, Context context,
@@ -44,24 +45,27 @@ public class StageViewThread extends Thread {
 		mSurfaceHolder = holder;
 		this.context = context;
 		this.setName("StageViewThread");
-		mBackgroundBitmap = BitmapFactory.decodeResource(context.getResources(),
-				   R.drawable.icon);
-		mBitmapToPositionMap =  Collections.synchronizedMap(new HashMap<Bitmap, Pair<Float,Float>>());
-		//TODO funktioniert der cast da so? 
+
+		mBitmapToPositionMap =  Collections.synchronizedMap(new HashMap<String, Pair<Bitmap,Pair<Float,Float>>>());
+
 	}
 
 	public synchronized void setRunning(boolean b) {
 		mRun = b;
 	}
 	
-	public void setBackgroundBitmap(String path){
-		synchronized (mBackgroundBitmap){
-			mBackgroundBitmap = BitmapFactory.decodeFile(path);
-		}	
+	public void setBackground(String path) {
+		addBitmapToDraw("stage", path, 0, 0);
 	}
-	public void addBitmapToDraw(String path, float x, float y) {
+	
+	public void addBitmapToDraw(String spriteName, String path, float x, float y) {
 		Pair<Float,Float> coordinates = new Pair<Float,Float>(x,y);
-		mBitmapToPositionMap.put(BitmapFactory.decodeFile(path), coordinates);
+		Pair<Bitmap,Pair<Float,Float>> bitmapPair = new Pair<Bitmap,Pair<Float,Float>>(BitmapFactory.decodeFile(path), coordinates);
+		mBitmapToPositionMap.put(spriteName, bitmapPair);
+	}
+	
+	public void removeBitmapToDraw(String spriteName) { //TODO brauchen wir das ueberhaupt? 
+		mBitmapToPositionMap.remove(spriteName);
 	}
 	
 	public synchronized boolean isRunning(){
@@ -103,7 +107,12 @@ public class StageViewThread extends Thread {
 		// canvas.drawRect(new Rect(mX + 0, mY + 0, mX + 40, mY + 40), paint);
 		canvas.drawRect(new Rect(0, 0, canvas.getWidth(), canvas.getHeight()),
 				paint);
-		canvas.drawBitmap(mBackgroundBitmap, mX, mY, null);
+
+		Iterator<String> keyIterator = mBitmapToPositionMap.keySet().iterator();
+		for (int i=0; i<mBitmapToPositionMap.size(); i++) {
+			Pair<Bitmap, Pair<Float, Float>> bitmapPair = mBitmapToPositionMap.get(keyIterator.next());
+			canvas.drawBitmap(bitmapPair.first, bitmapPair.second.first, bitmapPair.second.second, null);
+		}
 		mIsDraw = false;
 
 	}

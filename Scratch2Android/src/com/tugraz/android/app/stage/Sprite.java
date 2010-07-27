@@ -13,16 +13,17 @@ import android.util.Log;
 
 public class Sprite extends Thread implements Observer{
 	
+	private String mSpriteName;
 	private StageView mStage;
 	private ArrayList<HashMap<String, String>> mCommandList;
 	private MediaPlayer mMediaPlayer; //TODO change MediaPlayer to SoundPool to support multiple sounds simultanieously
 	private int mCommandCount = 0;
 	
-	public Sprite(StageView view, ArrayList<HashMap<String, String>> commandList, MediaPlayer mp){
+	public Sprite(StageView view, ArrayList<HashMap<String, String>> commandList, String name, MediaPlayer mp){
 		mStage = view;
 		mCommandList = commandList;
 		mMediaPlayer = mp;
-		
+		mSpriteName = name;
 	}
 
 	public void run() {
@@ -51,8 +52,7 @@ public class Sprite extends Thread implements Observer{
 		int type = Integer.parseInt(map.get(BrickDefine.BRICK_TYPE));
 		switch (type) {
 		case BrickDefine.SET_BACKGROUND:
-			mStage.getThread().setBackgroundBitmap(
-					map.get(BrickDefine.BRICK_VALUE));
+			mStage.getThread().setBackground(map.get(BrickDefine.BRICK_VALUE));
 			mStage.getThread().mIsDraw = true;
 			mCommandCount++;
 			toNextCommand();
