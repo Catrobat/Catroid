@@ -20,11 +20,11 @@ import android.widget.TextView;
 
 public class ToolboxSpritesAdapter extends BaseAdapter{
     private Context mCtx;
-    public ArrayList<HashMap<String, String>> mList;
+    public ArrayList<String> mList;
     private ContentManager mContentManager;
     
 	public ToolboxSpritesAdapter(Context context,
-			ArrayList<HashMap<String, String>> data) {
+			ArrayList<String> data) {
 		mCtx = context;
 		mList = data;
 	
@@ -40,30 +40,29 @@ public class ToolboxSpritesAdapter extends BaseAdapter{
 	}
 
 	public long getItemId(int position) {
-		String type = mList.get(position).get(BrickDefine.BRICK_ID);
+		String type = mList.get(position);
 		if(type == null)
 			return 0;
 		else
-			return Integer.valueOf(type).intValue();
+			return 0;//TODO Check this Integer.valueOf(type).intValue();
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
-
-		LayoutInflater inflater = (LayoutInflater)mCtx.getSystemService(
+        LayoutInflater inflater = (LayoutInflater)mCtx.getSystemService(
 	    Context.LAYOUT_INFLATER_SERVICE);
 		
-		    //Check the type
-	    LinearLayout view = (LinearLayout) inflater.inflate(R.layout.spritetoolbox, null);
+		LinearLayout view = (LinearLayout) inflater.inflate(R.layout.spritetoolbox, null);
 		TextView text = (TextView)view.getChildAt(0);
-		text.setText("Hier steht mein Name");
-		view.setBackgroundColor(Color.argb(255, 139, 0, 139));		
+		text.setText(mList.get(position));
+		text.setTextColor(Color.BLUE);
+		view.setBackgroundColor(Color.argb(255, 255, 255, 139));		
 	    view.setOnClickListener(new View.OnClickListener() {				
 				@Override
 				public void onClick(View v) {
-					//TODO ContentManager switch to new Sprite
+					mContentManager.switchSprite(((TextView)v).getText().toString());
 				}
 			});
-			return view;
+		return view;
 		}
 	
 	

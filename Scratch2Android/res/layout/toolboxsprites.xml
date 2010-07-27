@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:id="@+id/toolboxsprites_layout" android:padding="10dp" android:background="#FA0" android:layout_height="fill_parent" android:layout_width="fill_parent">
-<ListView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/stageListView"></ListView>
-<ListView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/spritesListView"></ListView>
-</LinearLayout>
+
+<EditText android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/newsprite" android:id="@+id/newsprite"></EditText>
+<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/NewSpriteButton" android:layout_below="@id/newsprite" android:text="@string/SpriteButtonText"></Button>
+<ListView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/spritesListView" android:layout_toRightOf="@+id/newsprite"></ListView>
+
+
+
+</RelativeLayout>

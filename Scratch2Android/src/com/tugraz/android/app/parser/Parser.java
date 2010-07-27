@@ -125,6 +125,8 @@ public class Parser {
 	}
 
 	public String toXml(TreeMap<String, ArrayList<HashMap<String,String>>> brickList) {
+		TreeMap<String, ArrayList<HashMap<String,String>>> tempList = new TreeMap<String, ArrayList<HashMap<String,String>>>();
+		tempList.putAll(brickList);
 		doc = builder.newDocument(); //TODO eventuell nachher checken ob sich was veraendert hat und nur das aendern
 		XmlSerializer serializer = Xml.newSerializer();
 		StringWriter writer = new StringWriter();
@@ -139,19 +141,19 @@ public class Parser {
 	    	e.printStackTrace();
 		}
 		
-		int end = brickList.size();
+		int end = tempList.size();
 		for (int j=0; j<end; j++) {
-			ArrayList<HashMap<String, String>> sprite = brickList.get(brickList.firstKey());
+			ArrayList<HashMap<String, String>> sprite = tempList.get(tempList.firstKey());
 		    try {
-		    	if (brickList.firstKey().equals("stage"))
+		    	if (tempList.firstKey().equals("stage"))
 		    		{
 		    			serializer.startTag("", "stage");
-		    			serializer.attribute("", "name", brickList.firstKey());
+		    			serializer.attribute("", "name", tempList.firstKey());
 		    		}
 		    	else
 		    	{
 		    		serializer.startTag("", "sprite");
-		    	    serializer.attribute("", "name", brickList.firstKey());
+		    	    serializer.attribute("", "name", tempList.firstKey());
 		    	}
 		    	for (int i=0; i<sprite.size(); i++) {
 		    		HashMap<String,String> brick = sprite.get(i);
@@ -211,11 +213,11 @@ public class Parser {
 					
 					}
 		    	}
-		    	if (j==0)
+		    	if (brickList.firstKey().equals("stage"))
 		    		serializer.endTag("", "stage");
 		    	else
 		    		serializer.endTag("", "sprite");
-		    	//brickList.remove(brickList.firstKey());
+		    	tempList.remove(tempList.firstKey());
 			}
 		    catch (Exception e){
 		    	Log.e("Parser","An error occured in toXml");

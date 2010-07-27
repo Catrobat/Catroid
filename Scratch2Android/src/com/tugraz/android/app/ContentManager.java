@@ -31,6 +31,7 @@ public class ContentManager extends Observable{
 	private static final String mTempFile = "tempFile.txt";
 	private String mCurrentSprite;
 	private ToolboxSpritesDialog mSpritebox;
+	private ArrayList<String> mSpritelist = new ArrayList<String>();
 	
 	public ArrayList<HashMap<String, String>> getContentArrayList(){
 		return mContentArrayList;
@@ -44,6 +45,7 @@ public class ContentManager extends Observable{
 		if(mSpritesAndBackgroundList.containsKey(name))
 		{
 		mSpritesAndBackgroundList.remove(name);
+		getAllSprites();
 		}
 		if(mCurrentSprite.equals(name))		
 		{
@@ -54,7 +56,7 @@ public class ContentManager extends Observable{
 		if(mSpritesAndBackgroundList.size() == 0)
 		{
 			//Fill Dummy Stage
-			mSpritesAndBackgroundList.put("Stage", new ArrayList<HashMap<String,String>>());
+			mSpritesAndBackgroundList.put("stage", new ArrayList<HashMap<String,String>>());
 			setChanged();
 			notifyObservers();
 		}
@@ -64,9 +66,10 @@ public class ContentManager extends Observable{
 		mSpritesAndBackgroundList.clear();
 		mContentArrayList.clear();
 		saveContent();
-		mSpritesAndBackgroundList.put("Stage", mContentArrayList);
+		mSpritesAndBackgroundList.put("stage", mContentArrayList);
 		//Fill Dummy Stage
-		mCurrentSprite = "Stage";
+		mCurrentSprite = "stage";
+		getAllSprites();
         setChanged();
 		notifyObservers();
 	}
@@ -76,6 +79,7 @@ public class ContentManager extends Observable{
 		mSpritesAndBackgroundList.put(name, sprite);
 		switchSprite(name);
 		mCurrentSprite = name;
+		getAllSprites();
 		//switchSprite(mSpritesAndBackgroundList.size()-1);
 		//mCurrentSprite = (mSpritesAndBackgroundList.size()-1);
 	}
@@ -103,8 +107,9 @@ public class ContentManager extends Observable{
 		mContentArrayList = new ArrayList<HashMap<String, String>>();
 		mFilesystem = new FileSystem();
 		mParser = new Parser();
-		mSpritesAndBackgroundList.put("Stage", mContentArrayList);
-		mCurrentSprite = "Stage";
+		mSpritelist = new ArrayList<String>();
+		mSpritesAndBackgroundList.put("stage", mContentArrayList);
+		mCurrentSprite = "stage";
 	}
 	
 	/**
@@ -126,8 +131,8 @@ public class ContentManager extends Observable{
 			mContentArrayList.clear();
 			
 			mSpritesAndBackgroundList.putAll(mParser.parse(scratch));
-	        mContentArrayList.addAll(mSpritesAndBackgroundList.get("Stage"));
-            mCurrentSprite ="Stage";
+	        mContentArrayList.addAll(mSpritesAndBackgroundList.get("stage"));
+            mCurrentSprite ="stage";
 	        try {
 				scratch.close();
 			} catch (IOException e) {
@@ -137,8 +142,9 @@ public class ContentManager extends Observable{
 			if(mSpritesAndBackgroundList.size() == 0)
 			{
 				//Fill Dummy Stage
-				mSpritesAndBackgroundList.put("Stage", new ArrayList<HashMap<String,String>>());
+				mSpritesAndBackgroundList.put("stage", new ArrayList<HashMap<String,String>>());
 			}
+			getAllSprites();
 	        setChanged();
 	        notifyObservers();
 		} 
@@ -198,7 +204,8 @@ public class ContentManager extends Observable{
 		mSpritesAndBackgroundList = spritesAndBackground;
 		//Check for default stage Object
 		if(mSpritesAndBackgroundList.size() == 0)
-			mSpritesAndBackgroundList.put("Stage", new ArrayList<HashMap<String,String>>());
+			mSpritesAndBackgroundList.put("stage", new ArrayList<HashMap<String,String>>());
+		getAllSprites();
 		setChanged();
 		notifyObservers();
 	}
@@ -209,6 +216,7 @@ public class ContentManager extends Observable{
 		mContentArrayList.clear();
 		mContentArrayList.addAll(mSpritesAndBackgroundList.get(nameNewSprite));
 		mCurrentSprite = nameNewSprite;
+		getAllSprites();
 		setChanged();
 		notifyObservers();
 	}
@@ -229,5 +237,16 @@ public class ContentManager extends Observable{
 	{
 		mSpritebox = spritebox;
 	}
-
+	
+    public ArrayList<String> getAllSprites(){
+    TreeMap<String, ArrayList<HashMap<String, String>>> map = new TreeMap<String, ArrayList<HashMap<String,String>>>();
+    map.putAll(mSpritesAndBackgroundList);
+    for(int i=0; i<mSpritesAndBackgroundList.size(); i++){
+    	mSpritelist.add(map.firstKey());
+    	map.remove(map.firstKey());
+    }
+    
+    
+    return mSpritelist;
+    } 
 }

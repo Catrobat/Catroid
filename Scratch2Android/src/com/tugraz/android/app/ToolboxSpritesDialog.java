@@ -5,13 +5,20 @@ import java.util.HashMap;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 public class ToolboxSpritesDialog extends Dialog
 
@@ -22,11 +29,14 @@ public class ToolboxSpritesDialog extends Dialog
 	private Animation mSlide_out;
 	
 	public ListView mMainListView;
+	public EditText mEditText;
+	public Button mSpriteButton;
 	private ToolboxSpritesAdapter mAdapter;
-	public ArrayList<HashMap<String, String>> mContentArrayList;
+	public ArrayList<String> mContentArrayList;
 	ContentManager mContentManager;
+	private String mSpriteText;
 	
-	private LinearLayout mToolboxLayout;
+	private RelativeLayout mToolboxLayout;
 	
 	private int mFlagId;
 	
@@ -68,15 +78,48 @@ public class ToolboxSpritesDialog extends Dialog
 	
 		);
 		
-		mToolboxLayout = (LinearLayout) findViewById(R.id.toolboxsprites_layout);
+		mToolboxLayout = (RelativeLayout) findViewById(R.id.toolboxsprites_layout);
 		
-		mContentArrayList = new ArrayList<HashMap<String,String>>();
+		mContentArrayList = mContentManager.getAllSprites();
 		
 		mMainListView = (ListView) findViewById(R.id.spritesListView);
 		
-		mAdapter = new ToolboxSpritesAdapter(mCtx, mContentArrayList);
+		mAdapter = new ToolboxSpritesAdapter(mCtx, mContentManager.getAllSprites());
 		mAdapter.setContentManager(mContentManager);
 		mMainListView.setAdapter(mAdapter);
+		
+		mEditText = (EditText) findViewById(R.id.newsprite);
+		mSpriteButton = (Button) findViewById(R.id.NewSpriteButton);
+		
+		mSpriteButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				mContentManager.addSprite(mSpriteText, new ArrayList<HashMap<String,String>>());				
+			}
+
+		});
+		mEditText.addTextChangedListener(new TextWatcher()
+		{
+
+				@Override
+				public void afterTextChanged(Editable s) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void beforeTextChanged(CharSequence s, int start,
+						int count, int after) {
+					// TODO Auto-generated method stub
+				}
+
+				@Override
+				public void onTextChanged(CharSequence s, int start,
+						int before, int count) {
+					mSpriteText = s.toString();
+				}
+		});
 	}
 
 	@Override
@@ -100,12 +143,7 @@ public class ToolboxSpritesDialog extends Dialog
 	 *
 	 */
 	public void testSet(){
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put(BrickDefine.BRICK_ID, "1");
-        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
-        map.put(BrickDefine.BRICK_NAME, "Test1");
-        map.put(BrickDefine.BRICK_VALUE, "bla");
-        mContentArrayList.add(map);
+        mContentArrayList.add("Sprite");
         
 	}
 
