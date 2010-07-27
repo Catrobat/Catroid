@@ -50,7 +50,7 @@ public class ContentManager extends Observable{
 		}
 		if(mCurrentSprite.equals(name))		
 		{
-			mContentArrayList = mSpritesAndBackgroundList.get(name);
+			mContentArrayList = (ArrayList<HashMap<String,String>>)mSpritesAndBackgroundList.get(name).clone();
 			setChanged();
 			notifyObservers();
 		}
@@ -67,7 +67,7 @@ public class ContentManager extends Observable{
 		mSpritesAndBackgroundList.clear();
 		mContentArrayList.clear();
 		saveContent();
-		mSpritesAndBackgroundList.put("stage", mContentArrayList);
+		mSpritesAndBackgroundList.put("stage", (ArrayList<HashMap<String,String>>)mContentArrayList.clone());
 		//Fill Dummy Stage
 		mCurrentSprite = "stage";
         setChanged();
@@ -108,7 +108,7 @@ public class ContentManager extends Observable{
 		mFilesystem = new FileSystem();
 		mParser = new Parser();
 		mSpritelist = new ArrayList<String>();
-		mSpritesAndBackgroundList.put("stage", mContentArrayList);
+		mSpritesAndBackgroundList.put("stage", (ArrayList<HashMap<String,String>>)mContentArrayList.clone());
 		mCurrentSprite = "stage";
 	}
 	
@@ -131,7 +131,7 @@ public class ContentManager extends Observable{
 			mContentArrayList.clear();
 			
 			mSpritesAndBackgroundList.putAll(mParser.parse(scratch));
-	        mContentArrayList.addAll(mSpritesAndBackgroundList.get("stage"));
+	        mContentArrayList.addAll((ArrayList<HashMap<String,String>>)mSpritesAndBackgroundList.get("stage").clone());
             mCurrentSprite ="stage";
 	        try {
 				scratch.close();
@@ -162,7 +162,7 @@ public class ContentManager extends Observable{
 	 * save content
 	 */
 	public void saveContent(String file){
-		mSpritesAndBackgroundList.put(mCurrentSprite, mContentArrayList);
+		mSpritesAndBackgroundList.put(mCurrentSprite,(ArrayList<HashMap<String,String>>) mContentArrayList.clone());
 		FileOutputStream fd = mFilesystem.createOrOpenFileOutput(file, mCtx);
 
 		String xml = mParser.toXml(mSpritesAndBackgroundList);
@@ -211,7 +211,7 @@ public class ContentManager extends Observable{
 	}
 	
 	public void switchSprite(String nameNewSprite){
-		mSpritesAndBackgroundList.put(mCurrentSprite, mContentArrayList);
+		mSpritesAndBackgroundList.put(mCurrentSprite, (ArrayList<HashMap<String,String>>)mContentArrayList.clone());
 		saveContent();
 		mContentArrayList.clear();
 		mContentArrayList.addAll(mSpritesAndBackgroundList.get(nameNewSprite));
