@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -51,7 +52,7 @@ public class ToolboxSpritesAdapter extends BaseAdapter{
         LayoutInflater inflater = (LayoutInflater)mCtx.getSystemService(
 	    Context.LAYOUT_INFLATER_SERVICE);
 		
-		LinearLayout view = (LinearLayout) inflater.inflate(R.layout.spritetoolbox, null);
+		RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.spritetoolbox, null);
 		TextView text = (TextView)view.getChildAt(0);
 		text.setText(mList.get(position));
 		text.setTextColor(Color.BLUE);

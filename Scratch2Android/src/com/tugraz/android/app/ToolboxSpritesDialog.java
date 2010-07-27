@@ -34,7 +34,7 @@ public class ToolboxSpritesDialog extends Dialog
 	private ToolboxSpritesAdapter mAdapter;
 	public ArrayList<String> mContentArrayList;
 	ContentManager mContentManager;
-	private String mSpriteText;
+	private String mSpriteText = "Neuer Sprite";
 	
 	private RelativeLayout mToolboxLayout;
 	
@@ -90,12 +90,11 @@ public class ToolboxSpritesDialog extends Dialog
 		
 		mEditText = (EditText) findViewById(R.id.newsprite);
 		mSpriteButton = (Button) findViewById(R.id.NewSpriteButton);
-		
 		mSpriteButton.setOnClickListener(new View.OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
-				mContentManager.addSprite(mSpriteText, new ArrayList<HashMap<String,String>>());				
+				mContentManager.addSprite(mSpriteText, new ArrayList<HashMap<String,String>>());
+				mAdapter.notifyDataSetChanged();
 			}
 
 		});
