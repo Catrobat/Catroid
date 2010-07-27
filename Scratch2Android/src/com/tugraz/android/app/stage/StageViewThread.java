@@ -2,6 +2,7 @@ package com.tugraz.android.app.stage;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 import com.tugraz.android.app.R;
 
@@ -35,7 +36,7 @@ public class StageViewThread extends Thread {
 	private int mX = 0;
 	private int mY = 0;
 	private Bitmap mBackgroundBitmap;
-	private HashMap<Bitmap, Pair<Float,Float>> mBitmapToPositionMap;
+	private Map<Bitmap, Pair<Float,Float>> mBitmapToPositionMap;
 	
 
 	public StageViewThread(SurfaceHolder holder, Context context,
@@ -43,9 +44,9 @@ public class StageViewThread extends Thread {
 		mSurfaceHolder = holder;
 		this.context = context;
 		this.setName("StageViewThread");
-		//mBackgroundBitmap = BitmapFactory.decodeResource(context.getResources(),
-		//		   R.drawable.icon);
-		mBitmapToPositionMap = (HashMap<Bitmap, Pair<Float, Float>>) Collections.synchronizedMap(new HashMap<Bitmap, Pair<Float,Float>>());
+		mBackgroundBitmap = BitmapFactory.decodeResource(context.getResources(),
+				   R.drawable.icon);
+		mBitmapToPositionMap =  Collections.synchronizedMap(new HashMap<Bitmap, Pair<Float,Float>>());
 		//TODO funktioniert der cast da so? 
 	}
 
