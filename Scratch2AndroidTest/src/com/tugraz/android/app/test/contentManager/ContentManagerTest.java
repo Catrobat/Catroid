@@ -191,7 +191,7 @@ public class ContentManagerTest extends AndroidTestCase {
 	private String TESTXML =
 		"<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>"+
 		"<project>"+
-		"<stage name=\"Stage\" />"+
+		"<stage name=\"stage\">"+
 		  "<command id=\"1001\">"+
 		    "<image path=\"bla.jpg\" />"+
 		  "</command>"+
@@ -202,7 +202,7 @@ public class ContentManagerTest extends AndroidTestCase {
 		    "<sound path=\"bla.mp3\" />"+
 		  "</command>"+
 		"</stage>"+
-		"<sprite name=\"Stage\" /"+
+		"<sprite name=\"sprite\">"+
 		  "<command id=\"4003\">"+
 		    "<image path=\"bla.jpg\" />"+
 		  "</command>"+

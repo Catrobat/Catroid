@@ -46,7 +46,7 @@ public class Parser {
 	}
 	
 	public TreeMap<String, ArrayList<HashMap<String, String>>> parse(InputStream stream){
-		TreeMap<String, ArrayList<HashMap<String, String>>> list = new TreeMap<String, ArrayList<HashMap<String,String>>>();
+		TreeMap<String, ArrayList<HashMap<String, String>>> spritesMap = new TreeMap<String, ArrayList<HashMap<String,String>>>();
 		mIdCounter = 1;
 		
 		try {
@@ -87,7 +87,7 @@ public class Parser {
 			
 		}
 		
-		list.put("stage", sublist);
+		spritesMap.put("stage", sublist);
 		
 		//then read out sprites
 		for (int j=0; j<sprites.getLength(); j++){
@@ -118,16 +118,18 @@ public class Parser {
 				mIdCounter++;
 				
 			}
-			list.put(name, sublist);
+			spritesMap.put(name, sublist);
 		}
 		
-		return list;
+		return spritesMap;
 	}
 
-	public String toXml(TreeMap<String, ArrayList<HashMap<String,String>>> brickList) {
-		TreeMap<String, ArrayList<HashMap<String,String>>> tempList = new TreeMap<String, ArrayList<HashMap<String,String>>>();
-		tempList.putAll(brickList);
+	public String toXml(TreeMap<String, ArrayList<HashMap<String,String>>> spritesMap) {
+		TreeMap<String, ArrayList<HashMap<String,String>>> tempMap = new TreeMap<String, ArrayList<HashMap<String,String>>>();
+		tempMap.putAll(spritesMap);
+		
 		doc = builder.newDocument(); //TODO eventuell nachher checken ob sich was veraendert hat und nur das aendern
+		
 		XmlSerializer serializer = Xml.newSerializer();
 		StringWriter writer = new StringWriter();
     	
@@ -141,19 +143,22 @@ public class Parser {
 	    	e.printStackTrace();
 		}
 		
-		int end = tempList.size();
-		for (int j=0; j<end; j++) {
-			ArrayList<HashMap<String, String>> sprite = tempList.get(tempList.firstKey());
+		boolean stageRead = false;
+		int mapSizeBeforeRemoving = tempMap.size();;
+		
+		for (int j=0; j<mapSizeBeforeRemoving; j++) {
+			ArrayList<HashMap<String, String>> sprite = tempMap.get(tempMap.firstKey());
 		    try {
-		    	if (tempList.firstKey().equals("stage"))
-		    		{
-		    			serializer.startTag("", "stage");
-		    			serializer.attribute("", "name", tempList.firstKey());
-		    		}
+		    	if (!stageRead) //workaround so that stage always is the first element in xml file
+	    		{
+	    			sprite = tempMap.get("stage");
+	    			serializer.startTag("", "stage");
+	    			serializer.attribute("", "name", "stage");
+	    		}
 		    	else
 		    	{
 		    		serializer.startTag("", "sprite");
-		    	    serializer.attribute("", "name", tempList.firstKey());
+		    	    serializer.attribute("", "name", tempMap.firstKey());
 		    	}
 		    	for (int i=0; i<sprite.size(); i++) {
 		    		HashMap<String,String> brick = sprite.get(i);
@@ -213,11 +218,15 @@ public class Parser {
 					
 					}
 		    	}
-		    	if (brickList.firstKey().equals("stage"))
+		    	if (!stageRead) {
 		    		serializer.endTag("", "stage");
-		    	else
+		    		stageRead = true;
+		    		tempMap.remove("stage");
+		    	}
+		    	else {
 		    		serializer.endTag("", "sprite");
-		    	tempList.remove(tempList.firstKey());
+		    		tempMap.remove(tempMap.firstKey());
+		    	}
 			}
 		    catch (Exception e){
 		    	Log.e("Parser","An error occured in toXml");
