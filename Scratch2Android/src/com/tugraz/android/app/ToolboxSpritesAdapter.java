@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -23,7 +24,7 @@ public class ToolboxSpritesAdapter extends BaseAdapter{
     private Context mCtx;
     public ArrayList<String> mList;
     private ContentManager mContentManager;
-    
+  
 	public ToolboxSpritesAdapter(Context context,
 			ArrayList<String> data) {
 		mCtx = context;
@@ -52,7 +53,8 @@ public class ToolboxSpritesAdapter extends BaseAdapter{
         LayoutInflater inflater = (LayoutInflater)mCtx.getSystemService(
 	    Context.LAYOUT_INFLATER_SERVICE);
 		
-		RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.spritetoolbox, null);
+		LinearLayout view = (LinearLayout) inflater.inflate(R.layout.spritetoolbox, null);
+		view.setTag(mList.get(position));
 		TextView text = (TextView)view.getChildAt(0);
 		text.setText(mList.get(position));
 		text.setTextColor(Color.BLUE);
@@ -60,7 +62,7 @@ public class ToolboxSpritesAdapter extends BaseAdapter{
 	    view.setOnClickListener(new View.OnClickListener() {				
 				@Override
 				public void onClick(View v) {
-					mContentManager.switchSprite(((TextView)v).getText().toString());
+					mContentManager.switchSprite(((LinearLayout)v).getTag().toString());
 				}
 			});
 		return view;
@@ -71,5 +73,6 @@ public class ToolboxSpritesAdapter extends BaseAdapter{
 		mContentManager = contentManager;
 		
 	}
+
 
 }

@@ -26,8 +26,10 @@ import android.view.animation.LayoutAnimationController;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 public class MainActivity extends Activity implements Observer, OnClickListener{
@@ -57,9 +59,9 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
         mContentManager.setObserver(this);
         mContentManager.setContext(this);
         mAdapter = new MainListViewAdapter(this, mContentManager.getContentArrayList());
-        
         mMainListView = (ListView) findViewById(R.id.MainListView);
         mMainListView.setAdapter(mAdapter);
+        
         
         //Testing
         mContentManager.testSet();
@@ -143,12 +145,10 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 
 	
 	public void update(Observable observable, Object data) {
-		Log.d("View1", mAdapter.mList.toString());
-		Log.d("View1", mMainListView.toString());
-
+		
 		mAdapter.notifyDataSetChanged();
-		Log.d("View2", mAdapter.mList.toString());
-		Log.d("View2", mContentManager.getContentArrayList().toString());
+		this.setTitle(mContentManager.getCurrentSprite());
+	
 	}
 	
 	//automatic save
