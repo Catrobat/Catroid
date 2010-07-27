@@ -26,7 +26,7 @@ public class ParserTest extends TestCase {
 	private String testXml =
 	"<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>"+
 	"<project>"+
-	"<stage name=\"Stage\">"+
+	"<stage name=\"stage\">"+
 	  "<command id=\"1001\">"+
 	    "<image path=\"bla.jpg\" />"+
 	  "</command>"+
@@ -91,10 +91,10 @@ public class ParserTest extends TestCase {
 			Log.e("ParserTest", "Reading from test XML file failed!");
 			e.printStackTrace();
 		}
-		Log.i("ParserTest", testXml);
+		Log.i("ParserTest: the test string: ", testXml);
 		String xml = parser.toXml(list);
 		
-		Log.i("ParserTest", xml);
+		Log.i("ParserTest the parsed string: ", xml);
 		assertTrue(xml.equals(testXml));
 		
 	}
