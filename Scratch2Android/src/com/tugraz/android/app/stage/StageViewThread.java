@@ -35,8 +35,6 @@ public class StageViewThread extends Thread {
 	private boolean mRun = false;
 	private SurfaceHolder mSurfaceHolder;
 	private Context context;
-	private int mX = 0;
-	private int mY = 0;
 	private Map<String, Pair<Bitmap,Pair<Float,Float>>> mBitmapToPositionMap;
 	
 
@@ -66,6 +64,17 @@ public class StageViewThread extends Thread {
 	
 	public void removeBitmapToDraw(String spriteName) { //TODO brauchen wir das ueberhaupt? 
 		mBitmapToPositionMap.remove(spriteName);
+	}
+	
+	public void changeBitmapPosition(String spriteName, float x, float y) {
+		if (!mBitmapToPositionMap.containsKey(spriteName))
+			return;
+		Pair<Float,Float> newCoordinates = new Pair<Float,Float>(x,y);
+		Bitmap bitmap = mBitmapToPositionMap.get(spriteName).first;
+		Pair <Bitmap,Pair<Float,Float>> bitmapAndPosition = new Pair <Bitmap,Pair<Float,Float>>(bitmap,newCoordinates);
+		mBitmapToPositionMap.remove(spriteName);
+		mBitmapToPositionMap.put(spriteName, bitmapAndPosition);
+		
 	}
 	
 	public synchronized boolean isRunning(){
@@ -99,8 +108,8 @@ public class StageViewThread extends Thread {
 	protected synchronized void doDraw(Canvas canvas) {
 		Paint paint = new Paint();
 
-		Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),
-				   R.drawable.icon);
+//		Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),
+//				   R.drawable.icon);
 			
 		paint.setStyle(Paint.Style.FILL);
 		paint.setColor(Color.WHITE);

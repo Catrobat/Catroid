@@ -7,7 +7,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import com.tugraz.android.app.stage.BrickWait;
-import com.tugraz.android.app.stage.SoundManager;
 import com.tugraz.android.app.stage.StageView;
 import com.tugraz.android.app.stage.Sprite;
 
