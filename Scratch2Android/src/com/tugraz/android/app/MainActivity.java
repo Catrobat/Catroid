@@ -36,8 +36,9 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 
     /** Called when the activity is first created. */
 	
-	static final int TOOLBOX_DIALOG = 0;
-	static final int SPRITETOOLBOX_DIALOG = 1;
+	static final int TOOLBOX_DIALOG_SPRITE = 0;
+	static final int TOOLBOX_DIALOG_BACKGROUND = 1;
+	static final int SPRITETOOLBOX_DIALOG = 2;
 	
 	protected ListView mMainListView;
 	private MainListViewAdapter mAdapter;
@@ -45,7 +46,7 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 	
 	
 	private Button mToolboxButton;
-	private ToolboxDialog mToolboxDialog;
+	private Dialog mToolboxDialog;
 
 	private Button mSpritesToolboxButton;
     //TODO Eigener ToolboxDialog und eigener ToolboxAdapter
@@ -80,9 +81,13 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
     
     protected Dialog onCreateDialog(int id){
         switch(id) { //TODO kommt er hier nur einmal her oder bei jedem aufruf?
-        case TOOLBOX_DIALOG:
-        	mToolboxDialog = new ToolboxDialog(this, true, null, 0); //TODO passen argumente so?  
-        	mToolboxDialog.setContentManager(mContentManager);
+        case TOOLBOX_DIALOG_SPRITE:
+        	mToolboxDialog = new ToolboxSpriteDialog(this, true, null, 0); //TODO passen argumente so?  
+        	((ToolboxSpriteDialog)mToolboxDialog).setContentManager(mContentManager);
+        	return mToolboxDialog;
+        case TOOLBOX_DIALOG_BACKGROUND:
+        	mToolboxDialog = new ToolboxBackgroundDialog(this, true, null, 0); //TODO passen argumente so?  
+        	((ToolboxBackgroundDialog)mToolboxDialog).setContentManager(mContentManager);
         	return mToolboxDialog;
         case SPRITETOOLBOX_DIALOG:
         	mSpritesToolboxDialog = new ToolboxSpritesDialog(this, true, null, 0);
@@ -176,8 +181,14 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 	}
 		
 	private void openToolbox(){
-		showDialog(TOOLBOX_DIALOG);
-		
+		if(mContentManager.getCurrentSprite().equals("stage"))
+		{
+		showDialog(TOOLBOX_DIALOG_BACKGROUND);
+		}
+		else
+		{
+		showDialog(TOOLBOX_DIALOG_SPRITE);
+		}
 	}
 	
 	private void openSpriteToolbox()
@@ -185,7 +196,7 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 		showDialog(SPRITETOOLBOX_DIALOG);
 	}
 	
-	public ToolboxDialog getToolboxDialog(){
+	public Dialog getToolboxDialog(){
 		return mToolboxDialog;
 	}
  }
