@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="load">laden</string>
+    <string name="save">speichern</string>
     <string name="SpriteButtonText">Neuen Sprite anlegen</string>
     <string name="newsprite">Neues Sprite anlegen</string>
     
