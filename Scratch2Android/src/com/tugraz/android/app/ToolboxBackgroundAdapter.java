@@ -18,13 +18,13 @@ import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class ToolboxAdapter extends BaseAdapter{
+public class ToolboxBackgroundAdapter extends BaseAdapter{
     private Context mCtx;
     public ArrayList<HashMap<String, String>> mList;
     private ContentManager mContentManager;
     private MediaFileLoader mMediaFileLoader;
     
-	public ToolboxAdapter(Context context,
+	public ToolboxBackgroundAdapter(Context context,
 			ArrayList<HashMap<String, String>> data) {
 		mCtx = context;
 		mList = data;
@@ -140,106 +140,7 @@ public class ToolboxAdapter extends BaseAdapter{
 			});
 			return view;
 		}
-		case (BrickDefine.HIDE): 
-		{
-		  LinearLayout view =  (LinearLayout)inflater.inflate(R.layout.mlve_one_lable, null);
-		  TextView text = (TextView) view.getChildAt(0);
-		  text.setText("Hide");
-		  text.setTextColor(Color.BLUE);
-	      view.setBackgroundColor(Color.argb(255, 255, 215, 100));
-          view.setOnClickListener(new View.OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					HashMap<String, String> map = new HashMap<String, String>();
-			        map.put(BrickDefine.BRICK_ID, "4");
-			        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.HIDE));
-			        map.put(BrickDefine.BRICK_NAME, "Hide");
-			        map.put(BrickDefine.BRICK_VALUE, "1");
-					mContentManager.add(map);
-					
-				}
-			});
-          
-			return view;
-		}
-		case (BrickDefine.SHOW): 
-		{
-		  LinearLayout view =  (LinearLayout)inflater.inflate(R.layout.mlve_one_lable, null);
-		  TextView text = (TextView) view.getChildAt(0);
-		  text.setText("Show");
-		  text.setTextColor(Color.BLUE);
-	      view.setBackgroundColor(Color.argb(255, 255, 215, 200));
-          view.setOnClickListener(new View.OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					HashMap<String, String> map = new HashMap<String, String>();
-			        map.put(BrickDefine.BRICK_ID, "5");
-			        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SHOW));
-			        map.put(BrickDefine.BRICK_NAME, "Show");
-			        map.put(BrickDefine.BRICK_VALUE, "1");
-					mContentManager.add(map);
-					
-				}
-			});
-          
-			return view;
-		}
-		case (BrickDefine.GO_TO): 
-		{
-		  LinearLayout view =  (LinearLayout)inflater.inflate(R.layout.mlv_one_label_two_edit, null);
-		  TextView text = (TextView) view.getChildAt(0);
-		  text.setText("GO-TO-XY");
-		  text.setTextColor(Color.BLUE);
-	      view.setBackgroundColor(Color.argb(255, 255, 215, 255));
-          view.setOnClickListener(new View.OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					HashMap<String, String> map = new HashMap<String, String>();
-			        map.put(BrickDefine.BRICK_ID, "6");
-			        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.GO_TO));
-			        map.put(BrickDefine.BRICK_NAME, "GO-TO-XY");
-			        map.put(BrickDefine.BRICK_VALUE, "1");
-			        map.put(BrickDefine.BRICK_VALUE_1, "1");
-					mContentManager.add(map);
-					
-				}
-			});
-          
-			return view;
-		}
-		case (BrickDefine.SET_COSTUME): 
-		{
-			LinearLayout view = (LinearLayout) inflater.inflate(R.layout.mlve_two_labels, null);
-			//text1.setTextColor(Color.BLUE);
-			TextView text = (TextView)view.getChildAt(0);
-			text.setText("Setze Kostüm:");
-			//text2.setTextColor(Color.BLUE);
-			view.setBackgroundColor(Color.argb(255, 139, 0, 50));
 
-			Spinner spinner = (Spinner)view.getChildAt(1);
-			
-			
-			//set adapter		
-			final SimpleAdapter adapter = new SimpleAdapter(mCtx, mMediaFileLoader.getPictureContent(), R.layout.picture_spinner,
-					new String[] {MediaFileLoader.PICTURE_THUMB, MediaFileLoader.PICTURE_NAME},
-	                new int[] {R.id.PictureSpinnerImageView, R.id.PictureSpinnerTextView});
-			spinner.setAdapter(adapter);
-			view.setOnClickListener(new View.OnClickListener() {				
-				@Override
-				public void onClick(View v) {
-					HashMap<String, String> map = new HashMap<String, String>();
-			        map.put(BrickDefine.BRICK_ID, "7");
-			        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_COSTUME));
-			        map.put(BrickDefine.BRICK_NAME, "SetCostume");
-			        map.put(BrickDefine.BRICK_VALUE, "1");
-					mContentManager.add(map);
-				}
-			});
-			return view;
-		}
 		case (BrickDefine.NOT_DEFINED):
 		{
 			return inflater.inflate(R.layout.mlve_two_labels, parent);
