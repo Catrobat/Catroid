@@ -19,6 +19,8 @@ public class Sprite extends Thread implements Observer, OnCompletionListener{
 	private ArrayList<HashMap<String, String>> mCommandList;
 	private MediaPlayer mMediaPlayer; //TODO change MediaPlayer to SoundPool to support multiple sounds simultanieously
 	private int mCommandCount = 0;
+	private int mCurrentXPosition = 0;
+	private int mCurrentYPosition = 0;
 	
 	public Sprite(StageView view, ArrayList<HashMap<String, String>> commandList, String name){
 		mStage = view;
@@ -29,6 +31,7 @@ public class Sprite extends Thread implements Observer, OnCompletionListener{
 		
 	}
 
+	@Override
 	public void run() {
 		doNextCommand();
 	}
@@ -60,8 +63,15 @@ public class Sprite extends Thread implements Observer, OnCompletionListener{
 			mCommandCount++;
 			toNextCommand();
 			break;
+			
+		case BrickDefine.SET_COSTUME:
+			mStage.getThread().addBitmapToDraw(mSpriteName, map.get(BrickDefine.BRICK_VALUE), mCurrentXPosition, mCurrentYPosition);
+			mStage.getThread().mIsDraw = true;
+			mCommandCount++;
+			toNextCommand();
+			break;
 
-		case BrickDefine.PLAY_SOUND: //TODO funktioniert abspielen von mehreren sounds gleichzeitig
+		case BrickDefine.PLAY_SOUND: 
 			try {
 				mMediaPlayer.reset();
 				mMediaPlayer.setDataSource(map.get(BrickDefine.BRICK_VALUE));
@@ -82,7 +92,24 @@ public class Sprite extends Thread implements Observer, OnCompletionListener{
 			mCommandCount++;
 			brickWait(Float.parseFloat(map.get(BrickDefine.BRICK_VALUE)));
 			break;
+			
+		case BrickDefine.GO_TO:
+			mCurrentXPosition = Integer.parseInt(map.get(BrickDefine.BRICK_VALUE));
+			mCurrentXPosition = Integer.parseInt(map.get(BrickDefine.BRICK_VALUE));
+			mStage.getThread().changeBitmapPosition(mSpriteName, mCurrentXPosition, mCurrentYPosition);
+			mCommandCount++;
+			break;
+			
+		case BrickDefine.HIDE:
+			//TODO implement
+			break;
+			
+		case BrickDefine.SHOW:
+			//TODO implement
+			break;
 		}
+		
+
 
 	}
 	
