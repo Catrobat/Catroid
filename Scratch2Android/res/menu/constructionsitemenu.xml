@@ -4,4 +4,6 @@
 <item android:title="@string/construction_site_play" android:id="@+id/play"></item>
 <item android:title="@string/reset" android:id="@+id/reset"></item>
 
+<item android:id="@+id/save" android:title="@string/save"></item>
+<item android:id="@+id/load" android:title="@string/load"></item>
 </menu>
