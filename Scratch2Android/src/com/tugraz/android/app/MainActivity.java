@@ -2,6 +2,7 @@ package com.tugraz.android.app;
 
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.TooManyListenersException;
@@ -124,9 +125,18 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
         case LOAD_DIALOG:
         	mLoadDialog = new Dialog(this);
         	mLoadDialog.setContentView(R.layout.loaddialoglayout);
-        	this.fileList();
-        	Log.d("Content", this.fileList()[0]+this.fileList()[1]+this.fileList()[2]);
-
+        	ListView view = (ListView)mLoadDialog.findViewById(R.id.loadfilelist);
+        	ArrayList<String> list = new ArrayList<String>();
+        	for(int i=0; i<this.fileList().length; i++)
+        	{
+        		if(fileList()[i].contains(".spf"))
+        		list.add(fileList()[i]);
+        	}
+        	FileAdapter adapter = new FileAdapter(this, list);
+        	view.setAdapter(adapter);
+        	adapter.setDialog(mLoadDialog);
+        	adapter.setContentManager(mContentManager);
+        	return mLoadDialog;
         default:
             mToolboxDialog = null;
             return mToolboxDialog;
