@@ -7,8 +7,9 @@ import java.util.HashMap;
 import com.tugraz.android.app.BrickDefine;
 import com.tugraz.android.app.MainActivity;
 import com.tugraz.android.app.R;
-import com.tugraz.android.app.ToolboxDialog;
+import com.tugraz.android.app.ToolboxSpriteDialog;
 
+import android.app.Dialog;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 import android.view.KeyEvent;
@@ -21,7 +22,7 @@ public class ToolboxDialogTest extends ActivityInstrumentationTestCase2<MainActi
 	private MainActivity mActivity;
 
 	private Button mButton;
-	private ToolboxDialog mDialog;
+	private Dialog mDialog;
 	
 	public ToolboxDialogTest() {
 		super("com.tugraz.android.app", MainActivity.class);
@@ -56,7 +57,7 @@ public class ToolboxDialogTest extends ActivityInstrumentationTestCase2<MainActi
 //		this.sendKeys(KeyEvent.KEYCODE_DPAD_DOWN);
 		this.sendKeys(KeyEvent.KEYCODE_DPAD_CENTER);
 		
-		mDialog = mActivity.getToolboxDialog();
+		mDialog = (mActivity.getToolboxDialog());
 		assertTrue(mDialog.isShowing());
 		
 	}

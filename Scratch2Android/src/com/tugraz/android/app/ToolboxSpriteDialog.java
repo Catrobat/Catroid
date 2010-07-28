@@ -10,11 +10,12 @@ import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-public class ToolboxDialog extends Dialog
+public class ToolboxSpriteDialog extends Dialog
 
 {
 
@@ -23,7 +24,7 @@ public class ToolboxDialog extends Dialog
 	private Animation mSlide_out;
 	
 	protected ListView mMainListView;
-	private ToolboxAdapter mAdapter;
+	private BaseAdapter mAdapter;
 	public ArrayList<HashMap<String, String>> mContentArrayList;
 	ContentManager mContentManager;
 	   
@@ -32,7 +33,7 @@ public class ToolboxDialog extends Dialog
 	
 	private int mFlagId;
 	
-	public ToolboxDialog(Context context, boolean cancelable,
+	public ToolboxSpriteDialog(Context context, boolean cancelable,
 			OnCancelListener cancelListener, int flagid) {
 		super(context, cancelable, cancelListener);
 		mCtx = context;
@@ -74,15 +75,14 @@ public class ToolboxDialog extends Dialog
 		
 		//Set Bricks
 		mContentArrayList = new ArrayList<HashMap<String,String>>();
-		
-		testSet();
-		
 		mMainListView = (ListView) findViewById(R.id.toolboxListView);
 		
-		mAdapter = new ToolboxAdapter(mCtx, mContentArrayList);
-		mAdapter.setContentManager(mContentManager);
+		
+		allBricks();
+		mAdapter = new ToolboxSpriteAdapter(mCtx, mContentArrayList);
+		((ToolboxSpriteAdapter)mAdapter).setContentManager(mContentManager);
+		
 		mMainListView.setAdapter(mAdapter);
-	        
 	}
 
 	@Override
@@ -105,25 +105,46 @@ public class ToolboxDialog extends Dialog
 	 * test method
 	 *
 	 */
-	public void testSet(){
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put(BrickDefine.BRICK_ID, "1");
-        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
-        map.put(BrickDefine.BRICK_NAME, "Test1");
-        map.put(BrickDefine.BRICK_VALUE, "bla");
-        mContentArrayList.add(map);
-        map = new HashMap<String, String>();
-        map.put(BrickDefine.BRICK_ID, "2");
-        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.PLAY_SOUND));
-        map.put(BrickDefine.BRICK_NAME, "Test2");
-        map.put(BrickDefine.BRICK_VALUE, "blabla1");
-        mContentArrayList.add(map);
-        map = new HashMap<String, String>();
-        map.put(BrickDefine.BRICK_ID, "3");
-        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
-        map.put(BrickDefine.BRICK_NAME, "Test3");
-        map.put(BrickDefine.BRICK_VALUE, "blabla2");
-        mContentArrayList.add(map);
+	public void allBricks(){
+		HashMap<String, String> map = new HashMap<String, String>();
+		map = new HashMap<String, String>();
+	    map.put(BrickDefine.BRICK_ID, "2");
+	    map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.PLAY_SOUND));
+	    map.put(BrickDefine.BRICK_NAME, "");
+	    map.put(BrickDefine.BRICK_VALUE, "1");
+	    mContentArrayList.add(map);
+	    map = new HashMap<String, String>();
+	    map.put(BrickDefine.BRICK_ID, "3");
+	    map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
+	    map.put(BrickDefine.BRICK_NAME, "");
+	    map.put(BrickDefine.BRICK_VALUE, "1");
+	    mContentArrayList.add(map);
+	    map = new HashMap<String, String>();
+	    map.put(BrickDefine.BRICK_ID, "4");
+	    map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.HIDE));
+	    map.put(BrickDefine.BRICK_NAME, "");
+	    map.put(BrickDefine.BRICK_VALUE, "");
+	    mContentArrayList.add(map);
+	    map = new HashMap<String, String>();
+	    map.put(BrickDefine.BRICK_ID, "5");
+	    map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SHOW));
+	    map.put(BrickDefine.BRICK_NAME, "");
+	    map.put(BrickDefine.BRICK_VALUE, "");
+	    mContentArrayList.add(map);
+	    map = new HashMap<String, String>();
+	    map.put(BrickDefine.BRICK_ID, "6");
+	    map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.GO_TO));
+	    map.put(BrickDefine.BRICK_NAME, "");
+	    map.put(BrickDefine.BRICK_VALUE, "1");
+	    map.put(BrickDefine.BRICK_VALUE, "1");
+	    mContentArrayList.add(map);
+	    map = new HashMap<String, String>();
+	    map.put(BrickDefine.BRICK_ID, "7");
+	    map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_COSTUME));
+	    map.put(BrickDefine.BRICK_NAME, "");
+	    map.put(BrickDefine.BRICK_VALUE, "1");
+	    mContentArrayList.add(map);
+		
 	}
 
 	

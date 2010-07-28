@@ -18,13 +18,13 @@ import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class ToolboxAdapter extends BaseAdapter{
+public class ToolboxBackgroundAdapter extends BaseAdapter{
     private Context mCtx;
     public ArrayList<HashMap<String, String>> mList;
     private ContentManager mContentManager;
     private MediaFileLoader mMediaFileLoader;
     
-	public ToolboxAdapter(Context context,
+	public ToolboxBackgroundAdapter(Context context,
 			ArrayList<HashMap<String, String>> data) {
 		mCtx = context;
 		mList = data;
@@ -140,6 +140,7 @@ public class ToolboxAdapter extends BaseAdapter{
 			});
 			return view;
 		}
+
 		case (BrickDefine.NOT_DEFINED):
 		{
 			return inflater.inflate(R.layout.mlve_two_labels, parent);
