@@ -1,6 +1,8 @@
 package com.tugraz.android.app;
 
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.TooManyListenersException;
@@ -10,6 +12,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.ContactsContract.CommonDataKinds.BaseTypes;
 import android.util.Log;
@@ -39,6 +42,8 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 	static final int TOOLBOX_DIALOG_SPRITE = 0;
 	static final int TOOLBOX_DIALOG_BACKGROUND = 1;
 	static final int SPRITETOOLBOX_DIALOG = 2;
+	static final int SAVE_DIALOG = 3;
+	static final int LOAD_DIALOG = 4;
 	
 	protected ListView mMainListView;
 	private MainListViewAdapter mAdapter;
@@ -47,6 +52,8 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 	
 	private Button mToolboxButton;
 	private Dialog mToolboxDialog;
+	private Dialog mSaveDialog;
+	private Dialog mLoadDialog;
 
 	private Button mSpritesToolboxButton;
     //TODO Eigener ToolboxDialog und eigener ToolboxAdapter
@@ -93,6 +100,43 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
         	mSpritesToolboxDialog = new ToolboxSpritesDialog(this, true, null, 0);
         	mSpritesToolboxDialog.setContentManager(mContentManager);
         	return mSpritesToolboxDialog;
+        case SAVE_DIALOG:
+        	mSaveDialog = new Dialog(this);
+        	mSaveDialog.setContentView(R.layout.savedialoglayout);
+        	mSaveDialog.setTitle("Save File");
+        	EditText file = (EditText) mSaveDialog.findViewById(R.id.saveFilename);
+        	file.setTextColor(Color.BLACK);
+        	file.setText("filename");
+        	Button saveButton = (Button) mSaveDialog.findViewById(R.id.saveButton);
+        	saveButton.setText("Speichern");
+        	saveButton.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+				EditText file = (EditText) mSaveDialog.findViewById(R.id.saveFilename);
+				//Anmerkung speichert nur im Application Context
+				File tfile = new File(file.getText().toString()+".spf");
+				mContentManager.saveContent(tfile.toString());
+				dismissDialog(SAVE_DIALOG);
+				}
+			});
+        	
+        	return  mSaveDialog;
+        case LOAD_DIALOG:
+        	mLoadDialog = new Dialog(this);
+        	mLoadDialog.setContentView(R.layout.loaddialoglayout);
+        	ListView view = (ListView)mLoadDialog.findViewById(R.id.loadfilelist);
+        	ArrayList<String> list = new ArrayList<String>();
+        	for(int i=0; i<this.fileList().length; i++)
+        	{
+        		if(fileList()[i].contains(".spf"))
+        		list.add(fileList()[i]);
+        	}
+        	FileAdapter adapter = new FileAdapter(this, list);
+        	view.setAdapter(adapter);
+        	adapter.setDialog(mLoadDialog);
+        	adapter.setContentManager(mContentManager);
+        	return mLoadDialog;
         default:
             mToolboxDialog = null;
             return mToolboxDialog;
@@ -142,6 +186,14 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
         case R.id.reset:
         	mContentManager.clear();
             return true;
+            
+        case R.id.load:
+        	showDialog(LOAD_DIALOG);
+        	return true;
+            
+        case R.id.save:
+        	showDialog(SAVE_DIALOG);
+        	return true;
    
         default:
             return super.onOptionsItemSelected(item);
