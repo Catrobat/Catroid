@@ -59,11 +59,15 @@ public class StageViewThread extends Thread {
 	public void addBitmapToDraw(String spriteName, String path, float x, float y) {
 		Pair<Float,Float> coordinates = new Pair<Float,Float>(x,y);
 		Pair<Bitmap,Pair<Float,Float>> bitmapPair = new Pair<Bitmap,Pair<Float,Float>>(BitmapFactory.decodeFile(path), coordinates);
+		mIsDraw = false;  //TODO brauchen wir das ueberall??
 		mBitmapToPositionMap.put(spriteName, bitmapPair);
+		mIsDraw = true;
 	}
 	
-	public void removeBitmapToDraw(String spriteName) { //TODO brauchen wir das ueberhaupt? 
+	public void removeBitmapToDraw(String spriteName) { 
+		mIsDraw = false;
 		mBitmapToPositionMap.remove(spriteName);
+		mIsDraw = true;
 	}
 	
 	public void changeBitmapPosition(String spriteName, float x, float y) {
@@ -72,8 +76,10 @@ public class StageViewThread extends Thread {
 		Pair<Float,Float> newCoordinates = new Pair<Float,Float>(x,y);
 		Bitmap bitmap = mBitmapToPositionMap.get(spriteName).first;
 		Pair <Bitmap,Pair<Float,Float>> bitmapAndPosition = new Pair <Bitmap,Pair<Float,Float>>(bitmap,newCoordinates);
+		mIsDraw = false;
 		mBitmapToPositionMap.remove(spriteName);
 		mBitmapToPositionMap.put(spriteName, bitmapAndPosition);
+		mIsDraw = true;
 		
 	}
 	
