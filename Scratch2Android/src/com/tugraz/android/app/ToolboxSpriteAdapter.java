@@ -18,13 +18,13 @@ import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class ToolboxAdapter extends BaseAdapter{
+public class ToolboxSpriteAdapter extends BaseAdapter{
     private Context mCtx;
     public ArrayList<HashMap<String, String>> mList;
     private ContentManager mContentManager;
     private MediaFileLoader mMediaFileLoader;
     
-	public ToolboxAdapter(Context context,
+	public ToolboxSpriteAdapter(Context context,
 			ArrayList<HashMap<String, String>> data) {
 		mCtx = context;
 		mList = data;
@@ -56,45 +56,14 @@ public class ToolboxAdapter extends BaseAdapter{
 	public View getView(int position, View convertView, ViewGroup parent) {
 		//TODO check convertView
 		//TODO Reuse Views
-		//Type of the Brick
+		
 		String type = mList.get(position).get(BrickDefine.BRICK_TYPE);
-		//Inflater to build the views
+
 		LayoutInflater inflater = (LayoutInflater)mCtx.getSystemService(
 	      Context.LAYOUT_INFLATER_SERVICE);
 		
-		//Check the type
 		switch(Integer.valueOf(type).intValue()){
-		case (BrickDefine.SET_BACKGROUND): 
-		{
-			LinearLayout view = (LinearLayout) inflater.inflate(R.layout.mlve_two_labels, null);
-			//text1.setTextColor(Color.BLUE);
-			TextView text = (TextView)view.getChildAt(0);
-			text.setText("Setze Hintergrund:");
-			//text2.setTextColor(Color.BLUE);
-			view.setBackgroundColor(Color.argb(255, 139, 0, 139));
-
-			Spinner spinner = (Spinner)view.getChildAt(1);
-			
-			
-			//set adapter		
-			final SimpleAdapter adapter = new SimpleAdapter(mCtx, mMediaFileLoader.getPictureContent(), R.layout.picture_spinner,
-					new String[] {MediaFileLoader.PICTURE_THUMB, MediaFileLoader.PICTURE_NAME},
-	                new int[] {R.id.PictureSpinnerImageView, R.id.PictureSpinnerTextView});
-			spinner.setAdapter(adapter);
-			view.setOnClickListener(new View.OnClickListener() {				
-				@Override
-				public void onClick(View v) {
-					HashMap<String, String> map = new HashMap<String, String>();
-			        map.put(BrickDefine.BRICK_ID, "1");
-			        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
-			        map.put(BrickDefine.BRICK_NAME, "SetBackground");
-			        map.put(BrickDefine.BRICK_VALUE, "1");
-					mContentManager.add(map);
-				}
-			});
-			return view;
-		}
-		case (BrickDefine.PLAY_SOUND): 
+			case (BrickDefine.PLAY_SOUND): 
 		{
 			LinearLayout view = (LinearLayout) inflater.inflate(R.layout.mlve_two_labels, null);
 			TextView text = (TextView)view.getChildAt(0);
