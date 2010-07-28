@@ -21,6 +21,7 @@ public class Sprite extends Thread implements Observer, OnCompletionListener{
 	private int mCommandCount = 0;
 	private int mCurrentXPosition = 0;
 	private int mCurrentYPosition = 0;
+	private String mCurrentImage = "";
 	
 	public Sprite(StageView view, ArrayList<HashMap<String, String>> commandList, String name){
 		mStage = view;
@@ -58,15 +59,15 @@ public class Sprite extends Thread implements Observer, OnCompletionListener{
 		int type = Integer.parseInt(map.get(BrickDefine.BRICK_TYPE));
 		switch (type) {
 		case BrickDefine.SET_BACKGROUND:
+			mCurrentImage = map.get(BrickDefine.BRICK_VALUE);
 			mStage.getThread().setBackground(map.get(BrickDefine.BRICK_VALUE));
-			mStage.getThread().mIsDraw = true;
 			mCommandCount++;
 			toNextCommand();
 			break;
 			
 		case BrickDefine.SET_COSTUME:
+			mCurrentImage = map.get(BrickDefine.BRICK_VALUE);
 			mStage.getThread().addBitmapToDraw(mSpriteName, map.get(BrickDefine.BRICK_VALUE), mCurrentXPosition, mCurrentYPosition);
-			mStage.getThread().mIsDraw = true;
 			mCommandCount++;
 			toNextCommand();
 			break;
@@ -101,11 +102,13 @@ public class Sprite extends Thread implements Observer, OnCompletionListener{
 			break;
 			
 		case BrickDefine.HIDE:
-			//TODO implement
+			mStage.getThread().removeBitmapToDraw(mSpriteName);
+			mCommandCount++;
 			break;
 			
 		case BrickDefine.SHOW:
-			//TODO implement
+			mStage.getThread().addBitmapToDraw(mSpriteName, mCurrentImage, mCurrentXPosition, mCurrentYPosition);
+			mCommandCount++;
 			break;
 		}
 		
