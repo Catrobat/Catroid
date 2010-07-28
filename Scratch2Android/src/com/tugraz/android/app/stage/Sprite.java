@@ -9,21 +9,24 @@ import java.util.Observer;
 import com.tugraz.android.app.BrickDefine;
 
 import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
 import android.util.Log;
 
-public class Sprite extends Thread implements Observer{
+public class Sprite extends Thread implements Observer, OnCompletionListener{
 	
 	private String mSpriteName;
 	private StageView mStage;
 	private ArrayList<HashMap<String, String>> mCommandList;
-	private SoundManager mSoundManager;
+	private MediaPlayer mMediaPlayer; //TODO change MediaPlayer to SoundPool to support multiple sounds simultanieously
 	private int mCommandCount = 0;
 	
-	public Sprite(StageView view, ArrayList<HashMap<String, String>> commandList, String name, SoundManager soundManager){
+	public Sprite(StageView view, ArrayList<HashMap<String, String>> commandList, String name){
 		mStage = view;
 		mCommandList = commandList;
-		mSoundManager = soundManager;
+		mMediaPlayer = new MediaPlayer();
+		mMediaPlayer.setOnCompletionListener(this);
 		mSpriteName = name;
+		
 	}
 
 	public void run() {
@@ -59,18 +62,17 @@ public class Sprite extends Thread implements Observer{
 			break;
 
 		case BrickDefine.PLAY_SOUND: //TODO funktioniert abspielen von mehreren sounds gleichzeitig
-//			try {
-//				mMediaPlayer.reset();
-//				mMediaPlayer.setDataSource(map.get(BrickDefine.BRICK_VALUE));
-//				mMediaPlayer.prepare();
-//				mMediaPlayer.start();
-				mSoundManager.playSound(map.get(BrickDefine.BRICK_VALUE));
+			try {
+				mMediaPlayer.reset();
+				mMediaPlayer.setDataSource(map.get(BrickDefine.BRICK_VALUE));
+				mMediaPlayer.prepare();
+				mMediaPlayer.start();
 
-//			} catch (IOException e) {
-//				Log.w("Sprite", "Could not play sound file");
-//			} catch (IllegalArgumentException e) {
-//				Log.w("Sprite", "Could not play sound file");
-//			}
+			} catch (IOException e) {
+				Log.w("Sprite", "Could not play sound file");
+			} catch (IllegalArgumentException e) {
+				Log.w("Sprite", "Could not play sound file");
+			}
 
 			mCommandCount++;
 			toNextCommand();
@@ -110,6 +112,17 @@ public class Sprite extends Thread implements Observer{
 		Thread thread = new Thread(wait);
 		thread.setName("waitingThread");
 		thread.start();
+	}
+
+	@Override
+	public void onCompletion(MediaPlayer mp) {
+		mp.release();
+
+	}
+	
+	public void stopAndReleaseMediaPlayer(){
+		mMediaPlayer.stop();
+		mMediaPlayer.release();
 	}
 
 
