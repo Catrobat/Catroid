@@ -24,7 +24,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup.LayoutParams;
 
-public class StageActivity extends Activity implements OnCompletionListener {
+public class StageActivity extends Activity {
 
 	private static StageView mStage;
 	private ContentManager mContentManager;
@@ -32,7 +32,6 @@ public class StageActivity extends Activity implements OnCompletionListener {
 	protected boolean isWaiting = false;
 
 	private int mCommandCount = 0;
-	MediaPlayer mMediaPlayer;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -44,8 +43,6 @@ public class StageActivity extends Activity implements OnCompletionListener {
 		mContentManager.setContext(this); 										
 		mContentManager.loadContent();
 		
-		mMediaPlayer = new MediaPlayer();
-		
 		mSpritesList = new ArrayList<Sprite>();
 
 		LayoutParams params = new LayoutParams(LayoutParams.FILL_PARENT,
@@ -55,8 +52,6 @@ public class StageActivity extends Activity implements OnCompletionListener {
 
 		// we only want portrait mode atm, otherwise the program crashes
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		
-		mMediaPlayer.setOnCompletionListener(this); //was in doNextCommant, hope it works also here
 
 	}
 
@@ -80,18 +75,12 @@ public class StageActivity extends Activity implements OnCompletionListener {
 		return true;
 	}
 	
-	@Override
-	public void onCompletion(MediaPlayer mp) {
-		mp.release();
-
-	}
-
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		mMediaPlayer.stop();
-		mMediaPlayer.release();
+		for (int i=0; i<mSpritesList.size(); i++) 
+			mSpritesList.get(i).stopAndReleaseMediaPlayer();
 	}
 	
 	private void toMainActivity() {
@@ -106,10 +95,10 @@ public class StageActivity extends Activity implements OnCompletionListener {
 		if (mStage.getThread().isRunning()) {
 			mStage.getThread().setRunning(false);
 
-			if (mMediaPlayer.isPlaying()){
-				mMediaPlayer.stop();
-				mMediaPlayer.release();
-			}
+//			if (mMediaPlayer.isPlaying()){
+//				mMediaPlayer.stop();
+//				mMediaPlayer.release();
+//			}
 		}
 
 		mStage.getThread().setRunning(true); // TODO gehoert das hier her??
@@ -117,7 +106,7 @@ public class StageActivity extends Activity implements OnCompletionListener {
 
 		ArrayList<String> allSpriteNames = mContentManager.getAllSprites();
 		for (int i=0; i < allSpriteNames.size(); i++) {
-			Sprite sprite = new Sprite(mStage, mContentManager.getSpritesAndBackground().get(allSpriteNames.get(i)), allSpriteNames.get(i), mMediaPlayer);
+			Sprite sprite = new Sprite(mStage, mContentManager.getSpritesAndBackground().get(allSpriteNames.get(i)), allSpriteNames.get(i));
 			mSpritesList.add(sprite);
 		}
 		

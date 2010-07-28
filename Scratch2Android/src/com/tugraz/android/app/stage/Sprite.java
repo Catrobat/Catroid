@@ -9,9 +9,10 @@ import java.util.Observer;
 import com.tugraz.android.app.BrickDefine;
 
 import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
 import android.util.Log;
 
-public class Sprite extends Thread implements Observer{
+public class Sprite extends Thread implements Observer, OnCompletionListener{
 	
 	private String mSpriteName;
 	private StageView mStage;
@@ -19,11 +20,13 @@ public class Sprite extends Thread implements Observer{
 	private MediaPlayer mMediaPlayer; //TODO change MediaPlayer to SoundPool to support multiple sounds simultanieously
 	private int mCommandCount = 0;
 	
-	public Sprite(StageView view, ArrayList<HashMap<String, String>> commandList, String name, MediaPlayer mp){
+	public Sprite(StageView view, ArrayList<HashMap<String, String>> commandList, String name){
 		mStage = view;
 		mCommandList = commandList;
-		mMediaPlayer = mp;
+		mMediaPlayer = new MediaPlayer();
+		mMediaPlayer.setOnCompletionListener(this);
 		mSpriteName = name;
+		
 	}
 
 	public void run() {
@@ -109,6 +112,17 @@ public class Sprite extends Thread implements Observer{
 		Thread thread = new Thread(wait);
 		thread.setName("waitingThread");
 		thread.start();
+	}
+
+	@Override
+	public void onCompletion(MediaPlayer mp) {
+		mp.release();
+
+	}
+	
+	public void stopAndReleaseMediaPlayer(){
+		mMediaPlayer.stop();
+		mMediaPlayer.release();
 	}
 
 
