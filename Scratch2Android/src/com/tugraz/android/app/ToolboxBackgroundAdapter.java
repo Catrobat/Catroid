@@ -45,7 +45,6 @@ public class ToolboxBackgroundAdapter extends BaseAdapter{
 	}
 
 	public long getItemId(int position) {
-		//Testfall schreiben
 		String type = mList.get(position).get(BrickDefine.BRICK_ID);
 		if(type == null)
 			return 0;
@@ -54,29 +53,19 @@ public class ToolboxBackgroundAdapter extends BaseAdapter{
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
-		//TODO check convertView
 		//TODO Reuse Views
-		//Type of the Brick
 		String type = mList.get(position).get(BrickDefine.BRICK_TYPE);
-		//Inflater to build the views
 		LayoutInflater inflater = (LayoutInflater)mCtx.getSystemService(
 	      Context.LAYOUT_INFLATER_SERVICE);
 		
-		//Check the type
 		switch(Integer.valueOf(type).intValue()){
 		case (BrickDefine.SET_BACKGROUND): 
 		{
 			LinearLayout view = (LinearLayout) inflater.inflate(R.layout.mlve_two_labels, null);
-			//text1.setTextColor(Color.BLUE);
 			TextView text = (TextView)view.getChildAt(0);
-			text.setText("Setze Hintergrund:");
-			//text2.setTextColor(Color.BLUE);
+			text.setText(R.string.set_background_main_adapter);
 			view.setBackgroundColor(Color.argb(255, 139, 0, 139));
-
 			Spinner spinner = (Spinner)view.getChildAt(1);
-			
-			
-			//set adapter		
 			final SimpleAdapter adapter = new SimpleAdapter(mCtx, mMediaFileLoader.getPictureContent(), R.layout.picture_spinner,
 					new String[] {MediaFileLoader.PICTURE_THUMB, MediaFileLoader.PICTURE_NAME},
 	                new int[] {R.id.PictureSpinnerImageView, R.id.PictureSpinnerTextView});
@@ -98,7 +87,7 @@ public class ToolboxBackgroundAdapter extends BaseAdapter{
 		{
 			LinearLayout view = (LinearLayout) inflater.inflate(R.layout.mlve_two_labels, null);
 			TextView text = (TextView)view.getChildAt(0);
-			text.setText("Spiele Klang:");
+			text.setText(R.string.play_sound_main_adapter);
 			
 			view.setBackgroundColor(Color.BLUE);
             view.setOnClickListener(new View.OnClickListener() {
@@ -111,7 +100,6 @@ public class ToolboxBackgroundAdapter extends BaseAdapter{
 			        map.put(BrickDefine.BRICK_NAME, "PlaySound");
 			        map.put(BrickDefine.BRICK_VALUE, "1");
 					mContentManager.add(map);
-					
 				}
 			});
 			return view;
@@ -120,7 +108,7 @@ public class ToolboxBackgroundAdapter extends BaseAdapter{
 		{
 			LinearLayout view =  (LinearLayout)inflater.inflate(R.layout.mlve_two_labels_edit, null);
 			  TextView text = (TextView) view.getChildAt(0);
-			  text.setText("Warte ");
+			  text.setText(R.string.wait_main_adapter);
 			  text.setTextColor(Color.BLUE);
 	          EditText etext = (EditText) view.getChildAt(1);
 	          

@@ -1,7 +1,6 @@
 package com.tugraz.android.app;
 
-import java.security.KeyStore.Entry;
-import java.util.ArrayList;
+
 import java.util.HashMap;
 
 public class BrickDefine {
@@ -37,29 +36,5 @@ public class BrickDefine {
 	public final static HashMap<String, String> SOUNDBRICK = new HashMap<String, String>();
 	public final static HashMap<String, String> BACKGROUNDBRICK = new HashMap<String, String>();
 	
-	public final static ArrayList<HashMap<String, String>> toolbox = new ArrayList<HashMap<String,String>>();
-	
-	static {
-	        //Create different Bricks-> Toolbox
-		    WAITBRICK.put(BrickDefine.BRICK_ID, "1");
-		    WAITBRICK.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
-		    WAITBRICK.put(BrickDefine.BRICK_NAME, "Wait");
-		    WAITBRICK.put(BrickDefine.BRICK_VALUE, "1");
-		    
-		    SOUNDBRICK.put(BrickDefine.BRICK_ID, "2");
-		    SOUNDBRICK.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.PLAY_SOUND));
-		    SOUNDBRICK.put(BrickDefine.BRICK_NAME, "Play Sound");
-		    SOUNDBRICK.put(BrickDefine.BRICK_VALUE, "Sound");
-		    
-		    BACKGROUNDBRICK.put(BrickDefine.BRICK_ID, "3");
-		    BACKGROUNDBRICK.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
-		    BACKGROUNDBRICK.put(BrickDefine.BRICK_NAME, "Set Backgroud");
-		    BACKGROUNDBRICK.put(BrickDefine.BRICK_VALUE, "Background");
-		    
-		    toolbox.add(WAITBRICK);
-		    toolbox.add(SOUNDBRICK);
-		    toolbox.add(BACKGROUNDBRICK);
-		    
-		  }
 	
 }

@@ -56,7 +56,6 @@ public class MainListViewAdapter extends BaseAdapter{
 	}
 
 	public long getItemId(int position) {
-		//Testfall schreiben
 		String type = mList.get(position).get(BrickDefine.BRICK_ID);
 		if(type == null)
 			return 0;
@@ -66,30 +65,20 @@ public class MainListViewAdapter extends BaseAdapter{
 
 	public View getView(int position, View convertView, ViewGroup parent) {
 		final HashMap<String, String> brick = mList.get(position);
-		//Log.d("View", mList.toString());
-		//TODO check convertView
 		//TODO Reuse Views
-		//Type of the Brick
 		String type = mList.get(position).get(BrickDefine.BRICK_TYPE);
-		//Inflater to build the views
 		LayoutInflater inflater = (LayoutInflater)mCtx.getSystemService(
 	      Context.LAYOUT_INFLATER_SERVICE);
-		
-		//Check the type
 		switch(Integer.valueOf(type).intValue()){
 		case (BrickDefine.SET_BACKGROUND): 
 		{
 			LinearLayout view = (LinearLayout) inflater.inflate(R.layout.mlve_two_labels, null);
-			//text1.setTextColor(Color.BLUE);
 			TextView text = (TextView)view.getChildAt(0);
-			text.setText("Setze Hintergrund:");
-			//text2.setTextColor(Color.BLUE);
+			text.setText(R.string.set_background_main_adapter);
 			view.setBackgroundColor(Color.argb(255, 139, 0, 139));
 
 			Spinner spinner = (Spinner)view.getChildAt(1);
 			
-			
-			//set adapter		
 			final SimpleAdapter adapter = new SimpleAdapter(mCtx, mMediaFileLoader.getPictureContent(), R.layout.picture_spinner,
 					new String[] {MediaFileLoader.PICTURE_THUMB, MediaFileLoader.PICTURE_NAME},
 	                new int[] {R.id.PictureSpinnerImageView, R.id.PictureSpinnerTextView});
@@ -120,7 +109,7 @@ public class MainListViewAdapter extends BaseAdapter{
 		{
 		    LinearLayout view = (LinearLayout) inflater.inflate(R.layout.mlve_two_labels, null);
 			TextView text = (TextView)view.getChildAt(0);
-			text.setText("Spiele Klang:");
+			text.setText(R.string.play_sound_main_adapter);
 			
 			Spinner spinner = (Spinner)view.getChildAt(1);
          
@@ -153,7 +142,7 @@ public class MainListViewAdapter extends BaseAdapter{
 		{
 			LinearLayout view =  (LinearLayout)inflater.inflate(R.layout.mlve_two_labels_edit, null);
 			  TextView text = (TextView) view.getChildAt(0);
-			  text.setText("Warte ");
+			  text.setText(R.string.wait_main_adapter);
 			  text.setTextColor(Color.BLUE);
 	          EditText etext = (EditText) view.getChildAt(1);
 	          etext.setText("1");
@@ -180,15 +169,10 @@ public class MainListViewAdapter extends BaseAdapter{
 				public void onTextChanged(CharSequence s, int start,
 						int before, int count) {
 					brick.remove(BrickDefine.BRICK_VALUE);
-					brick.put(BrickDefine.BRICK_VALUE, s.toString());
-					
-				}
-	        	  
-	        	  
+					brick.put(BrickDefine.BRICK_VALUE, s.toString());	
+				}  
 	          });
-	          
 	          view.setBackgroundColor(Color.argb(255, 255, 215, 0));
-	        
 			return view;
 			
 		}
@@ -196,7 +180,7 @@ public class MainListViewAdapter extends BaseAdapter{
 		{
 			LinearLayout view =  (LinearLayout)inflater.inflate(R.layout.mlve_one_lable, null);
 			TextView text = (TextView) view.getChildAt(0);
-			text.setText("Hide");
+			text.setText(R.string.hide_main_adapter);
 			view.setBackgroundColor(Color.argb(255, 255, 215, 100));
 			return view;
 		}
@@ -204,7 +188,7 @@ public class MainListViewAdapter extends BaseAdapter{
 		{
 			LinearLayout view =  (LinearLayout)inflater.inflate(R.layout.mlve_one_lable, null);
 			TextView text = (TextView) view.getChildAt(0);
-			text.setText("Show");
+			text.setText(R.string.show_main_adapter);
 			view.setBackgroundColor(Color.argb(255, 255, 215, 200));
 			return view;
 		}
@@ -213,7 +197,7 @@ public class MainListViewAdapter extends BaseAdapter{
 			LinearLayout view =  (LinearLayout)inflater.inflate(R.layout.mlv_one_label_two_edit, null);
 			
 			TextView text = (TextView) view.getChildAt(0);
-			text.setText("GO-TO-XY");
+			text.setText(R.string.goto_main_adapter);
 			
 			EditText textX = (EditText) view.getChildAt(1);
 			textX.setText(brick.get(BrickDefine.BRICK_VALUE));
@@ -264,7 +248,7 @@ public class MainListViewAdapter extends BaseAdapter{
 			LinearLayout view = (LinearLayout) inflater.inflate(R.layout.mlve_two_labels, null);
 			//text1.setTextColor(Color.BLUE);
 			TextView text = (TextView)view.getChildAt(0);
-			text.setText("Setze Kostüm:");
+			text.setText(R.string.costume_main_adapter);
 			//text2.setTextColor(Color.BLUE);
 			view.setBackgroundColor(Color.argb(255, 139, 0, 50));
 

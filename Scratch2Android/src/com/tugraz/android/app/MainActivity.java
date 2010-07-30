@@ -45,19 +45,17 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 	static final int SAVE_DIALOG = 3;
 	static final int LOAD_DIALOG = 4;
 	
-	protected ListView mMainListView;
-	private MainListViewAdapter mAdapter;
-	private ContentManager mContentManager;
-	
-	
 	private Button mToolboxButton;
 	private Dialog mToolboxDialog;
 	private Dialog mSaveDialog;
 	private Dialog mLoadDialog;
+	
+	protected ListView mMainListView;
+	private MainListViewAdapter mAdapter;
+	private ContentManager mContentManager;
 
 	private Button mSpritesToolboxButton;
-    //TODO Eigener ToolboxDialog und eigener ToolboxAdapter
-	private ToolboxSpritesDialog mSpritesToolboxDialog;
+    private ToolboxSpritesDialog mSpritesToolboxDialog;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,8 +67,7 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
         mAdapter = new MainListViewAdapter(this, mContentManager.getContentArrayList());
         mMainListView = (ListView) findViewById(R.id.MainListView);
         mMainListView.setAdapter(mAdapter);
-        
-        
+            
         //Testing
         //mContentManager.testSet();
         //mContentManager.saveContent();
@@ -87,13 +84,13 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 
     
     protected Dialog onCreateDialog(int id){
-        switch(id) { //TODO kommt er hier nur einmal her oder bei jedem aufruf?
+        switch(id) {
         case TOOLBOX_DIALOG_SPRITE:
-        	mToolboxDialog = new ToolboxSpriteDialog(this, true, null, 0); //TODO passen argumente so?  
+        	mToolboxDialog = new ToolboxSpriteDialog(this, true, null, 0);  
         	((ToolboxSpriteDialog)mToolboxDialog).setContentManager(mContentManager);
         	return mToolboxDialog;
         case TOOLBOX_DIALOG_BACKGROUND:
-        	mToolboxDialog = new ToolboxBackgroundDialog(this, true, null, 0); //TODO passen argumente so?  
+        	mToolboxDialog = new ToolboxBackgroundDialog(this, true, null, 0); 
         	((ToolboxBackgroundDialog)mToolboxDialog).setContentManager(mContentManager);
         	return mToolboxDialog;
         case SPRITETOOLBOX_DIALOG:
@@ -103,7 +100,7 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
         case SAVE_DIALOG:
         	mSaveDialog = new Dialog(this);
         	mSaveDialog.setContentView(R.layout.savedialoglayout);
-        	mSaveDialog.setTitle("Save File");
+        	mSaveDialog.setTitle(R.string.save_file_main);
         	EditText file = (EditText) mSaveDialog.findViewById(R.id.saveFilename);
         	file.setTextColor(Color.BLACK);
         	file.setText("filename");
@@ -175,10 +172,8 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
         switch (item.getItemId()) {
         case R.id.play:
-        	//TODO: save state
         	Intent intent = new Intent(MainActivity.this, StageActivity.class);
             startActivity(intent);
             return true;
@@ -208,7 +203,6 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 	
 	}
 	
-	//automatic save
 	public void onStop()
 	{
 		mContentManager.saveContent();
