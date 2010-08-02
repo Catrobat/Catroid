@@ -17,7 +17,7 @@ public class Sprite extends Thread implements Observer, OnCompletionListener{
 	private String mSpriteName;
 	private StageView mStage;
 	private ArrayList<HashMap<String, String>> mCommandList;
-	private MediaPlayer mMediaPlayer; //TODO change MediaPlayer to SoundPool to support multiple sounds simultanieously
+	private MediaPlayer mMediaPlayer; 
 	private int mCommandCount = 0;
 	private int mCurrentXPosition = 0;
 	private int mCurrentYPosition = 0;
@@ -62,14 +62,14 @@ public class Sprite extends Thread implements Observer, OnCompletionListener{
 			mCurrentImage = map.get(BrickDefine.BRICK_VALUE);
 			mStage.getThread().setBackground(map.get(BrickDefine.BRICK_VALUE));
 			mCommandCount++;
-			toNextCommand();
+			doNextCommand();
 			break;
 			
 		case BrickDefine.SET_COSTUME:
 			mCurrentImage = map.get(BrickDefine.BRICK_VALUE);
 			mStage.getThread().addBitmapToDraw(mSpriteName, map.get(BrickDefine.BRICK_VALUE), mCurrentXPosition, mCurrentYPosition);
 			mCommandCount++;
-			toNextCommand();
+			doNextCommand();
 			break;
 
 		case BrickDefine.PLAY_SOUND: 
@@ -86,7 +86,7 @@ public class Sprite extends Thread implements Observer, OnCompletionListener{
 			}
 
 			mCommandCount++;
-			toNextCommand();
+			doNextCommand();
 			break;
 
 		case BrickDefine.WAIT:
@@ -96,22 +96,22 @@ public class Sprite extends Thread implements Observer, OnCompletionListener{
 			
 		case BrickDefine.GO_TO:
 			mCurrentXPosition = Integer.parseInt(map.get(BrickDefine.BRICK_VALUE));
-			mCurrentXPosition = Integer.parseInt(map.get(BrickDefine.BRICK_VALUE));
+			mCurrentYPosition = Integer.parseInt(map.get(BrickDefine.BRICK_VALUE_1));
 			mStage.getThread().changeBitmapPosition(mSpriteName, mCurrentXPosition, mCurrentYPosition);
 			mCommandCount++;
-			toNextCommand();
+			doNextCommand();
 			break;
 			
 		case BrickDefine.HIDE:
 			mStage.getThread().removeBitmapToDraw(mSpriteName);
 			mCommandCount++;
-			toNextCommand();
+			doNextCommand();
 			break;
 			
 		case BrickDefine.SHOW:
 			mStage.getThread().addBitmapToDraw(mSpriteName, mCurrentImage, mCurrentXPosition, mCurrentYPosition);
 			mCommandCount++;
-			toNextCommand();
+			doNextCommand();
 			break;
 		}
 		
