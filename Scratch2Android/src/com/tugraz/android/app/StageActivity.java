@@ -40,13 +40,13 @@ public class StageActivity extends Activity {
 		mStage = new StageView(this);
 
 		mContentManager = new ContentManager();
-		mContentManager.setContext(this); 										
+		mContentManager.setContext(this);
 		mContentManager.loadContent();
-		
+
 		mSpritesList = new ArrayList<Sprite>();
 
 		LayoutParams params = new LayoutParams(LayoutParams.FILL_PARENT,
-				LayoutParams.FILL_PARENT); 
+				LayoutParams.FILL_PARENT);
 		setContentView(R.layout.stage);
 		addContentView(mStage, params);
 
@@ -74,17 +74,16 @@ public class StageActivity extends Activity {
 		}
 		return true;
 	}
-	
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		for (int i=0; i<mSpritesList.size(); i++) 
+		for (int i = 0; i < mSpritesList.size(); i++)
 			mSpritesList.get(i).stopAndReleaseMediaPlayer();
 	}
-	
+
 	private void toMainActivity() {
-		finish(); 
+		finish();
 	}
 
 	/**
@@ -94,27 +93,23 @@ public class StageActivity extends Activity {
 							// die stage schon laueft nicht
 		if (mStage.getThread().isRunning()) {
 			mStage.getThread().setRunning(false);
-
-//			if (mMediaPlayer.isPlaying()){
-//				mMediaPlayer.stop();
-//				mMediaPlayer.release();
-//			}
 		}
 
 		mStage.getThread().setRunning(true); // TODO gehoert das hier her??
 		mStage.getThread().start();
 
 		ArrayList<String> allSpriteNames = mContentManager.getAllSprites();
-		for (int i=0; i < allSpriteNames.size(); i++) {
-			Sprite sprite = new Sprite(mStage, mContentManager.getSpritesAndBackground().get(allSpriteNames.get(i)), allSpriteNames.get(i));
+		for (int i = 0; i < allSpriteNames.size(); i++) {
+			Sprite sprite = new Sprite(mStage, mContentManager
+					.getSpritesAndBackground().get(allSpriteNames.get(i)),
+					allSpriteNames.get(i));
 			mSpritesList.add(sprite);
 		}
-		
-		for (int i=0; i<mSpritesList.size(); i++) {
+
+		for (int i = 0; i < mSpritesList.size(); i++) {
 			mSpritesList.get(i).start();
 		}
 
 	}
-
 
 }

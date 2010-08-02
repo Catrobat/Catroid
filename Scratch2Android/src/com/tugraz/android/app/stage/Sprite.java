@@ -154,8 +154,10 @@ public class Sprite extends Thread implements Observer, OnCompletionListener{
 	}
 	
 	public void stopAndReleaseMediaPlayer(){
-		mMediaPlayer.stop();
-		mMediaPlayer.release();
+		if (mMediaPlayer.isPlaying()){
+			mMediaPlayer.stop();
+			mMediaPlayer.release();
+		}
 	}
 
 
