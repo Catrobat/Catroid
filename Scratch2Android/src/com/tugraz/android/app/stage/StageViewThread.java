@@ -35,8 +35,7 @@ public class StageViewThread extends Thread {
 	private boolean mRun = false;
 	private SurfaceHolder mSurfaceHolder;
 	private Context context;
-	private int mX = 0;
-	private int mY = 0;
+	private Bitmap mBackground = null;
 	private Map<String, Pair<Bitmap,Pair<Float,Float>>> mBitmapToPositionMap;
 	
 
@@ -55,17 +54,38 @@ public class StageViewThread extends Thread {
 	}
 	
 	public void setBackground(String path) {
-		addBitmapToDraw("stage", path, 0, 0);
+		mIsDraw = false;
+		//synchronized (mBackground){ //TODO synchronisieren!!
+			mBackground = BitmapFactory.decodeFile(path);
+		//}
+		mIsDraw = true;
 	}
 	
 	public void addBitmapToDraw(String spriteName, String path, float x, float y) {
 		Pair<Float,Float> coordinates = new Pair<Float,Float>(x,y);
 		Pair<Bitmap,Pair<Float,Float>> bitmapPair = new Pair<Bitmap,Pair<Float,Float>>(BitmapFactory.decodeFile(path), coordinates);
+		mIsDraw = false;  //TODO brauchen wir das ueberall??
 		mBitmapToPositionMap.put(spriteName, bitmapPair);
+		mIsDraw = true;
 	}
 	
-	public void removeBitmapToDraw(String spriteName) { //TODO brauchen wir das ueberhaupt? 
+	public void removeBitmapToDraw(String spriteName) { 
+		mIsDraw = false;
 		mBitmapToPositionMap.remove(spriteName);
+		mIsDraw = true;
+	}
+	
+	public void changeBitmapPosition(String spriteName, float x, float y) {
+		if (!mBitmapToPositionMap.containsKey(spriteName))
+			return;
+		Pair<Float,Float> newCoordinates = new Pair<Float,Float>(x,y);
+		Bitmap bitmap = mBitmapToPositionMap.get(spriteName).first;
+		Pair <Bitmap,Pair<Float,Float>> bitmapAndPosition = new Pair <Bitmap,Pair<Float,Float>>(bitmap,newCoordinates);
+		mIsDraw = false;
+		mBitmapToPositionMap.remove(spriteName);
+		mBitmapToPositionMap.put(spriteName, bitmapAndPosition);
+		mIsDraw = true;
+		
 	}
 	
 	public synchronized boolean isRunning(){
@@ -98,19 +118,21 @@ public class StageViewThread extends Thread {
 	 */
 	protected synchronized void doDraw(Canvas canvas) {
 		Paint paint = new Paint();
-
-		Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),
-				   R.drawable.icon);
 			
 		paint.setStyle(Paint.Style.FILL);
 		paint.setColor(Color.WHITE);
-		// canvas.drawRect(new Rect(mX + 0, mY + 0, mX + 40, mY + 40), paint);
 		canvas.drawRect(new Rect(0, 0, canvas.getWidth(), canvas.getHeight()),
 				paint);
 
+		if (mBackground != null)
+			//synchronized (mBackground){ //TODO synchronisieren!!
+				canvas.drawBitmap(mBackground, 0, 0, null);
+			//}
+		
+		//TODO welcher sprite soll an oberster ebene gezeichnet werden??
 		Iterator<String> keyIterator = mBitmapToPositionMap.keySet().iterator();
 		for (int i=0; i<mBitmapToPositionMap.size(); i++) {
-			Pair<Bitmap, Pair<Float, Float>> bitmapPair = mBitmapToPositionMap.get(keyIterator.next()); //TODO wir hier immer nur das letzte bild gezeichnet?
+			Pair<Bitmap, Pair<Float, Float>> bitmapPair = mBitmapToPositionMap.get(keyIterator.next()); 
 			canvas.drawBitmap(bitmapPair.first, bitmapPair.second.first, bitmapPair.second.second, null);
 		}
 		mIsDraw = false;
