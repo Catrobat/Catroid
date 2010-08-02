@@ -35,6 +35,7 @@ public class StageViewThread extends Thread {
 	private boolean mRun = false;
 	private SurfaceHolder mSurfaceHolder;
 	private Context context;
+	private Bitmap mBackground = null;
 	private Map<String, Pair<Bitmap,Pair<Float,Float>>> mBitmapToPositionMap;
 	
 
@@ -53,7 +54,11 @@ public class StageViewThread extends Thread {
 	}
 	
 	public void setBackground(String path) {
-		addBitmapToDraw("stage", path, 0, 0);
+		mIsDraw = false;
+		//synchronized (mBackground){ //TODO synchronisieren!!
+			mBackground = BitmapFactory.decodeFile(path);
+		//}
+		mIsDraw = true;
 	}
 	
 	public void addBitmapToDraw(String spriteName, String path, float x, float y) {
@@ -123,9 +128,14 @@ public class StageViewThread extends Thread {
 		canvas.drawRect(new Rect(0, 0, canvas.getWidth(), canvas.getHeight()),
 				paint);
 
+		if (mBackground != null)
+			//synchronized (mBackground){ //TODO synchronisieren!!
+				canvas.drawBitmap(mBackground, 0, 0, null);
+			//}
+		
 		Iterator<String> keyIterator = mBitmapToPositionMap.keySet().iterator();
 		for (int i=0; i<mBitmapToPositionMap.size(); i++) {
-			Pair<Bitmap, Pair<Float, Float>> bitmapPair = mBitmapToPositionMap.get(keyIterator.next()); //TODO wir hier immer nur das letzte bild gezeichnet?
+			Pair<Bitmap, Pair<Float, Float>> bitmapPair = mBitmapToPositionMap.get(keyIterator.next()); 
 			canvas.drawBitmap(bitmapPair.first, bitmapPair.second.first, bitmapPair.second.second, null);
 		}
 		mIsDraw = false;
