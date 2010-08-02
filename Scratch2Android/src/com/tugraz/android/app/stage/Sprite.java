@@ -30,7 +30,7 @@ public class Sprite extends Thread implements Observer{
 		doNextCommand();
 	}
 	
-	@Override
+	
 	public void update(Observable observable, Object data) {
 		doNextCommand();
 

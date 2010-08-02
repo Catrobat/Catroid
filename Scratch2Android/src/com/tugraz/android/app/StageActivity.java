@@ -83,7 +83,7 @@ public class StageActivity extends Activity implements OnCompletionListener {
 		return true;
 	}
 	
-	@Override
+	
 	public void onCompletion(MediaPlayer mp) {
 		mp.release();
 

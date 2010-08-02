@@ -1,20 +1,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="#606060"
-    >
-<Button android:layout_width="wrap_content" android:id="@+id/sprites_button" android:text="@string/sprites" android:layout_below="@+id/toolbar_button" android:layout_toLeftOf="@+id/MainListView" android:layout_height="wrap_content"></Button><Button
-	android:id="@+id/toolbar_button"
-	android:layout_width="wrap_content"
-	android:text="@string/toolbar" android:layout_height="wrap_content"/>
+    android:layout_height="fill_parent" android:background="@color/white">
+<Spinner android:layout_height="wrap_content" android:layout_alignParentTop="true" android:id="@+id/MainObjectSpinner" android:layout_width="fill_parent" android:layout_marginLeft="10dip" android:layout_marginRight="10dip" android:layout_marginTop="5dip" android:layout_marginBottom="5dip"></Spinner><RelativeLayout android:id="@+id/RelativeLayout01" android:layout_below="@+id/MainObjectSpinner" android:layout_height="fill_parent" android:layout_width="fill_parent"><Button android:layout_width="wrap_content" android:id="@+id/sprites_button" android:text="@string/sprites" android:layout_below="@+id/toolbar_button" android:layout_toLeftOf="@+id/MainListView" android:layout_height="wrap_content"></Button><Button android:id="@+id/toolbar_button" android:layout_width="wrap_content" android:text="@string/toolbar" android:layout_height="wrap_content" /><ListView android:id="@+id/MainListView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toRightOf="@id/toolbar_button" android:padding="2dip"></ListView></RelativeLayout>
 <!--<TextView -->
 <!--	android:id="@+id/construction_site_header" -->
 <!--    android:layout_width="fill_parent" -->
 <!--    android:layout_height="wrap_content"-->
 <!--    android:layout_toRightOf="@id/toolbar_button" -->
 <!--    android:text="@string/construction_site"/>-->
-<ListView android:id="@+id/MainListView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toRightOf="@id/toolbar_button" android:padding="2dip"></ListView>
+
+
+
+
 
 
 </RelativeLayout>

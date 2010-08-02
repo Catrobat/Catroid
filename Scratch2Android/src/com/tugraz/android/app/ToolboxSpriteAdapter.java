@@ -7,15 +7,15 @@ import com.tugraz.android.app.filesystem.MediaFileLoader;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.SimpleAdapter;
-import android.widget.Spinner;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class ToolboxSpriteAdapter extends BaseAdapter{
@@ -30,7 +30,6 @@ public class ToolboxSpriteAdapter extends BaseAdapter{
 		mList = data;
 		
 		mMediaFileLoader = new MediaFileLoader(mCtx);
-		mMediaFileLoader.loadPictureContent();
 	}
 	
 	
@@ -65,14 +64,14 @@ public class ToolboxSpriteAdapter extends BaseAdapter{
 		switch(Integer.valueOf(type).intValue()){
 			case (BrickDefine.PLAY_SOUND): 
 		{
-			LinearLayout view = (LinearLayout) inflater.inflate(R.layout.mlve_two_labels, null);
+				RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.brick_play_sound, null);
 			TextView text = (TextView)view.getChildAt(0);
 			text.setText("Spiele Klang:");
 			
-			view.setBackgroundColor(Color.BLUE);
+		//	view.setBackgroundColor(Color.BLUE);
             view.setOnClickListener(new View.OnClickListener() {
 				
-				@Override
+				
 				public void onClick(View v) {
 					HashMap<String, String> map = new HashMap<String, String>();
 			        map.put(BrickDefine.BRICK_ID, "2");
@@ -87,16 +86,16 @@ public class ToolboxSpriteAdapter extends BaseAdapter{
 		}
 		case (BrickDefine.WAIT): 
 		{
-			LinearLayout view =  (LinearLayout)inflater.inflate(R.layout.mlve_two_labels_edit, null);
+			RelativeLayout view =  (RelativeLayout)inflater.inflate(R.layout.brick_wait, null);
 			  TextView text = (TextView) view.getChildAt(0);
 			  text.setText("Warte ");
-			  text.setTextColor(Color.BLUE);
+			//  text.setTextColor(Color.BLUE);
 	          EditText etext = (EditText) view.getChildAt(1);
 	          
-	          view.setBackgroundColor(Color.argb(255, 255, 215, 0));
+	         // view.setBackgroundColor(Color.argb(255, 255, 215, 0));
             view.setOnClickListener(new View.OnClickListener() {
 				
-				@Override
+				
 				public void onClick(View v) {
 					HashMap<String, String> map = new HashMap<String, String>();
 			        map.put(BrickDefine.BRICK_ID, "3");
@@ -111,14 +110,14 @@ public class ToolboxSpriteAdapter extends BaseAdapter{
 		}
 		case (BrickDefine.HIDE): 
 		{
-		  LinearLayout view =  (LinearLayout)inflater.inflate(R.layout.mlve_one_lable, null);
+			LinearLayout view =  (LinearLayout)inflater.inflate(R.layout.brick_simple_text_view, null);
 		  TextView text = (TextView) view.getChildAt(0);
 		  text.setText("Hide");
-		  text.setTextColor(Color.BLUE);
-	      view.setBackgroundColor(Color.argb(255, 255, 215, 100));
+		  //text.setTextColor(Color.BLUE);
+	      //view.setBackgroundColor(Color.argb(255, 255, 215, 100));
           view.setOnClickListener(new View.OnClickListener() {
 				
-				@Override
+				
 				public void onClick(View v) {
 					HashMap<String, String> map = new HashMap<String, String>();
 			        map.put(BrickDefine.BRICK_ID, "4");
@@ -134,14 +133,14 @@ public class ToolboxSpriteAdapter extends BaseAdapter{
 		}
 		case (BrickDefine.SHOW): 
 		{
-		  LinearLayout view =  (LinearLayout)inflater.inflate(R.layout.mlve_one_lable, null);
+			LinearLayout view =  (LinearLayout)inflater.inflate(R.layout.brick_simple_text_view, null);
 		  TextView text = (TextView) view.getChildAt(0);
 		  text.setText("Show");
-		  text.setTextColor(Color.BLUE);
-	      view.setBackgroundColor(Color.argb(255, 255, 215, 200));
+		 // text.setTextColor(Color.BLUE);
+	      //view.setBackgroundColor(Color.argb(255, 255, 215, 200));
           view.setOnClickListener(new View.OnClickListener() {
 				
-				@Override
+				
 				public void onClick(View v) {
 					HashMap<String, String> map = new HashMap<String, String>();
 			        map.put(BrickDefine.BRICK_ID, "5");
@@ -157,14 +156,14 @@ public class ToolboxSpriteAdapter extends BaseAdapter{
 		}
 		case (BrickDefine.GO_TO): 
 		{
-		  LinearLayout view =  (LinearLayout)inflater.inflate(R.layout.mlv_one_label_two_edit, null);
+			RelativeLayout view =  (RelativeLayout)inflater.inflate(R.layout.brick_goto, null);
 		  TextView text = (TextView) view.getChildAt(0);
 		  text.setText("GO-TO-XY");
 		  text.setTextColor(Color.BLUE);
-	      view.setBackgroundColor(Color.argb(255, 255, 215, 255));
+	     // view.setBackgroundColor(Color.argb(255, 255, 215, 255));
           view.setOnClickListener(new View.OnClickListener() {
 				
-				@Override
+				
 				public void onClick(View v) {
 					HashMap<String, String> map = new HashMap<String, String>();
 			        map.put(BrickDefine.BRICK_ID, "6");
@@ -181,23 +180,18 @@ public class ToolboxSpriteAdapter extends BaseAdapter{
 		}
 		case (BrickDefine.SET_COSTUME): 
 		{
-			LinearLayout view = (LinearLayout) inflater.inflate(R.layout.mlve_two_labels, null);
+			RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.brick_set_costume, null);
 			//text1.setTextColor(Color.BLUE);
-			TextView text = (TextView)view.getChildAt(0);
+			TextView text = (TextView)view.getChildAt(1);
 			text.setText("Setze Kostüm:");
 			//text2.setTextColor(Color.BLUE);
-			view.setBackgroundColor(Color.argb(255, 139, 0, 50));
+		//	view.setBackgroundColor(Color.argb(255, 139, 0, 50));
 
-			Spinner spinner = (Spinner)view.getChildAt(1);
+			ImageView imageView = (ImageView)view.getChildAt(0);
 			
-			
-			//set adapter		
-			final SimpleAdapter adapter = new SimpleAdapter(mCtx, mMediaFileLoader.getPictureContent(), R.layout.picture_spinner,
-					new String[] {MediaFileLoader.PICTURE_THUMB, MediaFileLoader.PICTURE_NAME},
-	                new int[] {R.id.PictureSpinnerImageView, R.id.PictureSpinnerTextView});
-			spinner.setAdapter(adapter);
+			imageView.setEnabled(false);
 			view.setOnClickListener(new View.OnClickListener() {				
-				@Override
+				
 				public void onClick(View v) {
 					HashMap<String, String> map = new HashMap<String, String>();
 			        map.put(BrickDefine.BRICK_ID, "7");
@@ -211,7 +205,7 @@ public class ToolboxSpriteAdapter extends BaseAdapter{
 		}
 		case (BrickDefine.NOT_DEFINED):
 		{
-			return inflater.inflate(R.layout.mlve_two_labels, parent);
+			return null;
 		}
 		default: 
 		{
