@@ -118,13 +118,9 @@ public class StageViewThread extends Thread {
 	 */
 	protected synchronized void doDraw(Canvas canvas) {
 		Paint paint = new Paint();
-
-//		Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),
-//				   R.drawable.icon);
 			
 		paint.setStyle(Paint.Style.FILL);
 		paint.setColor(Color.WHITE);
-		// canvas.drawRect(new Rect(mX + 0, mY + 0, mX + 40, mY + 40), paint);
 		canvas.drawRect(new Rect(0, 0, canvas.getWidth(), canvas.getHeight()),
 				paint);
 
@@ -133,6 +129,7 @@ public class StageViewThread extends Thread {
 				canvas.drawBitmap(mBackground, 0, 0, null);
 			//}
 		
+		//TODO welcher sprite soll an oberster ebene gezeichnet werden??
 		Iterator<String> keyIterator = mBitmapToPositionMap.keySet().iterator();
 		for (int i=0; i<mBitmapToPositionMap.size(); i++) {
 			Pair<Bitmap, Pair<Float, Float>> bitmapPair = mBitmapToPositionMap.get(keyIterator.next()); 
