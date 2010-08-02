@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import com.tugraz.android.app.BrickDefine;
 import com.tugraz.android.app.MainActivity;
+import com.tugraz.android.app.MainListViewAdapter;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
@@ -35,33 +36,31 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         map.put(BrickDefine.BRICK_ID, "1");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
         map.put(BrickDefine.BRICK_NAME, "Test1");
-        map.put(BrickDefine.BRICK_VALUE, "bla");
+        //map.put(BrickDefine.BRICK_VALUE, "bla");
         list.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "2");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.PLAY_SOUND));
         map.put(BrickDefine.BRICK_NAME, "Test2");
-        map.put(BrickDefine.BRICK_VALUE, "blabla1");
+        //map.put(BrickDefine.BRICK_VALUE, "blabla1");
         list.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "3");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
         map.put(BrickDefine.BRICK_NAME, "Test3");
-        map.put(BrickDefine.BRICK_VALUE, "blabla2");
+        map.put(BrickDefine.BRICK_VALUE, "3");
         list.add(map);
-        
-        //mActivity.mList = list;
+		
+		MainListViewAdapter adapter = new MainListViewAdapter(mActivity, list);
+
         
         //TODO hier mehr machen um testdaten korrekt zu laden?
 		
         mListView = (ListView) mActivity.findViewById(com.tugraz.android.app.R.id.MainListView);
+        mListView.setAdapter(adapter);
         mMenu = (ListView) mActivity.findViewById(com.tugraz.android.app.R.menu.constructionsitemenu);
         
 	}
-	
-//	public void testPreConditions() {
-//		// we don't have preconditions atm
-//	}
 	
 	/**
 	 * NO AUTOMATED TEST
