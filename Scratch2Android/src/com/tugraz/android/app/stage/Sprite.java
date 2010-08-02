@@ -94,21 +94,24 @@ public class Sprite extends Thread implements Observer, OnCompletionListener{
 			brickWait(Float.parseFloat(map.get(BrickDefine.BRICK_VALUE)));
 			break;
 			
-		case BrickDefine.GO_TO: // TODO not working yet
+		case BrickDefine.GO_TO:
 			mCurrentXPosition = Integer.parseInt(map.get(BrickDefine.BRICK_VALUE));
 			mCurrentXPosition = Integer.parseInt(map.get(BrickDefine.BRICK_VALUE));
 			mStage.getThread().changeBitmapPosition(mSpriteName, mCurrentXPosition, mCurrentYPosition);
 			mCommandCount++;
+			toNextCommand();
 			break;
 			
 		case BrickDefine.HIDE:
 			mStage.getThread().removeBitmapToDraw(mSpriteName);
 			mCommandCount++;
+			toNextCommand();
 			break;
 			
-		case BrickDefine.SHOW: // TODO not working yet
+		case BrickDefine.SHOW:
 			mStage.getThread().addBitmapToDraw(mSpriteName, mCurrentImage, mCurrentXPosition, mCurrentYPosition);
 			mCommandCount++;
+			toNextCommand();
 			break;
 		}
 		
