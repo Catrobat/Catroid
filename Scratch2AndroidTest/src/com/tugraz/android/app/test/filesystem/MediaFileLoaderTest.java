@@ -23,26 +23,26 @@ public class MediaFileLoaderTest extends AndroidTestCase{
 	}
 	
 	
-	/**
-	 * test if files exist
-	 */
-	public void testLoadPictureContent(){
-		mMediaFileLoader.loadPictureContent();
-		ArrayList<HashMap<String, String>> content =  mMediaFileLoader.getPictureContent();
-		File file;
-		
-		Log.d("TEST", "number of image files: "+content.size());
-		assertNotNull(content);
-		
-		for(int i = 0; i < content.size(); i++){
-			file = new File(content.get(i).get(MediaFileLoader.PICTURE_PATH));
-			assertTrue(file.exists());
-			assertNotNull(BitmapFactory.decodeFile(content.get(i).get(MediaFileLoader.PICTURE_PATH)));
-//			Log.d("TEST", content.get(i).get(MediaFileLoader.PICTURE_NAME));
-//			Log.d("TEST", content.get(i).get(MediaFileLoader.PICTURE_PATH));
-		}
-		
-	}
+//	/**
+//	 * test if files exist
+//	 */
+//	public void testLoadPictureContent(){
+//		mMediaFileLoader.loadPictureContent();
+//		ArrayList<HashMap<String, String>> content =  mMediaFileLoader.getPictureContent();
+//		File file;
+//		
+//		Log.d("TEST", "number of image files: "+content.size());
+//		assertNotNull(content);
+//		
+//		for(int i = 0; i < content.size(); i++){
+//			file = new File(content.get(i).get(MediaFileLoader.PICTURE_PATH));
+//			assertTrue(file.exists());
+//			assertNotNull(BitmapFactory.decodeFile(content.get(i).get(MediaFileLoader.PICTURE_PATH)));
+////			Log.d("TEST", content.get(i).get(MediaFileLoader.PICTURE_NAME));
+////			Log.d("TEST", content.get(i).get(MediaFileLoader.PICTURE_PATH));
+//		}
+//		
+//	}
 	
 	public void testLoadSoundContent(){
 		mMediaFileLoader.loadSoundContent();

@@ -21,6 +21,7 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.WindowManager.LayoutParams;
 import android.view.animation.Animation;
@@ -33,6 +34,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public class MainActivity extends Activity implements Observer, OnClickListener{
@@ -55,13 +57,14 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 	private Dialog mSaveDialog;
 	private Dialog mLoadDialog;
 
-	private Button mSpritesToolboxButton;
+	private Spinner mObjectsSpinner;
     //TODO Eigener ToolboxDialog und eigener ToolboxAdapter
 	private ToolboxSpritesDialog mSpritesToolboxDialog;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.main);
         mContentManager = new ContentManager();
         mContentManager.setObserver(this);
@@ -81,8 +84,9 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
         mToolboxButton = (Button) this.findViewById(R.id.toolbar_button);
 		mToolboxButton.setOnClickListener(this);
 		
-		mSpritesToolboxButton = (Button) this.findViewById(R.id.sprites_button);
-		mSpritesToolboxButton.setOnClickListener(this);
+		mObjectsSpinner = (Spinner) this.findViewById(R.id.MainObjectSpinner);
+		//TODO set adapter
+		//openSpriteToolbox();
     }
 
     
@@ -111,7 +115,6 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
         	saveButton.setText("Speichern");
         	saveButton.setOnClickListener(new OnClickListener() {
 				
-				@Override
 				public void onClick(View v) {
 				EditText file = (EditText) mSaveDialog.findViewById(R.id.saveFilename);
 				//Anmerkung speichert nur im Application Context
@@ -225,9 +228,6 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 	public void onClick(View v) {
 		if (v.getId() == R.id.toolbar_button) {
 			openToolbox();
-		}
-		else if (v.getId() == R.id.sprites_button){
-			openSpriteToolbox();
 		}
 		
 	}

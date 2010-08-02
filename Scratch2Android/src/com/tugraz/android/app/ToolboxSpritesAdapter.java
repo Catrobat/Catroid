@@ -58,9 +58,9 @@ public class ToolboxSpritesAdapter extends BaseAdapter{
 		TextView text = (TextView)view.getChildAt(0);
 		text.setText(mList.get(position));
 		text.setTextColor(Color.BLUE);
-		view.setBackgroundColor(Color.argb(255, 255, 255, 139));		
+		//view.setBackgroundColor(Color.argb(255, 255, 255, 139));		
 	    view.setOnClickListener(new View.OnClickListener() {				
-				@Override
+				
 				public void onClick(View v) {
 					mContentManager.switchSprite(((LinearLayout)v).getTag().toString());
 				}
