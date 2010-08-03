@@ -47,7 +47,6 @@ public class FileAdapter extends BaseAdapter{
 		LinearLayout view = (LinearLayout) inflater.inflate(R.layout.spritetoolbox, null);
 		TextView text = (TextView)view.getChildAt(0);
 		text.setText(file);
-		text.setOnClickListener(new OnClickListener() {			
 			//text2.setTextColor(Color.BLUE);
 		text.setOnClickListener(new OnClickListener() {
 			
