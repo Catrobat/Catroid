@@ -21,6 +21,7 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.SimpleAdapter;
@@ -31,15 +32,15 @@ import android.widget.TextView;
 public class MainListViewAdapter extends BaseAdapter{
     private Context mCtx;
     private MediaFileLoader mMediaFileLoader;
-    
+    private ListView mMainListView;
     public ArrayList<HashMap<String, String>> mList;
 
     
 	public MainListViewAdapter(Context context,
-			ArrayList<HashMap<String, String>> data) {
+			ArrayList<HashMap<String, String>> data, ListView listview) {
 		mCtx = context;
 		mList = data;	
-		
+		mMainListView = listview;
 		mMediaFileLoader = new MediaFileLoader(mCtx);
 		mMediaFileLoader.loadSoundContent();
 	}
@@ -87,11 +88,17 @@ public class MainListViewAdapter extends BaseAdapter{
 			//view.setBackgroundColor(Color.argb(255, 139, 0, 139));
 
 			ImageView imageView = (ImageView)view.getChildAt(0);
-			
+			//TODO set correct position
 			imageView.setOnClickListener(new View.OnClickListener() {
 				
 				public void onClick(View v) {
-					mMediaFileLoader.openPictureGallery();
+					for(int i = 0; i < mMainListView.getChildCount(); i++){
+						if(v.equals(mMainListView.getChildAt(i))){
+							Log.d("TEST", i +"");
+							mMediaFileLoader.openPictureGallery(i);
+						}
+					}
+					
 					
 				}
 			});
@@ -199,7 +206,7 @@ public class MainListViewAdapter extends BaseAdapter{
 		{
 			RelativeLayout view =  (RelativeLayout)inflater.inflate(R.layout.brick_goto, null);
 			
-			TextView text = (TextView) view.getChildAt(0);
+			TextView text = (TextView) view.getChildAt(3);
 			text.setText("GO-TO-XY");
 			
 			EditText textX = (EditText) view.getChildAt(1);
@@ -223,7 +230,7 @@ public class MainListViewAdapter extends BaseAdapter{
 				} 
 	          });
 			
-			EditText textY = (EditText) view.getChildAt(2);
+			EditText textY = (EditText) view.getChildAt(4);
 			textY.setText(brick.get(BrickDefine.BRICK_VALUE_1));
 			textY.addTextChangedListener(new TextWatcher()
 	          {
