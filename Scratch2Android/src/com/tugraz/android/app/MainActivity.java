@@ -45,7 +45,7 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 
     /** Called when the activity is first created. */
 	
-	//TODO sprites should be deleted if "lösche baustelle"
+	//TODO sprites should be deleted if "lï¿½sche baustelle"
 	//TODO clean up the adapter, 3 of them do the same -> multiple code (is it necessary to distinguish between a stage and a sprite!?)
 	//TODO rename some classes buttons etc they are often not significant
 	//TODO make more packages
@@ -115,7 +115,7 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if(requestCode == MediaFileLoader.GALLERY_INTENT_CODE){
 			HashMap<String, String> content = mContentManager.getContentArrayList().get(LAST_SELECTED_ELEMENT_POSITION);
-			content.put(MediaFileLoader.PICTURE_ID, data.getDataString());
+			content.put(BrickDefine.BRICK_VALUE, data.getDataString());
 			
 			Log.d("TEST", data.getDataString());
 		}
