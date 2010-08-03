@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.ContactsContract.CommonDataKinds.BaseTypes;
@@ -93,6 +94,8 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 		
 		mSpritesToolboxButton = (Button) this.findViewById(R.id.sprites_button);
 		mSpritesToolboxButton.setOnClickListener(this);
+		
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 
     
