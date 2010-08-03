@@ -3,9 +3,12 @@ package com.tugraz.android.app;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.TooManyListenersException;
+
+import com.tugraz.android.app.filesystem.MediaFileLoader;
 
 
 import android.app.Activity;
@@ -49,6 +52,8 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 	//TODO style your gui elements either with java code or xml but no mixture
 	//TODO when an object(sprite) is chosen, close dialog
 	
+	//TODO IDs manage brick id 
+	
 	static final int TOOLBOX_DIALOG_SPRITE = 0;
 	static final int TOOLBOX_DIALOG_BACKGROUND = 1;
 	static final int SPRITETOOLBOX_DIALOG = 2;
@@ -77,8 +82,9 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
         mContentManager = new ContentManager();
         mContentManager.setObserver(this);
         mContentManager.setContext(this);
-        mAdapter = new MainListViewAdapter(this, mContentManager.getContentArrayList());
         mMainListView = (ListView) findViewById(R.id.MainListView);
+        mAdapter = new MainListViewAdapter(this, mContentManager.getContentArrayList(), mMainListView);
+        
         mMainListView.setAdapter(mAdapter);
         
         
@@ -98,7 +104,26 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 
+    //TODO change to id if possible
+    private static int LAST_SELECTED_ELEMENT_POSITION = 0;
     
+    public void rememberLastSelectedElement(int position){
+    	LAST_SELECTED_ELEMENT_POSITION = position;
+    }
+    
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(requestCode == MediaFileLoader.GALLERY_INTENT_CODE){
+			HashMap<String, String> content = mContentManager.getContentArrayList().get(LAST_SELECTED_ELEMENT_POSITION);
+			content.put(MediaFileLoader.PICTURE_ID, data.getDataString());
+			
+			Log.d("TEST", data.getDataString());
+		}
+			
+			
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+	
     protected Dialog onCreateDialog(int id){
         switch(id) { //TODO kommt er hier nur einmal her oder bei jedem aufruf?
         case TOOLBOX_DIALOG_SPRITE:
