@@ -1,4 +1,4 @@
-Known Bugs for Release 1 a.k.a. Apfelsaft:
+Known Bugs for Release 2 a.k.a. Eistee:
 -------------------------------------------
 
 solving priority: high, medium, low
@@ -7,9 +7,11 @@ solving priority: high, medium, low
 high:
 --------
 
-- Wenn man auf der Buehne auf abspielen drueckt und dann nochmals auf abspielen drueckt stuerzt die app ab
+- Wenn man die Bühne abspielt, auf pause drückt, dann auf zurück, dann wieder zur bühne und auf play muss man 2x play drücken damit was abgespielt wird
 
-- Wenn man mit zurück-knopf aussteigt wird die baustelle nicht gespeichert
+- wenn pause gedrückt wird und gerade wait ist wird das mglw nicht richtig ausgeführt
+
+- wenn man von der stage wieder zur baustelle zurückgeht und die skripts noch nicht vollständig durchgelaufen sind stürzt er am handyund am emulator immer ab. bugs genau finden!
 
 
 --------
@@ -18,12 +20,16 @@ medium
 
 - es werden nicht fuer alle bilder thumbnails angezeigt
 
+- wenn auf einem frischen Emulator die Tests durchlaufen werden, funktioniert testContextMenuOnMainList nicht, da noch kein element in mainList. Wenn nach den Tests die App normal aufgerufen wird funktioniert sie auch nicht
+   workaround: kleines testprogramm machen dann gehts
 
+- test schreibt falsche testdaten ins programm (zb hintergrund bei sprite)
 --------
 low
 --------
 
 - Skalierung der bilder
+- soll auf sound gewartet werden, d.h. wenn sound abspielt, soll nächster befehl erst nach fertig abspielen oder sofort ausgeführt werden?
 
 --------
 quick fixes: maybe implement a better solution later

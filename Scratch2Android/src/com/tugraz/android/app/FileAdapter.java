@@ -48,7 +48,9 @@ public class FileAdapter extends BaseAdapter{
 		TextView text = (TextView)view.getChildAt(0);
 		text.setText(file);
 		text.setOnClickListener(new OnClickListener() {			
-			@Override
+			//text2.setTextColor(Color.BLUE);
+		text.setOnClickListener(new OnClickListener() {
+			
 			public void onClick(View v) {
 			 mContentManager.loadContent(((TextView)v).getText().toString());
 			 mDialog.dismiss();	

@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.ContactsContract.CommonDataKinds.BaseTypes;
@@ -21,6 +22,7 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.WindowManager.LayoutParams;
 import android.view.animation.Animation;
@@ -33,11 +35,19 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public class MainActivity extends Activity implements Observer, OnClickListener{
 
     /** Called when the activity is first created. */
+	
+	//TODO sprites should be deleted if "lösche baustelle"
+	//TODO clean up the adapter, 3 of them do the same -> multiple code (is it necessary to distinguish between a stage and a sprite!?)
+	//TODO rename some classes buttons etc they are often not significant
+	//TODO make more packages
+	//TODO style your gui elements either with java code or xml but no mixture
+	//TODO when an object(sprite) is chosen, close dialog
 	
 	static final int TOOLBOX_DIALOG_SPRITE = 0;
 	static final int TOOLBOX_DIALOG_BACKGROUND = 1;
@@ -60,6 +70,7 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.main);
         mContentManager = new ContentManager();
         mContentManager.setObserver(this);
@@ -80,6 +91,8 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 		
 		mSpritesToolboxButton = (Button) this.findViewById(R.id.sprites_button);
 		mSpritesToolboxButton.setOnClickListener(this);
+		
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 
     
@@ -108,7 +121,6 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
         	saveButton.setText("Speichern");
         	saveButton.setOnClickListener(new OnClickListener() {
 				
-				@Override
 				public void onClick(View v) {
 				EditText file = (EditText) mSaveDialog.findViewById(R.id.saveFilename);
 				//Anmerkung speichert nur im Application Context
@@ -223,7 +235,6 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 		else if (v.getId() == R.id.sprites_button){
 			openSpriteToolbox();
 		}
-		
 	}
 		
 	private void openToolbox(){
