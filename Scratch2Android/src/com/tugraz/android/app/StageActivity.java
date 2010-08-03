@@ -30,8 +30,9 @@ public class StageActivity extends Activity {
 	private ContentManager mContentManager;
 	private ArrayList<Sprite> mSpritesList;
 	protected boolean isWaiting = false;
+	private boolean mSpritesAlreadyInitialized = false; //TODO wenn stage automatisch startet brauchen wir das nicht mehr
 
-	private int mCommandCount = 0;
+	public static boolean mDoNextCommands = true;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -67,7 +68,10 @@ public class StageActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.stagemenuStart:
-			start();
+			if (!mSpritesAlreadyInitialized)
+				start();
+			else
+				pauseOrRestart();
 			break;
 		case R.id.stagemenuConstructionSite:
 			toMainActivity();
@@ -90,12 +94,7 @@ public class StageActivity extends Activity {
 	/**
 	 * starts the StageViewThread
 	 */
-	private void start() { // TODO funktioniert beim erneuten ausfuehren, wenn
-							// die stage schon laueft nicht
-		if (mStage.getThread().isRunning()) {
-			mStage.getThread().setRunning(false);
-		}
-
+	private void start() { 
 		mStage.getThread().setRunning(true); // TODO gehoert das hier her??
 		mStage.getThread().start();
 
@@ -110,7 +109,25 @@ public class StageActivity extends Activity {
 		for (int i = 0; i < mSpritesList.size(); i++) {
 			mSpritesList.get(i).start();
 		}
+		
+		mSpritesAlreadyInitialized = true;
 
+	}
+	
+	private void pauseOrRestart() {
+		if (mDoNextCommands){
+			mDoNextCommands = false;
+			for (int i = 0; i < mSpritesList.size(); i++) {
+				mSpritesList.get(i).pauseMediaPlayer();
+			}
+		}
+		else {
+			mDoNextCommands = true;
+			for (int i = 0; i < mSpritesList.size(); i++) {
+				mSpritesList.get(i).startMediaPlayer();
+				mSpritesList.get(i).doNextCommand(); //TODO problem mit wait??
+			}
+		}
 	}
 
 }
