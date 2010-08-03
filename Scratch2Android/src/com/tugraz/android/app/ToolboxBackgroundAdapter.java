@@ -14,8 +14,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
-import android.widget.Spinner;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ToolboxBackgroundAdapter extends BaseAdapter{
@@ -30,7 +31,6 @@ public class ToolboxBackgroundAdapter extends BaseAdapter{
 		mList = data;
 		
 		mMediaFileLoader = new MediaFileLoader(mCtx);
-		mMediaFileLoader.loadPictureContent();
 	}
 	
 	
@@ -61,17 +61,19 @@ public class ToolboxBackgroundAdapter extends BaseAdapter{
 		switch(Integer.valueOf(type).intValue()){
 		case (BrickDefine.SET_BACKGROUND): 
 		{
-			LinearLayout view = (LinearLayout) inflater.inflate(R.layout.mlve_two_labels, null);
-			TextView text = (TextView)view.getChildAt(0);
+			RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.brick_set_background, null);
+			TextView text = (TextView)view.getChildAt(1);
 			text.setText(R.string.set_background_main_adapter);
-			view.setBackgroundColor(Color.argb(255, 139, 0, 139));
-			Spinner spinner = (Spinner)view.getChildAt(1);
+			//view.setBackgroundColor(Color.argb(255, 139, 0, 139));
+			ImageView imageView = (ImageView)view.getChildAt(0);
 			final SimpleAdapter adapter = new SimpleAdapter(mCtx, mMediaFileLoader.getPictureContent(), R.layout.picture_spinner,
 					new String[] {MediaFileLoader.PICTURE_THUMB, MediaFileLoader.PICTURE_NAME},
 	                new int[] {R.id.PictureSpinnerImageView, R.id.PictureSpinnerTextView});
 			spinner.setAdapter(adapter);
+			
+			imageView.setEnabled(false);
 			view.setOnClickListener(new View.OnClickListener() {				
-				@Override
+				
 				public void onClick(View v) {
 					HashMap<String, String> map = new HashMap<String, String>();
 			        map.put(BrickDefine.BRICK_ID, "1");
@@ -85,14 +87,14 @@ public class ToolboxBackgroundAdapter extends BaseAdapter{
 		}
 		case (BrickDefine.PLAY_SOUND): 
 		{
-			LinearLayout view = (LinearLayout) inflater.inflate(R.layout.mlve_two_labels, null);
+			RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.brick_play_sound, null);
 			TextView text = (TextView)view.getChildAt(0);
 			text.setText(R.string.play_sound_main_adapter);
 			
-			view.setBackgroundColor(Color.BLUE);
+			//view.setBackgroundColor(Color.BLUE);
             view.setOnClickListener(new View.OnClickListener() {
 				
-				@Override
+				
 				public void onClick(View v) {
 					HashMap<String, String> map = new HashMap<String, String>();
 			        map.put(BrickDefine.BRICK_ID, "2");
@@ -106,16 +108,16 @@ public class ToolboxBackgroundAdapter extends BaseAdapter{
 		}
 		case (BrickDefine.WAIT): 
 		{
-			LinearLayout view =  (LinearLayout)inflater.inflate(R.layout.mlve_two_labels_edit, null);
+			RelativeLayout view =  (RelativeLayout)inflater.inflate(R.layout.brick_wait, null);
 			  TextView text = (TextView) view.getChildAt(0);
 			  text.setText(R.string.wait_main_adapter);
 			  text.setTextColor(Color.BLUE);
 	          EditText etext = (EditText) view.getChildAt(1);
 	          
-	          view.setBackgroundColor(Color.argb(255, 255, 215, 0));
+	        //  view.setBackgroundColor(Color.argb(255, 255, 215, 0));
             view.setOnClickListener(new View.OnClickListener() {
 				
-				@Override
+				
 				public void onClick(View v) {
 					HashMap<String, String> map = new HashMap<String, String>();
 			        map.put(BrickDefine.BRICK_ID, "3");
@@ -131,7 +133,7 @@ public class ToolboxBackgroundAdapter extends BaseAdapter{
 
 		case (BrickDefine.NOT_DEFINED):
 		{
-			return inflater.inflate(R.layout.mlve_two_labels, parent);
+			return null;
 		}
 		default: 
 		{

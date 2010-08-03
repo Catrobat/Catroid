@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="wrap_content"
-  android:layout_height="wrap_content" android:orientation="horizontal">
-<ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/PictureSpinnerImageView" android:maxHeight="96dip" android:maxWidth="96dip"></ImageView>
-<TextView android:text="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/PictureSpinnerTextView"></TextView>
-</LinearLayout>
