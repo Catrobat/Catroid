@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 import com.tugraz.android.app.BrickDefine;
+import com.tugraz.android.app.StageActivity;
+
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.util.Log;
@@ -20,6 +22,7 @@ public class Sprite extends Thread implements Observer, OnCompletionListener {
 	private int mCurrentXPosition = 0;
 	private int mCurrentYPosition = 0;
 	private String mCurrentImage = "";
+	private boolean mWasPlaying = false;
 
 	public Sprite(StageView view,
 			ArrayList<HashMap<String, String>> commandList, String name) {
@@ -42,10 +45,9 @@ public class Sprite extends Thread implements Observer, OnCompletionListener {
 
 	}
 
-	private synchronized void doNextCommand() {
-		if (mCommandList.size() <= mCommandCount) {
+	public synchronized void doNextCommand() {
+		if ((mCommandList.size() <= mCommandCount) || (StageActivity.mDoNextCommands == false)){
 			// abort if mCommandCount has run through all commands to execute
-			mCommandCount = 0;
 			return;
 		}
 		HashMap<String, String> map = mCommandList.get(mCommandCount);
@@ -139,12 +141,28 @@ public class Sprite extends Thread implements Observer, OnCompletionListener {
 
 	@Override
 	public void onCompletion(MediaPlayer mp) {
-		mp.release();
+//		mp.release(); //we don't want to release the media player here because we may need it again
 
 	}
 
 	public void stopAndReleaseMediaPlayer() {
-		mMediaPlayer.stop();
+		if (mMediaPlayer.isPlaying())
+			mMediaPlayer.stop();
 		mMediaPlayer.release();
+		mWasPlaying = false;
+	}
+	
+	public void pauseMediaPlayer(){
+		if (mMediaPlayer.isPlaying()){
+			mMediaPlayer.pause();
+			mWasPlaying = true;
+		}
+	}
+	
+	public void startMediaPlayer(){
+		if (mWasPlaying) {
+			mMediaPlayer.start();
+			mWasPlaying = false;
+		}
 	}
 }
