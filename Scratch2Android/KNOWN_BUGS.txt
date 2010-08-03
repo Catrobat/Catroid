@@ -7,9 +7,11 @@ solving priority: high, medium, low
 high:
 --------
 
-- Wenn man auf der Buehne auf abspielen drueckt und dann nochmals auf abspielen drueckt stuerzt die app ab
+- Wenn man die Bühne abspielt, auf pause drückt, dann auf zurück, dann wieder zur bühne und auf play muss man 2x play drücken damit was abgespielt wird
 
-- Wenn man mit zurück-knopf aussteigt wird die baustelle nicht gespeichert
+- wenn pause gedrückt wird und gerade wait ist wird das mglw nicht richtig ausgeführt
+
+
 
 
 --------
