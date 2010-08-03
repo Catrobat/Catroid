@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
@@ -29,6 +30,7 @@ public class ToolboxSpritesDialog extends Dialog
 	private Animation mSlide_out;
 	
 	public ListView mMainListView;
+	//TODO choose better name
 	public EditText mEditText;
 	public Button mSpriteButton;
 	private Button mMainSpriteButton;    
@@ -57,11 +59,12 @@ public class ToolboxSpritesDialog extends Dialog
 		
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//TODO set what to do in a text view, try to shorten the name in the button
 		getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-		//getWindow().setGravity(Gravity.BOTTOM);
+		getWindow().setGravity(Gravity.TOP);
 		//getWindow().setFormat(PixelFormat.TRANSLUCENT);
 		setContentView(R.layout.toolboxsprites);
-		this.setTitle("Objekte");
+		//this.setTitle("Objekte");
 		
 		mSlide_in = AnimationUtils.loadAnimation(mCtx, R.anim.toolboxsprites_in);
 		mSlide_out = AnimationUtils.loadAnimation(mCtx, R.anim.toolboxsprites_out);
