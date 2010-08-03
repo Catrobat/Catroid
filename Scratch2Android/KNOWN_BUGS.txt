@@ -13,6 +13,7 @@ high:
 
 - wenn keine bilder/sounds am emulator sind crasht die app wenn man kostüm, hintergrund oder klang hinzufügen will
 
+- wenn man von der stage wieder zur baustelle zurückgeht und die skripts noch nicht vollständig durchgelaufen sind stürzt er am handy immer ab. bugs genau finden!
 
 --------
 medium
