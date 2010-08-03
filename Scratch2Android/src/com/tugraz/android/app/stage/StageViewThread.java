@@ -76,6 +76,7 @@ public class StageViewThread extends Thread {
 		mBitmapToPositionMap.remove(spriteName);
 		mBitmapToPositionMap.put(spriteName, bitmapAndPosition);
 		mIsDraw = true;
+
 	}
 
 	public synchronized boolean isRunning() {

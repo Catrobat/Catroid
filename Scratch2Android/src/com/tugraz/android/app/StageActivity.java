@@ -30,8 +30,9 @@ public class StageActivity extends Activity {
 	private ContentManager mContentManager;
 	private ArrayList<Sprite> mSpritesList;
 	protected boolean isWaiting = false;
+	private boolean mSpritesAlreadyInitialized = false; //TODO wenn stage automatisch startet brauchen wir das nicht mehr
 
-	private int mCommandCount = 0;
+	public static boolean mDoNextCommands = true;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -40,18 +41,19 @@ public class StageActivity extends Activity {
 		mStage = new StageView(this);
 
 		mContentManager = new ContentManager();
-		mContentManager.setContext(this); 										
+		mContentManager.setContext(this);
 		mContentManager.loadContent();
-		
+
 		mSpritesList = new ArrayList<Sprite>();
 
 		LayoutParams params = new LayoutParams(LayoutParams.FILL_PARENT,
-				LayoutParams.FILL_PARENT); 
+				LayoutParams.FILL_PARENT);
 		setContentView(R.layout.stage);
 		addContentView(mStage, params);
 
 		// we only want portrait mode atm, otherwise the program crashes
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		//start(); //TODO wenn ich das einkommentiere funktionierts am emulator richtig, am handy haengts ihn aber auf... 
 
 	}
 
@@ -66,7 +68,10 @@ public class StageActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.stagemenuStart:
-			start();
+			if (!mSpritesAlreadyInitialized)
+				start();
+			else
+				pauseOrRestart();
 			break;
 		case R.id.stagemenuConstructionSite:
 			toMainActivity();
@@ -74,47 +79,55 @@ public class StageActivity extends Activity {
 		}
 		return true;
 	}
-	
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		for (int i=0; i<mSpritesList.size(); i++) 
+		for (int i = 0; i < mSpritesList.size(); i++)
 			mSpritesList.get(i).stopAndReleaseMediaPlayer();
 	}
-	
+
 	private void toMainActivity() {
-		finish(); 
+		finish();
 	}
 
 	/**
 	 * starts the StageViewThread
 	 */
-	private void start() { // TODO funktioniert beim erneuten ausfuehren, wenn
-							// die stage schon laueft nicht
-		if (mStage.getThread().isRunning()) {
-			mStage.getThread().setRunning(false);
-
-//			if (mMediaPlayer.isPlaying()){
-//				mMediaPlayer.stop();
-//				mMediaPlayer.release();
-//			}
-		}
-
+	private void start() { 
 		mStage.getThread().setRunning(true); // TODO gehoert das hier her??
 		mStage.getThread().start();
 
 		ArrayList<String> allSpriteNames = mContentManager.getAllSprites();
-		for (int i=0; i < allSpriteNames.size(); i++) {
-			Sprite sprite = new Sprite(mStage, mContentManager.getSpritesAndBackground().get(allSpriteNames.get(i)), allSpriteNames.get(i));
+		for (int i = 0; i < allSpriteNames.size(); i++) {
+			Sprite sprite = new Sprite(mStage, mContentManager
+					.getSpritesAndBackground().get(allSpriteNames.get(i)),
+					allSpriteNames.get(i));
 			mSpritesList.add(sprite);
 		}
-		
-		for (int i=0; i<mSpritesList.size(); i++) {
+
+		for (int i = 0; i < mSpritesList.size(); i++) {
 			mSpritesList.get(i).start();
 		}
+		
+		mSpritesAlreadyInitialized = true;
 
 	}
-
+	
+	private void pauseOrRestart() {
+		if (mDoNextCommands){
+			mDoNextCommands = false;
+			for (int i = 0; i < mSpritesList.size(); i++) {
+				mSpritesList.get(i).pauseMediaPlayer();
+			}
+		}
+		else {
+			mDoNextCommands = true;
+			for (int i = 0; i < mSpritesList.size(); i++) {
+				mSpritesList.get(i).startMediaPlayer();
+				mSpritesList.get(i).doNextCommand(); //TODO problem mit wait??
+			}
+		}
+	}
 
 }
