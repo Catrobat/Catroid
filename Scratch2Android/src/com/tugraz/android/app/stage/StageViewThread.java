@@ -28,7 +28,7 @@ public class StageViewThread extends Thread {
 	private boolean mRun = false;
 	private SurfaceHolder mSurfaceHolder;
 	private Context context;
-	private Bitmap mBackground = null;
+	private Bitmap mBackground;
 	private Map<String, Pair<Bitmap, Pair<Float, Float>>> mBitmapToPositionMap;
 
 	public StageViewThread(SurfaceHolder holder, Context context,
@@ -90,25 +90,19 @@ public class StageViewThread extends Thread {
 				try {
 					c = mSurfaceHolder.lockCanvas(null);
 					synchronized (mSurfaceHolder) {
-
 						doDraw(c);
 					}
 				} finally {
 					if (c != null)
 						mSurfaceHolder.unlockCanvasAndPost(c);
-					// throw new ThreadDeath();
 				}
 			}
 
 		}
 	}
 
-	/**
-	 * Draws the stage.
-	 */
 	protected synchronized void doDraw(Canvas canvas) {
 		Paint paint = new Paint();
-
 		paint.setStyle(Paint.Style.FILL);
 		paint.setColor(Color.WHITE);
 		canvas.drawRect(new Rect(0, 0, canvas.getWidth(), canvas.getHeight()),
