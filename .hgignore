@@ -10,3 +10,4 @@ local.properties
 bin/*
 build/*
 gen/*
+testProject\

@@ -53,7 +53,6 @@ public class FileAdapter extends BaseAdapter{
 			//text2.setTextColor(Color.BLUE);
 		text.setOnClickListener(new OnClickListener() {
 			
-			@Override
 			public void onClick(View v) {
 			 mContentManager.loadContent(((TextView)v).getText().toString());
 			 mDialog.dismiss();	

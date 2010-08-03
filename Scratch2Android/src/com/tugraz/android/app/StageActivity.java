@@ -80,7 +80,7 @@ public class StageActivity extends Activity {
 		return true;
 	}
 
-	@Override
+	
 	protected void onPause() {
 		super.onPause();
 		for (int i = 0; i < mSpritesList.size(); i++)
