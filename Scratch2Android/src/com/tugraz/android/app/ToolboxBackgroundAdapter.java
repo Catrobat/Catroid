@@ -66,11 +66,7 @@ public class ToolboxBackgroundAdapter extends BaseAdapter{
 			text.setText(R.string.set_background_main_adapter);
 			//view.setBackgroundColor(Color.argb(255, 139, 0, 139));
 			ImageView imageView = (ImageView)view.getChildAt(0);
-			final SimpleAdapter adapter = new SimpleAdapter(mCtx, mMediaFileLoader.getPictureContent(), R.layout.picture_spinner,
-					new String[] {MediaFileLoader.PICTURE_THUMB, MediaFileLoader.PICTURE_NAME},
-	                new int[] {R.id.PictureSpinnerImageView, R.id.PictureSpinnerTextView});
-			spinner.setAdapter(adapter);
-			
+				
 			imageView.setEnabled(false);
 			view.setOnClickListener(new View.OnClickListener() {				
 				

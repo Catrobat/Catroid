@@ -76,9 +76,7 @@ public class MainListViewAdapter extends BaseAdapter{
 			TextView text = (TextView)view.getChildAt(1);
 			text.setText(R.string.set_background_main_adapter);
 			//view.setBackgroundColor(Color.argb(255, 139, 0, 139));
-			RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.brick_set_background, null);
 			//text1.setTextColor(Color.BLUE);
-			TextView text = (TextView)view.getChildAt(1);
 			text.setText("Setze Hintergrund:");
 			//text2.setTextColor(Color.BLUE);
 			//view.setBackgroundColor(Color.argb(255, 139, 0, 139));
@@ -92,34 +90,7 @@ public class MainListViewAdapter extends BaseAdapter{
 					
 				}
 			});
-			imageView.setOnClickListener(new View.OnClickListener() {
-				
-				public void onClick(View v) {
-					mMediaFileLoader.openPictureGallery();
-					
-				}
-			});
-			final SimpleAdapter adapter = new SimpleAdapter(mCtx, mMediaFileLoader.getPictureContent(), R.layout.picture_spinner,
-					new String[] {MediaFileLoader.PICTURE_THUMB, MediaFileLoader.PICTURE_NAME},
-	                new int[] {R.id.PictureSpinnerImageView, R.id.PictureSpinnerTextView});
-			
-			spinner.setAdapter(adapter);
-			OnItemSelectedListener listener = new OnItemSelectedListener(){
-
-				@Override
-				public void onItemSelected(AdapterView<?> arg0, View arg1,
-						int arg2, long arg3) {
-						brick.put(BrickDefine.BRICK_VALUE, ((HashMap<String, String>)adapter.getItem(arg2)).get(MediaFileLoader.PICTURE_PATH));
-				}
-				@Override
-				public void onNothingSelected(AdapterView<?> arg0) {
-					// TODO Auto-generated method stub
-					
-				}				
-			};
-		    spinner.setOnItemSelectedListener(listener);
-		    spinner.setSelection(getIndexFromElementPicture(adapter, brick.get(BrickDefine.BRICK_VALUE)));
-			
+		
 			
 //		    LayoutParams params = (LayoutParams) view.getLayoutParams();
 //		    params.addRule(RelativeLayout.ALIGN_BOTTOM, parent.getChildAt(size-1).getId());
