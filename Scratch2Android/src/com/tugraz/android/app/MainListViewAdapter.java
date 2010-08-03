@@ -108,32 +108,34 @@ public class MainListViewAdapter extends BaseAdapter{
 			TextView text = (TextView)view.getChildAt(0);
 			text.setText("Spiele Klang:");
 			
-		/*	Spinner spinner = (Spinner)view.getChildAt(1);
+			Spinner spinner = (Spinner)view.getChildAt(1);
          
 			final SimpleAdapter adapter = new SimpleAdapter(mCtx, mMediaFileLoader.getSoundContent(), R.layout.sound_spinner,
 					new String[] {MediaFileLoader.SOUND_NAME},
 	                new int[] {R.id.SoundSpinnerTextView});
 			spinner.setAdapter(adapter);
-			spinner.setSelection(0);
-			OnItemSelectedListener listener = new OnItemSelectedListener(){
-
-				
-				public void onItemSelected(AdapterView<?> arg0, View arg1,
-						int arg2, long arg3) {
-						brick.put(BrickDefine.BRICK_VALUE, ((HashMap<String, String>)adapter.getItem(arg2)).get(MediaFileLoader.SOUND_PATH));
-				}
-
-				
-				public void onNothingSelected(AdapterView<?> arg0) {
-					// TODO Auto-generated method stub
+			if (adapter.getCount() != 0) {
+				spinner.setSelection(0);
+				OnItemSelectedListener listener = new OnItemSelectedListener(){
+	
 					
-				}
-				
-			};
-		    spinner.setOnItemSelectedListener(listener);
-			//view.setBackgroundColor(Color.BLUE);
-			spinner.setSelection(getIndexFromElementSound(adapter, brick.get(BrickDefine.BRICK_VALUE)));
-			*/
+					public void onItemSelected(AdapterView<?> arg0, View arg1,
+							int arg2, long arg3) {
+							brick.put(BrickDefine.BRICK_VALUE, ((HashMap<String, String>)adapter.getItem(arg2)).get(MediaFileLoader.SOUND_PATH));
+					}
+	
+					
+					public void onNothingSelected(AdapterView<?> arg0) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+				};
+			    spinner.setOnItemSelectedListener(listener);
+				//view.setBackgroundColor(Color.BLUE);
+				spinner.setSelection(getIndexFromElementSound(adapter, brick.get(BrickDefine.BRICK_VALUE)));
+			}
+			
 			return view;
 		}
 		case (BrickDefine.WAIT): 
@@ -251,7 +253,7 @@ public class MainListViewAdapter extends BaseAdapter{
 			RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.brick_set_costume, null);
 			//text1.setTextColor(Color.BLUE);
 			TextView text = (TextView)view.getChildAt(1);
-			text.setText("Setze Kostüm:");
+			text.setText("Setze Kostï¿½m:");
 			//text2.setTextColor(Color.BLUE);
 			//view.setBackgroundColor(Color.argb(255, 139, 0, 50));
 
