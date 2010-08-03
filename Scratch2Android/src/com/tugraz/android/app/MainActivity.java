@@ -41,6 +41,13 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 
     /** Called when the activity is first created. */
 	
+	//TODO sprites should be deleted if "lösche baustelle"
+	//TODO clean up the adapter, 3 of them do the same -> multiple code (is it necessary to distinguish between a stage and a sprite!?)
+	//TODO rename some classes buttons etc they are often not significant
+	//TODO make more packages
+	//TODO style your gui elements either with java code or xml but no mixture
+	//TODO when an object(sprite) is chosen, close dialog
+	
 	static final int TOOLBOX_DIALOG_SPRITE = 0;
 	static final int TOOLBOX_DIALOG_BACKGROUND = 1;
 	static final int SPRITETOOLBOX_DIALOG = 2;
@@ -57,14 +64,14 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 	private Dialog mSaveDialog;
 	private Dialog mLoadDialog;
 
-	private Spinner mObjectsSpinner;
+	private Button mSpritesToolboxButton;
     //TODO Eigener ToolboxDialog und eigener ToolboxAdapter
 	private ToolboxSpritesDialog mSpritesToolboxDialog;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.main);
         mContentManager = new ContentManager();
         mContentManager.setObserver(this);
@@ -84,9 +91,8 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
         mToolboxButton = (Button) this.findViewById(R.id.toolbar_button);
 		mToolboxButton.setOnClickListener(this);
 		
-		mObjectsSpinner = (Spinner) this.findViewById(R.id.MainObjectSpinner);
-		//TODO set adapter
-		//openSpriteToolbox();
+		mSpritesToolboxButton = (Button) this.findViewById(R.id.sprites_button);
+		mSpritesToolboxButton.setOnClickListener(this);
     }
 
     
@@ -229,7 +235,9 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 		if (v.getId() == R.id.toolbar_button) {
 			openToolbox();
 		}
-		
+		else if (v.getId() == R.id.sprites_button){
+			openSpriteToolbox();
+		}
 	}
 		
 	private void openToolbox(){

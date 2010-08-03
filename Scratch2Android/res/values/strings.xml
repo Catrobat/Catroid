@@ -14,7 +14,7 @@
     
     <string name="construction_site">Baustelle</string>
     <string name="toolbar">S\nT\nE\nI\nN\nE\n</string>
-    <string name="sprites">O\nB\nI\nJ\nE\nK\nT\nE\n</string>
+    <string name="sprites">sprites</string>
     <string name="stage">Bühne</string>
     
     <string name="construction_site_play">Zur Bühne</string>
@@ -23,4 +23,7 @@
     
     <string name="stagemenu_construction_site">Zur Baustelle</string>
     <string name="stagemenu_start">Abspielen</string>
+    
+    
+    <string name="brick_label">Chose your brick!</string>
 </resources>
