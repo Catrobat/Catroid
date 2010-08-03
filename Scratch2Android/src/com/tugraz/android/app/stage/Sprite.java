@@ -22,6 +22,7 @@ public class Sprite extends Thread implements Observer, OnCompletionListener{
 	private int mCurrentXPosition = 0;
 	private int mCurrentYPosition = 0;
 	private String mCurrentImage = "";
+	private boolean mMediaPlayerActive = false; // workaround because mMediaPlayer.isRunning() caused an error
 	
 	public Sprite(StageView view, ArrayList<HashMap<String, String>> commandList, String name){
 		mStage = view;
@@ -78,6 +79,7 @@ public class Sprite extends Thread implements Observer, OnCompletionListener{
 				mMediaPlayer.setDataSource(map.get(BrickDefine.BRICK_VALUE));
 				mMediaPlayer.prepare();
 				mMediaPlayer.start();
+				mMediaPlayerActive = true;
 
 			} catch (IOException e) {
 				Log.w("Sprite", "Could not play sound file");
@@ -150,13 +152,15 @@ public class Sprite extends Thread implements Observer, OnCompletionListener{
 	@Override
 	public void onCompletion(MediaPlayer mp) {
 		mp.release();
+		mMediaPlayerActive = false;
 
 	}
 	
 	public void stopAndReleaseMediaPlayer(){
-		if (mMediaPlayer.isPlaying()){
+		if (mMediaPlayerActive){
 			mMediaPlayer.stop();
 			mMediaPlayer.release();
+			mMediaPlayerActive = false;
 		}
 	}
 
