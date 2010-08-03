@@ -39,7 +39,7 @@ public class Sprite extends Thread implements Observer, OnCompletionListener {
 		doNextCommand();
 	}
 
-	@Override
+	
 	public void update(Observable observable, Object data) {
 		doNextCommand();
 
@@ -139,7 +139,7 @@ public class Sprite extends Thread implements Observer, OnCompletionListener {
 		thread.start();
 	}
 
-	@Override
+	
 	public void onCompletion(MediaPlayer mp) {
 //		mp.release(); //we don't want to release the media player here because we may need it again
 

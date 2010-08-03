@@ -15,7 +15,7 @@ import android.util.Log;
  */
 public class MediaFileLoader {
 
-	private ArrayList<HashMap<String, String>> mPictureContent;
+	//private ArrayList<HashMap<String, String>> mPictureContent;
 	private ArrayList<HashMap<String, String>> mSoundContent;
 	private Context mCtx;
 	
@@ -27,7 +27,6 @@ public class MediaFileLoader {
 	
 	public final static String SOUND_NAME = "sound_name";
 	public final static String SOUND_PATH = "sound_path";
-	public final static String SOUND_THUMB = "sound_thumb";
 	public final static String SOUND_ID = "sound_id";
 	
 	public final static String NO_DATA_FOUND = "noDataFound";
@@ -35,10 +34,14 @@ public class MediaFileLoader {
 	public MediaFileLoader(Context ctx){
 		mCtx = ctx;
 	}
+	
+	public void openPictureGallery(){
+	
+	}
 	/**
 	 * load pictures from sd card
 	 */
-	public void loadPictureContent(){
+	/*public void loadPictureContent(){
 		mPictureContent = new ArrayList<HashMap<String,String>>();
 
 		
@@ -91,12 +94,8 @@ public class MediaFileLoader {
 			cursor.close();
 		}
 		
-	}
+	}*/
 	
-	
-	public ArrayList<HashMap<String, String>> getPictureContent(){
-		return mPictureContent;
-	}
 	
 	/**
 	 * scan the sd card for audio files and store the names
