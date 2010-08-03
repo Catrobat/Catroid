@@ -15,6 +15,10 @@ high:
 
 - wenn man von der stage wieder zur baustelle zurückgeht und die skripts noch nicht vollständig durchgelaufen sind stürzt er am handy immer ab. bugs genau finden!
 
+- bei wait-steinen kommt kein kontext-menü
+
+- bei goto -> crash
+
 --------
 medium
 --------

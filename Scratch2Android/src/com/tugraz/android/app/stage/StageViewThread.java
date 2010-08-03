@@ -11,7 +11,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Handler;
+import android.util.Log;
 import android.util.Pair;
 import android.view.SurfaceHolder;
 
@@ -46,7 +48,10 @@ public class StageViewThread extends Thread {
 
 	public synchronized void setBackground(String path) {
 		mIsDraw = false;
-		mBackground = BitmapFactory.decodeFile(path);
+		Log.i("before-parse", path);
+		Uri uri = Uri.parse(path);
+		Log.i("Image-Path", uri.getEncodedPath());
+		mBackground = BitmapFactory.decodeFile(uri.getPath());
 		mIsDraw = true;
 	}
 

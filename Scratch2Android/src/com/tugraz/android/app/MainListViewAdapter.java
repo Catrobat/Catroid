@@ -93,7 +93,8 @@ public class MainListViewAdapter extends BaseAdapter{
 				
 				public void onClick(View v) {
 					for(int i = 0; i < mMainListView.getChildCount(); i++){
-						if(v.equals(mMainListView.getChildAt(i))){
+						
+						if(v.getParent().equals(mMainListView.getChildAt(i))){
 							Log.d("TEST", i +"");
 							mMediaFileLoader.openPictureGallery(i);
 						}
@@ -258,7 +259,7 @@ public class MainListViewAdapter extends BaseAdapter{
 			RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.brick_set_costume, null);
 			//text1.setTextColor(Color.BLUE);
 			TextView text = (TextView)view.getChildAt(1);
-			text.setText("Setze Kostüm:");
+			text.setText("Setze Kostï¿½m:");
 			//text2.setTextColor(Color.BLUE);
 			//view.setBackgroundColor(Color.argb(255, 139, 0, 50));
 
