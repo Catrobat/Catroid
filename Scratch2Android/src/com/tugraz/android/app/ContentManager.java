@@ -8,11 +8,7 @@ import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.TreeMap;
-
 import android.content.Context;
-import android.widget.Button;
-
-
 import com.tugraz.android.app.filesystem.FileSystem;
 import com.tugraz.android.app.parser.Parser;
 
@@ -80,8 +76,6 @@ public class ContentManager extends Observable{
 		switchSprite(name);
 		mCurrentSprite = name;
 		getAllSprites();
-		//switchSprite(mSpritesAndBackgroundList.size()-1);
-		//mCurrentSprite = (mSpritesAndBackgroundList.size()-1);
 	}
 	
 	public void remove(int position){
@@ -173,10 +167,9 @@ public class ContentManager extends Observable{
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
-		
+		}	
 	}
+	
 	/**
 	 * test method
 	 *

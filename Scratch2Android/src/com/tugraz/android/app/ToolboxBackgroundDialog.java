@@ -47,7 +47,6 @@ public class ToolboxBackgroundDialog extends Dialog
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setBackgroundDrawableResource(android.R.color.transparent);
@@ -83,6 +82,7 @@ public class ToolboxBackgroundDialog extends Dialog
 		((ToolboxBackgroundAdapter)mAdapter).setContentManager(mContentManager);
 		
 		mMainListView.setAdapter(mAdapter);
+		((ToolboxBackgroundAdapter)mAdapter).setDialog(this);
 	}
 
 	@Override

@@ -26,8 +26,9 @@ medium
 - es werden nicht fuer alle bilder thumbnails angezeigt
 
 - wenn auf einem frischen Emulator die Tests durchlaufen werden, funktioniert testContextMenuOnMainList nicht, da noch kein element in mainList. Wenn nach den Tests die App normal aufgerufen wird funktioniert sie auch nicht
+   workaround: kleines testprogramm machen dann gehts
 
-
+- test schreibt falsche testdaten ins programm (zb hintergrund bei sprite)
 --------
 low
 --------
