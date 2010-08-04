@@ -149,7 +149,8 @@ public class StageViewThread extends Thread {
 		for (int i = 0; i < mBitmapToPositionMap.size(); i++) {
 			Pair<Bitmap, Pair<Float, Float>> bitmapPair = mBitmapToPositionMap
 					.get(keyIterator.next());
-			canvas.drawBitmap(bitmapPair.first, bitmapPair.second.first,
+			if (bitmapPair != null)
+				canvas.drawBitmap(bitmapPair.first, bitmapPair.second.first,
 					bitmapPair.second.second, null);
 		}
 		mIsDraw = false;
