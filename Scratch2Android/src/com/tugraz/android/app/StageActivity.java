@@ -53,7 +53,7 @@ public class StageActivity extends Activity {
 
 		// we only want portrait mode atm, otherwise the program crashes
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		//start(); //TODO wenn ich das einkommentiere funktionierts am emulator richtig, am handy haengts ihn aber auf... 
+		start(); //TODO wenn ich das einkommentiere funktionierts am emulator richtig, am handy haengts ihn aber auf... 
 
 	}
 
