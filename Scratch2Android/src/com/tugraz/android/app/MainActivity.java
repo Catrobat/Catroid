@@ -42,12 +42,10 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 
     /** Called when the activity is first created. */
 	
-	//TODO sprites should be deleted if "lösche baustelle"
 	//TODO clean up the adapter, 3 of them do the same -> multiple code (is it necessary to distinguish between a stage and a sprite!?)
 	//TODO rename some classes buttons etc they are often not significant
 	//TODO make more packages
 	//TODO style your gui elements either with java code or xml but no mixture
-	//TODO when an object(sprite) is chosen, close dialog
 	
 	static final int TOOLBOX_DIALOG_SPRITE = 0;
 	static final int TOOLBOX_DIALOG_BACKGROUND = 1;
