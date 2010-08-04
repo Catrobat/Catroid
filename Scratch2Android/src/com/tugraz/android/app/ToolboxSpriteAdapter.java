@@ -185,7 +185,7 @@ public class ToolboxSpriteAdapter extends BaseAdapter{
 		{
 			RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.brick_set_costume, null);
 			TextView text = (TextView)view.getChildAt(1);
-			text.setText("Setze Kostüm:");
+			text.setText(R.string.costume_main_adapter);
 		//	view.setBackgroundColor(Color.argb(255, 139, 0, 50));
 
 			ImageView imageView = (ImageView)view.getChildAt(0);
