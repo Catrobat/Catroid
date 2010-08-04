@@ -73,9 +73,19 @@ public class StageViewThread extends Thread {
 	}
 
 	public void addBitmapToDraw(String spriteName, String path, float x, float y) {
+		Uri uri = Uri.parse(path);
 		Pair<Float, Float> coordinates = new Pair<Float, Float>(x, y);
-		Pair<Bitmap, Pair<Float, Float>> bitmapPair = new Pair<Bitmap, Pair<Float, Float>>(
-				BitmapFactory.decodeFile(path), coordinates);
+		Pair<Bitmap, Pair<Float, Float>> bitmapPair = null;
+		try {
+			bitmapPair = new Pair<Bitmap, Pair<Float, Float>>(
+					MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri), coordinates);
+		} catch (FileNotFoundException e) {
+			Log.w("StageViewThread", "could not find sprite image!");
+			e.printStackTrace();
+		} catch (IOException e) {
+			Log.w("StageViewThread", "io error at loading sprite image!");
+			e.printStackTrace();
+		}
 		mIsDraw = false; // TODO brauchen wir das ueberall??
 		mBitmapToPositionMap.put(spriteName, bitmapPair);
 		mIsDraw = true;
