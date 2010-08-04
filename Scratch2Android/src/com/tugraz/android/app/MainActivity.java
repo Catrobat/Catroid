@@ -191,7 +191,7 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
             return true;
             
         case R.id.reset:
-        	mContentManager.clear();
+        	mContentManager.clearSprites();
             return true;
             
         case R.id.load:
