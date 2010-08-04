@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public class ToolboxBackgroundAdapter extends BaseAdapter{
@@ -90,6 +91,9 @@ public class ToolboxBackgroundAdapter extends BaseAdapter{
 			TextView text = (TextView)view.getChildAt(0);
 			text.setText(R.string.play_sound_main_adapter);
 			
+			Spinner spinner = (Spinner)view.getChildAt(1);
+			spinner.setVisibility(View.GONE);
+			
 			//view.setBackgroundColor(Color.BLUE);
             view.setOnClickListener(new View.OnClickListener() {
 				
@@ -113,6 +117,7 @@ public class ToolboxBackgroundAdapter extends BaseAdapter{
 			  text.setText(R.string.wait_main_adapter);
 			 // text.setTextColor(Color.BLUE);
 	          EditText etext = (EditText) view.getChildAt(1);
+	          etext.setVisibility(View.GONE);
 	          
 	        //  view.setBackgroundColor(Color.argb(255, 255, 215, 0));
             view.setOnClickListener(new View.OnClickListener() {
