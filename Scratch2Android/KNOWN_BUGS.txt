@@ -9,7 +9,7 @@ high:
 
 - Wenn man die Bühne abspielt, auf pause drückt, dann auf zurück, dann wieder zur bühne muss man noch extra auf abspielen drücken
 
-- wenn pause gedrückt wird und gerade wait ist wird das mglw nicht richtig ausgeführt
+- wenn pause gedrückt wird und gerade wait ist wird das nicht richtig ausgeführt
 
 - wenn man man auf der stage ist, den home-button drueckt, dann wieder in die app geht und dann wieder auf abspielen -> crash, ich glaub media player is schuld
 

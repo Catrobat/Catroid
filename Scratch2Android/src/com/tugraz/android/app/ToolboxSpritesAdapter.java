@@ -48,7 +48,7 @@ public class ToolboxSpritesAdapter extends BaseAdapter{
 		if(type == null)
 			return 0;
 		else
-			return 0;//TODO Check this Integer.valueOf(type).intValue();
+			return 0;//TODO wenn sprites ids haben hier zurueckgeben
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
