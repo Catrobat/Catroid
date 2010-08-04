@@ -14,6 +14,9 @@ high:
 - wenn man man auf der stage ist, den home-button drueckt, dann wieder in die app geht und dann wieder auf abspielen -> crash, ich glaub media player is schuld
 
 - wenn man zur buehne geht, dann zurueck, dann zur buehne und noch einmal zurueck und zur buehne stuerzt er ab
+
+- wenn man in die gallery geht, nichts auswaehlt und zurueck drueckt stürzt er ab
+
 --------
 medium
 --------
