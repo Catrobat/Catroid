@@ -10,7 +10,7 @@
      
     <string name="construction_site">Baustelle</string>
     <string name="toolbar">S\nT\nE\nI\nN\nE\n</string>
-    <string name="sprites">OBIJEKTE</string>
+    <string name="sprites">OBJEKTE</string>
     <string name="stage">Bühne</string>
     
     <string name="construction_site_play">Zur Bühne</string>
@@ -31,4 +31,7 @@
     <string name="show_main_adapter">Zeige dich</string>
     <string name="goto_main_adapter">Gehe zu</string>
     <string name="costume_main_adapter">Setze Kostüm</string>
+    <string name="title_toolbox_sprites">Baukasten</string>
+    
+    <string name="brick_label">Wähle deinen Baustein</string>
 </resources>
