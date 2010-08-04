@@ -18,7 +18,7 @@
     <string name="quit">Beenden</string>
     
     <string name="stagemenu_construction_site">Zur Baustelle</string>
-    <string name="stagemenu_start">Abspielen</string>
+    <string name="stagemenu_start">Play/Pause</string>
     
     <string name="app_name">Scratch2Android</string>
     <string name="Headline">Daumenkino</string>
