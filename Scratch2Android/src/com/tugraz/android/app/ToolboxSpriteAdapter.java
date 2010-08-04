@@ -162,7 +162,7 @@ public class ToolboxSpriteAdapter extends BaseAdapter{
 			RelativeLayout view =  (RelativeLayout)inflater.inflate(R.layout.brick_goto, null);
 		  TextView text = (TextView) view.getChildAt(0);
 		  text.setText(R.string.goto_main_adapter);
-		  text.setTextColor(Color.BLUE);
+		  //text.setTextColor(Color.BLUE);
 	     // view.setBackgroundColor(Color.argb(255, 255, 215, 255));
           view.setOnClickListener(new View.OnClickListener() {
 				
