@@ -99,7 +99,6 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 
-    //TODO change to id if possible
     private static int LAST_SELECTED_ELEMENT_POSITION = 0;
     
     public void rememberLastSelectedElement(int position){
