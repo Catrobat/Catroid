@@ -1,9 +1,13 @@
 package com.tugraz.android.app.stage;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
+import android.content.ContentResolver;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +17,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.util.Pair;
 import android.view.SurfaceHolder;
@@ -51,14 +56,37 @@ public class StageViewThread extends Thread {
 		Log.i("before-parse", path);
 		Uri uri = Uri.parse(path);
 		Log.i("Image-Path", uri.getEncodedPath());
-		mBackground = BitmapFactory.decodeFile(uri.getPath());
+
+		ContentResolver resolver = context.getContentResolver();
+		
+		
+		Log.i("Image-Path", uri.getEncodedPath());
+		try {
+			mBackground = MediaStore.Images.Media.getBitmap(resolver, uri);
+		} catch (FileNotFoundException e) {
+			Log.w("StageViewThread", "could not find background image!");
+			e.printStackTrace();
+		} catch (IOException e) {
+			Log.w("StageViewThread", "io error at loading background image!");
+			e.printStackTrace();
+		}
 		mIsDraw = true;
 	}
 
 	public void addBitmapToDraw(String spriteName, String path, float x, float y) {
+		Uri uri = Uri.parse(path);
 		Pair<Float, Float> coordinates = new Pair<Float, Float>(x, y);
-		Pair<Bitmap, Pair<Float, Float>> bitmapPair = new Pair<Bitmap, Pair<Float, Float>>(
-				BitmapFactory.decodeFile(path), coordinates);
+		Pair<Bitmap, Pair<Float, Float>> bitmapPair = null;
+		try {
+			bitmapPair = new Pair<Bitmap, Pair<Float, Float>>(
+					MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri), coordinates);
+		} catch (FileNotFoundException e) {
+			Log.w("StageViewThread", "could not find sprite image!");
+			e.printStackTrace();
+		} catch (IOException e) {
+			Log.w("StageViewThread", "io error at loading sprite image!");
+			e.printStackTrace();
+		}
 		mIsDraw = false; // TODO brauchen wir das ueberall??
 		mBitmapToPositionMap.put(spriteName, bitmapPair);
 		mIsDraw = true;
