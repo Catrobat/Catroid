@@ -11,10 +11,9 @@ high:
 
 - wenn pause gedrückt wird und gerade wait ist wird das mglw nicht richtig ausgeführt
 
-- wenn keine bilder/sounds am emulator sind crasht die app wenn man kostüm, hintergrund oder klang hinzufügen will
-
 - wenn man von der stage wieder zur baustelle zurückgeht und die skripts noch nicht vollständig durchgelaufen sind stürzt er am handy immer ab. bugs genau finden!
 
+- wenn man man auf der stage ist, den home-button drueckt, dann wieder in die app geht und dann wieder auf abspielen -> crash, ich glaub media player is schuld
 
 --------
 medium

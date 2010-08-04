@@ -21,6 +21,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.util.Pair;
 import android.view.SurfaceHolder;
+import android.view.SurfaceHolder.Callback;
 
 /**
  * 
@@ -32,6 +33,7 @@ import android.view.SurfaceHolder;
 public class StageViewThread extends Thread {
 	public boolean mIsDraw = false;
 
+	private boolean mSurfaceCreated = false;
 	private boolean mRun = false;
 	private SurfaceHolder mSurfaceHolder;
 	private Context context;
@@ -138,23 +140,28 @@ public class StageViewThread extends Thread {
 		Paint paint = new Paint();
 		paint.setStyle(Paint.Style.FILL);
 		paint.setColor(Color.WHITE);
-		canvas.drawRect(new Rect(0, 0, canvas.getWidth(), canvas.getHeight()),
-				paint);
-
-		if (mBackground != null)
-			canvas.drawBitmap(mBackground, 0, 0, null);
-
-		// TODO welcher sprite soll an oberster ebene gezeichnet werden??
-		Iterator<String> keyIterator = mBitmapToPositionMap.keySet().iterator();
-		for (int i = 0; i < mBitmapToPositionMap.size(); i++) {
-			Pair<Bitmap, Pair<Float, Float>> bitmapPair = mBitmapToPositionMap
-					.get(keyIterator.next());
-			if (bitmapPair != null)
-				canvas.drawBitmap(bitmapPair.first, bitmapPair.second.first,
-					bitmapPair.second.second, null);
+		if (canvas != null) { // draw only if we already have a canvas
+			if (canvas == null)
+				Log.i("StageViewThread", "canvas is null");
+			canvas.drawRect(new Rect(0, 0, canvas.getWidth(), canvas.getHeight()),
+					paint);
+	
+			if (mBackground != null)
+				canvas.drawBitmap(mBackground, 0, 0, null);
+	
+			// TODO welcher sprite soll an oberster ebene gezeichnet werden??
+			Iterator<String> keyIterator = mBitmapToPositionMap.keySet().iterator();
+			for (int i = 0; i < mBitmapToPositionMap.size(); i++) {
+				Pair<Bitmap, Pair<Float, Float>> bitmapPair = mBitmapToPositionMap
+						.get(keyIterator.next());
+				if (bitmapPair != null)
+					canvas.drawBitmap(bitmapPair.first, bitmapPair.second.first,
+						bitmapPair.second.second, null);
+			}
+			mIsDraw = false;
 		}
-		mIsDraw = false;
 
 	}
+
 
 }
