@@ -111,7 +111,7 @@ public class ToolboxBackgroundAdapter extends BaseAdapter{
 			RelativeLayout view =  (RelativeLayout)inflater.inflate(R.layout.brick_wait, null);
 			  TextView text = (TextView) view.getChildAt(0);
 			  text.setText(R.string.wait_main_adapter);
-			  text.setTextColor(Color.BLUE);
+			 // text.setTextColor(Color.BLUE);
 	          EditText etext = (EditText) view.getChildAt(1);
 	          
 	        //  view.setBackgroundColor(Color.argb(255, 255, 215, 0));
