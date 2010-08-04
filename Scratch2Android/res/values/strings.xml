@@ -16,7 +16,7 @@
     <string name="sprites">SPRITES</string>
     <string name="stage">Stage</string>
     
-    <string name="construction_site_play">Play</string>
+    <string name="construction_site_play">Play/Pause</string>
     <string name="reset">Reset construction site</string>
     <string name="quit">Quit</string>
     
