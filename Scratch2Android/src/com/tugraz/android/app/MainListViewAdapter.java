@@ -263,7 +263,23 @@ public class MainListViewAdapter extends BaseAdapter{
 			//text2.setTextColor(Color.BLUE);
 			//view.setBackgroundColor(Color.argb(255, 139, 0, 50));
 
+
 			ImageView imageView = (ImageView)view.getChildAt(0);
+			//TODO set correct position
+			imageView.setOnClickListener(new View.OnClickListener() {
+				
+				public void onClick(View v) {
+					for(int i = 0; i < mMainListView.getChildCount(); i++){
+						
+						if(v.getParent().equals(mMainListView.getChildAt(i))){
+							Log.d("TEST", i +"");
+							mMediaFileLoader.openPictureGallery(i);
+						}
+					}
+					
+					
+				}
+			});
 			
 
 			return view;
