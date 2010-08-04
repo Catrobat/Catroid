@@ -36,18 +36,15 @@ public class FileAdapter extends BaseAdapter{
 	}
 
 	public long getItemId(int position) {
-		//Testfall schreiben
 			return (position);
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
 		
 		String file = mList.get(position);
-		//Inflater to build the views
 		LayoutInflater inflater = (LayoutInflater)mCtx.getSystemService(
 	      Context.LAYOUT_INFLATER_SERVICE);
 		LinearLayout view = (LinearLayout) inflater.inflate(R.layout.spritetoolbox, null);
-			//text1.setTextColor(Color.BLUE);
 		TextView text = (TextView)view.getChildAt(0);
 		text.setText(file);
 			//text2.setTextColor(Color.BLUE);
@@ -58,10 +55,9 @@ public class FileAdapter extends BaseAdapter{
 			 mDialog.dismiss();	
 			}
 		});
-			
 		return view;
-  }
-	public void setDialog(Dialog dialog)
+   }
+    public void setDialog(Dialog dialog)
 	{
 		mDialog = dialog;
 	}

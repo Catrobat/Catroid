@@ -90,6 +90,8 @@ public class ToolboxSpritesDialog extends Dialog
 		
 		mAdapter = new ToolboxSpritesAdapter(mCtx, mContentManager.getAllSprites());
 		mAdapter.setContentManager(mContentManager);
+		mAdapter.setDialog(this);
+		
 		mMainListView.setAdapter(mAdapter);
 		
 		mEditText = (EditText) findViewById(R.id.newsprite);
@@ -99,6 +101,7 @@ public class ToolboxSpritesDialog extends Dialog
 			public void onClick(View v) {
 				mContentManager.addSprite(mSpriteText, new ArrayList<HashMap<String,String>>());
 				mAdapter.notifyDataSetChanged();
+				dismiss();
 				}
 
 		});

@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import com.tugraz.android.app.filesystem.MediaFileLoader;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
@@ -24,6 +25,7 @@ public class ToolboxBackgroundAdapter extends BaseAdapter{
     public ArrayList<HashMap<String, String>> mList;
     private ContentManager mContentManager;
     private MediaFileLoader mMediaFileLoader;
+    private Dialog mDialog;
     
 	public ToolboxBackgroundAdapter(Context context,
 			ArrayList<HashMap<String, String>> data) {
@@ -45,7 +47,6 @@ public class ToolboxBackgroundAdapter extends BaseAdapter{
 	}
 
 	public long getItemId(int position) {
-		//Testfall schreiben
 		String type = mList.get(position).get(BrickDefine.BRICK_ID);
 		if(type == null)
 			return 0;
@@ -54,27 +55,20 @@ public class ToolboxBackgroundAdapter extends BaseAdapter{
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
-		//TODO check convertView
 		//TODO Reuse Views
-		//Type of the Brick
 		String type = mList.get(position).get(BrickDefine.BRICK_TYPE);
-		//Inflater to build the views
 		LayoutInflater inflater = (LayoutInflater)mCtx.getSystemService(
 	      Context.LAYOUT_INFLATER_SERVICE);
 		
-		//Check the type
 		switch(Integer.valueOf(type).intValue()){
 		case (BrickDefine.SET_BACKGROUND): 
 		{
 			RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.brick_set_background, null);
-			//text1.setTextColor(Color.BLUE);
 			TextView text = (TextView)view.getChildAt(1);
-			text.setText("Setze Hintergrund:");
-			//text2.setTextColor(Color.BLUE);
+			text.setText(R.string.set_background_main_adapter);
 			//view.setBackgroundColor(Color.argb(255, 139, 0, 139));
-
 			ImageView imageView = (ImageView)view.getChildAt(0);
-			
+				
 			imageView.setEnabled(false);
 			view.setOnClickListener(new View.OnClickListener() {				
 				
@@ -85,6 +79,7 @@ public class ToolboxBackgroundAdapter extends BaseAdapter{
 			        map.put(BrickDefine.BRICK_NAME, "SetBackground");
 			        map.put(BrickDefine.BRICK_VALUE, "1");
 					mContentManager.add(map);
+					mDialog.dismiss();
 				}
 			});
 			return view;
@@ -93,7 +88,7 @@ public class ToolboxBackgroundAdapter extends BaseAdapter{
 		{
 			RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.brick_play_sound, null);
 			TextView text = (TextView)view.getChildAt(0);
-			text.setText("Spiele Klang:");
+			text.setText(R.string.play_sound_main_adapter);
 			
 			//view.setBackgroundColor(Color.BLUE);
             view.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +101,7 @@ public class ToolboxBackgroundAdapter extends BaseAdapter{
 			        map.put(BrickDefine.BRICK_NAME, "PlaySound");
 			        map.put(BrickDefine.BRICK_VALUE, "1");
 					mContentManager.add(map);
-					
+					mDialog.dismiss();
 				}
 			});
 			return view;
@@ -115,7 +110,7 @@ public class ToolboxBackgroundAdapter extends BaseAdapter{
 		{
 			RelativeLayout view =  (RelativeLayout)inflater.inflate(R.layout.brick_wait, null);
 			  TextView text = (TextView) view.getChildAt(0);
-			  text.setText("Warte ");
+			  text.setText(R.string.wait_main_adapter);
 			  text.setTextColor(Color.BLUE);
 	          EditText etext = (EditText) view.getChildAt(1);
 	          
@@ -130,6 +125,7 @@ public class ToolboxBackgroundAdapter extends BaseAdapter{
 			        map.put(BrickDefine.BRICK_NAME, "Wait");
 			        map.put(BrickDefine.BRICK_VALUE, "1");
 					mContentManager.add(map);
+					mDialog.dismiss();
 					
 				}
 			});
@@ -142,7 +138,6 @@ public class ToolboxBackgroundAdapter extends BaseAdapter{
 		}
 		default: 
 		{
-			//TODO: Not defined Error
 			return null;
 	    }
 		
@@ -151,6 +146,11 @@ public class ToolboxBackgroundAdapter extends BaseAdapter{
 
 	public void setContentManager(ContentManager contentManager) {
 		mContentManager = contentManager;
+		
+	}
+	
+	public void setDialog(Dialog dialog){
+		mDialog = dialog;
 		
 	}
 
