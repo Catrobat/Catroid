@@ -195,59 +195,60 @@ public class MainListViewAdapter extends BaseAdapter{
 			//view.setBackgroundColor(Color.argb(255, 255, 215, 200));
 			return view;
 		}
-		case (BrickDefine.GO_TO):
-		{
-			RelativeLayout view =  (RelativeLayout)inflater.inflate(R.layout.brick_goto, null);
-			
-			TextView text = (TextView) view.getChildAt(3);
-			text.setText(R.string.goto_main_adapter);
-			
-			LinearLayout layout = (LinearLayout) view.getChildAt(1);
-			
-			EditText textX = (EditText) layout.getChildAt(0);
-			textX.setText(brick.get(BrickDefine.BRICK_VALUE));
-			textX.addTextChangedListener(new TextWatcher()
-	          {
-				
-				public void afterTextChanged(Editable s) {
-					// TODO Auto-generated method stub	
-				}
-				
-				public void beforeTextChanged(CharSequence s, int start,
-						int count, int after) {
-					// TODO Auto-generated method stub					
-				}
-				
-				public void onTextChanged(CharSequence s, int start,
-						int before, int count) {
-					brick.remove(BrickDefine.BRICK_VALUE);
-					brick.put(BrickDefine.BRICK_VALUE, s.toString());					
-				} 
-	          });
-			
-			EditText textY = (EditText) view.getChildAt(4);
-			textY.setText(brick.get(BrickDefine.BRICK_VALUE_1));
-			textY.addTextChangedListener(new TextWatcher()
-	          {
-				
-				public void afterTextChanged(Editable s) {
-					// TODO Auto-generated method stub	
-				}
-				
-				public void beforeTextChanged(CharSequence s, int start,
-						int count, int after) {
-					// TODO Auto-generated method stub	
-				}
-				
-				public void onTextChanged(CharSequence s, int start,
-						int before, int count) {
-					brick.remove(BrickDefine.BRICK_VALUE_1);
-					brick.put(BrickDefine.BRICK_VALUE_1, s.toString());	
-				} 
-	          });
-			//view.setBackgroundColor(Color.argb(255, 255, 215, 255));
-			return view;
-		}
+		 case (BrickDefine.GO_TO):
+		  {
+		   RelativeLayout view =  (RelativeLayout)inflater.inflate(R.layout.brick_goto, null);
+		   
+		   TextView text = (TextView) view.getChildAt(0);
+		   text.setText(R.string.goto_main_adapter);
+		   
+		   LinearLayout layout = (LinearLayout) view.getChildAt(1);
+		   
+		   EditText textX = (EditText) layout.getChildAt(0);
+		   textX.setText(brick.get(BrickDefine.BRICK_VALUE));
+		   textX.addTextChangedListener(new TextWatcher()
+		           {
+		    
+		    public void afterTextChanged(Editable s) {
+		     // TODO Auto-generated method stub 
+		    }
+		    
+		    public void beforeTextChanged(CharSequence s, int start,
+		      int count, int after) {
+		     // TODO Auto-generated method stub     
+		    }
+		    
+		    public void onTextChanged(CharSequence s, int start,
+		      int before, int count) {
+		     brick.remove(BrickDefine.BRICK_VALUE);
+		     brick.put(BrickDefine.BRICK_VALUE, s.toString());     
+		    } 
+		           });
+		   
+		   EditText textY = (EditText) layout.getChildAt(1);
+		   textY.setText(brick.get(BrickDefine.BRICK_VALUE_1));
+		   textY.addTextChangedListener(new TextWatcher()
+		           {
+		    
+		    public void afterTextChanged(Editable s) {
+		     // TODO Auto-generated method stub 
+		    }
+		    
+		    public void beforeTextChanged(CharSequence s, int start,
+		      int count, int after) {
+		     // TODO Auto-generated method stub 
+		    }
+		    
+		    public void onTextChanged(CharSequence s, int start,
+		      int before, int count) {
+		     brick.remove(BrickDefine.BRICK_VALUE_1);
+		     brick.put(BrickDefine.BRICK_VALUE_1, s.toString()); 
+		    } 
+		           });
+		   //view.setBackgroundColor(Color.argb(255, 255, 215, 255));
+		   return view;
+		  }
+	
 		case (BrickDefine.SET_COSTUME): 
 		{
 			RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.brick_set_costume, null);
@@ -258,6 +259,21 @@ public class MainListViewAdapter extends BaseAdapter{
 			//view.setBackgroundColor(Color.argb(255, 139, 0, 50));
 
 			ImageView imageView = (ImageView)view.getChildAt(0);
+			//TODO set correct position
+			imageView.setOnClickListener(new View.OnClickListener() {
+				
+				public void onClick(View v) {
+					for(int i = 0; i < mMainListView.getChildCount(); i++){
+						
+						if(v.getParent().equals(mMainListView.getChildAt(i))){
+							Log.d("TEST", i +"");
+							mMediaFileLoader.openPictureGallery(i);
+						}
+					}
+					
+					
+				}
+			});
 			
 
 			return view;
