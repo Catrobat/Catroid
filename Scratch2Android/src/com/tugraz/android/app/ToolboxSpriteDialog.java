@@ -27,7 +27,6 @@ public class ToolboxSpriteDialog extends Dialog
 	private BaseAdapter mAdapter;
 	public ArrayList<HashMap<String, String>> mContentArrayList;
 	ContentManager mContentManager;
-	   
 	
 	private LinearLayout mToolboxLayout;
 	
@@ -53,7 +52,6 @@ public class ToolboxSpriteDialog extends Dialog
 		//getWindow().setGravity(Gravity.BOTTOM);
 		//getWindow().setFormat(PixelFormat.TRANSLUCENT);
 		setContentView(R.layout.toolbox);
-		this.setTitle("Baukasten");
 		
 		mSlide_in = AnimationUtils.loadAnimation(mCtx, R.anim.toolbox_in);
 		mSlide_out = AnimationUtils.loadAnimation(mCtx, R.anim.toolbox_out);
@@ -83,6 +81,7 @@ public class ToolboxSpriteDialog extends Dialog
 		((ToolboxSpriteAdapter)mAdapter).setContentManager(mContentManager);
 		
 		mMainListView.setAdapter(mAdapter);
+		((ToolboxSpriteAdapter) mAdapter).setDialog(this);
 	}
 
 	@Override
@@ -152,6 +151,7 @@ public class ToolboxSpriteDialog extends Dialog
 	public void setContentManager(ContentManager contentManager){
 		mContentManager = contentManager;
 	}
+
 	
 
 	
