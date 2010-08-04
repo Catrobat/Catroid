@@ -30,7 +30,6 @@ public class StageActivity extends Activity {
 	private ContentManager mContentManager;
 	private ArrayList<Sprite> mSpritesList;
 	protected boolean isWaiting = false;
-	private boolean mSpritesAlreadyInitialized = false; //TODO wenn stage automatisch startet brauchen wir das nicht mehr
 
 	public static boolean mDoNextCommands = true;
 
@@ -53,7 +52,7 @@ public class StageActivity extends Activity {
 
 		// we only want portrait mode atm, otherwise the program crashes
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		start(); //TODO wenn ich das einkommentiere funktionierts am emulator richtig, am handy haengts ihn aber auf... 
+		start(); 
 
 	}
 
@@ -68,10 +67,7 @@ public class StageActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.stagemenuStart:
-			if (!mSpritesAlreadyInitialized)
-				start();
-			else
-				pauseOrRestart();
+			pauseOrRestart();
 			break;
 		case R.id.stagemenuConstructionSite:
 			toMainActivity();
@@ -95,7 +91,7 @@ public class StageActivity extends Activity {
 	 * starts the StageViewThread
 	 */
 	private void start() { 
-		mStage.getThread().setRunning(true); // TODO gehoert das hier her??
+		mStage.getThread().setRunning(true); 
 		mStage.getThread().start();
 
 		ArrayList<String> allSpriteNames = mContentManager.getAllSprites();
@@ -109,9 +105,6 @@ public class StageActivity extends Activity {
 		for (int i = 0; i < mSpritesList.size(); i++) {
 			mSpritesList.get(i).start();
 		}
-		
-		mSpritesAlreadyInitialized = true;
-
 	}
 	
 	private void pauseOrRestart() {

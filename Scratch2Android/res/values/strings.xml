@@ -2,8 +2,8 @@
 <resources>
     <string name="load">load</string>
     <string name="save">save</string>
-    <string name="SpriteButtonText">Create new Sprite</string>
-    <string name="newsprite">Create new Sprite</string>
+    <string name="SpriteButtonText">Create</string>
+    <string name="newsprite">New Sprite</string>
     
     <string name="delete">delete</string>
     <string name="remove">remove</string>

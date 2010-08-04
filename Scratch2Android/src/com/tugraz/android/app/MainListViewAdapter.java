@@ -76,13 +76,8 @@ public class MainListViewAdapter extends BaseAdapter{
 			RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.brick_set_background, null);
 			TextView text = (TextView)view.getChildAt(1);
 			text.setText(R.string.set_background_main_adapter);
-			//view.setBackgroundColor(Color.argb(255, 139, 0, 139));
-			//text1.setTextColor(Color.BLUE);
-			//text2.setTextColor(Color.BLUE);
-			//view.setBackgroundColor(Color.argb(255, 139, 0, 139));
 
 			ImageView imageView = (ImageView)view.getChildAt(0);
-			//TODO set correct position
 			imageView.setOnClickListener(new View.OnClickListener() {
 				
 				public void onClick(View v) {
@@ -259,7 +254,6 @@ public class MainListViewAdapter extends BaseAdapter{
 			//view.setBackgroundColor(Color.argb(255, 139, 0, 50));
 
 			ImageView imageView = (ImageView)view.getChildAt(0);
-			//TODO set correct position
 			imageView.setOnClickListener(new View.OnClickListener() {
 				
 				public void onClick(View v) {
@@ -288,7 +282,7 @@ public class MainListViewAdapter extends BaseAdapter{
 		}
 		default: 
 		{
-			//TODO: Not defined Error
+			// Not defined Error
 			return null;
 	    }
 		
