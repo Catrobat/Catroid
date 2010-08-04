@@ -27,7 +27,6 @@ public class ToolboxSpriteDialog extends Dialog
 	private BaseAdapter mAdapter;
 	public ArrayList<HashMap<String, String>> mContentArrayList;
 	ContentManager mContentManager;
-	   
 	
 	private LinearLayout mToolboxLayout;
 	
@@ -83,6 +82,7 @@ public class ToolboxSpriteDialog extends Dialog
 		((ToolboxSpriteAdapter)mAdapter).setContentManager(mContentManager);
 		
 		mMainListView.setAdapter(mAdapter);
+		((ToolboxSpriteAdapter) mAdapter).setDialog(this);
 	}
 
 	@Override
@@ -152,6 +152,7 @@ public class ToolboxSpriteDialog extends Dialog
 	public void setContentManager(ContentManager contentManager){
 		mContentManager = contentManager;
 	}
+
 	
 
 	

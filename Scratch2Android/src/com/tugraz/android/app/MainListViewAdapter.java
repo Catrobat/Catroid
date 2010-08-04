@@ -77,7 +77,6 @@ public class MainListViewAdapter extends BaseAdapter{
 			text.setText(R.string.set_background_main_adapter);
 			//view.setBackgroundColor(Color.argb(255, 139, 0, 139));
 			//text1.setTextColor(Color.BLUE);
-			text.setText("Setze Hintergrund:");
 			//text2.setTextColor(Color.BLUE);
 			//view.setBackgroundColor(Color.argb(255, 139, 0, 139));
 
@@ -195,7 +194,9 @@ public class MainListViewAdapter extends BaseAdapter{
 			TextView text = (TextView) view.getChildAt(0);
 			text.setText(R.string.goto_main_adapter);
 			
-			EditText textX = (EditText) view.getChildAt(1);
+			LinearLayout layout = (LinearLayout) view.getChildAt(1);
+			
+			EditText textX = (EditText) layout.getChildAt(0);
 			textX.setText(brick.get(BrickDefine.BRICK_VALUE));
 			textX.addTextChangedListener(new TextWatcher()
 	          {
@@ -216,7 +217,7 @@ public class MainListViewAdapter extends BaseAdapter{
 				} 
 	          });
 			
-			EditText textY = (EditText) view.getChildAt(2);
+			EditText textY = (EditText) layout.getChildAt(1);
 			textY.setText(brick.get(BrickDefine.BRICK_VALUE_1));
 			textY.addTextChangedListener(new TextWatcher()
 	          {
