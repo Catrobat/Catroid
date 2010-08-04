@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import com.tugraz.android.app.filesystem.MediaFileLoader;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
@@ -24,6 +25,7 @@ public class ToolboxSpritesAdapter extends BaseAdapter{
     private Context mCtx;
     public ArrayList<String> mList;
     private ContentManager mContentManager;
+    private Dialog mDialog;
   
 	public ToolboxSpritesAdapter(Context context,
 			ArrayList<String> data) {
@@ -63,6 +65,7 @@ public class ToolboxSpritesAdapter extends BaseAdapter{
 				
 				public void onClick(View v) {
 					mContentManager.switchSprite(((LinearLayout)v).getTag().toString());
+					mDialog.dismiss();
 				}
 			});
 		return view;
@@ -72,6 +75,10 @@ public class ToolboxSpritesAdapter extends BaseAdapter{
 	public void setContentManager(ContentManager contentManager) {
 		mContentManager = contentManager;
 		
+	}
+	
+	public void setDialog(Dialog dialog){
+		mDialog = dialog;	
 	}
 
 

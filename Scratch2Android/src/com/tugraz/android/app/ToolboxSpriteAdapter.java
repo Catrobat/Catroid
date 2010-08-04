@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import com.tugraz.android.app.filesystem.MediaFileLoader;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.text.Layout;
@@ -23,6 +24,7 @@ public class ToolboxSpriteAdapter extends BaseAdapter{
     public ArrayList<HashMap<String, String>> mList;
     private ContentManager mContentManager;
     private MediaFileLoader mMediaFileLoader;
+    private Dialog mDialog;
     
 	public ToolboxSpriteAdapter(Context context,
 			ArrayList<HashMap<String, String>> data) {
@@ -78,6 +80,7 @@ public class ToolboxSpriteAdapter extends BaseAdapter{
 			        map.put(BrickDefine.BRICK_NAME, "");
 			        map.put(BrickDefine.BRICK_VALUE, "1");
 					mContentManager.add(map);
+					mDialog.dismiss();
 					
 				}
 			});
@@ -102,6 +105,7 @@ public class ToolboxSpriteAdapter extends BaseAdapter{
 			        map.put(BrickDefine.BRICK_NAME, "");
 			        map.put(BrickDefine.BRICK_VALUE, "1");
 					mContentManager.add(map);
+					mDialog.dismiss();
 					
 				}
 			});
@@ -111,7 +115,7 @@ public class ToolboxSpriteAdapter extends BaseAdapter{
 		{
 			LinearLayout view =  (LinearLayout)inflater.inflate(R.layout.brick_simple_text_view, null);
 		  TextView text = (TextView) view.getChildAt(0);
-		  text.setText(R.string.wait_main_adapter);
+		  text.setText(R.string.hide_main_adapter);
 		  //text.setTextColor(Color.BLUE);
 	      //view.setBackgroundColor(Color.argb(255, 255, 215, 100));
           view.setOnClickListener(new View.OnClickListener() {
@@ -124,7 +128,7 @@ public class ToolboxSpriteAdapter extends BaseAdapter{
 			        map.put(BrickDefine.BRICK_NAME, "");
 			        map.put(BrickDefine.BRICK_VALUE, "1");
 					mContentManager.add(map);
-					
+					mDialog.dismiss();
 				}
 			});
           
@@ -147,7 +151,7 @@ public class ToolboxSpriteAdapter extends BaseAdapter{
 			        map.put(BrickDefine.BRICK_NAME, "");
 			        map.put(BrickDefine.BRICK_VALUE, "1");
 					mContentManager.add(map);
-					
+					mDialog.dismiss();
 				}
 			});
           
@@ -171,7 +175,7 @@ public class ToolboxSpriteAdapter extends BaseAdapter{
 			        map.put(BrickDefine.BRICK_VALUE, "1");
 			        map.put(BrickDefine.BRICK_VALUE_1, "1");
 					mContentManager.add(map);
-					
+					mDialog.dismiss();
 				}
 			});
           
@@ -196,6 +200,7 @@ public class ToolboxSpriteAdapter extends BaseAdapter{
 			        map.put(BrickDefine.BRICK_NAME, "SetCostume");
 			        map.put(BrickDefine.BRICK_VALUE, "1");
 					mContentManager.add(map);
+					mDialog.dismiss();
 				}
 			});
 			return view;
@@ -206,7 +211,6 @@ public class ToolboxSpriteAdapter extends BaseAdapter{
 		}
 		default: 
 		{
-			//TODO: Not defined Error
 			return null;
 	    }
 		
@@ -215,6 +219,11 @@ public class ToolboxSpriteAdapter extends BaseAdapter{
 
 	public void setContentManager(ContentManager contentManager) {
 		mContentManager = contentManager;
+		
+	}
+	
+	public void setDialog(Dialog dialog){
+		mDialog = dialog;
 		
 	}
 
