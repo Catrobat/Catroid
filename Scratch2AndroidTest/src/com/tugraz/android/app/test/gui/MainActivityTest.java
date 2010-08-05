@@ -49,19 +49,13 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         map.put(BrickDefine.BRICK_NAME, "Test3");
         map.put(BrickDefine.BRICK_VALUE, "blabla2");
         list.add(map);
-        
-        //mActivity.mList = list;
-        
-        //TODO hier mehr machen um testdaten korrekt zu laden?
+
 		
         mListView = (ListView) mActivity.findViewById(com.tugraz.android.app.R.id.MainListView);
         mMenu = (ListView) mActivity.findViewById(com.tugraz.android.app.R.menu.constructionsitemenu);
         
 	}
 	
-//	public void testPreConditions() {
-//		// we don't have preconditions atm
-//	}
 	
 	/**
 	 * NO AUTOMATED TEST
