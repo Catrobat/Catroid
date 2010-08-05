@@ -149,7 +149,7 @@ public class Sprite extends Thread implements Observer, OnCompletionListener {
 	}
 
 	public void stopAndReleaseMediaPlayer() {
-		if (mMediaPlayer.isPlaying())
+		if ((mMediaPlayer != null) && (mMediaPlayer.isPlaying()))
 			mMediaPlayer.stop();
 		mMediaPlayer.release();
 		mWasPlaying = false;
@@ -157,7 +157,7 @@ public class Sprite extends Thread implements Observer, OnCompletionListener {
 	}
 	
 	public void pauseMediaPlayer(){
-		if (mMediaPlayer.isPlaying()){
+		if ((mMediaPlayer != null) && (mMediaPlayer.isPlaying())){
 			mMediaPlayer.pause();
 			mWasPlaying = true;
 		}

@@ -21,7 +21,7 @@
     <string name="quit">Quit</string>
     
     <string name="stagemenu_construction_site">To Construction Site</string>
-    <string name="stagemenu_start">Start</string>
+    <string name="stagemenu_start">Play/Pause</string>
     
     <string name="save_file_main">Save File</string>
     <string name="set_background_main_adapter">Set Background</string>
