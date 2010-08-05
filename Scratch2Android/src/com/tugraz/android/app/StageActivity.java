@@ -52,7 +52,7 @@ public class StageActivity extends Activity {
 
 		// we only want portrait mode atm, otherwise the program crashes
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		 
+		start();
 
 	}
 
@@ -89,9 +89,8 @@ public class StageActivity extends Activity {
 			mSpritesList.get(i).stopAndReleaseMediaPlayer();
 	}
 	
-	protected void onStart() {
-		super.onStart();
-		start();
+	public void onBackPressed() {
+		 finish();
 	}
 
 	private void toMainActivity() {
