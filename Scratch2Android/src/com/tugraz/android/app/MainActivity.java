@@ -80,6 +80,7 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 
 	private Button mSpritesToolboxButton;
     private ToolboxSpritesDialog mSpritesToolboxDialog;
+    private ArrayList<String> mFilelist;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -108,6 +109,7 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 		mSpritesToolboxButton.setOnClickListener(this);
 		
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		mFilelist = new ArrayList<String>();
     }
 
     private static int LAST_SELECTED_ELEMENT_POSITION = 0;
@@ -178,6 +180,7 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 				//Anmerkung speichert nur im Application Context
 				File tfile = new File(file.getText().toString()+".spf");
 				mContentManager.saveContent(tfile.toString());
+				mFilelist.add(tfile.toString());
 				dismissDialog(SAVE_DIALOG);
 				}
 			});
@@ -187,13 +190,12 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
         	mLoadDialog = new Dialog(this);
         	mLoadDialog.setContentView(R.layout.loaddialoglayout);
         	ListView view = (ListView)mLoadDialog.findViewById(R.id.loadfilelist);
-        	ArrayList<String> list = new ArrayList<String>();
         	for(int i=0; i<this.fileList().length; i++)
         	{
         		if(fileList()[i].contains(".spf"))
-        		list.add(fileList()[i]);
+        		mFilelist.add(fileList()[i]);
         	}
-        	FileAdapter adapter = new FileAdapter(this, list);
+        	FileAdapter adapter = new FileAdapter(this, mFilelist);
         	view.setAdapter(adapter);
         	adapter.setDialog(mLoadDialog);
         	adapter.setContentManager(mContentManager);
