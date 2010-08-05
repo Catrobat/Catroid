@@ -80,7 +80,7 @@ public class MainListViewAdapter extends BaseAdapter{
 		final String value = mList.get(position).get(BrickDefine.BRICK_VALUE);
 
 		LayoutInflater inflater = (LayoutInflater)mCtx.getSystemService(
-	      Context.LAYOUT_INFLATER_SERVICE);
+	      Context.LAYOUT_INFLATER_SERVICE); 
 		switch(Integer.valueOf(type).intValue()){
 		case (BrickDefine.SET_BACKGROUND): 
 		{
