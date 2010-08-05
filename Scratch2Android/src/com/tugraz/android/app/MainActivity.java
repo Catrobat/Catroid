@@ -107,7 +107,7 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
     
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if(requestCode == MediaFileLoader.GALLERY_INTENT_CODE){
+		if((requestCode == MediaFileLoader.GALLERY_INTENT_CODE) && (data != null)){
 			HashMap<String, String> content = mContentManager.getContentArrayList().get(LAST_SELECTED_ELEMENT_POSITION);
 			content.put(BrickDefine.BRICK_VALUE, data.getDataString());
 			
