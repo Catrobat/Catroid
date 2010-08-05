@@ -296,6 +296,24 @@ public class MainListViewAdapter extends BaseAdapter{
 					
 				}
 			});
+			Uri uri = Uri.parse(value);
+			Bitmap bm = null;
+			try {
+				bm = MediaStore.Images.Media.getBitmap(mCtx.getContentResolver(), uri);
+				imageView.setBackgroundResource(0);
+				Matrix matrix = new Matrix();
+				float scaleWidth = (((float)THUMBNAIL_WIDTH)/bm.getWidth());
+				float scaleHeight = (((float)THUMBNAIL_HEIGHT)/bm.getHeight());
+		        matrix.postScale(scaleWidth, scaleHeight);
+				Bitmap newbm = Bitmap.createBitmap(bm, 0, 0,bm.getWidth() ,bm.getHeight() , matrix, true);
+				imageView.setImageBitmap(newbm);
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 
 			return view;
