@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="load">load</string>
-    <string name="save">save</string>
+    <string name="load">Load</string>
+    <string name="save">Save</string>
     <string name="SpriteButtonText">Create</string>
     <string name="newsprite">New Sprite</string>
     
-    <string name="delete">delete</string>
-    <string name="remove">remove</string>
+    <string name="delete">Delete</string>
+    <string name="remove">Remove</string>
  
     <string name="hello">Hello World!</string>
-    <string name="app_name">Android based on Scratch</string>
+    <string name="app_name">Android Based on Scratch</string>
     
-    <string name="construction_site">construction site</string>
+    <string name="construction_site">Construction Site</string>
     <string name="toolbar">T\nO\nO\nO\nL\nB\nO\nO\nX\n</string>
     <string name="sprites">SPRITES</string>
     <string name="stage">Stage</string>
     
-    <string name="construction_site_play">Play/Pause</string>
-    <string name="reset">Reset construction site</string>
+    <string name="construction_site_play">To Stage</string>
+    <string name="reset">Reset Construction Site</string>
     <string name="quit">Quit</string>
     
-    <string name="stagemenu_construction_site">To construction site</string>
+    <string name="stagemenu_construction_site">To Construction Site</string>
     <string name="stagemenu_start">Start</string>
     
-    <string name="save_file_main">Save file</string>
-    <string name="set_background_main_adapter">Set background</string>
+    <string name="save_file_main">Save File</string>
+    <string name="set_background_main_adapter">Set Background</string>
     <string name="play_sound_main_adapter">Play Sound</string>
     <string name="wait_main_adapter">Wait</string>
     <string name="hide_main_adapter">Hide</string> 

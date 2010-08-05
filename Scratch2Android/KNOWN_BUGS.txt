@@ -17,6 +17,8 @@ high:
 
 - wenn man in die gallery geht, nichts auswaehlt und zurueck drueckt stürzt er ab
 
+- menu bei baustelle: play/pause passt nicht!
+
 --------
 medium
 --------
