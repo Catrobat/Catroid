@@ -37,7 +37,9 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 public class MainListViewAdapter extends BaseAdapter{
-    private Context mCtx;
+    protected static final float THUMBNAIL_WIDTH = 80;
+	protected static final float THUMBNAIL_HEIGHT = 80;
+	private Context mCtx;
     private MediaFileLoader mMediaFileLoader;
     private ListView mMainListView;
     public ArrayList<HashMap<String, String>> mList;
@@ -108,8 +110,8 @@ public class MainListViewAdapter extends BaseAdapter{
 				bm = MediaStore.Images.Media.getBitmap(mCtx.getContentResolver(), uri);
 				imageView.setBackgroundResource(0);
 				Matrix matrix = new Matrix();
-				float scaleWidth = (((float)50)/bm.getWidth());
-				float scaleHeight = (((float)50)/bm.getHeight());
+				float scaleWidth = (((float)THUMBNAIL_WIDTH)/bm.getWidth());
+				float scaleHeight = (((float)THUMBNAIL_HEIGHT)/bm.getHeight());
 		        matrix.postScale(scaleWidth, scaleHeight);
 				Bitmap newbm = Bitmap.createBitmap(bm, 0, 0,bm.getWidth() ,bm.getHeight() , matrix, true);
 				imageView.setImageBitmap(newbm);

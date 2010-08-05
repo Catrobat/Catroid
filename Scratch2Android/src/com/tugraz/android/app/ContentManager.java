@@ -62,10 +62,11 @@ public class ContentManager extends Observable{
 	public void clearSprites(){
 		mSpritesAndBackgroundList.clear();
 		mContentArrayList.clear();
+		mCurrentSprite = "stage";
 		saveContent();
 		mSpritesAndBackgroundList.put("stage", (ArrayList<HashMap<String,String>>)mContentArrayList.clone());
 		//Fill Dummy Stage
-		mCurrentSprite = "stage";
+		getAllSprites();//TODO Check this (SpritesAdapter)
         setChanged();
 		notifyObservers();
 	}
@@ -238,8 +239,8 @@ public class ContentManager extends Observable{
     	mSpritelist.add(map.firstKey());
     	map.remove(map.firstKey());
     }
-    
-    
     return mSpritelist;
-    } 
+    }
+    
+
 }
