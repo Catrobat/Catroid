@@ -9,11 +9,12 @@ high:
 
 - wenn pause gedrückt wird und gerade wait ist wird das nicht richtig ausgeführt
 
-- wenn man man auf der stage ist, den home-button drueckt, dann wieder in die app geht spielt er auf der stage nicht mehr ab, man muss zuerst in die baustelle zurueck und dann wieder in die stage
+- wenn man man auf der stage ist, den home-button drueckt, dann wieder in die app geht ->crash, thead soll gestartet werden obwohl er schon existiert
 
 - wenn man zur buehne geht, dann zurueck, dann zur buehne und noch einmal zurueck und zur buehne stuerzt er ab
   -> anscheinend nicht mehr, noch einmal testen
 
+- out of memory bei grossen bildern
 
 --------
 medium
