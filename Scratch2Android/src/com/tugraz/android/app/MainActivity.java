@@ -2,6 +2,8 @@ package com.tugraz.android.app;
 
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
@@ -16,8 +18,12 @@ import android.content.Context;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Matrix;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.provider.ContactsContract.CommonDataKinds.BaseTypes;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -25,6 +31,7 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.WindowManager.LayoutParams;
@@ -35,7 +42,9 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
@@ -112,6 +121,23 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 		if((requestCode == MediaFileLoader.GALLERY_INTENT_CODE) && (data != null)){
 			HashMap<String, String> content = mContentManager.getContentArrayList().get(LAST_SELECTED_ELEMENT_POSITION);
 			content.put(BrickDefine.BRICK_VALUE, data.getDataString());
+			Uri uri = Uri.parse(data.getDataString());
+			Bitmap bm = null;
+			try {
+				bm = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			ImageView v = (ImageView)((RelativeLayout) mMainListView.getChildAt(LAST_SELECTED_ELEMENT_POSITION)).getChildAt(0);
+			(v).setBackgroundResource(0);
+			Matrix matrix = new Matrix();
+	        matrix.postScale(0.25f, 0.25f);
+			Bitmap newbm = Bitmap.createBitmap(bm, 0, 0, 200, 200, matrix, true);
+			(v).setImageBitmap(newbm);
 			
 			Log.d("TEST", data.getDataString());
 		}
