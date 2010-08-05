@@ -128,8 +128,8 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 				ImageView v = (ImageView)((RelativeLayout) mMainListView.getChildAt(LAST_SELECTED_ELEMENT_POSITION)).getChildAt(0);
 				v.setBackgroundResource(0);
 				Matrix matrix = new Matrix();
-				float scaleWidth = (((float)50)/bm.getWidth());
-				float scaleHeight = (((float)50)/bm.getHeight());
+				float scaleWidth = (((float)MainListViewAdapter.THUMBNAIL_WIDTH)/bm.getWidth());
+				float scaleHeight = (((float)MainListViewAdapter.THUMBNAIL_HEIGHT)/bm.getHeight());
 		        matrix.postScale(scaleWidth, scaleHeight);
 				Bitmap newbm = Bitmap.createBitmap(bm, 0, 0,bm.getWidth() ,bm.getHeight() , matrix, true);
 				v.setImageBitmap(newbm);

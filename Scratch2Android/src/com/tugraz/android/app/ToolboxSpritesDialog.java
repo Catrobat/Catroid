@@ -2,6 +2,8 @@ package com.tugraz.android.app;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Observable;
+import java.util.Observer;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -21,7 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-public class ToolboxSpritesDialog extends Dialog
+public class ToolboxSpritesDialog extends Dialog implements Observer
 
 {
 
@@ -88,6 +90,7 @@ public class ToolboxSpritesDialog extends Dialog
 		mAdapter = new ToolboxSpritesAdapter(mCtx, mContentManager.getAllSprites());
 		mAdapter.setContentManager(mContentManager);
 		mAdapter.setDialog(this);
+		mContentManager.setObserver(this);
 		
 		mMainListView.setAdapter(mAdapter);
 		
@@ -133,6 +136,11 @@ public class ToolboxSpritesDialog extends Dialog
 
 	public void setContentManager(ContentManager contentManager){
 		mContentManager = contentManager;
+	}
+	
+
+	public void update(Observable observable, Object data) {
+		mAdapter.notifyDataSetChanged();	
 	}
 	
 	
