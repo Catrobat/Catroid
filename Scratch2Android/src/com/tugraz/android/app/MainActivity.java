@@ -2,10 +2,15 @@ package com.tugraz.android.app;
 
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.TooManyListenersException;
+
+import com.tugraz.android.app.filesystem.MediaFileLoader;
 
 
 import android.app.Activity;
@@ -13,8 +18,12 @@ import android.content.Context;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Matrix;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.provider.ContactsContract.CommonDataKinds.BaseTypes;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -22,6 +31,7 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.WindowManager.LayoutParams;
@@ -32,7 +42,9 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
@@ -42,12 +54,14 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 
     /** Called when the activity is first created. */
 	
-	//TODO sprites should be deleted if "lösche baustelle"
+	//TODO remove objects in object list after "lösche baustelle"
+	
 	//TODO clean up the adapter, 3 of them do the same -> multiple code (is it necessary to distinguish between a stage and a sprite!?)
 	//TODO rename some classes buttons etc they are often not significant
 	//TODO make more packages
 	//TODO style your gui elements either with java code or xml but no mixture
-	//TODO when an object(sprite) is chosen, close dialog
+	
+	//TODO IDs manage brick id 
 	
 	static final int TOOLBOX_DIALOG_SPRITE = 0;
 	static final int TOOLBOX_DIALOG_BACKGROUND = 1;
@@ -66,6 +80,7 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 
 	private Button mSpritesToolboxButton;
     private ToolboxSpritesDialog mSpritesToolboxDialog;
+    private ArrayList<String> mFilelist;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,8 +90,9 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
         mContentManager = new ContentManager();
         mContentManager.setObserver(this);
         mContentManager.setContext(this);
-        mAdapter = new MainListViewAdapter(this, mContentManager.getContentArrayList());
         mMainListView = (ListView) findViewById(R.id.MainListView);
+        mAdapter = new MainListViewAdapter(this, mContentManager.getContentArrayList(), mMainListView);
+        
         mMainListView.setAdapter(mAdapter);
             
         //Testing
@@ -93,9 +109,47 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 		mSpritesToolboxButton.setOnClickListener(this);
 		
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		mFilelist = new ArrayList<String>();
     }
 
+    private static int LAST_SELECTED_ELEMENT_POSITION = 0;
     
+    public void rememberLastSelectedElement(int position){
+    	LAST_SELECTED_ELEMENT_POSITION = position;
+    }
+    
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if((requestCode == MediaFileLoader.GALLERY_INTENT_CODE) && (data != null)){
+			HashMap<String, String> content = mContentManager.getContentArrayList().get(LAST_SELECTED_ELEMENT_POSITION);
+			content.put(BrickDefine.BRICK_VALUE, data.getDataString());
+			Uri uri = Uri.parse(data.getDataString());
+			Bitmap bm = null;
+			try {
+				bm = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+				ImageView v = (ImageView)((RelativeLayout) mMainListView.getChildAt(LAST_SELECTED_ELEMENT_POSITION)).getChildAt(0);
+				v.setBackgroundResource(0);
+				Matrix matrix = new Matrix();
+				float scaleWidth = (((float)MainListViewAdapter.THUMBNAIL_WIDTH)/bm.getWidth());
+				float scaleHeight = (((float)MainListViewAdapter.THUMBNAIL_HEIGHT)/bm.getHeight());
+		        matrix.postScale(scaleWidth, scaleHeight);
+				Bitmap newbm = Bitmap.createBitmap(bm, 0, 0,bm.getWidth() ,bm.getHeight() , matrix, true);
+				v.setImageBitmap(newbm);
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			Log.d("TEST", data.getDataString());
+		}
+			
+			
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+	
     protected Dialog onCreateDialog(int id){
         switch(id) {
         case TOOLBOX_DIALOG_SPRITE:
@@ -126,6 +180,7 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 				//Anmerkung speichert nur im Application Context
 				File tfile = new File(file.getText().toString()+".spf");
 				mContentManager.saveContent(tfile.toString());
+				mFilelist.add(tfile.toString());
 				dismissDialog(SAVE_DIALOG);
 				}
 			});
@@ -135,13 +190,12 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
         	mLoadDialog = new Dialog(this);
         	mLoadDialog.setContentView(R.layout.loaddialoglayout);
         	ListView view = (ListView)mLoadDialog.findViewById(R.id.loadfilelist);
-        	ArrayList<String> list = new ArrayList<String>();
         	for(int i=0; i<this.fileList().length; i++)
         	{
         		if(fileList()[i].contains(".spf"))
-        		list.add(fileList()[i]);
+        		mFilelist.add(fileList()[i]);
         	}
-        	FileAdapter adapter = new FileAdapter(this, list);
+        	FileAdapter adapter = new FileAdapter(this, mFilelist);
         	view.setAdapter(adapter);
         	adapter.setDialog(mLoadDialog);
         	adapter.setContentManager(mContentManager);
@@ -191,7 +245,7 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
             return true;
             
         case R.id.reset:
-        	mContentManager.clear();
+        	mContentManager.clearSprites();
             return true;
             
         case R.id.load:

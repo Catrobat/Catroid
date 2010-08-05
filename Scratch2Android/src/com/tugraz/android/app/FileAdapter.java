@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -47,7 +48,7 @@ public class FileAdapter extends BaseAdapter{
 		LinearLayout view = (LinearLayout) inflater.inflate(R.layout.spritetoolbox, null);
 		TextView text = (TextView)view.getChildAt(0);
 		text.setText(file);
-			//text2.setTextColor(Color.BLUE);
+	    text.setTextColor(Color.WHITE);
 		text.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {

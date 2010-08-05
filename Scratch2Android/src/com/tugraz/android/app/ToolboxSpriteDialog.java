@@ -52,6 +52,7 @@ public class ToolboxSpriteDialog extends Dialog
 		//getWindow().setGravity(Gravity.BOTTOM);
 		//getWindow().setFormat(PixelFormat.TRANSLUCENT);
 		setContentView(R.layout.toolbox);
+		this.setTitle(R.string.title_toolbox_sprites);
 		
 		mSlide_in = AnimationUtils.loadAnimation(mCtx, R.anim.toolbox_in);
 		mSlide_out = AnimationUtils.loadAnimation(mCtx, R.anim.toolbox_out);

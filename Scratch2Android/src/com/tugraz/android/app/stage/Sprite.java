@@ -23,6 +23,8 @@ public class Sprite extends Thread implements Observer, OnCompletionListener {
 	private int mCurrentYPosition = 0;
 	private String mCurrentImage = "";
 	private boolean mWasPlaying = false;
+	private BrickWait mBrickWait;
+	private boolean mIsActive; //TODO quick workaround for wait problem on stage
 
 	public Sprite(StageView view,
 			ArrayList<HashMap<String, String>> commandList, String name) {
@@ -31,17 +33,20 @@ public class Sprite extends Thread implements Observer, OnCompletionListener {
 		mMediaPlayer = new MediaPlayer();
 		mMediaPlayer.setOnCompletionListener(this);
 		mSpriteName = name;
+		mBrickWait = new BrickWait();
 
 	}
 
 	@Override
 	public void run() {
+		mIsActive = true;
 		doNextCommand();
 	}
 
 	
 	public void update(Observable observable, Object data) {
-		doNextCommand();
+		if (mIsActive)
+			doNextCommand();
 
 	}
 
@@ -129,12 +134,10 @@ public class Sprite extends Thread implements Observer, OnCompletionListener {
 	}
 
 	private void brickWait(float sec) {
-		BrickWait wait = new BrickWait(); // TODO sicher schlechte performance
-											// da jedes mal neues objekt erzeugt
-											// wird
-		wait.mWaitTime = sec;
-		wait.addObserver(this);
-		Thread thread = new Thread(wait);
+		mBrickWait.mWaitTime = sec;
+		mBrickWait.addObserver(this);
+		Thread thread = new Thread(mBrickWait);
+		
 		thread.setName("waitingThread");
 		thread.start();
 	}
@@ -146,17 +149,19 @@ public class Sprite extends Thread implements Observer, OnCompletionListener {
 	}
 
 	public void stopAndReleaseMediaPlayer() {
-		if (mMediaPlayer.isPlaying())
+		if ((mMediaPlayer != null) && (mMediaPlayer.isPlaying()))
 			mMediaPlayer.stop();
 		mMediaPlayer.release();
 		mWasPlaying = false;
+		mIsActive = false;
 	}
 	
 	public void pauseMediaPlayer(){
-		if (mMediaPlayer.isPlaying()){
+		if ((mMediaPlayer != null) && (mMediaPlayer.isPlaying())){
 			mMediaPlayer.pause();
 			mWasPlaying = true;
 		}
+		mIsActive = false;
 	}
 	
 	public void startMediaPlayer(){

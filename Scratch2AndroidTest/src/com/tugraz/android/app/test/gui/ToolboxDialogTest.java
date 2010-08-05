@@ -36,7 +36,6 @@ public class ToolboxDialogTest extends ActivityInstrumentationTestCase2<MainActi
 
 		
 		mButton = (Button) mActivity.findViewById(com.tugraz.android.app.R.id.toolbar_button);
-        //mDialog = mActivity.getToolboxDialog(); //TODO kriegen wir da das richtige??
         
 	}
 	

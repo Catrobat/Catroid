@@ -62,17 +62,22 @@ public class ContentManager extends Observable{
 	public void clearSprites(){
 		mSpritesAndBackgroundList.clear();
 		mContentArrayList.clear();
+		mCurrentSprite = "stage";
 		saveContent();
 		mSpritesAndBackgroundList.put("stage", (ArrayList<HashMap<String,String>>)mContentArrayList.clone());
 		//Fill Dummy Stage
-		mCurrentSprite = "stage";
+		getAllSprites();//TODO Check this (SpritesAdapter)
         setChanged();
 		notifyObservers();
 	}
 	
 	public void addSprite(String name, ArrayList<HashMap<String, String>> sprite)
 	{
-		mSpritesAndBackgroundList.put(name, sprite);
+		if(mSpritesAndBackgroundList.containsKey(name))
+			{/*do nothing Sprite already exists*/}
+		else
+			{mSpritesAndBackgroundList.put(name, sprite);}
+		
 		switchSprite(name);
 		mCurrentSprite = name;
 		getAllSprites();
@@ -238,8 +243,8 @@ public class ContentManager extends Observable{
     	mSpritelist.add(map.firstKey());
     	map.remove(map.firstKey());
     }
-    
-    
     return mSpritelist;
-    } 
+    }
+    
+
 }
