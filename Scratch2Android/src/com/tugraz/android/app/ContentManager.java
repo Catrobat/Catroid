@@ -73,7 +73,11 @@ public class ContentManager extends Observable{
 	
 	public void addSprite(String name, ArrayList<HashMap<String, String>> sprite)
 	{
-		mSpritesAndBackgroundList.put(name, sprite);
+		if(mSpritesAndBackgroundList.containsKey(name))
+			{/*do nothing Sprite already exists*/}
+		else
+			{mSpritesAndBackgroundList.put(name, sprite);}
+		
 		switchSprite(name);
 		mCurrentSprite = name;
 		getAllSprites();
