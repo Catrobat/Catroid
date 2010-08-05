@@ -125,6 +125,14 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 			Bitmap bm = null;
 			try {
 				bm = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+				ImageView v = (ImageView)((RelativeLayout) mMainListView.getChildAt(LAST_SELECTED_ELEMENT_POSITION)).getChildAt(0);
+				v.setBackgroundResource(0);
+				Matrix matrix = new Matrix();
+				float scaleWidth = (((float)50)/bm.getWidth());
+				float scaleHeight = (((float)50)/bm.getHeight());
+		        matrix.postScale(scaleWidth, scaleHeight);
+				Bitmap newbm = Bitmap.createBitmap(bm, 0, 0,bm.getWidth() ,bm.getHeight() , matrix, true);
+				v.setImageBitmap(newbm);
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -132,12 +140,6 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			ImageView v = (ImageView)((RelativeLayout) mMainListView.getChildAt(LAST_SELECTED_ELEMENT_POSITION)).getChildAt(0);
-			(v).setBackgroundResource(0);
-			Matrix matrix = new Matrix();
-	        matrix.postScale(0.25f, 0.25f);
-			Bitmap newbm = Bitmap.createBitmap(bm, 0, 0, 200, 200, matrix, true);
-			(v).setImageBitmap(newbm);
 			
 			Log.d("TEST", data.getDataString());
 		}
