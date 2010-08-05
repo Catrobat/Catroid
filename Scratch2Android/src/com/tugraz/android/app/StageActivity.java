@@ -98,12 +98,11 @@ public class StageActivity extends Activity {
 		finish();
 	}
 
-	/**
-	 * starts the StageViewThread
-	 */
 	private void start() { 
-		mStage.getThread().setRunning(true); 
-		mStage.getThread().start();
+		if (!mStage.getThread().isAlive()) {
+			mStage.getThread().setRunning(true); 
+			mStage.getThread().start();
+		}
 
 		ArrayList<String> allSpriteNames = mContentManager.getAllSprites();
 		for (int i = 0; i < allSpriteNames.size(); i++) {
