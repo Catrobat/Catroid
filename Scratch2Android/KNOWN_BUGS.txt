@@ -9,7 +9,7 @@ high:
 
 - wenn pause gedrückt wird und gerade wait ist wird das nicht richtig ausgeführt
 
-- wenn man man auf der stage ist, den home-button drueckt, dann wieder in die app geht ->crash, thead soll gestartet werden obwohl er schon existiert
+- wenn man man auf der stage ist, den home-button drueckt, dann wieder in die app geht muss man noch einmal zurueck in die Baustelle und dann wieder auf die stage, damit das abspielen funktioniert
 
 - wenn man zur buehne geht, dann zurueck, dann zur buehne und noch einmal zurueck und zur buehne stuerzt er ab
   -> anscheinend nicht mehr, noch einmal testen
