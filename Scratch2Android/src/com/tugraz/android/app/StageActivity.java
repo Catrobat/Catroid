@@ -52,7 +52,7 @@ public class StageActivity extends Activity {
 
 		// we only want portrait mode atm, otherwise the program crashes
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		start(); 
+		 
 
 	}
 
@@ -67,7 +67,7 @@ public class StageActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.stagemenuStart:
-			pauseOrRestart();
+			pauseOrContinue();
 			break;
 		case R.id.stagemenuConstructionSite:
 			toMainActivity();
@@ -80,7 +80,18 @@ public class StageActivity extends Activity {
 	protected void onPause() {
 		super.onPause();
 		for (int i = 0; i < mSpritesList.size(); i++)
+			mSpritesList.get(i).pauseMediaPlayer();
+	}
+	
+	protected void onDestroy() {
+		super.onDestroy();
+		for (int i = 0; i < mSpritesList.size(); i++)
 			mSpritesList.get(i).stopAndReleaseMediaPlayer();
+	}
+	
+	protected void onStart() {
+		super.onStart();
+		start();
 	}
 
 	private void toMainActivity() {
@@ -107,7 +118,7 @@ public class StageActivity extends Activity {
 		}
 	}
 	
-	private void pauseOrRestart() {
+	private void pauseOrContinue() {
 		if (mDoNextCommands){
 			mDoNextCommands = false;
 			for (int i = 0; i < mSpritesList.size(); i++) {

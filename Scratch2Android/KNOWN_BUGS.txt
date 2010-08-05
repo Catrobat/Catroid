@@ -7,23 +7,21 @@ solving priority: high, medium, low
 high:
 --------
 
-- Wenn man die Bühne abspielt, auf pause drückt, dann auf zurück, dann wieder zur bühne muss man noch extra auf abspielen drücken
-
 - wenn pause gedrückt wird und gerade wait ist wird das nicht richtig ausgeführt
 
-- wenn man man auf der stage ist, den home-button drueckt, dann wieder in die app geht und dann wieder auf abspielen -> crash, ich glaub media player is schuld
+- wenn man man auf der stage ist, den home-button drueckt, dann wieder in die app geht spielt er auf der stage nicht mehr ab, man muss zuerst in die baustelle zurueck und dann wieder in die stage
 
 - wenn man zur buehne geht, dann zurueck, dann zur buehne und noch einmal zurueck und zur buehne stuerzt er ab
+  -> anscheinend nicht mehr, noch einmal testen
 
 
 --------
 medium
 --------
 
-- es werden nicht fuer alle bilder thumbnails angezeigt
-
 - wenn auf einem frischen Emulator die Tests durchlaufen werden, funktioniert testContextMenuOnMainList nicht, da noch kein element in mainList. Wenn nach den Tests die App normal aufgerufen wird funktioniert sie auch nicht
    workaround: kleines testprogramm machen dann gehts
+   -> jetzt gehts anscheinend doch!?
 
 - test schreibt falsche testdaten ins programm (zb hintergrund bei sprite)
 --------
