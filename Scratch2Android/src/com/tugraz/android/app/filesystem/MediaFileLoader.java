@@ -3,7 +3,12 @@ package com.tugraz.android.app.filesystem;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.tugraz.android.app.MainActivity;
+
+import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -19,6 +24,7 @@ public class MediaFileLoader {
 	private ArrayList<HashMap<String, String>> mSoundContent;
 	private Context mCtx;
 	
+	public final static int GALLERY_INTENT_CODE = 1111;
 	
 	public final static String PICTURE_NAME = "pic_name";
 	public final static String PICTURE_PATH = "pic_path";
@@ -35,9 +41,20 @@ public class MediaFileLoader {
 		mCtx = ctx;
 	}
 	
-	public void openPictureGallery(){
-	
+	public void openPictureGallery(int elementPosition){
+		
+		((MainActivity) mCtx).rememberLastSelectedElement(elementPosition);
+		
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        try {
+			((Activity) mCtx).startActivityForResult(intent, GALLERY_INTENT_CODE);
+		} catch ( ActivityNotFoundException e) {
+			Log.e("MediaFileLoader", "No Gallery found");
+		}
 	}
+	
+	
 	/**
 	 * load pictures from sd card
 	 */

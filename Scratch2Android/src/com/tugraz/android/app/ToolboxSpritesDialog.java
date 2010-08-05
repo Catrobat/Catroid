@@ -2,6 +2,8 @@ package com.tugraz.android.app;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Observable;
+import java.util.Observer;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -21,7 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-public class ToolboxSpritesDialog extends Dialog
+public class ToolboxSpritesDialog extends Dialog implements Observer
 
 {
 
@@ -30,14 +32,12 @@ public class ToolboxSpritesDialog extends Dialog
 	private Animation mSlide_out;
 	
 	public ListView mMainListView;
-	//TODO choose better name
-	public EditText mEditText;
+	public EditText mSpriteName;
 	public Button mSpriteButton;
 	private Button mMainSpriteButton;    
 	private ToolboxSpritesAdapter mAdapter;
 	public ArrayList<String> mContentArrayList;
 	ContentManager mContentManager;
-	private String mSpriteText = "Neuer Sprite";
 	
 	private RelativeLayout mToolboxLayout;
 	
@@ -59,7 +59,6 @@ public class ToolboxSpritesDialog extends Dialog
 		
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		//TODO set what to do in a text view, try to shorten the name in the button
 		getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 		getWindow().setGravity(Gravity.TOP);
 		//getWindow().setFormat(PixelFormat.TRANSLUCENT);
@@ -91,40 +90,20 @@ public class ToolboxSpritesDialog extends Dialog
 		mAdapter = new ToolboxSpritesAdapter(mCtx, mContentManager.getAllSprites());
 		mAdapter.setContentManager(mContentManager);
 		mAdapter.setDialog(this);
+		mContentManager.setObserver(this);
 		
 		mMainListView.setAdapter(mAdapter);
 		
-		mEditText = (EditText) findViewById(R.id.newsprite);
+		mSpriteName = (EditText) findViewById(R.id.newsprite);
 		mSpriteButton = (Button) findViewById(R.id.NewSpriteButton);
 		mSpriteButton.setOnClickListener(new View.OnClickListener() {
 			
 			public void onClick(View v) {
-				mContentManager.addSprite(mSpriteText, new ArrayList<HashMap<String,String>>());
+				mContentManager.addSprite(mSpriteName.getText().toString(), new ArrayList<HashMap<String,String>>());
 				mAdapter.notifyDataSetChanged();
 				dismiss();
 				}
 
-		});
-		mEditText.addTextChangedListener(new TextWatcher()
-		{
-
-				
-				public void afterTextChanged(Editable s) {
-					// TODO Auto-generated method stub
-					
-				}
-
-				
-				public void beforeTextChanged(CharSequence s, int start,
-						int count, int after) {
-					// TODO Auto-generated method stub
-				}
-
-				
-				public void onTextChanged(CharSequence s, int start,
-						int before, int count) {
-					mSpriteText = s.toString();
-				}
 		});
 	}
 
@@ -157,6 +136,11 @@ public class ToolboxSpritesDialog extends Dialog
 
 	public void setContentManager(ContentManager contentManager){
 		mContentManager = contentManager;
+	}
+	
+
+	public void update(Observable observable, Object data) {
+		mAdapter.notifyDataSetChanged();	
 	}
 	
 	

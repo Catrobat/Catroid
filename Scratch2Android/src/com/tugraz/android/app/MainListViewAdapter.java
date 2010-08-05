@@ -1,5 +1,7 @@
 package com.tugraz.android.app;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -7,8 +9,13 @@ import com.tugraz.android.app.filesystem.MediaFileLoader;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.util.Log;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -21,6 +28,7 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.SimpleAdapter;
@@ -29,17 +37,19 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 public class MainListViewAdapter extends BaseAdapter{
-    private Context mCtx;
+    protected static final float THUMBNAIL_WIDTH = 80;
+	protected static final float THUMBNAIL_HEIGHT = 80;
+	private Context mCtx;
     private MediaFileLoader mMediaFileLoader;
-    
+    private ListView mMainListView;
     public ArrayList<HashMap<String, String>> mList;
 
     
 	public MainListViewAdapter(Context context,
-			ArrayList<HashMap<String, String>> data) {
+			ArrayList<HashMap<String, String>> data, ListView listview) {
 		mCtx = context;
 		mList = data;	
-		
+		mMainListView = listview;
 		mMediaFileLoader = new MediaFileLoader(mCtx);
 		mMediaFileLoader.loadSoundContent();
 	}
@@ -66,7 +76,9 @@ public class MainListViewAdapter extends BaseAdapter{
 	public View getView(int position, View convertView, ViewGroup parent) {
 		final HashMap<String, String> brick = mList.get(position);
 		//TODO Reuse Views
-		String type = mList.get(position).get(BrickDefine.BRICK_TYPE);
+		final String type = mList.get(position).get(BrickDefine.BRICK_TYPE);
+		final String value = mList.get(position).get(BrickDefine.BRICK_VALUE);
+
 		LayoutInflater inflater = (LayoutInflater)mCtx.getSystemService(
 	      Context.LAYOUT_INFLATER_SERVICE);
 		switch(Integer.valueOf(type).intValue()){
@@ -75,22 +87,41 @@ public class MainListViewAdapter extends BaseAdapter{
 			RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.brick_set_background, null);
 			TextView text = (TextView)view.getChildAt(1);
 			text.setText(R.string.set_background_main_adapter);
-			//view.setBackgroundColor(Color.argb(255, 139, 0, 139));
-			//text1.setTextColor(Color.BLUE);
-			//text2.setTextColor(Color.BLUE);
-			//view.setBackgroundColor(Color.argb(255, 139, 0, 139));
 
 			ImageView imageView = (ImageView)view.getChildAt(0);
-			
 			imageView.setOnClickListener(new View.OnClickListener() {
 				
 				public void onClick(View v) {
-					mMediaFileLoader.openPictureGallery();
+					for(int i = 0; i < mMainListView.getChildCount(); i++){
+						
+						if(v.getParent().equals(mMainListView.getChildAt(i))){
+							mMediaFileLoader.openPictureGallery(i);
+					
+						}
+					}
+					
 					
 				}
 			});
-		
-			
+		 
+			Uri uri = Uri.parse(value);
+			Bitmap bm = null;
+			try {
+				bm = MediaStore.Images.Media.getBitmap(mCtx.getContentResolver(), uri);
+				imageView.setBackgroundResource(0);
+				Matrix matrix = new Matrix();
+				float scaleWidth = (((float)THUMBNAIL_WIDTH)/bm.getWidth());
+				float scaleHeight = (((float)THUMBNAIL_HEIGHT)/bm.getHeight());
+		        matrix.postScale(scaleWidth, scaleHeight);
+				Bitmap newbm = Bitmap.createBitmap(bm, 0, 0,bm.getWidth() ,bm.getHeight() , matrix, true);
+				imageView.setImageBitmap(newbm);
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 //		    LayoutParams params = (LayoutParams) view.getLayoutParams();
 //		    params.addRule(RelativeLayout.ALIGN_BOTTOM, parent.getChildAt(size-1).getId());
 //		    view.setLayoutParams(params);
@@ -187,59 +218,60 @@ public class MainListViewAdapter extends BaseAdapter{
 			//view.setBackgroundColor(Color.argb(255, 255, 215, 200));
 			return view;
 		}
-		case (BrickDefine.GO_TO):
-		{
-			RelativeLayout view =  (RelativeLayout)inflater.inflate(R.layout.brick_goto, null);
-			
-			TextView text = (TextView) view.getChildAt(0);
-			text.setText(R.string.goto_main_adapter);
-			
-			LinearLayout layout = (LinearLayout) view.getChildAt(1);
-			
-			EditText textX = (EditText) layout.getChildAt(0);
-			textX.setText(brick.get(BrickDefine.BRICK_VALUE));
-			textX.addTextChangedListener(new TextWatcher()
-	          {
-				
-				public void afterTextChanged(Editable s) {
-					// TODO Auto-generated method stub	
-				}
-				
-				public void beforeTextChanged(CharSequence s, int start,
-						int count, int after) {
-					// TODO Auto-generated method stub					
-				}
-				
-				public void onTextChanged(CharSequence s, int start,
-						int before, int count) {
-					brick.remove(BrickDefine.BRICK_VALUE);
-					brick.put(BrickDefine.BRICK_VALUE, s.toString());					
-				} 
-	          });
-			
-			EditText textY = (EditText) layout.getChildAt(1);
-			textY.setText(brick.get(BrickDefine.BRICK_VALUE_1));
-			textY.addTextChangedListener(new TextWatcher()
-	          {
-				
-				public void afterTextChanged(Editable s) {
-					// TODO Auto-generated method stub	
-				}
-				
-				public void beforeTextChanged(CharSequence s, int start,
-						int count, int after) {
-					// TODO Auto-generated method stub	
-				}
-				
-				public void onTextChanged(CharSequence s, int start,
-						int before, int count) {
-					brick.remove(BrickDefine.BRICK_VALUE_1);
-					brick.put(BrickDefine.BRICK_VALUE_1, s.toString());	
-				} 
-	          });
-			//view.setBackgroundColor(Color.argb(255, 255, 215, 255));
-			return view;
-		}
+		 case (BrickDefine.GO_TO):
+		  {
+		   RelativeLayout view =  (RelativeLayout)inflater.inflate(R.layout.brick_goto, null);
+		   
+		   TextView text = (TextView) view.getChildAt(0);
+		   text.setText(R.string.goto_main_adapter);
+		   
+		   LinearLayout layout = (LinearLayout) view.getChildAt(1);
+		   
+		   EditText textX = (EditText) layout.getChildAt(0);
+		   textX.setText(brick.get(BrickDefine.BRICK_VALUE));
+		   textX.addTextChangedListener(new TextWatcher()
+		           {
+		    
+		    public void afterTextChanged(Editable s) {
+		     // TODO Auto-generated method stub 
+		    }
+		    
+		    public void beforeTextChanged(CharSequence s, int start,
+		      int count, int after) {
+		     // TODO Auto-generated method stub     
+		    }
+		    
+		    public void onTextChanged(CharSequence s, int start,
+		      int before, int count) {
+		     brick.remove(BrickDefine.BRICK_VALUE);
+		     brick.put(BrickDefine.BRICK_VALUE, s.toString());     
+		    } 
+		           });
+		   
+		   EditText textY = (EditText) layout.getChildAt(1);
+		   textY.setText(brick.get(BrickDefine.BRICK_VALUE_1));
+		   textY.addTextChangedListener(new TextWatcher()
+		           {
+		    
+		    public void afterTextChanged(Editable s) {
+		     // TODO Auto-generated method stub 
+		    }
+		    
+		    public void beforeTextChanged(CharSequence s, int start,
+		      int count, int after) {
+		     // TODO Auto-generated method stub 
+		    }
+		    
+		    public void onTextChanged(CharSequence s, int start,
+		      int before, int count) {
+		     brick.remove(BrickDefine.BRICK_VALUE_1);
+		     brick.put(BrickDefine.BRICK_VALUE_1, s.toString()); 
+		    } 
+		           });
+		   //view.setBackgroundColor(Color.argb(255, 255, 215, 255));
+		   return view;
+		  }
+	
 		case (BrickDefine.SET_COSTUME): 
 		{
 			RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.brick_set_costume, null);
@@ -250,6 +282,38 @@ public class MainListViewAdapter extends BaseAdapter{
 			//view.setBackgroundColor(Color.argb(255, 139, 0, 50));
 
 			ImageView imageView = (ImageView)view.getChildAt(0);
+			imageView.setOnClickListener(new View.OnClickListener() {
+				
+				public void onClick(View v) {
+					for(int i = 0; i < mMainListView.getChildCount(); i++){
+						
+						if(v.getParent().equals(mMainListView.getChildAt(i))){
+							Log.d("TEST", i +"");
+							mMediaFileLoader.openPictureGallery(i);
+						}
+					}
+					
+					
+				}
+			});
+			Uri uri = Uri.parse(value);
+			Bitmap bm = null;
+			try {
+				bm = MediaStore.Images.Media.getBitmap(mCtx.getContentResolver(), uri);
+				imageView.setBackgroundResource(0);
+				Matrix matrix = new Matrix();
+				float scaleWidth = (((float)THUMBNAIL_WIDTH)/bm.getWidth());
+				float scaleHeight = (((float)THUMBNAIL_HEIGHT)/bm.getHeight());
+		        matrix.postScale(scaleWidth, scaleHeight);
+				Bitmap newbm = Bitmap.createBitmap(bm, 0, 0,bm.getWidth() ,bm.getHeight() , matrix, true);
+				imageView.setImageBitmap(newbm);
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 
 			return view;
@@ -264,7 +328,7 @@ public class MainListViewAdapter extends BaseAdapter{
 		}
 		default: 
 		{
-			//TODO: Not defined Error
+			// Not defined Error
 			return null;
 	    }
 		

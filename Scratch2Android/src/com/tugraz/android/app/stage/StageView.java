@@ -49,7 +49,7 @@ public class StageView extends SurfaceView implements SurfaceHolder.Callback {
 				mThread.join();
 				retry = false;
 			} catch (InterruptedException e) {
-				// TODO exception handling??
+				e.printStackTrace();
 			}
 		}
 

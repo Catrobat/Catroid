@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public class ToolboxSpriteAdapter extends BaseAdapter{
@@ -69,6 +70,9 @@ public class ToolboxSpriteAdapter extends BaseAdapter{
 			TextView text = (TextView)view.getChildAt(0);
 			text.setText(R.string.play_sound_main_adapter);
 			
+			Spinner spinner = (Spinner)view.getChildAt(1);
+			spinner.setVisibility(View.GONE);
+			
 		//	view.setBackgroundColor(Color.BLUE);
             view.setOnClickListener(new View.OnClickListener() {
 				
@@ -93,6 +97,7 @@ public class ToolboxSpriteAdapter extends BaseAdapter{
 			  text.setText(R.string.wait_main_adapter);
 			//  text.setTextColor(Color.BLUE);
 	          EditText etext = (EditText) view.getChildAt(1);
+	          etext.setVisibility(View.GONE);
 	          
 	         // view.setBackgroundColor(Color.argb(255, 255, 215, 0));
             view.setOnClickListener(new View.OnClickListener() {
@@ -162,8 +167,16 @@ public class ToolboxSpriteAdapter extends BaseAdapter{
 			RelativeLayout view =  (RelativeLayout)inflater.inflate(R.layout.brick_goto, null);
 		  TextView text = (TextView) view.getChildAt(0);
 		  text.setText(R.string.goto_main_adapter);
-		  text.setTextColor(Color.BLUE);
+		  //text.setTextColor(Color.BLUE);
 	     // view.setBackgroundColor(Color.argb(255, 255, 215, 255));
+		  
+		  LinearLayout layout = (LinearLayout)view.getChildAt(1);
+		  EditText etextX = (EditText) layout.getChildAt(0);
+		  EditText etextY = (EditText) layout.getChildAt(1);
+		  
+		  etextX.setVisibility(View.GONE);
+		  etextY.setVisibility(View.GONE);
+		  
           view.setOnClickListener(new View.OnClickListener() {
 				
 				
@@ -185,7 +198,7 @@ public class ToolboxSpriteAdapter extends BaseAdapter{
 		{
 			RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.brick_set_costume, null);
 			TextView text = (TextView)view.getChildAt(1);
-			text.setText("Setze Kostüm:");
+			text.setText(R.string.costume_main_adapter);
 		//	view.setBackgroundColor(Color.argb(255, 139, 0, 50));
 
 			ImageView imageView = (ImageView)view.getChildAt(0);

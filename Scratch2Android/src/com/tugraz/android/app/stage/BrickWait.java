@@ -10,7 +10,6 @@ public class BrickWait extends Observable implements Runnable{
 	    	try {
 				wait((int)(mWaitTime*1000+1)); 
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			setChanged();
