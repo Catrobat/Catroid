@@ -11,11 +11,9 @@ high:
 
 - out of memory bei grossen bildern (bei mir ab 3 großen)
 
-- wenn man auf alles löschen geht erscheinen die sprites noch immer in der liste, wenn man sie dann auswaehlt kommt aber error
-
 - man muss bei den nummernfeldern immer 2x hineintippen damit man was machen kann
 
-- wenn sprites leer und und man geht auf loeschen werden diese sprites nicht geloescht
+- Bilder brick-value wird manchmal in falschen sprite geschrieben-> siehe hw onActivityResult in MainActivity, LAST_SELECTED_ELEMENT_POSITION stimmt anscheinend nicht
 
 --------
 medium
