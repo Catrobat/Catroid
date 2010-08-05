@@ -1,5 +1,7 @@
 package com.tugraz.android.app;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -7,8 +9,13 @@ import com.tugraz.android.app.filesystem.MediaFileLoader;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.util.Log;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -67,7 +74,9 @@ public class MainListViewAdapter extends BaseAdapter{
 	public View getView(int position, View convertView, ViewGroup parent) {
 		final HashMap<String, String> brick = mList.get(position);
 		//TODO Reuse Views
-		String type = mList.get(position).get(BrickDefine.BRICK_TYPE);
+		final String type = mList.get(position).get(BrickDefine.BRICK_TYPE);
+		final String value = mList.get(position).get(BrickDefine.BRICK_VALUE);
+
 		LayoutInflater inflater = (LayoutInflater)mCtx.getSystemService(
 	      Context.LAYOUT_INFLATER_SERVICE);
 		switch(Integer.valueOf(type).intValue()){
@@ -84,8 +93,8 @@ public class MainListViewAdapter extends BaseAdapter{
 					for(int i = 0; i < mMainListView.getChildCount(); i++){
 						
 						if(v.getParent().equals(mMainListView.getChildAt(i))){
-							Log.d("TEST", i +"");
 							mMediaFileLoader.openPictureGallery(i);
+					
 						}
 					}
 					
