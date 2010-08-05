@@ -15,9 +15,6 @@ high:
 
 - wenn man zur buehne geht, dann zurueck, dann zur buehne und noch einmal zurueck und zur buehne stuerzt er ab
 
-- wenn man in die gallery geht, nichts auswaehlt und zurueck drueckt stürzt er ab
-
-- menu bei baustelle: play/pause passt nicht!
 
 --------
 medium
