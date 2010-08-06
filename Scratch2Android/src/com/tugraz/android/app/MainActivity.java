@@ -81,6 +81,8 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 	private Button mSpritesToolboxButton;
     private ToolboxSpritesDialog mSpritesToolboxDialog;
     private ArrayList<String> mFilelist;
+    
+    private View mPictureView;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -114,8 +116,10 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 
     private static int LAST_SELECTED_ELEMENT_POSITION = 0;
     
-    public void rememberLastSelectedElement(int position){
+    
+    public void rememberLastSelectedElementAndView(int position, View pictureView){
     	LAST_SELECTED_ELEMENT_POSITION = position;
+    	mPictureView = pictureView;
     }
     
 	@Override
@@ -123,26 +127,7 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 		if((requestCode == MediaFileLoader.GALLERY_INTENT_CODE) && (data != null)){
 			HashMap<String, String> content = mContentManager.getContentArrayList().get(LAST_SELECTED_ELEMENT_POSITION);
 			content.put(BrickDefine.BRICK_VALUE, data.getDataString());
-			Uri uri = Uri.parse(data.getDataString());
-			Bitmap bm = null;
-			try {
-				bm = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-				ImageView v = (ImageView)((RelativeLayout) mMainListView.getChildAt(LAST_SELECTED_ELEMENT_POSITION)).getChildAt(0);
-				v.setBackgroundResource(0);
-				Matrix matrix = new Matrix();
-				float scaleWidth = (((float)MainListViewAdapter.THUMBNAIL_WIDTH)/bm.getWidth());
-				float scaleHeight = (((float)MainListViewAdapter.THUMBNAIL_HEIGHT)/bm.getHeight());
-		        matrix.postScale(scaleWidth, scaleHeight);
-				Bitmap newbm = Bitmap.createBitmap(bm, 0, 0,bm.getWidth() ,bm.getHeight() , matrix, true);
-				v.setImageBitmap(newbm);
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+			mAdapter.setImage(mPictureView);
 			Log.d("TEST", data.getDataString());
 		}
 			
