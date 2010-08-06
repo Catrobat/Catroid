@@ -21,7 +21,7 @@ public class ContentManager extends Observable{
 	
 	private ArrayList<HashMap<String, String>> mContentArrayList;
 	private TreeMap<String, ArrayList<HashMap<String, String>>> mSpritesAndBackgroundList;
-	
+
 	private FileSystem mFilesystem;
 	private Parser mParser;
 	private Context mCtx;
@@ -109,6 +109,7 @@ public class ContentManager extends Observable{
 		mSpritelist = new ArrayList<String>();
 		mSpritesAndBackgroundList.put("stage", (ArrayList<HashMap<String,String>>)mContentArrayList.clone());
 		mCurrentSprite = "stage";
+		
 	}
 	
 	/**
@@ -245,6 +246,5 @@ public class ContentManager extends Observable{
     }
     return mSpritelist;
     }
-    
 
 }
