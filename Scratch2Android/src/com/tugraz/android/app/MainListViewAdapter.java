@@ -92,36 +92,11 @@ public class MainListViewAdapter extends BaseAdapter{
 			imageView.setOnClickListener(new View.OnClickListener() {
 				
 				public void onClick(View v) {
-					for(int i = 0; i < mMainListView.getChildCount(); i++){
-						
-						if(v.getParent().equals(mMainListView.getChildAt(i))){
-							mMediaFileLoader.openPictureGallery(i);
-					
-						}
-					}
-					
-					
-				}
-			});
-		 
-			Uri uri = Uri.parse(value);
-			Bitmap bm = null;
-			try {
-				bm = MediaStore.Images.Media.getBitmap(mCtx.getContentResolver(), uri);
-				imageView.setBackgroundResource(0);
-				Matrix matrix = new Matrix();
-				float scaleWidth = (((float)THUMBNAIL_WIDTH)/bm.getWidth());
-				float scaleHeight = (((float)THUMBNAIL_HEIGHT)/bm.getHeight());
-		        matrix.postScale(scaleWidth, scaleHeight);
-				Bitmap newbm = Bitmap.createBitmap(bm, 0, 0,bm.getWidth() ,bm.getHeight() , matrix, true);
-				imageView.setImageBitmap(newbm);
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+					    Log.d("Position", ((Integer)mMainListView.getPositionForView(v)).toString());
+						mMediaFileLoader.openPictureGallery(mMainListView.getPositionForView(v), v);
+				}		
+				});
+			setImage(imageView);
 //		    LayoutParams params = (LayoutParams) view.getLayoutParams();
 //		    params.addRule(RelativeLayout.ALIGN_BOTTOM, parent.getChildAt(size-1).getId());
 //		    view.setLayoutParams(params);
@@ -285,37 +260,10 @@ public class MainListViewAdapter extends BaseAdapter{
 			imageView.setOnClickListener(new View.OnClickListener() {
 				
 				public void onClick(View v) {
-					for(int i = 0; i < mMainListView.getChildCount(); i++){
-						
-						if(v.getParent().equals(mMainListView.getChildAt(i))){
-							Log.d("TEST", i +"");
-							mMediaFileLoader.openPictureGallery(i);
-						}
-					}
-					
-					
+				  mMediaFileLoader.openPictureGallery(mMainListView.getPositionForView(v), v);
 				}
 			});
-			Uri uri = Uri.parse(value);
-			Bitmap bm = null;
-			try {
-				bm = MediaStore.Images.Media.getBitmap(mCtx.getContentResolver(), uri);
-				imageView.setBackgroundResource(0);
-				Matrix matrix = new Matrix();
-				float scaleWidth = (((float)THUMBNAIL_WIDTH)/bm.getWidth());
-				float scaleHeight = (((float)THUMBNAIL_HEIGHT)/bm.getHeight());
-		        matrix.postScale(scaleWidth, scaleHeight);
-				Bitmap newbm = Bitmap.createBitmap(bm, 0, 0,bm.getWidth() ,bm.getHeight() , matrix, true);
-				imageView.setImageBitmap(newbm);
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-
+			setImage(imageView);
 			return view;
 		}
 		
@@ -345,6 +293,30 @@ public class MainListViewAdapter extends BaseAdapter{
 	  }
 	return 0;
 	}
+
+
+
+public void setImage(View v){
+	Uri uri = Uri.parse(mList.get(mMainListView.getPositionForView(v)).get(BrickDefine.BRICK_VALUE));
+	Bitmap bm = null;
+	try {
+		bm = MediaStore.Images.Media.getBitmap(mCtx.getContentResolver(), uri);
+		v.setBackgroundResource(0);
+		Matrix matrix = new Matrix();
+		float scaleWidth = (((float)MainListViewAdapter.THUMBNAIL_WIDTH)/bm.getWidth());
+		float scaleHeight = (((float)MainListViewAdapter.THUMBNAIL_HEIGHT)/bm.getHeight());
+        matrix.postScale(scaleWidth, scaleHeight);
+		Bitmap newbm = Bitmap.createBitmap(bm, 0, 0,bm.getWidth() ,bm.getHeight() , matrix, true);
+		((ImageView)v).setImageBitmap(newbm);
+	} catch (FileNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+}
 	
 
 }
