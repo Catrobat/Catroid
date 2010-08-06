@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
 
 /**
  * this class provides reading media files like pictures from sd card
@@ -41,9 +42,9 @@ public class MediaFileLoader {
 		mCtx = ctx;
 	}
 	
-	public void openPictureGallery(int elementPosition){
+	public void openPictureGallery(int elementPosition, View pictureView){
 		
-		((MainActivity) mCtx).rememberLastSelectedElement(elementPosition);
+		((MainActivity) mCtx).rememberLastSelectedElementAndView(elementPosition, pictureView);
 		
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");

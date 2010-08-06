@@ -69,7 +69,6 @@ public class ToolboxBackgroundAdapter extends BaseAdapter{
 			text.setText(R.string.set_background_main_adapter);
 			//view.setBackgroundColor(Color.argb(255, 139, 0, 139));
 			ImageView imageView = (ImageView)view.getChildAt(0);
-				
 			imageView.setEnabled(false);
 			view.setOnClickListener(new View.OnClickListener() {				
 				
