@@ -43,6 +43,7 @@ public class StageActivity extends Activity {
 		mContentManager.setContext(this);
 		mContentManager.loadContent();
 
+
 		mSpritesList = new ArrayList<Sprite>();
 
 		LayoutParams params = new LayoutParams(LayoutParams.FILL_PARENT,
@@ -88,7 +89,7 @@ public class StageActivity extends Activity {
 		for (int i = 0; i < mSpritesList.size(); i++)
 			mSpritesList.get(i).stopAndReleaseMediaPlayer();
 	}
-	
+
 	public void onBackPressed() {
 		 finish();
 	}
