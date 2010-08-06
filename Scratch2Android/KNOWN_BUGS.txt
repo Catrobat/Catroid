@@ -13,8 +13,6 @@ high:
 
 - man muss bei den nummernfeldern immer 2x hineintippen damit man was machen kann
 
-- Bilder brick-value wird manchmal in falschen sprite geschrieben-> siehe hw onActivityResult in MainActivity, LAST_SELECTED_ELEMENT_POSITION stimmt anscheinend nicht
-
 - Wenn die xml-datei nicht richtig abgespeichert wird (bei manchen abstuerzen) laesst sich die app nicht mehr starten. man muss die app ganz deinstallieren und wieder neu installieren damit es wieder funktioniert
 
 --------
