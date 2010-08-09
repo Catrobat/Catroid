@@ -26,7 +26,7 @@ public class ContentManager extends Observable{
 	private FileSystem mFilesystem;
 	private Parser mParser;
 	private Context mCtx;
-	private static final String mTempFile = "tempFile.txt";
+	private static final String mTempFile = "tempFile.spf";
 	private String mCurrentSprite;
 	private ToolboxSpritesDialog mSpritebox;
 	private ArrayList<String> mSpritelist = new ArrayList<String>();

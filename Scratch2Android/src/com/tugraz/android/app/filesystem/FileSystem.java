@@ -1,5 +1,6 @@
 package com.tugraz.android.app.filesystem;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -58,7 +59,8 @@ public class FileSystem {
 	 * @return success
 	 */
 	public boolean deleteFile(String name, Context ctx){
-		return ctx.deleteFile(name);
+		File file = new File(name);
+		return file.delete();
 	}
 	
 	
