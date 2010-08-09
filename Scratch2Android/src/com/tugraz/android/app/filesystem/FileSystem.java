@@ -3,6 +3,7 @@ package com.tugraz.android.app.filesystem;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -23,7 +24,7 @@ public class FileSystem {
 	public FileOutputStream createOrOpenFileOutput(String name, Context ctx){
 		FileOutputStream fOut;
 		try {
-			fOut = ctx.openFileOutput(name, Activity.MODE_WORLD_READABLE);
+		    fOut = new FileOutputStream(name);
 			return fOut;
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -41,7 +42,7 @@ public class FileSystem {
 	public FileInputStream createOrOpenFileInput(String name, Context ctx){
 		FileInputStream fIn = null;
 		try {
-			fIn = ctx.openFileInput(name);
+			fIn = new FileInputStream(name);
 			return fIn;
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
