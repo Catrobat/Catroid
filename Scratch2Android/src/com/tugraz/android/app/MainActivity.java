@@ -18,6 +18,7 @@ import android.content.Context;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -126,9 +127,23 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if((requestCode == MediaFileLoader.GALLERY_INTENT_CODE) && (data != null)){
 			HashMap<String, String> content = mContentManager.getContentArrayList().get(LAST_SELECTED_ELEMENT_POSITION);
-			content.put(BrickDefine.BRICK_VALUE, data.getDataString());
+			  Uri u = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+		      Uri u2 = Uri.parse(data.getDataString());
+		      String[] projection = { MediaStore.Images.ImageColumns.DATA, 
+		                        MediaStore.Images.ImageColumns.DISPLAY_NAME};
+		        Cursor c = managedQuery(u2, projection, null, null, null);
+		        if (c!=null && c.moveToFirst()) {
+		                String column0Value = c.getString(0);
+		                String column1Value = c.getString(1);
+		                
+		                content.put(BrickDefine.BRICK_VALUE, c.getString(0));
+		                content.put(BrickDefine.BRICK_NAME, c.getString(1));
+		                Log.d("Data",column0Value);
+		                Log.d("Display name",column1Value);
+		        }
+			
 			mAdapter.setImage(mPictureView);
-			Log.d("TEST", data.getDataString());
+	
 		}
 			
 			
@@ -184,10 +199,11 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
         		if(sdFileList[i].contains(".spf"))
         		  mFilelist.add(sdFileList[i]);
         	}
-        	FileAdapter adapter = new FileAdapter(this, mFilelist);
+        	SimpleAdapter adapter = new SimpleAdapter(this, null, R.layout.spritetoolbox, new String[] {"NAME"}, new int[] { R.layout.spritetoolbox});
+        	//FileAdapter adapter = new FileAdapter(this, mFilelist);
         	view.setAdapter(adapter);
-        	adapter.setDialog(mLoadDialog);
-        	adapter.setContentManager(mContentManager);
+        	//adapter.setDialog(mLoadDialog);
+        	//adapter.setContentManager(mContentManager);
         	return mLoadDialog;
         default:
             mToolboxDialog = null;

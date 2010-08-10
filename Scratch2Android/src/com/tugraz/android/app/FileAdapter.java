@@ -43,9 +43,15 @@ public class FileAdapter extends BaseAdapter{
 	public View getView(int position, View convertView, ViewGroup parent) {
 		
 		String file = mList.get(position);
-		LayoutInflater inflater = (LayoutInflater)mCtx.getSystemService(
+		LinearLayout view;
+		if (convertView == null){
+		  LayoutInflater inflater = (LayoutInflater)mCtx.getSystemService(
 	      Context.LAYOUT_INFLATER_SERVICE);
-		LinearLayout view = (LinearLayout) inflater.inflate(R.layout.spritetoolbox, null);
+		  view = (LinearLayout) inflater.inflate(R.layout.spritetoolbox, null);
+		}
+		else{
+		  view = (LinearLayout)convertView;
+		}
 		TextView text = (TextView)view.getChildAt(0);
 		text.setText(file);
 	    text.setTextColor(Color.WHITE);
