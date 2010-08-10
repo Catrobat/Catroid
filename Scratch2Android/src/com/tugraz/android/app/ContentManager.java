@@ -1,5 +1,6 @@
 package com.tugraz.android.app;
 
+import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -25,7 +26,7 @@ public class ContentManager extends Observable{
 	private FileSystem mFilesystem;
 	private Parser mParser;
 	private Context mCtx;
-	private static final String mTempFile = "tempFile.txt";
+	private static final String mTempFile = "tempFile.spf";
 	private String mCurrentSprite;
 	private ToolboxSpritesDialog mSpritebox;
 	private ArrayList<String> mSpritelist = new ArrayList<String>();
@@ -123,7 +124,7 @@ public class ContentManager extends Observable{
 	 */
 	public void loadContent(String file){
 		
-		FileInputStream scratch = mFilesystem.createOrOpenFileInput(file, mCtx);
+		FileInputStream scratch = mFilesystem.createOrOpenFileInput("/sdcard/"+file, mCtx);
         
 		if(scratch != null){
 	        
@@ -163,12 +164,14 @@ public class ContentManager extends Observable{
 	 */
 	public void saveContent(String file){
 		mSpritesAndBackgroundList.put(mCurrentSprite,(ArrayList<HashMap<String,String>>) mContentArrayList.clone());
-		FileOutputStream fd = mFilesystem.createOrOpenFileOutput(file, mCtx);
+		FileOutputStream fd = mFilesystem.createOrOpenFileOutput("/sdcard/"+file, mCtx);
+		DataOutputStream ps = new DataOutputStream(fd);
 
 		String xml = mParser.toXml(mSpritesAndBackgroundList);
 		
 		try {
-			fd.write(xml.getBytes());
+			ps.write(xml.getBytes());
+			ps.close();
 			fd.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

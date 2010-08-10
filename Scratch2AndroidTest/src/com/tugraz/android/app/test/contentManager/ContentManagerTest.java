@@ -1,5 +1,6 @@
 package com.tugraz.android.app.test.contentManager;
 
+import java.io.DataOutputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.TreeMap;
 
 import com.tugraz.android.app.BrickDefine;
 import com.tugraz.android.app.ContentManager;
+import com.tugraz.android.app.filesystem.FileSystem;
 
 import android.app.Activity;
 import android.content.Context;
@@ -221,6 +223,7 @@ public class ContentManagerTest extends AndroidTestCase {
 
 	public void testLoadContent(){
 		
+		FileSystem filesystem = new FileSystem();
 		 try {     
              // ##### Write a file to the disk #####
              /* We have to use the openFileOutput()-method
@@ -229,15 +232,15 @@ public class ContentManagerTest extends AndroidTestCase {
               * This is done for security-reasons.
               * We chose MODE_WORLD_READABLE, because
               *  we have nothing to hide in our file */ 
-             FileOutputStream fOut = mCtx.openFileOutput(FILENAME, Activity.MODE_WORLD_READABLE);
-             OutputStreamWriter osw = new OutputStreamWriter(fOut); 
-
+             FileOutputStream fOut = filesystem.createOrOpenFileOutput("/sdcard/"+FILENAME,mCtx);
+             DataOutputStream ps = new DataOutputStream(fOut);
+         
              // Write the string to the file
-             osw.write(TESTXML);
+             ps.write(TESTXML.getBytes());
              /* ensure that everything is
               * really written out and close */
-             osw.flush();
-             osw.close();
+             ps.flush();
+             ps.close();
              
 		 }catch(Exception ex){assertFalse(true);}
 		 //load content that was saved before in file

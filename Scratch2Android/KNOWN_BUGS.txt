@@ -11,11 +11,9 @@ high:
 
 - out of memory bei grossen bildern (bei mir ab 3 großen)
 
-- wenn man auf alles löschen geht erscheinen die sprites noch immer in der liste, wenn man sie dann auswaehlt kommt aber error
-
 - man muss bei den nummernfeldern immer 2x hineintippen damit man was machen kann
 
-- wenn sprites leer und und man geht auf loeschen werden diese sprites nicht geloescht
+- Wenn die xml-datei nicht richtig abgespeichert wird (bei manchen abstuerzen) laesst sich die app nicht mehr starten. man muss die app ganz deinstallieren und wieder neu installieren damit es wieder funktioniert
 
 --------
 medium
