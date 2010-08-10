@@ -54,7 +54,7 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 
     /** Called when the activity is first created. */
 	
-	//TODO remove objects in object list after "lösche baustelle"
+	//TODO remove objects in object list after "lï¿½sche baustelle"
 	
 	//TODO clean up the adapter, 3 of them do the same -> multiple code (is it necessary to distinguish between a stage and a sprite!?)
 	//TODO rename some classes buttons etc they are often not significant
@@ -175,10 +175,14 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
         	mLoadDialog = new Dialog(this);
         	mLoadDialog.setContentView(R.layout.loaddialoglayout);
         	ListView view = (ListView)mLoadDialog.findViewById(R.id.loadfilelist);
-        	for(int i=0; i<this.fileList().length; i++)
+        	
+        	File sdFile = new File("/sdcard/");
+        	String[] sdFileList = sdFile.list();
+        	
+        	for(int i=0; i<sdFileList.length; i++)
         	{
-        		if(fileList()[i].contains(".spf"))
-        		mFilelist.add(fileList()[i]);
+        		if(sdFileList[i].contains(".spf"))
+        		  mFilelist.add(sdFileList[i]);
         	}
         	FileAdapter adapter = new FileAdapter(this, mFilelist);
         	view.setAdapter(adapter);

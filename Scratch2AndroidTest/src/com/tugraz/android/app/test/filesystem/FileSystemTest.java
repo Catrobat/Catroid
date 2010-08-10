@@ -1,5 +1,6 @@
 package com.tugraz.android.app.test.filesystem;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 
@@ -62,10 +63,13 @@ public class FileSystemTest extends AndroidTestCase {
 	public void testDeleteFile(){
 		
         boolean deleted = true;
-        mFileSystem.deleteFile(TEST_FILENAME, mCtx);
-		String[] fileNames = mCtx.fileList();
-		for(int i = 0; i < fileNames.length; i++){
-			if(fileNames[i].equals(TEST_FILENAME))
+        mFileSystem.deleteFile("/sdcard/"+TEST_FILENAME, mCtx);
+        
+        File sdFile = new File("/sdcard/");
+    	String[] sdFileList = sdFile.list();
+    	
+    	for(int i = 0; i < sdFileList.length; i++){
+			if(sdFileList[i].equals(TEST_FILENAME))
 				deleted = false;
 		}
 		
@@ -76,12 +80,15 @@ public class FileSystemTest extends AndroidTestCase {
 	public void testCreateOrOpenFile(){
 		mCtx.deleteFile(TEST_FILENAME);
 		
-		mFileSystem.createOrOpenFileOutput(TEST_FILENAME, mCtx);
+		mFileSystem.createOrOpenFileOutput("/sdcard/"+TEST_FILENAME, mCtx);
 		
-		boolean available = false;
-		String[] fileNames = mCtx.fileList();
-		for(int i = 0; i < fileNames.length; i++){
-			if(fileNames[i].equals(TEST_FILENAME))
+    	File sdFile = new File("/sdcard/");
+    	String[] sdFileList = sdFile.list();
+    	boolean available = false;
+    	
+		
+    	for(int i = 0; i < sdFileList.length; i++){
+			if(sdFileList[i].equals(TEST_FILENAME))
 				available = true;
 		}
 			

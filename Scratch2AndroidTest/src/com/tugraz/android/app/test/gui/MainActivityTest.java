@@ -60,7 +60,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 	/**
 	 * NO AUTOMATED TEST
 	 */
-	public void testContextMenuOnMainList() {
+	public void testContextMenuOnMainList() { //TODO der test funktioniert nicht, wenn noch kein brick gesetzt wurde! ausbessern!
 		mActivity.runOnUiThread(
 				new Runnable() {
 					public void run() {
