@@ -15,13 +15,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.net.Uri;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.util.Pair;
 import android.view.SurfaceHolder;
-import android.view.SurfaceHolder.Callback;
+
 
 /**
  * 
@@ -56,39 +54,17 @@ public class StageViewThread extends Thread {
 	public synchronized void setBackground(String path) {
 		mIsDraw = false;
 		Log.i("before-parse", path);
-		Uri uri = Uri.parse(path);
-		Log.i("Image-Path", uri.getEncodedPath());
 
-		ContentResolver resolver = context.getContentResolver();
-		
-		
-		Log.i("Image-Path", uri.getEncodedPath());
-		try {
-			mBackground = MediaStore.Images.Media.getBitmap(resolver, uri);
-		} catch (FileNotFoundException e) {
-			Log.w("StageViewThread", "could not find background image!");
-			e.printStackTrace();
-		} catch (IOException e) {
-			Log.w("StageViewThread", "io error at loading background image!");
-			e.printStackTrace();
-		}
+		mBackground = BitmapFactory.decodeFile(path);
+	
 		mIsDraw = true;
 	}
 
 	public void addBitmapToDraw(String spriteName, String path, float x, float y) {
-		Uri uri = Uri.parse(path);
+		
 		Pair<Float, Float> coordinates = new Pair<Float, Float>(x, y);
 		Pair<Bitmap, Pair<Float, Float>> bitmapPair = null;
-		try {
-			bitmapPair = new Pair<Bitmap, Pair<Float, Float>>(
-					MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri), coordinates);
-		} catch (FileNotFoundException e) {
-			Log.w("StageViewThread", "could not find sprite image!");
-			e.printStackTrace();
-		} catch (IOException e) {
-			Log.w("StageViewThread", "io error at loading sprite image!");
-			e.printStackTrace();
-		}
+		bitmapPair = new Pair<Bitmap, Pair<Float, Float>>(BitmapFactory.decodeFile(path), coordinates);
 		mIsDraw = false; // TODO brauchen wir das ueberall??
 		mBitmapToPositionMap.put(spriteName, bitmapPair);
 		mIsDraw = true;
