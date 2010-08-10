@@ -199,11 +199,11 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
         		if(sdFileList[i].contains(".spf"))
         		  mFilelist.add(sdFileList[i]);
         	}
-        	SimpleAdapter adapter = new SimpleAdapter(this, null, R.layout.spritetoolbox, new String[] {"NAME"}, new int[] { R.layout.spritetoolbox});
-        	//FileAdapter adapter = new FileAdapter(this, mFilelist);
+        	//SimpleAdapter adapter = new SimpleAdapter(this, null, R.layout.spritetoolbox, new String[] {"NAME"}, new int[] { R.layout.spritetoolbox});
+        	FileAdapter adapter = new FileAdapter(this, mFilelist);
         	view.setAdapter(adapter);
-        	//adapter.setDialog(mLoadDialog);
-        	//adapter.setContentManager(mContentManager);
+        	adapter.setDialog(mLoadDialog);
+        	adapter.setContentManager(mContentManager);
         	return mLoadDialog;
         default:
             mToolboxDialog = null;
