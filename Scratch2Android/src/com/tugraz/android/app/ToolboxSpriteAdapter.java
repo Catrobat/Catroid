@@ -66,7 +66,7 @@ public class ToolboxSpriteAdapter extends BaseAdapter{
 		switch(Integer.valueOf(type).intValue()){
 			case (BrickDefine.PLAY_SOUND): 
 		{
-				RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.brick_play_sound, null);
+			RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.brick_play_sound, null);
 			TextView text = (TextView)view.getChildAt(0);
 			text.setText(R.string.play_sound_main_adapter);
 			
@@ -211,7 +211,7 @@ public class ToolboxSpriteAdapter extends BaseAdapter{
 			        map.put(BrickDefine.BRICK_ID, "7");
 			        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_COSTUME));
 			        map.put(BrickDefine.BRICK_NAME, "SetCostume");
-			        map.put(BrickDefine.BRICK_VALUE, "1");
+			        map.put(BrickDefine.BRICK_VALUE, "");
 					mContentManager.add(map);
 					mDialog.dismiss();
 				}

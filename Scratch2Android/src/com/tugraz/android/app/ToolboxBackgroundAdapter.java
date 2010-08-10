@@ -77,7 +77,7 @@ public class ToolboxBackgroundAdapter extends BaseAdapter{
 			        map.put(BrickDefine.BRICK_ID, "1");
 			        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
 			        map.put(BrickDefine.BRICK_NAME, "SetBackground");
-			        map.put(BrickDefine.BRICK_VALUE, "1");
+			        map.put(BrickDefine.BRICK_VALUE, "");
 					mContentManager.add(map);
 					mDialog.dismiss();
 				}
