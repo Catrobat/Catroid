@@ -56,7 +56,7 @@ public class ToolboxSpritesDialog extends Dialog implements Observer
 		getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 		getWindow().setGravity(Gravity.TOP);
 		//getWindow().setFormat(PixelFormat.TRANSLUCENT);
-		setContentView(R.layout.toolboxsprites);
+		setContentView(R.layout.sprites_list_element);
 		//this.setTitle("Objekte");
 		
 		mSlide_in = AnimationUtils.loadAnimation(mCtx, R.anim.toolboxsprites_in);

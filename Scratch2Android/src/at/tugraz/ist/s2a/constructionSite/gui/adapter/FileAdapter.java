@@ -50,7 +50,7 @@ public class FileAdapter extends BaseAdapter{
 		if (convertView == null){
 		  LayoutInflater inflater = (LayoutInflater)mCtx.getSystemService(
 	      Context.LAYOUT_INFLATER_SERVICE);
-		  view = (LinearLayout) inflater.inflate(R.layout.spritetoolbox, null);
+		  view = (LinearLayout) inflater.inflate(R.layout.sprites_list_element, null);
 		}
 		else{
 		  view = (LinearLayout)convertView;

@@ -49,7 +49,7 @@ public class StageActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		getMenuInflater().inflate(R.menu.stagemenu, menu);
+		getMenuInflater().inflate(R.menu.stage_menu, menu);
 		return true;
 	}
 
