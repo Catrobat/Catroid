@@ -5,16 +5,7 @@
 		android:layout_width="wrap_content" 
 		android:layout_height="wrap_content" 
 		android:background="@drawable/brick_yellow" >	
-	<EditText android:layout_width="wrap_content" 
-		android:layout_height="wrap_content" 
-		android:text="100" 
-		android:inputType="number|numberDecimal" 
-		android:maxLines="1" 
-		android:id="@+id/InputValueEditText" 
-		android:layout_alignParentRight="true" 
-		android:layout_centerVertical="true" 
-		android:maxLength="5">
-	</EditText>
+	
 	<TextView android:layout_width="wrap_content" 
 			android:layout_height="wrap_content" 
 			android:id="@+id/ValueTextView" 
@@ -25,5 +16,16 @@
 			android:layout_centerVertical="true" 
 			android:text="@string/wait_main_adapter">
 	</TextView>
+	
+	<EditText android:layout_width="wrap_content" 
+		android:layout_height="wrap_content" 
+		android:text="100" 
+		android:inputType="number|numberDecimal" 
+		android:maxLines="1" 
+		android:id="@+id/InputValueEditText" 
+		android:layout_alignParentRight="true" 
+		android:layout_centerVertical="true" 
+		android:maxLength="5">
+	</EditText>
 	</RelativeLayout>
 	
