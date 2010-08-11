@@ -52,7 +52,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<Construct
 
 		
         mListView = (ListView) mActivity.findViewById(at.tugraz.ist.s2a.R.id.MainListView);
-        mMenu = (ListView) mActivity.findViewById(at.tugraz.ist.s2a.R.menu.constructionsitemenu);
+        mMenu = (ListView) mActivity.findViewById(at.tugraz.ist.s2a.R.menu.construction_site_menu);
         
 	}
 	

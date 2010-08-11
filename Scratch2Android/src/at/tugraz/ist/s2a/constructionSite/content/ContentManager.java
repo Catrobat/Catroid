@@ -11,7 +11,7 @@ import java.util.Observer;
 import java.util.TreeMap;
 import android.content.Context;
 import at.tugraz.ist.s2a.utils.filesystem.FileSystem;
-import at.tugraz.ist.s2a.constructionSite.gui.dialogs.ToolboxSpritesDialog;
+import at.tugraz.ist.s2a.constructionSite.gui.dialogs.SpritesDialog;
 import at.tugraz.ist.s2a.utils.parser.Parser;
 
 /**
@@ -23,13 +23,13 @@ public class ContentManager extends Observable{
 	
 	private ArrayList<HashMap<String, String>> mContentArrayList;
 	private TreeMap<String, ArrayList<HashMap<String, String>>> mSpritesAndBackgroundList;
-
+	
 	private FileSystem mFilesystem;
 	private Parser mParser;
 	private Context mCtx;
-	private static final String mTempFile = "tempFile.spf";
+	private static final String mTempFile = "defaultSaveFile.spf";
 	private String mCurrentSprite;
-	private ToolboxSpritesDialog mSpritebox;
+	private SpritesDialog mSpritebox;
 	private ArrayList<String> mSpritelist = new ArrayList<String>();
 	
 	public ArrayList<HashMap<String, String>> getContentArrayList(){
@@ -43,8 +43,8 @@ public class ContentManager extends Observable{
 	public void removeSprite(String name){
 		if(mSpritesAndBackgroundList.containsKey(name))
 		{
-		mSpritesAndBackgroundList.remove(name);
-		getAllSprites();
+			mSpritesAndBackgroundList.remove(name);
+			refreshSpritelist();
 		}
 		if(mCurrentSprite.equals(name))		
 		{
@@ -68,7 +68,7 @@ public class ContentManager extends Observable{
 		saveContent();
 		mSpritesAndBackgroundList.put("stage", (ArrayList<HashMap<String,String>>)mContentArrayList.clone());
 		//Fill Dummy Stage
-		getAllSprites();//TODO Check this (SpritesAdapter)
+		refreshSpritelist();//TODO Check this (SpritesAdapter)
         setChanged();
 		notifyObservers();
 	}
@@ -82,7 +82,7 @@ public class ContentManager extends Observable{
 		
 		switchSprite(name);
 		mCurrentSprite = name;
-		getAllSprites();
+		refreshSpritelist();
 	}
 	
 	public void remove(int position){
@@ -110,6 +110,7 @@ public class ContentManager extends Observable{
 		mParser = new Parser();
 		mSpritelist = new ArrayList<String>();
 		mSpritesAndBackgroundList.put("stage", (ArrayList<HashMap<String,String>>)mContentArrayList.clone());
+		refreshSpritelist();
 		mCurrentSprite = "stage";
 		
 	}
@@ -146,7 +147,7 @@ public class ContentManager extends Observable{
 				//Fill Dummy Stage
 				mSpritesAndBackgroundList.put("stage", new ArrayList<HashMap<String,String>>());
 			}
-			getAllSprites();
+			refreshSpritelist();
 	        setChanged();
 	        notifyObservers();
 		} 
@@ -208,7 +209,7 @@ public class ContentManager extends Observable{
 		//Check for default stage Object
 		if(mSpritesAndBackgroundList.size() == 0)
 			mSpritesAndBackgroundList.put("stage", new ArrayList<HashMap<String,String>>());
-		getAllSprites();
+		refreshSpritelist();
 		setChanged();
 		notifyObservers();
 	}
@@ -235,20 +236,25 @@ public class ContentManager extends Observable{
 	{
 		 mCtx = context;
 	}
-	public void setSpriteBox(ToolboxSpritesDialog spritebox)
+	public void setSpriteBox(SpritesDialog spritebox)
 	{
 		mSpritebox = spritebox;
 	}
 	
-    public ArrayList<String> getAllSprites(){
-    mSpritelist.clear();
-    TreeMap<String, ArrayList<HashMap<String, String>>> map = new TreeMap<String, ArrayList<HashMap<String,String>>>();
-    map.putAll(mSpritesAndBackgroundList);
-    for(int i=0; i<mSpritesAndBackgroundList.size(); i++){
-    	mSpritelist.add(map.firstKey());
-    	map.remove(map.firstKey());
+    public ArrayList<String> getSpritelist(){
+    	return mSpritelist;
     }
-    return mSpritelist;
-    }
+    
+    private void refreshSpritelist(){
+        mSpritelist.clear();
+        mSpritelist.addAll(mSpritesAndBackgroundList.keySet());
+//        mSpritelist.clear();
+//        TreeMap<String, ArrayList<HashMap<String, String>>> map = new TreeMap<String, ArrayList<HashMap<String,String>>>();
+//        map.putAll(mSpritesAndBackgroundList);
+//        for(int i=0; i<mSpritesAndBackgroundList.size(); i++){
+//        	mSpritelist.add(map.firstKey());
+//        	map.remove(map.firstKey());
+//        }
+        }
 
 }

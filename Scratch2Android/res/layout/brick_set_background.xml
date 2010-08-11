@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/RelativeLayout01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/brick_violet"><ImageView android:id="@+id/ImageView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/no_pic" android:layout_alignParentRight="true" android:hapticFeedbackEnabled="true" android:layout_centerVertical="true"></ImageView><TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Bild1" android:id="@+id/ValueTextView" android:textStyle="bold" android:layout_alignParentLeft="true" android:textSize="19dip" android:textColor="@color/white" android:layout_centerVertical="true">
-	</TextView></RelativeLayout>
+	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+		android:id="@+id/RelativeLayout01" 
+		android:layout_width="wrap_content" 
+		android:background="@drawable/brick_violet" android:layout_height="wrap_content" android:addStatesFromChildren="false" android:clickable="true" android:descendantFocusability="afterDescendants">
+		<ImageView android:id="@+id/ImageView01" 
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content" 
+			android:background="@drawable/no_pic" 
+			android:layout_alignParentRight="true" 
+			android:hapticFeedbackEnabled="true" 
+			android:layout_centerVertical="true">
+		</ImageView>
+		<TextView android:layout_width="wrap_content" 
+			android:layout_height="wrap_content" 
+			android:id="@+id/ValueTextView" 
+			android:textStyle="bold" 
+			android:layout_alignParentLeft="true" 
+			android:textSize="19dip" 
+			android:textColor="@color/white" 
+			android:layout_centerVertical="true" 
+			android:text="@string/set_background_main_adapter">
+	</TextView><EditText android:text="@+id/EditText01" android:id="@+id/EditText01" android:layout_below="@id/ValueTextView" android:layout_width="wrap_content" android:layout_height="wrap_content"></EditText>
+</RelativeLayout>
 	
 
