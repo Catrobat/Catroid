@@ -1,27 +1,18 @@
-package com.tugraz.android.app;
+package at.tugraz.ist.s2a.constructionSite.gui.adapter;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import com.tugraz.android.app.filesystem.MediaFileLoader;
-
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.util.Log;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
@@ -30,11 +21,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+import at.tugraz.ist.s2a.R;
+import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
+import at.tugraz.ist.s2a.utils.filesystem.MediaFileLoader;
 
 public class MainListViewAdapter extends BaseAdapter{
     protected static final float THUMBNAIL_WIDTH = 80;

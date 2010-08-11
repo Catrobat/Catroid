@@ -1,8 +1,7 @@
-package com.tugraz.android.app;
+package at.tugraz.ist.s2a.constructionSite.gui.dialogs;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -11,9 +10,16 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import at.tugraz.ist.s2a.R;
+import at.tugraz.ist.s2a.R.anim;
+import at.tugraz.ist.s2a.R.id;
+import at.tugraz.ist.s2a.R.layout;
+import at.tugraz.ist.s2a.R.string;
+import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
+import at.tugraz.ist.s2a.constructionSite.content.ContentManager;
+import at.tugraz.ist.s2a.constructionSite.gui.adapter.ToolboxSpriteAdapter;
 
 public class ToolboxSpriteDialog extends Dialog
 
@@ -30,17 +36,10 @@ public class ToolboxSpriteDialog extends Dialog
 	
 	private LinearLayout mToolboxLayout;
 	
-	private int mFlagId;
-	
 	public ToolboxSpriteDialog(Context context, boolean cancelable,
 			OnCancelListener cancelListener, int flagid) {
 		super(context, cancelable, cancelListener);
 		mCtx = context;
-		mFlagId = flagid;
-	}
-	
-	public void setFlag(int flagid){
-		mFlagId = flagid;
 	}
 
 	@Override

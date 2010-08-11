@@ -1,16 +1,12 @@
-package com.tugraz.android.app;
+package at.tugraz.ist.s2a.constructionSite.gui.dialogs;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
-
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -19,9 +15,14 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import at.tugraz.ist.s2a.R;
+import at.tugraz.ist.s2a.R.anim;
+import at.tugraz.ist.s2a.R.id;
+import at.tugraz.ist.s2a.R.layout;
+import at.tugraz.ist.s2a.constructionSite.content.ContentManager;
+import at.tugraz.ist.s2a.constructionSite.gui.adapter.ToolboxSpritesAdapter;
 
 public class ToolboxSpritesDialog extends Dialog implements Observer
 
@@ -33,26 +34,19 @@ public class ToolboxSpritesDialog extends Dialog implements Observer
 	
 	public ListView mMainListView;
 	public EditText mSpriteName;
-	public Button mSpriteButton;
-	private Button mMainSpriteButton;    
+	public Button mSpriteButton;   
 	private ToolboxSpritesAdapter mAdapter;
 	public ArrayList<String> mContentArrayList;
 	ContentManager mContentManager;
 	
 	private RelativeLayout mToolboxLayout;
 	
-	private int mFlagId;
-	
 	public ToolboxSpritesDialog(Context context, boolean cancelable,
 			OnCancelListener cancelListener, int flagid) {
 		super(context, cancelable, cancelListener);
 		mCtx = context;
-		mFlagId = flagid;
 	}
 	
-	public void setFlag(int flagid){
-		mFlagId = flagid;
-	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

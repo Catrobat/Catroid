@@ -1,4 +1,4 @@
-package com.tugraz.android.app;
+package at.tugraz.ist.s2a.constructionSite.content;
 
 import java.io.DataOutputStream;
 import java.io.FileInputStream;
@@ -10,8 +10,9 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.TreeMap;
 import android.content.Context;
-import com.tugraz.android.app.filesystem.FileSystem;
-import com.tugraz.android.app.parser.Parser;
+import at.tugraz.ist.s2a.utils.filesystem.FileSystem;
+import at.tugraz.ist.s2a.constructionSite.gui.dialogs.ToolboxSpritesDialog;
+import at.tugraz.ist.s2a.utils.parser.Parser;
 
 /**
  * provides content

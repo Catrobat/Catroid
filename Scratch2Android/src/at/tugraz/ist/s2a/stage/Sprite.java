@@ -1,16 +1,15 @@
-package com.tugraz.android.app.stage;
+package at.tugraz.ist.s2a.stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
-import com.tugraz.android.app.BrickDefine;
-import com.tugraz.android.app.StageActivity;
 
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.util.Log;
+import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
 
 public class Sprite extends Thread implements Observer, OnCompletionListener {
 

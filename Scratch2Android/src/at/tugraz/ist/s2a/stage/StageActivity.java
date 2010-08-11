@@ -1,28 +1,17 @@
-package com.tugraz.android.app;
+package at.tugraz.ist.s2a.stage;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Observable;
-import java.util.Observer;
-
-import com.tugraz.android.app.stage.BrickWait;
-import com.tugraz.android.app.stage.StageView;
-import com.tugraz.android.app.stage.Sprite;
-
 import android.app.Activity;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Path.FillType;
-import android.hardware.SensorManager;
-import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnCompletionListener;
-import android.media.SoundPool;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup.LayoutParams;
+import at.tugraz.ist.s2a.R;
+import at.tugraz.ist.s2a.R.id;
+import at.tugraz.ist.s2a.R.layout;
+import at.tugraz.ist.s2a.R.menu;
+import at.tugraz.ist.s2a.constructionSite.content.ContentManager;
 
 public class StageActivity extends Activity {
 
