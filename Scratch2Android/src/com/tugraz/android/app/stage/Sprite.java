@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
-import com.tugraz.android.app.BrickDefine;
-import com.tugraz.android.app.StageActivity;
+
+import com.tugraz.android.app.content.BrickDefine;
 
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;

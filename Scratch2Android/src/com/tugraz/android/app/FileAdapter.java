@@ -2,6 +2,8 @@ package com.tugraz.android.app;
 
 import java.util.ArrayList;
 
+import com.tugraz.android.app.content.ContentManager;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;

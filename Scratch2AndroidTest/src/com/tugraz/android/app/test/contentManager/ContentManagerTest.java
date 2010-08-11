@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
 
-import com.tugraz.android.app.BrickDefine;
-import com.tugraz.android.app.ContentManager;
+import com.tugraz.android.app.content.BrickDefine;
+import com.tugraz.android.app.content.ContentManager;
 import com.tugraz.android.app.filesystem.FileSystem;
 
 import android.app.Activity;

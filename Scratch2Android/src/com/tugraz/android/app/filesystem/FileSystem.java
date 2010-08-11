@@ -4,10 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
-
-import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 /**
  * 
@@ -28,8 +26,7 @@ public class FileSystem {
 		    fOut = new FileOutputStream(name);
 			return fOut;
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e("FileSystem", e.getMessage());
 		}
 		return null;
 	}
@@ -46,8 +43,7 @@ public class FileSystem {
 			fIn = new FileInputStream(name);
 			return fIn;
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e("FileSystem", e.getMessage());
 		}
 		return fIn;
 	}

@@ -17,7 +17,7 @@ import junit.framework.TestCase;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
-import com.tugraz.android.app.BrickDefine;
+import com.tugraz.android.app.content.BrickDefine;
 import com.tugraz.android.app.parser.*;
 
 public class ParserTest extends TestCase {

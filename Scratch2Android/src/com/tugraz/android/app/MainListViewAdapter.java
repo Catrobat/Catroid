@@ -1,17 +1,19 @@
 package com.tugraz.android.app;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.tugraz.android.app.content.BrickDefine;
 import com.tugraz.android.app.filesystem.MediaFileLoader;
 
-
+import android.content.ContentProvider;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.util.Log;
 import android.net.Uri;
@@ -30,10 +32,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 public class MainListViewAdapter extends BaseAdapter{
@@ -109,11 +109,9 @@ public class MainListViewAdapter extends BaseAdapter{
 				Bitmap newbm = Bitmap.createBitmap(bm, 0, 0,bm.getWidth() ,bm.getHeight() , matrix, true);
 				imageView.setImageBitmap(newbm);
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.e("MainListViewAdapter", e.getMessage());
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.e("MainListViewAdapter", e.getMessage());
 			}
 //		    LayoutParams params = (LayoutParams) view.getLayoutParams();
 //		    params.addRule(RelativeLayout.ALIGN_BOTTOM, parent.getChildAt(size-1).getId());
@@ -145,7 +143,7 @@ public class MainListViewAdapter extends BaseAdapter{
 	
 					
 					public void onNothingSelected(AdapterView<?> arg0) {
-						// TODO Auto-generated method stub
+						
 						
 					}
 					
@@ -173,15 +171,13 @@ public class MainListViewAdapter extends BaseAdapter{
 
 				
 				public void afterTextChanged(Editable s) {
-					// TODO Auto-generated method stub
-					
+									
 				}
 
 				
 				public void beforeTextChanged(CharSequence s, int start,
 						int count, int after) {
-					// TODO Auto-generated method stub
-					
+
 				}
 
 				
@@ -226,12 +222,10 @@ public class MainListViewAdapter extends BaseAdapter{
 		           {
 		    
 		    public void afterTextChanged(Editable s) {
-		     // TODO Auto-generated method stub 
 		    }
 		    
 		    public void beforeTextChanged(CharSequence s, int start,
-		      int count, int after) {
-		     // TODO Auto-generated method stub     
+		      int count, int after) {   
 		    }
 		    
 		    public void onTextChanged(CharSequence s, int start,
@@ -247,12 +241,10 @@ public class MainListViewAdapter extends BaseAdapter{
 		           {
 		    
 		    public void afterTextChanged(Editable s) {
-		     // TODO Auto-generated method stub 
 		    }
 		    
 		    public void beforeTextChanged(CharSequence s, int start,
 		      int count, int after) {
-		     // TODO Auto-generated method stub 
 		    }
 		    
 		    public void onTextChanged(CharSequence s, int start,
@@ -293,11 +285,9 @@ public class MainListViewAdapter extends BaseAdapter{
 				Bitmap newbm = Bitmap.createBitmap(bm, 0, 0,bm.getWidth() ,bm.getHeight() , matrix, true);
 				imageView.setImageBitmap(newbm);
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.e("MainListViewAdapter", e.getMessage());
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.e("MainListViewAdapter", e.getMessage());
 			}
 			
 
@@ -337,6 +327,16 @@ public void setImage(View v){
 	Uri uri = Uri.parse(mList.get(mMainListView.getPositionForView(v)).get(BrickDefine.BRICK_VALUE));
 	Bitmap bm = null;
 	try {
+			Log.d("TEST", uri.getPath());
+
+		try {
+			File file = new File(uri.getPath());
+			Log.d("TEST", file.getAbsolutePath());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//Hallo
 		bm = MediaStore.Images.Media.getBitmap(mCtx.getContentResolver(), uri);
 		v.setBackgroundResource(0);
 		Matrix matrix = new Matrix();
@@ -346,11 +346,9 @@ public void setImage(View v){
 		Bitmap newbm = Bitmap.createBitmap(bm, 0, 0,bm.getWidth() ,bm.getHeight() , matrix, true);
 		((ImageView)v).setImageBitmap(newbm);
 	} catch (FileNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+		Log.e("MainListViewAdapter", e.getMessage());
 	} catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+		Log.e("MainListViewAdapter", e.getMessage());
 	}
 	
 }

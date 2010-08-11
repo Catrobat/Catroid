@@ -3,8 +3,8 @@ package com.tugraz.android.app.test.gui;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.tugraz.android.app.BrickDefine;
 import com.tugraz.android.app.MainActivity;
+import com.tugraz.android.app.content.BrickDefine;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
