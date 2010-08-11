@@ -1,16 +1,16 @@
-package com.tugraz.android.app.test.filesystem;
+package at.tugraz.ist.s2a.test.filesystem;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 
-import com.tugraz.android.app.filesystem.FileSystem;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Environment;
 import android.test.AndroidTestCase;
+import at.tugraz.ist.s2a.utils.filesystem.FileSystem;
 
 public class FileSystemTest extends AndroidTestCase {
 

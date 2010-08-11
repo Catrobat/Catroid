@@ -1,26 +1,26 @@
-package com.tugraz.android.app.test.gui;
+package at.tugraz.ist.s2a.test.gui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.tugraz.android.app.BrickDefine;
-import com.tugraz.android.app.MainActivity;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ListView;
+import at.tugraz.ist.s2a.ConstructionSiteActivity;
+import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
 
-public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity>{
+public class MainActivityTest extends ActivityInstrumentationTestCase2<ConstructionSiteActivity>{
 
-	private MainActivity mActivity;
+	private ConstructionSiteActivity mActivity;
 	
 	private ListView mListView;
 	private ListView mMenu;
 	
 	public MainActivityTest() {
-		super("com.tugraz.android.app", MainActivity.class);
+		super("com.tugraz.android.app", ConstructionSiteActivity.class);
 	}
 	
 	protected void setUp() throws Exception {
@@ -51,8 +51,8 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         list.add(map);
 
 		
-        mListView = (ListView) mActivity.findViewById(com.tugraz.android.app.R.id.MainListView);
-        mMenu = (ListView) mActivity.findViewById(com.tugraz.android.app.R.menu.constructionsitemenu);
+        mListView = (ListView) mActivity.findViewById(at.tugraz.ist.s2a.R.id.MainListView);
+        mMenu = (ListView) mActivity.findViewById(at.tugraz.ist.s2a.R.menu.constructionsitemenu);
         
 	}
 	

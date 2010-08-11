@@ -1,4 +1,4 @@
-package com.tugraz.android.app.test.parser;
+package at.tugraz.ist.s2a.test.parser;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,16 +9,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.TreeMap;
-import java.util.Vector;
-
 import junit.framework.TestCase;
-import android.test.AndroidTestCase;
 import android.util.Log;
+import at.tugraz.ist.s2a.utils.parser.*;
 
-import com.tugraz.android.app.BrickDefine;
-import com.tugraz.android.app.parser.*;
 
 public class ParserTest extends TestCase {
 	private Parser parser;

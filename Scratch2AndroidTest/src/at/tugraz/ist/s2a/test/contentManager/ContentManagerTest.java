@@ -1,20 +1,16 @@
-package com.tugraz.android.app.test.contentManager;
+package at.tugraz.ist.s2a.test.contentManager;
 
 import java.io.DataOutputStream;
 import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
-
-import com.tugraz.android.app.BrickDefine;
-import com.tugraz.android.app.ContentManager;
-import com.tugraz.android.app.filesystem.FileSystem;
-
-import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.AndroidTestCase;
+import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
+import at.tugraz.ist.s2a.constructionSite.content.ContentManager;
+import at.tugraz.ist.s2a.utils.filesystem.FileSystem;
 
 public class ContentManagerTest extends AndroidTestCase {
 	
