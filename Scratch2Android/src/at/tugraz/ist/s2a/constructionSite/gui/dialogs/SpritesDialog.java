@@ -24,7 +24,7 @@ import at.tugraz.ist.s2a.R.layout;
 import at.tugraz.ist.s2a.constructionSite.content.ContentManager;
 import at.tugraz.ist.s2a.constructionSite.gui.adapter.ToolboxSpritesAdapter;
 
-public class ToolboxSpritesDialog extends Dialog implements Observer
+public class SpritesDialog extends Dialog implements Observer
 
 {
 
@@ -41,7 +41,7 @@ public class ToolboxSpritesDialog extends Dialog implements Observer
 	
 	private RelativeLayout mToolboxLayout;
 	
-	public ToolboxSpritesDialog(Context context, boolean cancelable,
+	public SpritesDialog(Context context, boolean cancelable,
 			OnCancelListener cancelListener, int flagid) {
 		super(context, cancelable, cancelListener);
 		mCtx = context;
@@ -56,7 +56,7 @@ public class ToolboxSpritesDialog extends Dialog implements Observer
 		getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 		getWindow().setGravity(Gravity.TOP);
 		//getWindow().setFormat(PixelFormat.TRANSLUCENT);
-		setContentView(R.layout.sprites_list_element);
+		setContentView(R.layout.dialog_sprites_list);
 		//this.setTitle("Objekte");
 		
 		mSlide_in = AnimationUtils.loadAnimation(mCtx, R.anim.toolboxsprites_in);
@@ -77,11 +77,11 @@ public class ToolboxSpritesDialog extends Dialog implements Observer
 		
 		mToolboxLayout = (RelativeLayout) findViewById(R.id.toolboxsprites_layout);
 		
-		mContentArrayList = mContentManager.getAllSprites();
+		mContentArrayList = mContentManager.getSpritelist();
 		
 		mMainListView = (ListView) findViewById(R.id.spritesListView);
 		
-		mAdapter = new ToolboxSpritesAdapter(mCtx, mContentManager.getAllSprites());
+		mAdapter = new ToolboxSpritesAdapter(mCtx, mContentManager.getSpritelist());
 		mAdapter.setContentManager(mContentManager);
 		mAdapter.setDialog(this);
 		mContentManager.setObserver(this);

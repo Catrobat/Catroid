@@ -1,6 +1,7 @@
 package at.tugraz.ist.s2a.constructionSite.gui.adapter;
 
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import android.content.Context;
@@ -88,17 +89,18 @@ public class MainListViewAdapter extends BaseAdapter{
 						mMediaFileLoader.openPictureGallery(mMainListView.getPositionForView(v), v);
 				}		
 				});
-		    if(value != ""){
-			Bitmap bm = null;	
-			Log.d("Content", value);
-		    bm = BitmapFactory.decodeFile(value); 
-		    imageView.setBackgroundResource(0);
-			Matrix matrix = new Matrix();
-			float scaleWidth = (((float)THUMBNAIL_WIDTH)/bm.getWidth());
-			float scaleHeight = (((float)THUMBNAIL_HEIGHT)/bm.getHeight());
-		    matrix.postScale(scaleWidth, scaleHeight);
-			Bitmap newbm = Bitmap.createBitmap(bm, 0, 0,bm.getWidth() ,bm.getHeight() , matrix, true);
-			imageView.setImageBitmap(newbm);
+
+		    if(value != null && value != "" && new File(value).exists()){
+		    	Bitmap bm = null;	
+		    	Log.d("Content", value);
+		    	bm = BitmapFactory.decodeFile(value); 
+		    	imageView.setBackgroundResource(0);
+		    	Matrix matrix = new Matrix();
+		    	float scaleWidth = (((float)THUMBNAIL_WIDTH)/bm.getWidth());
+		    	float scaleHeight = (((float)THUMBNAIL_HEIGHT)/bm.getHeight());
+		    	matrix.postScale(scaleWidth, scaleHeight);
+		    	Bitmap newbm = Bitmap.createBitmap(bm, 0, 0,bm.getWidth() ,bm.getHeight() , matrix, true);
+		    	imageView.setImageBitmap(newbm);
 		    }
 //		    LayoutParams params = (LayoutParams) view.getLayoutParams();
 //		    params.addRule(RelativeLayout.ALIGN_BOTTOM, parent.getChildAt(size-1).getId());
@@ -266,7 +268,7 @@ public class MainListViewAdapter extends BaseAdapter{
 				  mMediaFileLoader.openPictureGallery(mMainListView.getPositionForView(v), v);
 				}
 			});
-			if(value != ""){
+			 if(value != null && value != "" && new File(value).exists()){
 				Bitmap bm = null;	
 				Log.d("Content", value);
 			    bm = BitmapFactory.decodeFile(value); 

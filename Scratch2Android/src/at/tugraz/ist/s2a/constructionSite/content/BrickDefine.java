@@ -1,6 +1,7 @@
 package at.tugraz.ist.s2a.constructionSite.content;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class BrickDefine {
@@ -31,10 +32,78 @@ public class BrickDefine {
 	//group number 9 Error
 	public final static int NOT_DEFINED = 9999;
 	
+	public final static int STAGE_CATEGORY = 100001;
+	public final static int OBJECT_CATEGORY = 100002;
 	
-	public final static HashMap<String, String> WAITBRICK = new HashMap<String, String>();
-	public final static HashMap<String, String> SOUNDBRICK = new HashMap<String, String>();
-	public final static HashMap<String, String> BACKGROUNDBRICK = new HashMap<String, String>();
-	
+	public static ArrayList<HashMap<String, String>> getToolBoxBrickContent(int id){
+		ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String,String>>();
+		HashMap<String, String> map;
+		
+		switch(id){
+		case STAGE_CATEGORY:
+			map = new HashMap<String, String>();
+	        map.put(BrickDefine.BRICK_ID, "1");
+	        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
+	        map.put(BrickDefine.BRICK_NAME, "");
+	        map.put(BrickDefine.BRICK_VALUE, "1");
+	        list.add(map);
+	        map = new HashMap<String, String>();
+	        map.put(BrickDefine.BRICK_ID, "2");
+	        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.PLAY_SOUND));
+	        map.put(BrickDefine.BRICK_NAME, "");
+	        map.put(BrickDefine.BRICK_VALUE, "1");
+	        list.add(map);
+	        map = new HashMap<String, String>();
+	        map.put(BrickDefine.BRICK_ID, "3");
+	        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
+	        map.put(BrickDefine.BRICK_NAME, "");
+	        map.put(BrickDefine.BRICK_VALUE, "1");
+	        list.add(map);
+	        
+	        return list;
+			
+		case OBJECT_CATEGORY:
+			map = new HashMap<String, String>();
+		    map.put(BrickDefine.BRICK_ID, "12");
+		    map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.PLAY_SOUND));
+		    map.put(BrickDefine.BRICK_NAME, "");
+		    map.put(BrickDefine.BRICK_VALUE, "1");
+		    list.add(map);
+		    map = new HashMap<String, String>();
+		    map.put(BrickDefine.BRICK_ID, "13");
+		    map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
+		    map.put(BrickDefine.BRICK_NAME, "");
+		    map.put(BrickDefine.BRICK_VALUE, "1");
+		    list.add(map);
+		    map = new HashMap<String, String>();
+		    map.put(BrickDefine.BRICK_ID, "14");
+		    map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.HIDE));
+		    map.put(BrickDefine.BRICK_NAME, "");
+		    map.put(BrickDefine.BRICK_VALUE, "");
+		    list.add(map);
+		    map = new HashMap<String, String>();
+		    map.put(BrickDefine.BRICK_ID, "15");
+		    map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SHOW));
+		    map.put(BrickDefine.BRICK_NAME, "");
+		    map.put(BrickDefine.BRICK_VALUE, "");
+		    list.add(map);
+		    map = new HashMap<String, String>();
+		    map.put(BrickDefine.BRICK_ID, "16");
+		    map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.GO_TO));
+		    map.put(BrickDefine.BRICK_NAME, "");
+		    map.put(BrickDefine.BRICK_VALUE, "1");
+		    map.put(BrickDefine.BRICK_VALUE, "1");
+		    list.add(map);
+		    map = new HashMap<String, String>();
+		    map.put(BrickDefine.BRICK_ID, "17");
+		    map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_COSTUME));
+		    map.put(BrickDefine.BRICK_NAME, "");
+		    map.put(BrickDefine.BRICK_VALUE, "1");
+		    list.add(map);
+			
+		default:
+			return list;
+		}
+	}
 	
 }

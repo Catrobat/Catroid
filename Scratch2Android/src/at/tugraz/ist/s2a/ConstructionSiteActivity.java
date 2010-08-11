@@ -25,17 +25,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
 import at.tugraz.ist.s2a.constructionSite.content.ContentManager;
-import at.tugraz.ist.s2a.constructionSite.gui.adapter.FileAdapter;
 import at.tugraz.ist.s2a.constructionSite.gui.adapter.MainListViewAdapter;
 import at.tugraz.ist.s2a.constructionSite.gui.dialogs.LoadProgramDialog;
 import at.tugraz.ist.s2a.constructionSite.gui.dialogs.SaveProgramDialog;
-import at.tugraz.ist.s2a.constructionSite.gui.dialogs.ToolboxBackgroundDialog;
-import at.tugraz.ist.s2a.constructionSite.gui.dialogs.ToolboxSpriteDialog;
-import at.tugraz.ist.s2a.constructionSite.gui.dialogs.ToolboxSpritesDialog;
+import at.tugraz.ist.s2a.constructionSite.gui.dialogs.ToolBoxDialog;
+import at.tugraz.ist.s2a.constructionSite.gui.dialogs.SpritesDialog;
 import at.tugraz.ist.s2a.stage.StageActivity;
 import at.tugraz.ist.s2a.utils.filesystem.MediaFileLoader;
 
@@ -58,7 +55,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	static final int LOAD_DIALOG = 4;
 	
 	private Button mToolboxButton;
-	private Dialog mToolboxDialog;
+	private ToolBoxDialog mToolboxObjectDialog;
+	private ToolBoxDialog mToolboxStageDialog;
 	private Dialog mSaveDialog;
 	private Dialog mLoadDialog;
 	
@@ -67,7 +65,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	private ContentManager mContentManager;
 
 	private Button mSpritesToolboxButton;
-    private ToolboxSpritesDialog mSpritesToolboxDialog;
+    private SpritesDialog mSpritesToolboxDialog;
     
     private View mPictureView;
 	
@@ -139,15 +137,13 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
     protected Dialog onCreateDialog(int id){
         switch(id) {
         case TOOLBOX_DIALOG_SPRITE:
-        	mToolboxDialog = new ToolboxSpriteDialog(this, true, null, 0);  
-        	((ToolboxSpriteDialog)mToolboxDialog).setContentManager(mContentManager);
-        	return mToolboxDialog;
+        	mToolboxObjectDialog = new ToolBoxDialog(this, mContentManager, BrickDefine.getToolBoxBrickContent(BrickDefine.OBJECT_CATEGORY));  
+        	return mToolboxObjectDialog;
         case TOOLBOX_DIALOG_BACKGROUND:
-        	mToolboxDialog = new ToolboxBackgroundDialog(this, true, null, 0); 
-        	((ToolboxBackgroundDialog)mToolboxDialog).setContentManager(mContentManager);
-        	return mToolboxDialog;
+        	mToolboxStageDialog = new ToolBoxDialog(this, mContentManager, BrickDefine.getToolBoxBrickContent(BrickDefine.STAGE_CATEGORY)); 
+        	return mToolboxStageDialog;
         case SPRITETOOLBOX_DIALOG:
-        	mSpritesToolboxDialog = new ToolboxSpritesDialog(this, true, null, 0);
+        	mSpritesToolboxDialog = new SpritesDialog(this, true, null, 0);
         	mSpritesToolboxDialog.setContentManager(mContentManager);
         	return mSpritesToolboxDialog;
         case SAVE_DIALOG:
@@ -159,8 +155,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
         	return mLoadDialog;
     	
         default:
-            mToolboxDialog = null;
-            return mToolboxDialog;
+            return null;
         }
        
     }
@@ -250,13 +245,14 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	}
 		
 	private void openToolbox(){
+		//TODO change hard coded
 		if(mContentManager.getCurrentSprite().equals("stage"))
 		{
-		showDialog(TOOLBOX_DIALOG_BACKGROUND);
+			showDialog(TOOLBOX_DIALOG_BACKGROUND);
 		}
 		else
 		{
-		showDialog(TOOLBOX_DIALOG_SPRITE);
+			showDialog(TOOLBOX_DIALOG_SPRITE);
 		}
 	}
 	
@@ -265,7 +261,11 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		showDialog(SPRITETOOLBOX_DIALOG);
 	}
 	
+	/**
+	 * Test Method
+	 * @return one of the Toolbox
+	 */
 	public Dialog getToolboxDialog(){
-		return mToolboxDialog;
+		return mToolboxStageDialog;
 	}
  }

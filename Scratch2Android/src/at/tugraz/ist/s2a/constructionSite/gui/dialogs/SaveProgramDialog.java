@@ -14,12 +14,10 @@ import at.tugraz.ist.s2a.constructionSite.content.ContentManager;
 
 public class SaveProgramDialog extends Dialog{
 
-private Context mCtx;
 private ContentManager mContentManager;
 
 public SaveProgramDialog(Context context, ContentManager contentmanager) {
 	super(context);
-	mCtx = context;
 	mContentManager = contentmanager;
 }
 
