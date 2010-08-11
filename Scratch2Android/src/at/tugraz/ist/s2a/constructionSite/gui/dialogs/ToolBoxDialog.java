@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
@@ -20,7 +21,6 @@ import at.tugraz.ist.s2a.R;
 import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
 import at.tugraz.ist.s2a.constructionSite.content.ContentManager;
 import at.tugraz.ist.s2a.constructionSite.gui.adapter.ToolBoxAdapter;
-import at.tugraz.ist.s2a.constructionSite.gui.adapter.ToolboxBackgroundAdapter;
 
 public class ToolBoxDialog extends Dialog{
 
@@ -28,7 +28,7 @@ public class ToolBoxDialog extends Dialog{
 	private Context mCtx;
 	private Animation mSlide_in;
 	private Animation mSlide_out;
-	private ToolboxBackgroundAdapter mAdapter;
+	private ToolBoxAdapter mAdapter;
 	private LinearLayout mToolboxLayout;
 	private ContentManager mContentManager;
 	
@@ -68,30 +68,26 @@ public class ToolBoxDialog extends Dialog{
 
 		mMainListView = (ListView) findViewById(R.id.toolboxListView);
 
-		mAdapter = new ToolboxBackgroundAdapter(mCtx, mContent);
-		((ToolboxBackgroundAdapter)mAdapter).setContentManager(mContentManager);
-		
-		mMainListView.setAdapter(mAdapter);
-		((ToolboxBackgroundAdapter)mAdapter).setDialog(this);
+//		mAdapter = new ToolboxBackgroundAdapter(mCtx, mContent);
+//		((ToolboxBackgroundAdapter)mAdapter).setContentManager(mContentManager);
+//		
+//		mMainListView.setAdapter(mAdapter);
+//		((ToolboxBackgroundAdapter)mAdapter).setDialog(this);
 		
 //		Log.d("TEST", mContentArrayList.toString());
 //		Log.d("TEST", mContent.toString());
 		
-//		mAdapter = new ToolBoxAdapter(mCtx, mContent);
-//		mMainListView.setAdapter(mAdapter);
-//		mMainListView.setOnItemClickListener(new ListView.OnItemClickListener() {
-//
-//			@Override
-//			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-//					long arg3) {
-//				mContentManager.add(((HashMap<String, String>) mAdapter.getItem(arg2).clone()));
-//				dismiss();
-//			}
-//		});
-		
-		
-		
+		mAdapter = new ToolBoxAdapter(mCtx, mContent);
+		mMainListView.setAdapter(mAdapter);
+		mMainListView.setOnItemClickListener(new ListView.OnItemClickListener() {
 
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				mContentManager.add(((HashMap<String, String>) mAdapter.getItem(arg2).clone()));
+				dismiss();
+			}
+		});	
 	}
 
 	@Override
