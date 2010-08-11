@@ -47,7 +47,7 @@ public class ToolboxSpritesAdapter extends BaseAdapter{
         LayoutInflater inflater = (LayoutInflater)mCtx.getSystemService(
 	    Context.LAYOUT_INFLATER_SERVICE);
 		
-		LinearLayout view = (LinearLayout) inflater.inflate(R.layout.spritetoolbox, null);
+		LinearLayout view = (LinearLayout) inflater.inflate(R.layout.sprites_list_element, null);
 		view.setTag(mList.get(position));
 		TextView text = (TextView)view.getChildAt(0);
 		text.setText(mList.get(position));

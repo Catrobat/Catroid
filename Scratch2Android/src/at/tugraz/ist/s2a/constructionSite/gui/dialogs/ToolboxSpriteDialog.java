@@ -50,7 +50,7 @@ public class ToolboxSpriteDialog extends Dialog
 		getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 		//getWindow().setGravity(Gravity.BOTTOM);
 		//getWindow().setFormat(PixelFormat.TRANSLUCENT);
-		setContentView(R.layout.toolbox);
+		setContentView(R.layout.dialog_toolbox);
 		this.setTitle(R.string.title_toolbox_sprites);
 		
 		mSlide_in = AnimationUtils.loadAnimation(mCtx, R.anim.toolbox_in);
