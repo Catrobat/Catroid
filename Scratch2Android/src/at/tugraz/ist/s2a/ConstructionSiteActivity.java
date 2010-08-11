@@ -33,7 +33,6 @@ import at.tugraz.ist.s2a.constructionSite.gui.dialogs.LoadProgramDialog;
 import at.tugraz.ist.s2a.constructionSite.gui.dialogs.SaveProgramDialog;
 import at.tugraz.ist.s2a.constructionSite.gui.dialogs.ToolBoxDialog;
 import at.tugraz.ist.s2a.constructionSite.gui.dialogs.SpritesDialog;
-import at.tugraz.ist.s2a.constructionSite.gui.dialogs.ToolboxBackgroundDialog;
 import at.tugraz.ist.s2a.stage.StageActivity;
 import at.tugraz.ist.s2a.utils.filesystem.MediaFileLoader;
 
@@ -141,11 +140,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
         	mToolboxObjectDialog = new ToolBoxDialog(this, mContentManager, BrickDefine.getToolBoxBrickContent(BrickDefine.OBJECT_CATEGORY));  
         	return mToolboxObjectDialog;
         case TOOLBOX_DIALOG_BACKGROUND:
-//        	mToolboxStageDialog = new ToolBoxDialog(this, mContentManager, BrickDefine.getToolBoxBrickContent(BrickDefine.STAGE_CATEGORY)); 
-//        	return mToolboxStageDialog;
-        	ToolboxBackgroundDialog dialog = new ToolboxBackgroundDialog(this, true, null, 0);
-        	dialog.setContentManager(mContentManager);
-        	return dialog;
+        	mToolboxStageDialog = new ToolBoxDialog(this, mContentManager, BrickDefine.getToolBoxBrickContent(BrickDefine.STAGE_CATEGORY)); 
+        	return mToolboxStageDialog;
         case SPRITETOOLBOX_DIALOG:
         	mSpritesToolboxDialog = new SpritesDialog(this, true, null, 0);
         	mSpritesToolboxDialog.setContentManager(mContentManager);
