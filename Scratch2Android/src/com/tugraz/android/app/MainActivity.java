@@ -2,53 +2,33 @@ package com.tugraz.android.app;
 
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.TooManyListenersException;
 
+import com.tugraz.android.app.content.BrickDefine;
+import com.tugraz.android.app.content.ContentManager;
 import com.tugraz.android.app.filesystem.MediaFileLoader;
-
+import com.tugraz.android.app.stage.StageActivity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Matrix;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.provider.ContactsContract.CommonDataKinds.BaseTypes;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.view.View.OnClickListener;
-import android.view.WindowManager.LayoutParams;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 public class MainActivity extends Activity implements Observer, OnClickListener{
 
@@ -79,7 +59,7 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 	private ContentManager mContentManager;
 
 	private Button mSpritesToolboxButton;
-    private ToolboxSpritesDialog mSpritesToolboxDialog;
+    private SpritesDialog mSpritesToolboxDialog;
     private ArrayList<String> mFilelist;
     
     private View mPictureView;
@@ -146,7 +126,7 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
         	((ToolboxBackgroundDialog)mToolboxDialog).setContentManager(mContentManager);
         	return mToolboxDialog;
         case SPRITETOOLBOX_DIALOG:
-        	mSpritesToolboxDialog = new ToolboxSpritesDialog(this, true, null, 0);
+        	mSpritesToolboxDialog = new SpritesDialog(this, true, null, 0);
         	mSpritesToolboxDialog.setContentManager(mContentManager);
         	return mSpritesToolboxDialog;
         case SAVE_DIALOG:

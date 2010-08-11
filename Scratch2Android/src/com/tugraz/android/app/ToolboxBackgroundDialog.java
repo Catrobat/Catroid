@@ -3,6 +3,9 @@ package com.tugraz.android.app;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.tugraz.android.app.content.BrickDefine;
+import com.tugraz.android.app.content.ContentManager;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -12,7 +15,6 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 

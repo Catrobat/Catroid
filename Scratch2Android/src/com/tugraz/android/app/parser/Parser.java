@@ -18,7 +18,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xmlpull.v1.XmlSerializer;
 
-import com.tugraz.android.app.BrickDefine;
+import com.tugraz.android.app.content.BrickDefine;
 
 import android.util.Log;
 import android.util.Xml;
@@ -37,11 +37,9 @@ public class Parser {
 		try {
 			builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e("Parser", e.getMessage());
 		} catch (FactoryConfigurationError e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e("Parser", e.getMessage());
 		}
 	}
 	

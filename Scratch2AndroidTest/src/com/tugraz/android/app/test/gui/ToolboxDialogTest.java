@@ -4,10 +4,10 @@ package com.tugraz.android.app.test.gui;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.tugraz.android.app.BrickDefine;
 import com.tugraz.android.app.MainActivity;
 import com.tugraz.android.app.R;
 import com.tugraz.android.app.ToolboxSpriteDialog;
+import com.tugraz.android.app.content.BrickDefine;
 
 import android.app.Dialog;
 import android.test.ActivityInstrumentationTestCase2;

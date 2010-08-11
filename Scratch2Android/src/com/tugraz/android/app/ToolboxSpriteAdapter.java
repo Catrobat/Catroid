@@ -3,12 +3,15 @@ package com.tugraz.android.app;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.tugraz.android.app.R;
+import com.tugraz.android.app.R.layout;
+import com.tugraz.android.app.R.string;
+import com.tugraz.android.app.content.BrickDefine;
+import com.tugraz.android.app.content.ContentManager;
 import com.tugraz.android.app.filesystem.MediaFileLoader;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
