@@ -1,12 +1,9 @@
-package com.tugraz.android.app.filesystem;
+package at.tugraz.ist.s2a.utils.filesystem;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
-
-import android.app.Activity;
 import android.content.Context;
 
 /**

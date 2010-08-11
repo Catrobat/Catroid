@@ -1,4 +1,4 @@
-package com.tugraz.android.app;
+package at.tugraz.ist.s2a.constructionSite.gui.adapter;
 
 import java.util.ArrayList;
 
@@ -12,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import at.tugraz.ist.s2a.R;
+import at.tugraz.ist.s2a.R.layout;
+import at.tugraz.ist.s2a.constructionSite.content.ContentManager;
 
 public class FileAdapter extends BaseAdapter{
     private Context mCtx;

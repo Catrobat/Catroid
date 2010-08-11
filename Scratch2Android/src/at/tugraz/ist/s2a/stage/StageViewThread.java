@@ -1,13 +1,9 @@
-package com.tugraz.android.app.stage;
+package at.tugraz.ist.s2a.stage;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
-import android.content.ContentResolver;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -31,17 +27,15 @@ import android.view.SurfaceHolder;
 public class StageViewThread extends Thread {
 	public boolean mIsDraw = false;
 
-	private boolean mSurfaceCreated = false;
+	
 	private boolean mRun = false;
 	private SurfaceHolder mSurfaceHolder;
-	private Context context;
 	private Bitmap mBackground;
 	private Map<String, Pair<Bitmap, Pair<Float, Float>>> mBitmapToPositionMap;
 
 	public StageViewThread(SurfaceHolder holder, Context context,
 			Handler handler) {
 		mSurfaceHolder = holder;
-		this.context = context;
 		this.setName("StageViewThread");
 		mBitmapToPositionMap = Collections
 				.synchronizedMap(new HashMap<String, Pair<Bitmap, Pair<Float, Float>>>());
@@ -117,8 +111,6 @@ public class StageViewThread extends Thread {
 		paint.setStyle(Paint.Style.FILL);
 		paint.setColor(Color.WHITE);
 		if (canvas != null) { // draw only if we already have a canvas
-			if (canvas == null)
-				Log.i("StageViewThread", "canvas is null");
 			canvas.drawRect(new Rect(0, 0, canvas.getWidth(), canvas.getHeight()),
 					paint);
 	

@@ -1,4 +1,4 @@
-package com.tugraz.android.app.stage;
+package at.tugraz.ist.s2a.stage;
 
 import java.util.Observable;
 

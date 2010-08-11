@@ -1,9 +1,8 @@
-package com.tugraz.android.app.filesystem;
+package at.tugraz.ist.s2a.utils.filesystem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.tugraz.android.app.MainActivity;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
@@ -13,6 +12,7 @@ import android.database.Cursor;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import at.tugraz.ist.s2a.ConstructionSiteActivity;
 
 /**
  * this class provides reading media files like pictures from sd card
@@ -44,7 +44,7 @@ public class MediaFileLoader {
 	
 	public void openPictureGallery(int elementPosition, View pictureView){
 		
-		((MainActivity) mCtx).rememberLastSelectedElementAndView(elementPosition, pictureView);
+		((ConstructionSiteActivity) mCtx).rememberLastSelectedElementAndView(elementPosition, pictureView);
 		
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");

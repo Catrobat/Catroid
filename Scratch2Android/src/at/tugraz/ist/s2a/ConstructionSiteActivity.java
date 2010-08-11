@@ -1,57 +1,41 @@
-package com.tugraz.android.app;
-
+package at.tugraz.ist.s2a;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.TooManyListenersException;
-
-import com.tugraz.android.app.filesystem.MediaFileLoader;
-
-
 import android.app.Activity;
-import android.content.Context;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.provider.ContactsContract.CommonDataKinds.BaseTypes;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.view.View.OnClickListener;
-import android.view.WindowManager.LayoutParams;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.Spinner;
-import android.widget.TextView;
+import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
+import at.tugraz.ist.s2a.constructionSite.content.ContentManager;
+import at.tugraz.ist.s2a.constructionSite.gui.adapter.FileAdapter;
+import at.tugraz.ist.s2a.constructionSite.gui.adapter.MainListViewAdapter;
+import at.tugraz.ist.s2a.constructionSite.gui.dialogs.ToolboxBackgroundDialog;
+import at.tugraz.ist.s2a.constructionSite.gui.dialogs.ToolboxSpriteDialog;
+import at.tugraz.ist.s2a.constructionSite.gui.dialogs.ToolboxSpritesDialog;
+import at.tugraz.ist.s2a.stage.StageActivity;
+import at.tugraz.ist.s2a.utils.filesystem.MediaFileLoader;
 
-public class MainActivity extends Activity implements Observer, OnClickListener{
+public class ConstructionSiteActivity extends Activity implements Observer, OnClickListener{
 
     /** Called when the activity is first created. */
 	
@@ -127,7 +111,6 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if((requestCode == MediaFileLoader.GALLERY_INTENT_CODE) && (data != null)){
 			HashMap<String, String> content = mContentManager.getContentArrayList().get(LAST_SELECTED_ELEMENT_POSITION);
-			  Uri u = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
 		      Uri u2 = Uri.parse(data.getDataString());
 		      String[] projection = { MediaStore.Images.ImageColumns.DATA, 
 		                        MediaStore.Images.ImageColumns.DISPLAY_NAME};
@@ -245,7 +228,7 @@ public class MainActivity extends Activity implements Observer, OnClickListener{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         case R.id.play:
-        	Intent intent = new Intent(MainActivity.this, StageActivity.class);
+        	Intent intent = new Intent(ConstructionSiteActivity.this, StageActivity.class);
             startActivity(intent);
             return true;
             

@@ -1,4 +1,4 @@
-package com.tugraz.android.app.parser;
+package at.tugraz.ist.s2a.utils.parser;
 
 
 import java.io.InputStream;
@@ -18,10 +18,10 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xmlpull.v1.XmlSerializer;
 
-import com.tugraz.android.app.BrickDefine;
 
 import android.util.Log;
 import android.util.Xml;
+import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
 
 
 public class Parser {

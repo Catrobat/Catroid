@@ -1,25 +1,22 @@
-package com.tugraz.android.app;
+package at.tugraz.ist.s2a.constructionSite.gui.adapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import com.tugraz.android.app.filesystem.MediaFileLoader;
-
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.SimpleAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import at.tugraz.ist.s2a.R;
+import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
+import at.tugraz.ist.s2a.constructionSite.content.ContentManager;
+import at.tugraz.ist.s2a.utils.filesystem.MediaFileLoader;
 
 public class ToolboxBackgroundAdapter extends BaseAdapter{
     private Context mCtx;

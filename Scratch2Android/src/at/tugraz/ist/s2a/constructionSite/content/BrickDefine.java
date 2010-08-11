@@ -1,4 +1,4 @@
-package com.tugraz.android.app;
+package at.tugraz.ist.s2a.constructionSite.content;
 
 
 import java.util.HashMap;
