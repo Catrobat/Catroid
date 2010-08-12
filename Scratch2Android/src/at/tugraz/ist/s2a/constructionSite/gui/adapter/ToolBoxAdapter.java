@@ -29,7 +29,7 @@ public class ToolBoxAdapter extends BaseAdapter{
 		mViewContainer = new HashMap<String, View>();
 	}
     
-	@Override
+	
 	public View getView(int position, View convertView, ViewGroup parent) {
 		String type = mContent.get(position).get(BrickDefine.BRICK_TYPE);
 		LayoutInflater inflater = (LayoutInflater)mCtx.getSystemService(
@@ -43,7 +43,7 @@ public class ToolBoxAdapter extends BaseAdapter{
 					return mViewContainer.get(type);
 				
 				RelativeLayout setBackgroundView = (RelativeLayout) 
-					inflater.inflate(R.layout.brick_set_background, null);			
+					inflater.inflate(R.layout.toolbox_brick_set_background, null);			
 				mViewContainer.put(type, setBackgroundView);
 				return setBackgroundView;
 			}
@@ -53,7 +53,7 @@ public class ToolBoxAdapter extends BaseAdapter{
 					return mViewContainer.get(type);
 			
 				RelativeLayout playSoundView = (RelativeLayout) 
-					inflater.inflate(R.layout.brick_play_sound, null);			
+					inflater.inflate(R.layout.toolbox_brick_play_sound, null);			
 	            mViewContainer.put(type, playSoundView);
 				return playSoundView;
 			}
@@ -62,7 +62,7 @@ public class ToolBoxAdapter extends BaseAdapter{
 				if(mViewContainer.containsKey(type))
 					return mViewContainer.get(type);
 				
-				RelativeLayout view =  (RelativeLayout)inflater.inflate(R.layout.brick_wait, null);
+				RelativeLayout view =  (RelativeLayout)inflater.inflate(R.layout.toolbox_brick_wait, null);
 	            mViewContainer.put(type, view);
 	            return view;
 			}
@@ -71,7 +71,7 @@ public class ToolBoxAdapter extends BaseAdapter{
 				if(mViewContainer.containsKey(type))
 					return mViewContainer.get(type);
 				
-				LinearLayout view =  (LinearLayout)inflater.inflate(R.layout.brick_simple_text_view, null);
+				LinearLayout view =  (LinearLayout)inflater.inflate(R.layout.toolbox_brick_simple_text_view, null);
 				TextView text = (TextView) view.getChildAt(0);
 				text.setText(R.string.hide_main_adapter);
 				mViewContainer.put(type, view);
@@ -82,7 +82,7 @@ public class ToolBoxAdapter extends BaseAdapter{
 				if(mViewContainer.containsKey(type))
 					return mViewContainer.get(type);
 				
-				LinearLayout view =  (LinearLayout)inflater.inflate(R.layout.brick_simple_text_view, null);
+				LinearLayout view =  (LinearLayout)inflater.inflate(R.layout.toolbox_brick_simple_text_view, null);
 				TextView text = (TextView) view.getChildAt(0);
 				text.setText(R.string.show_main_adapter);
 
@@ -94,7 +94,7 @@ public class ToolBoxAdapter extends BaseAdapter{
 				if(mViewContainer.containsKey(type))
 					return mViewContainer.get(type);
 				
-				RelativeLayout view =  (RelativeLayout)inflater.inflate(R.layout.brick_goto, null);
+				RelativeLayout view =  (RelativeLayout)inflater.inflate(R.layout.toolbox_brick_goto, null);
 				mViewContainer.put(type, view);
 				return view;
 			}
@@ -103,7 +103,7 @@ public class ToolBoxAdapter extends BaseAdapter{
 				if(mViewContainer.containsKey(type))
 					return mViewContainer.get(type);
 				
-				RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.brick_set_costume, null);
+				RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.toolbox_brick_set_costume, null);
 				mViewContainer.put(type, view);
 				return view;
 			}
@@ -113,17 +113,17 @@ public class ToolBoxAdapter extends BaseAdapter{
 		
 	}
 	
-	@Override
+	
 	public int getCount() {
 		return mContent.size();
 	}
 
-	@Override
+	
 	public HashMap<String, String > getItem(int position) {
 		return mContent.get(position);
 	}
 
-	@Override
+	
 	public long getItemId(int position) {
 		return Integer.parseInt(mContent.get(position).get(BrickDefine.BRICK_ID));
 	}

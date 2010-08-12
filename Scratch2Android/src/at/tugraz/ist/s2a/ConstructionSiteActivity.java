@@ -25,10 +25,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
 import at.tugraz.ist.s2a.constructionSite.content.ContentManager;
-import at.tugraz.ist.s2a.constructionSite.gui.adapter.MainListViewAdapter;
+import at.tugraz.ist.s2a.constructionSite.gui.adapter.ConstructionSiteListViewAdapter;
 import at.tugraz.ist.s2a.constructionSite.gui.dialogs.LoadProgramDialog;
 import at.tugraz.ist.s2a.constructionSite.gui.dialogs.SaveProgramDialog;
 import at.tugraz.ist.s2a.constructionSite.gui.dialogs.ToolBoxDialog;
@@ -61,13 +62,13 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	private Dialog mLoadDialog;
 	
 	protected ListView mMainListView;
-	private MainListViewAdapter mAdapter;
+	private ConstructionSiteListViewAdapter mAdapter;
 	private ContentManager mContentManager;
 
 	private Button mSpritesToolboxButton;
     private SpritesDialog mSpritesToolboxDialog;
     
-    private View mPictureView;
+    
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,7 +79,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
         mContentManager.setObserver(this);
         mContentManager.setContext(this);
         mMainListView = (ListView) findViewById(R.id.MainListView);
-        mAdapter = new MainListViewAdapter(this, mContentManager.getContentArrayList(), mMainListView);
+        mAdapter = new ConstructionSiteListViewAdapter(this, mContentManager.getContentArrayList(), mMainListView);
         
         mMainListView.setAdapter(mAdapter);
             
@@ -99,9 +100,9 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
     }
 
     private static int LAST_SELECTED_ELEMENT_POSITION = 0;
+    private ImageView mPictureView;
     
-    
-    public void rememberLastSelectedElementAndView(int position, View pictureView){
+    public void rememberLastSelectedElementAndView(int position, ImageView pictureView){
     	LAST_SELECTED_ELEMENT_POSITION = position;
     	mPictureView = pictureView;
     }
@@ -126,7 +127,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		             Log.d("Display name",column1Value);
 		        }
 			
-			mAdapter.setImage(mPictureView);
+		        //TODO fix this
+			//mAdapter.setImage(mPictureView);
 	
 		}
 			
@@ -267,5 +269,21 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	 */
 	public Dialog getToolboxDialog(){
 		return mToolboxStageDialog;
+	}
+	
+	public void onBrickClickListener(View v) {
+		//TODO change hard coded
+		if(mContentManager.getCurrentSprite().equals("stage")){
+			mContentManager.add(mToolboxStageDialog.getBrickClone(v));
+			if(mToolboxStageDialog.isShowing())
+				mToolboxStageDialog.dismiss();
+		}		
+		else{
+			mContentManager.add(mToolboxObjectDialog.getBrickClone(v));
+			if(mToolboxObjectDialog.isShowing())
+				mToolboxObjectDialog.dismiss();
+		}
+			
+			
 	}
  }

@@ -12,6 +12,7 @@ import android.database.Cursor;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import at.tugraz.ist.s2a.ConstructionSiteActivity;
 
 /**
@@ -42,7 +43,7 @@ public class MediaFileLoader {
 		mCtx = ctx;
 	}
 	
-	public void openPictureGallery(int elementPosition, View pictureView){
+	public void openPictureGallery(int elementPosition, ImageView pictureView){
 		
 		((ConstructionSiteActivity) mCtx).rememberLastSelectedElementAndView(elementPosition, pictureView);
 		

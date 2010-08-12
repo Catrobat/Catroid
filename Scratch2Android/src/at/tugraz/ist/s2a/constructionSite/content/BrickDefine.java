@@ -14,6 +14,8 @@ public class BrickDefine {
 	public static final String BRICK_TYPE = "brick_type";
 	// definition xyyy x = group y = brick id
 	
+	
+	public final static int NUMBER_OF_BRICK_TYPES = 7;
 	//group number 1 Control
 	public final static int SET_BACKGROUND = 1001; 
 	public final static int WAIT = 1002;
@@ -34,6 +36,10 @@ public class BrickDefine {
 	
 	public final static int STAGE_CATEGORY = 100001;
 	public final static int OBJECT_CATEGORY = 100002;
+	
+	public static int getNumberOfBrickType(){
+		return NUMBER_OF_BRICK_TYPES;
+	}
 	
 	public static ArrayList<HashMap<String, String>> getToolBoxBrickContent(int id){
 		ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String,String>>();
@@ -92,7 +98,7 @@ public class BrickDefine {
 		    map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.GO_TO));
 		    map.put(BrickDefine.BRICK_NAME, "");
 		    map.put(BrickDefine.BRICK_VALUE, "1");
-		    map.put(BrickDefine.BRICK_VALUE, "1");
+		    map.put(BrickDefine.BRICK_VALUE_1, "1");
 		    list.add(map);
 		    map = new HashMap<String, String>();
 		    map.put(BrickDefine.BRICK_ID, "17");

@@ -48,7 +48,7 @@ public class LoadProgramDialog extends Dialog{
 		mListView = (ListView)findViewById(R.id.loadfilelist);
 		mListView.setAdapter(mAdapter);
 		mListView.setOnItemClickListener(new ListView.OnItemClickListener() {
-			@Override
+			
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				mContentManager.loadContent(mAdapter.getItem(arg2));
