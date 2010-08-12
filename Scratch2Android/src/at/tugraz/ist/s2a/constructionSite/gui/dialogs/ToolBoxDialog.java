@@ -67,27 +67,10 @@ public class ToolBoxDialog extends Dialog{
 		mContent = content;
 
 		mMainListView = (ListView) findViewById(R.id.toolboxListView);
-
-//		mAdapter = new ToolboxBackgroundAdapter(mCtx, mContent);
-//		((ToolboxBackgroundAdapter)mAdapter).setContentManager(mContentManager);
-//		
-//		mMainListView.setAdapter(mAdapter);
-//		((ToolboxBackgroundAdapter)mAdapter).setDialog(this);
-		
-//		Log.d("TEST", mContentArrayList.toString());
-//		Log.d("TEST", mContent.toString());
 		
 		mAdapter = new ToolBoxAdapter(mCtx, mContent);
 		mMainListView.setAdapter(mAdapter);
-		mMainListView.setOnItemClickListener(new ListView.OnItemClickListener() {
 
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-				mContentManager.add(((HashMap<String, String>) mAdapter.getItem(arg2).clone()));
-				dismiss();
-			}
-		});	
 	}
 
 	@Override
@@ -106,7 +89,9 @@ public class ToolBoxDialog extends Dialog{
 		super.cancel();
 	}
 	   
-	
+	public HashMap<String, String> getBrickClone(View v){
+		return (HashMap<String, String>) mAdapter.getItem(mMainListView.getPositionForView(v)).clone();
+	}
 	
 
 }

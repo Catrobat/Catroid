@@ -22,7 +22,7 @@ import at.tugraz.ist.s2a.R.anim;
 import at.tugraz.ist.s2a.R.id;
 import at.tugraz.ist.s2a.R.layout;
 import at.tugraz.ist.s2a.constructionSite.content.ContentManager;
-import at.tugraz.ist.s2a.constructionSite.gui.adapter.ToolboxSpritesAdapter;
+import at.tugraz.ist.s2a.constructionSite.gui.adapter.SpritesAdapter;
 
 public class SpritesDialog extends Dialog implements Observer
 
@@ -35,7 +35,7 @@ public class SpritesDialog extends Dialog implements Observer
 	public ListView mMainListView;
 	public EditText mSpriteName;
 	public Button mSpriteButton;   
-	private ToolboxSpritesAdapter mAdapter;
+	private SpritesAdapter mAdapter;
 	public ArrayList<String> mContentArrayList;
 	ContentManager mContentManager;
 	
@@ -81,7 +81,7 @@ public class SpritesDialog extends Dialog implements Observer
 		
 		mMainListView = (ListView) findViewById(R.id.spritesListView);
 		
-		mAdapter = new ToolboxSpritesAdapter(mCtx, mContentManager.getSpritelist());
+		mAdapter = new SpritesAdapter(mCtx, mContentManager.getSpritelist());
 		mAdapter.setContentManager(mContentManager);
 		mAdapter.setDialog(this);
 		mContentManager.setObserver(this);
