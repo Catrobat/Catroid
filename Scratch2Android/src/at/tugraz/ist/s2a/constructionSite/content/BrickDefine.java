@@ -17,19 +17,19 @@ public class BrickDefine {
 	
 	public final static int NUMBER_OF_BRICK_TYPES = 7;
 	//group number 1 Control
-	public final static int SET_BACKGROUND = 1001; 
-	public final static int WAIT = 1002;
+	public final static int SET_BACKGROUND = 0; 
+	public final static int WAIT = 1;
 	
 	//group number 2 Sound
-	public final static int PLAY_SOUND = 2001;
+	public final static int PLAY_SOUND = 2;
 	
 	//group number 3 Motion
-	public final static int GO_TO = 3001;
+	public final static int GO_TO = 3;
 	
 	//group number 4 Looks
-	public final static int HIDE = 4001;
-	public final static int SHOW = 4002;
-	public final static int SET_COSTUME = 4003;
+	public final static int HIDE = 4;
+	public final static int SHOW = 5;
+	public final static int SET_COSTUME = 6;
 	
 	//group number 9 Error
 	public final static int NOT_DEFINED = 9999;

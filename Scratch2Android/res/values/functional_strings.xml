@@ -15,5 +15,7 @@
     
     <string name="constructional_brick_wait_edit_text_tag">wait_edit_text_tag</string>
     
+    <string name="constructional_brick_hide">hide/show_text_view_tag</string>
+    
     
 </resources>

@@ -10,6 +10,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.TreeMap;
 import android.content.Context;
+import at.tugraz.ist.s2a.R;
 import at.tugraz.ist.s2a.utils.filesystem.FileSystem;
 import at.tugraz.ist.s2a.constructionSite.gui.dialogs.SpritesDialog;
 import at.tugraz.ist.s2a.utils.parser.Parser;
@@ -31,6 +32,7 @@ public class ContentManager extends Observable{
 	private String mCurrentSprite;
 	private SpritesDialog mSpritebox;
 	private ArrayList<String> mSpritelist = new ArrayList<String>();
+	private static String STAGE;
 	
 	public ArrayList<HashMap<String, String>> getContentArrayList(){
 		return mContentArrayList;
@@ -55,7 +57,7 @@ public class ContentManager extends Observable{
 		if(mSpritesAndBackgroundList.size() == 0)
 		{
 			//Fill Dummy Stage
-			mSpritesAndBackgroundList.put("stage", new ArrayList<HashMap<String,String>>());
+			mSpritesAndBackgroundList.put(STAGE, new ArrayList<HashMap<String,String>>());
 			setChanged();
 			notifyObservers();
 		}
@@ -64,9 +66,9 @@ public class ContentManager extends Observable{
 	public void clearSprites(){
 		mSpritesAndBackgroundList.clear();
 		mContentArrayList.clear();
-		mCurrentSprite = "stage";
+		mCurrentSprite = mCtx.getString(R.string.stage);
 		saveContent();
-		mSpritesAndBackgroundList.put("stage", (ArrayList<HashMap<String,String>>)mContentArrayList.clone());
+		mSpritesAndBackgroundList.put(STAGE, (ArrayList<HashMap<String,String>>)mContentArrayList.clone());
 		//Fill Dummy Stage
 		refreshSpritelist();//TODO Check this (SpritesAdapter)
         setChanged();
@@ -103,15 +105,18 @@ public class ContentManager extends Observable{
 		notifyObservers();
 	}
 	
-	public ContentManager(){
+	public ContentManager(Context context){
+		mCtx = context;
+		STAGE = mCtx.getString(R.string.stage);
 		mSpritesAndBackgroundList= new TreeMap<String, ArrayList<HashMap<String, String>>>();
 		mContentArrayList = new ArrayList<HashMap<String, String>>();
 		mFilesystem = new FileSystem();
 		mParser = new Parser();
 		mSpritelist = new ArrayList<String>();
-		mSpritesAndBackgroundList.put("stage", (ArrayList<HashMap<String,String>>)mContentArrayList.clone());
+		mSpritesAndBackgroundList.put(STAGE, (ArrayList<HashMap<String,String>>)mContentArrayList.clone());
 		refreshSpritelist();
-		mCurrentSprite = "stage";
+		
+		mCurrentSprite = STAGE;
 		
 	}
 	
@@ -134,8 +139,8 @@ public class ContentManager extends Observable{
 			mContentArrayList.clear();
 			
 			mSpritesAndBackgroundList.putAll(mParser.parse(scratch));
-	        mContentArrayList.addAll((ArrayList<HashMap<String,String>>)mSpritesAndBackgroundList.get("stage").clone());
-            mCurrentSprite ="stage";
+	        mContentArrayList.addAll((ArrayList<HashMap<String,String>>)mSpritesAndBackgroundList.get(STAGE).clone());
+            mCurrentSprite =STAGE;
 	        try {
 				scratch.close();
 			} catch (IOException e) {
@@ -145,7 +150,7 @@ public class ContentManager extends Observable{
 			if(mSpritesAndBackgroundList.size() == 0)
 			{
 				//Fill Dummy Stage
-				mSpritesAndBackgroundList.put("stage", new ArrayList<HashMap<String,String>>());
+				mSpritesAndBackgroundList.put(STAGE, new ArrayList<HashMap<String,String>>());
 			}
 			refreshSpritelist();
 	        setChanged();
@@ -208,7 +213,7 @@ public class ContentManager extends Observable{
 		mSpritesAndBackgroundList = spritesAndBackground;
 		//Check for default stage Object
 		if(mSpritesAndBackgroundList.size() == 0)
-			mSpritesAndBackgroundList.put("stage", new ArrayList<HashMap<String,String>>());
+			mSpritesAndBackgroundList.put(STAGE, new ArrayList<HashMap<String,String>>());
 		refreshSpritelist();
 		setChanged();
 		notifyObservers();
@@ -232,10 +237,7 @@ public class ContentManager extends Observable{
 	{
 		addObserver(observer);
 	}
-	public void setContext(Context context)
-	{
-		 mCtx = context;
-	}
+
 	public void setSpriteBox(SpritesDialog spritebox)
 	{
 		mSpritebox = spritebox;
