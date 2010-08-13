@@ -68,7 +68,9 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 	
 	@Override
 	public int getItemViewType(int position) {
-		return Integer.parseInt(mBrickList.get(position).get(BrickDefine.BRICK_ID));
+		HashMap<String, String> brick = mBrickList.get(position);
+		int type = Integer.parseInt(brick.get(BrickDefine.BRICK_TYPE));
+		return type;
 	}
 
 	@Override
@@ -85,8 +87,7 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 		if(convertView != null)
 			return convertView;
 
-		View view =  mInflater.inflate(typeId, null); 
-		view.setId(Integer.parseInt(type));		
+		View view =  mInflater.inflate(typeId, null); 		
 
 		return view;
 	}
@@ -139,11 +140,17 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 			}
 			case (BrickDefine.HIDE):
 			{
-				return organizeViewHandling(type, R.layout.construction_brick_simple_text_view, convertView);
+				View view = organizeViewHandling(type, R.layout.construction_brick_simple_text_view, convertView);
+				TextView tView = (TextView) view.findViewWithTag(mCtx.getString(R.string.constructional_brick_hide));
+				tView.setText(R.string.hide_main_adapter);
+				return view;
 			}
 			case (BrickDefine.SHOW):
 			{
-				return organizeViewHandling(type, R.layout.construction_brick_simple_text_view, convertView);
+				View view = organizeViewHandling(type, R.layout.construction_brick_simple_text_view, convertView);
+				TextView tView = (TextView) view.findViewWithTag(mCtx.getString(R.string.constructional_brick_hide));
+				tView.setText(R.string.show_main_adapter);
+				return view;
 			}
 			case (BrickDefine.GO_TO):
 			{
@@ -245,6 +252,14 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 
 
 
+	
+	public void notifyDataSetChanged(ArrayList<HashMap<String, String>> data) {
+		mBrickList = data;
+		super.notifyDataSetChanged();
+	}
+
+
+
 	public void onNothingSelected(AdapterView<?> arg0) {}
 
 
@@ -275,242 +290,5 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 	}
 
 	
-//public View getView(int position, View convertView, ViewGroup parent) {
-//		
-//		
-//		
-//		final HashMap<String, String> brick = mBrickList.get(position);
-//		//TODO Reuse Views
-//		final String type = mBrickList.get(position).get(BrickDefine.BRICK_TYPE);
-//		final String value = mBrickList.get(position).get(BrickDefine.BRICK_VALUE);
-//
-//		LayoutInflater inflater = (LayoutInflater)mCtx.getSystemService(
-//	      Context.LAYOUT_INFLATER_SERVICE); 
-//		
-//		switch(Integer.valueOf(type).intValue()){
-//		case (BrickDefine.SET_BACKGROUND): 
-//		{
-//			RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.construction_brick_set_background, null);
-//			TextView text = (TextView)view.getChildAt(1);
-//			text.setText(R.string.set_background_main_adapter);
-//
-//			ImageView imageView = (ImageView)view.getChildAt(0);
-//			imageView.setOnClickListener(new View.OnClickListener() {
-//				
-//				public void onClick(View v) {
-//					    Log.d("Position", ((Integer)mMainListView.getPositionForView(v)).toString());
-//						mMediaFileLoader.openPictureGallery(mMainListView.getPositionForView(v), (ImageView)v);
-//				}		
-//				});
-//
-//		    if(value != null && value != "" && new File(value).exists()){
-//		    	Bitmap bm = null;	
-//		    	Log.d("Content", value);
-//		    	bm = BitmapFactory.decodeFile(value); 
-//		    	imageView.setBackgroundResource(0);
-//		    	Matrix matrix = new Matrix();
-//		    	float scaleWidth = (((float)THUMBNAIL_WIDTH)/bm.getWidth());
-//		    	float scaleHeight = (((float)THUMBNAIL_HEIGHT)/bm.getHeight());
-//		    	matrix.postScale(scaleWidth, scaleHeight);
-//		    	Bitmap newbm = Bitmap.createBitmap(bm, 0, 0,bm.getWidth() ,bm.getHeight() , matrix, true);
-//		    	imageView.setImageBitmap(newbm);
-//		    }
-////		    LayoutParams params = (LayoutParams) view.getLayoutParams();
-////		    params.addRule(RelativeLayout.ALIGN_BOTTOM, parent.getChildAt(size-1).getId());
-////		    view.setLayoutParams(params);
-//
-//			return view;
-//		}
-//		case (BrickDefine.PLAY_SOUND): 
-//		{
-//			RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.construction_brick_play_sound, null);
-//			TextView text = (TextView)view.getChildAt(0);
-//			text.setText(R.string.play_sound_main_adapter);
-//			
-//			Spinner spinner = (Spinner)view.getChildAt(1);
-//         
-//			final SimpleAdapter adapter = new SimpleAdapter(mCtx, mMediaFileLoader.getSoundContent(), R.layout.sound_spinner,
-//					new String[] {MediaFileLoader.SOUND_NAME},
-//	                new int[] {R.id.SoundSpinnerTextView});
-//			spinner.setAdapter(adapter);
-//			if (adapter.getCount() != 0) {
-//				spinner.setSelection(0);
-//				OnItemSelectedListener listener = new OnItemSelectedListener(){
-//	
-//					
-//					public void onItemSelected(AdapterView<?> arg0, View arg1,
-//							int arg2, long arg3) {
-//							brick.put(BrickDefine.BRICK_VALUE, ((HashMap<String, String>)adapter.getItem(arg2)).get(MediaFileLoader.SOUND_PATH));
-//					}
-//	
-//					
-//					public void onNothingSelected(AdapterView<?> arg0) {
-//						// TODO Auto-generated method stub
-//						
-//					}
-//					
-//				};
-//			    spinner.setOnItemSelectedListener(listener);
-//				//view.setBackgroundColor(Color.BLUE);
-//				spinner.setSelection(getIndexFromElementSound(adapter, brick.get(BrickDefine.BRICK_VALUE)));
-//			}
-//			
-//			return view;
-//		}
-//		case (BrickDefine.WAIT): 
-//		{
-//			RelativeLayout view =  (RelativeLayout)inflater.inflate(R.layout.construction_brick_wait, null);
-//			  TextView text = (TextView) view.getChildAt(0);
-//			  text.setText(R.string.wait_main_adapter);
-//			  //text.setTextColor(Color.BLUE);
-//	          EditText etext = (EditText) view.getChildAt(1);
-//	          etext.setText("1");
-//	          
-//	          etext.setText(brick.get(BrickDefine.BRICK_VALUE));
-//	          
-//	          etext.addTextChangedListener(new TextWatcher()
-//	          {
-//
-//				
-//				public void afterTextChanged(Editable s) {
-//					// TODO Auto-generated method stub
-//					
-//				}
-//
-//				
-//				public void beforeTextChanged(CharSequence s, int start,
-//						int count, int after) {
-//					// TODO Auto-generated method stub
-//					
-//				}
-//
-//				
-//				public void onTextChanged(CharSequence s, int start,
-//						int before, int count) {
-//					brick.remove(BrickDefine.BRICK_VALUE);
-//					brick.put(BrickDefine.BRICK_VALUE, s.toString());	
-//				}  
-//	          });
-//	         // view.setBackgroundColor(Color.argb(255, 255, 215, 0));
-//			return view;
-//			
-//		}
-//		case (BrickDefine.HIDE):
-//		{
-//			LinearLayout view =  (LinearLayout)inflater.inflate(R.layout.construction_brick_simple_text_view, null);
-//			TextView text = (TextView) view.getChildAt(0);
-//			text.setText(R.string.hide_main_adapter);
-//			//view.setBackgroundColor(Color.argb(255, 255, 215, 100));
-//			return view;
-//		}
-//		case (BrickDefine.SHOW):
-//		{
-//			LinearLayout view =  (LinearLayout)inflater.inflate(R.layout.construction_brick_simple_text_view, null);
-//			TextView text = (TextView) view.getChildAt(0);
-//			text.setText(R.string.show_main_adapter);
-//			//view.setBackgroundColor(Color.argb(255, 255, 215, 200));
-//			return view;
-//		}
-//		 case (BrickDefine.GO_TO):
-//		  {
-//		   RelativeLayout view =  (RelativeLayout)inflater.inflate(R.layout.construction_brick_goto, null);
-//		   
-//		   TextView text = (TextView) view.getChildAt(0);
-//		   text.setText(R.string.goto_main_adapter);
-//		   
-//		   LinearLayout layout = (LinearLayout) view.getChildAt(1);
-//		   
-//		   EditText textX = (EditText) layout.getChildAt(0);
-//		   textX.setText(brick.get(BrickDefine.BRICK_VALUE));
-//		   textX.addTextChangedListener(new TextWatcher()
-//		           {
-//		    
-//		    public void afterTextChanged(Editable s) {
-//		     // TODO Auto-generated method stub 
-//		    }
-//		    
-//		    public void beforeTextChanged(CharSequence s, int start,
-//		      int count, int after) {
-//		     // TODO Auto-generated method stub     
-//		    }
-//		    
-//		    public void onTextChanged(CharSequence s, int start,
-//		      int before, int count) {
-//		     brick.remove(BrickDefine.BRICK_VALUE);
-//		     brick.put(BrickDefine.BRICK_VALUE, s.toString());     
-//		    } 
-//		           });
-//		   
-//		   EditText textY = (EditText) layout.getChildAt(1);
-//		   textY.setText(brick.get(BrickDefine.BRICK_VALUE_1));
-//		   textY.addTextChangedListener(new TextWatcher()
-//		           {
-//		    
-//		    public void afterTextChanged(Editable s) {
-//		     // TODO Auto-generated method stub 
-//		    }
-//		    
-//		    public void beforeTextChanged(CharSequence s, int start,
-//		      int count, int after) {
-//		     // TODO Auto-generated method stub 
-//		    }
-//		    
-//		    public void onTextChanged(CharSequence s, int start,
-//		      int before, int count) {
-//		     brick.remove(BrickDefine.BRICK_VALUE_1);
-//		     brick.put(BrickDefine.BRICK_VALUE_1, s.toString()); 
-//		    } 
-//		           });
-//		   //view.setBackgroundColor(Color.argb(255, 255, 215, 255));
-//		   return view;
-//		  }
-//	
-//		case (BrickDefine.SET_COSTUME): 
-//		{
-//			RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.construction_brick_set_costume, null);
-//			//text1.setTextColor(Color.BLUE);
-//			TextView text = (TextView)view.getChildAt(1);
-//			text.setText(R.string.costume_main_adapter);
-//			//text2.setTextColor(Color.BLUE);
-//			//view.setBackgroundColor(Color.argb(255, 139, 0, 50));
-//
-//			ImageView imageView = (ImageView)view.getChildAt(0);
-//			imageView.setOnClickListener(new View.OnClickListener() {
-//				
-//				public void onClick(View v) {
-//				  mMediaFileLoader.openPictureGallery(mMainListView.getPositionForView(v), (ImageView)v);
-//				}
-//			});
-//			 if(value != null && value != "" && new File(value).exists()){
-//				Bitmap bm = null;	
-//				Log.d("Content", value);
-//			    bm = BitmapFactory.decodeFile(value); 
-//			    imageView.setBackgroundResource(0);
-//				Matrix matrix = new Matrix();
-//				float scaleWidth = (((float)THUMBNAIL_WIDTH)/bm.getWidth());
-//				float scaleHeight = (((float)THUMBNAIL_HEIGHT)/bm.getHeight());
-//			    matrix.postScale(scaleWidth, scaleHeight);
-//				Bitmap newbm = Bitmap.createBitmap(bm, 0, 0,bm.getWidth() ,bm.getHeight() , matrix, true);
-//				imageView.setImageBitmap(newbm);
-//			    }
-//			
-//			return view;
-//		}
-//		
-//		
-//		
-//		
-//		case (BrickDefine.NOT_DEFINED):
-//		{
-//			return null;
-//		}
-//		default: 
-//		{
-//			// Not defined Error
-//			return null;
-//	    }
-//		
-//		}
-//	}
 
 }

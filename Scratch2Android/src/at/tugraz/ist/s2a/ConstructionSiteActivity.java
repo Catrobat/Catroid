@@ -75,9 +75,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
         super.onCreate(savedInstanceState);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.construction_site);
-        mContentManager = new ContentManager();
+        mContentManager = new ContentManager(this);
         mContentManager.setObserver(this);
-        mContentManager.setContext(this);
         mMainListView = (ListView) findViewById(R.id.MainListView);
         mAdapter = new ConstructionSiteListViewAdapter(this, mContentManager.getContentArrayList(), mMainListView);
         
@@ -218,8 +217,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 
 	
 	public void update(Observable observable, Object data) {
-		
-		mAdapter.notifyDataSetChanged();
+		mAdapter.notifyDataSetChanged(mContentManager.getContentArrayList());
 		this.setTitle(mContentManager.getCurrentSprite());
 	
 	}
@@ -247,8 +245,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	}
 		
 	private void openToolbox(){
-		//TODO change hard coded
-		if(mContentManager.getCurrentSprite().equals("stage"))
+		if(mContentManager.getCurrentSprite().equals(this.getString(R.string.stage)))
 		{
 			showDialog(TOOLBOX_DIALOG_BACKGROUND);
 		}
@@ -272,8 +269,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	}
 	
 	public void onBrickClickListener(View v) {
-		//TODO change hard coded
-		if(mContentManager.getCurrentSprite().equals("stage")){
+		if(mContentManager.getCurrentSprite().equals(this.getString(R.string.stage))){
 			mContentManager.add(mToolboxStageDialog.getBrickClone(v));
 			if(mToolboxStageDialog.isShowing())
 				mToolboxStageDialog.dismiss();

@@ -28,8 +28,7 @@ public class StageActivity extends Activity {
 
 		mStage = new StageView(this);
 
-		mContentManager = new ContentManager();
-		mContentManager.setContext(this);
+		mContentManager = new ContentManager(this);
 		mContentManager.loadContent();
 
 
