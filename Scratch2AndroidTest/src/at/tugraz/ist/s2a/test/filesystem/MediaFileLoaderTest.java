@@ -1,15 +1,12 @@
-package com.tugraz.android.app.test.filesystem;
+package at.tugraz.ist.s2a.test.filesystem;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import com.tugraz.android.app.filesystem.MediaFileLoader;
-
 import android.content.Context;
-import android.graphics.BitmapFactory;
 import android.test.AndroidTestCase;
 import android.util.Log;
+import at.tugraz.ist.s2a.utils.filesystem.MediaFileLoader;
 
 public class MediaFileLoaderTest extends AndroidTestCase{
 
