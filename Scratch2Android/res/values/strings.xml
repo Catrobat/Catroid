@@ -14,7 +14,7 @@
     <string name="construction_site">Construction Site</string>
     <string name="toolbar">T\nO\nO\nO\nL\nB\nO\nO\nX\n</string>
     <string name="sprites">SPRITES</string>
-    <string name="stage">Stage</string>
+    <string name="stage">stage</string>
     
     <string name="construction_site_play">To Stage</string>
     <string name="reset">Reset Construction Site</string>
@@ -35,4 +35,7 @@
     
     
     <string name="brick_label">Choose your brick!</string>
+    
+
+    
 </resources>
