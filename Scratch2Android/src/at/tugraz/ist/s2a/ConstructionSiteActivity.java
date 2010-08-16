@@ -230,7 +230,6 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	
 	public void onPause()
 	{
-		mContentManager.saveContent();
 		super.onPause();
 	}
 	

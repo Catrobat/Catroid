@@ -3,18 +3,15 @@
     <string name="load">Load</string>
     <string name="save">Save</string>
     <string name="SpriteButtonText">Create</string>
-    <string name="newsprite">New Sprite</string>
+    <string name="newsprite">New Object</string>
     
     <string name="delete">Delete</string>
     <string name="remove">Remove</string>
  
-    <string name="hello">Hello World!</string>
-    <string name="app_name">ScatchyDroid</string>
-    
     <string name="construction_site">Construction Site</string>
-    <string name="toolbar">T\nO\nO\nO\nL\nB\nO\nO\nX\n</string>
-    <string name="sprites">SPRITES</string>
-    <string name="stage">stage</string>
+    <string name="toolbar">Building Blocks</string>
+    <string name="sprites">Object</string>
+    <string name="stage">Stage</string>
     
     <string name="construction_site_play">To Stage</string>
     <string name="reset">Reset Construction Site</string>
@@ -23,19 +20,18 @@
     <string name="stagemenu_construction_site">To Construction Site</string>
     <string name="stagemenu_start">Play/Pause</string>
     
+    <string name="app_name">ScatchyDroid</string>
+
     <string name="save_file_main">Save File</string>
     <string name="set_background_main_adapter">Set Background</string>
     <string name="play_sound_main_adapter">Play Sound</string>
     <string name="wait_main_adapter">Wait</string>
     <string name="hide_main_adapter">Hide</string> 
     <string name="show_main_adapter">Show</string>
-    <string name="goto_main_adapter">Go to</string>
-    <string name="costume_main_adapter">Set costume</string>
-    <string name="title_toolbox_sprites">Toolbox</string>
-    
-    
-    <string name="brick_label">Choose your brick!</string>
-    
-
+    <string name="goto_main_adapter">Go To</string>
+    <string name="costume_main_adapter">Set Costume</string>
+    <string name="title_toolbox_sprites">Building Blocks</string>
+      
+    <string name="brick_label">Choose Your Block!</string>
     
 </resources>

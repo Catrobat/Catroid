@@ -10,6 +10,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.TreeMap;
 import android.content.Context;
+import android.util.Log;
 import at.tugraz.ist.s2a.R;
 import at.tugraz.ist.s2a.utils.filesystem.FileSystem;
 import at.tugraz.ist.s2a.constructionSite.gui.dialogs.SpritesDialog;
@@ -68,7 +69,6 @@ public class ContentManager extends Observable{
 		mSpritesAndBackgroundList.clear();
 		mContentArrayList.clear();
 		mCurrentSprite = mCtx.getString(R.string.stage);
-		saveContent();
 		mSpritesAndBackgroundList.put(STAGE, (ArrayList<HashMap<String,String>>)mContentArrayList.clone());
 		mIdCounter = 0;
 		//Fill Dummy Stage
@@ -136,19 +136,25 @@ public class ContentManager extends Observable{
 	 */
 	public void loadContent(String file){
 		
+		
 		FileInputStream scratch = mFilesystem.createOrOpenFileInput("/sdcard/"+file, mCtx);
-        
+			
 		if(scratch != null){
-	        
+			    
 			mSpritesAndBackgroundList.clear();
 			mContentArrayList.clear();
-			
-			mSpritesAndBackgroundList.putAll(mParser.parse(scratch));
-	        mContentArrayList.addAll((ArrayList<HashMap<String,String>>)mSpritesAndBackgroundList.get(STAGE).clone());
-	        //TODO: check this for a better solution
-	        mIdCounter = getHighestId();	        
-            mCurrentSprite =STAGE;
-	        try {
+			try {
+				mSpritesAndBackgroundList.putAll(mParser.parse(scratch));
+			    mContentArrayList.addAll((ArrayList<HashMap<String,String>>)mSpritesAndBackgroundList.get(STAGE).clone());
+			    //TODO: check this for a better solution
+			    
+				} catch (Exception e) {
+					Log.e("ContentManager", "Error loading file " + e.getMessage());
+					e.printStackTrace();
+				} 
+		    mIdCounter = getHighestId();	        
+		    mCurrentSprite =STAGE;
+		    try {
 				scratch.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -160,10 +166,9 @@ public class ContentManager extends Observable{
 				mSpritesAndBackgroundList.put(STAGE, new ArrayList<HashMap<String,String>>());
 			}
 			refreshSpritelist();
-	        setChanged();
-	        notifyObservers();
-		} 
-
+		    setChanged();
+		    notifyObservers();
+		}
 	}
 
 	private int getHighestId() {
@@ -211,9 +216,11 @@ public class ContentManager extends Observable{
 			ps.close();
 			fd.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			Log.e("Contentmanager", "ERROR saving file " + e.getMessage());
 			e.printStackTrace();
 		}	
+		
+		Log.d("Contentmanager", "Save file!");
 	}
 	
 	/**
@@ -251,7 +258,6 @@ public class ContentManager extends Observable{
 	
 	public void switchSprite(String nameNewSprite){
 		mSpritesAndBackgroundList.put(mCurrentSprite, (ArrayList<HashMap<String,String>>)mContentArrayList.clone());
-		saveContent();
 		mContentArrayList.clear();
 		mContentArrayList.addAll(mSpritesAndBackgroundList.get(nameNewSprite));
 		mCurrentSprite = nameNewSprite;
