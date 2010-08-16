@@ -1,5 +1,6 @@
 package at.tugraz.ist.s2a.test.filesystem;
 
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
@@ -15,7 +16,7 @@ import at.tugraz.ist.s2a.utils.filesystem.FileSystem;
 public class FileSystemTest extends AndroidTestCase {
 
 	final String TEST_STRING = new String("Hello Scratch");
-	final String TEST_FILENAME = new String("samplefile.txt");
+	final String TEST_FILENAME = new String("samplefile.spf");
 	
 	private FileSystem mFileSystem;
 	private Context mCtx;
@@ -39,15 +40,14 @@ public class FileSystemTest extends AndroidTestCase {
               * This is done for security-reasons.
               * We chose MODE_WORLD_READABLE, because
               *  we have nothing to hide in our file */ 
-             FileOutputStream fOut = mCtx.openFileOutput(TEST_FILENAME, Activity.MODE_WORLD_READABLE);
-             OutputStreamWriter osw = new OutputStreamWriter(fOut); 
-
+             FileOutputStream fOut = new FileOutputStream("/sdcard/"+TEST_FILENAME);
+             DataOutputStream dos = new DataOutputStream(fOut);
              // Write the string to the file
-             osw.write(TEST_STRING);
+             dos.writeChars(TEST_STRING);
              /* ensure that everything is
               * really written out and close */
-             osw.flush();
-             osw.close();
+             dos.flush();
+             dos.close();
              
 		 }catch(Exception ex){assertFalse(true);}
 
