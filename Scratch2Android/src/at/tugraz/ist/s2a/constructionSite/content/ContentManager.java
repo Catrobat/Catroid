@@ -31,6 +31,7 @@ public class ContentManager extends Observable{
 	private static final String mTempFile = "defaultSaveFile.spf";
 	private String mCurrentSprite;
 	private SpritesDialog mSpritebox;
+	private int mIdCounter;
 	private ArrayList<String> mSpritelist = new ArrayList<String>();
 	private static String STAGE;
 	
@@ -69,6 +70,7 @@ public class ContentManager extends Observable{
 		mCurrentSprite = mCtx.getString(R.string.stage);
 		saveContent();
 		mSpritesAndBackgroundList.put(STAGE, (ArrayList<HashMap<String,String>>)mContentArrayList.clone());
+		mIdCounter = 0;
 		//Fill Dummy Stage
 		refreshSpritelist();//TODO Check this (SpritesAdapter)
         setChanged();
@@ -100,6 +102,8 @@ public class ContentManager extends Observable{
 	}
 	
 	public void add(HashMap<String, String> map){
+		map.put(BrickDefine.BRICK_ID, ((Integer)mIdCounter).toString());
+		mIdCounter++;
 		mContentArrayList.add(map);
 		setChanged();
 		notifyObservers();
@@ -114,6 +118,7 @@ public class ContentManager extends Observable{
 		mParser = new Parser();
 		mSpritelist = new ArrayList<String>();
 		mSpritesAndBackgroundList.put(STAGE, (ArrayList<HashMap<String,String>>)mContentArrayList.clone());
+		mIdCounter = 0;
 		refreshSpritelist();
 		
 		mCurrentSprite = STAGE;
@@ -140,6 +145,8 @@ public class ContentManager extends Observable{
 			
 			mSpritesAndBackgroundList.putAll(mParser.parse(scratch));
 	        mContentArrayList.addAll((ArrayList<HashMap<String,String>>)mSpritesAndBackgroundList.get(STAGE).clone());
+	        //TODO: check this for a better solution
+	        mIdCounter = getHighestId();	        
             mCurrentSprite =STAGE;
 	        try {
 				scratch.close();
@@ -157,6 +164,29 @@ public class ContentManager extends Observable{
 	        notifyObservers();
 		} 
 
+	}
+
+	private int getHighestId() {
+		TreeMap<String, ArrayList<HashMap<String, String>>> SpriteMap = new TreeMap<String, ArrayList<HashMap<String,String>>>();
+        SpriteMap.putAll((TreeMap<String, ArrayList<HashMap<String, String>>>)mSpritesAndBackgroundList.clone());
+        int highestId = 0;
+		for(int i=0; i<mSpritesAndBackgroundList.size(); i++){
+			ArrayList<HashMap<String, String>> sprite = SpriteMap.get(SpriteMap.firstKey());
+			if(sprite.size()>0){
+				int tempId = Integer.parseInt(sprite.get(sprite.size()-1).get(BrickDefine.BRICK_ID));		
+				if(tempId > highestId)
+					tempId= highestId;
+			}
+			//TODO: geht nur solange letzter Stein höchste Id falls sie höher wird müssen alle Steine durchschaut werden auskommentierter Code!!!
+			/*for(int j=0; j<sprite.size(); j++){
+				int tempId = Integer.parseInt(sprite.get(j).get(BrickDefine.BRICK_ID));
+				if(tempId > highestId)
+					tempId= highestId;
+			}*/
+			
+
+		}
+		return (highestId+1); // ID immer aktuellste freie
 	}
 
 	/**
@@ -258,5 +288,13 @@ public class ContentManager extends Observable{
 //        	map.remove(map.firstKey());
 //        }
         }
+    
+	/**
+	 * test method
+	 */
+    public int getIdCounter()
+    {
+    	return mIdCounter;
+    }
 
 }
