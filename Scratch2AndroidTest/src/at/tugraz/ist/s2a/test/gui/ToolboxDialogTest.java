@@ -1,31 +1,20 @@
-package com.tugraz.android.app.test.gui;
-
-
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import com.tugraz.android.app.MainActivity;
-import com.tugraz.android.app.R;
-import com.tugraz.android.app.ToolboxSpriteDialog;
-import com.tugraz.android.app.content.BrickDefine;
+package at.tugraz.ist.s2a.test.gui;
 
 import android.app.Dialog;
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.TouchUtils;
 import android.view.KeyEvent;
-import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
+import at.tugraz.ist.s2a.ConstructionSiteActivity;
 
-public class ToolboxDialogTest extends ActivityInstrumentationTestCase2<MainActivity>{
+public class ToolboxDialogTest extends ActivityInstrumentationTestCase2<ConstructionSiteActivity>{
 
-	private MainActivity mActivity;
+	private ConstructionSiteActivity mActivity;
 
 	private Button mButton;
 	private Dialog mDialog;
 	
 	public ToolboxDialogTest() {
-		super("com.tugraz.android.app", MainActivity.class);
+		super("com.tugraz.android.app", ConstructionSiteActivity.class);
 	}
 	
 	protected void setUp() throws Exception {
@@ -35,7 +24,7 @@ public class ToolboxDialogTest extends ActivityInstrumentationTestCase2<MainActi
 		mActivity = getActivity();
 
 		
-		mButton = (Button) mActivity.findViewById(com.tugraz.android.app.R.id.toolbar_button);
+		mButton = (Button) mActivity.findViewById(at.tugraz.ist.s2a.R.id.toolbar_button);
         
 	}
 	
