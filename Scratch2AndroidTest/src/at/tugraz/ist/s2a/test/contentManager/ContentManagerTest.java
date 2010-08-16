@@ -20,17 +20,17 @@ public class ContentManagerTest extends AndroidTestCase {
 	private TreeMap<String, ArrayList<HashMap<String, String>>> mSpritesAndBackgroundList;
 	
 	private Context mCtx;
-	private String FILENAME = "cmanagerfile.txt";
+	private String FILENAME = "cmanagerfile.spf";
 	
 	
 	@Override
 	protected void setUp() throws Exception {
 		mContentArrayList = new ArrayList<HashMap<String,String>>();
 		mSpritesAndBackgroundList = new TreeMap<String, ArrayList<HashMap<String, String>>>();
-		mContentManager = new ContentManager();
+		
 		try {
 			mCtx = getContext().createPackageContext("com.tugraz.android.app", Context.CONTEXT_IGNORE_SECURITY);
-			mContentManager.setContext(mCtx);
+			mContentManager = new ContentManager(mCtx);	
 		} catch (NameNotFoundException e) {
 			assertFalse(true);
 		}
@@ -237,10 +237,11 @@ public class ContentManagerTest extends AndroidTestCase {
               * really written out and close */
              ps.flush();
              ps.close();
+             fOut.close();
              
 		 }catch(Exception ex){assertFalse(true);}
 		 //load content that was saved before in file
-		 mContentManager.loadContent(FILENAME);
+		 mContentManager.loadContent("/sdcard/"+FILENAME);
 		 //check if the content is the same as written to file
 		 mContentArrayList = mContentManager.getContentArrayList();
 		 assertEquals(mContentArrayList.get(0).get(BrickDefine.BRICK_VALUE), "bla.jpg");
@@ -321,6 +322,82 @@ public class ContentManagerTest extends AndroidTestCase {
 	
 	}
 	
+	public void testIdAddBrick()
+	{
+		HashMap<String, String> map = new HashMap<String, String>();
+        map.put(BrickDefine.BRICK_ID, "0");
+        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
+        map.put(BrickDefine.BRICK_NAME, "Test1");
+        map.put(BrickDefine.BRICK_VALUE, "0");
+        mContentManager.add(map);
+        map = new HashMap<String, String>();
+        map.put(BrickDefine.BRICK_ID, "0");
+        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.PLAY_SOUND));
+        map.put(BrickDefine.BRICK_NAME, "Test2");
+        map.put(BrickDefine.BRICK_VALUE, "0");
+        mContentManager.add(map);
+        map = new HashMap<String, String>();
+        map.put(BrickDefine.BRICK_ID, "0");
+        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
+        map.put(BrickDefine.BRICK_NAME, "Test3");
+        map.put(BrickDefine.BRICK_VALUE, "0");
+        mContentManager.add(map);
+        
+        mContentManager.addSprite("Sprite", new ArrayList<HashMap<String, String>>());
+        map = new HashMap<String, String>();
+        map.put(BrickDefine.BRICK_ID, "0");
+        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
+        map.put(BrickDefine.BRICK_NAME, "Test1");
+        map.put(BrickDefine.BRICK_VALUE, "0");
+        mContentManager.add(map);
+        map = new HashMap<String, String>();
+        map.put(BrickDefine.BRICK_ID, "0");
+        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.PLAY_SOUND));
+        map.put(BrickDefine.BRICK_NAME, "Test2");
+        map.put(BrickDefine.BRICK_VALUE, "0");
+        mContentManager.add(map);
+        map = new HashMap<String, String>();
+        map.put(BrickDefine.BRICK_ID, "0");
+        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
+        map.put(BrickDefine.BRICK_NAME, "Test3");
+        map.put(BrickDefine.BRICK_VALUE, "0");
+        mContentManager.add(map);
+        
+        assertEquals(mContentManager.getIdCounter(), 6);
+	    assertEquals(mContentManager.getContentArrayList().get(2).get(BrickDefine.BRICK_ID), "5");
+	}
+
+	public void testIdLoad()
+	{
+		HashMap<String, String> map = new HashMap<String, String>();
+        map.put(BrickDefine.BRICK_ID, "0");
+        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
+        map.put(BrickDefine.BRICK_NAME, "Test1");
+        map.put(BrickDefine.BRICK_VALUE, "0");
+        mContentArrayList.add(map);
+        map = new HashMap<String, String>();
+        map.put(BrickDefine.BRICK_ID, "0");
+        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.PLAY_SOUND));
+        map.put(BrickDefine.BRICK_NAME, "Test2");
+        map.put(BrickDefine.BRICK_VALUE, "0");
+        mContentArrayList.add(map);
+        map = new HashMap<String, String>();
+        map.put(BrickDefine.BRICK_ID, "13");
+        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
+        map.put(BrickDefine.BRICK_NAME, "Test3");
+        map.put(BrickDefine.BRICK_VALUE, "0");
+        mContentArrayList.add(map);
+        mContentManager.setContentArrayList(mContentArrayList);
+        mSpritesAndBackgroundList.put("FirstSprite", mContentArrayList);
+        
+        mContentManager.setSpritesAndBackgroundList(mSpritesAndBackgroundList);
+        
+        mContentManager.saveContent();
+        mContentManager.clear();
+        mContentManager.loadContent();
+        
+        assertEquals(mContentManager.getIdCounter(), 13);
+	}
 	
 }
 
