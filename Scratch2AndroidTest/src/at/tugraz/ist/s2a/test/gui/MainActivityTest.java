@@ -69,11 +69,13 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<Construct
 					}
 				}
 		);
+		if(mListView.getChildCount()>0)
+		{
 		View view = (View) mListView.getChildAt(0);	
 		TouchUtils.longClickView(this, view);
 		this.sendKeys(KeyEvent.KEYCODE_DPAD_DOWN);
 		this.sendKeys(KeyEvent.KEYCODE_DPAD_CENTER);
-		
+		}
 	}
 	
 	/**
