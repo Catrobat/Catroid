@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.TreeMap;
+
+import android.R.bool;
 import android.content.Context;
 import android.util.Log;
 import at.tugraz.ist.s2a.R;
@@ -143,6 +145,23 @@ public class ContentManager extends Observable{
 			    
 			mSpritesAndBackgroundList.clear();
 			mContentArrayList.clear();
+			TreeMap<String, ArrayList<HashMap<String, String>>> sprites_stages = mParser.parse(scratch);
+			mSpritesAndBackgroundList.putAll(sprites_stages);
+	        mContentArrayList.addAll((ArrayList<HashMap<String,String>>)mSpritesAndBackgroundList.get("stage").clone());
+	        //TODO: check this for a better solution
+	        mIdCounter = getHighestId();	        
+            mCurrentSprite =STAGE;
+			try {
+				mSpritesAndBackgroundList.putAll(mParser.parse(scratch));
+			    mContentArrayList.addAll((ArrayList<HashMap<String,String>>)mSpritesAndBackgroundList.get(STAGE).clone());
+			    //TODO: check this for a better solution
+			    
+				} catch (Exception e) {
+					Log.e("ContentManager", "Error loading file " + e.getMessage());
+					e.printStackTrace();
+				} 
+		    mIdCounter = getHighestId();	        
+		    mCurrentSprite =STAGE;
 			try {
 				mSpritesAndBackgroundList.putAll(mParser.parse(scratch));
 			    mContentArrayList.addAll((ArrayList<HashMap<String,String>>)mSpritesAndBackgroundList.get(STAGE).clone());
@@ -178,9 +197,12 @@ public class ContentManager extends Observable{
 		for(int i=0; i<mSpritesAndBackgroundList.size(); i++){
 			ArrayList<HashMap<String, String>> sprite = SpriteMap.get(SpriteMap.firstKey());
 			if(sprite.size()>0){
-				int tempId = Integer.parseInt(sprite.get(sprite.size()-1).get(BrickDefine.BRICK_ID));		
-				if(tempId > highestId)
-					tempId= highestId;
+				int tempId = Integer.parseInt(sprite.get(sprite.size()-1).get(BrickDefine.BRICK_ID));
+				boolean test = (highestId<tempId);
+				if(test){
+					highestId = tempId;
+				}
+					
 			}
 			//TODO: geht nur solange letzter Stein höchste Id falls sie höher wird müssen alle Steine durchschaut werden auskommentierter Code!!!
 			/*for(int j=0; j<sprite.size(); j++){
