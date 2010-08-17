@@ -29,7 +29,7 @@ public class ContentManagerTest extends AndroidTestCase {
 		mSpritesAndBackgroundList = new TreeMap<String, ArrayList<HashMap<String, String>>>();
 		
 		try {
-			mCtx = getContext().createPackageContext("com.tugraz.android.app", Context.CONTEXT_IGNORE_SECURITY);
+			mCtx = getContext().createPackageContext("at.tugraz.ist.s2a", Context.CONTEXT_IGNORE_SECURITY);
 			mContentManager = new ContentManager(mCtx);	
 		} catch (NameNotFoundException e) {
 			assertFalse(true);
