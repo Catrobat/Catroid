@@ -218,7 +218,6 @@ public class ContentManagerTest extends AndroidTestCase {
 	
 
 	public void testLoadContent(){
-		
 		FileSystem filesystem = new FileSystem();
 		 try {     
              // ##### Write a file to the disk #####
@@ -228,7 +227,7 @@ public class ContentManagerTest extends AndroidTestCase {
               * This is done for security-reasons.
               * We chose MODE_WORLD_READABLE, because
               *  we have nothing to hide in our file */ 
-             FileOutputStream fOut = filesystem.createOrOpenFileOutput("/sdcard/"+FILENAME,mCtx);
+		     FileOutputStream fOut = filesystem.createOrOpenFileOutput("/sdcard/"+FILENAME,mCtx);
              DataOutputStream ps = new DataOutputStream(fOut);
          
              // Write the string to the file
@@ -237,11 +236,12 @@ public class ContentManagerTest extends AndroidTestCase {
               * really written out and close */
              ps.flush();
              ps.close();
+             fOut.flush();
              fOut.close();
              
 		 }catch(Exception ex){assertFalse(true);}
 		 //load content that was saved before in file
-		 mContentManager.loadContent("/sdcard/"+FILENAME);
+		 mContentManager.loadContent(FILENAME);
 		 //check if the content is the same as written to file
 		 mContentArrayList = mContentManager.getContentArrayList();
 		 assertEquals(mContentArrayList.get(0).get(BrickDefine.BRICK_VALUE), "bla.jpg");
@@ -250,7 +250,8 @@ public class ContentManagerTest extends AndroidTestCase {
 	}
 	
 	public void testSaveContentLoadContent(){
-
+		FileSystem mFilesystem = new FileSystem();
+		mSpritesAndBackgroundList.put("stage",new ArrayList<HashMap<String,String>>());
 		HashMap<String, String> map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "1");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
@@ -272,8 +273,9 @@ public class ContentManagerTest extends AndroidTestCase {
         mContentManager.setContentArrayList(mContentArrayList);
         mSpritesAndBackgroundList.put("FirstSprite", mContentArrayList);
         
-        mContentManager.setSpritesAndBackgroundList(mSpritesAndBackgroundList);
         
+        mContentManager.setSpritesAndBackgroundList(mSpritesAndBackgroundList);
+        mFilesystem.deleteFile("defaultSaveFile.spf", mCtx);
         mContentManager.saveContent();
         mContentManager.clear();
         mContentManager.loadContent();
@@ -281,7 +283,6 @@ public class ContentManagerTest extends AndroidTestCase {
 	}
 	
 	public void testSwitchSprite(){
-		
 		mContentArrayList = new ArrayList<HashMap<String,String>>();
 		HashMap<String, String> map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "1");
@@ -369,32 +370,33 @@ public class ContentManagerTest extends AndroidTestCase {
 
 	public void testIdLoad()
 	{
+		mContentManager.clear();
+		mContentManager.clearSprites();
+		mContentManager.addSprite("stage", new ArrayList<HashMap<String,String>>());
+		ArrayList<HashMap<String,String>> testList = new ArrayList<HashMap<String,String>>();
+		
 		HashMap<String, String> map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "0");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
         map.put(BrickDefine.BRICK_NAME, "Test1");
         map.put(BrickDefine.BRICK_VALUE, "0");
-        mContentArrayList.add(map);
+        testList.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "0");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.PLAY_SOUND));
         map.put(BrickDefine.BRICK_NAME, "Test2");
         map.put(BrickDefine.BRICK_VALUE, "0");
-        mContentArrayList.add(map);
+        testList.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "13");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
         map.put(BrickDefine.BRICK_NAME, "Test3");
         map.put(BrickDefine.BRICK_VALUE, "0");
-        mContentArrayList.add(map);
-        mContentManager.setContentArrayList(mContentArrayList);
-        mSpritesAndBackgroundList.put("FirstSprite", mContentArrayList);
+        testList.add(map);
         
-        mContentManager.setSpritesAndBackgroundList(mSpritesAndBackgroundList);
-        
-        mContentManager.saveContent();
-        mContentManager.clear();
-        mContentManager.loadContent();
+        mContentManager.addSprite("FirstSprite",testList); 
+        mContentManager.saveContent("test.spf");
+        mContentManager.loadContent("test.spf");
         
         assertEquals(mContentManager.getIdCounter(), 13);
 	}
