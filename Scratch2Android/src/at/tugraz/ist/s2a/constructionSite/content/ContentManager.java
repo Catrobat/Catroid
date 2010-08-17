@@ -15,8 +15,8 @@ import android.content.Context;
 import android.util.Log;
 import at.tugraz.ist.s2a.R;
 import at.tugraz.ist.s2a.utils.filesystem.FileSystem;
-import at.tugraz.ist.s2a.constructionSite.gui.dialogs.SpritesDialog;
 import at.tugraz.ist.s2a.utils.parser.Parser;
+import at.tugraz.ist.s2a.constructionSite.gui.dialogs.SpritesDialog;
 
 /**
  * provides content
