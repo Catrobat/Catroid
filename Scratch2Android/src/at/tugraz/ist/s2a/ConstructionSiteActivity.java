@@ -1,18 +1,15 @@
 package at.tugraz.ist.s2a;
 
+
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.SearchManager.OnCancelListener;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -35,6 +32,7 @@ import at.tugraz.ist.s2a.constructionSite.gui.dialogs.SaveProgramDialog;
 import at.tugraz.ist.s2a.constructionSite.gui.dialogs.ToolBoxDialog;
 import at.tugraz.ist.s2a.constructionSite.gui.dialogs.SpritesDialog;
 import at.tugraz.ist.s2a.stage.StageActivity;
+import at.tugraz.ist.s2a.utils.filesystem.FileSystem;
 import at.tugraz.ist.s2a.utils.filesystem.MediaFileLoader;
 
 public class ConstructionSiteActivity extends Activity implements Observer, OnClickListener{
@@ -55,11 +53,15 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	static final int SAVE_DIALOG = 3;
 	static final int LOAD_DIALOG = 4;
 	
+	
+	public static final String DEFAULT_ROOT = "/sdcard/scratch2android/";
+	
 	private Button mToolboxButton;
 	private ToolBoxDialog mToolboxObjectDialog;
 	private ToolBoxDialog mToolboxStageDialog;
 	private Dialog mSaveDialog;
 	private Dialog mLoadDialog;
+	
 	
 	protected ListView mMainListView;
 	private ConstructionSiteListViewAdapter mAdapter;
@@ -74,9 +76,11 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
+        
         setContentView(R.layout.construction_site);
         mContentManager = new ContentManager(this);
         mContentManager.setObserver(this);
+        mContentManager.setRoot(DEFAULT_ROOT);
         mMainListView = (ListView) findViewById(R.id.MainListView);
         mAdapter = new ConstructionSiteListViewAdapter(this, mContentManager.getContentArrayList(), mMainListView);
         
@@ -281,4 +285,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			
 			
 	}
+	
+
+
  }

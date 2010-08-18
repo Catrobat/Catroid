@@ -33,13 +33,13 @@ public class LoadProgramDialog extends Dialog{
 		
     	//TODO fix static path
     	File sdFile = new File("/sdcard/");
-    	String[] sdFileList = sdFile.list();
+    	File[] sdFileList = sdFile.listFiles();
     	ArrayList<String> adapterFileList = new ArrayList<String>();
     	
     	for(int i=0; i<sdFileList.length; i++)
     	{
-    		if(sdFileList[i].contains(".spf")){
-    			adapterFileList.add(sdFileList[i]);
+    		if(sdFileList[i].getName().contains(".spf")){
+    			adapterFileList.add(sdFileList[i].getName());
     		}
     			
     	}

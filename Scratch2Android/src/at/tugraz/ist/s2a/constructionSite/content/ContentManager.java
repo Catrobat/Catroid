@@ -1,6 +1,7 @@
 package at.tugraz.ist.s2a.constructionSite.content;
 
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -31,12 +32,15 @@ public class ContentManager extends Observable{
 	private FileSystem mFilesystem;
 	private Parser mParser;
 	private Context mCtx;
-	private static final String mTempFile = "defaultSaveFile.spf";
+	private static final String mTempFile = "/defaultSaveFile.spf";
 	private String mCurrentSprite;
 	private SpritesDialog mSpritebox;
 	private int mIdCounter;
 	private ArrayList<String> mSpritelist = new ArrayList<String>();
 	private static String STAGE;
+	public static String ROOT_IMAGES;
+	public static String ROOT_SOUNDS;
+	public static String ROOT;
 	
 	public ArrayList<HashMap<String, String>> getContentArrayList(){
 		return mContentArrayList;
@@ -137,10 +141,12 @@ public class ContentManager extends Observable{
 	 * load content into data structure
 	 */
 	public void loadContent(String file){
-		
-		
-		FileInputStream scratch = mFilesystem.createOrOpenFileInput("/sdcard/"+file, mCtx);
-			
+		File test= new File(ROOT+file);
+		if(!(test.getParent().equals(null))){
+			setRoot(test.getParent()+"/");
+		}
+		FileInputStream scratch = mFilesystem.createOrOpenFileInput(ROOT+file, mCtx);
+		//TODO setRoot(path);
 		if(scratch != null){
 			    
 			mSpritesAndBackgroundList.clear();
@@ -227,10 +233,18 @@ public class ContentManager extends Observable{
 	 * save content
 	 */
 	public void saveContent(String file){
-		mSpritesAndBackgroundList.put(mCurrentSprite,(ArrayList<HashMap<String,String>>) mContentArrayList.clone());
-		FileOutputStream fd = mFilesystem.createOrOpenFileOutput("/sdcard/"+file, mCtx);
-		DataOutputStream ps = new DataOutputStream(fd);
+		
+		File old_path = new File(ROOT);
+		File new_path = new File(old_path.getParent()+("/"+file.replace(".spf", "")));
+		new_path.mkdirs();
 
+		boolean test = old_path.renameTo(new_path);
+		ROOT = old_path.getAbsolutePath();
+		
+		mSpritesAndBackgroundList.put(mCurrentSprite,(ArrayList<HashMap<String,String>>) mContentArrayList.clone());
+		FileOutputStream fd = mFilesystem.createOrOpenFileOutput(ROOT+file, mCtx);
+		DataOutputStream ps = new DataOutputStream(fd);
+		
 		String xml = mParser.toXml(mSpritesAndBackgroundList);
 		
 		try {
@@ -243,7 +257,7 @@ public class ContentManager extends Observable{
 		}	
 		
 		Log.d("Contentmanager", "Save file!");
-	}
+   	}
 	
 	/**
 	 * test method
@@ -324,5 +338,17 @@ public class ContentManager extends Observable{
     {
     	return mIdCounter;
     }
+    
+	public void setRoot(String root){
+		File rootFile = new File(root);
+		rootFile.mkdirs();
+		ROOT = rootFile.getPath();
+		File rootImageFile = new File(root+"images/");
+		rootImageFile.mkdirs();
+		ROOT_IMAGES = rootImageFile.getPath();
+		File rootSoundFile = new File(root+"sounds/");
+		rootSoundFile.mkdirs();
+		ROOT_SOUNDS = rootSoundFile.getPath();
+	}
 
 }

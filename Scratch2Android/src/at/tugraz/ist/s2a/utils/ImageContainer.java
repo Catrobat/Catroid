@@ -54,6 +54,7 @@ public class ImageContainer {
 		    bm = BitmapFactory.decodeFile(getFullImagePath(path));
 		    Bitmap newbm = mEditor.scaleBitmap(bm, MAX_HEIGHT, MAX_WIDTH);
 			mImageMap.put(path, newbm);
+			saveBitmapOnSDCardAsPNG(path, newbm);
 		}	
 	}
 	
@@ -81,7 +82,7 @@ public class ImageContainer {
 		mImageMap.clear();
 	}
 	public void saveBitmapOnSDCardAsPNG(String path, Bitmap bitmap){
-		 File file = new File(path);
+		 File file = new File(getFullImagePath(path));
 		 try {
 			FileOutputStream os = new FileOutputStream(file);
 			bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);
