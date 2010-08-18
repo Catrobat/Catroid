@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.TreeMap;
+
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import at.tugraz.ist.s2a.R;
@@ -135,7 +137,7 @@ public class ContentManager extends Observable{
 	 * load content into data structure
 	 */
 	public void loadContent(String file){
-		
+		((Activity)mCtx).setTitle(file);
 		
 		FileInputStream scratch = mFilesystem.createOrOpenFileInput("/sdcard/"+file, mCtx);
 			
@@ -205,6 +207,8 @@ public class ContentManager extends Observable{
 	 * save content
 	 */
 	public void saveContent(String file){
+		((Activity)mCtx).setTitle(file);
+		
 		mSpritesAndBackgroundList.put(mCurrentSprite,(ArrayList<HashMap<String,String>>) mContentArrayList.clone());
 		FileOutputStream fd = mFilesystem.createOrOpenFileOutput("/sdcard/"+file, mCtx);
 		DataOutputStream ps = new DataOutputStream(fd);

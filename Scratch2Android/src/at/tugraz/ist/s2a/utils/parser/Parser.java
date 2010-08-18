@@ -34,6 +34,7 @@ public class Parser {
 	final static int CMD_WAIT = 200;
 
 	final static String STAGE = "stage";
+	final static String STAGE_NAME = "Stage";
 	final static String OBJECT = "object";
 	final static String ID = "id";
 	final static String PATH = "path";
@@ -102,7 +103,7 @@ public class Parser {
 			
 		}
 		
-		spritesMap.put(STAGE, sublist);
+		spritesMap.put(STAGE_NAME, sublist);
 		
 		//then read out sprites
 		for (int j=0; j<sprites.getLength(); j++){
@@ -167,9 +168,9 @@ public class Parser {
 		    	if (!stageRead) //workaround so that stage always is the first element in xml file
 	    		{
 		    		//TODO is stage a sprite?
-	    			sprite = tempMap.get(tempMap.firstKey());
+	    			sprite = tempMap.get(STAGE_NAME);
 	    			serializer.startTag(EMPTY_STRING, STAGE);
-	    			serializer.attribute(EMPTY_STRING, NAME, tempMap.firstKey());
+	    			serializer.attribute(EMPTY_STRING, NAME, STAGE_NAME);
 	    			//Log.d("TEST", "what the .." + tempMap.firstKey());
 	    		}
 		    	else
@@ -242,7 +243,7 @@ public class Parser {
 		    		//Log.d("TEST", "in not stage");
 		    		serializer.endTag(EMPTY_STRING, STAGE);
 		    		stageRead = true;
-		    		tempMap.remove(STAGE);
+		    		tempMap.remove(STAGE_NAME);
 		    	}
 		    	else {
 		    		//Log.d("TEST", "in end tag");

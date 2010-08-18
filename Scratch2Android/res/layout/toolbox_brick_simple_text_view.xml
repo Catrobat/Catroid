@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="wrap_content"
-  android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center" android:background="@drawable/brick_yellow" android:onClick="@string/onBrickClickListener">
-<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/OneElementBrick" android:text="Hide/Show" android:layout_gravity="center" android:textColor="@color/white" android:textSize="19dip" android:textStyle="bold"></TextView>
+  android:layout_height="wrap_content" android:orientation="horizontal" android:onClick="@string/onBrickClickListener" android:layout_width="wrap_content" android:background="@drawable/toolbox_brick_yellow">
+<TextView android:layout_height="wrap_content" android:id="@+id/OneElementBrick" android:text="Hide/Show" android:textColor="@color/white" android:textStyle="bold" android:textSize="18dip" android:layout_width="wrap_content"></TextView>
 </LinearLayout>

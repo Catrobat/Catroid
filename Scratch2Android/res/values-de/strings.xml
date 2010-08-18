@@ -9,7 +9,6 @@
     <string name="remove">Verschieben</string>
      
     <string name="construction_site">Baustelle</string>
-    <string name="toolbar">Baukasten</string>
     <string name="sprites">Objekte</string>
     <string name="stage">Bühne</string>
     
@@ -30,7 +29,10 @@
     <string name="show_main_adapter">Zeige dich</string>
     <string name="goto_main_adapter">Gehe zu</string>
     <string name="costume_main_adapter">Setze Kostüm</string>
-    <string name="title_toolbox_sprites">Baukasten</string>
-    
+    <string name="toolbar">B\na\nu\nk\na\ns\nt\ne\nn</string>
+    <string name="seconds">Sekunden</string>
     <string name="brick_label">Wähle deinen Baustein</string>
+    
+    <string name="x_label">X:</string>
+    <string name="y_label">Y:</string>
 </resources>
