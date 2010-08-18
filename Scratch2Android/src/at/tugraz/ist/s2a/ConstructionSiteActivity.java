@@ -189,7 +189,6 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
     	return true;
     };
 
-    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -215,11 +214,9 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
         }
     }
 
-	
 	public void update(Observable observable, Object data) {
-		mAdapter.notifyDataSetChanged(mContentManager.getContentArrayList());
-		this.setTitle(mContentManager.getCurrentSprite());
-	
+		mAdapter.notifyDataSetChanged(mContentManager.getContentArrayList());	
+		mMainListView.setSelection(mAdapter.getCount()-1);
 	}
 	
 	public void onStop()
@@ -232,7 +229,6 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	{
 		super.onPause();
 	}
-	
 	
 	public void onClick(View v) {
 		if (v.getId() == R.id.toolbar_button) {
