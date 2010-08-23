@@ -113,6 +113,7 @@ public class ContentManager extends Observable{
 	
 	public ContentManager(Context context){
 		mCtx = context;
+		//read localized stage name
 		STAGE = mCtx.getString(R.string.stage);
 		mSpritesAndBackgroundList= new TreeMap<String, ArrayList<HashMap<String, String>>>();
 		mContentArrayList = new ArrayList<HashMap<String, String>>();
@@ -139,37 +140,39 @@ public class ContentManager extends Observable{
 	public void loadContent(String file){
 		((Activity)mCtx).setTitle(file);
 		
+		mSpritesAndBackgroundList.clear();
+		mContentArrayList.clear();
+		
 		FileInputStream scratch = mFilesystem.createOrOpenFileInput("/sdcard/"+file, mCtx);
 			
-		if(scratch != null){
-			    
-			mSpritesAndBackgroundList.clear();
-			mContentArrayList.clear();
-			try {
-				mSpritesAndBackgroundList.putAll(mParser.parse(scratch));
-			    mContentArrayList.addAll((ArrayList<HashMap<String,String>>)mSpritesAndBackgroundList.get(STAGE).clone());
-			    //TODO: check this for a better solution
-			    
-				} catch (Exception e) {
-					Log.e("ContentManager", "Error loading file " + e.getMessage());
-					e.printStackTrace();
-				} 
-		    mIdCounter = getHighestId();	        
-		    mCurrentSprite =STAGE;
-		    try {
-				scratch.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		try {
+			if(scratch != null && scratch.available() > 0){
+				    
+				mSpritesAndBackgroundList.putAll(mParser.parse(scratch, mCtx));
+				mContentArrayList.addAll((ArrayList<HashMap<String,String>>)mSpritesAndBackgroundList.get(mSpritesAndBackgroundList.firstKey()).clone());
+				//TODO: check this for a better solution
+	
+			    mIdCounter = getHighestId();	        
+			    mCurrentSprite =STAGE;
+	
+			    scratch.close();
 			}
+			
 			if(mSpritesAndBackgroundList.size() == 0)
 			{
 				//Fill Dummy Stage
 				mSpritesAndBackgroundList.put(STAGE, new ArrayList<HashMap<String,String>>());
 			}
+			
 			refreshSpritelist();
 		    setChanged();
 		    notifyObservers();
+
+			
+
+		} catch (IOException e) {
+			
+			e.printStackTrace();
 		}
 	}
 
