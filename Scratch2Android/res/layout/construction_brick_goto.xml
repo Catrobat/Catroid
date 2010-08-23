@@ -2,10 +2,9 @@
 
 	<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android" 
 		android:id="@+id/RelativeLayout01" 
-		android:longClickable="true" 
 		android:layout_height="wrap_content" 
 		android:layout_width="wrap_content" 
-		android:clickable="true" android:background="@drawable/construction_brick_blue">
+		android:background="@drawable/construction_brick_blue" android:focusable="false" android:focusableInTouchMode="false">
 		<TextView android:id="@+id/ValueTextViewXY" 
 			android:layout_alignParentLeft="true" 
 			android:textStyle="bold" 
