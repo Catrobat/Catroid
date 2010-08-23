@@ -4,7 +4,7 @@
 		android:id="@+id/RelativeLayout01" 
 		android:layout_width="wrap_content" 
 		android:layout_height="wrap_content" 
-		android:longClickable="true" android:background="@drawable/construction_brick_yellow" android:hapticFeedbackEnabled="false" android:clickable="true" android:focusableInTouchMode="true" android:focusable="true">	
+		android:longClickable="true" android:background="@drawable/construction_brick_yellow" android:hapticFeedbackEnabled="false" android:clickable="true" android:focusable="false" android:focusableInTouchMode="false">	
 	
 	<TextView android:layout_width="wrap_content" 
 			android:layout_height="wrap_content" 
