@@ -19,8 +19,10 @@ import org.w3c.dom.NodeList;
 import org.xmlpull.v1.XmlSerializer;
 
 
+import android.content.Context;
 import android.util.Log;
 import android.util.Xml;
+import at.tugraz.ist.s2a.R;
 import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
 
 
@@ -34,7 +36,6 @@ public class Parser {
 	final static int CMD_WAIT = 200;
 
 	final static String STAGE = "stage";
-	final static String STAGE_NAME = "Stage";
 	final static String OBJECT = "object";
 	final static String ID = "id";
 	final static String PATH = "path";
@@ -61,7 +62,7 @@ public class Parser {
 		}
 	}
 	
-	public TreeMap<String, ArrayList<HashMap<String, String>>> parse(InputStream stream){
+	public TreeMap<String, ArrayList<HashMap<String, String>>> parse(InputStream stream, Context context){
 		TreeMap<String, ArrayList<HashMap<String, String>>> spritesMap = new TreeMap<String, ArrayList<HashMap<String,String>>>();
 		mIdCounter = 1;
 		
@@ -102,8 +103,8 @@ public class Parser {
 			mIdCounter++;
 			
 		}
-		
-		spritesMap.put(STAGE_NAME, sublist);
+		//insert localized stage name
+		spritesMap.put(context.getString(R.string.stage), sublist);
 		
 		//then read out sprites
 		for (int j=0; j<sprites.getLength(); j++){
@@ -161,29 +162,29 @@ public class Parser {
 		
 		boolean stageRead = false;
 		int mapSizeBeforeRemoving = tempMap.size();;
-		
+		//TODO that parser is toooo dirty, refactor it!!!!!!!!!!
 		for (int j=0; j<mapSizeBeforeRemoving; j++) {
 			ArrayList<HashMap<String, String>> sprite = tempMap.get(tempMap.firstKey());
 		    try {
 		    	if (!stageRead) //workaround so that stage always is the first element in xml file
-	    		{
+	    		{	
 		    		//TODO is stage a sprite?
-	    			sprite = tempMap.get(STAGE_NAME);
+	    			sprite = tempMap.get(tempMap.firstKey());
 	    			serializer.startTag(EMPTY_STRING, STAGE);
-	    			serializer.attribute(EMPTY_STRING, NAME, STAGE_NAME);
-	    			//Log.d("TEST", "what the .." + tempMap.firstKey());
+	    			serializer.attribute(EMPTY_STRING, NAME, tempMap.firstKey());
+	    			Log.d("TEST", "what the .." + tempMap.firstKey());
 	    		}
 		    	else
 		    	{
 		    		serializer.startTag(EMPTY_STRING, OBJECT);
 		    	    serializer.attribute(EMPTY_STRING, NAME, tempMap.firstKey());
-		    	   // Log.d("TEST", tempMap.firstKey());
+		    	    Log.d("TEST", tempMap.firstKey());
 		    	}
-		    	//Log.d("TEST", "size of objects = " +sprite.size());
+		    	Log.d("TEST", "size of objects = " +sprite.size());
 		    	
 		    	for (int i=0; i<sprite.size(); i++) {
 		    		HashMap<String,String> brick = sprite.get(i);
-		    		//Log.d("TEST", brick.get(BrickDefine.BRICK_TYPE));
+		    		Log.d("TEST", brick.get(BrickDefine.BRICK_TYPE));
 					switch (Integer.parseInt(brick.get(BrickDefine.BRICK_TYPE))){ //TODO nicht bei jedem durchlauf neue elemente erzeugen sonder nur clonen
 					case BrickDefine.SET_BACKGROUND:
 						serializer.startTag(EMPTY_STRING, COMMAND);
@@ -243,7 +244,7 @@ public class Parser {
 		    		//Log.d("TEST", "in not stage");
 		    		serializer.endTag(EMPTY_STRING, STAGE);
 		    		stageRead = true;
-		    		tempMap.remove(STAGE_NAME);
+		    		tempMap.remove(tempMap.firstKey());
 		    	}
 		    	else {
 		    		//Log.d("TEST", "in end tag");

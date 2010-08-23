@@ -11,11 +11,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
 import junit.framework.TestCase;
+import android.test.AndroidTestCase;
 import android.util.Log;
 import at.tugraz.ist.s2a.utils.parser.*;
 
 
-public class ParserTest extends TestCase {
+public class ParserTest extends AndroidTestCase {
 	private Parser parser;
 	
 	private String testXml =
@@ -49,8 +50,8 @@ public class ParserTest extends TestCase {
 	"</project>";
 	
 	
-	public ParserTest(String name) {
-		super(name);
+	public ParserTest() {
+		super();
 	}
 
 	protected void setUp() throws Exception {
@@ -80,7 +81,7 @@ public class ParserTest extends TestCase {
 		TreeMap<String, ArrayList<HashMap<String, String>>> list =null;
 		try {
 			InputStream stream = new FileInputStream(file);
-			list = parser.parse(stream);
+			list = parser.parse(stream, this.getContext());
 		}
 		catch (FileNotFoundException e){
 			Log.e("ParserTest", "Reading from test XML file failed!");

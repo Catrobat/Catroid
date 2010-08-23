@@ -15,6 +15,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -96,6 +97,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		mSpritesToolboxButton.setOnClickListener(this);
 		
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
     }
 
     private static int LAST_SELECTED_ELEMENT_POSITION = 0;
@@ -264,6 +266,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	}
 	
 	public void onBrickClickListener(View v) {
+		//Log.d("TEST", "HALLO");
 		if(mContentManager.getCurrentSprite().equals(this.getString(R.string.stage))){
 			mContentManager.add(mToolboxStageDialog.getBrickClone(v));
 			if(mToolboxStageDialog.isShowing())
