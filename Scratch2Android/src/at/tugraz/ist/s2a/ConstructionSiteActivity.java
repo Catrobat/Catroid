@@ -12,6 +12,7 @@ import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -88,9 +89,10 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
         ROOT = DEFAULT_ROOT;//TODO Refactor
         mMainListView = (ListView) findViewById(R.id.MainListView);
         mAdapter = new ConstructionSiteListViewAdapter(this, mContentManager.getContentArrayList(), mMainListView);
-        
+        mMainListView.setFocusable(false);
+        mMainListView.setFocusableInTouchMode(false);
         mMainListView.setAdapter(mAdapter);
-            
+        
         //Testing
         //mContentManager.testSet();
         //mContentManager.saveContent();
@@ -105,6 +107,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		mSpritesToolboxButton.setOnClickListener(this);
 		
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
     }
 
     private static int LAST_SELECTED_ELEMENT_POSITION = 0;
@@ -200,7 +203,6 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
     	return true;
     };
 
-    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -230,11 +232,9 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
         }
     }
 
-	
 	public void update(Observable observable, Object data) {
-		mAdapter.notifyDataSetChanged(mContentManager.getContentArrayList());
-		this.setTitle(mContentManager.getCurrentSprite());
-	
+		mAdapter.notifyDataSetChanged(mContentManager.getContentArrayList());	
+		mMainListView.setSelection(mAdapter.getCount()-1);
 	}
 	
 	public void onStop()
@@ -247,7 +247,6 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	{
 		super.onPause();
 	}
-	
 	
 	public void onClick(View v) {
 		if (v.getId() == R.id.toolbar_button) {
@@ -283,6 +282,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	}
 	
 	public void onBrickClickListener(View v) {
+		//Log.d("TEST", "HALLO");
 		if(mContentManager.getCurrentSprite().equals(this.getString(R.string.stage))){
 			mContentManager.add(mToolboxStageDialog.getBrickClone(v));
 			if(mToolboxStageDialog.isShowing())
