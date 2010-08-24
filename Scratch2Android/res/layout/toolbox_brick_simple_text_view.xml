@@ -6,12 +6,12 @@
   android:onClick="@string/onBrickClickListener" 
   android:layout_width="wrap_content" 
   android:background="@drawable/toolbox_brick_yellow">
-<TextView android:layout_height="wrap_content" 
-	android:id="@+id/OneElementBrick" 
-	android:text="Hide/Show" 
-	android:textColor="@color/white" 
-	android:textStyle="bold" 
-	android:textSize="18dip" 
-	android:layout_width="wrap_content">
-</TextView>
+	<TextView android:layout_height="wrap_content" 
+		android:id="@+id/OneElementBrick" 
+		android:text="Hide/Show" 
+		android:textColor="@color/white" 
+		android:textStyle="bold" 
+		android:textSize="18dip" 
+		android:layout_width="wrap_content">
+	</TextView>
 </LinearLayout>
