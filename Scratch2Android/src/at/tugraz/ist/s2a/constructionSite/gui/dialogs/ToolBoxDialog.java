@@ -41,7 +41,7 @@ public class ToolBoxDialog extends Dialog{
 		super(context);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-		getWindow().setGravity(Gravity.LEFT);
+		getWindow().setGravity(Gravity.CENTER_HORIZONTAL);
 		setContentView(R.layout.dialog_toolbox);
 		mCtx = context;
 		mContentManager = contentManager;

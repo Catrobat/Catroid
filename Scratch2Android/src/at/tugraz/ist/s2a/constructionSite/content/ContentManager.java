@@ -12,6 +12,8 @@ import java.util.Observer;
 import java.util.TreeMap;
 
 import android.R.bool;
+
+import android.app.Activity;
 import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
@@ -117,6 +119,7 @@ public class ContentManager extends Observable{
 	
 	public ContentManager(Context context){
 		mCtx = context;
+		//read localized stage name
 		STAGE = mCtx.getString(R.string.stage);
 		mSpritesAndBackgroundList= new TreeMap<String, ArrayList<HashMap<String, String>>>();
 		mContentArrayList = new ArrayList<HashMap<String, String>>();
@@ -141,7 +144,10 @@ public class ContentManager extends Observable{
 	 * load content into data structure
 	 */
 	public void loadContent(String file){
+		((Activity)mCtx).setTitle(file);
 		
+		mSpritesAndBackgroundList.clear();
+		mContentArrayList.clear();
 		FileInputStream scratch = mFilesystem.createOrOpenFileInput(ConstructionSiteActivity.ROOT+file, mCtx);
 		//TODO setRoot(path);
 		if(scratch != null){
@@ -181,15 +187,34 @@ public class ContentManager extends Observable{
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+		try {
+			if(scratch != null && scratch.available() > 0){
+				    
+				mSpritesAndBackgroundList.putAll(mParser.parse(scratch, mCtx));
+				mContentArrayList.addAll((ArrayList<HashMap<String,String>>)mSpritesAndBackgroundList.get(mSpritesAndBackgroundList.firstKey()).clone());
+				//TODO: check this for a better solution
+	
+			    mIdCounter = getHighestId();	        
+			    mCurrentSprite =STAGE;
+	
+			    scratch.close();
 			}
+			
 			if(mSpritesAndBackgroundList.size() == 0)
 			{
 				//Fill Dummy Stage
 				mSpritesAndBackgroundList.put(STAGE, new ArrayList<HashMap<String,String>>());
 			}
+			
 			refreshSpritelist();
 		    setChanged();
 		    notifyObservers();
+
+			
+
+		} catch (IOException e) {
+			
+			e.printStackTrace();
 		}
 	}
 
@@ -230,6 +255,8 @@ public class ContentManager extends Observable{
 	 * save content
 	 */
 	public void saveContent(String file){
+		
+		((Activity)mCtx).setTitle(file);
 		
 		mSpritesAndBackgroundList.put(mCurrentSprite,(ArrayList<HashMap<String,String>>) mContentArrayList.clone());
 		FileOutputStream fd = mFilesystem.createOrOpenFileOutput(ConstructionSiteActivity.ROOT+file, mCtx);

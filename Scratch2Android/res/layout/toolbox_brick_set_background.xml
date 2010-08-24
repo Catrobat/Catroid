@@ -4,14 +4,13 @@
 		android:id="@+id/RelativeLayout01" 
 		android:layout_width="wrap_content" 
 		android:layout_height="wrap_content" 
-		android:background="@drawable/brick_violet" android:onClick="@string/onBrickClickListener">
-		<ImageView android:id="@+id/ImageView01" 
-			android:layout_width="wrap_content" 
-			android:layout_height="wrap_content" 
-			android:background="@drawable/no_pic" 
-			android:layout_alignParentRight="true" 
-			android:layout_centerVertical="true">
-		</ImageView>
+		android:onClick="@string/onBrickClickListener" android:background="@drawable/toolbox_brick_violet">
+				<RelativeLayout android:id="@+id/RelativeLayout02" android:layout_width="wrap_content" android:layout_height="wrap_content" 
+		android:layout_alignParentRight="true" 
+		android:background="@drawable/image_background2" android:padding="7dip"><ImageView 
+		android:id="@+id/ImageView01" android:layout_width="wrap_content" 
+		android:layout_height="wrap_content" android:clickable="false" android:focusable="false" android:focusableInTouchMode="false" android:layout_centerInParent="true" android:background="@drawable/landscape">
+		</ImageView></RelativeLayout>
 		<TextView android:layout_width="wrap_content" 
 			android:layout_height="wrap_content" 
 			android:id="@+id/ValueTextView" 
@@ -20,7 +19,7 @@
 			android:textSize="19dip" 
 			android:textColor="@color/white" 
 			android:layout_centerVertical="true" 
-			android:text="@string/set_background_main_adapter">
+			android:text="@string/set_background_main_adapter" android:focusable="false" android:focusableInTouchMode="false" android:clickable="false">
 	</TextView>
 </RelativeLayout>
 	
