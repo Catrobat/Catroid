@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="new_project_main">New Project</string>
+	<string name="change_project_name_main">Change Project Name</string>
+	<string name="edit_text_filename_standard_input">projectname</string>
     <string name="load">Load</string>
     <string name="save">Save</string>
     <string name="SpriteButtonText">Create</string>
@@ -22,7 +25,6 @@
     
     <string name="app_name">ScatchyDroid</string>
 
-    <string name="save_file_main">Save File</string>
     <string name="set_background_main_adapter">Set Background</string>
     <string name="play_sound_main_adapter">Play Sound</string>
     <string name="wait_main_adapter">Wait</string>

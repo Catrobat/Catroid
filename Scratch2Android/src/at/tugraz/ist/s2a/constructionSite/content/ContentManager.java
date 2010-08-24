@@ -13,7 +13,9 @@ import java.util.TreeMap;
 
 import android.R.bool;
 import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
+import at.tugraz.ist.s2a.ConstructionSiteActivity;
 import at.tugraz.ist.s2a.R;
 import at.tugraz.ist.s2a.utils.filesystem.FileSystem;
 import at.tugraz.ist.s2a.utils.parser.Parser;
@@ -38,9 +40,7 @@ public class ContentManager extends Observable{
 	private int mIdCounter;
 	private ArrayList<String> mSpritelist = new ArrayList<String>();
 	private static String STAGE;
-	public static String ROOT_IMAGES;
-	public static String ROOT_SOUNDS;
-	public static String ROOT;
+
 	
 	public ArrayList<HashMap<String, String>> getContentArrayList(){
 		return mContentArrayList;
@@ -141,11 +141,8 @@ public class ContentManager extends Observable{
 	 * load content into data structure
 	 */
 	public void loadContent(String file){
-		File test= new File(ROOT+file);
-		if(!(test.getParent().equals(null))){
-			setRoot(test.getParent()+"/");
-		}
-		FileInputStream scratch = mFilesystem.createOrOpenFileInput(ROOT+file, mCtx);
+		
+		FileInputStream scratch = mFilesystem.createOrOpenFileInput(ConstructionSiteActivity.ROOT+file, mCtx);
 		//TODO setRoot(path);
 		if(scratch != null){
 			    
@@ -234,15 +231,8 @@ public class ContentManager extends Observable{
 	 */
 	public void saveContent(String file){
 		
-		File old_path = new File(ROOT);
-		File new_path = new File(old_path.getParent()+("/"+file.replace(".spf", "")));
-		new_path.mkdirs();
-
-		boolean test = old_path.renameTo(new_path);
-		ROOT = old_path.getAbsolutePath();
-		
 		mSpritesAndBackgroundList.put(mCurrentSprite,(ArrayList<HashMap<String,String>>) mContentArrayList.clone());
-		FileOutputStream fd = mFilesystem.createOrOpenFileOutput(ROOT+file, mCtx);
+		FileOutputStream fd = mFilesystem.createOrOpenFileOutput(ConstructionSiteActivity.ROOT+file, mCtx);
 		DataOutputStream ps = new DataOutputStream(fd);
 		
 		String xml = mParser.toXml(mSpritesAndBackgroundList);
@@ -339,16 +329,5 @@ public class ContentManager extends Observable{
     	return mIdCounter;
     }
     
-	public void setRoot(String root){
-		File rootFile = new File(root);
-		rootFile.mkdirs();
-		ROOT = rootFile.getPath();
-		File rootImageFile = new File(root+"images/");
-		rootImageFile.mkdirs();
-		ROOT_IMAGES = rootImageFile.getPath();
-		File rootSoundFile = new File(root+"sounds/");
-		rootSoundFile.mkdirs();
-		ROOT_SOUNDS = rootSoundFile.getPath();
-	}
 
 }
