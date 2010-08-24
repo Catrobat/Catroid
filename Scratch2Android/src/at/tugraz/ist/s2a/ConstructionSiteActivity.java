@@ -80,8 +80,6 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
         mContentManager.setObserver(this);
         mMainListView = (ListView) findViewById(R.id.MainListView);
         mAdapter = new ConstructionSiteListViewAdapter(this, mContentManager.getContentArrayList(), mMainListView);
-        mMainListView.setFocusable(false);
-        mMainListView.setFocusableInTouchMode(false);
         mMainListView.setAdapter(mAdapter);
         
         //Testing

@@ -4,7 +4,9 @@
 		android:id="@+id/RelativeLayout01" 
 		android:layout_height="wrap_content" 
 		android:layout_width="wrap_content" 
-		android:background="@drawable/construction_brick_blue" android:focusable="false" android:focusableInTouchMode="false">
+		android:background="@drawable/construction_brick_blue" 
+		android:focusable="false" 
+		android:focusableInTouchMode="false">
 		<TextView android:id="@+id/ValueTextViewXY" 
 			android:layout_alignParentLeft="true" 
 			android:textStyle="bold" 
@@ -36,7 +38,8 @@
 				android:inputType="number|numberDecimal" 
 				android:maxLines="1" 
 				android:maxLength="3" 
-				android:id="@+id/InputValueEditTextX" android:tag="@string/constructional_brick_go_to_x_tag">
+				android:id="@+id/InputValueEditTextX" 
+				android:tag="@string/constructional_brick_go_to_x_tag">
 			</EditText>
 			<TextView android:id="@+id/TextView02" 
 				android:layout_width="wrap_content" 
@@ -55,8 +58,8 @@
 				android:maxLines="1" 
 				android:maxLength="3" 
 				android:id="@+id/InputValueEditTextY" android:tag="@string/constructional_brick_go_to_y_tag">
-		</EditText>
-	</LinearLayout>
+			</EditText>
+		</LinearLayout>
 	
 	</RelativeLayout>
 	
