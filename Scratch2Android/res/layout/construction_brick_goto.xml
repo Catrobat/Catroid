@@ -4,9 +4,8 @@
 		android:id="@+id/RelativeLayout01" 
 		android:layout_height="wrap_content" 
 		android:layout_width="wrap_content" 
-		android:background="@drawable/construction_brick_blue" 
 		android:focusable="false" 
-		android:focusableInTouchMode="false">
+		android:focusableInTouchMode="false" android:background="@drawable/construction_brick_blue">
 		<TextView android:id="@+id/ValueTextViewXY" 
 			android:layout_alignParentLeft="true" 
 			android:textStyle="bold" 

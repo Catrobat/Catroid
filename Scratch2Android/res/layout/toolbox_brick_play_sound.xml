@@ -4,8 +4,7 @@
 		android:id="@+id/RelativeLayout01" 
 		android:layout_width="wrap_content" 
 		android:layout_height="wrap_content" 
-		android:onClick="@string/onBrickClickListener" 
-		android:background="@drawable/toolbox_brick_magenta">
+		android:onClick="@string/onBrickClickListener" android:background="@drawable/brick_magenta">
 		<TextView android:layout_width="wrap_content" 
 			android:layout_height="wrap_content" 
 			android:id="@+id/ValueTextView" 
