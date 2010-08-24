@@ -19,11 +19,13 @@ public class LoadProgramDialog extends Dialog{
 	private ListView mListView;
 	private ContentManager mContentManager;
 	private ArrayAdapter<String> mAdapter;
+	private ArrayList<String> mAdapterFileList;
 	
 	public LoadProgramDialog(Context context, ContentManager contentmanager) {
 		super(context);
 		mCtx = context;
 		mContentManager = contentmanager;
+		mAdapterFileList = new ArrayList<String>();
 	}
 
 	@Override
@@ -34,16 +36,23 @@ public class LoadProgramDialog extends Dialog{
     	//TODO fix static path
     	File sdFile = new File("/sdcard/");
     	File[] sdFileList = sdFile.listFiles();
-    	ArrayList<String> adapterFileList = new ArrayList<String>();
     	
-    	for(int i=0; i<sdFileList.length; i++)
-    	{
-    		if(sdFileList[i].getName().contains(".spf")){
-    			adapterFileList.add(sdFileList[i].getName());
-    		}
-    			
-    	}
-    	mAdapter = new ArrayAdapter<String>(mCtx, android.R.layout.simple_list_item_1, adapterFileList);
+    	
+    	searchForFile(sdFile);
+    	
+//    	for(int i=0; i<sdFileList.length; i++)
+//    	{
+//    		if(sdFileList[i].isFile()){
+//    			if(sdFileList[i].getName().contains(".spf")){
+//    				adapterFileList.add(sdFileList[i].getName());
+//    			}
+//    		}
+//    		else{
+//    			File fileList = new File(sdFileList[i].toString());
+//    	    	File[] sdFileList = sdFile.listFiles();
+//    		}
+//    	}
+    	mAdapter = new ArrayAdapter<String>(mCtx, android.R.layout.simple_list_item_1, mAdapterFileList);
     	
 		mListView = (ListView)findViewById(R.id.loadfilelist);
 		mListView.setAdapter(mAdapter);
@@ -58,6 +67,21 @@ public class LoadProgramDialog extends Dialog{
 
     	
 		super.onCreate(savedInstanceState);
+	}
+	
+	public void searchForFile(File file){
+		File[] sdFileList = file.listFiles();
+		for(int i=0; i<sdFileList.length; i++)
+    	{
+    		if(sdFileList[i].isFile()){
+    			if(sdFileList[i].getName().contains(".spf")){
+    				mAdapterFileList.add(sdFileList[i].getName());
+    			}
+    		}
+    		else{
+    			searchForFile(sdFileList[i]);
+    		}
+    	}
 	}
 	
 	

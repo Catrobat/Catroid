@@ -27,8 +27,9 @@ import android.widget.ListView;
 import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
 import at.tugraz.ist.s2a.constructionSite.content.ContentManager;
 import at.tugraz.ist.s2a.constructionSite.gui.adapter.ConstructionSiteListViewAdapter;
+import at.tugraz.ist.s2a.constructionSite.gui.dialogs.ChangeProgramNameDialog;
 import at.tugraz.ist.s2a.constructionSite.gui.dialogs.LoadProgramDialog;
-import at.tugraz.ist.s2a.constructionSite.gui.dialogs.SaveProgramDialog;
+import at.tugraz.ist.s2a.constructionSite.gui.dialogs.NewProjectDialog;
 import at.tugraz.ist.s2a.constructionSite.gui.dialogs.ToolBoxDialog;
 import at.tugraz.ist.s2a.constructionSite.gui.dialogs.SpritesDialog;
 import at.tugraz.ist.s2a.stage.StageActivity;
@@ -50,16 +51,20 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	static final int TOOLBOX_DIALOG_SPRITE = 0;
 	static final int TOOLBOX_DIALOG_BACKGROUND = 1;
 	static final int SPRITETOOLBOX_DIALOG = 2;
-	static final int SAVE_DIALOG = 3;
+	static final int NEW_PROJECT_DIALOG = 3;
 	static final int LOAD_DIALOG = 4;
-	
+	static final int CHANGE_PROJECT_NAME_DIALOG = 6;
 	
 	public static final String DEFAULT_ROOT = "/sdcard/scratch2android/";
+	public static String ROOT_IMAGES;
+	public static String ROOT_SOUNDS;
+	public static String ROOT;
 	
 	private Button mToolboxButton;
 	private ToolBoxDialog mToolboxObjectDialog;
 	private ToolBoxDialog mToolboxStageDialog;
-	private Dialog mSaveDialog;
+	private Dialog mNewProjectDialog;
+	private Dialog mChangeProgramNameDialog;
 	private Dialog mLoadDialog;
 	
 	
@@ -80,7 +85,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
         setContentView(R.layout.construction_site);
         mContentManager = new ContentManager(this);
         mContentManager.setObserver(this);
-        mContentManager.setRoot(DEFAULT_ROOT);
+        ROOT = DEFAULT_ROOT;//TODO Refactor
         mMainListView = (ListView) findViewById(R.id.MainListView);
         mAdapter = new ConstructionSiteListViewAdapter(this, mContentManager.getContentArrayList(), mMainListView);
         
@@ -151,10 +156,12 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
         	mSpritesToolboxDialog = new SpritesDialog(this, true, null, 0);
         	mSpritesToolboxDialog.setContentManager(mContentManager);
         	return mSpritesToolboxDialog;
-        case SAVE_DIALOG:
-        	mSaveDialog = new SaveProgramDialog(this, mContentManager);
-        	return  mSaveDialog;
-        	
+        case NEW_PROJECT_DIALOG:
+        	mNewProjectDialog = new NewProjectDialog(this, mContentManager);
+        	return  mNewProjectDialog;
+        case CHANGE_PROJECT_NAME_DIALOG:
+        	mChangeProgramNameDialog = new ChangeProgramNameDialog(this, mContentManager);
+        	return  mChangeProgramNameDialog;      	
         case LOAD_DIALOG:        	
         	mLoadDialog = new LoadProgramDialog(this, mContentManager);
         	return mLoadDialog;
@@ -210,8 +217,12 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
         	showDialog(LOAD_DIALOG);
         	return true;
             
-        case R.id.save:
-        	showDialog(SAVE_DIALOG);
+        case R.id.newProject:
+        	showDialog(NEW_PROJECT_DIALOG);
+        	return true;
+        	
+        case R.id.changeProject:
+        	showDialog(CHANGE_PROJECT_NAME_DIALOG);
         	return true;
    
         default:
