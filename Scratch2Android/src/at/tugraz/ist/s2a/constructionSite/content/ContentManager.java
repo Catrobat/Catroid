@@ -148,45 +148,9 @@ public class ContentManager extends Observable{
 		
 		mSpritesAndBackgroundList.clear();
 		mContentArrayList.clear();
-		FileInputStream scratch = mFilesystem.createOrOpenFileInput(ConstructionSiteActivity.ROOT+file, mCtx);
-		//TODO setRoot(path);
-		if(scratch != null){
-			    
-			mSpritesAndBackgroundList.clear();
-			mContentArrayList.clear();
-			TreeMap<String, ArrayList<HashMap<String, String>>> sprites_stages = mParser.parse(scratch);
-			mSpritesAndBackgroundList.putAll(sprites_stages);
-	        mContentArrayList.addAll((ArrayList<HashMap<String,String>>)mSpritesAndBackgroundList.get("stage").clone());
-	        //TODO: check this for a better solution
-	        mIdCounter = getHighestId();	        
-            mCurrentSprite =STAGE;
-			try {
-				mSpritesAndBackgroundList.putAll(mParser.parse(scratch));
-			    mContentArrayList.addAll((ArrayList<HashMap<String,String>>)mSpritesAndBackgroundList.get(STAGE).clone());
-			    //TODO: check this for a better solution
-			    
-				} catch (Exception e) {
-					Log.e("ContentManager", "Error loading file " + e.getMessage());
-					e.printStackTrace();
-				} 
-		    mIdCounter = getHighestId();	        
-		    mCurrentSprite =STAGE;
-			try {
-				mSpritesAndBackgroundList.putAll(mParser.parse(scratch));
-			    mContentArrayList.addAll((ArrayList<HashMap<String,String>>)mSpritesAndBackgroundList.get(STAGE).clone());
-			    //TODO: check this for a better solution
-			    
-				} catch (Exception e) {
-					Log.e("ContentManager", "Error loading file " + e.getMessage());
-					e.printStackTrace();
-				} 
-		    mIdCounter = getHighestId();	        
-		    mCurrentSprite =STAGE;
-		    try {
-				scratch.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		
+		FileInputStream scratch = mFilesystem.createOrOpenFileInput("/sdcard/"+file, mCtx);
+			
 		try {
 			if(scratch != null && scratch.available() > 0){
 				    
