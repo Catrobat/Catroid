@@ -145,7 +145,9 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		        	 File image_full_path = new File(c.getString(0));
 		        	 String imageName = mImageContainer.saveImage(image_full_path.getAbsolutePath());
 		        	 String imageThumbnailName = mImageContainer.saveThumbnail(image_full_path.getAbsolutePath());
-		        	
+		        	 
+		        	 mImageContainer.deleteImage(content.get(BrickDefine.BRICK_VALUE));
+		        	 
 		        	 content.put(BrickDefine.BRICK_VALUE, imageThumbnailName);
 		             content.put(BrickDefine.BRICK_NAME, c.getString(1));
 		             mAdapter.notifyDataSetChanged();

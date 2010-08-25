@@ -272,7 +272,7 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 			
 			String newPath = ConstructionSiteActivity.ROOT_SOUNDS;
 			//TimeInMillis to get a unique name
-			String uniqueName = map.get(MediaFileLoader.SOUND_NAME) + Calendar.getInstance().getTimeInMillis();
+			String uniqueName = Calendar.getInstance().getTimeInMillis() + map.get(MediaFileLoader.SOUND_NAME);
 			
 			if(newPath.endsWith("/"))
 				newPath = newPath + uniqueName;
