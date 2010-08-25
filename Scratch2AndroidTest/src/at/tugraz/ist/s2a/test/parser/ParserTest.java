@@ -13,7 +13,8 @@ import java.util.TreeMap;
 import junit.framework.TestCase;
 import android.test.AndroidTestCase;
 import android.util.Log;
-import at.tugraz.ist.s2a.utils.parser.*;
+import at.tugraz.ist.s2a.utils.*;
+import at.tugraz.ist.s2a.utils.parser.Parser;
 
 
 public class ParserTest extends AndroidTestCase {

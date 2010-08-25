@@ -1,6 +1,7 @@
 package at.tugraz.ist.s2a.constructionSite.content;
 
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -10,13 +11,17 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.TreeMap;
 
+import android.R.bool;
+
 import android.app.Activity;
 import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
+import at.tugraz.ist.s2a.ConstructionSiteActivity;
 import at.tugraz.ist.s2a.R;
 import at.tugraz.ist.s2a.utils.filesystem.FileSystem;
-import at.tugraz.ist.s2a.constructionSite.gui.dialogs.SpritesDialog;
 import at.tugraz.ist.s2a.utils.parser.Parser;
+import at.tugraz.ist.s2a.constructionSite.gui.dialogs.SpritesDialog;
 
 /**
  * provides content
@@ -37,6 +42,7 @@ public class ContentManager extends Observable{
 	private int mIdCounter;
 	private ArrayList<String> mSpritelist = new ArrayList<String>();
 	private static String STAGE;
+
 	
 	public ArrayList<HashMap<String, String>> getContentArrayList(){
 		return mContentArrayList;
@@ -138,7 +144,7 @@ public class ContentManager extends Observable{
 	 * load content into data structure
 	 */
 	public void loadContent(String file){
-		((Activity)mCtx).setTitle(file);
+		((Activity)mCtx).setTitle(file.replace(".spf", "").replace("/", ""));
 		
 		mSpritesAndBackgroundList.clear();
 		mContentArrayList.clear();
@@ -183,9 +189,12 @@ public class ContentManager extends Observable{
 		for(int i=0; i<mSpritesAndBackgroundList.size(); i++){
 			ArrayList<HashMap<String, String>> sprite = SpriteMap.get(SpriteMap.firstKey());
 			if(sprite.size()>0){
-				int tempId = Integer.parseInt(sprite.get(sprite.size()-1).get(BrickDefine.BRICK_ID));		
-				if(tempId > highestId)
-					tempId= highestId;
+				int tempId = Integer.parseInt(sprite.get(sprite.size()-1).get(BrickDefine.BRICK_ID));
+				boolean test = (highestId<tempId);
+				if(test){
+					highestId = tempId;
+				}
+					
 			}
 			//TODO: geht nur solange letzter Stein höchste Id falls sie höher wird müssen alle Steine durchschaut werden auskommentierter Code!!!
 			/*for(int j=0; j<sprite.size(); j++){
@@ -210,12 +219,13 @@ public class ContentManager extends Observable{
 	 * save content
 	 */
 	public void saveContent(String file){
-		((Activity)mCtx).setTitle(file);
+		
+		String title = new String(file);
+		((Activity)mCtx).setTitle(title.replace(".spf", "").replace("/", ""));
 		
 		mSpritesAndBackgroundList.put(mCurrentSprite,(ArrayList<HashMap<String,String>>) mContentArrayList.clone());
-		FileOutputStream fd = mFilesystem.createOrOpenFileOutput("/sdcard/"+file, mCtx);
+		FileOutputStream fd = mFilesystem.createOrOpenFileOutput(ConstructionSiteActivity.ROOT+"/"+file, mCtx);
 		DataOutputStream ps = new DataOutputStream(fd);
-
 		String xml = mParser.toXml(mSpritesAndBackgroundList);
 		
 		try {
@@ -228,7 +238,7 @@ public class ContentManager extends Observable{
 		}	
 		
 		Log.d("Contentmanager", "Save file!");
-	}
+   	}
 	
 	/**
 	 * test method
@@ -309,5 +319,6 @@ public class ContentManager extends Observable{
     {
     	return mIdCounter;
     }
+    
 
 }
