@@ -29,9 +29,9 @@ public class ImageContainerTest extends TestCase {
 	}
 	public void testSaveImageGetImage() throws Throwable{
 		Bitmap bitmap1 = Bitmap.createBitmap(10, 10, Config.ARGB_8888);
-		mImageContainer.saveBitmap("test1.png", bitmap1);
+		//mImageContainer.saveBitmap("test1.png", bitmap1);
 		Bitmap bitmap2 = Bitmap.createBitmap(10, 10, Config.ARGB_8888);
-		mImageContainer.saveBitmap("test2.png", bitmap2);
+		//mImageContainer.saveBitmap("test2.png", bitmap2);
 		mImageContainer.deleteImage("test1.png");
 		
 		assertEquals(bitmap1.getNinePatchChunk(), mImageContainer.getImage("test2.png").getNinePatchChunk());
@@ -52,7 +52,7 @@ public class ImageContainerTest extends TestCase {
 	}
 	public void testSaveBitmapOnSDCardAsPNG() throws Throwable{
 		Bitmap bitmap = Bitmap.createBitmap(10, 10, Config.ARGB_8888);
-		mImageContainer.saveBitmap("test1.png", bitmap);
+		//mImageContainer.saveBitmap("test1.png", bitmap);
 		
 		boolean exists = false;
 		File rootFile = new File("/sdcard/");
