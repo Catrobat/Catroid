@@ -2,8 +2,10 @@ package at.tugraz.ist.s2a.constructionSite.gui.dialogs;
 
 import java.io.File;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
@@ -17,15 +19,19 @@ import at.tugraz.ist.s2a.constructionSite.content.ContentManager;
 public class NewProjectDialog extends Dialog{
 
 private ContentManager mContentManager;
+private SharedPreferences mPreferences;
+private Context mCtx;
 
 public NewProjectDialog(Context context, ContentManager contentmanager) {
 	super(context);
+	mCtx = context;
 	mContentManager = contentmanager;
 }
 
 @Override
 protected void onCreate(Bundle savedInstanceState) {
-
+	
+  mPreferences = ((Activity)mCtx).getPreferences(Activity.MODE_PRIVATE);
   setContentView(R.layout.dialog_save_program_layout); //TODO: Own View
   
   EditText file = (EditText) findViewById(R.id.saveFilename);
@@ -43,26 +49,21 @@ protected void onCreate(Bundle savedInstanceState) {
 	//mContentManager.saveContent(tfile.toString());
 			
 	Environment.getExternalStorageDirectory(); 
-	File newPath = new File("sdcard"+projectName.getText().toString().replace(".spf", ""));
-	setRoot(newPath.getAbsolutePath());
+	File newPath = new File(ConstructionSiteActivity.DEFAULT_PROJECT+projectName.getText().toString());
+	String newSpfFile = new String(projectName.getText().toString());
+	if(!newSpfFile.contains(".spf"))
+		newSpfFile = newSpfFile + ".spf";
+	ConstructionSiteActivity.setRoot(newPath.getAbsolutePath(), newSpfFile);
 
     mContentManager.clearSprites();
+    
 
+    
 	dismiss();
 	}
 });
 
 
 }
-public void setRoot(String root){
-	File rootFile = new File(root);
-	rootFile.mkdirs();
-	ConstructionSiteActivity.ROOT = rootFile.getPath();
-	File rootImageFile = new File(root+"images/");
-	rootImageFile.mkdirs();
-	ConstructionSiteActivity.ROOT_IMAGES = rootImageFile.getPath();
-	File rootSoundFile = new File(root+"sounds/");
-	rootSoundFile.mkdirs();
-	ConstructionSiteActivity.ROOT_SOUNDS = rootSoundFile.getPath();
-}
+
 }
