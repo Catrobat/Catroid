@@ -2,10 +2,9 @@
 
 	<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android" 
 		android:id="@+id/RelativeLayout01" 
-		android:longClickable="true" 
 		android:layout_height="wrap_content" 
 		android:layout_width="wrap_content" 
-		android:clickable="true" android:onClick="@string/onBrickClickListener" android:background="@drawable/toolbox_brick_blue">
+		android:onClick="@string/onBrickClickListener" android:background="@drawable/brick_blue">
 		<TextView android:id="@+id/ValueTextViewXY" 
 			android:layout_alignParentLeft="true" 
 			android:textStyle="bold" 
@@ -20,9 +19,7 @@
 			android:layout_width="wrap_content" 
 			android:layout_height="wrap_content" 
 			android:layout_alignParentRight="true" 
-			android:layout_centerVertical="true" 
-			android:clickable="true" 
-			android:longClickable="true">
+			android:layout_centerVertical="true">
 			<TextView android:id="@+id/TextView01" 
 				android:layout_width="wrap_content" 
 				android:layout_height="wrap_content" 
@@ -33,9 +30,15 @@
 				android:paddingRight="10dip">
 			</TextView>
 			<EditText android:layout_width="wrap_content" 
-				android:layout_height="wrap_content" android:maxLines="1" 
+				android:layout_height="wrap_content" 
+				android:maxLines="1" 
 				android:maxLength="3" 
-				android:id="@+id/InputValueEditTextX" android:inputType="number|numberDecimal" android:focusable="false" android:clickable="false" android:focusableInTouchMode="false" android:text="0">
+				android:id="@+id/InputValueEditTextX" 
+				android:inputType="number|numberDecimal" 
+				android:focusable="false" 
+				android:clickable="false" 
+				android:focusableInTouchMode="false" 
+				android:text="0">
 			</EditText>
 			<TextView android:id="@+id/TextView02" 
 				android:layout_width="wrap_content" 
@@ -53,11 +56,14 @@
 				android:inputType="number|numberDecimal" 
 				android:maxLines="1" 
 				android:maxLength="3" 
-				android:id="@+id/InputValueEditTextY" android:clickable="false" android:focusable="false" android:focusableInTouchMode="false">
-		</EditText>
+				android:id="@+id/InputValueEditTextY" 
+				android:clickable="false" 
+				android:focusable="false"
+				android:focusableInTouchMode="false">
+			</EditText>
 	
 
-</LinearLayout>
+		</LinearLayout>
 	
 	</RelativeLayout>
 	

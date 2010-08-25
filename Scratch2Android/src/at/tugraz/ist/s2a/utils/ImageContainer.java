@@ -20,6 +20,8 @@ public class ImageContainer {
 
 	private static final int MAX_WIDTH = (460*3);
 	private static final int MAX_HEIGHT = (800*3);
+	private static final int THUMBNAIL_WIDTH = 60;
+	private static final int THUMBNAIL_HEIGHT = 60;
 	static String ROOTPATH;
 	private HashMap<String, Bitmap> mImageMap;
 	private ImageEditing mEditor;
@@ -48,15 +50,11 @@ public class ImageContainer {
 	
 	public String saveImage(String path){
 		File imagePath = new File(path);
-		String folderPath = imagePath.getParent(); //=path - name
+		String folderPath = imagePath.getParent();
 		String image = imagePath.getAbsolutePath().replace(folderPath, "");
 		if(folderPath.equals(ConstructionSiteActivity.ROOT_IMAGES)){
-			return image; //= name ohne path
+			return image;
 		}
-		
-//veraltert		if(mImageMap.containsKey(path)){
-//			return 
-//		}
 		else{
 			Bitmap bm = null;		
 		    bm = BitmapFactory.decodeFile((path));
@@ -69,10 +67,22 @@ public class ImageContainer {
 		    	newbm = mEditor.scaleBitmap(bm, MAX_HEIGHT, bm.getWidth());
 		    if(MAX_HEIGHT >= bm.getHeight() && MAX_WIDTH >= bm.getWidth())
 		    	newbm = bm;
-			mImageMap.put(image, newbm);//= name ohne path, newbm);
+			mImageMap.put(image, newbm);
 			saveBitmapOnSDCardAsPNG(ConstructionSiteActivity.ROOT_IMAGES +image, newbm);//= name ohne path + ROOT_IMAGE, newbm);
 			return image;
 		}	
+	}
+	public String saveThumbnail(String path){
+		File imagePath = new File(path);
+		String folderPath = imagePath.getParent();
+		String image = imagePath.getAbsolutePath().replace(folderPath, "").replace("/", "thumb");
+		Bitmap bm = null;
+		bm = BitmapFactory.decodeFile((path));
+		Bitmap newbm = null;
+		newbm = mEditor.scaleBitmap(bm, THUMBNAIL_HEIGHT, THUMBNAIL_WIDTH);
+		mImageMap.put(image, newbm);
+		saveBitmapOnSDCardAsPNG(ConstructionSiteActivity.ROOT_IMAGES+"/" +image, newbm);//= name ohne path + ROOT_IMAGE, newbm);
+		return image;
 	}
 	
 //	public String saveBitmap(String path, Bitmap bitmap){
@@ -86,6 +96,10 @@ public class ImageContainer {
 		if(!mImageMap.containsKey(name))
 			return null;	
 		return mImageMap.get(name);
+	}
+	
+	public Bitmap getThumbnail(String name){
+		return getImage(name);
 	}
 	
 	private String getFullImagePath(String path){
