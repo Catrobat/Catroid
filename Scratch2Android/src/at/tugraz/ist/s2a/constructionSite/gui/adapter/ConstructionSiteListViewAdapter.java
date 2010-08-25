@@ -39,6 +39,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import at.tugraz.ist.s2a.R;
 import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
+import at.tugraz.ist.s2a.utils.ImageContainer;
 import at.tugraz.ist.s2a.utils.filesystem.MediaFileLoader;
 
 public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnClickListener, TextView.OnEditorActionListener, AdapterView.OnItemSelectedListener{
@@ -48,19 +49,20 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 	private Context mCtx;
     private MediaFileLoader mMediaFileLoader;
     private ListView mMainListView;
+    private ImageContainer mImageContainer;
     
     private ArrayList<HashMap<String, String>> mBrickList;
     
     private HashMap<String, ArrayList<View>> mViewContainerNotInUse;
     
 	public ConstructionSiteListViewAdapter(Context context,
-			ArrayList<HashMap<String, String>> data, ListView listview) {
+			ArrayList<HashMap<String, String>> data, ListView listview, ImageContainer imageContainer) {
 		mCtx = context;
 		mBrickList = data;	
 		mMainListView = listview;
 		mMediaFileLoader = new MediaFileLoader(mCtx);
 		mMediaFileLoader.loadSoundContent();
-		
+		mImageContainer = imageContainer;
 		mInflater = (LayoutInflater)mCtx.getSystemService(
 			      Context.LAYOUT_INFLATER_SERVICE);
 		
@@ -111,7 +113,7 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 				ImageView imageView = (ImageView) view.findViewWithTag(mCtx.getString
 						(R.string.constructional_brick_set_background_image_view_tag));
 				imageView.setOnClickListener(this);
-				setImage(imageView, position);
+				imageView.setImageBitmap(mImageContainer.getImage(value));
 				return 	view;			
 			}
 			case (BrickDefine.PLAY_SOUND): 
@@ -172,7 +174,7 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 				ImageView imageView = (ImageView) view.findViewWithTag(mCtx.getString
 					(R.string.constructional_brick_set_costume_image_view_tag));
 				imageView.setOnClickListener(this);
-				setImage(imageView, position);
+				imageView.setImageBitmap(mImageContainer.getImage(value));
 				return 	view;
 			}
 			
@@ -197,7 +199,7 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 
 
 	//TODO log bitmaps and do not create every time
-	public void setImage(ImageView v, int position){
+	public void setImage(ImageView v, int position){ //obsolete
 		String value = mBrickList.get(position).get(BrickDefine.BRICK_VALUE);
 		
 		 if(value != null && value != "" && new File(value).exists()){

@@ -1,21 +1,19 @@
 package at.tugraz.ist.s2a;
 
+
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.SearchManager.OnCancelListener;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -31,11 +29,13 @@ import android.widget.ListView;
 import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
 import at.tugraz.ist.s2a.constructionSite.content.ContentManager;
 import at.tugraz.ist.s2a.constructionSite.gui.adapter.ConstructionSiteListViewAdapter;
+import at.tugraz.ist.s2a.constructionSite.gui.dialogs.ChangeProgramNameDialog;
 import at.tugraz.ist.s2a.constructionSite.gui.dialogs.LoadProgramDialog;
-import at.tugraz.ist.s2a.constructionSite.gui.dialogs.SaveProgramDialog;
+import at.tugraz.ist.s2a.constructionSite.gui.dialogs.NewProjectDialog;
 import at.tugraz.ist.s2a.constructionSite.gui.dialogs.ToolBoxDialog;
 import at.tugraz.ist.s2a.constructionSite.gui.dialogs.SpritesDialog;
 import at.tugraz.ist.s2a.stage.StageActivity;
+import at.tugraz.ist.s2a.utils.ImageContainer;
 import at.tugraz.ist.s2a.utils.filesystem.MediaFileLoader;
 
 public class ConstructionSiteActivity extends Activity implements Observer, OnClickListener{
@@ -53,14 +53,32 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	static final int TOOLBOX_DIALOG_SPRITE = 0;
 	static final int TOOLBOX_DIALOG_BACKGROUND = 1;
 	static final int SPRITETOOLBOX_DIALOG = 2;
-	static final int SAVE_DIALOG = 3;
+	static final int NEW_PROJECT_DIALOG = 3;
 	static final int LOAD_DIALOG = 4;
+	static final int CHANGE_PROJECT_NAME_DIALOG = 6;
+	
+	static final String PREF_ROOT = "pref_root";
+	static final String PREF_FILE_SPF = "pref_path";
+	
+	public static final String DEFAULT_ROOT = "/sdcard/scratch2android/defaultProject/";
+	public static final String DEFAULT_PROJECT = "/sdcard/scratch2android/";
+	public static final String DEFAULT_FILE = "defaultSaveFile.spf";
+	
+	public static String ROOT_IMAGES;
+	public static String ROOT_SOUNDS;
+	public static String ROOT;
+	public static String SPF_FILE;
+	
+	public SharedPreferences mPreferences;
 	
 	private Button mToolboxButton;
 	private ToolBoxDialog mToolboxObjectDialog;
 	private ToolBoxDialog mToolboxStageDialog;
-	private Dialog mSaveDialog;
+	private Dialog mNewProjectDialog;
+	private Dialog mChangeProgramNameDialog;
 	private Dialog mLoadDialog;
+	private ImageContainer mImageContainer;
+	
 	
 	protected ListView mMainListView;
 	private ConstructionSiteListViewAdapter mAdapter;
@@ -75,17 +93,26 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mPreferences = this.getPreferences(Activity.MODE_PRIVATE);
+        
+        setRoot(mPreferences.getString(PREF_ROOT, DEFAULT_ROOT), mPreferences.getString(PREF_FILE_SPF, DEFAULT_FILE));
+        
+        mImageContainer = new ImageContainer(ROOT_IMAGES);
+        
         setContentView(R.layout.construction_site);
         mContentManager = new ContentManager(this);
         mContentManager.setObserver(this);
+        
+        
         mMainListView = (ListView) findViewById(R.id.MainListView);
-        mAdapter = new ConstructionSiteListViewAdapter(this, mContentManager.getContentArrayList(), mMainListView);
+        mAdapter = new ConstructionSiteListViewAdapter(this, mContentManager.getContentArrayList(), mMainListView, mImageContainer);
         mMainListView.setAdapter(mAdapter);
         
         //Testing
         //mContentManager.testSet();
         //mContentManager.saveContent();
-        mContentManager.loadContent();
+        mContentManager.loadContent(SPF_FILE);
         
         this.registerForContextMenu(mMainListView);
         
@@ -95,8 +122,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		mSpritesToolboxButton = (Button) this.findViewById(R.id.sprites_button);
 		mSpritesToolboxButton.setOnClickListener(this);
 		
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); 
     }
 
     private static int LAST_SELECTED_ELEMENT_POSITION = 0;
@@ -116,7 +142,10 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		                        MediaStore.Images.ImageColumns.DISPLAY_NAME};
 		        Cursor c = managedQuery(u2, projection, null, null, null);
 		        if (c!=null && c.moveToFirst()) {
-		        	 content.put(BrickDefine.BRICK_VALUE, c.getString(0));
+		        	 File image_full_path = new File(c.getString(0));
+		        	 String imageName = mImageContainer.saveImage(image_full_path.getAbsolutePath());
+		        	
+		        	 content.put(BrickDefine.BRICK_VALUE, imageName);
 		             content.put(BrickDefine.BRICK_NAME, c.getString(1));
 		             
 		             //debug
@@ -148,10 +177,12 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
         	mSpritesToolboxDialog = new SpritesDialog(this, true, null, 0);
         	mSpritesToolboxDialog.setContentManager(mContentManager);
         	return mSpritesToolboxDialog;
-        case SAVE_DIALOG:
-        	mSaveDialog = new SaveProgramDialog(this, mContentManager);
-        	return  mSaveDialog;
-        	
+        case NEW_PROJECT_DIALOG:
+        	mNewProjectDialog = new NewProjectDialog(this, mContentManager);
+        	return  mNewProjectDialog;
+        case CHANGE_PROJECT_NAME_DIALOG:
+        	mChangeProgramNameDialog = new ChangeProgramNameDialog(this, mContentManager);
+        	return  mChangeProgramNameDialog;      	
         case LOAD_DIALOG:        	
         	mLoadDialog = new LoadProgramDialog(this, mContentManager);
         	return mLoadDialog;
@@ -206,8 +237,12 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
         	showDialog(LOAD_DIALOG);
         	return true;
             
-        case R.id.save:
-        	showDialog(SAVE_DIALOG);
+        case R.id.newProject:
+        	showDialog(NEW_PROJECT_DIALOG);
+        	return true;
+        	
+        case R.id.changeProject:
+        	showDialog(CHANGE_PROJECT_NAME_DIALOG);
         	return true;
    
         default:
@@ -220,9 +255,13 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		mMainListView.setSelection(mAdapter.getCount()-1);
 	}
 	
-	public void onStop()
+	public void onDestroy()
 	{
-		mContentManager.saveContent();
+		mContentManager.saveContent(SPF_FILE);
+	    SharedPreferences.Editor editor = mPreferences.edit();
+	    editor.putString(PREF_ROOT, ROOT);
+	    editor.putString(PREF_FILE_SPF, SPF_FILE);
+	    editor.commit();
 		super.onStop();
 	}
 	
@@ -279,4 +318,22 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			
 			
 	}
+	public static void setRoot(String root, String file){
+		File rootFile = new File(root);
+		if(!rootFile.exists())
+			rootFile.mkdirs();
+		ConstructionSiteActivity.ROOT = rootFile.getPath();
+		File rootImageFile = new File(root+"images/");
+		if(!rootImageFile.exists())
+			rootImageFile.mkdirs();
+		ConstructionSiteActivity.ROOT_IMAGES = rootImageFile.getPath();
+		File rootSoundFile = new File(root+"sounds/");
+		if(!rootSoundFile.exists())
+			rootSoundFile.mkdirs();
+		ConstructionSiteActivity.ROOT_SOUNDS = rootSoundFile.getPath();
+		SPF_FILE = file;
+	}
+	
+
+
  }
