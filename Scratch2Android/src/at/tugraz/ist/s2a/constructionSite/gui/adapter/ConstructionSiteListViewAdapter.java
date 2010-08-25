@@ -113,7 +113,14 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 				ImageView imageView = (ImageView) view.findViewWithTag(mCtx.getString
 						(R.string.constructional_brick_set_background_image_view_tag));
 				imageView.setOnClickListener(this);
-				imageView.setImageBitmap(mImageContainer.getImage(value));
+				if(!value.equals("")){
+					imageView.setBackgroundDrawable(null);
+					imageView.setImageBitmap(mImageContainer.getImage(value));
+				}else{
+					imageView.setImageBitmap(null);
+					imageView.setBackgroundResource(R.drawable.landscape);
+				}
+					
 				return 	view;			
 			}
 			case (BrickDefine.PLAY_SOUND): 
@@ -174,7 +181,13 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 				ImageView imageView = (ImageView) view.findViewWithTag(mCtx.getString
 					(R.string.constructional_brick_set_costume_image_view_tag));
 				imageView.setOnClickListener(this);
-				imageView.setImageBitmap(mImageContainer.getImage(value));
+				if(!value.equals("")){
+					imageView.setBackgroundDrawable(null);
+					imageView.setImageBitmap(mImageContainer.getImage(value));
+				}else{
+					imageView.setImageBitmap(null);
+					imageView.setBackgroundResource(R.drawable.icon);
+				}
 				return 	view;
 			}
 			
@@ -199,7 +212,7 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 
 
 	//TODO log bitmaps and do not create every time
-	public void setImage(ImageView v, int position){ //obsolete
+	public void /*obsolete*/setImage(ImageView v, int position){ 
 		String value = mBrickList.get(position).get(BrickDefine.BRICK_VALUE);
 		
 		 if(value != null && value != "" && new File(value).exists()){
