@@ -60,8 +60,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	static final String PREF_ROOT = "pref_root";
 	static final String PREF_FILE_SPF = "pref_path";
 	
-	public static final String DEFAULT_ROOT = "/sdcard/scratch2android/defaultProject/";
-	public static final String DEFAULT_PROJECT = "/sdcard/scratch2android/";
+	public static final String DEFAULT_ROOT = "/sdcard/scratch2android/defaultProject";
+	public static final String DEFAULT_PROJECT = "/sdcard/scratch2android";
 	public static final String DEFAULT_FILE = "defaultSaveFile.spf";
 	
 	public static String ROOT_IMAGES;
@@ -144,10 +144,11 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		        if (c!=null && c.moveToFirst()) {
 		        	 File image_full_path = new File(c.getString(0));
 		        	 String imageName = mImageContainer.saveImage(image_full_path.getAbsolutePath());
+		        	 String imageThumbnailName = mImageContainer.saveThumbnail(image_full_path.getAbsolutePath());
 		        	
-		        	 content.put(BrickDefine.BRICK_VALUE, imageName);
+		        	 content.put(BrickDefine.BRICK_VALUE, imageThumbnailName);
 		             content.put(BrickDefine.BRICK_NAME, c.getString(1));
-		             
+		             mAdapter.notifyDataSetChanged();
 		             //debug
 		             String column0Value = c.getString(0);
 		             String column1Value = c.getString(1);
@@ -323,11 +324,11 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		if(!rootFile.exists())
 			rootFile.mkdirs();
 		ConstructionSiteActivity.ROOT = rootFile.getPath();
-		File rootImageFile = new File(root+"images/");
+		File rootImageFile = new File(root+"/images");
 		if(!rootImageFile.exists())
 			rootImageFile.mkdirs();
 		ConstructionSiteActivity.ROOT_IMAGES = rootImageFile.getPath();
-		File rootSoundFile = new File(root+"sounds/");
+		File rootSoundFile = new File(root+"/sounds");
 		if(!rootSoundFile.exists())
 			rootSoundFile.mkdirs();
 		ConstructionSiteActivity.ROOT_SOUNDS = rootSoundFile.getPath();
