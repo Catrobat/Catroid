@@ -15,7 +15,7 @@ public class MediaFileLoaderTest extends AndroidTestCase{
 	
 	protected void setUp() throws Exception {
 		super.setUp();
-		mCtx = getContext().createPackageContext("com.tugraz.android.app", Context.CONTEXT_IGNORE_SECURITY);
+		mCtx = getContext().createPackageContext("at.tugraz.ist.s2a", Context.CONTEXT_IGNORE_SECURITY);
 		mMediaFileLoader = new MediaFileLoader(mCtx);
 	}
 	
