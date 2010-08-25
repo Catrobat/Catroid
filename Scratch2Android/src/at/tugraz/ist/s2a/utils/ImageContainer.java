@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import at.tugraz.ist.s2a.ConstructionSiteActivity;
 import at.tugraz.ist.s2a.utils.filesystem.FileSystem;
 /**
  * 
@@ -45,24 +46,41 @@ public class ImageContainer {
     	}
 	}
 	
-	public void saveImage(String path){
-		if(mImageMap.containsKey(path)){
-			//do nothing image already exists
+	public String saveImage(String path){
+		File imagePath = new File(path);
+		String folderPath = imagePath.getParent(); //=path - name
+		String image = imagePath.getAbsolutePath().replace(folderPath, "");
+		if(folderPath.equals(ConstructionSiteActivity.ROOT_IMAGES)){
+			return image; //= name ohne path
 		}
+		
+//veraltert		if(mImageMap.containsKey(path)){
+//			return 
+//		}
 		else{
 			Bitmap bm = null;		
-		    bm = BitmapFactory.decodeFile(getFullImagePath(path));
-		    Bitmap newbm = mEditor.scaleBitmap(bm, MAX_HEIGHT, MAX_WIDTH);
-			mImageMap.put(path, newbm);
-			saveBitmapOnSDCardAsPNG(path, newbm);
+		    bm = BitmapFactory.decodeFile((path));
+		    Bitmap newbm = null;
+		    if(MAX_HEIGHT < bm.getHeight() && MAX_WIDTH < bm.getWidth())
+		    	newbm = mEditor.scaleBitmap(bm, MAX_HEIGHT, MAX_WIDTH);
+		    if(MAX_HEIGHT >= bm.getHeight() && MAX_WIDTH < bm.getWidth())
+		    	newbm = mEditor.scaleBitmap(bm, bm.getHeight(), MAX_WIDTH);
+		    if(MAX_HEIGHT < bm.getHeight() && MAX_WIDTH >= bm.getWidth())
+		    	newbm = mEditor.scaleBitmap(bm, MAX_HEIGHT, bm.getWidth());
+		    if(MAX_HEIGHT >= bm.getHeight() && MAX_WIDTH >= bm.getWidth())
+		    	newbm = bm;
+			mImageMap.put(image, newbm);//= name ohne path, newbm);
+			saveBitmapOnSDCardAsPNG(ConstructionSiteActivity.ROOT_IMAGES +image, newbm);//= name ohne path + ROOT_IMAGE, newbm);
+			return image;
 		}	
 	}
 	
-	public String saveBitmap(String path, Bitmap bitmap){
-			saveBitmapOnSDCardAsPNG(path, bitmap);
-			mImageMap.put(path, bitmap);
-			return path;
-	}
+//	public String saveBitmap(String path, Bitmap bitmap){
+//		//TODO an saveImage anpassen
+//			saveBitmapOnSDCardAsPNG(path, bitmap);
+//			mImageMap.put(path, bitmap);
+//			return path;
+//	}
 
 	public Bitmap getImage(String name){
 		if(!mImageMap.containsKey(name))
@@ -81,8 +99,8 @@ public class ImageContainer {
 	public void deleteAll(){
 		mImageMap.clear();
 	}
-	public void saveBitmapOnSDCardAsPNG(String path, Bitmap bitmap){
-		 File file = new File(getFullImagePath(path));
+	public void saveBitmapOnSDCardAsPNG(String full_path, Bitmap bitmap){
+		 File file = new File(full_path);
 		 try {
 			FileOutputStream os = new FileOutputStream(file);
 			bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);

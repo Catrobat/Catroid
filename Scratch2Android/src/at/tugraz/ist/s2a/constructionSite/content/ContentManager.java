@@ -36,7 +36,7 @@ public class ContentManager extends Observable{
 	private FileSystem mFilesystem;
 	private Parser mParser;
 	private Context mCtx;
-	private static final String mTempFile = "/defaultSaveFile.spf";
+	private static final String mTempFile = "defaultSaveFile.spf";
 	private String mCurrentSprite;
 	private SpritesDialog mSpritebox;
 	private int mIdCounter;
@@ -144,7 +144,7 @@ public class ContentManager extends Observable{
 	 * load content into data structure
 	 */
 	public void loadContent(String file){
-		((Activity)mCtx).setTitle(file);
+		((Activity)mCtx).setTitle(file.replace(".spf", "").replace("/", ""));
 		
 		mSpritesAndBackgroundList.clear();
 		mContentArrayList.clear();
@@ -220,12 +220,12 @@ public class ContentManager extends Observable{
 	 */
 	public void saveContent(String file){
 		
-		((Activity)mCtx).setTitle(file);
+		String title = new String(file);
+		((Activity)mCtx).setTitle(title.replace(".spf", "").replace("/", ""));
 		
 		mSpritesAndBackgroundList.put(mCurrentSprite,(ArrayList<HashMap<String,String>>) mContentArrayList.clone());
-		FileOutputStream fd = mFilesystem.createOrOpenFileOutput(ConstructionSiteActivity.ROOT+file, mCtx);
+		FileOutputStream fd = mFilesystem.createOrOpenFileOutput(ConstructionSiteActivity.ROOT+"/"+file, mCtx);
 		DataOutputStream ps = new DataOutputStream(fd);
-		
 		String xml = mParser.toXml(mSpritesAndBackgroundList);
 		
 		try {
