@@ -1,4 +1,4 @@
-package at.tugraz.ist.s2a.test.contentManager;
+package at.tugraz.ist.s2a.test.content;
 
 import java.io.DataOutputStream;
 import java.io.FileOutputStream;
@@ -29,7 +29,7 @@ public class ContentManagerTest extends AndroidTestCase {
 		mSpritesAndBackgroundList = new TreeMap<String, ArrayList<HashMap<String, String>>>();
 		
 		try {
-			mCtx = getContext().createPackageContext("com.tugraz.android.app", Context.CONTEXT_IGNORE_SECURITY);
+			mCtx = getContext().createPackageContext("at.tugraz.ist.s2a", Context.CONTEXT_IGNORE_SECURITY);
 			mContentManager = new ContentManager(mCtx);	
 		} catch (NameNotFoundException e) {
 			assertFalse(true);
@@ -46,19 +46,19 @@ public class ContentManagerTest extends AndroidTestCase {
         map.put(BrickDefine.BRICK_ID, "1");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
         map.put(BrickDefine.BRICK_NAME, "Test1");
-        map.put(BrickDefine.BRICK_VALUE, "bla");
+        map.put(BrickDefine.BRICK_VALUE, "");
         mContentArrayList.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "2");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.PLAY_SOUND));
         map.put(BrickDefine.BRICK_NAME, "Test2");
-        map.put(BrickDefine.BRICK_VALUE, "blabla1");
+        map.put(BrickDefine.BRICK_VALUE, "");
         mContentArrayList.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "3");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
         map.put(BrickDefine.BRICK_NAME, "Test3");
-        map.put(BrickDefine.BRICK_VALUE, "blabla2");
+        map.put(BrickDefine.BRICK_VALUE, "10");
         mContentArrayList.add(map);
         
         //3 elements added
@@ -73,13 +73,13 @@ public class ContentManagerTest extends AndroidTestCase {
         map.put(BrickDefine.BRICK_ID, "1");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
         map.put(BrickDefine.BRICK_NAME, "Test1");
-        map.put(BrickDefine.BRICK_VALUE, "bla");
+        map.put(BrickDefine.BRICK_VALUE, "");
         mContentArrayList.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "2");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.PLAY_SOUND));
         map.put(BrickDefine.BRICK_NAME, "Test2");
-        map.put(BrickDefine.BRICK_VALUE, "blabla1");
+        map.put(BrickDefine.BRICK_VALUE, "");
         mContentArrayList.add(map);
         mSpritesAndBackgroundList.put("FirstSprite", mContentArrayList);
 		
@@ -88,13 +88,13 @@ public class ContentManagerTest extends AndroidTestCase {
         map.put(BrickDefine.BRICK_ID, "3");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.PLAY_SOUND));
         map.put(BrickDefine.BRICK_NAME, "Wait");
-        map.put(BrickDefine.BRICK_VALUE, "Sound");
+        map.put(BrickDefine.BRICK_VALUE, "S");
         mContentArrayList.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "4");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
         map.put(BrickDefine.BRICK_NAME, "Wait");
-        map.put(BrickDefine.BRICK_VALUE, "1");
+        map.put(BrickDefine.BRICK_VALUE, "10");
         mContentArrayList.add(map);
         mSpritesAndBackgroundList.put("SecondSprite", mContentArrayList);
 		
@@ -111,13 +111,13 @@ public class ContentManagerTest extends AndroidTestCase {
         map.put(BrickDefine.BRICK_ID, "1");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
         map.put(BrickDefine.BRICK_NAME, "Test1");
-        map.put(BrickDefine.BRICK_VALUE, "bla");
+        map.put(BrickDefine.BRICK_VALUE, "");
         mContentArrayList.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "2");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.PLAY_SOUND));
         map.put(BrickDefine.BRICK_NAME, "Test2");
-        map.put(BrickDefine.BRICK_VALUE, "blabla1");
+        map.put(BrickDefine.BRICK_VALUE, "");
         mContentArrayList.add(map);
         mSpritesAndBackgroundList.put("SomeName", mContentArrayList);
 		
@@ -132,19 +132,19 @@ public class ContentManagerTest extends AndroidTestCase {
         map.put(BrickDefine.BRICK_ID, "1");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
         map.put(BrickDefine.BRICK_NAME, "Test1");
-        map.put(BrickDefine.BRICK_VALUE, "bla");
+        map.put(BrickDefine.BRICK_VALUE, "");
         mContentArrayList.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "2");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.PLAY_SOUND));
         map.put(BrickDefine.BRICK_NAME, "Test2");
-        map.put(BrickDefine.BRICK_VALUE, "blabla1");
+        map.put(BrickDefine.BRICK_VALUE, "");
         mContentArrayList.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "3");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
         map.put(BrickDefine.BRICK_NAME, "Test3");
-        map.put(BrickDefine.BRICK_VALUE, "blabla2");
+        map.put(BrickDefine.BRICK_VALUE, "10");
         mContentArrayList.add(map);
         mContentManager.setContentArrayList(mContentArrayList);
         //3 elements added
@@ -159,7 +159,7 @@ public class ContentManagerTest extends AndroidTestCase {
         map.put(BrickDefine.BRICK_ID, "1");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
         map.put(BrickDefine.BRICK_NAME, "Test1");
-        map.put(BrickDefine.BRICK_VALUE, "bla");
+        map.put(BrickDefine.BRICK_VALUE, "");
 
         mContentManager.add(map);
         mContentArrayList = mContentManager.getContentArrayList();
@@ -175,7 +175,7 @@ public class ContentManagerTest extends AndroidTestCase {
         map.put(BrickDefine.BRICK_ID, "1");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
         map.put(BrickDefine.BRICK_NAME, "Test1");
-        map.put(BrickDefine.BRICK_VALUE, "bla");
+        map.put(BrickDefine.BRICK_VALUE, "");
         mContentArrayList.add(map);
         
         mContentManager.addSprite("FirstSprite", mContentArrayList);
@@ -200,7 +200,7 @@ public class ContentManagerTest extends AndroidTestCase {
 		    "<sound path=\"bla.mp3\" />"+
 		  "</command>"+
 		"</stage>"+
-		"<sprite name=\"sprite\">"+
+		"<object name=\"sprite\">"+
 		  "<command id=\"4003\">"+
 		    "<image path=\"bla.jpg\" />"+
 		  "</command>"+
@@ -213,7 +213,7 @@ public class ContentManagerTest extends AndroidTestCase {
 		  "<command id=\"4003\">"+
 		    "<image path=\"bla.jpg\" />"+
 		  "</command>"+
-		"</sprite>"+
+		"</object>"+
 		"</project>";
 	
 
@@ -255,19 +255,19 @@ public class ContentManagerTest extends AndroidTestCase {
         map.put(BrickDefine.BRICK_ID, "1");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
         map.put(BrickDefine.BRICK_NAME, "Test1");
-        map.put(BrickDefine.BRICK_VALUE, "bla");
+        map.put(BrickDefine.BRICK_VALUE, "");
         mContentArrayList.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "2");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.PLAY_SOUND));
         map.put(BrickDefine.BRICK_NAME, "Test2");
-        map.put(BrickDefine.BRICK_VALUE, "blabla1");
+        map.put(BrickDefine.BRICK_VALUE, "");
         mContentArrayList.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "3");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
         map.put(BrickDefine.BRICK_NAME, "Test3");
-        map.put(BrickDefine.BRICK_VALUE, "blabla2");
+        map.put(BrickDefine.BRICK_VALUE, "10");
         mContentArrayList.add(map);
         mContentManager.setContentArrayList(mContentArrayList);
         mSpritesAndBackgroundList.put("FirstSprite", mContentArrayList);
@@ -287,13 +287,13 @@ public class ContentManagerTest extends AndroidTestCase {
         map.put(BrickDefine.BRICK_ID, "1");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
         map.put(BrickDefine.BRICK_NAME, "Test1");
-        map.put(BrickDefine.BRICK_VALUE, "bla");
+        map.put(BrickDefine.BRICK_VALUE, "");
         mContentArrayList.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "2");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.PLAY_SOUND));
         map.put(BrickDefine.BRICK_NAME, "Test2");
-        map.put(BrickDefine.BRICK_VALUE, "blabla1");
+        map.put(BrickDefine.BRICK_VALUE, "");
         mContentArrayList.add(map);
         mSpritesAndBackgroundList.put("FirstSprite", mContentArrayList);
         mContentManager.setContentArrayList(mContentArrayList);
@@ -303,13 +303,13 @@ public class ContentManagerTest extends AndroidTestCase {
         map.put(BrickDefine.BRICK_ID, "3");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
         map.put(BrickDefine.BRICK_NAME, "haha");
-        map.put(BrickDefine.BRICK_VALUE, "hihi");
+        map.put(BrickDefine.BRICK_VALUE, "10");
         mContentArrayList.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "4");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
         map.put(BrickDefine.BRICK_NAME, "hoho");
-        map.put(BrickDefine.BRICK_VALUE, "huhu");
+        map.put(BrickDefine.BRICK_VALUE, "");
         mContentArrayList.add(map);
         mSpritesAndBackgroundList.put("SecondSprite", mContentArrayList);
         
@@ -328,19 +328,19 @@ public class ContentManagerTest extends AndroidTestCase {
         map.put(BrickDefine.BRICK_ID, "0");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
         map.put(BrickDefine.BRICK_NAME, "Test1");
-        map.put(BrickDefine.BRICK_VALUE, "0");
+        map.put(BrickDefine.BRICK_VALUE, "");
         mContentManager.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "0");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.PLAY_SOUND));
         map.put(BrickDefine.BRICK_NAME, "Test2");
-        map.put(BrickDefine.BRICK_VALUE, "0");
+        map.put(BrickDefine.BRICK_VALUE, "");
         mContentManager.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "0");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
         map.put(BrickDefine.BRICK_NAME, "Test3");
-        map.put(BrickDefine.BRICK_VALUE, "0");
+        map.put(BrickDefine.BRICK_VALUE, "10");
         mContentManager.add(map);
         
         mContentManager.addSprite("Sprite", new ArrayList<HashMap<String, String>>());
@@ -348,19 +348,19 @@ public class ContentManagerTest extends AndroidTestCase {
         map.put(BrickDefine.BRICK_ID, "0");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
         map.put(BrickDefine.BRICK_NAME, "Test1");
-        map.put(BrickDefine.BRICK_VALUE, "0");
+        map.put(BrickDefine.BRICK_VALUE, "");
         mContentManager.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "0");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.PLAY_SOUND));
         map.put(BrickDefine.BRICK_NAME, "Test2");
-        map.put(BrickDefine.BRICK_VALUE, "0");
+        map.put(BrickDefine.BRICK_VALUE, "");
         mContentManager.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "0");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
         map.put(BrickDefine.BRICK_NAME, "Test3");
-        map.put(BrickDefine.BRICK_VALUE, "0");
+        map.put(BrickDefine.BRICK_VALUE, "10");
         mContentManager.add(map);
         
         assertEquals(mContentManager.getIdCounter(), 6);
@@ -373,19 +373,19 @@ public class ContentManagerTest extends AndroidTestCase {
         map.put(BrickDefine.BRICK_ID, "0");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
         map.put(BrickDefine.BRICK_NAME, "Test1");
-        map.put(BrickDefine.BRICK_VALUE, "0");
+        map.put(BrickDefine.BRICK_VALUE, "");
         mContentArrayList.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "0");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.PLAY_SOUND));
         map.put(BrickDefine.BRICK_NAME, "Test2");
-        map.put(BrickDefine.BRICK_VALUE, "0");
+        map.put(BrickDefine.BRICK_VALUE, "");
         mContentArrayList.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "13");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
         map.put(BrickDefine.BRICK_NAME, "Test3");
-        map.put(BrickDefine.BRICK_VALUE, "0");
+        map.put(BrickDefine.BRICK_VALUE, "10");
         mContentArrayList.add(map);
         mContentManager.setContentArrayList(mContentArrayList);
         mSpritesAndBackgroundList.put("FirstSprite", mContentArrayList);

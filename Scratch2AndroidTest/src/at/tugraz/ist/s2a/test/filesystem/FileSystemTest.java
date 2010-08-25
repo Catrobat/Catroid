@@ -27,7 +27,7 @@ public class FileSystemTest extends AndroidTestCase {
 		
 		mFileSystem = new FileSystem();
 		try {
-			mCtx = getContext().createPackageContext("com.tugraz.android.app", Context.CONTEXT_IGNORE_SECURITY);
+			mCtx = getContext().createPackageContext("at.tugraz.ist.s2a", Context.CONTEXT_IGNORE_SECURITY);
 		} catch (NameNotFoundException e) {
 			assertFalse(true);
 		}

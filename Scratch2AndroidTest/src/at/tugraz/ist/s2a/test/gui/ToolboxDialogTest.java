@@ -14,7 +14,7 @@ public class ToolboxDialogTest extends ActivityInstrumentationTestCase2<Construc
 	private Dialog mDialog;
 	
 	public ToolboxDialogTest() {
-		super("com.tugraz.android.app", ConstructionSiteActivity.class);
+		super("at.tugraz.ist.s2a", ConstructionSiteActivity.class);
 	}
 	
 	protected void setUp() throws Exception {
@@ -32,6 +32,11 @@ public class ToolboxDialogTest extends ActivityInstrumentationTestCase2<Construc
 	 * clicks on the toolbox button and checks if the toolbox is showing up
 	 */
 	public void testToolboxShowingUp() {
+		
+		//TODO redesign test case
+		
+		
+		
 		mActivity.runOnUiThread(
 				new Runnable() {
 					public void run() {
@@ -45,12 +50,20 @@ public class ToolboxDialogTest extends ActivityInstrumentationTestCase2<Construc
 //		this.sendKeys(KeyEvent.KEYCODE_DPAD_DOWN);
 		this.sendKeys(KeyEvent.KEYCODE_DPAD_CENTER);
 		
-		mDialog = (mActivity.getToolboxDialog());
-		assertTrue(mDialog.isShowing());
+		try {
+			mDialog = (mActivity.getToolboxDialog());
+			assertTrue(mDialog.isShowing());
+		} catch (Exception e) {
+			assertTrue(false);
+		}
 		
 	}
 
-//	public void testSetNewBrick() {
+	public void testSetNewBrick() {
+		
+		//TODO redesign test case
+		assertTrue(false);
+		
 //		mActivity.runOnUiThread(
 //				new Runnable() {
 //					public void run() {
@@ -82,7 +95,7 @@ public class ToolboxDialogTest extends ActivityInstrumentationTestCase2<Construc
 //		
 //		
 //		assertTrue(true);
-//	}
+	}
 	
 
 }
