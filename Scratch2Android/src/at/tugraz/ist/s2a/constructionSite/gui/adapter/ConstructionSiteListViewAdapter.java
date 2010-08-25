@@ -3,6 +3,7 @@ package at.tugraz.ist.s2a.constructionSite.gui.adapter;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import android.content.Context;
 import android.content.res.Resources;
@@ -37,9 +38,11 @@ import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import at.tugraz.ist.s2a.ConstructionSiteActivity;
 import at.tugraz.ist.s2a.R;
 import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
 import at.tugraz.ist.s2a.utils.ImageContainer;
+import at.tugraz.ist.s2a.utils.Utils;
 import at.tugraz.ist.s2a.utils.filesystem.MediaFileLoader;
 
 public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnClickListener, TextView.OnEditorActionListener, AdapterView.OnItemSelectedListener{
@@ -245,12 +248,28 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 
 	public void onItemSelected(AdapterView<?> spinner, View v, int position,
 			long id) {
-		String tag = (String) v.getTag();
-	
+		String tag = (String) spinner.getTag();
 		if(mCtx.getString(R.string.constructional_brick_play_sound_spinner_tag).equals(tag)){	
 			int brickPosition = mMainListView.getPositionForView(spinner);
 			HashMap<String, String> map = (HashMap<String, String>)spinner.getAdapter().getItem(position);
-			mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE, map.get(MediaFileLoader.SOUND_PATH));
+			
+			
+			//delete old file when available
+			Utils.deleteFile(mBrickList.get(brickPosition).get(BrickDefine.BRICK_VALUE));
+			
+			String newPath = ConstructionSiteActivity.ROOT_SOUNDS;
+			//TimeInMillis to get a unique name
+			String uniqueName = map.get(MediaFileLoader.SOUND_NAME) + Calendar.getInstance().getTimeInMillis();
+			
+			if(newPath.endsWith("/"))
+				newPath = newPath + uniqueName;
+			else
+				newPath = newPath +"/"+ uniqueName;
+			
+			if(Utils.copyFile(map.get(MediaFileLoader.SOUND_PATH),  newPath))
+				mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE, uniqueName);
+			else
+				Log.e("ConstructionSiteViewAdapter", "Copy Sound File Error");
 		}		
 	}
 
