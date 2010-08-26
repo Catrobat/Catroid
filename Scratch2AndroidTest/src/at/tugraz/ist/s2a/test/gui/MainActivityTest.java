@@ -20,7 +20,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<Construct
 	private ListView mMenu;
 	
 	public MainActivityTest() {
-		super("com.tugraz.android.app", ConstructionSiteActivity.class);
+		super("at.tugraz.ist.s2a", ConstructionSiteActivity.class);
 	}
 	
 	protected void setUp() throws Exception {
@@ -76,6 +76,23 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<Construct
 		this.sendKeys(KeyEvent.KEYCODE_DPAD_DOWN);
 		this.sendKeys(KeyEvent.KEYCODE_DPAD_CENTER);
 		}
+		//TODO redesign test case
+		assertTrue(false);
+
+		
+//		mActivity.runOnUiThread(
+//				new Runnable() {
+//					public void run() {
+//						mListView.requestFocus();	
+//						
+//					}
+//				}
+//		);
+//		View view = (View) mListView.getChildAt(0);	
+//		TouchUtils.longClickView(this, view);
+//		this.sendKeys(KeyEvent.KEYCODE_DPAD_DOWN);
+//		this.sendKeys(KeyEvent.KEYCODE_DPAD_CENTER);
+	
 	}
 	
 	/**
@@ -83,10 +100,13 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<Construct
 	 */
 	public void testMenuShown(){
 
-		this.sendKeys(KeyEvent.KEYCODE_MENU);
+		//TODO redesign test case
+		assertTrue(false);
 		
-		this.sendKeys(KeyEvent.KEYCODE_DPAD_RIGHT);
-		this.sendKeys(KeyEvent.KEYCODE_DPAD_CENTER);
+//		this.sendKeys(KeyEvent.KEYCODE_MENU);
+//		
+//		this.sendKeys(KeyEvent.KEYCODE_DPAD_RIGHT);
+//		this.sendKeys(KeyEvent.KEYCODE_DPAD_CENTER);
 		
 	}
 	
