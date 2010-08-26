@@ -82,7 +82,7 @@ public class ContentManager extends Observable{
 		mSpritesAndBackgroundList.put(STAGE, (ArrayList<HashMap<String,String>>)mContentArrayList.clone());
 		mIdCounter = 0;
 		//Fill Dummy Stage
-		refreshSpritelist();//TODO Check this (SpritesAdapter)
+		refreshSpritelist();
         setChanged();
 		notifyObservers();
 	}
@@ -158,8 +158,7 @@ public class ContentManager extends Observable{
 				    
 				mSpritesAndBackgroundList.putAll(mParser.parse(scratch, mCtx));
 				mContentArrayList.addAll((ArrayList<HashMap<String,String>>)mSpritesAndBackgroundList.get(mSpritesAndBackgroundList.firstKey()).clone());
-				//TODO: check this for a better solution
-	
+				
 			    mIdCounter = getHighestId();	        
 			    mCurrentSprite =STAGE;
 	
