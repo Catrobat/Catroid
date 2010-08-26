@@ -37,7 +37,7 @@ public class ImageContainerTest extends TestCase {
 		assertEquals(bitmap1.getNinePatchChunk(), mImageContainer.getImage("test2.png").getNinePatchChunk());
 		
 		boolean exists = false;
-		File rootFile = new File("/sdcard/");
+		File rootFile = new File("/sdcard");
 		String[] rootFileList = rootFile.list();
 		
 		for(int i=0; i<rootFileList.length; i++)
@@ -55,7 +55,7 @@ public class ImageContainerTest extends TestCase {
 		//mImageContainer.saveBitmap("test1.png", bitmap);
 		
 		boolean exists = false;
-		File rootFile = new File("/sdcard/");
+		File rootFile = new File("/sdcard");
 		String[] rootFileList = rootFile.list();
 		
 		for(int i=0; i<rootFileList.length; i++)
