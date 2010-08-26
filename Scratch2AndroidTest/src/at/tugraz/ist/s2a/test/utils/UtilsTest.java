@@ -67,5 +67,29 @@ public class UtilsTest extends TestCase{
 		Utils.deleteFile(mTestFile.getAbsolutePath());
 		assertFalse(mTestFile.exists());
 	}
+	
+	public void testConcatPath(){
+		String first = "/abc/abc";
+		String second = "/def/def/";
+		String result = "/abc/abc/def/def/";
+		assertEquals(Utils.concatPaths(first, second), result);
+		first = "/abc/abc";
+		second = "def/def/";
+		result = "/abc/abc/def/def/";
+		assertEquals(Utils.concatPaths(first, second), result);
+		first = "/abc/abc/";
+		second = "/def/def/";
+		result = "/abc/abc/def/def/";
+		assertEquals(Utils.concatPaths(first, second), result);
+		first = "/abc/abc/";
+		second = "def/def/";
+		result = "/abc/abc/def/def/";
+		assertEquals(Utils.concatPaths(first, second), result);
+	}
+	
+	public void testAddDefaultFileEnding(){
+		String filename = "test";
+		assertEquals(Utils.addDefaultFileEnding(filename), "test.spf");
+	}
 
 }
