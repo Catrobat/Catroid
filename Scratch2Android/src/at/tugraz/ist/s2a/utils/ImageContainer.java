@@ -55,7 +55,7 @@ public class ImageContainer {
 		File imagePath = new File(path);
 		String folderPath = imagePath.getParent();
 		String image = Calendar.getInstance().getTimeInMillis() + imagePath.getAbsolutePath().replace(folderPath, "").replace("/", "");
-	
+		image = Utils.changeFileEndingToPng(image);
 		Bitmap bm = null;		
 		bm = BitmapFactory.decodeFile((path));
 		Bitmap newbm = null;
@@ -81,6 +81,7 @@ public class ImageContainer {
 		File imagePath = new File(path);
 		String folderPath = imagePath.getParent();
 		String image = Calendar.getInstance().getTimeInMillis() + imagePath.getAbsolutePath().replace(folderPath, "").replace("/", "thumb");
+		image = Utils.changeFileEndingToPng(image);
 		Bitmap bm = null;
 		bm = BitmapFactory.decodeFile((path));
 		Bitmap newbm = null;
