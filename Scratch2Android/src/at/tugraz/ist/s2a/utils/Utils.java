@@ -64,13 +64,6 @@ public class Utils {
 				return first+second;
 			else
 				return first+"/"+second;
-		//Beispielstrings
-		//../abc/abc
-		//../abc/abc/
-		//..abc/abc/
-		//../abc/abc
-		//../abc/abc.endung
-		//..abc/abc.endung
 	}
 	
 	public static String addDefaultFileEnding(String filename){
