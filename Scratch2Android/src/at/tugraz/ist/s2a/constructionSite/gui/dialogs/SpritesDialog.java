@@ -13,6 +13,7 @@ import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -81,12 +82,18 @@ public class SpritesDialog extends Dialog implements Observer
 		mMainListView = (ListView) findViewById(R.id.spritesListView);
 		
 		mAdapter = new SpritesAdapter(mCtx, mContentManager.getSpritelist());
-		mAdapter.setContentManager(mContentManager);
-		mAdapter.setDialog(this);
 		mContentManager.setObserver(this);
 		
 		mMainListView.setAdapter(mAdapter);
 		
+		mMainListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				mContentManager.switchSprite(arg2);
+				dismiss();
+			}
+		});
 		mSpriteName = (EditText) findViewById(R.id.newsprite);
 		mSpriteButton = (Button) findViewById(R.id.NewSpriteButton);
 		mSpriteButton.setOnClickListener(new View.OnClickListener() {

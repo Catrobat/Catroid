@@ -125,7 +125,7 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 				new String[] {MediaFileLoader.SOUND_NAME}, new int[] {R.id.SoundSpinnerTextView});
 				spinner.setAdapter(adapter);
 				try {
-					spinner.setSelection(getIndexFromElementSound(adapter, brick.get(BrickDefine.BRICK_VALUE)));
+					spinner.setSelection(getIndexFromElementSound(adapter, brick.get(BrickDefine.BRICK_NAME)));
 				} catch (Exception e) {}
 				spinner.setOnItemSelectedListener(this);
 				return view;		
@@ -196,7 +196,7 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 	public int  getIndexFromElementSound(SimpleAdapter adapter, String element) {
 		ArrayList<HashMap<String, String>> arrayList = mMediaFileLoader.getSoundContent();
 		for(int i = 0; i < adapter.getCount(); i++) {
-			String value = arrayList.get(i).get(MediaFileLoader.SOUND_PATH);
+			String value = arrayList.get(i).get(MediaFileLoader.SOUND_NAME);
 			if(value.equals((element))) {
 				return i;
 			}
@@ -236,18 +236,24 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 			int brickPosition = mMainListView.getPositionForView(spinner);
 			HashMap<String, String> map = (HashMap<String, String>)spinner.getAdapter().getItem(position);
 					
-			//delete old file when available
-			Utils.deleteFile(mBrickList.get(brickPosition).get(BrickDefine.BRICK_VALUE));
 			
-			String newPath = ConstructionSiteActivity.ROOT_SOUNDS;
-			//TimeInMillis to get a unique name
-			String uniqueName = Calendar.getInstance().getTimeInMillis() + map.get(MediaFileLoader.SOUND_NAME);
-			newPath = Utils.concatPaths(newPath, uniqueName);
-			
-			if(Utils.copyFile(map.get(MediaFileLoader.SOUND_PATH),  newPath))
-				mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE, uniqueName);
-			else
-				Log.e("ConstructionSiteViewAdapter", "Copy Sound File Error");
+			if(!mBrickList.get(brickPosition).get(BrickDefine.BRICK_NAME).equals(map.get(MediaFileLoader.SOUND_NAME))){
+				//delete old file when available
+				Utils.deleteFile(mBrickList.get(brickPosition).get(BrickDefine.BRICK_VALUE));
+				
+				String newPath = ConstructionSiteActivity.ROOT_SOUNDS;
+				//TimeInMillis to get a unique name
+				String uniqueName = Calendar.getInstance().getTimeInMillis() + map.get(MediaFileLoader.SOUND_NAME);
+				newPath = Utils.concatPaths(newPath, uniqueName);
+				
+				if(Utils.copyFile(map.get(MediaFileLoader.SOUND_PATH),  newPath)){
+					mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE, uniqueName);
+					mBrickList.get(brickPosition).put(BrickDefine.BRICK_NAME, map.get(MediaFileLoader.SOUND_NAME));
+				}		
+				else
+					Log.e("ConstructionSiteViewAdapter", "Copy Sound File Error");
+			}
+
 		}		
 	}
 

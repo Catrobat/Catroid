@@ -53,7 +53,7 @@ protected void onCreate(Bundle savedInstanceState) {
 			newSpfFile = Utils.addDefaultFileEnding(newSpfFile);
 		ConstructionSiteActivity.setRoot(newPath.getAbsolutePath(), newSpfFile);
 		
-		mContentManager.clearSprites();
+		mContentManager.resetContent();
 		mContentManager.loadContent(newSpfFile);
 		dismiss();
 	}

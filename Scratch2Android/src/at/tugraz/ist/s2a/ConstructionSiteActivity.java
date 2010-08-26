@@ -19,6 +19,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,7 +29,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
-import at.tugraz.ist.s2a.constructionSite.content.ConstructionContentManager;
 import at.tugraz.ist.s2a.constructionSite.content.ContentManager;
 import at.tugraz.ist.s2a.constructionSite.gui.adapter.ConstructionSiteListViewAdapter;
 import at.tugraz.ist.s2a.constructionSite.gui.dialogs.ChangeProgramNameDialog;
@@ -87,7 +87,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	
 	protected ListView mMainListView;
 	private ConstructionSiteListViewAdapter mAdapter;
-	private ConstructionContentManager mContentManager;
+	private ContentManager mContentManager;
 
 	private Button mSpritesToolboxButton;
     private SpritesDialog mSpritesToolboxDialog;
@@ -106,7 +106,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
         mImageContainer = new ImageContainer(ROOT_IMAGES);
         
         setContentView(R.layout.construction_site);
-        mContentManager = new ConstructionContentManager(this, mImageContainer);
+        mContentManager = new ContentManager(this);
         mContentManager.setObserver(this);
         
         
@@ -148,7 +148,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		        Cursor c = managedQuery(u2, projection, null, null, null);
 		        if (c!=null && c.moveToFirst()) {
 		        	 File image_full_path = new File(c.getString(0));
-		        	 //TODO Jetzt auspassen
+		        	 
 		        	 String imageName = mImageContainer.saveImage(image_full_path.getAbsolutePath());
 		        	 String imageThumbnailName = mImageContainer.saveThumbnail(image_full_path.getAbsolutePath());
 		        	 
@@ -166,10 +166,6 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		             Log.d("Data",column0Value);
 		             Log.d("Display name",column1Value);
 		        }
-			
-		        //TODO fix this
-			//mAdapter.setImage(mPictureView);
-	
 		}
 			
 			
@@ -228,7 +224,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
     public boolean onContextItemSelected(MenuItem item) {
     	AdapterView.AdapterContextMenuInfo info;
     	info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-    	mContentManager.remove(info.position);
+    	mContentManager.removeBrick(info.position);
     	return true;
     };
 
@@ -251,8 +247,9 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
             return true;
             
         case R.id.reset:
-        	//TODO: Delete all Pictures and Sounds
-        	mContentManager.clearSprites();
+        	Utils.deleteFolder(ROOT_IMAGES);
+        	Utils.deleteFolder(ROOT_SOUNDS);
+        	mContentManager.resetContent();
             return true;
             
         case R.id.load:
@@ -279,19 +276,14 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		mAdapter.notifyDataSetChanged(mContentManager.getContentArrayList());	
 		mMainListView.setSelection(mAdapter.getCount()-1);
 	}
-	
-	public void onDestroy()
+
+	public void onPause()
 	{
 		mContentManager.saveContent(SPF_FILE);
 	    SharedPreferences.Editor editor = mPreferences.edit();
 	    editor.putString(PREF_ROOT, ROOT);
 	    editor.putString(PREF_FILE_SPF, SPF_FILE);
 	    editor.commit();
-		super.onStop();
-	}
-	
-	public void onPause()
-	{
 		super.onPause();
 	}
 	
@@ -304,6 +296,18 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		}
 	}
 		
+	
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if(keyCode == KeyEvent.KEYCODE_HOME){
+			this.finish();
+			return true;
+		}
+			
+		return super.onKeyDown(keyCode, event);
+	}
+
 	private void openToolbox(){
 		if(mContentManager.getCurrentSprite().equals(this.getString(R.string.stage)))
 		{
@@ -331,12 +335,12 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	public void onBrickClickListener(View v) {
 		//Log.d("TEST", "HALLO");
 		if(mContentManager.getCurrentSprite().equals(this.getString(R.string.stage))){
-			mContentManager.add(mToolboxStageDialog.getBrickClone(v));
+			mContentManager.addBrick(mToolboxStageDialog.getBrickClone(v));
 			if(mToolboxStageDialog.isShowing())
 				mToolboxStageDialog.dismiss();
 		}		
 		else{
-			mContentManager.add(mToolboxObjectDialog.getBrickClone(v));
+			mContentManager.addBrick(mToolboxObjectDialog.getBrickClone(v));
 			if(mToolboxObjectDialog.isShowing())
 				mToolboxObjectDialog.dismiss();
 		}

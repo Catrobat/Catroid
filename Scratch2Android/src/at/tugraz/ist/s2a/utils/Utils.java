@@ -53,6 +53,21 @@ public class Utils {
 		return fileFrom.delete();
 	}
 	
+	public static boolean deleteFolder(String path){
+		File fileFrom = new File(path);
+		  if (fileFrom.isDirectory()) {
+		    for (File c : fileFrom.listFiles()){
+		    	if(c.isDirectory())
+		    		deleteFolder(c.getAbsolutePath());
+		    	else
+		    		c.delete();
+		    }     
+		  }else
+			  fileFrom.delete();
+		  
+		  return true;
+		}
+	
 	public static String concatPaths(String first, String second){
 		if(first.endsWith("/"))
 			if(second.startsWith("/"))
