@@ -91,5 +91,14 @@ public class UtilsTest extends TestCase{
 		String filename = "test";
 		assertEquals(Utils.addDefaultFileEnding(filename), "test.spf");
 	}
+	
+	public void testChangeFileEndingToPng(){
+		String imageName = "blablabla.jpg";
+		assertEquals(Utils.changeFileEndingToPng(imageName), "blablabla.png");
+		String imageName1 = "blablabla.png";
+		assertEquals(Utils.changeFileEndingToPng(imageName1), "blablabla.png");
+		String imageName2 = "blablabla.jpeg";
+		assertEquals(Utils.changeFileEndingToPng(imageName2), "blablabla.png");
+	}
 
 }
