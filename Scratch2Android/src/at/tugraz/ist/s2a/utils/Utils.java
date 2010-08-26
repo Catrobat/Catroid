@@ -86,5 +86,16 @@ public class Utils {
 			e.printStackTrace();
 		}
 	}
+	
+	public static String changeFileEndingToPng(String filename)
+	{
+		String newFileName;
+		
+		int beginOfFileEnding = filename.lastIndexOf(".");
+		newFileName = filename.replace(filename.substring(beginOfFileEnding), "");
+		
+	    newFileName = newFileName + ".png";
+		return newFileName;
+	}
 
 }

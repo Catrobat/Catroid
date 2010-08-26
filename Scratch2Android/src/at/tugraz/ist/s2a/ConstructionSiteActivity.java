@@ -148,6 +148,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		        Cursor c = managedQuery(u2, projection, null, null, null);
 		        if (c!=null && c.moveToFirst()) {
 		        	 File image_full_path = new File(c.getString(0));
+		        	 //TODO Jetzt auspassen
 		        	 String imageName = mImageContainer.saveImage(image_full_path.getAbsolutePath());
 		        	 String imageThumbnailName = mImageContainer.saveThumbnail(image_full_path.getAbsolutePath());
 		        	 
