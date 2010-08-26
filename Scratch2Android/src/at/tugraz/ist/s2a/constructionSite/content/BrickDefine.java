@@ -52,6 +52,7 @@ public class BrickDefine {
 	        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
 	        map.put(BrickDefine.BRICK_NAME, "");
 	        map.put(BrickDefine.BRICK_VALUE, "");
+	        map.put(BrickDefine.BRICK_VALUE_1, "");
 	        list.add(map);
 	        map = new HashMap<String, String>();
 	        map.put(BrickDefine.BRICK_ID, "2");
@@ -105,6 +106,7 @@ public class BrickDefine {
 		    map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_COSTUME));
 		    map.put(BrickDefine.BRICK_NAME, "");
 		    map.put(BrickDefine.BRICK_VALUE, "");
+		    map.put(BrickDefine.BRICK_VALUE_1, "");
 		    list.add(map);
 			
 		default:
