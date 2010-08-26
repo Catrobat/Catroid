@@ -13,12 +13,12 @@ import java.util.TreeMap;
 import junit.framework.TestCase;
 import android.test.AndroidTestCase;
 import android.util.Log;
+import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
 import at.tugraz.ist.s2a.utils.*;
 import at.tugraz.ist.s2a.utils.parser.Parser;
 
 
 public class ParserTest extends AndroidTestCase {
-	private Parser parser;
 	
 	private String testXml =
 	"<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>"+
@@ -34,7 +34,7 @@ public class ParserTest extends AndroidTestCase {
 	    "<sound path=\"bla.mp3\" />"+
 	  "</command>"+
 	"</stage>"+
-	"<sprite name=\"sprite\">"+
+	"<object name=\"sprite\">"+
 	  "<command id=\"4003\">"+
 	    "<image path=\"bla.jpg\" />"+
 	  "</command>"+
@@ -47,7 +47,7 @@ public class ParserTest extends AndroidTestCase {
 	  "<command id=\"4003\">"+
 	    "<image path=\"bla.jpg\" />"+
 	  "</command>"+
-	"</sprite>"+
+	"</object>"+
 	"</project>";
 	
 	
@@ -57,7 +57,6 @@ public class ParserTest extends AndroidTestCase {
 
 	protected void setUp() throws Exception {
 		super.setUp();
-		parser = new Parser();
 	}
 
 	protected void tearDown() throws Exception {
@@ -88,15 +87,33 @@ public class ParserTest extends AndroidTestCase {
 			Log.e("ParserTest", "Reading from test XML file failed!");
 			e.printStackTrace();
 		}
-		Log.i("ParserTest: the test string: ", testXml);
-		String xml = parser.toXml(list);
+		//TODO test if first element is stage (name does not need to be 'stage')
+
+		//test some of the data
+		assertEquals(3, list.get(list.firstKey()).size());
+		assertEquals("1001", list.get(list.firstKey()).get(0).get(BrickDefine.BRICK_TYPE));
 		
-		Log.i("ParserTest the parsed string: ", xml);
-		assertTrue(xml.equals(testXml));
+		assertEquals("bla.jpg", list.get(list.firstKey()).get(0).get(BrickDefine.BRICK_VALUE));
 		
+		assertEquals("1002", list.get(list.firstKey()).get(1).get(BrickDefine.BRICK_TYPE));
+		assertEquals("2001", list.get(list.firstKey()).get(2).get(BrickDefine.BRICK_TYPE));
+		
+		assertEquals(5, list.get("sprite").size());
+		assertEquals("4003", list.get("sprite").get(0).get(BrickDefine.BRICK_TYPE));
+		
+		assertEquals("3001", list.get("sprite").get(1).get(BrickDefine.BRICK_TYPE));
+		assertEquals("5", list.get("sprite").get(1).get(BrickDefine.BRICK_VALUE));
+		assertEquals("7", list.get("sprite").get(1).get(BrickDefine.BRICK_VALUE_1));
+		assertEquals("4001", list.get("sprite").get(2).get(BrickDefine.BRICK_TYPE));
+		assertEquals("4002", list.get("sprite").get(3).get(BrickDefine.BRICK_TYPE));
+		assertEquals("4003", list.get("sprite").get(4).get(BrickDefine.BRICK_TYPE));
 	}
 	
-//	public void testToXml() {
+	public void testToXml() {
+		//TODO redesign test depending on refactoring the parser
+		assert(false);
+		
+//		Parser parser = new Parser();
 //		ArrayList<HashMap<String, String>> brickList = new ArrayList<HashMap<String,String>>();;
 //	
 //		HashMap<String, String> map = new HashMap<String, String>();
@@ -132,6 +149,6 @@ public class ParserTest extends AndroidTestCase {
 //		result = parser.toXml(brickList);
 //		expected = "<?xml version='1.0' encoding='UTF-8' standalone='yes' ?><stage />";
 //		assertEquals("constructed list without commands", expected, result);
-//	
-//	}
+	
+	}
 }
