@@ -238,6 +238,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
             return true;
             
         case R.id.reset:
+        	//TODO: Delete all Pictures and Sounds
         	mContentManager.clearSprites();
             return true;
             
