@@ -34,21 +34,6 @@ public class ImageContainer {
 		mEditor = new ImageEditing();
 		mFilesystem = new FileSystem();
 		ROOTPATH = rootpath;
-		init();
-	}
-	
-	public void init(){
-		File rootFile = new File(ROOTPATH);
-		String[] rootFileList = rootFile.list();
-		if(!(rootFileList==null)){
-			for(int i=0; i<rootFileList.length; i++)
-			{
-				Bitmap bm = BitmapFactory.decodeFile(getFullImagePath(rootFileList[i]));
-				if(bm != null)
-					mImageMap.put(rootFileList[i], bm);
-				
-			}
-		}
 	}
 	
 	public String saveImage(String path){
@@ -97,15 +82,13 @@ public class ImageContainer {
 	
 
 	public Bitmap getImage(String name){
-		Log.d("TEST", name + " " +mImageMap.containsKey(name));
-		if(!mImageMap.containsKey(name))
-			return null;	
+		if(!mImageMap.containsKey(name)){
+			Bitmap bm = BitmapFactory.decodeFile(getFullImagePath(Utils.concatPaths(ConstructionSiteActivity.ROOT_IMAGES, name)));
+			if(bm != null)
+				mImageMap.put(name, bm);
+		}
 		
 		return mImageMap.get(name);
-	}
-	
-	public Bitmap getThumbnail(String name){
-		return getImage(name);
 	}
 	
 	private String getFullImagePath(String path){

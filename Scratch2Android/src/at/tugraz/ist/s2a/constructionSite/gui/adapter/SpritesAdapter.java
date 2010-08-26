@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import at.tugraz.ist.s2a.R;
 import at.tugraz.ist.s2a.R.layout;
@@ -16,14 +17,11 @@ import at.tugraz.ist.s2a.constructionSite.content.ContentManager;
 public class SpritesAdapter extends BaseAdapter{
     private Context mCtx;
     public ArrayList<String> mList;
-    private ContentManager mContentManager;
-    private Dialog mDialog;
   
 	public SpritesAdapter(Context context,
 			ArrayList<String> data) {
 		mCtx = context;
 		mList = data;
-	
 	}
 
 	public int getCount() {
@@ -51,23 +49,9 @@ public class SpritesAdapter extends BaseAdapter{
 		view.setTag(mList.get(position));
 		TextView text = (TextView)view.getChildAt(0);
 		text.setText(mList.get(position));
-	    view.setOnClickListener(new View.OnClickListener() {				
-				
-				public void onClick(View v) {
-					mContentManager.switchSprite(((LinearLayout)v).getTag().toString());
-					mDialog.dismiss();
-				}
-			});
 		return view;
 		}
 	
-	public void setContentManager(ContentManager contentManager) {
-		mContentManager = contentManager;
-		
-	}
 	
-	public void setDialog(Dialog dialog){
-		mDialog = dialog;	
-	}
 	
 }

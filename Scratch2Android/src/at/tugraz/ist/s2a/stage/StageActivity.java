@@ -14,6 +14,7 @@ import at.tugraz.ist.s2a.R.id;
 import at.tugraz.ist.s2a.R.layout;
 import at.tugraz.ist.s2a.R.menu;
 import at.tugraz.ist.s2a.constructionSite.content.ContentManager;
+import at.tugraz.ist.s2a.utils.Utils;
 
 public class StageActivity extends Activity {
 
@@ -42,7 +43,7 @@ public class StageActivity extends Activity {
 		mStage = new StageView(this);
 
 		mContentManager = new ContentManager(this);
-		mContentManager.loadContent();
+		mContentManager.loadContent(SPF_FILE);
 
 
 		mSpritesList = new ArrayList<Sprite>();

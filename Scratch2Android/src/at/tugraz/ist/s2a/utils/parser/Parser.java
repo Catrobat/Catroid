@@ -41,6 +41,7 @@ public class Parser {
 	final static String PATH = "path";
 	final static String PATH_THUMB = "path_thumb";
 	final static String NAME = "name";
+	final static String FILE_NAME = "file_name";
 	
 	final static String PROJECT = "project";
 	final static String COMMAND = "command";
@@ -84,6 +85,7 @@ public class Parser {
 			int brickType = Integer.parseInt(bricks.item(i).getAttributes().getNamedItem(ID).getNodeValue());
 			String value = EMPTY_STRING;
 			String value1 = EMPTY_STRING;
+			String file_name = EMPTY_STRING;
 			switch (brickType){
 				case BrickDefine.SET_BACKGROUND:
 				case BrickDefine.SET_COSTUME:
@@ -94,6 +96,7 @@ public class Parser {
 				case BrickDefine.PLAY_SOUND:
 				
 					value = bricks.item(i).getFirstChild().getAttributes().getNamedItem(PATH).getNodeValue();
+					file_name = bricks.item(i).getFirstChild().getAttributes().getNamedItem(FILE_NAME).getNodeValue();
 					break;
 				case BrickDefine.WAIT:
 					value = bricks.item(i).getFirstChild().getNodeValue();
@@ -103,7 +106,7 @@ public class Parser {
 					value1 = bricks.item(i).getLastChild().getFirstChild().getNodeValue();
 					break;
 			}
-			HashMap<String, String> map = getBrickMap(value, value1, brickType);
+			HashMap<String, String> map = getBrickMap(file_name, value, value1, brickType);
 			sublist.add(map);
 			
 			mIdCounter++;
@@ -122,6 +125,7 @@ public class Parser {
 				int brickType = Integer.parseInt(bricks.item(i).getAttributes().getNamedItem(ID).getNodeValue());
 				String value = EMPTY_STRING;
 				String value1 = EMPTY_STRING;
+				String file_name = EMPTY_STRING;
 				switch (brickType){
 				case BrickDefine.SET_BACKGROUND:
 				case BrickDefine.SET_COSTUME:
@@ -132,6 +136,7 @@ public class Parser {
 				case BrickDefine.PLAY_SOUND:
 				
 					value = bricks.item(i).getFirstChild().getAttributes().getNamedItem(PATH).getNodeValue();
+					file_name = bricks.item(i).getFirstChild().getAttributes().getNamedItem(FILE_NAME).getNodeValue();
 					break;
 					case BrickDefine.WAIT:
 						value = bricks.item(i).getFirstChild().getNodeValue();
@@ -141,7 +146,7 @@ public class Parser {
 						value1 = bricks.item(i).getLastChild().getFirstChild().getNodeValue();
 						break;
 				}
-				HashMap<String, String> map = getBrickMap(value, value1, brickType);
+				HashMap<String, String> map = getBrickMap(file_name, value, value1, brickType);
 				sublist.add(map);
 				mIdCounter++;
 				
@@ -183,19 +188,15 @@ public class Parser {
 	    			sprite = tempMap.get(tempMap.firstKey());
 	    			serializer.startTag(EMPTY_STRING, STAGE);
 	    			serializer.attribute(EMPTY_STRING, NAME, tempMap.firstKey());
-	    			Log.d("TEST", "what the .." + tempMap.firstKey());
 	    		}
 		    	else
 		    	{
 		    		serializer.startTag(EMPTY_STRING, OBJECT);
 		    	    serializer.attribute(EMPTY_STRING, NAME, tempMap.firstKey());
-		    	    Log.d("TEST", tempMap.firstKey());
 		    	}
-		    	Log.d("TEST", "size of objects = " +sprite.size());
 		    	
 		    	for (int i=0; i<sprite.size(); i++) {
 		    		HashMap<String,String> brick = sprite.get(i);
-		    		Log.d("TEST", brick.get(BrickDefine.BRICK_TYPE));
 					switch (Integer.parseInt(brick.get(BrickDefine.BRICK_TYPE))){ //TODO nicht bei jedem durchlauf neue elemente erzeugen sonder nur clonen
 					case BrickDefine.SET_BACKGROUND:
 						serializer.startTag(EMPTY_STRING, COMMAND);
@@ -210,7 +211,9 @@ public class Parser {
 						serializer.startTag(EMPTY_STRING, COMMAND);
 						serializer.attribute(EMPTY_STRING, ID, Integer.toString(BrickDefine.PLAY_SOUND));
 						serializer.startTag(EMPTY_STRING, SOUND);
+						
 						serializer.attribute(EMPTY_STRING, PATH, brick.get(BrickDefine.BRICK_VALUE));
+						serializer.attribute(EMPTY_STRING, FILE_NAME, brick.get(BrickDefine.BRICK_NAME));
 						serializer.endTag(EMPTY_STRING, SOUND);
 						serializer.endTag(EMPTY_STRING, COMMAND);
 						break;
@@ -286,12 +289,9 @@ public class Parser {
 
 	}
 	
-	private HashMap<String, String> getBrickMap(String value, int type) {
-		return getBrickMap(NAME, value, EMPTY_STRING, type);
-	}
 	
 	private HashMap<String, String> getBrickMap(String value, String value1, int type) {
-		return getBrickMap(NAME, value, value1, type);
+		return getBrickMap(EMPTY_STRING, value, value1, type);
 	}
 	
 	private HashMap<String, String> getBrickMap(String name, String value, String value1, int type) {

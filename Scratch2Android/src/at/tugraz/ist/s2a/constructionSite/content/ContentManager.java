@@ -33,16 +33,16 @@ import at.tugraz.ist.s2a.constructionSite.gui.dialogs.SpritesDialog;
 public class ContentManager extends Observable{
 	
 	private ArrayList<HashMap<String, String>> mContentArrayList;
-	private TreeMap<String, ArrayList<HashMap<String, String>>> mSpritesAndBackgroundList;
 	
+	private ArrayList<ArrayList<HashMap<String, String>>> mAllContentArrayList;
+	private ArrayList<String> mAllContentNameArrayList;
 	
 	private FileSystem mFilesystem;
 	private Parser mParser;
 	private Context mCtx;
 	private static final String mTempFile = "defaultSaveFile.spf";
-	private String mCurrentSprite;
+	private int mCurrentSprite;
 	private int mIdCounter;
-	private ArrayList<String> mSpritelist = new ArrayList<String>();
 	private static String STAGE;
 
 	
@@ -50,68 +50,49 @@ public class ContentManager extends Observable{
 		return mContentArrayList;
 	}
 	
-	public TreeMap<String, ArrayList<HashMap<String, String>>> getSpritesAndBackground(){
-		return mSpritesAndBackgroundList;
-	}
-	
-	public void removeSprite(String name){
-		if(mSpritesAndBackgroundList.containsKey(name))
-		{
-			mSpritesAndBackgroundList.remove(name);
-			refreshSpritelist();
-		}
-		if(mCurrentSprite.equals(name))		
-		{
-			mContentArrayList = (ArrayList<HashMap<String,String>>)mSpritesAndBackgroundList.get(name).clone();
-			setChanged();
-			notifyObservers();
-		}
-		if(mSpritesAndBackgroundList.size() == 0)
-		{
-			//Fill Dummy Stage
-			mSpritesAndBackgroundList.put(STAGE, new ArrayList<HashMap<String,String>>());
-			setChanged();
-			notifyObservers();
-		}
-	}
-	
-	public void clearSprites(){
-		mSpritesAndBackgroundList.clear();
-		mContentArrayList.clear();
-		mCurrentSprite = mCtx.getString(R.string.stage);
-		mSpritesAndBackgroundList.put(STAGE, (ArrayList<HashMap<String,String>>)mContentArrayList.clone());
+	public void resetContent(){
+		mContentArrayList = null;
+		mAllContentArrayList.clear();
+		mAllContentNameArrayList.clear();
+		
+		mContentArrayList = new ArrayList<HashMap<String,String>>();
+		mCurrentSprite = 0;
+		
+		HashMap<String, String> stage = new HashMap<String, String>();
+		mContentArrayList.add(stage);
+		mAllContentArrayList.add(mContentArrayList);
+		mAllContentNameArrayList.add(mCtx.getString(R.string.stage));
+		
 		mIdCounter = 0;
 		//Fill Dummy Stage
-		refreshSpritelist();
         setChanged();
 		notifyObservers();
 	}
 	
 	public void addSprite(String name, ArrayList<HashMap<String, String>> sprite)
 	{
-		if(mSpritesAndBackgroundList.containsKey(name))
-			{/*do nothing Sprite already exists*/}
-		else
-			{mSpritesAndBackgroundList.put(name, sprite);}
+		mAllContentArrayList.add(sprite);
+		mAllContentNameArrayList.add(name);
+		mCurrentSprite = mAllContentNameArrayList.size()-1;
 		
-		switchSprite(name);
-		mCurrentSprite = name;
-		refreshSpritelist();
+		switchSprite(mCurrentSprite);
 	}
 	
-	public void remove(int position){
+	public void switchSprite(int position){
+		mContentArrayList = mAllContentArrayList.get(position);
+		mCurrentSprite = position;
+		setChanged();
+		notifyObservers();
+	}
+	
+
+	public void removeBrick(int position){
 		mContentArrayList.remove(position);
 		setChanged();
 		notifyObservers();
 	}
 	
-	public void clear(){
-		mContentArrayList.clear();
-        setChanged();
-		notifyObservers();
-	}
-	
-	public void add(HashMap<String, String> map){
+	public void addBrick(HashMap<String, String> map){
 		map.put(BrickDefine.BRICK_ID, ((Integer)mIdCounter).toString());
 		mIdCounter++;
 		mContentArrayList.add(map);
@@ -122,18 +103,14 @@ public class ContentManager extends Observable{
 	public ContentManager(Context context){
 		mCtx = context;
 		STAGE = mCtx.getString(R.string.stage);
-		mSpritesAndBackgroundList= new TreeMap<String, ArrayList<HashMap<String, String>>>();
 		mContentArrayList = new ArrayList<HashMap<String, String>>();
+		mAllContentArrayList = new ArrayList<ArrayList<HashMap<String,String>>>();
+		mAllContentNameArrayList = new ArrayList<String>();
+		
 		mFilesystem = new FileSystem();
 		mParser = new Parser();
-		mSpritelist = new ArrayList<String>();
-		mSpritesAndBackgroundList.put(STAGE, (ArrayList<HashMap<String,String>>)mContentArrayList.clone());
-		mIdCounter = 0;
 		
-		refreshSpritelist();
-		
-		mCurrentSprite = STAGE;
-		
+		mIdCounter = 0;	
 	}
 	
 	/**
@@ -147,9 +124,7 @@ public class ContentManager extends Observable{
 	 */
 	public void loadContent(String file){
 		((Activity)mCtx).setTitle(file.replace(ConstructionSiteActivity.DEFAULT_FILE_ENDING, ""));
-		
-		mSpritesAndBackgroundList.clear();
-		mContentArrayList.clear();
+		resetContent();
 		
 		FileInputStream scratch = mFilesystem.createOrOpenFileInput(Utils.concatPaths(ConstructionSiteActivity.ROOT, file), mCtx);
 			
@@ -157,6 +132,8 @@ public class ContentManager extends Observable{
 			if(scratch != null && scratch.available() > 0){
 				    
 				mSpritesAndBackgroundList.putAll(mParser.parse(scratch, mCtx));
+				
+				
 				mContentArrayList.addAll((ArrayList<HashMap<String,String>>)mSpritesAndBackgroundList.get(mSpritesAndBackgroundList.firstKey()).clone());
 				
 			    mIdCounter = getHighestId();	        
@@ -170,7 +147,6 @@ public class ContentManager extends Observable{
 				//Fill Dummy Stage
 				mSpritesAndBackgroundList.put(STAGE, new ArrayList<HashMap<String,String>>());
 			}
-			refreshSpritelist();
 		    setChanged();
 		    notifyObservers();
 		    
@@ -197,11 +173,11 @@ public class ContentManager extends Observable{
 					
 			}
 			//TODO: geht nur solange letzter Stein höchste Id falls sie höher wird müssen alle Steine durchschaut werden auskommentierter Code!!!
-			/*for(int j=0; j<sprite.size(); j++){
+			for(int j=0; j<sprite.size(); j++){
 				int tempId = Integer.parseInt(sprite.get(j).get(BrickDefine.BRICK_ID));
 				if(tempId > highestId)
 					tempId= highestId;
-			}*/
+			}
 			
 
 		}
@@ -273,14 +249,7 @@ public class ContentManager extends Observable{
 		notifyObservers();
 	}
 	
-	public void switchSprite(String nameNewSprite){
-		mSpritesAndBackgroundList.put(mCurrentSprite, (ArrayList<HashMap<String,String>>)mContentArrayList.clone());
-		mContentArrayList.clear();
-		mContentArrayList.addAll(mSpritesAndBackgroundList.get(nameNewSprite));
-		mCurrentSprite = nameNewSprite;
-		setChanged();
-		notifyObservers();
-	}
+	
 	
 	public String getCurrentSprite(){
 		return mCurrentSprite;
@@ -295,17 +264,7 @@ public class ContentManager extends Observable{
     	return mSpritelist;
     }
     
-    private void refreshSpritelist(){
-        mSpritelist.clear();
-        mSpritelist.addAll(mSpritesAndBackgroundList.keySet());
-//        mSpritelist.clear();
-//        TreeMap<String, ArrayList<HashMap<String, String>>> map = new TreeMap<String, ArrayList<HashMap<String,String>>>();
-//        map.putAll(mSpritesAndBackgroundList);
-//        for(int i=0; i<mSpritesAndBackgroundList.size(); i++){
-//        	mSpritelist.add(map.firstKey());
-//        	map.remove(map.firstKey());
-//        }
-        }
+
     
 	/**
 	 * test method
