@@ -2,9 +2,11 @@ package at.tugraz.ist.s2a.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import android.graphics.Bitmap;
 import at.tugraz.ist.s2a.ConstructionSiteActivity;
 
 public class Utils {
@@ -75,6 +77,21 @@ public class Utils {
 		if(!filename.endsWith(ConstructionSiteActivity.DEFAULT_FILE_ENDING))
 			return filename + ConstructionSiteActivity.DEFAULT_FILE_ENDING;
 		return filename;
+	}
+	
+	public static void saveBitmapOnSDCardAsPNG(String full_path, Bitmap bitmap){
+		 File file = new File(full_path);
+		 try {
+			FileOutputStream os = new FileOutputStream(file);
+			bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);
+			os.close();
+		 } catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		   } catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

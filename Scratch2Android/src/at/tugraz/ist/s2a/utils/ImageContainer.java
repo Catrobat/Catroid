@@ -3,11 +3,13 @@ package at.tugraz.ist.s2a.utils;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.HashMap;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import at.tugraz.ist.s2a.ConstructionSiteActivity;
 import at.tugraz.ist.s2a.utils.filesystem.FileSystem;
 /**
@@ -41,9 +43,10 @@ public class ImageContainer {
 		if(!(rootFileList==null)){
 			for(int i=0; i<rootFileList.length; i++)
 			{
-				if(rootFileList[i].contains(".png")){
-					mImageMap.put(rootFileList[i], BitmapFactory.decodeFile(getFullImagePath(rootFileList[i])));
-				}
+				Bitmap bm = BitmapFactory.decodeFile(getFullImagePath(rootFileList[i]));
+				if(bm != null)
+					mImageMap.put(rootFileList[i], bm);
+				
 			}
 		}
 	}
@@ -64,8 +67,13 @@ public class ImageContainer {
 		   newbm = mEditor.scaleBitmap(bm, MAX_HEIGHT, bm.getWidth());
 		if(MAX_HEIGHT >= bm.getHeight() && MAX_WIDTH >= bm.getWidth())
 		   newbm = bm;
-		mImageMap.put(image, newbm);
-		saveBitmapOnSDCardAsPNG(Utils.concatPaths(ConstructionSiteActivity.ROOT_IMAGES, image), newbm);
+		
+		Utils.saveBitmapOnSDCardAsPNG(Utils.concatPaths(ConstructionSiteActivity.ROOT_IMAGES, image), newbm);
+		
+		if(bm != null)
+			bm.recycle();
+		if(newbm != null)
+			newbm.recycle();
 		return image;
 	}
 	
@@ -78,20 +86,20 @@ public class ImageContainer {
 		Bitmap newbm = null;
 		newbm = mEditor.scaleBitmap(bm, THUMBNAIL_HEIGHT, THUMBNAIL_WIDTH);
 		mImageMap.put(image, newbm);
-		saveBitmapOnSDCardAsPNG(Utils.concatPaths(ConstructionSiteActivity.ROOT_IMAGES, image), newbm);
+		Utils.saveBitmapOnSDCardAsPNG(Utils.concatPaths(ConstructionSiteActivity.ROOT_IMAGES, image), newbm);
+		
+		if(bm != null)
+			bm.recycle();
+		
 		return image;
 	}
 	
-//	public String saveBitmap(String path, Bitmap bitmap){
-//		//TODO an saveImage anpassen
-//			saveBitmapOnSDCardAsPNG(path, bitmap);
-//			mImageMap.put(path, bitmap);
-//			return path;
-//	}
 
 	public Bitmap getImage(String name){
+		Log.d("TEST", name + " " +mImageMap.containsKey(name));
 		if(!mImageMap.containsKey(name))
 			return null;	
+		
 		return mImageMap.get(name);
 	}
 	
@@ -112,15 +120,6 @@ public class ImageContainer {
 		mImageMap.clear();
 	}
 	
-	public void saveBitmapOnSDCardAsPNG(String full_path, Bitmap bitmap){
-		 File file = new File(full_path);
-		 try {
-			FileOutputStream os = new FileOutputStream(file);
-			bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);
-		 } catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		   }
-	}
+
 
 }

@@ -152,8 +152,10 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		        	 String imageThumbnailName = mImageContainer.saveThumbnail(image_full_path.getAbsolutePath());
 		        	 
 		        	 mImageContainer.deleteImage(content.get(BrickDefine.BRICK_VALUE));
+		        	 mImageContainer.deleteImage(content.get(BrickDefine.BRICK_VALUE_1));
 		        	 
-		        	 content.put(BrickDefine.BRICK_VALUE, imageThumbnailName);
+		        	 content.put(BrickDefine.BRICK_VALUE, imageName);
+		        	 content.put(BrickDefine.BRICK_VALUE_1, imageThumbnailName);
 		             content.put(BrickDefine.BRICK_NAME, c.getString(1));
 		             mAdapter.notifyDataSetChanged();
 		             //debug
@@ -229,11 +231,21 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
     	return true;
     };
 
+    public static final String INTENT_EXTRA_ROOT = "intent_root";
+    public static final String INTENT_EXTRA_ROOT_IMAGES = "intent_root_images";
+    public static final String INTENT_EXTRA_ROOT_SOUNDS = "intent_root_sounds";
+    public static final String INTENT_EXTRA_SPF_FILE_NAME = "intent_spf_file_name";
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         case R.id.play:
         	Intent intent = new Intent(ConstructionSiteActivity.this, StageActivity.class);
+        	intent.putExtra(INTENT_EXTRA_ROOT, ROOT);
+        	intent.putExtra(INTENT_EXTRA_ROOT_IMAGES, ROOT_IMAGES);
+        	intent.putExtra(INTENT_EXTRA_ROOT_SOUNDS, ROOT_SOUNDS);
+        	intent.putExtra(INTENT_EXTRA_SPF_FILE_NAME, SPF_FILE);
+        	
             startActivity(intent);
             return true;
             

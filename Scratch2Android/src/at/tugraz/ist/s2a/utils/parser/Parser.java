@@ -39,6 +39,7 @@ public class Parser {
 	final static String OBJECT = "object";
 	final static String ID = "id";
 	final static String PATH = "path";
+	final static String PATH_THUMB = "path_thumb";
 	final static String NAME = "name";
 	
 	final static String PROJECT = "project";
@@ -85,8 +86,13 @@ public class Parser {
 			String value1 = EMPTY_STRING;
 			switch (brickType){
 				case BrickDefine.SET_BACKGROUND:
-				case BrickDefine.PLAY_SOUND:
 				case BrickDefine.SET_COSTUME:
+					value = bricks.item(i).getFirstChild().getAttributes().getNamedItem(PATH).getNodeValue();
+					value1 = bricks.item(i).getFirstChild().getAttributes().getNamedItem(PATH_THUMB).getNodeValue();
+					Log.d("TEST", value + " " + value1);
+					break;
+				case BrickDefine.PLAY_SOUND:
+				
 					value = bricks.item(i).getFirstChild().getAttributes().getNamedItem(PATH).getNodeValue();
 					break;
 				case BrickDefine.WAIT:
@@ -117,11 +123,16 @@ public class Parser {
 				String value = EMPTY_STRING;
 				String value1 = EMPTY_STRING;
 				switch (brickType){
-					case BrickDefine.SET_BACKGROUND:
-					case BrickDefine.PLAY_SOUND:
-					case BrickDefine.SET_COSTUME:
-						value = bricks.item(i).getFirstChild().getAttributes().getNamedItem(PATH).getNodeValue();
-						break;
+				case BrickDefine.SET_BACKGROUND:
+				case BrickDefine.SET_COSTUME:
+					value = bricks.item(i).getFirstChild().getAttributes().getNamedItem(PATH).getNodeValue();
+					value1 = bricks.item(i).getFirstChild().getAttributes().getNamedItem(PATH_THUMB).getNodeValue();
+					
+					break;
+				case BrickDefine.PLAY_SOUND:
+				
+					value = bricks.item(i).getFirstChild().getAttributes().getNamedItem(PATH).getNodeValue();
+					break;
 					case BrickDefine.WAIT:
 						value = bricks.item(i).getFirstChild().getNodeValue();
 						break;
@@ -191,6 +202,7 @@ public class Parser {
 						serializer.attribute(EMPTY_STRING, ID, Integer.toString(BrickDefine.SET_BACKGROUND));
 						serializer.startTag(EMPTY_STRING, IMAGE);
 						serializer.attribute(EMPTY_STRING, PATH, brick.get(BrickDefine.BRICK_VALUE));
+						serializer.attribute(EMPTY_STRING, PATH_THUMB, brick.get(BrickDefine.BRICK_VALUE_1));
 						serializer.endTag(EMPTY_STRING, IMAGE);
 						serializer.endTag(EMPTY_STRING, COMMAND);
 						break;
@@ -221,8 +233,10 @@ public class Parser {
 					case BrickDefine.SET_COSTUME:
 						serializer.startTag(EMPTY_STRING, COMMAND);
 						serializer.attribute(EMPTY_STRING, ID, Integer.toString(BrickDefine.SET_COSTUME));
+						
 						serializer.startTag(EMPTY_STRING, IMAGE);
 						serializer.attribute(EMPTY_STRING, PATH, brick.get(BrickDefine.BRICK_VALUE));
+						serializer.attribute(EMPTY_STRING, PATH_THUMB, brick.get(BrickDefine.BRICK_VALUE_1));
 						serializer.endTag(EMPTY_STRING, IMAGE);
 						serializer.endTag(EMPTY_STRING, COMMAND);
 						break;

@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup.LayoutParams;
+import at.tugraz.ist.s2a.ConstructionSiteActivity;
 import at.tugraz.ist.s2a.R;
 import at.tugraz.ist.s2a.R.id;
 import at.tugraz.ist.s2a.R.layout;
@@ -20,12 +22,23 @@ public class StageActivity extends Activity {
 	private ArrayList<Sprite> mSpritesList;
 	protected boolean isWaiting = false;
 
+	
+	public static String ROOT_IMAGES;
+	public static String ROOT_SOUNDS;
+	public static String ROOT;
+	public static String SPF_FILE;
+	
 	public static boolean mDoNextCommands = true;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
+		ROOT = (String) getIntent().getExtras().get(ConstructionSiteActivity.INTENT_EXTRA_ROOT);
+		ROOT_IMAGES = (String) getIntent().getExtras().get(ConstructionSiteActivity.INTENT_EXTRA_ROOT_IMAGES);
+		ROOT_SOUNDS = (String) getIntent().getExtras().get(ConstructionSiteActivity.INTENT_EXTRA_ROOT_SOUNDS);
+		SPF_FILE = (String) getIntent().getExtras().get(ConstructionSiteActivity.INTENT_EXTRA_SPF_FILE_NAME);
+		
 		mStage = new StageView(this);
 
 		mContentManager = new ContentManager(this);

@@ -10,6 +10,7 @@ import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.util.Log;
 import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
+import at.tugraz.ist.s2a.utils.Utils;
 
 public class Sprite extends Thread implements Observer, OnCompletionListener {
 
@@ -59,16 +60,16 @@ public class Sprite extends Thread implements Observer, OnCompletionListener {
 		int type = Integer.parseInt(map.get(BrickDefine.BRICK_TYPE));
 		switch (type) {
 		case BrickDefine.SET_BACKGROUND:
-			mCurrentImage = map.get(BrickDefine.BRICK_VALUE);
-			mStage.getThread().setBackground(map.get(BrickDefine.BRICK_VALUE));
+			mCurrentImage = map.get(Utils.concatPaths(StageActivity.ROOT_IMAGES, BrickDefine.BRICK_VALUE));
+			mStage.getThread().setBackground(Utils.concatPaths(StageActivity.ROOT_IMAGES,map.get(BrickDefine.BRICK_VALUE)));
 			mCommandCount++;
 			doNextCommand();
 			break;
 
 		case BrickDefine.SET_COSTUME:
-			mCurrentImage = map.get(BrickDefine.BRICK_VALUE);
+			mCurrentImage = Utils.concatPaths(StageActivity.ROOT_IMAGES, map.get(BrickDefine.BRICK_VALUE));
 			mStage.getThread().addBitmapToDraw(mSpriteName,
-					map.get(BrickDefine.BRICK_VALUE), mCurrentXPosition,
+					Utils.concatPaths(StageActivity.ROOT_IMAGES, map.get(BrickDefine.BRICK_VALUE)), mCurrentXPosition,
 					mCurrentYPosition);
 			mCommandCount++;
 			doNextCommand();
@@ -77,7 +78,7 @@ public class Sprite extends Thread implements Observer, OnCompletionListener {
 		case BrickDefine.PLAY_SOUND:
 			try {
 				mMediaPlayer.reset();
-				mMediaPlayer.setDataSource(map.get(BrickDefine.BRICK_VALUE));
+				mMediaPlayer.setDataSource(Utils.concatPaths(StageActivity.ROOT_SOUNDS, map.get(BrickDefine.BRICK_VALUE)));
 				mMediaPlayer.prepare();
 				mMediaPlayer.start();
 

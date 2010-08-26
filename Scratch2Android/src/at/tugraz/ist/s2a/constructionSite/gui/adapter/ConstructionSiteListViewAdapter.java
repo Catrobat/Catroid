@@ -105,9 +105,9 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 				ImageView imageView = (ImageView) view.findViewWithTag(mCtx.getString
 						(R.string.constructional_brick_set_background_image_view_tag));
 				imageView.setOnClickListener(this);
-				if(!value.equals("")){
+				if(!value1.equals("")){
 					imageView.setBackgroundDrawable(null);
-					imageView.setImageBitmap(mImageContainer.getImage(value));
+					imageView.setImageBitmap(mImageContainer.getImage(value1));
 				}else{
 					imageView.setImageBitmap(null);
 					imageView.setBackgroundResource(R.drawable.landscape);
@@ -175,9 +175,9 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 				ImageView imageView = (ImageView) view.findViewWithTag(mCtx.getString
 					(R.string.constructional_brick_set_costume_image_view_tag));
 				imageView.setOnClickListener(this);
-				if(!value.equals("")){
+				if(!value1.equals("")){
 					imageView.setBackgroundDrawable(null);
-					imageView.setImageBitmap(mImageContainer.getImage(value));
+					imageView.setImageBitmap(mImageContainer.getImage(value1));
 				}else{
 					imageView.setImageBitmap(null);
 					imageView.setBackgroundResource(R.drawable.icon);
