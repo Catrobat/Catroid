@@ -5,13 +5,13 @@
               android:layout_height="wrap_content"
               android:padding="10dp"
               >
-    <EditText android:id="@+id/saveFilename"
+    <EditText android:id="@+id/newProjectNameEditText"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:maxLines="1" 
               android:textColor="#FFF"
               />
-    <Button   android:id="@+id/saveButton"
+    <Button   android:id="@+id/commitNewProjectButton"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               />

@@ -61,7 +61,21 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<Construct
 	 * NO AUTOMATED TEST
 	 */
 	public void testContextMenuOnMainList() { //TODO der test funktioniert nicht, wenn noch kein brick gesetzt wurde! ausbessern!
-		
+		mActivity.runOnUiThread(
+				new Runnable() {
+					public void run() {
+						mListView.requestFocus();	
+						
+					}
+				}
+		);
+		if(mListView.getChildCount()>0)
+		{
+		View view = (View) mListView.getChildAt(0);	
+		TouchUtils.longClickView(this, view);
+		this.sendKeys(KeyEvent.KEYCODE_DPAD_DOWN);
+		this.sendKeys(KeyEvent.KEYCODE_DPAD_CENTER);
+		}
 		//TODO redesign test case
 		assertTrue(false);
 
