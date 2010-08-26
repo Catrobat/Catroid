@@ -5,12 +5,16 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import at.tugraz.ist.s2a.ConstructionSiteActivity;
+
 public class Utils {
 	
 	public static boolean copyFile(String from, String to){
 		File fileFrom = new File(from);
 		File fileTo = new File(to);
 		
+		if(fileTo.exists())
+			deleteFile(fileTo.getAbsolutePath());
 		try {
 			fileTo.createNewFile();
 		} catch (IOException e1) {
@@ -45,6 +49,32 @@ public class Utils {
 	public static boolean deleteFile(String path){
 		File fileFrom = new File(path);
 		return fileFrom.delete();
+	}
+	
+	public static String concatPaths(String first, String second){
+		if(first.endsWith("/"))
+			if(second.startsWith("/"))
+				return first+second.replaceFirst("/", "");
+			else
+				return first+second;
+		else
+			if(second.startsWith("/"))
+				return first+second;
+			else
+				return first+"/"+second;
+		//Beispielstrings
+		//../abc/abc
+		//../abc/abc/
+		//..abc/abc/
+		//../abc/abc
+		//../abc/abc.endung
+		//..abc/abc.endung
+	}
+	
+	public static String addDefaultFileEnding(String filename){
+		if(!filename.endsWith(ConstructionSiteActivity.DEFAULT_FILE_ENDING))
+			return filename + ConstructionSiteActivity.DEFAULT_FILE_ENDING;
+		return filename;
 	}
 
 }

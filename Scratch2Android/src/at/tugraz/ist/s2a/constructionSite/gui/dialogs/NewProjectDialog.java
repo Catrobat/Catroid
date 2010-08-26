@@ -15,6 +15,7 @@ import android.widget.EditText;
 import at.tugraz.ist.s2a.ConstructionSiteActivity;
 import at.tugraz.ist.s2a.R;
 import at.tugraz.ist.s2a.constructionSite.content.ContentManager;
+import at.tugraz.ist.s2a.utils.Utils;
 
 public class NewProjectDialog extends Dialog{
 
@@ -31,35 +32,30 @@ public NewProjectDialog(Context context, ContentManager contentmanager) {
 @Override
 protected void onCreate(Bundle savedInstanceState) {
 	
-  mPreferences = ((Activity)mCtx).getPreferences(Activity.MODE_PRIVATE);
-  setContentView(R.layout.dialog_save_program_layout); //TODO: Own View
+	mPreferences = ((Activity)mCtx).getPreferences(Activity.MODE_PRIVATE);
+	setContentView(R.layout.dialog_add_new_project); //TODO: Own View
   
-  EditText file = (EditText) findViewById(R.id.saveFilename);
-  file.setTextColor(Color.BLACK);
-  file.setText(R.string.edit_text_filename_standard_input);
-  Button saveButton = (Button) findViewById(R.id.saveButton);
-  saveButton.setText(R.string.new_project_main);
-  
-  saveButton.setOnClickListener(new Button.OnClickListener() {
+	EditText file = (EditText) findViewById(R.id.newProjectNameEditText);
+	file.setTextColor(Color.BLACK);
+	file.setText(R.string.edit_text_filename_standard_input);
+	Button commitButton = (Button) findViewById(R.id.commitNewProjectButton);
+	commitButton.setText(R.string.new_project_main);
+
+	commitButton.setOnClickListener(new Button.OnClickListener() {
 	
 	public void onClick(View v) {
 	
-	EditText projectName = (EditText) findViewById(R.id.saveFilename);
-	//TODO save old file
-	//mContentManager.saveContent(tfile.toString());
+		EditText projectName = (EditText) findViewById(R.id.newProjectNameEditText);
 			
-	Environment.getExternalStorageDirectory(); 
-	File newPath = new File(ConstructionSiteActivity.DEFAULT_PROJECT+projectName.getText().toString());
-	String newSpfFile = new String(projectName.getText().toString());
-	if(!newSpfFile.contains(".spf"))
-		newSpfFile = newSpfFile + ".spf";
-	ConstructionSiteActivity.setRoot(newPath.getAbsolutePath(), newSpfFile);
-
-    mContentManager.clearSprites();
-    
-
-    
-	dismiss();
+		File newPath = new File(Utils.concatPaths(ConstructionSiteActivity.DEFAULT_PROJECT, projectName.getText().toString()));
+		String newSpfFile = new String(projectName.getText().toString());
+		if(!newSpfFile.contains(ConstructionSiteActivity.DEFAULT_FILE_ENDING))
+			newSpfFile = Utils.addDefaultFileEnding(newSpfFile);
+		ConstructionSiteActivity.setRoot(newPath.getAbsolutePath(), newSpfFile);
+		
+		mContentManager.clearSprites();
+		mContentManager.loadContent(newSpfFile);
+		dismiss();
 	}
 });
 

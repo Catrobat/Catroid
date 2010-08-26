@@ -2,6 +2,7 @@ package at.tugraz.ist.s2a;
 
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
@@ -27,6 +28,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
+import at.tugraz.ist.s2a.constructionSite.content.ConstructionContentManager;
 import at.tugraz.ist.s2a.constructionSite.content.ContentManager;
 import at.tugraz.ist.s2a.constructionSite.gui.adapter.ConstructionSiteListViewAdapter;
 import at.tugraz.ist.s2a.constructionSite.gui.dialogs.ChangeProgramNameDialog;
@@ -60,9 +62,11 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	static final String PREF_ROOT = "pref_root";
 	static final String PREF_FILE_SPF = "pref_path";
 	
+	
 	public static final String DEFAULT_ROOT = "/sdcard/scratch2android/defaultProject";
 	public static final String DEFAULT_PROJECT = "/sdcard/scratch2android";
 	public static final String DEFAULT_FILE = "defaultSaveFile.spf";
+	public static final String DEFAULT_FILE_ENDING = ".spf";
 	
 	public static String ROOT_IMAGES;
 	public static String ROOT_SOUNDS;
@@ -82,7 +86,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	
 	protected ListView mMainListView;
 	private ConstructionSiteListViewAdapter mAdapter;
-	private ContentManager mContentManager;
+	private ConstructionContentManager mContentManager;
 
 	private Button mSpritesToolboxButton;
     private SpritesDialog mSpritesToolboxDialog;
@@ -101,7 +105,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
         mImageContainer = new ImageContainer(ROOT_IMAGES);
         
         setContentView(R.layout.construction_site);
-        mContentManager = new ContentManager(this);
+        mContentManager = new ConstructionContentManager(this, mImageContainer);
         mContentManager.setObserver(this);
         
         
@@ -237,14 +241,17 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
             return true;
             
         case R.id.load:
+        	mContentManager.saveContent(SPF_FILE);
         	showDialog(LOAD_DIALOG);
         	return true;
             
         case R.id.newProject:
+        	mContentManager.saveContent(SPF_FILE);
         	showDialog(NEW_PROJECT_DIALOG);
         	return true;
         	
         case R.id.changeProject:
+        	mContentManager.saveContent(SPF_FILE);
         	showDialog(CHANGE_PROJECT_NAME_DIALOG);
         	return true;
    
@@ -334,7 +341,16 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		if(!rootSoundFile.exists())
 			rootSoundFile.mkdirs();
 		ConstructionSiteActivity.ROOT_SOUNDS = rootSoundFile.getPath();
+		
 		SPF_FILE = file;
+		File spfFile = new File(SPF_FILE);
+		if(!spfFile.exists())
+			try {
+				spfFile.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 	
 
