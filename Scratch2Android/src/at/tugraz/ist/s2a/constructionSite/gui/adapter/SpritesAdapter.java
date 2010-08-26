@@ -51,8 +51,6 @@ public class SpritesAdapter extends BaseAdapter{
 		view.setTag(mList.get(position));
 		TextView text = (TextView)view.getChildAt(0);
 		text.setText(mList.get(position));
-		//text.setTextColor(Color.BLUE);
-		//view.setBackgroundColor(Color.argb(255, 255, 255, 139));		
 	    view.setOnClickListener(new View.OnClickListener() {				
 				
 				public void onClick(View v) {
@@ -63,7 +61,6 @@ public class SpritesAdapter extends BaseAdapter{
 		return view;
 		}
 	
-	
 	public void setContentManager(ContentManager contentManager) {
 		mContentManager = contentManager;
 		
@@ -72,6 +69,5 @@ public class SpritesAdapter extends BaseAdapter{
 	public void setDialog(Dialog dialog){
 		mDialog = dialog;	
 	}
-
-
+	
 }

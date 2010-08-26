@@ -93,5 +93,4 @@ public class ToolBoxDialog extends Dialog{
 		return (HashMap<String, String>) mAdapter.getItem(mMainListView.getPositionForView(v)).clone();
 	}
 	
-
 }

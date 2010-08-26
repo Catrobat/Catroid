@@ -1,6 +1,7 @@
 package at.tugraz.ist.s2a.constructionSite.content;
 
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -10,13 +11,19 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.TreeMap;
 
+import android.R.bool;
+
 import android.app.Activity;
 import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
+import at.tugraz.ist.s2a.ConstructionSiteActivity;
 import at.tugraz.ist.s2a.R;
+import at.tugraz.ist.s2a.utils.ImageContainer;
+import at.tugraz.ist.s2a.utils.Utils;
 import at.tugraz.ist.s2a.utils.filesystem.FileSystem;
-import at.tugraz.ist.s2a.constructionSite.gui.dialogs.SpritesDialog;
 import at.tugraz.ist.s2a.utils.parser.Parser;
+import at.tugraz.ist.s2a.constructionSite.gui.dialogs.SpritesDialog;
 
 /**
  * provides content
@@ -28,15 +35,16 @@ public class ContentManager extends Observable{
 	private ArrayList<HashMap<String, String>> mContentArrayList;
 	private TreeMap<String, ArrayList<HashMap<String, String>>> mSpritesAndBackgroundList;
 	
+	
 	private FileSystem mFilesystem;
 	private Parser mParser;
 	private Context mCtx;
 	private static final String mTempFile = "defaultSaveFile.spf";
 	private String mCurrentSprite;
-	private SpritesDialog mSpritebox;
 	private int mIdCounter;
 	private ArrayList<String> mSpritelist = new ArrayList<String>();
 	private static String STAGE;
+
 	
 	public ArrayList<HashMap<String, String>> getContentArrayList(){
 		return mContentArrayList;
@@ -74,7 +82,7 @@ public class ContentManager extends Observable{
 		mSpritesAndBackgroundList.put(STAGE, (ArrayList<HashMap<String,String>>)mContentArrayList.clone());
 		mIdCounter = 0;
 		//Fill Dummy Stage
-		refreshSpritelist();//TODO Check this (SpritesAdapter)
+		refreshSpritelist();
         setChanged();
 		notifyObservers();
 	}
@@ -113,7 +121,6 @@ public class ContentManager extends Observable{
 	
 	public ContentManager(Context context){
 		mCtx = context;
-		//read localized stage name
 		STAGE = mCtx.getString(R.string.stage);
 		mSpritesAndBackgroundList= new TreeMap<String, ArrayList<HashMap<String, String>>>();
 		mContentArrayList = new ArrayList<HashMap<String, String>>();
@@ -122,6 +129,7 @@ public class ContentManager extends Observable{
 		mSpritelist = new ArrayList<String>();
 		mSpritesAndBackgroundList.put(STAGE, (ArrayList<HashMap<String,String>>)mContentArrayList.clone());
 		mIdCounter = 0;
+		
 		refreshSpritelist();
 		
 		mCurrentSprite = STAGE;
@@ -138,20 +146,19 @@ public class ContentManager extends Observable{
 	 * load content into data structure
 	 */
 	public void loadContent(String file){
-		((Activity)mCtx).setTitle(file);
+		((Activity)mCtx).setTitle(file.replace(ConstructionSiteActivity.DEFAULT_FILE_ENDING, ""));
 		
 		mSpritesAndBackgroundList.clear();
 		mContentArrayList.clear();
 		
-		FileInputStream scratch = mFilesystem.createOrOpenFileInput("/sdcard/"+file, mCtx);
+		FileInputStream scratch = mFilesystem.createOrOpenFileInput(Utils.concatPaths(ConstructionSiteActivity.ROOT, file), mCtx);
 			
 		try {
 			if(scratch != null && scratch.available() > 0){
 				    
 				mSpritesAndBackgroundList.putAll(mParser.parse(scratch, mCtx));
 				mContentArrayList.addAll((ArrayList<HashMap<String,String>>)mSpritesAndBackgroundList.get(mSpritesAndBackgroundList.firstKey()).clone());
-				//TODO: check this for a better solution
-	
+				
 			    mIdCounter = getHighestId();	        
 			    mCurrentSprite =STAGE;
 	
@@ -163,11 +170,10 @@ public class ContentManager extends Observable{
 				//Fill Dummy Stage
 				mSpritesAndBackgroundList.put(STAGE, new ArrayList<HashMap<String,String>>());
 			}
-			
 			refreshSpritelist();
 		    setChanged();
 		    notifyObservers();
-
+		    
 			
 
 		} catch (IOException e) {
@@ -183,9 +189,12 @@ public class ContentManager extends Observable{
 		for(int i=0; i<mSpritesAndBackgroundList.size(); i++){
 			ArrayList<HashMap<String, String>> sprite = SpriteMap.get(SpriteMap.firstKey());
 			if(sprite.size()>0){
-				int tempId = Integer.parseInt(sprite.get(sprite.size()-1).get(BrickDefine.BRICK_ID));		
-				if(tempId > highestId)
-					tempId= highestId;
+				int tempId = Integer.parseInt(sprite.get(sprite.size()-1).get(BrickDefine.BRICK_ID));
+				boolean test = (highestId<tempId);
+				if(test){
+					highestId = tempId;
+				}
+					
 			}
 			//TODO: geht nur solange letzter Stein höchste Id falls sie höher wird müssen alle Steine durchschaut werden auskommentierter Code!!!
 			/*for(int j=0; j<sprite.size(); j++){
@@ -210,12 +219,13 @@ public class ContentManager extends Observable{
 	 * save content
 	 */
 	public void saveContent(String file){
-		((Activity)mCtx).setTitle(file);
+		
+		String title = new String(file);
+		((Activity)mCtx).setTitle(title.replace(ConstructionSiteActivity.DEFAULT_FILE_ENDING, "").replace("/", ""));
 		
 		mSpritesAndBackgroundList.put(mCurrentSprite,(ArrayList<HashMap<String,String>>) mContentArrayList.clone());
-		FileOutputStream fd = mFilesystem.createOrOpenFileOutput("/sdcard/"+file, mCtx);
+		FileOutputStream fd = mFilesystem.createOrOpenFileOutput(Utils.concatPaths(ConstructionSiteActivity.ROOT, file), mCtx);
 		DataOutputStream ps = new DataOutputStream(fd);
-
 		String xml = mParser.toXml(mSpritesAndBackgroundList);
 		
 		try {
@@ -228,7 +238,7 @@ public class ContentManager extends Observable{
 		}	
 		
 		Log.d("Contentmanager", "Save file!");
-	}
+   	}
 	
 	/**
 	 * test method
@@ -280,11 +290,6 @@ public class ContentManager extends Observable{
 	{
 		addObserver(observer);
 	}
-
-	public void setSpriteBox(SpritesDialog spritebox)
-	{
-		mSpritebox = spritebox;
-	}
 	
     public ArrayList<String> getSpritelist(){
     	return mSpritelist;
@@ -309,5 +314,6 @@ public class ContentManager extends Observable{
     {
     	return mIdCounter;
     }
+    
 
 }

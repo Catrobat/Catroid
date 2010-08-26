@@ -18,8 +18,7 @@ import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
 public class ToolBoxAdapter extends BaseAdapter{
 
 	private Context mCtx;
-	private ArrayList<HashMap<String, String>> mContent;
-	
+	private ArrayList<HashMap<String, String>> mContent;	
 	private HashMap<String, View> mViewContainer;
 	
 	public ToolBoxAdapter(Context context,
@@ -29,7 +28,6 @@ public class ToolBoxAdapter extends BaseAdapter{
 		mViewContainer = new HashMap<String, View>();
 	}
     
-	
 	public View getView(int position, View convertView, ViewGroup parent) {
 		String type = mContent.get(position).get(BrickDefine.BRICK_TYPE);
 		LayoutInflater inflater = (LayoutInflater)mCtx.getSystemService(
@@ -40,13 +38,13 @@ public class ToolBoxAdapter extends BaseAdapter{
 			case (BrickDefine.SET_BACKGROUND):
 			{
 				if(mViewContainer.containsKey(type))
-					return mViewContainer.get(type);
-				
+					return mViewContainer.get(type);			
 				RelativeLayout setBackgroundView = (RelativeLayout) 
 					inflater.inflate(R.layout.toolbox_brick_set_background, null);			
 				mViewContainer.put(type, setBackgroundView);
 				return setBackgroundView;
 			}
+			
 			case (BrickDefine.PLAY_SOUND): 
 			{
 				if(mViewContainer.containsKey(type))
@@ -57,56 +55,56 @@ public class ToolBoxAdapter extends BaseAdapter{
 	            mViewContainer.put(type, playSoundView);
 				return playSoundView;
 			}
+			
 			case (BrickDefine.WAIT): 
 			{
 				if(mViewContainer.containsKey(type))
-					return mViewContainer.get(type);
-				
+					return mViewContainer.get(type);	
 				RelativeLayout view =  (RelativeLayout)inflater.inflate(R.layout.toolbox_brick_wait, null);
 	            mViewContainer.put(type, view);
 	            return view;
 			}
+			
 			case (BrickDefine.HIDE): 
 			{
 				if(mViewContainer.containsKey(type))
-					return mViewContainer.get(type);
-				
+					return mViewContainer.get(type);	
 				LinearLayout view =  (LinearLayout)inflater.inflate(R.layout.toolbox_brick_simple_text_view, null);
 				TextView text = (TextView) view.getChildAt(0);
 				text.setText(R.string.hide_main_adapter);
 				mViewContainer.put(type, view);
 				return view;
 			}
+			
 			case (BrickDefine.SHOW): 
 			{
 				if(mViewContainer.containsKey(type))
-					return mViewContainer.get(type);
-				
+					return mViewContainer.get(type);	
 				LinearLayout view =  (LinearLayout)inflater.inflate(R.layout.toolbox_brick_simple_text_view, null);
 				TextView text = (TextView) view.getChildAt(0);
 				text.setText(R.string.show_main_adapter);
-
 				mViewContainer.put(type, view);
 				return view;
 			}
+			
 			case (BrickDefine.GO_TO): 
 			{
 				if(mViewContainer.containsKey(type))
-					return mViewContainer.get(type);
-				
+					return mViewContainer.get(type);	
 				RelativeLayout view =  (RelativeLayout)inflater.inflate(R.layout.toolbox_brick_goto, null);
 				mViewContainer.put(type, view);
 				return view;
 			}
+			
 			case (BrickDefine.SET_COSTUME): 
 			{
 				if(mViewContainer.containsKey(type))
-					return mViewContainer.get(type);
-				
+					return mViewContainer.get(type);	
 				RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.toolbox_brick_set_costume, null);
 				mViewContainer.put(type, view);
 				return view;
 			}
+			
 			default: return null;
 			
 		}

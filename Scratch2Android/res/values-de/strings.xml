@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="new_project_main">Neues Project</string>
+	<string name="change_project_name_main">Ändere Projektname</string>
+	<string name="edit_text_filename_standard_input">Projektname</string>
     <string name="load">Laden</string>
     <string name="save">Speichern</string>
     <string name="SpriteButtonText">Anlegen</string>
