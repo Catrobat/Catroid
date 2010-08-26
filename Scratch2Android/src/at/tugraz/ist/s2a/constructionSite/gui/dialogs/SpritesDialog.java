@@ -47,7 +47,6 @@ public class SpritesDialog extends Dialog implements Observer
 		mCtx = context;
 	}
 	
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		
@@ -137,7 +136,4 @@ public class SpritesDialog extends Dialog implements Observer
 		mAdapter.notifyDataSetChanged();	
 	}
 	
-	
-	
 }
-

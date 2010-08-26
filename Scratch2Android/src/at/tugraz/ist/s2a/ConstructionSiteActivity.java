@@ -38,6 +38,7 @@ import at.tugraz.ist.s2a.constructionSite.gui.dialogs.ToolBoxDialog;
 import at.tugraz.ist.s2a.constructionSite.gui.dialogs.SpritesDialog;
 import at.tugraz.ist.s2a.stage.StageActivity;
 import at.tugraz.ist.s2a.utils.ImageContainer;
+import at.tugraz.ist.s2a.utils.Utils;
 import at.tugraz.ist.s2a.utils.filesystem.MediaFileLoader;
 
 public class ConstructionSiteActivity extends Activity implements Observer, OnClickListener{
@@ -333,11 +334,11 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		if(!rootFile.exists())
 			rootFile.mkdirs();
 		ConstructionSiteActivity.ROOT = rootFile.getPath();
-		File rootImageFile = new File(root+"/images");
+		File rootImageFile = new File(Utils.concatPaths(root, "/images"));
 		if(!rootImageFile.exists())
 			rootImageFile.mkdirs();
 		ConstructionSiteActivity.ROOT_IMAGES = rootImageFile.getPath();
-		File rootSoundFile = new File(root+"/sounds");
+		File rootSoundFile = new File(Utils.concatPaths(root, "/sounds"));
 		if(!rootSoundFile.exists())
 			rootSoundFile.mkdirs();
 		ConstructionSiteActivity.ROOT_SOUNDS = rootSoundFile.getPath();
