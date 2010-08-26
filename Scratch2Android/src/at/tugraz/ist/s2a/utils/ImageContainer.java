@@ -16,7 +16,6 @@ import at.tugraz.ist.s2a.utils.filesystem.FileSystem;
  *	This class contains Images in different sizes for the Images in the root ordner to use in scratch
  */
 
-
 public class ImageContainer {
 
 	private static final int MAX_WIDTH = (460*3);
@@ -39,14 +38,14 @@ public class ImageContainer {
 	public void init(){
 		File rootFile = new File(ROOTPATH);
 		String[] rootFileList = rootFile.list();
-		for(int i=0; i<rootFileList.length; i++)
-    	{
-    		if(rootFileList[i].contains(".png")){
-    			
-    			mImageMap.put(rootFileList[i], BitmapFactory.decodeFile(getFullImagePath(rootFileList[i])));
-    		}
-    			
-    	}
+		if(!(rootFileList==null)){
+			for(int i=0; i<rootFileList.length; i++)
+			{
+				if(rootFileList[i].contains(".png")){
+					mImageMap.put(rootFileList[i], BitmapFactory.decodeFile(getFullImagePath(rootFileList[i])));
+				}
+			}
+		}
 	}
 	
 	public String saveImage(String path){
@@ -66,10 +65,10 @@ public class ImageContainer {
 		if(MAX_HEIGHT >= bm.getHeight() && MAX_WIDTH >= bm.getWidth())
 		   newbm = bm;
 		mImageMap.put(image, newbm);
-		saveBitmapOnSDCardAsPNG(ConstructionSiteActivity.ROOT_IMAGES+"/" +image, newbm);
+		saveBitmapOnSDCardAsPNG(Utils.concatPaths(ConstructionSiteActivity.ROOT_IMAGES, image), newbm);
 		return image;
-		
 	}
+	
 	public String saveThumbnail(String path){
 		File imagePath = new File(path);
 		String folderPath = imagePath.getParent();
@@ -79,7 +78,7 @@ public class ImageContainer {
 		Bitmap newbm = null;
 		newbm = mEditor.scaleBitmap(bm, THUMBNAIL_HEIGHT, THUMBNAIL_WIDTH);
 		mImageMap.put(image, newbm);
-		saveBitmapOnSDCardAsPNG(ConstructionSiteActivity.ROOT_IMAGES+"/" +image, newbm);//= name ohne path + ROOT_IMAGE, newbm);
+		saveBitmapOnSDCardAsPNG(Utils.concatPaths(ConstructionSiteActivity.ROOT_IMAGES, image), newbm);
 		return image;
 	}
 	
@@ -101,26 +100,27 @@ public class ImageContainer {
 	}
 	
 	private String getFullImagePath(String path){
-		return (ROOTPATH+path);
+		return (Utils.concatPaths(ROOTPATH, path));
 	}
 
 	public void deleteImage(String name){
 		mFilesystem.deleteFile(getFullImagePath(name), null);
 		mImageMap.remove(name);
 	}
+	
 	public void deleteAll(){
 		mImageMap.clear();
 	}
+	
 	public void saveBitmapOnSDCardAsPNG(String full_path, Bitmap bitmap){
 		 File file = new File(full_path);
 		 try {
 			FileOutputStream os = new FileOutputStream(file);
 			bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);
-		} catch (FileNotFoundException e) {
+		 } catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		   }
 	}
-	
 
 }

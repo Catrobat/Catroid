@@ -1,0 +1,18 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/layout_root"
+              android:orientation="vertical"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:padding="10dp"
+              >
+    <EditText android:id="@+id/changeProjectNameEditText"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:maxLines="1" 
+              android:textColor="#FFF"
+              />
+    <Button   android:id="@+id/commitChangeButton"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              />
+</LinearLayout>

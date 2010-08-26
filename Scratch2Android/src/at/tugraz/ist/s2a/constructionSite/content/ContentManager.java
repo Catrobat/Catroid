@@ -19,6 +19,8 @@ import android.os.Environment;
 import android.util.Log;
 import at.tugraz.ist.s2a.ConstructionSiteActivity;
 import at.tugraz.ist.s2a.R;
+import at.tugraz.ist.s2a.utils.ImageContainer;
+import at.tugraz.ist.s2a.utils.Utils;
 import at.tugraz.ist.s2a.utils.filesystem.FileSystem;
 import at.tugraz.ist.s2a.utils.parser.Parser;
 import at.tugraz.ist.s2a.constructionSite.gui.dialogs.SpritesDialog;
@@ -33,12 +35,12 @@ public class ContentManager extends Observable{
 	private ArrayList<HashMap<String, String>> mContentArrayList;
 	private TreeMap<String, ArrayList<HashMap<String, String>>> mSpritesAndBackgroundList;
 	
+	
 	private FileSystem mFilesystem;
 	private Parser mParser;
 	private Context mCtx;
 	private static final String mTempFile = "defaultSaveFile.spf";
 	private String mCurrentSprite;
-	private SpritesDialog mSpritebox;
 	private int mIdCounter;
 	private ArrayList<String> mSpritelist = new ArrayList<String>();
 	private static String STAGE;
@@ -119,7 +121,6 @@ public class ContentManager extends Observable{
 	
 	public ContentManager(Context context){
 		mCtx = context;
-		//read localized stage name
 		STAGE = mCtx.getString(R.string.stage);
 		mSpritesAndBackgroundList= new TreeMap<String, ArrayList<HashMap<String, String>>>();
 		mContentArrayList = new ArrayList<HashMap<String, String>>();
@@ -128,6 +129,7 @@ public class ContentManager extends Observable{
 		mSpritelist = new ArrayList<String>();
 		mSpritesAndBackgroundList.put(STAGE, (ArrayList<HashMap<String,String>>)mContentArrayList.clone());
 		mIdCounter = 0;
+		
 		refreshSpritelist();
 		
 		mCurrentSprite = STAGE;
@@ -144,12 +146,12 @@ public class ContentManager extends Observable{
 	 * load content into data structure
 	 */
 	public void loadContent(String file){
-		((Activity)mCtx).setTitle(file.replace(".spf", "").replace("/", ""));
+		((Activity)mCtx).setTitle(file.replace(ConstructionSiteActivity.DEFAULT_FILE_ENDING, ""));
 		
 		mSpritesAndBackgroundList.clear();
 		mContentArrayList.clear();
 		
-		FileInputStream scratch = mFilesystem.createOrOpenFileInput("/sdcard/"+file, mCtx);
+		FileInputStream scratch = mFilesystem.createOrOpenFileInput(Utils.concatPaths(ConstructionSiteActivity.ROOT, file), mCtx);
 			
 		try {
 			if(scratch != null && scratch.available() > 0){
@@ -169,11 +171,10 @@ public class ContentManager extends Observable{
 				//Fill Dummy Stage
 				mSpritesAndBackgroundList.put(STAGE, new ArrayList<HashMap<String,String>>());
 			}
-			
 			refreshSpritelist();
 		    setChanged();
 		    notifyObservers();
-
+		    
 			
 
 		} catch (IOException e) {
@@ -221,10 +222,10 @@ public class ContentManager extends Observable{
 	public void saveContent(String file){
 		
 		String title = new String(file);
-		((Activity)mCtx).setTitle(title.replace(".spf", "").replace("/", ""));
+		((Activity)mCtx).setTitle(title.replace(ConstructionSiteActivity.DEFAULT_FILE_ENDING, "").replace("/", ""));
 		
 		mSpritesAndBackgroundList.put(mCurrentSprite,(ArrayList<HashMap<String,String>>) mContentArrayList.clone());
-		FileOutputStream fd = mFilesystem.createOrOpenFileOutput(ConstructionSiteActivity.ROOT+"/"+file, mCtx);
+		FileOutputStream fd = mFilesystem.createOrOpenFileOutput(Utils.concatPaths(ConstructionSiteActivity.ROOT, file), mCtx);
 		DataOutputStream ps = new DataOutputStream(fd);
 		String xml = mParser.toXml(mSpritesAndBackgroundList);
 		
@@ -289,11 +290,6 @@ public class ContentManager extends Observable{
 	public void setObserver(Observer observer)
 	{
 		addObserver(observer);
-	}
-
-	public void setSpriteBox(SpritesDialog spritebox)
-	{
-		mSpritebox = spritebox;
 	}
 	
     public ArrayList<String> getSpritelist(){

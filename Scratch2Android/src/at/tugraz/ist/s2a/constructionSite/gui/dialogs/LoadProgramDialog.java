@@ -6,12 +6,15 @@ import java.util.ArrayList;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import at.tugraz.ist.s2a.ConstructionSiteActivity;
 import at.tugraz.ist.s2a.R;
 import at.tugraz.ist.s2a.constructionSite.content.ContentManager;
+import at.tugraz.ist.s2a.utils.Utils;
 
 public class LoadProgramDialog extends Dialog{
 
@@ -33,8 +36,7 @@ public class LoadProgramDialog extends Dialog{
 		setContentView(R.layout.dialog_load_program_layout);
 		
 		
-    	//TODO fix static path
-    	File sdFile = new File("/sdcard/");
+    	File sdFile = new File(ConstructionSiteActivity.DEFAULT_PROJECT);
     	File[] sdFileList = sdFile.listFiles();
     	
     	
@@ -60,7 +62,9 @@ public class LoadProgramDialog extends Dialog{
 			
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				mContentManager.loadContent(mAdapter.getItem(arg2));
+				File file = new File(mAdapter.getItem(arg2));
+				ConstructionSiteActivity.setRoot(file.getParent(), file.getName());
+				mContentManager.loadContent(file.getName());
 				dismiss();
 			}
 		});
@@ -74,8 +78,8 @@ public class LoadProgramDialog extends Dialog{
 		for(int i=0; i<sdFileList.length; i++)
     	{
     		if(sdFileList[i].isFile()){
-    			if(sdFileList[i].getName().contains(".spf")){
-    				mAdapterFileList.add(sdFileList[i].getName());
+    			if(sdFileList[i].getName().contains(ConstructionSiteActivity.DEFAULT_FILE_ENDING)){
+    				mAdapterFileList.add(sdFileList[i].getAbsolutePath());
     			}
     		}
     		else{
@@ -83,7 +87,4 @@ public class LoadProgramDialog extends Dialog{
     		}
     	}
 	}
-	
-	
-
 }
