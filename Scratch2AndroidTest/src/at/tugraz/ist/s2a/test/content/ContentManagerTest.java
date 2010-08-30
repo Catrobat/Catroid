@@ -18,6 +18,9 @@ public class ContentManagerTest extends AndroidTestCase {
 	
 	private ArrayList<HashMap<String, String>> mContentArrayList;
 	private TreeMap<String, ArrayList<HashMap<String, String>>> mSpritesAndBackgroundList;
+	private ArrayList<ArrayList<HashMap<String, String>>> mAllContentArrayList;
+	private ArrayList<String> mAllContentNameList;
+	
 	
 	private Context mCtx;
 	private String FILENAME = "cmanagerfile.spf";
@@ -27,6 +30,8 @@ public class ContentManagerTest extends AndroidTestCase {
 	protected void setUp() throws Exception {
 		mContentArrayList = new ArrayList<HashMap<String,String>>();
 		mSpritesAndBackgroundList = new TreeMap<String, ArrayList<HashMap<String, String>>>();
+		mAllContentArrayList = new ArrayList<ArrayList<HashMap<String, String>>>();
+		mAllContentNameList = new ArrayList<String>();
 		
 		try {
 			mCtx = getContext().createPackageContext("at.tugraz.ist.s2a", Context.CONTEXT_IGNORE_SECURITY);
@@ -90,7 +95,7 @@ public class ContentManagerTest extends AndroidTestCase {
         assertEquals(mSpritesAndBackgroundList.size(), 1);
 	}
 	
-	public void testClear(){
+	public void testResetContent(){
 		
 		HashMap<String, String> map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "1");
@@ -112,7 +117,7 @@ public class ContentManagerTest extends AndroidTestCase {
         mContentArrayList.add(map);
         mContentManager.setContentArrayList(mContentArrayList);
         //3 elements added
-        mContentManager.clear();
+        mContentManager.resetContent();
         assertEquals(mContentArrayList.size(), 0);
 	}
 	
@@ -144,10 +149,11 @@ public class ContentManagerTest extends AndroidTestCase {
         
         mContentManager.addSprite("FirstSprite", mContentArrayList);
         
-        mSpritesAndBackgroundList = mContentManager.getSpritesAndBackground();
+        mAllContentNameList = mContentManager.getSpritelist();
+        mAllContentArrayList = mContentManager.getAllContentList();
         
-        assertEquals(mSpritesAndBackgroundList.size(), 2);
-        assertEquals(mSpritesAndBackgroundList.get("FirstSprite"), mContentArrayList);
+        assertEquals(mAllContentNameList.size(), 2);
+        assertEquals(mAllContentArrayList.get(1), mContentArrayList);
 	}
 	
 	private String TESTXML =
@@ -239,7 +245,7 @@ public class ContentManagerTest extends AndroidTestCase {
         mContentManager.setSpritesAndBackgroundList(mSpritesAndBackgroundList);
         
         mContentManager.saveContent();
-        mContentManager.clear();
+        mContentManager.resetContent();
         mContentManager.loadContent();
         assertEquals(mContentArrayList, mContentManager.getContentArrayList());
 	}
@@ -279,7 +285,7 @@ public class ContentManagerTest extends AndroidTestCase {
         
         mContentManager.setSpritesAndBackgroundList(mSpritesAndBackgroundList);
 		
-	    mContentManager.switchSprite("SecondSprite");
+	    mContentManager.switchSprite(1);
 	    
 	    assertEquals(mContentManager.getContentArrayList().get(1).get(BrickDefine.BRICK_ID), "4");
 	    assertEquals(mContentManager.getCurrentSprite(), "SecondSprite");
@@ -357,7 +363,7 @@ public class ContentManagerTest extends AndroidTestCase {
         mContentManager.setSpritesAndBackgroundList(mSpritesAndBackgroundList);
         
         mContentManager.saveContent();
-        mContentManager.clear();
+        mContentManager.resetContent();
         mContentManager.loadContent();
         
         assertEquals(mContentManager.getIdCounter(), 13);
