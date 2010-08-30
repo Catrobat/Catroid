@@ -54,19 +54,8 @@ public class ContentManager extends Observable{
 		mContentArrayList = null;
 		mAllContentArrayList.clear();
 		mAllContentNameArrayList.clear();
-		
-		mContentArrayList = new ArrayList<HashMap<String,String>>();
 		mCurrentSprite = 0;
-		
-		HashMap<String, String> stage = new HashMap<String, String>();
-		mContentArrayList.add(stage);
-		mAllContentArrayList.add(mContentArrayList);
-		mAllContentNameArrayList.add(mCtx.getString(R.string.stage));
-		
 		mIdCounter = 0;
-		//Fill Dummy Stage
-        setChanged();
-		notifyObservers();
 	}
 	
 	public void addSprite(String name, ArrayList<HashMap<String, String>> sprite)
@@ -103,7 +92,7 @@ public class ContentManager extends Observable{
 	public ContentManager(Context context){
 		mCtx = context;
 		STAGE = mCtx.getString(R.string.stage);
-		mContentArrayList = new ArrayList<HashMap<String, String>>();
+		mContentArrayList = null;
 		mAllContentArrayList = new ArrayList<ArrayList<HashMap<String,String>>>();
 		mAllContentNameArrayList = new ArrayList<String>();
 		
@@ -111,6 +100,9 @@ public class ContentManager extends Observable{
 		mParser = new Parser();
 		
 		mIdCounter = 0;	
+		
+		resetContent();
+		setDefaultStage();
 	}
 	
 	/**
@@ -122,40 +114,42 @@ public class ContentManager extends Observable{
 	/**
 	 * load content into data structure
 	 */
-	public void loadContent(String file){
-		((Activity)mCtx).setTitle(file.replace(ConstructionSiteActivity.DEFAULT_FILE_ENDING, ""));
+	public void loadContent(String fileName){
+		((Activity)mCtx).setTitle(fileName.replace(ConstructionSiteActivity.DEFAULT_FILE_ENDING, ""));
 		resetContent();
 		
-		FileInputStream scratch = mFilesystem.createOrOpenFileInput(Utils.concatPaths(ConstructionSiteActivity.ROOT, file), mCtx);
+		FileInputStream scratch = mFilesystem.createOrOpenFileInput
+			(Utils.concatPaths(ConstructionSiteActivity.ROOT, fileName), mCtx);
 			
 		try {
 			if(scratch != null && scratch.available() > 0){
 				setmAllContentArrayListAndmAllContentNameArrayList(mParser.parse(scratch, mCtx));
 				
 				
-				mContentArrayList.addAll((ArrayList<HashMap<String,String>>)mAllContentArrayList.get(0));
+				mContentArrayList = mAllContentArrayList.get(0);
 				
 			    mIdCounter = getHighestId();
-			    mCurrentSprite =0;
+			    mCurrentSprite = 0;
 	
 			    scratch.close();
 			}
-			
-			if(mAllContentArrayList.size() == 0)
-			{
-				//Fill Dummy Stage
-				mAllContentArrayList.add(new ArrayList<HashMap<String,String>>());
-				mAllContentNameArrayList.add(STAGE);
-			}
-		    setChanged();
-		    notifyObservers();
-		    
-			
 
 		} catch (IOException e) {
-			
-			e.printStackTrace();
 		}
+		if(mAllContentArrayList.size() == 0)
+		{
+			setDefaultStage();
+		}
+	    setChanged();
+	    notifyObservers();
+	}
+	
+	public void setDefaultStage(){
+		mContentArrayList = new ArrayList<HashMap<String,String>>();
+		mCurrentSprite = 0;
+
+		mAllContentArrayList.add(mContentArrayList);
+		mAllContentNameArrayList.add(mCtx.getString(R.string.stage));
 	}
 
 	private void setmAllContentArrayListAndmAllContentNameArrayList(
