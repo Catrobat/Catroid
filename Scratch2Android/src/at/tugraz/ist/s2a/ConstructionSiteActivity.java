@@ -97,6 +97,9 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        setContentView(R.layout.construction_site);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mPreferences = this.getPreferences(Activity.MODE_PRIVATE);
@@ -104,22 +107,14 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
         setRoot(mPreferences.getString(PREF_ROOT, DEFAULT_ROOT), mPreferences.getString(PREF_FILE_SPF, DEFAULT_FILE));
         
         mImageContainer = new ImageContainer(ROOT_IMAGES);
-        
-        setContentView(R.layout.construction_site);
         mContentManager = new ContentManager(this);
         mContentManager.setObserver(this);
         
         
         mMainListView = (ListView) findViewById(R.id.MainListView);
-        mAdapter = new ConstructionSiteListViewAdapter(this, mContentManager.getContentArrayList(), mMainListView, mImageContainer);
+        mAdapter = new ConstructionSiteListViewAdapter(this, 
+        		mContentManager.getContentArrayList(), mMainListView, mImageContainer);
         mMainListView.setAdapter(mAdapter);
-        
-        //Testing
-        //mContentManager.testSet();
-        //mContentManager.saveContent();
-        mContentManager.loadContent(SPF_FILE);
-        
-        this.registerForContextMenu(mMainListView);
         
         mToolboxButton = (Button) this.findViewById(R.id.toolbar_button);
 		mToolboxButton.setOnClickListener(this);
@@ -127,7 +122,11 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		mSpritesToolboxButton = (Button) this.findViewById(R.id.sprites_button);
 		mSpritesToolboxButton.setOnClickListener(this);
 		
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); 
+		this.registerForContextMenu(mMainListView);
+        //Testing
+        //mContentManager.testSet();
+        //mContentManager.saveContent();
+        mContentManager.loadContent(SPF_FILE);
     }
 
     private static int LAST_SELECTED_ELEMENT_POSITION = 0;
@@ -250,6 +249,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
         	Utils.deleteFolder(ROOT_IMAGES);
         	Utils.deleteFolder(ROOT_SOUNDS);
         	mContentManager.resetContent();
+        	mContentManager.setDefaultStage();
             return true;
             
         case R.id.load:
@@ -362,7 +362,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		ConstructionSiteActivity.ROOT_SOUNDS = rootSoundFile.getPath();
 		
 		SPF_FILE = file;
-		File spfFile = new File(SPF_FILE);
+		File spfFile = new File(Utils.concatPaths(ROOT,SPF_FILE));
 		if(!spfFile.exists())
 			try {
 				spfFile.createNewFile();

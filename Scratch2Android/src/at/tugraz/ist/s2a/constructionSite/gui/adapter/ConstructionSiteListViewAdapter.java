@@ -72,8 +72,10 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 	@Override
 	public int getItemViewType(int position) {
 		HashMap<String, String> brick = mBrickList.get(position);
-		int type = Integer.parseInt(brick.get(BrickDefine.BRICK_TYPE));
-		return type;
+		if(brick.get(BrickDefine.BRICK_TYPE)!=null)
+			return Integer.parseInt(brick.get(BrickDefine.BRICK_TYPE));
+		else
+			return -1;
 	}
 
 	@Override
@@ -96,7 +98,8 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 		final String type = mBrickList.get(position).get(BrickDefine.BRICK_TYPE);
 		final String value = mBrickList.get(position).get(BrickDefine.BRICK_VALUE);
 		final String value1 = mBrickList.get(position).get(BrickDefine.BRICK_VALUE_1);
-				
+		Log.d("TEST", Integer.toString(position));
+		if(type!=null)
 		switch(Integer.valueOf(type).intValue()){
 		
 			case (BrickDefine.SET_BACKGROUND): 
@@ -191,6 +194,7 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 		    }
 		
 		}
+		return null;
 	}
 
 	public int  getIndexFromElementSound(SimpleAdapter adapter, String element) {
@@ -215,7 +219,11 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 	
 	public long getItemId(int position) {
 		String type = mBrickList.get(position).get(BrickDefine.BRICK_ID);
-		return Integer.valueOf(type).intValue();
+		
+		if(type!=null)
+			return Integer.valueOf(type).intValue();
+		else
+			return 0;
 	}
 
 	public void onClick(View v) {	
