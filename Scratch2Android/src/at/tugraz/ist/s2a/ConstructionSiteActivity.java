@@ -309,7 +309,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	}
 
 	private void openToolbox(){
-		if(mContentManager.getCurrentSprite().equals(this.getString(R.string.stage)))
+		if(mContentManager.getCurrentSpriteName().equals(this.getString(R.string.stage)))
 		{
 			showDialog(TOOLBOX_DIALOG_BACKGROUND);
 		}
@@ -334,7 +334,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	
 	public void onBrickClickListener(View v) {
 		//Log.d("TEST", "HALLO");
-		if(mContentManager.getCurrentSprite().equals(this.getString(R.string.stage))){
+		if(mContentManager.getCurrentSpriteName().equals(this.getString(R.string.stage))){
 			mContentManager.addBrick(mToolboxStageDialog.getBrickClone(v));
 			if(mToolboxStageDialog.isShowing())
 				mToolboxStageDialog.dismiss();

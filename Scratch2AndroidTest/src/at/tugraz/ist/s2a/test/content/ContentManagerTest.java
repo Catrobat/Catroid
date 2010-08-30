@@ -91,6 +91,7 @@ public class ContentManagerTest extends AndroidTestCase {
         mSpritesAndBackgroundList.put("SomeName", mContentArrayList);
 		
         mContentManager.resetContent();
+        mContentManager.setDefaultStage();
         assertEquals(mContentManager.getContentArrayList().size(), 0);
         assertEquals(mSpritesAndBackgroundList.size(), 1);
 	}
@@ -118,7 +119,8 @@ public class ContentManagerTest extends AndroidTestCase {
         mContentManager.setContentArrayList(mContentArrayList);
         //3 elements added
         mContentManager.resetContent();
-        assertEquals(mContentArrayList.size(), 0);
+        mContentManager.setDefaultStage();
+        assertEquals(mContentArrayList.size(), 1);
 	}
 	
 	public void testAddBrick(){
@@ -242,7 +244,7 @@ public class ContentManagerTest extends AndroidTestCase {
         mContentManager.setContentArrayList(mContentArrayList);
         mSpritesAndBackgroundList.put("FirstSprite", mContentArrayList);
         
-        mContentManager.setSpritesAndBackgroundList(mSpritesAndBackgroundList);
+       // mContentManager.setSpritesAndBackgroundList(mSpritesAndBackgroundList);
         
         mContentManager.saveContent();
         mContentManager.resetContent();
@@ -288,7 +290,7 @@ public class ContentManagerTest extends AndroidTestCase {
 	    mContentManager.switchSprite(1);
 	    
 	    assertEquals(mContentManager.getContentArrayList().get(1).get(BrickDefine.BRICK_ID), "4");
-	    assertEquals(mContentManager.getCurrentSprite(), "SecondSprite");
+	    assertEquals(mContentManager.getCurrentSpriteName(), "SecondSprite");
 	
 	}
 	
