@@ -255,7 +255,7 @@ public class ContentManager extends Observable{
 	
 	
 	
-	public String getCurrentSprite(){
+	public String getCurrentSpriteName(){
 		return mAllContentNameArrayList.get(mCurrentSprite);
 	}
 	

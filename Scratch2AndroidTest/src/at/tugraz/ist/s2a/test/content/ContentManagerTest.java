@@ -288,7 +288,7 @@ public class ContentManagerTest extends AndroidTestCase {
 	    mContentManager.switchSprite(1);
 	    
 	    assertEquals(mContentManager.getContentArrayList().get(1).get(BrickDefine.BRICK_ID), "4");
-	    assertEquals(mContentManager.getCurrentSprite(), "SecondSprite");
+	    assertEquals(mContentManager.getCurrentSpriteName(), "SecondSprite");
 	
 	}
 	
