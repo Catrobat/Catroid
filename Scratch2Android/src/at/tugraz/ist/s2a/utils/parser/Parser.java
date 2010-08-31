@@ -58,10 +58,10 @@ public class Parser {
 		try {
 			builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
+			 Log.e("PARSER", e.getMessage());
 			e.printStackTrace();
 		} catch (FactoryConfigurationError e) {
-			// TODO Auto-generated catch block
+			Log.e("PARSER", e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -170,7 +170,7 @@ public class Parser {
 			spriteNameList.add(spritesMap.get(i).first);
 		}
 			
-		doc = builder.newDocument(); //TODO eventuell nachher checken ob sich was veraendert hat und nur das aendern
+		doc = builder.newDocument();
 		
 		XmlSerializer serializer = Xml.newSerializer();
 		StringWriter writer = new StringWriter();
