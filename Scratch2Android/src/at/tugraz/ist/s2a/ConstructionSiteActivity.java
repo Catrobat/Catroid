@@ -127,6 +127,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
         //mContentManager.testSet();
         //mContentManager.saveContent();
         mContentManager.loadContent(SPF_FILE);
+        setTitle(SPF_FILE);
     }
 
     private static int LAST_SELECTED_ELEMENT_POSITION = 0;
@@ -371,7 +372,5 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 				e.printStackTrace();
 			}
 	}
-	
-
 
  }

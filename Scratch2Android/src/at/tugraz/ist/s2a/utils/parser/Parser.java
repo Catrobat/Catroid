@@ -86,6 +86,7 @@ public class Parser {
 			String value = EMPTY_STRING;
 			String value1 = EMPTY_STRING;
 			String file_name = EMPTY_STRING;
+			int id = 0;
 			switch (brickType){
 				case BrickDefine.SET_BACKGROUND:
 				case BrickDefine.SET_COSTUME:
@@ -106,7 +107,7 @@ public class Parser {
 					value1 = bricks.item(i).getLastChild().getFirstChild().getNodeValue();
 					break;
 			}
-			HashMap<String, String> map = getBrickMap(file_name, value, value1, brickType);
+			HashMap<String, String> map = getBrickMap(id, file_name, value, value1, brickType);
 			sublist.add(map);
 			
 			mIdCounter++;
@@ -126,6 +127,7 @@ public class Parser {
 				String value = EMPTY_STRING;
 				String value1 = EMPTY_STRING;
 				String file_name = EMPTY_STRING;
+				int id = 0;
 				switch (brickType){
 				case BrickDefine.SET_BACKGROUND:
 				case BrickDefine.SET_COSTUME:
@@ -146,7 +148,7 @@ public class Parser {
 						value1 = bricks.item(i).getLastChild().getFirstChild().getNodeValue();
 						break;
 				}
-				HashMap<String, String> map = getBrickMap(file_name, value, value1, brickType);
+				HashMap<String, String> map = getBrickMap(id, file_name, value, value1, brickType);
 				sublist.add(map);
 				mIdCounter++;
 				
@@ -177,7 +179,7 @@ public class Parser {
 		}
 		
 		boolean stageRead = false;
-		int mapSizeBeforeRemoving = tempMap.size();;
+		int mapSizeBeforeRemoving = tempMap.size();
 		//TODO that parser is toooo dirty, refactor it!!!!!!!!!!
 		for (int j=0; j<mapSizeBeforeRemoving; j++) {
 			ArrayList<HashMap<String, String>> sprite = tempMap.get(tempMap.firstKey());
@@ -290,14 +292,14 @@ public class Parser {
 	}
 	
 	
-	private HashMap<String, String> getBrickMap(String value, String value1, int type) {
-		return getBrickMap(EMPTY_STRING, value, value1, type);
+	private HashMap<String, String> getBrickMap(int id, String value, String value1, int type) {
+		return getBrickMap(id, EMPTY_STRING, value, value1, type);
 	}
 	
-	private HashMap<String, String> getBrickMap(String name, String value, String value1, int type) {
+	private HashMap<String, String> getBrickMap(int id, String name, String value, String value1, int type) {
 		HashMap<String, String> map = new HashMap<String, String>();
 		
-		map.put(BrickDefine.BRICK_ID, Integer.toString(mIdCounter));
+		map.put(BrickDefine.BRICK_ID, String.valueOf(id));
 	    map.put(BrickDefine.BRICK_TYPE, String.valueOf(type));
 	    map.put(BrickDefine.BRICK_NAME, name);
 	    map.put(BrickDefine.BRICK_VALUE, value);

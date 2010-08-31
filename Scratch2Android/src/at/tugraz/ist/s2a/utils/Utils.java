@@ -69,6 +69,12 @@ public class Utils {
 		}
 	
 	public static String concatPaths(String first, String second){
+		if(first == null && second == null)
+			return null;
+		if(first == null)
+			return second;
+		if(second == null)
+			return first;
 		if(first.endsWith("/"))
 			if(second.startsWith("/"))
 				return first+second.replaceFirst("/", "");

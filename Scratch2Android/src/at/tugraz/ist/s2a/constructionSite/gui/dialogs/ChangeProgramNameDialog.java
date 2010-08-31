@@ -61,7 +61,9 @@ protected void onCreate(Bundle savedInstanceState) {
 			Log.e("ChangeProgramNameDialog", "Copy File failed");
 		
 		ConstructionSiteActivity.setRoot(new_path.getAbsolutePath(), newNameToChangeText.getText().toString()+".spf");
-		mContentManager.loadContent(Utils.addDefaultFileEnding(newNameToChangeText.getText().toString()));
+		String name = Utils.addDefaultFileEnding(newNameToChangeText.getText().toString());
+		mContentManager.loadContent(name);
+		((Activity)mCtx).setTitle(name);
 	
 		dismiss();
 	}
