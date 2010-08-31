@@ -223,8 +223,6 @@ public class ContentManager extends Observable{
 	public void saveContent(String file){
 		
 		String title = new String(file);
-		//((Activity)mCtx).setTitle(title.replace(ConstructionSiteActivity.DEFAULT_FILE_ENDING, "").replace("/", ""));
-		//TODO: setTitle-> ClassCastException Testing
 		TreeMap<String, ArrayList<HashMap<String, String>>> spriteNameBrickListTreeMap = new TreeMap<String, ArrayList<HashMap<String, String>>>();
 		for(int i=0; i<mAllContentArrayList.size(); i++){
 			spriteNameBrickListTreeMap.put(mAllContentNameArrayList.get(i), mAllContentArrayList.get(i));

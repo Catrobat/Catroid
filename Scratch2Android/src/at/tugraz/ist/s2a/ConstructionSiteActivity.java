@@ -45,14 +45,6 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 
     /** Called when the activity is first created. */
 	
-	
-	//TODO clean up the adapter, 3 of them do the same -> multiple code (is it necessary to distinguish between a stage and a sprite!?)
-	//TODO rename some classes buttons etc they are often not significant
-	//TODO make more packages
-	//TODO style your gui elements either with java code or xml but no mixture
-	
-	//TODO IDs manage brick id 
-	
 	static final int TOOLBOX_DIALOG_SPRITE = 0;
 	static final int TOOLBOX_DIALOG_BACKGROUND = 1;
 	static final int SPRITETOOLBOX_DIALOG = 2;
@@ -368,7 +360,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			try {
 				spfFile.createNewFile();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				Log.e("CONSTRUCTION_SITE_ACTIVITY", e.getMessage());
 				e.printStackTrace();
 			}
 	}

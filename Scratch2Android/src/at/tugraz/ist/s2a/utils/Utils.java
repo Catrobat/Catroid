@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 import at.tugraz.ist.s2a.ConstructionSiteActivity;
 
 public class Utils {
@@ -100,10 +101,10 @@ public class Utils {
 			bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);
 			os.close();
 		 } catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			 Log.e("UTILS", e.getMessage());
 			e.printStackTrace();
 		   } catch (IOException e) {
-			// TODO Auto-generated catch block
+			   Log.e("UTILS", e.getMessage());
 			e.printStackTrace();
 		}
 	}
