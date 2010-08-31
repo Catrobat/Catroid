@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import android.content.Context;
+import android.util.Log;
 
 /**
  * 
@@ -25,7 +26,7 @@ public class FileSystem {
 		    fOut = new FileOutputStream(name);
 			return fOut;
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			Log.e("ERROR", e.getMessage());
 			e.printStackTrace();
 		}
 		return null;
@@ -43,7 +44,7 @@ public class FileSystem {
 			fIn = new FileInputStream(name);
 			return fIn;
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			Log.e("FILESYSTEM", e.getMessage());
 			e.printStackTrace();
 		}
 		return fIn;
