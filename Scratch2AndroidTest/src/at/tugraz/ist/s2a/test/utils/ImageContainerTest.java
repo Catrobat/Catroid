@@ -6,6 +6,7 @@ import java.io.File;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import at.tugraz.ist.s2a.utils.ImageContainer;
+import at.tugraz.ist.s2a.utils.Utils;
 import junit.framework.TestCase;
 
 public class ImageContainerTest extends TestCase {
@@ -29,9 +30,9 @@ public class ImageContainerTest extends TestCase {
 	}
 	public void testSaveImageGetImage() throws Throwable{
 		Bitmap bitmap1 = Bitmap.createBitmap(10, 10, Config.ARGB_8888);
-		//mImageContainer.saveBitmap("test1.png", bitmap1);
 		Bitmap bitmap2 = Bitmap.createBitmap(10, 10, Config.ARGB_8888);
-		//mImageContainer.saveBitmap("test2.png", bitmap2);
+		Utils.saveBitmapOnSDCardAsPNG("/sdcard/test2.png", bitmap2);
+		mImageContainer.saveImage("/sdcard/test2.png");
 		mImageContainer.deleteImage("test1.png");
 		
 		assertEquals(bitmap1.getNinePatchChunk(), mImageContainer.getImage("test2.png").getNinePatchChunk());
@@ -50,9 +51,11 @@ public class ImageContainerTest extends TestCase {
 		assertTrue(exists);
 		mImageContainer.deleteImage("test2.png");
 	}
-	public void testSaveBitmapOnSDCardAsPNG() throws Throwable{
+	public void testSaveImageOnSDCardAsPNG() throws Throwable{
 		Bitmap bitmap = Bitmap.createBitmap(10, 10, Config.ARGB_8888);
-		//mImageContainer.saveBitmap("test1.png", bitmap);
+		File picture_path = new File("/sdcard/test1.png");
+		Utils.saveBitmapOnSDCardAsPNG(picture_path.getAbsolutePath(), bitmap);
+		
 		
 		boolean exists = false;
 		File rootFile = new File("/sdcard");
