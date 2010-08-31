@@ -307,7 +307,6 @@ public class Parser {
 	    map.put(BrickDefine.BRICK_VALUE, value);
 	    map.put(BrickDefine.BRICK_VALUE_1, value1);
 		
-		
 		return map;
 	}
 		

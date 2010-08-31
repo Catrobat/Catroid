@@ -251,6 +251,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
         	Utils.deleteFolder(ROOT_SOUNDS);
         	mContentManager.resetContent();
         	mContentManager.setDefaultStage();
+        	mAdapter.notifyDataSetChanged(mContentManager.getContentArrayList());
+    		mContentManager.saveContent(SPF_FILE);
             return true;
             
         case R.id.load:
