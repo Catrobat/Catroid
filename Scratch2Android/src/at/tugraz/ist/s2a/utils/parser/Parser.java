@@ -21,6 +21,7 @@ import org.xmlpull.v1.XmlSerializer;
 
 import android.content.Context;
 import android.util.Log;
+import android.util.Pair;
 import android.util.Xml;
 import at.tugraz.ist.s2a.R;
 import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
@@ -161,10 +162,14 @@ public class Parser {
 		return spritesMap;
 	}
 
-	public String toXml(TreeMap<String, ArrayList<HashMap<String,String>>> spritesMap) {
-		TreeMap<String, ArrayList<HashMap<String,String>>> tempMap = new TreeMap<String, ArrayList<HashMap<String,String>>>();
-		tempMap.putAll(spritesMap);
-		
+	public String toXml(ArrayList<Pair<String, ArrayList<HashMap<String,String>>>> spritesMap) {
+		ArrayList<ArrayList<HashMap<String,String>>> spriteBrickList = new ArrayList<ArrayList<HashMap<String,String>>>();
+		ArrayList<String> spriteNameList = new ArrayList<String>(); 
+		for(int i=0; i<spritesMap.size(); i++){
+			spriteBrickList.add(spritesMap.get(i).second);
+			spriteNameList.add(spritesMap.get(i).first);
+		}
+			
 		doc = builder.newDocument(); //TODO eventuell nachher checken ob sich was veraendert hat und nur das aendern
 		
 		XmlSerializer serializer = Xml.newSerializer();
@@ -181,22 +186,20 @@ public class Parser {
 		}
 		
 		boolean stageRead = false;
-		int mapSizeBeforeRemoving = tempMap.size();
-		//TODO that parser is toooo dirty, refactor it!!!!!!!!!!
-		for (int j=0; j<mapSizeBeforeRemoving; j++) {
-			ArrayList<HashMap<String, String>> sprite = tempMap.get(tempMap.firstKey());
+		
+		for (int j=0; j<spriteBrickList.size(); j++) {
+			ArrayList<HashMap<String, String>> sprite = spriteBrickList.get(j);
 		    try {
 		    	if (!stageRead) //workaround so that stage always is the first element in xml file
 	    		{	
 		    		//TODO is stage a sprite?
-	    			sprite = tempMap.get(tempMap.firstKey());
 	    			serializer.startTag(EMPTY_STRING, STAGE);
-	    			serializer.attribute(EMPTY_STRING, NAME, tempMap.firstKey());
+	    			serializer.attribute(EMPTY_STRING, NAME, spriteNameList.get(j));
 	    		}
 		    	else
 		    	{
 		    		serializer.startTag(EMPTY_STRING, OBJECT);
-		    	    serializer.attribute(EMPTY_STRING, NAME, tempMap.firstKey());
+		    	    serializer.attribute(EMPTY_STRING, NAME, spriteNameList.get(j));
 		    	}
 		    	
 		    	for (int i=0; i<sprite.size(); i++) {
@@ -265,12 +268,10 @@ public class Parser {
 		    		//Log.d("TEST", "in not stage");
 		    		serializer.endTag(EMPTY_STRING, STAGE);
 		    		stageRead = true;
-		    		tempMap.remove(tempMap.firstKey());
 		    	}
 		    	else {
 		    		//Log.d("TEST", "in end tag");
 		    		serializer.endTag(EMPTY_STRING, OBJECT);
-		    		tempMap.remove(tempMap.firstKey());
 		    	}
 			}
 		    catch (Exception e){

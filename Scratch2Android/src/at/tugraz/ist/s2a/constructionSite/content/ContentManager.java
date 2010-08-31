@@ -17,6 +17,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
+import android.util.Pair;
 import at.tugraz.ist.s2a.ConstructionSiteActivity;
 import at.tugraz.ist.s2a.R;
 import at.tugraz.ist.s2a.utils.ImageContainer;
@@ -198,6 +199,7 @@ public class ContentManager extends Observable{
 			ArrayList<HashMap<String, String>> sprite = SpriteMap.get(i);
 			for(int j=0; j<sprite.size(); j++){
 				HashMap<String, String> brickList = sprite.get(j);
+				String stringId =  brickList.get(BrickDefine.BRICK_ID);
 				if(brickList.size()>0 && !(brickList.get(BrickDefine.BRICK_ID).equals(""))){
 					int tempId = Integer.valueOf(brickList.get(BrickDefine.BRICK_ID).toString()).intValue();
 					boolean test = (highestId<tempId);
@@ -225,9 +227,9 @@ public class ContentManager extends Observable{
 		String title = new String(file);
 		//((Activity)mCtx).setTitle(title.replace(ConstructionSiteActivity.DEFAULT_FILE_ENDING, "").replace("/", ""));
 		//TODO: setTitle-> ClassCastException Testing
-		TreeMap<String, ArrayList<HashMap<String, String>>> spriteNameBrickListTreeMap = new TreeMap<String, ArrayList<HashMap<String, String>>>();
-		for(int i=mAllContentArrayList.size()-1; i>=0; i--){
-			spriteNameBrickListTreeMap.put(mAllContentNameArrayList.get(i), mAllContentArrayList.get(i));
+		ArrayList< Pair<String, ArrayList<HashMap<String, String>>>> spriteNameBrickListTreeMap = new ArrayList< Pair<String, ArrayList<HashMap<String, String>>>>();
+		for(int i=0; i<mAllContentArrayList.size(); i++){
+			spriteNameBrickListTreeMap.add(new Pair(mAllContentNameArrayList.get(i), mAllContentArrayList.get(i)));
 		}
 		
 		FileOutputStream fd = mFilesystem.createOrOpenFileOutput(Utils.concatPaths(ConstructionSiteActivity.ROOT, file), mCtx);
