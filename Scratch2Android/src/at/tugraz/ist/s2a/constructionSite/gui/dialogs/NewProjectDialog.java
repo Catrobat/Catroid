@@ -54,6 +54,7 @@ protected void onCreate(Bundle savedInstanceState) {
 		ConstructionSiteActivity.setRoot(newPath.getAbsolutePath(), newSpfFile);
 		
 		mContentManager.loadContent(newSpfFile);
+		((Activity)mCtx).setTitle(newSpfFile);
 		dismiss();
 	}
 });

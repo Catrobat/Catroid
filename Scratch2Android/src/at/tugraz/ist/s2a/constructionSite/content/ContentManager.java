@@ -105,6 +105,50 @@ public class ContentManager extends Observable{
 		setDefaultStage();
 	}
 	
+	
+	public void setDefaultStage(){
+		mContentArrayList = new ArrayList<HashMap<String,String>>();
+		mCurrentSprite = 0;
+
+		mAllContentArrayList.add(mContentArrayList);
+		mAllContentNameArrayList.add(mCtx.getString(R.string.stage));
+	}
+
+	private void setmAllContentArrayListAndmAllContentNameArrayList(
+			TreeMap<String, ArrayList<HashMap<String, String>>> treeMap) {
+		mAllContentArrayList.addAll(treeMap.values()); 
+		mAllContentNameArrayList.addAll(treeMap.keySet());
+	}
+	
+	public String getCurrentSpriteName(){
+		return mAllContentNameArrayList.get(mCurrentSprite);
+	}
+	
+	public Integer getCurrentSpritePosition(){
+		return mCurrentSprite;
+	}
+	
+	public void setObserver(Observer observer)
+	{
+		addObserver(observer);
+	}
+	
+    public ArrayList<String> getAllContentNameList(){
+    	return mAllContentNameArrayList;
+    }
+    public ArrayList<ArrayList<HashMap<String, String>>> getAllContentList(){
+    	return mAllContentArrayList;
+    }
+    
+	/**
+	 * test method
+	 */
+    public int getIdCounter()
+    {
+    	return mIdCounter;
+    }
+    
+	///////////////////////////////
 	/**
 	 * load content into data structure
 	 */
@@ -115,7 +159,7 @@ public class ContentManager extends Observable{
 	 * load content into data structure
 	 */
 	public void loadContent(String fileName){
-		((Activity)mCtx).setTitle(fileName.replace(ConstructionSiteActivity.DEFAULT_FILE_ENDING, ""));
+		
 		resetContent();
 		
 		FileInputStream scratch = mFilesystem.createOrOpenFileInput
@@ -144,19 +188,7 @@ public class ContentManager extends Observable{
 	    notifyObservers();
 	}
 	
-	public void setDefaultStage(){
-		mContentArrayList = new ArrayList<HashMap<String,String>>();
-		mCurrentSprite = 0;
 
-		mAllContentArrayList.add(mContentArrayList);
-		mAllContentNameArrayList.add(mCtx.getString(R.string.stage));
-	}
-
-	private void setmAllContentArrayListAndmAllContentNameArrayList(
-			TreeMap<String, ArrayList<HashMap<String, String>>> treeMap) {
-		mAllContentArrayList.addAll(treeMap.values()); 
-		mAllContentNameArrayList.addAll(treeMap.keySet());
-	}
 
 	private int getHighestId() {
 		ArrayList<ArrayList<HashMap<String, String>>> SpriteMap = new ArrayList<ArrayList<HashMap<String, String>>>();
@@ -191,8 +223,8 @@ public class ContentManager extends Observable{
 	public void saveContent(String file){
 		
 		String title = new String(file);
-		((Activity)mCtx).setTitle(title.replace(ConstructionSiteActivity.DEFAULT_FILE_ENDING, "").replace("/", ""));
-		
+		//((Activity)mCtx).setTitle(title.replace(ConstructionSiteActivity.DEFAULT_FILE_ENDING, "").replace("/", ""));
+		//TODO: setTitle-> ClassCastException Testing
 		TreeMap<String, ArrayList<HashMap<String, String>>> spriteNameBrickListTreeMap = new TreeMap<String, ArrayList<HashMap<String, String>>>();
 		for(int i=0; i<mAllContentArrayList.size(); i++){
 			spriteNameBrickListTreeMap.put(mAllContentNameArrayList.get(i), mAllContentArrayList.get(i));
@@ -214,69 +246,6 @@ public class ContentManager extends Observable{
 		Log.d("Contentmanager", "Save file!");
    	}
 	
-	/**
-	 * test method
-	 *
-	 */
-	public void testSet(){
-		mContentArrayList.clear();
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put(BrickDefine.BRICK_ID, "1");
-        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.PLAY_SOUND));
-        map.put(BrickDefine.BRICK_NAME, "Test3");
-        map.put(BrickDefine.BRICK_VALUE, "/mnt/sdcard/See You Again.mp3");
-        mContentArrayList.add(map);
-        }
-	
-	/**
-	 * test method
-	 */
-	public void setContentArrayList(ArrayList<HashMap<String, String>> list){
-		mContentArrayList = list;
-		setChanged();
-		notifyObservers();
-	}
-	
-//	public void setSpritesAndBackgroundList(TreeMap<String, ArrayList<HashMap<String, String>>> spritesAndBackground){
-//		mSpritesAndBackgroundList = spritesAndBackground;
-//		//Check for default stage Object
-//		if(mSpritesAndBackgroundList.size() == 0)
-//			mSpritesAndBackgroundList.put(STAGE, new ArrayList<HashMap<String,String>>());
-//		refreshSpritelist();
-//		setChanged();
-//		notifyObservers();
-//	}
-	
-	
-	
-	public String getCurrentSpriteName(){
-		return mAllContentNameArrayList.get(mCurrentSprite);
-	}
-	
-	public Integer getCurrentSpritePosition(){
-		return mCurrentSprite;
-	}
-	
-	public void setObserver(Observer observer)
-	{
-		addObserver(observer);
-	}
-	
-    public ArrayList<String> getSpritelist(){
-    	return mAllContentNameArrayList;
-    }
-    public ArrayList<ArrayList<HashMap<String, String>>> getAllContentList(){
-    	return mAllContentArrayList;
-    }
-
-    
-	/**
-	 * test method
-	 */
-    public int getIdCounter()
-    {
-    	return mIdCounter;
-    }
     
 
 }

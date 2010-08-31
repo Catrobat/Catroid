@@ -3,6 +3,7 @@ package at.tugraz.ist.s2a.constructionSite.gui.dialogs;
 import java.io.File;
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -65,6 +66,7 @@ public class LoadProgramDialog extends Dialog{
 				File file = new File(mAdapter.getItem(arg2));
 				ConstructionSiteActivity.setRoot(file.getParent(), file.getName());
 				mContentManager.loadContent(file.getName());
+				((Activity)mCtx).setTitle(file.getName());
 				dismiss();
 			}
 		});
