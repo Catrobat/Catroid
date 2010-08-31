@@ -29,7 +29,8 @@ import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
 public class Parser {
 	private DocumentBuilder builder;
 	private Document doc;
-	//private static int mIdCounter = 1;
+	private static int mIdCounter = 1;
+	// TODO : IDs read and save Ids set in ContentManager
 	
 	final static int CMD_SET_BACKGROUND = 0;
 	final static int CMD_SET_SOUND = 100;
@@ -66,8 +67,8 @@ public class Parser {
 	
 	public TreeMap<String, ArrayList<HashMap<String, String>>> parse(InputStream stream, Context context){
 		TreeMap<String, ArrayList<HashMap<String, String>>> spritesMap = new TreeMap<String, ArrayList<HashMap<String,String>>>();
-		//mIdCounter = 1;
-		// TODO : IDs einlesen und speichern
+		mIdCounter = 1;
+		// TODO : IDs read and save Ids set in ContentManager
 		try {
 			doc = builder.parse(stream);	
 		}
@@ -109,8 +110,8 @@ public class Parser {
 			}
 			HashMap<String, String> map = getBrickMap(id, file_name, value, value1, brickType);
 			sublist.add(map);
-			
-			//mIdCounter++;
+			// TODO : IDs read and save Ids set in ContentManager
+			mIdCounter++;
 			
 		}
 		//insert localized stage name
@@ -150,7 +151,8 @@ public class Parser {
 				}
 				HashMap<String, String> map = getBrickMap(id, file_name, value, value1, brickType);
 				sublist.add(map);
-				//mIdCounter++;
+				// TODO : IDs read and save Ids set in ContentManager
+				mIdCounter++;
 				
 			}
 			spritesMap.put(name, sublist);
