@@ -29,7 +29,7 @@ import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
 public class Parser {
 	private DocumentBuilder builder;
 	private Document doc;
-	private static int mIdCounter = 1;
+	//private static int mIdCounter = 1;
 	
 	final static int CMD_SET_BACKGROUND = 0;
 	final static int CMD_SET_SOUND = 100;
@@ -66,8 +66,8 @@ public class Parser {
 	
 	public TreeMap<String, ArrayList<HashMap<String, String>>> parse(InputStream stream, Context context){
 		TreeMap<String, ArrayList<HashMap<String, String>>> spritesMap = new TreeMap<String, ArrayList<HashMap<String,String>>>();
-		mIdCounter = 1;
-		
+		//mIdCounter = 1;
+		// TODO : IDs einlesen und speichern
 		try {
 			doc = builder.parse(stream);	
 		}
@@ -86,7 +86,7 @@ public class Parser {
 			String value = EMPTY_STRING;
 			String value1 = EMPTY_STRING;
 			String file_name = EMPTY_STRING;
-			int id = 0;
+			String id = EMPTY_STRING;
 			switch (brickType){
 				case BrickDefine.SET_BACKGROUND:
 				case BrickDefine.SET_COSTUME:
@@ -110,7 +110,7 @@ public class Parser {
 			HashMap<String, String> map = getBrickMap(id, file_name, value, value1, brickType);
 			sublist.add(map);
 			
-			mIdCounter++;
+			//mIdCounter++;
 			
 		}
 		//insert localized stage name
@@ -127,7 +127,7 @@ public class Parser {
 				String value = EMPTY_STRING;
 				String value1 = EMPTY_STRING;
 				String file_name = EMPTY_STRING;
-				int id = 0;
+				String id = EMPTY_STRING;
 				switch (brickType){
 				case BrickDefine.SET_BACKGROUND:
 				case BrickDefine.SET_COSTUME:
@@ -150,7 +150,7 @@ public class Parser {
 				}
 				HashMap<String, String> map = getBrickMap(id, file_name, value, value1, brickType);
 				sublist.add(map);
-				mIdCounter++;
+				//mIdCounter++;
 				
 			}
 			spritesMap.put(name, sublist);
@@ -292,14 +292,14 @@ public class Parser {
 	}
 	
 	
-	private HashMap<String, String> getBrickMap(int id, String value, String value1, int type) {
+	private HashMap<String, String> getBrickMap(String id, String value, String value1, int type) {
 		return getBrickMap(id, EMPTY_STRING, value, value1, type);
 	}
 	
-	private HashMap<String, String> getBrickMap(int id, String name, String value, String value1, int type) {
+	private HashMap<String, String> getBrickMap(String id, String name, String value, String value1, int type) {
 		HashMap<String, String> map = new HashMap<String, String>();
 		
-		map.put(BrickDefine.BRICK_ID, String.valueOf(id));
+		map.put(BrickDefine.BRICK_ID, id);
 	    map.put(BrickDefine.BRICK_TYPE, String.valueOf(type));
 	    map.put(BrickDefine.BRICK_NAME, name);
 	    map.put(BrickDefine.BRICK_VALUE, value);
