@@ -1,4 +1,4 @@
-Known Bugs for Release 2 a.k.a. Eistee:
+Known Bugs for Release 3 :
 -------------------------------------------
 
 solving priority: high, medium, low
@@ -9,11 +9,6 @@ high:
 
 - wenn man man auf der stage ist, den home-button drueckt, dann wieder in die app geht muss man noch einmal zurueck in die Baustelle und dann wieder auf die stage, damit das abspielen funktioniert
 
-- out of memory bei grossen bildern (bei mir ab 3 großen)
-
-- man muss bei den nummernfeldern immer 2x hineintippen damit man was machen kann
-
-- Wenn die xml-datei nicht richtig abgespeichert wird (bei manchen abstuerzen) laesst sich die app nicht mehr starten. man muss die app ganz deinstallieren und wieder neu installieren damit es wieder funktioniert
 
 --------
 medium
@@ -21,24 +16,14 @@ medium
 
 - wenn pause gedrückt wird und gerade wait ist wird das nicht richtig ausgeführt
 
-- wenn auf einem frischen Emulator die Tests durchlaufen werden, funktioniert testContextMenuOnMainList nicht, da noch kein element in mainList. Wenn nach den Tests die App normal aufgerufen wird funktioniert sie auch nicht
-   workaround: kleines testprogramm machen dann gehts
-   -> jetzt gehts anscheinend doch!?
-
-- test schreibt falsche testdaten ins programm (zb hintergrund bei sprite)
 --------
 low
 --------
-
-- Skalierung der bilder
-- soll auf sound gewartet werden, d.h. wenn sound abspielt, soll nächster befehl erst nach fertig abspielen oder sofort ausgeführt werden?
 
 --------
 quick fixes: maybe implement a better solution later
 --------
 
-- von vertikal auf horizontale orientierung auf stage-> stürzt ab
-   -> landscape mode im moment deaktiviert
 
 
 
