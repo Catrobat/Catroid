@@ -56,7 +56,7 @@ public class ContentManager extends Observable{
 		mAllContentNameArrayList.clear();
 		mCurrentSprite = 0;
 		mIdCounter = 0;
-	}
+		}
 	
 	public void addSprite(String name, ArrayList<HashMap<String, String>> sprite)
 	{
@@ -196,9 +196,8 @@ public class ContentManager extends Observable{
         int highestId = 0;
 		for(int i=0; i<mAllContentNameArrayList.size(); i++){
 			ArrayList<HashMap<String, String>> sprite = SpriteMap.get(i);
-			for(int j=0; j<SpriteMap.size(); j++){
+			for(int j=0; j<sprite.size(); j++){
 				HashMap<String, String> brickList = sprite.get(j);
-				String stringId =  brickList.get(BrickDefine.BRICK_ID);
 				if(brickList.size()>0 && !(brickList.get(BrickDefine.BRICK_ID).equals(""))){
 					int tempId = Integer.valueOf(brickList.get(BrickDefine.BRICK_ID).toString()).intValue();
 					boolean test = (highestId<tempId);
@@ -227,7 +226,7 @@ public class ContentManager extends Observable{
 		//((Activity)mCtx).setTitle(title.replace(ConstructionSiteActivity.DEFAULT_FILE_ENDING, "").replace("/", ""));
 		//TODO: setTitle-> ClassCastException Testing
 		TreeMap<String, ArrayList<HashMap<String, String>>> spriteNameBrickListTreeMap = new TreeMap<String, ArrayList<HashMap<String, String>>>();
-		for(int i=0; i<mAllContentArrayList.size(); i++){
+		for(int i=mAllContentArrayList.size()-1; i>=0; i--){
 			spriteNameBrickListTreeMap.put(mAllContentNameArrayList.get(i), mAllContentArrayList.get(i));
 		}
 		
