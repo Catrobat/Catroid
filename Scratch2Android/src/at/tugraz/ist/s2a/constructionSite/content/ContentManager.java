@@ -34,6 +34,7 @@ import at.tugraz.ist.s2a.constructionSite.gui.dialogs.SpritesDialog;
 public class ContentManager extends Observable{
 	
 	private ArrayList<HashMap<String, String>> mContentArrayList;
+	private ArrayList<String> mContentGalleryList;
 	
 	private ArrayList<ArrayList<HashMap<String, String>>> mAllContentArrayList;
 	private ArrayList<String> mAllContentNameArrayList;
@@ -51,12 +52,17 @@ public class ContentManager extends Observable{
 		return mContentArrayList;
 	}
 	
+	public ArrayList<String> getContentGalleryList(){
+		return mContentGalleryList;
+	}
+	
 	public void resetContent(){
 		mContentArrayList = null;
 		mAllContentArrayList.clear();
 		mAllContentNameArrayList.clear();
 		mCurrentSprite = 0;
 		mIdCounter = 0;
+		mContentGalleryList.clear();
 		}
 	
 	public void addSprite(String name, ArrayList<HashMap<String, String>> sprite)
@@ -71,12 +77,32 @@ public class ContentManager extends Observable{
 	public void switchSprite(int position){
 		mContentArrayList = mAllContentArrayList.get(position);
 		mCurrentSprite = position;
+		loadContentGalleryList();
 		setChanged();
 		notifyObservers();
 	}
 	
+	private void loadContentGalleryList(){
+		mContentGalleryList.clear();
+		for(int i = 0; i < mContentArrayList.size(); i++){
+			String type = mContentArrayList.get(i).get(BrickDefine.BRICK_TYPE);
+			
+			if( type.equals(String.valueOf(BrickDefine.SET_BACKGROUND)) 
+					|| type.equals(String.valueOf(BrickDefine.SET_COSTUME))){
+			
+				mContentGalleryList.add(mContentArrayList.get(i).get(BrickDefine.BRICK_VALUE_1));
+			}
+		}
+	}
+	
 
 	public void removeBrick(int position){
+		String type = mContentArrayList.get(position).get(BrickDefine.BRICK_TYPE);
+		if( type.equals(String.valueOf(BrickDefine.SET_BACKGROUND)) 
+				|| type.equals(String.valueOf(BrickDefine.SET_COSTUME))){
+			
+			mContentGalleryList.remove(mContentArrayList.get(position).get(BrickDefine.BRICK_VALUE_1));
+		}
 		mContentArrayList.remove(position);
 		setChanged();
 		notifyObservers();
@@ -86,6 +112,7 @@ public class ContentManager extends Observable{
 		map.put(BrickDefine.BRICK_ID, ((Integer)mIdCounter).toString());
 		mIdCounter++;
 		mContentArrayList.add(map);
+		
 		setChanged();
 		notifyObservers();
 	}
@@ -101,6 +128,7 @@ public class ContentManager extends Observable{
 		mParser = new Parser();
 		
 		mIdCounter = 0;	
+		mContentGalleryList = new ArrayList<String>();
 		
 		resetContent();
 		setDefaultStage();
@@ -173,7 +201,7 @@ public class ContentManager extends Observable{
 				
 				
 				mContentArrayList = mAllContentArrayList.get(0);
-				
+				loadContentGalleryList();
 			    mIdCounter = getHighestId();
 			    mCurrentSprite = 0;
 	

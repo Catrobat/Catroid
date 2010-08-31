@@ -22,8 +22,8 @@ public class ImageContainer {
 
 	private static final int MAX_WIDTH = (460*3);
 	private static final int MAX_HEIGHT = (800*3);
-	private static final int THUMBNAIL_WIDTH = 60;
-	private static final int THUMBNAIL_HEIGHT = 60;
+	private static final int THUMBNAIL_WIDTH = 100;
+	private static final int THUMBNAIL_HEIGHT = 100;
 	static String ROOTPATH;
 	private HashMap<String, Bitmap> mImageMap;
 	private ImageEditing mEditor;

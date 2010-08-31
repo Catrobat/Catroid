@@ -8,6 +8,7 @@ import java.util.Observable;
 import java.util.Observer;
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -26,10 +27,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.ListView;
 import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
 import at.tugraz.ist.s2a.constructionSite.content.ContentManager;
+import at.tugraz.ist.s2a.constructionSite.gui.adapter.ConstructionSiteGalleryAdapter;
 import at.tugraz.ist.s2a.constructionSite.gui.adapter.ConstructionSiteListViewAdapter;
 import at.tugraz.ist.s2a.constructionSite.gui.dialogs.ChangeProgramNameDialog;
 import at.tugraz.ist.s2a.constructionSite.gui.dialogs.LoadProgramDialog;
@@ -44,14 +47,6 @@ import at.tugraz.ist.s2a.utils.filesystem.MediaFileLoader;
 public class ConstructionSiteActivity extends Activity implements Observer, OnClickListener{
 
     /** Called when the activity is first created. */
-	
-	
-	//TODO clean up the adapter, 3 of them do the same -> multiple code (is it necessary to distinguish between a stage and a sprite!?)
-	//TODO rename some classes buttons etc they are often not significant
-	//TODO make more packages
-	//TODO style your gui elements either with java code or xml but no mixture
-	
-	//TODO IDs manage brick id 
 	
 	static final int TOOLBOX_DIALOG_SPRITE = 0;
 	static final int TOOLBOX_DIALOG_BACKGROUND = 1;
@@ -85,8 +80,10 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	private ImageContainer mImageContainer;
 	
 	
-	protected ListView mMainListView;
-	private ConstructionSiteListViewAdapter mAdapter;
+	protected ListView mConstructionListView;
+	protected Gallery mContructionGallery;
+	private ConstructionSiteListViewAdapter mListViewAdapter;
+	private ConstructionSiteGalleryAdapter mGalleryAdapter;
 	private ContentManager mContentManager;
 
 	private Button mSpritesToolboxButton;
@@ -111,10 +108,14 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
         mContentManager.setObserver(this);
         
         
-        mMainListView = (ListView) findViewById(R.id.MainListView);
-        mAdapter = new ConstructionSiteListViewAdapter(this, 
-        		mContentManager.getContentArrayList(), mMainListView, mImageContainer);
-        mMainListView.setAdapter(mAdapter);
+        mConstructionListView = (ListView) findViewById(R.id.MainListView);
+        mListViewAdapter = new ConstructionSiteListViewAdapter(this, 
+        		mContentManager.getContentArrayList(), mConstructionListView, mImageContainer);
+        mConstructionListView.setAdapter(mListViewAdapter);
+        
+        mContructionGallery = (Gallery) findViewById(R.id.ConstructionSiteGallery);
+        mGalleryAdapter = new ConstructionSiteGalleryAdapter(this, mContentManager.getContentGalleryList(), mImageContainer);
+        mContructionGallery.setAdapter(mGalleryAdapter);
         
         mToolboxButton = (Button) this.findViewById(R.id.toolbar_button);
 		mToolboxButton.setOnClickListener(this);
@@ -122,7 +123,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		mSpritesToolboxButton = (Button) this.findViewById(R.id.sprites_button);
 		mSpritesToolboxButton.setOnClickListener(this);
 		
-		this.registerForContextMenu(mMainListView);
+		this.registerForContextMenu(mConstructionListView);
         //Testing
         //mContentManager.testSet();
         //mContentManager.saveContent();
@@ -141,6 +142,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if((requestCode == MediaFileLoader.GALLERY_INTENT_CODE) && (data != null)){
+			
+			
 			HashMap<String, String> content = mContentManager.getContentArrayList().get(LAST_SELECTED_ELEMENT_POSITION);
 		      Uri u2 = Uri.parse(data.getDataString());
 		      String[] projection = { MediaStore.Images.ImageColumns.DATA, 
@@ -152,13 +155,20 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		        	 String imageName = mImageContainer.saveImage(image_full_path.getAbsolutePath());
 		        	 String imageThumbnailName = mImageContainer.saveThumbnail(image_full_path.getAbsolutePath());
 		        	 
-		        	 //mImageContainer.deleteImage(content.get(BrickDefine.BRICK_VALUE));
-		        	 //mImageContainer.deleteImage(content.get(BrickDefine.BRICK_VALUE_1));
+		        	 String oldThumbName = content.get(BrickDefine.BRICK_VALUE_1);
+		        	 
 		        	 
 		        	 content.put(BrickDefine.BRICK_VALUE, imageName);
 		        	 content.put(BrickDefine.BRICK_VALUE_1, imageThumbnailName);
 		             content.put(BrickDefine.BRICK_NAME, c.getString(1));
-		             mAdapter.notifyDataSetChanged();
+		             
+		             int indexOf = mContentManager.getContentGalleryList().indexOf(oldThumbName);
+		             if(mContentManager.getContentGalleryList().remove(oldThumbName))
+		            	 mContentManager.getContentGalleryList().add(indexOf, imageThumbnailName);
+		             else
+		            	 mContentManager.getContentGalleryList().add(imageThumbnailName);
+		             
+		             updateViews();
 		             //debug
 		             String column0Value = c.getString(0);
 		             String column1Value = c.getString(1);
@@ -166,6 +176,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		             Log.d("Data",column0Value);
 		             Log.d("Display name",column1Value);
 		        }
+		        
 		}
 			
 			
@@ -215,7 +226,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
         } catch (ClassCastException e) {
             return;
         }
-        mAdapter.getItemId(info.position);
+        mListViewAdapter.getItemId(info.position);
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.construction_site_context_menu, menu);
     }
@@ -251,6 +262,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
         	Utils.deleteFolder(ROOT_SOUNDS);
         	mContentManager.resetContent();
         	mContentManager.setDefaultStage();
+        	updateViews();
             return true;
             
         case R.id.load:
@@ -273,9 +285,15 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
         }
     }
 
+    public void updateViews() {
+		mListViewAdapter.notifyDataSetChanged(mContentManager.getContentArrayList());	
+		mGalleryAdapter.notifyDataSetChanged();
+	}
+    
 	public void update(Observable observable, Object data) {
-		mAdapter.notifyDataSetChanged(mContentManager.getContentArrayList());	
-		mMainListView.setSelection(mAdapter.getCount()-1);
+		updateViews();
+		mConstructionListView.setSelection(mListViewAdapter.getCount()-1);
+
 	}
 
 	public void onPause()
@@ -368,7 +386,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			try {
 				spfFile.createNewFile();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				Log.e("CONSTRUCTION_SITE_ACTIVITY", e.getMessage());
 				e.printStackTrace();
 			}
 	}
