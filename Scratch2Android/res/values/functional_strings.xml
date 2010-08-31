@@ -17,5 +17,5 @@
     
     <string name="constructional_brick_hide">hide/show_text_view_tag</string>
     
-    
+    <string name="constructional_gallery_element_image_view">gallery_image_view_tag</string>
 </resources>
