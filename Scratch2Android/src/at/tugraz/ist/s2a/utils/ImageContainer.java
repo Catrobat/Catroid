@@ -83,7 +83,8 @@ public class ImageContainer {
 
 	public Bitmap getImage(String name){
 		if(!mImageMap.containsKey(name)){
-			Bitmap bm = BitmapFactory.decodeFile(getFullImagePath(Utils.concatPaths(ConstructionSiteActivity.ROOT_IMAGES, name)));
+			Bitmap bm = BitmapFactory.decodeFile(getFullImagePath(name));
+			String a = getFullImagePath(Utils.concatPaths(ConstructionSiteActivity.ROOT_IMAGES, name));
 			if(bm != null)
 				mImageMap.put(name, bm);
 		}

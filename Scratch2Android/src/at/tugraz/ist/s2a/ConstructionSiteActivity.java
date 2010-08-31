@@ -152,8 +152,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		        	 String imageName = mImageContainer.saveImage(image_full_path.getAbsolutePath());
 		        	 String imageThumbnailName = mImageContainer.saveThumbnail(image_full_path.getAbsolutePath());
 		        	 
-		        	 mImageContainer.deleteImage(content.get(BrickDefine.BRICK_VALUE));
-		        	 mImageContainer.deleteImage(content.get(BrickDefine.BRICK_VALUE_1));
+		        	 //mImageContainer.deleteImage(content.get(BrickDefine.BRICK_VALUE));
+		        	 //mImageContainer.deleteImage(content.get(BrickDefine.BRICK_VALUE_1));
 		        	 
 		        	 content.put(BrickDefine.BRICK_VALUE, imageName);
 		        	 content.put(BrickDefine.BRICK_VALUE_1, imageThumbnailName);
@@ -251,8 +251,6 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
         	Utils.deleteFolder(ROOT_SOUNDS);
         	mContentManager.resetContent();
         	mContentManager.setDefaultStage();
-        	mAdapter.notifyDataSetChanged(mContentManager.getContentArrayList());
-    		mContentManager.saveContent(SPF_FILE);
             return true;
             
         case R.id.load:

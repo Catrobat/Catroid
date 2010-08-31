@@ -168,6 +168,7 @@ public class ContentManager extends Observable{
 			
 		try {
 			if(scratch != null && scratch.available() > 0){
+				//TODO: TreeMap -> Array<Pair>
 				setmAllContentArrayListAndmAllContentNameArrayList(mParser.parse(scratch, mCtx));
 				
 				
