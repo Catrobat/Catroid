@@ -87,7 +87,7 @@ public class Parser {
 			String value = EMPTY_STRING;
 			String value1 = EMPTY_STRING;
 			String file_name = EMPTY_STRING;
-			String id = EMPTY_STRING;
+			String id = "0"; //TODO: default empty
 			switch (brickType){
 				case BrickDefine.SET_BACKGROUND:
 				case BrickDefine.SET_COSTUME:
@@ -128,7 +128,7 @@ public class Parser {
 				String value = EMPTY_STRING;
 				String value1 = EMPTY_STRING;
 				String file_name = EMPTY_STRING;
-				String id = EMPTY_STRING;
+				String id = "0"; //TODO: default empty
 				switch (brickType){
 				case BrickDefine.SET_BACKGROUND:
 				case BrickDefine.SET_COSTUME:

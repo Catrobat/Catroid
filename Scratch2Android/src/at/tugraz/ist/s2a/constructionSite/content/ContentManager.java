@@ -197,9 +197,10 @@ public class ContentManager extends Observable{
 		for(int i=0; i<mAllContentNameArrayList.size(); i++){
 			ArrayList<HashMap<String, String>> sprite = SpriteMap.get(i);
 			for(int j=0; j<SpriteMap.size(); j++){
-				HashMap<String, String> brickList = sprite.get(j); 
-				if(brickList.size()>0){
-					int tempId = Integer.valueOf(brickList.get(BrickDefine.BRICK_ID)).intValue();
+				HashMap<String, String> brickList = sprite.get(j);
+				String stringId =  brickList.get(BrickDefine.BRICK_ID);
+				if(brickList.size()>0 && !(brickList.get(BrickDefine.BRICK_ID).equals(""))){
+					int tempId = Integer.valueOf(brickList.get(BrickDefine.BRICK_ID).toString()).intValue();
 					boolean test = (highestId<tempId);
 					if(test){
 						highestId = tempId;
