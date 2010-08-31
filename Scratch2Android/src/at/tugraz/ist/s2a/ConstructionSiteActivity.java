@@ -133,6 +133,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if((requestCode == MediaFileLoader.GALLERY_INTENT_CODE) && (data != null)){
+			
+			
 			HashMap<String, String> content = mContentManager.getContentArrayList().get(LAST_SELECTED_ELEMENT_POSITION);
 		      Uri u2 = Uri.parse(data.getDataString());
 		      String[] projection = { MediaStore.Images.ImageColumns.DATA, 
@@ -243,6 +245,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
         	Utils.deleteFolder(ROOT_SOUNDS);
         	mContentManager.resetContent();
         	mContentManager.setDefaultStage();
+        	updateViews();
             return true;
             
         case R.id.load:
