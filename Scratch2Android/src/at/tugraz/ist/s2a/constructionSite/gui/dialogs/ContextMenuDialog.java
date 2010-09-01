@@ -20,9 +20,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 import at.tugraz.ist.s2a.R;
 import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
 import at.tugraz.ist.s2a.constructionSite.content.ContentManager;
+import at.tugraz.ist.s2a.constructionSite.gui.adapter.ConstructionSiteListViewAdapter;
 import at.tugraz.ist.s2a.constructionSite.gui.adapter.ToolBoxAdapter;
 
 public class ContextMenuDialog extends Dialog {
@@ -42,6 +44,7 @@ public class ContextMenuDialog extends Dialog {
 	
 	private View mSelectedView;
 	private int mPositionOfView;
+	private ListView mElementListeView;
 	
 	public ContextMenuDialog(Context context, ContentManager contentManager) {
 		super(context);
@@ -88,8 +91,10 @@ public class ContextMenuDialog extends Dialog {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				
+				if(mContentManager.moveBrickUpInList(mPositionOfView)){
+					mPositionOfView--;
+					mElementListeView.setSelectionFromTop(mPositionOfView, 120);
+				}
 			}
 		});
 		mDownButton = (Button) findViewById(R.id.ContextMenuDownButton);
@@ -97,8 +102,10 @@ public class ContextMenuDialog extends Dialog {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				
+				if(mContentManager.moveBrickDownInList(mPositionOfView)){
+					mPositionOfView++;
+					mElementListeView.setSelectionFromTop(mPositionOfView, 120);
+				}
 			}
 		});
 		mInfoButton = (Button) findViewById(R.id.ContextMenuInfoButton);
@@ -106,7 +113,7 @@ public class ContextMenuDialog extends Dialog {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				Toast.makeText(mCtx, "Information following soon", Toast.LENGTH_SHORT).show();
 				
 			}
 		});
@@ -115,8 +122,8 @@ public class ContextMenuDialog extends Dialog {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				
+				mContentManager.removeBrick(mPositionOfView);
+				cancel();
 			}
 		});
 	}
@@ -127,13 +134,14 @@ public class ContextMenuDialog extends Dialog {
 		return super.onTouchEvent(event);
 	}
 
-	public void show(View element, int position) {
+	public void show(View element, int position, ListView listView) {
 		super.show();
 		mSelectedView = element;
 		mPositionOfView = position;
-		Animation shake = AnimationUtils.loadAnimation(mCtx, R.anim.shake);
 		mToolboxLayout.startAnimation(mSlide_in);
-		element.startAnimation(shake);
+		Animation shake = AnimationUtils.loadAnimation(mCtx, R.anim.shake);
+		mSelectedView.startAnimation(shake);
+		mElementListeView = listView;
 	}
 
 	@Override

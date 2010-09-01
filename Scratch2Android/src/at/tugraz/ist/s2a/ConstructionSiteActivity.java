@@ -381,7 +381,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		if(arg0.equals(mConstructionListView)){
         	if(mContextMenuDialog == null)
         		mContextMenuDialog = new ContextMenuDialog(this, mContentManager);
-        	mContextMenuDialog.show(arg1, arg2);
+        	mContextMenuDialog.show(arg1, arg2, mConstructionListView);
 		}
 		return false;
 	}
