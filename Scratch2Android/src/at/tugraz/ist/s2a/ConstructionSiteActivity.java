@@ -15,6 +15,8 @@ import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -30,11 +32,13 @@ import android.widget.Button;
 import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
 import at.tugraz.ist.s2a.constructionSite.content.ContentManager;
 import at.tugraz.ist.s2a.constructionSite.gui.adapter.ConstructionSiteGalleryAdapter;
 import at.tugraz.ist.s2a.constructionSite.gui.adapter.ConstructionSiteListViewAdapter;
 import at.tugraz.ist.s2a.constructionSite.gui.dialogs.ChangeProgramNameDialog;
+import at.tugraz.ist.s2a.constructionSite.gui.dialogs.ContextMenuDialog;
 import at.tugraz.ist.s2a.constructionSite.gui.dialogs.LoadProgramDialog;
 import at.tugraz.ist.s2a.constructionSite.gui.dialogs.NewProjectDialog;
 import at.tugraz.ist.s2a.constructionSite.gui.dialogs.ToolBoxDialog;
@@ -44,7 +48,7 @@ import at.tugraz.ist.s2a.utils.ImageContainer;
 import at.tugraz.ist.s2a.utils.Utils;
 import at.tugraz.ist.s2a.utils.filesystem.MediaFileLoader;
 
-public class ConstructionSiteActivity extends Activity implements Observer, OnClickListener{
+public class ConstructionSiteActivity extends Activity implements Observer, OnClickListener, OnItemLongClickListener{
 
     /** Called when the activity is first created. */
 	
@@ -54,6 +58,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	static final int NEW_PROJECT_DIALOG = 3;
 	static final int LOAD_DIALOG = 4;
 	static final int CHANGE_PROJECT_NAME_DIALOG = 6;
+	static final int CONTEXT_MENU_DIALOG = 7;
 	
 	static final String PREF_ROOT = "pref_root";
 	static final String PREF_FILE_SPF = "pref_path";
@@ -77,6 +82,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	private Dialog mNewProjectDialog;
 	private Dialog mChangeProgramNameDialog;
 	private Dialog mLoadDialog;
+	private ContextMenuDialog mContextMenuDialog;
 	private ImageContainer mImageContainer;
 	
 	
@@ -112,6 +118,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
         mListViewAdapter = new ConstructionSiteListViewAdapter(this, 
         		mContentManager.getContentArrayList(), mConstructionListView, mImageContainer);
         mConstructionListView.setAdapter(mListViewAdapter);
+        mConstructionListView.setOnItemLongClickListener(this);
         
         mContructionGallery = (Gallery) findViewById(R.id.ConstructionSiteGallery);
         mGalleryAdapter = new ConstructionSiteGalleryAdapter(this, mContentManager.getContentGalleryList(), mImageContainer);
@@ -122,8 +129,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		
 		mSpritesToolboxButton = (Button) this.findViewById(R.id.sprites_button);
 		mSpritesToolboxButton.setOnClickListener(this);
-		
-		this.registerForContextMenu(mConstructionListView);
+	
         //Testing
         //mContentManager.testSet();
         //mContentManager.saveContent();
@@ -142,7 +148,6 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if((requestCode == MediaFileLoader.GALLERY_INTENT_CODE) && (data != null)){
-			
 			
 			HashMap<String, String> content = mContentManager.getContentArrayList().get(LAST_SELECTED_ELEMENT_POSITION);
 		      Uri u2 = Uri.parse(data.getDataString());
@@ -204,7 +209,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
         case LOAD_DIALOG:        	
         	mLoadDialog = new LoadProgramDialog(this, mContentManager);
         	return mLoadDialog;
-    	
+        	
         default:
             return null;
         }
@@ -217,27 +222,6 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		getMenuInflater().inflate(R.menu.construction_site_menu, menu);
 		return true;
 	}
-    
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View view,ContextMenuInfo menuInfo) {
-        AdapterView.AdapterContextMenuInfo info;
-        try {
-             info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-        } catch (ClassCastException e) {
-            return;
-        }
-        mListViewAdapter.getItemId(info.position);
-        super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.construction_site_context_menu, menu);
-    }
-    
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-    	AdapterView.AdapterContextMenuInfo info;
-    	info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-    	mContentManager.removeBrick(info.position);
-    	return true;
-    };
 
     public static final String INTENT_EXTRA_ROOT = "intent_root";
     public static final String INTENT_EXTRA_ROOT_IMAGES = "intent_root_images";
@@ -389,6 +373,17 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 				Log.e("CONSTRUCTION_SITE_ACTIVITY", e.getMessage());
 				e.printStackTrace();
 			}
+	}
+
+	@Override
+	public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2,
+			long arg3) {
+		if(arg0.equals(mConstructionListView)){
+        	if(mContextMenuDialog == null)
+        		mContextMenuDialog = new ContextMenuDialog(this, mContentManager);
+        	mContextMenuDialog.show(arg1, arg2);
+		}
+		return false;
 	}
 
  }

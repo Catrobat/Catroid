@@ -132,13 +132,15 @@ public class MediaFileLoader {
 		Cursor cursor = mCtx.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projectionOnOrig, null, null,MediaStore.Audio.Media._ID);   
 		
 		
-		int column_data_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
-		int column_title_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.TITLE);
-		int column_id_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID);
 		
-		HashMap<String,String> map;
 		
 		if(cursor.moveToFirst()){
+			int column_data_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
+			int column_title_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.TITLE);
+			int column_id_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID);
+			
+			HashMap<String,String> map;
+			
 			do{
 				map = new HashMap<String, String>();
 				map.put(SOUND_ID, cursor.getString(column_id_index));
