@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+	android:layout_width="wrap_content" 
+	android:id="@+id/ContextMenuRelativeLayout" 
+	xmlns:android="http://schemas.android.com/apk/res/android" android:layout_height="fill_parent" android:background="@color/light_black">
+
+	<HorizontalScrollView android:id="@+id/HorizontalScrollView01" 
+		android:layout_width="wrap_content" android:layout_height="fill_parent">
+		<LinearLayout android:orientation="vertical" 
+		android:padding="5dip" 
+		
+		android:layout_height="fill_parent" android:layout_width="fill_parent">
+		<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/ContextMenuDeleteButton" android:background="@drawable/delete" android:layout_marginTop="13dip"></Button>
+		<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/ContextMenuInfoButton" android:background="@drawable/info" android:layout_marginTop="13dip"></Button>
+		<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/ContextMenuUpButton" android:background="@drawable/up" android:layout_marginTop="13dip"></Button>
+		<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/ContextMenuDownButton" android:background="@drawable/down" android:layout_marginTop="13dip"></Button>
+		<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/ContextMenuCancelButton" android:background="@drawable/cancel" android:layout_marginTop="13dip"></Button>
+
+
+</LinearLayout></HorizontalScrollView>
+</RelativeLayout>
