@@ -177,6 +177,31 @@ public class ContentManager extends Observable{
     	return mIdCounter;
     }
     
+    public boolean moveBrickUpInList(int position){
+    	if(position > 0 && position < mContentArrayList.size()){
+    		HashMap<String, String> map = mContentArrayList.get(position);
+    		mContentArrayList.remove(position);
+    		mContentArrayList.add(position-1, map);
+    		setChanged();
+    		notifyObservers();
+    		return true;
+    	}
+    	return false;
+    }
+    
+    public boolean moveBrickDownInList(int position){
+    	if(position < mContentArrayList.size()-1 && position >= 0){
+    		HashMap<String, String> map = mContentArrayList.get(position);
+    		mContentArrayList.remove(position);
+    		mContentArrayList.add(position+1, map);
+    		setChanged();
+    		notifyObservers();
+    		return true;
+    	}
+    	return false;
+    }
+    
+    
 	///////////////////////////////
 	/**
 	 * load content into data structure
