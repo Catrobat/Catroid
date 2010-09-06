@@ -111,7 +111,7 @@ public class ContentManager extends Observable{
 		mCurrentSpriteList.add(map);
 		
 		setChanged();
-		notifyObservers(mContentArrayList.size()-1);
+		notifyObservers(mCurrentSpriteList.size()-1);
 	}
 	
 	public ContentManager(Context context){
