@@ -26,6 +26,8 @@ import android.util.Xml;
 import at.tugraz.ist.s2a.R;
 import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
 
+//TODO überlegen, ob stage keinen namen mehr haben soll, da eigener xml-tag oder ob sie sprite sein soll und namen stage hat
+//TODO sinnvollere namensbezeichnungen der attribute? vor allem bei sound und image...
 
 public class Parser {
 	private DocumentBuilder builder;

@@ -37,8 +37,6 @@ public class ContentManager extends Observable{
 	private ArrayList<String> mContentGalleryList;
 	
 	private ArrayList<Pair<String, ArrayList<HashMap<String, String>>>> mAllContentArrayList;
-	//private ArrayList<String> mAllContentNameArrayList; 
-	//ArrayList<Pair<String, ArrayList<HashMap<String, String>>>>
 	
 	private FileSystem mFilesystem;
 	private Parser mParser;
@@ -49,7 +47,7 @@ public class ContentManager extends Observable{
 	private static String STAGE;
 
 	
-	public ArrayList<HashMap<String, String>> getContentArrayList(){
+	public ArrayList<HashMap<String, String>> getCurrentSpriteList(){
 		return mCurrentSpriteList;
 	}
 	
