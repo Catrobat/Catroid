@@ -35,7 +35,7 @@ public class BrickDefine {
 	public final static int NOT_DEFINED = 9999;
 	
 	public final static int STAGE_CATEGORY = 100001;
-	public final static int OBJECT_CATEGORY = 100002;
+	public final static int SPRITE_CATEGORY = 100002;
 	
 	public static int getNumberOfBrickType(){
 		return NUMBER_OF_BRICK_TYPES;
@@ -69,7 +69,7 @@ public class BrickDefine {
 	        
 	        return list;
 			
-		case OBJECT_CATEGORY:
+		case SPRITE_CATEGORY:
 			map = new HashMap<String, String>();
 		    map.put(BrickDefine.BRICK_ID, "12");
 		    map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.PLAY_SOUND));

@@ -116,7 +116,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
         
         mConstructionListView = (ListView) findViewById(R.id.MainListView);
         mListViewAdapter = new ConstructionSiteListViewAdapter(this, 
-        		mContentManager.getContentArrayList(), mConstructionListView, mImageContainer);
+        		mContentManager.getCurrentSpriteList(), mConstructionListView, mImageContainer);
         mConstructionListView.setAdapter(mListViewAdapter);
         mConstructionListView.setOnItemLongClickListener(this);
         
@@ -149,7 +149,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if((requestCode == MediaFileLoader.GALLERY_INTENT_CODE) && (data != null)){
 			
-			HashMap<String, String> content = mContentManager.getContentArrayList().get(LAST_SELECTED_ELEMENT_POSITION);
+			HashMap<String, String> content = mContentManager.getCurrentSpriteList().get(LAST_SELECTED_ELEMENT_POSITION);
 		      Uri u2 = Uri.parse(data.getDataString());
 		      String[] projection = { MediaStore.Images.ImageColumns.DATA, 
 		                        MediaStore.Images.ImageColumns.DISPLAY_NAME};
@@ -191,7 +191,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
     protected Dialog onCreateDialog(int id){
         switch(id) {
         case TOOLBOX_DIALOG_SPRITE:
-        	mToolboxObjectDialog = new ToolBoxDialog(this, mContentManager, BrickDefine.getToolBoxBrickContent(BrickDefine.OBJECT_CATEGORY));  
+        	mToolboxObjectDialog = new ToolBoxDialog(this, mContentManager, BrickDefine.getToolBoxBrickContent(BrickDefine.SPRITE_CATEGORY));  
         	return mToolboxObjectDialog;
         case TOOLBOX_DIALOG_BACKGROUND:
         	mToolboxStageDialog = new ToolBoxDialog(this, mContentManager, BrickDefine.getToolBoxBrickContent(BrickDefine.STAGE_CATEGORY)); 
@@ -270,7 +270,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
     }
 
     public void updateViews() {
-		mListViewAdapter.notifyDataSetChanged(mContentManager.getContentArrayList());	
+		mListViewAdapter.notifyDataSetChanged(mContentManager.getCurrentSpriteList());	
 		mGalleryAdapter.notifyDataSetChanged();
 	}
     
