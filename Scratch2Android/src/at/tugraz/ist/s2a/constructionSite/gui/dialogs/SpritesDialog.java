@@ -7,6 +7,7 @@ import java.util.Observer;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
 import android.view.Gravity;
 import android.view.View;
@@ -82,7 +83,7 @@ public class SpritesDialog extends Dialog implements Observer
 		
 		mMainListView = (ListView) findViewById(R.id.spritesListView);
 		
-		mAdapter = new SpritesAdapter(mCtx, mContentManager.getAllContentNameList());
+		mAdapter = new SpritesAdapter(mCtx, mContentArrayList);
 		mContentManager.setObserver(this);
 		
 		mMainListView.setAdapter(mAdapter);

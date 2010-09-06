@@ -35,6 +35,8 @@ public class ContentManager extends Observable{
 	
 	private ArrayList<HashMap<String, String>> mCurrentSpriteList;
 	private ArrayList<String> mContentGalleryList;
+	private ArrayList<String> mAllContentNameList;
+	
 	
 	private ArrayList<Pair<String, ArrayList<HashMap<String, String>>>> mAllContentArrayList;
 	
@@ -67,7 +69,7 @@ public class ContentManager extends Observable{
 	{
 		mAllContentArrayList.add(sprite);
 		mCurrentSprite = mAllContentArrayList.size()-1;
-		
+		mAllContentNameList.add(sprite.first);
 		switchSprite(mCurrentSprite);
 	}
 	
@@ -126,6 +128,8 @@ public class ContentManager extends Observable{
 		mIdCounter = 0;	
 		mContentGalleryList = new ArrayList<String>();
 		
+		mAllContentNameList = new ArrayList<String>();
+		
 		resetContent();
 		setDefaultStage();
 	}
@@ -156,12 +160,16 @@ public class ContentManager extends Observable{
 		addObserver(observer);
 	}
 	
+	public void loadAllContentNameList(){
+		mAllContentNameList.clear();
+		for (int i=0; i<mAllContentArrayList.size(); i++)
+    		mAllContentNameList.add(mAllContentArrayList.get(i).first);
+	}
+	
     public ArrayList<String> getAllContentNameList(){
-    	ArrayList<String> spritesNameList = new ArrayList<String>();
-    	for (int i=0; i<mAllContentArrayList.size(); i++)
-    		spritesNameList.add(mAllContentArrayList.get(i).first);
-    	return spritesNameList;
+    	return mAllContentNameList;
     }
+    
     public ArrayList<Pair<String, ArrayList<HashMap<String, String>>>> getAllContentList(){
     	return mAllContentArrayList;
     }
@@ -235,6 +243,9 @@ public class ContentManager extends Observable{
 		{
 			setDefaultStage();
 		}
+		
+		loadAllContentNameList();
+		
 	    setChanged();
 	    notifyObservers();
 	}
