@@ -90,7 +90,7 @@ public class ContentManagerTest extends AndroidTestCase {
         mAllContentArrayList = mContentManager.getAllContentList();
         
         assertEquals(mAllContentNameList.size(), 2);
-        assertEquals(mAllContentArrayList.get(1), mCurrentSpriteList);
+        assertEquals(mAllContentArrayList.get(1).second, mCurrentSpriteList);
 	}
 	
 	public void testSwitchSprite(){

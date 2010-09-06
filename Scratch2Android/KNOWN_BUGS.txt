@@ -8,8 +8,10 @@ high:
 --------
 
 - wenn man man auf der stage ist, den home-button drueckt, dann wieder in die app geht muss man noch einmal zurueck in die Baustelle und dann wieder auf die stage, damit das abspielen funktioniert
-- parser gehört sauber gemacht
-- stage gehört getestet - generell mehr fälle was kann passieren usw. berücksichtigt
+- parser gehï¿½rt sauber gemacht
+- stage gehï¿½rt getestet - generell mehr fï¿½lle was kann passieren usw. berï¿½cksichtigt
+- diverse fatale gui bugs -> genauer testen, nur in projectfile branch?
+
 
 --------
 medium
