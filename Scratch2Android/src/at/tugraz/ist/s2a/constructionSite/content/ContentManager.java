@@ -33,11 +33,12 @@ import at.tugraz.ist.s2a.constructionSite.gui.dialogs.SpritesDialog;
  */
 public class ContentManager extends Observable{
 	
-	private ArrayList<HashMap<String, String>> mContentArrayList;
+	private ArrayList<HashMap<String, String>> mCurrentSpriteList;
 	private ArrayList<String> mContentGalleryList;
 	
-	private ArrayList<ArrayList<HashMap<String, String>>> mAllContentArrayList;
-	private ArrayList<String> mAllContentNameArrayList;
+	private ArrayList<Pair<String, ArrayList<HashMap<String, String>>>> mAllContentArrayList;
+	//private ArrayList<String> mAllContentNameArrayList; 
+	//ArrayList<Pair<String, ArrayList<HashMap<String, String>>>>
 	
 	private FileSystem mFilesystem;
 	private Parser mParser;
@@ -49,7 +50,7 @@ public class ContentManager extends Observable{
 
 	
 	public ArrayList<HashMap<String, String>> getContentArrayList(){
-		return mContentArrayList;
+		return mCurrentSpriteList;
 	}
 	
 	public ArrayList<String> getContentGalleryList(){
@@ -57,25 +58,23 @@ public class ContentManager extends Observable{
 	}
 	
 	public void resetContent(){
-		mContentArrayList = null;
+		mCurrentSpriteList = null;
 		mAllContentArrayList.clear();
-		mAllContentNameArrayList.clear();
 		mCurrentSprite = 0;
 		mIdCounter = 0;
 		mContentGalleryList.clear();
 		}
 	
-	public void addSprite(String name, ArrayList<HashMap<String, String>> sprite)
+	public void addSprite(Pair<String, ArrayList<HashMap<String, String>>> sprite)
 	{
 		mAllContentArrayList.add(sprite);
-		mAllContentNameArrayList.add(name);
-		mCurrentSprite = mAllContentNameArrayList.size()-1;
+		mCurrentSprite = mAllContentArrayList.size()-1;
 		
 		switchSprite(mCurrentSprite);
 	}
 	
 	public void switchSprite(int position){
-		mContentArrayList = mAllContentArrayList.get(position);
+		mCurrentSpriteList = mAllContentArrayList.get(position).second;
 		mCurrentSprite = position;
 		loadContentGalleryList();
 		setChanged();
@@ -84,26 +83,26 @@ public class ContentManager extends Observable{
 	
 	private void loadContentGalleryList(){
 		mContentGalleryList.clear();
-		for(int i = 0; i < mContentArrayList.size(); i++){
-			String type = mContentArrayList.get(i).get(BrickDefine.BRICK_TYPE);
+		for(int i = 0; i < mCurrentSpriteList.size(); i++){
+			String type = mCurrentSpriteList.get(i).get(BrickDefine.BRICK_TYPE);
 			
 			if( type.equals(String.valueOf(BrickDefine.SET_BACKGROUND)) 
 					|| type.equals(String.valueOf(BrickDefine.SET_COSTUME))){
 			
-				mContentGalleryList.add(mContentArrayList.get(i).get(BrickDefine.BRICK_VALUE_1));
+				mContentGalleryList.add(mCurrentSpriteList.get(i).get(BrickDefine.BRICK_VALUE_1));
 			}
 		}
 	}
 	
 
 	public void removeBrick(int position){
-		String type = mContentArrayList.get(position).get(BrickDefine.BRICK_TYPE);
+		String type = mCurrentSpriteList.get(position).get(BrickDefine.BRICK_TYPE);
 		if( type.equals(String.valueOf(BrickDefine.SET_BACKGROUND)) 
 				|| type.equals(String.valueOf(BrickDefine.SET_COSTUME))){
 			
-			mContentGalleryList.remove(mContentArrayList.get(position).get(BrickDefine.BRICK_VALUE_1));
+			mContentGalleryList.remove(mCurrentSpriteList.get(position).get(BrickDefine.BRICK_VALUE_1));
 		}
-		mContentArrayList.remove(position);
+		mCurrentSpriteList.remove(position);
 		setChanged();
 		notifyObservers();
 	}
@@ -111,7 +110,7 @@ public class ContentManager extends Observable{
 	public void addBrick(HashMap<String, String> map){
 		map.put(BrickDefine.BRICK_ID, ((Integer)mIdCounter).toString());
 		mIdCounter++;
-		mContentArrayList.add(map);
+		mCurrentSpriteList.add(map);
 		
 		setChanged();
 		notifyObservers();
@@ -120,9 +119,8 @@ public class ContentManager extends Observable{
 	public ContentManager(Context context){
 		mCtx = context;
 		STAGE = mCtx.getString(R.string.stage);
-		mContentArrayList = null;
-		mAllContentArrayList = new ArrayList<ArrayList<HashMap<String,String>>>();
-		mAllContentNameArrayList = new ArrayList<String>();
+		mCurrentSpriteList = null;
+		mAllContentArrayList = new ArrayList<Pair<String, ArrayList<HashMap<String, String>>>>();
 		
 		mFilesystem = new FileSystem();
 		mParser = new Parser();
@@ -135,22 +133,19 @@ public class ContentManager extends Observable{
 	}
 	
 	
-	public void setDefaultStage(){
-		mContentArrayList = new ArrayList<HashMap<String,String>>();
+	public void setDefaultStage(){ //TODO komischer name!
+		mCurrentSpriteList = new ArrayList<HashMap<String,String>>();
 		mCurrentSprite = 0;
 
-		mAllContentArrayList.add(mContentArrayList);
-		mAllContentNameArrayList.add(mCtx.getString(R.string.stage));
+		mAllContentArrayList.add(new Pair<String, ArrayList<HashMap<String, String>>>(mCtx.getString(R.string.stage), mCurrentSpriteList));
 	}
 
 	private void setmAllContentArrayListAndmAllContentNameArrayList(
-			TreeMap<String, ArrayList<HashMap<String, String>>> treeMap) {
-		mAllContentArrayList.addAll(treeMap.values()); 
-		mAllContentNameArrayList.addAll(treeMap.keySet());
+			ArrayList<Pair<String, ArrayList<HashMap<String, String>>>> treeMap) {
 	}
 	
 	public String getCurrentSpriteName(){
-		return mAllContentNameArrayList.get(mCurrentSprite);
+		return mAllContentArrayList.get(mCurrentSprite).first;
 	}
 	
 	public Integer getCurrentSpritePosition(){
@@ -163,9 +158,12 @@ public class ContentManager extends Observable{
 	}
 	
     public ArrayList<String> getAllContentNameList(){
-    	return mAllContentNameArrayList;
+    	ArrayList<String> spritesNameList = new ArrayList<String>();
+    	for (int i=0; i<mAllContentArrayList.size(); i++)
+    		spritesNameList.add(mAllContentArrayList.get(i).first);
+    	return spritesNameList;
     }
-    public ArrayList<ArrayList<HashMap<String, String>>> getAllContentList(){
+    public ArrayList<Pair<String, ArrayList<HashMap<String, String>>>> getAllContentList(){
     	return mAllContentArrayList;
     }
     
@@ -178,10 +176,10 @@ public class ContentManager extends Observable{
     }
     
     public boolean moveBrickUpInList(int position){
-    	if(position > 0 && position < mContentArrayList.size()){
-    		HashMap<String, String> map = mContentArrayList.get(position);
-    		mContentArrayList.remove(position);
-    		mContentArrayList.add(position-1, map);
+    	if(position > 0 && position < mCurrentSpriteList.size()){
+    		HashMap<String, String> map = mCurrentSpriteList.get(position);
+    		mCurrentSpriteList.remove(position);
+    		mCurrentSpriteList.add(position-1, map);
     		setChanged();
     		notifyObservers();
     		return true;
@@ -190,10 +188,10 @@ public class ContentManager extends Observable{
     }
     
     public boolean moveBrickDownInList(int position){
-    	if(position < mContentArrayList.size()-1 && position >= 0){
-    		HashMap<String, String> map = mContentArrayList.get(position);
-    		mContentArrayList.remove(position);
-    		mContentArrayList.add(position+1, map);
+    	if(position < mCurrentSpriteList.size()-1 && position >= 0){
+    		HashMap<String, String> map = mCurrentSpriteList.get(position);
+    		mCurrentSpriteList.remove(position);
+    		mCurrentSpriteList.add(position+1, map);
     		setChanged();
     		notifyObservers();
     		return true;
@@ -225,7 +223,7 @@ public class ContentManager extends Observable{
 				setmAllContentArrayListAndmAllContentNameArrayList(mParser.parse(scratch, mCtx));
 				
 				
-				mContentArrayList = mAllContentArrayList.get(0);
+				mCurrentSpriteList = mAllContentArrayList.get(0).second;
 				loadContentGalleryList();
 			    mIdCounter = getHighestId();
 			    mCurrentSprite = 0;
@@ -249,7 +247,7 @@ public class ContentManager extends Observable{
 		ArrayList<ArrayList<HashMap<String, String>>> SpriteMap = new ArrayList<ArrayList<HashMap<String, String>>>();
         SpriteMap.addAll((ArrayList<ArrayList<HashMap<String, String>>>)mAllContentArrayList.clone());
         int highestId = 0;
-		for(int i=0; i<mAllContentNameArrayList.size(); i++){
+		for(int i=0; i<mAllContentArrayList.size(); i++){
 			ArrayList<HashMap<String, String>> sprite = SpriteMap.get(i);
 			for(int j=0; j<sprite.size(); j++){
 				HashMap<String, String> brickList = sprite.get(j);
@@ -281,15 +279,15 @@ public class ContentManager extends Observable{
 		String title = new String(file);
 		//((Activity)mCtx).setTitle(title.replace(ConstructionSiteActivity.DEFAULT_FILE_ENDING, "").replace("/", ""));
 		//TODO: setTitle-> ClassCastException Testing
-		ArrayList< Pair<String, ArrayList<HashMap<String, String>>>> spriteNameBrickListTreeMap = new ArrayList< Pair<String, ArrayList<HashMap<String, String>>>>();
+		ArrayList< Pair<String, ArrayList<HashMap<String, String>>>> spriteBrickList = new ArrayList< Pair<String, ArrayList<HashMap<String, String>>>>();
 		for(int i=0; i<mAllContentArrayList.size(); i++){
-			spriteNameBrickListTreeMap.add(new Pair(mAllContentNameArrayList.get(i), mAllContentArrayList.get(i)));
+			spriteBrickList.add(mAllContentArrayList.get(i));
 		}
 		
 		FileOutputStream fd = mFilesystem.createOrOpenFileOutput(Utils.concatPaths(ConstructionSiteActivity.ROOT, file), mCtx);
 		DataOutputStream ps = new DataOutputStream(fd);
 		
-		String xml = mParser.toXml(spriteNameBrickListTreeMap);
+		String xml = mParser.toXml(spriteBrickList);
 		try {
 			ps.write(xml.getBytes());
 			ps.close();

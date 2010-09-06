@@ -66,8 +66,8 @@ public class Parser {
 		}
 	}
 	
-	public TreeMap<String, ArrayList<HashMap<String, String>>> parse(InputStream stream, Context context){
-		TreeMap<String, ArrayList<HashMap<String, String>>> spritesMap = new TreeMap<String, ArrayList<HashMap<String,String>>>();
+	public ArrayList<Pair<String, ArrayList<HashMap<String, String>>>> parse(InputStream stream, Context context){
+		ArrayList<Pair<String, ArrayList<HashMap<String, String>>>> spritesList = new ArrayList<Pair<String, ArrayList<HashMap<String,String>>>>();
 		mIdCounter = 1;
 		// TODO : IDs read and save Ids set in ContentManager
 		try {
@@ -116,7 +116,7 @@ public class Parser {
 			
 		}
 		//insert localized stage name
-		spritesMap.put(context.getString(R.string.stage), sublist);
+		spritesList.add(new Pair<String, ArrayList<HashMap<String,String>>>(context.getString(R.string.stage), sublist));
 		
 		//then read out sprites
 		for (int j=0; j<sprites.getLength(); j++){
@@ -156,10 +156,10 @@ public class Parser {
 				mIdCounter++;
 				
 			}
-			spritesMap.put(name, sublist);
+			spritesList.add(new Pair<String, ArrayList<HashMap<String,String>>>(name, sublist));
 		}
 		
-		return spritesMap;
+		return spritesList;
 	}
 
 	public String toXml(ArrayList<Pair<String, ArrayList<HashMap<String,String>>>> spritesMap) {

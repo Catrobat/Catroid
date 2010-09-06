@@ -7,6 +7,7 @@ import java.util.Observer;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -99,7 +100,7 @@ public class SpritesDialog extends Dialog implements Observer
 		mSpriteButton.setOnClickListener(new View.OnClickListener() {
 			
 			public void onClick(View v) {
-				mContentManager.addSprite(mSpriteName.getText().toString(), new ArrayList<HashMap<String,String>>());
+				mContentManager.addSprite(new Pair<String,ArrayList<HashMap<String,String>>>(mSpriteName.getText().toString(), new ArrayList<HashMap<String,String>>()));
 				mAdapter.notifyDataSetChanged();
 				dismiss();
 				}
