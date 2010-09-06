@@ -94,7 +94,6 @@ public class Parser {
 				case BrickDefine.SET_COSTUME:
 					value = bricks.item(i).getFirstChild().getAttributes().getNamedItem(PATH).getNodeValue();
 					value1 = bricks.item(i).getFirstChild().getAttributes().getNamedItem(PATH_THUMB).getNodeValue();
-					Log.d("TEST", value + " " + value1);
 					break;
 				case BrickDefine.PLAY_SOUND:
 				
@@ -265,12 +264,10 @@ public class Parser {
 					}
 		    	}
 		    	if (!stageRead) {
-		    		//Log.d("TEST", "in not stage");
 		    		serializer.endTag(EMPTY_STRING, STAGE);
 		    		stageRead = true;
 		    	}
 		    	else {
-		    		//Log.d("TEST", "in end tag");
 		    		serializer.endTag(EMPTY_STRING, OBJECT);
 		    	}
 			}

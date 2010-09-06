@@ -276,7 +276,15 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
     
 	public void update(Observable observable, Object data) {
 		updateViews();
-		mConstructionListView.setSelection(mListViewAdapter.getCount()-1);
+		if(data != null){
+			try {
+				mConstructionListView.setSelectionFromTop(Integer.parseInt(data.toString()), 120);
+			} catch (NumberFormatException e) {
+				Log.e("ConstructionSiteActivity", "Parsing positions failed");
+				e.printStackTrace();
+			}
+		}
+		
 
 	}
 
@@ -336,7 +344,6 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	}
 	
 	public void onBrickClickListener(View v) {
-		//Log.d("TEST", "HALLO");
 		if(mContentManager.getCurrentSpriteName().equals(this.getString(R.string.stage))){
 			mContentManager.addBrick(mToolboxStageDialog.getBrickClone(v));
 			if(mToolboxStageDialog.isShowing())
@@ -375,7 +382,6 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			}
 	}
 
-	@Override
 	public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2,
 			long arg3) {
 		if(arg0.equals(mConstructionListView)){

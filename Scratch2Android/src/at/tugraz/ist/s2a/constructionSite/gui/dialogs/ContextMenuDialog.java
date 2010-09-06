@@ -1,7 +1,5 @@
 package at.tugraz.ist.s2a.constructionSite.gui.dialogs;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -42,9 +40,9 @@ public class ContextMenuDialog extends Dialog {
 	private Button mInfoButton;
 	private Button mDeleteButton;
 	
-	private View mSelectedView;
 	private int mPositionOfView;
 	private ListView mElementListeView;
+	
 	
 	public ContextMenuDialog(Context context, ContentManager contentManager) {
 		super(context);
@@ -81,7 +79,7 @@ public class ContextMenuDialog extends Dialog {
 		mCancelButton = (Button) findViewById(R.id.ContextMenuCancelButton);
 		mCancelButton.setOnClickListener(new Button.OnClickListener() {
 			
-			@Override
+			
 			public void onClick(View v) {
 				cancel();
 			}
@@ -89,29 +87,29 @@ public class ContextMenuDialog extends Dialog {
 		mUpButton = (Button) findViewById(R.id.ContextMenuUpButton);
 		mUpButton.setOnClickListener(new Button.OnClickListener() {
 			
-			@Override
+			
 			public void onClick(View v) {
 				if(mContentManager.moveBrickUpInList(mPositionOfView)){
 					mPositionOfView--;
-					mElementListeView.setSelectionFromTop(mPositionOfView, 120);
+					((ConstructionSiteListViewAdapter)mElementListeView.getAdapter()).setAnimationOnPosition(mPositionOfView);
 				}
 			}
 		});
 		mDownButton = (Button) findViewById(R.id.ContextMenuDownButton);
 		mDownButton.setOnClickListener(new Button.OnClickListener() {
 			
-			@Override
+			
 			public void onClick(View v) {
 				if(mContentManager.moveBrickDownInList(mPositionOfView)){
 					mPositionOfView++;
-					mElementListeView.setSelectionFromTop(mPositionOfView, 120);
+					((ConstructionSiteListViewAdapter)mElementListeView.getAdapter()).setAnimationOnPosition(mPositionOfView);
 				}
 			}
 		});
 		mInfoButton = (Button) findViewById(R.id.ContextMenuInfoButton);
 		mInfoButton.setOnClickListener(new Button.OnClickListener() {
 			
-			@Override
+			
 			public void onClick(View v) {
 				Toast.makeText(mCtx, "Information following soon", Toast.LENGTH_SHORT).show();
 				
@@ -120,7 +118,7 @@ public class ContextMenuDialog extends Dialog {
 		mDeleteButton = (Button) findViewById(R.id.ContextMenuDeleteButton);
 		mDeleteButton.setOnClickListener(new Button.OnClickListener() {
 			
-			@Override
+			
 			public void onClick(View v) {
 				mContentManager.removeBrick(mPositionOfView);
 				cancel();
@@ -128,6 +126,7 @@ public class ContextMenuDialog extends Dialog {
 		});
 	}
 
+	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		cancel();
@@ -136,17 +135,17 @@ public class ContextMenuDialog extends Dialog {
 
 	public void show(View element, int position, ListView listView) {
 		super.show();
-		mSelectedView = element;
 		mPositionOfView = position;
 		mToolboxLayout.startAnimation(mSlide_in);
-		Animation shake = AnimationUtils.loadAnimation(mCtx, R.anim.shake);
-		mSelectedView.startAnimation(shake);
 		mElementListeView = listView;
+		((ConstructionSiteListViewAdapter)mElementListeView.getAdapter()).setAnimationOnPosition(mPositionOfView);
+		((ConstructionSiteListViewAdapter)mElementListeView.getAdapter()).notifyDataSetChanged();
 	}
-
+	
 	@Override
 	public void cancel() {
-		mSelectedView.getAnimation().setDuration(0);
+		((ConstructionSiteListViewAdapter)mElementListeView.getAdapter()).setAnimationOnPosition(-1);
+		((ConstructionSiteListViewAdapter)mElementListeView.getAdapter()).notifyDataSetChanged();
 		mToolboxLayout.startAnimation(mSlide_out);
 	}
 	

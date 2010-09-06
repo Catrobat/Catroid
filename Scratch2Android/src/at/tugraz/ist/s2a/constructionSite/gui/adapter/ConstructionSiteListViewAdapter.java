@@ -23,6 +23,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -41,21 +43,18 @@ import android.widget.Toast;
 import at.tugraz.ist.s2a.ConstructionSiteActivity;
 import at.tugraz.ist.s2a.R;
 import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
+import at.tugraz.ist.s2a.constructionSite.gui.dialogs.ContextMenuDialog;
 import at.tugraz.ist.s2a.utils.ImageContainer;
 import at.tugraz.ist.s2a.utils.Utils;
 import at.tugraz.ist.s2a.utils.filesystem.MediaFileLoader;
 
 public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnClickListener, TextView.OnEditorActionListener, AdapterView.OnItemSelectedListener{
-	
-	private static final float THUMBNAIL_WIDTH = 80;
-	private static final float THUMBNAIL_HEIGHT = 80;
-	
+		
 	private Context mCtx;
     private MediaFileLoader mMediaFileLoader;
     private ListView mMainListView;
     private ImageContainer mImageContainer;    
-    private ArrayList<HashMap<String, String>> mBrickList;    
-    private HashMap<String, ArrayList<View>> mViewContainerNotInUse;
+    private ArrayList<HashMap<String, String>> mBrickList; 
     
 	public ConstructionSiteListViewAdapter(Context context,
 			ArrayList<HashMap<String, String>> data, ListView listview, ImageContainer imageContainer) {
@@ -66,7 +65,8 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 		mMediaFileLoader.loadSoundContent();
 		mImageContainer = imageContainer;
 		mInflater = (LayoutInflater)mCtx.getSystemService(
-			      Context.LAYOUT_INFLATER_SERVICE);		
+			      Context.LAYOUT_INFLATER_SERVICE);	
+		
 	}
 		
 	@Override
@@ -85,26 +85,57 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 
 	private LayoutInflater mInflater;
 	
-	private View organizeViewHandling(String type, int typeId, View convertView){
-		if(convertView != null)
-			return convertView;
-		View view =  mInflater.inflate(typeId, null); 		
+	private int mPositionForAnimation = -1;
+	
+	//the shake animation is set for the context menu
+	public void setAnimationOnPosition(int position){
+		mPositionForAnimation = position;
+	}
+	
+	private View organizeViewHandling(String type, int typeId, View convertView, int position, String brickId){
+		View view = null;
+		if(convertView != null){
+			view = convertView;
+		}else{
+			view =  mInflater.inflate(typeId, null);
+			
+		}
+		
+		if(mPositionForAnimation == position){
+			Animation shake = AnimationUtils.loadAnimation(mCtx, R.anim.shake);
+			view.startAnimation(shake);
+		}else{
+				
+			try {
+				if(view.getAnimation() != null)
+					view.getAnimation().setDuration(0);
+			} catch (Exception e) {
+					e.printStackTrace();
+			}
+		}
+			
 		return view;
 	}
 	
+	@Override
+	public boolean hasStableIds() {
+		return false;
+	}
+	
 	public View getView(int position, View convertView, ViewGroup parent) {
-		
+					
 		final HashMap<String, String> brick = mBrickList.get(position);		
 		final String type = mBrickList.get(position).get(BrickDefine.BRICK_TYPE);
 		final String value = mBrickList.get(position).get(BrickDefine.BRICK_VALUE);
 		final String value1 = mBrickList.get(position).get(BrickDefine.BRICK_VALUE_1);
-		Log.d("TEST", Integer.toString(position));
+		final String brickId = mBrickList.get(position).get(BrickDefine.BRICK_ID);
+		
 		if(type!=null)
 		switch(Integer.valueOf(type).intValue()){
 		
 			case (BrickDefine.SET_BACKGROUND): 
 			{
-				View view = organizeViewHandling(type, R.layout.construction_brick_set_background, convertView);
+				View view = organizeViewHandling(type, R.layout.construction_brick_set_background, convertView, position, brickId);
 				ImageView imageView = (ImageView) view.findViewWithTag(mCtx.getString
 						(R.string.constructional_brick_set_background_image_view_tag));
 				imageView.setOnClickListener(this);
@@ -120,7 +151,7 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 			
 			case (BrickDefine.PLAY_SOUND): 
 			{
-				View view = organizeViewHandling(type, R.layout.construction_brick_play_sound, convertView);		
+				View view = organizeViewHandling(type, R.layout.construction_brick_play_sound, convertView, position, brickId);		
 				Spinner spinner = (Spinner) view.findViewWithTag(mCtx.getString
 						(R.string.constructional_brick_play_sound_spinner_tag));
 				
@@ -136,7 +167,7 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 			
 			case (BrickDefine.WAIT): 
 			{
-				View view = organizeViewHandling(type, R.layout.construction_brick_wait, convertView);
+				View view = organizeViewHandling(type, R.layout.construction_brick_wait, convertView, position, brickId);
 				EditText eText = (EditText) view.findViewWithTag(mCtx.getString(R.string.constructional_brick_wait_edit_text_tag));
 				eText.setOnEditorActionListener(this);
 				eText.setText(value);
@@ -145,7 +176,7 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 			
 			case (BrickDefine.HIDE):
 			{
-				View view = organizeViewHandling(type, R.layout.construction_brick_simple_text_view, convertView);
+				View view = organizeViewHandling(type, R.layout.construction_brick_simple_text_view, convertView, position, brickId);
 				TextView tView = (TextView) view.findViewWithTag(mCtx.getString(R.string.constructional_brick_hide));
 				tView.setText(R.string.hide_main_adapter);
 				return view;
@@ -153,7 +184,7 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 			
 			case (BrickDefine.SHOW):
 			{
-				View view = organizeViewHandling(type, R.layout.construction_brick_simple_text_view, convertView);
+				View view = organizeViewHandling(type, R.layout.construction_brick_simple_text_view, convertView, position, brickId);
 				TextView tView = (TextView) view.findViewWithTag(mCtx.getString(R.string.constructional_brick_hide));
 				tView.setText(R.string.show_main_adapter);
 				return view;
@@ -161,7 +192,7 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 			
 			case (BrickDefine.GO_TO):
 			{
-				View view = organizeViewHandling(type, R.layout.construction_brick_goto, convertView);
+				View view = organizeViewHandling(type, R.layout.construction_brick_goto, convertView, position, brickId);
 				EditText eTextX = (EditText) view.findViewWithTag(mCtx.getString(R.string.constructional_brick_go_to_x_tag));
 				eTextX.setOnEditorActionListener(this);
 				eTextX.setText(value);
@@ -174,7 +205,7 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 			
 			case (BrickDefine.SET_COSTUME): 
 			{
-				View view = organizeViewHandling(type, R.layout.construction_brick_set_costume, convertView);
+				View view = organizeViewHandling(type, R.layout.construction_brick_set_costume, convertView, position, brickId);
 				ImageView imageView = (ImageView) view.findViewWithTag(mCtx.getString
 					(R.string.constructional_brick_set_costume_image_view_tag));
 				imageView.setOnClickListener(this);
