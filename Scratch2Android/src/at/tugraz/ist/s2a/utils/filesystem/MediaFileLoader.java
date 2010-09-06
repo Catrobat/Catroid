@@ -89,7 +89,6 @@ public class MediaFileLoader {
 			}while(cursor.moveToNext());
 		}
 
-		//Log.d("TEST", mPictureContent.toString());
 		cursor.close();
 
 		//get thumbnail data
@@ -149,8 +148,6 @@ public class MediaFileLoader {
 				mSoundContent.add(map);
 			}while(cursor.moveToNext());
 		}
-
-		//Log.d("TEST", mPictureContent.toString());
 		cursor.close();
 		
 	}

@@ -57,7 +57,7 @@ public class ContentManager extends Observable{
 	}
 	
 	public void resetContent(){
-		mContentArrayList = null;
+		//mContentArrayList = null;
 		mAllContentArrayList.clear();
 		mAllContentNameArrayList.clear();
 		mCurrentSprite = 0;
@@ -114,7 +114,7 @@ public class ContentManager extends Observable{
 		mContentArrayList.add(map);
 		
 		setChanged();
-		notifyObservers();
+		notifyObservers(mContentArrayList.size()-1);
 	}
 	
 	public ContentManager(Context context){
@@ -183,7 +183,7 @@ public class ContentManager extends Observable{
     		mContentArrayList.remove(position);
     		mContentArrayList.add(position-1, map);
     		setChanged();
-    		notifyObservers();
+    		notifyObservers(position-1);
     		return true;
     	}
     	return false;
@@ -195,7 +195,7 @@ public class ContentManager extends Observable{
     		mContentArrayList.remove(position);
     		mContentArrayList.add(position+1, map);
     		setChanged();
-    		notifyObservers();
+    		notifyObservers(position+1);
     		return true;
     	}
     	return false;
