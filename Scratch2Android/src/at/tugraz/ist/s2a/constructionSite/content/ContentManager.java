@@ -28,7 +28,7 @@ import at.tugraz.ist.s2a.constructionSite.gui.dialogs.SpritesDialog;
 
 /**
  * provides content
- * @author alex, niko
+ * @author alex, niko, thomas
  *
  */
 public class ContentManager extends Observable{
@@ -138,8 +138,9 @@ public class ContentManager extends Observable{
 		mAllContentArrayList.add(new Pair<String, ArrayList<HashMap<String, String>>>(mCtx.getString(R.string.stage), mCurrentSpriteList));
 	}
 
-	private void setmAllContentArrayListAndmAllContentNameArrayList(
-			ArrayList<Pair<String, ArrayList<HashMap<String, String>>>> treeMap) {
+	private void setmAllContentArrayList(
+			ArrayList<Pair<String, ArrayList<HashMap<String, String>>>> list) {
+		mAllContentArrayList = list; //TODO before refactoring that wasn't set here, so do we need it?
 	}
 	
 	public String getCurrentSpriteName(){
@@ -217,8 +218,7 @@ public class ContentManager extends Observable{
 			
 		try {
 			if(scratch != null && scratch.available() > 0){
-				//TODO: TreeMap -> Array<Pair>
-				setmAllContentArrayListAndmAllContentNameArrayList(mParser.parse(scratch, mCtx));
+				setmAllContentArrayList(mParser.parse(scratch, mCtx));
 				
 				
 				mCurrentSpriteList = mAllContentArrayList.get(0).second;
@@ -242,11 +242,11 @@ public class ContentManager extends Observable{
 
 
 	private int getHighestId() {
-		ArrayList<ArrayList<HashMap<String, String>>> SpriteMap = new ArrayList<ArrayList<HashMap<String, String>>>();
-        SpriteMap.addAll((ArrayList<ArrayList<HashMap<String, String>>>)mAllContentArrayList.clone());
+		ArrayList<Pair<String, ArrayList<HashMap<String, String>>>> spriteList;
+        spriteList = (ArrayList<Pair<String, ArrayList<HashMap<String, String>>>>) mAllContentArrayList.clone();
         int highestId = 0;
 		for(int i=0; i<mAllContentArrayList.size(); i++){
-			ArrayList<HashMap<String, String>> sprite = SpriteMap.get(i);
+			ArrayList<HashMap<String, String>> sprite = spriteList.get(i).second;
 			for(int j=0; j<sprite.size(); j++){
 				HashMap<String, String> brickList = sprite.get(j);
 				String stringId =  brickList.get(BrickDefine.BRICK_ID);
