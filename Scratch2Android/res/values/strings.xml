@@ -1,29 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="load">laden</string>
-    <string name="save">speichern</string>
-    <string name="SpriteButtonText">Neuen Sprite anlegen</string>
-    <string name="newsprite">Neues Sprite anlegen</string>
+	<string name="new_project_main">New Project</string>
+	<string name="change_project_name_main">Change Project Name</string>
+	<string name="edit_text_filename_standard_input">projectname</string>
+    <string name="load">Load</string>
+    <string name="save">Save</string>
+    <string name="SpriteButtonText">Create</string>
+    <string name="newsprite">New Object</string>
     
-    <string name="delete">Löschen</string>
-    <string name="remove">Verschieben</string>
-    
+    <string name="delete">Delete</string>
+    <string name="remove">Remove</string>
  
-    <string name="hello">Hello World!</string>
-    <string name="app_name">Scratch2Android</string>
+    <string name="construction_site">Construction Site</string>
+    <string name="sprites">Object</string>
+    <string name="stage">Stage</string>
     
-    <string name="construction_site">Baustelle</string>
-    <string name="toolbar">S\nT\nE\nI\nN\nE\n</string>
-    <string name="sprites">sprites</string>
-    <string name="stage">Bühne</string>
+    <string name="construction_site_play">To Stage</string>
+    <string name="reset">Reset Construction Site</string>
+    <string name="quit">Quit</string>
     
-    <string name="construction_site_play">Zur Bühne</string>
-    <string name="reset">Lösche Baustelle</string>
-    <string name="quit">Beenden</string>
+    <string name="stagemenu_construction_site">To Construction Site</string>
+    <string name="stagemenu_start">Play/Pause</string>
     
-    <string name="stagemenu_construction_site">Zur Baustelle</string>
-    <string name="stagemenu_start">Abspielen</string>
+    <string name="app_name">ScatchyDroid</string>
+
+    <string name="set_background_main_adapter">Set Background</string>
+    <string name="play_sound_main_adapter">Play Sound</string>
+    <string name="wait_main_adapter">Wait</string>
+    <string name="hide_main_adapter">Hide</string> 
+    <string name="show_main_adapter">Show</string>
+    <string name="goto_main_adapter">Go To</string>
+    <string name="costume_main_adapter">Set Costume</string>
+    <string name="toolbar">B\nu\ni\nl\nd\ni\nn\ng\n \nB\nl\no\nc\nk\ns</string>
+    <string name="seconds">Seconds</string>
+    <string name="brick_label">Choose Your Block!</string>
     
-    
-    <string name="brick_label">Choose your brick!</string>
+    <string name="x_label">X:</string>
+    <string name="y_label">Y:</string>
+
 </resources>
