@@ -21,7 +21,7 @@ import at.tugraz.ist.s2a.utils.parser.Parser;
 public class ParserTest extends AndroidTestCase {
 
 	private String testXml = "<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>"
-			+ "<project>" + "<stage name=\"Stage\">" + "<command id=\""
+			+ "<project>" + "<stage>" + "<command id=\""
 			+ BrickDefine.SET_BACKGROUND
 			+ "\">"
 			+ "<image path=\"bla.jpg\" path_thumb=\"bla.jpg\" />"
@@ -34,10 +34,10 @@ public class ParserTest extends AndroidTestCase {
 			+ "<command id=\""
 			+ BrickDefine.PLAY_SOUND
 			+ "\">"
-			+ "<sound path=\"bla.mp3\" file_name=\"bla\" />"
+			+ "<sound path=\"bla.mp3\" name=\"bla\" />"
 			+ "</command>"
 			+ "</stage>"
-			+ "<object name=\"sprite\">"
+			+ "<sprite name=\"sprite\">"
 			+ "<command id=\""
 			+ BrickDefine.SET_COSTUME
 			+ "\">"
@@ -59,7 +59,7 @@ public class ParserTest extends AndroidTestCase {
 			+ BrickDefine.SET_COSTUME
 			+ "\">"
 			+ "<image path=\"bla.jpg\" path_thumb=\"bla.jpg\" />"
-			+ "</command>" + "</object>" + "</project>";
+			+ "</command>" + "</sprite>" + "</project>";
 
 	public ParserTest() {
 		super();
@@ -136,9 +136,6 @@ public class ParserTest extends AndroidTestCase {
 	}
 
 	public void testToXml() {
-
-		// TODO test erweitern, auch sprites erstellen usw. damit die ganze
-		// funktionalitaet abgedeckt ist
 		Parser parser = new Parser();
 		ArrayList<HashMap<String, String>> brickList = new ArrayList<HashMap<String, String>>();
 
@@ -220,7 +217,7 @@ public class ParserTest extends AndroidTestCase {
 				"Stage", brickList));
 
 		result = parser.toXml(spritesMap);
-		expected = "<?xml version='1.0' encoding='UTF-8' standalone='yes' ?><project><stage name=\"Stage\" /></project>";
+		expected = "<?xml version='1.0' encoding='UTF-8' standalone='yes' ?><project><stage /></project>";
 		assertEquals("constructed list without commands", expected, result);
 
 	}
