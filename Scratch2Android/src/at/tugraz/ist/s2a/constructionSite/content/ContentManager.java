@@ -227,8 +227,6 @@ public class ContentManager extends Observable{
 		try {
 			if(scratch != null && scratch.available() > 0){
 				setmAllContentArrayList(mParser.parse(scratch, mCtx));
-				
-				
 				mCurrentSpriteList = mAllContentArrayList.get(0).second;
 				loadContentGalleryList();
 			    mIdCounter = getHighestId();

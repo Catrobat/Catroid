@@ -13,6 +13,7 @@ import android.test.AndroidTestCase;
 import android.util.Pair;
 import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
 import at.tugraz.ist.s2a.constructionSite.content.ContentManager;
+import at.tugraz.ist.s2a.test.utils.TestDefines;
 import at.tugraz.ist.s2a.utils.Utils;
 import at.tugraz.ist.s2a.utils.filesystem.FileSystem;
 
@@ -156,36 +157,6 @@ public class ContentManagerTest extends AndroidTestCase {
 	}
 	
 	///////////////////////////////
-	private String TESTXML =
-		"<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>"+
-		"<project>"+
-		"<stage name=\"stage\">"+
-		  "<command id=\"1001\">"+
-		    "<image path=\"bla.jpg\" />"+
-		  "</command>"+
-		  "<command id=\"1002\">"+
-		    "5"+
-		  "</command>"+
-		  "<command id=\"2001\">"+
-		    "<sound path=\"bla.mp3\" />"+
-		  "</command>"+
-		"</stage>"+
-		"<object name=\"sprite\">"+
-		  "<command id=\"4003\">"+
-		    "<image path=\"bla.jpg\" />"+
-		  "</command>"+
-		  "<command id=\"3001\">"+
-		  	"<x>5</x>"+
-		  	"<y>7</y>"+
-		  "</command>"+
-		  "<command id=\"4001\" />"+
-		  "<command id=\"4002\" />"+
-		  "<command id=\"4003\">"+
-		    "<image path=\"bla.jpg\" />"+
-		  "</command>"+
-		"</object>"+
-		"</project>";
-	
 
 	public void testLoadContent(){
 		
@@ -202,7 +173,7 @@ public class ContentManagerTest extends AndroidTestCase {
              DataOutputStream ps = new DataOutputStream(fOut);
          
              // Write the string to the file
-             ps.write(TESTXML.getBytes());
+             ps.write(TestDefines.TEST_XML.getBytes());
              /* ensure that everything is
               * really written out and close */
              ps.flush();
@@ -214,9 +185,9 @@ public class ContentManagerTest extends AndroidTestCase {
 		 mContentManager.loadContent(Utils.concatPaths("/sdcard/",FILENAME));
 		 //check if the content is the same as written to file
 		 mCurrentSpriteList = mContentManager.getCurrentSpriteList();
-		 assertEquals(mCurrentSpriteList.get(0).get(BrickDefine.BRICK_TYPE), "1001");
-		 assertEquals(mCurrentSpriteList.get(1).get(BrickDefine.BRICK_TYPE), "1002");
-		 assertEquals(mCurrentSpriteList.get(2).get(BrickDefine.BRICK_TYPE), "2001");
+		 assertEquals(mCurrentSpriteList.get(0).get(BrickDefine.BRICK_TYPE), String.valueOf(BrickDefine.SET_BACKGROUND));
+		 assertEquals(mCurrentSpriteList.get(1).get(BrickDefine.BRICK_TYPE), String.valueOf(BrickDefine.WAIT));
+		 assertEquals(mCurrentSpriteList.get(2).get(BrickDefine.BRICK_TYPE), String.valueOf(BrickDefine.PLAY_SOUND));
 	}
 	
 	public void testSaveContentLoadContent(){
