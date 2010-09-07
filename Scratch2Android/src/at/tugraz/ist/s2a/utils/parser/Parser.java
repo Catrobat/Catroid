@@ -83,81 +83,13 @@ public class Parser {
 		NodeList sprites = doc.getElementsByTagName(OBJECT);
 		
 		// first read out stage objects
-		NodeList bricks = stage.getChildNodes();
-		ArrayList<HashMap<String, String>> sublist = new ArrayList<HashMap<String,String>>();
-		for (int i=0; i<bricks.getLength(); i++) {
-			int brickType = Integer.parseInt(bricks.item(i).getAttributes().getNamedItem(ID).getNodeValue());
-			String value = EMPTY_STRING;
-			String value1 = EMPTY_STRING;
-			String file_name = EMPTY_STRING;
-			String id = "0"; //TODO: default empty
-			switch (brickType){
-				case BrickDefine.SET_BACKGROUND:
-				case BrickDefine.SET_COSTUME:
-					value = bricks.item(i).getFirstChild().getAttributes().getNamedItem(PATH).getNodeValue();
-					value1 = bricks.item(i).getFirstChild().getAttributes().getNamedItem(PATH_THUMB).getNodeValue();
-					break;
-				case BrickDefine.PLAY_SOUND:
-				
-					value = bricks.item(i).getFirstChild().getAttributes().getNamedItem(PATH).getNodeValue();
-					file_name = bricks.item(i).getFirstChild().getAttributes().getNamedItem(FILE_NAME).getNodeValue();
-					break;
-				case BrickDefine.WAIT:
-					value = bricks.item(i).getFirstChild().getNodeValue();
-					break;
-				case BrickDefine.GO_TO:
-					value = bricks.item(i).getFirstChild().getFirstChild().getNodeValue();
-					value1 = bricks.item(i).getLastChild().getFirstChild().getNodeValue();
-					break;
-			}
-			HashMap<String, String> map = getBrickMap(id, file_name, value, value1, brickType);
-			sublist.add(map);
-			// TODO : IDs read and save Ids set in ContentManager
-			mIdCounter++;
-			
-		}
 		//insert localized stage name
-		spritesList.add(new Pair<String, ArrayList<HashMap<String,String>>>(context.getString(R.string.stage), sublist));
+		spritesList.add(new Pair<String, ArrayList<HashMap<String,String>>>(context.getString(R.string.stage), getBricksListFromSprite(stage)));
 		
 		//then read out sprites
 		for (int j=0; j<sprites.getLength(); j++){
-			bricks = sprites.item(j).getChildNodes();
-			sublist = new ArrayList<HashMap<String,String>>();
-			String name;
-			name = sprites.item(j).getAttributes().getNamedItem(NAME).getNodeValue();
-			for (int i=0; i<bricks.getLength(); i++) {
-				int brickType = Integer.parseInt(bricks.item(i).getAttributes().getNamedItem(ID).getNodeValue());
-				String value = EMPTY_STRING;
-				String value1 = EMPTY_STRING;
-				String file_name = EMPTY_STRING;
-				String id = "0"; //TODO: default empty
-				switch (brickType){
-				case BrickDefine.SET_BACKGROUND:
-				case BrickDefine.SET_COSTUME:
-					value = bricks.item(i).getFirstChild().getAttributes().getNamedItem(PATH).getNodeValue();
-					value1 = bricks.item(i).getFirstChild().getAttributes().getNamedItem(PATH_THUMB).getNodeValue();
-					
-					break;
-				case BrickDefine.PLAY_SOUND:
-				
-					value = bricks.item(i).getFirstChild().getAttributes().getNamedItem(PATH).getNodeValue();
-					file_name = bricks.item(i).getFirstChild().getAttributes().getNamedItem(FILE_NAME).getNodeValue();
-					break;
-					case BrickDefine.WAIT:
-						value = bricks.item(i).getFirstChild().getNodeValue();
-						break;
-					case BrickDefine.GO_TO:
-						value = bricks.item(i).getFirstChild().getFirstChild().getNodeValue();
-						value1 = bricks.item(i).getLastChild().getFirstChild().getNodeValue();
-						break;
-				}
-				HashMap<String, String> map = getBrickMap(id, file_name, value, value1, brickType);
-				sublist.add(map);
-				// TODO : IDs read and save Ids set in ContentManager
-				mIdCounter++;
-				
-			}
-			spritesList.add(new Pair<String, ArrayList<HashMap<String,String>>>(name, sublist));
+			String name = sprites.item(j).getAttributes().getNamedItem(NAME).getNodeValue();
+			spritesList.add(new Pair<String, ArrayList<HashMap<String,String>>>(name, getBricksListFromSprite(sprites.item(j))));
 		}
 		
 		return spritesList;
@@ -309,5 +241,40 @@ public class Parser {
 		
 		return map;
 	}
-		
+	
+	private ArrayList<HashMap<String, String>> getBricksListFromSprite(Node spriteNode){
+		NodeList bricks = spriteNode.getChildNodes();
+		ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String,String>>();
+		for (int i=0; i<bricks.getLength(); i++) {
+			int brickType = Integer.parseInt(bricks.item(i).getAttributes().getNamedItem(ID).getNodeValue());
+			String value = EMPTY_STRING;
+			String value1 = EMPTY_STRING;
+			String file_name = EMPTY_STRING;
+			String id = "0"; //TODO: default empty
+			switch (brickType){
+				case BrickDefine.SET_BACKGROUND:
+				case BrickDefine.SET_COSTUME:
+					value = bricks.item(i).getFirstChild().getAttributes().getNamedItem(PATH).getNodeValue();
+					value1 = bricks.item(i).getFirstChild().getAttributes().getNamedItem(PATH_THUMB).getNodeValue();
+					break;
+				case BrickDefine.PLAY_SOUND:
+				
+					value = bricks.item(i).getFirstChild().getAttributes().getNamedItem(PATH).getNodeValue();
+					file_name = bricks.item(i).getFirstChild().getAttributes().getNamedItem(FILE_NAME).getNodeValue();
+					break;
+				case BrickDefine.WAIT:
+					value = bricks.item(i).getFirstChild().getNodeValue();
+					break;
+				case BrickDefine.GO_TO:
+					value = bricks.item(i).getFirstChild().getFirstChild().getNodeValue();
+					value1 = bricks.item(i).getLastChild().getFirstChild().getNodeValue();
+					break;
+			}
+			HashMap<String, String> map = getBrickMap(id, file_name, value, value1, brickType);
+			list.add(map);
+			mIdCounter++;
+		}
+		return list;
+
+	}
 }
