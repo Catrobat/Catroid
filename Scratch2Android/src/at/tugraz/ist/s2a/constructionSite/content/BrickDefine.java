@@ -15,7 +15,7 @@ public class BrickDefine {
 	// definition xyyy x = group y = brick id
 	
 	
-	public final static int NUMBER_OF_BRICK_TYPES = 7;
+	public final static int NUMBER_OF_BRICK_TYPES = 8;
 	//group number 1 Control
 	public final static int SET_BACKGROUND = 0; 
 	public final static int WAIT = 1;
@@ -30,6 +30,7 @@ public class BrickDefine {
 	public final static int HIDE = 4;
 	public final static int SHOW = 5;
 	public final static int SET_COSTUME = 6;
+	public final static int SCALE_COSTUME = 7;
 	
 	//group number 9 Error
 	public final static int NOT_DEFINED = 9999;
@@ -104,6 +105,13 @@ public class BrickDefine {
 		    map = new HashMap<String, String>();
 		    map.put(BrickDefine.BRICK_ID, "17");
 		    map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_COSTUME));
+		    map.put(BrickDefine.BRICK_NAME, "");
+		    map.put(BrickDefine.BRICK_VALUE, "");
+		    map.put(BrickDefine.BRICK_VALUE_1, "");
+		    list.add(map);
+		    map = new HashMap<String, String>();
+		    map.put(BrickDefine.BRICK_ID, "18");
+		    map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SCALE_COSTUME));
 		    map.put(BrickDefine.BRICK_NAME, "");
 		    map.put(BrickDefine.BRICK_VALUE, "");
 		    map.put(BrickDefine.BRICK_VALUE_1, "");

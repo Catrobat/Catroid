@@ -5,12 +5,11 @@
 		android:layout_width="wrap_content" 
 		android:layout_height="wrap_content" 
 		android:onClick="@string/onBrickClickListener" android:background="@drawable/brick_violet">
-		<RelativeLayout android:id="@+id/RelativeLayout02" 
-			android:layout_width="wrap_content" 
+		<RelativeLayout android:layout_width="wrap_content" 
 			android:layout_height="wrap_content" 
 			android:layout_alignParentRight="true" 
 			android:padding="5dip" 
-			android:background="@drawable/image_background">
+			android:background="@drawable/image_background" android:id="@+id/SetCostumeRelativeLayout">
 			<ImageView android:id="@+id/ImageView01" 
 				android:layout_width="wrap_content" 
 				android:layout_height="wrap_content" 
@@ -29,7 +28,7 @@
 			android:textColor="@color/white" 
 			android:layout_centerVertical="true" 
 			android:text="@string/costume_main_adapter"
-			 android:textSize="18dip">
+			 android:textSize="18dip" android:layout_toLeftOf="@+id/SetCostumeRelativeLayout">
 		</TextView>
 	</RelativeLayout>
 	

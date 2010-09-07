@@ -105,6 +105,14 @@ public class ToolBoxAdapter extends BaseAdapter{
 				return view;
 			}
 			
+			case (BrickDefine.SCALE_COSTUME): 
+			{
+				if(mViewContainer.containsKey(type))
+					return mViewContainer.get(type);	
+				RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.toolbox_brick_scale_costume, null);
+				mViewContainer.put(type, view);
+				return view;
+			}
 			default: return null;
 			
 		}
