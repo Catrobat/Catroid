@@ -30,13 +30,7 @@ import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
 public class Parser {
 	private DocumentBuilder builder;
 	private Document doc;
-	private static int mIdCounter = 1;
-	// TODO : IDs read and save Ids set in ContentManager
 	
-	final static int CMD_SET_BACKGROUND = 0;
-	final static int CMD_SET_SOUND = 100;
-	final static int CMD_WAIT = 200;
-
 	final static String STAGE = "stage";
 	final static String SPRITE = "sprite";
 	final static String TYPE = "type";
@@ -68,8 +62,6 @@ public class Parser {
 	
 	public ArrayList<Pair<String, ArrayList<HashMap<String, String>>>> parse(InputStream stream, Context context){
 		ArrayList<Pair<String, ArrayList<HashMap<String, String>>>> spritesList = new ArrayList<Pair<String, ArrayList<HashMap<String,String>>>>();
-		mIdCounter = 1;
-		// TODO : IDs read and save Ids set in ContentManager
 		try {
 			doc = builder.parse(stream);	
 		}
@@ -80,18 +72,14 @@ public class Parser {
 		Node stage = doc.getElementsByTagName(STAGE).item(0);
 		NodeList sprites = doc.getElementsByTagName(SPRITE);
 		
-		
-		
-		// first read out stage objects
-		//insert localized stage name
+		// first add stage with its localized name to the spritesList
 		spritesList.add(new Pair<String, ArrayList<HashMap<String,String>>>(context.getString(R.string.stage), getBricksListFromSprite(stage)));
 		
-		//then read out sprites
+		//then add all sprites
 		for (int j=0; j<sprites.getLength(); j++){
 			String name = sprites.item(j).getAttributes().getNamedItem(NAME).getNodeValue();
 			spritesList.add(new Pair<String, ArrayList<HashMap<String,String>>>(name, getBricksListFromSprite(sprites.item(j))));
 		}
-		
 		return spritesList;
 	}
 
@@ -123,13 +111,11 @@ public class Parser {
 		    try {
 		    	if (!stageRead) //workaround so that stage always is the first element in xml file
 	    		{	
-		    		String string = context.getString(R.string.stage);
 		    		if (!spriteNameList.get(j).equals(context.getString(R.string.stage)))
 		    			throw new Exception("Stage is not the first element of your data structure!!");
 	    			serializer.startTag(EMPTY_STRING, STAGE);
 	    		}
-		    	else
-		    	{
+		    	else {
 		    		serializer.startTag(EMPTY_STRING, SPRITE);
 		    	    serializer.attribute(EMPTY_STRING, NAME, spriteNameList.get(j));
 		    	}
@@ -196,7 +182,7 @@ public class Parser {
 		    }
 		}
 
-		try{ 
+		try { 
 			serializer.endTag(EMPTY_STRING, PROJECT);
 			serializer.endDocument();
 		}
@@ -206,18 +192,10 @@ public class Parser {
 		}
 	    
 	    return writer.toString();
-		
-
-	}
-	
-	
-	private HashMap<String, String> getBrickMap(String id, String value, String value1, int type) {
-		return getBrickMap(id, EMPTY_STRING, value, value1, type);
 	}
 	
 	private HashMap<String, String> getBrickMap(String id, String name, String value, String value1, int type) {
 		HashMap<String, String> map = new HashMap<String, String>();
-		
 		map.put(BrickDefine.BRICK_ID, id);
 	    map.put(BrickDefine.BRICK_TYPE, String.valueOf(type));
 	    map.put(BrickDefine.BRICK_NAME, name);
@@ -243,7 +221,6 @@ public class Parser {
 					value1 = bricks.item(i).getFirstChild().getAttributes().getNamedItem(PATH_THUMB).getNodeValue();
 					break;
 				case BrickDefine.PLAY_SOUND:
-				
 					value = bricks.item(i).getFirstChild().getAttributes().getNamedItem(PATH).getNodeValue();
 					title = bricks.item(i).getFirstChild().getAttributes().getNamedItem(NAME).getNodeValue();
 					break;
@@ -257,7 +234,6 @@ public class Parser {
 			}
 			HashMap<String, String> map = getBrickMap(id, title, value, value1, brickType);
 			list.add(map);
-			mIdCounter++;
 		}
 		return list;
 
