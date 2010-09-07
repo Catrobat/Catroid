@@ -21,10 +21,10 @@ import at.tugraz.ist.s2a.utils.parser.Parser;
 public class ParserTest extends AndroidTestCase {
 
 	private String testXml = "<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>"
-			+ "<project>" + "<stage name=\"stage\">" + "<command id=\""
+			+ "<project>" + "<stage name=\"Stage\">" + "<command id=\""
 			+ BrickDefine.SET_BACKGROUND
 			+ "\">"
-			+ "<image path=\"bla.jpg\" path_thumb=\"bla.jpg\"/>"
+			+ "<image path=\"bla.jpg\" path_thumb=\"bla.jpg\" />"
 			+ "</command>"
 			+ "<command id=\""
 			+ BrickDefine.WAIT
@@ -142,44 +142,77 @@ public class ParserTest extends AndroidTestCase {
 		Parser parser = new Parser();
 		ArrayList<HashMap<String, String>> brickList = new ArrayList<HashMap<String, String>>();
 
+		// create bricks for stage
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put(BrickDefine.BRICK_ID, "0");
 		map.put(BrickDefine.BRICK_TYPE,
 				Integer.toString(BrickDefine.SET_BACKGROUND));
-		map.put(BrickDefine.BRICK_NAME, "blabla");
 		map.put(BrickDefine.BRICK_VALUE, "bla.jpg");
 		map.put(BrickDefine.BRICK_VALUE_1, "bla.jpg");
 		brickList.add(map);
 
 		map = new HashMap<String, String>();
 		map.put(BrickDefine.BRICK_ID, "1");
-		map.put(BrickDefine.BRICK_TYPE,
-				Integer.toString(BrickDefine.PLAY_SOUND));
-		map.put(BrickDefine.BRICK_NAME, "sound1");
-		map.put(BrickDefine.BRICK_VALUE, "sound1.mp3");
+		map.put(BrickDefine.BRICK_TYPE, Integer.toString(BrickDefine.WAIT));
+		map.put(BrickDefine.BRICK_VALUE, "5");
 		brickList.add(map);
 
 		map = new HashMap<String, String>();
 		map.put(BrickDefine.BRICK_ID, "2");
-		map.put(BrickDefine.BRICK_TYPE, Integer.toString(BrickDefine.WAIT));
-		map.put(BrickDefine.BRICK_NAME, "blabla");
-		map.put(BrickDefine.BRICK_VALUE, "100");
+		map.put(BrickDefine.BRICK_TYPE,
+				Integer.toString(BrickDefine.PLAY_SOUND));
+		map.put(BrickDefine.BRICK_NAME, "bla");
+		map.put(BrickDefine.BRICK_VALUE, "bla.mp3");
 		brickList.add(map);
-
+		
 		ArrayList<Pair<String, ArrayList<HashMap<String, String>>>> spritesMap = new ArrayList<Pair<String, ArrayList<HashMap<String, String>>>>();
 		spritesMap.add(new Pair<String, ArrayList<HashMap<String, String>>>(
 				"Stage", brickList));
+		
+		// create bricks for sprite
+		brickList = new ArrayList<HashMap<String, String>>();
+		map = new HashMap<String, String>();
+		map.put(BrickDefine.BRICK_ID, "3");
+		map.put(BrickDefine.BRICK_TYPE,
+				Integer.toString(BrickDefine.SET_COSTUME));
+		map.put(BrickDefine.BRICK_VALUE, "bla.jpg");
+		map.put(BrickDefine.BRICK_VALUE_1, "bla.jpg");
+		brickList.add(map);
+		
+		map = new HashMap<String, String>();
+		map.put(BrickDefine.BRICK_ID, "4");
+		map.put(BrickDefine.BRICK_TYPE, Integer.toString(BrickDefine.GO_TO));
+		map.put(BrickDefine.BRICK_VALUE, "5");
+		map.put(BrickDefine.BRICK_VALUE_1, "7");
+		brickList.add(map);
+		
+		map = new HashMap<String, String>();
+		map.put(BrickDefine.BRICK_ID, "5");
+		map.put(BrickDefine.BRICK_TYPE, Integer.toString(BrickDefine.HIDE));
+		brickList.add(map);
+		
+		map = new HashMap<String, String>();
+		map.put(BrickDefine.BRICK_ID, "6");
+		map.put(BrickDefine.BRICK_TYPE, Integer.toString(BrickDefine.SHOW));
+		brickList.add(map);
+
+		map = new HashMap<String, String>();
+		map.put(BrickDefine.BRICK_ID, "7");
+		map.put(BrickDefine.BRICK_TYPE,
+				Integer.toString(BrickDefine.SET_COSTUME));
+		map.put(BrickDefine.BRICK_VALUE, "bla.jpg");
+		map.put(BrickDefine.BRICK_VALUE_1, "bla.jpg");
+		brickList.add(map);
+		
+		spritesMap.add(new Pair<String, ArrayList<HashMap<String, String>>>(
+				"sprite", brickList));
+		
 		String result = parser.toXml(spritesMap);
-		String expected = "<?xml version='1.0' encoding='UTF-8' standalone='yes' ?><project><stage name=\"Stage\"><command id=\""
-				+ BrickDefine.SET_BACKGROUND
-				+ "\"><image path=\"bla.jpg\" path_thumb=\"bla.jpg\" /></command><command id=\""
-				+ BrickDefine.PLAY_SOUND
-				+ "\"><sound path=\"sound1.mp3\" file_name=\"sound1\" /></command><command id=\""
-				+ BrickDefine.WAIT + "\">100</command></stage></project>";
+		String expected = testXml;
 		Log.i("testToXml result", result);
 		Log.i("testToXml expected", expected);
 
-		assertEquals("constructed list with 3 commands", expected, result);
+		assertEquals("constructed list with commands", expected, result);
 
 		brickList.clear();
 		spritesMap.clear();

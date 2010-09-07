@@ -102,8 +102,6 @@ public class Parser {
 			spriteBrickList.add(spritesMap.get(i).second);
 			spriteNameList.add(spritesMap.get(i).first);
 		}
-			
-		doc = builder.newDocument();
 		
 		XmlSerializer serializer = Xml.newSerializer();
 		StringWriter writer = new StringWriter();
