@@ -296,7 +296,7 @@ public class ContentManager extends Observable{
 		FileOutputStream fd = mFilesystem.createOrOpenFileOutput(Utils.concatPaths(ConstructionSiteActivity.ROOT, file), mCtx);
 		DataOutputStream ps = new DataOutputStream(fd);
 		
-		String xml = mParser.toXml(spriteBrickList);
+		String xml = mParser.toXml(spriteBrickList, mCtx);
 		try {
 			ps.write(xml.getBytes());
 			ps.close();

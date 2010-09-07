@@ -204,7 +204,7 @@ public class ParserTest extends AndroidTestCase {
 		spritesMap.add(new Pair<String, ArrayList<HashMap<String, String>>>(
 				"sprite", brickList));
 		
-		String result = parser.toXml(spritesMap);
+		String result = parser.toXml(spritesMap, this.getContext());
 		String expected = testXml;
 		Log.i("testToXml result", result);
 		Log.i("testToXml expected", expected);
@@ -216,7 +216,7 @@ public class ParserTest extends AndroidTestCase {
 		spritesMap.add(new Pair<String, ArrayList<HashMap<String, String>>>(
 				"Stage", brickList));
 
-		result = parser.toXml(spritesMap);
+		result = parser.toXml(spritesMap, this.getContext());
 		expected = "<?xml version='1.0' encoding='UTF-8' standalone='yes' ?><project><stage /></project>";
 		assertEquals("constructed list without commands", expected, result);
 

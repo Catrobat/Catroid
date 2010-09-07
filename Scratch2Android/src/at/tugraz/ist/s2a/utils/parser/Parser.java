@@ -26,9 +26,6 @@ import android.util.Xml;
 import at.tugraz.ist.s2a.R;
 import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
 
-//TODO überlegen, ob stage keinen namen mehr haben soll, da eigener xml-tag oder ob sie sprite sein soll und namen stage hat
-//TODO sinnvollere namensbezeichnungen der attribute? vor allem bei sound und image...
-
 public class Parser {
 	private DocumentBuilder builder;
 	private Document doc;
@@ -81,6 +78,8 @@ public class Parser {
 		Node stage = doc.getElementsByTagName(STAGE).item(0);
 		NodeList sprites = doc.getElementsByTagName(SPRITE);
 		
+		
+		
 		// first read out stage objects
 		//insert localized stage name
 		spritesList.add(new Pair<String, ArrayList<HashMap<String,String>>>(context.getString(R.string.stage), getBricksListFromSprite(stage)));
@@ -94,7 +93,7 @@ public class Parser {
 		return spritesList;
 	}
 
-	public String toXml(ArrayList<Pair<String, ArrayList<HashMap<String,String>>>> spritesMap) {
+	public String toXml(ArrayList<Pair<String, ArrayList<HashMap<String,String>>>> spritesMap, Context context) {
 		ArrayList<ArrayList<HashMap<String,String>>> spriteBrickList = new ArrayList<ArrayList<HashMap<String,String>>>();
 		ArrayList<String> spriteNameList = new ArrayList<String>(); 
 		for(int i=0; i<spritesMap.size(); i++){
@@ -122,9 +121,10 @@ public class Parser {
 		    try {
 		    	if (!stageRead) //workaround so that stage always is the first element in xml file
 	    		{	
-		    		//TODO is stage a sprite?
+		    		String string = context.getString(R.string.stage);
+		    		if (!spriteNameList.get(j).equals(context.getString(R.string.stage)))
+		    			throw new Exception("Stage is not the first element of your data structure!!");
 	    			serializer.startTag(EMPTY_STRING, STAGE);
-	    			//serializer.attribute(EMPTY_STRING, NAME, spriteNameList.get(j));
 	    		}
 		    	else
 		    	{
