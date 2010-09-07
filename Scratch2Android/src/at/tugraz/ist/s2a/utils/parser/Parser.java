@@ -13,6 +13,7 @@ import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 import org.w3c.dom.NodeList;
@@ -38,13 +39,14 @@ public class Parser {
 
 	final static String STAGE = "stage";
 	final static String SPRITE = "sprite";
+	final static String TYPE = "type";
 	final static String ID = "id";
 	final static String PATH = "path";
 	final static String PATH_THUMB = "path_thumb";
 	final static String NAME = "name";
 	
 	final static String PROJECT = "project";
-	final static String COMMAND = "command";
+	final static String BRICK = "brick";
 	final static String SOUND = "sound";
 	final static String IMAGE = "image";
 	final static String X = "x";
@@ -134,64 +136,51 @@ public class Parser {
 		    	
 		    	for (int i=0; i<sprite.size(); i++) {
 		    		HashMap<String,String> brick = sprite.get(i);
+		    		serializer.startTag(EMPTY_STRING, BRICK);
+					serializer.attribute(EMPTY_STRING, ID, brick.get(BrickDefine.BRICK_ID));
 					switch (Integer.parseInt(brick.get(BrickDefine.BRICK_TYPE))){ //TODO nicht bei jedem durchlauf neue elemente erzeugen sonder nur clonen
 					case BrickDefine.SET_BACKGROUND:
-						serializer.startTag(EMPTY_STRING, COMMAND);
-						serializer.attribute(EMPTY_STRING, ID, Integer.toString(BrickDefine.SET_BACKGROUND));
+						serializer.attribute(EMPTY_STRING, TYPE, Integer.toString(BrickDefine.SET_BACKGROUND));
 						serializer.startTag(EMPTY_STRING, IMAGE);
 						serializer.attribute(EMPTY_STRING, PATH, brick.get(BrickDefine.BRICK_VALUE));
 						serializer.attribute(EMPTY_STRING, PATH_THUMB, brick.get(BrickDefine.BRICK_VALUE_1));
 						serializer.endTag(EMPTY_STRING, IMAGE);
-						serializer.endTag(EMPTY_STRING, COMMAND);
 						break;
 					case BrickDefine.PLAY_SOUND:
-						serializer.startTag(EMPTY_STRING, COMMAND);
-						serializer.attribute(EMPTY_STRING, ID, Integer.toString(BrickDefine.PLAY_SOUND));
+						serializer.attribute(EMPTY_STRING, TYPE, Integer.toString(BrickDefine.PLAY_SOUND));
 						serializer.startTag(EMPTY_STRING, SOUND);
 						serializer.attribute(EMPTY_STRING, PATH, brick.get(BrickDefine.BRICK_VALUE));
 						serializer.attribute(EMPTY_STRING, NAME, brick.get(BrickDefine.BRICK_NAME));
 						serializer.endTag(EMPTY_STRING, SOUND);
-						serializer.endTag(EMPTY_STRING, COMMAND);
 						break;
 					case BrickDefine.WAIT:
-						serializer.startTag(EMPTY_STRING, COMMAND);
-						serializer.attribute(EMPTY_STRING, ID, Integer.toString(BrickDefine.WAIT));
+						serializer.attribute(EMPTY_STRING, TYPE, Integer.toString(BrickDefine.WAIT));
 						serializer.text(brick.get(BrickDefine.BRICK_VALUE));
-						serializer.endTag(EMPTY_STRING, COMMAND);
 						break;
 					case BrickDefine.HIDE:
-						serializer.startTag(EMPTY_STRING, COMMAND);
-						serializer.attribute(EMPTY_STRING, ID, Integer.toString(BrickDefine.HIDE));
-						serializer.endTag(EMPTY_STRING, COMMAND);
+						serializer.attribute(EMPTY_STRING, TYPE, Integer.toString(BrickDefine.HIDE));
 						break;
 					case BrickDefine.SHOW:
-						serializer.startTag(EMPTY_STRING, COMMAND);
-						serializer.attribute(EMPTY_STRING, ID, Integer.toString(BrickDefine.SHOW));
-						serializer.endTag(EMPTY_STRING, COMMAND);
+						serializer.attribute(EMPTY_STRING, TYPE, Integer.toString(BrickDefine.SHOW));
 						break;
 					case BrickDefine.SET_COSTUME:
-						serializer.startTag(EMPTY_STRING, COMMAND);
-						serializer.attribute(EMPTY_STRING, ID, Integer.toString(BrickDefine.SET_COSTUME));
-						
+						serializer.attribute(EMPTY_STRING, TYPE, Integer.toString(BrickDefine.SET_COSTUME));
 						serializer.startTag(EMPTY_STRING, IMAGE);
 						serializer.attribute(EMPTY_STRING, PATH, brick.get(BrickDefine.BRICK_VALUE));
 						serializer.attribute(EMPTY_STRING, PATH_THUMB, brick.get(BrickDefine.BRICK_VALUE_1));
 						serializer.endTag(EMPTY_STRING, IMAGE);
-						serializer.endTag(EMPTY_STRING, COMMAND);
 						break;
 					case BrickDefine.GO_TO:
-						serializer.startTag(EMPTY_STRING, COMMAND);
-						serializer.attribute(EMPTY_STRING, ID, Integer.toString(BrickDefine.GO_TO));
+						serializer.attribute(EMPTY_STRING, TYPE, Integer.toString(BrickDefine.GO_TO));
 						serializer.startTag(EMPTY_STRING, X);
 						serializer.text(brick.get(BrickDefine.BRICK_VALUE));
 						serializer.endTag(EMPTY_STRING, X);
 						serializer.startTag(EMPTY_STRING, Y);
 						serializer.text(brick.get(BrickDefine.BRICK_VALUE_1));
 						serializer.endTag(EMPTY_STRING, Y);
-						serializer.endTag(EMPTY_STRING, COMMAND);
 						break;
-					
 					}
+					serializer.endTag(EMPTY_STRING, BRICK);
 		    	}
 		    	if (!stageRead) {
 		    		serializer.endTag(EMPTY_STRING, STAGE);
@@ -242,11 +231,11 @@ public class Parser {
 		NodeList bricks = spriteNode.getChildNodes();
 		ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String,String>>();
 		for (int i=0; i<bricks.getLength(); i++) {
-			int brickType = Integer.parseInt(bricks.item(i).getAttributes().getNamedItem(ID).getNodeValue());
+			int brickType = Integer.parseInt(bricks.item(i).getAttributes().getNamedItem(TYPE).getNodeValue());
 			String value = EMPTY_STRING;
 			String value1 = EMPTY_STRING;
-			String file_name = EMPTY_STRING;
-			String id = "0"; //TODO: default empty
+			String title = EMPTY_STRING;
+			String id = bricks.item(i).getAttributes().getNamedItem(ID).getNodeValue();
 			switch (brickType){
 				case BrickDefine.SET_BACKGROUND:
 				case BrickDefine.SET_COSTUME:
@@ -256,7 +245,7 @@ public class Parser {
 				case BrickDefine.PLAY_SOUND:
 				
 					value = bricks.item(i).getFirstChild().getAttributes().getNamedItem(PATH).getNodeValue();
-					file_name = bricks.item(i).getFirstChild().getAttributes().getNamedItem(NAME).getNodeValue();
+					title = bricks.item(i).getFirstChild().getAttributes().getNamedItem(NAME).getNodeValue();
 					break;
 				case BrickDefine.WAIT:
 					value = bricks.item(i).getFirstChild().getNodeValue();
@@ -266,7 +255,7 @@ public class Parser {
 					value1 = bricks.item(i).getLastChild().getFirstChild().getNodeValue();
 					break;
 			}
-			HashMap<String, String> map = getBrickMap(id, file_name, value, value1, brickType);
+			HashMap<String, String> map = getBrickMap(id, title, value, value1, brickType);
 			list.add(map);
 			mIdCounter++;
 		}

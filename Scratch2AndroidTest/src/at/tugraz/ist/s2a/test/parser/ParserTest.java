@@ -9,57 +9,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.TreeMap;
-import junit.framework.TestCase;
 import android.test.AndroidTestCase;
 import android.util.Log;
 import android.util.Pair;
 import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
-import at.tugraz.ist.s2a.utils.*;
+import at.tugraz.ist.s2a.test.utils.TestDefines;
 import at.tugraz.ist.s2a.utils.parser.Parser;
 
 public class ParserTest extends AndroidTestCase {
-
-	private String testXml = "<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>"
-			+ "<project>" + "<stage>" + "<command id=\""
-			+ BrickDefine.SET_BACKGROUND
-			+ "\">"
-			+ "<image path=\"bla.jpg\" path_thumb=\"bla.jpg\" />"
-			+ "</command>"
-			+ "<command id=\""
-			+ BrickDefine.WAIT
-			+ "\">"
-			+ "5"
-			+ "</command>"
-			+ "<command id=\""
-			+ BrickDefine.PLAY_SOUND
-			+ "\">"
-			+ "<sound path=\"bla.mp3\" name=\"bla\" />"
-			+ "</command>"
-			+ "</stage>"
-			+ "<sprite name=\"sprite\">"
-			+ "<command id=\""
-			+ BrickDefine.SET_COSTUME
-			+ "\">"
-			+ "<image path=\"bla.jpg\" path_thumb=\"bla.jpg\" />"
-			+ "</command>"
-			+ "<command id=\""
-			+ BrickDefine.GO_TO
-			+ "\">"
-			+ "<x>5</x>"
-			+ "<y>7</y>"
-			+ "</command>"
-			+ "<command id=\""
-			+ BrickDefine.HIDE
-			+ "\" />"
-			+ "<command id=\""
-			+ BrickDefine.SHOW
-			+ "\" />"
-			+ "<command id=\""
-			+ BrickDefine.SET_COSTUME
-			+ "\">"
-			+ "<image path=\"bla.jpg\" path_thumb=\"bla.jpg\" />"
-			+ "</command>" + "</sprite>" + "</project>";
 
 	public ParserTest() {
 		super();
@@ -80,7 +37,7 @@ public class ParserTest extends AndroidTestCase {
 			file = File.createTempFile("project", "xml");
 			if (file.canWrite()) {
 				OutputStream stream = new FileOutputStream(file);
-				stream.write(testXml.getBytes());
+				stream.write(TestDefines.TEST_XML.getBytes());
 				stream.flush();
 			}
 		} catch (IOException e) {
@@ -105,16 +62,18 @@ public class ParserTest extends AndroidTestCase {
 
 		assertEquals("bla.jpg",
 				list.get(0).second.get(0).get(BrickDefine.BRICK_VALUE));
+		assertEquals("0", list.get(0).second.get(0).get(BrickDefine.BRICK_ID));
 
 		assertEquals(String.valueOf(BrickDefine.WAIT), list.get(0).second
 				.get(1).get(BrickDefine.BRICK_TYPE));
+		assertEquals("1", list.get(0).second.get(1).get(BrickDefine.BRICK_ID));
 		assertEquals(String.valueOf(BrickDefine.PLAY_SOUND), list.get(0).second
 				.get(2).get(BrickDefine.BRICK_TYPE));
 
 		assertEquals(5, list.get(1).second.size());
 		assertEquals(String.valueOf(BrickDefine.SET_COSTUME),
 				list.get(1).second.get(0).get(BrickDefine.BRICK_TYPE));
-
+		assertEquals("3", list.get(1).second.get(0).get(BrickDefine.BRICK_ID));
 		assertEquals(String.valueOf(BrickDefine.GO_TO),
 				list.get(1).second.get(1).get(BrickDefine.BRICK_TYPE));
 		assertEquals("5", list.get(1).second.get(1)
@@ -127,12 +86,11 @@ public class ParserTest extends AndroidTestCase {
 				.get(3).get(BrickDefine.BRICK_TYPE));
 		assertEquals(String.valueOf(BrickDefine.SET_COSTUME),
 				list.get(1).second.get(4).get(BrickDefine.BRICK_TYPE));
+		assertEquals("7", list.get(1).second.get(4).get(BrickDefine.BRICK_ID));
 
 		Log.i("ParserTest", "the name of the first element: "
 				+ list.get(0).first);
-		assertEquals("Stage", list.get(0).first); // TODO name für stage ganz
-													// wegloeschen?
-
+		assertEquals("Stage", list.get(0).first);
 	}
 
 	public void testToXml() {
@@ -205,7 +163,7 @@ public class ParserTest extends AndroidTestCase {
 				"sprite", brickList));
 		
 		String result = parser.toXml(spritesMap, this.getContext());
-		String expected = testXml;
+		String expected = TestDefines.TEST_XML;
 		Log.i("testToXml result", result);
 		Log.i("testToXml expected", expected);
 
