@@ -58,64 +58,6 @@ public class MediaFileLoader {
 	
 	
 	/**
-	 * load pictures from sd card
-	 */
-	/*public void loadPictureContent(){
-		mPictureContent = new ArrayList<HashMap<String,String>>();
-
-		
-		//get picuter data
-		String[] projectionOnOrig = {
-					MediaStore.Images.Media.DATA,				
-					MediaStore.Images.ImageColumns.TITLE,
-					MediaStore.Images.Media._ID};
-
-		Cursor cursor = MediaStore.Images.Media.query(mCtx.getContentResolver(), MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projectionOnOrig, null, null,MediaStore.Images.Media._ID);   
-		
-		
-		int column_data_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-		int column_title_index = cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.TITLE);
-		int column_id_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID);
-		
-		HashMap<String,String> map;
-		
-		if(cursor.moveToFirst()){
-			do{
-				map = new HashMap<String, String>();
-				map.put(PICTURE_ID, cursor.getString(column_id_index));
-				map.put(PICTURE_NAME, cursor.getString(column_title_index));
-				map.put(PICTURE_PATH, cursor.getString(column_data_index));
-				mPictureContent.add(map);
-			}while(cursor.moveToNext());
-		}
-
-		cursor.close();
-
-		//get thumbnail data
-		
-		String[] projection = {
-				MediaStore.Images.Thumbnails.DATA};
-
-
-		//probably ineffective on a high number of pictures
-		for(int i = 0; i < mPictureContent.size(); i++){
-			
-			cursor = MediaStore.Images.Thumbnails.queryMiniThumbnail(
-					mCtx.getContentResolver(), 
-					Integer.parseInt(mPictureContent.get(i).get(PICTURE_ID)), 
-					MediaStore.Images.Thumbnails.MINI_KIND, 
-					projection);
-			
-			if(cursor.moveToFirst())
-				mPictureContent.get(i).put(PICTURE_THUMB, cursor.getString(0));
-			
-			cursor.close();
-		}
-		
-	}*/
-	
-	
-	/**
 	 * scan the sd card for audio files and store the names
 	 */
 	public void loadSoundContent(){
