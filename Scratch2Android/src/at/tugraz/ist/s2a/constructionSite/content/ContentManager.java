@@ -1,7 +1,6 @@
 package at.tugraz.ist.s2a.constructionSite.content;
 
 import java.io.DataOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -9,22 +8,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.TreeMap;
 
-import android.R.bool;
-
-import android.app.Activity;
 import android.content.Context;
-import android.os.Environment;
 import android.util.Log;
 import android.util.Pair;
 import at.tugraz.ist.s2a.ConstructionSiteActivity;
 import at.tugraz.ist.s2a.R;
-import at.tugraz.ist.s2a.utils.ImageContainer;
 import at.tugraz.ist.s2a.utils.Utils;
 import at.tugraz.ist.s2a.utils.filesystem.FileSystem;
 import at.tugraz.ist.s2a.utils.parser.Parser;
-import at.tugraz.ist.s2a.constructionSite.gui.dialogs.SpritesDialog;
 
 /**
  * provides content
@@ -144,7 +136,7 @@ public class ContentManager extends Observable{
 
 	private void setmAllContentArrayList(
 			ArrayList<Pair<String, ArrayList<HashMap<String, String>>>> list) {
-		mAllContentArrayList = list; //TODO before refactoring that wasn't set here, so do we need it?
+		mAllContentArrayList = list; 
 	}
 	
 	public String getCurrentSpriteName(){
@@ -282,8 +274,6 @@ public class ContentManager extends Observable{
 	 * save content
 	 */
 	public void saveContent(String file){
-		
-		String title = new String(file);
 		//((Activity)mCtx).setTitle(title.replace(ConstructionSiteActivity.DEFAULT_FILE_ENDING, "").replace("/", ""));
 		//TODO: setTitle-> ClassCastException Testing
 		ArrayList< Pair<String, ArrayList<HashMap<String, String>>>> spriteBrickList = new ArrayList< Pair<String, ArrayList<HashMap<String, String>>>>();
