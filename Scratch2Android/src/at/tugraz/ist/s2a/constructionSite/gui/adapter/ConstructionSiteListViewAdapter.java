@@ -219,6 +219,14 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 				return 	view;
 			}
 			
+			case (BrickDefine.SCALE_COSTUME): 
+			{
+				View view = organizeViewHandling(type, R.layout.construction_brick_scale_costume, convertView, position, brickId);
+				EditText eText = (EditText) view.findViewWithTag(mCtx.getString(R.string.constructional_brick_scale_costume_edit_text_tag));
+				eText.setOnEditorActionListener(this);
+				eText.setText(value);
+				return 	view;
+			}
 			default: 
 			{
 				return null;
@@ -319,6 +327,11 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 				return false;
 			}else
 			if(mCtx.getString(R.string.constructional_brick_wait_edit_text_tag).equals(tag)){
+				int brickPosition = mMainListView.getPositionForView((EditText)v);
+				mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE, ((EditText)v).getText().toString());
+				return false;
+			}else
+			if(mCtx.getString(R.string.constructional_brick_scale_costume_edit_text_tag).equals(tag)){
 				int brickPosition = mMainListView.getPositionForView((EditText)v);
 				mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE, ((EditText)v).getText().toString());
 				return false;
