@@ -50,7 +50,7 @@ public class ContentManager extends Observable{
 	}
 	
 	public void resetContent(){
-		mCurrentSpriteList = null; //TODO @niko, warum hast du das auskommentiert? weil dan geht testClear nicht
+		mCurrentSpriteList = null; 
 		mAllContentArrayList.clear();
 		mCurrentSprite = 0;
 		mIdCounter = 0;
