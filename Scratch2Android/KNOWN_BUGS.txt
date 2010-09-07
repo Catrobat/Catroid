@@ -17,6 +17,7 @@ medium
 --------
 
 - wenn pause gedrückt wird und gerade wait ist wird das nicht richtig ausgeführt
+- parser tests sind negativ wenn man deutsch eingestellt hat (Stage!=Buehne)
 
 --------
 low

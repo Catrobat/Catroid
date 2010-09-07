@@ -85,7 +85,8 @@ public class ContentManagerTest extends AndroidTestCase {
 	public void testAddSprite(){
 		
 		mCurrentSpriteList = new ArrayList<HashMap<String,String>>();
-        
+        mContentManager.loadAllContentNameList(); //quick fix: before that stage was not in mAllContentArrayList, but in normal execution it works correctly
+		
         mContentManager.addSprite(new Pair<String, ArrayList<HashMap<String,String>>>("FirstSprite", mCurrentSpriteList));     
         mAllContentNameList = mContentManager.getAllContentNameList();
         mAllContentArrayList = mContentManager.getAllContentList();
