@@ -113,7 +113,7 @@ public class BrickDefine {
 		    map.put(BrickDefine.BRICK_ID, "18");
 		    map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SCALE_COSTUME));
 		    map.put(BrickDefine.BRICK_NAME, "");
-		    map.put(BrickDefine.BRICK_VALUE, "");
+		    map.put(BrickDefine.BRICK_VALUE, "100");
 		    map.put(BrickDefine.BRICK_VALUE_1, "");
 		    list.add(map);
 			
