@@ -10,8 +10,10 @@ import java.util.TreeMap;
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.AndroidTestCase;
+import android.util.Pair;
 import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
 import at.tugraz.ist.s2a.constructionSite.content.ContentManager;
+import at.tugraz.ist.s2a.test.utils.TestDefines;
 import at.tugraz.ist.s2a.utils.Utils;
 import at.tugraz.ist.s2a.utils.filesystem.FileSystem;
 
@@ -19,8 +21,8 @@ public class ContentManagerTest extends AndroidTestCase {
 	
 	private ContentManager mContentManager;
 	
-	private ArrayList<HashMap<String, String>> mContentArrayList;
-	private ArrayList<ArrayList<HashMap<String, String>>> mAllContentArrayList;
+	private ArrayList<HashMap<String, String>> mCurrentSpriteList;
+	private ArrayList<Pair<String, ArrayList<HashMap<String, String>>>> mAllContentArrayList;
 	private ArrayList<String> mAllContentNameList;
 	
 	
@@ -30,9 +32,9 @@ public class ContentManagerTest extends AndroidTestCase {
 	
 	@Override
 	protected void setUp() throws Exception {
-		mContentArrayList = new ArrayList<HashMap<String,String>>();
+		mCurrentSpriteList = new ArrayList<HashMap<String,String>>();
 		
-		mAllContentArrayList = new ArrayList<ArrayList<HashMap<String, String>>>();
+		mAllContentArrayList = new ArrayList<Pair<String, ArrayList<HashMap<String, String>>>>();
 		mAllContentNameList = new ArrayList<String>();
 		
 		try {
@@ -62,58 +64,59 @@ public class ContentManagerTest extends AndroidTestCase {
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
         map.put(BrickDefine.BRICK_NAME, "Test1");
         map.put(BrickDefine.BRICK_VALUE, "");
-        mContentArrayList.add(map);
+        mCurrentSpriteList.add(map);
         map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "2");
         map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.PLAY_SOUND));
         map.put(BrickDefine.BRICK_NAME, "Test2");
         map.put(BrickDefine.BRICK_VALUE, "");
-        mContentArrayList.add(map);
+        mCurrentSpriteList.add(map);
 	}
 
 	public void testClear()
 	{
-		mContentArrayList = mContentManager.getContentArrayList();
+		mCurrentSpriteList = mContentManager.getCurrentSpriteList();
 		addTestDataToContentArrayList();
         mContentManager.resetContent();
 
-        assertTrue(mContentManager.getContentArrayList() == null);
+        assertTrue(mContentManager.getCurrentSpriteList() == null);
 	}
 
 	public void testAddSprite(){
 		
-		mContentArrayList = new ArrayList<HashMap<String,String>>();
-        
-        mContentManager.addSprite("FirstSprite", mContentArrayList);     
+		mCurrentSpriteList = new ArrayList<HashMap<String,String>>();
+        mContentManager.loadAllContentNameList(); //quick fix: before that stage was not in mAllContentArrayList, but in normal execution it works correctly
+		
+        mContentManager.addSprite(new Pair<String, ArrayList<HashMap<String,String>>>("FirstSprite", mCurrentSpriteList));     
         mAllContentNameList = mContentManager.getAllContentNameList();
         mAllContentArrayList = mContentManager.getAllContentList();
         
         assertEquals(mAllContentNameList.size(), 2);
-        assertEquals(mAllContentArrayList.get(1), mContentArrayList);
+        assertEquals(mAllContentArrayList.get(1).second, mCurrentSpriteList);
 	}
 	
 	public void testSwitchSprite(){
 		
-		mContentArrayList = new ArrayList<HashMap<String,String>>();    
-        mContentManager.addSprite("FirstSprite", mContentArrayList);
+		mCurrentSpriteList = new ArrayList<HashMap<String,String>>();    
+        mContentManager.addSprite(new Pair<String, ArrayList<HashMap<String,String>>>("FirstSprite", mCurrentSpriteList));
         
-        assertEquals(mContentArrayList, mContentManager.getContentArrayList());
+        assertEquals(mCurrentSpriteList, mContentManager.getCurrentSpriteList());
 	}
 	
 	public void testRemoveBrick(){
-		mContentArrayList = mContentManager.getContentArrayList();
+		mCurrentSpriteList = mContentManager.getCurrentSpriteList();
 		addTestDataToContentArrayList();
-		int size = mContentArrayList.size();	
+		int size = mCurrentSpriteList.size();	
         mContentManager.removeBrick(0);
-        int new_size = mContentArrayList.size();
+        int new_size = mCurrentSpriteList.size();
 
         assertEquals(size - 1 , new_size);
 	}
 	
 	public void testAddBrick(){
-		mContentArrayList = mContentManager.getContentArrayList();
+		mCurrentSpriteList = mContentManager.getCurrentSpriteList();
 		addTestDataToContentArrayList();
-		int size = mContentArrayList.size();	
+		int size = mCurrentSpriteList.size();	
 		
 		HashMap<String, String> map = new HashMap<String, String>();
         map.put(BrickDefine.BRICK_ID, "1");
@@ -122,7 +125,7 @@ public class ContentManagerTest extends AndroidTestCase {
         map.put(BrickDefine.BRICK_VALUE, "");
         
         mContentManager.addBrick(map);
-        int new_size = mContentArrayList.size();
+        int new_size = mCurrentSpriteList.size();
 
         assertEquals(size + 1 , new_size);    
 	}
@@ -145,46 +148,16 @@ public class ContentManagerTest extends AndroidTestCase {
         mContentManager.addBrick(createSingleTestBrick());
         mContentManager.addBrick(createSingleTestBrick());
         
-        mContentManager.addSprite("Sprite", new ArrayList<HashMap<String, String>>());
+        mContentManager.addSprite(new Pair<String, ArrayList<HashMap<String,String>>>("Sprite", new ArrayList<HashMap<String, String>>()));
         mContentManager.addBrick(createSingleTestBrick());
         mContentManager.addBrick(createSingleTestBrick());
         mContentManager.addBrick(createSingleTestBrick());
         
         assertEquals(mContentManager.getIdCounter(), 6);
-	    assertEquals(mContentManager.getContentArrayList().get(2).get(BrickDefine.BRICK_ID), "5");
+	    assertEquals(mContentManager.getCurrentSpriteList().get(2).get(BrickDefine.BRICK_ID), "5");
 	}
 	
 	///////////////////////////////
-	private String TESTXML =
-		"<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>"+
-		"<project>"+
-		"<stage name=\"stage\">"+
-		  "<command id=\"1001\">"+
-		    "<image path=\"bla.jpg\" />"+
-		  "</command>"+
-		  "<command id=\"1002\">"+
-		    "5"+
-		  "</command>"+
-		  "<command id=\"2001\">"+
-		    "<sound path=\"bla.mp3\" />"+
-		  "</command>"+
-		"</stage>"+
-		"<object name=\"sprite\">"+
-		  "<command id=\"4003\">"+
-		    "<image path=\"bla.jpg\" />"+
-		  "</command>"+
-		  "<command id=\"3001\">"+
-		  	"<x>5</x>"+
-		  	"<y>7</y>"+
-		  "</command>"+
-		  "<command id=\"4001\" />"+
-		  "<command id=\"4002\" />"+
-		  "<command id=\"4003\">"+
-		    "<image path=\"bla.jpg\" />"+
-		  "</command>"+
-		"</object>"+
-		"</project>";
-	
 
 	public void testLoadContent(){
 		
@@ -201,7 +174,7 @@ public class ContentManagerTest extends AndroidTestCase {
              DataOutputStream ps = new DataOutputStream(fOut);
          
              // Write the string to the file
-             ps.write(TESTXML.getBytes());
+             ps.write(TestDefines.TEST_XML.getBytes());
              /* ensure that everything is
               * really written out and close */
              ps.flush();
@@ -212,10 +185,10 @@ public class ContentManagerTest extends AndroidTestCase {
 		 //load content that was saved before in file
 		 mContentManager.loadContent(Utils.concatPaths("/sdcard/",FILENAME));
 		 //check if the content is the same as written to file
-		 mContentArrayList = mContentManager.getContentArrayList();
-		 assertEquals(mContentArrayList.get(0).get(BrickDefine.BRICK_TYPE), "1001");
-		 assertEquals(mContentArrayList.get(1).get(BrickDefine.BRICK_TYPE), "1002");
-		 assertEquals(mContentArrayList.get(2).get(BrickDefine.BRICK_TYPE), "2001");
+		 mCurrentSpriteList = mContentManager.getCurrentSpriteList();
+		 assertEquals(mCurrentSpriteList.get(0).get(BrickDefine.BRICK_TYPE), String.valueOf(BrickDefine.SET_BACKGROUND));
+		 assertEquals(mCurrentSpriteList.get(1).get(BrickDefine.BRICK_TYPE), String.valueOf(BrickDefine.WAIT));
+		 assertEquals(mCurrentSpriteList.get(2).get(BrickDefine.BRICK_TYPE), String.valueOf(BrickDefine.PLAY_SOUND));
 	}
 	
 	public void testSaveContentLoadContent(){
@@ -227,10 +200,10 @@ public class ContentManagerTest extends AndroidTestCase {
 		} catch (IOException e) {
 		}
         mContentManager.saveContent(testFile.getAbsolutePath());
-        mContentArrayList = mContentManager.getContentArrayList();
+        mCurrentSpriteList = mContentManager.getCurrentSpriteList();
         mContentManager = new ContentManager(mCtx); 
         mContentManager.loadContent(Utils.concatPaths("/sdcard/",FILENAME));
-        assertEquals(mContentArrayList, mContentManager.getContentArrayList());
+        assertEquals(mCurrentSpriteList, mContentManager.getCurrentSpriteList());
 	}
 }
 

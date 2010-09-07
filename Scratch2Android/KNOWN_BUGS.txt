@@ -8,15 +8,16 @@ high:
 --------
 
 - wenn man man auf der stage ist, den home-button drueckt, dann wieder in die app geht muss man noch einmal zurueck in die Baustelle und dann wieder auf die stage, damit das abspielen funktioniert
-- parser geh�rt sauber gemacht
-- stage geh�rt getestet - generell mehr f�lle was kann passieren usw. ber�cksichtigt
+- stage gehoert getestet - generell mehr faelle was kann passieren usw. beruecksichtigt
 - wenn audio-brick hinzugefuegt wird und es keine audio-datei am handy gibt wird index out of bounds exception geworfen; ist be mir dann auch vorgekommen, obwohl ich schon zewi audio-dateien oben hatte. ich hab dann noch eine zusaetzlich draufgespielt und dann hat es funktioniert
+- bei gehe zu x/y und warte wird zahl nicht immer korrekt angenommen, man muss am schluss enter druecken
 
 --------
 medium
 --------
 
 - wenn pause gedrückt wird und gerade wait ist wird das nicht richtig ausgeführt
+- parser tests sind negativ wenn man deutsch eingestellt hat (Stage!=Buehne)
 
 --------
 low

@@ -9,6 +9,7 @@ import java.util.Observer;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.util.Log;
+import android.util.Pair;
 import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
 import at.tugraz.ist.s2a.utils.Utils;
 
@@ -27,12 +28,12 @@ public class Sprite extends Thread implements Observer, OnCompletionListener {
 	private boolean mIsActive; //TODO quick workaround for wait problem on stage
 
 	public Sprite(StageView view,
-			ArrayList<HashMap<String, String>> commandList, String name) {
+			Pair<String, ArrayList<HashMap<String, String>>> spriteInfo) {
 		mStage = view;
-		mCommandList = commandList;
+		mCommandList = spriteInfo.second;
 		mMediaPlayer = new MediaPlayer();
 		mMediaPlayer.setOnCompletionListener(this);
-		mSpriteName = name;
+		mSpriteName = spriteInfo.first;
 		mBrickWait = new BrickWait();
 
 	}
