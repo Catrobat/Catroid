@@ -40,12 +40,11 @@ public class Parser {
 	final static int CMD_WAIT = 200;
 
 	final static String STAGE = "stage";
-	final static String OBJECT = "object";
+	final static String SPRITE = "sprite";
 	final static String ID = "id";
 	final static String PATH = "path";
 	final static String PATH_THUMB = "path_thumb";
 	final static String NAME = "name";
-	final static String FILE_NAME = "file_name";
 	
 	final static String PROJECT = "project";
 	final static String COMMAND = "command";
@@ -80,7 +79,7 @@ public class Parser {
 			e.printStackTrace();
 		}
 		Node stage = doc.getElementsByTagName(STAGE).item(0);
-		NodeList sprites = doc.getElementsByTagName(OBJECT);
+		NodeList sprites = doc.getElementsByTagName(SPRITE);
 		
 		// first read out stage objects
 		//insert localized stage name
@@ -125,11 +124,11 @@ public class Parser {
 	    		{	
 		    		//TODO is stage a sprite?
 	    			serializer.startTag(EMPTY_STRING, STAGE);
-	    			serializer.attribute(EMPTY_STRING, NAME, spriteNameList.get(j));
+	    			//serializer.attribute(EMPTY_STRING, NAME, spriteNameList.get(j));
 	    		}
 		    	else
 		    	{
-		    		serializer.startTag(EMPTY_STRING, OBJECT);
+		    		serializer.startTag(EMPTY_STRING, SPRITE);
 		    	    serializer.attribute(EMPTY_STRING, NAME, spriteNameList.get(j));
 		    	}
 		    	
@@ -149,9 +148,8 @@ public class Parser {
 						serializer.startTag(EMPTY_STRING, COMMAND);
 						serializer.attribute(EMPTY_STRING, ID, Integer.toString(BrickDefine.PLAY_SOUND));
 						serializer.startTag(EMPTY_STRING, SOUND);
-						
 						serializer.attribute(EMPTY_STRING, PATH, brick.get(BrickDefine.BRICK_VALUE));
-						serializer.attribute(EMPTY_STRING, FILE_NAME, brick.get(BrickDefine.BRICK_NAME));
+						serializer.attribute(EMPTY_STRING, NAME, brick.get(BrickDefine.BRICK_NAME));
 						serializer.endTag(EMPTY_STRING, SOUND);
 						serializer.endTag(EMPTY_STRING, COMMAND);
 						break;
@@ -200,7 +198,7 @@ public class Parser {
 		    		stageRead = true;
 		    	}
 		    	else {
-		    		serializer.endTag(EMPTY_STRING, OBJECT);
+		    		serializer.endTag(EMPTY_STRING, SPRITE);
 		    	}
 			}
 		    catch (Exception e){
@@ -258,7 +256,7 @@ public class Parser {
 				case BrickDefine.PLAY_SOUND:
 				
 					value = bricks.item(i).getFirstChild().getAttributes().getNamedItem(PATH).getNodeValue();
-					file_name = bricks.item(i).getFirstChild().getAttributes().getNamedItem(FILE_NAME).getNodeValue();
+					file_name = bricks.item(i).getFirstChild().getAttributes().getNamedItem(NAME).getNodeValue();
 					break;
 				case BrickDefine.WAIT:
 					value = bricks.item(i).getFirstChild().getNodeValue();
