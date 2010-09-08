@@ -35,7 +35,7 @@
 			</TextView>
 			<EditText android:layout_width="wrap_content" 
 				android:layout_height="wrap_content" android:text="0" 
-				android:inputType="number|numberDecimal" 
+				android:inputType="number|numberDecimal|numberSigned" 
 				android:maxLines="1" 
 				android:maxLength="3" 
 				android:id="@+id/InputValueEditTextX" 
