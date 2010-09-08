@@ -11,6 +11,7 @@ high:
 - stage gehoert getestet - generell mehr faelle was kann passieren usw. beruecksichtigt
 - wenn audio-brick hinzugefuegt wird und es keine audio-datei am handy gibt wird index out of bounds exception geworfen; ist be mir dann auch vorgekommen, obwohl ich schon zewi audio-dateien oben hatte. ich hab dann noch eine zusaetzlich draufgespielt und dann hat es funktioniert
 - bei gehe zu x/y und warte wird zahl nicht immer korrekt angenommen, man muss am schluss enter druecken
+- seit der context menu animation kommen manchmal view fehler
 
 --------
 medium
@@ -22,7 +23,8 @@ medium
 --------
 low
 --------
-
+- after moving a brick, the gallery on top is not sorted anymore
+- edit text auf htc desire manchmal zu groﬂ
 --------
 quick fixes: maybe implement a better solution later
 --------
