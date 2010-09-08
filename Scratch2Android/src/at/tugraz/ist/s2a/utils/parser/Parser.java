@@ -1,5 +1,6 @@
 package at.tugraz.ist.s2a.utils.parser;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -106,91 +107,29 @@ public class Parser {
 			e.printStackTrace();
 		}
 
-		boolean stageRead = false;
+		// first write stage
+		if (!spriteNameList.get(0).equals(context.getString(R.string.stage))) {
+			Log.e("Parser",
+					"Stage seems not to be the first element in the data structure. No valid XML will be created");
+			return "";
+		}
+		try {
+			serializer.startTag(EMPTY_STRING, STAGE);
+			writeSpriteContentToXml(spriteBrickList.get(0), serializer);
+			serializer.endTag(EMPTY_STRING, STAGE);
+		} catch (Exception e) {
+			Log.e("Parser", "An error occured in creating stage xml structure");
+			e.printStackTrace();
+		}
 
-		for (int j = 0; j < spriteBrickList.size(); j++) {
+		// then all other sprites
+		for (int j = 1; j < spriteBrickList.size(); j++) {
 			ArrayList<HashMap<String, String>> sprite = spriteBrickList.get(j);
 			try {
-				if (!stageRead) { // workaround so that stage always is the
-									// first element in xml file
-					if (!spriteNameList.get(j).equals(
-							context.getString(R.string.stage)))
-						throw new Exception(
-								"Stage is not the first element of your data structure!!");
-					serializer.startTag(EMPTY_STRING, STAGE);
-				} else {
-					serializer.startTag(EMPTY_STRING, SPRITE);
-					serializer.attribute(EMPTY_STRING, NAME,
-							spriteNameList.get(j));
-				}
-				for (int i = 0; i < sprite.size(); i++) {
-					HashMap<String, String> brick = sprite.get(i);
-					serializer.startTag(EMPTY_STRING, BRICK);
-					serializer.attribute(EMPTY_STRING, ID,
-							brick.get(BrickDefine.BRICK_ID));
-					switch (Integer.parseInt(brick.get(BrickDefine.BRICK_TYPE))) {
-					case BrickDefine.SET_BACKGROUND:
-						serializer.attribute(EMPTY_STRING, TYPE,
-								Integer.toString(BrickDefine.SET_BACKGROUND));
-						serializer.startTag(EMPTY_STRING, IMAGE);
-						serializer.attribute(EMPTY_STRING, PATH,
-								brick.get(BrickDefine.BRICK_VALUE));
-						serializer.attribute(EMPTY_STRING, PATH_THUMB,
-								brick.get(BrickDefine.BRICK_VALUE_1));
-						serializer.endTag(EMPTY_STRING, IMAGE);
-						break;
-					case BrickDefine.PLAY_SOUND:
-						serializer.attribute(EMPTY_STRING, TYPE,
-								Integer.toString(BrickDefine.PLAY_SOUND));
-						serializer.startTag(EMPTY_STRING, SOUND);
-						serializer.attribute(EMPTY_STRING, PATH,
-								brick.get(BrickDefine.BRICK_VALUE));
-						serializer.attribute(EMPTY_STRING, NAME,
-								brick.get(BrickDefine.BRICK_NAME));
-						serializer.endTag(EMPTY_STRING, SOUND);
-						break;
-					case BrickDefine.WAIT:
-						serializer.attribute(EMPTY_STRING, TYPE,
-								Integer.toString(BrickDefine.WAIT));
-						serializer.text(brick.get(BrickDefine.BRICK_VALUE));
-						break;
-					case BrickDefine.HIDE:
-						serializer.attribute(EMPTY_STRING, TYPE,
-								Integer.toString(BrickDefine.HIDE));
-						break;
-					case BrickDefine.SHOW:
-						serializer.attribute(EMPTY_STRING, TYPE,
-								Integer.toString(BrickDefine.SHOW));
-						break;
-					case BrickDefine.SET_COSTUME:
-						serializer.attribute(EMPTY_STRING, TYPE,
-								Integer.toString(BrickDefine.SET_COSTUME));
-						serializer.startTag(EMPTY_STRING, IMAGE);
-						serializer.attribute(EMPTY_STRING, PATH,
-								brick.get(BrickDefine.BRICK_VALUE));
-						serializer.attribute(EMPTY_STRING, PATH_THUMB,
-								brick.get(BrickDefine.BRICK_VALUE_1));
-						serializer.endTag(EMPTY_STRING, IMAGE);
-						break;
-					case BrickDefine.GO_TO:
-						serializer.attribute(EMPTY_STRING, TYPE,
-								Integer.toString(BrickDefine.GO_TO));
-						serializer.startTag(EMPTY_STRING, X);
-						serializer.text(brick.get(BrickDefine.BRICK_VALUE));
-						serializer.endTag(EMPTY_STRING, X);
-						serializer.startTag(EMPTY_STRING, Y);
-						serializer.text(brick.get(BrickDefine.BRICK_VALUE_1));
-						serializer.endTag(EMPTY_STRING, Y);
-						break;
-					}
-					serializer.endTag(EMPTY_STRING, BRICK);
-				}
-				if (!stageRead) {
-					serializer.endTag(EMPTY_STRING, STAGE);
-					stageRead = true;
-				} else {
-					serializer.endTag(EMPTY_STRING, SPRITE);
-				}
+				serializer.startTag(EMPTY_STRING, SPRITE);
+				serializer.attribute(EMPTY_STRING, NAME, spriteNameList.get(j));
+				writeSpriteContentToXml(sprite, serializer);
+				serializer.endTag(EMPTY_STRING, SPRITE);
 			} catch (Exception e) {
 				Log.e("Parser", "An error occured in toXml 2 " + e.getMessage());
 				e.printStackTrace();
@@ -261,6 +200,74 @@ public class Parser {
 			list.add(map);
 		}
 		return list;
+
+	}
+
+	private void writeSpriteContentToXml(
+			ArrayList<HashMap<String, String>> sprite, XmlSerializer serializer)
+			throws IOException {
+		for (int i = 0; i < sprite.size(); i++) {
+			HashMap<String, String> brick = sprite.get(i);
+			serializer.startTag(EMPTY_STRING, BRICK);
+			serializer.attribute(EMPTY_STRING, ID,
+					brick.get(BrickDefine.BRICK_ID));
+			switch (Integer.parseInt(brick.get(BrickDefine.BRICK_TYPE))) {
+			case BrickDefine.SET_BACKGROUND:
+				serializer.attribute(EMPTY_STRING, TYPE,
+						Integer.toString(BrickDefine.SET_BACKGROUND));
+				serializer.startTag(EMPTY_STRING, IMAGE);
+				serializer.attribute(EMPTY_STRING, PATH,
+						brick.get(BrickDefine.BRICK_VALUE));
+				serializer.attribute(EMPTY_STRING, PATH_THUMB,
+						brick.get(BrickDefine.BRICK_VALUE_1));
+				serializer.endTag(EMPTY_STRING, IMAGE);
+				break;
+			case BrickDefine.PLAY_SOUND:
+				serializer.attribute(EMPTY_STRING, TYPE,
+						Integer.toString(BrickDefine.PLAY_SOUND));
+				serializer.startTag(EMPTY_STRING, SOUND);
+				serializer.attribute(EMPTY_STRING, PATH,
+						brick.get(BrickDefine.BRICK_VALUE));
+				serializer.attribute(EMPTY_STRING, NAME,
+						brick.get(BrickDefine.BRICK_NAME));
+				serializer.endTag(EMPTY_STRING, SOUND);
+				break;
+			case BrickDefine.WAIT:
+				serializer.attribute(EMPTY_STRING, TYPE,
+						Integer.toString(BrickDefine.WAIT));
+				serializer.text(brick.get(BrickDefine.BRICK_VALUE));
+				break;
+			case BrickDefine.HIDE:
+				serializer.attribute(EMPTY_STRING, TYPE,
+						Integer.toString(BrickDefine.HIDE));
+				break;
+			case BrickDefine.SHOW:
+				serializer.attribute(EMPTY_STRING, TYPE,
+						Integer.toString(BrickDefine.SHOW));
+				break;
+			case BrickDefine.SET_COSTUME:
+				serializer.attribute(EMPTY_STRING, TYPE,
+						Integer.toString(BrickDefine.SET_COSTUME));
+				serializer.startTag(EMPTY_STRING, IMAGE);
+				serializer.attribute(EMPTY_STRING, PATH,
+						brick.get(BrickDefine.BRICK_VALUE));
+				serializer.attribute(EMPTY_STRING, PATH_THUMB,
+						brick.get(BrickDefine.BRICK_VALUE_1));
+				serializer.endTag(EMPTY_STRING, IMAGE);
+				break;
+			case BrickDefine.GO_TO:
+				serializer.attribute(EMPTY_STRING, TYPE,
+						Integer.toString(BrickDefine.GO_TO));
+				serializer.startTag(EMPTY_STRING, X);
+				serializer.text(brick.get(BrickDefine.BRICK_VALUE));
+				serializer.endTag(EMPTY_STRING, X);
+				serializer.startTag(EMPTY_STRING, Y);
+				serializer.text(brick.get(BrickDefine.BRICK_VALUE_1));
+				serializer.endTag(EMPTY_STRING, Y);
+				break;
+			}
+			serializer.endTag(EMPTY_STRING, BRICK);
+		}
 
 	}
 }
