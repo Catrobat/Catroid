@@ -70,7 +70,7 @@ public class ParserTest extends AndroidTestCase {
 		assertEquals(String.valueOf(BrickDefine.PLAY_SOUND), list.get(0).second
 				.get(2).get(BrickDefine.BRICK_TYPE));
 
-		assertEquals(5, list.get(1).second.size());
+		assertEquals(6, list.get(1).second.size());
 		assertEquals(String.valueOf(BrickDefine.SET_COSTUME),
 				list.get(1).second.get(0).get(BrickDefine.BRICK_TYPE));
 		assertEquals("3", list.get(1).second.get(0).get(BrickDefine.BRICK_ID));
@@ -157,6 +157,12 @@ public class ParserTest extends AndroidTestCase {
 				Integer.toString(BrickDefine.SET_COSTUME));
 		map.put(BrickDefine.BRICK_VALUE, "bla.jpg");
 		map.put(BrickDefine.BRICK_VALUE_1, "bla.jpg");
+		brickList.add(map);
+		
+		map = new HashMap<String, String>();
+		map.put(BrickDefine.BRICK_ID, "8");
+		map.put(BrickDefine.BRICK_TYPE, Integer.toString(BrickDefine.SCALE_COSTUME));
+		map.put(BrickDefine.BRICK_VALUE, "50");
 		brickList.add(map);
 		
 		spritesMap.add(new Pair<String, ArrayList<HashMap<String, String>>>(

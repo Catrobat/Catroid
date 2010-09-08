@@ -194,6 +194,9 @@ public class Parser {
 				value1 = bricks.item(i).getLastChild().getFirstChild()
 						.getNodeValue();
 				break;
+			case BrickDefine.SCALE_COSTUME:
+				value = bricks.item(i).getFirstChild().getNodeValue();
+				break;
 			}
 			HashMap<String, String> map = getBrickMap(id, title, value, value1,
 					brickType);
@@ -265,6 +268,10 @@ public class Parser {
 				serializer.text(brick.get(BrickDefine.BRICK_VALUE_1));
 				serializer.endTag(EMPTY_STRING, Y);
 				break;
+			case BrickDefine.SCALE_COSTUME:
+				serializer.attribute(EMPTY_STRING, TYPE,
+						Integer.toString(BrickDefine.SCALE_COSTUME));
+				serializer.text(brick.get(BrickDefine.BRICK_VALUE));
 			}
 			serializer.endTag(EMPTY_STRING, BRICK);
 		}
