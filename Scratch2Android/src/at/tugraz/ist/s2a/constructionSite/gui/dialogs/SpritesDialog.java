@@ -111,8 +111,10 @@ public class SpritesDialog extends Dialog implements Observer
 
 	@Override
 	public void show() {
+		mAdapter.notifyDataSetChanged();
 		super.show();
 		mToolboxLayout.startAnimation(mSlide_in);
+		
 	}
 
 	@Override

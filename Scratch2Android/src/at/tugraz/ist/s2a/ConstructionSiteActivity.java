@@ -69,6 +69,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	public static final String DEFAULT_FILE = "defaultSaveFile.spf";
 	public static final String DEFAULT_FILE_ENDING = ".spf";
 	
+	public static final String MEDIA_IGNORE_BY_ANDROID_FILENAME = ".nomedia";
+	
 	public static String ROOT_IMAGES;
 	public static String ROOT_SOUNDS;
 	public static String ROOT;
@@ -161,7 +163,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		        	 String imageThumbnailName = mImageContainer.saveThumbnail(image_full_path.getAbsolutePath());
 		        	 
 		        	 String oldThumbName = content.get(BrickDefine.BRICK_VALUE_1);
-		        	 
+		        	 String oldImageName = content.get(BrickDefine.BRICK_VALUE);
 		        	 
 		        	 content.put(BrickDefine.BRICK_VALUE, imageName);
 		        	 content.put(BrickDefine.BRICK_VALUE_1, imageThumbnailName);
@@ -172,6 +174,10 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		            	 mContentManager.getContentGalleryList().add(indexOf, imageThumbnailName);
 		             else
 		            	 mContentManager.getContentGalleryList().add(imageThumbnailName);
+		             
+		             //remove old files
+		             mImageContainer.deleteImage(oldThumbName);
+		             mImageContainer.deleteImage(oldImageName);
 		             
 		             updateViews();
 		             //debug
@@ -380,6 +386,24 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 				Log.e("CONSTRUCTION_SITE_ACTIVITY", e.getMessage());
 				e.printStackTrace();
 			}
+			
+		//set ignore files to the folders
+		File noMediaFile = new File(Utils.concatPaths(ROOT_IMAGES, MEDIA_IGNORE_BY_ANDROID_FILENAME));
+		try {
+			if(!noMediaFile.exists())
+				noMediaFile.createNewFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		noMediaFile = new File(Utils.concatPaths(ROOT_SOUNDS, MEDIA_IGNORE_BY_ANDROID_FILENAME));
+		try {
+			if(!noMediaFile.exists())
+				noMediaFile.createNewFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2,

@@ -55,7 +55,8 @@ public class ContentManager extends Observable{
 		mCurrentSprite = 0;
 		mIdCounter = 0;
 		mContentGalleryList.clear();
-		}
+		mAllContentNameList.clear();
+	}
 	
 	public void addSprite(Pair<String, ArrayList<HashMap<String, String>>> sprite)
 	{
@@ -93,6 +94,7 @@ public class ContentManager extends Observable{
 				|| type.equals(String.valueOf(BrickDefine.SET_COSTUME))){
 			
 			mContentGalleryList.remove(mCurrentSpriteList.get(position).get(BrickDefine.BRICK_VALUE_1));
+			//TODO delete pictures from sdcard and remove from ImageConatiner -> design problem
 		}
 		mCurrentSpriteList.remove(position);
 		setChanged();
@@ -127,11 +129,12 @@ public class ContentManager extends Observable{
 	}
 	
 	
-	public void setDefaultStage(){ //TODO komischer name!
+	public void setDefaultStage(){ //TODO komischer name! //TODO please comment in english
 		mCurrentSpriteList = new ArrayList<HashMap<String,String>>();
 		mCurrentSprite = 0;
 
 		mAllContentArrayList.add(new Pair<String, ArrayList<HashMap<String, String>>>(mCtx.getString(R.string.stage), mCurrentSpriteList));
+		mAllContentNameList.add(mCtx.getString(R.string.stage));
 	}
 
 	private void setmAllContentArrayList(
@@ -179,6 +182,8 @@ public class ContentManager extends Observable{
     		HashMap<String, String> map = mCurrentSpriteList.get(position);
     		mCurrentSpriteList.remove(position);
     		mCurrentSpriteList.add(position-1, map);
+    		
+    		loadContentGalleryList();
     		setChanged();
     		notifyObservers(position-1);
     		return true;
@@ -191,6 +196,8 @@ public class ContentManager extends Observable{
     		HashMap<String, String> map = mCurrentSpriteList.get(position);
     		mCurrentSpriteList.remove(position);
     		mCurrentSpriteList.add(position+1, map);
+    		
+    		loadContentGalleryList();
     		setChanged();
     		notifyObservers(position+1);
     		return true;

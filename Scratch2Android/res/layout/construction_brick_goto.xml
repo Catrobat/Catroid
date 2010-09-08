@@ -15,15 +15,14 @@
 			android:layout_width="wrap_content" 
 			android:layout_height="wrap_content" 
 			android:layout_centerVertical="true" 
-			android:text="@string/goto_main_adapter">
+			android:text="@string/goto_main_adapter" android:layout_toLeftOf="@+id/GoToLinearLayout" android:paddingRight="5dip">
 		</TextView>
-		<LinearLayout android:id="@+id/LinearLayout01" 
-			android:layout_width="wrap_content" 
+		<LinearLayout android:layout_width="wrap_content" 
 			android:layout_height="wrap_content" 
 			android:layout_alignParentRight="true" 
 			android:layout_centerVertical="true" 
 			android:clickable="true" 
-			android:longClickable="true">
+			android:longClickable="true" android:layout_marginLeft="5dip" android:id="@+id/GoToLinearLayout">
 			<TextView android:id="@+id/TextView01" 
 				android:layout_width="wrap_content" 
 				android:layout_height="wrap_content" 
