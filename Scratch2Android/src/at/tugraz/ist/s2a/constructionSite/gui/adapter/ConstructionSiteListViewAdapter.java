@@ -48,7 +48,7 @@ import at.tugraz.ist.s2a.utils.ImageContainer;
 import at.tugraz.ist.s2a.utils.Utils;
 import at.tugraz.ist.s2a.utils.filesystem.MediaFileLoader;
 
-public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnClickListener, TextView.OnEditorActionListener, AdapterView.OnItemSelectedListener{
+public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnClickListener, TextView.OnKeyListener, AdapterView.OnItemSelectedListener{
 		
 	private Context mCtx;
     private MediaFileLoader mMediaFileLoader;
@@ -92,26 +92,32 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 		mPositionForAnimation = position;
 	}
 	
+	private void tryStopAnimationOnView(View view){
+		try {
+			if(view.getAnimation() != null){
+				view.getAnimation().setDuration(0);
+				view.setAnimation(null);
+			}
+				
+		} catch (Exception e) {
+					e.printStackTrace();
+		}
+		
+	}
+	
 	private View organizeViewHandling(String type, int typeId, View convertView, int position, String brickId){
 		View view = null;
 		if(convertView != null){
 			view = convertView;
+			tryStopAnimationOnView(view);
 		}else{
 			view =  mInflater.inflate(typeId, null);
 			
 		}
 		
-		if(mPositionForAnimation == position){
-			Animation shake = AnimationUtils.loadAnimation(mCtx, R.anim.shake);
-			view.startAnimation(shake);
-		}else{
-				
-			try {
-				if(view.getAnimation() != null)
-					view.getAnimation().setDuration(0);
-			} catch (Exception e) {
-					e.printStackTrace();
-			}
+		if(mPositionForAnimation >= 0 && mPositionForAnimation == position){
+				Animation shake = AnimationUtils.loadAnimation(mCtx, R.anim.shake);
+				view.startAnimation(shake);
 		}
 			
 		return view;
@@ -169,7 +175,7 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 			{
 				View view = organizeViewHandling(type, R.layout.construction_brick_wait, convertView, position, brickId);
 				EditText eText = (EditText) view.findViewWithTag(mCtx.getString(R.string.constructional_brick_wait_edit_text_tag));
-				eText.setOnEditorActionListener(this);
+				eText.setOnKeyListener(this);
 				eText.setText(value);
 				return view;		
 			}
@@ -194,11 +200,11 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 			{
 				View view = organizeViewHandling(type, R.layout.construction_brick_goto, convertView, position, brickId);
 				EditText eTextX = (EditText) view.findViewWithTag(mCtx.getString(R.string.constructional_brick_go_to_x_tag));
-				eTextX.setOnEditorActionListener(this);
+				eTextX.setOnKeyListener(this);
 				eTextX.setText(value);
 				
 				EditText eTextY = (EditText) view.findViewWithTag(mCtx.getString(R.string.constructional_brick_go_to_y_tag));
-				eTextY.setOnEditorActionListener(this);
+				eTextY.setOnKeyListener(this);
 				eTextY.setText(value1);
 				return view;
 			}	
@@ -223,7 +229,7 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 			{
 				View view = organizeViewHandling(type, R.layout.construction_brick_scale_costume, convertView, position, brickId);
 				EditText eText = (EditText) view.findViewWithTag(mCtx.getString(R.string.constructional_brick_scale_costume_edit_text_tag));
-				eText.setOnEditorActionListener(this);
+				eText.setOnKeyListener(this);
 				eText.setText(value);
 				return 	view;
 			}
@@ -306,38 +312,36 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 
 	public void notifyDataSetChanged(ArrayList<HashMap<String, String>> data) {
 		mBrickList = data;
-		super.notifyDataSetChanged();
+		notifyDataSetChanged();
 	}
 
 	public void onNothingSelected(AdapterView<?> arg0) {}
 
-	public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-		
-		if(actionId == 6 || event.getKeyCode() == KeyEvent.KEYCODE_ENTER){
-			String tag = (String) v.getTag();
-			
-			if(mCtx.getString(R.string.constructional_brick_go_to_x_tag).equals(tag)){
-				int brickPosition = mMainListView.getPositionForView((EditText)v);
-				mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE, ((EditText)v).getText().toString());
-				return false;
-			}else
-			if(mCtx.getString(R.string.constructional_brick_go_to_y_tag).equals(tag)){
-				int brickPosition = mMainListView.getPositionForView((EditText)v);
-				mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE_1, ((EditText)v).getText().toString());
-				return false;
-			}else
-			if(mCtx.getString(R.string.constructional_brick_wait_edit_text_tag).equals(tag)){
-				int brickPosition = mMainListView.getPositionForView((EditText)v);
-				mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE, ((EditText)v).getText().toString());
-				return false;
-			}else
-			if(mCtx.getString(R.string.constructional_brick_scale_costume_edit_text_tag).equals(tag)){
-				int brickPosition = mMainListView.getPositionForView((EditText)v);
-				mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE, ((EditText)v).getText().toString());
-				return false;
-			}
-		}
 
+	@Override
+	public boolean onKey(View v, int keyCode, KeyEvent event) {
+		String tag = v.getTag().toString();
+		
+		if(mCtx.getString(R.string.constructional_brick_go_to_x_tag).equals(tag)){
+			int brickPosition = mMainListView.getPositionForView((EditText)v);
+			mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE, ((EditText)v).getText().toString());
+			return false;
+		}else
+		if(mCtx.getString(R.string.constructional_brick_go_to_y_tag).equals(tag)){
+			int brickPosition = mMainListView.getPositionForView((EditText)v);
+			mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE_1, ((EditText)v).getText().toString());
+			return false;
+		}else
+		if(mCtx.getString(R.string.constructional_brick_wait_edit_text_tag).equals(tag)){
+			int brickPosition = mMainListView.getPositionForView((EditText)v);
+			mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE, ((EditText)v).getText().toString());
+			return false;
+		}else
+		if(mCtx.getString(R.string.constructional_brick_scale_costume_edit_text_tag).equals(tag)){
+			int brickPosition = mMainListView.getPositionForView((EditText)v);
+			mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE, ((EditText)v).getText().toString());
+			return false;
+		}
 		return false;
 	}
 
