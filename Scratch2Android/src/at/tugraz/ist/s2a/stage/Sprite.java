@@ -22,6 +22,7 @@ public class Sprite extends Thread implements Observer, OnCompletionListener {
 	private int mCommandCount = 0;
 	private int mCurrentXPosition = 0;
 	private int mCurrentYPosition = 0;
+	private float mScalingFactor = 1;
 	private String mCurrentImage = "";
 	private boolean mWasPlaying = false;
 	private BrickWait mBrickWait;
@@ -71,7 +72,7 @@ public class Sprite extends Thread implements Observer, OnCompletionListener {
 			mCurrentImage = Utils.concatPaths(StageActivity.ROOT_IMAGES, map.get(BrickDefine.BRICK_VALUE));
 			mStage.getThread().addBitmapToDraw(mSpriteName,
 					Utils.concatPaths(StageActivity.ROOT_IMAGES, map.get(BrickDefine.BRICK_VALUE)), mCurrentXPosition,
-					mCurrentYPosition);
+					mCurrentYPosition, mScalingFactor);
 			mCommandCount++;
 			doNextCommand();
 			break;
@@ -117,7 +118,14 @@ public class Sprite extends Thread implements Observer, OnCompletionListener {
 
 		case BrickDefine.SHOW:
 			mStage.getThread().addBitmapToDraw(mSpriteName, mCurrentImage,
-					mCurrentXPosition, mCurrentYPosition);
+					mCurrentXPosition, mCurrentYPosition, mScalingFactor);
+			mCommandCount++;
+			doNextCommand();
+			break;
+			
+		case BrickDefine.SCALE_COSTUME:
+			mScalingFactor = ((float)Integer.parseInt(map.get(BrickDefine.BRICK_VALUE)))/100;
+			mStage.getThread().changeScalingFactor(mSpriteName, mScalingFactor);
 			mCommandCount++;
 			doNextCommand();
 			break;
