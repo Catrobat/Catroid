@@ -17,6 +17,7 @@ high:
 medium
 --------
 
+- warum ist der ContentManager kein Singleton??
 - wenn pause gedrückt wird und gerade wait ist wird das nicht richtig ausgeführt
 - parser tests sind negativ wenn man deutsch eingestellt hat (Stage!=Buehne)
 
@@ -24,7 +25,7 @@ medium
 low
 --------
 - after moving a brick, the gallery on top is not sorted anymore
-- edit text auf htc desire manchmal zu gro�
+- edit text auf htc desire manchmal zu gro�
 --------
 quick fixes: maybe implement a better solution later
 --------

@@ -44,6 +44,8 @@ public class ContentManager extends Observable{
 	private int mIdCounter;
 	private static String STAGE;
 	
+	private int mCount = 0;
+	
 
 	
 	public ArrayList<HashMap<String, String>> getCurrentSpriteList(){
@@ -128,15 +130,17 @@ public class ContentManager extends Observable{
 		mAllContentNameList = new ArrayList<String>();
 		
 		resetContent();
-		setDefaultStage();
+		setDefaultStage(); //TODO geoert das hier gesetzt??
 	}
 	
 	/**
 	 * creates a default sprite with three costumes
 	 */
 	public void setDefaultStage(){
-		//TODO store costumes/background image to sd card
-		//TODO create new sprites
+		//TODO this method will be called to often and not only if there's no element in construction site!
+		mCount++;
+		Log.d("ContentManager", "Number of calls to setDefaultStage: "+mCount);
+		
 		
 		//initialize stage
 		mCurrentSpriteList = new ArrayList<HashMap<String,String>>();
@@ -146,17 +150,20 @@ public class ContentManager extends Observable{
 		//create a new sprite
 		
 		//TODO one test fails with this!! why?
-//		Pair<String, ArrayList<HashMap<String, String>>> sprite = new Pair<String, ArrayList<HashMap<String, String>>>(mCtx.getResources().getText(R.string.default_sprite).toString(), new ArrayList<HashMap<String,String>>());
-//		this.addSprite(sprite);
+		Pair<String, ArrayList<HashMap<String, String>>> sprite = new Pair<String, ArrayList<HashMap<String, String>>>(mCtx.getResources().getText(R.string.default_sprite).toString(), new ArrayList<HashMap<String,String>>());
+		this.addSprite(sprite);
 		
-		//first save all images and thumbnails to sd card
-//		String imagesFolder = ConstructionSiteActivity.DEFAULT_ROOT+ConstructionSiteActivity.ROOT_IMAGES;
-//		
-//		Bitmap costume1 = ((BitmapDrawable) mCtx.getResources().getDrawable(R.drawable.scratchoid)).getBitmap();
-//		Utils.saveBitmapOnSDCardAsPNG(Utils.concatPaths(imagesFolder, "costume1.png"), costume1);
-//		
-//		Bitmap costume2 = ((BitmapDrawable) mCtx.getResources().getDrawable(R.drawable.scratchoid_banzai)).getBitmap();
-//		Utils.saveBitmapOnSDCardAsPNG(Utils.concatPaths(imagesFolder, "costume2.png"), costume2);
+		ImageContainer imageContainer = ImageContainer.getInstance();
+		Bitmap costume1 = ((BitmapDrawable) mCtx.getResources().getDrawable(R.drawable.scratchoid)).getBitmap();
+		String imagePath = imageContainer.saveImageFromBitmap(costume1, "scratchoid.png", false);
+		String thumbPath = imageContainer.saveThumbnailFromBitmap(costume1, "scratchoidthumb.png", false); //TODO here 3rd arg should be true to clean up images 
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_COSTUME));
+		map.put(BrickDefine.BRICK_VALUE, imagePath);
+		map.put(BrickDefine.BRICK_VALUE_1, thumbPath);
+		this.addBrick(map);
+
 		}
 
 	private void setmAllContentArrayList(
