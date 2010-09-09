@@ -10,10 +10,14 @@ import java.util.Observable;
 import java.util.Observer;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.util.Pair;
 import at.tugraz.ist.s2a.ConstructionSiteActivity;
 import at.tugraz.ist.s2a.R;
+import at.tugraz.ist.s2a.utils.ImageContainer;
 import at.tugraz.ist.s2a.utils.Utils;
 import at.tugraz.ist.s2a.utils.filesystem.FileSystem;
 import at.tugraz.ist.s2a.utils.parser.Parser;
@@ -39,6 +43,9 @@ public class ContentManager extends Observable{
 	private int mCurrentSprite;
 	private int mIdCounter;
 	private static String STAGE;
+	
+	private int mCount = 0;
+	
 
 	
 	public ArrayList<HashMap<String, String>> getCurrentSpriteList(){
@@ -52,11 +59,11 @@ public class ContentManager extends Observable{
 	public void resetContent(){
 		mCurrentSpriteList = null; 
 		mAllContentArrayList.clear();
+		mAllContentNameList.clear();
 		mCurrentSprite = 0;
 		mIdCounter = 0;
 		mContentGalleryList.clear();
-		mAllContentNameList.clear();
-	}
+		}
 	
 	public void addSprite(Pair<String, ArrayList<HashMap<String, String>>> sprite)
 	{
@@ -125,16 +132,67 @@ public class ContentManager extends Observable{
 		mAllContentNameList = new ArrayList<String>();
 		
 		resetContent();
-		setDefaultStage();
+		setEmptyStage(); 
 	}
 	
-	
-	public void setDefaultStage(){ //TODO komischer name! //TODO please comment in english
+	public void setEmptyStage(){
+		//initialize stage
 		mCurrentSpriteList = new ArrayList<HashMap<String,String>>();
 		mCurrentSprite = 0;
-
 		mAllContentArrayList.add(new Pair<String, ArrayList<HashMap<String, String>>>(mCtx.getString(R.string.stage), mCurrentSpriteList));
-		mAllContentNameList.add(mCtx.getString(R.string.stage));
+		this.loadAllContentNameList(); //if we do not call this here, we will have problems at the sprite dialog!
+
+		}
+	
+	public void createDemoSprite(){
+		//create a new sprite with 3 costumes
+		Pair<String, ArrayList<HashMap<String, String>>> sprite = new Pair<String, ArrayList<HashMap<String, String>>>(mCtx.getResources().getText(R.string.default_sprite).toString(), new ArrayList<HashMap<String,String>>());
+		this.addSprite(sprite);
+		
+		ImageContainer imageContainer = ImageContainer.getInstance();
+		Bitmap costume1 = ((BitmapDrawable) mCtx.getResources().getDrawable(R.drawable.scratchoid)).getBitmap();
+		String image1Path = imageContainer.saveImageFromBitmap(costume1, "scratchoid.png", false);
+		String thumb1Path = imageContainer.saveThumbnailFromBitmap(costume1, "scratchoid_thumb.png", false); //TODO here 3rd arg should be true to clean up images 
+		Bitmap costume2 = ((BitmapDrawable) mCtx.getResources().getDrawable(R.drawable.scratchoid_banzai)).getBitmap();
+		String image2Path = imageContainer.saveImageFromBitmap(costume2, "scratchoid_banzai.png", false);
+		String thumb2Path = imageContainer.saveThumbnailFromBitmap(costume2, "scratchoid_banzai_thumb.png", false); //TODO here 3rd arg should be true to clean up images 
+		Bitmap costume3 = ((BitmapDrawable) mCtx.getResources().getDrawable(R.drawable.scratchoid_cheshire)).getBitmap();
+		String image3Path = imageContainer.saveImageFromBitmap(costume3, "scratchoid_cheshire.png", false);
+		String thumb3Path = imageContainer.saveThumbnailFromBitmap(costume3, "scratchoid_cheshire_thumb.png", false); //TODO here 3rd arg should be true to clean up images 
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.GO_TO));
+		map.put(BrickDefine.BRICK_VALUE, "100");
+		map.put(BrickDefine.BRICK_VALUE_1, "100");
+		this.addBrick(map);
+		
+		map = new HashMap<String, String>();
+		map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_COSTUME));
+		map.put(BrickDefine.BRICK_VALUE, image1Path);
+		map.put(BrickDefine.BRICK_VALUE_1, thumb1Path);
+		this.addBrick(map);
+
+		map = new HashMap<String, String>();
+		map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
+		map.put(BrickDefine.BRICK_VALUE, "2");
+		this.addBrick(map);
+		
+		map = new HashMap<String, String>();
+		map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_COSTUME));
+		map.put(BrickDefine.BRICK_VALUE, image2Path);
+		map.put(BrickDefine.BRICK_VALUE_1, thumb2Path);
+		this.addBrick(map);
+
+		map = new HashMap<String, String>();
+		map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
+		map.put(BrickDefine.BRICK_VALUE, "2");
+		this.addBrick(map);
+		
+		map = new HashMap<String, String>();
+		map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_COSTUME));
+		map.put(BrickDefine.BRICK_VALUE, image3Path);
+		map.put(BrickDefine.BRICK_VALUE_1, thumb3Path);
+		this.addBrick(map);
 	}
 
 	private void setmAllContentArrayList(
@@ -235,10 +293,12 @@ public class ContentManager extends Observable{
 			}
 
 		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		if(mAllContentArrayList.size() == 0)
 		{
-			setDefaultStage();
+			setEmptyStage();
+			createDemoSprite();
 		}
 		
 		loadAllContentNameList();
