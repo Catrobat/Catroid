@@ -147,7 +147,7 @@ public class ContentManager extends Observable{
 		mCurrentSprite = 0;
 		mAllContentArrayList.add(new Pair<String, ArrayList<HashMap<String, String>>>(mCtx.getString(R.string.stage), mCurrentSpriteList));
 		
-		//create a new sprite
+		//create a new sprite with 3 costumes
 		
 		//TODO one test fails with this!! why?
 		Pair<String, ArrayList<HashMap<String, String>>> sprite = new Pair<String, ArrayList<HashMap<String, String>>>(mCtx.getResources().getText(R.string.default_sprite).toString(), new ArrayList<HashMap<String,String>>());
@@ -155,15 +155,48 @@ public class ContentManager extends Observable{
 		
 		ImageContainer imageContainer = ImageContainer.getInstance();
 		Bitmap costume1 = ((BitmapDrawable) mCtx.getResources().getDrawable(R.drawable.scratchoid)).getBitmap();
-		String imagePath = imageContainer.saveImageFromBitmap(costume1, "scratchoid.png", false);
-		String thumbPath = imageContainer.saveThumbnailFromBitmap(costume1, "scratchoidthumb.png", false); //TODO here 3rd arg should be true to clean up images 
+		String image1Path = imageContainer.saveImageFromBitmap(costume1, "scratchoid.png", false);
+		String thumb1Path = imageContainer.saveThumbnailFromBitmap(costume1, "scratchoid_thumb.png", false); //TODO here 3rd arg should be true to clean up images 
+		Bitmap costume2 = ((BitmapDrawable) mCtx.getResources().getDrawable(R.drawable.scratchoid_banzai)).getBitmap();
+		String image2Path = imageContainer.saveImageFromBitmap(costume2, "scratchoid_banzai.png", false);
+		String thumb2Path = imageContainer.saveThumbnailFromBitmap(costume2, "scratchoid_banzai_thumb.png", false); //TODO here 3rd arg should be true to clean up images 
+		Bitmap costume3 = ((BitmapDrawable) mCtx.getResources().getDrawable(R.drawable.scratchoid_cheshire)).getBitmap();
+		String image3Path = imageContainer.saveImageFromBitmap(costume3, "scratchoid_cheshire.png", false);
+		String thumb3Path = imageContainer.saveThumbnailFromBitmap(costume3, "scratchoid_cheshire_thumb.png", false); //TODO here 3rd arg should be true to clean up images 
 		
 		HashMap<String, String> map = new HashMap<String, String>();
+		map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.GO_TO));
+		map.put(BrickDefine.BRICK_VALUE, "100");
+		map.put(BrickDefine.BRICK_VALUE_1, "100");
+		this.addBrick(map);
+		
+		map = new HashMap<String, String>();
 		map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_COSTUME));
-		map.put(BrickDefine.BRICK_VALUE, imagePath);
-		map.put(BrickDefine.BRICK_VALUE_1, thumbPath);
+		map.put(BrickDefine.BRICK_VALUE, image1Path);
+		map.put(BrickDefine.BRICK_VALUE_1, thumb1Path);
 		this.addBrick(map);
 
+		map = new HashMap<String, String>();
+		map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
+		map.put(BrickDefine.BRICK_VALUE, "2");
+		this.addBrick(map);
+		
+		map = new HashMap<String, String>();
+		map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_COSTUME));
+		map.put(BrickDefine.BRICK_VALUE, image2Path);
+		map.put(BrickDefine.BRICK_VALUE_1, thumb2Path);
+		this.addBrick(map);
+
+		map = new HashMap<String, String>();
+		map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
+		map.put(BrickDefine.BRICK_VALUE, "2");
+		this.addBrick(map);
+		
+		map = new HashMap<String, String>();
+		map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_COSTUME));
+		map.put(BrickDefine.BRICK_VALUE, image3Path);
+		map.put(BrickDefine.BRICK_VALUE_1, thumb3Path);
+		this.addBrick(map);
 		}
 
 	private void setmAllContentArrayList(
