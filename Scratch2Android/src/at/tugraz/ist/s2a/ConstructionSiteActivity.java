@@ -246,7 +246,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
         	Utils.deleteFolder(ROOT_IMAGES);
         	Utils.deleteFolder(ROOT_SOUNDS);
         	mContentManager.resetContent();
-        	mContentManager.setDefaultStage();
+        	mContentManager.setEmptyStage();
         	updateViews();
             return true;
             

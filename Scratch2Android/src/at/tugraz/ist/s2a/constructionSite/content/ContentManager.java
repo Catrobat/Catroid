@@ -59,6 +59,7 @@ public class ContentManager extends Observable{
 	public void resetContent(){
 		mCurrentSpriteList = null; 
 		mAllContentArrayList.clear();
+		mAllContentNameList.clear();
 		mCurrentSprite = 0;
 		mIdCounter = 0;
 		mContentGalleryList.clear();
@@ -130,26 +131,20 @@ public class ContentManager extends Observable{
 		mAllContentNameList = new ArrayList<String>();
 		
 		resetContent();
-		setDefaultStage(); //TODO geoert das hier gesetzt??
+		setEmptyStage(); 
 	}
 	
-	/**
-	 * creates a default sprite with three costumes
-	 */
-	public void setDefaultStage(){
-		//TODO this method will be called to often and not only if there's no element in construction site!
-		mCount++;
-		Log.d("ContentManager", "Number of calls to setDefaultStage: "+mCount);
-		
-		
+	public void setEmptyStage(){
 		//initialize stage
 		mCurrentSpriteList = new ArrayList<HashMap<String,String>>();
 		mCurrentSprite = 0;
 		mAllContentArrayList.add(new Pair<String, ArrayList<HashMap<String, String>>>(mCtx.getString(R.string.stage), mCurrentSpriteList));
-		
+		this.loadAllContentNameList(); //if we do not call this here, we will have problems at the sprite dialog!
+
+		}
+	
+	public void createDemoSprite(){
 		//create a new sprite with 3 costumes
-		
-		//TODO one test fails with this!! why?
 		Pair<String, ArrayList<HashMap<String, String>>> sprite = new Pair<String, ArrayList<HashMap<String, String>>>(mCtx.getResources().getText(R.string.default_sprite).toString(), new ArrayList<HashMap<String,String>>());
 		this.addSprite(sprite);
 		
@@ -197,7 +192,7 @@ public class ContentManager extends Observable{
 		map.put(BrickDefine.BRICK_VALUE, image3Path);
 		map.put(BrickDefine.BRICK_VALUE_1, thumb3Path);
 		this.addBrick(map);
-		}
+	}
 
 	private void setmAllContentArrayList(
 			ArrayList<Pair<String, ArrayList<HashMap<String, String>>>> list) {
@@ -293,10 +288,12 @@ public class ContentManager extends Observable{
 			}
 
 		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		if(mAllContentArrayList.size() == 0)
 		{
-			setDefaultStage();
+			setEmptyStage();
+			createDemoSprite();
 		}
 		
 		loadAllContentNameList();
