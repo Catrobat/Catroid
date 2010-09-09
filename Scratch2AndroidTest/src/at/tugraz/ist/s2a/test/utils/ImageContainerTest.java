@@ -19,7 +19,8 @@ public class ImageContainerTest extends TestCase {
 	
 	protected void setUp() throws Exception {
 		super.setUp();
-		mImageContainer = new ImageContainer("/sdcard/");
+		mImageContainer = ImageContainer.getInstance();
+		mImageContainer.setRootPath("/sdcard/");
 	}
 	
 	protected void tearDown() throws Exception {
@@ -32,7 +33,7 @@ public class ImageContainerTest extends TestCase {
 		Bitmap bitmap1 = Bitmap.createBitmap(10, 10, Config.ARGB_8888);
 		Bitmap bitmap2 = Bitmap.createBitmap(10, 10, Config.ARGB_8888);
 		Utils.saveBitmapOnSDCardAsPNG("/sdcard/test2.png", bitmap2);
-		mImageContainer.saveImage("/sdcard/test2.png");
+		mImageContainer.saveImageFromPath("/sdcard/test2.png");
 		mImageContainer.deleteImage("test1.png");
 		
 		assertEquals(bitmap1.getNinePatchChunk(), mImageContainer.getImage("test2.png").getNinePatchChunk());

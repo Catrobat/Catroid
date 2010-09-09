@@ -10,10 +10,14 @@ import java.util.Observable;
 import java.util.Observer;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.util.Pair;
 import at.tugraz.ist.s2a.ConstructionSiteActivity;
 import at.tugraz.ist.s2a.R;
+import at.tugraz.ist.s2a.utils.ImageContainer;
 import at.tugraz.ist.s2a.utils.Utils;
 import at.tugraz.ist.s2a.utils.filesystem.FileSystem;
 import at.tugraz.ist.s2a.utils.parser.Parser;
@@ -39,6 +43,7 @@ public class ContentManager extends Observable{
 	private int mCurrentSprite;
 	private int mIdCounter;
 	private static String STAGE;
+	
 
 	
 	public ArrayList<HashMap<String, String>> getCurrentSpriteList(){
@@ -126,13 +131,33 @@ public class ContentManager extends Observable{
 		setDefaultStage();
 	}
 	
-	
-	public void setDefaultStage(){ //TODO komischer name!
+	/**
+	 * creates a default sprite with three costumes
+	 */
+	public void setDefaultStage(){
+		//TODO store costumes/background image to sd card
+		//TODO create new sprites
+		
+		//initialize stage
 		mCurrentSpriteList = new ArrayList<HashMap<String,String>>();
 		mCurrentSprite = 0;
-
 		mAllContentArrayList.add(new Pair<String, ArrayList<HashMap<String, String>>>(mCtx.getString(R.string.stage), mCurrentSpriteList));
-	}
+		
+		//create a new sprite
+		
+		//TODO one test fails with this!! why?
+//		Pair<String, ArrayList<HashMap<String, String>>> sprite = new Pair<String, ArrayList<HashMap<String, String>>>(mCtx.getResources().getText(R.string.default_sprite).toString(), new ArrayList<HashMap<String,String>>());
+//		this.addSprite(sprite);
+		
+		//first save all images and thumbnails to sd card
+//		String imagesFolder = ConstructionSiteActivity.DEFAULT_ROOT+ConstructionSiteActivity.ROOT_IMAGES;
+//		
+//		Bitmap costume1 = ((BitmapDrawable) mCtx.getResources().getDrawable(R.drawable.scratchoid)).getBitmap();
+//		Utils.saveBitmapOnSDCardAsPNG(Utils.concatPaths(imagesFolder, "costume1.png"), costume1);
+//		
+//		Bitmap costume2 = ((BitmapDrawable) mCtx.getResources().getDrawable(R.drawable.scratchoid_banzai)).getBitmap();
+//		Utils.saveBitmapOnSDCardAsPNG(Utils.concatPaths(imagesFolder, "costume2.png"), costume2);
+		}
 
 	private void setmAllContentArrayList(
 			ArrayList<Pair<String, ArrayList<HashMap<String, String>>>> list) {
