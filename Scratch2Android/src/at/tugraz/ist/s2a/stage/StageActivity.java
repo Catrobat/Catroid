@@ -106,8 +106,8 @@ public class StageActivity extends Activity {
 			mStage.getThread().start();
 		}
 
-		for (int i = 0; i < mContentManager.getAllContentList().size(); i++) {
-			Sprite sprite = new Sprite(mStage, mContentManager.getAllContentList().get(i));
+		for (int i = 0; i < mContentManager.getAllContentArrayList().size(); i++) {
+			Sprite sprite = new Sprite(mStage, mContentManager.getAllContentArrayList().get(i));
 			mSpritesList.add(sprite);
 		}
 

@@ -89,7 +89,7 @@ public class ContentManagerTest extends AndroidTestCase {
 		
         mContentManager.addSprite(new Pair<String, ArrayList<HashMap<String,String>>>("FirstSprite", mCurrentSpriteList));     
         mAllContentNameList = mContentManager.getAllContentNameList();
-        mAllContentArrayList = mContentManager.getAllContentList();
+        mAllContentArrayList = mContentManager.getAllContentArrayList();
         
         assertEquals(mAllContentNameList.size(), 2);
         assertEquals(mAllContentArrayList.get(1).second, mCurrentSpriteList);
