@@ -35,6 +35,7 @@
     <string name="seconds">Seconds</string>
     <string name="brick_label">Choose Your Block!</string>
     
+    <string name="default_sprite">Scratchoid</string>
     <string name="x_label">X:</string>
     <string name="y_label">Y:</string>
     <string name="procent">%</string>

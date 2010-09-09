@@ -111,7 +111,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
         
         setRoot(mPreferences.getString(PREF_ROOT, DEFAULT_ROOT), mPreferences.getString(PREF_FILE_SPF, DEFAULT_FILE));
         
-        mImageContainer = new ImageContainer(ROOT_IMAGES);
+        mImageContainer = ImageContainer.getInstance();
+        mImageContainer.setRootPath(ROOT_IMAGES);
         mContentManager = new ContentManager(this);
         mContentManager.setObserver(this);
         
@@ -159,8 +160,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		        if (c!=null && c.moveToFirst()) {
 		        	 File image_full_path = new File(c.getString(0));
 		        	 
-		        	 String imageName = mImageContainer.saveImage(image_full_path.getAbsolutePath());
-		        	 String imageThumbnailName = mImageContainer.saveThumbnail(image_full_path.getAbsolutePath());
+		        	 String imageName = mImageContainer.saveImageFromPath(image_full_path.getAbsolutePath());
+		        	 String imageThumbnailName = mImageContainer.saveThumbnailFromPath(image_full_path.getAbsolutePath());
 		        	 
 		        	 String oldThumbName = content.get(BrickDefine.BRICK_VALUE_1);
 		        	 String oldImageName = content.get(BrickDefine.BRICK_VALUE);
@@ -251,7 +252,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
         	Utils.deleteFolder(ROOT_IMAGES);
         	Utils.deleteFolder(ROOT_SOUNDS);
         	mContentManager.resetContent();
-        	mContentManager.setDefaultStage();
+        	mContentManager.setEmptyStage();
         	updateViews();
             return true;
             

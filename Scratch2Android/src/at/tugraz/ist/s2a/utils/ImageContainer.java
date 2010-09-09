@@ -26,58 +26,79 @@ public class ImageContainer {
 	private static final int THUMBNAIL_HEIGHT = 100;
 	static String ROOTPATH;
 	private HashMap<String, Bitmap> mImageMap;
-	private ImageEditing mEditor;
 	private FileSystem mFilesystem;
+	private static ImageContainer mImageContainer =null;
 	
-	public ImageContainer(String rootpath) {
+	private ImageContainer() {
 		mImageMap = new HashMap<String, Bitmap>();
-		mEditor = new ImageEditing();
 		mFilesystem = new FileSystem();
+
+	}
+	
+	public static ImageContainer getInstance() {
+		if (mImageContainer == null) {
+			mImageContainer = new ImageContainer();
+		}
+		return mImageContainer;
+	}
+	
+	public void setRootPath(String rootpath){
 		ROOTPATH = rootpath;
 	}
 	
-	public String saveImage(String path){
+
+	public String saveImageFromPath(String path){
 		File imagePath = new File(path);
 		String folderPath = imagePath.getParent();
 		String image = Calendar.getInstance().getTimeInMillis() + imagePath.getAbsolutePath().replace(folderPath, "").replace("/", "");
-		image = Utils.changeFileEndingToPng(image);
+
 		Bitmap bm = null;		
 		bm = BitmapFactory.decodeFile((path));
+		return saveImageFromBitmap(bm, image, true);
+	}
+	
+	public String saveImageFromBitmap(Bitmap bm, String name, boolean recycle){
+		name = Utils.changeFileEndingToPng(name);
 		Bitmap newbm = null;
 		if(MAX_HEIGHT < bm.getHeight() && MAX_WIDTH < bm.getWidth())
-		   newbm = mEditor.scaleBitmap(bm, MAX_HEIGHT, MAX_WIDTH);
+		   newbm = ImageEditing.scaleBitmap(bm, MAX_HEIGHT, MAX_WIDTH);
 		if(MAX_HEIGHT >= bm.getHeight() && MAX_WIDTH < bm.getWidth())
-		   newbm = mEditor.scaleBitmap(bm, bm.getHeight(), MAX_WIDTH);
+		   newbm = ImageEditing.scaleBitmap(bm, bm.getHeight(), MAX_WIDTH);
 		if(MAX_HEIGHT < bm.getHeight() && MAX_WIDTH >= bm.getWidth())
-		   newbm = mEditor.scaleBitmap(bm, MAX_HEIGHT, bm.getWidth());
+		   newbm = ImageEditing.scaleBitmap(bm, MAX_HEIGHT, bm.getWidth());
 		if(MAX_HEIGHT >= bm.getHeight() && MAX_WIDTH >= bm.getWidth())
 		   newbm = bm;
 		
-		Utils.saveBitmapOnSDCardAsPNG(Utils.concatPaths(ConstructionSiteActivity.ROOT_IMAGES, image), newbm);
+		Utils.saveBitmapOnSDCardAsPNG(Utils.concatPaths(ConstructionSiteActivity.ROOT_IMAGES, name), newbm);
 		
-		if(bm != null)
+		if(bm != null && recycle)
 			bm.recycle();
-		if(newbm != null)
+		if(newbm != null && recycle)
 			newbm.recycle();
-		return image;
+		return name;
 	}
 	
-	public String saveThumbnail(String path){
+	public String saveThumbnailFromPath(String path){
 		File imagePath = new File(path);
 		String folderPath = imagePath.getParent();
 		String image = Calendar.getInstance().getTimeInMillis() + imagePath.getAbsolutePath().replace(folderPath, "").replace("/", "thumb");
-		image = Utils.changeFileEndingToPng(image);
+
 		Bitmap bm = null;
 		bm = BitmapFactory.decodeFile((path));
+		return saveThumbnailFromBitmap(bm, image, true);
+	}
+	
+	public String saveThumbnailFromBitmap(Bitmap bm, String name, boolean recycle){
+		name = Utils.changeFileEndingToPng(name);
 		Bitmap newbm = null;
-		newbm = mEditor.scaleBitmap(bm, THUMBNAIL_HEIGHT, THUMBNAIL_WIDTH);
-		mImageMap.put(image, newbm);
-		Utils.saveBitmapOnSDCardAsPNG(Utils.concatPaths(ConstructionSiteActivity.ROOT_IMAGES, image), newbm);
+		newbm = ImageEditing.scaleBitmap(bm, THUMBNAIL_HEIGHT, THUMBNAIL_WIDTH);
+		mImageMap.put(name, newbm);
+		Utils.saveBitmapOnSDCardAsPNG(Utils.concatPaths(ConstructionSiteActivity.ROOT_IMAGES, name), newbm);
 		
-		if(bm != null)
+		if(bm != null && recycle)
 			bm.recycle();
 		
-		return image;
+		return name;
 	}
 	
 
