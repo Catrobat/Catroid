@@ -205,5 +205,21 @@ public class ContentManagerTest extends AndroidTestCase {
         mContentManager.loadContent(Utils.concatPaths("/sdcard/",FILENAME));
         assertEquals(mCurrentSpriteList, mContentManager.getCurrentSpriteList());
 	}
+	
+	public void testReferences(){
+		ArrayList<String> nameList = mContentManager.getAllContentNameList();
+		
+		mContentManager.loadAllContentNameList();
+		ArrayList<String> newNameList = mContentManager.getAllContentNameList();
+		assertEquals(nameList, newNameList);
+		
+		mContentManager.resetContent();
+		newNameList = mContentManager.getAllContentNameList();
+		assertEquals(nameList, newNameList);
+		
+		Pair<String, ArrayList<HashMap<String, String>>> sprite = new Pair<String, ArrayList<HashMap<String, String>>>("sprite", new ArrayList<HashMap<String,String>>());
+		mContentManager.addSprite(sprite);
+		assertEquals(nameList, newNameList);
+	}
 }
 
