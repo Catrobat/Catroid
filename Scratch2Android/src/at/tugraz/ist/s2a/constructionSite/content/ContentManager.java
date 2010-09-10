@@ -46,15 +46,87 @@ public class ContentManager extends Observable{
 	
 	private int mCount = 0;
 	
+	public ContentManager(Context context){
+		mCtx = context;
+		STAGE = mCtx.getString(R.string.stage);
+		mCurrentSpriteList = null;
+		mAllContentArrayList = new ArrayList<Pair<String, ArrayList<HashMap<String, String>>>>();
+		
+		mFilesystem = new FileSystem();
+		mParser = new Parser();
+		
+		mIdCounter = 0;	
+		mContentGalleryList = new ArrayList<String>();
+		
+		mAllContentNameList = new ArrayList<String>();
+		
+		resetContent();
+		setEmptyStage(); 
+	}
 
+
+	public void loadContent(){
+		loadContent(mTempFile);
+	}
+
+	public void loadContent(String fileName){
+		resetContent();
+		FileInputStream scratch = mFilesystem.createOrOpenFileInput
+			(Utils.concatPaths(ConstructionSiteActivity.ROOT, fileName), mCtx);
+			
+		try {
+			if(scratch != null && scratch.available() > 0){
+				setAllContentArrayList(mParser.parse(scratch, mCtx));
+				mCurrentSpriteList = mAllContentArrayList.get(0).second;
+				loadContentGalleryList();
+			    mIdCounter = getHighestId();
+			    mCurrentSprite = 0;
 	
-	public ArrayList<HashMap<String, String>> getCurrentSpriteList(){
-		return mCurrentSpriteList;
+			    scratch.close();
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		if(mAllContentArrayList.size() == 0)
+		{
+			setEmptyStage();
+			createDemoSprite();
+		}
+		
+		loadAllContentNameList();
+		
+	    setChanged();
+	    notifyObservers();
 	}
 	
-	public ArrayList<String> getContentGalleryList(){
-		return mContentGalleryList;
+	public void saveContent(){
+		saveContent(mTempFile);	
 	}
+	
+	public void saveContent(String file){
+		//((Activity)mCtx).setTitle(title.replace(ConstructionSiteActivity.DEFAULT_FILE_ENDING, "").replace("/", ""));
+		//TODO: setTitle-> ClassCastException Testing
+		ArrayList< Pair<String, ArrayList<HashMap<String, String>>>> spriteBrickList = new ArrayList< Pair<String, ArrayList<HashMap<String, String>>>>();
+		for(int i=0; i<mAllContentArrayList.size(); i++){
+			spriteBrickList.add(mAllContentArrayList.get(i));
+		}
+		
+		FileOutputStream fd = mFilesystem.createOrOpenFileOutput(Utils.concatPaths(ConstructionSiteActivity.ROOT, file), mCtx);
+		DataOutputStream ps = new DataOutputStream(fd);
+		
+		String xml = mParser.toXml(spriteBrickList, mCtx);
+		try {
+			ps.write(xml.getBytes());
+			ps.close();
+			fd.close();
+		} catch (IOException e) {
+			Log.e("Contentmanager", "ERROR saving file " + e.getMessage());
+			e.printStackTrace();
+		}	
+		
+		Log.d("Contentmanager", "Save file!");
+   	}
 	
 	public void resetContent(){
 		mCurrentSpriteList = null; 
@@ -81,6 +153,91 @@ public class ContentManager extends Observable{
 		notifyObservers();
 	}
 	
+	public void addBrick(HashMap<String, String> map){
+		map.put(BrickDefine.BRICK_ID, ((Integer)mIdCounter).toString());
+		mIdCounter++;
+		mCurrentSpriteList.add(map);
+		
+		setChanged();
+		notifyObservers(mCurrentSpriteList.size()-1);
+	}
+	
+	public void removeBrick(int position){
+		String type = mCurrentSpriteList.get(position).get(BrickDefine.BRICK_TYPE);
+		if( type.equals(String.valueOf(BrickDefine.SET_BACKGROUND)) 
+				|| type.equals(String.valueOf(BrickDefine.SET_COSTUME))){
+			
+			mContentGalleryList.remove(mCurrentSpriteList.get(position).get(BrickDefine.BRICK_VALUE_1));
+			//TODO delete pictures from sdcard and remove from ImageConatiner -> design problem
+		}
+		mCurrentSpriteList.remove(position);
+		setChanged();
+		notifyObservers();
+	}
+	
+    public boolean moveBrickUpInList(int position){
+    	if(position > 0 && position < mCurrentSpriteList.size()){
+    		HashMap<String, String> map = mCurrentSpriteList.get(position);
+    		mCurrentSpriteList.remove(position);
+    		mCurrentSpriteList.add(position-1, map);
+    		
+    		loadContentGalleryList();
+    		setChanged();
+    		notifyObservers(position-1);
+    		return true;
+    	}
+    	return false;
+    }
+    
+    public boolean moveBrickDownInList(int position){
+    	if(position < mCurrentSpriteList.size()-1 && position >= 0){
+    		HashMap<String, String> map = mCurrentSpriteList.get(position);
+    		mCurrentSpriteList.remove(position);
+    		mCurrentSpriteList.add(position+1, map);
+    		
+    		loadContentGalleryList();
+    		setChanged();
+    		notifyObservers(position+1);
+    		return true;
+    	}
+    	return false;
+    }
+    
+    public ArrayList<Pair<String, ArrayList<HashMap<String, String>>>> getAllContentArrayList(){
+    	return mAllContentArrayList;
+    }
+    
+	private void setAllContentArrayList(
+			ArrayList<Pair<String, ArrayList<HashMap<String, String>>>> list) {
+		mAllContentArrayList = list; 
+	}
+	
+	public void loadAllContentNameList(){
+		mAllContentNameList.clear();
+		for (int i=0; i<mAllContentArrayList.size(); i++)
+    		mAllContentNameList.add(mAllContentArrayList.get(i).first);
+	}
+	
+    public ArrayList<String> getAllContentNameList(){
+    	return mAllContentNameList;
+    }
+	
+	public ArrayList<HashMap<String, String>> getCurrentSpriteList(){
+		return mCurrentSpriteList;
+	}
+	
+	public String getCurrentSpriteName(){
+		return mAllContentArrayList.get(mCurrentSprite).first;
+	}
+	
+	public Integer getCurrentSpritePosition(){
+		return mCurrentSprite;
+	}
+	
+	public ArrayList<String> getContentGalleryList(){
+		return mContentGalleryList;
+	}
+
 	private void loadContentGalleryList(){
 		mContentGalleryList.clear();
 		for(int i = 0; i < mCurrentSpriteList.size(); i++){
@@ -95,46 +252,6 @@ public class ContentManager extends Observable{
 	}
 	
 
-	public void removeBrick(int position){
-		String type = mCurrentSpriteList.get(position).get(BrickDefine.BRICK_TYPE);
-		if( type.equals(String.valueOf(BrickDefine.SET_BACKGROUND)) 
-				|| type.equals(String.valueOf(BrickDefine.SET_COSTUME))){
-			
-			mContentGalleryList.remove(mCurrentSpriteList.get(position).get(BrickDefine.BRICK_VALUE_1));
-			//TODO delete pictures from sdcard and remove from ImageConatiner -> design problem
-		}
-		mCurrentSpriteList.remove(position);
-		setChanged();
-		notifyObservers();
-	}
-	
-	public void addBrick(HashMap<String, String> map){
-		map.put(BrickDefine.BRICK_ID, ((Integer)mIdCounter).toString());
-		mIdCounter++;
-		mCurrentSpriteList.add(map);
-		
-		setChanged();
-		notifyObservers(mCurrentSpriteList.size()-1);
-	}
-	
-	public ContentManager(Context context){
-		mCtx = context;
-		STAGE = mCtx.getString(R.string.stage);
-		mCurrentSpriteList = null;
-		mAllContentArrayList = new ArrayList<Pair<String, ArrayList<HashMap<String, String>>>>();
-		
-		mFilesystem = new FileSystem();
-		mParser = new Parser();
-		
-		mIdCounter = 0;	
-		mContentGalleryList = new ArrayList<String>();
-		
-		mAllContentNameList = new ArrayList<String>();
-		
-		resetContent();
-		setEmptyStage(); 
-	}
-	
 	public void setEmptyStage(){
 		//initialize stage
 		mCurrentSpriteList = new ArrayList<HashMap<String,String>>();
@@ -196,120 +313,11 @@ public class ContentManager extends Observable{
 		
 		loadContentGalleryList();
 	}
-
-	private void setmAllContentArrayList(
-			ArrayList<Pair<String, ArrayList<HashMap<String, String>>>> list) {
-		mAllContentArrayList = list; 
-	}
-	
-	public String getCurrentSpriteName(){
-		return mAllContentArrayList.get(mCurrentSprite).first;
-	}
-	
-	public Integer getCurrentSpritePosition(){
-		return mCurrentSprite;
-	}
 	
 	public void setObserver(Observer observer)
 	{
 		addObserver(observer);
 	}
-	
-	public void loadAllContentNameList(){
-		mAllContentNameList.clear();
-		for (int i=0; i<mAllContentArrayList.size(); i++)
-    		mAllContentNameList.add(mAllContentArrayList.get(i).first);
-	}
-	
-    public ArrayList<String> getAllContentNameList(){
-    	return mAllContentNameList;
-    }
-    
-    public ArrayList<Pair<String, ArrayList<HashMap<String, String>>>> getAllContentList(){
-    	return mAllContentArrayList;
-    }
-    
-	/**
-	 * test method
-	 */
-    public int getIdCounter()
-    {
-    	return mIdCounter;
-    }
-    
-    public boolean moveBrickUpInList(int position){
-    	if(position > 0 && position < mCurrentSpriteList.size()){
-    		HashMap<String, String> map = mCurrentSpriteList.get(position);
-    		mCurrentSpriteList.remove(position);
-    		mCurrentSpriteList.add(position-1, map);
-    		
-    		loadContentGalleryList();
-    		setChanged();
-    		notifyObservers(position-1);
-    		return true;
-    	}
-    	return false;
-    }
-    
-    public boolean moveBrickDownInList(int position){
-    	if(position < mCurrentSpriteList.size()-1 && position >= 0){
-    		HashMap<String, String> map = mCurrentSpriteList.get(position);
-    		mCurrentSpriteList.remove(position);
-    		mCurrentSpriteList.add(position+1, map);
-    		
-    		loadContentGalleryList();
-    		setChanged();
-    		notifyObservers(position+1);
-    		return true;
-    	}
-    	return false;
-    }
-    
-    
-	///////////////////////////////
-	/**
-	 * load content into data structure
-	 */
-	public void loadContent(){
-		loadContent(mTempFile);
-	}
-	/**
-	 * load content into data structure
-	 */
-	public void loadContent(String fileName){
-		
-		resetContent();
-		
-		FileInputStream scratch = mFilesystem.createOrOpenFileInput
-			(Utils.concatPaths(ConstructionSiteActivity.ROOT, fileName), mCtx);
-			
-		try {
-			if(scratch != null && scratch.available() > 0){
-				setmAllContentArrayList(mParser.parse(scratch, mCtx));
-				mCurrentSpriteList = mAllContentArrayList.get(0).second;
-				loadContentGalleryList();
-			    mIdCounter = getHighestId();
-			    mCurrentSprite = 0;
-	
-			    scratch.close();
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		if(mAllContentArrayList.size() == 0)
-		{
-			setEmptyStage();
-			createDemoSprite();
-		}
-		
-		loadAllContentNameList();
-		
-	    setChanged();
-	    notifyObservers();
-	}
-	
-
 
 	private int getHighestId() {
 		ArrayList<Pair<String, ArrayList<HashMap<String, String>>>> spriteList;
@@ -333,39 +341,10 @@ public class ContentManager extends Observable{
 	}
 
 	/**
-	 * save content
+	 * test method
 	 */
-	public void saveContent(){
-		saveContent(mTempFile);	
-	}
-	
-	/**
-	 * save content
-	 */
-	public void saveContent(String file){
-		//((Activity)mCtx).setTitle(title.replace(ConstructionSiteActivity.DEFAULT_FILE_ENDING, "").replace("/", ""));
-		//TODO: setTitle-> ClassCastException Testing
-		ArrayList< Pair<String, ArrayList<HashMap<String, String>>>> spriteBrickList = new ArrayList< Pair<String, ArrayList<HashMap<String, String>>>>();
-		for(int i=0; i<mAllContentArrayList.size(); i++){
-			spriteBrickList.add(mAllContentArrayList.get(i));
-		}
-		
-		FileOutputStream fd = mFilesystem.createOrOpenFileOutput(Utils.concatPaths(ConstructionSiteActivity.ROOT, file), mCtx);
-		DataOutputStream ps = new DataOutputStream(fd);
-		
-		String xml = mParser.toXml(spriteBrickList, mCtx);
-		try {
-			ps.write(xml.getBytes());
-			ps.close();
-			fd.close();
-		} catch (IOException e) {
-			Log.e("Contentmanager", "ERROR saving file " + e.getMessage());
-			e.printStackTrace();
-		}	
-		
-		Log.d("Contentmanager", "Save file!");
-   	}
-	
-    
-
+    public int getIdCounter()
+    {
+    	return mIdCounter;
+    }
 }
