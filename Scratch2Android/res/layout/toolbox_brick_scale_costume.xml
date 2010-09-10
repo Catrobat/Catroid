@@ -13,12 +13,12 @@
 			android:textColor="@color/white" android:textStyle="bold" 
 			android:layout_alignParentRight="true" 
 			android:layout_centerVertical="true"
-			android:paddingLeft="10dip"
+			android:paddingLeft="5dip"
 			android:paddingRight="10dip"
 			android:id="@+id/ScaleCostumeTextView" android:text="@string/procent">
 		 </TextView>
 		
-		<EditText android:layout_width="wrap_content" 
+		<EditText android:layout_width="50dp" 
 			android:layout_height="wrap_content" 
 			android:text="100" 
 			android:maxLines="1" 
