@@ -21,6 +21,7 @@ medium
 - wenn pause gedrückt wird und gerade wait ist wird das nicht richtig ausgeführt
 - parser tests sind negativ wenn man deutsch eingestellt hat (Stage!=Buehne)
 - wenn man auf der stage ist, den home-button drueckt, dann wieder in die app geht muss man noch einmal zurueck in die Baustelle und dann wieder auf die stage, damit das abspielen funktioniert
+- thumbnails in bri
 
 --------
 low
