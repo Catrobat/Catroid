@@ -193,6 +193,8 @@ public class ContentManager extends Observable{
 		map.put(BrickDefine.BRICK_VALUE, image3Path);
 		map.put(BrickDefine.BRICK_VALUE_1, thumb3Path);
 		this.addBrick(map);
+		
+		loadContentGalleryList();
 	}
 
 	private void setmAllContentArrayList(
