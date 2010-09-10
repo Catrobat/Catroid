@@ -7,11 +7,11 @@ solving priority: high, medium, low
 high:
 --------
 
-- wenn man man auf der stage ist, den home-button drueckt, dann wieder in die app geht muss man noch einmal zurueck in die Baustelle und dann wieder auf die stage, damit das abspielen funktioniert
 - stage gehoert getestet - generell mehr faelle was kann passieren usw. beruecksichtigt
 - wenn audio-brick hinzugefuegt wird und es keine audio-datei am handy gibt wird index out of bounds exception geworfen; ist be mir dann auch vorgekommen, obwohl ich schon zewi audio-dateien oben hatte. ich hab dann noch eine zusaetzlich draufgespielt und dann hat es funktioniert
 - bei gehe zu x/y und warte wird zahl nicht immer korrekt angenommen, man muss am schluss enter druecken
 - seit der context menu animation kommen manchmal view fehler
+- textfelder werden am desire groesser angezeigt als am nexus one. dadurch werden bei manchen bricks schriften ueberdeckt usw. 
 
 --------
 medium
@@ -20,14 +20,15 @@ medium
 - warum ist der ContentManager kein Singleton??
 - wenn pause gedrückt wird und gerade wait ist wird das nicht richtig ausgeführt
 - parser tests sind negativ wenn man deutsch eingestellt hat (Stage!=Buehne)
+- wenn man auf der stage ist, den home-button drueckt, dann wieder in die app geht muss man noch einmal zurueck in die Baustelle und dann wieder auf die stage, damit das abspielen funktioniert
 
 --------
 low
 --------
 - after moving a brick, the gallery on top is not sorted anymore
-- edit text auf htc desire manchmal zu gro�
 - after selecting a picture from gallery it takes too long
 - delete brick -> delete old pictures and sounds if necessary
+
 --------
 quick fixes: maybe implement a better solution later
 --------
