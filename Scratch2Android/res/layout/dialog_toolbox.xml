@@ -35,7 +35,9 @@
 				android:layout_width="fill_parent" 
 				android:paddingRight="5dip" 
 				android:paddingLeft="5dip" 
-				android:dividerHeight="25dip" android:divider="@color/white" android:scrollbarDefaultDelayBeforeFade="2000">
+				android:dividerHeight="25dip" 
+				android:divider="@color/white" 
+				android:scrollbarDefaultDelayBeforeFade="2000">
 	</ListView>
 	
 </RelativeLayout></RelativeLayout>
