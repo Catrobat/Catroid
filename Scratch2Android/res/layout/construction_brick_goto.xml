@@ -32,7 +32,7 @@
 				android:text="@string/x_label" 
 				android:paddingRight="10dip">
 			</TextView>
-			<EditText android:layout_width="wrap_content" 
+			<EditText android:layout_width="50dp" 
 				android:layout_height="wrap_content" android:text="0" 
 				android:inputType="number|numberDecimal|numberSigned" 
 				android:maxLines="1" 
@@ -50,7 +50,7 @@
 				android:paddingRight="10dip" 
 				android:paddingLeft="10dip">
 			</TextView>
-			<EditText android:layout_width="wrap_content" 
+			<EditText android:layout_width="50dp" 
 				android:layout_height="wrap_content" 
 				android:text="0" 
 				android:inputType="number|numberDecimal" 

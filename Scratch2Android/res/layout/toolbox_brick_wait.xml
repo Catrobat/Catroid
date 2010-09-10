@@ -32,7 +32,7 @@
 		 	android:paddingRight="10dip">
 		</TextView>
 	
-		<EditText android:layout_width="wrap_content" 
+		<EditText android:layout_width="50dp" 
 			android:layout_height="wrap_content" 
 			android:inputType="number|numberDecimal" 
 			android:maxLines="1" 
@@ -42,7 +42,7 @@
 			android:clickable="false" 
 			android:focusable="false" 
 			android:focusableInTouchMode="false" 
-			android:text="5" 
+			android:text="1" 
 			android:layout_toLeftOf="@+id/LabelTextView">
 		</EditText>
 	
