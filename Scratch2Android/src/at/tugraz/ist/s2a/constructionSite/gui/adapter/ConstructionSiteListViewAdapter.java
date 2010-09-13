@@ -318,7 +318,6 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 	public void onNothingSelected(AdapterView<?> arg0) {}
 
 
-	@Override
 	public boolean onKey(View v, int keyCode, KeyEvent event) {
 		String tag = v.getTag().toString();
 		

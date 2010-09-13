@@ -4,7 +4,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -16,6 +18,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.util.Pair;
 import android.view.SurfaceHolder;
+import at.tugraz.ist.s2a.R;
 import at.tugraz.ist.s2a.utils.ImageEditing;
 
 
@@ -49,7 +52,7 @@ public class StageViewThread extends Thread {
 	public synchronized void setRunning(boolean b) {
 		mRun = b;
 	}
-
+	
 	public synchronized void setBackground(String path) {
 		mIsDraw = false;
 		Log.i("before-parse", path);
