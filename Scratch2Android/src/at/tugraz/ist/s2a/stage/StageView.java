@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import at.tugraz.ist.s2a.R;
 
 /**
  * 
@@ -23,7 +24,7 @@ public class StageView extends SurfaceView implements SurfaceHolder.Callback {
 		holder.addCallback(this);
 		mThread = new StageViewThread(holder, context, new Handler());
 		setFocusable(true); // need to get the key events
-
+		setBackgroundResource(R.drawable.play_splash);
 	}
 
 	
