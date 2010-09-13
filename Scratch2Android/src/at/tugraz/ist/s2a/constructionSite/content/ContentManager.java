@@ -270,13 +270,13 @@ public class ContentManager extends Observable{
 		ImageContainer imageContainer = ImageContainer.getInstance();
 		Bitmap costume1 = ((BitmapDrawable) mCtx.getResources().getDrawable(R.drawable.scratchoid)).getBitmap();
 		String image1Path = imageContainer.saveImageFromBitmap(costume1, "scratchoid.png", false);
-		String thumb1Path = imageContainer.saveThumbnailFromBitmap(costume1, "scratchoid_thumb.png", true);
+		String thumb1Path = imageContainer.saveThumbnailFromBitmap(costume1, "scratchoid_thumb.png", false);
 		Bitmap costume2 = ((BitmapDrawable) mCtx.getResources().getDrawable(R.drawable.scratchoid_banzai)).getBitmap();
 		String image2Path = imageContainer.saveImageFromBitmap(costume2, "scratchoid_banzai.png", false);
-		String thumb2Path = imageContainer.saveThumbnailFromBitmap(costume2, "scratchoid_banzai_thumb.png", true);  
+		String thumb2Path = imageContainer.saveThumbnailFromBitmap(costume2, "scratchoid_banzai_thumb.png", false);
 		Bitmap costume3 = ((BitmapDrawable) mCtx.getResources().getDrawable(R.drawable.scratchoid_cheshire)).getBitmap();
 		String image3Path = imageContainer.saveImageFromBitmap(costume3, "scratchoid_cheshire.png", false);
-		String thumb3Path = imageContainer.saveThumbnailFromBitmap(costume3, "scratchoid_cheshire_thumb.png", true); 
+		String thumb3Path = imageContainer.saveThumbnailFromBitmap(costume3, "scratchoid_cheshire_thumb.png", false); 
 		
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.GO_TO));

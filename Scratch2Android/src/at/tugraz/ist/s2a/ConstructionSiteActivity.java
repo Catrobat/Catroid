@@ -85,8 +85,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	private Dialog mChangeProgramNameDialog;
 	private Dialog mLoadDialog;
 	private ContextMenuDialog mContextMenuDialog;
-	//TODO refactor use of imagecontainer
-	public static ImageContainer mImageContainer;
+	private ImageContainer mImageContainer;
 	
 	
 	protected ListView mConstructionListView;
