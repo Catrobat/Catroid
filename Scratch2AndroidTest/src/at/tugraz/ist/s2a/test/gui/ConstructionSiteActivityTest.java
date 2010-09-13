@@ -66,45 +66,46 @@ public class ConstructionSiteActivityTest extends ActivityInstrumentationTestCas
 	public void testToolBoxScrollBar(){
 
 		//first approach
-//		
-//		InputStream stream = mActivity.getApplicationContext().getResources().openRawResource(R.layout.dialog_toolbox);
-//		
-//		String string = "";
-//		//StringBuffer xmlStringBuffer = null;
-//		try {
-//			InputStreamReader in = new InputStreamReader(stream, "utf-8");
-//
-//			//xmlStringBuffer = new StringBuffer(1024);
-//			
-//			BufferedReader reader = new BufferedReader(in);
-//					
-//			String tempString = "";
-////			while ((tempString = reader.readLine()).length() > 0){
-////				string += tempString;
-////			}
-//			tempString = reader.readLine();
-//			string = tempString;
-//			
+		
+		InputStream stream = mActivity.getApplicationContext().getResources().openRawResource(R.layout.dialog_toolbox);
+
+		
+		String string = "";
+		//StringBuffer xmlStringBuffer = null;
+		try {
+			InputStreamReader in = new InputStreamReader(stream, "utf-8");
+
+			//xmlStringBuffer = new StringBuffer(1024);
+			
+			BufferedReader reader = new BufferedReader(in);
+					
+			String tempString = "";
+//			while ((tempString = reader.readLine()).length() > 0){
+//				string += tempString;
+//			}
+			tempString = reader.readLine();
+			string = tempString;
+			
+			reader.close();
+			
+//			char[] chars = new char[1024];
+//			int numRead = 0;
+//			while( (numRead = reader.read(chars)) > -1){
+//				string = string + String.valueOf(chars);	
+//			}
+//	
 //			reader.close();
-//			
-////			char[] chars = new char[1024];
-////			int numRead = 0;
-////			while( (numRead = reader.read(chars)) > -1){
-////				string = string + String.valueOf(chars);	
-////			}
-////	
-////			reader.close();
-//		}
-//		catch (Exception e){
-//			e.printStackTrace();
-//		}
-//		
-//		
-//		//String xmlString = xmlStringBuffer.toString();
-//		
-//		Log.i("ConstructionSiteActivityTest", "xmlString: "+string);
-//		
-//		assertTrue(string.contains("scrollbarDefaultDelayBeforeFade"));
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+		
+		
+		//String xmlString = xmlStringBuffer.toString();
+		
+		Log.i("ConstructionSiteActivityTest", "xmlString: "+string);
+		
+		assertTrue(string.contains("scrollbarDefaultDelayBeforeFade"));
 
 		
 		//second approach
