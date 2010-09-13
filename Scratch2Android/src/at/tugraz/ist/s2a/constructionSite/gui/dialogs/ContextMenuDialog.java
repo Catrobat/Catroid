@@ -25,6 +25,7 @@ import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
 import at.tugraz.ist.s2a.constructionSite.content.ContentManager;
 import at.tugraz.ist.s2a.constructionSite.gui.adapter.ConstructionSiteListViewAdapter;
 import at.tugraz.ist.s2a.constructionSite.gui.adapter.ToolBoxAdapter;
+import at.tugraz.ist.s2a.utils.ImageContainer;
 
 public class ContextMenuDialog extends Dialog {
 
@@ -121,9 +122,9 @@ public class ContextMenuDialog extends Dialog {
 			
 			
 			public void onClick(View v) {
-				ConstructionSiteActivity.mImageContainer
+				ImageContainer.getInstance()
 					.deleteImage(mContentManager.getCurrentSpriteList().get(mPositionOfView).get(BrickDefine.BRICK_VALUE));
-				ConstructionSiteActivity.mImageContainer
+				ImageContainer.getInstance()
 					.deleteImage(mContentManager.getCurrentSpriteList().get(mPositionOfView).get(BrickDefine.BRICK_VALUE_1));
 				mContentManager.removeBrick(mPositionOfView);
 				
