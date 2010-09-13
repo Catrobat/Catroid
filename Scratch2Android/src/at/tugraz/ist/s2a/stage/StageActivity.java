@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -71,8 +72,6 @@ public class StageActivity extends Activity {
 		return super.onTouchEvent(event);
 	}
 
-
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
@@ -93,23 +92,11 @@ public class StageActivity extends Activity {
 		return true;
 	}
 
-	
-	@Override
-	protected void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-	}
-
-	@Override
-	protected void onStart() {
-		// TODO Auto-generated method stub
-		super.onStart();
-	}
-
 	protected void onPause() {
 		super.onPause();
 		for (int i = 0; i < mSpritesList.size(); i++)
 			mSpritesList.get(i).pauseMediaPlayer();
+		finish();
 	}
 	
 	protected void onDestroy() {
