@@ -85,7 +85,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	private Dialog mChangeProgramNameDialog;
 	private Dialog mLoadDialog;
 	private ContextMenuDialog mContextMenuDialog;
-	private ImageContainer mImageContainer;
+	//TODO refactor use of imagecontainer
+	public static ImageContainer mImageContainer;
 	
 	
 	protected ListView mConstructionListView;
@@ -160,7 +161,6 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		        if (c!=null && c.moveToFirst()) {
 		        	 File image_full_path = new File(c.getString(0));
 		        	 String imageName = mImageContainer.saveImageFromPath(image_full_path.getAbsolutePath());
-		        	 
 		        	 String imageThumbnailName = mImageContainer.saveThumbnailFromPath(image_full_path.getAbsolutePath());
 		        	 String oldThumbName = content.get(BrickDefine.BRICK_VALUE_1);
 		        	 String oldImageName = content.get(BrickDefine.BRICK_VALUE);
@@ -248,8 +248,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
             return true;
             
         case R.id.reset:
-        	Utils.deleteFolder(ROOT_IMAGES);
-        	Utils.deleteFolder(ROOT_SOUNDS);
+        	Utils.deleteFolder(ROOT_IMAGES, MEDIA_IGNORE_BY_ANDROID_FILENAME);
+        	Utils.deleteFolder(ROOT_SOUNDS, MEDIA_IGNORE_BY_ANDROID_FILENAME);
         	mContentManager.resetContent();
         	mContentManager.setEmptyStage();
         	updateViews();
