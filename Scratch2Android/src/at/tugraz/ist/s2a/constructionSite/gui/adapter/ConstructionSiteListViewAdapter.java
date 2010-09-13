@@ -206,10 +206,13 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 				EditText eTextX = (EditText) view.findViewWithTag(mCtx.getString(R.string.constructional_brick_go_to_x_tag));
 //				eTextX.setOnKeyListener(this);
 				eTextX.setText(value);
+				eTextX.setOnClickListener(this);
+				
 				
 				EditText eTextY = (EditText) view.findViewWithTag(mCtx.getString(R.string.constructional_brick_go_to_y_tag));
 //				eTextY.setOnKeyListener(this);
 				eTextY.setText(value1);
+				eTextY.setOnClickListener(this);
 				return view;
 			}	
 			
@@ -290,6 +293,14 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 			mEditTextDialog.show(mBrickList.get(brickPosition), (EditText) v);
 		}else
 		if(mCtx.getString(R.string.constructional_brick_scale_costume_edit_text_tag).equals(tag)){
+			int brickPosition = mMainListView.getPositionForView((EditText)v);
+			mEditTextDialog.show(mBrickList.get(brickPosition), (EditText) v);
+		}else
+		if(mCtx.getString(R.string.constructional_brick_go_to_x_tag).equals(tag)){
+			int brickPosition = mMainListView.getPositionForView((EditText)v);
+			mEditTextDialog.show(mBrickList.get(brickPosition), (EditText) v);
+		}else
+		if(mCtx.getString(R.string.constructional_brick_go_to_y_tag).equals(tag)){
 			int brickPosition = mMainListView.getPositionForView((EditText)v);
 			mEditTextDialog.show(mBrickList.get(brickPosition), (EditText) v);
 		}
