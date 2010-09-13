@@ -159,10 +159,9 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		        Cursor c = managedQuery(u2, projection, null, null, null);
 		        if (c!=null && c.moveToFirst()) {
 		        	 File image_full_path = new File(c.getString(0));
-		        	 
 		        	 String imageName = mImageContainer.saveImageFromPath(image_full_path.getAbsolutePath());
-		        	 String imageThumbnailName = mImageContainer.saveThumbnailFromPath(image_full_path.getAbsolutePath());
 		        	 
+		        	 String imageThumbnailName = mImageContainer.saveThumbnailFromPath(image_full_path.getAbsolutePath());
 		        	 String oldThumbName = content.get(BrickDefine.BRICK_VALUE_1);
 		        	 String oldImageName = content.get(BrickDefine.BRICK_VALUE);
 		        	 
