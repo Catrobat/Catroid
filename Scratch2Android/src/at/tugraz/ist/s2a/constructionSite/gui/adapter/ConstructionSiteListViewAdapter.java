@@ -44,17 +44,19 @@ import at.tugraz.ist.s2a.ConstructionSiteActivity;
 import at.tugraz.ist.s2a.R;
 import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
 import at.tugraz.ist.s2a.constructionSite.gui.dialogs.ContextMenuDialog;
+import at.tugraz.ist.s2a.constructionSite.gui.dialogs.EditTextDialog;
 import at.tugraz.ist.s2a.utils.ImageContainer;
 import at.tugraz.ist.s2a.utils.Utils;
 import at.tugraz.ist.s2a.utils.filesystem.MediaFileLoader;
 
-public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnClickListener, TextView.OnKeyListener, AdapterView.OnItemSelectedListener{
+public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnClickListener, AdapterView.OnItemSelectedListener{
 		
 	private Context mCtx;
     private MediaFileLoader mMediaFileLoader;
     private ListView mMainListView;
     private ImageContainer mImageContainer;    
     private ArrayList<HashMap<String, String>> mBrickList; 
+    private EditTextDialog mEditTextDialog;
     
 	public ConstructionSiteListViewAdapter(Context context,
 			ArrayList<HashMap<String, String>> data, ListView listview, ImageContainer imageContainer) {
@@ -66,6 +68,7 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 		mImageContainer = imageContainer;
 		mInflater = (LayoutInflater)mCtx.getSystemService(
 			      Context.LAYOUT_INFLATER_SERVICE);	
+		mEditTextDialog = new EditTextDialog(mCtx);
 		
 	}
 		
@@ -175,8 +178,9 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 			{
 				View view = organizeViewHandling(type, R.layout.construction_brick_wait, convertView, position, brickId);
 				EditText eText = (EditText) view.findViewWithTag(mCtx.getString(R.string.constructional_brick_wait_edit_text_tag));
-				eText.setOnKeyListener(this);
+				//eText.setOnKeyListener(this);
 				eText.setText(value);
+				eText.setOnClickListener(this);
 				return view;		
 			}
 			
@@ -200,11 +204,11 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 			{
 				View view = organizeViewHandling(type, R.layout.construction_brick_goto, convertView, position, brickId);
 				EditText eTextX = (EditText) view.findViewWithTag(mCtx.getString(R.string.constructional_brick_go_to_x_tag));
-				eTextX.setOnKeyListener(this);
+//				eTextX.setOnKeyListener(this);
 				eTextX.setText(value);
 				
 				EditText eTextY = (EditText) view.findViewWithTag(mCtx.getString(R.string.constructional_brick_go_to_y_tag));
-				eTextY.setOnKeyListener(this);
+//				eTextY.setOnKeyListener(this);
 				eTextY.setText(value1);
 				return view;
 			}	
@@ -229,7 +233,7 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 			{
 				View view = organizeViewHandling(type, R.layout.construction_brick_scale_costume, convertView, position, brickId);
 				EditText eText = (EditText) view.findViewWithTag(mCtx.getString(R.string.constructional_brick_scale_costume_edit_text_tag));
-				eText.setOnKeyListener(this);
+//				eText.setOnKeyListener(this);
 				eText.setText(value);
 				return 	view;
 			}
@@ -279,6 +283,13 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 		}else
 		if(mCtx.getString(R.string.constructional_brick_set_costume_image_view_tag).equals(tag)){
 			mMediaFileLoader.openPictureGallery(mMainListView.getPositionForView(v), (ImageView)v);
+		}else
+		if(mCtx.getString(R.string.constructional_brick_wait_edit_text_tag).equals(tag)){
+
+			int brickPosition = mMainListView.getPositionForView((EditText)v);
+			//mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE, ((EditText)v).getText().toString());
+			mEditTextDialog.show(mBrickList.get(brickPosition), (EditText) v);
+			
 		}
 	}
 
