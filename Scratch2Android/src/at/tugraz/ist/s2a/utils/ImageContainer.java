@@ -54,6 +54,7 @@ public class ImageContainer {
 
 		Bitmap bm = null;		
 		bm = BitmapFactory.decodeFile((path));
+		
 		return saveImageFromBitmap(bm, image, true);
 	}
 	
@@ -69,12 +70,22 @@ public class ImageContainer {
 		if(MAX_HEIGHT >= bm.getHeight() && MAX_WIDTH >= bm.getWidth())
 		   newbm = bm;
 		
-		Utils.saveBitmapOnSDCardAsPNG(Utils.concatPaths(ConstructionSiteActivity.ROOT_IMAGES, name), newbm);
+		final String path = Utils.concatPaths(ConstructionSiteActivity.ROOT_IMAGES, name);
+		final Bitmap newbmToSave = newbm;
+		final Boolean recycleBm = recycle;
+		new Thread(new Runnable() {
+			
+			public void run() {
+				Utils.saveBitmapOnSDCardAsPNG(path, newbmToSave);
+				if(newbmToSave != null && recycleBm)
+					newbmToSave.recycle();
+			}
+		}).start();
 		
-		if(bm != null && recycle)
+		
+		
+		if(bm != null && bm != newbm && recycle)
 			bm.recycle();
-		if(newbm != null && recycle)
-			newbm.recycle();
 		return name;
 	}
 	
@@ -93,11 +104,21 @@ public class ImageContainer {
 		Bitmap newbm = null;
 		newbm = ImageEditing.scaleBitmap(bm, THUMBNAIL_HEIGHT, THUMBNAIL_WIDTH);
 		mImageMap.put(name, newbm);
-		Utils.saveBitmapOnSDCardAsPNG(Utils.concatPaths(ConstructionSiteActivity.ROOT_IMAGES, name), newbm);
 		
-		if(bm != null && recycle)
+		final String path = Utils.concatPaths(ConstructionSiteActivity.ROOT_IMAGES, name);
+		final Bitmap newbmToSave = newbm;
+		new Thread(new Runnable() {
+			
+			public void run() {
+				Utils.saveBitmapOnSDCardAsPNG(path, newbmToSave);
+			}
+		}).start();
+		
+		
+		
+		if(bm != null && bm != newbm && recycle)
 			bm.recycle();
-		
+			
 		return name;
 	}
 	

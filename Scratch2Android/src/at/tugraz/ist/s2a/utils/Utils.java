@@ -69,6 +69,27 @@ public class Utils {
 		  return true;
 		}
 	
+	public static boolean deleteFolder(String path, String ignoreFile){
+		File fileFrom = new File(path);
+		  if (fileFrom.isDirectory()) {
+		    for (File c : fileFrom.listFiles()){
+		    	if(c.isDirectory())
+		    		deleteFolder(c.getAbsolutePath(), ignoreFile);
+		    	else{
+					  if(!c.getName().equals(ignoreFile))
+						  c.delete();
+		    	}
+		    		
+		    }     
+		  }else{
+			  if(!fileFrom.getName().equals(ignoreFile))
+				  fileFrom.delete();
+		  }
+			  
+		  
+		  return true;
+		}
+	
 	public static String concatPaths(String first, String second){
 		if(first == null && second == null)
 			return null;

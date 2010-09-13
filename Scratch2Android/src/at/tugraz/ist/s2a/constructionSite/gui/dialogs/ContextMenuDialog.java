@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+import at.tugraz.ist.s2a.ConstructionSiteActivity;
 import at.tugraz.ist.s2a.R;
 import at.tugraz.ist.s2a.constructionSite.content.BrickDefine;
 import at.tugraz.ist.s2a.constructionSite.content.ContentManager;
@@ -120,7 +121,12 @@ public class ContextMenuDialog extends Dialog {
 			
 			
 			public void onClick(View v) {
+				ConstructionSiteActivity.mImageContainer
+					.deleteImage(mContentManager.getCurrentSpriteList().get(mPositionOfView).get(BrickDefine.BRICK_VALUE));
+				ConstructionSiteActivity.mImageContainer
+					.deleteImage(mContentManager.getCurrentSpriteList().get(mPositionOfView).get(BrickDefine.BRICK_VALUE_1));
 				mContentManager.removeBrick(mPositionOfView);
+				
 				cancel();
 			}
 		});

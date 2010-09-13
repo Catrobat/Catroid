@@ -169,6 +169,7 @@ public class ContentManager extends Observable{
 			
 			mContentGalleryList.remove(mCurrentSpriteList.get(position).get(BrickDefine.BRICK_VALUE_1));
 			//TODO delete pictures from sdcard and remove from ImageConatiner -> design problem
+
 		}
 		mCurrentSpriteList.remove(position);
 		setChanged();
