@@ -153,7 +153,7 @@ public class StageViewThread extends Thread {
 					Bitmap scaledBitmap = ImageEditing.scaleBitmap(bitmapPair.first, scalingFactor);
 					bitmapPair = new Pair<Bitmap, Pair<Float, Float>> (scaledBitmap, bitmapPair.second);
 				}
-				if (bitmapPair != null)
+				if (bitmapPair.first != null)
 					canvas.drawBitmap(bitmapPair.first, bitmapPair.second.first,
 						bitmapPair.second.second, null);
 			}
