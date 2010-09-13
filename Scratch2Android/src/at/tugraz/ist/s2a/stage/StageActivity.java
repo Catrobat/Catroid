@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.ViewGroup.LayoutParams;
 import at.tugraz.ist.s2a.ConstructionSiteActivity;
 import at.tugraz.ist.s2a.R;
@@ -42,22 +43,35 @@ public class StageActivity extends Activity {
 		
 		mStage = new StageView(this);
 
+		
+		setContentView(mStage);
+
+		// we only want portrait mode atm, otherwise the program crashes
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		mContentManager = new ContentManager(this);
 		mContentManager.loadContent(SPF_FILE);
 
 
 		mSpritesList = new ArrayList<Sprite>();
-
-		LayoutParams params = new LayoutParams(LayoutParams.FILL_PARENT,
-				LayoutParams.FILL_PARENT);
-		setContentView(R.layout.stage);
-		addContentView(mStage, params);
-
-		// we only want portrait mode atm, otherwise the program crashes
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		start();
-
+		
 	}
+
+	private boolean STARTED = false;
+	
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		if(!STARTED){
+			STARTED = true;
+			mStage.setBackgroundResource(0);
+			start();
+		}else
+		if(!mDoNextCommands)
+			pauseOrContinue();
+		
+		return super.onTouchEvent(event);
+	}
+
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -80,6 +94,18 @@ public class StageActivity extends Activity {
 	}
 
 	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+	}
+
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+	}
+
 	protected void onPause() {
 		super.onPause();
 		for (int i = 0; i < mSpritesList.size(); i++)
@@ -118,12 +144,14 @@ public class StageActivity extends Activity {
 	
 	private void pauseOrContinue() {
 		if (mDoNextCommands){
+			mStage.setBackgroundResource(R.drawable.play_splash);
 			mDoNextCommands = false;
 			for (int i = 0; i < mSpritesList.size(); i++) {
 				mSpritesList.get(i).pauseMediaPlayer();
 			}
 		}
 		else {
+			mStage.setBackgroundResource(0);
 			mDoNextCommands = true;
 			for (int i = 0; i < mSpritesList.size(); i++) {
 				mSpritesList.get(i).startMediaPlayer();
