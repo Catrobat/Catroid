@@ -40,4 +40,6 @@
     <string name="y_label">Y:</string>
     <string name="procent">%</string>
     <string name="scaleCustome">Skaliere Kostüm auf</string>
+    
+    <string name="edit_text_submit">Schließen</string>
 </resources>
