@@ -278,6 +278,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
     public void updateViews() {
 		mListViewAdapter.notifyDataSetChanged(mContentManager.getCurrentSpriteList());	
 		mGalleryAdapter.notifyDataSetChanged();
+		
+		mSpritesToolboxButton.setText(mContentManager.getCurrentSpriteName());
 	}
     
 	public void update(Observable observable, Object data) {
