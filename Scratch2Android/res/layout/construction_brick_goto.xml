@@ -38,7 +38,10 @@
 				android:maxLines="1" 
 				android:maxLength="3" 
 				android:id="@+id/InputValueEditTextX" 
-				android:tag="@string/constructional_brick_go_to_x_tag">
+				android:tag="@string/constructional_brick_go_to_x_tag"
+				android:cursorVisible="false" 
+		 		android:focusable="false" 
+		 		android:focusableInTouchMode="false">
 			</EditText>
 			<TextView android:id="@+id/TextView02" 
 				android:layout_width="wrap_content" 
@@ -56,7 +59,11 @@
 				android:inputType="number|numberDecimal" 
 				android:maxLines="1" 
 				android:maxLength="3" 
-				android:id="@+id/InputValueEditTextY" android:tag="@string/constructional_brick_go_to_y_tag">
+				android:id="@+id/InputValueEditTextY" 
+				android:tag="@string/constructional_brick_go_to_y_tag"
+				android:cursorVisible="false" 
+		 		android:focusable="false" 
+		 		android:focusableInTouchMode="false">
 			</EditText>
 		</LinearLayout>
 	
