@@ -39,7 +39,7 @@
     <string name="x_label">X:</string>
     <string name="y_label">Y:</string>
     <string name="procent">%</string>
- 	<string name="scaleCustome">Scale Custome to</string>
+ 	<string name="scaleCustome">Scale Costume to</string>
  	
  	<string name="edit_text_submit">Close</string>
 </resources>
