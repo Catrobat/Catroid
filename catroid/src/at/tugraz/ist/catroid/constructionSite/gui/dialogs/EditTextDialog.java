@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -37,6 +38,12 @@ public class EditTextDialog extends Dialog implements OnClickListener {
 		mListEditText = text;
 		String tag = (String) text.getTag();
 
+		// allow decimal numbers only in wait dialog
+		if (tag.equals(getContext().getString(R.string.constructional_brick_wait_edit_text_tag)))
+			mLocalEditText.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL|InputType.TYPE_NUMBER_FLAG_SIGNED);
+		else
+			mLocalEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
+		
 		if (tag.equals(getContext().getString(R.string.constructional_brick_go_to_y_tag)))
 			isValue1 = true;
 		else
