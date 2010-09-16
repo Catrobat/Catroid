@@ -86,7 +86,6 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	private Dialog mChangeProgramNameDialog;
 	private Dialog mLoadDialog;
 	private ContextMenuDialog mContextMenuDialog;
-	private ImageContainer mImageContainer;
 	
 	
 	protected ListView mConstructionListView;
@@ -112,20 +111,20 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
         
         setRoot(mPreferences.getString(PREF_ROOT, DEFAULT_ROOT), mPreferences.getString(PREF_FILE_SPF, DEFAULT_FILE));
         
-        mImageContainer = ImageContainer.getInstance();
-        mImageContainer.setRootPath(ROOT_IMAGES);
+//        mImageContainer = ImageContainer.getInstance();
+//        mImageContainer.setRootPath(ROOT_IMAGES);
         mContentManager = new ContentManager(this);
         mContentManager.setObserver(this);
         
         
         mConstructionListView = (ListView) findViewById(R.id.MainListView);
         mListViewAdapter = new ConstructionSiteListViewAdapter(this, 
-        		mContentManager.getCurrentSpriteList(), mConstructionListView, mImageContainer);
+        		mContentManager.getCurrentSpriteList(), mConstructionListView, ImageContainer.getInstance());
         mConstructionListView.setAdapter(mListViewAdapter);
         mConstructionListView.setOnItemLongClickListener(this);
         
         mContructionGallery = (Gallery) findViewById(R.id.ConstructionSiteGallery);
-        mGalleryAdapter = new ConstructionSiteGalleryAdapter(this, mContentManager.getContentGalleryList(), mImageContainer);
+        mGalleryAdapter = new ConstructionSiteGalleryAdapter(this, mContentManager.getContentGalleryList(), ImageContainer.getInstance());
         mContructionGallery.setAdapter(mGalleryAdapter);
         
         mToolboxButton = (Button) this.findViewById(R.id.toolbar_button);
@@ -160,8 +159,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		        Cursor c = managedQuery(u2, projection, null, null, null);
 		        if (c!=null && c.moveToFirst()) {
 		        	 File image_full_path = new File(c.getString(0));
-		        	 String imageName = mImageContainer.saveImageFromPath(image_full_path.getAbsolutePath());
-		        	 String imageThumbnailName = mImageContainer.saveThumbnailFromPath(image_full_path.getAbsolutePath());
+		        	 String imageName = ImageContainer.getInstance().saveImageFromPath(image_full_path.getAbsolutePath());
+		        	 String imageThumbnailName = ImageContainer.getInstance().saveThumbnailFromPath(image_full_path.getAbsolutePath());
 		        	 String oldThumbName = content.get(BrickDefine.BRICK_VALUE_1);
 		        	 String oldImageName = content.get(BrickDefine.BRICK_VALUE);
 		        	 
@@ -176,8 +175,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		            	 mContentManager.getContentGalleryList().add(imageThumbnailName);
 		             
 		             //remove old files
-		             mImageContainer.deleteImage(oldThumbName);
-		             mImageContainer.deleteImage(oldImageName);
+		             ImageContainer.getInstance().deleteImage(oldThumbName);
+		             ImageContainer.getInstance().deleteImage(oldImageName);
 		             
 		             updateViews();
 		             //debug
@@ -406,6 +405,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		ImageContainer.getInstance().setRootPath(ROOT_IMAGES);
 	}
 
 	public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2,
