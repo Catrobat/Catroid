@@ -15,11 +15,11 @@ import com.jayway.android.robotium.solo.Solo;
  * 
  * Tests the features of the construction site
  */
-public class ConstructionSiteTest extends
+public class StageTest extends
 		ActivityInstrumentationTestCase2<ConstructionSiteActivity> {
 	private Solo solo;
 	
-	public ConstructionSiteTest() {
+	public StageTest() {
 		super("at.tugraz.ist.catroid.test.construction_site",
 				ConstructionSiteActivity.class);
 	}
@@ -65,5 +65,15 @@ public class ConstructionSiteTest extends
 	@Smoke
 	public void testAddWaitBrick() {
 		addBrick(R.string.wait_main_adapter);
+	}
+	
+	@Smoke
+	public void testAddSprite() {
+		solo.clickOnButton(getActivity().getString(R.string.stage));
+		solo.clearEditText(0);
+		solo.enterText(0, "NewSprite");
+		solo.clickOnButton(getActivity().getString(R.string.SpriteButtonText));
+		boolean foundText = solo.searchText("NewSprite");
+		assertTrue("Found newly created sprite", foundText);
 	}
 }
