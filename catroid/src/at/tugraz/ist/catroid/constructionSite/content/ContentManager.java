@@ -262,6 +262,14 @@ public class ContentManager extends Observable{
 
 		}
 	
+	public void initializeNewProject() {
+		resetContent();
+		setEmptyStage();
+		loadAllContentNameList();
+	    setChanged();
+	    notifyObservers();
+	}
+	
 	public void createDemoSprite(){
 		//create a new sprite with 3 costumes
 		Pair<String, ArrayList<HashMap<String, String>>> sprite = new Pair<String, ArrayList<HashMap<String, String>>>(mCtx.getResources().getText(R.string.default_sprite).toString(), new ArrayList<HashMap<String,String>>());

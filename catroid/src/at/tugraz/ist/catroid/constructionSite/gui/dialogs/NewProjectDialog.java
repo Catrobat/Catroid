@@ -51,9 +51,17 @@ protected void onCreate(Bundle savedInstanceState) {
 		String newSpfFile = new String(projectName.getText().toString());
 		if(!newSpfFile.contains(ConstructionSiteActivity.DEFAULT_FILE_ENDING))
 			newSpfFile = Utils.addDefaultFileEnding(newSpfFile);
+		boolean existed = newPath.exists();
 		ConstructionSiteActivity.setRoot(newPath.getAbsolutePath(), newSpfFile);
 		
-		mContentManager.loadContent(newSpfFile);
+		// if the project already existed just load it
+		if (existed)
+			mContentManager.loadContent(newSpfFile);
+		else
+			mContentManager.initializeNewProject();
+
+		
+		
 		((Activity)mCtx).setTitle(newSpfFile);
 		dismiss();
 	}
