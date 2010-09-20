@@ -167,9 +167,24 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 				final SimpleAdapter adapter = new SimpleAdapter(mCtx, mMediaFileLoader.getSoundContent(), R.layout.sound_spinner,
 				new String[] {MediaFileLoader.SOUND_NAME}, new int[] {R.id.SoundSpinnerTextView});
 				spinner.setAdapter(adapter);
+				// workaround for audio files that are only in the project folder but not somewhere else on the sd card
+				if (getIndexFromElementSound(adapter, brick.get(BrickDefine.BRICK_NAME))==-1){
+					ArrayList<HashMap<String, String>> soundContent = mMediaFileLoader.getSoundContent();
+					HashMap<String,String> map = new HashMap<String, String>();
+					map.put(MediaFileLoader.SOUND_NAME, brick.get(BrickDefine.BRICK_NAME));
+					map.put(MediaFileLoader.SOUND_PATH, brick.get(BrickDefine.BRICK_VALUE));
+					soundContent.add(map);
+					final SimpleAdapter newAdapter = new SimpleAdapter(mCtx, soundContent, R.layout.sound_spinner,
+							new String[] {MediaFileLoader.SOUND_NAME}, new int[] {R.id.SoundSpinnerTextView});
+							spinner.setAdapter(newAdapter);
+
+				}
 				try {
 					spinner.setSelection(getIndexFromElementSound(adapter, brick.get(BrickDefine.BRICK_NAME)));
-				} catch (Exception e) {}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
 				spinner.setOnItemSelectedListener(this);
 				return view;		
 			}
@@ -258,7 +273,7 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 				return i;
 			}
 		}
-		return 0;
+		return -1;
 	}
 
 	public int getCount() {
