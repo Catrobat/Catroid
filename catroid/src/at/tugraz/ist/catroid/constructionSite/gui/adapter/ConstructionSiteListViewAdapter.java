@@ -319,9 +319,10 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 				Utils.deleteFile(mBrickList.get(brickPosition).get(BrickDefine.BRICK_VALUE));
 				
 				String newPath = ConstructionSiteActivity.ROOT_SOUNDS;
-				//TimeInMillis to get a unique name
-				String uniqueName = Calendar.getInstance().getTimeInMillis() + map.get(MediaFileLoader.SOUND_NAME);
-				newPath = Utils.concatPaths(newPath, uniqueName);
+				//TimeInMillis to get a unique name and add also a file extension
+				String uniqueName = Calendar.getInstance().getTimeInMillis() + map.get(MediaFileLoader.SOUND_NAME) + 
+					map.get(MediaFileLoader.SOUND_PATH).substring(map.get(MediaFileLoader.SOUND_PATH).length()-4);
+				newPath = Utils.concatPaths(newPath, uniqueName) ;
 				
 				if(Utils.copyFile(map.get(MediaFileLoader.SOUND_PATH),  newPath)){
 					mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE, uniqueName);
