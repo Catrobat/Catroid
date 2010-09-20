@@ -172,7 +172,7 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 					ArrayList<HashMap<String, String>> soundContent = mMediaFileLoader.getSoundContent();
 					HashMap<String,String> map = new HashMap<String, String>();
 					map.put(MediaFileLoader.SOUND_NAME, brick.get(BrickDefine.BRICK_NAME));
-					map.put(MediaFileLoader.SOUND_PATH, brick.get(BrickDefine.BRICK_VALUE));
+					map.put(MediaFileLoader.SOUND_PATH, Utils.concatPaths(ConstructionSiteActivity.ROOT_SOUNDS, brick.get(BrickDefine.BRICK_VALUE)));
 					soundContent.add(map);
 					final SimpleAdapter newAdapter = new SimpleAdapter(mCtx, soundContent, R.layout.sound_spinner,
 							new String[] {MediaFileLoader.SOUND_NAME}, new int[] {R.id.SoundSpinnerTextView});
@@ -327,10 +327,14 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 		if(mCtx.getString(R.string.constructional_brick_play_sound_spinner_tag).equals(tag)){	
 			int brickPosition = mMainListView.getPositionForView(spinner);
 			HashMap<String, String> map = (HashMap<String, String>)spinner.getAdapter().getItem(position);
-					
+				
+			Log.i("ConstructionSiteViewAdapter","Brick value: " + mBrickList.get(brickPosition).get(BrickDefine.BRICK_VALUE));
+			Log.i("ConstructionSiteViewAdapter","map sound name: " + map.get(MediaFileLoader.SOUND_NAME));
+			Log.i("ConstructionSiteViewAdapter","map sound path: " + map.get(MediaFileLoader.SOUND_PATH));
 			
 			if(!mBrickList.get(brickPosition).get(BrickDefine.BRICK_NAME).equals(map.get(MediaFileLoader.SOUND_NAME))){
 				//delete old file when available
+				
 				Utils.deleteFile(mBrickList.get(brickPosition).get(BrickDefine.BRICK_VALUE));
 				
 				String newPath = ConstructionSiteActivity.ROOT_SOUNDS;
