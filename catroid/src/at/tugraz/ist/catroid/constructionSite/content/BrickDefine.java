@@ -67,7 +67,20 @@ public class BrickDefine {
 	        map.put(BrickDefine.BRICK_NAME, "");
 	        map.put(BrickDefine.BRICK_VALUE, "1");
 	        list.add(map);
-	        
+	        map = new HashMap<String, String>();
+		    map.put(BrickDefine.BRICK_ID, "4");
+		    map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.GO_TO));
+		    map.put(BrickDefine.BRICK_NAME, "");
+		    map.put(BrickDefine.BRICK_VALUE, "1");
+		    map.put(BrickDefine.BRICK_VALUE_1, "1");
+		    list.add(map);
+		    map = new HashMap<String, String>();
+		    map.put(BrickDefine.BRICK_ID, "5");
+		    map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SCALE_COSTUME));
+		    map.put(BrickDefine.BRICK_NAME, "");
+		    map.put(BrickDefine.BRICK_VALUE, "100");
+		    map.put(BrickDefine.BRICK_VALUE_1, "");
+		    list.add(map);
 	        return list;
 			
 		case SPRITE_CATEGORY:

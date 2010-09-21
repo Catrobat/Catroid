@@ -29,7 +29,7 @@
     <string name="wait_main_adapter">Wait</string>
     <string name="hide_main_adapter">Hide</string> 
     <string name="show_main_adapter">Show</string>
-    <string name="goto_main_adapter">Go To</string>
+    <string name="goto_main_adapter">Set to</string>
     <string name="costume_main_adapter">Set Costume</string>
     <string name="toolbar">B\nu\ni\nl\nd\ni\nn\ng\n \nB\nl\no\nc\nk\ns</string>
     <string name="seconds">Seconds</string>
@@ -39,7 +39,7 @@
     <string name="x_label">X:</string>
     <string name="y_label">Y:</string>
     <string name="procent">%</string>
- 	<string name="scaleCustome">Scale Costume to</string>
+ 	<string name="scaleCustome">Scale to</string>
  	
  	<string name="edit_text_submit">Close</string>
 </resources>

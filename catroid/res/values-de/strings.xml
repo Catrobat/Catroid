@@ -28,7 +28,7 @@
     <string name="wait_main_adapter">Warte</string>
     <string name="hide_main_adapter">Verstecke dich</string>
     <string name="show_main_adapter">Zeige dich</string>
-    <string name="goto_main_adapter">Gehe zu</string>
+    <string name="goto_main_adapter">Setze auf</string>
     <string name="costume_main_adapter">Setze Kostüm</string>
     <string name="toolbar">B\na\nu\nk\na\ns\nt\ne\nn</string>
     <string name="seconds">Sekunden</string>
@@ -37,7 +37,7 @@
     <string name="x_label">X:</string>
     <string name="y_label">Y:</string>
     <string name="procent">%</string>
-    <string name="scaleCustome">Skaliere Kostüm auf</string>
+    <string name="scaleCustome">Skaliere auf</string>
     
     <string name="edit_text_submit">Schließen</string>
 </resources>
