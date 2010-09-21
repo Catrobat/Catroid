@@ -1,53 +1,34 @@
 package at.tugraz.ist.catroid.constructionSite.gui.adapter;
 
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.inputmethodservice.Keyboard.Key;
-import android.location.GpsStatus.Listener;
 import android.util.Log;
-import android.text.Editable;
-import android.text.Layout;
-import android.text.TextWatcher;
-import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
+import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.BrickDefine;
-import at.tugraz.ist.catroid.constructionSite.gui.dialogs.ContextMenuDialog;
 import at.tugraz.ist.catroid.constructionSite.gui.dialogs.EditTextDialog;
 import at.tugraz.ist.catroid.utils.ImageContainer;
 import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.utils.filesystem.MediaFileLoader;
-import at.tugraz.ist.catroid.R;
 
 public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnClickListener, AdapterView.OnItemSelectedListener{
 		

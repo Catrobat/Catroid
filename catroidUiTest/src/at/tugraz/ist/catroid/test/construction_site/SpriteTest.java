@@ -7,6 +7,9 @@ import com.jayway.android.robotium.solo.Solo;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.R;
 
@@ -50,56 +53,62 @@ public class SpriteTest extends ActivityInstrumentationTestCase2<ConstructionSit
 		solo.clickOnButton(getActivity().getString(R.string.SpriteButtonText));
 	}
 	
-	private void addBrickAndCheckExistence(int brickTextId) {
+	private void addBrick(int brickTextId) {
 		solo.clickOnButton(getActivity().getString(R.string.toolbar));
 		solo.clickOnText(getActivity().getString(brickTextId));
+	}
+	
+	private void addAndCheckBrick(int brickTextId) {
+		addBrick(brickTextId);
 		
 		boolean foundText = solo.searchText(getActivity().getString(brickTextId));
 		assertTrue("Found brick in construction site", foundText);
 	}
 	
-	private void typeInSignedNumber(int editTextId){
+	private void typeInDecimalNumber(int editTextId){
 		solo.clickOnEditText(editTextId);
 		// after that the dialog should appear and focus should be automatically on the EditText again
 		
 		solo.clearEditText(0);
 		solo.enterText(0, "1.3");
+		// TODO: Does not run on HTC Desire; it needs an additional goBack() in order to close the soft keyboard 
+		// solo.goBack();
 		solo.clickOnButton(0);
 	}
 
 	@Smoke
 	public void testAddPlaySoundBrick() {
-		addBrickAndCheckExistence(R.string.play_sound_main_adapter);
+		addAndCheckBrick(R.string.play_sound_main_adapter);
 	}
 	
 	@Smoke
 	public void testAddWaitBrick() {
-		addBrickAndCheckExistence(R.string.wait_main_adapter);
+		addAndCheckBrick(R.string.wait_main_adapter);
 	}
 	
 	@Smoke
 	public void testAddHideBrick() {
-		addBrickAndCheckExistence(R.string.hide_main_adapter);
+		addAndCheckBrick(R.string.hide_main_adapter);
 	}
 	
 	@Smoke
 	public void testAddShowBrick() {
-		addBrickAndCheckExistence(R.string.show_main_adapter);
+		addAndCheckBrick(R.string.show_main_adapter);
 	}
-	
+
 	@Smoke
 	public void testAddGoToBrick() {
-		addBrickAndCheckExistence(R.string.goto_main_adapter);
+		addAndCheckBrick(R.string.goto_main_adapter);
 	}
 	
 	@Smoke
 	public void testAddSetCostumeBrick() {
-		addBrickAndCheckExistence(R.string.costume_main_adapter);
+		addAndCheckBrick(R.string.costume_main_adapter);
 	}
 	
 	@Smoke
 	public void testAddScaleCostumeBrick() {
-		addBrickAndCheckExistence(R.string.scaleCustome);
+		addAndCheckBrick(R.string.scaleCustome);
 	}
 	
 	@Smoke
@@ -114,23 +123,40 @@ public class SpriteTest extends ActivityInstrumentationTestCase2<ConstructionSit
 		solo.clickOnText(getActivity().getString(R.string.goto_main_adapter));
 		
 		
-		typeInSignedNumber(0);
+		typeInDecimalNumber(0);
 		String number = solo.getEditText(0).getEditableText().toString();
 		assertTrue("Found an signed value in wait brick.", number.contains("."));
 		
-		typeInSignedNumber(1);
+		typeInDecimalNumber(1);
 		number = solo.getEditText(1).getEditableText().toString();
 		assertTrue("Found an unsigned value in scale brick.", !number.contains("."));
 		
-		typeInSignedNumber(2);
+		typeInDecimalNumber(2);
 		number = solo.getEditText(2).getEditableText().toString();
 		assertTrue("Found an unsigned value in goto brick x.", !number.contains("."));
 		
-		typeInSignedNumber(3);
+		typeInDecimalNumber(3);
 		number = solo.getEditText(3).getEditableText().toString();
 		assertTrue("Found an unsigned value in goto brick y.", !number.contains("."));
+	}
+	
+	@Smoke
+	public void testSelectSound() throws InterruptedException {
+		addBrick(R.string.play_sound_main_adapter);
 		
+		Thread.sleep(400);
+		ListView lv = (ListView)getActivity().findViewById(R.id.MainListView);
+		System.out.println("lv children: " + lv.getChildCount());
+		RelativeLayout rl = (RelativeLayout)lv.getChildAt(0);
+		
+		int itemToSelect = 2;
+		Spinner soundSpinner = (Spinner)rl.getChildAt(1);
+		assertNotNull("There are sound files present to select", soundSpinner.getItemAtPosition(itemToSelect));
 
+		solo.clickOnView(soundSpinner);
+		solo.clickInList(itemToSelect);
 		
+		assertEquals("Selected item of Spinner is the Sound that was selected",
+				itemToSelect, soundSpinner.getSelectedItemId());
 	}
 }
