@@ -33,14 +33,6 @@ public class ConstructionSiteActivityTest extends ActivityInstrumentationTestCas
 
 	private ConstructionSiteActivity mActivity;
 	
-	private ListView mListView;
-
-	private Button mShowToolBoxButton;
-	private Dialog mToolBoxDialog;
-	
-	private Button mShowObjectDialogButton;
-	private Dialog mObjectDialog;
-	
 	public ConstructionSiteActivityTest() {
 		super("at.tugraz.ist.catroid", ConstructionSiteActivity.class);
 	}
@@ -51,12 +43,6 @@ public class ConstructionSiteActivityTest extends ActivityInstrumentationTestCas
 		//you have to turn this off if any of the test methods send key events to the application
 		setActivityInitialTouchMode(false); 
 		mActivity = getActivity();
-        mListView = (ListView) mActivity.findViewById(at.tugraz.ist.catroid.R.id.MainListView);
-        
-        mShowToolBoxButton = (Button) mActivity.findViewById(at.tugraz.ist.catroid.R.id.toolbar_button);
-        
-        
-        mShowObjectDialogButton = (Button) mActivity.findViewById(at.tugraz.ist.catroid.R.id.toolbar_button);
         
 	}
 	
@@ -136,66 +122,6 @@ public class ConstructionSiteActivityTest extends ActivityInstrumentationTestCas
 //		
 //		assertTrue(scrollbarDelay==2000);
 	}
-	
-//	public void testToolboxShowingUp() {
-	
-		
-		//TODO redesign test case
-//		assertTrue(false);
-		
-//		mActivity.runOnUiThread(
-//				new Runnable() {
-//					public void run() {
-//						mShowToolBoxButton.requestFocus();	
-//					}
-//				}
-//		);
-//
-//		this.sendKeys(KeyEvent.KEYCODE_DPAD_CENTER);
-//		
-//		try {
-//			mToolBoxDialog = (mActivity.getToolboxDialog());
-//			assertTrue(mToolBoxDialog.isShowing());
-//		} catch (Exception e) {
-//			assertTrue(false);
-//		}
-		
-//	}
-	
-//	public void testContextMenuOnMainList() {
-//		mActivity.runOnUiThread(
-//				new Runnable() {
-//					public void run() {
-//						mListView.requestFocus();	
-//						
-//					}
-//				}
-//		);
-//		if(mListView.getChildCount()>0)
-//		{
-//		View view = (View) mListView.getChildAt(0);	
-//		TouchUtils.longClickView(this, view);
-//		this.sendKeys(KeyEvent.KEYCODE_DPAD_DOWN);
-//		this.sendKeys(KeyEvent.KEYCODE_DPAD_CENTER);
-//		}
-		//TODO redesign test case
-//		assertTrue(false);
-
-		
-//		mActivity.runOnUiThread(
-//				new Runnable() {
-//					public void run() {
-//						mListView.requestFocus();	
-//						
-//					}
-//				}
-//		);
-//		View view = (View) mListView.getChildAt(0);	
-//		TouchUtils.longClickView(this, view);
-//		this.sendKeys(KeyEvent.KEYCODE_DPAD_DOWN);
-//		this.sendKeys(KeyEvent.KEYCODE_DPAD_CENTER);
-	
-//	}
 	
 	
 
