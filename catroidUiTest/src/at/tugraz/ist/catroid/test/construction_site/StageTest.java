@@ -5,6 +5,9 @@ package at.tugraz.ist.catroid.test.construction_site;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.R;
 
@@ -31,7 +34,10 @@ public class StageTest extends
 	private void addBrick(int brickTextId) {
 		solo.clickOnButton(getActivity().getString(R.string.toolbar));
 		solo.clickOnText(getActivity().getString(brickTextId));
-		
+	}
+	
+	private void addAndCheckBrick(int brickTextId) {
+		addBrick(brickTextId);
 		boolean foundText = solo.searchText(getActivity().getString(brickTextId));
 		assertTrue("Found brick in construction site", foundText);
 	}
@@ -54,17 +60,37 @@ public class StageTest extends
 	
 	@Smoke
 	public void testAddSetBackgroundBrick() {
-		addBrick(R.string.set_background_main_adapter);
+		addAndCheckBrick(R.string.set_background_main_adapter);
 	}
 	
 	@Smoke
 	public void testAddPlaySoundBrick() {
-		addBrick(R.string.play_sound_main_adapter);
+		addAndCheckBrick(R.string.play_sound_main_adapter);
 	}
 	
 	@Smoke
 	public void testAddWaitBrick() {
-		addBrick(R.string.wait_main_adapter);
+		addAndCheckBrick(R.string.wait_main_adapter);
+	}
+	
+	@Smoke
+	public void testSelectSound() throws InterruptedException {
+		addBrick(R.string.play_sound_main_adapter);
+		
+		Thread.sleep(400);
+		ListView lv = (ListView)getActivity().findViewById(R.id.MainListView);
+		System.out.println("lv children: " + lv.getChildCount());
+		RelativeLayout rl = (RelativeLayout)lv.getChildAt(0);
+		
+		int itemToSelect = 2;
+		Spinner soundSpinner = (Spinner)rl.getChildAt(1);
+		assertNotNull("There are sound files present to select", soundSpinner.getItemAtPosition(itemToSelect));
+
+		solo.clickOnView(soundSpinner);
+		solo.clickInList(itemToSelect);
+		
+		assertEquals("Selected item of Spinner is the Sound that was selected",
+				itemToSelect, soundSpinner.getSelectedItemId());
 	}
 	
 	@Smoke
@@ -76,4 +102,17 @@ public class StageTest extends
 		boolean foundText = solo.searchText("NewSprite");
 		assertTrue("Found newly created sprite", foundText);
 	}
+	
+	/* TODO: Does not work because the shake animation keeps the UI thread busy
+	@Smoke
+	public void testRemoveBrick() {
+		addBrick(R.string.wait_main_adapter);
+
+		solo.clickLongOnText(getActivity().getString(R.string.wait_main_adapter));
+		solo.clickOnButton(0);
+		
+		boolean foundText = solo.searchText(getActivity().getString(R.string.wait_main_adapter));
+		assertFalse("Brick not found after deleting it.", foundText);
+	}
+	*/
 }
