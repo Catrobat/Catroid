@@ -1,23 +1,10 @@
 package at.tugraz.ist.catroid.test.gui;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
 
-import org.xmlpull.v1.XmlPullParserException;
-
-
-import android.app.Dialog;
-import android.content.res.XmlResourceParser;
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.TouchUtils;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Xml;
 import android.view.KeyEvent;
