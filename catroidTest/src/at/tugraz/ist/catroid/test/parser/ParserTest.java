@@ -9,6 +9,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.AndroidTestCase;
 import android.util.Log;
 import android.util.Pair;
@@ -93,7 +96,7 @@ public class ParserTest extends AndroidTestCase {
 		assertEquals("Stage", list.get(0).first);
 	}
 
-	public void testToXml() {
+	public void testToXml() throws NameNotFoundException {
 		Parser parser = new Parser();
 		ArrayList<HashMap<String, String>> brickList = new ArrayList<HashMap<String, String>>();
 
@@ -181,7 +184,12 @@ public class ParserTest extends AndroidTestCase {
 				"Stage", brickList));
 
 		result = parser.toXml(spritesMap, this.getContext());
-		expected = "<?xml version='1.0' encoding='UTF-8' standalone='yes' ?><project><stage /></project>";
+		PackageInfo packageInfo = getContext().getPackageManager().getPackageInfo("at.tugraz.ist.catroid", 0);
+		int expectedVersionCode = packageInfo.versionCode;
+		String expectedVersionName = packageInfo.versionName;
+		expected = "<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>" + 
+		"<project versionCode=\"" + expectedVersionCode + "\" versionName=\"" + expectedVersionName + "\">" + 
+		"<stage /></project>";
 		assertEquals("constructed list without commands", expected, result);
 
 	}
