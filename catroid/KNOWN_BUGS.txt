@@ -1,0 +1,34 @@
+Known Bugs for Release 3 :
+-------------------------------------------
+
+solving priority: high, medium, low
+
+--------
+high:
+--------
+
+- wenn audio-brick hinzugefuegt wird und es keine audio-datei am handy gibt wird index out of bounds exception geworfen; ist be mir dann auch vorgekommen, obwohl ich schon zewi audio-dateien oben hatte. ich hab dann noch eine zusaetzlich draufgespielt und dann hat es funktioniert
+
+--------
+medium
+--------
+
+- wenn pause gedrückt wird und gerade wait ist wird das nicht richtig ausgeführt
+- parser tests sind negativ wenn man deutsch eingestellt hat (Stage!=Buehne)
+
+--------
+low
+--------
+- delete brick -> delete old pictures and sounds if necessary
+
+--------
+quick fixes: maybe implement a better solution later
+--------
+
+- textfelder bei goto, scale und wait jetzt auf 50dp und nicht wrap_content gesetzt, um das problem mit desire zu umgehen.
+  thomas: warum gibts da eigene layouts fuer toolbox und construction site??
+
+
+
+
+
