@@ -237,6 +237,14 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 				eText.setOnClickListener(this);
 				return 	view;
 			}
+			
+			case (BrickDefine.TOUCHED):
+			{
+				View view = organizeViewHandling(type, R.layout.construction_brick_touched, convertView, position, brickId);
+				TextView tView = (TextView) view.findViewWithTag(mCtx.getString(R.string.constructional_brick_touched));
+				tView.setText(R.string.touched_main_adapter);
+				return view;
+			}
 			default: 
 			{
 				return null;
