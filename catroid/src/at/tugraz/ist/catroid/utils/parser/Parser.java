@@ -12,16 +12,18 @@ import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xmlpull.v1.XmlSerializer;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
 import android.util.Log;
 import android.util.Pair;
 import android.util.Xml;
-import at.tugraz.ist.catroid.constructionSite.content.BrickDefine;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.constructionSite.content.BrickDefine;
 
 public class Parser {
 	private DocumentBuilder builder;
@@ -36,6 +38,8 @@ public class Parser {
 	final static String NAME = "name";
 
 	final static String PROJECT = "project";
+	final static String VERSION_CODE = "versionCode";
+	final static String VERSION_NAME = "versionName";
 	final static String BRICK = "brick";
 	final static String SOUND = "sound";
 	final static String IMAGE = "image";
@@ -65,6 +69,17 @@ public class Parser {
 			Log.e("Parser", "A parser error occured");
 			e.printStackTrace();
 		}
+		
+		Node project = doc.getElementsByTagName(PROJECT).item(0);
+		NamedNodeMap attributes = project.getAttributes();
+		
+		int versionCode = Integer.parseInt(attributes.getNamedItem(VERSION_CODE).getNodeValue());
+		String versionName = attributes.getNamedItem(VERSION_NAME).getNodeValue();
+		
+		Log.v("at.tugraz.ist.catroid.utils.parser.parse", "Loading Project with version code \"" +
+				versionCode + "\" and version name \"" + versionName + "\"");
+		// TODO: Add version check here
+		
 		Node stage = doc.getElementsByTagName(STAGE).item(0);
 		NodeList sprites = doc.getElementsByTagName(SPRITE);
 
@@ -101,7 +116,10 @@ public class Parser {
 		try {
 			serializer.setOutput(writer);
 			serializer.startDocument("UTF-8", true);
+			PackageInfo packageInfo = context.getPackageManager().getPackageInfo("at.tugraz.ist.catroid", 0);
 			serializer.startTag(EMPTY_STRING, PROJECT);
+			serializer.attribute(null, "versionCode", String.valueOf(packageInfo.versionCode));
+			serializer.attribute(null, "versionName", packageInfo.versionName);
 		} catch (Exception e) {
 			Log.e("Parser", "An error occured in toXml 1" + e.getMessage());
 			e.printStackTrace();
