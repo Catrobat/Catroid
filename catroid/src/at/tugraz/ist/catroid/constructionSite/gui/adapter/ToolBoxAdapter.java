@@ -118,7 +118,7 @@ public class ToolBoxAdapter extends BaseAdapter{
 			{
 				if(mViewContainer.containsKey(type))
 					return mViewContainer.get(type);	
-				LinearLayout view =  (LinearLayout)inflater.inflate(R.layout.toolbox_brick_simple_text_view, null);
+				LinearLayout view =  (LinearLayout)inflater.inflate(R.layout.toolbox_brick_touched, null);
 				TextView text = (TextView) view.getChildAt(0);
 				text.setText(R.string.touched_main_adapter);
 				mViewContainer.put(type, view);
