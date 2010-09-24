@@ -272,7 +272,14 @@ public class Parser {
 				serializer.attribute(EMPTY_STRING, TYPE,
 						Integer.toString(BrickDefine.SCALE_COSTUME));
 				serializer.text(brick.get(BrickDefine.BRICK_VALUE));
+				break;
+			case BrickDefine.TOUCHED:
+				serializer.attribute(EMPTY_STRING, TYPE,
+						Integer.toString(BrickDefine.TOUCHED));
+				break;
 			}
+			
+				
 			serializer.endTag(EMPTY_STRING, BRICK);
 		}
 
