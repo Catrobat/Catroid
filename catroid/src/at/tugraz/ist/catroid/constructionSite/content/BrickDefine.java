@@ -15,10 +15,11 @@ public class BrickDefine {
 	// definition xyyy x = group y = brick id
 	
 	
-	public final static int NUMBER_OF_BRICK_TYPES = 8;
+	public final static int NUMBER_OF_BRICK_TYPES = 9;
 	//group number 1 Control
 	public final static int SET_BACKGROUND = 0; 
 	public final static int WAIT = 1;
+	public final static int TOUCHED = 8;
 	
 	//group number 2 Sound
 	public final static int PLAY_SOUND = 2;
@@ -115,6 +116,12 @@ public class BrickDefine {
 		    map.put(BrickDefine.BRICK_NAME, "");
 		    map.put(BrickDefine.BRICK_VALUE, "100");
 		    map.put(BrickDefine.BRICK_VALUE_1, "");
+		    list.add(map);
+		    map = new HashMap<String, String>();
+		    map.put(BrickDefine.BRICK_ID, "19");
+		    map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.TOUCHED));
+		    map.put(BrickDefine.BRICK_NAME, "");
+		    map.put(BrickDefine.BRICK_VALUE, "");
 		    list.add(map);
 			
 		default:
