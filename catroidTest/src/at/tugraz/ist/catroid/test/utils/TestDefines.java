@@ -47,5 +47,9 @@ public class TestDefines {
 			+ "<brick id=\"8\" type=\""
 			+ BrickDefine.SCALE_COSTUME
 			+ "\">50"
-			+ "</brick>" + "</sprite>" + "</project>";
+			+ "</brick>" 
+			+ "<brick id=\"9\" type=\""
+			+ BrickDefine.TOUCHED
+			+ "\" />"
+			+ "</sprite>" + "</project>";
 }
