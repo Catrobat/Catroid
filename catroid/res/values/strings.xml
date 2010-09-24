@@ -31,6 +31,7 @@
     <string name="show_main_adapter">Show</string>
     <string name="goto_main_adapter">Go To</string>
     <string name="costume_main_adapter">Set Costume</string>
+    <string name="touched_main_adapter">If Touched</string>
     <string name="toolbar">B\nu\ni\nl\nd\ni\nn\ng\n \nB\nl\no\nc\nk\ns</string>
     <string name="seconds">Seconds</string>
     <string name="brick_label">Choose Your Block!</string>
