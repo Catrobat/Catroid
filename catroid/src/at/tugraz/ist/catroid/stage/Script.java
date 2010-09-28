@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
+import android.media.MediaPlayer;
 import android.util.Log;
 import android.util.Pair;
 import at.tugraz.ist.catroid.constructionSite.content.BrickDefine;
@@ -67,7 +68,17 @@ public class Script extends Thread implements Observer{
 			break;
 
 		case BrickDefine.PLAY_SOUND:
-			mSoundManager.play(Utils.concatPaths(StageActivity.ROOT_SOUNDS, map.get(BrickDefine.BRICK_VALUE)));
+			MediaPlayer mediaPlayer = mSoundManager.getMediaPlayer();
+			try {
+				mediaPlayer.setDataSource(Utils.concatPaths(StageActivity.ROOT_SOUNDS, map.get(BrickDefine.BRICK_VALUE)));
+				mediaPlayer.prepare();
+				mediaPlayer.start();
+
+			} catch (IOException e) {
+				Log.w("Sprite", "Could not play sound file");
+			} catch (IllegalArgumentException e) {
+				Log.w("Sprite", "Could not play sound file");
+			}
 			mCommandCount++;
 			doNextCommand();
 			break;
