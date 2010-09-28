@@ -143,12 +143,13 @@ public class Sprite extends Thread implements Observer, OnCompletionListener {
 	}
 
 	private void brickWait(float sec) {
-		mBrickWait.mWaitTime = sec;
+		mBrickWait.mWaitTime = (int)(sec*1000f);
 		mBrickWait.addObserver(this);
-		Thread thread = new Thread(mBrickWait);
-		
-		thread.setName("waitingThread");
-		thread.start();
+//		Thread thread = new Thread(mBrickWait);
+//		
+//		thread.setName("waitingThread");
+//		thread.start();
+		mBrickWait.start();
 	}
 
 	
