@@ -13,5 +13,9 @@ public class SoundManager {
 		}
 		return mSoundManager;
 	}
+	
+	public void play(String filePath){
+		//TODO implement
+	}
 
 }
