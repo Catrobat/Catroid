@@ -12,11 +12,13 @@ public class DrawObject {
 	public int mZOrder;
 	public Pair<Integer, Integer> mSize;
 	public Boolean mToDraw;
+	public Boolean mHidden;
 	private String mPath;
 	private float mScaleFactor;
 
 	public DrawObject() {
 		mToDraw = false;
+		mHidden = false;
 		mPosition = new Pair<Integer, Integer>(0, 0);
 		mZOrder = 0;
 		mSize = new Pair<Integer, Integer>(0, 0); // width , height
