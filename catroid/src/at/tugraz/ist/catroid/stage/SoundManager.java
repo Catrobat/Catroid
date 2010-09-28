@@ -13,8 +13,10 @@ import android.media.MediaPlayer;
  *
  */
 public class SoundManager {
+	//TODO release MediaPlayers if too much are unused
 	
 	ArrayList<MediaPlayer> mMediaPlayerList;
+	// NOTE I have tested this with up to 15 MediaPlayers and it worked without problems
 	
 	private static SoundManager mSoundManager = null;
 	
