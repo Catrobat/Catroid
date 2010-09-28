@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<!-- General  -->
+	<string name="error">Error</string>
+	<string name="close">Close</string>
+
 	<string name="new_project_main">New Project</string>
 	<string name="change_project_name_main">Change Project Name</string>
 	<string name="edit_text_filename_standard_input">projectname</string>
@@ -43,4 +47,9 @@
  	<string name="scaleCustome">Scale Costume to</string>
  	
  	<string name="edit_text_submit">Close</string>
+ 	
+ 	<!-- Error messages -->
+    <string name="error_no_sd_card">
+    	Catroid requires an SD card in order to run, but none was found.\nPlease insert an SD card and try again.
+    </string>
 </resources>

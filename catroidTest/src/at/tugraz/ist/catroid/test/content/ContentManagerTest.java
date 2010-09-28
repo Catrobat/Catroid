@@ -6,7 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.TreeMap;
+
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.AndroidTestCase;
