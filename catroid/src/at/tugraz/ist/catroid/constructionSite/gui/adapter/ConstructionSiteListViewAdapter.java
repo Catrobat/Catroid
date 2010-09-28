@@ -309,25 +309,39 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 			mEditTextDialog.show(mBrickList.get(brickPosition), (EditText) v);
 		}
 	}
+	
+	private void deleteSound(String soundName) {
+		if (soundName == null || soundName.length() == 0) {
+			Log.i("ConstructionSiteListViewAdapter", "No sound file to delete.");
+		} else {
+			String soundsPath = ConstructionSiteActivity.ROOT_SOUNDS;
+			String soundFilePath = Utils.concatPaths(soundsPath, soundName);
+			if(Utils.deleteFile(soundFilePath)) {
+				Log.i("ConstructionSiteListViewAdapter", "Successfully deleted sound file \"" + soundFilePath + "\".");
+			} else {
+				Log.w("ConstructionSiteListViewAdapter", "Error! Could not delete sound file \"" + soundFilePath + "\".");
+			}
+		}
+	}
 
 	public void onItemSelected(AdapterView<?> spinner, View v, int position,
 			long id) {
 		String tag = (String) spinner.getTag();
 		if(mCtx.getString(R.string.constructional_brick_play_sound_spinner_tag).equals(tag)){	
 			int brickPosition = mMainListView.getPositionForView(spinner);
+			@SuppressWarnings("unchecked")
 			HashMap<String, String> map = (HashMap<String, String>)spinner.getAdapter().getItem(position);
 				
-			Log.i("ConstructionSiteViewAdapter","Brick value: " + mBrickList.get(brickPosition).get(BrickDefine.BRICK_VALUE));
-			Log.i("ConstructionSiteViewAdapter","map sound name: " + map.get(MediaFileLoader.SOUND_NAME));
-			Log.i("ConstructionSiteViewAdapter","map sound path: " + map.get(MediaFileLoader.SOUND_PATH));
+			Log.i("ConstructionSiteListViewAdapter","Brick value: " + mBrickList.get(brickPosition).get(BrickDefine.BRICK_VALUE));
+			Log.i("ConstructionSiteListViewAdapter","map sound name: " + map.get(MediaFileLoader.SOUND_NAME));
+			Log.i("ConstructionSiteListViewAdapter","map sound path: " + map.get(MediaFileLoader.SOUND_PATH));
 			
 			if(!mBrickList.get(brickPosition).get(BrickDefine.BRICK_NAME).equals(map.get(MediaFileLoader.SOUND_NAME))){
-				//delete old file when available
-				
-				Utils.deleteFile(mBrickList.get(brickPosition).get(BrickDefine.BRICK_VALUE));
+				String soundName = mBrickList.get(brickPosition).get(BrickDefine.BRICK_VALUE);
+				deleteSound(soundName);
 				
 				String newPath = ConstructionSiteActivity.ROOT_SOUNDS;
-				//TimeInMillis to get a unique name and add also a file extension
+				// the time stamp is used to get a unique name and add also a file extension
 				String uniqueName = Calendar.getInstance().getTimeInMillis() + map.get(MediaFileLoader.SOUND_NAME) + 
 					map.get(MediaFileLoader.SOUND_PATH).substring(map.get(MediaFileLoader.SOUND_PATH).length()-4);
 				newPath = Utils.concatPaths(newPath, uniqueName) ;
