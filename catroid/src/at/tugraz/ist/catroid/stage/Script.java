@@ -2,28 +2,38 @@ package at.tugraz.ist.catroid.stage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import android.util.Pair;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * 
  * @author Thomas Holzmann
  *
  */
-public class Script extends Thread {
+public class Script extends Thread implements Observer{
 	
 	private ArrayList<HashMap<String, String>> mScriptData;
-	//TODO private DrawObject mDrawObject;
+	private DrawObject mDrawObject;
 	private SoundManager mSoundManager;
-	//private Ticker ticker;
+	private BrickWait mBrickWait;
 	
-	//TODO Script(DrawObject draw, 
-	public Script(ArrayList<HashMap<String, String>> scriptData){
+	public Script(DrawObject drawObject, ArrayList<HashMap<String, String>> scriptData){
 		super();
 		mScriptData = scriptData;
-		//TODO mDrawObject = drawObject;
+		mDrawObject = drawObject;
 		mSoundManager = SoundManager.getInstance();
-		
+		mBrickWait = new BrickWait();
+	}
+	
+	@Override
+	public void run() {
+		//doNextCommand();
+	}
+
+	public void update(Observable observable, Object data) {
+		// TODO Auto-generated method stub
 		
 	}
+	
+	
 }
