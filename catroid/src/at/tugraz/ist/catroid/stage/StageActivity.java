@@ -20,7 +20,7 @@ public class StageActivity extends Activity {
 
 	private static StageView mStage;
 	private ContentManager mContentManager;
-	private ArrayList<Sprite> mSpritesList;
+	private ArrayList<Sprite_old> mSpritesList;
 	protected boolean isWaiting = false;
 
 	
@@ -51,7 +51,7 @@ public class StageActivity extends Activity {
 		mContentManager.loadContent(SPF_FILE);
 
 
-		mSpritesList = new ArrayList<Sprite>();
+		mSpritesList = new ArrayList<Sprite_old>();
 		
 	}
 
@@ -118,7 +118,7 @@ public class StageActivity extends Activity {
 		}
 
 		for (int i = 0; i < mContentManager.getAllContentArrayList().size(); i++) {
-			Sprite sprite = new Sprite(mStage, mContentManager.getAllContentArrayList().get(i));
+			Sprite_old sprite = new Sprite_old(mStage, mContentManager.getAllContentArrayList().get(i));
 			mSpritesList.add(sprite);
 		}
 
