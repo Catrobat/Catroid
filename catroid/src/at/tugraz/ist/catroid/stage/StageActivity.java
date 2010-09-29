@@ -31,7 +31,7 @@ public class StageActivity extends Activity {
 	public static String SPF_FILE;
 
 	// public static boolean mDoNextCommands = true;
-	private boolean stagePlaying = false;
+	private boolean mStagePlaying = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -55,6 +55,7 @@ public class StageActivity extends Activity {
 		mStageManager = new StageManager(this, ROOT_IMAGES, ROOT_SOUNDS, ROOT,
 				SPF_FILE);
 		mStageManager.start();
+		mStagePlaying = true;
 
 	}
 
@@ -116,15 +117,15 @@ public class StageActivity extends Activity {
 	}
 
 	private void pauseOrContinue() {
-		if (stagePlaying) {
+		if (mStagePlaying) {
 			mStageManager.pause();
 			mSoundManager.pause();
-			stagePlaying = false;
+			mStagePlaying = false;
 
 		} else {
 			mStageManager.unPause();
 			mSoundManager.resume();
-			stagePlaying = true;
+			mStagePlaying = true;
 		}
 	}
 }
