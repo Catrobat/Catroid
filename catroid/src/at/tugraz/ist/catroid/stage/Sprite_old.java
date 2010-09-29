@@ -53,10 +53,10 @@ public class Sprite_old extends Thread implements Observer, OnCompletionListener
 	}
 
 	public synchronized void doNextCommand() {
-		if ((mCommandList.size() <= mCommandCount) || (StageActivity.mDoNextCommands == false)){
-			// abort if mCommandCount has run through all commands to execute
-			return;
-		}
+//		if ((mCommandList.size() <= mCommandCount) || (StageActivity.mDoNextCommands == false)){
+//			// abort if mCommandCount has run through all commands to execute
+//			return;
+//		}
 		HashMap<String, String> map = mCommandList.get(mCommandCount);
 
 		int type = Integer.parseInt(map.get(BrickDefine.BRICK_TYPE));

@@ -70,7 +70,7 @@ public class Script extends Thread implements Observer{
 	}
 	
 	public synchronized void doNextCommand() {
-		if ((mScriptData.size() <= mCommandCount) || (StageActivity.mDoNextCommands == false)){
+		if ((mScriptData.size() <= mCommandCount) || (mIsRunning == false)){
 			// abort if mCommandCount has run through all commands to execute
 			return;
 		}
