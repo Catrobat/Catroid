@@ -7,12 +7,12 @@ import at.tugraz.ist.catroid.utils.ImageEditing;
 
 public class DrawObject {
 
-	public Pair<Integer, Integer> mPosition;
-	public Bitmap mBitmap;
-	public int mZOrder;
-	public Pair<Integer, Integer> mSize;
+	private Pair<Integer, Integer> mPosition;
+	private Bitmap mBitmap;
+	private int mZOrder;
+	private Pair<Integer, Integer> mSize;
 	private Boolean mToDraw;
-	public Boolean mHidden;
+	private Boolean mHidden;
 	private String mPath;
 	private float mScaleFactor;
 
@@ -87,4 +87,13 @@ public class DrawObject {
 	public synchronized Pair<Integer, Integer> getSize() {
 		return mSize;
 	}
+
+	public int getZOrder() {
+		return mZOrder;
+	}
+
+	public void setZOrder(int zOrder) {
+		mZOrder = zOrder;
+	}
+	
 }
