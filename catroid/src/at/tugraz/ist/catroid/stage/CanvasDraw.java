@@ -1,18 +1,12 @@
 package at.tugraz.ist.catroid.stage;
 
-import java.util.Iterator;
-
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.util.Log;
-import android.util.Pair;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import at.tugraz.ist.catroid.utils.ImageEditing;
+
 
 /**
  * 
@@ -24,23 +18,29 @@ import at.tugraz.ist.catroid.utils.ImageEditing;
 public class CanvasDraw implements IDraw, SurfaceHolder.Callback {
 	private Canvas mCanvas=null;
 	private SurfaceView mSurfaceView;
+	private Paint mWhitePaint;
 	
 	public CanvasDraw(){
 		super();
 		mSurfaceView = StageActivity.mStage;
 		mSurfaceView.getHolder().addCallback(this);
+		mWhitePaint = new Paint();
+		mWhitePaint.setStyle(Paint.Style.FILL);
+		mWhitePaint.setColor(Color.WHITE);
 		
 	}
 
 	public synchronized void draw(DrawObject drawObject) {
-		if (mCanvas != null && drawObject.mBitmap != null){
-			mCanvas.drawBitmap(drawObject.mBitmap, drawObject.mPosition.first, drawObject.mPosition.second, null); //TODO change to getter
+		if (mCanvas != null && drawObject.getBitmap() != null){
+			mCanvas.drawBitmap(drawObject.getBitmap(), drawObject.getPosition().first, drawObject.getPosition().second, null); //TODO change to getter
 		}	
 	}
 
 	public synchronized void clear() {
-		// TODO Auto-generated method stub
-
+		if (mCanvas != null){
+			mCanvas.drawRect(new Rect(0, 0, mCanvas.getWidth(), mCanvas.getHeight()),
+					mWhitePaint);
+		}
 	}
 
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
@@ -53,11 +53,8 @@ public class CanvasDraw implements IDraw, SurfaceHolder.Callback {
 		mCanvas = holder.lockCanvas();
 		
 		// we want to start with a white rectangle
-		Paint paint = new Paint();
-		paint.setStyle(Paint.Style.FILL);
-		paint.setColor(Color.WHITE);
 		mCanvas.drawRect(new Rect(0, 0, mCanvas.getWidth(), mCanvas.getHeight()),
-				paint);
+				mWhitePaint);
 	}
 
 	public void surfaceDestroyed(SurfaceHolder holder) {
