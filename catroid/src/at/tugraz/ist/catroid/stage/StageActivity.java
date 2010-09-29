@@ -21,7 +21,6 @@ public class StageActivity extends Activity {
 
 	protected static SurfaceView mStage;
 	private ContentManager mContentManager;
-	private ArrayList<Sprite_old> mSpritesList;
 	protected boolean isWaiting = false;
 	private SoundManager mSoundManager;
 	private StageManager mStageManager;
@@ -47,9 +46,10 @@ public class StageActivity extends Activity {
 		SPF_FILE = (String) getIntent().getExtras().get(
 				ConstructionSiteActivity.INTENT_EXTRA_SPF_FILE_NAME);
 
-		setContentView(findViewById(R.id.stageView));
+		setContentView(R.layout.stage);
 		mStage = (SurfaceView) findViewById(R.id.stageView);
 
+		mSoundManager = SoundManager.getInstance();
 		// we only want portrait mode atm, otherwise the program crashes
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		mStageManager = new StageManager(this, ROOT_IMAGES, ROOT_SOUNDS, ROOT,

@@ -22,6 +22,7 @@ public class SoundManager {
 	
 	private SoundManager(){
 		super();
+		mMediaPlayerList = new ArrayList<MediaPlayer>();
 	}
 	
 	public static SoundManager getInstance(){

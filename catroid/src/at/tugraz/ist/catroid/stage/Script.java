@@ -81,9 +81,10 @@ public class Script extends Thread implements Observer{
 		switch (type) {
 		case BrickDefine.SET_BACKGROUND: 
 		case BrickDefine.SET_COSTUME:
-			imagePath = map.get(Utils.concatPaths(StageActivity.ROOT_IMAGES, BrickDefine.BRICK_VALUE));
+			imagePath = Utils.concatPaths(StageActivity.ROOT_IMAGES,(map.get(BrickDefine.BRICK_VALUE)));
 			try {
 				mDrawObject.setBitmap(imagePath);
+				Log.i("Script", "Bitmap set");
 			} catch (Exception e) {
 				Log.e("Script","Image "+imagePath+" does not exist!");
 				e.printStackTrace();

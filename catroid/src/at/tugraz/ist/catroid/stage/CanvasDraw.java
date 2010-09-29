@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -33,6 +34,10 @@ public class CanvasDraw implements IDraw, SurfaceHolder.Callback {
 	}
 
 	public synchronized void draw(DrawObject drawObject) {
+//		if (drawObject.getBitmap() == null)
+//			Log.i("CanvasDraw", "draw: no bitmap!");
+//		if (mCanvas == null)
+//			Log.i("CanvasDraw", "draw: no canvas!");
 		if (mCanvas != null && drawObject.getBitmap() != null){
 			mCanvas.drawBitmap(drawObject.getBitmap(), drawObject.getPosition().first, drawObject.getPosition().second, null); //TODO change to getter
 		}	

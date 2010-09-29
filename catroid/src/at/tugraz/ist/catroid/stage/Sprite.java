@@ -14,8 +14,10 @@ public class Sprite implements Comparable<Sprite> {
 
 	public Sprite(Pair<String, ArrayList<HashMap<String, String>>> blockList) {
 		mName = blockList.first;
-		generateScripts(blockList.second);
 		mDrawObject = new DrawObject();
+		mScriptList = new LinkedList<Script>();
+		if (blockList.second != null)
+			generateScripts(blockList.second);
 	}
 
 	
@@ -37,6 +39,13 @@ public class Sprite implements Comparable<Sprite> {
 
 		}
 		mScriptList.add(new Script(mDrawObject, blockList));
+		
+	}
+	
+	public void start(){
+		for (int i = 0; i < mScriptList.size(); i++) {
+			mScriptList.get(i).start();
+		}
 	}
 	
 	public void pause(){
