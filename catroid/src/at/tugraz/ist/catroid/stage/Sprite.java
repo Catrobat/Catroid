@@ -39,7 +39,21 @@ public class Sprite implements Comparable<Sprite> {
 		mScriptList.add(new Script(mDrawObject, blockList));
 	}
 	
+	public void pause(){
+		for (int i = 0; i < mScriptList.size(); i++) {
+			mScriptList.get(i).pause();
+		}
+	}
+	
+	public void endPause(){
+		for (int i = 0; i < mScriptList.size(); i++) {
+			mScriptList.get(i).endPause();
+		}
+	}
+	
 	public int compareTo(Sprite sprite) {
         return this.mDrawObject.mZOrder - sprite.mDrawObject.mZOrder ;
     }
+	
+
 }
