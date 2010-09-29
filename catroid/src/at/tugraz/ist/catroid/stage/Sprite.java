@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import android.util.Pair;
 import at.tugraz.ist.catroid.constructionSite.content.BrickDefine;
 
-public class Sprite {
+public class Sprite implements Comparable<Sprite> {
 	public DrawObject mDrawObject;
 	public LinkedList<Script> mScriptList;
 	public String mName;
@@ -38,4 +38,8 @@ public class Sprite {
 		}
 		mScriptList.add(new Script(mDrawObject, blockList));
 	}
+	
+	public int compareTo(Sprite sprite) {
+        return this.mDrawObject.mZOrder - sprite.mDrawObject.mZOrder ;
+    }
 }
