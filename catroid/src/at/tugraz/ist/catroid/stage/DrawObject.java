@@ -11,7 +11,7 @@ public class DrawObject {
 	public Bitmap mBitmap;
 	public int mZOrder;
 	public Pair<Integer, Integer> mSize;
-	public Boolean mToDraw;
+	private Boolean mToDraw;
 	public Boolean mHidden;
 	private String mPath;
 	private float mScaleFactor;
@@ -27,16 +27,7 @@ public class DrawObject {
 		mPath = null;
 	}
 
-	public void setBitmap(String path) throws Exception {
-		mBitmap = BitmapFactory.decodeFile(path);
-		mBitmap = ImageEditing.scaleBitmap(mBitmap, mScaleFactor);
-		mPath = path;
-		mSize = new Pair<Integer, Integer>(mBitmap.getWidth(), mBitmap
-				.getHeight());
-		mToDraw = true;
-	}
-
-	public void scaleBitmap(int scaleFactor){
+	public synchronized void scaleBitmap(int scaleFactor) {
 		mScaleFactor = (float) scaleFactor / 100f;
 
 		if (mBitmap == null) {
@@ -56,6 +47,44 @@ public class DrawObject {
 			fullSizeBitmap.recycle();
 			mScaleFactor = 1;
 		}
+		mToDraw = true;
 
+	}
+
+	public synchronized void setBitmap(String path) throws Exception {
+		mBitmap = BitmapFactory.decodeFile(path);
+		mBitmap = ImageEditing.scaleBitmap(mBitmap, mScaleFactor);
+		mPath = path;
+		mSize = new Pair<Integer, Integer>(mBitmap.getWidth(), mBitmap
+				.getHeight());
+		mToDraw = true;
+	}
+
+	public synchronized Bitmap getBitmap() {
+		return mBitmap;
+	}
+
+	public synchronized boolean getToDraw() {
+		return mToDraw;
+	}
+
+	public synchronized Pair<Integer, Integer> getPosition() {
+		return mPosition;
+	}
+
+	public synchronized void setmPosition(Pair<Integer, Integer> position) {
+		mPosition = position;
+	}
+
+	public synchronized Boolean getHidden() {
+		return mHidden;
+	}
+
+	public synchronized void setHidden(Boolean hidden) {
+		mHidden = hidden;
+	}
+
+	public synchronized Pair<Integer, Integer> getSize() {
+		return mSize;
 	}
 }
