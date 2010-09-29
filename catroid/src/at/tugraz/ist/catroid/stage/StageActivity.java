@@ -2,6 +2,7 @@ package at.tugraz.ist.catroid.stage;
 
 import java.util.ArrayList;
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,13 +24,15 @@ public class StageActivity extends Activity {
 	private ArrayList<Sprite_old> mSpritesList;
 	protected boolean isWaiting = false;
 	private SoundManager mSoundManager;
+	private StageManager mStageManager;
 
 	public static String ROOT_IMAGES;
 	public static String ROOT_SOUNDS;
 	public static String ROOT;
 	public static String SPF_FILE;
 
-	public static boolean mDoNextCommands = true;
+	// public static boolean mDoNextCommands = true;
+	private boolean stagePlaying = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -49,25 +52,10 @@ public class StageActivity extends Activity {
 
 		// we only want portrait mode atm, otherwise the program crashes
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		mContentManager = new ContentManager(this);
-		mContentManager.loadContent(SPF_FILE);
+		mStageManager = new StageManager(this, ROOT_IMAGES, ROOT_SOUNDS, ROOT,
+				SPF_FILE);
+		mStageManager.start();
 
-		mSpritesList = new ArrayList<Sprite_old>();
-
-	}
-
-	private boolean STARTED = false;
-
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		if (!STARTED) {
-			STARTED = true;
-			mStage.setBackgroundResource(0);
-			start();
-		} else if (!mDoNextCommands)
-			pauseOrContinue();
-
-		return super.onTouchEvent(event);
 	}
 
 	@Override
@@ -110,36 +98,33 @@ public class StageActivity extends Activity {
 	}
 
 	private void start() {
-//		if (!mStage.getThread().isAlive()) {
-//			mStage.getThread().setRunning(true); 
-//			mStage.getThread().start();
-//		}
-//
-//		for (int i = 0; i < mContentManager.getAllContentArrayList().size(); i++) {
-//			Sprite_old sprite = new Sprite_old(mStage, mContentManager.getAllContentArrayList().get(i));
-//			mSpritesList.add(sprite);
-//		}
-//
-//		for (int i = 0; i < mSpritesList.size(); i++) {
-//			mSpritesList.get(i).start();
-//		}
+		// if (!mStage.getThread().isAlive()) {
+		// mStage.getThread().setRunning(true);
+		// mStage.getThread().start();
+		// }
+		//
+		// for (int i = 0; i < mContentManager.getAllContentArrayList().size();
+		// i++) {
+		// Sprite_old sprite = new Sprite_old(mStage,
+		// mContentManager.getAllContentArrayList().get(i));
+		// mSpritesList.add(sprite);
+		// }
+		//
+		// for (int i = 0; i < mSpritesList.size(); i++) {
+		// mSpritesList.get(i).start();
+		// }
 	}
 
 	private void pauseOrContinue() {
-		if (mDoNextCommands) {
-			mStage.setBackgroundResource(R.drawable.play_splash);
-			mDoNextCommands = false;
-			for (int i = 0; i < mSpritesList.size(); i++) {
-				mSpritesList.get(i).pauseMediaPlayer();
-			}
+		if (stagePlaying) {
+			mStageManager.pause();
+			mSoundManager.pause();
+			stagePlaying = false;
+
 		} else {
-			mStage.setBackgroundResource(0);
-			mDoNextCommands = true;
-			for (int i = 0; i < mSpritesList.size(); i++) {
-				mSpritesList.get(i).startMediaPlayer();
-				mSpritesList.get(i).doNextCommand(); // TODO problem mit wait??
-			}
+			mStageManager.unPause();
+			mSoundManager.resume();
+			stagePlaying = true;
 		}
 	}
-
 }
