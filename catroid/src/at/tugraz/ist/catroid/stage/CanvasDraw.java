@@ -20,6 +20,8 @@ public class CanvasDraw implements IDraw, SurfaceHolder.Callback {
 	private SurfaceView mSurfaceView;
 	private Paint mWhitePaint;
 	
+	//TODO destroy surface somewhere!
+	
 	public CanvasDraw(){
 		super();
 		mSurfaceView = StageActivity.mStage;
@@ -49,11 +51,12 @@ public class CanvasDraw implements IDraw, SurfaceHolder.Callback {
 		
 	}
 
-	public void surfaceCreated(SurfaceHolder holder) {
+	public synchronized void surfaceCreated(SurfaceHolder holder) {
 		mCanvas = holder.lockCanvas();
 		
-		// we want to start with a white rectangle
-		mCanvas.drawRect(new Rect(0, 0, mCanvas.getWidth(), mCanvas.getHeight()),
+		if (mCanvas != null)
+			// we want to start with a white rectangle
+			mCanvas.drawRect(new Rect(0, 0, mCanvas.getWidth(), mCanvas.getHeight()),
 				mWhitePaint);
 	}
 
