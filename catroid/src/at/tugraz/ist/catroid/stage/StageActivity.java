@@ -3,64 +3,58 @@ package at.tugraz.ist.catroid.stage;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.SurfaceView;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
 import at.tugraz.ist.catroid.utils.Utils;
-
 public class StageActivity extends Activity {
 
-	private static StageView mStage;
+	public static SurfaceView mStage;
 	private ContentManager mContentManager;
-	private ArrayList<Sprite> mSpritesList;
 	protected boolean isWaiting = false;
+	private SoundManager mSoundManager;
+	private StageManager mStageManager;
 
 	public static String ROOT_IMAGES;
 	public static String ROOT_SOUNDS;
 	public static String ROOT;
 	public static String SPF_FILE;
 
-	public static boolean mDoNextCommands = true;
+	// public static boolean mDoNextCommands = true;
+	private boolean mStagePlaying = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (Utils.checkForSdCard(this)) {
-			ROOT = (String) getIntent().getExtras().get(ConstructionSiteActivity.INTENT_EXTRA_ROOT);
-			ROOT_IMAGES = (String) getIntent().getExtras().get(ConstructionSiteActivity.INTENT_EXTRA_ROOT_IMAGES);
-			ROOT_SOUNDS = (String) getIntent().getExtras().get(ConstructionSiteActivity.INTENT_EXTRA_ROOT_SOUNDS);
-			SPF_FILE = (String) getIntent().getExtras().get(ConstructionSiteActivity.INTENT_EXTRA_SPF_FILE_NAME);
+		ROOT = (String) getIntent().getExtras().get(
+				ConstructionSiteActivity.INTENT_EXTRA_ROOT);
+		ROOT_IMAGES = (String) getIntent().getExtras().get(
+				ConstructionSiteActivity.INTENT_EXTRA_ROOT_IMAGES);
+		ROOT_SOUNDS = (String) getIntent().getExtras().get(
+				ConstructionSiteActivity.INTENT_EXTRA_ROOT_SOUNDS);
+		SPF_FILE = (String) getIntent().getExtras().get(
+				ConstructionSiteActivity.INTENT_EXTRA_SPF_FILE_NAME);
 
-			mStage = new StageView(this);
+		setContentView(R.layout.stage);
+		mStage = (SurfaceView) findViewById(R.id.stageView);
 
-			setContentView(mStage);
-
+		mSoundManager = SoundManager.getInstance();
 			// we only want portrait mode atm, otherwise the program crashes
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-			mContentManager = new ContentManager(this);
-			mContentManager.loadContent(SPF_FILE);
-
-			mSpritesList = new ArrayList<Sprite>();
+		mStageManager = new StageManager(this, ROOT_IMAGES, ROOT_SOUNDS, ROOT,
+				SPF_FILE);
+		mStageManager.start();
+		mStagePlaying = true;
 		}
-	}
 
-	private boolean STARTED = false;
-
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		if (!STARTED) {
-			STARTED = true;
-			mStage.setBackgroundResource(0);
-			start();
-		} else if (!mDoNextCommands)
-			pauseOrContinue();
-
-		return super.onTouchEvent(event);
 	}
 
 	@Override
@@ -83,17 +77,27 @@ public class StageActivity extends Activity {
 		return true;
 	}
 
-	protected void onPause() {
-		super.onPause();
-		for (int i = 0; i < mSpritesList.size(); i++)
-			mSpritesList.get(i).pauseMediaPlayer();
-		finish();
+	protected void onStop() {
+		super.onStop();
+		mSoundManager.pause();
+		mStageManager.pause();
+		mStagePlaying = false;
+
+		Log.i("StageActivity", "onPause()");
 	}
+
+	protected void onRestart(){
+		super.onRestart();
+		mStageManager.unPause();
+		mSoundManager.resume();
+		mStagePlaying = true;
+	}
+	
+
 
 	protected void onDestroy() {
 		super.onDestroy();
-		for (int i = 0; i < mSpritesList.size(); i++)
-			mSpritesList.get(i).stopAndReleaseMediaPlayer();
+		mSoundManager.release();
 	}
 
 	public void onBackPressed() {
@@ -105,36 +109,33 @@ public class StageActivity extends Activity {
 	}
 
 	private void start() {
-		if (!mStage.getThread().isAlive()) {
-			mStage.getThread().setRunning(true);
-			mStage.getThread().start();
-		}
-
-		for (int i = 0; i < mContentManager.getAllContentArrayList().size(); i++) {
-			Sprite sprite = new Sprite(mStage, mContentManager.getAllContentArrayList().get(i));
-			mSpritesList.add(sprite);
-		}
-
-		for (int i = 0; i < mSpritesList.size(); i++) {
-			mSpritesList.get(i).start();
-		}
+		// if (!mStage.getThread().isAlive()) {
+		// mStage.getThread().setRunning(true);
+		// mStage.getThread().start();
+		// }
+		//
+		// for (int i = 0; i < mContentManager.getAllContentArrayList().size();
+		// i++) {
+		// Sprite_old sprite = new Sprite_old(mStage,
+		// mContentManager.getAllContentArrayList().get(i));
+		// mSpritesList.add(sprite);
+		// }
+		//
+		// for (int i = 0; i < mSpritesList.size(); i++) {
+		// mSpritesList.get(i).start();
+		// }
 	}
 
 	private void pauseOrContinue() {
-		if (mDoNextCommands) {
-			mStage.setBackgroundResource(R.drawable.play_splash);
-			mDoNextCommands = false;
-			for (int i = 0; i < mSpritesList.size(); i++) {
-				mSpritesList.get(i).pauseMediaPlayer();
-			}
+		if (mStagePlaying) {
+			mStageManager.pause();
+			mSoundManager.pause();
+			mStagePlaying = false;
+
 		} else {
-			mStage.setBackgroundResource(0);
-			mDoNextCommands = true;
-			for (int i = 0; i < mSpritesList.size(); i++) {
-				mSpritesList.get(i).startMediaPlayer();
-				mSpritesList.get(i).doNextCommand(); // TODO problem mit wait??
-			}
+			mStageManager.unPause();
+			mSoundManager.resume();
+			mStagePlaying = true;
 		}
 	}
-
 }
