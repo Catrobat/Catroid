@@ -79,11 +79,23 @@ public class StageActivity extends Activity {
 		return true;
 	}
 
-	protected void onPause() {
-		super.onPause();
+	protected void onStop() {
+		super.onStop();
 		mSoundManager.pause();
-		finish();
+		mStageManager.pause();
+		mStagePlaying = false;
+
+		Log.i("StageActivity", "onPause()");
 	}
+	
+	protected void onRestart(){
+		super.onRestart();
+		mStageManager.unPause();
+		mSoundManager.resume();
+		mStagePlaying = true;
+	}
+	
+
 
 	protected void onDestroy() {
 		super.onDestroy();
