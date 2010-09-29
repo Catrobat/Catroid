@@ -13,7 +13,6 @@ import android.view.Surface;
 import android.view.View;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.stage.StageView;
 
 /**
  * 
