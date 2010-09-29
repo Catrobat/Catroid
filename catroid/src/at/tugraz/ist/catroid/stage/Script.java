@@ -24,6 +24,8 @@ public class Script extends Thread implements Observer{
 	private SoundManager mSoundManager;
 	private BrickWait mBrickWait;
 	private int mCommandCount = 0;
+	private boolean mIsRunning;
+	private boolean mWasWaiting = false;
 	
 	public Script(DrawObject drawObject, ArrayList<HashMap<String, String>> scriptData){
 		super();
@@ -31,16 +33,39 @@ public class Script extends Thread implements Observer{
 		mDrawObject = drawObject;
 		mSoundManager = SoundManager.getInstance();
 		mBrickWait = new BrickWait();
+		mIsRunning = true;
 	}
 	
 	@Override
 	public void run() {
-		//doNextCommand();
+		if (mIsRunning)
+			doNextCommand();
 	}
 
 	public void update(Observable observable, Object data) {
 		mCommandCount++;
-		doNextCommand();
+		
+		doNextCommand();	
+	}
+	
+	public void pause(){
+		if (mBrickWait.mIsWaiting){
+			mBrickWait.pause();
+			mWasWaiting = true;
+		}
+		mIsRunning = false;
+		
+	}
+	
+	public void endPause(){
+		mIsRunning = true;
+		if (mWasWaiting){
+			mBrickWait.start();
+			mWasWaiting = false;
+		}
+		else {
+			doNextCommand();
+		}
 		
 	}
 	
