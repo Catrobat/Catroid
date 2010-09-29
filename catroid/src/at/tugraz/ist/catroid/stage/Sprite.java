@@ -52,7 +52,7 @@ public class Sprite implements Comparable<Sprite> {
 	}
 	
 	public int compareTo(Sprite sprite) {
-        return this.mDrawObject.mZOrder - sprite.mDrawObject.mZOrder ;
+        return this.mDrawObject.getZOrder() - sprite.mDrawObject.getZOrder() ;
     }
 	
 
