@@ -9,6 +9,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.SurfaceView;
 import android.view.ViewGroup.LayoutParams;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
@@ -18,7 +19,7 @@ import at.tugraz.ist.catroid.R;
 
 public class StageActivity extends Activity {
 
-	private static StageView mStage;
+	protected static SurfaceView mStage;
 	private ContentManager mContentManager;
 	private ArrayList<Sprite_old> mSpritesList;
 	protected boolean isWaiting = false;
@@ -41,6 +42,7 @@ public class StageActivity extends Activity {
 		SPF_FILE = (String) getIntent().getExtras().get(ConstructionSiteActivity.INTENT_EXTRA_SPF_FILE_NAME);
 				
 		setContentView(findViewById(R.id.stageView));
+		mStage = (SurfaceView) findViewById(R.id.stageView);
 
 		// we only want portrait mode atm, otherwise the program crashes
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -109,19 +111,19 @@ public class StageActivity extends Activity {
 	}
 
 	private void start() { 
-		if (!mStage.getThread().isAlive()) {
-			mStage.getThread().setRunning(true); 
-			mStage.getThread().start();
-		}
-
-		for (int i = 0; i < mContentManager.getAllContentArrayList().size(); i++) {
-			Sprite_old sprite = new Sprite_old(mStage, mContentManager.getAllContentArrayList().get(i));
-			mSpritesList.add(sprite);
-		}
-
-		for (int i = 0; i < mSpritesList.size(); i++) {
-			mSpritesList.get(i).start();
-		}
+//		if (!mStage.getThread().isAlive()) {
+//			mStage.getThread().setRunning(true); 
+//			mStage.getThread().start();
+//		}
+//
+//		for (int i = 0; i < mContentManager.getAllContentArrayList().size(); i++) {
+//			Sprite_old sprite = new Sprite_old(mStage, mContentManager.getAllContentArrayList().get(i));
+//			mSpritesList.add(sprite);
+//		}
+//
+//		for (int i = 0; i < mSpritesList.size(); i++) {
+//			mSpritesList.get(i).start();
+//		}
 	}
 	
 	private void pauseOrContinue() {
