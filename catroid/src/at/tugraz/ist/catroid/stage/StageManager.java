@@ -1,11 +1,11 @@
 package at.tugraz.ist.catroid.stage;
 
-import java.util.ArrayList;
+import java.util.*;
 
 import android.content.Context;
 import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
 
-public class StageHandler {
+public class StageManager {
 	private String mRootImages;
 	private String mRootSounds;
 	private String mRoot;
@@ -14,21 +14,26 @@ public class StageHandler {
 	private Context mContext;
 	private ArrayList<Sprite> mSpritesList;
 
-	public StageHandler(Context context, String imageRoot, String soundRoot,
+	public StageManager(Context context, String imageRoot, String soundRoot,
 			String root, String projectFile) {
-		super();
 		mRootImages = imageRoot;
 		mRootSounds = soundRoot;
 		mRoot = root;
 		mProjectFile = projectFile;
-		mContentManager = new ContentManager(mContext);
 
+		mContentManager = new ContentManager(mContext);
 		mContentManager.loadContent(projectFile);
+		
 		mSpritesList = new ArrayList<Sprite>();
 		for (int i = 0; i < mContentManager.getAllContentArrayList().size(); i++) {
 			mSpritesList.add(new Sprite(mContentManager
 					.getAllContentArrayList().get(i)));
 		}
+		sortSpriteList();
+	}
+	
+	public void sortSpriteList(){
+		Collections.sort(mSpritesList);
 	}
 
 }
