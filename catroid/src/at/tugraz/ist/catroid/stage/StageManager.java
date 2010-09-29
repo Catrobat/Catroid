@@ -16,6 +16,7 @@ public class StageManager {
 	private Context mContext;
 	private ArrayList<Sprite> mSpritesList;
 	private Boolean mSpritesChanged;
+	private IDraw mDraw;
 
 	private Handler mHandler = new Handler();
 	private Runnable mRunnable = new Runnable() {
@@ -41,6 +42,9 @@ public class StageManager {
 		mRootSounds = soundRoot;
 		mRoot = root;
 		mProjectFile = projectFile;
+		mContext = context;
+		
+		mDraw = new CanvasDraw();
 
 		mContentManager = new ContentManager(mContext);
 		mContentManager.loadContent(projectFile);
@@ -52,6 +56,10 @@ public class StageManager {
 		}
 		sortSpriteList();
 		mSpritesChanged = true;
+		
+		for (int i = 0; i < mSpritesList.size(); i++) {
+			mSpritesList.get(i).start();
+		}
 	}
 
 	public void sortSpriteList() {
@@ -59,8 +67,9 @@ public class StageManager {
 	}
 
 	public void drawSprites() {
+		mDraw.clear();
 		for (int i = 0; i < mSpritesList.size(); i++) {
-			// send to Canvas mSpritesList.get(i);
+			mDraw.draw(mSpritesList.get(i).mDrawObject);
 		}
 	}
 
