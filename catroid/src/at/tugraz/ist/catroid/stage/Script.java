@@ -115,20 +115,20 @@ public class Script extends Thread implements Observer{
 			break;
 
 		case BrickDefine.GO_TO:
-			mDrawObject.mPosition = new Pair<Integer,Integer>(Integer.parseInt(map.get(BrickDefine.BRICK_VALUE)), 
-					Integer.parseInt(map.get(BrickDefine.BRICK_VALUE_1)));
+			mDrawObject.setmPosition(new Pair<Integer,Integer>(Integer.parseInt(map.get(BrickDefine.BRICK_VALUE)), 
+					Integer.parseInt(map.get(BrickDefine.BRICK_VALUE_1))));
 			mCommandCount++;
 			doNextCommand();
 			break;
 
 		case BrickDefine.HIDE:
-			mDrawObject.mHidden = true;
+			mDrawObject.setHidden(true);
 			mCommandCount++;
 			doNextCommand();
 			break;
 
 		case BrickDefine.SHOW:
-			mDrawObject.mHidden = false;
+			mDrawObject.setHidden(false);
 			mCommandCount++;
 			doNextCommand();
 			break;
