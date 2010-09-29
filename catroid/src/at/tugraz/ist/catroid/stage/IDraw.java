@@ -1,5 +1,7 @@
 package at.tugraz.ist.catroid.stage;
 
+import android.graphics.Bitmap;
+
 /**
  * 
  * Everyone who implements this can DrawObjects.
@@ -14,4 +16,9 @@ public interface IDraw {
 	 */
 	public void draw();
 	
+	/**
+	 * Processes a Bitmap and display it on a grey Screen.
+	 * 
+	 */
+	public void drawPauseScreen(Bitmap pauseBitmap);
 }

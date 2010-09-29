@@ -2,7 +2,10 @@ package at.tugraz.ist.catroid.stage;
 
 import java.util.*;
 
+import at.tugraz.ist.catroid.R;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.view.MotionEvent;
 import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
@@ -43,7 +46,7 @@ public class StageManager {
 		mRoot = root;
 		mProjectFile = projectFile;
 		mContext = context;
-		
+
 		mContentManager = new ContentManager(mContext);
 		mContentManager.loadContent(projectFile);
 
@@ -54,9 +57,9 @@ public class StageManager {
 		}
 		sortSpriteList();
 		mSpritesChanged = true;
-		
+
 		mDraw = new CanvasDraw(mSpritesList);
-		
+
 		for (int i = 0; i < mSpritesList.size(); i++) {
 			mSpritesList.get(i).start();
 		}
@@ -74,12 +77,18 @@ public class StageManager {
 		//
 	}
 
-	public void pause() {
+	public void pause(boolean drawScreen) {
 		for (int i = 0; i < mSpritesList.size(); i++) {
 			mSpritesList.get(i).pause();
 		}
-		mHandler.removeCallbacks(mRunnable);
 
+		if (drawScreen) {
+			Bitmap pauseBitmap = BitmapFactory.decodeResource(mContext
+					.getResources(), R.drawable.paused_cat);
+			mDraw.drawPauseScreen(pauseBitmap);
+			mHandler.removeCallbacks(mRunnable);
+			mSpritesChanged = true;
+		}
 	}
 
 	public void unPause() {
