@@ -14,7 +14,7 @@ public class StageManager {
 	private String mProjectFile;
 	private ContentManager mContentManager;
 	private Context mContext;
-	private ArrayList<Sprite> mSpritesList;
+	protected ArrayList<Sprite> mSpritesList;
 	private Boolean mSpritesChanged;
 	private IDraw mDraw;
 
@@ -44,8 +44,6 @@ public class StageManager {
 		mProjectFile = projectFile;
 		mContext = context;
 		
-		mDraw = new CanvasDraw();
-
 		mContentManager = new ContentManager(mContext);
 		mContentManager.loadContent(projectFile);
 
@@ -57,6 +55,8 @@ public class StageManager {
 		sortSpriteList();
 		mSpritesChanged = true;
 		
+		mDraw = new CanvasDraw(mSpritesList);
+		
 		for (int i = 0; i < mSpritesList.size(); i++) {
 			mSpritesList.get(i).start();
 		}
@@ -67,10 +67,7 @@ public class StageManager {
 	}
 
 	public void drawSprites() {
-		mDraw.clear();
-		for (int i = 0; i < mSpritesList.size(); i++) {
-			mDraw.draw(mSpritesList.get(i).mDrawObject);
-		}
+		mDraw.draw();
 	}
 
 	public void processTouchEvent(MotionEvent event) {
@@ -87,7 +84,7 @@ public class StageManager {
 
 	public void unPause() {
 		for (int i = 0; i < mSpritesList.size(); i++) {
-			mSpritesList.get(i).pause();
+			mSpritesList.get(i).unPause();
 		}
 		mRunnable.run();
 	}
