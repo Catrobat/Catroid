@@ -14,6 +14,7 @@ import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
 import at.tugraz.ist.catroid.utils.Utils;
+
 public class StageActivity extends Activity {
 
 	public static SurfaceView mStage;
@@ -34,25 +35,25 @@ public class StageActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (Utils.checkForSdCard(this)) {
-		ROOT = (String) getIntent().getExtras().get(
-				ConstructionSiteActivity.INTENT_EXTRA_ROOT);
-		ROOT_IMAGES = (String) getIntent().getExtras().get(
-				ConstructionSiteActivity.INTENT_EXTRA_ROOT_IMAGES);
-		ROOT_SOUNDS = (String) getIntent().getExtras().get(
-				ConstructionSiteActivity.INTENT_EXTRA_ROOT_SOUNDS);
-		SPF_FILE = (String) getIntent().getExtras().get(
-				ConstructionSiteActivity.INTENT_EXTRA_SPF_FILE_NAME);
+			ROOT = (String) getIntent().getExtras().get(
+					ConstructionSiteActivity.INTENT_EXTRA_ROOT);
+			ROOT_IMAGES = (String) getIntent().getExtras().get(
+					ConstructionSiteActivity.INTENT_EXTRA_ROOT_IMAGES);
+			ROOT_SOUNDS = (String) getIntent().getExtras().get(
+					ConstructionSiteActivity.INTENT_EXTRA_ROOT_SOUNDS);
+			SPF_FILE = (String) getIntent().getExtras().get(
+					ConstructionSiteActivity.INTENT_EXTRA_SPF_FILE_NAME);
 
-		setContentView(R.layout.stage);
-		mStage = (SurfaceView) findViewById(R.id.stageView);
+			setContentView(R.layout.stage);
+			mStage = (SurfaceView) findViewById(R.id.stageView);
 
-		mSoundManager = SoundManager.getInstance();
+			mSoundManager = SoundManager.getInstance();
 			// we only want portrait mode atm, otherwise the program crashes
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		mStageManager = new StageManager(this, ROOT_IMAGES, ROOT_SOUNDS, ROOT,
-				SPF_FILE);
-		mStageManager.start();
-		mStagePlaying = true;
+			mStageManager = new StageManager(this, ROOT_IMAGES, ROOT_SOUNDS,
+					ROOT, SPF_FILE);
+			mStageManager.start();
+			mStagePlaying = true;
 		}
 
 	}
@@ -80,20 +81,16 @@ public class StageActivity extends Activity {
 	protected void onStop() {
 		super.onStop();
 		mSoundManager.pause();
-		mStageManager.pause();
+		mStageManager.pause(false);
 		mStagePlaying = false;
-
-		Log.i("StageActivity", "onPause()");
 	}
 
-	protected void onRestart(){
+	protected void onRestart() {
 		super.onRestart();
 		mStageManager.unPause();
 		mSoundManager.resume();
 		mStagePlaying = true;
 	}
-	
-
 
 	protected void onDestroy() {
 		super.onDestroy();
@@ -108,27 +105,9 @@ public class StageActivity extends Activity {
 		finish();
 	}
 
-	private void start() {
-		// if (!mStage.getThread().isAlive()) {
-		// mStage.getThread().setRunning(true);
-		// mStage.getThread().start();
-		// }
-		//
-		// for (int i = 0; i < mContentManager.getAllContentArrayList().size();
-		// i++) {
-		// Sprite_old sprite = new Sprite_old(mStage,
-		// mContentManager.getAllContentArrayList().get(i));
-		// mSpritesList.add(sprite);
-		// }
-		//
-		// for (int i = 0; i < mSpritesList.size(); i++) {
-		// mSpritesList.get(i).start();
-		// }
-	}
-
-	private void pauseOrContinue() {
+		private void pauseOrContinue() {
 		if (mStagePlaying) {
-			mStageManager.pause();
+			mStageManager.pause(true);
 			mSoundManager.pause();
 			mStagePlaying = false;
 
