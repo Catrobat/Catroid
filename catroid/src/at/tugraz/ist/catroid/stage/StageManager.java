@@ -26,7 +26,6 @@ public class StageManager {
 					mSpritesList.get(i).mDrawObject.setToDraw(false);
 				}
 			}
-
 			if (mSpritesChanged) {
 				drawSprites();
 			}
