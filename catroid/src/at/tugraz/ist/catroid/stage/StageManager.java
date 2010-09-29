@@ -3,6 +3,8 @@ package at.tugraz.ist.catroid.stage;
 import java.util.*;
 
 import android.content.Context;
+import android.os.Handler;
+import android.view.MotionEvent;
 import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
 
 public class StageManager {
@@ -13,6 +15,26 @@ public class StageManager {
 	private ContentManager mContentManager;
 	private Context mContext;
 	private ArrayList<Sprite> mSpritesList;
+	private Boolean mSpritesChanged;
+
+	private Handler mHandler = new Handler();
+	private Runnable mRunnable = new Runnable() {
+		public void run() {
+			for (int i = 0; i < mSpritesList.size(); i++) {
+				if (mSpritesList.get(i).mDrawObject.mToDraw) {
+					mSpritesChanged = true;
+					mSpritesList.get(i).mDrawObject.mToDraw = false;
+				}
+			}
+
+			if (mSpritesChanged) {
+				drawSprites();
+			}
+
+			mHandler.postDelayed(this, 33);
+		}
+
+	};
 
 	public StageManager(Context context, String imageRoot, String soundRoot,
 			String root, String projectFile) {
@@ -23,17 +45,46 @@ public class StageManager {
 
 		mContentManager = new ContentManager(mContext);
 		mContentManager.loadContent(projectFile);
-		
+
 		mSpritesList = new ArrayList<Sprite>();
 		for (int i = 0; i < mContentManager.getAllContentArrayList().size(); i++) {
 			mSpritesList.add(new Sprite(mContentManager
 					.getAllContentArrayList().get(i)));
 		}
 		sortSpriteList();
+		mSpritesChanged = true;
 	}
-	
-	public void sortSpriteList(){
+
+	public void sortSpriteList() {
 		Collections.sort(mSpritesList);
 	}
 
+	public void drawSprites() {
+		for (int i = 0; i < mSpritesList.size(); i++) {
+			// send to Canvas mSpritesList.get(i);
+		}
+	}
+
+	public void processTouchEvent(MotionEvent event) {
+		//
+	}
+
+	public void pause() {
+		for (int i = 0; i < mSpritesList.size(); i++) {
+			mSpritesList.get(i).pause();
+		}
+		mHandler.removeCallbacks(mRunnable);
+
+	}
+
+	public void unPause() {
+		for (int i = 0; i < mSpritesList.size(); i++) {
+			mSpritesList.get(i).pause();
+		}
+		mRunnable.run();
+	}
+
+	public void start() {
+		mRunnable.run();
+	}
 }
