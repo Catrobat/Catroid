@@ -67,6 +67,10 @@ public class DrawObject {
 	public synchronized boolean getToDraw() {
 		return mToDraw;
 	}
+	
+	public synchronized void setToDraw(boolean value) {
+		mToDraw = value;
+	}
 
 	public synchronized Pair<Integer, Integer> getPosition() {
 		return mPosition;
