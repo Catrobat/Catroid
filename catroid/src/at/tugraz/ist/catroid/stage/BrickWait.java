@@ -27,7 +27,7 @@ public class BrickWait extends Observable {
     };
     
     private void checkWaitTime(){
-    	Log.i("BrickWait", "checking wait time...");
+//    	Log.i("BrickWait", "checking wait time...");
     	if (mAlreayWaited >= mWaitTime){
     		mHandler.removeCallbacks(mRunnable);
     		mAlreayWaited = 0;

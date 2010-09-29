@@ -33,17 +33,17 @@ public class DrawObject {
 		if (mBitmap == null) {
 			return;
 		}
-		if (scaleFactor < 1) {
-			mBitmap = ImageEditing.scaleBitmap(mBitmap, (float) scaleFactor);
+		if (mScaleFactor < 1) {
+			mBitmap = ImageEditing.scaleBitmap(mBitmap, mScaleFactor);
 			mSize = new Pair<Integer, Integer>(mBitmap.getWidth(), mBitmap
 					.getHeight());
 			mScaleFactor = 1;
 		}
-		if (scaleFactor > 1) {
+		if (mScaleFactor > 1) {
 			Bitmap fullSizeBitmap = BitmapFactory.decodeFile(mPath);
 			mScaleFactor = (mSize.first * mScaleFactor)
 					/ fullSizeBitmap.getWidth();
-			mBitmap = ImageEditing.scaleBitmap(fullSizeBitmap, scaleFactor);
+			mBitmap = ImageEditing.scaleBitmap(fullSizeBitmap, mScaleFactor);
 			fullSizeBitmap.recycle();
 			mScaleFactor = 1;
 		}
