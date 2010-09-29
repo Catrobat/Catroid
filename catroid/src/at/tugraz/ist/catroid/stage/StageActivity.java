@@ -15,31 +15,34 @@ import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
 import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.R;
 
-
 public class StageActivity extends Activity {
 
 	private static StageView mStage;
 	private ContentManager mContentManager;
 	private ArrayList<Sprite_old> mSpritesList;
 	protected boolean isWaiting = false;
+	private SoundManager mSoundManager;
 
-	
 	public static String ROOT_IMAGES;
 	public static String ROOT_SOUNDS;
 	public static String ROOT;
 	public static String SPF_FILE;
-	
+
 	public static boolean mDoNextCommands = true;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		ROOT = (String) getIntent().getExtras().get(ConstructionSiteActivity.INTENT_EXTRA_ROOT);
-		ROOT_IMAGES = (String) getIntent().getExtras().get(ConstructionSiteActivity.INTENT_EXTRA_ROOT_IMAGES);
-		ROOT_SOUNDS = (String) getIntent().getExtras().get(ConstructionSiteActivity.INTENT_EXTRA_ROOT_SOUNDS);
-		SPF_FILE = (String) getIntent().getExtras().get(ConstructionSiteActivity.INTENT_EXTRA_SPF_FILE_NAME);
-				
+
+		ROOT = (String) getIntent().getExtras().get(
+				ConstructionSiteActivity.INTENT_EXTRA_ROOT);
+		ROOT_IMAGES = (String) getIntent().getExtras().get(
+				ConstructionSiteActivity.INTENT_EXTRA_ROOT_IMAGES);
+		ROOT_SOUNDS = (String) getIntent().getExtras().get(
+				ConstructionSiteActivity.INTENT_EXTRA_ROOT_SOUNDS);
+		SPF_FILE = (String) getIntent().getExtras().get(
+				ConstructionSiteActivity.INTENT_EXTRA_SPF_FILE_NAME);
+
 		setContentView(findViewById(R.id.stageView));
 
 		// we only want portrait mode atm, otherwise the program crashes
@@ -47,23 +50,21 @@ public class StageActivity extends Activity {
 		mContentManager = new ContentManager(this);
 		mContentManager.loadContent(SPF_FILE);
 
-
 		mSpritesList = new ArrayList<Sprite_old>();
-		
+
 	}
 
 	private boolean STARTED = false;
-	
+
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		if(!STARTED){
+		if (!STARTED) {
 			STARTED = true;
 			mStage.setBackgroundResource(0);
 			start();
-		}else
-		if(!mDoNextCommands)
+		} else if (!mDoNextCommands)
 			pauseOrContinue();
-		
+
 		return super.onTouchEvent(event);
 	}
 
@@ -89,33 +90,32 @@ public class StageActivity extends Activity {
 
 	protected void onPause() {
 		super.onPause();
-		for (int i = 0; i < mSpritesList.size(); i++)
-			mSpritesList.get(i).pauseMediaPlayer();
+		mSoundManager.pause();
 		finish();
 	}
-	
+
 	protected void onDestroy() {
 		super.onDestroy();
-		for (int i = 0; i < mSpritesList.size(); i++)
-			mSpritesList.get(i).stopAndReleaseMediaPlayer();
+		mSoundManager.release();
 	}
 
 	public void onBackPressed() {
-		 finish();
+		finish();
 	}
 
 	private void toMainActivity() {
 		finish();
 	}
 
-	private void start() { 
+	private void start() {
 		if (!mStage.getThread().isAlive()) {
-			mStage.getThread().setRunning(true); 
+			mStage.getThread().setRunning(true);
 			mStage.getThread().start();
 		}
 
 		for (int i = 0; i < mContentManager.getAllContentArrayList().size(); i++) {
-			Sprite_old sprite = new Sprite_old(mStage, mContentManager.getAllContentArrayList().get(i));
+			Sprite_old sprite = new Sprite_old(mStage, mContentManager
+					.getAllContentArrayList().get(i));
 			mSpritesList.add(sprite);
 		}
 
@@ -123,21 +123,20 @@ public class StageActivity extends Activity {
 			mSpritesList.get(i).start();
 		}
 	}
-	
+
 	private void pauseOrContinue() {
-		if (mDoNextCommands){
+		if (mDoNextCommands) {
 			mStage.setBackgroundResource(R.drawable.play_splash);
 			mDoNextCommands = false;
 			for (int i = 0; i < mSpritesList.size(); i++) {
 				mSpritesList.get(i).pauseMediaPlayer();
 			}
-		}
-		else {
+		} else {
 			mStage.setBackgroundResource(0);
 			mDoNextCommands = true;
 			for (int i = 0; i < mSpritesList.size(); i++) {
 				mSpritesList.get(i).startMediaPlayer();
-				mSpritesList.get(i).doNextCommand(); //TODO problem mit wait??
+				mSpritesList.get(i).doNextCommand(); // TODO problem mit wait??
 			}
 		}
 	}
