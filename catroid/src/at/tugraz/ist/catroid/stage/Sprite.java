@@ -54,7 +54,7 @@ public class Sprite implements Comparable<Sprite> {
 		}
 	}
 	
-	public void endPause(){
+	public void unPause(){
 		for (int i = 0; i < mScriptList.size(); i++) {
 			mScriptList.get(i).endPause();
 		}

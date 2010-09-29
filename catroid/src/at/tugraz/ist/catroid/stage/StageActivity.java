@@ -19,7 +19,7 @@ import at.tugraz.ist.catroid.R;
 
 public class StageActivity extends Activity {
 
-	protected static SurfaceView mStage;
+	public static SurfaceView mStage;
 	private ContentManager mContentManager;
 	protected boolean isWaiting = false;
 	private SoundManager mSoundManager;

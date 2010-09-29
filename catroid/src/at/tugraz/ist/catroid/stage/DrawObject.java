@@ -61,6 +61,8 @@ public class DrawObject {
 	}
 
 	public synchronized Bitmap getBitmap() {
+		if (mHidden)
+			return null;
 		return mBitmap;
 	}
 
