@@ -41,6 +41,7 @@ public class BrickWait extends Observable {
     }
     
     public void pause() {
+    	mIsWaiting = false;
     	mHandler.removeCallbacks(mRunnable);
     	
     }
