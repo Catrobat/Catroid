@@ -21,9 +21,9 @@ public class StageManager {
 	private Runnable mRunnable = new Runnable() {
 		public void run() {
 			for (int i = 0; i < mSpritesList.size(); i++) {
-				if (mSpritesList.get(i).mDrawObject.mToDraw) {
+				if (mSpritesList.get(i).mDrawObject.getToDraw()) {
 					mSpritesChanged = true;
-					mSpritesList.get(i).mDrawObject.mToDraw = false;
+					mSpritesList.get(i).mDrawObject.setToDraw(false);
 				}
 			}
 
