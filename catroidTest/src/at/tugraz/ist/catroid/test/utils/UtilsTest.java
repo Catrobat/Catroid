@@ -7,9 +7,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import android.util.Log;
-import at.tugraz.ist.catroid.utils.Utils;
 import junit.framework.TestCase;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class UtilsTest extends TestCase{
 	
@@ -36,9 +35,10 @@ public class UtilsTest extends TestCase{
 
 
 
-	public void testCopyFile(){
+	public void testCopyFile() throws InterruptedException{
 		String newpath = mTestFile.getParent()+"/copiedFile.txt";
 		Utils.copyFile(mTestFile.getAbsolutePath(), newpath);
+		Thread.sleep(1000); // Wait for thread to write file
 		File newFile = new File(newpath);
 		
 		assertTrue(newFile.exists());
@@ -47,9 +47,7 @@ public class UtilsTest extends TestCase{
 		String newContent = "";
 		try {
 			fReader = new FileReader(newFile);
-			
-			
-			
+
 			int read;
 		   while((read = fReader.read())!= -1){
 			   newContent = newContent + (char) read;

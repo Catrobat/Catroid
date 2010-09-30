@@ -1,7 +1,6 @@
 package at.tugraz.ist.catroid.utils;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -15,6 +14,7 @@ import android.graphics.Bitmap;
 import android.util.Log;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.utils.filesystem.FileCopyThread;
 
 public class Utils {
 	private static boolean hasSdCard() {
@@ -23,8 +23,9 @@ public class Utils {
 
 	/**
 	 * Checks whether the current device has an SD card. If it has none an error
-	 * message is displayed and the calling activity is finished.
-	 * TODO: A RuntimeException is thrown after the call to Activity.finish; find out why!
+	 * message is displayed and the calling activity is finished. TODO: A
+	 * RuntimeException is thrown after the call to Activity.finish; find out
+	 * why!
 	 * 
 	 * @param parentActivity
 	 *            the activity that calls this method
@@ -46,10 +47,11 @@ public class Utils {
 		}
 		return true;
 	}
-
+	
 	public static boolean copyFile(String from, String to) {
 		File fileFrom = new File(from);
 		File fileTo = new File(to);
+
 
 		if (fileTo.exists())
 			deleteFile(fileTo.getAbsolutePath());
@@ -58,30 +60,12 @@ public class Utils {
 		} catch (IOException e1) {
 			return false;
 		}
-
+		
 		if (!fileFrom.exists() || !fileTo.exists())
 			return false;
 
-		FileInputStream fis;
-		FileOutputStream fos;
-		try {
-			fis = new FileInputStream(fileFrom);
-			fos = new FileOutputStream(fileTo);
-
-			byte[] buf = new byte[1024];
-			int i = 0;
-			while ((i = fis.read(buf)) != -1) {
-				fos.write(buf, 0, i);
-			}
-
-			if (fis != null)
-				fis.close();
-			if (fos != null)
-				fos.close();
-		} catch (Exception e) {
-			return false;
-		}
-
+		Thread t = new FileCopyThread(fileTo, fileFrom);
+		t.start();
 		return true;
 	}
 
