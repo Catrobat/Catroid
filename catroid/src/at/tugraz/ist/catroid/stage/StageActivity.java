@@ -3,8 +3,10 @@ package at.tugraz.ist.catroid.stage;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.R;
@@ -17,6 +19,8 @@ public class StageActivity extends Activity {
 	protected boolean isWaiting = false;
 	private SoundManager mSoundManager;
 	private StageManager mStageManager;
+	private GestureListener mGestureListener;
+	private GestureDetector mGestureDetector;
 
 	public static String ROOT_IMAGES;
 	public static String ROOT_SOUNDS;
@@ -42,16 +46,22 @@ public class StageActivity extends Activity {
 			setContentView(R.layout.stage);
 			mStage = (SurfaceView) findViewById(R.id.stageView);
 
-			mSoundManager = SoundManager.getInstance();
 			// we only want portrait mode atm, otherwise the program crashes
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+			mSoundManager = SoundManager.getInstance();
 			mStageManager = new StageManager(this, SPF_FILE);
+			mGestureListener = new GestureListener(mStageManager);
+			mGestureDetector = new GestureDetector(this, mGestureListener);
 			mStageManager.start();
 			mStagePlaying = true;
 		}
 
 	}
 
+	 public boolean onTouchEvent(MotionEvent event) {  
+	     return mGestureDetector.onTouchEvent(event);  
+	 } 
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
@@ -99,7 +109,7 @@ public class StageActivity extends Activity {
 		finish();
 	}
 
-		private void pauseOrContinue() {
+	private void pauseOrContinue() {
 		if (mStagePlaying) {
 			mStageManager.pause(true);
 			mSoundManager.pause();
