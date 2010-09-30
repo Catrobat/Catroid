@@ -19,13 +19,14 @@ import at.tugraz.ist.catroid.utils.Utils;
  */
 public class Script extends Thread implements Observer{
 	
-	private ArrayList<HashMap<String, String>> mScriptData;
+	public ArrayList<HashMap<String, String>> mScriptData;
 	private DrawObject mDrawObject;
 	private SoundManager mSoundManager;
 	private BrickWait mBrickWait;
 	private int mCommandCount = 0;
 	private boolean mIsRunning;
 	private boolean mWasWaiting = false;
+	public boolean mIsTouchScript;
 	
 	public Script(DrawObject drawObject, ArrayList<HashMap<String, String>> scriptData){
 		super();
