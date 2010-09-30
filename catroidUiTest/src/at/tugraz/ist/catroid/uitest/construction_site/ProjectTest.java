@@ -1,15 +1,12 @@
-package at.tugraz.ist.catroid.test.construction_site;
-
-import java.util.ArrayList;
-
-import com.jayway.android.robotium.solo.Solo;
+package at.tugraz.ist.catroid.uitest.construction_site;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
-import android.view.View;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.R;
+
+import com.jayway.android.robotium.solo.Solo;
 
 /**
  * 

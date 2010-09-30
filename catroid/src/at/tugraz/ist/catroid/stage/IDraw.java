@@ -11,7 +11,7 @@ import android.graphics.Bitmap;
  */
 public interface IDraw {
 	/**
-	 * Processes all sprites which should be drawed on the stage.
+	 * Processes all sprites which should be drawn on the stage.
 	 * 
 	 */
 	public void draw();

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package at.tugraz.ist.catroid.test.construction_site;
+package at.tugraz.ist.catroid.uitest.construction_site;
 
 import com.jayway.android.robotium.solo.Solo;
 

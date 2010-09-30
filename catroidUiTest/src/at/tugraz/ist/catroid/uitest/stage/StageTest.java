@@ -1,18 +1,10 @@
 package at.tugraz.ist.catroid.uitest.stage;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import com.jayway.android.robotium.solo.Solo;
-
-import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
-import android.view.Surface;
-import android.view.View;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
-import at.tugraz.ist.catroid.R;
+
+import com.jayway.android.robotium.solo.Solo;
 
 /**
  * 
@@ -47,7 +39,7 @@ ActivityInstrumentationTestCase2<ConstructionSiteActivity> {
 	}
 	
 
-	
+	/*
 	private boolean deleteDirectory(File path) {
 	    if( path.exists() ) {
 	      File[] files = path.listFiles();
@@ -62,7 +54,7 @@ ActivityInstrumentationTestCase2<ConstructionSiteActivity> {
 	    }
 	    return( path.delete() );
 	  }
-
+	  */
 	
 	@Smoke
 	public void testDemoApplicationLoaded(){

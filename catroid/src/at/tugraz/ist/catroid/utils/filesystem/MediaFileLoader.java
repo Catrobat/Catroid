@@ -3,7 +3,6 @@ package at.tugraz.ist.catroid.utils.filesystem;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -11,7 +10,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
 
