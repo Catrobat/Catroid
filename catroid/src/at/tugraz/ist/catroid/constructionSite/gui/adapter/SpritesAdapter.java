@@ -1,18 +1,15 @@
 package at.tugraz.ist.catroid.constructionSite.gui.adapter;
 
 import java.util.ArrayList;
-import android.app.Dialog;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
-import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.R.layout;
 
 public class SpritesAdapter extends BaseAdapter{
     private Context mCtx;
