@@ -11,9 +11,6 @@ import android.view.MotionEvent;
 import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
 
 public class StageManager {
-	private String mRootImages;
-	private String mRootSounds;
-	private String mRoot;
 	private String mProjectFile;
 	private ContentManager mContentManager;
 	private Context mContext;
@@ -39,16 +36,12 @@ public class StageManager {
 
 	};
 
-	public StageManager(Context context, String imageRoot, String soundRoot,
-			String root, String projectFile) {
-		mRootImages = imageRoot;
-		mRootSounds = soundRoot;
-		mRoot = root;
+	public StageManager(Context context, String projectFile) {
 		mProjectFile = projectFile;
 		mContext = context;
 
 		mContentManager = new ContentManager(mContext);
-		mContentManager.loadContent(projectFile);
+		mContentManager.loadContent(mProjectFile);
 
 		mSpritesList = new ArrayList<Sprite>();
 		for (int i = 0; i < mContentManager.getAllContentArrayList().size(); i++) {

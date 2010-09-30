@@ -1,14 +1,10 @@
 package at.tugraz.ist.catroid.stage;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
-import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.SurfaceView;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.R;
@@ -18,7 +14,6 @@ import at.tugraz.ist.catroid.utils.Utils;
 public class StageActivity extends Activity {
 
 	public static SurfaceView mStage;
-	private ContentManager mContentManager;
 	protected boolean isWaiting = false;
 	private SoundManager mSoundManager;
 	private StageManager mStageManager;
@@ -50,8 +45,7 @@ public class StageActivity extends Activity {
 			mSoundManager = SoundManager.getInstance();
 			// we only want portrait mode atm, otherwise the program crashes
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-			mStageManager = new StageManager(this, ROOT_IMAGES, ROOT_SOUNDS,
-					ROOT, SPF_FILE);
+			mStageManager = new StageManager(this, SPF_FILE);
 			mStageManager.start();
 			mStagePlaying = true;
 		}
