@@ -53,32 +53,34 @@ public class ImageContainer {
 		return saveImageFromBitmap(bm, image, true);
 	}
 
-	public String saveImageFromBitmap(Bitmap bm, String name, boolean recycle) {
-		name = Utils.changeFileEndingToPng(name);
-		Bitmap newbm = null;
-		if (MAX_HEIGHT < bm.getHeight() && MAX_WIDTH < bm.getWidth())
-			newbm = ImageEditing.scaleBitmap(bm, MAX_HEIGHT, MAX_WIDTH);
-		if (MAX_HEIGHT >= bm.getHeight() && MAX_WIDTH < bm.getWidth())
-			newbm = ImageEditing.scaleBitmap(bm, bm.getHeight(), MAX_WIDTH);
-		if (MAX_HEIGHT < bm.getHeight() && MAX_WIDTH >= bm.getWidth())
-			newbm = ImageEditing.scaleBitmap(bm, MAX_HEIGHT, bm.getWidth());
-		if (MAX_HEIGHT >= bm.getHeight() && MAX_WIDTH >= bm.getWidth())
-			newbm = bm;
-
-		final String path = Utils.concatPaths(ConstructionSiteActivity.ROOT_IMAGES, name);
-		final Bitmap newbmToSave = newbm;
-		final Boolean recycleBm = recycle;
+	public String saveImageFromBitmap(final Bitmap bm, String name, final boolean recycle) {
+		final String fileName = Utils.changeFileEndingToPng(name);
 		new Thread(new Runnable() {
-
 			public void run() {
+				
+				Bitmap newbm = null;
+				if (MAX_HEIGHT < bm.getHeight() && MAX_WIDTH < bm.getWidth())
+					newbm = ImageEditing.scaleBitmap(bm, MAX_HEIGHT, MAX_WIDTH);
+				if (MAX_HEIGHT >= bm.getHeight() && MAX_WIDTH < bm.getWidth())
+					newbm = ImageEditing.scaleBitmap(bm, bm.getHeight(), MAX_WIDTH);
+				if (MAX_HEIGHT < bm.getHeight() && MAX_WIDTH >= bm.getWidth())
+					newbm = ImageEditing.scaleBitmap(bm, MAX_HEIGHT, bm.getWidth());
+				if (MAX_HEIGHT >= bm.getHeight() && MAX_WIDTH >= bm.getWidth())
+					newbm = bm;
+
+				final String path = Utils.concatPaths(ConstructionSiteActivity.ROOT_IMAGES, fileName);
+				final Bitmap newbmToSave = newbm;
+				final Boolean recycleBm = recycle;
+				
 				Utils.saveBitmapOnSDCardAsPNG(path, newbmToSave);
 				if (newbmToSave != null && recycleBm)
 					newbmToSave.recycle();
+				
+				if (bm != null && bm != newbm && recycle)
+					bm.recycle();
 			}
 		}).start();
 
-		if (bm != null && bm != newbm && recycle)
-			bm.recycle();
 		return name;
 	}
 
