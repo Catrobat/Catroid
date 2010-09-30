@@ -8,9 +8,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
+import android.view.Window;
+import android.view.WindowManager;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class StageActivity extends Activity {
@@ -34,6 +35,10 @@ public class StageActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (Utils.checkForSdCard(this)) {
+			Window window = getWindow();
+			window.requestFeature(Window.FEATURE_NO_TITLE);
+			window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 			ROOT = (String) getIntent().getExtras().get(
 					ConstructionSiteActivity.INTENT_EXTRA_ROOT);
 			ROOT_IMAGES = (String) getIntent().getExtras().get(
@@ -50,7 +55,7 @@ public class StageActivity extends Activity {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 			mSoundManager = SoundManager.getInstance();
 			mStageManager = new StageManager(this, SPF_FILE);
-			mGestureListener = new GestureListener(mStageManager);
+			mGestureListener = new GestureListener(this);
 			mGestureDetector = new GestureDetector(this, mGestureListener);
 			mStageManager.start();
 			mStagePlaying = true;
@@ -61,6 +66,15 @@ public class StageActivity extends Activity {
 	 public boolean onTouchEvent(MotionEvent event) {  
 	     return mGestureDetector.onTouchEvent(event);  
 	 } 
+	 
+	 public void processOnTouch(int coordX, int coordY) {
+			
+		 coordX = coordX + mStage.getTop();
+		 coordY = coordY + mStage.getLeft();
+		 
+		 	mStageManager.processOnTouch(coordX, coordY);
+			}
+		
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

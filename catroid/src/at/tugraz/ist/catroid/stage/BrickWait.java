@@ -3,7 +3,6 @@ package at.tugraz.ist.catroid.stage;
 import java.util.Observable;
 
 import android.os.Handler;
-import android.util.Log;
 
 /**
  * 
