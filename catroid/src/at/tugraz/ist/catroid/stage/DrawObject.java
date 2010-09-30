@@ -11,6 +11,7 @@ public class DrawObject {
 	private Bitmap mBitmap;
 	private int mZOrder;
 	private Pair<Integer, Integer> mSize;
+	private Pair<Integer, Integer> mOriginalSize;
 	private Boolean mToDraw;
 	private Boolean mHidden;
 	private String mPath;
@@ -45,6 +46,8 @@ public class DrawObject {
 					/ fullSizeBitmap.getWidth();
 			mBitmap = ImageEditing.scaleBitmap(fullSizeBitmap, mScaleFactor);
 			fullSizeBitmap.recycle();
+			mSize = new Pair<Integer, Integer>(mBitmap.getWidth(), mBitmap
+					.getHeight());
 			mScaleFactor = 1;
 		}
 		mToDraw = true;
@@ -52,10 +55,13 @@ public class DrawObject {
 	}
 
 	public synchronized void setBitmap(String path) throws Exception {
-		mBitmap = BitmapFactory.decodeFile(path);
-		mBitmap = ImageEditing.scaleBitmap(mBitmap, mScaleFactor);
+		Bitmap tempBitmap = BitmapFactory.decodeFile(path);
+		mBitmap = ImageEditing.scaleBitmap(tempBitmap, mScaleFactor);
+		tempBitmap.recycle();
 		mPath = path;
 		mSize = new Pair<Integer, Integer>(mBitmap.getWidth(), mBitmap
+				.getHeight());
+		mOriginalSize = new Pair<Integer, Integer>(mBitmap.getWidth(), mBitmap
 				.getHeight());
 		mToDraw = true;
 	}

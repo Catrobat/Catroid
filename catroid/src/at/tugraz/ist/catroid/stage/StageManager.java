@@ -7,7 +7,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
-import android.view.MotionEvent;
 import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
 
 public class StageManager {
@@ -66,8 +65,10 @@ public class StageManager {
 		mDraw.draw();
 	}
 
-	public void processTouchEvent(MotionEvent event) {
-		//
+	public void processOnTouch(int coordX, int coordY) {
+		for (int i = 0; i < mSpritesList.size(); i++) {
+			mSpritesList.get(i).processOnTouch(coordX, coordY);
+		}
 	}
 
 	public void pause(boolean drawScreen) {

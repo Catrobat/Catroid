@@ -5,12 +5,12 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 
 public class GestureListener extends GestureDetector.SimpleOnGestureListener {
-	private StageManager mStageManager;
+	private StageActivity mStageView;
 	
 
-	public GestureListener(StageManager stageManager) {
+	public GestureListener(StageActivity stageActivity) {
 		super();
-		mStageManager = stageManager;
+		mStageView = stageActivity;
 	}
 
 	public boolean onSingleTapUp(MotionEvent ev) {
@@ -38,7 +38,9 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener {
 	@Override
 	public boolean onDown(MotionEvent ev) {
 		Log.d("StageGestureDetection", "onDown" + ev.toString());
+		mStageView.processOnTouch((int)ev.getX(),(int)ev.getY());
 		return true;
+		
 	}
 
 	@Override

@@ -15,10 +15,10 @@ import at.tugraz.ist.catroid.utils.Utils;
 /**
  * 
  * @author Thomas Holzmann
- *
+ * 
  */
-public class Script extends Thread implements Observer{
-	
+public class Script extends Thread implements Observer {
+
 	public ArrayList<HashMap<String, String>> mScriptData;
 	private DrawObject mDrawObject;
 	private SoundManager mSoundManager;
@@ -27,8 +27,10 @@ public class Script extends Thread implements Observer{
 	private boolean mIsRunning;
 	private boolean mWasWaiting = false;
 	public boolean mIsTouchScript;
-	
-	public Script(DrawObject drawObject, ArrayList<HashMap<String, String>> scriptData){
+	private boolean mFirstRun = true;
+
+	public Script(DrawObject drawObject,
+			ArrayList<HashMap<String, String>> scriptData) {
 		super();
 		mScriptData = scriptData;
 		mDrawObject = drawObject;
@@ -36,42 +38,49 @@ public class Script extends Thread implements Observer{
 		mBrickWait = new BrickWait();
 		mIsRunning = true;
 	}
-	
+
 	@Override
 	public void run() {
-		if (mIsRunning)
+		if (mIsTouchScript && mFirstRun) {
+			Log.i("Touchzeugs", "Touch Thread gestartet: " + this.getId());
+			mFirstRun = false;
+		}
+		if (mIsRunning) {
+			if (mIsTouchScript)
+				Log.i("Touchzeugs", "Touch Thread arbeitet command ab: "
+						+ this.getId());
 			doNextCommand();
+		}
 	}
 
 	public void update(Observable observable, Object data) {
 		mCommandCount++;
-		
-		doNextCommand();	
+
+		doNextCommand();
 	}
-	
-	public void pause(){
-		if (mBrickWait.mIsWaiting){
+
+	public void pause() {
+		if (mBrickWait.mIsWaiting) {
 			mBrickWait.pause();
 			mWasWaiting = true;
 		}
 		mIsRunning = false;
-		
+
 	}
-	
-	public void endPause(){
+
+	public void endPause() {
 		mIsRunning = true;
-		if (mWasWaiting){
+		if (mWasWaiting) {
 			mBrickWait.start();
 			mWasWaiting = false;
-		}
-		else {
+		} else {
 			doNextCommand();
 		}
-		
+
 	}
-	
+
 	public synchronized void doNextCommand() {
-		if ((mScriptData.size() <= mCommandCount) || (mIsRunning == false)){
+		if ((mScriptData.size() <= mCommandCount) || (mIsRunning == false)) {
 			// abort if mCommandCount has run through all commands to execute
 			return;
 		}
@@ -80,14 +89,15 @@ public class Script extends Thread implements Observer{
 		String imagePath;
 		int type = Integer.parseInt(map.get(BrickDefine.BRICK_TYPE));
 		switch (type) {
-		case BrickDefine.SET_BACKGROUND: 
+		case BrickDefine.SET_BACKGROUND:
 		case BrickDefine.SET_COSTUME:
-			imagePath = Utils.concatPaths(StageActivity.ROOT_IMAGES,(map.get(BrickDefine.BRICK_VALUE)));
+			imagePath = Utils.concatPaths(StageActivity.ROOT_IMAGES, (map
+					.get(BrickDefine.BRICK_VALUE)));
 			try {
 				mDrawObject.setBitmap(imagePath);
 				Log.i("Script", "Bitmap set");
 			} catch (Exception e) {
-				Log.e("Script","Image "+imagePath+" does not exist!");
+				Log.e("Script", "Image " + imagePath + " does not exist!");
 				e.printStackTrace();
 			}
 			mCommandCount++;
@@ -97,7 +107,9 @@ public class Script extends Thread implements Observer{
 		case BrickDefine.PLAY_SOUND:
 			MediaPlayer mediaPlayer = mSoundManager.getMediaPlayer();
 			try {
-				mediaPlayer.setDataSource(Utils.concatPaths(StageActivity.ROOT_SOUNDS, map.get(BrickDefine.BRICK_VALUE)));
+				mediaPlayer.setDataSource(Utils.concatPaths(
+						StageActivity.ROOT_SOUNDS, map
+								.get(BrickDefine.BRICK_VALUE)));
 				mediaPlayer.prepare();
 				mediaPlayer.start();
 
@@ -111,14 +123,16 @@ public class Script extends Thread implements Observer{
 			break;
 
 		case BrickDefine.WAIT:
-			mBrickWait.mWaitTime = (int)(Float.parseFloat(map.get(BrickDefine.BRICK_VALUE))*1000f);
+			mBrickWait.mWaitTime = (int) (Float.parseFloat(map
+					.get(BrickDefine.BRICK_VALUE)) * 1000f);
 			mBrickWait.addObserver(this);
 			mBrickWait.start();
 			break;
 
 		case BrickDefine.GO_TO:
-			mDrawObject.setmPosition(new Pair<Integer,Integer>(Integer.parseInt(map.get(BrickDefine.BRICK_VALUE)), 
-					Integer.parseInt(map.get(BrickDefine.BRICK_VALUE_1))));
+			mDrawObject.setmPosition(new Pair<Integer, Integer>(Integer
+					.parseInt(map.get(BrickDefine.BRICK_VALUE)), Integer
+					.parseInt(map.get(BrickDefine.BRICK_VALUE_1))));
 			mCommandCount++;
 			doNextCommand();
 			break;
@@ -134,11 +148,19 @@ public class Script extends Thread implements Observer{
 			mCommandCount++;
 			doNextCommand();
 			break;
-			
+
 		case BrickDefine.SCALE_COSTUME:
-			mDrawObject.scaleBitmap(Integer.parseInt(map.get(BrickDefine.BRICK_VALUE)));
+			mDrawObject.scaleBitmap(Integer.parseInt(map
+					.get(BrickDefine.BRICK_VALUE)));
 			mCommandCount++;
 			doNextCommand();
+			break;
+		
+		case BrickDefine.TOUCHED:
+			mCommandCount++;
+			doNextCommand();
+			break;
+		default:
 			break;
 		}
 
