@@ -81,7 +81,7 @@ public class ImageContainer {
 			}
 		}).start();
 
-		return name;
+		return fileName;
 	}
 
 	public String saveThumbnailFromPath(String path) {

@@ -58,6 +58,7 @@ public class DrawObject {
 		Bitmap tempBitmap = BitmapFactory.decodeFile(path);
 		mBitmap = ImageEditing.scaleBitmap(tempBitmap, mScaleFactor);
 		tempBitmap.recycle();
+		
 		mPath = path;
 		mSize = new Pair<Integer, Integer>(mBitmap.getWidth(), mBitmap
 				.getHeight());
