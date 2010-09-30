@@ -15,8 +15,8 @@ public class BrickDefine {
 	// definition xyyy x = group y = brick id
 	
 	
-	public final static int NUMBER_OF_BRICK_TYPES = 9;
-	//group number 1 Control
+	public final static int NUMBER_OF_BRICK_TYPES = 9; // TODO: a static number for this is *bad*
+	
 	public final static int SET_BACKGROUND = 0; 
 	public final static int WAIT = 1;
 	public final static int TOUCHED = 8;
@@ -32,6 +32,8 @@ public class BrickDefine {
 	public final static int SHOW = 5;
 	public final static int SET_COSTUME = 6;
 	public final static int SCALE_COSTUME = 7;
+	public final static int COME_TO_FRONT = 9;
+	public final static int GO_TO_BACK = 10;
 	
 	//group number 9 Error
 	public final static int NOT_DEFINED = 9999;
@@ -39,94 +41,60 @@ public class BrickDefine {
 	public final static int STAGE_CATEGORY = 100001;
 	public final static int SPRITE_CATEGORY = 100002;
 	
+	private static int currentId = 1;
+	
 	public static int getNumberOfBrickType(){
 		return NUMBER_OF_BRICK_TYPES;
 	}
 	
+	private static HashMap<String, String> createBrick(int brickType, String brickName, String brickValue, String brickValue1) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put(BRICK_ID, String.valueOf(currentId));
+		currentId++;
+		map.put(BRICK_TYPE, String.valueOf(brickType));
+		map.put(BRICK_NAME, brickName);
+		map.put(BRICK_VALUE, brickValue);
+		map.put(BRICK_VALUE_1, brickValue1);
+		
+		return map;
+	}
+	
+	private static HashMap<String, String> createBrick(int brickType, String brickName, String brickValue) {
+		return createBrick(brickType, brickName, brickValue, "");
+	}
+	
+	private static HashMap<String, String> createBrick(int brickType) {
+		return createBrick(brickType, "", "", "");
+	}
+	
 	public static ArrayList<HashMap<String, String>> getToolBoxBrickContent(int id){
 		ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String,String>>();
-		HashMap<String, String> map;
 		
 		switch(id){
 		case STAGE_CATEGORY:
-			map = new HashMap<String, String>();
-	        map.put(BrickDefine.BRICK_ID, "1");
-	        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_BACKGROUND));
-	        map.put(BrickDefine.BRICK_NAME, "");
-	        map.put(BrickDefine.BRICK_VALUE, "");
-	        map.put(BrickDefine.BRICK_VALUE_1, "");
-	        list.add(map);
-	        map = new HashMap<String, String>();
-	        map.put(BrickDefine.BRICK_ID, "2");
-	        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.PLAY_SOUND));
-	        map.put(BrickDefine.BRICK_NAME, "");
-	        map.put(BrickDefine.BRICK_VALUE, "1");
-	        list.add(map);
-	        map = new HashMap<String, String>();
-	        map.put(BrickDefine.BRICK_ID, "3");
-	        map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
-	        map.put(BrickDefine.BRICK_NAME, "");
-	        map.put(BrickDefine.BRICK_VALUE, "1");
-	        list.add(map);
-	        
-	        return list;
+			list.add(createBrick(SET_BACKGROUND));
+			list.add(createBrick(PLAY_SOUND, "", "1"));
+			list.add(createBrick(WAIT, "", "1"));
+        
+	        break;
 			
 		case SPRITE_CATEGORY:
-			map = new HashMap<String, String>();
-		    map.put(BrickDefine.BRICK_ID, "12");
-		    map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.PLAY_SOUND));
-		    map.put(BrickDefine.BRICK_NAME, "");
-		    map.put(BrickDefine.BRICK_VALUE, "1");
-		    list.add(map);
-		    map = new HashMap<String, String>();
-		    map.put(BrickDefine.BRICK_ID, "13");
-		    map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
-		    map.put(BrickDefine.BRICK_NAME, "");
-		    map.put(BrickDefine.BRICK_VALUE, "1");
-		    list.add(map);
-		    map = new HashMap<String, String>();
-		    map.put(BrickDefine.BRICK_ID, "14");
-		    map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.HIDE));
-		    map.put(BrickDefine.BRICK_NAME, "");
-		    map.put(BrickDefine.BRICK_VALUE, "");
-		    list.add(map);
-		    map = new HashMap<String, String>();
-		    map.put(BrickDefine.BRICK_ID, "15");
-		    map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SHOW));
-		    map.put(BrickDefine.BRICK_NAME, "");
-		    map.put(BrickDefine.BRICK_VALUE, "");
-		    list.add(map);
-		    map = new HashMap<String, String>();
-		    map.put(BrickDefine.BRICK_ID, "16");
-		    map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.GO_TO));
-		    map.put(BrickDefine.BRICK_NAME, "");
-		    map.put(BrickDefine.BRICK_VALUE, "1");
-		    map.put(BrickDefine.BRICK_VALUE_1, "1");
-		    list.add(map);
-		    map = new HashMap<String, String>();
-		    map.put(BrickDefine.BRICK_ID, "17");
-		    map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_COSTUME));
-		    map.put(BrickDefine.BRICK_NAME, "");
-		    map.put(BrickDefine.BRICK_VALUE, "");
-		    map.put(BrickDefine.BRICK_VALUE_1, "");
-		    list.add(map);
-		    map = new HashMap<String, String>();
-		    map.put(BrickDefine.BRICK_ID, "18");
-		    map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SCALE_COSTUME));
-		    map.put(BrickDefine.BRICK_NAME, "");
-		    map.put(BrickDefine.BRICK_VALUE, "100");
-		    map.put(BrickDefine.BRICK_VALUE_1, "");
-		    list.add(map);
-		    map = new HashMap<String, String>();
-		    map.put(BrickDefine.BRICK_ID, "19");
-		    map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.TOUCHED));
-		    map.put(BrickDefine.BRICK_NAME, "");
-		    map.put(BrickDefine.BRICK_VALUE, "");
-		    list.add(map);
+			list.add(createBrick(PLAY_SOUND, "", "1"));
+			list.add(createBrick(WAIT, "", "1"));
+			list.add(createBrick(HIDE));
+			list.add(createBrick(SHOW));
+			list.add(createBrick(GO_TO, "", "1", "1"));
+			list.add(createBrick(SET_COSTUME));
+			list.add(createBrick(SCALE_COSTUME, "", "100"));
+			list.add(createBrick(GO_TO_BACK));
+			list.add(createBrick(COME_TO_FRONT));
+			list.add(createBrick(TOUCHED));
 			
-		default:
-			return list;
+			break;
+
+
 		}
+		return list;
 	}
 	
 }
