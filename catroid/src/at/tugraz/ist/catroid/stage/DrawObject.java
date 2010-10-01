@@ -16,6 +16,7 @@ public class DrawObject {
 	private Boolean mHidden;
 	private String mPath;
 	private float mScaleFactor;
+	
 
 	public DrawObject() {
 		mToDraw = false;
