@@ -32,11 +32,12 @@
 				android:text="@string/x_label" 
 				android:paddingRight="10dip">
 			</TextView>
-			<EditText android:layout_width="50dp" 
+			<EditText android:layout_width="60dp" 
 				android:layout_height="wrap_content" android:text="0" 
+				android:numeric="signed"
 				android:inputType="number|numberDecimal|numberSigned" 
 				android:maxLines="1" 
-				android:maxLength="3" 
+				android:maxLength="4" 
 				android:id="@+id/InputValueEditTextX" 
 				android:tag="@string/constructional_brick_go_to_x_tag"
 				android:cursorVisible="false" 
@@ -53,12 +54,12 @@
 				android:paddingRight="10dip" 
 				android:paddingLeft="10dip">
 			</TextView>
-			<EditText android:layout_width="50dp" 
+			<EditText android:layout_width="60dp" 
 				android:layout_height="wrap_content" 
 				android:text="0" 
-				android:inputType="number|numberDecimal" 
+				android:inputType="number|numberDecimal|numberSigned" 
 				android:maxLines="1" 
-				android:maxLength="3" 
+				android:maxLength="4" 
 				android:id="@+id/InputValueEditTextY" 
 				android:tag="@string/constructional_brick_go_to_y_tag"
 				android:cursorVisible="false" 
