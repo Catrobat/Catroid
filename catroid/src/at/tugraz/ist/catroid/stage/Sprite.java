@@ -112,6 +112,7 @@ public class Sprite implements Comparable<Sprite> {
 								Script scriptToExecute = new Script(
 										mDrawObject,
 										mScriptList.get(i).mScriptData);
+								scriptToExecute.mIsTouchScript = true;
 								scriptToExecute.start();
 								mRunningScriptsList.add(scriptToExecute);
 							}
