@@ -16,11 +16,11 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.BrickDefine;
 
 public class EditTextDialog extends Dialog implements OnClickListener {
-	
+
 	EditText mListEditText;
 	EditText mLocalEditText;
 	Button mButton;
-	HashMap<String,String> mBrickMap;
+	HashMap<String, String> mBrickMap;
 	boolean isValue1 = false;
 
 	public EditTextDialog(Context context) {
@@ -31,32 +31,44 @@ public class EditTextDialog extends Dialog implements OnClickListener {
 		mButton = (Button) findViewById(R.id.dialogEditTextSubmit);
 		mButton.setOnClickListener(this);
 	}
-	
-	public void show(HashMap<String,String> brickMap, EditText text) {
+
+	public void show(HashMap<String, String> brickMap, EditText text) {
 		mBrickMap = brickMap;
 		mListEditText = text;
 		String tag = (String) text.getTag();
 
 		// allow decimal numbers only in wait dialog
-		if (tag.equals(getContext().getString(R.string.constructional_brick_wait_edit_text_tag)))
-			mLocalEditText.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL|InputType.TYPE_NUMBER_FLAG_SIGNED);
+		if (tag.equals(getContext().getString(
+				R.string.constructional_brick_wait_edit_text_tag)))
+			mLocalEditText.setInputType(InputType.TYPE_CLASS_NUMBER
+					| InputType.TYPE_NUMBER_FLAG_DECIMAL
+					| InputType.TYPE_NUMBER_FLAG_SIGNED);
 		else
 			mLocalEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
-		
-		if (tag.equals(getContext().getString(R.string.constructional_brick_go_to_y_tag)))
+
+		if (tag.equals(getContext().getString(
+				R.string.constructional_brick_go_to_y_tag)))
 			isValue1 = true;
 		else
 			isValue1 = false;
+		if (tag.equals(getContext().getString(
+				R.string.constructional_brick_go_to_x_tag))
+				|| tag.equals(getContext().getString(
+						R.string.constructional_brick_go_to_y_tag))) {
+			mLocalEditText.setInputType(InputType.TYPE_CLASS_NUMBER
+					| InputType.TYPE_NUMBER_FLAG_SIGNED);
+		}
 		if (isValue1)
 			mLocalEditText.setText(brickMap.get(BrickDefine.BRICK_VALUE_1));
 		else
 			mLocalEditText.setText(brickMap.get(BrickDefine.BRICK_VALUE));
 		super.show();
 		mLocalEditText.requestFocus();
-		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-		
+		this.getWindow().setSoftInputMode(
+				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		saveContent();
@@ -68,23 +80,25 @@ public class EditTextDialog extends Dialog implements OnClickListener {
 		saveContent();
 		super.cancel();
 	}
-	
-	private void saveContent(){
-		if (!(mLocalEditText.getText().toString().length()==0)){
+
+	private void saveContent() {
+		if (!(mLocalEditText.getText().toString().length() == 0)) {
 			if (isValue1)
-				mBrickMap.put(BrickDefine.BRICK_VALUE_1, mLocalEditText.getText().toString());
+				mBrickMap.put(BrickDefine.BRICK_VALUE_1, mLocalEditText
+						.getText().toString());
 			else
-				mBrickMap.put(BrickDefine.BRICK_VALUE, mLocalEditText.getText().toString());
+				mBrickMap.put(BrickDefine.BRICK_VALUE, mLocalEditText.getText()
+						.toString());
 			mListEditText.setText(mLocalEditText.getText());
 		}
 	}
 
 	public void onClick(View v) {
-		if (v.getId() == R.id.dialogEditTextSubmit){
-			Log.i("EditTextDialog","in onClickListener");
+		if (v.getId() == R.id.dialogEditTextSubmit) {
+			Log.i("EditTextDialog", "in onClickListener");
 			cancel();
 		}
-		
+
 	}
 
 }
