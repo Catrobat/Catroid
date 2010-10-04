@@ -26,11 +26,13 @@ public class DrawObject {
 		mHidden = false;
 		mPositionAbs = new Pair<Integer, Integer>(0, 0);
 		mPositionRel = new Pair<Integer, Integer>(0, 0);
+		setmPositionRel(new Pair<Integer, Integer>(0, 0)); 
 		mZOrder = 0;
 		mSize = new Pair<Integer, Integer>(0, 0); // width , height
 		mScaleFactor = 1;
 		mBitmap = null;
 		mPath = null;
+		
 
 	}
 
@@ -67,6 +69,14 @@ public class DrawObject {
 	public synchronized void setBitmap(String path) throws Exception {
 		positionToSpriteTopLeft();
 		Bitmap tempBitmap = BitmapFactory.decodeFile(path);
+		
+		// dirty workaround for Stage Background
+		// still on search for a better solution
+		if(tempBitmap.getHeight() > StageActivity.SCREEN_HEIGHT){
+			float backgroundScaleFactor = (float) StageActivity.SCREEN_HEIGHT/(float) tempBitmap.getHeight();
+			tempBitmap = ImageEditing.scaleBitmap(tempBitmap, backgroundScaleFactor);
+		}
+		
 		mBitmap = ImageEditing.scaleBitmap(tempBitmap, mScaleFactor);
 		tempBitmap.recycle();
 
