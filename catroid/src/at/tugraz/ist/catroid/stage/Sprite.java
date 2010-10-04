@@ -73,9 +73,9 @@ public class Sprite implements Comparable<Sprite> {
 
 	private void markTouchScripts() {
 		for (int i = 0; i < mScriptList.size(); i++) {
-			if (mScriptList.get(i).mScriptData.get(0).get(
+			if ((mScriptList.get(i).mScriptData.size() > 1) &&(mScriptList.get(i).mScriptData.get(0).get(
 					BrickDefine.BRICK_TYPE) == String
-					.valueOf(BrickDefine.TOUCHED)) {
+					.valueOf(BrickDefine.TOUCHED))) {
 				mScriptList.get(i).mIsTouchScript = true;
 			}
 		}
