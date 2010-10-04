@@ -11,7 +11,6 @@ public class DrawObject {
 	private Bitmap mBitmap;
 	private int mZOrder;
 	private Pair<Integer, Integer> mSize;
-	private Pair<Integer, Integer> mOriginalSize;
 	private Boolean mToDraw;
 	private Boolean mHidden;
 	private String mPath;
@@ -62,7 +61,7 @@ public class DrawObject {
 		mPath = path;
 		mSize = new Pair<Integer, Integer>(mBitmap.getWidth(), mBitmap
 				.getHeight());
-		mOriginalSize = new Pair<Integer, Integer>(mBitmap.getWidth(), mBitmap
+		new Pair<Integer, Integer>(mBitmap.getWidth(), mBitmap
 				.getHeight());
 		mToDraw = true;
 	}
