@@ -2,9 +2,7 @@ package at.tugraz.ist.catroid.stage;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.DisplayMetrics;
 import android.util.Pair;
-import android.view.WindowManager;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 
 public class DrawObject {

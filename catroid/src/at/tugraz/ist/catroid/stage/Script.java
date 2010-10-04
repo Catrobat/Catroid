@@ -126,7 +126,7 @@ public class Script extends Thread implements Observer {
 			break;
 
 		case BrickDefine.GO_TO:
-			mDrawObject.setmPosition(new Pair<Integer, Integer>(Integer.parseInt(map.get(BrickDefine.BRICK_VALUE)), Integer.parseInt(map
+			mDrawObject.setmPositionRel(new Pair<Integer, Integer>(Integer.parseInt(map.get(BrickDefine.BRICK_VALUE)), Integer.parseInt(map
 					.get(BrickDefine.BRICK_VALUE_1))));
 			mCommandCount++;
 			doNextCommand();
