@@ -10,7 +10,6 @@ import android.os.Handler;
 import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
 
 public class StageManager {
-	private String mProjectFile;
 	private ContentManager mContentManager;
 	private Context mContext;
 	protected ArrayList<Sprite> mSpritesList;
@@ -41,7 +40,6 @@ public class StageManager {
 	}
 		
 	public StageManager(Context context, String projectFile) {
-		mProjectFile = projectFile;
 		mContext = context;
 
 		mContentManager = new ContentManager(mContext);
