@@ -5,7 +5,7 @@ import at.tugraz.ist.catroid.ConstructionSiteActivity;
 
 public class ConstructionSiteActivityTest extends ActivityInstrumentationTestCase2<ConstructionSiteActivity>{
 
-	private ConstructionSiteActivity mActivity;
+	// private ConstructionSiteActivity mActivity;
 	
 	public ConstructionSiteActivityTest() {
 		super("at.tugraz.ist.catroid", ConstructionSiteActivity.class);
@@ -16,7 +16,7 @@ public class ConstructionSiteActivityTest extends ActivityInstrumentationTestCas
 		
 		//you have to turn this off if any of the test methods send key events to the application
 		setActivityInitialTouchMode(false); 
-		mActivity = getActivity();
+		// mActivity = getActivity();
         
 	}
 	

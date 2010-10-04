@@ -3,10 +3,7 @@ package at.tugraz.ist.catroid.test.filesystem;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
 
-
-import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Environment;
