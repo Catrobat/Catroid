@@ -218,7 +218,21 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 			case (BrickDefine.SCALE_COSTUME): {
 				View view = organizeViewHandling(type, R.layout.construction_brick_scale_costume, convertView, position, brickId);
 				EditText eText = (EditText) view.findViewWithTag(mCtx.getString(R.string.constructional_brick_scale_costume_edit_text_tag));
-				// eText.setOnKeyListener(this);
+				eText.setText(value);
+				eText.setOnClickListener(this);
+				return view;
+			}
+			
+			case(BrickDefine.COME_TO_FRONT): {
+				View view = organizeViewHandling(type, R.layout.construction_brick_come_to_front, convertView, position, brickId);
+				TextView tView = (TextView) view.findViewWithTag(mCtx.getString(R.string.constructional_brick_come_to_front));
+				tView.setText(R.string.come_to_front_main_adapter);
+				return view;
+			}
+			
+			case(BrickDefine.GO_BACK) : {
+				View view = organizeViewHandling(type, R.layout.construction_brick_go_back, convertView, position, brickId);
+				EditText eText = (EditText) view.findViewWithTag(mCtx.getString(R.string.constructional_brick_go_back_edit_text_tag));
 				eText.setText(value);
 				eText.setOnClickListener(this);
 				return view;
@@ -284,6 +298,9 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 			int brickPosition = mMainListView.getPositionForView((EditText) v);
 			mEditTextDialog.show(mBrickList.get(brickPosition), (EditText) v);
 		} else if (mCtx.getString(R.string.constructional_brick_go_to_y_tag).equals(tag)) {
+			int brickPosition = mMainListView.getPositionForView((EditText) v);
+			mEditTextDialog.show(mBrickList.get(brickPosition), (EditText) v);
+		} else if(mCtx.getString(R.string.constructional_brick_go_back_edit_text_tag).equals(tag)) {
 			int brickPosition = mMainListView.getPositionForView((EditText) v);
 			mEditTextDialog.show(mBrickList.get(brickPosition), (EditText) v);
 		}
@@ -359,6 +376,10 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 			mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE, ((EditText) v).getText().toString());
 			return false;
 		} else if (mCtx.getString(R.string.constructional_brick_scale_costume_edit_text_tag).equals(tag)) {
+			int brickPosition = mMainListView.getPositionForView((EditText) v);
+			mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE, ((EditText) v).getText().toString());
+			return false;
+		} else if (mCtx.getString(R.string.constructional_brick_go_back_edit_text_tag).equals(tag)) {
 			int brickPosition = mMainListView.getPositionForView((EditText) v);
 			mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE, ((EditText) v).getText().toString());
 			return false;

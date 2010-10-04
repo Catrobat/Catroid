@@ -7,15 +7,13 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
-import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
-import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
 
 public class LoadProgramDialog extends Dialog{
 
@@ -38,7 +36,7 @@ public class LoadProgramDialog extends Dialog{
 		
 		
     	File sdFile = new File(ConstructionSiteActivity.DEFAULT_PROJECT);
-    	File[] sdFileList = sdFile.listFiles();
+    	//File[] sdFileList = sdFile.listFiles();
     	
     	
     	searchForFile(sdFile);

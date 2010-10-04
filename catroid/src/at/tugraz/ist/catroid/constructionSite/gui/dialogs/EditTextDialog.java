@@ -7,14 +7,13 @@ import android.content.Context;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import at.tugraz.ist.catroid.constructionSite.content.BrickDefine;
 import at.tugraz.ist.catroid.R;
-import android.view.View.OnClickListener;
+import at.tugraz.ist.catroid.constructionSite.content.BrickDefine;
 
 public class EditTextDialog extends Dialog implements OnClickListener {
 	

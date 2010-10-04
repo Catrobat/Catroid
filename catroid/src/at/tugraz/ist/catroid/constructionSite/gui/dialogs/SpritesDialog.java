@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Pair;
 import android.view.Gravity;
 import android.view.View;
@@ -20,9 +20,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
 import at.tugraz.ist.catroid.constructionSite.gui.adapter.SpritesAdapter;
-import at.tugraz.ist.catroid.R;
 
 
 public class SpritesDialog extends Dialog implements Observer

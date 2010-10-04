@@ -5,23 +5,20 @@ import java.io.File;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
+import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
 import at.tugraz.ist.catroid.utils.Utils;
-import at.tugraz.ist.catroid.R;
 
 public class ChangeProgramNameDialog extends Dialog{
 
 private ContentManager mContentManager;
-private SharedPreferences mPreferences;
 private Context mCtx;
 
 public ChangeProgramNameDialog(Context context, ContentManager contentmanager) {
@@ -33,7 +30,7 @@ public ChangeProgramNameDialog(Context context, ContentManager contentmanager) {
 @Override
 protected void onCreate(Bundle savedInstanceState) {
 	
-  mPreferences = ((Activity)mCtx).getPreferences(Activity.MODE_PRIVATE);
+  ((Activity)mCtx).getPreferences(Activity.MODE_PRIVATE);
   setContentView(R.layout.dialog_change_program_name_layout);
   
   EditText newNameToChange = (EditText) findViewById(R.id.changeProjectNameEditText);

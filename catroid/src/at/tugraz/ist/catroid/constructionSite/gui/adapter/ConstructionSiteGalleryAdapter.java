@@ -7,11 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Gallery;
-import android.widget.GridView;
 import android.widget.ImageView;
-import at.tugraz.ist.catroid.utils.ImageContainer;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.utils.ImageContainer;
 
 public class ConstructionSiteGalleryAdapter extends BaseAdapter {
 	

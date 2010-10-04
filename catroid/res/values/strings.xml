@@ -35,6 +35,8 @@
     <string name="show_main_adapter">Show</string>
     <string name="goto_main_adapter">Go To</string>
     <string name="costume_main_adapter">Set Costume</string>
+    <string name="come_to_front_main_adapter">Come to front</string>
+    <string name="go_back_main_adapter">Go back</string>
     <string name="touched_main_adapter">If Touched</string>
     <string name="toolbar">B\nu\ni\nl\nd\ni\nn\ng\n \nB\nl\no\nc\nk\ns</string>
     <string name="seconds">Seconds</string>
@@ -43,6 +45,7 @@
     <string name="default_sprite">catroid</string>
     <string name="x_label">X:</string>
     <string name="y_label">Y:</string>
+    <string name="steps_label">steps</string>
     <string name="procent">%</string>
  	<string name="scaleCustome">Scale Costume to</string>
  	

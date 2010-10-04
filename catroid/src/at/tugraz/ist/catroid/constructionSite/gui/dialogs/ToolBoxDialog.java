@@ -5,22 +5,17 @@ import java.util.HashMap;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.util.Log;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.Animation.AnimationListener;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
+import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import at.tugraz.ist.catroid.constructionSite.content.BrickDefine;
+import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
 import at.tugraz.ist.catroid.constructionSite.gui.adapter.ToolBoxAdapter;
-import at.tugraz.ist.catroid.R;
 
 public class ToolBoxDialog extends Dialog{
 
@@ -30,8 +25,6 @@ public class ToolBoxDialog extends Dialog{
 	private Animation mSlide_out;
 	private ToolBoxAdapter mAdapter;
 	private LinearLayout mToolboxLayout;
-	private ContentManager mContentManager;
-	
 	private ArrayList<HashMap<String, String>> mContent;
 
 	protected ListView mMainListView;	
@@ -44,9 +37,6 @@ public class ToolBoxDialog extends Dialog{
 		getWindow().setGravity(Gravity.CENTER_HORIZONTAL);
 		setContentView(R.layout.dialog_toolbox);
 		mCtx = context;
-		mContentManager = contentManager;
-		
-		
 		mSlide_in = AnimationUtils.loadAnimation(mCtx, R.anim.toolbox_in);
 		mSlide_out = AnimationUtils.loadAnimation(mCtx, R.anim.toolbox_out);
 		mSlide_out.setAnimationListener(new AnimationListener() {
@@ -89,6 +79,7 @@ public class ToolBoxDialog extends Dialog{
 		super.cancel();
 	}
 	   
+	@SuppressWarnings("unchecked")
 	public HashMap<String, String> getBrickClone(View v){
 		return (HashMap<String, String>) mAdapter.getItem(mMainListView.getPositionForView(v)).clone();
 	}
