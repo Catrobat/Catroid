@@ -7,16 +7,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
-import android.view.MotionEvent;
 import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
 
 public class StageManager {
-	/*
-	private String mRootImages;
-	private String mRootSounds;
-	private String mRoot;
 	private String mProjectFile;
-	*/
 	private ContentManager mContentManager;
 	private Context mContext;
 	protected ArrayList<Sprite> mSpritesList;
@@ -45,15 +39,9 @@ public class StageManager {
 	public static int getMinZValue() {
 		return minZValue; // TODO: Implement properly!
 	}
-
-	public StageManager(Context context, String imageRoot, String soundRoot,
-			String root, String projectFile) {
-		/*
-		mRootImages = imageRoot;
-		mRootSounds = soundRoot;
-		mRoot = root;
+		
+	public StageManager(Context context, String projectFile) {
 		mProjectFile = projectFile;
-		*/
 		mContext = context;
 
 		mContentManager = new ContentManager(mContext);
@@ -84,8 +72,10 @@ public class StageManager {
 		mDraw.draw();
 	}
 
-	public void processTouchEvent(MotionEvent event) {
-		//
+	public void processOnTouch(int coordX, int coordY) {
+		for (int i = 0; i < mSpritesList.size(); i++) {
+			mSpritesList.get(i).processOnTouch(coordX, coordY);
+		}
 	}
 
 	public void pause(boolean drawScreen) {
