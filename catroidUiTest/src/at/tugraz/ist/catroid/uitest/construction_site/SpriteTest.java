@@ -112,6 +112,21 @@ public class SpriteTest extends ActivityInstrumentationTestCase2<ConstructionSit
 	}
 	
 	@Smoke
+	public void testAddComeToFrontBrick() {
+		addAndCheckBrick(R.string.come_to_front_main_adapter);
+	}
+	
+	@Smoke
+	public void testAddGoBackBrick() {
+		addAndCheckBrick(R.string.go_back_main_adapter);
+	}
+	
+	@Smoke
+	public void testAddOnTouchBrick() {
+		addAndCheckBrick(R.string.touched_main_adapter);
+	}
+	
+	@Smoke
 	public void testNumberInputOfBricks(){
 		solo.clickOnButton(getActivity().getString(R.string.toolbar));
 		solo.clickOnText(getActivity().getString(R.string.wait_main_adapter));
@@ -122,22 +137,28 @@ public class SpriteTest extends ActivityInstrumentationTestCase2<ConstructionSit
 		solo.clickOnButton(getActivity().getString(R.string.toolbar));
 		solo.clickOnText(getActivity().getString(R.string.goto_main_adapter));
 		
+		solo.clickOnButton(getActivity().getString(R.string.toolbar));
+		solo.clickOnText(getActivity().getString(R.string.go_back_main_adapter));
 		
 		typeInDecimalNumber(0);
 		String number = solo.getEditText(0).getEditableText().toString();
-		assertTrue("Found an signed value in wait brick.", number.contains("."));
+		assertTrue("Found a decimal value in wait brick.", number.contains("."));
 		
 		typeInDecimalNumber(1);
 		number = solo.getEditText(1).getEditableText().toString();
-		assertTrue("Found an unsigned value in scale brick.", !number.contains("."));
+		assertTrue("Found an integer value in scale brick.", !number.contains("."));
 		
 		typeInDecimalNumber(2);
 		number = solo.getEditText(2).getEditableText().toString();
-		assertTrue("Found an unsigned value in goto brick x.", !number.contains("."));
+		assertTrue("Found an integer value in goto brick x.", !number.contains("."));
 		
 		typeInDecimalNumber(3);
 		number = solo.getEditText(3).getEditableText().toString();
-		assertTrue("Found an unsigned value in goto brick y.", !number.contains("."));
+		assertTrue("Found an integer value in goto brick y.", !number.contains("."));
+		
+		typeInDecimalNumber(4);
+		number = solo.getEditText(4).getEditableText().toString();
+		assertTrue("Found an integer value in goto brick y.", !number.contains("."));
 	}
 	
 	@Smoke
