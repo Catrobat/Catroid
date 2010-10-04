@@ -19,15 +19,18 @@ import at.tugraz.ist.catroid.utils.Utils;
  */
 public class Script extends Thread implements Observer {
 
-	private ArrayList<HashMap<String, String>> mScriptData;
+	public ArrayList<HashMap<String, String>> mScriptData;
 	private DrawObject mDrawObject;
 	private SoundManager mSoundManager;
 	private BrickWait mBrickWait;
 	private int mCommandCount = 0;
 	private boolean mIsRunning;
 	private boolean mWasWaiting = false;
+	public boolean mIsTouchScript;
+	private boolean mFirstRun = true;
 
-	public Script(DrawObject drawObject, ArrayList<HashMap<String, String>> scriptData) {
+	public Script(DrawObject drawObject,
+			ArrayList<HashMap<String, String>> scriptData) {
 		super();
 		mScriptData = scriptData;
 		mDrawObject = drawObject;
@@ -38,8 +41,16 @@ public class Script extends Thread implements Observer {
 
 	@Override
 	public void run() {
-		if (mIsRunning)
+		if (mIsTouchScript && mFirstRun) {
+			Log.i("Touchzeugs", "Touch Thread gestartet: " + this.getId());
+			mFirstRun = false;
+		}
+		if (mIsRunning) {
+			if (mIsTouchScript)
+				Log.i("Touchzeugs", "Touch Thread arbeitet command ab: "
+						+ this.getId());
 			doNextCommand();
+		}
 	}
 
 	public void update(Observable observable, Object data) {
