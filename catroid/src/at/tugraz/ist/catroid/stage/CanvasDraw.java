@@ -52,8 +52,8 @@ public class CanvasDraw implements IDraw {
 				DrawObject drawObject = mSpritesList.get(i).mDrawObject;
 				if (drawObject.getBitmap() != null) {
 					mCanvas.drawBitmap(drawObject.getBitmap(), drawObject
-							.getPosition().first,
-							drawObject.getPosition().second, null);
+							.getPositionAbs().first,
+							drawObject.getPositionAbs().second, null);
 					drawObject.setToDraw(false);
 				}
 			}

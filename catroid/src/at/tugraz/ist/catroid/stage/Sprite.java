@@ -92,8 +92,8 @@ public class Sprite implements Comparable<Sprite> {
 	}
 
 	public void processOnTouch(int coordX, int coordY) {
-		int inSpriteCoordX = coordX - mDrawObject.getPosition().first;
-		int inSpriteCoordY = coordY - mDrawObject.getPosition().second;
+		int inSpriteCoordX = coordX - mDrawObject.getPositionAbs().first;
+		int inSpriteCoordY = coordY - mDrawObject.getPositionAbs().second;
 		Log.i("Touchzeugs", "inSpriteCoord=" + inSpriteCoordX + "x"
 				+ inSpriteCoordY + "SpriteSize =" + mDrawObject.getSize().first
 				+ "x" + mDrawObject.getSize().second);

@@ -3,6 +3,7 @@ package at.tugraz.ist.catroid.stage;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,7 +28,9 @@ public class StageActivity extends Activity {
 	public static String ROOT_SOUNDS;
 	public static String ROOT;
 	public static String SPF_FILE;
-
+	public static int SCREEN_WIDTH;
+	public static int SCREEN_HEIGHT;
+	
 	// public static boolean mDoNextCommands = true;
 	private boolean mStagePlaying = false;
 
@@ -46,6 +49,11 @@ public class StageActivity extends Activity {
 
 			setContentView(R.layout.stage);
 			mStage = (SurfaceView) findViewById(R.id.stageView);
+			
+			DisplayMetrics dm = new DisplayMetrics();
+	        getWindowManager().getDefaultDisplay().getMetrics(dm);
+	        SCREEN_WIDTH = dm.widthPixels;
+	        SCREEN_HEIGHT = dm.heightPixels;
 
 			// we only want portrait mode atm, otherwise the program crashes
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
