@@ -15,7 +15,7 @@ public class BrickDefine {
 	// definition xyyy x = group y = brick id
 	
 	
-	public final static int NUMBER_OF_BRICK_TYPES = 9; // TODO: a static number for this is *bad*
+	public final static int NUMBER_OF_BRICK_TYPES = 11; // TODO: a static number for this is *bad*
 	
 	public final static int SET_BACKGROUND = 0; 
 	public final static int WAIT = 1;
@@ -33,7 +33,7 @@ public class BrickDefine {
 	public final static int SET_COSTUME = 6;
 	public final static int SCALE_COSTUME = 7;
 	public final static int COME_TO_FRONT = 9;
-	public final static int GO_TO_BACK = 10;
+	public final static int GO_BACK = 10;
 	
 	//group number 9 Error
 	public final static int NOT_DEFINED = 9999;
@@ -76,8 +76,7 @@ public class BrickDefine {
 			list.add(createBrick(PLAY_SOUND, "", "1"));
 			list.add(createBrick(WAIT, "", "1"));
         
-	        break;
-			
+	        break;		
 		case SPRITE_CATEGORY:
 			list.add(createBrick(PLAY_SOUND, "", "1"));
 			list.add(createBrick(WAIT, "", "1"));
@@ -86,13 +85,11 @@ public class BrickDefine {
 			list.add(createBrick(GO_TO, "", "1", "1"));
 			list.add(createBrick(SET_COSTUME));
 			list.add(createBrick(SCALE_COSTUME, "", "100"));
-			list.add(createBrick(GO_TO_BACK));
+			list.add(createBrick(GO_BACK, "", "1"));
 			list.add(createBrick(COME_TO_FRONT));
 			list.add(createBrick(TOUCHED));
 			
 			break;
-
-
 		}
 		return list;
 	}

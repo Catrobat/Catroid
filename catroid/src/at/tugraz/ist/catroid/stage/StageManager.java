@@ -11,16 +11,19 @@ import android.view.MotionEvent;
 import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
 
 public class StageManager {
+	/*
 	private String mRootImages;
 	private String mRootSounds;
 	private String mRoot;
 	private String mProjectFile;
+	*/
 	private ContentManager mContentManager;
 	private Context mContext;
 	protected ArrayList<Sprite> mSpritesList;
 	private Boolean mSpritesChanged;
 	private IDraw mDraw;
-
+	private static int minZValue;
+	
 	private Handler mHandler = new Handler();
 	private Runnable mRunnable = new Runnable() {
 		public void run() {
@@ -38,17 +41,25 @@ public class StageManager {
 		}
 
 	};
+	
+	public static int getMinZValue() {
+		return minZValue; // TODO: Implement properly!
+	}
 
 	public StageManager(Context context, String imageRoot, String soundRoot,
 			String root, String projectFile) {
+		/*
 		mRootImages = imageRoot;
 		mRootSounds = soundRoot;
 		mRoot = root;
 		mProjectFile = projectFile;
+		*/
 		mContext = context;
 
 		mContentManager = new ContentManager(mContext);
 		mContentManager.loadContent(projectFile);
+		
+		minZValue = 0;
 
 		mSpritesList = new ArrayList<Sprite>();
 		for (int i = 0; i < mContentManager.getAllContentArrayList().size(); i++) {
