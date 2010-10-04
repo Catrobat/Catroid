@@ -2,12 +2,15 @@ package at.tugraz.ist.catroid.stage;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.DisplayMetrics;
 import android.util.Pair;
+import android.view.WindowManager;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 
 public class DrawObject {
 
-	private Pair<Integer, Integer> mPosition;
+	private Pair<Integer, Integer> mPositionAbs;
+	private Pair<Integer, Integer> mPositionRel;
 	private Bitmap mBitmap;
 	private int mZOrder;
 	private Pair<Integer, Integer> mSize;
@@ -16,17 +19,19 @@ public class DrawObject {
 	private Boolean mHidden;
 	private String mPath;
 	private float mScaleFactor;
-	
+	private int mMaxRelCoordinates = 1000;
 
 	public DrawObject() {
 		mToDraw = false;
 		mHidden = false;
-		mPosition = new Pair<Integer, Integer>(0, 0);
+		mPositionAbs = new Pair<Integer, Integer>(0, 0);
+		mPositionRel = new Pair<Integer, Integer>(0, 0);
 		mZOrder = 0;
 		mSize = new Pair<Integer, Integer>(0, 0); // width , height
 		mScaleFactor = 1;
 		mBitmap = null;
 		mPath = null;
+
 	}
 
 	public synchronized void scaleBitmap(int scaleFactor) {
@@ -35,6 +40,9 @@ public class DrawObject {
 		if (mBitmap == null) {
 			return;
 		}
+
+		positionToSpriteTopLeft();
+
 		if (mScaleFactor < 1) {
 			mBitmap = ImageEditing.scaleBitmap(mBitmap, mScaleFactor);
 			mSize = new Pair<Integer, Integer>(mBitmap.getWidth(), mBitmap
@@ -51,20 +59,23 @@ public class DrawObject {
 					.getHeight());
 			mScaleFactor = 1;
 		}
+		setPositionToSpriteCenter();
 		mToDraw = true;
 
 	}
 
 	public synchronized void setBitmap(String path) throws Exception {
+		positionToSpriteTopLeft();
 		Bitmap tempBitmap = BitmapFactory.decodeFile(path);
 		mBitmap = ImageEditing.scaleBitmap(tempBitmap, mScaleFactor);
 		tempBitmap.recycle();
-		
+
 		mPath = path;
 		mSize = new Pair<Integer, Integer>(mBitmap.getWidth(), mBitmap
 				.getHeight());
 		mOriginalSize = new Pair<Integer, Integer>(mBitmap.getWidth(), mBitmap
 				.getHeight());
+		setPositionToSpriteCenter();
 		mToDraw = true;
 	}
 
@@ -77,17 +88,36 @@ public class DrawObject {
 	public synchronized boolean getToDraw() {
 		return mToDraw;
 	}
-	
+
 	public synchronized void setToDraw(boolean value) {
 		mToDraw = value;
 	}
 
-	public synchronized Pair<Integer, Integer> getPosition() {
-		return mPosition;
+	public synchronized Pair<Integer, Integer> getPositionRel() {
+		return mPositionRel;
 	}
 
-	public synchronized void setmPosition(Pair<Integer, Integer> position) {
-		mPosition = position;
+	public synchronized void setmPositionRel(Pair<Integer, Integer> position) {
+		mPositionRel = position;
+		positionToSpriteTopLeft();
+		// ToDo: checken ob zuerst in float rechnen und dann auf int casten
+		// nötig ist
+		int xAbs = Math
+				.round(((StageActivity.SCREEN_WIDTH / (2f * mMaxRelCoordinates)) * position.first)
+						+ StageActivity.SCREEN_WIDTH / 2f);
+		int yAbs = Math
+				.round((StageActivity.SCREEN_HEIGHT / (2f * mMaxRelCoordinates))
+						* position.second + StageActivity.SCREEN_HEIGHT / 2f);
+		mPositionAbs = new Pair<Integer, Integer>(xAbs, yAbs);
+		setPositionToSpriteCenter();
+	}
+
+	public synchronized Pair<Integer, Integer> getPositionAbs() {
+		return mPositionAbs;
+	}
+
+	public synchronized void setmPositionAbs(Pair<Integer, Integer> position) {
+		mPositionAbs = position;
 	}
 
 	public synchronized Boolean getHidden() {
@@ -109,5 +139,35 @@ public class DrawObject {
 	public void setZOrder(int zOrder) {
 		mZOrder = zOrder;
 	}
-	
+
+	private void setPositionToSpriteCenter() {
+		if (mBitmap == null) {
+			return;
+		}
+		int xPos = mPositionAbs.first - mBitmap.getWidth() / 2;
+		int yPos = mPositionAbs.second - mBitmap.getHeight() / 2;
+		mPositionAbs = new Pair<Integer, Integer>(xPos, yPos);
+
+	}
+
+	private void positionToSpriteTopLeft() {
+		if (mBitmap == null) {
+			return;
+		}
+		int xPos = mPositionAbs.first + mBitmap.getWidth() / 2;
+		int yPos = mPositionAbs.second + mBitmap.getHeight() / 2;
+		mPositionAbs = new Pair<Integer, Integer>(xPos, yPos);
+	}
+
+	private Pair<Integer, Integer> getBitmapSize() {
+		int oldWidth = 0;
+		int oldHeight = 0;
+		if (mBitmap != null) {
+			oldWidth = mBitmap.getWidth();
+			oldHeight = mBitmap.getHeight();
+		}
+		return new Pair<Integer, Integer>(oldWidth, oldHeight);
+
+	}
+
 }
