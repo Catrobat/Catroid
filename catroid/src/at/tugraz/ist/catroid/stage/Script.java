@@ -29,8 +29,7 @@ public class Script extends Thread implements Observer {
 	public boolean mIsTouchScript;
 	private boolean mFirstRun = true;
 
-	public Script(DrawObject drawObject,
-			ArrayList<HashMap<String, String>> scriptData) {
+	public Script(DrawObject drawObject, ArrayList<HashMap<String, String>> scriptData) {
 		super();
 		mScriptData = scriptData;
 		mDrawObject = drawObject;
@@ -41,14 +40,14 @@ public class Script extends Thread implements Observer {
 
 	@Override
 	public void run() {
+		Log.i("Touchzeugs", "touch thread: run");
 		if (mIsTouchScript && mFirstRun) {
 			Log.i("Touchzeugs", "Touch Thread gestartet: " + this.getId());
 			mFirstRun = false;
 		}
 		if (mIsRunning) {
 			if (mIsTouchScript)
-				Log.i("Touchzeugs", "Touch Thread arbeitet command ab: "
-						+ this.getId());
+				Log.i("Touchzeugs", "Touch Thread arbeitet command ab: " + this.getId());
 			doNextCommand();
 		}
 	}
@@ -143,11 +142,11 @@ public class Script extends Thread implements Observer {
 			mCommandCount++;
 			doNextCommand();
 			break;
-			
+
 		case BrickDefine.COME_TO_FRONT:
 			mDrawObject.setZOrder(StageManager.getMinZValue() - 1);
 			break;
-			
+
 		case BrickDefine.GO_BACK:
 			int steps = Integer.parseInt(map.get(BrickDefine.BRICK_VALUE));
 			mDrawObject.setZOrder(mDrawObject.getZOrder() + steps);
@@ -158,7 +157,12 @@ public class Script extends Thread implements Observer {
 			mCommandCount++;
 			doNextCommand();
 			break;
-		}
 
+		case BrickDefine.TOUCHED:
+			mCommandCount++;
+			doNextCommand();
+			break;
+
+		}
 	}
 }

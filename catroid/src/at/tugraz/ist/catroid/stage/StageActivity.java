@@ -42,10 +42,14 @@ public class StageActivity extends Activity {
 			window.requestFeature(Window.FEATURE_NO_TITLE);
 			window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-			ROOT = (String) getIntent().getExtras().get(ConstructionSiteActivity.INTENT_EXTRA_ROOT);
-			ROOT_IMAGES = (String) getIntent().getExtras().get(ConstructionSiteActivity.INTENT_EXTRA_ROOT_IMAGES);
-			ROOT_SOUNDS = (String) getIntent().getExtras().get(ConstructionSiteActivity.INTENT_EXTRA_ROOT_SOUNDS);
-			SPF_FILE = (String) getIntent().getExtras().get(ConstructionSiteActivity.INTENT_EXTRA_SPF_FILE_NAME);
+			ROOT = (String) getIntent().getExtras().get(
+					ConstructionSiteActivity.INTENT_EXTRA_ROOT);
+			ROOT_IMAGES = (String) getIntent().getExtras().get(
+					ConstructionSiteActivity.INTENT_EXTRA_ROOT_IMAGES);
+			ROOT_SOUNDS = (String) getIntent().getExtras().get(
+					ConstructionSiteActivity.INTENT_EXTRA_ROOT_SOUNDS);
+			SPF_FILE = (String) getIntent().getExtras().get(
+					ConstructionSiteActivity.INTENT_EXTRA_SPF_FILE_NAME);
 
 			setContentView(R.layout.stage);
 			mStage = (SurfaceView) findViewById(R.id.stageView);
