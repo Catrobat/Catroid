@@ -14,12 +14,14 @@ public class Sprite implements Comparable<Sprite> {
 	public LinkedList<Script> mScriptList;
 	public LinkedList<Script> mRunningScriptsList;
 	public String mName;
+	private StageManager mStageManager;
 
-	public Sprite(Pair<String, ArrayList<HashMap<String, String>>> blockList) {
+	public Sprite(Pair<String, ArrayList<HashMap<String, String>>> blockList, StageManager stageManager) {
 		mName = blockList.first;
 		mDrawObject = new DrawObject();
 		mScriptList = new LinkedList<Script>();
 		mRunningScriptsList = new LinkedList<Script>();
+		mStageManager = stageManager;
 		if (blockList.second != null)
 			generateScripts(blockList.second);
 		markTouchScripts();
@@ -28,21 +30,17 @@ public class Sprite implements Comparable<Sprite> {
 	void generateScripts(ArrayList<HashMap<String, String>> blockList) {
 		for (int i = 0; i < blockList.size(); i++) {
 
-			if (blockList.get(i).get(BrickDefine.BRICK_TYPE) == String
-					.valueOf(BrickDefine.TOUCHED)
-					&& i > 0) {
-				ArrayList<HashMap<String, String>> frontBlockList = getSublist(
-						blockList, 0, i);
-				ArrayList<HashMap<String, String>> backBlockList = getSublist(
-						blockList, i, blockList.size());
+			if (blockList.get(i).get(BrickDefine.BRICK_TYPE) == String.valueOf(BrickDefine.TOUCHED) && i > 0) {
+				ArrayList<HashMap<String, String>> frontBlockList = getSublist(blockList, 0, i);
+				ArrayList<HashMap<String, String>> backBlockList = getSublist(blockList, i, blockList.size());
 
-				mScriptList.add(new Script(mDrawObject, frontBlockList));
+				mScriptList.add(new Script(mDrawObject, frontBlockList, mStageManager));
 				generateScripts(backBlockList);
 				return;
 			}
 
 		}
-		mScriptList.add(new Script(mDrawObject, blockList));
+		mScriptList.add(new Script(mDrawObject, blockList, mStageManager));
 
 	}
 
@@ -73,17 +71,14 @@ public class Sprite implements Comparable<Sprite> {
 
 	private void markTouchScripts() {
 		for (int i = 0; i < mScriptList.size(); i++) {
-			if ((mScriptList.get(i).mScriptData.size() > 1) &&(mScriptList.get(i).mScriptData.get(0).get(
-					BrickDefine.BRICK_TYPE) == String
-					.valueOf(BrickDefine.TOUCHED))) {
+			if ((mScriptList.get(i).mScriptData.size() > 1)
+					&& (mScriptList.get(i).mScriptData.get(0).get(BrickDefine.BRICK_TYPE) == String.valueOf(BrickDefine.TOUCHED))) {
 				mScriptList.get(i).mIsTouchScript = true;
 			}
 		}
 	}
 
-	private ArrayList<HashMap<String, String>> getSublist(
-			ArrayList<HashMap<String, String>> list, int startIndex,
-			int endIndex) {
+	private ArrayList<HashMap<String, String>> getSublist(ArrayList<HashMap<String, String>> list, int startIndex, int endIndex) {
 		ArrayList<HashMap<String, String>> subList = new ArrayList<HashMap<String, String>>();
 		for (int i = startIndex; i < endIndex; i++) {
 			subList.add(list.get(i));
@@ -94,24 +89,16 @@ public class Sprite implements Comparable<Sprite> {
 	public void processOnTouch(int coordX, int coordY) {
 		int inSpriteCoordX = coordX - mDrawObject.getPositionAbs().first;
 		int inSpriteCoordY = coordY - mDrawObject.getPositionAbs().second;
-		Log.i("Touchzeugs", "inSpriteCoord=" + inSpriteCoordX + "x"
-				+ inSpriteCoordY + "SpriteSize =" + mDrawObject.getSize().first
-				+ "x" + mDrawObject.getSize().second);
-		if (inSpriteCoordX >= 0
-				&& inSpriteCoordX < mDrawObject.getSize().first) {
-			if (inSpriteCoordY >= 0
-					&& inSpriteCoordY < mDrawObject.getSize().second) {
-				if (Color.alpha(mDrawObject.getBitmap().getPixel(
-						inSpriteCoordX, inSpriteCoordY)) > 10) {
+		Log.i("Touchzeugs",
+				"inSpriteCoord=" + inSpriteCoordX + "x" + inSpriteCoordY + "SpriteSize =" + mDrawObject.getSize().first + "x" + mDrawObject.getSize().second);
+		if (inSpriteCoordX >= 0 && inSpriteCoordX < mDrawObject.getSize().first) {
+			if (inSpriteCoordY >= 0 && inSpriteCoordY < mDrawObject.getSize().second) {
+				if (Color.alpha(mDrawObject.getBitmap().getPixel(inSpriteCoordX, inSpriteCoordY)) > 10) {
 					for (int i = 0; i < mScriptList.size(); i++) {
 						if (mScriptList.get(i).mIsTouchScript) {
 							if (!mScriptList.get(i).isAlive()) {
-								Log
-										.i("Touchzeugs",
-												"Starte Touch Thread: " + i);
-								Script scriptToExecute = new Script(
-										mDrawObject,
-										mScriptList.get(i).mScriptData);
+								Log.i("Touchzeugs", "Starte Touch Thread: " + i);
+								Script scriptToExecute = new Script(mDrawObject, mScriptList.get(i).mScriptData, mStageManager);
 								scriptToExecute.mIsTouchScript = true;
 								scriptToExecute.start();
 								mRunningScriptsList.add(scriptToExecute);
