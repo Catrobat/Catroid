@@ -28,14 +28,16 @@ public class Script extends Thread implements Observer {
 	private boolean mWasWaiting = false;
 	public boolean mIsTouchScript;
 	private boolean mFirstRun = true;
+	private StageManager mStageManager;
 
-	public Script(DrawObject drawObject, ArrayList<HashMap<String, String>> scriptData) {
+	public Script(DrawObject drawObject, ArrayList<HashMap<String, String>> scriptData, StageManager stageManager) {
 		super();
 		mScriptData = scriptData;
 		mDrawObject = drawObject;
 		mSoundManager = SoundManager.getInstance();
 		mBrickWait = new BrickWait();
 		mIsRunning = true;
+		mStageManager = stageManager;
 	}
 
 	@Override
@@ -144,12 +146,15 @@ public class Script extends Thread implements Observer {
 			break;
 
 		case BrickDefine.COME_TO_FRONT:
-			mDrawObject.setZOrder(StageManager.getMinZValue() - 1);
+			mDrawObject.setZOrder(mStageManager.getMaxZValue() + 1);
+			mStageManager.sortSpriteList();
+			Log.d("Script", "Come to front");
 			break;
 
 		case BrickDefine.GO_BACK:
 			int steps = Integer.parseInt(map.get(BrickDefine.BRICK_VALUE));
-			mDrawObject.setZOrder(mDrawObject.getZOrder() + steps);
+			mDrawObject.setZOrder(mDrawObject.getZOrder() - steps);
+			mStageManager.sortSpriteList();
 			break;
 
 		case BrickDefine.SCALE_COSTUME:

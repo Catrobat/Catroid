@@ -7,6 +7,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
+import android.util.Log;
 import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
 
 public class StageManager {
@@ -15,8 +16,8 @@ public class StageManager {
 	protected ArrayList<Sprite> mSpritesList;
 	private Boolean mSpritesChanged;
 	private IDraw mDraw;
-	private static int minZValue;
-	
+	private int maxZValue = 0;
+
 	private Handler mHandler = new Handler();
 	private Runnable mRunnable = new Runnable() {
 		public void run() {
@@ -34,23 +35,21 @@ public class StageManager {
 		}
 
 	};
-	
-	public static int getMinZValue() {
-		return minZValue; // TODO: Implement properly!
+
+	public int getMaxZValue() {
+		Log.d("StageManager", "Max z value = " + maxZValue);
+		return maxZValue;
 	}
-		
+
 	public StageManager(Context context, String projectFile) {
 		mContext = context;
 
 		mContentManager = new ContentManager(mContext);
 		mContentManager.loadContent(projectFile);
-		
-		minZValue = 0;
 
 		mSpritesList = new ArrayList<Sprite>();
 		for (int i = 0; i < mContentManager.getAllContentArrayList().size(); i++) {
-			mSpritesList.add(new Sprite(mContentManager
-					.getAllContentArrayList().get(i)));
+			mSpritesList.add(new Sprite(mContentManager.getAllContentArrayList().get(i), this));
 		}
 		sortSpriteList();
 		mSpritesChanged = true;
@@ -64,6 +63,8 @@ public class StageManager {
 
 	public void sortSpriteList() {
 		Collections.sort(mSpritesList);
+		maxZValue = mSpritesList.get(mSpritesList.size() - 1).mDrawObject.getZOrder();
+		Log.d("StageManager", "Sort: max z value = " + maxZValue);
 	}
 
 	public void drawSprites() {
@@ -82,8 +83,7 @@ public class StageManager {
 		}
 
 		if (drawScreen) {
-			Bitmap pauseBitmap = BitmapFactory.decodeResource(mContext
-					.getResources(), R.drawable.paused_cat);
+			Bitmap pauseBitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.paused_cat);
 			mDraw.drawPauseScreen(pauseBitmap);
 			mHandler.removeCallbacks(mRunnable);
 			mSpritesChanged = true;
