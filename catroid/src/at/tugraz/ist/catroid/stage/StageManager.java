@@ -64,7 +64,10 @@ public class StageManager {
 	public void sortSpriteList() {
 		Collections.sort(mSpritesList);
 		maxZValue = mSpritesList.get(mSpritesList.size() - 1).mDrawObject.getZOrder();
-		Log.d("StageManager", "Sort: max z value = " + maxZValue);
+		Log.d("StageManager", "Sort:");
+		for(Sprite s: mSpritesList) {
+			Log.d("StageManager", s.mName + ": z = " + s.mDrawObject.getZOrder());
+		}
 	}
 
 	public void drawSprites() {
