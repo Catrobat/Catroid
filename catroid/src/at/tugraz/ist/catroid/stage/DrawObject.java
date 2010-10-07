@@ -29,8 +29,6 @@ public class DrawObject {
 		mScaleFactor = 1;
 		mBitmap = null;
 		mPath = null;
-		
-
 	}
 
 	public synchronized void scaleBitmap(int scaleFactor) {
@@ -53,7 +51,6 @@ public class DrawObject {
 			mScaleFactor = (mSize.first * mScaleFactor)
 					/ fullSizeBitmap.getWidth();
 			mBitmap = ImageEditing.scaleBitmap(fullSizeBitmap, mScaleFactor);
-			fullSizeBitmap.recycle();
 			mSize = new Pair<Integer, Integer>(mBitmap.getWidth(), mBitmap
 					.getHeight());
 			mScaleFactor = 1;
@@ -75,7 +72,6 @@ public class DrawObject {
 		}
 		
 		mBitmap = ImageEditing.scaleBitmap(tempBitmap, mScaleFactor);
-		tempBitmap.recycle();
 
 		mPath = path;
 		mSize = new Pair<Integer, Integer>(mBitmap.getWidth(), mBitmap
@@ -166,6 +162,7 @@ public class DrawObject {
 		mPositionAbs = new Pair<Integer, Integer>(xPos, yPos);
 	}
 
+	@SuppressWarnings("unused")
 	private Pair<Integer, Integer> getBitmapSize() {
 		int oldWidth = 0;
 		int oldHeight = 0;
