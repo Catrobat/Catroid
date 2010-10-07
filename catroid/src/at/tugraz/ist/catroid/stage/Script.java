@@ -146,15 +146,19 @@ public class Script extends Thread implements Observer {
 			break;
 
 		case BrickDefine.COME_TO_FRONT:
+			Log.d("Script", "Come to front");
 			mDrawObject.setZOrder(mStageManager.getMaxZValue() + 1);
 			mStageManager.sortSpriteList();
-			Log.d("Script", "Come to front");
+			mCommandCount++;
+			doNextCommand();
 			break;
 
 		case BrickDefine.GO_BACK:
 			int steps = Integer.parseInt(map.get(BrickDefine.BRICK_VALUE));
 			mDrawObject.setZOrder(mDrawObject.getZOrder() - steps);
 			mStageManager.sortSpriteList();
+			mCommandCount++;
+			doNextCommand();
 			break;
 
 		case BrickDefine.SCALE_COSTUME:
