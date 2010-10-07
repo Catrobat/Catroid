@@ -39,10 +39,6 @@ public class CanvasDraw implements IDraw {
 	}
 
 	public synchronized void draw() {
-		// if (drawObject.getBitmap() == null)
-		// Log.i("CanvasDraw", "draw: no bitmap!");
-		// if (mCanvas == null)
-		// Log.i("CanvasDraw", "draw: no canvas!");
 		mCanvas = mHolder.lockCanvas();
 		if (mCanvas != null) {
 			// we want to start with a white rectangle
