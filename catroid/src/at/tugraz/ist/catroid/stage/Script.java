@@ -56,7 +56,6 @@ public class Script extends Thread implements Observer {
 
 	public void update(Observable observable, Object data) {
 		mCommandCount++;
-
 		doNextCommand();
 	}
 
@@ -100,8 +99,6 @@ public class Script extends Thread implements Observer {
 				Log.e("Script", "Image " + imagePath + " does not exist!");
 				e.printStackTrace();
 			}
-			mCommandCount++;
-			doNextCommand();
 			break;
 
 		case BrickDefine.PLAY_SOUND:
@@ -116,8 +113,6 @@ public class Script extends Thread implements Observer {
 			} catch (IllegalArgumentException e) {
 				Log.w("Sprite", "Could not play sound file");
 			}
-			mCommandCount++;
-			doNextCommand();
 			break;
 
 		case BrickDefine.WAIT:
@@ -129,49 +124,40 @@ public class Script extends Thread implements Observer {
 		case BrickDefine.GO_TO:
 			mDrawObject.setmPositionRel(new Pair<Integer, Integer>(Integer.parseInt(map.get(BrickDefine.BRICK_VALUE)), Integer.parseInt(map
 					.get(BrickDefine.BRICK_VALUE_1))));
-			mCommandCount++;
-			doNextCommand();
 			break;
 
 		case BrickDefine.HIDE:
 			mDrawObject.setHidden(true);
-			mCommandCount++;
-			doNextCommand();
 			break;
 
 		case BrickDefine.SHOW:
 			mDrawObject.setHidden(false);
-			mCommandCount++;
-			doNextCommand();
 			break;
 
 		case BrickDefine.COME_TO_FRONT:
 			Log.d("Script", "Come to front");
 			mDrawObject.setZOrder(mStageManager.getMaxZValue() + 1);
 			mStageManager.sortSpriteList();
-			mCommandCount++;
-			doNextCommand();
 			break;
 
 		case BrickDefine.GO_BACK:
 			int steps = Integer.parseInt(map.get(BrickDefine.BRICK_VALUE));
 			mDrawObject.setZOrder(mDrawObject.getZOrder() - steps);
 			mStageManager.sortSpriteList();
-			mCommandCount++;
-			doNextCommand();
 			break;
 
 		case BrickDefine.SCALE_COSTUME:
 			mDrawObject.scaleBitmap(Integer.parseInt(map.get(BrickDefine.BRICK_VALUE)));
-			mCommandCount++;
-			doNextCommand();
 			break;
 
 		case BrickDefine.TOUCHED:
+			break;
+		}
+		
+		// move on to next command
+		if(type != BrickDefine.WAIT) { // in case of wait next command is issued when wait thread has finished
 			mCommandCount++;
 			doNextCommand();
-			break;
-
 		}
 	}
 }
