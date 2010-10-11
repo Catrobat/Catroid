@@ -8,6 +8,8 @@ import java.io.IOException;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.graphics.Bitmap;
@@ -47,11 +49,25 @@ public class Utils {
 		}
 		return true;
 	}
-	
-	public static boolean copyFile(String from, String to) {
+
+	/**
+	 * Copies a file from the source to the destination. Can optionally show a
+	 * progress dialog until copying is finished.
+	 * 
+	 * @param from
+	 *            path to the source file
+	 * @param to
+	 *            path to the destination file
+	 * @param context
+	 *            the Context, can be null if no progress dialog is wanted
+	 * @param showProgressDialog
+	 *            whether or not to display a progress dialog until copying is
+	 *            finished
+	 * @return whether the file was copied successfully
+	 */
+	public static boolean copyFile(String from, String to, Context context, boolean showProgressDialog) {
 		File fileFrom = new File(from);
 		File fileTo = new File(to);
-
 
 		if (fileTo.exists())
 			deleteFile(fileTo.getAbsolutePath());
@@ -60,11 +76,16 @@ public class Utils {
 		} catch (IOException e1) {
 			return false;
 		}
-		
+
 		if (!fileFrom.exists() || !fileTo.exists())
 			return false;
 
-		Thread t = new FileCopyThread(fileTo, fileFrom);
+		ProgressDialog progressDialog = null;
+		if (showProgressDialog && context != null) {
+			progressDialog = ProgressDialog.show(context, context.getString(R.string.please_wait), context.getString(R.string.loading));
+		}
+
+		Thread t = new FileCopyThread(fileTo, fileFrom, progressDialog);
 		t.start();
 		return true;
 	}

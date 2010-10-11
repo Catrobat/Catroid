@@ -37,7 +37,7 @@ public class UtilsTest extends TestCase{
 
 	public void testCopyFile() throws InterruptedException{
 		String newpath = mTestFile.getParent()+"/copiedFile.txt";
-		Utils.copyFile(mTestFile.getAbsolutePath(), newpath);
+		Utils.copyFile(mTestFile.getAbsolutePath(), newpath, null, false);
 		Thread.sleep(1000); // Wait for thread to write file
 		File newFile = new File(newpath);
 		
