@@ -222,15 +222,15 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 				eText.setOnClickListener(this);
 				return view;
 			}
-			
-			case(BrickDefine.COME_TO_FRONT): {
+
+			case (BrickDefine.COME_TO_FRONT): {
 				View view = organizeViewHandling(type, R.layout.construction_brick_come_to_front, convertView, position, brickId);
 				TextView tView = (TextView) view.findViewWithTag(mCtx.getString(R.string.constructional_brick_come_to_front));
 				tView.setText(R.string.come_to_front_main_adapter);
 				return view;
 			}
-			
-			case(BrickDefine.GO_BACK) : {
+
+			case (BrickDefine.GO_BACK): {
 				View view = organizeViewHandling(type, R.layout.construction_brick_go_back, convertView, position, brickId);
 				EditText eText = (EditText) view.findViewWithTag(mCtx.getString(R.string.constructional_brick_go_back_edit_text_tag));
 				eText.setText(value);
@@ -300,7 +300,7 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 		} else if (mCtx.getString(R.string.constructional_brick_go_to_y_tag).equals(tag)) {
 			int brickPosition = mMainListView.getPositionForView((EditText) v);
 			mEditTextDialog.show(mBrickList.get(brickPosition), (EditText) v);
-		} else if(mCtx.getString(R.string.constructional_brick_go_back_edit_text_tag).equals(tag)) {
+		} else if (mCtx.getString(R.string.constructional_brick_go_back_edit_text_tag).equals(tag)) {
 			int brickPosition = mMainListView.getPositionForView((EditText) v);
 			mEditTextDialog.show(mBrickList.get(brickPosition), (EditText) v);
 		}
@@ -336,13 +336,12 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 				deleteSound(soundName);
 
 				String newPath = ConstructionSiteActivity.ROOT_SOUNDS;
-				// the time stamp is used to get a unique name and add also a
-				// file extension
 				String uniqueName = Calendar.getInstance().getTimeInMillis() + map.get(MediaFileLoader.SOUND_NAME)
 						+ map.get(MediaFileLoader.SOUND_PATH).substring(map.get(MediaFileLoader.SOUND_PATH).length() - 4);
 				newPath = Utils.concatPaths(newPath, uniqueName);
 
-				if (Utils.copyFile(map.get(MediaFileLoader.SOUND_PATH), newPath)) {
+				
+				if (Utils.copyFile(map.get(MediaFileLoader.SOUND_PATH), newPath, mCtx, true)) {
 					mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE, uniqueName);
 					mBrickList.get(brickPosition).put(BrickDefine.BRICK_NAME, map.get(MediaFileLoader.SOUND_NAME));
 				} else

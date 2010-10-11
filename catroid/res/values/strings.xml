@@ -3,7 +3,9 @@
 	<!-- General  -->
 	<string name="error">Error</string>
 	<string name="close">Close</string>
-
+	<string name="please_wait">Please wait</string>
+	<string name="loading">Loading...</string>
+	
 	<string name="new_project_main">New Project</string>
 	<string name="change_project_name_main">Change Project Name</string>
 	<string name="edit_text_filename_standard_input">projectname</string>

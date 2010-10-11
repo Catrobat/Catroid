@@ -52,7 +52,7 @@ protected void onCreate(Bundle savedInstanceState) {
 	
 		File newPathOldSpf = new File(Utils.concatPaths(new_path.getAbsolutePath(),  ConstructionSiteActivity.SPF_FILE));
 		if(Utils.copyFile(newPathOldSpf.getAbsolutePath(), 
-				Utils.concatPaths(new_path.getAbsolutePath(), newNameToChangeText.getText().toString())+".spf"))
+				Utils.concatPaths(new_path.getAbsolutePath(), newNameToChangeText.getText().toString())+".spf", mCtx, true))
 			Utils.deleteFile(newPathOldSpf.getAbsolutePath());
 		else
 			Log.e("ChangeProgramNameDialog", "Copy File failed");
