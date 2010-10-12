@@ -177,6 +177,8 @@ public class SpriteTest extends ActivityInstrumentationTestCase2<ConstructionSit
 		solo.clickOnView(soundSpinner);
 		solo.clickInList(itemToSelect);
 		
+		Thread.sleep(3000); // wait for file copying to finish
+		
 		assertEquals("Selected item of Spinner is the Sound that was selected",
 				itemToSelect, soundSpinner.getSelectedItemId());
 	}
