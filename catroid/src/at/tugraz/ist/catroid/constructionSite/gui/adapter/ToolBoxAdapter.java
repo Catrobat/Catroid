@@ -112,7 +112,7 @@ public class ToolBoxAdapter extends BaseAdapter {
 		case (BrickDefine.GO_BACK): {
 			if (mViewContainer.containsKey(type))
 				return mViewContainer.get(type);
-			RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.toolbox_brick_go_back, null);
+			LinearLayout view = (LinearLayout) inflater.inflate(R.layout.toolbox_brick_go_back, null);
 			mViewContainer.put(type, view);
 			return view;
 		}

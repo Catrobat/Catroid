@@ -45,11 +45,11 @@ public class ProjectTest extends ActivityInstrumentationTestCase2<ConstructionSi
 		
 		solo.clickOnButton(getActivity().getString(R.string.stage));
 		ListView spritesList = solo.getCurrentListViews().get(0);
-		assertEquals("After creating a new project there is only the stage available.", spritesList.getChildCount(), 1);
+		assertEquals("After creating a new project there is only the stage available.", 1, spritesList.getChildCount());
 		solo.goBack();
 		
 		ListView brickList = (ListView) getActivity().findViewById(R.id.MainListView);
-		assertEquals("After creating a new project there is no brick in construction site.",brickList.getChildCount(), 0);
+		assertEquals("After creating a new project there is no brick in construction site.", 0, brickList.getChildCount());
 		
 		
 	}
