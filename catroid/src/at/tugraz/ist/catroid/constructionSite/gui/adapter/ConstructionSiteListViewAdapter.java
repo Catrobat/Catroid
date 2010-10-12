@@ -244,10 +244,6 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 				tView.setText(R.string.touched_main_adapter);
 				return view;
 			}
-			default: {
-				return null;
-			}
-
 			}
 		return null;
 	}
@@ -340,7 +336,6 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 						+ map.get(MediaFileLoader.SOUND_PATH).substring(map.get(MediaFileLoader.SOUND_PATH).length() - 4);
 				newPath = Utils.concatPaths(newPath, uniqueName);
 
-				
 				if (Utils.copyFile(map.get(MediaFileLoader.SOUND_PATH), newPath, mCtx, true)) {
 					mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE, uniqueName);
 					mBrickList.get(brickPosition).put(BrickDefine.BRICK_NAME, map.get(MediaFileLoader.SOUND_NAME));

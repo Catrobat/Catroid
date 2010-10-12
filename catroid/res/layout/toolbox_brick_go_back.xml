@@ -1,23 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/RelativeLayout01" android:layout_width="wrap_content"
-	android:orientation="horizontal" android:layout_height="wrap_content"
-	android:background="@drawable/brick_blue"
-	android:onClick="@string/onBrickClickListener">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="horizontal" android:id="@+id/LinearLayout01"
+	android:layout_width="wrap_content" android:layout_height="wrap_content"
+	android:background="@drawable/brick_blue" android:onClick="@string/onBrickClickListener">
 
 	<TextView android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:id="@+id/ValueTextView"
 		android:layout_alignParentLeft="true" android:textColor="@color/white"
 		android:textStyle="bold" android:layout_centerVertical="true"
-		android:text="@string/go_back_main_adapter" android:textSize="18dip">
-	</TextView>
-
-	<TextView android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:textSize="18dip"
-		android:textColor="@color/white" android:textStyle="bold"
-		android:layout_alignParentRight="true" android:layout_centerVertical="true"
-		android:id="@+id/LabelTextView" android:text="@string/steps_label"
-		android:paddingLeft="10dip" android:paddingRight="10dip">
+		android:text="@string/go_back_main_adapter" android:textSize="18dip"
+		android:paddingRight="10dip">
 	</TextView>
 
 	<EditText android:layout_width="50dp" android:layout_height="wrap_content"
@@ -29,4 +21,14 @@
 		android:inputType="number" android:cursorVisible="false"
 		android:focusable="false" android:focusableInTouchMode="false">
 	</EditText>
-</RelativeLayout>
+
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:textSize="18dip"
+		android:textColor="@color/white" android:textStyle="bold"
+		android:layout_alignParentRight="true" android:layout_centerVertical="true"
+		android:id="@+id/LabelTextView" android:text="@string/steps_label"
+		android:paddingLeft="10dip" android:paddingRight="10dip"
+		android:paddingBottom="10dip">
+	</TextView>
+
+</LinearLayout>
