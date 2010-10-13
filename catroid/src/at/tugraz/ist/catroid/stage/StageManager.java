@@ -17,21 +17,25 @@ public class StageManager {
 	private Boolean mSpritesChanged;
 	private IDraw mDraw;
 	private int maxZValue = 0;
+	private boolean isPaused;
 
 	private Handler mHandler = new Handler();
 	private Runnable mRunnable = new Runnable() {
 		public void run() {
+			Log.v("StageManager", "run");
 			for (int i = 0; i < mSpritesList.size(); i++) {
-				if (mSpritesList.get(i).mDrawObject.getToDraw()) {
+				if (mSpritesList.get(i).mDrawObject.getToDraw() == true) {
 					mSpritesChanged = true;
 					mSpritesList.get(i).mDrawObject.setToDraw(false);
 				}
 			}
 			if (mSpritesChanged) {
 				drawSprites();
+				mSpritesChanged = false;
 			}
 
-			mHandler.postDelayed(this, 33);
+			if (!isPaused)
+				mHandler.postDelayed(this, 33);
 		}
 
 	};
@@ -65,12 +69,13 @@ public class StageManager {
 		Collections.sort(mSpritesList);
 		maxZValue = mSpritesList.get(mSpritesList.size() - 1).mDrawObject.getZOrder();
 		Log.d("StageManager", "Sort:");
-		for(Sprite s: mSpritesList) {
+		for (Sprite s : mSpritesList) {
 			Log.d("StageManager", s.mName + ": z = " + s.mDrawObject.getZOrder());
 		}
 	}
 
 	public void drawSprites() {
+		Log.v("StageManager", "drawSprites");
 		mDraw.draw();
 	}
 
@@ -91,16 +96,20 @@ public class StageManager {
 			mHandler.removeCallbacks(mRunnable);
 			mSpritesChanged = true;
 		}
+		
+		isPaused = true;
 	}
 
 	public void unPause() {
 		for (int i = 0; i < mSpritesList.size(); i++) {
 			mSpritesList.get(i).unPause();
 		}
+		isPaused = false;
 		mRunnable.run();
 	}
 
 	public void start() {
+		isPaused = false;
 		mRunnable.run();
 	}
 }

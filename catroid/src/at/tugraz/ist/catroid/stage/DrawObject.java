@@ -12,8 +12,8 @@ public class DrawObject {
 	private Bitmap mBitmap;
 	private int mZOrder;
 	private Pair<Integer, Integer> mSize;
-	private Boolean mToDraw;
-	private Boolean mHidden;
+	private boolean mToDraw;
+	private boolean mHidden;
 	private String mPath;
 	private float mScaleFactor;
 	private int mMaxRelCoordinates = 1000;
@@ -113,6 +113,7 @@ public class DrawObject {
 						* position.second + StageActivity.SCREEN_HEIGHT / 2f);
 		mPositionAbs = new Pair<Integer, Integer>(xAbs, yAbs);
 		setPositionToSpriteCenter();
+		mToDraw = true;
 	}
 
 	public synchronized Pair<Integer, Integer> getPositionAbs() {
@@ -121,6 +122,7 @@ public class DrawObject {
 
 	public synchronized void setmPositionAbs(Pair<Integer, Integer> position) {
 		mPositionAbs = position;
+		mToDraw = true;
 	}
 
 	public synchronized Boolean getHidden() {
@@ -129,6 +131,7 @@ public class DrawObject {
 
 	public synchronized void setHidden(Boolean hidden) {
 		mHidden = hidden;
+		mToDraw = true;
 	}
 
 	public synchronized Pair<Integer, Integer> getSize() {
@@ -141,6 +144,7 @@ public class DrawObject {
 
 	public void setZOrder(int zOrder) {
 		mZOrder = zOrder;
+		mToDraw = true;
 	}
 
 	private void setPositionToSpriteCenter() {
