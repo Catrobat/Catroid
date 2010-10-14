@@ -30,8 +30,8 @@ public class StageManager {
 				}
 			}
 			if (mSpritesChanged) {
-				drawSprites();
-				mSpritesChanged = false;
+				
+				mSpritesChanged = !drawSprites();
 			}
 
 			if (!isPaused)
@@ -74,9 +74,9 @@ public class StageManager {
 		}
 	}
 
-	public void drawSprites() {
+	public boolean drawSprites() {
 		Log.v("StageManager", "drawSprites");
-		mDraw.draw();
+		return mDraw.draw();
 	}
 
 	public void processOnTouch(int coordX, int coordY) {
