@@ -8,6 +8,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.DisplayMetrics;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.utils.filesystem.FileSystem;
@@ -20,8 +21,8 @@ import at.tugraz.ist.catroid.utils.filesystem.FileSystem;
 
 public class ImageContainer {
 
-	private static final int MAX_WIDTH = (460 * 3);
-	private static final int MAX_HEIGHT = (800 * 3);
+	private static int MAX_WIDTH;
+	private static int MAX_HEIGHT;
 	private static final int THUMBNAIL_WIDTH = 100;
 	private static final int THUMBNAIL_HEIGHT = 100;
 	static String rootpath;
@@ -32,6 +33,8 @@ public class ImageContainer {
 	private ImageContainer() {
 		mImageMap = new HashMap<String, Bitmap>();
 		mFilesystem = new FileSystem();
+		MAX_WIDTH = ConstructionSiteActivity.SCREEN_WIDTH * 1;
+		MAX_HEIGHT = ConstructionSiteActivity.SCREEN_HEIGHT * 1;
 	}
 
 	public static ImageContainer getInstance() {
@@ -48,12 +51,15 @@ public class ImageContainer {
 	public String saveImageFromPath(String path, Context context) {
 		File imagePath = new File(path);
 		String folderPath = imagePath.getParent();
-		String image = Calendar.getInstance().getTimeInMillis() + imagePath.getAbsolutePath().replace(folderPath, "").replace("/", "");
+		String image = Calendar.getInstance().getTimeInMillis()
+				+ imagePath.getAbsolutePath().replace(folderPath, "")
+						.replace("/", "");
 
-		Bitmap bm = null;
-		bm = BitmapFactory.decodeFile((path));
+		Bitmap bm = ImageEditing.getScaledBitmap(path, MAX_WIDTH, MAX_HEIGHT);
+		
+		String imageName = saveImageFromBitmap(bm, image, true, context);
 
-		return saveImageFromBitmap(bm, image, true, context);
+		return imageName;
 	}
 
 	private ProgressDialog createProgressDialog(Context context) {
@@ -62,34 +68,24 @@ public class ImageContainer {
 
 		String title = context.getString(R.string.please_wait);
 		String message = context.getString(R.string.loading);
-		ProgressDialog progressDialog = ProgressDialog.show(context, title, message);
+		ProgressDialog progressDialog = ProgressDialog.show(context, title,
+				message);
 		return progressDialog;
 	}
 
-	public String saveImageFromBitmap(final Bitmap bm, String name, final boolean recycle, Context context) {
+	public String saveImageFromBitmap(final Bitmap bm, String name,
+			final boolean recycle, Context context) {
 		final ProgressDialog progressDialog = createProgressDialog(context);
 		final String fileName = Utils.changeFileEndingToPng(name);
 		new Thread(new Runnable() {
 			public void run() {
-				Bitmap newbm = null;
-				if (MAX_HEIGHT < bm.getHeight() && MAX_WIDTH < bm.getWidth())
-					newbm = ImageEditing.scaleBitmap(bm, MAX_HEIGHT, MAX_WIDTH);
-				if (MAX_HEIGHT >= bm.getHeight() && MAX_WIDTH < bm.getWidth())
-					newbm = ImageEditing.scaleBitmap(bm, bm.getHeight(), MAX_WIDTH);
-				if (MAX_HEIGHT < bm.getHeight() && MAX_WIDTH >= bm.getWidth())
-					newbm = ImageEditing.scaleBitmap(bm, MAX_HEIGHT, bm.getWidth());
-				if (MAX_HEIGHT >= bm.getHeight() && MAX_WIDTH >= bm.getWidth())
-					newbm = bm;
 
-				final String path = Utils.concatPaths(ConstructionSiteActivity.ROOT_IMAGES, fileName);
-				final Bitmap newbmToSave = newbm;
-				final Boolean recycleBm = recycle;
+				final String path = Utils.concatPaths(
+						ConstructionSiteActivity.ROOT_IMAGES, fileName);
 
-				Utils.saveBitmapOnSDCardAsPNG(path, newbmToSave);
-				if (newbmToSave != null && recycleBm)
-					newbmToSave.recycle();
+				Utils.saveBitmapOnSDCardAsPNG(path, bm);
 
-				if (bm != null && bm != newbm && recycle)
+				if (recycle)
 					bm.recycle();
 
 				if (progressDialog != null)
@@ -103,20 +99,24 @@ public class ImageContainer {
 	public String saveThumbnailFromPath(String path, Context context) {
 		File imagePath = new File(path);
 		String folderPath = imagePath.getParent();
-		String image = Calendar.getInstance().getTimeInMillis() + imagePath.getAbsolutePath().replace(folderPath, "").replace("/", "thumb");
+		String image = Calendar.getInstance().getTimeInMillis()
+				+ imagePath.getAbsolutePath().replace(folderPath, "")
+						.replace("/", "thumb");
 
-		Bitmap bm = null;
-		bm = BitmapFactory.decodeFile((path));
+		Bitmap bm = ImageEditing.getScaledBitmap(path, THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT);
+	
 		return saveThumbnailFromBitmap(bm, image, true, context);
 	}
 
-	public String saveThumbnailFromBitmap(Bitmap bm, String name, boolean recycle, Context context) {
+	public String saveThumbnailFromBitmap(Bitmap bm, String name,
+			boolean recycle, Context context) {
 		name = Utils.changeFileEndingToPng(name);
 		Bitmap newbm = null;
 		newbm = ImageEditing.scaleBitmap(bm, THUMBNAIL_HEIGHT, THUMBNAIL_WIDTH);
 		mImageMap.put(name, newbm);
 
-		final String path = Utils.concatPaths(ConstructionSiteActivity.ROOT_IMAGES, name);
+		final String path = Utils.concatPaths(
+				ConstructionSiteActivity.ROOT_IMAGES, name);
 		final Bitmap newbmToSave = newbm;
 		new Thread(new Runnable() {
 
