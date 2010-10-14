@@ -30,8 +30,8 @@ public class StageManager {
 				}
 			}
 			if (mSpritesChanged) {
-				
-				mSpritesChanged = !drawSprites();
+				drawSprites();
+				mSpritesChanged = false;
 			}
 
 			if (!isPaused)
@@ -55,6 +55,9 @@ public class StageManager {
 		for (int i = 0; i < mContentManager.getAllContentArrayList().size(); i++) {
 			mSpritesList.add(new Sprite(mContentManager.getAllContentArrayList().get(i), this));
 		}
+		
+		// set stage z coordinate to minimum
+		mSpritesList.get(0).mDrawObject.setZOrder(Integer.MIN_VALUE);
 		sortSpriteList();
 		mSpritesChanged = true;
 
@@ -74,9 +77,9 @@ public class StageManager {
 		}
 	}
 
-	public boolean drawSprites() {
+	public void drawSprites() {
 		Log.v("StageManager", "drawSprites");
-		return mDraw.draw();
+		mDraw.draw();
 	}
 
 	public void processOnTouch(int coordX, int coordY) {

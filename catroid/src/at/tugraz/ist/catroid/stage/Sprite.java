@@ -66,7 +66,12 @@ public class Sprite implements Comparable<Sprite> {
 	}
 
 	public int compareTo(Sprite sprite) {
-		return this.mDrawObject.getZOrder() - sprite.mDrawObject.getZOrder();
+		long thisZValue = this.mDrawObject.getZOrder();
+		long otherZValue = sprite.mDrawObject.getZOrder();
+		long difference = thisZValue - otherZValue;
+		if(difference > Integer.MAX_VALUE)
+			return Integer.MAX_VALUE;
+		return (int)difference;
 	}
 
 	private void markTouchScripts() {
