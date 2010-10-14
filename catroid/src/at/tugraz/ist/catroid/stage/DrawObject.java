@@ -67,7 +67,7 @@ public class DrawObject {
 		// dirty workaround for Stage Background
 		// still on search for a better solution
 		if(tempBitmap.getHeight() > StageActivity.SCREEN_HEIGHT){
-			float backgroundScaleFactor = (float) StageActivity.SCREEN_HEIGHT/(float) tempBitmap.getHeight();
+			double backgroundScaleFactor = (double) StageActivity.SCREEN_HEIGHT/(double) tempBitmap.getHeight();
 			tempBitmap = ImageEditing.scaleBitmap(tempBitmap, backgroundScaleFactor);
 		}
 		

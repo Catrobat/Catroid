@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -72,6 +73,9 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	public static String SPF_FILE;
 
 	public SharedPreferences mPreferences;
+	
+	public static int SCREEN_WIDTH;
+	public static int SCREEN_HEIGHT;
 
 	private Button mToolboxButton;
 	private ToolBoxDialog mToolboxObjectDialog;
@@ -129,6 +133,11 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			// mContentManager.saveContent();
 			mContentManager.loadContent(SPF_FILE);
 			setTitle(SPF_FILE);
+			
+			DisplayMetrics dm = new DisplayMetrics();
+	        getWindowManager().getDefaultDisplay().getMetrics(dm);
+	        SCREEN_WIDTH = dm.widthPixels;
+	        SCREEN_HEIGHT = dm.heightPixels;
 		}
 	}
 
