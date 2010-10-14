@@ -41,22 +41,25 @@ public class CanvasDraw implements IDraw {
 	public synchronized boolean draw() {
 		mCanvas = mHolder.lockCanvas();
 		try {
-			if (mCanvas == null) 
+			if (mCanvas == null)
 				throw new Exception();
 			// we want to start with a white rectangle
-			mCanvas.drawRect(new Rect(0, 0, mCanvas.getWidth(), mCanvas.getHeight()), mWhitePaint);
+			mCanvas.drawRect(
+					new Rect(0, 0, mCanvas.getWidth(), mCanvas.getHeight()),
+					mWhitePaint);
 			for (int i = 0; i < mSpritesList.size(); i++) {
 				DrawObject drawObject = mSpritesList.get(i).mDrawObject;
-				if (drawObject.getBitmap() == null) 
-					throw new Exception();
-				mCanvas.drawBitmap(drawObject.getBitmap(), drawObject.getPositionAbs().first, drawObject.getPositionAbs().second, null);
-				drawObject.setToDraw(false);
+				if (drawObject.getBitmap() != null) {
+					mCanvas.drawBitmap(drawObject.getBitmap(),
+							drawObject.getPositionAbs().first,
+							drawObject.getPositionAbs().second, null);
+					drawObject.setToDraw(false);
+				}
 			}
 			mHolder.unlockCanvasAndPost(mCanvas);
 			return true;
-			
-		}
-		catch (Exception e){
+
+		} catch (Exception e) {
 			return false;
 		}
 
@@ -68,11 +71,17 @@ public class CanvasDraw implements IDraw {
 		greyPaint.setColor(Color.DKGRAY);
 		mCanvas = mHolder.lockCanvas();
 		if (mCanvas != null) {
-			mCanvas.drawRect(new Rect(0, 0, mCanvas.getWidth(), mCanvas.getHeight()), greyPaint);
+			mCanvas.drawRect(
+					new Rect(0, 0, mCanvas.getWidth(), mCanvas.getHeight()),
+					greyPaint);
 			if (pauseBitmap != null) {
-				Bitmap scaledPauseBitmap = ImageEditing.scaleBitmap(pauseBitmap, ((float) mCanvas.getWidth() / 2f) / (float) pauseBitmap.getWidth());
-				int posX = mCanvas.getWidth() / 2 - scaledPauseBitmap.getWidth() / 2;
-				int posY = mCanvas.getHeight() / 2 - scaledPauseBitmap.getHeight() / 2;
+				Bitmap scaledPauseBitmap = ImageEditing.scaleBitmap(
+						pauseBitmap, ((float) mCanvas.getWidth() / 2f)
+								/ (float) pauseBitmap.getWidth());
+				int posX = mCanvas.getWidth() / 2
+						- scaledPauseBitmap.getWidth() / 2;
+				int posY = mCanvas.getHeight() / 2
+						- scaledPauseBitmap.getHeight() / 2;
 				mCanvas.drawBitmap(scaledPauseBitmap, posX, posY, null);
 			}
 		}
