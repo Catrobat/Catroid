@@ -33,8 +33,8 @@ public class ImageContainer {
 	private ImageContainer() {
 		mImageMap = new HashMap<String, Bitmap>();
 		mFilesystem = new FileSystem();
-		MAX_WIDTH = ConstructionSiteActivity.SCREEN_WIDTH * 3;
-		MAX_HEIGHT = ConstructionSiteActivity.SCREEN_HEIGHT * 3;
+		MAX_WIDTH = ConstructionSiteActivity.SCREEN_WIDTH * 1;
+		MAX_HEIGHT = ConstructionSiteActivity.SCREEN_HEIGHT * 1;
 	}
 
 	public static ImageContainer getInstance() {
@@ -55,8 +55,8 @@ public class ImageContainer {
 				+ imagePath.getAbsolutePath().replace(folderPath, "")
 						.replace("/", "");
 
-		Bitmap bm = BitmapFactory.decodeFile((path));
-
+		Bitmap bm = ImageEditing.getScaledBitmap(path, MAX_WIDTH, MAX_HEIGHT);
+		
 		String imageName = saveImageFromBitmap(bm, image, true, context);
 
 		return imageName;
@@ -79,26 +79,14 @@ public class ImageContainer {
 		final String fileName = Utils.changeFileEndingToPng(name);
 		new Thread(new Runnable() {
 			public void run() {
-				Bitmap newBm = null;
-
-				double scaleWidth = bm.getWidth() / MAX_WIDTH;
-				double scaleHeight = bm.getHeight() / MAX_HEIGHT;
-				double scaleMin = Math.min(scaleWidth, scaleHeight);
-
-				if (scaleMin < 1) {
-					newBm = ImageEditing.scaleBitmap(bm, scaleMin);
-					bm.recycle();
-				} else {
-					newBm = bm;
-				}
 
 				final String path = Utils.concatPaths(
 						ConstructionSiteActivity.ROOT_IMAGES, fileName);
 
-				Utils.saveBitmapOnSDCardAsPNG(path, newBm);
+				Utils.saveBitmapOnSDCardAsPNG(path, bm);
 
 				if (recycle)
-					newBm.recycle();
+					bm.recycle();
 
 				if (progressDialog != null)
 					progressDialog.dismiss();
@@ -115,8 +103,8 @@ public class ImageContainer {
 				+ imagePath.getAbsolutePath().replace(folderPath, "")
 						.replace("/", "thumb");
 
-		Bitmap bm = null;
-		bm = BitmapFactory.decodeFile((path));
+		Bitmap bm = ImageEditing.getScaledBitmap(path, THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT);
+	
 		return saveThumbnailFromBitmap(bm, image, true, context);
 	}
 
