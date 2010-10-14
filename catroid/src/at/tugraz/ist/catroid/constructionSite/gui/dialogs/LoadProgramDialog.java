@@ -35,7 +35,7 @@ public class LoadProgramDialog extends Dialog{
 		setContentView(R.layout.dialog_load_program_layout);
 		
 		
-    	File sdFile = new File(ConstructionSiteActivity.DEFAULT_PROJECT);
+    	File sdFile = new File(ConstructionSiteActivity.DEFAULT_ROOT);
     	//File[] sdFileList = sdFile.listFiles();
     	
     	

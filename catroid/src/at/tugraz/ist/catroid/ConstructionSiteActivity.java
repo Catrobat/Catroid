@@ -60,8 +60,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	static final String PREF_ROOT = "pref_root";
 	static final String PREF_FILE_SPF = "pref_path";
 
-	public static final String DEFAULT_ROOT = "/sdcard/catroid/defaultProject";
-	public static final String DEFAULT_PROJECT = "/sdcard/catroid";
+	public static final String DEFAULT_ROOT = "/sdcard/catroid";
+	public static final String DEFAULT_PROJECT = "/sdcard/catroid/defaultProject";
 	public static final String DEFAULT_FILE = "defaultSaveFile.spf";
 	public static final String DEFAULT_FILE_ENDING = ".spf";
 
