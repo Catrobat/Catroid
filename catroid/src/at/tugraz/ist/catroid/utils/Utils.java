@@ -94,6 +94,16 @@ public class Utils {
 		File fileFrom = new File(path);
 		return fileFrom.delete();
 	}
+	
+	/** 
+	 * Returns whether a project with the given name already exists
+	 * @param projectName project name to check for existence
+	 * @return whether the project exists
+	 */
+	public static boolean projectExists(String projectName) {
+		File projectFolder = new File(concatPaths(ConstructionSiteActivity.DEFAULT_ROOT, projectName));
+		return projectFolder.exists();
+	}
 
 	public static boolean deleteFolder(String path) {
 		File fileFrom = new File(path);

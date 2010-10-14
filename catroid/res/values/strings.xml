@@ -57,4 +57,7 @@
     <string name="error_no_sd_card">
     	Catroid requires an SD card in order to run, but none was found.\nPlease insert an SD card and try again.
     </string>
+    <string name="error_project_exists">
+    	A project with the same name already exists.\nPlease choose a different name.
+    </string>
 </resources>
