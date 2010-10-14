@@ -12,9 +12,10 @@ import android.graphics.Bitmap;
 public interface IDraw {
 	/**
 	 * Processes all sprites which should be drawn on the stage.
+	 * @return true, if the sprites could be drawn
 	 * 
 	 */
-	public void draw();
+	public boolean draw();
 	
 	/**
 	 * Processes a Bitmap and display it on a grey Screen.

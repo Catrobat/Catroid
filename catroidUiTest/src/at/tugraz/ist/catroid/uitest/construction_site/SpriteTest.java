@@ -150,11 +150,11 @@ public class SpriteTest extends ActivityInstrumentationTestCase2<ConstructionSit
 		
 		typeInDecimalNumber(2);
 		number = solo.getEditText(2).getEditableText().toString();
-		assertTrue("Found an integer value in goto brick x.", !number.contains("."));
+		assertTrue("Found an signed value in goto brick x.", number.contains("."));
 		
 		typeInDecimalNumber(3);
 		number = solo.getEditText(3).getEditableText().toString();
-		assertTrue("Found an integer value in goto brick y.", !number.contains("."));
+		assertTrue("Found an signed value in goto brick y.", number.contains("."));
 		
 		typeInDecimalNumber(4);
 		number = solo.getEditText(4).getEditableText().toString();
