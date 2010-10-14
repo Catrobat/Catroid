@@ -4,9 +4,12 @@ import java.io.File;
 import java.util.Calendar;
 import java.util.HashMap;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
+import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.utils.filesystem.FileSystem;
 
 /**
@@ -42,7 +45,7 @@ public class ImageContainer {
 		ImageContainer.rootpath = rootpath;
 	}
 
-	public String saveImageFromPath(String path) {
+	public String saveImageFromPath(String path, Context context) {
 		File imagePath = new File(path);
 		String folderPath = imagePath.getParent();
 		String image = Calendar.getInstance().getTimeInMillis() + imagePath.getAbsolutePath().replace(folderPath, "").replace("/", "");
@@ -50,14 +53,24 @@ public class ImageContainer {
 		Bitmap bm = null;
 		bm = BitmapFactory.decodeFile((path));
 
-		return saveImageFromBitmap(bm, image, true);
+		return saveImageFromBitmap(bm, image, true, context);
 	}
 
-	public String saveImageFromBitmap(final Bitmap bm, String name, final boolean recycle) {
+	private ProgressDialog createProgressDialog(Context context) {
+		if (context == null)
+			return null;
+
+		String title = context.getString(R.string.please_wait);
+		String message = context.getString(R.string.loading);
+		ProgressDialog progressDialog = ProgressDialog.show(context, title, message);
+		return progressDialog;
+	}
+
+	public String saveImageFromBitmap(final Bitmap bm, String name, final boolean recycle, Context context) {
+		final ProgressDialog progressDialog = createProgressDialog(context);
 		final String fileName = Utils.changeFileEndingToPng(name);
 		new Thread(new Runnable() {
 			public void run() {
-				
 				Bitmap newbm = null;
 				if (MAX_HEIGHT < bm.getHeight() && MAX_WIDTH < bm.getWidth())
 					newbm = ImageEditing.scaleBitmap(bm, MAX_HEIGHT, MAX_WIDTH);
@@ -71,30 +84,33 @@ public class ImageContainer {
 				final String path = Utils.concatPaths(ConstructionSiteActivity.ROOT_IMAGES, fileName);
 				final Bitmap newbmToSave = newbm;
 				final Boolean recycleBm = recycle;
-				
+
 				Utils.saveBitmapOnSDCardAsPNG(path, newbmToSave);
 				if (newbmToSave != null && recycleBm)
 					newbmToSave.recycle();
-				
+
 				if (bm != null && bm != newbm && recycle)
 					bm.recycle();
+
+				if (progressDialog != null)
+					progressDialog.dismiss();
 			}
 		}).start();
 
 		return fileName;
 	}
 
-	public String saveThumbnailFromPath(String path) {
+	public String saveThumbnailFromPath(String path, Context context) {
 		File imagePath = new File(path);
 		String folderPath = imagePath.getParent();
 		String image = Calendar.getInstance().getTimeInMillis() + imagePath.getAbsolutePath().replace(folderPath, "").replace("/", "thumb");
 
 		Bitmap bm = null;
 		bm = BitmapFactory.decodeFile((path));
-		return saveThumbnailFromBitmap(bm, image, true);
+		return saveThumbnailFromBitmap(bm, image, true, context);
 	}
 
-	public String saveThumbnailFromBitmap(Bitmap bm, String name, boolean recycle) {
+	public String saveThumbnailFromBitmap(Bitmap bm, String name, boolean recycle, Context context) {
 		name = Utils.changeFileEndingToPng(name);
 		Bitmap newbm = null;
 		newbm = ImageEditing.scaleBitmap(bm, THUMBNAIL_HEIGHT, THUMBNAIL_WIDTH);

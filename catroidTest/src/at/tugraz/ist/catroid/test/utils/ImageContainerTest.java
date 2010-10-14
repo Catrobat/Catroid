@@ -4,16 +4,16 @@ import java.io.File;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.test.AndroidTestCase;
 import at.tugraz.ist.catroid.utils.ImageContainer;
 import at.tugraz.ist.catroid.utils.Utils;
-import junit.framework.TestCase;
 
-public class ImageContainerTest extends TestCase {
+public class ImageContainerTest extends AndroidTestCase {
 
 	private ImageContainer mImageContainer;
 
-	public ImageContainerTest(String name) {
-		super(name);
+	public ImageContainerTest() {
+		super();
 	}
 
 	protected void setUp() throws Exception {
@@ -33,8 +33,8 @@ public class ImageContainerTest extends TestCase {
 		Bitmap bitmap1 = Bitmap.createBitmap(10, 10, Config.ARGB_8888);
 		Bitmap bitmap2 = Bitmap.createBitmap(10, 10, Config.ARGB_8888);
 		Utils.saveBitmapOnSDCardAsPNG("/sdcard/test2.png", bitmap2);
-		mImageContainer.saveImageFromPath("/sdcard/test2.png");
-		
+		mImageContainer.saveImageFromPath("/sdcard/test2.png", null);
+		Thread.sleep(500); // wait for save thread to finish
 		mImageContainer.deleteImage("test1.png");
 
 		assertEquals(bitmap1.getNinePatchChunk(), mImageContainer.getImage("test2.png").getNinePatchChunk());
