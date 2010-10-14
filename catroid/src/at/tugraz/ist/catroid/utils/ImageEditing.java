@@ -19,7 +19,7 @@ public class ImageEditing {
 		return newbm;
 	}
 	
-	public static Bitmap scaleBitmap(Bitmap bm, float scalingFactor){
+	public static Bitmap scaleBitmap(Bitmap bm, double scalingFactor){
 		return ImageEditing.scaleBitmap(bm, (int)(bm.getWidth()*scalingFactor), (int)(bm.getHeight()*scalingFactor));
 	}
 }
