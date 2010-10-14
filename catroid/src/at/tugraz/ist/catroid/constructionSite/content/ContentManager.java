@@ -286,14 +286,14 @@ public class ContentManager extends Observable {
 
 		ImageContainer imageContainer = ImageContainer.getInstance();
 		Bitmap costume1 = ((BitmapDrawable) mCtx.getResources().getDrawable(R.drawable.catroid)).getBitmap();
-		String image1Path = imageContainer.saveImageFromBitmap(costume1, "catroid.png", false);
-		String thumb1Path = imageContainer.saveThumbnailFromBitmap(costume1, "catroid_thumb.png", false);
+		String image1Path = imageContainer.saveImageFromBitmap(costume1, "catroid.png", false, mCtx);
+		String thumb1Path = imageContainer.saveThumbnailFromBitmap(costume1, "catroid_thumb.png", false, mCtx);
 		Bitmap costume2 = ((BitmapDrawable) mCtx.getResources().getDrawable(R.drawable.catroid_banzai)).getBitmap();
-		String image2Path = imageContainer.saveImageFromBitmap(costume2, "catroid_banzai.png", false);
-		String thumb2Path = imageContainer.saveThumbnailFromBitmap(costume2, "catroid_banzai_thumb.png", false);
+		String image2Path = imageContainer.saveImageFromBitmap(costume2, "catroid_banzai.png", false, mCtx);
+		String thumb2Path = imageContainer.saveThumbnailFromBitmap(costume2, "catroid_banzai_thumb.png", false, mCtx);
 		Bitmap costume3 = ((BitmapDrawable) mCtx.getResources().getDrawable(R.drawable.catroid_cheshire)).getBitmap();
-		String image3Path = imageContainer.saveImageFromBitmap(costume3, "catroid_cheshire.png", false);
-		String thumb3Path = imageContainer.saveThumbnailFromBitmap(costume3, "catroid_cheshire_thumb.png", false);
+		String image3Path = imageContainer.saveImageFromBitmap(costume3, "catroid_cheshire.png", false, mCtx);
+		String thumb3Path = imageContainer.saveThumbnailFromBitmap(costume3, "catroid_cheshire_thumb.png", false, mCtx);
 
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.GO_TO));
