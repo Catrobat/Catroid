@@ -38,19 +38,26 @@ public class CanvasDraw implements IDraw {
 
 	}
 
-	public synchronized void draw() {
+	public synchronized boolean draw() {
 		mCanvas = mHolder.lockCanvas();
-		if (mCanvas != null) {
+		try {
+			if (mCanvas == null) 
+				throw new Exception();
 			// we want to start with a white rectangle
 			mCanvas.drawRect(new Rect(0, 0, mCanvas.getWidth(), mCanvas.getHeight()), mWhitePaint);
 			for (int i = 0; i < mSpritesList.size(); i++) {
 				DrawObject drawObject = mSpritesList.get(i).mDrawObject;
-				if (drawObject.getBitmap() != null) {
-					mCanvas.drawBitmap(drawObject.getBitmap(), drawObject.getPositionAbs().first, drawObject.getPositionAbs().second, null);
-					drawObject.setToDraw(false);
-				}
+				if (drawObject.getBitmap() == null) 
+					throw new Exception();
+				mCanvas.drawBitmap(drawObject.getBitmap(), drawObject.getPositionAbs().first, drawObject.getPositionAbs().second, null);
+				drawObject.setToDraw(false);
 			}
 			mHolder.unlockCanvasAndPost(mCanvas);
+			return true;
+			
+		}
+		catch (Exception e){
+			return false;
 		}
 
 	}
