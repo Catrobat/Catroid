@@ -21,6 +21,7 @@ import at.tugraz.ist.catroid.test.utils.TestDefines;
 import at.tugraz.ist.catroid.utils.parser.Parser;
 
 public class ParserTest extends AndroidTestCase {
+	private File tempFile;
 
 	public ParserTest() {
 		super();
@@ -31,31 +32,42 @@ public class ParserTest extends AndroidTestCase {
 	}
 
 	protected void tearDown() throws Exception {
+		if (tempFile != null && tempFile.exists())
+			tempFile.delete();
 		super.tearDown();
 	}
 
 	public void testParse() throws Throwable {
 		Parser parser = new Parser();
-		File file = null;
+		OutputStream outputStream = null;
 		try {
-			file = File.createTempFile("project", "xml");
-			if (file.canWrite()) {
-				OutputStream stream = new FileOutputStream(file);
-				stream.write(TestDefines.TEST_XML.getBytes());
-				stream.flush();
+			tempFile = File.createTempFile("project", ".xml");
+			if (tempFile.canWrite()) {
+				outputStream = new FileOutputStream(tempFile);
+				outputStream.write(TestDefines.TEST_XML.getBytes());
+				outputStream.flush();
 			}
 		} catch (IOException e) {
 			Log.e("ParserTest", "Writing Test XML to file failed");
 			e.printStackTrace();
+		} finally {
+			if (outputStream != null)
+				outputStream.close();
 		}
+
 		ArrayList<Pair<String, ArrayList<HashMap<String, String>>>> list = null;
+		InputStream inputStream = null;
 		try {
-			InputStream stream = new FileInputStream(file);
-			list = parser.parse(stream, this.getContext());
+			inputStream = new FileInputStream(tempFile);
+			list = parser.parse(inputStream, this.getContext());
 		} catch (FileNotFoundException e) {
 			Log.e("ParserTest", "Reading from test XML file failed!");
 			e.printStackTrace();
+		} finally {
+			if(inputStream != null)
+				inputStream.close();
 		}
+		
 		// TODO test if first element is stage (name does not need to be
 		// 'stage')
 
