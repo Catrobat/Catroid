@@ -10,17 +10,17 @@ import java.io.OutputStream;
 import junit.framework.TestCase;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class UtilsTest extends TestCase{
+public class UtilsTest extends TestCase {
 	
 	
 	private String testFileContent = "Hello, this is a Test-String";
 	private File mTestFile;
-	
+	private File copiedFile;
 	
 	@Override
 	protected void setUp() throws Exception {
 		try {
-			mTestFile = File.createTempFile("testCopyFiles", "txt");
+			mTestFile = File.createTempFile("testCopyFiles", ".txt");
 			if(mTestFile.canWrite()){
 				OutputStream stream = new FileOutputStream(mTestFile);
 				stream.write(testFileContent.getBytes());
@@ -32,21 +32,26 @@ public class UtilsTest extends TestCase{
 		}
 		super.setUp();
 	}
-
-
+	
+	protected void tearDown() throws Exception {
+		if(mTestFile != null && mTestFile.exists())
+			mTestFile.delete();		
+		if(copiedFile != null && copiedFile.exists())
+			copiedFile.delete();
+	}
 
 	public void testCopyFile() throws InterruptedException{
 		String newpath = mTestFile.getParent()+"/copiedFile.txt";
 		Utils.copyFile(mTestFile.getAbsolutePath(), newpath, null, false);
 		Thread.sleep(1000); // Wait for thread to write file
-		File newFile = new File(newpath);
+		copiedFile = new File(newpath);
 		
-		assertTrue(newFile.exists());
+		assertTrue(copiedFile.exists());
 		
 		FileReader fReader;
 		String newContent = "";
 		try {
-			fReader = new FileReader(newFile);
+			fReader = new FileReader(copiedFile);
 
 			int read;
 		   while((read = fReader.read())!= -1){
