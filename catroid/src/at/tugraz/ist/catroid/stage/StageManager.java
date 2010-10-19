@@ -107,6 +107,7 @@ public class StageManager {
 			mSpritesList.get(i).unPause();
 		}
 		isPaused = false;
+		mSpritesChanged = true;
 		mRunnable.run();
 	}
 
