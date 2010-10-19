@@ -8,6 +8,7 @@
 	
 	<string name="new_project_main">New Project</string>
 	<string name="change_project_name_main">Change Project Name</string>
+	<string name="upload_project">Upload Project</string>
 	<string name="edit_text_filename_standard_input">projectname</string>
     <string name="load">Load</string>
     <string name="save">Save</string>
@@ -59,5 +60,11 @@
     </string>
     <string name="error_project_exists">
     	A project with the same name already exists.\nPlease choose a different name.
+    </string>
+    <string name="error_project_upload">
+    	A error occurred during uploading the project.
+    </string>
+    <string name="success_project_upload">
+    	A error occurred during uploading the project.
     </string>
 </resources>

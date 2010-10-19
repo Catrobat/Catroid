@@ -7,4 +7,5 @@
 <item android:title="@string/new_project_main" android:id="@+id/newProject"></item>
 <item android:id="@+id/load" android:title="@string/load"></item>
 <item android:id="@+id/changeProject" android:title="@string/change_project_name_main"></item>
+<item android:id="@+id/uploadProject" android:title="@string/upload_project"></item>
 </menu>
