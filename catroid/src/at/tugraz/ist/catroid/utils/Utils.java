@@ -11,8 +11,10 @@ import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.util.Log;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.R;
@@ -188,5 +190,15 @@ public class Utils {
 		newFileName = newFileName + ".png";
 		return newFileName;
 	}
-
+	
+	/**
+	 * Displays a website with the given URI using an Intent
+	 * @param context
+	 * @param uri
+	 */
+	public static void displayWebsite(Context context, Uri uri) {
+		Intent websiteIntent = new Intent(Intent.ACTION_VIEW);
+		websiteIntent.setData(uri);
+		context.startActivity(websiteIntent);
+	}
 }

@@ -16,6 +16,7 @@
     
     <string name="delete">Delete</string>
     <string name="remove">Remove</string>
+    <string name="about">About Catroid</string>
  
     <string name="construction_site">Construction Site</string>
     <string name="sprites">Object</string>
@@ -62,5 +63,7 @@
     </string>
     
     <!-- Website URLs -->
+    <!--  TODO: set proper URLs -->
     <string name="wiki_url">http://catroweb.ist.tugraz.at</string>
+    <string name="about_catroid_url">http://groups.google.com/group/catroid/</string>
 </resources>

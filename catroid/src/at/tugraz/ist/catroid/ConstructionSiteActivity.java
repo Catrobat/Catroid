@@ -268,6 +268,10 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			mContentManager.saveContent(SPF_FILE);
 			showDialog(CHANGE_PROJECT_NAME_DIALOG);
 			return true;
+			
+		case R.id.aboutCatroid:
+			Utils.displayWebsite(this, Uri.parse(getString(R.string.about_catroid_url)));
+			return true;
 
 		default:
 			return super.onOptionsItemSelected(item);
