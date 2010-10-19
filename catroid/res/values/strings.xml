@@ -60,4 +60,7 @@
     <string name="error_project_exists">
     	A project with the same name already exists.\nPlease choose a different name.
     </string>
+    
+    <!-- Website URLs -->
+    <string name="wiki_url">http://catroweb.ist.tugraz.at</string>
 </resources>
