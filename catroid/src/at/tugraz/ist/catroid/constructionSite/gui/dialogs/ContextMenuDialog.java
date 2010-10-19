@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -22,6 +21,7 @@ import at.tugraz.ist.catroid.constructionSite.content.BrickDefine;
 import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
 import at.tugraz.ist.catroid.constructionSite.gui.adapter.ConstructionSiteListViewAdapter;
 import at.tugraz.ist.catroid.utils.ImageContainer;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class ContextMenuDialog extends Dialog {
 
@@ -50,9 +50,7 @@ public class ContextMenuDialog extends Dialog {
 
 		String url = wikiUrl + "/" + brickName;
 
-		Intent websiteIntent = new Intent(Intent.ACTION_VIEW);
-		websiteIntent.setData(Uri.parse(url));
-		mCtx.startActivity(websiteIntent);
+		Utils.displayWebsite(mCtx, Uri.parse(url));
 	}
 
 	public ContextMenuDialog(Context context, ContentManager contentManager) {
