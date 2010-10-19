@@ -40,6 +40,7 @@ import at.tugraz.ist.catroid.constructionSite.gui.dialogs.LoadProgramDialog;
 import at.tugraz.ist.catroid.constructionSite.gui.dialogs.NewProjectDialog;
 import at.tugraz.ist.catroid.constructionSite.gui.dialogs.SpritesDialog;
 import at.tugraz.ist.catroid.constructionSite.gui.dialogs.ToolBoxDialog;
+import at.tugraz.ist.catroid.constructionSite.tasks.ProjectUploadTask;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.utils.ImageContainer;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -61,6 +62,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	static final String PREF_FILE_SPF = "pref_path";
 
 	public static final String DEFAULT_ROOT = "/sdcard/catroid";
+	public static final String TMP_PATH = DEFAULT_ROOT+"/tmp";
 	public static final String DEFAULT_PROJECT = "/sdcard/catroid/defaultProject";
 	public static final String DEFAULT_FILE = "defaultSaveFile.spf";
 	public static final String DEFAULT_FILE_ENDING = ".spf";
@@ -267,6 +269,11 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		case R.id.changeProject:
 			mContentManager.saveContent(SPF_FILE);
 			showDialog(CHANGE_PROJECT_NAME_DIALOG);
+			return true;
+		case R.id.uploadProject:
+			mContentManager.saveContent(SPF_FILE);
+			//showDialog(CHANGE_PROJECT_NAME_DIALOG);
+			new ProjectUploadTask(this, ROOT, TMP_PATH+"/tmp.zip").execute(); 
 			return true;
 
 		default:
