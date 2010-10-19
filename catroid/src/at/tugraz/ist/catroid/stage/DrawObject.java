@@ -17,13 +17,15 @@ public class DrawObject {
 	private String mPath;
 	private float mScaleFactor;
 	private int mMaxRelCoordinates = 1000;
+	private int mOrigHeight = 0;
+	private int mOrigWidth = 0;
 
 	public DrawObject() {
 		mToDraw = false;
 		mHidden = false;
 		mPositionAbs = new Pair<Integer, Integer>(0, 0);
 		mPositionRel = new Pair<Integer, Integer>(0, 0);
-		setmPositionRel(new Pair<Integer, Integer>(0, 0)); 
+		setmPositionRel(new Pair<Integer, Integer>(0, 0));
 		mZOrder = 0;
 		mSize = new Pair<Integer, Integer>(0, 0); // width , height
 		mScaleFactor = 1;
@@ -37,24 +39,24 @@ public class DrawObject {
 		if (mBitmap == null) {
 			return;
 		}
+		if (scaleFactor == 0) {
+			return;
+		}
+
+		int newHeight = (int)((float) mOrigHeight * mScaleFactor);
+		int newWidth = (int)((float) mOrigWidth * mScaleFactor);
 
 		positionToSpriteTopLeft();
 
-		if (mScaleFactor < 1) {
-			mBitmap = ImageEditing.scaleBitmap(mBitmap, mScaleFactor);
-			mSize = new Pair<Integer, Integer>(mBitmap.getWidth(), mBitmap
-					.getHeight());
-			mScaleFactor = 1;
+		if (newHeight > mSize.second || newWidth > mSize.first) {
+			mBitmap.recycle();
+			mBitmap = BitmapFactory.decodeFile(mPath);
+
 		}
-		if (mScaleFactor > 1) {
-			Bitmap fullSizeBitmap = BitmapFactory.decodeFile(mPath);
-			mScaleFactor = (mSize.first * mScaleFactor)
-					/ fullSizeBitmap.getWidth();
-			mBitmap = ImageEditing.scaleBitmap(fullSizeBitmap, mScaleFactor);
-			mSize = new Pair<Integer, Integer>(mBitmap.getWidth(), mBitmap
-					.getHeight());
-			mScaleFactor = 1;
-		}
+
+		mBitmap = ImageEditing.scaleBitmap(mBitmap, newWidth, newHeight);
+		mSize = new Pair<Integer, Integer>(newWidth, newHeight);
+
 		setPositionToSpriteCenter();
 		mToDraw = true;
 
@@ -63,22 +65,28 @@ public class DrawObject {
 	public synchronized void setBitmap(String path) throws Exception {
 		positionToSpriteTopLeft();
 		Bitmap tempBitmap = BitmapFactory.decodeFile(path);
-		
+
 		// dirty workaround for Stage Background
 		// still on search for a better solution
-		if(tempBitmap.getHeight() > StageActivity.SCREEN_HEIGHT){
-			double backgroundScaleFactor = ((double) StageActivity.SCREEN_HEIGHT + 2)/(double) tempBitmap.getHeight(); // SCREEN_HEIGHT + 2 because of rounding errors in set to center
-			tempBitmap = ImageEditing.scaleBitmap(tempBitmap, backgroundScaleFactor);
+		if (tempBitmap.getHeight() > StageActivity.SCREEN_HEIGHT) {
+			double backgroundScaleFactor = ((double) StageActivity.SCREEN_HEIGHT + 2)
+					/ (double) tempBitmap.getHeight(); // SCREEN_HEIGHT + 2
+														// because of rounding
+														// errors in set to
+														// center
+			tempBitmap = ImageEditing.scaleBitmap(tempBitmap,
+					backgroundScaleFactor);
 		}
-		
-		mBitmap = ImageEditing.scaleBitmap(tempBitmap, mScaleFactor);
+		mBitmap = tempBitmap;
 
 		mPath = path;
-		mSize = new Pair<Integer, Integer>(mBitmap.getWidth(), mBitmap
-				.getHeight());
-		new Pair<Integer, Integer>(mBitmap.getWidth(), mBitmap
-				.getHeight());
+		mSize = new Pair<Integer, Integer>(mBitmap.getWidth(),
+				mBitmap.getHeight());
+		new Pair<Integer, Integer>(mBitmap.getWidth(), mBitmap.getHeight());
+		mOrigHeight = mBitmap.getHeight();
+		mOrigWidth = mBitmap.getWidth();
 		setPositionToSpriteCenter();
+
 		mToDraw = true;
 	}
 
@@ -111,7 +119,7 @@ public class DrawObject {
 		int yAbs = Math
 				.round((StageActivity.SCREEN_HEIGHT / (2f * mMaxRelCoordinates))
 						* position.second + StageActivity.SCREEN_HEIGHT / 2f);
-		mPositionAbs = new Pair<Integer, Integer>(xAbs, yAbs); 
+		mPositionAbs = new Pair<Integer, Integer>(xAbs, yAbs);
 		setPositionToSpriteCenter();
 		mToDraw = true;
 	}
