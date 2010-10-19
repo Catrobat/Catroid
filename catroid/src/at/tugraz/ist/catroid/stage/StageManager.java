@@ -22,7 +22,7 @@ public class StageManager {
 	private Handler mHandler = new Handler();
 	private Runnable mRunnable = new Runnable() {
 		public void run() {
-			Log.v("StageManager", "run");
+			//Log.v("StageManager", "run");
 			for (int i = 0; i < mSpritesList.size(); i++) {
 				if (mSpritesList.get(i).mDrawObject.getToDraw() == true) {
 					mSpritesChanged = true;

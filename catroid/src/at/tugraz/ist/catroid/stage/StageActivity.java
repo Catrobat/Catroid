@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,8 +22,8 @@ public class StageActivity extends Activity {
 	protected boolean isWaiting = false;
 	private SoundManager mSoundManager;
 	private StageManager mStageManager;
-	private GestureListener mGestureListener;
-	private GestureDetector mGestureDetector;
+//	private GestureListener mGestureListener;
+//	private GestureDetector mGestureDetector;
 
 	public static String ROOT_IMAGES;
 	public static String ROOT_SOUNDS;
@@ -63,8 +64,8 @@ public class StageActivity extends Activity {
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 			mSoundManager = SoundManager.getInstance();
 			mStageManager = new StageManager(this, SPF_FILE);
-			mGestureListener = new GestureListener(this);
-			mGestureDetector = new GestureDetector(this, mGestureListener);
+//			mGestureListener = new GestureListener(this);
+//			mGestureDetector = new GestureDetector(this, mGestureListener);
 			mStageManager.start();
 			mStagePlaying = true;
 		}
@@ -72,7 +73,16 @@ public class StageActivity extends Activity {
 	}
 
 	 public boolean onTouchEvent(MotionEvent event) {  
-	     return mGestureDetector.onTouchEvent(event);  
+		 Log.i("StageActivity", "Number of pointers " + event.getPointerCount() + " action code: " + event.getAction() + " coordinates: x: " + event.getX((int)event.getPointerCount()-1)+" y: "+event.getY((int)event.getPointerCount()-1));
+	     // for the first pointer we get MotionEvent.ACTION_DOWN
+		 if (event.getAction() == MotionEvent.ACTION_DOWN)
+	    	 processOnTouch((int)event.getX(),(int)event.getY());
+		 // if we have a second pointer we also get MotionEvent.ACTION_POINTER_2_DOWN
+		 if (event.getAction() == MotionEvent.ACTION_POINTER_2_DOWN)
+			 processOnTouch((int)event.getX(1),(int)event.getY(1));
+		 
+		 return true;
+		 //return mGestureDetector.onTouchEvent(event);  
 	 } 
 	 
 	 public void processOnTouch(int coordX, int coordY) {
