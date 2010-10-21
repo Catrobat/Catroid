@@ -273,7 +273,11 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		case R.id.uploadProject:
 			mContentManager.saveContent(SPF_FILE);
 			//showDialog(CHANGE_PROJECT_NAME_DIALOG);
-			new ProjectUploadTask(this, ROOT, TMP_PATH+"/tmp.zip").execute(); 
+			//new ProjectUploadTask(this, ROOT, TMP_PATH+"/tmp.zip").execute(); 
+			return true;
+			
+		case R.id.aboutCatroid:
+			Utils.displayWebsite(this, Uri.parse(getString(R.string.about_catroid_url)));
 			return true;
 
 		default:

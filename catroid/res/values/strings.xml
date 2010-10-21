@@ -67,4 +67,9 @@
     <string name="success_project_upload">
     	A error occurred during uploading the project.
     </string>
+    
+    <!-- Website URLs -->
+    <!--  TODO: set proper URLs -->
+    <string name="wiki_url">http://catroweb.ist.tugraz.at</string>
+    <string name="about_catroid_url">http://groups.google.com/group/catroid/</string>
 </resources>
