@@ -37,7 +37,7 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener {
 
 	@Override
 	public boolean onDown(MotionEvent ev) {
-		Log.d("StageGestureDetection", "onDown" + ev.toString());
+		Log.d("StageGestureDetection", "onDown" + ev.toString() + " number of pointers " + ev.getPointerCount());
 		mStageView.processOnTouch((int)ev.getX(),(int)ev.getY());
 		return true;
 		
