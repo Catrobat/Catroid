@@ -6,7 +6,9 @@ import android.app.Activity;
 import android.os.Bundle;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.download.tasks.ProjectDownloadTask;
 import at.tugraz.ist.catroid.web.ConnectionWrapper;
+import at.tugraz.ist.catroid.web.UtilZip;
 
 public class DownloadActivity extends Activity {
 
@@ -20,14 +22,9 @@ public class DownloadActivity extends Activity {
 		
 		System.out.println("data: "+data);
 		
-//		try {
-//			ConnectionWrapper.doHttpPostFileDownload(data, null, 
-//					ConstructionSiteActivity.TMP_PATH+"/down.zip");
-//			
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+//		new ProjectDownloadTask(this, "http://www.url.com", ConstructionSiteActivity.DEFAULT_ROOT+"/downloadedProject",
+//					ConstructionSiteActivity.TMP_PATH).execute();
+//		
 		
 	}
 }

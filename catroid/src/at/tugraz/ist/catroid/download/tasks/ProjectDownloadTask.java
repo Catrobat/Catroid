@@ -1,4 +1,4 @@
-package at.tugraz.ist.catroid.constructionSite.tasks;
+package at.tugraz.ist.catroid.download.tasks;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -14,16 +14,18 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.web.ConnectionWrapper;
 import at.tugraz.ist.catroid.web.UtilZip;
 
-public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
+public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> {
 	private Context mContext;
-	private String mProjectPath;
+	private String mDestProjectPath;
 	private String mZipFile;
+	private String mUrl;
 	private ProgressDialog mProgressdialog;
 	
-	public ProjectUploadTask(Context context, String projectPath, String zipFile) {
+	public ProjectDownloadTask(Context context, String url, String destProjectPath, String zipFile) {
 		mContext = context;
-		mProjectPath = projectPath;
+		mDestProjectPath = destProjectPath;
 		mZipFile = zipFile;
+		mUrl = url;
 	}
 	
 	@Override
@@ -38,42 +40,16 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 	@Override
 	protected Boolean doInBackground(Void... arg0) {
 		try {
-			File dirPath = new File(mProjectPath);
-			String[] pathes = dirPath.list(new FilenameFilter() {
-				public boolean accept(File dir, String filename) {
-					if(filename.endsWith(ConstructionSiteActivity.DEFAULT_FILE_ENDING) || filename.equalsIgnoreCase("images")
-							|| filename.equalsIgnoreCase("sounds"))
-						return true;
-					return false;
-				}
-			});
-			if(pathes == null)
-				return false;
+			ConnectionWrapper.doHttpPostFileDownload(mUrl, null, mZipFile);
+				
+			UtilZip.unZipFile(mZipFile, mDestProjectPath);
+			return true;
 			
-			
-			for(int i=0;i<pathes.length;++i) {
-				pathes[i] = dirPath +"/"+ pathes[i];
-			}	
-			
-			File file = new File(mZipFile);
-	    	if(!file.exists()) {
-	    		file.getParentFile().mkdirs();
-	    		file.createNewFile();
-	    	}
-	    	
-			if (!UtilZip.writeToZipFile(pathes, mZipFile)) {
-				file.delete();
-				return false;
-			}
-			InputStream is = ConnectionWrapper.doHttpPostFileUpload("", null, "filetag", mZipFile);
-			
-			file.delete();
 		} catch (IOException e) {
 			e.printStackTrace();
-			return false;
 		}
+		return false;	
 		
-		return true;
 	}
 
 	@Override
