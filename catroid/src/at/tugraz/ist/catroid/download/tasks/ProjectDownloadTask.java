@@ -42,8 +42,7 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> {
 		try {
 			ConnectionWrapper.doHttpPostFileDownload(mUrl, null, mZipFile);
 				
-			UtilZip.unZipFile(mZipFile, mDestProjectPath);
-			return true;
+			return UtilZip.unZipFile(mZipFile, mDestProjectPath);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
