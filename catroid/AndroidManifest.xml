@@ -14,8 +14,11 @@
 	        <action android:name="android.intent.action.VIEW" />
 	        <category android:name="android.intent.category.DEFAULT" />
 	        <category android:name="android.intent.category.BROWSABLE" />
-	        <data android:scheme="http" android:host="www.google.at"
+	        <!--<data android:scheme="http" android:host="www.google.at"
 	              android:path="/m/preferences" />
+	        
+	        --><data android:scheme="http" android:host="catroidwebtest.ist.tugraz.at"
+	              android:pathPrefix="/catroid/download/" />
         	</intent-filter>
         </activity>
 		

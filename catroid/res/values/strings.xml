@@ -65,7 +65,7 @@
     	A error occurred during uploading the project.
     </string>
     <string name="success_project_upload">
-    	A error occurred during uploading the project.
+    	Project upload successful.
     </string>
     
     <!-- Website URLs -->

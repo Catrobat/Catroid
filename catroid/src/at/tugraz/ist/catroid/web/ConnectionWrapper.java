@@ -130,8 +130,11 @@ public class ConnectionWrapper {
 	
 	private static MultiPartFormOutputStream buildPost(String urlstring, HashMap<String, String> post_values) 
 							throws IOException {
-		URL                 url;
-	    
+		if(post_values == null)
+			post_values = new HashMap<String, String>();
+		
+		
+		URL url;
 	    url = new URL(urlstring);
 	    System.out.println("url: "+urlstring);
 

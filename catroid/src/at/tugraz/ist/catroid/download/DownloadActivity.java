@@ -22,9 +22,9 @@ public class DownloadActivity extends Activity {
 		
 		System.out.println("data: "+data);
 		
-//		new ProjectDownloadTask(this, "http://www.url.com", ConstructionSiteActivity.DEFAULT_ROOT+"/downloadedProject",
-//					ConstructionSiteActivity.TMP_PATH).execute();
-//		
+		new ProjectDownloadTask(this, data, ConstructionSiteActivity.DEFAULT_ROOT+"/downloadedProject/",
+					ConstructionSiteActivity.TMP_PATH+"/down.zip").execute();
+		
 		
 	}
 }
