@@ -77,7 +77,7 @@ public class SpritesDialog extends Dialog implements Observer
 		
 		mToolboxLayout = (RelativeLayout) findViewById(R.id.toolboxsprites_layout);
 		
-		mContentArrayList = mContentManager.getAllContentNameList();
+		mContentArrayList = mContentManager.getAllSpriteNameList();
 		
 		mMainListView = (ListView) findViewById(R.id.spritesListView);
 		

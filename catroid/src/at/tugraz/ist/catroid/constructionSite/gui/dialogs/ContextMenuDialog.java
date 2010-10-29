@@ -121,8 +121,8 @@ public class ContextMenuDialog extends Dialog {
 		mDeleteButton.setOnClickListener(new Button.OnClickListener() {
 
 			public void onClick(View v) {
-				ImageContainer.getInstance().deleteImage(mContentManager.getCurrentSpriteList().get(mPositionOfView).get(BrickDefine.BRICK_VALUE));
-				ImageContainer.getInstance().deleteImage(mContentManager.getCurrentSpriteList().get(mPositionOfView).get(BrickDefine.BRICK_VALUE_1));
+				ImageContainer.getInstance().deleteImage(mContentManager.getCurrentSpriteCommandList().get(mPositionOfView).get(BrickDefine.BRICK_VALUE));
+				ImageContainer.getInstance().deleteImage(mContentManager.getCurrentSpriteCommandList().get(mPositionOfView).get(BrickDefine.BRICK_VALUE_1));
 				mContentManager.removeBrick(mPositionOfView);
 
 				cancel();

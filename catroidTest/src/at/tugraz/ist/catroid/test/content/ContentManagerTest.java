@@ -26,7 +26,7 @@ public class ContentManagerTest extends AndroidTestCase {
 	private ArrayList<String> mAllContentNameList;
 	
 	
-	private Context mCtx;
+	private Context mContext;
 	private String FILENAME = "cmanagerfile.spf";
 	
 	
@@ -38,8 +38,8 @@ public class ContentManagerTest extends AndroidTestCase {
 		mAllContentNameList = new ArrayList<String>();
 		
 		try {
-			mCtx = getContext().createPackageContext("at.tugraz.ist.catroid", Context.CONTEXT_IGNORE_SECURITY);
-			mContentManager = new ContentManager(mCtx);	
+			mContext = getContext().createPackageContext("at.tugraz.ist.catroid", Context.CONTEXT_IGNORE_SECURITY);
+			mContentManager = new ContentManager(mContext);	
 		} catch (NameNotFoundException e) {
 			assertFalse(true);
 		}
@@ -73,23 +73,23 @@ public class ContentManagerTest extends AndroidTestCase {
         mCurrentSpriteList.add(map);
 	}
 
-	public void testClear()
+	public void testResetCurrentSpriteCommandList()
 	{
-		mCurrentSpriteList = mContentManager.getCurrentSpriteList();
+		mCurrentSpriteList = mContentManager.getCurrentSpriteCommandList();
 		addTestDataToContentArrayList();
         mContentManager.resetContent();
 
-        assertTrue(mContentManager.getCurrentSpriteList() == null);
+        assertTrue(mContentManager.getCurrentSpriteCommandList() == null);
 	}
 
 	public void testAddSprite(){
 		
 		mCurrentSpriteList = new ArrayList<HashMap<String,String>>();
-        mContentManager.loadAllContentNameList(); //quick fix: before that stage was not in mAllContentArrayList, but in normal execution it works correctly
+        mContentManager.loadAllSpriteNameList(); //quick fix: before that stage was not in mAllContentArrayList, but in normal execution it works correctly
 		
         mContentManager.addSprite(new Pair<String, ArrayList<HashMap<String,String>>>("FirstSprite", mCurrentSpriteList));     
-        mAllContentNameList = mContentManager.getAllContentNameList();
-        mAllContentArrayList = mContentManager.getAllContentArrayList();
+        mAllContentNameList = mContentManager.getAllSpriteNameList();
+        mAllContentArrayList = mContentManager.getAllSpriteCommandList();
         
         assertEquals(mAllContentNameList.size(), 2);
         assertEquals(mAllContentArrayList.get(1).second, mCurrentSpriteList);
@@ -100,11 +100,11 @@ public class ContentManagerTest extends AndroidTestCase {
 		mCurrentSpriteList = new ArrayList<HashMap<String,String>>();    
         mContentManager.addSprite(new Pair<String, ArrayList<HashMap<String,String>>>("FirstSprite", mCurrentSpriteList));
         
-        assertEquals(mCurrentSpriteList, mContentManager.getCurrentSpriteList());
+        assertEquals(mCurrentSpriteList, mContentManager.getCurrentSpriteCommandList());
 	}
 	
 	public void testRemoveBrick(){
-		mCurrentSpriteList = mContentManager.getCurrentSpriteList();
+		mCurrentSpriteList = mContentManager.getCurrentSpriteCommandList();
 		addTestDataToContentArrayList();
 		int size = mCurrentSpriteList.size();	
         mContentManager.removeBrick(0);
@@ -114,7 +114,7 @@ public class ContentManagerTest extends AndroidTestCase {
 	}
 	
 	public void testAddBrick(){
-		mCurrentSpriteList = mContentManager.getCurrentSpriteList();
+		mCurrentSpriteList = mContentManager.getCurrentSpriteCommandList();
 		addTestDataToContentArrayList();
 		int size = mCurrentSpriteList.size();	
 		
@@ -153,8 +153,8 @@ public class ContentManagerTest extends AndroidTestCase {
         mContentManager.addBrick(createSingleTestBrick());
         mContentManager.addBrick(createSingleTestBrick());
         
-        assertEquals(mContentManager.getIdCounter(), 6);
-	    assertEquals(mContentManager.getCurrentSpriteList().get(2).get(BrickDefine.BRICK_ID), "5");
+        assertEquals(mContentManager.getBrickIdCounter(), 6);
+	    assertEquals(mContentManager.getCurrentSpriteCommandList().get(2).get(BrickDefine.BRICK_ID), "5");
 	}
 	
 	///////////////////////////////
@@ -170,7 +170,7 @@ public class ContentManagerTest extends AndroidTestCase {
               * This is done for security-reasons.
               * We chose MODE_WORLD_READABLE, because
               *  we have nothing to hide in our file */ 
-             FileOutputStream fOut = filesystem.createOrOpenFileOutput(Utils.concatPaths("/sdcard/",FILENAME),mCtx);
+             FileOutputStream fOut = filesystem.createOrOpenFileOutput(Utils.concatPaths("/sdcard/",FILENAME),mContext);
              DataOutputStream ps = new DataOutputStream(fOut);
          
              // Write the string to the file
@@ -185,7 +185,7 @@ public class ContentManagerTest extends AndroidTestCase {
 		 //load content that was saved before in file
 		 mContentManager.loadContent(Utils.concatPaths("/sdcard/",FILENAME));
 		 //check if the content is the same as written to file
-		 mCurrentSpriteList = mContentManager.getCurrentSpriteList();
+		 mCurrentSpriteList = mContentManager.getCurrentSpriteCommandList();
 		 assertEquals(mCurrentSpriteList.get(0).get(BrickDefine.BRICK_TYPE), String.valueOf(BrickDefine.SET_BACKGROUND));
 		 assertEquals(mCurrentSpriteList.get(1).get(BrickDefine.BRICK_TYPE), String.valueOf(BrickDefine.WAIT));
 		 assertEquals(mCurrentSpriteList.get(2).get(BrickDefine.BRICK_TYPE), String.valueOf(BrickDefine.PLAY_SOUND));
@@ -200,21 +200,21 @@ public class ContentManagerTest extends AndroidTestCase {
 		} catch (IOException e) {
 		}
         mContentManager.saveContent(testFile.getAbsolutePath());
-        mCurrentSpriteList = mContentManager.getCurrentSpriteList();
-        mContentManager = new ContentManager(mCtx); 
+        mCurrentSpriteList = mContentManager.getCurrentSpriteCommandList();
+        mContentManager = new ContentManager(mContext); 
         mContentManager.loadContent(Utils.concatPaths("/sdcard/",FILENAME));
-        assertEquals(mCurrentSpriteList, mContentManager.getCurrentSpriteList());
+        assertEquals(mCurrentSpriteList, mContentManager.getCurrentSpriteCommandList());
 	}
 	
 	public void testReferences(){
-		ArrayList<String> nameList = mContentManager.getAllContentNameList();
+		ArrayList<String> nameList = mContentManager.getAllSpriteNameList();
 		
-		mContentManager.loadAllContentNameList();
-		ArrayList<String> newNameList = mContentManager.getAllContentNameList();
+		mContentManager.loadAllSpriteNameList();
+		ArrayList<String> newNameList = mContentManager.getAllSpriteNameList();
 		assertEquals(nameList, newNameList);
 		
 		mContentManager.resetContent();
-		newNameList = mContentManager.getAllContentNameList();
+		newNameList = mContentManager.getAllSpriteNameList();
 		assertEquals(nameList, newNameList);
 		
 		Pair<String, ArrayList<HashMap<String, String>>> sprite = new Pair<String, ArrayList<HashMap<String, String>>>("sprite", new ArrayList<HashMap<String,String>>());

@@ -72,7 +72,7 @@ public class SpriteTest extends ActivityInstrumentationTestCase2<ConstructionSit
 		solo.clearEditText(0);
 		solo.enterText(0, "1.3");
 		// TODO: Does not run on HTC Desire; it needs an additional goBack() in order to close the soft keyboard 
-		// solo.goBack();
+		 solo.goBack();
 		solo.clickOnButton(0);
 	}
 
@@ -132,11 +132,11 @@ public class SpriteTest extends ActivityInstrumentationTestCase2<ConstructionSit
 		solo.clickOnText(getActivity().getString(R.string.wait_main_adapter));
 		
 		solo.clickOnButton(getActivity().getString(R.string.toolbar));
-		solo.clickOnText(getActivity().getString(R.string.scaleCustome));
-		
-		solo.clickOnButton(getActivity().getString(R.string.toolbar));
 		solo.clickOnText(getActivity().getString(R.string.goto_main_adapter));
 		
+		solo.clickOnButton(getActivity().getString(R.string.toolbar));
+		solo.clickOnText(getActivity().getString(R.string.scaleCustome));
+			
 		solo.clickOnButton(getActivity().getString(R.string.toolbar));
 		solo.clickOnText(getActivity().getString(R.string.go_back_main_adapter));
 		
@@ -146,19 +146,20 @@ public class SpriteTest extends ActivityInstrumentationTestCase2<ConstructionSit
 		
 		typeInDecimalNumber(1);
 		number = solo.getEditText(1).getEditableText().toString();
-		assertTrue("Found an integer value in scale brick.", !number.contains("."));
+		assertTrue("Found an signed value in goto brick x.", number.contains("."));
 		
 		typeInDecimalNumber(2);
 		number = solo.getEditText(2).getEditableText().toString();
-		assertTrue("Found an signed value in goto brick x.", number.contains("."));
+		assertTrue("Found an signed value in goto brick y.", number.contains("."));
 		
 		typeInDecimalNumber(3);
 		number = solo.getEditText(3).getEditableText().toString();
-		assertTrue("Found an signed value in goto brick y.", number.contains("."));
+		assertTrue("Found an integer value in scale brick.", !number.contains("."));
 		
 		typeInDecimalNumber(4);
 		number = solo.getEditText(4).getEditableText().toString();
 		assertTrue("Found an integer value in goto brick y.", !number.contains("."));
+
 	}
 	
 	@Smoke
