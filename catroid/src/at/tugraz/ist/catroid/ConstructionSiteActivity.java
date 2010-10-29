@@ -121,13 +121,13 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			mContentManager.setObserver(this);
 
 			mConstructionListView = (ListView) findViewById(R.id.MainListView);
-			mListViewAdapter = new ConstructionSiteListViewAdapter(this, mContentManager.getCurrentSpriteList(), mConstructionListView,
+			mListViewAdapter = new ConstructionSiteListViewAdapter(this, mContentManager.getCurrentSpriteCommandList(), mConstructionListView,
 					ImageContainer.getInstance());
 			mConstructionListView.setAdapter(mListViewAdapter);
 			mConstructionListView.setOnItemLongClickListener(this);
 
 			mContructionGallery = (Gallery) findViewById(R.id.ConstructionSiteGallery);
-			mGalleryAdapter = new ConstructionSiteGalleryAdapter(this, mContentManager.getContentGalleryList(), ImageContainer.getInstance());
+			mGalleryAdapter = new ConstructionSiteGalleryAdapter(this, mContentManager.getCurrentSpriteCostumeNameList(), ImageContainer.getInstance());
 			mContructionGallery.setAdapter(mGalleryAdapter);
 
 			mToolboxButton = (Button) this.findViewById(R.id.toolbar_button);
@@ -156,7 +156,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if ((requestCode == MediaFileLoader.GALLERY_INTENT_CODE) && (data != null)) {
 
-			HashMap<String, String> content = mContentManager.getCurrentSpriteList().get(LAST_SELECTED_ELEMENT_POSITION);
+			HashMap<String, String> content = mContentManager.getCurrentSpriteCommandList().get(LAST_SELECTED_ELEMENT_POSITION);
 			Uri u2 = Uri.parse(data.getDataString());
 			String[] projection = { MediaStore.Images.ImageColumns.DATA, MediaStore.Images.ImageColumns.DISPLAY_NAME };
 			Cursor c = managedQuery(u2, projection, null, null, null);
@@ -171,11 +171,11 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 				content.put(BrickDefine.BRICK_VALUE_1, imageThumbnailName);
 				content.put(BrickDefine.BRICK_NAME, c.getString(1));
 
-				int indexOf = mContentManager.getContentGalleryList().indexOf(oldThumbName);
-				if (mContentManager.getContentGalleryList().remove(oldThumbName))
-					mContentManager.getContentGalleryList().add(indexOf, imageThumbnailName);
+				int indexOf = mContentManager.getCurrentSpriteCostumeNameList().indexOf(oldThumbName);
+				if (mContentManager.getCurrentSpriteCostumeNameList().remove(oldThumbName))
+					mContentManager.getCurrentSpriteCostumeNameList().add(indexOf, imageThumbnailName);
 				else
-					mContentManager.getContentGalleryList().add(imageThumbnailName);
+					mContentManager.getCurrentSpriteCostumeNameList().add(imageThumbnailName);
 
 				// remove old files
 				ImageContainer.getInstance().deleteImage(oldThumbName);
@@ -286,7 +286,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	}
 
 	public void updateViews() {
-		mListViewAdapter.notifyDataSetChanged(mContentManager.getCurrentSpriteList());
+		mListViewAdapter.notifyDataSetChanged(mContentManager.getCurrentSpriteCommandList());
 		mGalleryAdapter.notifyDataSetChanged();
 
 		mSpritesToolboxButton.setText(mContentManager.getCurrentSpriteName());

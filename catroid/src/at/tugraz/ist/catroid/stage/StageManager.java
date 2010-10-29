@@ -51,8 +51,8 @@ public class StageManager {
 		mContentManager.loadContent(projectFile);
 
 		mSpritesList = new ArrayList<Sprite>();
-		for (int i = 0; i < mContentManager.getAllContentArrayList().size(); i++) {
-			mSpritesList.add(new Sprite(mContentManager.getAllContentArrayList().get(i), this));
+		for (int i = 0; i < mContentManager.getAllSpriteCommandList().size(); i++) {
+			mSpritesList.add(new Sprite(mContentManager.getAllSpriteCommandList().get(i), this));
 		}
 		
 		// set stage z coordinate to minimum
