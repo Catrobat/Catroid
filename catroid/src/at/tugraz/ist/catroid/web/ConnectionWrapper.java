@@ -63,7 +63,7 @@ public class ConnectionWrapper {
 	 * @return							the response of the call
 	 * @exception APIException is thrown if an error occurs
 	 */
-	public static InputStream doHttpPostFileUpload(String urlstring, HashMap<String, String> post_values, 
+	public static HttpURLConnection doHttpPostFileUpload(String urlstring, HashMap<String, String> post_values, 
 					String filetag, String file_path) throws IOException {
 		
 		MultiPartFormOutputStream out = buildPost(urlstring, post_values);
@@ -80,7 +80,7 @@ public class ConnectionWrapper {
 		  
 	    out.close();
 	    
-	    return urlConn.getInputStream();
+	    return urlConn;
 		
 	}
 	

@@ -4,9 +4,15 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.util.HashMap;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
@@ -15,15 +21,21 @@ import at.tugraz.ist.catroid.web.ConnectionWrapper;
 import at.tugraz.ist.catroid.web.UtilZip;
 
 public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
+	private static final String FILE_UPLOAD_TAG = "upload";
+	private static final String PROJECT_NAME_TAG = "projectTitle";
+	private static final String FILE_UPLOAD_URL = "http://catroidwebtest.ist.tugraz.at/catroid/upload/upload.http";
+	
 	private Context mContext;
 	private String mProjectPath;
 	private String mZipFile;
 	private ProgressDialog mProgressdialog;
+	private String mProjectName;
 	
-	public ProjectUploadTask(Context context, String projectPath, String zipFile) {
+	public ProjectUploadTask(Context context, String projectName, String projectPath, String zipFile) {
 		mContext = context;
 		mProjectPath = projectPath;
 		mZipFile = zipFile;
+		mProjectName = projectName;
 	}
 	
 	@Override
@@ -65,7 +77,14 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 				file.delete();
 				return false;
 			}
-			InputStream is = ConnectionWrapper.doHttpPostFileUpload("", null, "filetag", mZipFile);
+			
+			HashMap<String, String> hm = new HashMap<String, String>();
+			hm.put(PROJECT_NAME_TAG, mProjectName);
+			HttpURLConnection conn = ConnectionWrapper.doHttpPostFileUpload(FILE_UPLOAD_URL, hm, FILE_UPLOAD_TAG, mZipFile);
+			
+			// respone code != 2xx -> error
+			if(conn.getResponseCode() / 100 != 2)
+				return false;
 			
 			file.delete();
 		} catch (IOException e) {
@@ -84,12 +103,20 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 			mProgressdialog.dismiss();
 		
 		if(!result) {
-			Toast.makeText(mContext, R.string.error_project_upload, Toast.LENGTH_SHORT).show();
+			showDialog(R.string.error_project_upload); 
 			return;
 		}
 		
-		Toast.makeText(mContext, R.string.success_project_upload, Toast.LENGTH_SHORT).show();
+		showDialog(R.string.success_project_upload);
 		
 	}
+	
+	private void showDialog(int messageId) {
+		new Builder(mContext)
+			.setMessage(messageId)
+			.setPositiveButton("OK", null)
+			.show();
+	}
 
+	
 }

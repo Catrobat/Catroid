@@ -115,8 +115,6 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 			mPreferences = this.getPreferences(Activity.MODE_PRIVATE);
 
-			setRoot(mPreferences.getString(PREF_ROOT, DEFAULT_ROOT), mPreferences.getString(PREF_FILE_SPF, DEFAULT_FILE));
-
 			mContentManager = new ContentManager(this);
 			mContentManager.setObserver(this);
 
@@ -136,6 +134,16 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			mSpritesToolboxButton = (Button) this.findViewById(R.id.sprites_button);
 			mSpritesToolboxButton.setOnClickListener(this);
 
+			String rootPath = mPreferences.getString(PREF_ROOT, DEFAULT_ROOT);
+			String spfFile = mPreferences.getString(PREF_FILE_SPF, DEFAULT_FILE);
+			
+			if(getIntent().hasExtra(INTENT_EXTRA_ROOT) && 
+						getIntent().hasExtra(INTENT_EXTRA_SPF_FILE_NAME)) {
+				rootPath = getIntent().getStringExtra(INTENT_EXTRA_ROOT);
+				spfFile = getIntent().getStringExtra(INTENT_EXTRA_SPF_FILE_NAME);
+			}
+			setRoot(rootPath, spfFile);
+			
 			// Testing
 			// mContentManager.testSet();
 			// mContentManager.saveContent();
@@ -270,11 +278,12 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			mContentManager.saveContent(SPF_FILE);
 			showDialog(CHANGE_PROJECT_NAME_DIALOG);
 			return true;
-//		case R.id.uploadProject:
-//			mContentManager.saveContent(SPF_FILE);
-//			//showDialog(CHANGE_PROJECT_NAME_DIALOG);
-//			//new ProjectUploadTask(this, ROOT, TMP_PATH+"/tmp.zip").execute(); 
-//			return true;
+		case R.id.uploadProject:
+			mContentManager.saveContent(SPF_FILE);
+			//showDialog(CHANGE_PROJECT_NAME_DIALOG);
+			String projectName = SPF_FILE.substring(0, SPF_FILE.length()-DEFAULT_FILE_ENDING.length());
+			new ProjectUploadTask(this, projectName,ROOT, TMP_PATH+"/tmp.zip").execute();
+			return true;
 			
 		case R.id.aboutCatroid:
 			Utils.displayWebsite(this, Uri.parse(getString(R.string.about_catroid_url)));

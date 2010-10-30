@@ -7,5 +7,5 @@
 <item android:id="@+id/load" android:title="@string/load"></item>
 <item android:id="@+id/changeProject" android:title="@string/change_project_name_main"></item>
 <item android:id="@+id/aboutCatroid" android:title="@string/about"></item>
-<!-- <item android:id="@+id/uploadProject" android:title="@string/upload_project"></item>  -->
+<item android:id="@+id/uploadProject" android:title="@string/upload_project"></item>
 </menu>
