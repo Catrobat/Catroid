@@ -29,44 +29,42 @@ public class ZipTest extends AndroidTestCase {
 	}
 
 	public void testZipUnzip() throws Throwable {
-		File dirPath = new File(ConstructionSiteActivity.DEFAULT_ROOT);
-		String[] pathes = dirPath.list(new FilenameFilter() {
-			public boolean accept(File dir, String filename) {
-				if(filename.endsWith(ConstructionSiteActivity.DEFAULT_FILE_ENDING) || filename.equalsIgnoreCase("images")
-						|| filename.equalsIgnoreCase("sounds"))
-					return true;
-				return false;
-			}
-		});
-		if(pathes == null) {
-			assertFalse("no default project", true);
-			return;
-		}
-		for(int i=0;i<pathes.length;++i) {
-			pathes[i] = dirPath +"/"+ pathes[i];
-		}	
+				
+		String pathToTest = ConstructionSiteActivity.TMP_PATH+"/test1/";
 		
-		String zipfile = ConstructionSiteActivity.TMP_PATH+"/testzip.zip";
-		File file = new File(zipfile);
-    	if(!file.exists()) {
-    		file.getParentFile().mkdirs();
-    		file.createNewFile();
-    	}
+		File testfile = new File(pathToTest+"test2/testfile.txt");
+		testfile.getParentFile().mkdirs();
+		testfile.createNewFile();
+		
+		String[] pathes = {pathToTest};
+			
+		String zipFileName = ConstructionSiteActivity.TMP_PATH+"/testzip.zip";
+		File zipFile = new File(zipFileName);
+    	if(zipFile.exists()) 
+    		zipFile.delete();
     	
-		if (!UtilZip.writeToZipFile(pathes, zipfile)) {
-			file.delete();
+		zipFile.getParentFile().mkdirs();
+		zipFile.createNewFile();
+    	
+		if (!UtilZip.writeToZipFile(pathes, zipFileName)) {
+			zipFile.delete();
 			assertFalse("zip failed", true);
 			return;
 		}
+		testfile.delete();
+		testfile.getParentFile().delete();
 		
-		if (!UtilZip.unZipFile(zipfile, ConstructionSiteActivity.TMP_PATH+"/")) {
-			file.delete();
-			assertFalse("unzip failed", true);
-			return;
+		if (!UtilZip.unZipFile(zipFileName, ConstructionSiteActivity.TMP_PATH+"/")) {
+			zipFile.delete();
+			assertFalse("unzip failed", true);  
+			return;     
 		}
 		
-		//file.delete();
-		assertTrue(true);
+		File checkfile = new File(pathToTest+"/test2/testfile.txt");
+		
+		assertTrue("File was not recreated from zip.", checkfile.exists());
+		
+		zipFile.delete();
 		
 	}
 
