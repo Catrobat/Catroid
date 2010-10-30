@@ -12,61 +12,61 @@ import java.util.zip.ZipOutputStream;
 
 public class UtilZip {
 	private static final int BUFFER = 2048;
+	private static final int NO_COMPRESSION = 0;
+	
+	private static ZipOutputStream mZipOutputStream;
 	
 	public static boolean writeToZipFile(String[] file_pathes, String zipfile) {
-	    // Default to maximum compression
-	    int level = 9;
-	    int start = 0;
-	    System.out.println("length: "+ file_pathes.length);
+	    	    
 	    try {
-		    FileOutputStream fout = new FileOutputStream(zipfile);
-		    ZipOutputStream zout = new ZipOutputStream(fout);
-		    zout.setLevel(level);
-		    for (int i = start; i < file_pathes.length; i++) {
-		      File f = new File(file_pathes[i]);
-		      if(f.isDirectory())
-		    	  writeDirToZip(f, zout, f.getName()+"/");
+		    FileOutputStream fileOutputStream = new FileOutputStream(zipfile);
+		    mZipOutputStream = new ZipOutputStream(fileOutputStream);
+		    mZipOutputStream.setLevel(NO_COMPRESSION);
+		    for (int i = 0; i < file_pathes.length; i++) {
+		      File file = new File(file_pathes[i]);
+		      if(file.isDirectory())
+		    	  writeDirToZip(file, file.getName()+"/");
 		      else
-		    	  writeFileToZip(f, zout, "");
+		    	  writeFileToZip(file, "");
 		      
 		    }
-		    zout.close();
+		    mZipOutputStream.close();
 		    return true;
 	    } catch(IOException e) {
 	    	e.printStackTrace();
-	    } catch(NumberFormatException e) {
-  		  e.printStackTrace();
-	  }
+	    }
+	    
 	  return false;
 	}
 	
-	private static void writeDirToZip(File zipDir, ZipOutputStream zout, String zipEntryPath) throws IOException {
-		String[] dirList = zipDir.list(); 
+	private static void writeDirToZip(File dir, String zipEntryPath) 
+			throws IOException {
+		String[] dirList = dir.list(); 
         
         for(int i=0; i<dirList.length; i++) { 
-            File f = new File(zipDir, dirList[i]); 
+            File f = new File(dir, dirList[i]); 
 	        if(f.isDirectory()) { 
-	            writeDirToZip(f, zout, zipEntryPath+f.getName()+"/"); 
+	            writeDirToZip(f, zipEntryPath+f.getName()+"/"); 
 	            continue; 
 	        }
-	        writeFileToZip(f, zout, zipEntryPath);
+	        writeFileToZip(f, zipEntryPath);
     
         } 
 	}
 	
-	private static void writeFileToZip(File file, ZipOutputStream zout, String zipEntryPath) throws IOException {
+	private static void writeFileToZip(File file, String zipEntryPath) throws IOException {
 		byte[] readBuffer = new byte[BUFFER]; 
         int bytesIn = 0; 
         
 		FileInputStream fis = new FileInputStream(file); 
 		ZipEntry anEntry = new ZipEntry(zipEntryPath+file.getName()); 
-		zout.putNextEntry(anEntry); 
+		mZipOutputStream.putNextEntry(anEntry); 
 
         while((bytesIn = fis.read(readBuffer)) != -1) 
         { 
-            zout.write(readBuffer, 0, bytesIn); 
+        	mZipOutputStream.write(readBuffer, 0, bytesIn); 
         } 
-        zout.closeEntry();
+        mZipOutputStream.closeEntry();
         fis.close(); 
 	}
 	
@@ -79,16 +79,16 @@ public class UtilZip {
 		    BufferedOutputStream dest = null;
 		    byte data[] = new byte[BUFFER];
 		    while ((ze = zin.getNextEntry()) != null) {
-		      //System.out.println("unzip: "+ze.getName());
+		      
 		      if(ze.isDirectory()) {
-		    	  File f = new File(outdir+ze.getName());
+		    	  File f = new File(outdir+ze.getName());   
 		    	  f.mkdir();
 		    	  zin.closeEntry();
 		    	  continue;
 		      }
-		      File f = new File(outdir+ze.getName());
+		      File f = new File(outdir+ze.getName());  
 		      f.getParentFile().mkdirs();
-		      FileOutputStream fout = new FileOutputStream(f);
+		      FileOutputStream fout = new FileOutputStream(f); 
 		      
 		      int count;
 	          dest = new BufferedOutputStream(fout, BUFFER);
@@ -96,7 +96,7 @@ public class UtilZip {
 	            != -1) {
 	             dest.write(data, 0, count);
 	          }
-	          dest.flush();
+	          dest.flush();     
 	          dest.close();     
 	            
 		    }

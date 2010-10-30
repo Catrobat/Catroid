@@ -67,6 +67,12 @@
     <string name="success_project_upload">
     	Project upload successful.
     </string>
+    <string name="error_project_download">
+    	A error occurred during loading down the project.
+    </string>
+    <string name="success_project_download">
+    	Project download successful.
+    </string>
     
     <!-- Website URLs -->
     <!--  TODO: set proper URLs -->

@@ -11,20 +11,32 @@ import at.tugraz.ist.catroid.web.ConnectionWrapper;
 import at.tugraz.ist.catroid.web.UtilZip;
 
 public class DownloadActivity extends Activity {
-
+	private static final String PROJECTNAME_TAG = "fname=";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.activity_download);
 		
-		String data = getIntent().getDataString();
+		String zipUrl = getIntent().getDataString();
 		
-		System.out.println("data: "+data);
+		System.out.println("data: "+zipUrl);
+		if(zipUrl == null || zipUrl.length() <= 0)
+			return;
 		
-		new ProjectDownloadTask(this, data, ConstructionSiteActivity.DEFAULT_ROOT+"/downloadedProject/",
+		String projectName = getProjectName(zipUrl);
+		
+		new ProjectDownloadTask(this, zipUrl, projectName,
 					ConstructionSiteActivity.TMP_PATH+"/down.zip").execute();
 		
 		
 	}
+	
+	private String getProjectName(String zipUrl) {
+		int projectNameIndex = zipUrl.lastIndexOf(PROJECTNAME_TAG)+PROJECTNAME_TAG.length();
+		
+		return zipUrl.substring(projectNameIndex);
+	}
+	
 }

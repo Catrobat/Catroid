@@ -60,4 +60,17 @@
     <string name="error_project_exists">
     	Es gibt bereits ein Projekt mit dem eingegebenen Name.\nBitte einen anderen Namen eingeben.
     </string>
+    
+     <string name="error_project_upload">
+    	Beim upload des Projektes ist ein Fehler aufgetreten.
+    </string>
+    <string name="success_project_upload">
+    	Upload erfolgreich.
+    </string>
+    <string name="error_project_download">
+    	Beim download des Projektes ist ein Fehler aufgetreten.
+    </string>
+    <string name="success_project_download">
+    	Download erfolgreich.
+    </string>
 </resources>
