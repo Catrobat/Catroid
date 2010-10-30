@@ -51,12 +51,25 @@ public class MenuTest extends ActivityInstrumentationTestCase2<ConstructionSiteA
 			getActivity().getString(R.string.new_project_main),
 			getActivity().getString(R.string.load),
 			getActivity().getString(R.string.change_project_name_main),
-			getActivity().getString(R.string.about)
+			//getActivity().getString(R.string.about)
 		};
 		
 		for(String menuItem: menuItems) {
-			assertTrue("Menu item " + menuItem + " was found", solo.searchText(menuItem));
+			assertTrue("Menu item " + menuItem + " was not found", solo.searchText(menuItem));
 		}
+		
+		solo.sendKey(Solo.MENU);
+		// click the more button
+		solo.pressMenuItem(6); 
+		
+		String[] moreMenueItems = {
+			getActivity().getString(R.string.about),
+			getActivity().getString(R.string.upload_project)	
+		};
+		for(String menuItem: moreMenueItems) {
+			assertTrue("More Menu item " + menuItem + " was not found", solo.searchText(menuItem));
+		}
+		
 	}
 
 	private int getMenuItemCount() {
