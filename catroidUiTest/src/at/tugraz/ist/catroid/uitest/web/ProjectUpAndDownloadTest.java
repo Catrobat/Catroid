@@ -1,17 +1,20 @@
 package at.tugraz.ist.catroid.uitest.web;
 
+import java.io.File;
+
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.download.tasks.ProjectDownloadTask;
+import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
 
 /**
  * 
- * @author Thomas Holzmann
+ * @author Daniel Burtscher
  *
  */
 public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<ConstructionSiteActivity>{
@@ -36,26 +39,15 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<C
 		super.tearDown();
 	}
 	
-	@Smoke
-	public void testUpProject() throws InterruptedException {
-		String projectName = "testUploadProject"+System.currentTimeMillis();
-		
-		solo.clickOnMenuItem(getActivity().getString(R.string.new_project_main));
-		solo.clearEditText(0);
-		solo.enterText(0, projectName);  
-		solo.clickOnButton(0);  
-		// now there should be an empty new project
+	public void testUploadProject() throws InterruptedException {
 		
 		solo.clickOnMenuItem(getActivity().getString(R.string.upload_project), true); 
-		
 		Thread.sleep(8000);
 		
-		assertTrue("upload failed.", 
+		assertTrue("Upload failed. Internet connection?", 
 					solo.searchText(getActivity().getString(R.string.success_project_upload)));  
-		
+	
 		solo.clickOnButton(0);
-		// TODO: delete and download project
-		// TODO: check if downloaded project can be opened
 		
 	}
 	
