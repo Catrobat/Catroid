@@ -17,8 +17,8 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.utils.UtilZip;
 import at.tugraz.ist.catroid.web.ConnectionWrapper;
-import at.tugraz.ist.catroid.web.UtilZip;
 
 public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 	private static final String FILE_UPLOAD_TAG = "upload";
@@ -30,6 +30,7 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 	private String mZipFile;
 	private ProgressDialog mProgressdialog;
 	private String mProjectName;
+	private String resultString;
 	
 	public ProjectUploadTask(Context context, String projectName, String projectPath, String zipFile) {
 		mContext = context;
@@ -41,6 +42,8 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
+		if(mContext == null)
+			return;
 		String title = mContext.getString(R.string.please_wait);
 		String message = mContext.getString(R.string.loading);
 		mProgressdialog = ProgressDialog.show(mContext, title,
@@ -86,6 +89,9 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 			if(conn.getResponseCode() / 100 != 2)
 				return false;
 			
+			InputStream resultStream = conn.getInputStream();
+			resultString = ConnectionWrapper.getString(resultStream);
+			
 			file.delete();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -112,10 +118,16 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 	}
 	
 	private void showDialog(int messageId) {
+		if(mContext == null)
+			return;
 		new Builder(mContext)
 			.setMessage(messageId)
 			.setPositiveButton("OK", null)
 			.show();
+	}
+	
+	public String getResultString() {
+		return resultString;
 	}
 
 	
