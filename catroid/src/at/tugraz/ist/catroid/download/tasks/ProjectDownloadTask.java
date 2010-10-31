@@ -19,8 +19,8 @@ import android.preference.PreferenceManager;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.utils.UtilZip;
 import at.tugraz.ist.catroid.web.ConnectionWrapper;
-import at.tugraz.ist.catroid.web.UtilZip;
 
 public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implements OnClickListener {
 	private Activity mActivity;
@@ -41,6 +41,8 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
+		if(mActivity == null)
+			return;
 		String title = mActivity.getString(R.string.please_wait);
 		String message = mActivity.getString(R.string.loading);
 		mProgressdialog = ProgressDialog.show(mActivity, title,
@@ -52,7 +54,7 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 		try {
 			ConnectionWrapper.doHttpPostFileDownload(mUrl, null, mZipFile);
 				
-			result = UtilZip.unZipFile(mZipFile, ConstructionSiteActivity.DEFAULT_ROOT + "/"+mProjectName+"/");
+			result = UtilZip.unZipFile(mZipFile, ConstructionSiteActivity.DEFAULT_ROOT + "/"+mProjectName+"/");  
 			return result;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -74,6 +76,8 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 			return;
 		}
 		
+		if(mActivity == null)
+			return;
 		Toast.makeText(mActivity, R.string.success_project_download, Toast.LENGTH_SHORT).show();
 		
 		Intent intent = new Intent(mActivity, ConstructionSiteActivity.class);
@@ -84,6 +88,8 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 	}
 	
 	private void showDialog(int messageId) {
+		if(mActivity == null)
+			return;
 		new Builder(mActivity)
 			.setMessage(messageId)
 			.setPositiveButton("OK", null)

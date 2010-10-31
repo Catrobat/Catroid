@@ -1,4 +1,4 @@
-package at.tugraz.ist.catroid.web;
+package at.tugraz.ist.catroid.utils;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -104,7 +104,6 @@ public class UtilZip {
 			    
 			return true;
 			} catch(FileNotFoundException e) {
-				System.out.println("readzip exception");
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();

@@ -1,14 +1,10 @@
 package at.tugraz.ist.catroid.download;
 
-import java.io.IOException;
-
 import android.app.Activity;
 import android.os.Bundle;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.download.tasks.ProjectDownloadTask;
-import at.tugraz.ist.catroid.web.ConnectionWrapper;
-import at.tugraz.ist.catroid.web.UtilZip;
 
 public class DownloadActivity extends Activity {
 	private static final String PROJECTNAME_TAG = "fname=";
@@ -28,7 +24,7 @@ public class DownloadActivity extends Activity {
 		String projectName = getProjectName(zipUrl);
 		
 		new ProjectDownloadTask(this, zipUrl, projectName,
-					ConstructionSiteActivity.TMP_PATH+"/down.zip").execute();
+					ConstructionSiteActivity.TMP_PATH+"/down.zip").execute();  
 		
 		
 	}
