@@ -137,6 +137,12 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			String rootPath = mPreferences.getString(PREF_ROOT, DEFAULT_ROOT);
 			String spfFile = mPreferences.getString(PREF_FILE_SPF, DEFAULT_FILE);
 			
+			File rootFile = new File(rootPath);
+			if (!rootFile.exists()) {
+				rootPath = DEFAULT_ROOT;
+				spfFile = DEFAULT_FILE;
+			}
+			
 			if(getIntent().hasExtra(INTENT_EXTRA_ROOT) && 
 						getIntent().hasExtra(INTENT_EXTRA_SPF_FILE_NAME)) {
 				rootPath = getIntent().getStringExtra(INTENT_EXTRA_ROOT);
@@ -280,7 +286,6 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			return true;
 		case R.id.uploadProject:
 			mContentManager.saveContent(SPF_FILE);
-			//showDialog(CHANGE_PROJECT_NAME_DIALOG);
 			String projectName = SPF_FILE.substring(0, SPF_FILE.length()-DEFAULT_FILE_ENDING.length());
 			new ProjectUploadTask(this, projectName,ROOT, TMP_PATH+"/tmp.zip").execute();
 			return true;
@@ -377,9 +382,10 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 
 	public static void setRoot(String root, String file) {
 		File rootFile = new File(root);
-		if (!rootFile.exists())
+		if (!rootFile.exists()) {
 			rootFile.mkdirs();
-		ConstructionSiteActivity.ROOT = rootFile.getPath();
+		}			
+		ROOT = rootFile.getPath();
 		File rootImageFile = new File(Utils.concatPaths(root, "/images"));
 		if (!rootImageFile.exists())
 			rootImageFile.mkdirs();
@@ -390,7 +396,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		ConstructionSiteActivity.ROOT_SOUNDS = rootSoundFile.getPath();
 
 		SPF_FILE = file;
-		File spfFile = new File(Utils.concatPaths(ROOT, SPF_FILE));
+		File spfFile = new File(Utils.concatPaths(root, file));
 		if (!spfFile.exists())
 			try {
 				spfFile.createNewFile();
