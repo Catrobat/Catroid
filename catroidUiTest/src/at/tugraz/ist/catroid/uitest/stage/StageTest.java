@@ -58,7 +58,7 @@ ActivityInstrumentationTestCase2<ConstructionSiteActivity> {
 	
 	@Smoke
 	public void testDemoApplicationLoaded(){
-		//TODO load demo program and look if it's sowing correctly on stage
+		//TODO load demo program and look if it's showing correctly on stage
 //		solo.clickOnMenuItem(getActivity().getString(R.string.construction_site_play));
 //		solo.assertCurrentActivity("Now stage activity is active", "StageActivity");
 //		

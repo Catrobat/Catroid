@@ -1,18 +1,12 @@
 package at.tugraz.ist.catroid.test.web;
 
 import java.io.File;
-import java.io.FilenameFilter;
 
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
 import android.test.AndroidTestCase;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.constructionSite.tasks.ProjectUploadTask;
 import at.tugraz.ist.catroid.download.tasks.ProjectDownloadTask;
-import at.tugraz.ist.catroid.utils.ImageContainer;
 import at.tugraz.ist.catroid.utils.UtilFile;
-import at.tugraz.ist.catroid.utils.UtilZip;
-import at.tugraz.ist.catroid.utils.Utils;
 
 public class UpAndDownloadTest extends AndroidTestCase {
 

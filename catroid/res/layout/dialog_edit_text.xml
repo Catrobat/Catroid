@@ -1,21 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/layoutDialog"
-              android:orientation="vertical"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:padding="10dp"
-              >
-    <EditText android:id="@+id/dialogEditText"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:maxLines="1"
-              android:inputType="number"
-              
-              />
-    <Button   android:id="@+id/dialogEditTextSubmit"
-    		android:text="@string/edit_text_submit"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              />
+	android:id="@+id/layoutDialog" android:orientation="vertical"
+	android:layout_width="wrap_content" android:layout_height="wrap_content"
+	android:padding="10dp">
+	<EditText android:id="@+id/dialogEditText"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:maxLines="1" android:inputType="number" />
+	<Button android:id="@+id/dialogEditTextSubmit" android:text="@string/close"
+		android:layout_width="wrap_content" android:layout_height="wrap_content" />
 </LinearLayout>
