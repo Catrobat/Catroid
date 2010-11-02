@@ -3,11 +3,11 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/catroid"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
-	<classpathentry kind="lib" path="lib/robotium-solo-1.7.1.jar">
+	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="lib" path="lib/robotium-solo-1.8.0.jar">
 		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/catroidUiTest/lib/robotium-solo-1.7.1-javadoc.jar!/"/>
+			<attribute name="javadoc_location" value="jar:platform:/resource/catroidUiTest/lib/robotium-solo-1.8.0-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
