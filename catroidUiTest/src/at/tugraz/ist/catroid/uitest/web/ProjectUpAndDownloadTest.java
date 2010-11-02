@@ -1,14 +1,8 @@
 package at.tugraz.ist.catroid.uitest.web;
 
-import java.io.File;
-
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.suitebuilder.annotation.Smoke;
-import android.widget.ListView;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.download.tasks.ProjectDownloadTask;
-import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
 

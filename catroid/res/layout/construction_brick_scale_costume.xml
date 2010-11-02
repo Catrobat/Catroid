@@ -15,7 +15,7 @@
 			android:layout_centerVertical="true"
 			android:paddingLeft="5dip"
 			android:paddingRight="10dip"
-			android:id="@+id/ScaleCostumeTextView" android:text="@string/procent">
+			android:id="@+id/ScaleCostumeTextView" android:text="@string/percent">
 		 </TextView>
 		
 		<EditText 

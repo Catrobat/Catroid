@@ -164,6 +164,7 @@ public class SpriteTest extends ActivityInstrumentationTestCase2<ConstructionSit
 	
 	@Smoke
 	public void testSelectSound() throws InterruptedException {
+		// TODO: If there are no sounds on the device this test fails. Copy some default sounds to device?
 		addBrick(R.string.play_sound_main_adapter);
 		
 		Thread.sleep(400);
