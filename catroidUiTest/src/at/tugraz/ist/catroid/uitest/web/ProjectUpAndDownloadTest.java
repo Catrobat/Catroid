@@ -47,7 +47,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<C
 		assertTrue("Upload failed. Internet connection?", 
 					solo.searchText(getActivity().getString(R.string.success_project_upload)));  
 	
-		solo.clickOnButton(0);
+		solo.clickOnButton(0);   
 		
 	}
 	

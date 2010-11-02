@@ -1,10 +1,13 @@
 package at.tugraz.ist.catroid.uitest.construction_site;
 
+import java.io.File;
+
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -26,11 +29,14 @@ public class ProjectTest extends ActivityInstrumentationTestCase2<ConstructionSi
 	}
 	
 	public void tearDown() throws Exception {
+		
 		try {	
 			solo.finalize();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
+		File projectRoot = new File(ConstructionSiteActivity.DEFAULT_ROOT + "/testProject/");
+		UtilFile.deleteDirectory(projectRoot);
 		getActivity().finish();
 		super.tearDown();
 	}
