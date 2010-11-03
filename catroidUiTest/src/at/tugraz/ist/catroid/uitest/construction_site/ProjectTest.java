@@ -35,10 +35,12 @@ public class ProjectTest extends ActivityInstrumentationTestCase2<ConstructionSi
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
-		File projectRoot = new File(ConstructionSiteActivity.DEFAULT_ROOT + "/testProject/");
-		UtilFile.deleteDirectory(projectRoot);
+		
 		getActivity().finish();
 		super.tearDown();
+		
+		File projectRoot = new File(ConstructionSiteActivity.DEFAULT_ROOT + "/testProject/");
+		UtilFile.deleteDirectory(projectRoot);
 	}
 	
 	@Smoke
