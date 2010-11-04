@@ -10,7 +10,7 @@ public class ImageEditingTest extends TestCase {
 		// create a 100x100 bitmap
 		Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.RGB_565);
 		
-		Bitmap scaledBitmap = ImageEditing.scaleBitmap(bitmap, 0.5f);
+		Bitmap scaledBitmap = ImageEditing.scaleBitmap(bitmap, 0.5f, false);
 		
 		assertEquals(50, scaledBitmap.getWidth());
 		assertEquals(50, scaledBitmap.getHeight());
