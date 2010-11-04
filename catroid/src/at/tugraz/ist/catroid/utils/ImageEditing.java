@@ -26,7 +26,8 @@ public class ImageEditing {
 		float scaleHeight = (((float)ySize)/bm.getHeight());
 	    matrix.postScale(scaleWidth, scaleHeight);
 		Bitmap newbm = Bitmap.createBitmap(bm, 0, 0,bm.getWidth() ,bm.getHeight() , matrix, true);
-		bm.recycle();
+		if (recycleOldBm)
+			bm.recycle();
 		return newbm;
 	}
 	
