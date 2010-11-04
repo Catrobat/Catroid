@@ -1,5 +1,7 @@
 package at.tugraz.ist.catroid.download;
 
+import java.net.URLDecoder;
+
 import android.app.Activity;
 import android.os.Bundle;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
@@ -31,8 +33,10 @@ public class DownloadActivity extends Activity {
 	
 	private String getProjectName(String zipUrl) {
 		int projectNameIndex = zipUrl.lastIndexOf(PROJECTNAME_TAG)+PROJECTNAME_TAG.length();
+		String projectName =  zipUrl.substring(projectNameIndex);
+		projectName = URLDecoder.decode(projectName);
 		
-		return zipUrl.substring(projectNameIndex);
+		return projectName;
 	}
 	
 }
