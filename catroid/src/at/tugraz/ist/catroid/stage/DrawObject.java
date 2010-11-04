@@ -117,8 +117,8 @@ public class DrawObject {
 				.round(((StageActivity.SCREEN_WIDTH / (2f * mMaxRelCoordinates)) * position.first)
 						+ StageActivity.SCREEN_WIDTH / 2f);
 		int yAbs = Math
-				.round((StageActivity.SCREEN_HEIGHT / (2f * mMaxRelCoordinates))
-						* position.second + StageActivity.SCREEN_HEIGHT / 2f);
+				.round((StageActivity.SCREEN_HEIGHT / 2f)-((StageActivity.SCREEN_HEIGHT / (2f * mMaxRelCoordinates))
+						* position.second));
 		mPositionAbs = new Pair<Integer, Integer>(xAbs, yAbs);
 		setPositionToSpriteCenter();
 		mToDraw = true;
