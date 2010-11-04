@@ -77,7 +77,7 @@ public class CanvasDraw implements IDraw {
 			if (pauseBitmap != null) {
 				Bitmap scaledPauseBitmap = ImageEditing.scaleBitmap(
 						pauseBitmap, ((float) mCanvas.getWidth() / 2f)
-								/ (float) pauseBitmap.getWidth());
+								/ (float) pauseBitmap.getWidth(),false);
 				int posX = mCanvas.getWidth() / 2
 						- scaledPauseBitmap.getWidth() / 2;
 				int posY = mCanvas.getHeight() / 2

@@ -54,7 +54,7 @@ public class DrawObject {
 
 		}
 
-		mBitmap = ImageEditing.scaleBitmap(mBitmap, newWidth, newHeight);
+		mBitmap = ImageEditing.scaleBitmap(mBitmap, newWidth, newHeight, true);
 		mSize = new Pair<Integer, Integer>(newWidth, newHeight);
 
 		setPositionToSpriteCenter();
@@ -75,7 +75,7 @@ public class DrawObject {
 														// errors in set to
 														// center
 			tempBitmap = ImageEditing.scaleBitmap(tempBitmap,
-					backgroundScaleFactor);
+					backgroundScaleFactor, true);
 		}
 		mBitmap = tempBitmap;
 
