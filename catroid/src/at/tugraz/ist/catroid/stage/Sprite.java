@@ -34,13 +34,13 @@ public class Sprite implements Comparable<Sprite> {
 				ArrayList<HashMap<String, String>> frontBlockList = getSublist(blockList, 0, i);
 				ArrayList<HashMap<String, String>> backBlockList = getSublist(blockList, i, blockList.size());
 
-				mScriptList.add(new Script(mDrawObject, frontBlockList, mStageManager));
+				mScriptList.add(new Script(mDrawObject, frontBlockList, mStageManager,mRunningScriptsList));
 				generateScripts(backBlockList);
 				return;
 			}
 
 		}
-		mScriptList.add(new Script(mDrawObject, blockList, mStageManager));
+		mScriptList.add(new Script(mDrawObject, blockList, mStageManager, mRunningScriptsList));
 
 	}
 
@@ -96,21 +96,25 @@ public class Sprite implements Comparable<Sprite> {
 		int inSpriteCoordY = coordY - mDrawObject.getPositionAbs().second;
 		Log.i("Touchzeugs",
 				"inSpriteCoord=" + inSpriteCoordX + "x" + inSpriteCoordY + "SpriteSize =" + mDrawObject.getSize().first + "x" + mDrawObject.getSize().second);
-		if (inSpriteCoordX >= 0 && inSpriteCoordX < mDrawObject.getSize().first) {
-			if (inSpriteCoordY >= 0 && inSpriteCoordY < mDrawObject.getSize().second) {
-				if (Color.alpha(mDrawObject.getBitmap().getPixel(inSpriteCoordX, inSpriteCoordY)) > 10) {
-					for (int i = 0; i < mScriptList.size(); i++) {
-						if (mScriptList.get(i).mIsTouchScript) {
-							if (!mScriptList.get(i).isAlive()) {
-								Log.i("Touchzeugs", "Starte Touch Thread: " + i);
-								Script scriptToExecute = new Script(mDrawObject, mScriptList.get(i).mScriptData, mStageManager);
-								scriptToExecute.mIsTouchScript = true;
-								scriptToExecute.start();
-								mRunningScriptsList.add(scriptToExecute);
-							}
-						}
-					}
-				}
+		if (inSpriteCoordX < 0 || inSpriteCoordX >= mDrawObject.getSize().first) {
+			return;
+		}
+		if (inSpriteCoordY < 0 || inSpriteCoordY >= mDrawObject.getSize().second) {
+			return;
+		}
+		if (mDrawObject.getBitmap() == null || Color.alpha(mDrawObject.getBitmap().getPixel(inSpriteCoordX, inSpriteCoordY)) <= 10) {
+			return;
+		}	
+		for (int i = 0; i < mScriptList.size(); i++) {
+			if (!mScriptList.get(i).mIsTouchScript) {
+				continue;
+			}
+			if (!mScriptList.get(i).isAlive()) {
+				Log.i("Touchzeugs", "Starte Touch Thread: " + i);
+				Script scriptToExecute = new Script(mDrawObject, mScriptList.get(i).mScriptData, mStageManager, mRunningScriptsList);
+				scriptToExecute.mIsTouchScript = true;
+				scriptToExecute.start();
+				mRunningScriptsList.add(scriptToExecute);
 			}
 		}
 	}

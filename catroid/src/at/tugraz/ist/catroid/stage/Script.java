@@ -3,6 +3,7 @@ package at.tugraz.ist.catroid.stage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -29,8 +30,10 @@ public class Script extends Thread implements Observer {
 	public boolean mIsTouchScript;
 	private boolean mFirstRun = true;
 	private StageManager mStageManager;
+	private LinkedList<Script> mRunningScriptList;
 
-	public Script(DrawObject drawObject, ArrayList<HashMap<String, String>> scriptData, StageManager stageManager) {
+	public Script(DrawObject drawObject, ArrayList<HashMap<String, String>> scriptData, 
+				StageManager stageManager, LinkedList<Script> runningScriptList) {
 		super();
 		mScriptData = scriptData;
 		mDrawObject = drawObject;
@@ -38,6 +41,7 @@ public class Script extends Thread implements Observer {
 		mBrickWait = new BrickWait();
 		mIsRunning = true;
 		mStageManager = stageManager;
+		mRunningScriptList = runningScriptList;
 	}
 
 	@Override
@@ -52,6 +56,7 @@ public class Script extends Thread implements Observer {
 				Log.i("Touchzeugs", "Touch Thread arbeitet command ab: " + this.getId());
 			doNextCommand();
 		}
+		mRunningScriptList.remove(this);
 	}
 
 	public void update(Observable observable, Object data) {
