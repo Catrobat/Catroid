@@ -12,7 +12,7 @@ import java.util.zip.ZipOutputStream;
 
 public class UtilZip {
 	private static final int BUFFER = 2048;
-	private static final int NO_COMPRESSION = 0;
+	private static final int QUICKEST_COMPRESSION = 0;
 	
 	private static ZipOutputStream mZipOutputStream;
 	
@@ -21,7 +21,7 @@ public class UtilZip {
 	    try {
 		    FileOutputStream fileOutputStream = new FileOutputStream(zipfile);
 		    mZipOutputStream = new ZipOutputStream(fileOutputStream);
-		    mZipOutputStream.setLevel(NO_COMPRESSION);
+		    mZipOutputStream.setLevel(QUICKEST_COMPRESSION);
 		    for (int i = 0; i < file_pathes.length; i++) {
 		      File file = new File(file_pathes[i]);
 		      if(file.isDirectory())
