@@ -34,7 +34,7 @@ import at.tugraz.ist.catroid.constructionSite.content.BrickDefine;
 import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
 import at.tugraz.ist.catroid.constructionSite.gui.adapter.ConstructionSiteGalleryAdapter;
 import at.tugraz.ist.catroid.constructionSite.gui.adapter.ConstructionSiteListViewAdapter;
-import at.tugraz.ist.catroid.constructionSite.gui.dialogs.ChangeProgramNameDialog;
+import at.tugraz.ist.catroid.constructionSite.gui.dialogs.RenameProjectDialog;
 import at.tugraz.ist.catroid.constructionSite.gui.dialogs.ContextMenuDialog;
 import at.tugraz.ist.catroid.constructionSite.gui.dialogs.LoadProgramDialog;
 import at.tugraz.ist.catroid.constructionSite.gui.dialogs.NewProjectDialog;
@@ -111,7 +111,6 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 
 		// check for SD card, display message and exit if none available
 		if (Utils.checkForSdCard(this)) {
-			// requestWindowFeature(Window.FEATURE_NO_TITLE);
 			mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 			mPreferences = this.getPreferences(Activity.MODE_PRIVATE);
 
@@ -139,7 +138,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			
 			File rootFile = new File(rootPath);
 			if (!rootFile.exists()) {
-				rootPath = DEFAULT_ROOT;
+				rootPath = Utils.concatPaths(DEFAULT_ROOT, DEFAULT_FILE.replace(".spf", ""));
 				spfFile = DEFAULT_FILE;
 			}
 			
@@ -225,7 +224,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			mNewProjectDialog = new NewProjectDialog(this, mContentManager);
 			return mNewProjectDialog;
 		case CHANGE_PROJECT_NAME_DIALOG:
-			mChangeProgramNameDialog = new ChangeProgramNameDialog(this, mContentManager);
+			mChangeProgramNameDialog = new RenameProjectDialog(this, mContentManager);
 			return mChangeProgramNameDialog;
 		case LOAD_DIALOG:
 			mLoadDialog = new LoadProgramDialog(this, mContentManager);

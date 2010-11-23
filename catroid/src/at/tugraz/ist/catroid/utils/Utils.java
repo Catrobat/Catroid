@@ -11,8 +11,8 @@ import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.util.Log;
@@ -96,10 +96,12 @@ public class Utils {
 		File fileFrom = new File(path);
 		return fileFrom.delete();
 	}
-	
-	/** 
+
+	/**
 	 * Returns whether a project with the given name already exists
-	 * @param projectName project name to check for existence
+	 * 
+	 * @param projectName
+	 *            project name to check for existence
 	 * @return whether the project exists
 	 */
 	public static boolean projectExists(String projectName) {
@@ -190,9 +192,10 @@ public class Utils {
 		newFileName = newFileName + ".png";
 		return newFileName;
 	}
-	
+
 	/**
 	 * Displays a website with the given URI using an Intent
+	 * 
 	 * @param context
 	 * @param uri
 	 */
@@ -200,5 +203,79 @@ public class Utils {
 		Intent websiteIntent = new Intent(Intent.ACTION_VIEW);
 		websiteIntent.setData(uri);
 		context.startActivity(websiteIntent);
+	}
+
+	/**
+	 * Displays an AlertDialog with the given error message and just a close
+	 * button
+	 * 
+	 * @param context
+	 * @param errorMessage
+	 */
+	public static void displayErrorMessage(Context context, String errorMessage) {
+		Builder builder = new AlertDialog.Builder(context);
+
+		builder.setTitle(context.getString(R.string.error));
+		builder.setMessage(errorMessage);
+		builder.setNeutralButton(context.getString(R.string.close), new OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+			}
+		});
+		builder.show();
+	}
+
+	/**
+	 * Renames a project and moves / renames the project files accordingly
+	 * 
+	 * @param context
+	 *            The context; used to display progress dialog, may be null
+	 * @param oldProjectPath
+	 *            the absolute path to the old project file. If this is null the
+	 *            function attempts to read the current project from the
+	 *            ConstructionSiteActivity.
+	 * @param newProjectName
+	 *            the desired new project name (without .spf file ending!).
+	 * @return true if renaming was successful, false otherwise
+	 */
+	public static boolean renameProject(Context context, String oldProjectPath, String newProjectName) {
+		File oldPath = null;
+		File oldProjectDirectory = null;
+		if (oldProjectPath == null || oldProjectPath.length() == 0) {
+			if(ConstructionSiteActivity.ROOT == null || ConstructionSiteActivity.SPF_FILE == null)
+				return false;
+			oldPath = new File(Utils.concatPaths(ConstructionSiteActivity.ROOT, ConstructionSiteActivity.SPF_FILE));
+		} else {
+			oldPath = new File(oldProjectPath);
+		}
+
+		if (newProjectName == null || newProjectName.length() == 0 || oldPath == null)
+			return false;
+		
+		oldProjectDirectory = new File(oldPath.getParent());
+		String oldProjectFileName = oldPath.getName();
+		
+		File newProjectDirectory = new File(Utils.concatPaths(oldProjectDirectory.getParent(), newProjectName));
+		if(newProjectDirectory.exists()) {
+			Log.e("Utils.renameProject", "New project folder already exists. aborting");
+			return false;
+		}
+		
+		if (!oldProjectDirectory.renameTo(newProjectDirectory)) {
+			Log.e("Utils.renameProject", "Failed to rename project directory");
+			return false;
+		}
+
+		File oldProjectFile = new File(Utils.concatPaths(newProjectDirectory.getAbsolutePath(), oldProjectFileName));
+		String newProjectFileName = Utils.addDefaultFileEnding(newProjectName);
+		String newProjectFilePath = Utils.concatPaths(newProjectDirectory.getAbsolutePath(), newProjectFileName);
+		if (Utils.copyFile(oldProjectFile.getAbsolutePath(), newProjectFilePath, context, true))
+			Utils.deleteFile(oldProjectFile.getAbsolutePath());
+		else {
+			Log.e("Utils.renameProject", "Failed to rename project file");
+			return false;
+		}
+
+		ConstructionSiteActivity.setRoot(newProjectDirectory.getAbsolutePath(), newProjectFileName);
+		return true;
 	}
 }
