@@ -5,7 +5,7 @@ import at.tugraz.ist.catroid.constructionSite.content.BrickDefine;
 public class TestDefines {
 
 	public static String TEST_XML = "<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>"
-			+ "<project versionCode=\"2\" versionName=\"0.4\">" + "<stage>" + "<brick id=\"0\" type=\""
+			+ "<project versionCode=\"3\" versionName=\"0.4.3b\">" + "<stage>" + "<brick id=\"0\" type=\""
 			+ BrickDefine.SET_BACKGROUND
 			+ "\">"
 			+ "<image path=\"bla.jpg\" path_thumb=\"bla.jpg\" />"
