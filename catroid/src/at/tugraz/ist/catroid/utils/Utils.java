@@ -241,7 +241,8 @@ public class Utils {
 		File oldPath = null;
 		File oldProjectDirectory = null;
 		if (oldProjectPath == null || oldProjectPath.length() == 0) {
-			if(ConstructionSiteActivity.ROOT == null || ConstructionSiteActivity.SPF_FILE == null)
+			if (ConstructionSiteActivity.ROOT == null || ConstructionSiteActivity.ROOT.length() == 0 || ConstructionSiteActivity.SPF_FILE == null
+					|| ConstructionSiteActivity.SPF_FILE.length() == 0)
 				return false;
 			oldPath = new File(Utils.concatPaths(ConstructionSiteActivity.ROOT, ConstructionSiteActivity.SPF_FILE));
 		} else {
@@ -250,16 +251,16 @@ public class Utils {
 
 		if (newProjectName == null || newProjectName.length() == 0 || oldPath == null)
 			return false;
-		
+
 		oldProjectDirectory = new File(oldPath.getParent());
 		String oldProjectFileName = oldPath.getName();
-		
+
 		File newProjectDirectory = new File(Utils.concatPaths(oldProjectDirectory.getParent(), newProjectName));
-		if(newProjectDirectory.exists()) {
+		if (newProjectDirectory.exists()) {
 			Log.e("Utils.renameProject", "New project folder already exists. aborting");
 			return false;
 		}
-		
+
 		if (!oldProjectDirectory.renameTo(newProjectDirectory)) {
 			Log.e("Utils.renameProject", "Failed to rename project directory");
 			return false;
