@@ -14,21 +14,4 @@ medium
 --------
 
 - wenn pause gedrückt wird und gerade wait ist wird das nicht richtig ausgeführt
-- parser tests sind negativ wenn man deutsch eingestellt hat (Stage!=Buehne)
-
---------
-low
---------
-- delete brick -> delete old pictures and sounds if necessary
-
---------
-quick fixes: maybe implement a better solution later
---------
-
-- textfelder bei goto, scale und wait jetzt auf 50dp und nicht wrap_content gesetzt, um das problem mit desire zu umgehen.
-  thomas: warum gibts da eigene layouts fuer toolbox und construction site??
-
-
-
-
 

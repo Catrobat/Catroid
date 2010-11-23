@@ -70,7 +70,7 @@ public class NewProjectDialog extends Dialog {
 						mContentManager.loadContent(newSpfFile);
 					else
 						mContentManager.initializeNewProject();
-
+					
 					((Activity) mCtx).setTitle(newSpfFile);
 					dismiss();
 				}

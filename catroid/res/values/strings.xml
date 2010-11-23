@@ -73,6 +73,9 @@
 	<string name="error_project_download">
 		An error occurred while downloading the project.
 	</string>
+	<string name="error_project_rename">
+		An error occurred while renaming the project.
+	</string>
 
 	<!-- Notifications -->
 	<string name="success_project_upload">

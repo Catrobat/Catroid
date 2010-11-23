@@ -63,6 +63,9 @@
 	<string name="error_project_download">
 		Beim Download des Projektes ist ein Fehler aufgetreten.
     </string>
+    <string name="error_project_rename">
+		Beim Umbenennen des Projektes ist ein Fehler aufgetreten.
+	</string>
 
 	<!-- Notifications -->
 	<string name="success_project_upload">
