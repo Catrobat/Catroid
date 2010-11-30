@@ -15,6 +15,7 @@ import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.utils.UtilZip;
 import at.tugraz.ist.catroid.web.ConnectionWrapper;
+import at.tugraz.ist.catroid.web.WebconnectionException;
 
 public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 	private static final String FILE_UPLOAD_TAG = "upload";
@@ -27,6 +28,11 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 	private ProgressDialog mProgressdialog;
 	private String mProjectName;
 	private String resultString;
+	
+	// mock object testing
+	protected ConnectionWrapper createConnection() {
+		return new ConnectionWrapper();
+	}
 	
 	public ProjectUploadTask(Context context, String projectName, String projectPath, String zipFile) {
 		mContext = context;
@@ -79,22 +85,17 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 			
 			HashMap<String, String> hm = new HashMap<String, String>();
 			hm.put(PROJECT_NAME_TAG, mProjectName);
-			HttpURLConnection conn = ConnectionWrapper.doHttpPostFileUpload(FILE_UPLOAD_URL, hm, FILE_UPLOAD_TAG, mZipFile);
-			
-			// respone code != 2xx -> error
-			if(conn.getResponseCode() / 100 != 2)
-				return false;
-			
-			InputStream resultStream = conn.getInputStream();
-			resultString = ConnectionWrapper.getString(resultStream);
+			resultString = createConnection().doHttpPostFileUpload(FILE_UPLOAD_URL, hm, FILE_UPLOAD_TAG, mZipFile);
 			
 			file.delete();
+			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
-			return false;
+		} catch (WebconnectionException e) {
+			e.printStackTrace();
 		}
+		return false;
 		
-		return true;
 	}
 
 	@Override

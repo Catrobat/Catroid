@@ -7,6 +7,7 @@ import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.constructionSite.tasks.ProjectUploadTask;
 import at.tugraz.ist.catroid.download.tasks.ProjectDownloadTask;
 import at.tugraz.ist.catroid.utils.UtilFile;
+import at.tugraz.ist.catroid.web.ConnectionWrapper;
 
 public class UpAndDownloadTest extends AndroidTestCase {
 
@@ -16,6 +17,19 @@ public class UpAndDownloadTest extends AndroidTestCase {
 
 	protected void setUp() throws Exception {
 		super.setUp();
+		
+		// generate mock object
+		new ConnectionWrapper() {
+			@Override
+			public void testing() {
+				// TODO Auto-generated method stub
+				super.testing();
+			}
+		};
+		
+		ConnectionWrapper() {
+			
+		}
 	}
 
 	protected void tearDown() throws Exception {

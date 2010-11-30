@@ -23,6 +23,11 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 	private ProgressDialog mProgressdialog;
 	private boolean result;
 	
+	// mock object testing
+	protected ConnectionWrapper createConnection() {
+		return new ConnectionWrapper();
+	}
+	
 	public ProjectDownloadTask(Activity activity, String url, String projectName, String zipFile) {
 		
 		mActivity = activity;
@@ -45,7 +50,8 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 	@Override
 	protected Boolean doInBackground(Void... arg0) {
 		try {
-			ConnectionWrapper.doHttpPostFileDownload(mUrl, null, mZipFile);
+			
+			createConnection().doHttpPostFileDownload(mUrl, null, mZipFile);
 				
 			result = UtilZip.unZipFile(mZipFile, ConstructionSiteActivity.DEFAULT_ROOT + "/"+mProjectName+"/");  
 			return result;
