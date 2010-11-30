@@ -55,6 +55,7 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 	@Override
 	protected Boolean doInBackground(Void... arg0) {
 		try {
+			System.out.println("___________asdfasfasfd: "+mProjectPath);
 			File dirPath = new File(mProjectPath);
 			String[] pathes = dirPath.list(new FilenameFilter() {
 				public boolean accept(File dir, String filename) {
@@ -64,6 +65,7 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 					return false;
 				}
 			});
+			System.out.println("asdfasfasfd");
 			if(pathes == null)
 				return false;
 			
@@ -77,17 +79,17 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 	    		file.getParentFile().mkdirs();
 	    		file.createNewFile();
 	    	}
-	    	
+	    	System.out.println("file: "+mZipFile);
 			if (!UtilZip.writeToZipFile(pathes, mZipFile)) {
 				file.delete();
 				return false;
 			}
-			
+			System.out.println("file: after");
 			HashMap<String, String> hm = new HashMap<String, String>();
 			hm.put(PROJECT_NAME_TAG, mProjectName);
 			resultString = createConnection().doHttpPostFileUpload(FILE_UPLOAD_URL, hm, FILE_UPLOAD_TAG, mZipFile);
 			
-			file.delete();
+			//file.delete();
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
