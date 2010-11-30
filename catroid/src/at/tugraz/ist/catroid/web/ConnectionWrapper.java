@@ -20,14 +20,17 @@ import android.webkit.MimeTypeMap;
  */
 public class ConnectionWrapper {
 
-	private static HttpURLConnection urlConn;
+	private HttpURLConnection urlConn;
 	
+	public void testing() {
+		
+	}
 	/**
 	 * This Method converts a given InputStream in a String
 	 * @param 	is	the InputStream to convert
 	 * @return				the converted String	
 	 */
-	public static String getString(InputStream is) {
+	private String getString(InputStream is) {
 		if(is == null)
 			return "";
 		try {
@@ -63,8 +66,8 @@ public class ConnectionWrapper {
 	 * @return							the response of the call
 	 * @exception APIException is thrown if an error occurs
 	 */
-	public static HttpURLConnection doHttpPostFileUpload(String urlstring, HashMap<String, String> post_values, 
-					String filetag, String file_path) throws IOException {
+	public String doHttpPostFileUpload(String urlstring, HashMap<String, String> post_values, 
+					String filetag, String file_path) throws IOException, WebconnectionException {
 		
 		MultiPartFormOutputStream out = buildPost(urlstring, post_values);
 		    
@@ -80,11 +83,16 @@ public class ConnectionWrapper {
 		  
 	    out.close();
 	    
-	    return urlConn;
+	    // respone code != 2xx -> error
+		if(urlConn.getResponseCode() / 100 != 2)
+			throw new WebconnectionException(urlConn.getResponseCode());
+		
+		InputStream resultStream = urlConn.getInputStream();
+		return getString(resultStream);
 		
 	}
 	
-	public static File doHttpPostFileDownload(String urlstring, HashMap<String, String> post_values, 
+	public void doHttpPostFileDownload(String urlstring, HashMap<String, String> post_values, 
 				String file_path) throws IOException {
 		MultiPartFormOutputStream out = buildPost(urlstring, post_values);
 		out.close();
@@ -104,8 +112,6 @@ public class ConnectionWrapper {
 	    input.close();
 	    f.flush();
 	    f.close();
-
-	    return file;
 		
 	}
 		
@@ -119,16 +125,22 @@ public class ConnectionWrapper {
 	 * @throws IOException 
 	 * @exception APIException is thrown if an error occurs
 	 */
-	public static InputStream doHttpPost(String urlstring, HashMap<String, String> post_values) throws IOException {
+	public String doHttpPost(String urlstring, HashMap<String, String> post_values) 
+			throws IOException, WebconnectionException {
 		
 		MultiPartFormOutputStream out = buildPost(urlstring, post_values);	
 	    out.close();
 	
-	    return urlConn.getInputStream();	
+	    // respone code != 2xx -> error
+		if(urlConn.getResponseCode() / 100 != 2)
+			throw new WebconnectionException(urlConn.getResponseCode());
+		
+		InputStream resultStream = urlConn.getInputStream();
+		return getString(resultStream);	
 		 
 	}
 	
-	private static MultiPartFormOutputStream buildPost(String urlstring, HashMap<String, String> post_values) 
+	private MultiPartFormOutputStream buildPost(String urlstring, HashMap<String, String> post_values) 
 							throws IOException {
 		if(post_values == null)
 			post_values = new HashMap<String, String>();
