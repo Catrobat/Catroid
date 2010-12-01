@@ -11,6 +11,7 @@ import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.utils.UtilZip;
@@ -21,6 +22,9 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 	private static final String FILE_UPLOAD_TAG = "upload";
 	private static final String PROJECT_NAME_TAG = "projectTitle";
 	private static final String FILE_UPLOAD_URL = "http://www.catroid.org/catroid/upload/upload.http";
+	private static final String TEST_FILE_UPLOAD_URL = "http://catroidwebtest.ist.tugraz.at/catroid/upload/upload.http";
+	
+	public static boolean mUseTestUrl = false;
 	
 	private Context mContext;
 	private String mProjectPath;
@@ -55,7 +59,6 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 	@Override
 	protected Boolean doInBackground(Void... arg0) {
 		try {
-			System.out.println("___________asdfasfasfd: "+mProjectPath);
 			File dirPath = new File(mProjectPath);
 			String[] pathes = dirPath.list(new FilenameFilter() {
 				public boolean accept(File dir, String filename) {
@@ -65,10 +68,8 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 					return false;
 				}
 			});
-			System.out.println("asdfasfasfd");
 			if(pathes == null)
 				return false;
-			
 			
 			for(int i=0;i<pathes.length;++i) {
 				pathes[i] = dirPath +"/"+ pathes[i];
@@ -79,17 +80,23 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 	    		file.getParentFile().mkdirs();
 	    		file.createNewFile();
 	    	}
-	    	System.out.println("file: "+mZipFile);
 			if (!UtilZip.writeToZipFile(pathes, mZipFile)) {
 				file.delete();
 				return false;
 			}
-			System.out.println("file: after");
 			HashMap<String, String> hm = new HashMap<String, String>();
 			hm.put(PROJECT_NAME_TAG, mProjectName);
-			resultString = createConnection().doHttpPostFileUpload(FILE_UPLOAD_URL, hm, FILE_UPLOAD_TAG, mZipFile);
 			
-			//file.delete();
+			String serverUrl;
+			if(mUseTestUrl)
+				serverUrl = TEST_FILE_UPLOAD_URL;
+			else
+				serverUrl = FILE_UPLOAD_URL;
+			System.out.println("url: "+serverUrl);
+			resultString = createConnection().doHttpPostFileUpload(serverUrl, hm, FILE_UPLOAD_TAG, mZipFile);
+			System.out.println("uploaded");
+			file.delete();
+			System.out.println("uploaded: "+resultString);
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -102,8 +109,9 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 
 	@Override
 	protected void onPostExecute(Boolean result) {
+		System.out.println("finiiiish");
 		super.onPostExecute(result);
-	
+		System.out.println("finiiiish");
 		if(mProgressdialog != null && mProgressdialog.isShowing())
 			mProgressdialog.dismiss();
 		
@@ -128,6 +136,5 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 	public String getResultString() {
 		return resultString;
 	}
-
 	
 }
