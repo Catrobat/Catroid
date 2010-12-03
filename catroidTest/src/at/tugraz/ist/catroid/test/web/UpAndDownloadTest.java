@@ -15,6 +15,7 @@ import at.tugraz.ist.catroid.web.WebconnectionException;
 public class UpAndDownloadTest extends AndroidTestCase {
 
 	private MockConnection mMockConnection;
+	private File mProjectSaveZipFile;
 	
 	public UpAndDownloadTest() {
 		super();
@@ -23,8 +24,8 @@ public class UpAndDownloadTest extends AndroidTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		
-		// generate mock object
-		
+		mProjectSaveZipFile = new File(ConstructionSiteActivity.TMP_PATH+"/projectSave.zip");
+		mMockConnection = new MockConnection();
 	}
 
 	protected void tearDown() throws Exception {
@@ -54,24 +55,25 @@ public class UpAndDownloadTest extends AndroidTestCase {
 		};
 		
 		uploadTask.execute();		
-		//Thread.sleep(8000);
+		Thread.sleep(300);
 		
+		assertTrue("uploaded fiel does not exist", mProjectSaveZipFile.exists());
 		
 		downloadTask.execute();
-		//Thread.sleep(8000);
+		Thread.sleep(300);
 		
-		File downloadProjectRoot = new File(ConstructionSiteActivity.DEFAULT_ROOT + "/"+testProjectName+"/");
-		//assertTrue("Download Project is not available.", downloadProjectRoot.exists());
+		File downloadProjectRoot = new File(ConstructionSiteActivity.DEFAULT_ROOT+"/"+testProjectName);
+		assertTrue("project does not exist after download", downloadProjectRoot.exists());
 		
 		boolean spfFilePresent = false;
-//		String[] projectFiles = downloadProjectRoot.list();
-//		for (String fileName : projectFiles) {
-//			if(fileName.endsWith(ConstructionSiteActivity.DEFAULT_FILE_ENDING))
-//				spfFilePresent = true;
-//		}
-//		
-//		assertTrue("No project file available.", spfFilePresent);
-//		UtilFile.deleteDirectory(downloadProjectRoot);
+		String[] projectFiles = downloadProjectRoot.list();
+		for (String fileName : projectFiles) {
+			if(fileName.endsWith(ConstructionSiteActivity.DEFAULT_FILE_ENDING))
+				spfFilePresent = true;
+		}
+		
+		assertTrue("No project file available.", spfFilePresent);
+		UtilFile.deleteDirectory(downloadProjectRoot);
 	}
 
 	private class MockConnection extends ConnectionWrapper {
@@ -79,14 +81,14 @@ public class UpAndDownloadTest extends AndroidTestCase {
 		public String doHttpPostFileUpload(String urlstring,
 				HashMap<String, String> postValues, String filetag,
 				String filePath) throws IOException, WebconnectionException {
-			
+			new File(filePath).renameTo(mProjectSaveZipFile);
 			return "";
 		}
 		@Override
 		public void doHttpPostFileDownload(String urlstring,
 				HashMap<String, String> postValues, String filePath)
 				throws IOException {
-			
+			mProjectSaveZipFile.renameTo(new File(filePath));
 		}
 	}
 }
