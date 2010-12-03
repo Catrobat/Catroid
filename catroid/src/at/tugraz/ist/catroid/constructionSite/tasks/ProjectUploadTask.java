@@ -89,11 +89,8 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 				serverUrl = TEST_FILE_UPLOAD_URL;
 			else
 				serverUrl = FILE_UPLOAD_URL;
-			System.out.println("url: "+serverUrl);
 			resultString = createConnection().doHttpPostFileUpload(serverUrl, hm, FILE_UPLOAD_TAG, mZipFile);
-			System.out.println("uploaded");
 			file.delete();
-			System.out.println("uploaded: "+resultString);
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -106,9 +103,7 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 
 	@Override
 	protected void onPostExecute(Boolean result) {
-		System.out.println("finiiiish");
 		super.onPostExecute(result);
-		System.out.println("finiiiish");
 		if(mProgressdialog != null && mProgressdialog.isShowing())
 			mProgressdialog.dismiss();
 		
