@@ -44,7 +44,7 @@ public class ParserTest extends AndroidTestCase {
 			tempFile = File.createTempFile("project", ".xml");
 			if (tempFile.canWrite()) {
 				outputStream = new FileOutputStream(tempFile);
-				outputStream.write(TestDefines.TEST_XML.getBytes());
+				outputStream.write(new TestDefines().getTestXml(getContext()).getBytes());
 				outputStream.flush();
 			}
 		} catch (IOException e) {
@@ -183,7 +183,7 @@ public class ParserTest extends AndroidTestCase {
 		spritesMap.add(new Pair<String, ArrayList<HashMap<String, String>>>("sprite", brickList));
 
 		String result = parser.toXml(spritesMap, this.getContext());
-		String expected = TestDefines.TEST_XML;
+		String expected = new TestDefines().getTestXml(getContext());
 		Log.i("testToXml result", result);
 		Log.i("testToXml expected", expected);
 
@@ -202,4 +202,5 @@ public class ParserTest extends AndroidTestCase {
 		assertEquals("constructed list without commands", expected, result);
 
 	}
+	
 }
