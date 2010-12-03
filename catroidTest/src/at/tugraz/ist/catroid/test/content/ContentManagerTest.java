@@ -174,7 +174,7 @@ public class ContentManagerTest extends AndroidTestCase {
              DataOutputStream ps = new DataOutputStream(fOut);
          
              // Write the string to the file
-             ps.write(TestDefines.TEST_XML.getBytes());
+             ps.write(new TestDefines().getTestXml(getContext()).getBytes());
              /* ensure that everything is
               * really written out and close */
              ps.flush();

@@ -15,7 +15,7 @@ import at.tugraz.ist.catroid.web.WebconnectionException;
 public class UpAndDownloadTest extends AndroidTestCase {
 
 	private MockConnection mMockConnection;
-	private File mProjectSaveZipFile;
+	private File mProjectZipOnMockServer;
 	
 	public UpAndDownloadTest() {
 		super();
@@ -24,7 +24,7 @@ public class UpAndDownloadTest extends AndroidTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		
-		mProjectSaveZipFile = new File(ConstructionSiteActivity.TMP_PATH+"/projectSave.zip");
+		mProjectZipOnMockServer = new File(ConstructionSiteActivity.TMP_PATH+"/projectSave.zip");
 		mMockConnection = new MockConnection();
 	}
 
@@ -37,10 +37,10 @@ public class UpAndDownloadTest extends AndroidTestCase {
 
 	public void testUpAndDownload() throws Throwable {
 		String testProjectName = "UpAndDownloadTest"+System.currentTimeMillis();
+		String pathToDefaultProject = ConstructionSiteActivity.DEFAULT_ROOT+"/defaultSaveFile";
 		
 		ProjectUploadTask uploadTask = new ProjectUploadTask(null, testProjectName,
-				ConstructionSiteActivity.DEFAULT_ROOT+"/defaultSaveFile", 
-				ConstructionSiteActivity.TMP_PATH+"/tmp.zip") {
+				pathToDefaultProject, ConstructionSiteActivity.TMP_PATH+"/tmp.zip") {
 			@Override
 			protected ConnectionWrapper createConnection() {
 				return mMockConnection;
@@ -54,13 +54,14 @@ public class UpAndDownloadTest extends AndroidTestCase {
 			}
 		};
 		
+		assertTrue("The default Project does not exist.", new File(pathToDefaultProject).exists());
 		uploadTask.execute();		
-		Thread.sleep(300);
+		Thread.sleep(1000);
 		
-		assertTrue("uploaded fiel does not exist", mProjectSaveZipFile.exists());
+		assertTrue("uploaded file does not exist", mProjectZipOnMockServer.exists());
 		
 		downloadTask.execute();
-		Thread.sleep(300);
+		Thread.sleep(1000);
 		
 		File downloadProjectRoot = new File(ConstructionSiteActivity.DEFAULT_ROOT+"/"+testProjectName);
 		assertTrue("project does not exist after download", downloadProjectRoot.exists());
@@ -81,14 +82,14 @@ public class UpAndDownloadTest extends AndroidTestCase {
 		public String doHttpPostFileUpload(String urlstring,
 				HashMap<String, String> postValues, String filetag,
 				String filePath) throws IOException, WebconnectionException {
-			new File(filePath).renameTo(mProjectSaveZipFile);
+			new File(filePath).renameTo(mProjectZipOnMockServer);
 			return "";
 		}
 		@Override
 		public void doHttpPostFileDownload(String urlstring,
 				HashMap<String, String> postValues, String filePath)
 				throws IOException {
-			mProjectSaveZipFile.renameTo(new File(filePath));
+			mProjectZipOnMockServer.renameTo(new File(filePath));
 		}
 	}
 }
