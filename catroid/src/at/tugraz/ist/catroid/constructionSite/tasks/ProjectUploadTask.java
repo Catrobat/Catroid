@@ -3,15 +3,12 @@ package at.tugraz.ist.catroid.constructionSite.tasks;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.util.HashMap;
 
-import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.utils.UtilZip;
