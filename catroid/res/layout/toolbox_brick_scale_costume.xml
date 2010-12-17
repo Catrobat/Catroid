@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/RelativeLayout01" android:layout_width="wrap_content"
+	android:layout_height="wrap_content" android:onClick="@string/onBrickClickListener"
+	android:background="@drawable/brick_violet">
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:textSize="18dip"
+		android:textColor="@color/white" android:textStyle="bold"
+		android:layout_alignParentRight="true" android:layout_centerVertical="true"
+		android:paddingLeft="5dip" android:paddingRight="10dip"
+		android:id="@+id/ScaleCostumeTextView" android:text="@string/percent">
+	</TextView>
+
+	<EditText android:layout_width="50dp" android:layout_height="wrap_content"
+		android:text="100" android:maxLines="1" android:maxLength="3"
+		android:focusable="false" android:clickable="false"
+		android:focusableInTouchMode="false" android:layout_toLeftOf="@+id/ScaleCostumeTextView"
+		android:id="@+id/ScaleCustomEditText">
+	</EditText>
+
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:id="@+id/ValueTextView"
+		android:textStyle="bold" android:layout_alignParentLeft="true"
+		android:textColor="@color/white" android:layout_centerVertical="true"
+		android:textSize="18dip" android:text="@string/scaleCustome"
+		android:layout_toLeftOf="@+id/ScaleCustomEditText">
+	</TextView>
+
+</RelativeLayout>
+	

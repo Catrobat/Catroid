@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+		android:id="@+id/RelativeLayout01" 
+		android:layout_width="wrap_content" 
+		android:layout_height="wrap_content" 
+		android:onClick="@string/onBrickClickListener" 
+		android:focusable="false" 
+		android:focusableInTouchMode="false" android:background="@drawable/brick_yellow">	
+	
+		<TextView android:layout_width="wrap_content" 
+			android:layout_height="wrap_content" 
+			android:id="@+id/ValueTextView" 
+			android:layout_alignParentLeft="true" 
+			android:textColor="@color/white" 
+			android:textStyle="bold" 
+			android:layout_centerVertical="true" 
+			android:text="@string/wait_main_adapter" 
+			android:textSize="18dip">
+		</TextView>
+	
+		<TextView android:layout_width="wrap_content" 
+			android:layout_height="wrap_content" 
+			android:textSize="18dip" 
+			android:textColor="@color/white" 
+			android:textStyle="bold" 
+			android:layout_alignParentRight="true" 
+			android:layout_centerVertical="true" 
+			android:id="@+id/LabelTextView" 
+			android:text="@string/seconds" 
+			android:paddingLeft="10dip"
+		 	android:paddingRight="10dip">
+		</TextView>
+	
+		<EditText android:layout_width="50dp" 
+			android:layout_height="wrap_content" 
+			android:inputType="number|numberDecimal" 
+			android:maxLines="1" 
+			android:id="@+id/InputValueEditText" 
+			android:layout_centerVertical="true" 
+			android:maxLength="5" 
+			android:clickable="false" 
+			android:focusable="false" 
+			android:focusableInTouchMode="false" 
+			android:text="1" 
+			android:layout_toLeftOf="@+id/LabelTextView">
+		</EditText>
+	
+	</RelativeLayout>
+	
