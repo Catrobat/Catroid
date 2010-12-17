@@ -57,6 +57,9 @@ public class Sprite implements Comparable<Sprite> {
 		for (int i = 0; i < mRunningScriptsList.size(); i++) {
 			mRunningScriptsList.get(i).pause();
 		}
+		for(int i = 0; i < mScriptList.size(); i++) {
+			mScriptList.get(i).pause();
+		}
 	}
 
 	public void unPause() {
@@ -94,7 +97,7 @@ public class Sprite implements Comparable<Sprite> {
 	public void processOnTouch(int coordX, int coordY) {
 		int inSpriteCoordX = coordX - mDrawObject.getPositionAbs().first;
 		int inSpriteCoordY = coordY - mDrawObject.getPositionAbs().second;
-		Log.i("Touchzeugs",
+		Log.i("Sprite.processOnTouch",
 				"inSpriteCoord=" + inSpriteCoordX + "x" + inSpriteCoordY + "SpriteSize =" + mDrawObject.getSize().first + "x" + mDrawObject.getSize().second);
 		if (inSpriteCoordX < 0 || inSpriteCoordX >= mDrawObject.getSize().first) {
 			return;
@@ -110,7 +113,7 @@ public class Sprite implements Comparable<Sprite> {
 				continue;
 			}
 			if (!mScriptList.get(i).isAlive()) {
-				Log.i("Touchzeugs", "Starte Touch Thread: " + i);
+				Log.i("Sprite.processOnTouch", "Starting touch Thread: " + i);
 				Script scriptToExecute = new Script(mDrawObject, mScriptList.get(i).mScriptData, mStageManager, mRunningScriptsList);
 				scriptToExecute.mIsTouchScript = true;
 				scriptToExecute.start();
