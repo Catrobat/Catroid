@@ -38,7 +38,6 @@ public class Script extends Thread implements Observer {
 		mScriptData = scriptData;
 		mDrawObject = drawObject;
 		mSoundManager = SoundManager.getInstance();
-		mBrickWait = new BrickWait();
 		mIsRunning = true;
 		mStageManager = stageManager;
 		mRunningScriptList = runningScriptList;
@@ -48,24 +47,25 @@ public class Script extends Thread implements Observer {
 	public void run() {
 		Log.i("Touchzeugs", "touch thread: run");
 		if (mIsTouchScript && mFirstRun) {
-			Log.i("Touchzeugs", "Touch Thread gestartet: " + this.getId());
+			Log.i("Script", "Started touch thread: " + this.getId());
 			mFirstRun = false;
 		}
 		if (mIsRunning) {
 			if (mIsTouchScript)
-				Log.i("Touchzeugs", "Touch Thread arbeitet command ab: " + this.getId());
+				Log.i("Script", "Touch Thread is working on command: " + this.getId());
 			doNextCommand();
 		}
 		mRunningScriptList.remove(this);
 	}
 
 	public void update(Observable observable, Object data) {
+		Log.d("Script", "Received update at " + System.currentTimeMillis());
 		mCommandCount++;
 		doNextCommand();
 	}
 
 	public void pause() {
-		if (mBrickWait.mIsWaiting) {
+		if (mBrickWait.isWaiting()) {
 			mBrickWait.pause();
 			mWasWaiting = true;
 		}
@@ -121,7 +121,8 @@ public class Script extends Thread implements Observer {
 			break;
 
 		case BrickDefine.WAIT:
-			mBrickWait.mWaitTime = (int) (Float.parseFloat(map.get(BrickDefine.BRICK_VALUE)) * 1000f);
+			int timeToWaitInMilliseconds = (int) (Float.parseFloat(map.get(BrickDefine.BRICK_VALUE)) * 1000f);
+			mBrickWait = new BrickWait(timeToWaitInMilliseconds);
 			mBrickWait.addObserver(this);
 			mBrickWait.start();
 			break;
