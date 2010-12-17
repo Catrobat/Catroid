@@ -20,12 +20,12 @@ public class BrickWaitTest extends AndroidTestCase {
 			fail("Test case was interrupted during sleep");
 		}
 		brickWait.pause();
-		assertFalse("BrickWait is still waiting after it was paused", brickWait.isWaiting());
+		assertFalse("BrickWait is waiting after it was paused", brickWait.isWaiting());
 
 		brickWait.start();
 		assertTrue("BrickWait is not waiting after it was resumed", brickWait.isWaiting());
 		try {
-			Thread.sleep(55);
+			Thread.sleep(60);
 		} catch (InterruptedException e) {
 			fail("Test case was interrupted during sleep");
 		}

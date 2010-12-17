@@ -13,7 +13,8 @@ public class BrickWait extends Observable {
 
 	public void start() {
 		isWaiting = true;
-		waiterThread.start();
+		if(!waiterThread.isAlive())
+			waiterThread.start();
 	}
 
 	public void pause() {
