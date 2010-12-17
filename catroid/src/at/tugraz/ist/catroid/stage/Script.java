@@ -45,7 +45,7 @@ public class Script extends Thread implements Observer {
 
 	@Override
 	public void run() {
-		Log.i("Touchzeugs", "touch thread: run");
+		Log.i("Script.run", "Touch thread: run");
 		if (mIsTouchScript && mFirstRun) {
 			Log.i("Script", "Started touch thread: " + this.getId());
 			mFirstRun = false;
@@ -65,7 +65,7 @@ public class Script extends Thread implements Observer {
 	}
 
 	public void pause() {
-		if (mBrickWait.isWaiting()) {
+		if (mBrickWait != null && mBrickWait.isWaiting()) {
 			mBrickWait.pause();
 			mWasWaiting = true;
 		}
