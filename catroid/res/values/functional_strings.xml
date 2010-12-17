@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- functional strings no localization needed -->
+    <string name="onBrickClickListener">onBrickClickListener</string>
+    
+    <string name="constructional_brick_set_background_image_view_tag">set_background_image_view_tag</string>
+    
+    <string name="constructional_brick_go_to_x_tag">go_to_x_tag</string>
+    <string name="constructional_brick_go_to_y_tag">go_to_y_tag</string>
+    
+    <string name="constructional_brick_set_costume_image_view_tag">set_costume_image_view_tag</string>
+    
+    <string name="constructional_brick_scale_costume_edit_text_tag">scale_costume_edit_text_tag</string>
+    
+    <string name="constructional_brick_go_back_edit_text_tag">scale_costume_edit_text_tag</string>
+    
+    <string name="constructional_brick_play_sound_spinner_tag">play_sound_spinner_tag</string>
+    
+    <string name="constructional_brick_wait_edit_text_tag">wait_edit_text_tag</string>
+    
+    <string name="constructional_brick_hide">hide/show_text_view_tag</string>
+    
+    <string name="constructional_brick_come_to_front">come_to_front</string>
+    
+    <string name="constructional_brick_go_back">go_back</string>
+    
+    <string name="constructional_brick_touched">touched_text_view_tag</string>
+    
+    <string name="constructional_gallery_element_image_view">gallery_image_view_tag</string>
+    
+</resources>
