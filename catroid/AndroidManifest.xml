@@ -21,6 +21,8 @@
 					android:pathPrefix="/catroid/download/" />
 				<data android:scheme="http" android:host="www.catroid.org"
 					android:pathPrefix="/catroid/download/" />
+				<data android:scheme="http" android:host="catroid.org"
+					android:pathPrefix="/catroid/download/" />
 			</intent-filter>
 		</activity>
 
