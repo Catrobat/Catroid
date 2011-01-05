@@ -1,7 +1,5 @@
 package at.tugraz.ist.paintroid.test;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.test.ActivityInstrumentationTestCase2;
@@ -13,8 +11,14 @@ import com.jayway.android.robotium.solo.Solo;
 public class DrawTests extends ActivityInstrumentationTestCase2<MainActivity> {
 
 	private Solo solo;
+	private MainActivity mainActivity;
 
+	final int HAND = 1;
+	final int MAGNIFIY = 2;
 	final int BRUSH = 3;
+	final int EYEDROPPER = 4;
+	final int WAND = 5;
+	final int UNDO = 6;
 	final int FILE = 7;
 
 	public DrawTests() {
@@ -27,13 +31,11 @@ public class DrawTests extends ActivityInstrumentationTestCase2<MainActivity> {
 	}
 
 	/**
-	 * This test creates a new empty image, draws transparency onto it, saves
-	 * it, loads it again and checks, whether the same spot is still
-	 * transparent.
+	 * Tests if Color background Color is Really Transparent
 	 * 
 	 */
 	@Smoke
-	public void testDrawOnCanvas() throws Exception {
+	public void testDrawTRANSPARENTOnCanvas() throws Exception {
 		solo.clickOnImageButton(FILE);
 		solo.clickOnButton("New Drawing");
 		solo.clickOnImageButton(BRUSH);
@@ -49,7 +51,7 @@ public class DrawTests extends ActivityInstrumentationTestCase2<MainActivity> {
 		solo.drag(halfScreenWidth, halfScreenWidth, halfScreenHeight,
 				halfScreenHeight, 1);
 
-		MainActivity mainActivity = (MainActivity) solo.getCurrentActivity();
+		mainActivity = (MainActivity) solo.getCurrentActivity();
 
 		Bitmap currentImage = mainActivity.getCurrentImage();
 
@@ -64,21 +66,77 @@ public class DrawTests extends ActivityInstrumentationTestCase2<MainActivity> {
 
 		solo.clickOnImageButton(FILE);
 		solo.clickOnButton("Save");
-		solo.enterText(0, "robotium-test");
+		solo.enterText(0, "test_drawTransparent");
 		solo.clickOnButton("Done");
 		solo.clickOnMenuItem("Clear Drawing");
 
-		Intent intent = new Intent();
-		intent.putExtra("UriString", mainActivity.getSavedFileUriString());
-		intent.putExtra("IntentReturnValue", "LOAD");
-
-		mainActivity.onActivityResult(mainActivity.FILE_IO, Activity.RESULT_OK,
-				intent);
-
-		assertEquals(pixel, Color.TRANSPARENT);
-
-		solo.clickOnMenuItem("Quit");
+    	solo.clickOnMenuItem("Quit");
 	}
+	
+
+	
+	/**
+	 * Testing if Brush function works
+	 * @throws Exception
+	 */
+	public void testBrush() throws Exception{
+		solo.clickOnImageButton(FILE);
+		solo.clickOnButton("New Drawing");
+		solo.clickOnImageButton(BRUSH);
+		
+		solo.drag(0, 400, 600, 0, 50);
+		solo.drag(400, 23, 50, 600, 50);
+		solo.drag(400, 50, 80, 600, 50);
+		
+		mainActivity = (MainActivity) solo.getCurrentActivity();
+
+		int testPixel1 = mainActivity.getCurrentImage().getPixel(35, 350);
+		int testPixel2 = mainActivity.getCurrentImage().getPixel(25, 255);
+		int testPixel3 = mainActivity.getCurrentImage().getPixel(40, 360);
+		
+		assertEquals(testPixel1, Color.TRANSPARENT);
+		assertNotSame(testPixel2, Color.TRANSPARENT);
+		assertEquals(testPixel3, Color.TRANSPARENT);
+	}
+	
+	/**
+	 * Testing if MagicWand function works
+	 * @throws Exception
+	 */
+	public void testMagicWand() throws Exception{
+		solo.clickOnImageButton(FILE);
+		solo.clickOnButton("New Drawing");
+		solo.clickOnImageButton(WAND);
+		
+		solo.clickLongOnScreen(35, 400);
+		
+		mainActivity = (MainActivity) solo.getCurrentActivity();
+
+		int testPixel1 = mainActivity.getCurrentImage().getPixel(35, 350);
+		int testPixel2 = mainActivity.getCurrentImage().getPixel(25, 255);
+		int testPixel3 = mainActivity.getCurrentImage().getPixel(40, 360);
+		
+		assertEquals(testPixel1, Color.TRANSPARENT);
+		assertEquals(testPixel2, Color.TRANSPARENT);
+		assertEquals(testPixel3, Color.TRANSPARENT);
+	}
+	
+	public void testEyeDropper() throws Exception{
+		solo.clickOnImageButton(FILE);
+		solo.clickOnButton("New Drawing");
+		solo.clickOnImageButton(EYEDROPPER);
+		
+		solo.clickLongOnScreen(35, 400);
+		
+		mainActivity = (MainActivity) solo.getCurrentActivity();
+
+		int testPixel = mainActivity.getCurrentImage().getPixel(35, 350);
+		
+		assertEquals(mainActivity.getCurrentSelectedColor(), String.valueOf(testPixel));
+		
+		
+	}
+	
 
 	@Override
 	public void tearDown() throws Exception {
