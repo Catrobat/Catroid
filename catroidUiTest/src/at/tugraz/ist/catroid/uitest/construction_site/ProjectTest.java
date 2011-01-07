@@ -20,7 +20,7 @@ public class ProjectTest extends ActivityInstrumentationTestCase2<ConstructionSi
 	private Solo solo;
 	
 	public ProjectTest() {
-		super("at.tugraz.ist.catroid.test.construction_site",
+		super("at.tugraz.ist.catroid",
 				ConstructionSiteActivity.class);
 	}
 	
