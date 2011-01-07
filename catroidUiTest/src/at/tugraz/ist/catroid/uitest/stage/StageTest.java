@@ -16,7 +16,7 @@ ActivityInstrumentationTestCase2<ConstructionSiteActivity> {
 	private Solo solo;
 	
 	public StageTest() {
-		super("at.tugraz.ist.catroid.test.construction_site",
+		super("at.tugraz.ist.catroid",
 				ConstructionSiteActivity.class);
 
 		//delete the whole catroid directory so we can start from scratch

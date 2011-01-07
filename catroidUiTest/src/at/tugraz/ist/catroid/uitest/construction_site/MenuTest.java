@@ -20,7 +20,7 @@ public class MenuTest extends ActivityInstrumentationTestCase2<ConstructionSiteA
 	private Solo solo;
 
 	public MenuTest() {
-		super("at.tugraz.ist.catroid.test.construction_site", ConstructionSiteActivity.class);
+		super("at.tugraz.ist.catroid", ConstructionSiteActivity.class);
 	}
 	
 	public void setUp() throws Exception {

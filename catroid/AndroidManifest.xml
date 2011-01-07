@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- The warning concerning the minSdkVersion can be ignored, as this is our intended behavior -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	android:versionCode="4" package="at.tugraz.ist.catroid"
 	android:versionName="0.4.3d" android:installLocation="preferExternal">
@@ -25,12 +26,9 @@
 					android:pathPrefix="/catroid/download/" />
 			</intent-filter>
 		</activity>
-
-
 	</application>
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-	<uses-sdk android:minSdkVersion="8" />
-
+	<uses-sdk android:minSdkVersion="7" android:targetSdkVersion="8"/>
 </manifest> 

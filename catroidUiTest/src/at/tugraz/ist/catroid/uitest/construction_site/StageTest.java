@@ -23,7 +23,7 @@ public class StageTest extends
 	private Solo solo;
 	
 	public StageTest() {
-		super("at.tugraz.ist.catroid.test.construction_site",
+		super("at.tugraz.ist.catroid",
 				ConstructionSiteActivity.class);
 	}
 	
