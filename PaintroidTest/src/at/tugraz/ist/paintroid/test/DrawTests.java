@@ -61,7 +61,8 @@ public class DrawTests extends ActivityInstrumentationTestCase2<MainActivity> {
 		int halfImageHeight = (int) (currentImage.getHeight() * 0.5);
 
 		int pixel = currentImage.getPixel(halfImageWidth, halfImageHeight);
-
+		
+		//TODO could it be that it depends on the device (resolution, etc.)
 		assertEquals(pixel, Color.TRANSPARENT);
 
 		solo.clickOnImageButton(FILE);
@@ -93,7 +94,8 @@ public class DrawTests extends ActivityInstrumentationTestCase2<MainActivity> {
 		int testPixel1 = mainActivity.getCurrentImage().getPixel(35, 350);
 		int testPixel2 = mainActivity.getCurrentImage().getPixel(25, 255);
 		int testPixel3 = mainActivity.getCurrentImage().getPixel(40, 360);
-		
+
+		//TODO could be that it depends on the device (resolution, etc.)
 		assertEquals(testPixel1, Color.TRANSPARENT);
 		assertNotSame(testPixel2, Color.TRANSPARENT);
 		assertEquals(testPixel3, Color.TRANSPARENT);
