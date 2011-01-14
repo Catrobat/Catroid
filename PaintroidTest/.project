@@ -3,7 +3,6 @@
 	<name>PaintroidTest</name>
 	<comment></comment>
 	<projects>
-		<project>Paintroid</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
