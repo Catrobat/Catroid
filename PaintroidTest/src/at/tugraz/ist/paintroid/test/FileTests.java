@@ -35,7 +35,7 @@ public class FileTests extends ActivityInstrumentationTestCase2<MainActivity> {
 		solo.clickOnButton("Done");
 		
 		mainActivity = (MainActivity) solo.getCurrentActivity();
-		assertEquals(mainActivity.getSavedFileUriString(), "/mnt/sdcard/Pictures/Paintroid/test_save.png");
+		assertEquals(mainActivity.getSavedFileUriString(), Environment.getExternalStorageDirectory().toString() + "/Pictures/Paintroid/test_save.png");
 		
 	}
 	
@@ -45,7 +45,7 @@ public class FileTests extends ActivityInstrumentationTestCase2<MainActivity> {
 		 * Check it if it is possible to test this with Robotium?
 		 * Choose Pic from gallery...
 		 */
-		File dir = new File(Environment.getExternalStorageDirectory() + "/Pictures/Paintroid/test_drawTransparent.png");
+		File dir = new File(Environment.getExternalStorageDirectory().toString() + "/Pictures/Paintroid/test_save.png");
 		if(dir.exists()) {
 		    solo.clickOnMenuItem("Quit");
 		}else{
