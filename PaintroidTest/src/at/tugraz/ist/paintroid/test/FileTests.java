@@ -40,11 +40,6 @@ public class FileTests extends ActivityInstrumentationTestCase2<MainActivity> {
 	}
 	
 	public void testPictureIsSavedCorrectly() throws Exception{
-		/**
-		 * ToDo:
-		 * Check it if it is possible to test this with Robotium?
-		 * Choose Pic from gallery...
-		 */
 		File dir = new File(Environment.getExternalStorageDirectory().toString() + "/Pictures/Paintroid/test_save.png");
 		if(dir.exists()) {
 		    solo.clickOnMenuItem("Quit");
