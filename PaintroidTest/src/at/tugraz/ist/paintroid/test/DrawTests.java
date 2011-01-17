@@ -13,6 +13,8 @@ public class DrawTests extends ActivityInstrumentationTestCase2<MainActivity> {
 	private Solo solo;
 	private MainActivity mainActivity;
 
+	final int COLORPICKER = 0;
+	final int STROKE = 0;
 	final int HAND = 1;
 	final int MAGNIFIY = 2;
 	final int BRUSH = 3;
@@ -62,7 +64,7 @@ public class DrawTests extends ActivityInstrumentationTestCase2<MainActivity> {
 
 		int pixel = currentImage.getPixel(halfImageWidth, halfImageHeight);
 		
-		//TODO could it be that it depends on the device (resolution, etc.)
+		//TODO could be that it depends on the device (resolution, etc.)
 		assertEquals(pixel, Color.TRANSPARENT);
 
 		solo.clickOnImageButton(FILE);
