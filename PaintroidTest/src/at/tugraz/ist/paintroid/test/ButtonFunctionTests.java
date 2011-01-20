@@ -2,16 +2,11 @@ package at.tugraz.ist.paintroid.test;
 
 import java.util.ArrayList;
 
-import android.graphics.Color;
 import android.graphics.Paint.Cap;
-import android.os.Debug;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 import at.tugraz.ist.paintroid.MainActivity;
-import at.tugraz.ist.paintroid.dialog.DialogColorPicker;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -41,7 +36,23 @@ public class ButtonFunctionTests extends ActivityInstrumentationTestCase2<MainAc
 	final int LICENSETEXT = 5;
 	
 	final String aboutTitleText = "About Paintroid...";
-	final String licenseText = "Catroid: An on-device graphical programming language for Android devices Copyright (C) 2010 Catroid development team (<http://code.google.com/p/catroid/wiki/Credits>)\n\nThis program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.";
+	final String licenseText = "Catroid: An on-device graphical " +
+			"programming language for Android devices Copyright " +
+			"(C) 2010 Catroid development team " +
+			"(<http://code.google.com/p/catroid/wiki/Credits>)\n\n" +
+			"This program is free software: you can redistribute " +
+			"it and/or modify it under the terms of the GNU General " +
+			"Public License as published by the Free Software " +
+			"Foundation, either version 3 of the License, or (at " +
+			"your option) any later version.\n\nThis program is " +
+			"distributed in the hope that it will be useful, " +
+			"but WITHOUT ANY WARRANTY; without even the implied " +
+			"warranty of MERCHANTABILITY or FITNESS FOR A " +
+			"PARTICULAR PURPOSE. See the GNU General Public " +
+			"License for more details.\n\nYou should have " +
+			"received a copy of the GNU General Public License " +
+			"along with this program. If not, see " +
+			"<http://www.gnu.org/licenses/>.";
 
 	public ButtonFunctionTests() {
 		super("at.tugraz.ist.paintroid", MainActivity.class);
