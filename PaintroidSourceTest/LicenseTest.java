@@ -29,45 +29,44 @@ public class LicenseTest extends TestCase {
 	}
 	
 	public void testIfGplLicenseIsInAllFiles() throws Exception{
-		File dir = new File(path_to_project);
-		walkThroughDirectories(dir);
+		File directory = new File(path_to_project);
+		walkThroughDirectories(directory);
 		
 	}
 
-	protected void walkThroughDirectories(File dir) {
-	    if (dir.isDirectory()) {
-	        String[] children = dir.list();
-	        for (int i=0; i<children.length; i++) {
-	        	walkThroughDirectories(new File(dir, children[i]));
+	protected void walkThroughDirectories(File directory) {
+	    if (directory.isDirectory()) {
+	        String[] subdirectory = directory.list();
+	        for (int index=0; index < subdirectory.length; index++) {
+	        	walkThroughDirectories(new File(directory, subdirectory[index]));
 	        }
 	    } else {
-	        checkForLicense(dir);
+	        fileCheckForLicense(directory);
 	    }
 	}
 	
-	protected void checkForLicense(File file)
+	protected void fileCheckForLicense(File file)
 	{
 		System.out.println(file.getAbsolutePath());
 		try
 		{
-			FileInputStream fstream = new FileInputStream(file);
-			DataInputStream in = new DataInputStream(fstream);
-	        BufferedReader br = new BufferedReader(new InputStreamReader(in));
-		    String line;
+			FileInputStream fileInputStream = new FileInputStream(file);
+			DataInputStream dataInputStream = new DataInputStream(fileInputStream);
+	        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(dataInputStream));
 		    
-		    int cnt = 0;
-		    while ((line = br.readLine()) != null && cnt < license.length)   {
-		    	if(line.length() <2 || line.substring(2).trim().isEmpty())
+	        String lineFromSourceFile;
+		    int indexFromLicenseString = 0;
+		    while ((lineFromSourceFile = bufferedReader.readLine()) != null && indexFromLicenseString < license.length)   {
+		    	if(lineFromSourceFile.length() <2 || lineFromSourceFile.substring(2).trim().isEmpty())
 		    	{
 		    		continue;
 		    	}
-		    	assertEquals(license[cnt], line.substring(2).trim());
-		    	cnt++;
+		    	assertEquals(license[indexFromLicenseString], lineFromSourceFile.substring(2).trim());
+		    	indexFromLicenseString++;
 		    }
-		    in.close();
+		    dataInputStream.close();
 		}
 		catch (Exception e) {
-			e.printStackTrace();
 			assertTrue(false);
 		}
 	}
