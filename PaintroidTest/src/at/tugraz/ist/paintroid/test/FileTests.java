@@ -40,6 +40,14 @@ public class FileTests extends ActivityInstrumentationTestCase2<MainActivity> {
 	}
 	
 	public void testPictureIsSavedCorrectly() throws Exception{
+		solo.clickOnImageButton(FILE);
+		solo.clickOnButton("New Drawing");
+		
+		solo.clickOnImageButton(FILE);
+		solo.clickOnButton("Save");
+		solo.enterText(0, "test_save");
+		solo.clickOnButton("Done");
+		
 		File dir = new File(Environment.getExternalStorageDirectory().toString() + "/Pictures/Paintroid/test_save.png");
 		if(dir.exists()) {
 		    solo.clickOnMenuItem("Quit");

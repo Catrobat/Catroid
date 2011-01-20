@@ -8,6 +8,8 @@ import android.os.Debug;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import at.tugraz.ist.paintroid.MainActivity;
 import at.tugraz.ist.paintroid.dialog.DialogColorPicker;
 
@@ -34,6 +36,12 @@ public class ButtonFunctionTests extends ActivityInstrumentationTestCase2<MainAc
 	final int STROKE2 = 3;
 	final int STROKE3 = 4;
 	final int STROKE4 = 5;
+	
+	final int ABOUTTITLE = 0;
+	final int LICENSETEXT = 5;
+	
+	final String aboutTitleText = "About Paintroid...";
+	final String licenseText = "Catroid: An on-device graphical programming language for Android devices Copyright (C) 2010 Catroid development team (<http://code.google.com/p/catroid/wiki/Credits>)\n\nThis program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.";
 
 	public ButtonFunctionTests() {
 		super("at.tugraz.ist.paintroid", MainActivity.class);
@@ -222,21 +230,25 @@ public class ButtonFunctionTests extends ActivityInstrumentationTestCase2<MainAc
 		solo.clickOnImageButton(STROKECIRLCE);
 		solo.clickOnImageButton(STROKE);
 		solo.clickOnImageButton(STROKE1);
+		solo.waitForDialogToClose(100);
 		assertEquals(1, mainActivity.getCurrentBrushWidth());
 		assertEquals(Cap.ROUND, mainActivity.getCurrentBrush());
 		
 		solo.clickOnImageButton(STROKE);
 		solo.clickOnImageButton(STROKE3);
+		solo.waitForDialogToClose(100);
 		assertEquals(15, mainActivity.getCurrentBrushWidth());
 		assertEquals(Cap.ROUND, mainActivity.getCurrentBrush());
 		
 		solo.clickOnImageButton(STROKE);
 		solo.clickOnImageButton(STROKERECT);
+		solo.waitForDialogToClose(100);
 		assertEquals(15, mainActivity.getCurrentBrushWidth());
 		assertEquals(Cap.SQUARE, mainActivity.getCurrentBrush());
 		
 		solo.clickOnImageButton(STROKE);
 		solo.clickOnImageButton(STROKE3);
+		solo.waitForDialogToClose(100);
 		assertEquals(15, mainActivity.getCurrentBrushWidth());
 		assertEquals(Cap.SQUARE, mainActivity.getCurrentBrush());
 		
@@ -244,6 +256,7 @@ public class ButtonFunctionTests extends ActivityInstrumentationTestCase2<MainAc
 		solo.clickOnImageButton(STROKECIRLCE);
 		solo.clickOnImageButton(STROKE);
 		solo.clickOnImageButton(STROKE4);
+		solo.waitForDialogToClose(100);
 		assertEquals(25, mainActivity.getCurrentBrushWidth());
 		assertEquals(Cap.ROUND, mainActivity.getCurrentBrush());
 		
@@ -275,9 +288,10 @@ public class ButtonFunctionTests extends ActivityInstrumentationTestCase2<MainAc
 		mainActivity = (MainActivity) solo.getCurrentActivity();
 		
 		solo.clickOnMenuItem("Clear Drawing");
-		assertNull(mainActivity.getCurrentImage());
-//		assertNull(mainActivity.getCurrentImage().getNinePatchChunk());
-		
+		if(mainActivity.getCurrentImage() != null)
+		{
+			assertNull(mainActivity.getCurrentImage().getNinePatchChunk());
+		}
 	}
 
 	/**
@@ -342,6 +356,27 @@ public class ButtonFunctionTests extends ActivityInstrumentationTestCase2<MainAc
 		solo.clickOnImageButton(BRUSH);
 		solo.clickOnButton("Cancel");
 		solo.clickOnMenuItem("Quit");
+	}
+	
+	/**
+	 * Tests if the about dialog is present
+	 * @throws Exception
+	 */
+	public void testAbout() throws Exception{
+		solo.clickOnMenuItem("About");
+		Thread.sleep(200);
+		assertEquals(aboutTitleText, solo.getText(ABOUTTITLE).getText());
+	}
+	
+	/**
+	 * Tests if the license is present
+	 * @throws Exception
+	 */
+	public void testGpl() throws Exception{
+		solo.clickOnMenuItem("About");
+		solo.clickOnButton("License");
+		Thread.sleep(200);
+		assertEquals(licenseText, solo.getText(LICENSETEXT).getText());
 	}
 	
 	@Override
