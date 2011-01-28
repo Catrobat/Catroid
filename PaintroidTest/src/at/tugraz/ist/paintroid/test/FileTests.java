@@ -13,12 +13,11 @@ public class FileTests extends ActivityInstrumentationTestCase2<MainActivity> {
 	private Solo solo;
 	private MainActivity mainActivity;
 	
-	final int BRUSH = 3;
+	// Buttonindexes
 	final int FILE = 7;
 
 	public FileTests() {
 		super("at.tugraz.ist.paintroid", MainActivity.class);
-
 	}
 
 	public void setUp() throws Exception {
@@ -34,9 +33,10 @@ public class FileTests extends ActivityInstrumentationTestCase2<MainActivity> {
 		solo.enterText(0, "test_save");
 		solo.clickOnButton("Done");
 		
+		assertTrue(solo.waitForActivity("MainActivity", 500));
+		
 		mainActivity = (MainActivity) solo.getCurrentActivity();
 		assertEquals(mainActivity.getSavedFileUriString(), Environment.getExternalStorageDirectory().toString() + "/Pictures/Paintroid/test_save.png");
-		
 	}
 	
 	public void testPictureIsSavedCorrectly() throws Exception{
@@ -45,10 +45,12 @@ public class FileTests extends ActivityInstrumentationTestCase2<MainActivity> {
 		
 		solo.clickOnImageButton(FILE);
 		solo.clickOnButton("Save");
-		solo.enterText(0, "test_save");
+		solo.enterText(0, "test_save_2");
 		solo.clickOnButton("Done");
 		
-		File dir = new File(Environment.getExternalStorageDirectory().toString() + "/Pictures/Paintroid/test_save.png");
+		assertTrue(solo.waitForActivity("MainActivity", 500));
+		
+		File dir = new File(Environment.getExternalStorageDirectory().toString() + "/Pictures/Paintroid/test_save_2.png");
 		if(dir.exists()) {
 		    solo.clickOnMenuItem("Quit");
 		}else{
