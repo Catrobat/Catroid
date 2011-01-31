@@ -19,6 +19,8 @@
 package at.tugraz.ist.catroid.content.sprite;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Sprite implements Serializable {
 	private String name;
@@ -27,22 +29,30 @@ public class Sprite implements Serializable {
 	private int zPosition;
 	private double scale;
 	private boolean isVisible;
+	private List<Costume> costumeList;
+	private Costume currentCostume;
 	private static final long serialVersionUID = 3196641561527900213L;
 
 	public Sprite(String name) {
 		this.name = name;
 		this.xPosition = 0;
 		this.yPosition = 0;
+		this.zPosition = 0;
 		this.scale = 1.0;
 		this.isVisible = true;
+		this.costumeList = new ArrayList<Costume>();
+		this.currentCostume = null;
 	}
 
 	public Sprite(String name, int xPosition, int yPosition) {
 		this.name = name;
 		this.xPosition = xPosition;
 		this.yPosition = yPosition;
+		this.zPosition = 0;
 		this.scale = 1.0;
 		this.isVisible = true;
+		this.costumeList = new ArrayList<Costume>();
+		this.currentCostume = null;
 	}
 
 	public String getName() {
@@ -56,7 +66,7 @@ public class Sprite implements Serializable {
 	public int getYPosition() {
 		return yPosition;
 	}
-	
+
 	public int getZPosition() {
 		return zPosition;
 	}
@@ -73,12 +83,14 @@ public class Sprite implements Serializable {
 		this.xPosition = xPosition;
 		this.yPosition = yPosition;
 	}
-	
+
 	public void setZPosition(int zPosition) {
 		this.zPosition = zPosition;
 	}
 
-	public void setScale(double scale) {
+	public void setScale(double scale) throws NumberFormatException {
+		if(scale <= 0.0)
+			throw new NumberFormatException("Sprite scale must be greater than zero!");
 		this.scale = scale;
 	}
 
@@ -88,5 +100,28 @@ public class Sprite implements Serializable {
 
 	public void hide() {
 		isVisible = false;
+	}
+	
+	public Costume getCurrentCostume() {
+		return currentCostume;
+	}
+
+	public Costume getCostumeAt(int index) {
+		if (index >= 0 && index < costumeList.size())
+			return costumeList.get(index);
+		return null;
+	}
+	
+	public void deleteCostumeAt(int index) {
+		if (index >= 0 && index < costumeList.size())
+			costumeList.remove(index);
+	}
+	
+	public void addCostume(Costume costumeToBeAdded) {
+		costumeList.add(costumeToBeAdded);
+	}
+	
+	public void setCostume(int index) {
+		currentCostume = costumeList.get(index);
 	}
 }
