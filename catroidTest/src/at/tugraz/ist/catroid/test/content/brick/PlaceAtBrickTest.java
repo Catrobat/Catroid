@@ -22,10 +22,6 @@ import android.test.AndroidTestCase;
 import at.tugraz.ist.catroid.content.brick.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-/**
- * @author Peter Treitler
- *
- */
 public class PlaceAtBrickTest extends AndroidTestCase {
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
