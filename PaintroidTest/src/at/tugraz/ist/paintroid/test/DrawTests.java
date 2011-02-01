@@ -231,7 +231,7 @@ public class DrawTests extends ActivityInstrumentationTestCase2<MainActivity> {
 		solo.clickOnImageButton(STROKE);
 		solo.clickOnImageButton(STROKE1);
 		solo.waitForDialogToClose(200);
-		solo.clickLongOnScreen(100, 400);
+		solo.clickOnScreen(100, 400);
 		float[] coordinatesOfLastClick = new float[2];
 		mainActivity.getDrawingSurfaceListener().getLastClickCoordinates(coordinatesOfLastClick);
 		
