@@ -357,22 +357,6 @@ public class ButtonFunctionTests extends ActivityInstrumentationTestCase2<MainAc
 		assertFalse(mainActivity.getZoomLevel().equals(String.valueOf(1.0)));
 	}
 	
-	public void testUndo() throws Exception{
-		/**
-		 * Not implemented yet
-		 */
-	}
-	
-	
-	public void testWarningWhenNoBitmap() throws Exception{
-		solo.clickOnImageButton(BRUSH);
-		assertTrue(solo.waitForText(warningTitleText, 1, 300));
-		assertEquals(warningText, solo.getText(WARNINGTEXT).getText());
-		solo.clickOnButton("Cancel");
-		assertFalse(solo.waitForText(warningTitleText, 1, 300));
-		solo.clickOnMenuItem("Quit");
-	}
-	
 	/**
 	 * Tests if the about dialog is present
 	 * @throws Exception
