@@ -25,6 +25,5 @@ import java.io.Serializable;
  *
  */
 public class Costume implements Serializable {
-	private static final long serialVersionUID = 6228478133675517819L;
-
+	private static final long serialVersionUID = 1L;
 }

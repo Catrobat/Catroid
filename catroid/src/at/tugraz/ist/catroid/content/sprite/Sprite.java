@@ -31,7 +31,7 @@ public class Sprite implements Serializable {
 	private boolean isVisible;
 	private List<Costume> costumeList;
 	private Costume currentCostume;
-	private static final long serialVersionUID = 3196641561527900213L;
+	private static final long serialVersionUID = 1L;
 
 	public Sprite(String name) {
 		this.name = name;

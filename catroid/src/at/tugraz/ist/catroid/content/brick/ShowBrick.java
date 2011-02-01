@@ -25,7 +25,7 @@ import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class ShowBrick implements Brick, Serializable {
 	private transient Sprite sprite;
-	private static final long serialVersionUID = 572499527545382155L;
+	private static final long serialVersionUID = 1L;
 
 	public ShowBrick(Sprite sprite) {
 		this.sprite = sprite;
