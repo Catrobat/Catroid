@@ -58,6 +58,25 @@ public class DrawTests extends ActivityInstrumentationTestCase2<MainActivity> {
 		
 		solo.clickOnImageButton(FILE);
 		solo.clickOnButton("New Drawing");
+		assertTrue(solo.waitForActivity("MainActivity", 500));
+		
+		solo.clickOnButton(COLORPICKER);
+		solo.waitForView(DialogColorPicker.ColorPickerView.class, 1, 200);
+		ArrayList<View> actual_views = solo.getViews();
+		View colorPickerView = null;
+		for (View view : actual_views) {
+			if(view instanceof DialogColorPicker.ColorPickerView)
+			{
+				colorPickerView = view;
+			}
+		}
+		assertNotNull(colorPickerView);
+		int[] colorPickerViewCoordinates = new int[2];
+		colorPickerView.getLocationOnScreen(colorPickerViewCoordinates);
+		solo.clickLongOnScreen(colorPickerViewCoordinates[0]+145, colorPickerViewCoordinates[1]+33);
+		solo.clickLongOnScreen(colorPickerViewCoordinates[0]+200, colorPickerViewCoordinates[1]+340);
+		assertEquals(String.valueOf(Color.TRANSPARENT), mainActivity.getCurrentSelectedColor());
+		
 		solo.clickOnImageButton(BRUSH);
 		
 		int screenWidth = solo.getCurrentActivity().getWindowManager()
@@ -106,10 +125,26 @@ public class DrawTests extends ActivityInstrumentationTestCase2<MainActivity> {
 	public void testBrush() throws Exception{
 		solo.clickOnImageButton(FILE);
 		solo.clickOnButton("New Drawing");
-		solo.clickOnImageButton(BRUSH);
-		
 		assertTrue(solo.waitForActivity("MainActivity", 500));
 		mainActivity = (MainActivity) solo.getCurrentActivity();
+		solo.clickOnImageButton(BRUSH);
+		
+		solo.clickOnButton(COLORPICKER);
+		solo.waitForView(DialogColorPicker.ColorPickerView.class, 1, 200);
+		ArrayList<View> actual_views = solo.getViews();
+		View colorPickerView = null;
+		for (View view : actual_views) {
+			if(view instanceof DialogColorPicker.ColorPickerView)
+			{
+				colorPickerView = view;
+			}
+		}
+		assertNotNull(colorPickerView);
+		int[] colorPickerViewCoordinates = new int[2];
+		colorPickerView.getLocationOnScreen(colorPickerViewCoordinates);
+		solo.clickLongOnScreen(colorPickerViewCoordinates[0]+145, colorPickerViewCoordinates[1]+33);
+		solo.clickLongOnScreen(colorPickerViewCoordinates[0]+200, colorPickerViewCoordinates[1]+340);
+		assertEquals(String.valueOf(Color.TRANSPARENT), mainActivity.getCurrentSelectedColor());
 		
 		int screenWidth = solo.getCurrentActivity().getWindowManager()
 		  .getDefaultDisplay().getWidth();
@@ -123,7 +158,7 @@ public class DrawTests extends ActivityInstrumentationTestCase2<MainActivity> {
 		handButton.getLocationOnScreen(locationHandButton);
 		locationHandButton[1] -= handButton.getMeasuredHeight();
 		
-		ArrayList<View> actual_views = solo.getViews();
+		actual_views = solo.getViews();
 		View surfaceView = null;
 		for (View view : actual_views) {
 			if(view instanceof DrawingSurface)
@@ -172,17 +207,6 @@ public class DrawTests extends ActivityInstrumentationTestCase2<MainActivity> {
 		
 		solo.clickOnButton(COLORPICKER);
 		solo.waitForView(DialogColorPicker.ColorPickerView.class, 1, 200);
-		actual_views = solo.getViews();
-		View colorPickerView = null;
-		for (View view : actual_views) {
-			if(view instanceof DialogColorPicker.ColorPickerView)
-			{
-				colorPickerView = view;
-			}
-		}
-		assertNotNull(colorPickerView);
-		int[] colorPickerViewCoordinates = new int[2];
-		colorPickerView.getLocationOnScreen(colorPickerViewCoordinates);
 		solo.clickLongOnScreen(colorPickerViewCoordinates[0]+2, colorPickerViewCoordinates[1]+10);
 		Thread.sleep(200);
 		solo.clickLongOnScreen(colorPickerViewCoordinates[0]+257, colorPickerViewCoordinates[1]+42);
@@ -203,6 +227,7 @@ public class DrawTests extends ActivityInstrumentationTestCase2<MainActivity> {
 	public void testBrushSizes() throws Exception{
 		solo.clickOnImageButton(FILE);
 		solo.clickOnButton("New Drawing");
+		assertTrue(solo.waitForActivity("MainActivity", 500));
 		solo.clickOnImageButton(BRUSH);
 		
 		mainActivity = (MainActivity) solo.getCurrentActivity();
@@ -334,19 +359,9 @@ public class DrawTests extends ActivityInstrumentationTestCase2<MainActivity> {
 	public void testMagicWand() throws Exception{
 		solo.clickOnImageButton(FILE);
 		solo.clickOnButton("New Drawing");
-		solo.clickOnImageButton(WAND);
-		
-		solo.clickLongOnScreen(35, 400);
+		assertTrue(solo.waitForActivity("MainActivity", 500));
 		
 		mainActivity = (MainActivity) solo.getCurrentActivity();
-
-		int testPixel1 = mainActivity.getPixelFromScreenCoordinates(35, 350);
-		int testPixel2 = mainActivity.getPixelFromScreenCoordinates(25, 255);
-		int testPixel3 = mainActivity.getPixelFromScreenCoordinates(40, 360);
-		
-		assertEquals(testPixel1, Color.TRANSPARENT);
-		assertEquals(testPixel2, Color.TRANSPARENT);
-		assertEquals(testPixel3, Color.TRANSPARENT);
 		
 		solo.clickOnButton(COLORPICKER);
 		solo.waitForView(DialogColorPicker.ColorPickerView.class, 1, 200);
@@ -361,6 +376,24 @@ public class DrawTests extends ActivityInstrumentationTestCase2<MainActivity> {
 		assertNotNull(colorPickerView);
 		int[] colorPickerViewCoordinates = new int[2];
 		colorPickerView.getLocationOnScreen(colorPickerViewCoordinates);
+		solo.clickLongOnScreen(colorPickerViewCoordinates[0]+145, colorPickerViewCoordinates[1]+33);
+		solo.clickLongOnScreen(colorPickerViewCoordinates[0]+200, colorPickerViewCoordinates[1]+340);
+		assertEquals(String.valueOf(Color.TRANSPARENT), mainActivity.getCurrentSelectedColor());
+		
+		solo.clickOnImageButton(WAND);
+		
+		solo.clickLongOnScreen(35, 400);		
+
+		int testPixel1 = mainActivity.getPixelFromScreenCoordinates(35, 350);
+		int testPixel2 = mainActivity.getPixelFromScreenCoordinates(25, 255);
+		int testPixel3 = mainActivity.getPixelFromScreenCoordinates(40, 360);
+		
+		assertEquals(testPixel1, Color.TRANSPARENT);
+		assertEquals(testPixel2, Color.TRANSPARENT);
+		assertEquals(testPixel3, Color.TRANSPARENT);
+		
+		solo.clickOnButton(COLORPICKER);
+		solo.waitForView(DialogColorPicker.ColorPickerView.class, 1, 200);
 		solo.clickLongOnScreen(colorPickerViewCoordinates[0]+2, colorPickerViewCoordinates[1]+10);
 		Thread.sleep(200);
 		solo.clickLongOnScreen(colorPickerViewCoordinates[0]+257, colorPickerViewCoordinates[1]+42);
@@ -400,6 +433,7 @@ public class DrawTests extends ActivityInstrumentationTestCase2<MainActivity> {
 	public void testEyeDropper() throws Exception{
 		solo.clickOnImageButton(FILE);
 		solo.clickOnButton("New Drawing");
+		assertTrue(solo.waitForActivity("MainActivity", 500));
 		solo.clickOnImageButton(EYEDROPPER);
 		
 		solo.clickLongOnScreen(35, 400);
