@@ -24,7 +24,7 @@ import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class HideBrick implements Brick, Serializable {
 	private transient Sprite sprite;
-	private static final long serialVersionUID = 7675616793535511867L;
+	private static final long serialVersionUID = 1L;
 	
 	public HideBrick(Sprite sprite) {
 		this.sprite = sprite;

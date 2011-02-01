@@ -26,7 +26,7 @@ public class PlaceAtBrick implements Brick, Serializable {
 	private int xPosition;
 	private int yPosition;
 	private transient Sprite sprite;
-	private static final long serialVersionUID = -1721024451054335050L;
+	private static final long serialVersionUID = 1L;
 	
 	public PlaceAtBrick(int xPosition, int yPosition, Sprite sprite) {
 		this.xPosition = xPosition;
