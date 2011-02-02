@@ -28,10 +28,7 @@ public class GoNStepsBackBrickTest extends AndroidTestCase {
 	private int steps = 17;
 	private int oldPosition; 
 	
-	
 	public void testSteps() {
-		
-		
 		Sprite sprite = new Sprite("testSprite");
 		assertEquals("Unexpected initial sprite Z position", 0, sprite.getZPosition());
 		
@@ -39,7 +36,7 @@ public class GoNStepsBackBrickTest extends AndroidTestCase {
 		
 		GoNStepsBackBrick brick = new GoNStepsBackBrick(sprite, steps);
 		brick.execute();
-		assertEquals("Incorrect sprite Z position after GoNBackStepsBrick executed", (oldPosition - steps), sprite.getZPosition());		
+		assertEquals("Incorrect sprite Z position after GoNStepsBackBrick executed", (oldPosition - steps), sprite.getZPosition());		
 	}
 	
 	public void testNullSprite() {
@@ -59,9 +56,9 @@ public class GoNStepsBackBrickTest extends AndroidTestCase {
 		
 		GoNStepsBackBrick brick = new GoNStepsBackBrick(sprite, Integer.MAX_VALUE);
 		brick.execute();
-		assertEquals("GoNStepsBackBrick failed to scale Sprite to maximum double value", (oldPosition - Integer.MAX_VALUE), sprite.getZPosition());
+		assertEquals("GoNStepsBackBrick execution failed. Wrong Z position.", (oldPosition - Integer.MAX_VALUE), sprite.getZPosition());
 		
-		brick = new GoNStepsBackBrick(sprite, Integer.MIN_VALUE);
+		brick = new GoNStepsBackBrick(sprite, -steps);
 		try {
 			brick.execute();
 			fail("Execution of GoNStepsBackBrick with negative steps value did not cause a NumberFormatException to be thrown");
@@ -72,8 +69,7 @@ public class GoNStepsBackBrickTest extends AndroidTestCase {
 		brick = new GoNStepsBackBrick(sprite, Integer.MAX_VALUE);
 		brick.execute();
 		brick.execute();
-		assertEquals("An Integer underflow occured.", Integer.MIN_VALUE, sprite.getZPosition());
-		
+		assertEquals("An Integer underflow occured during GoNStepsBackBrick execution.", Integer.MIN_VALUE, sprite.getZPosition());
 	}
 
 }
