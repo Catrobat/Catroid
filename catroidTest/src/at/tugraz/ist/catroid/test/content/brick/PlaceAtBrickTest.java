@@ -23,13 +23,14 @@ import at.tugraz.ist.catroid.content.brick.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class PlaceAtBrickTest extends AndroidTestCase {
+	
+	private int xPosition = 100;
+	private int yPosition = 200;
+	
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
 		assertEquals("Unexpected initial sprite x position", 0, sprite.getXPosition());
 		assertEquals("Unexpected initial sprite y position", 0, sprite.getYPosition());
-		
-		int xPosition = 100;
-		int yPosition = 200;
 		
 		PlaceAtBrick brick = new PlaceAtBrick(xPosition, yPosition, sprite);
 		brick.execute();
@@ -38,7 +39,7 @@ public class PlaceAtBrickTest extends AndroidTestCase {
 	}
 	
 	public void testNullSprite() {
-		PlaceAtBrick brick = new PlaceAtBrick(100, 200, null);
+		PlaceAtBrick brick = new PlaceAtBrick(xPosition, yPosition, null);
 		try {
 			brick.execute();
 			fail("Execution of PlaceAtBrick with null Sprite did not cause a NullPointerException to be thrown");
