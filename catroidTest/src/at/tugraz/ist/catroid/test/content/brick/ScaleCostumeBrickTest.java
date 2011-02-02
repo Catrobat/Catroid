@@ -23,39 +23,72 @@ import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class ScaleCostumeBrickTest extends AndroidTestCase {
-	
+
 	private double scale = 2.7;
-	
+
 	public void testScale() {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite scale value", 1.0, sprite.getScale());
-		
+		assertEquals("Unexpected initial sprite scale value", 1.0,
+				sprite.getScale());
+
 		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite, scale);
 		brick.execute();
-		assertEquals("Incorrect sprite scale value after ScaleCostumeBrick executed", scale, sprite.getScale());		
+		assertEquals(
+				"Incorrect sprite scale value after ScaleCostumeBrick executed",
+				scale, sprite.getScale());
 	}
-	
+
 	public void testNullSprite() {
 		ScaleCostumeBrick brick = new ScaleCostumeBrick(null, scale);
 		try {
 			brick.execute();
 			fail("Execution of ScaleCostumeBrick with null Sprite did not cause a NullPointerException to be thrown");
-		} catch(NullPointerException e) {
+		} catch (NullPointerException e) {
 			// expected behavior
 		}
 	}
-	
+
 	public void testBoundaryScale() {
 		Sprite sprite = new Sprite("testSprite");
 
-		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite, Double.MAX_VALUE);
+		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite,
+				Double.MAX_VALUE);
 		brick.execute();
-		assertEquals("ScaleCostumeBrick failed to scale Sprite to maximum double value", Double.MAX_VALUE, sprite.getScale());
-		
+		assertEquals(
+				"ScaleCostumeBrick failed to scale Sprite to maximum double value",
+				Double.MAX_VALUE, sprite.getScale());
+
 		brick = new ScaleCostumeBrick(sprite, Double.MIN_VALUE);
 		brick.execute();
-		assertEquals("ScaleCostumeBrick failed to scale Sprite to minimum double value", Double.MIN_VALUE, sprite.getScale());
-		
+		assertEquals(
+				"ScaleCostumeBrick failed to scale Sprite to minimum double value",
+				Double.MIN_VALUE, sprite.getScale());
+	}
+
+	public void testZeroScale() {
+		Sprite sprite = new Sprite("testSprite");
+
+		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite, 0.0);
+
+		try {
+			brick.execute();
+			fail("Execution of ScaleCostumeBrick with 0.0 scale did not cause a IllegalArgumentException to be thrown.");
+		} catch (IllegalArgumentException e) {
+			// expected behavior
+		}
+	}
+
+	public void testNegativeScale() {
+		Sprite sprite = new Sprite("testSprite");
+
+		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite, -scale);
+
+		try {
+			brick.execute();
+			fail("Execution of ScaleCostumeBrick with negative scale did not cause a IllegalArgumentException to be thrown.");
+		} catch (IllegalArgumentException e) {
+			// expected behavior
+		}
 	}
 
 }

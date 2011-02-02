@@ -67,24 +67,6 @@ public class SpriteTest extends AndroidTestCase {
 		assertEquals("Failed to scale sprite to a very small size", tinyScale, sprite.getScale());
 	}
 	
-	public void testSetNegativeScale() {
-		try {
-			new Sprite("new sprite").setScale(-1.0);
-			fail("Setting sprite scale to a negative value succeeded, which it shouldn't!");
-		} catch(IllegalArgumentException e) {
-			// expected behavior
-		}
-	}
-	
-	public void testSetZeroScale() {
-		try {
-			new Sprite("new sprite").setScale(0.0);
-			fail("Setting sprite scale to zero succeeded, which it shouldn't!");
-		} catch(IllegalArgumentException e) {
-			// expected behavior
-		}
-	}
-	
 	public void testShowAndHide() {
 		Sprite sprite = new Sprite("new sprite");
 		assertTrue("Unexpected default visibility", sprite.isVisible());

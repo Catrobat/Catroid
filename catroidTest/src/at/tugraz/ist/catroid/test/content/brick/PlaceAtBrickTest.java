@@ -23,44 +23,57 @@ import at.tugraz.ist.catroid.content.brick.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class PlaceAtBrickTest extends AndroidTestCase {
-	
+
 	private int xPosition = 100;
 	private int yPosition = 200;
-	
+
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite x position", 0, sprite.getXPosition());
-		assertEquals("Unexpected initial sprite y position", 0, sprite.getYPosition());
-		
-		PlaceAtBrick brick = new PlaceAtBrick(xPosition, yPosition, sprite);
+		assertEquals("Unexpected initial sprite x position", 0,
+				sprite.getXPosition());
+		assertEquals("Unexpected initial sprite y position", 0,
+				sprite.getYPosition());
+
+		PlaceAtBrick brick = new PlaceAtBrick(sprite, xPosition, yPosition);
 		brick.execute();
-		assertEquals("Incorrect sprite x position after PlaceAtBrick executed", xPosition, sprite.getXPosition());
-		assertEquals("Incorrect sprite y position after PlaceAtBrick executed", yPosition, sprite.getYPosition());
+		assertEquals("Incorrect sprite x position after PlaceAtBrick executed",
+				xPosition, sprite.getXPosition());
+		assertEquals("Incorrect sprite y position after PlaceAtBrick executed",
+				yPosition, sprite.getYPosition());
 	}
-	
+
 	public void testNullSprite() {
-		PlaceAtBrick brick = new PlaceAtBrick(xPosition, yPosition, null);
+		PlaceAtBrick brick = new PlaceAtBrick(null, xPosition, yPosition);
 		try {
 			brick.execute();
 			fail("Execution of PlaceAtBrick with null Sprite did not cause a NullPointerException to be thrown");
-		} catch(NullPointerException e) {
+		} catch (NullPointerException e) {
 			// expected behavior
 		}
 	}
-	
+
 	public void testBoundaryPositions() {
 		Sprite sprite = new Sprite("testSprite");
 
-		PlaceAtBrick brick = new PlaceAtBrick(Integer.MAX_VALUE, Integer.MAX_VALUE, sprite);
+		PlaceAtBrick brick = new PlaceAtBrick(sprite, Integer.MAX_VALUE,
+				Integer.MAX_VALUE);
 		brick.execute();
-		
-		assertEquals("PlaceAtBrick failed to place Sprite at maximum x integer value", Integer.MAX_VALUE, sprite.getXPosition());
-		assertEquals("PlaceAtBrick failed to place Sprite at maximum y integer value", Integer.MAX_VALUE, sprite.getYPosition());
-		
-		brick = new PlaceAtBrick(Integer.MIN_VALUE, Integer.MIN_VALUE, sprite);
+
+		assertEquals(
+				"PlaceAtBrick failed to place Sprite at maximum x integer value",
+				Integer.MAX_VALUE, sprite.getXPosition());
+		assertEquals(
+				"PlaceAtBrick failed to place Sprite at maximum y integer value",
+				Integer.MAX_VALUE, sprite.getYPosition());
+
+		brick = new PlaceAtBrick(sprite, Integer.MIN_VALUE, Integer.MIN_VALUE);
 		brick.execute();
-		
-		assertEquals("PlaceAtBrick failed to place Sprite at minimum x integer value", Integer.MIN_VALUE, sprite.getXPosition());
-		assertEquals("PlaceAtBrick failed to place Sprite at minimum y integer value", Integer.MIN_VALUE, sprite.getYPosition());
+
+		assertEquals(
+				"PlaceAtBrick failed to place Sprite at minimum x integer value",
+				Integer.MIN_VALUE, sprite.getXPosition());
+		assertEquals(
+				"PlaceAtBrick failed to place Sprite at minimum y integer value",
+				Integer.MIN_VALUE, sprite.getYPosition());
 	}
 }
