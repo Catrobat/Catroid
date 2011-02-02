@@ -19,11 +19,9 @@
 
 package at.tugraz.ist.catroid.content.brick;
 
-import java.io.Serializable;
-
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-public class ShowBrick implements Brick, Serializable {
+public class ShowBrick implements Brick {
 	private transient Sprite sprite;
 	private static final long serialVersionUID = 1L;
 

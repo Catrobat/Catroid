@@ -18,6 +18,8 @@
  */
 package at.tugraz.ist.catroid.content.brick;
 
-public interface Brick {
+import java.io.Serializable;
+
+public interface Brick extends Serializable {
 	public void execute();
 }

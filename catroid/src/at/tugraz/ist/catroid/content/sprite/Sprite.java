@@ -89,8 +89,6 @@ public class Sprite implements Serializable {
 	}
 
 	public void setScale(double scale) throws NumberFormatException {
-		if (scale <= 0.0)
-			throw new NumberFormatException("Sprite scale must be greater than zero!");
 		this.scale = scale;
 	}
 
