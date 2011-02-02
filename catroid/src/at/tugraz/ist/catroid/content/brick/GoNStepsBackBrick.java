@@ -23,17 +23,16 @@ package at.tugraz.ist.catroid.content.brick;
  *
  */
 
-import java.io.Serializable;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-public class GoNStepsBackBrick implements Brick, Serializable {
+public class GoNStepsBackBrick implements Brick {
 	private transient Sprite sprite;
 	private int steps;
 	private static final long serialVersionUID = 1L;
 
 	public GoNStepsBackBrick(Sprite sprite, int steps) {
 		this.sprite = sprite;
-		this.steps = steps;
+		this.steps  = steps;
 	}
 
 	public void execute() {

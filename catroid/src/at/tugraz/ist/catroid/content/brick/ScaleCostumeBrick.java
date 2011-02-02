@@ -18,14 +18,13 @@
  */
 package at.tugraz.ist.catroid.content.brick;
 
-import java.io.Serializable;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 /**
  * @author Anton Rieder, Ainul Husna
  *
  */
-public class ScaleCostumeBrick implements Brick, Serializable {
+public class ScaleCostumeBrick implements Brick {
 	private transient Sprite sprite;
 	private double scale;
 	private static final long serialVersionUID = 1L;
@@ -36,6 +35,8 @@ public class ScaleCostumeBrick implements Brick, Serializable {
 	}
 
 	public void execute() {
+		if (scale <= 0.0)
+			throw new IllegalArgumentException("Sprite scale must be greater than zero!");
 		sprite.setScale(scale);
 	}
 

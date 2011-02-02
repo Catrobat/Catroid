@@ -18,20 +18,18 @@
  */
 package at.tugraz.ist.catroid.content.brick;
 
-import java.io.Serializable;
-
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-public class PlaceAtBrick implements Brick, Serializable {
+public class PlaceAtBrick implements Brick {
 	private int xPosition;
 	private int yPosition;
 	private transient Sprite sprite;
 	private static final long serialVersionUID = 1L;
 	
-	public PlaceAtBrick(int xPosition, int yPosition, Sprite sprite) {
+	public PlaceAtBrick(Sprite sprite, int xPosition, int yPosition) {
+		this.sprite    = sprite;
 		this.xPosition = xPosition;
 		this.yPosition = yPosition;
-		this.sprite = sprite;
 	}
 	
 	public void execute() {
