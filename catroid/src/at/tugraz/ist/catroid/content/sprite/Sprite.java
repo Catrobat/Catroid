@@ -22,6 +22,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import at.tugraz.ist.catroid.content.script.Script;
+
 public class Sprite implements Serializable {
 	private String name;
 	private int xPosition;
@@ -30,29 +32,33 @@ public class Sprite implements Serializable {
 	private double scale;
 	private boolean isVisible;
 	private List<Costume> costumeList;
+	private List<Script> scriptList;
 	private Costume currentCostume;
 	private static final long serialVersionUID = 1L;
 
-	public Sprite(String name) {
-		this.name = name;
-		this.xPosition = 0;
-		this.yPosition = 0;
+	private void init() {
 		this.zPosition = 0;
 		this.scale = 1.0;
 		this.isVisible = true;
 		this.costumeList = new ArrayList<Costume>();
+		this.scriptList = new ArrayList<Script>();
 		this.currentCostume = null;
+	}
+	
+	public Sprite(String name) {
+		this.name = name;
+		this.xPosition = 0;
+		this.yPosition = 0;
+		
+		init();
 	}
 
 	public Sprite(String name, int xPosition, int yPosition) {
 		this.name = name;
 		this.xPosition = xPosition;
 		this.yPosition = yPosition;
-		this.zPosition = 0;
-		this.scale = 1.0;
-		this.isVisible = true;
-		this.costumeList = new ArrayList<Costume>();
-		this.currentCostume = null;
+
+		init();
 	}
 
 	public String getName() {
@@ -79,16 +85,18 @@ public class Sprite implements Serializable {
 		return isVisible;
 	}
 
-	public void setPosition(int xPosition, int yPosition) {
+	public synchronized void setXYPosition(int xPosition, int yPosition) {
 		this.xPosition = xPosition;
 		this.yPosition = yPosition;
 	}
 
-	public void setZPosition(int zPosition) {
+	public synchronized void setZPosition(int zPosition) {
 		this.zPosition = zPosition;
 	}
 
-	public void setScale(double scale) throws NumberFormatException {
+	public void setScale(double scale) {
+		if (scale <= 0.0)
+			throw new IllegalArgumentException("Sprite scale must be greater than zero!");
 		this.scale = scale;
 	}
 
@@ -99,27 +107,22 @@ public class Sprite implements Serializable {
 	public void hide() {
 		isVisible = false;
 	}
-	
+
 	public Costume getCurrentCostume() {
 		return currentCostume;
 	}
 
-	public Costume getCostumeAt(int index) {
-		if (index >= 0 && index < costumeList.size())
-			return costumeList.get(index);
-		return null;
+	public List<Costume> getCostumeList() {
+		return costumeList;
 	}
 	
-	public void deleteCostumeAt(int index) {
-		if (index >= 0 && index < costumeList.size())
-			costumeList.remove(index);
+	public List<Script> getScriptList() {
+		return scriptList;
 	}
-	
-	public void addCostume(Costume costumeToBeAdded) {
-		costumeList.add(costumeToBeAdded);
-	}
-	
-	public void setCostume(int index) {
-		currentCostume = costumeList.get(index);
+
+	public void setCurrentCostume(Costume costume) throws IllegalArgumentException {
+		if(!costumeList.contains(costume))
+			throw new IllegalArgumentException("Selected costume is not contained in Costume list of this sprite.");
+		currentCostume = costume;
 	}
 }

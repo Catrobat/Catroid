@@ -35,8 +35,6 @@ public class ScaleCostumeBrick implements Brick {
 	}
 
 	public void execute() {
-		if (scale <= 0.0)
-			throw new IllegalArgumentException("Sprite scale must be greater than zero!");
 		sprite.setScale(scale);
 	}
 

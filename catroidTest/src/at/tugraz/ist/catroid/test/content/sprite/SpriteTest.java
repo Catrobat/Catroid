@@ -19,6 +19,9 @@
 package at.tugraz.ist.catroid.test.content.sprite;
 
 import android.test.AndroidTestCase;
+import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrick;
+import at.tugraz.ist.catroid.content.script.Script;
+import at.tugraz.ist.catroid.content.sprite.Costume;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class SpriteTest extends AndroidTestCase {
@@ -32,8 +35,12 @@ public class SpriteTest extends AndroidTestCase {
 		assertEquals("Unexpected default scale", 1.0, sprite.getScale());
 		assertTrue("Unexpected default visibility", sprite.isVisible());
 		assertNull("Unexpected Sprite costume", sprite.getCurrentCostume());
+		assertNotNull("Script list was not initialized", sprite.getScriptList());
+		assertEquals("Script list contains items after constructor", 0, sprite.getScriptList().size());
+		assertNotNull("Costume list was not initialized", sprite.getCostumeList());
+		assertEquals("Costume list contains items after constructor", 0, sprite.getCostumeList().size());
 	}
-	
+
 	public void testPositionConstructor() {
 		final String spriteName = "new sprite";
 		final int xPosition = 100;
@@ -46,27 +53,104 @@ public class SpriteTest extends AndroidTestCase {
 		assertEquals("Unexpected default scale", 1.0, sprite.getScale());
 		assertTrue("Unexpected default visibility", sprite.isVisible());
 		assertNull("Unexpected Sprite costume", sprite.getCurrentCostume());
-		
+		assertNotNull("Script list was not initialized", sprite.getScriptList());
+		assertEquals("Script list contains items after constructor", 0, sprite.getScriptList().size());
+		assertNotNull("Costume list was not initialized", sprite.getCostumeList());
+		assertEquals("Costume list contains items after constructor", 0, sprite.getCostumeList().size());
+
 		sprite = new Sprite(spriteName, Integer.MAX_VALUE, Integer.MIN_VALUE);
 		assertEquals("Failed to set Sprite X position to maximum Integer value", Integer.MAX_VALUE, sprite.getXPosition());
 		assertEquals("Failed to set Sprite Y position to minimum Integer value", Integer.MIN_VALUE, sprite.getYPosition());
 	}
-	
+
+	public void testSetXYPosition() {
+		Sprite sprite = new Sprite("new sprite");
+		final int xPosition = 5;
+		final int yPosition = 8;
+
+		sprite.setXYPosition(xPosition, yPosition);
+		assertEquals("Unexpected xPosition", xPosition, sprite.getXPosition());
+		assertEquals("Unexpected yPosition", yPosition, sprite.getYPosition());
+
+		sprite.setXYPosition(Integer.MAX_VALUE, Integer.MAX_VALUE);
+		assertEquals("Failed to set Sprite X position to maximum Integer value", Integer.MAX_VALUE, sprite.getXPosition());
+		assertEquals("Failed to set Sprite Y position to minimum Integer value", Integer.MAX_VALUE, sprite.getYPosition());
+	}
+
+	public void testSetZPosition() {
+		Sprite sprite = new Sprite("new sprite");
+		final int zPosition = 6;
+
+		sprite.setZPosition(zPosition);
+		assertEquals("Unexpected zPosition", zPosition, sprite.getZPosition());
+
+		sprite.setZPosition(Integer.MAX_VALUE);
+		assertEquals("Failed to set Sprite Z position to maximum Integer value", Integer.MAX_VALUE, sprite.getZPosition());
+		
+		sprite.setZPosition(-zPosition);
+		assertEquals("Failed to set z position to negative value", -zPosition, sprite.getZPosition());
+	}
+
+	public void testScriptList() {
+		Sprite sprite = new Sprite("new sprite");
+		sprite.getScriptList().add(new Script());
+		assertEquals("Script list does not contain script after adding", 1, sprite.getScriptList().size());
+
+		sprite.getScriptList().clear();
+		assertEquals("Script list could not be cleared", 0, sprite.getScriptList().size());
+	}
+
+	public void testCostumeList() {
+		Sprite sprite = new Sprite("new sprite");
+		sprite.getCostumeList().add(new Costume());
+		assertEquals("Costume list does not contain costume after adding", 1, sprite.getCostumeList().size());
+
+		sprite.getCostumeList().clear();
+		assertEquals("Costume list could not be cleared", 0, sprite.getCostumeList().size());
+	}
+
 	public void testSetScale() {
 		Sprite sprite = new Sprite("new sprite");
 		final double scale = 2.0;
 		sprite.setScale(scale);
 		assertEquals("Unexpected scale", scale, sprite.getScale());
-		
+
 		final double hugeScale = 10.0e100;
 		sprite.setScale(hugeScale);
 		assertEquals("Failed to scale sprite to a very large size", hugeScale, sprite.getScale());
-		
+
 		final double tinyScale = 10.0e-100;
 		sprite.setScale(tinyScale);
 		assertEquals("Failed to scale sprite to a very small size", tinyScale, sprite.getScale());
 	}
-	
+
+	public void testZeroScale() {
+		Sprite sprite = new Sprite("testSprite");
+
+		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite, 0.0);
+
+		try {
+			brick.execute();
+			fail("Execution of ScaleCostumeBrick with 0.0 scale did not cause a IllegalArgumentException to be thrown.");
+		} catch (IllegalArgumentException e) {
+			// expected behavior
+		}
+	}
+
+	public void testNegativeScale() {
+		Sprite sprite = new Sprite("testSprite");
+
+		final double scale = -5.0;
+		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite, scale);
+
+		try {
+			brick.execute();
+			fail("Execution of ScaleCostumeBrick with negative scale did not cause a IllegalArgumentException to be thrown.");
+		} catch (IllegalArgumentException e) {
+			// expected behavior
+		}
+	}
+
 	public void testShowAndHide() {
 		Sprite sprite = new Sprite("new sprite");
 		assertTrue("Unexpected default visibility", sprite.isVisible());
@@ -75,6 +159,28 @@ public class SpriteTest extends AndroidTestCase {
 		sprite.show();
 		assertTrue("Sprite not visible after calling show method", sprite.isVisible());
 	}
-	
-	// TODO: Costume tests
+
+	public void testCurrentCostume() {
+		Sprite sprite = new Sprite("new sprite");
+		Costume costume = new Costume();
+		sprite.getCostumeList().add(costume);
+		sprite.setCurrentCostume(costume);
+		assertEquals("Costume not in list after adding", costume, sprite.getCostumeList().get(0));
+		assertEquals("Current costume was not set correctly", costume, sprite.getCurrentCostume());
+		
+		Costume anotherCostume = new Costume();
+		try {
+			sprite.setCurrentCostume(anotherCostume);
+			fail("Could set current costume to a costume that's not in the list");
+		} catch(IllegalArgumentException e) {
+			// expected behavior
+		}
+		
+		try {
+			sprite.setCurrentCostume(null);
+			fail("Could set current costume to null");
+		} catch(IllegalArgumentException e) {
+			// expected behavior
+		}
+	}
 }

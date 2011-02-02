@@ -16,24 +16,12 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content.brick;
+package at.tugraz.ist.catroid.content.script;
 
-import at.tugraz.ist.catroid.content.sprite.Sprite;
+import java.io.Serializable;
 
-public class PlaceAtBrick implements Brick {
-	private int xPosition;
-	private int yPosition;
-	private transient Sprite sprite;
+public class Script implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
-	public PlaceAtBrick(Sprite sprite, int xPosition, int yPosition) {
-		this.sprite    = sprite;
-		this.xPosition = xPosition;
-		this.yPosition = yPosition;
-	}
-	
-	public void execute() {
-		sprite.setXYPosition(xPosition, yPosition);
-	}
 
 }
