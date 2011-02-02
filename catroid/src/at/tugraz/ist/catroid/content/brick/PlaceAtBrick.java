@@ -33,7 +33,7 @@ public class PlaceAtBrick implements Brick {
 	}
 	
 	public void execute() {
-		sprite.setPosition(xPosition, yPosition);
+		sprite.setXYPosition(xPosition, yPosition);
 	}
 
 }

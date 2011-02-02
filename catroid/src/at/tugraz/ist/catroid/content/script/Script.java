@@ -16,26 +16,12 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content.brick;
+package at.tugraz.ist.catroid.content.script;
 
-import at.tugraz.ist.catroid.content.sprite.Sprite;
+import java.io.Serializable;
 
-/**
- * @author Anton Rieder, Ainul Husna
- *
- */
-public class ScaleCostumeBrick implements Brick {
-	private transient Sprite sprite;
-	private double scale;
+public class Script implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-
-	public ScaleCostumeBrick(Sprite sprite, double scale) {
-		this.sprite = sprite;
-		this.scale  = scale;
-	}
-
-	public void execute() {
-		sprite.setScale(scale);
-	}
 
 }
