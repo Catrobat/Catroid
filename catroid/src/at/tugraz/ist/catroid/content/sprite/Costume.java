@@ -20,10 +20,18 @@ package at.tugraz.ist.catroid.content.sprite;
 
 import java.io.Serializable;
 
-/**
- * @author Peter Treitler
- *
- */
 public class Costume implements Serializable {
 	private static final long serialVersionUID = 1L;
+	public String imagePath;
+	public String thumbnailPath;
+	
+	public Costume(){ //TODO decide for path (or set in xml)
+	    this.imagePath = "";
+	    this.thumbnailPath = "";
+	}
+	
+	public Costume(String imagePath, String thumbnailPath){
+	    this.imagePath = imagePath;
+	    this.thumbnailPath = thumbnailPath;
+	}
 }
