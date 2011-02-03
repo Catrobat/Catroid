@@ -7,9 +7,9 @@ import at.tugraz.ist.catroid.content.project.Project;
 
 public class ComeToFrontBrickTest extends AndroidTestCase {
 	
-	public void testComeToFront() {
+	private Project project = Project.getInstance();
 	
-		Project project = Project.getInstance();
+	public void testComeToFront() {
 		
 		Sprite bottomSprite = new Sprite("catroid");
 		assertEquals("Unexpected initial z position of bottomSprite", 0, bottomSprite.getZPosition());
@@ -26,6 +26,8 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 		comeToFrontBrick.execute();
 		assertEquals("bottomSprite z position should now be 3", bottomSprite.getZPosition(), 3);
 		
+		project.removeSprite(topSprite);
+		project.removeSprite(bottomSprite);
 	}
 	
 	public void testNullSprite() {
@@ -37,5 +39,20 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 		} catch (NullPointerException e) {
 			// expected behavior
 		}
+	}
+	
+	public void testBoundaries() {
+		Sprite sprite = new Sprite("testSprite");
+		sprite.setZPosition(Integer.MAX_VALUE);
+		
+		project.addSprite(sprite);
+		
+		ComeToFrontBrick brick = new ComeToFrontBrick(sprite);
+		brick.execute();
+		
+		assertEquals("An Integer overflow occured during ComeToFrontBrick Execution"
+				, Integer.MAX_VALUE, sprite.getZPosition());
+		
+		project.removeSprite(sprite);
 	}
 }
