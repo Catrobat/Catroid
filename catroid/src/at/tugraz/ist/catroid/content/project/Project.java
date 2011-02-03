@@ -25,19 +25,11 @@ import java.util.HashSet;
 
 public class Project implements Serializable{
 	private static final long serialVersionUID = 1L;
-	private static Set<Sprite> spriteList = new HashSet<Sprite>();
-	private static Project instance;
+	private Set<Sprite> spriteList = new HashSet<Sprite>();
 	
-	public static Project getInstance() {
-		if(instance == null) {
-			instance = new Project();
-		}
-		return instance;
+	public Project() {
+		
 	}
-	
-	private Project() {
-	}
-	
 	
 	public synchronized boolean addSprite(Sprite sprite) {
 		return spriteList.add(sprite);

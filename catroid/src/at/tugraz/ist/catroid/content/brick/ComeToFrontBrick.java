@@ -22,18 +22,19 @@ import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.content.project.Project;
 
 public class ComeToFrontBrick implements Brick{
-	private transient Sprite sprite;
+	private transient Sprite  sprite;
+	private transient Project project;
 	private static final long serialVersionUID = 1L;
 	
 
-	public ComeToFrontBrick(Sprite sprite){
-		this.sprite = sprite;
+	public ComeToFrontBrick(Sprite sprite, Project project){
+		this.sprite  = sprite;
+		this.project = project;
 	}
 	
-	public void execute() {
-		Project project = Project.getInstance();	
-		int maxZValue   = project.getMaxZValue();
-		maxZValue = maxZValue > (maxZValue + 1) ? Integer.MAX_VALUE : maxZValue + 1;
+	public void execute() {	
+		int maxZValue = project.getMaxZValue();
+		maxZValue 	  = maxZValue > (maxZValue + 1) ? Integer.MAX_VALUE : maxZValue + 1;
 		
 		sprite.setZPosition(maxZValue);
 	}
