@@ -7,9 +7,8 @@ import at.tugraz.ist.catroid.content.project.Project;
 
 public class ComeToFrontBrickTest extends AndroidTestCase {
 	
-	private Project project = Project.getInstance();
-	
 	public void testComeToFront() {
+		Project project = new Project();
 		
 		Sprite bottomSprite = new Sprite("catroid");
 		assertEquals("Unexpected initial z position of bottomSprite", 0, bottomSprite.getZPosition());
@@ -22,16 +21,14 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 		assertTrue("topSprite not added to HashSet", project.addSprite(bottomSprite));
 		assertTrue("bottomSprite not added to HashSet", project.addSprite(topSprite));
 		
-		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(bottomSprite);
+		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(bottomSprite, project);
 		comeToFrontBrick.execute();
 		assertEquals("bottomSprite z position should now be 3", bottomSprite.getZPosition(), 3);
-		
-		project.removeSprite(topSprite);
-		project.removeSprite(bottomSprite);
 	}
 	
 	public void testNullSprite() {
-		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(null);
+		Project project = new Project();
+		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(null, project);
 		
 		try {
 			comeToFrontBrick.execute();
@@ -42,17 +39,17 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 	}
 	
 	public void testBoundaries() {
+		Project project = new Project();
+		
 		Sprite sprite = new Sprite("testSprite");
 		sprite.setZPosition(Integer.MAX_VALUE);
 		
 		project.addSprite(sprite);
 		
-		ComeToFrontBrick brick = new ComeToFrontBrick(sprite);
+		ComeToFrontBrick brick = new ComeToFrontBrick(sprite, project);
 		brick.execute();
 		
 		assertEquals("An Integer overflow occured during ComeToFrontBrick Execution"
 				, Integer.MAX_VALUE, sprite.getZPosition());
-		
-		project.removeSprite(sprite);
 	}
 }
