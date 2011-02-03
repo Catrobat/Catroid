@@ -1,6 +1,7 @@
 package at.tugraz.ist.paintroid.test;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -54,10 +55,30 @@ public class DrawTests extends ActivityInstrumentationTestCase2<MainActivity> {
 	 */
 	@Smoke
 	public void testDrawTRANSPARENTOnCanvas() throws Exception {
-		mainActivity = (MainActivity) solo.getCurrentActivity();
-		
 		solo.clickOnImageButton(FILE);
 		solo.clickOnButton("New Drawing");
+		assertTrue(solo.waitForActivity("MainActivity", 500));
+		
+		mainActivity = (MainActivity) solo.getCurrentActivity();
+		mainActivity.setAntiAliasing(false);
+		
+		solo.clickOnButton(COLORPICKER);
+		solo.waitForView(DialogColorPicker.ColorPickerView.class, 1, 200);
+		ArrayList<View> actual_views = solo.getViews();
+		View colorPickerView = null;
+		for (View view : actual_views) {
+			if(view instanceof DialogColorPicker.ColorPickerView)
+			{
+				colorPickerView = view;
+			}
+		}
+		assertNotNull(colorPickerView);
+		int[] colorPickerViewCoordinates = new int[2];
+		colorPickerView.getLocationOnScreen(colorPickerViewCoordinates);
+		solo.clickLongOnScreen(colorPickerViewCoordinates[0]+145, colorPickerViewCoordinates[1]+33);
+		solo.clickLongOnScreen(colorPickerViewCoordinates[0]+200, colorPickerViewCoordinates[1]+340);
+		assertEquals(String.valueOf(Color.TRANSPARENT), mainActivity.getCurrentSelectedColor());
+		
 		solo.clickOnImageButton(BRUSH);
 		
 		int screenWidth = solo.getCurrentActivity().getWindowManager()
@@ -106,10 +127,27 @@ public class DrawTests extends ActivityInstrumentationTestCase2<MainActivity> {
 	public void testBrush() throws Exception{
 		solo.clickOnImageButton(FILE);
 		solo.clickOnButton("New Drawing");
-		solo.clickOnImageButton(BRUSH);
-		
 		assertTrue(solo.waitForActivity("MainActivity", 500));
 		mainActivity = (MainActivity) solo.getCurrentActivity();
+		mainActivity.setAntiAliasing(false);
+		solo.clickOnImageButton(BRUSH);
+		
+		solo.clickOnButton(COLORPICKER);
+		solo.waitForView(DialogColorPicker.ColorPickerView.class, 1, 200);
+		ArrayList<View> actual_views = solo.getViews();
+		View colorPickerView = null;
+		for (View view : actual_views) {
+			if(view instanceof DialogColorPicker.ColorPickerView)
+			{
+				colorPickerView = view;
+			}
+		}
+		assertNotNull(colorPickerView);
+		int[] colorPickerViewCoordinates = new int[2];
+		colorPickerView.getLocationOnScreen(colorPickerViewCoordinates);
+		solo.clickLongOnScreen(colorPickerViewCoordinates[0]+145, colorPickerViewCoordinates[1]+33);
+		solo.clickLongOnScreen(colorPickerViewCoordinates[0]+200, colorPickerViewCoordinates[1]+340);
+		assertEquals(String.valueOf(Color.TRANSPARENT), mainActivity.getCurrentSelectedColor());
 		
 		int screenWidth = solo.getCurrentActivity().getWindowManager()
 		  .getDefaultDisplay().getWidth();
@@ -123,7 +161,7 @@ public class DrawTests extends ActivityInstrumentationTestCase2<MainActivity> {
 		handButton.getLocationOnScreen(locationHandButton);
 		locationHandButton[1] -= handButton.getMeasuredHeight();
 		
-		ArrayList<View> actual_views = solo.getViews();
+		actual_views = solo.getViews();
 		View surfaceView = null;
 		for (View view : actual_views) {
 			if(view instanceof DrawingSurface)
@@ -172,17 +210,6 @@ public class DrawTests extends ActivityInstrumentationTestCase2<MainActivity> {
 		
 		solo.clickOnButton(COLORPICKER);
 		solo.waitForView(DialogColorPicker.ColorPickerView.class, 1, 200);
-		actual_views = solo.getViews();
-		View colorPickerView = null;
-		for (View view : actual_views) {
-			if(view instanceof DialogColorPicker.ColorPickerView)
-			{
-				colorPickerView = view;
-			}
-		}
-		assertNotNull(colorPickerView);
-		int[] colorPickerViewCoordinates = new int[2];
-		colorPickerView.getLocationOnScreen(colorPickerViewCoordinates);
 		solo.clickLongOnScreen(colorPickerViewCoordinates[0]+2, colorPickerViewCoordinates[1]+10);
 		Thread.sleep(200);
 		solo.clickLongOnScreen(colorPickerViewCoordinates[0]+257, colorPickerViewCoordinates[1]+42);
@@ -203,9 +230,11 @@ public class DrawTests extends ActivityInstrumentationTestCase2<MainActivity> {
 	public void testBrushSizes() throws Exception{
 		solo.clickOnImageButton(FILE);
 		solo.clickOnButton("New Drawing");
+		assertTrue(solo.waitForActivity("MainActivity", 500));
 		solo.clickOnImageButton(BRUSH);
 		
 		mainActivity = (MainActivity) solo.getCurrentActivity();
+		mainActivity.setAntiAliasing(false);
 		
 		solo.clickOnButton(COLORPICKER);
 		solo.waitForView(DialogColorPicker.ColorPickerView.class, 1, 200);
@@ -226,105 +255,82 @@ public class DrawTests extends ActivityInstrumentationTestCase2<MainActivity> {
 		solo.clickLongOnScreen(colorPickerViewCoordinates[0]+20, colorPickerViewCoordinates[1]+340);
 		assertEquals(String.valueOf(Color.RED), mainActivity.getCurrentSelectedColor());
 		
-		solo.clickOnImageButton(STROKE);
-		solo.clickOnImageButton(STROKECIRLCE);
-		solo.clickOnImageButton(STROKE);
-		solo.clickOnImageButton(STROKE1);
-		solo.waitForDialogToClose(200);
-		solo.clickOnScreen(100, 400);
-		float[] coordinatesOfLastClick = new float[2];
-		mainActivity.getDrawingSurfaceListener().getLastClickCoordinates(coordinatesOfLastClick);
+		Vector<int[]> strokesToTest = new Vector<int[]>();
+		int[] stroke = new int[2];
+		stroke[0] = STROKE1;
+		stroke[1] = 1;
+		strokesToTest.add(stroke);
+		stroke = new int[2];
+		stroke[0] = STROKE2;
+		stroke[1] = 5;
+		strokesToTest.add(stroke);
+		stroke = new int[2];
+		stroke[0] = STROKE3;
+		stroke[1] = 15;
+		strokesToTest.add(stroke);
+		stroke = new int[2];
+		stroke[0] = STROKE4;
+		stroke[1] = 25;
+		strokesToTest.add(stroke);
 		
-		int brushWidth = mainActivity.getCurrentBrushWidth();
-		Cap brushType = mainActivity.getCurrentBrush();
-		assertEquals(1, brushWidth);
-		assertEquals(Cap.ROUND, brushType);
+		int coordinatesIncrement = 100;
+		int yDrawCoordinates = 100;
 		
-		assertEquals(Color.RED, mainActivity.getPixelFromScreenCoordinates(coordinatesOfLastClick[0], coordinatesOfLastClick[1]));
-		assertNotSame(Color.RED, mainActivity.getPixelFromScreenCoordinates(coordinatesOfLastClick[0]+brushWidth, coordinatesOfLastClick[1]));
-		assertNotSame(Color.RED, mainActivity.getPixelFromScreenCoordinates(coordinatesOfLastClick[0], coordinatesOfLastClick[1])+brushWidth);
-		assertNotSame(Color.RED, mainActivity.getPixelFromScreenCoordinates(coordinatesOfLastClick[0]+brushWidth, coordinatesOfLastClick[1])+brushWidth);
-		assertNotSame(Color.RED, mainActivity.getPixelFromScreenCoordinates(coordinatesOfLastClick[0]-brushWidth, coordinatesOfLastClick[1]));
-		assertNotSame(Color.RED, mainActivity.getPixelFromScreenCoordinates(coordinatesOfLastClick[0], coordinatesOfLastClick[1])-brushWidth);
-		assertNotSame(Color.RED, mainActivity.getPixelFromScreenCoordinates(coordinatesOfLastClick[0]-brushWidth, coordinatesOfLastClick[1])-brushWidth);
-		
-		solo.clickOnImageButton(STROKE);
-		solo.clickOnImageButton(STROKERECT);
-		solo.waitForDialogToClose(200);
-		solo.clickLongOnScreen(100, 350);
-		mainActivity.getDrawingSurfaceListener().getLastClickCoordinates(coordinatesOfLastClick);
-		brushWidth = mainActivity.getCurrentBrushWidth();
-		brushType = mainActivity.getCurrentBrush();
-		assertEquals(1, brushWidth);
-		assertEquals(Cap.SQUARE, brushType);
-		
-		assertEquals(Color.RED, mainActivity.getPixelFromScreenCoordinates(coordinatesOfLastClick[0], coordinatesOfLastClick[1]));
-		assertNotSame(Color.RED, mainActivity.getPixelFromScreenCoordinates(coordinatesOfLastClick[0]+brushWidth, coordinatesOfLastClick[1]));
-		assertNotSame(Color.RED, mainActivity.getPixelFromScreenCoordinates(coordinatesOfLastClick[0], coordinatesOfLastClick[1])+brushWidth);
-		assertNotSame(Color.RED, mainActivity.getPixelFromScreenCoordinates(coordinatesOfLastClick[0]+brushWidth, coordinatesOfLastClick[1])+brushWidth);
-		assertNotSame(Color.RED, mainActivity.getPixelFromScreenCoordinates(coordinatesOfLastClick[0]-brushWidth, coordinatesOfLastClick[1]));
-		assertNotSame(Color.RED, mainActivity.getPixelFromScreenCoordinates(coordinatesOfLastClick[0], coordinatesOfLastClick[1])-brushWidth);
-		assertNotSame(Color.RED, mainActivity.getPixelFromScreenCoordinates(coordinatesOfLastClick[0]-brushWidth, coordinatesOfLastClick[1])-brushWidth);
-		
-		solo.clickOnImageButton(STROKE);
-		solo.clickOnImageButton(STROKE3);
-		solo.waitForDialogToClose(200);
-		solo.clickLongOnScreen(100, 300);
-		mainActivity.getDrawingSurfaceListener().getLastClickCoordinates(coordinatesOfLastClick);
-		brushWidth = mainActivity.getCurrentBrushWidth();
-		brushType = mainActivity.getCurrentBrush();
-		assertEquals(15, brushWidth);
-		assertEquals(Cap.SQUARE, brushType);
-		
-		for (int count_x = 0; count_x < brushWidth; count_x++) {
-			for (int count_y = 0; count_y < brushWidth; count_y++) {
-				assertEquals(Color.RED, mainActivity.getPixelFromScreenCoordinates(coordinatesOfLastClick[0]+count_x, coordinatesOfLastClick[1]+count_y));
-				assertEquals(Color.RED, mainActivity.getPixelFromScreenCoordinates(coordinatesOfLastClick[0]-count_x, coordinatesOfLastClick[1]-count_y));
-			}
-		}
-		
-		assertNotSame(Color.RED, mainActivity.getPixelFromScreenCoordinates(coordinatesOfLastClick[0]+brushWidth, coordinatesOfLastClick[1]));
-		assertNotSame(Color.RED, mainActivity.getPixelFromScreenCoordinates(coordinatesOfLastClick[0], coordinatesOfLastClick[1])+brushWidth);
-		assertNotSame(Color.RED, mainActivity.getPixelFromScreenCoordinates(coordinatesOfLastClick[0]+brushWidth, coordinatesOfLastClick[1])+brushWidth);
-		assertNotSame(Color.RED, mainActivity.getPixelFromScreenCoordinates(coordinatesOfLastClick[0]-brushWidth, coordinatesOfLastClick[1]));
-		assertNotSame(Color.RED, mainActivity.getPixelFromScreenCoordinates(coordinatesOfLastClick[0], coordinatesOfLastClick[1])-brushWidth);
-		assertNotSame(Color.RED, mainActivity.getPixelFromScreenCoordinates(coordinatesOfLastClick[0]-brushWidth, coordinatesOfLastClick[1])-brushWidth);
-		
-		solo.clickOnImageButton(STROKE);
-		solo.clickOnImageButton(STROKECIRLCE);
-		solo.waitForDialogToClose(200);
-		solo.clickLongOnScreen(100, 200);
-		mainActivity.getDrawingSurfaceListener().getLastClickCoordinates(coordinatesOfLastClick);
-		brushWidth = mainActivity.getCurrentBrushWidth();
-		brushType = mainActivity.getCurrentBrush();
-		assertEquals(15, brushWidth);
-		assertEquals(Cap.ROUND, brushType);
-		
-		for (int count_x = 0; count_x < brushWidth; count_x++) {
-			for (int count_y = 0; count_y < brushWidth; count_y++) {
-				if(! ((Math.pow(count_x, 2)+Math.pow(count_y, 2)) == Math.pow(brushWidth, 2)))
-				{
-					assertNotSame(Color.RED, mainActivity.getPixelFromScreenCoordinates(coordinatesOfLastClick[0]+count_x, coordinatesOfLastClick[1]+count_y));
-					assertNotSame(Color.RED, mainActivity.getPixelFromScreenCoordinates(coordinatesOfLastClick[0]-count_x, coordinatesOfLastClick[1]-count_y));
-				}
-				else
-				{
-					assertEquals(Color.RED, mainActivity.getPixelFromScreenCoordinates(coordinatesOfLastClick[0]+count_x, coordinatesOfLastClick[1]+count_y));
-					assertEquals(Color.RED, mainActivity.getPixelFromScreenCoordinates(coordinatesOfLastClick[0]-count_x, coordinatesOfLastClick[1]-count_y));
+		for (int[] strokeType : strokesToTest) {
+			solo.clickOnImageButton(STROKE);
+			solo.clickOnImageButton(STROKERECT);
+			solo.clickOnImageButton(STROKE);
+			solo.clickOnImageButton(strokeType[0]);
+			solo.waitForDialogToClose(200);
+			solo.clickOnScreen(100, yDrawCoordinates);
+			float[] coordinatesOfLastClick = new float[2];
+			mainActivity.getDrawingSurfaceListener().getLastClickCoordinates(coordinatesOfLastClick );
+			int brushWidth = mainActivity.getCurrentBrushWidth();
+			Cap brushType = mainActivity.getCurrentBrush();
+			assertEquals(strokeType[1], brushWidth);
+			assertEquals(Cap.SQUARE, brushType);
+			
+			int halfBrushWidth = (brushWidth-1)/2;
+			Vector<Integer> pixelCoordinates = mainActivity.getPixelCoordinates(coordinatesOfLastClick[0], coordinatesOfLastClick[1]);
+			for (int count_x = -halfBrushWidth-5; count_x <= halfBrushWidth+5; count_x++) {
+				for (int count_y = -halfBrushWidth-5; count_y <= halfBrushWidth+5; count_y++) {
+					if(count_x >= -halfBrushWidth && count_x <= halfBrushWidth && count_y >= -halfBrushWidth && count_y <= halfBrushWidth)
+					{
+						assertEquals(Color.RED, mainActivity.getCurrentImage().getPixel(pixelCoordinates.elementAt(0).intValue()+count_x, pixelCoordinates.elementAt(1).intValue()+count_y));
+					}
+					else
+					{
+						assertNotSame(Color.RED, mainActivity.getCurrentImage().getPixel(pixelCoordinates.elementAt(0).intValue()+count_x, pixelCoordinates.elementAt(1).intValue()+count_y));
+					}
 				}
 			}
+			
+			solo.clickOnImageButton(STROKE);
+			solo.clickOnImageButton(STROKECIRLCE);
+			solo.waitForDialogToClose(200);
+			solo.clickOnScreen(200, yDrawCoordinates);
+			mainActivity.getDrawingSurfaceListener().getLastClickCoordinates(coordinatesOfLastClick);
+			brushWidth = mainActivity.getCurrentBrushWidth();
+			brushType = mainActivity.getCurrentBrush();
+			assertEquals(strokeType[1], brushWidth);
+			assertEquals(Cap.ROUND, brushType);
+			
+			halfBrushWidth = (brushWidth-1)/2;
+			pixelCoordinates = mainActivity.getPixelCoordinates(coordinatesOfLastClick[0], coordinatesOfLastClick[1]);
+			for (int count_x = -halfBrushWidth-5; count_x <= halfBrushWidth+5; count_x++) {
+				for (int count_y = -halfBrushWidth-5; count_y <= halfBrushWidth+5; count_y++) {
+					if((Math.pow(count_x, 2)+Math.pow(count_y, 2)) < Math.pow(halfBrushWidth-1, 2))
+					{
+						assertEquals(Color.RED, mainActivity.getCurrentImage().getPixel(pixelCoordinates.elementAt(0).intValue()+count_x, pixelCoordinates.elementAt(1).intValue()+count_y));
+					}
+					else if((Math.pow(count_x, 2)+Math.pow(count_y, 2)) > Math.pow(halfBrushWidth, 2))
+					{
+						assertNotSame(Color.RED, mainActivity.getCurrentImage().getPixel(pixelCoordinates.elementAt(0).intValue()+count_x, pixelCoordinates.elementAt(1).intValue()+count_y));
+					}
+				}
+			}
+			yDrawCoordinates += coordinatesIncrement;
 		}
-		
-		assertEquals(Color.RED, mainActivity.getPixelFromScreenCoordinates(coordinatesOfLastClick[0], coordinatesOfLastClick[1]));
-		assertNotSame(Color.RED, mainActivity.getPixelFromScreenCoordinates(coordinatesOfLastClick[0]+brushWidth, coordinatesOfLastClick[1]));
-		assertNotSame(Color.RED, mainActivity.getPixelFromScreenCoordinates(coordinatesOfLastClick[0], coordinatesOfLastClick[1])+brushWidth);
-		assertNotSame(Color.RED, mainActivity.getPixelFromScreenCoordinates(coordinatesOfLastClick[0]+brushWidth, coordinatesOfLastClick[1])+brushWidth);
-		assertNotSame(Color.RED, mainActivity.getPixelFromScreenCoordinates(coordinatesOfLastClick[0]-brushWidth, coordinatesOfLastClick[1]));
-		assertNotSame(Color.RED, mainActivity.getPixelFromScreenCoordinates(coordinatesOfLastClick[0], coordinatesOfLastClick[1])-brushWidth);
-		assertNotSame(Color.RED, mainActivity.getPixelFromScreenCoordinates(coordinatesOfLastClick[0]-brushWidth, coordinatesOfLastClick[1])-brushWidth);
-		
-		
-		
 	}
 	
 	/**
@@ -334,11 +340,31 @@ public class DrawTests extends ActivityInstrumentationTestCase2<MainActivity> {
 	public void testMagicWand() throws Exception{
 		solo.clickOnImageButton(FILE);
 		solo.clickOnButton("New Drawing");
-		solo.clickOnImageButton(WAND);
-		
-		solo.clickLongOnScreen(35, 400);
+		assertTrue(solo.waitForActivity("MainActivity", 500));
 		
 		mainActivity = (MainActivity) solo.getCurrentActivity();
+		mainActivity.setAntiAliasing(false);
+		
+		solo.clickOnButton(COLORPICKER);
+		solo.waitForView(DialogColorPicker.ColorPickerView.class, 1, 200);
+		ArrayList<View> actual_views = solo.getViews();
+		View colorPickerView = null;
+		for (View view : actual_views) {
+			if(view instanceof DialogColorPicker.ColorPickerView)
+			{
+				colorPickerView = view;
+			}
+		}
+		assertNotNull(colorPickerView);
+		int[] colorPickerViewCoordinates = new int[2];
+		colorPickerView.getLocationOnScreen(colorPickerViewCoordinates);
+		solo.clickLongOnScreen(colorPickerViewCoordinates[0]+145, colorPickerViewCoordinates[1]+33);
+		solo.clickLongOnScreen(colorPickerViewCoordinates[0]+200, colorPickerViewCoordinates[1]+340);
+		assertEquals(String.valueOf(Color.TRANSPARENT), mainActivity.getCurrentSelectedColor());
+		
+		solo.clickOnImageButton(WAND);
+		
+		solo.clickLongOnScreen(35, 400);		
 
 		int testPixel1 = mainActivity.getPixelFromScreenCoordinates(35, 350);
 		int testPixel2 = mainActivity.getPixelFromScreenCoordinates(25, 255);
@@ -350,17 +376,6 @@ public class DrawTests extends ActivityInstrumentationTestCase2<MainActivity> {
 		
 		solo.clickOnButton(COLORPICKER);
 		solo.waitForView(DialogColorPicker.ColorPickerView.class, 1, 200);
-		ArrayList<View> actual_views = solo.getViews();
-		View colorPickerView = null;
-		for (View view : actual_views) {
-			if(view instanceof DialogColorPicker.ColorPickerView)
-			{
-				colorPickerView = view;
-			}
-		}
-		assertNotNull(colorPickerView);
-		int[] colorPickerViewCoordinates = new int[2];
-		colorPickerView.getLocationOnScreen(colorPickerViewCoordinates);
 		solo.clickLongOnScreen(colorPickerViewCoordinates[0]+2, colorPickerViewCoordinates[1]+10);
 		Thread.sleep(200);
 		solo.clickLongOnScreen(colorPickerViewCoordinates[0]+257, colorPickerViewCoordinates[1]+42);
@@ -368,7 +383,7 @@ public class DrawTests extends ActivityInstrumentationTestCase2<MainActivity> {
 		assertEquals(String.valueOf(Color.RED), mainActivity.getCurrentSelectedColor());
 		
 		solo.clickOnImageButton(BRUSH);
-		solo.clickLongOnScreen(35, 400);
+		solo.clickOnScreen(35, 400);
 		float[] coordinatesOfLastClick = new float[2];
 		mainActivity.getDrawingSurfaceListener().getLastClickCoordinates(coordinatesOfLastClick);
 		int testPixelRed = mainActivity.getPixelFromScreenCoordinates(coordinatesOfLastClick[0], coordinatesOfLastClick[1]);
@@ -381,7 +396,7 @@ public class DrawTests extends ActivityInstrumentationTestCase2<MainActivity> {
 		assertEquals(String.valueOf(Color.BLACK), mainActivity.getCurrentSelectedColor());
 		solo.clickOnImageButton(WAND);
 		
-		solo.clickLongOnScreen(200, 200);
+		solo.clickOnScreen(200, 200);
 		
 		testPixel1 = mainActivity.getPixelFromScreenCoordinates(200, 200);
 		testPixel2 = mainActivity.getPixelFromScreenCoordinates(150, 200);
@@ -400,11 +415,13 @@ public class DrawTests extends ActivityInstrumentationTestCase2<MainActivity> {
 	public void testEyeDropper() throws Exception{
 		solo.clickOnImageButton(FILE);
 		solo.clickOnButton("New Drawing");
+		assertTrue(solo.waitForActivity("MainActivity", 500));
 		solo.clickOnImageButton(EYEDROPPER);
 		
-		solo.clickLongOnScreen(35, 400);
-		
 		mainActivity = (MainActivity) solo.getCurrentActivity();
+		mainActivity.setAntiAliasing(false);
+		
+		solo.clickLongOnScreen(35, 400);
 		
 		float[] coordinatesOfClick = new float[2];
 		mainActivity.getDrawingSurfaceListener().getLastClickCoordinates(coordinatesOfClick);
