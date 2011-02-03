@@ -23,7 +23,6 @@ import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class ScaleCostumeBrickTest extends AndroidTestCase {
-
 	private double scale = 2.7;
 
 	public void testScale() {
@@ -40,9 +39,11 @@ public class ScaleCostumeBrickTest extends AndroidTestCase {
 
 	public void testNullSprite() {
 		ScaleCostumeBrick brick = new ScaleCostumeBrick(null, scale);
+		
 		try {
 			brick.execute();
-			fail("Execution of ScaleCostumeBrick with null Sprite did not cause a NullPointerException to be thrown");
+			fail("Execution of ScaleCostumeBrick with null Sprite did not cause " +
+					"a NullPointerException to be thrown");
 		} catch (NullPointerException e) {
 			// expected behavior
 		}
@@ -54,14 +55,12 @@ public class ScaleCostumeBrickTest extends AndroidTestCase {
 		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite,
 				Double.MAX_VALUE);
 		brick.execute();
-		assertEquals(
-				"ScaleCostumeBrick failed to scale Sprite to maximum double value",
+		assertEquals("ScaleCostumeBrick failed to scale Sprite to maximum double value",
 				Double.MAX_VALUE, sprite.getScale());
 
 		brick = new ScaleCostumeBrick(sprite, Double.MIN_VALUE);
 		brick.execute();
-		assertEquals(
-				"ScaleCostumeBrick failed to scale Sprite to minimum double value",
+		assertEquals("ScaleCostumeBrick failed to scale Sprite to minimum double value",
 				Double.MIN_VALUE, sprite.getScale());
 	}
 
@@ -72,7 +71,8 @@ public class ScaleCostumeBrickTest extends AndroidTestCase {
 
 		try {
 			brick.execute();
-			fail("Execution of ScaleCostumeBrick with 0.0 scale did not cause a IllegalArgumentException to be thrown.");
+			fail("Execution of ScaleCostumeBrick with 0.0 scale did not cause a " +
+					"IllegalArgumentException to be thrown.");
 		} catch (IllegalArgumentException e) {
 			// expected behavior
 		}
@@ -85,7 +85,8 @@ public class ScaleCostumeBrickTest extends AndroidTestCase {
 
 		try {
 			brick.execute();
-			fail("Execution of ScaleCostumeBrick with negative scale did not cause a IllegalArgumentException to be thrown.");
+			fail("Execution of ScaleCostumeBrick with negative scale did not cause" +
+					" a IllegalArgumentException to be thrown.");
 		} catch (IllegalArgumentException e) {
 			// expected behavior
 		}

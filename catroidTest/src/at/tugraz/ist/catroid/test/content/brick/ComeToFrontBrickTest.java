@@ -10,10 +10,13 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 	public void testComeToFront() {
 	
 		Project project = Project.getInstance();
+		
 		Sprite bottomSprite = new Sprite("catroid");
 		assertEquals("Unexpected initial z position of bottomSprite", 0, bottomSprite.getZPosition());
-		Sprite topSprite = new Sprite("scratch");
-		assertEquals("Unexpected initial z position of topSprite", 0, topSprite.getZPosition());
+		
+		Sprite topSprite    = new Sprite("scratch");
+		assertEquals("Unexpected initial z position of topSprite", 	  0, topSprite.getZPosition());
+		
 		topSprite.setZPosition(2);
 		assertEquals("topSprite z position should now be 2", 2, topSprite.getZPosition());
 		assertTrue("topSprite not added to HashSet", project.addSprite(bottomSprite));
@@ -27,10 +30,11 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 	
 	public void testNullSprite() {
 		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(null);
+		
 		try {
 			comeToFrontBrick.execute();
 			fail("Execution of ComeToFrontBrick with null Sprite did not cause a NullPointerException to be thrown");
-		} catch(NullPointerException e) {
+		} catch (NullPointerException e) {
 			// expected behavior
 		}
 	}
