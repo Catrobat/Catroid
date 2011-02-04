@@ -323,9 +323,7 @@ public class ButtonFunctionTests extends ActivityInstrumentationTestCase2<MainAc
 		mainActivity = (MainActivity) solo.getCurrentActivity();
 		
 		solo.drag(66, 500, 700, 55, 100);
-				
-		//TODO could be that it depends on the device (resolution, etc.)
-//		assertEquals(mainActivity.getZoomLevel(), String.valueOf(12.626037));
+
 		assertFalse(mainActivity.getZoomLevel().equals(String.valueOf(1.0)));
 		
 		solo.clickOnMenuItem("Reset Zoom");
@@ -351,9 +349,7 @@ public class ButtonFunctionTests extends ActivityInstrumentationTestCase2<MainAc
 		mainActivity = (MainActivity) solo.getCurrentActivity();
 		
 		solo.drag(66, 500, 700, 55, 100);
-		
-		//TODO could be that it depends on the device (resolution, etc.)
-//		assertEquals(mainActivity.getZoomLevel(), String.valueOf(12.626037));
+
 		assertFalse(mainActivity.getZoomLevel().equals(String.valueOf(1.0)));
 	}
 	
