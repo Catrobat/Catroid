@@ -19,9 +19,44 @@
 package at.tugraz.ist.catroid.content.script;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+
+import at.tugraz.ist.catroid.content.brick.Brick;
 
 public class Script implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+	private ArrayList<Brick> brickList;
+	
+	public Script() {
+		this.brickList = new ArrayList<Brick>();
+	}
+	
+	public void addBrick(Brick brick) {
+		brickList.add(brick);
+	}
+	
+	public void removeBrick(Brick brick) {
+		brickList.remove(brick);
+	}
+	
+	public void moveBrickBySteps(Brick brick, int steps) {
+		int oldIndex = brickList.indexOf(brick);
+		int newIndex;
+		
+		if (steps < 0) {
+			newIndex = oldIndex + steps < 0 ? 0 : oldIndex + steps;
+			brickList.remove(oldIndex);
+			brickList.add(newIndex, brick);
+		} else if (steps > 0) {
+			newIndex = oldIndex + steps >= brickList.size() ? brickList.size() - 1 : oldIndex + steps;
+			brickList.remove(oldIndex);
+			brickList.add(newIndex, brick);
+		}	
+		else {
+			return;
+		}
+			
+	}
+	
 }
