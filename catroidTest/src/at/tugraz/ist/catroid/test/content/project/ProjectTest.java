@@ -25,7 +25,7 @@ import at.tugraz.ist.catroid.content.project.Project;
 public class ProjectTest extends AndroidTestCase {
 	private Sprite  bottomSprite = new Sprite("bottom");
 	private Sprite  topSprite    = new Sprite("top");
-	private Project project      = new Project();
+	private Project project      = new Project(null);
 	private int		maxZ		 = 17;
 	
 	

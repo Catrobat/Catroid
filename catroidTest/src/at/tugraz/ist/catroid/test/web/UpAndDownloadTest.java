@@ -56,12 +56,12 @@ public class UpAndDownloadTest extends AndroidTestCase {
 		
 		assertTrue("The default Project does not exist.", new File(pathToDefaultProject).exists());
 		uploadTask.execute();		
-		Thread.sleep(1000);
+		Thread.sleep(3000);
 		
 		assertTrue("uploaded file does not exist", mProjectZipOnMockServer.exists());
 		
 		downloadTask.execute();
-		Thread.sleep(1000);
+		Thread.sleep(3000);
 		
 		File downloadProjectRoot = new File(ConstructionSiteActivity.DEFAULT_ROOT+"/"+testProjectName);
 		assertTrue("project does not exist after download", downloadProjectRoot.exists());

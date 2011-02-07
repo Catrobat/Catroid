@@ -18,20 +18,54 @@
  */
 package at.tugraz.ist.catroid.content.project;
 
+import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.utils.Utils;
+
+import java.io.File;
 import java.io.Serializable;
+import java.util.Observable;
 import java.util.Set;
 import java.util.HashSet;
 
-public class Project implements Serializable{
+public class Project extends Observable implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private Set<Sprite> spriteList = new HashSet<Sprite>();
+	public Set<Sprite> spriteList = new HashSet<Sprite>();
+	private File projectPath;
+	private String projectFile;
+	private String projectTitle;
 	
-	public Project() {
-		
+	
+	public Project(String projectName) {
+		projectTitle = projectName;
+		projectPath = new File(Utils.concatPaths(ConstructionSiteActivity.DEFAULT_ROOT, projectName));
+		projectFile = new String(projectName);
+		if (!projectFile.contains(ConstructionSiteActivity.DEFAULT_FILE_ENDING))
+			projectFile = Utils.addDefaultFileEnding(projectFile);
+		boolean existed = projectPath.exists();
+		if (existed) {
+			loadExistingProject();
+		} else {
+			createNewProject();
+		}
+	}
+	
+	private void loadExistingProject() {
+		//TODO: load spf file, parse it and create objects
+		setChanged();
+		notifyObservers();
+	}
+	
+	private void createNewProject() {
+		//TODO: create new project
+		Sprite stage = new Sprite("stage");
+		addSprite(stage);
+		setChanged();
+		notifyObservers();
 	}
 	
 	public synchronized boolean addSprite(Sprite sprite) {
+		System.out.println("Added sprite " + sprite.getName());
 		return spriteList.add(sprite);
 	}
 	
@@ -46,4 +80,5 @@ public class Project implements Serializable{
 		}
 		return maxZValue;
 	}
+	
 }

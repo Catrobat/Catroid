@@ -8,7 +8,7 @@ import at.tugraz.ist.catroid.content.project.Project;
 public class ComeToFrontBrickTest extends AndroidTestCase {
 	
 	public void testComeToFront() {
-		Project project = new Project();
+		Project project = new Project(null);
 		
 		Sprite bottomSprite = new Sprite("catroid");
 		assertEquals("Unexpected initial z position of bottomSprite", 0, bottomSprite.getZPosition());
@@ -18,8 +18,8 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 		
 		topSprite.setZPosition(2);
 		assertEquals("topSprite z position should now be 2", 2, topSprite.getZPosition());
-		assertTrue("topSprite not added to HashSet", project.addSprite(bottomSprite));
-		assertTrue("bottomSprite not added to HashSet", project.addSprite(topSprite));
+		assertTrue("bottomSprite not added to data structure", project.addSprite(bottomSprite));
+		assertTrue("topSprite not added to data structure", project.addSprite(topSprite));
 		
 		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(bottomSprite, project);
 		comeToFrontBrick.execute();
@@ -27,7 +27,7 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 	}
 	
 	public void testNullSprite() {
-		Project project = new Project();
+		Project project = new Project(null);
 		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(null, project);
 		
 		try {
@@ -39,7 +39,7 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 	}
 	
 	public void testBoundaries() {
-		Project project = new Project();
+		Project project = new Project(null);
 		
 		Sprite sprite = new Sprite("testSprite");
 		sprite.setZPosition(Integer.MAX_VALUE);
