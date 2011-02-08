@@ -8,7 +8,7 @@ import at.tugraz.ist.catroid.content.project.Project;
 public class ComeToFrontBrickTest extends AndroidTestCase {
 	
 	public void testComeToFront() {
-		Project project = new Project(null);
+		Project project = new Project("testProject");
 		
 		Sprite bottomSprite = new Sprite("catroid");
 		assertEquals("Unexpected initial z position of bottomSprite", 0, bottomSprite.getZPosition());
@@ -27,7 +27,7 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 	}
 	
 	public void testNullSprite() {
-		Project project = new Project(null);
+		Project project = new Project("testProject");
 		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(null, project);
 		
 		try {
@@ -39,7 +39,7 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 	}
 	
 	public void testBoundaries() {
-		Project project = new Project(null);
+		Project project = new Project("testProject");
 		
 		Sprite sprite = new Sprite("testSprite");
 		sprite.setZPosition(Integer.MAX_VALUE);

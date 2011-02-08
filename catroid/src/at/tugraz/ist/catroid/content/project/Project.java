@@ -39,7 +39,7 @@ public class Project extends Observable implements Serializable {
 	public Project(String projectName) {
 		projectTitle = projectName;
 		projectPath = new File(Utils.concatPaths(ConstructionSiteActivity.DEFAULT_ROOT, projectName));
-		projectFile = new String(projectName);
+		projectFile = projectName;
 		if (!projectFile.contains(ConstructionSiteActivity.DEFAULT_FILE_ENDING))
 			projectFile = Utils.addDefaultFileEnding(projectFile);
 		boolean existed = projectPath.exists();
