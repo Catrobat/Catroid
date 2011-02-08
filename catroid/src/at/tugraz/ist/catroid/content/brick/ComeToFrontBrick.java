@@ -18,10 +18,8 @@
  */
 package at.tugraz.ist.catroid.content.brick;
 
-import java.io.Serializable;
-
-import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.content.project.Project;
+import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class ComeToFrontBrick implements Brick {
 	private static final long serialVersionUID = 1L;

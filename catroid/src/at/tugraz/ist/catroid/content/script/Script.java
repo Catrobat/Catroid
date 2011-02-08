@@ -18,19 +18,19 @@
  */
 package at.tugraz.ist.catroid.content.script;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import at.tugraz.ist.catroid.content.brick.Brick;
-import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-public class Script implements Serializable {
+public class Script {
 
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Brick> brickList;
+	private boolean isTouchScript;
 
 	public Script() {
 		this.brickList = new ArrayList<Brick>();
+		setTouchScript(false);
 	}
 
 	public void run() {
@@ -69,4 +69,13 @@ public class Script implements Serializable {
 	public ArrayList<Brick> getBrickList() {
 		return this.brickList;
 	}
+
+	public void setTouchScript(boolean isTouchScript) {
+		this.isTouchScript = isTouchScript;
+	}
+
+	public boolean isTouchScript() {
+		return isTouchScript;
+	}
+
 }

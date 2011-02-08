@@ -19,6 +19,7 @@
 package at.tugraz.ist.catroid.content.project;
 
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
+import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -27,10 +28,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
+import java.util.Set;
+import java.util.HashSet;
 
 public class Project extends Observable implements Serializable {
 	private static final long serialVersionUID = 1L;
-
 	public List<Sprite> spriteList = new ArrayList<Sprite>();
 	private File projectPath;
 	private String projectFile;
@@ -40,7 +42,7 @@ public class Project extends Observable implements Serializable {
 	public Project(String projectName) {
 		projectTitle = projectName;
 		projectPath = new File(Utils.concatPaths(ConstructionSiteActivity.DEFAULT_ROOT, projectName));
-		projectFile = new String(projectName);
+		projectFile = projectName;
 		if (!projectFile.contains(ConstructionSiteActivity.DEFAULT_FILE_ENDING))
 			projectFile = Utils.addDefaultFileEnding(projectFile);
 		boolean existed = projectPath.exists();
@@ -66,6 +68,7 @@ public class Project extends Observable implements Serializable {
 	}
 	
 	public synchronized boolean addSprite(Sprite sprite) {
+		System.out.println("Added sprite " + sprite.getName());
 		return spriteList.add(sprite);
 	}
 	
@@ -82,6 +85,7 @@ public class Project extends Observable implements Serializable {
 	}
 
 	public List<Sprite> getSpriteList() {
-		return this.spriteList;
+		return spriteList;
 	}
+	
 }

@@ -41,6 +41,7 @@ import at.tugraz.ist.catroid.constructionSite.gui.dialogs.NewProjectDialog;
 import at.tugraz.ist.catroid.constructionSite.gui.dialogs.SpritesDialog;
 import at.tugraz.ist.catroid.constructionSite.gui.dialogs.ToolBoxDialog;
 import at.tugraz.ist.catroid.constructionSite.tasks.ProjectUploadTask;
+import at.tugraz.ist.catroid.content.project.Project;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.utils.ImageContainer;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -92,7 +93,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	private ConstructionSiteListViewAdapter mListViewAdapter;
 	private ConstructionSiteGalleryAdapter mGalleryAdapter;
 	private ContentManager mContentManager;
-
+	private Project currentProject;
+	
 	private Button mSpritesToolboxButton;
 	private SpritesDialog mSpritesToolboxDialog;
 
@@ -114,9 +116,10 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 			mPreferences = this.getPreferences(Activity.MODE_PRIVATE);
 
-			mContentManager = new ContentManager(this);
-			mContentManager.setObserver(this);
-
+			//mContentManager = new ContentManager(this);
+			//mContentManager.setObserver(this);
+			currentProject = new Project("new");
+			
 			mConstructionListView = (ListView) findViewById(R.id.MainListView);
 			mListViewAdapter = new ConstructionSiteListViewAdapter(this, mContentManager.getCurrentSpriteCommandList(), mConstructionListView,
 					ImageContainer.getInstance());

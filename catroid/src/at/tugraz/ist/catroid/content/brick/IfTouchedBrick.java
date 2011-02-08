@@ -16,20 +16,28 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content.sprite;
+package at.tugraz.ist.catroid.content.brick;
 
+import at.tugraz.ist.catroid.content.script.Script;
+import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-public class Costume {
-	public String imagePath;
-	public String thumbnailPath;
+public class IfTouchedBrick implements Brick {
+	private Script touchScript;
+	private Sprite sprite;
+	private static final long serialVersionUID = 1L;
 	
-	public Costume(){ //TODO decide for path (or set in xml)
-	    this.imagePath = "";
-	    this.thumbnailPath = "";
+	public IfTouchedBrick(Script touchScript, Sprite sprite) {
+		this.touchScript = touchScript;
+		this.touchScript.setTouchScript(true);
+		this.sprite = sprite;
+	}
+
+	public void execute() {
+		// nothing to do
 	}
 	
-	public Costume(String imagePath, String thumbnailPath){
-	    this.imagePath = imagePath;
-	    this.thumbnailPath = thumbnailPath;
+	public Sprite getSprite() {
+		return sprite;
 	}
+
 }
