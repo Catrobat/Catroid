@@ -18,28 +18,26 @@
  */
 package at.tugraz.ist.catroid.content.brick;
 
-import at.tugraz.ist.catroid.content.project.Project;
+import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-public class ComeToFrontBrick implements Brick {
+public class IfTouchedBrick implements Brick {
+	private Script touchScript;
+	private Sprite sprite;
 	private static final long serialVersionUID = 1L;
-	private Sprite  sprite;
-	private transient Project project;
 	
-
-	public ComeToFrontBrick(Sprite sprite, Project project){
-		this.sprite  = sprite;
-		this.project = project;
-	}
-	
-	public void execute() {	
-		int maxZValue = project.getMaxZValue();
-		maxZValue 	  = maxZValue > (maxZValue + 1) ? Integer.MAX_VALUE : maxZValue + 1;
-		
-		sprite.setZPosition(maxZValue);
+	public IfTouchedBrick(Script touchScript, Sprite sprite) {
+		this.touchScript = touchScript;
+		this.touchScript.setTouchScript(true);
+		this.sprite = sprite;
 	}
 
+	public void execute() {
+		// nothing to do
+	}
+	
 	public Sprite getSprite() {
-		return this.sprite;
+		return sprite;
 	}
+
 }

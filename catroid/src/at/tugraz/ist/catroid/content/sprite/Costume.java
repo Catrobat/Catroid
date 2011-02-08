@@ -18,7 +18,6 @@
  */
 package at.tugraz.ist.catroid.content.sprite;
 
-import java.io.Serializable;
 
 public class Costume {
 	public String imagePath;
