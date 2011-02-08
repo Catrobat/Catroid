@@ -18,6 +18,12 @@
  */
 package at.tugraz.ist.catroid.content.brick;
 
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class PlaceAtBrick implements Brick {
@@ -39,6 +45,19 @@ public class PlaceAtBrick implements Brick {
 
 	public Sprite getSprite() {
 		return this.sprite;
+	}
+
+	/* (non-Javadoc)
+	 * @see at.tugraz.ist.catroid.content.brick.Brick#getView(android.content.Context)
+	 */
+	public View getView(LayoutInflater inflater) {
+		View view = inflater.inflate(R.layout.construction_brick_goto, null);
+		EditText edit = (EditText) view.findViewById(R.id.InputValueEditTextX);
+		edit.setText(xPosition);
+		edit = (EditText) view.findViewById(R.id.InputValueEditTextY);
+		edit.setText(yPosition);
+		
+		return view;
 	}
 
 }
