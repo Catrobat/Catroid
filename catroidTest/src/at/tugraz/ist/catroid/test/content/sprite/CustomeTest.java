@@ -18,34 +18,62 @@
  */
 package at.tugraz.ist.catroid.test.content.sprite;
 
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.test.AndroidTestCase;
 import at.tugraz.ist.catroid.content.sprite.Costume;
+import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.utils.Utils;
+
 
 public class CustomeTest extends AndroidTestCase{
     
-    public void testDefaultConstructor(){
-        Costume costume = new Costume();
-        assertEquals("Unexpected ImagePath", "", costume.imagePath);
-        assertEquals("Unexpected ThumbnailPath", "", costume.thumbnailPath);
+    Bitmap bitmap1;
+    Bitmap bitmap2;
+
+    @Override
+    protected void setUp(){
+        Bitmap bitmap1 = Bitmap.createBitmap(10, 10, Config.ARGB_8888);
+        Bitmap bitmap2 = Bitmap.createBitmap(10, 10, Config.ARGB_8888);
+        Utils.saveBitmapOnSDCardAsPNG("/sdcard/test1.png", bitmap1);
+        Utils.saveBitmapOnSDCardAsPNG("/sdcard/test2.png", bitmap2);
     }
     
     public void testConstructor(){
-        final String imagePath = "imagePath";
-        final String thumbnailPath = "thumbPath";
-        Costume costume = new Costume(imagePath,thumbnailPath);
-        assertEquals("Unexpected ImagePath", imagePath, costume.imagePath);
-        assertEquals("Unexpected ThumbnailPath", thumbnailPath, costume.thumbnailPath);
+        final String imagePath = "invalid image path";
+        Sprite testSprite = new Sprite("testSprite");
+        try {
+            Costume costume = new Costume(testSprite,imagePath);
+            assertEquals("The imagepath is false",imagePath,costume.getImagePath());
+        } catch (Exception e) {
+            fail("Exception in Costume constructor");
+        }
     }
     
-    public void testChangePath() {
-        final String imagePath = "imagePath";
-        final String thumbnailPath = "thumbPath";
-        final String changedImagePath = "changed imagePath";
-        final String changedThumbnailPath = "changed thumbPath";
-        Costume costume = new Costume(imagePath,thumbnailPath);
-        costume.imagePath = changedImagePath;
-        costume.thumbnailPath = changedThumbnailPath;
-        assertEquals("Unexpected ImagePath", changedImagePath, costume.imagePath);
-        assertEquals("Unexpected ThumbnailPath", changedThumbnailPath, costume.thumbnailPath);
+    public void testSetBitmap(){
+        String imagePath = "invalid image path";
+        Sprite testSprite = new Sprite("testSprite");
+        try {
+            Costume costume = new Costume(testSprite,imagePath);
+            costume.setBitmap();
+            fail("Error, should fail because of invalid image path");
+        } catch (Exception e) {
+            //expected because of invalid imagepath
+        }
+        
+        imagePath = "/sdcard/test1.png";
+        try {
+            Costume costume = new Costume(testSprite,imagePath);
+            costume.setBitmap();
+        } catch (Exception e) {
+            fail("No Exception should be thrown here");
+        }
+    
+//        ImageView imageView = (ImageView) findViewById(R.id.myimageview);
+//        imageView.setImageResource(R.drawable.icon);
+        
     }
+    
+    
+    
 }
