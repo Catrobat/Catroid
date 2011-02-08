@@ -15,3 +15,11 @@ Paintroid/.project
 
 syntax: regexp
 ^catroweb/web/tests/selenium/start_selenium_server_and_android_emulator\.sh$
+syntax: regexp
+^Paintroid/keystore$
+syntax: regexp
+^PaintroidSourceTest/\.settings$
+syntax: regexp
+^PaintroidSourceTest/\.project$
+syntax: regexp
+^PaintroidSourceTest/\.classpath$
