@@ -66,7 +66,7 @@ public class ContentManager extends Observable {
 	public void loadContent(String fileName) {
 		resetContent();
 		FileInputStream projectXMLFileInputStream = mFileSystem.createOrOpenFileInput(Utils.concatPaths(ConstructionSiteActivity.ROOT, fileName), mContext);
-
+		
 		try {
 			if (projectXMLFileInputStream != null && projectXMLFileInputStream.available() > 0) {
 				setAllSpriteCommandList(mParser.parse(projectXMLFileInputStream, mContext));

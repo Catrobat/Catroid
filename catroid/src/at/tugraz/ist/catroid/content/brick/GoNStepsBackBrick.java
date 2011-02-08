@@ -26,9 +26,9 @@ package at.tugraz.ist.catroid.content.brick;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class GoNStepsBackBrick implements Brick {
-	private transient Sprite sprite;
-	private int steps;
 	private static final long serialVersionUID = 1L;
+	private Sprite sprite;
+	private int steps;
 
 	public GoNStepsBackBrick(Sprite sprite, int steps) {
 		this.sprite = sprite;
@@ -47,6 +47,10 @@ public class GoNStepsBackBrick implements Brick {
 		}
 		
 		sprite.setZPosition(currentPosition - steps);
+	}
+
+	public Sprite getSprite() {
+		return this.sprite;
 	}
 
 }
