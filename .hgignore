@@ -12,3 +12,6 @@ build/*
 gen/*
 testProject\
 Paintroid/.project
+
+syntax: regexp
+^catroweb/web/tests/selenium/start_selenium_server_and_android_emulator\.sh$
