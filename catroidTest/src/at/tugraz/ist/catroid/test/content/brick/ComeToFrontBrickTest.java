@@ -1,6 +1,10 @@
 package at.tugraz.ist.catroid.test.content.brick;
 
+import android.content.Context;
 import android.test.AndroidTestCase;
+import android.view.LayoutInflater;
+import android.view.View;
+import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.brick.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.content.project.Project;
@@ -51,5 +55,11 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 		
 		assertEquals("An Integer overflow occured during ComeToFrontBrick Execution"
 				, Integer.MAX_VALUE, sprite.getZPosition());
+	}
+	
+	public void testGetView() {
+		ComeToFrontBrick brick = new ComeToFrontBrick(new Sprite("testSprite"), new Project("testProject"));
+		View view = brick.getView((LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE));
+		assertNotNull("getView returned null", view);
 	}
 }
