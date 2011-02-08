@@ -28,7 +28,7 @@ public class ScriptTest extends AndroidTestCase{
 	private void initTest(Script script){
 		Field field = null;
 		try {
-			field = Script.class.getDeclaredField("script");
+			field = Script.class.getDeclaredField("brickList");
 		} catch (SecurityException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
