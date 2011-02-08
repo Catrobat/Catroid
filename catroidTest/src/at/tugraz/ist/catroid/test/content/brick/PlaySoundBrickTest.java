@@ -18,38 +18,115 @@
  */
 package at.tugraz.ist.catroid.test.content.brick;
 
-import android.test.AndroidTestCase;
-import at.tugraz.ist.catroid.content.brick.PlaySoundBrick;
-import at.tugraz.ist.catroid.stage.SoundManager;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+
 import android.media.MediaPlayer;
+import android.test.InstrumentationTestCase;
+import at.tugraz.ist.catroid.content.brick.PlaySoundBrick;
+import at.tugraz.ist.catroid.io.sound.SoundManager;
+import at.tugraz.ist.catroid.test.R;
 
+public class PlaySoundBrickTest extends InstrumentationTestCase {
+	private static final int SOUND_FILE_ID = R.raw.testsound;
+	private File soundFile;
 
+	@Override
+	protected void setUp() throws Exception {
+		// Note: File needs to be copied as MediaPlayer has no access to resources
+		BufferedInputStream inputStream = new BufferedInputStream(getInstrumentation().getContext().getResources().openRawResource(SOUND_FILE_ID));
+		soundFile = File.createTempFile("audioTest", ".mp3");
+		BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(soundFile), 1024);
 
-public class PlaySoundBrickTest extends AndroidTestCase {
+		byte[] buffer = new byte[1024];
+		int length = 0;
+		while ((length = inputStream.read(buffer)) > 0) {
+			outputStream.write(buffer, 0, length);
+		}
+		inputStream.close();
+		outputStream.flush();
+		outputStream.close();
+	}
 
-    String legalArgument = "";
-    String illegalARgument = "";
+	@Override
+	protected void tearDown() throws Exception {
+		if (soundFile != null && soundFile.exists())
+			soundFile.delete();
+		SoundManager.getInstance().clear();
+	}
 
-    public void testPlaySound() {
-        
-        MediaPlayer media = SoundManager.getInstance().getMediaPlayer();    
-        PlaySoundBrick testBrick = new PlaySoundBrick(legalArgument);
-        testBrick.execute();
-        assertTrue("Media Player is not playing", media.isPlaying());
-    }
+	public void testPlaySound() {
+		final String soundFilePath = soundFile.getAbsolutePath();
+		assertNotNull("Could not open test sound file", soundFilePath);
+		assertTrue("Could not open test sound file", soundFilePath.length() > 0);
 
-    public void testIllegalArgument() {
-        try {
-            PlaySoundBrick testBrick = new PlaySoundBrick(illegalARgument);
-            testBrick.execute();
-            fail("Execution of PlaySoundBrick with illegal Argument did not cause a IllegalArgumentException to be thrown");
-        } catch (IllegalArgumentException e) {
-            // expected result
-        }
-    }
+		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
 
-    public void testIsPlayerStopping() {
-        PlaySoundBrick testBrick = new PlaySoundBrick(legalArgument);
-        testBrick.execute();
-    }
+		PlaySoundBrick testBrick = new PlaySoundBrick(soundFilePath);
+		testBrick.execute();
+		assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
+
+		final int duration = mediaPlayer.getDuration() + 50;
+		try {
+			Thread.sleep(duration);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			fail();
+		}
+		assertFalse("MediaPlayer is not done playing", mediaPlayer.isPlaying());
+	}
+
+	public void testIllegalArgument() {
+		final String illegalPath = "file/that/does/not/exist";
+		PlaySoundBrick testBrick = new PlaySoundBrick(illegalPath);
+		try {
+			testBrick.execute();
+			fail("Execution of PlaySoundBrick with illegal file path did not cause an IllegalArgumentException to be thrown");
+		} catch (IllegalArgumentException e) {
+			// expected behavior
+		}
+	}
+
+	public void testPlayMultipleSounds() {
+		final String soundFilePath = soundFile.getAbsolutePath();
+		assertNotNull("Could not open test sound file", soundFilePath);
+		assertTrue("Could not open test sound file", soundFilePath.length() > 0);
+
+		final int playerCount = SoundManager.MAX_MEDIA_PLAYERS;
+		for (int i = 0; i < playerCount; i++) {
+			MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
+			PlaySoundBrick testBrick = new PlaySoundBrick(soundFilePath);
+			testBrick.execute();
+			assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
+		}
+	}
+	
+	public void testPauseAndResume() {
+		final String soundFilePath = soundFile.getAbsolutePath();
+		assertNotNull("Could not open test sound file", soundFilePath);
+		assertTrue("Could not open test sound file", soundFilePath.length() > 0);
+
+		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
+
+		PlaySoundBrick testBrick = new PlaySoundBrick(soundFilePath);
+		testBrick.execute();
+		assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
+
+		mediaPlayer.pause();
+		assertFalse("MediaPlayer is still playing after pause", mediaPlayer.isPlaying());
+		
+		mediaPlayer.start();
+		assertTrue("MediaPlayer is not playing after resume", mediaPlayer.isPlaying());
+		
+		final int duration = mediaPlayer.getDuration() + 50;
+		try {
+			Thread.sleep(duration);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			fail();
+		}
+		assertFalse("MediaPlayer is not done playing", mediaPlayer.isPlaying());
+	}
 }

@@ -20,31 +20,31 @@ package at.tugraz.ist.catroid.content.brick;
 
 import java.io.IOException;
 import android.media.MediaPlayer;
-import at.tugraz.ist.catroid.stage.SoundManager;
+import android.util.Log;
+import at.tugraz.ist.catroid.io.sound.SoundManager;
 
 public class PlaySoundBrick implements Brick {
-    private String pathToSoundfile;
-    private static final long serialVersionUID = 1L;
+	private String pathToSoundfile;
+	private static final long serialVersionUID = 1L;
 
-    public PlaySoundBrick(String pathToSoundfile) {
-        this.pathToSoundfile = pathToSoundfile;
-    }
+	public PlaySoundBrick(String pathToSoundfile) {
+		this.pathToSoundfile = pathToSoundfile;
+	}
 
-    public void execute() throws IllegalArgumentException, IllegalStateException {
-        MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
-        // MediaPlayer mediaPlayer = new MediaPlayer();
-        if (mediaPlayer == null)
-            throw new NullPointerException("Media Player is null"); // TODO:
-                                                                    // "or retry?"
-        try {
-            mediaPlayer.setDataSource(pathToSoundfile);
-            mediaPlayer.prepare();
-        } catch (IOException e) {
-            throw new IllegalArgumentException();
-        }
-
-        mediaPlayer.start();
-
-    }
-
+	public void execute() {
+		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
+		try {
+			mediaPlayer.setDataSource(pathToSoundfile);
+			mediaPlayer.prepare();
+			mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+				public void onCompletion(MediaPlayer mp) {
+					mp.release();
+				}
+			});
+			Log.i("PlaySoundBrick", "Starting player with file " + pathToSoundfile);
+			mediaPlayer.start();
+		} catch (IOException e) {
+			throw new IllegalArgumentException("IO error", e);
+		}
+	}
 }

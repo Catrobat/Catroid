@@ -11,6 +11,7 @@ import android.media.MediaPlayer;
 import android.util.Log;
 import android.util.Pair;
 import at.tugraz.ist.catroid.constructionSite.content.BrickDefine;
+import at.tugraz.ist.catroid.io.sound.SoundManager;
 import at.tugraz.ist.catroid.utils.Utils;
 
 /**
