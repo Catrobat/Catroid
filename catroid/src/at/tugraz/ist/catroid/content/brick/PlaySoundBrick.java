@@ -21,6 +21,7 @@ package at.tugraz.ist.catroid.content.brick;
 import java.io.IOException;
 import android.media.MediaPlayer;
 import android.util.Log;
+import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.io.sound.SoundManager;
 
 public class PlaySoundBrick implements Brick {
@@ -46,5 +47,9 @@ public class PlaySoundBrick implements Brick {
 		} catch (IOException e) {
 			throw new IllegalArgumentException("IO error", e);
 		}
+	}
+
+	public Sprite getSprite() {
+		return null;
 	}
 }

@@ -1,10 +1,10 @@
 package at.tugraz.ist.catroid.content.brick;
 
-import java.io.Serializable;
+import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-public class WaitBrick implements Brick, Serializable {
+public class WaitBrick implements Brick {
 	private static final long serialVersionUID = 1L;
-	
+
 	public WaitBrick(int timeToWaitInMilliseconds) {
 		
 	}
@@ -12,6 +12,10 @@ public class WaitBrick implements Brick, Serializable {
 	public void execute() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public Sprite getSprite() {
+		return null;
 	}
 
 }

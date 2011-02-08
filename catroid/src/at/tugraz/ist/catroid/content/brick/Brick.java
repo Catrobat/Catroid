@@ -20,6 +20,9 @@ package at.tugraz.ist.catroid.content.brick;
 
 import java.io.Serializable;
 
-public interface Brick extends Serializable {
+import at.tugraz.ist.catroid.content.sprite.Sprite;
+
+public interface Brick extends Serializable{
 	public void execute();
+	public Sprite getSprite();
 }

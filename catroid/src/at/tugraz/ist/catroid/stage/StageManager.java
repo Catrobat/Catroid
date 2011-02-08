@@ -1,14 +1,18 @@
 package at.tugraz.ist.catroid.stage;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
 
-import at.tugraz.ist.catroid.R;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.util.Log;
+import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
+
+
+
 
 public class StageManager {
 	private ContentManager mContentManager;
@@ -45,8 +49,9 @@ public class StageManager {
 	}
 
 	public StageManager(Context context, String projectFile) {
-		mContext = context;
 
+		mContext = context;
+		
 		mContentManager = new ContentManager(mContext);
 		mContentManager.loadContent(projectFile);
 

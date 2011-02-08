@@ -25,9 +25,9 @@ import at.tugraz.ist.catroid.content.sprite.Sprite;
  *
  */
 public class ScaleCostumeBrick implements Brick {
-	private transient Sprite sprite;
-	private double scale;
 	private static final long serialVersionUID = 1L;
+	private Sprite sprite;
+	private double scale;
 
 	public ScaleCostumeBrick(Sprite sprite, double scale) {
 		this.sprite = sprite;
@@ -36,6 +36,10 @@ public class ScaleCostumeBrick implements Brick {
 
 	public void execute() {
 		sprite.setScale(scale);
+	}
+
+	public Sprite getSprite() {
+		return this.sprite;
 	}
 
 }

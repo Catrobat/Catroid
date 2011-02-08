@@ -22,8 +22,8 @@ package at.tugraz.ist.catroid.content.brick;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class ShowBrick implements Brick {
-	private transient Sprite sprite;
 	private static final long serialVersionUID = 1L;
+	private Sprite sprite;
 
 	public ShowBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -31,6 +31,11 @@ public class ShowBrick implements Brick {
 	
 	public void execute() {
 		sprite.show();
+	}
+
+
+	public Sprite getSprite() {
+		return this.sprite;
 	}
 
 }

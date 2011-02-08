@@ -18,13 +18,15 @@
  */
 package at.tugraz.ist.catroid.content.brick;
 
+import java.io.Serializable;
+
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.content.project.Project;
 
-public class ComeToFrontBrick implements Brick{
-	private transient Sprite  sprite;
-	private transient Project project;
+public class ComeToFrontBrick implements Brick {
 	private static final long serialVersionUID = 1L;
+	private Sprite  sprite;
+	private transient Project project;
 	
 
 	public ComeToFrontBrick(Sprite sprite, Project project){
@@ -37,5 +39,9 @@ public class ComeToFrontBrick implements Brick{
 		maxZValue 	  = maxZValue > (maxZValue + 1) ? Integer.MAX_VALUE : maxZValue + 1;
 		
 		sprite.setZPosition(maxZValue);
+	}
+
+	public Sprite getSprite() {
+		return this.sprite;
 	}
 }
