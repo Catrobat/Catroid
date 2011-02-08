@@ -18,28 +18,40 @@
  */
 package at.tugraz.ist.catroid.content.brick;
 
+import android.content.Context;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
+import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.project.Project;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class ComeToFrontBrick implements Brick {
 	private static final long serialVersionUID = 1L;
-	private Sprite  sprite;
+	private Sprite sprite;
 	private transient Project project;
-	
 
-	public ComeToFrontBrick(Sprite sprite, Project project){
-		this.sprite  = sprite;
+	public ComeToFrontBrick(Sprite sprite, Project project) {
+		this.sprite = sprite;
 		this.project = project;
 	}
-	
-	public void execute() {	
+
+	public void execute() {
 		int maxZValue = project.getMaxZValue();
-		maxZValue 	  = maxZValue > (maxZValue + 1) ? Integer.MAX_VALUE : maxZValue + 1;
-		
+		maxZValue = maxZValue > (maxZValue + 1) ? Integer.MAX_VALUE : maxZValue + 1;
+
 		sprite.setZPosition(maxZValue);
 	}
 
 	public Sprite getSprite() {
 		return this.sprite;
+	}
+
+	public View getView(LayoutInflater inflater) {
+		View view = inflater.inflate(R.layout.construction_brick_come_to_front, null);
+		TextView textView = (TextView) view.findViewById(R.id.ValueTextView);
+		textView.setText(R.string.come_to_front_main_adapter);
+		return view;
 	}
 }

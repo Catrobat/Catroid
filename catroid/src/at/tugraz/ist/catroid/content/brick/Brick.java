@@ -20,9 +20,13 @@ package at.tugraz.ist.catroid.content.brick;
 
 import java.io.Serializable;
 
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public interface Brick extends Serializable{
 	public void execute();
 	public Sprite getSprite();
+	public View getView(LayoutInflater inflater);
 }
