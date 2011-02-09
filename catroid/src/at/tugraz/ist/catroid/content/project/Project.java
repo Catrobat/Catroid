@@ -21,11 +21,10 @@ package at.tugraz.ist.catroid.content.project;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-public class Project extends Observable implements Serializable {
+public class Project implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public List<Sprite> spriteList = new ArrayList<Sprite>();
 	private String projectTitle;
