@@ -25,18 +25,18 @@ import com.thoughtworks.xstream.XStream;
 public class SerializingTest extends AndroidTestCase {
 
 	public void testSerializeProject() throws FileNotFoundException {
-		Project project = new Project("testProject");
-		Sprite testSprite = new Sprite("testSprite");
-		Sprite otherSprite = new Sprite("otherSprite");
-		Sprite anotherSprite = new Sprite("anotherSprite");
-		Sprite yetAnotherSprite = new Sprite("yetAnotherSprite");
-		Script testScript = new Script();
-		Script otherScript = new Script();
-		HideBrick hideBrick = new HideBrick(testSprite);
-		ShowBrick showBrick = new ShowBrick(testSprite);
-		PlaceAtBrick placeAtBrick = new PlaceAtBrick(otherSprite, 0, 0);
-		ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(otherSprite, 0);
-		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(testSprite, null);
+		Project project     = new Project("testProject");
+		Sprite firstSprite  = new Sprite("first");
+		Sprite secondSprite = new Sprite("second");
+		Sprite thirdSprite  = new Sprite("third");
+		Sprite fourthSprite = new Sprite("fourth");
+		Script testScript   = new Script();
+		Script otherScript  = new Script();
+		HideBrick hideBrick = new HideBrick(firstSprite);
+		ShowBrick showBrick = new ShowBrick(firstSprite);
+		PlaceAtBrick placeAtBrick 			= new PlaceAtBrick(secondSprite, 0, 0);
+		ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(secondSprite, 0);
+		ComeToFrontBrick comeToFrontBrick   = new ComeToFrontBrick(firstSprite, null);
 
 		testScript.addBrick(hideBrick);
 		testScript.addBrick(showBrick);
@@ -45,24 +45,24 @@ public class SerializingTest extends AndroidTestCase {
 
 		otherScript.addBrick(placeAtBrick);
 
-		testSprite.getScriptList().add(testScript);
-		otherSprite.getScriptList().add(otherScript);
+		firstSprite.getScriptList().add(testScript);
+		secondSprite.getScriptList().add(otherScript);
 
-		project.addSprite(otherSprite);
-		project.addSprite(yetAnotherSprite);
-		project.addSprite(testSprite);
-		project.addSprite(anotherSprite);
+		project.addSprite(secondSprite);
+		project.addSprite(fourthSprite);
+		project.addSprite(firstSprite);
+		project.addSprite(thirdSprite);
 		
 		
 		XStream xstream = new XStream();
 		xstream.alias("project", Project.class);
-		xstream.alias("sprite", Sprite.class);
-		xstream.alias("script", Script.class);
+		xstream.alias("sprite",  Sprite.class);
+		xstream.alias("script",  Script.class);
 		xstream.alias("hideBrick", HideBrick.class);
 		xstream.alias("showBrick", ShowBrick.class);
 		xstream.alias("scaleCostumeBrick", ScaleCostumeBrick.class);
-		xstream.alias("comeToFrontBrick", ComeToFrontBrick.class);
-		xstream.alias("placeAtBrick", PlaceAtBrick.class);
+		xstream.alias("comeToFrontBrick",  ComeToFrontBrick.class);
+		xstream.alias("placeAtBrick",      PlaceAtBrick.class);
 		
 		String xml = xstream.toXML(project);
 		try {
@@ -73,41 +73,45 @@ public class SerializingTest extends AndroidTestCase {
 
 		}	
 		
+		// TODO: replace with Storagehandler?
 		File file = new File("/sdcard/text.xml");
-	    FileInputStream fis = null;
+	    FileInputStream     fis = null;
 	    BufferedInputStream bis = null;
-	    DataInputStream dis = null;
+	    DataInputStream     dis = null;
 	      
 	    String xmlFile = "";
 
 	    try {
-	      fis = new FileInputStream(file);
+	    	fis = new FileInputStream(file);
+	    	bis = new BufferedInputStream(fis);
+	    	dis = new DataInputStream(bis);
 
-	      bis = new BufferedInputStream(fis);
-	      dis = new DataInputStream(bis);
-
-	      while (dis.available() != 0) {
-	        xmlFile += dis.readLine() + "\n";
-	      }
-	      System.out.println(xmlFile);
-	      fis.close();
-	      bis.close();
-	      dis.close();
+	    	while (dis.available() != 0) {
+		        xmlFile += dis.readLine() + "\n";
+		    }
+	    	
+			System.out.println(xmlFile);
+			
+			fis.close();
+			bis.close();
+			dis.close();
+			
 	    } catch (FileNotFoundException e) {
-	      e.printStackTrace();
+	    	e.printStackTrace();
 	    } catch (IOException e) {
-	      e.printStackTrace();
+	    	e.printStackTrace();
 	    }
 		
 		Project deserializedProject = (Project)xstream.fromXML(xmlFile);
 		
-		ArrayList<Sprite> spriteList = (ArrayList<Sprite>) deserializedProject.getSpriteList();
-		assertEquals("First sprite in list is not stage", "stage", project.getSpriteList().get(0).getName());
-		assertEquals("Second sprite in list is not otherSprite", "otherSprite", project.getSpriteList().get(1).getName());
-		assertEquals("Third sprite in list is not yetAnotherSprite", "yetAnotherSprite", project.getSpriteList().get(2).getName());
-		assertEquals("Fourth sprite in list is not testSprite", "testSprite", project.getSpriteList().get(3).getName());
-		assertEquals("Fifth sprite in list is not anotherSprite", "anotherSprite", project.getSpriteList().get(4).getName());
-					
+		ArrayList<Sprite> preSpriteList  = (ArrayList<Sprite>) project.getSpriteList();
+		ArrayList<Sprite> postSpriteList = (ArrayList<Sprite>) deserializedProject.getSpriteList();
+		
+		assertEquals("First sprite does not match after deserialization",  preSpriteList.get(0).getName(), postSpriteList.get(0).getName());
+		assertEquals("Second sprite does not match after deserialization", preSpriteList.get(1).getName(), postSpriteList.get(1).getName());
+		assertEquals("Third sprite does not match after deserialization",  preSpriteList.get(2).getName(), postSpriteList.get(2).getName());
+		assertEquals("Fourth sprite does not match after deserialization", preSpriteList.get(3).getName(), postSpriteList.get(3).getName());
+		assertEquals("Fifth sprite does not match after deserialization",  preSpriteList.get(4).getName(), postSpriteList.get(4).getName());
 
 	}
 
