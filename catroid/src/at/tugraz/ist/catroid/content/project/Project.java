@@ -18,58 +18,28 @@
  */
 package at.tugraz.ist.catroid.content.project;
 
-import at.tugraz.ist.catroid.ConstructionSiteActivity;
-import at.tugraz.ist.catroid.content.script.Script;
-import at.tugraz.ist.catroid.content.sprite.Sprite;
-import at.tugraz.ist.catroid.utils.Utils;
-
-import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
-import java.util.Set;
-import java.util.HashSet;
+
+import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class Project extends Observable implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public List<Sprite> spriteList = new ArrayList<Sprite>();
-	private File projectPath;
-	private String projectFile;
 	private String projectTitle;
-	
-	
+
 	public Project(String projectName) {
-		projectTitle = projectName;
-		projectPath = new File(Utils.concatPaths(ConstructionSiteActivity.DEFAULT_ROOT, projectName));
-		projectFile = projectName;
-		if (!projectFile.contains(ConstructionSiteActivity.DEFAULT_FILE_ENDING))
-			projectFile = Utils.addDefaultFileEnding(projectFile);
-		boolean existed = projectPath.exists();
-		if (existed) {
-			loadExistingProject();
-		} else {
-			createNewProject();
-		}
-	}
-	
-	private void loadExistingProject() {
-		//TODO: load spf file, parse it and create objects
-		setChanged();
-		notifyObservers();
-	}
-	
-	private void createNewProject() {
-		//TODO: create new project
-		Sprite stage = new Sprite("stage");
+		setProjectTitle(projectName);
+		Sprite stage = new Sprite("Stage");
 		addSprite(stage);
-		setChanged();
-		notifyObservers();
 	}
 	
-	public synchronized boolean addSprite(Sprite sprite) {
-		System.out.println("Added sprite " + sprite.getName());
-		return spriteList.add(sprite);
+	public synchronized void addSprite(Sprite sprite) {
+		if (spriteList.contains(sprite))
+			return;
+		spriteList.add(sprite);
 	}
 	
 	public synchronized boolean removeSprite(Sprite sprite) {
@@ -86,6 +56,14 @@ public class Project extends Observable implements Serializable {
 
 	public List<Sprite> getSpriteList() {
 		return spriteList;
+	}
+
+	public void setProjectTitle(String projectTitle) {
+		this.projectTitle = projectTitle;
+	}
+
+	public String getProjectTitle() {
+		return projectTitle;
 	}
 	
 }

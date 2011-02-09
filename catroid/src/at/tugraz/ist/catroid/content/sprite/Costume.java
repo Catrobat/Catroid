@@ -19,77 +19,19 @@
 package at.tugraz.ist.catroid.content.sprite;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Pair;
-import at.tugraz.ist.catroid.stage.StageActivity;
-import at.tugraz.ist.catroid.utils.ImageEditing;
 
 public class Costume {
     private static final long serialVersionUID = 1L;
     private String imagePath;
-    private Bitmap bitmap;
-    private int origHeight;
-    private int origWidth;
-    private Sprite sprite = null;
-    private Pair<Integer, Integer> size; // what is this .. I don't even..
+    private Sprite sprite;
 
     public Costume() { // TODO do we need this?
         this.setImagePath("");
     }
 
-    public Costume(Sprite sprite, String imagePath) throws Exception {
+    public Costume(Sprite sprite, String imagePath) {
         this.setImagePath(imagePath);
         this.sprite = sprite;
-        //this.setBitmap();
-
-    }
-    
-    public synchronized void setBitmap() throws Exception {
-        Bitmap tempBitmap = BitmapFactory.decodeFile(this.imagePath);
-        // TODO: now left the positioning out --> right?
-
-        // dirty workaround for Stage Background
-        // still on search for a better solution
-        if (tempBitmap.getHeight() > StageActivity.SCREEN_HEIGHT) {
-            double backgroundScaleFactor = ((double) StageActivity.SCREEN_HEIGHT + 2) / (double) tempBitmap.getHeight();
-            tempBitmap = ImageEditing.scaleBitmap(tempBitmap, backgroundScaleFactor, true);
-        }
-        bitmap = tempBitmap;
-
-        size = new Pair<Integer, Integer>(bitmap.getWidth(), bitmap.getHeight());
-        origHeight = bitmap.getHeight();
-        origWidth = bitmap.getWidth();
-
-        // mToDraw = true;
-    }
-
-    public synchronized void scaleBitmap(double scaleFactor) {
-        scaleFactor /= 100f;
-
-        if (bitmap == null) {
-            return;
-        }
-        if (scaleFactor == 0) {
-            return;
-        }
-
-        int newHeight = (int) ((float) origHeight * scaleFactor);
-        int newWidth = (int) ((float) origWidth * scaleFactor);
-
-        //positionToSpriteTopLeft();
-
-        if (newHeight > size.second || newWidth > size.first) {
-            bitmap.recycle();
-            bitmap = BitmapFactory.decodeFile(this.imagePath);
-
-        }
-
-        bitmap = ImageEditing.scaleBitmap(bitmap, newWidth, newHeight, true);
-        size = new Pair<Integer, Integer>(newWidth, newHeight);
-
-        //setPositionToSpriteCenter();
-        //mToDraw = true;
-
     }
 
     public void setImagePath(String imagePath) {
@@ -100,9 +42,9 @@ public class Costume {
         return imagePath;
     }
 
+    // TODO scale factor as parameter (from sprite)
     public Bitmap getBitmap() {
-        this.scaleBitmap(sprite.getScale());
-        return bitmap;
+    	return null;
     }
 
 }
