@@ -31,6 +31,8 @@ public class PlaceAtBrick implements Brick {
 	private Integer xPosition;
 	private Integer yPosition;
 	private Sprite sprite;
+
+	private View brickView;
 	
 	public PlaceAtBrick(Sprite sprite, int xPosition, int yPosition) {
 		this.sprite    = sprite;
@@ -48,16 +50,36 @@ public class PlaceAtBrick implements Brick {
 	}
 
 	public View getView(Context context) {
+		//if(brickView != null) {
+		//	System.out.println("__only return view");
+		//	return brickView;
+		//}
+		System.out.println("__initialise place brick");
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_goto, null);
-		EditText edit = (EditText) view.findViewById(R.id.InputValueEditTextX);
+		brickView = inflater.inflate(R.layout.construction_brick_goto, null);
+		EditText edit = (EditText) brickView.findViewById(R.id.InputValueEditTextX);
 		edit.setText(xPosition + "");
 		edit.setOnClickListener(new EditTextDialog(context, edit, xPosition));
-		edit = (EditText) view.findViewById(R.id.InputValueEditTextY);
+		edit = (EditText) brickView.findViewById(R.id.InputValueEditTextY);
 		edit.setText(yPosition + "");
 		edit.setOnClickListener(new EditTextDialog(context, edit, yPosition));
 		
-		return view;
+		return brickView;
 	}
 
+	public Integer getxPosition() {
+		return xPosition;
+	}
+
+	public void setxPosition(Integer xPosition) {
+		this.xPosition = xPosition;
+	}
+
+	public Integer getyPosition() {
+		return yPosition;
+	}
+
+	public void setyPosition(Integer yPosition) {
+		this.yPosition = yPosition;
+	}
 }

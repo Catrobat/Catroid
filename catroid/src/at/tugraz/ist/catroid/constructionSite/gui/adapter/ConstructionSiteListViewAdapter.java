@@ -49,7 +49,13 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 		mEditTextDialog = null;
 
 	}
-
+	
+	public void setContent(Script script) {
+		this.script = script;
+		notifyDataSetChanged();
+	}
+	
+	
 /*
 	private int mPositionForAnimation = -1;
 
@@ -95,6 +101,8 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
+		//if(convertView != null)
+		//	return convertView;
 		return script.getBrickList().get(position).getView(context);
 /*
 		final HashMap<String, String> brick = mBrickList.get(position);
