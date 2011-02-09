@@ -26,6 +26,7 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -129,41 +130,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 
 			//mContentManager = new ContentManager(this);
 			//mContentManager.setObserver(this);
-			currentProject = new Project("new");
-			Sprite stageSprite = currentProject.getSpriteList().get(0);
-			Script script = new Script();
 			
-			script.addBrick(new IfTouchedBrick(script, stageSprite));
-			script.addBrick(new ComeToFrontBrick(stageSprite, currentProject));
-			script.addBrick(new GoNStepsBackBrick(stageSprite, 5));
-			script.addBrick(new HideBrick(stageSprite));
-			script.addBrick(new PlaceAtBrick(stageSprite, 100, 200));
-			script.addBrick(new PlaySoundBrick("sound.mp3"));
-			script.addBrick(new ScaleCostumeBrick(stageSprite, 1.2));
-			script.addBrick(new ShowBrick(stageSprite));
-			script.addBrick(new WaitBrick(1000));
-			
-			
-			stageSprite.getScriptList().add(script);
-			
-			Log.d("testProject", "sprite count: " + currentProject.getSpriteList().size());
-			Log.d("testProject", "script count: " + currentProject.getSpriteList().get(0).getScriptList().size());
-			
-			mConstructionListView = (ListView) findViewById(R.id.MainListView);
-			mListViewAdapter = new ConstructionSiteListViewAdapter(this, currentProject.getSpriteList().get(0).getScriptList().get(0), mConstructionListView,
-					ImageContainer.getInstance());
-			mConstructionListView.setAdapter(mListViewAdapter);
-			mConstructionListView.setOnItemLongClickListener(this);
-
-			//mContructionGallery = (Gallery) findViewById(R.id.ConstructionSiteGallery);
-			//mGalleryAdapter = new ConstructionSiteGalleryAdapter(this, mContentManager.getCurrentSpriteCostumeNameList(), ImageContainer.getInstance());
-			//mContructionGallery.setAdapter(mGalleryAdapter);
-
-			mToolboxButton = (Button) this.findViewById(R.id.toolbar_button);
-			mToolboxButton.setOnClickListener(this);
-
-			mSpritesToolboxButton = (Button) this.findViewById(R.id.sprites_button);
-			mSpritesToolboxButton.setOnClickListener(this);
+			initViews();
 
 			String rootPath = mPreferences.getString(PREF_ROOT, DEFAULT_ROOT);
 			String spfFile = mPreferences.getString(PREF_FILE_SPF, DEFAULT_FILE);
@@ -185,8 +153,52 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			// mContentManager.testSet();
 			// mContentManager.saveContent();
 			//mContentManager.loadContent(SPF_FILE);
+			currentProject = new Project("new");
+			Sprite stageSprite = currentProject.getSpriteList().get(0);
+			Script script = new Script();
+			
+			script.addBrick(new IfTouchedBrick(script, stageSprite));
+			script.addBrick(new ComeToFrontBrick(stageSprite, currentProject));
+			script.addBrick(new GoNStepsBackBrick(stageSprite, 5));
+			script.addBrick(new HideBrick(stageSprite));
+			script.addBrick(new PlaceAtBrick(stageSprite, 105, 206));
+			script.addBrick(new PlaySoundBrick("sound.mp3"));
+			script.addBrick(new ScaleCostumeBrick(stageSprite, 1.2));
+			script.addBrick(new ShowBrick(stageSprite));
+			script.addBrick(new WaitBrick(1000));
+			
+			
+			stageSprite.getScriptList().add(script);
+			
+			Log.d("testProject", "sprite count: " + currentProject.getSpriteList().size());
+			Log.d("testProject", "script count: " + currentProject.getSpriteList().get(0).getScriptList().size());
+			mListViewAdapter.setContent(currentProject.getSpriteList().get(0).getScriptList().get(0));
 			setTitle(currentProject.getName());
 		}
+	}
+	
+	private void initViews() {
+		mConstructionListView = (ListView) findViewById(R.id.MainListView);
+		mListViewAdapter = new ConstructionSiteListViewAdapter(this, new Script(), mConstructionListView,
+				ImageContainer.getInstance());
+		mConstructionListView.setAdapter(mListViewAdapter);
+		mConstructionListView.setOnItemLongClickListener(this);
+
+		//mContructionGallery = (Gallery) findViewById(R.id.ConstructionSiteGallery);
+		//mGalleryAdapter = new ConstructionSiteGalleryAdapter(this, mContentManager.getCurrentSpriteCostumeNameList(), ImageContainer.getInstance());
+		//mContructionGallery.setAdapter(mGalleryAdapter);
+
+		mToolboxButton = (Button) this.findViewById(R.id.toolbar_button);
+		mToolboxButton.setOnClickListener(this);
+
+		mSpritesToolboxButton = (Button) this.findViewById(R.id.sprites_button);
+		mSpritesToolboxButton.setOnClickListener(this);
+		
+	}
+	
+	public void setProject(Project project) {
+		currentProject = project;
+		mListViewAdapter.setContent(currentProject.getSpriteList().get(0).getScriptList().get(0));
 	}
 
 	private static int LAST_SELECTED_ELEMENT_POSITION = 0;
@@ -349,7 +361,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	}
 
 	public void onPause() {
-		mContentManager.saveContent(SPF_FILE);
+		//mContentManager.saveContent(SPF_FILE);
 		SharedPreferences.Editor editor = mPreferences.edit();
 		editor.putString(PREF_ROOT, ROOT);
 		editor.putString(PREF_FILE_SPF, SPF_FILE);

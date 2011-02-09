@@ -22,8 +22,6 @@ public class EditTextDialog extends Dialog implements OnClickListener {
 	private Button closeButton;
 	private Integer intValueReference;
 	private Double doubleValueReference;
-	private int inputType;
-	
 
 	private void init(EditText brickEditText) {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -115,8 +113,10 @@ public class EditTextDialog extends Dialog implements OnClickListener {
 	}
 
 	public void onClick(View v) {
-		show();
-		if (v.getId() == R.id.dialogEditTextSubmit) {
+		System.out.println("__onClick dialog");
+		if(v.getId() == mListEditText.getId()) {
+			show();
+		} else if(v.getId() == R.id.dialogEditTextSubmit) {
 			Log.i("EditTextDialog", "in onClickListener");
 			cancel();
 		}
