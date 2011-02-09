@@ -43,10 +43,8 @@ public class ShowBrick implements Brick {
 		return this.sprite;
 	}
 
-	/* (non-Javadoc)
-	 * @see at.tugraz.ist.catroid.content.brick.Brick#getView(android.content.Context)
-	 */
-	public View getView(LayoutInflater inflater) {
+	public View getView(Context context) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.construction_brick_simple_text_view, null);
 		TextView textView = (TextView) view.findViewById(R.id.OneElementBrick);
 		textView.setText(R.string.come_to_front_main_adapter);

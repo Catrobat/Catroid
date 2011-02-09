@@ -3,15 +3,16 @@ package at.tugraz.ist.catroid.content.brick;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class WaitBrick implements Brick {
 	private static final long serialVersionUID = 1L;
+	private int timeToWaitInMilliseconds;
 
 	public WaitBrick(int timeToWaitInMilliseconds) {
-		
+		this.timeToWaitInMilliseconds = timeToWaitInMilliseconds;
 	}
 
 	public void execute() {
@@ -23,13 +24,11 @@ public class WaitBrick implements Brick {
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see at.tugraz.ist.catroid.content.brick.Brick#getView(android.content.Context)
-	 */
-	public View getView(LayoutInflater inflater) {
-		View view = inflater.inflate(R.layout.construction_brick_simple_text_view, null);
-		TextView textView = (TextView) view.findViewById(R.id.OneElementBrick);
-		textView.setText(R.string.come_to_front_main_adapter);
+	public View getView(Context context) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.construction_brick_wait, null);
+		EditText timeToWaitEditText = (EditText)view.findViewById(R.id.InputValueEditText);
+		timeToWaitEditText.setText(timeToWaitInMilliseconds + "");
 		return view;
 	}
 

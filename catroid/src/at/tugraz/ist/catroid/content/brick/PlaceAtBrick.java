@@ -22,14 +22,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.constructionSite.gui.dialogs.EditTextDialog;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class PlaceAtBrick implements Brick {
 	private static final long serialVersionUID = 1L;
-	private int xPosition;
-	private int yPosition;
+	private Integer xPosition;
+	private Integer yPosition;
 	private Sprite sprite;
 	
 	public PlaceAtBrick(Sprite sprite, int xPosition, int yPosition) {
@@ -47,15 +47,15 @@ public class PlaceAtBrick implements Brick {
 		return this.sprite;
 	}
 
-	/* (non-Javadoc)
-	 * @see at.tugraz.ist.catroid.content.brick.Brick#getView(android.content.Context)
-	 */
-	public View getView(LayoutInflater inflater) {
+	public View getView(Context context) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.construction_brick_goto, null);
 		EditText edit = (EditText) view.findViewById(R.id.InputValueEditTextX);
-		edit.setText(xPosition);
+		edit.setText(xPosition + "");
+		edit.setOnClickListener(new EditTextDialog(context, edit, xPosition));
 		edit = (EditText) view.findViewById(R.id.InputValueEditTextY);
-		edit.setText(yPosition);
+		edit.setText(yPosition + "");
+		edit.setOnClickListener(new EditTextDialog(context, edit, yPosition));
 		
 		return view;
 	}

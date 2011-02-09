@@ -33,14 +33,14 @@ import java.util.HashSet;
 
 public class Project extends Observable implements Serializable {
 	private static final long serialVersionUID = 1L;
-	public List<Sprite> spriteList = new ArrayList<Sprite>();
+	private List<Sprite> spriteList = new ArrayList<Sprite>();
 	private File projectPath;
 	private String projectFile;
-	private String projectTitle;
+	private String name;
 	
 	
 	public Project(String projectName) {
-		projectTitle = projectName;
+		setName(projectName);
 		projectPath = new File(Utils.concatPaths(ConstructionSiteActivity.DEFAULT_ROOT, projectName));
 		projectFile = projectName;
 		if (!projectFile.contains(ConstructionSiteActivity.DEFAULT_FILE_ENDING))
@@ -86,6 +86,20 @@ public class Project extends Observable implements Serializable {
 
 	public List<Sprite> getSpriteList() {
 		return spriteList;
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
 	}
 	
 }

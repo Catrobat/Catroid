@@ -11,61 +11,46 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.Spinner;
-import android.widget.TextView;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.BrickDefine;
 import at.tugraz.ist.catroid.constructionSite.gui.dialogs.EditTextDialog;
+import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.utils.ImageContainer;
 import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.utils.filesystem.MediaFileLoader;
 
 public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnClickListener, AdapterView.OnItemSelectedListener {
 
-	private Context mCtx;
+	private Context context;
 	private MediaFileLoader mMediaFileLoader;
 	private ListView mMainListView;
 	private ImageContainer mImageContainer;
 	private ArrayList<HashMap<String, String>> mBrickList;
 	private EditTextDialog mEditTextDialog;
+	private Script script;
+	private LayoutInflater inflater;
 
-	public ConstructionSiteListViewAdapter(Context context, ArrayList<HashMap<String, String>> data, ListView listview, ImageContainer imageContainer) {
-		mCtx = context;
-		mBrickList = data;
+	public ConstructionSiteListViewAdapter(Context context, Script script, ListView listview, ImageContainer imageContainer) {
+		this.script = script;
+		
+		this.context = context;
 		mMainListView = listview;
-		mMediaFileLoader = new MediaFileLoader(mCtx);
+		mMediaFileLoader = new MediaFileLoader(context);
 		mMediaFileLoader.loadSoundContent();
 		mImageContainer = imageContainer;
-		mInflater = (LayoutInflater) mCtx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		mEditTextDialog = new EditTextDialog(mCtx);
+		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		mEditTextDialog = null;
 
 	}
 
-	@Override
-	public int getItemViewType(int position) {
-		HashMap<String, String> brick = mBrickList.get(position);
-		if (brick.get(BrickDefine.BRICK_TYPE) != null)
-			return Integer.parseInt(brick.get(BrickDefine.BRICK_TYPE));
-		else
-			return -1;
-	}
-
-	@Override
-	public int getViewTypeCount() {
-		return BrickDefine.getNumberOfBrickType();
-	}
-
-	private LayoutInflater mInflater;
-
+/*
 	private int mPositionForAnimation = -1;
 
 	// the shake animation is set for the context menu
@@ -92,25 +77,26 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 			view = convertView;
 			tryStopAnimationOnView(view);
 		} else {
-			view = mInflater.inflate(typeId, null);
+			view = inflater.inflate(typeId, null);
 
 		}
 
 		if (mPositionForAnimation >= 0 && mPositionForAnimation == position) {
-			Animation shake = AnimationUtils.loadAnimation(mCtx, R.anim.shake);
+			Animation shake = AnimationUtils.loadAnimation(context, R.anim.shake);
 			view.startAnimation(shake);
 		}
 
 		return view;
 	}
-
+*/
 	@Override
 	public boolean hasStableIds() {
 		return false;
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
-
+		return script.getBrickList().get(position).getView(context);
+/*
 		final HashMap<String, String> brick = mBrickList.get(position);
 		final String type = mBrickList.get(position).get(BrickDefine.BRICK_TYPE);
 		final String value = mBrickList.get(position).get(BrickDefine.BRICK_VALUE);
@@ -246,6 +232,7 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 			}
 			}
 		return null;
+		*/
 	}
 
 	public int getIndexFromElementSound(SimpleAdapter adapter, String element) {
@@ -260,46 +247,38 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 	}
 
 	public int getCount() {
-		return mBrickList.size();
+		return script.getBrickList().size();
 	}
-
+	
 	public Object getItem(int arg0) {
-
-		return mBrickList.get(arg0);
-	}
-
-	public long getItemId(int position) {
-		String type = mBrickList.get(position).get(BrickDefine.BRICK_ID);
-
-		if (type != null)
-			return Integer.valueOf(type).intValue();
-		else
-			return 0;
+		return script.getBrickList().get(arg0);
 	}
 
 	public void onClick(View v) {
+		/*
 		String tag = (String) v.getTag();
 
-		if (mCtx.getString(R.string.constructional_brick_set_background_image_view_tag).equals(tag)) {
+		if (context.getString(R.string.constructional_brick_set_background_image_view_tag).equals(tag)) {
 			mMediaFileLoader.openPictureGallery(mMainListView.getPositionForView(v), (ImageView) v);
-		} else if (mCtx.getString(R.string.constructional_brick_set_costume_image_view_tag).equals(tag)) {
+		} else if (context.getString(R.string.constructional_brick_set_costume_image_view_tag).equals(tag)) {
 			mMediaFileLoader.openPictureGallery(mMainListView.getPositionForView(v), (ImageView) v);
-		} else if (mCtx.getString(R.string.constructional_brick_wait_edit_text_tag).equals(tag)) {
+		} else if (context.getString(R.string.constructional_brick_wait_edit_text_tag).equals(tag)) {
 			int brickPosition = mMainListView.getPositionForView((EditText) v);
 			mEditTextDialog.show(mBrickList.get(brickPosition), (EditText) v);
-		} else if (mCtx.getString(R.string.constructional_brick_scale_costume_edit_text_tag).equals(tag)) {
+		} else if (context.getString(R.string.constructional_brick_scale_costume_edit_text_tag).equals(tag)) {
 			int brickPosition = mMainListView.getPositionForView((EditText) v);
 			mEditTextDialog.show(mBrickList.get(brickPosition), (EditText) v);
-		} else if (mCtx.getString(R.string.constructional_brick_go_to_x_tag).equals(tag)) {
+		} else if (context.getString(R.string.constructional_brick_go_to_x_tag).equals(tag)) {
 			int brickPosition = mMainListView.getPositionForView((EditText) v);
 			mEditTextDialog.show(mBrickList.get(brickPosition), (EditText) v);
-		} else if (mCtx.getString(R.string.constructional_brick_go_to_y_tag).equals(tag)) {
+		} else if (context.getString(R.string.constructional_brick_go_to_y_tag).equals(tag)) {
 			int brickPosition = mMainListView.getPositionForView((EditText) v);
 			mEditTextDialog.show(mBrickList.get(brickPosition), (EditText) v);
-		} else if (mCtx.getString(R.string.constructional_brick_go_back_edit_text_tag).equals(tag)) {
+		} else if (context.getString(R.string.constructional_brick_go_back_edit_text_tag).equals(tag)) {
 			int brickPosition = mMainListView.getPositionForView((EditText) v);
 			mEditTextDialog.show(mBrickList.get(brickPosition), (EditText) v);
 		}
+		*/
 	}
 
 	private void deleteSound(String soundName) {
@@ -318,7 +297,7 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 
 	public void onItemSelected(AdapterView<?> spinner, View v, int position, long id) {
 		String tag = (String) spinner.getTag();
-		if (mCtx.getString(R.string.constructional_brick_play_sound_spinner_tag).equals(tag)) {
+		if (context.getString(R.string.constructional_brick_play_sound_spinner_tag).equals(tag)) {
 			int brickPosition = mMainListView.getPositionForView(spinner);
 			@SuppressWarnings("unchecked")
 			HashMap<String, String> map = (HashMap<String, String>) spinner.getAdapter().getItem(position);
@@ -336,7 +315,7 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 						+ map.get(MediaFileLoader.SOUND_PATH).substring(map.get(MediaFileLoader.SOUND_PATH).length() - 4);
 				newPath = Utils.concatPaths(newPath, uniqueName);
 
-				if (Utils.copyFile(map.get(MediaFileLoader.SOUND_PATH), newPath, mCtx, true)) {
+				if (Utils.copyFile(map.get(MediaFileLoader.SOUND_PATH), newPath, context, true)) {
 					mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE, uniqueName);
 					mBrickList.get(brickPosition).put(BrickDefine.BRICK_NAME, map.get(MediaFileLoader.SOUND_NAME));
 				} else
@@ -357,28 +336,32 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 	public boolean onKey(View v, int keyCode, KeyEvent event) {
 		String tag = v.getTag().toString();
 
-		if (mCtx.getString(R.string.constructional_brick_go_to_x_tag).equals(tag)) {
+		if (context.getString(R.string.constructional_brick_go_to_x_tag).equals(tag)) {
 			int brickPosition = mMainListView.getPositionForView((EditText) v);
 			mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE, ((EditText) v).getText().toString());
 			return false;
-		} else if (mCtx.getString(R.string.constructional_brick_go_to_y_tag).equals(tag)) {
+		} else if (context.getString(R.string.constructional_brick_go_to_y_tag).equals(tag)) {
 			int brickPosition = mMainListView.getPositionForView((EditText) v);
 			mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE_1, ((EditText) v).getText().toString());
 			return false;
-		} else if (mCtx.getString(R.string.constructional_brick_wait_edit_text_tag).equals(tag)) {
+		} else if (context.getString(R.string.constructional_brick_wait_edit_text_tag).equals(tag)) {
 			int brickPosition = mMainListView.getPositionForView((EditText) v);
 			mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE, ((EditText) v).getText().toString());
 			return false;
-		} else if (mCtx.getString(R.string.constructional_brick_scale_costume_edit_text_tag).equals(tag)) {
+		} else if (context.getString(R.string.constructional_brick_scale_costume_edit_text_tag).equals(tag)) {
 			int brickPosition = mMainListView.getPositionForView((EditText) v);
 			mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE, ((EditText) v).getText().toString());
 			return false;
-		} else if (mCtx.getString(R.string.constructional_brick_go_back_edit_text_tag).equals(tag)) {
+		} else if (context.getString(R.string.constructional_brick_go_back_edit_text_tag).equals(tag)) {
 			int brickPosition = mMainListView.getPositionForView((EditText) v);
 			mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE, ((EditText) v).getText().toString());
 			return false;
 		}
 		return false;
+	}
+
+	public long getItemId(int position) {
+		return position;
 	}
 
 }

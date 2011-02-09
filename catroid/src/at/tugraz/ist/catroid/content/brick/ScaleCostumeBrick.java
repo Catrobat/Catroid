@@ -21,7 +21,7 @@ package at.tugraz.ist.catroid.content.brick;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
@@ -47,13 +47,11 @@ public class ScaleCostumeBrick implements Brick {
 		return this.sprite;
 	}
 
-	/* (non-Javadoc)
-	 * @see at.tugraz.ist.catroid.content.brick.Brick#getView(android.content.Context)
-	 */
-	public View getView(LayoutInflater inflater) {
-		View view = inflater.inflate(R.layout.construction_brick_simple_text_view, null);
-		TextView textView = (TextView) view.findViewById(R.id.OneElementBrick);
-		textView.setText(R.string.come_to_front_main_adapter);
+	public View getView(Context context) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.construction_brick_scale_costume, null);
+		EditText scaleEditText = (EditText)view.findViewById(R.id.EditText01);
+		scaleEditText.setText(scale + "");
 		return view;
 	}
 

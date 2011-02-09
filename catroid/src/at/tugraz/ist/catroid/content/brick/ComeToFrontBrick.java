@@ -19,10 +19,8 @@
 package at.tugraz.ist.catroid.content.brick;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.project.Project;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
@@ -48,10 +46,9 @@ public class ComeToFrontBrick implements Brick {
 		return this.sprite;
 	}
 
-	public View getView(LayoutInflater inflater) {
+	public View getView(Context context) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.construction_brick_come_to_front, null);
-		TextView textView = (TextView) view.findViewById(R.id.ValueTextView);
-		textView.setText(R.string.come_to_front_main_adapter);
 		return view;
 	}
 }

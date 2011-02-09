@@ -28,5 +28,5 @@ import at.tugraz.ist.catroid.content.sprite.Sprite;
 public interface Brick extends Serializable{
 	public void execute();
 	public Sprite getSprite();
-	public View getView(LayoutInflater inflater);
+	public View getView(Context context);
 }
