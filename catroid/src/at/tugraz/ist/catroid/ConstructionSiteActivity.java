@@ -41,7 +41,18 @@ import at.tugraz.ist.catroid.constructionSite.gui.dialogs.NewProjectDialog;
 import at.tugraz.ist.catroid.constructionSite.gui.dialogs.SpritesDialog;
 import at.tugraz.ist.catroid.constructionSite.gui.dialogs.ToolBoxDialog;
 import at.tugraz.ist.catroid.constructionSite.tasks.ProjectUploadTask;
+import at.tugraz.ist.catroid.content.brick.ComeToFrontBrick;
+import at.tugraz.ist.catroid.content.brick.GoNStepsBackBrick;
+import at.tugraz.ist.catroid.content.brick.HideBrick;
+import at.tugraz.ist.catroid.content.brick.IfTouchedBrick;
+import at.tugraz.ist.catroid.content.brick.PlaceAtBrick;
+import at.tugraz.ist.catroid.content.brick.PlaySoundBrick;
+import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrick;
+import at.tugraz.ist.catroid.content.brick.ShowBrick;
+import at.tugraz.ist.catroid.content.brick.WaitBrick;
 import at.tugraz.ist.catroid.content.project.Project;
+import at.tugraz.ist.catroid.content.script.Script;
+import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.utils.ImageContainer;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -119,16 +130,34 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			//mContentManager = new ContentManager(this);
 			//mContentManager.setObserver(this);
 			currentProject = new Project("new");
+			Sprite stageSprite = currentProject.getSpriteList().get(0);
+			Script script = new Script();
+			
+			script.addBrick(new IfTouchedBrick(script, stageSprite));
+			script.addBrick(new ComeToFrontBrick(stageSprite, currentProject));
+			script.addBrick(new GoNStepsBackBrick(stageSprite, 5));
+			script.addBrick(new HideBrick(stageSprite));
+			script.addBrick(new PlaceAtBrick(stageSprite, 100, 200));
+			script.addBrick(new PlaySoundBrick("sound.mp3"));
+			script.addBrick(new ScaleCostumeBrick(stageSprite, 1.2));
+			script.addBrick(new ShowBrick(stageSprite));
+			script.addBrick(new WaitBrick(1000));
+			
+			
+			stageSprite.getScriptList().add(script);
+			
+			Log.d("testProject", "sprite count: " + currentProject.getSpriteList().size());
+			Log.d("testProject", "script count: " + currentProject.getSpriteList().get(0).getScriptList().size());
 			
 			mConstructionListView = (ListView) findViewById(R.id.MainListView);
-			mListViewAdapter = new ConstructionSiteListViewAdapter(this, mContentManager.getCurrentSpriteCommandList(), mConstructionListView,
+			mListViewAdapter = new ConstructionSiteListViewAdapter(this, currentProject.getSpriteList().get(0).getScriptList().get(0), mConstructionListView,
 					ImageContainer.getInstance());
 			mConstructionListView.setAdapter(mListViewAdapter);
 			mConstructionListView.setOnItemLongClickListener(this);
 
-			mContructionGallery = (Gallery) findViewById(R.id.ConstructionSiteGallery);
-			mGalleryAdapter = new ConstructionSiteGalleryAdapter(this, mContentManager.getCurrentSpriteCostumeNameList(), ImageContainer.getInstance());
-			mContructionGallery.setAdapter(mGalleryAdapter);
+			//mContructionGallery = (Gallery) findViewById(R.id.ConstructionSiteGallery);
+			//mGalleryAdapter = new ConstructionSiteGalleryAdapter(this, mContentManager.getCurrentSpriteCostumeNameList(), ImageContainer.getInstance());
+			//mContructionGallery.setAdapter(mGalleryAdapter);
 
 			mToolboxButton = (Button) this.findViewById(R.id.toolbar_button);
 			mToolboxButton.setOnClickListener(this);
@@ -155,10 +184,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			// Testing
 			// mContentManager.testSet();
 			// mContentManager.saveContent();
-			mContentManager.loadContent(SPF_FILE);
-			setTitle(SPF_FILE);
-			
-			
+			//mContentManager.loadContent(SPF_FILE);
+			setTitle(currentProject.getName());
 		}
 	}
 

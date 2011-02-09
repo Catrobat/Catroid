@@ -17,22 +17,45 @@ import at.tugraz.ist.catroid.constructionSite.content.BrickDefine;
 
 public class EditTextDialog extends Dialog implements OnClickListener {
 
-	EditText mListEditText;
-	EditText mLocalEditText;
-	Button mButton;
-	HashMap<String, String> mBrickMap;
-	boolean isValue1 = false;
+	private EditText mListEditText;
+	private EditText mLocalEditText;
+	private Button closeButton;
+	private Integer intValueReference;
+	private Double doubleValueReference;
+	private int inputType;
+	
 
-	public EditTextDialog(Context context) {
-		super(context);
+	private void init(EditText brickEditText) {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.dialog_edit_text);
 		mLocalEditText = (EditText) findViewById(R.id.dialogEditText);
-		mButton = (Button) findViewById(R.id.dialogEditTextSubmit);
-		mButton.setOnClickListener(this);
+		this.mListEditText = brickEditText;
+		if(intValueReference != null)
+			mLocalEditText.setText(intValueReference + "");
+		else
+			mLocalEditText.setText(doubleValueReference + "");
+		closeButton = (Button) findViewById(R.id.dialogEditTextSubmit);
+		closeButton.setOnClickListener(this);
+	}
+	
+	public EditTextDialog(Context context, EditText brickEditText, Integer valueReference) {
+		super(context);
+		this.intValueReference = valueReference;
+		this.doubleValueReference = null;
+
+		init(brickEditText);
+	}
+	
+	public EditTextDialog(Context context, EditText brickEditText, Double valueReference) {
+		super(context);
+		this.doubleValueReference = valueReference;
+		this.intValueReference = null;
+		
+		init(brickEditText);
 	}
 
 	public void show(HashMap<String, String> brickMap, EditText text) {
+		/*
 		mBrickMap = brickMap;
 		mListEditText = text;
 		String tag = (String) text.getTag();
@@ -62,6 +85,7 @@ public class EditTextDialog extends Dialog implements OnClickListener {
 			mLocalEditText.setText(brickMap.get(BrickDefine.BRICK_VALUE_1));
 		else
 			mLocalEditText.setText(brickMap.get(BrickDefine.BRICK_VALUE));
+		*/
 		super.show();
 		mLocalEditText.requestFocus();
 		this.getWindow().setSoftInputMode(
@@ -82,18 +106,16 @@ public class EditTextDialog extends Dialog implements OnClickListener {
 	}
 
 	private void saveContent() {
-		if (!(mLocalEditText.getText().toString().length() == 0)) {
-			if (isValue1)
-				mBrickMap.put(BrickDefine.BRICK_VALUE_1, mLocalEditText
-						.getText().toString());
-			else
-				mBrickMap.put(BrickDefine.BRICK_VALUE, mLocalEditText.getText()
-						.toString());
-			mListEditText.setText(mLocalEditText.getText());
-		}
+		if(intValueReference != null)
+			intValueReference = Integer.parseInt(mLocalEditText.getText().toString());
+		else
+			doubleValueReference = Double.parseDouble(mLocalEditText.getText().toString());
+		
+		mListEditText.setText(mLocalEditText.getText().toString());
 	}
 
 	public void onClick(View v) {
+		show();
 		if (v.getId() == R.id.dialogEditTextSubmit) {
 			Log.i("EditTextDialog", "in onClickListener");
 			cancel();
