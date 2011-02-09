@@ -1,19 +1,11 @@
 package at.tugraz.ist.catroid.test.io;
 
 
-import java.io.BufferedInputStream;
-import java.io.BufferedWriter;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import android.test.AndroidTestCase;
-import at.tugraz.ist.catroid.content.brick.Brick;
 import at.tugraz.ist.catroid.content.brick.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.brick.HideBrick;
 import at.tugraz.ist.catroid.content.brick.PlaceAtBrick;
@@ -90,7 +82,6 @@ public class StorageHandlerTest extends AndroidTestCase {
     }
 
 	
-    @SuppressWarnings("unchecked")
     private double getScale(ScaleCostumeBrick brick){
         Field field = null;
         double scale = 0.0;
@@ -112,7 +103,6 @@ public class StorageHandlerTest extends AndroidTestCase {
         return scale;
     }
     
-    @SuppressWarnings("unchecked")
     private int getXPosition(PlaceAtBrick brick){
         Field field = null;
         int xPos = 0;
@@ -134,7 +124,6 @@ public class StorageHandlerTest extends AndroidTestCase {
         return xPos;
     }
     
-    @SuppressWarnings("unchecked")
     private int getYPosition(PlaceAtBrick brick){
         Field field = null;
         int yPos = 0;
