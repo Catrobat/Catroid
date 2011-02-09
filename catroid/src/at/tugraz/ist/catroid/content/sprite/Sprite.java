@@ -62,6 +62,26 @@ public class Sprite implements Serializable {
 		init();
 	}
 
+	public void startScripts() {
+		for (Script s : scriptList) {
+			final Script script = s;
+			new Thread(
+		            new Runnable() {
+		                public void run() {
+		                   script.run();
+		                }
+		            }).start();
+		}
+	}
+	
+	public void pause() {
+		
+	}
+	
+	public void unpause() {
+		
+	}
+	
 	public String getName() {
 		return name;
 	}

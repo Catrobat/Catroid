@@ -18,9 +18,12 @@
  */
 package at.tugraz.ist.catroid.io;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
 
 import android.app.Activity;
@@ -30,7 +33,18 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Environment;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.content.brick.ComeToFrontBrick;
+import at.tugraz.ist.catroid.content.brick.GoNStepsBackBrick;
+import at.tugraz.ist.catroid.content.brick.HideBrick;
+import at.tugraz.ist.catroid.content.brick.IfTouchedBrick;
+import at.tugraz.ist.catroid.content.brick.PlaceAtBrick;
+import at.tugraz.ist.catroid.content.brick.PlaySoundBrick;
+import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrick;
+import at.tugraz.ist.catroid.content.brick.ShowBrick;
+import at.tugraz.ist.catroid.content.brick.WaitBrick;
 import at.tugraz.ist.catroid.content.project.Project;
+import at.tugraz.ist.catroid.content.script.Script;
+import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -44,11 +58,25 @@ public class StorageHandler {
 	
 	private static StorageHandler instance;
 	private File catroidRoot;
+	private XStream xstream;
 	
 	private StorageHandler(final Activity activity) {
 		boolean mExternalStorageAvailable = false;
 		String state = Environment.getExternalStorageState();
-
+		xstream = new XStream();
+		xstream.alias("project", Project.class);
+		xstream.alias("sprite", Sprite.class);
+		xstream.alias("script", Script.class);
+		xstream.alias("comeToFrontBrick", ComeToFrontBrick.class);
+		xstream.alias("goNStepsBackBrick", GoNStepsBackBrick.class);
+		xstream.alias("hideBrick", HideBrick.class);
+		xstream.alias("ifTouchedBrick", IfTouchedBrick.class);
+		xstream.alias("placeAtBrick", PlaceAtBrick.class);
+		xstream.alias("playSoundBrick", PlaySoundBrick.class);
+		xstream.alias("scaleCostumeBrick", ScaleCostumeBrick.class);
+		xstream.alias("showBrick", ShowBrick.class);
+		xstream.alias("waitBrick", WaitBrick.class);
+		
 		if (Environment.MEDIA_MOUNTED.equals(state)) {
 		    // We can read and write the media
 		    mExternalStorageAvailable  = true;
@@ -91,7 +119,6 @@ public class StorageHandler {
 				spfFileStream = new FileInputStream(projectDirectory.getAbsolutePath()+"/"+projectName+PROJECT_EXTENTION);
 				
 				//TODO: initialize xstream
-				XStream xstream = new XStream();
 				return (Project)xstream.fromXML(spfFileStream);
 			} else 
 				return null;
@@ -100,6 +127,37 @@ public class StorageHandler {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public void saveProject(Project project) {
+
+		String spfFile = xstream.toXML(project);
+		File projectDirectory = new File(catroidRoot.getAbsolutePath()+"/"+project.getProjectTitle());
+		if(projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite()) {
+			try {
+				BufferedWriter out = new BufferedWriter(new FileWriter(projectDirectory.getAbsolutePath() + "/" + project.getProjectTitle()+PROJECT_EXTENTION));
+				out.write(spfFile);
+				out.close();
+			} catch (IOException e) {
+
+			}
+		}
+		else {
+			projectDirectory.mkdir();
+			File imageDirectory = new File(projectDirectory.getAbsolutePath() + "/images");
+			imageDirectory.mkdir();
+			File soundDirectory = new File(projectDirectory.getAbsolutePath() + "/sounds");
+			soundDirectory.mkdir();
+			try {
+				BufferedWriter out = new BufferedWriter(new FileWriter(projectDirectory.getAbsolutePath() + "/" + project.getProjectTitle()+PROJECT_EXTENTION));
+				out.write(spfFile);
+				out.close();
+			} catch (IOException e) {
+
+			}
+		}
+		
+		
 	}
 	
 }
