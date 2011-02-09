@@ -26,7 +26,7 @@ public class IfTouchedBrick implements Brick {
 	private Sprite sprite;
 	private static final long serialVersionUID = 1L;
 	
-	public IfTouchedBrick(Script touchScript, Sprite sprite) {
+	public IfTouchedBrick(Sprite sprite, Script touchScript) {
 		this.touchScript = touchScript;
 		this.touchScript.setTouchScript(true);
 		this.sprite = sprite;
