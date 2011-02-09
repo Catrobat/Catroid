@@ -30,18 +30,25 @@ public class ProjectTest extends AndroidTestCase {
 	
 	
 	public void testAddRemoveSprite() {
-		assertTrue("bottomSprite was not added to data structure",		project.addSprite(bottomSprite));
-		assertTrue("topSprite was not added to data structure", 		project.addSprite(topSprite));
-		assertTrue("bottomSprite was not removed from data structure", 	project.removeSprite(bottomSprite));
-		assertTrue("topSprite was not removed from data structure", 	project.removeSprite(topSprite));
+		project.addSprite(bottomSprite);
+		project.addSprite(topSprite);
+		
+		assertTrue("spriteList did not contain bottomSprite", project.getSpriteList().contains(bottomSprite));
+		assertTrue("spriteList did not contain topSprite",    project.getSpriteList().contains(topSprite));
+		
+		assertTrue("bottomSprite was not removed from data structure",  project.removeSprite(bottomSprite));
+		assertFalse("bottomSprite was not removed from data structure", project.getSpriteList().contains(bottomSprite));
+		
+		assertTrue("topSprite was not removed from data structure",  project.removeSprite(topSprite));
+		assertFalse("topSprite was not removed from data structure", project.getSpriteList().contains(topSprite));
 	}
 	
 	public void testGetMaxZValue() {
 		bottomSprite.setZPosition(maxZ - 5);
 		topSprite.setZPosition(maxZ);
 		
-		assertTrue("bottomSprite was not added to data structure", project.addSprite(bottomSprite));
-		assertTrue("topSprite was not added to data structure",    project.addSprite(topSprite));
+		project.addSprite(bottomSprite);
+		project.addSprite(topSprite);
 		assertEquals("Maximum Z value was incorrect", project.getMaxZValue(), maxZ);
 	}
 }

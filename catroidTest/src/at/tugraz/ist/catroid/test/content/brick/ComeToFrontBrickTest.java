@@ -18,8 +18,8 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 		
 		topSprite.setZPosition(2);
 		assertEquals("topSprite z position should now be 2", 2, topSprite.getZPosition());
-		assertTrue("bottomSprite not added to data structure", project.addSprite(bottomSprite));
-		assertTrue("topSprite not added to data structure", project.addSprite(topSprite));
+		project.addSprite(bottomSprite);
+		project.addSprite(topSprite);
 		
 		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(bottomSprite, project);
 		comeToFrontBrick.execute();
