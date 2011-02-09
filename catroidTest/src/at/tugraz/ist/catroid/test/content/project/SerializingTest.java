@@ -24,7 +24,7 @@ import com.thoughtworks.xstream.XStream;
 
 public class SerializingTest extends AndroidTestCase {
 
-	public void testSerializeProject() throws FileNotFoundException {
+	public void testSerializeProject() {
 		Project project     = new Project("testProject");
 		Sprite firstSprite  = new Sprite("first");
 		Sprite secondSprite = new Sprite("second");
@@ -48,12 +48,12 @@ public class SerializingTest extends AndroidTestCase {
 		firstSprite.getScriptList().add(testScript);
 		secondSprite.getScriptList().add(otherScript);
 
-		project.addSprite(secondSprite);
-		project.addSprite(fourthSprite);
 		project.addSprite(firstSprite);
+		project.addSprite(secondSprite);
 		project.addSprite(thirdSprite);
-		
-		
+		project.addSprite(fourthSprite);
+
+
 		XStream xstream = new XStream();
 		xstream.alias("project", Project.class);
 		xstream.alias("sprite",  Sprite.class);
@@ -63,7 +63,7 @@ public class SerializingTest extends AndroidTestCase {
 		xstream.alias("scaleCostumeBrick", ScaleCostumeBrick.class);
 		xstream.alias("comeToFrontBrick",  ComeToFrontBrick.class);
 		xstream.alias("placeAtBrick",      PlaceAtBrick.class);
-		
+
 		String xml = xstream.toXML(project);
 		try {
 			BufferedWriter out = new BufferedWriter(new FileWriter("/sdcard/text.xml"));
@@ -71,14 +71,14 @@ public class SerializingTest extends AndroidTestCase {
 			out.close();
 		} catch (IOException e) {
 
-		}	
-		
+		}
+
 		// TODO: replace with Storagehandler?
 		File file = new File("/sdcard/text.xml");
 	    FileInputStream     fis = null;
 	    BufferedInputStream bis = null;
 	    DataInputStream     dis = null;
-	      
+
 	    String xmlFile = "";
 
 	    try {
@@ -89,23 +89,24 @@ public class SerializingTest extends AndroidTestCase {
 	    	while (dis.available() != 0) {
 		        xmlFile += dis.readLine() + "\n";
 		    }
-	    	
+
 			System.out.println(xmlFile);
-			
+
 			fis.close();
 			bis.close();
 			dis.close();
-			
+
 	    } catch (FileNotFoundException e) {
 	    	e.printStackTrace();
 	    } catch (IOException e) {
 	    	e.printStackTrace();
 	    }
-		
+
 		Project deserializedProject = (Project)xstream.fromXML(xmlFile);
-		
+
 		ArrayList<Sprite> preSpriteList  = (ArrayList<Sprite>) project.getSpriteList();
 		ArrayList<Sprite> postSpriteList = (ArrayList<Sprite>) deserializedProject.getSpriteList();
+
 		
 		assertEquals("First sprite does not match after deserialization",  preSpriteList.get(0).getName(), postSpriteList.get(0).getName());
 		assertEquals("Second sprite does not match after deserialization", preSpriteList.get(1).getName(), postSpriteList.get(1).getName());
@@ -113,6 +114,9 @@ public class SerializingTest extends AndroidTestCase {
 		assertEquals("Fourth sprite does not match after deserialization", preSpriteList.get(3).getName(), postSpriteList.get(3).getName());
 		assertEquals("Fifth sprite does not match after deserialization",  preSpriteList.get(4).getName(), postSpriteList.get(4).getName());
 
-	}
+		assertEquals("Title missmatch after deserialization", project.getProjectTitle(), deserializedProject.getProjectTitle());
+		
+		// TODO: check if Scripts are equal, comparing object is obviously wrong
 
+	}
 }
