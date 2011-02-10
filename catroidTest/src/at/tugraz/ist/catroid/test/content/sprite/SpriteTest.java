@@ -222,7 +222,7 @@ public class SpriteTest extends AndroidTestCase {
 		HideBrick hideBrick = new HideBrick(testSprite);
 		ShowBrick showBrick = new ShowBrick(testSprite);
 
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < 5000; i++) {
 			testScript.addBrick(hideBrick);
 			testScript.addBrick(showBrick);
 		}
@@ -238,13 +238,18 @@ public class SpriteTest extends AndroidTestCase {
 		}
 		
 		testSprite.pause();
+		
 		try {
-			Thread.sleep(10);
+			Thread.sleep(1500);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		
 		int brickCount = getBrickCount(testScript);
 		Log.d("SpriteTest ", "Paused at brickCount  " + brickCount);
+		
+		assertTrue("BrickCount is still zero", brickCount != 0);
+		
 		
 		testSprite.unpause();
 		
