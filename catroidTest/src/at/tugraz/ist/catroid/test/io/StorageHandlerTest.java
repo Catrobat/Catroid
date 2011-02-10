@@ -1,6 +1,22 @@
+/**
+ *  Catroid: An on-device graphical programming language for Android devices
+ *  Copyright (C) 2010  Catroid development team 
+ *  (<http://code.google.com/p/catroid/wiki/Credits>)
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package at.tugraz.ist.catroid.test.io;
-
-
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -16,7 +32,6 @@ import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.StageActivity;
-
 
 public class StorageHandlerTest extends AndroidTestCase {
 	public StageActivity stageActivity = new StageActivity();
@@ -48,6 +63,7 @@ public class StorageHandlerTest extends AndroidTestCase {
         testScript.addBrick(comeToFrontBrick);
 
         otherScript.addBrick(placeAtBrick); //secondSprite
+        otherScript.setPaused(true);
         //-------------------------------
 
         firstSprite.getScriptList().add(testScript);
@@ -75,73 +91,58 @@ public class StorageHandlerTest extends AndroidTestCase {
 
         assertEquals("Title missmatch after deserialization", project.getProjectTitle(), loadedProject.getProjectTitle());
         
-        // TODO: check if Scripts are equal, comparing object is obviously wrong
-        assertEquals("Scale was not deserialized right",getScale((ScaleCostumeBrick)(postSpriteList.get(1).getScriptList().get(0).getBrickList().get(2))),scaleValue);
-        assertEquals("XPosition was not deserialized right",getXPosition((PlaceAtBrick)(postSpriteList.get(2).getScriptList().get(0).getBrickList().get(0))),xPosition);
-        assertEquals("YPosition was not deserialized right",getYPosition((PlaceAtBrick)(postSpriteList.get(2).getScriptList().get(0).getBrickList().get(0))),yPosition);
+        assertEquals("Scale was not deserialized right",     scaleValue, getScale((ScaleCostumeBrick)(postSpriteList.get(1).getScriptList().get(0).getBrickList().get(2))));
+        assertEquals("XPosition was not deserialized right", xPosition, getXPosition((PlaceAtBrick)(postSpriteList.get(2).getScriptList().get(0).getBrickList().get(0))));
+        assertEquals("YPosition was not deserialized right", yPosition, getYPosition((PlaceAtBrick)(postSpriteList.get(2).getScriptList().get(0).getBrickList().get(0))));
+        
+        assertEquals("isTouchScript should not be set in script", preSpriteList.get(1).getScriptList().get(0).isTouchScript(),postSpriteList.get(1).getScriptList().get(0).isTouchScript());
+        assertFalse("paused should not be set in script",getPaused(preSpriteList.get(1).getScriptList().get(0)));
+
+        assertEquals("paused should be set in script", getPaused(preSpriteList.get(2).getScriptList().get(0)),getPaused(postSpriteList.get(2).getScriptList().get(0)));
+
     }
 
-	
-    private double getScale(ScaleCostumeBrick brick){
+    private double getScale(ScaleCostumeBrick brick) {
         Field field = null;
         double scale = 0.0;
         try {
             field = ScaleCostumeBrick.class.getDeclaredField("scale");
-        } catch (Exception e) {
-            e.printStackTrace();
-        } 
-        field.setAccessible(true);
-        try {
+            field.setAccessible(true);
             scale = (Double) field.get(brick);
-        } catch (IllegalArgumentException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        } catch (Exception e) {}
         return scale;
     }
-    
-    private int getXPosition(PlaceAtBrick brick){
+
+    private int getXPosition(PlaceAtBrick brick) {
         Field field = null;
         int xPos = 0;
         try {
             field = PlaceAtBrick.class.getDeclaredField("xPosition");
-        } catch (Exception e) {
-            e.printStackTrace();
-        } 
-        field.setAccessible(true);
-        try {
+            field.setAccessible(true);
             xPos = (Integer) field.get(brick);
-        } catch (IllegalArgumentException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        } catch (Exception e) {}
         return xPos;
     }
-    
-    private int getYPosition(PlaceAtBrick brick){
+
+    private int getYPosition(PlaceAtBrick brick) {
         Field field = null;
         int yPos = 0;
         try {
             field = PlaceAtBrick.class.getDeclaredField("yPosition");
-        } catch (Exception e) {
-            e.printStackTrace();
-        } 
-        field.setAccessible(true);
-        try {
+            field.setAccessible(true);
             yPos = (Integer) field.get(brick);
-        } catch (IllegalArgumentException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        } catch (Exception e) {}
         return yPos;
+    }
+    
+    private boolean getPaused(Script script) {
+        Field field = null;
+        boolean paused = false;
+        try {
+            field = Script.class.getDeclaredField("paused");
+            field.setAccessible(true);
+            paused = (Boolean) field.get(script);
+        } catch (Exception e) {}
+        return paused;
     }
 }
