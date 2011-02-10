@@ -16,38 +16,30 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content.brick;
+package at.tugraz.ist.catroid.content.brick.gui;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.BaseAdapter;
+import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.script.Script;
+import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrickBase;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-public class IfTouchedBrick implements Brick {
-	private Script touchScript;
-	private Sprite sprite;
+public class ScaleCostumeBrick extends ScaleCostumeBrickBase implements Brick {
+
 	private static final long serialVersionUID = 1L;
-	
-	public IfTouchedBrick(Script touchScript, Sprite sprite) {
-		this.touchScript = touchScript;
-		this.touchScript.setTouchScript(true);
-		this.sprite = sprite;
+
+	public ScaleCostumeBrick(Sprite sprite, double scale) {
+		super(sprite, scale);
 	}
 
-	public void execute() {
-		// nothing to do
-	}
-	
-	public Sprite getSprite() {
-		return sprite;
-	}
-
-	public View getView(Context context) {
+	public View getView(Context context, View convertView, BaseAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_touched, null);
+		View view = inflater.inflate(R.layout.construction_brick_scale_costume, null);
+		EditText scaleEditText = (EditText)view.findViewById(R.id.EditText01);
+		scaleEditText.setText(scale + "");
 		return view;
 	}
-
 }

@@ -19,7 +19,8 @@
 package at.tugraz.ist.catroid.test.content.brick;
 
 import android.test.AndroidTestCase;
-import at.tugraz.ist.catroid.content.brick.PlaceAtBrick;
+import at.tugraz.ist.catroid.content.brick.PlaceAtBrickBase;
+import at.tugraz.ist.catroid.content.brick.gui.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class PlaceAtBrickTest extends AndroidTestCase {

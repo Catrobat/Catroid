@@ -20,7 +20,8 @@ package at.tugraz.ist.catroid.content.script;
 
 import java.util.ArrayList;
 
-import at.tugraz.ist.catroid.content.brick.Brick;
+import at.tugraz.ist.catroid.content.brick.BrickBase;
+import at.tugraz.ist.catroid.content.brick.gui.Brick;
 
 public class Script {
 

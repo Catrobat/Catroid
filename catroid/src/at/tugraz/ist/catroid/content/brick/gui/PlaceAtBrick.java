@@ -16,70 +16,41 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content.brick;
+package at.tugraz.ist.catroid.content.brick.gui;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.gui.dialogs.EditTextDialog;
+import at.tugraz.ist.catroid.content.brick.PlaceAtBrickBase;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-public class PlaceAtBrick implements Brick {
+public class PlaceAtBrick extends PlaceAtBrickBase implements Brick {
+
 	private static final long serialVersionUID = 1L;
-	private Integer xPosition;
-	private Integer yPosition;
-	private Sprite sprite;
 
-	private View brickView;
-	
 	public PlaceAtBrick(Sprite sprite, int xPosition, int yPosition) {
-		this.sprite    = sprite;
-		this.xPosition = xPosition;
-		this.yPosition = yPosition;
-	}
-	
-	public void execute() {
-		sprite.setXYPosition(xPosition, yPosition);
+		super(sprite, xPosition, yPosition);
 	}
 
-
-	public Sprite getSprite() {
-		return this.sprite;
-	}
-
-	public View getView(Context context) {
-		//if(brickView != null) {
-		//	System.out.println("__only return view");
-		//	return brickView;
-		//}
-		System.out.println("__initialise place brick");
+	public View getView(Context context, View convertView, BaseAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		brickView = inflater.inflate(R.layout.construction_brick_goto, null);
+		View brickView = inflater.inflate(R.layout.construction_brick_goto, null);
 		EditText edit = (EditText) brickView.findViewById(R.id.InputValueEditTextX);
-		edit.setText(xPosition + "");
-		edit.setOnClickListener(new EditTextDialog(context, edit, xPosition));
+		edit.setText(xPosition.getValue().intValue() + "");
+		EditTextDialog dialog = new EditTextDialog(context, edit, adapter);
+		dialog.setInteger(xPosition);
+		edit.setOnClickListener(dialog);
+		
 		edit = (EditText) brickView.findViewById(R.id.InputValueEditTextY);
-		edit.setText(yPosition + "");
-		edit.setOnClickListener(new EditTextDialog(context, edit, yPosition));
+		dialog = new EditTextDialog(context, edit, adapter);
+		edit.setText(yPosition.getValue().intValue() + "");
+		dialog.setInteger(yPosition);
+		edit.setOnClickListener(dialog);
 		
 		return brickView;
-	}
-
-	public Integer getxPosition() {
-		return xPosition;
-	}
-
-	public void setxPosition(Integer xPosition) {
-		this.xPosition = xPosition;
-	}
-
-	public Integer getyPosition() {
-		return yPosition;
-	}
-
-	public void setyPosition(Integer yPosition) {
-		this.yPosition = yPosition;
 	}
 }

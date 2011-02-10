@@ -26,7 +26,7 @@ import at.tugraz.ist.catroid.utils.ImageContainer;
 import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.utils.filesystem.MediaFileLoader;
 
-public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnClickListener, AdapterView.OnItemSelectedListener {
+public class ProgrammAdapter extends BaseAdapter implements OnClickListener, AdapterView.OnItemSelectedListener {
 
 	private Context context;
 	private MediaFileLoader mMediaFileLoader;
@@ -37,7 +37,7 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 	private Script script;
 	private LayoutInflater inflater;
 
-	public ConstructionSiteListViewAdapter(Context context, Script script, ListView listview, ImageContainer imageContainer) {
+	public ProgrammAdapter(Context context, Script script, ListView listview, ImageContainer imageContainer) {
 		this.script = script;
 		
 		this.context = context;
@@ -103,7 +103,7 @@ public class ConstructionSiteListViewAdapter extends BaseAdapter implements OnCl
 	public View getView(int position, View convertView, ViewGroup parent) {
 		//if(convertView != null)
 		//	return convertView;
-		return script.getBrickList().get(position).getView(context);
+		return script.getBrickList().get(position).getView(context, convertView, this);
 /*
 		final HashMap<String, String> brick = mBrickList.get(position);
 		final String type = mBrickList.get(position).get(BrickDefine.BRICK_TYPE);

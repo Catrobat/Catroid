@@ -19,7 +19,7 @@ import android.widget.RelativeLayout;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.BrickDefine;
 import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
-import at.tugraz.ist.catroid.constructionSite.gui.adapter.ConstructionSiteListViewAdapter;
+import at.tugraz.ist.catroid.constructionSite.gui.adapter.ProgrammAdapter;
 import at.tugraz.ist.catroid.utils.ImageContainer;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -142,13 +142,13 @@ public class ContextMenuDialog extends Dialog {
 		mToolboxLayout.startAnimation(mSlide_in);
 		mElementListView = listView;
 		//((ConstructionSiteListViewAdapter) mElementListView.getAdapter()).setAnimationOnPosition(mPositionOfView);
-		((ConstructionSiteListViewAdapter) mElementListView.getAdapter()).notifyDataSetChanged();
+		((ProgrammAdapter) mElementListView.getAdapter()).notifyDataSetChanged();
 	}
 
 	@Override
 	public void cancel() {
 		//((ConstructionSiteListViewAdapter) mElementListView.getAdapter()).setAnimationOnPosition(-1);
-		((ConstructionSiteListViewAdapter) mElementListView.getAdapter()).notifyDataSetChanged();
+		((ProgrammAdapter) mElementListView.getAdapter()).notifyDataSetChanged();
 		mToolboxLayout.startAnimation(mSlide_out);
 	}
 

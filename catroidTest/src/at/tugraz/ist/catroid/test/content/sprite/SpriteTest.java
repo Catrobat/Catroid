@@ -19,7 +19,8 @@
 package at.tugraz.ist.catroid.test.content.sprite;
 
 import android.test.AndroidTestCase;
-import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrick;
+import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrickBase;
+import at.tugraz.ist.catroid.content.brick.gui.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Costume;
 import at.tugraz.ist.catroid.content.sprite.Sprite;

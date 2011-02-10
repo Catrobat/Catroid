@@ -16,50 +16,25 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content.brick;
-
-import java.io.IOException;
+package at.tugraz.ist.catroid.content.brick.gui;
 
 import android.content.Context;
-import android.media.MediaPlayer;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.sprite.Sprite;
-import at.tugraz.ist.catroid.io.sound.SoundManager;
+import at.tugraz.ist.catroid.content.brick.PlaySoundBrickBase;
 
-public class PlaySoundBrick implements Brick {
-	private String pathToSoundfile;
+public class PlaySoundBrick extends PlaySoundBrickBase implements Brick {
+
 	private static final long serialVersionUID = 1L;
 
 	public PlaySoundBrick(String pathToSoundfile) {
-		this.pathToSoundfile = pathToSoundfile;
+		super(pathToSoundfile);
 	}
 
-	public void execute() {
-		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
-		try {
-			mediaPlayer.setDataSource(pathToSoundfile);
-			mediaPlayer.prepare();
-			mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-				public void onCompletion(MediaPlayer mp) {
-					mp.release();
-				}
-			});
-			Log.i("PlaySoundBrick", "Starting player with file " + pathToSoundfile);
-			mediaPlayer.start();
-		} catch (IOException e) {
-			throw new IllegalArgumentException("IO error", e);
-		}
-	}
-
-	public Sprite getSprite() {
-		return null;
-	}
-
-	public View getView(Context context) {
+	public View getView(Context context, View convertView, BaseAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.construction_brick_play_sound, null);
 		Spinner spinner = (Spinner) view.findViewById(R.id.Spinner01);

@@ -19,18 +19,13 @@
 
 package at.tugraz.ist.catroid.content.brick;
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.TextView;
-import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-public class ShowBrick implements Brick {
+public abstract class ShowBrickBase implements BrickBase {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 
-	public ShowBrick(Sprite sprite) {
+	public ShowBrickBase(Sprite sprite) {
 		this.sprite = sprite;
 	}
 	
@@ -41,14 +36,6 @@ public class ShowBrick implements Brick {
 
 	public Sprite getSprite() {
 		return this.sprite;
-	}
-
-	public View getView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_simple_text_view, null);
-		TextView textView = (TextView) view.findViewById(R.id.OneElementBrick);
-		textView.setText(R.string.come_to_front_main_adapter);
-		return view;
 	}
 
 }

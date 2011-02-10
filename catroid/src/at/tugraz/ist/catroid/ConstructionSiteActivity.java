@@ -24,33 +24,31 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.ListView;
-
+import android.widget.AdapterView.OnItemLongClickListener;
 import at.tugraz.ist.catroid.constructionSite.content.BrickDefine;
 import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
 import at.tugraz.ist.catroid.constructionSite.gui.adapter.ConstructionSiteGalleryAdapter;
-import at.tugraz.ist.catroid.constructionSite.gui.adapter.ConstructionSiteListViewAdapter;
-import at.tugraz.ist.catroid.constructionSite.gui.dialogs.RenameProjectDialog;
+import at.tugraz.ist.catroid.constructionSite.gui.adapter.ProgrammAdapter;
 import at.tugraz.ist.catroid.constructionSite.gui.dialogs.ContextMenuDialog;
 import at.tugraz.ist.catroid.constructionSite.gui.dialogs.LoadProgramDialog;
 import at.tugraz.ist.catroid.constructionSite.gui.dialogs.NewProjectDialog;
+import at.tugraz.ist.catroid.constructionSite.gui.dialogs.RenameProjectDialog;
 import at.tugraz.ist.catroid.constructionSite.gui.dialogs.SpritesDialog;
 import at.tugraz.ist.catroid.constructionSite.gui.dialogs.ToolBoxDialog;
 import at.tugraz.ist.catroid.constructionSite.tasks.ProjectUploadTask;
-import at.tugraz.ist.catroid.content.brick.ComeToFrontBrick;
-import at.tugraz.ist.catroid.content.brick.GoNStepsBackBrick;
-import at.tugraz.ist.catroid.content.brick.HideBrick;
-import at.tugraz.ist.catroid.content.brick.IfTouchedBrick;
-import at.tugraz.ist.catroid.content.brick.PlaceAtBrick;
-import at.tugraz.ist.catroid.content.brick.PlaySoundBrick;
-import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrick;
-import at.tugraz.ist.catroid.content.brick.ShowBrick;
-import at.tugraz.ist.catroid.content.brick.WaitBrick;
+import at.tugraz.ist.catroid.content.brick.gui.ComeToFrontBrick;
+import at.tugraz.ist.catroid.content.brick.gui.GoNStepsBackBrick;
+import at.tugraz.ist.catroid.content.brick.gui.HideBrick;
+import at.tugraz.ist.catroid.content.brick.gui.IfTouchedBrick;
+import at.tugraz.ist.catroid.content.brick.gui.PlaceAtBrick;
+import at.tugraz.ist.catroid.content.brick.gui.PlaySoundBrick;
+import at.tugraz.ist.catroid.content.brick.gui.ScaleCostumeBrick;
+import at.tugraz.ist.catroid.content.brick.gui.ShowBrick;
+import at.tugraz.ist.catroid.content.brick.gui.WaitBrick;
 import at.tugraz.ist.catroid.content.project.Project;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
@@ -102,7 +100,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 
 	protected ListView mConstructionListView;
 	protected Gallery mContructionGallery;
-	private ConstructionSiteListViewAdapter mListViewAdapter;
+	private ProgrammAdapter programmAdapter;
 	private ConstructionSiteGalleryAdapter mGalleryAdapter;
 	private ContentManager mContentManager;
 	private Project currentProject;
@@ -157,31 +155,31 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			Sprite stageSprite = currentProject.getSpriteList().get(0);
 			Script script = new Script();
 			
-			script.addBrick(new IfTouchedBrick(script, stageSprite));
+			script.addBrick(new IfTouchedBrick(stageSprite, script));
 			script.addBrick(new ComeToFrontBrick(stageSprite, currentProject));
 			script.addBrick(new GoNStepsBackBrick(stageSprite, 5));
 			script.addBrick(new HideBrick(stageSprite));
-			script.addBrick(new PlaceAtBrick(stageSprite, 105, 206));
+	
 			script.addBrick(new PlaySoundBrick("sound.mp3"));
 			script.addBrick(new ScaleCostumeBrick(stageSprite, 1.2));
 			script.addBrick(new ShowBrick(stageSprite));
 			script.addBrick(new WaitBrick(1000));
-			
+			script.addBrick(new PlaceAtBrick(stageSprite, 105, 206));
 			
 			stageSprite.getScriptList().add(script);
 			
 			Log.d("testProject", "sprite count: " + currentProject.getSpriteList().size());
 			Log.d("testProject", "script count: " + currentProject.getSpriteList().get(0).getScriptList().size());
-			mListViewAdapter.setContent(currentProject.getSpriteList().get(0).getScriptList().get(0));
+			programmAdapter.setContent(currentProject.getSpriteList().get(0).getScriptList().get(0));
 			setTitle(currentProject.getName());
 		}
 	}
 	
 	private void initViews() {
 		mConstructionListView = (ListView) findViewById(R.id.MainListView);
-		mListViewAdapter = new ConstructionSiteListViewAdapter(this, new Script(), mConstructionListView,
+		programmAdapter = new ProgrammAdapter(this, new Script(), mConstructionListView,
 				ImageContainer.getInstance());
-		mConstructionListView.setAdapter(mListViewAdapter);
+		mConstructionListView.setAdapter(programmAdapter);
 		mConstructionListView.setOnItemLongClickListener(this);
 
 		//mContructionGallery = (Gallery) findViewById(R.id.ConstructionSiteGallery);
@@ -198,7 +196,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	
 	public void setProject(Project project) {
 		currentProject = project;
-		mListViewAdapter.setContent(currentProject.getSpriteList().get(0).getScriptList().get(0));
+		programmAdapter.setContent(currentProject.getSpriteList().get(0).getScriptList().get(0));
 	}
 
 	private static int LAST_SELECTED_ELEMENT_POSITION = 0;
@@ -341,7 +339,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	}
 
 	public void updateViews() {
-		mListViewAdapter.notifyDataSetChanged(mContentManager.getCurrentSpriteCommandList());
+		programmAdapter.notifyDataSetChanged(mContentManager.getCurrentSpriteCommandList());
 		mGalleryAdapter.notifyDataSetChanged();
 
 		mSpritesToolboxButton.setText(mContentManager.getCurrentSpriteName());
@@ -475,4 +473,9 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		}
 		return false;
 	}
+	
+	public ProgrammAdapter getProgrammAdapter() {
+		return programmAdapter;
+	}
+
 }

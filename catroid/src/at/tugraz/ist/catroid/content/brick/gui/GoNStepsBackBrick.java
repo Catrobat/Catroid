@@ -16,17 +16,30 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content.brick;
-
-import java.io.Serializable;
+package at.tugraz.ist.catroid.content.brick.gui;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.BaseAdapter;
+import android.widget.EditText;
+import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.content.brick.GoNStepsBackBrickBase;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-public interface Brick extends Serializable{
-	public void execute();
-	public Sprite getSprite();
-	public View getView(Context context);
+public class GoNStepsBackBrick extends GoNStepsBackBrickBase implements Brick {
+
+	private static final long serialVersionUID = 1L;
+
+	public GoNStepsBackBrick(Sprite sprite, int steps) {
+		super(sprite, steps);
+	}
+
+	public View getView(Context context, View convertView, BaseAdapter adapter) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.construction_brick_go_back, null);
+		EditText numberOfStepsEditText = (EditText) view.findViewById(R.id.InputValueEditText);
+		numberOfStepsEditText.setText(steps + "");
+		return view;
+	}
 }

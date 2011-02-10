@@ -5,7 +5,8 @@ import android.test.AndroidTestCase;
 import android.view.LayoutInflater;
 import android.view.View;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.brick.ComeToFrontBrick;
+import at.tugraz.ist.catroid.content.brick.ComeToFrontBrickBase;
+import at.tugraz.ist.catroid.content.brick.gui.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.content.project.Project;
 
@@ -25,14 +26,14 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 		assertTrue("bottomSprite not added to data structure", project.addSprite(bottomSprite));
 		assertTrue("topSprite not added to data structure", project.addSprite(topSprite));
 		
-		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(bottomSprite, project);
+		ComeToFrontBrickBase comeToFrontBrick = new ComeToFrontBrick(bottomSprite, project);
 		comeToFrontBrick.execute();
 		assertEquals("bottomSprite z position should now be 3", bottomSprite.getZPosition(), 3);
 	}
 	
 	public void testNullSprite() {
 		Project project = new Project("testProject");
-		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(null, project);
+		ComeToFrontBrickBase comeToFrontBrick = new ComeToFrontBrick(null, project);
 		
 		try {
 			comeToFrontBrick.execute();
@@ -50,7 +51,7 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 		
 		project.addSprite(sprite);
 		
-		ComeToFrontBrick brick = new ComeToFrontBrick(sprite, project);
+		ComeToFrontBrickBase brick = new ComeToFrontBrick(sprite, project);
 		brick.execute();
 		
 		assertEquals("An Integer overflow occured during ComeToFrontBrick Execution"
@@ -58,7 +59,7 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 	}
 	
 	public void testGetView() {
-		ComeToFrontBrick brick = new ComeToFrontBrick(new Sprite("testSprite"), new Project("testProject"));
+		ComeToFrontBrickBase brick = new ComeToFrontBrick(new Sprite("testSprite"), new Project("testProject"));
 		//View view = brick.getView((LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE));
 		//assertNotNull("getView returned null", view);
 	}

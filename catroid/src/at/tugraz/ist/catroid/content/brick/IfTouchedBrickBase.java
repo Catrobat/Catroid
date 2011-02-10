@@ -18,41 +18,26 @@
  */
 package at.tugraz.ist.catroid.content.brick;
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.EditText;
-import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-/**
- * @author Anton Rieder, Ainul Husna
- *
- */
-public class ScaleCostumeBrick implements Brick {
-	private static final long serialVersionUID = 1L;
+public abstract class IfTouchedBrickBase implements BrickBase {
+	private Script touchScript;
 	private Sprite sprite;
-	private double scale;
-
-	public ScaleCostumeBrick(Sprite sprite, double scale) {
+	private static final long serialVersionUID = 1L;
+	
+	public IfTouchedBrickBase(Sprite sprite, Script touchScript) {
+		this.touchScript = touchScript;
+		this.touchScript.setTouchScript(true);
 		this.sprite = sprite;
-		this.scale  = scale;
 	}
 
 	public void execute() {
-		sprite.setScale(scale);
+		// nothing to do
 	}
-
+	
 	public Sprite getSprite() {
-		return this.sprite;
-	}
-
-	public View getView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_scale_costume, null);
-		EditText scaleEditText = (EditText)view.findViewById(R.id.EditText01);
-		scaleEditText.setText(scale + "");
-		return view;
+		return sprite;
 	}
 
 }
