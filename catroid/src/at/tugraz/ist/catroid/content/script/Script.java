@@ -27,15 +27,32 @@ public class Script {
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Brick> brickList;
 	private boolean isTouchScript;
+	private boolean paused;
+	private int brickCount;
 
 	public Script() {
 		this.brickList = new ArrayList<Brick>();
+		this.paused = false;
+		this.brickCount = 0;
 		setTouchScript(false);
 	}
 
-	public void run() {
-		for (Brick b : brickList) {
-			b.execute();
+	public void run() {	
+		for (int i = brickCount; i < brickList.size(); i++) {
+			if(paused) {
+				if (i == 0) {
+					brickCount = i;
+					return;
+				}
+				if (brickList.get(i-1) instanceof at.tugraz.ist.catroid.content.brick.WaitBrick) {
+					brickCount = i-1;
+				}
+				else {
+					brickCount = i;
+				}
+				break;
+			}
+			brickList.get(i).execute();
 		}
 	}
 
@@ -77,5 +94,8 @@ public class Script {
 	public boolean isTouchScript() {
 		return isTouchScript;
 	}
-
+	
+	public synchronized void setPaused(boolean paused) {
+		this.paused = paused;
+	}
 }

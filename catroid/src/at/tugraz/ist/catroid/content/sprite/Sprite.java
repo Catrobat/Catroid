@@ -34,8 +34,8 @@ public class Sprite implements Serializable {
 	private boolean isVisible;
 	private List<Costume> costumeList;
 	private List<Script> scriptList;
+	private List<Thread> threadList;
 	private Costume currentCostume;
-
 
 	private void init() {
 		this.zPosition = 0;
@@ -43,14 +43,15 @@ public class Sprite implements Serializable {
 		this.isVisible = true;
 		this.costumeList = new ArrayList<Costume>();
 		this.scriptList = new ArrayList<Script>();
+		this.threadList = new ArrayList<Thread>();
 		this.currentCostume = null;
 	}
-	
+
 	public Sprite(String name) {
 		this.name = name;
 		this.xPosition = 0;
 		this.yPosition = 0;
-		
+
 		init();
 	}
 
@@ -65,23 +66,36 @@ public class Sprite implements Serializable {
 	public void startScripts() {
 		for (Script s : scriptList) {
 			final Script script = s;
-			new Thread(
-		            new Runnable() {
-		                public void run() {
-		                   script.run();
-		                }
-		            }).start();
+			Thread t = new Thread(new Runnable() {
+				public void run() {
+					script.run();
+				}
+			});
+			threadList.add(t);
+			t.start();
 		}
 	}
-	
+
 	public void pause() {
-		
+		// TODO: save all threads in a list, iterate over this list and call
+		// wait() for every Thread
+		for (Script s : scriptList) {
+			s.setPaused(true);
+		}
+		for (Thread t : threadList) {
+			t.interrupt();
+		}
+		threadList.clear();
 	}
-	
+
 	public void unpause() {
-		
+		// TODO: notify all waiting Threads
+		for (Script s : scriptList) {
+			s.setPaused(false);
+		}
+		startScripts();
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -117,7 +131,8 @@ public class Sprite implements Serializable {
 
 	public void setScale(double scale) {
 		if (scale <= 0.0)
-			throw new IllegalArgumentException("Sprite scale must be greater than zero!");
+			throw new IllegalArgumentException(
+					"Sprite scale must be greater than zero!");
 		this.scale = scale;
 	}
 
@@ -136,14 +151,16 @@ public class Sprite implements Serializable {
 	public List<Costume> getCostumeList() {
 		return costumeList;
 	}
-	
+
 	public List<Script> getScriptList() {
 		return scriptList;
 	}
 
-	public void setCurrentCostume(Costume costume) throws IllegalArgumentException {
-		if(!costumeList.contains(costume))
-			throw new IllegalArgumentException("Selected costume is not contained in Costume list of this sprite.");
+	public void setCurrentCostume(Costume costume)
+			throws IllegalArgumentException {
+		if (!costumeList.contains(costume))
+			throw new IllegalArgumentException(
+					"Selected costume is not contained in Costume list of this sprite.");
 		currentCostume = costume;
 	}
 }
