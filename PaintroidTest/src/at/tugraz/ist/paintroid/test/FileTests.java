@@ -36,7 +36,7 @@ public class FileTests extends ActivityInstrumentationTestCase2<MainActivity> {
 		assertTrue(solo.waitForActivity("MainActivity", 500));
 		
 		mainActivity = (MainActivity) solo.getCurrentActivity();
-		assertEquals(mainActivity.getSavedFileUriString(), Environment.getExternalStorageDirectory().toString() + "/Pictures/Paintroid/test_save.png");
+		assertEquals(mainActivity.getSavedFileUriString(), Environment.getExternalStorageDirectory().toString() + "/Paintroid/test_save.png");
 	}
 	
 	public void testPictureIsSavedCorrectly() throws Exception{
@@ -50,7 +50,7 @@ public class FileTests extends ActivityInstrumentationTestCase2<MainActivity> {
 		
 		assertTrue(solo.waitForActivity("MainActivity", 500));
 		
-		File dir = new File(Environment.getExternalStorageDirectory().toString() + "/Pictures/Paintroid/test_save_2.png");
+		File dir = new File(Environment.getExternalStorageDirectory().toString() + "/Paintroid/test_save_2.png");
 		if(dir.exists()) {
 		    solo.clickOnMenuItem("Quit");
 		}else{
