@@ -18,35 +18,39 @@
  */
 package at.tugraz.ist.catroid.content.brick;
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.TextView;
-import at.tugraz.ist.catroid.R;
+/**
+ * @author Ainul, Jia Lin, Denise, Anton
+ *
+ */
+
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-public class HideBrick implements Brick {
+public abstract class GoNStepsBackBrickBase implements BrickBase {
 	private static final long serialVersionUID = 1L;
-	private Sprite sprite;
-	
-	public HideBrick(Sprite sprite) {
+	protected Sprite sprite;
+	protected int steps;
+
+	public GoNStepsBackBrickBase(Sprite sprite, int steps) {
 		this.sprite = sprite;
+		this.steps  = steps;
 	}
 
 	public void execute() {
-		sprite.hide();
-	}
-	
-	public Sprite getSprite() {
-		return this.sprite;
+		if (steps <= 0)
+			throw new NumberFormatException("Steps was not a positive number!");
+		
+		int currentPosition = sprite.getZPosition();
+		
+		if (currentPosition - steps > currentPosition) {
+			sprite.setZPosition(Integer.MIN_VALUE);
+			return;
+		}
+		
+		sprite.setZPosition(currentPosition - steps);
 	}
 
-	public View getView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_simple_text_view, null);
-		TextView textView = (TextView) view.findViewById(R.id.OneElementBrick);
-		textView.setText(R.string.hide_main_adapter);
-		return view;
+	public Sprite getSprite() {
+		return this.sprite;
 	}
 
 }

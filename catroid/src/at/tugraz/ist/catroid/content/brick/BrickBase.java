@@ -18,36 +18,12 @@
  */
 package at.tugraz.ist.catroid.content.brick;
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.script.Script;
+import java.io.Serializable;
+
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-public class IfTouchedBrick implements Brick {
-	private Script touchScript;
-	private Sprite sprite;
-	private static final long serialVersionUID = 1L;
+public interface BrickBase extends Serializable {
+	public void execute();
+	public Sprite getSprite();
 	
-	public IfTouchedBrick(Script touchScript, Sprite sprite) {
-		this.touchScript = touchScript;
-		this.touchScript.setTouchScript(true);
-		this.sprite = sprite;
-	}
-
-	public void execute() {
-		// nothing to do
-	}
-	
-	public Sprite getSprite() {
-		return sprite;
-	}
-
-	public View getView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_touched, null);
-		return view;
-	}
-
 }

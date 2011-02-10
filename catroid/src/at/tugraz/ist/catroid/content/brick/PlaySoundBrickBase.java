@@ -20,21 +20,16 @@ package at.tugraz.ist.catroid.content.brick;
 
 import java.io.IOException;
 
-import android.content.Context;
 import android.media.MediaPlayer;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.Spinner;
-import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.io.sound.SoundManager;
 
-public class PlaySoundBrick implements Brick {
+public abstract class PlaySoundBrickBase implements BrickBase {
 	private String pathToSoundfile;
 	private static final long serialVersionUID = 1L;
 
-	public PlaySoundBrick(String pathToSoundfile) {
+	public PlaySoundBrickBase(String pathToSoundfile) {
 		this.pathToSoundfile = pathToSoundfile;
 	}
 
@@ -59,10 +54,4 @@ public class PlaySoundBrick implements Brick {
 		return null;
 	}
 
-	public View getView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_play_sound, null);
-		Spinner spinner = (Spinner) view.findViewById(R.id.Spinner01);
-		return view;
-	}
 }

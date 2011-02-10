@@ -10,47 +10,61 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Adapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.BrickDefine;
+import at.tugraz.ist.catroid.content.entities.PrimitiveWrapper;
 
 public class EditTextDialog extends Dialog implements OnClickListener {
 
 	private EditText mListEditText;
 	private EditText mLocalEditText;
 	private Button closeButton;
-	private Integer intValueReference;
-	private Double doubleValueReference;
+	private PrimitiveWrapper<Integer> intValueReference;
+	private PrimitiveWrapper<Double> doubleValueReference;
+	private BaseAdapter adapter;
 
-	private void init(EditText brickEditText) {
+	private void init() {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.dialog_edit_text);
 		mLocalEditText = (EditText) findViewById(R.id.dialogEditText);
-		this.mListEditText = brickEditText;
+		
 		if(intValueReference != null)
-			mLocalEditText.setText(intValueReference + "");
+			mLocalEditText.setText(intValueReference.getValue().intValue() + "");
 		else
-			mLocalEditText.setText(doubleValueReference + "");
+			mLocalEditText.setText(doubleValueReference.getValue().intValue() + "");
 		closeButton = (Button) findViewById(R.id.dialogEditTextSubmit);
 		closeButton.setOnClickListener(this);
 	}
 	
-	public EditTextDialog(Context context, EditText brickEditText, Integer valueReference) {
+	public EditTextDialog(Context context, EditText brickEditText, BaseAdapter adapter) {
 		super(context);
-		this.intValueReference = valueReference;
-		this.doubleValueReference = null;
-
-		init(brickEditText);
+		this.mListEditText = brickEditText;
+		this.adapter = adapter;
 	}
 	
-	public EditTextDialog(Context context, EditText brickEditText, Double valueReference) {
-		super(context);
+	public void setInteger(PrimitiveWrapper<Integer> valueReference) {
+		this.intValueReference = valueReference;
+		this.doubleValueReference = null;
+		init();
+	}
+	
+	public void setDouble(PrimitiveWrapper<Double> valueReference) {
 		this.doubleValueReference = valueReference;
 		this.intValueReference = null;
-		
-		init(brickEditText);
+		init();
 	}
+	
+//	public EditTextDialog(Context context, EditText brickEditText, PrimitiveWrapper<Double> valueReference) {
+//		super(context);
+//		this.doubleValueReference = valueReference;
+//		this.intValueReference = null;
+//		
+//		init(brickEditText);
+//	}
 
 	public void show(HashMap<String, String> brickMap, EditText text) {
 		/*
@@ -93,8 +107,9 @@ public class EditTextDialog extends Dialog implements OnClickListener {
 
 	@Override
 	public void onBackPressed() {
-		saveContent();
 		super.onBackPressed();
+		saveContent();
+		
 	}
 
 	@Override
@@ -104,17 +119,18 @@ public class EditTextDialog extends Dialog implements OnClickListener {
 	}
 
 	private void saveContent() {
-		if(intValueReference != null)
-			intValueReference = Integer.parseInt(mLocalEditText.getText().toString());
+		if (intValueReference != null)
+			intValueReference.setValue(Integer.parseInt(mLocalEditText.getText().toString()));
 		else
-			doubleValueReference = Double.parseDouble(mLocalEditText.getText().toString());
+			doubleValueReference.setValue(Double.parseDouble(mLocalEditText.getText().toString()));
 		
 		mListEditText.setText(mLocalEditText.getText().toString());
+		adapter.notifyDataSetChanged();
 	}
 
 	public void onClick(View v) {
 		System.out.println("__onClick dialog");
-		if(v.getId() == mListEditText.getId()) {
+		if (v.getId() == mListEditText.getId()) {
 			show();
 		} else if(v.getId() == R.id.dialogEditTextSubmit) {
 			Log.i("EditTextDialog", "in onClickListener");

@@ -18,41 +18,43 @@
  */
 package at.tugraz.ist.catroid.content.brick;
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.EditText;
-import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.content.entities.PrimitiveWrapper;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-/**
- * @author Anton Rieder, Ainul Husna
- *
- */
-public class ScaleCostumeBrick implements Brick {
+public abstract class PlaceAtBrickBase implements BrickBase {
 	private static final long serialVersionUID = 1L;
+	protected PrimitiveWrapper<Integer> xPosition;
+	protected PrimitiveWrapper<Integer> yPosition;
 	private Sprite sprite;
-	private double scale;
-
-	public ScaleCostumeBrick(Sprite sprite, double scale) {
-		this.sprite = sprite;
-		this.scale  = scale;
+	
+	public PlaceAtBrickBase(Sprite sprite, int xPosition, int yPosition) {
+		this.sprite    = sprite;
+		this.xPosition = new PrimitiveWrapper<Integer>(xPosition);
+		this.yPosition = new PrimitiveWrapper<Integer>(yPosition);
 	}
-
+	
 	public void execute() {
-		sprite.setScale(scale);
+		sprite.setXYPosition(xPosition.getValue(), yPosition.getValue());
 	}
+
 
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
-	public View getView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_scale_costume, null);
-		EditText scaleEditText = (EditText)view.findViewById(R.id.EditText01);
-		scaleEditText.setText(scale + "");
-		return view;
+	public PrimitiveWrapper<Integer> getxPosition() {
+		return xPosition;
 	}
 
+	public void setxPosition(PrimitiveWrapper<Integer> xPosition) {
+		this.xPosition = xPosition;
+	}
+
+	public PrimitiveWrapper<Integer> getyPosition() {
+		return yPosition;
+	}
+
+	public void setyPosition(PrimitiveWrapper<Integer> yPosition) {
+		this.yPosition = yPosition;
+	}
 }
