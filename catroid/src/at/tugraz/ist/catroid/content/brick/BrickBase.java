@@ -18,27 +18,12 @@
  */
 package at.tugraz.ist.catroid.content.brick;
 
+import java.io.Serializable;
+
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-public class PlaceAtBrick implements Brick {
-	private static final long serialVersionUID = 1L;
-	private int xPosition;
-	private int yPosition;
-	private Sprite sprite;
+public interface BrickBase extends Serializable {
+	public void execute();
+	public Sprite getSprite();
 	
-	public PlaceAtBrick(Sprite sprite, int xPosition, int yPosition) {
-		this.sprite    = sprite;
-		this.xPosition = xPosition;
-		this.yPosition = yPosition;
-	}
-	
-	public void execute() {
-		sprite.setXYPosition(xPosition, yPosition);
-	}
-
-
-	public Sprite getSprite() {
-		return this.sprite;
-	}
-
 }

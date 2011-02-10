@@ -18,35 +18,24 @@
  */
 package at.tugraz.ist.catroid.content.brick;
 
-/**
- * @author Ainul, Jia Lin, Denise, Anton
- *
- */
-
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-public class GoNStepsBackBrick implements Brick {
+/**
+ * @author Anton Rieder, Ainul Husna
+ *
+ */
+public abstract class ScaleCostumeBrickBase implements BrickBase {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
-	private int steps;
+	protected double scale;
 
-	public GoNStepsBackBrick(Sprite sprite, int steps) {
+	public ScaleCostumeBrickBase(Sprite sprite, double scale) {
 		this.sprite = sprite;
-		this.steps  = steps;
+		this.scale  = scale;
 	}
 
 	public void execute() {
-		if (steps <= 0)
-			throw new NumberFormatException("Steps was not a positive number!");
-		
-		int currentPosition = sprite.getZPosition();
-		
-		if (currentPosition - steps > currentPosition) {
-			sprite.setZPosition(Integer.MIN_VALUE);
-			return;
-		}
-		
-		sprite.setZPosition(currentPosition - steps);
+		sprite.setScale(scale);
 	}
 
 	public Sprite getSprite() {

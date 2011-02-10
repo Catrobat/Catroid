@@ -18,28 +18,53 @@
  */
 package at.tugraz.ist.catroid.content.brick;
 
+import at.tugraz.ist.catroid.content.entities.PrimitiveWrapper;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-/**
- * @author Anton Rieder, Ainul Husna
- *
- */
-public class ScaleCostumeBrick implements Brick {
+public abstract class PlaceAtBrickBase implements BrickBase {
 	private static final long serialVersionUID = 1L;
+	protected PrimitiveWrapper<Integer> xPosition;
+	protected PrimitiveWrapper<Integer> yPosition;
 	private Sprite sprite;
-	private double scale;
-
-	public ScaleCostumeBrick(Sprite sprite, double scale) {
-		this.sprite = sprite;
-		this.scale  = scale;
+	
+	public PlaceAtBrickBase(Sprite sprite, int xPosition, int yPosition) {
+		this.sprite    = sprite;
+		this.xPosition = new PrimitiveWrapper<Integer>(xPosition);
+		this.yPosition = new PrimitiveWrapper<Integer>(yPosition);
 	}
-
+	
 	public void execute() {
-		sprite.setScale(scale);
+		sprite.setXYPosition(xPosition.getValue(), yPosition.getValue());
 	}
+
 
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
+	
+	public PrimitiveWrapper<Integer> getxPosition() {
+		return xPosition;
+	}
+	
+	public int getXPosition() {
+		return xPosition.getValue();
+	}
+
+	public void setxPosition(PrimitiveWrapper<Integer> xPosition) {
+		this.xPosition = xPosition;
+	}
+
+	
+	public PrimitiveWrapper<Integer> getyPosition() {
+		return yPosition;
+	}
+	
+	public int getYPosition() {
+		return yPosition.getValue();
+	}
+
+	public void setyPosition(PrimitiveWrapper<Integer> yPosition) {
+		this.yPosition = yPosition;
+	}
 }

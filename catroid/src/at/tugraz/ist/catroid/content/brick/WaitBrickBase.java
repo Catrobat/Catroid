@@ -3,11 +3,11 @@ package at.tugraz.ist.catroid.content.brick;
 import android.util.Log;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-public class WaitBrick implements Brick {
+public class WaitBrickBase implements BrickBase {
 	private static final long serialVersionUID = 1L;
-    private long timeToWaitInMilliseconds;
+    protected long timeToWaitInMilliseconds;
     
-	public WaitBrick(long timeToWaitInMilliseconds) {
+	public WaitBrickBase(long timeToWaitInMilliseconds) {
 		this.timeToWaitInMilliseconds = timeToWaitInMilliseconds;
 	}
 
@@ -28,7 +28,5 @@ public class WaitBrick implements Brick {
 	public Sprite getSprite() {
 		return null;
 	}
-	
-	
 
 }

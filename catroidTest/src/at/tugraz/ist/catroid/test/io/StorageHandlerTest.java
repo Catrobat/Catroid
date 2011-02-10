@@ -22,11 +22,12 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import android.test.AndroidTestCase;
-import at.tugraz.ist.catroid.content.brick.ComeToFrontBrick;
-import at.tugraz.ist.catroid.content.brick.HideBrick;
-import at.tugraz.ist.catroid.content.brick.PlaceAtBrick;
-import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrick;
-import at.tugraz.ist.catroid.content.brick.ShowBrick;
+import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrickBase;
+import at.tugraz.ist.catroid.content.brick.gui.ComeToFrontBrick;
+import at.tugraz.ist.catroid.content.brick.gui.HideBrick;
+import at.tugraz.ist.catroid.content.brick.gui.PlaceAtBrick;
+import at.tugraz.ist.catroid.content.brick.gui.ScaleCostumeBrick;
+import at.tugraz.ist.catroid.content.brick.gui.ShowBrick;
 import at.tugraz.ist.catroid.content.project.Project;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
@@ -92,8 +93,9 @@ public class StorageHandlerTest extends AndroidTestCase {
         assertEquals("Title missmatch after deserialization", project.getProjectTitle(), loadedProject.getProjectTitle());
         
         assertEquals("Scale was not deserialized right",     scaleValue, getScale((ScaleCostumeBrick)(postSpriteList.get(1).getScriptList().get(0).getBrickList().get(2))));
-        assertEquals("XPosition was not deserialized right", xPosition, getXPosition((PlaceAtBrick)(postSpriteList.get(2).getScriptList().get(0).getBrickList().get(0))));
-        assertEquals("YPosition was not deserialized right", yPosition, getYPosition((PlaceAtBrick)(postSpriteList.get(2).getScriptList().get(0).getBrickList().get(0))));
+        // TODO: Why does PlaceAtBrick have getters all of a sudden, shouldn't the Sprite hold all that information?
+        assertEquals("XPosition was not deserialized right", xPosition, ((PlaceAtBrick) (postSpriteList.get(2).getScriptList().get(0).getBrickList().get(0))).getXPosition());
+        assertEquals("YPosition was not deserialized right", yPosition, ((PlaceAtBrick) (postSpriteList.get(2).getScriptList().get(0).getBrickList().get(0))).getYPosition());
         
         assertEquals("isTouchScript should not be set in script", preSpriteList.get(1).getScriptList().get(0).isTouchScript(),postSpriteList.get(1).getScriptList().get(0).isTouchScript());
         assertFalse("paused should not be set in script",getPaused(preSpriteList.get(1).getScriptList().get(0)));
@@ -102,38 +104,40 @@ public class StorageHandlerTest extends AndroidTestCase {
 
     }
 
+    // TODO: might aswell just have a getter? Or get info from sprite?
     private double getScale(ScaleCostumeBrick brick) {
         Field field = null;
         double scale = 0.0;
         try {
-            field = ScaleCostumeBrick.class.getDeclaredField("scale");
+            field = ScaleCostumeBrickBase.class.getDeclaredField("scale");
             field.setAccessible(true);
             scale = (Double) field.get(brick);
         } catch (Exception e) {}
         return scale;
     }
 
-    private int getXPosition(PlaceAtBrick brick) {
-        Field field = null;
-        int xPos = 0;
-        try {
-            field = PlaceAtBrick.class.getDeclaredField("xPosition");
-            field.setAccessible(true);
-            xPos = (Integer) field.get(brick);
-        } catch (Exception e) {}
-        return xPos;
-    }
-
-    private int getYPosition(PlaceAtBrick brick) {
-        Field field = null;
-        int yPos = 0;
-        try {
-            field = PlaceAtBrick.class.getDeclaredField("yPosition");
-            field.setAccessible(true);
-            yPos = (Integer) field.get(brick);
-        } catch (Exception e) {}
-        return yPos;
-    }
+//	@SuppressWarnings("unchecked")
+//	private int getXPosition(PlaceAtBrick brick) {
+//        Field field = null;
+//        int xPos = 0;
+//        try {
+//            field = PlaceAtBrickBase.class.getDeclaredField("xPosition");
+//            field.setAccessible(true);
+//            xPos = ((PrimitiveWrapper<Integer>) field.get(brick)).getValue();
+//        } catch (Exception e) {}
+//        return xPos;
+//    }
+//
+//    private int getYPosition(PlaceAtBrick brick) {
+//        Field field = null;
+//        int yPos = 0;
+//        try {
+//            field = PlaceAtBrickBase.class.getDeclaredField("yPosition");
+//            field.setAccessible(true);
+//            yPos = (Integer) field.get(brick);
+//        } catch (Exception e) {}
+//        return yPos;
+//    }
     
     private boolean getPaused(Script script) {
         Field field = null;
