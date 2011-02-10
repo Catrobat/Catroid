@@ -75,7 +75,7 @@ public class WaitBrickTest extends AndroidTestCase {
         testSprite.unpause();
 
         try {
-			Thread.sleep(6990);
+			Thread.sleep(6900);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -83,7 +83,7 @@ public class WaitBrickTest extends AndroidTestCase {
 		assertFalse("Unexpected visibility of testSprite", testSprite.isVisible());
      
         try {
-			Thread.sleep(20);
+			Thread.sleep(200);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
