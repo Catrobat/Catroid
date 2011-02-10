@@ -18,22 +18,40 @@
  */
 package at.tugraz.ist.catroid.content.brick;
 
-import at.tugraz.ist.catroid.content.sprite.Sprite;
+import java.io.IOException;
 
-public class HideBrick implements Brick {
+import android.media.MediaPlayer;
+import android.util.Log;
+import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.io.sound.SoundManager;
+
+public abstract class PlaySoundBrickBase implements BrickBase {
+	private String pathToSoundfile;
 	private static final long serialVersionUID = 1L;
-	private Sprite sprite;
-	
-	public HideBrick(Sprite sprite) {
-		this.sprite = sprite;
+
+	public PlaySoundBrickBase(String pathToSoundfile) {
+		this.pathToSoundfile = pathToSoundfile;
 	}
 
 	public void execute() {
-		sprite.hide();
+		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
+		try {
+			mediaPlayer.setDataSource(pathToSoundfile);
+			mediaPlayer.prepare();
+			mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+				public void onCompletion(MediaPlayer mp) {
+					mp.release();
+				}
+			});
+			Log.i("PlaySoundBrick", "Starting player with file " + pathToSoundfile);
+			mediaPlayer.start();
+		} catch (IOException e) {
+			throw new IllegalArgumentException("IO error", e);
+		}
 	}
-	
+
 	public Sprite getSprite() {
-		return this.sprite;
+		return null;
 	}
 
 }

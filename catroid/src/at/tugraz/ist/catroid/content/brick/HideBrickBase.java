@@ -18,11 +18,22 @@
  */
 package at.tugraz.ist.catroid.content.brick;
 
-import java.io.Serializable;
-
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-public interface Brick extends Serializable{
-	public void execute();
-	public Sprite getSprite();
+public abstract class HideBrickBase implements BrickBase {
+	private static final long serialVersionUID = 1L;
+	private Sprite sprite;
+	
+	public HideBrickBase(Sprite sprite) {
+		this.sprite = sprite;
+	}
+
+	public void execute() {
+		sprite.hide();
+	}
+	
+	public Sprite getSprite() {
+		return this.sprite;
+	}
+
 }

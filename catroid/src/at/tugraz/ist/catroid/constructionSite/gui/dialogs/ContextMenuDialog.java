@@ -19,7 +19,7 @@ import android.widget.RelativeLayout;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.BrickDefine;
 import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
-import at.tugraz.ist.catroid.constructionSite.gui.adapter.ConstructionSiteListViewAdapter;
+import at.tugraz.ist.catroid.constructionSite.gui.adapter.ProgrammAdapter;
 import at.tugraz.ist.catroid.utils.ImageContainer;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -97,7 +97,7 @@ public class ContextMenuDialog extends Dialog {
 			public void onClick(View v) {
 				if (mContentManager.moveBrickUpInList(mPositionOfView)) {
 					mPositionOfView--;
-					((ConstructionSiteListViewAdapter) mElementListView.getAdapter()).setAnimationOnPosition(mPositionOfView);
+					//((ConstructionSiteListViewAdapter) mElementListView.getAdapter()).setAnimationOnPosition(mPositionOfView);
 				}
 			}
 		});
@@ -107,7 +107,7 @@ public class ContextMenuDialog extends Dialog {
 			public void onClick(View v) {
 				if (mContentManager.moveBrickDownInList(mPositionOfView)) {
 					mPositionOfView++;
-					((ConstructionSiteListViewAdapter) mElementListView.getAdapter()).setAnimationOnPosition(mPositionOfView);
+					//((ConstructionSiteListViewAdapter) mElementListView.getAdapter()).setAnimationOnPosition(mPositionOfView);
 				}
 			}
 		});
@@ -141,14 +141,14 @@ public class ContextMenuDialog extends Dialog {
 		mPositionOfView = position;
 		mToolboxLayout.startAnimation(mSlide_in);
 		mElementListView = listView;
-		((ConstructionSiteListViewAdapter) mElementListView.getAdapter()).setAnimationOnPosition(mPositionOfView);
-		((ConstructionSiteListViewAdapter) mElementListView.getAdapter()).notifyDataSetChanged();
+		//((ConstructionSiteListViewAdapter) mElementListView.getAdapter()).setAnimationOnPosition(mPositionOfView);
+		((ProgrammAdapter) mElementListView.getAdapter()).notifyDataSetChanged();
 	}
 
 	@Override
 	public void cancel() {
-		((ConstructionSiteListViewAdapter) mElementListView.getAdapter()).setAnimationOnPosition(-1);
-		((ConstructionSiteListViewAdapter) mElementListView.getAdapter()).notifyDataSetChanged();
+		//((ConstructionSiteListViewAdapter) mElementListView.getAdapter()).setAnimationOnPosition(-1);
+		((ProgrammAdapter) mElementListView.getAdapter()).notifyDataSetChanged();
 		mToolboxLayout.startAnimation(mSlide_out);
 	}
 

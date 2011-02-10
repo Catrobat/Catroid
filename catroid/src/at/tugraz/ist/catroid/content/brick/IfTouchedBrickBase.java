@@ -21,12 +21,12 @@ package at.tugraz.ist.catroid.content.brick;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-public class IfTouchedBrick implements Brick {
+public abstract class IfTouchedBrickBase implements BrickBase {
 	private Script touchScript;
 	private Sprite sprite;
 	private static final long serialVersionUID = 1L;
 	
-	public IfTouchedBrick(Sprite sprite, Script touchScript) {
+	public IfTouchedBrickBase(Sprite sprite, Script touchScript) {
 		this.touchScript = touchScript;
 		this.touchScript.setTouchScript(true);
 		this.sprite = sprite;

@@ -18,38 +18,39 @@
  */
 package at.tugraz.ist.catroid.content.brick;
 
-import java.io.IOException;
-import android.media.MediaPlayer;
-import android.util.Log;
+/**
+ * @author Ainul, Jia Lin, Denise, Anton
+ *
+ */
+
 import at.tugraz.ist.catroid.content.sprite.Sprite;
-import at.tugraz.ist.catroid.io.sound.SoundManager;
 
-public class PlaySoundBrick implements Brick {
-	private String pathToSoundfile;
+public abstract class GoNStepsBackBrickBase implements BrickBase {
 	private static final long serialVersionUID = 1L;
+	protected Sprite sprite;
+	protected int steps;
 
-	public PlaySoundBrick(String pathToSoundfile) {
-		this.pathToSoundfile = pathToSoundfile;
+	public GoNStepsBackBrickBase(Sprite sprite, int steps) {
+		this.sprite = sprite;
+		this.steps  = steps;
 	}
 
 	public void execute() {
-		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
-		try {
-			mediaPlayer.setDataSource(pathToSoundfile);
-			mediaPlayer.prepare();
-			mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-				public void onCompletion(MediaPlayer mp) {
-					mp.release();
-				}
-			});
-			Log.i("PlaySoundBrick", "Starting player with file " + pathToSoundfile);
-			mediaPlayer.start();
-		} catch (IOException e) {
-			throw new IllegalArgumentException("IO error", e);
+		if (steps <= 0)
+			throw new NumberFormatException("Steps was not a positive number!");
+		
+		int currentPosition = sprite.getZPosition();
+		
+		if (currentPosition - steps > currentPosition) {
+			sprite.setZPosition(Integer.MIN_VALUE);
+			return;
 		}
+		
+		sprite.setZPosition(currentPosition - steps);
 	}
 
 	public Sprite getSprite() {
-		return null;
+		return this.sprite;
 	}
+
 }

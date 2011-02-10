@@ -26,7 +26,7 @@ import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class Project implements Serializable {
 	private static final long serialVersionUID = 1L;
-	public List<Sprite> spriteList = new ArrayList<Sprite>();
+	private List<Sprite> spriteList = new ArrayList<Sprite>();
 	private String projectTitle;
 
 	public Project(String projectName) {
@@ -56,7 +56,7 @@ public class Project implements Serializable {
 	public List<Sprite> getSpriteList() {
 		return spriteList;
 	}
-
+	
 	public void setProjectTitle(String projectTitle) {
 		this.projectTitle = projectTitle;
 	}
