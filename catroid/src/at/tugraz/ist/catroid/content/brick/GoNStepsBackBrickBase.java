@@ -16,30 +16,41 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.test.content.brick;
+package at.tugraz.ist.catroid.content.brick;
 
-import android.test.AndroidTestCase;
-import at.tugraz.ist.catroid.content.brick.gui.ShowBrick;
+/**
+ * @author Ainul, Jia Lin, Denise, Anton
+ *
+ */
+
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-public class ShowBrickTest extends AndroidTestCase {
-	public void testShow() {
-		Sprite sprite = new Sprite("new sprite");
-		sprite.hide();
-		assertFalse(sprite.isVisible());
+public abstract class GoNStepsBackBrickBase implements BrickBase {
+	private static final long serialVersionUID = 1L;
+	protected Sprite sprite;
+	protected int steps;
+
+	public GoNStepsBackBrickBase(Sprite sprite, int steps) {
+		this.sprite = sprite;
+		this.steps  = steps;
+	}
+
+	public void execute() {
+		if (steps <= 0)
+			throw new NumberFormatException("Steps was not a positive number!");
 		
-		ShowBrick showBrick = new ShowBrick(sprite);
-		showBrick.execute();
-		assertTrue("Sprite is not visible after ShowBrick executed", sprite.isVisible());
-	}
-	
-	public void testNullSprite() {
-		ShowBrick showBrick = new ShowBrick(null);
-		try {
-			showBrick.execute();
-			fail("Execution of ShowBrick with null Sprite did not cause a NullPointerException to be thrown");
-		} catch (NullPointerException e) {
-			// expected behavior
+		int currentPosition = sprite.getZPosition();
+		
+		if (currentPosition - steps > currentPosition) {
+			sprite.setZPosition(Integer.MIN_VALUE);
+			return;
 		}
+		
+		sprite.setZPosition(currentPosition - steps);
 	}
+
+	public Sprite getSprite() {
+		return this.sprite;
+	}
+
 }

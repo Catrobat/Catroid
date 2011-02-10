@@ -19,7 +19,7 @@
 package at.tugraz.ist.catroid.test.content.brick;
 
 import android.test.AndroidTestCase;
-import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrick;
+import at.tugraz.ist.catroid.content.brick.gui.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class ScaleCostumeBrickTest extends AndroidTestCase {

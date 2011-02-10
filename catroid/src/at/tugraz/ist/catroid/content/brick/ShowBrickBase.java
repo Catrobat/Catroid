@@ -21,11 +21,11 @@ package at.tugraz.ist.catroid.content.brick;
 
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-public class ShowBrick implements Brick {
+public abstract class ShowBrickBase implements BrickBase {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 
-	public ShowBrick(Sprite sprite) {
+	public ShowBrickBase(Sprite sprite) {
 		this.sprite = sprite;
 	}
 	

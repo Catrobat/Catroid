@@ -16,28 +16,28 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content.brick;
+package at.tugraz.ist.catroid.content.brick.gui;
 
-import at.tugraz.ist.catroid.content.script.Script;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.BaseAdapter;
+import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.content.brick.ComeToFrontBrickBase;
+import at.tugraz.ist.catroid.content.project.Project;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-public class IfTouchedBrick implements Brick {
-	private Script touchScript;
-	private Sprite sprite;
+public class ComeToFrontBrick extends ComeToFrontBrickBase implements Brick {
+
 	private static final long serialVersionUID = 1L;
-	
-	public IfTouchedBrick(Sprite sprite, Script touchScript) {
-		this.touchScript = touchScript;
-		this.touchScript.setTouchScript(true);
-		this.sprite = sprite;
+
+	public ComeToFrontBrick(Sprite sprite, Project project) {
+		super(sprite, project);
 	}
 
-	public void execute() {
-		// nothing to do
+	public View getView(Context context, View convertView, BaseAdapter adapter) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.construction_brick_come_to_front, null);
+		return view;
 	}
-	
-	public Sprite getSprite() {
-		return sprite;
-	}
-
 }

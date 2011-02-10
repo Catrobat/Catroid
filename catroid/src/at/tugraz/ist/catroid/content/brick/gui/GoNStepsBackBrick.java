@@ -16,30 +16,30 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content.brick;
+package at.tugraz.ist.catroid.content.brick.gui;
 
-import at.tugraz.ist.catroid.content.project.Project;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.BaseAdapter;
+import android.widget.EditText;
+import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.content.brick.GoNStepsBackBrickBase;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-public class ComeToFrontBrick implements Brick {
+public class GoNStepsBackBrick extends GoNStepsBackBrickBase implements Brick {
+
 	private static final long serialVersionUID = 1L;
-	private Sprite  sprite;
-	private transient Project project;
-	
 
-	public ComeToFrontBrick(Sprite sprite, Project project){
-		this.sprite  = sprite;
-		this.project = project;
-	}
-	
-	public void execute() {	
-		int maxZValue = project.getMaxZValue();
-		maxZValue 	  = maxZValue > (maxZValue + 1) ? Integer.MAX_VALUE : maxZValue + 1;
-		
-		sprite.setZPosition(maxZValue);
+	public GoNStepsBackBrick(Sprite sprite, int steps) {
+		super(sprite, steps);
 	}
 
-	public Sprite getSprite() {
-		return this.sprite;
+	public View getView(Context context, View convertView, BaseAdapter adapter) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.construction_brick_go_back, null);
+		EditText numberOfStepsEditText = (EditText) view.findViewById(R.id.InputValueEditText);
+		numberOfStepsEditText.setText(steps + "");
+		return view;
 	}
 }

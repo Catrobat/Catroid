@@ -19,8 +19,8 @@
 package at.tugraz.ist.catroid.test.content.project;
 
 import android.test.AndroidTestCase;
-import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.content.project.Project;
+import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class ProjectTest extends AndroidTestCase {
 	private Sprite  bottomSprite = new Sprite("bottom");

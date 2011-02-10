@@ -16,30 +16,30 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.test.content.brick;
+package at.tugraz.ist.catroid.content.brick.gui;
 
-import android.test.AndroidTestCase;
-import at.tugraz.ist.catroid.content.brick.gui.ShowBrick;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.BaseAdapter;
+import android.widget.TextView;
+import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.content.brick.HideBrickBase;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-public class ShowBrickTest extends AndroidTestCase {
-	public void testShow() {
-		Sprite sprite = new Sprite("new sprite");
-		sprite.hide();
-		assertFalse(sprite.isVisible());
-		
-		ShowBrick showBrick = new ShowBrick(sprite);
-		showBrick.execute();
-		assertTrue("Sprite is not visible after ShowBrick executed", sprite.isVisible());
+public class HideBrick extends HideBrickBase implements Brick {
+
+	private static final long serialVersionUID = 1L;
+
+	public HideBrick(Sprite sprite) {
+		super(sprite);
 	}
-	
-	public void testNullSprite() {
-		ShowBrick showBrick = new ShowBrick(null);
-		try {
-			showBrick.execute();
-			fail("Execution of ShowBrick with null Sprite did not cause a NullPointerException to be thrown");
-		} catch (NullPointerException e) {
-			// expected behavior
-		}
+
+	public View getView(Context context, View convertView, BaseAdapter adapter) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.construction_brick_simple_text_view, null);
+		TextView textView = (TextView) view.findViewById(R.id.OneElementBrick);
+		textView.setText(R.string.hide_main_adapter);
+		return view;
 	}
 }

@@ -18,27 +18,26 @@
  */
 package at.tugraz.ist.catroid.content.brick;
 
+import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-public class PlaceAtBrick implements Brick {
-	private static final long serialVersionUID = 1L;
-	private int xPosition;
-	private int yPosition;
+public abstract class IfTouchedBrickBase implements BrickBase {
+	private Script touchScript;
 	private Sprite sprite;
+	private static final long serialVersionUID = 1L;
 	
-	public PlaceAtBrick(Sprite sprite, int xPosition, int yPosition) {
-		this.sprite    = sprite;
-		this.xPosition = xPosition;
-		this.yPosition = yPosition;
+	public IfTouchedBrickBase(Sprite sprite, Script touchScript) {
+		this.touchScript = touchScript;
+		this.touchScript.setTouchScript(true);
+		this.sprite = sprite;
 	}
-	
+
 	public void execute() {
-		sprite.setXYPosition(xPosition, yPosition);
+		// nothing to do
 	}
-
-
+	
 	public Sprite getSprite() {
-		return this.sprite;
+		return sprite;
 	}
 
 }

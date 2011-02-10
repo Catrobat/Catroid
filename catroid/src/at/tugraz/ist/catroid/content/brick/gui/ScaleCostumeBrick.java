@@ -16,30 +16,30 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content.brick;
+package at.tugraz.ist.catroid.content.brick.gui;
 
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.BaseAdapter;
+import android.widget.EditText;
+import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrickBase;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-/**
- * @author Anton Rieder, Ainul Husna
- *
- */
-public class ScaleCostumeBrick implements Brick {
+public class ScaleCostumeBrick extends ScaleCostumeBrickBase implements Brick {
+
 	private static final long serialVersionUID = 1L;
-	private Sprite sprite;
-	private double scale;
 
 	public ScaleCostumeBrick(Sprite sprite, double scale) {
-		this.sprite = sprite;
-		this.scale  = scale;
+		super(sprite, scale);
 	}
 
-	public void execute() {
-		sprite.setScale(scale);
+	public View getView(Context context, View convertView, BaseAdapter adapter) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.construction_brick_scale_costume, null);
+		EditText scaleEditText = (EditText)view.findViewById(R.id.EditText01);
+		scaleEditText.setText(scale + "");
+		return view;
 	}
-
-	public Sprite getSprite() {
-		return this.sprite;
-	}
-
 }

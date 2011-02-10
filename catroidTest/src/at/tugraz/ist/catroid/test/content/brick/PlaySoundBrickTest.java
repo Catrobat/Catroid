@@ -25,7 +25,7 @@ import java.io.FileOutputStream;
 
 import android.media.MediaPlayer;
 import android.test.InstrumentationTestCase;
-import at.tugraz.ist.catroid.content.brick.PlaySoundBrick;
+import at.tugraz.ist.catroid.content.brick.gui.PlaySoundBrick;
 import at.tugraz.ist.catroid.io.sound.SoundManager;
 import at.tugraz.ist.catroid.test.R;
 
