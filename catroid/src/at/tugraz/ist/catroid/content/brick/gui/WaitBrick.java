@@ -16,41 +16,29 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content.brick;
+package at.tugraz.ist.catroid.content.brick.gui;
 
-/**
- * @author Ainul, Jia Lin, Denise, Anton
- *
- */
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.BaseAdapter;
+import android.widget.EditText;
+import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.content.brick.WaitBrickBase;
 
-import at.tugraz.ist.catroid.content.sprite.Sprite;
+public class WaitBrick extends WaitBrickBase implements Brick {
 
-public class GoNStepsBackBrick implements Brick {
 	private static final long serialVersionUID = 1L;
-	private Sprite sprite;
-	private int steps;
 
-	public GoNStepsBackBrick(Sprite sprite, int steps) {
-		this.sprite = sprite;
-		this.steps  = steps;
+	public WaitBrick(int timeToWaitInMilliseconds) {
+		super(timeToWaitInMilliseconds);
 	}
 
-	public void execute() {
-		if (steps <= 0)
-			throw new NumberFormatException("Steps was not a positive number!");
-		
-		int currentPosition = sprite.getZPosition();
-		
-		if (currentPosition - steps > currentPosition) {
-			sprite.setZPosition(Integer.MIN_VALUE);
-			return;
-		}
-		
-		sprite.setZPosition(currentPosition - steps);
+	public View getView(Context context, View convertView, BaseAdapter adapter) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.construction_brick_wait, null);
+		EditText timeToWaitEditText = (EditText)view.findViewById(R.id.InputValueEditText);
+		timeToWaitEditText.setText(timeToWaitInMilliseconds + "");
+		return view;
 	}
-
-	public Sprite getSprite() {
-		return this.sprite;
-	}
-
 }

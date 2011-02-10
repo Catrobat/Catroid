@@ -20,7 +20,8 @@ package at.tugraz.ist.catroid.content.script;
 
 import java.util.ArrayList;
 
-import at.tugraz.ist.catroid.content.brick.Brick;
+import at.tugraz.ist.catroid.content.brick.gui.Brick;
+import at.tugraz.ist.catroid.content.brick.gui.WaitBrick;
 
 public class Script {
 
@@ -39,12 +40,12 @@ public class Script {
 
 	public void run() {	
 		for (int i = brickCount; i < brickList.size(); i++) {
-			if(paused) {
+			if (paused) {
 				if (i == 0) {
 					brickCount = i;
 					return;
 				}
-				if (brickList.get(i-1) instanceof at.tugraz.ist.catroid.content.brick.WaitBrick) {
+				if (brickList.get(i-1) instanceof WaitBrick) {
 					brickCount = i-1;
 				}
 				else {

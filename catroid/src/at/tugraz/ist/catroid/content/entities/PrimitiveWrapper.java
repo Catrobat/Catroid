@@ -16,13 +16,25 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content.brick;
+package at.tugraz.ist.catroid.content.entities;
 
-import java.io.Serializable;
 
-import at.tugraz.ist.catroid.content.sprite.Sprite;
+public class PrimitiveWrapper<T> {
 
-public interface Brick extends Serializable{
-	public void execute();
-	public Sprite getSprite();
+	private T value;
+	
+	public PrimitiveWrapper() {
+	}
+	
+	public PrimitiveWrapper(T value) {
+		this.value = value;
+	}
+	
+	public T getValue() {
+		return value;
+	}
+	
+	public void setValue(T value) {
+		this.value = value;
+	}
 }

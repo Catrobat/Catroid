@@ -16,30 +16,14 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.test.content.brick;
+package at.tugraz.ist.catroid.content.brick;
 
-import android.test.AndroidTestCase;
-import at.tugraz.ist.catroid.content.brick.gui.ShowBrick;
+import java.io.Serializable;
+
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-public class ShowBrickTest extends AndroidTestCase {
-	public void testShow() {
-		Sprite sprite = new Sprite("new sprite");
-		sprite.hide();
-		assertFalse(sprite.isVisible());
-		
-		ShowBrick showBrick = new ShowBrick(sprite);
-		showBrick.execute();
-		assertTrue("Sprite is not visible after ShowBrick executed", sprite.isVisible());
-	}
+public interface BrickBase extends Serializable {
+	public void execute();
+	public Sprite getSprite();
 	
-	public void testNullSprite() {
-		ShowBrick showBrick = new ShowBrick(null);
-		try {
-			showBrick.execute();
-			fail("Execution of ShowBrick with null Sprite did not cause a NullPointerException to be thrown");
-		} catch (NullPointerException e) {
-			// expected behavior
-		}
-	}
 }
