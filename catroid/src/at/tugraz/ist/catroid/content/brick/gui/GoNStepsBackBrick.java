@@ -38,11 +38,13 @@ public class GoNStepsBackBrick extends GoNStepsBackBrickBase implements Brick {
 
 	public View getView(Context context, View convertView, BaseAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_go_back, null);
+		View view     = inflater.inflate(R.layout.construction_brick_go_back, null);
 		EditText edit = (EditText) view.findViewById(R.id.InputValueEditText);
+		
 		edit.setText(steps.getValue() + "");
 		
 		EditTextDialog dialog = new EditTextDialog(context, edit, adapter);
+		
 		dialog.setInteger(steps);
 		edit.setOnClickListener(dialog);
 		
