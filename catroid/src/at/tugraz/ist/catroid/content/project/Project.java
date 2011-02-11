@@ -32,6 +32,7 @@ public class Project implements Serializable {
 	public Project(String projectName) {
 		setProjectTitle(projectName);
 		Sprite stage = new Sprite("Stage");
+		stage.setZPosition(Integer.MIN_VALUE);
 		addSprite(stage);
 	}
 	

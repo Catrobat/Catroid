@@ -10,6 +10,8 @@ import android.graphics.Rect;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import at.tugraz.ist.catroid.utils.ImageEditing;
+import at.tugraz.ist.catroid.content.sprite.Sprite;
+
 
 /**
  * 
@@ -47,13 +49,12 @@ public class CanvasDraw implements IDraw {
 			mCanvas.drawRect(
 					new Rect(0, 0, mCanvas.getWidth(), mCanvas.getHeight()),
 					mWhitePaint);
-			for (int i = 0; i < mSpritesList.size(); i++) {
-				DrawObject drawObject = mSpritesList.get(i).mDrawObject;
-				if (drawObject.getBitmap() != null) {
-					mCanvas.drawBitmap(drawObject.getBitmap(),
-							drawObject.getPositionAbs().first,
-							drawObject.getPositionAbs().second, null);
-					drawObject.setToDraw(false);
+			for (Sprite s : mSpritesList) {
+				if (s.getCurrentCostume().getBitmap() != null) {
+					mCanvas.drawBitmap(s.getCurrentCostume().getBitmap(),
+							s.getCurrentCostume().getDrawPositionX(),
+							s.getCurrentCostume().getDrawPositionY(), null);
+					s.setToDraw(false);
 				}
 			}
 			mHolder.unlockCanvasAndPost(mCanvas);

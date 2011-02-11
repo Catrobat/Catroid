@@ -3,20 +3,21 @@ package at.tugraz.ist.catroid.stage;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import android.content.Context;
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.util.Log;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
+import at.tugraz.ist.catroid.content.project.Project;
+import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 
 
 
 public class StageManager {
-	private ContentManager mContentManager;
-	private Context mContext;
+	private Activity mActivity;
 	protected ArrayList<Sprite> mSpritesList;
 	private Boolean mSpritesChanged;
 	private IDraw mDraw;
@@ -28,9 +29,9 @@ public class StageManager {
 		public void run() {
 			//Log.v("StageManager", "run");
 			for (int i = 0; i < mSpritesList.size(); i++) {
-				if (mSpritesList.get(i).mDrawObject.getToDraw() == true) {
+				if (mSpritesList.get(i).getToDraw() == true) {
 					mSpritesChanged = true;
-					mSpritesList.get(i).mDrawObject.setToDraw(false);
+					mSpritesList.get(i).setToDraw(false);
 				}
 			}
 			if (mSpritesChanged) {
@@ -48,36 +49,30 @@ public class StageManager {
 		return maxZValue;
 	}
 
-	public StageManager(Context context, String projectFile) {
+	public StageManager(Activity activity, String projectFile) {
 
-		mContext = context;
-		
-		mContentManager = new ContentManager(mContext);
-		mContentManager.loadContent(projectFile);
-
-		mSpritesList = new ArrayList<Sprite>();
-		for (int i = 0; i < mContentManager.getAllSpriteCommandList().size(); i++) {
-			mSpritesList.add(new Sprite(mContentManager.getAllSpriteCommandList().get(i), this));
-		}
+		StorageHandler storageHandler = StorageHandler.getInstance(mActivity);
+		Project project = storageHandler.loadProject(projectFile);
+		mSpritesList = (ArrayList<Sprite>) project.getSpriteList();
+		mActivity = activity;
 		
 		// set stage z coordinate to minimum
-		mSpritesList.get(0).mDrawObject.setZOrder(Integer.MIN_VALUE);
 		sortSpriteList();
 		mSpritesChanged = true;
 
 		mDraw = new CanvasDraw(mSpritesList);
 
 		for (int i = 0; i < mSpritesList.size(); i++) {
-			mSpritesList.get(i).start();
+			mSpritesList.get(i).startScripts();
 		}
 	}
 
 	public void sortSpriteList() {
 		Collections.sort(mSpritesList);
-		maxZValue = mSpritesList.get(mSpritesList.size() - 1).mDrawObject.getZOrder();
+		maxZValue = mSpritesList.get(mSpritesList.size() - 1).getZPosition();
 		Log.d("StageManager", "Sort:");
 		for (Sprite s : mSpritesList) {
-			Log.d("StageManager", s.mName + ": z = " + s.mDrawObject.getZOrder());
+			Log.d("StageManager", s.getName() + ": z = " + s.getZPosition());
 		}
 	}
 
@@ -87,9 +82,9 @@ public class StageManager {
 	}
 
 	public void processOnTouch(int coordX, int coordY) {
-		for (int i = 0; i < mSpritesList.size(); i++) {
-			mSpritesList.get(i).processOnTouch(coordX, coordY);
-		}
+//		for (int i = 0; i < mSpritesList.size(); i++) {
+//			mSpritesList.get(i).processOnTouch(coordX, coordY);
+//		}
 	}
 
 	public void pause(boolean drawScreen) {
@@ -98,7 +93,7 @@ public class StageManager {
 		}
 
 		if (drawScreen) {
-			Bitmap pauseBitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.paused_cat);
+			Bitmap pauseBitmap = BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.paused_cat);
 			mDraw.drawPauseScreen(pauseBitmap);
 			mHandler.removeCallbacks(mRunnable);
 			mSpritesChanged = true;
@@ -109,7 +104,7 @@ public class StageManager {
 
 	public void unPause() {
 		for (int i = 0; i < mSpritesList.size(); i++) {
-			mSpritesList.get(i).unPause();
+			mSpritesList.get(i).resume();
 		}
 		isPaused = false;
 		mSpritesChanged = true;

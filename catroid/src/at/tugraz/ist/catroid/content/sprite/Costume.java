@@ -19,32 +19,69 @@
 package at.tugraz.ist.catroid.content.sprite;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import at.tugraz.ist.catroid.stage.StageActivity;
+import at.tugraz.ist.catroid.utils.ImageEditing;
 
 public class Costume {
-    private static final long serialVersionUID = 1L;
-    private String imagePath;
-    private Sprite sprite;
+	private static final long serialVersionUID = 1L;
+	private String imagePath;
+	private Sprite sprite;
+	private int drawPositionX;
+	private int drawPositionY;
+	private int mMaxRelCoordinates = 1000;
 
-    public Costume() { // TODO do we need this?
-        this.setImagePath("");
-    }
+	public Costume() { // TODO do we need this?
+		this.setImagePath("");
+	}
 
-    public Costume(Sprite sprite, String imagePath) {
-        this.setImagePath(imagePath);
-        this.sprite = sprite;
-    }
+	public Costume(Sprite sprite, String imagePath) {
+		this.setImagePath(imagePath);
+		this.sprite = sprite;
+		setDrawPosition();
+	}
 
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
-    }
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
+	}
 
-    public String getImagePath() {
-        return imagePath;
-    }
+	public String getImagePath() {
+		return imagePath;
+	}
 
-    // TODO scale factor as parameter (from sprite)
-    public Bitmap getBitmap() {
-    	return null;
-    }
+	public Bitmap getBitmap() {
+		Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+
+		bitmap = ImageEditing.scaleBitmap(bitmap, sprite.getScale(), true);
+
+		if (bitmap.getHeight() > StageActivity.SCREEN_HEIGHT) {
+			double backgroundScaleFactor = ((double) StageActivity.SCREEN_HEIGHT + 2)
+					/ (double) bitmap.getHeight(); // SCREEN_HEIGHT + 2
+													// because of rounding
+													// errors in set to
+													// center
+			bitmap = ImageEditing.scaleBitmap(bitmap, backgroundScaleFactor,
+					true);
+		}
+
+		return bitmap;
+	}
+
+	public void setDrawPosition() {
+		drawPositionX = Math
+				.round(((StageActivity.SCREEN_WIDTH / (2f * mMaxRelCoordinates)) * sprite.getXPosition())
+						+ StageActivity.SCREEN_WIDTH / 2f);
+		drawPositionY = Math
+				.round((StageActivity.SCREEN_HEIGHT / 2f)
+						- ((StageActivity.SCREEN_HEIGHT / (2f * mMaxRelCoordinates)) * sprite.getYPosition()));
+	}
+
+	public int getDrawPositionX() {
+		return this.drawPositionX;
+	}
+
+	public int getDrawPositionY() {
+		return this.drawPositionY;
+	}
 
 }
