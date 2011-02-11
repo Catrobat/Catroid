@@ -2,6 +2,7 @@ package at.tugraz.ist.catroid.uitest.construction_site;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
+import android.util.Log;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.brick.gui.ComeToFrontBrick;
@@ -50,42 +51,6 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 	}
 	
 	@Smoke
-	public void testHideBrick() throws Throwable {
-		final Project testProject = new Project("theTest");
-		Sprite stageSprite = testProject.getSpriteList().get(0);
-		Script script = new Script();
-		script.addBrick(new HideBrick(stageSprite));
-		
-		stageSprite.getScriptList().add(script);
-		
-		runTestOnUiThread(new Runnable() {
-			public void run() {
-				getActivity().setProject(testProject);
-			}
-		});
-		
-		assertEquals("Incorrect number of bricks", 1, getActivity().getProgrammAdapter().getCount());
-	}
-	
-	@Smoke
-	public void testShowBrick() throws Throwable {
-		final Project testProject = new Project("theTest");
-		Sprite stageSprite = testProject.getSpriteList().get(0);
-		Script script = new Script();
-		script.addBrick(new ShowBrick(stageSprite));
-		
-		stageSprite.getScriptList().add(script);
-		
-		runTestOnUiThread(new Runnable() {
-			public void run() {
-				getActivity().setProject(testProject);
-			}
-		});
-		
-		assertEquals("Incorrect number of bricks", 1, getActivity().getProgrammAdapter().getCount());
-	}
-	
-	@Smoke
 	public void testComeToFrontBrick() throws Throwable {
 		final Project testProject = new Project("theTest");
 		Sprite stageSprite = testProject.getSpriteList().get(0);
@@ -106,10 +71,15 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 	
 	@Smoke
 	public void testGoNStepsBackBrick() throws Throwable {
+		
+		int steps = 17;
+		
 		final Project testProject = new Project("theTest");
-		Sprite stageSprite = testProject.getSpriteList().get(0);
-		Script script = new Script();
-		script.addBrick(new GoNStepsBackBrick(stageSprite, 17));
+		Sprite stageSprite        = testProject.getSpriteList().get(0);
+		Script script             = new Script();
+		GoNStepsBackBrick brick   = new GoNStepsBackBrick(stageSprite, 0);
+		
+		script.addBrick(brick);
 		
 		stageSprite.getScriptList().add(script);
 		
@@ -120,7 +90,32 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 		});
 		
 		assertEquals("Incorrect number of bricks", 1, getActivity().getProgrammAdapter().getCount());
-//		assertEquals("Wrong text in field", 17, )
+		
+		solo.clickOnEditText(0);
+		solo.clearEditText(0);
+		solo.enterText(0, steps + "");
+		solo.clickOnButton(0);
+		
+		Thread.sleep(1000);
+		assertEquals("Wrong text in field", steps, brick.getSteps());
+	}
+	
+	@Smoke
+	public void testHideBrick() throws Throwable {
+		final Project testProject = new Project("theTest");
+		Sprite stageSprite = testProject.getSpriteList().get(0);
+		Script script = new Script();
+		script.addBrick(new HideBrick(stageSprite));
+		
+		stageSprite.getScriptList().add(script);
+		
+		runTestOnUiThread(new Runnable() {
+			public void run() {
+				getActivity().setProject(testProject);
+			}
+		});
+		
+		assertEquals("Incorrect number of bricks", 1, getActivity().getProgrammAdapter().getCount());
 	}
 	
 	@Smoke
@@ -145,6 +140,7 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 	public void testPlaceAtBrick() throws Throwable {
 		final Project testProject = new Project("theTest");
 		Sprite stageSprite = testProject.getSpriteList().get(0);
+		
 		Script script = new Script();
 		script.addBrick(new HideBrick(stageSprite));
 		PlaceAtBrick placeAtBrick = new PlaceAtBrick(stageSprite, 105, 206);
@@ -160,22 +156,24 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 			}
 		});
 		
+		int xPosition = 987;
+		int yPosition = 654;
+		
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
-		solo.enterText(0, "987");
+		solo.enterText(0, xPosition + "");
 		solo.clickOnButton(0);
 		
-		assertEquals("Text not updated", "987", solo.getEditText(0).getText().toString());
-		assertEquals("Value in Brick is not updated", 987, placeAtBrick.getxPosition().getValue().intValue());
+		assertEquals("Text not updated", xPosition + "", solo.getEditText(0).getText().toString());
+		assertEquals("Value in Brick is not updated", xPosition, placeAtBrick.getXPosition());
 		
 		solo.clickOnEditText(1);
 		solo.clearEditText(0);
-		solo.enterText(0, "654");
+		solo.enterText(0, yPosition + "");
 		solo.clickOnButton(0);
 		
-		assertEquals("Text not updated", "654", solo.getEditText(1).getText().toString());
-		assertEquals("Value in Brick is not updated", 654, placeAtBrick.getyPosition().getValue().intValue());
-		
+		assertEquals("Text not updated", yPosition + "", solo.getEditText(1).getText().toString());
+		assertEquals("Value in Brick is not updated", yPosition, placeAtBrick.getYPosition());
 	}
 	
 	@Smoke
@@ -202,6 +200,24 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 		Sprite stageSprite = testProject.getSpriteList().get(0);
 		Script script = new Script();
 		script.addBrick(new ScaleCostumeBrick(stageSprite, 10.0));
+		
+		stageSprite.getScriptList().add(script);
+		
+		runTestOnUiThread(new Runnable() {
+			public void run() {
+				getActivity().setProject(testProject);
+			}
+		});
+		
+		assertEquals("Incorrect number of bricks", 1, getActivity().getProgrammAdapter().getCount());
+	}
+	
+	@Smoke
+	public void testShowBrick() throws Throwable {
+		final Project testProject = new Project("theTest");
+		Sprite stageSprite = testProject.getSpriteList().get(0);
+		Script script = new Script();
+		script.addBrick(new ShowBrick(stageSprite));
 		
 		stageSprite.getScriptList().add(script);
 		
