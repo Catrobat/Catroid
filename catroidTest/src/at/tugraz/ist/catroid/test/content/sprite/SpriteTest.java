@@ -217,13 +217,13 @@ public class SpriteTest extends AndroidTestCase {
 			e.printStackTrace();
 		}
 		
-		int brickCount = getBrickCount(testScript);
-		Log.d("SpriteTest ", "Paused at brickCount  " + brickCount);
+		int brickPositionAfterPause = getBrickPositionAfterPause(testScript);
+		Log.d("SpriteTest ", "Paused at brickPositionAfterPause  " + brickPositionAfterPause);
 		
-		assertTrue("BrickCount is still zero", brickCount != 0);
+		assertTrue("brickPositionAfterPause is still zero", brickPositionAfterPause != 0);
 		
 		
-		testSprite.unpause();
+		testSprite.resume();
 		
 		try {
 			Thread.sleep(100);
@@ -234,17 +234,17 @@ public class SpriteTest extends AndroidTestCase {
 
 	}
 	
-	 private int getBrickCount(Script script){
+	 private int getBrickPositionAfterPause(Script script){
 	        Field field = null;
-	        int brickCount = 0;
+	        int brickPositionAfterPause = 0;
 	        try {
-	            field = Script.class.getDeclaredField("brickCount");
+	            field = Script.class.getDeclaredField("brickPositionAfterPause");
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        } 
 	        field.setAccessible(true);
 	        try {
-	        	brickCount = (Integer) field.get(script);
+	        	brickPositionAfterPause = (Integer) field.get(script);
 	        } catch (IllegalArgumentException e) {
 	            // TODO Auto-generated catch block
 	            e.printStackTrace();
@@ -252,6 +252,6 @@ public class SpriteTest extends AndroidTestCase {
 	            // TODO Auto-generated catch block
 	            e.printStackTrace();
 	        }
-	        return brickCount;
+	        return brickPositionAfterPause;
 	    }
 }
