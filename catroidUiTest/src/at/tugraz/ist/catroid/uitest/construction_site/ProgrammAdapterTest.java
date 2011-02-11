@@ -2,7 +2,6 @@ package at.tugraz.ist.catroid.uitest.construction_site;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
-import android.util.Log;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.brick.gui.ComeToFrontBrick;
@@ -90,13 +89,14 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 		});
 		
 		assertEquals("Incorrect number of bricks", 1, getActivity().getProgrammAdapter().getCount());
+		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.go_back_main_adapter)));
 		
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, steps + "");
 		solo.clickOnButton(0);
 		
-		Thread.sleep(1000);
+		Thread.sleep(100);
 		assertEquals("Wrong text in field", steps, brick.getSteps());
 	}
 	
@@ -116,6 +116,7 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 		});
 		
 		assertEquals("Incorrect number of bricks", 1, getActivity().getProgrammAdapter().getCount());
+		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.hide_main_adapter)));
 	}
 	
 	@Smoke
@@ -134,6 +135,7 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 		});
 		
 		assertEquals("Incorrect number of bricks", 1, getActivity().getProgrammAdapter().getCount());
+		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.touched_main_adapter)));
 	}
 	
 	@Smoke
@@ -155,6 +157,8 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 				getActivity().setProject(testProject);
 			}
 		});
+		
+		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.goto_main_adapter)));
 		
 		int xPosition = 987;
 		int yPosition = 654;
@@ -192,6 +196,7 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 		});
 		
 		assertEquals("Incorrect number of bricks", 1, getActivity().getProgrammAdapter().getCount());
+		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.play_sound_main_adapter)));
 	}
 	
 	@Smoke
@@ -199,7 +204,8 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 		final Project testProject = new Project("theTest");
 		Sprite stageSprite = testProject.getSpriteList().get(0);
 		Script script = new Script();
-		script.addBrick(new ScaleCostumeBrick(stageSprite, 10.0));
+		ScaleCostumeBrick brick = new ScaleCostumeBrick(stageSprite, 10.0);
+		script.addBrick(brick);
 		
 		stageSprite.getScriptList().add(script);
 		
@@ -210,6 +216,18 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 		});
 		
 		assertEquals("Incorrect number of bricks", 1, getActivity().getProgrammAdapter().getCount());
+		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.scaleCustome)));
+		
+		double newScale = 17.7;
+		
+		solo.clickOnEditText(0);
+		solo.clearEditText(0);
+		solo.enterText(0, newScale + "");
+		solo.clickOnButton(0);
+		
+		Thread.sleep(1000);
+		assertEquals("Wrong text in field", newScale, brick.getScale());
+		assertEquals("Text not updated", newScale + "", solo.getEditText(0).getText().toString());
 	}
 	
 	@Smoke
@@ -228,14 +246,16 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 		});
 		
 		assertEquals("Incorrect number of bricks", 1, getActivity().getProgrammAdapter().getCount());
+		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.show_main_adapter)));
 	}
 	
 	@Smoke
 	public void testWaitBrick() throws Throwable {
 		final Project testProject = new Project("theTest");
 		Sprite stageSprite = testProject.getSpriteList().get(0);
-		Script script = new Script();
-		script.addBrick(new WaitBrick(1000));
+		Script script   = new Script();
+		WaitBrick brick = new WaitBrick(1000);
+		script.addBrick(brick);
 		
 		stageSprite.getScriptList().add(script);
 		
@@ -246,5 +266,17 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 		});
 		
 		assertEquals("Incorrect number of bricks", 1, getActivity().getProgrammAdapter().getCount());
+		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.wait_main_adapter)));
+		
+		long waitTime = 729;
+		
+		solo.clickOnEditText(0);
+		solo.clearEditText(0);
+		solo.enterText(0, waitTime + "");
+//		solo.clickOnButton(0);
+		
+		Thread.sleep(1000);
+		assertEquals("Wrong text in field", waitTime, brick.getWaitTime());
+		assertEquals("Text not updated", waitTime + "", solo.getEditText(0).getText().toString());
 	}
 }
