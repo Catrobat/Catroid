@@ -24,7 +24,7 @@ import java.util.List;
 
 import at.tugraz.ist.catroid.content.script.Script;
 
-public class Sprite implements Serializable {
+public class Sprite implements Serializable, Comparable<Sprite> {
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private int xPosition;
@@ -32,6 +32,7 @@ public class Sprite implements Serializable {
 	private int zPosition;
 	private double scale;
 	private boolean isVisible;
+	private boolean toDraw;
 	private List<Costume> costumeList;
 	private List<Script> scriptList;
 	private List<Thread> threadList;
@@ -51,7 +52,7 @@ public class Sprite implements Serializable {
 		this.name = name;
 		this.xPosition = 0;
 		this.yPosition = 0;
-
+		this.toDraw = false;
 		init();
 	}
 
@@ -59,7 +60,7 @@ public class Sprite implements Serializable {
 		this.name = name;
 		this.xPosition = xPosition;
 		this.yPosition = yPosition;
-
+		this.toDraw = false;
 		init();
 	}
 
@@ -88,7 +89,7 @@ public class Sprite implements Serializable {
 		threadList.clear();
 	}
 
-	public void unpause() {
+	public void resume() {
 		// TODO: notify all waiting Threads
 		for (Script s : scriptList) {
 			s.setPaused(false);
@@ -123,10 +124,15 @@ public class Sprite implements Serializable {
 	public synchronized void setXYPosition(int xPosition, int yPosition) {
 		this.xPosition = xPosition;
 		this.yPosition = yPosition;
+		if (currentCostume != null) {
+			currentCostume.setDrawPosition();
+		}
+		this.toDraw = true;
 	}
 
 	public synchronized void setZPosition(int zPosition) {
 		this.zPosition = zPosition;
+		this.toDraw = true;
 	}
 
 	public void setScale(double scale) {
@@ -134,14 +140,17 @@ public class Sprite implements Serializable {
 			throw new IllegalArgumentException(
 					"Sprite scale must be greater than zero!");
 		this.scale = scale;
+		this.toDraw = true;
 	}
 
 	public void show() {
 		isVisible = true;
+		this.toDraw = true;
 	}
 
 	public void hide() {
 		isVisible = false;
+		this.toDraw = true;
 	}
 
 	public Costume getCurrentCostume() {
@@ -155,12 +164,32 @@ public class Sprite implements Serializable {
 	public List<Script> getScriptList() {
 		return scriptList;
 	}
+	
+	public boolean getToDraw() {
+		return toDraw;
+	}
 
+	public void setToDraw(boolean value) {
+		this.toDraw = value;
+	}
+	
 	public void setCurrentCostume(Costume costume)
 			throws IllegalArgumentException {
 		if (!costumeList.contains(costume))
 			throw new IllegalArgumentException(
 					"Selected costume is not contained in Costume list of this sprite.");
 		currentCostume = costume;
+		this.toDraw = true;
+	}
+
+	
+	public int compareTo(Sprite sprite) {
+		long thisZValue = this.getZPosition();
+		long otherZValue = sprite.getZPosition();
+		long difference = thisZValue - otherZValue;
+		if(difference > Integer.MAX_VALUE)
+			return Integer.MAX_VALUE;
+		return (int)difference;
+		
 	}
 }

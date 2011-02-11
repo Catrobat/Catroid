@@ -29,27 +29,27 @@ public class Script {
 	private ArrayList<Brick> brickList;
 	private boolean isTouchScript;
 	private boolean paused;
-	private int brickCount;
+	private int brickPositionAfterPause;
 
 	public Script() {
 		this.brickList = new ArrayList<Brick>();
 		this.paused = false;
-		this.brickCount = 0;
+		this.brickPositionAfterPause = 0;
 		setTouchScript(false);
 	}
 
 	public void run() {	
-		for (int i = brickCount; i < brickList.size(); i++) {
+		for (int i = brickPositionAfterPause; i < brickList.size(); i++) {
 			if (paused) {
 				if (i == 0) {
-					brickCount = i;
+					brickPositionAfterPause = 0;
 					return;
 				}
 				if (brickList.get(i-1) instanceof WaitBrick) {
-					brickCount = i-1;
+					brickPositionAfterPause = i-1;
 				}
 				else {
-					brickCount = i;
+					brickPositionAfterPause = i;
 				}
 				break;
 			}
