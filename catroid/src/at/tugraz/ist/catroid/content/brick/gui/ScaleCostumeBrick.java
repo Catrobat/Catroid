@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.constructionSite.gui.dialogs.EditTextDialog;
 import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrickBase;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
@@ -37,9 +38,15 @@ public class ScaleCostumeBrick extends ScaleCostumeBrickBase implements Brick {
 
 	public View getView(Context context, View convertView, BaseAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_scale_costume, null);
-		EditText scaleEditText = (EditText)view.findViewById(R.id.EditText01);
-		scaleEditText.setText(scale + "");
+		View view     = inflater.inflate(R.layout.construction_brick_scale_costume, null);
+		EditText edit = (EditText) view.findViewById(R.id.EditText01);
+		
+		edit.setText(scale.getValue() + "");
+		
+		EditTextDialog dialog = new EditTextDialog(context, edit, adapter);
+		dialog.setDouble(scale);
+		edit.setOnClickListener(dialog);
+		
 		return view;
 	}
 }

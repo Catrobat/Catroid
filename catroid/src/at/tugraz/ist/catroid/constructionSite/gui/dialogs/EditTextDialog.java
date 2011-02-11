@@ -18,21 +18,25 @@ import at.tugraz.ist.catroid.content.entities.PrimitiveWrapper;
 public class EditTextDialog extends Dialog implements OnClickListener {
 
 	private EditText mListEditText;
-	private EditText mLocalEditText;
+	private EditText localEditText;
 	private Button closeButton;
 	private PrimitiveWrapper<Integer> intValueReference;
-	private PrimitiveWrapper<Double> doubleValueReference;
+	private PrimitiveWrapper<Double>  doubleValueReference;
+	private PrimitiveWrapper<Long>    longValueReference;
 	private BaseAdapter adapter;
 
 	private void init() {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.dialog_edit_text);
-		mLocalEditText = (EditText) findViewById(R.id.dialogEditText);
+		localEditText = (EditText) findViewById(R.id.dialogEditText);
 		
-		if(intValueReference != null)
-			mLocalEditText.setText(intValueReference.getValue().intValue() + "");
-		else
-			mLocalEditText.setText(doubleValueReference.getValue().intValue() + "");
+		if (intValueReference != null)
+			localEditText.setText(intValueReference.getValue().intValue() + "");
+		else if (doubleValueReference != null)
+			localEditText.setText(doubleValueReference.getValue().doubleValue() + "");
+		else if (longValueReference != null)
+			localEditText.setText(longValueReference.getValue().longValue() + "");
+		
 		closeButton = (Button) findViewById(R.id.dialogEditTextSubmit);
 		closeButton.setOnClickListener(this);
 	}
@@ -46,12 +50,21 @@ public class EditTextDialog extends Dialog implements OnClickListener {
 	public void setInteger(PrimitiveWrapper<Integer> valueReference) {
 		this.intValueReference = valueReference;
 		this.doubleValueReference = null;
+		this.longValueReference   = null;
 		init();
 	}
 	
 	public void setDouble(PrimitiveWrapper<Double> valueReference) {
 		this.doubleValueReference = valueReference;
-		this.intValueReference = null;
+		this.intValueReference  = null;
+		this.longValueReference = null;
+		init();
+	}
+	
+	public void setLong(PrimitiveWrapper<Long> valueReference) {
+		this.longValueReference = valueReference;
+		this.doubleValueReference = null;
+		this.intValueReference    = null;
 		init();
 	}
 	
@@ -96,7 +109,7 @@ public class EditTextDialog extends Dialog implements OnClickListener {
 			mLocalEditText.setText(brickMap.get(BrickDefine.BRICK_VALUE));
 		*/
 		super.show();
-		mLocalEditText.requestFocus();
+		localEditText.requestFocus();
 		this.getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 
@@ -117,11 +130,13 @@ public class EditTextDialog extends Dialog implements OnClickListener {
 
 	private void saveContent() {
 		if (intValueReference != null)
-			intValueReference.setValue(Integer.parseInt(mLocalEditText.getText().toString()));
-		else
-			doubleValueReference.setValue(Double.parseDouble(mLocalEditText.getText().toString()));
-		
-		mListEditText.setText(mLocalEditText.getText().toString());
+			intValueReference.setValue(Integer.parseInt(localEditText.getText().toString()));
+		else if (doubleValueReference != null)
+			doubleValueReference.setValue(Double.parseDouble(localEditText.getText().toString()));
+		else if (longValueReference != null)
+			longValueReference.setValue(Long.parseLong(localEditText.getText().toString()));
+
+		mListEditText.setText(localEditText.getText().toString());
 		adapter.notifyDataSetChanged();
 	}
 
