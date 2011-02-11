@@ -32,7 +32,7 @@ public class SpriteTest extends AndroidTestCase {
 		assertEquals("Unexpected default x position", 0, sprite.getXPosition());
 		assertEquals("Unexpected default y position", 0, sprite.getYPosition());
 		assertEquals("Unexpected default z position", 0, sprite.getZPosition());
-		assertEquals("Unexpected default scale", 1.0, sprite.getScale());
+		assertEquals("Unexpected default scale", 100, sprite.getScale());
 		assertTrue("Unexpected default visibility", sprite.isVisible());
 		assertNull("Unexpected Sprite costume", sprite.getCurrentCostume());
 		assertNotNull("Script list was not initialized", sprite.getScriptList());
@@ -50,7 +50,7 @@ public class SpriteTest extends AndroidTestCase {
 		assertEquals("Unexpected x position", xPosition, sprite.getXPosition());
 		assertEquals("Unexpected y position", yPosition, sprite.getYPosition());
 		assertEquals("Unexpected default z position", 0, sprite.getZPosition());
-		assertEquals("Unexpected default scale", 1.0, sprite.getScale());
+		assertEquals("Unexpected default scale", 100, sprite.getScale());
 		assertTrue("Unexpected default visibility", sprite.isVisible());
 		assertNull("Unexpected Sprite costume", sprite.getCurrentCostume());
 		assertNotNull("Script list was not initialized", sprite.getScriptList());
@@ -111,15 +111,15 @@ public class SpriteTest extends AndroidTestCase {
 
 	public void testSetScale() {
 		Sprite sprite = new Sprite("new sprite");
-		final double scale = 2.0;
+		final int scale = 2;
 		sprite.setScale(scale);
 		assertEquals("Unexpected scale", scale, sprite.getScale());
 
-		final double hugeScale = 10.0e100;
+		final int hugeScale = 1000000;
 		sprite.setScale(hugeScale);
 		assertEquals("Failed to scale sprite to a very large size", hugeScale, sprite.getScale());
 
-		final double tinyScale = 10.0e-100;
+		final int tinyScale = 1;
 		sprite.setScale(tinyScale);
 		assertEquals("Failed to scale sprite to a very small size", tinyScale, sprite.getScale());
 	}
@@ -127,11 +127,11 @@ public class SpriteTest extends AndroidTestCase {
 	public void testZeroScale() {
 		Sprite sprite = new Sprite("testSprite");
 
-		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite, 0.0);
+		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite, 0);
 
 		try {
 			brick.execute();
-			fail("Execution of ScaleCostumeBrick with 0.0 scale did not cause a IllegalArgumentException to be thrown.");
+			fail("Execution of ScaleCostumeBrick with 0 scale did not cause a IllegalArgumentException to be thrown.");
 		} catch (IllegalArgumentException e) {
 			// expected behavior
 		}
@@ -140,7 +140,7 @@ public class SpriteTest extends AndroidTestCase {
 	public void testNegativeScale() {
 		Sprite sprite = new Sprite("testSprite");
 
-		final double scale = -5.0;
+		final int scale = -1;
 		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite, scale);
 
 		try {

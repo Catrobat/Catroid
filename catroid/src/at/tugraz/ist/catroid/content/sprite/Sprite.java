@@ -30,7 +30,7 @@ public class Sprite implements Serializable {
 	private int xPosition;
 	private int yPosition;
 	private int zPosition;
-	private double scale;
+	private int scale;
 	private boolean isVisible;
 	private List<Costume> costumeList;
 	private List<Script> scriptList;
@@ -39,7 +39,7 @@ public class Sprite implements Serializable {
 
 	private void init() {
 		this.zPosition = 0;
-		this.scale = 1.0;
+		this.scale = 100;
 		this.isVisible = true;
 		this.costumeList = new ArrayList<Costume>();
 		this.scriptList = new ArrayList<Script>();
@@ -112,7 +112,7 @@ public class Sprite implements Serializable {
 		return zPosition;
 	}
 
-	public double getScale() {
+	public int getScale() {
 		return scale;
 	}
 
@@ -129,8 +129,8 @@ public class Sprite implements Serializable {
 		this.zPosition = zPosition;
 	}
 
-	public void setScale(double scale) {
-		if (scale <= 0.0)
+	public void setScale(int scale) {
+		if (scale <= 0)
 			throw new IllegalArgumentException(
 					"Sprite scale must be greater than zero!");
 		this.scale = scale;

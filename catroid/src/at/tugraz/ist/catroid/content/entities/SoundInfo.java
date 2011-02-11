@@ -16,35 +16,34 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content.brick;
+package at.tugraz.ist.catroid.content.entities;
 
-import at.tugraz.ist.catroid.content.entities.PrimitiveWrapper;
-import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-/**
- * @author Anton Rieder, Ainul Husna
- *
- */
-public abstract class ScaleCostumeBrickBase implements BrickBase {
-	private static final long serialVersionUID = 1L;
-	private Sprite sprite;
-	protected PrimitiveWrapper<Integer> scale;
+public class SoundInfo {
 
-	public ScaleCostumeBrickBase(Sprite sprite, int scale) {
-		this.sprite = sprite;
-		this.scale  = new PrimitiveWrapper<Integer>(scale);
+	private int id;
+	private String path;
+	private String title;
+	
+	
+	public int getId() {
+		return id;
 	}
-
-	public void execute() {
-		sprite.setScale(scale.getValue());
+	public void setId(int id) {
+		this.id = id;
 	}
-
-	public Sprite getSprite() {
-		return this.sprite;
+	public String getPath() {
+		return path;
+	}
+	public void setPath(String path) {
+		this.path = path;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	
-	public int getScale() {
-		return scale.getValue();
-	}
-
+	
 }

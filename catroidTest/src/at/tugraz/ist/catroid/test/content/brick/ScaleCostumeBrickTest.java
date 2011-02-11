@@ -23,11 +23,11 @@ import at.tugraz.ist.catroid.content.brick.gui.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class ScaleCostumeBrickTest extends AndroidTestCase {
-	private double scale = 2.7;
+	private int scale = 70;
 
 	public void testScale() {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite scale value", 1.0,
+		assertEquals("Unexpected initial sprite scale value", 100,
 				sprite.getScale());
 
 		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite, scale);
@@ -53,21 +53,21 @@ public class ScaleCostumeBrickTest extends AndroidTestCase {
 		Sprite sprite = new Sprite("testSprite");
 
 		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite,
-				Double.MAX_VALUE);
+				Integer.MAX_VALUE);
 		brick.execute();
-		assertEquals("ScaleCostumeBrick failed to scale Sprite to maximum double value",
-				Double.MAX_VALUE, sprite.getScale());
+		assertEquals("ScaleCostumeBrick failed to scale Sprite to maximum Integer value",
+				Integer.MAX_VALUE, sprite.getScale());
 
-		brick = new ScaleCostumeBrick(sprite, Double.MIN_VALUE);
+		brick = new ScaleCostumeBrick(sprite, 1);
 		brick.execute();
-		assertEquals("ScaleCostumeBrick failed to scale Sprite to minimum double value",
-				Double.MIN_VALUE, sprite.getScale());
+		assertEquals("ScaleCostumeBrick failed to scale Sprite to minimum Integer value",
+				1, sprite.getScale());
 	}
 
 	public void testZeroScale() {
 		Sprite sprite = new Sprite("testSprite");
 
-		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite, 0.0);
+		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite, 0);
 
 		try {
 			brick.execute();

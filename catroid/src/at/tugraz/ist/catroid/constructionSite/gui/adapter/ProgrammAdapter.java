@@ -25,10 +25,9 @@ import at.tugraz.ist.catroid.utils.ImageContainer;
 import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.utils.filesystem.MediaFileLoader;
 
-public class ProgrammAdapter extends BaseAdapter implements OnClickListener, AdapterView.OnItemSelectedListener {
+public class ProgrammAdapter extends BaseAdapter implements OnClickListener {
 
 	private Context context;
-	private MediaFileLoader mMediaFileLoader;
 	private ListView mMainListView;
 	private ImageContainer mImageContainer;
 	private ArrayList<HashMap<String, String>> mBrickList;
@@ -41,8 +40,6 @@ public class ProgrammAdapter extends BaseAdapter implements OnClickListener, Ada
 		
 		this.context = context;
 		mMainListView = listview;
-		mMediaFileLoader = new MediaFileLoader(context);
-		mMediaFileLoader.loadSoundContent();
 		mImageContainer = imageContainer;
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mEditTextDialog = null;
@@ -242,16 +239,16 @@ public class ProgrammAdapter extends BaseAdapter implements OnClickListener, Ada
 		*/
 	}
 
-	public int getIndexFromElementSound(SimpleAdapter adapter, String element) {
-		ArrayList<HashMap<String, String>> arrayList = mMediaFileLoader.getSoundContent();
-		for (int i = 0; i < adapter.getCount(); i++) {
-			String value = arrayList.get(i).get(MediaFileLoader.SOUND_NAME);
-			if (value.equals((element))) {
-				return i;
-			}
-		}
-		return -1;
-	}
+//	public int getIndexFromElementSound(SimpleAdapter adapter, String element) {
+//		ArrayList<HashMap<String, String>> arrayList = mMediaFileLoader.getSoundContent();
+//		for (int i = 0; i < adapter.getCount(); i++) {
+//			String value = arrayList.get(i).get(MediaFileLoader.SOUND_NAME);
+//			if (value.equals((element))) {
+//				return i;
+//			}
+//		}
+//		return -1;
+//	}
 
 	public int getCount() {
 		return script.getBrickList().size();
@@ -302,35 +299,35 @@ public class ProgrammAdapter extends BaseAdapter implements OnClickListener, Ada
 		}
 	}
 
-	public void onItemSelected(AdapterView<?> spinner, View v, int position, long id) {
-		String tag = (String) spinner.getTag();
-		if (context.getString(R.string.constructional_brick_play_sound_spinner_tag).equals(tag)) {
-			int brickPosition = mMainListView.getPositionForView(spinner);
-			@SuppressWarnings("unchecked")
-			HashMap<String, String> map = (HashMap<String, String>) spinner.getAdapter().getItem(position);
-
-			Log.i("ConstructionSiteListViewAdapter", "Brick value: " + mBrickList.get(brickPosition).get(BrickDefine.BRICK_VALUE));
-			Log.i("ConstructionSiteListViewAdapter", "map sound name: " + map.get(MediaFileLoader.SOUND_NAME));
-			Log.i("ConstructionSiteListViewAdapter", "map sound path: " + map.get(MediaFileLoader.SOUND_PATH));
-
-			if (!mBrickList.get(brickPosition).get(BrickDefine.BRICK_NAME).equals(map.get(MediaFileLoader.SOUND_NAME))) {
-				String soundName = mBrickList.get(brickPosition).get(BrickDefine.BRICK_VALUE);
-				deleteSound(soundName);
-
-				String newPath = ConstructionSiteActivity.ROOT_SOUNDS;
-				String uniqueName = Calendar.getInstance().getTimeInMillis() + map.get(MediaFileLoader.SOUND_NAME)
-						+ map.get(MediaFileLoader.SOUND_PATH).substring(map.get(MediaFileLoader.SOUND_PATH).length() - 4);
-				newPath = Utils.concatPaths(newPath, uniqueName);
-
-				if (Utils.copyFile(map.get(MediaFileLoader.SOUND_PATH), newPath, context, true)) {
-					mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE, uniqueName);
-					mBrickList.get(brickPosition).put(BrickDefine.BRICK_NAME, map.get(MediaFileLoader.SOUND_NAME));
-				} else
-					Log.e("ConstructionSiteViewAdapter", "Copy Sound File Error");
-			}
-
-		}
-	}
+//	public void onItemSelected(AdapterView<?> spinner, View v, int position, long id) {
+//		String tag = (String) spinner.getTag();
+//		if (context.getString(R.string.constructional_brick_play_sound_spinner_tag).equals(tag)) {
+//			int brickPosition = mMainListView.getPositionForView(spinner);
+//			@SuppressWarnings("unchecked")
+//			HashMap<String, String> map = (HashMap<String, String>) spinner.getAdapter().getItem(position);
+//
+//			Log.i("ConstructionSiteListViewAdapter", "Brick value: " + mBrickList.get(brickPosition).get(BrickDefine.BRICK_VALUE));
+//			Log.i("ConstructionSiteListViewAdapter", "map sound name: " + map.get(MediaFileLoader.SOUND_NAME));
+//			Log.i("ConstructionSiteListViewAdapter", "map sound path: " + map.get(MediaFileLoader.SOUND_PATH));
+//
+//			if (!mBrickList.get(brickPosition).get(BrickDefine.BRICK_NAME).equals(map.get(MediaFileLoader.SOUND_NAME))) {
+//				String soundName = mBrickList.get(brickPosition).get(BrickDefine.BRICK_VALUE);
+//				deleteSound(soundName);
+//
+//				String newPath = ConstructionSiteActivity.ROOT_SOUNDS;
+//				String uniqueName = Calendar.getInstance().getTimeInMillis() + map.get(MediaFileLoader.SOUND_NAME)
+//						+ map.get(MediaFileLoader.SOUND_PATH).substring(map.get(MediaFileLoader.SOUND_PATH).length() - 4);
+//				newPath = Utils.concatPaths(newPath, uniqueName);
+//
+//				if (Utils.copyFile(map.get(MediaFileLoader.SOUND_PATH), newPath, context, true)) {
+//					mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE, uniqueName);
+//					mBrickList.get(brickPosition).put(BrickDefine.BRICK_NAME, map.get(MediaFileLoader.SOUND_NAME));
+//				} else
+//					Log.e("ConstructionSiteViewAdapter", "Copy Sound File Error");
+//			}
+//
+//		}
+//	}
 
 	public void notifyDataSetChanged(ArrayList<HashMap<String, String>> data) {
 		mBrickList = data;

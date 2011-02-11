@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,6 +25,7 @@ public class EditTextDialog extends Dialog implements OnClickListener {
 	private PrimitiveWrapper<Double>  doubleValueReference;
 	private PrimitiveWrapper<Long>    longValueReference;
 	private BaseAdapter adapter;
+	private boolean useSigned;
 
 	private void init() {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -41,10 +43,11 @@ public class EditTextDialog extends Dialog implements OnClickListener {
 		closeButton.setOnClickListener(this);
 	}
 	
-	public EditTextDialog(Context context, EditText brickEditText, BaseAdapter adapter) {
+	public EditTextDialog(Context context, EditText brickEditText, BaseAdapter adapter, boolean useSigned) {
 		super(context);
 		this.mListEditText = brickEditText;
 		this.adapter = adapter;
+		this.useSigned = useSigned;
 	}
 	
 	public void setInteger(PrimitiveWrapper<Integer> valueReference) {
@@ -75,45 +78,29 @@ public class EditTextDialog extends Dialog implements OnClickListener {
 //		
 //		init(brickEditText);
 //	}
+	
 
-	public void show(HashMap<String, String> brickMap, EditText text) {
-		/*
-		mBrickMap = brickMap;
-		mListEditText = text;
-		String tag = (String) text.getTag();
-
-		// allow decimal numbers only in wait dialog
-		if (tag.equals(getContext().getString(
-				R.string.constructional_brick_wait_edit_text_tag)))
-			mLocalEditText.setInputType(InputType.TYPE_CLASS_NUMBER
-					| InputType.TYPE_NUMBER_FLAG_DECIMAL
-					| InputType.TYPE_NUMBER_FLAG_SIGNED);
-		else
-			mLocalEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
-
-		if (tag.equals(getContext().getString(
-				R.string.constructional_brick_go_to_y_tag)))
-			isValue1 = true;
-		else
-			isValue1 = false;
-		if (tag.equals(getContext().getString(
-				R.string.constructional_brick_go_to_x_tag))
-				|| tag.equals(getContext().getString(
-						R.string.constructional_brick_go_to_y_tag))) {
-			mLocalEditText.setInputType(InputType.TYPE_CLASS_NUMBER
-					| InputType.TYPE_NUMBER_FLAG_SIGNED);
-		}
-		if (isValue1)
-			mLocalEditText.setText(brickMap.get(BrickDefine.BRICK_VALUE_1));
-		else
-			mLocalEditText.setText(brickMap.get(BrickDefine.BRICK_VALUE));
-		*/
+	@Override
+	public void show() {
 		super.show();
+		
+		int settings = 0;
+		
+		if(intValueReference != null || longValueReference != null) 
+			settings |= InputType.TYPE_CLASS_NUMBER;
+		else if (doubleValueReference != null)
+			settings |= InputType.TYPE_NUMBER_FLAG_DECIMAL;
+		
+		if(useSigned)
+			settings |= InputType.TYPE_NUMBER_FLAG_SIGNED;
+		
+		localEditText.setInputType(settings);
+		
 		localEditText.requestFocus();
 		this.getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-
 	}
+
 
 	@Override
 	public void onBackPressed() {

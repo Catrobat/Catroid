@@ -25,13 +25,18 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.database.Cursor;
 import android.os.Environment;
+import android.provider.MediaStore;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.brick.gui.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.brick.gui.GoNStepsBackBrick;
@@ -42,6 +47,7 @@ import at.tugraz.ist.catroid.content.brick.gui.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.brick.gui.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.brick.gui.ShowBrick;
 import at.tugraz.ist.catroid.content.brick.gui.WaitBrick;
+import at.tugraz.ist.catroid.content.entities.SoundInfo;
 import at.tugraz.ist.catroid.content.project.Project;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
@@ -57,10 +63,13 @@ public class StorageHandler {
 	private static final String PROJECT_EXTENTION = ".spf";
 	
 	private static StorageHandler instance;
+	private Context context;
+	private ArrayList<SoundInfo> soundContent;
 	private File catroidRoot;
 	private XStream xstream;
 	
 	private StorageHandler(final Activity activity) {
+		context = activity;
 		boolean mExternalStorageAvailable = false;
 		String state = Environment.getExternalStorageState();
 		xstream = new XStream();
@@ -155,9 +164,41 @@ public class StorageHandler {
 			} catch (IOException e) {
 
 			}
+		}	
+	}
+	
+
+	public void loadSoundContent(){
+		soundContent = new ArrayList<SoundInfo>();
+
+		String[] projectionOnOrig = {
+					MediaStore.Audio.Media.DATA,				
+					MediaStore.Audio.AudioColumns.TITLE,
+					MediaStore.Audio.Media._ID};
+
+		Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projectionOnOrig, null, null,MediaStore.Audio.Media._ID);   
+		
+		
+		if(cursor.moveToFirst()){
+			int column_data_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
+			int column_title_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.TITLE);
+			int column_id_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID);
+			
+			do{
+				SoundInfo info = new SoundInfo(); 
+				info.setId(cursor.getInt(column_id_index));
+				info.setTitle(cursor.getString(column_title_index));
+				info.setPath(cursor.getString(column_data_index));
+				soundContent.add(info);
+			}while(cursor.moveToNext());
 		}
 		
+		cursor.close();
 		
+	}
+	
+	public ArrayList<SoundInfo> getSoundContent(){
+		return soundContent;
 	}
 	
 }
