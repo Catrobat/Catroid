@@ -92,7 +92,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 
         assertEquals("Title missmatch after deserialization", project.getProjectTitle(), loadedProject.getProjectTitle());
         
-        assertEquals("Scale was not deserialized right",     scaleValue, getScale((ScaleCostumeBrick)(postSpriteList.get(1).getScriptList().get(0).getBrickList().get(2))));
+        assertEquals("Scale was not deserialized right",     scaleValue, ((ScaleCostumeBrick)(postSpriteList.get(1).getScriptList().get(0).getBrickList().get(2))).getScale());
         // TODO: Why does PlaceAtBrick have getters all of a sudden, shouldn't the Sprite hold all that information?
         assertEquals("XPosition was not deserialized right", xPosition, ((PlaceAtBrick) (postSpriteList.get(2).getScriptList().get(0).getBrickList().get(0))).getXPosition());
         assertEquals("YPosition was not deserialized right", yPosition, ((PlaceAtBrick) (postSpriteList.get(2).getScriptList().get(0).getBrickList().get(0))).getYPosition());
@@ -105,16 +105,16 @@ public class StorageHandlerTest extends AndroidTestCase {
     }
 
     // TODO: might aswell just have a getter? Or get info from sprite?
-    private double getScale(ScaleCostumeBrick brick) {
-        Field field = null;
-        double scale = 0.0;
-        try {
-            field = ScaleCostumeBrickBase.class.getDeclaredField("scale");
-            field.setAccessible(true);
-            scale = (Double) field.get(brick);
-        } catch (Exception e) {}
-        return scale;
-    }
+//    private double getScale(ScaleCostumeBrick brick) {
+//        Field field = null;
+//        double scale = 0.0;
+//        try {
+//            field = ScaleCostumeBrickBase.class.getDeclaredField("scale");
+//            field.setAccessible(true);
+//            scale = (Double) field.get(brick);
+//        } catch (Exception e) {}
+//        return scale;
+//    }
 
 //	@SuppressWarnings("unchecked")
 //	private int getXPosition(PlaceAtBrick brick) {
