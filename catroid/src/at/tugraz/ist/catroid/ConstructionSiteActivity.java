@@ -52,6 +52,7 @@ import at.tugraz.ist.catroid.content.brick.gui.WaitBrick;
 import at.tugraz.ist.catroid.content.project.Project;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.utils.ImageContainer;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -123,6 +124,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 
 		// check for SD card, display message and exit if none available
 		if (Utils.checkForSdCard(this)) {
+			StorageHandler.getInstance(this).loadSoundContent();
 			mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 			mPreferences = this.getPreferences(Activity.MODE_PRIVATE);
 
@@ -161,7 +163,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			script.addBrick(new HideBrick(stageSprite));
 	
 			script.addBrick(new PlaySoundBrick("sound.mp3"));
-			script.addBrick(new ScaleCostumeBrick(stageSprite, 1.2));
+			script.addBrick(new ScaleCostumeBrick(stageSprite, 80));
 			script.addBrick(new ShowBrick(stageSprite));
 			script.addBrick(new WaitBrick(1000));
 			script.addBrick(new PlaceAtBrick(stageSprite, 105, 206));

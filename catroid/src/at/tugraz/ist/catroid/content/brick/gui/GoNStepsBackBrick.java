@@ -43,7 +43,7 @@ public class GoNStepsBackBrick extends GoNStepsBackBrickBase implements Brick {
 		
 		edit.setText(steps.getValue() + "");
 		
-		EditTextDialog dialog = new EditTextDialog(context, edit, adapter);
+		EditTextDialog dialog = new EditTextDialog(context, edit, adapter, false);
 		
 		dialog.setInteger(steps);
 		edit.setOnClickListener(dialog);

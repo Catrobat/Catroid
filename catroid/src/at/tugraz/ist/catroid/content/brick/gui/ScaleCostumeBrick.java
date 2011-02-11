@@ -32,7 +32,7 @@ public class ScaleCostumeBrick extends ScaleCostumeBrickBase implements Brick {
 
 	private static final long serialVersionUID = 1L;
 
-	public ScaleCostumeBrick(Sprite sprite, double scale) {
+	public ScaleCostumeBrick(Sprite sprite, int scale) {
 		super(sprite, scale);
 	}
 
@@ -43,8 +43,8 @@ public class ScaleCostumeBrick extends ScaleCostumeBrickBase implements Brick {
 		
 		edit.setText(scale.getValue() + "");
 		
-		EditTextDialog dialog = new EditTextDialog(context, edit, adapter);
-		dialog.setDouble(scale);
+		EditTextDialog dialog = new EditTextDialog(context, edit, adapter, false);
+		dialog.setInteger(scale);
 		edit.setOnClickListener(dialog);
 		
 		return view;

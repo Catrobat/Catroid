@@ -28,11 +28,11 @@ import at.tugraz.ist.catroid.content.sprite.Sprite;
 public abstract class ScaleCostumeBrickBase implements BrickBase {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
-	protected PrimitiveWrapper<Double> scale;
+	protected PrimitiveWrapper<Integer> scale;
 
-	public ScaleCostumeBrickBase(Sprite sprite, double scale) {
+	public ScaleCostumeBrickBase(Sprite sprite, int scale) {
 		this.sprite = sprite;
-		this.scale  = new PrimitiveWrapper<Double>(scale);
+		this.scale  = new PrimitiveWrapper<Integer>(scale);
 	}
 
 	public void execute() {
@@ -43,7 +43,7 @@ public abstract class ScaleCostumeBrickBase implements BrickBase {
 		return this.sprite;
 	}
 	
-	public double getScale() {
+	public int getScale() {
 		return scale.getValue();
 	}
 

@@ -42,20 +42,5 @@ public class MediaFileLoaderTest extends AndroidTestCase{
 //		
 //	}
 	
-	public void testLoadSoundContent(){
-		mMediaFileLoader.loadSoundContent();
-		ArrayList<HashMap<String, String>> content =  mMediaFileLoader.getSoundContent();
-		File file;
-		
-		Log.d("TEST", "number of sound files: "+content.size());
-		assertNotNull( content);
-		
-		for(int i = 0; i < content.size(); i++){
-			file = new File(content.get(i).get(MediaFileLoader.SOUND_PATH));
-			assertTrue(file.exists());
-			
-			Log.d("TEST", content.get(i).get(MediaFileLoader.SOUND_NAME));
-			Log.d("TEST", content.get(i).get(MediaFileLoader.SOUND_PATH));
-		}
-	}
+	
 }

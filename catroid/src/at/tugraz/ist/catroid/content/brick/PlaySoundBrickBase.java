@@ -26,7 +26,7 @@ import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.io.sound.SoundManager;
 
 public abstract class PlaySoundBrickBase implements BrickBase {
-	private String pathToSoundfile;
+	protected String pathToSoundfile;
 	private static final long serialVersionUID = 1L;
 
 	public PlaySoundBrickBase(String pathToSoundfile) {

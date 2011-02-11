@@ -18,21 +18,26 @@
  */
 package at.tugraz.ist.catroid.test.io;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import android.test.AndroidTestCase;
+import android.util.Log;
 import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrickBase;
 import at.tugraz.ist.catroid.content.brick.gui.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.brick.gui.HideBrick;
 import at.tugraz.ist.catroid.content.brick.gui.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.brick.gui.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.brick.gui.ShowBrick;
+import at.tugraz.ist.catroid.content.entities.SoundInfo;
 import at.tugraz.ist.catroid.content.project.Project;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.StageActivity;
+import at.tugraz.ist.catroid.utils.filesystem.MediaFileLoader;
 
 public class StorageHandlerTest extends AndroidTestCase {
 	public StageActivity stageActivity = new StageActivity();
@@ -42,7 +47,7 @@ public class StorageHandlerTest extends AndroidTestCase {
         
         int xPosition = 457;
         int yPosition = 598;
-        double scaleValue = 2.4;
+        int scaleValue = 80;
         
         Project project     = new Project("testProject");
         Sprite firstSprite  = new Sprite("first");
@@ -149,4 +154,21 @@ public class StorageHandlerTest extends AndroidTestCase {
         } catch (Exception e) {}
         return paused;
     }
+    
+    public void testLoadSoundContent(){
+//		storageHandler.loadSoundContent();
+//		ArrayList<SoundInfo> content =  storageHandler.getSoundContent();
+//		File file;
+//		
+//		Log.d("TEST", "number of sound files: "+content.size());
+//		assertNotNull( content);
+//		
+//		for(int i = 0; i < content.size(); i++){
+//			file = new File(content.get(i).getPath());
+//			assertTrue(file.exists());
+//			
+//			Log.d("TEST", content.get(i).getTitle());
+//			Log.d("TEST", content.get(i).getId()+"");
+//		}
+	}
 }
