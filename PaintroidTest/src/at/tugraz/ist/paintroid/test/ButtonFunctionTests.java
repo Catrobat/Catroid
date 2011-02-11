@@ -433,6 +433,7 @@ public class ButtonFunctionTests extends ActivityInstrumentationTestCase2<MainAc
 		Bitmap testBitmap = mainActivity.getCurrentImage().copy(Bitmap.Config.ARGB_8888, false);
 		
 		solo.clickOnImageButton(UNDO);
+		Thread.sleep(200);
 		Bitmap testBitmap2 = mainActivity.getCurrentImage().copy(Bitmap.Config.ARGB_8888, false);
 		
 		//Check if undo worked
