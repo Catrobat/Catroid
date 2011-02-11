@@ -43,28 +43,11 @@ public abstract class PlaceAtBrickBase implements BrickBase {
 	}
 
 	
-	public PrimitiveWrapper<Integer> getxPosition() {
-		return xPosition;
-	}
-	
 	public int getXPosition() {
 		return xPosition.getValue();
 	}
 
-	public void setxPosition(PrimitiveWrapper<Integer> xPosition) {
-		this.xPosition = xPosition;
-	}
-
-	
-	public PrimitiveWrapper<Integer> getyPosition() {
-		return yPosition;
-	}
-	
 	public int getYPosition() {
 		return yPosition.getValue();
-	}
-
-	public void setyPosition(PrimitiveWrapper<Integer> yPosition) {
-		this.yPosition = yPosition;
 	}
 }
