@@ -18,8 +18,13 @@
  */
 package at.tugraz.ist.catroid.test.content.sprite;
 
+import java.lang.reflect.Field;
+
 import android.test.AndroidTestCase;
+import android.util.Log;
+import at.tugraz.ist.catroid.content.brick.gui.HideBrick;
 import at.tugraz.ist.catroid.content.brick.gui.ScaleCostumeBrick;
+import at.tugraz.ist.catroid.content.brick.gui.ShowBrick;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Costume;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
@@ -183,4 +188,70 @@ public class SpriteTest extends AndroidTestCase {
 			// expected behavior
 		}
 	}
+	public void testPauseUnPause() {
+		Sprite testSprite = new Sprite("testSprite");
+		Script testScript = new Script();
+		HideBrick hideBrick = new HideBrick(testSprite);
+		ShowBrick showBrick = new ShowBrick(testSprite);
+
+		for (int i = 0; i < 10000; i++) {
+			testScript.addBrick(hideBrick);
+			testScript.addBrick(showBrick);
+		}
+
+		testSprite.getScriptList().add(testScript);
+
+		testSprite.startScripts();
+		
+		try {
+			Thread.sleep(10);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		testSprite.pause();
+		
+		try {
+			Thread.sleep(1500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		int brickCount = getBrickCount(testScript);
+		Log.d("SpriteTest ", "Paused at brickCount  " + brickCount);
+		
+		assertTrue("BrickCount is still zero", brickCount != 0);
+		
+		
+		testSprite.unpause();
+		
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+
+	}
+	
+	 private int getBrickCount(Script script){
+	        Field field = null;
+	        int brickCount = 0;
+	        try {
+	            field = Script.class.getDeclaredField("brickCount");
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        } 
+	        field.setAccessible(true);
+	        try {
+	        	brickCount = (Integer) field.get(script);
+	        } catch (IllegalArgumentException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+	        } catch (IllegalAccessException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+	        }
+	        return brickCount;
+	    }
 }
