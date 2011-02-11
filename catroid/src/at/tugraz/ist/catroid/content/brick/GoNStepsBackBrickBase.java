@@ -23,34 +23,39 @@ package at.tugraz.ist.catroid.content.brick;
  *
  */
 
+import at.tugraz.ist.catroid.content.entities.PrimitiveWrapper;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public abstract class GoNStepsBackBrickBase implements BrickBase {
 	private static final long serialVersionUID = 1L;
 	protected Sprite sprite;
-	protected int steps;
+	protected PrimitiveWrapper<Integer> steps;
 
 	public GoNStepsBackBrickBase(Sprite sprite, int steps) {
 		this.sprite = sprite;
-		this.steps  = steps;
+		this.steps  = new PrimitiveWrapper<Integer>(steps);
 	}
 
 	public void execute() {
-		if (steps <= 0)
+		if (steps.getValue() <= 0)
 			throw new NumberFormatException("Steps was not a positive number!");
 		
 		int currentPosition = sprite.getZPosition();
 		
-		if (currentPosition - steps > currentPosition) {
+		if (currentPosition - steps.getValue() > currentPosition) {
 			sprite.setZPosition(Integer.MIN_VALUE);
 			return;
 		}
 		
-		sprite.setZPosition(currentPosition - steps);
+		sprite.setZPosition(currentPosition - steps.getValue());
 	}
 
 	public Sprite getSprite() {
 		return this.sprite;
+	}
+	
+	public int getSteps() {
+		return steps.getValue();
 	}
 
 }
