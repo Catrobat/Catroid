@@ -53,5 +53,7 @@ public abstract class PlaySoundBrickBase implements BrickBase {
 	public Sprite getSprite() {
 		return null;
 	}
-
+	public String getPathToSoundFile() {
+		return pathToSoundfile;
+	}
 }
