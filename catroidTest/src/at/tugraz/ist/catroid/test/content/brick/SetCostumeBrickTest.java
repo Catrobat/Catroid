@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 
 
@@ -20,7 +21,11 @@ public class SetCostumeBrickTest extends InstrumentationTestCase{
     
     public void testSetCostume() throws IOException{
         BufferedInputStream inputStream = new BufferedInputStream(getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID));
-        testImage = File.createTempFile("testImage", ".png");
+        testImage = new File("mnt/sdcard/catroid/testImage.png");
+        if(!testImage.exists()){
+            testImage.createNewFile();
+        }
+        
         BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(testImage), 4147);
         StageActivity.SCREEN_HEIGHT = 200;
         StageActivity.SCREEN_WIDTH = 200;
@@ -35,7 +40,8 @@ public class SetCostumeBrickTest extends InstrumentationTestCase{
         outputStream.close();
         
         Sprite sprite = new Sprite("new sprite");
-        SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite,testImage.getAbsolutePath());
+        SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
+        setCostumeBrick.setCostume(testImage.getAbsolutePath());
         assertNull("current Costume is not null (should not be set)", sprite.getCurrentCostume());
         assertEquals("the new Costume is not in the costumeList of the sprite", 72, sprite.getCostumeList().get(0).getBitmap().getWidth());
         assertEquals("the new Costume is not in the costumeList of the sprite", 72, sprite.getCostumeList().get(0).getBitmap().getHeight());
