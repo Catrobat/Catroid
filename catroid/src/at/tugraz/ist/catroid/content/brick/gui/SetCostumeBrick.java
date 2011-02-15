@@ -28,8 +28,8 @@ public class SetCostumeBrick extends SetCostumeBrickBase implements Brick{
     
     private static final long serialVersionUID = 1L;
     
-    public SetCostumeBrick(Sprite sprite, String imagePath) {
-        super(sprite, imagePath);
+    public SetCostumeBrick(Sprite sprite) {
+        super(sprite);
     }
     
     public View getView(Context context, View convertView, BaseAdapter adapter) {
