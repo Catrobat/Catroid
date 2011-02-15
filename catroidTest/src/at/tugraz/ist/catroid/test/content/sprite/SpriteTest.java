@@ -107,7 +107,7 @@ public class SpriteTest extends AndroidTestCase {
 
 	public void testCostumeList() {
 		Sprite sprite = new Sprite("new sprite");
-		sprite.getCostumeList().add(new Costume());
+		sprite.getCostumeList().add(new Costume(sprite,"some path"));
 		assertEquals("Costume list does not contain costume after adding", 1, sprite.getCostumeList().size());
 
 		sprite.getCostumeList().clear();
@@ -167,13 +167,13 @@ public class SpriteTest extends AndroidTestCase {
 
 	public void testCurrentCostume() {
 		Sprite sprite = new Sprite("new sprite");
-		Costume costume = new Costume();
+		Costume costume = new Costume(sprite,"some path");
 		sprite.getCostumeList().add(costume);
 		sprite.setCurrentCostume(costume);
 		assertEquals("Costume not in list after adding", costume, sprite.getCostumeList().get(0));
 		assertEquals("Current costume was not set correctly", costume, sprite.getCurrentCostume());
 
-		Costume anotherCostume = new Costume();
+		Costume anotherCostume = new Costume(sprite,"some path");
 		try {
 			sprite.setCurrentCostume(anotherCostume);
 			fail("Could set current costume to a costume that's not in the list");
@@ -212,7 +212,7 @@ public class SpriteTest extends AndroidTestCase {
 		testSprite.pause();
 		
 		try {
-			Thread.sleep(1500);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -230,11 +230,10 @@ public class SpriteTest extends AndroidTestCase {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
 
 	}
 	
-	 private int getBrickPositionAfterPause(Script script){
+	 private int getBrickPositionAfterPause(Script script) {
 	        Field field = null;
 	        int brickPositionAfterPause = 0;
 	        try {
@@ -245,13 +244,7 @@ public class SpriteTest extends AndroidTestCase {
 	        field.setAccessible(true);
 	        try {
 	        	brickPositionAfterPause = (Integer) field.get(script);
-	        } catch (IllegalArgumentException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
-	        } catch (IllegalAccessException e) {
-	            // TODO Auto-generated catch block
-	            e.printStackTrace();
-	        }
+	        } catch (Exception e) {}
 	        return brickPositionAfterPause;
 	    }
 }

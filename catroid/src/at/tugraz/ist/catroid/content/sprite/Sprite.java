@@ -78,8 +78,6 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	}
 
 	public void pause() {
-		// TODO: save all threads in a list, iterate over this list and call
-		// wait() for every Thread
 		for (Script s : scriptList) {
 			s.setPaused(true);
 		}
@@ -90,7 +88,6 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	}
 
 	public void resume() {
-		// TODO: notify all waiting Threads
 		for (Script s : scriptList) {
 			s.setPaused(false);
 		}
@@ -137,8 +134,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 
 	public void setScale(double scale) {
 		if (scale <= 0.0)
-			throw new IllegalArgumentException(
-					"Sprite scale must be greater than zero!");
+			throw new IllegalArgumentException("Sprite scale must be greater than zero!");
 		this.scale = scale;
 		this.toDraw = true;
 	}
@@ -176,8 +172,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	public void setCurrentCostume(Costume costume)
 			throws IllegalArgumentException {
 		if (!costumeList.contains(costume))
-			throw new IllegalArgumentException(
-					"Selected costume is not contained in Costume list of this sprite.");
+			throw new IllegalArgumentException("Selected costume is not contained in Costume list of this sprite.");
 		currentCostume = costume;
 		this.toDraw = true;
 	}
@@ -190,6 +185,5 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		if(difference > Integer.MAX_VALUE)
 			return Integer.MAX_VALUE;
 		return (int)difference;
-		
 	}
 }

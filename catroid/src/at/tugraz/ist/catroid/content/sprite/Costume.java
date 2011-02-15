@@ -31,11 +31,7 @@ public class Costume {
 	private int drawPositionY;
 	private int mMaxRelCoordinates = 1000;
 
-	public Costume() { // TODO do we need this?
-		this.setImagePath("");
-	}
-
-	public Costume(Sprite sprite, String imagePath) {
+    public Costume(Sprite sprite, String imagePath) {
 		this.setImagePath(imagePath);
 		this.sprite = sprite;
 		setDrawPosition();
@@ -60,10 +56,8 @@ public class Costume {
 													// because of rounding
 													// errors in set to
 													// center
-			bitmap = ImageEditing.scaleBitmap(bitmap, backgroundScaleFactor,
-					true);
+			bitmap = ImageEditing.scaleBitmap(bitmap, backgroundScaleFactor, true);
 		}
-
 		return bitmap;
 	}
 
