@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.entities.SoundInfo;
@@ -21,6 +22,7 @@ public class SoundBrickAdapter extends BaseAdapter{
 	public SoundBrickAdapter(Context context, ArrayList<SoundInfo> soundList) {
 		this.context = context;
 		this.soundList = soundList;
+		
 	}
 
 	public int getCount() {
@@ -43,6 +45,13 @@ public class SoundBrickAdapter extends BaseAdapter{
 		TextView text = (TextView)view.findViewById(R.id.tvSound);
 		text.setText(soundList.get(position).getTitle());
 		return view;
+	}
+	
+
+	@Override
+	public void notifyDataSetChanged() {
+		// TODO Auto-generated method stub
+		super.notifyDataSetChanged();
 	}
 	
 	

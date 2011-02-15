@@ -25,7 +25,12 @@ public class SoundInfo {
 	private String path;
 	private String title;
 	
-	
+	public String getTitleWithPath() {
+		if(path.endsWith("/"))
+			return path+title;
+		else
+			return path+"/"+title;
+	}
 	public int getId() {
 		return id;
 	}

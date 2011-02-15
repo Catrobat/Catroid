@@ -33,6 +33,7 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.database.Cursor;
 import android.os.Environment;
@@ -170,35 +171,43 @@ public class StorageHandler {
 
 	public void loadSoundContent(){
 		soundContent = new ArrayList<SoundInfo>();
-
 		String[] projectionOnOrig = {
 					MediaStore.Audio.Media.DATA,				
 					MediaStore.Audio.AudioColumns.TITLE,
 					MediaStore.Audio.Media._ID};
 
-		Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projectionOnOrig, null, null,MediaStore.Audio.Media._ID);   
-		
+		Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projectionOnOrig, null, null,null);   
 		
 		if(cursor.moveToFirst()){
 			int column_data_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
 			int column_title_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.TITLE);
 			int column_id_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID);
 			
-			do{
+			do {
 				SoundInfo info = new SoundInfo(); 
 				info.setId(cursor.getInt(column_id_index));
 				info.setTitle(cursor.getString(column_title_index));
 				info.setPath(cursor.getString(column_data_index));
 				soundContent.add(info);
-			}while(cursor.moveToNext());
+			} while(cursor.moveToNext());
 		}
-		
+		System.out.println("LOAD SOUND");
 		cursor.close();
-		
 	}
 	
 	public ArrayList<SoundInfo> getSoundContent(){
 		return soundContent;
 	}
+	
+	public void setSoundContent(ArrayList<SoundInfo> soundContent) {
+		System.out.println("SOUND SET");
+		this.soundContent.clear();
+		this.soundContent.addAll(soundContent);
+	}
+	
+	public File getCatroidRoot() {
+		return catroidRoot;
+	}
+	
 	
 }
