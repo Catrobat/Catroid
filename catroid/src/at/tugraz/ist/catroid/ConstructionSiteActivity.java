@@ -173,7 +173,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			Log.d("testProject", "sprite count: " + currentProject.getSpriteList().size());
 			Log.d("testProject", "script count: " + currentProject.getSpriteList().get(0).getScriptList().size());
 			programmAdapter.setContent(currentProject.getSpriteList().get(0).getScriptList().get(0));
-			setTitle(currentProject.getProjectTitle());
+			setTitle(currentProject.getName());
 		}
 	}
 	

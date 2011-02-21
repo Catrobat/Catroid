@@ -22,14 +22,12 @@ import android.test.AndroidTestCase;
 import at.tugraz.ist.catroid.content.project.Project;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-public class ProjectTest extends AndroidTestCase {
-	private Sprite  bottomSprite = new Sprite("bottom");
-	private Sprite  topSprite    = new Sprite("top");
-	private Project project      = new Project("testProject");
-	private int		maxZ		 = 17;
-	
-	
+public class ProjectTest extends AndroidTestCase {	
 	public void testAddRemoveSprite() {
+		Project project = new Project("testProject");
+		Sprite  bottomSprite = new Sprite("bottom");
+		Sprite  topSprite    = new Sprite("top");
+		
 		project.addSprite(bottomSprite);
 		project.addSprite(topSprite);
 		
@@ -38,17 +36,25 @@ public class ProjectTest extends AndroidTestCase {
 		
 		assertTrue("bottomSprite was not removed from data structure",  project.removeSprite(bottomSprite));
 		assertFalse("bottomSprite was not removed from data structure", project.getSpriteList().contains(bottomSprite));
+		assertFalse("bottomSprite could be removed from data structure twice", project.removeSprite(bottomSprite));
 		
 		assertTrue("topSprite was not removed from data structure",  project.removeSprite(topSprite));
-		assertFalse("topSprite was not removed from data structure", project.getSpriteList().contains(topSprite));
+		assertFalse("topSprite was not removed from data structure", project.getSpriteList().contains(topSprite));		
 	}
 	
 	public void testGetMaxZValue() {
-		bottomSprite.setZPosition(maxZ - 5);
-		topSprite.setZPosition(maxZ);
+		Project project = new Project("testProject");
+		Sprite  bottomSprite = new Sprite("bottom");
+		Sprite  topSprite    = new Sprite("top");
 		
 		project.addSprite(bottomSprite);
 		project.addSprite(topSprite);
+		
+		final int maxZ = 17;
+		
+		bottomSprite.setZPosition(maxZ - 5);
+		topSprite.setZPosition(maxZ);
+
 		assertEquals("Maximum Z value was incorrect", project.getMaxZValue(), maxZ);
 	}
 }

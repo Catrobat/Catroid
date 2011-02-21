@@ -1,7 +1,5 @@
 package at.tugraz.ist.catroid.constructionSite.gui.dialogs;
 
-import java.util.HashMap;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.text.InputType;

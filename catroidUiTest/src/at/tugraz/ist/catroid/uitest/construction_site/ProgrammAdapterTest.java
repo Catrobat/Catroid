@@ -1,20 +1,11 @@
 package at.tugraz.ist.catroid.uitest.construction_site;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 
-import android.content.ContentValues;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
-import android.widget.BaseAdapter;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
+import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.brick.gui.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.brick.gui.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.brick.gui.HideBrick;
@@ -29,8 +20,6 @@ import at.tugraz.ist.catroid.content.project.Project;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
-import at.tugraz.ist.catroid.io.sound.SoundManager;
-import at.tugraz.ist.catroid.R;
 
 import com.jayway.android.robotium.solo.Solo;
 

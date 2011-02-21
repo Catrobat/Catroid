@@ -1,13 +1,10 @@
 package at.tugraz.ist.catroid.constructionSite.gui.adapter;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -15,34 +12,29 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.BrickDefine;
-import at.tugraz.ist.catroid.constructionSite.gui.dialogs.EditTextDialog;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.utils.ImageContainer;
-import at.tugraz.ist.catroid.utils.Utils;
-import at.tugraz.ist.catroid.utils.filesystem.MediaFileLoader;
 
 public class ProgrammAdapter extends BaseAdapter implements OnClickListener {
 
 	private Context context;
 	private ListView mMainListView;
-	private ImageContainer mImageContainer;
+	//private ImageContainer mImageContainer;
 	private ArrayList<HashMap<String, String>> mBrickList;
-	private EditTextDialog mEditTextDialog;
+	//private EditTextDialog mEditTextDialog;
 	private Script script;
-	private LayoutInflater inflater;
+	//private LayoutInflater inflater;
 
 	public ProgrammAdapter(Context context, Script script, ListView listview, ImageContainer imageContainer) {
 		this.script = script;
 		
 		this.context = context;
 		mMainListView = listview;
-		mImageContainer = imageContainer;
-		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		mEditTextDialog = null;
+		//mImageContainer = imageContainer;
+		//inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		//mEditTextDialog = null;
 
 	}
 	
@@ -284,20 +276,20 @@ public class ProgrammAdapter extends BaseAdapter implements OnClickListener {
 		}
 		*/
 	}
-
-	private void deleteSound(String soundName) {
-		if (soundName == null || soundName.length() == 0) {
-			Log.i("ConstructionSiteListViewAdapter", "No sound file to delete.");
-		} else {
-			String soundsPath = ConstructionSiteActivity.ROOT_SOUNDS;
-			String soundFilePath = Utils.concatPaths(soundsPath, soundName);
-			if (Utils.deleteFile(soundFilePath)) {
-				Log.i("ConstructionSiteListViewAdapter", "Successfully deleted sound file \"" + soundFilePath + "\".");
-			} else {
-				Log.w("ConstructionSiteListViewAdapter", "Error! Could not delete sound file \"" + soundFilePath + "\".");
-			}
-		}
-	}
+//
+//	private void deleteSound(String soundName) {
+//		if (soundName == null || soundName.length() == 0) {
+//			Log.i("ConstructionSiteListViewAdapter", "No sound file to delete.");
+//		} else {
+//			String soundsPath = ConstructionSiteActivity.ROOT_SOUNDS;
+//			String soundFilePath = Utils.concatPaths(soundsPath, soundName);
+//			if (Utils.deleteFile(soundFilePath)) {
+//				Log.i("ConstructionSiteListViewAdapter", "Successfully deleted sound file \"" + soundFilePath + "\".");
+//			} else {
+//				Log.w("ConstructionSiteListViewAdapter", "Error! Could not delete sound file \"" + soundFilePath + "\".");
+//			}
+//		}
+//	}
 
 //	public void onItemSelected(AdapterView<?> spinner, View v, int position, long id) {
 //		String tag = (String) spinner.getTag();
