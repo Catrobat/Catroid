@@ -21,7 +21,6 @@ package at.tugraz.ist.catroid.content.script;
 import java.util.ArrayList;
 
 import at.tugraz.ist.catroid.content.brick.gui.Brick;
-import at.tugraz.ist.catroid.content.brick.gui.WaitBrick;
 
 public class Script {
 
@@ -38,22 +37,17 @@ public class Script {
 		setTouchScript(false);
 	}
 
-	public void run() {	
+	public void run() {
 		for (int i = brickPositionAfterPause; i < brickList.size(); i++) {
 			if (paused) {
-				if (i == 0) {
-					brickPositionAfterPause = 0;
-					return;
-				}
-				if (brickList.get(i-1) instanceof WaitBrick) {
-					brickPositionAfterPause = i-1;
-				}
-				else {
-					brickPositionAfterPause = i;
-				}
-				break;
+				brickPositionAfterPause = i;
+				return;
 			}
-			brickList.get(i).execute();
+			try {
+				brickList.get(i).execute();
+			} catch (RuntimeException e) { // Brick was interrupted
+				brickPositionAfterPause = i;
+			}
 		}
 	}
 
@@ -95,7 +89,7 @@ public class Script {
 	public boolean isTouchScript() {
 		return isTouchScript;
 	}
-	
+
 	public synchronized void setPaused(boolean paused) {
 		this.paused = paused;
 	}
