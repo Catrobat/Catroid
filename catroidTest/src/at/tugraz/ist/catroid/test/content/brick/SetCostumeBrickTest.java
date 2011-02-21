@@ -4,9 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-
 
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.content.brick.gui.SetCostumeBrick;

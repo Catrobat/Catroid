@@ -41,12 +41,12 @@ public class PlaceAtBrick extends PlaceAtBrickBase implements Brick {
 		View brickView = inflater.inflate(R.layout.construction_brick_goto, null);
 		EditText edit = (EditText) brickView.findViewById(R.id.InputValueEditTextX);
 		edit.setText(xPosition.getValue().intValue() + "");
-		EditTextDialog dialog = new EditTextDialog(context, edit, adapter);
+		EditTextDialog dialog = new EditTextDialog(context, edit, adapter, true);
 		dialog.setInteger(xPosition);
 		edit.setOnClickListener(dialog);
 		
 		edit = (EditText) brickView.findViewById(R.id.InputValueEditTextY);
-		dialog = new EditTextDialog(context, edit, adapter);
+		dialog = new EditTextDialog(context, edit, adapter, true);
 		edit.setText(yPosition.getValue().intValue() + "");
 		dialog.setInteger(yPosition);
 		edit.setOnClickListener(dialog);

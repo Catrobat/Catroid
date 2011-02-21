@@ -146,7 +146,7 @@ public class SpriteTest extends AndroidTestCase {
 		Sprite sprite = new Sprite("testSprite");
 
 		final double scale = -5.0;
-		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite, scale);
+		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite, (int)(scale * 100));
 
 		try {
 			brick.execute();
