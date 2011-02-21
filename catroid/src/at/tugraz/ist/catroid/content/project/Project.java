@@ -27,12 +27,11 @@ import at.tugraz.ist.catroid.content.sprite.Sprite;
 public class Project implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private List<Sprite> spriteList = new ArrayList<Sprite>();
-	private String projectTitle;
+	private String name;
 
-	public Project(String projectName) {
-		setProjectTitle(projectName);
+	public Project(String name) {
+		setName(name);
 		Sprite stage = new Sprite("Stage");
-		stage.setZPosition(Integer.MIN_VALUE);
 		addSprite(stage);
 	}
 	
@@ -48,8 +47,8 @@ public class Project implements Serializable {
 	
 	public int getMaxZValue() {
 		int maxZValue = Integer.MIN_VALUE;
-		for (Sprite s : spriteList) {
-			maxZValue = s.getZPosition() > maxZValue ? s.getZPosition() : maxZValue;
+		for (Sprite sprite : spriteList) {
+			maxZValue = Math.max(sprite.getZPosition(), maxZValue);
 		}
 		return maxZValue;
 	}
@@ -58,12 +57,11 @@ public class Project implements Serializable {
 		return spriteList;
 	}
 	
-	public void setProjectTitle(String projectTitle) {
-		this.projectTitle = projectTitle;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getProjectTitle() {
-		return projectTitle;
+	public String getName() {
+		return name;
 	}
-	
 }

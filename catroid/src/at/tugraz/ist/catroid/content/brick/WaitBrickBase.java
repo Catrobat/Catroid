@@ -1,26 +1,23 @@
 package at.tugraz.ist.catroid.content.brick;
 
-import android.util.Log;
+import at.tugraz.ist.catroid.content.entities.PrimitiveWrapper;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class WaitBrickBase implements BrickBase {
 	private static final long serialVersionUID = 1L;
-    protected long timeToWaitInMilliseconds;
+    protected PrimitiveWrapper<Long> timeToWaitInMilliseconds;
     
 	public WaitBrickBase(long timeToWaitInMilliseconds) {
-		this.timeToWaitInMilliseconds = timeToWaitInMilliseconds;
+		this.timeToWaitInMilliseconds = new PrimitiveWrapper<Long>(timeToWaitInMilliseconds);
 	}
 
 	public void execute() {
 		long startTime = 0;
 		try {
-			Log.d("WaitBrick ", "Starting to wait for " + this.timeToWaitInMilliseconds);
 			startTime = System.currentTimeMillis();
-			Thread.sleep(timeToWaitInMilliseconds);
+			Thread.sleep(timeToWaitInMilliseconds.getValue());
 		} catch (InterruptedException e) {
-			Log.d("WaitBrick ", "Interrupted at " + System.currentTimeMillis());
-			timeToWaitInMilliseconds -= System.currentTimeMillis() - startTime;
-			Log.d("WaitBrick ", "remainingWaitingTime is " + timeToWaitInMilliseconds);
+			timeToWaitInMilliseconds.setValue(timeToWaitInMilliseconds.getValue() - (System.currentTimeMillis() - startTime));
 		}
 		
 	}
@@ -29,4 +26,7 @@ public class WaitBrickBase implements BrickBase {
 		return null;
 	}
 
+	public long getWaitTime() {
+		return timeToWaitInMilliseconds.getValue();
+	}
 }

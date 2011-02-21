@@ -1,8 +1,9 @@
 package at.tugraz.ist.catroid.uitest.construction_site;
 
+import java.util.ArrayList;
+
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
-import android.util.Log;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.brick.gui.ComeToFrontBrick;
@@ -14,9 +15,11 @@ import at.tugraz.ist.catroid.content.brick.gui.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.brick.gui.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.brick.gui.ShowBrick;
 import at.tugraz.ist.catroid.content.brick.gui.WaitBrick;
+import at.tugraz.ist.catroid.content.entities.SoundInfo;
 import at.tugraz.ist.catroid.content.project.Project;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.io.StorageHandler;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -27,7 +30,7 @@ import com.jayway.android.robotium.solo.Solo;
  */
 public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<ConstructionSiteActivity>{
 	private Solo solo;
-	
+
 	public ProgrammAdapterTest() {
 		super("at.tugraz.ist.catroid",
 				ConstructionSiteActivity.class);
@@ -35,10 +38,10 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 	
 	public void setUp() throws Exception {
 		solo = new Solo(getInstrumentation(), getActivity());
+
 	}
 	
-	public void tearDown() throws Exception {
-		
+	public void tearDown() throws Exception {	
 		try {	
 			solo.finalize();
 		} catch (Throwable e) {
@@ -47,7 +50,6 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 		
 		getActivity().finish();
 		super.tearDown();
-
 	}
 	
 	@Smoke
@@ -90,14 +92,17 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 		});
 		
 		assertEquals("Incorrect number of bricks", 1, getActivity().getProgrammAdapter().getCount());
+		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.go_back_main_adapter)));
 		
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, steps + "");
 		solo.clickOnButton(0);
 		
-		Thread.sleep(1000);
+		Thread.sleep(300);
 		assertEquals("Wrong text in field", steps, brick.getSteps());
+		assertEquals("Value in Brick is not updated", steps+"", solo.getEditText(0).getText().toString());
+		
 	}
 	
 	@Smoke
@@ -116,6 +121,7 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 		});
 		
 		assertEquals("Incorrect number of bricks", 1, getActivity().getProgrammAdapter().getCount());
+		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.hide_main_adapter)));
 	}
 	
 	@Smoke
@@ -134,6 +140,7 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 		});
 		
 		assertEquals("Incorrect number of bricks", 1, getActivity().getProgrammAdapter().getCount());
+		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.touched_main_adapter)));
 	}
 	
 	@Smoke
@@ -146,7 +153,7 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 		PlaceAtBrick placeAtBrick = new PlaceAtBrick(stageSprite, 105, 206);
 		script.addBrick(placeAtBrick);
 		script.addBrick(new PlaySoundBrick("sound.mp3"));
-		script.addBrick(new ScaleCostumeBrick(stageSprite, 1.2));
+		script.addBrick(new ScaleCostumeBrick(stageSprite, 80));
 		
 		stageSprite.getScriptList().add(script);
 		
@@ -155,6 +162,8 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 				getActivity().setProject(testProject);
 			}
 		});
+		
+		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.goto_main_adapter)));
 		
 		int xPosition = 987;
 		int yPosition = 654;
@@ -177,29 +186,12 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 	}
 	
 	@Smoke
-	public void testPlaySoundBrick() throws Throwable {
-		final Project testProject = new Project("theTest");
-		Sprite stageSprite = testProject.getSpriteList().get(0);
-		Script script = new Script();
-		script.addBrick(new PlaySoundBrick("invalid path"));
-		
-		stageSprite.getScriptList().add(script);
-		
-		runTestOnUiThread(new Runnable() {
-			public void run() {
-				getActivity().setProject(testProject);
-			}
-		});
-		
-		assertEquals("Incorrect number of bricks", 1, getActivity().getProgrammAdapter().getCount());
-	}
-	
-	@Smoke
 	public void testScaleCostumeBrick() throws Throwable {
 		final Project testProject = new Project("theTest");
 		Sprite stageSprite = testProject.getSpriteList().get(0);
 		Script script = new Script();
-		script.addBrick(new ScaleCostumeBrick(stageSprite, 10.0));
+		ScaleCostumeBrick brick = new ScaleCostumeBrick(stageSprite, 20);
+		script.addBrick(brick);
 		
 		stageSprite.getScriptList().add(script);
 		
@@ -210,6 +202,18 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 		});
 		
 		assertEquals("Incorrect number of bricks", 1, getActivity().getProgrammAdapter().getCount());
+		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.scaleCustome)));
+		
+		int newScale = 25;
+		
+		solo.clickOnEditText(0);
+		solo.clearEditText(0);
+		solo.enterText(0, newScale + "");
+		solo.clickOnButton(0);
+		
+		Thread.sleep(1000);
+		assertEquals("Wrong text in field", newScale, brick.getScale());
+		assertEquals("Text not updated", newScale + "", solo.getEditText(0).getText().toString());
 	}
 	
 	@Smoke
@@ -228,14 +232,16 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 		});
 		
 		assertEquals("Incorrect number of bricks", 1, getActivity().getProgrammAdapter().getCount());
+		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.show_main_adapter)));
 	}
 	
 	@Smoke
 	public void testWaitBrick() throws Throwable {
 		final Project testProject = new Project("theTest");
 		Sprite stageSprite = testProject.getSpriteList().get(0);
-		Script script = new Script();
-		script.addBrick(new WaitBrick(1000));
+		Script script   = new Script();
+		WaitBrick brick = new WaitBrick(1000);
+		script.addBrick(brick);
 		
 		stageSprite.getScriptList().add(script);
 		
@@ -246,5 +252,105 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 		});
 		
 		assertEquals("Incorrect number of bricks", 1, getActivity().getProgrammAdapter().getCount());
+		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.wait_main_adapter)));
+		
+		long waitTime = 729;
+		
+		solo.clickOnEditText(0);
+		solo.clearEditText(0);
+		solo.enterText(0, waitTime + "");
+		solo.clickOnButton(0);
+		
+		Thread.sleep(1000);
+		assertEquals("Wrong text in field", waitTime, brick.getWaitTime());
+		assertEquals("Text not updated", waitTime + "", solo.getEditText(0).getText().toString());
+	}
+	
+	@Smoke
+	public void testPlaySoundBrick() throws Throwable {
+		String title = "myTitle";
+		String path = "path/to/sound/";
+		ArrayList<SoundInfo> soundlist = new ArrayList<SoundInfo>();
+		SoundInfo soundInfo = new SoundInfo();
+		soundInfo.setId(5);
+		soundInfo.setTitle("something");
+		soundInfo.setPath("path/path/1/");
+		soundlist.add(soundInfo);
+		soundInfo = new SoundInfo();
+		soundInfo.setId(6);
+		soundInfo.setTitle(title);
+		soundInfo.setPath(path);
+		soundlist.add(soundInfo);
+		soundInfo = new SoundInfo();
+		soundInfo.setId(7);
+		String selectedTitle = "selectedTitle";
+		soundInfo.setTitle(selectedTitle);
+		soundInfo.setPath(path);
+		soundlist.add(soundInfo);
+		StorageHandler.getInstance(getActivity()).setSoundContent(soundlist);
+		
+		final Project testProject = new Project("theTest");
+		Sprite stageSprite = testProject.getSpriteList().get(0);
+		Script script = new Script();
+		// test the selected item
+		PlaySoundBrick soundBrick = new PlaySoundBrick(soundInfo.getTitleWithPath());
+		script.addBrick(soundBrick);
+		stageSprite.getScriptList().add(script);
+		
+		runTestOnUiThread(new Runnable() {
+			public void run() {
+				getActivity().setProject(testProject);
+			}
+		});
+		
+		Thread.sleep(500);
+		assertTrue("Wrong title selected", solo.searchText(selectedTitle));
+		
+		assertEquals("Incorrect number of bricks", 1, getActivity().getProgrammAdapter().getCount());
+		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.play_sound_main_adapter)));
+		
+		solo.clickOnButton(selectedTitle);
+		solo.clickInList(2);
+		Thread.sleep(500);
+		assertEquals("Wrong path", path+title, soundBrick.getPathToSoundFile());
+		assertTrue("Wrong title selected", solo.searchText(title));
+		
+	}
+	
+	@Smoke
+	public void testPlaySoundBrickNoSounds() throws Throwable {
+
+		ArrayList<SoundInfo> soundlist = new ArrayList<SoundInfo>();		
+		StorageHandler.getInstance(getActivity()).setSoundContent(soundlist);
+		
+		final Project testProject = new Project("theTest");
+		Sprite stageSprite = testProject.getSpriteList().get(0);
+		Script script = new Script();
+		String selectedTitle = "mysound";
+		PlaySoundBrick soundBrick = new PlaySoundBrick("test/"+selectedTitle);
+		script.addBrick(soundBrick);
+		stageSprite.getScriptList().add(script);
+		
+		runTestOnUiThread(new Runnable() {
+			public void run() {
+				getActivity().setProject(testProject);
+			}
+		});
+		
+		Thread.sleep(500);
+		assertTrue("Wrong title selected", solo.searchText(selectedTitle));
+		
+		assertEquals("Incorrect number of bricks", 1, getActivity().getProgrammAdapter().getCount());
+		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.play_sound_main_adapter)));
+		
+		solo.clickOnButton(selectedTitle);
+		Thread.sleep(500);
+		assertEquals("wrong list size", 0, solo.getCurrentListViews().get(0).getCount());
+		solo.goBack();
+		
+		assertTrue("Wrong title selected", solo.searchText(selectedTitle));
+		assertEquals("Wrong path", "test/"+selectedTitle, soundBrick.getPathToSoundFile());
+		
+		
 	}
 }

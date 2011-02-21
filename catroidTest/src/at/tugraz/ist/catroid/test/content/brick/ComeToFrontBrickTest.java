@@ -1,6 +1,7 @@
 package at.tugraz.ist.catroid.test.content.brick;
 
 import android.test.AndroidTestCase;
+import android.view.View;
 import at.tugraz.ist.catroid.content.brick.ComeToFrontBrickBase;
 import at.tugraz.ist.catroid.content.brick.gui.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.project.Project;
@@ -55,8 +56,8 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 	}
 	
 	public void testGetView() {
-		ComeToFrontBrickBase brick = new ComeToFrontBrick(new Sprite("testSprite"), new Project("testProject"));
-		//View view = brick.getView((LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE));
-		//assertNotNull("getView returned null", view);
+		ComeToFrontBrick brick = new ComeToFrontBrick(new Sprite("testSprite"), new Project("testProject"));
+		View view = brick.getView(getContext(), null, null);
+		assertNotNull("getView returned null", view);
 	}
 }

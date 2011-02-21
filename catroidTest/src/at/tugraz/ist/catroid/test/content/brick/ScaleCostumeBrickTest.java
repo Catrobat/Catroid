@@ -23,7 +23,7 @@ import at.tugraz.ist.catroid.content.brick.gui.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class ScaleCostumeBrickTest extends AndroidTestCase {
-	private double scale = 2.7;
+	private double scale = 0.7;
 
 	public void testScale() {
 		Sprite sprite = new Sprite("testSprite");
@@ -55,19 +55,19 @@ public class ScaleCostumeBrickTest extends AndroidTestCase {
 		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite,
 				Double.MAX_VALUE);
 		brick.execute();
-		assertEquals("ScaleCostumeBrick failed to scale Sprite to maximum double value",
+		assertEquals("ScaleCostumeBrick failed to scale Sprite to maximum Double value",
 				Double.MAX_VALUE, sprite.getScale());
 
 		brick = new ScaleCostumeBrick(sprite, Double.MIN_VALUE);
 		brick.execute();
-		assertEquals("ScaleCostumeBrick failed to scale Sprite to minimum double value",
+		assertEquals("ScaleCostumeBrick failed to scale Sprite to minimum Double value",
 				Double.MIN_VALUE, sprite.getScale());
 	}
 
 	public void testZeroScale() {
 		Sprite sprite = new Sprite("testSprite");
 
-		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite, 0.0);
+		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite, 0);
 
 		try {
 			brick.execute();
