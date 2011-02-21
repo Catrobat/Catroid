@@ -26,14 +26,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.database.Cursor;
 import android.os.Environment;
@@ -142,10 +140,10 @@ public class StorageHandler {
 	public void saveProject(Project project) {
 
 		String spfFile = xstream.toXML(project);
-		File projectDirectory = new File(catroidRoot.getAbsolutePath()+"/"+project.getProjectTitle());
+		File projectDirectory = new File(catroidRoot.getAbsolutePath()+"/"+project.getName());
 		if(projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite()) {
 			try {
-				BufferedWriter out = new BufferedWriter(new FileWriter(projectDirectory.getAbsolutePath() + "/" + project.getProjectTitle()+PROJECT_EXTENTION));
+				BufferedWriter out = new BufferedWriter(new FileWriter(projectDirectory.getAbsolutePath() + "/" + project.getName()+PROJECT_EXTENTION));
 				out.write(spfFile);
 				out.close();
 			} catch (IOException e) {
@@ -159,7 +157,7 @@ public class StorageHandler {
 			File soundDirectory = new File(projectDirectory.getAbsolutePath() + "/sounds");
 			soundDirectory.mkdir();
 			try {
-				BufferedWriter out = new BufferedWriter(new FileWriter(projectDirectory.getAbsolutePath() + "/" + project.getProjectTitle()+PROJECT_EXTENTION));
+				BufferedWriter out = new BufferedWriter(new FileWriter(projectDirectory.getAbsolutePath() + "/" + project.getName()+PROJECT_EXTENTION));
 				out.write(spfFile);
 				out.close();
 			} catch (IOException e) {

@@ -18,26 +18,20 @@
  */
 package at.tugraz.ist.catroid.test.io;
 
-import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import android.test.AndroidTestCase;
-import android.util.Log;
-import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrickBase;
 import at.tugraz.ist.catroid.content.brick.gui.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.brick.gui.HideBrick;
 import at.tugraz.ist.catroid.content.brick.gui.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.brick.gui.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.brick.gui.ShowBrick;
-import at.tugraz.ist.catroid.content.entities.SoundInfo;
 import at.tugraz.ist.catroid.content.project.Project;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.StageActivity;
-import at.tugraz.ist.catroid.utils.filesystem.MediaFileLoader;
 
 public class StorageHandlerTest extends AndroidTestCase {
 	public StageActivity stageActivity = new StageActivity();
@@ -95,7 +89,7 @@ public class StorageHandlerTest extends AndroidTestCase {
         assertEquals("Fourth sprite does not match after deserialization", preSpriteList.get(3).getName(), postSpriteList.get(3).getName());
         assertEquals("Fifth sprite does not match after deserialization",  preSpriteList.get(4).getName(), postSpriteList.get(4).getName());
 
-        assertEquals("Title missmatch after deserialization", project.getProjectTitle(), loadedProject.getProjectTitle());
+        assertEquals("Title missmatch after deserialization", project.getName(), loadedProject.getName());
         
         assertEquals("Scale was not deserialized right",     scaleValue, ((ScaleCostumeBrick)(postSpriteList.get(1).getScriptList().get(0).getBrickList().get(2))).getScale());
         // TODO: Why does PlaceAtBrick have getters all of a sudden, shouldn't the Sprite hold all that information?

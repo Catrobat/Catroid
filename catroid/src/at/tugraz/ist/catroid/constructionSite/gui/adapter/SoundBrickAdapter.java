@@ -2,18 +2,15 @@ package at.tugraz.ist.catroid.constructionSite.gui.adapter;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.entities.SoundInfo;
-import at.tugraz.ist.catroid.io.StorageHandler;
 
 public class SoundBrickAdapter extends BaseAdapter{
 	private Context context;

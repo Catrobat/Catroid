@@ -23,15 +23,12 @@ import android.graphics.Bitmap;
 public class Costume {
     private static final long serialVersionUID = 1L;
     private String imagePath;
-    private Sprite sprite;
-
     public Costume() { // TODO do we need this?
         this.setImagePath("");
     }
 
     public Costume(Sprite sprite, String imagePath) {
         this.setImagePath(imagePath);
-        this.sprite = sprite;
     }
 
     public void setImagePath(String imagePath) {
