@@ -29,7 +29,7 @@ public class Costume {
 	private Sprite sprite;
 	private int drawPositionX;
 	private int drawPositionY;
-	private int mMaxRelCoordinates = 1000;
+	private int maxRelCoordinates = 1000; //TODO global variable for range of relative coordinates?
 
     public Costume(Sprite sprite, String imagePath) {
 		this.setImagePath(imagePath);
@@ -63,11 +63,11 @@ public class Costume {
 
 	public void setDrawPosition() {
 		drawPositionX = Math
-				.round(((StageActivity.SCREEN_WIDTH / (2f * mMaxRelCoordinates)) * sprite.getXPosition())
+				.round(((StageActivity.SCREEN_WIDTH / (2f * maxRelCoordinates)) * sprite.getXPosition())
 						+ StageActivity.SCREEN_WIDTH / 2f);
 		drawPositionY = Math
 				.round((StageActivity.SCREEN_HEIGHT / 2f)
-						- ((StageActivity.SCREEN_HEIGHT / (2f * mMaxRelCoordinates)) * sprite.getYPosition()));
+						- ((StageActivity.SCREEN_HEIGHT / (2f * maxRelCoordinates)) * sprite.getYPosition()));
 	}
 
 	public int getDrawPositionX() {

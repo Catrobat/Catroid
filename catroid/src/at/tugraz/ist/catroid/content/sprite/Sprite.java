@@ -122,7 +122,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		this.xPosition = xPosition;
 		this.yPosition = yPosition;
 		if (currentCostume != null) {
-			currentCostume.setDrawPosition();
+			currentCostume.setDrawPosition(); //TODO set all sprites in spriteList or only current?
 		}
 		this.toDraw = true;
 	}
