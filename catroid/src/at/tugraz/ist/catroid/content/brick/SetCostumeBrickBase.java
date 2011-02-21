@@ -29,11 +29,7 @@ public abstract class SetCostumeBrickBase implements BrickBase{
     
     
     public SetCostumeBrickBase(Sprite sprite) { 
-        //TODO: is imagepath from project allowed or only gallery?
-        //if from gallery allowed we have to check if this costume is already added
         this.sprite = sprite;
-//        this.costume = new Costume(sprite,imagePath);
-//        this.sprite.getCostumeList().add(costume);
     }
     
     public void setCostume(String imagePath){
