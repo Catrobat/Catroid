@@ -18,8 +18,8 @@ public class WaitBrickBase implements BrickBase {
 			Thread.sleep(timeToWaitInMilliseconds.getValue());
 		} catch (InterruptedException e) {
 			timeToWaitInMilliseconds.setValue(timeToWaitInMilliseconds.getValue() - (System.currentTimeMillis() - startTime));
+			throw new RuntimeException("WaitBrick was interrupted", e);
 		}
-		
 	}
 
 	public Sprite getSprite() {
