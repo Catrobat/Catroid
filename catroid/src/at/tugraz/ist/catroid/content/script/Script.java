@@ -19,8 +19,8 @@
 package at.tugraz.ist.catroid.content.script;
 
 import java.util.ArrayList;
-
 import at.tugraz.ist.catroid.content.brick.gui.Brick;
+import at.tugraz.ist.catroid.exception.InterruptedRuntimeException;
 
 public class Script {
 
@@ -45,7 +45,7 @@ public class Script {
 			}
 			try {
 				brickList.get(i).execute();
-			} catch (RuntimeException e) { // Brick was interrupted during execution
+			} catch (InterruptedRuntimeException e) {   //Brick was interrupted
 				brickPositionAfterPause = i;
 				return;
 			}
@@ -76,7 +76,6 @@ public class Script {
 		} else {
 			return;
 		}
-
 	}
 
 	public ArrayList<Brick> getBrickList() {
