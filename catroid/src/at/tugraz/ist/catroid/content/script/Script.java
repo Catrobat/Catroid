@@ -93,4 +93,8 @@ public class Script {
 	public synchronized void setPaused(boolean paused) {
 		this.paused = paused;
 	}
+	
+	public boolean isPaused() {
+	    return this.paused;
+	}
 }

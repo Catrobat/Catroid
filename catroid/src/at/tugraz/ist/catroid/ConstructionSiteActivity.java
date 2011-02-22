@@ -123,8 +123,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
         SCREEN_HEIGHT = dm.heightPixels;
 
 		// check for SD card, display message and exit if none available
-		if (Utils.checkForSdCard(this)) {
-			StorageHandler.getInstance(this).loadSoundContent();
+		try {
+			StorageHandler.getInstance().loadSoundContent(this);
 			mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 			mPreferences = this.getPreferences(Activity.MODE_PRIVATE);
 
@@ -174,6 +174,10 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			Log.d("testProject", "script count: " + currentProject.getSpriteList().get(0).getScriptList().size());
 			programmAdapter.setContent(currentProject.getSpriteList().get(0).getScriptList().get(0));
 			setTitle(currentProject.getName());
+		}
+		catch(IOException e)
+		{
+		    // TODO: Show error dialog
 		}
 	}
 	
