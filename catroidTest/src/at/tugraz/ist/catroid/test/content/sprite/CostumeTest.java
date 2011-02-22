@@ -18,11 +18,12 @@
  */
 package at.tugraz.ist.catroid.test.content.sprite;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import android.graphics.Bitmap;
 import android.test.InstrumentationTestCase;
@@ -31,59 +32,68 @@ import at.tugraz.ist.catroid.content.sprite.Costume;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.test.R;
 
-
-
 public class CostumeTest extends InstrumentationTestCase{
 	private static final int IMAGE_FILE_ID = R.raw.icon;
-	private File testImage;
+	
     public void testConstructor() {
-        final String imagePath = "invalid image path";
+        final String imagePath = "invalid/image/path.png";
         Sprite testSprite = new Sprite("testSprite");
         
         Costume costume = new Costume(testSprite, imagePath);
         assertEquals("The imagepath is false", imagePath,costume.getImagePath());
-
     }  
     
     public void testGetBitmap() throws IOException {
-		BufferedInputStream inputStream = new BufferedInputStream(getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID));
-    	testImage = File.createTempFile("testImage", ".png");
-		BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(testImage), 4147);
+        
+        final int fileSize = 4147;
+        final int width    = 72;
+        final int height   = 72;
+        File testImage;
+        testImage = new File("mnt/sdcard/catroid/testImage.png");
+        InputStream in   = getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID);
+        OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), fileSize);
+        byte[] buffer = new byte[fileSize];
+        int length = 0;
+        while ((length = in.read(buffer)) > 0) {
+            out.write(buffer, 0, length);
+        }
+        
+        in.close();
+        out.flush();
+        out.close();
+        
 		StageActivity.SCREEN_HEIGHT = 200;
 		StageActivity.SCREEN_WIDTH = 200;
-		
-		byte[] buffer = new byte[4147];
-		int length = 0;
-		while ((length = inputStream.read(buffer)) > 0) {
-			outputStream.write(buffer, 0, length);
-		}
-		inputStream.close();
-		outputStream.flush();
-		outputStream.close();
 		
         Sprite testSprite = new Sprite("testSprite");
     	Costume costume = new Costume(testSprite, testImage.getAbsolutePath());
     	Bitmap bitmap = costume.getBitmap();
-    	assertEquals("Width of loaded bitmap is not the same as width of original image", 72, bitmap.getWidth());
-    	assertEquals("Height of loaded bitmap is not the same as height of original image", 72, bitmap.getHeight());
+    	assertEquals("Width of loaded bitmap is not the same as width of original image", width, bitmap.getWidth());
+    	assertEquals("Height of loaded bitmap is not the same as height of original image", height, bitmap.getHeight());
 
     }
     
     public void testScaleBitmap() throws IOException {
-		BufferedInputStream inputStream = new BufferedInputStream(getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID));
-    	testImage = File.createTempFile("testImage", ".png");
-		BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(testImage), 4147);
-		StageActivity.SCREEN_HEIGHT = 200;
-		StageActivity.SCREEN_WIDTH = 200;
-		
-		byte[] buffer = new byte[4147];
-		int length = 0;
-		while ((length = inputStream.read(buffer)) > 0) {
-			outputStream.write(buffer, 0, length);
-		}
-		inputStream.close();
-		outputStream.flush();
-		outputStream.close();
+        
+        final int fileSize = 4147;
+        final int width    = 72;
+        final int height   = 72;
+        File testImage;
+        testImage = new File("mnt/sdcard/catroid/testImage.png");
+        InputStream in   = getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID);
+        OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), fileSize);
+        byte[] buffer = new byte[fileSize];
+        int length = 0;
+        while ((length = in.read(buffer)) > 0) {
+            out.write(buffer, 0, length);
+        }
+        
+        in.close();
+        out.flush();
+        out.close();
+        
+        StageActivity.SCREEN_HEIGHT = 200;
+        StageActivity.SCREEN_WIDTH = 200;
         
         Sprite testSprite = new Sprite("testSprite");
         testSprite.setScale(2);
@@ -91,26 +101,32 @@ public class CostumeTest extends InstrumentationTestCase{
     	
     	Bitmap bitmap = costume.getBitmap();
 
-    	assertEquals("Width of loaded bitmap is not the same as width of original image", 144, bitmap.getWidth());
-    	assertEquals("Height of loaded bitmap is not the same as height of original image", 144, bitmap.getHeight());
+    	assertEquals("Width of loaded bitmap is not the same as width of original image", width*2, bitmap.getWidth());
+    	assertEquals("Height of loaded bitmap is not the same as height of original image", height*2, bitmap.getHeight());
 
     }
     
     public void testScaleBitmapScreenTooSmall() throws IOException {
-		BufferedInputStream inputStream = new BufferedInputStream(getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID));
-    	testImage = File.createTempFile("testImage", ".png");
-		BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(testImage), 4147);
-		StageActivity.SCREEN_HEIGHT = 100;
-		StageActivity.SCREEN_WIDTH = 100;
-		
-		byte[] buffer = new byte[4147];
-		int length = 0;
-		while ((length = inputStream.read(buffer)) > 0) {
-			outputStream.write(buffer, 0, length);
-		}
-		inputStream.close();
-		outputStream.flush();
-		outputStream.close();
+        
+        final int fileSize = 4147;
+        final int width    = 102;
+        final int height   = 102;
+        File testImage;
+        testImage = new File("mnt/sdcard/catroid/testImage.png");
+        InputStream in   = getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID);
+        OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), fileSize);
+        byte[] buffer = new byte[fileSize];
+        int length = 0;
+        while ((length = in.read(buffer)) > 0) {
+            out.write(buffer, 0, length);
+        }
+        
+        in.close();
+        out.flush();
+        out.close();
+        
+        StageActivity.SCREEN_HEIGHT = 100;
+        StageActivity.SCREEN_WIDTH = 100;
         
         Sprite testSprite = new Sprite("testSprite");
         testSprite.setScale(2);
@@ -118,8 +134,8 @@ public class CostumeTest extends InstrumentationTestCase{
     	
     	Bitmap bitmap = costume.getBitmap();
 
-    	assertEquals("Width of loaded bitmap is not the same as width of original image", 102, bitmap.getWidth());
-    	assertEquals("Height of loaded bitmap is not the same as height of original image", 102, bitmap.getHeight());
+    	assertEquals("Width of loaded bitmap is not the same as width of original image", width, bitmap.getWidth());
+    	assertEquals("Height of loaded bitmap is not the same as height of original image", height, bitmap.getHeight());
 
     }
     

@@ -26,21 +26,18 @@ public class SetCostumeBrickTest extends InstrumentationTestCase {
     	
         testImage = new File("mnt/sdcard/catroid/testImage.png");
         
-        if (!testImage.exists())
-        {
-	        InputStream in   = getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID);
-	        OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), fileSize);
-	        
-	        byte[] buffer = new byte[fileSize];
-	        int length = 0;
-	        while ((length = in.read(buffer)) > 0) {
-	            out.write(buffer, 0, length);
-	        }
-	        
-	        in.close();
-	        out.flush();
-	        out.close();
+        InputStream in = getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID);
+        OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), fileSize);
+
+        byte[] buffer = new byte[fileSize];
+        int length = 0;
+        while ((length = in.read(buffer)) > 0) {
+            out.write(buffer, 0, length);
         }
+
+        in.close();
+        out.flush();
+        out.close();
         
         StageActivity.SCREEN_HEIGHT = 200;
         StageActivity.SCREEN_WIDTH  = 200;
