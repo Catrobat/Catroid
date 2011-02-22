@@ -54,7 +54,7 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 	
 	@Smoke
 	public void testComeToFrontBrick() throws Throwable {
-		final Project testProject = new Project("theTest");
+		final Project testProject = new Project(getInstrumentation().getContext(), "theTest");
 		Sprite stageSprite = testProject.getSpriteList().get(0);
 		Script script = new Script();
 		script.addBrick(new ComeToFrontBrick(stageSprite, testProject));
@@ -76,7 +76,7 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 		
 		int steps = 17;
 		
-		final Project testProject = new Project("theTest");
+		final Project testProject = new Project(getInstrumentation().getContext(), "theTest");
 		Sprite stageSprite        = testProject.getSpriteList().get(0);
 		Script script             = new Script();
 		GoNStepsBackBrick brick   = new GoNStepsBackBrick(stageSprite, 0);
@@ -107,7 +107,7 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 	
 	@Smoke
 	public void testHideBrick() throws Throwable {
-		final Project testProject = new Project("theTest");
+		final Project testProject = new Project(getInstrumentation().getContext(), "theTest");
 		Sprite stageSprite = testProject.getSpriteList().get(0);
 		Script script = new Script();
 		script.addBrick(new HideBrick(stageSprite));
@@ -126,7 +126,7 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 	
 	@Smoke
 	public void testIfTouchedBrick() throws Throwable {
-		final Project testProject = new Project("theTest");
+		final Project testProject = new Project(getInstrumentation().getContext(), "theTest");
 		Sprite stageSprite = testProject.getSpriteList().get(0);
 		Script script = new Script();
 		script.addBrick(new IfTouchedBrick(stageSprite, script));
@@ -145,7 +145,7 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 	
 	@Smoke
 	public void testPlaceAtBrick() throws Throwable {
-		final Project testProject = new Project("theTest");
+		final Project testProject = new Project(getInstrumentation().getContext(), "theTest");
 		Sprite stageSprite = testProject.getSpriteList().get(0);
 		
 		Script script = new Script();
@@ -187,7 +187,7 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 	
 	@Smoke
 	public void testScaleCostumeBrick() throws Throwable {
-		final Project testProject = new Project("theTest");
+		final Project testProject = new Project(getInstrumentation().getContext(), "theTest");
 		Sprite stageSprite = testProject.getSpriteList().get(0);
 		Script script = new Script();
 		ScaleCostumeBrick brick = new ScaleCostumeBrick(stageSprite, 20);
@@ -218,7 +218,7 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 	
 	@Smoke
 	public void testShowBrick() throws Throwable {
-		final Project testProject = new Project("theTest");
+		final Project testProject = new Project(getInstrumentation().getContext(), "theTest");
 		Sprite stageSprite = testProject.getSpriteList().get(0);
 		Script script = new Script();
 		script.addBrick(new ShowBrick(stageSprite));
@@ -237,7 +237,7 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 	
 	@Smoke
 	public void testWaitBrick() throws Throwable {
-		final Project testProject = new Project("theTest");
+		final Project testProject = new Project(getInstrumentation().getContext(), "theTest");
 		Sprite stageSprite = testProject.getSpriteList().get(0);
 		Script script   = new Script();
 		WaitBrick brick = new WaitBrick(1000);
@@ -287,9 +287,9 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 		soundInfo.setTitle(selectedTitle);
 		soundInfo.setPath(path);
 		soundlist.add(soundInfo);
-		StorageHandler.getInstance(getActivity()).setSoundContent(soundlist);
+		StorageHandler.getInstance().setSoundContent(soundlist);
 		
-		final Project testProject = new Project("theTest");
+		final Project testProject = new Project(getInstrumentation().getContext(), "theTest");
 		Sprite stageSprite = testProject.getSpriteList().get(0);
 		Script script = new Script();
 		// test the selected item
@@ -321,9 +321,9 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 	public void testPlaySoundBrickNoSounds() throws Throwable {
 
 		ArrayList<SoundInfo> soundlist = new ArrayList<SoundInfo>();		
-		StorageHandler.getInstance(getActivity()).setSoundContent(soundlist);
+		StorageHandler.getInstance().setSoundContent(soundlist);
 		
-		final Project testProject = new Project("theTest");
+		final Project testProject = new Project(getInstrumentation().getContext(), "theTest");
 		Sprite stageSprite = testProject.getSpriteList().get(0);
 		Script script = new Script();
 		String selectedTitle = "mysound";

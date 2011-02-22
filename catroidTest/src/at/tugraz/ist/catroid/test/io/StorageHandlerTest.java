@@ -21,6 +21,7 @@ package at.tugraz.ist.catroid.test.io;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.AndroidTestCase;
 import at.tugraz.ist.catroid.content.brick.gui.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.brick.gui.HideBrick;
@@ -39,13 +40,13 @@ public class StorageHandlerTest extends AndroidTestCase {
         storageHandler = StorageHandler.getInstance();
     }
 
-    public void testSerializeProject() {
+    public void testSerializeProject() throws NameNotFoundException {
 
         int xPosition = 457;
         int yPosition = 598;
         double scaleValue = 0.8;
 
-        Project project = new Project("testProject");
+        Project project = new Project(getContext(), "testProject");
         Sprite firstSprite = new Sprite("first");
         Sprite secondSprite = new Sprite("second");
         Sprite thirdSprite = new Sprite("third");
@@ -113,6 +114,14 @@ public class StorageHandlerTest extends AndroidTestCase {
         // Test script value
         assertEquals("paused should be set in script", preSpriteList.get(2).getScriptList().get(0).isPaused(),
                 postSpriteList.get(2).getScriptList().get(0).isPaused());
-
+        
+        // Test version codes and names
+        final int preVersionCode = project.getVersionCode();
+        final int postVersionCode = loadedProject.getVersionCode();
+        assertEquals("Version codes are not equal", preVersionCode, postVersionCode);
+        
+        final String preVersionName = project.getVersionName();
+        final String postVersionName = loadedProject.getVersionName();
+        assertEquals("Version names are not equal", preVersionName, postVersionName);
     }
 }
