@@ -34,22 +34,16 @@ import at.tugraz.ist.catroid.test.R;
 
 public class CostumeTest extends InstrumentationTestCase{
 	private static final int IMAGE_FILE_ID = R.raw.icon;
-	
-    public void testConstructor() {
-        final String imagePath = "invalid/image/path.png";
-        Sprite testSprite = new Sprite("testSprite");
-        
-        Costume costume = new Costume(testSprite, imagePath);
-        assertEquals("The imagepath is false", imagePath,costume.getImagePath());
-    }  
-    
-    public void testGetBitmap() throws IOException {
-        
+    private File testImage;
+    final int width = 72;
+    final int height = 72;
+
+    @Override
+    protected void setUp() throws Exception {
         final int fileSize = 4147;
-        final int width    = 72;
-        final int height   = 72;
-        File testImage;
         testImage = new File("mnt/sdcard/catroid/testImage.png");
+        if(!testImage.exists())
+            testImage.createNewFile();
         InputStream in   = getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID);
         OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), fileSize);
         byte[] buffer = new byte[fileSize];
@@ -61,6 +55,24 @@ public class CostumeTest extends InstrumentationTestCase{
         in.close();
         out.flush();
         out.close();
+    }
+    
+    @Override
+    protected void tearDown() throws Exception {
+        if(testImage != null && testImage.exists()){
+            testImage.delete();
+        }
+    }
+	
+    public void testConstructor() {
+        final String imagePath = "invalid/image/path.png";
+        Sprite testSprite = new Sprite("testSprite");
+        
+        Costume costume = new Costume(testSprite, imagePath);
+        assertEquals("The imagepath is false", imagePath,costume.getImagePath());
+    }  
+    
+    public void testGetBitmap() throws IOException {
         
 		StageActivity.SCREEN_HEIGHT = 200;
 		StageActivity.SCREEN_WIDTH = 200;
@@ -74,23 +86,6 @@ public class CostumeTest extends InstrumentationTestCase{
     }
     
     public void testScaleBitmap() throws IOException {
-        
-        final int fileSize = 4147;
-        final int width    = 72;
-        final int height   = 72;
-        File testImage;
-        testImage = new File("mnt/sdcard/catroid/testImage.png");
-        InputStream in   = getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID);
-        OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), fileSize);
-        byte[] buffer = new byte[fileSize];
-        int length = 0;
-        while ((length = in.read(buffer)) > 0) {
-            out.write(buffer, 0, length);
-        }
-        
-        in.close();
-        out.flush();
-        out.close();
         
         StageActivity.SCREEN_HEIGHT = 200;
         StageActivity.SCREEN_WIDTH = 200;
@@ -108,23 +103,6 @@ public class CostumeTest extends InstrumentationTestCase{
     
     public void testScaleBitmapScreenTooSmall() throws IOException {
         
-        final int fileSize = 4147;
-        final int width    = 102;
-        final int height   = 102;
-        File testImage;
-        testImage = new File("mnt/sdcard/catroid/testImage.png");
-        InputStream in   = getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID);
-        OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), fileSize);
-        byte[] buffer = new byte[fileSize];
-        int length = 0;
-        while ((length = in.read(buffer)) > 0) {
-            out.write(buffer, 0, length);
-        }
-        
-        in.close();
-        out.flush();
-        out.close();
-        
         StageActivity.SCREEN_HEIGHT = 100;
         StageActivity.SCREEN_WIDTH = 100;
         
@@ -134,8 +112,8 @@ public class CostumeTest extends InstrumentationTestCase{
     	
     	Bitmap bitmap = costume.getBitmap();
 
-    	assertEquals("Width of loaded bitmap is not the same as width of original image", width, bitmap.getWidth());
-    	assertEquals("Height of loaded bitmap is not the same as height of original image", height, bitmap.getHeight());
+    	assertEquals("Width of loaded bitmap is not the same as width of original image", 102, bitmap.getWidth());
+    	assertEquals("Height of loaded bitmap is not the same as height of original image", 102, bitmap.getHeight());
 
     }
     
