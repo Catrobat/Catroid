@@ -22,15 +22,25 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class Project implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private List<Sprite> spriteList = new ArrayList<Sprite>();
 	private String name;
-
-	public Project(String name) {
+	private String versionName;
+	private int versionCode;
+	
+	public Project(Context context, String name) throws NameNotFoundException {
 		setName(name);
+		
+		PackageInfo packageInfo = context.getPackageManager().getPackageInfo("at.tugraz.ist.catroid", 0);
+		versionName = packageInfo.versionName;
+		versionCode =  packageInfo.versionCode;
+		
 		Sprite stage = new Sprite("Stage");
 		addSprite(stage);
 	}
@@ -63,5 +73,21 @@ public class Project implements Serializable {
 
 	public String getName() {
 		return name;
+	}
+
+	public void setVersionName(String versionName) {
+		this.versionName = versionName;
+	}
+
+	public String getVersionName() {
+		return versionName;
+	}
+
+	public void setVersionCode(int versionCode) {
+		this.versionCode = versionCode;
+	}
+
+	public int getVersionCode() {
+		return versionCode;
 	}
 }

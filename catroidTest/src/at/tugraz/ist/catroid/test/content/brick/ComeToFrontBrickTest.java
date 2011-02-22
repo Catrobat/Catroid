@@ -1,5 +1,6 @@
 package at.tugraz.ist.catroid.test.content.brick;
 
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.AndroidTestCase;
 import android.view.View;
 import at.tugraz.ist.catroid.content.brick.ComeToFrontBrickBase;
@@ -9,8 +10,8 @@ import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class ComeToFrontBrickTest extends AndroidTestCase {
 	
-	public void testComeToFront() {
-		Project project = new Project("testProject");
+	public void testComeToFront() throws NameNotFoundException {
+		Project project = new Project(getContext(), "testProject");
 		
 		Sprite bottomSprite = new Sprite("catroid");
 		assertEquals("Unexpected initial z position of bottomSprite", 0, bottomSprite.getZPosition());
@@ -28,8 +29,8 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 		assertEquals("bottomSprite z position should now be 3", bottomSprite.getZPosition(), 3);
 	}
 	
-	public void testNullSprite() {
-		Project project = new Project("testProject");
+	public void testNullSprite() throws NameNotFoundException {
+		Project project = new Project(getContext(), "testProject");
 		ComeToFrontBrickBase comeToFrontBrick = new ComeToFrontBrick(null, project);
 		
 		try {
@@ -40,8 +41,8 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 		}
 	}
 	
-	public void testBoundaries() {
-		Project project = new Project("testProject");
+	public void testBoundaries() throws NameNotFoundException {
+		Project project = new Project(getContext(), "testProject");
 		
 		Sprite sprite = new Sprite("testSprite");
 		sprite.setZPosition(Integer.MAX_VALUE);
@@ -55,8 +56,8 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 				, Integer.MAX_VALUE, sprite.getZPosition());
 	}
 	
-	public void testGetView() {
-		ComeToFrontBrick brick = new ComeToFrontBrick(new Sprite("testSprite"), new Project("testProject"));
+	public void testGetView() throws NameNotFoundException {
+		ComeToFrontBrick brick = new ComeToFrontBrick(new Sprite("testSprite"), new Project(getContext(), "testProject"));
 		View view = brick.getView(getContext(), null, null);
 		assertNotNull("getView returned null", view);
 	}

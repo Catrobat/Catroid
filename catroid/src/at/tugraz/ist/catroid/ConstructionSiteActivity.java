@@ -11,6 +11,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -58,7 +59,8 @@ import at.tugraz.ist.catroid.utils.ImageContainer;
 import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.utils.filesystem.MediaFileLoader;
 
-public class ConstructionSiteActivity extends Activity implements Observer, OnClickListener, OnItemLongClickListener {
+public class ConstructionSiteActivity extends Activity implements Observer,
+		OnClickListener, OnItemLongClickListener {
 
 	/** Called when the activity is first created. */
 
@@ -74,7 +76,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	static final String PREF_FILE_SPF = "pref_path";
 
 	public static final String DEFAULT_ROOT = "/sdcard/catroid";
-	public static final String TMP_PATH = DEFAULT_ROOT+"/tmp";
+	public static final String TMP_PATH = DEFAULT_ROOT + "/tmp";
 	public static final String DEFAULT_PROJECT = "/sdcard/catroid/defaultProject";
 	public static final String DEFAULT_FILE = "defaultSaveFile.spf";
 	public static final String DEFAULT_FILE_ENDING = ".spf";
@@ -87,7 +89,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	public static String SPF_FILE;
 
 	public SharedPreferences mPreferences;
-	
+
 	public static int SCREEN_WIDTH;
 	public static int SCREEN_HEIGHT;
 
@@ -105,7 +107,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	private ConstructionSiteGalleryAdapter mGalleryAdapter;
 	private ContentManager mContentManager;
 	private Project currentProject;
-	
+
 	private Button mSpritesToolboxButton;
 	private SpritesDialog mSpritesToolboxDialog;
 
@@ -115,12 +117,12 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 
 		setContentView(R.layout.construction_site);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		
+
 		DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
-        
-        SCREEN_WIDTH = dm.widthPixels;
-        SCREEN_HEIGHT = dm.heightPixels;
+		getWindowManager().getDefaultDisplay().getMetrics(dm);
+
+		SCREEN_WIDTH = dm.widthPixels;
+		SCREEN_HEIGHT = dm.heightPixels;
 
 		// check for SD card, display message and exit if none available
 		try {
@@ -128,101 +130,121 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 			mPreferences = this.getPreferences(Activity.MODE_PRIVATE);
 
-			//mContentManager = new ContentManager(this);
-			//mContentManager.setObserver(this);
-			
+			// mContentManager = new ContentManager(this);
+			// mContentManager.setObserver(this);
+
 			initViews();
 
 			String rootPath = mPreferences.getString(PREF_ROOT, DEFAULT_ROOT);
-			String spfFile = mPreferences.getString(PREF_FILE_SPF, DEFAULT_FILE);
-			
+			String spfFile = mPreferences
+					.getString(PREF_FILE_SPF, DEFAULT_FILE);
+
 			File rootFile = new File(rootPath);
 			if (!rootFile.exists()) {
-				rootPath = Utils.concatPaths(DEFAULT_ROOT, DEFAULT_FILE.replace(".spf", ""));
+				rootPath = Utils.concatPaths(DEFAULT_ROOT,
+						DEFAULT_FILE.replace(".spf", ""));
 				spfFile = DEFAULT_FILE;
 			}
-			
-			if(getIntent().hasExtra(INTENT_EXTRA_ROOT) && 
-						getIntent().hasExtra(INTENT_EXTRA_SPF_FILE_NAME)) {
+
+			if (getIntent().hasExtra(INTENT_EXTRA_ROOT)
+					&& getIntent().hasExtra(INTENT_EXTRA_SPF_FILE_NAME)) {
 				rootPath = getIntent().getStringExtra(INTENT_EXTRA_ROOT);
-				spfFile = getIntent().getStringExtra(INTENT_EXTRA_SPF_FILE_NAME);
+				spfFile = getIntent()
+						.getStringExtra(INTENT_EXTRA_SPF_FILE_NAME);
 			}
 			setRoot(rootPath, spfFile);
-			
+
 			// Testing
 			// mContentManager.testSet();
 			// mContentManager.saveContent();
-			//mContentManager.loadContent(SPF_FILE);
-			currentProject = new Project("new");
+			// mContentManager.loadContent(SPF_FILE);
+			currentProject = new Project(this, "new");
 			Sprite stageSprite = currentProject.getSpriteList().get(0);
 			Script script = new Script();
-			
+
 			script.addBrick(new IfTouchedBrick(stageSprite, script));
 			script.addBrick(new ComeToFrontBrick(stageSprite, currentProject));
 			script.addBrick(new GoNStepsBackBrick(stageSprite, 5));
 			script.addBrick(new HideBrick(stageSprite));
-	
+
 			script.addBrick(new PlaySoundBrick("sound.mp3"));
 			script.addBrick(new ScaleCostumeBrick(stageSprite, 80));
 			script.addBrick(new ShowBrick(stageSprite));
 			script.addBrick(new WaitBrick(1000));
 			script.addBrick(new PlaceAtBrick(stageSprite, 105, 206));
-			
+
 			stageSprite.getScriptList().add(script);
-			
-			Log.d("testProject", "sprite count: " + currentProject.getSpriteList().size());
-			Log.d("testProject", "script count: " + currentProject.getSpriteList().get(0).getScriptList().size());
-			programmAdapter.setContent(currentProject.getSpriteList().get(0).getScriptList().get(0));
+
+			Log.d("testProject", "sprite count: "
+					+ currentProject.getSpriteList().size());
+			Log.d("testProject", "script count: "
+					+ currentProject.getSpriteList().get(0).getScriptList()
+							.size());
+			programmAdapter.setContent(currentProject.getSpriteList().get(0)
+					.getScriptList().get(0));
 			setTitle(currentProject.getName());
-		}
-		catch(IOException e)
-		{
-		    // TODO: Show error dialog
+		} catch (IOException e) {
+			// TODO: Show error dialog
+		} catch (NameNotFoundException e) {
+			e.printStackTrace();
 		}
 	}
-	
+
 	private void initViews() {
 		mConstructionListView = (ListView) findViewById(R.id.MainListView);
-		programmAdapter = new ProgrammAdapter(this, new Script(), mConstructionListView,
-				ImageContainer.getInstance());
+		programmAdapter = new ProgrammAdapter(this, new Script(),
+				mConstructionListView, ImageContainer.getInstance());
 		mConstructionListView.setAdapter(programmAdapter);
 		mConstructionListView.setOnItemLongClickListener(this);
 
-		//mContructionGallery = (Gallery) findViewById(R.id.ConstructionSiteGallery);
-		//mGalleryAdapter = new ConstructionSiteGalleryAdapter(this, mContentManager.getCurrentSpriteCostumeNameList(), ImageContainer.getInstance());
-		//mContructionGallery.setAdapter(mGalleryAdapter);
+		// mContructionGallery = (Gallery)
+		// findViewById(R.id.ConstructionSiteGallery);
+		// mGalleryAdapter = new ConstructionSiteGalleryAdapter(this,
+		// mContentManager.getCurrentSpriteCostumeNameList(),
+		// ImageContainer.getInstance());
+		// mContructionGallery.setAdapter(mGalleryAdapter);
 
 		mToolboxButton = (Button) this.findViewById(R.id.toolbar_button);
 		mToolboxButton.setOnClickListener(this);
 
 		mSpritesToolboxButton = (Button) this.findViewById(R.id.sprites_button);
 		mSpritesToolboxButton.setOnClickListener(this);
-		
+
 	}
-	
+
 	public void setProject(Project project) {
 		currentProject = project;
-		programmAdapter.setContent(currentProject.getSpriteList().get(0).getScriptList().get(0));
+		programmAdapter.setContent(currentProject.getSpriteList().get(0)
+				.getScriptList().get(0));
 	}
 
 	private static int LAST_SELECTED_ELEMENT_POSITION = 0;
 
-	public void rememberLastSelectedElementAndView(int position, ImageView pictureView) {
+	public void rememberLastSelectedElementAndView(int position,
+			ImageView pictureView) {
 		LAST_SELECTED_ELEMENT_POSITION = position;
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if ((requestCode == MediaFileLoader.GALLERY_INTENT_CODE) && (data != null)) {
+		if ((requestCode == MediaFileLoader.GALLERY_INTENT_CODE)
+				&& (data != null)) {
 
-			HashMap<String, String> content = mContentManager.getCurrentSpriteCommandList().get(LAST_SELECTED_ELEMENT_POSITION);
+			HashMap<String, String> content = mContentManager
+					.getCurrentSpriteCommandList().get(
+							LAST_SELECTED_ELEMENT_POSITION);
 			Uri u2 = Uri.parse(data.getDataString());
-			String[] projection = { MediaStore.Images.ImageColumns.DATA, MediaStore.Images.ImageColumns.DISPLAY_NAME };
+			String[] projection = { MediaStore.Images.ImageColumns.DATA,
+					MediaStore.Images.ImageColumns.DISPLAY_NAME };
 			Cursor c = managedQuery(u2, projection, null, null, null);
 			if (c != null && c.moveToFirst()) {
 				File image_full_path = new File(c.getString(0));
-				String imageName = ImageContainer.getInstance().saveImageFromPath(image_full_path.getAbsolutePath(), this);
-				String imageThumbnailName = ImageContainer.getInstance().saveThumbnailFromPath(image_full_path.getAbsolutePath(), this);
+				String imageName = ImageContainer.getInstance()
+						.saveImageFromPath(image_full_path.getAbsolutePath(),
+								this);
+				String imageThumbnailName = ImageContainer.getInstance()
+						.saveThumbnailFromPath(
+								image_full_path.getAbsolutePath(), this);
 				String oldThumbName = content.get(BrickDefine.BRICK_VALUE_1);
 				String oldImageName = content.get(BrickDefine.BRICK_VALUE);
 
@@ -230,11 +252,15 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 				content.put(BrickDefine.BRICK_VALUE_1, imageThumbnailName);
 				content.put(BrickDefine.BRICK_NAME, c.getString(1));
 
-				int indexOf = mContentManager.getCurrentSpriteCostumeNameList().indexOf(oldThumbName);
-				if (mContentManager.getCurrentSpriteCostumeNameList().remove(oldThumbName))
-					mContentManager.getCurrentSpriteCostumeNameList().add(indexOf, imageThumbnailName);
+				int indexOf = mContentManager.getCurrentSpriteCostumeNameList()
+						.indexOf(oldThumbName);
+				if (mContentManager.getCurrentSpriteCostumeNameList().remove(
+						oldThumbName))
+					mContentManager.getCurrentSpriteCostumeNameList().add(
+							indexOf, imageThumbnailName);
 				else
-					mContentManager.getCurrentSpriteCostumeNameList().add(imageThumbnailName);
+					mContentManager.getCurrentSpriteCostumeNameList().add(
+							imageThumbnailName);
 
 				// remove old files
 				ImageContainer.getInstance().deleteImage(oldThumbName);
@@ -257,10 +283,16 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	protected Dialog onCreateDialog(int id) {
 		switch (id) {
 		case TOOLBOX_DIALOG_SPRITE:
-			mToolboxObjectDialog = new ToolBoxDialog(this, mContentManager, BrickDefine.getToolBoxBrickContent(BrickDefine.SPRITE_CATEGORY));
+			mToolboxObjectDialog = new ToolBoxDialog(
+					this,
+					mContentManager,
+					BrickDefine
+							.getToolBoxBrickContent(BrickDefine.SPRITE_CATEGORY));
 			return mToolboxObjectDialog;
 		case TOOLBOX_DIALOG_BACKGROUND:
-			mToolboxStageDialog = new ToolBoxDialog(this, mContentManager, BrickDefine.getToolBoxBrickContent(BrickDefine.STAGE_CATEGORY));
+			mToolboxStageDialog = new ToolBoxDialog(this, mContentManager,
+					BrickDefine
+							.getToolBoxBrickContent(BrickDefine.STAGE_CATEGORY));
 			return mToolboxStageDialog;
 		case SPRITETOOLBOX_DIALOG:
 			mSpritesToolboxDialog = new SpritesDialog(this, true, null, 0);
@@ -270,7 +302,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			mNewProjectDialog = new NewProjectDialog(this, mContentManager);
 			return mNewProjectDialog;
 		case CHANGE_PROJECT_NAME_DIALOG:
-			mChangeProgramNameDialog = new RenameProjectDialog(this, mContentManager);
+			mChangeProgramNameDialog = new RenameProjectDialog(this,
+					mContentManager);
 			return mChangeProgramNameDialog;
 		case LOAD_DIALOG:
 			mLoadDialog = new LoadProgramDialog(this, mContentManager);
@@ -298,7 +331,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.play:
-			Intent intent = new Intent(ConstructionSiteActivity.this, StageActivity.class);
+			Intent intent = new Intent(ConstructionSiteActivity.this,
+					StageActivity.class);
 			intent.putExtra(INTENT_EXTRA_ROOT, ROOT);
 			intent.putExtra(INTENT_EXTRA_ROOT_IMAGES, ROOT_IMAGES);
 			intent.putExtra(INTENT_EXTRA_ROOT_SOUNDS, ROOT_SOUNDS);
@@ -331,12 +365,15 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			return true;
 		case R.id.uploadProject:
 			mContentManager.saveContent(SPF_FILE);
-			String projectName = SPF_FILE.substring(0, SPF_FILE.length()-DEFAULT_FILE_ENDING.length());
-			new ProjectUploadTask(this, projectName,ROOT, TMP_PATH+"/tmp.zip").execute();
+			String projectName = SPF_FILE.substring(0, SPF_FILE.length()
+					- DEFAULT_FILE_ENDING.length());
+			new ProjectUploadTask(this, projectName, ROOT, TMP_PATH
+					+ "/tmp.zip").execute();
 			return true;
-			
+
 		case R.id.aboutCatroid:
-			Utils.displayWebsite(this, Uri.parse(getString(R.string.about_catroid_url)));
+			Utils.displayWebsite(this,
+					Uri.parse(getString(R.string.about_catroid_url)));
 			return true;
 
 		default:
@@ -345,7 +382,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	}
 
 	public void updateViews() {
-		programmAdapter.notifyDataSetChanged(mContentManager.getCurrentSpriteCommandList());
+		programmAdapter.notifyDataSetChanged(mContentManager
+				.getCurrentSpriteCommandList());
 		mGalleryAdapter.notifyDataSetChanged();
 
 		mSpritesToolboxButton.setText(mContentManager.getCurrentSpriteName());
@@ -355,7 +393,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		updateViews();
 		if (data != null) {
 			try {
-				mConstructionListView.setSelectionFromTop(Integer.parseInt(data.toString()), 120);
+				mConstructionListView.setSelectionFromTop(
+						Integer.parseInt(data.toString()), 120);
 			} catch (NumberFormatException e) {
 				Log.e("ConstructionSiteActivity", "Parsing positions failed");
 				e.printStackTrace();
@@ -365,7 +404,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	}
 
 	public void onPause() {
-		//mContentManager.saveContent(SPF_FILE);
+		// mContentManager.saveContent(SPF_FILE);
 		SharedPreferences.Editor editor = mPreferences.edit();
 		editor.putString(PREF_ROOT, ROOT);
 		editor.putString(PREF_FILE_SPF, SPF_FILE);
@@ -392,7 +431,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	}
 
 	private void openToolbox() {
-		if (mContentManager.getCurrentSpriteName().equals(this.getString(R.string.stage))) {
+		if (mContentManager.getCurrentSpriteName().equals(
+				this.getString(R.string.stage))) {
 			showDialog(TOOLBOX_DIALOG_BACKGROUND);
 		} else {
 			showDialog(TOOLBOX_DIALOG_SPRITE);
@@ -413,7 +453,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	}
 
 	public void onBrickClickListener(View v) {
-		if (mContentManager.getCurrentSpriteName().equals(this.getString(R.string.stage))) {
+		if (mContentManager.getCurrentSpriteName().equals(
+				this.getString(R.string.stage))) {
 			mContentManager.addBrick(mToolboxStageDialog.getBrickClone(v));
 			if (mToolboxStageDialog.isShowing())
 				mToolboxStageDialog.dismiss();
@@ -429,7 +470,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		File rootFile = new File(root);
 		if (!rootFile.exists()) {
 			rootFile.mkdirs();
-		}			
+		}
 		ROOT = rootFile.getPath();
 		File rootImageFile = new File(Utils.concatPaths(root, "/images"));
 		if (!rootImageFile.exists())
@@ -451,7 +492,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			}
 
 		// set ignore files to the folders
-		File noMediaFile = new File(Utils.concatPaths(ROOT_IMAGES, MEDIA_IGNORE_BY_ANDROID_FILENAME));
+		File noMediaFile = new File(Utils.concatPaths(ROOT_IMAGES,
+				MEDIA_IGNORE_BY_ANDROID_FILENAME));
 		try {
 			if (!noMediaFile.exists())
 				noMediaFile.createNewFile();
@@ -459,7 +501,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		noMediaFile = new File(Utils.concatPaths(ROOT_SOUNDS, MEDIA_IGNORE_BY_ANDROID_FILENAME));
+		noMediaFile = new File(Utils.concatPaths(ROOT_SOUNDS,
+				MEDIA_IGNORE_BY_ANDROID_FILENAME));
 		try {
 			if (!noMediaFile.exists())
 				noMediaFile.createNewFile();
@@ -471,15 +514,17 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		ImageContainer.getInstance().setRootPath(ROOT_IMAGES);
 	}
 
-	public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+	public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2,
+			long arg3) {
 		if (arg0.equals(mConstructionListView)) {
 			if (mContextMenuDialog == null)
-				mContextMenuDialog = new ContextMenuDialog(this, mContentManager);
+				mContextMenuDialog = new ContextMenuDialog(this,
+						mContentManager);
 			mContextMenuDialog.show(arg1, arg2, mConstructionListView);
 		}
 		return false;
 	}
-	
+
 	public ProgrammAdapter getProgrammAdapter() {
 		return programmAdapter;
 	}
