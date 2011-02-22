@@ -27,185 +27,121 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.database.Cursor;
 import android.os.Environment;
 import android.provider.MediaStore;
-import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.brick.gui.ComeToFrontBrick;
-import at.tugraz.ist.catroid.content.brick.gui.GoNStepsBackBrick;
-import at.tugraz.ist.catroid.content.brick.gui.HideBrick;
-import at.tugraz.ist.catroid.content.brick.gui.IfTouchedBrick;
-import at.tugraz.ist.catroid.content.brick.gui.PlaceAtBrick;
-import at.tugraz.ist.catroid.content.brick.gui.PlaySoundBrick;
-import at.tugraz.ist.catroid.content.brick.gui.ScaleCostumeBrick;
-import at.tugraz.ist.catroid.content.brick.gui.ShowBrick;
-import at.tugraz.ist.catroid.content.brick.gui.WaitBrick;
 import at.tugraz.ist.catroid.content.entities.SoundInfo;
 import at.tugraz.ist.catroid.content.project.Project;
-import at.tugraz.ist.catroid.content.script.Script;
-import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 import com.thoughtworks.xstream.XStream;
 
 /**
  * @author Peter Treitler
- *
+ * 
  */
 public class StorageHandler {
-	private static final String DIRECTORY_NAME = "catroid";
-	private static final String PROJECT_EXTENTION = ".spf";
-	
-	private static StorageHandler instance;
-	private Context context;
-	private ArrayList<SoundInfo> soundContent;
-	private File catroidRoot;
-	private XStream xstream;
-	
-	private StorageHandler(final Activity activity) {
-		context = activity;
-		boolean mExternalStorageAvailable = false;
-		String state = Environment.getExternalStorageState();
-		xstream = new XStream();
-		xstream.alias("project", Project.class);
-		xstream.alias("sprite", Sprite.class);
-		xstream.alias("script", Script.class);
-		xstream.alias("comeToFrontBrick", ComeToFrontBrick.class);
-		xstream.alias("goNStepsBackBrick", GoNStepsBackBrick.class);
-		xstream.alias("hideBrick", HideBrick.class);
-		xstream.alias("ifTouchedBrick", IfTouchedBrick.class);
-		xstream.alias("placeAtBrick", PlaceAtBrick.class);
-		xstream.alias("playSoundBrick", PlaySoundBrick.class);
-		xstream.alias("scaleCostumeBrick", ScaleCostumeBrick.class);
-		xstream.alias("showBrick", ShowBrick.class);
-		xstream.alias("waitBrick", WaitBrick.class);
-		
-		if (Environment.MEDIA_MOUNTED.equals(state)) {
-		    // We can read and write the media
-		    mExternalStorageAvailable  = true;
-		} else {
-		    // Something else is wrong. It may be one of many other states, but all we need
-		    //  to know is we can neither read nor write
-		    mExternalStorageAvailable = false;
-		}
-		if(!mExternalStorageAvailable) {
-			Builder builder = new AlertDialog.Builder(activity);
-			builder.setTitle(activity.getString(R.string.error));
-			builder.setMessage(activity.getString(R.string.error_no_sd_card));
-			builder.setNeutralButton(activity.getString(R.string.close), new OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) {
-					// finish parent activity
-					activity.finish();
-				}
-			});
-			builder.show();
-			return;
-		}
-		
-		String catroidPath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+DIRECTORY_NAME;
-		catroidRoot = new File(catroidPath);
+    private static final String DIRECTORY_NAME = "catroid";
+    private static final String PROJECT_EXTENTION = ".spf";
 
-	}
-	
-	public synchronized static StorageHandler getInstance(Activity activity) {
-		if(instance == null)
-			instance = new StorageHandler(activity);
-		return instance;
-	}
-	
-	public Project loadProject(String projectName) {
-		
-		try {
-			File projectDirectory = new File(catroidRoot.getAbsolutePath()+"/"+projectName);
-			if(projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite()) {
-				InputStream spfFileStream;
-				spfFileStream = new FileInputStream(projectDirectory.getAbsolutePath()+"/"+projectName+PROJECT_EXTENTION);
-				
-				//TODO: initialize xstream
-				return (Project)xstream.fromXML(spfFileStream);
-			} else 
-				return null;
-			
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	public void saveProject(Project project) {
+    private static StorageHandler instance;
+    private ArrayList<SoundInfo> soundContent;
+    private File catroidRoot;
+    private XStream xstream;
 
-		String spfFile = xstream.toXML(project);
-		File projectDirectory = new File(catroidRoot.getAbsolutePath()+"/"+project.getName());
-		if(projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite()) {
-			try {
-				BufferedWriter out = new BufferedWriter(new FileWriter(projectDirectory.getAbsolutePath() + "/" + project.getName()+PROJECT_EXTENTION));
-				out.write(spfFile);
-				out.close();
-			} catch (IOException e) {
+    private StorageHandler() throws IOException {
+        String state = Environment.getExternalStorageState();
+        xstream = new XStream();
+        // xstream.aliasPackage("", "at.tugraz.ist.catroid");
 
-			}
-		}
-		else {
-			projectDirectory.mkdir();
-			File imageDirectory = new File(projectDirectory.getAbsolutePath() + "/images");
-			imageDirectory.mkdir();
-			File soundDirectory = new File(projectDirectory.getAbsolutePath() + "/sounds");
-			soundDirectory.mkdir();
-			try {
-				BufferedWriter out = new BufferedWriter(new FileWriter(projectDirectory.getAbsolutePath() + "/" + project.getName()+PROJECT_EXTENTION));
-				out.write(spfFile);
-				out.close();
-			} catch (IOException e) {
+        if (!Environment.MEDIA_MOUNTED.equals(state)) {
+            throw new IOException("Could not read external storage");
+        }
 
-			}
-		}	
-	}
-	
+        // We can read and write the media
+        String catroidPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + DIRECTORY_NAME;
+        catroidRoot = new File(catroidPath);
 
-	public void loadSoundContent(){
-		soundContent = new ArrayList<SoundInfo>();
-		String[] projectionOnOrig = {
-					MediaStore.Audio.Media.DATA,				
-					MediaStore.Audio.AudioColumns.TITLE,
-					MediaStore.Audio.Media._ID};
+    }
 
-		Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projectionOnOrig, null, null,null);   
-		
-		if(cursor.moveToFirst()){
-			int column_data_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
-			int column_title_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.TITLE);
-			int column_id_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID);
-			
-			do {
-				SoundInfo info = new SoundInfo(); 
-				info.setId(cursor.getInt(column_id_index));
-				info.setTitle(cursor.getString(column_title_index));
-				info.setPath(cursor.getString(column_data_index));
-				soundContent.add(info);
-			} while(cursor.moveToNext());
-		}
-		System.out.println("LOAD SOUND");
-		cursor.close();
-	}
-	
-	public ArrayList<SoundInfo> getSoundContent(){
-		return soundContent;
-	}
-	
-	public void setSoundContent(ArrayList<SoundInfo> soundContent) {
-		System.out.println("SOUND SET");
-		this.soundContent.clear();
-		this.soundContent.addAll(soundContent);
-	}
-	
-	public File getCatroidRoot() {
-		return catroidRoot;
-	}
-	
-	
+    public synchronized static StorageHandler getInstance() throws IOException {
+        if (instance == null)
+            instance = new StorageHandler();
+        return instance;
+    }
+
+    public Project loadProject(String projectName) {
+
+        try {
+            File projectDirectory = new File(catroidRoot.getAbsolutePath() + "/" + projectName);
+            if (projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite()) {
+                InputStream spfFileStream;
+                spfFileStream = new FileInputStream(projectDirectory.getAbsolutePath() + "/" + projectName
+                        + PROJECT_EXTENTION);
+                return (Project) xstream.fromXML(spfFileStream);
+            } else
+                return null;
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void saveProject(Project project) {
+
+        String spfFile = xstream.toXML(project);
+        File projectDirectory = new File(catroidRoot.getAbsolutePath() + "/" + project.getName());
+        if (!(projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite())) {
+            projectDirectory.mkdir();
+            File imageDirectory = new File(projectDirectory.getAbsolutePath() + "/images");
+            imageDirectory.mkdir();
+            File soundDirectory = new File(projectDirectory.getAbsolutePath() + "/sounds");
+            soundDirectory.mkdir();
+        }
+        try {
+            BufferedWriter out = new BufferedWriter(new FileWriter(projectDirectory.getAbsolutePath() + "/"
+                    + project.getName() + PROJECT_EXTENTION));
+            out.write(spfFile);
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // TODO: Find a way to access sound files on the device
+    public void loadSoundContent(Context context) {
+        soundContent = new ArrayList<SoundInfo>();
+        String[] projectionOnOrig = { MediaStore.Audio.Media.DATA, MediaStore.Audio.AudioColumns.TITLE,
+                MediaStore.Audio.Media._ID };
+
+        Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                projectionOnOrig, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            int column_data_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
+            int column_title_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.TITLE);
+            int column_id_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID);
+
+            do {
+                SoundInfo info = new SoundInfo();
+                info.setId(cursor.getInt(column_id_index));
+                info.setTitle(cursor.getString(column_title_index));
+                info.setPath(cursor.getString(column_data_index));
+                soundContent.add(info);
+            } while (cursor.moveToNext());
+        }
+        System.out.println("LOAD SOUND");
+        cursor.close();
+    }
+
+    public ArrayList<SoundInfo> getSoundContent() {
+        return soundContent;
+    }
+
+    public void setSoundContent(ArrayList<SoundInfo> soundContent) {
+        System.out.println("SOUND SET");
+        this.soundContent.clear();
+        this.soundContent.addAll(soundContent);
+    }
 }
