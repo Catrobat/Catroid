@@ -20,6 +20,8 @@ public class ScriptTest extends AndroidTestCase {
 	private ScaleCostumeBrick scaleCostumeBrick;
 	private ComeToFrontBrick comeToFrontBrick;
 	private ArrayList<Brick> brickList;
+	
+	//pause/resume and Brick.execute functionality tested in WaitBrickTest.java 
 
 	@Override
 	protected void setUp() throws Exception {
@@ -29,9 +31,7 @@ public class ScriptTest extends AndroidTestCase {
 		placeAtBrick = new PlaceAtBrick(sprite, 0, 0);
 		scaleCostumeBrick = new ScaleCostumeBrick(sprite, 0);
 		comeToFrontBrick = new ComeToFrontBrick(sprite, null);
-
 	};
-
 
 	public void testAddBricks() {
 		Script script = new Script();
