@@ -17,27 +17,37 @@ public class SetCostumeBrickTest extends InstrumentationTestCase {
     
     private static final int IMAGE_FILE_ID = R.raw.icon;
     
-    public void testSetCostume() throws IOException {
-    	
-    	final int fileSize = 4147;
-        final int width    = 72;
-        final int height   = 72;
-        File testImage;
-    	
-        testImage = new File("mnt/sdcard/catroid/testImage.png");
-        
-        InputStream in = getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID);
-        OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), fileSize);
+    private File testImage;
+    final int width = 72;
+    final int height = 72;
 
+    @Override
+    protected void setUp() throws Exception {
+        final int fileSize = 4147;
+        testImage = new File("mnt/sdcard/catroid/testImage.png");
+        if(!testImage.exists())
+            testImage.createNewFile();
+        InputStream in   = getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID);
+        OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), fileSize);
         byte[] buffer = new byte[fileSize];
         int length = 0;
         while ((length = in.read(buffer)) > 0) {
             out.write(buffer, 0, length);
         }
-
+        
         in.close();
         out.flush();
         out.close();
+    }
+    
+    @Override
+    protected void tearDown() throws Exception {
+        if(testImage != null && testImage.exists()){
+            testImage.delete();
+        }
+    }
+    
+    public void testSetCostume() throws IOException {
         
         StageActivity.SCREEN_HEIGHT = 200;
         StageActivity.SCREEN_WIDTH  = 200;
@@ -46,7 +56,7 @@ public class SetCostumeBrickTest extends InstrumentationTestCase {
         SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
         setCostumeBrick.setCostume(testImage.getAbsolutePath());
         assertNull("current Costume is not null (should not be set)", sprite.getCurrentCostume());
-        // TODO getWidth/getHeight are enough to say "is not in the costumeListe"?
+        
         assertEquals("the new Costume is not in the costumeList of the sprite", width,  sprite.getCostumeList().get(0).getBitmap().getWidth());
         assertEquals("the new Costume is not in the costumeList of the sprite", height, sprite.getCostumeList().get(0).getBitmap().getHeight());
         setCostumeBrick.execute(); //now setting current costume
