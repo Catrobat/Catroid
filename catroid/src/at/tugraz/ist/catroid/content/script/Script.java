@@ -45,7 +45,7 @@ public class Script {
 			}
 			try {
 				brickList.get(i).execute();
-			} catch (RuntimeException e) { // Brick was interrupted
+			} catch (RuntimeException e) { // Brick was interrupted during execution
 				brickPositionAfterPause = i;
 				return;
 			}
