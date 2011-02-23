@@ -25,7 +25,7 @@ import at.tugraz.ist.catroid.content.sprite.Sprite;
 public abstract class SetCostumeBrickBase implements BrickBase{
     private static final long serialVersionUID = 1L;
     private Sprite sprite;
-    private Costume costume;
+    private Costume costume = null;
     
     
     public SetCostumeBrickBase(Sprite sprite) { 
@@ -35,6 +35,10 @@ public abstract class SetCostumeBrickBase implements BrickBase{
     public void setCostume(String imagePath){
         costume = new Costume(sprite,imagePath);
         this.sprite.getCostumeList().add(costume);
+    }
+    
+    public Costume getCostume() {
+        return costume;
     }
 
     public void execute() {
