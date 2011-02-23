@@ -1,367 +1,513 @@
 package at.tugraz.ist.catroid.constructionSite.content;
 
-import java.io.DataOutputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.IOException; 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.util.Log;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.util.Pair;
-import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.utils.ImageContainer;
+import at.tugraz.ist.catroid.content.brick.gui.Brick;
+import at.tugraz.ist.catroid.content.brick.gui.PlaySoundBrick;
+import at.tugraz.ist.catroid.content.brick.gui.SetCostumeBrick;
+import at.tugraz.ist.catroid.content.project.Project;
+import at.tugraz.ist.catroid.content.script.Script;
+import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.utils.Utils;
-import at.tugraz.ist.catroid.utils.filesystem.FileSystem;
-import at.tugraz.ist.catroid.utils.parser.Parser;
 
-/**
- * provides content
- * 
- * @author alex, niko, thomas
- * 
- */
 public class ContentManager extends Observable {
 
-	private ArrayList<HashMap<String, String>> mCurrentSpriteCommandList;
-	private ArrayList<String> mCurrentSpriteCostumeNameList;
-	private ArrayList<String> mAllSpriteNameList;
+    private Sprite currentSprite; // TODO: or ID?
+    private Context context;
+    private Project project;
+    private static final String tempFile = "defaultSaveFile";
 
-	private ArrayList<Pair<String, ArrayList<HashMap<String, String>>>> mAllSpriteCommandList;
+    private ArrayList<HashMap<String, String>> mCurrentSpriteCommandList;
+    private ArrayList<String> mCurrentSpriteCostumeNameList;
+    private ArrayList<String> mAllSpriteNameList;
 
-	private FileSystem mFileSystem;
-	private Parser mParser;
-	private Context mContext;
-	private static final String mTempFile = "defaultSaveFile.spf";
-	private int mCurrentSpritePosition;
-	private int mBrickIdCounter;
+    private ArrayList<Pair<String, ArrayList<HashMap<String, String>>>> mAllSpriteCommandList;
 
-	public ContentManager(Context context) {
-		mContext = context;
-		mCurrentSpriteCommandList = null;
-		mAllSpriteCommandList = new ArrayList<Pair<String, ArrayList<HashMap<String, String>>>>();
+    // obsolete:
+//    private FileSystem mFileSystem;
+//    private Parser mParser;
+    private Context mContext;
+    private int mCurrentSpritePosition;
+    private int mBrickIdCounter;
 
-		mFileSystem = new FileSystem();
-		mParser = new Parser();
+    public ContentManager(Context context) { // TODO set project here?
+        this.context = context;
 
-		mBrickIdCounter = 0;
-		mCurrentSpriteCostumeNameList = new ArrayList<String>();
+        // obsolete:
+        mContext = context;
+        mCurrentSpriteCommandList = null;
+        mAllSpriteCommandList = new ArrayList<Pair<String, ArrayList<HashMap<String, String>>>>();
 
-		mAllSpriteNameList = new ArrayList<String>();
+//        mFileSystem = new FileSystem();
+//        mParser = new Parser();
 
-		resetContent();
-		setEmptyStage();
-	}
+        mBrickIdCounter = 0;
+        mCurrentSpriteCostumeNameList = new ArrayList<String>();
 
-	public void loadContent() {
-		loadContent(mTempFile);
-	}
+        mAllSpriteNameList = new ArrayList<String>();
 
-	public void loadContent(String fileName) {
-		resetContent();
-		FileInputStream projectXMLFileInputStream = mFileSystem.createOrOpenFileInput(Utils.concatPaths(ConstructionSiteActivity.ROOT, fileName), mContext);
-		
-		try {
-			if (projectXMLFileInputStream != null && projectXMLFileInputStream.available() > 0) {
-				setAllSpriteCommandList(mParser.parse(projectXMLFileInputStream, mContext));
-				mCurrentSpriteCommandList = mAllSpriteCommandList.get(0).second;
-				loadCurrentSpriteCostumeNameList();
-				mBrickIdCounter = getHighestBrickId();
-				mCurrentSpritePosition = 0;
+        resetContent();
+        // setEmptyStage();
+    }
 
-				projectXMLFileInputStream.close();
-			}
+    public void loadContent() {
+        loadContent(tempFile);
+    }
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		if (mAllSpriteCommandList.size() == 0) {
-			setEmptyStage();
-			createDemoSprite();
-		}
+    public void loadContent(String projectName) {
+        try {
+            project = StorageHandler.getInstance().loadProject(projectName);
+            currentSprite = project.getSpriteList().get(0); // stage
+            setChanged();
+            notifyObservers();
+        } catch (IOException e) {
+            // TODO show error dialog
+        }
 
-		loadAllSpriteNameList();
+        // resetContent();
+        // FileInputStream projectXMLFileInputStream =
+        // mFileSystem.createOrOpenFileInput(
+        // Utils.concatPaths(ConstructionSiteActivity.ROOT, fileName),
+        // mContext);
+        //
+        // try {
+        // if (projectXMLFileInputStream != null &&
+        // projectXMLFileInputStream.available() > 0) {
+        // setAllSpriteCommandList(mParser.parse(projectXMLFileInputStream,
+        // mContext));
+        // mCurrentSpriteCommandList = mAllSpriteCommandList.get(0).second;
+        // loadCurrentSpriteCostumeNameList();
+        // mBrickIdCounter = getHighestBrickId();
+        // mCurrentSpritePosition = 0;
+        //
+        // projectXMLFileInputStream.close();
+        // }
+        //
+        // } catch (IOException e) {
+        // e.printStackTrace();
+        // }
+        // if (mAllSpriteCommandList.size() == 0) {
+        // setEmptyStage();
+        // // createDemoSprite();
+        // }
+        //
+        // loadAllSpriteNameList();
+        //
+        // setChanged();
+        // notifyObservers();
+    }
 
-		setChanged();
-		notifyObservers();
-	}
+    public void saveContent() {
+        saveContent(tempFile);
+    }
 
-	public void saveContent() {
-		saveContent(mTempFile);
-	}
+    public void saveContent(String projectName) {
 
-	public void saveContent(String file) {
-		// ((Activity)mCtx).setTitle(title.replace(ConstructionSiteActivity.DEFAULT_FILE_ENDING,
-		// "").replace("/", ""));
-		// TODO: setTitle-> ClassCastException Testing
-		ArrayList<Pair<String, ArrayList<HashMap<String, String>>>> spriteBrickList = new ArrayList<Pair<String, ArrayList<HashMap<String, String>>>>();
-		for (int i = 0; i < mAllSpriteCommandList.size(); i++) {
-			spriteBrickList.add(mAllSpriteCommandList.get(i));
-		}
+        try {
+            StorageHandler.getInstance().saveProject(project);
+        } catch (IOException e) {
+            // TODO show error dialog
+        }
 
-		FileOutputStream fd = mFileSystem.createOrOpenFileOutput(Utils.concatPaths(ConstructionSiteActivity.ROOT, file), mContext);
-		DataOutputStream ps = new DataOutputStream(fd);
+        // //
+        // ((Activity)mCtx).setTitle(title.replace(ConstructionSiteActivity.DEFAULT_FILE_ENDING,
+        // // "").replace("/", ""));
+        // // TODO: setTitle-> ClassCastException Testing
+        // ArrayList<Pair<String, ArrayList<HashMap<String, String>>>>
+        // spriteBrickList = new ArrayList<Pair<String,
+        // ArrayList<HashMap<String, String>>>>();
+        // for (int i = 0; i < mAllSpriteCommandList.size(); i++) {
+        // spriteBrickList.add(mAllSpriteCommandList.get(i));
+        // }
+        //
+        // FileOutputStream fd = mFileSystem.createOrOpenFileOutput(
+        // Utils.concatPaths(ConstructionSiteActivity.ROOT, file), mContext);
+        // DataOutputStream ps = new DataOutputStream(fd);
+        //
+        // String xml = mParser.toXml(spriteBrickList, mContext);
+        // try {
+        // ps.write(xml.getBytes());
+        // ps.close();
+        // fd.close();
+        // } catch (IOException e) {
+        // Log.e("Contentmanager", "ERROR saving file " + e.getMessage());
+        // e.printStackTrace();
+        // }
+        //
+        // Log.d("Contentmanager", "Save file!");
+    }
 
-		String xml = mParser.toXml(spriteBrickList, mContext);
-		try {
-			ps.write(xml.getBytes());
-			ps.close();
-			fd.close();
-		} catch (IOException e) {
-			Log.e("Contentmanager", "ERROR saving file " + e.getMessage());
-			e.printStackTrace();
-		}
+    public void resetContent() {
+        try {
+            project = new Project(context, project.getName());
+            currentSprite = project.getSpriteList().get(0); // stage
+        } catch (NameNotFoundException e) {
+        }
+        // mCurrentSpriteCommandList = null;
+        // mAllSpriteCommandList.clear();
+        // mAllSpriteNameList.clear();
+        // mCurrentSpritePosition = 0;
+        // mBrickIdCounter = 0;
+        // mCurrentSpriteCostumeNameList.clear();
+    }
 
-		Log.d("Contentmanager", "Save file!");
-	}
+    // obsolete
+    public void addSprite(Pair<String, ArrayList<HashMap<String, String>>> sprite) {
+        mAllSpriteCommandList.add(sprite);
+        mCurrentSpritePosition = mAllSpriteCommandList.size() - 1;
+        mAllSpriteNameList.add(sprite.first);
+        switchSprite(mCurrentSpritePosition);
+    }
 
-	public void resetContent() {
-		mCurrentSpriteCommandList = null;
-		mAllSpriteCommandList.clear();
-		mAllSpriteNameList.clear();
-		mCurrentSpritePosition = 0;
-		mBrickIdCounter = 0;
-		mCurrentSpriteCostumeNameList.clear();
-	}
+    public void addSprite(Sprite sprite) {
+        // or create here the sprite?
+        project.addSprite(sprite);
+        currentSprite = sprite;
+    }
 
-	public void addSprite(Pair<String, ArrayList<HashMap<String, String>>> sprite) {
-		mAllSpriteCommandList.add(sprite);
-		mCurrentSpritePosition = mAllSpriteCommandList.size() - 1;
-		mAllSpriteNameList.add(sprite.first);
-		switchSprite(mCurrentSpritePosition);
-	}
+    // obsolete
+    public void switchSprite(int position) {
+        mCurrentSpriteCommandList = mAllSpriteCommandList.get(position).second;
+        mCurrentSpritePosition = position;
+        loadCurrentSpriteCostumeNameList();
+        setChanged();
+        notifyObservers();
+    }
 
-	public void switchSprite(int position) {
-		mCurrentSpriteCommandList = mAllSpriteCommandList.get(position).second;
-		mCurrentSpritePosition = position;
-		loadCurrentSpriteCostumeNameList();
-		setChanged();
-		notifyObservers();
-	}
+//    public void switchSprite(int position) {
+//        if (position >= 0 && position < project.getSpriteList().size()) {
+//            currentSprite = project.getSpriteList().get(position);
+//            setChanged();
+//            notifyObservers();
+//        }
+//    }
 
-	public void addBrick(HashMap<String, String> map) {
-		map.put(BrickDefine.BRICK_ID, ((Integer) mBrickIdCounter).toString());
-		mBrickIdCounter++;
-		mCurrentSpriteCommandList.add(map);
+    //obsolete
+    public void addBrick(HashMap<String, String> map) {
+        map.put(BrickDefine.BRICK_ID, ((Integer) mBrickIdCounter).toString());
+        mBrickIdCounter++;
+        mCurrentSpriteCommandList.add(map);
 
-		setChanged();
-		notifyObservers(mCurrentSpriteCommandList.size() - 1);
-	}
-	
-	private void deleteSound(String soundName) {
-		if (soundName == null || soundName.length() == 0) {
-			Log.d("ContentManager", "No sound file to delete.");
-		} else {
-			String soundsPath = ConstructionSiteActivity.ROOT_SOUNDS;
-			String soundFilePath = Utils.concatPaths(soundsPath, soundName);
-			if(Utils.deleteFile(soundFilePath)) {
-				Log.d("ContentManager", "Successfully deleted sound file \"" + soundFilePath + "\".");
-			} else {
-				Log.w("ContentManager", "Error! Could not delete sound file \"" + soundFilePath + "\".");
-			}
-		}
-	}
+        setChanged();
+        notifyObservers(mCurrentSpriteCommandList.size() - 1);
+    }
 
-	public void removeBrick(int position) {
-		int type = Integer.parseInt(mCurrentSpriteCommandList.get(position).get(BrickDefine.BRICK_TYPE));
-		if (type == BrickDefine.SET_BACKGROUND || type == BrickDefine.SET_COSTUME) {
-			mCurrentSpriteCostumeNameList.remove(mCurrentSpriteCommandList.get(position).get(BrickDefine.BRICK_VALUE_1));
-		} else if (type == BrickDefine.PLAY_SOUND) {
-			Log.d("ContentManager", "Deleting \"Play sound\" brick.");
-			String soundName = mCurrentSpriteCommandList.get(position).get(BrickDefine.BRICK_VALUE);
-			mCurrentSpriteCommandList.remove(position);
-			setChanged();
-			notifyObservers();
-			deleteSound(soundName);
-			return;
-		}
-		mCurrentSpriteCommandList.remove(position);
-		setChanged();
-		notifyObservers();
-	}
+    public void addBrick(Brick brick) { // adding brick to last script
+        List<Script> scriptList = currentSprite.getScriptList();
+        if(!scriptList.isEmpty())
+            scriptList.get(scriptList.size() - 1).addBrick(brick);
+        //TODO: setChanged()
+    }
 
-	public boolean moveBrickUpInList(int position) {
-		if (position > 0 && position < mCurrentSpriteCommandList.size()) {
-			HashMap<String, String> map = mCurrentSpriteCommandList.get(position);
-			mCurrentSpriteCommandList.remove(position);
-			mCurrentSpriteCommandList.add(position - 1, map);
+//    private void deleteSound(String soundName) {
+//        if (soundName == null || soundName.length() == 0) {
+//            Log.d("ContentManager", "No sound file to delete.");
+//        } else {
+//            String soundsPath = ConstructionSiteActivity.ROOT_SOUNDS;
+//            String soundFilePath = Utils.concatPaths(soundsPath, soundName);
+//            if (Utils.deleteFile(soundFilePath)) {
+//                Log.d("ContentManager", "Successfully deleted sound file \"" + soundFilePath + "\".");
+//            } else {
+//                Log.w("ContentManager", "Error! Could not delete sound file \"" + soundFilePath + "\".");
+//            }
+//        }
+//    }
 
-			loadCurrentSpriteCostumeNameList();
-			setChanged();
-			notifyObservers(position - 1);
-			return true;
-		}
-		return false;
-	}
+    // Obsolete
+//    public void removeBrick(int position) {
+//        int type = Integer.parseInt(mCurrentSpriteCommandList.get(position).get(BrickDefine.BRICK_TYPE));
+//        if (type == BrickDefine.SET_BACKGROUND || type == BrickDefine.SET_COSTUME) {
+//            mCurrentSpriteCostumeNameList
+//                    .remove(mCurrentSpriteCommandList.get(position).get(BrickDefine.BRICK_VALUE_1));
+//        } else if (type == BrickDefine.PLAY_SOUND) {
+//            Log.d("ContentManager", "Deleting \"Play sound\" brick.");
+//            String soundName = mCurrentSpriteCommandList.get(position).get(BrickDefine.BRICK_VALUE);
+//            mCurrentSpriteCommandList.remove(position);
+//            setChanged();
+//            notifyObservers();
+//            deleteSound(soundName);
+//            return;
+//        }
+//        mCurrentSpriteCommandList.remove(position);
+//        setChanged();
+//        notifyObservers();
+//    }
 
-	public boolean moveBrickDownInList(int position) {
-		if (position < mCurrentSpriteCommandList.size() - 1 && position >= 0) {
-			HashMap<String, String> map = mCurrentSpriteCommandList.get(position);
-			mCurrentSpriteCommandList.remove(position);
-			mCurrentSpriteCommandList.add(position + 1, map);
+    public boolean removeBrick(int position) {
+        int counter = 0;
+        if (position >= 0) {
+            for (Script s : currentSprite.getScriptList()) {
+                if (counter + s.getBrickList().size() > position) {
+                    Brick tempBrick = s.getBrickList().get(position - counter);
+                    s.getBrickList().remove(position - counter);
+                    if (tempBrick instanceof SetCostumeBrick) {
+                        if (((SetCostumeBrick) tempBrick).getCostume() != null) {
+                            currentSprite.getCostumeList().remove(((SetCostumeBrick) tempBrick).getCostume());
+                        }
+                    }
+                    if (tempBrick instanceof PlaySoundBrick) {
+                        Utils.deleteFile(((PlaySoundBrick) tempBrick).getPathToSoundFile());
+                    }
+                    setChanged();
+                    notifyObservers();
+                    return true;
+                }
+                counter += s.getBrickList().size();
+            }
+        }
+        return false;
+    }
 
-			loadCurrentSpriteCostumeNameList();
-			setChanged();
-			notifyObservers(position + 1);
-			return true;
-		}
-		return false;
-	}
+    public boolean moveBrickUpInList(int position) {
+        int counter = 0;
+        if (position >= 0) {
+            for (Script s : currentSprite.getScriptList()) {
+                if (counter + s.getBrickList().size() > position) {
+                    s.moveBrickBySteps(s.getBrickList().get(position - counter), -1);
+                    setChanged();
+                    notifyObservers(position - 1);
+                    return true;
+                }
+                counter += s.getBrickList().size();
+            }
+        }
+        return false;
 
-	public ArrayList<Pair<String, ArrayList<HashMap<String, String>>>> getAllSpriteCommandList() {
-		return mAllSpriteCommandList;
-	}
+        // if (position > 0 && position < mCurrentSpriteCommandList.size()) {
+        // HashMap<String, String> map =
+        // mCurrentSpriteCommandList.get(position);
+        // mCurrentSpriteCommandList.remove(position);
+        // mCurrentSpriteCommandList.add(position - 1, map);
+        //
+        // loadCurrentSpriteCostumeNameList();
+        // setChanged();
+        // notifyObservers(position - 1);
+        // return true;
+        // }
+        // return false;
+    }
 
-	private void setAllSpriteCommandList(ArrayList<Pair<String, ArrayList<HashMap<String, String>>>> list) {
-		mAllSpriteCommandList = list;
-	}
+    public boolean moveBrickDownInList(int position) {
 
-	public void loadAllSpriteNameList() {
-		mAllSpriteNameList.clear();
-		for (int i = 0; i < mAllSpriteCommandList.size(); i++)
-			mAllSpriteNameList.add(mAllSpriteCommandList.get(i).first);
-	}
+        int counter = 0;
+        if (position >= 0) {
+            for (Script s : currentSprite.getScriptList())
+            {
+                if (counter + s.getBrickList().size() > position) {
+                    s.moveBrickBySteps(s.getBrickList().get(position - counter), 1);
+                    setChanged();
+                    notifyObservers(position + 1);
+                    return true;
+                }
+                counter += s.getBrickList().size();
+            }
+        }
+        return false;
 
-	public ArrayList<String> getAllSpriteNameList() {
-		return mAllSpriteNameList;
-	}
 
-	public ArrayList<HashMap<String, String>> getCurrentSpriteCommandList() {
-		return mCurrentSpriteCommandList;
-	}
+        // if (position < mCurrentSpriteCommandList.size() - 1 && position >= 0)
+        // {
+        // HashMap<String, String> map =
+        // mCurrentSpriteCommandList.get(position);
+        // mCurrentSpriteCommandList.remove(position);
+        // mCurrentSpriteCommandList.add(position + 1, map);
+        //
+        // loadCurrentSpriteCostumeNameList();
+        // setChanged();
+        // notifyObservers(position + 1);
+        // return true;
+        // }
+        // return false;
+    }
 
-	public String getCurrentSpriteName() {
-		return mAllSpriteCommandList.get(mCurrentSpritePosition).first;
-	}
+    public ArrayList<Pair<String, ArrayList<HashMap<String, String>>>> getAllSpriteCommandList() {
+        return mAllSpriteCommandList;
+    }
 
-	public Integer getCurrentSpritePosition() {
-		return mCurrentSpritePosition;
-	}
+//    private void setAllSpriteCommandList(ArrayList<Pair<String, ArrayList<HashMap<String, String>>>> list) {
+//        mAllSpriteCommandList = list;
+//    }
 
-	public ArrayList<String> getCurrentSpriteCostumeNameList() {
-		return mCurrentSpriteCostumeNameList;
-	}
+ // Obsolete
+    public void loadAllSpriteNameList() {
+        mAllSpriteNameList.clear();
+        for (int i = 0; i < mAllSpriteCommandList.size(); i++)
+            mAllSpriteNameList.add(mAllSpriteCommandList.get(i).first);
+    }
 
-	private void loadCurrentSpriteCostumeNameList() {
-		mCurrentSpriteCostumeNameList.clear();
-		for (int i = 0; i < mCurrentSpriteCommandList.size(); i++) {
-			String type = mCurrentSpriteCommandList.get(i).get(BrickDefine.BRICK_TYPE);
+ // Obsolete
+    public ArrayList<String> getAllSpriteNameList() {
+        return mAllSpriteNameList;
+    }
 
-			if (type.equals(String.valueOf(BrickDefine.SET_BACKGROUND)) || type.equals(String.valueOf(BrickDefine.SET_COSTUME))) {
+ // Obsolete
+    public ArrayList<HashMap<String, String>> getCurrentSpriteCommandList() {
+        return mCurrentSpriteCommandList;
+    }
 
-				mCurrentSpriteCostumeNameList.add(mCurrentSpriteCommandList.get(i).get(BrickDefine.BRICK_VALUE_1));
-			}
-		}
-	}
+    public String getCurrentSpriteName() {
+        return mAllSpriteCommandList.get(mCurrentSpritePosition).first;
+    }
 
-	public void setEmptyStage() {
-		// initialize stage
-		mCurrentSpriteCommandList = new ArrayList<HashMap<String, String>>();
-		mCurrentSpritePosition = 0;
-		mAllSpriteCommandList.add(new Pair<String, ArrayList<HashMap<String, String>>>(mContext.getString(R.string.stage), mCurrentSpriteCommandList));
-		this.loadAllSpriteNameList(); // if we do not call this here, we will
-										// have problems at the sprite dialog!
+    public Integer getCurrentSpritePosition() {
+        return mCurrentSpritePosition;
+    }
 
-	}
+    public ArrayList<String> getCurrentSpriteCostumeNameList() {
+        return mCurrentSpriteCostumeNameList;
+    }
 
-	public void initializeNewProject() {
-		resetContent();
-		setEmptyStage();
-		loadAllSpriteNameList();
-		setChanged();
-		notifyObservers();
-	}
+    private void loadCurrentSpriteCostumeNameList() {
+        mCurrentSpriteCostumeNameList.clear();
+        for (int i = 0; i < mCurrentSpriteCommandList.size(); i++) {
+            String type = mCurrentSpriteCommandList.get(i).get(BrickDefine.BRICK_TYPE);
 
-	public void createDemoSprite() {
-		// create a new sprite with 3 costumes
-		Pair<String, ArrayList<HashMap<String, String>>> sprite = new Pair<String, ArrayList<HashMap<String, String>>>(mContext.getResources()
-				.getText(R.string.default_sprite).toString(), new ArrayList<HashMap<String, String>>());
-		this.addSprite(sprite);
+            if (type.equals(String.valueOf(BrickDefine.SET_BACKGROUND))
+                    || type.equals(String.valueOf(BrickDefine.SET_COSTUME))) {
 
-		ImageContainer imageContainer = ImageContainer.getInstance();
-		Bitmap costume1 = ((BitmapDrawable) mContext.getResources().getDrawable(R.drawable.catroid)).getBitmap();
-		String image1Path = imageContainer.saveImageFromBitmap(costume1, "catroid.png", false, mContext);
-		String thumb1Path = imageContainer.saveThumbnailFromBitmap(costume1, "catroid_thumb.png", false, mContext);
-		Bitmap costume2 = ((BitmapDrawable) mContext.getResources().getDrawable(R.drawable.catroid_banzai)).getBitmap();
-		String image2Path = imageContainer.saveImageFromBitmap(costume2, "catroid_banzai.png", false, mContext);
-		String thumb2Path = imageContainer.saveThumbnailFromBitmap(costume2, "catroid_banzai_thumb.png", false, mContext);
-		Bitmap costume3 = ((BitmapDrawable) mContext.getResources().getDrawable(R.drawable.catroid_cheshire)).getBitmap();
-		String image3Path = imageContainer.saveImageFromBitmap(costume3, "catroid_cheshire.png", false, mContext);
-		String thumb3Path = imageContainer.saveThumbnailFromBitmap(costume3, "catroid_cheshire_thumb.png", false, mContext);
+                mCurrentSpriteCostumeNameList.add(mCurrentSpriteCommandList.get(i).get(BrickDefine.BRICK_VALUE_1));
+            }
+        }
+    }
 
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.GO_TO));
-		map.put(BrickDefine.BRICK_VALUE, "100");
-		map.put(BrickDefine.BRICK_VALUE_1, "100");
-		this.addBrick(map);
+    // stage is first sprite of project so this function is obsolete
+    public void setEmptyStage() {
+        // initialize stage
+        mCurrentSpriteCommandList = new ArrayList<HashMap<String, String>>();
+        mCurrentSpritePosition = 0;
+        mAllSpriteCommandList.add(new Pair<String, ArrayList<HashMap<String, String>>>(mContext
+                .getString(R.string.stage), mCurrentSpriteCommandList));
+        this.loadAllSpriteNameList(); // if we do not call this here, we will
+        // have problems at the sprite dialog!
 
-		map = new HashMap<String, String>();
-		map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_COSTUME));
-		map.put(BrickDefine.BRICK_VALUE, image1Path);
-		map.put(BrickDefine.BRICK_VALUE_1, thumb1Path);
-		this.addBrick(map);
+    }
 
-		map = new HashMap<String, String>();
-		map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
-		map.put(BrickDefine.BRICK_VALUE, "2");
-		this.addBrick(map);
+    // obsolete
+    public void initializeNewProject() {
+        resetContent();
+        // setEmptyStage();
+        loadAllSpriteNameList();
+        setChanged();
+        notifyObservers();
+    }
 
-		map = new HashMap<String, String>();
-		map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_COSTUME));
-		map.put(BrickDefine.BRICK_VALUE, image2Path);
-		map.put(BrickDefine.BRICK_VALUE_1, thumb2Path);
-		this.addBrick(map);
+    public void initializeNewProject(String projectName) {
+        try {
+            project = new Project(context,projectName);
+            currentSprite = project.getSpriteList().get(0);
+            setChanged();
+            notifyObservers();
+        } catch (NameNotFoundException e) {
+            // TODO show error dialog
+        }
 
-		map = new HashMap<String, String>();
-		map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
-		map.put(BrickDefine.BRICK_VALUE, "2");
-		this.addBrick(map);
+    }
 
-		map = new HashMap<String, String>();
-		map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_COSTUME));
-		map.put(BrickDefine.BRICK_VALUE, image3Path);
-		map.put(BrickDefine.BRICK_VALUE_1, thumb3Path);
-		this.addBrick(map);
+    // public void createDemoSprite() {
+    // // create a new sprite with 3 costumes
+    // Pair<String, ArrayList<HashMap<String, String>>> sprite = new
+    // Pair<String, ArrayList<HashMap<String, String>>>(mContext.getResources()
+    // .getText(R.string.default_sprite).toString(), new
+    // ArrayList<HashMap<String, String>>());
+    // this.addSprite(sprite);
+    //
+    // ImageContainer imageContainer = ImageContainer.getInstance();
+    // Bitmap costume1 = ((BitmapDrawable)
+    // mContext.getResources().getDrawable(R.drawable.catroid)).getBitmap();
+    // String image1Path = imageContainer.saveImageFromBitmap(costume1,
+    // "catroid.png", false, mContext);
+    // String thumb1Path = imageContainer.saveThumbnailFromBitmap(costume1,
+    // "catroid_thumb.png", false, mContext);
+    // Bitmap costume2 = ((BitmapDrawable)
+    // mContext.getResources().getDrawable(R.drawable.catroid_banzai)).getBitmap();
+    // String image2Path = imageContainer.saveImageFromBitmap(costume2,
+    // "catroid_banzai.png", false, mContext);
+    // String thumb2Path = imageContainer.saveThumbnailFromBitmap(costume2,
+    // "catroid_banzai_thumb.png", false, mContext);
+    // Bitmap costume3 = ((BitmapDrawable)
+    // mContext.getResources().getDrawable(R.drawable.catroid_cheshire)).getBitmap();
+    // String image3Path = imageContainer.saveImageFromBitmap(costume3,
+    // "catroid_cheshire.png", false, mContext);
+    // String thumb3Path = imageContainer.saveThumbnailFromBitmap(costume3,
+    // "catroid_cheshire_thumb.png", false, mContext);
+    //
+    // HashMap<String, String> map = new HashMap<String, String>();
+    // map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.GO_TO));
+    // map.put(BrickDefine.BRICK_VALUE, "100");
+    // map.put(BrickDefine.BRICK_VALUE_1, "100");
+    // this.addBrick(map);
+    //
+    // map = new HashMap<String, String>();
+    // map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_COSTUME));
+    // map.put(BrickDefine.BRICK_VALUE, image1Path);
+    // map.put(BrickDefine.BRICK_VALUE_1, thumb1Path);
+    // this.addBrick(map);
+    //
+    // map = new HashMap<String, String>();
+    // map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
+    // map.put(BrickDefine.BRICK_VALUE, "2");
+    // this.addBrick(map);
+    //
+    // map = new HashMap<String, String>();
+    // map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_COSTUME));
+    // map.put(BrickDefine.BRICK_VALUE, image2Path);
+    // map.put(BrickDefine.BRICK_VALUE_1, thumb2Path);
+    // this.addBrick(map);
+    //
+    // map = new HashMap<String, String>();
+    // map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.WAIT));
+    // map.put(BrickDefine.BRICK_VALUE, "2");
+    // this.addBrick(map);
+    //
+    // map = new HashMap<String, String>();
+    // map.put(BrickDefine.BRICK_TYPE, String.valueOf(BrickDefine.SET_COSTUME));
+    // map.put(BrickDefine.BRICK_VALUE, image3Path);
+    // map.put(BrickDefine.BRICK_VALUE_1, thumb3Path);
+    // this.addBrick(map);
+    //
+    // loadCurrentSpriteCostumeNameList();
+    // }
 
-		loadCurrentSpriteCostumeNameList();
-	}
+    public void setObserver(Observer observer) {
+        addObserver(observer);
+    }
 
-	public void setObserver(Observer observer) {
-		addObserver(observer);
-	}
+//    private int getHighestBrickId() {
+//        ArrayList<Pair<String, ArrayList<HashMap<String, String>>>> spriteList = new ArrayList<Pair<String, ArrayList<HashMap<String, String>>>>(
+//                mAllSpriteCommandList);
+//
+//        int highestId = 0;
+//        for (int i = 0; i < mAllSpriteCommandList.size(); i++) {
+//            ArrayList<HashMap<String, String>> sprite = spriteList.get(i).second;
+//            for (int j = 0; j < sprite.size(); j++) {
+//                HashMap<String, String> brickList = sprite.get(j);
+//                brickList.get(BrickDefine.BRICK_ID);
+//                if (brickList.size() > 0 && !(brickList.get(BrickDefine.BRICK_ID).equals(""))) {
+//                    int tempId = Integer.valueOf(brickList.get(BrickDefine.BRICK_ID).toString()).intValue();
+//                    boolean test = (highestId < tempId);
+//                    if (test) {
+//                        highestId = tempId;
+//                    }
+//                }
+//            }
+//        }
+//        return (highestId + 1); // ID immer aktuellste freie
+//    }
 
-	private int getHighestBrickId() {
-		ArrayList<Pair<String, ArrayList<HashMap<String, String>>>> spriteList = new ArrayList<Pair<String, ArrayList<HashMap<String, String>>>>(
-				mAllSpriteCommandList);
-
-		int highestId = 0;
-		for (int i = 0; i < mAllSpriteCommandList.size(); i++) {
-			ArrayList<HashMap<String, String>> sprite = spriteList.get(i).second;
-			for (int j = 0; j < sprite.size(); j++) {
-				HashMap<String, String> brickList = sprite.get(j);
-				brickList.get(BrickDefine.BRICK_ID);
-				if (brickList.size() > 0 && !(brickList.get(BrickDefine.BRICK_ID).equals(""))) {
-					int tempId = Integer.valueOf(brickList.get(BrickDefine.BRICK_ID).toString()).intValue();
-					boolean test = (highestId < tempId);
-					if (test) {
-						highestId = tempId;
-					}
-				}
-			}
-		}
-		return (highestId + 1); // ID immer aktuellste freie
-	}
-
-	/**
-	 * test method
-	 */
-	public int getBrickIdCounter() {
-		return mBrickIdCounter;
-	}
+    /**
+     * test method
+     */
+    public int getBrickIdCounter() {
+        return mBrickIdCounter;
+    }
 }

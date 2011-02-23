@@ -66,10 +66,13 @@ public class NewProjectDialog extends Dialog {
 					ConstructionSiteActivity.setRoot(newPath.getAbsolutePath(), newSpfFile);
 
 					// if the project already existed just load it
-					if (existed)
-						mContentManager.loadContent(newSpfFile);
-					else
-						mContentManager.initializeNewProject();
+                    if (existed)
+                        mContentManager.loadContent(newSpfFile);
+                    else
+                    {
+                        mContentManager.initializeNewProject();
+                        mContentManager.initializeNewProject(projectName);
+                    }
 					
 					((Activity) mCtx).setTitle(newSpfFile);
 					dismiss();
