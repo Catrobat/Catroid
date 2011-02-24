@@ -108,6 +108,14 @@ public class StorageHandler {
             e.printStackTrace();
         }
     }
+    
+    public boolean projectExists(String projectName){
+        File projectDirectory = new File(catroidRoot.getAbsolutePath() + "/" + projectName);
+        if (!(projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite())) {
+            return false;
+        }
+        return true;
+    }
 
     // TODO: Find a way to access sound files on the device
     public void loadSoundContent(Context context) {

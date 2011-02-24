@@ -1,5 +1,7 @@
 package at.tugraz.ist.catroid.constructionSite.gui.dialogs;
 
+import java.io.IOException;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -43,7 +45,11 @@ public class RenameProjectDialog extends Dialog {
 				String newProjectName = ((EditText) findViewById(R.id.changeProjectNameEditText)).getText().toString();
 				if(Utils.renameProject(mCtx, null, newProjectName)) {
 					String newProjectFileName = Utils.addDefaultFileEnding(newProjectName);
-					mContentManager.loadContent(newProjectFileName);
+					try {
+                        mContentManager.loadContent(newProjectFileName);
+                    } catch (IOException e) {
+                        // TODO message?
+                    }
 					((Activity) mCtx).setTitle(newProjectName);
 				} else {
 					Utils.displayErrorMessage(mCtx, mCtx.getString(R.string.error_project_rename));

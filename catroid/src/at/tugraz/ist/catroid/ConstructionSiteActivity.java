@@ -130,8 +130,7 @@ public class ConstructionSiteActivity extends Activity implements Observer,
 			mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 			mPreferences = this.getPreferences(Activity.MODE_PRIVATE);
 
-			// mContentManager = new ContentManager(this);
-			// mContentManager.setObserver(this);
+
 
 			initViews();
 
@@ -153,6 +152,10 @@ public class ConstructionSiteActivity extends Activity implements Observer,
 						.getStringExtra(INTENT_EXTRA_SPF_FILE_NAME);
 			}
 			setRoot(rootPath, spfFile);
+			
+			mContentManager = new ContentManager(this,SPF_FILE);
+			mContentManager.setObserver(this);			
+			mContentManager.loadContent(SPF_FILE);
 
 			// Testing
 			// mContentManager.testSet();
@@ -225,60 +228,51 @@ public class ConstructionSiteActivity extends Activity implements Observer,
 		LAST_SELECTED_ELEMENT_POSITION = position;
 	}
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if ((requestCode == MediaFileLoader.GALLERY_INTENT_CODE)
-				&& (data != null)) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if ((requestCode == MediaFileLoader.GALLERY_INTENT_CODE) && (data != null)) {
 
-			HashMap<String, String> content = mContentManager
-					.getCurrentSpriteCommandList().get(
-							LAST_SELECTED_ELEMENT_POSITION);
-			Uri u2 = Uri.parse(data.getDataString());
-			String[] projection = { MediaStore.Images.ImageColumns.DATA,
-					MediaStore.Images.ImageColumns.DISPLAY_NAME };
-			Cursor c = managedQuery(u2, projection, null, null, null);
-			if (c != null && c.moveToFirst()) {
-				File image_full_path = new File(c.getString(0));
-				String imageName = ImageContainer.getInstance()
-						.saveImageFromPath(image_full_path.getAbsolutePath(),
-								this);
-				String imageThumbnailName = ImageContainer.getInstance()
-						.saveThumbnailFromPath(
-								image_full_path.getAbsolutePath(), this);
-				String oldThumbName = content.get(BrickDefine.BRICK_VALUE_1);
-				String oldImageName = content.get(BrickDefine.BRICK_VALUE);
+            HashMap<String, String> content = mContentManager.getCurrentSpriteCommandList().get(
+                    LAST_SELECTED_ELEMENT_POSITION);
+            Uri u2 = Uri.parse(data.getDataString());
+            String[] projection = { MediaStore.Images.ImageColumns.DATA, MediaStore.Images.ImageColumns.DISPLAY_NAME };
+            Cursor c = managedQuery(u2, projection, null, null, null);
+            if (c != null && c.moveToFirst()) {
+                File image_full_path = new File(c.getString(0));
+                String imageName = ImageContainer.getInstance().saveImageFromPath(image_full_path.getAbsolutePath(),
+                        this);
+                String imageThumbnailName = ImageContainer.getInstance().saveThumbnailFromPath(
+                        image_full_path.getAbsolutePath(), this);
+                String oldThumbName = content.get(BrickDefine.BRICK_VALUE_1);
+                String oldImageName = content.get(BrickDefine.BRICK_VALUE);
 
-				content.put(BrickDefine.BRICK_VALUE, imageName);
-				content.put(BrickDefine.BRICK_VALUE_1, imageThumbnailName);
-				content.put(BrickDefine.BRICK_NAME, c.getString(1));
+                content.put(BrickDefine.BRICK_VALUE, imageName);
+                content.put(BrickDefine.BRICK_VALUE_1, imageThumbnailName);
+                content.put(BrickDefine.BRICK_NAME, c.getString(1));
 
-				int indexOf = mContentManager.getCurrentSpriteCostumeNameList()
-						.indexOf(oldThumbName);
-				if (mContentManager.getCurrentSpriteCostumeNameList().remove(
-						oldThumbName))
-					mContentManager.getCurrentSpriteCostumeNameList().add(
-							indexOf, imageThumbnailName);
-				else
-					mContentManager.getCurrentSpriteCostumeNameList().add(
-							imageThumbnailName);
+                int indexOf = mContentManager.getCurrentSpriteCostumeNameList().indexOf(oldThumbName);
+                if (mContentManager.getCurrentSpriteCostumeNameList().remove(oldThumbName))
+                    mContentManager.getCurrentSpriteCostumeNameList().add(indexOf, imageThumbnailName);
+                else
+                    mContentManager.getCurrentSpriteCostumeNameList().add(imageThumbnailName);
 
-				// remove old files
-				ImageContainer.getInstance().deleteImage(oldThumbName);
-				ImageContainer.getInstance().deleteImage(oldImageName);
+                // remove old files
+                ImageContainer.getInstance().deleteImage(oldThumbName);
+                ImageContainer.getInstance().deleteImage(oldImageName);
 
-				updateViews();
-				// debug
-				String column0Value = c.getString(0);
-				String column1Value = c.getString(1);
+                updateViews();
+                // debug
+                String column0Value = c.getString(0);
+                String column1Value = c.getString(1);
 
-				Log.d("Data", column0Value);
-				Log.d("Display name", column1Value);
-			}
+                Log.d("Data", column0Value);
+                Log.d("Display name", column1Value);
+            }
 
-		}
+        }
 
-		super.onActivityResult(requestCode, resultCode, data);
-	}
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
 	protected Dialog onCreateDialog(int id) {
 		switch (id) {
@@ -344,27 +338,31 @@ public class ConstructionSiteActivity extends Activity implements Observer,
 		case R.id.reset:
 			Utils.deleteFolder(ROOT_IMAGES, MEDIA_IGNORE_BY_ANDROID_FILENAME);
 			Utils.deleteFolder(ROOT_SOUNDS, MEDIA_IGNORE_BY_ANDROID_FILENAME);
-			mContentManager.resetContent();
-			mContentManager.setEmptyStage();
+			try {
+                mContentManager.resetContent();
+            } catch (NameNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
 			updateViews();
 			return true;
 
 		case R.id.load:
-			mContentManager.saveContent(SPF_FILE);
+			mContentManager.saveContent();
 			showDialog(LOAD_DIALOG);
 			return true;
 
 		case R.id.newProject:
-			mContentManager.saveContent(SPF_FILE);
+			mContentManager.saveContent();
 			showDialog(NEW_PROJECT_DIALOG);
 			return true;
 
 		case R.id.changeProject:
-			mContentManager.saveContent(SPF_FILE);
+			mContentManager.saveContent();
 			showDialog(CHANGE_PROJECT_NAME_DIALOG);
 			return true;
 		case R.id.uploadProject:
-			mContentManager.saveContent(SPF_FILE);
+			mContentManager.saveContent();
 			String projectName = SPF_FILE.substring(0, SPF_FILE.length()
 					- DEFAULT_FILE_ENDING.length());
 			new ProjectUploadTask(this, projectName, ROOT, TMP_PATH
@@ -381,13 +379,12 @@ public class ConstructionSiteActivity extends Activity implements Observer,
 		}
 	}
 
-	public void updateViews() {
-		programmAdapter.notifyDataSetChanged(mContentManager
-				.getCurrentSpriteCommandList());
-		mGalleryAdapter.notifyDataSetChanged();
+    public void updateViews() {
+        programmAdapter.notifyDataSetChanged(mContentManager.getCurrentSpriteCommandList());
+        mGalleryAdapter.notifyDataSetChanged();
 
-		mSpritesToolboxButton.setText(mContentManager.getCurrentSpriteName());
-	}
+        mSpritesToolboxButton.setText(mContentManager.getCurrentSprite().getName());
+    }
 
 	public void update(Observable observable, Object data) {
 		updateViews();
@@ -431,7 +428,7 @@ public class ConstructionSiteActivity extends Activity implements Observer,
 	}
 
 	private void openToolbox() {
-		if (mContentManager.getCurrentSpriteName().equals(
+		if (mContentManager.getCurrentSprite().getName().equals(
 				this.getString(R.string.stage))) {
 			showDialog(TOOLBOX_DIALOG_BACKGROUND);
 		} else {
@@ -453,7 +450,7 @@ public class ConstructionSiteActivity extends Activity implements Observer,
 	}
 
 	public void onBrickClickListener(View v) {
-		if (mContentManager.getCurrentSpriteName().equals(
+		if (mContentManager.getCurrentSprite().getName().equals(
 				this.getString(R.string.stage))) {
 			mContentManager.addBrick(mToolboxStageDialog.getBrickClone(v));
 			if (mToolboxStageDialog.isShowing())
