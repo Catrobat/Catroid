@@ -1,14 +1,12 @@
 package at.tugraz.ist.catroid.constructionSite.gui.dialogs;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Pair;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -23,6 +21,7 @@ import android.widget.RelativeLayout;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
 import at.tugraz.ist.catroid.constructionSite.gui.adapter.SpritesAdapter;
+import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 
 public class SpritesDialog extends Dialog implements Observer
@@ -77,7 +76,7 @@ public class SpritesDialog extends Dialog implements Observer
 		
 		mToolboxLayout = (RelativeLayout) findViewById(R.id.toolboxsprites_layout);
 		
-		mContentArrayList = mContentManager.getAllSpriteNameList();
+		//mContentArrayList = mContentManager.getAllSpriteNameList();
 		
 		mMainListView = (ListView) findViewById(R.id.spritesListView);
 		
@@ -99,7 +98,8 @@ public class SpritesDialog extends Dialog implements Observer
 		mSpriteButton.setOnClickListener(new View.OnClickListener() {
 			
 			public void onClick(View v) {
-				mContentManager.addSprite(new Pair<String,ArrayList<HashMap<String,String>>>(mSpriteName.getText().toString(), new ArrayList<HashMap<String,String>>()));
+			    Sprite sprite = new Sprite(mSpriteName.getText().toString());
+			    mContentManager.addSprite(sprite);
 				mAdapter.notifyDataSetChanged();
 				dismiss();
 				}

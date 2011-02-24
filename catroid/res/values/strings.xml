@@ -76,7 +76,13 @@
 	<string name="error_project_rename">
 		An error occurred while renaming the project.
 	</string>
-
+	<string name="error_load_project">
+		Loading of Project failed.
+    </string>
+	<string name="error_save_project">
+		Saving of Project failed.
+    </string>
+    
 	<!-- Notifications -->
 	<string name="success_project_upload">
 		Project upload successful.
@@ -84,4 +90,5 @@
 	<string name="success_project_download">
 		Project download successful.
     </string>
+
 </resources>
