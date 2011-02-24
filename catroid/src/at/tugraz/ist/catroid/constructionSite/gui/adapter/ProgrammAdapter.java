@@ -2,6 +2,7 @@ package at.tugraz.ist.catroid.constructionSite.gui.adapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import android.content.Context;
 import android.view.KeyEvent;
@@ -15,6 +16,7 @@ import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.BrickDefine;
 import at.tugraz.ist.catroid.content.script.Script;
+import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.utils.ImageContainer;
 
 public class ProgrammAdapter extends BaseAdapter implements OnClickListener {
@@ -25,6 +27,7 @@ public class ProgrammAdapter extends BaseAdapter implements OnClickListener {
 	private ArrayList<HashMap<String, String>> mBrickList;
 	//private EditTextDialog mEditTextDialog;
 	private Script script;
+	private List<Script> scriptList;
 	//private LayoutInflater inflater;
 
 	public ProgrammAdapter(Context context, Script script, ListView listview, ImageContainer imageContainer) {
@@ -324,6 +327,10 @@ public class ProgrammAdapter extends BaseAdapter implements OnClickListener {
 	public void notifyDataSetChanged(ArrayList<HashMap<String, String>> data) {
 		mBrickList = data;
 		notifyDataSetChanged();
+	}
+	
+	public void notifyDataSetChanged(Sprite sprite){
+	    scriptList = sprite.getScriptList();
 	}
 
 	public void onNothingSelected(AdapterView<?> arg0) {

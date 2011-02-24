@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.net.Uri;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -22,7 +21,6 @@ import at.tugraz.ist.catroid.constructionSite.content.BrickDefine;
 import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
 import at.tugraz.ist.catroid.constructionSite.gui.adapter.ProgrammAdapter;
 import at.tugraz.ist.catroid.content.script.Script;
-import at.tugraz.ist.catroid.utils.ImageContainer;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class ContextMenuDialog extends Dialog {
@@ -43,16 +41,33 @@ public class ContextMenuDialog extends Dialog {
     private ListView mElementListView;
     private final Script script;
 
+    //TODO: the positions are wrong! mPositionOfView
+    
     private class UpButtonListener implements View.OnClickListener {
-        /*
-         * (non-Javadoc)
-         * 
-         * @see android.view.View.OnClickListener#onClick(android.view.View)
-         */
         public void onClick(View v) {
             mContentManager.moveBrickUpInList(mPositionOfView, script);
         }
-
+    }
+    
+    private class DownButtonListener implements View.OnClickListener {
+        public void onClick(View v) {
+            mContentManager.moveBrickDownInList(mPositionOfView, script);
+        }
+    }
+    
+    private class InfoButtonListener implements View.OnClickListener {
+        public void onClick(View v) {
+            showBrickInfo();
+        }
+    }
+    
+    private class DeleteButtonListener implements View.OnClickListener {
+        public void onClick(View v) {
+            //ImageContainer.getInstance().deleteImage(mContentManager.getCurrentSpriteCommandList().get(mPositionOfView).get(BrickDefine.BRICK_VALUE));
+            //ImageContainer.getInstance().deleteImage(mContentManager.getCurrentSpriteCommandList().get(mPositionOfView).get(BrickDefine.BRICK_VALUE_1));
+            mContentManager.removeBrick(mPositionOfView,script);
+            cancel();
+        }
     }
 
     private void showBrickInfo() {
@@ -109,33 +124,15 @@ public class ContextMenuDialog extends Dialog {
         });
         mUpButton = (Button) findViewById(R.id.ContextMenuUpButton);
         mUpButton.setOnClickListener(new UpButtonListener());
+        
         mDownButton = (Button) findViewById(R.id.ContextMenuDownButton);
-        mDownButton.setOnClickListener(new Button.OnClickListener() {
-
-            public void onClick(View v) {
-                if (mContentManager.moveBrickDownInList(mPositionOfView)) {
-                    mPositionOfView++;
-                    //((ConstructionSiteListViewAdapter) mElementListView.getAdapter()).setAnimationOnPosition(mPositionOfView);
-                }
-            }
-        });
+        mDownButton.setOnClickListener(new DownButtonListener());
+        
         mInfoButton = (Button) findViewById(R.id.ContextMenuInfoButton);
-        mInfoButton.setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View v) {
-                showBrickInfo();
-            }
-        });
+        mInfoButton.setOnClickListener(new InfoButtonListener());
+        
         mDeleteButton = (Button) findViewById(R.id.ContextMenuDeleteButton);
-        mDeleteButton.setOnClickListener(new Button.OnClickListener() {
-
-            public void onClick(View v) {
-                //				ImageContainer.getInstance().deleteImage(mContentManager.getCurrentSpriteCommandList().get(mPositionOfView).get(BrickDefine.BRICK_VALUE));
-                //				ImageContainer.getInstance().deleteImage(mContentManager.getCurrentSpriteCommandList().get(mPositionOfView).get(BrickDefine.BRICK_VALUE_1));
-                mContentManager.removeBrick(mPositionOfView);
-
-                cancel();
-            }
-        });
+        mDeleteButton.setOnClickListener(new DeleteButtonListener());
     }
 
     @Override
