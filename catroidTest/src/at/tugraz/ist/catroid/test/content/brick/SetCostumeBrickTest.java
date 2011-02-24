@@ -24,7 +24,7 @@ public class SetCostumeBrickTest extends InstrumentationTestCase {
     @Override
     protected void setUp() throws Exception {
         final int fileSize = 4147;
-        testImage = new File("mnt/sdcard/catroid/testImage.png");
+        testImage = new File("/mnt/sdcard/catroid/testImage.png");
         if(!testImage.exists())
             testImage.createNewFile();
         InputStream in   = getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID);
