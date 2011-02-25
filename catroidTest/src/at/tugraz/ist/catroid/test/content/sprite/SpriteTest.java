@@ -247,4 +247,23 @@ public class SpriteTest extends AndroidTestCase {
 	        } catch (Exception e) {}
 	        return brickPositionAfterPause;
 	    }
+	 
+	 public void compareTo() {
+		 	int ZValue = 0;
+			int otherZValue = 0;
+			
+			Sprite sprite1 = new Sprite("new Sprite");
+			Sprite sprite2 = new Sprite("new Sprite");
+			Sprite sprite3 = new Sprite("new Sprite");
+			Sprite sprite4 = new Sprite("new Sprite");
+			sprite1.setZPosition(ZValue);
+			sprite2.setZPosition(otherZValue);
+			sprite3.setZPosition(Integer.MAX_VALUE);
+			sprite4.setZPosition(Integer.MIN_VALUE);
+			
+			
+			assertEquals("Sprite1 and Sprite2 is not at the same position.",0, sprite1.compareTo(sprite2));
+			assertEquals("Sprite1 is not behind Sprite2.",Integer.MAX_VALUE, sprite1.compareTo(sprite3));
+			assertEquals("Sprite1 is not in front of Sprite2.",Integer.MIN_VALUE, sprite1.compareTo(sprite4));
+		}
 }
