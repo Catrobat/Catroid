@@ -1,7 +1,6 @@
 package at.tugraz.ist.catroid.constructionSite.gui.dialogs;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -47,11 +46,10 @@ public class LoadProgramDialog extends Dialog {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 				File file = new File(mAdapter.getItem(arg2));
 				ConstructionSiteActivity.setRoot(file.getParent(), file.getName());
-				try {
-                    mContentManager.loadContent(file.getName());
-                } catch (IOException e) {
-                    // TODO message?
-                }
+				if(!mContentManager.loadContent(file.getName())){
+				    //TODO: error message
+				}
+
 				((Activity) mCtx).setTitle(file.getName());
 				dismiss();
 			}

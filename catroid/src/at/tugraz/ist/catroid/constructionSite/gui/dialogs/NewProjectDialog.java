@@ -1,7 +1,6 @@
 package at.tugraz.ist.catroid.constructionSite.gui.dialogs;
 
 import java.io.File;
-import java.io.IOException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -68,13 +67,11 @@ public class NewProjectDialog extends Dialog {
 
 					// if the project already existed just load it
                     if (existed)
-                        try {
-                            mContentManager.loadContent(newSpfFile);
-                        } catch (IOException e) {
-                            // TODO message?
+                        if(!mContentManager.loadContent(newSpfFile)){
+                            //TODO: error message
                         }
-                    else
-                    {
+
+                    else {
                         mContentManager.initializeNewProject(projectName);
                     }
 					
