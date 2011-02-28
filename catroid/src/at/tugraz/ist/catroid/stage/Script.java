@@ -109,14 +109,17 @@ public class Script extends Thread implements Observer {
 		case BrickDefine.PLAY_SOUND:
 			MediaPlayer mediaPlayer = mSoundManager.getMediaPlayer();
 			try {
+				Log.d("Sprite", "Trying to open + " + Utils.concatPaths(StageActivity.ROOT_SOUNDS, map.get(BrickDefine.BRICK_VALUE)));
 				mediaPlayer.setDataSource(Utils.concatPaths(StageActivity.ROOT_SOUNDS, map.get(BrickDefine.BRICK_VALUE)));
 				mediaPlayer.prepare();
 				mediaPlayer.start();
 
 			} catch (IOException e) {
 				Log.w("Sprite", "Could not play sound file");
+				e.printStackTrace();
 			} catch (IllegalArgumentException e) {
 				Log.w("Sprite", "Could not play sound file");
+				e.printStackTrace();
 			}
 			break;
 
