@@ -144,12 +144,12 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 
 			contentManager = new ContentManager(this, SPF_FILE);
 			contentManager.setObserver(this);
-			contentManager.loadContent(SPF_FILE);
 
 			// Testing
 			// mContentManager.testSet();
 			// mContentManager.saveContent();
 			// mContentManager.loadContent(SPF_FILE);
+			//TODO: set real current project
 			currentProject = new Project(this, "new");
 
 

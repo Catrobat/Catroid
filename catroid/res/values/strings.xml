@@ -59,6 +59,9 @@
 	<string name="steps_label">steps</string>
 	<string name="come_to_front_main_adapter">Come to front</string>
 	<string name="touched_main_adapter">If Touched</string>
+	
+	<!-- defaulValues -->
+	<string name="default_project_name">defaultProject</string>
 
 	<!-- Error messages -->
 	<string name="error_no_sd_card">

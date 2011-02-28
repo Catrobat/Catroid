@@ -31,6 +31,7 @@ public class WaitBrick extends WaitBrickBase implements Brick {
 
 	private static final long serialVersionUID = 1L;
 
+	//TODO: here in millis, else in seconds --> think about solution
 	public WaitBrick(int timeToWaitInMilliseconds) {
 		super(timeToWaitInMilliseconds);
 	}
