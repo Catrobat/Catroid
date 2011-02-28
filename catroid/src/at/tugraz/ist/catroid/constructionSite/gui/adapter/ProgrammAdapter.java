@@ -27,8 +27,8 @@ public class ProgrammAdapter extends BaseAdapter implements OnClickListener {
 	private ArrayList<HashMap<String, String>> mBrickList;
 	//private EditTextDialog mEditTextDialog;
 	private Script script;
-	private List<Script> scriptList;
 	//private LayoutInflater inflater;
+	private List<Script> scriptList;
 
 	public ProgrammAdapter(Context context, Script script, ListView listview, ImageContainer imageContainer) {
 		this.script = script;
@@ -94,7 +94,7 @@ public class ProgrammAdapter extends BaseAdapter implements OnClickListener {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		//if(convertView != null)
 		//	return convertView;
-		return script.getBrickList().get(position).getView(context, convertView, this);
+		return script.getBrickList().get(position).getView(context, this);
 /*
 		final HashMap<String, String> brick = mBrickList.get(position);
 		final String type = mBrickList.get(position).get(BrickDefine.BRICK_TYPE);
@@ -330,7 +330,7 @@ public class ProgrammAdapter extends BaseAdapter implements OnClickListener {
 	}
 	
 	public void notifyDataSetChanged(Sprite sprite){
-	    scriptList = sprite.getScriptList();
+	    setScriptList(sprite.getScriptList());
 	}
 
 	public void onNothingSelected(AdapterView<?> arg0) {
@@ -365,6 +365,20 @@ public class ProgrammAdapter extends BaseAdapter implements OnClickListener {
 
 	public long getItemId(int position) {
 		return position;
+	}
+
+	/**
+	 * @param scriptList the scriptList to set
+	 */
+	public void setScriptList(List<Script> scriptList) {
+		this.scriptList = scriptList;
+	}
+
+	/**
+	 * @return the scriptList
+	 */
+	public List<Script> getScriptList() {
+		return scriptList;
 	}
 
 }

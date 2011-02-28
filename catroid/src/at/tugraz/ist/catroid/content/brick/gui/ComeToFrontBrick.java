@@ -35,9 +35,13 @@ public class ComeToFrontBrick extends ComeToFrontBrickBase implements Brick {
 		super(sprite, project);
 	}
 
-	public View getView(Context context, View convertView, BaseAdapter adapter) {
+	public View getView(Context context, BaseAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.construction_brick_come_to_front, null);
 		return view;
+	}
+	
+	public Brick clone() {
+		return new ComeToFrontBrick(getSprite(), project);
 	}
 }

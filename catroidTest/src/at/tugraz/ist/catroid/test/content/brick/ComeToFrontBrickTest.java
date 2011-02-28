@@ -58,7 +58,7 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 	
 	public void testGetView() throws NameNotFoundException {
 		ComeToFrontBrick brick = new ComeToFrontBrick(new Sprite("testSprite"), new Project(getContext(), "testProject"));
-		View view = brick.getView(getContext(), null, null);
+		View view = brick.getView(getContext(), null);
 		assertNotNull("getView returned null", view);
 	}
 }

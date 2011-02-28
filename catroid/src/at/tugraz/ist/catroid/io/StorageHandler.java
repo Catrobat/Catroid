@@ -71,7 +71,9 @@ public class StorageHandler {
     }
 
     public Project loadProject(String projectName) {
-
+		// TODO: something better...
+		if(projectName.endsWith(".spf"))
+			projectName = projectName.replace(".spf", "");
         try {
             File projectDirectory = new File(catroidRoot.getAbsolutePath() + "/" + projectName);
             if (projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite()) {
@@ -84,8 +86,8 @@ public class StorageHandler {
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+			return null;
         }
-        return null;
     }
 
     public void saveProject(Project project) {
