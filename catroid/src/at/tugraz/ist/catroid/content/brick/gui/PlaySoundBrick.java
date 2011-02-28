@@ -46,7 +46,7 @@ public class PlaySoundBrick extends PlaySoundBrickBase implements Brick,
         super(pathToSoundfile);
     }
 
-    public View getView(final Context context, View convertView, BaseAdapter adapter) {
+    public View getView(final Context context, BaseAdapter adapter) {
         programmAdapter = adapter;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.construction_brick_play_sound, null);
@@ -69,7 +69,6 @@ public class PlaySoundBrick extends PlaySoundBrickBase implements Brick,
                 }
             });
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -103,4 +102,7 @@ public class PlaySoundBrick extends PlaySoundBrickBase implements Brick,
         programmAdapter.notifyDataSetChanged();
     }
 
+    public Brick clone() {
+    	return new PlaySoundBrick(getPathToSoundFile());
+    }
 }

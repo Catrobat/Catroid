@@ -32,8 +32,11 @@ public class SetCostumeBrick extends SetCostumeBrickBase implements Brick{
         super(sprite);
     }
     
-    public View getView(Context context, View convertView, BaseAdapter adapter) {
+    public View getView(Context context, BaseAdapter adapter) {
         return null; //TODO: finish it
     }
 
+    public Brick clone() {
+    	return new SetCostumeBrick(getSprite());
+    }
 }
