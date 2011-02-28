@@ -28,7 +28,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.Cursor;
 import android.os.Environment;
 import android.provider.MediaStore;
