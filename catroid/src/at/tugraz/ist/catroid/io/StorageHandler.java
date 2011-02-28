@@ -28,6 +28,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.Cursor;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -153,5 +154,15 @@ public class StorageHandler {
         System.out.println("SOUND SET");
         this.soundContent.clear();
         this.soundContent.addAll(soundContent);
+    }
+    
+    public Project createDefaultProject(Context context){
+        try {
+            Project defaultProject = new Project(context,"defaultProject");
+            this.saveProject(defaultProject);
+            return defaultProject;
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
