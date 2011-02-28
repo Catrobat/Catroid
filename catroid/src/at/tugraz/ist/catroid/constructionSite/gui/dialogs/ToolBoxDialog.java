@@ -1,5 +1,6 @@
 package at.tugraz.ist.catroid.constructionSite.gui.dialogs;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Dialog;
@@ -25,6 +26,7 @@ import at.tugraz.ist.catroid.content.brick.gui.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.brick.gui.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.brick.gui.ShowBrick;
 import at.tugraz.ist.catroid.content.brick.gui.WaitBrick;
+import at.tugraz.ist.catroid.content.script.Script;
 
 public class ToolBoxDialog extends Dialog {
 
@@ -37,6 +39,7 @@ public class ToolBoxDialog extends Dialog {
 	private ListView listView;
 
 	private void setupBrickPrototypes() {
+		brickList = new ArrayList<Brick>();
 		brickList.add(new PlaySoundBrick(""));
 		brickList.add(new WaitBrick(1000));
 		brickList.add(new HideBrick(null));
@@ -45,7 +48,7 @@ public class ToolBoxDialog extends Dialog {
 		brickList.add(new SetCostumeBrick(null));
 		brickList.add(new GoNStepsBackBrick(null, 1));
 		brickList.add(new ComeToFrontBrick(null, null));
-		brickList.add(new IfTouchedBrick(null, null));
+		brickList.add(new IfTouchedBrick(null, new Script()));
 	}
 
 	public ToolBoxDialog(Context context, ContentManager contentManager) {

@@ -28,7 +28,6 @@ import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
-import at.tugraz.ist.catroid.constructionSite.gui.adapter.ConstructionSiteGalleryAdapter;
 import at.tugraz.ist.catroid.constructionSite.gui.adapter.ProgrammAdapter;
 import at.tugraz.ist.catroid.constructionSite.gui.dialogs.ContextMenuDialog;
 import at.tugraz.ist.catroid.constructionSite.gui.dialogs.LoadProgramDialog;
@@ -98,9 +97,9 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	protected ListView mConstructionListView;
 	protected Gallery mContructionGallery;
 	private ProgrammAdapter programmAdapter;
-	private ConstructionSiteGalleryAdapter mGalleryAdapter;
+	//private ConstructionSiteGalleryAdapter mGalleryAdapter;
 	private ContentManager contentManager;
-	
+
 	private Project currentProject;
 	private Script currentScript;
 
@@ -126,8 +125,6 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 			mPreferences = this.getPreferences(Activity.MODE_PRIVATE);
 
-			initViews();
-
 			String rootPath = mPreferences.getString(PREF_ROOT, DEFAULT_ROOT);
 			String spfFile = mPreferences.getString(PREF_FILE_SPF, DEFAULT_FILE);
 
@@ -143,6 +140,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			}
 			setRoot(rootPath, spfFile);
 
+			initViews();
+
 			contentManager = new ContentManager(this, SPF_FILE);
 			contentManager.setObserver(this);
 			contentManager.loadContent(SPF_FILE);
@@ -152,6 +151,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			// mContentManager.saveContent();
 			// mContentManager.loadContent(SPF_FILE);
 			currentProject = new Project(this, "new");
+
+
 			Sprite stageSprite = currentProject.getSpriteList().get(0);
 			Script script = new Script();
 
@@ -172,6 +173,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			Log.d("testProject", "sprite count: " + currentProject.getSpriteList().size());
 			Log.d("testProject", "script count: " + currentProject.getSpriteList().get(0).getScriptList().size());
 			programmAdapter.setContent(currentProject.getSpriteList().get(0).getScriptList().get(0));
+
 			setTitle(currentProject.getName());
 
 		} catch (IOException e) {
@@ -187,12 +189,9 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		mConstructionListView.setAdapter(programmAdapter);
 		mConstructionListView.setOnItemLongClickListener(this);
 
-		// mContructionGallery = (Gallery)
-		// findViewById(R.id.ConstructionSiteGallery);
-		// mGalleryAdapter = new ConstructionSiteGalleryAdapter(this,
-		// mContentManager.getCurrentSpriteCostumeNameList(),
-		// ImageContainer.getInstance());
-		// mContructionGallery.setAdapter(mGalleryAdapter);
+		mContructionGallery = (Gallery) findViewById(R.id.ConstructionSiteGallery);
+//		mGalleryAdapter = new ConstructionSiteGalleryAdapter(this, null, ImageContainer.getInstance());
+//		mContructionGallery.setAdapter(mGalleryAdapter);
 
 		mToolboxButton = (Button) this.findViewById(R.id.toolbar_button);
 		mToolboxButton.setOnClickListener(this);
@@ -207,58 +206,42 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		programmAdapter.setContent(currentProject.getSpriteList().get(0).getScriptList().get(0));
 	}
 
-	//private static int LAST_SELECTED_ELEMENT_POSITION = 0;
+	// private static int LAST_SELECTED_ELEMENT_POSITION = 0;
 
 	public void rememberLastSelectedElementAndView(int position, ImageView pictureView) {
-		//LAST_SELECTED_ELEMENT_POSITION = position;
+		// LAST_SELECTED_ELEMENT_POSITION = position;
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO
-		
+
 		/*
-		if ((requestCode == MediaFileLoader.GALLERY_INTENT_CODE) && (data != null)) {
-
-			HashMap<String, String> content = contentManager.getCurrentSpriteCommandList().get(LAST_SELECTED_ELEMENT_POSITION); // TODO: we need current
-																																	// Sprite/Script an the
-																																	// BrickPosition of the
-																																	// Image Brick
-			Uri u2 = Uri.parse(data.getDataString());
-			String[] projection = { MediaStore.Images.ImageColumns.DATA, MediaStore.Images.ImageColumns.DISPLAY_NAME };
-			Cursor c = managedQuery(u2, projection, null, null, null);
-			if (c != null && c.moveToFirst()) {
-				File image_full_path = new File(c.getString(0));
-				String imageName = ImageContainer.getInstance().saveImageFromPath(image_full_path.getAbsolutePath(), this);
-				String imageThumbnailName = ImageContainer.getInstance().saveThumbnailFromPath(image_full_path.getAbsolutePath(), this);
-				String oldThumbName = content.get(BrickDefine.BRICK_VALUE_1);
-				String oldImageName = content.get(BrickDefine.BRICK_VALUE);
-
-				content.put(BrickDefine.BRICK_VALUE, imageName);
-				content.put(BrickDefine.BRICK_VALUE_1, imageThumbnailName);
-				content.put(BrickDefine.BRICK_NAME, c.getString(1));
-
-				int indexOf = contentManager.getCurrentSpriteCostumeNameList().indexOf(oldThumbName);
-				if (contentManager.getCurrentSpriteCostumeNameList().remove(oldThumbName))
-					contentManager.getCurrentSpriteCostumeNameList().add(indexOf, imageThumbnailName);
-				else
-					contentManager.getCurrentSpriteCostumeNameList().add(imageThumbnailName);
-
-				// remove old files
-				ImageContainer.getInstance().deleteImage(oldThumbName);
-				ImageContainer.getInstance().deleteImage(oldImageName);
-
-				updateViews();
-				// debug
-				String column0Value = c.getString(0);
-				String column1Value = c.getString(1);
-
-				Log.d("Data", column0Value);
-				Log.d("Display name", column1Value);
-			}
-
-		}
-		*/
+		 * if ((requestCode == MediaFileLoader.GALLERY_INTENT_CODE) && (data != null)) {
+		 * 
+		 * HashMap<String, String> content = contentManager.getCurrentSpriteCommandList().get(LAST_SELECTED_ELEMENT_POSITION); // TODO: we need current //
+		 * Sprite/Script an the // BrickPosition of the // Image Brick Uri u2 = Uri.parse(data.getDataString()); String[] projection = {
+		 * MediaStore.Images.ImageColumns.DATA, MediaStore.Images.ImageColumns.DISPLAY_NAME }; Cursor c = managedQuery(u2, projection, null, null, null); if (c
+		 * != null && c.moveToFirst()) { File image_full_path = new File(c.getString(0)); String imageName =
+		 * ImageContainer.getInstance().saveImageFromPath(image_full_path.getAbsolutePath(), this); String imageThumbnailName =
+		 * ImageContainer.getInstance().saveThumbnailFromPath(image_full_path.getAbsolutePath(), this); String oldThumbName =
+		 * content.get(BrickDefine.BRICK_VALUE_1); String oldImageName = content.get(BrickDefine.BRICK_VALUE);
+		 * 
+		 * content.put(BrickDefine.BRICK_VALUE, imageName); content.put(BrickDefine.BRICK_VALUE_1, imageThumbnailName); content.put(BrickDefine.BRICK_NAME,
+		 * c.getString(1));
+		 * 
+		 * int indexOf = contentManager.getCurrentSpriteCostumeNameList().indexOf(oldThumbName); if
+		 * (contentManager.getCurrentSpriteCostumeNameList().remove(oldThumbName)) contentManager.getCurrentSpriteCostumeNameList().add(indexOf,
+		 * imageThumbnailName); else contentManager.getCurrentSpriteCostumeNameList().add(imageThumbnailName);
+		 * 
+		 * // remove old files ImageContainer.getInstance().deleteImage(oldThumbName); ImageContainer.getInstance().deleteImage(oldImageName);
+		 * 
+		 * updateViews(); // debug String column0Value = c.getString(0); String column1Value = c.getString(1);
+		 * 
+		 * Log.d("Data", column0Value); Log.d("Display name", column1Value); }
+		 * 
+		 * }
+		 */
 
 		super.onActivityResult(requestCode, resultCode, data);
 	}
@@ -358,10 +341,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	}
 
 	public void updateViews() {
-		//programmAdapter.notifyDataSetChanged(contentManager.getCurrentSpriteCommandList());
-		// new:
 		programmAdapter.notifyDataSetChanged(contentManager.getCurrentSprite());
-		mGalleryAdapter.notifyDataSetChanged();
+//		mGalleryAdapter.notifyDataSetChanged();
 
 		mSpritesToolboxButton.setText(contentManager.getCurrentSprite().getName());
 	}
