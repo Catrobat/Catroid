@@ -207,6 +207,10 @@ public class Sprite implements Serializable, Comparable<Sprite> {
     }
 
     public void processOnTouch(int coordX, int coordY) {
+        if(currentCostume == null) {
+            startTouchScripts();
+            return;
+        }
         int inSpriteCoordX = coordX - currentCostume.getDrawPositionX();
         int inSpriteCoordY = coordY - currentCostume.getDrawPositionY();
 
