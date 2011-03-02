@@ -64,17 +64,31 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		init();
 	}
 
-	public void startScripts() {
+	public void startScripts() { //TODO: rename function
 		for (Script s : scriptList) {
-			final Script script = s;
-			Thread t = new Thread(new Runnable() {
-				public void run() {
-					script.run();
-				}
-			});
-			threadList.add(t);
-			t.start();
+			if(!s.isTouchScript()){
+			    startScript(s);
+			}
 		}
+	}
+	
+	public void startTouchScripts() {
+	    for( Script s: scriptList) {
+	        if(s.isTouchScript()){
+	            startScript(s);
+	        }
+	    }
+	}
+	
+	private void startScript(Script s){
+	    final Script script = s;
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                script.run();
+            }
+        });
+        threadList.add(t);
+        t.start();  
 	}
 
 	public void pause() {
@@ -90,8 +104,11 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	public void resume() {
 		for (Script s : scriptList) {
 			s.setPaused(false);
+			if(s.isTouchScript() && s.isFinished()){
+			    continue;
+			}
+			startScript(s);
 		}
-		startScripts();
 	}
 
 	public String getName() {
@@ -121,9 +138,12 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	public synchronized void setXYPosition(int xPosition, int yPosition) {
 		this.xPosition = xPosition;
 		this.yPosition = yPosition;
-		if (currentCostume != null) {
-			currentCostume.setDrawPosition(); //TODO set all sprites in spriteList or only current?
+		for(Costume costume : costumeList){
+		    costume.setDrawPosition();
 		}
+//		if (currentCostume != null) {
+//			currentCostume.setDrawPosition(); //TODO set all sprites in spriteList or only current?
+//		}
 		this.toDraw = true;
 	}
 

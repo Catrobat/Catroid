@@ -19,82 +19,93 @@
 package at.tugraz.ist.catroid.content.script;
 
 import java.util.ArrayList;
+
 import at.tugraz.ist.catroid.content.brick.gui.Brick;
 import at.tugraz.ist.catroid.exception.InterruptedRuntimeException;
 
 public class Script {
 
-	private static final long serialVersionUID = 1L;
-	private ArrayList<Brick> brickList;
-	private boolean isTouchScript;
-	private boolean paused;
-	private int brickPositionAfterPause;
+    private static final long serialVersionUID = 1L;
+    private ArrayList<Brick> brickList;
+    private boolean isTouchScript;
+    private boolean isFinished;
+    private boolean paused;
+    private int brickPositionAfterPause;
 
-	public Script() {
-		this.brickList = new ArrayList<Brick>();
-		this.paused = false;
-		this.brickPositionAfterPause = 0;
-		setTouchScript(false);
-	}
+    public Script() {
+        this.brickList = new ArrayList<Brick>();
+        this.paused = false;
+        this.isFinished = false;
+        this.brickPositionAfterPause = 0;
+        setTouchScript(false);
+    }
 
-	public void run() {
-		for (int i = brickPositionAfterPause; i < brickList.size(); i++) {
-			if (paused) {
-				brickPositionAfterPause = i;
-				return;
-			}
-			try {
-				brickList.get(i).execute();
-			} catch (InterruptedRuntimeException e) {   //Brick was interrupted
-				brickPositionAfterPause = i;
-				return;
-			}
-		}
-	}
+    public void run() {
+        if(isFinished && !isTouchScript){
+            return;
+        }
+        isFinished = false;
+        for (int i = brickPositionAfterPause; i < brickList.size(); i++) {
+            if (paused) {
+                brickPositionAfterPause = i;
+                return;
+            }
+            try {
+                brickList.get(i).execute();
+            } catch (InterruptedRuntimeException e) { //Brick was interrupted
+                brickPositionAfterPause = i;
+                return;
+            }
+        }
+        isFinished = true;
+    }
 
-	public void addBrick(Brick brick) {
-		brickList.add(brick);
-	}
+    public void addBrick(Brick brick) {
+        brickList.add(brick);
+    }
 
-	public void removeBrick(Brick brick) {
-		brickList.remove(brick);
-	}
+    public void removeBrick(Brick brick) {
+        brickList.remove(brick);
+    }
 
-	public void moveBrickBySteps(Brick brick, int steps) {
-		int oldIndex = brickList.indexOf(brick);
-		int newIndex;
+    public void moveBrickBySteps(Brick brick, int steps) {
+        int oldIndex = brickList.indexOf(brick);
+        int newIndex;
 
-		if (steps < 0) {
-			newIndex = oldIndex + steps < 0 ? 0 : oldIndex + steps;
-			brickList.remove(oldIndex);
-			brickList.add(newIndex, brick);
-		} else if (steps > 0) {
-			newIndex = oldIndex + steps >= brickList.size() ? brickList.size() - 1
-					: oldIndex + steps;
-			brickList.remove(oldIndex);
-			brickList.add(newIndex, brick);
-		} else {
-			return;
-		}
-	}
+        if (steps < 0) {
+            newIndex = oldIndex + steps < 0 ? 0 : oldIndex + steps;
+            brickList.remove(oldIndex);
+            brickList.add(newIndex, brick);
+        } else if (steps > 0) {
+            newIndex = oldIndex + steps >= brickList.size() ? brickList.size() - 1 : oldIndex + steps;
+            brickList.remove(oldIndex);
+            brickList.add(newIndex, brick);
+        } else {
+            return;
+        }
+    }
 
-	public ArrayList<Brick> getBrickList() {
-		return this.brickList;
-	}
+    public ArrayList<Brick> getBrickList() {
+        return this.brickList;
+    }
 
-	public void setTouchScript(boolean isTouchScript) {
-		this.isTouchScript = isTouchScript;
-	}
+    public void setTouchScript(boolean isTouchScript) {
+        this.isTouchScript = isTouchScript;
+    }
 
-	public boolean isTouchScript() {
-		return isTouchScript;
-	}
+    public boolean isTouchScript() {
+        return isTouchScript;
+    }
 
-	public synchronized void setPaused(boolean paused) {
-		this.paused = paused;
-	}
-	
-	public boolean isPaused() {
-	    return this.paused;
-	}
+    public synchronized void setPaused(boolean paused) {
+        this.paused = paused;
+    }
+
+    public boolean isPaused() {
+        return this.paused;
+    }
+
+    public boolean isFinished() {
+        return isFinished;
+    }
 }
