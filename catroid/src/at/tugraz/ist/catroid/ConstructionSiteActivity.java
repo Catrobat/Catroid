@@ -305,7 +305,6 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			try {
 				contentManager.resetContent();
 			} catch (NameNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			updateViews();
@@ -452,7 +451,6 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			if (!noMediaFile.exists())
 				noMediaFile.createNewFile();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		noMediaFile = new File(Utils.concatPaths(ROOT_SOUNDS, MEDIA_IGNORE_BY_ANDROID_FILENAME));
@@ -460,7 +458,6 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			if (!noMediaFile.exists())
 				noMediaFile.createNewFile();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
