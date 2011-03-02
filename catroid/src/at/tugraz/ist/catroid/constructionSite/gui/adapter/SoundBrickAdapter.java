@@ -47,7 +47,6 @@ public class SoundBrickAdapter extends BaseAdapter{
 
 	@Override
 	public void notifyDataSetChanged() {
-		// TODO Auto-generated method stub
 		super.notifyDataSetChanged();
 	}
 	
