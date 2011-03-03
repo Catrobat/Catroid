@@ -1,7 +1,52 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent" 
+                android:layout_height="wrap_content"
+                android:padding="10px" 
+                android:background="@color/dark_gray">
 
-<AbsoluteLayout android:id="@+id/AbsoluteLayout01" android:layout_width="fill_parent" android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
-<Button android:layout_width="wrap_content" android:id="@+id/sprite_activity_menu" android:layout_height="wrap_content" android:text="Menu" android:layout_x="203dip" android:layout_y="32dip"></Button>
-<TextView android:layout_width="wrap_content" android:text="projectname" android:id="@+id/sprite_activity_projectname" android:layout_height="wrap_content" android:layout_x="36dip" android:layout_y="51dip"></TextView>
-<Button android:layout_width="wrap_content" android:id="@+id/sprite_activity_add" android:layout_height="wrap_content" android:text="+ Add" android:layout_x="101dip" android:layout_y="276dip"></Button>
-<ExpandableListView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/sprite_activity_spritelist" android:layout_x="37dip" android:layout_y="105dip"></ExpandableListView>
-</AbsoluteLayout>
+   <RelativeLayout android:layout_height="wrap_content"
+					android:layout_alignParentTop="true" 
+					android:layout_width="fill_parent"
+					android:id="@+id/HeadRelativeLayout" 
+					android:background="@drawable/sims">
+					
+		<Button android:layout_height="wrap_content" 
+				android:id="@+id/sprite_activity_menu"
+				android:text="@string/menu" android:layout_alignParentRight="true"
+				android:layout_width="wrap_content" android:layout_centerVertical="true"
+				android:textColor="@color/white" android:textStyle="bold"
+				android:background="@drawable/button_black">
+		</Button>
+		
+		<TextView android:layout_height="wrap_content" 
+				  android:layout_width="160px" 
+                   android:textStyle="bold" 
+                   android:id="@+id/sprite_activity_spritename" 
+                   android:text="@string/spritename"
+                   android:textColor="@color/solid_black" 
+                   android:layout_alignParentLeft="true"
+                   android:textSize="30px" android:paddingLeft="5dip" android:paddingRight="5dip">
+                   </TextView>
+                   
+	</RelativeLayout>
+
+  <ListView android:id="@+id/MainListView"
+			android:dividerHeight="0dip" android:layout_width="fill_parent"
+			android:paddingLeft="2dip" android:paddingRight="2dip"
+			android:layout_below="@+id/HeadRelativeLayout"
+			android:layout_height="wrap_content"
+			android:divider="@color/silver"
+			android:scrollbarDefaultDelayBeforeFade="2000">
+</ListView>
+
+<TextView android:id="@+id/sprite_activity_list" android:layout_height="wrap_content"
+			android:background="@drawable/sims_bottom" android:layout_below="@+id/MainListView"
+			android:layout_width="fill_parent" android:layout_alignLeft="@+id/MainListView">
+</TextView>
+               
+<Button android:layout_width="fill_parent" 
+		android:id="@+id/sprite_activity_add" 
+		android:layout_height="wrap_content" 
+		android:text="@string/add_new_sprite" 
+		android:layout_alignParentBottom="true"></Button>
+</RelativeLayout>
