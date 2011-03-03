@@ -46,7 +46,10 @@ public class LoadProgramDialog extends Dialog {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 				File file = new File(mAdapter.getItem(arg2));
 				ConstructionSiteActivity.setRoot(file.getParent(), file.getName());
-				mContentManager.loadContent(file.getName());
+				if(!mContentManager.loadContent(file.getName())){
+				    //TODO: error message
+				}
+
 				((Activity) mCtx).setTitle(file.getName());
 				dismiss();
 			}

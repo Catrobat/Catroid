@@ -22,168 +22,212 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.graphics.Bitmap;
 import at.tugraz.ist.catroid.content.script.Script;
 
 public class Sprite implements Serializable, Comparable<Sprite> {
-	private static final long serialVersionUID = 1L;
-	private String name;
-	private int xPosition;
-	private int yPosition;
-	private int zPosition;
-	private double scale;
-	private boolean isVisible;
-	private boolean toDraw;
-	private List<Costume> costumeList;
-	private List<Script> scriptList;
-	private List<Thread> threadList;
-	private Costume currentCostume;
+    private static final long serialVersionUID = 1L;
+    private String name;
+    private int xPosition;
+    private int yPosition;
+    private int zPosition;
+    private double scale;
+    private boolean isVisible;
+    private boolean toDraw;
+    private List<Costume> costumeList;
+    private List<Script> scriptList;
+    private List<Thread> threadList;
+    private Costume currentCostume;
 
-	private void init() {
-		this.zPosition = 0;
-		this.scale = 1.0;
-		this.isVisible = true;
-		this.costumeList = new ArrayList<Costume>();
-		this.scriptList = new ArrayList<Script>();
-		this.threadList = new ArrayList<Thread>();
-		this.currentCostume = null;
-	}
+    private void init() {
+        this.zPosition = 0;
+        this.scale = 1.0;
+        this.isVisible = true;
+        this.costumeList = new ArrayList<Costume>();
+        this.scriptList = new ArrayList<Script>();
+        this.threadList = new ArrayList<Thread>();
+        this.currentCostume = null;
+    }
 
-	public Sprite(String name) {
-		this.name = name;
-		this.xPosition = 0;
-		this.yPosition = 0;
-		this.toDraw = false;
-		init();
-	}
+    public Sprite(String name) {
+        this.name = name;
+        this.xPosition = 0;
+        this.yPosition = 0;
+        this.toDraw = false;
+        init();
+    }
 
-	public Sprite(String name, int xPosition, int yPosition) {
-		this.name = name;
-		this.xPosition = xPosition;
-		this.yPosition = yPosition;
-		this.toDraw = false;
-		init();
-	}
+    public Sprite(String name, int xPosition, int yPosition) {
+        this.name = name;
+        this.xPosition = xPosition;
+        this.yPosition = yPosition;
+        this.toDraw = false;
+        init();
+    }
 
-	public void startScripts() {
-		for (Script s : scriptList) {
-			final Script script = s;
-			Thread t = new Thread(new Runnable() {
-				public void run() {
-					script.run();
-				}
-			});
-			threadList.add(t);
-			t.start();
-		}
-	}
+    public void startScripts() { //TODO: rename function
+        for (Script s : scriptList) {
+            if (!s.isTouchScript()) {
+                startScript(s);
+            }
+        }
+    }
 
-	public void pause() {
-		for (Script s : scriptList) {
-			s.setPaused(true);
-		}
-		for (Thread t : threadList) {
-			t.interrupt();
-		}
-		threadList.clear();
-	}
+    private void startTouchScripts() {
+        for (Script s : scriptList) {
+            if (s.isTouchScript()) {
+                startScript(s);
+            }
+        }
+    }
 
-	public void resume() {
-		for (Script s : scriptList) {
-			s.setPaused(false);
-		}
-		startScripts();
-	}
+    private void startScript(Script s) {
+        final Script script = s;
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                script.run();
+            }
+        });
+        threadList.add(t);
+        t.start();
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void pause() {
+        for (Script s : scriptList) {
+            s.setPaused(true);
+        }
+        for (Thread t : threadList) {
+            t.interrupt();
+        }
+        threadList.clear();
+    }
 
-	public int getXPosition() {
-		return xPosition;
-	}
+    public void resume() {
+        for (Script s : scriptList) {
+            s.setPaused(false);
+            if (s.isTouchScript() && s.isFinished()) {
+                continue;
+            }
+            startScript(s);
+        }
+    }
 
-	public int getYPosition() {
-		return yPosition;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public int getZPosition() {
-		return zPosition;
-	}
+    public int getXPosition() {
+        return xPosition;
+    }
 
-	public double getScale() {
-		return scale;
-	}
+    public int getYPosition() {
+        return yPosition;
+    }
 
-	public boolean isVisible() {
-		return isVisible;
-	}
+    public int getZPosition() {
+        return zPosition;
+    }
 
-	public synchronized void setXYPosition(int xPosition, int yPosition) {
-		this.xPosition = xPosition;
-		this.yPosition = yPosition;
-		if (currentCostume != null) {
-			currentCostume.setDrawPosition(); //TODO set all sprites in spriteList or only current?
-		}
-		this.toDraw = true;
-	}
+    public double getScale() {
+        return scale;
+    }
 
-	public synchronized void setZPosition(int zPosition) {
-		this.zPosition = zPosition;
-		this.toDraw = true;
-	}
+    public boolean isVisible() {
+        return isVisible;
+    }
 
-	public void setScale(double scale) {
-		if (scale <= 0.0)
-			throw new IllegalArgumentException("Sprite scale must be greater than zero!");
-		this.scale = scale;
-		this.toDraw = true;
-	}
+    public synchronized void setXYPosition(int xPosition, int yPosition) {
+        this.xPosition = xPosition;
+        this.yPosition = yPosition;
+        for (Costume costume : costumeList) {
+            costume.setDrawPosition();
+        }
+        //		if (currentCostume != null) {
+        //			currentCostume.setDrawPosition(); //TODO set all sprites in spriteList or only current?
+        //		}
+        this.toDraw = true;
+    }
 
-	public void show() {
-		isVisible = true;
-		this.toDraw = true;
-	}
+    public synchronized void setZPosition(int zPosition) {
+        this.zPosition = zPosition;
+        this.toDraw = true;
+    }
 
-	public void hide() {
-		isVisible = false;
-		this.toDraw = true;
-	}
+    public void setScale(double scale) {
+        if (scale <= 0.0)
+            throw new IllegalArgumentException("Sprite scale must be greater than zero!");
+        this.scale = scale;
+        this.toDraw = true;
+    }
 
-	public Costume getCurrentCostume() {
-		return currentCostume;
-	}
+    public void show() {
+        isVisible = true;
+        this.toDraw = true;
+    }
 
-	public List<Costume> getCostumeList() {
-		return costumeList;
-	}
+    public void hide() {
+        isVisible = false;
+        this.toDraw = true;
+    }
 
-	public List<Script> getScriptList() {
-		return scriptList;
-	}
-	
-	public boolean getToDraw() {
-		return toDraw;
-	}
+    public Costume getCurrentCostume() {
+        return currentCostume;
+    }
 
-	public void setToDraw(boolean value) {
-		this.toDraw = value;
-	}
-	
-	public void setCurrentCostume(Costume costume)
-			throws IllegalArgumentException {
-		if (!costumeList.contains(costume))
-			throw new IllegalArgumentException("Selected costume is not contained in Costume list of this sprite.");
-		currentCostume = costume;
-		this.toDraw = true;
-	}
+    public List<Costume> getCostumeList() {
+        return costumeList;
+    }
 
-	
-	public int compareTo(Sprite sprite) {
-		long thisZValue = this.getZPosition();
-		long otherZValue = sprite.getZPosition();
-		long difference = thisZValue - otherZValue;
-		if(difference > Integer.MAX_VALUE)
-			return Integer.MAX_VALUE;
-		return (int)difference;
-	}
+    public List<Script> getScriptList() {
+        return scriptList;
+    }
+
+    public boolean getToDraw() {
+        return toDraw;
+    }
+
+    public void setToDraw(boolean value) {
+        this.toDraw = value;
+    }
+
+    public void setCurrentCostume(Costume costume) throws IllegalArgumentException {
+        if (!costumeList.contains(costume))
+            throw new IllegalArgumentException("Selected costume is not contained in Costume list of this sprite.");
+        currentCostume = costume;
+        this.toDraw = true;
+    }
+
+    public int compareTo(Sprite sprite) {
+        long thisZValue = this.getZPosition();
+        long otherZValue = sprite.getZPosition();
+        long difference = thisZValue - otherZValue;
+        if (difference > Integer.MAX_VALUE)
+            return Integer.MAX_VALUE;
+        return (int) difference;
+    }
+
+    public void processOnTouch(int coordX, int coordY) {
+        if(currentCostume == null) {
+            startTouchScripts();
+            return;
+        }
+        int inSpriteCoordX = coordX - currentCostume.getDrawPositionX();
+        int inSpriteCoordY = coordY - currentCostume.getDrawPositionY();
+
+        //TODO: this is dirty, find a better solution than getting the Bitmap here
+        Bitmap tempBitmap = currentCostume.getBitmap();
+        if (inSpriteCoordX < 0 || inSpriteCoordX >= tempBitmap.getWidth()) {
+            return;
+        }
+        if (inSpriteCoordY < 0 || inSpriteCoordY >= tempBitmap.getHeight()) {
+            return;
+        }
+        tempBitmap.recycle();
+//        if (mDrawObject.getBitmap() == null TODO: I am 12 and what is this?
+//                || Color.alpha(mDrawObject.getBitmap().getPixel(inSpriteCoordX, inSpriteCoordY)) <= 10) {
+//            return;
+//        }
+
+        startTouchScripts();
+    }
 }

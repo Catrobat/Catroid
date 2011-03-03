@@ -67,10 +67,11 @@ public class NewProjectDialog extends Dialog {
 
 					// if the project already existed just load it
                     if (existed)
-                        mContentManager.loadContent(newSpfFile);
-                    else
-                    {
-                        mContentManager.initializeNewProject();
+                        if(!mContentManager.loadContent(newSpfFile)){
+                            //TODO: error message
+                        }
+
+                    else {
                         mContentManager.initializeNewProject(projectName);
                     }
 					

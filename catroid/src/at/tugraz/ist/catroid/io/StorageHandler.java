@@ -21,7 +21,6 @@ package at.tugraz.ist.catroid.io;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,6 +30,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.Environment;
 import android.provider.MediaStore;
+import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.entities.SoundInfo;
 import at.tugraz.ist.catroid.content.project.Project;
 
@@ -43,11 +43,13 @@ import com.thoughtworks.xstream.XStream;
 public class StorageHandler {
     private static final String DIRECTORY_NAME = "catroid";
     private static final String PROJECT_EXTENTION = ".spf";
-
+    
     private static StorageHandler instance;
     private ArrayList<SoundInfo> soundContent;
     private File catroidRoot;
     private XStream xstream;
+    
+    
 
     private StorageHandler() throws IOException {
         String state = Environment.getExternalStorageState();
@@ -71,21 +73,24 @@ public class StorageHandler {
     }
 
     public Project loadProject(String projectName) {
-
         try {
+            if (projectName.endsWith(PROJECT_EXTENTION)) {
+                projectName = projectName.substring(0, projectName.length() - PROJECT_EXTENTION.length());
+            }
+            
             File projectDirectory = new File(catroidRoot.getAbsolutePath() + "/" + projectName);
+            
             if (projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite()) {
-                InputStream spfFileStream;
-                spfFileStream = new FileInputStream(projectDirectory.getAbsolutePath() + "/" + projectName
+                InputStream spfFileStream = new FileInputStream(projectDirectory.getAbsolutePath() + "/" + projectName
                         + PROJECT_EXTENTION);
                 return (Project) xstream.fromXML(spfFileStream);
             } else
                 return null;
 
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     public void saveProject(Project project) {
@@ -107,6 +112,14 @@ public class StorageHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    public boolean projectExists(String projectName){
+        File projectDirectory = new File(catroidRoot.getAbsolutePath() + "/" + projectName);
+        if (!(projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite())) {
+            return false;
+        }
+        return true;
     }
 
     // TODO: Find a way to access sound files on the device
@@ -143,5 +156,20 @@ public class StorageHandler {
         System.out.println("SOUND SET");
         this.soundContent.clear();
         this.soundContent.addAll(soundContent);
+    }
+    
+    /**
+     * Creates the default project and saves it to the filesystem
+     * 
+     * @return the default project object if successful, else null
+     */
+    public Project createDefaultProject(Context context){
+        try {
+            Project defaultProject = new Project(context, context.getString(R.string.default_project_name));
+            this.saveProject(defaultProject);
+            return defaultProject;
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

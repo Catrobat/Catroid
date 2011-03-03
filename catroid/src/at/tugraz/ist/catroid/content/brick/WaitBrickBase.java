@@ -6,10 +6,10 @@ import at.tugraz.ist.catroid.exception.InterruptedRuntimeException;
 
 public class WaitBrickBase implements BrickBase {
 	private static final long serialVersionUID = 1L;
-    protected PrimitiveWrapper<Long> timeToWaitInMilliseconds;
+    protected PrimitiveWrapper<Integer> timeToWaitInMilliseconds;
     
-	public WaitBrickBase(long timeToWaitInMilliseconds) {
-		this.timeToWaitInMilliseconds = new PrimitiveWrapper<Long>(timeToWaitInMilliseconds);
+	public WaitBrickBase(int timeToWaitInMilliseconds) {
+		this.timeToWaitInMilliseconds = new PrimitiveWrapper<Integer>(timeToWaitInMilliseconds);
 	}
 
 	public void execute() {
@@ -18,7 +18,7 @@ public class WaitBrickBase implements BrickBase {
 			startTime = System.currentTimeMillis();
 			Thread.sleep(timeToWaitInMilliseconds.getValue());
 		} catch (InterruptedException e) {
-			timeToWaitInMilliseconds.setValue(timeToWaitInMilliseconds.getValue() - (System.currentTimeMillis() - startTime));
+			timeToWaitInMilliseconds.setValue(timeToWaitInMilliseconds.getValue() - (int)(System.currentTimeMillis() - startTime));
 			throw new InterruptedRuntimeException("WaitBrick was interrupted", e);
 		}
 	}
