@@ -101,4 +101,5 @@
 	<string name="success_project_download">
 		Project download successful.
     </string>
+	<string name="load_project">Load Project</string>
 </resources>
