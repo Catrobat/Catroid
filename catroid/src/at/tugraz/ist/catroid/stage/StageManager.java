@@ -11,8 +11,8 @@ import android.os.Handler;
 import android.util.Log;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.project.Project;
-import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.io.StorageHandler;
 
 public class StageManager {
     private Activity mActivity;

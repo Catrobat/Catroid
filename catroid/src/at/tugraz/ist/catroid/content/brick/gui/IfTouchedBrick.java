@@ -35,9 +35,13 @@ public class IfTouchedBrick extends IfTouchedBrickBase implements Brick {
 		super(sprite, touchedScript);
 	}
 
-	public View getView(Context context, View convertView, BaseAdapter adapter) {
+	public View getView(Context context, BaseAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.construction_brick_touched, null);
 		return view;
+	}
+	
+	public Brick clone() {
+		return new IfTouchedBrick(getSprite(), touchScript);
 	}
 }

@@ -22,7 +22,7 @@ import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public abstract class IfTouchedBrickBase implements BrickBase {
-	private Script touchScript;
+	protected Script touchScript;
 	private Sprite sprite;
 	private static final long serialVersionUID = 1L;
 	
@@ -33,7 +33,7 @@ public abstract class IfTouchedBrickBase implements BrickBase {
 	}
 
 	public void execute() {
-		touchScript.isTouchScript();
+		// nothing to do
 	}
 	
 	public Sprite getSprite() {

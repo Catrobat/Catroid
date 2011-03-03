@@ -24,5 +24,6 @@ import android.widget.BaseAdapter;
 import at.tugraz.ist.catroid.content.brick.BrickBase;
 
 public interface Brick extends BrickBase {
-	public View getView(Context context, View convertView, BaseAdapter adapter);
+	public View getView(Context context, BaseAdapter adapter);
+	public Brick clone();
 }
