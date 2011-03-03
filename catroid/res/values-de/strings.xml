@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<!-- General terms -->
+	<string name="project">Projekt</string>
+	<string name="sprite">Objekt</string>
+	<string name="script">Skript</string>
+	<string name="brick">Baustein</string>
+	<string name="quit">Beenden</string>
+	
+	<!-- User interface -->
+	<string name="main_menu">Hauptmenü</string>
+
+	<!-- Project activity view -->
+	<string name="project_name">Projektname</string>
+	<string name="sprites">Objekte: </string>
+	<string name="add_sprite">Objekt hinzufügen</string>
+
 	<!-- General -->
 	<string name="save">Speichern</string>
 	<string name="close">Schließen</string>
@@ -16,18 +31,8 @@
 	<string name="change_project_name_main">Ändere Projektname</string>
 	<string name="about">Über Catroid</string>
 	<string name="upload_project">Projekt upload</string>
-	
-	<!-- Sprite activity -->
-	<string name="spritename">Sprite</string>
-	<string name="menu">Menü</string>
-	<string name="add_new_sprite">+ Neues Sprite hinzufügen</string>
-
-	<!-- Script activity -->
-	<string name="scriptname">Script</string>
-	<string name="add_new_script">+ Neues Script hinzufügen</string>
 
 	<!-- Sprite dialog -->
-	<string name="sprites">Objekte</string>
 	<string name="SpriteButtonText">Anlegen</string>
 	<string name="newsprite">Neues Objekt</string>
 	
@@ -58,6 +63,9 @@
 	<string name="steps_label">Schritte nach hinten</string>
 	<string name="come_to_front_main_adapter">Komm nach vorne</string>
 	<string name="touched_main_adapter">Wenn berührt</string>
+	
+	<!-- defaulValues -->
+	<string name="default_project_name">standardProjekt</string>
 
 	<!-- Error messages -->
 	<string name="error_no_sd_card">
@@ -75,12 +83,12 @@
     <string name="error_project_rename">
 		Beim Umbenennen des Projektes ist ein Fehler aufgetreten.
 	</string>
-	<string name="error_save_project">
-		Beim Speichern des Projektes ist ein Fehler aufgetreten.
-	</string>
 	<string name="error_load_project">
-		Beim Laden des Projektes ist ein Fehler aufgetreten.
-	</string>
+		Das Projekt konnte nicht geladen werden.
+    </string>
+	<string name="error_save_project">
+		Das Projekt konnte nicht gespeichert werden.
+    </string>
 
 	<!-- Notifications -->
 	<string name="success_project_upload">

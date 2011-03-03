@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+>
+	<!-- Top bar -->
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_weight="0"
+	>
+		<TextView 
+			android:text="@string/project_name" 
+			android:id="@+id/projectTitleTextView"
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content"
+			android:layout_weight="3"
+		></TextView>
+		<Button 
+			android:text="@string/main_menu" 
+			android:id="@+id/mainMenuButton"
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+		>
+		</Button>
+	</LinearLayout>
+
+	<!-- Sprite list -->
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="vertical"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:layout_weight="1"
+	>
+		<TextView 
+			android:text="@string/sprites" 
+			android:id="@+id/spriteListLabel"
+			android:layout_width="fill_parent" 
+			android:layout_height="wrap_content"
+		></TextView>
+		<ListView android:layout_width="fill_parent"
+			android:layout_height="fill_parent" 
+			android:id="@+id/spriteListView"
+		></ListView>
+	</LinearLayout>
+	
+	<!-- Add sprite button -->
+	<Button android:text="@string/add_sprite" 
+		android:id="@+id/addSpriteButton"
+		android:layout_width="fill_parent" 
+		android:layout_height="wrap_content"
+		android:layout_weight="0"
+	></Button>
+</LinearLayout>

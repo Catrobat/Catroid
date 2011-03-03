@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- General terms -->
+	<string name="project">project</string>
+	<string name="sprite">sprite</string>
+	<string name="script">script</string>
+	<string name="brick">brick</string>
+	<string name="quit">Quit</string>
+	
+	<!-- User interface -->
+	<string name="main_menu">Main menu</string>
+
+	<!-- Project activity view -->
+	<string name="project_name">Project name</string>
+	<string name="sprites">Sprites: </string>
+	<string name="add_sprite">Add sprite</string>
+</resources>
