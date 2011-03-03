@@ -31,8 +31,18 @@
 	<string name="change_project_name_main">Ändere Projektname</string>
 	<string name="about">Über Catroid</string>
 	<string name="upload_project">Projekt upload</string>
+	
+	<!-- Sprite activity -->
+	<string name="spritename">Sprite</string>
+	<string name="menu">Menü</string>
+	<string name="add_new_sprite">+ Neues Sprite hinzufügen</string>
+
+	<!-- Script activity -->
+	<string name="scriptname">Script</string>
+	<string name="add_new_script">+ Neues Script hinzufügen</string>
 
 	<!-- Sprite dialog -->
+	<string name="sprites">Objekte</string>
 	<string name="SpriteButtonText">Anlegen</string>
 	<string name="newsprite">Neues Objekt</string>
 	
@@ -83,12 +93,12 @@
     <string name="error_project_rename">
 		Beim Umbenennen des Projektes ist ein Fehler aufgetreten.
 	</string>
-	<string name="error_load_project">
-		Das Projekt konnte nicht geladen werden.
-    </string>
 	<string name="error_save_project">
-		Das Projekt konnte nicht gespeichert werden.
-    </string>
+		Beim Speichern des Projektes ist ein Fehler aufgetreten.
+	</string>
+	<string name="error_load_project">
+		Beim Laden des Projektes ist ein Fehler aufgetreten.
+	</string>
 
 	<!-- Notifications -->
 	<string name="success_project_upload">
@@ -97,4 +107,5 @@
 	<string name="success_project_download">
 		Download erfolgreich.
     </string>
+	<string name="load_project">Projekt laden</string>
 </resources>
