@@ -2,6 +2,7 @@ package at.tugraz.ist.catroid.constructionSite.gui.adapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import android.content.Context;
 import android.view.KeyEvent;
@@ -15,6 +16,7 @@ import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.BrickDefine;
 import at.tugraz.ist.catroid.content.script.Script;
+import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.utils.ImageContainer;
 
 public class ProgrammAdapter extends BaseAdapter implements OnClickListener {
@@ -26,6 +28,7 @@ public class ProgrammAdapter extends BaseAdapter implements OnClickListener {
 	//private EditTextDialog mEditTextDialog;
 	private Script script;
 	//private LayoutInflater inflater;
+	private List<Script> scriptList;
 
 	public ProgrammAdapter(Context context, Script script, ListView listview, ImageContainer imageContainer) {
 		this.script = script;
@@ -91,7 +94,7 @@ public class ProgrammAdapter extends BaseAdapter implements OnClickListener {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		//if(convertView != null)
 		//	return convertView;
-		return script.getBrickList().get(position).getView(context, convertView, this);
+		return script.getBrickList().get(position).getView(context, this);
 /*
 		final HashMap<String, String> brick = mBrickList.get(position);
 		final String type = mBrickList.get(position).get(BrickDefine.BRICK_TYPE);
@@ -325,6 +328,10 @@ public class ProgrammAdapter extends BaseAdapter implements OnClickListener {
 		mBrickList = data;
 		notifyDataSetChanged();
 	}
+	
+	public void notifyDataSetChanged(Sprite sprite){
+	    setScriptList(sprite.getScriptList());
+	}
 
 	public void onNothingSelected(AdapterView<?> arg0) {
 	}
@@ -358,6 +365,20 @@ public class ProgrammAdapter extends BaseAdapter implements OnClickListener {
 
 	public long getItemId(int position) {
 		return position;
+	}
+
+	/**
+	 * @param scriptList the scriptList to set
+	 */
+	public void setScriptList(List<Script> scriptList) {
+		this.scriptList = scriptList;
+	}
+
+	/**
+	 * @return the scriptList
+	 */
+	public List<Script> getScriptList() {
+		return scriptList;
 	}
 
 }

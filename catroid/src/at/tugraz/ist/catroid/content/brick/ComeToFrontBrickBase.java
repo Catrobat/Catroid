@@ -24,7 +24,7 @@ import at.tugraz.ist.catroid.content.sprite.Sprite;
 public abstract class ComeToFrontBrickBase implements BrickBase {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
-	private transient Project project;
+	protected transient Project project;
 
 	public ComeToFrontBrickBase(Sprite sprite, Project project) {
 		this.sprite = sprite;
