@@ -1,0 +1,26 @@
+
+
+
+<RelativeLayout android:id="@+id/RelativeLayout01" android:background="@color/dark_gray"
+	android:layout_width="fill_parent" android:layout_height="fill_parent" 
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	
+	<RelativeLayout android:layout_height="wrap_content" android:id="@+id/HeadRelativeLayout" 
+		android:layout_width="wrap_content" android:layout_alignParentTop="true"
+		android:background="@drawable/sims">
+	
+    
+    
+    <Button android:layout_height="wrap_content" android:id="@+id/menu_button"
+		android:text="Menu" android:layout_alignParentRight="true"
+		android:layout_width="wrap_content" android:layout_centerVertical="true"
+		android:textColor="@color/white" android:textStyle="bold"
+		android:background="@drawable/button_black">
+		</Button>
+    
+	<TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:textStyle="bold" android:id="@+id/TextView" android:text="Script" android:textColor="@color/black" android:layout_alignParentBottom="true"></TextView>
+</RelativeLayout>
+
+
+
+</RelativeLayout>
