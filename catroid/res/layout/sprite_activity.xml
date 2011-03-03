@@ -1,0 +1,7 @@
+
+<AbsoluteLayout android:id="@+id/AbsoluteLayout01" android:layout_width="fill_parent" android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+<Button android:layout_width="wrap_content" android:id="@+id/sprite_activity_menu" android:layout_height="wrap_content" android:text="Menu" android:layout_x="203dip" android:layout_y="32dip"></Button>
+<TextView android:layout_width="wrap_content" android:text="projectname" android:id="@+id/sprite_activity_projectname" android:layout_height="wrap_content" android:layout_x="36dip" android:layout_y="51dip"></TextView>
+<Button android:layout_width="wrap_content" android:id="@+id/sprite_activity_add" android:layout_height="wrap_content" android:text="+ Add" android:layout_x="101dip" android:layout_y="276dip"></Button>
+<ExpandableListView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/sprite_activity_spritelist" android:layout_x="37dip" android:layout_y="105dip"></ExpandableListView>
+</AbsoluteLayout>
