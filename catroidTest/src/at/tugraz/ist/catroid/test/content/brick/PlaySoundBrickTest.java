@@ -32,6 +32,7 @@ import at.tugraz.ist.catroid.test.R;
 public class PlaySoundBrickTest extends InstrumentationTestCase {
 	private static final int SOUND_FILE_ID = R.raw.testsound;
 	private File soundFile;
+	private final int timeoutMarginInMilliseconds = 100; // acceptable time margin for PlaySoundBrick to finish playing sound
 
 	@Override
 	protected void setUp() throws Exception {
@@ -68,7 +69,7 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 		testBrick.execute();
 		assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
 
-		final int duration = mediaPlayer.getDuration() + 50;
+		final int duration = mediaPlayer.getDuration() + timeoutMarginInMilliseconds;
 		try {
 			Thread.sleep(duration);
 		} catch (InterruptedException e) {
@@ -120,13 +121,13 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 		mediaPlayer.start();
 		assertTrue("MediaPlayer is not playing after resume", mediaPlayer.isPlaying());
 		
-		final int duration = mediaPlayer.getDuration() + 50;
+		final int duration = mediaPlayer.getDuration() + timeoutMarginInMilliseconds;
 		try {
 			Thread.sleep(duration);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 			fail();
 		}
-		assertFalse("MediaPlayer is not done playing", mediaPlayer.isPlaying());
+		assertFalse("MediaPlayer is not done playing after pause and resume", mediaPlayer.isPlaying());
 	}
 }

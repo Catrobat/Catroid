@@ -31,18 +31,30 @@ import at.tugraz.ist.catroid.io.sound.SoundManager;
 import at.tugraz.ist.catroid.test.R;
 
 public class SoundManagerTest extends InstrumentationTestCase {
-	private static final int SOUND_FILE_ID = R.raw.testsound;
 	private File soundFile;
-
+	private File longSoundFile;
+	
 	@Override
 	protected void setUp() throws Exception {
-		// Note: File needs to be copied as MediaPlayer has no access to resources
-		BufferedInputStream inputStream = new BufferedInputStream(getInstrumentation().getContext().getResources().openRawResource(SOUND_FILE_ID));
-		soundFile = File.createTempFile("audioTest", ".mp3");
+		// Note: Files need to be copied as MediaPlayer has no access to resources
+		BufferedInputStream inputStream = new BufferedInputStream(getInstrumentation().getContext().getResources().openRawResource(R.raw.testsound));
+		soundFile = File.createTempFile("testSound", ".mp3");
 		BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(soundFile), 1024);
 
 		byte[] buffer = new byte[1024];
 		int length = 0;
+		while ((length = inputStream.read(buffer)) > 0) {
+			outputStream.write(buffer, 0, length);
+		}
+		inputStream.close();
+		outputStream.flush();
+		outputStream.close();
+		
+		inputStream = new BufferedInputStream(getInstrumentation().getContext().getResources().openRawResource(R.raw.longtestsound));
+		longSoundFile = File.createTempFile("longTestSound", ".mp3");
+		outputStream = new BufferedOutputStream(new FileOutputStream(longSoundFile), 1024);
+
+		length = 0;
 		while ((length = inputStream.read(buffer)) > 0) {
 			outputStream.write(buffer, 0, length);
 		}
@@ -55,6 +67,8 @@ public class SoundManagerTest extends InstrumentationTestCase {
 	protected void tearDown() throws Exception {
 		if (soundFile != null && soundFile.exists())
 			soundFile.delete();
+		if (longSoundFile != null && longSoundFile.exists())
+			longSoundFile.delete();
 		SoundManager.getInstance().clear();
 	}
 
@@ -110,7 +124,7 @@ public class SoundManagerTest extends InstrumentationTestCase {
 		SoundManager.getInstance().resume();
 		assertTrue("MediaPlayer is not playing after resume", mediaPlayer.isPlaying());
 
-		final int duration = mediaPlayer.getDuration() + 50;
+		final int duration = mediaPlayer.getDuration() + 100;
 		try {
 			Thread.sleep(duration);
 		} catch (InterruptedException e) {
@@ -151,7 +165,8 @@ public class SoundManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testMediaPlayerLimit() throws IllegalArgumentException, IllegalStateException, IOException {
-		final String soundFilePath = soundFile.getAbsolutePath();
+		assertNotNull("Test sound file was not copied properly", longSoundFile);
+		final String soundFilePath = longSoundFile.getAbsolutePath();
 		assertNotNull("Could not open test sound file", soundFilePath);
 		assertTrue("Could not open test sound file", soundFilePath.length() > 0);
 		
