@@ -34,10 +34,13 @@ public class UpAndDownloadTest extends AndroidTestCase {
 
 	public void testInit() throws Throwable {
 	}
-
+	
 	public void testUpAndDownload() throws Throwable {
 		String testProjectName = "UpAndDownloadTest"+System.currentTimeMillis();
-		String pathToDefaultProject = ConstructionSiteActivity.DEFAULT_ROOT+"/defaultSaveFile";
+		String pathToDefaultProject = ConstructionSiteActivity.DEFAULT_ROOT+"/uploadtestProject";
+		new File(pathToDefaultProject).mkdirs();
+		String spfFilename = "test"+ConstructionSiteActivity.DEFAULT_FILE_ENDING;
+		new File(pathToDefaultProject+"/"+spfFilename).createNewFile();
 		
 		ProjectUploadTask uploadTask = new ProjectUploadTask(null, testProjectName,
 				pathToDefaultProject, ConstructionSiteActivity.TMP_PATH+"/tmp.zip") {
@@ -65,16 +68,11 @@ public class UpAndDownloadTest extends AndroidTestCase {
 		
 		File downloadProjectRoot = new File(ConstructionSiteActivity.DEFAULT_ROOT+"/"+testProjectName);
 		assertTrue("project does not exist after download", downloadProjectRoot.exists());
+		File testSPFFile = new File(ConstructionSiteActivity.DEFAULT_ROOT+"/"+testProjectName+"/"+spfFilename);
+		assertTrue("spf file does not exist after download", testSPFFile.exists());
 		
-		boolean spfFilePresent = false;
-		String[] projectFiles = downloadProjectRoot.list();
-		for (String fileName : projectFiles) {
-			if(fileName.endsWith(ConstructionSiteActivity.DEFAULT_FILE_ENDING))
-				spfFilePresent = true;
-		}
-		
-		assertTrue("No project file available.", spfFilePresent);
 		UtilFile.deleteDirectory(downloadProjectRoot);
+		UtilFile.deleteDirectory(new File(pathToDefaultProject));
 	}
 
 	private class MockConnection extends ConnectionWrapper {
@@ -82,6 +80,7 @@ public class UpAndDownloadTest extends AndroidTestCase {
 		public String doHttpPostFileUpload(String urlstring,
 				HashMap<String, String> postValues, String filetag,
 				String filePath) throws IOException, WebconnectionException {
+
 			new File(filePath).renameTo(mProjectZipOnMockServer);
 			return "";
 		}
