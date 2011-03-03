@@ -4,12 +4,12 @@
 	android:layout_width="fill_parent" android:layout_height="fill_parent" 
 	xmlns:android="http://schemas.android.com/apk/res/android">
 	
-	<RelativeLayout android:layout_height="50px" android:id="@+id/HeadRelativeLayout" 
+	<RelativeLayout android:layout_height="50px" android:id="@+id/head_relative_layout" 
 		android:layout_width="wrap_content" android:layout_alignParentTop="true"
 		android:background="@drawable/sims">
 	
     	<TextView android:layout_height="wrap_content" android:layout_width="180px" 
-    		android:textStyle="bold" android:id="@+id/HeaderTextView" android:text="Script" 
+    		android:textStyle="bold" android:id="@+id/header_text_view" android:text="Script" 
     		android:textColor="@color/solid_black" android:layout_alignParentLeft="true"
     		android:textSize="20px" android:paddingLeft="5dip" android:paddingRight="5dip">
     		</TextView>
@@ -24,19 +24,14 @@
 	</RelativeLayout>
 
 		
-	<ListView android:id="@+id/MainListView"
+	<ListView android:id="@+id/main_list_view"
 		android:dividerHeight="0dip" android:layout_width="fill_parent"
 		android:paddingLeft="2dip" android:paddingRight="2dip"
-		android:layout_below="@+id/HeadRelativeLayout"
+		android:layout_below="@+id/head_relative_layout"
 		android:layout_height="wrap_content"
 		android:divider="@color/silver"
 		android:scrollbarDefaultDelayBeforeFade="2000">
 		</ListView>
-	
-	<TextView android:id="@+id/ScriptTextView" android:layout_height="wrap_content"
-		android:background="@drawable/sims_bottom" android:layout_below="@+id/MainListView"
-		android:layout_width="fill_parent" android:layout_alignLeft="@+id/MainListView">
-		</TextView>
 
 	<Button android:id="@+id/toolbar_button" android:layout_width="fill_parent"
 		android:text="+ Add New Bricks" android:layout_height="40px" android:textSize="12px"
