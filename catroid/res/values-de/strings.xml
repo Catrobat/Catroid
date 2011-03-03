@@ -75,6 +75,12 @@
     <string name="error_project_rename">
 		Beim Umbenennen des Projektes ist ein Fehler aufgetreten.
 	</string>
+	<string name="error_save_project">
+		Beim Speichern des Projektes ist ein Fehler aufgetreten.
+	</string>
+	<string name="error_load_project">
+		Beim Laden des Projektes ist ein Fehler aufgetreten.
+	</string>
 
 	<!-- Notifications -->
 	<string name="success_project_upload">

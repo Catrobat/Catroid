@@ -1,7 +1,7 @@
 package at.tugraz.ist.catroid.constructionSite.gui.dialogs;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -16,72 +16,90 @@ import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
 import at.tugraz.ist.catroid.constructionSite.gui.adapter.ToolBoxAdapter;
+import at.tugraz.ist.catroid.content.brick.gui.Brick;
+import at.tugraz.ist.catroid.content.brick.gui.ComeToFrontBrick;
+import at.tugraz.ist.catroid.content.brick.gui.GoNStepsBackBrick;
+import at.tugraz.ist.catroid.content.brick.gui.HideBrick;
+import at.tugraz.ist.catroid.content.brick.gui.IfTouchedBrick;
+import at.tugraz.ist.catroid.content.brick.gui.PlaceAtBrick;
+import at.tugraz.ist.catroid.content.brick.gui.PlaySoundBrick;
+import at.tugraz.ist.catroid.content.brick.gui.SetCostumeBrick;
+import at.tugraz.ist.catroid.content.brick.gui.ShowBrick;
+import at.tugraz.ist.catroid.content.brick.gui.WaitBrick;
+import at.tugraz.ist.catroid.content.script.Script;
 
-public class ToolBoxDialog extends Dialog{
+public class ToolBoxDialog extends Dialog {
 
-	
-	private Context mCtx;
-	private Animation mSlide_in;
-	private Animation mSlide_out;
-	private ToolBoxAdapter mAdapter;
-	private LinearLayout mToolboxLayout;
-	private ArrayList<HashMap<String, String>> mContent;
+	private Animation slideInAnimation;
+	private Animation slideOutAnimation;
+	private ToolBoxAdapter adapter;
+	private LinearLayout layout;
 
-	protected ListView mMainListView;	
-	
-	public ToolBoxDialog(Context context, ContentManager contentManager, 
-			ArrayList<HashMap<String, String>> content) {
+	private List<Brick> brickList;
+	private ListView listView;
+
+	private void setupBrickPrototypes() {
+		brickList = new ArrayList<Brick>();
+		brickList.add(new PlaySoundBrick(""));
+		brickList.add(new WaitBrick(1000));
+		brickList.add(new HideBrick(null));
+		brickList.add(new ShowBrick(null));
+		brickList.add(new PlaceAtBrick(null, 100, 200));
+		brickList.add(new SetCostumeBrick(null));
+		brickList.add(new GoNStepsBackBrick(null, 1));
+		brickList.add(new ComeToFrontBrick(null, null));
+		brickList.add(new IfTouchedBrick(null, new Script()));
+	}
+
+	public ToolBoxDialog(Context context, ContentManager contentManager) {
 		super(context);
+		setupBrickPrototypes();
+
+		// adjust window
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 		getWindow().setGravity(Gravity.CENTER_HORIZONTAL);
 		setContentView(R.layout.dialog_toolbox);
-		mCtx = context;
-		mSlide_in = AnimationUtils.loadAnimation(mCtx, R.anim.toolbox_in);
-		mSlide_out = AnimationUtils.loadAnimation(mCtx, R.anim.toolbox_out);
-		mSlide_out.setAnimationListener(new AnimationListener() {
-			
-			
-			public void onAnimationStart(Animation animation) {		}
-			
-			public void onAnimationRepeat(Animation animation) {		}
-			
+
+		// initialize animations
+		slideInAnimation = AnimationUtils.loadAnimation(context, R.anim.toolbox_in);
+		slideOutAnimation = AnimationUtils.loadAnimation(context, R.anim.toolbox_out);
+		slideOutAnimation.setAnimationListener(new AnimationListener() {
+			public void onAnimationStart(Animation animation) {
+			}
+
+			public void onAnimationRepeat(Animation animation) {
+			}
+
 			public void onAnimationEnd(Animation animation) {
 				close();
 			}
-		}
-	
-		);
-		
-		mToolboxLayout = (LinearLayout) findViewById(R.id.toolbox_layout);
-		mContent = content;
+		});
 
-		mMainListView = (ListView) findViewById(R.id.toolboxListView);
-		
-		mAdapter = new ToolBoxAdapter(mCtx, mContent);
-		mMainListView.setAdapter(mAdapter);
+		layout = (LinearLayout) findViewById(R.id.toolbox_layout);
+		listView = (ListView) findViewById(R.id.toolboxListView);
+		listView.setAdapter(new ToolBoxAdapter(context, brickList));
 
 	}
 
 	@Override
 	public void show() {
 		super.show();
-		mToolboxLayout.startAnimation(mSlide_in);
+		layout.startAnimation(slideInAnimation);
 	}
 
 	@Override
 	public void cancel() {
-		mToolboxLayout.startAnimation(mSlide_out);
-		
+		layout.startAnimation(slideOutAnimation);
+
 	}
-	
+
 	private void close() {
 		super.cancel();
 	}
-	   
-	@SuppressWarnings("unchecked")
-	public HashMap<String, String> getBrickClone(View v){
-		return (HashMap<String, String>) mAdapter.getItem(mMainListView.getPositionForView(v)).clone();
+
+	public Brick getBrickClone(View v) {
+		return adapter.getItem(listView.getPositionForView(v)).clone();
 	}
-	
+
 }

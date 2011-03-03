@@ -20,140 +20,145 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.BrickDefine;
 import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
 import at.tugraz.ist.catroid.constructionSite.gui.adapter.ProgrammAdapter;
-import at.tugraz.ist.catroid.utils.ImageContainer;
+import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class ContextMenuDialog extends Dialog {
 
-	private Context mCtx;
-	private Animation mSlide_in;
-	private Animation mSlide_out;
-	private RelativeLayout mToolboxLayout;
-	private ContentManager mContentManager;
+    private Context mCtx;
+    private Animation mSlide_in;
+    private Animation mSlide_out;
+    private RelativeLayout mToolboxLayout;
+    private ContentManager mContentManager;
 
-	private Button mCancelButton;
-	private Button mUpButton;
-	private Button mDownButton;
-	private Button mInfoButton;
-	private Button mDeleteButton;
+    private Button mCancelButton;
+    private Button mUpButton;
+    private Button mDownButton;
+    private Button mInfoButton;
+    private Button mDeleteButton;
 
-	private int mPositionOfView;
-	private ListView mElementListView;
-	
-	private void showBrickInfo() {
-		// TODO: Link to proper Wiki once it's available
-		String wikiUrl = mCtx.getString(R.string.wiki_url);
+    private int mPositionOfView;
+    private ListView mElementListView;
+    private final Script script;
 
-		@SuppressWarnings("unchecked")
-		HashMap<String, String> brick = (HashMap<String, String>) mElementListView.getItemAtPosition(mPositionOfView);
-		String brickName = brick.get(BrickDefine.BRICK_NAME);
+    //TODO: the positions are wrong! mPositionOfView
+    
+    private class UpButtonListener implements View.OnClickListener {
+        public void onClick(View v) {
+            mContentManager.moveBrickUpInList(mPositionOfView, script);
+        }
+    }
+    
+    private class DownButtonListener implements View.OnClickListener {
+        public void onClick(View v) {
+            mContentManager.moveBrickDownInList(mPositionOfView, script);
+        }
+    }
+    
+    private class InfoButtonListener implements View.OnClickListener {
+        public void onClick(View v) {
+            showBrickInfo();
+        }
+    }
+    
+    private class DeleteButtonListener implements View.OnClickListener {
+        public void onClick(View v) {
+            //ImageContainer.getInstance().deleteImage(mContentManager.getCurrentSpriteCommandList().get(mPositionOfView).get(BrickDefine.BRICK_VALUE));
+            //ImageContainer.getInstance().deleteImage(mContentManager.getCurrentSpriteCommandList().get(mPositionOfView).get(BrickDefine.BRICK_VALUE_1));
+            mContentManager.removeBrick(mPositionOfView,script);
+            cancel();
+        }
+    }
 
-		String url = wikiUrl + "/" + brickName;
+    private void showBrickInfo() {
+        // TODO: Link to proper Wiki once it's available
+        String wikiUrl = mCtx.getString(R.string.wiki_url);
 
-		Utils.displayWebsite(mCtx, Uri.parse(url));
-	}
+        @SuppressWarnings("unchecked")
+        HashMap<String, String> brick = (HashMap<String, String>) mElementListView.getItemAtPosition(mPositionOfView);
+        String brickName = brick.get(BrickDefine.BRICK_NAME);
 
-	public ContextMenuDialog(Context context, ContentManager contentManager) {
-		super(context);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-		getWindow().setGravity(Gravity.LEFT);
-		setContentView(R.layout.context_menu);
-		WindowManager.LayoutParams lp = getWindow().getAttributes();
-		lp.dimAmount = 0.0f;
-		getWindow().setAttributes(lp);
+        String url = wikiUrl + "/" + brickName;
 
-		mCtx = context;
-		mContentManager = contentManager;
+        Utils.displayWebsite(mCtx, Uri.parse(url));
+    }
 
-		mSlide_in = AnimationUtils.loadAnimation(mCtx, R.anim.toolbox_in);
-		mSlide_out = AnimationUtils.loadAnimation(mCtx, R.anim.toolbox_out);
-		mSlide_out.setAnimationListener(new AnimationListener() {
+    public ContextMenuDialog(Context context, ContentManager contentManager, Script script) {
+        super(context);
+        this.script = script;
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        getWindow().setGravity(Gravity.LEFT);
+        setContentView(R.layout.context_menu);
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.dimAmount = 0.0f;
+        getWindow().setAttributes(lp);
 
-			public void onAnimationStart(Animation animation) {
-			}
+        mCtx = context;
+        mContentManager = contentManager;
 
-			public void onAnimationRepeat(Animation animation) {
-			}
+        mSlide_in = AnimationUtils.loadAnimation(mCtx, R.anim.toolbox_in);
+        mSlide_out = AnimationUtils.loadAnimation(mCtx, R.anim.toolbox_out);
+        mSlide_out.setAnimationListener(new AnimationListener() {
 
-			public void onAnimationEnd(Animation animation) {
-				close();
-			}
-		}
+            public void onAnimationStart(Animation animation) {
+            }
 
-		);
+            public void onAnimationRepeat(Animation animation) {
+            }
 
-		mToolboxLayout = (RelativeLayout) findViewById(R.id.ContextMenuRelativeLayout);
-		mCancelButton = (Button) findViewById(R.id.ContextMenuCancelButton);
-		mCancelButton.setOnClickListener(new Button.OnClickListener() {
+            public void onAnimationEnd(Animation animation) {
+                close();
+            }
+        }
 
-			public void onClick(View v) {
-				cancel();
-			}
-		});
-		mUpButton = (Button) findViewById(R.id.ContextMenuUpButton);
-		mUpButton.setOnClickListener(new Button.OnClickListener() {
+        );
 
-			public void onClick(View v) {
-				if (mContentManager.moveBrickUpInList(mPositionOfView)) {
-					mPositionOfView--;
-					//((ConstructionSiteListViewAdapter) mElementListView.getAdapter()).setAnimationOnPosition(mPositionOfView);
-				}
-			}
-		});
-		mDownButton = (Button) findViewById(R.id.ContextMenuDownButton);
-		mDownButton.setOnClickListener(new Button.OnClickListener() {
+        mToolboxLayout = (RelativeLayout) findViewById(R.id.ContextMenuRelativeLayout);
+        mCancelButton = (Button) findViewById(R.id.ContextMenuCancelButton);
+        mCancelButton.setOnClickListener(new Button.OnClickListener() {
 
-			public void onClick(View v) {
-				if (mContentManager.moveBrickDownInList(mPositionOfView)) {
-					mPositionOfView++;
-					//((ConstructionSiteListViewAdapter) mElementListView.getAdapter()).setAnimationOnPosition(mPositionOfView);
-				}
-			}
-		});
-		mInfoButton = (Button) findViewById(R.id.ContextMenuInfoButton);
-		mInfoButton.setOnClickListener(new Button.OnClickListener() {
-			public void onClick(View v) {
-				showBrickInfo();
-			}
-		});
-		mDeleteButton = (Button) findViewById(R.id.ContextMenuDeleteButton);
-		mDeleteButton.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                cancel();
+            }
+        });
+        mUpButton = (Button) findViewById(R.id.ContextMenuUpButton);
+        mUpButton.setOnClickListener(new UpButtonListener());
+        
+        mDownButton = (Button) findViewById(R.id.ContextMenuDownButton);
+        mDownButton.setOnClickListener(new DownButtonListener());
+        
+        mInfoButton = (Button) findViewById(R.id.ContextMenuInfoButton);
+        mInfoButton.setOnClickListener(new InfoButtonListener());
+        
+        mDeleteButton = (Button) findViewById(R.id.ContextMenuDeleteButton);
+        mDeleteButton.setOnClickListener(new DeleteButtonListener());
+    }
 
-			public void onClick(View v) {
-				ImageContainer.getInstance().deleteImage(mContentManager.getCurrentSpriteCommandList().get(mPositionOfView).get(BrickDefine.BRICK_VALUE));
-				ImageContainer.getInstance().deleteImage(mContentManager.getCurrentSpriteCommandList().get(mPositionOfView).get(BrickDefine.BRICK_VALUE_1));
-				mContentManager.removeBrick(mPositionOfView);
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        cancel();
+        return super.onTouchEvent(event);
+    }
 
-				cancel();
-			}
-		});
-	}
+    public void show(View element, int position, ListView listView) {
+        super.show();
+        mPositionOfView = position;
+        mToolboxLayout.startAnimation(mSlide_in);
+        mElementListView = listView;
+        //((ConstructionSiteListViewAdapter) mElementListView.getAdapter()).setAnimationOnPosition(mPositionOfView);
+        ((ProgrammAdapter) mElementListView.getAdapter()).notifyDataSetChanged();
+    }
 
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		cancel();
-		return super.onTouchEvent(event);
-	}
+    @Override
+    public void cancel() {
+        //((ConstructionSiteListViewAdapter) mElementListView.getAdapter()).setAnimationOnPosition(-1);
+        ((ProgrammAdapter) mElementListView.getAdapter()).notifyDataSetChanged();
+        mToolboxLayout.startAnimation(mSlide_out);
+    }
 
-	public void show(View element, int position, ListView listView) {
-		super.show();
-		mPositionOfView = position;
-		mToolboxLayout.startAnimation(mSlide_in);
-		mElementListView = listView;
-		//((ConstructionSiteListViewAdapter) mElementListView.getAdapter()).setAnimationOnPosition(mPositionOfView);
-		((ProgrammAdapter) mElementListView.getAdapter()).notifyDataSetChanged();
-	}
-
-	@Override
-	public void cancel() {
-		//((ConstructionSiteListViewAdapter) mElementListView.getAdapter()).setAnimationOnPosition(-1);
-		((ProgrammAdapter) mElementListView.getAdapter()).notifyDataSetChanged();
-		mToolboxLayout.startAnimation(mSlide_out);
-	}
-
-	private void close() {
-		super.cancel();
-	}
+    private void close() {
+        super.cancel();
+    }
 
 }
