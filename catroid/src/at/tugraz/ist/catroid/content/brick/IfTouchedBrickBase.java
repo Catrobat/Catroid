@@ -33,6 +33,7 @@ public abstract class IfTouchedBrickBase implements BrickBase {
 	}
 
 	public void execute() {
+		touchScript.isTouchScript();
 		// nothing to do
 	}
 	
