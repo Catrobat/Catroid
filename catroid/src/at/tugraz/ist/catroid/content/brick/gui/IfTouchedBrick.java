@@ -42,6 +42,6 @@ public class IfTouchedBrick extends IfTouchedBrickBase implements Brick {
 	}
 	
 	public Brick clone() {
-		return new IfTouchedBrick(getSprite(), touchScript);
+		return new IfTouchedBrick(getSprite(),touchScript);
 	}
 }
