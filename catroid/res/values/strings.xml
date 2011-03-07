@@ -22,7 +22,7 @@
 	<!-- Construction site context menu -->
 	<string name="construction_site_play">To Stage</string>
 	<string name="reset">Reset Construction Site</string>
-	<string name="new_project_main">New Project</string>
+	<string name="new_project">New Project</string>
 	<string name="load">Load</string>
 	<string name="change_project_name_main">Change Project Name</string>
 	<string name="about">About Catroid</string>

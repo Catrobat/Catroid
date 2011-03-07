@@ -39,7 +39,7 @@ public class NewProjectDialog extends Dialog {
 		file.setTextColor(Color.BLACK);
 		file.setText(R.string.edit_text_filename_standard_input);
 		Button commitButton = (Button) findViewById(R.id.commitNewProjectButton);
-		commitButton.setText(R.string.new_project_main);
+		commitButton.setText(R.string.new_project);
 
 		commitButton.setOnClickListener(new Button.OnClickListener() {
 

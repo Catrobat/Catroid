@@ -50,7 +50,7 @@
 		></ListView>
 	</LinearLayout>
 	
-	<!-- Add sprite button -->
+	<!-- Add brick button -->
 	<Button android:text="@string/add_new_brick" 
 		android:id="@+id/addBrickButton"
 		android:layout_width="fill_parent" 
