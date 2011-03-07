@@ -10,6 +10,10 @@
 	<string name="wiki_url">http://catroweb.ist.tugraz.at</string>
 	<string name="about_catroid_url">http://groups.google.com/group/catroid/</string>
 
+	<!-- Default -->
+	<string name="default_root">/sdcard/catroid</string>
+	<string name="default_file_ending">.spf</string>
+
 	<!-- General -->
 	<string name="save">Save</string>
 	<string name="close">Close</string>

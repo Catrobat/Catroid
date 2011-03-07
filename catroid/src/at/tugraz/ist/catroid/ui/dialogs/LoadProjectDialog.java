@@ -1,0 +1,88 @@
+/**
+ *  Catroid: An on-device graphical programming language for Android devices
+ *  Copyright (C) 2010  Catroid development team 
+ *  (<http://code.google.com/p/catroid/wiki/Credits>)
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+package at.tugraz.ist.catroid.ui.dialogs;
+
+import java.io.File;
+import java.util.ArrayList;
+
+import android.app.Dialog;
+import android.content.Context;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
+
+public class LoadProjectDialog extends Dialog {
+    private final Context context;
+    private final ContentManager contentManager;
+    private ListView listView;
+    private ArrayAdapter<String> adapter;
+    private final ArrayList<String> adapterFileList;
+
+    public LoadProjectDialog(Context context, ContentManager contentManager) {
+        super(context);
+        this.context = context;
+        this.contentManager = contentManager;
+        adapterFileList = new ArrayList<String>();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        setContentView(R.layout.load_project_dialog);
+        setTitle(R.string.laod_project_dialog_title);
+
+        File sdFile = new File(context.getString(R.string.default_root));
+        searchForProjectFiles(sdFile);
+        adapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, adapterFileList);
+
+        listView = (ListView) findViewById(R.id.loadfilelist);
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new ListView.OnItemClickListener() {
+
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                File file = new File(adapter.getItem(arg2));
+                if (!contentManager.loadContent(file.getName())) {
+                    return;
+                }
+                dismiss();
+            }
+        });
+
+    }
+
+    public void searchForProjectFiles(File file) {
+        File[] sdFileList = file.listFiles();
+        int length = 0;
+        if (sdFileList != null) {
+            length = sdFileList.length;
+        }
+        for (int i = 0; i < length; i++) {
+            if (sdFileList[i].isDirectory()) {
+                searchForProjectFiles(sdFileList[i]);
+            } else if (sdFileList[i].isFile()
+                    && sdFileList[i].getName().endsWith(context.getString(R.string.default_file_ending))) {
+                adapterFileList.add(sdFileList[i].getAbsolutePath());
+            }
+        }
+    }
+}

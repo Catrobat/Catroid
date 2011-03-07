@@ -69,7 +69,7 @@
 			></Button>
 			<Button
 				android:text="@string/load_project"
-				android:id="@+id/button2"
+				android:id="@+id/loadProjectButton"
 				android:layout_width="fill_parent"
 				android:layout_height="fill_parent"
 				android:layout_weight=".5"
