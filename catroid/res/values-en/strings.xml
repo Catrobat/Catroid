@@ -6,6 +6,7 @@
 	<string name="script">script</string>
 	<string name="brick">brick</string>
 	<string name="quit">Quit</string>
+	<string name="cancel_button">Cancel</string>
 	
 	<!-- User interface -->
 	<string name="main_menu">Main menu</string>
