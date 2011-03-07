@@ -44,5 +44,12 @@ public class NewProjectDialog extends Dialog {
                 dismiss();
             }
         });
+        
+        Button cancelButton = (Button) findViewById(R.id.cancelDialogButton);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+        	public void onClick(View v) {
+        		dismiss();
+        	}
+		});
     }
 }

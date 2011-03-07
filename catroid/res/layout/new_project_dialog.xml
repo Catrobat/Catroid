@@ -16,4 +16,10 @@
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 	/>
+	<Button
+	   android:text="@string/cancel_button"
+	   android:id="@+id/cancelDialogButton"
+	   android:layout_width="fill_parent"
+	   android:layout_height="wrap_content"
+	/>
 </LinearLayout>
