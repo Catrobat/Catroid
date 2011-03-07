@@ -1,0 +1,25 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+>
+	<TextView
+		android:text="@string/project_name"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:textSize="18dp"
+	/>
+	<EditText
+		android:text="@string/new_project"
+		android:id="@+id/newProjectNameEditText"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:maxLines="1"
+	/>
+	<Button
+		android:text="@string/create_new_project"
+		android:id="@+id/createNewProjectButton"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+	/>
+</LinearLayout>
