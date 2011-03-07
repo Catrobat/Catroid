@@ -17,6 +17,7 @@
 			android:layout_width="wrap_content" 
 			android:layout_height="wrap_content"
 			android:layout_weight="3"
+			android:textSize="18dip"
 		></TextView>
 		<Button 
 			android:text="@string/main_menu" 
@@ -24,6 +25,7 @@
 			android:layout_width="wrap_content" 
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
+			android:textStyle ="bold"
 		>
 		</Button>
 	</LinearLayout>
@@ -36,10 +38,11 @@
 		android:layout_weight="1"
 	>
 		<TextView 
-			android:text="@string/sprites" 
+			android:text="@string/sprite_list" 
 			android:id="@+id/spriteListLabel"
 			android:layout_width="fill_parent" 
 			android:layout_height="wrap_content"
+			android:textSize="14dip"
 		></TextView>
 		<ListView android:layout_width="fill_parent"
 			android:layout_height="fill_parent" 

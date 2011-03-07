@@ -10,8 +10,21 @@
 	<!-- User interface -->
 	<string name="main_menu">Main menu</string>
 
+
+	<string name="menu">Menu</string>
 	<!-- Project activity view -->
 	<string name="project_name">Project name</string>
-	<string name="sprites">Sprites: </string>
-	<string name="add_sprite">Add sprite</string>
+	<string name="sprite_list">Sprites:</string>
+	<string name="add_sprite">+ Add new Sprite</string>
+	
+	<!-- Script activity view -->
+	<string name="script_name">Script</string>
+	<string name="brick_list">Bricks:</string>
+	<string name="add_new_brick">+ Add new Brick</string>
+	
+	<!-- Sprite activity -->
+	<string name="sprite_name">Sprite name</string>
+	<string name="script_list">Scripts:</string>
+	<string name="add_new_script">+ Add new Script</string>
+	
 </resources>
