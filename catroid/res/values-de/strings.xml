@@ -55,7 +55,10 @@
 	<string name="newsprite">Neues Objekt</string>
 	
 	<!-- New project dialog -->
-	<string name="edit_text_filename_standard_input">Projektname</string>
+	<string name="new_project_dialog_button">Erstellen</string>
+	<string name="new_project_dialog_title">Name des Projekts</string>
+	<string name="new_project_dialog_default_project_name">Projektname</string>
+
 
 	<!--  Stage context menu -->
 	<string name="stagemenu_construction_site">Zur Baustelle</string>
