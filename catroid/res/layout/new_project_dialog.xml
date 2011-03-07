@@ -3,12 +3,6 @@
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 >
-	<TextView
-		android:text="@string/project_name"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:textSize="18dp"
-	/>
 	<EditText
 		android:text="@string/new_project"
 		android:id="@+id/newProjectNameEditText"
