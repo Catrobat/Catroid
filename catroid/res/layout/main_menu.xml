@@ -19,7 +19,7 @@
 			android:textSize="18dip"
 		></TextView>
 		<TextView 
-			android:text="@string/project_name"
+			android:text="@string/current_project"
 			android:id="@+id/currentProjectNameTextView"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
@@ -33,6 +33,27 @@
 		android:layout_height="fill_parent"
 		android:layout_weight="1"
 	>
+		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			android:orientation="horizontal"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:layout_weight=".33"
+		>
+			<Button
+				android:text="@string/resume"
+				android:id="@+id/resumeButton"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:layout_weight=".5"
+			></Button>
+			<Button
+				android:text="@string/construction_site_play"
+				android:id="@+id/toStageButton"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:layout_weight=".5"
+			></Button>
+		</LinearLayout>
 		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 			android:orientation="horizontal"
 			android:layout_width="fill_parent"
@@ -76,20 +97,6 @@
 				android:layout_weight=".5"
 			></Button>
 		</LinearLayout>
-		
-		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			android:orientation="horizontal"
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
-			android:layout_weight=".33"
-		>
-			<Button
-				android:text="@string/construction_site_play"
-				android:id="@+id/constructionSiteButton"
-				android:layout_width="fill_parent"
-				android:layout_height="fill_parent"
-				android:layout_weight="1"
-			></Button>
-		</LinearLayout>
 	</LinearLayout>
+	
 </LinearLayout>

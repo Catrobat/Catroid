@@ -1,38 +1,34 @@
-package at.tugraz.ist.catroid.constructionSite.gui.dialogs;
+package at.tugraz.ist.catroid.ui.dialogs;
 
-import java.io.File;
-
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
-import at.tugraz.ist.catroid.utils.Utils;
 
 public class NewProjectDialog extends Dialog {
+	private Context context;
 
-	private ContentManager mContentManager;
-	private Context mCtx;
-
-	public NewProjectDialog(Context context, ContentManager contentmanager) {
+	public NewProjectDialog(Context context) {
 		super(context);
-		mCtx = context;
-		mContentManager = contentmanager;
+		this.context = context;
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		setContentView(R.layout.new_project_dialog);
+		Button commitButton = (Button) findViewById(R.id.createNewProjectButton);
+		commitButton.setText(R.string.new_project);
 
-		((Activity) mCtx).getPreferences(Activity.MODE_PRIVATE);
+		commitButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				
+			}
+		});
+		
+/* old version
+		((Activity) context).getPreferences(Activity.MODE_PRIVATE);
 		setContentView(R.layout.new_project_dialog); // TODO: Own View
 
 		EditText file = (EditText) findViewById(R.id.newProjectNameEditText);
@@ -48,11 +44,11 @@ public class NewProjectDialog extends Dialog {
 				String projectName = ((EditText) findViewById(R.id.newProjectNameEditText)).getText().toString();
 				if (Utils.projectExists(projectName)) {
 					// project already exists -> display error message
-					Builder builder = new AlertDialog.Builder(mCtx);
+					Builder builder = new AlertDialog.Builder(context);
 
-					builder.setTitle(mCtx.getString(R.string.error));
-					builder.setMessage(mCtx.getString(R.string.error_project_exists));
-					builder.setNeutralButton(mCtx.getString(R.string.close), new OnClickListener() {
+					builder.setTitle(context.getString(R.string.error));
+					builder.setMessage(context.getString(R.string.error_project_exists));
+					builder.setNeutralButton(context.getString(R.string.close), new OnClickListener() {
 						public void onClick(DialogInterface dialog, int which) { }
 					});
 					builder.show();
@@ -75,12 +71,12 @@ public class NewProjectDialog extends Dialog {
                         mContentManager.initializeNewProject(projectName);
                     }
 					
-					((Activity) mCtx).setTitle(newSpfFile);
+					((Activity) context).setTitle(newSpfFile);
 					dismiss();
 				}
 			}
 		});
-
+		*/
 	}
 
 }

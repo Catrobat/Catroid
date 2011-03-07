@@ -28,6 +28,13 @@
 	<string name="upload_project">Projekt hochladen</string>
 	
 	<string name="menu">Menu</string>
+	
+	<!-- Main menu activity -->
+	<string name="resume">Weiter machen</string>
+	<string name="current_project">Aktuelles Projekt: </string>
+	<string name="no_project">Kein Projekt geladen</string>
+	<string name="create_new_project">Neues Projekt erstellen</string>
+	
 	<!-- Project activity view -->
 	<string name="project_name">Projektname</string>
 	<string name="sprite_list">Objekte:</string>
