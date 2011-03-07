@@ -1,18 +1,26 @@
 package at.tugraz.ist.catroid.ui.dialogs;
 
+import java.io.IOException;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
+import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class NewProjectDialog extends Dialog {
-	private Context context;
+	private final Context context;
+    private final ContentManager contentManager;
 
-	public NewProjectDialog(Context context) {
+	public NewProjectDialog(Context context, ContentManager contentManager) {
 		super(context);
 		this.context = context;
+        this.contentManager = contentManager;
 	}
 
 	@Override
@@ -23,10 +31,21 @@ public class NewProjectDialog extends Dialog {
 		Button createNewProjectButton = (Button) findViewById(R.id.createNewProjectButton);
 		createNewProjectButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				
+                String projectName = ((EditText) findViewById(R.id.newProjectNameEditText)).getText().toString();
+                try {
+                    if (StorageHandler.getInstance().projectExists(projectName)) {
+                        Utils.displayErrorMessage(context, context.getString(R.string.projectname_already_exists));
+                        return;
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                contentManager.initializeNewProject(projectName);
+                dismiss();
 			}
 		});
 		
+
 /* old version
 		((Activity) context).getPreferences(Activity.MODE_PRIVATE);
 		setContentView(R.layout.new_project_dialog); // TODO: Own View
