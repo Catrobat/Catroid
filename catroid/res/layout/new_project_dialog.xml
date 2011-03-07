@@ -4,7 +4,7 @@
 	android:layout_height="fill_parent"
 >
 	<EditText
-		android:text="@string/new_project_dialog_default_project_name"
+		android:hint="@string/new_project_dialog_default_project_name"
 		android:id="@+id/newProjectNameEditText"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
