@@ -20,7 +20,6 @@ package at.tugraz.ist.catroid.ui;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -28,15 +27,17 @@ import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
 import at.tugraz.ist.catroid.content.project.Project;
+import at.tugraz.ist.catroid.ui.dialogs.LoadProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
 
 public class MainMenuActivity extends Activity {
     private static final int NEW_PROJECT_DIALOG = 0;
+    private static final int LOAD_PROJECT_DIALOG = 1;
     private Project currentProject;
     private ContentManager contentManager;
 
     private void initListeners() {
-        final Context context = this;
+        //final Context context = this;
 
         Button resumeButton = (Button) findViewById(R.id.resumeButton);
         resumeButton.setOnClickListener(new View.OnClickListener() {
@@ -60,6 +61,15 @@ public class MainMenuActivity extends Activity {
         newProjectButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 showDialog(NEW_PROJECT_DIALOG);
+                // TODO: Start new project activity
+                // TODO: set currentProject here or via Observer?
+            }
+        });
+
+        Button loadProjectButton = (Button) findViewById(R.id.loadProjectButton);
+        loadProjectButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                showDialog(LOAD_PROJECT_DIALOG);
                 // TODO: Start new project activity
             }
         });
@@ -95,6 +105,9 @@ public class MainMenuActivity extends Activity {
         switch (id) {
         case NEW_PROJECT_DIALOG:
             dialog = new NewProjectDialog(this, contentManager);
+            break;
+        case LOAD_PROJECT_DIALOG:
+            dialog = new LoadProjectDialog(this, contentManager);
             break;
         default:
             dialog = null;

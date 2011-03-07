@@ -59,7 +59,9 @@
 	<string name="new_project_dialog_title">Name des Projekts</string>
 	<string name="new_project_dialog_default_project_name">Projektname</string>
 	<string name="projectname_already_exists">Dieser Projektname existiert bereits</string>
-
+	
+    <!-- Load project dialog -->
+	<string name="laod_project_dialog_title">Projekt laden</string>
 
 	<!--  Stage context menu -->
 	<string name="stagemenu_construction_site">Zur Baustelle</string>
