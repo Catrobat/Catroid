@@ -42,7 +42,6 @@
 	<string name="add_new_script">+ Neues Script hinzufügen</string>
 
 	<!-- Sprite dialog -->
-	<string name="sprites">Objekte</string>
 	<string name="SpriteButtonText">Anlegen</string>
 	<string name="newsprite">Neues Objekt</string>
 	
