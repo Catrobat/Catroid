@@ -1,33 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:id="@+id/RelativeLayout01" android:layout_width="fill_parent" android:layout_height="fill_parent" 
-xmlns:android="http://schemas.android.com/apk/res/android" android:background="@color/dark_gray">
+<RelativeLayout android:id="@+id/RelativeLayout01"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:background="@color/dark_gray">
 
-	<RelativeLayout android:layout_alignParentTop="true" android:layout_width="fill_parent"
-	android:layout_height="60dip" android:id="@+id/HeadRelativeLayout" android:background="@color/silver">
-		
-		<TextView android:layout_height="wrap_content" android:layout_width="wrap_content"
-				  android:textColor="@color/light_black" android:text="Main Menu" android:id="@+id/TextView01" 
-				  android:textSize="20px" android:textStyle="bold" android:layout_centerVertical="true" android:layout_centerHorizontal="true"></TextView>
-	
+	<RelativeLayout android:layout_alignParentTop="true"
+		android:layout_width="fill_parent" android:layout_height="60dip"
+		android:id="@+id/HeadRelativeLayout" android:background="@color/silver">
+
+		<TextView android:layout_height="wrap_content"
+			android:layout_width="wrap_content" android:textColor="@color/light_black"
+			android:text="Main Menu" android:id="@+id/TextView01"
+			android:textSize="20px" android:textStyle="bold"
+			android:layout_centerVertical="true" android:layout_centerHorizontal="true"></TextView>
 	</RelativeLayout>
-	<TableLayout android:layout_width="wrap_content" android:id="@+id/tableLayout1"
-				 android:layout_height="wrap_content" android:layout_alignLeft="@+id/button1" 
-				 android:layout_alignRight="@+id/button1" android:layout_below="@+id/HeadRelativeLayout" 
-				 android:layout_centerVertical="true" android:layout_centerHorizontal="true" android:layout_centerInParent="true" android:layout_marginTop="20px">
-		<TableRow android:id="@+id/tableRow1" android:layout_width="wrap_content" android:layout_height="wrap_content">
-			<Button android:text="@string/new_project_main" android:id="@+id/button1" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
-			<Button android:text="@string/load_project" android:id="@+id/button2" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+	
+	<TableLayout android:layout_width="wrap_content"
+		android:id="@+id/tableLayout1" android:layout_height="wrap_content"
+		android:layout_alignLeft="@+id/button1" android:layout_alignRight="@+id/button1"
+		android:layout_below="@+id/HeadRelativeLayout"
+		android:layout_centerVertical="true" android:layout_centerHorizontal="true"
+		android:layout_centerInParent="true" android:layout_marginTop="20px">
+		<TableRow android:id="@+id/tableRow1" android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+			<Button android:text="@string/new_project_main" android:id="@+id/button1"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+			<Button android:text="@string/load_project" android:id="@+id/button2"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
 		</TableRow>
-		<TableRow android:id="@+id/tableRow2" android:layout_width="wrap_content" android:layout_height="wrap_content">
-			<Button android:text="@string/upload_project" android:id="@+id/button3" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
-			<Button android:text="@string/about" android:id="@+id/button4" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+		<TableRow android:id="@+id/tableRow2" android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+			<Button android:text="@string/upload_project" android:id="@+id/button3"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+			<Button android:text="@string/about" android:id="@+id/button4"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
 		</TableRow>
 	</TableLayout>
-	<Button android:layout_alignParentBottom="true" android:id="@+id/button5" android:text="@string/construction_site_play" 
-			android:layout_height="60px" android:layout_width="fill_parent"></Button>
-	<TextView android:id="@+id/currentProjectName" android:layout_above="@+id/button5" 
-			  android:layout_height="wrap_content" android:text="Current project name" 
-			  android:layout_width="wrap_content" android:textColor="@color/silver"
-			  android:layout_centerHorizontal="true" android:textSize="15px"></TextView>
-			
+	<Button android:layout_alignParentBottom="true" android:id="@+id/button5"
+		android:text="@string/construction_site_play" android:layout_height="60px"
+		android:layout_width="fill_parent"></Button>
+	<TextView android:id="@+id/currentProjectName"
+		android:layout_above="@+id/button5" android:layout_height="wrap_content"
+		android:text="Current project name" android:layout_width="wrap_content"
+		android:textColor="@color/silver" android:layout_centerHorizontal="true"
+		android:textSize="15px"></TextView>
+
 </RelativeLayout>
