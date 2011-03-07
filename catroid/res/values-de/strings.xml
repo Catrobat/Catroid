@@ -21,11 +21,11 @@
 	<!-- Construction site context menu -->
 	<string name="construction_site_play">Zur Bühne</string>
 	<string name="reset">Lösche Baustelle</string>
-	<string name="new_project_main">Neues Projekt</string>
+	<string name="new_project">Neues Projekt</string>
 	<string name="load">Laden</string>
 	<string name="change_project_name_main">Ändere Projektname</string>
 	<string name="about">Über Catroid</string>
-	<string name="upload_project">Projekt upload</string>
+	<string name="upload_project">Projekt hochladen</string>
 	
 	<string name="menu">Menu</string>
 	<!-- Project activity view -->
@@ -39,9 +39,9 @@
 	<string name="add_new_brick">+ Neuen Baustein hinzufügen</string>
 	
 	<!-- Sprite activity -->
-	<string name="sprite_name">Spritename</string>
-	<string name="script_list">Scripts:</string>
-	<string name="add_new_script">+ Neues Script hinzufügen</string>
+	<string name="sprite_name">Objektname</string>
+	<string name="script_list">Skripte:</string>
+	<string name="add_new_script">+ Neues Skript hinzufügen</string>
 
 	<!-- Sprite dialog -->
 	<string name="SpriteButtonText">Anlegen</string>

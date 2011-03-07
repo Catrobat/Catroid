@@ -48,7 +48,7 @@ public class MenuTest extends ActivityInstrumentationTestCase2<ConstructionSiteA
 		String[] menuItems = {
 			getActivity().getString(R.string.construction_site_play),
 			getActivity().getString(R.string.reset),
-			getActivity().getString(R.string.new_project_main),
+			getActivity().getString(R.string.new_project),
 			getActivity().getString(R.string.load),
 			getActivity().getString(R.string.change_project_name_main),
 			//getActivity().getString(R.string.about)

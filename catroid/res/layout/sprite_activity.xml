@@ -50,7 +50,7 @@
 		></ListView>
 	</LinearLayout>
 	
-	<!-- Add sprite button -->
+	<!-- Add script button -->
 	<Button android:text="@string/add_new_script" 
 		android:id="@+id/addScriptButton"
 		android:layout_width="fill_parent" 
