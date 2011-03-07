@@ -58,6 +58,7 @@
 	<string name="new_project_dialog_button">Erstellen</string>
 	<string name="new_project_dialog_title">Name des Projekts</string>
 	<string name="new_project_dialog_default_project_name">Projektname</string>
+	<string name="projectname_already_exists">Dieser Projektname existiert bereits</string>
 
 
 	<!--  Stage context menu -->

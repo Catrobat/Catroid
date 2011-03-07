@@ -18,22 +18,26 @@ public class ContentManager extends Observable {
     private final String DEFAULT_PROJECT_NAME;
 
     private Sprite currentSprite;
-    private Context context;
+    private final Context context;
     private Project project;
 
-    public ContentManager(Context context, String projectName) throws IOException {
+    public ContentManager(Context context, String projectName) {
         this.context = context;
         DEFAULT_PROJECT_NAME = context.getString(R.string.default_project_name);
-        if (projectName != null && projectName.length() != 0) {
-            if (!loadContent(projectName)) {
-                if(!loadContent(DEFAULT_PROJECT_NAME)){
-                    project = StorageHandler.getInstance().createDefaultProject(context);
-                    currentSprite = project.getSpriteList().get(0); // stage
+        try {
+            if (projectName != null && projectName.length() != 0) {
+                if (!loadContent(projectName)) {
+                    if (!loadContent(DEFAULT_PROJECT_NAME)) {
+                        project = StorageHandler.getInstance().createDefaultProject(context);
+                        currentSprite = project.getSpriteList().get(0); // stage
+                    }
                 }
+            } else {
+                project = StorageHandler.getInstance().createDefaultProject(context);
+                currentSprite = project.getSpriteList().get(0); // stage
             }
-        } else {
-            project = StorageHandler.getInstance().createDefaultProject(context);
-            currentSprite = project.getSpriteList().get(0); // stage
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -115,7 +119,7 @@ public class ContentManager extends Observable {
         try {
             project = new Project(context, projectName);
             currentSprite = project.getSpriteList().get(0);
-            this.saveContent();
+            saveContent();
             setChanged();
             notifyObservers();
         } catch (NameNotFoundException e) {

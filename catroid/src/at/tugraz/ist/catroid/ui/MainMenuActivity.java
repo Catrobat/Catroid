@@ -21,92 +21,86 @@ package at.tugraz.ist.catroid.ui;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
 import at.tugraz.ist.catroid.content.project.Project;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
 
 public class MainMenuActivity extends Activity {
-	private static final int NEW_PROJECT_DIALOG = 0;
-	private Project currentProject;
+    private static final int NEW_PROJECT_DIALOG = 0;
+    private Project currentProject;
+    private ContentManager contentManager;
 
-	private void initListeners() {
-		final Context context = this;
+    private void initListeners() {
+        final Context context = this;
 
-		Button resumeButton = (Button) this.findViewById(R.id.resumeButton);
-		resumeButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				if (currentProject != null) {
-					// TODO: Start new project activity with current project
-				}
-			}
-		});
+        Button resumeButton = (Button) findViewById(R.id.resumeButton);
+        resumeButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (currentProject != null) {
+                    // TODO: Start new project activity with current project
+                }
+            }
+        });
 
-		Button toStageButton = (Button) this.findViewById(R.id.toStageButton);
-		toStageButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				if (currentProject != null) {
-					// TODO: Start new stage activity with current project
-				}
-			}
-		});
+        Button toStageButton = (Button) findViewById(R.id.toStageButton);
+        toStageButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (currentProject != null) {
+                    // TODO: Start new stage activity with current project
+                }
+            }
+        });
 
-		Button newProjectButton = (Button) this
-				.findViewById(R.id.newProjectButton);
-		newProjectButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				try {
-					showDialog(NEW_PROJECT_DIALOG);
-					currentProject = new Project(context, "");
-				} catch (NameNotFoundException e) {
-					e.printStackTrace();
-				}
-				// TODO: Start new project activity
-			}
-		});
-	}
+        Button newProjectButton = (Button) findViewById(R.id.newProjectButton);
+        newProjectButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                showDialog(NEW_PROJECT_DIALOG);
+                // TODO: Start new project activity
+            }
+        });
+    }
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.main_menu);
+        setContentView(R.layout.main_menu);
 
-		// Try to load project
-		currentProject = null;
+        // Try to load project
+        currentProject = null;
 
-		if (currentProject == null) {
-			Button resumeButton = (Button) this.findViewById(R.id.resumeButton);
-			resumeButton.setEnabled(false);
-			Button toStageButton = (Button) this
-					.findViewById(R.id.toStageButton);
-			toStageButton.setEnabled(false);
+        if (currentProject == null) {
+            contentManager = new ContentManager(this, null); //creates default project (could be new currentProject?)
+            Button resumeButton = (Button) findViewById(R.id.resumeButton);
+            resumeButton.setEnabled(false);
+            Button toStageButton = (Button) findViewById(R.id.toStageButton);
+            toStageButton.setEnabled(false);
 
-			TextView currentProjectTextView = (TextView) this
-					.findViewById(R.id.currentProjectNameTextView);
-			currentProjectTextView.setText(getString(R.string.current_project)
-					+ " " + getString(R.string.no_project));
-		}
-		initListeners();
-	}
+            TextView currentProjectTextView = (TextView) findViewById(R.id.currentProjectNameTextView);
+            currentProjectTextView.setText(getString(R.string.current_project) + " " + getString(R.string.no_project));
+        }
+        //contentManager = new ContentManager(this, currentProject.getName());
+        initListeners();
+    }
 
-	@Override
-	protected Dialog onCreateDialog(int id) {
-		Dialog dialog;
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        Dialog dialog;
 
-		switch (id) {
-		case NEW_PROJECT_DIALOG:
-			dialog = new NewProjectDialog(this);
-			break;
-		default:
-			dialog = null;
-			break;
-		}
-		
-		return dialog;
-	}
+        switch (id) {
+        case NEW_PROJECT_DIALOG:
+            dialog = new NewProjectDialog(this, contentManager);
+            break;
+        default:
+            dialog = null;
+            break;
+        }
+
+        return dialog;
+    }
 }
