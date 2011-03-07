@@ -27,15 +27,10 @@
 	<string name="change_project_name_main">Change Project Name</string>
 	<string name="about">About Catroid</string>
 	<string name="upload_project">Upload Project</string>
-	
-	<!-- Sprite activity -->
-	<string name="spritename">Sprite</string>
-	<string name="menu">Menu</string>
-	<string name="add_new_sprite">+ Add New Sprite</string>
 
 	<!-- Script activity -->
-	<string name="scriptname">Script</string>
-	<string name="add_new_script">+ Add New Script</string>
+	<string name="add_new_script">+ Add new Script</string>
+	<string name="scriptList">Scripts:</string>
 
 	<!-- Sprite dialog -->
 	<string name="sprites">Object</string>

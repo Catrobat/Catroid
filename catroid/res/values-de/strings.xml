@@ -10,11 +10,6 @@
 	<!-- User interface -->
 	<string name="main_menu">Hauptmenü</string>
 
-	<!-- Project activity view -->
-	<string name="project_name">Projektname</string>
-	<string name="sprites">Objekte: </string>
-	<string name="add_sprite">Objekt hinzufügen</string>
-
 	<!-- General -->
 	<string name="save">Speichern</string>
 	<string name="close">Schließen</string>
@@ -32,13 +27,20 @@
 	<string name="about">Über Catroid</string>
 	<string name="upload_project">Projekt upload</string>
 	
+	<string name="menu">Menu</string>
+	<!-- Project activity view -->
+	<string name="project_name">Projektname</string>
+	<string name="sprite_list">Objekte:</string>
+	<string name="add_sprite">+ Neues Objekt hinzufügen</string>
+	
+	<!-- Script activity view -->
+	<string name="script_name">Script</string>
+	<string name="brick_list">Bausteine:</string>
+	<string name="add_new_brick">+ Neuen Baustein hinzufügen</string>
+	
 	<!-- Sprite activity -->
-	<string name="spritename">Sprite</string>
-	<string name="menu">Menü</string>
-	<string name="add_new_sprite">+ Neues Sprite hinzufügen</string>
-
-	<!-- Script activity -->
-	<string name="scriptname">Script</string>
+	<string name="sprite_name">Spritename</string>
+	<string name="script_list">Scripts:</string>
 	<string name="add_new_script">+ Neues Script hinzufügen</string>
 
 	<!-- Sprite dialog -->
