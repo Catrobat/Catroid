@@ -84,14 +84,14 @@
 		>
 			<Button
 				android:text="@string/upload_project"
-				android:id="@+id/button3"
+				android:id="@+id/uploadProjectButton"
 				android:layout_width="fill_parent"
 				android:layout_height="fill_parent"
 				android:layout_weight=".5"
 			></Button>
 			<Button
 				android:text="@string/about"
-				android:id="@+id/button4"
+				android:id="@+id/aboutCatroidButton"
 				android:layout_width="fill_parent"
 				android:layout_height="fill_parent"
 				android:layout_weight=".5"

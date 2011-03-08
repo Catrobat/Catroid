@@ -123,9 +123,8 @@ public class ContentManager extends Observable {
             setChanged();
             notifyObservers();
         } catch (NameNotFoundException e) {
-            // TODO show error dialog
+            Utils.displayErrorMessage(context, context.getString(R.string.error_save_project));
         }
-
     }
 
     public void setObserver(Observer observer) {
@@ -137,6 +136,6 @@ public class ContentManager extends Observable {
     }
     
     public Project getCurrentProject() {
-		return this.project;
+		return project;
     }
 }

@@ -21,29 +21,29 @@ package at.tugraz.ist.catroid.ui;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
-import at.tugraz.ist.catroid.content.project.Project;
 import at.tugraz.ist.catroid.ui.dialogs.LoadProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
 
 public class MainMenuActivity extends Activity {
     private static final int NEW_PROJECT_DIALOG = 0;
     private static final int LOAD_PROJECT_DIALOG = 1;
-    private Project currentProject;
+    private static final String PREFS_NAME = "at.tugraz.ist.catroid";
+    private static final String PREF_PREFIX_KEY = "prefix_";
     private ContentManager contentManager;
 
     private void initListeners() {
-        //final Context context = this;
 
         Button resumeButton = (Button) findViewById(R.id.resumeButton);
         resumeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (currentProject != null) {
+                if (contentManager.getCurrentProject() != null) {
                     Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
                     startActivity(intent);
                 }
@@ -53,8 +53,7 @@ public class MainMenuActivity extends Activity {
         Button toStageButton = (Button) findViewById(R.id.toStageButton);
         toStageButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (currentProject != null) {
-                    // TODO: Start new stage activity with current project
+                if (contentManager.getCurrentProject() != null) {
                 }
             }
         });
@@ -63,8 +62,6 @@ public class MainMenuActivity extends Activity {
         newProjectButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 showDialog(NEW_PROJECT_DIALOG);
-                // TODO: Start new project activity
-                // TODO: set currentProject here or via Observer?
             }
         });
 
@@ -72,7 +69,20 @@ public class MainMenuActivity extends Activity {
         loadProjectButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 showDialog(LOAD_PROJECT_DIALOG);               
-                // TODO: Start new project activity
+            }
+        });
+
+        Button uploadProjectButton = (Button) findViewById(R.id.uploadProjectButton);
+        uploadProjectButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+            }
+        });
+
+        Button aboutCatroidButton = (Button) findViewById(R.id.aboutCatroidButton);
+        aboutCatroidButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
             }
         });
     }
@@ -83,13 +93,16 @@ public class MainMenuActivity extends Activity {
 
         setContentView(R.layout.main_menu);
 
-        // Try to load project
-        contentManager = new ContentManager(this, null);
-        currentProject = contentManager.getCurrentProject();
+        // Try to load sharedPreferences
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        String prefix = prefs.getString(PREF_PREFIX_KEY, null);
+        if (prefix != null) {
+            contentManager = new ContentManager(this, prefix);
+        } else {
+            contentManager = new ContentManager(this, null); //null: creates default project
+        }
         
-        
-        if (currentProject == null) {
-            contentManager = new ContentManager(this, null); //creates default project (could be new currentProject?)
+        if (contentManager.getCurrentProject() == null) {
             Button resumeButton = (Button) findViewById(R.id.resumeButton);
             resumeButton.setEnabled(false);
             Button toStageButton = (Button) findViewById(R.id.toStageButton);
@@ -98,13 +111,13 @@ public class MainMenuActivity extends Activity {
             TextView currentProjectTextView = (TextView) findViewById(R.id.currentProjectNameTextView);
             currentProjectTextView.setText(getString(R.string.current_project) + " " + getString(R.string.no_project));
         }
-        //contentManager = new ContentManager(this, currentProject.getName());
         initListeners();
     }
 
     @Override
     protected Dialog onCreateDialog(int id) {
         Dialog dialog;
+        contentManager.saveContent();
 
         switch (id) {
         case NEW_PROJECT_DIALOG:
@@ -121,16 +134,26 @@ public class MainMenuActivity extends Activity {
         return dialog;
     }
     
+    @Override
     protected void onResume() {
     	super.onResume();
-    	if (contentManager.getCurrentProject() != null)
-    		currentProject = contentManager.getCurrentProject();
-    	else
-    		return;
+        if (contentManager.getCurrentProject() == null) {
+            return;
+        }
+        contentManager.saveContent(); //TODO: this here good?
     	TextView currentProjectTextView = (TextView) findViewById(R.id.currentProjectNameTextView);
-        currentProjectTextView.setText(getString(R.string.current_project) + " " + currentProject.getName());
+        currentProjectTextView.setText(getString(R.string.current_project) + " "
+                + contentManager.getCurrentProject().getName());
     }
-    
-    
 
+    @Override
+    public void onPause() {
+        //onPause is sufficient --> gets called before "process_killed", onStop(), onDestroy(), onRestart()
+        //also when you switch activities
+        contentManager.saveContent();
+        SharedPreferences.Editor prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
+        prefs.putString(PREF_PREFIX_KEY, contentManager.getCurrentProject().getName());
+        prefs.commit();
+        super.onPause();
+    }
 }
