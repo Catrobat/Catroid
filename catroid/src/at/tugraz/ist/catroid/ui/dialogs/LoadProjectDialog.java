@@ -23,6 +23,7 @@ import java.util.ArrayList;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -30,6 +31,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
+import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.ui.ProjectActivity;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class LoadProjectDialog extends Dialog {
     private final Context context;
@@ -53,35 +57,29 @@ public class LoadProjectDialog extends Dialog {
         File sdFile = new File(context.getString(R.string.default_root));
         searchForProjectFiles(sdFile);
         adapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, adapterFileList);
-
+        
         listView = (ListView) findViewById(R.id.loadfilelist);
         listView.setAdapter(adapter);
-
         listView.setOnItemClickListener(new ListView.OnItemClickListener() {
-
-            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                File file = new File(adapter.getItem(arg2));
-                if (!contentManager.loadContent(file.getName())) {
+        	
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (!contentManager.loadContent(adapter.getItem(position))) {
                     return;
                 }
+                Intent intent = new Intent(context, ProjectActivity.class);
+            	context.startActivity(intent);
                 dismiss();
             }
         });
-
     }
 
-    public void searchForProjectFiles(File file) {
-        File[] sdFileList = file.listFiles();
-        int length = 0;
-        if (sdFileList != null) {
-            length = sdFileList.length;
-        }
-        for (int i = 0; i < length; i++) {
-            if (sdFileList[i].isDirectory()) {
-                searchForProjectFiles(sdFileList[i]);
-            } else if (sdFileList[i].isFile()
-                    && sdFileList[i].getName().endsWith(context.getString(R.string.default_file_ending))) {
-                adapterFileList.add(sdFileList[i].getAbsolutePath());
+    public void searchForProjectFiles(File directory) {
+        File[] sdFileList = directory.listFiles();
+        for (File file : sdFileList) {
+        	if (file.isDirectory()) {
+                searchForProjectFiles(file);
+            } else if (file.isFile() && file.getName().endsWith(StorageHandler.PROJECT_EXTENTION)) {
+            	adapterFileList.add(Utils.getProjectName(file.getName()));
             }
         }
     }

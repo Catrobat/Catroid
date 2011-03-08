@@ -18,6 +18,7 @@ import android.net.Uri;
 import android.util.Log;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.utils.filesystem.FileCopyThread;
 
 public class Utils {
@@ -166,6 +167,17 @@ public class Utils {
 		if (!filename.endsWith(ConstructionSiteActivity.DEFAULT_FILE_ENDING))
 			return filename + ConstructionSiteActivity.DEFAULT_FILE_ENDING;
 		return filename;
+	}
+	/**
+	 * 
+	 * @param projectFileName 
+	 * @return the project name without the default file extension, else returns unchanged string
+	 */
+	public static String getProjectName(String projectFileName) {
+		if (projectFileName.endsWith(StorageHandler.PROJECT_EXTENTION)) {
+	        return projectFileName.substring(0, projectFileName.length() - StorageHandler.PROJECT_EXTENTION.length());
+		}
+		return projectFileName;
 	}
 
 	public static void saveBitmapOnSDCardAsPNG(String full_path, Bitmap bitmap) {

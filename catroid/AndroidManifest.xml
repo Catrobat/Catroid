@@ -12,6 +12,7 @@
 			</intent-filter>
 		</activity>
 		<activity android:name=".stage.StageActivity" android:label="@string/stage" />
+		<activity android:name=".ui.ProjectActivity" />
 		<activity android:name=".download.DownloadActivity"
 			android:label="@string/app_name" android:noHistory="true">
 			<intent-filter>

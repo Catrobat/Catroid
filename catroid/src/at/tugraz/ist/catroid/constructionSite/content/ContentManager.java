@@ -135,4 +135,8 @@ public class ContentManager extends Observable {
     public Sprite getCurrentSprite() {
         return currentSprite;
     }
+    
+    public Project getCurrentProject() {
+		return this.project;
+    }
 }
