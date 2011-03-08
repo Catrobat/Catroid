@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class NewProjectDialog extends Dialog {
@@ -41,6 +43,8 @@ public class NewProjectDialog extends Dialog {
                     e.printStackTrace();
                 }
                 contentManager.initializeNewProject(projectName);
+                Intent intent = new Intent(context, ProjectActivity.class);
+            	context.startActivity(intent);
                 dismiss();
             }
         });

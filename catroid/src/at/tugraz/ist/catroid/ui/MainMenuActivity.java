@@ -20,6 +20,7 @@ package at.tugraz.ist.catroid.ui;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -43,7 +44,8 @@ public class MainMenuActivity extends Activity {
         resumeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (currentProject != null) {
-                    // TODO: Start new project activity with current project
+                    Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
+                    startActivity(intent);
                 }
             }
         });
@@ -69,7 +71,7 @@ public class MainMenuActivity extends Activity {
         Button loadProjectButton = (Button) findViewById(R.id.loadProjectButton);
         loadProjectButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                showDialog(LOAD_PROJECT_DIALOG);
+                showDialog(LOAD_PROJECT_DIALOG);               
                 // TODO: Start new project activity
             }
         });
@@ -82,8 +84,10 @@ public class MainMenuActivity extends Activity {
         setContentView(R.layout.main_menu);
 
         // Try to load project
-        currentProject = null;
-
+        contentManager = new ContentManager(this, null);
+        currentProject = contentManager.getCurrentProject();
+        
+        
         if (currentProject == null) {
             contentManager = new ContentManager(this, null); //creates default project (could be new currentProject?)
             Button resumeButton = (Button) findViewById(R.id.resumeButton);
@@ -116,4 +120,17 @@ public class MainMenuActivity extends Activity {
 
         return dialog;
     }
+    
+    protected void onResume() {
+    	super.onResume();
+    	if (contentManager.getCurrentProject() != null)
+    		currentProject = contentManager.getCurrentProject();
+    	else
+    		return;
+    	TextView currentProjectTextView = (TextView) findViewById(R.id.currentProjectNameTextView);
+        currentProjectTextView.setText(getString(R.string.current_project) + " " + currentProject.getName());
+    }
+    
+    
+
 }

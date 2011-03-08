@@ -33,6 +33,7 @@ import android.provider.MediaStore;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.entities.SoundInfo;
 import at.tugraz.ist.catroid.content.project.Project;
+import at.tugraz.ist.catroid.utils.Utils;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -42,7 +43,7 @@ import com.thoughtworks.xstream.XStream;
  */
 public class StorageHandler {
     private static final String DIRECTORY_NAME = "catroid";
-    private static final String PROJECT_EXTENTION = ".spf";
+    public static final String PROJECT_EXTENTION = ".spf";
 
     private static StorageHandler instance;
     private ArrayList<SoundInfo> soundContent;
@@ -73,9 +74,7 @@ public class StorageHandler {
 
     public Project loadProject(String projectName) {
         try {
-            if (projectName.endsWith(PROJECT_EXTENTION)) {
-                projectName = projectName.substring(0, projectName.length() - PROJECT_EXTENTION.length());
-            }
+        	projectName = Utils.getProjectName(projectName);
 
             File projectDirectory = new File(catroidRoot.getAbsolutePath() + "/" + projectName);
 
