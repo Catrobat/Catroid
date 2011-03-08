@@ -54,8 +54,8 @@ public class LoadProjectDialog extends Dialog {
         setContentView(R.layout.load_project_dialog);
         setTitle(R.string.laod_project_dialog_title);
 
-        File sdFile = new File(context.getString(R.string.default_root));
-        searchForProjectFiles(sdFile);
+        File rootDirectory = new File(context.getString(R.string.default_root));
+        searchForProjectFiles(rootDirectory);
         adapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, adapterFileList);
         
         listView = (ListView) findViewById(R.id.loadfilelist);
@@ -64,6 +64,7 @@ public class LoadProjectDialog extends Dialog {
         	
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (!contentManager.loadContent(adapter.getItem(position))) {
+                    dismiss(); //TODO: should we dismiss here? or continue project choosing
                     return;
                 }
                 Intent intent = new Intent(context, ProjectActivity.class);

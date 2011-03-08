@@ -123,7 +123,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		try {
 			StorageHandler.getInstance().loadSoundContent(this);
 			mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-			mPreferences = this.getPreferences(Activity.MODE_PRIVATE);
+			mPreferences = getPreferences(Activity.MODE_PRIVATE);
 
 			String rootPath = mPreferences.getString(PREF_ROOT, DEFAULT_ROOT);
 			String spfFile = mPreferences.getString(PREF_FILE_SPF, DEFAULT_FILE);
@@ -193,10 +193,10 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 //		mGalleryAdapter = new ConstructionSiteGalleryAdapter(this, null, ImageContainer.getInstance());
 //		mContructionGallery.setAdapter(mGalleryAdapter);
 
-		mToolboxButton = (Button) this.findViewById(R.id.toolbar_button);
+		mToolboxButton = (Button) findViewById(R.id.toolbar_button);
 		mToolboxButton.setOnClickListener(this);
 
-		mSpritesToolboxButton = (Button) this.findViewById(R.id.sprites_button);
+		mSpritesToolboxButton = (Button) findViewById(R.id.sprites_button);
 		mSpritesToolboxButton.setOnClickListener(this);
 
 	}
@@ -214,7 +214,6 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO
 
 		/*
 		 * if ((requestCode == MediaFileLoader.GALLERY_INTENT_CODE) && (data != null)) {
@@ -246,7 +245,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
-	protected Dialog onCreateDialog(int id) {
+	@Override
+    protected Dialog onCreateDialog(int id) {
 		switch (id) {
 		case TOOLBOX_DIALOG_SPRITE:
 			mToolboxObjectDialog = new ToolBoxDialog(this, contentManager);
@@ -359,7 +359,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 
 	}
 
-	public void onPause() {
+	@Override
+    public void onPause() {
 		// mContentManager.saveContent(SPF_FILE);
 		SharedPreferences.Editor editor = mPreferences.edit();
 		editor.putString(PREF_ROOT, ROOT);
@@ -379,7 +380,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_HOME) {
-			this.finish();
+			finish();
 			return true;
 		}
 
@@ -410,12 +411,14 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	public void onBrickClickListener(View v) {
 		if (contentManager.getCurrentSprite().getName().equals(this.getString(R.string.stage))) {
 			contentManager.addBrick(mToolboxStageDialog.getBrickClone(v), currentScript);
-			if (mToolboxStageDialog.isShowing())
-				mToolboxStageDialog.dismiss();
+			if (mToolboxStageDialog.isShowing()) {
+                mToolboxStageDialog.dismiss();
+            }
 		} else {
 			contentManager.addBrick(mToolboxObjectDialog.getBrickClone(v), currentScript);
-			if (mToolboxObjectDialog.isShowing())
-				mToolboxObjectDialog.dismiss();
+			if (mToolboxObjectDialog.isShowing()) {
+                mToolboxObjectDialog.dismiss();
+            }
 		}
 
 	}
@@ -427,36 +430,41 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		}
 		ROOT = rootFile.getPath();
 		File rootImageFile = new File(Utils.concatPaths(root, "/images"));
-		if (!rootImageFile.exists())
-			rootImageFile.mkdirs();
+		if (!rootImageFile.exists()) {
+            rootImageFile.mkdirs();
+        }
 		ConstructionSiteActivity.ROOT_IMAGES = rootImageFile.getPath();
 		File rootSoundFile = new File(Utils.concatPaths(root, "/sounds"));
-		if (!rootSoundFile.exists())
-			rootSoundFile.mkdirs();
+		if (!rootSoundFile.exists()) {
+            rootSoundFile.mkdirs();
+        }
 		ConstructionSiteActivity.ROOT_SOUNDS = rootSoundFile.getPath();
 
 		SPF_FILE = file;
 		File spfFile = new File(Utils.concatPaths(root, file));
-		if (!spfFile.exists())
-			try {
+		if (!spfFile.exists()) {
+            try {
 				spfFile.createNewFile();
 			} catch (IOException e) {
 				Log.e("CONSTRUCTION_SITE_ACTIVITY", e.getMessage());
 				e.printStackTrace();
 			}
+        }
 
 		// set ignore files to the folders
 		File noMediaFile = new File(Utils.concatPaths(ROOT_IMAGES, MEDIA_IGNORE_BY_ANDROID_FILENAME));
 		try {
-			if (!noMediaFile.exists())
-				noMediaFile.createNewFile();
+			if (!noMediaFile.exists()) {
+                noMediaFile.createNewFile();
+            }
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		noMediaFile = new File(Utils.concatPaths(ROOT_SOUNDS, MEDIA_IGNORE_BY_ANDROID_FILENAME));
 		try {
-			if (!noMediaFile.exists())
-				noMediaFile.createNewFile();
+			if (!noMediaFile.exists()) {
+                noMediaFile.createNewFile();
+            }
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
