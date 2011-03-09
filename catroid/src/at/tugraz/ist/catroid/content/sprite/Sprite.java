@@ -40,20 +40,20 @@ public class Sprite implements Serializable, Comparable<Sprite> {
     private Costume currentCostume;
 
     private void init() {
-        this.zPosition = 0;
-        this.scale = 1.0;
-        this.isVisible = true;
-        this.costumeList = new ArrayList<Costume>();
-        this.scriptList = new ArrayList<Script>();
-        this.threadList = new ArrayList<Thread>();
-        this.currentCostume = null;
+        zPosition = 0;
+        scale = 1.0;
+        isVisible = true;
+        costumeList = new ArrayList<Costume>();
+        scriptList = new ArrayList<Script>();
+        threadList = new ArrayList<Thread>();
+        currentCostume = null;
     }
 
     public Sprite(String name) {
         this.name = name;
-        this.xPosition = 0;
-        this.yPosition = 0;
-        this.toDraw = false;
+        xPosition = 0;
+        yPosition = 0;
+        toDraw = false;
         init();
     }
 
@@ -61,11 +61,11 @@ public class Sprite implements Serializable, Comparable<Sprite> {
         this.name = name;
         this.xPosition = xPosition;
         this.yPosition = yPosition;
-        this.toDraw = false;
+        toDraw = false;
         init();
     }
 
-    public void startScripts() { //TODO: rename function
+    public void startScripts() {
         for (Script s : scriptList) {
             if (!s.isTouchScript()) {
                 startScript(s);
@@ -145,29 +145,30 @@ public class Sprite implements Serializable, Comparable<Sprite> {
         //		if (currentCostume != null) {
         //			currentCostume.setDrawPosition(); //TODO set all sprites in spriteList or only current?
         //		}
-        this.toDraw = true;
+        toDraw = true;
     }
 
     public synchronized void setZPosition(int zPosition) {
         this.zPosition = zPosition;
-        this.toDraw = true;
+        toDraw = true;
     }
 
     public void setScale(double scale) {
-        if (scale <= 0.0)
+        if (scale <= 0.0) {
             throw new IllegalArgumentException("Sprite scale must be greater than zero!");
+        }
         this.scale = scale;
-        this.toDraw = true;
+        toDraw = true;
     }
 
     public void show() {
         isVisible = true;
-        this.toDraw = true;
+        toDraw = true;
     }
 
     public void hide() {
         isVisible = false;
-        this.toDraw = true;
+        toDraw = true;
     }
 
     public Costume getCurrentCostume() {
@@ -187,22 +188,24 @@ public class Sprite implements Serializable, Comparable<Sprite> {
     }
 
     public void setToDraw(boolean value) {
-        this.toDraw = value;
+        toDraw = value;
     }
 
     public void setCurrentCostume(Costume costume) throws IllegalArgumentException {
-        if (!costumeList.contains(costume))
+        if (!costumeList.contains(costume)) {
             throw new IllegalArgumentException("Selected costume is not contained in Costume list of this sprite.");
+        }
         currentCostume = costume;
-        this.toDraw = true;
+        toDraw = true;
     }
 
     public int compareTo(Sprite sprite) {
-        long thisZValue = this.getZPosition();
+        long thisZValue = getZPosition();
         long otherZValue = sprite.getZPosition();
         long difference = thisZValue - otherZValue;
-        if (difference > Integer.MAX_VALUE)
+        if (difference > Integer.MAX_VALUE) {
             return Integer.MAX_VALUE;
+        }
         return (int) difference;
     }
 

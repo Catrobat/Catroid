@@ -30,19 +30,19 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class LoadProjectDialog extends Dialog {
     private final Context context;
-    private final ContentManager contentManager;
+    private final ProjectManager contentManager;
     private ListView listView;
     private ArrayAdapter<String> adapter;
     private final ArrayList<String> adapterFileList;
 
-    public LoadProjectDialog(Context context, ContentManager contentManager) {
+    public LoadProjectDialog(Context context, ProjectManager contentManager) {
         super(context);
         this.context = context;
         this.contentManager = contentManager;
@@ -63,7 +63,7 @@ public class LoadProjectDialog extends Dialog {
         listView.setOnItemClickListener(new ListView.OnItemClickListener() {
         	
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (!contentManager.loadContent(adapter.getItem(position))) {
+                if (!contentManager.loadProject(adapter.getItem(position), context)) {
                     dismiss(); //TODO: should we dismiss here? or continue project choosing
                     return;
                 }

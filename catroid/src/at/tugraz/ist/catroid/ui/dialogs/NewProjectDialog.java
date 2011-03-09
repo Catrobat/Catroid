@@ -10,16 +10,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class NewProjectDialog extends Dialog {
     private final Context context;
-    private final ContentManager contentManager;
+    private final ProjectManager contentManager;
 
-    public NewProjectDialog(Context context, ContentManager contentManager) {
+    public NewProjectDialog(Context context, ProjectManager contentManager) {
         super(context);
         this.context = context;
         this.contentManager = contentManager;
@@ -42,7 +42,7 @@ public class NewProjectDialog extends Dialog {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                contentManager.initializeNewProject(projectName);
+                contentManager.initializeNewProject(projectName, context);
                 Intent intent = new Intent(context, ProjectActivity.class);
             	context.startActivity(intent);
                 dismiss();

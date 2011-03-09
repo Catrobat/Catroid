@@ -18,17 +18,10 @@
  */
 package at.tugraz.ist.catroid.ui.dialogs;
 
-/**
- * @author DENISE
- *
- */
-
-
 import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -38,7 +31,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
 import at.tugraz.ist.catroid.content.brick.gui.Brick;
 import at.tugraz.ist.catroid.content.brick.gui.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.brick.gui.GoNStepsBackBrick;
@@ -46,7 +38,6 @@ import at.tugraz.ist.catroid.content.brick.gui.HideBrick;
 import at.tugraz.ist.catroid.content.brick.gui.IfTouchedBrick;
 import at.tugraz.ist.catroid.content.brick.gui.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.brick.gui.PlaySoundBrick;
-import at.tugraz.ist.catroid.content.brick.gui.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.brick.gui.ShowBrick;
 import at.tugraz.ist.catroid.content.brick.gui.WaitBrick;
 import at.tugraz.ist.catroid.content.script.Script;
@@ -76,7 +67,7 @@ public class AddBrickDialog extends Dialog {
 		brickList.add(new IfTouchedBrick(null, new Script()));
 	}
 
-	public AddBrickDialog(ScriptActivity scriptActivity, ContentManager contentManager) {
+    public AddBrickDialog(ScriptActivity scriptActivity) {
 		super(scriptActivity);
 		setupBrickPrototypes();
 

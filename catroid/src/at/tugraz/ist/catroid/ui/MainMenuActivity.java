@@ -27,7 +27,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.ui.dialogs.LoadProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
 
@@ -36,14 +36,14 @@ public class MainMenuActivity extends Activity {
     private static final int LOAD_PROJECT_DIALOG = 1;
     private static final String PREFS_NAME = "at.tugraz.ist.catroid";
     private static final String PREF_PREFIX_KEY = "prefix_";
-    private ContentManager contentManager;
+    private ProjectManager projectManager;
 
     private void initListeners() {
 
         Button resumeButton = (Button) findViewById(R.id.resumeButton);
         resumeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (contentManager.getCurrentProject() != null) {
+                if (projectManager.getCurrentProject() != null) {
                     Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
                     startActivity(intent);
                 }
@@ -53,7 +53,7 @@ public class MainMenuActivity extends Activity {
         Button toStageButton = (Button) findViewById(R.id.toStageButton);
         toStageButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (contentManager.getCurrentProject() != null) {
+                if (projectManager.getCurrentProject() != null) {
                 }
             }
         });
@@ -75,7 +75,7 @@ public class MainMenuActivity extends Activity {
         Button uploadProjectButton = (Button) findViewById(R.id.uploadProjectButton);
         uploadProjectButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-            	
+
             }
         });
 
@@ -92,17 +92,19 @@ public class MainMenuActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.main_menu);
+        projectManager = ProjectManager.getInstance();
 
         // Try to load sharedPreferences
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        String prefix = prefs.getString(PREF_PREFIX_KEY, null);
-        if (prefix != null) {
-            contentManager = new ContentManager(this, prefix);
+        String projectName = prefs.getString(PREF_PREFIX_KEY, null);
+
+        if (projectName != null) {
+            projectManager.loadProject(projectName, this);
         } else {
-            contentManager = new ContentManager(this, null); //null: creates default project
+            projectManager.loadProject(this.getString(R.string.default_project_name), this); //default project is created
         }
         
-        if (contentManager.getCurrentProject() == null) {
+        if (projectManager.getCurrentProject() == null) {
             Button resumeButton = (Button) findViewById(R.id.resumeButton);
             resumeButton.setEnabled(false);
             Button toStageButton = (Button) findViewById(R.id.toStageButton);
@@ -117,14 +119,14 @@ public class MainMenuActivity extends Activity {
     @Override
     protected Dialog onCreateDialog(int id) {
         Dialog dialog;
-        contentManager.saveContent();
+        projectManager.saveProject(this);
 
         switch (id) {
         case NEW_PROJECT_DIALOG:
-            dialog = new NewProjectDialog(this, contentManager);
+            dialog = new NewProjectDialog(this, projectManager);
             break;
         case LOAD_PROJECT_DIALOG:
-            dialog = new LoadProjectDialog(this, contentManager);
+            dialog = new LoadProjectDialog(this, projectManager);
             break;
         default:
             dialog = null;
@@ -137,22 +139,24 @@ public class MainMenuActivity extends Activity {
     @Override
     protected void onResume() {
     	super.onResume();
-        if (contentManager.getCurrentProject() == null) {
+        if (projectManager.getCurrentProject() == null) {
             return;
         }
-        contentManager.saveContent(); //TODO: this here good?
+        projectManager.saveProject(this); //TODO: this here good?
     	TextView currentProjectTextView = (TextView) findViewById(R.id.currentProjectNameTextView);
         currentProjectTextView.setText(getString(R.string.current_project) + " "
-                + contentManager.getCurrentProject().getName());
+                + projectManager.getCurrentProject().getName());
     }
 
     @Override
     public void onPause() {
         //onPause is sufficient --> gets called before "process_killed", onStop(), onDestroy(), onRestart()
         //also when you switch activities
-        contentManager.saveContent();
+        if (projectManager.getCurrentProject() != null) {
+            projectManager.saveProject(this);
+        }
         SharedPreferences.Editor prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
-        prefs.putString(PREF_PREFIX_KEY, contentManager.getCurrentProject().getName());
+        prefs.putString(PREF_PREFIX_KEY, projectManager.getCurrentProject().getName());
         prefs.commit();
         super.onPause();
     }

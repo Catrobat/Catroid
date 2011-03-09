@@ -18,7 +18,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.BrickDefine;
-import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.constructionSite.gui.adapter.ProgrammAdapter;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -29,7 +29,7 @@ public class ContextMenuDialog extends Dialog {
     private Animation mSlide_in;
     private Animation mSlide_out;
     private RelativeLayout mToolboxLayout;
-    private ContentManager mContentManager;
+    private ProjectManager mContentManager;
 
     private Button mCancelButton;
     private Button mUpButton;
@@ -83,7 +83,7 @@ public class ContextMenuDialog extends Dialog {
         Utils.displayWebsite(mCtx, Uri.parse(url));
     }
 
-    public ContextMenuDialog(Context context, ContentManager contentManager, Script script) {
+    public ContextMenuDialog(Context context, ProjectManager contentManager, Script script) {
         super(context);
         this.script = script;
         requestWindowFeature(Window.FEATURE_NO_TITLE);

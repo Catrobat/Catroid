@@ -19,7 +19,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.constructionSite.gui.adapter.SpritesAdapter;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
@@ -37,7 +37,7 @@ public class SpritesDialog extends Dialog implements Observer
 	public Button mSpriteButton;   
 	private SpritesAdapter mAdapter;
 	public ArrayList<String> mContentArrayList;
-	ContentManager mContentManager;
+	ProjectManager mContentManager;
 	
 	private RelativeLayout mToolboxLayout;
 	
@@ -136,7 +136,7 @@ public class SpritesDialog extends Dialog implements Observer
 
 	
 
-	public void setContentManager(ContentManager contentManager){
+	public void setContentManager(ProjectManager contentManager){
 		mContentManager = contentManager;
 	}
 	

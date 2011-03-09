@@ -20,37 +20,27 @@ package at.tugraz.ist.catroid.ui;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
-import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
 
-/**
- * @author DENISE
- *
- */
 public class ScriptActivity extends Activity implements OnItemClickListener {
     private static final int ADD_BRICK_DIALOG = 0;
     //private static final int LOAD_PROJECT_DIALOG = 1;
-    private static final String PREFS_NAME = "at.tugraz.ist.catroid";
-    private static final String PREF_PREFIX_KEY = "prefix_";
-    private ContentManager contentManager;
 
     private void initListeners() {
 
         Button mainMenuButton = (Button) findViewById(R.id.mainMenuButton);
         mainMenuButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-            	Intent intent = new Intent(ScriptActivity.this, MainMenuActivity.class);
-            	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                // Intent intent = new Intent(ScriptActivity.this, MainMenuActivity.class);
+                // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                // startActivity(intent);
+                finish();
             }
         });
 
@@ -68,35 +58,21 @@ public class ScriptActivity extends Activity implements OnItemClickListener {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.script_activity);
-        
-        // Try to load sharedPreferences
-        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        String prefix = prefs.getString(PREF_PREFIX_KEY, null);
-        if (prefix != null) {
-            contentManager = new ContentManager(this, prefix);
-        } else {
-            contentManager = new ContentManager(this, null); //null: creates default project
-        }
-        
 
-            ListView currentBrickListView = (ListView) findViewById(R.id.brickListView);
-            //currentBrickListView.set(getString(R.string.current_project) + " " + getString(R.string.no_project));
-        
+        //ListView currentBrickListView = (ListView) findViewById(R.id.brickListView);
+        //currentBrickListView.set(getString(R.string.current_project) + " " + getString(R.string.no_project));
+
         initListeners();
     }
 
     @Override
     protected Dialog onCreateDialog(int id) {
         Dialog dialog;
-        contentManager.saveContent();
 
         switch (id) {
         case ADD_BRICK_DIALOG:
-            dialog = new AddBrickDialog(this, contentManager);
+            dialog = new AddBrickDialog(this);
             break;
-        //case LOAD_PROJECT_DIALOG:
-            //dialog = new LoadProjectDialog(this, contentManager);
-            //break;
         default:
             dialog = null;
             break;

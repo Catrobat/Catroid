@@ -19,16 +19,58 @@
 package at.tugraz.ist.catroid.ui;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.ui.dialogs.NewSpriteDialog;
 
 public class ProjectActivity extends Activity {
 
-	
-    protected void onCreate(Bundle savedInstanceState) {
+    final static int NEW_SPRITE_DIALOG = 0;
+
+    private void initListeners() {
+
+        //TODO: access and fill SpriteList
+
+        Button mainMenuButton = (Button) findViewById(R.id.mainMenuButton);
+        mainMenuButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        Button NewSpriteButton = (Button) findViewById(R.id.addSpriteButton);
+        NewSpriteButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                showDialog(NEW_SPRITE_DIALOG);
+            }
+        });
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.project_activity);       
+        setContentView(R.layout.project_activity);
+        initListeners();
+    }
 
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        Dialog dialog;
+        //Save Content here?
+
+        switch (id) {
+        case NEW_SPRITE_DIALOG:
+            dialog = new NewSpriteDialog(this);
+            break;
+        default:
+            dialog = null;
+            break;
+        }
+
+        return dialog;
     }
 }

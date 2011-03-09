@@ -47,8 +47,8 @@ public class StorageHandler {
 
     private static StorageHandler instance;
     private ArrayList<SoundInfo> soundContent;
-    private final File catroidRoot;
-    private final XStream xstream;
+    private File catroidRoot;
+    private XStream xstream;
 
     private StorageHandler() throws IOException {
         String state = Environment.getExternalStorageState();
@@ -62,7 +62,10 @@ public class StorageHandler {
         // We can read and write the media
         String catroidPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + DIRECTORY_NAME;
         catroidRoot = new File(catroidPath);
-
+        if (!catroidRoot.exists()) {
+            catroidRoot.mkdirs();
+            catroidRoot.createNewFile();
+        }
     }
 
     public synchronized static StorageHandler getInstance() throws IOException {
@@ -87,23 +90,23 @@ public class StorageHandler {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
             return null;
         }
     }
 
     public void saveProject(Project project) {
 
-        String spfFile = xstream.toXML(project);
-        File projectDirectory = new File(catroidRoot.getAbsolutePath() + "/" + project.getName());
-        if (!(projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite())) {
-            projectDirectory.mkdir();
-            File imageDirectory = new File(projectDirectory.getAbsolutePath() + "/images");
-            imageDirectory.mkdir();
-            File soundDirectory = new File(projectDirectory.getAbsolutePath() + "/sounds");
-            soundDirectory.mkdir();
-        }
         try {
+            String spfFile = xstream.toXML(project);
+
+            File projectDirectory = new File(catroidRoot.getAbsolutePath() + "/" + project.getName());
+            if (!(projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite())) {
+                projectDirectory.mkdir();
+                File imageDirectory = new File(projectDirectory.getAbsolutePath() + "/images");
+                imageDirectory.mkdir();
+                File soundDirectory = new File(projectDirectory.getAbsolutePath() + "/sounds");
+                soundDirectory.mkdir();
+            }
             BufferedWriter out = new BufferedWriter(new FileWriter(projectDirectory.getAbsolutePath() + "/"
                     + project.getName() + PROJECT_EXTENTION));
             out.write(spfFile);
@@ -168,6 +171,7 @@ public class StorageHandler {
             saveProject(defaultProject);
             return defaultProject;
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }

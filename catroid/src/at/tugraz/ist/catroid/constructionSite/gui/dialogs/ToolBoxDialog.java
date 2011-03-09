@@ -14,7 +14,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.constructionSite.gui.adapter.ToolBoxAdapter;
 import at.tugraz.ist.catroid.content.brick.gui.Brick;
 import at.tugraz.ist.catroid.content.brick.gui.ComeToFrontBrick;
@@ -51,7 +51,7 @@ public class ToolBoxDialog extends Dialog {
 		brickList.add(new IfTouchedBrick(null, new Script()));
 	}
 
-	public ToolBoxDialog(Context context, ContentManager contentManager) {
+	public ToolBoxDialog(Context context, ProjectManager contentManager) {
 		super(context);
 		setupBrickPrototypes();
 
