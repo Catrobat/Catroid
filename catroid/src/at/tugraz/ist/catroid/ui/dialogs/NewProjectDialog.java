@@ -17,12 +17,13 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class NewProjectDialog extends Dialog {
     private final Context context;
-    private final ProjectManager contentManager;
 
-    public NewProjectDialog(Context context, ProjectManager contentManager) {
+	//private final ProjectManager contentManager;
+
+    public NewProjectDialog(Context context) {
         super(context);
         this.context = context;
-        this.contentManager = contentManager;
+		//this.contentManager = contentManager;
     }
 
     @Override
@@ -42,7 +43,7 @@ public class NewProjectDialog extends Dialog {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                contentManager.initializeNewProject(projectName, context);
+				ProjectManager.getInstance().initializeNewProject(projectName, context);
                 Intent intent = new Intent(context, ProjectActivity.class);
             	context.startActivity(intent);
                 dismiss();

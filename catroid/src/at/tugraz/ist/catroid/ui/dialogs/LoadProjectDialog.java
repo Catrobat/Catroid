@@ -37,15 +37,13 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class LoadProjectDialog extends Dialog {
     private final Context context;
-    private final ProjectManager contentManager;
     private ListView listView;
     private ArrayAdapter<String> adapter;
     private final ArrayList<String> adapterFileList;
 
-    public LoadProjectDialog(Context context, ProjectManager contentManager) {
+	public LoadProjectDialog(Context context) {
         super(context);
         this.context = context;
-        this.contentManager = contentManager;
         adapterFileList = new ArrayList<String>();
     }
 
@@ -63,7 +61,7 @@ public class LoadProjectDialog extends Dialog {
         listView.setOnItemClickListener(new ListView.OnItemClickListener() {
         	
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (!contentManager.loadProject(adapter.getItem(position), context)) {
+				if (!ProjectManager.getInstance().loadProject(adapter.getItem(position), context)) {
                     dismiss(); //TODO: should we dismiss here? or continue project choosing
                     return;
                 }
@@ -76,6 +74,7 @@ public class LoadProjectDialog extends Dialog {
 
 	@Override
 	protected void onStart() {
+		//update List:
 		adapterFileList.clear();
 		File rootDirectory = new File(context.getString(R.string.default_root));
 		searchForProjectFiles(rootDirectory);
