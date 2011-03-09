@@ -27,7 +27,7 @@ public class NewProjectDialog extends Dialog {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.new_project_dialog);
+        setContentView(R.layout.dialog_new_project);
         setTitle(R.string.new_project_dialog_title);
 
         Button createNewProjectButton = (Button) findViewById(R.id.createNewProjectButton);

@@ -33,7 +33,7 @@ public class NewProjectDialog extends Dialog {
 	protected void onCreate(Bundle savedInstanceState) {
 
 		((Activity) mCtx).getPreferences(Activity.MODE_PRIVATE);
-		setContentView(R.layout.new_project_dialog); // TODO: Own View
+		setContentView(R.layout.dialog_new_project); // TODO: Own View
 
 		EditText file = (EditText) findViewById(R.id.newProjectNameEditText);
 		file.setTextColor(Color.BLACK);
