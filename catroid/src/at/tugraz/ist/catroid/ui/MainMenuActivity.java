@@ -75,7 +75,7 @@ public class MainMenuActivity extends Activity {
         Button uploadProjectButton = (Button) findViewById(R.id.uploadProjectButton);
         uploadProjectButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+            	
             }
         });
 
