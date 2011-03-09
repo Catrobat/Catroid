@@ -185,7 +185,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 
 	private void initViews() {
 		mConstructionListView = (ListView) findViewById(R.id.MainListView);
-		programmAdapter = new ProgrammAdapter(this, new Script(), mConstructionListView, ImageContainer.getInstance());
+		programmAdapter = new ProgrammAdapter(this, new Script());
 		mConstructionListView.setAdapter(programmAdapter);
 		mConstructionListView.setOnItemLongClickListener(this);
 
@@ -340,7 +340,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	}
 
 	public void updateViews() {
-		programmAdapter.notifyDataSetChanged(contentManager.getCurrentSprite());
+//		programmAdapter.notifyDataSetChanged(contentManager.getCurrentSprite());
 //		mGalleryAdapter.notifyDataSetChanged();
 
 		mSpritesToolboxButton.setText(contentManager.getCurrentSprite().getName());

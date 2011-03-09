@@ -19,8 +19,10 @@
 package at.tugraz.ist.catroid.content.brick.gui;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
+import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.brick.SetCostumeBrickBase;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
@@ -33,9 +35,14 @@ public class SetCostumeBrick extends SetCostumeBrickBase implements Brick{
     }
     
     public View getView(Context context, BaseAdapter adapter) {
-        return null; //TODO: finish it
+    	View view = getPrototypeView(context);
+        return view; //TODO: finish it
     }
 
+    public View getPrototypeView(Context context) {
+        return null;
+    }
+    
     public Brick clone() {
     	return new SetCostumeBrick(getSprite());
     }
