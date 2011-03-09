@@ -39,7 +39,7 @@
 	<!-- About Dialog -->
 	<string name="about_title">Über Catroid</string>
 	<string name="about_text">Catroid: An on-device graphical programming language for Android devices \n
-	Copyright (C) 2010  Catroid development team \n
+	Copyright © 2010  Catroid development team \n
  	(<a href="http://code.google.com/p/catroid/wiki/Credits\">link</a>)</string>
 	
 	<!-- Project activity view -->

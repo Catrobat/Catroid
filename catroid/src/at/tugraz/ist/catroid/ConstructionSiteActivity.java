@@ -6,7 +6,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -29,12 +28,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
 import at.tugraz.ist.catroid.constructionSite.gui.adapter.ProgrammAdapter;
-import at.tugraz.ist.catroid.constructionSite.gui.dialogs.ContextMenuDialog;
-import at.tugraz.ist.catroid.constructionSite.gui.dialogs.LoadProgramDialog;
-import at.tugraz.ist.catroid.constructionSite.gui.dialogs.NewProjectDialog;
-import at.tugraz.ist.catroid.constructionSite.gui.dialogs.RenameProjectDialog;
-import at.tugraz.ist.catroid.constructionSite.gui.dialogs.SpritesDialog;
-import at.tugraz.ist.catroid.constructionSite.gui.dialogs.ToolBoxDialog;
 import at.tugraz.ist.catroid.constructionSite.tasks.ProjectUploadTask;
 import at.tugraz.ist.catroid.content.brick.gui.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.brick.gui.GoNStepsBackBrick;
@@ -87,12 +80,9 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	public static int SCREEN_HEIGHT;
 
 	private Button mToolboxButton;
-	private ToolBoxDialog mToolboxObjectDialog;
-	private ToolBoxDialog mToolboxStageDialog;
-	private Dialog mNewProjectDialog;
-	private Dialog mChangeProgramNameDialog;
-	private Dialog mLoadDialog;
-	private ContextMenuDialog mContextMenuDialog;
+//	private Dialog mNewProjectDialog;
+//	private Dialog mChangeProgramNameDialog;
+//	private Dialog mLoadDialog;
 
 	protected ListView mConstructionListView;
 	protected Gallery mContructionGallery;
@@ -101,10 +91,9 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	private ContentManager contentManager;
 
 	private Project currentProject;
-	private Script currentScript;
+//	private Script currentScript;
 
 	private Button mSpritesToolboxButton;
-	private SpritesDialog mSpritesToolboxDialog;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -123,7 +112,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		try {
 			StorageHandler.getInstance().loadSoundContent(this);
 			mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-			mPreferences = getPreferences(Activity.MODE_PRIVATE);
+			mPreferences = this.getPreferences(Activity.MODE_PRIVATE);
 
 			String rootPath = mPreferences.getString(PREF_ROOT, DEFAULT_ROOT);
 			String spfFile = mPreferences.getString(PREF_FILE_SPF, DEFAULT_FILE);
@@ -168,7 +157,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			script.addBrick(new PlaceAtBrick(stageSprite, 105, 206));
 
 			stageSprite.getScriptList().add(script);
-			currentScript = script;
+//			currentScript = script;
 
 			Log.d("testProject", "sprite count: " + currentProject.getSpriteList().size());
 			Log.d("testProject", "script count: " + currentProject.getSpriteList().get(0).getScriptList().size());
@@ -185,7 +174,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 
 	private void initViews() {
 		mConstructionListView = (ListView) findViewById(R.id.MainListView);
-		programmAdapter = new ProgrammAdapter(this, new Script());
+		programmAdapter = new ProgrammAdapter(this, new Script(), mConstructionListView, ImageContainer.getInstance());
 		mConstructionListView.setAdapter(programmAdapter);
 		mConstructionListView.setOnItemLongClickListener(this);
 
@@ -193,10 +182,10 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 //		mGalleryAdapter = new ConstructionSiteGalleryAdapter(this, null, ImageContainer.getInstance());
 //		mContructionGallery.setAdapter(mGalleryAdapter);
 
-		mToolboxButton = (Button) findViewById(R.id.toolbar_button);
+		mToolboxButton = (Button) this.findViewById(R.id.toolbar_button);
 		mToolboxButton.setOnClickListener(this);
 
-		mSpritesToolboxButton = (Button) findViewById(R.id.sprites_button);
+		mSpritesToolboxButton = (Button) this.findViewById(R.id.sprites_button);
 		mSpritesToolboxButton.setOnClickListener(this);
 
 	}
@@ -214,6 +203,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO
 
 		/*
 		 * if ((requestCode == MediaFileLoader.GALLERY_INTENT_CODE) && (data != null)) {
@@ -245,34 +235,33 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
-	@Override
-    protected Dialog onCreateDialog(int id) {
-		switch (id) {
-		case TOOLBOX_DIALOG_SPRITE:
-			mToolboxObjectDialog = new ToolBoxDialog(this, contentManager);
-			return mToolboxObjectDialog;
-		case TOOLBOX_DIALOG_BACKGROUND:
-			mToolboxStageDialog = new ToolBoxDialog(this, contentManager);
-			return mToolboxStageDialog;
-		case SPRITETOOLBOX_DIALOG:
-			mSpritesToolboxDialog = new SpritesDialog(this, true, null, 0);
-			mSpritesToolboxDialog.setContentManager(contentManager);
-			return mSpritesToolboxDialog;
-		case NEW_PROJECT_DIALOG:
-			mNewProjectDialog = new NewProjectDialog(this, contentManager);
-			return mNewProjectDialog;
-		case CHANGE_PROJECT_NAME_DIALOG:
-			mChangeProgramNameDialog = new RenameProjectDialog(this, contentManager);
-			return mChangeProgramNameDialog;
-		case LOAD_DIALOG:
-			mLoadDialog = new LoadProgramDialog(this, contentManager);
-			return mLoadDialog;
-
-		default:
-			return null;
-		}
-
-	}
+//	protected Dialog onCreateDialog(int id) {
+//		switch (id) {
+//		case TOOLBOX_DIALOG_SPRITE:
+//			mToolboxObjectDialog = new ToolBoxDialog(this, contentManager);
+//			return mToolboxObjectDialog;
+//		case TOOLBOX_DIALOG_BACKGROUND:
+//			mToolboxStageDialog = new ToolBoxDialog(this, contentManager);
+//			return mToolboxStageDialog;
+//		case SPRITETOOLBOX_DIALOG:
+//			mSpritesToolboxDialog = new SpritesDialog(this, true, null, 0);
+//			mSpritesToolboxDialog.setContentManager(contentManager);
+//			return mSpritesToolboxDialog;
+//		case NEW_PROJECT_DIALOG:
+//			mNewProjectDialog = new NewProjectDialog(this, contentManager);
+//			return mNewProjectDialog;
+//		case CHANGE_PROJECT_NAME_DIALOG:
+//			mChangeProgramNameDialog = new RenameProjectDialog(this, contentManager);
+//			return mChangeProgramNameDialog;
+//		case LOAD_DIALOG:
+//			mLoadDialog = new LoadProgramDialog(this, contentManager);
+//			return mLoadDialog;
+//
+//		default:
+//			return null;
+//		}
+//
+//	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -340,7 +329,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	}
 
 	public void updateViews() {
-//		programmAdapter.notifyDataSetChanged(contentManager.getCurrentSprite());
+		programmAdapter.notifyDataSetChanged(contentManager.getCurrentSprite());
 //		mGalleryAdapter.notifyDataSetChanged();
 
 		mSpritesToolboxButton.setText(contentManager.getCurrentSprite().getName());
@@ -359,8 +348,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 
 	}
 
-	@Override
-    public void onPause() {
+	public void onPause() {
 		// mContentManager.saveContent(SPF_FILE);
 		SharedPreferences.Editor editor = mPreferences.edit();
 		editor.putString(PREF_ROOT, ROOT);
@@ -380,7 +368,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_HOME) {
-			finish();
+			this.finish();
 			return true;
 		}
 
@@ -404,24 +392,22 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	 * 
 	 * @return one of the Toolbox
 	 */
-	public Dialog getToolboxDialog() {
-		return mToolboxStageDialog;
-	}
-
-	public void onBrickClickListener(View v) {
-		if (contentManager.getCurrentSprite().getName().equals(this.getString(R.string.stage))) {
-			contentManager.addBrick(mToolboxStageDialog.getBrickClone(v), currentScript);
-			if (mToolboxStageDialog.isShowing()) {
-                mToolboxStageDialog.dismiss();
-            }
-		} else {
-			contentManager.addBrick(mToolboxObjectDialog.getBrickClone(v), currentScript);
-			if (mToolboxObjectDialog.isShowing()) {
-                mToolboxObjectDialog.dismiss();
-            }
-		}
-
-	}
+//	public Dialog getToolboxDialog() {
+//		return mToolboxStageDialog;
+//	}
+//
+//	public void onBrickClickListener(View v) {
+//		if (contentManager.getCurrentSprite().getName().equals(this.getString(R.string.stage))) {
+//			contentManager.addBrick(mToolboxStageDialog.getBrickClone(v), currentScript);
+//			if (mToolboxStageDialog.isShowing())
+//				mToolboxStageDialog.dismiss();
+//		} else {
+//			contentManager.addBrick(mToolboxObjectDialog.getBrickClone(v), currentScript);
+//			if (mToolboxObjectDialog.isShowing())
+//				mToolboxObjectDialog.dismiss();
+//		}
+//
+//	}
 
 	public static void setRoot(String root, String file) {
 		File rootFile = new File(root);
@@ -430,41 +416,36 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		}
 		ROOT = rootFile.getPath();
 		File rootImageFile = new File(Utils.concatPaths(root, "/images"));
-		if (!rootImageFile.exists()) {
-            rootImageFile.mkdirs();
-        }
+		if (!rootImageFile.exists())
+			rootImageFile.mkdirs();
 		ConstructionSiteActivity.ROOT_IMAGES = rootImageFile.getPath();
 		File rootSoundFile = new File(Utils.concatPaths(root, "/sounds"));
-		if (!rootSoundFile.exists()) {
-            rootSoundFile.mkdirs();
-        }
+		if (!rootSoundFile.exists())
+			rootSoundFile.mkdirs();
 		ConstructionSiteActivity.ROOT_SOUNDS = rootSoundFile.getPath();
 
 		SPF_FILE = file;
 		File spfFile = new File(Utils.concatPaths(root, file));
-		if (!spfFile.exists()) {
-            try {
+		if (!spfFile.exists())
+			try {
 				spfFile.createNewFile();
 			} catch (IOException e) {
 				Log.e("CONSTRUCTION_SITE_ACTIVITY", e.getMessage());
 				e.printStackTrace();
 			}
-        }
 
 		// set ignore files to the folders
 		File noMediaFile = new File(Utils.concatPaths(ROOT_IMAGES, MEDIA_IGNORE_BY_ANDROID_FILENAME));
 		try {
-			if (!noMediaFile.exists()) {
-                noMediaFile.createNewFile();
-            }
+			if (!noMediaFile.exists())
+				noMediaFile.createNewFile();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		noMediaFile = new File(Utils.concatPaths(ROOT_SOUNDS, MEDIA_IGNORE_BY_ANDROID_FILENAME));
 		try {
-			if (!noMediaFile.exists()) {
-                noMediaFile.createNewFile();
-            }
+			if (!noMediaFile.exists())
+				noMediaFile.createNewFile();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -473,20 +454,20 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	}
 
 	public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		if (arg0.equals(mConstructionListView)) {
-			if (mContextMenuDialog == null) {
-				if (currentProject.getSpriteList().get(0) == null) {
-					currentProject.getSpriteList().add(new Sprite(getString(R.string.stage)));
-					Script currentScript = currentProject.getSpriteList().get(0).getScriptList().get(0);
-					if (currentScript == null) {
-						currentProject.getSpriteList().get(0).getScriptList().add(new Script());
-						currentScript = currentProject.getSpriteList().get(0).getScriptList().get(0);
-					}
-					mContextMenuDialog = new ContextMenuDialog(this, contentManager, currentScript);
-				}
-				mContextMenuDialog.show(arg1, arg2, mConstructionListView);
-			}
-		}
+//		if (arg0.equals(mConstructionListView)) {
+//			if (mContextMenuDialog == null) {
+//				if (currentProject.getSpriteList().get(0) == null) {
+//					currentProject.getSpriteList().add(new Sprite(getString(R.string.stage)));
+//					Script currentScript = currentProject.getSpriteList().get(0).getScriptList().get(0);
+//					if (currentScript == null) {
+//						currentProject.getSpriteList().get(0).getScriptList().add(new Script());
+//						currentScript = currentProject.getSpriteList().get(0).getScriptList().get(0);
+//					}
+//					mContextMenuDialog = new ContextMenuDialog(this, contentManager, currentScript);
+//				}
+//				mContextMenuDialog.show(arg1, arg2, mConstructionListView);
+//			}
+//		}
 		return false;
 	}
 
