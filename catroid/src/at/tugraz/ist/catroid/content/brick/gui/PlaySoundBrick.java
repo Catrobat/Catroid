@@ -48,8 +48,7 @@ public class PlaySoundBrick extends PlaySoundBrickBase implements Brick,
 
     public View getView(final Context context, BaseAdapter adapter) {
         programmAdapter = adapter;
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.construction_brick_play_sound, null);
+        View view = getPrototypeView(context);
         Button soundButton = (Button) view.findViewById(R.id.btSoundChoose);
         if (pathToSoundfile != null) {
             int index = pathToSoundfile.lastIndexOf("/") + 1;
@@ -93,6 +92,12 @@ public class PlaySoundBrick extends PlaySoundBrickBase implements Brick,
         // }
         // });
 
+        return view;
+    }
+    
+    public View getPrototypeView(Context context) {
+    	LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.construction_brick_play_sound, null);
         return view;
     }
 

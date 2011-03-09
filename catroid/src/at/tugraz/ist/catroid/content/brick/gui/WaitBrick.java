@@ -37,8 +37,7 @@ public class WaitBrick extends WaitBrickBase implements Brick {
 	}
 
 	public View getView(Context context, BaseAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view     = inflater.inflate(R.layout.construction_brick_wait, null);
+		View view     = getPrototypeView(context);
 		EditText edit = (EditText)view.findViewById(R.id.InputValueEditText);
 		
 		edit.setText(timeToWaitInMilliseconds.getValue() + "");
@@ -50,6 +49,12 @@ public class WaitBrick extends WaitBrickBase implements Brick {
 		
 		return view;
 	}
+	
+	public View getPrototypeView(Context context) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view     = inflater.inflate(R.layout.construction_brick_wait, null);
+        return view;
+    }
 	
 	public Brick clone() {
 		return new WaitBrick(timeToWaitInMilliseconds.getValue());

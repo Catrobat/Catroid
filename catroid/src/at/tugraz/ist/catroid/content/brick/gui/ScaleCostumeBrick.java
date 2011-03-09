@@ -37,8 +37,7 @@ public class ScaleCostumeBrick extends ScaleCostumeBrickBase implements Brick {
 	}
 
 	public View getView(Context context, BaseAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view     = inflater.inflate(R.layout.construction_brick_scale_costume, null);
+		View view     = getPrototypeView(context);
 		EditText edit = (EditText) view.findViewById(R.id.EditText01);
 		
 		edit.setText(scale.getValue() + "");
@@ -49,6 +48,12 @@ public class ScaleCostumeBrick extends ScaleCostumeBrickBase implements Brick {
 		
 		return view;
 	}
+	
+	public View getPrototypeView(Context context) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view     = inflater.inflate(R.layout.construction_brick_scale_costume, null);
+        return view;
+    }
 	
 	public Brick clone() {
 		return new ScaleCostumeBrick(getSprite(), getScale());
