@@ -36,6 +36,10 @@ public class IfTouchedBrick extends IfTouchedBrickBase implements Brick {
 	}
 
 	public View getView(Context context, BaseAdapter adapter) {
+		return getPrototypeView(context);
+	}
+	
+	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.construction_brick_touched, null);
 		return view;

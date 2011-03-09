@@ -36,8 +36,7 @@ public class HideBrick extends HideBrickBase implements Brick {
 	}
 
 	public View getView(Context context, BaseAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_simple_text_view, null);
+		View view = getPrototypeView(context);
 		TextView textView = (TextView) view.findViewById(R.id.OneElementBrick);
 		textView.setText(R.string.hide_main_adapter);
 		return view;
@@ -45,5 +44,11 @@ public class HideBrick extends HideBrickBase implements Brick {
 	
 	public Brick clone() {
 		return new HideBrick(getSprite());
+	}
+	
+	public View getPrototypeView(Context context) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.construction_brick_simple_text_view, null);
+		return view;
 	}
 }

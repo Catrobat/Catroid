@@ -25,5 +25,6 @@ import at.tugraz.ist.catroid.content.brick.BrickBase;
 
 public interface Brick extends BrickBase {
 	public View getView(Context context, BaseAdapter adapter);
+	public View getPrototypeView(Context context);
 	public Brick clone();
 }

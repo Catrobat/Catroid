@@ -16,34 +16,48 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content.brick.gui;
+package at.tugraz.ist.catroid.ui.adapter;
+
+/**
+ * @author DENISE
+ *
+ */
+
+import java.util.List;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.brick.SetCostumeBrickBase;
-import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.content.brick.gui.Brick;
 
-public class SetCostumeBrick extends SetCostumeBrickBase implements Brick{
-    
-    private static final long serialVersionUID = 1L;
-    
-    public SetCostumeBrick(Sprite sprite) {
-        super(sprite);
-    }
-    
-    public View getView(Context context, BaseAdapter adapter) {
-    	View view = getPrototypeView(context);
-        return view; //TODO: finish it
-    }
 
-    public View getPrototypeView(Context context) {
-        return null;
-    }
-    
-    public Brick clone() {
-    	return new SetCostumeBrick(getSprite());
-    }
+public class AddBrickAdapter extends BaseAdapter {
+
+	private Context context;
+	private List<Brick> brickList;
+
+	public AddBrickAdapter(Context context, List<Brick> brickList) {
+		this.context = context;
+		this.brickList = brickList;
+		//mViewContainer = new HashMap<String, View>();
+	}
+	
+	public int getCount() {
+		return brickList.size();
+	}
+
+	public Brick getItem(int position) {
+		return brickList.get(position);
+	}
+
+	public long getItemId(int position) {
+		return position;
+	}
+
+	public View getView(int position, View convertView, ViewGroup parent) {
+		Brick brick = brickList.get(position);
+		
+		return brick.getPrototypeView(context);
+	}
 }
