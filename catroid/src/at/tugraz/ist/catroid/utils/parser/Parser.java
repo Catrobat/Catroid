@@ -76,7 +76,6 @@ public class Parser {
 		String versionName = attributes.getNamedItem(VERSION_NAME).getNodeValue();
 
 		Log.v("at.tugraz.ist.catroid.utils.parser.parse", "Loading Project with version code \"" + versionCode + "\" and version name \"" + versionName + "\"");
-		// TODO: Add version check here
 
 		Node stage = doc.getElementsByTagName(STAGE).item(0);
 		NodeList sprites = doc.getElementsByTagName(SPRITE);

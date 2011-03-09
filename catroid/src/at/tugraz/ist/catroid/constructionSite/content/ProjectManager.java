@@ -14,34 +14,47 @@ import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class ContentManager extends Observable {
-    private final String DEFAULT_PROJECT_NAME;
+public class ProjectManager extends Observable {
+    //private final String DEFAULT_PROJECT_NAME = "defaultProject";
 
     private Sprite currentSprite;
-    private final Context context;
     private Project project;
+    private static ProjectManager instance;
 
-    public ContentManager(Context context, String projectName) {
-        this.context = context;
-        DEFAULT_PROJECT_NAME = context.getString(R.string.default_project_name);
-        try {
-            if (projectName != null && projectName.length() != 0) {
-                if (!loadContent(projectName)) {
-                    if (!loadContent(DEFAULT_PROJECT_NAME)) {
-                        project = StorageHandler.getInstance().createDefaultProject(context);
-                        currentSprite = project.getSpriteList().get(0); // stage
-                    }
-                }
-            } else {
-                project = StorageHandler.getInstance().createDefaultProject(context);
-                currentSprite = project.getSpriteList().get(0); // stage
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    //isn't used
+    //    private ProjectManager(Context context, String projectName) {
+    //        this.context = context;
+    //        DEFAULT_PROJECT_NAME = context.getString(R.string.default_project_name);
+    //        try {
+    //            if (projectName != null && projectName.length() != 0) {
+    //                if (!loadProject(projectName, context)) {
+    //                    if (!loadProject(DEFAULT_PROJECT_NAME, context)) {
+    //                        project = StorageHandler.getInstance().createDefaultProject(context);
+    //                        currentSprite = project.getSpriteList().get(0); // stage
+    //                    }
+    //                }
+    //            } else {
+    //                project = StorageHandler.getInstance().createDefaultProject(context);
+    //                currentSprite = project.getSpriteList().get(0); // stage
+    //            }
+    //        } catch (Exception e) {
+    //            e.printStackTrace();
+    //        }
+    //    }
+
+    private ProjectManager() {
+        //Problem: theoretically project could be null
+        //possible solution is to set a context as parameter to getInstance
     }
 
-    public boolean loadContent(String projectName) {
+    public static ProjectManager getInstance() {
+        if (instance == null) {
+            instance = new ProjectManager();
+        }
+        return instance;
+    }
+
+    public boolean loadProject(String projectName, Context context) {
         try {
             project = StorageHandler.getInstance().loadProject(projectName);
             if (project == null) {
@@ -51,21 +64,24 @@ public class ContentManager extends Observable {
             setChanged();
             notifyObservers();
             return true;
-        } catch (IOException e) {
+        } catch (Exception e) {
             Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
             return false;
         }
     }
 
-    public void saveContent() {
+    public void saveProject(Context context) {
         try {
+            if (project == null) {
+                return;
+            }
             StorageHandler.getInstance().saveProject(project);
         } catch (IOException e) {
             Utils.displayErrorMessage(context, context.getString(R.string.error_save_project));
         }
     }
 
-    public void resetContent() throws NameNotFoundException {
+    public void resetProject(Context context) throws NameNotFoundException {
         project = new Project(context, project.getName());
         currentSprite = project.getSpriteList().get(0); // stage
         setChanged();
@@ -115,11 +131,11 @@ public class ContentManager extends Observable {
         }
     }
 
-    public void initializeNewProject(String projectName) {
+    public void initializeNewProject(String projectName, Context context) {
         try {
             project = new Project(context, projectName);
             currentSprite = project.getSpriteList().get(0);
-            saveContent();
+            saveProject(context);
             setChanged();
             notifyObservers();
         } catch (NameNotFoundException e) {
