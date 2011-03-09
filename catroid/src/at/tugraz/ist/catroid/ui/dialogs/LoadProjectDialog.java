@@ -74,6 +74,15 @@ public class LoadProjectDialog extends Dialog {
         });
     }
 
+	@Override
+	protected void onStart() {
+		adapterFileList.clear();
+		File rootDirectory = new File(context.getString(R.string.default_root));
+		searchForProjectFiles(rootDirectory);
+		adapter.notifyDataSetChanged();
+		super.onStart();
+	}
+
     public void searchForProjectFiles(File directory) {
         File[] sdFileList = directory.listFiles();
         for (File file : sdFileList) {
