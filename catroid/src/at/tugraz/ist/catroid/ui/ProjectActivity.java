@@ -22,10 +22,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import at.tugraz.ist.catroid.R;
 
-/**
- * @author brainfog
- *
- */
 public class ProjectActivity extends Activity {
 
 	
