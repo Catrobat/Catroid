@@ -11,10 +11,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
-import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.content.BrickDefine;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.utils.ImageContainer;
@@ -22,9 +19,9 @@ import at.tugraz.ist.catroid.utils.ImageContainer;
 public class ProgrammAdapter extends BaseAdapter implements OnClickListener {
 
 	private Context context;
-	private ListView mMainListView;
+//	private ListView mMainListView;
 	//private ImageContainer mImageContainer;
-	private ArrayList<HashMap<String, String>> mBrickList;
+//	private ArrayList<HashMap<String, String>> mBrickList;
 	//private EditTextDialog mEditTextDialog;
 	private Script script;
 	//private LayoutInflater inflater;
@@ -34,7 +31,7 @@ public class ProgrammAdapter extends BaseAdapter implements OnClickListener {
 		this.script = script;
 		
 		this.context = context;
-		mMainListView = listview;
+//		mMainListView = listview;
 		//mImageContainer = imageContainer;
 		//inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		//mEditTextDialog = null;
@@ -325,8 +322,8 @@ public class ProgrammAdapter extends BaseAdapter implements OnClickListener {
 //	}
 
 	public void notifyDataSetChanged(ArrayList<HashMap<String, String>> data) {
-		mBrickList = data;
-		notifyDataSetChanged();
+//		mBrickList = data;
+//		notifyDataSetChanged();
 	}
 	
 	public void notifyDataSetChanged(Sprite sprite){
@@ -337,29 +334,29 @@ public class ProgrammAdapter extends BaseAdapter implements OnClickListener {
 	}
 
 	public boolean onKey(View v, int keyCode, KeyEvent event) {
-		String tag = v.getTag().toString();
-
-		if (context.getString(R.string.constructional_brick_go_to_x_tag).equals(tag)) {
-			int brickPosition = mMainListView.getPositionForView((EditText) v);
-			mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE, ((EditText) v).getText().toString());
-			return false;
-		} else if (context.getString(R.string.constructional_brick_go_to_y_tag).equals(tag)) {
-			int brickPosition = mMainListView.getPositionForView((EditText) v);
-			mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE_1, ((EditText) v).getText().toString());
-			return false;
-		} else if (context.getString(R.string.constructional_brick_wait_edit_text_tag).equals(tag)) {
-			int brickPosition = mMainListView.getPositionForView((EditText) v);
-			mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE, ((EditText) v).getText().toString());
-			return false;
-		} else if (context.getString(R.string.constructional_brick_scale_costume_edit_text_tag).equals(tag)) {
-			int brickPosition = mMainListView.getPositionForView((EditText) v);
-			mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE, ((EditText) v).getText().toString());
-			return false;
-		} else if (context.getString(R.string.constructional_brick_go_back_edit_text_tag).equals(tag)) {
-			int brickPosition = mMainListView.getPositionForView((EditText) v);
-			mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE, ((EditText) v).getText().toString());
-			return false;
-		}
+//		String tag = v.getTag().toString();
+//
+//		if (context.getString(R.string.constructional_brick_go_to_x_tag).equals(tag)) {
+//			int brickPosition = mMainListView.getPositionForView((EditText) v);
+//			mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE, ((EditText) v).getText().toString());
+//			return false;
+//		} else if (context.getString(R.string.constructional_brick_go_to_y_tag).equals(tag)) {
+//			int brickPosition = mMainListView.getPositionForView((EditText) v);
+//			mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE_1, ((EditText) v).getText().toString());
+//			return false;
+//		} else if (context.getString(R.string.constructional_brick_wait_edit_text_tag).equals(tag)) {
+//			int brickPosition = mMainListView.getPositionForView((EditText) v);
+//			mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE, ((EditText) v).getText().toString());
+//			return false;
+//		} else if (context.getString(R.string.constructional_brick_scale_costume_edit_text_tag).equals(tag)) {
+//			int brickPosition = mMainListView.getPositionForView((EditText) v);
+//			mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE, ((EditText) v).getText().toString());
+//			return false;
+//		} else if (context.getString(R.string.constructional_brick_go_back_edit_text_tag).equals(tag)) {
+//			int brickPosition = mMainListView.getPositionForView((EditText) v);
+//			mBrickList.get(brickPosition).put(BrickDefine.BRICK_VALUE, ((EditText) v).getText().toString());
+//			return false;
+//		}
 		return false;
 	}
 
