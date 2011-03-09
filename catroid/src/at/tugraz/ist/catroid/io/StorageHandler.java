@@ -64,7 +64,6 @@ public class StorageHandler {
         catroidRoot = new File(catroidPath);
         if (!catroidRoot.exists()) {
             catroidRoot.mkdirs();
-            catroidRoot.createNewFile();
         }
     }
 
@@ -110,8 +109,9 @@ public class StorageHandler {
             BufferedWriter out = new BufferedWriter(new FileWriter(projectDirectory.getAbsolutePath() + "/"
                     + project.getName() + PROJECT_EXTENTION));
             out.write(spfFile);
+			out.flush();
             out.close();
-        } catch (IOException e) {
+		} catch (Exception e) {
             e.printStackTrace();
         }
     }

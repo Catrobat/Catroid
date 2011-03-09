@@ -123,10 +123,10 @@ public class MainMenuActivity extends Activity {
 
         switch (id) {
         case NEW_PROJECT_DIALOG:
-            dialog = new NewProjectDialog(this, projectManager);
+			dialog = new NewProjectDialog(this);
             break;
         case LOAD_PROJECT_DIALOG:
-            dialog = new LoadProjectDialog(this, projectManager);
+			dialog = new LoadProjectDialog(this);
             break;
         default:
             dialog = null;

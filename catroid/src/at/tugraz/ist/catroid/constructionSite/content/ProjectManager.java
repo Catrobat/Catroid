@@ -58,7 +58,7 @@ public class ProjectManager extends Observable {
         try {
             project = StorageHandler.getInstance().loadProject(projectName);
             if (project == null) {
-                project = StorageHandler.getInstance().createDefaultProject(context);
+				initializeNewProject(context.getString(R.string.default_project_name), context);
             }
             currentSprite = project.getSpriteList().get(0); // stage
             setChanged();
