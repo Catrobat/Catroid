@@ -19,21 +19,27 @@
 package at.tugraz.ist.catroid.ui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
+import at.tugraz.ist.catroid.ui.dialogs.AboutDialog;
 import at.tugraz.ist.catroid.ui.dialogs.LoadProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
 
 public class MainMenuActivity extends Activity {
     private static final int NEW_PROJECT_DIALOG = 0;
     private static final int LOAD_PROJECT_DIALOG = 1;
+    private static final int ABOUT_DIALOG = 2;
     private static final String PREFS_NAME = "at.tugraz.ist.catroid";
     private static final String PREF_PREFIX_KEY = "prefix_";
     private ContentManager contentManager;
@@ -82,7 +88,7 @@ public class MainMenuActivity extends Activity {
         Button aboutCatroidButton = (Button) findViewById(R.id.aboutCatroidButton);
         aboutCatroidButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+            	showDialog(ABOUT_DIALOG);
             }
         });
     }
@@ -126,6 +132,9 @@ public class MainMenuActivity extends Activity {
         case LOAD_PROJECT_DIALOG:
             dialog = new LoadProjectDialog(this, contentManager);
             break;
+        case ABOUT_DIALOG:
+        	dialog = new AboutDialog(this);
+        	break;
         default:
             dialog = null;
             break;
