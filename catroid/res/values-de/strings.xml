@@ -36,6 +36,12 @@
 	<string name="no_project">Kein Projekt geladen</string>
 	<string name="create_new_project">Neues Projekt erstellen</string>
 	
+	<!-- About Dialog -->
+	<string name="about_title">Über Catroid</string>
+	<string name="about_text">Catroid: An on-device graphical programming language for Android devices \n
+	Copyright (C) 2010  Catroid development team \n
+ 	(<a href="http://code.google.com/p/catroid/wiki/Credits\">link</a>)</string>
+	
 	<!-- Project activity view -->
 	<string name="project_name">Projektname</string>
 	<string name="sprite_list">Objekte:</string>
