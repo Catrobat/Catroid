@@ -16,6 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package at.tugraz.ist.catroid.ui;
 
 import android.app.Activity;
@@ -23,16 +24,28 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.constructionSite.gui.adapter.ProgrammAdapter;
+import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
 
 public class ScriptActivity extends Activity implements OnItemClickListener {
     private static final int ADD_BRICK_DIALOG = 0;
-    //private static final int LOAD_PROJECT_DIALOG = 1;
+    protected ListView brickListView;
+    private ProgrammAdapter programmAdapter;
+    private ProjectManager projectManager;
+	private AddBrickDialog brickDialog;
+	private Script currentScript;
 
     private void initListeners() {
+    	
+//    	brickListView = (ListView) findViewById(R.id.brickListView);
+//        programmAdapter = new ProgrammAdapter(this, null);
+//        brickListView.setAdapter(programmAdapter);
 
         Button mainMenuButton = (Button) findViewById(R.id.mainMenuButton);
         mainMenuButton.setOnClickListener(new View.OnClickListener() {
@@ -85,5 +98,14 @@ public class ScriptActivity extends Activity implements OnItemClickListener {
 		
 	}
     
-    
+	
+	public void onBrickClickListener(View v) {	
+			projectManager.addBrick(brickDialog.getBrickClone(v), currentScript);
+			if (brickDialog.isShowing()) {
+                brickDialog.dismiss();
+            }
+
+	}
+	
+	
 }

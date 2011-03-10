@@ -19,7 +19,7 @@
 package at.tugraz.ist.catroid.ui.adapter;
 
 /**
- * @author DENISE
+ * @author DENISE, DANIEL
  *
  */
 

@@ -49,7 +49,7 @@ public class SpriteActivity extends Activity{
 	            }
 	        });
 
-	        Button NewSpriteButton = (Button) findViewById(R.id.addSpriteButton);
+	        Button NewSpriteButton = (Button) findViewById(R.id.addScriptButton);
 	        NewSpriteButton.setOnClickListener(new View.OnClickListener() {
 	            public void onClick(View v) {
 	                showDialog(NEW_SCRIPT_DIALOG);
