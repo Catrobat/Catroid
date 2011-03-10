@@ -37,7 +37,7 @@ public class Project implements Serializable {
 	private int versionCode;
 	
 	public Project(Context context, String name) throws NameNotFoundException {
-		setName(name);
+        setName(name.replaceAll(" ", ""));
 		
 		PackageInfo packageInfo = context.getPackageManager().getPackageInfo("at.tugraz.ist.catroid", 0);
 		versionName = packageInfo.versionName;
@@ -48,8 +48,9 @@ public class Project implements Serializable {
 	}
 	
 	public synchronized void addSprite(Sprite sprite) {
-		if (spriteList.contains(sprite))
-			return;
+		if (spriteList.contains(sprite)) {
+            return;
+        }
 		spriteList.add(sprite);
 	}
 	
@@ -58,8 +59,9 @@ public class Project implements Serializable {
 	}
 	
 	public synchronized void addScript(Script script) {
-		if (scriptList.contains(script))
-			return;
+		if (scriptList.contains(script)) {
+            return;
+        }
 		scriptList.add(script);
 	}
 	
@@ -103,5 +105,3 @@ public class Project implements Serializable {
 		return versionCode;
 	}
 }
-
-	

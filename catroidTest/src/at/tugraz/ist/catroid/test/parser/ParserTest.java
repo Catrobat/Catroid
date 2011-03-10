@@ -27,13 +27,16 @@ public class ParserTest extends AndroidTestCase {
 		super();
 	}
 
-	protected void setUp() throws Exception {
+	@Override
+    protected void setUp() throws Exception {
 		super.setUp();
 	}
 
-	protected void tearDown() throws Exception {
-		if (tempFile != null && tempFile.exists())
-			tempFile.delete();
+	@Override
+    protected void tearDown() throws Exception {
+		if (tempFile != null && tempFile.exists()) {
+            tempFile.delete();
+        }
 		super.tearDown();
 	}
 
@@ -51,25 +54,24 @@ public class ParserTest extends AndroidTestCase {
 			Log.e("ParserTest", "Writing Test XML to file failed");
 			e.printStackTrace();
 		} finally {
-			if (outputStream != null)
-				outputStream.close();
+			if (outputStream != null) {
+                outputStream.close();
+            }
 		}
 
 		ArrayList<Pair<String, ArrayList<HashMap<String, String>>>> list = null;
 		InputStream inputStream = null;
 		try {
 			inputStream = new FileInputStream(tempFile);
-			list = parser.parse(inputStream, this.getContext());
+			list = parser.parse(inputStream, getContext());
 		} catch (FileNotFoundException e) {
 			Log.e("ParserTest", "Reading from test XML file failed!");
 			e.printStackTrace();
 		} finally {
-			if(inputStream != null)
-				inputStream.close();
+			if(inputStream != null) {
+                inputStream.close();
+            }
 		}
-		
-		// TODO test if first element is stage (name does not need to be
-		// 'stage')
 
 		// test some of the data
 		assertEquals(3, list.get(0).second.size());
@@ -182,7 +184,7 @@ public class ParserTest extends AndroidTestCase {
 
 		spritesMap.add(new Pair<String, ArrayList<HashMap<String, String>>>("sprite", brickList));
 
-		String result = parser.toXml(spritesMap, this.getContext());
+		String result = parser.toXml(spritesMap, getContext());
 		String expected = new TestDefines().getTestXml(getContext());
 		Log.i("testToXml result", result);
 		Log.i("testToXml expected", expected);
@@ -193,7 +195,7 @@ public class ParserTest extends AndroidTestCase {
 		spritesMap.clear();
 		spritesMap.add(new Pair<String, ArrayList<HashMap<String, String>>>(getContext().getString(R.string.stage), brickList));
 
-		result = parser.toXml(spritesMap, this.getContext());
+		result = parser.toXml(spritesMap, getContext());
 		PackageInfo packageInfo = getContext().getPackageManager().getPackageInfo("at.tugraz.ist.catroid", 0);
 		int expectedVersionCode = packageInfo.versionCode;
 		String expectedVersionName = packageInfo.versionName;
