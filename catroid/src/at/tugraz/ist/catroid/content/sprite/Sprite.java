@@ -233,4 +233,9 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 
         startTouchScripts();
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

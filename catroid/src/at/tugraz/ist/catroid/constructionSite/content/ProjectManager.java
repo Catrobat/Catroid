@@ -20,8 +20,6 @@ public class ProjectManager extends Observable {
     private Sprite currentSprite;
     private Project project;
     private static ProjectManager instance;
-    private Brick currentBrick;
-    private Script script;
     private Script currentScript;
 
     //isn't used
@@ -105,8 +103,7 @@ public class ProjectManager extends Observable {
     }
     
     public void addScript(Script script) {
-        project.addScript(script);
-        currentScript = script;
+        currentSprite.getScriptList().add(script);
     }
 
     public void addBrick(Brick brick, Script script) {
@@ -163,13 +160,36 @@ public class ProjectManager extends Observable {
 		return project;
     }
 
-	
-	public void initializeNewScript(String scriptName, Context context) {
-		script = new Script();
-		currentBrick = script.getBrickList().get(0);
-		saveProject(context);
-		setChanged();
-		notifyObservers();
-		
-	}
+    public Script getCurrentScript() {
+        return currentScript;
+    }
+
+    public boolean setCurrentSprite(Sprite currentSprite) {
+        if (project.getSpriteList().contains(currentSprite)) {
+            this.currentSprite = currentSprite;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @return false if currentSprite doesn't contain the new script, true
+     *         otherwise
+     */
+    public boolean setCurrentScript(Script script) {
+        if (currentSprite.getScriptList().contains(script)) {
+            currentScript = script;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean scriptExists(String scriptName) {
+        for (Script script : currentSprite.getScriptList()) {
+            if (script.getName().equalsIgnoreCase(scriptName)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

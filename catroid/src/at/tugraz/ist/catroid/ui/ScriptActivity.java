@@ -21,22 +21,22 @@ package at.tugraz.ist.catroid.ui;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
-import at.tugraz.ist.catroid.constructionSite.gui.adapter.ProgrammAdapter;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
 
 public class ScriptActivity extends Activity implements OnItemClickListener {
     private static final int ADD_BRICK_DIALOG = 0;
     protected ListView brickListView;
-    private ProgrammAdapter programmAdapter;
+    //private ProgrammAdapter programmAdapter;
     private ProjectManager projectManager;
 	private AddBrickDialog brickDialog;
 	private Script currentScript;
@@ -50,10 +50,9 @@ public class ScriptActivity extends Activity implements OnItemClickListener {
         Button mainMenuButton = (Button) findViewById(R.id.mainMenuButton);
         mainMenuButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Intent intent = new Intent(ScriptActivity.this, MainMenuActivity.class);
-                // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                // startActivity(intent);
-                finish();
+                Intent intent = new Intent(ScriptActivity.this, MainMenuActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
 

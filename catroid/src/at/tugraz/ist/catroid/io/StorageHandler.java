@@ -175,31 +175,4 @@ public class StorageHandler {
             return null;
         }
     }
-
-	/**
-	 * @param scriptName
-	 * @return
-	 */
-	public boolean scriptExists(String scriptName) {
-		// TODO: check exist script
-		return false;
-	}
-
-    //    public ArrayList<String> searchForProjectFiles(File file, ArrayList<String> fileList, Context context) {
-    //
-    //        File[] sdFileList = file.listFiles();
-    //        int length = 0;
-    //        if (sdFileList != null) {
-    //            length = sdFileList.length;
-    //        }
-    //        for (int i = 0; i < length; i++) {
-    //            if (sdFileList[i].isDirectory()) {
-    //                fileList.addAll(searchForProjectFiles(sdFileList[i], fileList, context));
-    //                continue;
-    //            } else if (sdFileList[i].getName().endsWith(context.getString(R.string.default_file_ending))) {
-    //                fileList.add(sdFileList[i].getAbsolutePath());
-    //            }
-    //        }
-    //        return fileList;
-    //    }
 }
