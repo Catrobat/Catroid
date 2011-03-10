@@ -28,13 +28,15 @@ public class SpriteTest extends ActivityInstrumentationTestCase2<ConstructionSit
 		solo.clickOnMenuItem(getActivity().getString(R.string.reset));
 	}
 
-	public void setUp() throws Exception {
+	@Override
+    public void setUp() throws Exception {
 		solo = new Solo(getInstrumentation(), getActivity());
 		clearConstructionSite();
 		addSprite("NewSprite");
 	}
 
-	public void tearDown() throws Exception {
+	@Override
+    public void tearDown() throws Exception {
 		clearConstructionSite();
 		try {
 			solo.finalize();
@@ -71,7 +73,6 @@ public class SpriteTest extends ActivityInstrumentationTestCase2<ConstructionSit
 
 		solo.clearEditText(0);
 		solo.enterText(0, "1.3");
-		// TODO: Does not run on HTC Desire; it needs an additional goBack() in order to close the soft keyboard
 		solo.goBack();
 		// Log.d("device", Settings.System.getString(getInstrumentation().getContext().getContentResolver(), "android.os.Build.MODEL"));
 	}
@@ -166,8 +167,6 @@ public class SpriteTest extends ActivityInstrumentationTestCase2<ConstructionSit
 
 	@Smoke
 	public void testSelectSound() throws InterruptedException {
-		// TODO: If there are no sounds on the device this test fails. Copy some
-		// default sounds to device?
 		addBrick(R.string.play_sound_main_adapter);
 
 		Thread.sleep(400);
