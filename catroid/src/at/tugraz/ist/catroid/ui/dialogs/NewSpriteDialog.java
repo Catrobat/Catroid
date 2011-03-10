@@ -37,7 +37,6 @@ public class NewSpriteDialog extends Dialog {
                 }
                 Sprite sprite = new Sprite(spriteName);
                 ProjectManager.getInstance().addSprite(sprite);
-                //TODO: go to new activity
                 //Intent intent = new Intent(context, SpriteActivity.class);
                 //context.startActivity(intent);
                 dismiss();

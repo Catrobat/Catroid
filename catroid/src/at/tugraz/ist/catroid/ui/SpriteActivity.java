@@ -105,20 +105,23 @@ public class SpriteActivity extends Activity {
 
     @Override
     protected void onResume() {
-        TextView currentProjectTextView = (TextView) findViewById(R.id.spriteNameTextView);
-        currentProjectTextView.setText(ProjectManager.getInstance().getCurrentSprite().getName());
-        adapterScriptList = (ArrayList<Script>) ProjectManager.getInstance().getCurrentSprite().getScriptList();
-        adapter.notifyDataSetChanged();
+		updateTextAndAdapter();
         super.onResume();
     }
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         if (hasFocus) {
-            TextView currentProjectTextView = (TextView) findViewById(R.id.spriteNameTextView);
-            currentProjectTextView.setText(ProjectManager.getInstance().getCurrentSprite().getName());
-            adapterScriptList = (ArrayList<Script>) ProjectManager.getInstance().getCurrentSprite().getScriptList();
-            adapter.notifyDataSetChanged();
+			updateTextAndAdapter();
         }
+		super.onWindowFocusChanged(hasFocus);
+	}
+
+	private void updateTextAndAdapter() {
+		TextView currentProjectTextView = (TextView) findViewById(R.id.spriteNameTextView);
+		currentProjectTextView.setText(this.getString(R.string.sprite_name) + " "
+		        + ProjectManager.getInstance().getCurrentSprite().getName());
+		adapterScriptList = (ArrayList<Script>) ProjectManager.getInstance().getCurrentSprite().getScriptList();
+		adapter.notifyDataSetChanged();
     }
 }

@@ -44,8 +44,6 @@ public class ProjectManager extends Observable {
     //    }
 
     private ProjectManager() {
-        //Problem: theoretically project could be null
-        //possible solution is to set a context as parameter to getInstance
     }
 
     public static ProjectManager getInstance() {
