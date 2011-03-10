@@ -25,18 +25,30 @@ import at.tugraz.ist.catroid.exception.InterruptedRuntimeException;
 
 public class Script {
 
+    private transient final String DEFAULT_NAME = "le_script";
     private static final long serialVersionUID = 1L;
     private ArrayList<Brick> brickList;
     private boolean isTouchScript;
     private boolean isFinished;
     private boolean paused;
     private int brickPositionAfterPause;
+    private String name;
 
     public Script() {
-        this.brickList = new ArrayList<Brick>();
-        this.paused = false;
-        this.isFinished = false;
-        this.brickPositionAfterPause = 0;
+        name = DEFAULT_NAME;
+        brickList = new ArrayList<Brick>();
+        paused = false;
+        isFinished = false;
+        brickPositionAfterPause = 0;
+        setTouchScript(false);
+    }
+
+    public Script(String name) {
+        this.name = name;
+        brickList = new ArrayList<Brick>();
+        paused = false;
+        isFinished = false;
+        brickPositionAfterPause = 0;
         setTouchScript(false);
     }
 
@@ -86,7 +98,7 @@ public class Script {
     }
 
     public ArrayList<Brick> getBrickList() {
-        return this.brickList;
+        return brickList;
     }
 
     public void setTouchScript(boolean isTouchScript) {
@@ -102,10 +114,19 @@ public class Script {
     }
 
     public boolean isPaused() {
-        return this.paused;
+        return paused;
     }
 
     public boolean isFinished() {
         return isFinished;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

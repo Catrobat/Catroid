@@ -1,6 +1,6 @@
 /**
  
-*  Catroid: An on-device graphical programming language for Android devices
+ *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010  Catroid development team 
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
@@ -19,67 +19,106 @@
  */
 package at.tugraz.ist.catroid.ui;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
-	import android.app.Dialog;
-	import android.content.Intent;
-	import android.content.SharedPreferences;
-	import android.os.Bundle;
-	import android.view.View;
-	import android.widget.Button;
-	import android.widget.TextView;
-	import at.tugraz.ist.catroid.R;
-	import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
-	import at.tugraz.ist.catroid.ui.dialogs.LoadProjectDialog;
-	import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
-	import at.tugraz.ist.catroid.ui.dialogs.NewScriptDialog;
-	import at.tugraz.ist.catroid.ui.dialogs.NewSpriteDialog;
+import android.app.Dialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
+import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.content.script.Script;
+import at.tugraz.ist.catroid.ui.dialogs.NewScriptDialog;
 
-public class SpriteActivity extends Activity{
+public class SpriteActivity extends Activity {
 
-	 final static int NEW_SCRIPT_DIALOG = 0;
+    final static int NEW_SCRIPT_DIALOG = 0;
+    private ListView listView;
+    private ArrayAdapter<Script> adapter;
+    private ArrayList<Script> adapterScriptList;
 
-	    private void initListeners() {
+    private void initListeners() {
 
-	        //TODO: access and fill SpriteList
+        adapterScriptList = (ArrayList<Script>) ProjectManager.getInstance().getCurrentSprite().getScriptList();
+        adapter = new ArrayAdapter<Script>(this, android.R.layout.simple_list_item_1, adapterScriptList);
 
-	        Button mainMenuButton = (Button) findViewById(R.id.mainMenuButton);
-	        mainMenuButton.setOnClickListener(new View.OnClickListener() {
-	            public void onClick(View v) {
-	                finish();
-	            }
-	        });
+        listView = (ListView) findViewById(R.id.scriptListView);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new ListView.OnItemClickListener() {
 
-	        Button NewSpriteButton = (Button) findViewById(R.id.addScriptButton);
-	        NewSpriteButton.setOnClickListener(new View.OnClickListener() {
-	            public void onClick(View v) {
-	                showDialog(NEW_SCRIPT_DIALOG);
-	            }
-	        });
-	    }
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (ProjectManager.getInstance().setCurrentScript(adapter.getItem(position))) {
+                    Intent intent = new Intent(SpriteActivity.this, ScriptActivity.class);
+                    SpriteActivity.this.startActivity(intent);
+                }
+                //TODO: error if selected sprite is not in the project
+            }
+        });
 
-	    @Override
-	    public void onCreate(Bundle savedInstanceState) {
-	        super.onCreate(savedInstanceState);
+        Button mainMenuButton = (Button) findViewById(R.id.mainMenuButton);
+        mainMenuButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(SpriteActivity.this, MainMenuActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
 
-	        setContentView(R.layout.sprite_activity);
-	        initListeners();
-	    }
+        Button NewSpriteButton = (Button) findViewById(R.id.addScriptButton);
+        NewSpriteButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                showDialog(NEW_SCRIPT_DIALOG);
+            }
+        });
+    }
 
-	    @Override
-	    protected Dialog onCreateDialog(int id) {
-	        Dialog dialog;
-	        //Save Content here?
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-	        switch (id) {
-	        case NEW_SCRIPT_DIALOG:
-	            dialog = new NewScriptDialog(this);
-	            break;
-	        default:
-	            dialog = null;
-	            break;
-	        }
+        setContentView(R.layout.sprite_activity);
+        initListeners();
+    }
 
-	        return dialog;
-	    }
-	}
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        Dialog dialog;
+        //Save Content here?
 
+        switch (id) {
+        case NEW_SCRIPT_DIALOG:
+            dialog = new NewScriptDialog(this);
+            break;
+        default:
+            dialog = null;
+            break;
+        }
+
+        return dialog;
+    }
+
+    @Override
+    protected void onResume() {
+        TextView currentProjectTextView = (TextView) findViewById(R.id.spriteNameTextView);
+        currentProjectTextView.setText(ProjectManager.getInstance().getCurrentSprite().getName());
+        adapterScriptList = (ArrayList<Script>) ProjectManager.getInstance().getCurrentSprite().getScriptList();
+        adapter.notifyDataSetChanged();
+        super.onResume();
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        if (hasFocus) {
+            TextView currentProjectTextView = (TextView) findViewById(R.id.spriteNameTextView);
+            currentProjectTextView.setText(ProjectManager.getInstance().getCurrentSprite().getName());
+            adapterScriptList = (ArrayList<Script>) ProjectManager.getInstance().getCurrentSprite().getScriptList();
+            adapter.notifyDataSetChanged();
+        }
+    }
+}

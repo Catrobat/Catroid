@@ -39,7 +39,7 @@ public class LoadProjectDialog extends Dialog {
     private final Context context;
     private ListView listView;
     private ArrayAdapter<String> adapter;
-    private final ArrayList<String> adapterFileList;
+    private ArrayList<String> adapterFileList;
 
 	public LoadProjectDialog(Context context) {
         super(context);
@@ -49,6 +49,7 @@ public class LoadProjectDialog extends Dialog {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //super.onCreate(savedInstanceState);
         setContentView(R.layout.load_project_dialog);
         setTitle(R.string.laod_project_dialog_title);
 

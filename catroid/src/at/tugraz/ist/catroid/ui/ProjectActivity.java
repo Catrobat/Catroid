@@ -18,21 +18,47 @@
  */
 package at.tugraz.ist.catroid.ui;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.NewSpriteDialog;
 
 public class ProjectActivity extends Activity {
 
     final static int NEW_SPRITE_DIALOG = 0;
+    private ListView listView;
+    private ArrayAdapter<Sprite> adapter;
+    private ArrayList<Sprite> adapterSpriteList;
 
     private void initListeners() {
 
-        //TODO: access and fill SpriteList
+        adapterSpriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
+        adapter = new ArrayAdapter<Sprite>(this, android.R.layout.simple_list_item_1, adapterSpriteList);
+
+        listView = (ListView) findViewById(R.id.spriteListView);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new ListView.OnItemClickListener() {
+
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (ProjectManager.getInstance().setCurrentSprite(adapter.getItem(position))) {
+                    Intent intent = new Intent(ProjectActivity.this, SpriteActivity.class);
+                    ProjectActivity.this.startActivity(intent);
+                }
+                //TODO: error if selected sprite is not in the project
+            }
+        });
 
         Button mainMenuButton = (Button) findViewById(R.id.mainMenuButton);
         mainMenuButton.setOnClickListener(new View.OnClickListener() {
@@ -73,4 +99,24 @@ public class ProjectActivity extends Activity {
 
         return dialog;
     }
+
+    @Override
+    protected void onResume() {
+        TextView currentProjectTextView = (TextView) findViewById(R.id.projectTitleTextView);
+        currentProjectTextView.setText(ProjectManager.getInstance().getCurrentProject().getName());
+        adapterSpriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
+        adapter.notifyDataSetChanged();
+        super.onResume();
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        if (hasFocus) {
+            TextView currentProjectTextView = (TextView) findViewById(R.id.projectTitleTextView);
+            currentProjectTextView.setText(ProjectManager.getInstance().getCurrentProject().getName());
+            adapterSpriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
+            adapter.notifyDataSetChanged();
+        }
+    }
+
 }
