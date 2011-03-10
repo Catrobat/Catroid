@@ -51,20 +51,20 @@ public class AddBrickDialog extends Dialog {
 	private AddBrickAdapter adapter;
 	private LinearLayout layout;
 
-	private List<Brick> brickList;
+	private List<Brick> prototypeBrickList;
 	private ListView listView;
 
 	private void setupBrickPrototypes() {
-		brickList = new ArrayList<Brick>();
-		brickList.add(new PlaySoundBrick(""));
-		brickList.add(new WaitBrick(1000));
-		brickList.add(new HideBrick(null));
-		brickList.add(new ShowBrick(null));
-		brickList.add(new PlaceAtBrick(null, 100, 200));
+		prototypeBrickList = new ArrayList<Brick>();
+		prototypeBrickList.add(new PlaySoundBrick(""));
+		prototypeBrickList.add(new WaitBrick(1000));
+		prototypeBrickList.add(new HideBrick(null));
+		prototypeBrickList.add(new ShowBrick(null));
+		prototypeBrickList.add(new PlaceAtBrick(null, 100, 200));
 //		brickList.add(new SetCostumeBrick(null));
-		brickList.add(new GoNStepsBackBrick(null, 1));
-		brickList.add(new ComeToFrontBrick(null, null));
-		brickList.add(new IfTouchedBrick(null, new Script()));
+		prototypeBrickList.add(new GoNStepsBackBrick(null, 1));
+		prototypeBrickList.add(new ComeToFrontBrick(null, null));
+		prototypeBrickList.add(new IfTouchedBrick(null, new Script()));
 	}
 
     public AddBrickDialog(ScriptActivity scriptActivity) {
@@ -94,7 +94,7 @@ public class AddBrickDialog extends Dialog {
 
 		layout = (LinearLayout) findViewById(R.id.toolbox_layout);
 		listView = (ListView) findViewById(R.id.toolboxListView);
-		listView.setAdapter(new AddBrickAdapter(scriptActivity, brickList));
+		listView.setAdapter(new AddBrickAdapter(scriptActivity, prototypeBrickList));
 		listView.setOnItemClickListener(scriptActivity);
 
 	}

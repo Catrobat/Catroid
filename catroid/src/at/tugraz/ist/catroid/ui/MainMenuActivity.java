@@ -16,6 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package at.tugraz.ist.catroid.ui;
 
 import android.app.Activity;
@@ -77,7 +78,7 @@ public class MainMenuActivity extends Activity {
         Button uploadProjectButton = (Button) findViewById(R.id.uploadProjectButton);
         uploadProjectButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+            
             }
         });
 
@@ -89,80 +90,84 @@ public class MainMenuActivity extends Activity {
         });
     }
 
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    	super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.main_menu);
-        projectManager = ProjectManager.getInstance();
+    	setContentView(R.layout.main_menu);
+    	projectManager = ProjectManager.getInstance();
 
-        // Try to load sharedPreferences
-        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        String projectName = prefs.getString(PREF_PREFIX_KEY, null);
+    	// Try to load sharedPreferences
+    	SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+    	String projectName = prefs.getString(PREF_PREFIX_KEY, null);
 
-        if (projectName != null) {
-            projectManager.loadProject(projectName, this);
-        } else {
-            projectManager.loadProject(this.getString(R.string.default_project_name), this); //default project is created
-        }
-        
-        if (projectManager.getCurrentProject() == null) {
-            Button resumeButton = (Button) findViewById(R.id.resumeButton);
-            resumeButton.setEnabled(false);
-            Button toStageButton = (Button) findViewById(R.id.toStageButton);
-            toStageButton.setEnabled(false);
+    	if (projectName != null) {
+    		projectManager.loadProject(projectName, this);
+    	} else {
+    		projectManager.loadProject(this.getString(R.string.default_project_name), this); //default project is created
+    	}
 
-            TextView currentProjectTextView = (TextView) findViewById(R.id.currentProjectNameTextView);
-            currentProjectTextView.setText(getString(R.string.current_project) + " " + getString(R.string.no_project));
-        }
-        initListeners();
-    }
+    	if (projectManager.getCurrentProject() == null) {
+    		Button resumeButton = (Button) findViewById(R.id.resumeButton);
+    		resumeButton.setEnabled(false);
+    		Button toStageButton = (Button) findViewById(R.id.toStageButton);
+    		toStageButton.setEnabled(false);
 
+    		TextView currentProjectTextView = (TextView) findViewById(R.id.currentProjectNameTextView);
+    		currentProjectTextView.setText(getString(R.string.current_project) + " " + getString(R.string.no_project));
+    	}
+    	initListeners();
+    	}
+
+    
     @Override
     protected Dialog onCreateDialog(int id) {
-        Dialog dialog;
-        projectManager.saveProject(this);
+    	Dialog dialog;
+    	projectManager.saveProject(this);
 
-        switch (id) {
-        case NEW_PROJECT_DIALOG:
-			dialog = new NewProjectDialog(this);
-            break;
-        case LOAD_PROJECT_DIALOG:
-			dialog = new LoadProjectDialog(this);
-            break;
-        case ABOUT_DIALOG:
-        	dialog = new AboutDialog(this);
-        	break;
-        default:
-            dialog = null;
-            break;
-        }
+    	switch (id) {
+    	case NEW_PROJECT_DIALOG:
+    		dialog = new NewProjectDialog(this);
+    		break;
+    	case LOAD_PROJECT_DIALOG:
+    		dialog = new LoadProjectDialog(this);
+    		break;
+    	case ABOUT_DIALOG:
+    		dialog = new AboutDialog(this);
+    		break;
+    	default:
+    		dialog = null;
+    		break;
+    	}
 
-        return dialog;
-    }
-    
+    	return dialog;
+    	}
+
+
     @Override
     protected void onResume() {
     	super.onResume();
-        if (projectManager.getCurrentProject() == null) {
-            return;
-        }
-        projectManager.saveProject(this); //TODO: this here good?
+    	if (projectManager.getCurrentProject() == null) {
+    		return;
+    	}
+    	projectManager.saveProject(this); //TODO: this here good?
     	TextView currentProjectTextView = (TextView) findViewById(R.id.currentProjectNameTextView);
-        currentProjectTextView.setText(getString(R.string.current_project) + " "
-                + projectManager.getCurrentProject().getName());
-    }
+    	currentProjectTextView.setText(getString(R.string.current_project) + " "
+    			+ projectManager.getCurrentProject().getName());
+    	}
 
     @Override
     public void onPause() {
-        //onPause is sufficient --> gets called before "process_killed", onStop(), onDestroy(), onRestart()
-        //also when you switch activities
-        if (projectManager.getCurrentProject() != null) {
-            projectManager.saveProject(this);
-        }
-        SharedPreferences.Editor prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
-        prefs.putString(PREF_PREFIX_KEY, projectManager.getCurrentProject().getName());
-        prefs.commit();
-        super.onPause();
-    }
+    	//onPause is sufficient --> gets called before "process_killed", onStop(), onDestroy(), onRestart()
+    	//also when you switch activities
+    	if (projectManager.getCurrentProject() != null) {
+    		projectManager.saveProject(this);
+    	}
+    	SharedPreferences.Editor prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
+    	prefs.putString(PREF_PREFIX_KEY, projectManager.getCurrentProject().getName());
+    	prefs.commit();
+    	super.onPause();
+    	}
+
 }
