@@ -2,7 +2,6 @@ package at.tugraz.ist.catroid.ui.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,7 +9,6 @@ import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.script.Script;
-import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class NewScriptDialog extends Dialog {
@@ -38,8 +36,8 @@ public class NewScriptDialog extends Dialog {
                 Script script = new Script(scriptName);
                 projectManager.getCurrentSprite().getScriptList().add(script);
                 projectManager.setCurrentScript(script);
-                Intent intent = new Intent(context, ScriptActivity.class);
-            	context.startActivity(intent);
+				// Intent intent = new Intent(context, ScriptActivity.class);
+				// context.startActivity(intent);
                 dismiss();
             }
         });

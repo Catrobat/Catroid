@@ -98,6 +98,11 @@ public class MainMenuActivity extends Activity {
     	setContentView(R.layout.main_menu);
     	projectManager = ProjectManager.getInstance();
 
+		if (projectManager.getCurrentProject() != null) {
+			initListeners();
+			return;
+		}
+
     	// Try to load sharedPreferences
     	SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
     	String projectName = prefs.getString(PREF_PREFIX_KEY, null);

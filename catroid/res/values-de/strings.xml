@@ -43,7 +43,7 @@
  	(<a href="http://code.google.com/p/catroid/wiki/Credits\">link</a>)</string>
 	
 	<!-- Project activity view -->
-	<string name="project_name">Projektname: </string>
+	<string name="project_name">Projekt:</string>
 	<string name="sprite_list">Objekte:</string>
 	<string name="add_sprite">+ Neues Objekt hinzufügen</string>
 	
@@ -53,7 +53,7 @@
 	<string name="add_new_brick">+ Neuen Baustein hinzufügen</string>
 	
 	<!-- Sprite activity -->
-	<string name="sprite_name">Objektname</string>
+	<string name="sprite_name">Objekt:</string>
 	<string name="script_list">Skripte:</string>
 	<string name="add_new_script">+ Neues Skript hinzufügen</string>
 

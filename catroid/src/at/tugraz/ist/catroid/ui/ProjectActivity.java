@@ -102,21 +102,23 @@ public class ProjectActivity extends Activity {
 
     @Override
     protected void onResume() {
-        TextView currentProjectTextView = (TextView) findViewById(R.id.projectTitleTextView);
-        currentProjectTextView.setText(ProjectManager.getInstance().getCurrentProject().getName());
-        adapterSpriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
-        adapter.notifyDataSetChanged();
+		updateTextAndAdapter();
         super.onResume();
     }
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         if (hasFocus) {
-            TextView currentProjectTextView = (TextView) findViewById(R.id.projectTitleTextView);
-            currentProjectTextView.setText(ProjectManager.getInstance().getCurrentProject().getName());
-            adapterSpriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
-            adapter.notifyDataSetChanged();
+			updateTextAndAdapter();
         }
-    }
+		super.onWindowFocusChanged(hasFocus);
+	}
 
+	private void updateTextAndAdapter() {
+		TextView currentProjectTextView = (TextView) findViewById(R.id.projectTitleTextView);
+		currentProjectTextView.setText(this.getString(R.string.project_name) + " "
+		        + ProjectManager.getInstance().getCurrentProject().getName());
+		adapterSpriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		adapter.notifyDataSetChanged();
+    }
 }
