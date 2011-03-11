@@ -176,6 +176,15 @@ public class StorageHandler {
         }
     }
 
+	/**
+	 * @param scriptName
+	 * @return
+	 */
+	public boolean scriptExists(String scriptName) {
+		// TODO: check exist script
+		return false;
+	}
+
     //    public ArrayList<String> searchForProjectFiles(File file, ArrayList<String> fileList, Context context) {
     //
     //        File[] sdFileList = file.listFiles();

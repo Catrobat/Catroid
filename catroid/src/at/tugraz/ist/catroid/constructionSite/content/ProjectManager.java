@@ -20,6 +20,9 @@ public class ProjectManager extends Observable {
     private Sprite currentSprite;
     private Project project;
     private static ProjectManager instance;
+    private Brick currentBrick;
+    private Script script;
+    private Script currentScript;
 
     //isn't used
     //    private ProjectManager(Context context, String projectName) {
@@ -100,6 +103,11 @@ public class ProjectManager extends Observable {
             notifyObservers();
         }
     }
+    
+    public void addScript(Script script) {
+        project.addScript(script);
+        currentScript = script;
+    }
 
     public void addBrick(Brick brick, Script script) {
         script.addBrick(brick);
@@ -154,4 +162,14 @@ public class ProjectManager extends Observable {
     public Project getCurrentProject() {
 		return project;
     }
+
+	
+	public void initializeNewScript(String scriptName, Context context) {
+		script = new Script();
+		currentBrick = script.getBrickList().get(0);
+		saveProject(context);
+		setChanged();
+		notifyObservers();
+		
+	}
 }

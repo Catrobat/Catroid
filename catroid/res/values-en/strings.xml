@@ -45,6 +45,12 @@
     <string name="new_project_dialog_default_project_name">projectname</string>
     <string name="projectname_already_exists">This projectname already exists</string>
     
+    <!-- New script dialog -->
+    <string name="new_script_dialog_button">Create</string>
+    <string name="new_script_dialog_title">Name of new script</string>
+    <string name="new_script_dialog_default_script_name">scriptname</string>
+    <string name="scriptname_already_exists">This scriptname already exists</string>
+    
     <!-- New sprite dialog -->
     <string name="new_sprite_dialog_default_sprite_name">spritename</string>
     <string name="new_sprite_dialog_button">Create</string>
