@@ -18,16 +18,14 @@ import at.tugraz.ist.catroid.utils.Utils;
 public class NewProjectDialog extends Dialog {
     private final Context context;
 
-	//private final ProjectManager contentManager;
-
     public NewProjectDialog(Context context) {
         super(context);
         this.context = context;
-		//this.contentManager = contentManager;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_new_project);
         setTitle(R.string.new_project_dialog_title);
 

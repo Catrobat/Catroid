@@ -163,6 +163,10 @@ public class ProjectManager extends Observable {
     }
 
     public boolean setCurrentSprite(Sprite currentSprite) {
+        if (currentSprite == null) { //sometimes we want to set the currentSprite to null because we don't have a currentSprite
+            this.currentSprite = null;
+            return true;
+        }
         if (project.getSpriteList().contains(currentSprite)) {
             this.currentSprite = currentSprite;
             return true;
