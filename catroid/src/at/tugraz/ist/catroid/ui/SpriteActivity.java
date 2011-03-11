@@ -105,8 +105,8 @@ public class SpriteActivity extends Activity {
 
     @Override
     protected void onResume() {
-		updateTextAndAdapter();
         super.onResume();
+		updateTextAndAdapter();
     }
 
     @Override
@@ -123,5 +123,14 @@ public class SpriteActivity extends Activity {
 		        + ProjectManager.getInstance().getCurrentSprite().getName());
 		adapterScriptList = (ArrayList<Script>) ProjectManager.getInstance().getCurrentSprite().getScriptList();
 		adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        //save to spf TODO: this is maybe unnecessary
+        if (ProjectManager.getInstance().getCurrentProject() != null) {
+            ProjectManager.getInstance().saveProject(this);
+        }
     }
 }

@@ -164,6 +164,7 @@ public class MainMenuActivity extends Activity {
 
     @Override
     public void onPause() {
+        super.onPause();
     	//onPause is sufficient --> gets called before "process_killed", onStop(), onDestroy(), onRestart()
     	//also when you switch activities
     	if (projectManager.getCurrentProject() != null) {
@@ -171,8 +172,6 @@ public class MainMenuActivity extends Activity {
     	}
     	SharedPreferences.Editor prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
     	prefs.putString(PREF_PREFIX_KEY, projectManager.getCurrentProject().getName());
-    	prefs.commit();
-    	super.onPause();
-    	}
+    }
 
 }

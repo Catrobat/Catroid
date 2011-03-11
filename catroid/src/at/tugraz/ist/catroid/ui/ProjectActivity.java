@@ -33,14 +33,17 @@ import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.ui.dialogs.EditSpriteDialog;
 import at.tugraz.ist.catroid.ui.dialogs.NewSpriteDialog;
 
 public class ProjectActivity extends Activity {
 
     final static int NEW_SPRITE_DIALOG = 0;
+    final static int EDIT_SPRITE_DIALOG = 1;
     private ListView listView;
     private ArrayAdapter<Sprite> adapter;
     private ArrayList<Sprite> adapterSpriteList;
+    private Sprite spriteToEdit;
 
     private void initListeners() {
 
@@ -58,6 +61,16 @@ public class ProjectActivity extends Activity {
                 }
                 //TODO: error if selected sprite is not in the project
             }
+        });
+
+        listView.setOnItemLongClickListener(new ListView.OnItemLongClickListener() {
+
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                spriteToEdit = adapter.getItem(position);
+                showDialog(EDIT_SPRITE_DIALOG);
+                return false;
+            }
+
         });
 
         Button mainMenuButton = (Button) findViewById(R.id.mainMenuButton);
@@ -92,6 +105,9 @@ public class ProjectActivity extends Activity {
         case NEW_SPRITE_DIALOG:
             dialog = new NewSpriteDialog(this);
             break;
+        case EDIT_SPRITE_DIALOG:
+            dialog = new EditSpriteDialog(this);
+            break;
         default:
             dialog = null;
             break;
@@ -102,16 +118,16 @@ public class ProjectActivity extends Activity {
 
     @Override
     protected void onResume() {
-		updateTextAndAdapter();
         super.onResume();
+		updateTextAndAdapter();
     }
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
         if (hasFocus) {
 			updateTextAndAdapter();
         }
-		super.onWindowFocusChanged(hasFocus);
 	}
 
 	private void updateTextAndAdapter() {
@@ -120,5 +136,18 @@ public class ProjectActivity extends Activity {
 		        + ProjectManager.getInstance().getCurrentProject().getName());
 		adapterSpriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        //save to spf TODO: this is maybe unnecessary
+        if (ProjectManager.getInstance().getCurrentProject() != null) {
+            ProjectManager.getInstance().saveProject(this);
+        }
+    }
+
+    public Sprite getSpriteToEdit() {
+        return spriteToEdit;
     }
 }
