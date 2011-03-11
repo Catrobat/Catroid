@@ -48,7 +48,7 @@
 	<string name="add_sprite">+ Neues Objekt hinzufügen</string>
 	
 	<!-- Script activity view -->
-	<string name="script_name">Script</string>
+	<string name="script_name">Skript</string>
 	<string name="brick_list">Bausteine:</string>
 	<string name="add_new_brick">+ Neuen Baustein hinzufügen</string>
 	
@@ -66,6 +66,13 @@
 	<string name="new_project_dialog_title">Name des Projekts</string>
 	<string name="new_project_dialog_default_project_name">Projektname</string>
 	<string name="projectname_already_exists">Dieser Projektname existiert bereits</string>
+	
+	<!-- New script dialog -->
+	<string name="new_script_dialog_button">Erstellen</string>
+	<string name="new_script_dialog_title">Name des Skript</string>
+	<string name="new_script_dialog_default_script_name">Skriptname</string>
+	<string name="scriptname_already_exists">Dieser Skriptname existiert bereits</string>
+	
 	
 	<!-- New sprite dialog -->
     <string name="new_sprite_dialog_default_sprite_name">Objektname</string>
