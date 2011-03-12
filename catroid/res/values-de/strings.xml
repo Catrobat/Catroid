@@ -69,8 +69,17 @@
 	
 	<!-- Edit Sprite Dialog -->
 	<string name="delete_sprite_button">löschen</string>
-	<string name="rename_sprite_button">unbenennen</string>
+	<string name="rename_sprite_button">umbenennen</string>
 	<string name="edit_sprite_dialog_title">Objekt editieren</string>
+	
+	<!-- Edit Script Dialog -->
+	<string name="delete_script_button">löschen</string>
+	<string name="rename_script_button">umbenennen</string>
+	<string name="edit_script_dialog_title">Skript editieren</string>
+	
+	<!-- Rename Dialog -->
+	<string name="rename_hint">Name</string>
+	<string name="rename_button">umbenennen</string>
 	
 	<!-- New script dialog -->
 	<string name="new_script_dialog_button">Erstellen</string>
@@ -83,6 +92,8 @@
     <string name="new_sprite_dialog_button">Erstellen</string>
     <string name="new_sprite_dialog_title">Name des Objekts</string>
     <string name="spritename_already_exists">Dieser Objektname existiert bereits</string>
+    <string name="spritename_invalid">Dieser Objektname ist ungültig</string>
+    <string name="rename_sprite_dialog">Objekt umbenennen</string>
 	
     <!-- Load project dialog -->
 	<string name="laod_project_dialog_title">Projekt laden</string>

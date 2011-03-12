@@ -1,0 +1,25 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+>
+	<EditText
+		android:hint="@string/rename_hint"
+		android:id="@+id/renameEditText"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:maxLines="1"
+	/>
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+		<Button
+			android:text="@string/rename_button"
+			android:id="@+id/renameButton"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_weight=".5"
+		/>
+	</LinearLayout>
+</LinearLayout>

@@ -116,6 +116,10 @@ public class Sprite implements Serializable, Comparable<Sprite> {
         return name;
     }
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
     public int getXPosition() {
         return xPosition;
     }

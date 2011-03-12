@@ -162,13 +162,13 @@ public class ProjectManager extends Observable {
         return currentScript;
     }
 
-    public boolean setCurrentSprite(Sprite currentSprite) {
-        if (currentSprite == null) { //sometimes we want to set the currentSprite to null because we don't have a currentSprite
-            this.currentSprite = null;
+	public boolean setCurrentSprite(Sprite sprite) {
+		if (sprite == null) { //sometimes we want to set the currentSprite to null because we don't have a currentSprite
+			currentSprite = null;
             return true;
         }
-        if (project.getSpriteList().contains(currentSprite)) {
-            this.currentSprite = currentSprite;
+		if (project.getSpriteList().contains(sprite)) {
+			currentSprite = sprite;
             return true;
         }
         return false;
@@ -179,6 +179,10 @@ public class ProjectManager extends Observable {
      *         otherwise
      */
     public boolean setCurrentScript(Script script) {
+		if (script == null) {
+			currentScript = null;
+			return true;
+		}
         if (currentSprite.getScriptList().contains(script)) {
             currentScript = script;
             return true;

@@ -22,14 +22,17 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
+import at.tugraz.ist.catroid.utils.Utils;
 
-public class EditSpriteDialog extends Dialog {
+public class RenameSpriteDialog extends Dialog {
     protected ProjectActivity projectActivity;
 
-    public EditSpriteDialog(ProjectActivity projectActivity) {
+    public RenameSpriteDialog(ProjectActivity projectActivity) {
         super(projectActivity);
         this.projectActivity = projectActivity;
     }
@@ -37,28 +40,32 @@ public class EditSpriteDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_edit_sprite);
-        setTitle(R.string.edit_sprite_dialog_title);
+        setContentView(R.layout.dialog_rename);
+		setTitle(R.string.rename_sprite_dialog);
 
-		Button deleteSpriteButton = (Button) findViewById(R.id.deleteSpriteButton);
-		deleteSpriteButton.setOnClickListener(new View.OnClickListener() {
+		Button renameButton = (Button) findViewById(R.id.renameButton);
+		renameButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ProjectManager projectManager = ProjectManager.getInstance();
-                projectManager.getCurrentProject().getSpriteList().remove(projectActivity.getSpriteToEdit());
-                if (projectManager.getCurrentSprite() != null
-                        && projectManager.getCurrentSprite().equals(projectActivity.getSpriteToEdit())) {
-                    projectManager.setCurrentSprite(null);
-                }
+				String spriteName = ((EditText) findViewById(R.id.renameEditText)).getText().toString();
+				if (spriteName.equalsIgnoreCase(projectActivity.getSpriteToEdit().getName())) {
+					dismiss();
+					return;
+				}
+				if (spriteName != null && !spriteName.equalsIgnoreCase("")) {
+					for (Sprite tempSprite : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
+						if (tempSprite.getName().equalsIgnoreCase(spriteName)) {
+							Utils.displayErrorMessage(projectActivity,
+							        projectActivity.getString(R.string.spritename_already_exists));
+							return;
+						}
+					}
+					projectActivity.getSpriteToEdit().setName(spriteName);
+				} else {
+					Utils.displayErrorMessage(projectActivity, projectActivity.getString(R.string.spritename_invalid));
+					return;
+				}
                 dismiss();
             }
         });
-        
-		Button renameSpriteButton = (Button) findViewById(R.id.renameSpriteButton);
-		renameSpriteButton.setOnClickListener(new View.OnClickListener() {
-        	public void onClick(View v) {
-				projectActivity.showDialog(ProjectActivity.RENAME_SPRITE_DIALOG);
-        		dismiss();
-        	}
-		});
     }
 }
