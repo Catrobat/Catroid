@@ -49,6 +49,11 @@
 	<string name="delete_sprite_button">delete</string>
 	<string name="rename_sprite_button">rename</string>
 	<string name="edit_sprite_dialog_title">edit Sprite</string>
+	
+    <!-- Edit Script Dialog -->
+	<string name="delete_script_button">delete</string>
+	<string name="rename_script_button">rename</string>
+	<string name="edit_script_dialog_title">edit Script</string>
     
     <!-- New script dialog -->
     <string name="new_script_dialog_button">Create</string>
@@ -61,6 +66,12 @@
     <string name="new_sprite_dialog_button">Create</string>
     <string name="new_sprite_dialog_title">Name of new Sprite</string>
     <string name="spritename_already_exists">This spritename already exists</string>
+    <string name="rename_sprite_dialog">rename Sprite</string>
+    <string name="spritename_invalid">This spritename is invalid</string>
+    
+    <!-- Rename Dialog -->
+	<string name="rename_hint">name</string>
+	<string name="rename_button">rename</string>
     
     <!-- Load project dialog -->
 	<string name="laod_project_dialog_title">Load Project</string>

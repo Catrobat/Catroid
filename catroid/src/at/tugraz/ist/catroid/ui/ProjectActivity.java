@@ -35,11 +35,13 @@ import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditSpriteDialog;
 import at.tugraz.ist.catroid.ui.dialogs.NewSpriteDialog;
+import at.tugraz.ist.catroid.ui.dialogs.RenameSpriteDialog;
 
 public class ProjectActivity extends Activity {
 
     final static int NEW_SPRITE_DIALOG = 0;
     final static int EDIT_SPRITE_DIALOG = 1;
+	public final static int RENAME_SPRITE_DIALOG = 2;
     private ListView listView;
     private ArrayAdapter<Sprite> adapter;
     private ArrayList<Sprite> adapterSpriteList;
@@ -108,6 +110,9 @@ public class ProjectActivity extends Activity {
         case EDIT_SPRITE_DIALOG:
             dialog = new EditSpriteDialog(this);
             break;
+		case RENAME_SPRITE_DIALOG:
+			dialog = new RenameSpriteDialog(this);
+			break;
         default:
             dialog = null;
             break;
@@ -138,14 +143,14 @@ public class ProjectActivity extends Activity {
 		adapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        //save to spf TODO: this is maybe unnecessary
-        if (ProjectManager.getInstance().getCurrentProject() != null) {
-            ProjectManager.getInstance().saveProject(this);
-        }
-    }
+	//    @Override
+	//    public void onPause() {
+	//        super.onPause();
+	//        //save to spf TODO: this is maybe unnecessary
+	//        if (ProjectManager.getInstance().getCurrentProject() != null) {
+	//            ProjectManager.getInstance().saveProject(this);
+	//        }
+	//    }
 
     public Sprite getSpriteToEdit() {
         return spriteToEdit;

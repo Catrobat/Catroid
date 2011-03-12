@@ -34,14 +34,17 @@ import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.script.Script;
+import at.tugraz.ist.catroid.ui.dialogs.EditScriptDialog;
 import at.tugraz.ist.catroid.ui.dialogs.NewScriptDialog;
 
 public class SpriteActivity extends Activity {
 
     final static int NEW_SCRIPT_DIALOG = 0;
+	final static int EDIT_SCRIPT_DIALOG = 1;
     private ListView listView;
     private ArrayAdapter<Script> adapter;
     private ArrayList<Script> adapterScriptList;
+	private Script scriptToEdit;
 
     private void initListeners() {
 
@@ -60,6 +63,16 @@ public class SpriteActivity extends Activity {
                 //TODO: error if selected sprite is not in the project
             }
         });
+
+		listView.setOnItemLongClickListener(new ListView.OnItemLongClickListener() {
+
+			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+				scriptToEdit = adapter.getItem(position);
+				showDialog(EDIT_SCRIPT_DIALOG);
+				return false;
+			}
+
+		});
 
         Button mainMenuButton = (Button) findViewById(R.id.mainMenuButton);
         mainMenuButton.setOnClickListener(new View.OnClickListener() {
@@ -95,6 +108,9 @@ public class SpriteActivity extends Activity {
         case NEW_SCRIPT_DIALOG:
             dialog = new NewScriptDialog(this);
             break;
+		case EDIT_SCRIPT_DIALOG:
+			dialog = new EditScriptDialog(this);
+			break;
         default:
             dialog = null;
             break;
@@ -133,4 +149,8 @@ public class SpriteActivity extends Activity {
             ProjectManager.getInstance().saveProject(this);
         }
     }
+
+	public Script getScriptToEdit() {
+		return scriptToEdit;
+	}
 }
