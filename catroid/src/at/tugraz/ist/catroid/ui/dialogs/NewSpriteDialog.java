@@ -20,7 +20,6 @@ package at.tugraz.ist.catroid.ui.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -28,7 +27,6 @@ import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
-import at.tugraz.ist.catroid.ui.SpriteActivity;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class NewSpriteDialog extends Dialog {

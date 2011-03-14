@@ -43,7 +43,7 @@ import at.tugraz.ist.catroid.ui.dialogs.RenameSpriteDialog;
 public class ProjectActivity extends Activity {
 
     final static int NEW_SPRITE_DIALOG = 0;
-    public final static int RENAME_SPRITE_DIALOG = 1;
+    final static int RENAME_SPRITE_DIALOG = 1;
     private ListView listView;
     private ArrayAdapter<Sprite> adapter;
     private ArrayList<Sprite> adapterSpriteList;
@@ -168,6 +168,7 @@ public class ProjectActivity extends Activity {
             break;
         case 1: //rename
             this.showDialog(ProjectActivity.RENAME_SPRITE_DIALOG);
+            break;
         }
         return true;
     }

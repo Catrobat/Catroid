@@ -4,4 +4,8 @@
 		<item>löschen</item>
 		<item>umbenennen</item>
 	</array>
+	<array name="menu_sprite_activity">
+		<item>löschen</item>
+		<item>umbenennen</item>
+	</array>
 </resources>

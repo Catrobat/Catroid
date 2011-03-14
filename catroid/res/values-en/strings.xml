@@ -64,6 +64,7 @@
     <string name="new_script_dialog_title">Name of new script</string>
     <string name="new_script_dialog_default_script_name">scriptname</string>
     <string name="scriptname_already_exists">This scriptname already exists</string>
+    <string name="script_invalid">This scriptname is invalid</string>
     
     <!-- New sprite dialog -->
     <string name="new_sprite_dialog_default_sprite_name">spritename</string>
@@ -72,6 +73,7 @@
     <string name="spritename_already_exists">This spritename already exists</string>
     <string name="rename_sprite_dialog">rename Sprite</string>
     <string name="spritename_invalid">This spritename is invalid</string>
+    <string name="rename_script_dialog">rename Script</string>
     
     <!-- Rename Dialog -->
 	<string name="rename_hint">name</string>
