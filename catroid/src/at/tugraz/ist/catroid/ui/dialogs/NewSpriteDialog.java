@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout.LayoutParams;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
@@ -41,6 +42,7 @@ public class NewSpriteDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.dialog_new_sprite);
         setTitle(R.string.new_sprite_dialog_title);
+        getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
         Button createNewSpriteButton = (Button) findViewById(R.id.createNewSpriteButton);
         createNewSpriteButton.setOnClickListener(new View.OnClickListener() {
