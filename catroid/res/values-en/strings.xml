@@ -82,5 +82,5 @@
 	<string name="rename_button">rename</string>
     
     <!-- Load project dialog -->
-	<string name="laod_project_dialog_title">Load Project</string>
+	<string name="load_project_dialog_title">Load Project</string>
 </resources>
