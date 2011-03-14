@@ -51,7 +51,7 @@ public class LoadProjectDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         //super.onCreate(savedInstanceState);
         setContentView(R.layout.load_project_dialog);
-        setTitle(R.string.laod_project_dialog_title);
+        setTitle(R.string.load_project_dialog_title);
 
         File rootDirectory = new File(context.getString(R.string.default_root));
         searchForProjectFiles(rootDirectory);
