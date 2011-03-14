@@ -38,8 +38,12 @@
 	
 	<!-- About Dialog -->
 	<string name="about_title">Über Catroid</string>
-	<string name="about_text">Catroid is developed at the Institute for Software Technology at
-        Graz University of Technology in Austria.
+	<string name="about_text">
+        Catroid ist eine grafische Programmiersprache für Android, inspiriert vom
+        Scratch Projekt des MIT.\n
+        Es wird am Institut für Software Technologie an der
+        Technischen Universität Graz in Österreich entwickelt.\n\n
+        Dieses Programm steht unter der GNU GPL v3 Lizenz.\n\n
     </string>
     <string name="about_link_text">Über Catroid</string>
     <string name="about_link_template">&lt;a href="%1$s">%2$s&lt;/a></string>

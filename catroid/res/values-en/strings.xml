@@ -21,8 +21,11 @@
 	<!-- About Dialog -->
 	<string name="about_title">About Catroid</string>
     <string name="about_text">
+        Catroid is a graphical programming language for Android,
+        inspired by the Scratch project of the MIT.\n
         Catroid is developed at the Institute for Software Technology at
-        Graz University of Technology in Austria.
+        Graz University of Technology in Austria.\n\n
+        This program is licensed under the GNU GPL v3 License.\n\n
     </string>
     <string name="about_link_text">About Catroid</string>
     <string name="about_link_template">&lt;a href="%1$s">%2$s&lt;/a></string>
@@ -79,5 +82,5 @@
 	<string name="rename_button">rename</string>
     
     <!-- Load project dialog -->
-	<string name="load_project_dialog_title">Load Project</string>
+	<string name="laod_project_dialog_title">Load Project</string>
 </resources>
