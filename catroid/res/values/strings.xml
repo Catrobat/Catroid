@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<!-- Language independent -->
-	<string name="app_name">catroid</string>
+	<string name="app_name">Catroid</string>
 	<string name="percent">%</string>
 	<string name="default_sprite">catroid</string>
 

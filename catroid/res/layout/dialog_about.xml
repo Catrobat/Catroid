@@ -5,10 +5,19 @@
 	android:layout_height="wrap_content"
 	android:padding="10dp">
 	<TextView 
-		android:id="@+id/tvAboutText"
+	    android:id="@+id/tvAboutText"
 		android:layout_width="wrap_content" 
 		android:layout_height="wrap_content" 
 		android:text="@string/about_text"
-		android:clickable="true" />
-	
+    	android:gravity="center"
+    />
+    <!-- For testing purposes only, link could go into the tvAboutText too  -->
+    <TextView
+        android:id="@+id/tvAboutURL"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:autoLink="web"
+        android:gravity="center"
+        android:text="@string/about_catroid_url"
+    />
 </LinearLayout>
