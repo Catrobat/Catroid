@@ -100,7 +100,7 @@
     <string name="rename_script_dialog">Skript umbenennen</string>
 	
     <!-- Load project dialog -->
-	<string name="laod_project_dialog_title">Projekt laden</string>
+	<string name="load_project_dialog_title">Projekt laden</string>
 
 	<!--  Stage context menu -->
 	<string name="stagemenu_construction_site">Zur Baustelle</string>

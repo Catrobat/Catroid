@@ -18,6 +18,8 @@
  */
 package at.tugraz.ist.catroid.test.content.project;
 
+import java.io.File;
+
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.AndroidTestCase;
@@ -25,16 +27,26 @@ import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.brick.gui.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class ProjectManagerTest extends AndroidTestCase {
 
+    String projectNameOne = "Ulumulu";
+    String scriptNameOne = "Ulukai";
+    String scriptNameTwo = "Ulukai2";
+    String spriteNameOne = "Zuul";
+    String spriteNameTwo = "Zuuul";
+
+    @Override
+    public void tearDown() {
+        File directory = new File("/sdcard/catroid/" + projectNameOne);
+        if (directory.exists()) {
+            UtilFile.deleteDirectory(directory);
+        }
+    }
+
     public void testBasicFunctions() throws NameNotFoundException {
 
-        String projectNameOne = "Ulumulu";
-        String scriptNameOne = "Ulukai";
-        String scriptNameTwo = "Ulukai2";
-        String spriteNameOne = "Zuul";
-        String spriteNameTwo = "Zuuul";
         ProjectManager manager = ProjectManager.getInstance();
         assertNull("there is a current project set", manager.getCurrentProject());
         assertNull("there is a current sprite set", manager.getCurrentSprite());
