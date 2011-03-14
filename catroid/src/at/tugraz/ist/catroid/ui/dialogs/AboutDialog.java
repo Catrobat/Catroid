@@ -20,7 +20,9 @@ package at.tugraz.ist.catroid.ui.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.Window;
 import android.widget.TextView;
@@ -40,23 +42,21 @@ public class AboutDialog extends Dialog {
     	requestWindowFeature(Window.FEATURE_LEFT_ICON);
     	setContentView(R.layout.dialog_about);
     	setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, android.R.drawable.ic_dialog_info);
+
     	setTitle(R.string.about_title);
     	setCanceledOnTouchOutside(true);
     	
-//    	Resources res = context.getResources();
-//    	String text = String.format(res.getString(R.string.about_link_template), res.getString(R.string.about_catroid_url), res.getString(R.string.about_link_text));
-//    	text = String.format(res.getString(R.string.about_link_template), "http://www.google.at", "World");
-//    	CharSequence htmlText = Html.fromHtml(text);
+    	TextView aboutUrlTextView = (TextView)findViewById(R.id.tvAboutURL);
+    	aboutUrlTextView.setMovementMethod(LinkMovementMethod.getInstance());
     	
-//    	System.out.println(text);
-//    	System.out.println(htmlText);
+    	Resources res = context.getResources();
+    	String aboutUrl = String.format(res.getString(R.string.about_link_template), 
+    			res.getString(R.string.about_catroid_url), res.getString(R.string.about_link_text));
+
+    	System.out.println(res.getString(R.string.about_link_template));
+    	System.out.println(aboutUrl);
     	
-    	TextView aboutTextView = (TextView)findViewById(R.id.tvAboutURL);
-//    	aboutTextView.append(text);
-//    	aboutTextView.setAutoLinkMask(Linkify.ALL);
-    	aboutTextView.setMovementMethod(LinkMovementMethod.getInstance());
-//    	aboutTextView.setText(text);
-    	
+    	aboutUrlTextView.setText(Html.fromHtml(aboutUrl));
     }
 
 }
