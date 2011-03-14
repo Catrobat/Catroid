@@ -131,13 +131,10 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	public void testAboutCatroid() {
 		solo.clickOnButton(getActivity().getString(R.string.about));
 		ArrayList<TextView> textViewList = solo.getCurrentTextViews(null);
-		boolean dialogShowing = false;
-		for(TextView tv : textViewList) {
-			if (tv.getId() == R.id.tvAboutText) {
-				dialogShowing = true;
-			}	
-		}
-		assertTrue("About dialog is not showing!", dialogShowing);
+
+		assertEquals("Title is not correct!", getActivity().getString(R.string.about_title), textViewList.get(0).getText().toString());
+		assertEquals("About text not correct!", getActivity().getString(R.string.about_text), textViewList.get(1).getText().toString());
+		assertEquals("Link text is not correct!", getActivity().getString(R.string.about_link_text), textViewList.get(2).getText().toString());
 	}
 	
 	
