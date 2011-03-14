@@ -164,7 +164,7 @@ public class SpriteActivity extends Activity {
             if (projectManager.getCurrentScript() != null && projectManager.getCurrentScript().equals(scriptToEdit)) {
                 projectManager.setCurrentScript(null);
             }
-            updateTextAndAdapter();
+            //updateTextAndAdapter();
             break;
         case 1: //rename
             this.showDialog(RENAME_SCRIPT_DIALOG);
