@@ -38,12 +38,9 @@
 	
 	<!-- About Dialog -->
 	<string name="about_title">Über Catroid</string>
-	<string name="about_text">
-	   Catroid is developed at the Institute for Software Technology at
-       Graz University of Technology in Austria.
-    </string>
-    <string name="about_link_text">Über Catroid</string>
-    <string name="about_link_template"><a href="%1$s">%2$s</a></string>
+	<string name="about_text">Catroid: An on-device graphical programming language for Android devices \n
+	Copyright (C) 2010  Catroid development team \n
+ 	(<a href="http://code.google.com/p/catroid/wiki/Credits\">link</a>)</string>
 	
 	<!-- Project activity view -->
 	<string name="project_name">Projekt:</string>
@@ -89,6 +86,7 @@
 	<string name="new_script_dialog_title">Name des Skripts</string>
 	<string name="new_script_dialog_default_script_name">Skriptname</string>
 	<string name="scriptname_already_exists">Dieser Skriptname existiert bereits</string>
+	<string name="script_invalid">Dieser Skriptname ist ungültig</string>
 	
 	<!-- New sprite dialog -->
     <string name="new_sprite_dialog_default_sprite_name">Objektname</string>
@@ -97,6 +95,7 @@
     <string name="spritename_already_exists">Dieser Objektname existiert bereits</string>
     <string name="spritename_invalid">Dieser Objektname ist ungültig</string>
     <string name="rename_sprite_dialog">Objekt umbenennen</string>
+    <string name="rename_script_dialog">Skript umbenennen</string>
 	
     <!-- Load project dialog -->
 	<string name="laod_project_dialog_title">Projekt laden</string>

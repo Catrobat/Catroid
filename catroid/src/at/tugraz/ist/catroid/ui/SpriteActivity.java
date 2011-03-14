@@ -25,6 +25,10 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -34,13 +38,13 @@ import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.script.Script;
-import at.tugraz.ist.catroid.ui.dialogs.EditScriptDialog;
 import at.tugraz.ist.catroid.ui.dialogs.NewScriptDialog;
+import at.tugraz.ist.catroid.ui.dialogs.RenameScriptDialog;
 
 public class SpriteActivity extends Activity {
 
     final static int NEW_SCRIPT_DIALOG = 0;
-	final static int EDIT_SCRIPT_DIALOG = 1;
+    final static int RENAME_SCRIPT_DIALOG = 1;
     private ListView listView;
     private ArrayAdapter<Script> adapter;
     private ArrayList<Script> adapterScriptList;
@@ -53,6 +57,7 @@ public class SpriteActivity extends Activity {
 
         listView = (ListView) findViewById(R.id.scriptListView);
         listView.setAdapter(adapter);
+        registerForContextMenu(listView);
         listView.setOnItemClickListener(new ListView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -63,16 +68,6 @@ public class SpriteActivity extends Activity {
                 //TODO: error if selected sprite is not in the project
             }
         });
-
-		listView.setOnItemLongClickListener(new ListView.OnItemLongClickListener() {
-
-			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-				scriptToEdit = adapter.getItem(position);
-				showDialog(EDIT_SCRIPT_DIALOG);
-				return false;
-			}
-
-		});
 
         Button mainMenuButton = (Button) findViewById(R.id.mainMenuButton);
         mainMenuButton.setOnClickListener(new View.OnClickListener() {
@@ -108,9 +103,9 @@ public class SpriteActivity extends Activity {
         case NEW_SCRIPT_DIALOG:
             dialog = new NewScriptDialog(this);
             break;
-		case EDIT_SCRIPT_DIALOG:
-			dialog = new EditScriptDialog(this);
-			break;
+        case RENAME_SCRIPT_DIALOG:
+            dialog = new RenameScriptDialog(this);
+            break;
         default:
             dialog = null;
             break;
@@ -141,16 +136,40 @@ public class SpriteActivity extends Activity {
 		adapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        //save to spf TODO: this is maybe unnecessary
-        if (ProjectManager.getInstance().getCurrentProject() != null) {
-            ProjectManager.getInstance().saveProject(this);
-        }
-    }
-
 	public Script getScriptToEdit() {
 		return scriptToEdit;
 	}
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
+        if (view.getId() == R.id.scriptListView) {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+            menu.setHeaderTitle(adapterScriptList.get(info.position).toString());
+            scriptToEdit = adapterScriptList.get(info.position);
+            String[] menuItems = getResources().getStringArray(R.array.menu_project_activity);
+
+            for (int i = 0; i < menuItems.length; i++) {
+                menu.add(Menu.NONE, i, i, menuItems[i]);
+            }
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        int menuItemIndex = item.getItemId();
+        switch (menuItemIndex) {
+        case 0: //delete
+            ProjectManager projectManager = ProjectManager.getInstance();
+            projectManager.getCurrentSprite().getScriptList().remove(scriptToEdit);
+            if (projectManager.getCurrentScript() != null && projectManager.getCurrentScript().equals(scriptToEdit)) {
+                projectManager.setCurrentScript(null);
+            }
+            updateTextAndAdapter();
+            break;
+        case 1: //rename
+            this.showDialog(RENAME_SCRIPT_DIALOG);
+            break;
+        }
+        return true;
+    }
 }

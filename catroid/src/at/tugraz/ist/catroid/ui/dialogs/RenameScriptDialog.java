@@ -18,48 +18,59 @@
  */
 
 //TODO: implement!
-//package at.tugraz.ist.catroid.ui.dialogs;
-//
-//import android.app.Dialog;
-//import android.os.Bundle;
-//import android.view.View;
-//import android.widget.Button;
-//import at.tugraz.ist.catroid.R;
-//import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
-//import at.tugraz.ist.catroid.ui.SpriteActivity;
-//
-//public class RenameScriptDialog extends Dialog {
-//	protected SpriteActivity spriteActivity;
-//
-//	public RenameScriptDialog(SpriteActivity spriteActivity) {
-//		super(spriteActivity);
-//		this.spriteActivity = spriteActivity;
-//	}
-//
-//	@Override
-//	protected void onCreate(Bundle savedInstanceState) {
-//		super.onCreate(savedInstanceState);
-//		setContentView(R.layout.dialog_edit_script);
-//		setTitle(R.string.edit_script_dialog_title);
-//
-//		Button deleteScriptButton = (Button) findViewById(R.id.deleteScriptButton);
-//		deleteScriptButton.setOnClickListener(new View.OnClickListener() {
-//			public void onClick(View v) {
-//				ProjectManager projectManager = ProjectManager.getInstance();
-//				projectManager.getCurrentSprite().getScriptList().remove(spriteActivity.getScriptToEdit());
-//				if (projectManager.getCurrentScript() != null
-//				        && projectManager.getCurrentScript().equals(spriteActivity.getScriptToEdit())) {
-//					projectManager.setCurrentScript(null);
-//				}
-//				dismiss();
-//			}
-//		});
-//
-//		Button renameScriptButton = (Button) findViewById(R.id.renameScriptButton);
-//		renameScriptButton.setOnClickListener(new View.OnClickListener() {
-//			public void onClick(View v) {
-//				dismiss();
-//			}
-//		});
-//	}
-//}
+package at.tugraz.ist.catroid.ui.dialogs;
+
+import android.app.Dialog;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.content.script.Script;
+import at.tugraz.ist.catroid.ui.SpriteActivity;
+import at.tugraz.ist.catroid.utils.Utils;
+
+public class RenameScriptDialog extends Dialog {
+    protected SpriteActivity spriteActivity;
+
+    public RenameScriptDialog(SpriteActivity spriteActivity) {
+        super(spriteActivity);
+        this.spriteActivity = spriteActivity;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.dialog_edit_script);
+        setTitle(R.string.edit_script_dialog_title);
+
+        setContentView(R.layout.dialog_rename);
+        setTitle(R.string.rename_script_dialog);
+
+        Button renameButton = (Button) findViewById(R.id.renameButton);
+        renameButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                String scriptName = ((EditText) findViewById(R.id.renameEditText)).getText().toString();
+                if (scriptName.equalsIgnoreCase(spriteActivity.getScriptToEdit().getName())) {
+                    dismiss();
+                    return;
+                }
+                if (scriptName != null && !scriptName.equalsIgnoreCase("")) {
+                    for (Script tempScript : ProjectManager.getInstance().getCurrentSprite().getScriptList()) {
+                        if (tempScript.getName().equalsIgnoreCase(scriptName)) {
+                            Utils.displayErrorMessage(spriteActivity,
+                                    spriteActivity.getString(R.string.scriptname_already_exists));
+                            return;
+                        }
+                    }
+                    spriteActivity.getScriptToEdit().setName(scriptName);
+                } else {
+                    Utils.displayErrorMessage(spriteActivity, spriteActivity.getString(R.string.spritename_invalid));
+                    return;
+                }
+                dismiss();
+            }
+        });
+    }
+}
