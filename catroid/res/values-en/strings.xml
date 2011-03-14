@@ -21,12 +21,11 @@
 	<!-- About Dialog -->
 	<string name="about_title">About Catroid</string>
     <string name="about_text">
-       Catroid is developed at the Institute for Software Technology at
-       Graz University of Technology in Austria.
+        Catroid is developed at the Institute for Software Technology at
+        Graz University of Technology in Austria.
     </string>
     <string name="about_link_text">About Catroid</string>
-    <string name="about_link_template"><a href="http://www.google.at">%1$s %2$s</a></string>
-    <string name="about_link"><a href="http://www.google.at">This is a triumph</a></string>
+    <string name="about_link_template">&lt;a href="%1$s">%2$s&lt;/a></string>
 	
 	<!-- Project activity view -->
 	<string name="project_name">Project:</string>
