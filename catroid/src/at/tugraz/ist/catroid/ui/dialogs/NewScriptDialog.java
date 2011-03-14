@@ -57,6 +57,7 @@ public class NewScriptDialog extends Dialog {
 				// Intent intent = new Intent(context, ScriptActivity.class);
 				// context.startActivity(intent);
                 dismiss();
+                ((EditText) findViewById(R.id.newScriptNameEditText)).setText(null);
             }
         });
         
@@ -64,6 +65,7 @@ public class NewScriptDialog extends Dialog {
         cancelButton.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
         		dismiss();
+        		((EditText) findViewById(R.id.newScriptNameEditText)).setText(null);
         	}
 		});
     }

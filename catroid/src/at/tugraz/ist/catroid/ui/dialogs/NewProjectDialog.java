@@ -63,6 +63,7 @@ public class NewProjectDialog extends Dialog {
                 Intent intent = new Intent(context, ProjectActivity.class);
             	context.startActivity(intent);
                 dismiss();
+                ((EditText) findViewById(R.id.newProjectNameEditText)).setText(null);
             }
         });
         
@@ -70,6 +71,7 @@ public class NewProjectDialog extends Dialog {
         cancelButton.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
         		dismiss();
+        	((EditText) findViewById(R.id.newProjectNameEditText)).setText(null);
         	}
 		});
     }
