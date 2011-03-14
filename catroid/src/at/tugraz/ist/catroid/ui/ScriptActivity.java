@@ -30,7 +30,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
-import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
 
 public class ScriptActivity extends Activity implements OnItemClickListener {
@@ -39,7 +38,6 @@ public class ScriptActivity extends Activity implements OnItemClickListener {
     //private ProgrammAdapter programmAdapter;
     private ProjectManager projectManager;
 	private AddBrickDialog brickDialog;
-	private Script currentScript;
 
     private void initListeners() {
     	
@@ -99,7 +97,7 @@ public class ScriptActivity extends Activity implements OnItemClickListener {
     
 	
 	public void onBrickClickListener(View v) {	
-			projectManager.addBrick(brickDialog.getBrickClone(v), currentScript);
+        projectManager.addBrick(brickDialog.getBrickClone(v));
 			if (brickDialog.isShowing()) {
                 brickDialog.dismiss();
             }

@@ -148,9 +148,6 @@ public class ProjectActivity extends Activity {
             for (int i = 0; i < menuItems.length; i++) {
                 menu.add(Menu.NONE, i, i, menuItems[i]);
             }
-            //                        for (String menuItem : menuItems) {
-            //                            menu.add(menuItem);
-            //                        }
         }
     }
 
@@ -164,7 +161,7 @@ public class ProjectActivity extends Activity {
             if (projectManager.getCurrentSprite() != null && projectManager.getCurrentSprite().equals(spriteToEdit)) {
                 projectManager.setCurrentSprite(null);
             }
-            updateTextAndAdapter();
+            //updateTextAndAdapter();
             break;
         case 1: //rename
             this.showDialog(ProjectActivity.RENAME_SPRITE_DIALOG);

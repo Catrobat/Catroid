@@ -42,35 +42,29 @@ public class NewSpriteDialog extends Dialog {
         setContentView(R.layout.dialog_new_sprite);
         setTitle(R.string.new_sprite_dialog_title);
 
-        //EditText clearText = (EditText) findViewById(R.id.newScriptNameEditText);
-       
-        
         Button createNewSpriteButton = (Button) findViewById(R.id.createNewSpriteButton);
         createNewSpriteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String spriteName = ((EditText) findViewById(R.id.newSpriteNameEditText)).getText().toString();
+                ProjectManager projectManager = ProjectManager.getInstance();
 
-                for (Sprite tempSprite : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
-                    if (tempSprite.getName().equalsIgnoreCase(spriteName)) {
-                        Utils.displayErrorMessage(context, context.getString(R.string.spritename_already_exists));
-                        return;
-                    }
+                if (projectManager.spriteExists(spriteName)) {
+                    Utils.displayErrorMessage(context, context.getString(R.string.spritename_already_exists));
+                    return;
                 }
                 Sprite sprite = new Sprite(spriteName);
-                ProjectManager.getInstance().addSprite(sprite);
-                //Intent intent = new Intent(context, SpriteActivity.class);
-                //context.startActivity(intent);
-                //((EditText) findViewById(R.id.newSpriteNameEditText)).clearComposingText();
-                dismiss();
+                projectManager.addSprite(sprite);
+
                 ((EditText) findViewById(R.id.newSpriteNameEditText)).setText(null);
+                dismiss();
             }
         });
         
         Button cancelButton = (Button) findViewById(R.id.cancelDialogButton);
         cancelButton.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
+                ((EditText) findViewById(R.id.newSpriteNameEditText)).setText(null);
         		dismiss();
-        		((EditText) findViewById(R.id.newSpriteNameEditText)).setText(null);
         	}
 		});
     }

@@ -59,7 +59,8 @@ public class ProjectManager extends Observable {
             if (project == null) {
 				initializeNewProject(context.getString(R.string.default_project_name), context);
             }
-            currentSprite = project.getSpriteList().get(0); // stage
+            currentSprite = null;
+            currentScript = null;
             setChanged();
             notifyObservers();
             return true;
@@ -82,53 +83,37 @@ public class ProjectManager extends Observable {
 
     public void resetProject(Context context) throws NameNotFoundException {
         project = new Project(context, project.getName());
-        currentSprite = project.getSpriteList().get(0); // stage
+        currentSprite = null;
+        currentScript = null;
         setChanged();
         notifyObservers();
     }
 
     public void addSprite(Sprite sprite) {
         project.addSprite(sprite);
-        currentSprite = sprite;
-    }
-
-    public void switchSprite(int position) {
-        if (position >= 0 && position < project.getSpriteList().size()) {
-            currentSprite = project.getSpriteList().get(position);
-            setChanged();
-            notifyObservers();
-        }
     }
     
     public void addScript(Script script) {
         currentSprite.getScriptList().add(script);
     }
 
-    public void addBrick(Brick brick, Script script) {
-        script.addBrick(brick);
+    public void addBrick(Brick brick) {
+        currentScript.addBrick(brick);
         setChanged();
         notifyObservers();
     }
 
-    public void removeBrick(int position, Script script) {
-        if (position >= 0 && position < script.getBrickList().size()) {
-            script.getBrickList().remove(position);
+    public void moveBrickUpInList(int position) {
+        if (position >= 0 && position < currentScript.getBrickList().size()) {
+            currentScript.moveBrickBySteps(currentScript.getBrickList().get(position), -1);
             setChanged();
             notifyObservers();
         }
     }
 
-    public void moveBrickUpInList(int position, Script script) {
-        if (position >= 0 && position < script.getBrickList().size()) {
-            script.moveBrickBySteps(script.getBrickList().get(position), -1);
-            setChanged();
-            notifyObservers();
-        }
-    }
-
-    public void moveBrickDownInList(int position, Script script) {
-        if (position >= 0 && position < script.getBrickList().size()) {
-            script.moveBrickBySteps(script.getBrickList().get(position), 1);
+    public void moveBrickDownInList(int position) {
+        if (position >= 0 && position < currentScript.getBrickList().size()) {
+            currentScript.moveBrickBySteps(currentScript.getBrickList().get(position), 1);
             setChanged();
             notifyObservers();
         }
@@ -137,7 +122,8 @@ public class ProjectManager extends Observable {
     public void initializeNewProject(String projectName, Context context) {
         try {
             project = new Project(context, projectName);
-            currentSprite = project.getSpriteList().get(0);
+            currentSprite = null;
+            currentScript = null;
             saveProject(context);
             setChanged();
             notifyObservers();
@@ -162,6 +148,9 @@ public class ProjectManager extends Observable {
         return currentScript;
     }
 
+    /**
+     * @return false if project doesn't contain the new sprite, true otherwise
+     */
 	public boolean setCurrentSprite(Sprite sprite) {
 		if (sprite == null) { //sometimes we want to set the currentSprite to null because we don't have a currentSprite
 			currentSprite = null;
@@ -193,6 +182,15 @@ public class ProjectManager extends Observable {
     public boolean scriptExists(String scriptName) {
         for (Script script : currentSprite.getScriptList()) {
             if (script.getName().equalsIgnoreCase(scriptName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean spriteExists(String spriteName) {
+        for (Sprite tempSprite : project.getSpriteList()) {
+            if (tempSprite.getName().equalsIgnoreCase(spriteName)) {
                 return true;
             }
         }

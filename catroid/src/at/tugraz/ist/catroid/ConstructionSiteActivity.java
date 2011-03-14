@@ -27,7 +27,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.constructionSite.gui.adapter.ProgrammAdapter;
-import at.tugraz.ist.catroid.constructionSite.gui.dialogs.ContextMenuDialog;
 import at.tugraz.ist.catroid.constructionSite.gui.dialogs.ToolBoxDialog;
 import at.tugraz.ist.catroid.content.brick.gui.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.brick.gui.GoNStepsBackBrick;
@@ -78,12 +77,12 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	public static int SCREEN_WIDTH;
 	public static int SCREEN_HEIGHT;
 
-	private ToolBoxDialog mToolboxObjectDialog;
+    //	private ToolBoxDialog mToolboxObjectDialog;
 	private ToolBoxDialog mToolboxStageDialog;
     //	private Dialog mNewProjectDialog;
     //	private Dialog mChangeProgramNameDialog;
     //	private Dialog mLoadDialog;
-	private ContextMenuDialog mContextMenuDialog;
+    //private ContextMenuDialog mContextMenuDialog;
 
 	protected ListView mConstructionListView;
 	protected Gallery mContructionGallery;
@@ -92,7 +91,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	private ProjectManager contentManager;
 
 	private Project currentProject;
-	private Script currentScript;
+
+    //    private Script currentScript;
 
 
     //private SpritesDialog mSpritesToolboxDialog;
@@ -159,7 +159,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			script.addBrick(new PlaceAtBrick(stageSprite, 105, 206));
 
 			stageSprite.getScriptList().add(script);
-			currentScript = script;
+            //			currentScript = script;
 
 			Log.d("testProject", "sprite count: " + currentProject.getSpriteList().size());
 			Log.d("testProject", "script count: " + currentProject.getSpriteList().get(0).getScriptList().size());
@@ -423,17 +423,17 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	}
 
 	public void onBrickClickListener(View v) {
-		if (contentManager.getCurrentSprite().getName().equals(this.getString(R.string.stage))) {
-			contentManager.addBrick(mToolboxStageDialog.getBrickClone(v), currentScript);
-			if (mToolboxStageDialog.isShowing()) {
-                mToolboxStageDialog.dismiss();
-            }
-		} else {
-			contentManager.addBrick(mToolboxObjectDialog.getBrickClone(v), currentScript);
-			if (mToolboxObjectDialog.isShowing()) {
-                mToolboxObjectDialog.dismiss();
-            }
-		}
+        //		if (contentManager.getCurrentSprite().getName().equals(this.getString(R.string.stage))) {
+        //			contentManager.addBrick(mToolboxStageDialog.getBrickClone(v), currentScript);
+        //			if (mToolboxStageDialog.isShowing()) {
+        //                mToolboxStageDialog.dismiss();
+        //            }
+        //		} else {
+        //			contentManager.addBrick(mToolboxObjectDialog.getBrickClone(v), currentScript);
+        //			if (mToolboxObjectDialog.isShowing()) {
+        //                mToolboxObjectDialog.dismiss();
+        //            }
+        //		}
 
 	}
 
@@ -487,20 +487,20 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	}
 
 	public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		if (arg0.equals(mConstructionListView)) {
-			if (mContextMenuDialog == null) {
-				if (currentProject.getSpriteList().get(0) == null) {
-					currentProject.getSpriteList().add(new Sprite(getString(R.string.stage)));
-					Script currentScript = currentProject.getSpriteList().get(0).getScriptList().get(0);
-					if (currentScript == null) {
-						currentProject.getSpriteList().get(0).getScriptList().add(new Script());
-						currentScript = currentProject.getSpriteList().get(0).getScriptList().get(0);
-					}
-					mContextMenuDialog = new ContextMenuDialog(this, contentManager, currentScript);
-				}
-				mContextMenuDialog.show(arg1, arg2, mConstructionListView);
-			}
-		}
+        //		if (arg0.equals(mConstructionListView)) {
+        //			if (mContextMenuDialog == null) {
+        //				if (currentProject.getSpriteList().get(0) == null) {
+        //					currentProject.getSpriteList().add(new Sprite(getString(R.string.stage)));
+        //					Script currentScript = currentProject.getSpriteList().get(0).getScriptList().get(0);
+        //					if (currentScript == null) {
+        //						currentProject.getSpriteList().get(0).getScriptList().add(new Script());
+        //						currentScript = currentProject.getSpriteList().get(0).getScriptList().get(0);
+        //					}
+        //					mContextMenuDialog = new ContextMenuDialog(this, contentManager, currentScript);
+        //				}
+        //				mContextMenuDialog.show(arg1, arg2, mConstructionListView);
+        //			}
+        //		}
 		return false;
 	}
 
