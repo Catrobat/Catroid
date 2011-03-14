@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<array name="menu_project_activity">
+		<item>delete</item>
+		<item>rename</item>
+	</array>
+</resources>
