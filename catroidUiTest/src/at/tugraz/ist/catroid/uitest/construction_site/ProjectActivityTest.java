@@ -3,7 +3,10 @@ package at.tugraz.ist.catroid.uitest.construction_site;
 import java.io.File;
 
 import android.test.ActivityInstrumentationTestCase2;
+import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
@@ -12,171 +15,105 @@ import com.jayway.android.robotium.solo.Solo;
 public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
 
-    String projectNameOne = "Ulumulu";
-    String projectNameTwo = "Ulumulu2";
-    String scriptNameOne = "Ulukai";
-    String scriptNameTwo = "Ulukai2";
-    String spriteNameOne = "Zuul";
-    String spriteNameTwo = "Zuuul";
+	private String projectNameOne = "Ulumulu";
+	private String spriteNameOne = "Zuul";
+	private String spriteNameTwo = "Zuuul";
 
 	public ProjectActivityTest() {
 		super("at.tugraz.ist.catroid.ui", MainMenuActivity.class);
 	}
-	
+
 	@Override
-    public void setUp() throws Exception {
+	public void setUp() throws Exception {
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
-	
+
 	@Override
-    public void tearDown() throws Exception {
-		try {	
+	public void tearDown() throws Exception {
+		try {
 			solo.finalize();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 		getActivity().finish();
-		
-        File directory = new File("/sdcard/catroid/" + projectNameOne);
-        if (directory.exists()) {
-            UtilFile.deleteDirectory(directory);
-        }
-        directory = new File("/sdcard/catroid/" + projectNameTwo);
-        if (directory.exists()) {
-            UtilFile.deleteDirectory(directory);
-        }
-		
+
+		File directory = new File("/sdcard/catroid/" + projectNameOne);
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
+
 		super.tearDown();
 	}
-	
-    public void testMainMenuButton() throws InterruptedException {
-        solo.clickOnButton(getActivity().getString(R.string.resume));
-        //assertEquals("The current Activity is not the ProjectActivity", ProjectActivity.class, getActivity().getClass());
-        solo.clickOnButton(getActivity().getString(R.string.main_menu));
-    }
-	
 
-    //	public void testCreateNewProject() throws InterruptedException {
-    //		File directory=new File("/sdcard/catroid/testProject");
-    //		UtilFile.deleteDirectory(directory);
-    //		assertFalse("testProject was not deleted!", directory.exists());
-    //		
-    //		solo.clickOnButton(getActivity().getString(R.string.new_project));
-    //		solo.clickOnEditText(0);
-    //		solo.enterText(0, "testProject");
-    //		solo.goBack();
-    //		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
-    //		Thread.sleep(2000);
-    //		
-    //		File file=new File("/sdcard/catroid/testProject/testProject.spf");
-    //		assertTrue("testProject was not created!", file.exists());
-    //		
-    //	}
-    //	
-    //	
-    //	public void testLoadProject() throws IOException, NameNotFoundException, InterruptedException {
-    //		File directory=new File("/sdcard/catroid/testProject2");
-    //		UtilFile.deleteDirectory(directory);
-    //		assertFalse("testProject2 was not deleted!", directory.exists());
-    //		
-    //		createTestProject("testProject2");
-    //        
-    //		solo.clickOnButton(getActivity().getString(R.string.load_project));
-    //		solo.clickOnText("testProject2");
-    //		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.spriteListView);
-    //		Sprite first = (Sprite) spritesList.getItemAtPosition(1);
-    //		assertEquals("Sprite at index 1 is not \"cat\"!", "cat", first.getName());
-    //		Sprite second = (Sprite) spritesList.getItemAtPosition(2);
-    //		assertEquals("Sprite at index 2 is not \"dog\"!", "dog", second.getName());
-    //		Sprite third = (Sprite) spritesList.getItemAtPosition(3);
-    //		assertEquals("Sprite at index 3 is not \"horse\"!", "horse", third.getName());
-    //		Sprite fourth = (Sprite) spritesList.getItemAtPosition(4);
-    //		assertEquals("Sprite at index 4 is not \"pig\"!", "pig", fourth.getName());
-    //		solo.goBack();
-    //		TextView currentProject = (TextView) getActivity().findViewById(R.id.currentProjectNameTextView);	
-    //		assertEquals("Current project is not testProject2!", "Current project: testProject2", currentProject.getText());
-    //	}
-    //	
-    //	
-    //	public void testResume() throws NameNotFoundException, IOException {
-    //		File directory=new File("/sdcard/catroid/testProject2");
-    //		UtilFile.deleteDirectory(directory);
-    //		assertFalse("testProject2 was not deleted!", directory.exists());
-    //		
-    //		createTestProject("testProject3");
-    //		
-    //		solo.clickOnButton(getActivity().getString(R.string.load_project));
-    //		solo.clickOnText("testProject3");
-    //		solo.goBack();
-    //		
-    //		solo.clickOnButton(getActivity().getString(R.string.resume));
-    //		
-    //		TextView projectTitle = (TextView) solo.getCurrentActivity().findViewById(R.id.projectTitleTextView);
-    //		
-    //		assertEquals("Project title is not testProject3!", "Project: testProject3", projectTitle.getText());
-    //		
-    //		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.spriteListView);
-    //		Sprite first = (Sprite) spritesList.getItemAtPosition(1);
-    //		assertEquals("Sprite at index 1 is not \"cat\"!", "cat", first.getName());
-    //		Sprite second = (Sprite) spritesList.getItemAtPosition(2);
-    //		assertEquals("Sprite at index 2 is not \"dog\"!", "dog", second.getName());
-    //		Sprite third = (Sprite) spritesList.getItemAtPosition(3);
-    //		assertEquals("Sprite at index 3 is not \"horse\"!", "horse", third.getName());
-    //		Sprite fourth = (Sprite) spritesList.getItemAtPosition(4);
-    //		assertEquals("Sprite at index 4 is not \"pig\"!", "pig", fourth.getName());
-    //	}
-    //	
-    //	
-    //	public void testAboutCatroid() {
-    //		solo.clickOnButton(getActivity().getString(R.string.about));
-    //		ArrayList<TextView> textViewList = solo.getCurrentTextViews(null);
-    //
-    //		assertEquals("Title is not correct!", getActivity().getString(R.string.about_title), textViewList.get(0).getText().toString());
-    //		assertEquals("About text not correct!", getActivity().getString(R.string.about_text), textViewList.get(1).getText().toString());
-    //		assertEquals("Link text is not correct!", getActivity().getString(R.string.about_link_text), textViewList.get(2).getText().toString());
-    //	}
-    //	
-    //	
-    //	public void createTestProject(String projectName) throws IOException, NameNotFoundException {
-    //		StorageHandler storageHandler = StorageHandler.getInstance();
-    //		
-    //		int xPosition = 457;
-    //        int yPosition = 598;
-    //        double scaleValue = 0.8;
-    //
-    //        Project project = new Project(getActivity(), projectName);
-    //        Sprite firstSprite = new Sprite("cat");
-    //        Sprite secondSprite = new Sprite("dog");
-    //        Sprite thirdSprite = new Sprite("horse");
-    //        Sprite fourthSprite = new Sprite("pig");
-    //        Script testScript = new Script();
-    //        Script otherScript = new Script();
-    //        HideBrick hideBrick = new HideBrick(firstSprite);
-    //        ShowBrick showBrick = new ShowBrick(firstSprite);
-    //        ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(secondSprite, scaleValue);
-    //        ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(firstSprite, null);
-    //        PlaceAtBrick placeAtBrick = new PlaceAtBrick(secondSprite, xPosition, yPosition);
-    //
-    //        // adding Bricks: ----------------
-    //        testScript.addBrick(hideBrick);
-    //        testScript.addBrick(showBrick);
-    //        testScript.addBrick(scaleCostumeBrick);
-    //        testScript.addBrick(comeToFrontBrick);
-    //
-    //        otherScript.addBrick(placeAtBrick); // secondSprite
-    //        otherScript.setPaused(true);
-    //        // -------------------------------
-    //
-    //        firstSprite.getScriptList().add(testScript);
-    //        secondSprite.getScriptList().add(otherScript);
-    //
-    //        project.addSprite(firstSprite);
-    //        project.addSprite(secondSprite);
-    //        project.addSprite(thirdSprite);
-    //        project.addSprite(fourthSprite);
-    //
-    //        storageHandler.saveProject(project);
-    //		
-    //	}
-	
+	public void testMainMenuButton() throws InterruptedException {
+		solo.clickOnButton(getActivity().getString(R.string.resume));
+		solo.clickOnButton(getActivity().getString(R.string.main_menu));
+		Thread.sleep(1000);
+		solo.clickOnButton(getActivity().getString(R.string.resume)); //if this is possible it worked! (will throw AssertionFailedError if not working
+	}
+
+	public void testCreateNewSpriteButton() throws InterruptedException {
+		File directory = new File("/sdcard/catroid/" + projectNameOne);
+		UtilFile.deleteDirectory(directory);
+		assertFalse(projectNameOne + " was not deleted!", directory.exists());
+
+		solo.clickOnButton(getActivity().getString(R.string.new_project));
+		solo.clickOnEditText(0);
+		solo.enterText(0, projectNameOne);
+		solo.goBack();
+		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
+		Thread.sleep(300);
+
+		solo.clickOnButton(getActivity().getString(R.string.add_sprite));
+		solo.clickOnEditText(0);
+		solo.enterText(0, spriteNameOne);
+		solo.goBack();
+		solo.clickOnButton(getActivity().getString(R.string.new_sprite_dialog_button));
+		Thread.sleep(300);
+
+		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.spriteListView);
+		Sprite second = (Sprite) spritesList.getItemAtPosition(1);
+		assertEquals("Sprite at index 1 is not " + spriteNameOne, spriteNameOne, second.getName());
+		assertTrue("Sprite is not in current Project", ProjectManager.getInstance().getCurrentProject().getSpriteList()
+		        .contains(second));
+	}
+
+	public void testContextMenu() throws InterruptedException {
+		File directory = new File("/sdcard/catroid/" + projectNameOne);
+		UtilFile.deleteDirectory(directory);
+		assertFalse(projectNameOne + " was not deleted!", directory.exists());
+
+		solo.clickOnButton(getActivity().getString(R.string.new_project));
+		solo.clickOnEditText(0);
+		solo.enterText(0, projectNameOne);
+		solo.goBack();
+		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
+		Thread.sleep(300);
+
+		Sprite testSprite = new Sprite(spriteNameOne);
+		Sprite testSprite2 = new Sprite(spriteNameTwo);
+		ProjectManager manager = ProjectManager.getInstance();
+		manager.getCurrentProject().addSprite(testSprite);
+		manager.getCurrentProject().addSprite(testSprite2);
+
+		String[] menu = getActivity().getResources().getStringArray(R.array.menu_project_activity);
+
+		solo.clickLongOnText(spriteNameOne);
+		solo.clickOnText(menu[0]);
+		Thread.sleep(300);
+		assertFalse("Sprite is still in Project", manager.getCurrentProject().getSpriteList().contains(testSprite));
+		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.spriteListView);
+		Sprite sprite2 = (Sprite) spritesList.getItemAtPosition(1);
+		assertEquals("Sprite on position one is not sprite2/testSprite2", testSprite2, sprite2);
+
+		solo.clickLongOnText(spriteNameTwo);
+		solo.clickOnText(menu[1]);
+		solo.clickOnEditText(0);
+		solo.enterText(0, spriteNameOne);
+		solo.goBack();
+		solo.clickOnButton(getActivity().getString(R.string.rename_button));
+		Thread.sleep(300);
+		assertEquals("Sprite on position one is not sprite2/testSprite2", testSprite2, sprite2);
+		assertEquals("Sprite on position one has the wrong name", spriteNameOne, testSprite2.getName());
+	}
 }
