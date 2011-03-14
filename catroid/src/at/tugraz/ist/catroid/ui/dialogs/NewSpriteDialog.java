@@ -20,6 +20,7 @@ package at.tugraz.ist.catroid.ui.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -27,6 +28,7 @@ import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.ui.SpriteActivity;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class NewSpriteDialog extends Dialog {
@@ -42,6 +44,9 @@ public class NewSpriteDialog extends Dialog {
         setContentView(R.layout.dialog_new_sprite);
         setTitle(R.string.new_sprite_dialog_title);
 
+        //EditText clearText = (EditText) findViewById(R.id.newScriptNameEditText);
+       
+        
         Button createNewSpriteButton = (Button) findViewById(R.id.createNewSpriteButton);
         createNewSpriteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -57,7 +62,9 @@ public class NewSpriteDialog extends Dialog {
                 ProjectManager.getInstance().addSprite(sprite);
                 //Intent intent = new Intent(context, SpriteActivity.class);
                 //context.startActivity(intent);
+                //((EditText) findViewById(R.id.newSpriteNameEditText)).clearComposingText();
                 dismiss();
+                ((EditText) findViewById(R.id.newSpriteNameEditText)).setText(null);
             }
         });
         
@@ -65,7 +72,13 @@ public class NewSpriteDialog extends Dialog {
         cancelButton.setOnClickListener(new View.OnClickListener() {
         	public void onClick(View v) {
         		dismiss();
+        		((EditText) findViewById(R.id.newSpriteNameEditText)).setText(null);
         	}
 		});
     }
+
+	/**
+	 * @param string
+	 */
+	
 }
