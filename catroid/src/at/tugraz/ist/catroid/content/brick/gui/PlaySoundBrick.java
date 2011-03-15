@@ -48,14 +48,16 @@ public class PlaySoundBrick extends PlaySoundBrickBase implements Brick,
 
     public View getView(final Context context, BaseAdapter adapter) {
         programmAdapter = adapter;
-        View view = getPrototypeView(context);
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.construction_brick_play_sound, null);
         Button soundButton = (Button) view.findViewById(R.id.btSoundChoose);
         if (pathToSoundfile != null) {
             int index = pathToSoundfile.lastIndexOf("/") + 1;
-            if (index > 0)
-                soundButton.setText(pathToSoundfile.substring(index));
-            else
-                soundButton.setText("<choose a title>");
+            if (index > 0) {
+	            soundButton.setText(pathToSoundfile.substring(index));
+            } else {
+	            soundButton.setText("<choose a title>");
+            }
         } else {
             soundButton.setText("<choose a title>");
         }
@@ -97,7 +99,7 @@ public class PlaySoundBrick extends PlaySoundBrickBase implements Brick,
     
     public View getPrototypeView(Context context) {
     	LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.construction_brick_play_sound, null);
+		View view = inflater.inflate(R.layout.toolbox_brick_play_sound, null);
         return view;
     }
 
@@ -107,6 +109,7 @@ public class PlaySoundBrick extends PlaySoundBrickBase implements Brick,
         programmAdapter.notifyDataSetChanged();
     }
 
+    @Override
     public Brick clone() {
     	return new PlaySoundBrick(getPathToSoundFile());
     }

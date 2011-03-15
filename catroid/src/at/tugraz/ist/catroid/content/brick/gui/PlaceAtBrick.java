@@ -37,7 +37,8 @@ public class PlaceAtBrick extends PlaceAtBrickBase implements Brick {
 	}
 
 	public View getView(Context context, BaseAdapter adapter) {
-		View brickView = getPrototypeView(context);
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View brickView = inflater.inflate(R.layout.construction_brick_goto, null);
 		EditText edit = (EditText) brickView.findViewById(R.id.InputValueEditTextX);
 		edit.setText(xPosition.getValue().intValue() + "");
 		EditTextDialog dialog = new EditTextDialog(context, edit, adapter, true);

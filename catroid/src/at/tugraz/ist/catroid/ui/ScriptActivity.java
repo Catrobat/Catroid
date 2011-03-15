@@ -32,20 +32,20 @@ import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.brick.gui.Brick;
-import at.tugraz.ist.catroid.ui.adapter.AddBrickAdapter;
+import at.tugraz.ist.catroid.ui.adapter.BrickAdapterScriptActivity;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
 
 public class ScriptActivity extends Activity {
     private static final int ADD_BRICK_DIALOG = 0;
     protected ListView brickListView;
     private ArrayList<Brick> adapterBrickList;
-    private AddBrickAdapter adapter;
+	private BrickAdapterScriptActivity adapter;
     private ListView listView;
 
     private void initListeners() {
 
         adapterBrickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
-        adapter = new AddBrickAdapter(this, adapterBrickList);
+		adapter = new BrickAdapterScriptActivity(this, adapterBrickList);
 
         listView = (ListView) findViewById(R.id.brickListView);
         listView.setAdapter(adapter);
@@ -56,7 +56,7 @@ public class ScriptActivity extends Activity {
         //                if (ProjectManager.getInstance().setCurrentSprite(adapter.getItem(position))) {
         //                    Intent intent = new Intent(ProjectActivity.this, SpriteActivity.class);
         //                    ProjectActivity.this.startActivity(intent);
-        //                }
+		///                }
         //                //TODO: error if selected sprite is not in the project
         //            }
         //        });
@@ -111,7 +111,7 @@ public class ScriptActivity extends Activity {
 
     private void updateTextAndAdapter() {
         TextView currentProjectTextView = (TextView) findViewById(R.id.scriptNameTextView);
-        currentProjectTextView.setText(this.getString(R.string.script) + " "
+		currentProjectTextView.setText(this.getString(R.string.script_name) + " "
                 + ProjectManager.getInstance().getCurrentScript().getName());
         adapterBrickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
         adapter.notifyDataSetChanged();

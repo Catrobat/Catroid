@@ -6,7 +6,7 @@
 	android:focusableInTouchMode="false" 
 	android:layout_width="wrap_content"
 	android:layout_height="wrap_content" 
-	android:background="@drawable/construction_brick_violet">
+	android:background="@drawable/brick_violet">
 	<RelativeLayout 
 		android:id="@+id/RelativeLayout02"
 		android:layout_width="wrap_content" 
