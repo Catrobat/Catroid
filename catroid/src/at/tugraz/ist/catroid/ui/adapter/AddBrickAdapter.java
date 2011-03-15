@@ -40,7 +40,6 @@ public class AddBrickAdapter extends BaseAdapter {
 	public AddBrickAdapter(Context context, List<Brick> brickList) {
 		this.context = context;
 		this.brickList = brickList;
-		//mViewContainer = new HashMap<String, View>();
 	}
 	
 	public int getCount() {

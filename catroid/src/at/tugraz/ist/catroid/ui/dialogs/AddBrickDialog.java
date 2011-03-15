@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import android.app.Dialog;
 import android.view.View;
 import android.view.Window;
-import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
@@ -44,8 +43,8 @@ import at.tugraz.ist.catroid.ui.adapter.AddBrickAdapter;
 
 public class AddBrickDialog extends Dialog {
 
-	private Animation slideInAnimation;
-	private Animation slideOutAnimation;
+    //	private Animation slideInAnimation;
+    //	private Animation slideOutAnimation;
     //private LinearLayout layout;
     private ArrayList<Brick> prototypeBrickList;
 	private ListView listView;
