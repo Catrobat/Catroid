@@ -33,7 +33,7 @@
 	<!-- Project activity view -->
 	<string name="project_name">Project:</string>
 	<string name="sprite_list">Sprites:</string>
-	<string name="add_sprite">+ Add new Sprite</string>
+	<string name="add_sprite">Add new Sprite</string>
 	
 	<!-- Script activity view -->
 	<string name="script_name">Script</string>
@@ -82,5 +82,5 @@
 	<string name="rename_button">rename</string>
     
     <!-- Load project dialog -->
-	<string name="laod_project_dialog_title">Load Project</string>
+	<string name="load_project_dialog_title">Load Project</string>
 </resources>
