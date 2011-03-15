@@ -76,7 +76,7 @@ public class ToolBoxDialog extends Dialog {
 			}
 		});
 
-		layout = (LinearLayout) findViewById(R.id.toolbox_layout);
+        //layout = (LinearLayout) findViewById(R.id.toolbox_layout);
 		listView = (ListView) findViewById(R.id.toolboxListView);
 		listView.setAdapter(new ToolBoxAdapter(context, brickList));
 

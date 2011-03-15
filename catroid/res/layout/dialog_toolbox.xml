@@ -1,38 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:id="@+id/toolbox_layout"
-  android:layout_width="fill_parent"
-  android:layout_height="fill_parent"
-  android:background="@android:color/transparent" android:paddingTop="50dip" android:paddingRight="10dip" android:paddingLeft="10dip">>
-  
-		<RelativeLayout android:id="@+id/RelativeLayout01" 
-			android:layout_height="fill_parent" 
-			android:layout_width="fill_parent" 
-			android:background="@color/white">
-			<TextView android:layout_height="wrap_content" 
-				android:layout_width="fill_parent" 
-				android:text="@string/brick_label" 
-				android:textSize="18dip" 
-				android:textColor="@color/solid_black"
-				 android:textStyle="bold" 
-				 android:id="@+id/BrickLabelTextView" 
-				 android:layout_alignParentTop="true" 
-				 android:gravity="center" 
-				 android:layout_marginLeft="5dip">
-			</TextView>
-			<ListView android:id="@+id/toolboxListView" 
-				android:clickable="true" 
-				android:addStatesFromChildren="true" 
-				android:layout_below="@+id/BrickLabelTextView" 
-				android:layout_height="fill_parent" 
-				android:layout_marginTop="15dip" 
-				android:layout_width="fill_parent" 
-				android:paddingRight="5dip" 
-				android:paddingLeft="5dip" 
-				android:dividerHeight="25dip" 
-				android:divider="@color/white" 
-				android:scrollbarDefaultDelayBeforeFade="2000">
-			</ListView>
-		</RelativeLayout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" 
+	android:layout_height="fill_parent"
+	android:scrollbarDefaultDelayBeforeFade="2000">
+	<ListView android:layout_width="fill_parent"
+		android:layout_height="wrap_content" 
+		android:id="@+id/toolboxListView"
+		android:fadingEdge="vertical" 
+		android:fadingEdgeLength="50.0dp"
+		android:scrollbarFadeDuration="2000" 
+		android:clickable="true"
+		android:dividerHeight="10dip"></ListView>
 </LinearLayout>

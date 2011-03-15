@@ -21,14 +21,11 @@ package at.tugraz.ist.catroid.ui.dialogs;
 import java.util.ArrayList;
 
 import android.app.Dialog;
-import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
@@ -49,7 +46,7 @@ public class AddBrickDialog extends Dialog {
 
 	private Animation slideInAnimation;
 	private Animation slideOutAnimation;
-	private LinearLayout layout;
+    //private LinearLayout layout;
     private ArrayList<Brick> prototypeBrickList;
 	private ListView listView;
     private AddBrickAdapter adapter;
@@ -72,32 +69,35 @@ public class AddBrickDialog extends Dialog {
 		setupBrickPrototypes();
 
 		// adjust window
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-		getWindow().setGravity(Gravity.CENTER_HORIZONTAL);
+        //		getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        //		getWindow().setGravity(Gravity.CENTER_HORIZONTAL);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.dialog_toolbox);
+        getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
-		// initialize animations
-		slideInAnimation = AnimationUtils.loadAnimation(scriptActivity, R.anim.toolbox_in);
-		slideOutAnimation = AnimationUtils.loadAnimation(scriptActivity, R.anim.toolbox_out);
-		slideOutAnimation.setAnimationListener(new AnimationListener() {
-			public void onAnimationStart(Animation animation) {
-			}
-
-			public void onAnimationRepeat(Animation animation) {
-			}
-
-			public void onAnimationEnd(Animation animation) {
-				close();
-			}
-		});
+        //		// initialize animations
+        //		slideInAnimation = AnimationUtils.loadAnimation(scriptActivity, R.anim.toolbox_in);
+        //		slideOutAnimation = AnimationUtils.loadAnimation(scriptActivity, R.anim.toolbox_out);
+        //		slideOutAnimation.setAnimationListener(new AnimationListener() {
+        //			public void onAnimationStart(Animation animation) {
+        //                System.out.println("##############animation start");
+        //			}
+        //
+        //			public void onAnimationRepeat(Animation animation) {
+        //                System.out.println("##############animation rep");
+        //			}
+        //
+        //			public void onAnimationEnd(Animation animation) {
+        //                System.out.println("##############animation end");
+        //				close();
+        //			}
+        //		});
 
         adapter = new AddBrickAdapter(scriptActivity, prototypeBrickList);
-		layout = (LinearLayout) findViewById(R.id.toolbox_layout);
+        //layout = (LinearLayout) findViewById(R.id.toolbox_layout);
 		listView = (ListView) findViewById(R.id.toolboxListView);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new ListView.OnItemClickListener() {
-
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 System.out.println("############################ clicking the item!!!");
                 ProjectManager.getInstance().addBrick(getBrickClone(adapter.getItem(position)));
@@ -106,21 +106,20 @@ public class AddBrickDialog extends Dialog {
         });
 	}
 
-	@Override
-	public void show() {
-		super.show();
-		layout.startAnimation(slideInAnimation);
-	}
+    //	@Override
+    //	public void show() {
+    //		super.show();
+    //		layout.startAnimation(slideInAnimation);
+    //	}
 
-	@Override
-	public void cancel() {
-		layout.startAnimation(slideOutAnimation);
+    //	@Override
+    //	public void cancel() {
+    //		layout.startAnimation(slideOutAnimation);
+    //	}
 
-	}
-
-	private void close() {
-		super.cancel();
-	}
+    //	private void close() {
+    //		super.cancel();
+    //	}
 
     public Brick getBrickClone(Brick brick) {
         return brick.clone();
