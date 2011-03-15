@@ -19,7 +19,6 @@
 package at.tugraz.ist.catroid.ui.dialogs;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import android.app.Dialog;
 import android.view.Gravity;
@@ -28,9 +27,11 @@ import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.brick.gui.Brick;
 import at.tugraz.ist.catroid.content.brick.gui.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.brick.gui.GoNStepsBackBrick;
@@ -48,11 +49,10 @@ public class AddBrickDialog extends Dialog {
 
 	private Animation slideInAnimation;
 	private Animation slideOutAnimation;
-	private AddBrickAdapter adapter;
 	private LinearLayout layout;
-
-	private List<Brick> prototypeBrickList;
+    private ArrayList<Brick> prototypeBrickList;
 	private ListView listView;
+    private AddBrickAdapter adapter;
 
 	private void setupBrickPrototypes() {
 		prototypeBrickList = new ArrayList<Brick>();
@@ -92,11 +92,18 @@ public class AddBrickDialog extends Dialog {
 			}
 		});
 
+        adapter = new AddBrickAdapter(scriptActivity, prototypeBrickList);
 		layout = (LinearLayout) findViewById(R.id.toolbox_layout);
 		listView = (ListView) findViewById(R.id.toolboxListView);
-		listView.setAdapter(new AddBrickAdapter(scriptActivity, prototypeBrickList));
-		listView.setOnItemClickListener(scriptActivity);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new ListView.OnItemClickListener() {
 
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                System.out.println("############################ clicking the item!!!");
+                ProjectManager.getInstance().addBrick(getBrickClone(adapter.getItem(position)));
+                dismiss();
+            }
+        });
 	}
 
 	@Override
@@ -115,8 +122,7 @@ public class AddBrickDialog extends Dialog {
 		super.cancel();
 	}
 
-	public Brick getBrickClone(View v) {
-		return adapter.getItem(listView.getPositionForView(v)).clone();
-	}
-
+    public Brick getBrickClone(Brick brick) {
+        return brick.clone();
+    }
 }
