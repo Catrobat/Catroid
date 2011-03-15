@@ -6,8 +6,10 @@
 		android:layout_width="wrap_content" 
 		android:focusable="false" 
 		android:focusableInTouchMode="false" 
-		android:background="@drawable/construction_brick_blue" android:longClickable="true">
-		<TextView android:id="@+id/ValueTextViewXY" 
+		android:background="@drawable/construction_brick_blue" 
+		android:longClickable="true">
+		<TextView 
+		    android:id="@+id/ValueTextViewXY" 
 			android:layout_alignParentLeft="true" 
 			android:textStyle="bold" 
 			android:textSize="18dip" 
@@ -15,15 +17,21 @@
 			android:layout_width="wrap_content" 
 			android:layout_height="wrap_content" 
 			android:layout_centerVertical="true" 
-			android:text="@string/goto_main_adapter" android:layout_toLeftOf="@+id/GoToLinearLayout" android:paddingRight="5dip">
+			android:text="@string/goto_main_adapter" 
+			android:layout_toLeftOf="@+id/GoToLinearLayout"
+			android:paddingRight="5dip">
 		</TextView>
-		<LinearLayout android:layout_width="wrap_content" 
+		<LinearLayout
+		    android:layout_width="wrap_content" 
 			android:layout_height="wrap_content" 
 			android:layout_alignParentRight="true" 
 			android:layout_centerVertical="true" 
 			android:clickable="true" 
-			android:longClickable="true" android:layout_marginLeft="5dip" android:id="@+id/GoToLinearLayout">
-			<TextView android:id="@+id/TextView01" 
+			android:longClickable="true" 
+			android:layout_marginLeft="5dip" 
+			android:id="@+id/GoToLinearLayout">
+			<TextView
+			    android:id="@+id/TextView01" 
 				android:layout_width="wrap_content" 
 				android:layout_height="wrap_content" 
 				android:textStyle="bold" 
@@ -32,8 +40,10 @@
 				android:text="@string/x_label" 
 				android:paddingRight="10dip">
 			</TextView>
-			<EditText android:layout_width="60dp" 
-				android:layout_height="wrap_content" android:text="0" 
+			<EditText
+			    android:layout_width="60dp" 
+				android:layout_height="wrap_content" 
+				android:text="0" 
 				android:numeric="signed"
 				android:inputType="number|numberDecimal|numberSigned" 
 				android:maxLines="1" 
@@ -44,7 +54,10 @@
 		 		android:focusable="false" 
 		 		android:focusableInTouchMode="false">
 			</EditText>
-			<TextView android:id="@+id/TextView02" 
+			<TextView
+			android:focusable="false" 
+			android:focusableInTouchMode="false" 
+			    android:id="@+id/TextView02" 
 				android:layout_width="wrap_content" 
 				android:layout_height="wrap_content"
 				android:textSize="18dip" 
@@ -54,7 +67,8 @@
 				android:paddingRight="10dip" 
 				android:paddingLeft="10dip">
 			</TextView>
-			<EditText android:layout_width="60dp" 
+			<EditText
+			    android:layout_width="60dp" 
 				android:layout_height="wrap_content" 
 				android:text="0" 
 				android:inputType="number|numberDecimal|numberSigned" 
@@ -69,5 +83,3 @@
 		</LinearLayout>
 	
 	</RelativeLayout>
-	
-	
