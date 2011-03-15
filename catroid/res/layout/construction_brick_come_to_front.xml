@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/RelativeLayout01" android:layout_width="wrap_content"
-	android:layout_height="wrap_content" android:background="@drawable/construction_brick_blue"
-	android:longClickable="true" android:focusable="false"
-	android:focusableInTouchMode="false">
+	android:id="@+id/RelativeLayout01" 
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content" 
+	android:background="@drawable/construction_brick_blue"
+	android:longClickable="true" 
+	android:focusable="false">
+
 
 	<TextView android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:id="@+id/ValueTextView"
 		android:layout_alignParentLeft="true" android:textColor="@color/white"
 		android:textStyle="bold" android:layout_centerVertical="true"
-		android:text="@string/come_to_front_main_adapter" android:tag="@string/constructional_brick_come_to_front"
-		android:textSize="18dip">
+		android:text="@string/come_to_front_main_adapter" android:textSize="18dip">
 	</TextView>
 </RelativeLayout>

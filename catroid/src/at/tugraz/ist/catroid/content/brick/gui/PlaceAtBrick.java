@@ -55,11 +55,12 @@ public class PlaceAtBrick extends PlaceAtBrickBase implements Brick {
 	
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.construction_brick_goto, null);
+        View brickView = inflater.inflate(R.layout.toolbox_brick_goto, null);
 		return brickView;
 	}
 	
-	public Brick clone() {
+	@Override
+    public Brick clone() {
 		return new PlaceAtBrick(getSprite(), getXPosition(), getYPosition());
 	}
 }

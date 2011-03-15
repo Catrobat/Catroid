@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.brick.gui.Brick;
@@ -100,19 +101,19 @@ public class ScriptActivity extends Activity {
         return dialog;
     }
 
-    //    @Override
-    //    public void onWindowFocusChanged(boolean hasFocus) {
-    //        super.onWindowFocusChanged(hasFocus);
-    //        if (hasFocus) {
-    //            updateTextAndAdapter();
-    //        }
-    //    }
-    //
-    //    private void updateTextAndAdapter() {
-    //        TextView currentProjectTextView = (TextView) findViewById(R.id.scriptNameTextView);
-    //        currentProjectTextView.setText(this.getString(R.string.script) + " "
-    //                + ProjectManager.getInstance().getCurrentScript().getName());
-    //        adapterBrickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
-    //        adapter.notifyDataSetChanged();
-    //    }
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            updateTextAndAdapter();
+        }
+    }
+
+    private void updateTextAndAdapter() {
+        TextView currentProjectTextView = (TextView) findViewById(R.id.scriptNameTextView);
+        currentProjectTextView.setText(this.getString(R.string.script) + " "
+                + ProjectManager.getInstance().getCurrentScript().getName());
+        adapterBrickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
+        adapter.notifyDataSetChanged();
+    }
 }

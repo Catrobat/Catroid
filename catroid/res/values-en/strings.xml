@@ -36,7 +36,7 @@
 	<string name="add_sprite">Add new Sprite</string>
 	
 	<!-- Script activity view -->
-	<string name="script_name">Script</string>
+	<string name="script_name">Script:</string>
 	<string name="brick_list">Bricks:</string>
 	<string name="add_new_brick">+ Add new Brick</string>
 	
