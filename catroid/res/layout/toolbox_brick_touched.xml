@@ -4,7 +4,6 @@
   android:layout_width="wrap_content"
   android:layout_height="wrap_content" 
   android:orientation="horizontal"
-    android:onClick="@string/onBrickClickListener" 
    android:background="@drawable/brick_touched">
 <TextView android:layout_width="wrap_content"
 	 android:layout_height="wrap_content" 

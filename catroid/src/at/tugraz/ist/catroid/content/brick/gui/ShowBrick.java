@@ -36,7 +36,8 @@ public class ShowBrick extends ShowBrickBase implements Brick {
 	}
 
 	public View getView(Context context, BaseAdapter adapter) {
-		View view     = getPrototypeView(context);
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.construction_brick_simple_text_view, null);
 		TextView textView = (TextView) view.findViewById(R.id.OneElementBrick);
 		
 		textView.setText(R.string.show_main_adapter);
@@ -46,11 +47,12 @@ public class ShowBrick extends ShowBrickBase implements Brick {
 	
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view         = inflater.inflate(R.layout.construction_brick_simple_text_view, null);
+		View view = inflater.inflate(R.layout.toolbox_brick_simple_text_view, null);
         return view;
     }
 	
-	public Brick clone() {
+	@Override
+    public Brick clone() {
 		return new ShowBrick(getSprite());
 	}
 }

@@ -37,7 +37,8 @@ public class GoNStepsBackBrick extends GoNStepsBackBrickBase implements Brick {
 	}
 
 	public View getView(Context context, BaseAdapter adapter) {
-		View view     = getPrototypeView(context);
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.construction_brick_go_back, null);
 		EditText edit = (EditText) view.findViewById(R.id.InputValueEditText);
 		
 		edit.setText(steps.getValue() + "");
@@ -52,11 +53,12 @@ public class GoNStepsBackBrick extends GoNStepsBackBrickBase implements Brick {
 	
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view     = inflater.inflate(R.layout.construction_brick_go_back, null);
+		View view = inflater.inflate(R.layout.toolbox_brick_go_back, null);
 		return view;
 	}
 	
-	public Brick clone() {
+	@Override
+    public Brick clone() {
 		return new GoNStepsBackBrick(getSprite(), getSteps());
 	}
 }

@@ -54,7 +54,7 @@
 	<string name="add_sprite">Neues Objekt hinzufügen</string>
 	
 	<!-- Script activity view -->
-	<string name="script_name">Skript</string>
+	<string name="script_name">Skript:</string>
 	<string name="brick_list">Bausteine:</string>
 	<string name="add_new_brick">+ Neuen Baustein hinzufügen</string>
 	
