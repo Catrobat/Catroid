@@ -50,7 +50,7 @@
 
 	<!-- Bricks -->
 	<string name="toolbar">B\nu\ni\nl\nd\ni\nn\ng\n \nB\nl\no\nc\nk\ns</string>
-	<string name="brick_label">Choose Your Block!</string>
+	<string name="brick_label">Choose Your Brick!</string>
 	
 	<string name="set_background_main_adapter">Set Background</string>
 	<string name="play_sound_main_adapter">Play Sound</string>

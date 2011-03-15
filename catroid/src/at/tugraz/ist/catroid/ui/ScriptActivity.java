@@ -19,31 +19,46 @@
 
 package at.tugraz.ist.catroid.ui;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.content.brick.gui.Brick;
+import at.tugraz.ist.catroid.ui.adapter.AddBrickAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
 
-public class ScriptActivity extends Activity implements OnItemClickListener {
+public class ScriptActivity extends Activity {
     private static final int ADD_BRICK_DIALOG = 0;
     protected ListView brickListView;
-    //private ProgrammAdapter programmAdapter;
-    private ProjectManager projectManager;
-	private AddBrickDialog brickDialog;
+    private ArrayList<Brick> adapterBrickList;
+    private AddBrickAdapter adapter;
+    private ListView listView;
 
     private void initListeners() {
-    	
-//    	brickListView = (ListView) findViewById(R.id.brickListView);
-//        programmAdapter = new ProgrammAdapter(this, null);
-//        brickListView.setAdapter(programmAdapter);
+
+        adapterBrickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
+        adapter = new AddBrickAdapter(this, adapterBrickList);
+
+        listView = (ListView) findViewById(R.id.brickListView);
+        listView.setAdapter(adapter);
+        //registerForContextMenu(listView);
+        //        listView.setOnItemClickListener(new ListView.OnItemClickListener() {
+        //
+        //            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        //                if (ProjectManager.getInstance().setCurrentSprite(adapter.getItem(position))) {
+        //                    Intent intent = new Intent(ProjectActivity.this, SpriteActivity.class);
+        //                    ProjectActivity.this.startActivity(intent);
+        //                }
+        //                //TODO: error if selected sprite is not in the project
+        //            }
+        //        });
 
         Button mainMenuButton = (Button) findViewById(R.id.mainMenuButton);
         mainMenuButton.setOnClickListener(new View.OnClickListener() {
@@ -66,12 +81,7 @@ public class ScriptActivity extends Activity implements OnItemClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.script_activity);
-
-        //ListView currentBrickListView = (ListView) findViewById(R.id.brickListView);
-        //currentBrickListView.set(getString(R.string.current_project) + " " + getString(R.string.no_project));
-
         initListeners();
     }
 
@@ -87,22 +97,6 @@ public class ScriptActivity extends Activity implements OnItemClickListener {
             dialog = null;
             break;
         }
-
         return dialog;
     }
-
-	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		
-	}
-    
-	
-	public void onBrickClickListener(View v) {	
-        projectManager.addBrick(brickDialog.getBrickClone(v));
-			if (brickDialog.isShowing()) {
-                brickDialog.dismiss();
-            }
-
-	}
-	
-	
 }

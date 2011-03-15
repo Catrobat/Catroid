@@ -6,11 +6,6 @@
   android:layout_height="fill_parent"
   android:background="@android:color/transparent" android:paddingTop="50dip" android:paddingRight="10dip" android:paddingLeft="10dip">>
   
-	<RelativeLayout android:id="@+id/RelativeLayout02" 
-		android:layout_width="wrap_content" 
-		android:layout_height="wrap_content" 
-		android:background="@drawable/toolbox_background" 
-		android:padding="10dip">
 		<RelativeLayout android:id="@+id/RelativeLayout01" 
 			android:layout_height="fill_parent" 
 			android:layout_width="fill_parent" 
@@ -38,9 +33,6 @@
 				android:dividerHeight="25dip" 
 				android:divider="@color/white" 
 				android:scrollbarDefaultDelayBeforeFade="2000">
-	</ListView>
-	
-</RelativeLayout></RelativeLayout>
-
-
+			</ListView>
+		</RelativeLayout>
 </LinearLayout>
