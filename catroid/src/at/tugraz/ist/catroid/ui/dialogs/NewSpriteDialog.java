@@ -71,9 +71,4 @@ public class NewSpriteDialog extends Dialog {
         	}
 		});
     }
-
-	/**
-	 * @param string
-	 */
-	
 }

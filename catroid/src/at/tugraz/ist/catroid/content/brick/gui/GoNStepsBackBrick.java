@@ -24,9 +24,9 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.gui.dialogs.EditTextDialog;
 import at.tugraz.ist.catroid.content.brick.GoNStepsBackBrickBase;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.ui.dialogs.brickdialogs.EditIntegerDialog;
 
 public class GoNStepsBackBrick extends GoNStepsBackBrickBase implements Brick {
 
@@ -43,7 +43,7 @@ public class GoNStepsBackBrick extends GoNStepsBackBrickBase implements Brick {
 		
 		edit.setText(steps.getValue() + "");
 		
-		EditTextDialog dialog = new EditTextDialog(context, edit, adapter, false);
+        EditIntegerDialog dialog = new EditIntegerDialog(context, edit);
 		
 		dialog.setInteger(steps);
 		edit.setOnClickListener(dialog);

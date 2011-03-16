@@ -16,7 +16,7 @@
 		android:maxLines="1" android:id="@+id/InputValueEditText"
 		android:layout_centerVertical="true" android:maxLength="5"
 		android:tag="@string/constructional_brick_go_back_edit_text_tag"
-		android:text="5" android:layout_toLeftOf="@+id/LabelTextView"
+		android:text="1" android:layout_toLeftOf="@+id/LabelTextView"
 		android:clickable="true" android:freezesText="false"
 		android:inputType="number" android:cursorVisible="false"
 		android:focusable="false" android:focusableInTouchMode="false">
