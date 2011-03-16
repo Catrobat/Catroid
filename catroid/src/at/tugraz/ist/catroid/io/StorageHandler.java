@@ -118,7 +118,7 @@ public class StorageHandler {
 
     public boolean projectExists(String projectName) {
         File projectDirectory = new File(catroidRoot.getAbsolutePath() + "/" + projectName);
-        if (!(projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite())) {
+        if (!projectDirectory.exists()) {
             return false;
         }
         return true;

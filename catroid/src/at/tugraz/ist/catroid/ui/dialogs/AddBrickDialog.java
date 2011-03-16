@@ -99,7 +99,6 @@ public class AddBrickDialog extends Dialog {
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new ListView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println("############################ clicking the item!!!");
                 ProjectManager.getInstance().addBrick(getBrickClone(adapter.getItem(position)));
                 dismiss();
             }

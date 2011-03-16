@@ -47,6 +47,7 @@ public class NewProjectDialog extends Dialog {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_new_project);
         setTitle(R.string.new_project_dialog_title);
+        setCanceledOnTouchOutside(true);
         getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
         Button createNewProjectButton = (Button) findViewById(R.id.createNewProjectButton);

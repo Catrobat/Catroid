@@ -42,6 +42,7 @@ public class NewScriptDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.dialog_new_script);
         setTitle(R.string.new_script_dialog_title);
+        setCanceledOnTouchOutside(true);
         getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
         Button createNewScriptButton = (Button) findViewById(R.id.createNewScriptButton);

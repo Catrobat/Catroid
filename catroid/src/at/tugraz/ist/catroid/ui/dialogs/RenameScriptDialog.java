@@ -42,11 +42,9 @@ public class RenameScriptDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_edit_script);
-        setTitle(R.string.edit_script_dialog_title);
-
         setContentView(R.layout.dialog_rename);
         setTitle(R.string.rename_script_dialog);
+        setCanceledOnTouchOutside(true);
 
         Button renameButton = (Button) findViewById(R.id.renameButton);
         renameButton.setOnClickListener(new View.OnClickListener() {

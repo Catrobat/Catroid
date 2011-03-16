@@ -141,7 +141,7 @@ public class ProjectActivity extends Activity {
     public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
         if (view.getId() == R.id.spriteListView) {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-            menu.setHeaderTitle(adapterSpriteList.get(info.position).toString());
+            menu.setHeaderTitle(adapterSpriteList.get(info.position).getName());
             spriteToEdit = adapterSpriteList.get(info.position);
             String[] menuItems = getResources().getStringArray(R.array.menu_project_activity);
 
