@@ -26,16 +26,17 @@ public class EditTextDialog extends Dialog implements OnClickListener {
 	private boolean useSigned;
 
 	private void init() {
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.dialog_edit_text);
 		localEditText = (EditText) findViewById(R.id.dialogEditText);
 		
-		if (intValueReference != null)
-			localEditText.setText(intValueReference.getValue().intValue() + "");
-		else if (doubleValueReference != null)
-			localEditText.setText(doubleValueReference.getValue().doubleValue() + "");
-		else if (longValueReference != null)
-			localEditText.setText(longValueReference.getValue().longValue() + "");
+		if (intValueReference != null) {
+            localEditText.setText(intValueReference.getValue().intValue() + "");
+        } else if (doubleValueReference != null) {
+            localEditText.setText(doubleValueReference.getValue().doubleValue() + "");
+        } else if (longValueReference != null) {
+            localEditText.setText(longValueReference.getValue().longValue() + "");
+        }
 		
 		closeButton = (Button) findViewById(R.id.dialogEditTextSubmit);
 		closeButton.setOnClickListener(this);
@@ -43,39 +44,31 @@ public class EditTextDialog extends Dialog implements OnClickListener {
 	
 	public EditTextDialog(Context context, EditText brickEditText, BaseAdapter adapter, boolean useSigned) {
 		super(context);
-		this.mListEditText = brickEditText;
+		mListEditText = brickEditText;
 		this.adapter = adapter;
 		this.useSigned = useSigned;
 	}
 	
 	public void setInteger(PrimitiveWrapper<Integer> valueReference) {
-		this.intValueReference = valueReference;
-		this.doubleValueReference = null;
-		this.longValueReference   = null;
+		intValueReference = valueReference;
+		doubleValueReference = null;
+		longValueReference   = null;
 		init();
 	}
 	
 	public void setDouble(PrimitiveWrapper<Double> valueReference) {
-		this.doubleValueReference = valueReference;
-		this.intValueReference  = null;
-		this.longValueReference = null;
+		doubleValueReference = valueReference;
+		intValueReference  = null;
+		longValueReference = null;
 		init();
 	}
 	
 	public void setLong(PrimitiveWrapper<Long> valueReference) {
-		this.longValueReference = valueReference;
-		this.doubleValueReference = null;
-		this.intValueReference    = null;
+		longValueReference = valueReference;
+		doubleValueReference = null;
+		intValueReference    = null;
 		init();
 	}
-	
-//	public EditTextDialog(Context context, EditText brickEditText, PrimitiveWrapper<Double> valueReference) {
-//		super(context);
-//		this.doubleValueReference = valueReference;
-//		this.intValueReference = null;
-//		
-//		init(brickEditText);
-//	}
 	
 
 	@Override
@@ -84,18 +77,20 @@ public class EditTextDialog extends Dialog implements OnClickListener {
 		
 		int settings = 0;
 		
-		if(intValueReference != null || longValueReference != null) 
-			settings |= InputType.TYPE_CLASS_NUMBER;
-		else if (doubleValueReference != null)
-			settings |= InputType.TYPE_NUMBER_FLAG_DECIMAL;
+		if(intValueReference != null || longValueReference != null) {
+            settings |= InputType.TYPE_CLASS_NUMBER;
+        } else if (doubleValueReference != null) {
+            settings |= InputType.TYPE_NUMBER_FLAG_DECIMAL;
+        }
 		
-		if(useSigned)
-			settings |= InputType.TYPE_NUMBER_FLAG_SIGNED;
+		if(useSigned) {
+            settings |= InputType.TYPE_NUMBER_FLAG_SIGNED;
+        }
 		
 		localEditText.setInputType(settings);
 		
 		localEditText.requestFocus();
-		this.getWindow().setSoftInputMode(
+		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 	}
 
@@ -114,12 +109,13 @@ public class EditTextDialog extends Dialog implements OnClickListener {
 	}
 
 	private void saveContent() {
-		if (intValueReference != null)
-			intValueReference.setValue(Integer.parseInt(localEditText.getText().toString()));
-		else if (doubleValueReference != null)
-			doubleValueReference.setValue(Double.parseDouble(localEditText.getText().toString()));
-		else if (longValueReference != null)
-			longValueReference.setValue(Long.parseLong(localEditText.getText().toString()));
+		if (intValueReference != null) {
+            intValueReference.setValue(Integer.parseInt(localEditText.getText().toString()));
+        } else if (doubleValueReference != null) {
+            doubleValueReference.setValue(Double.parseDouble(localEditText.getText().toString()));
+        } else if (longValueReference != null) {
+            longValueReference.setValue(Long.parseLong(localEditText.getText().toString()));
+        }
 
 		mListEditText.setText(localEditText.getText().toString());
 		adapter.notifyDataSetChanged();
