@@ -39,7 +39,7 @@ import at.tugraz.ist.catroid.content.brick.gui.ShowBrick;
 import at.tugraz.ist.catroid.content.brick.gui.WaitBrick;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
-import at.tugraz.ist.catroid.ui.adapter.AddBrickAdapter;
+import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 
 public class AddBrickDialog extends Dialog {
 
@@ -48,7 +48,7 @@ public class AddBrickDialog extends Dialog {
     //private LinearLayout layout;
     private ArrayList<Brick> prototypeBrickList;
 	private ListView listView;
-    private AddBrickAdapter adapter;
+    private BrickAdapter adapter;
 
 	private void setupBrickPrototypes() {
 		prototypeBrickList = new ArrayList<Brick>();
@@ -92,7 +92,8 @@ public class AddBrickDialog extends Dialog {
         //			}
         //		});
 
-        adapter = new AddBrickAdapter(scriptActivity, prototypeBrickList);
+        adapter = new BrickAdapter(scriptActivity, prototypeBrickList);
+        adapter.isToolboxAdapter = true;
         //layout = (LinearLayout) findViewById(R.id.toolbox_layout);
 		listView = (ListView) findViewById(R.id.toolboxListView);
         listView.setAdapter(adapter);
