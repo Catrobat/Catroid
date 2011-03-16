@@ -32,14 +32,16 @@ import android.widget.BaseAdapter;
 import at.tugraz.ist.catroid.content.brick.gui.Brick;
 
 
-public class AddBrickAdapter extends BaseAdapter {
+public class BrickAdapter extends BaseAdapter {
 
 	private Context context;
 	private List<Brick> brickList;
+    public boolean isToolboxAdapter;
 
-	public AddBrickAdapter(Context context, List<Brick> brickList) {
+	public BrickAdapter(Context context, List<Brick> brickList) {
 		this.context = context;
 		this.brickList = brickList;
+        isToolboxAdapter = false;
 	}
 	
 	public int getCount() {
@@ -55,8 +57,12 @@ public class AddBrickAdapter extends BaseAdapter {
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
-		Brick brick = brickList.get(position);
-		
-		return brick.getPrototypeView(context);
+        Brick brick = brickList.get(position);
+        if (isToolboxAdapter) {
+            return brick.getPrototypeView(context);
+        } else {
+            return brick.getView(context, this);
+        }
+
 	}
 }

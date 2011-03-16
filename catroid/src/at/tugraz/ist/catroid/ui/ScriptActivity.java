@@ -32,20 +32,20 @@ import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.brick.gui.Brick;
-import at.tugraz.ist.catroid.ui.adapter.BrickAdapterScriptActivity;
+import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
 
 public class ScriptActivity extends Activity {
     private static final int ADD_BRICK_DIALOG = 0;
     protected ListView brickListView;
     private ArrayList<Brick> adapterBrickList;
-	private BrickAdapterScriptActivity adapter;
+    private BrickAdapter adapter;
     private ListView listView;
 
     private void initListeners() {
 
         adapterBrickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
-		adapter = new BrickAdapterScriptActivity(this, adapterBrickList);
+        adapter = new BrickAdapter(this, adapterBrickList);
 
         listView = (ListView) findViewById(R.id.brickListView);
         listView.setAdapter(adapter);
