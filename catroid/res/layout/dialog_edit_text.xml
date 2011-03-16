@@ -1,12 +1,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical"
-	android:layout_width="wrap_content"
+	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 	android:id="@+id/layoutDialog"
 >
 	<EditText
 		android:id="@+id/dialogEditText"
-		android:layout_width="wrap_content"
+		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:maxLines="1"
 		android:singleLine="true"
@@ -18,9 +18,8 @@
 		<Button
 			android:text="@string/close"
 			android:id="@+id/dialogEditTextSubmit"
-			android:layout_width="wrap_content"
+			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:layout_weight=".5"
 		/>
 	</LinearLayout>
 </LinearLayout>
