@@ -24,8 +24,8 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.gui.dialogs.EditTextDialog;
 import at.tugraz.ist.catroid.content.brick.WaitBrickBase;
+import at.tugraz.ist.catroid.ui.dialogs.brickdialogs.EditIntegerDialog;
 
 public class WaitBrick extends WaitBrickBase implements Brick {
 
@@ -43,7 +43,7 @@ public class WaitBrick extends WaitBrickBase implements Brick {
 		
 		edit.setText(timeToWaitInMilliseconds.getValue() + "");
 		
-		EditTextDialog dialog = new EditTextDialog(context, edit, adapter, false);
+        EditIntegerDialog dialog = new EditIntegerDialog(context, edit);
 		
 		dialog.setInteger(timeToWaitInMilliseconds);
 		edit.setOnClickListener(dialog);
