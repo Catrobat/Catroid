@@ -15,9 +15,10 @@ import com.jayway.android.robotium.solo.Solo;
 public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
 
-	private String projectNameOne = "Ulumulu";
-	private String spriteNameOne = "Zuul";
-	private String spriteNameTwo = "Zuuul";
+    private final String projectNameOne = "Ulumulu";
+    private final String projectNameTwo = "Ulumulu2";
+    private final String spriteNameOne = "Zuul";
+    private final String spriteNameTwo = "Zuuul";
 
 	public ProjectActivityTest() {
 		super("at.tugraz.ist.catroid.ui", MainMenuActivity.class);
@@ -26,21 +27,27 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	@Override
 	public void setUp() throws Exception {
 		solo = new Solo(getInstrumentation(), getActivity());
+        File directory = new File("/sdcard/catroid/" + projectNameOne);
+        UtilFile.deleteDirectory(directory);
+        directory = new File("/sdcard/catroid/" + projectNameTwo);
+        UtilFile.deleteDirectory(directory);
+        super.setUp();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
+        File directory = new File("/sdcard/catroid/" + projectNameOne);
+        UtilFile.deleteDirectory(directory);
+        assertFalse(projectNameOne + " was not deleted!", directory.exists());
+        directory = new File("/sdcard/catroid/" + projectNameTwo);
+        UtilFile.deleteDirectory(directory);
+        assertFalse(projectNameTwo + " was not deleted!", directory.exists());
 		try {
 			solo.finalize();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 		getActivity().finish();
-
-		File directory = new File("/sdcard/catroid/" + projectNameOne);
-		if (directory.exists()) {
-			UtilFile.deleteDirectory(directory);
-		}
 
 		super.tearDown();
 	}
@@ -53,13 +60,9 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	}
 
 	public void testCreateNewSpriteButton() throws InterruptedException {
-		File directory = new File("/sdcard/catroid/" + projectNameOne);
-		UtilFile.deleteDirectory(directory);
-		assertFalse(projectNameOne + " was not deleted!", directory.exists());
-
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
 		solo.clickOnEditText(0);
-		solo.enterText(0, projectNameOne);
+        solo.enterText(0, projectNameTwo);
 		solo.goBack();
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
 		Thread.sleep(300);
@@ -79,10 +82,6 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	}
 
 	public void testContextMenu() throws InterruptedException {
-		File directory = new File("/sdcard/catroid/" + projectNameOne);
-		UtilFile.deleteDirectory(directory);
-		assertFalse(projectNameOne + " was not deleted!", directory.exists());
-
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
 		solo.clickOnEditText(0);
 		solo.enterText(0, projectNameOne);

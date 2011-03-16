@@ -42,6 +42,7 @@ public class RenameSpriteDialog extends Dialog {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_rename);
 		setTitle(R.string.rename_sprite_dialog);
+        setCanceledOnTouchOutside(true);
 
 		Button renameButton = (Button) findViewById(R.id.renameButton);
 		renameButton.setOnClickListener(new View.OnClickListener() {

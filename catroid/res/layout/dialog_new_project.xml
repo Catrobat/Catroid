@@ -7,9 +7,10 @@
     <EditText
 		android:hint="@string/new_project_dialog_default_project_name"
 	    android:id="@+id/newProjectNameEditText"
-	    android:maxLines="1" 
 	    android:layout_height="wrap_content" 
-	    android:layout_width="fill_parent"/>
+	    android:layout_width="fill_parent" 
+	    android:maxLines="1"
+	    android:singleLine="true"/>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		android:orientation="horizontal"
 		android:layout_width="fill_parent"

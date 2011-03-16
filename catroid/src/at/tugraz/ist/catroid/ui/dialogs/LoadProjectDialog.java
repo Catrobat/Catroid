@@ -52,6 +52,7 @@ public class LoadProjectDialog extends Dialog {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_load_project);
         setTitle(R.string.load_project_dialog_title);
+        setCanceledOnTouchOutside(true);
 
         File rootDirectory = new File(context.getString(R.string.default_root));
         searchForProjectFiles(rootDirectory);

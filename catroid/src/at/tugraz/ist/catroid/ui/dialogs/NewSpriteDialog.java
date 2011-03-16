@@ -42,6 +42,7 @@ public class NewSpriteDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.dialog_new_sprite);
         setTitle(R.string.new_sprite_dialog_title);
+        setCanceledOnTouchOutside(true);
         getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
         Button createNewSpriteButton = (Button) findViewById(R.id.createNewSpriteButton);
