@@ -1,104 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<!-- Language independent -->
-	<string name="app_name">Catroid</string>
-	<string name="percent">%</string>
-	<string name="default_sprite">catroid</string>
+    <!-- Language independent -->
+    <string name="app_name">Catroid</string>
+    <string name="percent">%</string>
+    <string name="default_sprite">catroid</string>
 
-	<!-- Website URLs -->
-	<!-- TODO: set proper URLs -->
-	<string name="wiki_url">http://catroweb.ist.tugraz.at</string>
-	<string name="about_catroid_url">http://groups.google.com/group/catroid/</string>
+    <!-- Website URLs -->
+    <!-- TODO: set proper URLs -->
+    <string name="wiki_url">http://catroweb.ist.tugraz.at</string>
+    <string name="about_catroid_url">http://groups.google.com/group/catroid/</string>
 
-	<!-- Default -->
-	<string name="default_root">/sdcard/catroid</string>
-	<string name="default_file_ending">.spf</string>
+    <!-- Default -->
+    <string name="default_root">/sdcard/catroid</string>
+    <string name="default_file_ending">.spf</string>
 
-	<!-- General -->
-	<string name="save">Save</string>
-	<string name="close">Close</string>
-	<string name="error">Error</string>
-	<string name="please_wait">Please wait</string>
-	<string name="loading">Loading...</string>
-	<string name="stage">Stage</string>
-	<string name="default_project_name">Default Project</string>
+    <!-- General -->
+    <string name="save">Save</string>
+    <string name="close">Close</string>
+    <string name="error">Error</string>
+    <string name="please_wait">Please wait</string>
+    <string name="loading">Loading...</string>
+    <string name="stage">Stage</string>
+    <string name="default_project_name">Default Project</string>
 
-	<!-- Construction site context menu -->
-	<string name="construction_site_play">To Stage</string>
-	<string name="reset">Reset Construction Site</string>
-	<string name="new_project">New Project</string>
-	<string name="load">Load</string>
-	<string name="change_project_name_main">Change Project Name</string>
-	<string name="about">About Catroid</string>
-	<string name="upload_project">Upload Project</string>
+    <!-- Construction site context menu -->
+    <string name="construction_site_play">To Stage</string>
+    <string name="reset">Reset Construction Site</string>
+    <string name="new_project">New Project</string>
+    <string name="load">Load</string>
+    <string name="change_project_name_main">Change Project Name</string>
+    <string name="about">About Catroid</string>
+    <string name="upload_project">Upload Project</string>
 
-	<!-- Script activity -->
-	<string name="add_new_script">+ Add new Script</string>
-	<string name="scriptList">Scripts:</string>
+    <!-- Script activity -->
+    <string name="add_new_script">+ Add new Script</string>
+    <string name="scriptList">Scripts:</string>
 
-	<!-- Sprite dialog -->
-	<string name="sprites">Object</string>
-	<string name="SpriteButtonText">Create</string>
-	<string name="newsprite">New Object</string>
-	
-	<!-- New project dialog -->
-	<string name="edit_text_filename_standard_input">projectname</string>
+    <!-- Sprite dialog -->
+    <string name="sprites">Object</string>
+    <string name="SpriteButtonText">Create</string>
+    <string name="newsprite">New Object</string>
 
-	<!-- Stage context menu -->
-	<string name="stagemenu_construction_site">To Construction Site</string>
-	<string name="stagemenu_start">Play/Pause</string>
+    <!-- New project dialog -->
+    <string name="edit_text_filename_standard_input">projectname</string>
 
-	<!-- Bricks -->
-	<string name="toolbar">B\nu\ni\nl\nd\ni\nn\ng\n \nB\nl\no\nc\nk\ns</string>
-	<string name="brick_label">Choose Your Brick!</string>
-	
-	<string name="set_background_main_adapter">Set Background</string>
-	<string name="play_sound_main_adapter">Play Sound</string>
-	<string name="wait_main_adapter">Wait</string>
-	<string name="seconds">Seconds</string>
-	
-	<string name="hide_main_adapter">Hide</string>
-	<string name="show_main_adapter">Show</string>
-	<string name="goto_main_adapter">Go To</string>
-	<string name="x_label">X:</string>
-	<string name="y_label">Y:</string>
-	<string name="costume_main_adapter">Set Costume</string>
-	<string name="scaleCustome">Scale Costume to</string>
-	<string name="go_back_main_adapter">Go back</string>
-	<string name="steps_label">steps</string>
-	<string name="come_to_front_main_adapter">Come to front</string>
-	<string name="touched_main_adapter">If Touched</string>
+    <!-- Stage context menu -->
+    <string name="stagemenu_construction_site">To Construction Site</string>
+    <string name="stagemenu_start">Play/Pause</string>
 
-	<!-- Error messages -->
-	<string name="error_no_sd_card">
-		Catroid requires an SD card in order to run, but none was found.\nPlease insert an SD card and try again.</string>
-	<string name="error_project_exists">
-		A project with the same name already
-		exists.\nPlease choose a different name.
+    <!-- Bricks -->
+    <string name="toolbar">B\nu\ni\nl\nd\ni\nn\ng\n \nB\nl\no\nc\nk\ns</string>
+    <string name="brick_label">Choose Your Brick!</string>
+
+    <string name="set_background_main_adapter">Set Background</string>
+    <string name="play_sound_main_adapter">Play Sound</string>
+    <string name="wait_main_adapter">Wait</string>
+    <string name="seconds">Seconds</string>
+
+    <string name="hide_main_adapter">Hide</string>
+    <string name="show_main_adapter">Show</string>
+    <string name="goto_main_adapter">Go To</string>
+    <string name="x_label">X:</string>
+    <string name="y_label">Y:</string>
+    <string name="costume_main_adapter">Set Costume</string>
+    <string name="scaleCustome">Scale Costume to</string>
+    <string name="go_back_main_adapter">Go back</string>
+    <string name="steps_label">steps</string>
+    <string name="come_to_front_main_adapter">Come to front</string>
+    <string name="touched_main_adapter">If Touched</string>
+
+    <!-- Error messages -->
+    <string name="error_no_sd_card">
+        Catroid requires an SD card in order to run, but none was found.\nPlease insert an SD card and try again.
     </string>
-	<string name="error_project_upload">
-		An error occurred while uploading the project.
+    <string name="error_project_exists">
+        A project with the same name already
+        exists.\nPlease choose a different name.
+    </string>
+    <string name="error_project_upload">
+        An error occurred while uploading the project.
 	</string>
-	<string name="error_project_download">
-		An error occurred while downloading the project.
+    <string name="error_project_download">
+        An error occurred while downloading the project.
 	</string>
-	<string name="error_project_rename">
-		An error occurred while renaming the project.
+    <string name="error_project_rename">
+        An error occurred while renaming the project.
 	</string>
-	<string name="error_save_project">
-		An error occurred while saving the project.
+    <string name="error_save_project">
+        An error occurred while saving the project.
 	</string>
-	<string name="error_load_project">
-		An error occurred while loading the project.
+    <string name="error_load_project">
+        An error occurred while loading the project.
 	</string>
-	
 
-	<!-- Notifications -->
-	<string name="success_project_upload">
-		Project upload successful.
+    <!-- Notifications -->
+    <string name="success_project_upload">
+        Project upload successful.
     </string>
-	<string name="success_project_download">
-		Project download successful.
+    <string name="success_project_download">
+        Project download successful.
     </string>
-	<string name="load_project">Load Project</string>
+    <string name="load_project">Load Project</string>
 </resources>

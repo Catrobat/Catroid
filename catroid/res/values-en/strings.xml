@@ -21,13 +21,13 @@
     <string name="stage">Stage</string>
 
     <!-- Construction site context menu -->
-    <string name="construction_site_play">To stage</string>
-    <string name="reset">Delete stage</string>
-    <string name="new_project">New project</string>
+    <string name="construction_site_play">To Stage</string>
+    <string name="reset">Reset Construction Site</string>
+    <string name="new_project">New Project</string>
     <string name="load">Load</string>
-    <string name="change_project_name_main">Change projectname</string>
+    <string name="change_project_name_main">Change Project Name</string>
     <string name="about">About Catroid</string>
-    <string name="upload_project">Upload project</string>
+    <string name="upload_project">Upload Project</string>
 
     <!-- Main menu activity -->
     <string name="resume">Resume</string>
