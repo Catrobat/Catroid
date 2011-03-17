@@ -17,9 +17,11 @@ import com.jayway.android.robotium.solo.Solo;
  * @author Peter Treitler, Thomas Holzmann
  * 
  */
+
 public class SpriteTest extends ActivityInstrumentationTestCase2<ConstructionSiteActivity> {
 	private Solo solo;
-
+	// TODO: This is a hack! This test is going to be replaces anyway!
+	private String toolbar = "B\nu\ni\nl\nd\ni\nn\ng\n \nB\nl\no\nc\nk\ns";
 	public SpriteTest() {
 		super("at.tugraz.ist.catroid", ConstructionSiteActivity.class);
 	}
@@ -55,7 +57,7 @@ public class SpriteTest extends ActivityInstrumentationTestCase2<ConstructionSit
 	}
 
 	private void addBrick(int brickTextId) {
-		solo.clickOnButton(getActivity().getString(R.string.toolbar));
+		solo.clickOnButton(toolbar);
 		solo.clickOnText(getActivity().getString(brickTextId));
 	}
 
@@ -129,16 +131,16 @@ public class SpriteTest extends ActivityInstrumentationTestCase2<ConstructionSit
 
 	@Smoke
 	public void testNumberInputOfBricks() {
-		solo.clickOnButton(getActivity().getString(R.string.toolbar));
+		solo.clickOnButton(toolbar);
 		solo.clickOnText(getActivity().getString(R.string.wait_main_adapter));
 
-		solo.clickOnButton(getActivity().getString(R.string.toolbar));
+		solo.clickOnButton(toolbar);
 		solo.clickOnText(getActivity().getString(R.string.goto_main_adapter));
 
-		solo.clickOnButton(getActivity().getString(R.string.toolbar));
+		solo.clickOnButton(toolbar);
 		solo.clickOnText(getActivity().getString(R.string.scaleCustome));
 
-		solo.clickOnButton(getActivity().getString(R.string.toolbar));
+		solo.clickOnButton(toolbar);
 		solo.clickOnText(getActivity().getString(R.string.go_back_main_adapter));
 
 		typeInDecimalNumber(0);
