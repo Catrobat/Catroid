@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Language independent -->
+    <string name="app_name">Catroid</string>
+    <string name="percent">%</string>
+    <string name="default_sprite">catroid</string>
+
+    <!-- Website URLs -->
+    <!-- TODO: set proper URLs -->
+    <string name="wiki_url">http://catroweb.ist.tugraz.at</string>
+    <string name="about_catroid_url">http://groups.google.com/group/catroid/</string>
+    <string name="about_link_template">&lt;a href="%1$s">%2$s&lt;/a></string>
+
+    <!-- Default -->
+    <string name="default_root">/sdcard/catroid</string>
+    <string name="default_file_ending">.spf</string>
+</resources>
