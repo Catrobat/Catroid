@@ -44,12 +44,8 @@ public class SoundBrickAdapter extends BaseAdapter{
 		return view;
 	}
 	
-
 	@Override
 	public void notifyDataSetChanged() {
 		super.notifyDataSetChanged();
 	}
-	
-	
-	
 }

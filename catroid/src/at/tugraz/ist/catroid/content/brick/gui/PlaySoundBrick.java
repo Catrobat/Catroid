@@ -62,6 +62,7 @@ public class PlaySoundBrick extends PlaySoundBrickBase implements Brick,
             soundButton.setText("<choose a title>");
         }
         try {
+            StorageHandler.getInstance().loadSoundContent(context);
             soundList = StorageHandler.getInstance().getSoundContent();
             soundButton.setOnClickListener(new OnClickListener() {
                 public void onClick(View v) {
@@ -104,7 +105,6 @@ public class PlaySoundBrick extends PlaySoundBrickBase implements Brick,
     }
 
     public void onClick(DialogInterface dialog, int which) {
-        System.out.println("CLICKKKK: " + which);
         pathToSoundfile = soundList.get(which).getTitleWithPath();
         programmAdapter.notifyDataSetChanged();
     }

@@ -10,23 +10,25 @@ import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.entities.PrimitiveWrapper;
 
-public class EditIntegerDialog extends EditBrickDialog implements OnClickListener {
+public class EditDoubleDialog extends EditBrickDialog implements OnClickListener {
 
-    private PrimitiveWrapper<Integer> intValueReference;
+    private PrimitiveWrapper<Double> doubleValueReference;
+    private EditText localEditText;
+    private EditText editText;
 
-    public EditIntegerDialog(Context context, EditText editText, PrimitiveWrapper<Integer> wrapper) {
+    public EditDoubleDialog(Context context, EditText editText, PrimitiveWrapper<Double> wrapper) {
         super(context, editText);
-        intValueReference = wrapper;
+        doubleValueReference = wrapper;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         localEditText = (EditText) findViewById(R.id.dialogEditText);
-        localEditText.setText(intValueReference.getValue().intValue() + "");
-        localEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        localEditText.setText(doubleValueReference.getValue().intValue() + "");
+        localEditText.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
         Button closeButton = (Button) findViewById(R.id.dialogEditTextSubmit);
         closeButton.setOnClickListener(this);
+        super.onCreate(savedInstanceState);
     }
 
     public void onClick(View v) {
@@ -34,10 +36,10 @@ public class EditIntegerDialog extends EditBrickDialog implements OnClickListene
             show();
         } else if (v.getId() == R.id.dialogEditTextSubmit) {
             try {
-                intValueReference.setValue(Integer.parseInt(localEditText.getText().toString()));
+                doubleValueReference.setValue(Double.parseDouble(localEditText.getText().toString()));
                 dismiss();
             } catch (Exception e) {
-                intValueReference.setValue(0);
+                doubleValueReference.setValue(0.0);
                 dismiss();
             }
         }
