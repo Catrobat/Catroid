@@ -45,8 +45,6 @@
         Dieses Programm steht unter der GNU GPL v3 Lizenz.\n\n
     </string>
     <string name="about_link_text">Über Catroid</string>
-    <!-- TODO Put into general strings file -->
-    <string name="about_link_template">&lt;a href="%1$s">%2$s&lt;/a></string>
 
     <!-- Project activity view -->
     <string name="project_name">Projekt:</string>
@@ -109,10 +107,6 @@
     <!--  Stage context menu -->
     <string name="stagemenu_construction_site">Zur Baustelle</string>
     <string name="stagemenu_start">Abspielen/Pause</string>
-
-    <!-- Bricks -->
-    <string name="toolbar">B\na\nu\nk\na\ns\nt\ne\nn</string>
-    <string name="brick_label">Wähle deinen Baustein</string>
 
     <string name="set_background_main_adapter">Setze Hintergrund</string>
     <string name="play_sound_main_adapter">Spiele Klang</string>
