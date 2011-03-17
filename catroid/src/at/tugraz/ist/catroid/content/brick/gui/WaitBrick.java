@@ -43,9 +43,8 @@ public class WaitBrick extends WaitBrickBase implements Brick {
 		
 		edit.setText(timeToWaitInMilliseconds.getValue() + "");
 		
-        EditIntegerDialog dialog = new EditIntegerDialog(context, edit);
+        EditIntegerDialog dialog = new EditIntegerDialog(context, edit, timeToWaitInMilliseconds);
 		
-		dialog.setInteger(timeToWaitInMilliseconds);
 		edit.setOnClickListener(dialog);
 		
 		return view;

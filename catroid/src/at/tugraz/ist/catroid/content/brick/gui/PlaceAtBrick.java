@@ -24,9 +24,9 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.gui.dialogs.EditTextDialog;
 import at.tugraz.ist.catroid.content.brick.PlaceAtBrickBase;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.ui.dialogs.brickdialogs.EditIntegerDialog;
 
 public class PlaceAtBrick extends PlaceAtBrickBase implements Brick {
 
@@ -39,18 +39,16 @@ public class PlaceAtBrick extends PlaceAtBrickBase implements Brick {
 	public View getView(Context context, BaseAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View brickView = inflater.inflate(R.layout.construction_brick_place_at, null);
-		EditText edit = (EditText) brickView.findViewById(R.id.InputValueEditTextX);
-		edit.setText(xPosition.getValue().intValue() + "");
-		EditTextDialog dialog = new EditTextDialog(context, edit, adapter, true);
-		dialog.setInteger(xPosition);
-		edit.setOnClickListener(dialog);
+        EditText editX = (EditText) brickView.findViewById(R.id.InputValueEditTextX);
+        editX.setText(xPosition.getValue().intValue() + "");
+        EditIntegerDialog dialogX = new EditIntegerDialog(context, editX, xPosition);
+        editX.setOnClickListener(dialogX);
 		
-		edit = (EditText) brickView.findViewById(R.id.InputValueEditTextY);
-		dialog = new EditTextDialog(context, edit, adapter, true);
-		edit.setText(yPosition.getValue().intValue() + "");
-		dialog.setInteger(yPosition);
-		edit.setOnClickListener(dialog);
-		
+        EditText editY = (EditText) brickView.findViewById(R.id.InputValueEditTextY);
+        editY.setText(yPosition.getValue().intValue() + "");
+        EditIntegerDialog dialogY = new EditIntegerDialog(context, editY, yPosition);
+        editY.setOnClickListener(dialogY);
+
 		return brickView;
 	}
 	
