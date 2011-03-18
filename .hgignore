@@ -9,6 +9,6 @@ Scratch2AndroidTest\.settings
 local.properties
 bin/*
 build/*
-gen/*
+R.java
 testProject\
 Paintroid/.project
