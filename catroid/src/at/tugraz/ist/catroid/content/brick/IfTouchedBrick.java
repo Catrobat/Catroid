@@ -16,48 +16,50 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content.brick.gui;
+package at.tugraz.ist.catroid.content.brick;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.gui.dialogs.EditTextDialog;
-import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrickBase;
+import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-public class ScaleCostumeBrick extends ScaleCostumeBrickBase implements Brick {
-
+public class IfTouchedBrick implements Brick {
+	protected Script touchScript;
+	private Sprite sprite;
 	private static final long serialVersionUID = 1L;
-
-	public ScaleCostumeBrick(Sprite sprite, double scale) {
-		super(sprite, scale);
+	
+	public IfTouchedBrick(Sprite sprite, Script touchScript) {
+		this.touchScript = touchScript;
+		this.touchScript.setTouchScript(true);
+		this.sprite = sprite;
 	}
 
+	public void execute() {
+		touchScript.isTouchScript();
+		// nothing to do
+	}
+	
+	public Sprite getSprite() {
+		return sprite;
+	}
+	
 	public View getView(Context context, BaseAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_scale_costume, null);
-		EditText edit = (EditText) view.findViewById(R.id.EditText01);
-		
-		edit.setText(scale.getValue() + "");
-		
-		EditTextDialog dialog = new EditTextDialog(context, edit, adapter, false);
-		dialog.setDouble(scale);
-		edit.setOnClickListener(dialog);
-		
+		View view = inflater.inflate(R.layout.construction_brick_touched, null);
 		return view;
 	}
 	
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.toolbox_brick_scale_costume, null);
-        return view;
-    }
+		View view = inflater.inflate(R.layout.toolbox_brick_touched, null);
+		return view;
+	}
 	
 	@Override
     public Brick clone() {
-		return new ScaleCostumeBrick(getSprite(), getScale());
+		return new IfTouchedBrick(getSprite(),touchScript);
 	}
 }

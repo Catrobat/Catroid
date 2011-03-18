@@ -16,43 +16,74 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content.brick.gui;
+package at.tugraz.ist.catroid.content.brick;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
+import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.brick.HideBrickBase;
+import at.tugraz.ist.catroid.content.entities.PrimitiveWrapper;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.ui.dialogs.brickdialogs.EditIntegerDialog;
 
-public class HideBrick extends HideBrickBase implements Brick {
-
+public class GoNStepsBackBrick implements Brick {
 	private static final long serialVersionUID = 1L;
+	protected Sprite sprite;
+	protected PrimitiveWrapper<Integer> steps;
 
-	public HideBrick(Sprite sprite) {
-		super(sprite);
+	public GoNStepsBackBrick(Sprite sprite, int steps) {
+		this.sprite = sprite;
+		this.steps  = new PrimitiveWrapper<Integer>(steps);
+	}
+
+	public void execute() {
+		if (steps.getValue() <= 0)
+			throw new NumberFormatException("Steps was not a positive number!");
+		
+		int currentPosition = sprite.getZPosition();
+		
+		if (currentPosition - steps.getValue() > currentPosition) {
+			sprite.setZPosition(Integer.MIN_VALUE);
+			return;
+		}
+		
+		sprite.setZPosition(currentPosition - steps.getValue());
+	}
+
+	public Sprite getSprite() {
+		return this.sprite;
+	}
+	
+	public int getSteps() {
+		return steps.getValue();
 	}
 
 	public View getView(Context context, BaseAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_simple_text_view, null);
-		TextView textView = (TextView) view.findViewById(R.id.OneElementBrick);
-		textView.setText(R.string.hide_main_adapter);
+		View view = inflater.inflate(R.layout.construction_brick_go_back, null);
+		EditText edit = (EditText) view.findViewById(R.id.InputValueEditText);
+		
+		edit.setText(steps.getValue() + "");
+		
+        EditIntegerDialog dialog = new EditIntegerDialog(context, edit, steps);
+		
+		edit.setOnClickListener(dialog);
+		
+		return view;
+	}
+	
+	public View getPrototypeView(Context context) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.toolbox_brick_go_back, null);
 		return view;
 	}
 	
 	@Override
     public Brick clone() {
-		return new HideBrick(getSprite());
+		return new GoNStepsBackBrick(getSprite(), getSteps());
+		
 	}
-	
-	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.toolbox_brick_simple_text_view, null);
-        TextView textView = (TextView) view.findViewById(R.id.OneElementBrick);
-        textView.setText(R.string.hide_main_adapter);
-		return view;
-	}
+
 }

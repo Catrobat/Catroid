@@ -16,15 +16,43 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content.brick.gui;
+package at.tugraz.ist.catroid.content.brick;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
-import at.tugraz.ist.catroid.content.brick.BrickBase;
+import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-public interface Brick extends BrickBase {
-	public View getView(Context context, BaseAdapter adapter);
-	public View getPrototypeView(Context context);
-	public Brick clone();
+public class HideBrick implements Brick {
+	private static final long serialVersionUID = 1L;
+	private Sprite sprite;
+	
+	public HideBrick(Sprite sprite) {
+		this.sprite = sprite;
+	}
+
+	public void execute() {
+		sprite.hide();
+	}
+	
+	public Sprite getSprite() {
+		return this.sprite;
+	}
+	
+	public View getView(Context context, BaseAdapter adapter) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		return inflater.inflate(R.layout.brick_hide, null);
+	}
+	
+	@Override
+    public Brick clone() {
+		return new HideBrick(getSprite());
+	}
+	
+	public View getPrototypeView(Context context) {
+		return getView(context, null);
+	}
+
 }

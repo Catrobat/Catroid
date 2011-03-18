@@ -16,39 +16,66 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content.brick.gui;
+package at.tugraz.ist.catroid.content.brick;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.brick.ComeToFrontBrickBase;
-import at.tugraz.ist.catroid.content.project.Project;
+import at.tugraz.ist.catroid.constructionSite.gui.dialogs.EditTextDialog;
+import at.tugraz.ist.catroid.content.entities.PrimitiveWrapper;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-public class ComeToFrontBrick extends ComeToFrontBrickBase implements Brick {
-
+/**
+ * @author Anton Rieder, Ainul Husna
+ * 
+ */
+public class ScaleCostumeBrick implements Brick {
 	private static final long serialVersionUID = 1L;
+	private Sprite sprite;
+	protected PrimitiveWrapper<Double> scale;
 
-	public ComeToFrontBrick(Sprite sprite, Project project) {
-		super(sprite, project);
+	public ScaleCostumeBrick(Sprite sprite, double scale) {
+		this.sprite = sprite;
+		this.scale = new PrimitiveWrapper<Double>(scale);
+	}
+
+	public void execute() {
+		sprite.setScale(scale.getValue());
+	}
+
+	public Sprite getSprite() {
+		return this.sprite;
+	}
+
+	public double getScale() {
+		return scale.getValue();
 	}
 
 	public View getView(Context context, BaseAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_come_to_front, null);
+		View view = inflater.inflate(R.layout.construction_brick_scale_costume, null);
+		EditText edit = (EditText) view.findViewById(R.id.EditText01);
+
+		edit.setText(scale.getValue() + "");
+
+		EditTextDialog dialog = new EditTextDialog(context, edit, adapter, false);
+		dialog.setDouble(scale);
+		edit.setOnClickListener(dialog);
+
 		return view;
-	}
-	
-	@Override
-    public Brick clone() {
-		return new ComeToFrontBrick(getSprite(), project);
 	}
 
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.toolbox_brick_come_to_front, null);
+		View view = inflater.inflate(R.layout.toolbox_brick_scale_costume, null);
 		return view;
+	}
+
+	@Override
+	public Brick clone() {
+		return new ScaleCostumeBrick(getSprite(), getScale());
 	}
 }

@@ -18,34 +18,17 @@
  */
 package at.tugraz.ist.catroid.content.brick;
 
-import at.tugraz.ist.catroid.content.sprite.Costume;
+import java.io.Serializable;
+
+import android.content.Context;
+import android.view.View;
+import android.widget.BaseAdapter;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-
-public abstract class SetCostumeBrickBase implements BrickBase{
-    private static final long serialVersionUID = 1L;
-    private Sprite sprite;
-    private Costume costume = null;
-    
-    
-    public SetCostumeBrickBase(Sprite sprite) { 
-        this.sprite = sprite;
-    }
-    
-    public void setCostume(String imagePath){
-        costume = new Costume(sprite,imagePath);
-        this.sprite.getCostumeList().add(costume);
-    }
-    
-    public Costume getCostume() {
-        return costume;
-    }
-
-    public void execute() {
-        this.sprite.setCurrentCostume(costume); 
-    }
-    
-    public Sprite getSprite(){
-        return sprite;
-    }
+public interface Brick extends Serializable {
+	public void execute();
+	public Sprite getSprite();
+	public View getView(Context context, BaseAdapter adapter);
+	public View getPrototypeView(Context context);
+	public Brick clone();
 }

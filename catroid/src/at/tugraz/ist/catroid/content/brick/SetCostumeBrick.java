@@ -18,42 +18,49 @@
  */
 package at.tugraz.ist.catroid.content.brick;
 
-import java.io.IOException;
-
-import android.media.MediaPlayer;
-import android.util.Log;
+import android.content.Context;
+import android.view.View;
+import android.widget.BaseAdapter;
+import at.tugraz.ist.catroid.content.sprite.Costume;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
-import at.tugraz.ist.catroid.io.sound.SoundManager;
 
-public abstract class PlaySoundBrickBase implements BrickBase {
-	protected String pathToSoundfile;
+public class SetCostumeBrick implements Brick {
 	private static final long serialVersionUID = 1L;
+	private Sprite sprite;
+	private Costume costume = null;
 
-	public PlaySoundBrickBase(String pathToSoundfile) {
-		this.pathToSoundfile = pathToSoundfile;
+	public SetCostumeBrick(Sprite sprite) {
+		this.sprite = sprite;
+	}
+
+	public void setCostume(String imagePath) {
+		costume = new Costume(sprite, imagePath);
+		this.sprite.getCostumeList().add(costume);
+	}
+
+	public Costume getCostume() {
+		return costume;
 	}
 
 	public void execute() {
-		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
-		try {
-			mediaPlayer.setDataSource(pathToSoundfile);
-			mediaPlayer.prepare();
-			mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-				public void onCompletion(MediaPlayer mp) {
-					mp.release();
-				}
-			});
-			Log.i("PlaySoundBrick", "Starting player with file " + pathToSoundfile);
-			mediaPlayer.start();
-		} catch (IOException e) {
-			throw new IllegalArgumentException("IO error", e);
-		}
+		this.sprite.setCurrentCostume(costume);
 	}
 
 	public Sprite getSprite() {
+		return sprite;
+	}
+
+	public View getView(Context context, BaseAdapter adapter) {
+		View view = getPrototypeView(context);
+		return view; // TODO: finish it
+	}
+
+	public View getPrototypeView(Context context) {
 		return null;
 	}
-	public String getPathToSoundFile() {
-		return pathToSoundfile;
+
+	@Override
+	public Brick clone() {
+		return new SetCostumeBrick(getSprite());
 	}
 }

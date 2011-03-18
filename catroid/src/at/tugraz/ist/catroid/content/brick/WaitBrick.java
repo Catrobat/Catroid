@@ -1,22 +1,4 @@
-/**
- *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
- *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-package at.tugraz.ist.catroid.content.brick.gui;
+package at.tugraz.ist.catroid.content.brick;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -24,18 +6,38 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.brick.WaitBrickBase;
+import at.tugraz.ist.catroid.content.entities.PrimitiveWrapper;
+import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.exception.InterruptedRuntimeException;
 import at.tugraz.ist.catroid.ui.dialogs.brickdialogs.EditIntegerDialog;
 
-public class WaitBrick extends WaitBrickBase implements Brick {
-
+public class WaitBrick implements Brick {
 	private static final long serialVersionUID = 1L;
-
-	//TODO: here in millis, else in seconds --> think about solution
+    protected PrimitiveWrapper<Integer> timeToWaitInMilliseconds;
+    
 	public WaitBrick(int timeToWaitInMilliseconds) {
-		super(timeToWaitInMilliseconds);
+		this.timeToWaitInMilliseconds = new PrimitiveWrapper<Integer>(timeToWaitInMilliseconds);
 	}
 
+	public void execute() {
+		long startTime = 0;
+		try {
+			startTime = System.currentTimeMillis();
+			Thread.sleep(timeToWaitInMilliseconds.getValue());
+		} catch (InterruptedException e) {
+			timeToWaitInMilliseconds.setValue(timeToWaitInMilliseconds.getValue() - (int)(System.currentTimeMillis() - startTime));
+			throw new InterruptedRuntimeException("WaitBrick was interrupted", e);
+		}
+	}
+
+	public Sprite getSprite() {
+		return null;
+	}
+
+	public long getWaitTime() {
+		return timeToWaitInMilliseconds.getValue();
+	}
+	
 	public View getView(Context context, BaseAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.construction_brick_wait, null);

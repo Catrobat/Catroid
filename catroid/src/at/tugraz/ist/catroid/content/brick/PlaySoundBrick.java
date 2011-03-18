@@ -16,7 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content.brick.gui;
+package at.tugraz.ist.catroid.content.brick;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.media.MediaPlayer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,20 +33,44 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.gui.adapter.SoundBrickAdapter;
-import at.tugraz.ist.catroid.content.brick.PlaySoundBrickBase;
 import at.tugraz.ist.catroid.content.entities.SoundInfo;
+import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.io.sound.SoundManager;
 
-public class PlaySoundBrick extends PlaySoundBrickBase implements Brick,
-        android.content.DialogInterface.OnClickListener {
+public class PlaySoundBrick implements Brick, android.content.DialogInterface.OnClickListener {
+	protected String pathToSoundfile;
+	private transient ArrayList<SoundInfo> soundList;
+	private transient BaseAdapter programmAdapter;
+	private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 1L;
-    private transient ArrayList<SoundInfo> soundList;;
-    private transient BaseAdapter programmAdapter;
+	public PlaySoundBrick(String pathToSoundfile) {
+		this.pathToSoundfile = pathToSoundfile;
+	}
 
-    public PlaySoundBrick(String pathToSoundfile) {
-        super(pathToSoundfile);
-    }
+	public void execute() {
+		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
+		try {
+			mediaPlayer.setDataSource(pathToSoundfile);
+			mediaPlayer.prepare();
+			mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+				public void onCompletion(MediaPlayer mp) {
+					mp.release();
+				}
+			});
+			Log.i("PlaySoundBrick", "Starting player with file " + pathToSoundfile);
+			mediaPlayer.start();
+		} catch (IOException e) {
+			throw new IllegalArgumentException("IO error", e);
+		}
+	}
+
+	public Sprite getSprite() {
+		return null;
+	}
+	public String getPathToSoundFile() {
+		return pathToSoundfile;
+	}
 
     public View getView(final Context context, BaseAdapter adapter) {
         programmAdapter = adapter;

@@ -4,15 +4,13 @@
 	android:layout_height="wrap_content"
 	android:orientation="horizontal"
 	android:background="@drawable/brick_yellow"
-	android:longClickable="true">
+>
 	<TextView 
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content" 
-		android:id="@+id/OneElementBrick"
-		android:text="Hide/Show" 
+		android:text="@string/show" 
 		android:textColor="@color/white"
 		android:textStyle="bold" 
-		android:tag="@string/constructional_brick_hide"
 		android:textSize="18dip"
 	/>
 </LinearLayout>

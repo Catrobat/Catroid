@@ -19,7 +19,7 @@
 package at.tugraz.ist.catroid.test.content.brick;
 
 import android.test.AndroidTestCase;
-import at.tugraz.ist.catroid.content.brick.gui.HideBrick;
+import at.tugraz.ist.catroid.content.brick.HideBrick;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class HideBrickTest extends AndroidTestCase {
