@@ -24,7 +24,7 @@ import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.AndroidTestCase;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
-import at.tugraz.ist.catroid.content.brick.gui.SetCostumeBrick;
+import at.tugraz.ist.catroid.content.brick.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.utils.UtilFile;

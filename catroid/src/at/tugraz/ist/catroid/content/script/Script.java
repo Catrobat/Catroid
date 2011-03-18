@@ -20,7 +20,7 @@ package at.tugraz.ist.catroid.content.script;
 
 import java.util.ArrayList;
 
-import at.tugraz.ist.catroid.content.brick.gui.Brick;
+import at.tugraz.ist.catroid.content.brick.Brick;
 import at.tugraz.ist.catroid.exception.InterruptedRuntimeException;
 
 public class Script {

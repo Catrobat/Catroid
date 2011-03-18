@@ -18,20 +18,22 @@
  */
 package at.tugraz.ist.catroid.content.brick;
 
-/**
- * @author Ainul, Jia Lin, Denise, Anton
- *
- */
-
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.BaseAdapter;
+import android.widget.EditText;
+import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.entities.PrimitiveWrapper;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.ui.dialogs.brickdialogs.EditIntegerDialog;
 
-public abstract class GoNStepsBackBrickBase implements BrickBase {
+public class GoNStepsBackBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	protected Sprite sprite;
 	protected PrimitiveWrapper<Integer> steps;
 
-	public GoNStepsBackBrickBase(Sprite sprite, int steps) {
+	public GoNStepsBackBrick(Sprite sprite, int steps) {
 		this.sprite = sprite;
 		this.steps  = new PrimitiveWrapper<Integer>(steps);
 	}
@@ -56,6 +58,32 @@ public abstract class GoNStepsBackBrickBase implements BrickBase {
 	
 	public int getSteps() {
 		return steps.getValue();
+	}
+
+	public View getView(Context context, BaseAdapter adapter) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.construction_brick_go_back, null);
+		EditText edit = (EditText) view.findViewById(R.id.InputValueEditText);
+		
+		edit.setText(steps.getValue() + "");
+		
+        EditIntegerDialog dialog = new EditIntegerDialog(context, edit, steps);
+		
+		edit.setOnClickListener(dialog);
+		
+		return view;
+	}
+	
+	public View getPrototypeView(Context context) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.toolbox_brick_go_back, null);
+		return view;
+	}
+	
+	@Override
+    public Brick clone() {
+		return new GoNStepsBackBrick(getSprite(), getSteps());
+		
 	}
 
 }

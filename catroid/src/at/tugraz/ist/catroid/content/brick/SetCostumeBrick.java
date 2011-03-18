@@ -16,33 +16,51 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content.brick.gui;
+package at.tugraz.ist.catroid.content.brick;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
-import at.tugraz.ist.catroid.content.brick.SetCostumeBrickBase;
+import at.tugraz.ist.catroid.content.sprite.Costume;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-public class SetCostumeBrick extends SetCostumeBrickBase implements Brick{
-    
-    private static final long serialVersionUID = 1L;
-    
-    public SetCostumeBrick(Sprite sprite) {
-        super(sprite);
-    }
-    
-    public View getView(Context context, BaseAdapter adapter) {
-    	View view = getPrototypeView(context);
-        return view; //TODO: finish it
-    }
+public class SetCostumeBrick implements Brick {
+	private static final long serialVersionUID = 1L;
+	private Sprite sprite;
+	private Costume costume = null;
 
-    public View getPrototypeView(Context context) {
-        return null;
-    }
-    
-    @Override
-    public Brick clone() {
-    	return new SetCostumeBrick(getSprite());
-    }
+	public SetCostumeBrick(Sprite sprite) {
+		this.sprite = sprite;
+	}
+
+	public void setCostume(String imagePath) {
+		costume = new Costume(sprite, imagePath);
+		this.sprite.getCostumeList().add(costume);
+	}
+
+	public Costume getCostume() {
+		return costume;
+	}
+
+	public void execute() {
+		this.sprite.setCurrentCostume(costume);
+	}
+
+	public Sprite getSprite() {
+		return sprite;
+	}
+
+	public View getView(Context context, BaseAdapter adapter) {
+		View view = getPrototypeView(context);
+		return view; // TODO: finish it
+	}
+
+	public View getPrototypeView(Context context) {
+		return null;
+	}
+
+	@Override
+	public Brick clone() {
+		return new SetCostumeBrick(getSprite());
+	}
 }

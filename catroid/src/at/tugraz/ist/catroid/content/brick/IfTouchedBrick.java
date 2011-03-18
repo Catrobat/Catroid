@@ -18,15 +18,20 @@
  */
 package at.tugraz.ist.catroid.content.brick;
 
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.BaseAdapter;
+import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-public abstract class IfTouchedBrickBase implements BrickBase {
+public class IfTouchedBrick implements Brick {
 	protected Script touchScript;
 	private Sprite sprite;
 	private static final long serialVersionUID = 1L;
 	
-	public IfTouchedBrickBase(Sprite sprite, Script touchScript) {
+	public IfTouchedBrick(Sprite sprite, Script touchScript) {
 		this.touchScript = touchScript;
 		this.touchScript.setTouchScript(true);
 		this.sprite = sprite;
@@ -40,5 +45,21 @@ public abstract class IfTouchedBrickBase implements BrickBase {
 	public Sprite getSprite() {
 		return sprite;
 	}
-
+	
+	public View getView(Context context, BaseAdapter adapter) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.construction_brick_touched, null);
+		return view;
+	}
+	
+	public View getPrototypeView(Context context) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.toolbox_brick_touched, null);
+		return view;
+	}
+	
+	@Override
+    public Brick clone() {
+		return new IfTouchedBrick(getSprite(),touchScript);
+	}
 }

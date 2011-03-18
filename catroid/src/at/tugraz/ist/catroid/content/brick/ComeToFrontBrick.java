@@ -16,43 +16,53 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content.brick.gui;
+package at.tugraz.ist.catroid.content.brick;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.brick.HideBrickBase;
+import at.tugraz.ist.catroid.content.project.Project;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-public class HideBrick extends HideBrickBase implements Brick {
-
+public class ComeToFrontBrick implements Brick {
 	private static final long serialVersionUID = 1L;
+	private Sprite sprite;
+	protected transient Project project;
 
-	public HideBrick(Sprite sprite) {
-		super(sprite);
+	public ComeToFrontBrick(Sprite sprite, Project project) {
+		this.sprite = sprite;
+		this.project = project;
 	}
+
+	public void execute() {
+		int maxZValue = project.getMaxZValue();
+		maxZValue = maxZValue > (maxZValue + 1) ? Integer.MAX_VALUE : maxZValue + 1;
+
+		sprite.setZPosition(maxZValue);
+	}
+
+	public Sprite getSprite() {
+		return this.sprite;
+	}
+	
+
 
 	public View getView(Context context, BaseAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_simple_text_view, null);
-		TextView textView = (TextView) view.findViewById(R.id.OneElementBrick);
-		textView.setText(R.string.hide_main_adapter);
+		View view = inflater.inflate(R.layout.construction_brick_come_to_front, null);
 		return view;
 	}
 	
 	@Override
     public Brick clone() {
-		return new HideBrick(getSprite());
+		return new ComeToFrontBrick(getSprite(), project);
 	}
-	
+
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.toolbox_brick_simple_text_view, null);
-        TextView textView = (TextView) view.findViewById(R.id.OneElementBrick);
-        textView.setText(R.string.hide_main_adapter);
+        View view = inflater.inflate(R.layout.toolbox_brick_come_to_front, null);
 		return view;
 	}
 }

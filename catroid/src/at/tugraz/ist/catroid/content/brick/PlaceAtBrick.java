@@ -18,16 +18,23 @@
  */
 package at.tugraz.ist.catroid.content.brick;
 
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.BaseAdapter;
+import android.widget.EditText;
+import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.entities.PrimitiveWrapper;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.ui.dialogs.brickdialogs.EditIntegerDialog;
 
-public abstract class PlaceAtBrickBase implements BrickBase {
+public class PlaceAtBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	protected PrimitiveWrapper<Integer> xPosition;
 	protected PrimitiveWrapper<Integer> yPosition;
 	private Sprite sprite;
 	
-	public PlaceAtBrickBase(Sprite sprite, int xPosition, int yPosition) {
+	public PlaceAtBrick(Sprite sprite, int xPosition, int yPosition) {
 		this.sprite    = sprite;
 		this.xPosition = new PrimitiveWrapper<Integer>(xPosition);
 		this.yPosition = new PrimitiveWrapper<Integer>(yPosition);
@@ -49,5 +56,32 @@ public abstract class PlaceAtBrickBase implements BrickBase {
 
 	public int getYPosition() {
 		return yPosition.getValue();
+	}
+	
+	public View getView(Context context, BaseAdapter adapter) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View brickView = inflater.inflate(R.layout.construction_brick_place_at, null);
+        EditText editX = (EditText) brickView.findViewById(R.id.InputValueEditTextX);
+        editX.setText(xPosition.getValue().intValue() + "");
+        EditIntegerDialog dialogX = new EditIntegerDialog(context, editX, xPosition);
+        editX.setOnClickListener(dialogX);
+		
+        EditText editY = (EditText) brickView.findViewById(R.id.InputValueEditTextY);
+        editY.setText(yPosition.getValue().intValue() + "");
+        EditIntegerDialog dialogY = new EditIntegerDialog(context, editY, yPosition);
+        editY.setOnClickListener(dialogY);
+
+		return brickView;
+	}
+	
+	public View getPrototypeView(Context context) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View brickView = inflater.inflate(R.layout.toolbox_brick_place_at, null);
+		return brickView;
+	}
+	
+	@Override
+    public Brick clone() {
+		return new PlaceAtBrick(getSprite(), getXPosition(), getYPosition());
 	}
 }

@@ -18,42 +18,41 @@
  */
 package at.tugraz.ist.catroid.content.brick;
 
-import java.io.IOException;
-
-import android.media.MediaPlayer;
-import android.util.Log;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.BaseAdapter;
+import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
-import at.tugraz.ist.catroid.io.sound.SoundManager;
 
-public abstract class PlaySoundBrickBase implements BrickBase {
-	protected String pathToSoundfile;
+public class HideBrick implements Brick {
 	private static final long serialVersionUID = 1L;
-
-	public PlaySoundBrickBase(String pathToSoundfile) {
-		this.pathToSoundfile = pathToSoundfile;
+	private Sprite sprite;
+	
+	public HideBrick(Sprite sprite) {
+		this.sprite = sprite;
 	}
 
 	public void execute() {
-		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
-		try {
-			mediaPlayer.setDataSource(pathToSoundfile);
-			mediaPlayer.prepare();
-			mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-				public void onCompletion(MediaPlayer mp) {
-					mp.release();
-				}
-			});
-			Log.i("PlaySoundBrick", "Starting player with file " + pathToSoundfile);
-			mediaPlayer.start();
-		} catch (IOException e) {
-			throw new IllegalArgumentException("IO error", e);
-		}
+		sprite.hide();
+	}
+	
+	public Sprite getSprite() {
+		return this.sprite;
+	}
+	
+	public View getView(Context context, BaseAdapter adapter) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		return inflater.inflate(R.layout.brick_hide, null);
+	}
+	
+	@Override
+    public Brick clone() {
+		return new HideBrick(getSprite());
+	}
+	
+	public View getPrototypeView(Context context) {
+		return getView(context, null);
 	}
 
-	public Sprite getSprite() {
-		return null;
-	}
-	public String getPathToSoundFile() {
-		return pathToSoundfile;
-	}
 }

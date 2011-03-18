@@ -16,16 +16,16 @@ import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.constructionSite.gui.adapter.ToolBoxAdapter;
-import at.tugraz.ist.catroid.content.brick.gui.Brick;
-import at.tugraz.ist.catroid.content.brick.gui.ComeToFrontBrick;
-import at.tugraz.ist.catroid.content.brick.gui.GoNStepsBackBrick;
-import at.tugraz.ist.catroid.content.brick.gui.HideBrick;
-import at.tugraz.ist.catroid.content.brick.gui.IfTouchedBrick;
-import at.tugraz.ist.catroid.content.brick.gui.PlaceAtBrick;
-import at.tugraz.ist.catroid.content.brick.gui.PlaySoundBrick;
-import at.tugraz.ist.catroid.content.brick.gui.SetCostumeBrick;
-import at.tugraz.ist.catroid.content.brick.gui.ShowBrick;
-import at.tugraz.ist.catroid.content.brick.gui.WaitBrick;
+import at.tugraz.ist.catroid.content.brick.Brick;
+import at.tugraz.ist.catroid.content.brick.ComeToFrontBrick;
+import at.tugraz.ist.catroid.content.brick.GoNStepsBackBrick;
+import at.tugraz.ist.catroid.content.brick.HideBrick;
+import at.tugraz.ist.catroid.content.brick.IfTouchedBrick;
+import at.tugraz.ist.catroid.content.brick.PlaceAtBrick;
+import at.tugraz.ist.catroid.content.brick.PlaySoundBrick;
+import at.tugraz.ist.catroid.content.brick.SetCostumeBrick;
+import at.tugraz.ist.catroid.content.brick.ShowBrick;
+import at.tugraz.ist.catroid.content.brick.WaitBrick;
 import at.tugraz.ist.catroid.content.script.Script;
 
 public class ToolBoxDialog extends Dialog {

@@ -18,21 +18,28 @@
  */
 package at.tugraz.ist.catroid.content.brick;
 
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.BaseAdapter;
+import android.widget.EditText;
+import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.constructionSite.gui.dialogs.EditTextDialog;
 import at.tugraz.ist.catroid.content.entities.PrimitiveWrapper;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 /**
  * @author Anton Rieder, Ainul Husna
- *
+ * 
  */
-public abstract class ScaleCostumeBrickBase implements BrickBase {
+public class ScaleCostumeBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	protected PrimitiveWrapper<Double> scale;
 
-	public ScaleCostumeBrickBase(Sprite sprite, double scale) {
+	public ScaleCostumeBrick(Sprite sprite, double scale) {
 		this.sprite = sprite;
-		this.scale  = new PrimitiveWrapper<Double>(scale);
+		this.scale = new PrimitiveWrapper<Double>(scale);
 	}
 
 	public void execute() {
@@ -42,9 +49,33 @@ public abstract class ScaleCostumeBrickBase implements BrickBase {
 	public Sprite getSprite() {
 		return this.sprite;
 	}
-	
+
 	public double getScale() {
 		return scale.getValue();
 	}
 
+	public View getView(Context context, BaseAdapter adapter) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.construction_brick_scale_costume, null);
+		EditText edit = (EditText) view.findViewById(R.id.EditText01);
+
+		edit.setText(scale.getValue() + "");
+
+		EditTextDialog dialog = new EditTextDialog(context, edit, adapter, false);
+		dialog.setDouble(scale);
+		edit.setOnClickListener(dialog);
+
+		return view;
+	}
+
+	public View getPrototypeView(Context context) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.toolbox_brick_scale_costume, null);
+		return view;
+	}
+
+	@Override
+	public Brick clone() {
+		return new ScaleCostumeBrick(getSprite(), getScale());
+	}
 }
