@@ -19,31 +19,28 @@
 package at.tugraz.ist.catroid.content.brick;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.gui.dialogs.EditTextDialog;
-import at.tugraz.ist.catroid.content.entities.PrimitiveWrapper;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.ui.dialogs.brickdialogs.EditDoubleDialog;
 
-/**
- * @author Anton Rieder, Ainul Husna
- * 
- */
-public class ScaleCostumeBrick implements Brick {
+public class ScaleCostumeBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
-	protected PrimitiveWrapper<Double> scale;
+	private double scale;
 
 	public ScaleCostumeBrick(Sprite sprite, double scale) {
 		this.sprite = sprite;
-		this.scale = new PrimitiveWrapper<Double>(scale);
+		this.scale = scale;
 	}
 
 	public void execute() {
-		sprite.setScale(scale.getValue());
+		sprite.setScale(scale);
 	}
 
 	public Sprite getSprite() {
@@ -51,18 +48,17 @@ public class ScaleCostumeBrick implements Brick {
 	}
 
 	public double getScale() {
-		return scale.getValue();
+		return scale;
 	}
 
 	public View getView(Context context, BaseAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.construction_brick_scale_costume, null);
 		EditText edit = (EditText) view.findViewById(R.id.EditText01);
+		edit.setText(String.valueOf(scale));
 
-		edit.setText(scale.getValue() + "");
-
-		EditTextDialog dialog = new EditTextDialog(context, edit, adapter, false);
-		dialog.setDouble(scale);
+		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, scale);
+		dialog.setOnDismissListener(this);
 		edit.setOnClickListener(dialog);
 
 		return view;
@@ -77,5 +73,9 @@ public class ScaleCostumeBrick implements Brick {
 	@Override
 	public Brick clone() {
 		return new ScaleCostumeBrick(getSprite(), getScale());
+	}
+
+	public void onDismiss(DialogInterface dialog) {
+		scale = ((EditDoubleDialog)dialog).getValue();		
 	}
 }
