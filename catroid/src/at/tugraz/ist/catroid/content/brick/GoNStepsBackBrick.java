@@ -66,7 +66,7 @@ public class GoNStepsBackBrick implements Brick, OnDismissListener {
 		View view = inflater.inflate(R.layout.construction_brick_go_back, null);
 		EditText edit = (EditText) view.findViewById(R.id.InputValueEditText);
 		
-		edit.setText(steps);
+		edit.setText(String.valueOf(steps));
         EditIntegerDialog dialog = new EditIntegerDialog(context, edit, steps);
 		dialog.setOnDismissListener(this);
 		edit.setOnClickListener(dialog);
