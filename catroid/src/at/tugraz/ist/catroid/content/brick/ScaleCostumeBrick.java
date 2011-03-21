@@ -24,9 +24,9 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.gui.dialogs.EditTextDialog;
 import at.tugraz.ist.catroid.content.entities.PrimitiveWrapper;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.ui.dialogs.brickdialogs.EditDoubleDialog;
 
 /**
  * @author Anton Rieder, Ainul Husna
@@ -47,7 +47,7 @@ public class ScaleCostumeBrick implements Brick {
 	}
 
 	public Sprite getSprite() {
-		return this.sprite;
+		return sprite;
 	}
 
 	public double getScale() {
@@ -60,9 +60,9 @@ public class ScaleCostumeBrick implements Brick {
 		EditText edit = (EditText) view.findViewById(R.id.EditText01);
 
 		edit.setText(scale.getValue() + "");
+        System.out.println("############# " + scale.getValue());
 
-		EditTextDialog dialog = new EditTextDialog(context, edit, adapter, false);
-		dialog.setDouble(scale);
+        EditDoubleDialog dialog = new EditDoubleDialog(context, edit, scale);
 		edit.setOnClickListener(dialog);
 
 		return view;
