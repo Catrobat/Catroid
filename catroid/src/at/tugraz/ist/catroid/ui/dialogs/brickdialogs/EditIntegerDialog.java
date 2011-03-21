@@ -8,38 +8,39 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.entities.PrimitiveWrapper;
 
-public class EditIntegerDialog extends EditBrickDialog implements OnClickListener {
+public class EditIntegerDialog extends EditDialog implements OnClickListener {
+	private int value;
 
-    private PrimitiveWrapper<Integer> intValueReference;
+	public EditIntegerDialog(Context context, EditText referencedEditText, int value) {
+		super(context, referencedEditText);
+		this.value = value;
+	}
 
-    public EditIntegerDialog(Context context, EditText editText, PrimitiveWrapper<Integer> wrapper) {
-        super(context, editText);
-        intValueReference = wrapper;
-    }
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		editText = (EditText) findViewById(R.id.dialogEditText);
+		editText.setText(String.valueOf(value));
+		editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+		Button closeButton = (Button) findViewById(R.id.dialogEditTextSubmit);
+		closeButton.setOnClickListener(this);
+	}
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        localEditText = (EditText) findViewById(R.id.dialogEditText);
-        localEditText.setText(intValueReference.getValue().intValue() + "");
-        localEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
-        Button closeButton = (Button) findViewById(R.id.dialogEditTextSubmit);
-        closeButton.setOnClickListener(this);
-    }
+	public int getValue() {
+		return Integer.parseInt(editText.getText().toString());
+	}
 
-    public void onClick(View v) {
-        if (v.getId() == editText.getId()) {
-            show();
-        } else if (v.getId() == R.id.dialogEditTextSubmit) {
-            try {
-                intValueReference.setValue(Integer.parseInt(localEditText.getText().toString()));
-                dismiss();
-            } catch (Exception e) {
-                intValueReference.setValue(0);
-                dismiss();
-            }
-        }
-    }
+	public int getRefernecedEditTextId() {
+		return referencedEditText.getId();
+	}
+
+	public void onClick(View v) {
+		if (v.getId() == referencedEditText.getId()) {
+			show();
+		} else {
+			referencedEditText.setText(String.valueOf(value));
+			dismiss();
+		}
+	}
 }

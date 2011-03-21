@@ -41,7 +41,7 @@ public class ShowBrick implements Brick {
 	public Sprite getSprite() {
 		return this.sprite;
 	}
-
+ 
 	public View getView(Context context, BaseAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		return inflater.inflate(R.layout.brick_show, null);
