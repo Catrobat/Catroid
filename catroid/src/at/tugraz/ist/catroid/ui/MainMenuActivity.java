@@ -128,26 +128,26 @@ public class MainMenuActivity extends Activity {
     
     @Override
     protected Dialog onCreateDialog(int id) {
-    	Dialog dialog;
-    	projectManager.saveProject(this);
+        Dialog dialog;
+        projectManager.saveProject(this);
 
-    	switch (id) {
-    	case NEW_PROJECT_DIALOG:
-    		dialog = new NewProjectDialog(this);
-    		break;
-    	case LOAD_PROJECT_DIALOG:
-    		dialog = new LoadProjectDialog(this);
-    		break;
-    	case ABOUT_DIALOG:
-    		dialog = new AboutDialog(this);
-    		break;
-    	default:
-    		dialog = null;
-    		break;
-    	}
+        switch (id) {
+        case NEW_PROJECT_DIALOG:
+            dialog = new NewProjectDialog(this);
+            break;
+        case LOAD_PROJECT_DIALOG:
+            dialog = new LoadProjectDialog(this);
+            break;
+        case ABOUT_DIALOG:
+            dialog = new AboutDialog(this);
+            break;
+        default:
+            dialog = null;
+            break;
+        }
 
-    	return dialog;
-    	}
+        return dialog;
+    }
 
 
     @Override
