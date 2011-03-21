@@ -19,37 +19,38 @@
 package at.tugraz.ist.catroid.content.brick;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.entities.PrimitiveWrapper;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.brickdialogs.EditIntegerDialog;
 
-public class GoNStepsBackBrick implements Brick {
+public class GoNStepsBackBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
-	protected Sprite sprite;
-	protected PrimitiveWrapper<Integer> steps;
+	private Sprite sprite;
+	private int steps;
 
 	public GoNStepsBackBrick(Sprite sprite, int steps) {
 		this.sprite = sprite;
-		this.steps  = new PrimitiveWrapper<Integer>(steps);
+		this.steps  = steps;
 	}
 
 	public void execute() {
-		if (steps.getValue() <= 0)
+		if (steps <= 0)
 			throw new NumberFormatException("Steps was not a positive number!");
 		
 		int currentPosition = sprite.getZPosition();
 		
-		if (currentPosition - steps.getValue() > currentPosition) {
+		if (currentPosition - steps > currentPosition) {
 			sprite.setZPosition(Integer.MIN_VALUE);
 			return;
 		}
 		
-		sprite.setZPosition(currentPosition - steps.getValue());
+		sprite.setZPosition(currentPosition - steps);
 	}
 
 	public Sprite getSprite() {
@@ -57,7 +58,7 @@ public class GoNStepsBackBrick implements Brick {
 	}
 	
 	public int getSteps() {
-		return steps.getValue();
+		return steps;
 	}
 
 	public View getView(Context context, BaseAdapter adapter) {
@@ -65,10 +66,9 @@ public class GoNStepsBackBrick implements Brick {
 		View view = inflater.inflate(R.layout.construction_brick_go_back, null);
 		EditText edit = (EditText) view.findViewById(R.id.InputValueEditText);
 		
-		edit.setText(steps.getValue() + "");
-		
+		edit.setText(steps);
         EditIntegerDialog dialog = new EditIntegerDialog(context, edit, steps);
-		
+		dialog.setOnDismissListener(this);
 		edit.setOnClickListener(dialog);
 		
 		return view;
@@ -84,6 +84,10 @@ public class GoNStepsBackBrick implements Brick {
     public Brick clone() {
 		return new GoNStepsBackBrick(getSprite(), getSteps());
 		
+	}
+
+	public void onDismiss(DialogInterface dialog) {
+		steps = ((EditIntegerDialog)dialog).getValue();
 	}
 
 }
