@@ -122,10 +122,10 @@ public class SpriteActivity extends Activity {
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
         if (hasFocus) {
 			updateTextAndAdapter();
         }
-		super.onWindowFocusChanged(hasFocus);
 	}
 
 	private void updateTextAndAdapter() {

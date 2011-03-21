@@ -40,6 +40,7 @@ public class NewScriptDialog extends Dialog {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_new_script);
         setTitle(R.string.new_script_dialog_title);
         setCanceledOnTouchOutside(true);

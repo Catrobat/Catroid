@@ -40,6 +40,7 @@ public class NewSpriteDialog extends Dialog {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_new_sprite);
         setTitle(R.string.new_sprite_dialog_title);
         setCanceledOnTouchOutside(true);
