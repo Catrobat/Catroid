@@ -22,9 +22,8 @@ public class EditDoubleDialog extends EditBrickDialog implements OnClickListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        localEditText = (EditText) findViewById(R.id.dialogEditText);
-        localEditText.setText(doubleValueReference.getValue().intValue() + "");
-        localEditText.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        localEditText.setText(doubleValueReference.getValue() + "");
+        localEditText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         Button closeButton = (Button) findViewById(R.id.dialogEditTextSubmit);
         closeButton.setOnClickListener(this);
     }

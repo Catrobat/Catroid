@@ -22,7 +22,6 @@ public class EditIntegerDialog extends EditBrickDialog implements OnClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        localEditText = (EditText) findViewById(R.id.dialogEditText);
         localEditText.setText(intValueReference.getValue().intValue() + "");
         localEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
         Button closeButton = (Button) findViewById(R.id.dialogEditTextSubmit);

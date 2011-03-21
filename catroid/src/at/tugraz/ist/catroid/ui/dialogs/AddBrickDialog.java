@@ -36,6 +36,7 @@ import at.tugraz.ist.catroid.content.brick.HideBrick;
 import at.tugraz.ist.catroid.content.brick.IfTouchedBrick;
 import at.tugraz.ist.catroid.content.brick.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.brick.PlaySoundBrick;
+import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.brick.ShowBrick;
 import at.tugraz.ist.catroid.content.brick.WaitBrick;
 import at.tugraz.ist.catroid.content.script.Script;
@@ -55,7 +56,8 @@ public class AddBrickDialog extends Dialog {
         prototypeBrickList.add(new HideBrick(null));
         prototypeBrickList.add(new ShowBrick(null));
         prototypeBrickList.add(new PlaceAtBrick(null, 100, 200));
-        // brickList.add(new SetCostumeBrick(null));
+        //prototypeBrickList.add(new SetCostumeBrick(null));
+        prototypeBrickList.add(new ScaleCostumeBrick(null, 100));
         prototypeBrickList.add(new GoNStepsBackBrick(null, 1));
         prototypeBrickList.add(new ComeToFrontBrick(null, null));
         prototypeBrickList.add(new IfTouchedBrick(null, new Script()));

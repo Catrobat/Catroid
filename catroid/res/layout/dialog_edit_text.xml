@@ -13,7 +13,7 @@
 		android:singleLine="true" />
 	<Button
 		android:id="@+id/dialogEditTextSubmit"
-		android:text="@string/close"
+		android:text="@string/ok"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content" />
 </LinearLayout>
