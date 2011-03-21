@@ -20,6 +20,10 @@
     <string name="loading">Loading...</string>
     <string name="stage">Stage</string>
 
+    <!-- Brick captions -->
+    <string name="show">Show</string>
+    <string name="hide">Hide</string>
+
     <!-- Construction site context menu -->
     <string name="construction_site_play">To Stage</string>
     <string name="reset">Reset Construction Site</string>
