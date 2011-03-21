@@ -7,21 +7,21 @@ import android.view.Window;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 
-public class EditBrickDialog extends Dialog {
+public class EditDialog extends Dialog {
 
-    protected EditText localEditText;
     protected EditText editText;
+    protected EditText referencedEditText;
 
-    public EditBrickDialog(Context context, EditText editText) {
+    public EditDialog(Context context, EditText referencedEditText) {
         super(context);
-        this.editText = editText;
+        this.referencedEditText = referencedEditText;
     }
 
     private void init() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_edit_text);
         setCanceledOnTouchOutside(true);
-        localEditText = (EditText) findViewById(R.id.dialogEditText);
+        editText = (EditText) findViewById(R.id.dialogEditText);
     }
 
     @Override

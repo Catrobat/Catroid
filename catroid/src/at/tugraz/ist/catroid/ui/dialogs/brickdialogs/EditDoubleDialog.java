@@ -8,38 +8,35 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.entities.PrimitiveWrapper;
 
-public class EditDoubleDialog extends EditBrickDialog implements OnClickListener {
+public class EditDoubleDialog extends EditDialog implements OnClickListener {
+    private double value;
 
-    private PrimitiveWrapper<Double> doubleValueReference;
-
-    public EditDoubleDialog(Context context, EditText editText, PrimitiveWrapper<Double> wrapper) {
-        super(context, editText);
-        doubleValueReference = wrapper;
+    public EditDoubleDialog(Context context, EditText referencedEditText, double value) {
+        super(context, referencedEditText);
+        this.value = value;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        localEditText = (EditText) findViewById(R.id.dialogEditText);
-        localEditText.setText(doubleValueReference.getValue().intValue() + "");
-        localEditText.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        editText = (EditText) findViewById(R.id.dialogEditText);
+        editText.setText(String.valueOf(value));
+        editText.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
         Button closeButton = (Button) findViewById(R.id.dialogEditTextSubmit);
         closeButton.setOnClickListener(this);
+        super.onCreate(savedInstanceState);
+    }
+    
+    public double getValue() {
+    	return value;
     }
 
     public void onClick(View v) {
-        if (v.getId() == editText.getId()) {
+    	if (v.getId() == referencedEditText.getId()) {
             show();
-        } else if (v.getId() == R.id.dialogEditTextSubmit) {
-            try {
-                doubleValueReference.setValue(Double.parseDouble(localEditText.getText().toString()));
-                dismiss();
-            } catch (Exception e) {
-                doubleValueReference.setValue(0.0);
-                dismiss();
-            }
+        } else {
+        	referencedEditText.setText(String.valueOf(value));
+        	dismiss();
         }
     }
 }
