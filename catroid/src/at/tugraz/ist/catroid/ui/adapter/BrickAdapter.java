@@ -63,6 +63,5 @@ public class BrickAdapter extends BaseAdapter {
         } else {
             return brick.getView(context, this);
         }
-
 	}
 }
