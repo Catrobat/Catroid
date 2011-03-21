@@ -2,7 +2,7 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:id="@+id/RelativeLayout01" android:layout_width="wrap_content"
-	android:layout_height="wrap_content" android:background="@drawable/construction_brick_yellow"
+	android:layout_height="wrap_content" android:background="@drawable/brick_yellow"
 	android:longClickable="true" android:focusable="false"
 	android:focusableInTouchMode="false">
 

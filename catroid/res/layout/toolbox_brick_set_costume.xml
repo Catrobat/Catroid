@@ -1,34 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
-		android:id="@+id/RelativeLayout01" 
-		android:layout_width="wrap_content" 
-		android:layout_height="wrap_content" 
-		android:onClick="@string/onBrickClickListener" android:background="@drawable/brick_violet">
-		<RelativeLayout android:layout_width="wrap_content" 
-			android:layout_height="wrap_content" 
-			android:layout_alignParentRight="true" 
-			android:padding="5dip" 
-			android:background="@drawable/image_background" android:id="@+id/SetCostumeRelativeLayout">
-			<ImageView android:id="@+id/ImageView01" 
-				android:layout_width="wrap_content" 
-				android:layout_height="wrap_content" 
-				android:clickable="false" 
-				android:focusable="false" 
-				android:focusableInTouchMode="false" 
-				android:layout_centerInParent="true" 
-				android:background="@drawable/icon">
-			</ImageView>
-		</RelativeLayout>
-		<TextView android:layout_width="wrap_content" 
-			android:layout_height="wrap_content" 
-			android:id="@+id/ValueTextView" 
-			android:textStyle="bold" 
-			android:layout_alignParentLeft="true" 
-			android:textColor="@color/white" 
-			android:layout_centerVertical="true" 
-			android:text="@string/costume_main_adapter"
-			 android:textSize="18dip" android:layout_toLeftOf="@+id/SetCostumeRelativeLayout">
-		</TextView>
-	</RelativeLayout>
-	
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout01"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/brick_violet"
+>
+    <RelativeLayout
+        android:id="@+id/SetCostumeRelativeLayout"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/image_background"
+        android:padding="5dip"
+    >
+        <ImageView
+            android:id="@+id/ImageView01"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/icon"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+        >
+        </ImageView>
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/ValueTextView"
+        android:text="@string/costume_main_adapter"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/SetCostumeRelativeLayout"
+        android:textColor="@color/white"
+        android:textSize="18dip"
+        android:textStyle="bold"
+    >
+    </TextView>
+</RelativeLayout>

@@ -4,8 +4,10 @@
 		android:id="@+id/RelativeLayout01" 
 		android:layout_width="wrap_content" 
 		android:layout_height="wrap_content" 
-		android:background="@drawable/construction_brick_violet" 
-		android:longClickable="true" android:focusable="false" android:focusableInTouchMode="false">
+		android:background="@drawable/brick_violet" 
+		android:longClickable="true" 
+		android:focusable="false" 
+		android:focusableInTouchMode="false">
 		<TextView 
 			android:layout_width="wrap_content" 
 			android:layout_height="wrap_content" 
@@ -29,19 +31,23 @@
 			android:inputType="numberDecimal" 
 			android:tag="@string/constructional_brick_scale_costume_edit_text_tag" 
 			android:layout_marginLeft="5dip"
-					 android:cursorVisible="false" 
-		 android:focusable="false" 
-		 android:focusableInTouchMode="false"></EditText>
+			android:cursorVisible="false" 
+	        android:focusable="false" 
+		    android:focusableInTouchMode="false">
+		</EditText>
 		
-		<TextView android:layout_width="wrap_content" 
+		<TextView
+			android:layout_width="wrap_content" 
 			android:layout_height="wrap_content" 
 			android:id="@+id/ValueTextView" 
 			android:textStyle="bold" 
 			android:layout_alignParentLeft="true" 
 			android:textColor="@color/white" 
 			android:layout_centerVertical="true" 
-			android:textSize="18dip" android:text="@string/scaleCustome" android:paddingRight="5dip">
-	</TextView>
+			android:textSize="18dip"
+			android:text="@string/scaleCustome" 
+			android:paddingRight="5dip">
+	   </TextView>
 	
 </RelativeLayout>
 	

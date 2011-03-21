@@ -30,29 +30,29 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class LoadProjectDialog extends Dialog {
     private final Context context;
-    private final ContentManager contentManager;
     private ListView listView;
     private ArrayAdapter<String> adapter;
-    private final ArrayList<String> adapterFileList;
+    private ArrayList<String> adapterFileList;
 
-    public LoadProjectDialog(Context context, ContentManager contentManager) {
+	public LoadProjectDialog(Context context) {
         super(context);
         this.context = context;
-        this.contentManager = contentManager;
         adapterFileList = new ArrayList<String>();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.load_project_dialog);
-        setTitle(R.string.laod_project_dialog_title);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.dialog_load_project);
+        setTitle(R.string.load_project_dialog_title);
+        setCanceledOnTouchOutside(true);
 
         File rootDirectory = new File(context.getString(R.string.default_root));
         searchForProjectFiles(rootDirectory);
@@ -63,7 +63,7 @@ public class LoadProjectDialog extends Dialog {
         listView.setOnItemClickListener(new ListView.OnItemClickListener() {
         	
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (!contentManager.loadContent(adapter.getItem(position))) {
+				if (!ProjectManager.getInstance().loadProject(adapter.getItem(position), context)) {
                     dismiss(); //TODO: should we dismiss here? or continue project choosing
                     return;
                 }
@@ -73,6 +73,16 @@ public class LoadProjectDialog extends Dialog {
             }
         });
     }
+
+	@Override
+	protected void onStart() {
+		//update List:
+		adapterFileList.clear();
+		File rootDirectory = new File(context.getString(R.string.default_root));
+		searchForProjectFiles(rootDirectory);
+		adapter.notifyDataSetChanged();
+		super.onStart();
+	}
 
     public void searchForProjectFiles(File directory) {
         File[] sdFileList = directory.listFiles();
