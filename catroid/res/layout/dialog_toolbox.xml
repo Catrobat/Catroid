@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:scrollbarDefaultDelayBeforeFade="2000"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:scrollbarDefaultDelayBeforeFade="2000"
 >
-    <ListView
-        android:id="@+id/toolboxListView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fadingEdge="vertical"
-        android:fadingEdgeLength="50.0dp"
-        android:scrollbarFadeDuration="2000"
-        android:clickable="true"
-        android:dividerHeight="10dip"
-    ></ListView>
+	<ListView
+		android:id="@+id/toolboxListView"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:fadingEdge="vertical"
+		android:fadingEdgeLength="50.0dp"
+		android:scrollbarFadeDuration="2000"
+		android:clickable="true"
+		android:dividerHeight="10dip"
+	></ListView>
 </LinearLayout>
