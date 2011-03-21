@@ -39,6 +39,7 @@ public class AboutDialog extends Dialog {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     	requestWindowFeature(Window.FEATURE_LEFT_ICON);
     	setContentView(R.layout.dialog_about);
     	setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, android.R.drawable.ic_dialog_info);
