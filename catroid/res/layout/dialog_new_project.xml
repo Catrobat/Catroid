@@ -1,33 +1,34 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent" 
-    android:layout_height="match_parent"
-    android:padding="10dp"
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_height="match_parent"
+	android:layout_width="match_parent"
+	android:padding="10dp"
 >
-    <EditText
+	<EditText
 		android:hint="@string/new_project_dialog_default_project_name"
-	    android:id="@+id/newProjectNameEditText"
-	    android:layout_height="wrap_content" 
-	    android:layout_width="fill_parent" 
-	    android:maxLines="1"
-	    android:singleLine="true"/>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:id="@+id/newProjectNameEditText"
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent"
+		android:maxLines="1"
+		android:singleLine="true" />
+	<LinearLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
 		android:orientation="horizontal"
 		android:layout_width="fill_parent"
-		android:layout_height="wrap_content">
+		android:layout_height="wrap_content"
+	>
 		<Button
 			android:text="@string/new_project_dialog_button"
 			android:id="@+id/createNewProjectButton"
-			android:layout_weight=".5"
 			android:layout_height="wrap_content"
 			android:layout_width="fill_parent"
-		/>
+			android:layout_weight=".5" />
 		<Button
-			android:text="@string/cancel_button"
 			android:id="@+id/cancelDialogButton"
-			android:layout_weight=".5" 
+			android:text="@string/cancel_button"
 			android:layout_height="wrap_content"
-			android:layout_width="fill_parent"
-		/>
+			android:layout_weight=".5"
+			android:layout_width="fill_parent" />
 	</LinearLayout>
 </LinearLayout>
