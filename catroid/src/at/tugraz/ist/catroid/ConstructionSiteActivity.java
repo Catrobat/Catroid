@@ -27,7 +27,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.constructionSite.gui.adapter.ProgrammAdapter;
-import at.tugraz.ist.catroid.constructionSite.gui.dialogs.ToolBoxDialog;
 import at.tugraz.ist.catroid.content.brick.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.brick.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.brick.HideBrick;
@@ -78,7 +77,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	public static int SCREEN_HEIGHT;
 
     //	private ToolBoxDialog mToolboxObjectDialog;
-	private ToolBoxDialog mToolboxStageDialog;
+//	private ToolBoxDialog mToolboxStageDialog;
     //	private Dialog mNewProjectDialog;
     //	private Dialog mChangeProgramNameDialog;
     //	private Dialog mLoadDialog;
@@ -418,9 +417,9 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	 * 
 	 * @return one of the Toolbox
 	 */
-	public Dialog getToolboxDialog() {
-		return mToolboxStageDialog;
-	}
+//	public Dialog getToolboxDialog() {
+//		return mToolboxStageDialog;
+//	}
 
 	public void onBrickClickListener(View v) {
         //		if (contentManager.getCurrentSprite().getName().equals(this.getString(R.string.stage))) {
