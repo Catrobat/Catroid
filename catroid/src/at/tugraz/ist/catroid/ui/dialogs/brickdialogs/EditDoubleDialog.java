@@ -13,8 +13,6 @@ import at.tugraz.ist.catroid.content.entities.PrimitiveWrapper;
 public class EditDoubleDialog extends EditBrickDialog implements OnClickListener {
 
     private PrimitiveWrapper<Double> doubleValueReference;
-    private EditText localEditText;
-    private EditText editText;
 
     public EditDoubleDialog(Context context, EditText editText, PrimitiveWrapper<Double> wrapper) {
         super(context, editText);
@@ -23,12 +21,12 @@ public class EditDoubleDialog extends EditBrickDialog implements OnClickListener
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         localEditText = (EditText) findViewById(R.id.dialogEditText);
         localEditText.setText(doubleValueReference.getValue().intValue() + "");
         localEditText.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
         Button closeButton = (Button) findViewById(R.id.dialogEditTextSubmit);
         closeButton.setOnClickListener(this);
-        super.onCreate(savedInstanceState);
     }
 
     public void onClick(View v) {
