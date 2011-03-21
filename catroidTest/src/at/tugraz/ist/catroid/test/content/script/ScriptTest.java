@@ -3,12 +3,12 @@ package at.tugraz.ist.catroid.test.content.script;
 import java.util.ArrayList;
 
 import android.test.AndroidTestCase;
-import at.tugraz.ist.catroid.content.brick.gui.Brick;
-import at.tugraz.ist.catroid.content.brick.gui.ComeToFrontBrick;
-import at.tugraz.ist.catroid.content.brick.gui.HideBrick;
-import at.tugraz.ist.catroid.content.brick.gui.PlaceAtBrick;
-import at.tugraz.ist.catroid.content.brick.gui.ScaleCostumeBrick;
-import at.tugraz.ist.catroid.content.brick.gui.ShowBrick;
+import at.tugraz.ist.catroid.content.brick.Brick;
+import at.tugraz.ist.catroid.content.brick.ComeToFrontBrick;
+import at.tugraz.ist.catroid.content.brick.HideBrick;
+import at.tugraz.ist.catroid.content.brick.PlaceAtBrick;
+import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrick;
+import at.tugraz.ist.catroid.content.brick.ShowBrick;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 

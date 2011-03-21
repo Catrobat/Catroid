@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import android.test.InstrumentationTestCase;
-import at.tugraz.ist.catroid.content.brick.gui.SetCostumeBrick;
+import at.tugraz.ist.catroid.content.brick.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.test.R;

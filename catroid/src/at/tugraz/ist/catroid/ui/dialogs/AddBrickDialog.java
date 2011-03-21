@@ -18,114 +18,109 @@
  */
 package at.tugraz.ist.catroid.ui.dialogs;
 
-/**
- * @author DENISE
- *
- */
-
-
 import java.util.ArrayList;
-import java.util.List;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
-import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
-import android.view.animation.AnimationUtils;
-import android.widget.LinearLayout;
+import android.widget.AdapterView;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
-import at.tugraz.ist.catroid.content.brick.gui.Brick;
-import at.tugraz.ist.catroid.content.brick.gui.ComeToFrontBrick;
-import at.tugraz.ist.catroid.content.brick.gui.GoNStepsBackBrick;
-import at.tugraz.ist.catroid.content.brick.gui.HideBrick;
-import at.tugraz.ist.catroid.content.brick.gui.IfTouchedBrick;
-import at.tugraz.ist.catroid.content.brick.gui.PlaceAtBrick;
-import at.tugraz.ist.catroid.content.brick.gui.PlaySoundBrick;
-import at.tugraz.ist.catroid.content.brick.gui.SetCostumeBrick;
-import at.tugraz.ist.catroid.content.brick.gui.ShowBrick;
-import at.tugraz.ist.catroid.content.brick.gui.WaitBrick;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.content.brick.Brick;
+import at.tugraz.ist.catroid.content.brick.ComeToFrontBrick;
+import at.tugraz.ist.catroid.content.brick.GoNStepsBackBrick;
+import at.tugraz.ist.catroid.content.brick.HideBrick;
+import at.tugraz.ist.catroid.content.brick.IfTouchedBrick;
+import at.tugraz.ist.catroid.content.brick.PlaceAtBrick;
+import at.tugraz.ist.catroid.content.brick.PlaySoundBrick;
+import at.tugraz.ist.catroid.content.brick.ShowBrick;
+import at.tugraz.ist.catroid.content.brick.WaitBrick;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
-import at.tugraz.ist.catroid.ui.adapter.AddBrickAdapter;
+import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 
 public class AddBrickDialog extends Dialog {
 
-	private Animation slideInAnimation;
-	private Animation slideOutAnimation;
-	private AddBrickAdapter adapter;
-	private LinearLayout layout;
-
-	private List<Brick> brickList;
+    //	private Animation slideInAnimation;
+    //	private Animation slideOutAnimation;
+    //private LinearLayout layout;
+    private ArrayList<Brick> prototypeBrickList;
 	private ListView listView;
+    private BrickAdapter adapter;
 
 	private void setupBrickPrototypes() {
-		brickList = new ArrayList<Brick>();
-		brickList.add(new PlaySoundBrick(""));
-		brickList.add(new WaitBrick(1000));
-		brickList.add(new HideBrick(null));
-		brickList.add(new ShowBrick(null));
-		brickList.add(new PlaceAtBrick(null, 100, 200));
+		prototypeBrickList = new ArrayList<Brick>();
+		prototypeBrickList.add(new PlaySoundBrick(""));
+        prototypeBrickList.add(new WaitBrick(1));
+		prototypeBrickList.add(new HideBrick(null));
+		prototypeBrickList.add(new ShowBrick(null));
+		prototypeBrickList.add(new PlaceAtBrick(null, 100, 200));
 //		brickList.add(new SetCostumeBrick(null));
-		brickList.add(new GoNStepsBackBrick(null, 1));
-		brickList.add(new ComeToFrontBrick(null, null));
-		brickList.add(new IfTouchedBrick(null, new Script()));
+		prototypeBrickList.add(new GoNStepsBackBrick(null, 1));
+		prototypeBrickList.add(new ComeToFrontBrick(null, null));
+		prototypeBrickList.add(new IfTouchedBrick(null, new Script()));
 	}
 
-	public AddBrickDialog(ScriptActivity scriptActivity, ContentManager contentManager) {
+    public AddBrickDialog(ScriptActivity scriptActivity) {
 		super(scriptActivity);
 		setupBrickPrototypes();
 
 		// adjust window
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-		getWindow().setGravity(Gravity.CENTER_HORIZONTAL);
+        //		getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        //		getWindow().setGravity(Gravity.CENTER_HORIZONTAL);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.dialog_toolbox);
+        getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
-		// initialize animations
-		slideInAnimation = AnimationUtils.loadAnimation(scriptActivity, R.anim.toolbox_in);
-		slideOutAnimation = AnimationUtils.loadAnimation(scriptActivity, R.anim.toolbox_out);
-		slideOutAnimation.setAnimationListener(new AnimationListener() {
-			public void onAnimationStart(Animation animation) {
-			}
+        //		// initialize animations
+        //		slideInAnimation = AnimationUtils.loadAnimation(scriptActivity, R.anim.toolbox_in);
+        //		slideOutAnimation = AnimationUtils.loadAnimation(scriptActivity, R.anim.toolbox_out);
+        //		slideOutAnimation.setAnimationListener(new AnimationListener() {
+        //			public void onAnimationStart(Animation animation) {
+        //                System.out.println("##############animation start");
+        //			}
+        //
+        //			public void onAnimationRepeat(Animation animation) {
+        //                System.out.println("##############animation rep");
+        //			}
+        //
+        //			public void onAnimationEnd(Animation animation) {
+        //                System.out.println("##############animation end");
+        //				close();
+        //			}
+        //		});
 
-			public void onAnimationRepeat(Animation animation) {
-			}
-
-			public void onAnimationEnd(Animation animation) {
-				close();
-			}
-		});
-
-		layout = (LinearLayout) findViewById(R.id.toolbox_layout);
+        adapter = new BrickAdapter(scriptActivity, prototypeBrickList);
+        adapter.isToolboxAdapter = true;
+        //layout = (LinearLayout) findViewById(R.id.toolbox_layout);
 		listView = (ListView) findViewById(R.id.toolboxListView);
-		listView.setAdapter(new AddBrickAdapter(scriptActivity, brickList));
-		listView.setOnItemClickListener(scriptActivity);
-
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new ListView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ProjectManager.getInstance().addBrick(getBrickClone(adapter.getItem(position)));
+                dismiss();
+            }
+        });
 	}
 
-	@Override
-	public void show() {
-		super.show();
-		layout.startAnimation(slideInAnimation);
-	}
+    //	@Override
+    //	public void show() {
+    //		super.show();
+    //		layout.startAnimation(slideInAnimation);
+    //	}
 
-	@Override
-	public void cancel() {
-		layout.startAnimation(slideOutAnimation);
+    //	@Override
+    //	public void cancel() {
+    //		layout.startAnimation(slideOutAnimation);
+    //	}
 
-	}
+    //	private void close() {
+    //		super.cancel();
+    //	}
 
-	private void close() {
-		super.cancel();
-	}
-
-	public Brick getBrickClone(View v) {
-		return adapter.getItem(listView.getPositionForView(v)).clone();
-	}
-
+    public Brick getBrickClone(Brick brick) {
+        return brick.clone();
+    }
 }

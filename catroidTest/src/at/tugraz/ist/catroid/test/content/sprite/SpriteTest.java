@@ -22,9 +22,9 @@ import java.lang.reflect.Field;
 
 import android.test.AndroidTestCase;
 import android.util.Log;
-import at.tugraz.ist.catroid.content.brick.gui.HideBrick;
-import at.tugraz.ist.catroid.content.brick.gui.ScaleCostumeBrick;
-import at.tugraz.ist.catroid.content.brick.gui.ShowBrick;
+import at.tugraz.ist.catroid.content.brick.HideBrick;
+import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrick;
+import at.tugraz.ist.catroid.content.brick.ShowBrick;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Costume;
 import at.tugraz.ist.catroid.content.sprite.Sprite;

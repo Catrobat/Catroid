@@ -33,7 +33,8 @@ public class ProgrammAdapter extends BaseAdapter {
 	}
 
 	public int getCount() {
-		return script.getBrickList().size();
+		return 1;
+//		return script.getBrickList().size();
 	}
 	
 	public Object getItem(int arg0) {

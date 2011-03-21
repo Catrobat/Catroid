@@ -47,8 +47,8 @@ public class StorageHandler {
 
     private static StorageHandler instance;
     private ArrayList<SoundInfo> soundContent;
-    private final File catroidRoot;
-    private final XStream xstream;
+    private File catroidRoot;
+    private XStream xstream;
 
     private StorageHandler() throws IOException {
         String state = Environment.getExternalStorageState();
@@ -62,7 +62,9 @@ public class StorageHandler {
         // We can read and write the media
         String catroidPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + DIRECTORY_NAME;
         catroidRoot = new File(catroidPath);
-
+        if (!catroidRoot.exists()) {
+            catroidRoot.mkdirs();
+        }
     }
 
     public synchronized static StorageHandler getInstance() throws IOException {
@@ -87,35 +89,36 @@ public class StorageHandler {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
             return null;
         }
     }
 
     public void saveProject(Project project) {
 
-        String spfFile = xstream.toXML(project);
-        File projectDirectory = new File(catroidRoot.getAbsolutePath() + "/" + project.getName());
-        if (!(projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite())) {
-            projectDirectory.mkdir();
-            File imageDirectory = new File(projectDirectory.getAbsolutePath() + "/images");
-            imageDirectory.mkdir();
-            File soundDirectory = new File(projectDirectory.getAbsolutePath() + "/sounds");
-            soundDirectory.mkdir();
-        }
         try {
+            String spfFile = xstream.toXML(project);
+
+            File projectDirectory = new File(catroidRoot.getAbsolutePath() + "/" + project.getName());
+            if (!(projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite())) {
+                projectDirectory.mkdir();
+                File imageDirectory = new File(projectDirectory.getAbsolutePath() + "/images");
+                imageDirectory.mkdir();
+                File soundDirectory = new File(projectDirectory.getAbsolutePath() + "/sounds");
+                soundDirectory.mkdir();
+            }
             BufferedWriter out = new BufferedWriter(new FileWriter(projectDirectory.getAbsolutePath() + "/"
                     + project.getName() + PROJECT_EXTENTION));
             out.write(spfFile);
+			out.flush();
             out.close();
-        } catch (IOException e) {
+		} catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public boolean projectExists(String projectName) {
         File projectDirectory = new File(catroidRoot.getAbsolutePath() + "/" + projectName);
-        if (!(projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite())) {
+        if (!projectDirectory.exists()) {
             return false;
         }
         return true;
@@ -168,25 +171,8 @@ public class StorageHandler {
             saveProject(defaultProject);
             return defaultProject;
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
-
-    //    public ArrayList<String> searchForProjectFiles(File file, ArrayList<String> fileList, Context context) {
-    //
-    //        File[] sdFileList = file.listFiles();
-    //        int length = 0;
-    //        if (sdFileList != null) {
-    //            length = sdFileList.length;
-    //        }
-    //        for (int i = 0; i < length; i++) {
-    //            if (sdFileList[i].isDirectory()) {
-    //                fileList.addAll(searchForProjectFiles(sdFileList[i], fileList, context));
-    //                continue;
-    //            } else if (sdFileList[i].getName().endsWith(context.getString(R.string.default_file_ending))) {
-    //                fileList.add(sdFileList[i].getAbsolutePath());
-    //            }
-    //        }
-    //        return fileList;
-    //    }
 }

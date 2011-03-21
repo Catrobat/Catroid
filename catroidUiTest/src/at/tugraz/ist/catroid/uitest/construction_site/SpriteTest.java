@@ -17,9 +17,11 @@ import com.jayway.android.robotium.solo.Solo;
  * @author Peter Treitler, Thomas Holzmann
  * 
  */
+
 public class SpriteTest extends ActivityInstrumentationTestCase2<ConstructionSiteActivity> {
 	private Solo solo;
-
+	// TODO: This is a hack! This test is going to be replaces anyway!
+	private String toolbar = "B\nu\ni\nl\nd\ni\nn\ng\n \nB\nl\no\nc\nk\ns";
 	public SpriteTest() {
 		super("at.tugraz.ist.catroid", ConstructionSiteActivity.class);
 	}
@@ -28,13 +30,15 @@ public class SpriteTest extends ActivityInstrumentationTestCase2<ConstructionSit
 		solo.clickOnMenuItem(getActivity().getString(R.string.reset));
 	}
 
-	public void setUp() throws Exception {
+	@Override
+    public void setUp() throws Exception {
 		solo = new Solo(getInstrumentation(), getActivity());
 		clearConstructionSite();
 		addSprite("NewSprite");
 	}
 
-	public void tearDown() throws Exception {
+	@Override
+    public void tearDown() throws Exception {
 		clearConstructionSite();
 		try {
 			solo.finalize();
@@ -53,7 +57,7 @@ public class SpriteTest extends ActivityInstrumentationTestCase2<ConstructionSit
 	}
 
 	private void addBrick(int brickTextId) {
-		solo.clickOnButton(getActivity().getString(R.string.toolbar));
+		solo.clickOnButton(toolbar);
 		solo.clickOnText(getActivity().getString(brickTextId));
 	}
 
@@ -71,7 +75,6 @@ public class SpriteTest extends ActivityInstrumentationTestCase2<ConstructionSit
 
 		solo.clearEditText(0);
 		solo.enterText(0, "1.3");
-		// TODO: Does not run on HTC Desire; it needs an additional goBack() in order to close the soft keyboard
 		solo.goBack();
 		// Log.d("device", Settings.System.getString(getInstrumentation().getContext().getContentResolver(), "android.os.Build.MODEL"));
 	}
@@ -128,16 +131,16 @@ public class SpriteTest extends ActivityInstrumentationTestCase2<ConstructionSit
 
 	@Smoke
 	public void testNumberInputOfBricks() {
-		solo.clickOnButton(getActivity().getString(R.string.toolbar));
+		solo.clickOnButton(toolbar);
 		solo.clickOnText(getActivity().getString(R.string.wait_main_adapter));
 
-		solo.clickOnButton(getActivity().getString(R.string.toolbar));
+		solo.clickOnButton(toolbar);
 		solo.clickOnText(getActivity().getString(R.string.goto_main_adapter));
 
-		solo.clickOnButton(getActivity().getString(R.string.toolbar));
+		solo.clickOnButton(toolbar);
 		solo.clickOnText(getActivity().getString(R.string.scaleCustome));
 
-		solo.clickOnButton(getActivity().getString(R.string.toolbar));
+		solo.clickOnButton(toolbar);
 		solo.clickOnText(getActivity().getString(R.string.go_back_main_adapter));
 
 		typeInDecimalNumber(0);
@@ -166,8 +169,6 @@ public class SpriteTest extends ActivityInstrumentationTestCase2<ConstructionSit
 
 	@Smoke
 	public void testSelectSound() throws InterruptedException {
-		// TODO: If there are no sounds on the device this test fails. Copy some
-		// default sounds to device?
 		addBrick(R.string.play_sound_main_adapter);
 
 		Thread.sleep(400);

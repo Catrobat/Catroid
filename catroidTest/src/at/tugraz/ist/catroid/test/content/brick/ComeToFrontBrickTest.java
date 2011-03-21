@@ -3,8 +3,7 @@ package at.tugraz.ist.catroid.test.content.brick;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.AndroidTestCase;
 import android.view.View;
-import at.tugraz.ist.catroid.content.brick.ComeToFrontBrickBase;
-import at.tugraz.ist.catroid.content.brick.gui.ComeToFrontBrick;
+import at.tugraz.ist.catroid.content.brick.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.project.Project;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
@@ -24,14 +23,14 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 		project.addSprite(bottomSprite);
 		project.addSprite(topSprite);
 		
-		ComeToFrontBrickBase comeToFrontBrick = new ComeToFrontBrick(bottomSprite, project);
+		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(bottomSprite, project);
 		comeToFrontBrick.execute();
 		assertEquals("bottomSprite z position should now be 3", bottomSprite.getZPosition(), 3);
 	}
 	
 	public void testNullSprite() throws NameNotFoundException {
 		Project project = new Project(getContext(), "testProject");
-		ComeToFrontBrickBase comeToFrontBrick = new ComeToFrontBrick(null, project);
+		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(null, project);
 		
 		try {
 			comeToFrontBrick.execute();
@@ -49,7 +48,7 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 		
 		project.addSprite(sprite);
 		
-		ComeToFrontBrickBase brick = new ComeToFrontBrick(sprite, project);
+		ComeToFrontBrick brick = new ComeToFrontBrick(sprite, project);
 		brick.execute();
 		
 		assertEquals("An Integer overflow occured during ComeToFrontBrick Execution"

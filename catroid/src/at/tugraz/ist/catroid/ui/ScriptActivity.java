@@ -16,40 +16,56 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package at.tugraz.ist.catroid.ui;
+
+import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.content.ContentManager;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.content.brick.Brick;
+import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
 
-/**
- * @author DENISE
- *
- */
-public class ScriptActivity extends Activity implements OnItemClickListener {
+public class ScriptActivity extends Activity {
     private static final int ADD_BRICK_DIALOG = 0;
-    //private static final int LOAD_PROJECT_DIALOG = 1;
-    private static final String PREFS_NAME = "at.tugraz.ist.catroid";
-    private static final String PREF_PREFIX_KEY = "prefix_";
-    private ContentManager contentManager;
+    protected ListView brickListView;
+    private ArrayList<Brick> adapterBrickList;
+    private BrickAdapter adapter;
+    private ListView listView;
 
     private void initListeners() {
+
+        adapterBrickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
+        adapter = new BrickAdapter(this, adapterBrickList);
+
+        listView = (ListView) findViewById(R.id.brickListView);
+        listView.setAdapter(adapter);
+        //registerForContextMenu(listView);
+        //        listView.setOnItemClickListener(new ListView.OnItemClickListener() {
+        //
+        //            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        //                if (ProjectManager.getInstance().setCurrentSprite(adapter.getItem(position))) {
+        //                    Intent intent = new Intent(ProjectActivity.this, SpriteActivity.class);
+        //                    ProjectActivity.this.startActivity(intent);
+		///                }
+        //                //TODO: error if selected sprite is not in the project
+        //            }
+        //        });
 
         Button mainMenuButton = (Button) findViewById(R.id.mainMenuButton);
         mainMenuButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-            	Intent intent = new Intent(ScriptActivity.this, MainMenuActivity.class);
-            	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                Intent intent = new Intent(ScriptActivity.this, MainMenuActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
         });
@@ -66,48 +82,38 @@ public class ScriptActivity extends Activity implements OnItemClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.script_activity);
-        
-        // Try to load sharedPreferences
-        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        String prefix = prefs.getString(PREF_PREFIX_KEY, null);
-        if (prefix != null) {
-            contentManager = new ContentManager(this, prefix);
-        } else {
-            contentManager = new ContentManager(this, null); //null: creates default project
-        }
-        
-
-            ListView currentBrickListView = (ListView) findViewById(R.id.brickListView);
-            //currentBrickListView.set(getString(R.string.current_project) + " " + getString(R.string.no_project));
-        
         initListeners();
     }
 
     @Override
     protected Dialog onCreateDialog(int id) {
         Dialog dialog;
-        contentManager.saveContent();
 
         switch (id) {
         case ADD_BRICK_DIALOG:
-            dialog = new AddBrickDialog(this, contentManager);
+            dialog = new AddBrickDialog(this);
             break;
-        //case LOAD_PROJECT_DIALOG:
-            //dialog = new LoadProjectDialog(this, contentManager);
-            //break;
         default:
             dialog = null;
             break;
         }
-
         return dialog;
     }
 
-	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		
-	}
-    
-    
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            updateTextAndAdapter();
+        }
+    }
+
+    private void updateTextAndAdapter() {
+        TextView currentProjectTextView = (TextView) findViewById(R.id.scriptNameTextView);
+		currentProjectTextView.setText(this.getString(R.string.script_name) + " "
+                + ProjectManager.getInstance().getCurrentScript().getName());
+        adapterBrickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
+        adapter.notifyDataSetChanged();
+    }
 }
