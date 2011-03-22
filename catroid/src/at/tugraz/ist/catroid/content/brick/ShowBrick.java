@@ -44,11 +44,12 @@ public class ShowBrick implements Brick {
  
 	public View getView(Context context, BaseAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.brick_show, null);
+		return inflater.inflate(R.layout.construction_brick_show, null);
 	}
 
 	public View getPrototypeView(Context context) {
-		return getView(context, null);
+	    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        return inflater.inflate(R.layout.brick_show, null);
 	}
 
 	@Override

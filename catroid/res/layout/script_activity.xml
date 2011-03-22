@@ -46,11 +46,15 @@
 			android:layout_height="wrap_content"
 			android:textSize="14dip"
 		></TextView>
-		<ListView
+		<at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView 
 			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
+			android:layout_height="fill_parent" 
 			android:id="@+id/brickListView"
-		></ListView>
+			android:drawSelectorOnTop="false"
+        	android:fastScrollEnabled="true" 
+        	android:clickable="false" 
+        	android:drawingCacheQuality="high"
+		/>
 	</LinearLayout>
 	<!-- Add brick button -->
 	<Button

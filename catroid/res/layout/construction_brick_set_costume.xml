@@ -1,41 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/RelativeLayout01"
-	android:focusable="false"
-	android:focusableInTouchMode="false"
-	android:layout_width="wrap_content"
+	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
-	android:background="@drawable/brick_violet"
->
+	android:orientation="horizontal">
+	
+	<ImageView 
+		android:id="@+id/grabber" 
+		android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" 
+        android:layout_alignParentBottom="true" 
+        android:layout_gravity="center_vertical"
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_mp_move" 
+        android:layout_height="wrap_content" />
+
 	<RelativeLayout
-		android:id="@+id/RelativeLayout02"
-		android:layout_width="wrap_content"
+		android:id="@+id/RelativeLayout01"
+		android:focusable="false"
+		android:focusableInTouchMode="false"
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_alignParentRight="true"
-		android:padding="5dip"
-		android:background="@drawable/image_background"
+		android:background="@drawable/brick_violet"
 	>
-		<ImageView
-			android:id="@+id/ImageView01"
+		<RelativeLayout
+			android:id="@+id/RelativeLayout02"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:tag="@string/constructional_brick_set_costume_image_view_tag"
-			android:layout_centerInParent="true"
-			android:background="@drawable/icon"
+			android:layout_alignParentRight="true"
+			android:padding="5dip"
+			android:background="@drawable/image_background"
 		>
-		</ImageView>
+			<ImageView
+				android:id="@+id/ImageView01"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:tag="@string/constructional_brick_set_costume_image_view_tag"
+				android:layout_centerInParent="true"
+				android:background="@drawable/icon"
+			>
+			</ImageView>
+		</RelativeLayout>
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/ValueTextView"
+			android:textStyle="bold"
+			android:layout_alignParentLeft="true"
+			android:textColor="@color/white"
+			android:layout_centerVertical="true"
+			android:text="@string/costume_main_adapter"
+			android:textSize="18dip"
+		>
+		</TextView>
 	</RelativeLayout>
-	<TextView
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:id="@+id/ValueTextView"
-		android:textStyle="bold"
-		android:layout_alignParentLeft="true"
-		android:textColor="@color/white"
-		android:layout_centerVertical="true"
-		android:text="@string/costume_main_adapter"
-		android:textSize="18dip"
-	>
-	</TextView>
-</RelativeLayout>
+</LinearLayout>

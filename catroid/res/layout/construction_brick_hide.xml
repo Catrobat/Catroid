@@ -13,23 +13,19 @@
         android:layout_gravity="center_vertical"
         android:layout_width="wrap_content"
         android:src="@drawable/ic_mp_move" 
-        android:layout_height="wrap_content" />
+	    android:layout_height="wrap_content" />
 	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:focusable="false"
-		android:focusableInTouchMode="false"
 		android:orientation="horizontal"
-		android:background="@drawable/brick_touched">
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:background="@drawable/brick_yellow"
+	>
 		<TextView
-			android:layout_width="wrap_content"
+			android:text="@string/hide"
 			android:layout_height="wrap_content"
-			android:id="@+id/TouchedBrick"
+			android:layout_width="fill_parent"
 			android:textColor="@color/white"
-			android:textStyle="bold"
-			android:tag="@string/constructional_brick_touched"
 			android:textSize="18dip"
-			android:text="@string/touched_main_adapter"
-		/>
+			android:textStyle="bold" />
 	</LinearLayout>
 </LinearLayout>
