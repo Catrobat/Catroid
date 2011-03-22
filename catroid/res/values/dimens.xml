@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- height of a normal list item in edit playlist mode -->
+    <dimen name="normal_height">64dip</dimen>
+    <!-- height of an expanded list item in edit playlist mode -->
+    <dimen name="expanded_height">128dip</dimen>
+</resources>
