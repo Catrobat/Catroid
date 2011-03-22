@@ -38,7 +38,7 @@
 		android:id="@+id/InputValueEditText"
 		android:text="1"
 		android:layout_height="wrap_content"
-		android:layout_width="50dp"
+		android:layout_width="75dp"
 		android:layout_centerVertical="true"
 		android:layout_toLeftOf="@+id/LabelTextView"
 		android:clickable="false"
