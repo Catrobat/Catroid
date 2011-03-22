@@ -36,7 +36,7 @@
 
     <!-- Main menu activity -->
     <string name="resume">Resume</string>
-    <string name="current_project">Current project: </string>
+    <string name="current_project">Current project:</string>
     <string name="no_project">No project currently loaded</string>
     <string name="create_new_project">Create new project</string>
 

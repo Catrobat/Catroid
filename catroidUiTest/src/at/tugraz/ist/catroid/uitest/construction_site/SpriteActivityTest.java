@@ -80,7 +80,7 @@ public class SpriteActivityTest extends ActivityInstrumentationTestCase2<MainMen
 		
 		solo.clickOnButton(solo.getCurrentActivity().getString(R.string.main_menu));
 		String title = solo.getText(0).getText().toString();
-		assertEquals("MainMenuActivity is not showing!", "Main menu", title);
+        assertEquals("MainMenuActivity is not showing!", getActivity().getString(R.string.main_menu), title);
 	}
 	
 	

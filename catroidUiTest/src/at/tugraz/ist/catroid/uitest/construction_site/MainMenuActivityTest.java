@@ -25,6 +25,9 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
+    private String testProject = "testProject";
+    private String testProject2 = "testProject2";
+    private String testProject3 = "testProject3";
 
 	public MainMenuActivityTest() {
 		super("at.tugraz.ist.catroid.ui", MainMenuActivity.class);
@@ -64,26 +67,26 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
 		solo.clickOnEditText(0);
-		solo.enterText(0, "testProject");
+        solo.enterText(0, testProject);
 		solo.goBack();
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
 		Thread.sleep(2000);
 		
-		File file=new File("/sdcard/catroid/testProject/testProject.spf");
-		assertTrue("testProject was not created!", file.exists());
+        File file = new File("/sdcard/catroid/testProject/" + testProject + ".spf");
+        assertTrue(testProject + " was not created!", file.exists());
 		
 	}
 	
 	
 	public void testLoadProject() throws IOException, NameNotFoundException, InterruptedException {
-		File directory=new File("/sdcard/catroid/testProject2");
+        File directory = new File("/sdcard/catroid/" + testProject2);
 		UtilFile.deleteDirectory(directory);
-		assertFalse("testProject2 was not deleted!", directory.exists());
+        assertFalse(testProject2 + " was not deleted!", directory.exists());
 		
-		createTestProject("testProject2");
+		createTestProject(testProject2);
         
 		solo.clickOnButton(getActivity().getString(R.string.load_project));
-		solo.clickOnText("testProject2");
+        solo.clickOnText(testProject2);
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.spriteListView);
 		Sprite first = (Sprite) spritesList.getItemAtPosition(1);
 		assertEquals("Sprite at index 1 is not \"cat\"!", "cat", first.getName());
@@ -95,26 +98,28 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		assertEquals("Sprite at index 4 is not \"pig\"!", "pig", fourth.getName());
 		solo.goBack();
 		TextView currentProject = (TextView) getActivity().findViewById(R.id.currentProjectNameTextView);	
-		assertEquals("Current project is not testProject2!", "Current project: testProject2", currentProject.getText());
+        assertEquals("Current project is not testProject2!", getActivity().getString(R.string.current_project) + " "
+                + testProject2, currentProject.getText());
 	}
 	
 	
 	public void testResume() throws NameNotFoundException, IOException {
-		File directory=new File("/sdcard/catroid/testProject2");
+        File directory = new File("/sdcard/catroid/" + testProject3);
 		UtilFile.deleteDirectory(directory);
-		assertFalse("testProject2 was not deleted!", directory.exists());
+        assertFalse(testProject3 + " was not deleted!", directory.exists());
 		
-		createTestProject("testProject3");
+		createTestProject(testProject3);
 		
 		solo.clickOnButton(getActivity().getString(R.string.load_project));
-		solo.clickOnText("testProject3");
+        solo.clickOnText(testProject3);
 		solo.goBack();
 		
 		solo.clickOnButton(getActivity().getString(R.string.resume));
 		
 		TextView projectTitle = (TextView) solo.getCurrentActivity().findViewById(R.id.projectTitleTextView);
 		
-		assertEquals("Project title is not testProject3!", "Project: testProject3", projectTitle.getText());
+        assertEquals("Project title is not " + testProject3, getActivity().getString(R.string.project_name) + " "
+                + testProject3, projectTitle.getText());
 		
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.spriteListView);
 		Sprite first = (Sprite) spritesList.getItemAtPosition(1);
