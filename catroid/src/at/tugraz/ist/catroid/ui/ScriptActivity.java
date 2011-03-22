@@ -34,20 +34,28 @@ import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.brick.Brick;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
+import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView;
 
 public class ScriptActivity extends Activity {
     private static final int ADD_BRICK_DIALOG = 0;
     protected ListView brickListView;
     private ArrayList<Brick> adapterBrickList;
     private BrickAdapter adapter;
-    private ListView listView;
+    private DragNDropListView listView;
 
+  
+    
+        
     private void initListeners() {
 
         adapterBrickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
         adapter = new BrickAdapter(this, adapterBrickList);
-
-        listView = (ListView) findViewById(R.id.brickListView);
+        //adapter.isToolboxAdapter = true;
+        
+        listView = (DragNDropListView) findViewById(R.id.brickListView);
+        listView.setOnCreateContextMenuListener(this);
+        listView.setOnDropListener(adapter);
+        listView.setOnRemoveListener(adapter);
         listView.setAdapter(adapter);
         //registerForContextMenu(listView);
         //        listView.setOnItemClickListener(new ListView.OnItemClickListener() {
