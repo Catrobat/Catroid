@@ -46,15 +46,29 @@
 			android:layout_height="wrap_content"
 			android:textSize="14dip"
 		></TextView>
-		<at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView 
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent" 
-			android:id="@+id/brickListView"
-			android:drawSelectorOnTop="false"
-        	android:fastScrollEnabled="true" 
-        	android:clickable="false" 
-        	android:drawingCacheQuality="high"
-		/>
+		
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content" >
+			<at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView 
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent" 
+				android:id="@+id/brickListView"
+				android:drawSelectorOnTop="false"
+	        	android:fastScrollEnabled="true" 
+	        	android:clickable="false" 
+	        	android:drawingCacheQuality="high" />
+	        	
+	        <ImageView 
+				android:id="@+id/trash"  
+				android:layout_centerVertical="true"
+		        android:layout_alignParentRight="true"
+		        android:layout_width="60dip"
+		        android:layout_height="60dip"
+		        android:visibility="gone"
+		        android:src="@drawable/trash_green" />
+		</RelativeLayout>
+	
 	</LinearLayout>
 	<!-- Add brick button -->
 	<Button

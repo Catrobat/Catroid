@@ -27,6 +27,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
@@ -53,6 +54,7 @@ public class ScriptActivity extends Activity {
         //adapter.isToolboxAdapter = true;
         
         listView = (DragNDropListView) findViewById(R.id.brickListView);
+        listView.setTrashView((ImageView)findViewById(R.id.trash));
         listView.setOnCreateContextMenuListener(this);
         listView.setOnDropListener(adapter);
         listView.setOnRemoveListener(adapter);
