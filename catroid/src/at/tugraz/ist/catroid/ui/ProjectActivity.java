@@ -64,7 +64,7 @@ public class ProjectActivity extends Activity {
                     Intent intent = new Intent(ProjectActivity.this, SpriteActivity.class);
                     ProjectActivity.this.startActivity(intent);
                 }
-                //TODO: error if selected sprite is not in the project
+                // TODO: error if selected sprite is not in the project
             }
         });
 
@@ -94,15 +94,15 @@ public class ProjectActivity extends Activity {
     @Override
     protected Dialog onCreateDialog(int id) {
         Dialog dialog;
-        //Save Content here?
+        // Save Content here?
 
         switch (id) {
         case NEW_SPRITE_DIALOG:
             dialog = new NewSpriteDialog(this);
             break;
-		case RENAME_SPRITE_DIALOG:
-			dialog = new RenameSpriteDialog(this);
-			break;
+        case RENAME_SPRITE_DIALOG:
+            dialog = new RenameSpriteDialog(this);
+            break;
         default:
             dialog = null;
             break;
@@ -114,27 +114,27 @@ public class ProjectActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-		updateTextAndAdapter();
+        updateTextAndAdapter();
     }
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus) {
-			updateTextAndAdapter();
+            updateTextAndAdapter();
         }
-	}
+    }
 
     public Sprite getSpriteToEdit() {
         return spriteToEdit;
     }
 
-	private void updateTextAndAdapter() {
-		TextView currentProjectTextView = (TextView) findViewById(R.id.projectTitleTextView);
-		currentProjectTextView.setText(this.getString(R.string.project_name) + " "
-		        + ProjectManager.getInstance().getCurrentProject().getName());
-		adapterSpriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
-		adapter.notifyDataSetChanged();
+    private void updateTextAndAdapter() {
+        TextView currentProjectTextView = (TextView) findViewById(R.id.projectTitleTextView);
+        currentProjectTextView.setText(this.getString(R.string.project_name) + " "
+                + ProjectManager.getInstance().getCurrentProject().getName());
+        adapterSpriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -145,9 +145,14 @@ public class ProjectActivity extends Activity {
             spriteToEdit = adapterSpriteList.get(info.position);
             String[] menuItems = getResources().getStringArray(R.array.menu_project_activity);
 
+            // Stage not allowed to delete or rename:
+            if (spriteToEdit.getName().equalsIgnoreCase(this.getString(R.string.stage))) {
+                return;
+            }
             for (int i = 0; i < menuItems.length; i++) {
                 menu.add(Menu.NONE, i, i, menuItems[i]);
             }
+
         }
     }
 
@@ -155,16 +160,16 @@ public class ProjectActivity extends Activity {
     public boolean onContextItemSelected(MenuItem item) {
         int menuItemIndex = item.getItemId();
         switch (menuItemIndex) {
-        case 0: //delete
+        case 0: // rename
+            this.showDialog(ProjectActivity.RENAME_SPRITE_DIALOG);
+            break;
+        case 1: // delete
             ProjectManager projectManager = ProjectManager.getInstance();
             projectManager.getCurrentProject().getSpriteList().remove(spriteToEdit);
             if (projectManager.getCurrentSprite() != null && projectManager.getCurrentSprite().equals(spriteToEdit)) {
                 projectManager.setCurrentSprite(null);
             }
-            //updateTextAndAdapter();
-            break;
-        case 1: //rename
-            this.showDialog(ProjectActivity.RENAME_SPRITE_DIALOG);
+            // updateTextAndAdapter();
             break;
         }
         return true;
