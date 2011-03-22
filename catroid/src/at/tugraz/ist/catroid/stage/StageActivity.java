@@ -13,6 +13,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.io.sound.SoundManager;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class StageActivity extends Activity {
@@ -129,7 +130,7 @@ public class StageActivity extends Activity {
 
 	protected void onDestroy() {
 		super.onDestroy();
-		mSoundManager.release();
+		mSoundManager.clear();
 	}
 
 	public void onBackPressed() {

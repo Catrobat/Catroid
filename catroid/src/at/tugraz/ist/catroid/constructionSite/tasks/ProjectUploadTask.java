@@ -5,8 +5,8 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.HashMap;
 
-import android.app.ProgressDialog;
 import android.app.AlertDialog.Builder;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
@@ -18,8 +18,8 @@ import at.tugraz.ist.catroid.web.WebconnectionException;
 public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 	private static final String FILE_UPLOAD_TAG = "upload";
 	private static final String PROJECT_NAME_TAG = "projectTitle";
-	private static final String FILE_UPLOAD_URL = "http://www.catroid.org/catroid/upload/upload.http";
-	private static final String TEST_FILE_UPLOAD_URL = "http://catroidwebtest.ist.tugraz.at/catroid/upload/upload.http";
+	private static final String FILE_UPLOAD_URL = "http://www.catroid.org/catroid/upload/upload.json";
+	private static final String TEST_FILE_UPLOAD_URL = "http://catroidwebtest.ist.tugraz.at/catroid/upload/upload.json";
 	
 	public static boolean mUseTestUrl = false;
 	

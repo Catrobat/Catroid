@@ -33,7 +33,6 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<C
 	
 	public void testUploadProject() throws Throwable {
 		runTestOnUiThread(new Runnable() {		
-			@Override
 			public void run() {
 				ProjectUploadTask.mUseTestUrl = true;
 			}

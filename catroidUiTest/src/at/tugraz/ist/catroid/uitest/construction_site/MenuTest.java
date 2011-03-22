@@ -20,14 +20,16 @@ public class MenuTest extends ActivityInstrumentationTestCase2<ConstructionSiteA
 	private Solo solo;
 
 	public MenuTest() {
-		super("at.tugraz.ist.catroid.test.construction_site", ConstructionSiteActivity.class);
+		super("at.tugraz.ist.catroid", ConstructionSiteActivity.class);
 	}
 	
-	public void setUp() throws Exception {
+	@Override
+    public void setUp() throws Exception {
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 	
-	public void tearDown() throws Exception {
+	@Override
+    public void tearDown() throws Exception {
 		try {	
 			solo.finalize();
 		} catch (Throwable e) {
@@ -48,7 +50,7 @@ public class MenuTest extends ActivityInstrumentationTestCase2<ConstructionSiteA
 		String[] menuItems = {
 			getActivity().getString(R.string.construction_site_play),
 			getActivity().getString(R.string.reset),
-			getActivity().getString(R.string.new_project_main),
+			getActivity().getString(R.string.new_project),
 			getActivity().getString(R.string.load),
 			getActivity().getString(R.string.change_project_name_main),
 			//getActivity().getString(R.string.about)
@@ -78,11 +80,11 @@ public class MenuTest extends ActivityInstrumentationTestCase2<ConstructionSiteA
 		
 		ArrayList<View> views = solo.getViews();
 		for(View v: views) {
-			if(v.getClass().toString().equals(MENU_ITEM_CLASS))
-				menuItemCount++;
+			if(v.getClass().toString().equals(MENU_ITEM_CLASS)) {
+                menuItemCount++;
+            }
 		}
 		return menuItemCount;
 	}
 	
-	// TODO: Try to test correct behavior too
 }
