@@ -27,14 +27,14 @@ public class EditDoubleDialog extends EditDialog implements OnClickListener {
     }
     
     public double getValue() {
-    	return value;
+        return value;
     }
 
     public void onClick(View v) {
     	if (v.getId() == referencedEditText.getId()) {
             show();
         } else {
-        	referencedEditText.setText(String.valueOf(value));
+        	value = Double.parseDouble((editText.getText().toString()));
         	dismiss();
         }
     }
