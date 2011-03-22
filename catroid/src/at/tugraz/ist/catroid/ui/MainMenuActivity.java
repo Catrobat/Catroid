@@ -156,7 +156,6 @@ public class MainMenuActivity extends Activity {
     	if (projectManager.getCurrentProject() == null) {
     		return;
     	}
-    	projectManager.saveProject(this); //TODO: this here good?
     	TextView currentProjectTextView = (TextView) findViewById(R.id.currentProjectNameTextView);
     	currentProjectTextView.setText(getString(R.string.current_project) + " "
     			+ projectManager.getCurrentProject().getName());

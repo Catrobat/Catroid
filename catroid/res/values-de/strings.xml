@@ -35,7 +35,7 @@
 
     <!-- Main menu activity -->
     <string name="resume">Weiter machen</string>
-    <string name="current_project">Aktuelles Projekt: </string>
+    <string name="current_project">Aktuelles Projekt:</string>
     <string name="no_project">Kein Projekt geladen</string>
     <string name="create_new_project">Neues Projekt erstellen</string>
 

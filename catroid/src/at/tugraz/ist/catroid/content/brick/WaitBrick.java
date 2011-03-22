@@ -14,19 +14,19 @@ import at.tugraz.ist.catroid.ui.dialogs.brickdialogs.EditIntegerDialog;
 
 public class WaitBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
-    private int timeToWaitInMilliseconds;
+    private int timeToWaitInMilliSeconds;
     
 	public WaitBrick(int timeToWaitInMilliseconds) {
-		this.timeToWaitInMilliseconds = timeToWaitInMilliseconds;
+		this.timeToWaitInMilliSeconds = timeToWaitInMilliseconds;
 	}
 
 	public void execute() {
 		long startTime = 0;
 		try {
 			startTime = System.currentTimeMillis();
-			Thread.sleep(timeToWaitInMilliseconds);
+			Thread.sleep(timeToWaitInMilliSeconds);
 		} catch (InterruptedException e) {
-			timeToWaitInMilliseconds = timeToWaitInMilliseconds - (int)(System.currentTimeMillis() - startTime);
+			timeToWaitInMilliSeconds = timeToWaitInMilliSeconds - (int)(System.currentTimeMillis() - startTime);
 			throw new InterruptedRuntimeException("WaitBrick was interrupted", e);
 		}
 	}
@@ -36,7 +36,7 @@ public class WaitBrick implements Brick, OnDismissListener {
 	}
 
 	public long getWaitTime() {
-		return timeToWaitInMilliseconds;
+		return timeToWaitInMilliSeconds;
 	}
 	
 	public View getView(Context context, BaseAdapter adapter) {
@@ -44,8 +44,8 @@ public class WaitBrick implements Brick, OnDismissListener {
 		View view = inflater.inflate(R.layout.construction_brick_wait, null);
 		EditText edit = (EditText)view.findViewById(R.id.InputValueEditText);
 		
-		edit.setText(timeToWaitInMilliseconds + "");
-        EditIntegerDialog dialog = new EditIntegerDialog(context, edit, timeToWaitInMilliseconds);
+		edit.setText((timeToWaitInMilliSeconds/1000) + "");
+        EditIntegerDialog dialog = new EditIntegerDialog(context, edit, timeToWaitInMilliSeconds/1000);
         dialog.setOnDismissListener(this);
 		edit.setOnClickListener(dialog);
 		
@@ -60,10 +60,10 @@ public class WaitBrick implements Brick, OnDismissListener {
 	
 	@Override
     public Brick clone() {
-		return new WaitBrick(timeToWaitInMilliseconds);
+		return new WaitBrick(timeToWaitInMilliSeconds);
 	}
 
 	public void onDismiss(DialogInterface dialog) {
-		timeToWaitInMilliseconds = ((EditIntegerDialog)dialog).getValue();
+		timeToWaitInMilliSeconds = ((EditIntegerDialog)dialog).getValue()*1000;
 	}
 }
