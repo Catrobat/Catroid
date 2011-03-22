@@ -66,6 +66,9 @@ public class DragNDropListView extends ListView {
     private final int mTouchSlop;
     private int mItemHeightNormal;
     private int mItemHeightExpanded;
+    private ImageView mTrash;
+    private int trashWidth;
+    private int trashHeight;
 
     public DragNDropListView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -77,11 +80,17 @@ public class DragNDropListView extends ListView {
         mItemHeightExpanded = res.getDimensionPixelSize(R.dimen.expanded_height);
     }
     
+    public void setTrashView(ImageView trashView) {
+        mTrash = trashView;
+        android.view.ViewGroup.LayoutParams params = mTrash.getLayoutParams();
+        trashWidth = params.width;
+        trashHeight = params.height;
+    }
+    
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         if (mRemoveListener != null && mGestureDetector == null) {
             if (mRemoveMode == FLING) {
-                System.out.println("FLING");
                 mGestureDetector = new GestureDetector(getContext(), new SimpleOnGestureListener() {
                     @Override
                     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
@@ -270,6 +279,13 @@ public class DragNDropListView extends ListView {
                     Rect r = mTempRect;
                     mDragView.getDrawingRect(r);
                     stopDragging();
+                    
+                    android.view.ViewGroup.LayoutParams params = mTrash.getLayoutParams();
+                    params.width = trashWidth;
+                    params.height = trashHeight;
+                    mTrash.setLayoutParams(params);
+                    mTrash.setVisibility(View.GONE);
+                        
                     if (mRemoveMode == SLIDE && ev.getX() > r.right * 3 / 4) {
                         if (mRemoveListener != null) {
                             mRemoveListener.remove(mFirstDragPos);
@@ -357,9 +373,16 @@ public class DragNDropListView extends ListView {
     private void dragView(int x, int y) {
         if (mRemoveMode == SLIDE) {
             float alpha = 1.0f;
+            android.view.ViewGroup.LayoutParams params = mTrash.getLayoutParams();
+            mTrash.setVisibility(View.VISIBLE);
+            
             int width = mDragView.getWidth();
             if (x > 100) {
                 alpha = ((float)(width - x)) / (width-100);
+                
+                params.width = (int)(trashWidth * (2-alpha));
+                params.height = (int)(trashHeight * (2-alpha));
+                mTrash.setLayoutParams(params);
             }
             mWindowParams.alpha = alpha;
         }
