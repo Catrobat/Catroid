@@ -98,7 +98,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		String[] menu = getActivity().getResources().getStringArray(R.array.menu_project_activity);
 
 		solo.clickLongOnText(spriteNameOne);
-		solo.clickOnText(menu[0]);
+        solo.clickOnText(menu[1]);
 		Thread.sleep(300);
 		assertFalse("Sprite is still in Project", manager.getCurrentProject().getSpriteList().contains(testSprite));
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.spriteListView);
@@ -106,7 +106,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertEquals("Sprite on position one is not sprite2/testSprite2", testSprite2, sprite2);
 
 		solo.clickLongOnText(spriteNameTwo);
-		solo.clickOnText(menu[1]);
+        solo.clickOnText(menu[0]);
 		solo.clickOnEditText(0);
 		solo.enterText(0, spriteNameOne);
 		solo.goBack();
