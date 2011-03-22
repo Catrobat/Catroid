@@ -1,102 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical"
-	android:layout_width="fill_parent" 
-	android:layout_height="fill_parent"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
 >
 	<!-- Top bar -->
-	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	<LinearLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
 		android:orientation="vertical"
-		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
 		android:layout_weight="0"
 	>
-		<TextView 
-			android:text="@string/main_menu" 
-			android:layout_width="fill_parent" 
+		<TextView
+			android:text="@string/main_menu"
 			android:layout_height="wrap_content"
+			android:layout_width="match_parent"
 			android:layout_weight="1"
 			android:textSize="18dip"
 		></TextView>
-		<TextView 
-			android:text="@string/current_project"
+		<TextView
 			android:id="@+id/currentProjectNameTextView"
-			android:layout_width="fill_parent"
+			android:text="@string/current_project"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-	></TextView>
+		></TextView>
 	</LinearLayout>
-
-	<!--  Menu buttons -->
-	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	<!-- Menu buttons -->
+	<LinearLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
 		android:orientation="vertical"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
 		android:layout_weight="1"
 	>
-		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		<LinearLayout
+			xmlns:android="http://schemas.android.com/apk/res/android"
 			android:orientation="horizontal"
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
 			android:layout_weight=".33"
 		>
 			<Button
-				android:text="@string/resume"
 				android:id="@+id/resumeButton"
-				android:layout_width="fill_parent"
-				android:layout_height="fill_parent"
+				android:text="@string/resume"
+				android:layout_height="match_parent"
+				android:layout_width="match_parent"
 				android:layout_weight=".5"
 			></Button>
 			<Button
-				android:text="@string/construction_site_play"
 				android:id="@+id/toStageButton"
-				android:layout_width="fill_parent"
-				android:layout_height="fill_parent"
+				android:text="@string/construction_site_play"
+				android:layout_height="match_parent"
+				android:layout_width="match_parent"
 				android:layout_weight=".5"
 			></Button>
 		</LinearLayout>
-		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		<LinearLayout
+			xmlns:android="http://schemas.android.com/apk/res/android"
 			android:orientation="horizontal"
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
 			android:layout_weight=".33"
 		>
 			<Button
-				android:text="@string/new_project"
 				android:id="@+id/newProjectButton"
-				android:layout_width="fill_parent"
-				android:layout_height="fill_parent"
+				android:text="@string/new_project"
+				android:layout_height="match_parent"
+				android:layout_width="match_parent"
 				android:layout_weight=".5"
 			></Button>
 			<Button
-				android:text="@string/load_project"
 				android:id="@+id/loadProjectButton"
-				android:layout_width="fill_parent"
-				android:layout_height="fill_parent"
+				android:text="@string/load_project"
+				android:layout_height="match_parent"
+				android:layout_width="match_parent"
 				android:layout_weight=".5"
 			></Button>
-		
 		</LinearLayout>
-	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		<LinearLayout
+			xmlns:android="http://schemas.android.com/apk/res/android"
 			android:orientation="horizontal"
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
+			android:layout_height="match_parent"
+			android:layout_width="match_parent"
 			android:layout_weight=".33"
 		>
 			<Button
-				android:text="@string/upload_project"
 				android:id="@+id/uploadProjectButton"
-				android:layout_width="fill_parent"
-				android:layout_height="fill_parent"
+				android:text="@string/upload_project"
+				android:layout_height="match_parent"
+				android:layout_width="match_parent"
 				android:layout_weight=".5"
 			></Button>
 			<Button
-				android:text="@string/about"
 				android:id="@+id/aboutCatroidButton"
-				android:layout_width="fill_parent"
-				android:layout_height="fill_parent"
+				android:text="@string/about"
+				android:layout_height="match_parent"
+				android:layout_width="match_parent"
 				android:layout_weight=".5"
 			></Button>
 		</LinearLayout>
 	</LinearLayout>
-	
 </LinearLayout>
