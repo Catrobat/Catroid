@@ -10,7 +10,7 @@ import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.exception.InterruptedRuntimeException;
-import at.tugraz.ist.catroid.ui.dialogs.brickdialogs.EditIntegerDialog;
+import at.tugraz.ist.catroid.ui.dialogs.brickdialogs.EditDoubleDialog;
 
 public class WaitBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
@@ -44,8 +44,8 @@ public class WaitBrick implements Brick, OnDismissListener {
 		View view = inflater.inflate(R.layout.construction_brick_wait, null);
 		EditText edit = (EditText)view.findViewById(R.id.InputValueEditText);
 		
-		edit.setText((timeToWaitInMilliSeconds/1000) + "");
-        EditIntegerDialog dialog = new EditIntegerDialog(context, edit, timeToWaitInMilliSeconds/1000);
+		edit.setText((timeToWaitInMilliSeconds/1000.0) + "");
+        EditDoubleDialog dialog = new EditDoubleDialog(context, edit, timeToWaitInMilliSeconds/1000.0);
         dialog.setOnDismissListener(this);
 		edit.setOnClickListener(dialog);
 		
@@ -64,6 +64,6 @@ public class WaitBrick implements Brick, OnDismissListener {
 	}
 
 	public void onDismiss(DialogInterface dialog) {
-		timeToWaitInMilliSeconds = ((EditIntegerDialog)dialog).getValue()*1000;
+		timeToWaitInMilliSeconds = (int) Math.round(((EditDoubleDialog)dialog).getValue()*1000);
 	}
 }
