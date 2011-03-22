@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <array name="menu_project_activity">
-        <item>löschen</item>
-        <item>umbenennen</item>
-    </array>
-    <array name="menu_sprite_activity">
-        <item>löschen</item>
-        <item>umbenennen</item>
-    </array>
+	<array
+		name="menu_project_activity">
+		<item>umbenennen</item>
+		<item>löschen</item>
+	</array>
+	<array
+		name="menu_sprite_activity">
+		<item>umbenennen</item>
+		<item>löschen</item>
+	</array>
 </resources>

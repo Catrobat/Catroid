@@ -74,7 +74,7 @@ public class SetCostumeBrick implements Brick {
 
     public View getPrototypeView(Context context) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.construction_brick_set_costume, null);
+        View view = inflater.inflate(R.layout.toolbox_brick_set_costume, null);
         return view;
     }
 

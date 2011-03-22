@@ -48,7 +48,7 @@ public class SpriteActivity extends Activity {
     private ListView listView;
     private ArrayAdapter<Script> adapter;
     private ArrayList<Script> adapterScriptList;
-	private Script scriptToEdit;
+    private Script scriptToEdit;
 
     private void initListeners() {
 
@@ -65,7 +65,7 @@ public class SpriteActivity extends Activity {
                     Intent intent = new Intent(SpriteActivity.this, ScriptActivity.class);
                     SpriteActivity.this.startActivity(intent);
                 }
-                //TODO: error if selected sprite is not in the project
+                // TODO: error if selected sprite is not in the project
             }
         });
 
@@ -97,7 +97,7 @@ public class SpriteActivity extends Activity {
     @Override
     protected Dialog onCreateDialog(int id) {
         Dialog dialog;
-        //Save Content here?
+        // Save Content here?
 
         switch (id) {
         case NEW_SCRIPT_DIALOG:
@@ -117,28 +117,28 @@ public class SpriteActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-		updateTextAndAdapter();
+        updateTextAndAdapter();
     }
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus) {
-			updateTextAndAdapter();
+            updateTextAndAdapter();
         }
-	}
-
-	private void updateTextAndAdapter() {
-		TextView currentProjectTextView = (TextView) findViewById(R.id.spriteNameTextView);
-		currentProjectTextView.setText(this.getString(R.string.sprite_name) + " "
-		        + ProjectManager.getInstance().getCurrentSprite().getName());
-		adapterScriptList = (ArrayList<Script>) ProjectManager.getInstance().getCurrentSprite().getScriptList();
-		adapter.notifyDataSetChanged();
     }
 
-	public Script getScriptToEdit() {
-		return scriptToEdit;
-	}
+    private void updateTextAndAdapter() {
+        TextView currentProjectTextView = (TextView) findViewById(R.id.spriteNameTextView);
+        currentProjectTextView.setText(this.getString(R.string.sprite_name) + " "
+                + ProjectManager.getInstance().getCurrentSprite().getName());
+        adapterScriptList = (ArrayList<Script>) ProjectManager.getInstance().getCurrentSprite().getScriptList();
+        adapter.notifyDataSetChanged();
+    }
+
+    public Script getScriptToEdit() {
+        return scriptToEdit;
+    }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
@@ -158,16 +158,15 @@ public class SpriteActivity extends Activity {
     public boolean onContextItemSelected(MenuItem item) {
         int menuItemIndex = item.getItemId();
         switch (menuItemIndex) {
-        case 0: //delete
+        case 0: // rename
+            this.showDialog(RENAME_SCRIPT_DIALOG);
+            break;
+        case 1: // delete
             ProjectManager projectManager = ProjectManager.getInstance();
             projectManager.getCurrentSprite().getScriptList().remove(scriptToEdit);
             if (projectManager.getCurrentScript() != null && projectManager.getCurrentScript().equals(scriptToEdit)) {
                 projectManager.setCurrentScript(null);
             }
-            //updateTextAndAdapter();
-            break;
-        case 1: //rename
-            this.showDialog(RENAME_SCRIPT_DIALOG);
             break;
         }
         return true;
