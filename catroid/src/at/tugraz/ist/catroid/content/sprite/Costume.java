@@ -48,7 +48,7 @@ public class Costume {
 	public Bitmap getBitmap() {
 		Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
 
-		bitmap = ImageEditing.scaleBitmap(bitmap, sprite.getScale(), true);
+		bitmap = ImageEditing.scaleBitmap(bitmap, sprite.getScale()/100, true); // /100 because we need times and not %
 
 		if (bitmap.getHeight() > StageActivity.SCREEN_HEIGHT) {
 			double backgroundScaleFactor = ((double) StageActivity.SCREEN_HEIGHT + 2)

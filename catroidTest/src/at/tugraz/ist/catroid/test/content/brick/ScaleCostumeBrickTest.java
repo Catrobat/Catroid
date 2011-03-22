@@ -23,11 +23,11 @@ import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class ScaleCostumeBrickTest extends AndroidTestCase {
-	private double scale = 0.7;
+    private double scale = 70;
 
 	public void testScale() {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite scale value", 1.0,
+        assertEquals("Unexpected initial sprite scale value", 100.0,
 				sprite.getScale());
 
 		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite, scale);

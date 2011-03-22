@@ -27,9 +27,9 @@ import java.io.OutputStream;
 
 import android.graphics.Bitmap;
 import android.test.InstrumentationTestCase;
-import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.content.sprite.Costume;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.test.R;
 
 public class CostumeTest extends InstrumentationTestCase{
@@ -42,8 +42,9 @@ public class CostumeTest extends InstrumentationTestCase{
     protected void setUp() throws Exception {
         final int fileSize = 4147;
         testImage = new File("mnt/sdcard/catroid/testImage.png");
-        if(!testImage.exists())
+        if(!testImage.exists()) {
             testImage.createNewFile();
+        }
         InputStream in   = getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID);
         OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), fileSize);
         byte[] buffer = new byte[fileSize];
@@ -91,7 +92,7 @@ public class CostumeTest extends InstrumentationTestCase{
         StageActivity.SCREEN_WIDTH = 200;
         
         Sprite testSprite = new Sprite("testSprite");
-        testSprite.setScale(2);
+        testSprite.setScale(200);
     	Costume costume = new Costume(testSprite, testImage.getAbsolutePath());
     	
     	Bitmap bitmap = costume.getBitmap();
@@ -107,7 +108,7 @@ public class CostumeTest extends InstrumentationTestCase{
         StageActivity.SCREEN_WIDTH = 100;
         
         Sprite testSprite = new Sprite("testSprite");
-        testSprite.setScale(2);
+        testSprite.setScale(200);
     	Costume costume = new Costume(testSprite, testImage.getAbsolutePath());
     	
     	Bitmap bitmap = costume.getBitmap();

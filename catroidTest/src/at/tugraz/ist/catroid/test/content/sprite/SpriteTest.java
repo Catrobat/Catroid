@@ -37,7 +37,7 @@ public class SpriteTest extends AndroidTestCase {
 		assertEquals("Unexpected default x position", 0, sprite.getXPosition());
 		assertEquals("Unexpected default y position", 0, sprite.getYPosition());
 		assertEquals("Unexpected default z position", 0, sprite.getZPosition());
-		assertEquals("Unexpected default scale", 1.0, sprite.getScale());
+        assertEquals("Unexpected default scale", 100.0, sprite.getScale());
 		assertTrue("Unexpected default visibility", sprite.isVisible());
 		assertNull("Unexpected Sprite costume", sprite.getCurrentCostume());
 		assertNotNull("Script list was not initialized", sprite.getScriptList());
@@ -55,7 +55,7 @@ public class SpriteTest extends AndroidTestCase {
 		assertEquals("Unexpected x position", xPosition, sprite.getXPosition());
 		assertEquals("Unexpected y position", yPosition, sprite.getYPosition());
 		assertEquals("Unexpected default z position", 0, sprite.getZPosition());
-		assertEquals("Unexpected default scale", 1.0, sprite.getScale());
+        assertEquals("Unexpected default scale", 100.0, sprite.getScale());
 		assertTrue("Unexpected default visibility", sprite.isVisible());
 		assertNull("Unexpected Sprite costume", sprite.getCurrentCostume());
 		assertNotNull("Script list was not initialized", sprite.getScriptList());

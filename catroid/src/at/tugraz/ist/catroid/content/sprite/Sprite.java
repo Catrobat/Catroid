@@ -41,7 +41,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 
     private void init() {
         zPosition = 0;
-        scale = 1.0;
+        scale = 100.0;
         isVisible = true;
         costumeList = new ArrayList<Costume>();
         scriptList = new ArrayList<Script>();
