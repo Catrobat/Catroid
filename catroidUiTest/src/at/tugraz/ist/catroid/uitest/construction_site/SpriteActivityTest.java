@@ -95,7 +95,7 @@ public class SpriteActivityTest extends ActivityInstrumentationTestCase2<MainMen
 		String[] menu = solo.getCurrentActivity().getResources().getStringArray(R.array.menu_sprite_activity);
 		
 		solo.clickLongOnText("dummyScript");
-		solo.clickOnText(menu[1]);
+        solo.clickOnText(menu[0]);
 		solo.enterText(0, "renamedScript");
 		solo.clickOnButton(solo.getCurrentActivity().getString(R.string.rename_button));
 		
