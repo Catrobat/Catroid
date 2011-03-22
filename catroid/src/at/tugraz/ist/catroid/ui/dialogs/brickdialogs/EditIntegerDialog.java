@@ -27,7 +27,7 @@ public class EditIntegerDialog extends EditDialog implements OnClickListener {
 	}
 
 	public int getValue() {
-		return Integer.parseInt(editText.getText().toString());
+		return value;
 	}
 
 	public int getRefernecedEditTextId() {
@@ -38,7 +38,7 @@ public class EditIntegerDialog extends EditDialog implements OnClickListener {
 		if (v.getId() == referencedEditText.getId()) {
 			show();
 		} else {
-			referencedEditText.setText(String.valueOf(value));
+		    value = Integer.parseInt(editText.getText().toString());
 			dismiss();
 		}
 	}
