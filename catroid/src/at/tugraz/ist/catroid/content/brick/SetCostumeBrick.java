@@ -19,48 +19,67 @@
 package at.tugraz.ist.catroid.content.brick;
 
 import android.content.Context;
+import android.content.Intent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.sprite.Costume;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class SetCostumeBrick implements Brick {
-	private static final long serialVersionUID = 1L;
-	private Sprite sprite;
-	private Costume costume = null;
+    private static final long serialVersionUID = 1L;
+    private Sprite sprite;
+    private Costume costume = null;
 
-	public SetCostumeBrick(Sprite sprite) {
-		this.sprite = sprite;
-	}
+    public SetCostumeBrick(Sprite sprite) {
+        this.sprite = sprite;
+    }
 
-	public void setCostume(String imagePath) {
-		costume = new Costume(sprite, imagePath);
-		this.sprite.getCostumeList().add(costume);
-	}
+    public void setCostume(String imagePath) {
+        costume = new Costume(sprite, imagePath);
+        this.sprite.getCostumeList().add(costume);
+    }
 
-	public Costume getCostume() {
-		return costume;
-	}
+    public Costume getCostume() {
+        return costume;
+    }
 
-	public void execute() {
-		this.sprite.setCurrentCostume(costume);
-	}
+    public void execute() {
+        this.sprite.setCurrentCostume(costume);
+    }
 
-	public Sprite getSprite() {
-		return sprite;
-	}
+    public Sprite getSprite() {
+        return sprite;
+    }
 
-	public View getView(Context context, BaseAdapter adapter) {
-		View view = getPrototypeView(context);
-		return view; // TODO: finish it
-	}
+    public View getView(Context context, BaseAdapter adapter) {
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.construction_brick_set_costume, null);
+        final Context ctx = context;
+        OnClickListener listener = new OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                ctx.startActivity(intent);
+            }
+        };
+        ImageView imageView = (ImageView) view.findViewById(R.id.costume_image_view);
+        imageView.setOnClickListener(listener);
 
-	public View getPrototypeView(Context context) {
-		return null;
-	}
+        return view;
+    }
 
-	@Override
-	public Brick clone() {
-		return new SetCostumeBrick(getSprite());
-	}
+    public View getPrototypeView(Context context) {
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.construction_brick_set_costume, null);
+        return view;
+    }
+
+    @Override
+    public Brick clone() {
+        return new SetCostumeBrick(getSprite());
+    }
 }
