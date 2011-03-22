@@ -20,7 +20,6 @@ public class EditIntegerDialog extends EditDialog implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		editText = (EditText) findViewById(R.id.dialogEditText);
 		editText.setText(String.valueOf(value));
 		editText.setInputType(InputType.TYPE_CLASS_NUMBER);
 		Button closeButton = (Button) findViewById(R.id.dialogEditTextSubmit);

@@ -19,12 +19,11 @@ public class EditDoubleDialog extends EditDialog implements OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        editText = (EditText) findViewById(R.id.dialogEditText);
+		super.onCreate(savedInstanceState);
         editText.setText(String.valueOf(value));
-        editText.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         Button closeButton = (Button) findViewById(R.id.dialogEditTextSubmit);
         closeButton.setOnClickListener(this);
-        super.onCreate(savedInstanceState);
     }
     
     public double getValue() {
