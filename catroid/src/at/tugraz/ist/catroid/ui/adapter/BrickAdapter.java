@@ -30,9 +30,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import at.tugraz.ist.catroid.content.brick.Brick;
+import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView.DropListener;
+import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView.RemoveListener;
 
 
-public class BrickAdapter extends BaseAdapter {
+public class BrickAdapter extends BaseAdapter implements DropListener, RemoveListener {
 
 	private Context context;
 	private List<Brick> brickList;
@@ -64,4 +66,20 @@ public class BrickAdapter extends BaseAdapter {
             return brick.getView(context, this);
         }
 	}
+	
+	public void drop(int from, int to) {
+        System.out.println("drop from: "+from+", to: "+to);  
+        if(from == to)
+            return;
+        Brick removedBrick = brickList.remove(from);
+        brickList.add(to, removedBrick);
+        notifyDataSetChanged();
+    }       
+ 
+    public void remove(int which) {
+        System.out.println("remove: "+which);
+        brickList.remove(which);
+        notifyDataSetChanged();
+    }       
+    
 }
