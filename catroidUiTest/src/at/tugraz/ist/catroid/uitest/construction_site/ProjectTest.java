@@ -20,7 +20,7 @@ public class ProjectTest extends ActivityInstrumentationTestCase2<ConstructionSi
 	private Solo solo;
 	
 	public ProjectTest() {
-		super("at.tugraz.ist.catroid.test.construction_site",
+		super("at.tugraz.ist.catroid",
 				ConstructionSiteActivity.class);
 	}
 	
@@ -45,7 +45,7 @@ public class ProjectTest extends ActivityInstrumentationTestCase2<ConstructionSi
 	
 	@Smoke
 	public void testCreateNewProject(){
-		solo.clickOnMenuItem(getActivity().getString(R.string.new_project_main));
+		solo.clickOnMenuItem(getActivity().getString(R.string.new_project));
 		solo.clearEditText(0);
 		solo.enterText(0, "testProject");
 		solo.clickOnButton(0);

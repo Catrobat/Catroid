@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:id="@+id/GoToLinearLayout"
+>
+	<TextView
+		android:id="@+id/tvSound"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:textStyle="bold"
+		android:textSize="18dip"
+		android:textColor="@color/dark_gray"
+		android:paddingRight="10dip" />
+</LinearLayout>

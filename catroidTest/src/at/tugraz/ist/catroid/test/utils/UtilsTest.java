@@ -12,7 +12,7 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class UtilsTest extends TestCase {
 
-	private String testFileContent = "Hello, this is a Test-String";
+	private final String testFileContent = "Hello, this is a Test-String";
 	private File mTestFile;
 	private File copiedFile;
 
@@ -31,11 +31,14 @@ public class UtilsTest extends TestCase {
 		super.setUp();
 	}
 
-	protected void tearDown() throws Exception {
-		if (mTestFile != null && mTestFile.exists())
-			mTestFile.delete();
-		if (copiedFile != null && copiedFile.exists())
-			copiedFile.delete();
+	@Override
+    protected void tearDown() throws Exception {
+		if (mTestFile != null && mTestFile.exists()) {
+            mTestFile.delete();
+        }
+		if (copiedFile != null && copiedFile.exists()) {
+            copiedFile.delete();
+        }
 	}
 
 	public void testCopyFile() throws InterruptedException {
@@ -148,11 +151,11 @@ public class UtilsTest extends TestCase {
 		}
 
 		File nonexistantPath = new File("/sdcard/catroid/i/dont/exist.spf");
-		if (nonexistantPath.exists())
-			nonexistantPath.delete();
+		if (nonexistantPath.exists()) {
+            nonexistantPath.delete();
+        }
 		assertFalse("Can't rename a project that doesn't exist", Utils.renameProject(null, nonexistantPath.getAbsolutePath(), "newProject"));
 
-		// TODO: Uncertain outcome :)
 		//assertFalse("If old project path is not set and the current project can't be read from the ConstructionSiteActivity, renaming fails",
 		//		Utils.renameProject(null, null, "newProject"));
 		assertFalse("New project name may not be null", Utils.renameProject(null, "oldProject/path", null));

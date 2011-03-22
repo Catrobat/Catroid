@@ -21,9 +21,11 @@ import com.jayway.android.robotium.solo.Solo;
 public class StageTest extends
 		ActivityInstrumentationTestCase2<ConstructionSiteActivity> {
 	private Solo solo;
+	// TODO: This is a hack! This test is going to be replaces anyway!
+	private String toolbar = "B\nu\ni\nl\nd\ni\nn\ng\n \nB\nl\no\nc\nk\ns";
 	
 	public StageTest() {
-		super("at.tugraz.ist.catroid.test.construction_site",
+		super("at.tugraz.ist.catroid",
 				ConstructionSiteActivity.class);
 	}
 	
@@ -32,7 +34,7 @@ public class StageTest extends
 	}
 	
 	private void addBrick(int brickTextId) {
-		solo.clickOnButton(getActivity().getString(R.string.toolbar));
+		solo.clickOnButton(toolbar);
 		solo.clickOnText(getActivity().getString(brickTextId));
 	}
 	

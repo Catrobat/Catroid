@@ -16,7 +16,7 @@ ActivityInstrumentationTestCase2<ConstructionSiteActivity> {
 	private Solo solo;
 	
 	public StageTest() {
-		super("at.tugraz.ist.catroid.test.construction_site",
+		super("at.tugraz.ist.catroid",
 				ConstructionSiteActivity.class);
 
 		//delete the whole catroid directory so we can start from scratch
@@ -24,11 +24,13 @@ ActivityInstrumentationTestCase2<ConstructionSiteActivity> {
 		//deleteDirectory(catroidDirectory);
 	}
 	
-	public void setUp() throws Exception {
+	@Override
+    public void setUp() throws Exception {
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 	
-	public void tearDown() throws Exception {
+	@Override
+    public void tearDown() throws Exception {
 		try {	
 			solo.finalize();
 		} catch (Throwable e) {
@@ -58,7 +60,6 @@ ActivityInstrumentationTestCase2<ConstructionSiteActivity> {
 	
 	@Smoke
 	public void testDemoApplicationLoaded(){
-		//TODO load demo program and look if it's showing correctly on stage
 //		solo.clickOnMenuItem(getActivity().getString(R.string.construction_site_play));
 //		solo.assertCurrentActivity("Now stage activity is active", "StageActivity");
 //		

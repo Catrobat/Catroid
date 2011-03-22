@@ -1,38 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
-		android:id="@+id/RelativeLayout01" 
-		android:layout_width="wrap_content" 
-		android:layout_height="wrap_content" 
-		android:onClick="@string/onBrickClickListener" android:background="@drawable/brick_violet">
-		<RelativeLayout android:layout_width="wrap_content" 
-			android:layout_height="wrap_content" 
-			android:layout_alignParentRight="true" 
-			android:background="@drawable/image_background2" 
-			android:padding="7dip" android:id="@+id/SetBackgroundRelativeLayout">
-			<ImageView android:id="@+id/ImageView01" 
-				android:layout_width="wrap_content" 
-				android:layout_height="wrap_content" 
-				android:clickable="false" 
-				android:focusable="false" 
-				android:focusableInTouchMode="false" 
-				android:layout_centerInParent="true" 
-				android:background="@drawable/landscape">
-			</ImageView>
-		</RelativeLayout>
-		<TextView android:layout_width="wrap_content" 
-			android:layout_height="wrap_content" 
-			android:id="@+id/ValueTextView" 
-			android:textStyle="bold" 
-			android:layout_alignParentLeft="true" 
-			android:textSize="19dip" 
-			android:textColor="@color/white" 
-			android:layout_centerVertical="true" 
-			android:text="@string/set_background_main_adapter"
-			android:focusable="false" 
-			android:focusableInTouchMode="false" 
-			android:clickable="false" android:layout_toLeftOf="@+id/SetBackgroundRelativeLayout">
-		</TextView>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/RelativeLayout01"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:background="@drawable/brick_violet"
+>
+	<RelativeLayout
+		android:id="@+id/SetBackgroundRelativeLayout"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:layout_alignParentRight="true"
+		android:background="@drawable/image_background2"
+		android:padding="7dip"
+	>
+		<ImageView
+			android:id="@+id/ImageView01"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_centerInParent="true"
+			android:background="@drawable/landscape"
+			android:clickable="false"
+			android:focusable="false"
+			android:focusableInTouchMode="false"
+		>
+		</ImageView>
 	</RelativeLayout>
-	
-
+	<TextView
+		android:id="@+id/ValueTextView"
+		android:text="@string/set_background_main_adapter"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:layout_centerVertical="true"
+		android:layout_toLeftOf="@+id/SetBackgroundRelativeLayout"
+		android:clickable="false"
+		android:focusable="false"
+		android:focusableInTouchMode="false"
+		android:textColor="@color/white"
+		android:textSize="19dip"
+		android:textStyle="bold"
+	>
+	</TextView>
+</RelativeLayout>
