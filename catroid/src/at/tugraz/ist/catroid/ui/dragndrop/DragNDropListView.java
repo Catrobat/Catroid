@@ -36,6 +36,8 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.GestureDetector.SimpleOnGestureListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -66,14 +68,17 @@ public class DragNDropListView extends ListView {
     private final int mTouchSlop;
     private int mItemHeightNormal;
     private int mItemHeightExpanded;
+    private Context context;
     private ImageView mTrash;
     private int trashWidth;
     private int trashHeight;
+    private int dragWidth;
 
     public DragNDropListView(Context context, AttributeSet attrs) {
         super(context, attrs);
         
         mRemoveMode = SLIDE;
+        this.context = context;
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         Resources res = getResources();
         mItemHeightNormal = res.getDimensionPixelSize(R.dimen.normal_height);
@@ -285,7 +290,7 @@ public class DragNDropListView extends ListView {
                     params.height = trashHeight;
                     mTrash.setLayoutParams(params);
                     mTrash.setVisibility(View.GONE);
-                        
+                      
                     if (mRemoveMode == SLIDE && ev.getX() > r.right * 3 / 4) {
                         if (mRemoveListener != null) {
                             mRemoveListener.remove(mFirstDragPos);
@@ -300,6 +305,11 @@ public class DragNDropListView extends ListView {
                     break;
                     
                 case MotionEvent.ACTION_DOWN:
+                    mTrash.setVisibility(View.VISIBLE);
+                    mDragView.getParent().bringChildToFront(mTrash);
+                    
+                    Animation animation = AnimationUtils.loadAnimation(context, R.anim.trash_in);
+                    mTrash.startAnimation(animation);
                 case MotionEvent.ACTION_MOVE:
                     int x = (int) ev.getX();
                     int y = (int) ev.getY();
@@ -346,12 +356,12 @@ public class DragNDropListView extends ListView {
         stopDragging();
 
         mWindowParams = new WindowManager.LayoutParams();
-        mWindowParams.gravity = Gravity.TOP;
+        mWindowParams.gravity = Gravity.TOP|Gravity.LEFT;
         mWindowParams.x = 0;
         mWindowParams.y = y - mDragPoint + mCoordOffset;
 
         mWindowParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        mWindowParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        mWindowParams.width = 400;//WindowManager.LayoutParams.WRAP_CONTENT;
         mWindowParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                 | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
                 | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
@@ -368,13 +378,14 @@ public class DragNDropListView extends ListView {
         mWindowManager = (WindowManager)getContext().getSystemService(Context.WINDOW_SERVICE);
         mWindowManager.addView(v, mWindowParams);
         mDragView = v;
+        dragWidth = mDragView.getWidth();
+        
     }
     
     private void dragView(int x, int y) {
         if (mRemoveMode == SLIDE) {
             float alpha = 1.0f;
             android.view.ViewGroup.LayoutParams params = mTrash.getLayoutParams();
-            mTrash.setVisibility(View.VISIBLE);
             
             int width = mDragView.getWidth();
             if (x > 100) {
@@ -385,6 +396,9 @@ public class DragNDropListView extends ListView {
                 mTrash.setLayoutParams(params);
             }
             mWindowParams.alpha = alpha;
+            //System.out.println("width1: "+ mWindowParams.width);
+            //mWindowParams.width = 500-mTrash.getWidth();
+            //System.out.println("width2: "+ mWindowParams.width);
         }
         mWindowParams.y = y - mDragPoint + mCoordOffset;
         mWindowManager.updateViewLayout(mDragView, mWindowParams);
