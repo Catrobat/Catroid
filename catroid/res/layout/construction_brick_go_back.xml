@@ -26,7 +26,6 @@
 	<EditText
 		android:layout_width="50dp"
 		android:layout_height="wrap_content"
-		android:tag="@string/constructional_brick_go_back_edit_text_tag"
 		android:maxLines="1"
 		android:id="@+id/InputValueEditText"
 		android:layout_centerVertical="true"
