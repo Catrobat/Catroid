@@ -30,6 +30,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.Environment;
 import android.provider.MediaStore;
+import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.entities.SoundInfo;
 import at.tugraz.ist.catroid.content.project.Project;
@@ -42,8 +43,6 @@ import com.thoughtworks.xstream.XStream;
  * 
  */
 public class StorageHandler {
-    private static final String DIRECTORY_NAME = "catroid";
-    public static final String PROJECT_EXTENTION = ".spf";
 
     private static StorageHandler instance;
     private ArrayList<SoundInfo> soundContent;
@@ -60,7 +59,7 @@ public class StorageHandler {
         }
 
         // We can read and write the media
-        String catroidPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + DIRECTORY_NAME;
+        String catroidPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + Consts.DIRECTORY_NAME;
         catroidRoot = new File(catroidPath);
         if (!catroidRoot.exists()) {
             catroidRoot.mkdirs();
@@ -82,7 +81,7 @@ public class StorageHandler {
 
             if (projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite()) {
                 InputStream spfFileStream = new FileInputStream(projectDirectory.getAbsolutePath() + "/" + projectName
-                        + PROJECT_EXTENTION);
+                        + Consts.PROJECT_EXTENTION);
                 return (Project) xstream.fromXML(spfFileStream);
             } else {
                 return null;
@@ -107,7 +106,7 @@ public class StorageHandler {
                 soundDirectory.mkdir();
             }
             BufferedWriter out = new BufferedWriter(new FileWriter(projectDirectory.getAbsolutePath() + "/"
-                    + project.getName() + PROJECT_EXTENTION));
+                    + project.getName() + Consts.PROJECT_EXTENTION));
             out.write(spfFile);
 			out.flush();
             out.close();

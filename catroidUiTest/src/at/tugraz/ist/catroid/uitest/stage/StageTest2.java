@@ -1,7 +1,7 @@
 /**
  * 
  */
-package at.tugraz.ist.catroid.uitest.construction_site;
+package at.tugraz.ist.catroid.uitest.stage;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
@@ -18,13 +18,13 @@ import com.jayway.android.robotium.solo.Solo;
  * 
  * Tests the features of the construction site
  */
-public class StageTest extends
+public class StageTest2 extends
 		ActivityInstrumentationTestCase2<ConstructionSiteActivity> {
 	private Solo solo;
 	// TODO: This is a hack! This test is going to be replaces anyway!
 	private String toolbar = "B\nu\ni\nl\nd\ni\nn\ng\n \nB\nl\no\nc\nk\ns";
 	
-	public StageTest() {
+	public StageTest2() {
 		super("at.tugraz.ist.catroid",
 				ConstructionSiteActivity.class);
 	}

@@ -9,7 +9,7 @@ import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import at.tugraz.ist.catroid.ConstructionSiteActivity;
+import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.utils.UtilZip;
 import at.tugraz.ist.catroid.web.ConnectionWrapper;
@@ -59,7 +59,7 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 			File dirPath = new File(mProjectPath);
 			String[] pathes = dirPath.list(new FilenameFilter() {
 				public boolean accept(File dir, String filename) {
-					if(filename.endsWith(ConstructionSiteActivity.DEFAULT_FILE_ENDING) || filename.equalsIgnoreCase("images")
+					if(filename.endsWith(Consts.PROJECT_EXTENTION) || filename.equalsIgnoreCase("images")
 							|| filename.equalsIgnoreCase("sounds"))
 						return true;
 					return false;

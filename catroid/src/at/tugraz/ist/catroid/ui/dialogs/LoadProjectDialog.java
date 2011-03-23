@@ -29,9 +29,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
-import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -89,7 +89,7 @@ public class LoadProjectDialog extends Dialog {
         for (File file : sdFileList) {
         	if (file.isDirectory()) {
                 searchForProjectFiles(file);
-            } else if (file.isFile() && file.getName().endsWith(StorageHandler.PROJECT_EXTENTION)) {
+            } else if (file.isFile() && file.getName().endsWith(Consts.PROJECT_EXTENTION)) {
             	adapterFileList.add(Utils.getProjectName(file.getName()));
             }
         }

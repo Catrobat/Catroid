@@ -34,6 +34,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
@@ -42,8 +43,6 @@ import at.tugraz.ist.catroid.ui.dialogs.RenameSpriteDialog;
 
 public class ProjectActivity extends Activity {
 
-    final static int NEW_SPRITE_DIALOG = 0;
-    final static int RENAME_SPRITE_DIALOG = 1;
     private ListView listView;
     private ArrayAdapter<Sprite> adapter;
     private ArrayList<Sprite> adapterSpriteList;
@@ -78,7 +77,7 @@ public class ProjectActivity extends Activity {
         Button NewSpriteButton = (Button) findViewById(R.id.addSpriteButton);
         NewSpriteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                showDialog(NEW_SPRITE_DIALOG);
+                showDialog(Consts.NEW_SPRITE_DIALOG);
             }
         });
     }
@@ -97,10 +96,10 @@ public class ProjectActivity extends Activity {
         // Save Content here?
 
         switch (id) {
-        case NEW_SPRITE_DIALOG:
+        case Consts.NEW_SPRITE_DIALOG:
             dialog = new NewSpriteDialog(this);
             break;
-        case RENAME_SPRITE_DIALOG:
+        case Consts.RENAME_SPRITE_DIALOG:
             dialog = new RenameSpriteDialog(this);
             break;
         default:
@@ -161,7 +160,7 @@ public class ProjectActivity extends Activity {
         int menuItemIndex = item.getItemId();
         switch (menuItemIndex) {
         case 0: // rename
-            this.showDialog(ProjectActivity.RENAME_SPRITE_DIALOG);
+            this.showDialog(Consts.RENAME_SPRITE_DIALOG);
             break;
         case 1: // delete
             ProjectManager projectManager = ProjectManager.getInstance();

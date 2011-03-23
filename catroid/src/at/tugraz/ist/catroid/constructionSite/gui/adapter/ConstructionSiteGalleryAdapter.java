@@ -10,7 +10,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.sprite.Costume;
-import at.tugraz.ist.catroid.utils.ImageContainer;
 
 public class ConstructionSiteGalleryAdapter extends BaseAdapter {
 
@@ -18,11 +17,11 @@ public class ConstructionSiteGalleryAdapter extends BaseAdapter {
 	private List<Costume> costumeList;
 	private LayoutInflater inflater;
 
-	public ConstructionSiteGalleryAdapter(Context context, List<Costume> costumeList, ImageContainer imageContainer) {
-		this.context = context;
-		this.costumeList = costumeList;
-		this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	}
+//	public ConstructionSiteGalleryAdapter(Context context, List<Costume> costumeList, ImageContainer imageContainer) {
+//		this.context = context;
+//		this.costumeList = costumeList;
+//		this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//	}
 
 	public int getCount() {
 		return costumeList.size();

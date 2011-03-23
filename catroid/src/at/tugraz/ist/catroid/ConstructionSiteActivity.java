@@ -40,7 +40,6 @@ import at.tugraz.ist.catroid.content.project.Project;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
-import at.tugraz.ist.catroid.utils.ImageContainer;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class ConstructionSiteActivity extends Activity implements Observer, OnClickListener, OnItemLongClickListener {
@@ -55,26 +54,26 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	static final int CHANGE_PROJECT_NAME_DIALOG = 6;
 	static final int CONTEXT_MENU_DIALOG = 7;
 
-	static final String PREF_ROOT = "pref_root";
-	static final String PREF_FILE_SPF = "pref_path";
+	private final String PREF_ROOT = "pref_root";
+	private final String PREF_FILE_SPF = "pref_path";
 
-	public static final String DEFAULT_ROOT = "/sdcard/catroid";
-	public static final String TMP_PATH = DEFAULT_ROOT + "/tmp";
-	public static final String DEFAULT_PROJECT = "/sdcard/catroid/defaultProject";
-	public static final String DEFAULT_FILE = "defaultSaveFile.spf";
-	public static final String DEFAULT_FILE_ENDING = ".spf";
+	private static final String DEFAULT_ROOT = "/sdcard/catroid";
+//	private static final String TMP_PATH = DEFAULT_ROOT + "/tmp";
+//	private static final String DEFAULT_PROJECT = "/sdcard/catroid/defaultProject";
+	private static final String DEFAULT_FILE = "defaultSaveFile.spf";
+//	private static final String DEFAULT_FILE_ENDING = ".spf";
 
-	public static final String MEDIA_IGNORE_BY_ANDROID_FILENAME = ".nomedia";
+	private static final String MEDIA_IGNORE_BY_ANDROID_FILENAME = ".nomedia";
 
-	public static String ROOT_IMAGES;
-	public static String ROOT_SOUNDS;
-	public static String ROOT;
-	public static String SPF_FILE;
+	private static String ROOT_IMAGES;
+	private static String ROOT_SOUNDS;
+	private static String ROOT;
+	private static String SPF_FILE;
 
 	public SharedPreferences mPreferences;
 
-	public static int SCREEN_WIDTH;
-	public static int SCREEN_HEIGHT;
+//	private static int SCREEN_WIDTH;
+//	private static int SCREEN_HEIGHT;
 
     //	private ToolBoxDialog mToolboxObjectDialog;
 //	private ToolBoxDialog mToolboxStageDialog;
@@ -106,8 +105,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		DisplayMetrics dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
 
-		SCREEN_WIDTH = dm.widthPixels;
-		SCREEN_HEIGHT = dm.heightPixels;
+//		SCREEN_WIDTH = dm.widthPixels;
+//		SCREEN_HEIGHT = dm.heightPixels;
 
 		// check for SD card, display message and exit if none available
 		try {
@@ -482,7 +481,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			e.printStackTrace();
 		}
 
-		ImageContainer.getInstance().setRootPath(ROOT_IMAGES);
+		//ImageContainer.getInstance().setRootPath(ROOT_IMAGES);
 	}
 
 	public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
