@@ -59,12 +59,12 @@
     <!-- Script activity view -->
     <string name="script_name">Script:</string>
     <string name="brick_list">Bricks:</string>
-    <string name="add_new_brick">+ Add new Brick</string>
+    <string name="add_new_brick">Add new Brick</string>
 
     <!-- Sprite activity -->
     <string name="sprite_name">Sprite:</string>
     <string name="script_list">Scripts:</string>
-    <string name="add_new_script">+ Add new Script</string>
+    <string name="add_new_script">Add new Script</string>
 
     <!-- Sprite dialog -->
     <string name="SpriteButtonText">Create</string>

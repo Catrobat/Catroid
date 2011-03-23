@@ -47,13 +47,13 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		}
 		getActivity().finish();
 		
-		File directory = new File("/sdcard/catroid/testProject");
+        File directory = new File("/sdcard/catroid/" + testProject);
 		UtilFile.deleteDirectory(directory);
 		
-		File directory2 = new File("/sdcard/catroid/testProject2");
+        File directory2 = new File("/sdcard/catroid/" + testProject2);
 		UtilFile.deleteDirectory(directory2);
 		
-		File directory3 = new File("/sdcard/catroid/testProject3");
+        File directory3 = new File("/sdcard/catroid/" + testProject3);
 		UtilFile.deleteDirectory(directory3);
 		
 		super.tearDown();
@@ -61,7 +61,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	
 	
 	public void testCreateNewProject() throws InterruptedException {
-		File directory=new File("/sdcard/catroid/testProject");
+        File directory = new File("/sdcard/catroid/" + testProject);
 		UtilFile.deleteDirectory(directory);
 		assertFalse("testProject was not deleted!", directory.exists());
 		
