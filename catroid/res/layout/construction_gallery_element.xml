@@ -6,7 +6,6 @@
 >
 	<ImageView
 		android:id="@+id/ImageView01"
-		android:tag="@string/constructional_gallery_element_image_view"
 		android:background="@android:R/drawable/picture_frame"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"

@@ -20,7 +20,6 @@
 			android:id="@+id/ImageView01"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:tag="@string/constructional_brick_set_background_image_view_tag"
 			android:layout_centerInParent="true"
 			android:background="@drawable/landscape"
 		>

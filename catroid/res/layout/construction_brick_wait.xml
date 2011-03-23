@@ -42,7 +42,6 @@
 		android:id="@+id/InputValueEditText"
 		android:layout_centerVertical="true"
 		android:maxLength="5"
-		android:tag="@string/constructional_brick_wait_edit_text_tag"
 		android:text="5"
 		android:layout_toLeftOf="@+id/LabelTextView"
 		android:clickable="true"

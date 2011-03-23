@@ -15,7 +15,6 @@
 		android:id="@+id/TouchedBrick"
 		android:textColor="@color/white"
 		android:textStyle="bold"
-		android:tag="@string/constructional_brick_touched"
 		android:textSize="18dip"
 		android:text="@string/touched_main_adapter"
 	>

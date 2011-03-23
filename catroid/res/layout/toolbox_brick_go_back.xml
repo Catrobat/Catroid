@@ -33,7 +33,6 @@
 		android:focusableInTouchMode="false"
 		android:freezesText="false"
 		android:inputType="number"
-		android:tag="@string/constructional_brick_go_back_edit_text_tag"
 		android:maxLines="1"
 		android:maxLength="5"
 	>

@@ -14,6 +14,5 @@
 		android:text="Hide/Show"
 		android:textColor="@color/white"
 		android:textStyle="bold"
-		android:tag="@string/constructional_brick_hide"
 		android:textSize="18dip" />
 </LinearLayout>
