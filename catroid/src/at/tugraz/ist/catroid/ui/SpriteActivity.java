@@ -35,6 +35,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.script.Script;
@@ -43,8 +44,6 @@ import at.tugraz.ist.catroid.ui.dialogs.RenameScriptDialog;
 
 public class SpriteActivity extends Activity {
 
-    final static int NEW_SCRIPT_DIALOG = 0;
-    final static int RENAME_SCRIPT_DIALOG = 1;
     private ListView listView;
     private ArrayAdapter<Script> adapter;
     private ArrayList<Script> adapterScriptList;
@@ -81,7 +80,7 @@ public class SpriteActivity extends Activity {
         Button NewSpriteButton = (Button) findViewById(R.id.addScriptButton);
         NewSpriteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                showDialog(NEW_SCRIPT_DIALOG);
+                showDialog(Consts.NEW_SCRIPT_DIALOG);
             }
         });
     }
@@ -100,10 +99,10 @@ public class SpriteActivity extends Activity {
         // Save Content here?
 
         switch (id) {
-        case NEW_SCRIPT_DIALOG:
+        case Consts.NEW_SCRIPT_DIALOG:
             dialog = new NewScriptDialog(this);
             break;
-        case RENAME_SCRIPT_DIALOG:
+        case Consts.RENAME_SCRIPT_DIALOG:
             dialog = new RenameScriptDialog(this);
             break;
         default:
@@ -159,7 +158,7 @@ public class SpriteActivity extends Activity {
         int menuItemIndex = item.getItemId();
         switch (menuItemIndex) {
         case 0: // rename
-            this.showDialog(RENAME_SCRIPT_DIALOG);
+            this.showDialog(Consts.RENAME_SCRIPT_DIALOG);
             break;
         case 1: // delete
             ProjectManager projectManager = ProjectManager.getInstance();

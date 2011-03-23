@@ -16,9 +16,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.util.Log;
-import at.tugraz.ist.catroid.ConstructionSiteActivity;
+import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.utils.filesystem.FileCopyThread;
 
 public class Utils {
@@ -108,7 +107,7 @@ public class Utils {
 	 * @return whether the project exists
 	 */
 	public static boolean projectExists(String projectName) {
-		File projectFolder = new File(concatPaths(ConstructionSiteActivity.DEFAULT_ROOT, projectName));
+		File projectFolder = new File(concatPaths(Consts.DEFAULT_ROOT, projectName));
 		return projectFolder.exists();
 	}
 
@@ -175,8 +174,8 @@ public class Utils {
 	}
 
 	public static String addDefaultFileEnding(String filename) {
-		if (!filename.endsWith(ConstructionSiteActivity.DEFAULT_FILE_ENDING)) {
-            return filename + ConstructionSiteActivity.DEFAULT_FILE_ENDING;
+		if (!filename.endsWith(Consts.PROJECT_EXTENTION)) {
+            return filename + Consts.PROJECT_EXTENTION;
         }
 		return filename;
 	}
@@ -186,8 +185,8 @@ public class Utils {
 	 * @return the project name without the default file extension, else returns unchanged string
 	 */
 	public static String getProjectName(String projectFileName) {
-		if (projectFileName.endsWith(StorageHandler.PROJECT_EXTENTION)) {
-	        return projectFileName.substring(0, projectFileName.length() - StorageHandler.PROJECT_EXTENTION.length());
+		if (projectFileName.endsWith(Consts.PROJECT_EXTENTION)) {
+	        return projectFileName.substring(0, projectFileName.length() - Consts.PROJECT_EXTENTION.length());
 		}
 		return projectFileName;
 	}
@@ -248,61 +247,61 @@ public class Utils {
 		builder.show();
 	}
 
-	/**
-	 * Renames a project and moves / renames the project files accordingly
-	 * 
-	 * @param context
-	 *            The context; used to display progress dialog, may be null
-	 * @param oldProjectPath
-	 *            the absolute path to the old project file. If this is null the
-	 *            function attempts to read the current project from the
-	 *            ConstructionSiteActivity.
-	 * @param newProjectName
-	 *            the desired new project name (without .spf file ending!).
-	 * @return true if renaming was successful, false otherwise
-	 */
-	public static boolean renameProject(Context context, String oldProjectPath, String newProjectName) {
-		File oldPath = null;
-		File oldProjectDirectory = null;
-		if (oldProjectPath == null || oldProjectPath.length() == 0) {
-			if (ConstructionSiteActivity.ROOT == null || ConstructionSiteActivity.ROOT.length() == 0 || ConstructionSiteActivity.SPF_FILE == null
-					|| ConstructionSiteActivity.SPF_FILE.length() == 0) {
-                return false;
-            }
-			oldPath = new File(Utils.concatPaths(ConstructionSiteActivity.ROOT, ConstructionSiteActivity.SPF_FILE));
-		} else {
-			oldPath = new File(oldProjectPath);
-		}
-
-		if (newProjectName == null || newProjectName.length() == 0 || oldPath == null) {
-            return false;
-        }
-
-		oldProjectDirectory = new File(oldPath.getParent());
-		String oldProjectFileName = oldPath.getName();
-
-		File newProjectDirectory = new File(Utils.concatPaths(oldProjectDirectory.getParent(), newProjectName));
-		if (newProjectDirectory.exists()) {
-			Log.e("Utils.renameProject", "New project folder already exists. aborting");
-			return false;
-		}
-
-		if (!oldProjectDirectory.renameTo(newProjectDirectory)) {
-			Log.e("Utils.renameProject", "Failed to rename project directory");
-			return false;
-		}
-
-		File oldProjectFile = new File(Utils.concatPaths(newProjectDirectory.getAbsolutePath(), oldProjectFileName));
-		String newProjectFileName = Utils.addDefaultFileEnding(newProjectName);
-		String newProjectFilePath = Utils.concatPaths(newProjectDirectory.getAbsolutePath(), newProjectFileName);
-		if (Utils.copyFile(oldProjectFile.getAbsolutePath(), newProjectFilePath, context, true)) {
-            Utils.deleteFile(oldProjectFile.getAbsolutePath());
-        } else {
-			Log.e("Utils.renameProject", "Failed to rename project file");
-			return false;
-		}
-
-		ConstructionSiteActivity.setRoot(newProjectDirectory.getAbsolutePath(), newProjectFileName);
-		return true;
-	}
+//	/**
+//	 * Renames a project and moves / renames the project files accordingly
+//	 * 
+//	 * @param context
+//	 *            The context; used to display progress dialog, may be null
+//	 * @param oldProjectPath
+//	 *            the absolute path to the old project file. If this is null the
+//	 *            function attempts to read the current project from the
+//	 *            ConstructionSiteActivity.
+//	 * @param newProjectName
+//	 *            the desired new project name (without .spf file ending!).
+//	 * @return true if renaming was successful, false otherwise
+//	 */
+//	public static boolean renameProject(Context context, String oldProjectPath, String newProjectName) {
+//		File oldPath = null;
+//		File oldProjectDirectory = null;
+//		if (oldProjectPath == null || oldProjectPath.length() == 0) {
+//			if (ConstructionSiteActivity.ROOT == null || ConstructionSiteActivity.ROOT.length() == 0 || ConstructionSiteActivity.SPF_FILE == null
+//					|| ConstructionSiteActivity.SPF_FILE.length() == 0) {
+//                return false;
+//            }
+//			oldPath = new File(Utils.concatPaths(ConstructionSiteActivity.ROOT, ConstructionSiteActivity.SPF_FILE));
+//		} else {
+//			oldPath = new File(oldProjectPath);
+//		}
+//
+//		if (newProjectName == null || newProjectName.length() == 0 || oldPath == null) {
+//            return false;
+//        }
+//
+//		oldProjectDirectory = new File(oldPath.getParent());
+//		String oldProjectFileName = oldPath.getName();
+//
+//		File newProjectDirectory = new File(Utils.concatPaths(oldProjectDirectory.getParent(), newProjectName));
+//		if (newProjectDirectory.exists()) {
+//			Log.e("Utils.renameProject", "New project folder already exists. aborting");
+//			return false;
+//		}
+//
+//		if (!oldProjectDirectory.renameTo(newProjectDirectory)) {
+//			Log.e("Utils.renameProject", "Failed to rename project directory");
+//			return false;
+//		}
+//
+//		File oldProjectFile = new File(Utils.concatPaths(newProjectDirectory.getAbsolutePath(), oldProjectFileName));
+//		String newProjectFileName = Utils.addDefaultFileEnding(newProjectName);
+//		String newProjectFilePath = Utils.concatPaths(newProjectDirectory.getAbsolutePath(), newProjectFileName);
+//		if (Utils.copyFile(oldProjectFile.getAbsolutePath(), newProjectFilePath, context, true)) {
+//            Utils.deleteFile(oldProjectFile.getAbsolutePath());
+//        } else {
+//			Log.e("Utils.renameProject", "Failed to rename project file");
+//			return false;
+//		}
+//
+//		ConstructionSiteActivity.setRoot(newProjectDirectory.getAbsolutePath(), newProjectFileName);
+//		return true;
+//	}
 }

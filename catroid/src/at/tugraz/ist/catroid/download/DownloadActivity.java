@@ -4,7 +4,7 @@ import java.net.URLDecoder;
 
 import android.app.Activity;
 import android.os.Bundle;
-import at.tugraz.ist.catroid.ConstructionSiteActivity;
+import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.download.tasks.ProjectDownloadTask;
 
@@ -26,7 +26,7 @@ public class DownloadActivity extends Activity {
 		String projectName = getProjectName(zipUrl);
 		
 		new ProjectDownloadTask(this, zipUrl, projectName,
-					ConstructionSiteActivity.TMP_PATH+"/down.zip").execute();  
+					Consts.TMP_PATH+"/down.zip").execute();  
 		
 		
 	}

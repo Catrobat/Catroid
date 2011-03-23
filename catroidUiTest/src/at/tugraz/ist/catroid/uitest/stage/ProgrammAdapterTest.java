@@ -1,4 +1,4 @@
-package at.tugraz.ist.catroid.uitest.construction_site;
+package at.tugraz.ist.catroid.uitest.stage;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package at.tugraz.ist.catroid.uitest.construction_site;
+package at.tugraz.ist.catroid.uitest.stage;
 
 import java.io.File;
 
@@ -6,6 +6,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
+import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
@@ -24,11 +25,13 @@ public class ProjectTest extends ActivityInstrumentationTestCase2<ConstructionSi
 				ConstructionSiteActivity.class);
 	}
 	
-	public void setUp() throws Exception {
+	@Override
+    public void setUp() throws Exception {
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 	
-	public void tearDown() throws Exception {
+	@Override
+    public void tearDown() throws Exception {
 		
 		try {	
 			solo.finalize();
@@ -39,7 +42,7 @@ public class ProjectTest extends ActivityInstrumentationTestCase2<ConstructionSi
 		getActivity().finish();
 		super.tearDown();
 		
-		File projectRoot = new File(ConstructionSiteActivity.DEFAULT_ROOT + "/testProject/");
+        File projectRoot = new File(Consts.DEFAULT_ROOT + "/testProject/");
 		UtilFile.deleteDirectory(projectRoot);
 	}
 	

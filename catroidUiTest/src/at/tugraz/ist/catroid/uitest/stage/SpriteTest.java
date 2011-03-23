@@ -1,7 +1,7 @@
 /**
  * 
  */
-package at.tugraz.ist.catroid.uitest.construction_site;
+package at.tugraz.ist.catroid.uitest.stage;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;

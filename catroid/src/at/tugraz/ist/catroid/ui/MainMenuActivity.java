@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.ui.dialogs.AboutDialog;
@@ -34,9 +35,6 @@ import at.tugraz.ist.catroid.ui.dialogs.LoadProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
 
 public class MainMenuActivity extends Activity {
-    private static final int NEW_PROJECT_DIALOG = 0;
-    private static final int LOAD_PROJECT_DIALOG = 1;
-    private static final int ABOUT_DIALOG = 2;
     private static final String PREFS_NAME = "at.tugraz.ist.catroid";
     private static final String PREF_PREFIX_KEY = "prefix_";
     private ProjectManager projectManager;
@@ -64,14 +62,14 @@ public class MainMenuActivity extends Activity {
         Button newProjectButton = (Button) findViewById(R.id.newProjectButton);
         newProjectButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                showDialog(NEW_PROJECT_DIALOG);
+                showDialog(Consts.NEW_PROJECT_DIALOG);
             }
         });
 
         Button loadProjectButton = (Button) findViewById(R.id.loadProjectButton);
         loadProjectButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                showDialog(LOAD_PROJECT_DIALOG);               
+                showDialog(Consts.LOAD_PROJECT_DIALOG);               
             }
         });
 
@@ -85,7 +83,7 @@ public class MainMenuActivity extends Activity {
         Button aboutCatroidButton = (Button) findViewById(R.id.aboutCatroidButton);
         aboutCatroidButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-            	showDialog(ABOUT_DIALOG);
+            	showDialog(Consts.ABOUT_DIALOG);
             }
         });
     }
@@ -132,13 +130,13 @@ public class MainMenuActivity extends Activity {
     	projectManager.saveProject(this);
 
     	switch (id) {
-    	case NEW_PROJECT_DIALOG:
+    	case Consts.NEW_PROJECT_DIALOG:
     		dialog = new NewProjectDialog(this);
     		break;
-    	case LOAD_PROJECT_DIALOG:
+    	case Consts.LOAD_PROJECT_DIALOG:
     		dialog = new LoadProjectDialog(this);
     		break;
-    	case ABOUT_DIALOG:
+    	case Consts.ABOUT_DIALOG:
     		dialog = new AboutDialog(this);
     		break;
     	default:

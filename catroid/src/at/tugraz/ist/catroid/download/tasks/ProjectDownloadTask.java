@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.ConstructionSiteActivity;
+import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.utils.UtilZip;
 import at.tugraz.ist.catroid.web.ConnectionWrapper;
@@ -53,7 +54,7 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 			
 			createConnection().doHttpPostFileDownload(mUrl, null, mZipFile);
 				
-			result = UtilZip.unZipFile(mZipFile, ConstructionSiteActivity.DEFAULT_ROOT + "/"+mProjectName+"/");  
+			result = UtilZip.unZipFile(mZipFile, Consts.DEFAULT_ROOT + "/"+mProjectName+"/");  
 			return result;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -80,8 +81,8 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 		Toast.makeText(mActivity, R.string.success_project_download, Toast.LENGTH_SHORT).show();
 		
 		Intent intent = new Intent(mActivity, ConstructionSiteActivity.class);
-		intent.putExtra(ConstructionSiteActivity.INTENT_EXTRA_ROOT, ConstructionSiteActivity.DEFAULT_ROOT + "/"+mProjectName+"/");
-		intent.putExtra(ConstructionSiteActivity.INTENT_EXTRA_SPF_FILE_NAME, mProjectName+ConstructionSiteActivity.DEFAULT_FILE_ENDING);
+		intent.putExtra(ConstructionSiteActivity.INTENT_EXTRA_ROOT, Consts.DEFAULT_ROOT + "/"+mProjectName+"/");
+		intent.putExtra(ConstructionSiteActivity.INTENT_EXTRA_SPF_FILE_NAME, mProjectName + Consts.PROJECT_EXTENTION);
 		mActivity.startActivity(intent);
 		
 	}

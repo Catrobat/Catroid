@@ -29,6 +29,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.brick.Brick;
@@ -36,7 +37,6 @@ import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
 
 public class ScriptActivity extends Activity {
-    private static final int ADD_BRICK_DIALOG = 0;
     protected ListView brickListView;
     private ArrayList<Brick> adapterBrickList;
     private BrickAdapter adapter;
@@ -73,7 +73,7 @@ public class ScriptActivity extends Activity {
         Button addBrickButton = (Button) findViewById(R.id.addBrickButton);
         addBrickButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-            	 showDialog(ADD_BRICK_DIALOG); 
+            	 showDialog(Consts.ADD_BRICK_DIALOG); 
             }
         });
 
@@ -91,7 +91,7 @@ public class ScriptActivity extends Activity {
         Dialog dialog;
 
         switch (id) {
-        case ADD_BRICK_DIALOG:
+        case Consts.ADD_BRICK_DIALOG:
             dialog = new AddBrickDialog(this);
             break;
         default:
