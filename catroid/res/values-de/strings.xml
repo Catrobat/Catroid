@@ -58,12 +58,12 @@
     <!-- Script activity view -->
     <string name="script_name">Skript:</string>
     <string name="brick_list">Bausteine:</string>
-    <string name="add_new_brick">+ Neuen Baustein hinzufügen</string>
+    <string name="add_new_brick">Neuen Baustein hinzufügen</string>
     
     <!-- Sprite activity -->
     <string name="sprite_name">Objekt:</string>
     <string name="script_list">Skripte:</string>
-    <string name="add_new_script">+ Neues Skript hinzufügen</string>
+    <string name="add_new_script">Neues Skript hinzufügen</string>
 
     <!-- Sprite dialog -->
     <string name="SpriteButtonText">Anlegen</string>

@@ -25,6 +25,7 @@ import java.util.List;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
@@ -43,7 +44,7 @@ public class Project implements Serializable {
 		versionName = packageInfo.versionName;
 		versionCode =  packageInfo.versionCode;
 		
-		Sprite stage = new Sprite("Stage");
+		Sprite stage = new Sprite(context.getString(R.string.stage));
 		addSprite(stage);
 	}
 	

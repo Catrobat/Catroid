@@ -23,6 +23,8 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class SpriteActivityTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
+    private String testProject = "testProject";
+    private String testProject2 = "testProject2";
 
 
 	public SpriteActivityTest() {
@@ -43,7 +45,7 @@ public class SpriteActivityTest extends ActivityInstrumentationTestCase2<MainMen
 		}
 		getActivity().finish();
 		
-		File directory = new File("/sdcard/catroid/testProject");
+        File directory = new File("/sdcard/catroid/" + testProject);
 		UtilFile.deleteDirectory(directory);
 		
 		super.tearDown();
@@ -51,14 +53,14 @@ public class SpriteActivityTest extends ActivityInstrumentationTestCase2<MainMen
 	
 	
 	public void testAddNewScript() throws NameNotFoundException, IOException, InterruptedException {
-		File directory = new File("/sdcard/catroid/testProject");
+        File directory = new File("/sdcard/catroid/" + testProject2);
 		UtilFile.deleteDirectory(directory);
 		
-		createTestProject("testProject");
+        createTestProject(testProject);
 		Thread.sleep(1000);
 		
 		solo.clickOnButton(getActivity().getString(R.string.load_project));
-		solo.clickOnText("testProject");
+        solo.clickOnText(testProject);
 		
 		solo.clickInList(2);
 		solo.clickOnButton(1);
