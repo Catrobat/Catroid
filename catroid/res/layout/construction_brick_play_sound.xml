@@ -2,32 +2,29 @@
 <RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:id="@+id/RelativeLayout01"
-	android:layout_width="wrap_content"
 	android:layout_height="wrap_content"
-	android:longClickable="true"
+	android:layout_width="wrap_content"
 	android:background="@drawable/brick_magenta"
 	android:focusable="false"
 	android:focusableInTouchMode="false"
+	android:longClickable="true"
 >
 	<TextView
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
 		android:id="@+id/ValueTextView"
-		android:layout_alignParentLeft="true"
-		android:textColor="@color/white"
-		android:textStyle="bold"
-		android:layout_centerVertical="true"
 		android:text="@string/play_sound_main_adapter"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:layout_centerVertical="true"
+		android:textColor="@color/white"
 		android:textSize="18dip"
+		android:textStyle="bold"
 	>
 	</TextView>
 	<Button
 		android:id="@+id/btSoundChoose"
-		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
 		android:layout_alignParentRight="true"
 		android:layout_centerVertical="true" />
-	<!-- <Spinner android:id="@+id/Spinner01" android:layout_width="120dp" android:layout_alignParentRight="true" 
-		android:layout_centerVertical="true" android:layout_height="40dip" android:tag="@string/constructional_brick_play_sound_spinner_tag"> 
-		</Spinner> -->
 </RelativeLayout>

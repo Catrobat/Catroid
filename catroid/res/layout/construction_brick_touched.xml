@@ -10,13 +10,13 @@
 	android:longClickable="true"
 >
 	<TextView
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
 		android:id="@+id/TouchedBrick"
-		android:textColor="@color/white"
-		android:textStyle="bold"
-		android:textSize="18dip"
 		android:text="@string/touched_main_adapter"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:textColor="@color/white"
+		android:textSize="18dip"
+		android:textStyle="bold"
 	>
 	</TextView>
 </LinearLayout>
