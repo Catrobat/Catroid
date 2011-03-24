@@ -59,8 +59,8 @@ public class ProjectTest extends ActivityInstrumentationTestCase2<ConstructionSi
 		assertEquals("After creating a new project there is only the stage available.", 1, spritesList.getChildCount());
 		solo.goBack();
 		
-		ListView brickList = (ListView) getActivity().findViewById(R.id.MainListView);
-		assertEquals("After creating a new project there is no brick in construction site.", 0, brickList.getChildCount());
+//		ListView brickList = (ListView) getActivity().findViewById(R.id.MainListView);
+//		assertEquals("After creating a new project there is no brick in construction site.", 0, brickList.getChildCount());
 		
 		
 	}
