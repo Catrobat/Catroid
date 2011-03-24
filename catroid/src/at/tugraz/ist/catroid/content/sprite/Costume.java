@@ -21,6 +21,7 @@ package at.tugraz.ist.catroid.content.sprite;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import at.tugraz.ist.catroid.Values;
+import at.tugraz.ist.catroid.utils.ImageEditing;
 
 public class Costume {
 	private static final long serialVersionUID = 1L;
@@ -47,16 +48,16 @@ public class Costume {
 	public Bitmap getBitmap() {
 		Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
 
-//		bitmap = ImageEditing.scaleBitmap(bitmap, sprite.getScale()/100, true); // /100 because we need times and not %
-//
-//		if (bitmap.getHeight() > StageActivity.SCREEN_HEIGHT) {
-//			double backgroundScaleFactor = ((double) StageActivity.SCREEN_HEIGHT + 2)
-//					/ (double) bitmap.getHeight(); // SCREEN_HEIGHT + 2
-//													// because of rounding
-//													// errors in set to
-//													// center
-//			bitmap = ImageEditing.scaleBitmap(bitmap, backgroundScaleFactor, true);
-//		}
+		bitmap = ImageEditing.scaleBitmap(bitmap, sprite.getScale()/100, false); // /100 because we need times and not %
+
+		if (bitmap.getHeight() > Values.SCREEN_HEIGHT) {
+			double backgroundScaleFactor = ((double) Values.SCREEN_HEIGHT + 2)
+					/ (double) bitmap.getHeight(); // SCREEN_HEIGHT + 2
+													// because of rounding
+													// errors in set to
+													// center
+			bitmap = ImageEditing.scaleBitmap(bitmap, backgroundScaleFactor, false);
+		}
 		return bitmap;
 	}
 	

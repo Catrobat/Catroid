@@ -27,9 +27,9 @@ import java.io.OutputStream;
 
 import android.graphics.Bitmap;
 import android.test.InstrumentationTestCase;
+import at.tugraz.ist.catroid.Values;
 import at.tugraz.ist.catroid.content.sprite.Costume;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
-import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.test.R;
 
 public class CostumeTest extends InstrumentationTestCase{
@@ -75,8 +75,8 @@ public class CostumeTest extends InstrumentationTestCase{
     
     public void testGetBitmap() throws IOException {
         
-		StageActivity.SCREEN_HEIGHT = 200;
-		StageActivity.SCREEN_WIDTH = 200;
+        Values.SCREEN_HEIGHT = 200;
+        Values.SCREEN_WIDTH = 200;
 		
         Sprite testSprite = new Sprite("testSprite");
     	Costume costume = new Costume(testSprite, testImage.getAbsolutePath());
@@ -88,8 +88,8 @@ public class CostumeTest extends InstrumentationTestCase{
     
     public void testScaleBitmap() throws IOException {
         
-        StageActivity.SCREEN_HEIGHT = 200;
-        StageActivity.SCREEN_WIDTH = 200;
+        Values.SCREEN_HEIGHT = 200;
+        Values.SCREEN_WIDTH = 200;
         
         Sprite testSprite = new Sprite("testSprite");
         testSprite.setScale(200);
@@ -104,8 +104,8 @@ public class CostumeTest extends InstrumentationTestCase{
     
     public void testScaleBitmapScreenTooSmall() throws IOException {
         
-        StageActivity.SCREEN_HEIGHT = 100;
-        StageActivity.SCREEN_WIDTH = 100;
+        Values.SCREEN_HEIGHT = 100;
+        Values.SCREEN_WIDTH = 100;
         
         Sprite testSprite = new Sprite("testSprite");
         testSprite.setScale(200);

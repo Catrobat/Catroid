@@ -36,7 +36,7 @@ public class ImageEditing {
 	}
 	
 	public static Bitmap scaleBitmap(Bitmap bm, double scalingFactor, boolean recycleOldBm){
-		return ImageEditing.scaleBitmap(bm, (int)Math.round(bm.getWidth()*scalingFactor), (int)Math.round(bm.getHeight()*scalingFactor), recycleOldBm);
+		return scaleBitmap(bm, (int)Math.round(bm.getWidth()*scalingFactor), (int)Math.round(bm.getHeight()*scalingFactor), recycleOldBm);
 	}
 	
 	public static Bitmap getScaledBitmap(String imagePath, int maxOutWidth, int maxOutHeight) {
