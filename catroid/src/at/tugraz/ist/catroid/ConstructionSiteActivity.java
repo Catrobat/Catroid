@@ -19,7 +19,6 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Gallery;
@@ -42,7 +41,7 @@ import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class ConstructionSiteActivity extends Activity implements Observer, OnClickListener, OnItemLongClickListener {
+public class ConstructionSiteActivity extends Activity implements Observer, OnItemLongClickListener {
 
 	/** Called when the activity is first created. */
 
@@ -99,7 +98,6 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.construction_site);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		DisplayMetrics dm = new DisplayMetrics();
@@ -381,13 +379,13 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		super.onPause();
 	}
 
-	public void onClick(View v) {
-		if (v.getId() == R.id.toolbar_button) {
-			openToolbox();
-		} else if (v.getId() == R.id.sprites_button) {
-			openSpriteToolbox();
-		}
-	}
+//	public void onClick(View v) {
+//		if (v.getId() == R.id.toolbar_button) {
+//			openToolbox();
+//		} else if (v.getId() == R.id.sprites_button) {
+//			openSpriteToolbox();
+//		}
+//	}
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -399,17 +397,17 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 		return super.onKeyDown(keyCode, event);
 	}
 
-	private void openToolbox() {
-		if (contentManager.getCurrentSprite().getName().equals(this.getString(R.string.stage))) {
-			showDialog(TOOLBOX_DIALOG_BACKGROUND);
-		} else {
-			showDialog(TOOLBOX_DIALOG_SPRITE);
-		}
-	}
-
-	private void openSpriteToolbox() {
-		showDialog(SPRITETOOLBOX_DIALOG);
-	}
+//	private void openToolbox() {
+//		if (contentManager.getCurrentSprite().getName().equals(this.getString(R.string.stage))) {
+//			showDialog(TOOLBOX_DIALOG_BACKGROUND);
+//		} else {
+//			showDialog(TOOLBOX_DIALOG_SPRITE);
+//		}
+//	}
+//
+//	private void openSpriteToolbox() {
+//		showDialog(SPRITETOOLBOX_DIALOG);
+//	}
 
 	/**
 	 * Test Method
