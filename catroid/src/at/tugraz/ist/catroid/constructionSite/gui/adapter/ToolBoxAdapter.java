@@ -33,6 +33,6 @@ public class ToolBoxAdapter extends BaseAdapter {
 
 	public View getView(int position, View convertView, ViewGroup parent) {
 		Brick brick = brickList.get(position);
-		return brick.getView(context, null);
+		return brick.getView(context, position, null);
 	}
 }

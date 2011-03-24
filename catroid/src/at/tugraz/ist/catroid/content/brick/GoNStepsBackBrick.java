@@ -61,7 +61,7 @@ public class GoNStepsBackBrick implements Brick, OnDismissListener {
 		return steps;
 	}
 
-	public View getView(Context context, BaseAdapter adapter) {
+	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.construction_brick_go_back, null);
 		EditText edit = (EditText) view.findViewById(R.id.InputValueEditText);

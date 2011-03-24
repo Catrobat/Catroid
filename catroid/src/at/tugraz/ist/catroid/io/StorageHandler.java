@@ -21,10 +21,14 @@ package at.tugraz.ist.catroid.io;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.channels.FileChannel;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -48,6 +52,8 @@ public class StorageHandler {
     private ArrayList<SoundInfo> soundContent;
     private File catroidRoot;
     private XStream xstream;
+
+    private final String IMAGE_DIRECTORY = "/images";
 
     private StorageHandler() throws IOException {
         String state = Environment.getExternalStorageState();
@@ -75,7 +81,7 @@ public class StorageHandler {
 
     public Project loadProject(String projectName) {
         try {
-        	projectName = Utils.getProjectName(projectName);
+            projectName = Utils.getProjectName(projectName);
 
             File projectDirectory = new File(catroidRoot.getAbsolutePath() + "/" + projectName);
 
@@ -105,12 +111,12 @@ public class StorageHandler {
                 File soundDirectory = new File(projectDirectory.getAbsolutePath() + "/sounds");
                 soundDirectory.mkdir();
             }
-            BufferedWriter out = new BufferedWriter(new FileWriter(projectDirectory.getAbsolutePath() + "/"
-                    + project.getName() + Consts.PROJECT_EXTENTION));
+            BufferedWriter out = new BufferedWriter(new FileWriter(projectDirectory.getAbsolutePath() + "/" + project.getName()
+                    + Consts.PROJECT_EXTENTION));
             out.write(spfFile);
-			out.flush();
+            out.flush();
             out.close();
-		} catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -126,11 +132,9 @@ public class StorageHandler {
     // TODO: Find a way to access sound files on the device
     public void loadSoundContent(Context context) {
         soundContent = new ArrayList<SoundInfo>();
-        String[] projectionOnOrig = { MediaStore.Audio.Media.DATA, MediaStore.Audio.AudioColumns.TITLE,
-                MediaStore.Audio.Media._ID };
+        String[] projectionOnOrig = { MediaStore.Audio.Media.DATA, MediaStore.Audio.AudioColumns.TITLE, MediaStore.Audio.Media._ID };
 
-        Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                projectionOnOrig, null, null, null);
+        Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projectionOnOrig, null, null, null);
 
         if (cursor.moveToFirst()) {
             int column_data_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
@@ -172,6 +176,45 @@ public class StorageHandler {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public File copyImage(String currentProjectName, String inputFilePath) throws IOException {
+        File imageDirectory = new File(catroidRoot.getAbsolutePath() + IMAGE_DIRECTORY);
+        if (!imageDirectory.exists()) {
+            imageDirectory.mkdirs();
+            File noMediaFile = new File(imageDirectory.getAbsolutePath() + "/.nomedia");
+            noMediaFile.createNewFile();
+        }
+
+        File inputFile = new File(inputFilePath);
+        if (!inputFile.exists() || !inputFile.canRead())
+            return null;
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        String timestamp = simpleDateFormat.format(new Date());
+        File outputFile = new File(imageDirectory.getAbsolutePath() + "/" + timestamp + inputFile.getName());
+
+        if(copyFile(outputFile, inputFile))
+            return outputFile;
+        else
+            return null;
+    }
+    
+    public boolean copyFile(File destinationFile, File sourceFile) throws IOException {
+        FileChannel inputChannel = new FileInputStream(sourceFile).getChannel();
+        FileChannel outputChannel = new FileOutputStream(destinationFile).getChannel();
+        try {
+            inputChannel.transferTo(0, inputChannel.size(), outputChannel);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            if (inputChannel != null)
+                inputChannel.close();
+            if (outputChannel != null)
+                outputChannel.close();
         }
     }
 }

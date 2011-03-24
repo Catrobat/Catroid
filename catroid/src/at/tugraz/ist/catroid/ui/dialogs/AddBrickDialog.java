@@ -41,6 +41,7 @@ import at.tugraz.ist.catroid.content.brick.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.brick.ShowBrick;
 import at.tugraz.ist.catroid.content.brick.WaitBrick;
 import at.tugraz.ist.catroid.content.script.Script;
+import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 
@@ -50,23 +51,23 @@ public class AddBrickDialog extends Dialog {
     private ListView listView;
     private BrickAdapter adapter;
 
-    private void setupBrickPrototypes() {
+    private void setupBrickPrototypes(Sprite sprite) {
         prototypeBrickList = new ArrayList<Brick>();
         prototypeBrickList.add(new PlaySoundBrick(""));
         prototypeBrickList.add(new WaitBrick(1000));
-        prototypeBrickList.add(new HideBrick(null));
-        prototypeBrickList.add(new ShowBrick(null));
-        prototypeBrickList.add(new PlaceAtBrick(null, 100, 200));
-        prototypeBrickList.add(new SetCostumeBrick(null));
-        prototypeBrickList.add(new ScaleCostumeBrick(null, 100));
-        prototypeBrickList.add(new GoNStepsBackBrick(null, 1));
-        prototypeBrickList.add(new ComeToFrontBrick(null, null));
-        prototypeBrickList.add(new IfTouchedBrick(null, new Script()));
+        prototypeBrickList.add(new HideBrick(sprite));
+        prototypeBrickList.add(new ShowBrick(sprite));
+        prototypeBrickList.add(new PlaceAtBrick(sprite, 100, 200));
+        prototypeBrickList.add(new SetCostumeBrick(sprite));
+        prototypeBrickList.add(new ScaleCostumeBrick(sprite, 100));
+        prototypeBrickList.add(new GoNStepsBackBrick(sprite, 1));
+        prototypeBrickList.add(new ComeToFrontBrick(sprite, null));
+        prototypeBrickList.add(new IfTouchedBrick(sprite, new Script()));
     }
 
-    public AddBrickDialog(ScriptActivity scriptActivity) {
+    public AddBrickDialog(ScriptActivity scriptActivity, Sprite sprite) {
         super(scriptActivity);
-        setupBrickPrototypes();
+        setupBrickPrototypes(sprite);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_toolbox);

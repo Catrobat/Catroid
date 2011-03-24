@@ -60,7 +60,7 @@ public class Costume {
 		}
 		return bitmap;
 	}
-
+	
 	public void setDrawPosition() {
 		drawPositionX = Math
 				.round(((StageActivity.SCREEN_WIDTH / (2f * maxRelCoordinates)) * sprite.getXPosition())

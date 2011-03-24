@@ -18,8 +18,10 @@
  */
 package at.tugraz.ist.catroid.content.brick;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -55,18 +57,23 @@ public class SetCostumeBrick implements Brick {
         return sprite;
     }
 
-    public View getView(Context context, BaseAdapter adapter) {
+    public View getView(final Context context, final int brickId, BaseAdapter adapter) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.construction_brick_set_costume, null);
-        final Context ctx = context;
         OnClickListener listener = new OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
-                ctx.startActivity(intent);
+                ((Activity)context).startActivityForResult(intent, brickId);
             }
         };
         ImageView imageView = (ImageView) view.findViewById(R.id.costume_image_view);
+        if(costume != null)
+        {
+            Bitmap thumbnail = costume.getBitmap();
+            if(thumbnail != null)
+                imageView.setImageBitmap(thumbnail);
+        }
         imageView.setOnClickListener(listener);
 
         return view;
@@ -80,6 +87,9 @@ public class SetCostumeBrick implements Brick {
 
     @Override
     public Brick clone() {
-        return new SetCostumeBrick(getSprite());
+        SetCostumeBrick clonedBrick = new SetCostumeBrick(getSprite());
+        if(costume != null)
+            clonedBrick.setCostume(getCostume().getImagePath());
+        return clonedBrick;
     }
 }

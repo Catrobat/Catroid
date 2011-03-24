@@ -72,7 +72,7 @@ public class PlaySoundBrick implements Brick, android.content.DialogInterface.On
 		return pathToSoundfile;
 	}
 
-    public View getView(final Context context, BaseAdapter adapter) {
+    public View getView(final Context context, int brickId, BaseAdapter adapter) {
         programmAdapter = adapter;
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.construction_brick_play_sound, null);

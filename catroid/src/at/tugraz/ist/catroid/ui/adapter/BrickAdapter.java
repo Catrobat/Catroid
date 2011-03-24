@@ -61,7 +61,7 @@ public class BrickAdapter extends BaseAdapter {
         if (isToolboxAdapter) {
             return brick.getPrototypeView(context);
         } else {
-            return brick.getView(context, this);
+            return brick.getView(context, position, this);
         }
 	}
 }
