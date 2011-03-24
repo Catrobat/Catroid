@@ -20,8 +20,7 @@ package at.tugraz.ist.catroid.content.sprite;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import at.tugraz.ist.catroid.stage.StageActivity;
-import at.tugraz.ist.catroid.utils.ImageEditing;
+import at.tugraz.ist.catroid.Values;
 
 public class Costume {
 	private static final long serialVersionUID = 1L;
@@ -48,27 +47,24 @@ public class Costume {
 	public Bitmap getBitmap() {
 		Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
 
-		bitmap = ImageEditing.scaleBitmap(bitmap, sprite.getScale()/100, true); // /100 because we need times and not %
-
-		if (bitmap.getHeight() > StageActivity.SCREEN_HEIGHT) {
-			double backgroundScaleFactor = ((double) StageActivity.SCREEN_HEIGHT + 2)
-					/ (double) bitmap.getHeight(); // SCREEN_HEIGHT + 2
-													// because of rounding
-													// errors in set to
-													// center
-			bitmap = ImageEditing.scaleBitmap(bitmap, backgroundScaleFactor, true);
-		}
+//		bitmap = ImageEditing.scaleBitmap(bitmap, sprite.getScale()/100, true); // /100 because we need times and not %
+//
+//		if (bitmap.getHeight() > StageActivity.SCREEN_HEIGHT) {
+//			double backgroundScaleFactor = ((double) StageActivity.SCREEN_HEIGHT + 2)
+//					/ (double) bitmap.getHeight(); // SCREEN_HEIGHT + 2
+//													// because of rounding
+//													// errors in set to
+//													// center
+//			bitmap = ImageEditing.scaleBitmap(bitmap, backgroundScaleFactor, true);
+//		}
 		return bitmap;
 	}
 	
-	public void setDrawPosition() {
-		drawPositionX = Math
-				.round(((StageActivity.SCREEN_WIDTH / (2f * maxRelCoordinates)) * sprite.getXPosition())
-						+ StageActivity.SCREEN_WIDTH / 2f);
-		drawPositionY = Math
-				.round((StageActivity.SCREEN_HEIGHT / 2f)
-						- ((StageActivity.SCREEN_HEIGHT / (2f * maxRelCoordinates)) * sprite.getYPosition()));
-	}
+    public void setDrawPosition() {
+        drawPositionX = Math.round(((Values.SCREEN_WIDTH / (2f * maxRelCoordinates)) * sprite.getXPosition()) + Values.SCREEN_WIDTH / 2f);
+        drawPositionY = Math.round((Values.SCREEN_HEIGHT / 2f)
+                - ((Values.SCREEN_HEIGHT / (2f * maxRelCoordinates)) * sprite.getYPosition()));
+    }
 
 	public int getDrawPositionX() {
 		return this.drawPositionX;

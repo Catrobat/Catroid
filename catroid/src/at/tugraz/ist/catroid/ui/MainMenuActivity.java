@@ -24,11 +24,13 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.Values;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.ui.dialogs.AboutDialog;
 import at.tugraz.ist.catroid.ui.dialogs.LoadProjectDialog;
@@ -92,6 +94,12 @@ public class MainMenuActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
+    	
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+
+        Values.SCREEN_HEIGHT = dm.widthPixels;
+        Values.SCREEN_HEIGHT = dm.heightPixels;
 
     	setContentView(R.layout.main_menu);
     	projectManager = ProjectManager.getInstance();
