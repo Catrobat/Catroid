@@ -8,9 +8,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import android.test.InstrumentationTestCase;
+import at.tugraz.ist.catroid.Values;
 import at.tugraz.ist.catroid.content.brick.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
-import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.test.R;
 
 public class SetCostumeBrickTest extends InstrumentationTestCase {
@@ -25,8 +25,9 @@ public class SetCostumeBrickTest extends InstrumentationTestCase {
     protected void setUp() throws Exception {
         final int fileSize = 4147;
         testImage = new File("/mnt/sdcard/catroid/testImage.png");
-        if(!testImage.exists())
+        if(!testImage.exists()) {
             testImage.createNewFile();
+        }
         InputStream in   = getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID);
         OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), fileSize);
         byte[] buffer = new byte[fileSize];
@@ -49,8 +50,8 @@ public class SetCostumeBrickTest extends InstrumentationTestCase {
     
     public void testSetCostume() throws IOException {
         
-        StageActivity.SCREEN_HEIGHT = 200;
-        StageActivity.SCREEN_WIDTH  = 200;
+        Values.SCREEN_HEIGHT = 200;
+        Values.SCREEN_WIDTH = 200;
         
         Sprite sprite = new Sprite("new sprite");
         SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
