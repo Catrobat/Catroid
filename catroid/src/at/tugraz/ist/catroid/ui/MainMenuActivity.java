@@ -98,7 +98,7 @@ public class MainMenuActivity extends Activity {
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
 
-        Values.SCREEN_HEIGHT = dm.widthPixels;
+        Values.SCREEN_WIDTH = dm.widthPixels;
         Values.SCREEN_HEIGHT = dm.heightPixels;
 
     	setContentView(R.layout.main_menu);
