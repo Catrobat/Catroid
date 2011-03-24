@@ -21,6 +21,9 @@
   */
 package at.tugraz.ist.catroid.ui.dragndrop;
 
+import java.util.HashMap;
+
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -28,6 +31,7 @@ import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -66,23 +70,30 @@ public class DragNDropListView extends ListView {
     private Rect mTempRect = new Rect();
     private Bitmap mDragBitmap;
     private final int mTouchSlop;
-    private int mItemHeightNormal;
-    private int mItemHeightExpanded;
+//    private int mItemHeightNormal;
+//    private int mItemHeightExpanded;
     private Context context;
     private ImageView mTrash;
     private int trashWidth;
     private int trashHeight;
-    private int dragWidth;
+    private int screenWidth;
+    private HashMap<Integer, Integer> itemHeightMap = new HashMap<Integer, Integer>();
 
     public DragNDropListView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        
+        DisplayMetrics dm = new DisplayMetrics();
+        ((Activity)context).getWindowManager().getDefaultDisplay().getMetrics(dm);
+        screenWidth = dm.widthPixels;
         
         mRemoveMode = SLIDE;
         this.context = context;
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         Resources res = getResources();
-        mItemHeightNormal = res.getDimensionPixelSize(R.dimen.normal_height);
-        mItemHeightExpanded = res.getDimensionPixelSize(R.dimen.expanded_height);
+//        mItemHeightNormal = res.getDimensionPixelSize(R.dimen.normal_height);
+//        mItemHeightExpanded = res.getDimensionPixelSize(R.dimen.expanded_height);
+//        System.out.println("mItemHeightNormal: "+mItemHeightNormal);
+//        System.out.println("mItemHeightExpanded: "+mItemHeightExpanded);
     }
     
     public void setTrashView(ImageView trashView) {
@@ -199,12 +210,14 @@ public class DragNDropListView extends ListView {
      * Restore size and visibility for all listitems
      */
     private void unExpandViews(boolean deletion) {
+        
+        int firstpos = getFirstVisiblePosition(); 
         for (int i = 0;; i++) {
             View v = getChildAt(i);
             if (v == null) {
                 if (deletion) {
                     // HACK force update of mItemCount
-                    int position = getFirstVisiblePosition();
+                    int position = firstpos;
                     int y = getChildAt(0).getTop();
                     setAdapter(getAdapter());
                     setSelectionFromTop(position, y);
@@ -217,7 +230,8 @@ public class DragNDropListView extends ListView {
                 }
             }
             ViewGroup.LayoutParams params = v.getLayoutParams();
-            params.height = mItemHeightNormal;
+            fillHeightMap(firstpos+i, v.getHeight());
+            params.height = itemHeightMap.get(firstpos+i);//mItemHeightNormal;
             v.setLayoutParams(params);
             v.setVisibility(View.VISIBLE);
         }
@@ -238,17 +252,22 @@ public class DragNDropListView extends ListView {
     private void doExpansion() {
         int childnum = mDragPos - getFirstVisiblePosition();
         if (mDragPos > mFirstDragPos) {
-            childnum++;
+            //childnum++;
         }
 
         View first = getChildAt(mFirstDragPos - getFirstVisiblePosition());
 
         for (int i = 0;; i++) {
-            View vv = getChildAt(i);
+            View vv = getChildAt(i); 
             if (vv == null) {
                 break;
             }
-            int height = mItemHeightNormal;
+            int mappos = getFirstVisiblePosition() +i;
+            fillHeightMap(mappos, vv.getHeight());
+            
+            int height = itemHeightMap.get(mappos);//mItemHeightNormal
+            System.out.println("height from map "+mappos+": "+height);
+//         
             int visibility = View.VISIBLE;
             if (vv.equals(first)) {
                 // processing the item that is being dragged
@@ -261,7 +280,8 @@ public class DragNDropListView extends ListView {
                 }
             } else if (i == childnum) {
                 if (mDragPos < getCount() - 1) {
-                    height = mItemHeightExpanded;
+                    System.out.println("__double item: "+i);
+                    height *= 2;//mItemHeightExpanded;
                 }
             }
             ViewGroup.LayoutParams params = vv.getLayoutParams();
@@ -302,12 +322,11 @@ public class DragNDropListView extends ListView {
                         }
                         unExpandViews(false);
                     }
+                    itemHeightMap.clear();
                     break;
                     
                 case MotionEvent.ACTION_DOWN:
-                    mTrash.setVisibility(View.VISIBLE);
-                    mDragView.getParent().bringChildToFront(mTrash);
-                    
+                    mTrash.setVisibility(View.VISIBLE);       
                     Animation animation = AnimationUtils.loadAnimation(context, R.anim.trash_in);
                     mTrash.startAnimation(animation);
                 case MotionEvent.ACTION_MOVE:
@@ -353,8 +372,8 @@ public class DragNDropListView extends ListView {
     }
     
     private void startDragging(Bitmap bm, int y) {
+        System.out.println("startDragging");
         stopDragging();
-
         mWindowParams = new WindowManager.LayoutParams();
         mWindowParams.gravity = Gravity.TOP|Gravity.LEFT;
         mWindowParams.x = 0;
@@ -378,8 +397,6 @@ public class DragNDropListView extends ListView {
         mWindowManager = (WindowManager)getContext().getSystemService(Context.WINDOW_SERVICE);
         mWindowManager.addView(v, mWindowParams);
         mDragView = v;
-        dragWidth = mDragView.getWidth();
-        
     }
     
     private void dragView(int x, int y) {
@@ -387,18 +404,16 @@ public class DragNDropListView extends ListView {
             float alpha = 1.0f;
             android.view.ViewGroup.LayoutParams params = mTrash.getLayoutParams();
             
-            int width = mDragView.getWidth();
-            if (x > 100) {
-                alpha = ((float)(width - x)) / (width-100);
-                
-                params.width = (int)(trashWidth * (2-alpha));
-                params.height = (int)(trashHeight * (2-alpha));
+            if (x > 100 && x < screenWidth - 100) {
+                alpha = ((float)(screenWidth - x)) / (screenWidth-100);
+                float rate = 1-alpha;
+                params.width = (int)(trashWidth * (1+rate));
+                params.height = (int)(trashHeight * (1+rate));
                 mTrash.setLayoutParams(params);
+                mWindowParams.alpha = alpha;
+                mWindowParams.width = screenWidth-params.width+2;
             }
-            mWindowParams.alpha = alpha;
-            //System.out.println("width1: "+ mWindowParams.width);
-            //mWindowParams.width = 500-mTrash.getWidth();
-            //System.out.println("width2: "+ mWindowParams.width);
+            
         }
         mWindowParams.y = y - mDragPoint + mCoordOffset;
         mWindowManager.updateViewLayout(mDragView, mWindowParams);
@@ -415,6 +430,13 @@ public class DragNDropListView extends ListView {
         if (mDragBitmap != null) {
             mDragBitmap.recycle();
             mDragBitmap = null;
+        }
+    }
+    
+    private void fillHeightMap(int position, int height) {
+        if(!itemHeightMap.containsKey(position)) {
+            itemHeightMap.put(position, height);
+            System.out.println("add height to map pos: "+position+" height: "+height);
         }
     }
     
