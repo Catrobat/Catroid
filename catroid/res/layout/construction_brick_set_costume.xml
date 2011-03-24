@@ -20,6 +20,9 @@
 		android:id="@+id/costume_image_view"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
+		android:scaleType="centerInside"
+		android:maxWidth="25dip"
+		android:maxHeight="25dip"
 		android:layout_alignParentRight="true"
 		android:background="@drawable/icon"
 	/>	

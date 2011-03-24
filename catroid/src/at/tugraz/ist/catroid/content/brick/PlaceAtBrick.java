@@ -59,7 +59,7 @@ public class PlaceAtBrick implements Brick, OnDismissListener {
 		return yPosition;
 	}
 	
-	public View getView(Context context, BaseAdapter adapter) {
+	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View brickView = inflater.inflate(R.layout.construction_brick_place_at, null);
         EditText editX = (EditText) brickView.findViewById(R.id.InputValueEditTextX);
