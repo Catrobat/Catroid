@@ -170,4 +170,14 @@ public class SpriteActivity extends Activity {
         }
         return true;
     }
+    
+    @Override
+    public void onPause() { 
+        super.onPause();
+        System.out.println("ONPAUSE SpriteActivity");
+        ProjectManager projectManager = ProjectManager.getInstance();
+        if (projectManager.getCurrentProject() != null) {
+            projectManager.saveProject(this);
+        }
+    }
 }
