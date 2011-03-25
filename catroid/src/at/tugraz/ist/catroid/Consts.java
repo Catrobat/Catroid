@@ -29,13 +29,18 @@ public final class Consts {
     public static final String IMAGE_DIRECTORY = "/images";
     
     //dialogs:
-    public static final int NEW_PROJECT_DIALOG = 0;
-    public static final int LOAD_PROJECT_DIALOG = 1;
-    public static final int ABOUT_DIALOG = 2;
-    public static final int NEW_SPRITE_DIALOG = 3;
-    public static final int RENAME_SPRITE_DIALOG = 4;
-    public static final int NEW_SCRIPT_DIALOG = 5;
-    public static final int RENAME_SCRIPT_DIALOG = 6;
-    public static final int ADD_BRICK_DIALOG = 7;
+    public static final int DIALOG_NEW_PROJECT = 0;
+    public static final int DIALOG_LOAD_PROJECT = 1;
+    public static final int DIALOG_ABOUT = 2;
+    public static final int DIALOG_NEW_SPRITE = 3;
+    public static final int DIALOG_RENAME_SPRITE = 4;
+    public static final int DIALOG_NEW_SCRIPT = 5;
+    public static final int DIALOG_RENAME_SCRIPT = 6;
+    public static final int DIALOG_ADD_BRICK = 7;
+    
+    //Costume:
+    public static final int MAX_REL_COORDINATES = 1000;
+    public static final int THUMBNAIL_WIDTH = 80;
+    public static final int THUMBNAIL_HEIGHT = 80;
     
 }

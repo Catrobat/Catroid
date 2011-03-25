@@ -77,7 +77,7 @@ public class ProjectActivity extends Activity {
         Button NewSpriteButton = (Button) findViewById(R.id.addSpriteButton);
         NewSpriteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                showDialog(Consts.NEW_SPRITE_DIALOG);
+                showDialog(Consts.DIALOG_NEW_SPRITE);
             }
         });
     }
@@ -96,10 +96,10 @@ public class ProjectActivity extends Activity {
         // Save Content here?
 
         switch (id) {
-        case Consts.NEW_SPRITE_DIALOG:
+        case Consts.DIALOG_NEW_SPRITE:
             dialog = new NewSpriteDialog(this);
             break;
-        case Consts.RENAME_SPRITE_DIALOG:
+        case Consts.DIALOG_RENAME_SPRITE:
             dialog = new RenameSpriteDialog(this);
             break;
         default:
@@ -160,7 +160,7 @@ public class ProjectActivity extends Activity {
         int menuItemIndex = item.getItemId();
         switch (menuItemIndex) {
         case 0: // rename
-            this.showDialog(Consts.RENAME_SPRITE_DIALOG);
+            this.showDialog(Consts.DIALOG_RENAME_SPRITE);
             break;
         case 1: // delete
             ProjectManager projectManager = ProjectManager.getInstance();
@@ -177,7 +177,6 @@ public class ProjectActivity extends Activity {
     @Override
     public void onPause() { 
         super.onPause();
-        System.out.println("ONPAUSE ProjectActivity");
         ProjectManager projectManager = ProjectManager.getInstance();
         if (projectManager.getCurrentProject() != null) {
             projectManager.saveProject(this);

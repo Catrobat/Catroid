@@ -20,22 +20,31 @@ package at.tugraz.ist.catroid.content.sprite;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.Values;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 public class Costume {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L; 
 	private String imagePath;
 	private Sprite sprite;
 	private int drawPositionX;
 	private int drawPositionY;
-	private int maxRelCoordinates = 1000; //TODO global variable for range of relative coordinates?
+	@XStreamOmitField
+	private transient Bitmap thumbnailBitmap; 
+	
+	public Costume(){}
 
     public Costume(Sprite sprite, String imagePath) {
 		this.setImagePath(imagePath);
 		this.sprite = sprite;
 		setDrawPosition();
-	}
+		
+		//creating thumbnailBitmap:
+		thumbnailBitmap = getDownsizedBitmap(Consts.THUMBNAIL_WIDTH, Consts.THUMBNAIL_HEIGHT);
+	} 
 
 	public void setImagePath(String imagePath) {
 		this.imagePath = imagePath;
@@ -46,26 +55,8 @@ public class Costume {
 	}
 
 	public Bitmap getBitmap() {
-	    BitmapFactory.Options o = new BitmapFactory.Options();
-	    o.inJustDecodeBounds = true;
-	    BitmapFactory.decodeFile(imagePath, o);
-	    
-	    int tmpWidth = o.outWidth;
-	    int tmpHeight = o.outHeight;
-	    int sampleSize = 1;
-	
-	    while (true) {
-	        if(tmpWidth < Values.SCREEN_WIDTH || tmpHeight < Values.SCREEN_HEIGHT) 
-                break;
-	        tmpWidth /= sampleSize;
-	        tmpHeight /= sampleSize;
-	        sampleSize++;
-	    } 
-
-	    BitmapFactory.Options o2 = new BitmapFactory.Options();
-        o2.inSampleSize = sampleSize;
-        
-		Bitmap bitmap = BitmapFactory.decodeFile(imagePath, o2);
+		
+		Bitmap bitmap = getDownsizedBitmap(Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
 
 		bitmap = ImageEditing.scaleBitmap(bitmap, sprite.getScale()/100, false); // /100 because we need times and not %
 
@@ -81,9 +72,10 @@ public class Costume {
 	}
 	
     public void setDrawPosition() {
-        drawPositionX = Math.round(((Values.SCREEN_WIDTH / (2f * maxRelCoordinates)) * sprite.getXPosition()) + Values.SCREEN_WIDTH / 2f);
+        drawPositionX = Math.round(((Values.SCREEN_WIDTH / (2f * Consts.MAX_REL_COORDINATES)) * sprite.getXPosition())
+                + Values.SCREEN_WIDTH / 2f);
         drawPositionY = Math.round((Values.SCREEN_HEIGHT / 2f)
-                - ((Values.SCREEN_HEIGHT / (2f * maxRelCoordinates)) * sprite.getYPosition()));
+                - ((Values.SCREEN_HEIGHT / (2f * Consts.MAX_REL_COORDINATES)) * sprite.getYPosition()));
     }
 
 	public int getDrawPositionX() {
@@ -93,5 +85,41 @@ public class Costume {
 	public int getDrawPositionY() {
 		return this.drawPositionY;
 	}
+	
+	private Bitmap getDownsizedBitmap(int width, int height){
+        BitmapFactory.Options o = new BitmapFactory.Options();
+        o.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(imagePath, o);
+        
+        int origWidth = o.outWidth;
+        int origHeight = o.outHeight;
+        int sampleSize = 1;
+    
+        int tempWidht = origWidth;
+        int tempHeight = origHeight;
+        while (true) {
+            if(tempWidht < width && tempHeight < height) 
+                break;
+            tempWidht = origWidth / sampleSize;
+            tempHeight = tempHeight / sampleSize;
+            sampleSize++;
+        } 
+        BitmapFactory.Options o2 = new BitmapFactory.Options();
+        o2.inSampleSize = sampleSize;
+        
+        return BitmapFactory.decodeFile(imagePath, o2);
+	} 
+
+    public Bitmap getThumbnailBitmap() {
+        if(imagePath == null){
+            return null;
+        }
+        if(thumbnailBitmap == null){
+            thumbnailBitmap = getDownsizedBitmap(Consts.THUMBNAIL_WIDTH, Consts.THUMBNAIL_HEIGHT);
+        }
+        System.out.println("###### Costume thumb size: " + thumbnailBitmap.getHeight());
+        System.out.println("###### Costume thumb size: " + thumbnailBitmap.getWidth());
+        return thumbnailBitmap;
+    }
 
 }
