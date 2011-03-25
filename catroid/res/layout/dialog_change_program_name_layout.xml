@@ -12,7 +12,8 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:maxLines="1"
-		android:textColor="#FFF" />
+		android:textColor="#FFF" 
+		android:inputType="text"/>
 	<Button
 		android:id="@+id/commitChangeButton"
 		android:layout_width="wrap_content"
