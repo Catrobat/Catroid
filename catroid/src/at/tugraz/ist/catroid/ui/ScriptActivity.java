@@ -23,13 +23,14 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnDismissListener;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.brick.Brick;
@@ -37,21 +38,15 @@ import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
 import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView;
 
-public class ScriptActivity extends Activity {
+public class ScriptActivity extends Activity implements OnDismissListener {
     private static final int ADD_BRICK_DIALOG = 0;
-    protected ListView brickListView;
-    private ArrayList<Brick> adapterBrickList;
+    //protected ListView brickListView;
     private BrickAdapter adapter;
     private DragNDropListView listView;
 
-  
-    
-        
     private void initListeners() {
-
-        adapterBrickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
+        ArrayList<Brick> adapterBrickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
         adapter = new BrickAdapter(this, adapterBrickList);
-        //adapter.isToolboxAdapter = true;
         
         listView = (DragNDropListView) findViewById(R.id.brickListView);
         listView.setTrashView((ImageView)findViewById(R.id.trash));
@@ -59,6 +54,7 @@ public class ScriptActivity extends Activity {
         listView.setOnDropListener(adapter);
         listView.setOnRemoveListener(adapter);
         listView.setAdapter(adapter);
+        listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
         //registerForContextMenu(listView);
         //        listView.setOnItemClickListener(new ListView.OnItemClickListener() {
         //
@@ -103,6 +99,7 @@ public class ScriptActivity extends Activity {
         switch (id) {
         case ADD_BRICK_DIALOG:
             dialog = new AddBrickDialog(this);
+            dialog.setOnDismissListener(this);
             break;
         default:
             dialog = null;
@@ -111,19 +108,23 @@ public class ScriptActivity extends Activity {
         return dialog;
     }
 
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) {
-            updateTextAndAdapter();
-        }
-    }
-
-    private void updateTextAndAdapter() {
-        TextView currentProjectTextView = (TextView) findViewById(R.id.scriptNameTextView);
-		currentProjectTextView.setText(this.getString(R.string.script_name) + " "
-                + ProjectManager.getInstance().getCurrentScript().getName());
-        adapterBrickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
+    public void onDismiss(DialogInterface dialog) {
         adapter.notifyDataSetChanged();
     }
+
+//    @Override
+//    public void onWindowFocusChanged(boolean hasFocus) {
+//        super.onWindowFocusChanged(hasFocus);
+//        if (hasFocus) {
+//            updateTextAndAdapter();
+//        }
+//    }
+//
+//    private void updateTextAndAdapter() {
+//        TextView currentProjectTextView = (TextView) findViewById(R.id.scriptNameTextView);
+//		currentProjectTextView.setText(this.getString(R.string.script_name) + " "
+//                + ProjectManager.getInstance().getCurrentScript().getName());
+//        adapterBrickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
+//        adapter.notifyDataSetChanged();
+//    }
 }
