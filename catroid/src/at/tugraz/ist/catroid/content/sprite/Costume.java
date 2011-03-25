@@ -46,7 +46,26 @@ public class Costume {
 	}
 
 	public Bitmap getBitmap() {
-		Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+	    BitmapFactory.Options o = new BitmapFactory.Options();
+	    o.inJustDecodeBounds = true;
+	    BitmapFactory.decodeFile(imagePath, o);
+	    
+	    int tmpWidth = o.outWidth;
+	    int tmpHeight = o.outHeight;
+	    int sampleSize = 1;
+	
+	    while (true) {
+	        if(tmpWidth < Values.SCREEN_WIDTH || tmpHeight < Values.SCREEN_HEIGHT) 
+                break;
+	        tmpWidth /= 2;
+	        tmpHeight /= 2;
+	        sampleSize++;
+	    }
+
+	    BitmapFactory.Options o2 = new BitmapFactory.Options();
+        o2.inSampleSize = sampleSize;
+        
+		Bitmap bitmap = BitmapFactory.decodeFile(imagePath, o2);
 
 		bitmap = ImageEditing.scaleBitmap(bitmap, sprite.getScale()/100, false); // /100 because we need times and not %
 
