@@ -64,14 +64,14 @@ public class MainMenuActivity extends Activity {
         Button newProjectButton = (Button) findViewById(R.id.newProjectButton);
         newProjectButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                showDialog(Consts.NEW_PROJECT_DIALOG);
+                showDialog(Consts.DIALOG_NEW_PROJECT);
             }
         });
 
         Button loadProjectButton = (Button) findViewById(R.id.loadProjectButton);
         loadProjectButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                showDialog(Consts.LOAD_PROJECT_DIALOG);               
+                showDialog(Consts.DIALOG_LOAD_PROJECT);               
             }
         });
 
@@ -85,7 +85,7 @@ public class MainMenuActivity extends Activity {
         Button aboutCatroidButton = (Button) findViewById(R.id.aboutCatroidButton);
         aboutCatroidButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-            	showDialog(Consts.ABOUT_DIALOG);
+            	showDialog(Consts.DIALOG_ABOUT);
             }
         });
     }
@@ -138,13 +138,13 @@ public class MainMenuActivity extends Activity {
     	projectManager.saveProject(this);
 
     	switch (id) {
-    	case Consts.NEW_PROJECT_DIALOG:
+    	case Consts.DIALOG_NEW_PROJECT:
     		dialog = new NewProjectDialog(this);
     		break;
-    	case Consts.LOAD_PROJECT_DIALOG:
+    	case Consts.DIALOG_LOAD_PROJECT:
     		dialog = new LoadProjectDialog(this);
     		break;
-    	case Consts.ABOUT_DIALOG:
+    	case Consts.DIALOG_ABOUT:
     		dialog = new AboutDialog(this);
     		break;
     	default:
@@ -161,7 +161,7 @@ public class MainMenuActivity extends Activity {
     	super.onResume();
     	if (projectManager.getCurrentProject() == null) {
     		return;
-    	}
+    	} 
     	TextView currentProjectTextView = (TextView) findViewById(R.id.currentProjectNameTextView);
     	currentProjectTextView.setText(getString(R.string.current_project) + " "
     			+ projectManager.getCurrentProject().getName());
@@ -170,7 +170,6 @@ public class MainMenuActivity extends Activity {
     @Override
     public void onPause() {  
         super.onPause();
-        System.out.println("ONPAUSE MainMenu");
     	//onPause is sufficient --> gets called before "process_killed", onStop(), onDestroy(), onRestart()
     	//also when you switch activities
     	if (projectManager.getCurrentProject() != null) {

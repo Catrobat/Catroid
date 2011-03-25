@@ -34,7 +34,7 @@ import at.tugraz.ist.catroid.content.sprite.Sprite;
 public class SetCostumeBrick implements Brick {
     private static final long serialVersionUID = 1L;
     private Sprite sprite;
-    private Costume costume = null;
+    private Costume costume;
 
     public SetCostumeBrick(Sprite sprite) {
         this.sprite = sprite;
@@ -70,7 +70,7 @@ public class SetCostumeBrick implements Brick {
         ImageView imageView = (ImageView) view.findViewById(R.id.costume_image_view);
         if(costume != null)
         {
-            Bitmap thumbnail = costume.getBitmap();
+            Bitmap thumbnail = costume.getThumbnailBitmap();
         
             if(thumbnail != null) {
                 imageView.setImageBitmap(thumbnail);

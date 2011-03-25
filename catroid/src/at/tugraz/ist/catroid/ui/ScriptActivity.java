@@ -71,7 +71,7 @@ public class ScriptActivity extends Activity {
         Button addBrickButton = (Button) findViewById(R.id.addBrickButton);
         addBrickButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                showDialog(Consts.ADD_BRICK_DIALOG);
+                showDialog(Consts.DIALOG_ADD_BRICK);
             }
         });
 
@@ -89,7 +89,7 @@ public class ScriptActivity extends Activity {
         Dialog dialog;
 
         switch (id) {
-        case Consts.ADD_BRICK_DIALOG:
+        case Consts.DIALOG_ADD_BRICK:
             dialog = new AddBrickDialog(this, sprite);
             break;
         default:
