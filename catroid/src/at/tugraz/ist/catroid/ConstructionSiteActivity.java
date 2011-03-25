@@ -10,7 +10,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
@@ -21,10 +20,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.constructionSite.gui.adapter.ProgrammAdapter;
 import at.tugraz.ist.catroid.content.brick.ComeToFrontBrick;
@@ -167,10 +166,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnCl
 			setTitle(currentProject.getName());
 
 		} catch (IOException e) {
-			// TODO: Show error dialog
-		} catch (NameNotFoundException e) {
-			e.printStackTrace();
-		}
+			
+		} 
 	}
 
 	private void initViews() {

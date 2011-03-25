@@ -25,7 +25,6 @@ import java.util.HashMap;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
@@ -70,37 +69,30 @@ public class DragNDropListView extends ListView {
     private Rect mTempRect = new Rect();
     private Bitmap mDragBitmap;
     private final int mTouchSlop;
-//    private int mItemHeightNormal;
-//    private int mItemHeightExpanded;
-    private Context context;
+    private Context mContext;
     private ImageView mTrash;
-    private int trashWidth;
-    private int trashHeight;
-    private int screenWidth;
-    private HashMap<Integer, Integer> itemHeightMap = new HashMap<Integer, Integer>();
+    private int mTrashWidth;
+    private int mTrashHeight;
+    private int mScreenWidth;
+    private HashMap<Integer, Integer> mItemHeightMap = new HashMap<Integer, Integer>();
 
     public DragNDropListView(Context context, AttributeSet attrs) {
         super(context, attrs);
         
         DisplayMetrics dm = new DisplayMetrics();
         ((Activity)context).getWindowManager().getDefaultDisplay().getMetrics(dm);
-        screenWidth = dm.widthPixels;
+        mScreenWidth = dm.widthPixels;
         
         mRemoveMode = SLIDE;
-        this.context = context;
+        this.mContext = context;
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
-        Resources res = getResources();
-//        mItemHeightNormal = res.getDimensionPixelSize(R.dimen.normal_height);
-//        mItemHeightExpanded = res.getDimensionPixelSize(R.dimen.expanded_height);
-//        System.out.println("mItemHeightNormal: "+mItemHeightNormal);
-//        System.out.println("mItemHeightExpanded: "+mItemHeightExpanded);
     }
     
     public void setTrashView(ImageView trashView) {
         mTrash = trashView;
         android.view.ViewGroup.LayoutParams params = mTrash.getLayoutParams();
-        trashWidth = params.width;
-        trashHeight = params.height;
+        mTrashWidth = params.width;
+        mTrashHeight = params.height;
     }
     
     @Override
@@ -231,7 +223,7 @@ public class DragNDropListView extends ListView {
             }
             ViewGroup.LayoutParams params = v.getLayoutParams();
             fillHeightMap(firstpos+i, v.getHeight());
-            params.height = itemHeightMap.get(firstpos+i);//mItemHeightNormal;
+            params.height = mItemHeightMap.get(firstpos+i);
             v.setLayoutParams(params);
             v.setVisibility(View.VISIBLE);
         }
@@ -265,9 +257,7 @@ public class DragNDropListView extends ListView {
             int mappos = getFirstVisiblePosition() +i;
             fillHeightMap(mappos, vv.getHeight());
             
-            int height = itemHeightMap.get(mappos);//mItemHeightNormal
-            System.out.println("height from map "+mappos+": "+height);
-//         
+            int height = mItemHeightMap.get(mappos);     
             int visibility = View.VISIBLE;
             if (vv.equals(first)) {
                 // processing the item that is being dragged
@@ -279,9 +269,8 @@ public class DragNDropListView extends ListView {
                     height = 1;
                 }
             } else if (i == childnum) {
-                if (mDragPos < getCount() - 1) {
-                    System.out.println("__double item: "+i);
-                    height *= 2;//mItemHeightExpanded;
+                if (mDragPos < getCount()) {
+                    height += mItemHeightMap.get(mFirstDragPos);
                 }
             }
             ViewGroup.LayoutParams params = vv.getLayoutParams();
@@ -306,8 +295,8 @@ public class DragNDropListView extends ListView {
                     stopDragging();
                     
                     android.view.ViewGroup.LayoutParams params = mTrash.getLayoutParams();
-                    params.width = trashWidth;
-                    params.height = trashHeight;
+                    params.width = mTrashWidth;
+                    params.height = mTrashHeight;
                     mTrash.setLayoutParams(params);
                     mTrash.setVisibility(View.GONE);
                       
@@ -322,12 +311,12 @@ public class DragNDropListView extends ListView {
                         }
                         unExpandViews(false);
                     }
-                    itemHeightMap.clear();
+                    mItemHeightMap.clear();
                     break;
                     
                 case MotionEvent.ACTION_DOWN:
                     mTrash.setVisibility(View.VISIBLE);       
-                    Animation animation = AnimationUtils.loadAnimation(context, R.anim.trash_in);
+                    Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.trash_in);
                     mTrash.startAnimation(animation);
                 case MotionEvent.ACTION_MOVE:
                     int x = (int) ev.getX();
@@ -372,7 +361,6 @@ public class DragNDropListView extends ListView {
     }
     
     private void startDragging(Bitmap bm, int y) {
-        System.out.println("startDragging");
         stopDragging();
         mWindowParams = new WindowManager.LayoutParams();
         mWindowParams.gravity = Gravity.TOP|Gravity.LEFT;
@@ -380,7 +368,7 @@ public class DragNDropListView extends ListView {
         mWindowParams.y = y - mDragPoint + mCoordOffset;
 
         mWindowParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        mWindowParams.width = 400;//WindowManager.LayoutParams.WRAP_CONTENT;
+        mWindowParams.width = mScreenWidth-mTrashWidth+2;//WindowManager.LayoutParams.WRAP_CONTENT;
         mWindowParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                 | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
                 | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
@@ -404,14 +392,14 @@ public class DragNDropListView extends ListView {
             float alpha = 1.0f;
             android.view.ViewGroup.LayoutParams params = mTrash.getLayoutParams();
             
-            if (x > 100 && x < screenWidth - 100) {
-                alpha = ((float)(screenWidth - x)) / (screenWidth-100);
+            if (x > 100 && x < mScreenWidth - 100) {
+                alpha = ((float)(mScreenWidth - x)) / (mScreenWidth-100);
                 float rate = 1-alpha;
-                params.width = (int)(trashWidth * (1+rate));
-                params.height = (int)(trashHeight * (1+rate));
+                params.width = (int)(mTrashWidth * (1+rate));
+                params.height = (int)(mTrashHeight * (1+rate));
                 mTrash.setLayoutParams(params);
                 mWindowParams.alpha = alpha;
-                mWindowParams.width = screenWidth-params.width+2;
+                mWindowParams.width = mScreenWidth-params.width+2;
             }
             
         }
@@ -434,9 +422,8 @@ public class DragNDropListView extends ListView {
     }
     
     private void fillHeightMap(int position, int height) {
-        if(!itemHeightMap.containsKey(position)) {
-            itemHeightMap.put(position, height);
-            System.out.println("add height to map pos: "+position+" height: "+height);
+        if(!mItemHeightMap.containsKey(position)) {
+            mItemHeightMap.put(position, height);
         }
     }
     
