@@ -57,10 +57,10 @@ public class Costume {
 	    while (true) {
 	        if(tmpWidth < Values.SCREEN_WIDTH || tmpHeight < Values.SCREEN_HEIGHT) 
                 break;
-	        tmpWidth /= 2;
-	        tmpHeight /= 2;
+	        tmpWidth /= sampleSize;
+	        tmpHeight /= sampleSize;
 	        sampleSize++;
-	    }
+	    } 
 
 	    BitmapFactory.Options o2 = new BitmapFactory.Options();
         o2.inSampleSize = sampleSize;

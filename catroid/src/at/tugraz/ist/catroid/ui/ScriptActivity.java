@@ -58,21 +58,6 @@ public class ScriptActivity extends Activity {
 
         listView = (ListView) findViewById(R.id.brickListView);
         listView.setAdapter(adapter);
-        // registerForContextMenu(listView);
-        // listView.setOnItemClickListener(new ListView.OnItemClickListener() {
-        //
-        // public void onItemClick(AdapterView<?> parent, View view, int
-        // position, long id) {
-        // if
-        // (ProjectManager.getInstance().setCurrentSprite(adapter.getItem(position)))
-        // {
-        // Intent intent = new Intent(ProjectActivity.this,
-        // SpriteActivity.class);
-        // ProjectActivity.this.startActivity(intent);
-        // / }
-        // //TODO: error if selected sprite is not in the project
-        // }
-        // });
 
         Button mainMenuButton = (Button) findViewById(R.id.mainMenuButton);
         mainMenuButton.setOnClickListener(new View.OnClickListener() {
@@ -119,6 +104,10 @@ public class ScriptActivity extends Activity {
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus) {
             updateTextAndAdapter();
+        }
+        ProjectManager projectManager = ProjectManager.getInstance();
+        if (projectManager.getCurrentProject() != null) {
+            projectManager.saveProject(this);
         }
     }
 

@@ -38,15 +38,15 @@ import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
 
 public class MainMenuActivity extends Activity {
     private static final String PREFS_NAME = "at.tugraz.ist.catroid";
-    private static final String PREF_PREFIX_KEY = "prefix_";
+    private static final String PREF_PROJECTNAME_KEY = "prefix_";
     private ProjectManager projectManager;
 
-    private void initListeners() {
+    private void initListeners() { 
 
         Button resumeButton = (Button) findViewById(R.id.resumeButton);
         resumeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (projectManager.getCurrentProject() != null) {
+                if (projectManager.getCurrentProject() != null) { 
                     Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
                     startActivity(intent);
                 }
@@ -107,11 +107,11 @@ public class MainMenuActivity extends Activity {
 		if (projectManager.getCurrentProject() != null) {
 			initListeners();
 			return;
-		}
+		} 
 
     	// Try to load sharedPreferences
-    	SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-    	String projectName = prefs.getString(PREF_PREFIX_KEY, null);
+    	SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+    	String projectName = prefs.getString(PREF_PROJECTNAME_KEY, null);
 
     	if (projectName != null) {
     		projectManager.loadProject(projectName, this);
@@ -168,15 +168,17 @@ public class MainMenuActivity extends Activity {
     	}
 
     @Override
-    public void onPause() {
+    public void onPause() {  
         super.onPause();
+        System.out.println("ONPAUSE MainMenu");
     	//onPause is sufficient --> gets called before "process_killed", onStop(), onDestroy(), onRestart()
     	//also when you switch activities
     	if (projectManager.getCurrentProject() != null) {
     		projectManager.saveProject(this);
     	}
-    	SharedPreferences.Editor prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
-    	prefs.putString(PREF_PREFIX_KEY, projectManager.getCurrentProject().getName());
+    	SharedPreferences.Editor prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
+    	prefs.putString(PREF_PROJECTNAME_KEY, projectManager.getCurrentProject().getName());
+    	prefs.commit(); 
     }
 
 }
