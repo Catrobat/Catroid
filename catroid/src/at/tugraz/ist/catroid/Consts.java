@@ -26,6 +26,7 @@ public final class Consts {
     
     public static final String DEFAULT_ROOT = "/sdcard/catroid";
     public static final String TMP_PATH = DEFAULT_ROOT + "/tmp";
+    public static final String IMAGE_DIRECTORY = "/images";
     
     //dialogs:
     public static final int NEW_PROJECT_DIALOG = 0;

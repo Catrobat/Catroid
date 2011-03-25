@@ -53,8 +53,6 @@ public class StorageHandler {
     private File catroidRoot;
     private XStream xstream;
 
-    private final String IMAGE_DIRECTORY = "/images";
-
     private StorageHandler() throws IOException {
         String state = Environment.getExternalStorageState();
         xstream = new XStream();
@@ -180,7 +178,7 @@ public class StorageHandler {
     }
 
     public File copyImage(String currentProjectName, String inputFilePath) throws IOException {
-        File imageDirectory = new File(catroidRoot.getAbsolutePath() + IMAGE_DIRECTORY);
+        File imageDirectory = new File(catroidRoot.getAbsolutePath() + "/" + currentProjectName + Consts.IMAGE_DIRECTORY);
         if (!imageDirectory.exists()) {
             imageDirectory.mkdirs();
             File noMediaFile = new File(imageDirectory.getAbsolutePath() + "/.nomedia");
