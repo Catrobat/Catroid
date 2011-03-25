@@ -11,7 +11,7 @@
 		android:layout_height="wrap_content"
 		android:layout_width="fill_parent"
 		android:maxLines="1"
-		android:singleLine="true" />
+		android:inputType="text" />
 	<LinearLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		android:orientation="horizontal"

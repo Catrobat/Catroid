@@ -71,8 +71,12 @@ public class SetCostumeBrick implements Brick {
         if(costume != null)
         {
             Bitmap thumbnail = costume.getBitmap();
-            if(thumbnail != null)
+        
+            if(thumbnail != null) {
                 imageView.setImageBitmap(thumbnail);
+                imageView.setBackgroundDrawable(null);
+            }
+               
         }
         imageView.setOnClickListener(listener);
 
