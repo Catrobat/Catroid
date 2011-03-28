@@ -26,6 +26,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.Values;
 import at.tugraz.ist.catroid.content.sprite.Costume;
@@ -35,13 +36,16 @@ import at.tugraz.ist.catroid.test.R;
 public class CostumeTest extends InstrumentationTestCase{
 	private static final int IMAGE_FILE_ID = R.raw.icon;
     private File testImage;
-    final int width = 72;
-    final int height = 72;
+    
+    // width and height of testImage
+    int width;
+    int height;
 
     @Override
     protected void setUp() throws Exception {
         final int fileSize = 4147;
-        testImage = new File("mnt/sdcard/catroid/testImage.png");
+        final String imagePath = "/mnt/sdcard/catroid/testImage.png"; 
+        testImage = new File(imagePath);
         if(!testImage.exists()) {
             testImage.createNewFile();
         }
@@ -56,6 +60,13 @@ public class CostumeTest extends InstrumentationTestCase{
         in.close();
         out.flush();
         out.close();
+        
+        BitmapFactory.Options o = new BitmapFactory.Options();
+        o.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(imagePath, o);
+
+        width = o.outWidth;
+        height = o.outHeight;
     }
     
     @Override
@@ -75,8 +86,8 @@ public class CostumeTest extends InstrumentationTestCase{
     
     public void testGetBitmap() throws IOException {
         
-        Values.SCREEN_HEIGHT = 200;
-        Values.SCREEN_WIDTH = 200;
+        Values.SCREEN_HEIGHT = 400;
+        Values.SCREEN_WIDTH = 400;
 		
         Sprite testSprite = new Sprite("testSprite");
     	Costume costume = new Costume(testSprite, testImage.getAbsolutePath());
@@ -88,8 +99,8 @@ public class CostumeTest extends InstrumentationTestCase{
     
     public void testScaleBitmap() throws IOException {
         
-        Values.SCREEN_HEIGHT = 200;
-        Values.SCREEN_WIDTH = 200;
+        Values.SCREEN_HEIGHT = 400;
+        Values.SCREEN_WIDTH = 400;
         
         Sprite testSprite = new Sprite("testSprite");
         testSprite.setScale(200);
@@ -104,18 +115,27 @@ public class CostumeTest extends InstrumentationTestCase{
     
     public void testScaleBitmapScreenTooSmall() throws IOException {
         
-        Values.SCREEN_HEIGHT = 100;
-        Values.SCREEN_WIDTH = 100;
+        Values.SCREEN_HEIGHT = 200;
+        Values.SCREEN_WIDTH = 200;
         
         Sprite testSprite = new Sprite("testSprite");
         testSprite.setScale(200);
     	Costume costume = new Costume(testSprite, testImage.getAbsolutePath());
     	
     	Bitmap bitmap = costume.getBitmap();
+    	
+    	int maxDimension = Math.max(bitmap.getWidth(), bitmap.getHeight());
 
-    	assertEquals("Width of loaded bitmap is not the same as width of original image", 102, bitmap.getWidth());
-    	assertEquals("Height of loaded bitmap is not the same as height of original image", 102, bitmap.getHeight());
+    	assertEquals("Max bitmap dimension not equal to screen size", Values.SCREEN_WIDTH, maxDimension);
 
+    }
+    
+    public void testGetThumbnail() {
+    	Sprite testSprite = new Sprite("testSprite");
+    	Costume costume = new Costume(testSprite, testImage.getAbsolutePath());
+    	Bitmap thumbnail = costume.getThumbnailBitmap();
+    	assertEquals("Thumbnail width is not correct", width / 2, thumbnail.getWidth());
+    	assertEquals("Thumbnail height is not correct", height / 2, thumbnail.getHeight());
     }
     
 }
