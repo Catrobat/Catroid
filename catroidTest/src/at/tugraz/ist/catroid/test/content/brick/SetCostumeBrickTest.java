@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import android.graphics.BitmapFactory;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.Values;
 import at.tugraz.ist.catroid.content.brick.SetCostumeBrick;
@@ -18,13 +19,14 @@ public class SetCostumeBrickTest extends InstrumentationTestCase {
     private static final int IMAGE_FILE_ID = R.raw.icon;
     
     private File testImage;
-    final int width = 72;
-    final int height = 72;
+    int width;
+    int height;
 
     @Override
     protected void setUp() throws Exception {
         final int fileSize = 4147;
-        testImage = new File("/mnt/sdcard/catroid/testImage.png");
+        final String imagePath = "/mnt/sdcard/catroid/testImage.png"; 
+        testImage = new File(imagePath);
         if(!testImage.exists()) {
             testImage.createNewFile();
         }
@@ -39,6 +41,13 @@ public class SetCostumeBrickTest extends InstrumentationTestCase {
         in.close();
         out.flush();
         out.close();
+        
+        BitmapFactory.Options o = new BitmapFactory.Options();
+        o.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(imagePath, o);
+
+        width = o.outWidth;
+        height = o.outHeight;
     }
     
     @Override

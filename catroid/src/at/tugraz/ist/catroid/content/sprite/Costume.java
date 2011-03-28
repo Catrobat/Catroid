@@ -28,50 +28,51 @@ import at.tugraz.ist.catroid.utils.ImageEditing;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public class Costume {
-	private static final long serialVersionUID = 1L; 
-	private String imagePath;
-	private Sprite sprite;
-	private int drawPositionX;
-	private int drawPositionY;
-	@XStreamOmitField
-	private transient Bitmap thumbnailBitmap; 
-	
-	public Costume(){}
+    private static final long serialVersionUID = 1L;
+    private String imagePath;
+    private Sprite sprite;
+    private int drawPositionX;
+    private int drawPositionY;
+    @XStreamOmitField
+    private transient Bitmap thumbnailBitmap;
+
+    public Costume() {
+    }
 
     public Costume(Sprite sprite, String imagePath) {
-		this.setImagePath(imagePath);
-		this.sprite = sprite;
-		setDrawPosition();
-		
-		//creating thumbnailBitmap:
-		thumbnailBitmap = getDownsizedBitmap(Consts.THUMBNAIL_WIDTH, Consts.THUMBNAIL_HEIGHT);
-	} 
+        this.setImagePath(imagePath);
+        this.sprite = sprite;
+        setDrawPosition();
 
-	public void setImagePath(String imagePath) {
-		this.imagePath = imagePath;
-	}
+        // creating thumbnailBitmap:
+        thumbnailBitmap = getDownsizedBitmap(Consts.THUMBNAIL_WIDTH, Consts.THUMBNAIL_HEIGHT);
+    }
 
-	public String getImagePath() {
-		return imagePath;
-	}
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
 
-	public Bitmap getBitmap() {
-		
-		Bitmap bitmap = getDownsizedBitmap(Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
+    public String getImagePath() {
+        return imagePath;
+    }
 
-		bitmap = ImageEditing.scaleBitmap(bitmap, sprite.getScale()/100, false); // /100 because we need times and not %
+    public Bitmap getBitmap() {
 
-		if (bitmap.getHeight() > Values.SCREEN_HEIGHT) {
-			double backgroundScaleFactor = ((double) Values.SCREEN_HEIGHT + 2)
-					/ (double) bitmap.getHeight(); // SCREEN_HEIGHT + 2
-													// because of rounding
-													// errors in set to
-													// center
-			bitmap = ImageEditing.scaleBitmap(bitmap, backgroundScaleFactor, false);
-		}
-		return bitmap;
-	}
-	
+        Bitmap bitmap = getDownsizedBitmap(Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
+
+        // /100 because we need times and not %
+        bitmap = ImageEditing.scaleBitmap(bitmap, sprite.getScale() / 100.0, false);
+
+        double widthScaleFactor = Values.SCREEN_WIDTH / (double)bitmap.getWidth();
+        double heightScaleFactor = Values.SCREEN_HEIGHT / (double)bitmap.getHeight();
+        double minScaleFactor = Math.min(widthScaleFactor, heightScaleFactor);
+
+        if (minScaleFactor < 1.0) {
+            bitmap = ImageEditing.scaleBitmap(bitmap, minScaleFactor, false);
+        }
+        return bitmap;
+    }
+
     public void setDrawPosition() {
         drawPositionX = Math.round(((Values.SCREEN_WIDTH / (2f * Consts.MAX_REL_COORDINATES)) * sprite.getXPosition())
                 + Values.SCREEN_WIDTH / 2f);
@@ -79,55 +80,47 @@ public class Costume {
                 - ((Values.SCREEN_HEIGHT / (2f * Consts.MAX_REL_COORDINATES)) * sprite.getYPosition()));
     }
 
-	public int getDrawPositionX() {
-		return this.drawPositionX;
-	}
+    public int getDrawPositionX() {
+        return this.drawPositionX;
+    }
 
-	public int getDrawPositionY() {
-		return this.drawPositionY;
-	}
-	
-	private Bitmap getDownsizedBitmap(int width, int height){
+    public int getDrawPositionY() {
+        return this.drawPositionY;
+    }
+
+    private Bitmap getDownsizedBitmap(int width, int height) {
         BitmapFactory.Options o = new BitmapFactory.Options();
         o.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(imagePath, o);
-        
+
         int origWidth = o.outWidth;
         int origHeight = o.outHeight;
-        int sampleSize = 1;
-    
-        int tempWidht = origWidth;
-        int tempHeight = origHeight;
-        while (true) {
-            if(tempWidht < width && tempHeight < height) 
-                break;
-            tempWidht = origWidth / sampleSize;
-            tempHeight = tempHeight / sampleSize;
-            sampleSize++;
-        } 
-        BitmapFactory.Options o2 = new BitmapFactory.Options();
-        o2.inSampleSize = sampleSize;
-        
-        return BitmapFactory.decodeFile(imagePath, o2);
-	} 
+
+        int sampleSizeWidth = (int) Math.ceil(origWidth / (double) width);
+        int sampleSizeHeight = (int) Math.ceil(origHeight / (double) height);
+        int sampleSize = Math.max(sampleSizeWidth, sampleSizeHeight);
+
+        o.inJustDecodeBounds = false;
+        o.inSampleSize = sampleSize;
+
+        return BitmapFactory.decodeFile(imagePath, o);
+    }
 
     public Bitmap getThumbnailBitmap() {
-        if(imagePath == null){
+        if (imagePath == null) {
             return null;
         }
-        if(thumbnailBitmap == null){
+        if (thumbnailBitmap == null) {
             thumbnailBitmap = getDownsizedBitmap(Consts.THUMBNAIL_WIDTH, Consts.THUMBNAIL_HEIGHT);
         }
-        System.out.println("###### Costume thumb size: " + thumbnailBitmap.getHeight());
-        System.out.println("###### Costume thumb size: " + thumbnailBitmap.getWidth());
         return thumbnailBitmap;
     }
-    
-    public Pair<Integer,Integer> getImageWidthHeight(){
+
+    public Pair<Integer, Integer> getImageWidthHeight() {
         BitmapFactory.Options o = new BitmapFactory.Options();
         o.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(imagePath, o);
-        return new Pair<Integer,Integer>((int)(o.outWidth*sprite.getScale()/100),(int)(o.outHeight*sprite.getScale()/100));
+        return new Pair<Integer, Integer>((int) (o.outWidth * sprite.getScale() / 100), (int) (o.outHeight * sprite.getScale() / 100));
     }
 
 }
