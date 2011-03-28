@@ -26,6 +26,7 @@ import java.io.FileOutputStream;
 import android.media.MediaPlayer;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.content.brick.PlaySoundBrick;
+import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.io.sound.SoundManager;
 import at.tugraz.ist.catroid.test.R;
 
@@ -53,8 +54,9 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		if (soundFile != null && soundFile.exists())
-			soundFile.delete();
+		if (soundFile != null && soundFile.exists()) {
+            soundFile.delete();
+        }
 		SoundManager.getInstance().clear();
 	}
 
@@ -65,7 +67,7 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 
 		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
 
-		PlaySoundBrick testBrick = new PlaySoundBrick(soundFilePath);
+        PlaySoundBrick testBrick = new PlaySoundBrick(new Sprite("1"), soundFilePath);
 		testBrick.execute();
 		assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
 
@@ -81,7 +83,7 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 
 	public void testIllegalArgument() {
 		final String illegalPath = "file/that/does/not/exist";
-		PlaySoundBrick testBrick = new PlaySoundBrick(illegalPath);
+        PlaySoundBrick testBrick = new PlaySoundBrick(new Sprite("2"), illegalPath);
 		try {
 			testBrick.execute();
 			fail("Execution of PlaySoundBrick with illegal file path did not cause an IllegalArgumentException to be thrown");
@@ -98,7 +100,7 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 		final int playerCount = SoundManager.MAX_MEDIA_PLAYERS;
 		for (int i = 0; i < playerCount; i++) {
 			MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
-			PlaySoundBrick testBrick = new PlaySoundBrick(soundFilePath);
+            PlaySoundBrick testBrick = new PlaySoundBrick(new Sprite("3"), soundFilePath);
 			testBrick.execute();
 			assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
 		}
@@ -111,7 +113,7 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 
 		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
 
-		PlaySoundBrick testBrick = new PlaySoundBrick(soundFilePath);
+        PlaySoundBrick testBrick = new PlaySoundBrick(new Sprite("4"), soundFilePath);
 		testBrick.execute();
 		assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
 

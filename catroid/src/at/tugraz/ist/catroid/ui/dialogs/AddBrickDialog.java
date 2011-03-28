@@ -53,8 +53,8 @@ public class AddBrickDialog extends Dialog {
 
     private void setupBrickPrototypes(Sprite sprite) {
         prototypeBrickList = new ArrayList<Brick>();
-        prototypeBrickList.add(new PlaySoundBrick(""));
-        prototypeBrickList.add(new WaitBrick(1000));
+        prototypeBrickList.add(new PlaySoundBrick(sprite,""));
+        prototypeBrickList.add(new WaitBrick(sprite,1000));
         prototypeBrickList.add(new HideBrick(sprite));
         prototypeBrickList.add(new ShowBrick(sprite));
         prototypeBrickList.add(new PlaceAtBrick(sprite, 100, 200));

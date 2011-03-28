@@ -59,6 +59,9 @@ public class Costume {
     public Bitmap getBitmap() {
 
         Bitmap bitmap = getDownsizedBitmap(Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
+        if(bitmap == null){
+            return null;
+        }
 
         // /100 because we need times and not %
         bitmap = ImageEditing.scaleBitmap(bitmap, sprite.getScale() / 100.0, false);

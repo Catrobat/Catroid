@@ -54,7 +54,7 @@ public class StartThreadsTest extends AndroidTestCase {
         Sprite testSprite = new Sprite("testSprite");
         Script testScript = new Script();
         HideBrick hideBrick = new HideBrick(testSprite);
-        WaitBrick waitBrick = new WaitBrick(400);
+        WaitBrick waitBrick = new WaitBrick(testSprite, 400);
         ShowBrick showBrick = new ShowBrick(testSprite);
         
         testScript.addBrick(hideBrick);

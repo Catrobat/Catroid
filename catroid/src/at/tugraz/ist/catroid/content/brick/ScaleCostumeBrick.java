@@ -41,6 +41,7 @@ public class ScaleCostumeBrick implements Brick, OnDismissListener {
 
 	public void execute() {
 		sprite.setScale(scale);
+		sprite.setToDraw(true);
 	}
 
 	public Sprite getSprite() {
