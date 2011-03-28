@@ -120,16 +120,14 @@ public class ProjectManager extends Observable {
     }
 
     public void initializeNewProject(String projectName, Context context) {
-        try {
-            project = new Project(context, projectName);
-            currentSprite = null;
-            currentScript = null;
-            saveProject(context);
-            setChanged();
-            notifyObservers();
-        } catch (NameNotFoundException e) {
-            Utils.displayErrorMessage(context, context.getString(R.string.error_save_project));
-        }
+        
+        project = new Project(context, projectName);
+        currentSprite = null;
+        currentScript = null;
+        saveProject(context);
+        setChanged();
+        notifyObservers();
+       
     }
 
     public void setObserver(Observer observer) {
@@ -177,6 +175,13 @@ public class ProjectManager extends Observable {
             return true;
         }
         return false;
+    }
+    
+    public void setProject(Project project) {
+        currentScript = null;
+        currentSprite = null;
+           
+        this.project = project;
     }
 
     public boolean scriptExists(String scriptName) {
