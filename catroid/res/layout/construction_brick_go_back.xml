@@ -14,61 +14,61 @@
         android:layout_width="wrap_content"
         android:src="@drawable/ic_mp_move" 
         android:layout_height="wrap_content" />
-	<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/LinearLayout01"
-	android:orientation="horizontal"
-	android:layout_height="wrap_content"
-	android:layout_width="wrap_content"
-	android:background="@drawable/brick_blue"
-	android:focusable="false"
-	android:focusableInTouchMode="false"
-	android:longClickable="true"
->
-	<TextView
-		android:id="@+id/ValueTextView"
-		android:text="@string/go_back_main_adapter"
+		
+		<LinearLayout
+		android:id="@+id/LinearLayout01"
+		android:orientation="horizontal"
 		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:layout_alignParentLeft="true"
-		android:layout_centerVertical="true"
-		android:paddingRight="10dip"
-		android:textColor="@color/white"
-		android:textSize="18dip"
-		android:textStyle="bold"
-	>
-	</TextView>
-	<EditText
-		android:id="@+id/InputValueEditText"
-		android:text="5"
-		android:layout_height="wrap_content"
-		android:layout_width="50dp"
-		android:layout_centerVertical="true"
-		android:layout_toLeftOf="@+id/LabelTextView"
-		android:clickable="true"
-		android:cursorVisible="false"
-		android:freezesText="false"
+		android:layout_width="match_parent"
+		android:background="@drawable/brick_blue"
 		android:focusable="false"
 		android:focusableInTouchMode="false"
-		android:inputType="number"
-		android:maxLength="5"
-		android:maxLines="1"
+		android:longClickable="true"
 	>
-	</EditText>
-	<TextView
-		android:id="@+id/LabelTextView"
-		android:text="@string/steps_label"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:layout_alignParentRight="true"
-		android:layout_centerVertical="true"
-		android:paddingBottom="10dip"
-		android:paddingLeft="10dip"
-		android:paddingRight="10dip"
-		android:textColor="@color/white"
-		android:textSize="18dip"
-		android:textStyle="bold"
-	>
-	</TextView>
-</LinearLayout>
+		<TextView
+			android:id="@+id/ValueTextView"
+			android:text="@string/go_back_main_adapter"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_alignParentLeft="true"
+			android:layout_centerVertical="true"
+			android:paddingRight="10dip"
+			android:textColor="@color/white"
+			android:textSize="18dip"
+			android:textStyle="bold"
+		>
+		</TextView>
+		<EditText
+			android:id="@+id/InputValueEditText"
+			android:text="5"
+			android:layout_height="wrap_content"
+			android:layout_width="50dp"
+			android:layout_centerVertical="true"
+			android:layout_toLeftOf="@+id/LabelTextView"
+			android:clickable="true"
+			android:cursorVisible="false"
+			android:freezesText="false"
+			android:focusable="false"
+			android:focusableInTouchMode="false"
+			android:inputType="number"
+			android:maxLength="5"
+			android:maxLines="1"
+		>
+		</EditText>
+		<TextView
+			android:id="@+id/LabelTextView"
+			android:text="@string/steps_label"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_centerVertical="true"
+			android:paddingBottom="10dip"
+			android:paddingLeft="10dip"
+			android:paddingRight="10dip"
+			android:textColor="@color/white"
+			android:textSize="18dip"
+			android:textStyle="bold"
+		>
+		</TextView>
+	</LinearLayout>
 </LinearLayout>

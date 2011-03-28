@@ -14,24 +14,24 @@
         android:layout_width="wrap_content"
         android:src="@drawable/ic_mp_move" 
         android:layout_height="wrap_content" />
-	<LinearLayout
-	android:layout_width="wrap_content"
-	android:layout_height="wrap_content"
-	android:focusable="false"
-	android:focusableInTouchMode="false"
-	android:orientation="horizontal"
-	android:background="@drawable/brick_touched"
-	android:longClickable="true"
->
-	<TextView
-		android:id="@+id/TouchedBrick"
-		android:text="@string/touched_main_adapter"
+		<LinearLayout
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:textColor="@color/white"
-		android:textSize="18dip"
-		android:textStyle="bold"
+		android:focusable="false"
+		android:focusableInTouchMode="false"
+		android:orientation="horizontal"
+		android:background="@drawable/brick_touched"
+		android:longClickable="true"
 	>
-	</TextView>
-</LinearLayout>
+		<TextView
+			android:id="@+id/TouchedBrick"
+			android:text="@string/touched_main_adapter"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:textColor="@color/white"
+			android:textSize="18dip"
+			android:textStyle="bold"
+		>
+		</TextView>
+	</LinearLayout>
 </LinearLayout>

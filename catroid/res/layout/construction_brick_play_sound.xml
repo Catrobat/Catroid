@@ -16,32 +16,32 @@
         android:layout_height="wrap_content" />
 		
 	<RelativeLayout
-	android:id="@+id/RelativeLayout01"
-	android:layout_height="wrap_content"
-	android:layout_width="wrap_content"
-	android:background="@drawable/brick_magenta"
-	android:focusable="false"
-	android:focusableInTouchMode="false"
-	android:longClickable="true"
->
-	<TextView
-		android:id="@+id/ValueTextView"
-		android:text="@string/play_sound_main_adapter"
+		android:id="@+id/RelativeLayout01"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
-		android:layout_alignParentLeft="true"
-		android:layout_centerVertical="true"
-		android:textColor="@color/white"
-		android:textSize="18dip"
-		android:textStyle="bold"
+		android:background="@drawable/brick_magenta"
+		android:focusable="false"
+		android:focusableInTouchMode="false"
+		android:longClickable="true"
 	>
-	</TextView>
-	<Button
-		android:id="@+id/btSoundChoose"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:layout_alignParentRight="true"
-		android:layout_centerVertical="true" 
-		android:maxWidth="200dip"/>
-</RelativeLayout>
+		<TextView
+			android:id="@+id/ValueTextView"
+			android:text="@string/play_sound_main_adapter"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_alignParentLeft="true"
+			android:layout_centerVertical="true"
+			android:textColor="@color/white"
+			android:textSize="18dip"
+			android:textStyle="bold"
+		>
+		</TextView>
+		<Button
+			android:id="@+id/btSoundChoose"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_centerVertical="true" 
+			android:maxWidth="200dip"/>
+	</RelativeLayout>
 </LinearLayout>
