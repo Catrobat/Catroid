@@ -55,7 +55,6 @@ public class Script {
     public void run() {
         System.out.println("PAUSE in Script is" + paused);
         if(isFinished && !isTouchScript){
-            System.out.println("############################ We dont Want to be here yet, trust me");
             return;
         }
         isFinished = false;

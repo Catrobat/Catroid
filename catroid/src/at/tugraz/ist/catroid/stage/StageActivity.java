@@ -20,8 +20,6 @@ public class StageActivity extends Activity {
     protected boolean isWaiting = false;
     private SoundManager soundManager;
     private StageManager sageManager;
-
-    // public static boolean mDoNextCommands = true;
     private boolean stagePlaying = false;
 
     @Override
@@ -41,7 +39,6 @@ public class StageActivity extends Activity {
             sageManager.start();
             stagePlaying = true;
         }
-
     }
 
     public boolean onTouchEvent(MotionEvent event) {
@@ -117,7 +114,6 @@ public class StageActivity extends Activity {
             sageManager.pause(true);
             soundManager.pause();
             stagePlaying = false;
-
         } else {
             sageManager.resume();
             soundManager.resume();

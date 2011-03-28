@@ -45,25 +45,13 @@ public class StageManager {
         spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
         this.activity = activity;
 
-        // set stage z coordinate to minimum
         spritesChanged = true;
-
         draw = new CanvasDraw();
 
         for (Sprite sprite: spriteList) {
             sprite.startScripts();
         }
-
     }
-
-//    public void sortSpriteList() {
-//        Collections.sort(spriteList);
-//        maxZValue = spriteList.get(spriteList.size() - 1).getZPosition();
-//        Log.d("StageManager", "Sort:");
-//        for (Sprite s : spriteList) {
-//            Log.d("StageManager", s.getName() + ": z = " + s.getZPosition());
-//        }
-//    }
 
     public boolean drawSprites() {
         Log.v("StageManager", "drawSprites");

@@ -26,8 +26,9 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -47,7 +48,7 @@ import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
 import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView;
 
-public class ScriptActivity extends Activity implements OnDismissListener {
+public class ScriptActivity extends Activity implements OnDismissListener, OnCancelListener {
     private BrickAdapter adapter;
     private DragNDropListView listView;
     private ArrayList<Brick> adapterBrickList;
@@ -118,6 +119,10 @@ public class ScriptActivity extends Activity implements OnDismissListener {
     }
     
     public void onDismiss(DialogInterface dialog) {
+        adapter.notifyDataSetChanged();
+    }
+    
+    public void onCancel(DialogInterface arg0) {
         adapter.notifyDataSetChanged();
     }
 	
