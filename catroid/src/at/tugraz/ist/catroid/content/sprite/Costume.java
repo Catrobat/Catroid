@@ -20,6 +20,7 @@ package at.tugraz.ist.catroid.content.sprite;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Pair;
 import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.Values;
 import at.tugraz.ist.catroid.utils.ImageEditing;
@@ -120,6 +121,13 @@ public class Costume {
         System.out.println("###### Costume thumb size: " + thumbnailBitmap.getHeight());
         System.out.println("###### Costume thumb size: " + thumbnailBitmap.getWidth());
         return thumbnailBitmap;
+    }
+    
+    public Pair<Integer,Integer> getImageWidthHeight(){
+        BitmapFactory.Options o = new BitmapFactory.Options();
+        o.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(imagePath, o);
+        return new Pair<Integer,Integer>((int)(o.outWidth*sprite.getScale()/100),(int)(o.outHeight*sprite.getScale()/100));
     }
 
 }
