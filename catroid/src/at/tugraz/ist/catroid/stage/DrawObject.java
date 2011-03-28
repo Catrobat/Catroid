@@ -3,6 +3,7 @@ package at.tugraz.ist.catroid.stage;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Pair;
+import at.tugraz.ist.catroid.Values;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 
 public class DrawObject {
@@ -68,8 +69,8 @@ public class DrawObject {
 
 		// dirty workaround for Stage Background
 		// still on search for a better solution
-		if (tempBitmap.getHeight() > StageActivity.SCREEN_HEIGHT) {
-			double backgroundScaleFactor = ((double) StageActivity.SCREEN_HEIGHT + 2)
+		if (tempBitmap.getHeight() > Values.SCREEN_HEIGHT) {
+			double backgroundScaleFactor = ((double) Values.SCREEN_HEIGHT + 2)
 					/ (double) tempBitmap.getHeight(); // SCREEN_HEIGHT + 2
 														// because of rounding
 														// errors in set to
@@ -114,10 +115,10 @@ public class DrawObject {
 		// ToDo: checken ob zuerst in float rechnen und dann auf int casten
 		// nötig ist
 		int xAbs = Math
-				.round(((StageActivity.SCREEN_WIDTH / (2f * mMaxRelCoordinates)) * position.first)
-						+ StageActivity.SCREEN_WIDTH / 2f);
+				.round(((Values.SCREEN_WIDTH / (2f * mMaxRelCoordinates)) * position.first)
+						+ Values.SCREEN_WIDTH / 2f);
 		int yAbs = Math
-				.round((StageActivity.SCREEN_HEIGHT / 2f)-((StageActivity.SCREEN_HEIGHT / (2f * mMaxRelCoordinates))
+				.round((Values.SCREEN_HEIGHT / 2f)-((Values.SCREEN_HEIGHT / (2f * mMaxRelCoordinates))
 						* position.second));
 		mPositionAbs = new Pair<Integer, Integer>(xAbs, yAbs);
 		setPositionToSpriteCenter();

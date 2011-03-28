@@ -51,6 +51,7 @@ public class SetCostumeBrick implements Brick {
 
     public void execute() {
         this.sprite.setCurrentCostume(costume);
+        sprite.setToDraw(true);
     }
 
     public Sprite getSprite() {
