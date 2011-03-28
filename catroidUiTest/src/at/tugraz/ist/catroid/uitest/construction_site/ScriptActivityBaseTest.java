@@ -52,10 +52,16 @@ public class ScriptActivityBaseTest extends ActivityInstrumentationTestCase2<Mai
 	}
 
 	public void testMainMenuButton() throws InterruptedException {
-        solo.clickOnButton(getActivity().getString(R.string.resume));
+		solo.clickOnButton(getActivity().getString(R.string.new_project));
+		solo.clickOnEditText(0);
+		solo.enterText(0, projectNameOne);
+		solo.goBack();
+		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
+
         solo.clickOnText(getActivity().getString(R.string.stage));
 
-        solo.clickOnButton(getActivity().getString(R.string.add_new_script));
+		//        solo.clickOnButton(getActivity().getString(R.string.add_new_script));
+		solo.clickOnButton(1);
         solo.clickOnEditText(0);
         solo.enterText(0, scriptNameOne);
         solo.goBack();
@@ -67,21 +73,29 @@ public class ScriptActivityBaseTest extends ActivityInstrumentationTestCase2<Mai
 	}
 
     public void testCreateNewBrickButton() throws InterruptedException {
-        solo.clickOnButton(getActivity().getString(R.string.resume));
+		solo.clickOnButton(getActivity().getString(R.string.new_project));
+		solo.clickOnEditText(0);
+		solo.enterText(0, projectNameTwo);
+		solo.goBack();
+		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
+
         solo.clickOnText(getActivity().getString(R.string.stage));
 
-        solo.clickOnButton(getActivity().getString(R.string.add_new_script));
+		//        solo.clickOnButton(getActivity().getString(R.string.add_new_script));
+		solo.clickOnButton(1);
         solo.clickOnEditText(0);
         solo.enterText(0, scriptNameOne);
         solo.goBack();
         solo.clickOnButton(getActivity().getString(R.string.new_script_dialog_button));
 
         solo.clickOnText(scriptNameOne);
-        solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
-        solo.clickOnText(getActivity().getString(R.string.wait_main_adapter));
+		//        solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
+		solo.clickOnButton(1);
+		solo.clickInList(2);
+		//solo.clickOnText(getActivity().getString(R.string.hide_main_adapter));
 
         Thread.sleep(100);
-        assertTrue("in waitbrick is not in List", solo.searchText(getActivity().getString(R.string.wait_main_adapter)));
+		assertTrue("in hidebrick is not in List", solo.searchText(getActivity().getString(R.string.hide_main_adapter)));
         assertEquals("not one brick in listview", 1, solo.getCurrentListViews().get(0).getCount());
     }
 }
