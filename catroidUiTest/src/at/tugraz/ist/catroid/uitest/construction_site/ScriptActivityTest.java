@@ -1,46 +1,44 @@
 package at.tugraz.ist.catroid.uitest.construction_site;
 
-import java.io.File;
+import java.util.ArrayList;
 
+import android.graphics.Rect;
 import android.test.ActivityInstrumentationTestCase2;
-import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.ui.MainMenuActivity;
-import at.tugraz.ist.catroid.utils.UtilFile;
+import android.view.View;
+import android.widget.ListView;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.content.brick.Brick;
+import at.tugraz.ist.catroid.content.brick.ComeToFrontBrick;
+import at.tugraz.ist.catroid.content.brick.HideBrick;
+import at.tugraz.ist.catroid.content.brick.PlaceAtBrick;
+import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrick;
+import at.tugraz.ist.catroid.content.brick.ShowBrick;
+import at.tugraz.ist.catroid.content.project.Project;
+import at.tugraz.ist.catroid.content.script.Script;
+import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.ui.ScriptActivity;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
-
-    private final String projectNameOne = "Ulumulu";
-    private final String projectNameTwo = "Ulumulu2";
-    //    private final String spriteNameOne = "Zuul";
-    //    private final String spriteNameTwo = "Zuuul";
-    private final String scriptNameOne = "derUlukai";
-    //    private final String scriptNameTwo = "derUlukai2";
-
+	private ArrayList<Brick> brickListToCheck;
+	
 	public ScriptActivityTest() {
-		super("at.tugraz.ist.catroid.ui", MainMenuActivity.class);
+		super(ScriptActivity.class);
+		
 	}
 
 	@Override
 	public void setUp() throws Exception {
+		createTestProject("testProject");
 		solo = new Solo(getInstrumentation(), getActivity());
-        File directory = new File("/sdcard/catroid/" + projectNameOne);
-        UtilFile.deleteDirectory(directory);
-        directory = new File("/sdcard/catroid/" + projectNameTwo);
-        UtilFile.deleteDirectory(directory);
         super.setUp();
+        
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-        File directory = new File("/sdcard/catroid/" + projectNameOne);
-        UtilFile.deleteDirectory(directory);
-        assertFalse(projectNameOne + " was not deleted!", directory.exists());
-        directory = new File("/sdcard/catroid/" + projectNameTwo);
-        UtilFile.deleteDirectory(directory);
-        assertFalse(projectNameTwo + " was not deleted!", directory.exists());
 		try {
 			solo.finalize();
 		} catch (Throwable e) {
@@ -51,37 +49,88 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<MainMen
 		super.tearDown();
 	}
 
-	public void testMainMenuButton() throws InterruptedException {
-        solo.clickOnButton(getActivity().getString(R.string.resume));
-        solo.clickOnText(getActivity().getString(R.string.stage));
+	public void testSimpleDragNDrop() throws InterruptedException {
+		ArrayList<Integer> yposlist = getListItemYPositions();
+		Thread.sleep(2000);
+		solo.drag(30, 30, yposlist.get(1), (yposlist.get(3)+yposlist.get(4))/2, 20);
+		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
+		
+		assertEquals(brickListToCheck.size(), brickList.size());
+		assertEquals(brickListToCheck.get(0), brickList.get(0));
+		assertEquals(brickListToCheck.get(1), brickList.get(3));
+		assertEquals(brickListToCheck.get(2), brickList.get(1));
+		assertEquals(brickListToCheck.get(3), brickList.get(2));
+		assertEquals(brickListToCheck.get(4), brickList.get(4));
+		
+		Thread.sleep(4000);
+		brickListToCheck = brickList;
+	}
+	
+	public void testDeleteItem() throws InterruptedException {
+		ArrayList<Integer> yposlist = getListItemYPositions();
+		Thread.sleep(2000);
+		solo.drag(30, 400, yposlist.get(1), (yposlist.get(3)+yposlist.get(4))/2, 20);
+		Thread.sleep(2000);
+		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
+		
+		assertEquals(brickListToCheck.size()-1, brickList.size());
+		assertEquals(brickListToCheck.get(0), brickList.get(0));
+		assertEquals(brickListToCheck.get(2), brickList.get(1));
+		assertEquals(brickListToCheck.get(3), brickList.get(2));
+		assertEquals(brickListToCheck.get(4), brickList.get(3));
+		
+		Thread.sleep(4000);
+		brickListToCheck = brickList;
+	}
+	
+	private ArrayList<Integer> getListItemYPositions() {
+		ArrayList<Integer> yposlist = new ArrayList<Integer>();		
+		ListView listView = solo.getCurrentListViews().get(0);
+		for(int i=0;i<listView.getChildCount();++i) {
+			View currentViewInList = listView.getChildAt(i);
+			
+			Rect rect = new Rect();
+			currentViewInList.getGlobalVisibleRect(rect);
+			yposlist.add(rect.top+rect.height()/2);
+			System.out.println("y:"+rect.top);	
+		}
+		
+		return yposlist;
+	}
+	
+	private void createTestProject(String projectName) {
+		
+		int xPosition = 457;
+        int yPosition = 598;
+        double scaleValue = 0.8;
+        
+        Project project = new Project(null, projectName);
+        Sprite firstSprite = new Sprite("cat");
+        
+        Script testScript = new Script();
+       
+        brickListToCheck = new ArrayList<Brick>();
+        brickListToCheck.add(new HideBrick(firstSprite));
+        brickListToCheck.add(new ShowBrick(firstSprite));
+        brickListToCheck.add(new ScaleCostumeBrick(firstSprite, scaleValue));
+        brickListToCheck.add(new ComeToFrontBrick(firstSprite, null));
+        brickListToCheck.add(new PlaceAtBrick(firstSprite, xPosition, yPosition));
 
-        solo.clickOnButton(getActivity().getString(R.string.add_new_script));
-        solo.clickOnEditText(0);
-        solo.enterText(0, scriptNameOne);
-        solo.goBack();
-        solo.clickOnButton(getActivity().getString(R.string.new_script_dialog_button));
+        // adding Bricks: ----------------
+        for (Brick brick : brickListToCheck) {
+        	testScript.addBrick(brick);
+		}
+        // -------------------------------
 
-        solo.clickOnText(scriptNameOne);
-		solo.clickOnButton(getActivity().getString(R.string.main_menu));
-		solo.clickOnButton(getActivity().getString(R.string.resume)); //if this is possible it worked! (will throw AssertionFailedError if not working
+        firstSprite.getScriptList().add(testScript);
+
+        project.addSprite(firstSprite);
+        
+        ProjectManager.getInstance().setProject(project);
+        ProjectManager.getInstance().setCurrentSprite(firstSprite);
+        ProjectManager.getInstance().setCurrentScript(testScript);
+
+		
 	}
 
-    public void testCreateNewBrickButton() throws InterruptedException {
-        solo.clickOnButton(getActivity().getString(R.string.resume));
-        solo.clickOnText(getActivity().getString(R.string.stage));
-
-        solo.clickOnButton(getActivity().getString(R.string.add_new_script));
-        solo.clickOnEditText(0);
-        solo.enterText(0, scriptNameOne);
-        solo.goBack();
-        solo.clickOnButton(getActivity().getString(R.string.new_script_dialog_button));
-
-        solo.clickOnText(scriptNameOne);
-        solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
-        solo.clickOnText(getActivity().getString(R.string.wait_main_adapter));
-
-        Thread.sleep(100);
-        assertTrue("in waitbrick is not in List", solo.searchText(getActivity().getString(R.string.wait_main_adapter)));
-        assertEquals("not one brick in listview", 1, solo.getCurrentListViews().get(0).getCount());
-    }
 }

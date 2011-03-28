@@ -37,15 +37,26 @@ public class Project implements Serializable {
 	private String versionName;
 	private int versionCode;
 	
-	public Project(Context context, String name) throws NameNotFoundException {
+	public Project(Context context, String name) {
         setName(name.replaceAll(" ", ""));
+        
+        if(context == null) {
+            versionName = "unknown";
+            versionCode = 0;
+            return;
+        }
+        Sprite stage = new Sprite(context.getString(R.string.stage));
+        addSprite(stage);
+        try {
+            PackageInfo packageInfo = context.getPackageManager().getPackageInfo("at.tugraz.ist.catroid", 0);
+    		versionName = packageInfo.versionName;
+    		versionCode =  packageInfo.versionCode;	
+        } catch (NameNotFoundException e) {
+            e.printStackTrace();
+            versionName = "unknown";
+            versionCode = 0;
+        }
 		
-		PackageInfo packageInfo = context.getPackageManager().getPackageInfo("at.tugraz.ist.catroid", 0);
-		versionName = packageInfo.versionName;
-		versionCode =  packageInfo.versionCode;
-		
-		Sprite stage = new Sprite(context.getString(R.string.stage));
-		addSprite(stage);
 	}
 	
 	public synchronized void addSprite(Sprite sprite) {

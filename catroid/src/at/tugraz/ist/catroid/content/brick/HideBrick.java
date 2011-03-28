@@ -43,7 +43,7 @@ public class HideBrick implements Brick {
 	
 	public View getView( Context context, int brickId, BaseAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.brick_hide, null);
+		return inflater.inflate(R.layout.construction_brick_hide, null);
 	}
 	
 	@Override
@@ -52,7 +52,8 @@ public class HideBrick implements Brick {
 	}
 	
 	public View getPrototypeView(Context context) {
-		return getView(context, 0, null);
+	    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        return inflater.inflate(R.layout.brick_hide, null);
 	}
 
 }

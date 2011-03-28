@@ -2,14 +2,13 @@
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
 >
 	<!-- Top bar -->
 	<LinearLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
 		android:orientation="horizontal"
-		android:layout_width="fill_parent"
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_weight="0"
 	>
@@ -33,10 +32,9 @@
 	</LinearLayout>
 	<!-- Sprite list -->
 	<LinearLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
 		android:orientation="vertical"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
 		android:layout_weight="1"
 	>
 		<TextView
@@ -46,11 +44,30 @@
 			android:layout_height="wrap_content"
 			android:textSize="14dip"
 		></TextView>
-		<ListView
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent"
-			android:id="@+id/brickListView"
-		></ListView>
+		
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content" >
+			<at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView 
+				android:layout_width="match_parent"
+				android:layout_height="match_parent" 
+				android:id="@+id/brickListView"
+				android:drawSelectorOnTop="false"
+	        	android:fastScrollEnabled="true" 
+	        	android:clickable="false" 
+	        	android:drawingCacheQuality="high" />
+	        	
+	        <ImageView 
+				android:id="@+id/trash"  
+				android:layout_width="51dip"
+				android:layout_height="97dip"
+		        android:layout_alignParentRight="true"
+				android:layout_centerVertical="true"
+		        android:layout_marginRight="-3dip"
+		        android:visibility="gone"
+		        android:src="@drawable/trash_green" />
+		</RelativeLayout>
+	
 	</LinearLayout>
 	<!-- Add brick button -->
 	<Button

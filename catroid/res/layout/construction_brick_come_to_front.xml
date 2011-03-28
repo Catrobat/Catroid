@@ -1,23 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/RelativeLayout01"
+	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
-	android:layout_width="wrap_content"
-	android:background="@drawable/brick_blue"
-	android:focusable="false"
-	android:longClickable="true"
->
-	<TextView
-		android:id="@+id/ValueTextView"
-		android:text="@string/come_to_front_main_adapter"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
+	android:orientation="horizontal">
+	
+	<ImageView 
+		android:id="@+id/grabber" 
 		android:layout_alignParentLeft="true"
-		android:layout_centerVertical="true"
-		android:textColor="@color/white"
-		android:textSize="18dip"
-		android:textStyle="bold"
+        android:layout_alignParentTop="true" 
+        android:layout_alignParentBottom="true" 
+        android:layout_gravity="center_vertical"
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_mp_move" 
+        android:layout_height="wrap_content" />
+		
+		<RelativeLayout
+		android:id="@+id/RelativeLayout01"
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:background="@drawable/brick_blue"
+		android:focusable="false"
+		android:longClickable="true"
 	>
-	</TextView>
-</RelativeLayout>
+		<TextView
+			android:id="@+id/ValueTextView"
+			android:text="@string/come_to_front_main_adapter"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_alignParentLeft="true"
+			android:layout_centerVertical="true"
+			android:textColor="@color/white"
+			android:textSize="18dip"
+			android:textStyle="bold"
+		>
+		</TextView>
+	</RelativeLayout>
+</LinearLayout>

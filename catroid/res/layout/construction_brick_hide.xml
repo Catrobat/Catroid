@@ -13,32 +13,19 @@
         android:layout_gravity="center_vertical"
         android:layout_width="wrap_content"
         android:src="@drawable/ic_mp_move" 
-        android:layout_height="wrap_content" />
-
-		<RelativeLayout
+	    android:layout_height="wrap_content" />
+	<LinearLayout
+		android:orientation="horizontal"
 		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
-		android:background="@drawable/brick_violet"
-		android:longClickable="true"
+		android:background="@drawable/brick_yellow"
 	>
 		<TextView
-			android:text="@string/costume_main_adapter"
+			android:text="@string/hide"
 			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:layout_alignParentLeft="true"
-			android:layout_centerVertical="true"
+			android:layout_width="fill_parent"
 			android:textColor="@color/white"
 			android:textSize="18dip"
 			android:textStyle="bold" />
-		<ImageView
-			android:id="@+id/costume_image_view"
-			android:layout_height="50dip"
-			android:layout_width="50dip"
-			android:layout_alignParentRight="true"
-			android:background="@drawable/icon"
-			android:maxHeight="100dip"
-			android:maxWidth="100dip" 
-			android:scaleType="centerInside"
-			android:adjustViewBounds="true" />
-	</RelativeLayout>
+	</LinearLayout>
 </LinearLayout>
