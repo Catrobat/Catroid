@@ -30,10 +30,8 @@ import at.tugraz.ist.catroid.content.brick.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.brick.HideBrick;
 import at.tugraz.ist.catroid.content.brick.IfTouchedBrick;
 import at.tugraz.ist.catroid.content.brick.PlaceAtBrick;
-import at.tugraz.ist.catroid.content.brick.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.brick.ShowBrick;
-import at.tugraz.ist.catroid.content.brick.WaitBrick;
 import at.tugraz.ist.catroid.content.project.Project;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
@@ -147,10 +145,10 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnIt
 			script.addBrick(new GoNStepsBackBrick(stageSprite, 5));
 			script.addBrick(new HideBrick(stageSprite));
 
-			script.addBrick(new PlaySoundBrick("sound.mp3"));
+			//script.addBrick(new PlaySoundBrick("sound.mp3"));
 			script.addBrick(new ScaleCostumeBrick(stageSprite, 80));
 			script.addBrick(new ShowBrick(stageSprite));
-			script.addBrick(new WaitBrick(1000));
+			//script.addBrick(new WaitBrick(1000));
 			script.addBrick(new PlaceAtBrick(stageSprite, 105, 206));
 
 			stageSprite.getScriptList().add(script);
