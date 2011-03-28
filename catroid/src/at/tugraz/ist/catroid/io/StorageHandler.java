@@ -21,11 +21,14 @@ package at.tugraz.ist.catroid.io;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.channels.FileChannel;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,6 +39,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.entities.SoundInfo;
 import at.tugraz.ist.catroid.content.project.Project;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -47,7 +51,11 @@ import com.thoughtworks.xstream.XStream;
  * 
  */
 public class StorageHandler {
-
+    
+    public static final int FILE_EXISTED = 0;
+    public static final int FILE_COPIED = 1;
+    public static final int COPY_FAILED = 2;
+    
     private static StorageHandler instance;
     private ArrayList<SoundInfo> soundContent;
     private File catroidRoot;
@@ -105,8 +113,10 @@ public class StorageHandler {
             File projectDirectory = new File(catroidRoot.getAbsolutePath() + "/" + project.getName());
             if (!(projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite())) {
                 projectDirectory.mkdir();
-                File imageDirectory = new File(projectDirectory.getAbsolutePath() + "/images");
+                File imageDirectory = new File(projectDirectory.getAbsolutePath() + Consts.IMAGE_DIRECTORY);
                 imageDirectory.mkdir();
+                File noMediaFile = new File(projectDirectory.getAbsolutePath() + Consts.IMAGE_DIRECTORY + "/.nomedia");
+                noMediaFile.createNewFile();
                 File soundDirectory = new File(projectDirectory.getAbsolutePath() + "/sounds");
                 soundDirectory.mkdir();
             }
@@ -180,11 +190,8 @@ public class StorageHandler {
 
     public File copyImage(String currentProjectName, String inputFilePath) throws IOException {
         File imageDirectory = new File(catroidRoot.getAbsolutePath() + "/" + currentProjectName + Consts.IMAGE_DIRECTORY);
-        if (!imageDirectory.exists()) {
-            imageDirectory.mkdirs();
-            File noMediaFile = new File(imageDirectory.getAbsolutePath() + "/.nomedia");
-            noMediaFile.createNewFile();
-        }
+        
+       
 
         File inputFile = new File(inputFilePath);
         if (!inputFile.exists() || !inputFile.canRead())
@@ -193,27 +200,76 @@ public class StorageHandler {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         String timestamp = simpleDateFormat.format(new Date());
         File outputFile = new File(imageDirectory.getAbsolutePath() + "/" + timestamp + inputFile.getName());
-
-        if(copyFile(outputFile, inputFile))
-            return outputFile;
-        else
-            return null;
+        
+        return copyFile(outputFile, inputFile);
     }
     
-    public boolean copyFile(File destinationFile, File sourceFile) throws IOException {
+    public File copyFile(File destinationFile, File sourceFile) throws IOException {
         FileChannel inputChannel = new FileInputStream(sourceFile).getChannel();
         FileChannel outputChannel = new FileOutputStream(destinationFile).getChannel();
+        String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
+        
+        File imageDirectory = new File(catroidRoot.getAbsolutePath() + "/" + currentProject + Consts.IMAGE_DIRECTORY);
+        File[] filesInDirectory = imageDirectory.listFiles();
+        String checksumSource = getChecksum(sourceFile);
+        
+
+        for(File f : filesInDirectory) {
+           
+            String checksumDest = getChecksum(f);
+            if (checksumSource.equals(checksumDest)) {
+                if (inputChannel != null)
+                    inputChannel.close();
+                if (outputChannel != null)
+                    outputChannel.close();
+                destinationFile.delete();
+                return f;
+            }
+        }
+        
         try {
             inputChannel.transferTo(0, inputChannel.size(), outputChannel);
-            return true;
+            return destinationFile;
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
+            return null;
         } finally {
             if (inputChannel != null)
                 inputChannel.close();
             if (outputChannel != null)
                 outputChannel.close();
         }
+    }
+    
+    String getChecksum(File file) throws IOException {
+       
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("SHA1");
+        } catch (NoSuchAlgorithmException e1) {
+            e1.printStackTrace();
+        }
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        byte[] dataBytes = new byte[1024];
+     
+        int nread = 0; 
+     
+        while ((nread = fis.read(dataBytes)) != -1) {
+          md.update(dataBytes, 0, nread);
+        };
+     
+        byte[] mdbytes = md.digest();
+        StringBuffer sb = new StringBuffer("");
+        for (int i = 0; i < mdbytes.length; i++) {
+            sb.append(Integer.toString((mdbytes[i] & 0xff) + 0x100, 16).substring(1));
+        }
+        md.reset();
+        return sb.toString();
+        
     }
 }
