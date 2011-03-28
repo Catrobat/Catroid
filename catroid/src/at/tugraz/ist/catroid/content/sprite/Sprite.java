@@ -22,7 +22,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.graphics.Bitmap;
+import android.util.Pair;
 import at.tugraz.ist.catroid.content.script.Script;
 
 public class Sprite implements Serializable, Comparable<Sprite> {
@@ -220,20 +220,17 @@ public class Sprite implements Serializable, Comparable<Sprite> {
         }
         int inSpriteCoordX = coordX - currentCostume.getDrawPositionX();
         int inSpriteCoordY = coordY - currentCostume.getDrawPositionY();
-
-        //TODO: this is dirty, find a better solution than getting the Bitmap here
-        Bitmap tempBitmap = currentCostume.getBitmap();
-        if (inSpriteCoordX < 0 || inSpriteCoordX >= tempBitmap.getWidth()) {
+        
+        Pair<Integer,Integer> tempPair = currentCostume.getImageWidthHeight();
+        int width = tempPair.first;
+        int height = tempPair.second;
+        
+        if (inSpriteCoordX < 0 || inSpriteCoordX >= width) {
             return;
         }
-        if (inSpriteCoordY < 0 || inSpriteCoordY >= tempBitmap.getHeight()) {
+        if (inSpriteCoordY < 0 || inSpriteCoordY >= height) {
             return;
         }
-        tempBitmap.recycle();
-//        if (mDrawObject.getBitmap() == null TODO: I am 12 and what is this?
-//                || Color.alpha(mDrawObject.getBitmap().getPixel(inSpriteCoordX, inSpriteCoordY)) <= 10) {
-//            return;
-//        }
 
         startTouchScripts();
     }
