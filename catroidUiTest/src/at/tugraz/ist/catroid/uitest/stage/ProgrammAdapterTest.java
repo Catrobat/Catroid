@@ -36,12 +36,14 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 				ConstructionSiteActivity.class);
 	}
 	
-	public void setUp() throws Exception {
+	@Override
+    public void setUp() throws Exception {
 		solo = new Solo(getInstrumentation(), getActivity());
 
 	}
 	
-	public void tearDown() throws Exception {	
+	@Override
+    public void tearDown() throws Exception {	
 		try {	
 			solo.finalize();
 		} catch (Throwable e) {
@@ -152,7 +154,7 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 		script.addBrick(new HideBrick(stageSprite));
 		PlaceAtBrick placeAtBrick = new PlaceAtBrick(stageSprite, 105, 206);
 		script.addBrick(placeAtBrick);
-		script.addBrick(new PlaySoundBrick("sound.mp3"));
+        script.addBrick(new PlaySoundBrick(stageSprite, "sound.mp3"));
 		script.addBrick(new ScaleCostumeBrick(stageSprite, 80));
 		
 		stageSprite.getScriptList().add(script);
@@ -240,7 +242,7 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 		final Project testProject = new Project(getInstrumentation().getContext(), "theTest");
 		Sprite stageSprite = testProject.getSpriteList().get(0);
 		Script script   = new Script();
-		WaitBrick brick = new WaitBrick(1000);
+        WaitBrick brick = new WaitBrick(stageSprite, 1000);
 		script.addBrick(brick);
 		
 		stageSprite.getScriptList().add(script);
@@ -293,7 +295,7 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 		Sprite stageSprite = testProject.getSpriteList().get(0);
 		Script script = new Script();
 		// test the selected item
-		PlaySoundBrick soundBrick = new PlaySoundBrick(soundInfo.getTitleWithPath());
+        PlaySoundBrick soundBrick = new PlaySoundBrick(stageSprite, soundInfo.getTitleWithPath());
 		script.addBrick(soundBrick);
 		stageSprite.getScriptList().add(script);
 		
@@ -327,7 +329,7 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Constr
 		Sprite stageSprite = testProject.getSpriteList().get(0);
 		Script script = new Script();
 		String selectedTitle = "mysound";
-		PlaySoundBrick soundBrick = new PlaySoundBrick("test/"+selectedTitle);
+        PlaySoundBrick soundBrick = new PlaySoundBrick(stageSprite, "test/" + selectedTitle);
 		script.addBrick(soundBrick);
 		stageSprite.getScriptList().add(script);
 		

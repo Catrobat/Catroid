@@ -43,9 +43,11 @@ public class PlaySoundBrick implements Brick, android.content.DialogInterface.On
 	private transient ArrayList<SoundInfo> soundList;
 	private transient BaseAdapter programmAdapter;
 	private static final long serialVersionUID = 1L;
+	private Sprite sprite;
 
-	public PlaySoundBrick(String pathToSoundfile) {
+	public PlaySoundBrick(Sprite sprite, String pathToSoundfile) {
 		this.pathToSoundfile = pathToSoundfile;
+		this.sprite = sprite;
 	}
 
 	public void execute() {
@@ -63,10 +65,11 @@ public class PlaySoundBrick implements Brick, android.content.DialogInterface.On
 		} catch (IOException e) {
 			throw new IllegalArgumentException("IO error", e);
 		}
+		sprite.setToDraw(true);
 	}
 
 	public Sprite getSprite() {
-		return null;
+		return sprite;
 	}
 	public String getPathToSoundFile() {
 		return pathToSoundfile;
@@ -137,6 +140,6 @@ public class PlaySoundBrick implements Brick, android.content.DialogInterface.On
 
     @Override
     public Brick clone() {
-    	return new PlaySoundBrick(getPathToSoundFile());
+    	return new PlaySoundBrick(getSprite(),getPathToSoundFile());
     }
 }

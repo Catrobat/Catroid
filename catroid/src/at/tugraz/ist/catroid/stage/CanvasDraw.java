@@ -1,7 +1,5 @@
 package at.tugraz.ist.catroid.stage;
 
-import java.util.ArrayList;
-
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -9,85 +7,71 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import at.tugraz.ist.catroid.utils.ImageEditing;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.content.sprite.Costume;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
-
+import at.tugraz.ist.catroid.utils.ImageEditing;
 
 /**
  * 
  * Draws DrawObjects into a canvas.
- * 
- * @author Thomas Holzmann
- * 
  */
 public class CanvasDraw implements IDraw {
-	private Canvas mCanvas = null;
-	private SurfaceView mSurfaceView;
-	private Paint mWhitePaint;
-	private SurfaceHolder mHolder;
-	private ArrayList<Sprite> mSpritesList;
+    private Canvas canvas = null;
+    private SurfaceView srufaceView;
+    private Paint whitePaint;
+    private SurfaceHolder holder;
 
-	// TODO destroy surface somewhere!
+    // TODO destroy surface somewhere!
 
-	public CanvasDraw(ArrayList<Sprite> spritesList) {
-		super();
-		mSurfaceView = StageActivity.mStage;
-		mHolder = mSurfaceView.getHolder();
-		mWhitePaint = new Paint();
-		mWhitePaint.setStyle(Paint.Style.FILL);
-		mWhitePaint.setColor(Color.WHITE);
-		mSpritesList = spritesList;
+    public CanvasDraw() {
+        super();
+        srufaceView = StageActivity.sage;
+        holder = srufaceView.getHolder();
+        whitePaint = new Paint();
+        whitePaint.setStyle(Paint.Style.FILL);
+        whitePaint.setColor(Color.WHITE);
+    }
 
-	}
+    public synchronized boolean draw() {
+        canvas = holder.lockCanvas();
+        try {
+            if (canvas == null)
+                throw new Exception();
+            // we want to start with a white rectangle
+            canvas.drawRect(new Rect(0, 0, canvas.getWidth(), canvas.getHeight()), whitePaint);
+            for (Sprite sprite : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
+                if (sprite.getCurrentCostume().getBitmap() != null) {
+                    Costume tempCostume = sprite.getCurrentCostume();
+                    canvas.drawBitmap(tempCostume.getBitmap(), tempCostume.getDrawPositionX(), tempCostume.getDrawPositionY(), null);
+                    sprite.setToDraw(false);
+                }
+            }
+            holder.unlockCanvasAndPost(canvas);
+            return true;
 
-	public synchronized boolean draw() {
-		mCanvas = mHolder.lockCanvas();
-		try {
-			if (mCanvas == null)
-				throw new Exception();
-			// we want to start with a white rectangle
-			mCanvas.drawRect(
-					new Rect(0, 0, mCanvas.getWidth(), mCanvas.getHeight()),
-					mWhitePaint);
-			for (Sprite s : mSpritesList) {
-				if (s.getCurrentCostume().getBitmap() != null) {
-					mCanvas.drawBitmap(s.getCurrentCostume().getBitmap(),
-							s.getCurrentCostume().getDrawPositionX(),
-							s.getCurrentCostume().getDrawPositionY(), null);
-					s.setToDraw(false);
-				}
-			}
-			mHolder.unlockCanvasAndPost(mCanvas);
-			return true;
+        } catch (Exception e) {
+            return false;
+        }
+    } 
 
-		} catch (Exception e) {
-			return false;
-		}
+    public synchronized void drawPauseScreen(Bitmap pauseBitmap) {
+        Paint greyPaint = new Paint();
+        greyPaint.setStyle(Paint.Style.FILL);
+        greyPaint.setColor(Color.DKGRAY);
+        canvas = holder.lockCanvas();
+        if (canvas != null) {
+            canvas.drawRect(new Rect(0, 0, canvas.getWidth(), canvas.getHeight()), greyPaint);
+            if (pauseBitmap != null) {
+                Bitmap scaledPauseBitmap = ImageEditing.scaleBitmap(pauseBitmap,
+                        ((float) canvas.getWidth() / 2f) / (float) pauseBitmap.getWidth(), false);
+                int posX = canvas.getWidth() / 2 - scaledPauseBitmap.getWidth() / 2;
+                int posY = canvas.getHeight() / 2 - scaledPauseBitmap.getHeight() / 2;
+                canvas.drawBitmap(scaledPauseBitmap, posX, posY, null);
+            }
+        }
+        holder.unlockCanvasAndPost(canvas);
 
-	}
-
-	public synchronized void drawPauseScreen(Bitmap pauseBitmap) {
-		Paint greyPaint = new Paint();
-		greyPaint.setStyle(Paint.Style.FILL);
-		greyPaint.setColor(Color.DKGRAY);
-		mCanvas = mHolder.lockCanvas();
-		if (mCanvas != null) {
-			mCanvas.drawRect(
-					new Rect(0, 0, mCanvas.getWidth(), mCanvas.getHeight()),
-					greyPaint);
-			if (pauseBitmap != null) {
-				Bitmap scaledPauseBitmap = ImageEditing.scaleBitmap(
-						pauseBitmap, ((float) mCanvas.getWidth() / 2f)
-								/ (float) pauseBitmap.getWidth(),false);
-				int posX = mCanvas.getWidth() / 2
-						- scaledPauseBitmap.getWidth() / 2;
-				int posY = mCanvas.getHeight() / 2
-						- scaledPauseBitmap.getHeight() / 2;
-				mCanvas.drawBitmap(scaledPauseBitmap, posX, posY, null);
-			}
-		}
-		mHolder.unlockCanvasAndPost(mCanvas);
-
-	}
+    }
 
 }
