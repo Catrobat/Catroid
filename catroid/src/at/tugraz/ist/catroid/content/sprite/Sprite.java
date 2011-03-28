@@ -218,6 +218,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
             startTouchScripts();
             return;
         }
+        
         int inSpriteCoordX = coordX - currentCostume.getDrawPositionX();
         int inSpriteCoordY = coordY - currentCostume.getDrawPositionY();
         

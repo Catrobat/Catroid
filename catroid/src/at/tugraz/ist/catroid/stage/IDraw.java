@@ -5,8 +5,6 @@ import android.graphics.Bitmap;
 /**
  * 
  * Everyone who implements this can DrawObjects.
- * 
- * @author Thomas Holzmann
  *
  */
 public interface IDraw {

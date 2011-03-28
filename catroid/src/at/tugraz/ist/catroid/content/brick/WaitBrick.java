@@ -2,6 +2,7 @@ package at.tugraz.ist.catroid.content.brick;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,8 +51,8 @@ public class WaitBrick implements Brick, OnDismissListener {
 		edit.setText((timeToWaitInMilliSeconds/1000.0) + "");
         EditDoubleDialog dialog = new EditDoubleDialog(context, edit, timeToWaitInMilliSeconds/1000.0);
         dialog.setOnDismissListener(this);
+        dialog.setOnCancelListener((OnCancelListener) context);
 		edit.setOnClickListener(dialog);
-		
 		return view;
 	}
 	
@@ -68,5 +69,6 @@ public class WaitBrick implements Brick, OnDismissListener {
 
 	public void onDismiss(DialogInterface dialog) {
 		timeToWaitInMilliSeconds = (int) Math.round(((EditDoubleDialog)dialog).getValue()*1000);
+		dialog.cancel();
 	}
 }
