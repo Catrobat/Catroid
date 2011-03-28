@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 import android.graphics.Rect;
 import android.test.ActivityInstrumentationTestCase2;
-import android.widget.ImageView;
+import android.view.View;
+import android.widget.ListView;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.brick.Brick;
 import at.tugraz.ist.catroid.content.brick.ComeToFrontBrick;
@@ -21,15 +22,16 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
-	private ArrayList<Brick> startBrickList;
-
+	private ArrayList<Brick> brickListToCheck;
+	
 	public ScriptActivityTest() {
 		super(ScriptActivity.class);
-		createTestProject("testProject");
+		
 	}
 
 	@Override
 	public void setUp() throws Exception {
+		createTestProject("testProject");
 		solo = new Solo(getInstrumentation(), getActivity());
         super.setUp();
         
@@ -48,28 +50,52 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 	}
 
 	public void testSimpleDragNDrop() throws InterruptedException {
-		ArrayList<ImageView> list = solo.getCurrentImageViews();
-		System.out.println("count: "+list.size());
-		ArrayList<Integer> yposlist = new ArrayList<Integer>();
-		for (ImageView imageView : list) {
+		ArrayList<Integer> yposlist = getListItemYPositions();
+		Thread.sleep(2000);
+		solo.drag(30, 30, yposlist.get(1), (yposlist.get(3)+yposlist.get(4))/2, 20);
+		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
+		
+		assertEquals(brickListToCheck.size(), brickList.size());
+		assertEquals(brickListToCheck.get(0), brickList.get(0));
+		assertEquals(brickListToCheck.get(1), brickList.get(3));
+		assertEquals(brickListToCheck.get(2), brickList.get(1));
+		assertEquals(brickListToCheck.get(3), brickList.get(2));
+		assertEquals(brickListToCheck.get(4), brickList.get(4));
+		
+		Thread.sleep(4000);
+		brickListToCheck = brickList;
+	}
+	
+	public void testDeleteItem() throws InterruptedException {
+		ArrayList<Integer> yposlist = getListItemYPositions();
+		Thread.sleep(2000);
+		solo.drag(30, 400, yposlist.get(1), (yposlist.get(3)+yposlist.get(4))/2, 20);
+		Thread.sleep(2000);
+		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
+		
+		assertEquals(brickListToCheck.size()-1, brickList.size());
+		assertEquals(brickListToCheck.get(0), brickList.get(0));
+		assertEquals(brickListToCheck.get(2), brickList.get(1));
+		assertEquals(brickListToCheck.get(3), brickList.get(2));
+		assertEquals(brickListToCheck.get(4), brickList.get(3));
+		
+		Thread.sleep(4000);
+		brickListToCheck = brickList;
+	}
+	
+	private ArrayList<Integer> getListItemYPositions() {
+		ArrayList<Integer> yposlist = new ArrayList<Integer>();		
+		ListView listView = solo.getCurrentListViews().get(0);
+		for(int i=0;i<listView.getChildCount();++i) {
+			View currentViewInList = listView.getChildAt(i);
+			
 			Rect rect = new Rect();
-			imageView.getGlobalVisibleRect(rect);
-			yposlist.add(rect.top);
+			currentViewInList.getGlobalVisibleRect(rect);
+			yposlist.add(rect.top+rect.height()/2);
 			System.out.println("y:"+rect.top);	
 		}
 		
-		Thread.sleep(2000);
-		solo.drag(30, 30, yposlist.get(1)+5, (yposlist.get(3)+yposlist.get(4))/2, 20);
-		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
-		
-		assertEquals(brickList.get(0), startBrickList.get(0));
-		assertEquals(brickList.get(3), startBrickList.get(1));
-		assertEquals(brickList.get(1), startBrickList.get(2));
-		assertEquals(brickList.get(2), startBrickList.get(3));
-		assertEquals(brickList.get(4), startBrickList.get(4));
-		
-		Thread.sleep(4000);
-		
+		return yposlist;
 	}
 	
 	private void createTestProject(String projectName) {
@@ -83,15 +109,15 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
         
         Script testScript = new Script();
        
-        startBrickList = new ArrayList<Brick>();
-        startBrickList.add(new HideBrick(firstSprite));
-        startBrickList.add(new ShowBrick(firstSprite));
-        startBrickList.add(new ScaleCostumeBrick(firstSprite, scaleValue));
-        startBrickList.add(new ComeToFrontBrick(firstSprite, null));
-        startBrickList.add(new PlaceAtBrick(firstSprite, xPosition, yPosition));
+        brickListToCheck = new ArrayList<Brick>();
+        brickListToCheck.add(new HideBrick(firstSprite));
+        brickListToCheck.add(new ShowBrick(firstSprite));
+        brickListToCheck.add(new ScaleCostumeBrick(firstSprite, scaleValue));
+        brickListToCheck.add(new ComeToFrontBrick(firstSprite, null));
+        brickListToCheck.add(new PlaceAtBrick(firstSprite, xPosition, yPosition));
 
         // adding Bricks: ----------------
-        for (Brick brick : startBrickList) {
+        for (Brick brick : brickListToCheck) {
         	testScript.addBrick(brick);
 		}
         // -------------------------------
