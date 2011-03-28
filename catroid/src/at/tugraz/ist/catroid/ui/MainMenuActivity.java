@@ -32,6 +32,7 @@ import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.Values;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.dialogs.AboutDialog;
 import at.tugraz.ist.catroid.ui.dialogs.LoadProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
@@ -57,6 +58,8 @@ public class MainMenuActivity extends Activity {
         toStageButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (projectManager.getCurrentProject() != null) {
+                    Intent intent = new Intent(MainMenuActivity.this, StageActivity.class);
+                    startActivity(intent);
                 }
             }
         });
@@ -155,17 +158,17 @@ public class MainMenuActivity extends Activity {
     	return dialog;
     }
 
-
     @Override
     protected void onResume() {
-    	super.onResume();
-    	if (projectManager.getCurrentProject() == null) {
-    		return;
-    	} 
-    	TextView currentProjectTextView = (TextView) findViewById(R.id.currentProjectNameTextView);
-    	currentProjectTextView.setText(getString(R.string.current_project) + " "
-    			+ projectManager.getCurrentProject().getName());
-    	}
+        super.onResume();
+        if (projectManager.getCurrentProject() == null) {
+            return;
+        }
+        TextView currentProjectTextView = (TextView) findViewById(R.id.currentProjectNameTextView);
+        currentProjectTextView.setText(getString(R.string.current_project) + " " + projectManager.getCurrentProject().getName());
+        
+        projectManager.loadProject(projectManager.getCurrentProject().getName(), this);
+    }
 
     @Override
     public void onPause() {  

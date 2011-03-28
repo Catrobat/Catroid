@@ -36,6 +36,7 @@ public class ShowBrick implements Brick {
 
 	public void execute() {
 		sprite.show();
+		sprite.setToDraw(true);
 	}
 
 	public Sprite getSprite() {

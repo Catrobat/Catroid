@@ -15,9 +15,11 @@ import at.tugraz.ist.catroid.ui.dialogs.brickdialogs.EditDoubleDialog;
 public class WaitBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
     private int timeToWaitInMilliSeconds;
+    private Sprite sprite;
     
-	public WaitBrick(int timeToWaitInMilliseconds) {
+	public WaitBrick(Sprite sprite, int timeToWaitInMilliseconds) {
 		this.timeToWaitInMilliSeconds = timeToWaitInMilliseconds;
+		this.sprite = sprite;
 	}
 
 	public void execute() {
@@ -25,6 +27,7 @@ public class WaitBrick implements Brick, OnDismissListener {
 		try {
 			startTime = System.currentTimeMillis();
 			Thread.sleep(timeToWaitInMilliSeconds);
+			sprite.setToDraw(true);
 		} catch (InterruptedException e) {
 			timeToWaitInMilliSeconds = timeToWaitInMilliSeconds - (int)(System.currentTimeMillis() - startTime);
 			throw new InterruptedRuntimeException("WaitBrick was interrupted", e);
@@ -32,7 +35,7 @@ public class WaitBrick implements Brick, OnDismissListener {
 	}
 
 	public Sprite getSprite() {
-		return null;
+		return sprite;
 	}
 
 	public long getWaitTime() {
@@ -60,7 +63,7 @@ public class WaitBrick implements Brick, OnDismissListener {
 	
 	@Override
     public Brick clone() {
-		return new WaitBrick(timeToWaitInMilliSeconds);
+		return new WaitBrick(getSprite(),timeToWaitInMilliSeconds);
 	}
 
 	public void onDismiss(DialogInterface dialog) {
