@@ -26,9 +26,9 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -163,6 +163,10 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
         int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         cursor.moveToFirst();
         return cursor.getString(columnIndex);
+    }
+
+    public BrickAdapter getAdapter() {
+        return adapter;
     }
 
 }
