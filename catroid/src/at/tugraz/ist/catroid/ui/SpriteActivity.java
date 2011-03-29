@@ -48,6 +48,8 @@ public class SpriteActivity extends Activity {
     private ArrayAdapter<Script> adapter;
     private ArrayList<Script> adapterScriptList;
     private Script scriptToEdit;
+    private final int RENAME = 0;
+    private final int DELETE = 1;
 
     private void initListeners() {
 
@@ -156,10 +158,10 @@ public class SpriteActivity extends Activity {
     public boolean onContextItemSelected(MenuItem item) {
         int menuItemIndex = item.getItemId();
         switch (menuItemIndex) {
-        case 0: // rename
+        case RENAME:
             this.showDialog(Consts.DIALOG_RENAME_SCRIPT);
             break;
-        case 1: // delete
+        case DELETE:
             ProjectManager projectManager = ProjectManager.getInstance();
             projectManager.getCurrentSprite().getScriptList().remove(scriptToEdit);
             if (projectManager.getCurrentScript() != null && projectManager.getCurrentScript().equals(scriptToEdit)) {

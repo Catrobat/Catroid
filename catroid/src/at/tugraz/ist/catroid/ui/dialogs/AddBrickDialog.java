@@ -40,7 +40,6 @@ import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.brick.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.brick.ShowBrick;
 import at.tugraz.ist.catroid.content.brick.WaitBrick;
-import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
@@ -57,12 +56,12 @@ public class AddBrickDialog extends Dialog {
         prototypeBrickList.add(new WaitBrick(sprite,1000));
         prototypeBrickList.add(new HideBrick(sprite));
         prototypeBrickList.add(new ShowBrick(sprite));
-        prototypeBrickList.add(new PlaceAtBrick(sprite, 100, 200));
+        prototypeBrickList.add(new PlaceAtBrick(sprite, 200, 200));
         prototypeBrickList.add(new SetCostumeBrick(sprite));
         prototypeBrickList.add(new ScaleCostumeBrick(sprite, 100));
         prototypeBrickList.add(new GoNStepsBackBrick(sprite, 1));
         prototypeBrickList.add(new ComeToFrontBrick(sprite, null));
-        prototypeBrickList.add(new IfTouchedBrick(sprite, new Script()));
+        prototypeBrickList.add(new IfTouchedBrick(sprite, ProjectManager.getInstance().getCurrentScript()));
     }
 
     public AddBrickDialog(ScriptActivity scriptActivity, Sprite sprite) {

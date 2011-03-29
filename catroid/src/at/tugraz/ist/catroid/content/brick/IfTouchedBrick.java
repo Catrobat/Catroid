@@ -38,7 +38,7 @@ public class IfTouchedBrick implements Brick {
 	}
 
 	public void execute() {
-		touchScript.isTouchScript();
+		//touchScript.setTouchScript(true);
 	}
 	
 	public Sprite getSprite() {
