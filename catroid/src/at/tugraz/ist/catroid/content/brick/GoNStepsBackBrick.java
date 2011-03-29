@@ -20,6 +20,7 @@ package at.tugraz.ist.catroid.content.brick;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,8 +69,9 @@ public class GoNStepsBackBrick implements Brick, OnDismissListener {
 		EditText edit = (EditText) view.findViewById(R.id.InputValueEditText);
 		
 		edit.setText(String.valueOf(steps));
-        EditIntegerDialog dialog = new EditIntegerDialog(context, edit, steps);
+        EditIntegerDialog dialog = new EditIntegerDialog(context, edit, steps, false);
 		dialog.setOnDismissListener(this);
+		dialog.setOnCancelListener((OnCancelListener) context);
 		edit.setOnClickListener(dialog);
 		
 		return view;
@@ -89,6 +91,7 @@ public class GoNStepsBackBrick implements Brick, OnDismissListener {
 
 	public void onDismiss(DialogInterface dialog) {
 		steps = ((EditIntegerDialog)dialog).getValue();
+		dialog.cancel();
 	}
 
 }

@@ -146,9 +146,6 @@ public class Sprite implements Serializable, Comparable<Sprite> {
         for (Costume costume : costumeList) {
             costume.setDrawPosition();
         }
-        //		if (currentCostume != null) {
-        //			currentCostume.setDrawPosition(); //TODO set all sprites in spriteList or only current?
-        //		}
         toDraw = true;
     }
 
