@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
@@ -40,10 +41,13 @@ public class CanvasDraw implements IDraw {
                 throw new Exception();
             // we want to start with a white rectangle
             canvas.drawRect(new Rect(0, 0, canvas.getWidth(), canvas.getHeight()), whitePaint);
+            Log.v("CanvasDraw", "drawSprites");
             for (Sprite sprite : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
-                if (sprite.getCurrentCostume().getBitmap() != null) {
+                if(!sprite.isVisible()){
+                    continue;
+                }
+                if (sprite.getCurrentCostume() != null && sprite.getCurrentCostume().getBitmap() != null) {
                     Costume tempCostume = sprite.getCurrentCostume();
-                    System.out.println("DRAWPOSITION: X: " + tempCostume.getDrawPositionX());
                     canvas.drawBitmap(tempCostume.getBitmap(), tempCostume.getDrawPositionX(), tempCostume.getDrawPositionY(), null);
                     sprite.setToDraw(false);
                 }
@@ -52,6 +56,7 @@ public class CanvasDraw implements IDraw {
             return true;
 
         } catch (Exception e) {
+            Log.v("CanvasDraw", "Exception");
             return false;
         }
     } 

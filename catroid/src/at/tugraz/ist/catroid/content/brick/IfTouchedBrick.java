@@ -33,12 +33,10 @@ public class IfTouchedBrick implements Brick {
 	
 	public IfTouchedBrick(Sprite sprite, Script touchScript) {
 		this.touchScript = touchScript;
-		this.touchScript.setTouchScript(true);
 		this.sprite = sprite;
 	}
 
 	public void execute() {
-		//touchScript.setTouchScript(true);
 	}
 	
 	public Sprite getSprite() {
@@ -59,6 +57,7 @@ public class IfTouchedBrick implements Brick {
 	
 	@Override
     public Brick clone() {
+	    touchScript.setTouchScript(true); //TODO find better solution -- I need it to test here
 		return new IfTouchedBrick(getSprite(),touchScript);
 	}
 }
