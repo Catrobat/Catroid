@@ -37,7 +37,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import at.tugraz.ist.catroid.Consts;
+import at.tugraz.ist.catroid.FileChecksumContainer;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.entities.SoundInfo;
@@ -171,6 +173,8 @@ public class StorageHandler {
         this.soundContent.clear();
         this.soundContent.addAll(soundContent);
     }
+    
+
 
     /**
      * Creates the default project and saves it to the filesystem
@@ -188,10 +192,24 @@ public class StorageHandler {
         }
     }
 
+    public File copySoundFile(String path) throws IOException {
+        Log.d("StorageHandler: ", "Path to original soundFile: " + path);
+        String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
+        File soundDirectory = new File(catroidRoot.getAbsolutePath() + "/" + currentProject + Consts.SOUND_DIRECTORY);
+        File inputFile = new File(path);
+        if (!inputFile.exists() || !inputFile.canRead())
+            return null;
+        
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        String timestamp = simpleDateFormat.format(new Date());
+        File outputFile = new File(soundDirectory.getAbsolutePath() + "/" + timestamp + inputFile.getName());
+        
+        return copyFile(outputFile, inputFile, soundDirectory);
+      
+    }
+    
     public File copyImage(String currentProjectName, String inputFilePath) throws IOException {
         File imageDirectory = new File(catroidRoot.getAbsolutePath() + "/" + currentProjectName + Consts.IMAGE_DIRECTORY);
-        
-       
 
         File inputFile = new File(inputFilePath);
         if (!inputFile.exists() || !inputFile.canRead())
@@ -201,34 +219,24 @@ public class StorageHandler {
         String timestamp = simpleDateFormat.format(new Date());
         File outputFile = new File(imageDirectory.getAbsolutePath() + "/" + timestamp + inputFile.getName());
         
-        return copyFile(outputFile, inputFile);
+        return copyFile(outputFile, inputFile, imageDirectory);
     }
     
-    public File copyFile(File destinationFile, File sourceFile) throws IOException {
+    public File copyFile(File destinationFile, File sourceFile, File directory) throws IOException {
         FileChannel inputChannel = new FileInputStream(sourceFile).getChannel();
         FileChannel outputChannel = new FileOutputStream(destinationFile).getChannel();
-        String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
-        
-        File imageDirectory = new File(catroidRoot.getAbsolutePath() + "/" + currentProject + Consts.IMAGE_DIRECTORY);
-        File[] filesInDirectory = imageDirectory.listFiles();
         String checksumSource = getChecksum(sourceFile);
         
-
-        for(File f : filesInDirectory) {
-           
-            String checksumDest = getChecksum(f);
-            if (checksumSource.equals(checksumDest)) {
-                if (inputChannel != null)
-                    inputChannel.close();
-                if (outputChannel != null)
-                    outputChannel.close();
-                destinationFile.delete();
-                return f;
-            }
+        FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getCurrentProject().getFileChecksumContainer();
+        if (fileChecksumContainer.findChecksum(checksumSource)) {
+            fileChecksumContainer.incrementValue(checksumSource);
+            return new File(fileChecksumContainer.getPath(checksumSource));
         }
+       
         
         try {
             inputChannel.transferTo(0, inputChannel.size(), outputChannel);
+            fileChecksumContainer.addChecksum(checksumSource, destinationFile.getAbsolutePath());
             return destinationFile;
         } catch (IOException e) {
             e.printStackTrace();
