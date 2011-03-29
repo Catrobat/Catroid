@@ -1,27 +1,16 @@
-package at.tugraz.ist.catroid.uitest.stage;
+package at.tugraz.ist.catroid.uitest.construction_site.script_adapter;
 
 import java.util.ArrayList;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
-import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.brick.Brick;
-import at.tugraz.ist.catroid.content.brick.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.brick.GoNStepsBackBrick;
-import at.tugraz.ist.catroid.content.brick.HideBrick;
-import at.tugraz.ist.catroid.content.brick.IfTouchedBrick;
-import at.tugraz.ist.catroid.content.brick.PlaceAtBrick;
-import at.tugraz.ist.catroid.content.brick.PlaySoundBrick;
-import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrick;
-import at.tugraz.ist.catroid.content.brick.ShowBrick;
-import at.tugraz.ist.catroid.content.brick.WaitBrick;
-import at.tugraz.ist.catroid.content.entities.SoundInfo;
 import at.tugraz.ist.catroid.content.project.Project;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
-import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -31,18 +20,21 @@ import com.jayway.android.robotium.solo.Solo;
  * @author Daniel Burtscher
  *
  */
-public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<ScriptActivity>{
+public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptActivity>{
 	private Solo solo;
+	private Project project;
+	private GoNStepsBackBrick goNStepsBackBrick;
+	private int stepsToGoBack;
 
-	public ProgrammAdapterTest() {
+	public GoNStepsBackTest() {
 		super("at.tugraz.ist.catroid",
 				ScriptActivity.class);
 	}
 	
 	@Override
     public void setUp() throws Exception {
+		createProject();
 		solo = new Solo(getInstrumentation(), getActivity());
-
 	}
 	
 	@Override
@@ -58,11 +50,36 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Script
 	}
 	
 	@Smoke
-	public void testComeToFrontBrick() throws Throwable {
-		Project project = new Project(null, "testProject");
+	public void testGoNStepsBackBrick() throws Throwable {
+
+		assertEquals("Incorrect number of bricks.", 1, solo.getCurrentListViews().get(0).getChildCount());
+		assertEquals("Incorrect number of bricks.", 1, getActivity().getAdapter().getCount());
+		
+		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScriptList().get(0).getBrickList();
+		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
+		
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getItem(0));
+		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.go_back_main_adapter)));
+		
+		solo.clickOnEditText(0);
+		solo.clearEditText(0);
+		solo.enterText(0, stepsToGoBack + "");
+		solo.clickOnButton(0);
+		
+		Thread.sleep(300);
+		assertEquals("Wrong text in field.", stepsToGoBack, goNStepsBackBrick.getSteps());
+		assertEquals("Value in Brick is not updated.", stepsToGoBack+"", solo.getEditText(0).getText().toString());
+		
+		
+	}
+	
+	private void createProject() {
+		stepsToGoBack = 17;
+		project = new Project(null, "testProject");
         Sprite sprite = new Sprite("cat");
-        Script script = new Script();       
-        script.addBrick(new ComeToFrontBrick(sprite, project));
+        Script script = new Script(); 
+        goNStepsBackBrick = new GoNStepsBackBrick(sprite, 0);
+        script.addBrick(goNStepsBackBrick);
 
         sprite.getScriptList().add(script);
         project.addSprite(sprite);
@@ -70,59 +87,10 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Script
         ProjectManager.getInstance().setProject(project);
         ProjectManager.getInstance().setCurrentSprite(sprite);
         ProjectManager.getInstance().setCurrentScript(script);
-		
-		
-		
-//		final Project testProject = new Project(getInstrumentation().getContext(), "theTest");
-//		Sprite stageSprite = testProject.getSpriteList().get(0);
-//		Script script = new Script();
-//		script.addBrick(new ComeToFrontBrick(stageSprite, testProject));
-//		
-//		stageSprite.getScriptList().add(script);
-//		
-//		runTestOnUiThread(new Runnable() {
-//			public void run() {
-//				getActivity().setProject(testProject);
-//			}
-//		});
-		
-		assertEquals("Incorrect number of bricks", 1, getActivity().getAdapter().getCount());
-		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.come_to_front_main_adapter)));
+        
 	}
 	
-//	@Smoke
-//	public void testGoNStepsBackBrick() throws Throwable {
-//		
-//		int steps = 17;
-//		
-//		final Project testProject = new Project(getInstrumentation().getContext(), "theTest");
-//		Sprite stageSprite        = testProject.getSpriteList().get(0);
-//		Script script             = new Script();
-//		GoNStepsBackBrick brick   = new GoNStepsBackBrick(stageSprite, 0);
-//		
-//		script.addBrick(brick);
-//		
-//		stageSprite.getScriptList().add(script);
-//		
-//		runTestOnUiThread(new Runnable() {
-//			public void run() {
-//				getActivity().setProject(testProject);
-//			}
-//		});
-//		
-//		assertEquals("Incorrect number of bricks", 1, getActivity().getProgrammAdapter().getCount());
-//		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.go_back_main_adapter)));
-//		
-//		solo.clickOnEditText(0);
-//		solo.clearEditText(0);
-//		solo.enterText(0, steps + "");
-//		solo.clickOnButton(0);
-//		
-//		Thread.sleep(300);
-//		assertEquals("Wrong text in field", steps, brick.getSteps());
-//		assertEquals("Value in Brick is not updated", steps+"", solo.getEditText(0).getText().toString());
-//		
-//	}
+	
 //	
 //	@Smoke
 //	public void testHideBrick() throws Throwable {
