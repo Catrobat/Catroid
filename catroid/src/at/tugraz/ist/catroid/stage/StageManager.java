@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
-import android.util.Log;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
@@ -54,7 +53,6 @@ public class StageManager {
     }
 
     public boolean drawSprites() {
-        Log.v("StageManager", "drawSprites");
         return draw.draw();
     }
 
