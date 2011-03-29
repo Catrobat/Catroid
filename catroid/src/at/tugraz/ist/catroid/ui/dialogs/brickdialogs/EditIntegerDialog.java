@@ -11,19 +11,26 @@ import at.tugraz.ist.catroid.R;
 
 public class EditIntegerDialog extends EditDialog implements OnClickListener {
 	private int value;
+	private boolean signed;
 
-	public EditIntegerDialog(Context context, EditText referencedEditText, int value) {
+	public EditIntegerDialog(Context context, EditText referencedEditText, int value, boolean signed) {
 		super(context, referencedEditText);
 		this.value = value;
+		this.signed = signed;
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		editText.setText(String.valueOf(value));
-		editText.setInputType(InputType.TYPE_CLASS_NUMBER);
-		Button closeButton = (Button) findViewById(R.id.dialogEditTextSubmit);
-		closeButton.setOnClickListener(this);
+        super.onCreate(savedInstanceState);
+        editText.setText(String.valueOf(value));
+        if (signed) {
+            editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
+        }
+        else{
+            editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        }
+        Button closeButton = (Button) findViewById(R.id.dialogEditTextSubmit);
+        closeButton.setOnClickListener(this);
 	}
 
 	public int getValue() {

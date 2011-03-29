@@ -20,6 +20,7 @@ package at.tugraz.ist.catroid.content.brick;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,14 +66,16 @@ public class PlaceAtBrick implements Brick, OnDismissListener {
 		View brickView = inflater.inflate(R.layout.construction_brick_place_at, null);
         EditText editX = (EditText) brickView.findViewById(R.id.InputValueEditTextX);
         editX.setText(String.valueOf(xPosition));
-        EditIntegerDialog dialogX = new EditIntegerDialog(context, editX, xPosition);
+        EditIntegerDialog dialogX = new EditIntegerDialog(context, editX, xPosition,true);
         dialogX.setOnDismissListener(this);
+        dialogX.setOnCancelListener((OnCancelListener) context);
         editX.setOnClickListener(dialogX);
 		
         EditText editY = (EditText) brickView.findViewById(R.id.InputValueEditTextY);
         editY.setText(String.valueOf(yPosition));
-        EditIntegerDialog dialogY = new EditIntegerDialog(context, editY, yPosition);
+        EditIntegerDialog dialogY = new EditIntegerDialog(context, editY, yPosition,true);
         dialogY.setOnDismissListener(this);
+        dialogY.setOnCancelListener((OnCancelListener) context);
         editY.setOnClickListener(dialogY);
 
 		return brickView;
@@ -90,16 +93,14 @@ public class PlaceAtBrick implements Brick, OnDismissListener {
 	}
 
 	public void onDismiss(DialogInterface dialog) {
-		EditIntegerDialog inputDialog = (EditIntegerDialog)dialog;
-		if(inputDialog.getRefernecedEditTextId() == R.id.InputValueEditTextX)
-		{
-			xPosition = inputDialog.getValue();
-		}
-		else if(inputDialog.getRefernecedEditTextId() == R.id.InputValueEditTextY)
-		{
-			yPosition = inputDialog.getValue();
-		}
-		else
-			throw new RuntimeException("Received illegal id from EditText: " + inputDialog.getRefernecedEditTextId());
+        EditIntegerDialog inputDialog = (EditIntegerDialog) dialog;
+        if (inputDialog.getRefernecedEditTextId() == R.id.InputValueEditTextX) {
+            xPosition = inputDialog.getValue();
+        } else if (inputDialog.getRefernecedEditTextId() == R.id.InputValueEditTextY) {
+            yPosition = inputDialog.getValue();
+        } else
+            throw new RuntimeException("Received illegal id from EditText: " + inputDialog.getRefernecedEditTextId()); 
+
+        dialog.cancel();
 	}
 }

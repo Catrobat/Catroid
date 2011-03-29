@@ -20,6 +20,7 @@ package at.tugraz.ist.catroid.content.brick;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,6 +61,7 @@ public class ScaleCostumeBrick implements Brick, OnDismissListener {
 
 		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, scale);
 		dialog.setOnDismissListener(this);
+		dialog.setOnCancelListener((OnCancelListener) context);
 		edit.setOnClickListener(dialog);
 
 		return view;
@@ -77,6 +79,7 @@ public class ScaleCostumeBrick implements Brick, OnDismissListener {
 	}
 
 	public void onDismiss(DialogInterface dialog) {
-		scale = ((EditDoubleDialog)dialog).getValue();		
+		scale = ((EditDoubleDialog)dialog).getValue();
+		dialog.cancel();
 	}
 }

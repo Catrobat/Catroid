@@ -131,7 +131,6 @@ public class SpriteActivity extends Activity {
         TextView currentProjectTextView = (TextView) findViewById(R.id.spriteNameTextView);
         currentProjectTextView.setText(this.getString(R.string.sprite_name) + " "
                 + ProjectManager.getInstance().getCurrentSprite().getName());
-        adapterScriptList = (ArrayList<Script>) ProjectManager.getInstance().getCurrentSprite().getScriptList();
         adapter.notifyDataSetChanged();
     }
 
