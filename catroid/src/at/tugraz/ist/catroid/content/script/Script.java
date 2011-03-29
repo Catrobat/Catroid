@@ -53,7 +53,6 @@ public class Script {
     }
 
     public void run() {
-        System.out.println("PAUSE in Script is" + paused);
         if(isFinished && !isTouchScript){
             return;
         }
