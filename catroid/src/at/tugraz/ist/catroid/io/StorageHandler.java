@@ -230,6 +230,7 @@ public class StorageHandler {
         FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getCurrentProject().getFileChecksumContainer();
         if (fileChecksumContainer.findChecksum(checksumSource)) {
             fileChecksumContainer.incrementValue(checksumSource);
+            destinationFile.delete();
             return new File(fileChecksumContainer.getPath(checksumSource));
         }
        
