@@ -120,10 +120,21 @@ public class Costume {
     }
 
     public Pair<Integer, Integer> getImageWidthHeight() {
+        
         BitmapFactory.Options o = new BitmapFactory.Options();
         o.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(imagePath, o);
-        return new Pair<Integer, Integer>((int) (o.outWidth * sprite.getScale() / 100), (int) (o.outHeight * sprite.getScale() / 100));
+
+        int origWidth = o.outWidth;
+        int origHeight = o.outHeight;
+
+        int sampleSizeWidth = (int) Math.ceil(origWidth / (double) Values.SCREEN_WIDTH);
+        int sampleSizeHeight = (int) Math.ceil(origHeight / (double) Values.SCREEN_HEIGHT);
+        int sampleSize = Math.max(sampleSizeWidth, sampleSizeHeight);
+        
+        o.inSampleSize = sampleSize;
+        BitmapFactory.decodeFile(imagePath, o);
+        return new Pair<Integer, Integer>((int) (o.outWidth * (sprite.getScale() / 100)), (int) (o.outHeight * (sprite.getScale() / 100)));
     }
 
 }

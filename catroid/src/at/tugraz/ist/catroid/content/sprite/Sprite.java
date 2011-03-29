@@ -216,7 +216,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
             return;
         }
         
-        int inSpriteCoordX = coordX - currentCostume.getDrawPositionX();
+        int inSpriteCoordX = coordX - currentCostume.getDrawPositionX(); 
         int inSpriteCoordY = coordY - currentCostume.getDrawPositionY();
         
         Pair<Integer,Integer> tempPair = currentCostume.getImageWidthHeight();
