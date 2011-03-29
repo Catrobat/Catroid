@@ -18,6 +18,7 @@
  */
 package at.tugraz.ist.catroid.content.brick;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -81,9 +82,13 @@ public class PlaySoundBrick implements Brick, android.content.DialogInterface.On
 		View view = inflater.inflate(R.layout.construction_brick_play_sound, null);
         Button soundButton = (Button) view.findViewById(R.id.btSoundChoose);
         if (pathToSoundfile != null) {
+
             int index = pathToSoundfile.lastIndexOf("/") + 1;
+            Log.d("#######################PlaySoundBrick: ", "Index + 14: " + (index + 14) + "Soundfile Path length: " +  pathToSoundfile.length() );
+
             if (index > 0) {
-	            soundButton.setText(pathToSoundfile.substring(index));
+                String soundFileName = (String) pathToSoundfile.subSequence(index + 14, pathToSoundfile.length());
+	            soundButton.setText(soundFileName);
             } else {
 	            soundButton.setText("<choose a title>");
             }
@@ -134,7 +139,14 @@ public class PlaySoundBrick implements Brick, android.content.DialogInterface.On
     }
 
     public void onClick(DialogInterface dialog, int which) {
-        pathToSoundfile = soundList.get(which).getTitleWithPath();
+        File soundFile = null;
+        try {
+            soundFile = StorageHandler.getInstance().copySoundFile(soundList.get(which).getPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+       
+        pathToSoundfile = soundFile.getAbsolutePath();
         programmAdapter.notifyDataSetChanged();
     }
 

@@ -25,6 +25,7 @@ import java.util.List;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+import at.tugraz.ist.catroid.FileChecksumContainer;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
@@ -36,9 +37,10 @@ public class Project implements Serializable {
 	private String name;
 	private String versionName;
 	private int versionCode;
+	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
 	
 	public Project(Context context, String name) {
-        setName(name.replaceAll(" ", ""));
+	    setName(name.replaceAll(" ", ""));
         
         if(context == null) {
             versionName = "unknown";
@@ -115,5 +117,9 @@ public class Project implements Serializable {
 
 	public int getVersionCode() {
 		return versionCode;
+	}
+	
+	public FileChecksumContainer getFileChecksumContainer() {
+	    return fileChecksumContainer;
 	}
 }
