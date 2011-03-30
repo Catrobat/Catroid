@@ -3,7 +3,6 @@ package at.tugraz.ist.catroid.stage;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -42,17 +41,18 @@ public class StageActivity extends Activity {
     }
 
     public boolean onTouchEvent(MotionEvent event) {
-        Log.i("StageActivity", "Number of pointers " + event.getPointerCount() + " action code: " + event.getAction() + " coordinates: x: "
-                + event.getX((int) event.getPointerCount() - 1) + " y: " + event.getY((int) event.getPointerCount() - 1));
-        // for the first pointer we get MotionEvent.ACTION_DOWN
+//        Log.i("StageActivity", "Number of pointers " + event.getPointerCount() + " action code: " + event.getAction() + " coordinates: x: "
+//                + event.getX((int) event.getPointerCount() - 1) + " y: " + event.getY((int) event.getPointerCount() - 1));
+        
+        // first pointer: MotionEvent.ACTION_DOWN
         if (event.getAction() == MotionEvent.ACTION_DOWN)
             processOnTouch((int) event.getX(), (int) event.getY());
-        // if we have a second pointer we also get
-        // MotionEvent.ACTION_POINTER_2_DOWN
+
+        // second pointer: MotionEvent.ACTION_POINTER_2_DOWN
         if (event.getAction() == MotionEvent.ACTION_POINTER_2_DOWN)
             processOnTouch((int) event.getX(1), (int) event.getY(1));
 
-        return true;
+        return false;
     }
 
     public void processOnTouch(int coordX, int coordY) {
