@@ -28,29 +28,23 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.sprite.Costume;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class SetCostumeBrick implements Brick {
     private static final long serialVersionUID = 1L;
     private Sprite sprite;
-    private Costume costume;
+    private String imagePath;
 
     public SetCostumeBrick(Sprite sprite) {
         this.sprite = sprite;
     }
 
     public void setCostume(String imagePath) {
-        costume = new Costume(sprite, imagePath);
-        this.sprite.getCostumeList().add(costume);
-    }
-
-    public Costume getCostume() {
-        return costume;
+        this.imagePath = imagePath;
     }
 
     public void execute() {
-        this.sprite.setCurrentCostume(costume);
+        this.sprite.getCostume().setImagePath(imagePath);
         sprite.setToDraw(true);
     }
 
@@ -69,9 +63,9 @@ public class SetCostumeBrick implements Brick {
             }
         };
         ImageView imageView = (ImageView) view.findViewById(R.id.costume_image_view);
-        if(costume != null)
+        if(sprite.getCostume() != null)
         {
-            Bitmap thumbnail = costume.getThumbnailBitmap();
+            Bitmap thumbnail = sprite.getCostume().getThumbnailBitmap();
         
             if(thumbnail != null) {
                 imageView.setImageBitmap(thumbnail);
@@ -93,8 +87,8 @@ public class SetCostumeBrick implements Brick {
     @Override
     public Brick clone() {
         SetCostumeBrick clonedBrick = new SetCostumeBrick(getSprite());
-        if(costume != null)
-            clonedBrick.setCostume(getCostume().getImagePath());
+        if(sprite.getCostume() != null)
+            clonedBrick.setCostume(null); //sprite.getCostume().getImagePath());
         return clonedBrick;
     }
 }
