@@ -65,7 +65,7 @@ public class SetCostumeBrick implements Brick {
         ImageView imageView = (ImageView) view.findViewById(R.id.costume_image_view);
         if(sprite.getCostume() != null)
         {
-            Bitmap thumbnail = sprite.getCostume().getThumbnailBitmap();
+            Bitmap thumbnail = sprite.getCostume().getThumbnailBitmap(); //TODO save Thumbnail here because we only have one costume now
         
             if(thumbnail != null) {
                 imageView.setImageBitmap(thumbnail);

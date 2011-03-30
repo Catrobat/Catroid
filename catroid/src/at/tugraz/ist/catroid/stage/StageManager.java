@@ -16,8 +16,8 @@ public class StageManager {
     private Boolean spritesChanged;
     private IDraw draw;
     private boolean isPaused;
-
-    private Handler mHandler = new Handler();
+    private Handler handler = new Handler();
+    
     private Runnable runnable = new Runnable() {
         public void run() {
             for (Sprite sprite : spriteList) {
@@ -31,7 +31,7 @@ public class StageManager {
             }
 
             if (!isPaused)
-                mHandler.postDelayed(this, 33);
+                handler.postDelayed(this, 33);
         }
     };
 
@@ -70,7 +70,7 @@ public class StageManager {
         if (drawScreen) {
             Bitmap pauseBitmap = BitmapFactory.decodeResource(activity.getResources(), R.drawable.paused_cat);
             draw.drawPauseScreen(pauseBitmap);
-            mHandler.removeCallbacks(runnable);
+            handler.removeCallbacks(runnable);
             spritesChanged = true;
         }
 
