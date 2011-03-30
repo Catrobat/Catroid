@@ -95,7 +95,8 @@ public class StartThreadsTest extends AndroidTestCase {
         Script touchScript = new Script();
         HideBrick hideBrick = new HideBrick(testSprite);
         
-        IfTouchedBrick touchedBrick = new IfTouchedBrick(testSprite, touchScript);
+        IfTouchedBrick touchedBrick2 = new IfTouchedBrick(testSprite, touchScript);
+        IfTouchedBrick touchedBrick = (IfTouchedBrick) touchedBrick2.clone();
         ShowBrick showBrick = new ShowBrick(testSprite);
         
         testScript.addBrick(hideBrick);
@@ -105,6 +106,8 @@ public class StartThreadsTest extends AndroidTestCase {
         testSprite.getScriptList().add(testScript);
         testSprite.getScriptList().add(touchScript);
         
+        System.out.println("Touchscript: " + touchScript.isTouchScript());
+
         testSprite.startScripts();
         
         try {
@@ -118,7 +121,7 @@ public class StartThreadsTest extends AndroidTestCase {
         testSprite.processOnTouch(0, 0);
         
         try {
-            Thread.sleep(100);
+            Thread.sleep(250);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

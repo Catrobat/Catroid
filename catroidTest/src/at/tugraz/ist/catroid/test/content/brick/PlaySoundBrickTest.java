@@ -102,7 +102,7 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 			MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
             PlaySoundBrick testBrick = new PlaySoundBrick(new Sprite("3"), soundFilePath);
 			testBrick.execute();
-			assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
+            assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
 		}
 	}
 	
