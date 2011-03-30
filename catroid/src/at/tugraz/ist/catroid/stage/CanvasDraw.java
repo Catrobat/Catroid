@@ -46,8 +46,8 @@ public class CanvasDraw implements IDraw {
                 if(!sprite.isVisible()){
                     continue;
                 }
-                if (sprite.getCurrentCostume() != null && sprite.getCurrentCostume().getBitmap() != null) {
-                    Costume tempCostume = sprite.getCurrentCostume();
+                if (sprite.getCostume() != null && sprite.getCostume().getBitmap() != null) {
+                    Costume tempCostume = sprite.getCostume();
                     canvas.drawBitmap(tempCostume.getBitmap(), tempCostume.getDrawPositionX(), tempCostume.getDrawPositionY(), null);
                     sprite.setToDraw(false);
                 }

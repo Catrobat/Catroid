@@ -34,19 +34,17 @@ public class Sprite implements Serializable, Comparable<Sprite> {
     private double scale;
     private boolean isVisible;
     private boolean toDraw;
-    private List<Costume> costumeList;
     private List<Script> scriptList;
     private List<Thread> threadList;
-    private Costume currentCostume;
+    private Costume costume;
 
     private void init() {
         zPosition = 0;
         scale = 100.0;
         isVisible = true;
-        costumeList = new ArrayList<Costume>();
         scriptList = new ArrayList<Script>();
         threadList = new ArrayList<Thread>();
-        currentCostume = null;
+        costume = new Costume(this,null);
     }
 
     public Sprite(String name) {
@@ -143,9 +141,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
     public synchronized void setXYPosition(int xPosition, int yPosition) {
         this.xPosition = xPosition;
         this.yPosition = yPosition;
-        for (Costume costume : costumeList) {
-            costume.setDrawPosition();
-        }
+        costume.setDrawPosition();
         toDraw = true;
     }
 
@@ -172,12 +168,8 @@ public class Sprite implements Serializable, Comparable<Sprite> {
         toDraw = true;
     }
 
-    public Costume getCurrentCostume() {
-        return currentCostume;
-    }
-
-    public List<Costume> getCostumeList() {
-        return costumeList;
+    public Costume getCostume() {
+        return costume;
     }
 
     public List<Script> getScriptList() {
@@ -192,14 +184,6 @@ public class Sprite implements Serializable, Comparable<Sprite> {
         toDraw = value;
     }
 
-    public void setCurrentCostume(Costume costume) throws IllegalArgumentException {
-        if (!costumeList.contains(costume)) {
-            throw new IllegalArgumentException("Selected costume is not contained in Costume list of this sprite.");
-        }
-        currentCostume = costume;
-        toDraw = true;
-    }
-
     public int compareTo(Sprite sprite) {
         long thisZValue = getZPosition();
         long otherZValue = sprite.getZPosition();
@@ -211,22 +195,22 @@ public class Sprite implements Serializable, Comparable<Sprite> {
     }
 
     public void processOnTouch(int coordX, int coordY) {
-        if(currentCostume == null) {
+        if(costume == null) { //TODO change to getBitmap
             startTouchScripts();
             return;
         }
         
-        int inSpriteCoordX = coordX - currentCostume.getDrawPositionX(); 
-        int inSpriteCoordY = coordY - currentCostume.getDrawPositionY();
+        int inSpriteCoordX = coordX - costume.getDrawPositionX(); 
+        int inSpriteCoordY = coordY - costume.getDrawPositionY();
         
-        Pair<Integer,Integer> tempPair = currentCostume.getImageWidthHeight();
+        Pair<Integer,Integer> tempPair = costume.getImageWidthHeight();
         int width = tempPair.first;
         int height = tempPair.second;
         
-        if (inSpriteCoordX < 0 || inSpriteCoordX >= width) {
+        if (inSpriteCoordX < 0 || inSpriteCoordX > width) {
             return;
         }
-        if (inSpriteCoordY < 0 || inSpriteCoordY >= height) {
+        if (inSpriteCoordY < 0 || inSpriteCoordY > height) {
             return;
         }
 
