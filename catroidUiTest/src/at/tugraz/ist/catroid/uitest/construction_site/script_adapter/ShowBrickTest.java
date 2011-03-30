@@ -7,7 +7,13 @@ import android.test.suitebuilder.annotation.Smoke;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.brick.Brick;
-import at.tugraz.ist.catroid.content.brick.ComeToFrontBrick;
+import at.tugraz.ist.catroid.content.brick.GoNStepsBackBrick;
+import at.tugraz.ist.catroid.content.brick.HideBrick;
+import at.tugraz.ist.catroid.content.brick.IfTouchedBrick;
+import at.tugraz.ist.catroid.content.brick.PlaceAtBrick;
+import at.tugraz.ist.catroid.content.brick.PlaySoundBrick;
+import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrick;
+import at.tugraz.ist.catroid.content.brick.ShowBrick;
 import at.tugraz.ist.catroid.content.project.Project;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
@@ -20,11 +26,11 @@ import com.jayway.android.robotium.solo.Solo;
  * @author Daniel Burtscher
  *
  */
-public class ComeToFrontTest extends ActivityInstrumentationTestCase2<ScriptActivity>{
+public class ShowBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity>{
 	private Solo solo;
 	private Project project;
 
-	public ComeToFrontTest() {
+	public ShowBrickTest() {
 		super("at.tugraz.ist.catroid",
 				ScriptActivity.class);
 	}
@@ -48,7 +54,7 @@ public class ComeToFrontTest extends ActivityInstrumentationTestCase2<ScriptActi
 	}
 	
 	@Smoke
-	public void testComeToFrontBrick() throws Throwable {
+	public void testShowBrick() throws Throwable {
 		assertEquals("Incorrect number of bricks.", 1, solo.getCurrentListViews().get(0).getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, getActivity().getAdapter().getCount());
 		
@@ -56,15 +62,16 @@ public class ComeToFrontTest extends ActivityInstrumentationTestCase2<ScriptActi
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 		
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getItem(0));
-		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.come_to_front_main_adapter)));
+		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.show_main_adapter)));
+		
 	}
 	
 	private void createProject() {
 		project = new Project(null, "testProject");
         Sprite sprite = new Sprite("cat");
-        Script script = new Script();       
-        script.addBrick(new ComeToFrontBrick(sprite, project));
-
+        Script script = new Script(); 
+        script.addBrick(new ShowBrick(sprite));
+        
         sprite.getScriptList().add(script);
         project.addSprite(sprite);
         
@@ -72,5 +79,4 @@ public class ComeToFrontTest extends ActivityInstrumentationTestCase2<ScriptActi
         ProjectManager.getInstance().setCurrentSprite(sprite);
         ProjectManager.getInstance().setCurrentScript(script);
 	}
-	
 }

@@ -1,5 +1,6 @@
 package at.tugraz.ist.catroid.uitest.construction_site.script_adapter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import android.test.ActivityInstrumentationTestCase2;
@@ -9,9 +10,17 @@ import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.brick.Brick;
 import at.tugraz.ist.catroid.content.brick.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.brick.HideBrick;
+import at.tugraz.ist.catroid.content.brick.IfTouchedBrick;
+import at.tugraz.ist.catroid.content.brick.PlaceAtBrick;
+import at.tugraz.ist.catroid.content.brick.PlaySoundBrick;
+import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrick;
+import at.tugraz.ist.catroid.content.brick.ShowBrick;
+import at.tugraz.ist.catroid.content.brick.WaitBrick;
+import at.tugraz.ist.catroid.content.entities.SoundInfo;
 import at.tugraz.ist.catroid.content.project.Project;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -21,11 +30,15 @@ import com.jayway.android.robotium.solo.Solo;
  * @author Daniel Burtscher
  *
  */
-public class HideTest extends ActivityInstrumentationTestCase2<ScriptActivity>{
+public class SoundBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity>{
 	private Solo solo;
 	private Project project;
+	private PlaySoundBrick soundBrick;
+	private String selectedTitle;
+	private String path;
+	private String title;
 
-	public HideTest() {
+	public SoundBrickTest() {
 		super("at.tugraz.ist.catroid",
 				ScriptActivity.class);
 	}
@@ -49,8 +62,7 @@ public class HideTest extends ActivityInstrumentationTestCase2<ScriptActivity>{
 	}
 	
 	@Smoke
-	public void testHideBrick() throws Throwable {
-		
+	public void testPlaySoundBrick() throws Throwable {
 		assertEquals("Incorrect number of bricks.", 1, solo.getCurrentListViews().get(0).getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, getActivity().getAdapter().getCount());
 		
@@ -58,23 +70,53 @@ public class HideTest extends ActivityInstrumentationTestCase2<ScriptActivity>{
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 		
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getItem(0));
-		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.hide_main_adapter)));
+		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.play_sound_main_adapter)));
+		
+		assertTrue("Wrong title selected", solo.searchText(selectedTitle));
+		assertTrue("Wrong title selected", solo.searchText(selectedTitle));
+		
+		solo.clickOnButton(selectedTitle);
+		solo.clickInList(2);
+		Thread.sleep(500);
+		assertEquals("Wrong path", path+title, soundBrick.getPathToSoundFile());
+		assertTrue("Wrong title selected", solo.searchText(title));
 		
 	}
 	
-	private void createProject() {
+	private void createProject() throws IOException {
+		title = "myTitle";
+		path = "path/to/sound/";
+		ArrayList<SoundInfo> soundlist = new ArrayList<SoundInfo>();
+		SoundInfo soundInfo = new SoundInfo();
+		soundInfo.setId(5);
+		soundInfo.setTitle("something");
+		soundInfo.setPath("path/path/1/");
+		soundlist.add(soundInfo);
+		soundInfo = new SoundInfo();
+		soundInfo.setId(6);
+		soundInfo.setTitle(title);
+		soundInfo.setPath(path);
+		soundlist.add(soundInfo);
+		soundInfo = new SoundInfo();
+		soundInfo.setId(7);
+		selectedTitle = "selectedTitle";
+		soundInfo.setTitle(selectedTitle);
+		soundInfo.setPath(path);
+		soundlist.add(soundInfo);
+		StorageHandler.getInstance().setSoundContent(soundlist);
+		
 		project = new Project(null, "testProject");
         Sprite sprite = new Sprite("cat");
         Script script = new Script(); 
-        script.addBrick(new HideBrick(sprite));
-
+        soundBrick = new PlaySoundBrick(sprite, soundInfo.getTitleWithPath());
+        script.addBrick(soundBrick);
+        
         sprite.getScriptList().add(script);
         project.addSprite(sprite);
         
         ProjectManager.getInstance().setProject(project);
         ProjectManager.getInstance().setCurrentSprite(sprite);
         ProjectManager.getInstance().setCurrentScript(script);
-        
 	}
 	
 }
