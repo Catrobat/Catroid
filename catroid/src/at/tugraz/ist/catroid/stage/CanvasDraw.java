@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
@@ -19,16 +18,14 @@ import at.tugraz.ist.catroid.utils.ImageEditing;
  */
 public class CanvasDraw implements IDraw {
     private Canvas canvas = null;
-    private SurfaceView srufaceView;
+    private SurfaceView surfaceView;
     private Paint whitePaint;
     private SurfaceHolder holder;
 
-    // TODO destroy surface somewhere!
-
     public CanvasDraw() {
         super();
-        srufaceView = StageActivity.sage;
-        holder = srufaceView.getHolder();
+        surfaceView = StageActivity.sage;
+        holder = surfaceView.getHolder();
         whitePaint = new Paint();
         whitePaint.setStyle(Paint.Style.FILL);
         whitePaint.setColor(Color.WHITE);
@@ -37,16 +34,17 @@ public class CanvasDraw implements IDraw {
     public synchronized boolean draw() {
         canvas = holder.lockCanvas();
         try {
-            if (canvas == null)
+            if (canvas == null) {
                 throw new Exception();
-            // we want to start with a white rectangle
+            }
+            // draw white rectangle:
             canvas.drawRect(new Rect(0, 0, canvas.getWidth(), canvas.getHeight()), whitePaint);
-            Log.v("CanvasDraw", "drawSprites");
+            
             for (Sprite sprite : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
                 if(!sprite.isVisible()){
-                    continue;
+                    continue; //don't need to draw
                 }
-                if (sprite.getCostume() != null && sprite.getCostume().getBitmap() != null) {
+                if (sprite.getCostume().getBitmap() != null) {
                     Costume tempCostume = sprite.getCostume();
                     canvas.drawBitmap(tempCostume.getBitmap(), tempCostume.getDrawPositionX(), tempCostume.getDrawPositionY(), null);
                     sprite.setToDraw(false);
@@ -54,9 +52,7 @@ public class CanvasDraw implements IDraw {
             }
             holder.unlockCanvasAndPost(canvas);
             return true;
-
         } catch (Exception e) {
-            Log.v("CanvasDraw", "Exception");
             return false;
         }
     } 
