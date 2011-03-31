@@ -155,6 +155,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
             throw new IllegalArgumentException("Sprite scale must be greater than zero!");
         }
         this.scale = scale;
+        costume.scale(scale);
         toDraw = true;
     }
 
