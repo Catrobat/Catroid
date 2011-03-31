@@ -22,7 +22,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,11 +32,14 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 public class SetCostumeBrick implements Brick {
     private static final long serialVersionUID = 1L;
     private Sprite sprite;
     private String imagePath;
-    private Bitmap thumbnail;
+    @XStreamOmitField
+    private transient Bitmap thumbnail;
 
     public SetCostumeBrick(Sprite sprite) {
         this.sprite = sprite;
@@ -45,9 +47,6 @@ public class SetCostumeBrick implements Brick {
 
     public void setCostume(String imagePath) {
         this.imagePath = imagePath;
-        if (imagePath != null) {
-            thumbnail = ImageEditing.scaleBitmap(BitmapFactory.decodeFile(imagePath), Consts.THUMBNAIL_HEIGHT, Consts.THUMBNAIL_WIDTH);
-        }
 
     }
 
@@ -72,7 +71,10 @@ public class SetCostumeBrick implements Brick {
         };
         ImageView imageView = (ImageView) view.findViewById(R.id.costume_image_view);
         if (sprite.getCostume() != null) {
-            if (thumbnail != null) {
+            if (imagePath != null) {
+
+                thumbnail = ImageEditing.getScaledBitmap(imagePath, Consts.THUMBNAIL_HEIGHT, Consts.THUMBNAIL_WIDTH);
+
                 imageView.setImageBitmap(thumbnail);
                 imageView.setBackgroundDrawable(null);
             }

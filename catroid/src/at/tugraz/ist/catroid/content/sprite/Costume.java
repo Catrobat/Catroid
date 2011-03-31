@@ -19,7 +19,6 @@
 package at.tugraz.ist.catroid.content.sprite;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Pair;
 import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.Values;
@@ -39,8 +38,6 @@ public class Costume {
     private int origWidth;
 
     @XStreamOmitField
-    private transient Bitmap thumbnailBitmap;
-    @XStreamOmitField
     private transient Bitmap costumeBitmap;
 
     public Costume() {
@@ -53,16 +50,12 @@ public class Costume {
 
     public synchronized void setImagePath(String imagePath) {
 
-        costumeBitmap = BitmapFactory.decodeFile(imagePath);
+        this.imagePath = imagePath;
+        // costumeBitmap = BitmapFactory.decodeFile(imagePath);
+        costumeBitmap = ImageEditing.getBitmap(imagePath, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
         if (costumeBitmap == null) {
             return;
         }
-        this.imagePath = imagePath;
-        if (costumeBitmap.getHeight() > Values.SCREEN_HEIGHT) {
-            costumeBitmap = scaleBitmap(costumeBitmap, Values.SCREEN_HEIGHT, Values.SCREEN_WIDTH);
-        }
-
-        thumbnailBitmap = scaleBitmap(costumeBitmap, Consts.THUMBNAIL_HEIGHT, Consts.THUMBNAIL_WIDTH);
 
         actHeight = costumeBitmap.getHeight();
         actWidth = costumeBitmap.getWidth();
@@ -103,7 +96,7 @@ public class Costume {
 
         if (newHeight > actHeight || newWidth > actWidth) {
             costumeBitmap.recycle();
-            costumeBitmap = BitmapFactory.decodeFile(imagePath);
+            costumeBitmap = ImageEditing.getBitmap(imagePath, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
 
         }
 
@@ -141,34 +134,6 @@ public class Costume {
 
     public int getDrawPositionY() {
         return this.drawPositionY;
-    }
-
-    private Bitmap getDownsizedBitmap(int width, int height) {
-        BitmapFactory.Options o = new BitmapFactory.Options();
-        o.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(imagePath, o);
-
-        int origWidth = o.outWidth;
-        int origHeight = o.outHeight;
-
-        int sampleSizeWidth = (int) Math.ceil(origWidth / (double) width);
-        int sampleSizeHeight = (int) Math.ceil(origHeight / (double) height);
-        int sampleSize = Math.max(sampleSizeWidth, sampleSizeHeight);
-
-        o.inJustDecodeBounds = false;
-        o.inSampleSize = sampleSize;
-
-        return BitmapFactory.decodeFile(imagePath, o);
-    }
-
-    public synchronized Bitmap getThumbnailBitmap() {
-        if (imagePath == null) {
-            return null;
-        }
-        if (thumbnailBitmap == null) {
-            thumbnailBitmap = getDownsizedBitmap(Consts.THUMBNAIL_WIDTH, Consts.THUMBNAIL_HEIGHT);
-        }
-        return thumbnailBitmap;
     }
 
     public Pair<Integer, Integer> getImageWidthHeight() {
