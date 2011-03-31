@@ -23,21 +23,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseAdapter;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.project.Project;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class ComeToFrontBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
-	protected transient Project project;
 
 	public ComeToFrontBrick(Sprite sprite, Project project) {
 		this.sprite = sprite;
-		this.project = project;
 	}
 
 	public void execute() {
-		int maxZValue = project.getMaxZValue();
+		int maxZValue = ProjectManager.getInstance().getCurrentProject().getMaxZValue();
 		maxZValue = maxZValue > (maxZValue + 1) ? Integer.MAX_VALUE : maxZValue + 1;
 
 		sprite.setZPosition(maxZValue);
@@ -56,7 +55,7 @@ public class ComeToFrontBrick implements Brick {
 	
 	@Override
     public Brick clone() {
-		return new ComeToFrontBrick(getSprite(), project);
+		return new ComeToFrontBrick(getSprite(),null);
 	}
 
 	public View getPrototypeView(Context context) {

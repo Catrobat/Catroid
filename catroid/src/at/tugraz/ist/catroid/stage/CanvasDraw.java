@@ -19,6 +19,8 @@
 
 package at.tugraz.ist.catroid.stage;
 
+import java.util.ArrayList;
+
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -59,7 +61,9 @@ public class CanvasDraw implements IDraw {
             // draw white rectangle:
             canvas.drawRect(new Rect(0, 0, canvas.getWidth(), canvas.getHeight()), whitePaint);
             
-            for (Sprite sprite : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
+            ArrayList<Sprite> sprites = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
+            java.util.Collections.sort(sprites);
+            for (Sprite sprite : sprites) {
                 if(!sprite.isVisible()){
                     continue; //don't need to draw
                 }
