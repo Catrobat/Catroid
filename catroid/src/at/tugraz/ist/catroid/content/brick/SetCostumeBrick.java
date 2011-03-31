@@ -22,18 +22,22 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.utils.ImageEditing;
 
 public class SetCostumeBrick implements Brick {
     private static final long serialVersionUID = 1L;
     private Sprite sprite;
     private String imagePath;
+    private Bitmap thumbnail;
 
     public SetCostumeBrick(Sprite sprite) {
         this.sprite = sprite;
@@ -41,6 +45,10 @@ public class SetCostumeBrick implements Brick {
 
     public void setCostume(String imagePath) {
         this.imagePath = imagePath;
+        if (imagePath != null) {
+            thumbnail = ImageEditing.scaleBitmap(BitmapFactory.decodeFile(imagePath), Consts.THUMBNAIL_HEIGHT, Consts.THUMBNAIL_WIDTH);
+        }
+
     }
 
     public void execute() {
@@ -59,19 +67,16 @@ public class SetCostumeBrick implements Brick {
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
-                ((Activity)context).startActivityForResult(intent, brickId);
+                ((Activity) context).startActivityForResult(intent, brickId);
             }
         };
         ImageView imageView = (ImageView) view.findViewById(R.id.costume_image_view);
-        if(sprite.getCostume() != null)
-        {
-            Bitmap thumbnail = sprite.getCostume().getThumbnailBitmap(); //TODO save Thumbnail here because we only have one costume now
-        
-            if(thumbnail != null) {
+        if (sprite.getCostume() != null) {
+            if (thumbnail != null) {
                 imageView.setImageBitmap(thumbnail);
                 imageView.setBackgroundDrawable(null);
             }
-               
+
         }
         imageView.setOnClickListener(listener);
 
@@ -87,8 +92,8 @@ public class SetCostumeBrick implements Brick {
     @Override
     public Brick clone() {
         SetCostumeBrick clonedBrick = new SetCostumeBrick(getSprite());
-        if(sprite.getCostume() != null)
-            clonedBrick.setCostume(null); //sprite.getCostume().getImagePath());
+        if (sprite.getCostume() != null)
+            clonedBrick.setCostume(null); // sprite.getCostume().getImagePath());
         return clonedBrick;
     }
 }
