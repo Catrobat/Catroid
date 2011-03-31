@@ -54,14 +54,14 @@ public class Costume {
     public synchronized void setImagePath(String imagePath) {
 
         costumeBitmap = BitmapFactory.decodeFile(imagePath);
-        if(costumeBitmap == null){
+        if (costumeBitmap == null) {
             return;
         }
         this.imagePath = imagePath;
-        if (costumeBitmap.getHeight() > Values.SCREEN_HEIGHT){
+        if (costumeBitmap.getHeight() > Values.SCREEN_HEIGHT) {
             costumeBitmap = scaleBitmap(costumeBitmap, Values.SCREEN_HEIGHT, Values.SCREEN_WIDTH);
         }
-        
+
         thumbnailBitmap = scaleBitmap(costumeBitmap, Consts.THUMBNAIL_HEIGHT, Consts.THUMBNAIL_WIDTH);
 
         actHeight = costumeBitmap.getHeight();
@@ -71,36 +71,39 @@ public class Costume {
         origWidth = costumeBitmap.getWidth();
         setDrawPosition();
 
-
     }
 
     private Bitmap scaleBitmap(Bitmap bitmap, int height, int width) {
-        if(bitmap == null){
+        if (bitmap == null) {
             return null;
         }
-        // dirty workaround for Stage Background
+        // +2 = dirty workaround for Stage Background
         // still on search for a better solution
         if (bitmap.getHeight() > Values.SCREEN_HEIGHT) {
             double backgroundScaleFactor = ((double) Values.SCREEN_HEIGHT + 2) / (double) bitmap.getHeight();
             bitmap = ImageEditing.scaleBitmap(bitmap, backgroundScaleFactor, true);
         } else {
             bitmap = ImageEditing.scaleBitmap(bitmap, width, height);
-            
+
         }
 
         return bitmap;
     }
-        
-    public synchronized void scale(double scaleFactorPercent){
-        double scaleFactor = scaleFactorPercent /100; 
-        int newHeight = (int)((float) origHeight * scaleFactor);
-        int newWidth = (int)((float) origWidth * scaleFactor);
+
+    public synchronized void scale(double scaleFactorPercent) {
+        if (costumeBitmap == null || imagePath == null) {
+            return;
+        }
+
+        double scaleFactor = scaleFactorPercent / 100;
+        int newHeight = (int) ((float) origHeight * scaleFactor);
+        int newWidth = (int) ((float) origWidth * scaleFactor);
 
         setPositionToSpriteTopLeft();
 
         if (newHeight > actHeight || newWidth > actWidth) {
-                costumeBitmap.recycle();
-                costumeBitmap = BitmapFactory.decodeFile(imagePath);
+            costumeBitmap.recycle();
+            costumeBitmap = BitmapFactory.decodeFile(imagePath);
 
         }
 
@@ -109,7 +112,7 @@ public class Costume {
         actHeight = newHeight;
 
         setPositionToSpriteCenter();
-       
+
         return;
 
     }
@@ -123,7 +126,7 @@ public class Costume {
     }
 
     public synchronized void setDrawPosition() {
-        
+
         setPositionToSpriteTopLeft();
         drawPositionX = Math.round(((Values.SCREEN_WIDTH / (2f * Consts.MAX_REL_COORDINATES)) * sprite.getXPosition())
                 + Values.SCREEN_WIDTH / 2f);
@@ -170,20 +173,7 @@ public class Costume {
 
     public Pair<Integer, Integer> getImageWidthHeight() {
 
-        BitmapFactory.Options o = new BitmapFactory.Options();
-        o.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(imagePath, o);
-
-        int origWidth = o.outWidth;
-        int origHeight = o.outHeight;
-
-        int sampleSizeWidth = (int) Math.ceil(origWidth / (double) Values.SCREEN_WIDTH);
-        int sampleSizeHeight = (int) Math.ceil(origHeight / (double) Values.SCREEN_HEIGHT);
-        int sampleSize = Math.max(sampleSizeWidth, sampleSizeHeight);
-
-        o.inSampleSize = sampleSize;
-        BitmapFactory.decodeFile(imagePath, o);
-        return new Pair<Integer, Integer>((int) (o.outWidth * (sprite.getScale() / 100)), (int) (o.outHeight * (sprite.getScale() / 100)));
+        return new Pair<Integer, Integer>(actWidth, actHeight);
     }
 
     private synchronized void setPositionToSpriteCenter() {
