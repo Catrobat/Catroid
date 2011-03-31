@@ -150,7 +150,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
         toDraw = true;
     }
 
-    public void setScale(double scale) {
+    public synchronized void setScale(double scale) {
         if (scale <= 0.0) {
             throw new IllegalArgumentException("Sprite scale must be greater than zero!");
         }
@@ -159,17 +159,17 @@ public class Sprite implements Serializable, Comparable<Sprite> {
         toDraw = true;
     }
 
-    public void show() {
+    public synchronized void show() {
         isVisible = true;
         toDraw = true;
     }
 
-    public void hide() {
+    public synchronized void hide() {
         isVisible = false;
         toDraw = true;
     }
 
-    public Costume getCostume() {
+    public synchronized Costume getCostume() {
         return costume;
     }
 
