@@ -83,59 +83,59 @@ public class CostumeTest extends InstrumentationTestCase{
         Costume costume = new Costume(testSprite, imagePath);
         assertEquals("The imagepath is false", imagePath,costume.getImagePath());
     }  
-    
-    public void testGetBitmap() throws IOException {
-        
-        Values.SCREEN_HEIGHT = 400;
-        Values.SCREEN_WIDTH = 400;
-		
-        Sprite testSprite = new Sprite("testSprite");
-    	Costume costume = new Costume(testSprite, testImage.getAbsolutePath());
-    	Bitmap bitmap = costume.getBitmap();
-    	assertEquals("Width of loaded bitmap is not the same as width of original image", width, bitmap.getWidth());
-    	assertEquals("Height of loaded bitmap is not the same as height of original image", height, bitmap.getHeight());
-
-    }
-    
-    public void testScaleBitmap() throws IOException {
-        
-        Values.SCREEN_HEIGHT = 400;
-        Values.SCREEN_WIDTH = 400;
-        
-        Sprite testSprite = new Sprite("testSprite");
-        testSprite.setScale(200);
-    	Costume costume = new Costume(testSprite, testImage.getAbsolutePath());
-    	
-    	Bitmap bitmap = costume.getBitmap();
-
-    	assertEquals("Width of loaded bitmap is not the same as width of original image", width*2, bitmap.getWidth());
-    	assertEquals("Height of loaded bitmap is not the same as height of original image", height*2, bitmap.getHeight());
-
-    }
-    
-    public void testScaleBitmapScreenTooSmall() throws IOException {
-        
-        Values.SCREEN_HEIGHT = 200;
-        Values.SCREEN_WIDTH = 200;
-        
-        Sprite testSprite = new Sprite("testSprite");
-        testSprite.setScale(200);
-    	Costume costume = new Costume(testSprite, testImage.getAbsolutePath());
-    	
-    	Bitmap bitmap = costume.getBitmap();
-    	
-    	int maxDimension = Math.max(bitmap.getWidth(), bitmap.getHeight());
-
-    	assertEquals("Max bitmap dimension not equal to screen size", Values.SCREEN_WIDTH, maxDimension);
-
-    }
-    
-    public void testGetThumbnail() {
-    	Sprite testSprite = new Sprite("testSprite");
-    	Costume costume = new Costume(testSprite, testImage.getAbsolutePath());
-    	Bitmap thumbnail = costume.getThumbnailBitmap();
-    	assertEquals("Thumbnail width is not correct", width / 2, thumbnail.getWidth());
-    	assertEquals("Thumbnail height is not correct", height / 2, thumbnail.getHeight());
-    }
+//    
+//    public void testGetBitmap() throws IOException {
+//        
+//        Values.SCREEN_HEIGHT = 400;
+//        Values.SCREEN_WIDTH = 400;
+//		
+//        Sprite testSprite = new Sprite("testSprite");
+//    	Costume costume = new Costume(testSprite, testImage.getAbsolutePath());
+//    	Bitmap bitmap = costume.getBitmap();
+//    	assertEquals("Width of loaded bitmap is not the same as width of original image", width, bitmap.getWidth());
+//    	assertEquals("Height of loaded bitmap is not the same as height of original image", height, bitmap.getHeight());
+//
+//    }
+//    
+//    public void testScaleBitmap() throws IOException {
+//        
+//        Values.SCREEN_HEIGHT = 400;
+//        Values.SCREEN_WIDTH = 400;
+//        
+//        Sprite testSprite = new Sprite("testSprite");
+//        testSprite.setScale(200);
+//    	Costume costume = new Costume(testSprite, testImage.getAbsolutePath());
+//    	
+//    	Bitmap bitmap = costume.getBitmap();
+//
+//    	assertEquals("Width of loaded bitmap is not the same as width of original image", width*2, bitmap.getWidth());
+//    	assertEquals("Height of loaded bitmap is not the same as height of original image", height*2, bitmap.getHeight());
+//
+//    }
+//    
+//    public void testScaleBitmapScreenTooSmall() throws IOException {
+//        
+//        Values.SCREEN_HEIGHT = 200;
+//        Values.SCREEN_WIDTH = 200;
+//        
+//        Sprite testSprite = new Sprite("testSprite");
+//        testSprite.setScale(200);
+//    	Costume costume = new Costume(testSprite, testImage.getAbsolutePath());
+//    	
+//    	Bitmap bitmap = costume.getBitmap();
+//    	
+//    	int maxDimension = Math.max(bitmap.getWidth(), bitmap.getHeight());
+//
+//    	assertEquals("Max bitmap dimension not equal to screen size", Values.SCREEN_WIDTH, maxDimension);
+//
+//    }
+//    
+//    public void testGetThumbnail() {
+//    	Sprite testSprite = new Sprite("testSprite");
+//    	Costume costume = new Costume(testSprite, testImage.getAbsolutePath());
+//    	Bitmap thumbnail = costume.getThumbnailBitmap();
+//    	assertEquals("Thumbnail width is not correct", width / 2, thumbnail.getWidth());
+//    	assertEquals("Thumbnail height is not correct", height / 2, thumbnail.getHeight());
+//    }
     
 }
