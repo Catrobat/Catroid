@@ -33,23 +33,88 @@ public class Costume {
     private Sprite sprite;
     private int drawPositionX;
     private int drawPositionY;
+    private int actHeight;
+    private int actWidth;
+    private int origHeight;
+    private int origWidth;
+
     @XStreamOmitField
     private transient Bitmap thumbnailBitmap;
+    @XStreamOmitField
+    private transient Bitmap costumeBitmap;
 
     public Costume() {
     }
 
     public Costume(Sprite sprite, String imagePath) {
-        this.setImagePath(imagePath);
         this.sprite = sprite;
-        setDrawPosition();
-
-        // creating thumbnailBitmap:
-        thumbnailBitmap = getDownsizedBitmap(Consts.THUMBNAIL_WIDTH, Consts.THUMBNAIL_HEIGHT);
+        this.setImagePath(imagePath);
     }
 
-    public void setImagePath(String imagePath) {
+    public synchronized void setImagePath(String imagePath) {
+
+        costumeBitmap = BitmapFactory.decodeFile(imagePath);
+        if (costumeBitmap == null) {
+            return;
+        }
         this.imagePath = imagePath;
+        if (costumeBitmap.getHeight() > Values.SCREEN_HEIGHT) {
+            costumeBitmap = scaleBitmap(costumeBitmap, Values.SCREEN_HEIGHT, Values.SCREEN_WIDTH);
+        }
+
+        thumbnailBitmap = scaleBitmap(costumeBitmap, Consts.THUMBNAIL_HEIGHT, Consts.THUMBNAIL_WIDTH);
+
+        actHeight = costumeBitmap.getHeight();
+        actWidth = costumeBitmap.getWidth();
+
+        origHeight = costumeBitmap.getHeight();
+        origWidth = costumeBitmap.getWidth();
+        setDrawPosition();
+
+    }
+
+    private Bitmap scaleBitmap(Bitmap bitmap, int height, int width) {
+        if (bitmap == null) {
+            return null;
+        }
+        // +2 = dirty workaround for Stage Background
+        // still on search for a better solution
+        if (bitmap.getHeight() > Values.SCREEN_HEIGHT) {
+            double backgroundScaleFactor = ((double) Values.SCREEN_HEIGHT + 2) / (double) bitmap.getHeight();
+            bitmap = ImageEditing.scaleBitmap(bitmap, backgroundScaleFactor, true);
+        } else {
+            bitmap = ImageEditing.scaleBitmap(bitmap, width, height);
+
+        }
+
+        return bitmap;
+    }
+
+    public synchronized void scale(double scaleFactorPercent) {
+        if (costumeBitmap == null || imagePath == null) {
+            return;
+        }
+
+        double scaleFactor = scaleFactorPercent / 100;
+        int newHeight = (int) ((float) origHeight * scaleFactor);
+        int newWidth = (int) ((float) origWidth * scaleFactor);
+
+        setPositionToSpriteTopLeft();
+
+        if (newHeight > actHeight || newWidth > actWidth) {
+            costumeBitmap.recycle();
+            costumeBitmap = BitmapFactory.decodeFile(imagePath);
+
+        }
+
+        costumeBitmap = ImageEditing.scaleBitmap(costumeBitmap, newWidth, newHeight, true);
+        actWidth = newWidth;
+        actHeight = newHeight;
+
+        setPositionToSpriteCenter();
+
+        return;
+
     }
 
     public String getImagePath() {
@@ -57,30 +122,17 @@ public class Costume {
     }
 
     public Bitmap getBitmap() {
-
-        Bitmap bitmap = getDownsizedBitmap(Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
-        if(bitmap == null){
-            return null;
-        }
-
-        // /100 because we need times and not %
-        bitmap = ImageEditing.scaleBitmap(bitmap, sprite.getScale() / 100.0, false);
-
-        double widthScaleFactor = Values.SCREEN_WIDTH / (double)bitmap.getWidth();
-        double heightScaleFactor = Values.SCREEN_HEIGHT / (double)bitmap.getHeight();
-        double minScaleFactor = Math.min(widthScaleFactor, heightScaleFactor);
-
-        if (minScaleFactor < 1.0) {
-            bitmap = ImageEditing.scaleBitmap(bitmap, minScaleFactor, false);
-        }
-        return bitmap;
+        return costumeBitmap;
     }
 
-    public void setDrawPosition() {
+    public synchronized void setDrawPosition() {
+
+        setPositionToSpriteTopLeft();
         drawPositionX = Math.round(((Values.SCREEN_WIDTH / (2f * Consts.MAX_REL_COORDINATES)) * sprite.getXPosition())
                 + Values.SCREEN_WIDTH / 2f);
         drawPositionY = Math.round((Values.SCREEN_HEIGHT / 2f)
                 - ((Values.SCREEN_HEIGHT / (2f * Consts.MAX_REL_COORDINATES)) * sprite.getYPosition()));
+        setPositionToSpriteCenter();
     }
 
     public int getDrawPositionX() {
@@ -109,7 +161,7 @@ public class Costume {
         return BitmapFactory.decodeFile(imagePath, o);
     }
 
-    public Bitmap getThumbnailBitmap() {
+    public synchronized Bitmap getThumbnailBitmap() {
         if (imagePath == null) {
             return null;
         }
@@ -120,21 +172,24 @@ public class Costume {
     }
 
     public Pair<Integer, Integer> getImageWidthHeight() {
-        
-        BitmapFactory.Options o = new BitmapFactory.Options();
-        o.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(imagePath, o);
 
-        int origWidth = o.outWidth;
-        int origHeight = o.outHeight;
+        return new Pair<Integer, Integer>(actWidth, actHeight);
+    }
 
-        int sampleSizeWidth = (int) Math.ceil(origWidth / (double) Values.SCREEN_WIDTH);
-        int sampleSizeHeight = (int) Math.ceil(origHeight / (double) Values.SCREEN_HEIGHT);
-        int sampleSize = Math.max(sampleSizeWidth, sampleSizeHeight);
-        
-        o.inSampleSize = sampleSize;
-        BitmapFactory.decodeFile(imagePath, o);
-        return new Pair<Integer, Integer>((int) (o.outWidth * (sprite.getScale() / 100)), (int) (o.outHeight * (sprite.getScale() / 100)));
+    private synchronized void setPositionToSpriteCenter() {
+        if (costumeBitmap == null) {
+            return;
+        }
+        drawPositionX = drawPositionX - costumeBitmap.getWidth() / 2;
+        drawPositionY = drawPositionY - costumeBitmap.getHeight() / 2;
+    }
+
+    private synchronized void setPositionToSpriteTopLeft() {
+        if (costumeBitmap == null) {
+            return;
+        }
+        drawPositionX = drawPositionX + costumeBitmap.getWidth() / 2;
+        drawPositionY = drawPositionY + costumeBitmap.getHeight() / 2;
     }
 
 }
