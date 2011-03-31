@@ -66,9 +66,22 @@ public class Costume {
 
     }
 
-    
-        return bitmap;
-    }
+//    private Bitmap scaleBitmap(Bitmap bitmap, int height, int width) {
+//        if (bitmap == null) {
+//            return null;
+//        }
+//        // +2 = dirty workaround for Stage Background
+//        // still on search for a better solution
+//        if (bitmap.getHeight() > Values.SCREEN_HEIGHT) {
+//            double backgroundScaleFactor = ((double) Values.SCREEN_HEIGHT + 2) / (double) bitmap.getHeight();
+//            bitmap = ImageEditing.scaleBitmap(bitmap, backgroundScaleFactor, true);
+//        } else {
+//            bitmap = ImageEditing.scaleBitmap(bitmap, width, height);
+//
+//        }
+//
+//        return bitmap;
+//    }
 
     public synchronized void scale(double scaleFactorPercent) {
         if (costumeBitmap == null || imagePath == null) {
@@ -94,7 +107,6 @@ public class Costume {
         setPositionToSpriteCenter();
 
         return;
-
     }
 
     public String getImagePath() {

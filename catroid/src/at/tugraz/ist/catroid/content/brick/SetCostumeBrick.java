@@ -47,7 +47,9 @@ public class SetCostumeBrick implements Brick {
 
     public void setCostume(String imagePath) {
         this.imagePath = imagePath;
-
+        if(imagePath != null){
+            thumbnail = ImageEditing.getScaledBitmap(imagePath, Consts.THUMBNAIL_HEIGHT, Consts.THUMBNAIL_WIDTH);
+        }
     }
 
     public void execute() {
@@ -70,16 +72,16 @@ public class SetCostumeBrick implements Brick {
             }
         };
         ImageView imageView = (ImageView) view.findViewById(R.id.costume_image_view);
-        if (sprite.getCostume() != null) {
-            if (imagePath != null) {
 
+        if (imagePath != null) {
+            if (thumbnail == null) {
                 thumbnail = ImageEditing.getScaledBitmap(imagePath, Consts.THUMBNAIL_HEIGHT, Consts.THUMBNAIL_WIDTH);
-
-                imageView.setImageBitmap(thumbnail);
-                imageView.setBackgroundDrawable(null);
             }
 
+            imageView.setImageBitmap(thumbnail);
+            imageView.setBackgroundDrawable(null);
         }
+
         imageView.setOnClickListener(listener);
 
         return view;
@@ -95,7 +97,7 @@ public class SetCostumeBrick implements Brick {
     public Brick clone() {
         SetCostumeBrick clonedBrick = new SetCostumeBrick(getSprite());
         if (sprite.getCostume() != null)
-            clonedBrick.setCostume(null); // sprite.getCostume().getImagePath());
+            clonedBrick.setCostume(null);
         return clonedBrick;
     }
 }
