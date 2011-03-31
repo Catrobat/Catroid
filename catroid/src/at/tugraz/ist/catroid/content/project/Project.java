@@ -40,8 +40,8 @@ public class Project implements Serializable {
 	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
 	
 	public Project(Context context, String name) {
-	    setName(name.replaceAll(" ", ""));
-        
+	    this.name = name;
+	    
         if(context == null) {
             versionName = "unknown";
             versionCode = 0;
