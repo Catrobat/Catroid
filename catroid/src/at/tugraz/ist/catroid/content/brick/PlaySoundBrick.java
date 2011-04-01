@@ -26,7 +26,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.media.MediaPlayer;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -53,20 +52,15 @@ public class PlaySoundBrick implements Brick, android.content.DialogInterface.On
 
 	public void execute() {
 		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
-		try {
-			mediaPlayer.setDataSource(pathToSoundfile);
-			mediaPlayer.prepare();
-			mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-				public void onCompletion(MediaPlayer mp) {
-					mp.release();
-				}
-			});
-			Log.i("PlaySoundBrick", "Starting player with file " + pathToSoundfile);
-			mediaPlayer.start();
-		} catch (IOException e) {
-			throw new IllegalArgumentException("IO error", e);
+		if (mediaPlayer != null) {
+    		try {
+    			mediaPlayer.setDataSource(pathToSoundfile);
+    			mediaPlayer.prepare();
+    			mediaPlayer.start();
+    		} catch (IOException e) {
+    			throw new IllegalArgumentException("IO error", e);
+    		}
 		}
-		sprite.setToDraw(true);
 	}
 
 	public Sprite getSprite() {
@@ -84,7 +78,6 @@ public class PlaySoundBrick implements Brick, android.content.DialogInterface.On
         if (pathToSoundfile != null) {
 
             int index = pathToSoundfile.lastIndexOf("/") + 1;
-            Log.d("#######################PlaySoundBrick: ", "Index + 14: " + (index + 14) + "Soundfile Path length: " +  pathToSoundfile.length() );
 
             if (index > 0) {
                 String soundFileName = (String) pathToSoundfile.subSequence(index + 14, pathToSoundfile.length());

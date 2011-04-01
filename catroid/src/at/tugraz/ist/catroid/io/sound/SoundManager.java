@@ -22,7 +22,6 @@ package at.tugraz.ist.catroid.io.sound;
 import java.util.ArrayList;
 
 import android.media.MediaPlayer;
-import android.util.Log;
 
 public class SoundManager {
 	private ArrayList<MediaPlayer> mediaPlayers;
@@ -44,7 +43,6 @@ public class SoundManager {
 	public synchronized MediaPlayer getMediaPlayer() {
 		for (MediaPlayer mediaPlayer : mediaPlayers) {
 			if (!mediaPlayer.isPlaying()) {
-				Log.d("SoundManager", "Recycling MediaPlayer. Number of players: " + mediaPlayers.size());
 				mediaPlayer.reset();
 				return mediaPlayer;
 			}
@@ -53,7 +51,6 @@ public class SoundManager {
 		if (mediaPlayers.size() < MAX_MEDIA_PLAYERS) {
 			MediaPlayer mediaPlayer = new MediaPlayer();
 			mediaPlayers.add(mediaPlayer);
-			Log.d("SoundManager", "Created new MediaPlayer. New number of players: " + mediaPlayers.size());
 			return mediaPlayer;
 		} else {
 			return null;
@@ -77,4 +74,5 @@ public class SoundManager {
 			if (!mediaPlayer.isPlaying())
 				mediaPlayer.start();
 	}
+	
 }
