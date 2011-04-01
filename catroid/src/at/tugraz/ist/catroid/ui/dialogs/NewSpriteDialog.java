@@ -50,6 +50,11 @@ public class NewSpriteDialog extends Dialog {
         createNewSpriteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String spriteName = ((EditText) findViewById(R.id.newSpriteNameEditText)).getText().toString();
+                if(spriteName.length() == 0) {
+                    Utils.displayErrorMessage(context, context.getString(R.string.error_no_name_entered));
+                    return;
+                }
+                
                 ProjectManager projectManager = ProjectManager.getInstance();
 
                 if (projectManager.spriteExists(spriteName)) {

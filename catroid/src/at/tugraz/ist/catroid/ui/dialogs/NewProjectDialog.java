@@ -55,7 +55,7 @@ public class NewProjectDialog extends Dialog {
             public void onClick(View v) {
                 String projectName = ((EditText) findViewById(R.id.newProjectNameEditText)).getText().toString();
                 if(projectName.length() == 0) {
-                    Utils.displayErrorMessage(context, context.getString(R.string.error_no_project_name_entered));
+                    Utils.displayErrorMessage(context, context.getString(R.string.error_no_name_entered));
                     return;
                 }
                 try {
