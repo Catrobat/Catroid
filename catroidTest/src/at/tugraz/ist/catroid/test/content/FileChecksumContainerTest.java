@@ -116,7 +116,7 @@ public class FileChecksumContainerTest extends InstrumentationTestCase{
         String checksumImage = storageHandler.getChecksum(testImage);
 
         FileChecksumContainer container = projectManager.getCurrentProject().getFileChecksumContainer();
-        assertTrue("Checksum isn't in container", container.findChecksum(checksumImage));
+        assertTrue("Checksum isn't in container", container.containsChecksum(checksumImage));
         
         //wait to get a different timestamp on next file
         Thread.sleep(2000);
@@ -124,20 +124,24 @@ public class FileChecksumContainerTest extends InstrumentationTestCase{
 		storageHandler.copyImage(currentProjectName, testImage.getAbsolutePath());
 		File imageDirectory = new File(Consts.DEFAULT_ROOT + "/"+ currentProjectName + Consts.IMAGE_DIRECTORY);
 		File[] filesImage = imageDirectory.listFiles();
+		
+		//nomedia file is also in images folder
 		assertEquals("Wrong amount of files in folder", 2, filesImage.length);
 
 		storageHandler.copySoundFile(testSound.getAbsolutePath());
 		String checksumSound = storageHandler.getChecksum(testSound);
-		assertTrue("Checksum isn't in container", container.findChecksum(checksumSound));
+		assertTrue("Checksum isn't in container", container.containsChecksum(checksumSound));
 		File soundDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName + Consts.SOUND_DIRECTORY);
 		File[] filesSound = soundDirectory.listFiles();
+		
+		//nomedia file is also in sounds folder
 		assertEquals("Wrong amount of files in folder", 2, filesSound.length);
 		
 
         container.deleteChecksum(checksumImage);
-        assertTrue("Checksum was deleted",container.findChecksum(checksumImage));
+        assertTrue("Checksum was deleted",container.containsChecksum(checksumImage));
         container.deleteChecksum(checksumImage);
-        assertFalse("Checksum wasn't deleted",container.findChecksum(checksumImage));	
+        assertFalse("Checksum wasn't deleted",container.containsChecksum(checksumImage));	
 		
     }  
 }
