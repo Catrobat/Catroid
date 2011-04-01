@@ -54,9 +54,13 @@ public class NewProjectDialog extends Dialog {
         createNewProjectButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String projectName = ((EditText) findViewById(R.id.newProjectNameEditText)).getText().toString();
+                if(projectName.length() == 0) {
+                    Utils.displayErrorMessage(context, context.getString(R.string.error_no_project_name_entered));
+                    return;
+                }
                 try {
                     if (StorageHandler.getInstance().projectExists(projectName)) {
-                        Utils.displayErrorMessage(context, context.getString(R.string.projectname_already_exists));
+                        Utils.displayErrorMessage(context, context.getString(R.string.error_project_exists));
                         return;
                     }
                 } catch (IOException e) {
