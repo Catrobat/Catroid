@@ -119,8 +119,10 @@ public class StorageHandler {
                 imageDirectory.mkdir();
                 File noMediaFile = new File(projectDirectory.getAbsolutePath() + Consts.IMAGE_DIRECTORY + "/.nomedia");
                 noMediaFile.createNewFile();
-                File soundDirectory = new File(projectDirectory.getAbsolutePath() + "/sounds");
+                File soundDirectory = new File(projectDirectory.getAbsolutePath() + Consts.SOUND_DIRECTORY);
                 soundDirectory.mkdir();
+                noMediaFile = new File(projectDirectory.getAbsolutePath() + Consts.SOUND_DIRECTORY + "/.nomedia");
+                noMediaFile.createNewFile();
             }
             BufferedWriter out = new BufferedWriter(new FileWriter(projectDirectory.getAbsolutePath() + "/" + project.getName()
                     + Consts.PROJECT_EXTENTION));
@@ -250,7 +252,7 @@ public class StorageHandler {
         }
     }
     
-    String getChecksum(File file) throws IOException {
+    public String getChecksum(File file) throws IOException {
        
         MessageDigest md = null;
         try {
