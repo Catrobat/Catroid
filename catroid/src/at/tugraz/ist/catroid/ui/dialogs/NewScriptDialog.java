@@ -49,8 +49,13 @@ public class NewScriptDialog extends Dialog {
         Button createNewScriptButton = (Button) findViewById(R.id.createNewScriptButton);
         createNewScriptButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ProjectManager projectManager = ProjectManager.getInstance();
                 String scriptName = ((EditText) findViewById(R.id.newScriptNameEditText)).getText().toString();
+                if(scriptName.length() == 0) {
+                    Utils.displayErrorMessage(context, context.getString(R.string.error_no_name_entered));
+                    return;
+                }
+                
+                ProjectManager projectManager = ProjectManager.getInstance();
                 if (projectManager.scriptExists(scriptName)) {
                     Utils.displayErrorMessage(context, context.getString(R.string.scriptname_already_exists));
                     return;
