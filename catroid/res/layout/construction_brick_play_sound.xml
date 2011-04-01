@@ -62,6 +62,6 @@
 			android:layout_width="wrap_content"
 			android:layout_alignParentRight="true"
 			android:layout_centerVertical="true" 
-			android:maxWidth="200dip"/>
+			android:maxWidth="150dip"/>
 	</RelativeLayout>
 </LinearLayout>

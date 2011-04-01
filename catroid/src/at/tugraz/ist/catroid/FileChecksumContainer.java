@@ -33,7 +33,7 @@ public class FileChecksumContainer implements Serializable {
 
     public void addChecksum(String checksum, String path) {
         if(fileReferenceMap.containsKey(checksum)) {
-            fileReferenceMap.put(checksum, fileReferenceMap.get(checksum) + 1);
+            incrementValue(checksum);
         }
         else {
             fileReferenceMap.put(checksum, new Integer(1));
@@ -47,7 +47,7 @@ public class FileChecksumContainer implements Serializable {
         }
     }
     
-    public boolean findChecksum(String checksum) {
+    public boolean containsChecksum(String checksum) {
         if (fileReferenceMap.containsKey(checksum)) {
             return true;
         }
