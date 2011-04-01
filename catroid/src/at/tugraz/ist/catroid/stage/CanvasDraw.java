@@ -45,7 +45,7 @@ public class CanvasDraw implements IDraw {
 
     public CanvasDraw() {
         super();
-        surfaceView = StageActivity.sage;
+        surfaceView = StageActivity.stage;
         holder = surfaceView.getHolder();
         whitePaint = new Paint();
         whitePaint.setStyle(Paint.Style.FILL);

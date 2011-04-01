@@ -34,7 +34,7 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class StageActivity extends Activity {
 
-    public static SurfaceView sage;
+    public static SurfaceView stage;
     protected boolean isWaiting = false;
     private SoundManager soundManager;
     private StageManager stageManager;
@@ -49,7 +49,7 @@ public class StageActivity extends Activity {
             window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
             setContentView(R.layout.stage);
-            sage = (SurfaceView) findViewById(R.id.stageView);
+            stage = (SurfaceView) findViewById(R.id.stageView);
 
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             soundManager = SoundManager.getInstance();
@@ -75,8 +75,8 @@ public class StageActivity extends Activity {
     }
 
     public void processOnTouch(int coordX, int coordY) {
-        coordX = coordX + sage.getTop();
-        coordY = coordY + sage.getLeft();
+        coordX = coordX + stage.getTop();
+        coordY = coordY + stage.getLeft();
 
         stageManager.processOnTouch(coordX, coordY);
     }
