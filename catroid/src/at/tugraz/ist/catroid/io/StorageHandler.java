@@ -37,6 +37,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.FileChecksumContainer;
 import at.tugraz.ist.catroid.R;
@@ -194,6 +195,7 @@ public class StorageHandler {
     }
 
     public File copySoundFile(String path) throws IOException {
+        Log.d("StorageHandler: ", "Path to original soundFile: " + path);
         String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
         File soundDirectory = new File(catroidRoot.getAbsolutePath() + "/" + currentProject + Consts.SOUND_DIRECTORY);
         File inputFile = new File(path);
