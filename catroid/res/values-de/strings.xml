@@ -156,6 +156,9 @@
     <string name="error_no_sd_card">
         Um Catroid zu starten wird eine SD Karte benötigt.\nLegen Sie bitte eine SD Karte ein und versuchen Sie es erneut.
     </string>
+    <string name="error_no_project_name_entered">
+        Bitte einen Projektnamen eingeben.
+    </string>
     <string name="error_project_exists">
         Es gibt bereits ein Projekt mit dem eingegebenen Namen.\nBitte einen anderen Namen eingeben.
     </string>

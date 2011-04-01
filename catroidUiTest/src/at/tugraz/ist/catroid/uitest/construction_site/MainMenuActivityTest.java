@@ -94,6 +94,29 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		File file = new File("/sdcard/catroid/testProject/" + testProject + ".spf");
 		assertTrue(testProject + " was not created!", file.exists());
 	}
+	
+	public void testCreateNewProjectErrors() throws InterruptedException {
+		solo.clickOnButton(getActivity().getString(R.string.new_project));
+		solo.clickOnEditText(0);
+		solo.enterText(0, "");
+		solo.goBack();
+		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
+		Thread.sleep(50);
+		assertTrue("No error message was displayed upon creating a project with an empty name.", solo.searchText(getActivity().getString(R.string.error_no_project_name_entered)));
+
+		File directory = new File("/sdcard/catroid/" + testProject);
+		directory.mkdirs();
+		
+		solo.clickOnEditText(0);
+		solo.enterText(0, testProject);
+		solo.goBack();
+		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
+		Thread.sleep(50);
+		assertTrue("No error message was displayed upon creating a project with the same name twice.", solo.searchText(getActivity().getString(R.string.error_project_exists)));
+		
+		//File file = new File("/sdcard/catroid/testProject/" + testProject + ".spf");
+		//assertTrue(testProject + " was not created!", file.exists());
+	}	
 
 	public void testCreateNewProjectWithSpecialCharacters() throws InterruptedException {
 		final String projectNameWithSpecialCharacters = "Hey, look, I'm special! ?äöüß<>";
