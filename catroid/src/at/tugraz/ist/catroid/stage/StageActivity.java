@@ -37,7 +37,7 @@ public class StageActivity extends Activity {
     public static SurfaceView sage;
     protected boolean isWaiting = false;
     private SoundManager soundManager;
-    private StageManager sageManager;
+    private StageManager stageManager;
     private boolean stagePlaying = false;
 
     @Override
@@ -53,8 +53,8 @@ public class StageActivity extends Activity {
 
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             soundManager = SoundManager.getInstance();
-            sageManager = new StageManager(this);
-            sageManager.start();
+            stageManager = new StageManager(this);
+            stageManager.start();
             stagePlaying = true;
         }
     }
@@ -78,7 +78,7 @@ public class StageActivity extends Activity {
         coordX = coordX + sage.getTop();
         coordY = coordY + sage.getLeft();
 
-        sageManager.processOnTouch(coordX, coordY);
+        stageManager.processOnTouch(coordX, coordY);
     }
 
     @Override
@@ -104,13 +104,13 @@ public class StageActivity extends Activity {
     protected void onStop() {
         super.onStop();
         soundManager.pause();
-        sageManager.pause(false);
+        stageManager.pause(false);
         stagePlaying = false;
     }
 
     protected void onRestart() {
         super.onRestart();
-        sageManager.resume();
+        stageManager.resume();
         soundManager.resume();
         stagePlaying = true;
     }
@@ -130,11 +130,11 @@ public class StageActivity extends Activity {
 
     private void pauseOrContinue() {
         if (stagePlaying) {
-            sageManager.pause(true);
+            stageManager.pause(true);
             soundManager.pause();
             stagePlaying = false;
         } else {
-            sageManager.resume();
+            stageManager.resume();
             soundManager.resume();
             stagePlaying = true;
         }
