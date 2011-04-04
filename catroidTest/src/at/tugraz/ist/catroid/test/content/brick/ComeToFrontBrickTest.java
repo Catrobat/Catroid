@@ -43,7 +43,7 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 		project.addSprite(bottomSprite);
 		project.addSprite(topSprite);
 		
-		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(bottomSprite, project);
+        ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(bottomSprite);
 		ProjectManager.getInstance().setProject(project);
 		comeToFrontBrick.execute();
 		assertEquals("bottomSprite z position should now be 3", bottomSprite.getZPosition(), 3);
@@ -51,7 +51,7 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 	
 	public void testNullSprite() throws NameNotFoundException {
 		Project project = new Project(getContext(), "testProject");
-		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(null, project);
+        ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(null);
 		
 		try {
 			comeToFrontBrick.execute();
@@ -69,7 +69,7 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 		
 		project.addSprite(sprite);
 		
-		ComeToFrontBrick brick = new ComeToFrontBrick(sprite, project);
+        ComeToFrontBrick brick = new ComeToFrontBrick(sprite);
 		ProjectManager.getInstance().setProject(project);
 		brick.execute();
 		
@@ -78,7 +78,8 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 	}
 	
 	public void testGetView() throws NameNotFoundException {
-		ComeToFrontBrick brick = new ComeToFrontBrick(new Sprite("testSprite"), new Project(getContext(), "testProject"));
+        ProjectManager.getInstance().setProject(new Project(getContext(), "testProject"));
+        ComeToFrontBrick brick = new ComeToFrontBrick(new Sprite("testSprite"));
 		View view = brick.getView(getContext(), 1, null);
 		assertNotNull("getView returned null", view);
 	}

@@ -132,7 +132,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
         brickListToCheck.add(new HideBrick(firstSprite));
         brickListToCheck.add(new ShowBrick(firstSprite));
         brickListToCheck.add(new ScaleCostumeBrick(firstSprite, scaleValue));
-        brickListToCheck.add(new ComeToFrontBrick(firstSprite, null));
+        brickListToCheck.add(new ComeToFrontBrick(firstSprite));
         brickListToCheck.add(new PlaceAtBrick(firstSprite, xPosition, yPosition));
 
         // adding Bricks: ----------------

@@ -66,8 +66,9 @@ public class ProgrammAdapterTest extends ActivityInstrumentationTestCase2<Script
 	public void testComeToFrontBrick() throws Throwable {
 		Project project = new Project(null, "testProject");
         Sprite sprite = new Sprite("cat");
-        Script script = new Script();       
-        script.addBrick(new ComeToFrontBrick(sprite, project));
+        Script script = new Script();
+        ProjectManager.getInstance().setProject(project);
+        script.addBrick(new ComeToFrontBrick(sprite));
 
         sprite.getScriptList().add(script);
         project.addSprite(sprite);
