@@ -62,7 +62,7 @@ public class AddBrickDialog extends Dialog {
         prototypeBrickList.add(new SetCostumeBrick(sprite));
         prototypeBrickList.add(new ScaleCostumeBrick(sprite, 100));
         prototypeBrickList.add(new GoNStepsBackBrick(sprite, 1));
-        prototypeBrickList.add(new ComeToFrontBrick(sprite, null));
+        prototypeBrickList.add(new ComeToFrontBrick(sprite));
         prototypeBrickList.add(new IfTouchedBrick(sprite, null));
         prototypeBrickList.add(new IfStartedBrick(sprite, null));
     }
@@ -85,12 +85,12 @@ public class AddBrickDialog extends Dialog {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Brick addedBrick = adapter.getItem(position);
                 if(addedBrick instanceof IfStartedBrick) {
-                    Script newScript = new Script("newScript");
+                    Script newScript = new Script("newScript", ProjectManager.getInstance().getCurrentSprite());
                     ProjectManager.getInstance().addScript(newScript);
                     ProjectManager.getInstance().setCurrentScript(newScript);
                     newScript.setTouchScript(false);
                 } else if(addedBrick instanceof IfTouchedBrick) {
-                    Script newScript = new Script("newScript");
+                    Script newScript = new Script("newScript", ProjectManager.getInstance().getCurrentSprite());
                     ProjectManager.getInstance().addScript(newScript);
                     ProjectManager.getInstance().setCurrentScript(newScript);
                     newScript.setTouchScript(true);
