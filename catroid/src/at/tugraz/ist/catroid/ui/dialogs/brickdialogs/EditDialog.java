@@ -30,10 +30,12 @@ public class EditDialog extends Dialog {
 
     protected EditText editText;
     protected EditText referencedEditText;
+    private Context context;
 
     public EditDialog(Context context, EditText referencedEditText) {
         super(context);
         this.referencedEditText = referencedEditText;
+        this.context = context;
     }
 
     private void init() {
