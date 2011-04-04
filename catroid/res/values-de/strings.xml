@@ -128,6 +128,7 @@
     <string name="steps_label">Schritte nach hinten</string>
     <string name="come_to_front_main_adapter">Komm nach vorne</string>
     <string name="touched_main_adapter">Wenn berührt</string>
+    <string name="started_main_adapter">Wenn gestartet</string>
 
     <!-- defaulValues -->
     <string name="default_project_name">standardProjekt</string>

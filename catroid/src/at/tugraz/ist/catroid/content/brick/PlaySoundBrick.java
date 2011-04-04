@@ -29,7 +29,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.gui.adapter.SoundBrickAdapter;
@@ -41,7 +41,7 @@ import at.tugraz.ist.catroid.io.sound.SoundManager;
 public class PlaySoundBrick implements Brick, android.content.DialogInterface.OnClickListener {
 	protected String pathToSoundfile;
 	private transient ArrayList<SoundInfo> soundList;
-	private transient BaseAdapter programmAdapter;
+	private transient BaseExpandableListAdapter programmAdapter;
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 
@@ -75,7 +75,7 @@ public class PlaySoundBrick implements Brick, android.content.DialogInterface.On
 		return pathToSoundfile;
 	}
 
-    public View getView(final Context context, int brickId, BaseAdapter adapter) {
+    public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
         programmAdapter = adapter;
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.construction_brick_play_sound, null);
