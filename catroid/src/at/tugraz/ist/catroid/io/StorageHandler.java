@@ -39,6 +39,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import at.tugraz.ist.catroid.Consts;
+import at.tugraz.ist.catroid.FileChecksumContainer;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.entities.SoundInfo;
