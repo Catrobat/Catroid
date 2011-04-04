@@ -42,12 +42,12 @@ import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
 
 
-public class DragNDropListView extends ListView {
+public class DragNDropListView extends ExpandableListView {
 
     private ImageView mDragView;
     private WindowManager mWindowManager;
@@ -87,7 +87,7 @@ public class DragNDropListView extends ListView {
         this.mContext = context;
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
     }
-    
+
     public void setTrashView(ImageView trashView) {
         mTrash = trashView;
         android.view.ViewGroup.LayoutParams params = mTrash.getLayoutParams();
@@ -110,7 +110,7 @@ public class DragNDropListView extends ListView {
                                 if ( e2.getX() > r.right * 2 / 3) {
                                     // fast fling right with release near the right edge of the screen
                                     stopDragging();
-                                    mRemoveListener.remove(mFirstDragPos);
+                                    mRemoveListener.remove(convertPosition(mFirstDragPos));
                                     unExpandViews(true);
                                 }
                             }
@@ -132,9 +132,11 @@ public class DragNDropListView extends ListView {
                         break;
                     }
                     ViewGroup item = (ViewGroup) getChildAt(itemnum - getFirstVisiblePosition());
+                    View dragger = item.findViewById(R.id.grabber);
+                    if(dragger == null)
+                        return super.onInterceptTouchEvent(ev);
                     mDragPoint = y - item.getTop();
                     mCoordOffset = ((int)ev.getRawY()) - y;
-                    View dragger = item.findViewById(R.id.grabber);
                     Rect r = mTempRect;
                     dragger.getDrawingRect(r);
                     // The dragger icon itself is quite small, so pretend the touch area is bigger
@@ -150,7 +152,7 @@ public class DragNDropListView extends ListView {
                         int touchSlop = mTouchSlop;
                         mUpperBound = Math.min(y - touchSlop, mHeight / 3);
                         mLowerBound = Math.max(y + touchSlop, mHeight * 2 /3);
-                        return false;
+                        return true;
                     }
                     mDragView = null;
                     break;
@@ -211,9 +213,10 @@ public class DragNDropListView extends ListView {
                     // HACK force update of mItemCount
                     int position = firstpos;
                     int y = getChildAt(0).getTop();
-                    setAdapter(getAdapter());
+                    setAdapter(getExpandableListAdapter());
                     setSelectionFromTop(position, y);
                     // end hack
+                    expandGroup(getExpandableListAdapter().getGroupCount()-1);
                 }
                 layoutChildren(); // force children to be recreated where needed
                 v = getChildAt(i);
@@ -302,12 +305,12 @@ public class DragNDropListView extends ListView {
                       
                     if (mRemoveMode == SLIDE && ev.getX() > r.right * 3 / 4) {
                         if (mRemoveListener != null) {
-                            mRemoveListener.remove(mFirstDragPos);
+                            mRemoveListener.remove(convertPosition(mFirstDragPos));
                         }
                         unExpandViews(true);
                     } else {
                         if (mDropListener != null && mDragPos >= 0 && mDragPos < getCount()) {
-                            mDropListener.drop(mFirstDragPos, mDragPos);
+                            mDropListener.drop(convertPosition(mFirstDragPos), convertPosition(mDragPos));
                         }
                         unExpandViews(false);
                     }
@@ -427,6 +430,12 @@ public class DragNDropListView extends ListView {
         }
     }
     
+    private int convertPosition(int originalPosition) {
+        int convertedPosition = originalPosition-getExpandableListAdapter().getGroupCount();
+        if(convertedPosition < 0)
+            convertedPosition = 0;
+        return convertedPosition;
+    }
     
     public void setOnDragListener(DragListener l) {
         mDragListener = l;

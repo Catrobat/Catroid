@@ -149,7 +149,8 @@
     <string name="steps_label">steps</string>
     <string name="come_to_front_main_adapter">Come to front</string>
     <string name="touched_main_adapter">If Touched</string>
-	<string name="change_x_main_adapter">Change X by:</string>
+    <string name="started_main_adapter">If Started</string>
+    <string name="change_x_main_adapter">Change X by:</string>
 	<string name="change_y_main_adapter">Change Y by:</string>
 	<string name="set_x_main_adapter">Set X to:</string>
 	<string name="set_y_main_adapter">Set Y to:</string>

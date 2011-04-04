@@ -21,7 +21,7 @@ package at.tugraz.ist.catroid.content.brick;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.BaseAdapter;
+import android.widget.BaseExpandableListAdapter;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
@@ -43,9 +43,8 @@ public class IfTouchedBrick implements Brick {
 		return sprite;
 	}
 	
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_touched, null);
+	public View getView(Context context, int brickId, final BaseExpandableListAdapter adapter) {
+        View view = getPrototypeView(context);
 		return view;
 	}
 	
@@ -57,7 +56,6 @@ public class IfTouchedBrick implements Brick {
 	
 	@Override
     public Brick clone() {
-	    touchScript.setTouchScript(true); //TODO find better solution -- I need it to test here
 		return new IfTouchedBrick(getSprite(),touchScript);
 	}
 }

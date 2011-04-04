@@ -24,7 +24,7 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.BaseAdapter;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
@@ -62,7 +62,7 @@ public class GoNStepsBackBrick implements Brick, OnDismissListener {
 		return steps;
 	}
 
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
+	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.construction_brick_go_back, null);
 		EditText edit = (EditText) view.findViewById(R.id.InputValueEditText);

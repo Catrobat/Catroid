@@ -25,7 +25,7 @@ import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
@@ -60,7 +60,7 @@ public class SetCostumeBrick implements Brick {
         return sprite;
     }
 
-    public View getView(final Context context, final int brickId, BaseAdapter adapter) {
+    public View getView(final Context context, final int brickId, BaseExpandableListAdapter adapter) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.construction_brick_set_costume, null);
         OnClickListener listener = new OnClickListener() {

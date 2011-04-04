@@ -23,44 +23,41 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.project.Project;
-import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-public class ComeToFrontBrick implements Brick {
-	private static final long serialVersionUID = 1L;
+public class IfStartedBrick implements Brick {
+	protected Script script;
 	private Sprite sprite;
-	protected transient Project project;
-
-	public ComeToFrontBrick(Sprite sprite) {
+	private static final long serialVersionUID = 1L;
+	
+	public IfStartedBrick(Sprite sprite, Script script) {
+		this.script = script;
+		//this.script.setTouchScript(false);
 		this.sprite = sprite;
 	}
 
 	public void execute() {
-		int maxZValue = project.getMaxZValue();
-		maxZValue = maxZValue > (maxZValue + 1) ? Integer.MAX_VALUE : maxZValue + 1;
-
-		sprite.setZPosition(maxZValue);
-	}
-
-	public Sprite getSprite() {
-		return this.sprite;
+		//touchScript.setTouchScript(true);
 	}
 	
-	public View getView(Context context, int brickId,  BaseExpandableListAdapter adapter) {
+	public Sprite getSprite() {
+		return sprite;
+	}
+	
+	public View getView(Context context, int brickId, final BaseExpandableListAdapter adapter) {
+        View view = getPrototypeView(context);
+        return view;
+	}
+	
+	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_come_to_front, null);
+		View view = inflater.inflate(R.layout.toolbox_brick_started, null);
 		return view;
 	}
 	
 	@Override
     public Brick clone() {
-		return new ComeToFrontBrick(getSprite());
-	}
-
-	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.toolbox_brick_come_to_front, null);
-		return view;
+		return new IfStartedBrick(getSprite(),script);
 	}
 }
