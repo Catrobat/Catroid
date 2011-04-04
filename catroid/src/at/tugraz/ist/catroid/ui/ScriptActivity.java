@@ -127,7 +127,8 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
             listView.collapseGroup(i);
         
         adapter.notifyDataSetChanged();
-        listView.expandGroup(adapter.getGroupCount()-1);
+        if(adapter.getGroupCount() > 0)
+            listView.expandGroup(adapter.getGroupCount()-1);
     }
     
     public void onCancel(DialogInterface arg0) {

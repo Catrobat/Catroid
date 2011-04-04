@@ -80,7 +80,7 @@ public class PlaySoundBrick implements Brick, android.content.DialogInterface.On
             int index = pathToSoundfile.lastIndexOf("/") + 1;
 
             if (index > 0) {
-                String soundFileName = (String) pathToSoundfile.subSequence(index + 14, pathToSoundfile.length());
+                String soundFileName = (String) pathToSoundfile.subSequence(index, pathToSoundfile.length());
 	            soundButton.setText(soundFileName);
             } else {
 	            soundButton.setText("<choose a title>");
@@ -135,12 +135,15 @@ public class PlaySoundBrick implements Brick, android.content.DialogInterface.On
         File soundFile = null;
         try {
             soundFile = StorageHandler.getInstance().copySoundFile(soundList.get(which).getPath());
+        
+            if(soundFile != null) 
+                pathToSoundfile = soundFile.getAbsolutePath();
+            else
+                pathToSoundfile = soundList.get(which).getTitleWithPath();
+            programmAdapter.notifyDataSetChanged();
         } catch (IOException e) {
             e.printStackTrace();
         }
-       
-        pathToSoundfile = soundFile.getAbsolutePath();
-        programmAdapter.notifyDataSetChanged();
     }
 
     @Override
