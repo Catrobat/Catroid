@@ -24,7 +24,6 @@ import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.project.Project;
-import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class ComeToFrontBrick implements Brick {
