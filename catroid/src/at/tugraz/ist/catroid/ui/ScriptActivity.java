@@ -21,7 +21,6 @@ package at.tugraz.ist.catroid.ui;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -40,7 +39,6 @@ import android.widget.ListView;
 import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
-import at.tugraz.ist.catroid.content.brick.Brick;
 import at.tugraz.ist.catroid.content.brick.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
@@ -51,21 +49,24 @@ import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView;
 public class ScriptActivity extends Activity implements OnDismissListener, OnCancelListener {
     private BrickAdapter adapter;
     private DragNDropListView listView;
-    private ArrayList<Brick> adapterBrickList;
     private Sprite sprite;
 
     private void initListeners() {
         sprite = ProjectManager.getInstance().getCurrentSprite();
-        adapterBrickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
-        adapter = new BrickAdapter(this, adapterBrickList);
         
         listView = (DragNDropListView) findViewById(R.id.brickListView);
+        adapter = new BrickAdapter(this, ProjectManager.getInstance().getCurrentSprite(), listView);
+        if(adapter.getGroupCount() > 0)
+            ProjectManager.getInstance().setCurrentScript(adapter.getGroup(adapter.getGroupCount()-1));
+        
         listView.setTrashView((ImageView)findViewById(R.id.trash));
         listView.setOnCreateContextMenuListener(this);
         listView.setOnDropListener(adapter);
         listView.setOnRemoveListener(adapter);
         listView.setAdapter(adapter);
         listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
+        listView.setGroupIndicator(null);
+        listView.setOnGroupClickListener(adapter);
     
 
         Button mainMenuButton = (Button) findViewById(R.id.mainMenuButton);
@@ -91,6 +92,8 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
         super.onCreate(savedInstanceState);
         setContentView(R.layout.script_activity);
         initListeners();
+        if(adapter.getGroupCount()>0)
+            listView.expandGroup(adapter.getGroupCount()-1);
     }
 
     @Override
@@ -119,11 +122,18 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
     }
     
     public void onDismiss(DialogInterface dialog) {
+        System.out.println("DialogDismiss");
+        for(int i=0;i<adapter.getGroupCount()-1;++i)
+            listView.collapseGroup(i);
+        
         adapter.notifyDataSetChanged();
+        if(adapter.getGroupCount() > 0)
+            listView.expandGroup(adapter.getGroupCount()-1);
     }
     
     public void onCancel(DialogInterface arg0) {
         adapter.notifyDataSetChanged();
+        
     }
 	
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -137,7 +147,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
          */
 
         if (resultCode == RESULT_OK) {
-            SetCostumeBrick affectedBrick = (SetCostumeBrick) adapterBrickList.get(requestCode);
+            SetCostumeBrick affectedBrick = (SetCostumeBrick) adapter.getChild(adapter.getGroupCount()-1, requestCode);
             if (affectedBrick != null) {
                 Uri selectedImageUri = data.getData();
                 String selectedImagePath = getPathFromContentUri(selectedImageUri);

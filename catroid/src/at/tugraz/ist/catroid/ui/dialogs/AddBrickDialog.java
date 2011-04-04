@@ -25,51 +25,46 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
+import android.widget.LinearLayout.LayoutParams;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.brick.Brick;
-import at.tugraz.ist.catroid.content.brick.ChangeXByBrick;
-import at.tugraz.ist.catroid.content.brick.ChangeYByBrick;
 import at.tugraz.ist.catroid.content.brick.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.brick.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.brick.HideBrick;
+import at.tugraz.ist.catroid.content.brick.IfStartedBrick;
 import at.tugraz.ist.catroid.content.brick.IfTouchedBrick;
 import at.tugraz.ist.catroid.content.brick.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.brick.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.brick.SetCostumeBrick;
-import at.tugraz.ist.catroid.content.brick.SetXBrick;
-import at.tugraz.ist.catroid.content.brick.SetYBrick;
 import at.tugraz.ist.catroid.content.brick.ShowBrick;
 import at.tugraz.ist.catroid.content.brick.WaitBrick;
+import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
-import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
+import at.tugraz.ist.catroid.ui.adapter.PrototypeBrickAdapter;
 
 public class AddBrickDialog extends Dialog {
 
     private ArrayList<Brick> prototypeBrickList;
     private ListView listView;
-    private BrickAdapter adapter;
+    private PrototypeBrickAdapter adapter;
 
     private void setupBrickPrototypes(Sprite sprite) {
         prototypeBrickList = new ArrayList<Brick>();
-        prototypeBrickList.add(new PlaySoundBrick(sprite, ""));
-        prototypeBrickList.add(new WaitBrick(sprite, 1000));
+        prototypeBrickList.add(new PlaySoundBrick(sprite,""));
+        prototypeBrickList.add(new WaitBrick(sprite,1000));
         prototypeBrickList.add(new HideBrick(sprite));
         prototypeBrickList.add(new ShowBrick(sprite));
         prototypeBrickList.add(new PlaceAtBrick(sprite, 200, 200));
-        prototypeBrickList.add(new SetXBrick(sprite, 50));
-        prototypeBrickList.add(new SetYBrick(sprite, 50));
-        prototypeBrickList.add(new ChangeXByBrick(sprite, 100));
-        prototypeBrickList.add(new ChangeYByBrick(sprite, 100));
         prototypeBrickList.add(new SetCostumeBrick(sprite));
         prototypeBrickList.add(new ScaleCostumeBrick(sprite, 100));
         prototypeBrickList.add(new GoNStepsBackBrick(sprite, 1));
-        prototypeBrickList.add(new ComeToFrontBrick(sprite));
-        prototypeBrickList.add(new IfTouchedBrick(sprite, ProjectManager.getInstance().getCurrentScript()));
+        prototypeBrickList.add(new ComeToFrontBrick(sprite, null));
+        prototypeBrickList.add(new IfTouchedBrick(sprite, null));
+        prototypeBrickList.add(new IfStartedBrick(sprite, null));
     }
 
     public AddBrickDialog(ScriptActivity scriptActivity, Sprite sprite) {
@@ -81,15 +76,27 @@ public class AddBrickDialog extends Dialog {
         getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        adapter = new BrickAdapter(scriptActivity, prototypeBrickList);
-        adapter.isToolboxAdapter = true;
+        adapter = new PrototypeBrickAdapter(scriptActivity, prototypeBrickList);
 
         listView = (ListView) findViewById(R.id.toolboxListView);
         listView.setAdapter(adapter);
-
+        
         listView.setOnItemClickListener(new ListView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ProjectManager.getInstance().addBrick(getBrickClone(adapter.getItem(position)));
+                Brick addedBrick = adapter.getItem(position);
+                if(addedBrick instanceof IfStartedBrick) {
+                    Script newScript = new Script("newScript");
+                    ProjectManager.getInstance().addScript(newScript);
+                    ProjectManager.getInstance().setCurrentScript(newScript);
+                    newScript.setTouchScript(false);
+                } else if(addedBrick instanceof IfTouchedBrick) {
+                    Script newScript = new Script("newScript");
+                    ProjectManager.getInstance().addScript(newScript);
+                    ProjectManager.getInstance().setCurrentScript(newScript);
+                    newScript.setTouchScript(true);
+                } else {
+                    ProjectManager.getInstance().addBrick(getBrickClone(adapter.getItem(position)));
+                }
                 dismiss();
             }
         });

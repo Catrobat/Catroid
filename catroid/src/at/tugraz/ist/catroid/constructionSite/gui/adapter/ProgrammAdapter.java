@@ -27,12 +27,10 @@ import at.tugraz.ist.catroid.content.script.Script;
 
 public class ProgrammAdapter extends BaseAdapter {
 
-	private Context context;
 	private Script script;
 
 	public ProgrammAdapter(Context context, Script script) {
 		this.script = script;
-		this.context = context;
 	}
 	
 	public void setContent(Script script) {
@@ -48,7 +46,7 @@ public class ProgrammAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		//if(convertView != null)
 		//	return convertView;
-		return script.getBrickList().get(position).getView(context, position, this);
+		return null;//script.getBrickList().get(position).getView(context, position, this);
 	}
 
 	public int getCount() {

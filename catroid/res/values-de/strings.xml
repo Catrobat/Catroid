@@ -148,6 +148,7 @@
     <string name="steps_label">Schritte nach hinten</string>
     <string name="come_to_front_main_adapter">Komm nach vorne</string>
     <string name="touched_main_adapter">Wenn berührt</string>
+    <string name="started_main_adapter">Wenn gestartet</string>
     <string name="change_x_main_adapter">Ändere X um:</string>
 	<string name="change_y_main_adapter">Ändere Y um:</string>
 	<string name="set_x_main_adapter">Setze X auf:</string>
@@ -159,9 +160,6 @@
     <!-- Error messages -->
     <string name="error_no_sd_card">
         Um Catroid zu starten wird eine SD Karte benötigt.\nLegen Sie bitte eine SD Karte ein und versuchen Sie es erneut.
-    </string>
-    <string name="error_no_name_entered">
-        Bitte einen Namen eingeben.
     </string>
     <string name="error_project_exists">
         Es gibt bereits ein Projekt mit dem eingegebenen Namen.\nBitte einen anderen Namen eingeben.

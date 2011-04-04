@@ -62,7 +62,7 @@ public class StorageHandler {
     public static final int COPY_FAILED = 2;
 
     private static StorageHandler instance;
-    private ArrayList<SoundInfo> soundContent;
+    private ArrayList<SoundInfo> soundContent = new ArrayList<SoundInfo>();
     private File catroidRoot;
     private XStream xstream;
 
@@ -147,7 +147,6 @@ public class StorageHandler {
 
     // TODO: Find a way to access sound files on the device
     public void loadSoundContent(Context context) {
-        soundContent = new ArrayList<SoundInfo>();
         String[] projectionOnOrig = { MediaStore.Audio.Media.DATA, MediaStore.Audio.AudioColumns.TITLE, MediaStore.Audio.Media._ID };
 
         Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projectionOnOrig, null, null, null);
@@ -195,7 +194,7 @@ public class StorageHandler {
         }
     }
 
-    public File copySoundFile(String path) throws IOException {
+	public File copySoundFile(String path) throws IOException {
         Log.d("StorageHandler: ", "Path to original soundFile: " + path);
         String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
         File soundDirectory = new File(catroidRoot.getAbsolutePath() + "/" + currentProject + Consts.SOUND_DIRECTORY);
@@ -206,12 +205,12 @@ public class StorageHandler {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         String timestamp = simpleDateFormat.format(new Date());
         File outputFile = new File(soundDirectory.getAbsolutePath() + "/" + timestamp + inputFile.getName());
-
+        
         return copyFile(outputFile, inputFile, soundDirectory);
-
+      
     }
-
-    public File copyImage(String currentProjectName, String inputFilePath) throws IOException {
+	
+	public File copyImage(String currentProjectName, String inputFilePath) throws IOException {
         File imageDirectory = new File(catroidRoot.getAbsolutePath() + "/" + currentProjectName + Consts.IMAGE_DIRECTORY);
 
         File inputFile = new File(inputFilePath);

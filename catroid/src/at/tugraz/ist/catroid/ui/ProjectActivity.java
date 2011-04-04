@@ -60,7 +60,7 @@ public class ProjectActivity extends Activity {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (ProjectManager.getInstance().setCurrentSprite(adapter.getItem(position))) {
-                    Intent intent = new Intent(ProjectActivity.this, SpriteActivity.class);
+                    Intent intent = new Intent(ProjectActivity.this, ScriptActivity.class);
                     ProjectActivity.this.startActivity(intent);
                 }
                 // TODO: error if selected sprite is not in the project
