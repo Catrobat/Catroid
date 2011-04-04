@@ -23,7 +23,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.BaseAdapter;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
@@ -62,7 +62,7 @@ public class ChangeXByBrick implements Brick, OnDismissListener {
         return xMovement;
     }
 
-    public View getView(Context context, int brickId, BaseAdapter adapter) {
+    public View getView( Context context, int brickId, BaseExpandableListAdapter adapter) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View brickView = inflater.inflate(R.layout.construction_brick_change_x, null);
         EditText editX = (EditText) brickView.findViewById(R.id.InputValueEditTextX);
