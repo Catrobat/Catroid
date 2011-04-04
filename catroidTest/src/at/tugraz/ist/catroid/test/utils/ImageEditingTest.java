@@ -53,7 +53,7 @@ public class ImageEditingTest extends TestCase {
 		Bitmap bitmap = Bitmap.createBitmap(100, 200, Bitmap.Config.RGB_565);
 
 		try {
-			fileOutputStream = new FileOutputStream(sdImageMainDirectory.toString() + "/tmp/" + "tmp" + ".jpg");
+			fileOutputStream = new FileOutputStream(sdImageMainDirectory.toString() + "/tmp" + ".jpg");
 			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream);
 			bitmap.compress(CompressFormat.PNG, 0, bos);
 			bos.flush();
@@ -65,7 +65,7 @@ public class ImageEditingTest extends TestCase {
 
 		int dimensions[] = new int[2];
 
-		dimensions = ImageEditing.getImageDimensions(sdImageMainDirectory.toString() + "/tmp/tmp.jpg");
+		dimensions = ImageEditing.getImageDimensions(sdImageMainDirectory.toString() + "/tmp.jpg");
 
 		assertEquals(100, dimensions[0]);
 		assertEquals(200, dimensions[1]);
@@ -85,7 +85,7 @@ public class ImageEditingTest extends TestCase {
 		Bitmap bitmap = Bitmap.createBitmap(bitmapWidth, bitmapHeight, Bitmap.Config.RGB_565);
 
 		try {
-			fileOutputStream = new FileOutputStream(sdImageMainDirectory.toString() + "/tmp/" + "tmp" + ".jpg");
+			fileOutputStream = new FileOutputStream(sdImageMainDirectory.toString() + "/" + "tmp" + ".jpg");
 			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream);
 			bitmap.compress(CompressFormat.PNG, 0, bos);
 			bos.flush();
@@ -95,7 +95,7 @@ public class ImageEditingTest extends TestCase {
 			e.printStackTrace();
 		}
 
-		Bitmap loadedBitmap = ImageEditing.getBitmap(sdImageMainDirectory.toString() + "/tmp/tmp.jpg", maxBitmapWidth, maxBitmapHeight);
+		Bitmap loadedBitmap = ImageEditing.getBitmap(sdImageMainDirectory.toString() + "/tmp.jpg", maxBitmapWidth, maxBitmapHeight);
 
 		assertEquals(bitmap.getHeight(),loadedBitmap.getHeight());
 		assertEquals(bitmap.getWidth(),loadedBitmap.getWidth());
@@ -116,7 +116,7 @@ public class ImageEditingTest extends TestCase {
 		bitmap = Bitmap.createBitmap(bitmapWidth, bitmapHeight, Bitmap.Config.RGB_565);
 
 		try {
-			fileOutputStream = new FileOutputStream(sdImageMainDirectory.toString() + "/tmp/" + "tmp" + ".jpg");
+			fileOutputStream = new FileOutputStream(sdImageMainDirectory.toString() + "/" + "tmp" + ".jpg");
 			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream);
 			bitmap.compress(CompressFormat.PNG, 0, bos);
 			bos.flush();
@@ -126,7 +126,7 @@ public class ImageEditingTest extends TestCase {
 			e.printStackTrace();
 		}
 
-		loadedBitmap = ImageEditing.getBitmap(sdImageMainDirectory.toString() + "/tmp/tmp.jpg", maxBitmapWidth, maxBitmapHeight);
+		loadedBitmap = ImageEditing.getBitmap(sdImageMainDirectory.toString() + "/tmp.jpg", maxBitmapWidth, maxBitmapHeight);
 		bitmap = ImageEditing.scaleBitmap(bitmap, newWidth, newHeight);
 		
 		
@@ -147,7 +147,7 @@ public class ImageEditingTest extends TestCase {
 		Bitmap bitmap = Bitmap.createBitmap(bitmapWidth, bitmapHeight, Bitmap.Config.RGB_565);
 
 		try {
-			fileOutputStream = new FileOutputStream(sdImageMainDirectory.toString() + "/tmp/" + "tmp" + ".jpg");
+			fileOutputStream = new FileOutputStream(sdImageMainDirectory.toString() + "/" + "tmp" + ".jpg");
 			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream);
 			bitmap.compress(CompressFormat.PNG, 0, bos);
 			bos.flush();
@@ -157,7 +157,7 @@ public class ImageEditingTest extends TestCase {
 			e.printStackTrace();
 		}
 
-		Bitmap loadedBitmap = ImageEditing.getScaledBitmap(sdImageMainDirectory.toString() +"/tmp/tmp.jpg", targetBitmapWidth, targetBitmapHeight);
+		Bitmap loadedBitmap = ImageEditing.getScaledBitmap(sdImageMainDirectory.toString() +"/tmp.jpg", targetBitmapWidth, targetBitmapHeight);
 		
 		double sampleSizeWidth = (bitmapWidth / (double) targetBitmapWidth);
 		double sampleSizeHeight = bitmapHeight / (double) targetBitmapHeight;
