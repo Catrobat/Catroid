@@ -68,7 +68,7 @@ public class AddBrickDialog extends Dialog {
         prototypeBrickList.add(new SetCostumeBrick(sprite));
         prototypeBrickList.add(new ScaleCostumeBrick(sprite, 100));
         prototypeBrickList.add(new GoNStepsBackBrick(sprite, 1));
-        prototypeBrickList.add(new ComeToFrontBrick(sprite, null));
+        prototypeBrickList.add(new ComeToFrontBrick(sprite));
         prototypeBrickList.add(new IfTouchedBrick(sprite, ProjectManager.getInstance().getCurrentScript()));
     }
 

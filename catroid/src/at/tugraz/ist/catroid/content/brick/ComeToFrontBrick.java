@@ -24,14 +24,13 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
-import at.tugraz.ist.catroid.content.project.Project;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class ComeToFrontBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 
-	public ComeToFrontBrick(Sprite sprite, Project project) {
+	public ComeToFrontBrick(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
@@ -55,7 +54,7 @@ public class ComeToFrontBrick implements Brick {
 	
 	@Override
     public Brick clone() {
-		return new ComeToFrontBrick(getSprite(),null);
+		return new ComeToFrontBrick(getSprite());
 	}
 
 	public View getPrototypeView(Context context) {

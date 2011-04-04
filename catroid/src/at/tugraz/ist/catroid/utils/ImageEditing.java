@@ -88,34 +88,47 @@ public class ImageEditing {
         Bitmap tmpBitmap = BitmapFactory.decodeFile(imagePath, o);
         return scaleBitmap(tmpBitmap, newWidth, newHeight, true);
     }
+
     public static Bitmap getBitmap(String imagePath, int maxOutWidth, int maxOutHeight) {
         if (imagePath == null) {
             return null;
         }
-        BitmapFactory.Options o = new BitmapFactory.Options();
-        o.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(imagePath, o);
-
-        int origWidth = o.outWidth;
-        int origHeight = o.outHeight;
-
-        double sampleSizeWidth = (origWidth / (double) maxOutWidth);
-        double sampleSizeHeight = origHeight / (double) maxOutHeight;
+        int[] imageDim = new int[2];
+        
+        imageDim = getImageDimensions(imagePath);
+        
+        double sampleSizeWidth = (imageDim[0] / (double) maxOutWidth);
+        double sampleSizeHeight = imageDim[1] / (double) maxOutHeight;
         double sampleSize = Math.max(sampleSizeWidth, sampleSizeHeight);
-        
-        if(sampleSize < 1){
-            return  BitmapFactory.decodeFile(imagePath);
+
+        if (sampleSize < 1) {
+            return BitmapFactory.decodeFile(imagePath);
         }
-        
+
         int sampleSizeRounded = (int) Math.floor(sampleSize);
 
-        int newHeight = (int) Math.ceil(origHeight / sampleSize);
-        int newWidth = (int) Math.ceil(origWidth / sampleSize);
+        int newHeight = (int) Math.ceil(imageDim[1] / sampleSize);
+        int newWidth = (int) Math.ceil(imageDim[0] / sampleSize);
 
+        
+        BitmapFactory.Options o = new BitmapFactory.Options();
         o.inJustDecodeBounds = false;
         o.inSampleSize = sampleSizeRounded;
 
         Bitmap tmpBitmap = BitmapFactory.decodeFile(imagePath, o);
         return scaleBitmap(tmpBitmap, newWidth, newHeight, true);
+    }
+
+    public static int[] getImageDimensions(String imagePath) {
+        int[] imageDim = new int[2];
+
+        BitmapFactory.Options o = new BitmapFactory.Options();
+        o.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(imagePath, o);
+
+        imageDim[0] = o.outWidth;
+        imageDim[1] = o.outHeight;
+
+        return imageDim;
     }
 }
