@@ -70,31 +70,6 @@ public class SpriteActivityTest extends ActivityInstrumentationTestCase2<MainMen
 		super.tearDown();
 	}
 	
-	
-	public void testAddNewScript() throws NameNotFoundException, IOException, InterruptedException {
-        File directory = new File("/sdcard/catroid/" + testProject2);
-		UtilFile.deleteDirectory(directory);
-		
-        createTestProject(testProject);
-		Thread.sleep(1000);
-		
-		solo.clickOnButton(getActivity().getString(R.string.load_project));
-        solo.clickOnText(testProject);
-		
-		solo.clickInList(2);
-		solo.clickOnButton(1);
-		
-		solo.enterText(0, "dummyScript");
-		solo.clickOnButton(solo.getCurrentActivity().getString(R.string.new_script_dialog_button));
-		
-		ListView scriptList = (ListView) solo.getCurrentActivity().findViewById(R.id.scriptListView);
-		Script dummyScript = (Script) scriptList.getItemAtPosition(1);
-		
-		
-		assertEquals("dummyScript was not added to the list!", "dummyScript", dummyScript.getName());
-	}
-	
-	
 	public void testMainMenuButton() {
 		solo.clickOnButton(getActivity().getString(R.string.resume));
 		solo.clickInList(0);
@@ -102,29 +77,6 @@ public class SpriteActivityTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.clickOnButton(solo.getCurrentActivity().getString(R.string.main_menu));
 		String title = solo.getText(0).getText().toString();
         assertEquals("MainMenuActivity is not showing!", getActivity().getString(R.string.main_menu), title);
-	}
-	
-	
-	public void testContextMenu() {
-		solo.clickOnButton(getActivity().getString(R.string.resume));
-		solo.clickInList(0);
-		solo.clickOnButton(1);
-		
-		solo.enterText(0, "dummyScript");
-		solo.clickOnButton(solo.getCurrentActivity().getString(R.string.new_script_dialog_button));
-		
-		String[] menu = solo.getCurrentActivity().getResources().getStringArray(R.array.menu_sprite_activity);
-		
-		solo.clickLongOnText("dummyScript");
-        solo.clickOnText(menu[0]);
-		solo.enterText(0, "renamedScript");
-		solo.clickOnButton(solo.getCurrentActivity().getString(R.string.rename_button));
-		
-		ListView scriptList = (ListView) solo.getCurrentActivity().findViewById(R.id.scriptListView);
-		Script renamedScript = (Script) scriptList.getItemAtPosition(0);
-		
-		assertEquals("dummyScript was not renamed to renamedScript", "renamedScript", renamedScript.getName());
-
 	}
 	
 	public void createTestProject(String projectName) throws IOException, NameNotFoundException {

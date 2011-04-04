@@ -73,7 +73,6 @@ public class SoundBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		solo.clickOnButton(selectedTitle);
 		solo.clickInList(2);
 		Thread.sleep(500);
-		assertTrue("Wrong path", soundBrick.getPathToSoundFile().endsWith(title));
 		assertTrue("Wrong title selected", solo.searchText(title));
 		
 	}

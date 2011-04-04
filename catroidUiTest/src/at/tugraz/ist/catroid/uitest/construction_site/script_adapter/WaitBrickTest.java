@@ -68,7 +68,7 @@ public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		solo.enterText(0, waitTime + "");
 		solo.clickOnButton(0);
 		
-		Thread.sleep(500);
+		Thread.sleep(1000);
 		assertEquals("Wrong text in field", (long)(waitTime*1000), waitBrick.getWaitTime());
 		assertEquals("Text not updated", waitTime, Double.parseDouble(solo.getEditText(0).getText().toString()));
 		
