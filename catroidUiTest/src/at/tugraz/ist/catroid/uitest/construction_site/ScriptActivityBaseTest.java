@@ -33,10 +33,6 @@ public class ScriptActivityBaseTest extends ActivityInstrumentationTestCase2<Mai
 
     private final String projectNameOne = "Ulumulu";
     private final String projectNameTwo = "Ulumulu2";
-    //    private final String spriteNameOne = "Zuul";
-    //    private final String spriteNameTwo = "Zuuul";
-    private final String scriptNameOne = "derUlukai";
-    //    private final String scriptNameTwo = "derUlukai2";
 
 	public ScriptActivityBaseTest() {
 		super("at.tugraz.ist.catroid.ui", MainMenuActivity.class);
