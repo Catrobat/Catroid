@@ -20,7 +20,6 @@ package at.tugraz.ist.catroid.test.content.sprite;
 
 import android.test.AndroidTestCase;
 import at.tugraz.ist.catroid.content.brick.HideBrick;
-import at.tugraz.ist.catroid.content.brick.IfTouchedBrick;
 import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.brick.ShowBrick;
 import at.tugraz.ist.catroid.content.brick.WaitBrick;
@@ -95,12 +94,10 @@ public class StartThreadsTest extends AndroidTestCase {
         Script touchScript = new Script("touchScript", testSprite);
         HideBrick hideBrick = new HideBrick(testSprite);
         
-        IfTouchedBrick touchedBrick2 = new IfTouchedBrick(testSprite, touchScript);
-        IfTouchedBrick touchedBrick = (IfTouchedBrick) touchedBrick2.clone();
         ShowBrick showBrick = new ShowBrick(testSprite);
         
         testScript.addBrick(hideBrick);
-        touchScript.addBrick(touchedBrick);
+        touchScript.setTouchScript(true);
         touchScript.addBrick(showBrick);
         
         testSprite.getScriptList().add(testScript);
