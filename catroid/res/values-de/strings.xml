@@ -148,6 +148,10 @@
     <string name="steps_label">Schritte nach hinten</string>
     <string name="come_to_front_main_adapter">Komm nach vorne</string>
     <string name="touched_main_adapter">Wenn berührt</string>
+    <string name="change_x_main_adapter">Ändere X um:</string>
+	<string name="change_y_main_adapter">Ändere Y um:</string>
+	<string name="set_x_main_adapter">Setze X auf:</string>
+	<string name="set_y_main_adapter">Setze Y auf:</string>
 
     <!-- defaulValues -->
     <string name="default_project_name">standardProjekt</string>
