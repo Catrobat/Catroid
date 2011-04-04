@@ -52,7 +52,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 	public void testSimpleDragNDrop() throws InterruptedException {
 		ArrayList<Integer> yposlist = getListItemYPositions();
 		Thread.sleep(2000);
-		solo.drag(30, 30, yposlist.get(1), (yposlist.get(3)+yposlist.get(4))/2, 20);
+		solo.drag(30, 30, yposlist.get(2), (yposlist.get(4)+yposlist.get(5))/2, 20);
 		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
 		
 		assertEquals(brickListToCheck.size(), brickList.size());
@@ -62,14 +62,14 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 		assertEquals(brickListToCheck.get(3), brickList.get(2));
 		assertEquals(brickListToCheck.get(4), brickList.get(4));
 		
-		Thread.sleep(4000);
+		Thread.sleep(2000);
 		brickListToCheck = brickList;
 	}
 	
 	public void testDeleteItem() throws InterruptedException {
 		ArrayList<Integer> yposlist = getListItemYPositions();
 		Thread.sleep(2000);
-		solo.drag(30, 400, yposlist.get(1), (yposlist.get(3)+yposlist.get(4))/2, 20);
+		solo.drag(30, 400, yposlist.get(2), (yposlist.get(4)+yposlist.get(5))/2, 20);
 		Thread.sleep(2000);
 		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
 		
@@ -79,7 +79,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 		assertEquals(brickListToCheck.get(3), brickList.get(2));
 		assertEquals(brickListToCheck.get(4), brickList.get(3));
 		
-		Thread.sleep(4000);
+		Thread.sleep(2000);
 		brickListToCheck = brickList;
 	}
 	

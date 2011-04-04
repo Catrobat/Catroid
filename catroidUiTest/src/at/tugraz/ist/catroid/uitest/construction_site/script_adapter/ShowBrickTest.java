@@ -55,13 +55,15 @@ public class ShowBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 	
 	@Smoke
 	public void testShowBrick() throws Throwable {
-		assertEquals("Incorrect number of bricks.", 1, solo.getCurrentListViews().get(0).getChildCount());
-		assertEquals("Incorrect number of bricks.", 1, getActivity().getAdapter().getCount());
+		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
+		int groupCount = getActivity().getAdapter().getGroupCount();
+		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
+		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 		
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScriptList().get(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 		
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getItem(0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(groupCount-1, 0));
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.show_main_adapter)));
 		
 	}
