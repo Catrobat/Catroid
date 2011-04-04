@@ -43,5 +43,8 @@ public final class Consts {
     public static final int MAX_REL_COORDINATES = 1000;
     public static final int THUMBNAIL_WIDTH = 80;
     public static final int THUMBNAIL_HEIGHT = 80;
+    public static final int MAX_COSTUME_WIDTH = 1000;
+    public static final int MAX_COSTUME_HEIGHT = 1000;
+    
     
 }

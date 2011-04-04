@@ -2,22 +2,11 @@ package at.tugraz.ist.catroid.uitest.construction_site;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.ActivityInstrumentationTestCase2;
-import android.widget.ListView;
-import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
-import at.tugraz.ist.catroid.content.brick.Brick;
-import at.tugraz.ist.catroid.content.brick.ComeToFrontBrick;
-import at.tugraz.ist.catroid.content.brick.HideBrick;
-import at.tugraz.ist.catroid.content.brick.PlaceAtBrick;
-import at.tugraz.ist.catroid.content.brick.PlaySoundBrick;
-import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrick;
-import at.tugraz.ist.catroid.content.brick.ShowBrick;
 import at.tugraz.ist.catroid.content.project.Project;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;

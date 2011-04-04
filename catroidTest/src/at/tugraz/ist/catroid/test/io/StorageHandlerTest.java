@@ -56,7 +56,7 @@ public class StorageHandlerTest extends AndroidTestCase {
         HideBrick hideBrick = new HideBrick(firstSprite);
         ShowBrick showBrick = new ShowBrick(firstSprite);
         ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(secondSprite, scaleValue);
-        ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(firstSprite, null);
+        ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(firstSprite);
         PlaceAtBrick placeAtBrick = new PlaceAtBrick(secondSprite, xPosition, yPosition);
 
         // adding Bricks: ----------------
