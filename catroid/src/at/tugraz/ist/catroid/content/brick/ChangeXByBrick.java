@@ -20,6 +20,7 @@ package at.tugraz.ist.catroid.content.brick;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,6 +70,7 @@ public class ChangeXByBrick implements Brick, OnDismissListener {
         editX.setText(String.valueOf(xMovement));
         EditIntegerDialog dialogX = new EditIntegerDialog(context, editX, xMovement, true);
         dialogX.setOnDismissListener(this);
+        dialogX.setOnCancelListener((OnCancelListener) context);
         editX.setOnClickListener(dialogX);
         return brickView;
     }
@@ -87,6 +89,6 @@ public class ChangeXByBrick implements Brick, OnDismissListener {
     public void onDismiss(DialogInterface dialog) {
         EditIntegerDialog inputDialog = (EditIntegerDialog) dialog;
         xMovement = inputDialog.getValue();
-        dialog.dismiss();
+        dialog.cancel();
     }
 }

@@ -44,13 +44,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.constructionSite.gui.adapter.ProgrammAdapter;
-import at.tugraz.ist.catroid.content.brick.ComeToFrontBrick;
-import at.tugraz.ist.catroid.content.brick.GoNStepsBackBrick;
-import at.tugraz.ist.catroid.content.brick.HideBrick;
-import at.tugraz.ist.catroid.content.brick.IfTouchedBrick;
-import at.tugraz.ist.catroid.content.brick.PlaceAtBrick;
-import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrick;
-import at.tugraz.ist.catroid.content.brick.ShowBrick;
 import at.tugraz.ist.catroid.content.project.Project;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
@@ -158,17 +151,17 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnIt
 
 			Sprite stageSprite = currentProject.getSpriteList().get(0);
 			Script script = new Script();
-
-			script.addBrick(new IfTouchedBrick(stageSprite, script));
-			script.addBrick(new ComeToFrontBrick(stageSprite, currentProject));
-			script.addBrick(new GoNStepsBackBrick(stageSprite, 5));
-			script.addBrick(new HideBrick(stageSprite));
-
-			//script.addBrick(new PlaySoundBrick("sound.mp3"));
-			script.addBrick(new ScaleCostumeBrick(stageSprite, 80));
-			script.addBrick(new ShowBrick(stageSprite));
-			//script.addBrick(new WaitBrick(1000));
-			script.addBrick(new PlaceAtBrick(stageSprite, 105, 206));
+//
+//			script.addBrick(new IfTouchedBrick(stageSprite, script));
+//			script.addBrick(new ComeToFrontBrick(stageSprite, currentProject));
+//			script.addBrick(new GoNStepsBackBrick(stageSprite, 5));
+//			script.addBrick(new HideBrick(stageSprite));
+//
+//			//script.addBrick(new PlaySoundBrick("sound.mp3"));
+//			script.addBrick(new ScaleCostumeBrick(stageSprite, 80));
+//			script.addBrick(new ShowBrick(stageSprite));
+//			//script.addBrick(new WaitBrick(1000));
+//			script.addBrick(new PlaceAtBrick(stageSprite, 105, 206));
 
 			stageSprite.getScriptList().add(script);
             //			currentScript = script;

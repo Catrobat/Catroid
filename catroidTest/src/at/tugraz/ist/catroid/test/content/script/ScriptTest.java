@@ -49,7 +49,7 @@ public class ScriptTest extends AndroidTestCase {
 		showBrick = new ShowBrick(sprite);
 		placeAtBrick = new PlaceAtBrick(sprite, 0, 0);
 		scaleCostumeBrick = new ScaleCostumeBrick(sprite, 0);
-		comeToFrontBrick = new ComeToFrontBrick(sprite, null);
+        comeToFrontBrick = new ComeToFrontBrick(sprite);
 	};
 
 	public void testAddBricks() {
