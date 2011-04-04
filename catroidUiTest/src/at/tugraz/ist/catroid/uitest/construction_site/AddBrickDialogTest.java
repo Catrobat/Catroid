@@ -51,7 +51,6 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 
         solo.clickOnText(testProject);
         solo.clickInList(2);
-        solo.clickInList(1);
 
         solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2)); //Substring is needed because of the "+" sign in the button name.
         solo.clickOnText(solo.getCurrentActivity().getString(R.string.play_sound_main_adapter));
@@ -68,12 +67,12 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
         solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
         solo.clickOnText(solo.getCurrentActivity().getString(R.string.show_main_adapter));
 
+		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
+		solo.clickOnText(solo.getCurrentActivity().getString(R.string.goto_main_adapter));
+
         solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
         solo.scrollDownList(1);
         solo.clickOnText(solo.getCurrentActivity().getString(R.string.go_back_main_adapter));
-
-        solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
-        solo.clickOnText(solo.getCurrentActivity().getString(R.string.goto_main_adapter));
 
         solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
         solo.scrollDownList(1);
@@ -83,35 +82,31 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
         solo.clickOnText(solo.getCurrentActivity().getString(R.string.touched_main_adapter));
 
         solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
-        solo.scrollDownList(1);
         solo.clickOnText(solo.getCurrentActivity().getString(R.string.costume_main_adapter));
 
         solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
-        solo.scrollDownList(1);
         solo.clickOnText(solo.getCurrentActivity().getString(R.string.scaleCustome));
 
     }
 
-    //    public void testCheckBrick() {
-    //
-    //        solo.clickOnButton(getActivity().getString(R.string.main_menu));
-    //        solo.clickOnButton(getActivity().getString(R.string.load_project));
-    //        solo.clickOnText(testProject);
-    //        solo.clickInList(2);
-    //        solo.clickInList(1);
-    //
-    //        assertNotNull(solo.getString(R.string.play_sound_main_adapter));
-    //        assertNotNull(solo.getString(R.string.wait_main_adapter));
-    //        assertNotNull(solo.getString(R.string.hide_main_adapter));
-    //        assertNotNull(solo.getString(R.string.show_main_adapter));
-    //        assertNotNull(solo.getString(R.string.goto_main_adapter));
-    //        assertNotNull(solo.getString(R.string.costume_main_adapter));
-    //        assertNotNull(solo.getString(R.string.scaleCustome));
-    //        assertNotNull(solo.getString(R.string.go_back_main_adapter));
-    //        assertNotNull(solo.getString(R.string.come_to_front_main_adapter));
-    //        assertNotNull(solo.getString(R.string.touched_main_adapter));
-    //
-    //    }
+	public void testCheckBrick() {
+
+		solo.clickOnButton(getActivity().getString(R.string.load_project));
+		solo.clickOnText(testProject);
+		solo.clickInList(2);
+
+		assertNotNull(solo.getString(R.string.play_sound_main_adapter));
+		assertNotNull(solo.getString(R.string.wait_main_adapter));
+		assertNotNull(solo.getString(R.string.hide_main_adapter));
+		assertNotNull(solo.getString(R.string.show_main_adapter));
+		assertNotNull(solo.getString(R.string.goto_main_adapter));
+		assertNotNull(solo.getString(R.string.costume_main_adapter));
+		assertNotNull(solo.getString(R.string.scaleCustome));
+		assertNotNull(solo.getString(R.string.go_back_main_adapter));
+		assertNotNull(solo.getString(R.string.come_to_front_main_adapter));
+		assertNotNull(solo.getString(R.string.touched_main_adapter));
+
+	}
 
     private void createTestProject(String projectName) throws IOException {
 
