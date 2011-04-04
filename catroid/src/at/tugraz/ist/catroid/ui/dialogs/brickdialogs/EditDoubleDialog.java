@@ -38,9 +38,12 @@ public class EditDoubleDialog extends EditDialog implements OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
+
         editText.setText(String.valueOf(value));
         editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        editText.setSelection((int) (Math.log10(value) + 1.0));
+        
         Button closeButton = (Button) findViewById(R.id.dialogEditTextSubmit);
         closeButton.setOnClickListener(this);
     }
@@ -50,11 +53,11 @@ public class EditDoubleDialog extends EditDialog implements OnClickListener {
     }
 
     public void onClick(View v) {
-    	if (v.getId() == referencedEditText.getId()) {
+        if (v.getId() == referencedEditText.getId()) {
             show();
         } else {
-        	value = Double.parseDouble((editText.getText().toString()));
-        	dismiss();
+            value = Double.parseDouble((editText.getText().toString()));
+            dismiss();
         }
     }
 }
