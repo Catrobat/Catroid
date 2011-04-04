@@ -35,6 +35,8 @@ import java.util.Date;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -44,6 +46,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.entities.SoundInfo;
 import at.tugraz.ist.catroid.content.project.Project;
+import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.Utils;
 
 import com.thoughtworks.xstream.XStream;
@@ -53,11 +56,11 @@ import com.thoughtworks.xstream.XStream;
  * 
  */
 public class StorageHandler {
-    
+
     public static final int FILE_EXISTED = 0;
     public static final int FILE_COPIED = 1;
     public static final int COPY_FAILED = 2;
-    
+
     private static StorageHandler instance;
     private ArrayList<SoundInfo> soundContent;
     private File catroidRoot;
@@ -175,8 +178,6 @@ public class StorageHandler {
         this.soundContent.clear();
         this.soundContent.addAll(soundContent);
     }
-    
-
 
     /**
      * Creates the default project and saves it to the filesystem
@@ -201,15 +202,15 @@ public class StorageHandler {
         File inputFile = new File(path);
         if (!inputFile.exists() || !inputFile.canRead())
             return null;
-        
+
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         String timestamp = simpleDateFormat.format(new Date());
         File outputFile = new File(soundDirectory.getAbsolutePath() + "/" + timestamp + inputFile.getName());
-        
+
         return copyFile(outputFile, inputFile, soundDirectory);
-      
+
     }
-    
+
     public File copyImage(String currentProjectName, String inputFilePath) throws IOException {
         File imageDirectory = new File(catroidRoot.getAbsolutePath() + "/" + currentProjectName + Consts.IMAGE_DIRECTORY);
 
@@ -220,23 +221,61 @@ public class StorageHandler {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         String timestamp = simpleDateFormat.format(new Date());
         File outputFile = new File(imageDirectory.getAbsolutePath() + "/" + timestamp + inputFile.getName());
-        
-        return copyFile(outputFile, inputFile, imageDirectory);
+
+        int[] imageDimensions = new int[2];
+        imageDimensions = ImageEditing.getImageDimensions(inputFilePath);
+
+        if ((imageDimensions[0] <= Consts.MAX_COSTUME_WIDTH) && (imageDimensions[1] <= Consts.MAX_COSTUME_HEIGHT)) {
+            return copyFile(outputFile, inputFile, imageDirectory);
+        } else
+            return copyAndResizeImage(outputFile, inputFile, imageDirectory);
+
     }
-    
+
+    public File copyAndResizeImage(File destinationFile, File sourceFile, File directory) throws IOException {
+
+        FileOutputStream outputStream = new FileOutputStream(destinationFile);
+
+        String checksumSource = getChecksum(sourceFile);
+
+        FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getCurrentProject().getFileChecksumContainer();
+
+        if (fileChecksumContainer.containsChecksum(checksumSource)) {
+            fileChecksumContainer.incrementValue(checksumSource);
+            destinationFile.delete();
+            return new File(fileChecksumContainer.getPath(checksumSource));
+        }
+
+        try {
+            fileChecksumContainer.addChecksum(checksumSource, destinationFile.getAbsolutePath());
+            Bitmap bitmap = ImageEditing.getBitmap(sourceFile.getAbsolutePath(), Consts.MAX_COSTUME_WIDTH, Consts.MAX_COSTUME_HEIGHT);
+            if (sourceFile.getName().contains(".jpg") || sourceFile.getName().contains(".jpeg")) {
+                bitmap.compress(CompressFormat.JPEG, Consts.JPG_COMPRESSION_SETING, outputStream);
+            } else {
+                bitmap.compress(CompressFormat.PNG, Consts.JPG_COMPRESSION_SETING, outputStream);
+            }
+            outputStream.flush();
+            outputStream.close();
+
+            return destinationFile;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public File copyFile(File destinationFile, File sourceFile, File directory) throws IOException {
         FileChannel inputChannel = new FileInputStream(sourceFile).getChannel();
         FileChannel outputChannel = new FileOutputStream(destinationFile).getChannel();
         String checksumSource = getChecksum(sourceFile);
-        
+
         FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getCurrentProject().getFileChecksumContainer();
         if (fileChecksumContainer.containsChecksum(checksumSource)) {
             fileChecksumContainer.incrementValue(checksumSource);
             destinationFile.delete();
             return new File(fileChecksumContainer.getPath(checksumSource));
         }
-       
-        
+
         try {
             inputChannel.transferTo(0, inputChannel.size(), outputChannel);
             fileChecksumContainer.addChecksum(checksumSource, destinationFile.getAbsolutePath());
@@ -251,9 +290,9 @@ public class StorageHandler {
                 outputChannel.close();
         }
     }
-    
+
     public String getChecksum(File file) throws IOException {
-       
+
         MessageDigest md = null;
         try {
             md = MessageDigest.getInstance("SHA1");
@@ -267,13 +306,14 @@ public class StorageHandler {
             e.printStackTrace();
         }
         byte[] dataBytes = new byte[1024];
-     
-        int nread = 0; 
-     
+
+        int nread = 0;
+
         while ((nread = fis.read(dataBytes)) != -1) {
-          md.update(dataBytes, 0, nread);
-        };
-     
+            md.update(dataBytes, 0, nread);
+        }
+        ;
+
         byte[] mdbytes = md.digest();
         StringBuffer sb = new StringBuffer("");
         for (int i = 0; i < mdbytes.length; i++) {
@@ -281,6 +321,6 @@ public class StorageHandler {
         }
         md.reset();
         return sb.toString();
-        
+
     }
 }
