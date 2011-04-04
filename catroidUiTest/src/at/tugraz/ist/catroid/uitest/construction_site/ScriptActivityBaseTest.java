@@ -44,11 +44,11 @@ public class ScriptActivityBaseTest extends ActivityInstrumentationTestCase2<Mai
 
 	@Override
 	public void setUp() throws Exception {
-		solo = new Solo(getInstrumentation(), getActivity());
-        File directory = new File("/sdcard/catroid/" + projectNameOne);
+		File directory = new File("/sdcard/catroid/" + projectNameOne);
         UtilFile.deleteDirectory(directory);
         directory = new File("/sdcard/catroid/" + projectNameTwo);
         UtilFile.deleteDirectory(directory);
+		solo = new Solo(getInstrumentation(), getActivity());
         super.setUp();
 	}
 
@@ -79,14 +79,6 @@ public class ScriptActivityBaseTest extends ActivityInstrumentationTestCase2<Mai
 
         solo.clickOnText(getActivity().getString(R.string.stage));
 
-		//        solo.clickOnButton(getActivity().getString(R.string.add_new_script));
-		solo.clickOnButton(1);
-        solo.clickOnEditText(0);
-        solo.enterText(0, scriptNameOne);
-        solo.goBack();
-        solo.clickOnButton(getActivity().getString(R.string.new_script_dialog_button));
-
-        solo.clickOnText(scriptNameOne);
 		solo.clickOnButton(getActivity().getString(R.string.main_menu));
 		solo.clickOnButton(getActivity().getString(R.string.resume)); //if this is possible it worked! (will throw AssertionFailedError if not working
 	}
@@ -100,16 +92,9 @@ public class ScriptActivityBaseTest extends ActivityInstrumentationTestCase2<Mai
 
         solo.clickOnText(getActivity().getString(R.string.stage));
 
-		//        solo.clickOnButton(getActivity().getString(R.string.add_new_script));
-		solo.clickOnButton(1);
-        solo.clickOnEditText(0);
-        solo.enterText(0, scriptNameOne);
-        solo.goBack();
-        solo.clickOnButton(getActivity().getString(R.string.new_script_dialog_button));
-
-        solo.clickOnText(scriptNameOne);
-		//        solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
-		solo.clickOnButton(1);
+        System.out.println("new brick: "+getActivity().getString(R.string.add_new_brick));
+        Thread.sleep(1000);
+		solo.clickOnText(getActivity().getString(R.string.add_new_brick).substring(2));
 		solo.clickInList(2);
 		//solo.clickOnText(getActivity().getString(R.string.hide_main_adapter));
 
