@@ -149,7 +149,8 @@
     <string name="steps_label">steps</string>
     <string name="come_to_front_main_adapter">Come to front</string>
     <string name="touched_main_adapter">If Touched</string>
-	<string name="change_x_main_adapter">Change X by:</string>
+    <string name="started_main_adapter">If Started</string>
+    <string name="change_x_main_adapter">Change X by:</string>
 	<string name="change_y_main_adapter">Change Y by:</string>
 	<string name="set_x_main_adapter">Set X to:</string>
 	<string name="set_y_main_adapter">Set Y to:</string>
@@ -159,7 +160,7 @@
 
     <!-- Error messages -->
     <string name="error_no_sd_card">
-        Catroid requires an SD card in order to run, but none was found.\nPlease insert an SD card and try again.
+        Catroid requires an SD card in order to run, but none was found.\nPlease insert an SD card and try again.</string>
     </string>
     <string name="error_no_name_entered">
         Please enter a name.

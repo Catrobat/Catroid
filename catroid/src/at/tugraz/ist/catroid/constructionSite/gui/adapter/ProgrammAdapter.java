@@ -48,7 +48,7 @@ public class ProgrammAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		//if(convertView != null)
 		//	return convertView;
-		return script.getBrickList().get(position).getView(context, position, this);
+		return null;//script.getBrickList().get(position).getView(context, position, this);
 	}
 
 	public int getCount() {

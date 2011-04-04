@@ -1,22 +1,3 @@
-/**
- *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
- *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 package at.tugraz.ist.catroid.uitest.construction_site.script_adapter;
 
 import java.util.ArrayList;
@@ -28,6 +9,10 @@ import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.brick.Brick;
 import at.tugraz.ist.catroid.content.brick.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.brick.HideBrick;
+import at.tugraz.ist.catroid.content.brick.IfTouchedBrick;
+import at.tugraz.ist.catroid.content.brick.PlaceAtBrick;
+import at.tugraz.ist.catroid.content.brick.PlaySoundBrick;
+import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.project.Project;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
@@ -40,11 +25,12 @@ import com.jayway.android.robotium.solo.Solo;
  * @author Daniel Burtscher
  *
  */
-public class HideTest extends ActivityInstrumentationTestCase2<ScriptActivity>{
+public class PlaceAtTest extends ActivityInstrumentationTestCase2<ScriptActivity>{
 	private Solo solo;
 	private Project project;
+	private PlaceAtBrick placeAtBrick;
 
-	public HideTest() {
+	public PlaceAtTest() {
 		super("at.tugraz.ist.catroid",
 				ScriptActivity.class);
 	}
@@ -68,18 +54,39 @@ public class HideTest extends ActivityInstrumentationTestCase2<ScriptActivity>{
 	}
 	
 	@Smoke
-	public void testHideBrick() throws Throwable {
+	public void testPlaceAtBrick() throws Throwable {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
-		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
-		assertEquals("Incorrect number of bricks.", 1, childrenCount);
+		assertEquals("Incorrect number of bricks.", 5, solo.getCurrentListViews().get(0).getChildCount());
+		assertEquals("Incorrect number of bricks.", 4, childrenCount);
 		
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScriptList().get(0).getBrickList();
-		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
+		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 		
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(groupCount-1, 0));
-		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.hide_main_adapter)));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(1), getActivity().getAdapter().getChild(groupCount-1, 1));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(2), getActivity().getAdapter().getChild(groupCount-1, 2));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(3), getActivity().getAdapter().getChild(groupCount-1, 3));
+		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.goto_main_adapter)));
+	
+		int xPosition = 987;
+		int yPosition = 654;
 		
+		solo.clickOnEditText(0);
+		solo.clearEditText(0);
+		solo.enterText(0, xPosition + "");
+		solo.clickOnButton(0);
+		
+		assertEquals("Text not updated", xPosition + "", solo.getEditText(0).getText().toString());
+		assertEquals("Value in Brick is not updated", xPosition, placeAtBrick.getXPosition());
+		
+		solo.clickOnEditText(1);
+		solo.clearEditText(0);
+		solo.enterText(0, yPosition + "");
+		solo.clickOnButton(0);
+		
+		assertEquals("Text not updated", yPosition + "", solo.getEditText(1).getText().toString());
+		assertEquals("Value in Brick is not updated", yPosition, placeAtBrick.getYPosition());
 	}
 	
 	private void createProject() {
@@ -87,6 +94,10 @@ public class HideTest extends ActivityInstrumentationTestCase2<ScriptActivity>{
         Sprite sprite = new Sprite("cat");
         Script script = new Script(); 
         script.addBrick(new HideBrick(sprite));
+        placeAtBrick = new PlaceAtBrick(sprite, 105, 206);
+        script.addBrick(placeAtBrick);
+        script.addBrick(new PlaySoundBrick(sprite, "sound.mp3"));
+        script.addBrick(new ScaleCostumeBrick(sprite, 80));
 
         sprite.getScriptList().add(script);
         project.addSprite(sprite);

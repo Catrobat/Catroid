@@ -23,61 +23,223 @@ package at.tugraz.ist.catroid.ui.adapter;
  *
  */
 
-import java.util.List;
+import java.util.ArrayList;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
+import android.view.animation.Animation.AnimationListener;
+import android.widget.BaseExpandableListAdapter;
+import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnGroupClickListener;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.brick.Brick;
+import at.tugraz.ist.catroid.content.brick.IfStartedBrick;
+import at.tugraz.ist.catroid.content.brick.IfTouchedBrick;
+import at.tugraz.ist.catroid.content.script.Script;
+import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView;
 import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView.DropListener;
 import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView.RemoveListener;
 
 
-public class BrickAdapter extends BaseAdapter implements DropListener, RemoveListener {
+public class BrickAdapter extends BaseExpandableListAdapter implements DropListener, RemoveListener, OnGroupClickListener {
 
 	private Context context;
-	private List<Brick> brickList;
-    public boolean isToolboxAdapter;
+	private Sprite sprite;
+	private DragNDropListView listView;
+	private boolean animateChildren;
 
-	public BrickAdapter(Context context, List<Brick> brickList) {
+	public BrickAdapter(Context context, Sprite sprite, DragNDropListView listView) {
 		this.context = context;
-		this.brickList = brickList;
-        isToolboxAdapter = false;
+		this.sprite = sprite;
+		this.listView = listView;
 	}
-	
-	public int getCount() {
-		return brickList.size();
-	}
+    
+    public Brick getChild(int groupPosition, int childPosition) {
+        return sprite.getScriptList().get(groupPosition).getBrickList().get(childPosition);
+    }
 
-	public Brick getItem(int position) {
-		return brickList.get(position);
-	}
+    public long getChildId(int groupPosition, int childPosition) {
+        return childPosition;
+    }
 
-	public long getItemId(int position) {
-		return position;
-	}
+    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+        Brick brick = getChild(groupPosition, childPosition);
+        
+        View currentBrickView = brick.getView(context, childPosition, this);
+        if(!animateChildren)
+            return currentBrickView;
+        AnimationSet set =  new AnimationSet(true);
+        Animation currentAnimation = new TranslateAnimation(
+                Animation.RELATIVE_TO_SELF, 0.0f,Animation.RELATIVE_TO_SELF, 0.0f,
+                Animation.ABSOLUTE, -80*(childPosition+1),Animation.RELATIVE_TO_SELF, 0.0f
+            );
+        currentAnimation.setAnimationListener(new AnimationListener() {
+            
+            public void onAnimationStart(Animation animation) {
+                // TODO Auto-generated method stub
+                
+            }
+            
+            public void onAnimationRepeat(Animation animation) {
+                // TODO Auto-generated method stub
+                
+            }
+            
+            public void onAnimationEnd(Animation animation) {
+                animateChildren = false;
+                
+            }
+        });
+        set.addAnimation(currentAnimation);
+        Animation alpha = new AlphaAnimation(0.0f, 1.0f);
+        set.addAnimation(alpha);
+        set.setDuration(800);
+        set.setFillBefore(true);
+        set.setFillAfter(true);
+        set.setStartTime(AnimationUtils.currentAnimationTimeMillis()+200);
+        currentBrickView.setAnimation(set);
+           
+        return currentBrickView;
+    }
 
-	public View getView(int position, View convertView, ViewGroup parent) {
-        Brick brick = brickList.get(position);
-        if (isToolboxAdapter) {
-            return brick.getPrototypeView(context);
+    public int getChildrenCount(int groupPosition) {
+        return sprite.getScriptList().get(groupPosition).getBrickList().size();
+    }
+
+    public Script getGroup(int groupPosition) {
+        return sprite.getScriptList().get(groupPosition);
+    }
+
+    public int getGroupCount() {
+        return sprite.getScriptList().size();
+    }
+
+    public long getGroupId(int groupPosition) {
+        return groupPosition;
+    }
+    
+    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+        View v;
+        if(getGroup(groupPosition).isTouchScript()) {
+            System.out.println("group: "+groupPosition+" touch script");
+            v = new IfTouchedBrick(sprite, getGroup(groupPosition)).getPrototypeView(context);
         } else {
-            return brick.getView(context, position, this);
+            System.out.println("group: "+groupPosition+" no touch script");
+            v = new IfStartedBrick(sprite, getGroup(groupPosition)).getPrototypeView(context);
         }
-	}
-	
-	public void drop(int from, int to) {
+        return v;
+    }
+
+    public boolean hasStableIds() {
+        return false;
+    }
+
+    public boolean isChildSelectable(int groupPosition, int childPosition) {
+        return false;
+    }
+
+    public void drop(int from, int to) {
         if(from == to)
             return;
+        System.out.println("drop from: "+from+" to: "+to);
+        ArrayList<Brick> brickList = sprite.getScriptList().get(getGroupCount()-1).getBrickList();
         Brick removedBrick = brickList.remove(from);
         brickList.add(to, removedBrick);
         notifyDataSetChanged();
     }       
  
     public void remove(int which) {
+        ArrayList<Brick> brickList = sprite.getScriptList().get(getGroupCount()-1).getBrickList();
         brickList.remove(which);
         notifyDataSetChanged();
-    }       
+        
+    }
     
+    public boolean onGroupClick(final ExpandableListView parent, View v, final int groupPosition, long id) {
+        if(groupPosition == getGroupCount()-1)
+            return false;
+        
+        animateChildren = true;
+        Animation up_animation = new TranslateAnimation(
+              Animation.RELATIVE_TO_SELF, 0.0f,Animation.RELATIVE_TO_SELF, 0.0f,
+              Animation.RELATIVE_TO_SELF, 0.0f,Animation.RELATIVE_TO_SELF, -(float)(getGroupCount()-groupPosition-1)
+        );
+        up_animation.setDuration(1200);  
+        up_animation.setFillAfter(true);
+        getChildFromAbsolutePosition(parent, getGroupCount()-1).startAnimation(up_animation);
+     
+        doCollapseAnimation(parent);
+        
+        Animation down_animation = new TranslateAnimation(
+            Animation.RELATIVE_TO_SELF, 0.0f,Animation.RELATIVE_TO_SELF, 0.0f,
+            Animation.RELATIVE_TO_SELF, 0.0f,Animation.RELATIVE_TO_SELF, (float)(getGroupCount()-groupPosition-1)
+        );
+        down_animation.setDuration(1200);
+        down_animation.setFillAfter(true);
+        
+        down_animation.setAnimationListener(new AnimationListener() {
+            public void onAnimationStart(Animation animation) {
+                System.out.println("onAnimationStart");   
+            }
+            public void onAnimationRepeat(Animation animation) {
+                System.out.println("onAnimationRepeat");
+            }
+            public void onAnimationEnd(Animation animation) {
+                System.out.println("onAnimationEnd");
+                doReordering(parent, groupPosition);
+            }
+        });
+        getChildFromAbsolutePosition(parent, groupPosition).startAnimation(down_animation);
+        
+        return true;
+    }       
+   
+    private void doCollapseAnimation(ExpandableListView parent) {
+        int visibleGroups = getGroupCount()-parent.getFirstVisiblePosition();
+        int visibleChilds = parent.getChildCount()-visibleGroups;
+        
+        Animation currentAnimation = new AlphaAnimation(1.0f, 0.0f);
+        currentAnimation.setDuration(1200);
+        currentAnimation.setFillAfter(true);
+        for(int i=0;i<visibleChilds;++i) {
+            getChildFromAbsolutePosition(parent, getGroupCount()+i).startAnimation(currentAnimation);
+        }
+    }
+    
+    private View getChildFromAbsolutePosition(ExpandableListView parent, int absolutePosition) {
+        int displayedPosition = absolutePosition-parent.getFirstVisiblePosition();
+        return parent.getChildAt(displayedPosition);
+    }
+    
+    private void doReordering(ExpandableListView parent, int groupPosition) {
+        for(int i=0;i<getGroupCount();++i)
+            parent.collapseGroup(i);
+        Script currentScript = sprite.getScriptList().get(groupPosition);
+        boolean scriptDeleted = sprite.getScriptList().remove(currentScript);
+        if(scriptDeleted) {
+            sprite.getScriptList().add(currentScript);
+            System.out.println("script reorder OK");
+        }
+        
+        ProjectManager.getInstance().setCurrentScript(currentScript);
+        
+        notifyDataSetChanged();
+        parent.expandGroup(getGroupCount()-1);
+        
+    }
+    
+    public int getChildCountFromLastGroup() {
+        return getChildrenCount(getGroupCount()-1);
+    }
+    
+    //padding zu eingeklaptem brick
+    // animationen fertig
 }
+    
