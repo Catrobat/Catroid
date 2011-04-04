@@ -52,13 +52,11 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 
 	private Context context;
 	private Sprite sprite;
-	private DragNDropListView listView;
 	private boolean animateChildren;
 
 	public BrickAdapter(Context context, Sprite sprite, DragNDropListView listView) {
 		this.context = context;
 		this.sprite = sprite;
-		this.listView = listView;
 	}
     
     public Brick getChild(int groupPosition, int childPosition) {

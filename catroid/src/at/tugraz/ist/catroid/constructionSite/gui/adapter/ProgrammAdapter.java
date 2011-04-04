@@ -27,12 +27,10 @@ import at.tugraz.ist.catroid.content.script.Script;
 
 public class ProgrammAdapter extends BaseAdapter {
 
-	private Context context;
 	private Script script;
 
 	public ProgrammAdapter(Context context, Script script) {
 		this.script = script;
-		this.context = context;
 	}
 	
 	public void setContent(Script script) {
