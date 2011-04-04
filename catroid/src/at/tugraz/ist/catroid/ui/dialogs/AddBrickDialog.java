@@ -30,6 +30,8 @@ import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.brick.Brick;
+import at.tugraz.ist.catroid.content.brick.ChangeXByBrick;
+import at.tugraz.ist.catroid.content.brick.ChangeYByBrick;
 import at.tugraz.ist.catroid.content.brick.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.brick.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.brick.HideBrick;
@@ -38,6 +40,8 @@ import at.tugraz.ist.catroid.content.brick.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.brick.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.brick.SetCostumeBrick;
+import at.tugraz.ist.catroid.content.brick.SetXBrick;
+import at.tugraz.ist.catroid.content.brick.SetYBrick;
 import at.tugraz.ist.catroid.content.brick.ShowBrick;
 import at.tugraz.ist.catroid.content.brick.WaitBrick;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
@@ -52,11 +56,15 @@ public class AddBrickDialog extends Dialog {
 
     private void setupBrickPrototypes(Sprite sprite) {
         prototypeBrickList = new ArrayList<Brick>();
-        prototypeBrickList.add(new PlaySoundBrick(sprite,""));
-        prototypeBrickList.add(new WaitBrick(sprite,1000));
+        prototypeBrickList.add(new PlaySoundBrick(sprite, ""));
+        prototypeBrickList.add(new WaitBrick(sprite, 1000));
         prototypeBrickList.add(new HideBrick(sprite));
         prototypeBrickList.add(new ShowBrick(sprite));
         prototypeBrickList.add(new PlaceAtBrick(sprite, 200, 200));
+        prototypeBrickList.add(new SetXBrick(sprite, 50));
+        prototypeBrickList.add(new SetYBrick(sprite, 50));
+        prototypeBrickList.add(new ChangeXByBrick(sprite, 100));
+        prototypeBrickList.add(new ChangeYByBrick(sprite, 100));
         prototypeBrickList.add(new SetCostumeBrick(sprite));
         prototypeBrickList.add(new ScaleCostumeBrick(sprite, 100));
         prototypeBrickList.add(new GoNStepsBackBrick(sprite, 1));
@@ -78,7 +86,7 @@ public class AddBrickDialog extends Dialog {
 
         listView = (ListView) findViewById(R.id.toolboxListView);
         listView.setAdapter(adapter);
-        
+
         listView.setOnItemClickListener(new ListView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ProjectManager.getInstance().addBrick(getBrickClone(adapter.getItem(position)));
