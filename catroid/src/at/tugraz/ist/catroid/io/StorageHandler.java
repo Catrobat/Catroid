@@ -57,7 +57,7 @@ public class StorageHandler {
     public static final int COPY_FAILED = 2;
     
     private static StorageHandler instance;
-    private ArrayList<SoundInfo> soundContent;
+    private ArrayList<SoundInfo> soundContent = new ArrayList<SoundInfo>();;
     private File catroidRoot;
     private XStream xstream;
 
@@ -140,7 +140,6 @@ public class StorageHandler {
 
     // TODO: Find a way to access sound files on the device
     public void loadSoundContent(Context context) {
-        soundContent = new ArrayList<SoundInfo>();
         String[] projectionOnOrig = { MediaStore.Audio.Media.DATA, MediaStore.Audio.AudioColumns.TITLE, MediaStore.Audio.Media._ID };
 
         Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projectionOnOrig, null, null, null);

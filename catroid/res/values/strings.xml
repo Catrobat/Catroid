@@ -129,6 +129,7 @@
     <string name="steps_label">steps</string>
     <string name="come_to_front_main_adapter">Come to front</string>
     <string name="touched_main_adapter">If Touched</string>
+    <string name="started_main_adapter">If Started</string>
 
     <!-- defaulValues -->
     <string name="default_project_name">defaultProject</string>
