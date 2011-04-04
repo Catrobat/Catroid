@@ -39,7 +39,6 @@ public class ComeToFrontBrick implements Brick {
 		maxZValue = maxZValue > (maxZValue + 1) ? Integer.MAX_VALUE : maxZValue + 1;
 
 		sprite.setZPosition(maxZValue);
-		sprite.setToDraw(true);
 	}
 
 	public Sprite getSprite() {

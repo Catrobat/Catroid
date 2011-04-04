@@ -21,6 +21,7 @@ package at.tugraz.ist.catroid.content.script;
 import java.util.ArrayList;
 
 import at.tugraz.ist.catroid.content.brick.Brick;
+import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.exception.InterruptedRuntimeException;
 
 public class Script {
@@ -33,6 +34,7 @@ public class Script {
     private boolean paused;
     private int brickPositionAfterPause;
     private String name;
+    private Sprite sprite;
 
     public Script() {
         name = DEFAULT_NAME;
@@ -43,12 +45,13 @@ public class Script {
         setTouchScript(false);
     }
 
-    public Script(String name) {
+    public Script(String name, Sprite sprite) {
         this.name = name;
         brickList = new ArrayList<Brick>();
         paused = false;
         isFinished = false;
         brickPositionAfterPause = 0;
+        this.sprite = sprite;
         setTouchScript(false);
     }
 
@@ -64,6 +67,7 @@ public class Script {
             }
             try {
                 brickList.get(i).execute();
+                sprite.setToDraw(true);
             } catch (InterruptedRuntimeException e) { //Brick was interrupted
                 brickPositionAfterPause = i;
                 return;
@@ -132,5 +136,13 @@ public class Script {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setSprite(Sprite sprite) {
+        this.sprite = sprite;
+    }
+
+    public Sprite getSprite() {
+        return sprite;
     }
 }

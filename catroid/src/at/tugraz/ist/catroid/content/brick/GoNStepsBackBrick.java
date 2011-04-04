@@ -52,7 +52,6 @@ public class GoNStepsBackBrick implements Brick, OnDismissListener {
 		}
 		
 		sprite.setZPosition(currentPosition - steps);
-		sprite.setToDraw(true);
 	}
 
 	public Sprite getSprite() {

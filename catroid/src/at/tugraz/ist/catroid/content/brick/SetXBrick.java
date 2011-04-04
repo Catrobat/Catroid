@@ -42,7 +42,6 @@ public class SetXBrick implements Brick, OnDismissListener {
 
     public void execute() {
         sprite.setXYPosition(xPosition, sprite.getYPosition());
-        sprite.setToDraw(true);
     }
 
     public Sprite getSprite() {

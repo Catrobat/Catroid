@@ -29,7 +29,7 @@ public class WaitBrickTest extends AndroidTestCase {
 	
 	public void testWait() {
 		Sprite testSprite = new Sprite("testSprite");
-		Script testScript = new Script();
+        Script testScript = new Script("testScript", testSprite);
 		HideBrick hideBrick = new HideBrick(testSprite);
         WaitBrick waitBrick = new WaitBrick(testSprite, 1000);
         ShowBrick showBrick = new ShowBrick(testSprite);
@@ -60,7 +60,7 @@ public class WaitBrickTest extends AndroidTestCase {
 	
 	public void testPauseResume() {
 		Sprite testSprite = new Sprite("testSprite");
-		Script testScript = new Script();
+        Script testScript = new Script("test", testSprite);
 		HideBrick hideBrick = new HideBrick(testSprite);
         WaitBrick waitBrick = new WaitBrick(testSprite, 3000);
         ShowBrick showBrick = new ShowBrick(testSprite);
