@@ -55,17 +55,18 @@ public class PlaceAtTest extends ActivityInstrumentationTestCase2<ScriptActivity
 	
 	@Smoke
 	public void testPlaceAtBrick() throws Throwable {
-		
-		assertEquals("Incorrect number of bricks.", 4, solo.getCurrentListViews().get(0).getChildCount());
-		assertEquals("Incorrect number of bricks.", 4, getActivity().getAdapter().getCount());
+		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
+		int groupCount = getActivity().getAdapter().getGroupCount();
+		assertEquals("Incorrect number of bricks.", 5, solo.getCurrentListViews().get(0).getChildCount());
+		assertEquals("Incorrect number of bricks.", 4, childrenCount);
 		
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScriptList().get(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 		
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getItem(0));
-		assertEquals("Wrong Brick instance.", projectBrickList.get(1), getActivity().getAdapter().getItem(1));
-		assertEquals("Wrong Brick instance.", projectBrickList.get(2), getActivity().getAdapter().getItem(2));
-		assertEquals("Wrong Brick instance.", projectBrickList.get(3), getActivity().getAdapter().getItem(3));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(groupCount-1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(1), getActivity().getAdapter().getChild(groupCount-1, 1));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(2), getActivity().getAdapter().getChild(groupCount-1, 2));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(3), getActivity().getAdapter().getChild(groupCount-1, 3));
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.goto_main_adapter)));
 	
 		int xPosition = 987;
