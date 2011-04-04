@@ -50,7 +50,6 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 	}
 	
 	public void testNullSprite() throws NameNotFoundException {
-		Project project = new Project(getContext(), "testProject");
         ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(null);
 		
 		try {

@@ -54,7 +54,6 @@ public class SetCostumeBrick implements Brick {
 
     public void execute() {
         this.sprite.getCostume().setImagePath(imagePath);
-        sprite.setToDraw(true);
     }
 
     public Sprite getSprite() {

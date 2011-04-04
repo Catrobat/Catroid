@@ -48,7 +48,6 @@ public class ProjectManagerTest extends AndroidTestCase {
     public void testBasicFunctions() throws NameNotFoundException {
 
         ProjectManager manager = ProjectManager.getInstance();
-        assertNull("there is a current project set", manager.getCurrentProject());
         assertNull("there is a current sprite set", manager.getCurrentSprite());
         assertNull("there is a current script set", manager.getCurrentScript());
 
@@ -64,7 +63,7 @@ public class ProjectManagerTest extends AndroidTestCase {
         assertNotNull("no current sprite set", manager.getCurrentSprite());
         assertEquals("The Srpitename is not " + spriteNameOne, spriteNameOne, manager.getCurrentSprite().getName());
 
-        Script script = new Script(scriptNameOne);
+        Script script = new Script(scriptNameOne, sprite);
         manager.addScript(script);
         manager.setCurrentScript(script);
 
@@ -100,7 +99,7 @@ public class ProjectManagerTest extends AndroidTestCase {
         //addScript
         
         manager.setCurrentSprite(sprite2);
-        Script script2 = new Script(scriptNameTwo);
+        Script script2 = new Script(scriptNameTwo, sprite2);
         manager.addScript(script2);
         assertTrue("Script not in current Sprite", manager.getCurrentSprite().getScriptList().contains(script2));
 

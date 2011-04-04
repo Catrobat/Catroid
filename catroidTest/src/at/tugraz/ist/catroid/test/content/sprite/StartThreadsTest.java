@@ -32,7 +32,7 @@ public class StartThreadsTest extends AndroidTestCase {
     public void testStartThreads() {
         double scale = 300;
         Sprite testSprite = new Sprite("testSprite");
-        Script testScript = new Script();
+        Script testScript = new Script("testScript", testSprite);
         HideBrick hideBrick = new HideBrick(testSprite);
         ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(testSprite, scale);
         
@@ -52,7 +52,7 @@ public class StartThreadsTest extends AndroidTestCase {
     
     public void testResumeThreads(){
         Sprite testSprite = new Sprite("testSprite");
-        Script testScript = new Script();
+        Script testScript = new Script("testScript", testSprite);
         HideBrick hideBrick = new HideBrick(testSprite);
         WaitBrick waitBrick = new WaitBrick(testSprite, 400);
         ShowBrick showBrick = new ShowBrick(testSprite);
@@ -91,8 +91,8 @@ public class StartThreadsTest extends AndroidTestCase {
     
     public void testStartTouchScripts() {
         Sprite testSprite = new Sprite("testSprite");
-        Script testScript = new Script();
-        Script touchScript = new Script();
+        Script testScript = new Script("testScript", testSprite);
+        Script touchScript = new Script("touchScript", testSprite);
         HideBrick hideBrick = new HideBrick(testSprite);
         
         IfTouchedBrick touchedBrick2 = new IfTouchedBrick(testSprite, touchScript);

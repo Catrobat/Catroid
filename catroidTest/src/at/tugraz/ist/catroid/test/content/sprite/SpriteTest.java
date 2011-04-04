@@ -155,7 +155,7 @@ public class SpriteTest extends AndroidTestCase {
 
 	public void testPauseUnPause() {
 		Sprite testSprite = new Sprite("testSprite");
-		Script testScript = new Script();
+        Script testScript = new Script("testScript", testSprite);
 		HideBrick hideBrick = new HideBrick(testSprite);
 		ShowBrick showBrick = new ShowBrick(testSprite);
 

@@ -60,7 +60,7 @@ public class NewScriptDialog extends Dialog {
                     Utils.displayErrorMessage(context, context.getString(R.string.scriptname_already_exists));
                     return;
                 }
-                Script script = new Script(scriptName);
+                Script script = new Script(scriptName, projectManager.getCurrentSprite());
                 projectManager.getCurrentSprite().getScriptList().add(script);
                 projectManager.setCurrentScript(script);
 				// Intent intent = new Intent(context, ScriptActivity.class);
