@@ -18,18 +18,46 @@
  */
 package at.tugraz.ist.catroid.content.brick;
 
-import java.io.Serializable;
-
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
+import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
-public interface Brick extends Serializable {
-    
-	public void execute();
-	public Sprite getSprite();
-	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter);
-	public View getPrototypeView(Context context);
-	public Brick clone();
+public class IfStartedBrick implements Brick {
+	protected Script script;
+	private Sprite sprite;
+	private static final long serialVersionUID = 1L;
+	
+	public IfStartedBrick(Sprite sprite, Script script) {
+		this.script = script;
+		//this.script.setTouchScript(false);
+		this.sprite = sprite;
+	}
+
+	public void execute() {
+		//touchScript.setTouchScript(true);
+	}
+	
+	public Sprite getSprite() {
+		return sprite;
+	}
+	
+	public View getView(Context context, int brickId, final BaseExpandableListAdapter adapter) {
+        View view = getPrototypeView(context);
+        return view;
+	}
+	
+	public View getPrototypeView(Context context) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.toolbox_brick_started, null);
+		return view;
+	}
+	
+	@Override
+    public Brick clone() {
+		return new IfStartedBrick(getSprite(),script);
+	}
 }
