@@ -144,7 +144,7 @@
     <string name="x_label">X:</string>
     <string name="y_label">Y:</string>
     <string name="costume_main_adapter">Set Costume</string>
-    <string name="scaleCustome">Scale Costume to</string>
+    <string name="scale_costume">Scale Costume to</string>
     <string name="go_back_main_adapter">Go back</string>
     <string name="steps_label">steps</string>
     <string name="come_to_front_main_adapter">Come to front</string>
