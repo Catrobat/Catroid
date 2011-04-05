@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -26,10 +26,14 @@ import android.widget.BaseExpandableListAdapter;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public interface Brick extends Serializable {
-    
+
 	public void execute();
+
 	public Sprite getSprite();
+
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter);
+
 	public View getPrototypeView(Context context);
+
 	public Brick clone();
 }

@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -28,7 +28,7 @@ import at.tugraz.ist.catroid.content.sprite.Sprite;
 public class HideBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
-	
+
 	public HideBrick(Sprite sprite) {
 		this.sprite = sprite;
 	}
@@ -36,24 +36,24 @@ public class HideBrick implements Brick {
 	public void execute() {
 		sprite.hide();
 	}
-	
+
 	public Sprite getSprite() {
 		return this.sprite;
 	}
-	
-	public View getView( Context context, int brickId, BaseExpandableListAdapter adapter) {
+
+	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		return inflater.inflate(R.layout.construction_brick_hide, null);
 	}
-	
+
 	@Override
-    public Brick clone() {
+	public Brick clone() {
 		return new HideBrick(getSprite());
 	}
-	
+
 	public View getPrototypeView(Context context) {
-	    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        return inflater.inflate(R.layout.brick_hide, null);
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		return inflater.inflate(R.layout.brick_hide, null);
 	}
 
 }
