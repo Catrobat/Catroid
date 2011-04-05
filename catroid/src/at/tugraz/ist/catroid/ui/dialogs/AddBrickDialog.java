@@ -103,7 +103,16 @@ public class AddBrickDialog extends Dialog {
                     ProjectManager.getInstance().setCurrentScript(newScript);
                     newScript.setTouchScript(true);
                 } else {
-                    ProjectManager.getInstance().addBrick(getBrickClone(adapter.getItem(position)));
+                    if (ProjectManager.getInstance().getCurrentSprite().getScriptList().isEmpty()) {
+                        Script newScript = new Script("newScript", ProjectManager.getInstance().getCurrentSprite());
+                        ProjectManager.getInstance().addScript(newScript);
+                        ProjectManager.getInstance().setCurrentScript(newScript);
+                        newScript.setTouchScript(false);
+                        ProjectManager.getInstance().addBrick(getBrickClone(adapter.getItem(position)));
+                    } else {
+                        ProjectManager.getInstance().addBrick(getBrickClone(adapter.getItem(position)));
+                    }
+                    
                 }
                 dismiss();
             }
