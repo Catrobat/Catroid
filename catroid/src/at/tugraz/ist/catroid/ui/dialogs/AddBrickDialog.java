@@ -58,8 +58,8 @@ public class AddBrickDialog extends Dialog {
 
     private void setupBrickPrototypes(Sprite sprite) {
         prototypeBrickList = new ArrayList<Brick>();
-        prototypeBrickList.add(new PlaySoundBrick(sprite,""));
-        prototypeBrickList.add(new WaitBrick(sprite,1000));
+        prototypeBrickList.add(new PlaySoundBrick(sprite, ""));
+        prototypeBrickList.add(new WaitBrick(sprite, 1000));
         prototypeBrickList.add(new HideBrick(sprite));
         prototypeBrickList.add(new ShowBrick(sprite));
         prototypeBrickList.add(new PlaceAtBrick(sprite, 200, 200));
@@ -88,16 +88,16 @@ public class AddBrickDialog extends Dialog {
 
         listView = (ListView) findViewById(R.id.toolboxListView);
         listView.setAdapter(adapter);
-        
+
         listView.setOnItemClickListener(new ListView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Brick addedBrick = adapter.getItem(position);
-                if(addedBrick instanceof IfStartedBrick) {
+                if (addedBrick instanceof IfStartedBrick) {
                     Script newScript = new Script("newScript", ProjectManager.getInstance().getCurrentSprite());
                     ProjectManager.getInstance().addScript(newScript);
                     ProjectManager.getInstance().setCurrentScript(newScript);
                     newScript.setTouchScript(false);
-                } else if(addedBrick instanceof IfTouchedBrick) {
+                } else if (addedBrick instanceof IfTouchedBrick) {
                     Script newScript = new Script("newScript", ProjectManager.getInstance().getCurrentSprite());
                     ProjectManager.getInstance().addScript(newScript);
                     ProjectManager.getInstance().setCurrentScript(newScript);

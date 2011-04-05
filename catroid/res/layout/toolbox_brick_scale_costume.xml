@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <!-- 
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010  Catroid development team 
@@ -18,7 +17,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
-
 <RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:id="@+id/RelativeLayout01"
@@ -44,7 +42,7 @@
 		android:id="@+id/ScaleCustomEditText"
 		android:text="100"
 		android:layout_height="wrap_content"
-		android:layout_width="50dp"
+		android:layout_width="60dp"
 		android:layout_toLeftOf="@+id/ScaleCostumeTextView"
 		android:clickable="false"
 		android:focusable="false"

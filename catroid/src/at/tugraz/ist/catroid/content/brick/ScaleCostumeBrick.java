@@ -55,7 +55,7 @@ public class ScaleCostumeBrick implements Brick, OnDismissListener {
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.construction_brick_scale_costume, null);
-		EditText edit = (EditText) view.findViewById(R.id.EditText01);
+		EditText edit = (EditText) view.findViewById(R.id.ScaleCostumeEditText);
 		edit.setText(String.valueOf(scale));
 
 		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, scale);

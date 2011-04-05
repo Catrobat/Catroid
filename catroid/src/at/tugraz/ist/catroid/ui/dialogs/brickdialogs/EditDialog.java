@@ -30,12 +30,11 @@ public class EditDialog extends Dialog {
 
     protected EditText editText;
     protected EditText referencedEditText;
-    private Context context;
+//    private InputMethodManager imm;
 
     public EditDialog(Context context, EditText referencedEditText) {
         super(context);
         this.referencedEditText = referencedEditText;
-        this.context = context;
     }
 
     private void init() {
@@ -48,6 +47,21 @@ public class EditDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         init();
+//        imm = (InputMethodManager) EditDialog.this.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+//        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_NOT_ALWAYS);
         super.onCreate(savedInstanceState);
     }
+
+//    @Override
+//    public void dismiss() {
+//        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+//        super.dismiss();
+//    }
+//
+//    @Override
+//    public void cancel() {
+//        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+//        super.cancel();
+//    }
+
 }

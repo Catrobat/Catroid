@@ -18,7 +18,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
-
 <RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
@@ -33,13 +32,11 @@
 		android:textColor="@color/white"
 		android:layout_centerVertical="true"
 		android:text="@string/costume_main_adapter"
-		android:textSize="18dip"
-	/>
+		android:textSize="18dip" />
 	<ImageView
 		android:id="@+id/costume_image_view"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_alignParentRight="true"
-		android:background="@drawable/icon"
-	/>	
+		android:background="@drawable/icon" />
 </RelativeLayout>
