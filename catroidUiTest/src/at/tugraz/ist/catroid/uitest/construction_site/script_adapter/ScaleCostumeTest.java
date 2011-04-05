@@ -76,7 +76,7 @@ public class ScaleCostumeTest extends ActivityInstrumentationTestCase2<ScriptAct
 	private void createProject() {
 		project = new Project(null, "testProject");
         Sprite sprite = new Sprite("cat");
-        Script script = new Script(); 
+        Script script = new Script("script", sprite);
         scaleCostumeBrick = new ScaleCostumeBrick(sprite, 20);
         script.addBrick(scaleCostumeBrick);
         

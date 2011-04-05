@@ -51,8 +51,8 @@ public class StorageHandlerTest extends AndroidTestCase {
         Sprite secondSprite = new Sprite("second");
         Sprite thirdSprite = new Sprite("third");
         Sprite fourthSprite = new Sprite("fourth");
-        Script testScript = new Script();
-        Script otherScript = new Script();
+        Script testScript = new Script("testScript", firstSprite);
+        Script otherScript = new Script("otherScript", secondSprite);
         HideBrick hideBrick = new HideBrick(firstSprite);
         ShowBrick showBrick = new ShowBrick(firstSprite);
         ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(secondSprite, scaleValue);

@@ -65,7 +65,7 @@ public class ShowBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 	private void createProject() {
 		project = new Project(null, "testProject");
         Sprite sprite = new Sprite("cat");
-        Script script = new Script(); 
+        Script script = new Script("script", sprite);
         script.addBrick(new ShowBrick(sprite));
         
         sprite.getScriptList().add(script);

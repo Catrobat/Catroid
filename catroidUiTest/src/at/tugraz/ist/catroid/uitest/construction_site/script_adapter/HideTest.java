@@ -84,7 +84,7 @@ public class HideTest extends ActivityInstrumentationTestCase2<ScriptActivity>{
 	private void createProject() {
 		project = new Project(null, "testProject");
         Sprite sprite = new Sprite("cat");
-        Script script = new Script(); 
+        Script script = new Script("script", sprite);
         script.addBrick(new HideBrick(sprite));
 
         sprite.getScriptList().add(script);
