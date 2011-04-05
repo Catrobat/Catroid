@@ -41,27 +41,6 @@ public class ProjectManager extends Observable {
     private static ProjectManager instance;
     private Script currentScript;
 
-    //isn't used
-    //    private ProjectManager(Context context, String projectName) {
-    //        this.context = context;
-    //        DEFAULT_PROJECT_NAME = context.getString(R.string.default_project_name);
-    //        try {
-    //            if (projectName != null && projectName.length() != 0) {
-    //                if (!loadProject(projectName, context)) {
-    //                    if (!loadProject(DEFAULT_PROJECT_NAME, context)) {
-    //                        project = StorageHandler.getInstance().createDefaultProject(context);
-    //                        currentSprite = project.getSpriteList().get(0); // stage
-    //                    }
-    //                }
-    //            } else {
-    //                project = StorageHandler.getInstance().createDefaultProject(context);
-    //                currentSprite = project.getSpriteList().get(0); // stage
-    //            }
-    //        } catch (Exception e) {
-    //            e.printStackTrace();
-    //        }
-    //    }
-
     private ProjectManager() {
     }
 
@@ -201,15 +180,6 @@ public class ProjectManager extends Observable {
         currentSprite = null;
            
         this.project = project;
-    }
-
-    public boolean scriptExists(String scriptName) {
-        for (Script script : currentSprite.getScriptList()) {
-            if (script.getName().equalsIgnoreCase(scriptName)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public boolean spriteExists(String spriteName) {

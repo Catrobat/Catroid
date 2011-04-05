@@ -64,8 +64,7 @@ public class LoadProjectDialog extends Dialog {
         	
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				if (!ProjectManager.getInstance().loadProject(adapter.getItem(position), context)) {
-                    dismiss(); //TODO: should we dismiss here? or continue project choosing
-                    return;
+                    return; //error message already in ProjectManager loadProject
                 }
                 Intent intent = new Intent(context, ProjectActivity.class);
             	context.startActivity(intent);

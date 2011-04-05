@@ -95,7 +95,7 @@ public class SpriteTest extends AndroidTestCase {
 
 	public void testScriptList() {
 		Sprite sprite = new Sprite("new sprite");
-		sprite.getScriptList().add(new Script());
+        sprite.getScriptList().add(new Script("script", sprite));
 		assertEquals("Script list does not contain script after adding", 1, sprite.getScriptList().size());
 
 		sprite.getScriptList().clear();

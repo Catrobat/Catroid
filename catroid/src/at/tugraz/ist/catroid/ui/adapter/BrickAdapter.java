@@ -30,10 +30,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
-import android.view.animation.Animation.AnimationListener;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnGroupClickListener;
@@ -81,13 +81,9 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
         currentAnimation.setAnimationListener(new AnimationListener() {
             
             public void onAnimationStart(Animation animation) {
-                // TODO Auto-generated method stub
-                
             }
             
             public void onAnimationRepeat(Animation animation) {
-                // TODO Auto-generated method stub
-                
             }
             
             public void onAnimationEnd(Animation animation) {
