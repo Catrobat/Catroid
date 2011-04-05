@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -35,51 +35,51 @@ import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class NewProjectDialog extends Dialog {
-    private final Context context;
+	private final Context context;
 
-    public NewProjectDialog(Context context) {
-        super(context);
-        this.context = context;
-    }
+	public NewProjectDialog(Context context) {
+		super(context);
+		this.context = context;
+	}
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_new_project);
-        setTitle(R.string.new_project_dialog_title);
-        setCanceledOnTouchOutside(true);
-        getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.dialog_new_project);
+		setTitle(R.string.new_project_dialog_title);
+		setCanceledOnTouchOutside(true);
+		getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
-        Button createNewProjectButton = (Button) findViewById(R.id.createNewProjectButton);
-        createNewProjectButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                String projectName = ((EditText) findViewById(R.id.newProjectNameEditText)).getText().toString();
-                if(projectName.length() == 0) {
-                    Utils.displayErrorMessage(context, context.getString(R.string.error_no_name_entered));
-                    return;
-                }
-                try {
-                    if (StorageHandler.getInstance().projectExists(projectName)) {
-                        Utils.displayErrorMessage(context, context.getString(R.string.error_project_exists));
-                        return;
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+		Button createNewProjectButton = (Button) findViewById(R.id.createNewProjectButton);
+		createNewProjectButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				String projectName = ((EditText) findViewById(R.id.newProjectNameEditText)).getText().toString();
+				if (projectName.length() == 0) {
+					Utils.displayErrorMessage(context, context.getString(R.string.error_no_name_entered));
+					return;
+				}
+				try {
+					if (StorageHandler.getInstance().projectExists(projectName)) {
+						Utils.displayErrorMessage(context, context.getString(R.string.error_project_exists));
+						return;
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 				ProjectManager.getInstance().initializeNewProject(projectName, context);
-                Intent intent = new Intent(context, ProjectActivity.class);
-            	context.startActivity(intent);
-                dismiss();
-                ((EditText) findViewById(R.id.newProjectNameEditText)).setText(null);
-            }
-        });
-        
-        Button cancelButton = (Button) findViewById(R.id.cancelDialogButton);
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-        	public void onClick(View v) {
-        		dismiss();
-        	((EditText) findViewById(R.id.newProjectNameEditText)).setText(null);
-        	}
+				Intent intent = new Intent(context, ProjectActivity.class);
+				context.startActivity(intent);
+				dismiss();
+				((EditText) findViewById(R.id.newProjectNameEditText)).setText(null);
+			}
 		});
-    }
+
+		Button cancelButton = (Button) findViewById(R.id.cancelDialogButton);
+		cancelButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				dismiss();
+				((EditText) findViewById(R.id.newProjectNameEditText)).setText(null);
+			}
+		});
+	}
 }
