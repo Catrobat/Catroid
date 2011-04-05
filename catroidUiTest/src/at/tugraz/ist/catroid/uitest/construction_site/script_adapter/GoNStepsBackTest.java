@@ -97,7 +97,7 @@ public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptAct
 		stepsToGoBack = 17;
 		project = new Project(null, "testProject");
         Sprite sprite = new Sprite("cat");
-        Script script = new Script(); 
+        Script script = new Script("script", sprite);
         goNStepsBackBrick = new GoNStepsBackBrick(sprite, 0);
         script.addBrick(goNStepsBackBrick);
 

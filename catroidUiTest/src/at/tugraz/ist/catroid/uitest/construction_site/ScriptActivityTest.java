@@ -126,7 +126,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
         Project project = new Project(null, projectName);
         Sprite firstSprite = new Sprite("cat");
         
-        Script testScript = new Script();
+        Script testScript = new Script("testscript", firstSprite);
        
         brickListToCheck = new ArrayList<Brick>();
         brickListToCheck.add(new HideBrick(firstSprite));

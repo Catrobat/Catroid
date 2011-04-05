@@ -18,6 +18,8 @@
  */
 package at.tugraz.ist.catroid.content.sprite;
 
+import java.io.Serializable;
+
 import android.graphics.Bitmap;
 import android.util.Pair;
 import at.tugraz.ist.catroid.Consts;
@@ -26,7 +28,7 @@ import at.tugraz.ist.catroid.utils.ImageEditing;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-public class Costume {
+public class Costume implements Serializable {
     private static final long serialVersionUID = 1L;
     private String imagePath;
     private Sprite sprite;
@@ -39,9 +41,6 @@ public class Costume {
 
     @XStreamOmitField
     private transient Bitmap costumeBitmap;
-
-    public Costume() {
-    }
 
     public Costume(Sprite sprite, String imagePath) {
         this.sprite = sprite;

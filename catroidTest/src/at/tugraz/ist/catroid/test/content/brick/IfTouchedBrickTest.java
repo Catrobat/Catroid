@@ -26,11 +26,12 @@ import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class IfTouchedBrickTest extends AndroidTestCase {
 
-	Script touchScript = new Script();
+
 
     public void testIfTouch() {
 
         Sprite sprite = new Sprite("new sprite");
+        Script touchScript = new Script("hiho", sprite);
         assertFalse("Unexpected default value", touchScript.isTouchScript());
         IfTouchedBrick ifTouchedBrick = new IfTouchedBrick(sprite, touchScript);
         ifTouchedBrick.execute();
@@ -39,6 +40,8 @@ public class IfTouchedBrickTest extends AndroidTestCase {
     }
 
 	public void testNullSprite() {
+        Sprite sprite = new Sprite("new sprite");
+        Script touchScript = new Script("hiho", sprite);
 		IfTouchedBrick ifTouchedBrick = new IfTouchedBrick(null, touchScript);
 
 		ifTouchedBrick.execute();

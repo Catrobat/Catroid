@@ -18,15 +18,15 @@
  */
 package at.tugraz.ist.catroid.content.script;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import at.tugraz.ist.catroid.content.brick.Brick;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.exception.InterruptedRuntimeException;
 
-public class Script {
+public class Script implements Serializable {
 
-    private transient final String DEFAULT_NAME = "le_script";
     private static final long serialVersionUID = 1L;
     private ArrayList<Brick> brickList;
     private boolean isTouchScript;
@@ -35,15 +35,6 @@ public class Script {
     private int brickPositionAfterPause;
     private String name;
     private Sprite sprite;
-
-    public Script() {
-        name = DEFAULT_NAME;
-        brickList = new ArrayList<Brick>();
-        paused = false;
-        isFinished = false;
-        brickPositionAfterPause = 0;
-        setTouchScript(false);
-    }
 
     public Script(String name, Sprite sprite) {
         this.name = name;
@@ -126,11 +117,6 @@ public class Script {
     }
 
     public String getName() {
-        return name;
-    }
-
-    @Override
-    public String toString() {
         return name;
     }
 

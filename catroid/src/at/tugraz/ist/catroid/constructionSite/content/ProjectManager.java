@@ -182,15 +182,6 @@ public class ProjectManager extends Observable {
         this.project = project;
     }
 
-    public boolean scriptExists(String scriptName) {
-        for (Script script : currentSprite.getScriptList()) {
-            if (script.getName().equalsIgnoreCase(scriptName)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public boolean spriteExists(String spriteName) {
         for (Sprite tempSprite : project.getSpriteList()) {
             if (tempSprite.getName().equalsIgnoreCase(spriteName)) {

@@ -74,6 +74,7 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
         solo.clickOnText(solo.getCurrentActivity().getString(R.string.set_y_main_adapter));
         
         solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
+        solo.scrollDownList(1);
         solo.clickOnText(solo.getCurrentActivity().getString(R.string.change_x_main_adapter));
         
         solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));

@@ -45,8 +45,6 @@ import android.widget.ListView;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.constructionSite.gui.adapter.ProgrammAdapter;
 import at.tugraz.ist.catroid.content.project.Project;
-import at.tugraz.ist.catroid.content.script.Script;
-import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -148,8 +146,8 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnIt
 			currentProject = new Project(this, "new");
 
 
-			Sprite stageSprite = currentProject.getSpriteList().get(0);
-			Script script = new Script();
+			//Sprite stageSprite = currentProject.getSpriteList().get(0);
+			//Script script = new Script();
 //
 //			script.addBrick(new IfTouchedBrick(stageSprite, script));
 //			script.addBrick(new ComeToFrontBrick(stageSprite, currentProject));
@@ -162,7 +160,7 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnIt
 //			//script.addBrick(new WaitBrick(1000));
 //			script.addBrick(new PlaceAtBrick(stageSprite, 105, 206));
 
-			stageSprite.getScriptList().add(script);
+			//stageSprite.getScriptList().add(script);
             //			currentScript = script;
 
 			Log.d("testProject", "sprite count: " + currentProject.getSpriteList().size());

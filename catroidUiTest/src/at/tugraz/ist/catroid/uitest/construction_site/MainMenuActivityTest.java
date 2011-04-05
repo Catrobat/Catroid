@@ -206,8 +206,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		Sprite secondSprite = new Sprite("dog");
 		Sprite thirdSprite = new Sprite("horse");
 		Sprite fourthSprite = new Sprite("pig");
-		Script testScript = new Script();
-		Script otherScript = new Script();
+        Script testScript = new Script("testScript", firstSprite);
+        Script otherScript = new Script("otherScript", secondSprite);
 		HideBrick hideBrick = new HideBrick(firstSprite);
 		ShowBrick showBrick = new ShowBrick(firstSprite);
 		ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(secondSprite, scaleValue);
