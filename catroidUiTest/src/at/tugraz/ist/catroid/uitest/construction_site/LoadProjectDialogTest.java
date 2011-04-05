@@ -80,35 +80,11 @@ public class LoadProjectDialogTest extends ActivityInstrumentationTestCase2<Main
     public void createTestProject(String projectName) throws IOException, NameNotFoundException {
         StorageHandler storageHandler = StorageHandler.getInstance();
 
-        int xPosition = 457;
-        int yPosition = 598;
-        double scaleValue = 0.8;
-
         Project project = new Project(getActivity(), projectName);
         Sprite firstSprite = new Sprite("cat");
         Sprite secondSprite = new Sprite("dog");
         Sprite thirdSprite = new Sprite("horse");
         Sprite fourthSprite = new Sprite("pig");
-        Script testScript = new Script();
-        Script otherScript = new Script();
-        HideBrick hideBrick = new HideBrick(firstSprite);
-        ShowBrick showBrick = new ShowBrick(firstSprite);
-        ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(secondSprite, scaleValue);
-        ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(firstSprite);
-        PlaceAtBrick placeAtBrick = new PlaceAtBrick(secondSprite, xPosition, yPosition);
-
-        // adding Bricks: ----------------
-        testScript.addBrick(hideBrick);
-        testScript.addBrick(showBrick);
-        testScript.addBrick(scaleCostumeBrick);
-        testScript.addBrick(comeToFrontBrick);
-
-        otherScript.addBrick(placeAtBrick); // secondSprite
-        otherScript.setPaused(true);
-        // -------------------------------
-
-        firstSprite.getScriptList().add(testScript);
-        secondSprite.getScriptList().add(otherScript);
 
         project.addSprite(firstSprite);
         project.addSprite(secondSprite);
