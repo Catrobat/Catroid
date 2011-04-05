@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -34,109 +34,111 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class StageActivity extends Activity {
 
-    public static SurfaceView stage;
-    protected boolean isWaiting = false;
-    private SoundManager soundManager;
-    private StageManager stageManager;
-    private boolean stagePlaying = false;
+	public static SurfaceView stage;
+	private SoundManager soundManager;
+	private StageManager stageManager;
+	private boolean stagePlaying = false;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (Utils.checkForSdCard(this)) {
-            Window window = getWindow();
-            window.requestFeature(Window.FEATURE_NO_TITLE);
-            window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		if (Utils.checkForSdCard(this)) {
+			Window window = getWindow();
+			window.requestFeature(Window.FEATURE_NO_TITLE);
+			window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-            setContentView(R.layout.stage);
-            stage = (SurfaceView) findViewById(R.id.stageView);
+			setContentView(R.layout.stage);
+			stage = (SurfaceView) findViewById(R.id.stageView);
 
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            soundManager = SoundManager.getInstance();
-            stageManager = new StageManager(this);
-            stageManager.start();
-            stagePlaying = true;
-        }
-    }
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+			soundManager = SoundManager.getInstance();
+			stageManager = new StageManager(this);
+			stageManager.start();
+			stagePlaying = true;
+		}
+	}
 
-    public boolean onTouchEvent(MotionEvent event) {
-//        Log.i("StageActivity", "Number of pointers " + event.getPointerCount() + " action code: " + event.getAction() + " coordinates: x: "
-//                + event.getX((int) event.getPointerCount() - 1) + " y: " + event.getY((int) event.getPointerCount() - 1));
-        
-        // first pointer: MotionEvent.ACTION_DOWN
-        if (event.getAction() == MotionEvent.ACTION_DOWN)
-            processOnTouch((int) event.getX(), (int) event.getY());
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
 
-        // second pointer: MotionEvent.ACTION_POINTER_2_DOWN
-        if (event.getAction() == MotionEvent.ACTION_POINTER_2_DOWN)
-            processOnTouch((int) event.getX(1), (int) event.getY(1));
+		// first pointer: MotionEvent.ACTION_DOWN
+		if (event.getAction() == MotionEvent.ACTION_DOWN)
+			processOnTouch((int) event.getX(), (int) event.getY());
 
-        return false;
-    }
+		// second pointer: MotionEvent.ACTION_POINTER_2_DOWN
+		if (event.getAction() == MotionEvent.ACTION_POINTER_2_DOWN)
+			processOnTouch((int) event.getX(1), (int) event.getY(1));
 
-    public void processOnTouch(int coordX, int coordY) {
-        coordX = coordX + stage.getTop();
-        coordY = coordY + stage.getLeft();
+		return false;
+	}
 
-        stageManager.processOnTouch(coordX, coordY);
-    }
+	public void processOnTouch(int coordX, int coordY) {
+		coordX = coordX + stage.getTop();
+		coordY = coordY + stage.getLeft();
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.stage_menu, menu);
-        return true;
-    }
+		stageManager.processOnTouch(coordX, coordY);
+	}
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-        case R.id.stagemenuStart:
-            pauseOrContinue();
-            break;
-        case R.id.stagemenuConstructionSite:
-            toMainActivity();
-            break;
-        }
-        return true;
-    }
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		getMenuInflater().inflate(R.menu.stage_menu, menu);
+		return true;
+	}
 
-    protected void onStop() {
-        super.onStop();
-        soundManager.pause();
-        stageManager.pause(false);
-        stagePlaying = false;
-    }
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.stagemenuStart:
+			pauseOrContinue();
+			break;
+		case R.id.stagemenuConstructionSite:
+			toMainActivity();
+			break;
+		}
+		return true;
+	}
 
-    protected void onRestart() {
-        super.onRestart();
-        stageManager.resume();
-        soundManager.resume();
-        stagePlaying = true;
-    }
+	@Override
+	protected void onStop() {
+		super.onStop();
+		soundManager.pause();
+		stageManager.pause(false);
+		stagePlaying = false;
+	}
 
-    protected void onDestroy() {
-        super.onDestroy();
-        soundManager.clear();
-    }
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+		stageManager.resume();
+		soundManager.resume();
+		stagePlaying = true;
+	}
 
-    public void onBackPressed() {
-        finish();
-    }
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		soundManager.clear();
+	}
 
-    private void toMainActivity() {
-        finish();
-    }
+	@Override
+	public void onBackPressed() {
+		finish();
+	}
 
-    private void pauseOrContinue() {
-        if (stagePlaying) {
-            stageManager.pause(true);
-            soundManager.pause();
-            stagePlaying = false;
-        } else {
-            stageManager.resume();
-            soundManager.resume();
-            stagePlaying = true;
-        }
-    }
+	private void toMainActivity() {
+		finish();
+	}
+
+	private void pauseOrContinue() {
+		if (stagePlaying) {
+			stageManager.pause(true);
+			soundManager.pause();
+			stagePlaying = false;
+		} else {
+			stageManager.resume();
+			soundManager.resume();
+			stagePlaying = true;
+		}
+	}
 }

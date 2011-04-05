@@ -77,7 +77,7 @@ public class ScaleCostumeTest extends ActivityInstrumentationTestCase2<ScriptAct
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(groupCount-1, 0));
-		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.scaleCustome)));
+		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.scale_costume)));
 
 		double newScale = 25;
 
