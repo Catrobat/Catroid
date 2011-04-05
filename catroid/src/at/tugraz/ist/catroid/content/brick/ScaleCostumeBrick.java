@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -55,12 +55,14 @@ public class ScaleCostumeBrick implements Brick, OnDismissListener {
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.construction_brick_scale_costume, null);
+
 		EditText edit = (EditText) view.findViewById(R.id.ScaleCostumeEditText);
 		edit.setText(String.valueOf(scale));
 
 		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, scale);
 		dialog.setOnDismissListener(this);
 		dialog.setOnCancelListener((OnCancelListener) context);
+
 		edit.setOnClickListener(dialog);
 
 		return view;
@@ -78,7 +80,7 @@ public class ScaleCostumeBrick implements Brick, OnDismissListener {
 	}
 
 	public void onDismiss(DialogInterface dialog) {
-		scale = ((EditDoubleDialog)dialog).getValue();
+		scale = ((EditDoubleDialog) dialog).getValue();
 		dialog.cancel();
 	}
 }

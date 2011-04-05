@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -31,63 +31,68 @@ import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.brickdialogs.EditIntegerDialog;
 
 public class ChangeXByBrick implements Brick, OnDismissListener {
-    private static final long serialVersionUID = 1L;
-    private int xMovement;
-    private Sprite sprite;
+	private static final long serialVersionUID = 1L;
+	private int xMovement;
+	private Sprite sprite;
 
-    public ChangeXByBrick(Sprite sprite, int xMovement) {
-        this.sprite = sprite;
-        this.xMovement = xMovement;
-    }
+	public ChangeXByBrick(Sprite sprite, int xMovement) {
+		this.sprite = sprite;
+		this.xMovement = xMovement;
+	}
 
-    public void execute() {
-        int xPosition = sprite.getXPosition();
+	public void execute() {
+		int xPosition = sprite.getXPosition();
 
-        if (xPosition > 0 && xMovement > 0 && xPosition + xMovement < 0) {
-            xPosition = Integer.MAX_VALUE;
-        } else if (xPosition < 0 && xMovement < 0 && xPosition + xMovement > 0) {
-            xPosition = Integer.MIN_VALUE;
-        } else {
-            xPosition += xMovement;
-        }
+		if (xPosition > 0 && xMovement > 0 && xPosition + xMovement < 0) {
+			xPosition = Integer.MAX_VALUE;
+		} else if (xPosition < 0 && xMovement < 0 && xPosition + xMovement > 0) {
+			xPosition = Integer.MIN_VALUE;
+		} else {
+			xPosition += xMovement;
+		}
 
-        sprite.setXYPosition(xPosition, sprite.getYPosition());
-    }
+		sprite.setXYPosition(xPosition, sprite.getYPosition());
+	}
 
-    public Sprite getSprite() {
-        return this.sprite;
-    }
+	public Sprite getSprite() {
+		return this.sprite;
+	}
 
-    public int getXMovement() {
-        return xMovement;
-    }
+	public int getXMovement() {
+		return xMovement;
+	}
 
-    public View getView( Context context, int brickId, BaseExpandableListAdapter adapter) {
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View brickView = inflater.inflate(R.layout.construction_brick_change_x, null);
-        EditText editX = (EditText) brickView.findViewById(R.id.InputValueEditTextX);
-        editX.setText(String.valueOf(xMovement));
-        EditIntegerDialog dialogX = new EditIntegerDialog(context, editX, xMovement, true);
-        dialogX.setOnDismissListener(this);
-        dialogX.setOnCancelListener((OnCancelListener) context);
-        editX.setOnClickListener(dialogX);
-        return brickView;
-    }
+	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View brickView = inflater.inflate(R.layout.construction_brick_change_x, null);
 
-    public View getPrototypeView(Context context) {
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View brickView = inflater.inflate(R.layout.toolbox_brick_change_x, null);
-        return brickView;
-    }
+		EditText editX = (EditText) brickView.findViewById(R.id.InputValueEditTextX);
+		editX.setText(String.valueOf(xMovement));
 
-    @Override
-    public Brick clone() {
-        return new ChangeXByBrick(getSprite(), getXMovement());
-    }
+		EditIntegerDialog dialogX = new EditIntegerDialog(context, editX, xMovement, true);
+		dialogX.setOnDismissListener(this);
+		dialogX.setOnCancelListener((OnCancelListener) context);
 
-    public void onDismiss(DialogInterface dialog) {
-        EditIntegerDialog inputDialog = (EditIntegerDialog) dialog;
-        xMovement = inputDialog.getValue();
-        dialog.cancel();
-    }
+		editX.setOnClickListener(dialogX);
+
+		return brickView;
+	}
+
+	public View getPrototypeView(Context context) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View brickView = inflater.inflate(R.layout.toolbox_brick_change_x, null);
+
+		return brickView;
+	}
+
+	@Override
+	public Brick clone() {
+		return new ChangeXByBrick(getSprite(), getXMovement());
+	}
+
+	public void onDismiss(DialogInterface dialog) {
+		EditIntegerDialog inputDialog = (EditIntegerDialog) dialog;
+		xMovement = inputDialog.getValue();
+		dialog.cancel();
+	}
 }

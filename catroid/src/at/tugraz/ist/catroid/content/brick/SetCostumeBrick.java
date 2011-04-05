@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -35,68 +35,72 @@ import at.tugraz.ist.catroid.utils.ImageEditing;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public class SetCostumeBrick implements Brick {
-    private static final long serialVersionUID = 1L;
-    private Sprite sprite;
-    private String imagePath;
-    @XStreamOmitField
-    private transient Bitmap thumbnail;
+	private static final long serialVersionUID = 1L;
+	private Sprite sprite;
+	private String imagePath;
+	@XStreamOmitField
+	private transient Bitmap thumbnail;
 
-    public SetCostumeBrick(Sprite sprite) {
-        this.sprite = sprite;
-    }
+	public SetCostumeBrick(Sprite sprite) {
+		this.sprite = sprite;
+	}
 
-    public void setCostume(String imagePath) {
-        this.imagePath = imagePath;
-        if(imagePath != null){
-            thumbnail = ImageEditing.getScaledBitmap(imagePath, Consts.THUMBNAIL_HEIGHT, Consts.THUMBNAIL_WIDTH);
-        }
-    }
+	public void setCostume(String imagePath) {
+		this.imagePath = imagePath;
+		if (imagePath != null) {
+			thumbnail = ImageEditing.getScaledBitmap(imagePath, Consts.THUMBNAIL_HEIGHT, Consts.THUMBNAIL_WIDTH);
+		}
+	}
 
-    public void execute() {
-        this.sprite.getCostume().setImagePath(imagePath);
-    }
+	public void execute() {
+		this.sprite.getCostume().setImagePath(imagePath);
+	}
 
-    public Sprite getSprite() {
-        return sprite;
-    }
+	public Sprite getSprite() {
+		return sprite;
+	}
 
-    public View getView(final Context context, final int brickId, BaseExpandableListAdapter adapter) {
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.construction_brick_set_costume, null);
-        OnClickListener listener = new OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("image/*");
-                ((Activity) context).startActivityForResult(intent, brickId);
-            }
-        };
-        ImageView imageView = (ImageView) view.findViewById(R.id.costume_image_view);
+	public View getView(final Context context, final int brickId, BaseExpandableListAdapter adapter) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.construction_brick_set_costume, null);
 
-        if (imagePath != null) {
-            if (thumbnail == null) {
-                thumbnail = ImageEditing.getScaledBitmap(imagePath, Consts.THUMBNAIL_HEIGHT, Consts.THUMBNAIL_WIDTH);
-            }
+		OnClickListener listener = new OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+				intent.setType("image/*");
+				((Activity) context).startActivityForResult(intent, brickId);
+			}
+		};
 
-            imageView.setImageBitmap(thumbnail);
-            imageView.setBackgroundDrawable(null);
-        }
+		ImageView imageView = (ImageView) view.findViewById(R.id.costume_image_view);
 
-        imageView.setOnClickListener(listener);
+		if (imagePath != null) {
+			if (thumbnail == null) {
+				thumbnail = ImageEditing.getScaledBitmap(imagePath, Consts.THUMBNAIL_HEIGHT, Consts.THUMBNAIL_WIDTH);
+			}
 
-        return view;
-    }
+			imageView.setImageBitmap(thumbnail);
+			imageView.setBackgroundDrawable(null);
+		}
 
-    public View getPrototypeView(Context context) {
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.toolbox_brick_set_costume, null);
-        return view;
-    }
+		imageView.setOnClickListener(listener);
 
-    @Override
-    public Brick clone() {
-        SetCostumeBrick clonedBrick = new SetCostumeBrick(getSprite());
-        if (sprite.getCostume() != null)
-            clonedBrick.setCostume(null);
-        return clonedBrick;
-    }
+		return view;
+	}
+
+	public View getPrototypeView(Context context) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.toolbox_brick_set_costume, null);
+		return view;
+	}
+
+	@Override
+	public Brick clone() {
+		SetCostumeBrick clonedBrick = new SetCostumeBrick(getSprite());
+		if (sprite.getCostume() != null) {
+			clonedBrick.setCostume(null);
+		}
+
+		return clonedBrick;
+	}
 }
