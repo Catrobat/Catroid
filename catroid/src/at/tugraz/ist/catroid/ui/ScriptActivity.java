@@ -57,16 +57,16 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	private DragNDropListView listView;
 	private Sprite sprite;
 	private Script scriptToEdit;
-
+	private final static int DELETE = 0;
 
 	private void initListeners() {
 		sprite = ProjectManager.getInstance().getCurrentSprite();
 		listView = (DragNDropListView) findViewById(R.id.brickListView);
 		adapter = new BrickAdapter(this, ProjectManager.getInstance().getCurrentSprite(), listView);
-		if(adapter.getGroupCount() > 0)
-			ProjectManager.getInstance().setCurrentScript(adapter.getGroup(adapter.getGroupCount()-1));
+		if (adapter.getGroupCount() > 0)
+			ProjectManager.getInstance().setCurrentScript(adapter.getGroup(adapter.getGroupCount() - 1));
 
-		listView.setTrashView((ImageView)findViewById(R.id.trash));
+		listView.setTrashView((ImageView) findViewById(R.id.trash));
 		listView.setOnCreateContextMenuListener(this);
 		listView.setOnDropListener(adapter);
 		listView.setOnRemoveListener(adapter);
@@ -75,7 +75,6 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		listView.setGroupIndicator(null);
 		listView.setOnGroupClickListener(adapter);
 		registerForContextMenu(listView);
-
 
 		Button mainMenuButton = (Button) findViewById(R.id.mainMenuButton);
 		mainMenuButton.setOnClickListener(new View.OnClickListener() {
@@ -100,8 +99,8 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.script_activity);
 		initListeners();
-		if(adapter.getGroupCount()>0)
-			listView.expandGroup(adapter.getGroupCount()-1);
+		if (adapter.getGroupCount() > 0)
+			listView.expandGroup(adapter.getGroupCount() - 1);
 	}
 
 	@Override
@@ -131,12 +130,12 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 
 	public void onDismiss(DialogInterface dialog) {
 		System.out.println("DialogDismiss");
-		for(int i=0;i<adapter.getGroupCount()-1;++i)
+		for (int i = 0; i < adapter.getGroupCount() - 1; ++i)
 			listView.collapseGroup(i);
 
 		adapter.notifyDataSetChanged();
-		if(adapter.getGroupCount() > 0)
-			listView.expandGroup(adapter.getGroupCount()-1);
+		if (adapter.getGroupCount() > 0)
+			listView.expandGroup(adapter.getGroupCount() - 1);
 	}
 
 	public void onCancel(DialogInterface arg0) {
@@ -156,12 +155,14 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		 */
 
 		if (resultCode == RESULT_OK) {
-			SetCostumeBrick affectedBrick = (SetCostumeBrick) adapter.getChild(adapter.getGroupCount()-1, requestCode);
+			SetCostumeBrick affectedBrick = (SetCostumeBrick) adapter
+			.getChild(adapter.getGroupCount() - 1, requestCode);
 			if (affectedBrick != null) {
 				Uri selectedImageUri = data.getData();
 				String selectedImagePath = getPathFromContentUri(selectedImageUri);
 				try {
-					File outputFile = StorageHandler.getInstance().copyImage(ProjectManager.getInstance().getCurrentProject().getName(),
+					File outputFile = StorageHandler.getInstance().copyImage(
+							ProjectManager.getInstance().getCurrentProject().getName(),
 							selectedImagePath);
 					if (outputFile != null) {
 						affectedBrick.setCostume(outputFile.getAbsolutePath());
@@ -188,7 +189,6 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		return adapter;
 	}
 
-
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
 		if (view.getId() == R.id.brickListView) {
@@ -209,7 +209,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	public boolean onContextItemSelected(MenuItem item) {
 		int menuItemIndex = item.getItemId();
 		switch (menuItemIndex) {
-		case 0: // delete
+		case DELETE:
 			sprite.getScriptList().remove(scriptToEdit);
 			if (sprite.getScriptList().isEmpty()) {
 				ProjectManager.getInstance().setCurrentScript(null);
@@ -224,7 +224,5 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		}
 		return true;
 	}
-
-
 
 }
