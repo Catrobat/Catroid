@@ -33,7 +33,6 @@ import com.jayway.android.robotium.solo.Solo;
 public class StageTest2 extends
 		ActivityInstrumentationTestCase2<ConstructionSiteActivity> {
 	private Solo solo;
-	// TODO: This is a hack! This test is going to be replaces anyway!
 	private String toolbar = "B\nu\ni\nl\nd\ni\nn\ng\n \nB\nl\no\nc\nk\ns";
 	
 	public StageTest2() {
@@ -56,12 +55,14 @@ public class StageTest2 extends
 		assertTrue("Found brick in construction site", foundText);
 	}
 
-	public void setUp() throws Exception {
+	@Override
+    public void setUp() throws Exception {
 		solo = new Solo(getInstrumentation(), getActivity());
 		clearConstructionSite();
 	}
 	
-	public void tearDown() throws Exception {
+	@Override
+    public void tearDown() throws Exception {
 		clearConstructionSite();
 		try {	
 			solo.finalize();
@@ -89,7 +90,6 @@ public class StageTest2 extends
 	
 //	@Smoke
 //	public void testSelectSound() throws InterruptedException {
-//		// TODO: If there are no sounds on the device this test fails. Copy some default sounds to device?
 //		addBrick(R.string.play_sound_main_adapter);
 //		
 //		Thread.sleep(400);
@@ -118,16 +118,15 @@ public class StageTest2 extends
 		assertTrue("Found newly created sprite", foundText);
 	}
 	
-	/* TODO: Does not work because the shake animation keeps the UI thread busy
-	@Smoke
-	public void testRemoveBrick() {
-		addBrick(R.string.wait_main_adapter);
-
-		solo.clickLongOnText(getActivity().getString(R.string.wait_main_adapter));
-		solo.clickOnButton(0);
-		
-		boolean foundText = solo.searchText(getActivity().getString(R.string.wait_main_adapter));
-		assertFalse("Brick not found after deleting it.", foundText);
-	}
-	*/
+    /*
+     * @Smoke public void testRemoveBrick() {
+     * addBrick(R.string.wait_main_adapter);
+     * 
+     * solo.clickLongOnText(getActivity().getString(R.string.wait_main_adapter));
+     * solo.clickOnButton(0);
+     * 
+     * boolean foundText =
+     * solo.searchText(getActivity().getString(R.string.wait_main_adapter));
+     * assertFalse("Brick not found after deleting it.", foundText); }
+     */
 }

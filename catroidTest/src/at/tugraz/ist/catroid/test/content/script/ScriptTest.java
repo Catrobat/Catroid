@@ -53,7 +53,8 @@ public class ScriptTest extends AndroidTestCase {
 	};
 
 	public void testAddBricks() {
-		Script script = new Script();
+        Sprite testSprite = new Sprite("sprite");
+        Script script = new Script("test", testSprite);
 		script.addBrick(hideBrick);
 		script.addBrick(showBrick);
 		script.addBrick(placeAtBrick);
@@ -70,7 +71,8 @@ public class ScriptTest extends AndroidTestCase {
 	}
 
 	public void testMoveTopBrickDown() {
-		Script script = new Script();
+        Sprite testSprite = new Sprite("sprite");
+        Script script = new Script("test", testSprite);
 		script.addBrick(hideBrick);
 		script.addBrick(showBrick);
 		script.addBrick(placeAtBrick);
@@ -87,7 +89,8 @@ public class ScriptTest extends AndroidTestCase {
 	}
 
 	public void testMoveTopBrickUp() {
-		Script script = new Script();
+        Sprite testSprite = new Sprite("sprite");
+        Script script = new Script("test", testSprite);
 		script.addBrick(hideBrick);
 		script.addBrick(showBrick);
 		script.addBrick(placeAtBrick);
@@ -104,7 +107,8 @@ public class ScriptTest extends AndroidTestCase {
 	}
 
 	public void testMoveBottomBrickUp() {
-		Script script = new Script();
+        Sprite testSprite = new Sprite("sprite");
+        Script script = new Script("test", testSprite);
 		script.addBrick(hideBrick);
 		script.addBrick(showBrick);
 		script.addBrick(placeAtBrick);
@@ -121,7 +125,8 @@ public class ScriptTest extends AndroidTestCase {
 	}
 
 	public void testMoveBottomBrickDown() {
-		Script script = new Script();
+        Sprite testSprite = new Sprite("sprite");
+        Script script = new Script("test", testSprite);
 		script.addBrick(hideBrick);
 		script.addBrick(showBrick);
 		script.addBrick(placeAtBrick);
@@ -138,7 +143,8 @@ public class ScriptTest extends AndroidTestCase {
 	}
 
 	public void testMoveBrick() {
-		Script script = new Script();
+        Sprite testSprite = new Sprite("sprite");
+        Script script = new Script("test", testSprite);
 		script.addBrick(hideBrick);
 		script.addBrick(showBrick);
 		script.addBrick(placeAtBrick);

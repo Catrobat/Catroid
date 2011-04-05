@@ -62,7 +62,7 @@ public class AddBrickDialog extends Dialog {
         prototypeBrickList.add(new WaitBrick(sprite, 1000));
         prototypeBrickList.add(new HideBrick(sprite));
         prototypeBrickList.add(new ShowBrick(sprite));
-        prototypeBrickList.add(new PlaceAtBrick(sprite, 200, 200));
+        prototypeBrickList.add(new PlaceAtBrick(sprite, 0, 0));
         prototypeBrickList.add(new SetXBrick(sprite, 50));
         prototypeBrickList.add(new SetYBrick(sprite, 50));
         prototypeBrickList.add(new ChangeXByBrick(sprite, 10));
@@ -93,17 +93,26 @@ public class AddBrickDialog extends Dialog {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Brick addedBrick = adapter.getItem(position);
                 if (addedBrick instanceof IfStartedBrick) {
-                    Script newScript = new Script("newScript", ProjectManager.getInstance().getCurrentSprite());
+                    Script newScript = new Script("script", ProjectManager.getInstance().getCurrentSprite());
                     ProjectManager.getInstance().addScript(newScript);
                     ProjectManager.getInstance().setCurrentScript(newScript);
                     newScript.setTouchScript(false);
                 } else if (addedBrick instanceof IfTouchedBrick) {
-                    Script newScript = new Script("newScript", ProjectManager.getInstance().getCurrentSprite());
+                    Script newScript = new Script("script", ProjectManager.getInstance().getCurrentSprite());
                     ProjectManager.getInstance().addScript(newScript);
                     ProjectManager.getInstance().setCurrentScript(newScript);
                     newScript.setTouchScript(true);
                 } else {
-                    ProjectManager.getInstance().addBrick(getBrickClone(adapter.getItem(position)));
+                    if (ProjectManager.getInstance().getCurrentSprite().getScriptList().isEmpty()) {
+                        Script newScript = new Script("script", ProjectManager.getInstance().getCurrentSprite());
+                        ProjectManager.getInstance().addScript(newScript);
+                        ProjectManager.getInstance().setCurrentScript(newScript);
+                        newScript.setTouchScript(false);
+                        ProjectManager.getInstance().addBrick(getBrickClone(adapter.getItem(position)));
+                    } else {
+                        ProjectManager.getInstance().addBrick(getBrickClone(adapter.getItem(position)));
+                    }
+                    
                 }
                 dismiss();
             }

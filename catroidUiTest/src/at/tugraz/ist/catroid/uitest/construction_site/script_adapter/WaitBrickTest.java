@@ -77,7 +77,7 @@ public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 	private void createProject() {
 		project = new Project(null, "testProject");
         Sprite sprite = new Sprite("cat");
-        Script script = new Script(); 
+        Script script = new Script("script", sprite);
         waitBrick = new WaitBrick(sprite, 1000);
         script.addBrick(waitBrick);
         
