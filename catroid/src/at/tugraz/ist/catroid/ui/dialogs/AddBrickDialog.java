@@ -62,10 +62,10 @@ public class AddBrickDialog extends Dialog {
 		prototypeBrickList.add(new HideBrick(sprite));
 		prototypeBrickList.add(new ShowBrick(sprite));
 		prototypeBrickList.add(new PlaceAtBrick(sprite, 0, 0));
-		prototypeBrickList.add(new SetXBrick(sprite, 50));
-		prototypeBrickList.add(new SetYBrick(sprite, 50));
-		prototypeBrickList.add(new ChangeXByBrick(sprite, 10));
-		prototypeBrickList.add(new ChangeYByBrick(sprite, 10));
+		prototypeBrickList.add(new SetXBrick(sprite, 0));
+		prototypeBrickList.add(new SetYBrick(sprite, 0));
+		prototypeBrickList.add(new ChangeXByBrick(sprite, 0));
+		prototypeBrickList.add(new ChangeYByBrick(sprite, 0));
 		prototypeBrickList.add(new SetCostumeBrick(sprite));
 		prototypeBrickList.add(new ScaleCostumeBrick(sprite, 100));
 		prototypeBrickList.add(new GoNStepsBackBrick(sprite, 1));
