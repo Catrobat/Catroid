@@ -39,8 +39,8 @@
 		android:layout_height="wrap_content"
 	>
 		<Button
-			android:text="@string/new_project_dialog_button"
 			android:id="@+id/createNewProjectButton"
+			android:text="@string/new_project_dialog_button"
 			android:layout_height="wrap_content"
 			android:layout_width="fill_parent"
 			android:layout_weight=".5" />
