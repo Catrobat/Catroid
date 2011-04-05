@@ -54,7 +54,7 @@ public class SpritesAdapter extends BaseAdapter{
 		if(type == null)
 			return 0;
 		else
-			return 0;//TODO wenn sprites ids haben hier zurueckgeben
+			return 0;
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {

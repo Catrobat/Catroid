@@ -145,7 +145,6 @@ public class ConstructionSiteActivity extends Activity implements Observer, OnIt
 			// mContentManager.testSet();
 			// mContentManager.saveContent();
 			// mContentManager.loadContent(SPF_FILE);
-			//TODO: set real current project
 			currentProject = new Project(this, "new");
 
 

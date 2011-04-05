@@ -63,7 +63,6 @@ public class ProjectActivity extends Activity {
                     Intent intent = new Intent(ProjectActivity.this, ScriptActivity.class);
                     ProjectActivity.this.startActivity(intent);
                 }
-                // TODO: error if selected sprite is not in the project
             }
         });
 

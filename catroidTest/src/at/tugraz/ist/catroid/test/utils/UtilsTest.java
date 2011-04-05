@@ -131,7 +131,7 @@ public class UtilsTest extends TestCase {
     //	}
 
     //	public void testRenameProject() {
-    //		String catroidRoot = "/sdcard/catroid"; // TODO: Shouldn't be a literal
+    //		String catroidRoot = "/sdcard/catroid"; 
     //		String testDirPath = Utils.concatPaths(catroidRoot, "testDir");
     //		String imagesPath = Utils.concatPaths(testDirPath, "images");
     //		String soundsPath = Utils.concatPaths(testDirPath, "sounds");

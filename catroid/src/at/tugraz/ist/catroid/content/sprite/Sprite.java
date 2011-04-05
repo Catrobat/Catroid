@@ -196,7 +196,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
     }
 
     public void processOnTouch(int coordX, int coordY) {
-        if(costume == null) { //TODO change to getBitmap
+        if(costume.getBitmap() == null) {
             startTouchScripts();
             return;
         }
