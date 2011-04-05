@@ -18,7 +18,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
-
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical"
@@ -64,30 +63,28 @@
 			android:layout_height="wrap_content"
 			android:textSize="14dip"
 		></TextView>
-		
 		<RelativeLayout
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content" >
-			<at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView 
+			android:layout_height="wrap_content"
+		>
+			<at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView
 				android:layout_width="match_parent"
-				android:layout_height="match_parent" 
+				android:layout_height="match_parent"
 				android:id="@+id/brickListView"
 				android:drawSelectorOnTop="false"
-	        	android:fastScrollEnabled="true" 
-	        	android:clickable="false" 
-	        	android:drawingCacheQuality="high" />
-	        	
-	        <ImageView 
-				android:id="@+id/trash"  
+				android:fastScrollEnabled="true"
+				android:clickable="false"
+				android:drawingCacheQuality="high" />
+			<ImageView
+				android:id="@+id/trash"
 				android:layout_width="51dip"
 				android:layout_height="97dip"
-		        android:layout_alignParentRight="true"
+				android:layout_alignParentRight="true"
 				android:layout_centerVertical="true"
-		        android:layout_marginRight="-3dip"
-		        android:visibility="gone"
-		        android:src="@drawable/trash_green" />
+				android:layout_marginRight="-3dip"
+				android:visibility="gone"
+				android:src="@drawable/trash_green" />
 		</RelativeLayout>
-	
 	</LinearLayout>
 	<!-- Add brick button -->
 	<Button

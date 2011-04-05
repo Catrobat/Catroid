@@ -171,7 +171,7 @@ public class MainMenuActivity extends Activity {
     }
 
     @Override
-    public void onPause() {  
+    public void onPause() {
         super.onPause();
     	//onPause is sufficient --> gets called before "process_killed", onStop(), onDestroy(), onRestart()
     	//also when you switch activities

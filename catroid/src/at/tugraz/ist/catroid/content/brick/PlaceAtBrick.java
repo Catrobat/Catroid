@@ -63,18 +63,23 @@ public class PlaceAtBrick implements Brick, OnDismissListener {
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View brickView = inflater.inflate(R.layout.construction_brick_place_at, null);
+		
         EditText editX = (EditText) brickView.findViewById(R.id.InputValueEditTextX);
         editX.setText(String.valueOf(xPosition));
+        
         EditIntegerDialog dialogX = new EditIntegerDialog(context, editX, xPosition,true);
         dialogX.setOnDismissListener(this);
         dialogX.setOnCancelListener((OnCancelListener) context);
+        
         editX.setOnClickListener(dialogX);
 		
         EditText editY = (EditText) brickView.findViewById(R.id.InputValueEditTextY);
         editY.setText(String.valueOf(yPosition));
+        
         EditIntegerDialog dialogY = new EditIntegerDialog(context, editY, yPosition,true);
         dialogY.setOnDismissListener(this);
         dialogY.setOnCancelListener((OnCancelListener) context);
+        
         editY.setOnClickListener(dialogY);
 
 		return brickView;
