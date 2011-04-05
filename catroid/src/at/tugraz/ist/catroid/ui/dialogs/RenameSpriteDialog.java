@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -30,23 +30,23 @@ import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class RenameSpriteDialog extends Dialog {
-    protected ProjectActivity projectActivity;
+	protected ProjectActivity projectActivity;
 
-    public RenameSpriteDialog(ProjectActivity projectActivity) {
-        super(projectActivity);
-        this.projectActivity = projectActivity;
-    }
+	public RenameSpriteDialog(ProjectActivity projectActivity) {
+		super(projectActivity);
+		this.projectActivity = projectActivity;
+	}
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_rename);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.dialog_rename);
 		setTitle(R.string.rename_sprite_dialog);
-        setCanceledOnTouchOutside(true);
+		setCanceledOnTouchOutside(true);
 
 		Button renameButton = (Button) findViewById(R.id.renameButton);
 		renameButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+			public void onClick(View v) {
 				String spriteName = ((EditText) findViewById(R.id.renameEditText)).getText().toString();
 				if (spriteName.equalsIgnoreCase(projectActivity.getSpriteToEdit().getName())) {
 					dismiss();
@@ -56,7 +56,7 @@ public class RenameSpriteDialog extends Dialog {
 					for (Sprite tempSprite : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
 						if (tempSprite.getName().equalsIgnoreCase(spriteName)) {
 							Utils.displayErrorMessage(projectActivity,
-							        projectActivity.getString(R.string.spritename_already_exists));
+									projectActivity.getString(R.string.spritename_already_exists));
 							return;
 						}
 					}
@@ -65,8 +65,8 @@ public class RenameSpriteDialog extends Dialog {
 					Utils.displayErrorMessage(projectActivity, projectActivity.getString(R.string.spritename_invalid));
 					return;
 				}
-                dismiss();
-            }
-        });
-    }
+				dismiss();
+			}
+		});
+	}
 }

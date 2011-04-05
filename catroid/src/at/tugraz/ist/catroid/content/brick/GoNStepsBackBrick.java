@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -37,27 +37,27 @@ public class GoNStepsBackBrick implements Brick, OnDismissListener {
 
 	public GoNStepsBackBrick(Sprite sprite, int steps) {
 		this.sprite = sprite;
-		this.steps  = steps;
+		this.steps = steps;
 	}
 
 	public void execute() {
 		if (steps <= 0)
 			throw new NumberFormatException("Steps was not a positive number!");
-		
+
 		int currentPosition = sprite.getZPosition();
-		
+
 		if (currentPosition - steps > currentPosition) {
 			sprite.setZPosition(Integer.MIN_VALUE);
 			return;
 		}
-		
+
 		sprite.setZPosition(currentPosition - steps);
 	}
 
 	public Sprite getSprite() {
 		return this.sprite;
 	}
-	
+
 	public int getSteps() {
 		return steps;
 	}
@@ -66,30 +66,30 @@ public class GoNStepsBackBrick implements Brick, OnDismissListener {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.construction_brick_go_back, null);
 		EditText edit = (EditText) view.findViewById(R.id.InputValueEditText);
-		
+
 		edit.setText(String.valueOf(steps));
-        EditIntegerDialog dialog = new EditIntegerDialog(context, edit, steps, false);
+		EditIntegerDialog dialog = new EditIntegerDialog(context, edit, steps, false);
 		dialog.setOnDismissListener(this);
 		dialog.setOnCancelListener((OnCancelListener) context);
 		edit.setOnClickListener(dialog);
-		
+
 		return view;
 	}
-	
+
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.toolbox_brick_go_back, null);
 		return view;
 	}
-	
+
 	@Override
-    public Brick clone() {
+	public Brick clone() {
 		return new GoNStepsBackBrick(getSprite(), getSteps());
-		
+
 	}
 
 	public void onDismiss(DialogInterface dialog) {
-		steps = ((EditIntegerDialog)dialog).getValue();
+		steps = ((EditIntegerDialog) dialog).getValue();
 		dialog.cancel();
 	}
 

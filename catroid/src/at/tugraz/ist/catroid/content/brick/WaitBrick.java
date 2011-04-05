@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -34,9 +34,9 @@ import at.tugraz.ist.catroid.ui.dialogs.brickdialogs.EditDoubleDialog;
 
 public class WaitBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
-    private int timeToWaitInMilliSeconds;
-    private Sprite sprite;
-    
+	private int timeToWaitInMilliSeconds;
+	private Sprite sprite;
+
 	public WaitBrick(Sprite sprite, int timeToWaitInMilliseconds) {
 		this.timeToWaitInMilliSeconds = timeToWaitInMilliseconds;
 		this.sprite = sprite;
@@ -48,7 +48,7 @@ public class WaitBrick implements Brick, OnDismissListener {
 			startTime = System.currentTimeMillis();
 			Thread.sleep(timeToWaitInMilliSeconds);
 		} catch (InterruptedException e) {
-			timeToWaitInMilliSeconds = timeToWaitInMilliSeconds - (int)(System.currentTimeMillis() - startTime);
+			timeToWaitInMilliSeconds = timeToWaitInMilliSeconds - (int) (System.currentTimeMillis() - startTime);
 			throw new InterruptedRuntimeException("WaitBrick was interrupted", e);
 		}
 	}
@@ -60,36 +60,36 @@ public class WaitBrick implements Brick, OnDismissListener {
 	public long getWaitTime() {
 		return timeToWaitInMilliSeconds;
 	}
-	
+
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.construction_brick_wait, null);
-		
-		EditText edit = (EditText)view.findViewById(R.id.InputValueEditText);
-		edit.setText((timeToWaitInMilliSeconds/1000.0) + "");
-		
-        EditDoubleDialog dialog = new EditDoubleDialog(context, edit, timeToWaitInMilliSeconds/1000.0);
-        dialog.setOnDismissListener(this);
-        dialog.setOnCancelListener((OnCancelListener) context);
-        
+
+		EditText edit = (EditText) view.findViewById(R.id.InputValueEditText);
+		edit.setText((timeToWaitInMilliSeconds / 1000.0) + "");
+
+		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, timeToWaitInMilliSeconds / 1000.0);
+		dialog.setOnDismissListener(this);
+		dialog.setOnCancelListener((OnCancelListener) context);
+
 		edit.setOnClickListener(dialog);
-		
+
 		return view;
 	}
-	
+
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.toolbox_brick_wait, null);
-        return view;
-    }
-	
+		return view;
+	}
+
 	@Override
-    public Brick clone() {
-		return new WaitBrick(getSprite(),timeToWaitInMilliSeconds);
+	public Brick clone() {
+		return new WaitBrick(getSprite(), timeToWaitInMilliSeconds);
 	}
 
 	public void onDismiss(DialogInterface dialog) {
-		timeToWaitInMilliSeconds = (int) Math.round(((EditDoubleDialog)dialog).getValue()*1000);
+		timeToWaitInMilliSeconds = (int) Math.round(((EditDoubleDialog) dialog).getValue() * 1000);
 		dialog.cancel();
 	}
 }

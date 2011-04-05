@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -31,56 +31,58 @@ import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.brickdialogs.EditIntegerDialog;
 
 public class SetYBrick implements Brick, OnDismissListener {
-    private static final long serialVersionUID = 1L;
-    private int yPosition;
-    private Sprite sprite;
+	private static final long serialVersionUID = 1L;
+	private int yPosition;
+	private Sprite sprite;
 
-    public SetYBrick(Sprite sprite, int yPosition) {
-        this.sprite = sprite;
-        this.yPosition = yPosition;
-    }
+	public SetYBrick(Sprite sprite, int yPosition) {
+		this.sprite = sprite;
+		this.yPosition = yPosition;
+	}
 
-    public void execute() {
-        sprite.setXYPosition(sprite.getXPosition(), yPosition);
-    }
+	public void execute() {
+		sprite.setXYPosition(sprite.getXPosition(), yPosition);
+	}
 
-    public Sprite getSprite() {
-        return this.sprite;
-    }
+	public Sprite getSprite() {
+		return this.sprite;
+	}
 
-    public int getYPosition() {
-        return yPosition;
-    }
+	public int getYPosition() {
+		return yPosition;
+	}
 
-    public View getView( Context context, int brickId, BaseExpandableListAdapter adapter) {
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View brickView = inflater.inflate(R.layout.construction_brick_set_y, null);
+	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View brickView = inflater.inflate(R.layout.construction_brick_set_y, null);
 
-        EditText editY = (EditText) brickView.findViewById(R.id.InputValueEditTextY);
-        editY.setText(String.valueOf(yPosition));
-        EditIntegerDialog dialogY = new EditIntegerDialog(context, editY, yPosition, true);
-        dialogY.setOnDismissListener(this);
-        dialogY.setOnCancelListener((OnCancelListener) context);
-        editY.setOnClickListener(dialogY);
+		EditText editY = (EditText) brickView.findViewById(R.id.InputValueEditTextY);
+		editY.setText(String.valueOf(yPosition));
 
-        return brickView;
-    }
+		EditIntegerDialog dialogY = new EditIntegerDialog(context, editY, yPosition, true);
+		dialogY.setOnDismissListener(this);
+		dialogY.setOnCancelListener((OnCancelListener) context);
 
-    public View getPrototypeView(Context context) {
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View brickView = inflater.inflate(R.layout.toolbox_brick_set_y, null);
-        return brickView;
-    }
+		editY.setOnClickListener(dialogY);
 
-    @Override
-    public Brick clone() {
-        return new SetYBrick(getSprite(), getYPosition());
-    }
+		return brickView;
+	}
 
-    public void onDismiss(DialogInterface dialog) {
-        EditIntegerDialog inputDialog = (EditIntegerDialog) dialog;
-        yPosition = inputDialog.getValue();
+	public View getPrototypeView(Context context) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View brickView = inflater.inflate(R.layout.toolbox_brick_set_y, null);
+		return brickView;
+	}
 
-        dialog.cancel();
-    }
+	@Override
+	public Brick clone() {
+		return new SetYBrick(getSprite(), getYPosition());
+	}
+
+	public void onDismiss(DialogInterface dialog) {
+		EditIntegerDialog inputDialog = (EditIntegerDialog) dialog;
+		yPosition = inputDialog.getValue();
+
+		dialog.cancel();
+	}
 }

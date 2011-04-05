@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -30,7 +30,7 @@ public class IfTouchedBrick implements Brick {
 	protected Script touchScript;
 	private Sprite sprite;
 	private static final long serialVersionUID = 1L;
-	
+
 	public IfTouchedBrick(Sprite sprite, Script touchScript) {
 		this.touchScript = touchScript;
 		this.sprite = sprite;
@@ -38,24 +38,24 @@ public class IfTouchedBrick implements Brick {
 
 	public void execute() {
 	}
-	
+
 	public Sprite getSprite() {
 		return sprite;
 	}
-	
+
 	public View getView(Context context, int brickId, final BaseExpandableListAdapter adapter) {
-        View view = getPrototypeView(context);
+		View view = getPrototypeView(context);
 		return view;
 	}
-	
+
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.toolbox_brick_touched, null);
 		return view;
 	}
-	
+
 	@Override
-    public Brick clone() {
-		return new IfTouchedBrick(getSprite(),touchScript);
+	public Brick clone() {
+		return new IfTouchedBrick(getSprite(), touchScript);
 	}
 }
