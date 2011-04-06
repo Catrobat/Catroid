@@ -8,7 +8,6 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.brick.Brick;
 import at.tugraz.ist.catroid.content.brick.ChangeXByBrick;
-import at.tugraz.ist.catroid.content.brick.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.project.Project;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
