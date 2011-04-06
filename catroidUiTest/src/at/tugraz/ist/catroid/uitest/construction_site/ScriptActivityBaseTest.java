@@ -42,8 +42,10 @@ public class ScriptActivityBaseTest extends ActivityInstrumentationTestCase2<Mai
 	public void setUp() throws Exception {
 		File directory = new File("/sdcard/catroid/" + projectNameOne);
         UtilFile.deleteDirectory(directory);
+        
         directory = new File("/sdcard/catroid/" + projectNameTwo);
         UtilFile.deleteDirectory(directory);
+        
 		solo = new Solo(getInstrumentation(), getActivity());
         super.setUp();
 	}
@@ -53,9 +55,11 @@ public class ScriptActivityBaseTest extends ActivityInstrumentationTestCase2<Mai
         File directory = new File("/sdcard/catroid/" + projectNameOne);
         UtilFile.deleteDirectory(directory);
         assertFalse(projectNameOne + " was not deleted!", directory.exists());
+        
         directory = new File("/sdcard/catroid/" + projectNameTwo);
         UtilFile.deleteDirectory(directory);
         assertFalse(projectNameTwo + " was not deleted!", directory.exists());
+        
 		try {
 			solo.finalize();
 		} catch (Throwable e) {
@@ -71,12 +75,12 @@ public class ScriptActivityBaseTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnEditText(0);
 		solo.enterText(0, projectNameOne);
 		solo.goBack();
+		
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
-
         solo.clickOnText(getActivity().getString(R.string.stage));
-
 		solo.clickOnButton(getActivity().getString(R.string.main_menu));
-		solo.clickOnButton(getActivity().getString(R.string.resume)); //if this is possible it worked! (will throw AssertionFailedError if not working
+		solo.clickOnButton(getActivity().getString(R.string.resume)); 
+		//if this is possible it worked! (will throw AssertionFailedError if not working
 	}
 
     public void testCreateNewBrickButton() throws InterruptedException {
@@ -84,8 +88,8 @@ public class ScriptActivityBaseTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnEditText(0);
 		solo.enterText(0, projectNameTwo);
 		solo.goBack();
+		
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
-
         solo.clickOnText(getActivity().getString(R.string.stage));
 
         System.out.println("new brick: "+getActivity().getString(R.string.add_new_brick));
