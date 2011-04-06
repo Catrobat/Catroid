@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -25,110 +25,110 @@ import android.graphics.Matrix;
 
 public class ImageEditing {
 
-    public ImageEditing() {
+	public ImageEditing() {
 
-    }
+	}
 
-    /**
-     * Scales the bitmap to the specified size.
-     * 
-     * @param bm
-     *            the bitmap to resize
-     * @param xSize
-     *            desired x size
-     * @param ySize
-     *            desired y size
-     * @param recycleOldBm
-     *            if true, the assigned bitmap at parameter bm will be recycled
-     *            after scaling
-     * @return a new, scaled bitmap
-     */
-    public static Bitmap scaleBitmap(Bitmap bm, int xSize, int ySize, boolean recycleOldBm) {
-        Matrix matrix = new Matrix();
-        float scaleWidth = (((float) xSize) / bm.getWidth());
-        float scaleHeight = (((float) ySize) / bm.getHeight());
-        matrix.postScale(scaleWidth, scaleHeight);
-        Bitmap newbm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
-        if (recycleOldBm)
-            bm.recycle();
-        return newbm;
-    }
+	/**
+	 * Scales the bitmap to the specified size.
+	 * 
+	 * @param bm
+	 *            the bitmap to resize
+	 * @param xSize
+	 *            desired x size
+	 * @param ySize
+	 *            desired y size
+	 * @param recycleOldBm
+	 *            if true, the assigned bitmap at parameter bm will be recycled
+	 *            after scaling
+	 * @return a new, scaled bitmap
+	 */
+	public static Bitmap scaleBitmap(Bitmap bm, int xSize, int ySize, boolean recycleOldBm) {
+		Matrix matrix = new Matrix();
+		float scaleWidth = (((float) xSize) / bm.getWidth());
+		float scaleHeight = (((float) ySize) / bm.getHeight());
+		matrix.postScale(scaleWidth, scaleHeight);
+		Bitmap newbm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
+		if (recycleOldBm)
+			bm.recycle();
+		return newbm;
+	}
 
-    public static Bitmap scaleBitmap(Bitmap bm, int xSize, int ySize) {
-        return ImageEditing.scaleBitmap(bm, xSize, ySize, false);
-    }
+	public static Bitmap scaleBitmap(Bitmap bm, int xSize, int ySize) {
+		return ImageEditing.scaleBitmap(bm, xSize, ySize, false);
+	}
 
-    public static Bitmap scaleBitmap(Bitmap bm, double scalingFactor, boolean recycleOldBm) {
-        return scaleBitmap(bm, (int) Math.round(bm.getWidth() * scalingFactor), (int) Math.round(bm.getHeight() * scalingFactor),
-                recycleOldBm);
-    }
+	public static Bitmap scaleBitmap(Bitmap bm, double scalingFactor, boolean recycleOldBm) {
+		return scaleBitmap(bm, (int) Math.round(bm.getWidth() * scalingFactor),
+				(int) Math.round(bm.getHeight() * scalingFactor), recycleOldBm);
+	}
 
-    public static Bitmap getScaledBitmap(String imagePath, int outWidth, int outHeight) {
-        if (imagePath == null) {
-            return null;
-        }
-        BitmapFactory.Options o = new BitmapFactory.Options();
-        o.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(imagePath, o);
+	public static Bitmap getScaledBitmap(String imagePath, int outWidth, int outHeight) {
+		if (imagePath == null) {
+			return null;
+		}
+		BitmapFactory.Options o = new BitmapFactory.Options();
+		o.inJustDecodeBounds = true;
+		BitmapFactory.decodeFile(imagePath, o);
 
-        int origWidth = o.outWidth;
-        int origHeight = o.outHeight;
+		int origWidth = o.outWidth;
+		int origHeight = o.outHeight;
 
-        double sampleSizeWidth = (origWidth / (double) outWidth);
-        double sampleSizeHeight = origHeight / (double) outHeight;
-        double sampleSize = Math.max(sampleSizeWidth, sampleSizeHeight);
-        int sampleSizeRounded = (int) Math.floor(sampleSize);
+		double sampleSizeWidth = (origWidth / (double) outWidth);
+		double sampleSizeHeight = origHeight / (double) outHeight;
+		double sampleSize = Math.max(sampleSizeWidth, sampleSizeHeight);
+		int sampleSizeRounded = (int) Math.floor(sampleSize);
 
-        int newHeight = (int) Math.ceil(origHeight / sampleSize);
-        int newWidth = (int) Math.ceil(origWidth / sampleSize);
+		int newHeight = (int) Math.ceil(origHeight / sampleSize);
+		int newWidth = (int) Math.ceil(origWidth / sampleSize);
 
-        o.inJustDecodeBounds = false;
-        o.inSampleSize = sampleSizeRounded;
+		o.inJustDecodeBounds = false;
+		o.inSampleSize = sampleSizeRounded;
 
-        Bitmap tmpBitmap = BitmapFactory.decodeFile(imagePath, o);
-        return scaleBitmap(tmpBitmap, newWidth, newHeight, true);
-    }
+		Bitmap tmpBitmap = BitmapFactory.decodeFile(imagePath, o);
+		return scaleBitmap(tmpBitmap, newWidth, newHeight, true);
+	}
 
-    public static Bitmap getBitmap(String imagePath, int maxOutWidth, int maxOutHeight) {
-        if (imagePath == null) {
-            return null;
-        }
-        int[] imageDim = new int[2];
-        
-        imageDim = getImageDimensions(imagePath);
-        
-        double sampleSizeWidth = (imageDim[0] / (double) maxOutWidth);
-        double sampleSizeHeight = imageDim[1] / (double) maxOutHeight;
-        double sampleSize = Math.max(sampleSizeWidth, sampleSizeHeight);
+	public static Bitmap getBitmap(String imagePath, int maxOutWidth, int maxOutHeight) {
+		if (imagePath == null) {
+			return null;
+		}
+		int[] imageDim = new int[2];
 
-        if (sampleSize < 1) {
-            return BitmapFactory.decodeFile(imagePath);
-        }
+		imageDim = getImageDimensions(imagePath);
 
-        int sampleSizeRounded = (int) Math.floor(sampleSize);
+		double sampleSizeWidth = (imageDim[0] / (double) maxOutWidth);
+		double sampleSizeHeight = imageDim[1] / (double) maxOutHeight;
+		double sampleSize = Math.max(sampleSizeWidth, sampleSizeHeight);
 
-        int newHeight = (int) Math.ceil(imageDim[1] / sampleSize);
-        int newWidth = (int) Math.ceil(imageDim[0] / sampleSize);
+		if (sampleSize < 1) {
+			return BitmapFactory.decodeFile(imagePath);
+		}
 
-        
-        BitmapFactory.Options o = new BitmapFactory.Options();
-        o.inJustDecodeBounds = false;
-        o.inSampleSize = sampleSizeRounded;
+		int sampleSizeRounded = (int) Math.floor(sampleSize);
 
-        Bitmap tmpBitmap = BitmapFactory.decodeFile(imagePath, o);
-        return scaleBitmap(tmpBitmap, newWidth, newHeight, true);
-    }
+		int newHeight = (int) Math.ceil(imageDim[1] / sampleSize);
+		int newWidth = (int) Math.ceil(imageDim[0] / sampleSize);
 
-    public static int[] getImageDimensions(String imagePath) {
-        int[] imageDim = new int[2];
 
-        BitmapFactory.Options o = new BitmapFactory.Options();
-        o.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(imagePath, o);
+		BitmapFactory.Options o = new BitmapFactory.Options();
+		o.inJustDecodeBounds = false;
+		o.inSampleSize = sampleSizeRounded;
 
-        imageDim[0] = o.outWidth;
-        imageDim[1] = o.outHeight;
+		Bitmap tmpBitmap = BitmapFactory.decodeFile(imagePath, o);
+		return scaleBitmap(tmpBitmap, newWidth, newHeight, true);
+	}
 
-        return imageDim;
-    }
+	public static int[] getImageDimensions(String imagePath) {
+		int[] imageDim = new int[2];
+
+		BitmapFactory.Options o = new BitmapFactory.Options();
+		o.inJustDecodeBounds = true;
+		BitmapFactory.decodeFile(imagePath, o);
+
+		imageDim[0] = o.outWidth;
+		imageDim[1] = o.outHeight;
+
+		return imageDim;
+	}
 }

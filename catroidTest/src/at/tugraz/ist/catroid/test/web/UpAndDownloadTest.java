@@ -69,6 +69,7 @@ public class UpAndDownloadTest extends AndroidTestCase {
                 return mMockConnection;
             }
         };
+        
         ProjectDownloadTask downloadTask = new ProjectDownloadTask(null, "", testProjectName, Consts.TMP_PATH
                 + "/down.zip") {
             @Override

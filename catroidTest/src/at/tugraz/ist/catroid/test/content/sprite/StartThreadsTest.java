@@ -40,11 +40,13 @@ public class StartThreadsTest extends AndroidTestCase {
         testSprite.getScriptList().add(testScript);
         
         testSprite.startScripts();
+        
         try {
             Thread.sleep(200);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        
         assertFalse("Sprite is not hidden", testSprite.isVisible());
         assertEquals("the scale is not as expected",scale, testSprite.getScale());
     }
@@ -62,29 +64,35 @@ public class StartThreadsTest extends AndroidTestCase {
         testSprite.getScriptList().add(testScript);
         
         testSprite.startScripts();
+        
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        
         testSprite.pause();
         assertFalse("Sprite is not hidden", testSprite.isVisible());
         testSprite.resume();
+        
         try {
             Thread.sleep(400);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        
         assertTrue("Sprite is hidden", testSprite.isVisible());
         
         testScript.getBrickList().clear();
         testScript.addBrick(hideBrick);
         testSprite.startScripts();
+        
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        
         assertTrue("Sprite is hidden - should not be because this script shouldnt be executed", testSprite.isVisible());
     }
     

@@ -32,6 +32,7 @@ import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class ScriptTest extends AndroidTestCase {
+	
 	private Sprite sprite;
 	private HideBrick hideBrick;
 	private ShowBrick showBrick;

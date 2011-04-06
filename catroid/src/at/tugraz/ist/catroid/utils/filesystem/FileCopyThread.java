@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -71,9 +71,10 @@ public class FileCopyThread extends Thread {
 			if (fos != null)
 				fos.close();
 		} catch (Exception e) {
-			Log.e("FileCopyThread", "Error copying file \"" + sourceFile.getPath() + "\" to \"" + destinationFile.getPath() + "\".");
+			Log.e("FileCopyThread", "Error copying file \"" + sourceFile.getPath() + "\" to \""
+					+ destinationFile.getPath() + "\".");
 		}
-		
+
 		if(progressDialog != null && progressDialog.isShowing())
 			progressDialog.dismiss();
 	}
