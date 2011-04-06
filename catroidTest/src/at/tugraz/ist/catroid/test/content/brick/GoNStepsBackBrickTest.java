@@ -75,7 +75,7 @@ public class GoNStepsBackBrickTest extends AndroidTestCase {
 		brick = new GoNStepsBackBrick(sprite, Integer.MAX_VALUE);
 		brick.execute();
 		brick.execute();
-		assertEquals("An Integer underflow occured during GoNStepsBackBrick execution.",
+		assertEquals("An Integer underflow occured during GoNStepsBackBrick execution.", 
 				Integer.MIN_VALUE, sprite.getZPosition());
 	}
 

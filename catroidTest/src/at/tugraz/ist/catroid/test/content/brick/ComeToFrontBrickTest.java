@@ -36,7 +36,7 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 		assertEquals("Unexpected initial z position of bottomSprite", 0, bottomSprite.getZPosition());
 		
 		Sprite topSprite    = new Sprite("scratch");
-		assertEquals("Unexpected initial z position of topSprite", 	  0, topSprite.getZPosition());
+		assertEquals("Unexpected initial z position of topSprite", 0, topSprite.getZPosition());
 		
 		topSprite.setZPosition(2);
 		assertEquals("topSprite z position should now be 2", 2, topSprite.getZPosition());
@@ -72,8 +72,8 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 		ProjectManager.getInstance().setProject(project);
 		brick.execute();
 		
-		assertEquals("An Integer overflow occured during ComeToFrontBrick Execution"
-				, Integer.MAX_VALUE, sprite.getZPosition());
+		assertEquals("An Integer overflow occured during ComeToFrontBrick Execution", 
+				Integer.MAX_VALUE, sprite.getZPosition());
 	}
 	
 	public void testGetView() throws NameNotFoundException {

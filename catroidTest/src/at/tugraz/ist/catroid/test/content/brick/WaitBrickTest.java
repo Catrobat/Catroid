@@ -81,6 +81,7 @@ public class WaitBrickTest extends AndroidTestCase {
 		assertFalse("Unexpected visibility of testSprite", testSprite.isVisible());
 		
         testSprite.pause();
+        
         try {
 			Thread.sleep(200);
 		} catch (InterruptedException e) {

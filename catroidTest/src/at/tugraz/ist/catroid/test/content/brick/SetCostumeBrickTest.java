@@ -36,7 +36,6 @@ import at.tugraz.ist.catroid.test.R;
 public class SetCostumeBrickTest extends InstrumentationTestCase {
     
     private static final int IMAGE_FILE_ID = R.raw.icon;
-    
     private File testImage;
     int width;
     int height;
@@ -46,7 +45,7 @@ public class SetCostumeBrickTest extends InstrumentationTestCase {
         final int fileSize = 4147;
         final String imagePath = "/mnt/sdcard/catroid/testImage.png"; 
         testImage = new File(imagePath);
-        if(!testImage.exists()) {
+        if (!testImage.exists()) {
             testImage.createNewFile();
         }
         InputStream in   = getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID);
@@ -71,7 +70,7 @@ public class SetCostumeBrickTest extends InstrumentationTestCase {
     
     @Override
     protected void tearDown() throws Exception {
-        if(testImage != null && testImage.exists()){
+        if (testImage != null && testImage.exists()){
             testImage.delete();
         }
     }
@@ -87,13 +86,15 @@ public class SetCostumeBrickTest extends InstrumentationTestCase {
         setCostumeBrick.execute();
         assertNotNull("current Costume is null", sprite.getCostume());
         
-        assertEquals("the new Costume is not in the costumeList of the sprite", width, sprite.getCostume().getBitmap()
-                .getWidth());
-        assertEquals("the new Costume is not in the costumeList of the sprite", height, sprite.getCostume().getBitmap()
-                .getHeight());
+        assertEquals("the new Costume is not in the costumeList of the sprite", width, 
+        		sprite.getCostume().getBitmap().getWidth());
+        assertEquals("the new Costume is not in the costumeList of the sprite", height, 
+        		sprite.getCostume().getBitmap().getHeight());
         setCostumeBrick.execute(); //now setting current costume
-        assertEquals("Width of loaded bitmap is not the same as width of original image",   width,  sprite.getCostume().getBitmap().getWidth());
-        assertEquals("Height of loaded bitmap is not the same as height of original image", height, sprite.getCostume().getBitmap().getHeight());
+        assertEquals("Width of loaded bitmap is not the same as width of original image",   width,  
+        		sprite.getCostume().getBitmap().getWidth());
+        assertEquals("Height of loaded bitmap is not the same as height of original image", height, 
+        		sprite.getCostume().getBitmap().getHeight());
     }
 
 }

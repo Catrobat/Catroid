@@ -29,6 +29,7 @@ import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class SpriteTest extends AndroidTestCase {
+	
 	public void testDefaultConstructor() {
 		final String spriteName = "new sprite";
 		Sprite sprite = new Sprite(spriteName);
@@ -201,15 +202,19 @@ public class SpriteTest extends AndroidTestCase {
 	 private int getBrickPositionAfterPause(Script script) {
 	        Field field = null;
 	        int brickPositionAfterPause = 0;
+	        
 	        try {
 	            field = Script.class.getDeclaredField("brickPositionAfterPause");
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        } 
+	        
 	        field.setAccessible(true);
+	        
 	        try {
 	        	brickPositionAfterPause = (Integer) field.get(script);
 	        } catch (Exception e) {}
+	        
 	        return brickPositionAfterPause;
 	    }
 	 

@@ -26,8 +26,6 @@ import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class IfTouchedBrickTest extends AndroidTestCase {
 
-
-
     public void testIfTouch() {
 
         Sprite sprite = new Sprite("new sprite");
