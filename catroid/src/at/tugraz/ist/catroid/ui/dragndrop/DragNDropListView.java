@@ -49,68 +49,68 @@ import at.tugraz.ist.catroid.R;
 
 public class DragNDropListView extends ExpandableListView {
 
-    private ImageView mDragView;
-    private WindowManager mWindowManager;
-    private WindowManager.LayoutParams mWindowParams;
-    private int mDragPos;      // which item is being dragged
-    private int mFirstDragPos; // where was the dragged item originally
-    private int mDragPoint;    // at what offset inside the item did the user grab it
-    private int mCoordOffset;  // the difference between screen coordinates and coordinates in this view
-    private DragListener mDragListener;
-    private DropListener mDropListener;
-    private RemoveListener mRemoveListener;
-    private int mUpperBound;
-    private int mLowerBound;
-    private int mHeight;
-    private GestureDetector mGestureDetector;
+    private ImageView dragView;
+    private WindowManager windowManager;
+    private WindowManager.LayoutParams windowParams;
+    private int dragPos;      // which item is being dragged
+    private int firstDragPos; // where was the dragged item originally
+    private int dragPoint;    // at what offset inside the item did the user grab it
+    private int coordOffset;  // the difference between screen coordinates and coordinates in this view
+    private DragListener dragListener;
+    private DropListener dropListener;
+    private RemoveListener removeListener;
+    private int upperBound;
+    private int lowerBound;
+    private int height;
+    private GestureDetector gestureDetector;
     private static final int FLING = 0;
     private static final int SLIDE = 1;
-    private int mRemoveMode = -1;
-    private Rect mTempRect = new Rect();
-    private Bitmap mDragBitmap;
-    private final int mTouchSlop;
-    private Context mContext;
-    private ImageView mTrash;
-    private int mTrashWidth;
-    private int mTrashHeight;
-    private int mScreenWidth;
-    private HashMap<Integer, Integer> mItemHeightMap = new HashMap<Integer, Integer>();
+    private int removeMode = -1;
+    private Rect tempRect = new Rect();
+    private Bitmap dragBitmap;
+    private final int theTouchSlop;
+    private Context context;
+    private ImageView trash;
+    private int trashWidth;
+    private int trashHeight;
+    private int screenWidth;
+    private HashMap<Integer, Integer> itemHeightMap = new HashMap<Integer, Integer>();
 
     public DragNDropListView(Context context, AttributeSet attrs) {
         super(context, attrs);
         
         DisplayMetrics dm = new DisplayMetrics();
         ((Activity)context).getWindowManager().getDefaultDisplay().getMetrics(dm);
-        mScreenWidth = dm.widthPixels;
+        screenWidth = dm.widthPixels;
         
-        mRemoveMode = SLIDE;
-        this.mContext = context;
-        mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
+        removeMode = SLIDE;
+        this.context = context;
+        theTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
     }
 
     public void setTrashView(ImageView trashView) {
-        mTrash = trashView;
-        android.view.ViewGroup.LayoutParams params = mTrash.getLayoutParams();
-        mTrashWidth = params.width;
-        mTrashHeight = params.height;
+        trash = trashView;
+        android.view.ViewGroup.LayoutParams params = trash.getLayoutParams();
+        trashWidth = params.width;
+        trashHeight = params.height;
     }
     
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (mRemoveListener != null && mGestureDetector == null) {
-            if (mRemoveMode == FLING) {
-                mGestureDetector = new GestureDetector(getContext(), new SimpleOnGestureListener() {
+        if (removeListener != null && gestureDetector == null) {
+            if (removeMode == FLING) {
+                gestureDetector = new GestureDetector(getContext(), new SimpleOnGestureListener() {
                     @Override
                     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
                             float velocityY) {
-                        if (mDragView != null) {
+                        if (dragView != null) {
                             if (velocityX > 1000) {
-                                Rect r = mTempRect;
-                                mDragView.getDrawingRect(r);
+                                Rect r = tempRect;
+                                dragView.getDrawingRect(r);
                                 if ( e2.getX() > r.right * 2 / 3) {
                                     // fast fling right with release near the right edge of the screen
                                     stopDragging();
-                                    mRemoveListener.remove(convertPosition(mFirstDragPos));
+                                    removeListener.remove(convertPosition(firstDragPos));
                                     unExpandViews(true);
                                 }
                             }
@@ -122,7 +122,7 @@ public class DragNDropListView extends ExpandableListView {
                 });
             }
         }
-        if (mDragListener != null || mDropListener != null) {
+        if (dragListener != null || dropListener != null) {
             switch (ev.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     int x = (int) ev.getX();
@@ -135,9 +135,9 @@ public class DragNDropListView extends ExpandableListView {
                     View dragger = item.findViewById(R.id.grabber);
                     if(dragger == null)
                         return super.onInterceptTouchEvent(ev);
-                    mDragPoint = y - item.getTop();
-                    mCoordOffset = ((int)ev.getRawY()) - y;
-                    Rect r = mTempRect;
+                    dragPoint = y - item.getTop();
+                    coordOffset = ((int)ev.getRawY()) - y;
+                    Rect r = tempRect;
                     dragger.getDrawingRect(r);
                     // The dragger icon itself is quite small, so pretend the touch area is bigger
                     if (x < r.right * 2) {
@@ -146,15 +146,15 @@ public class DragNDropListView extends ExpandableListView {
                         // by the framework when the list tries to clean up memory
                         Bitmap bitmap = Bitmap.createBitmap(item.getDrawingCache());
                         startDragging(bitmap, y);
-                        mDragPos = itemnum;
-                        mFirstDragPos = mDragPos;
-                        mHeight = getHeight();
-                        int touchSlop = mTouchSlop;
-                        mUpperBound = Math.min(y - touchSlop, mHeight / 3);
-                        mLowerBound = Math.max(y + touchSlop, mHeight * 2 /3);
+                        dragPos = itemnum;
+                        firstDragPos = dragPos;
+                        height = getHeight();
+                        int touchSlop = theTouchSlop;
+                        upperBound = Math.min(y - touchSlop, height / 3);
+                        lowerBound = Math.max(y + touchSlop, height * 2 /3);
                         return true;
                     }
-                    mDragView = null;
+                    dragView = null;
                     break;
             }
         }
@@ -166,7 +166,7 @@ public class DragNDropListView extends ExpandableListView {
      * need to, so implement a slightly different version.
      */
     private int myPointToPosition(int x, int y) {
-        Rect frame = mTempRect;
+        Rect frame = tempRect;
         final int count = getChildCount();
         for (int i = count - 1; i >= 0; i--) {
             final View child = getChildAt(i);
@@ -179,10 +179,10 @@ public class DragNDropListView extends ExpandableListView {
     }
     
     private int getItemForPosition(int y) {
-        int adjustedy = y - mDragPoint - 32;
+        int adjustedy = y - dragPoint - 32;
         int pos = myPointToPosition(0, adjustedy);
         if (pos >= 0) {
-            if (pos <= mFirstDragPos) {
+            if (pos <= firstDragPos) {
                 pos += 1;
             }
         } else if (adjustedy < 0) {
@@ -192,11 +192,11 @@ public class DragNDropListView extends ExpandableListView {
     }
     
     private void adjustScrollBounds(int y) {
-        if (y >= mHeight / 3) {
-            mUpperBound = mHeight / 3;
+        if (y >= height / 3) {
+            upperBound = height / 3;
         }
-        if (y <= mHeight * 2 / 3) {
-            mLowerBound = mHeight * 2 / 3;
+        if (y <= height * 2 / 3) {
+            lowerBound = height * 2 / 3;
         }
     }
 
@@ -226,7 +226,7 @@ public class DragNDropListView extends ExpandableListView {
             }
             ViewGroup.LayoutParams params = v.getLayoutParams();
             fillHeightMap(firstpos+i, v.getHeight());
-            params.height = mItemHeightMap.get(firstpos+i);
+            params.height = itemHeightMap.get(firstpos+i);
             v.setLayoutParams(params);
             v.setVisibility(View.VISIBLE);
         }
@@ -245,12 +245,12 @@ public class DragNDropListView extends ExpandableListView {
      * below the current insertpoint.
      */
     private void doExpansion() {
-        int childnum = mDragPos - getFirstVisiblePosition();
-        if (mDragPos > mFirstDragPos) {
+        int childnum = dragPos - getFirstVisiblePosition();
+        if (dragPos > firstDragPos) {
             //childnum++;
         }
 
-        View first = getChildAt(mFirstDragPos - getFirstVisiblePosition());
+        View first = getChildAt(firstDragPos - getFirstVisiblePosition());
 
         for (int i = 0;; i++) {
             View vv = getChildAt(i); 
@@ -260,11 +260,11 @@ public class DragNDropListView extends ExpandableListView {
             int mappos = getFirstVisiblePosition() +i;
             fillHeightMap(mappos, vv.getHeight());
             
-            int height = mItemHeightMap.get(mappos);     
+            int height = itemHeightMap.get(mappos);     
             int visibility = View.VISIBLE;
             if (vv.equals(first)) {
                 // processing the item that is being dragged
-                if (mDragPos == mFirstDragPos) {
+                if (dragPos == firstDragPos) {
                     // hovering over the original location
                     visibility = View.INVISIBLE;
                 } else {
@@ -272,8 +272,8 @@ public class DragNDropListView extends ExpandableListView {
                     height = 1;
                 }
             } else if (i == childnum) {
-                if (mDragPos < getCount()) {
-                    height += mItemHeightMap.get(mFirstDragPos);
+                if (dragPos < getCount()) {
+                    height += itemHeightMap.get(firstDragPos);
                 }
             }
             ViewGroup.LayoutParams params = vv.getLayoutParams();
@@ -285,69 +285,69 @@ public class DragNDropListView extends ExpandableListView {
     
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if (mGestureDetector != null) {
-            mGestureDetector.onTouchEvent(ev);
+        if (gestureDetector != null) {
+            gestureDetector.onTouchEvent(ev);
         }
-        if ((mDragListener != null || mDropListener != null) && mDragView != null) {
+        if ((dragListener != null || dropListener != null) && dragView != null) {
             int action = ev.getAction(); 
             switch (action) {
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
-                    Rect r = mTempRect;
-                    mDragView.getDrawingRect(r);
+                    Rect r = tempRect;
+                    dragView.getDrawingRect(r);
                     stopDragging();
                     
-                    android.view.ViewGroup.LayoutParams params = mTrash.getLayoutParams();
-                    params.width = mTrashWidth;
-                    params.height = mTrashHeight;
-                    mTrash.setLayoutParams(params);
-                    mTrash.setVisibility(View.GONE);
+                    android.view.ViewGroup.LayoutParams params = trash.getLayoutParams();
+                    params.width = trashWidth;
+                    params.height = trashHeight;
+                    trash.setLayoutParams(params);
+                    trash.setVisibility(View.GONE);
                       
-                    if (mRemoveMode == SLIDE && ev.getX() > r.right * 3 / 4) {
-                        if (mRemoveListener != null) {
-                            mRemoveListener.remove(convertPosition(mFirstDragPos));
+                    if (removeMode == SLIDE && ev.getX() > r.right * 3 / 4) {
+                        if (removeListener != null) {
+                            removeListener.remove(convertPosition(firstDragPos));
                         }
                         unExpandViews(true);
                     } else {
-                        if (mDropListener != null && mDragPos >= 0 && mDragPos < getCount()) {
-                            mDropListener.drop(convertPosition(mFirstDragPos), convertPosition(mDragPos));
+                        if (dropListener != null && dragPos >= 0 && dragPos < getCount()) {
+                            dropListener.drop(convertPosition(firstDragPos), convertPosition(dragPos));
                         }
                         unExpandViews(false);
                     }
-                    mItemHeightMap.clear();
+                    itemHeightMap.clear();
                     break;
                     
                 case MotionEvent.ACTION_DOWN:
-                    mTrash.setVisibility(View.VISIBLE);       
-                    Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.trash_in);
-                    mTrash.startAnimation(animation);
+                    trash.setVisibility(View.VISIBLE);       
+                    Animation animation = AnimationUtils.loadAnimation(context, R.anim.trash_in);
+                    trash.startAnimation(animation);
                 case MotionEvent.ACTION_MOVE:
                     int x = (int) ev.getX();
                     int y = (int) ev.getY();
                     dragView(x, y);
                     int itemnum = getItemForPosition(y);
                     if (itemnum >= 0) {
-                        if (action == MotionEvent.ACTION_DOWN || itemnum != mDragPos) {
-                            if (mDragListener != null) {
-                                mDragListener.drag(mDragPos, itemnum);
+                        if (action == MotionEvent.ACTION_DOWN || itemnum != dragPos) {
+                            if (dragListener != null) {
+                                dragListener.drag(dragPos, itemnum);
                             }
-                            mDragPos = itemnum;
+                            dragPos = itemnum;
                             doExpansion();
                         }
                         int speed = 0;
                         adjustScrollBounds(y);
-                        if (y > mLowerBound) {
+                        if (y > lowerBound) {
                             // scroll the list up a bit
-                            speed = y > (mHeight + mLowerBound) / 2 ? 16 : 4;
-                        } else if (y < mUpperBound) {
+                            speed = y > (height + lowerBound) / 2 ? 16 : 4;
+                        } else if (y < upperBound) {
                             // scroll the list down a bit
-                            speed = y < mUpperBound / 2 ? -16 : -4;
+                            speed = y < upperBound / 2 ? -16 : -4;
                         }
                         if (speed != 0) {
-                            int ref = pointToPosition(0, mHeight / 2);
+                            int ref = pointToPosition(0, height / 2);
                             if (ref == AdapterView.INVALID_POSITION) {
                                 //we hit a divider or an invisible view, check somewhere else
-                                ref = pointToPosition(0, mHeight / 2 + getDividerHeight() + 64);
+                                ref = pointToPosition(0, height / 2 + getDividerHeight() + 64);
                             }
                             View v = getChildAt(ref - getFirstVisiblePosition());
                             if (v!= null) {
@@ -365,68 +365,68 @@ public class DragNDropListView extends ExpandableListView {
     
     private void startDragging(Bitmap bm, int y) {
         stopDragging();
-        mWindowParams = new WindowManager.LayoutParams();
-        mWindowParams.gravity = Gravity.TOP|Gravity.LEFT;
-        mWindowParams.x = 0;
-        mWindowParams.y = y - mDragPoint + mCoordOffset;
+        windowParams = new WindowManager.LayoutParams();
+        windowParams.gravity = Gravity.TOP|Gravity.LEFT;
+        windowParams.x = 0;
+        windowParams.y = y - dragPoint + coordOffset;
 
-        mWindowParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        mWindowParams.width = mScreenWidth-mTrashWidth+2;//WindowManager.LayoutParams.WRAP_CONTENT;
-        mWindowParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+        windowParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        windowParams.width = screenWidth-trashWidth+2;//WindowManager.LayoutParams.WRAP_CONTENT;
+        windowParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                 | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
                 | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                 | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
-        mWindowParams.format = PixelFormat.TRANSLUCENT;
-        mWindowParams.windowAnimations = 0;
+        windowParams.format = PixelFormat.TRANSLUCENT;
+        windowParams.windowAnimations = 0;
         
         ImageView v = new ImageView(getContext());
         int backGroundColor = Color.parseColor("#e0103010");
         v.setBackgroundColor(backGroundColor);
         v.setImageBitmap(bm);
-        mDragBitmap = bm;
+        dragBitmap = bm;
 
-        mWindowManager = (WindowManager)getContext().getSystemService(Context.WINDOW_SERVICE);
-        mWindowManager.addView(v, mWindowParams);
-        mDragView = v;
+        windowManager = (WindowManager)getContext().getSystemService(Context.WINDOW_SERVICE);
+        windowManager.addView(v, windowParams);
+        dragView = v;
     }
     
     private void dragView(int x, int y) {
-        if (mRemoveMode == SLIDE) {
+        if (removeMode == SLIDE) {
             float alpha = 1.0f;
-            android.view.ViewGroup.LayoutParams params = mTrash.getLayoutParams();
+            android.view.ViewGroup.LayoutParams params = trash.getLayoutParams();
             
-            if (x > 100 && x < mScreenWidth - 100) {
-                alpha = ((float)(mScreenWidth - x)) / (mScreenWidth-100);
+            if (x > 100 && x < screenWidth - 100) {
+                alpha = ((float)(screenWidth - x)) / (screenWidth-100);
                 float rate = 1-alpha;
-                params.width = (int)(mTrashWidth * (1+rate));
-                params.height = (int)(mTrashHeight * (1+rate));
-                mTrash.setLayoutParams(params);
-                mWindowParams.alpha = alpha;
-                mWindowParams.width = mScreenWidth-params.width+2;
+                params.width = (int)(trashWidth * (1+rate));
+                params.height = (int)(trashHeight * (1+rate));
+                trash.setLayoutParams(params);
+                windowParams.alpha = alpha;
+                windowParams.width = screenWidth-params.width+2;
             }
             
         }
-        mWindowParams.y = y - mDragPoint + mCoordOffset;
-        mWindowManager.updateViewLayout(mDragView, mWindowParams);
+        windowParams.y = y - dragPoint + coordOffset;
+        windowManager.updateViewLayout(dragView, windowParams);
     }
     
     private void stopDragging() {
-        if (mDragView != null) {
-                mDragView.setVisibility(GONE);
+        if (dragView != null) {
+                dragView.setVisibility(GONE);
             WindowManager wm = (WindowManager)getContext().getSystemService(Context.WINDOW_SERVICE);
-            wm.removeView(mDragView);
-            mDragView.setImageDrawable(null);
-            mDragView = null;
+            wm.removeView(dragView);
+            dragView.setImageDrawable(null);
+            dragView = null;
         }
-        if (mDragBitmap != null) {
-            mDragBitmap.recycle();
-            mDragBitmap = null;
+        if (dragBitmap != null) {
+            dragBitmap.recycle();
+            dragBitmap = null;
         }
     }
     
     private void fillHeightMap(int position, int height) {
-        if(!mItemHeightMap.containsKey(position)) {
-            mItemHeightMap.put(position, height);
+        if(!itemHeightMap.containsKey(position)) {
+            itemHeightMap.put(position, height);
         }
     }
     
@@ -438,15 +438,15 @@ public class DragNDropListView extends ExpandableListView {
     }
     
     public void setOnDragListener(DragListener l) {
-        mDragListener = l;
+        dragListener = l;
     }
     
     public void setOnDropListener(DropListener l) {
-        mDropListener = l;
+        dropListener = l;
     }
     
     public void setOnRemoveListener(RemoveListener l) {
-        mRemoveListener = l;
+        removeListener = l;
     }
 
     public interface DragListener {
