@@ -112,7 +112,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.goBack();
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
 		Thread.sleep(50);
-		assertTrue("No error message was displayed upon creating a project with the same name twice.", solo.searchText(getActivity().getString(R.string.error_project_exists)));
+		assertTrue("No error message was displayed upon creating a project with the same name twice.",
+				    solo.searchText(getActivity().getString(R.string.error_project_exists)));
 		
 		//File file = new File("/sdcard/catroid/testProject/" + testProject + ".spf");
 		//assertTrue(testProject + " was not created!", file.exists());
@@ -172,7 +173,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		TextView projectTitle = (TextView) solo.getCurrentActivity().findViewById(R.id.projectTitleTextView);
 
-		assertEquals("Project title is not " + testProject3, getActivity().getString(R.string.project_name) + " " + testProject3, projectTitle.getText());
+		assertEquals("Project title is not " + testProject3, getActivity().getString(R.string.project_name)
+				      + " " + testProject3, projectTitle.getText());
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.spriteListView);
 		Sprite first = (Sprite) spritesList.getItemAtPosition(1);
@@ -233,7 +235,6 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		project.addSprite(fourthSprite);
 
 		storageHandler.saveProject(project);
-
 	}
 
 }
