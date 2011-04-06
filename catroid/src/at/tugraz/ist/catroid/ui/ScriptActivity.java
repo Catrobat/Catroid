@@ -25,18 +25,18 @@ import java.io.IOException;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
@@ -129,7 +129,6 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	}
 
 	public void onDismiss(DialogInterface dialog) {
-		System.out.println("DialogDismiss");
 		for (int i = 0; i < adapter.getGroupCount() - 1; ++i)
 			listView.collapseGroup(i);
 
