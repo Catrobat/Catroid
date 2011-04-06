@@ -92,7 +92,6 @@ public class SoundBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		solo.clickInList(2);
 		Thread.sleep(500);
 		assertTrue("Wrong title selected", solo.searchText(title));
-
 	}
 
 	private void createProject() throws IOException {
