@@ -23,6 +23,7 @@ import at.tugraz.ist.catroid.content.brick.HideBrick;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class HideBrickTest extends AndroidTestCase {
+	
 	public void testHide() {
 		Sprite sprite = new Sprite("new sprite");
 		assertTrue("Unexpected default visibility", sprite.isVisible());

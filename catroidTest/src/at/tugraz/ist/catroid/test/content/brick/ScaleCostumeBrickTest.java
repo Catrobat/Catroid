@@ -23,17 +23,16 @@ import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class ScaleCostumeBrickTest extends AndroidTestCase {
-    private double scale = 70;
+   
+	private double scale = 70;
 
 	public void testScale() {
 		Sprite sprite = new Sprite("testSprite");
-        assertEquals("Unexpected initial sprite scale value", 100.0,
-				sprite.getScale());
+        assertEquals("Unexpected initial sprite scale value", 100.0, sprite.getScale());
 
 		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite, scale);
 		brick.execute();
-		assertEquals(
-				"Incorrect sprite scale value after ScaleCostumeBrick executed",
+		assertEquals( "Incorrect sprite scale value after ScaleCostumeBrick executed",
 				scale, sprite.getScale());
 	}
 
@@ -66,7 +65,6 @@ public class ScaleCostumeBrickTest extends AndroidTestCase {
 
 	public void testZeroScale() {
 		Sprite sprite = new Sprite("testSprite");
-
 		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite, 0);
 
 		try {
@@ -80,7 +78,6 @@ public class ScaleCostumeBrickTest extends AndroidTestCase {
 
 	public void testNegativeScale() {
 		Sprite sprite = new Sprite("testSprite");
-
 		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite, -scale);
 
 		try {

@@ -46,6 +46,7 @@ public class UtilsTest extends TestCase {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 		super.setUp();
 	}
 
@@ -69,6 +70,7 @@ public class UtilsTest extends TestCase {
 
 		FileReader fReader;
 		String newContent = "";
+		
 		try {
 			fReader = new FileReader(copiedFile);
 

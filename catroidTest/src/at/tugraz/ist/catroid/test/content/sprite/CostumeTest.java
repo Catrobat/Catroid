@@ -31,6 +31,7 @@ import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.test.R;
 
 public class CostumeTest extends InstrumentationTestCase{
+	
 	private static final int IMAGE_FILE_ID = R.raw.icon;
     private File testImage;
     
@@ -43,7 +44,7 @@ public class CostumeTest extends InstrumentationTestCase{
         final int fileSize = 4147;
         final String imagePath = "/mnt/sdcard/catroid/testImage.png"; 
         testImage = new File(imagePath);
-        if(!testImage.exists()) {
+        if (!testImage.exists()) {
             testImage.createNewFile();
         }
         InputStream in   = getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID);
@@ -68,7 +69,7 @@ public class CostumeTest extends InstrumentationTestCase{
     
     @Override
     protected void tearDown() throws Exception {
-        if(testImage != null && testImage.exists()){
+        if (testImage != null && testImage.exists()){
             testImage.delete();
         }
     }
