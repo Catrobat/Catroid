@@ -118,14 +118,12 @@ public class ProjectManager extends Observable {
 	}
 
 	public void initializeNewProject(String projectName, Context context) {
-
 		project = new Project(context, projectName);
 		currentSprite = null;
 		currentScript = null;
 		saveProject(context);
 		setChanged();
 		notifyObservers();
-
 	}
 
 	public void setObserver(Observer observer) {
@@ -149,7 +147,7 @@ public class ProjectManager extends Observable {
 	 */
 	public boolean setCurrentSprite(Sprite sprite) {
 		if (sprite == null) { // sometimes we want to set the currentSprite to null because we don't have a
-							  // currentSprite
+			// currentSprite
 			currentSprite = null;
 			return true;
 		}
