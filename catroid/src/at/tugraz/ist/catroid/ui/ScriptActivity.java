@@ -140,7 +140,6 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 
 	public void onCancel(DialogInterface arg0) {
 		adapter.notifyDataSetChanged();
-
 	}
 
 	@Override
@@ -171,10 +170,8 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-
 			}
 		}
-
 	}
 
 	public String getPathFromContentUri(Uri uri) {
@@ -192,10 +189,12 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
 		if (view.getId() == R.id.brickListView) {
-			ExpandableListView.ExpandableListContextMenuInfo info = (ExpandableListView.ExpandableListContextMenuInfo) menuInfo;
+			ExpandableListView.ExpandableListContextMenuInfo info =
+				(ExpandableListView.ExpandableListContextMenuInfo) menuInfo;
 			menu.setHeaderTitle("Script Menu");
 
-			if (ExpandableListView.getPackedPositionType(info.packedPosition) == ExpandableListView.PACKED_POSITION_TYPE_CHILD)
+			if (ExpandableListView.getPackedPositionType(info.packedPosition) ==
+				ExpandableListView.PACKED_POSITION_TYPE_CHILD)
 				return;
 
 			int position = ExpandableListView.getPackedPositionGroup(info.packedPosition);
@@ -208,6 +207,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		int menuItemIndex = item.getItemId();
+
 		switch (menuItemIndex) {
 		case DELETE:
 			sprite.getScriptList().remove(scriptToEdit);
@@ -224,5 +224,4 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		}
 		return true;
 	}
-
 }

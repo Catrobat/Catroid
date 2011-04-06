@@ -64,7 +64,7 @@ public class FileChecksumContainerTest extends InstrumentationTestCase{
         
         final String imagePath = "/sdcard/catroid/testImage.png"; 
         testImage = new File(imagePath);
-        if(!testImage.exists()) {
+        if (!testImage.exists()) {
             testImage.createNewFile();
         }
         InputStream in   = getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID);
@@ -83,7 +83,7 @@ public class FileChecksumContainerTest extends InstrumentationTestCase{
                
         final String soundPath = "/sdcard/catroid/testsound"; 
         testSound = new File(soundPath);
-        if(!testSound.exists()) {
+        if (!testSound.exists()) {
             testSound.createNewFile();
         }
         in   = getInstrumentation().getContext().getResources().openRawResource(R.raw.testsound);
@@ -101,10 +101,10 @@ public class FileChecksumContainerTest extends InstrumentationTestCase{
     
     @Override
     protected void tearDown() throws Exception {
-    	if(testImage != null && testImage.exists()){
+    	if (testImage != null && testImage.exists()){
             testImage.delete();
         }
-        if(testSound != null && testSound.exists()){
+        if (testSound != null && testSound.exists()){
             testSound.delete();
         }   
     }
