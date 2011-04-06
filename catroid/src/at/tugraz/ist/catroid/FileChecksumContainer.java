@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -27,47 +27,47 @@ import java.util.Map;
  */
 public class FileChecksumContainer implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    private Map<String, Integer> fileReferenceMap = new HashMap<String, Integer>();
-    private Map<String, String> checksumFilePathMap = new HashMap<String, String>();
+	private static final long serialVersionUID = 1L;
+	private Map<String, Integer> fileReferenceMap = new HashMap<String, Integer>(); //checksum / usages
+	private Map<String, String> checksumFilePathMap = new HashMap<String, String>(); //checksum / path
 
-    public void addChecksum(String checksum, String path) {
-        if(fileReferenceMap.containsKey(checksum)) {
-            incrementValue(checksum);
-        } else {
-            fileReferenceMap.put(checksum, new Integer(1));
-            checksumFilePathMap.put(checksum, path);
-        }
-    }
-    
-    public void incrementValue(String checksum) {
-        if(fileReferenceMap.containsKey(checksum)) {
-            fileReferenceMap.put(checksum, fileReferenceMap.get(checksum) + 1);
-        }
-    }
-    
-    public boolean containsChecksum(String checksum) {
-        if (fileReferenceMap.containsKey(checksum)) {
-            return true;
-        }
-        return false;
-    }
-    
-    public String getPath(String checksum) {
-        return checksumFilePathMap.get(checksum);
-    }
-    
-    public boolean deleteChecksum(String checksum) {
-       if (!fileReferenceMap.containsKey(checksum))
-           return false;
-       if (fileReferenceMap.get(checksum) > 1) {
-           fileReferenceMap.put(checksum, fileReferenceMap.get(checksum) - 1); 
-           return false;
-       } else {
-           fileReferenceMap.remove(checksum);
-           checksumFilePathMap.remove(checksum);
-           return true;
-       }
-    }
+	public void addChecksum(String checksum, String path) {
+		if(fileReferenceMap.containsKey(checksum)) {
+			incrementValue(checksum);
+		} else {
+			fileReferenceMap.put(checksum, new Integer(1));
+			checksumFilePathMap.put(checksum, path);
+		}
+	}
+
+	public void incrementValue(String checksum) {
+		if(fileReferenceMap.containsKey(checksum)) {
+			fileReferenceMap.put(checksum, fileReferenceMap.get(checksum) + 1);
+		}
+	}
+
+	public boolean containsChecksum(String checksum) {
+		if (fileReferenceMap.containsKey(checksum)) {
+			return true;
+		}
+		return false;
+	}
+
+	public String getPath(String checksum) {
+		return checksumFilePathMap.get(checksum);
+	}
+
+	public boolean deleteChecksum(String checksum) {
+		if (!fileReferenceMap.containsKey(checksum))
+			return false;
+		if (fileReferenceMap.get(checksum) > 1) {
+			fileReferenceMap.put(checksum, fileReferenceMap.get(checksum) - 1);
+			return false;
+		} else {
+			fileReferenceMap.remove(checksum);
+			checksumFilePathMap.remove(checksum);
+			return true;
+		}
+	}
 
 }
