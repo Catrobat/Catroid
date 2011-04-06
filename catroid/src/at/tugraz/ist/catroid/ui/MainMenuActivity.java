@@ -19,6 +19,8 @@
 
 package at.tugraz.ist.catroid.ui;
 
+import java.io.IOException;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -32,6 +34,7 @@ import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.Values;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.dialogs.AboutDialog;
 import at.tugraz.ist.catroid.ui.dialogs.LoadProjectDialog;
@@ -115,13 +118,13 @@ public class MainMenuActivity extends Activity {
 		SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
 		String projectName = prefs.getString(PREF_PROJECTNAME_KEY, null);
 
-		/*
-		 * Load project if it exists, otherwise load the default project
-		 */
 		if (projectName != null) {
 			projectManager.loadProject(projectName, this);
 		} else {
-			projectManager.loadProject(this.getString(R.string.default_project_name), this);
+			projectManager.loadProject(this.getString(R.string.default_project_name), this); // default
+			// project
+			// is
+			// created
 		}
 
 		if (projectManager.getCurrentProject() == null) {
@@ -139,7 +142,12 @@ public class MainMenuActivity extends Activity {
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialog;
-		projectManager.saveProject(this);
+		try {
+			if (StorageHandler.getInstance().projectExists(projectManager.getCurrentProject().getName()))
+				projectManager.saveProject(this);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		switch (id) {
 		case Consts.DIALOG_NEW_PROJECT:
@@ -166,8 +174,7 @@ public class MainMenuActivity extends Activity {
 			return;
 		}
 		TextView currentProjectTextView = (TextView) findViewById(R.id.currentProjectNameTextView);
-		currentProjectTextView.setText(getString(R.string.current_project) + " "
-				+ projectManager.getCurrentProject().getName());
+		currentProjectTextView.setText(getString(R.string.current_project) + " " + projectManager.getCurrentProject().getName());
 
 		projectManager.loadProject(projectManager.getCurrentProject().getName(), this);
 	}
@@ -175,14 +182,15 @@ public class MainMenuActivity extends Activity {
 	@Override
 	public void onPause() {
 		super.onPause();
-		// onPause is sufficient --> gets called before "process_killed", onStop(), onDestroy(), onRestart()
+		// onPause is sufficient --> gets called before "process_killed",
+		// onStop(), onDestroy(), onRestart()
 		// also when you switch activities
 		if (projectManager.getCurrentProject() != null) {
 			projectManager.saveProject(this);
+			SharedPreferences.Editor prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
+			prefs.putString(PREF_PROJECTNAME_KEY, projectManager.getCurrentProject().getName());
+			prefs.commit();
 		}
-		SharedPreferences.Editor prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
-		prefs.putString(PREF_PROJECTNAME_KEY, projectManager.getCurrentProject().getName());
-		prefs.commit();
 	}
 
 }

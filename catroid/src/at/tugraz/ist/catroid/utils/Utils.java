@@ -23,6 +23,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -128,6 +130,11 @@ public class Utils {
 	public static boolean projectExists(String projectName) {
 		File projectFolder = new File(concatPaths(Consts.DEFAULT_ROOT, projectName));
 		return projectFolder.exists();
+	}
+	
+	public static String getTimestamp() {
+	    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+	    return simpleDateFormat.format(new Date());
 	}
 
 	public static boolean deleteFolder(String path) {

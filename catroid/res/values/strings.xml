@@ -27,6 +27,8 @@
     <string name="brick">brick</string>
     <string name="quit">Quit</string>
     <string name="cancel_button">Cancel</string>
+    <string name="rename">Rename</string>
+    <string name="delete">Delete</string>
 
     <!-- User interface -->
     <string name="main_menu">Main menu</string>
@@ -144,7 +146,7 @@
     <string name="x_label">X:</string>
     <string name="y_label">Y:</string>
     <string name="costume_main_adapter">Set Costume</string>
-    <string name="scale_costume">Scale Costume to</string>
+    <string name="scaleCustome">Scale Costume to</string>
     <string name="go_back_main_adapter">Go back</string>
     <string name="steps_label">steps</string>
     <string name="come_to_front_main_adapter">Come to front</string>
@@ -183,6 +185,9 @@
     </string>
     <string name="error_load_project">
         An error occurred while loading the project.
+    </string>
+    <string name="error_delete_project">
+        An error occurred while deleting the project.
     </string>
 
     <!-- Notifications -->

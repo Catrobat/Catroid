@@ -47,6 +47,7 @@ import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.entities.SoundInfo;
 import at.tugraz.ist.catroid.content.project.Project;
 import at.tugraz.ist.catroid.utils.ImageEditing;
+import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
 import com.thoughtworks.xstream.XStream;
@@ -111,7 +112,8 @@ public class StorageHandler {
     }
 
     public void saveProject(Project project) {
-
+        if(project == null)
+            return;
         try {
             String spfFile = xstream.toXML(project);
 
@@ -135,6 +137,11 @@ public class StorageHandler {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    public void deleteProject(Project project) {
+        if(project != null)
+            UtilFile.deleteDirectory(new File(catroidRoot.getAbsolutePath() + "/" + project.getName()));
     }
 
     public boolean projectExists(String projectName) {
@@ -202,8 +209,7 @@ public class StorageHandler {
         if (!inputFile.exists() || !inputFile.canRead())
             return null;
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-        String timestamp = simpleDateFormat.format(new Date());
+        final String timestamp = Utils.getTimestamp();
         File outputFile = new File(soundDirectory.getAbsolutePath() + "/" + timestamp + inputFile.getName());
         
         return copyFile(outputFile, inputFile, soundDirectory);

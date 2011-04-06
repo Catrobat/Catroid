@@ -18,26 +18,18 @@
  */
 package at.tugraz.ist.catroid.uitest.construction_site;
 
-import java.io.File;
-
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
-import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
-
-	private final String projectNameOne = "Ulumulu";
-	private final String projectNameTwo = "Ulumulu2";
-	private final String projectNameThree = "Ulumulu3";
-	private final String spriteNameOne = "Zuul";
-	private final String spriteNameTwo = "Zuuul";
+	private String testProjectName;
 
 	public ProjectActivityTest() {
 		super("at.tugraz.ist.catroid.ui", MainMenuActivity.class);
@@ -45,108 +37,117 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	@Override
 	public void setUp() throws Exception {
+		testProjectName = "projectActivityTest";
 		solo = new Solo(getInstrumentation(), getActivity());
-		File directory = new File("/sdcard/catroid/" + projectNameOne);
-		UtilFile.deleteDirectory(directory);
 
-		directory = new File("/sdcard/catroid/" + projectNameTwo);
-		UtilFile.deleteDirectory(directory);
+		// Create new test project
+		solo.clickOnButton(getActivity().getString(R.string.new_project));
+		solo.clickOnEditText(0);
+		solo.enterText(0, testProjectName);
+		solo.goBack();
+		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
 
-		directory = new File("/sdcard/catroid/" + projectNameThree);
-		UtilFile.deleteDirectory(directory);
 		super.setUp();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		
-		File directory = new File("/sdcard/catroid/" + projectNameTwo);
-		UtilFile.deleteDirectory(directory);
-		assertFalse(projectNameTwo + " was not deleted!", directory.exists());
+		ProjectManager.getInstance().deleteCurrentProject(getActivity());
+		getActivity().finish();
 
-		directory = new File("/sdcard/catroid/" + projectNameOne);
-		UtilFile.deleteDirectory(directory);
-		assertFalse(projectNameOne + " was not deleted!", directory.exists());
-
-		directory = new File("/sdcard/catroid/" + projectNameThree);
-		UtilFile.deleteDirectory(directory);
-		assertFalse(projectNameThree + " was not deleted!", directory.exists());
 		try {
 			solo.finalize();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
-		getActivity().finish();
 
 		super.tearDown();
 	}
 
-	public void testMainMenuButton() throws InterruptedException {
-		solo.clickOnButton(getActivity().getString(R.string.resume));
-		solo.clickOnButton(getActivity().getString(R.string.main_menu));
-		Thread.sleep(1000);
-		solo.clickOnButton(getActivity().getString(R.string.resume)); 
-		//if this is possible it worked! (will throw AssertionFailedError if not working
-	}
-
-	public void testCreateNewSpriteButton() throws InterruptedException {
-		solo.clickOnButton(getActivity().getString(R.string.new_project));
-		solo.clickOnEditText(0);
-		solo.enterText(0, projectNameOne);
-		solo.goBack();
-		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
-		Thread.sleep(300);
-
+	private void addNewSprite(String spriteName) throws InterruptedException {
 		solo.clickOnButton(getActivity().getString(R.string.add_sprite));
 		solo.clickOnEditText(0);
-		solo.enterText(0, spriteNameOne);
+		solo.enterText(0, spriteName);
 		solo.goBack();
 		solo.clickOnButton(getActivity().getString(R.string.new_sprite_dialog_button));
-		Thread.sleep(300);
+		Thread.sleep(50);
+	}
+
+	public void testMainMenuButton() throws InterruptedException {
+		solo.clickOnButton(getActivity().getString(R.string.main_menu));
+		Thread.sleep(50);
+		assertTrue("Main menu is not visible", solo.searchText(getActivity().getString(R.string.main_menu)));
+		assertTrue("Current project is not visible", solo.searchText(getActivity().getString(R.string.current_project)));
+	}
+
+	public void testAddNewSprite() throws InterruptedException {
+		final String spriteName = "testSprite";
+		addNewSprite(spriteName);
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.spriteListView);
-		Sprite second = (Sprite) spritesList.getItemAtPosition(1);
-		assertEquals("Sprite at index 1 is not " + spriteNameOne, spriteNameOne, second.getName());
+		Sprite secondSprite = (Sprite) spritesList.getItemAtPosition(1);
+		assertEquals("Sprite at index 1 is not " + spriteName, spriteName, secondSprite.getName());
 		assertTrue("Sprite is not in current Project", ProjectManager.getInstance().getCurrentProject().getSpriteList()
-				.contains(second));
+		        .contains(secondSprite));
 
-		File directory = new File("/sdcard/catroid/" + projectNameOne);
-		UtilFile.deleteDirectory(directory);
-		assertFalse(projectNameOne + " was not deleted!", directory.exists());
+		final String spriteName2 = "testSpritf";
+		addNewSprite(spriteName2);
+		spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.spriteListView);
+		Sprite thirdSprite = (Sprite) spritesList.getItemAtPosition(2);
+		assertEquals("Sprite at index 2 is not " + spriteName2, spriteName2, thirdSprite.getName());
+		assertTrue("Sprite is not in current Project", ProjectManager.getInstance().getCurrentProject().getSpriteList()
+		        .contains(thirdSprite));
+	}
+
+	public void testAddNewSpriteErrors() throws InterruptedException {
+		addNewSprite("");
+		assertTrue("No error message was displayed upon creating a sprite with an empty name.",
+		        solo.searchText(getActivity().getString(R.string.error_no_name_entered)));
+		solo.clickOnEditText(0);
+
+		final String spriteName = "testSprite";
+		addNewSprite(spriteName);
+		addNewSprite(spriteName);
+
+		assertTrue("No error message was displayed upon creating a sprite with the same name twice.",
+		        solo.searchText(getActivity().getString(R.string.error_no_name_entered)));
 	}
 
 	public void testContextMenu() throws InterruptedException {
-		solo.clickOnButton(getActivity().getString(R.string.new_project));
+		// Create sprites manually so we're able to check for equality
+		final String spriteName = "foo";
+		final String spriteName2 = "bar";
+		Sprite testSprite = new Sprite(spriteName);
+		ProjectManager.getInstance().getCurrentProject().addSprite(testSprite);
+		Sprite testSprite2 = new Sprite(spriteName2);
+		ProjectManager.getInstance().getCurrentProject().addSprite(testSprite2);
+
+		// Rename sprite
+		final String newSpriteName = "baz";
+		solo.clickLongOnText(spriteName);
+		solo.clickOnText(getActivity().getString(R.string.rename));
+		Thread.sleep(50);
 		solo.clickOnEditText(0);
-		solo.enterText(0, projectNameTwo);
-		solo.goBack();
-		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
-		Thread.sleep(300);
-
-		Sprite testSprite = new Sprite(spriteNameOne);
-		Sprite testSprite2 = new Sprite(spriteNameTwo);
-		ProjectManager manager = ProjectManager.getInstance();
-		manager.getCurrentProject().addSprite(testSprite);
-		manager.getCurrentProject().addSprite(testSprite2);
-
-		String[] menu = getActivity().getResources().getStringArray(R.array.menu_project_activity);
-
-		solo.clickLongOnText(spriteNameOne);
-		solo.clickOnText(menu[1]);
-		Thread.sleep(300);
-		assertFalse("Sprite is still in Project", manager.getCurrentProject().getSpriteList().contains(testSprite));
-		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.spriteListView);
-		Sprite sprite2 = (Sprite) spritesList.getItemAtPosition(1);
-		assertEquals("Sprite on position one is not sprite2/testSprite2", testSprite2, sprite2);
-
-		solo.clickLongOnText(spriteNameTwo);
-		solo.clickOnText(menu[0]);
-		solo.clickOnEditText(0);
-		solo.enterText(0, spriteNameOne);
+		solo.enterText(0, newSpriteName);
 		solo.goBack();
 		solo.clickOnButton(getActivity().getString(R.string.rename_button));
-		Thread.sleep(300);
-		assertEquals("Sprite on position one is not sprite2/testSprite2", testSprite2, sprite2);
-		assertEquals("Sprite on position one has the wrong name", spriteNameOne, testSprite2.getName());
+		Thread.sleep(50);
+
+		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.spriteListView);
+		Sprite sprite = (Sprite) spritesList.getItemAtPosition(1);
+		assertEquals("Sprite on position one is not the same that was created", testSprite, sprite);
+		assertEquals("Sprite on position wasn't renamed correctly", newSpriteName, sprite.getName());
+
+		// Delete sprite
+		solo.clickLongOnText(newSpriteName);
+		solo.clickOnText(getActivity().getString(R.string.delete));
+		Thread.sleep(50);
+		assertFalse("Sprite is still in Project", ProjectManager.getInstance().getCurrentProject().getSpriteList()
+		        .contains(sprite));
+		assertFalse("Sprite is still in Project", solo.searchText(newSpriteName));
+
+		spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.spriteListView);
+		Sprite sprite2 = (Sprite) spritesList.getItemAtPosition(1);
+		assertEquals("Subsequent sprite was not moved up after predecessor's deletion", testSprite2, sprite2);
 	}
 }

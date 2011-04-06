@@ -24,13 +24,13 @@ import java.io.File;
 public class UtilFile {
 
 	static public boolean clearDirectory(File path) {
-		if( path.exists() ) {
+		if (path.exists()) {
 			File[] filesInDirectory = path.listFiles();
-			for(int i=0; i<filesInDirectory.length; i++) {
-				if(filesInDirectory[i].isDirectory()) {
-					deleteDirectory(filesInDirectory[i]);
+			for (File file : filesInDirectory) {
+				if (file.isDirectory()) {
+					deleteDirectory(file);
 				} else {
-					filesInDirectory[i].delete();
+					file.delete();
 				}
 			}
 		}
@@ -39,6 +39,6 @@ public class UtilFile {
 
 	static public boolean deleteDirectory(File path) {
 		clearDirectory(path);
-		return( path.delete() );
+		return (path.delete());
 	}
 }

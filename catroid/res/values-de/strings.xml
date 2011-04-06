@@ -27,6 +27,8 @@
     <string name="brick">Baustein</string>
     <string name="quit">Beenden</string>
     <string name="cancel_button">Abbrechen</string>
+    <string name="rename">Umbenennen</string>
+    <string name="delete">Löschen</string>
     
     <!-- User interface -->
     <string name="main_menu">Hauptmenü</string>
@@ -143,7 +145,7 @@
     <string name="x_label">X:</string>
     <string name="y_label">Y:</string>
     <string name="costume_main_adapter">Setze Kostüm</string>
-    <string name="scale_costume">Skaliere Kostüm auf</string>
+    <string name="scaleCustome">Skaliere Kostüm auf</string>
     <string name="go_back_main_adapter">Gehe</string>
     <string name="steps_label">Schritte nach hinten</string>
     <string name="come_to_front_main_adapter">Komm nach vorne</string>
@@ -181,6 +183,9 @@
     </string>
     <string name="error_load_project">
         Beim Laden des Projektes ist ein Fehler aufgetreten.
+    </string>
+    <string name="error_delete_project">
+        Beim Löschen des Projektes ist ein Fehler aufgetreten.
     </string>
 
     <!-- Notifications -->
