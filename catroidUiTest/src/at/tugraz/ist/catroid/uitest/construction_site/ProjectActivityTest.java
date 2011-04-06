@@ -59,7 +59,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	@Override
 	public void tearDown() throws Exception {
-
+		
 		File directory = new File("/sdcard/catroid/" + projectNameTwo);
 		UtilFile.deleteDirectory(directory);
 		assertFalse(projectNameTwo + " was not deleted!", directory.exists());
@@ -85,7 +85,8 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickOnButton(getActivity().getString(R.string.resume));
 		solo.clickOnButton(getActivity().getString(R.string.main_menu));
 		Thread.sleep(1000);
-		solo.clickOnButton(getActivity().getString(R.string.resume)); //if this is possible it worked! (will throw AssertionFailedError if not working
+		solo.clickOnButton(getActivity().getString(R.string.resume)); 
+		//if this is possible it worked! (will throw AssertionFailedError if not working
 	}
 
 	public void testCreateNewSpriteButton() throws InterruptedException {
