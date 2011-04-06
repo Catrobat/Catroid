@@ -87,6 +87,7 @@ public class ScaleCostumeTest extends ActivityInstrumentationTestCase2<ScriptAct
 		solo.clickOnButton(0);
 
 		Thread.sleep(1000);
+		
 		assertEquals("Wrong text in field", newScale, scaleCostumeBrick.getScale());
 		assertEquals("Text not updated", newScale, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
