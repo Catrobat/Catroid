@@ -70,15 +70,16 @@ public class IfTouchedTest extends ActivityInstrumentationTestCase2<ScriptActivi
 	public void testIfTouchedBrick() throws Throwable {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
+		
 		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 		
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScriptList().get(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 		
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(groupCount-1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(groupCount-1,
+				     0));
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.touched_main_adapter)));
-		
 	}
 	
 	private void createProject() {
@@ -93,7 +94,6 @@ public class IfTouchedTest extends ActivityInstrumentationTestCase2<ScriptActivi
         ProjectManager.getInstance().setProject(project);
         ProjectManager.getInstance().setCurrentSprite(sprite);
         ProjectManager.getInstance().setCurrentScript(script);
-        
 	}
 	
 }
