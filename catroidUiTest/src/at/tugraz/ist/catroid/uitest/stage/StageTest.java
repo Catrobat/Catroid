@@ -29,8 +29,7 @@ import com.jayway.android.robotium.solo.Solo;
  * @author Thomas Holzmann
  *
  */
-public class StageTest extends
-ActivityInstrumentationTestCase2<ConstructionSiteActivity> {
+public class StageTest extends ActivityInstrumentationTestCase2<ConstructionSiteActivity> {
 	private Solo solo;
 	
 	public StageTest() {
@@ -96,8 +95,7 @@ ActivityInstrumentationTestCase2<ConstructionSiteActivity> {
 //		
 //		
 		//TODO make after refactoring from stage
-		
-		
+	
 	}
 	
 
