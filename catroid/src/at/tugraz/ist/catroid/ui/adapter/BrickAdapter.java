@@ -19,7 +19,7 @@
 package at.tugraz.ist.catroid.ui.adapter;
 
 /**
- * @author DENISE, DANIEL
+ * @author DANIEL
  *
  */
 
@@ -28,12 +28,6 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
-import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
-import android.view.animation.TranslateAnimation;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnGroupClickListener;
@@ -52,11 +46,13 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 
 	private Context context;
 	private Sprite sprite;
+	private BrickListAnimation brickListAnimation;
 	private boolean animateChildren;
 
 	public BrickAdapter(Context context, Sprite sprite, DragNDropListView listView) {
 		this.context = context;
 		this.sprite = sprite;
+		brickListAnimation = new BrickListAnimation(this, listView);
 	}
 
 	public Brick getChild(int groupPosition, int childPosition) {
@@ -73,32 +69,7 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 		View currentBrickView = brick.getView(context, childPosition, this);
 		if(!animateChildren)
 			return currentBrickView;
-		AnimationSet set =  new AnimationSet(true);
-		Animation currentAnimation = new TranslateAnimation(
-				Animation.RELATIVE_TO_SELF, 0.0f,Animation.RELATIVE_TO_SELF, 0.0f,
-				Animation.ABSOLUTE, -80*(childPosition+1),Animation.RELATIVE_TO_SELF, 0.0f
-		);
-		currentAnimation.setAnimationListener(new AnimationListener() {
-
-			public void onAnimationStart(Animation animation) {
-			}
-
-			public void onAnimationRepeat(Animation animation) {
-			}
-
-			public void onAnimationEnd(Animation animation) {
-				animateChildren = false;
-
-			}
-		});
-		set.addAnimation(currentAnimation);
-		Animation alpha = new AlphaAnimation(0.0f, 1.0f);
-		set.addAnimation(alpha);
-		set.setDuration(800);
-		set.setFillBefore(true);
-		set.setFillAfter(true);
-		set.setStartTime(AnimationUtils.currentAnimationTimeMillis()+200);
-		currentBrickView.setAnimation(set);
+		brickListAnimation.doExpandAnimation(currentBrickView, childPosition);
 
 		return currentBrickView;
 	}
@@ -122,10 +93,8 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 	public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 		View v;
 		if(getGroup(groupPosition).isTouchScript()) {
-			System.out.println("group: "+groupPosition+" touch script");
 			v = new IfTouchedBrick(sprite, getGroup(groupPosition)).getPrototypeView(context);
 		} else {
-			System.out.println("group: "+groupPosition+" no touch script");
 			v = new IfStartedBrick(sprite, getGroup(groupPosition)).getPrototypeView(context);
 		}
 		return v;
@@ -142,7 +111,6 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 	public void drop(int from, int to) {
 		if(from == to)
 			return;
-		System.out.println("drop from: "+from+" to: "+to);
 		ArrayList<Brick> brickList = sprite.getScriptList().get(getGroupCount()-1).getBrickList();
 		Brick removedBrick = brickList.remove(from);
 		brickList.add(to, removedBrick);
@@ -153,7 +121,6 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 		ArrayList<Brick> brickList = sprite.getScriptList().get(getGroupCount()-1).getBrickList();
 		brickList.remove(which);
 		notifyDataSetChanged();
-
 	}
 
 	public boolean onGroupClick(final ExpandableListView parent, View v, final int groupPosition, long id) {
@@ -161,58 +128,11 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 			return false;
 
 		animateChildren = true;
-		Animation up_animation = new TranslateAnimation(
-				Animation.RELATIVE_TO_SELF, 0.0f,Animation.RELATIVE_TO_SELF, 0.0f,
-				Animation.RELATIVE_TO_SELF, 0.0f,Animation.RELATIVE_TO_SELF, -(float)(getGroupCount()-groupPosition-1)
-		);
-		up_animation.setDuration(1200);
-		up_animation.setFillAfter(true);
-		getChildFromAbsolutePosition(parent, getGroupCount()-1).startAnimation(up_animation);
-
-		doCollapseAnimation(parent);
-
-		Animation down_animation = new TranslateAnimation(
-				Animation.RELATIVE_TO_SELF, 0.0f,Animation.RELATIVE_TO_SELF, 0.0f,
-				Animation.RELATIVE_TO_SELF, 0.0f,Animation.RELATIVE_TO_SELF, (getGroupCount()-groupPosition-1)
-		);
-		down_animation.setDuration(1200);
-		down_animation.setFillAfter(true);
-
-		down_animation.setAnimationListener(new AnimationListener() {
-			public void onAnimationStart(Animation animation) {
-				System.out.println("onAnimationStart");
-			}
-			public void onAnimationRepeat(Animation animation) {
-				System.out.println("onAnimationRepeat");
-			}
-			public void onAnimationEnd(Animation animation) {
-				System.out.println("onAnimationEnd");
-				doReordering(parent, groupPosition);
-			}
-		});
-		getChildFromAbsolutePosition(parent, groupPosition).startAnimation(down_animation);
-
+		brickListAnimation.doClickOnGroupAnimate(getGroupCount(), groupPosition);
 		return true;
 	}
 
-	private void doCollapseAnimation(ExpandableListView parent) {
-		int visibleGroups = getGroupCount()-parent.getFirstVisiblePosition();
-		int visibleChilds = parent.getChildCount()-visibleGroups;
-
-		Animation currentAnimation = new AlphaAnimation(1.0f, 0.0f);
-		currentAnimation.setDuration(1200);
-		currentAnimation.setFillAfter(true);
-		for(int i=0;i<visibleChilds;++i) {
-			getChildFromAbsolutePosition(parent, getGroupCount()+i).startAnimation(currentAnimation);
-		}
-	}
-
-	private View getChildFromAbsolutePosition(ExpandableListView parent, int absolutePosition) {
-		int displayedPosition = absolutePosition-parent.getFirstVisiblePosition();
-		return parent.getChildAt(displayedPosition);
-	}
-
-	private void doReordering(ExpandableListView parent, int groupPosition) {
+	public void doReordering(ExpandableListView parent, int groupPosition) {
 		for(int i=0;i<getGroupCount();++i)
 			parent.collapseGroup(i);
 		Script currentScript = sprite.getScriptList().get(groupPosition);
@@ -223,20 +143,20 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 			sprite.getScriptList().add(currentScript);
 			sprite.getScriptList().remove(lastScript);
 			sprite.getScriptList().add(groupPosition, lastScript);
-			System.out.println("script reorder OK");
 		}
 
 		ProjectManager.getInstance().setCurrentScript(currentScript);
 
 		notifyDataSetChanged();
 		parent.expandGroup(getGroupCount()-1);
+	}
 
+	public void setAnimateChildren(boolean animateChildren) {
+		this.animateChildren = animateChildren;
 	}
 
 	public int getChildCountFromLastGroup() {
 		return getChildrenCount(getGroupCount()-1);
 	}
 
-	//padding zu eingeklaptem brick
-	// animationen fertig
 }
