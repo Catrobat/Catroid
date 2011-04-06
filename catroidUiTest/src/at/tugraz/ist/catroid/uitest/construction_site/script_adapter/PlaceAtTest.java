@@ -73,6 +73,7 @@ public class PlaceAtTest extends ActivityInstrumentationTestCase2<ScriptActivity
 	public void testPlaceAtBrick() throws Throwable {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
+		
 		assertEquals("Incorrect number of bricks.", 5, solo.getCurrentListViews().get(0).getChildCount());
 		assertEquals("Incorrect number of bricks.", 4, childrenCount);
 
@@ -121,7 +122,6 @@ public class PlaceAtTest extends ActivityInstrumentationTestCase2<ScriptActivity
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
-
 	}
 
 }
