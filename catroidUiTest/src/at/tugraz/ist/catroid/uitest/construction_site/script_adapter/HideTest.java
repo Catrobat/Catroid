@@ -70,6 +70,7 @@ public class HideTest extends ActivityInstrumentationTestCase2<ScriptActivity>{
 	public void testHideBrick() throws Throwable {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
+		
 		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 		
@@ -78,7 +79,6 @@ public class HideTest extends ActivityInstrumentationTestCase2<ScriptActivity>{
 		
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(groupCount-1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.hide_main_adapter)));
-		
 	}
 	
 	private void createProject() {
@@ -93,7 +93,6 @@ public class HideTest extends ActivityInstrumentationTestCase2<ScriptActivity>{
         ProjectManager.getInstance().setProject(project);
         ProjectManager.getInstance().setCurrentSprite(sprite);
         ProjectManager.getInstance().setCurrentScript(script);
-        
 	}
 	
 }
