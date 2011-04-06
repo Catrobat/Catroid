@@ -52,7 +52,6 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptAct
 		createTestProject("testProject");
 		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
-
 	}
 
 	@Override
@@ -70,10 +69,11 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptAct
 	public void testChangeScript() throws InterruptedException {
 		ListView parent = solo.getCurrentListViews().get(0);
 		View testScriptBrick = parent.getChildAt(0);
+		
 		solo.clickOnView(testScriptBrick);
 		Thread.sleep(3000);
+		
 		List<Script> scriptList = ProjectManager.getInstance().getCurrentSprite().getScriptList();
-
 		assertEquals("First script in list is not testScript2", "testScript2", scriptList.get(0).getName());
 		assertEquals("Second script in list is not touchScript", "touchScript", scriptList.get(1).getName());
 		assertEquals("Third script in list is not testScript", "testScript", scriptList.get(2).getName());
@@ -90,11 +90,9 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptAct
 		String textViewText = solo.getCurrentTextViews(touchBrick).get(0).getText().toString();
 		String touchBrickText = getActivity().getString(R.string.touched_main_adapter);
 		assertEquals("Third script in listView is not touchScript", touchBrickText, textViewText);
-
 	}
 
 	private void createTestProject(String projectName) {
-
 		double scaleValue = 0.8;
 
 		Project project = new Project(null, projectName);
@@ -125,7 +123,6 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptAct
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 		ProjectManager.getInstance().setCurrentScript(testScript);
-
 	}
 
 }
