@@ -62,7 +62,6 @@ public class LoadProjectDialogTest extends ActivityInstrumentationTestCase2<Main
 		getActivity().finish();
 
 		super.tearDown();
-
 	}
 
 	public void testLoadProjectDialog() throws NameNotFoundException, IOException {
