@@ -68,16 +68,25 @@ public class ProjectManager extends Observable {
 		}
 	}
 
-	public void saveProject(Context context) {
-		try {
-			if (project == null) {
-				return;
-			}
-			StorageHandler.getInstance().saveProject(project);
-		} catch (IOException e) {
-			Utils.displayErrorMessage(context, context.getString(R.string.error_save_project));
-		}
-	}
+    public void saveProject(Context context) {
+        try {
+            if (project == null) {
+                return;
+            }
+            StorageHandler.getInstance().saveProject(project);
+        } catch (IOException e) {
+            Utils.displayErrorMessage(context, context.getString(R.string.error_save_project));
+        }
+    }
+    
+    public void deleteCurrentProject(Context context) {
+        try {
+            StorageHandler.getInstance().deleteProject(project);
+        } catch (IOException e) {
+            Utils.displayErrorMessage(context, context.getString(R.string.error_delete_project));
+        }
+        project = null;
+    }
 
 	public void resetProject(Context context) throws NameNotFoundException {
 		project = new Project(context, project.getName());

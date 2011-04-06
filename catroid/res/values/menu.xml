@@ -22,12 +22,12 @@
 <resources>
 	<array
 		name="menu_project_activity">
-		<item>rename</item>
-		<item>delete</item>
+		<item>@string/rename</item>
+		<item>@string/delete</item>
 	</array>
 	<array
 		name="menu_sprite_activity">
-		<item>rename</item>
-		<item>delete</item>
+		<item>@string/rename</item>
+		<item>@string/delete</item>>
 	</array>
 </resources>
