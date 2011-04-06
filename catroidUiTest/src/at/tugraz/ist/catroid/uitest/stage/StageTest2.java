@@ -31,7 +31,7 @@ import com.jayway.android.robotium.solo.Solo;
  * Tests the features of the construction site
  */
 public class StageTest2 extends
-		ActivityInstrumentationTestCase2<ConstructionSiteActivity> {
+	ActivityInstrumentationTestCase2<ConstructionSiteActivity> {
 	private Solo solo;
 	private String toolbar = "B\nu\ni\nl\nd\ni\nn\ng\n \nB\nl\no\nc\nk\ns";
 	
