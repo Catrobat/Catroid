@@ -53,7 +53,6 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 		createTestProject("testProject");
 		solo = new Solo(getInstrumentation(), getActivity());
         super.setUp();
-        
 	}
 
 	@Override
@@ -103,8 +102,10 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 	}
 	
 	private ArrayList<Integer> getListItemYPositions() {
-		ArrayList<Integer> yposlist = new ArrayList<Integer>();		
+		ArrayList<Integer> yposlist = new ArrayList<Integer>();	
+		
 		ListView listView = solo.getCurrentListViews().get(0);
+		
 		for(int i=0;i<listView.getChildCount();++i) {
 			View currentViewInList = listView.getChildAt(i);
 			
@@ -118,7 +119,6 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 	}
 	
 	private void createTestProject(String projectName) {
-		
 		int xPosition = 457;
         int yPosition = 598;
         double scaleValue = 0.8;
@@ -147,9 +147,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
         
         ProjectManager.getInstance().setProject(project);
         ProjectManager.getInstance().setCurrentSprite(firstSprite);
-        ProjectManager.getInstance().setCurrentScript(testScript);
-
-		
+        ProjectManager.getInstance().setCurrentScript(testScript);	
 	}
 
 }
