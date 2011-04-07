@@ -52,6 +52,12 @@ public final class Consts {
 	public static final int ANIMATION_DURATION_EXPAND = 500; //ms
 	public static final int ANIMATION_EXPAND_DELAY = 50; //ms
 
+	//Upload:
+	public static final String FILE_UPLOAD_TAG = "upload";
+	public static final String PROJECT_NAME_TAG = "projectTitle";
+	public static final String FILE_UPLOAD_URL = "http://www.catroid.org/catroid/upload/upload.json";
+	public static final String TEST_FILE_UPLOAD_URL = "http://catroidwebtest.ist.tugraz.at/catroid/upload/upload.json";
+
 
 
 }

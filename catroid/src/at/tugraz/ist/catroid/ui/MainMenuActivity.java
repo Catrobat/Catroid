@@ -34,6 +34,7 @@ import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.Values;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.constructionSite.tasks.ProjectUploadTask;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.dialogs.AboutDialog;
@@ -84,7 +85,9 @@ public class MainMenuActivity extends Activity {
 		Button uploadProjectButton = (Button) findViewById(R.id.uploadProjectButton);
 		uploadProjectButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-
+				String projectName = projectManager.getCurrentProject().getName();
+				new ProjectUploadTask(MainMenuActivity.this, projectName,
+						Consts.DEFAULT_ROOT, Consts.TMP_PATH + "/tmp.zip").execute();
 			}
 		});
 
