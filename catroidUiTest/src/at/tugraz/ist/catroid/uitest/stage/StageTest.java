@@ -110,13 +110,13 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		System.out.println("image2: " + image2.getAbsolutePath() + " " + image2Width + " " + image2Height);
 		solo.clickOnButton(1); // this is the stage //change it when you mess with the buttons
 
-		Thread.sleep(500);
+		Thread.sleep(1000);
 		Costume costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
 		assertEquals("image1 is not set ", (Integer) image1Width, costume.getImageWidthHeight().first);
 		assertEquals("image1 is not set ", (Integer) image1Height, costume.getImageWidthHeight().second);
 		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
 
-		Thread.sleep(500);
+		Thread.sleep(1000);
 		costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
 		assertEquals("image2 is not set ", (Integer) image2Width, costume.getImageWidthHeight().first);
 		assertEquals("image2 is not set ", (Integer) image2Height, costume.getImageWidthHeight().second);
@@ -147,6 +147,49 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		        + Values.SCREEN_WIDTH / 2f);
 		drawPositionX = drawPositionX - image1Width / 2;
 		assertEquals("image was not set right", drawPositionX, costume.getDrawPositionX());
+	}
+
+	public void testClickAroundPicture() throws IOException, InterruptedException {
+		createTestProject1(projectName);
+		solo.clickOnButton(1);
+
+		Thread.sleep(2000);
+		Costume costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
+		assertEquals("image1 is not set ", (Integer) image1Width, costume.getImageWidthHeight().first);
+		assertEquals("image1 is not set ", (Integer) image1Height, costume.getImageWidthHeight().second);
+
+		System.out.println("image1: " + image1.getAbsolutePath() + " " + image1Width + " " + image1Height);
+
+		int clickWidth = (Values.SCREEN_WIDTH - costume.getBitmap().getWidth()) / 2 - 4;
+		int clickHeight = Values.SCREEN_HEIGHT / 2;
+		System.out.println("click: " + clickWidth + " " + clickHeight);
+		solo.clickOnScreen(clickWidth, clickHeight);
+
+		clickWidth = (Values.SCREEN_WIDTH / 2);
+		clickHeight = (Values.SCREEN_HEIGHT - costume.getBitmap().getHeight()) / 2 - 4;
+		System.out.println("click: " + clickWidth + " " + clickHeight);
+		solo.clickOnScreen(clickWidth, clickHeight);
+
+		clickWidth = (Values.SCREEN_WIDTH / 2);
+		clickHeight = ((Values.SCREEN_HEIGHT - costume.getBitmap().getHeight()) / 2) + costume.getBitmap().getHeight() + 4;
+		System.out.println("click: " + clickWidth + " " + clickHeight);
+		solo.clickOnScreen(clickWidth, clickHeight);
+
+		clickWidth = ((Values.SCREEN_WIDTH - costume.getBitmap().getWidth()) / 2) + costume.getBitmap().getWidth() + 4;
+		clickHeight = (Values.SCREEN_HEIGHT / 2);
+		System.out.println("click: " + clickWidth + " " + clickHeight);
+		solo.clickOnScreen(clickWidth, clickHeight);
+
+		Thread.sleep(1000);
+		costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
+		assertEquals("image1 is not set ", (Integer) image1Width, costume.getImageWidthHeight().first);
+		assertEquals("image1 is not set ", (Integer) image1Height, costume.getImageWidthHeight().second);
+
+		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
+		Thread.sleep(1000);
+		costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
+		assertEquals("image2 is not set ", (Integer) image2Width, costume.getImageWidthHeight().first);
+		assertEquals("image2 is not set ", (Integer) image2Height, costume.getImageWidthHeight().second);
 	}
 
 
