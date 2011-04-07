@@ -40,6 +40,15 @@
 			android:textSize="18dip"
 		></TextView>
 		<Button
+			android:text="@string/construction_site_play"
+			android:id="@+id/toStageButton"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="0"
+			android:textStyle="bold"
+		>
+		</Button>
+		<Button
 			android:text="@string/main_menu"
 			android:id="@+id/mainMenuButton"
 			android:layout_width="wrap_content"
