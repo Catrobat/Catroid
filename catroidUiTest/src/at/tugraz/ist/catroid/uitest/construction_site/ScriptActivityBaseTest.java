@@ -23,6 +23,7 @@ import java.io.File;
 
 import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
@@ -33,6 +34,7 @@ public class ScriptActivityBaseTest extends ActivityInstrumentationTestCase2<Mai
 
     private final String projectNameOne = "Ulumulu";
     private final String projectNameTwo = "Ulumulu2";
+    private final String projectNameThree = "Ulumulu3";
 
 	public ScriptActivityBaseTest() {
 		super("at.tugraz.ist.catroid.ui", MainMenuActivity.class);
@@ -44,6 +46,9 @@ public class ScriptActivityBaseTest extends ActivityInstrumentationTestCase2<Mai
         UtilFile.deleteDirectory(directory);
         
         directory = new File("/sdcard/catroid/" + projectNameTwo);
+        UtilFile.deleteDirectory(directory);
+        
+        directory = new File("/sdcard/catroid/" + projectNameThree);
         UtilFile.deleteDirectory(directory);
         
 		solo = new Solo(getInstrumentation(), getActivity());
@@ -59,6 +64,10 @@ public class ScriptActivityBaseTest extends ActivityInstrumentationTestCase2<Mai
         directory = new File("/sdcard/catroid/" + projectNameTwo);
         UtilFile.deleteDirectory(directory);
         assertFalse(projectNameTwo + " was not deleted!", directory.exists());
+        
+        directory = new File("/sdcard/catroid/" + projectNameThree);
+        UtilFile.deleteDirectory(directory);
+        assertFalse(projectNameThree + " was not deleted!", directory.exists());
         
 		try {
 			solo.finalize();
@@ -77,10 +86,25 @@ public class ScriptActivityBaseTest extends ActivityInstrumentationTestCase2<Mai
 		solo.goBack();
 		
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
+		solo.sleep(1000);
         solo.clickOnText(getActivity().getString(R.string.stage));
 		solo.clickOnButton(getActivity().getString(R.string.main_menu));
 		solo.clickOnButton(getActivity().getString(R.string.resume)); 
 		//if this is possible it worked! (will throw AssertionFailedError if not working
+	}
+	
+	public void testToStageButton() throws InterruptedException {
+		solo.clickOnButton(getActivity().getString(R.string.new_project));
+		solo.clickOnEditText(0);
+		solo.enterText(0, projectNameThree);
+		solo.goBack();
+		
+		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
+solo.clickOnButton(getActivity().getString(R.string.resume)); 
+		solo.sleep(3000);
+        solo.clickOnText(getActivity().getString(R.string.stage));
+        solo.clickOnButton(getActivity().getString(R.string.construction_site_play));
+		assertTrue(solo.getCurrentActivity() instanceof StageActivity);
 	}
 
     public void testCreateNewBrickButton() throws InterruptedException {
@@ -90,6 +114,7 @@ public class ScriptActivityBaseTest extends ActivityInstrumentationTestCase2<Mai
 		solo.goBack();
 		
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
+		solo.sleep(1000);
         solo.clickOnText(getActivity().getString(R.string.stage));
 
         System.out.println("new brick: "+getActivity().getString(R.string.add_new_brick));
@@ -100,6 +125,6 @@ public class ScriptActivityBaseTest extends ActivityInstrumentationTestCase2<Mai
 
         Thread.sleep(100);
 		assertTrue("in hidebrick is not in List", solo.searchText(getActivity().getString(R.string.hide_main_adapter)));
-        assertEquals("not one brick in listview", 1, solo.getCurrentListViews().get(0).getCount());
+        assertEquals("not one brick in listview", 2, solo.getCurrentListViews().get(0).getCount());
     }
 }
