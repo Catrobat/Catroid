@@ -31,5 +31,6 @@
 		android:fadingEdgeLength="50.0dp"
 		android:scrollbarFadeDuration="2000"
 		android:clickable="true"
+		android:background="#FFFFFF"
 	></ListView>
 </LinearLayout>
