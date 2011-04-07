@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -22,24 +22,23 @@ package at.tugraz.ist.catroid.utils;
 import java.io.File;
 
 public class UtilFile {
-	
+
 	static public boolean clearDirectory(File path) {
-    if( path.exists() ) {
-      File[] filesInDirectory = path.listFiles();
-      for(int i=0; i<filesInDirectory.length; i++) {
-         if(filesInDirectory[i].isDirectory()) {
-           deleteDirectory(filesInDirectory[i]);
-         }
-         else {
-           filesInDirectory[i].delete();
-         }
-      }
-    }
-    return true;
-  }
-	
-  static public boolean deleteDirectory(File path) {
-    clearDirectory(path);
-    return( path.delete() );
-  }
+		if( path.exists() ) {
+			File[] filesInDirectory = path.listFiles();
+			for(int i=0; i<filesInDirectory.length; i++) {
+				if(filesInDirectory[i].isDirectory()) {
+					deleteDirectory(filesInDirectory[i]);
+				} else {
+					filesInDirectory[i].delete();
+				}
+			}
+		}
+		return true;
+	}
+
+	static public boolean deleteDirectory(File path) {
+		clearDirectory(path);
+		return( path.delete() );
+	}
 }
