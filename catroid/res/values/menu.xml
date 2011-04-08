@@ -25,9 +25,4 @@
 		<item>@string/rename</item>
 		<item>@string/delete</item>
 	</array>
-	<array
-		name="menu_sprite_activity">
-		<item>@string/rename</item>
-		<item>@string/delete</item>>
-	</array>
 </resources>
