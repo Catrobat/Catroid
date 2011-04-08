@@ -57,7 +57,7 @@
 				></EditText>
 				<Button
 					android:id="@+id/NewSpriteButton"
-					android:text="@string/SpriteButtonText"
+					android:text="@string/sprite_button_text"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_below="@id/newsprite"

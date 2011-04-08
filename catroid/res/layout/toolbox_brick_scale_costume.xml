@@ -58,7 +58,7 @@
 		android:layout_width="wrap_content"
 		android:layout_alignParentLeft="true"
 		android:layout_centerVertical="true"
-		android:layout_toLeftOf="@+id/ScaleCustomEditText"
+		android:layout_toLeftOf="@+id/ScaleCostumeEditText"
 		android:textColor="@color/white"
 		android:textSize="18dip"
 		android:textStyle="bold"

@@ -88,7 +88,7 @@
     <string name="add_new_script">Neues Skript hinzufügen</string>
 
     <!-- Sprite dialog -->
-    <string name="SpriteButtonText">Anlegen</string>
+    <string name="sprite_button_text">Anlegen</string>
     <string name="newsprite">Neues Objekt</string>
 
     <!-- New project dialog -->
@@ -145,7 +145,7 @@
     <string name="x_label">X:</string>
     <string name="y_label">Y:</string>
     <string name="costume_main_adapter">Setze Kostüm</string>
-    <string name="scaleCustome">Skaliere Kostüm auf</string>
+    <string name="scale_costume">Skaliere Kostüm auf</string>
     <string name="go_back_main_adapter">Gehe</string>
     <string name="steps_label">Schritte nach hinten</string>
     <string name="come_to_front_main_adapter">Komm nach vorne</string>
