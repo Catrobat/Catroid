@@ -192,6 +192,62 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		assertEquals("image2 is not set ", (Integer) image2Height, costume.getImageWidthHeight().second);
 	}
 
+	public void testClickImageBoundaries() throws IOException, InterruptedException {
+		createTestProject1(projectName);
+		solo.clickOnButton(1);
+		Thread.sleep(2000);
+		Costume costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
+		int clickWidth = (Values.SCREEN_WIDTH - costume.getBitmap().getWidth()) / 2 + 4;
+		int clickHeight = Values.SCREEN_HEIGHT / 2;
+		System.out.println("click: " + clickWidth + " " + clickHeight);
+		clickOnScreenAndReturn(clickWidth, clickHeight, image2Width, image2Height);
+
+		clickWidth = (Values.SCREEN_WIDTH / 2);
+		clickHeight = (Values.SCREEN_HEIGHT - costume.getBitmap().getHeight()) / 2 + 4;
+		System.out.println("click: " + clickWidth + " " + clickHeight);
+		clickOnScreenAndReturn(clickWidth, clickHeight, image2Width, image2Height);
+
+		clickWidth = (Values.SCREEN_WIDTH / 2);
+		clickHeight = ((Values.SCREEN_HEIGHT - costume.getBitmap().getHeight()) / 2) + costume.getBitmap().getHeight()
+		        - 4;
+		System.out.println("click: " + clickWidth + " " + clickHeight);
+		clickOnScreenAndReturn(clickWidth, clickHeight, image2Width, image2Height);
+
+		clickWidth = ((Values.SCREEN_WIDTH - costume.getBitmap().getWidth()) / 2) + costume.getBitmap().getWidth() - 4;
+		clickHeight = (Values.SCREEN_HEIGHT / 2);
+		System.out.println("click: " + clickWidth + " " + clickHeight);
+		clickOnScreenAndReturn(clickWidth, clickHeight, image2Width, image2Height);
+
+	}
+
+	public void testSpfChangesInStage() throws IOException {
+		// it is not allowed for the .spf file to change when in stage
+		// add another test when you add new stage buttons
+		createTestProject1(projectName);
+		File mySpfFile = new File("/mnt/sdcard/catroid/" + projectName + "/" + projectName + Consts.PROJECT_EXTENTION);
+
+		solo.clickOnButton(1);
+		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
+		solo.goBack();
+		solo.clickOnButton(0);
+		solo.clickInList(1);
+
+		File mySpfFile2 = new File("/mnt/sdcard/catroid/" + projectName + "/" + projectName + Consts.PROJECT_EXTENTION);
+
+		assertEquals("spf File changed!", mySpfFile.hashCode(), mySpfFile2.hashCode());
+	}
+
+	public void clickOnScreenAndReturn(int x, int y, int expectedWidth, int expectedHeight) throws InterruptedException {
+		solo.clickOnScreen(x, y);
+		Thread.sleep(1000);
+		Costume costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
+		assertEquals((Integer) expectedWidth, costume.getImageWidthHeight().first);
+		assertEquals((Integer) expectedHeight, costume.getImageWidthHeight().second);
+
+		solo.goBack();
+		solo.clickOnButton(1);
+	}
+
 
 	public void createTestProject1(String projectName) throws IOException {
 		StorageHandler storageHandler = StorageHandler.getInstance();
