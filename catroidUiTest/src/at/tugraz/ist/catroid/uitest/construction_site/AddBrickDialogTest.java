@@ -65,52 +65,69 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	public void testAddBrickDialog() throws NameNotFoundException, IOException {
+
 		solo.clickOnButton(getActivity().getString(R.string.load_project));
+
 		solo.clickOnText(testProject);
 		solo.clickInList(2);
 
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.wait_main_adapter));
+		solo.clickOnText(solo.getCurrentActivity().getString(R.string.wait_main_adapter));
 
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
+		solo.clickOnText(solo.getCurrentActivity().getString(R.string.hide_main_adapter));
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.hide_main_adapter));
 
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.show_main_adapter));
+		solo.clickOnText(solo.getCurrentActivity().getString(R.string.show_main_adapter));
 
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
+		solo.clickOnText(solo.getCurrentActivity().getString(R.string.goto_main_adapter));
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.goto_main_adapter));
 
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.set_x_main_adapter));
+		solo.clickOnText(solo.getCurrentActivity().getString(R.string.set_x_main_adapter));
 
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
+		solo.clickOnText(solo.getCurrentActivity().getString(R.string.set_y_main_adapter));
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.set_y_main_adapter));
 
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.change_x_main_adapter));
+		solo.clickOnText(solo.getCurrentActivity().getString(R.string.change_x_main_adapter));
 
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
-		solo.scrollDownList(1);
+		// solo.scrollDownList(0);
+		solo.clickOnText(solo.getCurrentActivity().getString(R.string.change_y_main_adapter));
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.change_y_main_adapter));
 
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
+		solo.scrollDownList(1);
+		solo.clickOnText(solo.getCurrentActivity().getString(R.string.costume_main_adapter));
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.costume_main_adapter));
 
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
+		solo.clickOnText(solo.getCurrentActivity().getString(R.string.scale_costume));
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.scale_costume));
 
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
 		solo.scrollDownList(1);
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.go_back_main_adapter));
+		solo.clickOnText(solo.getCurrentActivity().getString(R.string.go_back_main_adapter));
 
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
+		solo.clickOnText(solo.getCurrentActivity().getString(R.string.come_to_front_main_adapter));
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.come_to_front_main_adapter));
 
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.play_sound_main_adapter));
+		solo.clickOnText(solo.getCurrentActivity().getString(R.string.play_sound_main_adapter));
 
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
+		solo.clickOnText(solo.getCurrentActivity().getString(R.string.touched_main_adapter));
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.touched_main_adapter));
 	}
 
