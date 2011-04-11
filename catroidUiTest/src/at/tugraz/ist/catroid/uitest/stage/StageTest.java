@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -43,6 +43,7 @@ import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.R;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -71,11 +72,11 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 	@Override
 	public void setUp() throws Exception {
-		// File directory = new File("/sdcard/catroid/" + projectName);
-		// UtilFile.deleteDirectory(directory);
-		//
-		// directory = new File("/sdcard/catroid/" + projectName2);
-		// UtilFile.deleteDirectory(directory);
+		File directory = new File("/sdcard/catroid/" + projectName);
+		UtilFile.deleteDirectory(directory);
+
+		directory = new File("/sdcard/catroid/" + projectName2);
+		UtilFile.deleteDirectory(directory);
 		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
 	}
@@ -88,18 +89,18 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 			e.printStackTrace();
 		}
 
-		// if (image1 != null && image1.exists()) {
-		// image1.delete();
-		// }
-		// if (image2 != null && image2.exists()) {
-		// image2.delete();
-		// }
+		if (image1 != null && image1.exists()) {
+			image1.delete();
+		}
+		if (image2 != null && image2.exists()) {
+			image2.delete();
+		}
 
-		// File directory = new File("/sdcard/catroid/" + projectName);
-		// UtilFile.deleteDirectory(directory);
-		//
-		// directory = new File("/sdcard/catroid/" + projectName2);
-		// UtilFile.deleteDirectory(directory);
+		File directory = new File("/sdcard/catroid/" + projectName);
+		UtilFile.deleteDirectory(directory);
+
+		directory = new File("/sdcard/catroid/" + projectName2);
+		UtilFile.deleteDirectory(directory);
 
 		getActivity().finish();
 		super.tearDown();
@@ -124,32 +125,32 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		assertEquals("image2 is not set ", (Integer) image2Height, costume.getImageWidthHeight().second);
 	}
 
-//	public void testRunScript() throws IOException, InterruptedException {
-//		createTestProject2(projectName2);
-//
-//		System.out.println("image1: " + image1.getAbsolutePath() + " " + image1Width + " " + image1Height);
-//
-//		solo.clickOnButton(1);
-//		Thread.sleep(500);
-//		Costume costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
-//		assertEquals("some image is set", (Integer) 0, costume.getImageWidthHeight().first);
-//		assertEquals("some image is set", (Integer) 0, costume.getImageWidthHeight().second);
-//
-//		solo.clickOnScreen(Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT); // click somewhere ..
-//
-//		Thread.sleep(1000);
-//		costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
-//		assertEquals("image not right scaled", (Integer) (image1Width / 2), costume.getImageWidthHeight().first);
-//
-//		Thread.sleep(3000);
-//		costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
-//		assertEquals("image not right scaled", (Integer) (image1Width), costume.getImageWidthHeight().first);
-//
-//		int drawPositionX = Math.round(((Values.SCREEN_WIDTH / (2f * Consts.MAX_REL_COORDINATES)) * placeAt)
-//		        + Values.SCREEN_WIDTH / 2f);
-//		drawPositionX = drawPositionX - image1Width / 2;
-//		assertEquals("image was not set right", drawPositionX, costume.getDrawPositionX());
-//	}
+	public void testRunScript() throws IOException, InterruptedException {
+		createTestProject2(projectName2);
+
+		System.out.println("image1: " + image1.getAbsolutePath() + " " + image1Width + " " + image1Height);
+
+		solo.clickOnButton(1);
+		Thread.sleep(2000);
+		Costume costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
+		assertEquals("some image is set", (Integer) this.image2Width, costume.getImageWidthHeight().first);
+		assertEquals("some image is set", (Integer) this.image2Height, costume.getImageWidthHeight().second);
+
+		solo.clickOnScreen(Values.SCREEN_WIDTH/2, Values.SCREEN_HEIGHT/2); // click in se middle
+
+		Thread.sleep(1000);
+		costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
+		assertEquals("image not right scaled", (Integer) (image1Width / 2), costume.getImageWidthHeight().first);
+
+		Thread.sleep(3000);
+		costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
+		assertEquals("image not right scaled", (Integer) (image1Width), costume.getImageWidthHeight().first);
+
+		int drawPositionX = Math.round(((Values.SCREEN_WIDTH / (2f * Consts.MAX_REL_COORDINATES)) * placeAt)
+				+ Values.SCREEN_WIDTH / 2f);
+		drawPositionX = drawPositionX - image1Width / 2;
+		assertEquals("image was not set right", drawPositionX, costume.getDrawPositionX());
+	}
 
 	public void testClickAroundPicture() throws IOException, InterruptedException {
 		createTestProject1(projectName);
@@ -211,7 +212,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		clickWidth = (Values.SCREEN_WIDTH / 2);
 		clickHeight = ((Values.SCREEN_HEIGHT - costume.getBitmap().getHeight()) / 2) + costume.getBitmap().getHeight()
-		        - 4;
+		- 4;
 		System.out.println("click: " + clickWidth + " " + clickHeight);
 		clickOnScreenAndReturn(clickWidth, clickHeight, image2Width, image2Height);
 
@@ -276,25 +277,26 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 	}
 
-	// public void testRightZValue() throws IOException, InterruptedException {
-	// createTestProject3(projectName);
-	// solo.clickOnButton(1);
-	//
-	// Thread.sleep(2000);
-	// solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
-	// Thread.sleep(4000);
-	// Costume costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(2).getCostume();
-	//
-	// assertEquals("costume has wrong width --> touch worked on it", (Integer) image2Width,
-	// costume.getImageWidthHeight().first);
-	// assertEquals("costume has wrong height --> touch worked on it", (Integer) image2Height,
-	// costume.getImageWidthHeight().second);
-	//
-	// solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
-	// assertEquals("costume has wrong width", image2Width / 2, costume.getBitmap().getWidth());
-	// assertEquals("costume has wrong height", image2Height / 2, costume.getBitmap().getHeight());
-	//
-	// }
+	public void testZValue() throws IOException, InterruptedException {
+		createTestProject3(this.projectName);
+		solo.clickOnButton(1);
+
+		Thread.sleep(1000);
+		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
+		Thread.sleep(1000);
+		Costume costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(2).getCostume();
+
+		assertEquals("costume has wrong width --> touch worked on it", (Integer) image2Width,
+				costume.getImageWidthHeight().first);
+		assertEquals("costume has wrong height --> touch worked on it", (Integer) image2Height,
+				costume.getImageWidthHeight().second);
+
+		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
+		Thread.sleep(500);
+		assertEquals("costume has wrong width", image2Width *2, costume.getBitmap().getWidth());
+		assertEquals("costume has wrong height", image2Height *2, costume.getBitmap().getHeight());
+
+	}
 
 	public void clickOnScreenAndReturn(int x, int y, int expectedWidth, int expectedHeight) throws InterruptedException {
 		solo.clickOnScreen(x, y);
@@ -347,29 +349,34 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		storageHandler.saveProject(project);
 
 		image1 = savePictureInProject(projectName, 4147, imageName1, IMAGE_FILE_ID);
+		image2 = savePictureInProject(projectName, 4147, imageName2, IMAGE_FILE_ID2);
 
 		Sprite firstSprite = new Sprite("sprite1");
+		Script startScript = new Script ("startscript", firstSprite);
 		Script touchScript = new Script("script2", firstSprite);
 		touchScript.setTouchScript(true);
 
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
 		setCostumeBrick.setCostume(image1.getAbsolutePath());
+		SetCostumeBrick setCostumeBrick2 = new SetCostumeBrick(firstSprite);
+		setCostumeBrick2.setCostume(image2.getAbsolutePath());
 		ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(firstSprite, 50);
 		ScaleCostumeBrick scaleCostumeBrick2 = new ScaleCostumeBrick(firstSprite, 100);
 		WaitBrick waitBrick = new WaitBrick(firstSprite, 3000);
 		PlaceAtBrick placeAt = new PlaceAtBrick(firstSprite, this.placeAt, this.placeAt);
 
 		project.addSprite(firstSprite);
+		startScript.addBrick(setCostumeBrick2);
 		touchScript.addBrick(setCostumeBrick);
 		touchScript.addBrick(scaleCostumeBrick);
 		touchScript.addBrick(waitBrick);
 		touchScript.addBrick(scaleCostumeBrick2);
 		touchScript.addBrick(placeAt);
+		firstSprite.getScriptList().add(startScript);
 		firstSprite.getScriptList().add(touchScript);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
-		ProjectManager.getInstance().setCurrentScript(touchScript);
 
 		storageHandler.saveProject(project);
 	}
@@ -405,7 +412,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		Script touchScript2 = new Script("script2", secondSprite);
 		touchScript2.setTouchScript(true);
 		// creating bricks:
-		SetCostumeBrick setCostumeBrick2 = new SetCostumeBrick(firstSprite);
+		SetCostumeBrick setCostumeBrick2 = new SetCostumeBrick(secondSprite);
 		setCostumeBrick2.setCostume(image2.getAbsolutePath());
 		// adding bricks:
 		startScript2.addBrick(setCostumeBrick2);
