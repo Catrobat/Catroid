@@ -22,6 +22,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.graphics.Color;
 import android.util.Pair;
 import at.tugraz.ist.catroid.content.script.Script;
 
@@ -71,7 +72,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		}
 	}
 
-	private void startTouchScripts() {
+	public void startTouchScripts() {
 		for (Script s : scriptList) {
 			if (s.isTouchScript()) {
 				startScript(s);
@@ -195,10 +196,9 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return (int) difference;
 	}
 
-	public void processOnTouch(int coordX, int coordY) {
+	public boolean processOnTouch(int coordX, int coordY) {
 		if(costume.getBitmap() == null) {
-			startTouchScripts();
-			return;
+			return false;
 		}
 
 		int inSpriteCoordX = coordX - costume.getDrawPositionX();
@@ -209,13 +209,18 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		int height = tempPair.second;
 
 		if (inSpriteCoordX < 0 || inSpriteCoordX > width) {
-			return;
+			return false;
 		}
 		if (inSpriteCoordY < 0 || inSpriteCoordY > height) {
-			return;
+			return false;
 		}
 
-		startTouchScripts();
+		if (Color.alpha(costume.getBitmap().getPixel(inSpriteCoordX, inSpriteCoordY)) <= 10) {
+			return false;
+		}
+
+		return true;
+
 	}
 
 	@Override
