@@ -76,6 +76,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		directory = new File("/sdcard/catroid/" + projectName2);
 		UtilFile.deleteDirectory(directory);
 		solo = new Solo(getInstrumentation(), getActivity());
+		super.setUp();
 	}
 
 	@Override
@@ -235,6 +236,42 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		File mySpfFile2 = new File("/mnt/sdcard/catroid/" + projectName + "/" + projectName + Consts.PROJECT_EXTENTION);
 
 		assertEquals("spf File changed!", mySpfFile.hashCode(), mySpfFile2.hashCode());
+	}
+
+	public void testPlayPauseHomeButton() throws IOException, InterruptedException {
+		StorageHandler storageHandler = StorageHandler.getInstance();
+		double scale = 50.0;
+
+		Project project = new Project(getActivity(), projectName);
+		Sprite sprite = new Sprite("testSprite");
+		Script script = new Script("script", sprite);
+		WaitBrick waitBrick = new WaitBrick(sprite, 4000);
+		ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(sprite, scale);
+
+		script.getBrickList().add(waitBrick);
+		script.getBrickList().add(scaleCostumeBrick);
+		sprite.getScriptList().add(script);
+		project.getSpriteList().add(sprite);
+
+		storageHandler.saveProject(project);
+		ProjectManager.getInstance().setProject(project);
+
+		solo.clickOnButton(1);
+		solo.pressMenuItem(1);
+		Thread.sleep(5000);
+		solo.pressMenuItem(1);
+		assertEquals(100.0, sprite.getScale());
+		Thread.sleep(4000);
+		assertEquals(scale, sprite.getScale());
+
+		// solo.goBack();
+		// solo.clickOnButton(1);
+		// solo.sendKey(KeyEvent.KEYCODE_HOME);
+		// Intent intent = new Intent(getActivity(), MainMenuActivity.class);
+		// launchActivityWithIntent("", MainMenuActivity.class, intent);
+		// // Intent intent = new Intent(getActivity(), MainMenuActivity.class);
+		// // getActivity().startActivity(intent);
+		// Thread.sleep(20000);
 	}
 
 	public void clickOnScreenAndReturn(int x, int y, int expectedWidth, int expectedHeight) throws InterruptedException {
