@@ -30,6 +30,8 @@ import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.Values;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.content.brick.ComeToFrontBrick;
+import at.tugraz.ist.catroid.content.brick.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.brick.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.brick.SetCostumeBrick;
@@ -41,7 +43,6 @@ import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.R;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
-import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -70,11 +71,11 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 	@Override
 	public void setUp() throws Exception {
-		File directory = new File("/sdcard/catroid/" + projectName);
-		UtilFile.deleteDirectory(directory);
-
-		directory = new File("/sdcard/catroid/" + projectName2);
-		UtilFile.deleteDirectory(directory);
+		// File directory = new File("/sdcard/catroid/" + projectName);
+		// UtilFile.deleteDirectory(directory);
+		//
+		// directory = new File("/sdcard/catroid/" + projectName2);
+		// UtilFile.deleteDirectory(directory);
 		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
 	}
@@ -87,18 +88,18 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 			e.printStackTrace();
 		}
 
-		if (image1 != null && image1.exists()) {
-			image1.delete();
-		}
-		if (image2 != null && image2.exists()) {
-			image2.delete();
-		}
+		// if (image1 != null && image1.exists()) {
+		// image1.delete();
+		// }
+		// if (image2 != null && image2.exists()) {
+		// image2.delete();
+		// }
 
-		File directory = new File("/sdcard/catroid/" + projectName);
-		UtilFile.deleteDirectory(directory);
-
-		directory = new File("/sdcard/catroid/" + projectName2);
-		UtilFile.deleteDirectory(directory);
+		// File directory = new File("/sdcard/catroid/" + projectName);
+		// UtilFile.deleteDirectory(directory);
+		//
+		// directory = new File("/sdcard/catroid/" + projectName2);
+		// UtilFile.deleteDirectory(directory);
 
 		getActivity().finish();
 		super.tearDown();
@@ -272,7 +273,28 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		// // Intent intent = new Intent(getActivity(), MainMenuActivity.class);
 		// // getActivity().startActivity(intent);
 		// Thread.sleep(20000);
+
 	}
+
+	// public void testRightZValue() throws IOException, InterruptedException {
+	// createTestProject3(projectName);
+	// solo.clickOnButton(1);
+	//
+	// Thread.sleep(2000);
+	// solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
+	// Thread.sleep(4000);
+	// Costume costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(2).getCostume();
+	//
+	// assertEquals("costume has wrong width --> touch worked on it", (Integer) image2Width,
+	// costume.getImageWidthHeight().first);
+	// assertEquals("costume has wrong height --> touch worked on it", (Integer) image2Height,
+	// costume.getImageWidthHeight().second);
+	//
+	// solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
+	// assertEquals("costume has wrong width", image2Width / 2, costume.getBitmap().getWidth());
+	// assertEquals("costume has wrong height", image2Height / 2, costume.getBitmap().getHeight());
+	//
+	// }
 
 	public void clickOnScreenAndReturn(int x, int y, int expectedWidth, int expectedHeight) throws InterruptedException {
 		solo.clickOnScreen(x, y);
@@ -352,10 +374,59 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		storageHandler.saveProject(project);
 	}
 
+	public void createTestProject3(String projectName) throws IOException {
+		StorageHandler storageHandler = StorageHandler.getInstance();
+
+		Project project = new Project(getActivity(), projectName);
+		storageHandler.saveProject(project);
+
+		image1 = savePictureInProject(projectName, 4147, imageName1, IMAGE_FILE_ID);
+		image2 = savePictureInProject(projectName, 4147, imageName2, IMAGE_FILE_ID2);
+
+		// sprite1 --------------------------------
+		Sprite firstSprite = new Sprite("sprite1");
+		Script startScript1 = new Script("start1", firstSprite);
+		Script touchScript1 = new Script("script1", firstSprite);
+		touchScript1.setTouchScript(true);
+		// creating bricks:
+		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
+		setCostumeBrick.setCostume(image1.getAbsolutePath());
+		// adding bricks:
+		startScript1.addBrick(setCostumeBrick);
+		startScript1.addBrick(new ComeToFrontBrick(firstSprite));
+		touchScript1.addBrick(new GoNStepsBackBrick(firstSprite, 2));
+
+		firstSprite.getScriptList().add(startScript1);
+		firstSprite.getScriptList().add(touchScript1);
+
+		// sprite2 --------------------------------
+		Sprite secondSprite = new Sprite("sprite2");
+		Script startScript2 = new Script("start2", secondSprite);
+		Script touchScript2 = new Script("script2", secondSprite);
+		touchScript2.setTouchScript(true);
+		// creating bricks:
+		SetCostumeBrick setCostumeBrick2 = new SetCostumeBrick(firstSprite);
+		setCostumeBrick2.setCostume(image2.getAbsolutePath());
+		// adding bricks:
+		startScript2.addBrick(setCostumeBrick2);
+		touchScript2.addBrick(new ScaleCostumeBrick(secondSprite, 200));
+
+		secondSprite.getScriptList().add(startScript2);
+		secondSprite.getScriptList().add(touchScript2);
+
+		// ---------------------------------------
+		project.addSprite(firstSprite);
+		project.addSprite(secondSprite);
+
+		ProjectManager.getInstance().setProject(project);
+
+		storageHandler.saveProject(project);
+	}
+
 	public File savePictureInProject(String project, int fileSize, String name, int fileID) throws IOException {
 
 		// final int fileSize = 4147;
-		final String imagePath = "/mnt/sdcard/catroid/" + project + "/images/" + name;
+		final String imagePath = "/sdcard/catroid/" + project + "/images/" + name;
 		File testImage = new File(imagePath);
 		if (!testImage.exists()) {
 			testImage.createNewFile();
