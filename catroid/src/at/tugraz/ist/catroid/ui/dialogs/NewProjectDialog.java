@@ -50,7 +50,7 @@ public class NewProjectDialog extends Dialog {
 		setCanceledOnTouchOutside(true);
 		getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
-		Button createNewProjectButton = (Button) findViewById(R.id.createNewProjectButton);
+		Button createNewProjectButton = (Button) findViewById(R.id.new_project_dialog_create_button);
 		createNewProjectButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				String projectName = ((EditText) findViewById(R.id.newProjectNameEditText)).getText().toString();

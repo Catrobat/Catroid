@@ -93,7 +93,7 @@
     <string name="newsprite">New sprite</string>
 
     <!-- New project dialog -->
-    <string name="new_project_dialog_button">Create</string>
+    <string name="new_project_dialog_create_button">Create</string>
     <string name="new_project_dialog_title">Name of new project</string>
     <string name="new_project_dialog_default_project_name">projectname</string>
     <string name="projectname_already_exists">This projectname already exists</string>
