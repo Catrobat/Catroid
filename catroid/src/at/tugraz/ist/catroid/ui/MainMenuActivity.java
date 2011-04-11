@@ -39,6 +39,7 @@ import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.dialogs.AboutDialog;
 import at.tugraz.ist.catroid.ui.dialogs.LoadProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
+import at.tugraz.ist.catroid.ui.dialogs.UploadProjectDialog;
 
 public class MainMenuActivity extends Activity {
 	private static final String PREFS_NAME = "at.tugraz.ist.catroid";
@@ -84,7 +85,7 @@ public class MainMenuActivity extends Activity {
 		Button uploadProjectButton = (Button) findViewById(R.id.uploadProjectButton);
 		uploadProjectButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-
+				showDialog(Consts.DIALOG_UPLOAD_PROJECT);
 			}
 		});
 
@@ -158,6 +159,9 @@ public class MainMenuActivity extends Activity {
 			break;
 		case Consts.DIALOG_ABOUT:
 			dialog = new AboutDialog(this);
+			break;
+		case Consts.DIALOG_UPLOAD_PROJECT:
+			dialog = new UploadProjectDialog(this);
 			break;
 		default:
 			dialog = null;

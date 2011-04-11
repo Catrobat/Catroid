@@ -192,4 +192,6 @@
     <string name="success_project_upload">Upload erfolgreich.</string>
     <string name="success_project_download">Download erfolgreich.</string>
     <string name="load_project">Projekt laden</string>
+    <string name="upload_button">Hochladen</string>
+    <string name="upload_project_dialog_title">Projekt hochladen</string>
 </resources>
