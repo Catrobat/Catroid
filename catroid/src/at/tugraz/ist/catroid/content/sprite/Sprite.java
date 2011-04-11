@@ -215,7 +215,11 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 			return false;
 		}
 
-		if (Color.alpha(costume.getBitmap().getPixel(inSpriteCoordX, inSpriteCoordY)) <= 10) {
+		try{
+			if (Color.alpha(costume.getBitmap().getPixel(inSpriteCoordX, inSpriteCoordY)) <= 10) {
+				return false;
+			}
+		}catch(Exception ex){
 			return false;
 		}
 
