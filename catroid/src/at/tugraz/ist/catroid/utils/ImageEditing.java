@@ -67,12 +67,13 @@ public class ImageEditing {
 		if (imagePath == null) {
 			return null;
 		}
-		BitmapFactory.Options o = new BitmapFactory.Options();
-		o.inJustDecodeBounds = true;
-		BitmapFactory.decodeFile(imagePath, o);
 
-		int origWidth = o.outWidth;
-		int origHeight = o.outHeight;
+		int[] imageDim = new int[2];
+		imageDim = getImageDimensions(imagePath);
+
+		int origWidth = imageDim[0];
+		int origHeight = imageDim[1];
+
 
 		double sampleSizeWidth = (origWidth / (double) outWidth);
 		double sampleSizeHeight = origHeight / (double) outHeight;
@@ -82,7 +83,7 @@ public class ImageEditing {
 		int newHeight = (int) Math.ceil(origHeight / sampleSize);
 		int newWidth = (int) Math.ceil(origWidth / sampleSize);
 
-		o.inJustDecodeBounds = false;
+		BitmapFactory.Options o = new BitmapFactory.Options();
 		o.inSampleSize = sampleSizeRounded;
 
 		Bitmap tmpBitmap = BitmapFactory.decodeFile(imagePath, o);
@@ -112,7 +113,6 @@ public class ImageEditing {
 
 
 		BitmapFactory.Options o = new BitmapFactory.Options();
-		o.inJustDecodeBounds = false;
 		o.inSampleSize = sampleSizeRounded;
 
 		Bitmap tmpBitmap = BitmapFactory.decodeFile(imagePath, o);
