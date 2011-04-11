@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -38,51 +38,51 @@ public class Project implements Serializable {
 	private String versionName;
 	private int versionCode;
 	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
-	
+
 	public Project(Context context, String name) {
-	    this.name = name;
-	    
-        if(context == null) {
-            versionName = "unknown";
-            versionCode = 0;
-            return;
-        }
-        Sprite stage = new Sprite(context.getString(R.string.stage));
-        addSprite(stage);
-        try {
-            PackageInfo packageInfo = context.getPackageManager().getPackageInfo("at.tugraz.ist.catroid", 0);
-    		versionName = packageInfo.versionName;
-    		versionCode =  packageInfo.versionCode;	
-        } catch (NameNotFoundException e) {
-            e.printStackTrace();
-            versionName = "unknown";
-            versionCode = 0;
-        }
-		
+		this.name = name;
+
+		if(context == null) {
+			versionName = "unknown";
+			versionCode = 0;
+			return;
+		}
+		Sprite stage = new Sprite(context.getString(R.string.stage));
+		addSprite(stage);
+		try {
+			PackageInfo packageInfo = context.getPackageManager().getPackageInfo("at.tugraz.ist.catroid", 0);
+			versionName = packageInfo.versionName;
+			versionCode =  packageInfo.versionCode;
+		} catch (NameNotFoundException e) {
+			e.printStackTrace();
+			versionName = "unknown";
+			versionCode = 0;
+		}
+
 	}
-	
+
 	public synchronized void addSprite(Sprite sprite) {
 		if (spriteList.contains(sprite)) {
-            return;
-        }
+			return;
+		}
 		spriteList.add(sprite);
 	}
-	
+
 	public synchronized boolean removeSprite(Sprite sprite) {
 		return spriteList.remove(sprite);
 	}
-	
+
 	public synchronized void addScript(Script script) {
 		if (scriptList.contains(script)) {
-            return;
-        }
+			return;
+		}
 		scriptList.add(script);
 	}
-	
+
 	public synchronized boolean removeScript(Script script) {
 		return scriptList.remove(script);
 	}
-	
+
 	public int getMaxZValue() {
 		int maxZValue = Integer.MIN_VALUE;
 		for (Sprite sprite : spriteList) {
@@ -94,7 +94,7 @@ public class Project implements Serializable {
 	public List<Sprite> getSpriteList() {
 		return spriteList;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -118,8 +118,8 @@ public class Project implements Serializable {
 	public int getVersionCode() {
 		return versionCode;
 	}
-	
+
 	public FileChecksumContainer getFileChecksumContainer() {
-	    return fileChecksumContainer;
+		return fileChecksumContainer;
 	}
 }
