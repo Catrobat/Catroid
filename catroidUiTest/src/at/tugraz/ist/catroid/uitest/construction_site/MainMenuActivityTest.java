@@ -27,6 +27,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.ListView;
 import android.widget.TextView;
+import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.brick.ComeToFrontBrick;
@@ -38,6 +39,7 @@ import at.tugraz.ist.catroid.content.project.Project;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
@@ -91,7 +93,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
 		Thread.sleep(2000);
 
-		File file = new File("/sdcard/catroid/testProject/" + testProject + ".spf");
+		File file = new File(Consts.DEFAULT_ROOT + "/testProject/" + testProject + Consts.PROJECT_EXTENTION);
 		assertTrue(testProject + " was not created!", file.exists());
 	}
 	
@@ -103,20 +105,17 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
 		Thread.sleep(50);
 		assertTrue("No error message was displayed upon creating a project with an empty name.", solo.searchText(getActivity().getString(R.string.error_no_name_entered)));
-
+		solo.clickOnButton(getActivity().getString(R.string.close));
 		File directory = new File("/sdcard/catroid/" + testProject);
 		directory.mkdirs();
 		
 		solo.clickOnEditText(0);
 		solo.enterText(0, testProject);
-		solo.goBack();
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
 		Thread.sleep(50);
 		assertTrue("No error message was displayed upon creating a project with the same name twice.",
 				    solo.searchText(getActivity().getString(R.string.error_project_exists)));
 		
-		//File file = new File("/sdcard/catroid/testProject/" + testProject + ".spf");
-		//assertTrue(testProject + " was not created!", file.exists());
 	}	
 
 	public void testCreateNewProjectWithSpecialCharacters() throws InterruptedException {
@@ -194,6 +193,11 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		assertEquals("Title is not correct!", getActivity().getString(R.string.about_title), textViewList.get(0).getText().toString());
 		assertEquals("About text not correct!", getActivity().getString(R.string.about_text), textViewList.get(1).getText().toString());
 		assertEquals("Link text is not correct!", getActivity().getString(R.string.about_link_text), textViewList.get(2).getText().toString());
+	}
+	
+	public void testToStageButton() {
+		solo.clickOnButton(getActivity().getString(R.string.construction_site_play));
+		assertTrue("StageActivity is not showing!", solo.getCurrentActivity() instanceof StageActivity); 
 	}
 
 	public void createTestProject(String projectName) throws IOException, NameNotFoundException {
