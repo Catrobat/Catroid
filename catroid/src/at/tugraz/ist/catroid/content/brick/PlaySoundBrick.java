@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.media.MediaPlayer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -51,16 +50,7 @@ public class PlaySoundBrick implements Brick, android.content.DialogInterface.On
 	}
 
 	public void execute() {
-		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
-		if (mediaPlayer != null) {
-			try {
-				mediaPlayer.setDataSource(pathToSoundfile);
-				mediaPlayer.prepare();
-				mediaPlayer.start();
-			} catch (IOException e) {
-				throw new IllegalArgumentException("IO error", e);
-			}
-		}
+		SoundManager.getInstance().playSoundFile(pathToSoundfile);
 	}
 
 	public Sprite getSprite() {
