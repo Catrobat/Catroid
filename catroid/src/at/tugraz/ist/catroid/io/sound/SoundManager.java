@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -19,6 +19,7 @@
 
 package at.tugraz.ist.catroid.io.sound;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import android.media.MediaPlayer;
@@ -40,14 +41,13 @@ public class SoundManager {
 		return mSoundManager;
 	}
 
-	public synchronized MediaPlayer getMediaPlayer() {
+	public MediaPlayer getMediaPlayer() {
 		for (MediaPlayer mediaPlayer : mediaPlayers) {
 			if (!mediaPlayer.isPlaying()) {
 				mediaPlayer.reset();
 				return mediaPlayer;
 			}
 		}
-
 		if (mediaPlayers.size() < MAX_MEDIA_PLAYERS) {
 			MediaPlayer mediaPlayer = new MediaPlayer();
 			mediaPlayers.add(mediaPlayer);
@@ -55,6 +55,20 @@ public class SoundManager {
 		} else {
 			return null;
 		}
+	}
+
+	public synchronized MediaPlayer playSoundFile(String pathToSoundfile) {
+		MediaPlayer mediaPlayer = getMediaPlayer();
+		if (mediaPlayer != null) {
+			try {
+				mediaPlayer.setDataSource(pathToSoundfile);
+				mediaPlayer.prepare();
+				mediaPlayer.start();
+			} catch (IOException e) {
+				throw new IllegalArgumentException("IO error", e);
+			}
+		}
+		return mediaPlayer;
 	}
 
 	public synchronized void clear() {
@@ -74,5 +88,5 @@ public class SoundManager {
 			if (!mediaPlayer.isPlaying())
 				mediaPlayer.start();
 	}
-	
+
 }
