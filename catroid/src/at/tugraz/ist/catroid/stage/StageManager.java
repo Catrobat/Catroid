@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -30,83 +30,91 @@ import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class StageManager {
-    private Activity activity;
-    protected ArrayList<Sprite> spriteList;
-    private Boolean spritesChanged;
-    private IDraw draw;
-    private boolean isPaused;
-    private Handler handler = new Handler();
-    
-    private Runnable runnable = new Runnable() {
-        public void run() {
-            for (Sprite sprite : spriteList) {
-                if (sprite.getToDraw() == true) {
-                    spritesChanged = true;
-                    sprite.setToDraw(false);
-                }
-            }
-            if (spritesChanged) {
-                spritesChanged = !drawSprites();
-            }
+	private Activity activity;
+	protected ArrayList<Sprite> spriteList;
+	private Boolean spritesChanged;
+	private IDraw draw;
+	private boolean isPaused;
+	private Handler handler = new Handler();
 
-            if (!isPaused)
-                handler.postDelayed(this, 33);
-        }
-    };
+	private Runnable runnable = new Runnable() {
+		public void run() {
+			for (Sprite sprite : spriteList) {
+				if (sprite.getToDraw() == true) {
+					spritesChanged = true;
+					sprite.setToDraw(false);
+				}
+			}
+			if (spritesChanged) {
+				spritesChanged = !drawSprites();
+			}
 
-    public int getMaxZValue() {
-        return ProjectManager.getInstance().getCurrentProject().getMaxZValue();
-    }
+			if (!isPaused)
+				handler.postDelayed(this, 33);
+		}
+	};
 
-    public StageManager(Activity activity) {
+	public int getMaxZValue() {
+		return ProjectManager.getInstance().getCurrentProject().getMaxZValue();
+	}
 
-        spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
-        this.activity = activity;
+	public StageManager(Activity activity) {
 
-        spritesChanged = true;
-        draw = new CanvasDraw();
+		spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		this.activity = activity;
 
-        for (Sprite sprite: spriteList) {
-            sprite.startScripts();
-        }
-    }
+		spritesChanged = true;
+		draw = new CanvasDraw();
 
-    public boolean drawSprites() {
-        return draw.draw();
-    }
+		for (Sprite sprite: spriteList) {
+			sprite.startScripts();
+		}
+	}
 
-    public void processOnTouch(int coordX, int coordY) {
-        for(Sprite sprite : spriteList){
-            sprite.processOnTouch(coordX, coordY);
-        }
-    }
+	public boolean drawSprites() {
+		return draw.draw();
+	}
 
-    public void pause(boolean drawScreen) {
-        for (Sprite sprite : spriteList) {
-            sprite.pause();
-        }
+	public void processOnTouch(int coordX, int coordY) {
+		ArrayList<Sprite> touchedSpriteList = new ArrayList<Sprite>();
+		for(Sprite sprite : spriteList){
+			if(sprite.processOnTouch(coordX, coordY)){
+				touchedSpriteList.add(sprite);
+			}
+		}
 
-        if (drawScreen) {
-            Bitmap pauseBitmap = BitmapFactory.decodeResource(activity.getResources(), R.drawable.paused_cat);
-            draw.drawPauseScreen(pauseBitmap);
-            handler.removeCallbacks(runnable);
-            spritesChanged = true;
-        }
+		java.util.Collections.sort(touchedSpriteList);
+		if(!touchedSpriteList.isEmpty()){
+			touchedSpriteList.get(touchedSpriteList.size()-1).startTouchScripts();
+		}
+	}
 
-        isPaused = true;
-    }
+	public void pause(boolean drawScreen) {
+		for (Sprite sprite : spriteList) {
+			sprite.pause();
+		}
 
-    public void resume() {
-        for(Sprite sprite : spriteList){
-            sprite.resume();
-        }
-        isPaused = false;
-        spritesChanged = true;
-        runnable.run();
-    }
+		if (drawScreen) {
+			Bitmap pauseBitmap = BitmapFactory.decodeResource(activity.getResources(), R.drawable.paused_cat);
+			draw.drawPauseScreen(pauseBitmap);
+			handler.removeCallbacks(runnable);
+			spritesChanged = true;
+		}
 
-    public void start() {
-        isPaused = false;
-        runnable.run();
-    }
+		isPaused = true;
+	}
+
+	public void resume() {
+		for(Sprite sprite : spriteList){
+			sprite.resume();
+		}
+		isPaused = false;
+		spritesChanged = true;
+		runnable.run();
+	}
+
+	public void start() {
+		isPaused = false;
+		runnable.run();
+	}
 }
