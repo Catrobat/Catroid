@@ -21,11 +21,15 @@ package at.tugraz.ist.catroid.test.content.sprite;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.test.InstrumentationTestCase;
+import at.tugraz.ist.catroid.Consts;
+import at.tugraz.ist.catroid.Values;
 import at.tugraz.ist.catroid.content.sprite.Costume;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.test.R;
@@ -42,7 +46,7 @@ public class CostumeTest extends InstrumentationTestCase{
     @Override
     protected void setUp() throws Exception {
         final int fileSize = 4147;
-        final String imagePath = "/mnt/sdcard/catroid/testImage.png"; 
+        final String imagePath = Consts.DEFAULT_ROOT + "/testImage.png"; 
         testImage = new File(imagePath);
         if (!testImage.exists()) {
             testImage.createNewFile();
@@ -73,67 +77,6 @@ public class CostumeTest extends InstrumentationTestCase{
             testImage.delete();
         }
     }
-	
-    public void testConstructor() {
-        final String imagePath = "invalid/image/path.png";
-        Sprite testSprite = new Sprite("testSprite");
-        
-        Costume costume = new Costume(testSprite, imagePath);
-        assertEquals("The imagepath is false", imagePath,costume.getImagePath());
-    }  
-//    
-//    public void testGetBitmap() throws IOException {
-//        
-//        Values.SCREEN_HEIGHT = 400;
-//        Values.SCREEN_WIDTH = 400;
-//		
-//        Sprite testSprite = new Sprite("testSprite");
-//    	Costume costume = new Costume(testSprite, testImage.getAbsolutePath());
-//    	Bitmap bitmap = costume.getBitmap();
-//    	assertEquals("Width of loaded bitmap is not the same as width of original image", width, bitmap.getWidth());
-//    	assertEquals("Height of loaded bitmap is not the same as height of original image", height, bitmap.getHeight());
-//
-//    }
-//    
-//    public void testScaleBitmap() throws IOException {
-//        
-//        Values.SCREEN_HEIGHT = 400;
-//        Values.SCREEN_WIDTH = 400;
-//        
-//        Sprite testSprite = new Sprite("testSprite");
-//        testSprite.setScale(200);
-//    	Costume costume = new Costume(testSprite, testImage.getAbsolutePath());
-//    	
-//    	Bitmap bitmap = costume.getBitmap();
-//
-//    	assertEquals("Width of loaded bitmap is not the same as width of original image", width*2, bitmap.getWidth());
-//    	assertEquals("Height of loaded bitmap is not the same as height of original image", height*2, bitmap.getHeight());
-//
-//    }
-//    
-//    public void testScaleBitmapScreenTooSmall() throws IOException {
-//        
-//        Values.SCREEN_HEIGHT = 200;
-//        Values.SCREEN_WIDTH = 200;
-//        
-//        Sprite testSprite = new Sprite("testSprite");
-//        testSprite.setScale(200);
-//    	Costume costume = new Costume(testSprite, testImage.getAbsolutePath());
-//    	
-//    	Bitmap bitmap = costume.getBitmap();
-//    	
-//    	int maxDimension = Math.max(bitmap.getWidth(), bitmap.getHeight());
-//
-//    	assertEquals("Max bitmap dimension not equal to screen size", Values.SCREEN_WIDTH, maxDimension);
-//
-//    }
-//    
-//    public void testGetThumbnail() {
-//    	Sprite testSprite = new Sprite("testSprite");
-//    	Costume costume = new Costume(testSprite, testImage.getAbsolutePath());
-//    	Bitmap thumbnail = costume.getThumbnailBitmap();
-//    	assertEquals("Thumbnail width is not correct", width / 2, thumbnail.getWidth());
-//    	assertEquals("Thumbnail height is not correct", height / 2, thumbnail.getHeight());
-//    }
+
     
 }
