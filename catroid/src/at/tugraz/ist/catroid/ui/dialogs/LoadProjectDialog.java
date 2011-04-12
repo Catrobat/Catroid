@@ -54,7 +54,7 @@ public class LoadProjectDialog extends Dialog {
 		setTitle(R.string.load_project_dialog_title);
 		setCanceledOnTouchOutside(true);
 
-		File rootDirectory = new File(context.getString(R.string.default_root));
+		File rootDirectory = new File(Consts.DEFAULT_ROOT);
 		searchForProjectFiles(rootDirectory);
 		adapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, adapterFileList);
 
