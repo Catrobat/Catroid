@@ -24,8 +24,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.Values;
@@ -113,7 +116,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		System.out.println("image2: " + image2.getAbsolutePath() + " " + image2Width + " " + image2Height);
 		solo.clickOnButton(1); // this is the stage //change it when you mess with the buttons
 
-		Thread.sleep(1000);
+		Thread.sleep(1500);
 		Costume costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
 		assertEquals("image1 is not set ", (Integer) image1Width, costume.getImageWidthHeight().first);
 		assertEquals("image1 is not set ", (Integer) image1Height, costume.getImageWidthHeight().second);
@@ -297,6 +300,47 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		assertEquals("costume has wrong height", image2Height *2, costume.getBitmap().getHeight());
 
 	}
+
+	public void testCanvas() throws IOException, InterruptedException{
+
+		final String checksum = "79ee0e009eddc798007708b64d2b22d5a09319ec";
+
+		createTestProject1(projectName);
+		solo.clickOnButton(1);
+
+		Bitmap bitmap = Bitmap.createBitmap(500, 500, Bitmap.Config.ARGB_8888);
+		Canvas singleUseCanvas = new Canvas(bitmap);
+
+		singleUseCanvas.setBitmap(bitmap);
+
+		ArrayList<Sprite> sprites = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		java.util.Collections.sort(sprites);
+		Thread.sleep(3000);
+		for (Sprite sprite : sprites) {
+			if(!sprite.isVisible()){
+				continue;
+			}
+			if (sprite.getCostume().getBitmap() != null) {
+				Costume tempCostume = sprite.getCostume();
+				singleUseCanvas.drawBitmap(tempCostume.getBitmap(), tempCostume.getDrawPositionX(), tempCostume.getDrawPositionY(), null);
+			}
+		}
+
+		final String imagePath = "/sdcard/catroid/" + this.projectName + "/images/temp.png";
+		File testImage = new File(imagePath);
+
+		try {
+			FileOutputStream out = new FileOutputStream(testImage);
+			bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		String checksumNew = StorageHandler.getInstance().getChecksum(testImage);
+
+		assertEquals("The checksum of the 'screenshot' is wrong", checksum, checksumNew);
+	}
+
 
 	public void clickOnScreenAndReturn(int x, int y, int expectedWidth, int expectedHeight) throws InterruptedException {
 		solo.clickOnScreen(x, y);
