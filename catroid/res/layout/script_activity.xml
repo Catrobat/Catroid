@@ -97,8 +97,8 @@
 	</LinearLayout>
 	<!-- Add brick button -->
 	<Button
-		android:text="@string/add_new_brick"
 		android:id="@+id/addBrickButton"
+		android:text="@string/add_new_brick"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:layout_weight="0"

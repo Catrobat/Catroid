@@ -16,7 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.uitest.content.bricktest;
+package at.tugraz.ist.catroid.uitest.content.brick;
 
 import java.io.IOException;
 import java.util.ArrayList;

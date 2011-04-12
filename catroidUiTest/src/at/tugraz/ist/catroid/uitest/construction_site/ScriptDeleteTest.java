@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -63,13 +63,13 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptAct
 
 		super.tearDown();
 	}
-	
+
 	public void testDeleteScript() throws InterruptedException {
-		solo.clickOnButton(1);
+		solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
 		solo.scrollDownList(0);
 		solo.scrollDownList(0);
 		solo.clickOnText(getActivity().getString(R.string.touched_main_adapter));
-		
+
 		solo.clickLongOnText(getActivity().getString(R.string.touched_main_adapter));
 		solo.clickOnText(getActivity().getString(R.string.delete_script_button));
 		Thread.sleep(1000);
@@ -77,22 +77,22 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptAct
 		int numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getScriptList().size();
 		assertEquals("Incorrect number of scripts in scriptList", 1, numberOfScripts);
 		assertEquals("Incorrect number of elements in listView", 4, solo.getCurrentListViews().get(0).getChildCount());
-		
-		
+
+
 		solo.clickLongOnText(getActivity().getString(R.string.started_main_adapter));
 		solo.clickOnText(getActivity().getString(R.string.delete_script_button));
 		Thread.sleep(1000);
-		
+
 		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getScriptList().size();
 		assertEquals("Incorrect number of scripts in list", 0, numberOfScripts);
 		assertEquals("Incorrect number of elements in listView", 0, solo.getCurrentListViews().get(0).getChildCount());
 
-		solo.clickOnButton(1);
+		solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
 		solo.scrollUpList(0);
 		solo.scrollUpList(0);
 		solo.clickOnText(getActivity().getString(R.string.hide_main_adapter));
 		Thread.sleep(1000);
-		
+
 		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getScriptList().size();
 		assertEquals("Incorrect number of scripts in scriptList", 1, numberOfScripts);
 		assertEquals("Incorrect number of elements in listView", 2, solo.getCurrentListViews().get(0).getChildCount());
@@ -110,7 +110,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptAct
 		brickListToCheck.add(new HideBrick(firstSprite));
 		brickListToCheck.add(new ShowBrick(firstSprite));
 		brickListToCheck.add(new ScaleCostumeBrick(firstSprite, scaleValue));
-		
+
 		// adding Bricks: ----------------
 		for (Brick brick : brickListToCheck) {
 			testScript.addBrick(brick);
