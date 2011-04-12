@@ -22,15 +22,18 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout.LayoutParams;
+import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.constructionSite.tasks.ProjectUploadTask;
 import at.tugraz.ist.catroid.utils.Utils;
 
 
-public class UploadProjectDialog extends Dialog {
+public class UploadProjectDialog extends Dialog implements OnClickListener {
 	private final Context context;
 	private String currentProjectName;
 	private EditText projectUploadName;
@@ -51,23 +54,31 @@ public class UploadProjectDialog extends Dialog {
 		projectUploadName.setText(currentProjectName);
 
 		Button uploadButton = (Button) findViewById(R.id.upload_button);
-		uploadButton.setOnClickListener( new View.OnClickListener() {
-			public void onClick(View v) {
-				String uploadName = projectUploadName.getText().toString();
-				if(uploadName.length() == 0) {
-					Utils.displayErrorMessage(context, context.getString(R.string.error_no_name_entered));
-				}
-			}
-		});
+		uploadButton.setOnClickListener(this);
 
 		Button cancelButton = (Button) findViewById(R.id.cancel_button);
-		cancelButton.setOnClickListener( new View.OnClickListener() {
-			public void onClick(View v) {
-				dismiss();
-				((EditText) findViewById(R.id.project_upload_name)).setText(currentProjectName);
-				((EditText) findViewById(R.id.project_description_upload)).setText(null);
+		cancelButton.setOnClickListener(this);
+	}
+
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.upload_button:
+			String uploadName = projectUploadName.getText().toString();
+			if(uploadName.length() == 0) {
+				Utils.displayErrorMessage(context, context.getString(R.string.error_no_name_entered));
+				return;
 			}
-		});
+			dismiss();
+			String projectPath = Consts.DEFAULT_ROOT+"/"+ProjectManager.getInstance().getCurrentProject().getName();
+			new ProjectUploadTask(context, uploadName, projectPath).execute();
+			break;
+		case R.id.cancel_button:
+			dismiss();
+			((EditText) findViewById(R.id.project_upload_name)).setText(currentProjectName);
+			((EditText) findViewById(R.id.project_description_upload)).setText(null);
+			break;
+		}
 
 	}
+
 }

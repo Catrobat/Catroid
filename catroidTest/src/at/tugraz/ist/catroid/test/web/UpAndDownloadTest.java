@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -32,83 +32,82 @@ import at.tugraz.ist.catroid.web.WebconnectionException;
 
 public class UpAndDownloadTest extends AndroidTestCase {
 
-    private MockConnection mMockConnection;
-    private File mProjectZipOnMockServer;
+	private MockConnection mMockConnection;
+	private File mProjectZipOnMockServer;
 
-    public UpAndDownloadTest() {
-        super();
-    }
+	public UpAndDownloadTest() {
+		super();
+	}
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
 
-        mProjectZipOnMockServer = new File(Consts.TMP_PATH + "/projectSave.zip");
-        mMockConnection = new MockConnection();
-    }
+		mProjectZipOnMockServer = new File(Consts.TMP_PATH + "/projectSave.zip");
+		mMockConnection = new MockConnection();
+	}
 
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
+	@Override
+	protected void tearDown() throws Exception {
+		super.tearDown();
+	}
 
-    public void testInit() throws Throwable {
-    }
+	public void testInit() throws Throwable {
+	}
 
-    public void testUpAndDownload() throws Throwable {
-        String testProjectName = "UpAndDownloadTest" + System.currentTimeMillis();
-        String pathToDefaultProject = Consts.DEFAULT_ROOT + "/uploadtestProject";
-        new File(pathToDefaultProject).mkdirs();
-        String spfFilename = "test" + Consts.PROJECT_EXTENTION;
-        new File(pathToDefaultProject + "/" + spfFilename).createNewFile();
+	public void testUpAndDownload() throws Throwable {
+		String testProjectName = "UpAndDownloadTest" + System.currentTimeMillis();
+		String pathToDefaultProject = Consts.DEFAULT_ROOT + "/uploadtestProject";
+		new File(pathToDefaultProject).mkdirs();
+		String spfFilename = "test" + Consts.PROJECT_EXTENTION;
+		new File(pathToDefaultProject + "/" + spfFilename).createNewFile();
 
-        ProjectUploadTask uploadTask = new ProjectUploadTask(null, testProjectName, pathToDefaultProject,
-                Consts.TMP_PATH + "/tmp.zip") {
-            @Override
-            protected ConnectionWrapper createConnection() {
-                return mMockConnection;
-            }
-        };
-        
-        ProjectDownloadTask downloadTask = new ProjectDownloadTask(null, "", testProjectName, Consts.TMP_PATH
-                + "/down.zip") {
-            @Override
-            protected ConnectionWrapper createConnection() {
-                return mMockConnection;
-            }
-        };
+		ProjectUploadTask uploadTask = new ProjectUploadTask(null, testProjectName, pathToDefaultProject) {
+			@Override
+			protected ConnectionWrapper createConnection() {
+				return mMockConnection;
+			}
+		};
 
-        assertTrue("The default Project does not exist.", new File(pathToDefaultProject).exists());
-        uploadTask.execute();
-        Thread.sleep(3000);
+		ProjectDownloadTask downloadTask = new ProjectDownloadTask(null, "", testProjectName, Consts.TMP_PATH
+				+ "/down.zip") {
+			@Override
+			protected ConnectionWrapper createConnection() {
+				return mMockConnection;
+			}
+		};
 
-        assertTrue("uploaded file does not exist", mProjectZipOnMockServer.exists());
+		assertTrue("The default Project does not exist.", new File(pathToDefaultProject).exists());
+		uploadTask.execute();
+		Thread.sleep(3000);
 
-        downloadTask.execute();
-        Thread.sleep(3000);
+		assertTrue("uploaded file does not exist", mProjectZipOnMockServer.exists());
 
-        File downloadProjectRoot = new File(Consts.DEFAULT_ROOT + "/" + testProjectName);
-        assertTrue("project does not exist after download", downloadProjectRoot.exists());
-        File testSPFFile = new File(Consts.DEFAULT_ROOT + "/" + testProjectName + "/" + spfFilename);
-        assertTrue("spf file does not exist after download", testSPFFile.exists());
+		downloadTask.execute();
+		Thread.sleep(3000);
 
-        UtilFile.deleteDirectory(downloadProjectRoot);
-        UtilFile.deleteDirectory(new File(pathToDefaultProject));
-    }
+		File downloadProjectRoot = new File(Consts.DEFAULT_ROOT + "/" + testProjectName);
+		assertTrue("project does not exist after download", downloadProjectRoot.exists());
+		File testSPFFile = new File(Consts.DEFAULT_ROOT + "/" + testProjectName + "/" + spfFilename);
+		assertTrue("spf file does not exist after download", testSPFFile.exists());
 
-    private class MockConnection extends ConnectionWrapper {
-        @Override
-        public String doHttpPostFileUpload(String urlstring, HashMap<String, String> postValues, String filetag,
-                String filePath) throws IOException, WebconnectionException {
+		UtilFile.deleteDirectory(downloadProjectRoot);
+		UtilFile.deleteDirectory(new File(pathToDefaultProject));
+	}
 
-            new File(filePath).renameTo(mProjectZipOnMockServer);
-            return "";
-        }
+	private class MockConnection extends ConnectionWrapper {
+		@Override
+		public String doHttpPostFileUpload(String urlstring, HashMap<String, String> postValues, String filetag,
+				String filePath) throws IOException, WebconnectionException {
 
-        @Override
-        public void doHttpPostFileDownload(String urlstring, HashMap<String, String> postValues, String filePath)
-                throws IOException {
-            mProjectZipOnMockServer.renameTo(new File(filePath));
-        }
-    }
+			new File(filePath).renameTo(mProjectZipOnMockServer);
+			return "";
+		}
+
+		@Override
+		public void doHttpPostFileDownload(String urlstring, HashMap<String, String> postValues, String filePath)
+		throws IOException {
+			mProjectZipOnMockServer.renameTo(new File(filePath));
+		}
+	}
 }
