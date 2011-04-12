@@ -17,7 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.tugraz.ist.catroid.uitest.construction_site.script_adapter;
+package at.tugraz.ist.catroid.content.bricktest;
 
 import java.util.ArrayList;
 
@@ -26,7 +26,7 @@ import android.test.suitebuilder.annotation.Smoke;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.brick.Brick;
-import at.tugraz.ist.catroid.content.brick.IfTouchedBrick;
+import at.tugraz.ist.catroid.content.brick.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.project.Project;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
@@ -39,11 +39,11 @@ import com.jayway.android.robotium.solo.Solo;
  * @author Daniel Burtscher
  *
  */
-public class IfTouchedTest extends ActivityInstrumentationTestCase2<ScriptActivity>{
+public class ComeToFrontTest extends ActivityInstrumentationTestCase2<ScriptActivity>{
 	private Solo solo;
 	private Project project;
 
-	public IfTouchedTest() {
+	public ComeToFrontTest() {
 		super("at.tugraz.ist.catroid",
 				ScriptActivity.class);
 	}
@@ -67,10 +67,9 @@ public class IfTouchedTest extends ActivityInstrumentationTestCase2<ScriptActivi
 	}
 	
 	@Smoke
-	public void testIfTouchedBrick() throws Throwable {
+	public void testComeToFrontBrick() throws Throwable {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
-		
 		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 		
@@ -78,15 +77,16 @@ public class IfTouchedTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 		
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(groupCount-1,
-				     0));
-		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.touched_main_adapter)));
+				      0));
+		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.come_to_front_main_adapter)));
 	}
 	
 	private void createProject() {
 		project = new Project(null, "testProject");
         Sprite sprite = new Sprite("cat");
         Script script = new Script("script", sprite);
-        script.addBrick(new IfTouchedBrick(sprite, script));
+        ProjectManager.getInstance().setProject(project);
+        script.addBrick(new ComeToFrontBrick(sprite));
 
         sprite.getScriptList().add(script);
         project.addSprite(sprite);

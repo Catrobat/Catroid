@@ -16,7 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.uitest.construction_site.script_adapter;
+package at.tugraz.ist.catroid.content.bricktest;
 
 import java.util.ArrayList;
 
@@ -25,7 +25,7 @@ import android.test.suitebuilder.annotation.Smoke;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.brick.Brick;
-import at.tugraz.ist.catroid.content.brick.WaitBrick;
+import at.tugraz.ist.catroid.content.brick.ShowBrick;
 import at.tugraz.ist.catroid.content.project.Project;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
@@ -38,12 +38,11 @@ import com.jayway.android.robotium.solo.Solo;
  * @author Daniel Burtscher
  *
  */
-public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity>{
+public class ShowBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity>{
 	private Solo solo;
 	private Project project;
-	private WaitBrick waitBrick;
 
-	public WaitBrickTest() {
+	public ShowBrickTest() {
 		super("at.tugraz.ist.catroid",
 				ScriptActivity.class);
 	}
@@ -67,7 +66,7 @@ public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 	}
 
 	@Smoke
-	public void testWaitBrick() throws Throwable {
+	public void testShowBrick() throws Throwable {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
 		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
@@ -75,27 +74,18 @@ public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScriptList().get(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(groupCount-1, 0));
-		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.wait_main_adapter)));
 
-		double waitTime = 2.25;
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(groupCount-1,
+				     0));
+		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.show_main_adapter)));
 
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, waitTime + "");
-		solo.clickOnButton(0);
-
-		Thread.sleep(1000);
-		assertEquals("Wrong text in field", (long)(waitTime*1000), waitBrick.getWaitTime());
-		assertEquals("Text not updated", waitTime, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
 
 	private void createProject() {
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
 		Script script = new Script("script", sprite);
-		waitBrick = new WaitBrick(sprite, 1000);
-		script.addBrick(waitBrick);
+		script.addBrick(new ShowBrick(sprite));
 
 		sprite.getScriptList().add(script);
 		project.addSprite(sprite);
