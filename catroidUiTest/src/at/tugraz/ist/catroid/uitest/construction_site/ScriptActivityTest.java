@@ -109,10 +109,10 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 		for(int i=0;i<listView.getChildCount();++i) {
 			View currentViewInList = listView.getChildAt(i);
 			
-			Rect rect = new Rect();
-			currentViewInList.getGlobalVisibleRect(rect);
-			yposlist.add(rect.top+rect.height()/2);
-			System.out.println("y:"+rect.top);	
+			Rect globalVisilbleRect = new Rect();
+			currentViewInList.getGlobalVisibleRect(globalVisilbleRect);
+			int middleYPos = globalVisilbleRect.top+globalVisilbleRect.height()/2;
+			yposlist.add(middleYPos);
 		}
 		
 		return yposlist;
