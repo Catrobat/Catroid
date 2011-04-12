@@ -116,7 +116,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		System.out.println("image2: " + image2.getAbsolutePath() + " " + image2Width + " " + image2Height);
 		solo.clickOnButton(1); // this is the stage //change it when you mess with the buttons
 
-		Thread.sleep(1500);
+		Thread.sleep(2000);
 		Costume costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
 		assertEquals("image1 is not set ", (Integer) image1Width, costume.getImageWidthHeight().first);
 		assertEquals("image1 is not set ", (Integer) image1Height, costume.getImageWidthHeight().second);
@@ -337,6 +337,51 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		}
 
 		String checksumNew = StorageHandler.getInstance().getChecksum(testImage);
+
+		assertEquals("The checksum of the 'screenshot' is wrong", checksum, checksumNew);
+	}
+
+	public void testCanvas2() throws IOException, InterruptedException{
+		final String checksum = "d15e1df97307ca568aa3129df430f71f1f6f31d0";
+
+		createTestProject3(projectName);
+		solo.clickOnButton(1);
+
+		Thread.sleep(1000);
+		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
+
+		Bitmap bitmap = Bitmap.createBitmap(500, 500, Bitmap.Config.ARGB_8888);
+		Canvas singleUseCanvas = new Canvas(bitmap);
+
+		singleUseCanvas.setBitmap(bitmap);
+
+		ArrayList<Sprite> sprites = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		java.util.Collections.sort(sprites);
+		Thread.sleep(3000);
+		for (Sprite sprite : sprites) {
+			if(!sprite.isVisible()){
+				continue;
+			}
+			if (sprite.getCostume().getBitmap() != null) {
+				Costume tempCostume = sprite.getCostume();
+				singleUseCanvas.drawBitmap(tempCostume.getBitmap(), tempCostume.getDrawPositionX(), tempCostume.getDrawPositionY(), null);
+			}
+		}
+
+		//final String imagePath = "/sdcard/catroid/" + this.projectName + "/images/temp.png";
+		final String imagePath = "/sdcard/catroid/temp/foo.png";
+		File testImage = new File(imagePath);
+
+		try {
+			FileOutputStream out = new FileOutputStream(testImage);
+			bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		testImage.mkdirs();
+
+		String checksumNew = StorageHandler.getInstance().getChecksum(testImage);
+		System.out.println("########### checki: " + checksumNew);
 
 		assertEquals("The checksum of the 'screenshot' is wrong", checksum, checksumNew);
 	}
