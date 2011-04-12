@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -49,7 +49,8 @@ public class LicenseTest extends TestCase {
 		File[] contents = directory.listFiles(new FileFilter() {
 			@Override
 			public boolean accept(File pathname) {
-				return (pathname.isDirectory() && !pathname.getName().equals("gen")) || pathname.getName().endsWith(".java") || pathname.getName().endsWith(".xml");
+				return (pathname.isDirectory() && !pathname.getName().equals("gen"))
+						|| pathname.getName().endsWith(".java") || pathname.getName().endsWith(".xml");
 			}
 		});
 
