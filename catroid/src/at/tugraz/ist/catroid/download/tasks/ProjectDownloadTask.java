@@ -22,11 +22,11 @@ package at.tugraz.ist.catroid.download.tasks;
 import java.io.IOException;
 
 import android.app.Activity;
-import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
+import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.content.DialogInterface.OnClickListener;
 import android.os.AsyncTask;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.Consts;
@@ -100,8 +100,6 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 		Toast.makeText(mActivity, R.string.success_project_download, Toast.LENGTH_SHORT).show();
 
 		Intent intent = new Intent(mActivity, MainMenuActivity.class);
-		//		intent.putExtra(ConstructionSiteActivity.INTENT_EXTRA_ROOT, Consts.DEFAULT_ROOT + "/"+mProjectName+"/");
-		//		intent.putExtra(ConstructionSiteActivity.INTENT_EXTRA_SPF_FILE_NAME, mProjectName + Consts.PROJECT_EXTENTION);
 		mActivity.startActivity(intent);
 
 	}

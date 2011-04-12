@@ -24,6 +24,9 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.HashMap;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.ProgressDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
@@ -40,21 +43,21 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 
 	private Context mContext;
 	private String mProjectPath;
-	private String mZipFile;
 	private ProgressDialog mProgressdialog;
 	private String mProjectName;
 	private String resultString;
+	private String mServerAnswer;
 
 	// mock object testing
 	protected ConnectionWrapper createConnection() {
 		return new ConnectionWrapper();
 	}
 
-	public ProjectUploadTask(Context context, String projectName, String projectPath, String zipFile) {
+	public ProjectUploadTask(Context context, String projectName, String projectPath) {
 		mContext = context;
 		mProjectPath = projectPath;
-		mZipFile = zipFile;
 		mProjectName = projectName;
+		mServerAnswer = "An error occurred while uploading the project.";
 	}
 
 	@Override
@@ -87,12 +90,13 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 				pathes[i] = dirPath +"/"+ pathes[i];
 			}
 
-			File file = new File(mZipFile);
+			String zipFileString = Consts.TMP_PATH+"/upload.zip";
+			File file = new File(zipFileString);
 			if(!file.exists()) {
 				file.getParentFile().mkdirs();
 				file.createNewFile();
 			}
-			if (!UtilZip.writeToZipFile(pathes, mZipFile)) {
+			if (!UtilZip.writeToZipFile(pathes, zipFileString)) {
 				file.delete();
 				return false;
 			}
@@ -104,9 +108,30 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 				serverUrl = Consts.TEST_FILE_UPLOAD_URL;
 			else
 				serverUrl = Consts.FILE_UPLOAD_URL;
-			resultString = createConnection().doHttpPostFileUpload(serverUrl, hm, Consts.FILE_UPLOAD_TAG, mZipFile);
-			file.delete();
-			return true;
+			resultString = createConnection().doHttpPostFileUpload(serverUrl, hm, Consts.FILE_UPLOAD_TAG, zipFileString);
+
+
+			JSONObject jsonObject = null;
+			int statusCode = 0;
+
+			try {
+				jsonObject = new JSONObject(resultString);
+				statusCode = jsonObject.getInt("statusCode");
+				mServerAnswer = jsonObject.getString("answer");
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			if (statusCode == 200) {
+				file.delete();
+				return true;
+			}
+			else if (statusCode >= 500) {
+				return false;
+			}
+
+			return false;
+
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (WebconnectionException e) {
@@ -123,19 +148,19 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 			mProgressdialog.dismiss();
 
 		if(!result) {
-			showDialog(R.string.error_project_upload);
+			showDialog(mServerAnswer);
 			return;
 		}
 
-		showDialog(R.string.success_project_upload);
+		showDialog(mServerAnswer);
 
 	}
 
-	private void showDialog(int messageId) {
+	private void showDialog(String message) {
 		if(mContext == null)
 			return;
 		new Builder(mContext)
-		.setMessage(messageId)
+		.setMessage(message)
 		.setPositiveButton("OK", null)
 		.show();
 	}
