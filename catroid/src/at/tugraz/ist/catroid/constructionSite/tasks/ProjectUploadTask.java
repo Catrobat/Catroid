@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -24,8 +24,8 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.HashMap;
 
-import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.os.AsyncTask;
 import at.tugraz.ist.catroid.Consts;
@@ -35,32 +35,28 @@ import at.tugraz.ist.catroid.web.ConnectionWrapper;
 import at.tugraz.ist.catroid.web.WebconnectionException;
 
 public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
-	private static final String FILE_UPLOAD_TAG = "upload";
-	private static final String PROJECT_NAME_TAG = "projectTitle";
-	private static final String FILE_UPLOAD_URL = "http://www.catroid.org/catroid/upload/upload.json";
-	private static final String TEST_FILE_UPLOAD_URL = "http://catroidwebtest.ist.tugraz.at/catroid/upload/upload.json";
-	
+
 	public static boolean mUseTestUrl = false;
-	
+
 	private Context mContext;
 	private String mProjectPath;
 	private String mZipFile;
 	private ProgressDialog mProgressdialog;
 	private String mProjectName;
 	private String resultString;
-	
+
 	// mock object testing
 	protected ConnectionWrapper createConnection() {
 		return new ConnectionWrapper();
 	}
-	
+
 	public ProjectUploadTask(Context context, String projectName, String projectPath, String zipFile) {
 		mContext = context;
 		mProjectPath = projectPath;
 		mZipFile = zipFile;
 		mProjectName = projectName;
 	}
-	
+
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
@@ -71,7 +67,7 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 		mProgressdialog = ProgressDialog.show(mContext, title,
 				message);
 	}
-	
+
 	@Override
 	protected Boolean doInBackground(Void... arg0) {
 		try {
@@ -86,29 +82,29 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 			});
 			if(pathes == null)
 				return false;
-			
+
 			for(int i=0;i<pathes.length;++i) {
 				pathes[i] = dirPath +"/"+ pathes[i];
-			}	
-			
+			}
+
 			File file = new File(mZipFile);
-	    	if(!file.exists()) {
-	    		file.getParentFile().mkdirs();
-	    		file.createNewFile();
-	    	}
+			if(!file.exists()) {
+				file.getParentFile().mkdirs();
+				file.createNewFile();
+			}
 			if (!UtilZip.writeToZipFile(pathes, mZipFile)) {
 				file.delete();
 				return false;
 			}
 			HashMap<String, String> hm = new HashMap<String, String>();
-			hm.put(PROJECT_NAME_TAG, mProjectName);
-			
+			hm.put(Consts.PROJECT_NAME_TAG, mProjectName);
+
 			String serverUrl;
-			if(mUseTestUrl)
-				serverUrl = TEST_FILE_UPLOAD_URL;
+			if(true)//mUseTestUrl)
+				serverUrl = Consts.TEST_FILE_UPLOAD_URL;
 			else
-				serverUrl = FILE_UPLOAD_URL;
-			resultString = createConnection().doHttpPostFileUpload(serverUrl, hm, FILE_UPLOAD_TAG, mZipFile);
+				serverUrl = Consts.FILE_UPLOAD_URL;
+			resultString = createConnection().doHttpPostFileUpload(serverUrl, hm, Consts.FILE_UPLOAD_TAG, mZipFile);
 			file.delete();
 			return true;
 		} catch (IOException e) {
@@ -117,7 +113,7 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 			e.printStackTrace();
 		}
 		return false;
-		
+
 	}
 
 	@Override
@@ -125,27 +121,27 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 		super.onPostExecute(result);
 		if(mProgressdialog != null && mProgressdialog.isShowing())
 			mProgressdialog.dismiss();
-		
+
 		if(!result) {
-			showDialog(R.string.error_project_upload); 
+			showDialog(R.string.error_project_upload);
 			return;
 		}
-		
+
 		showDialog(R.string.success_project_upload);
-		
+
 	}
-	
+
 	private void showDialog(int messageId) {
 		if(mContext == null)
 			return;
 		new Builder(mContext)
-			.setMessage(messageId)
-			.setPositiveButton("OK", null)
-			.show();
+		.setMessage(messageId)
+		.setPositiveButton("OK", null)
+		.show();
 	}
-	
+
 	public String getResultString() {
 		return resultString;
 	}
-	
+
 }

@@ -41,8 +41,8 @@ import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView;
 import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView.DropListener;
 import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView.RemoveListener;
 
-
-public class BrickAdapter extends BaseExpandableListAdapter implements DropListener, RemoveListener, OnGroupClickListener {
+public class BrickAdapter extends BaseExpandableListAdapter implements DropListener, RemoveListener,
+OnGroupClickListener {
 
 	private Context context;
 	private Sprite sprite;
@@ -63,11 +63,12 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 		return childPosition;
 	}
 
-	public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+	public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView,
+			ViewGroup parent) {
 		Brick brick = getChild(groupPosition, childPosition);
 
 		View currentBrickView = brick.getView(context, childPosition, this);
-		if(!animateChildren)
+		if (!animateChildren)
 			return currentBrickView;
 		brickListAnimation.doExpandAnimation(currentBrickView, childPosition);
 
@@ -92,7 +93,7 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 
 	public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 		View v;
-		if(getGroup(groupPosition).isTouchScript()) {
+		if (getGroup(groupPosition).isTouchScript()) {
 			v = new IfTouchedBrick(sprite, getGroup(groupPosition)).getPrototypeView(context);
 		} else {
 			v = new IfStartedBrick(sprite, getGroup(groupPosition)).getPrototypeView(context);
@@ -109,22 +110,22 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 	}
 
 	public void drop(int from, int to) {
-		if(from == to)
+		if (from == to)
 			return;
-		ArrayList<Brick> brickList = sprite.getScriptList().get(getGroupCount()-1).getBrickList();
+		ArrayList<Brick> brickList = sprite.getScriptList().get(getGroupCount() - 1).getBrickList();
 		Brick removedBrick = brickList.remove(from);
 		brickList.add(to, removedBrick);
 		notifyDataSetChanged();
 	}
 
 	public void remove(int which) {
-		ArrayList<Brick> brickList = sprite.getScriptList().get(getGroupCount()-1).getBrickList();
+		ArrayList<Brick> brickList = sprite.getScriptList().get(getGroupCount() - 1).getBrickList();
 		brickList.remove(which);
 		notifyDataSetChanged();
 	}
 
 	public boolean onGroupClick(final ExpandableListView parent, View v, final int groupPosition, long id) {
-		if(groupPosition == getGroupCount()-1)
+		if (groupPosition == getGroupCount() - 1)
 			return false;
 
 		animateChildren = true;
@@ -133,13 +134,13 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 	}
 
 	public void doReordering(ExpandableListView parent, int groupPosition) {
-		for(int i=0;i<getGroupCount();++i)
+		for (int i = 0; i < getGroupCount(); ++i)
 			parent.collapseGroup(i);
 		Script currentScript = sprite.getScriptList().get(groupPosition);
 		int lastScriptIndex = sprite.getScriptList().size() - 1;
 		Script lastScript = sprite.getScriptList().get(lastScriptIndex);
 		boolean scriptDeleted = sprite.getScriptList().remove(currentScript);
-		if(scriptDeleted) {
+		if (scriptDeleted) {
 			sprite.getScriptList().add(currentScript);
 			sprite.getScriptList().remove(lastScript);
 			sprite.getScriptList().add(groupPosition, lastScript);
@@ -148,7 +149,7 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 		ProjectManager.getInstance().setCurrentScript(currentScript);
 
 		notifyDataSetChanged();
-		parent.expandGroup(getGroupCount()-1);
+		parent.expandGroup(getGroupCount() - 1);
 	}
 
 	public void setAnimateChildren(boolean animateChildren) {
@@ -156,7 +157,7 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 	}
 
 	public int getChildCountFromLastGroup() {
-		return getChildrenCount(getGroupCount()-1);
+		return getChildrenCount(getGroupCount() - 1);
 	}
 
 }

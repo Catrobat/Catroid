@@ -16,8 +16,9 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content.bricktest;
+package at.tugraz.ist.catroid.uitest.content.bricktest;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import android.test.ActivityInstrumentationTestCase2;
@@ -25,10 +26,12 @@ import android.test.suitebuilder.annotation.Smoke;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.brick.Brick;
-import at.tugraz.ist.catroid.content.brick.WaitBrick;
+import at.tugraz.ist.catroid.content.brick.PlaySoundBrick;
+import at.tugraz.ist.catroid.content.entities.SoundInfo;
 import at.tugraz.ist.catroid.content.project.Project;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -38,12 +41,15 @@ import com.jayway.android.robotium.solo.Solo;
  * @author Daniel Burtscher
  *
  */
-public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity>{
+public class SoundBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity>{
 	private Solo solo;
 	private Project project;
-	private WaitBrick waitBrick;
+	private PlaySoundBrick soundBrick;
+	private String selectedTitle;
+	private String path;
+	private String title;
 
-	public WaitBrickTest() {
+	public SoundBrickTest() {
 		super("at.tugraz.ist.catroid",
 				ScriptActivity.class);
 	}
@@ -67,7 +73,7 @@ public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 	}
 
 	@Smoke
-	public void testWaitBrick() throws Throwable {
+	public void testPlaySoundBrick() throws Throwable {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
 		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
@@ -75,27 +81,46 @@ public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScriptList().get(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
+
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(groupCount-1, 0));
-		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.wait_main_adapter)));
+		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.play_sound_main_adapter)));
 
-		double waitTime = 2.25;
+		assertTrue("Wrong title selected", solo.searchText(selectedTitle));
+		assertTrue("Wrong title selected", solo.searchText(selectedTitle));
 
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, waitTime + "");
-		solo.clickOnButton(0);
-
-		Thread.sleep(1000);
-		assertEquals("Wrong text in field", (long)(waitTime*1000), waitBrick.getWaitTime());
-		assertEquals("Text not updated", waitTime, Double.parseDouble(solo.getEditText(0).getText().toString()));
+		solo.clickOnButton(selectedTitle);
+		solo.clickInList(2);
+		Thread.sleep(500);
+		assertTrue("Wrong title selected", solo.searchText(title));
 	}
 
-	private void createProject() {
+	private void createProject() throws IOException {
+		title = "myTitle";
+		path = "path/to/sound/";
+		ArrayList<SoundInfo> soundlist = new ArrayList<SoundInfo>();
+		SoundInfo soundInfo = new SoundInfo();
+		soundInfo.setId(5);
+		soundInfo.setTitle("something");
+		soundInfo.setPath("path/path/1/");
+		soundlist.add(soundInfo);
+		soundInfo = new SoundInfo();
+		soundInfo.setId(6);
+		soundInfo.setTitle(title);
+		soundInfo.setPath(path);
+		soundlist.add(soundInfo);
+		soundInfo = new SoundInfo();
+		soundInfo.setId(7);
+		selectedTitle = "selectedTitle";
+		soundInfo.setTitle(selectedTitle);
+		soundInfo.setPath(path);
+		soundlist.add(soundInfo);
+		StorageHandler.getInstance().setSoundContent(soundlist);
+
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
 		Script script = new Script("script", sprite);
-		waitBrick = new WaitBrick(sprite, 1000);
-		script.addBrick(waitBrick);
+		soundBrick = new PlaySoundBrick(sprite, soundInfo.getTitleWithPath());
+		script.addBrick(soundBrick);
 
 		sprite.getScriptList().add(script);
 		project.addSprite(sprite);
@@ -104,4 +129,5 @@ public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
+
 }
