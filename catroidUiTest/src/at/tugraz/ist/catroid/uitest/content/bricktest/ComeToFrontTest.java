@@ -17,7 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.tugraz.ist.catroid.content.bricktest;
+package at.tugraz.ist.catroid.uitest.content.bricktest;
 
 import java.util.ArrayList;
 
@@ -26,7 +26,7 @@ import android.test.suitebuilder.annotation.Smoke;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.brick.Brick;
-import at.tugraz.ist.catroid.content.brick.ChangeYByBrick;
+import at.tugraz.ist.catroid.content.brick.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.project.Project;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
@@ -34,14 +34,18 @@ import at.tugraz.ist.catroid.ui.ScriptActivity;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity>{
+/**
+ * 
+ * @author Daniel Burtscher
+ *
+ */
+public class ComeToFrontTest extends ActivityInstrumentationTestCase2<ScriptActivity>{
 	private Solo solo;
 	private Project project;
-	private ChangeYByBrick changeYByBrick;
-	private int yToChange;
 
-	public ChangeYByBrickTest() {
-		super("at.tugraz.ist.catroid",ScriptActivity.class);
+	public ComeToFrontTest() {
+		super("at.tugraz.ist.catroid",
+				ScriptActivity.class);
 	}
 	
 	@Override
@@ -63,10 +67,9 @@ public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 	}
 	
 	@Smoke
-	public void testChangeXByBrick() throws Throwable {
+	public void testComeToFrontBrick() throws Throwable {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
-
 		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 		
@@ -75,25 +78,15 @@ public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(groupCount-1,
 				      0));
-		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.change_y_main_adapter)));
-		
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, yToChange + "");
-		solo.clickOnButton(0);
-		
-		Thread.sleep(300);
-		assertEquals("Wrong text in field.", yToChange, changeYByBrick.getYMovement());
-		assertEquals("Value in Brick is not updated.", yToChange+"", solo.getEditText(0).getText().toString());
+		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.come_to_front_main_adapter)));
 	}
 	
 	private void createProject() {
-		yToChange = 17;
 		project = new Project(null, "testProject");
         Sprite sprite = new Sprite("cat");
         Script script = new Script("script", sprite);
-        changeYByBrick = new ChangeYByBrick(sprite, 0);
-        script.addBrick(changeYByBrick);
+        ProjectManager.getInstance().setProject(project);
+        script.addBrick(new ComeToFrontBrick(sprite));
 
         sprite.getScriptList().add(script);
         project.addSprite(sprite);
@@ -102,4 +95,5 @@ public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
         ProjectManager.getInstance().setCurrentSprite(sprite);
         ProjectManager.getInstance().setCurrentScript(script);
 	}
+	
 }
