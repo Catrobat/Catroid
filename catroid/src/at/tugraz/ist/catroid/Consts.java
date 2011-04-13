@@ -18,7 +18,6 @@
  */
 package at.tugraz.ist.catroid;
 
-
 public final class Consts {
 
 	public static final String DIRECTORY_NAME = "catroid";
@@ -56,9 +55,9 @@ public final class Consts {
 	//Upload:
 	public static final String FILE_UPLOAD_TAG = "upload";
 	public static final String PROJECT_NAME_TAG = "projectTitle";
+	public static final String PROJECT_DESCRIPTION_TAG = "projectDescription";
+	public static final String PROJECT_CHECKSUM_TAG = "fileChecksum";
 	public static final String FILE_UPLOAD_URL = "http://www.catroid.org/catroid/upload/upload.json";
 	public static final String TEST_FILE_UPLOAD_URL = "http://catroidwebtest.ist.tugraz.at/catroid/upload/upload.json";
-
-
 
 }

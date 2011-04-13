@@ -251,7 +251,7 @@ public class StorageHandler {
 
 		FileOutputStream outputStream = new FileOutputStream(destinationFile);
 
-		String checksumSource = getChecksum(sourceFile);
+		String checksumSource = getMD5Checksum(sourceFile);
 
 		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getCurrentProject()
 				.getFileChecksumContainer();
@@ -284,7 +284,7 @@ public class StorageHandler {
 	public File copyFile(File destinationFile, File sourceFile, File directory) throws IOException {
 		FileChannel inputChannel = new FileInputStream(sourceFile).getChannel();
 		FileChannel outputChannel = new FileOutputStream(destinationFile).getChannel();
-		String checksumSource = getChecksum(sourceFile);
+		String checksumSource = getMD5Checksum(sourceFile);
 
 		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getCurrentProject()
 				.getFileChecksumContainer();
@@ -309,11 +309,11 @@ public class StorageHandler {
 		}
 	}
 
-	public String getChecksum(File file) throws IOException {
+	public String getMD5Checksum(File file) throws IOException {
 
 		MessageDigest md = null;
 		try {
-			md = MessageDigest.getInstance("SHA1");
+			md = MessageDigest.getInstance("MD5");
 		} catch (NoSuchAlgorithmException e1) {
 			e1.printStackTrace();
 		}

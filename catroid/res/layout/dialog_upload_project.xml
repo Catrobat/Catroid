@@ -25,13 +25,27 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:theme="@android:style/Theme.Light">
-	<TextView 
-		android:text="Title" 
-		android:id="@+id/tv_title" 
-		android:layout_width="wrap_content" 
-		android:layout_height="wrap_content" 
-		android:layout_marginLeft="10dp">
-	</TextView>
+	<LinearLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="horizontal"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
+		<TextView 
+			android:text="@string/project_name" 
+			android:id="@+id/tv_title" 
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content" 
+			android:layout_marginLeft="10dp">
+		</TextView>
+		<TextView 
+			android:text="@string/project_rename" 
+			android:id="@+id/tv_project_rename" 
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content" 
+			android:layout_marginLeft="10dp">
+		</TextView>
+	</LinearLayout>
+	
 	<EditText
 		android:id="@+id/project_upload_name"
 		android:layout_width="match_parent"

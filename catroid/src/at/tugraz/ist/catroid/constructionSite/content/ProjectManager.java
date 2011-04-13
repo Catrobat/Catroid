@@ -19,12 +19,14 @@
 
 package at.tugraz.ist.catroid.constructionSite.content;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
+import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.brick.Brick;
 import at.tugraz.ist.catroid.content.project.Project;
@@ -127,8 +129,11 @@ public class ProjectManager extends Observable {
 	public void moveBrickDownInList(int position) {
 		if (position >= 0 && position < currentScript.getBrickList().size()) {
 			currentScript.moveBrickBySteps(currentScript.getBrickList().get(position), 1);
+
 		}
 	}
+
+
 
 	public void setObserver(Observer observer) {
 		addObserver(observer);
@@ -200,4 +205,26 @@ public class ProjectManager extends Observable {
 		}
 		return false;
 	}
+
+	public boolean renameProject(String newProjectName, Context context) {
+		File oldProjectDirectory = new File(Consts.DEFAULT_ROOT + "/" + project.getName());
+		File oldProjectFile = new File(Consts.DEFAULT_ROOT + "/" + project.getName() + "/" + project.getName()
+				+ Consts.PROJECT_EXTENTION);
+
+		File newProjectDirectory = new File(Consts.DEFAULT_ROOT + "/" + newProjectName);
+		File newProjectFile = new File(Consts.DEFAULT_ROOT + "/" + project.getName() + "/" + newProjectName
+				+ Consts.PROJECT_EXTENTION);
+
+		boolean fileRenamed = oldProjectFile.renameTo(newProjectFile);
+		boolean directoryRenamed = oldProjectDirectory.renameTo(newProjectDirectory);
+
+		if (directoryRenamed && fileRenamed) {
+			project.setName(newProjectName);
+			saveProject(context);
+		}
+
+		return (directoryRenamed && fileRenamed);
+
+	}
+
 }
