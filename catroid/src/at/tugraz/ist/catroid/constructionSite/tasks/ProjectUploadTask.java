@@ -27,12 +27,13 @@ import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.ProgressDialog;
 import android.app.AlertDialog.Builder;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.utils.UtilZip;
 import at.tugraz.ist.catroid.web.ConnectionWrapper;
 import at.tugraz.ist.catroid.web.WebconnectionException;
@@ -45,6 +46,7 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 	private String mProjectPath;
 	private ProgressDialog mProgressdialog;
 	private String mProjectName;
+	private String projectDescription;
 	private String resultString;
 	private String mServerAnswer;
 
@@ -53,17 +55,18 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 		return new ConnectionWrapper();
 	}
 
-	public ProjectUploadTask(Context context, String projectName, String projectPath) {
+	public ProjectUploadTask(Context context, String projectName, String projectDescription, String projectPath) {
 		mContext = context;
 		mProjectPath = projectPath;
 		mProjectName = projectName;
+		this.projectDescription = projectDescription;
 		mServerAnswer = "An error occurred while uploading the project.";
 	}
 
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
-		if(mContext == null)
+		if (mContext == null)
 			return;
 		String title = mContext.getString(R.string.please_wait);
 		String message = mContext.getString(R.string.loading);
@@ -77,22 +80,22 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 			File dirPath = new File(mProjectPath);
 			String[] pathes = dirPath.list(new FilenameFilter() {
 				public boolean accept(File dir, String filename) {
-					if(filename.endsWith(Consts.PROJECT_EXTENTION) || filename.equalsIgnoreCase("images")
+					if (filename.endsWith(Consts.PROJECT_EXTENTION) || filename.equalsIgnoreCase("images")
 							|| filename.equalsIgnoreCase("sounds"))
 						return true;
 					return false;
 				}
 			});
-			if(pathes == null)
+			if (pathes == null)
 				return false;
 
-			for(int i=0;i<pathes.length;++i) {
-				pathes[i] = dirPath +"/"+ pathes[i];
+			for (int i = 0; i < pathes.length; ++i) {
+				pathes[i] = dirPath + "/" + pathes[i];
 			}
 
-			String zipFileString = Consts.TMP_PATH+"/upload.zip";
+			String zipFileString = Consts.TMP_PATH + "/upload.zip";
 			File file = new File(zipFileString);
-			if(!file.exists()) {
+			if (!file.exists()) {
 				file.getParentFile().mkdirs();
 				file.createNewFile();
 			}
@@ -100,16 +103,20 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 				file.delete();
 				return false;
 			}
+
+			String md5Checksum = StorageHandler.getInstance().getMD5Checksum(file);
 			HashMap<String, String> hm = new HashMap<String, String>();
 			hm.put(Consts.PROJECT_NAME_TAG, mProjectName);
+			hm.put(Consts.PROJECT_DESCRIPTION_TAG, projectDescription);
+			hm.put(Consts.PROJECT_CHECKSUM_TAG, md5Checksum);
 
 			String serverUrl;
-			if(true)//mUseTestUrl)
+			if (false)//mUseTestUrl)
 				serverUrl = Consts.TEST_FILE_UPLOAD_URL;
 			else
 				serverUrl = Consts.FILE_UPLOAD_URL;
-			resultString = createConnection().doHttpPostFileUpload(serverUrl, hm, Consts.FILE_UPLOAD_TAG, zipFileString);
-
+			resultString = createConnection()
+					.doHttpPostFileUpload(serverUrl, hm, Consts.FILE_UPLOAD_TAG, zipFileString);
 
 			JSONObject jsonObject = null;
 			int statusCode = 0;
@@ -124,13 +131,11 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 			if (statusCode == 200) {
 				file.delete();
 				return true;
-			}
-			else if (statusCode >= 500) {
+			} else if (statusCode >= 500) {
 				return false;
 			}
 
 			return false;
-
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -144,10 +149,10 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 	@Override
 	protected void onPostExecute(Boolean result) {
 		super.onPostExecute(result);
-		if(mProgressdialog != null && mProgressdialog.isShowing())
+		if (mProgressdialog != null && mProgressdialog.isShowing())
 			mProgressdialog.dismiss();
 
-		if(!result) {
+		if (!result) {
 			showDialog(mServerAnswer);
 			return;
 		}
@@ -157,12 +162,12 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 	}
 
 	private void showDialog(String message) {
-		if(mContext == null)
+		if (mContext == null)
 			return;
 		new Builder(mContext)
-		.setMessage(message)
-		.setPositiveButton("OK", null)
-		.show();
+				.setMessage(message)
+				.setPositiveButton("OK", null)
+				.show();
 	}
 
 	public String getResultString() {

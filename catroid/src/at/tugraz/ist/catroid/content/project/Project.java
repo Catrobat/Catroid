@@ -25,8 +25,10 @@ import java.util.List;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.Build;
 import at.tugraz.ist.catroid.FileChecksumContainer;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.Values;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class Project implements Serializable {
@@ -34,12 +36,20 @@ public class Project implements Serializable {
 	private List<Sprite> spriteList = new ArrayList<Sprite>();
 	private String name;
 	private String versionName;
+
+	//only used for catroid website
+	@SuppressWarnings("unused")
+	private String deviceName;
+	@SuppressWarnings("unused")
+	private String screenResolution;
+
 	private int versionCode;
 	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
 
 	public Project(Context context, String name) {
 		this.name = name;
-
+		deviceName = Build.MODEL;
+		screenResolution = Values.SCREEN_WIDTH + "/" + Values.SCREEN_HEIGHT;
 		if (context == null) {
 			versionName = "unknown";
 			versionCode = 0;
@@ -108,5 +118,10 @@ public class Project implements Serializable {
 
 	public FileChecksumContainer getFileChecksumContainer() {
 		return fileChecksumContainer;
+	}
+
+	public void setDeviceData() {
+		deviceName = Build.MODEL;
+		screenResolution = Values.SCREEN_WIDTH + "/" + Values.SCREEN_HEIGHT;
 	}
 }
