@@ -238,7 +238,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		assertEquals("spf File changed!", mySpfFile.hashCode(), mySpfFile2.hashCode());
 	}
 
-	public void testPlayPauseButton() throws IOException, InterruptedException {
+	public void testPlayPauseHomeButton() throws IOException, InterruptedException {
 		StorageHandler storageHandler = StorageHandler.getInstance();
 		double scale = 50.0;
 
@@ -321,7 +321,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 			e.printStackTrace();
 		}
 
-		String checksumNew = StorageHandler.getInstance().getChecksum(testImage);
+		String checksumNew = StorageHandler.getInstance().getMD5Checksum(testImage);
 
 		assertEquals("The checksum of the 'screenshot' is wrong", checksum, checksumNew);
 	}
@@ -363,7 +363,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 			e.printStackTrace();
 		}
 
-		String checksumNew = StorageHandler.getInstance().getChecksum(testImage);
+		String checksumNew = StorageHandler.getInstance().getMD5Checksum(testImage);
 
 		assertEquals("The checksum of the 'screenshot' is wrong", checksum, checksumNew);
 	}
