@@ -55,12 +55,11 @@ public class ProjectManager extends Observable {
 		try {
 			project = StorageHandler.getInstance().loadProject(projectName);
 			if (project == null) {
-				initializeNewProject(context.getString(R.string.default_project_name), context);
+				project = StorageHandler.getInstance().createDefaultProject(context);
+				//initializeNewProject(context.getString(R.string.default_project_name), context);
 			}
 			currentSprite = null;
 			currentScript = null;
-			setChanged();
-			notifyObservers();
 			return true;
 		} catch (Exception e) {
 			Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
@@ -68,32 +67,43 @@ public class ProjectManager extends Observable {
 		}
 	}
 
-    public void saveProject(Context context) {
-        try {
-            if (project == null) {
-                return;
-            }
-            StorageHandler.getInstance().saveProject(project);
-        } catch (IOException e) {
-            Utils.displayErrorMessage(context, context.getString(R.string.error_save_project));
-        }
-    }
-    
-    public void deleteCurrentProject(Context context) {
-        try {
-            StorageHandler.getInstance().deleteProject(project);
-        } catch (IOException e) {
-            Utils.displayErrorMessage(context, context.getString(R.string.error_delete_project));
-        }
-        project = null;
-    }
+	public boolean initializeDefaultProject(Context context) {
+		try {
+			project = StorageHandler.getInstance().createDefaultProject(context);
+			currentSprite = null;
+			currentScript = null;
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
+			return false;
+		}
+	}
+
+	public void saveProject(Context context) {
+		try {
+			if (project == null) {
+				return;
+			}
+			StorageHandler.getInstance().saveProject(project);
+		} catch (IOException e) {
+			Utils.displayErrorMessage(context, context.getString(R.string.error_save_project));
+		}
+	}
+
+	public void deleteCurrentProject(Context context) {
+		try {
+			StorageHandler.getInstance().deleteProject(project);
+		} catch (IOException e) {
+			Utils.displayErrorMessage(context, context.getString(R.string.error_delete_project));
+		}
+		project = null;
+	}
 
 	public void resetProject(Context context) throws NameNotFoundException {
 		project = new Project(context, project.getName());
 		currentSprite = null;
 		currentScript = null;
-		setChanged();
-		notifyObservers();
 	}
 
 	public void addSprite(Sprite sprite) {
@@ -106,33 +116,18 @@ public class ProjectManager extends Observable {
 
 	public void addBrick(Brick brick) {
 		currentScript.addBrick(brick);
-		setChanged();
-		notifyObservers();
 	}
 
 	public void moveBrickUpInList(int position) {
 		if (position >= 0 && position < currentScript.getBrickList().size()) {
 			currentScript.moveBrickBySteps(currentScript.getBrickList().get(position), -1);
-			setChanged();
-			notifyObservers();
 		}
 	}
 
 	public void moveBrickDownInList(int position) {
 		if (position >= 0 && position < currentScript.getBrickList().size()) {
 			currentScript.moveBrickBySteps(currentScript.getBrickList().get(position), 1);
-			setChanged();
-			notifyObservers();
 		}
-	}
-
-	public void initializeNewProject(String projectName, Context context) {
-		project = new Project(context, projectName);
-		currentSprite = null;
-		currentScript = null;
-		saveProject(context);
-		setChanged();
-		notifyObservers();
 	}
 
 	public void setObserver(Observer observer) {
@@ -149,6 +144,13 @@ public class ProjectManager extends Observable {
 
 	public Script getCurrentScript() {
 		return currentScript;
+	}
+
+	public void initializeNewProject(String projectName, Context context) {
+		project = new Project(context, projectName);
+		currentSprite = null;
+		currentScript = null;
+		saveProject(context);
 	}
 
 	/**

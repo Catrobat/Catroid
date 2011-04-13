@@ -54,7 +54,6 @@ import com.jayway.android.robotium.solo.Solo;
 public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
 	final String projectName = "project1";
-	final String projectName2 = "project2";
 
 	File image1;
 	File image2;
@@ -79,8 +78,6 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		File directory = new File("/sdcard/catroid/" + projectName);
 		UtilFile.deleteDirectory(directory);
 
-		directory = new File("/sdcard/catroid/" + projectName2);
-		UtilFile.deleteDirectory(directory);
 		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
 	}
@@ -101,9 +98,6 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		}
 
 		File directory = new File("/sdcard/catroid/" + projectName);
-		UtilFile.deleteDirectory(directory);
-
-		directory = new File("/sdcard/catroid/" + projectName2);
 		UtilFile.deleteDirectory(directory);
 
 		getActivity().finish();
@@ -130,7 +124,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 	}
 
 	public void testRunScript() throws IOException, InterruptedException {
-		createTestProject2(projectName2);
+		createTestProject2(projectName);
 
 		System.out.println("image1: " + image1.getAbsolutePath() + " " + image1Width + " " + image1Height);
 
@@ -244,7 +238,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		assertEquals("spf File changed!", mySpfFile.hashCode(), mySpfFile2.hashCode());
 	}
 
-	public void testPlayPauseHomeButton() throws IOException, InterruptedException {
+	public void testPlayPauseButton() throws IOException, InterruptedException {
 		StorageHandler storageHandler = StorageHandler.getInstance();
 		double scale = 50.0;
 
@@ -269,16 +263,6 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		assertEquals(100.0, sprite.getScale());
 		Thread.sleep(4000);
 		assertEquals(scale, sprite.getScale());
-
-		// solo.goBack();
-		// solo.clickOnButton(1);
-		// solo.sendKey(KeyEvent.KEYCODE_HOME);
-		// Intent intent = new Intent(getActivity(), MainMenuActivity.class);
-		// launchActivityWithIntent("", MainMenuActivity.class, intent);
-		// // Intent intent = new Intent(getActivity(), MainMenuActivity.class);
-		// // getActivity().startActivity(intent);
-		// Thread.sleep(20000);
-
 	}
 
 	public void testZValue() throws IOException, InterruptedException {
