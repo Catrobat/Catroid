@@ -30,7 +30,7 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
-	private String testProjectName;
+	private static final String TEST_PROJECT_NAME = "projectActivityTest";
 
 	public ProjectActivityTest() {
 		super("at.tugraz.ist.catroid.ui", MainMenuActivity.class);
@@ -38,25 +38,19 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	@Override
 	public void setUp() throws Exception {
-		testProjectName = "projectActivityTest";
+		super.setUp();
 		solo = new Solo(getInstrumentation(), getActivity());
 
 		// Create new test project
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
-		// solo.clickOnEditText(0);
-		// solo.enterText(0, testProjectName);
-		UiTestUtils.enterText(solo, 0, testProjectName);
+		UiTestUtils.enterText(solo, 0, TEST_PROJECT_NAME);
 
-		// solo.goBack();
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_create_button));
-
-		super.setUp();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
 		ProjectManager.getInstance().deleteCurrentProject(getActivity());
-		getActivity().finish();
 
 		try {
 			solo.finalize();
@@ -64,6 +58,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 			e.printStackTrace();
 		}
 
+		getActivity().finish();
 		super.tearDown();
 	}
 
@@ -71,12 +66,8 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		UiTestUtils.pause();
 		solo.clickOnButton(getActivity().getString(R.string.add_sprite));
 		Thread.sleep(50);
-		// solo.clickOnEditText(0);
-		// solo.enterText(0, spriteName);
 		UiTestUtils.enterText(solo, 0, spriteName);
-		// if (doGoBack) {
-		// solo.goBack();
-		// }
+
 		solo.clickOnButton(getActivity().getString(R.string.new_sprite_dialog_button));
 		Thread.sleep(50);
 	}
@@ -89,7 +80,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		Sprite secondSprite = (Sprite) spritesList.getItemAtPosition(1);
 		assertEquals("Sprite at index 1 is not " + spriteName, spriteName, secondSprite.getName());
 		assertTrue("Sprite is not in current Project", ProjectManager.getInstance().getCurrentProject().getSpriteList()
-		        .contains(secondSprite));
+				.contains(secondSprite));
 
 		final String spriteName2 = "anotherTestSprite";
 		addNewSprite(spriteName2, false);
@@ -97,13 +88,13 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		Sprite thirdSprite = (Sprite) spritesList.getItemAtPosition(2);
 		assertEquals("Sprite at index 2 is not " + spriteName2, spriteName2, thirdSprite.getName());
 		assertTrue("Sprite is not in current Project", ProjectManager.getInstance().getCurrentProject().getSpriteList()
-		        .contains(thirdSprite));
+				.contains(thirdSprite));
 	}
 
 	public void testAddNewSpriteErrors() throws InterruptedException {
 		addNewSprite("", true);
 		assertTrue("No error message was displayed upon creating a sprite with an empty name.",
-		        solo.searchText(getActivity().getString(R.string.error_no_name_entered)));
+				solo.searchText(getActivity().getString(R.string.error_no_name_entered)));
 		solo.clickOnButton(0);
 		solo.goBack();
 
@@ -112,7 +103,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		addNewSprite(spriteName, false);
 
 		assertTrue("No error message was displayed upon creating a sprite with the same name twice.",
-		        solo.searchText(getActivity().getString(R.string.spritename_already_exists)));
+				solo.searchText(getActivity().getString(R.string.spritename_already_exists)));
 	}
 
 	public void testContextMenu() throws InterruptedException {
@@ -124,14 +115,14 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		Sprite testSprite2 = new Sprite(spriteName2);
 		ProjectManager.getInstance().getCurrentProject().addSprite(testSprite2);
 
+		Thread.sleep(500);
+
 		// Rename sprite
 		final String newSpriteName = "baz";
 		solo.clickLongOnText(spriteName);
 		solo.clickOnText(getActivity().getString(R.string.rename));
 		Thread.sleep(50);
-		// solo.clickOnEditText(0);
-		// solo.enterText(0, newSpriteName);
-		// solo.goBack();
+
 		UiTestUtils.enterText(solo, 0, newSpriteName);
 		solo.clickOnButton(getActivity().getString(R.string.rename_button));
 		Thread.sleep(50);
@@ -146,7 +137,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickOnText(getActivity().getString(R.string.delete));
 		UiTestUtils.pause();
 		assertFalse("Sprite is still in Project", ProjectManager.getInstance().getCurrentProject().getSpriteList()
-		        .contains(sprite));
+				.contains(sprite));
 		assertFalse("Sprite is still in Project", solo.searchText(newSpriteName));
 
 		spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.spriteListView);
