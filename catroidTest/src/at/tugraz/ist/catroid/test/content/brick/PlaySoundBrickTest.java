@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -104,6 +104,29 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 			testBrick.execute();
 			assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
 		}
+	}
+
+	public void testPlaySimultaneousSounds() throws InterruptedException {
+		Thread t1 = new Thread(new Runnable() {
+			final String soundFilePath = soundFile.getAbsolutePath();
+			PlaySoundBrick testBrick1 = new PlaySoundBrick(new Sprite("4"), soundFilePath);
+			public void run() {
+				testBrick1.execute();
+			}
+		});
+
+		Thread t2 = new Thread(new Runnable() {
+			final String soundFilePath = soundFile.getAbsolutePath();
+			PlaySoundBrick testBrick2 = new PlaySoundBrick(new Sprite("5"), soundFilePath);
+			public void run() {
+				testBrick2.execute();
+			}
+		});
+
+		t1.start();
+		t2.start();
+		Thread.sleep(1000);
+		//Test fails if MediaPlayer throws IllegalArgumentException
 	}
 
 	public void testPauseAndResume() {
