@@ -187,6 +187,9 @@
     <string name="error_delete_project">
         Beim Löschen des Projektes ist ein Fehler aufgetreten.
     </string>
+    <string name="error_no_number_entered">
+        Bitte eine Zahl eingeben.
+    </string>
 
     <!-- Notifications -->
     <string name="success_project_upload">Upload erfolgreich.</string>

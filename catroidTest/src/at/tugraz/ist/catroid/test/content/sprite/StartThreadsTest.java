@@ -96,54 +96,5 @@ public class StartThreadsTest extends AndroidTestCase {
 		assertTrue("Sprite is hidden - should not be because this script shouldnt be executed", testSprite.isVisible());
 	}
 
-	//    public void testStartTouchScripts() {
-	//        Sprite testSprite = new Sprite("testSprite");
-	//        Script testScript = new Script("testScript", testSprite);
-	//        Script touchScript = new Script("touchScript", testSprite);
-	//        HideBrick hideBrick = new HideBrick(testSprite);
-	//
-	//        ShowBrick showBrick = new ShowBrick(testSprite);
-	//
-	//        testScript.addBrick(hideBrick);
-	//        touchScript.setTouchScript(true);
-	//        touchScript.addBrick(showBrick);
-	//
-	//        testSprite.getScriptList().add(testScript);
-	//        testSprite.getScriptList().add(touchScript);
-	//
-	//        System.out.println("Touchscript: " + touchScript.isTouchScript());
-	//
-	//        testSprite.startScripts();
-	//
-	//        try {
-	//            Thread.sleep(100);
-	//        } catch (InterruptedException e) {
-	//            e.printStackTrace();
-	//        }
-	//
-	//        assertFalse("Sprite is visible", testSprite.isVisible());
-	//
-	//        testSprite.processOnTouch(0, 0);
-	//
-	//        try {
-	//            Thread.sleep(250);
-	//        } catch (InterruptedException e) {
-	//            e.printStackTrace();
-	//        }
-	//
-	//        assertTrue("Sprite is not visible", testSprite.isVisible());
-	//
-	//        touchScript.getBrickList().clear();
-	//        touchScript.addBrick(hideBrick);
-	//
-	//        testSprite.processOnTouch(0, 0);
-	//
-	//        try {
-	//            Thread.sleep(100);
-	//        } catch (InterruptedException e) {
-	//            e.printStackTrace();
-	//        }
-	//
-	//        assertFalse("Sprite is visible", testSprite.isVisible());
-	//    }
+	//startTouchScript is tested in Ui-Tests for Stage
 }

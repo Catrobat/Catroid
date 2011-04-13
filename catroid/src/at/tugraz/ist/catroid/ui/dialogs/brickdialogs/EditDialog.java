@@ -28,40 +28,27 @@ import at.tugraz.ist.catroid.R;
 
 public class EditDialog extends Dialog {
 
-    protected EditText editText;
-    protected EditText referencedEditText;
-//    private InputMethodManager imm;
+	protected EditText editText;
+	protected EditText referencedEditText;
+	protected Context context;
 
-    public EditDialog(Context context, EditText referencedEditText) {
-        super(context);
-        this.referencedEditText = referencedEditText;
-    }
+	public EditDialog(Context context, EditText referencedEditText) {
+		super(context);
+		this.context = context;
+		this.referencedEditText = referencedEditText;
+	}
 
-    private void init() {
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.dialog_edit_text);
-        setCanceledOnTouchOutside(true);
-        editText = (EditText) findViewById(R.id.dialogEditText);
-    }
+	private void init() {
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		setContentView(R.layout.dialog_edit_text);
+		setCanceledOnTouchOutside(true);
+		editText = (EditText) findViewById(R.id.dialogEditText);
+	}
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        init();
-//        imm = (InputMethodManager) EditDialog.this.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-//        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_NOT_ALWAYS);
-        super.onCreate(savedInstanceState);
-    }
-
-//    @Override
-//    public void dismiss() {
-//        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-//        super.dismiss();
-//    }
-//
-//    @Override
-//    public void cancel() {
-//        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-//        super.cancel();
-//    }
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		init();
+		super.onCreate(savedInstanceState);
+	}
 
 }
