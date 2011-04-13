@@ -133,8 +133,6 @@ public class ProjectManager extends Observable {
 		}
 	}
 
-
-
 	public void setObserver(Observer observer) {
 		addObserver(observer);
 	}
@@ -207,6 +205,15 @@ public class ProjectManager extends Observable {
 	}
 
 	public boolean renameProject(String newProjectName, Context context) {
+		try {
+			if (StorageHandler.getInstance().projectExists(newProjectName)) {
+				Utils.displayErrorMessage(context, context.getString(R.string.error_project_exists));
+				return false;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		File oldProjectDirectory = new File(Consts.DEFAULT_ROOT + "/" + project.getName());
 		File oldProjectFile = new File(Consts.DEFAULT_ROOT + "/" + project.getName() + "/" + project.getName()
 				+ Consts.PROJECT_EXTENTION);
