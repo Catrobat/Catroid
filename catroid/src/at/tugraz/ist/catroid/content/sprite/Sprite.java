@@ -45,7 +45,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		isVisible = true;
 		scriptList = new ArrayList<Script>();
 		threadList = new ArrayList<Thread>();
-		costume = new Costume(this,null);
+		costume = new Costume(this, null);
 	}
 
 	public Sprite(String name) {
@@ -197,14 +197,14 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	}
 
 	public boolean processOnTouch(int coordX, int coordY) {
-		if(costume.getBitmap() == null) {
+		if (costume.getBitmap() == null || isVisible == false) {
 			return false;
 		}
 
 		int inSpriteCoordX = coordX - costume.getDrawPositionX();
 		int inSpriteCoordY = coordY - costume.getDrawPositionY();
 
-		Pair<Integer,Integer> tempPair = costume.getImageWidthHeight();
+		Pair<Integer, Integer> tempPair = costume.getImageWidthHeight();
 		int width = tempPair.first;
 		int height = tempPair.second;
 
@@ -215,11 +215,11 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 			return false;
 		}
 
-		try{
+		try {
 			if (Color.alpha(costume.getBitmap().getPixel(inSpriteCoordX, inSpriteCoordY)) <= 10) {
 				return false;
 			}
-		}catch(Exception ex){
+		} catch (Exception ex) {
 			return false;
 		}
 

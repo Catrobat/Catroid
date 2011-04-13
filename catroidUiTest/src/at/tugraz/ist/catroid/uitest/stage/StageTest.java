@@ -35,6 +35,7 @@ import at.tugraz.ist.catroid.Values;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.brick.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.brick.GoNStepsBackBrick;
+import at.tugraz.ist.catroid.content.brick.HideBrick;
 import at.tugraz.ist.catroid.content.brick.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.brick.SetCostumeBrick;
@@ -368,8 +369,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 			}
 		}
 
-		//final String imagePath = "/sdcard/catroid/" + this.projectName + "/images/temp.png";
-		final String imagePath = "/sdcard/catroid/temp/foo.png";
+		final String imagePath = "/sdcard/catroid/" + this.projectName + "/images/temp.png";
 		File testImage = new File(imagePath);
 
 		try {
@@ -378,12 +378,21 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		testImage.mkdirs();
 
 		String checksumNew = StorageHandler.getInstance().getChecksum(testImage);
-		System.out.println("########### checki: " + checksumNew);
 
 		assertEquals("The checksum of the 'screenshot' is wrong", checksum, checksumNew);
+	}
+
+	public void testClickOnHiddenSprite() throws IOException, InterruptedException{
+		createTestProject4(projectName);
+		solo.clickOnButton(1);
+		Thread.sleep(500);
+		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
+		Thread.sleep(1000);
+
+		Sprite sprite = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1);
+		assertEquals(100.0, sprite.getScale());
 	}
 
 
@@ -515,6 +524,38 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		project.addSprite(secondSprite);
 
 		ProjectManager.getInstance().setProject(project);
+
+		storageHandler.saveProject(project);
+	}
+
+	public void createTestProject4(String projectName) throws IOException{
+		StorageHandler storageHandler = StorageHandler.getInstance();
+
+		Project project = new Project(getActivity(), projectName);
+		storageHandler.saveProject(project);
+
+		image1 = savePictureInProject(projectName, 4147, imageName1, IMAGE_FILE_ID);
+
+		Sprite firstSprite = new Sprite("sprite1");
+		Script startScript = new Script ("startscript", firstSprite);
+		Script touchScript = new Script("touchscript", firstSprite);
+		touchScript.setTouchScript(true);
+
+		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
+		setCostumeBrick.setCostume(image1.getAbsolutePath());
+
+		ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(firstSprite, 50);
+		HideBrick hideBrick = new HideBrick(firstSprite);
+
+		project.addSprite(firstSprite);
+		startScript.addBrick(setCostumeBrick);
+		startScript.addBrick(hideBrick);
+		touchScript.addBrick(scaleCostumeBrick);
+		firstSprite.getScriptList().add(startScript);
+		firstSprite.getScriptList().add(touchScript);
+
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 
 		storageHandler.saveProject(project);
 	}
