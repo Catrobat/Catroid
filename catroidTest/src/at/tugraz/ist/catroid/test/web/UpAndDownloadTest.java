@@ -61,8 +61,9 @@ public class UpAndDownloadTest extends AndroidTestCase {
 		new File(pathToDefaultProject).mkdirs();
 		String spfFilename = "test" + Consts.PROJECT_EXTENTION;
 		new File(pathToDefaultProject + "/" + spfFilename).createNewFile();
+		String projectDescription = "this is just a testproject";
 
-		ProjectUploadTask uploadTask = new ProjectUploadTask(null, testProjectName, pathToDefaultProject) {
+		ProjectUploadTask uploadTask = new ProjectUploadTask(null, testProjectName, projectDescription, pathToDefaultProject) {
 			@Override
 			protected ConnectionWrapper createConnection() {
 				return mMockConnection;

@@ -113,7 +113,7 @@ public class FileChecksumContainerTest extends InstrumentationTestCase{
         
     	storageHandler.copyImage(currentProjectName, testImage.getAbsolutePath());
 
-        String checksumImage = storageHandler.getChecksum(testImage);
+        String checksumImage = storageHandler.getMD5Checksum(testImage);
 
         FileChecksumContainer container = projectManager.getCurrentProject().getFileChecksumContainer();
         assertTrue("Checksum isn't in container", container.containsChecksum(checksumImage));
@@ -129,7 +129,7 @@ public class FileChecksumContainerTest extends InstrumentationTestCase{
 		assertEquals("Wrong amount of files in folder", 2, filesImage.length);
 
 		storageHandler.copySoundFile(testSound.getAbsolutePath());
-		String checksumSound = storageHandler.getChecksum(testSound);
+		String checksumSound = storageHandler.getMD5Checksum(testSound);
 		assertTrue("Checksum isn't in container", container.containsChecksum(checksumSound));
 		File soundDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName + Consts.SOUND_DIRECTORY);
 		File[] filesSound = soundDirectory.listFiles();
