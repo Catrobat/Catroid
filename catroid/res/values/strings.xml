@@ -189,6 +189,9 @@
     <string name="error_delete_project">
         An error occurred while deleting the project.
     </string>
+    <string name="error_no_number_entered">
+        Please enter a number.
+    </string>
 
     <!-- Notifications -->
     <string name="success_project_upload">Upload successful.</string>

@@ -27,37 +27,42 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class EditDoubleDialog extends EditDialog implements OnClickListener {
-    private double value;
+	private double value;
 
-    public EditDoubleDialog(Context context, EditText referencedEditText, double value) {
-        super(context, referencedEditText);
-        this.value = value;
-    }
+	public EditDoubleDialog(Context context, EditText referencedEditText, double value) {
+		super(context, referencedEditText);
+		this.value = value;
+	}
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-        editText.setText(String.valueOf(value));
-        editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        editText.setSelection((int) (Math.log10(value) + 1.0));
+		editText.setText(String.valueOf(value));
+		editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+		editText.setSelection((int) (Math.log10(value) + 1.0));
 
-        Button closeButton = (Button) findViewById(R.id.dialogEditTextSubmit);
-        closeButton.setOnClickListener(this);
-    }
+		Button closeButton = (Button) findViewById(R.id.dialogEditTextSubmit);
+		closeButton.setOnClickListener(this);
+	}
 
-    public double getValue() {
-        return value;
-    }
+	public double getValue() {
+		return value;
+	}
 
-    public void onClick(View v) {
-        if (v.getId() == referencedEditText.getId()) {
-            show();
-        } else {
-            value = Double.parseDouble((editText.getText().toString()));
-            dismiss();
-        }
-    }
+	public void onClick(View v) {
+		if (v.getId() == referencedEditText.getId()) {
+			show();
+		} else {
+			try {
+				value = Double.parseDouble((editText.getText().toString()));
+				dismiss();
+			} catch (NumberFormatException e) {
+				Utils.displayErrorMessage(context, context.getString(R.string.error_no_number_entered));
+			}
+		}
+	}
 }

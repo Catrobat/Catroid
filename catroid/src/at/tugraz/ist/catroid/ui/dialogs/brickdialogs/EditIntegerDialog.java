@@ -27,6 +27,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class EditIntegerDialog extends EditDialog implements OnClickListener {
 	private int value;
@@ -40,16 +41,15 @@ public class EditIntegerDialog extends EditDialog implements OnClickListener {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        editText.setText(String.valueOf(value));
-        if (signed) {
-            editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
-        }
-        else{
-            editText.setInputType(InputType.TYPE_CLASS_NUMBER);
-        }
-        Button closeButton = (Button) findViewById(R.id.dialogEditTextSubmit);
-        closeButton.setOnClickListener(this);
+		super.onCreate(savedInstanceState);
+		editText.setText(String.valueOf(value));
+		if (signed) {
+			editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
+		} else {
+			editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+		}
+		Button closeButton = (Button) findViewById(R.id.dialogEditTextSubmit);
+		closeButton.setOnClickListener(this);
 	}
 
 	public int getValue() {
@@ -64,8 +64,12 @@ public class EditIntegerDialog extends EditDialog implements OnClickListener {
 		if (v.getId() == referencedEditText.getId()) {
 			show();
 		} else {
-		    value = Integer.parseInt(editText.getText().toString());
-			dismiss();
+			try {
+				value = Integer.parseInt(editText.getText().toString());
+				dismiss();
+			} catch (NumberFormatException e) {
+				Utils.displayErrorMessage(context, context.getString(R.string.error_no_number_entered));
+			}
 		}
 	}
 }
