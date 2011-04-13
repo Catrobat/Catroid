@@ -93,7 +93,10 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 			}
 
 			if (renameProject) {
-				ProjectManager.getInstance().renameProject(newProjectName, context);
+				boolean renamed = ProjectManager.getInstance().renameProject(newProjectName, context);
+				if (!renamed) {
+					break;
+				}
 			}
 			ProjectManager.getInstance().getCurrentProject().setDeviceData();
 			ProjectManager.getInstance().saveProject(context);
