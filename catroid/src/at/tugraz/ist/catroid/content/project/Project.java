@@ -27,13 +27,11 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import at.tugraz.ist.catroid.FileChecksumContainer;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class Project implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private List<Sprite> spriteList = new ArrayList<Sprite>();
-	private List<Script> scriptList = new ArrayList<Script>();
 	private String name;
 	private String versionName;
 	private int versionCode;
@@ -42,7 +40,7 @@ public class Project implements Serializable {
 	public Project(Context context, String name) {
 		this.name = name;
 
-		if(context == null) {
+		if (context == null) {
 			versionName = "unknown";
 			versionCode = 0;
 			return;
@@ -52,7 +50,7 @@ public class Project implements Serializable {
 		try {
 			PackageInfo packageInfo = context.getPackageManager().getPackageInfo("at.tugraz.ist.catroid", 0);
 			versionName = packageInfo.versionName;
-			versionCode =  packageInfo.versionCode;
+			versionCode = packageInfo.versionCode;
 		} catch (NameNotFoundException e) {
 			e.printStackTrace();
 			versionName = "unknown";
@@ -70,17 +68,6 @@ public class Project implements Serializable {
 
 	public synchronized boolean removeSprite(Sprite sprite) {
 		return spriteList.remove(sprite);
-	}
-
-	public synchronized void addScript(Script script) {
-		if (scriptList.contains(script)) {
-			return;
-		}
-		scriptList.add(script);
-	}
-
-	public synchronized boolean removeScript(Script script) {
-		return scriptList.remove(script);
 	}
 
 	public int getMaxZValue() {

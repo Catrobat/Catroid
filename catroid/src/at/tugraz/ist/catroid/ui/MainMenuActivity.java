@@ -122,10 +122,9 @@ public class MainMenuActivity extends Activity {
 		if (projectName != null) {
 			projectManager.loadProject(projectName, this);
 		} else {
-			projectManager.loadProject(this.getString(R.string.default_project_name), this); // default
-			// project
-			// is
-			// created
+			projectManager.initializeDefaultProject(this);
+			//projectManager.loadProject(this.getString(R.string.default_project_name), this); 
+			// default project is created
 		}
 
 		if (projectManager.getCurrentProject() == null) {
@@ -178,7 +177,8 @@ public class MainMenuActivity extends Activity {
 			return;
 		}
 		TextView currentProjectTextView = (TextView) findViewById(R.id.currentProjectNameTextView);
-		currentProjectTextView.setText(getString(R.string.current_project) + " " + projectManager.getCurrentProject().getName());
+		currentProjectTextView.setText(getString(R.string.current_project) + " "
+				+ projectManager.getCurrentProject().getName());
 
 		projectManager.loadProject(projectManager.getCurrentProject().getName(), this);
 	}
