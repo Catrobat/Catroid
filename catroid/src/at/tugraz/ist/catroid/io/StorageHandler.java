@@ -69,7 +69,7 @@ public class StorageHandler {
 	public static final int COPY_FAILED = 2;
 
 	private static StorageHandler instance;
-	private ArrayList<SoundInfo> soundContent = new ArrayList<SoundInfo>();
+	private ArrayList<SoundInfo> soundContent;
 	private File catroidRoot;
 	private XStream xstream;
 
@@ -161,6 +161,10 @@ public class StorageHandler {
 
 	// TODO: Find a way to access sound files on the device
 	public void loadSoundContent(Context context) {
+		if (soundContent != null) {
+			return;
+		}
+		soundContent = new ArrayList<SoundInfo>();
 		String[] projectionOnOrig = { MediaStore.Audio.Media.DATA, MediaStore.Audio.AudioColumns.TITLE,
 				MediaStore.Audio.Media._ID };
 
@@ -185,30 +189,18 @@ public class StorageHandler {
 	}
 
 	public ArrayList<SoundInfo> getSoundContent() {
+		java.util.Collections.sort(soundContent);
 		return soundContent;
 	}
 
 	public void setSoundContent(ArrayList<SoundInfo> soundContent) {
-		System.out.println("SOUND SET");
-		this.soundContent.clear();
+		if (this.soundContent == null) {
+			this.soundContent = new ArrayList<SoundInfo>();
+		} else {
+			this.soundContent.clear();
+		}
 		this.soundContent.addAll(soundContent);
 	}
-
-	//	/**
-	//	 * Creates the default project and saves it to the filesystem
-	//	 * 
-	//	 * @return the default project object if successful, else null
-	//	 */
-	//	public Project createDefaultProject(Context context) {
-	//		try {
-	//			Project defaultProject = new Project(context, context.getString(R.string.default_project_name));
-	//			saveProject(defaultProject);
-	//			return defaultProject;
-	//		} catch (Exception e) {
-	//			e.printStackTrace();
-	//			return null;
-	//		}
-	//	}
 
 	public File copySoundFile(String path) throws IOException {
 		Log.d("StorageHandler: ", "Path to original soundFile: " + path);
@@ -222,7 +214,6 @@ public class StorageHandler {
 		File outputFile = new File(soundDirectory.getAbsolutePath() + "/" + timestamp + inputFile.getName());
 
 		return copyFile(outputFile, inputFile, soundDirectory);
-
 	}
 
 	public File copyImage(String currentProjectName, String inputFilePath) throws IOException {
@@ -244,7 +235,6 @@ public class StorageHandler {
 			return copyFile(outputFile, inputFile, imageDirectory);
 		} else
 			return copyAndResizeImage(outputFile, inputFile, imageDirectory);
-
 	}
 
 	public File copyAndResizeImage(File destinationFile, File sourceFile, File directory) throws IOException {
