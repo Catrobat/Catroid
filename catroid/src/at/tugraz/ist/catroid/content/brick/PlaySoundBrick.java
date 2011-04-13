@@ -20,16 +20,21 @@ package at.tugraz.ist.catroid.content.brick;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.gui.adapter.SoundBrickAdapter;
 import at.tugraz.ist.catroid.content.entities.SoundInfo;
@@ -37,12 +42,13 @@ import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.io.sound.SoundManager;
 
-public class PlaySoundBrick implements Brick, android.content.DialogInterface.OnClickListener {
+public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable {
 	protected String pathToSoundfile;
 	private transient ArrayList<SoundInfo> soundList;
-	private transient BaseExpandableListAdapter programmAdapter;
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
+	private transient Dialog soundDialog;
+	private transient BaseExpandableListAdapter adapter;
 
 	public PlaySoundBrick(Sprite sprite, String pathToSoundfile) {
 		this.pathToSoundfile = pathToSoundfile;
@@ -62,7 +68,7 @@ public class PlaySoundBrick implements Brick, android.content.DialogInterface.On
 	}
 
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
-		programmAdapter = adapter;
+		this.adapter = adapter;
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.construction_brick_play_sound, null);
 		Button soundButton = (Button) view.findViewById(R.id.btSoundChoose);
@@ -82,37 +88,26 @@ public class PlaySoundBrick implements Brick, android.content.DialogInterface.On
 		try {
 			StorageHandler.getInstance().loadSoundContent(context);
 			soundList = StorageHandler.getInstance().getSoundContent();
+			final SoundBrickAdapter soundBrickAdapter = new SoundBrickAdapter(context, soundList);
 			soundButton.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
-					new AlertDialog.Builder(context)
-					.setAdapter(new SoundBrickAdapter(context, soundList), PlaySoundBrick.this).create().show();
+
+					soundDialog = new Dialog(context);
+					soundDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+					soundDialog.setContentView(R.layout.sound_list);
+					soundDialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+							WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+					ListView list = (ListView) soundDialog.findViewById(R.id.sound_list);
+					list.setAdapter(soundBrickAdapter);
+					list.setOnItemClickListener(PlaySoundBrick.this);
+
+					soundDialog.show();
 				}
 			});
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		// TODO: Is this still needed?
-		// Spinner spinner = (Spinner) view.findViewById(R.id.Spinner01);
-		// final ArrayList<SoundInfo> soundList =
-		// StorageHandler.getInstance((Activity)context).getSoundContent();
-		// spinner.setAdapter(new SoundBrickAdapter(context, soundList));
-		// if(pathToSoundfile != null) {
-		// int selectedPosition = soundList.indexOf(pathToSoundfile);
-		// System.out.println("path: "+pathToSoundfile+", index: "+selectedPosition);
-		// if(selectedPosition >= 0)
-		// spinner.setSelection(selectedPosition);
-		// }
-		// spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-		// public void onItemSelected(AdapterView<?> arg0, View arg1,
-		// int position, long arg3) {
-		// pathToSoundfile = soundList.get(position).getTitleWithPath();
-		// }
-		// public void onNothingSelected(AdapterView<?> arg0) {
-		// if(soundList.size() > 0)
-		// ;//pathToSoundfile = soundList.get(0).getTitleWithPath();
-		// }
-		// });
 
 		return view;
 	}
@@ -123,23 +118,26 @@ public class PlaySoundBrick implements Brick, android.content.DialogInterface.On
 		return view;
 	}
 
-	public void onClick(DialogInterface dialog, int which) {
+	@Override
+	public Brick clone() {
+		return new PlaySoundBrick(getSprite(), getPathToSoundFile());
+	}
+
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		File soundFile = null;
 		try {
-			soundFile = StorageHandler.getInstance().copySoundFile(soundList.get(which).getPath());
+			soundFile = StorageHandler.getInstance().copySoundFile(soundList.get(position).getPath());
 
 			if (soundFile != null)
 				pathToSoundfile = soundFile.getAbsolutePath();
 			else
-				pathToSoundfile = soundList.get(which).getTitleWithPath();
-			programmAdapter.notifyDataSetChanged();
+				pathToSoundfile = soundList.get(position).getTitleWithPath();
+
+			adapter.notifyDataSetChanged();
+			soundDialog.dismiss();
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	@Override
-	public Brick clone() {
-		return new PlaySoundBrick(getSprite(), getPathToSoundFile());
 	}
 }

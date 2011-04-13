@@ -89,7 +89,7 @@ public class SoundBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		assertTrue("Wrong title selected", solo.searchText(selectedTitle));
 
 		solo.clickOnButton(selectedTitle);
-		solo.clickInList(2);
+		solo.clickInList(0);
 		Thread.sleep(500);
 		assertTrue("Wrong title selected", solo.searchText(title));
 	}

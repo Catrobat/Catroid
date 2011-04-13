@@ -48,7 +48,6 @@ public class EditIntegerDialog extends EditDialog implements OnClickListener {
 		} else {
 			editText.setInputType(InputType.TYPE_CLASS_NUMBER);
 		}
-		editText.selectAll();
 		Button closeButton = (Button) findViewById(R.id.dialogEditTextSubmit);
 		closeButton.setOnClickListener(this);
 	}
