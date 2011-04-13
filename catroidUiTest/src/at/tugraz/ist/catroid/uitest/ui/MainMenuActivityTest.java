@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -96,7 +96,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		File file = new File(Consts.DEFAULT_ROOT + "/testProject/" + testProject + Consts.PROJECT_EXTENTION);
 		assertTrue(testProject + " was not created!", file.exists());
 	}
-	
+
 	public void testCreateNewProjectErrors() throws InterruptedException {
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
 		solo.clickOnEditText(0);
@@ -105,21 +105,21 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_create_button));
 		Thread.sleep(50);
 		assertTrue("No error message was displayed upon creating a project with an empty name.", solo.searchText(getActivity().getString(R.string.error_no_name_entered)));
-		
+
 		solo.clickOnButton(0);
 
 		File directory = new File("/sdcard/catroid/" + testProject);
 		directory.mkdirs();
 		Thread.sleep(50);
-		
+
 		solo.clickOnEditText(0);
 		solo.enterText(0, testProject);
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_create_button));
 		Thread.sleep(50);
 		assertTrue("No error message was displayed upon creating a project with the same name twice.",
-				    solo.searchText(getActivity().getString(R.string.error_project_exists)));
-		
-	}	
+				solo.searchText(getActivity().getString(R.string.error_project_exists)));
+
+	}
 
 	public void testCreateNewProjectWithSpecialCharacters() throws InterruptedException {
 		final String projectNameWithSpecialCharacters = "Hey, look, I'm special! ?äöüß<>";
@@ -132,7 +132,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		Thread.sleep(1000);
 
 		assertEquals("Project name with special characters was not set properly", ProjectManager.getInstance().getCurrentProject().getName(), projectNameWithSpecialCharacters);
-		
+
 		File directory = new File("/sdcard/catroid/" + projectNameWithSpecialCharacters);
 		UtilFile.deleteDirectory(directory);
 	}
@@ -176,7 +176,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		TextView projectTitle = (TextView) solo.getCurrentActivity().findViewById(R.id.projectTitleTextView);
 
 		assertEquals("Project title is not " + testProject3, getActivity().getString(R.string.project_name)
-				      + " " + testProject3, projectTitle.getText());
+				+ " " + testProject3, projectTitle.getText());
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.spriteListView);
 		Sprite first = (Sprite) spritesList.getItemAtPosition(1);
@@ -197,10 +197,28 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		assertEquals("About text not correct!", getActivity().getString(R.string.about_text), textViewList.get(1).getText().toString());
 		assertEquals("Link text is not correct!", getActivity().getString(R.string.about_link_text), textViewList.get(2).getText().toString());
 	}
-	
+
 	public void testToStageButton() {
 		solo.clickOnButton(getActivity().getString(R.string.construction_site_play));
-		assertTrue("StageActivity is not showing!", solo.getCurrentActivity() instanceof StageActivity); 
+		assertTrue("StageActivity is not showing!", solo.getCurrentActivity() instanceof StageActivity);
+	}
+
+	public void testUploadProjectWithNoName() {
+		solo.clickOnButton(getActivity().getString(R.string.upload_project));
+		solo.enterText(0, "");
+		solo.clickOnButton(getActivity().getString(R.string.upload_button));
+		assertTrue("No error message was displayed upon uploading a project with no title.",
+				solo.searchText(getActivity().getString(R.string.error_no_name_entered)));
+	}
+
+	public void testUploadProject() throws InterruptedException {
+		solo.clickOnButton(getActivity().getString(R.string.upload_project));
+		solo.clickOnButton(getActivity().getString(R.string.upload_button));
+
+		//may fail with slow internet connection
+		Thread.sleep(5000);
+		assertTrue("Uploading the project failed.",
+				solo.searchText("Upload successfull!"));
 	}
 
 	public void createTestProject(String projectName) throws IOException, NameNotFoundException {
@@ -215,12 +233,12 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		Sprite secondSprite = new Sprite("dog");
 		Sprite thirdSprite = new Sprite("horse");
 		Sprite fourthSprite = new Sprite("pig");
-        Script testScript = new Script("testScript", firstSprite);
-        Script otherScript = new Script("otherScript", secondSprite);
+		Script testScript = new Script("testScript", firstSprite);
+		Script otherScript = new Script("otherScript", secondSprite);
 		HideBrick hideBrick = new HideBrick(firstSprite);
 		ShowBrick showBrick = new ShowBrick(firstSprite);
 		ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(secondSprite, scaleValue);
-        ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(firstSprite);
+		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(firstSprite);
 		PlaceAtBrick placeAtBrick = new PlaceAtBrick(secondSprite, xPosition, yPosition);
 
 		// adding Bricks: ----------------
