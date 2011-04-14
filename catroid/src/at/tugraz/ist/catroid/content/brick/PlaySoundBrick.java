@@ -77,7 +77,7 @@ public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable 
 			int index = pathToSoundfile.lastIndexOf("/") + 1;
 
 			if (index > 0) {
-				String soundFileName = (String) pathToSoundfile.subSequence(index, pathToSoundfile.length());
+				String soundFileName = (String) pathToSoundfile.subSequence(index + 15, pathToSoundfile.length());
 				soundButton.setText(soundFileName);
 			} else {
 				soundButton.setText("<choose a title>");
