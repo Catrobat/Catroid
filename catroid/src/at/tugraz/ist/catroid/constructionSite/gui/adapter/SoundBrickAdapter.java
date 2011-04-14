@@ -26,19 +26,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.entities.SoundInfo;
 
-public class SoundBrickAdapter extends BaseAdapter{
+public class SoundBrickAdapter extends BaseAdapter {
 	private Context context;
-    private ArrayList<SoundInfo> soundList;
-  
+	private ArrayList<SoundInfo> soundList;
+
 	public SoundBrickAdapter(Context context, ArrayList<SoundInfo> soundList) {
 		this.context = context;
 		this.soundList = soundList;
-		
 	}
 
 	public int getCount() {
@@ -54,15 +51,14 @@ public class SoundBrickAdapter extends BaseAdapter{
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater)context.getSystemService(
-	    Context.LAYOUT_INFLATER_SERVICE);
-		
-		LinearLayout view = (LinearLayout) inflater.inflate(R.layout.adapter_sound, null);
-		TextView text = (TextView)view.findViewById(R.id.tvSound);
-		text.setText(soundList.get(position).getTitle());
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(
+				Context.LAYOUT_INFLATER_SERVICE);
+
+		TextView view = (TextView) inflater.inflate(android.R.layout.simple_list_item_1, null);
+		view.setText(soundList.get(position).getTitle());
 		return view;
 	}
-	
+
 	@Override
 	public void notifyDataSetChanged() {
 		super.notifyDataSetChanged();
