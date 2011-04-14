@@ -27,13 +27,14 @@ import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.os.AsyncTask;
 import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.utils.UtilDeviceInfo;
 import at.tugraz.ist.catroid.utils.UtilZip;
 import at.tugraz.ist.catroid.web.ConnectionWrapper;
 import at.tugraz.ist.catroid.web.WebconnectionException;
@@ -105,13 +106,24 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 			}
 
 			String md5Checksum = StorageHandler.getInstance().getMD5Checksum(file);
+
 			HashMap<String, String> hm = new HashMap<String, String>();
 			hm.put(Consts.PROJECT_NAME_TAG, mProjectName);
 			hm.put(Consts.PROJECT_DESCRIPTION_TAG, projectDescription);
 			hm.put(Consts.PROJECT_CHECKSUM_TAG, md5Checksum);
 
+			String deviceIMEI = UtilDeviceInfo.getDeviceIMEI(mContext);
+			if (deviceIMEI != null)
+				hm.put(Consts.DEVICE_IMEI, deviceIMEI);
+			String userEmail = UtilDeviceInfo.getUserEmail(mContext);
+			if (userEmail != null)
+				hm.put(Consts.USER_EMAIL, userEmail);
+			String language = UtilDeviceInfo.getUserLanguageCode(mContext);
+			if (language != null)
+				hm.put(Consts.USER_LANGUAGE, language);
+
 			String serverUrl;
-			if (false)//mUseTestUrl)
+			if (true)//mUseTestUrl)
 				serverUrl = Consts.TEST_FILE_UPLOAD_URL;
 			else
 				serverUrl = Consts.FILE_UPLOAD_URL;
