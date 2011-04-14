@@ -119,7 +119,9 @@ public class SoundBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
 		Script script = new Script("script", sprite);
-		soundBrick = new PlaySoundBrick(sprite, soundInfo.getTitleWithPath());
+		soundBrick = new PlaySoundBrick(sprite);
+		soundBrick.setPathToSoundfile(soundInfo.getTitleWithPath());
+		soundBrick.setTitle(selectedTitle);
 		script.addBrick(soundBrick);
 
 		sprite.getScriptList().add(script);

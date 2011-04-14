@@ -67,7 +67,8 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 
 		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
 
-		PlaySoundBrick testBrick = new PlaySoundBrick(new Sprite("1"), soundFilePath);
+		PlaySoundBrick testBrick = new PlaySoundBrick(new Sprite("1"));
+		testBrick.setPathToSoundfile(soundFilePath);
 		testBrick.execute();
 		assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
 
@@ -83,7 +84,8 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 
 	public void testIllegalArgument() {
 		final String illegalPath = "file/that/does/not/exist";
-		PlaySoundBrick testBrick = new PlaySoundBrick(new Sprite("2"), illegalPath);
+		PlaySoundBrick testBrick = new PlaySoundBrick(new Sprite("2"));
+		testBrick.setPathToSoundfile(illegalPath);
 		try {
 			testBrick.execute();
 			fail("Execution of PlaySoundBrick with illegal file path did not cause an IllegalArgumentException to be thrown");
@@ -100,7 +102,8 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 		final int playerCount = SoundManager.MAX_MEDIA_PLAYERS;
 		for (int i = 0; i < playerCount; i++) {
 			MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
-			PlaySoundBrick testBrick = new PlaySoundBrick(new Sprite("3"), soundFilePath);
+			PlaySoundBrick testBrick = new PlaySoundBrick(new Sprite("3"));
+			testBrick.setPathToSoundfile(soundFilePath);
 			testBrick.execute();
 			assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
 		}
@@ -109,16 +112,19 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 	public void testPlaySimultaneousSounds() throws InterruptedException {
 		Thread t1 = new Thread(new Runnable() {
 			final String soundFilePath = soundFile.getAbsolutePath();
-			PlaySoundBrick testBrick1 = new PlaySoundBrick(new Sprite("4"), soundFilePath);
+			PlaySoundBrick testBrick1 = new PlaySoundBrick(new Sprite("4"));
+
 			public void run() {
+				testBrick1.setPathToSoundfile(soundFilePath);
 				testBrick1.execute();
 			}
 		});
 
 		Thread t2 = new Thread(new Runnable() {
 			final String soundFilePath = soundFile.getAbsolutePath();
-			PlaySoundBrick testBrick2 = new PlaySoundBrick(new Sprite("5"), soundFilePath);
+			PlaySoundBrick testBrick2 = new PlaySoundBrick(new Sprite("5"));
 			public void run() {
+				testBrick2.setPathToSoundfile(soundFilePath);
 				testBrick2.execute();
 			}
 		});
@@ -136,7 +142,8 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 
 		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
 
-		PlaySoundBrick testBrick = new PlaySoundBrick(new Sprite("4"), soundFilePath);
+		PlaySoundBrick testBrick = new PlaySoundBrick(new Sprite("4"));
+		testBrick.setPathToSoundfile(soundFilePath);
 		testBrick.execute();
 		assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
 
