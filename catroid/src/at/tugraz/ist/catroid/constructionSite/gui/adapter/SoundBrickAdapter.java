@@ -26,6 +26,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.content.entities.SoundInfo;
 
@@ -53,7 +54,7 @@ public class SoundBrickAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(
 				Context.LAYOUT_INFLATER_SERVICE);
-
+		parent.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 		TextView view = (TextView) inflater.inflate(android.R.layout.simple_list_item_1, null);
 		view.setText(soundList.get(position).getTitle());
 		return view;
