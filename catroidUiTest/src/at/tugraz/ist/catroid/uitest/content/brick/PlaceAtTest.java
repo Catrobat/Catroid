@@ -73,7 +73,7 @@ public class PlaceAtTest extends ActivityInstrumentationTestCase2<ScriptActivity
 	public void testPlaceAtBrick() throws Throwable {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
-		
+
 		assertEquals("Incorrect number of bricks.", 5, solo.getCurrentListViews().get(0).getChildCount());
 		assertEquals("Incorrect number of bricks.", 4, childrenCount);
 
@@ -113,7 +113,10 @@ public class PlaceAtTest extends ActivityInstrumentationTestCase2<ScriptActivity
 		script.addBrick(new HideBrick(sprite));
 		placeAtBrick = new PlaceAtBrick(sprite, 105, 206);
 		script.addBrick(placeAtBrick);
-		script.addBrick(new PlaySoundBrick(sprite, "sound.mp3"));
+		PlaySoundBrick soundBrick = new PlaySoundBrick(sprite);
+		soundBrick.setPathToSoundfile("sound.mp3");
+		script.addBrick(soundBrick);
+
 		script.addBrick(new ScaleCostumeBrick(sprite, 80));
 
 		sprite.getScriptList().add(script);

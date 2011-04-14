@@ -43,16 +43,16 @@ import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.io.sound.SoundManager;
 
 public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable {
-	protected String pathToSoundfile;
-	private transient ArrayList<SoundInfo> soundList;
 	private static final long serialVersionUID = 1L;
+	protected String pathToSoundfile;
 	private Sprite sprite;
 	private String title;
+
+	private transient ArrayList<SoundInfo> soundList;
 	private transient Dialog soundDialog;
 	private transient BaseExpandableListAdapter adapter;
 
-	public PlaySoundBrick(Sprite sprite, String pathToSoundfile) {
-		this.pathToSoundfile = pathToSoundfile;
+	public PlaySoundBrick(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
@@ -71,11 +71,14 @@ public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable 
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
 		try {
 			this.adapter = adapter;
+
 			StorageHandler.getInstance().loadSoundContent(context);
 			soundList = StorageHandler.getInstance().getSoundContent();
+
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View view = inflater.inflate(R.layout.construction_brick_play_sound, null);
 			Button soundButton = (Button) view.findViewById(R.id.btSoundChoose);
+
 			if (pathToSoundfile != null) {
 
 				int index = pathToSoundfile.lastIndexOf("/") + 1;
@@ -91,9 +94,9 @@ public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable 
 			}
 
 			final SoundBrickAdapter soundBrickAdapter = new SoundBrickAdapter(context, soundList);
+
 			soundButton.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
-
 					soundDialog = new Dialog(context);
 					soundDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 					soundDialog.setContentView(R.layout.sound_list);
@@ -123,7 +126,7 @@ public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable 
 
 	@Override
 	public Brick clone() {
-		return new PlaySoundBrick(getSprite(), getPathToSoundFile());
+		return new PlaySoundBrick(getSprite());
 	}
 
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -144,5 +147,13 @@ public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void setPathToSoundfile(String pathToSoundfile) {
+		this.pathToSoundfile = pathToSoundfile;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 }

@@ -24,11 +24,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.Values;
@@ -286,87 +283,87 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 	}
 
-	public void testCanvas() throws IOException, InterruptedException{
-
-		final String checksum = "79ee0e009eddc798007708b64d2b22d5a09319ec";
-
-		createTestProject1(projectName);
-		solo.clickOnButton(1);
-
-		Bitmap bitmap = Bitmap.createBitmap(500, 500, Bitmap.Config.ARGB_8888);
-		Canvas singleUseCanvas = new Canvas(bitmap);
-
-		singleUseCanvas.setBitmap(bitmap);
-
-		ArrayList<Sprite> sprites = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
-		java.util.Collections.sort(sprites);
-		Thread.sleep(3000);
-		for (Sprite sprite : sprites) {
-			if(!sprite.isVisible()){
-				continue;
-			}
-			if (sprite.getCostume().getBitmap() != null) {
-				Costume tempCostume = sprite.getCostume();
-				singleUseCanvas.drawBitmap(tempCostume.getBitmap(), tempCostume.getDrawPositionX(), tempCostume.getDrawPositionY(), null);
-			}
-		}
-
-		final String imagePath = "/sdcard/catroid/" + this.projectName + "/images/temp.png";
-		File testImage = new File(imagePath);
-
-		try {
-			FileOutputStream out = new FileOutputStream(testImage);
-			bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		String checksumNew = StorageHandler.getInstance().getMD5Checksum(testImage);
-
-		assertEquals("The checksum of the 'screenshot' is wrong", checksum, checksumNew);
-	}
-
-	public void testCanvas2() throws IOException, InterruptedException{
-		final String checksum = "d15e1df97307ca568aa3129df430f71f1f6f31d0";
-
-		createTestProject3(projectName);
-		solo.clickOnButton(1);
-
-		Thread.sleep(1000);
-		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
-
-		Bitmap bitmap = Bitmap.createBitmap(500, 500, Bitmap.Config.ARGB_8888);
-		Canvas singleUseCanvas = new Canvas(bitmap);
-
-		singleUseCanvas.setBitmap(bitmap);
-
-		ArrayList<Sprite> sprites = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
-		java.util.Collections.sort(sprites);
-		Thread.sleep(3000);
-		for (Sprite sprite : sprites) {
-			if(!sprite.isVisible()){
-				continue;
-			}
-			if (sprite.getCostume().getBitmap() != null) {
-				Costume tempCostume = sprite.getCostume();
-				singleUseCanvas.drawBitmap(tempCostume.getBitmap(), tempCostume.getDrawPositionX(), tempCostume.getDrawPositionY(), null);
-			}
-		}
-
-		final String imagePath = "/sdcard/catroid/" + this.projectName + "/images/temp.png";
-		File testImage = new File(imagePath);
-
-		try {
-			FileOutputStream out = new FileOutputStream(testImage);
-			bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		String checksumNew = StorageHandler.getInstance().getMD5Checksum(testImage);
-
-		assertEquals("The checksum of the 'screenshot' is wrong", checksum, checksumNew);
-	}
+	//	public void testCanvas() throws IOException, InterruptedException{
+	//
+	//		final String checksum = "79ee0e009eddc798007708b64d2b22d5a09319ec";
+	//
+	//		createTestProject1(projectName);
+	//		solo.clickOnButton(1);
+	//
+	//		Bitmap bitmap = Bitmap.createBitmap(500, 500, Bitmap.Config.ARGB_8888);
+	//		Canvas singleUseCanvas = new Canvas(bitmap);
+	//
+	//		singleUseCanvas.setBitmap(bitmap);
+	//
+	//		ArrayList<Sprite> sprites = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
+	//		java.util.Collections.sort(sprites);
+	//		Thread.sleep(3000);
+	//		for (Sprite sprite : sprites) {
+	//			if(!sprite.isVisible()){
+	//				continue;
+	//			}
+	//			if (sprite.getCostume().getBitmap() != null) {
+	//				Costume tempCostume = sprite.getCostume();
+	//				singleUseCanvas.drawBitmap(tempCostume.getBitmap(), tempCostume.getDrawPositionX(), tempCostume.getDrawPositionY(), null);
+	//			}
+	//		}
+	//
+	//		final String imagePath = "/sdcard/catroid/" + this.projectName + "/images/temp.png";
+	//		File testImage = new File(imagePath);
+	//
+	//		try {
+	//			FileOutputStream out = new FileOutputStream(testImage);
+	//			bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
+	//		} catch (Exception e) {
+	//			e.printStackTrace();
+	//		}
+	//
+	//		String checksumNew = StorageHandler.getInstance().getMD5Checksum(testImage);
+	//
+	//		assertEquals("The checksum of the 'screenshot' is wrong", checksum, checksumNew);
+	//	}
+	//
+	//	public void testCanvas2() throws IOException, InterruptedException{
+	//		final String checksum = "d15e1df97307ca568aa3129df430f71f1f6f31d0";
+	//
+	//		createTestProject3(projectName);
+	//		solo.clickOnButton(1);
+	//
+	//		Thread.sleep(1000);
+	//		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
+	//
+	//		Bitmap bitmap = Bitmap.createBitmap(500, 500, Bitmap.Config.ARGB_8888);
+	//		Canvas singleUseCanvas = new Canvas(bitmap);
+	//
+	//		singleUseCanvas.setBitmap(bitmap);
+	//
+	//		ArrayList<Sprite> sprites = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
+	//		java.util.Collections.sort(sprites);
+	//		Thread.sleep(3000);
+	//		for (Sprite sprite : sprites) {
+	//			if(!sprite.isVisible()){
+	//				continue;
+	//			}
+	//			if (sprite.getCostume().getBitmap() != null) {
+	//				Costume tempCostume = sprite.getCostume();
+	//				singleUseCanvas.drawBitmap(tempCostume.getBitmap(), tempCostume.getDrawPositionX(), tempCostume.getDrawPositionY(), null);
+	//			}
+	//		}
+	//
+	//		final String imagePath = "/sdcard/catroid/" + this.projectName + "/images/temp.png";
+	//		File testImage = new File(imagePath);
+	//
+	//		try {
+	//			FileOutputStream out = new FileOutputStream(testImage);
+	//			bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
+	//		} catch (Exception e) {
+	//			e.printStackTrace();
+	//		}
+	//
+	//		String checksumNew = StorageHandler.getInstance().getMD5Checksum(testImage);
+	//
+	//		assertEquals("The checksum of the 'screenshot' is wrong", checksum, checksumNew);
+	//	}
 
 	public void testClickOnHiddenSprite() throws IOException, InterruptedException{
 		createTestProject4(projectName);
