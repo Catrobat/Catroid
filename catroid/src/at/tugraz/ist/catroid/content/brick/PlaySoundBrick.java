@@ -47,6 +47,7 @@ public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable 
 	private transient ArrayList<SoundInfo> soundList;
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
+	private String title;
 	private transient Dialog soundDialog;
 	private transient BaseExpandableListAdapter adapter;
 
@@ -68,26 +69,27 @@ public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable 
 	}
 
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
-		this.adapter = adapter;
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_play_sound, null);
-		Button soundButton = (Button) view.findViewById(R.id.btSoundChoose);
-		if (pathToSoundfile != null) {
+		try {
+			this.adapter = adapter;
+			StorageHandler.getInstance().loadSoundContent(context);
+			soundList = StorageHandler.getInstance().getSoundContent();
+			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View view = inflater.inflate(R.layout.construction_brick_play_sound, null);
+			Button soundButton = (Button) view.findViewById(R.id.btSoundChoose);
+			if (pathToSoundfile != null) {
 
-			int index = pathToSoundfile.lastIndexOf("/") + 1;
+				int index = pathToSoundfile.lastIndexOf("/") + 1;
 
-			if (index > 0) {
-				String soundFileName = (String) pathToSoundfile.subSequence(index + 15, pathToSoundfile.length());
-				soundButton.setText(soundFileName);
+				if (index > 0) {
+					String soundFileName = title;
+					soundButton.setText(soundFileName);
+				} else {
+					soundButton.setText("<choose a title>");
+				}
 			} else {
 				soundButton.setText("<choose a title>");
 			}
-		} else {
-			soundButton.setText("<choose a title>");
-		}
-		try {
-			StorageHandler.getInstance().loadSoundContent(context);
-			soundList = StorageHandler.getInstance().getSoundContent();
+
 			final SoundBrickAdapter soundBrickAdapter = new SoundBrickAdapter(context, soundList);
 			soundButton.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
@@ -105,11 +107,12 @@ public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable 
 					soundDialog.show();
 				}
 			});
+			return view;
 		} catch (IOException e) {
 			e.printStackTrace();
+			return null;
 		}
 
-		return view;
 	}
 
 	public View getPrototypeView(Context context) {
@@ -128,12 +131,14 @@ public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable 
 		try {
 			soundFile = StorageHandler.getInstance().copySoundFile(soundList.get(position).getPath());
 
-			if (soundFile != null)
+			if (soundFile != null) {
 				pathToSoundfile = soundFile.getAbsolutePath();
-			else
+			} else {
 				pathToSoundfile = soundList.get(position).getTitleWithPath();
+			}
 
 			adapter.notifyDataSetChanged();
+			title = soundList.get(position).getTitle();
 			soundDialog.dismiss();
 
 		} catch (IOException e) {
