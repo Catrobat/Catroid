@@ -45,7 +45,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
 		UiTestUtils.enterText(solo, 0, TEST_PROJECT_NAME);
 
-		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_create_button));
+		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
 	}
 
 	@Override
