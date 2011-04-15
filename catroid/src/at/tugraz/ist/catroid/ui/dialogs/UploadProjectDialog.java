@@ -90,6 +90,9 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 			if (uploadName.length() == 0) {
 				Utils.displayErrorMessage(context, context.getString(R.string.error_no_name_entered));
 				return;
+			} else if (!uploadName.equals(currentProjectName)) {
+				projectRename.setVisibility(View.VISIBLE);
+				renameProject = true;
 			}
 
 			if (renameProject) {
