@@ -22,9 +22,11 @@ import java.io.IOException;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout.LayoutParams;
@@ -49,6 +51,14 @@ public class NewProjectDialog extends Dialog {
 		setTitle(R.string.new_project_dialog_title);
 		setCanceledOnTouchOutside(true);
 		getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+
+		this.setOnShowListener(new OnShowListener() {
+			public void onShow(DialogInterface dialog) {
+				InputMethodManager inputManager = (InputMethodManager) context
+						.getSystemService(Context.INPUT_METHOD_SERVICE);
+				inputManager.showSoftInput(findViewById(R.id.newProjectNameEditText), InputMethodManager.SHOW_IMPLICIT);
+			}
+		});
 
 		Button createNewProjectButton = (Button) findViewById(R.id.new_project_dialog_create_button);
 		createNewProjectButton.setOnClickListener(new View.OnClickListener() {
