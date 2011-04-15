@@ -27,12 +27,13 @@ import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.os.AsyncTask;
 import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.utils.UtilDeviceInfo;
 import at.tugraz.ist.catroid.utils.UtilZip;
@@ -41,15 +42,15 @@ import at.tugraz.ist.catroid.web.WebconnectionException;
 
 public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 
-	public static boolean mUseTestUrl = false;
+	public static boolean useTestUrl = false;
 
-	private Context mContext;
-	private String mProjectPath;
-	private ProgressDialog mProgressdialog;
-	private String mProjectName;
+	private Context context;
+	private String projectPath;
+	private ProgressDialog progressdialog;
+	private String projectName;
 	private String projectDescription;
 	private String resultString;
-	private String mServerAnswer;
+	private String serverAnswer;
 
 	// mock object testing
 	protected ConnectionWrapper createConnection() {
@@ -57,28 +58,28 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 	}
 
 	public ProjectUploadTask(Context context, String projectName, String projectDescription, String projectPath) {
-		mContext = context;
-		mProjectPath = projectPath;
-		mProjectName = projectName;
+		this.context = context;
+		this.projectPath = projectPath;
+		this.projectName = projectName;
 		this.projectDescription = projectDescription;
-		mServerAnswer = "An error occurred while uploading the project.";
+		serverAnswer = "An error occurred while uploading the project.";
 	}
 
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
-		if (mContext == null)
+		if (context == null)
 			return;
-		String title = mContext.getString(R.string.please_wait);
-		String message = mContext.getString(R.string.loading);
-		mProgressdialog = ProgressDialog.show(mContext, title,
+		String title = context.getString(R.string.please_wait);
+		String message = context.getString(R.string.loading);
+		progressdialog = ProgressDialog.show(context, title,
 				message);
 	}
 
 	@Override
 	protected Boolean doInBackground(Void... arg0) {
 		try {
-			File dirPath = new File(mProjectPath);
+			File dirPath = new File(projectPath);
 			String[] pathes = dirPath.list(new FilenameFilter() {
 				public boolean accept(File dir, String filename) {
 					if (filename.endsWith(Consts.PROJECT_EXTENTION) || filename.equalsIgnoreCase("images")
@@ -105,28 +106,13 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 				return false;
 			}
 
-			String md5Checksum = StorageHandler.getInstance().getMD5Checksum(file);
-
-			HashMap<String, String> hm = new HashMap<String, String>();
-			hm.put(Consts.PROJECT_NAME_TAG, mProjectName);
-			hm.put(Consts.PROJECT_DESCRIPTION_TAG, projectDescription);
-			hm.put(Consts.PROJECT_CHECKSUM_TAG, md5Checksum);
-
-			String deviceIMEI = UtilDeviceInfo.getDeviceIMEI(mContext);
-			if (deviceIMEI != null)
-				hm.put(Consts.DEVICE_IMEI, deviceIMEI);
-			String userEmail = UtilDeviceInfo.getUserEmail(mContext);
-			if (userEmail != null)
-				hm.put(Consts.USER_EMAIL, userEmail);
-			String language = UtilDeviceInfo.getUserLanguageCode(mContext);
-			if (language != null)
-				hm.put(Consts.USER_LANGUAGE, language);
+			HashMap<String, String> hm = buildPostValues(file);
 
 			String serverUrl;
-			//			if (true)//mUseTestUrl)
-			serverUrl = Consts.TEST_FILE_UPLOAD_URL;
-			//			else
-			//				serverUrl = Consts.FILE_UPLOAD_URL;
+			if (useTestUrl)
+				serverUrl = Consts.TEST_FILE_UPLOAD_URL;
+			else
+				serverUrl = Consts.FILE_UPLOAD_URL;
 			resultString = createConnection()
 					.doHttpPostFileUpload(serverUrl, hm, Consts.FILE_UPLOAD_TAG, zipFileString);
 
@@ -136,7 +122,9 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 			try {
 				jsonObject = new JSONObject(resultString);
 				statusCode = jsonObject.getInt("statusCode");
-				mServerAnswer = jsonObject.getString("answer");
+				serverAnswer = jsonObject.getString("answer");
+				int serverProjectId = jsonObject.getInt("projectId");
+				ProjectManager.getInstance().setServerProjectId(serverProjectId);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -161,25 +149,46 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 	@Override
 	protected void onPostExecute(Boolean result) {
 		super.onPostExecute(result);
-		if (mProgressdialog != null && mProgressdialog.isShowing())
-			mProgressdialog.dismiss();
+		if (progressdialog != null && progressdialog.isShowing())
+			progressdialog.dismiss();
 
 		if (!result) {
-			showDialog(mServerAnswer);
+			showDialog(serverAnswer);
 			return;
 		}
 
-		showDialog(mServerAnswer);
+		showDialog(serverAnswer);
 
 	}
 
 	private void showDialog(String message) {
-		if (mContext == null)
+		if (context == null)
 			return;
-		new Builder(mContext)
+		new Builder(context)
 				.setMessage(message)
 				.setPositiveButton("OK", null)
 				.show();
+	}
+
+	private HashMap<String, String> buildPostValues(File zipFile) throws IOException {
+		String md5Checksum = StorageHandler.getInstance().getMD5Checksum(zipFile);
+
+		HashMap<String, String> hm = new HashMap<String, String>();
+		hm.put(Consts.PROJECT_NAME_TAG, projectName);
+		hm.put(Consts.PROJECT_DESCRIPTION_TAG, projectDescription);
+		hm.put(Consts.PROJECT_CHECKSUM_TAG, md5Checksum);
+
+		String deviceIMEI = UtilDeviceInfo.getDeviceIMEI(context);
+		if (deviceIMEI != null)
+			hm.put(Consts.DEVICE_IMEI, deviceIMEI);
+		String userEmail = UtilDeviceInfo.getUserEmail(context);
+		if (userEmail != null)
+			hm.put(Consts.USER_EMAIL, userEmail);
+		String language = UtilDeviceInfo.getUserLanguageCode(context);
+		if (language != null)
+			hm.put(Consts.USER_LANGUAGE, language);
+
+		return hm;
 	}
 
 	public String getResultString() {

@@ -93,10 +93,10 @@
     <string name="newsprite">New sprite</string>
 
     <!-- New project dialog -->
-    <string name="new_project_dialog_create_button">Create</string>
+    <string name="new_project_dialog_button">Create</string> 
     <string name="new_project_dialog_title">Name of new project</string>
     <string name="new_project_dialog_default_project_name">projectname</string>
-
+    
     <!-- Edit Sprite Dialog -->
     <string name="delete_sprite_button">delete</string>
     <string name="rename_sprite_button">rename</string>

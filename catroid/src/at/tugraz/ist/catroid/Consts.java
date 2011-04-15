@@ -22,6 +22,7 @@ public final class Consts {
 
 	public static final String DIRECTORY_NAME = "catroid";
 	public static final String PROJECT_EXTENTION = ".spf";
+	public static final String CATROID_EXTENTION = ".zip";
 
 	public static final String DEFAULT_ROOT = "/sdcard/catroid";
 	public static final String TMP_PATH = DEFAULT_ROOT + "/tmp";
@@ -62,5 +63,6 @@ public final class Consts {
 	public static final String USER_LANGUAGE = "userLanguage";
 	public static final String FILE_UPLOAD_URL = "http://www.catroid.org/catroid/upload/upload.json";
 	public static final String TEST_FILE_UPLOAD_URL = "http://catroidwebtest.ist.tugraz.at/catroid/upload/upload.json";
+	public static final String TEST_FILE_DOWNLOAD_URL = "http://catroidwebtest.ist.tugraz.at/catroid/download/";
 
 }

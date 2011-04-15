@@ -42,6 +42,8 @@ public class ProjectManager extends Observable {
 	private Project project;
 	private static ProjectManager instance;
 	private Script currentScript;
+	// used in uiTests
+	private transient int serverProjectId;
 
 	private ProjectManager() {
 	}
@@ -222,7 +224,14 @@ public class ProjectManager extends Observable {
 		}
 
 		return (directoryRenamed && fileRenamed);
+	}
 
+	public void setServerProjectId(int serverProjectId) {
+		this.serverProjectId = serverProjectId;
+	}
+
+	public int getServerProjectId() {
+		return serverProjectId;
 	}
 
 }

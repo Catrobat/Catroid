@@ -29,33 +29,32 @@ import at.tugraz.ist.catroid.download.tasks.ProjectDownloadTask;
 
 public class DownloadActivity extends Activity {
 	private static final String PROJECTNAME_TAG = "fname=";
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		setContentView(R.layout.activity_download);
-		
+
 		String zipUrl = getIntent().getDataString();
-		
-		System.out.println("data: "+zipUrl);
-		if(zipUrl == null || zipUrl.length() <= 0)
+
+		System.out.println("data: " + zipUrl);
+		if (zipUrl == null || zipUrl.length() <= 0)
 			return;
-		
+
 		String projectName = getProjectName(zipUrl);
-		
+
 		new ProjectDownloadTask(this, zipUrl, projectName,
-					Consts.TMP_PATH+"/down.zip").execute();  
-		
-		
+					Consts.TMP_PATH + "/down.zip").execute();
+
 	}
-	
+
 	private String getProjectName(String zipUrl) {
-		int projectNameIndex = zipUrl.lastIndexOf(PROJECTNAME_TAG)+PROJECTNAME_TAG.length();
-		String projectName =  zipUrl.substring(projectNameIndex);
+		int projectNameIndex = zipUrl.lastIndexOf(PROJECTNAME_TAG) + PROJECTNAME_TAG.length();
+		String projectName = zipUrl.substring(projectNameIndex);
 		projectName = URLDecoder.decode(projectName);
-		
+
 		return projectName;
 	}
-	
+
 }
