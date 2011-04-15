@@ -76,11 +76,12 @@ public class EditDialog extends Dialog {
 
 		this.setOnShowListener(new OnShowListener() {
 			public void onShow(DialogInterface dialog) {
-				InputMethodManager inputManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-				inputManager.showSoftInput(editText, inputManager.SHOW_IMPLICIT);
+				InputMethodManager inputManager = (InputMethodManager) context
+						.getSystemService(Context.INPUT_METHOD_SERVICE);
+				inputManager.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
 			}
 		});
-		
+
 		super.onCreate(savedInstanceState);
 	}
 

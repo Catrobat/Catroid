@@ -20,8 +20,10 @@ package at.tugraz.ist.catroid.ui.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout.LayoutParams;
@@ -45,6 +47,14 @@ public class NewSpriteDialog extends Dialog {
 		setTitle(R.string.new_sprite_dialog_title);
 		setCanceledOnTouchOutside(true);
 		getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+
+		this.setOnShowListener(new OnShowListener() {
+			public void onShow(DialogInterface dialog) {
+				InputMethodManager inputManager = (InputMethodManager) context
+						.getSystemService(Context.INPUT_METHOD_SERVICE);
+				inputManager.showSoftInput(findViewById(R.id.newSpriteNameEditText), InputMethodManager.SHOW_IMPLICIT);
+			}
+		});
 
 		Button createNewSpriteButton = (Button) findViewById(R.id.createNewSpriteButton);
 		createNewSpriteButton.setOnClickListener(new View.OnClickListener() {
