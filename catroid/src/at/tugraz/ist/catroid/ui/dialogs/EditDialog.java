@@ -52,18 +52,18 @@ public class EditDialog extends Dialog {
 		final Button closeButton = (Button) findViewById(R.id.dialogEditTextSubmit);
 		editText = (EditText) findViewById(R.id.dialogEditText);
 		editText.addTextChangedListener(new TextWatcher() {
-			private boolean isEmpty = false;
 
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				if (s.length() == 0) {
 					Toast.makeText(EditDialog.this.context, R.string.notification_no_text_entered, Toast.LENGTH_SHORT)
 							.show();
 					closeButton.setEnabled(false);
-					isEmpty = true;
 				}
-				else if (isEmpty) {
+				else if (s.length() == 1 && s.charAt(0) == '.') {
+					closeButton.setEnabled(false);
+				}
+				else {
 					closeButton.setEnabled(true);
-					isEmpty = false;
 				}
 			}
 
