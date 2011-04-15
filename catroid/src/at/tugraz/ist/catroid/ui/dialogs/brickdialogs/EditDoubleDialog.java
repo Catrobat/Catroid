@@ -43,7 +43,9 @@ public class EditDoubleDialog extends EditDialog implements OnClickListener {
 
 		editText.setText(String.valueOf(value));
 		editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-		editText.setSelection((int) (Math.log10(value) + 1.0));
+		//	editText.setSelection((int) (Math.log10(value) + 1.0)).
+		editText.selectAll();
+		editText.setOnClickListener(this);
 
 		Button closeButton = (Button) findViewById(R.id.dialogEditTextSubmit);
 		closeButton.setOnClickListener(this);
@@ -54,7 +56,9 @@ public class EditDoubleDialog extends EditDialog implements OnClickListener {
 	}
 
 	public void onClick(View v) {
-		if (v.getId() == referencedEditText.getId()) {
+		if (v.getId() == R.id.dialogEditText) {
+			editText.selectAll();
+		} else if (v.getId() == referencedEditText.getId()) {
 			show();
 		} else {
 			try {
@@ -65,4 +69,5 @@ public class EditDoubleDialog extends EditDialog implements OnClickListener {
 			}
 		}
 	}
+
 }
