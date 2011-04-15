@@ -57,22 +57,33 @@ public class AddBrickDialog extends Dialog {
 	private PrototypeBrickAdapter adapter;
 
 	private void setupBrickPrototypes(Sprite sprite) {
-		prototypeBrickList = new ArrayList<Brick>();
-		prototypeBrickList.add(new WaitBrick(sprite, 1000));
-		prototypeBrickList.add(new HideBrick(sprite));
-		prototypeBrickList.add(new ShowBrick(sprite));
-		prototypeBrickList.add(new PlaceAtBrick(sprite, 0, 0));
-		prototypeBrickList.add(new SetXBrick(sprite, 0));
-		prototypeBrickList.add(new SetYBrick(sprite, 0));
-		prototypeBrickList.add(new ChangeXByBrick(sprite, 0));
-		prototypeBrickList.add(new ChangeYByBrick(sprite, 0));
-		prototypeBrickList.add(new SetCostumeBrick(sprite));
-		prototypeBrickList.add(new ScaleCostumeBrick(sprite, 100));
-		prototypeBrickList.add(new GoNStepsBackBrick(sprite, 1));
-		prototypeBrickList.add(new ComeToFrontBrick(sprite));
-		prototypeBrickList.add(new PlaySoundBrick(sprite));
-		prototypeBrickList.add(new IfTouchedBrick(sprite, null));
-		prototypeBrickList.add(new IfStartedBrick(sprite, null));
+		if (sprite.getName().equals("Stage")) {
+			prototypeBrickList = new ArrayList<Brick>();
+			prototypeBrickList.add(new IfTouchedBrick(sprite, null));
+			prototypeBrickList.add(new IfStartedBrick(sprite, null));
+			prototypeBrickList.add(new WaitBrick(sprite, 1000));
+			prototypeBrickList.add(new SetCostumeBrick(sprite));
+			prototypeBrickList.add(new ScaleCostumeBrick(sprite, 100));
+			prototypeBrickList.add(new PlaySoundBrick(sprite));
+		} else {
+			prototypeBrickList = new ArrayList<Brick>();
+			prototypeBrickList.add(new WaitBrick(sprite, 1000));
+			prototypeBrickList.add(new HideBrick(sprite));
+			prototypeBrickList.add(new ShowBrick(sprite));
+			prototypeBrickList.add(new PlaceAtBrick(sprite, 0, 0));
+			prototypeBrickList.add(new SetXBrick(sprite, 0));
+			prototypeBrickList.add(new SetYBrick(sprite, 0));
+			prototypeBrickList.add(new ChangeXByBrick(sprite, 0));
+			prototypeBrickList.add(new ChangeYByBrick(sprite, 0));
+			prototypeBrickList.add(new SetCostumeBrick(sprite));
+			prototypeBrickList.add(new ScaleCostumeBrick(sprite, 100));
+			prototypeBrickList.add(new GoNStepsBackBrick(sprite, 1));
+			prototypeBrickList.add(new ComeToFrontBrick(sprite));
+			prototypeBrickList.add(new PlaySoundBrick(sprite));
+			prototypeBrickList.add(new IfTouchedBrick(sprite, null));
+			prototypeBrickList.add(new IfStartedBrick(sprite, null));
+		}
+
 	}
 
 	public AddBrickDialog(ScriptActivity scriptActivity, Sprite sprite) {

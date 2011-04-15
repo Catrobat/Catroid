@@ -57,7 +57,9 @@ public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable 
 	}
 
 	public void execute() {
-		SoundManager.getInstance().playSoundFile(pathToSoundfile);
+		if (pathToSoundfile != null) {
+			SoundManager.getInstance().playSoundFile(pathToSoundfile);
+		}
 	}
 
 	public Sprite getSprite() {
