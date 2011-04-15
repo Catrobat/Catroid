@@ -19,14 +19,23 @@
 package at.tugraz.ist.catroid.test.content.project;
 
 import java.io.File;
+import java.io.IOException;
 
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.AndroidTestCase;
+import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.content.brick.ComeToFrontBrick;
+import at.tugraz.ist.catroid.content.brick.HideBrick;
+import at.tugraz.ist.catroid.content.brick.PlaceAtBrick;
+import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.brick.SetCostumeBrick;
+import at.tugraz.ist.catroid.content.brick.ShowBrick;
+import at.tugraz.ist.catroid.content.project.Project;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class ProjectManagerTest extends AndroidTestCase {
@@ -39,10 +48,18 @@ public class ProjectManagerTest extends AndroidTestCase {
 
 	@Override
 	public void tearDown() {
-		File directory = new File("/sdcard/catroid/" + projectNameOne);
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectNameOne);
 		if (directory.exists()) {
 			UtilFile.deleteDirectory(directory);
 		}
+		File oldProjectFolder = new File(Consts.DEFAULT_ROOT + "/" + "oldProject");
+		File newProjectFolder = new File(Consts.DEFAULT_ROOT + "/" + "newProject");
+
+		if(newProjectFolder.exists())
+			UtilFile.deleteDirectory(newProjectFolder);
+
+		if(oldProjectFolder.exists())
+			UtilFile.deleteDirectory(oldProjectFolder);
 	}
 
 	public void testBasicFunctions() throws NameNotFoundException {
@@ -61,14 +78,14 @@ public class ProjectManagerTest extends AndroidTestCase {
 		manager.setCurrentSprite(sprite);
 
 		assertNotNull("no current sprite set", manager.getCurrentSprite());
-		assertEquals("The Srpitename is not " + spriteNameOne, spriteNameOne, manager.getCurrentSprite().getName());
+		assertEquals("The Spritename is not " + spriteNameOne, spriteNameOne, manager.getCurrentSprite().getName());
 
 		Script script = new Script(scriptNameOne, sprite);
 		manager.addScript(script);
 		manager.setCurrentScript(script);
 
 		assertNotNull("no current script set", manager.getCurrentScript());
-		assertEquals("The Srpitename is not " + scriptNameOne, scriptNameOne, manager.getCurrentScript().getName());
+		assertEquals("The Spritename is not " + scriptNameOne, scriptNameOne, manager.getCurrentScript().getName());
 
 		//loadProject ----------------------------------------
 
@@ -114,8 +131,70 @@ public class ProjectManagerTest extends AndroidTestCase {
 
 	}
 
-	public void testRenameProject() {
+	public void testRenameProject() throws NameNotFoundException, IOException, InterruptedException {
+		String oldProjectName = "oldProject";
+		String newProjectName = "newProject";
+		ProjectManager projectManager = ProjectManager.getInstance();
+
+		projectManager.setProject(createTestProject(oldProjectName));
+		projectManager.renameProject(newProjectName, getContext());
+
+		File oldProjectFolder = new File(Consts.DEFAULT_ROOT + "/" + oldProjectName);
+		File oldProjectFile = new File(Consts.DEFAULT_ROOT + "/" + oldProjectName + "/" + oldProjectName
+				+ Consts.PROJECT_EXTENTION);
+
+		File newProjectFolder = new File(Consts.DEFAULT_ROOT + "/" + newProjectName);
+		File newProjectFile = new File(Consts.DEFAULT_ROOT + "/" + newProjectName + "/" + newProjectName
+				+ Consts.PROJECT_EXTENTION);
+
+		assertFalse("Old project folder is still existing", oldProjectFolder.exists());
+		assertFalse("Old project file is still existing", oldProjectFile.exists());
+
+		assertTrue("New project folder is not existing", newProjectFolder.exists());
+		assertTrue("New project file is not existing", newProjectFile.exists());
+
 
 	}
 
+	public Project createTestProject(String projectName) throws IOException, NameNotFoundException {
+		StorageHandler storageHandler = StorageHandler.getInstance();
+
+		int xPosition = 457;
+		int yPosition = 598;
+		double scaleValue = 0.8;
+
+		Project project = new Project(getContext(), projectName);
+		Sprite firstSprite = new Sprite("cat");
+		Sprite secondSprite = new Sprite("dog");
+		Sprite thirdSprite = new Sprite("horse");
+		Sprite fourthSprite = new Sprite("pig");
+		Script testScript = new Script("testScript", firstSprite);
+		Script otherScript = new Script("otherScript", secondSprite);
+		HideBrick hideBrick = new HideBrick(firstSprite);
+		ShowBrick showBrick = new ShowBrick(firstSprite);
+		ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(secondSprite, scaleValue);
+		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(firstSprite);
+		PlaceAtBrick placeAtBrick = new PlaceAtBrick(secondSprite, xPosition, yPosition);
+
+		// adding Bricks: ----------------
+		testScript.addBrick(hideBrick);
+		testScript.addBrick(showBrick);
+		testScript.addBrick(scaleCostumeBrick);
+		testScript.addBrick(comeToFrontBrick);
+
+		otherScript.addBrick(placeAtBrick); // secondSprite
+		otherScript.setPaused(true);
+		// -------------------------------
+
+		firstSprite.getScriptList().add(testScript);
+		secondSprite.getScriptList().add(otherScript);
+
+		project.addSprite(firstSprite);
+		project.addSprite(secondSprite);
+		project.addSprite(thirdSprite);
+		project.addSprite(fourthSprite);
+
+		storageHandler.saveProject(project);
+		return project;
+	}
 }
