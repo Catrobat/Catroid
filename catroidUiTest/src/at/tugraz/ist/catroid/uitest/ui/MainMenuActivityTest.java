@@ -94,7 +94,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnEditText(0);
 		solo.enterText(0, testProject);
 		solo.goBack();
-		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_create_button));
+		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
 		Thread.sleep(2000);
 
 		File file = new File(Consts.DEFAULT_ROOT + "/testProject/" + testProject + Consts.PROJECT_EXTENTION);
@@ -106,7 +106,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnEditText(0);
 		solo.enterText(0, "");
 		solo.goBack();
-		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_create_button));
+		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
 		Thread.sleep(50);
 		assertTrue("No error message was displayed upon creating a project with an empty name.", solo.searchText(getActivity().getString(R.string.error_no_name_entered)));
 
@@ -118,7 +118,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		solo.clickOnEditText(0);
 		solo.enterText(0, testProject);
-		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_create_button));
+		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
 		Thread.sleep(50);
 		assertTrue("No error message was displayed upon creating a project with the same name twice.",
 				solo.searchText(getActivity().getString(R.string.error_project_exists)));
@@ -132,7 +132,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnEditText(0);
 		solo.enterText(0, projectNameWithSpecialCharacters);
 		solo.goBack();
-		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_create_button));
+		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
 		Thread.sleep(1000);
 
 		assertEquals("Project name with special characters was not set properly", ProjectManager.getInstance().getCurrentProject().getName(), projectNameWithSpecialCharacters);
