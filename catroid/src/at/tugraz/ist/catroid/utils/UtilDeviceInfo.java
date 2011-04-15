@@ -29,6 +29,8 @@ import android.telephony.TelephonyManager;
 public class UtilDeviceInfo {
 
 	public static String getUserEmail(Context context) {
+		if (context == null)
+			return null;
 		Account[] accounts = AccountManager.get(context).getAccountsByType("com.google");
 		for (Account account : accounts) {
 			return account.name;
@@ -37,6 +39,8 @@ public class UtilDeviceInfo {
 	}
 
 	public static String getDeviceIMEI(Context context) {
+		if (context == null)
+			return null;
 		TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 		return telephonyManager.getDeviceId();
 	}
