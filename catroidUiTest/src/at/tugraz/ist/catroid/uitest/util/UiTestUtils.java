@@ -18,21 +18,71 @@
  */
 package at.tugraz.ist.catroid.uitest.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.text.InputType;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.content.brick.Brick;
+import at.tugraz.ist.catroid.content.brick.ComeToFrontBrick;
+import at.tugraz.ist.catroid.content.brick.GoNStepsBackBrick;
+import at.tugraz.ist.catroid.content.brick.HideBrick;
+import at.tugraz.ist.catroid.content.brick.PlaceAtBrick;
+import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrick;
+import at.tugraz.ist.catroid.content.brick.ShowBrick;
+import at.tugraz.ist.catroid.content.project.Project;
+import at.tugraz.ist.catroid.content.script.Script;
+import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class UiTestUtils {
 	private static final int WAIT_TIME_IN_MILLISECONDS = 50;
-	
+	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
+
 	public static void pause() throws InterruptedException {
 		Thread.sleep(WAIT_TIME_IN_MILLISECONDS);
 	}
-	
+
 	public static void enterText(Solo solo, int editTextIndex, String text) throws InterruptedException {
 		pause();
 		solo.getEditText(editTextIndex).setInputType(InputType.TYPE_NULL);
 		solo.enterText(editTextIndex, text);
 		pause();
+	}
+
+	public static List<Brick> createTestProject() {
+		int xPosition = 457;
+		int yPosition = 598;
+		double scaleValue = 0.8;
+
+		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
+		Sprite firstSprite = new Sprite("cat");
+
+		Script testScript = new Script("testscript", firstSprite);
+
+		ArrayList<Brick> brickList = new ArrayList<Brick>();
+		brickList.add(new HideBrick(firstSprite));
+		brickList.add(new ShowBrick(firstSprite));
+		brickList.add(new ScaleCostumeBrick(firstSprite, scaleValue));
+		brickList.add(new GoNStepsBackBrick(firstSprite, 1));
+		brickList.add(new ComeToFrontBrick(firstSprite));
+		brickList.add(new PlaceAtBrick(firstSprite, xPosition, yPosition));
+
+		// adding Bricks: ----------------
+		for (Brick brick : brickList) {
+			testScript.addBrick(brick);
+		}
+		// -------------------------------
+
+		firstSprite.getScriptList().add(testScript);
+
+		project.addSprite(firstSprite);
+
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+		ProjectManager.getInstance().setCurrentScript(testScript);
+
+		return brickList;
 	}
 }
