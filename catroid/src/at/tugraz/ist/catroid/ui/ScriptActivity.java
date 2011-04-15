@@ -47,7 +47,6 @@ import at.tugraz.ist.catroid.content.brick.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
-import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
 import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView;
@@ -85,14 +84,14 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 			}
 		});
 
-		//TODO: this button without loading the project can destroy the project (spf file)
-		Button toStageButton = (Button) findViewById(R.id.toStageButton);
-		toStageButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				Intent intent = new Intent(ScriptActivity.this, StageActivity.class);
-				startActivity(intent);
-			}
-		});
+		//		//TODO: this button without loading the project can destroy the project (spf file)
+		//		Button toStageButton = (Button) findViewById(R.id.toStageButton);
+		//		toStageButton.setOnClickListener(new View.OnClickListener() {
+		//			public void onClick(View v) {
+		//				Intent intent = new Intent(ScriptActivity.this, StageActivity.class);
+		//				startActivity(intent);
+		//			}
+		//		});
 
 		Button addBrickButton = (Button) findViewById(R.id.addBrickButton);
 		addBrickButton.setOnClickListener(new View.OnClickListener() {
@@ -144,11 +143,11 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		if (projectManager.getCurrentProject() == null) {
 			return;
 		}
-		Sprite currentSprite = projectManager.getCurrentSprite();
-		Script currentScript = projectManager.getCurrentScript();
-		projectManager.loadProject(projectManager.getCurrentProject().getName(), this);
-		projectManager.setCurrentSprite(currentSprite);
-		projectManager.setCurrentScript(currentScript);
+		//		Sprite currentSprite = projectManager.getCurrentSprite();
+		//		Script currentScript = projectManager.getCurrentScript();
+		//		projectManager.loadProject(projectManager.getCurrentProject().getName(), this);
+		//		projectManager.setCurrentSprite(currentSprite);
+		//		projectManager.setCurrentScript(currentScript);
 	}
 
 	public void onDismiss(DialogInterface dialog) {
