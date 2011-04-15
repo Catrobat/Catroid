@@ -17,7 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.tugraz.ist.catroid.ui.dialogs.brickdialogs;
+package at.tugraz.ist.catroid.ui.dialogs;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -43,7 +43,6 @@ public class EditDoubleDialog extends EditDialog implements OnClickListener {
 
 		editText.setText(String.valueOf(value));
 		editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-		//	editText.setSelection((int) (Math.log10(value) + 1.0)).
 		editText.selectAll();
 		editText.setOnClickListener(this);
 

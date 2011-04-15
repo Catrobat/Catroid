@@ -17,13 +17,17 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.tugraz.ist.catroid.ui.dialogs.brickdialogs;
+package at.tugraz.ist.catroid.ui.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 
 public class EditDialog extends Dialog {
@@ -38,16 +42,36 @@ public class EditDialog extends Dialog {
 		this.referencedEditText = referencedEditText;
 	}
 
-	private void init() {
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.dialog_edit_text);
 		setCanceledOnTouchOutside(true);
+		final Button closeButton = (Button) findViewById(R.id.dialogEditTextSubmit);
 		editText = (EditText) findViewById(R.id.dialogEditText);
-	}
+		editText.addTextChangedListener(new TextWatcher() {
+			private boolean isEmpty = false;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		init();
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				if (s.length() == 0) {
+					Toast.makeText(EditDialog.this.context, R.string.notification_no_text_entered, Toast.LENGTH_SHORT)
+							.show();
+					closeButton.setEnabled(false);
+					isEmpty = true;
+				}
+				else if (isEmpty) {
+					closeButton.setEnabled(true);
+					isEmpty = false;
+				}
+			}
+
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			public void afterTextChanged(Editable s) {
+			}
+		});
+
 		super.onCreate(savedInstanceState);
 	}
 
