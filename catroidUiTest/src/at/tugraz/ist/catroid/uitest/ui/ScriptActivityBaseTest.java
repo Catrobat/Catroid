@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -31,9 +31,9 @@ import com.jayway.android.robotium.solo.Solo;
 public class ScriptActivityBaseTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
 
-    private final String projectNameOne = "Ulumulu";
-    private final String projectNameTwo = "Ulumulu2";
-    private final String projectNameThree = "Ulumulu3";
+	private final String projectNameOne = "Ulumulu";
+	private final String projectNameTwo = "Ulumulu2";
+	private final String projectNameThree = "Ulumulu3";
 
 	public ScriptActivityBaseTest() {
 		super("at.tugraz.ist.catroid.ui", MainMenuActivity.class);
@@ -42,32 +42,32 @@ public class ScriptActivityBaseTest extends ActivityInstrumentationTestCase2<Mai
 	@Override
 	public void setUp() throws Exception {
 		File directory = new File("/sdcard/catroid/" + projectNameOne);
-        UtilFile.deleteDirectory(directory);
-        
-        directory = new File("/sdcard/catroid/" + projectNameTwo);
-        UtilFile.deleteDirectory(directory);
-        
-        directory = new File("/sdcard/catroid/" + projectNameThree);
-        UtilFile.deleteDirectory(directory);
-        
+		UtilFile.deleteDirectory(directory);
+
+		directory = new File("/sdcard/catroid/" + projectNameTwo);
+		UtilFile.deleteDirectory(directory);
+
+		directory = new File("/sdcard/catroid/" + projectNameThree);
+		UtilFile.deleteDirectory(directory);
+
 		solo = new Solo(getInstrumentation(), getActivity());
-        super.setUp();
+		super.setUp();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-        File directory = new File("/sdcard/catroid/" + projectNameOne);
-        UtilFile.deleteDirectory(directory);
-        assertFalse(projectNameOne + " was not deleted!", directory.exists());
-        
-        directory = new File("/sdcard/catroid/" + projectNameTwo);
-        UtilFile.deleteDirectory(directory);
-        assertFalse(projectNameTwo + " was not deleted!", directory.exists());
-        
-        directory = new File("/sdcard/catroid/" + projectNameThree);
-        UtilFile.deleteDirectory(directory);
-        assertFalse(projectNameThree + " was not deleted!", directory.exists());
-        
+		File directory = new File("/sdcard/catroid/" + projectNameOne);
+		UtilFile.deleteDirectory(directory);
+		assertFalse(projectNameOne + " was not deleted!", directory.exists());
+
+		directory = new File("/sdcard/catroid/" + projectNameTwo);
+		UtilFile.deleteDirectory(directory);
+		assertFalse(projectNameTwo + " was not deleted!", directory.exists());
+
+		directory = new File("/sdcard/catroid/" + projectNameThree);
+		UtilFile.deleteDirectory(directory);
+		assertFalse(projectNameThree + " was not deleted!", directory.exists());
+
 		try {
 			solo.finalize();
 		} catch (Throwable e) {
@@ -83,15 +83,15 @@ public class ScriptActivityBaseTest extends ActivityInstrumentationTestCase2<Mai
 		solo.clickOnEditText(0);
 		solo.enterText(0, projectNameOne);
 		solo.goBack();
-		
+
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
 		solo.sleep(1000);
-        solo.clickOnText(getActivity().getString(R.string.stage));
+		solo.clickOnText(getActivity().getString(R.string.stage));
 		solo.clickOnButton(getActivity().getString(R.string.main_menu));
-		solo.clickOnButton(getActivity().getString(R.string.resume)); 
+		solo.clickOnButton(getActivity().getString(R.string.resume));
 		//if this is possible it worked! (will throw AssertionFailedError if not working
 	}
-	
+
 
 	// public void testToStageButton() throws InterruptedException {
 	// solo.clickOnButton(getActivity().getString(R.string.new_project));
@@ -107,24 +107,24 @@ public class ScriptActivityBaseTest extends ActivityInstrumentationTestCase2<Mai
 	// assertTrue(solo.getCurrentActivity() instanceof StageActivity);
 	// }
 
-    public void testCreateNewBrickButton() throws InterruptedException {
+	public void testCreateNewBrickButton() throws InterruptedException {
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
 		solo.clickOnEditText(0);
 		solo.enterText(0, projectNameTwo);
 		solo.goBack();
-		
+
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
 		solo.sleep(1000);
-        solo.clickOnText(getActivity().getString(R.string.stage));
+		solo.clickOnText(getActivity().getString(R.string.stage));
 
-        System.out.println("new brick: "+getActivity().getString(R.string.add_new_brick));
-        Thread.sleep(1000);
+		System.out.println("new brick: "+getActivity().getString(R.string.add_new_brick));
+		Thread.sleep(1000);
 		solo.clickOnText(getActivity().getString(R.string.add_new_brick).substring(2));
 		solo.clickInList(2);
 		//solo.clickOnText(getActivity().getString(R.string.hide_main_adapter));
 
-        Thread.sleep(100);
-		assertTrue("in hidebrick is not in List", solo.searchText(getActivity().getString(R.string.hide_main_adapter)));
-        assertEquals("not one brick in listview", 2, solo.getCurrentListViews().get(0).getCount());
-    }
+		Thread.sleep(100);
+		assertTrue("Hide brick is not in List", solo.searchText(getActivity().getString(R.string.hide_main_adapter)));
+		assertEquals("Brick count in list not equal to two", 2, solo.getCurrentListViews().get(0).getCount());
+	}
 }

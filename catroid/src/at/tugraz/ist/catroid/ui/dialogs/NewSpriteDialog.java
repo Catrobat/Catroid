@@ -58,7 +58,7 @@ public class NewSpriteDialog extends Dialog {
 				ProjectManager projectManager = ProjectManager.getInstance();
 
 				if (projectManager.spriteExists(spriteName)) {
-					Utils.displayErrorMessage(context, context.getString(R.string.spritename_already_exists));
+					Utils.displayErrorMessage(context, context.getString(R.string.error_sprite_exists));
 					return;
 				}
 				Sprite sprite = new Sprite(spriteName);

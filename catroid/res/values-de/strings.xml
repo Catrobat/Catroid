@@ -95,7 +95,6 @@
     <string name="new_project_dialog_create_button">Erstellen</string>
     <string name="new_project_dialog_title">Name des Projekts</string>
     <string name="new_project_dialog_default_project_name">Projektname</string>
-    <string name="projectname_already_exists">Dieser Projektname existiert bereits</string>
     
     <!-- Edit Sprite Dialog -->
     <string name="delete_sprite_button">löschen</string>
@@ -115,7 +114,6 @@
     <string name="new_script_dialog_button">Erstellen</string>
     <string name="new_script_dialog_title">Name des Skripts</string>
     <string name="new_script_dialog_default_script_name">Skriptname</string>
-    <string name="scriptname_already_exists">Dieser Skriptname existiert bereits</string>
     <string name="script_invalid">Dieser Skriptname ist ungültig</string>
 
     <!-- New sprite dialog -->
@@ -168,6 +166,9 @@
     </string>
     <string name="error_project_exists">
         Es gibt bereits ein Projekt mit dem eingegebenen Namen.\nBitte einen anderen Namen eingeben.
+    </string>
+    <string name="error_sprite_exists">
+    	Es gibt bereits ein Objekt mit dem eingegebenen Namen.\nBitte einen anderen Namen eingeben.
     </string>
     <string name="error_project_upload">
         Beim Upload des Projektes ist ein Fehler aufgetreten.

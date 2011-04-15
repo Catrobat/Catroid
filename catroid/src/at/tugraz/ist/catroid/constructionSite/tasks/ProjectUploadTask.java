@@ -27,8 +27,8 @@ import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.ProgressDialog;
 import android.app.AlertDialog.Builder;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import at.tugraz.ist.catroid.Consts;
@@ -123,10 +123,10 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 				hm.put(Consts.USER_LANGUAGE, language);
 
 			String serverUrl;
-			if (true)//mUseTestUrl)
-				serverUrl = Consts.TEST_FILE_UPLOAD_URL;
-			else
-				serverUrl = Consts.FILE_UPLOAD_URL;
+			//			if (true)//mUseTestUrl)
+			serverUrl = Consts.TEST_FILE_UPLOAD_URL;
+			//			else
+			//				serverUrl = Consts.FILE_UPLOAD_URL;
 			resultString = createConnection()
 					.doHttpPostFileUpload(serverUrl, hm, Consts.FILE_UPLOAD_TAG, zipFileString);
 
