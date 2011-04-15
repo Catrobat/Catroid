@@ -21,8 +21,10 @@ package at.tugraz.ist.catroid.ui.dialogs.brickdialogs;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 
@@ -49,6 +51,14 @@ public class EditDialog extends Dialog {
 	protected void onCreate(Bundle savedInstanceState) {
 		init();
 		super.onCreate(savedInstanceState);
+
+		this.setOnShowListener(new OnShowListener() {
+			public void onShow(DialogInterface arg0) {
+				InputMethodManager inputManager = (InputMethodManager) context
+						.getSystemService(Context.INPUT_METHOD_SERVICE);
+				inputManager.showSoftInput(editText, inputManager.SHOW_IMPLICIT);
+			}
+		});
 	}
 
 }
