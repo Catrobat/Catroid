@@ -62,7 +62,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		super.tearDown();
 	}
 
-	private void addNewSprite(String spriteName, boolean doGoBack) throws InterruptedException {
+	private void addNewSprite(String spriteName) throws InterruptedException {
 		UiTestUtils.pause();
 		solo.clickOnButton(getActivity().getString(R.string.add_sprite));
 		Thread.sleep(50);
@@ -74,7 +74,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	public void testAddNewSprite() throws InterruptedException {
 		final String spriteName = "testSprite";
-		addNewSprite(spriteName, true);
+		addNewSprite(spriteName);
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.spriteListView);
 		Sprite secondSprite = (Sprite) spritesList.getItemAtPosition(1);
@@ -83,7 +83,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 				.contains(secondSprite));
 
 		final String spriteName2 = "anotherTestSprite";
-		addNewSprite(spriteName2, false);
+		addNewSprite(spriteName2);
 		spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.spriteListView);
 		Sprite thirdSprite = (Sprite) spritesList.getItemAtPosition(2);
 		assertEquals("Sprite at index 2 is not " + spriteName2, spriteName2, thirdSprite.getName());
@@ -92,18 +92,18 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	}
 
 	public void testAddNewSpriteErrors() throws InterruptedException {
-		addNewSprite("", true);
+		addNewSprite("");
 		assertTrue("No error message was displayed upon creating a sprite with an empty name.",
 				solo.searchText(getActivity().getString(R.string.error_no_name_entered)));
 		solo.clickOnButton(0);
 		solo.goBack();
 
 		final String spriteName = "testSprite";
-		addNewSprite(spriteName, false);
-		addNewSprite(spriteName, false);
+		addNewSprite(spriteName);
+		addNewSprite(spriteName);
 
 		assertTrue("No error message was displayed upon creating a sprite with the same name twice.",
-				solo.searchText(getActivity().getString(R.string.spritename_already_exists)));
+				solo.searchText(getActivity().getString(R.string.error_sprite_exists)));
 	}
 
 	public void testContextMenu() throws InterruptedException {
@@ -135,7 +135,10 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		// Delete sprite
 		solo.clickLongOnText(newSpriteName);
 		solo.clickOnText(getActivity().getString(R.string.delete));
-		UiTestUtils.pause();
+
+		// Dialog is handled asynchronously, so we need to wait a while for it to finish
+		Thread.sleep(1000);
+
 		assertFalse("Sprite is still in Project", ProjectManager.getInstance().getCurrentProject().getSpriteList()
 				.contains(sprite));
 		assertFalse("Sprite is still in Project", solo.searchText(newSpriteName));
