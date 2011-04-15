@@ -81,7 +81,11 @@ public class StorageHandler {
 		if (!Environment.MEDIA_MOUNTED.equals(state)) {
 			throw new IOException("Could not read external storage");
 		}
+		createCatroidRoot();
 
+	}
+
+	private void createCatroidRoot() {
 		// We can read and write the media
 		String catroidPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + Consts.DIRECTORY_NAME;
 		catroidRoot = new File(catroidPath);
@@ -98,6 +102,7 @@ public class StorageHandler {
 	}
 
 	public Project loadProject(String projectName) {
+		createCatroidRoot();
 		try {
 			projectName = Utils.getProjectName(projectName);
 
@@ -118,6 +123,7 @@ public class StorageHandler {
 	}
 
 	public void saveProject(Project project) {
+		createCatroidRoot();
 		if (project == null)
 			return;
 		try {
