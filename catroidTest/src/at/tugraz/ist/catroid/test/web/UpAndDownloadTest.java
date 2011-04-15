@@ -32,8 +32,8 @@ import at.tugraz.ist.catroid.web.WebconnectionException;
 
 public class UpAndDownloadTest extends AndroidTestCase {
 
-	private MockConnection mMockConnection;
-	private File mProjectZipOnMockServer;
+	private MockConnection mockConnection;
+	private File projectZipOnMockServer;
 
 	public UpAndDownloadTest() {
 		super();
@@ -43,8 +43,8 @@ public class UpAndDownloadTest extends AndroidTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 
-		mProjectZipOnMockServer = new File(Consts.TMP_PATH + "/projectSave.zip");
-		mMockConnection = new MockConnection();
+		projectZipOnMockServer = new File(Consts.TMP_PATH + "/projectSave.zip");
+		mockConnection = new MockConnection();
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class UpAndDownloadTest extends AndroidTestCase {
 		ProjectUploadTask uploadTask = new ProjectUploadTask(null, testProjectName, projectDescription, pathToDefaultProject) {
 			@Override
 			protected ConnectionWrapper createConnection() {
-				return mMockConnection;
+				return mockConnection;
 			}
 		};
 
@@ -74,7 +74,7 @@ public class UpAndDownloadTest extends AndroidTestCase {
 				+ "/down.zip") {
 			@Override
 			protected ConnectionWrapper createConnection() {
-				return mMockConnection;
+				return mockConnection;
 			}
 		};
 
@@ -82,7 +82,7 @@ public class UpAndDownloadTest extends AndroidTestCase {
 		uploadTask.execute();
 		Thread.sleep(3000);
 
-		assertTrue("uploaded file does not exist", mProjectZipOnMockServer.exists());
+		assertTrue("uploaded file does not exist", projectZipOnMockServer.exists());
 
 		downloadTask.execute();
 		Thread.sleep(3000);
@@ -101,14 +101,14 @@ public class UpAndDownloadTest extends AndroidTestCase {
 		public String doHttpPostFileUpload(String urlstring, HashMap<String, String> postValues, String filetag,
 				String filePath) throws IOException, WebconnectionException {
 
-			new File(filePath).renameTo(mProjectZipOnMockServer);
+			new File(filePath).renameTo(projectZipOnMockServer);
 			return "";
 		}
 
 		@Override
 		public void doHttpPostFileDownload(String urlstring, HashMap<String, String> postValues, String filePath)
 		throws IOException {
-			mProjectZipOnMockServer.renameTo(new File(filePath));
+			projectZipOnMockServer.renameTo(new File(filePath));
 		}
 	}
 }
