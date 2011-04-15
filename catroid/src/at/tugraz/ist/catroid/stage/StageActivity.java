@@ -55,6 +55,7 @@ public class StageActivity extends Activity {
 			stageManager = new StageManager(this);
 			stageManager.start();
 			stagePlaying = true;
+
 		}
 	}
 
