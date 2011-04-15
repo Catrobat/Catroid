@@ -28,7 +28,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
-import at.tugraz.ist.catroid.ui.dialogs.brickdialogs.EditIntegerDialog;
+import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
 public class SetXBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;

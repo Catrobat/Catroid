@@ -157,6 +157,11 @@
 
     <!-- defaulValues -->
     <string name="default_project_name">defaultProject</string>
+    
+    <!-- Notifications -->
+    <string name="notification_no_text_entered">
+    	Please enter a value
+    </string>
 
     <!-- Error messages -->
     <string name="error_no_sd_card">
