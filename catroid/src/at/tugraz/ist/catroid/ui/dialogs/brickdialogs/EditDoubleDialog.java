@@ -43,7 +43,6 @@ public class EditDoubleDialog extends EditDialog implements OnClickListener {
 
 		editText.setText(String.valueOf(value));
 		editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-		//	editText.setSelection((int) (Math.log10(value) + 1.0)).
 		editText.selectAll();
 		editText.setOnClickListener(this);
 
@@ -69,5 +68,4 @@ public class EditDoubleDialog extends EditDialog implements OnClickListener {
 			}
 		}
 	}
-
 }
