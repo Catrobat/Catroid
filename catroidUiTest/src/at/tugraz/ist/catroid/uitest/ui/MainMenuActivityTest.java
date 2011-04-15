@@ -50,6 +50,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	private String testProject = "testProject";
 	private String testProject2 = "testProject2";
 	private String testProject3 = "testProject3";
+	private String existingProject = "existingProject";
 
 	public MainMenuActivityTest() {
 		super("at.tugraz.ist.catroid.ui", MainMenuActivity.class);
@@ -69,20 +70,23 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		}
 		getActivity().finish();
 
-		File directory = new File("/sdcard/catroid/" + testProject);
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + testProject);
 		UtilFile.deleteDirectory(directory);
 
-		File directory2 = new File("/sdcard/catroid/" + testProject2);
+		File directory2 = new File(Consts.DEFAULT_ROOT + "/" + testProject2);
 		UtilFile.deleteDirectory(directory2);
 
-		File directory3 = new File("/sdcard/catroid/" + testProject3);
+		File directory3 = new File(Consts.DEFAULT_ROOT + "/" + testProject3);
 		UtilFile.deleteDirectory(directory3);
+
+		File directory4 = new File(Consts.DEFAULT_ROOT + "/" + existingProject);
+		UtilFile.deleteDirectory(directory4);
 
 		super.tearDown();
 	}
 
 	public void testCreateNewProject() throws InterruptedException {
-		File directory = new File("/sdcard/catroid/" + testProject);
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + testProject);
 		UtilFile.deleteDirectory(directory);
 		assertFalse("testProject was not deleted!", directory.exists());
 
@@ -108,7 +112,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		solo.clickOnButton(0);
 
-		File directory = new File("/sdcard/catroid/" + testProject);
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + testProject);
 		directory.mkdirs();
 		Thread.sleep(50);
 
@@ -133,12 +137,12 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		assertEquals("Project name with special characters was not set properly", ProjectManager.getInstance().getCurrentProject().getName(), projectNameWithSpecialCharacters);
 
-		File directory = new File("/sdcard/catroid/" + projectNameWithSpecialCharacters);
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectNameWithSpecialCharacters);
 		UtilFile.deleteDirectory(directory);
 	}
 
 	public void testLoadProject() throws IOException, NameNotFoundException, InterruptedException {
-		File directory = new File("/sdcard/catroid/" + testProject2);
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + testProject2);
 		UtilFile.deleteDirectory(directory);
 		assertFalse(testProject2 + " was not deleted!", directory.exists());
 
@@ -161,7 +165,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	}
 
 	public void testResume() throws NameNotFoundException, IOException {
-		File directory = new File("/sdcard/catroid/" + testProject3);
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + testProject3);
 		UtilFile.deleteDirectory(directory);
 		assertFalse(testProject3 + " was not deleted!", directory.exists());
 
@@ -211,14 +215,28 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 				solo.searchText(getActivity().getString(R.string.error_no_name_entered)));
 	}
 
-	public void testUploadProject() throws InterruptedException {
-		solo.clickOnButton(getActivity().getString(R.string.upload_project));
-		solo.clickOnButton(getActivity().getString(R.string.upload_button));
+	//	public void testUploadDefaultProject() throws InterruptedException {
+	//		solo.clickOnButton(getActivity().getString(R.string.upload_project));
+	//		solo.clickOnButton(getActivity().getString(R.string.upload_button));
+	//
+	//		//may fail with slow internet connection
+	//		Thread.sleep(5000);
+	//		assertTrue("Uploading the defaultProject succeeded.",
+	//				solo.searchText("Uploading projects with project title \'defaultSaveFile\' is not allowed."));
+	//	}
 
-		//may fail with slow internet connection
-		Thread.sleep(5000);
-		assertTrue("Uploading the project failed.",
-				solo.searchText("Upload successfull!"));
+	public void testRenameToExistingProject() throws NameNotFoundException, IOException {
+		createTestProject(existingProject);
+		solo.clickOnButton(getActivity().getString(R.string.upload_project));
+		solo.clickOnEditText(0);
+		solo.enterText(0, "");
+		solo.enterText(0, existingProject);
+		solo.goBack();
+		solo.clickOnEditText(1);
+		solo.goBack();
+		solo.clickOnButton(getActivity().getString(R.string.upload_button));
+		assertTrue("No error message was displayed upon renaming the project to an existing one.",
+				solo.searchText(getActivity().getString(R.string.error_project_exists)));
 	}
 
 	public void createTestProject(String projectName) throws IOException, NameNotFoundException {
