@@ -40,7 +40,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
@@ -48,6 +47,7 @@ import at.tugraz.ist.catroid.content.brick.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
 import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView;
@@ -71,7 +71,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		listView.setOnDropListener(adapter);
 		listView.setOnRemoveListener(adapter);
 		listView.setAdapter(adapter);
-		listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
+		//listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
 		listView.setGroupIndicator(null);
 		listView.setOnGroupClickListener(adapter);
 		registerForContextMenu(listView);
@@ -86,13 +86,13 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		});
 
 		//TODO: this button without loading the project can destroy the project (spf file)
-		//		Button toStageButton = (Button) findViewById(R.id.toStageButton);
-		//		toStageButton.setOnClickListener(new View.OnClickListener() {
-		//			public void onClick(View v){
-		//				Intent intent = new Intent(ScriptActivity.this, StageActivity.class);
-		//				startActivity(intent);
-		//			}
-		//		});
+		Button toStageButton = (Button) findViewById(R.id.toStageButton);
+		toStageButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent(ScriptActivity.this, StageActivity.class);
+				startActivity(intent);
+			}
+		});
 
 		Button addBrickButton = (Button) findViewById(R.id.addBrickButton);
 		addBrickButton.setOnClickListener(new View.OnClickListener() {
@@ -137,6 +137,20 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		}
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		ProjectManager projectManager = ProjectManager.getInstance();
+		if (projectManager.getCurrentProject() == null) {
+			return;
+		}
+		Sprite currentSprite = projectManager.getCurrentSprite();
+		Script currentScript = projectManager.getCurrentScript();
+		projectManager.loadProject(projectManager.getCurrentProject().getName(), this);
+		projectManager.setCurrentSprite(currentSprite);
+		projectManager.setCurrentScript(currentScript);
+	}
+
 	public void onDismiss(DialogInterface dialog) {
 		for (int i = 0; i < adapter.getGroupCount() - 1; ++i)
 			listView.collapseGroup(i);
@@ -163,7 +177,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 
 		if (resultCode == RESULT_OK) {
 			SetCostumeBrick affectedBrick = (SetCostumeBrick) adapter
-			.getChild(adapter.getGroupCount() - 1, requestCode);
+					.getChild(adapter.getGroupCount() - 1, requestCode);
 			if (affectedBrick != null) {
 				Uri selectedImageUri = data.getData();
 				String selectedImagePath = getPathFromContentUri(selectedImageUri);
@@ -198,11 +212,10 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
 		if (view.getId() == R.id.brickListView) {
 			ExpandableListView.ExpandableListContextMenuInfo info =
-				(ExpandableListView.ExpandableListContextMenuInfo) menuInfo;
+					(ExpandableListView.ExpandableListContextMenuInfo) menuInfo;
 			menu.setHeaderTitle("Script Menu");
 
-			if (ExpandableListView.getPackedPositionType(info.packedPosition) ==
-				ExpandableListView.PACKED_POSITION_TYPE_CHILD)
+			if (ExpandableListView.getPackedPositionType(info.packedPosition) == ExpandableListView.PACKED_POSITION_TYPE_CHILD)
 				return;
 
 			int position = ExpandableListView.getPackedPositionGroup(info.packedPosition);

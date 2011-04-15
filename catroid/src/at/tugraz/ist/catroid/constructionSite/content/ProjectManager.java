@@ -159,17 +159,8 @@ public class ProjectManager extends Observable {
 	/**
 	 * @return false if project doesn't contain the new sprite, true otherwise
 	 */
-	public boolean setCurrentSprite(Sprite sprite) {
-		if (sprite == null) { // sometimes we want to set the currentSprite to null because we don't have a
-			// currentSprite
-			currentSprite = null;
-			return true;
-		}
-		if (project.getSpriteList().contains(sprite)) {
-			currentSprite = sprite;
-			return true;
-		}
-		return false;
+	public void setCurrentSprite(Sprite sprite) {
+		currentSprite = sprite;
 	}
 
 	/**
