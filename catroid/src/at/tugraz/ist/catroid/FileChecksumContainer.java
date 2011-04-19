@@ -17,13 +17,15 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid;
+
+import java.io.File;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * @author David Reisenberger, Johannes Iber
- *
+ * 
  */
 public class FileChecksumContainer implements Serializable {
 
@@ -32,7 +34,8 @@ public class FileChecksumContainer implements Serializable {
 	private Map<String, String> checksumFilePathMap = new HashMap<String, String>(); //checksum / path
 
 	public void addChecksum(String checksum, String path) {
-		if(fileReferenceMap.containsKey(checksum)) {
+		System.out.println("########################## called add checksum");
+		if (fileReferenceMap.containsKey(checksum)) {
 			incrementValue(checksum);
 		} else {
 			fileReferenceMap.put(checksum, new Integer(1));
@@ -41,7 +44,7 @@ public class FileChecksumContainer implements Serializable {
 	}
 
 	public void incrementValue(String checksum) {
-		if(fileReferenceMap.containsKey(checksum)) {
+		if (fileReferenceMap.containsKey(checksum)) {
 			fileReferenceMap.put(checksum, fileReferenceMap.get(checksum) + 1);
 		}
 	}
@@ -57,6 +60,15 @@ public class FileChecksumContainer implements Serializable {
 		return checksumFilePathMap.get(checksum);
 	}
 
+	public String getChecksumForPath(String filepath) {
+		for (Map.Entry<String, String> entry : checksumFilePathMap.entrySet()) {
+			if (entry.getValue().equals(filepath)) {
+				return entry.getKey();
+			}
+		}
+		return null;
+	}
+
 	public boolean deleteChecksum(String checksum) {
 		if (!fileReferenceMap.containsKey(checksum))
 			return false;
@@ -64,6 +76,9 @@ public class FileChecksumContainer implements Serializable {
 			fileReferenceMap.put(checksum, fileReferenceMap.get(checksum) - 1);
 			return false;
 		} else {
+			File toDelete = new File(checksumFilePathMap.get(checksum));
+			System.out.println("###################### FILECHECKSUMCONTAINER: Deleting file");
+			toDelete.delete();
 			fileReferenceMap.remove(checksum);
 			checksumFilePathMap.remove(checksum);
 			return true;

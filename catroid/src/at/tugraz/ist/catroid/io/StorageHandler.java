@@ -305,6 +305,13 @@ public class StorageHandler {
 		}
 	}
 
+	public void deleteFile(String filepath) {
+		FileChecksumContainer container = ProjectManager.getInstance().getCurrentProject()
+				.getFileChecksumContainer();
+		String checksum = container.getChecksumForPath(filepath);
+		container.deleteChecksum(checksum);
+	}
+
 	public String getMD5Checksum(File file) throws IOException {
 
 		MessageDigest md = null;

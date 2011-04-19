@@ -133,6 +133,15 @@ public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable 
 
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		File soundFile = null;
+
+		if (pathToSoundfile != null) {
+			try {
+				StorageHandler.getInstance().deleteFile(pathToSoundfile);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
 		try {
 			soundFile = StorageHandler.getInstance().copySoundFile(soundList.get(position).getPath());
 
