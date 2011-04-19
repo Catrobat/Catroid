@@ -119,12 +119,13 @@ public class ScriptActivityBaseTest extends ActivityInstrumentationTestCase2<Mai
 
 		System.out.println("new brick: "+getActivity().getString(R.string.add_new_brick));
 		Thread.sleep(1000);
-		solo.clickOnText(getActivity().getString(R.string.add_new_brick).substring(2));
-		solo.clickInList(2);
-		//solo.clickOnText(getActivity().getString(R.string.hide_main_adapter));
+		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
+		//		solo.clickInList(2);
+		//		solo.clickOnText(getActivity().getString(R.string.add_new_brick).substring(2));
+		solo.clickOnText(solo.getCurrentActivity().getString(R.string.wait_main_adapter));
 
 		Thread.sleep(100);
-		assertTrue("Hide brick is not in List", solo.searchText(getActivity().getString(R.string.hide_main_adapter)));
+		assertTrue("Wait brick is not in List", solo.searchText(getActivity().getString(R.string.wait_main_adapter)));
 		assertEquals("Brick count in list not equal to two", 2, solo.getCurrentListViews().get(0).getCount());
 	}
 }
