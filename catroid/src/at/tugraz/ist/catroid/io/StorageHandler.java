@@ -167,9 +167,9 @@ public class StorageHandler {
 
 	// TODO: Find a way to access sound files on the device
 	public void loadSoundContent(Context context) {
-		if (soundContent != null) {
-			return;
-		}
+		//		if (soundContent != null) {
+		//			return;
+		//		}
 		soundContent = new ArrayList<SoundInfo>();
 		String[] projectionOnOrig = { MediaStore.Audio.Media.DATA, MediaStore.Audio.AudioColumns.TITLE,
 				MediaStore.Audio.Media._ID };
