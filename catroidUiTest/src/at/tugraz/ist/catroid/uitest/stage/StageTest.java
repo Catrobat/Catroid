@@ -18,6 +18,7 @@
  */
 package at.tugraz.ist.catroid.uitest.stage;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -26,6 +27,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
 import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.Values;
@@ -34,6 +36,7 @@ import at.tugraz.ist.catroid.content.brick.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.brick.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.brick.HideBrick;
 import at.tugraz.ist.catroid.content.brick.PlaceAtBrick;
+import at.tugraz.ist.catroid.content.brick.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.brick.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.brick.WaitBrick;
@@ -42,6 +45,7 @@ import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Costume;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.io.sound.SoundManager;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.uitest.R;
 import at.tugraz.ist.catroid.utils.UtilFile;
@@ -65,6 +69,9 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 	private static final int IMAGE_FILE_ID = R.raw.icon;
 	private static final int IMAGE_FILE_ID2 = R.raw.icon2;
+
+	private static final int SOUND_FILE_ID = R.raw.testsound;
+	private File soundFile;
 
 	public StageTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -280,7 +287,62 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		Thread.sleep(500);
 		assertEquals("costume has wrong width", image2Width *2, costume.getBitmap().getWidth());
 		assertEquals("costume has wrong height", image2Height *2, costume.getBitmap().getHeight());
+	}
 
+	public void testMediaPlayerPlaying() throws InterruptedException, IOException{
+
+		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
+
+		this.setUpSoundFile();
+
+		this.createTestProjectWithSound();
+		solo.clickOnButton(1);
+		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
+		Thread.sleep(50);
+		assertTrue("Media player is not playing", mediaPlayer.isPlaying());
+	}
+
+	public void testMediaPlayerPause() throws IOException, InterruptedException{
+		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
+
+		this.setUpSoundFile();
+
+		this.createTestProjectWithSound();
+		solo.clickOnButton(1);
+		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
+		solo.pressMenuItem(1);
+		Thread.sleep(1000);
+		solo.pressMenuItem(1);
+		assertTrue("Media player is not playing after pause" , mediaPlayer.isPlaying());
+	}
+
+	public void testMediaPlayerNotPlayerAfterPause() throws IOException, InterruptedException{
+		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
+
+		this.setUpSoundFile();
+
+		this.createTestProjectWithSound();
+		solo.clickOnButton(1);
+		solo.pressMenuItem(1);
+		Thread.sleep(1000);
+		solo.pressMenuItem(1);
+		assertFalse("Media Player is playing",mediaPlayer.isPlaying());
+	}
+
+	private void setUpSoundFile() throws IOException{
+		// Note: File needs to be copied as MediaPlayer has no access to resources
+		BufferedInputStream inputStream = new BufferedInputStream(getInstrumentation().getContext().getResources().openRawResource(SOUND_FILE_ID));
+		soundFile = File.createTempFile("audioTest", ".mp3");
+		BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(soundFile), 1024);
+
+		byte[] buffer = new byte[1024];
+		int length = 0;
+		while ((length = inputStream.read(buffer)) > 0) {
+			outputStream.write(buffer, 0, length);
+		}
+		inputStream.close();
+		outputStream.flush();
+		outputStream.close();
 	}
 
 	//	public void testCanvas() throws IOException, InterruptedException{
@@ -532,6 +594,46 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		startScript.addBrick(setCostumeBrick);
 		startScript.addBrick(hideBrick);
 		touchScript.addBrick(scaleCostumeBrick);
+		firstSprite.getScriptList().add(startScript);
+		firstSprite.getScriptList().add(touchScript);
+
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+
+		storageHandler.saveProject(project);
+	}
+
+	public void createTestProjectWithSound() throws IOException{
+		StorageHandler storageHandler = StorageHandler.getInstance();
+
+		Project project = new Project(getActivity(), projectName);
+		storageHandler.saveProject(project);
+
+		image1 = savePictureInProject(projectName, 4147, imageName1, IMAGE_FILE_ID);
+
+		Sprite firstSprite = new Sprite("sprite1");
+		Script startScript = new Script ("startscript", firstSprite);
+		Script touchScript = new Script("touchscript", firstSprite);
+		touchScript.setTouchScript(true);
+
+		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
+		setCostumeBrick.setCostume(image1.getAbsolutePath());
+
+		//		SoundInfo soundInfo = new SoundInfo();
+		//		soundInfo.setId(5);
+		//		soundInfo.setTitle("whatever");
+		//		soundInfo.setPath(this.soundFile.getAbsolutePath());
+
+		PlaySoundBrick playSoundBrick = new PlaySoundBrick(firstSprite);
+		playSoundBrick.setPathToSoundfile(soundFile.getAbsolutePath());
+
+		ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(firstSprite, 50);
+
+		project.addSprite(firstSprite);
+		startScript.addBrick(setCostumeBrick);
+		touchScript.addBrick(scaleCostumeBrick);
+		touchScript.addBrick(playSoundBrick);
+
 		firstSprite.getScriptList().add(startScript);
 		firstSprite.getScriptList().add(touchScript);
 
