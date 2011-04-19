@@ -302,19 +302,19 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		assertTrue("Media player is not playing", mediaPlayer.isPlaying());
 	}
 
-	public void testMediaPlayerPause() throws IOException, InterruptedException{
-		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
-
-		this.setUpSoundFile();
-
-		this.createTestProjectWithSound();
-		solo.clickOnButton(1);
-		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
-		solo.pressMenuItem(1);
-		Thread.sleep(1000);
-		solo.pressMenuItem(1);
-		assertTrue("Media player is not playing after pause" , mediaPlayer.isPlaying());
-	}
+	//	public void testMediaPlayerPause() throws IOException, InterruptedException{
+	//		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
+	//
+	//		this.setUpSoundFile();
+	//
+	//		this.createTestProjectWithSound();
+	//		solo.clickOnButton(1);
+	//		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
+	//		solo.pressMenuItem(1);
+	//		Thread.sleep(1000);
+	//		solo.pressMenuItem(1);
+	//		assertTrue("Media player is not playing after pause" , mediaPlayer.isPlaying());
+	//	}
 
 	public void testMediaPlayerNotPlayerAfterPause() throws IOException, InterruptedException{
 		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();

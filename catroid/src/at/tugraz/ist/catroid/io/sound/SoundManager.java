@@ -78,9 +78,15 @@ public class SoundManager {
 	}
 
 	public synchronized void pause() {
-		for (MediaPlayer mediaPlayer : mediaPlayers)
-			if (mediaPlayer.isPlaying())
+		for (MediaPlayer mediaPlayer : mediaPlayers) {
+			if (mediaPlayer.isPlaying()) {
 				mediaPlayer.pause();
+			} else {
+				mediaPlayer.reset();
+				//				mediaPlayers.remove(mediaPlayer);
+				//				mediaPlayer.release();
+			}
+		}
 	}
 
 	public synchronized void resume() {
