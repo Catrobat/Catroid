@@ -27,108 +27,112 @@ import at.tugraz.ist.catroid.exception.InterruptedRuntimeException;
 
 public class Script implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    private ArrayList<Brick> brickList;
-    private boolean isTouchScript;
-    private boolean isFinished;
-    private boolean paused;
-    private int brickPositionAfterPause;
-    private String name;
-    private Sprite sprite;
+	private static final long serialVersionUID = 1L;
+	private ArrayList<Brick> brickList;
+	private boolean isTouchScript;
+	private boolean isFinished;
+	private boolean paused;
+	private int brickPositionAfterPause;
+	private String name;
+	private Sprite sprite;
 
-    public Script(String name, Sprite sprite) {
-        this.name = name;
-        brickList = new ArrayList<Brick>();
-        paused = false;
-        isFinished = false;
-        brickPositionAfterPause = 0;
-        this.sprite = sprite;
-        setTouchScript(false);
-    }
+	public Script(String name, Sprite sprite) {
+		this.name = name;
+		brickList = new ArrayList<Brick>();
+		paused = false;
+		isFinished = false;
+		brickPositionAfterPause = 0;
+		this.sprite = sprite;
+		setTouchScript(false);
+	}
 
-    public void run() {
-        if(isFinished && !isTouchScript){
-            return;
-        }
-        isFinished = false;
-        for (int i = brickPositionAfterPause; i < brickList.size(); i++) {
-            if (paused) {
-                brickPositionAfterPause = i;
-                return;
-            }
-            try {
-                brickList.get(i).execute();
-                sprite.setToDraw(true);
-            } catch (InterruptedRuntimeException e) { //Brick was interrupted
-                brickPositionAfterPause = i;
-                return;
-            }
-        }
-        isFinished = true;
-    }
+	public void run() {
+		if (isFinished && !isTouchScript) {
+			return;
+		}
+		isFinished = false;
+		for (int i = brickPositionAfterPause; i < brickList.size(); i++) {
+			if (paused) {
+				brickPositionAfterPause = i;
+				return;
+			}
+			try {
+				brickList.get(i).execute();
+				sprite.setToDraw(true);
+			} catch (InterruptedRuntimeException e) { //Brick was interrupted
+				brickPositionAfterPause = i;
+				return;
+			}
+		}
+		isFinished = true;
+		brickPositionAfterPause = 0;
+	}
 
-    public void addBrick(Brick brick) {
-        brickList.add(brick);
-    }
+	public void addBrick(Brick brick) {
+		brickList.add(brick);
+	}
 
-    public void removeBrick(Brick brick) {
-        brickList.remove(brick);
-    }
+	public void removeBrick(Brick brick) {
+		brickList.remove(brick);
+	}
 
-    public void moveBrickBySteps(Brick brick, int steps) {
-        int oldIndex = brickList.indexOf(brick);
-        int newIndex;
+	public void moveBrickBySteps(Brick brick, int steps) {
+		int oldIndex = brickList.indexOf(brick);
+		int newIndex;
 
-        if (steps < 0) {
-            newIndex = oldIndex + steps < 0 ? 0 : oldIndex + steps;
-            brickList.remove(oldIndex);
-            brickList.add(newIndex, brick);
-        } else if (steps > 0) {
-            newIndex = oldIndex + steps >= brickList.size() ? brickList.size() - 1 : oldIndex + steps;
-            brickList.remove(oldIndex);
-            brickList.add(newIndex, brick);
-        } else {
-            return;
-        }
-    }
+		if (steps < 0) {
+			newIndex = oldIndex + steps < 0 ? 0 : oldIndex + steps;
+			brickList.remove(oldIndex);
+			brickList.add(newIndex, brick);
+		} else if (steps > 0) {
+			newIndex = oldIndex + steps >= brickList.size() ? brickList.size() - 1 : oldIndex + steps;
+			brickList.remove(oldIndex);
+			brickList.add(newIndex, brick);
+		} else {
+			return;
+		}
+	}
 
-    public ArrayList<Brick> getBrickList() {
-        return brickList;
-    }
+	public ArrayList<Brick> getBrickList() {
+		return brickList;
+	}
 
-    public void setTouchScript(boolean isTouchScript) {
-        this.isTouchScript = isTouchScript;
-    }
+	public void setTouchScript(boolean isTouchScript) {
+		this.isTouchScript = isTouchScript;
+		if (isTouchScript) {
+			this.isFinished = true;
+		}
+	}
 
-    public boolean isTouchScript() {
-        return isTouchScript;
-    }
+	public boolean isTouchScript() {
+		return isTouchScript;
+	}
 
-    public synchronized void setPaused(boolean paused) {
-        this.paused = paused;
-    }
+	public synchronized void setPaused(boolean paused) {
+		this.paused = paused;
+	}
 
-    public boolean isPaused() {
-        return paused;
-    }
+	public boolean isPaused() {
+		return paused;
+	}
 
-    public boolean isFinished() {
-        return isFinished;
-    }
+	public boolean isFinished() {
+		return isFinished;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setSprite(Sprite sprite) {
-        this.sprite = sprite;
-    }
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
+	}
 
-    public Sprite getSprite() {
-        return sprite;
-    }
+	public Sprite getSprite() {
+		return sprite;
+	}
 }

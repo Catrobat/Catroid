@@ -109,6 +109,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 			}
 			startScript(s);
 		}
+		//		this.startScripts();
 	}
 
 	public String getName() {
