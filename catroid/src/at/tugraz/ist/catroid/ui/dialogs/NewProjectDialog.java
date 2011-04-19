@@ -25,6 +25,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -82,6 +83,41 @@ public class NewProjectDialog extends Dialog {
 				dismiss();
 				((EditText) findViewById(R.id.newProjectNameEditText)).setText(null);
 			}
+		});
+
+		this.setOnKeyListener(new OnKeyListener() {
+			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+				if (event.getAction() == KeyEvent.ACTION_DOWN)
+					{
+						switch (keyCode)
+					{
+					case KeyEvent.KEYCODE_ENTER:
+					String projectName = ((EditText) findViewById(R.id.newProjectNameEditText)).getText()
+										.toString();
+					if (projectName.length() == 0) {
+						Utils.displayErrorMessage(context, context.getString(R.string.error_no_name_entered));
+						return true;
+					}
+					try {
+						if (StorageHandler.getInstance().projectExists(projectName)) {
+							Utils.displayErrorMessage(context, context.getString(R.string.error_project_exists));
+							return true;
+						}
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					ProjectManager.getInstance().initializeNewProject(projectName, context);
+					Intent intent = new Intent(context, ProjectActivity.class);
+					context.startActivity(intent);
+					dismiss();
+					((EditText) findViewById(R.id.newProjectNameEditText)).setText(null);
+					return true;
+				default:
+							break;
+						}
+					}
+					return false;
+				}
 		});
 
 		Button cancelButton = (Button) findViewById(R.id.cancelDialogButton);

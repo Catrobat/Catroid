@@ -35,6 +35,7 @@ import at.tugraz.ist.catroid.R;
 public class EditDialog extends Dialog {
 
 	protected EditText editText;
+	protected EditText addCourseText;
 	protected EditText referencedEditText;
 	protected Context context;
 
@@ -73,6 +74,36 @@ public class EditDialog extends Dialog {
 			public void afterTextChanged(Editable s) {
 			}
 		});
+
+		//	this.setOnKeyListener(new OnKeyListener() {
+		//	public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+		//	if (event.getAction() == KeyEvent.ACTION_DOWN)
+		//	{
+		//		switch (keyCode)
+		//		{
+		//		case KeyEvent.KEYCODE_ENTER:
+		//					if (s.length() == 0) {
+		//						Toast.makeText(EditDialog.this.context, R.string.notification_no_text_entered, Toast.LENGTH_SHORT)
+		//						.show();
+		//						closeButton.setEnabled(false);
+		//						}
+		//									
+		//					else if (s.length() == 1 && s.charAt(0) == '.') {
+		//						closeButton.setEnabled(false);
+		//						}
+		//									
+		//					else {
+		//						closeButton.setEnabled(true);
+		//						}
+		//				}
+		//				
+		//					return true;
+		//					default:
+		//					break;
+		//								}
+		//							return false;
+		//						}
+		//				});
 
 		this.setOnShowListener(new OnShowListener() {
 			public void onShow(DialogInterface dialog) {

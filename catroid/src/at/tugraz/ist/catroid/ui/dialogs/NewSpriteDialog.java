@@ -22,6 +22,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -77,6 +78,39 @@ public class NewSpriteDialog extends Dialog {
 				((EditText) findViewById(R.id.newSpriteNameEditText)).setText(null);
 				dismiss();
 			}
+		});
+
+		this.setOnKeyListener(new OnKeyListener() {
+			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+				if (event.getAction() == KeyEvent.ACTION_DOWN)
+					{
+						switch (keyCode)
+					{
+					case KeyEvent.KEYCODE_ENTER:
+						String spriteName = ((EditText) findViewById(R.id.newSpriteNameEditText)).getText().toString();
+						if (spriteName.length() == 0) {
+							Utils.displayErrorMessage(context, context.getString(R.string.error_no_name_entered));
+							return true;
+						}
+
+						ProjectManager projectManager = ProjectManager.getInstance();
+
+						if (projectManager.spriteExists(spriteName)) {
+							Utils.displayErrorMessage(context, context.getString(R.string.error_sprite_exists));
+							return true;
+						}
+						Sprite sprite = new Sprite(spriteName);
+						projectManager.addSprite(sprite);
+
+						((EditText) findViewById(R.id.newSpriteNameEditText)).setText(null);
+						dismiss();
+						return true;
+					default:
+							break;
+						}
+					}
+					return false;
+				}
 		});
 
 		Button cancelButton = (Button) findViewById(R.id.cancelDialogButton);
