@@ -49,8 +49,8 @@ public class ImageEditing {
 		float scaleHeight = (((float) ySize) / bm.getHeight());
 		matrix.postScale(scaleWidth, scaleHeight);
 		Bitmap newbm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
-		if (recycleOldBm)
-			bm.recycle();
+		//		if (recycleOldBm)
+		//			bm.recycle();
 		return newbm;
 	}
 
@@ -73,7 +73,6 @@ public class ImageEditing {
 
 		int origWidth = imageDim[0];
 		int origHeight = imageDim[1];
-
 
 		double sampleSizeWidth = (origWidth / (double) outWidth);
 		double sampleSizeHeight = origHeight / (double) outHeight;
@@ -110,7 +109,6 @@ public class ImageEditing {
 
 		int newHeight = (int) Math.ceil(imageDim[1] / sampleSize);
 		int newWidth = (int) Math.ceil(imageDim[0] / sampleSize);
-
 
 		BitmapFactory.Options o = new BitmapFactory.Options();
 		o.inSampleSize = sampleSizeRounded;

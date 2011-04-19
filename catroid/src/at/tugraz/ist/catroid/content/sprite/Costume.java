@@ -75,7 +75,7 @@ public class Costume implements Serializable {
 		setPositionToSpriteTopLeft();
 
 		if (newHeight > actHeight || newWidth > actWidth) {
-			costumeBitmap.recycle();
+			//costumeBitmap.recycle();
 			costumeBitmap = ImageEditing.getBitmap(imagePath, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
 		}
 
