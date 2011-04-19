@@ -34,7 +34,6 @@ public class FileChecksumContainer implements Serializable {
 	private Map<String, String> checksumFilePathMap = new HashMap<String, String>(); //checksum / path
 
 	public void addChecksum(String checksum, String path) {
-		System.out.println("########################## called add checksum");
 		if (fileReferenceMap.containsKey(checksum)) {
 			incrementValue(checksum);
 		} else {
@@ -77,7 +76,6 @@ public class FileChecksumContainer implements Serializable {
 			return false;
 		} else {
 			File toDelete = new File(checksumFilePathMap.get(checksum));
-			System.out.println("###################### FILECHECKSUMCONTAINER: Deleting file");
 			toDelete.delete();
 			fileReferenceMap.remove(checksum);
 			checksumFilePathMap.remove(checksum);
