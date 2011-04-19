@@ -104,11 +104,12 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	public void resume() {
 		for (Script s : scriptList) {
 			s.setPaused(false);
-			if (s.isTouchScript() && s.isFinished()) {
-				continue;
-			}
-			startScript(s);
+			//			if (s.isTouchScript() && s.isFinished()) {
+			//				continue;
+			//			}
+			//			startScript(s);
 		}
+		this.startScripts();
 	}
 
 	public String getName() {
