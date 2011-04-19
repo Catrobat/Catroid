@@ -181,6 +181,9 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 				Uri selectedImageUri = data.getData();
 				String selectedImagePath = getPathFromContentUri(selectedImageUri);
 				try {
+					if (affectedBrick.getImagePath() != null) {
+						StorageHandler.getInstance().deleteFile(affectedBrick.getImagePath());
+					}
 					File outputFile = StorageHandler.getInstance().copyImage(
 							ProjectManager.getInstance().getCurrentProject().getName(),
 							selectedImagePath);

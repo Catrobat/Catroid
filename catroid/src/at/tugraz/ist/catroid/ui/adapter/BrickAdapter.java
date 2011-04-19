@@ -23,6 +23,7 @@ package at.tugraz.ist.catroid.ui.adapter;
  *
  */
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -35,14 +36,17 @@ import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.brick.Brick;
 import at.tugraz.ist.catroid.content.brick.IfStartedBrick;
 import at.tugraz.ist.catroid.content.brick.IfTouchedBrick;
+import at.tugraz.ist.catroid.content.brick.PlaySoundBrick;
+import at.tugraz.ist.catroid.content.brick.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.script.Script;
 import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView;
 import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView.DropListener;
 import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView.RemoveListener;
 
 public class BrickAdapter extends BaseExpandableListAdapter implements DropListener, RemoveListener,
-OnGroupClickListener {
+		OnGroupClickListener {
 
 	private Context context;
 	private Sprite sprite;
@@ -120,6 +124,26 @@ OnGroupClickListener {
 
 	public void remove(int which) {
 		ArrayList<Brick> brickList = sprite.getScriptList().get(getGroupCount() - 1).getBrickList();
+		try {
+
+			if (brickList.get(which) instanceof PlaySoundBrick) {
+				PlaySoundBrick toDelete = (PlaySoundBrick) brickList.get(which);
+				String pathToSoundFile = toDelete.getPathToSoundFile();
+				if (pathToSoundFile != null) {
+					StorageHandler.getInstance().deleteFile(pathToSoundFile);
+				}
+
+			} else if (brickList.get(which) instanceof SetCostumeBrick) {
+				SetCostumeBrick toDelete = (SetCostumeBrick) brickList.get(which);
+				String imagePath = toDelete.getImagePath();
+				if (imagePath != null) {
+					StorageHandler.getInstance().deleteFile(imagePath);
+				}
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		brickList.remove(which);
 		notifyDataSetChanged();
 	}

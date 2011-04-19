@@ -60,6 +60,10 @@ public class SetCostumeBrick implements Brick {
 		return sprite;
 	}
 
+	public String getImagePath() {
+		return imagePath;
+	}
+
 	public View getView(final Context context, final int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.construction_brick_set_costume, null);
