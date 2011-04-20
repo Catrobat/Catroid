@@ -44,10 +44,10 @@ public class RenameSpriteDialog extends Dialog {
 		setTitle(R.string.rename_sprite_dialog);
 		setCanceledOnTouchOutside(true);
 
-		Button renameButton = (Button) findViewById(R.id.renameButton);
+		Button renameButton = (Button) findViewById(R.id.rename_button);
 		renameButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				String spriteName = ((EditText) findViewById(R.id.renameEditText)).getText().toString();
+				String spriteName = ((EditText) findViewById(R.id.rename_edit_text)).getText().toString();
 				if (spriteName.equalsIgnoreCase(projectActivity.getSpriteToEdit().getName())) {
 					dismiss();
 					return;

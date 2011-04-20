@@ -143,8 +143,9 @@ public class MainMenuActivity extends Activity {
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialog;
 		try {
-			if (StorageHandler.getInstance().projectExists(projectManager.getCurrentProject().getName()))
+			if (StorageHandler.getInstance().projectExists(projectManager.getCurrentProject().getName())) {
 				projectManager.saveProject(this);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

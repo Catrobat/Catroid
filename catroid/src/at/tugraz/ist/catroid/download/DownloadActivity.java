@@ -28,7 +28,6 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.transfers.ProjectDownloadTask;
 
 public class DownloadActivity extends Activity {
-	private static final String PROJECTNAME_TAG = "fname=";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +38,9 @@ public class DownloadActivity extends Activity {
 		String zipUrl = getIntent().getDataString();
 
 		System.out.println("data: " + zipUrl);
-		if (zipUrl == null || zipUrl.length() <= 0)
+		if (zipUrl == null || zipUrl.length() <= 0) {
 			return;
+		}
 
 		String projectName = getProjectName(zipUrl);
 
@@ -50,7 +50,7 @@ public class DownloadActivity extends Activity {
 	}
 
 	private String getProjectName(String zipUrl) {
-		int projectNameIndex = zipUrl.lastIndexOf(PROJECTNAME_TAG) + PROJECTNAME_TAG.length();
+		int projectNameIndex = zipUrl.lastIndexOf(Consts.PROJECTNAME_TAG) + Consts.PROJECTNAME_TAG.length();
 		String projectName = zipUrl.substring(projectNameIndex);
 		projectName = URLDecoder.decode(projectName);
 
