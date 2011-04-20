@@ -151,21 +151,21 @@ public class MainMenuActivity extends Activity {
 		}
 
 		switch (id) {
-		case Consts.DIALOG_NEW_PROJECT:
-			dialog = new NewProjectDialog(this);
-			break;
-		case Consts.DIALOG_LOAD_PROJECT:
-			dialog = new LoadProjectDialog(this);
-			break;
-		case Consts.DIALOG_ABOUT:
-			dialog = new AboutDialog(this);
-			break;
-		case Consts.DIALOG_UPLOAD_PROJECT:
-			dialog = new UploadProjectDialog(this);
-			break;
-		default:
-			dialog = null;
-			break;
+			case Consts.DIALOG_NEW_PROJECT:
+				dialog = new NewProjectDialog(this);
+				break;
+			case Consts.DIALOG_LOAD_PROJECT:
+				dialog = new LoadProjectDialog(this);
+				break;
+			case Consts.DIALOG_ABOUT:
+				dialog = new AboutDialog(this);
+				break;
+			case Consts.DIALOG_UPLOAD_PROJECT:
+				dialog = new UploadProjectDialog(this);
+				break;
+			default:
+				dialog = null;
+				break;
 		}
 
 		return dialog;
@@ -182,6 +182,7 @@ public class MainMenuActivity extends Activity {
 				+ projectManager.getCurrentProject().getName());
 
 		projectManager.loadProject(projectManager.getCurrentProject().getName(), this);
+		//TODO es wird zweimal unnötig geladen wenn man von der stage zurückkommt
 	}
 
 	@Override
