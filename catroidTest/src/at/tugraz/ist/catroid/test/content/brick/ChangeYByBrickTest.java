@@ -19,9 +19,9 @@
 package at.tugraz.ist.catroid.test.content.brick;
 
 import android.test.AndroidTestCase;
-import at.tugraz.ist.catroid.content.brick.ChangeXByBrick;
-import at.tugraz.ist.catroid.content.brick.ChangeYByBrick;
-import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
 
 public class ChangeYByBrickTest extends AndroidTestCase {
 

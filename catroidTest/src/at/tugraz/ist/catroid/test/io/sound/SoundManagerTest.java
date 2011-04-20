@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 import android.media.MediaPlayer;
 import android.test.InstrumentationTestCase;
-import at.tugraz.ist.catroid.io.sound.SoundManager;
+import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.test.R;
 
 public class SoundManagerTest extends InstrumentationTestCase {

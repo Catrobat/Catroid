@@ -30,7 +30,7 @@ import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.FileChecksumContainer;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
-import at.tugraz.ist.catroid.content.project.Project;
+import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.R;
 import at.tugraz.ist.catroid.utils.UtilFile;

@@ -24,8 +24,8 @@ import java.util.HashMap;
 
 import android.test.AndroidTestCase;
 import at.tugraz.ist.catroid.Consts;
-import at.tugraz.ist.catroid.constructionSite.tasks.ProjectUploadTask;
-import at.tugraz.ist.catroid.download.tasks.ProjectDownloadTask;
+import at.tugraz.ist.catroid.transfers.ProjectDownloadTask;
+import at.tugraz.ist.catroid.transfers.ProjectUploadTask;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.web.ConnectionWrapper;
 import at.tugraz.ist.catroid.web.WebconnectionException;
