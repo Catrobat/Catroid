@@ -93,8 +93,12 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 				return false;
 			}
 
-			for (String path : paths) {
-				path = dirPath + "/" + path;
+			//			for (String path : paths) {
+			//				path = dirPath + "/" + path;
+			//			}
+
+			for (int i = 0; i < paths.length; i++) {
+				paths[i] = dirPath + "/" + paths[i];
 			}
 
 			String zipFileString = Consts.TMP_PATH + "/upload.zip";

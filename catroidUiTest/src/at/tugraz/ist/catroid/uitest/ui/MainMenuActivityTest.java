@@ -30,6 +30,7 @@ import android.widget.TextView;
 import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.content.Costume;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -237,6 +238,22 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnButton(getActivity().getString(R.string.upload_button));
 		assertTrue("No error message was displayed upon renaming the project to an existing one.",
 				solo.searchText(getActivity().getString(R.string.error_project_exists)));
+	}
+
+	public void testDefaultProject() throws IOException{
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + getActivity().getString(R.string.default_project_name));
+		UtilFile.deleteDirectory(directory);
+
+		StorageHandler handler = StorageHandler.getInstance();
+		ProjectManager project = ProjectManager.getInstance();
+		project.setProject(handler.createDefaultProject(getActivity()));
+		solo.clickOnButton(1);
+		Costume costume = project.getCurrentProject().getSpriteList().get(1).getCostume();
+		assertNotNull("Costume is null", costume);
+		assertTrue("Sprite not visible", project.getCurrentProject().getSpriteList().get(1).isVisible());
+
+		directory = new File(Consts.DEFAULT_ROOT + "/" + getActivity().getString(R.string.default_project_name));
+		UtilFile.deleteDirectory(directory);
 	}
 
 	public void createTestProject(String projectName) throws IOException, NameNotFoundException {
