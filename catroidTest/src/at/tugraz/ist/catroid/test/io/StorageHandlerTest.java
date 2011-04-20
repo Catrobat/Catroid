@@ -18,11 +18,14 @@
  */
 package at.tugraz.ist.catroid.test.io;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.AndroidTestCase;
+import at.tugraz.ist.catroid.Consts;
+import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
@@ -33,12 +36,31 @@ import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class StorageHandlerTest extends AndroidTestCase {
 	private StorageHandler storageHandler;
 
 	public StorageHandlerTest() throws IOException {
 		storageHandler = StorageHandler.getInstance();
+	}
+
+	@Override
+	public void tearDown(){
+		File defProject = new File(Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name));
+
+		if(defProject.exists()){
+			UtilFile.deleteDirectory(defProject);
+		}
+	}
+
+	@Override
+	public void setUp(){
+		File defProject = new File(Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name));
+
+		if(defProject.exists()){
+			UtilFile.deleteDirectory(defProject);
+		}
 	}
 
 	public void testSerializeProject() throws NameNotFoundException {
@@ -130,12 +152,21 @@ public class StorageHandlerTest extends AndroidTestCase {
 		StorageHandler handler = StorageHandler.getInstance();
 		ProjectManager project = ProjectManager.getInstance();
 		project.setProject(handler.createDefaultProject(getContext()));
-		assertEquals(2, project.getCurrentProject().getSpriteList().size());
-		assertEquals(2, project.getCurrentProject().getSpriteList().get(1).getScriptList().size());
-		assertEquals(21, project.getCurrentProject().getSpriteList().get(1).getScriptList().get(0).getBrickList().size());
-		assertEquals(1, project.getCurrentProject().getSpriteList().get(1).getScriptList().get(1).getBrickList().size());
-		//		String imagePath = Consts.DEFAULT_ROOT + "/" + getContext().getString() + Consts.IMAGE_DIRECTORY + "/" + Consts.CAT1;
-		//		File testFile = new File(imagePath);
-		//		assertTrue(testFile.exists());
+		assertEquals("not the right number of sprites in the default project",2, project.getCurrentProject().getSpriteList().size());
+		assertEquals("not the right number of scripts in the default project",2, project.getCurrentProject().getSpriteList().get(1).getScriptList().size());
+		assertEquals("not the right number of bricks in the first script",21, project.getCurrentProject().getSpriteList().get(1).getScriptList().get(0).getBrickList().size());
+		assertEquals("not the right number of bricks in the second script",1, project.getCurrentProject().getSpriteList().get(1).getScriptList().get(1).getBrickList().size());
+
+		//test if images are existing:
+		String imagePath = Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name) + Consts.IMAGE_DIRECTORY + "/" + Consts.CAT1;
+		File testFile = new File(imagePath);
+		assertTrue("Image " + Consts.CAT1 + " does not exist", testFile.exists());
+		imagePath = Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name) + Consts.IMAGE_DIRECTORY + "/" + Consts.CAT2;
+		testFile = new File(imagePath);
+		assertTrue("Image " + Consts.CAT2 + " does not exist",testFile.exists());
+		imagePath = Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name) + Consts.IMAGE_DIRECTORY + "/" + Consts.CAT3;
+		testFile = new File(imagePath);
+		assertTrue("Image " + Consts.CAT3 + " does not exist",testFile.exists());
+
 	}
 }
