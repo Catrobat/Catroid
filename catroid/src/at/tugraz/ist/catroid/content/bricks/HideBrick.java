@@ -16,46 +16,44 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content.brick;
+package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.script.Script;
-import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.content.Sprite;
 
-public class IfTouchedBrick implements Brick {
-	protected Script touchScript;
-	private Sprite sprite;
+public class HideBrick implements Brick {
 	private static final long serialVersionUID = 1L;
+	private Sprite sprite;
 
-	public IfTouchedBrick(Sprite sprite, Script touchScript) {
-		this.touchScript = touchScript;
+	public HideBrick(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
 	public void execute() {
+		sprite.hide();
 	}
 
 	public Sprite getSprite() {
-		return sprite;
+		return this.sprite;
 	}
 
-	public View getView(Context context, int brickId, final BaseExpandableListAdapter adapter) {
-		View view = getPrototypeView(context);
-		return view;
-	}
-
-	public View getPrototypeView(Context context) {
+	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.toolbox_brick_touched, null);
-		return view;
+		return inflater.inflate(R.layout.construction_brick_hide, null);
 	}
 
 	@Override
 	public Brick clone() {
-		return new IfTouchedBrick(getSprite(), touchScript);
+		return new HideBrick(getSprite());
 	}
+
+	public View getPrototypeView(Context context) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		return inflater.inflate(R.layout.brick_hide, null);
+	}
+
 }

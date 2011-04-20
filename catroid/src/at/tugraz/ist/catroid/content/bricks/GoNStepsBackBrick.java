@@ -16,7 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content.brick;
+package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,82 +27,70 @@ import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
-public class PlaceAtBrick implements Brick, OnDismissListener {
+public class GoNStepsBackBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
-	private int xPosition;
-	private int yPosition;
 	private Sprite sprite;
+	private int steps;
 
-	public PlaceAtBrick(Sprite sprite, int xPosition, int yPosition) {
+	public GoNStepsBackBrick(Sprite sprite, int steps) {
 		this.sprite = sprite;
-		this.xPosition = xPosition;
-		this.yPosition = yPosition;
+		this.steps = steps;
 	}
 
 	public void execute() {
-		sprite.setXYPosition(xPosition, yPosition);
+		if (steps <= 0)
+			throw new NumberFormatException("Steps was not a positive number!");
+
+		int currentPosition = sprite.getZPosition();
+
+		if (currentPosition - steps > currentPosition) {
+			sprite.setZPosition(Integer.MIN_VALUE);
+			return;
+		}
+
+		sprite.setZPosition(currentPosition - steps);
 	}
 
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
-	public int getXPosition() {
-		return xPosition;
-	}
-
-	public int getYPosition() {
-		return yPosition;
+	public int getSteps() {
+		return steps;
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.construction_brick_place_at, null);
+		View view = inflater.inflate(R.layout.construction_brick_go_back, null);
+		EditText edit = (EditText) view.findViewById(R.id.InputValueEditText);
 
-		EditText editX = (EditText) brickView.findViewById(R.id.InputValueEditTextX);
-		editX.setText(String.valueOf(xPosition));
+		edit.setText(String.valueOf(steps));
+		EditIntegerDialog dialog = new EditIntegerDialog(context, edit, steps, false);
+		dialog.setOnDismissListener(this);
+		dialog.setOnCancelListener((OnCancelListener) context);
+		edit.setOnClickListener(dialog);
 
-		EditIntegerDialog dialogX = new EditIntegerDialog(context, editX, xPosition, true);
-		dialogX.setOnDismissListener(this);
-		dialogX.setOnCancelListener((OnCancelListener) context);
-
-		editX.setOnClickListener(dialogX);
-
-		EditText editY = (EditText) brickView.findViewById(R.id.InputValueEditTextY);
-		editY.setText(String.valueOf(yPosition));
-
-		EditIntegerDialog dialogY = new EditIntegerDialog(context, editY, yPosition, true);
-		dialogY.setOnDismissListener(this);
-		dialogY.setOnCancelListener((OnCancelListener) context);
-
-		editY.setOnClickListener(dialogY);
-
-		return brickView;
+		return view;
 	}
 
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.toolbox_brick_place_at, null);
-		return brickView;
+		View view = inflater.inflate(R.layout.toolbox_brick_go_back, null);
+		return view;
 	}
 
 	@Override
 	public Brick clone() {
-		return new PlaceAtBrick(getSprite(), getXPosition(), getYPosition());
+		return new GoNStepsBackBrick(getSprite(), getSteps());
+
 	}
 
 	public void onDismiss(DialogInterface dialog) {
-		EditIntegerDialog inputDialog = (EditIntegerDialog) dialog;
-		if (inputDialog.getRefernecedEditTextId() == R.id.InputValueEditTextX) {
-			xPosition = inputDialog.getValue();
-		} else if (inputDialog.getRefernecedEditTextId() == R.id.InputValueEditTextY) {
-			yPosition = inputDialog.getValue();
-		} else
-			throw new RuntimeException("Received illegal id from EditText: " + inputDialog.getRefernecedEditTextId());
-
+		steps = ((EditIntegerDialog) dialog).getValue();
 		dialog.cancel();
 	}
+
 }

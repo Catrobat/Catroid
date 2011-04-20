@@ -16,14 +16,14 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content.brick;
+package at.tugraz.ist.catroid.content.bricks;
 
 import java.io.Serializable;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
-import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.content.Sprite;
 
 public interface Brick extends Serializable {
 

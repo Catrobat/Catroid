@@ -25,7 +25,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.download.tasks.ProjectDownloadTask;
+import at.tugraz.ist.catroid.transfers.ProjectDownloadTask;
 
 public class DownloadActivity extends Activity {
 	private static final String PROJECTNAME_TAG = "fname=";

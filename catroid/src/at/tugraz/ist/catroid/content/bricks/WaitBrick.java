@@ -16,7 +16,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content.brick;
+
+package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,39 +28,47 @@ import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.exception.InterruptedRuntimeException;
 import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 
-public class ScaleCostumeBrick implements Brick, OnDismissListener {
+public class WaitBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
+	private int timeToWaitInMilliSeconds;
 	private Sprite sprite;
-	private double scale;
 
-	public ScaleCostumeBrick(Sprite sprite, double scale) {
+	public WaitBrick(Sprite sprite, int timeToWaitInMilliseconds) {
+		this.timeToWaitInMilliSeconds = timeToWaitInMilliseconds;
 		this.sprite = sprite;
-		this.scale = scale;
 	}
 
 	public void execute() {
-		sprite.setScale(scale);
+		long startTime = 0;
+		try {
+			startTime = System.currentTimeMillis();
+			Thread.sleep(timeToWaitInMilliSeconds);
+		} catch (InterruptedException e) {
+			timeToWaitInMilliSeconds = timeToWaitInMilliSeconds - (int) (System.currentTimeMillis() - startTime);
+			throw new InterruptedRuntimeException("WaitBrick was interrupted", e);
+		}
 	}
 
 	public Sprite getSprite() {
-		return this.sprite;
+		return sprite;
 	}
 
-	public double getScale() {
-		return scale;
+	public long getWaitTime() {
+		return timeToWaitInMilliSeconds;
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_scale_costume, null);
+		View view = inflater.inflate(R.layout.construction_brick_wait, null);
 
-		EditText edit = (EditText) view.findViewById(R.id.ScaleCostumeEditText);
-		edit.setText(String.valueOf(scale));
+		EditText edit = (EditText) view.findViewById(R.id.InputValueEditText);
+		edit.setText((timeToWaitInMilliSeconds / 1000.0) + "");
 
-		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, scale);
+		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, timeToWaitInMilliSeconds / 1000.0);
 		dialog.setOnDismissListener(this);
 		dialog.setOnCancelListener((OnCancelListener) context);
 
@@ -70,17 +79,17 @@ public class ScaleCostumeBrick implements Brick, OnDismissListener {
 
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.toolbox_brick_scale_costume, null);
+		View view = inflater.inflate(R.layout.toolbox_brick_wait, null);
 		return view;
 	}
 
 	@Override
 	public Brick clone() {
-		return new ScaleCostumeBrick(getSprite(), getScale());
+		return new WaitBrick(getSprite(), timeToWaitInMilliSeconds);
 	}
 
 	public void onDismiss(DialogInterface dialog) {
-		scale = ((EditDoubleDialog) dialog).getValue();
+		timeToWaitInMilliSeconds = (int) Math.round(((EditDoubleDialog) dialog).getValue() * 1000);
 		dialog.cancel();
 	}
 }

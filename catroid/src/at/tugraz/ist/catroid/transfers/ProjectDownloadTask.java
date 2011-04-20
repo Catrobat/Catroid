@@ -17,16 +17,16 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.tugraz.ist.catroid.download.tasks;
+package at.tugraz.ist.catroid.transfers;
 
 import java.io.IOException;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.app.AlertDialog.Builder;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.Consts;
@@ -36,11 +36,11 @@ import at.tugraz.ist.catroid.utils.UtilZip;
 import at.tugraz.ist.catroid.web.ConnectionWrapper;
 
 public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implements OnClickListener {
-	private Activity mActivity;
-	private String mProjectName;
-	private String mZipFile;
-	private String mUrl;
-	private ProgressDialog mProgressdialog;
+	private Activity activity;
+	private String projectName;
+	private String zipFile;
+	private String url;
+	private ProgressDialog progressDialog;
 	private boolean result;
 
 	// mock object testing
@@ -49,32 +49,31 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 	}
 
 	public ProjectDownloadTask(Activity activity, String url, String projectName, String zipFile) {
-
-		mActivity = activity;
-		mProjectName = projectName;
-		mZipFile = zipFile;
-		mUrl = url;
+		this.activity = activity;
+		this.projectName = projectName;
+		this.zipFile = zipFile;
+		this.url = url;
 	}
 
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
-		if(mActivity == null)
+		if (activity == null) {
 			return;
-		String title = mActivity.getString(R.string.please_wait);
-		String message = mActivity.getString(R.string.loading);
-		mProgressdialog = ProgressDialog.show(mActivity, title,
-				message);
+		}
+		String title = activity.getString(R.string.please_wait);
+		String message = activity.getString(R.string.loading);
+		progressDialog = ProgressDialog.show(activity, title, message);
 	}
 
 	@Override
 	protected Boolean doInBackground(Void... arg0) {
 		try {
+			createConnection().doHttpPostFileDownload(url, null, zipFile);
 
-			createConnection().doHttpPostFileDownload(mUrl, null, mZipFile);
-
-			result = UtilZip.unZipFile(mZipFile, Consts.DEFAULT_ROOT + "/"+mProjectName+"/");
+			result = UtilZip.unZipFile(zipFile, Consts.DEFAULT_ROOT + "/" + projectName + "/");
 			return result;
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -86,37 +85,40 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 	protected void onPostExecute(Boolean result) {
 		super.onPostExecute(result);
 
-		if(mProgressdialog != null && mProgressdialog.isShowing())
-			mProgressdialog.dismiss();
+		if (progressDialog != null && progressDialog.isShowing()) {
+			progressDialog.dismiss();
+		}
 
-		if(!result) {
+		if (!result) {
 			//Toast.makeText(mActivity, R.string.error_project_download, Toast.LENGTH_SHORT).show();
-			showDialog( R.string.error_project_download);
+			showDialog(R.string.error_project_download);
 			return;
 		}
 
-		if(mActivity == null)
+		if (activity == null) {
 			return;
-		Toast.makeText(mActivity, R.string.success_project_download, Toast.LENGTH_SHORT).show();
+		}
+		Toast.makeText(activity, R.string.success_project_download, Toast.LENGTH_SHORT).show();
 
-		Intent intent = new Intent(mActivity, MainMenuActivity.class);
-		mActivity.startActivity(intent);
+		Intent intent = new Intent(activity, MainMenuActivity.class);
+		activity.startActivity(intent);
 
 	}
 
 	private void showDialog(int messageId) {
-		if(mActivity == null)
+		if (activity == null) {
 			return;
-		new Builder(mActivity)
-		.setMessage(messageId)
-		.setPositiveButton("OK", null)
-		.show();
+		}
+		new Builder(activity)
+				.setMessage(messageId)
+				.setPositiveButton("OK", null)
+				.show();
 	}
 
 	public void onClick(DialogInterface dialog, int which) {
-		if(!result)
-			mActivity.finish();
-
+		if (!result) {
+			activity.finish();
+		}
 	}
 
 }

@@ -31,7 +31,7 @@ import android.widget.LinearLayout.LayoutParams;
 import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
-import at.tugraz.ist.catroid.constructionSite.tasks.ProjectUploadTask;
+import at.tugraz.ist.catroid.transfers.ProjectUploadTask;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class UploadProjectDialog extends Dialog implements OnClickListener {

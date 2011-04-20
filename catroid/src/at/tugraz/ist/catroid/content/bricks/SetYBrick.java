@@ -16,7 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content.brick;
+package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,30 +27,20 @@ import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
-public class ChangeYByBrick implements Brick, OnDismissListener {
+public class SetYBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
-	private int yMovement;
+	private int yPosition;
 	private Sprite sprite;
 
-	public ChangeYByBrick(Sprite sprite, int yMovement) {
+	public SetYBrick(Sprite sprite, int yPosition) {
 		this.sprite = sprite;
-		this.yMovement = yMovement;
+		this.yPosition = yPosition;
 	}
 
 	public void execute() {
-		int yPosition = sprite.getYPosition();
-
-		if (yPosition > 0 && yMovement > 0 && yPosition + yMovement < 0) {
-			yPosition = Integer.MAX_VALUE;
-		} else if (yPosition < 0 && yMovement < 0 && yPosition + yMovement > 0) {
-			yPosition = Integer.MIN_VALUE;
-		} else {
-			yPosition += yMovement;
-		}
-
 		sprite.setXYPosition(sprite.getXPosition(), yPosition);
 	}
 
@@ -58,18 +48,18 @@ public class ChangeYByBrick implements Brick, OnDismissListener {
 		return this.sprite;
 	}
 
-	public int getYMovement() {
-		return yMovement;
+	public int getYPosition() {
+		return yPosition;
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.construction_brick_change_y, null);
+		View brickView = inflater.inflate(R.layout.construction_brick_set_y, null);
 
 		EditText editY = (EditText) brickView.findViewById(R.id.InputValueEditTextY);
-		editY.setText(String.valueOf(yMovement));
+		editY.setText(String.valueOf(yPosition));
 
-		EditIntegerDialog dialogY = new EditIntegerDialog(context, editY, yMovement, true);
+		EditIntegerDialog dialogY = new EditIntegerDialog(context, editY, yPosition, true);
 		dialogY.setOnDismissListener(this);
 		dialogY.setOnCancelListener((OnCancelListener) context);
 
@@ -80,18 +70,19 @@ public class ChangeYByBrick implements Brick, OnDismissListener {
 
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.toolbox_brick_change_y, null);
+		View brickView = inflater.inflate(R.layout.toolbox_brick_set_y, null);
 		return brickView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new ChangeYByBrick(getSprite(), getYMovement());
+		return new SetYBrick(getSprite(), getYPosition());
 	}
 
 	public void onDismiss(DialogInterface dialog) {
 		EditIntegerDialog inputDialog = (EditIntegerDialog) dialog;
-		yMovement = inputDialog.getValue();
+		yPosition = inputDialog.getValue();
+
 		dialog.cancel();
 	}
 }

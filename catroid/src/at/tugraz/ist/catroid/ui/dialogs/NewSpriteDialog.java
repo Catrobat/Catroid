@@ -30,7 +30,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout.LayoutParams;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
-import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class NewSpriteDialog extends Dialog {
