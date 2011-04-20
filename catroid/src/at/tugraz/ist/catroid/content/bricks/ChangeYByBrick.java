@@ -16,8 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-package at.tugraz.ist.catroid.content.brick;
+package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -28,68 +27,71 @@ import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.sprite.Sprite;
-import at.tugraz.ist.catroid.exception.InterruptedRuntimeException;
-import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
+import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
-public class WaitBrick implements Brick, OnDismissListener {
+public class ChangeYByBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
-	private int timeToWaitInMilliSeconds;
+	private int yMovement;
 	private Sprite sprite;
 
-	public WaitBrick(Sprite sprite, int timeToWaitInMilliseconds) {
-		this.timeToWaitInMilliSeconds = timeToWaitInMilliseconds;
+	public ChangeYByBrick(Sprite sprite, int yMovement) {
 		this.sprite = sprite;
+		this.yMovement = yMovement;
 	}
 
 	public void execute() {
-		long startTime = 0;
-		try {
-			startTime = System.currentTimeMillis();
-			Thread.sleep(timeToWaitInMilliSeconds);
-		} catch (InterruptedException e) {
-			timeToWaitInMilliSeconds = timeToWaitInMilliSeconds - (int) (System.currentTimeMillis() - startTime);
-			throw new InterruptedRuntimeException("WaitBrick was interrupted", e);
+		int yPosition = sprite.getYPosition();
+
+		if (yPosition > 0 && yMovement > 0 && yPosition + yMovement < 0) {
+			yPosition = Integer.MAX_VALUE;
+		} else if (yPosition < 0 && yMovement < 0 && yPosition + yMovement > 0) {
+			yPosition = Integer.MIN_VALUE;
+		} else {
+			yPosition += yMovement;
 		}
+
+		sprite.setXYPosition(sprite.getXPosition(), yPosition);
 	}
 
 	public Sprite getSprite() {
-		return sprite;
+		return this.sprite;
 	}
 
-	public long getWaitTime() {
-		return timeToWaitInMilliSeconds;
+	public int getYMovement() {
+		return yMovement;
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_wait, null);
+		View brickView = inflater.inflate(R.layout.construction_brick_change_y, null);
 
-		EditText edit = (EditText) view.findViewById(R.id.InputValueEditText);
-		edit.setText((timeToWaitInMilliSeconds / 1000.0) + "");
+		EditText editY = (EditText) brickView.findViewById(R.id.InputValueEditTextY);
+		editY.setText(String.valueOf(yMovement));
 
-		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, timeToWaitInMilliSeconds / 1000.0);
-		dialog.setOnDismissListener(this);
-		dialog.setOnCancelListener((OnCancelListener) context);
+		EditIntegerDialog dialogY = new EditIntegerDialog(context, editY, yMovement, true);
+		dialogY.setOnDismissListener(this);
+		dialogY.setOnCancelListener((OnCancelListener) context);
 
-		edit.setOnClickListener(dialog);
+		editY.setOnClickListener(dialogY);
 
-		return view;
+		return brickView;
 	}
 
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.toolbox_brick_wait, null);
-		return view;
+		View brickView = inflater.inflate(R.layout.toolbox_brick_change_y, null);
+		return brickView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new WaitBrick(getSprite(), timeToWaitInMilliSeconds);
+		return new ChangeYByBrick(getSprite(), getYMovement());
 	}
 
 	public void onDismiss(DialogInterface dialog) {
-		timeToWaitInMilliSeconds = (int) Math.round(((EditDoubleDialog) dialog).getValue() * 1000);
+		EditIntegerDialog inputDialog = (EditIntegerDialog) dialog;
+		yMovement = inputDialog.getValue();
 		dialog.cancel();
 	}
 }

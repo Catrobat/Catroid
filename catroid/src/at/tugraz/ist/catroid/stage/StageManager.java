@@ -27,7 +27,7 @@ import android.graphics.BitmapFactory;
 import android.os.Handler;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
-import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.content.Sprite;
 
 public class StageManager {
 	private Activity activity;

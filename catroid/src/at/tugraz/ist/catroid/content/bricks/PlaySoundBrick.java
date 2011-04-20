@@ -16,7 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content.brick;
+package at.tugraz.ist.catroid.content.bricks;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,8 +37,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.gui.adapter.SoundBrickAdapter;
+import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.entities.SoundInfo;
-import at.tugraz.ist.catroid.content.sprite.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.io.sound.SoundManager;
 

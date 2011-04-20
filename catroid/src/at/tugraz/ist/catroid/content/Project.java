@@ -16,7 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content.project;
+package at.tugraz.ist.catroid.content;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -29,7 +29,6 @@ import android.os.Build;
 import at.tugraz.ist.catroid.FileChecksumContainer;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.Values;
-import at.tugraz.ist.catroid.content.sprite.Sprite;
 
 public class Project implements Serializable {
 	private static final long serialVersionUID = 1L;

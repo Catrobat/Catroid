@@ -17,7 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.tugraz.ist.catroid.constructionSite.tasks;
+package at.tugraz.ist.catroid.transfers;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -27,8 +27,8 @@ import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.ProgressDialog;
 import android.app.AlertDialog.Builder;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import at.tugraz.ist.catroid.Consts;
@@ -68,31 +68,33 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
-		if (context == null)
+		if (context == null) {
 			return;
+		}
 		String title = context.getString(R.string.please_wait);
 		String message = context.getString(R.string.loading);
-		progressdialog = ProgressDialog.show(context, title,
-				message);
+		progressdialog = ProgressDialog.show(context, title, message);
 	}
 
 	@Override
 	protected Boolean doInBackground(Void... arg0) {
 		try {
 			File dirPath = new File(projectPath);
-			String[] pathes = dirPath.list(new FilenameFilter() {
+			String[] paths = dirPath.list(new FilenameFilter() {
 				public boolean accept(File dir, String filename) {
 					if (filename.endsWith(Consts.PROJECT_EXTENTION) || filename.equalsIgnoreCase("images")
-							|| filename.equalsIgnoreCase("sounds"))
+							|| filename.equalsIgnoreCase("sounds")) {
 						return true;
+					}
 					return false;
 				}
 			});
-			if (pathes == null)
+			if (paths == null) {
 				return false;
+			}
 
-			for (int i = 0; i < pathes.length; ++i) {
-				pathes[i] = dirPath + "/" + pathes[i];
+			for (String path : paths) {
+				path = dirPath + "/" + path;
 			}
 
 			String zipFileString = Consts.TMP_PATH + "/upload.zip";
@@ -101,18 +103,15 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 				file.getParentFile().mkdirs();
 				file.createNewFile();
 			}
-			if (!UtilZip.writeToZipFile(pathes, zipFileString)) {
+			if (!UtilZip.writeToZipFile(paths, zipFileString)) {
 				file.delete();
 				return false;
 			}
 
 			HashMap<String, String> hm = buildPostValues(file);
 
-			String serverUrl;
-			if (useTestUrl)
-				serverUrl = Consts.TEST_FILE_UPLOAD_URL;
-			else
-				serverUrl = Consts.FILE_UPLOAD_URL;
+			String serverUrl = useTestUrl ? Consts.TEST_FILE_UPLOAD_URL : Consts.FILE_UPLOAD_URL;
+
 			resultString = createConnection()
 					.doHttpPostFileUpload(serverUrl, hm, Consts.FILE_UPLOAD_TAG, zipFileString);
 
@@ -149,8 +148,9 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 	@Override
 	protected void onPostExecute(Boolean result) {
 		super.onPostExecute(result);
-		if (progressdialog != null && progressdialog.isShowing())
+		if (progressdialog != null && progressdialog.isShowing()) {
 			progressdialog.dismiss();
+		}
 
 		if (!result) {
 			showDialog(serverAnswer);
@@ -162,8 +162,9 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 	}
 
 	private void showDialog(String message) {
-		if (context == null)
+		if (context == null) {
 			return;
+		}
 		new Builder(context)
 				.setMessage(message)
 				.setPositiveButton("OK", null)
@@ -179,14 +180,19 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 		hm.put(Consts.PROJECT_CHECKSUM_TAG, md5Checksum);
 
 		String deviceIMEI = UtilDeviceInfo.getDeviceIMEI(context);
-		if (deviceIMEI != null)
+		if (deviceIMEI != null) {
 			hm.put(Consts.DEVICE_IMEI, deviceIMEI);
+		}
+
 		String userEmail = UtilDeviceInfo.getUserEmail(context);
-		if (userEmail != null)
+		if (userEmail != null) {
 			hm.put(Consts.USER_EMAIL, userEmail);
+		}
+
 		String language = UtilDeviceInfo.getUserLanguageCode(context);
-		if (language != null)
+		if (language != null) {
 			hm.put(Consts.USER_LANGUAGE, language);
+		}
 
 		return hm;
 	}

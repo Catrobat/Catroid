@@ -16,7 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content.brick;
+package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,60 +27,72 @@ import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.sprite.Sprite;
-import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
+import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
-public class ScaleCostumeBrick implements Brick, OnDismissListener {
+public class ChangeXByBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
+	private int xMovement;
 	private Sprite sprite;
-	private double scale;
 
-	public ScaleCostumeBrick(Sprite sprite, double scale) {
+	public ChangeXByBrick(Sprite sprite, int xMovement) {
 		this.sprite = sprite;
-		this.scale = scale;
+		this.xMovement = xMovement;
 	}
 
 	public void execute() {
-		sprite.setScale(scale);
+		int xPosition = sprite.getXPosition();
+
+		if (xPosition > 0 && xMovement > 0 && xPosition + xMovement < 0) {
+			xPosition = Integer.MAX_VALUE;
+		} else if (xPosition < 0 && xMovement < 0 && xPosition + xMovement > 0) {
+			xPosition = Integer.MIN_VALUE;
+		} else {
+			xPosition += xMovement;
+		}
+
+		sprite.setXYPosition(xPosition, sprite.getYPosition());
 	}
 
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
-	public double getScale() {
-		return scale;
+	public int getXMovement() {
+		return xMovement;
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_scale_costume, null);
+		View brickView = inflater.inflate(R.layout.construction_brick_change_x, null);
 
-		EditText edit = (EditText) view.findViewById(R.id.ScaleCostumeEditText);
-		edit.setText(String.valueOf(scale));
+		EditText editX = (EditText) brickView.findViewById(R.id.InputValueEditTextX);
+		editX.setText(String.valueOf(xMovement));
 
-		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, scale);
-		dialog.setOnDismissListener(this);
-		dialog.setOnCancelListener((OnCancelListener) context);
+		EditIntegerDialog dialogX = new EditIntegerDialog(context, editX, xMovement, true);
+		dialogX.setOnDismissListener(this);
+		dialogX.setOnCancelListener((OnCancelListener) context);
 
-		edit.setOnClickListener(dialog);
+		editX.setOnClickListener(dialogX);
 
-		return view;
+		return brickView;
 	}
 
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.toolbox_brick_scale_costume, null);
-		return view;
+		View brickView = inflater.inflate(R.layout.toolbox_brick_change_x, null);
+
+		return brickView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new ScaleCostumeBrick(getSprite(), getScale());
+		return new ChangeXByBrick(getSprite(), getXMovement());
 	}
 
 	public void onDismiss(DialogInterface dialog) {
-		scale = ((EditDoubleDialog) dialog).getValue();
+		EditIntegerDialog inputDialog = (EditIntegerDialog) dialog;
+		xMovement = inputDialog.getValue();
 		dialog.cancel();
 	}
 }

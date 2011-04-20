@@ -16,7 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content.brick;
+package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,71 +27,60 @@ import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.sprite.Sprite;
-import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
+import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 
-public class ChangeYByBrick implements Brick, OnDismissListener {
+public class ScaleCostumeBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
-	private int yMovement;
 	private Sprite sprite;
+	private double scale;
 
-	public ChangeYByBrick(Sprite sprite, int yMovement) {
+	public ScaleCostumeBrick(Sprite sprite, double scale) {
 		this.sprite = sprite;
-		this.yMovement = yMovement;
+		this.scale = scale;
 	}
 
 	public void execute() {
-		int yPosition = sprite.getYPosition();
-
-		if (yPosition > 0 && yMovement > 0 && yPosition + yMovement < 0) {
-			yPosition = Integer.MAX_VALUE;
-		} else if (yPosition < 0 && yMovement < 0 && yPosition + yMovement > 0) {
-			yPosition = Integer.MIN_VALUE;
-		} else {
-			yPosition += yMovement;
-		}
-
-		sprite.setXYPosition(sprite.getXPosition(), yPosition);
+		sprite.setScale(scale);
 	}
 
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
-	public int getYMovement() {
-		return yMovement;
+	public double getScale() {
+		return scale;
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.construction_brick_change_y, null);
+		View view = inflater.inflate(R.layout.construction_brick_scale_costume, null);
 
-		EditText editY = (EditText) brickView.findViewById(R.id.InputValueEditTextY);
-		editY.setText(String.valueOf(yMovement));
+		EditText edit = (EditText) view.findViewById(R.id.ScaleCostumeEditText);
+		edit.setText(String.valueOf(scale));
 
-		EditIntegerDialog dialogY = new EditIntegerDialog(context, editY, yMovement, true);
-		dialogY.setOnDismissListener(this);
-		dialogY.setOnCancelListener((OnCancelListener) context);
+		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, scale);
+		dialog.setOnDismissListener(this);
+		dialog.setOnCancelListener((OnCancelListener) context);
 
-		editY.setOnClickListener(dialogY);
+		edit.setOnClickListener(dialog);
 
-		return brickView;
+		return view;
 	}
 
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.toolbox_brick_change_y, null);
-		return brickView;
+		View view = inflater.inflate(R.layout.toolbox_brick_scale_costume, null);
+		return view;
 	}
 
 	@Override
 	public Brick clone() {
-		return new ChangeYByBrick(getSprite(), getYMovement());
+		return new ScaleCostumeBrick(getSprite(), getScale());
 	}
 
 	public void onDismiss(DialogInterface dialog) {
-		EditIntegerDialog inputDialog = (EditIntegerDialog) dialog;
-		yMovement = inputDialog.getValue();
+		scale = ((EditDoubleDialog) dialog).getValue();
 		dialog.cancel();
 	}
 }

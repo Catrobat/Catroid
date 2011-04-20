@@ -16,7 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content.brick;
+package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,62 +27,70 @@ import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
-public class SetXBrick implements Brick, OnDismissListener {
+public class GoNStepsBackBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
-	private int xPosition;
 	private Sprite sprite;
+	private int steps;
 
-	public SetXBrick(Sprite sprite, int xPosition) {
+	public GoNStepsBackBrick(Sprite sprite, int steps) {
 		this.sprite = sprite;
-		this.xPosition = xPosition;
+		this.steps = steps;
 	}
 
 	public void execute() {
-		sprite.setXYPosition(xPosition, sprite.getYPosition());
+		if (steps <= 0)
+			throw new NumberFormatException("Steps was not a positive number!");
+
+		int currentPosition = sprite.getZPosition();
+
+		if (currentPosition - steps > currentPosition) {
+			sprite.setZPosition(Integer.MIN_VALUE);
+			return;
+		}
+
+		sprite.setZPosition(currentPosition - steps);
 	}
 
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
-	public int getXPosition() {
-		return xPosition;
+	public int getSteps() {
+		return steps;
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.construction_brick_set_x, null);
+		View view = inflater.inflate(R.layout.construction_brick_go_back, null);
+		EditText edit = (EditText) view.findViewById(R.id.InputValueEditText);
 
-		EditText editX = (EditText) brickView.findViewById(R.id.InputValueEditTextX);
-		editX.setText(String.valueOf(xPosition));
+		edit.setText(String.valueOf(steps));
+		EditIntegerDialog dialog = new EditIntegerDialog(context, edit, steps, false);
+		dialog.setOnDismissListener(this);
+		dialog.setOnCancelListener((OnCancelListener) context);
+		edit.setOnClickListener(dialog);
 
-		EditIntegerDialog dialogX = new EditIntegerDialog(context, editX, xPosition, true);
-		dialogX.setOnDismissListener(this);
-		dialogX.setOnCancelListener((OnCancelListener) context);
-
-		editX.setOnClickListener(dialogX);
-
-		return brickView;
+		return view;
 	}
 
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.toolbox_brick_set_x, null);
-		return brickView;
+		View view = inflater.inflate(R.layout.toolbox_brick_go_back, null);
+		return view;
 	}
 
 	@Override
 	public Brick clone() {
-		return new SetXBrick(getSprite(), getXPosition());
+		return new GoNStepsBackBrick(getSprite(), getSteps());
+
 	}
 
 	public void onDismiss(DialogInterface dialog) {
-		EditIntegerDialog inputDialog = (EditIntegerDialog) dialog;
-		xPosition = inputDialog.getValue();
-
+		steps = ((EditIntegerDialog) dialog).getValue();
 		dialog.cancel();
 	}
+
 }
