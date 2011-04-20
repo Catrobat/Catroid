@@ -57,15 +57,14 @@ public class NewProjectDialog extends Dialog {
 			public void onShow(DialogInterface dialog) {
 				InputMethodManager inputManager = (InputMethodManager) context
 						.getSystemService(Context.INPUT_METHOD_SERVICE);
-				inputManager.showSoftInput(findViewById(R.id.newProjectNameEditText), InputMethodManager.SHOW_IMPLICIT);
+				inputManager.showSoftInput(findViewById(R.id.new_project_edit_text), InputMethodManager.SHOW_IMPLICIT);
 			}
 		});
 
 		Button createNewProjectButton = (Button) findViewById(R.id.new_project_dialog_create_button);
 		createNewProjectButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				String projectName = (((EditText) findViewById(R.id.newProjectNameEditText)).getText().toString())
-						.trim();
+				String projectName = ((EditText) findViewById(R.id.new_project_edit_text)).getText().toString().trim();
 				if (projectName.length() == 0) {
 					Utils.displayErrorMessage(context, context.getString(R.string.error_no_name_entered));
 					return;
@@ -82,50 +81,55 @@ public class NewProjectDialog extends Dialog {
 				Intent intent = new Intent(context, ProjectActivity.class);
 				context.startActivity(intent);
 				dismiss();
-				((EditText) findViewById(R.id.newProjectNameEditText)).setText(null);
+				((EditText) findViewById(R.id.new_project_edit_text)).setText(null);
 			}
 		});
 
 		this.setOnKeyListener(new OnKeyListener() {
 			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-				if (event.getAction() == KeyEvent.ACTION_DOWN)
-					{
-						switch (keyCode)
-					{
-					case KeyEvent.KEYCODE_ENTER:
-					String projectName = ((EditText) findViewById(R.id.newProjectNameEditText)).getText()
-										.toString();
-					if (projectName.length() == 0) {
-						Utils.displayErrorMessage(context, context.getString(R.string.error_no_name_entered));
-						return true;
-					}
-					try {
-						if (StorageHandler.getInstance().projectExists(projectName)) {
-							Utils.displayErrorMessage(context, context.getString(R.string.error_project_exists));
+				if (event.getAction() == KeyEvent.ACTION_DOWN) {
+					switch (keyCode) {
+						case KeyEvent.KEYCODE_ENTER: {
+							String projectName = ((EditText) findViewById(R.id.new_project_edit_text)).getText()
+									.toString();
+
+							if (projectName.length() == 0) {
+								Utils.displayErrorMessage(context, context.getString(R.string.error_no_name_entered));
+								return true;
+							}
+
+							try {
+								if (StorageHandler.getInstance().projectExists(projectName)) {
+									Utils.displayErrorMessage(context, context.getString(R.string.error_project_exists));
+									return true;
+								}
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+
+							ProjectManager.getInstance().initializeNewProject(projectName, context);
+							Intent intent = new Intent(context, ProjectActivity.class);
+							context.startActivity(intent);
+
+							dismiss();
+							((EditText) findViewById(R.id.new_project_edit_text)).setText(null);
+
 							return true;
 						}
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					ProjectManager.getInstance().initializeNewProject(projectName, context);
-					Intent intent = new Intent(context, ProjectActivity.class);
-					context.startActivity(intent);
-					dismiss();
-					((EditText) findViewById(R.id.newProjectNameEditText)).setText(null);
-					return true;
-				default:
+						default: {
 							break;
 						}
 					}
-					return false;
 				}
+				return false;
+			}
 		});
 
 		Button cancelButton = (Button) findViewById(R.id.cancelDialogButton);
 		cancelButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				dismiss();
-				((EditText) findViewById(R.id.newProjectNameEditText)).setText(null);
+				((EditText) findViewById(R.id.new_project_edit_text)).setText(null);
 			}
 		});
 	}

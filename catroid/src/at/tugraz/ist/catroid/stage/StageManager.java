@@ -49,8 +49,9 @@ public class StageManager {
 				spritesChanged = !drawSprites();
 			}
 
-			if (!isPaused)
+			if (!isPaused) {
 				handler.postDelayed(this, 33);
+			}
 		}
 	};
 
@@ -66,7 +67,7 @@ public class StageManager {
 		spritesChanged = true;
 		draw = new CanvasDraw();
 
-		for (Sprite sprite: spriteList) {
+		for (Sprite sprite : spriteList) {
 			sprite.startScripts();
 		}
 	}
@@ -77,15 +78,15 @@ public class StageManager {
 
 	public void processOnTouch(int coordX, int coordY) {
 		ArrayList<Sprite> touchedSpriteList = new ArrayList<Sprite>();
-		for(Sprite sprite : spriteList){
-			if(sprite.processOnTouch(coordX, coordY)){
+		for (Sprite sprite : spriteList) {
+			if (sprite.processOnTouch(coordX, coordY)) {
 				touchedSpriteList.add(sprite);
 			}
 		}
 
 		java.util.Collections.sort(touchedSpriteList);
-		if(!touchedSpriteList.isEmpty()){
-			touchedSpriteList.get(touchedSpriteList.size()-1).startTouchScripts();
+		if (!touchedSpriteList.isEmpty()) {
+			touchedSpriteList.get(touchedSpriteList.size() - 1).startTouchScripts();
 		}
 	}
 
@@ -105,7 +106,7 @@ public class StageManager {
 	}
 
 	public void resume() {
-		for(Sprite sprite : spriteList){
+		for (Sprite sprite : spriteList) {
 			sprite.resume();
 		}
 		isPaused = false;

@@ -64,10 +64,6 @@ import com.thoughtworks.xstream.XStream;
  */
 public class StorageHandler {
 
-	public static final int FILE_EXISTED = 0;
-	public static final int FILE_COPIED = 1;
-	public static final int COPY_FAILED = 2;
-
 	private static StorageHandler instance;
 	private ArrayList<SoundInfo> soundContent;
 	private File catroidRoot;
@@ -124,20 +120,25 @@ public class StorageHandler {
 
 	public void saveProject(Project project) {
 		createCatroidRoot();
-		if (project == null)
+		if (project == null) {
 			return;
+		}
 		try {
 			String spfFile = xstream.toXML(project);
 
 			File projectDirectory = new File(catroidRoot.getAbsolutePath() + "/" + project.getName());
 			if (!(projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite())) {
 				projectDirectory.mkdir();
+
 				File imageDirectory = new File(projectDirectory.getAbsolutePath() + Consts.IMAGE_DIRECTORY);
 				imageDirectory.mkdir();
+
 				File noMediaFile = new File(projectDirectory.getAbsolutePath() + Consts.IMAGE_DIRECTORY + "/.nomedia");
 				noMediaFile.createNewFile();
+
 				File soundDirectory = new File(projectDirectory.getAbsolutePath() + Consts.SOUND_DIRECTORY);
 				soundDirectory.mkdir();
+
 				noMediaFile = new File(projectDirectory.getAbsolutePath() + Consts.SOUND_DIRECTORY + "/.nomedia");
 				noMediaFile.createNewFile();
 			}
@@ -153,8 +154,9 @@ public class StorageHandler {
 	}
 
 	public void deleteProject(Project project) {
-		if (project != null)
+		if (project != null) {
 			UtilFile.deleteDirectory(new File(catroidRoot.getAbsolutePath() + "/" + project.getName()));
+		}
 	}
 
 	public boolean projectExists(String projectName) {
@@ -213,8 +215,9 @@ public class StorageHandler {
 		String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
 		File soundDirectory = new File(catroidRoot.getAbsolutePath() + "/" + currentProject + Consts.SOUND_DIRECTORY);
 		File inputFile = new File(path);
-		if (!inputFile.exists() || !inputFile.canRead())
+		if (!inputFile.exists() || !inputFile.canRead()) {
 			return null;
+		}
 
 		final String timestamp = Utils.getTimestamp();
 		File outputFile = new File(soundDirectory.getAbsolutePath() + "/" + timestamp + inputFile.getName());
@@ -227,8 +230,9 @@ public class StorageHandler {
 				+ Consts.IMAGE_DIRECTORY);
 
 		File inputFile = new File(inputFilePath);
-		if (!inputFile.exists() || !inputFile.canRead())
+		if (!inputFile.exists() || !inputFile.canRead()) {
 			return null;
+		}
 
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 		String timestamp = simpleDateFormat.format(new Date());
@@ -239,8 +243,9 @@ public class StorageHandler {
 
 		if ((imageDimensions[0] <= Consts.MAX_COSTUME_WIDTH) && (imageDimensions[1] <= Consts.MAX_COSTUME_HEIGHT)) {
 			return copyFile(outputFile, inputFile, imageDirectory);
-		} else
+		} else {
 			return copyAndResizeImage(outputFile, inputFile, imageDirectory);
+		}
 	}
 
 	public File copyAndResizeImage(File destinationFile, File sourceFile, File directory) throws IOException {
@@ -298,10 +303,12 @@ public class StorageHandler {
 			e.printStackTrace();
 			return null;
 		} finally {
-			if (inputChannel != null)
+			if (inputChannel != null) {
 				inputChannel.close();
-			if (outputChannel != null)
+			}
+			if (outputChannel != null) {
 				outputChannel.close();
+			}
 		}
 	}
 
@@ -333,7 +340,6 @@ public class StorageHandler {
 		while ((nread = fis.read(dataBytes)) != -1) {
 			md.update(dataBytes, 0, nread);
 		}
-		;
 
 		byte[] mdbytes = md.digest();
 		StringBuffer sb = new StringBuffer("");
@@ -355,7 +361,7 @@ public class StorageHandler {
 		Project defaultProject = new Project(context, projectName);
 		saveProject(defaultProject);
 		Sprite sprite = new Sprite("Catroid");
-		//scrips:
+		//scripts:
 		Script startScript = new Script("startScript", sprite);
 		Script touchScript = new Script("touchScript", sprite);
 		touchScript.setTouchScript(true);

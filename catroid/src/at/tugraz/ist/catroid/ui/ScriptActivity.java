@@ -62,8 +62,9 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		sprite = ProjectManager.getInstance().getCurrentSprite();
 		listView = (DragNDropListView) findViewById(R.id.brickListView);
 		adapter = new BrickAdapter(this, ProjectManager.getInstance().getCurrentSprite(), listView);
-		if (adapter.getGroupCount() > 0)
+		if (adapter.getGroupCount() > 0) {
 			ProjectManager.getInstance().setCurrentScript(adapter.getGroup(adapter.getGroupCount() - 1));
+		}
 
 		listView.setTrashView((ImageView) findViewById(R.id.trash));
 		listView.setOnCreateContextMenuListener(this);
@@ -107,8 +108,9 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.script_activity);
 		initListeners();
-		if (adapter.getGroupCount() > 0)
+		if (adapter.getGroupCount() > 0) {
 			listView.expandGroup(adapter.getGroupCount() - 1);
+		}
 	}
 
 	@Override
@@ -151,12 +153,14 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	}
 
 	public void onDismiss(DialogInterface dialog) {
-		for (int i = 0; i < adapter.getGroupCount() - 1; ++i)
+		for (int i = 0; i < adapter.getGroupCount() - 1; ++i) {
 			listView.collapseGroup(i);
+		}
 
 		adapter.notifyDataSetChanged();
-		if (adapter.getGroupCount() > 0)
+		if (adapter.getGroupCount() > 0) {
 			listView.expandGroup(adapter.getGroupCount() - 1);
+		}
 	}
 
 	public void onCancel(DialogInterface arg0) {
@@ -185,8 +189,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 						StorageHandler.getInstance().deleteFile(affectedBrick.getImagePath());
 					}
 					File outputFile = StorageHandler.getInstance().copyImage(
-							ProjectManager.getInstance().getCurrentProject().getName(),
-							selectedImagePath);
+							ProjectManager.getInstance().getCurrentProject().getName(), selectedImagePath);
 					if (outputFile != null) {
 						affectedBrick.setCostume(outputFile.getAbsolutePath());
 						adapter.notifyDataSetChanged();
@@ -217,8 +220,9 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 					(ExpandableListView.ExpandableListContextMenuInfo) menuInfo;
 			menu.setHeaderTitle("Script Menu");
 
-			if (ExpandableListView.getPackedPositionType(info.packedPosition) == ExpandableListView.PACKED_POSITION_TYPE_CHILD)
+			if (ExpandableListView.getPackedPositionType(info.packedPosition) == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
 				return;
+			}
 
 			int position = ExpandableListView.getPackedPositionGroup(info.packedPosition);
 			scriptToEdit = adapter.getGroup(position);
@@ -229,9 +233,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		int menuItemIndex = item.getItemId();
-
-		switch (menuItemIndex) {
+		switch (item.getItemId()) {
 		case DELETE:
 			sprite.getScriptList().remove(scriptToEdit);
 			if (sprite.getScriptList().isEmpty()) {

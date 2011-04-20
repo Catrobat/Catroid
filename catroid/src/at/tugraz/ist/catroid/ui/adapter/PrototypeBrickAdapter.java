@@ -33,7 +33,6 @@ import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView.DropListener;
 import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView.RemoveListener;
 
-
 public class PrototypeBrickAdapter extends BaseAdapter implements DropListener, RemoveListener {
 
 	private Context context;
@@ -43,7 +42,7 @@ public class PrototypeBrickAdapter extends BaseAdapter implements DropListener, 
 		this.context = context;
 		this.brickList = brickList;
 	}
-	
+
 	public int getCount() {
 		return brickList.size();
 	}
@@ -57,23 +56,23 @@ public class PrototypeBrickAdapter extends BaseAdapter implements DropListener, 
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
-        Brick brick = brickList.get(position);
-        
-        return brick.getPrototypeView(context);
-       
+		Brick brick = brickList.get(position);
+
+		return brick.getPrototypeView(context);
 	}
-	
+
 	public void drop(int from, int to) {
-        if(from == to)
-            return;
-        Brick removedBrick = brickList.remove(from);
-        brickList.add(to, removedBrick);
-        notifyDataSetChanged();
-    }       
- 
-    public void remove(int which) {
-        brickList.remove(which);
-        notifyDataSetChanged();
-    }       
-    
+		if (from == to) {
+			return;
+		}
+		Brick removedBrick = brickList.remove(from);
+		brickList.add(to, removedBrick);
+		notifyDataSetChanged();
+	}
+
+	public void remove(int which) {
+		brickList.remove(which);
+		notifyDataSetChanged();
+	}
+
 }
