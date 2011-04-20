@@ -46,7 +46,6 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="0"
 			android:textStyle="bold"
-			android:visibility="gone"
 		>
 		</Button>
 		<Button

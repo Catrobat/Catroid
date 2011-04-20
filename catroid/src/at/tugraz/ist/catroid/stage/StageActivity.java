@@ -29,6 +29,9 @@ import android.view.SurfaceView;
 import android.view.Window;
 import android.view.WindowManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.content.Script;
+import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -92,12 +95,12 @@ public class StageActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.stagemenuStart:
-			pauseOrContinue();
-			break;
-		case R.id.stagemenuConstructionSite:
-			toMainActivity();
-			break;
+			case R.id.stagemenuStart:
+				pauseOrContinue();
+				break;
+			case R.id.stagemenuConstructionSite:
+				toMainActivity();
+				break;
 		}
 		return true;
 	}
@@ -122,6 +125,12 @@ public class StageActivity extends Activity {
 	protected void onDestroy() {
 		super.onDestroy();
 		soundManager.clear();
+		ProjectManager projectManager = ProjectManager.getInstance();
+		Sprite currentSprite = projectManager.getCurrentSprite();
+		Script currentScript = projectManager.getCurrentScript();
+		projectManager.loadProject(projectManager.getCurrentProject().getName(), this);
+		projectManager.setCurrentSprite(currentSprite);
+		projectManager.setCurrentScript(currentScript);
 	}
 
 	@Override
