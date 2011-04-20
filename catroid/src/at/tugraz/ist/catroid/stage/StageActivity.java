@@ -29,7 +29,7 @@ import android.view.SurfaceView;
 import android.view.Window;
 import android.view.WindowManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.io.sound.SoundManager;
+import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class StageActivity extends Activity {

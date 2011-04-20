@@ -17,7 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.tugraz.ist.catroid.io.sound;
+package at.tugraz.ist.catroid.io;
 
 import java.io.IOException;
 import java.util.ArrayList;
