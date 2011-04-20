@@ -38,8 +38,8 @@ import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.entities.SoundInfo;
+import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.io.StorageHandler;
-import at.tugraz.ist.catroid.io.sound.SoundManager;
 import at.tugraz.ist.catroid.ui.adapter.SoundBrickAdapter;
 
 public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable {
