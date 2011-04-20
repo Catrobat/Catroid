@@ -104,6 +104,10 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		File directory = new File("/sdcard/catroid/" + projectName);
 		UtilFile.deleteDirectory(directory);
 
+		if(soundFile != null){
+			soundFile.delete();
+		}
+
 		getActivity().finish();
 		super.tearDown();
 	}
