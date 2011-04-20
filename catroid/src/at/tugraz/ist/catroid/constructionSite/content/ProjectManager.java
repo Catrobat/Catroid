@@ -21,8 +21,6 @@ package at.tugraz.ist.catroid.constructionSite.content;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Observable;
-import java.util.Observer;
 
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -35,8 +33,7 @@ import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class ProjectManager extends Observable {
-	// private final String DEFAULT_PROJECT_NAME = "defaultProject";
+public class ProjectManager {
 
 	private Sprite currentSprite;
 	private Project project;
@@ -60,7 +57,6 @@ public class ProjectManager extends Observable {
 			project = StorageHandler.getInstance().loadProject(projectName);
 			if (project == null) {
 				project = StorageHandler.getInstance().createDefaultProject(context);
-				//initializeNewProject(context.getString(R.string.default_project_name), context);
 			}
 			currentSprite = null;
 			currentScript = null;
@@ -133,10 +129,6 @@ public class ProjectManager extends Observable {
 			currentScript.moveBrickBySteps(currentScript.getBrickList().get(position), 1);
 
 		}
-	}
-
-	public void setObserver(Observer observer) {
-		addObserver(observer);
 	}
 
 	public Sprite getCurrentSprite() {

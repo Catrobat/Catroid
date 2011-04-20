@@ -84,45 +84,48 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 	}
 
 	public void onClick(View v) {
+		ProjectManager projectManager = ProjectManager.getInstance();
+
 		switch (v.getId()) {
-		case R.id.upload_button:
-			String uploadName = projectUploadName.getText().toString();
-			if (uploadName.length() == 0) {
-				Utils.displayErrorMessage(context, context.getString(R.string.error_no_name_entered));
-				return;
-			} else if (!uploadName.equals(currentProjectName)) {
-				projectRename.setVisibility(View.VISIBLE);
-				renameProject = true;
-			}
-
-			if (renameProject) {
-				boolean renamed = ProjectManager.getInstance().renameProject(newProjectName, context);
-				if (!renamed) {
-					break;
+			case R.id.upload_button:
+				String uploadName = projectUploadName.getText().toString();
+				if (uploadName.length() == 0) {
+					Utils.displayErrorMessage(context, context.getString(R.string.error_no_name_entered));
+					return;
+				} else if (!uploadName.equals(currentProjectName)) {
+					projectRename.setVisibility(View.VISIBLE);
+					renameProject = true;
 				}
-			}
-			ProjectManager.getInstance().getCurrentProject().setDeviceData();
-			ProjectManager.getInstance().saveProject(context);
 
-			dismiss();
-			String projectPath = Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName();
-			String projectDescription;
+				if (renameProject) {
+					boolean renamed = projectManager.renameProject(newProjectName, context);
+					if (!renamed) {
+						break;
+					}
+				}
+				projectManager.getCurrentProject().setDeviceData();
+				projectManager.saveProject(context);
 
-			if (projectDescriptionField.getText().toString().length() != 0) {
-				projectDescription = projectDescriptionField.getText().toString();
-			} else {
-				projectDescription = "";
-			}
+				dismiss();
+				String projectPath = Consts.DEFAULT_ROOT + "/" + projectManager.getCurrentProject().getName();
+				String projectDescription;
 
-			new ProjectUploadTask(context, uploadName, projectDescription, projectPath).execute();
-			break;
-		case R.id.cancel_button:
-			dismiss();
-			((EditText) findViewById(R.id.project_upload_name)).setText(currentProjectName);
-			((EditText) findViewById(R.id.project_description_upload)).setText(null);
-			projectRename.setVisibility(View.GONE);
+				if (projectDescriptionField.length() != 0) {
+					projectDescription = projectDescriptionField.getText().toString();
+				} else {
+					projectDescription = "";
+				}
 
-			break;
+				new ProjectUploadTask(context, uploadName, projectDescription, projectPath).execute();
+				break;
+
+			case R.id.cancel_button:
+				dismiss();
+				((EditText) findViewById(R.id.project_upload_name)).setText(currentProjectName);
+				((EditText) findViewById(R.id.project_description_upload)).setText(null);
+				projectRename.setVisibility(View.GONE);
+
+				break;
 		}
 
 	}

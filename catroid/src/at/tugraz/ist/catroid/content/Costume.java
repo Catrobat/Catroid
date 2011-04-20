@@ -115,7 +115,6 @@ public class Costume implements Serializable {
 	}
 
 	public Pair<Integer, Integer> getImageWidthHeight() {
-
 		return new Pair<Integer, Integer>(actWidth, actHeight);
 	}
 

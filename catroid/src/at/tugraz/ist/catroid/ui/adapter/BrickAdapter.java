@@ -72,8 +72,9 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 		Brick brick = getChild(groupPosition, childPosition);
 
 		View currentBrickView = brick.getView(context, childPosition, this);
-		if (!animateChildren)
+		if (!animateChildren) {
 			return currentBrickView;
+		}
 		brickListAnimation.doExpandAnimation(currentBrickView, childPosition);
 
 		return currentBrickView;
@@ -114,8 +115,9 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 	}
 
 	public void drop(int from, int to) {
-		if (from == to)
+		if (from == to) {
 			return;
+		}
 		ArrayList<Brick> brickList = sprite.getScriptList().get(getGroupCount() - 1).getBrickList();
 		Brick removedBrick = brickList.remove(from);
 		brickList.add(to, removedBrick);
@@ -149,8 +151,9 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 	}
 
 	public boolean onGroupClick(final ExpandableListView parent, View v, final int groupPosition, long id) {
-		if (groupPosition == getGroupCount() - 1)
+		if (groupPosition == getGroupCount() - 1) {
 			return false;
+		}
 
 		animateChildren = true;
 		brickListAnimation.doClickOnGroupAnimate(getGroupCount(), groupPosition);
@@ -158,8 +161,9 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 	}
 
 	public void doReordering(ExpandableListView parent, int groupPosition) {
-		for (int i = 0; i < getGroupCount(); ++i)
+		for (int i = 0; i < getGroupCount(); ++i) {
 			parent.collapseGroup(i);
+		}
 		Script currentScript = sprite.getScriptList().get(groupPosition);
 		int lastScriptIndex = sprite.getScriptList().size() - 1;
 		Script lastScript = sprite.getScriptList().get(lastScriptIndex);

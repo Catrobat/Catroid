@@ -56,7 +56,6 @@ public class ProjectActivity extends Activity {
 		listView.setAdapter(adapter);
 		registerForContextMenu(listView);
 		listView.setOnItemClickListener(new ListView.OnItemClickListener() {
-
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				ProjectManager.getInstance().setCurrentSprite(adapter.getItem(position));
 				Intent intent = new Intent(ProjectActivity.this, ScriptActivity.class);
@@ -90,7 +89,6 @@ public class ProjectActivity extends Activity {
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialog;
-		// Save Content here?
 
 		switch (id) {
 		case Consts.DIALOG_NEW_SPRITE:
@@ -153,8 +151,7 @@ public class ProjectActivity extends Activity {
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		int menuItemIndex = item.getItemId();
-		switch (menuItemIndex) {
+		switch (item.getItemId()) {
 		case 0: // rename
 			this.showDialog(Consts.DIALOG_RENAME_SPRITE);
 			break;

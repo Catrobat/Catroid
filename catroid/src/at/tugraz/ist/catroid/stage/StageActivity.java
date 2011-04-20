@@ -63,12 +63,14 @@ public class StageActivity extends Activity {
 	public boolean onTouchEvent(MotionEvent event) {
 
 		// first pointer: MotionEvent.ACTION_DOWN
-		if (event.getAction() == MotionEvent.ACTION_DOWN)
+		if (event.getAction() == MotionEvent.ACTION_DOWN) {
 			processOnTouch((int) event.getX(), (int) event.getY());
+		}
 
 		// second pointer: MotionEvent.ACTION_POINTER_2_DOWN
-		if (event.getAction() == MotionEvent.ACTION_POINTER_2_DOWN)
+		if (event.getAction() == MotionEvent.ACTION_POINTER_2_DOWN) {
 			processOnTouch((int) event.getX(1), (int) event.getY(1));
+		}
 
 		return false;
 	}
