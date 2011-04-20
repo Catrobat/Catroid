@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@ import java.util.ArrayList;
 
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.AndroidTestCase;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -34,96 +35,107 @@ import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 
 public class StorageHandlerTest extends AndroidTestCase {
-    private StorageHandler storageHandler;
-    
-    public StorageHandlerTest() throws IOException {
-        storageHandler = StorageHandler.getInstance();
-    }
+	private StorageHandler storageHandler;
 
-    public void testSerializeProject() throws NameNotFoundException {
+	public StorageHandlerTest() throws IOException {
+		storageHandler = StorageHandler.getInstance();
+	}
 
-        int xPosition = 457;
-        int yPosition = 598;
-        double scaleValue = 0.8;
+	public void testSerializeProject() throws NameNotFoundException {
 
-        Project project = new Project(getContext(), "testProject");
-        Sprite firstSprite = new Sprite("first");
-        Sprite secondSprite = new Sprite("second");
-        Sprite thirdSprite = new Sprite("third");
-        Sprite fourthSprite = new Sprite("fourth");
-        Script testScript = new Script("testScript", firstSprite);
-        Script otherScript = new Script("otherScript", secondSprite);
-        HideBrick hideBrick = new HideBrick(firstSprite);
-        ShowBrick showBrick = new ShowBrick(firstSprite);
-        ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(secondSprite, scaleValue);
-        ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(firstSprite);
-        PlaceAtBrick placeAtBrick = new PlaceAtBrick(secondSprite, xPosition, yPosition);
+		int xPosition = 457;
+		int yPosition = 598;
+		double scaleValue = 0.8;
 
-        // adding Bricks: ----------------
-        testScript.addBrick(hideBrick);
-        testScript.addBrick(showBrick);
-        testScript.addBrick(scaleCostumeBrick);
-        testScript.addBrick(comeToFrontBrick);
+		Project project = new Project(getContext(), "testProject");
+		Sprite firstSprite = new Sprite("first");
+		Sprite secondSprite = new Sprite("second");
+		Sprite thirdSprite = new Sprite("third");
+		Sprite fourthSprite = new Sprite("fourth");
+		Script testScript = new Script("testScript", firstSprite);
+		Script otherScript = new Script("otherScript", secondSprite);
+		HideBrick hideBrick = new HideBrick(firstSprite);
+		ShowBrick showBrick = new ShowBrick(firstSprite);
+		ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(secondSprite, scaleValue);
+		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(firstSprite);
+		PlaceAtBrick placeAtBrick = new PlaceAtBrick(secondSprite, xPosition, yPosition);
 
-        otherScript.addBrick(placeAtBrick); // secondSprite
-        otherScript.setPaused(true);
-        // -------------------------------
+		// adding Bricks: ----------------
+		testScript.addBrick(hideBrick);
+		testScript.addBrick(showBrick);
+		testScript.addBrick(scaleCostumeBrick);
+		testScript.addBrick(comeToFrontBrick);
 
-        firstSprite.getScriptList().add(testScript);
-        secondSprite.getScriptList().add(otherScript);
+		otherScript.addBrick(placeAtBrick); // secondSprite
+		otherScript.setPaused(true);
+		// -------------------------------
 
-        project.addSprite(firstSprite);
-        project.addSprite(secondSprite);
-        project.addSprite(thirdSprite);
-        project.addSprite(fourthSprite);
+		firstSprite.getScriptList().add(testScript);
+		secondSprite.getScriptList().add(otherScript);
 
-        storageHandler.saveProject(project);
+		project.addSprite(firstSprite);
+		project.addSprite(secondSprite);
+		project.addSprite(thirdSprite);
+		project.addSprite(fourthSprite);
 
-        Project loadedProject = storageHandler.loadProject("testProject");
+		storageHandler.saveProject(project);
 
-        ArrayList<Sprite> preSpriteList = (ArrayList<Sprite>) project.getSpriteList();
-        ArrayList<Sprite> postSpriteList = (ArrayList<Sprite>) loadedProject.getSpriteList();
+		Project loadedProject = storageHandler.loadProject("testProject");
 
-        // Test sprite names:
-        assertEquals("First sprite does not match after deserialization", preSpriteList.get(0).getName(),
-                postSpriteList.get(0).getName());
-        assertEquals("Second sprite does not match after deserialization", preSpriteList.get(1).getName(),
-                postSpriteList.get(1).getName());
-        assertEquals("Third sprite does not match after deserialization", preSpriteList.get(2).getName(),
-                postSpriteList.get(2).getName());
-        assertEquals("Fourth sprite does not match after deserialization", preSpriteList.get(3).getName(),
-                postSpriteList.get(3).getName());
-        assertEquals("Fifth sprite does not match after deserialization", preSpriteList.get(4).getName(),
-                postSpriteList.get(4).getName());
+		ArrayList<Sprite> preSpriteList = (ArrayList<Sprite>) project.getSpriteList();
+		ArrayList<Sprite> postSpriteList = (ArrayList<Sprite>) loadedProject.getSpriteList();
 
-        // Test project name:
-        assertEquals("Title missmatch after deserialization", project.getName(), loadedProject.getName());
+		// Test sprite names:
+		assertEquals("First sprite does not match after deserialization", preSpriteList.get(0).getName(),
+				postSpriteList.get(0).getName());
+		assertEquals("Second sprite does not match after deserialization", preSpriteList.get(1).getName(),
+				postSpriteList.get(1).getName());
+		assertEquals("Third sprite does not match after deserialization", preSpriteList.get(2).getName(),
+				postSpriteList.get(2).getName());
+		assertEquals("Fourth sprite does not match after deserialization", preSpriteList.get(3).getName(),
+				postSpriteList.get(3).getName());
+		assertEquals("Fifth sprite does not match after deserialization", preSpriteList.get(4).getName(),
+				postSpriteList.get(4).getName());
 
-        // Test random brick values
-        assertEquals("Scale was not deserialized right", scaleValue, ((ScaleCostumeBrick) (postSpriteList.get(1)
-                .getScriptList().get(0).getBrickList().get(2))).getScale());
-        assertEquals("XPosition was not deserialized right", xPosition, ((PlaceAtBrick) (postSpriteList.get(2)
-                .getScriptList().get(0).getBrickList().get(0))).getXPosition());
-        assertEquals("YPosition was not deserialized right", yPosition, ((PlaceAtBrick) (postSpriteList.get(2)
-                .getScriptList().get(0).getBrickList().get(0))).getYPosition());
+		// Test project name:
+		assertEquals("Title missmatch after deserialization", project.getName(), loadedProject.getName());
 
-        assertEquals("isTouchScript should not be set in script", preSpriteList.get(1).getScriptList().get(0)
-                .isTouchScript(), postSpriteList.get(1).getScriptList().get(0).isTouchScript());
-        assertFalse("paused should not be set in script", preSpriteList.get(1).getScriptList().get(0).isPaused());
+		// Test random brick values
+		assertEquals("Scale was not deserialized right", scaleValue, ((ScaleCostumeBrick) (postSpriteList.get(1)
+				.getScriptList().get(0).getBrickList().get(2))).getScale());
+		assertEquals("XPosition was not deserialized right", xPosition, ((PlaceAtBrick) (postSpriteList.get(2)
+				.getScriptList().get(0).getBrickList().get(0))).getXPosition());
+		assertEquals("YPosition was not deserialized right", yPosition, ((PlaceAtBrick) (postSpriteList.get(2)
+				.getScriptList().get(0).getBrickList().get(0))).getYPosition());
 
-        // Test script value
-        assertEquals("paused should be set in script", preSpriteList.get(2).getScriptList().get(0).isPaused(),
-                postSpriteList.get(2).getScriptList().get(0).isPaused());
-        
-        // Test version codes and names
-        final int preVersionCode = project.getVersionCode();
-        final int postVersionCode = loadedProject.getVersionCode();
-        assertEquals("Version codes are not equal", preVersionCode, postVersionCode);
-        
-        final String preVersionName = project.getVersionName();
-        final String postVersionName = loadedProject.getVersionName();
-        assertEquals("Version names are not equal", preVersionName, postVersionName);
-    }
-    
-    
+		assertEquals("isTouchScript should not be set in script", preSpriteList.get(1).getScriptList().get(0)
+				.isTouchScript(), postSpriteList.get(1).getScriptList().get(0).isTouchScript());
+		assertFalse("paused should not be set in script", preSpriteList.get(1).getScriptList().get(0).isPaused());
+
+		// Test script value
+		assertEquals("paused should be set in script", preSpriteList.get(2).getScriptList().get(0).isPaused(),
+				postSpriteList.get(2).getScriptList().get(0).isPaused());
+
+		// Test version codes and names
+		final int preVersionCode = project.getVersionCode();
+		final int postVersionCode = loadedProject.getVersionCode();
+		assertEquals("Version codes are not equal", preVersionCode, postVersionCode);
+
+		final String preVersionName = project.getVersionName();
+		final String postVersionName = loadedProject.getVersionName();
+		assertEquals("Version names are not equal", preVersionName, postVersionName);
+	}
+
+	public void testDefaultProject() throws IOException{
+		StorageHandler handler = StorageHandler.getInstance();
+		ProjectManager project = ProjectManager.getInstance();
+		project.setProject(handler.createDefaultProject(getContext()));
+		assertEquals(2, project.getCurrentProject().getSpriteList().size());
+		assertEquals(2, project.getCurrentProject().getSpriteList().get(1).getScriptList().size());
+		assertEquals(21, project.getCurrentProject().getSpriteList().get(1).getScriptList().get(0).getBrickList().size());
+		assertEquals(1, project.getCurrentProject().getSpriteList().get(1).getScriptList().get(1).getBrickList().size());
+		//		String imagePath = Consts.DEFAULT_ROOT + "/" + getContext().getString() + Consts.IMAGE_DIRECTORY + "/" + Consts.CAT1;
+		//		File testFile = new File(imagePath);
+		//		assertTrue(testFile.exists());
+	}
 }
