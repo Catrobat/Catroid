@@ -46,15 +46,15 @@ public class Utils {
 		return android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
 	}
 
-    /**
-     * Checks whether the current device has an SD card. If it has none an error
-     * message is displayed and the calling activity is finished. A
-     * RuntimeException is thrown after the call to Activity.finish; find out
-     * why!
-     * 
-     * @param parentActivity
-     *            the activity that calls this method
-     */
+	/**
+	 * Checks whether the current device has an SD card. If it has none an error
+	 * message is displayed and the calling activity is finished. A
+	 * RuntimeException is thrown after the call to Activity.finish; find out
+	 * why!
+	 * 
+	 * @param parentActivity
+	 *            the activity that calls this method
+	 */
 	public static boolean checkForSdCard(final Activity parentActivity) {
 		if (!hasSdCard()) {
 			Builder builder = new AlertDialog.Builder(parentActivity);
@@ -93,8 +93,8 @@ public class Utils {
 		File fileTo = new File(to);
 
 		if (fileTo.exists()) {
-            deleteFile(fileTo.getAbsolutePath());
-        }
+			deleteFile(fileTo.getAbsolutePath());
+		}
 		try {
 			fileTo.createNewFile();
 		} catch (IOException e1) {
@@ -102,12 +102,13 @@ public class Utils {
 		}
 
 		if (!fileFrom.exists() || !fileTo.exists()) {
-            return false;
-        }
+			return false;
+		}
 
 		ProgressDialog progressDialog = null;
 		if (showProgressDialog && context != null) {
-			progressDialog = ProgressDialog.show(context, context.getString(R.string.please_wait), context.getString(R.string.loading));
+			progressDialog = ProgressDialog.show(context, context.getString(R.string.please_wait),
+					context.getString(R.string.loading));
 		}
 
 		Thread t = new FileCopyThread(fileTo, fileFrom, progressDialog);
@@ -131,10 +132,10 @@ public class Utils {
 		File projectFolder = new File(concatPaths(Consts.DEFAULT_ROOT, projectName));
 		return projectFolder.exists();
 	}
-	
+
 	public static String getTimestamp() {
-	    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-	    return simpleDateFormat.format(new Date());
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+		return simpleDateFormat.format(new Date());
 	}
 
 	public static boolean deleteFolder(String path) {
@@ -142,14 +143,14 @@ public class Utils {
 		if (fileFrom.isDirectory()) {
 			for (File c : fileFrom.listFiles()) {
 				if (c.isDirectory()) {
-                    deleteFolder(c.getAbsolutePath());
-                } else {
-                    c.delete();
-                }
+					deleteFolder(c.getAbsolutePath());
+				} else {
+					c.delete();
+				}
 			}
 		} else {
-            fileFrom.delete();
-        }
+			fileFrom.delete();
+		}
 
 		return true;
 	}
@@ -159,18 +160,18 @@ public class Utils {
 		if (fileFrom.isDirectory()) {
 			for (File c : fileFrom.listFiles()) {
 				if (c.isDirectory()) {
-                    deleteFolder(c.getAbsolutePath(), ignoreFile);
-                } else {
+					deleteFolder(c.getAbsolutePath(), ignoreFile);
+				} else {
 					if (!c.getName().equals(ignoreFile)) {
-                        c.delete();
-                    }
+						c.delete();
+					}
 				}
 
 			}
 		} else {
 			if (!fileFrom.getName().equals(ignoreFile)) {
-                fileFrom.delete();
-            }
+				fileFrom.delete();
+			}
 		}
 
 		return true;
@@ -178,41 +179,42 @@ public class Utils {
 
 	public static String concatPaths(String first, String second) {
 		if (first == null && second == null) {
-            return null;
-        }
+			return null;
+		}
 		if (first == null) {
-            return second;
-        }
+			return second;
+		}
 		if (second == null) {
-            return first;
-        }
+			return first;
+		}
 		if (first.endsWith("/")) {
-            if (second.startsWith("/")) {
-                return first + second.replaceFirst("/", "");
-            } else {
-                return first + second;
-            }
-        } else if (second.startsWith("/")) {
-            return first + second;
-        } else {
-            return first + "/" + second;
-        }
+			if (second.startsWith("/")) {
+				return first + second.replaceFirst("/", "");
+			} else {
+				return first + second;
+			}
+		} else if (second.startsWith("/")) {
+			return first + second;
+		} else {
+			return first + "/" + second;
+		}
 	}
 
 	public static String addDefaultFileEnding(String filename) {
 		if (!filename.endsWith(Consts.PROJECT_EXTENTION)) {
-            return filename + Consts.PROJECT_EXTENTION;
-        }
+			return filename + Consts.PROJECT_EXTENTION;
+		}
 		return filename;
 	}
+
 	/**
 	 * 
-	 * @param projectFileName 
+	 * @param projectFileName
 	 * @return the project name without the default file extension, else returns unchanged string
 	 */
 	public static String getProjectName(String projectFileName) {
 		if (projectFileName.endsWith(Consts.PROJECT_EXTENTION)) {
-	        return projectFileName.substring(0, projectFileName.length() - Consts.PROJECT_EXTENTION.length());
+			return projectFileName.substring(0, projectFileName.length() - Consts.PROJECT_EXTENTION.length());
 		}
 		return projectFileName;
 	}
@@ -273,61 +275,4 @@ public class Utils {
 		builder.show();
 	}
 
-//	/**
-//	 * Renames a project and moves / renames the project files accordingly
-//	 * 
-//	 * @param context
-//	 *            The context; used to display progress dialog, may be null
-//	 * @param oldProjectPath
-//	 *            the absolute path to the old project file. If this is null the
-//	 *            function attempts to read the current project from the
-//	 *            ConstructionSiteActivity.
-//	 * @param newProjectName
-//	 *            the desired new project name (without .spf file ending!).
-//	 * @return true if renaming was successful, false otherwise
-//	 */
-//	public static boolean renameProject(Context context, String oldProjectPath, String newProjectName) {
-//		File oldPath = null;
-//		File oldProjectDirectory = null;
-//		if (oldProjectPath == null || oldProjectPath.length() == 0) {
-//			if (ConstructionSiteActivity.ROOT == null || ConstructionSiteActivity.ROOT.length() == 0 || ConstructionSiteActivity.SPF_FILE == null
-//					|| ConstructionSiteActivity.SPF_FILE.length() == 0) {
-//                return false;
-//            }
-//			oldPath = new File(Utils.concatPaths(ConstructionSiteActivity.ROOT, ConstructionSiteActivity.SPF_FILE));
-//		} else {
-//			oldPath = new File(oldProjectPath);
-//		}
-//
-//		if (newProjectName == null || newProjectName.length() == 0 || oldPath == null) {
-//            return false;
-//        }
-//
-//		oldProjectDirectory = new File(oldPath.getParent());
-//		String oldProjectFileName = oldPath.getName();
-//
-//		File newProjectDirectory = new File(Utils.concatPaths(oldProjectDirectory.getParent(), newProjectName));
-//		if (newProjectDirectory.exists()) {
-//			Log.e("Utils.renameProject", "New project folder already exists. aborting");
-//			return false;
-//		}
-//
-//		if (!oldProjectDirectory.renameTo(newProjectDirectory)) {
-//			Log.e("Utils.renameProject", "Failed to rename project directory");
-//			return false;
-//		}
-//
-//		File oldProjectFile = new File(Utils.concatPaths(newProjectDirectory.getAbsolutePath(), oldProjectFileName));
-//		String newProjectFileName = Utils.addDefaultFileEnding(newProjectName);
-//		String newProjectFilePath = Utils.concatPaths(newProjectDirectory.getAbsolutePath(), newProjectFileName);
-//		if (Utils.copyFile(oldProjectFile.getAbsolutePath(), newProjectFilePath, context, true)) {
-//            Utils.deleteFile(oldProjectFile.getAbsolutePath());
-//        } else {
-//			Log.e("Utils.renameProject", "Failed to rename project file");
-//			return false;
-//		}
-//
-//		ConstructionSiteActivity.setRoot(newProjectDirectory.getAbsolutePath(), newProjectFileName);
-//		return true;
-//	}
 }

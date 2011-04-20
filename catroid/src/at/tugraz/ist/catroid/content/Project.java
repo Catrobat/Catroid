@@ -49,13 +49,16 @@ public class Project implements Serializable {
 		this.name = name;
 		deviceName = Build.MODEL;
 		screenResolution = Values.SCREEN_WIDTH + "/" + Values.SCREEN_HEIGHT;
+
 		if (context == null) {
 			versionName = "unknown";
 			versionCode = 0;
 			return;
 		}
+
 		Sprite stage = new Sprite(context.getString(R.string.stage));
 		addSprite(stage);
+
 		try {
 			PackageInfo packageInfo = context.getPackageManager().getPackageInfo("at.tugraz.ist.catroid", 0);
 			versionName = packageInfo.versionName;

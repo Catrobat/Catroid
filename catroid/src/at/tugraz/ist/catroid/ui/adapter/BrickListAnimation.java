@@ -21,10 +21,10 @@ package at.tugraz.ist.catroid.ui.adapter;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
-import android.view.animation.Animation.AnimationListener;
 import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView;
 
@@ -42,15 +42,14 @@ public class BrickListAnimation {
 		doUpAnimation(groupCount, groupPosition);
 		doCollapseAnimation(groupCount);
 		doDownAnimation(groupCount, groupPosition);
-
 	}
 
 	public void doExpandAnimation(View currentListView, int childPosition) {
-		AnimationSet set =  new AnimationSet(true);
+		AnimationSet set = new AnimationSet(true);
 		Animation currentAnimation = new TranslateAnimation(
-				Animation.RELATIVE_TO_SELF, 0.0f,Animation.RELATIVE_TO_SELF, 0.0f,
-				Animation.ABSOLUTE, -80*(childPosition+1),Animation.RELATIVE_TO_SELF, 0.0f
-		);
+				Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
+				Animation.ABSOLUTE, -80 * (childPosition + 1), Animation.RELATIVE_TO_SELF, 0.0f
+				);
 		currentAnimation.setAnimationListener(new AnimationListener() {
 			public void onAnimationStart(Animation animation) {
 			}
@@ -69,33 +68,35 @@ public class BrickListAnimation {
 		set.setDuration(Consts.ANIMATION_DURATION_EXPAND);
 		set.setFillBefore(true);
 		set.setFillAfter(true);
-		set.setStartTime(AnimationUtils.currentAnimationTimeMillis()+childPosition*Consts.ANIMATION_EXPAND_DELAY);
+		set.setStartTime(AnimationUtils.currentAnimationTimeMillis() + childPosition * Consts.ANIMATION_EXPAND_DELAY);
 		currentListView.setAnimation(set);
 	}
 
 	private void doUpAnimation(int groupCount, int groupPosition) {
 		Animation up_animation = new TranslateAnimation(
-				Animation.RELATIVE_TO_SELF, 0.0f,Animation.RELATIVE_TO_SELF, 0.0f,
-				Animation.RELATIVE_TO_SELF, 0.0f,Animation.RELATIVE_TO_SELF, -(float)(groupCount-groupPosition-1)
-		);
+				Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
+				Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, -(float) (groupCount - groupPosition - 1)
+				);
 		up_animation.setDuration(Consts.ANIMATION_DURATION_BRICK_SWITCHING);
 		up_animation.setFillAfter(true);
-		getChildFromAbsolutePosition(groupCount-1).startAnimation(up_animation);
+		getChildFromAbsolutePosition(groupCount - 1).startAnimation(up_animation);
 	}
 
 	private void doDownAnimation(int groupCount, final int groupPosition) {
 		Animation down_animation = new TranslateAnimation(
-				Animation.RELATIVE_TO_SELF, 0.0f,Animation.RELATIVE_TO_SELF, 0.0f,
-				Animation.RELATIVE_TO_SELF, 0.0f,Animation.RELATIVE_TO_SELF, (groupCount-groupPosition-1)
-		);
+				Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
+				Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, (groupCount - groupPosition - 1)
+				);
 		down_animation.setDuration(Consts.ANIMATION_DURATION_BRICK_SWITCHING);
 		down_animation.setFillAfter(true);
 
 		down_animation.setAnimationListener(new AnimationListener() {
 			public void onAnimationStart(Animation animation) {
 			}
+
 			public void onAnimationRepeat(Animation animation) {
 			}
+
 			public void onAnimationEnd(Animation animation) {
 				// the expand animation starts if the new child Views are rendered the first time
 				adapter.doReordering(listView, groupPosition);
@@ -105,19 +106,19 @@ public class BrickListAnimation {
 	}
 
 	private void doCollapseAnimation(int groupCount) {
-		int visibleGroups = groupCount-listView.getFirstVisiblePosition();
-		int visibleChilds = listView.getChildCount()-visibleGroups;
+		int visibleGroups = groupCount - listView.getFirstVisiblePosition();
+		int visibleChilds = listView.getChildCount() - visibleGroups;
 
 		Animation currentAnimation = new AlphaAnimation(1.0f, 0.0f);
 		currentAnimation.setDuration(Consts.ANIMATION_DURATION_BRICK_SWITCHING);
 		currentAnimation.setFillAfter(true);
-		for(int i=0;i<visibleChilds;++i) {
-			getChildFromAbsolutePosition(groupCount+i).startAnimation(currentAnimation);
+		for (int i = 0; i < visibleChilds; ++i) {
+			getChildFromAbsolutePosition(groupCount + i).startAnimation(currentAnimation);
 		}
 	}
 
 	private View getChildFromAbsolutePosition(int absolutePosition) {
-		int displayedPosition = absolutePosition-listView.getFirstVisiblePosition();
+		int displayedPosition = absolutePosition - listView.getFirstVisiblePosition();
 		return listView.getChildAt(displayedPosition);
 	}
 }

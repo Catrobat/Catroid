@@ -86,7 +86,7 @@ public class NewSpriteDialog extends Dialog {
 					{
 						switch (keyCode)
 					{
-					case KeyEvent.KEYCODE_ENTER:
+						case KeyEvent.KEYCODE_ENTER:
 						String spriteName = ((EditText) findViewById(R.id.newSpriteNameEditText)).getText().toString();
 						if (spriteName.length() == 0) {
 							Utils.displayErrorMessage(context, context.getString(R.string.error_no_name_entered));
@@ -107,10 +107,10 @@ public class NewSpriteDialog extends Dialog {
 						return true;
 					default:
 							break;
-						}
 					}
-					return false;
 				}
+				return false;
+			}
 		});
 
 		Button cancelButton = (Button) findViewById(R.id.cancelDialogButton);

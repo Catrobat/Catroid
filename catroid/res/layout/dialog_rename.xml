@@ -25,14 +25,14 @@
 	android:layout_height="match_parent"
 >
 	<EditText
-		android:id="@+id/renameEditText"
+		android:id="@+id/rename_edit_text"
 		android:hint="@string/rename_hint"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:maxLines="1"
 		android:inputType="text" />
 	<Button
-		android:id="@+id/renameButton"
+		android:id="@+id/rename_button"
 		android:text="@string/rename_button"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
