@@ -29,8 +29,8 @@ import java.io.OutputStream;
 import android.graphics.BitmapFactory;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.Values;
-import at.tugraz.ist.catroid.content.brick.SetCostumeBrick;
-import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.test.R;
 
 public class SetCostumeBrickTest extends InstrumentationTestCase {
