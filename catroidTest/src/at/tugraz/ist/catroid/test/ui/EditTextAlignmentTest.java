@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -28,47 +28,47 @@ import at.tugraz.ist.catroid.R;
 
 public class EditTextAlignmentTest extends AndroidTestCase {
 
-    static private LayoutInflater inflater;
-    
-    @Override
-    protected void setUp() throws Exception {
-        inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    }
-    
-    public void testRightAlignmentConstructionChangeXBrick() {
-        View brickView = inflater.inflate(R.layout.construction_brick_change_x, null);
+	static private LayoutInflater inflater;
 
-        EditText edit = (EditText) brickView.findViewById(R.id.InputValueEditTextX);
-        assertEquals(Gravity.RIGHT, Gravity.RIGHT & edit.getGravity());
-    }
-    
-    public void testRightAlignmentConstructionChangeYBrick() {
-        View brickView = inflater.inflate(R.layout.construction_brick_change_y, null);
+	@Override
+	protected void setUp() throws Exception {
+		inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	}
 
-        EditText edit = (EditText) brickView.findViewById(R.id.InputValueEditTextY);
-        assertEquals(Gravity.RIGHT, Gravity.RIGHT & edit.getGravity());
-    }
-    
-    public void testRightAlignmentConstructionPlaceAtBrick() {
-        View brickView = inflater.inflate(R.layout.construction_brick_place_at, null);
-        
-        EditText edit = (EditText) brickView.findViewById(R.id.InputValueEditTextX);
-        assertEquals(Gravity.RIGHT, Gravity.RIGHT & edit.getGravity());
-    }
-    
-    public void testRightAlignmentConstructionSetXBrick() {
-        View brickView = inflater.inflate(R.layout.construction_brick_set_x, null);
+	public void testRightAlignmentConstructionChangeXBrick() {
+		View brickView = inflater.inflate(R.layout.construction_brick_change_x, null);
 
-        EditText edit = (EditText) brickView.findViewById(R.id.InputValueEditTextX);
-        assertEquals(Gravity.RIGHT, Gravity.RIGHT & edit.getGravity());
-    }
-    
-    public void testRightAlignmentConstructionSetYBrick() {
-        View brickView = inflater.inflate(R.layout.construction_brick_set_y, null);
+		EditText edit = (EditText) brickView.findViewById(R.id.construction_brick_change_x_edit_text);
+		assertEquals(Gravity.RIGHT, Gravity.RIGHT & edit.getGravity());
+	}
 
-        EditText edit = (EditText) brickView.findViewById(R.id.InputValueEditTextY);
-        assertEquals(Gravity.RIGHT, Gravity.RIGHT & edit.getGravity());
-    }
-    
+	public void testRightAlignmentConstructionChangeYBrick() {
+		View brickView = inflater.inflate(R.layout.construction_brick_change_y, null);
+
+		EditText edit = (EditText) brickView.findViewById(R.id.construction_brick_change_y_edit_text);
+		assertEquals(Gravity.RIGHT, Gravity.RIGHT & edit.getGravity());
+	}
+
+	public void testRightAlignmentConstructionPlaceAtBrick() {
+		View brickView = inflater.inflate(R.layout.construction_brick_place_at, null);
+
+		EditText edit = (EditText) brickView.findViewById(R.id.construction_brick_place_at_x_edit_text);
+		assertEquals(Gravity.RIGHT, Gravity.RIGHT & edit.getGravity());
+	}
+
+	public void testRightAlignmentConstructionSetXBrick() {
+		View brickView = inflater.inflate(R.layout.construction_brick_set_x, null);
+
+		EditText edit = (EditText) brickView.findViewById(R.id.construction_brick_set_x_edit_text);
+		assertEquals(Gravity.RIGHT, Gravity.RIGHT & edit.getGravity());
+	}
+
+	public void testRightAlignmentConstructionSetYBrick() {
+		View brickView = inflater.inflate(R.layout.construction_brick_set_y, null);
+
+		EditText edit = (EditText) brickView.findViewById(R.id.construction_brick_set_y_edit_text);
+		assertEquals(Gravity.RIGHT, Gravity.RIGHT & edit.getGravity());
+	}
+
 
 }
