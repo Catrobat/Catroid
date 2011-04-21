@@ -38,7 +38,7 @@
 	>
 	</TextView>
 	<EditText
-		android:id="@+id/InputValueEditTextY"
+		android:id="@+id/toolbox_brick_change_y_edit_text"
 		android:text="0"
 		android:layout_height="wrap_content"
 		android:layout_width="50dp"

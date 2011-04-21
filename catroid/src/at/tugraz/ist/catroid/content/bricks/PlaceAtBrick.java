@@ -62,7 +62,7 @@ public class PlaceAtBrick implements Brick, OnDismissListener {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View brickView = inflater.inflate(R.layout.construction_brick_place_at, null);
 
-		EditText editX = (EditText) brickView.findViewById(R.id.InputValueEditTextX);
+		EditText editX = (EditText) brickView.findViewById(R.id.construction_brick_place_at_x_edit_text);
 		editX.setText(String.valueOf(xPosition));
 
 		EditIntegerDialog dialogX = new EditIntegerDialog(context, editX, xPosition, true);
@@ -71,7 +71,7 @@ public class PlaceAtBrick implements Brick, OnDismissListener {
 
 		editX.setOnClickListener(dialogX);
 
-		EditText editY = (EditText) brickView.findViewById(R.id.InputValueEditTextY);
+		EditText editY = (EditText) brickView.findViewById(R.id.construction_brick_place_at_x_edit_text);
 		editY.setText(String.valueOf(yPosition));
 
 		EditIntegerDialog dialogY = new EditIntegerDialog(context, editY, yPosition, true);
@@ -96,12 +96,13 @@ public class PlaceAtBrick implements Brick, OnDismissListener {
 
 	public void onDismiss(DialogInterface dialog) {
 		EditIntegerDialog inputDialog = (EditIntegerDialog) dialog;
-		if (inputDialog.getRefernecedEditTextId() == R.id.InputValueEditTextX) {
+		if (inputDialog.getRefernecedEditTextId() == R.id.construction_brick_place_at_x_edit_text) {
 			xPosition = inputDialog.getValue();
-		} else if (inputDialog.getRefernecedEditTextId() == R.id.InputValueEditTextY) {
+		} else if (inputDialog.getRefernecedEditTextId() == R.id.construction_brick_place_at_y_edit_text) {
 			yPosition = inputDialog.getValue();
-		} else
+		} else {
 			throw new RuntimeException("Received illegal id from EditText: " + inputDialog.getRefernecedEditTextId());
+		}
 
 		dialog.cancel();
 	}
