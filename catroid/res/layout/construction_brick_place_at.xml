@@ -77,7 +77,7 @@
 			>
 			</TextView>
 			<EditText
-				android:id="@+id/InputValueEditTextX"
+				android:id="@+id/construction_brick_place_at_x_edit_text"
 				android:text="0"
 				android:layout_height="wrap_content"
 				android:layout_width="60dp"
@@ -106,7 +106,7 @@
 			>
 			</TextView>
 			<EditText
-				android:id="@+id/InputValueEditTextY"
+				android:id="@+id/construction_brick_place_at_y_edit_text"
 				android:text="0"
 				android:layout_height="wrap_content"
 				android:layout_width="60dp"

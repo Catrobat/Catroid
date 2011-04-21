@@ -39,7 +39,7 @@
 	>
 	</TextView>
 	<EditText
-		android:id="@+id/ScaleCustomEditText"
+		android:id="@+id/toolbox_brick_scale_costume_edit_text"
 		android:text="100"
 		android:layout_height="wrap_content"
 		android:layout_width="60dp"
@@ -47,6 +47,7 @@
 		android:clickable="false"
 		android:focusable="false"
 		android:focusableInTouchMode="false"
+		android:gravity="right"
 		android:maxLength="3"
 		android:maxLines="1"
 	>
