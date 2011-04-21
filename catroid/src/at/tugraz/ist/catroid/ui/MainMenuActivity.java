@@ -143,7 +143,8 @@ public class MainMenuActivity extends Activity {
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialog;
 		try {
-			if (StorageHandler.getInstance().projectExists(projectManager.getCurrentProject().getName())) {
+			if (projectManager.getCurrentProject() != null
+					&& StorageHandler.getInstance().projectExists(projectManager.getCurrentProject().getName())) {
 				projectManager.saveProject(this);
 			}
 		} catch (IOException e) {
@@ -161,6 +162,10 @@ public class MainMenuActivity extends Activity {
 				dialog = new AboutDialog(this);
 				break;
 			case Consts.DIALOG_UPLOAD_PROJECT:
+				if (projectManager.getCurrentProject() == null) {
+					dialog = null;
+					break;
+				}
 				dialog = new UploadProjectDialog(this);
 				break;
 			default:
