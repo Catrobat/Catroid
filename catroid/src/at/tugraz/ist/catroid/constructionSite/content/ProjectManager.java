@@ -56,7 +56,9 @@ public class ProjectManager {
 		try {
 			project = StorageHandler.getInstance().loadProject(projectName);
 			if (project == null) {
-				project = StorageHandler.getInstance().createDefaultProject(context);
+				Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
+				return false;
+				//project = StorageHandler.getInstance().createDefaultProject(context);
 			}
 			currentSprite = null;
 			currentScript = null;
