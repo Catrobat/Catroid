@@ -64,7 +64,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 	public void testSimpleDragNDrop() throws InterruptedException {
 		ArrayList<Integer> yposlist = getListItemYPositions();
 		Thread.sleep(2000);
-		solo.drag(30, 30, yposlist.get(2), (yposlist.get(4)+yposlist.get(5))/2, 20);
+		solo.drag(30, 30, yposlist.get(2), (yposlist.get(4) + yposlist.get(5)) / 2, 20);
 		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
 
 		assertEquals(brickListToCheck.size(), brickList.size());
@@ -81,11 +81,11 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 	public void testDeleteItem() throws InterruptedException {
 		ArrayList<Integer> yposlist = getListItemYPositions();
 		Thread.sleep(2000);
-		solo.drag(30, 400, yposlist.get(2), (yposlist.get(4)+yposlist.get(5))/2, 20);
+		solo.drag(30, 400, yposlist.get(2), (yposlist.get(4) + yposlist.get(5)) / 2, 20);
 		Thread.sleep(2000);
 		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
 
-		assertEquals(brickListToCheck.size()-1, brickList.size());
+		assertEquals(brickListToCheck.size() - 1, brickList.size());
 		assertEquals(brickListToCheck.get(0), brickList.get(0));
 		assertEquals(brickListToCheck.get(2), brickList.get(1));
 		assertEquals(brickListToCheck.get(3), brickList.get(2));
@@ -100,12 +100,12 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 
 		ListView listView = solo.getCurrentListViews().get(0);
 
-		for(int i=0;i<listView.getChildCount();++i) {
+		for (int i = 0; i < listView.getChildCount(); ++i) {
 			View currentViewInList = listView.getChildAt(i);
 
 			Rect globalVisilbleRect = new Rect();
 			currentViewInList.getGlobalVisibleRect(globalVisilbleRect);
-			int middleYPos = globalVisilbleRect.top+globalVisilbleRect.height()/2;
+			int middleYPos = globalVisilbleRect.top + globalVisilbleRect.height() / 2;
 			yposlist.add(middleYPos);
 		}
 
