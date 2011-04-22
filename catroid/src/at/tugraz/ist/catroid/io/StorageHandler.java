@@ -46,10 +46,24 @@ import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.FileChecksumContainer;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.content.Costume;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
+import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
+import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
+import at.tugraz.ist.catroid.content.bricks.HideBrick;
+import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
+import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
+import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
+import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
+import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
+import at.tugraz.ist.catroid.content.bricks.SetXBrick;
+import at.tugraz.ist.catroid.content.bricks.SetYBrick;
+import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.content.entities.SoundInfo;
 import at.tugraz.ist.catroid.utils.ImageEditing;
@@ -72,7 +86,27 @@ public class StorageHandler {
 	private StorageHandler() throws IOException {
 		String state = Environment.getExternalStorageState();
 		xstream = new XStream();
-		// xstream.aliasPackage("", "at.tugraz.ist.catroid");
+		xstream.alias("project", Project.class);
+		xstream.alias("sprite", Sprite.class);
+		xstream.alias("script", Script.class);
+		xstream.alias("costume", Costume.class);
+		xstream.alias("fileChecksumContainer", FileChecksumContainer.class);
+
+		xstream.alias("changeXByBrick", ChangeXByBrick.class);
+		xstream.alias("changeYByBrick", ChangeYByBrick.class);
+		xstream.alias("comeToFrontBrick", ComeToFrontBrick.class);
+		xstream.alias("goNStepsBackBrick", GoNStepsBackBrick.class);
+		xstream.alias("hideBrick", HideBrick.class);
+		xstream.alias("ifStartedBrick", IfStartedBrick.class);
+		xstream.alias("ifTouchedBrick", IfTouchedBrick.class);
+		xstream.alias("placeAtBrick", PlaceAtBrick.class);
+		xstream.alias("playSoundBrick", PlaySoundBrick.class);
+		xstream.alias("scaleCostumeBrick", ScaleCostumeBrick.class);
+		xstream.alias("setCostumeBrick", SetCostumeBrick.class);
+		xstream.alias("setXBrick", SetXBrick.class);
+		xstream.alias("setYBrick", SetYBrick.class);
+		xstream.alias("showBrick", ShowBrick.class);
+		xstream.alias("waitBrick", WaitBrick.class);
 
 		if (!Environment.MEDIA_MOUNTED.equals(state)) {
 			throw new IOException("Could not read external storage");

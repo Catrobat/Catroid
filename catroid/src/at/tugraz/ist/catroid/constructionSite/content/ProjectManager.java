@@ -67,6 +67,22 @@ public class ProjectManager {
 		}
 	}
 
+	public boolean loadProjectFromDialog(String projectName, Context context) {
+		try {
+			project = StorageHandler.getInstance().loadProject(projectName);
+			if (project == null) {
+				Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
+				return false;
+			}
+			currentSprite = null;
+			currentScript = null;
+			return true;
+		} catch (Exception e) {
+			Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
+			return false;
+		}
+	}
+
 	public boolean initializeDefaultProject(Context context) {
 		try {
 			project = StorageHandler.getInstance().createDefaultProject(context);

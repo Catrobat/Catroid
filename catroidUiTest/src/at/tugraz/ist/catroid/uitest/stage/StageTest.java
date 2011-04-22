@@ -55,6 +55,7 @@ import com.jayway.android.robotium.solo.Solo;
 public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
 	final String projectName = "project1";
+	final String dummyName = "dummy";
 
 	File image1;
 	File image2;
@@ -79,6 +80,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 	@Override
 	public void setUp() throws Exception {
+
 		File directory = new File("/sdcard/catroid/" + projectName);
 		UtilFile.deleteDirectory(directory);
 
@@ -302,7 +304,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		this.createTestProjectWithSound();
 		solo.clickOnButton(1);
 		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
-		Thread.sleep(100);
+		Thread.sleep(150);
 		assertTrue("Media player is not playing", mediaPlayer.isPlaying());
 	}
 
@@ -317,6 +319,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 	//		solo.pressMenuItem(1);
 	//		Thread.sleep(1000);
 	//		solo.pressMenuItem(1);
+	//		Thread.sleep(50);
 	//		assertTrue("Media player is not playing after pause" , mediaPlayer.isPlaying());
 	//	}
 
