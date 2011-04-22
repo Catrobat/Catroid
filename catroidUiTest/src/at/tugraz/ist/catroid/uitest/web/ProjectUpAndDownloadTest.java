@@ -82,6 +82,9 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 	private void createTestProject() {
 		File directory = new File(Consts.DEFAULT_ROOT + "/" + testProject);
+		if (directory.exists()) {
+			directory.delete();
+		}
 		assertFalse("testProject was not deleted!", directory.exists());
 
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
