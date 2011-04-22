@@ -30,7 +30,7 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptActiv
 	private Solo solo;
 
 	public EditDialogTest() {
-		super("at.tugraz.ist.catroid.ui", ScriptActivity.class);
+		super("at.tugraz.ist.catroid", ScriptActivity.class);
 	}
 
 	@Override
@@ -55,13 +55,19 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.goto_main_adapter));
 
-		while(solo.scrollDown())
+		while (solo.scrollDown()) {
 			;
+		}
 
 		int editTextId = solo.getCurrentEditTexts().size() - 1;
 		solo.clickOnEditText(editTextId);
 		UiTestUtils.pause();
 		solo.clearEditText(solo.getCurrentEditTexts().get(0));
-		assertTrue("Toast with warning was not found", solo.searchText(getActivity().getString(R.string.notification_no_text_entered)));
+		assertTrue("Toast with warning was not found",
+				solo.searchText(getActivity().getString(R.string.notification_no_text_entered)));
+	}
+
+	public void testEmptyDialog() {
+		assert (true);
 	}
 }
