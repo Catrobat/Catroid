@@ -19,15 +19,18 @@
 package at.tugraz.ist.catroid.io;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Writer;
 import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -457,5 +460,51 @@ public class StorageHandler {
 		out.close();
 
 		return testImage;
+	}
+
+	public String getProjectfileAsString(String projectName) {
+		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName + "/" + projectName
+				+ Consts.PROJECT_EXTENTION);
+		StringBuilder contents = new StringBuilder();
+
+		try {
+			BufferedReader input = new BufferedReader(new FileReader(projectFile));
+			try {
+				String line = null;
+				while ((line = input.readLine()) != null) {
+					contents.append(line);
+					contents.append(System.getProperty("line.separator"));
+				}
+			} finally {
+				input.close();
+			}
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		return contents.toString();
+	}
+
+	public void overwriteSpfFile(String projectName, String content)
+			throws FileNotFoundException, IOException {
+		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName + "/" + projectName
+				+ Consts.PROJECT_EXTENTION);
+
+		if (!projectFile.exists()) {
+			throw new FileNotFoundException("File does not exist: " + projectFile);
+		}
+		if (!projectFile.isFile()) {
+			throw new IllegalArgumentException("Should not be a directory: " + projectFile);
+		}
+		if (!projectFile.canWrite()) {
+			throw new IllegalArgumentException("File cannot be written: " + projectFile);
+		}
+
+		Writer output = new BufferedWriter(new FileWriter(projectFile));
+		try {
+			output.write(content);
+			output.flush();
+		} finally {
+			output.close();
+		}
 	}
 }

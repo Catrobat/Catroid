@@ -223,13 +223,18 @@ public class ProjectManager {
 		File newProjectFile = new File(Consts.DEFAULT_ROOT + "/" + project.getName() + "/" + newProjectName
 				+ Consts.PROJECT_EXTENTION);
 
+		try {
+			String projectAsString = StorageHandler.getInstance().getProjectfileAsString(this.project.getName());
+			StorageHandler.getInstance().overwriteSpfFile(project.getName(),
+					projectAsString.replace(project.getName(), newProjectName));
+			loadProject(project.getName(), context);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+
 		boolean fileRenamed = oldProjectFile.renameTo(newProjectFile);
 		boolean directoryRenamed = oldProjectDirectory.renameTo(newProjectDirectory);
-
-		if (directoryRenamed && fileRenamed) {
-			project.setName(newProjectName);
-			saveProject(context);
-		}
 
 		return (directoryRenamed && fileRenamed);
 	}
