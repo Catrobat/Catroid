@@ -35,13 +35,13 @@ import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<MainMenuActivity>{
+public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
 	private String testProject = "testProject";
 	private String newTestProject = "newProjectToTest";
 
 	public ProjectUpAndDownloadTest() {
-		super(MainMenuActivity.class);
+		super("at.tugraz.ist.catroid", MainMenuActivity.class);
 		deleteCreatedProjects();
 	}
 
@@ -81,7 +81,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	}
 
 	private void createTestProject() {
-		File directory = new File(Consts.DEFAULT_ROOT+"/" + testProject);
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + testProject);
 		assertFalse("testProject was not deleted!", directory.exists());
 
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
@@ -91,7 +91,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
 		solo.sleep(2000);
 
-		File file = new File(Consts.DEFAULT_ROOT+"/"+testProject+"/"+testProject+Consts.PROJECT_EXTENTION);
+		File file = new File(Consts.DEFAULT_ROOT + "/" + testProject + "/" + testProject + Consts.PROJECT_EXTENTION);
 		assertTrue(testProject + " was not created!", file.exists());
 	}
 
@@ -130,7 +130,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	private void downloadProject() {
 		int serverProjectId = ProjectManager.getInstance().getServerProjectId();
 		String downloadUrl = Consts.TEST_FILE_DOWNLOAD_URL + serverProjectId + Consts.CATROID_EXTENTION;
-		downloadUrl += "?fname="+newTestProject;
+		downloadUrl += "?fname=" + newTestProject;
 		Intent intent = new Intent(getActivity(), DownloadActivity.class);
 		intent.setAction(Intent.ACTION_VIEW);
 		intent.setData(Uri.parse(downloadUrl));
@@ -140,18 +140,18 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		assertNotNull("Download not successful.",
 				solo.searchText(getActivity().getString(R.string.success_project_download)));
 
-		String projectPath = Consts.DEFAULT_ROOT+"/" + newTestProject;
+		String projectPath = Consts.DEFAULT_ROOT + "/" + newTestProject;
 		File downloadedDirectory = new File(projectPath);
-		File downloadedSPFFile = new File(projectPath+"/"+newTestProject+Consts.PROJECT_EXTENTION);
+		File downloadedSPFFile = new File(projectPath + "/" + newTestProject + Consts.PROJECT_EXTENTION);
 		assertTrue("Downloaded Directory does not exist.", downloadedDirectory.exists());
 		assertTrue("Project File does not exist.", downloadedSPFFile.exists());
 
 	}
 
 	private void deleteCreatedProjects() {
-		File directory = new File(Consts.DEFAULT_ROOT+"/" + testProject);
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + testProject);
 		UtilFile.deleteDirectory(directory);
-		File newDirectory = new File(Consts.DEFAULT_ROOT+"/" + newTestProject);
+		File newDirectory = new File(Consts.DEFAULT_ROOT + "/" + newTestProject);
 		UtilFile.deleteDirectory(newDirectory);
 	}
 }

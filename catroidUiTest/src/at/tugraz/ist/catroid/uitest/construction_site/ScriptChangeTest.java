@@ -43,7 +43,7 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptAct
 	private ArrayList<Brick> brickListToCheck;
 
 	public ScriptChangeTest() {
-		super(ScriptActivity.class);
+		super("at.tugraz.ist.catroid", ScriptActivity.class);
 
 	}
 
@@ -69,10 +69,10 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptAct
 	public void testChangeScript() throws InterruptedException {
 		ListView parent = solo.getCurrentListViews().get(0);
 		View testScriptBrick = parent.getChildAt(0);
-		
+
 		solo.clickOnView(testScriptBrick);
 		Thread.sleep(3000);
-		
+
 		List<Script> scriptList = ProjectManager.getInstance().getCurrentSprite().getScriptList();
 		assertEquals("First script in list is not testScript2", "testScript2", scriptList.get(0).getName());
 		assertEquals("Second script in list is not touchScript", "touchScript", scriptList.get(1).getName());

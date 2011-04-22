@@ -66,7 +66,7 @@ public class ChangeYByBrick implements Brick, OnDismissListener {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View brickView = inflater.inflate(R.layout.construction_brick_change_y, null);
 
-		EditText editY = (EditText) brickView.findViewById(R.id.construction_brick_change_x_edit_text);
+		EditText editY = (EditText) brickView.findViewById(R.id.construction_brick_change_y_edit_text);
 		editY.setText(String.valueOf(yMovement));
 
 		EditIntegerDialog dialogY = new EditIntegerDialog(context, editY, yMovement, true);

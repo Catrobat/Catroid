@@ -36,9 +36,9 @@ import com.jayway.android.robotium.solo.Solo;
 /**
  * 
  * @author Daniel Burtscher
- *
+ * 
  */
-public class ScaleCostumeTest extends ActivityInstrumentationTestCase2<ScriptActivity>{
+public class ScaleCostumeTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
 	private ScaleCostumeBrick scaleCostumeBrick;
@@ -76,8 +76,9 @@ public class ScaleCostumeTest extends ActivityInstrumentationTestCase2<ScriptAct
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScriptList().get(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(groupCount-1, 0));
-		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.scale_costume)));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				getActivity().getAdapter().getChild(groupCount - 1, 0));
+		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_scale_costume)));
 
 		double newScale = 25;
 
@@ -87,7 +88,7 @@ public class ScaleCostumeTest extends ActivityInstrumentationTestCase2<ScriptAct
 		solo.clickOnButton(0);
 
 		Thread.sleep(1000);
-		
+
 		assertEquals("Wrong text in field", newScale, scaleCostumeBrick.getScale());
 		assertEquals("Text not updated", newScale, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}

@@ -38,8 +38,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 	private List<Brick> brickListToCheck;
 
 	public ScriptActivityTest() {
-		super(ScriptActivity.class);
-
+		super("at.tugraz.ist.catroid", ScriptActivity.class);
 	}
 
 	@Override

@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.text.InputType;
+import android.util.Log;
+import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
@@ -38,10 +40,16 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class UiTestUtils {
 	private static final int WAIT_TIME_IN_MILLISECONDS = 50;
+	private static final String TAG = "UiTestUtils";
 	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
 
-	public static void pause() throws InterruptedException {
-		Thread.sleep(WAIT_TIME_IN_MILLISECONDS);
+	public static void pause() {
+		try {
+			Thread.sleep(WAIT_TIME_IN_MILLISECONDS);
+		} catch (InterruptedException e) {
+			Log.e(TAG, "pause() threw an InterruptedException");
+			Log.e(TAG, e.getMessage());
+		}
 	}
 
 	public static void enterText(Solo solo, int editTextIndex, String text) throws InterruptedException {
@@ -49,6 +57,39 @@ public class UiTestUtils {
 		solo.getEditText(editTextIndex).setInputType(InputType.TYPE_NULL);
 		solo.enterText(editTextIndex, text);
 		pause();
+	}
+
+	/**
+	 * Clicks on the EditText given by editTextId, inserts the integer value and closes the Dialog
+	 * 
+	 * @param editTextId
+	 *            The ID of the EditText to click on
+	 * @param value
+	 *            The value you want to put into the EditText
+	 */
+	public static void insertIntegerIntoEditText(Solo solo, int editTextId, int value) {
+		insertValue(solo, editTextId, value + "");
+	}
+
+	public static void insertDoubleIntoEditText(Solo solo, int editTextId, double value) {
+		insertValue(solo, editTextId, value + "");
+	}
+
+	private static void insertValue(Solo solo, int editTextId, String value) {
+		solo.clickOnEditText(editTextId);
+		UiTestUtils.pause();
+		solo.clearEditText(0);
+		solo.enterText(0, value);
+		solo.clickOnButton(0);
+	}
+
+	public static void addNewBrickAndScrollDown(Solo solo, int brickStringId) {
+		solo.clickOnButton(solo.getCurrentActivity().getString(R.string.add_new_brick));
+		solo.clickOnText(solo.getCurrentActivity().getString(brickStringId));
+
+		while (solo.scrollDown()) {
+			;
+		}
 	}
 
 	public static List<Brick> createTestProject() {

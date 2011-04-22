@@ -39,9 +39,9 @@ import com.jayway.android.robotium.solo.Solo;
 /**
  * 
  * @author Daniel Burtscher
- *
+ * 
  */
-public class PlaceAtTest extends ActivityInstrumentationTestCase2<ScriptActivity>{
+public class PlaceAtTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
 	private PlaceAtBrick placeAtBrick;
@@ -80,11 +80,15 @@ public class PlaceAtTest extends ActivityInstrumentationTestCase2<ScriptActivity
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScriptList().get(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(groupCount-1, 0));
-		assertEquals("Wrong Brick instance.", projectBrickList.get(1), getActivity().getAdapter().getChild(groupCount-1, 1));
-		assertEquals("Wrong Brick instance.", projectBrickList.get(2), getActivity().getAdapter().getChild(groupCount-1, 2));
-		assertEquals("Wrong Brick instance.", projectBrickList.get(3), getActivity().getAdapter().getChild(groupCount-1, 3));
-		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.goto_main_adapter)));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				getActivity().getAdapter().getChild(groupCount - 1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(1),
+				getActivity().getAdapter().getChild(groupCount - 1, 1));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(2),
+				getActivity().getAdapter().getChild(groupCount - 1, 2));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(3),
+				getActivity().getAdapter().getChild(groupCount - 1, 3));
+		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_place_at)));
 
 		int xPosition = 987;
 		int yPosition = 654;

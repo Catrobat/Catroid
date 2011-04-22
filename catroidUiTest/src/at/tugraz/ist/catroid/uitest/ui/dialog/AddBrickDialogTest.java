@@ -84,8 +84,8 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.show_main_adapter));
 
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.goto_main_adapter));
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.goto_main_adapter));
+		solo.clickOnText(solo.getCurrentActivity().getString(R.string.brick_place_at));
+		solo.clickOnText(solo.getCurrentActivity().getString(R.string.brick_place_at));
 
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.set_x_main_adapter));
@@ -110,8 +110,8 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.costume_main_adapter));
 
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.scale_costume));
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.scale_costume));
+		solo.clickOnText(solo.getCurrentActivity().getString(R.string.brick_scale_costume));
+		solo.clickOnText(solo.getCurrentActivity().getString(R.string.brick_scale_costume));
 
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
 		solo.scrollDownList(1);
