@@ -71,7 +71,7 @@ public class PlaceAtBrick implements Brick, OnDismissListener {
 
 		editX.setOnClickListener(dialogX);
 
-		EditText editY = (EditText) brickView.findViewById(R.id.construction_brick_place_at_x_edit_text);
+		EditText editY = (EditText) brickView.findViewById(R.id.construction_brick_place_at_y_edit_text);
 		editY.setText(String.valueOf(yPosition));
 
 		EditIntegerDialog dialogY = new EditIntegerDialog(context, editY, yPosition, true);
