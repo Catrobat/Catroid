@@ -140,11 +140,11 @@
     
     <string name="hide_main_adapter">Hide</string>
     <string name="show_main_adapter">Show</string>
-    <string name="goto_main_adapter">Go To</string>
+    <string name="brick_place_at">Go To</string>
     <string name="x_label">X:</string>
     <string name="y_label">Y:</string>
     <string name="costume_main_adapter">Set Costume</string>
-    <string name="scale_costume">Scale Costume to</string>
+    <string name="brick_scale_costume">Scale Costume to</string>
     <string name="go_back_main_adapter">Go back</string>
     <string name="steps_label">steps</string>
     <string name="come_to_front_main_adapter">Come to front</string>
@@ -159,7 +159,7 @@
     <string name="default_project_name">defaultProject</string>
     
     <!-- Notifications -->
-    <string name="notification_no_text_entered">
+    <string name="notification_invalid_text_entered">
     	Please enter a value
     </string>
 

@@ -139,11 +139,11 @@
 
     <string name="hide_main_adapter">Verstecke dich</string>
     <string name="show_main_adapter">Zeige dich</string>
-    <string name="goto_main_adapter">Gehe zu</string>
+    <string name="brick_place_at">Gehe zu</string>
     <string name="x_label">X:</string>
     <string name="y_label">Y:</string>
     <string name="costume_main_adapter">Setze Kostüm</string>
-    <string name="scale_costume">Skaliere Kostüm auf</string>
+    <string name="brick_scale_costume">Skaliere Kostüm auf</string>
     <string name="go_back_main_adapter">Gehe</string>
     <string name="steps_label">Schritte nach hinten</string>
     <string name="come_to_front_main_adapter">Komm nach vorne</string>
@@ -158,7 +158,7 @@
     <string name="default_project_name">standardProjekt</string>
     
     <!-- Notifications -->
-    <string name="notification_no_text_entered">
+    <string name="notification_invalid_text_entered">
     	Bitte einen Wert eingeben
     </string>
 

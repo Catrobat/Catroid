@@ -40,7 +40,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptAct
 	private ArrayList<Brick> brickListToCheck;
 
 	public ScriptDeleteTest() {
-		super(ScriptActivity.class);
+		super("at.tugraz.ist.catroid", ScriptActivity.class);
 
 	}
 
@@ -77,7 +77,6 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptAct
 		int numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getScriptList().size();
 		assertEquals("Incorrect number of scripts in scriptList", 1, numberOfScripts);
 		assertEquals("Incorrect number of elements in listView", 4, solo.getCurrentListViews().get(0).getChildCount());
-
 
 		solo.clickLongOnText(getActivity().getString(R.string.started_main_adapter));
 		solo.clickOnText(getActivity().getString(R.string.delete_script_button));

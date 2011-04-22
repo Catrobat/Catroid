@@ -51,23 +51,61 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		super.tearDown();
 	}
 
-	public void testEditIntegerDialog() throws InterruptedException {
-		solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.goto_main_adapter));
+	public void testIntegerDialog() {
+		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_place_at);
 
-		while (solo.scrollDown()) {
-			;
-		}
+		int xPosition = 5;
+		int yPosition = 7;
 
-		int editTextId = solo.getCurrentEditTexts().size() - 1;
-		solo.clickOnEditText(editTextId);
-		UiTestUtils.pause();
-		solo.clearEditText(solo.getCurrentEditTexts().get(0));
-		assertTrue("Toast with warning was not found",
-				solo.searchText(getActivity().getString(R.string.notification_no_text_entered)));
+		int yPositionEditTextId = solo.getCurrentEditTexts().size() - 1;
+		int xPositionEditTextId = yPositionEditTextId - 1;
+
+		UiTestUtils.insertIntegerIntoEditText(solo, xPositionEditTextId, xPosition);
+		UiTestUtils.insertIntegerIntoEditText(solo, yPositionEditTextId, yPosition);
+
+		assertEquals(xPosition + "", solo.getEditText(xPositionEditTextId).getText().toString());
+		assertEquals(yPosition + "", solo.getEditText(yPositionEditTextId).getText().toString());
 	}
 
-	public void testEmptyDialog() {
-		assert (true);
+	public void testDoubleDialog() {
+		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_scale_costume);
+
+		double scale = 5.9;
+
+		int scaleEditTextId = solo.getCurrentEditTexts().size() - 1;
+
+		UiTestUtils.insertDoubleIntoEditText(solo, scaleEditTextId, scale);
+
+		assertEquals(scale + "", solo.getEditText(scaleEditTextId).getText().toString());
+	}
+
+	public void testEmptyEditDoubleDialog() {
+		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_scale_costume);
+
+		int editTextId = solo.getCurrentEditTexts().size() - 1;
+
+		solo.clickOnEditText(editTextId);
+		UiTestUtils.pause();
+		System.out.println(solo.getCurrentEditTexts().size());
+		solo.clearEditText(0);
+		assertTrue("Toast with warning was not found",
+				solo.searchText(getActivity().getString(R.string.notification_invalid_text_entered)));
+		assertFalse(solo.getButton(0).isEnabled());
+
+		solo.enterText(0, ".");
+		assertFalse(solo.getButton(0).isEnabled());
+	}
+
+	public void testEmptyEditIntegerDialog() {
+		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_place_at);
+
+		int editTextId = solo.getCurrentEditTexts().size() - 1;
+
+		solo.clickOnEditText(editTextId);
+		UiTestUtils.pause();
+		solo.clearEditText(0);
+		assertTrue("Toast with warning was not found",
+				solo.searchText(getActivity().getString(R.string.notification_invalid_text_entered)));
+		assertFalse(solo.getButton(0).isEnabled());
 	}
 }
