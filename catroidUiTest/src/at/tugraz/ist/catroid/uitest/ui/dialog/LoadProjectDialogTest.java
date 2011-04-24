@@ -39,7 +39,7 @@ public class LoadProjectDialogTest extends ActivityInstrumentationTestCase2<Main
 	private String testProject2 = "testProject2";
 
 	public LoadProjectDialogTest() {
-		super("at.tugraz.ist.catroid.ui", MainMenuActivity.class);
+		super("at.tugraz.ist.catroid", MainMenuActivity.class);
 	}
 
 	@Override

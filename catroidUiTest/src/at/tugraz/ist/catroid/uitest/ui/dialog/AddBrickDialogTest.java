@@ -40,7 +40,7 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 	private String testProject = "testProject";
 
 	public AddBrickDialogTest() {
-		super("at.tugraz.ist.catroid.ui", MainMenuActivity.class);
+		super("at.tugraz.ist.catroid", MainMenuActivity.class);
 	}
 
 	@Override

@@ -36,7 +36,7 @@ public class ScriptActivityBaseTest extends ActivityInstrumentationTestCase2<Mai
 	private final String projectNameThree = "Ulumulu3";
 
 	public ScriptActivityBaseTest() {
-		super("at.tugraz.ist.catroid.ui", MainMenuActivity.class);
+		super("at.tugraz.ist.catroid", MainMenuActivity.class);
 	}
 
 	@Override
@@ -92,7 +92,6 @@ public class ScriptActivityBaseTest extends ActivityInstrumentationTestCase2<Mai
 		//if this is possible it worked! (will throw AssertionFailedError if not working
 	}
 
-
 	// public void testToStageButton() throws InterruptedException {
 	// solo.clickOnButton(getActivity().getString(R.string.new_project));
 	// solo.clickOnEditText(0);
@@ -117,7 +116,7 @@ public class ScriptActivityBaseTest extends ActivityInstrumentationTestCase2<Mai
 		solo.sleep(1000);
 		solo.clickOnText(getActivity().getString(R.string.stage));
 
-		System.out.println("new brick: "+getActivity().getString(R.string.add_new_brick));
+		System.out.println("new brick: " + getActivity().getString(R.string.add_new_brick));
 		Thread.sleep(1000);
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
 		//		solo.clickInList(2);
