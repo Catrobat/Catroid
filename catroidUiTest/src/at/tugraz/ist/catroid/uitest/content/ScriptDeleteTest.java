@@ -17,7 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.tugraz.ist.catroid.uitest.construction_site;
+package at.tugraz.ist.catroid.uitest.content;
 
 import java.util.ArrayList;
 
