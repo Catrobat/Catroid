@@ -54,7 +54,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	private String existingProject = "existingProject";
 
 	public MainMenuActivityTest() {
-		super("at.tugraz.ist.catroid.ui", MainMenuActivity.class);
+		super("at.tugraz.ist.catroid", MainMenuActivity.class);
 	}
 
 	@Override
@@ -109,7 +109,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.goBack();
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
 		Thread.sleep(50);
-		assertTrue("No error message was displayed upon creating a project with an empty name.", solo.searchText(getActivity().getString(R.string.error_no_name_entered)));
+		assertTrue("No error message was displayed upon creating a project with an empty name.",
+				solo.searchText(getActivity().getString(R.string.error_no_name_entered)));
 
 		solo.clickOnButton(0);
 
@@ -136,7 +137,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
 		Thread.sleep(1000);
 
-		assertEquals("Project name with special characters was not set properly", ProjectManager.getInstance().getCurrentProject().getName(), projectNameWithSpecialCharacters);
+		assertEquals("Project name with special characters was not set properly", ProjectManager.getInstance()
+				.getCurrentProject().getName(), projectNameWithSpecialCharacters);
 
 		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectNameWithSpecialCharacters);
 		UtilFile.deleteDirectory(directory);
@@ -162,7 +164,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		assertEquals("Sprite at index 4 is not \"pig\"!", "pig", fourth.getName());
 		solo.goBack();
 		TextView currentProject = (TextView) getActivity().findViewById(R.id.currentProjectNameTextView);
-		assertEquals("Current project is not testProject2!", getActivity().getString(R.string.current_project) + " " + testProject2, currentProject.getText());
+		assertEquals("Current project is not testProject2!", getActivity().getString(R.string.current_project) + " "
+				+ testProject2, currentProject.getText());
 	}
 
 	public void testResume() throws NameNotFoundException, IOException {
@@ -198,9 +201,12 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnButton(getActivity().getString(R.string.about));
 		ArrayList<TextView> textViewList = solo.getCurrentTextViews(null);
 
-		assertEquals("Title is not correct!", getActivity().getString(R.string.about_title), textViewList.get(0).getText().toString());
-		assertEquals("About text not correct!", getActivity().getString(R.string.about_text), textViewList.get(1).getText().toString());
-		assertEquals("Link text is not correct!", getActivity().getString(R.string.about_link_text), textViewList.get(2).getText().toString());
+		assertEquals("Title is not correct!", getActivity().getString(R.string.about_title), textViewList.get(0)
+				.getText().toString());
+		assertEquals("About text not correct!", getActivity().getString(R.string.about_text), textViewList.get(1)
+				.getText().toString());
+		assertEquals("Link text is not correct!", getActivity().getString(R.string.about_link_text), textViewList
+				.get(2).getText().toString());
 	}
 
 	public void testToStageButton() {
@@ -240,7 +246,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 				solo.searchText(getActivity().getString(R.string.error_project_exists)));
 	}
 
-	public void testDefaultProject() throws IOException{
+	public void testDefaultProject() throws IOException {
 		File directory = new File(Consts.DEFAULT_ROOT + "/" + getActivity().getString(R.string.default_project_name));
 		UtilFile.deleteDirectory(directory);
 

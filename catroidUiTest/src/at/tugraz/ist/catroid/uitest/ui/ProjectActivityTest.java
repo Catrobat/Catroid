@@ -33,7 +33,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	private static final String TEST_PROJECT_NAME = "projectActivityTest";
 
 	public ProjectActivityTest() {
-		super("at.tugraz.ist.catroid.ui", MainMenuActivity.class);
+		super("at.tugraz.ist.catroid", MainMenuActivity.class);
 	}
 
 	@Override
@@ -62,17 +62,17 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		super.tearDown();
 	}
 
-	private void addNewSprite(String spriteName) throws InterruptedException {
+	private void addNewSprite(String spriteName) {
 		UiTestUtils.pause();
 		solo.clickOnButton(getActivity().getString(R.string.add_sprite));
-		Thread.sleep(50);
+		UiTestUtils.pause();
 		UiTestUtils.enterText(solo, 0, spriteName);
 
 		solo.clickOnButton(getActivity().getString(R.string.new_sprite_dialog_button));
-		Thread.sleep(50);
+		UiTestUtils.pause();
 	}
 
-	public void testAddNewSprite() throws InterruptedException {
+	public void testAddNewSprite() {
 		final String spriteName = "testSprite";
 		addNewSprite(spriteName);
 
@@ -91,7 +91,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 				.contains(thirdSprite));
 	}
 
-	public void testAddNewSpriteErrors() throws InterruptedException {
+	public void testAddNewSpriteErrors() {
 		addNewSprite("");
 		assertTrue("No error message was displayed upon creating a sprite with an empty name.",
 				solo.searchText(getActivity().getString(R.string.error_no_name_entered)));
@@ -148,9 +148,9 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertEquals("Subsequent sprite was not moved up after predecessor's deletion", testSprite2, sprite2);
 	}
 
-	public void testMainMenuButton() throws InterruptedException {
+	public void testMainMenuButton() {
 		solo.clickOnButton(getActivity().getString(R.string.main_menu));
-		Thread.sleep(50);
+		UiTestUtils.pause();
 		assertTrue("Main menu is not visible", solo.searchText(getActivity().getString(R.string.main_menu)));
 		assertTrue("Current project is not visible", solo.searchText(getActivity().getString(R.string.current_project)));
 	}

@@ -52,7 +52,7 @@ public class UiTestUtils {
 		}
 	}
 
-	public static void enterText(Solo solo, int editTextIndex, String text) throws InterruptedException {
+	public static void enterText(Solo solo, int editTextIndex, String text) {
 		pause();
 		solo.getEditText(editTextIndex).setInputType(InputType.TYPE_NULL);
 		solo.enterText(editTextIndex, text);
