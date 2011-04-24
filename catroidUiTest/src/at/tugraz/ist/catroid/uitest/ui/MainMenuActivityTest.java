@@ -214,13 +214,13 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		assertTrue("StageActivity is not showing!", solo.getCurrentActivity() instanceof StageActivity);
 	}
 
-	public void testUploadProjectWithNoName() {
-		solo.clickOnButton(getActivity().getString(R.string.upload_project));
-		solo.enterText(0, "");
-		solo.clickOnButton(getActivity().getString(R.string.upload_button));
-		assertTrue("No error message was displayed upon uploading a project with no title.",
-				solo.searchText(getActivity().getString(R.string.error_no_name_entered)));
-	}
+	//	public void testUploadProjectWithNoName() {
+	//		solo.clickOnButton(getActivity().getString(R.string.upload_project));
+	//		solo.enterText(0, "");
+	//		solo.clickOnButton(getActivity().getString(R.string.upload_button));
+	//		assertTrue("No error message was displayed upon uploading a project with no title.",
+	//				solo.searchText(getActivity().getString(R.string.error_no_name_entered)));
+	//	}
 
 	//	public void testUploadDefaultProject() throws InterruptedException {
 	//		solo.clickOnButton(getActivity().getString(R.string.upload_project));
