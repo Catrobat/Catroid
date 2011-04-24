@@ -162,6 +162,9 @@
     <string name="notification_invalid_text_entered">
     	Please enter a value
     </string>
+    <string name="notification_invalid_name_entered">
+    	Please enter a name
+    </string>
 
     <!-- Error messages -->
     <string name="error_no_sd_card">

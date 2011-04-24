@@ -191,6 +191,17 @@ public class MainMenuActivity extends Activity {
 	}
 
 	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		super.onWindowFocusChanged(hasFocus);
+		if (projectManager.getCurrentProject() == null) {
+			return;
+		}
+		TextView currentProjectTextView = (TextView) findViewById(R.id.currentProjectNameTextView);
+		currentProjectTextView.setText(getString(R.string.current_project) + " "
+				+ projectManager.getCurrentProject().getName());
+	}
+
+	@Override
 	public void onPause() {
 		super.onPause();
 		// onPause is sufficient --> gets called before "process_killed",

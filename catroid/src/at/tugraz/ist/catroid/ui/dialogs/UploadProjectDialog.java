@@ -21,12 +21,16 @@ package at.tugraz.ist.catroid.ui.dialogs;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
+import android.widget.Toast;
 import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
@@ -60,24 +64,37 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 		projectDescriptionField = (EditText) findViewById(R.id.project_description_upload);
 		projectUploadName = (EditText) findViewById(R.id.project_upload_name);
 		currentProjectName = ProjectManager.getInstance().getCurrentProject().getName();
+		final Button uploadButton = (Button) findViewById(R.id.upload_button);
+		uploadButton.setOnClickListener(this);
 		projectUploadName.setText(currentProjectName);
 
-		projectUploadName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-			public void onFocusChange(View v, boolean hasFocus) {
-				String currentProjectName = ProjectManager.getInstance().getCurrentProject().getName();
-				if (!hasFocus && !projectUploadName.getText().toString().equals(currentProjectName)) {
+		projectUploadName.addTextChangedListener(new TextWatcher() {
+
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				if (!projectUploadName.getText().toString().equals(currentProjectName)) {
 					projectRename.setVisibility(View.VISIBLE);
 					newProjectName = projectUploadName.getText().toString();
 					renameProject = true;
-				} else if (!hasFocus && projectUploadName.getText().toString().equals(currentProjectName)) {
+				} else if (projectUploadName.getText().toString().equals(currentProjectName)) {
 					projectRename.setVisibility(View.GONE);
 					renameProject = false;
 				}
+				if (s.length() == 0) {
+					Toast.makeText(UploadProjectDialog.this.context, R.string.notification_invalid_text_entered,
+							Toast.LENGTH_SHORT).show();
+					uploadButton.setEnabled(false);
+				}
+				else {
+					uploadButton.setEnabled(true);
+				}
+			}
+
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			public void afterTextChanged(Editable s) {
 			}
 		});
-
-		Button uploadButton = (Button) findViewById(R.id.upload_button);
-		uploadButton.setOnClickListener(this);
 
 		Button cancelButton = (Button) findViewById(R.id.cancel_button);
 		cancelButton.setOnClickListener(this);
@@ -121,13 +138,28 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 
 			case R.id.cancel_button:
 				dismiss();
-				((EditText) findViewById(R.id.project_upload_name)).setText(currentProjectName);
+				((EditText) findViewById(R.id.project_upload_name)).setText(ProjectManager.getInstance()
+						.getCurrentProject().getName());
 				((EditText) findViewById(R.id.project_description_upload)).setText(null);
 				projectRename.setVisibility(View.GONE);
 
 				break;
 		}
 
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+			dismiss();
+			((EditText) findViewById(R.id.project_upload_name)).setText(ProjectManager.getInstance()
+					.getCurrentProject().getName());
+			((EditText) findViewById(R.id.project_description_upload)).setText(null);
+			projectRename.setVisibility(View.GONE);
+			return true;
+		}
+
+		return super.onKeyDown(keyCode, event);
 	}
 
 }
