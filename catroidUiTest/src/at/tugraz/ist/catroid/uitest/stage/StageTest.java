@@ -32,6 +32,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.Values;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectValuesManager;
 import at.tugraz.ist.catroid.content.Costume;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
@@ -73,6 +74,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 	private static final int SOUND_FILE_ID = R.raw.testsound;
 	private File soundFile;
+	private ProjectValuesManager projectValuesManager = ProjectManager.getInstance().getProjectValuesManager();
 
 	public StageTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -484,8 +486,8 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		firstSprite.getScriptList().add(touchScript);
 
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
-		ProjectManager.getInstance().setCurrentScript(testScript);
+		projectValuesManager.setCurrentSprite(firstSprite);
+		projectValuesManager.setCurrentScript(testScript);
 
 		storageHandler.saveProject(project);
 	}
@@ -524,7 +526,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		firstSprite.getScriptList().add(touchScript);
 
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+		projectValuesManager.setCurrentSprite(firstSprite);
 
 		storageHandler.saveProject(project);
 	}
@@ -605,7 +607,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		firstSprite.getScriptList().add(touchScript);
 
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+		projectValuesManager.setCurrentSprite(firstSprite);
 
 		storageHandler.saveProject(project);
 	}
@@ -645,7 +647,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		firstSprite.getScriptList().add(touchScript);
 
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+		projectValuesManager.setCurrentSprite(firstSprite);
 
 		storageHandler.saveProject(project);
 	}
