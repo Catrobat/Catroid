@@ -52,7 +52,7 @@ public class ProjectManager {
 		return instance;
 	}
 
-	public void loadProject(String projectName, Context context, boolean errorMessage) {
+	public boolean loadProject(String projectName, Context context, boolean errorMessage) {
 		try {
 			String oldProjectName = project.getName();
 			int oldCurrentSpritePos = projectValuesManager.getCurrentSpritePosition();
@@ -66,7 +66,7 @@ public class ProjectManager {
 				projectValuesManager.updateProjectValuesManager();
 				if (errorMessage) {
 					Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
-					return;
+					return false;
 				}
 			}
 
@@ -74,17 +74,19 @@ public class ProjectManager {
 				projectValuesManager.setCurrentSpriteWithPosition(oldCurrentSpritePos);
 				projectValuesManager.setCurrentScriptWithPosition(oldCurrentScriptPos);
 				projectValuesManager.updateProjectValuesManager();
-				return;
+				return true;
 			}
 
 			projectValuesManager.setCurrentSprite(null);
 			projectValuesManager.setCurrentScript(null);
 			projectValuesManager.updateProjectValuesManager();
 
+			return true;
 		} catch (Exception e) {
 			Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
 
 		}
+		return false;
 	}
 
 	public boolean initializeDefaultProject(Context context) {

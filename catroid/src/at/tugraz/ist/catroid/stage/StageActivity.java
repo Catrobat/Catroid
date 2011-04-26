@@ -134,13 +134,13 @@ public class StageActivity extends Activity {
 	@Override
 	public void onBackPressed() {
 		ProjectManager projectManager = ProjectManager.getInstance();
-		projectManager.loadProject(projectManager.getCurrentProject().getName(), this);
+		projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
 		finish();
 	}
 
 	private void toMainActivity() {
 		ProjectManager projectManager = ProjectManager.getInstance();
-		projectManager.loadProject(projectManager.getCurrentProject().getName(), this);
+		projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
 		finish();
 	}
 
