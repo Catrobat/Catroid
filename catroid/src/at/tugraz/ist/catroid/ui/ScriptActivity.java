@@ -105,7 +105,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.script_activity);
+		setContentView(R.layout.activity_script);
 		initListeners();
 		if (adapter.getGroupCount() > 0) {
 			listView.expandGroup(adapter.getGroupCount() - 1);

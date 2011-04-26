@@ -26,7 +26,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -82,7 +82,7 @@ public class ProjectActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.project_activity);
+		setContentView(R.layout.activity_project);
 		initListeners();
 	}
 
@@ -91,15 +91,15 @@ public class ProjectActivity extends Activity {
 		Dialog dialog;
 
 		switch (id) {
-		case Consts.DIALOG_NEW_SPRITE:
-			dialog = new NewSpriteDialog(this);
-			break;
-		case Consts.DIALOG_RENAME_SPRITE:
-			dialog = new RenameSpriteDialog(this);
-			break;
-		default:
-			dialog = null;
-			break;
+			case Consts.DIALOG_NEW_SPRITE:
+				dialog = new NewSpriteDialog(this);
+				break;
+			case Consts.DIALOG_RENAME_SPRITE:
+				dialog = new RenameSpriteDialog(this);
+				break;
+			default:
+				dialog = null;
+				break;
 		}
 
 		return dialog;
@@ -132,39 +132,37 @@ public class ProjectActivity extends Activity {
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
-		if (view.getId() == R.id.spriteListView) {
-			AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-			menu.setHeaderTitle(adapterSpriteList.get(info.position).getName());
-			spriteToEdit = adapterSpriteList.get(info.position);
-			String[] menuItems = getResources().getStringArray(R.array.menu_project_activity);
+		super.onCreateContextMenu(menu, view, menuInfo);
 
-			// Stage not allowed to delete or rename:
-			if (spriteToEdit.getName().equalsIgnoreCase(this.getString(R.string.stage))) {
-				return;
-			}
-			for (int i = 0; i < menuItems.length; i++) {
-				menu.add(Menu.NONE, i, i, menuItems[i]);
-			}
+		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+		spriteToEdit = adapterSpriteList.get(info.position);
 
+		if (spriteToEdit.getName().equalsIgnoreCase(getString(R.string.stage))) {
+			return;
 		}
+
+		menu.setHeaderTitle(adapterSpriteList.get(info.position).getName());
+
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.project_menu, menu);
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case 0: // rename
-			this.showDialog(Consts.DIALOG_RENAME_SPRITE);
-			break;
-		case 1: // delete
-			ProjectManager projectManager = ProjectManager.getInstance();
-			projectManager.getCurrentProject().getSpriteList().remove(spriteToEdit);
-			if (projectManager.getCurrentSprite() != null && projectManager.getCurrentSprite().equals(spriteToEdit)) {
-				projectManager.setCurrentSprite(null);
-			}
-			// updateTextAndAdapter();
-			break;
+			case R.id.project_menu_rename:
+				this.showDialog(Consts.DIALOG_RENAME_SPRITE);
+				return true;
+			case R.id.project_menu_delete:
+				ProjectManager projectManager = ProjectManager.getInstance();
+				projectManager.getCurrentProject().getSpriteList().remove(spriteToEdit);
+				if (projectManager.getCurrentSprite() != null && projectManager.getCurrentSprite().equals(spriteToEdit)) {
+					projectManager.setCurrentSprite(null);
+				}
+				return true;
+			default:
+				return super.onContextItemSelected(item);
 		}
-		return true;
 	}
 
 	@Override

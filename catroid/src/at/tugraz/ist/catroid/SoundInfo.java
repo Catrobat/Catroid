@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<!-- 
+/**
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010  Catroid development team 
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
@@ -17,12 +15,50 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+ */
+package at.tugraz.ist.catroid;
 
-<resources>
-	<array
-		name="menu_project_activity">
-		<item>@string/rename</item>
-		<item>@string/delete</item>
-	</array>
-</resources>
+public class SoundInfo implements Comparable<SoundInfo> {
+
+	private int id;
+	private String path;
+	private String title;
+
+	public String getTitleWithPath() {
+		if (path.endsWith("/")) {
+			return path + title;
+		} else {
+			return path + "/" + title;
+		}
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public int compareTo(SoundInfo soundInfo) {
+		String thisTitle = title;
+		String otherTitle = soundInfo.title;
+		return thisTitle.compareTo(otherTitle);
+	}
+}
