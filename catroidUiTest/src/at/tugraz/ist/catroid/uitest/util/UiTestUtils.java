@@ -25,6 +25,7 @@ import android.text.InputType;
 import android.util.Log;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectValuesManager;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -42,6 +43,7 @@ public class UiTestUtils {
 	private static final int WAIT_TIME_IN_MILLISECONDS = 50;
 	private static final String TAG = "UiTestUtils";
 	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
+	private static ProjectValuesManager projectValuesManager = ProjectManager.getInstance().getProjectValuesManager();
 
 	public static void pause() {
 		try {
@@ -121,8 +123,8 @@ public class UiTestUtils {
 		project.addSprite(firstSprite);
 
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
-		ProjectManager.getInstance().setCurrentScript(testScript);
+		projectValuesManager.setCurrentSprite(firstSprite);
+		projectValuesManager.setCurrentScript(testScript);
 
 		return brickList;
 	}
