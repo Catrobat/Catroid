@@ -27,6 +27,7 @@ import android.view.View;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectValuesManager;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -41,6 +42,7 @@ import com.jayway.android.robotium.solo.Solo;
 public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private ArrayList<Brick> brickListToCheck;
+	private ProjectValuesManager projectValuesManager = ProjectManager.getInstance().getProjectValuesManager();
 
 	public ScriptChangeTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -73,7 +75,7 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptAct
 		solo.clickOnView(testScriptBrick);
 		Thread.sleep(3000);
 
-		List<Script> scriptList = ProjectManager.getInstance().getCurrentSprite().getScriptList();
+		List<Script> scriptList = projectValuesManager.getCurrentSprite().getScriptList();
 		assertEquals("First script in list is not testScript2", "testScript2", scriptList.get(0).getName());
 		assertEquals("Second script in list is not touchScript", "touchScript", scriptList.get(1).getName());
 		assertEquals("Third script in list is not testScript", "testScript", scriptList.get(2).getName());
@@ -81,7 +83,7 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptAct
 		View touchBrick = parent.getChildAt(1);
 		solo.clickOnView(touchBrick);
 		Thread.sleep(1500);
-		scriptList = ProjectManager.getInstance().getCurrentSprite().getScriptList();
+		scriptList = projectValuesManager.getCurrentSprite().getScriptList();
 		assertEquals("First script in list is not testScript2", "testScript2", scriptList.get(0).getName());
 		assertEquals("Second script in list is not testScript", "testScript", scriptList.get(1).getName());
 		assertEquals("Third script in list is not touchScript", "touchScript", scriptList.get(2).getName());
@@ -121,8 +123,8 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptAct
 		project.addSprite(firstSprite);
 
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
-		ProjectManager.getInstance().setCurrentScript(testScript);
+		projectValuesManager.setCurrentSprite(firstSprite);
+		projectValuesManager.setCurrentScript(testScript);
 	}
 
 }
