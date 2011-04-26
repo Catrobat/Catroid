@@ -45,11 +45,11 @@ public class BrickListAnimation {
 	}
 
 	public void doExpandAnimation(View currentListView, int childPosition) {
-		AnimationSet set = new AnimationSet(true);
+		AnimationSet animationSet = new AnimationSet(true);
 		Animation currentAnimation = new TranslateAnimation(
 				Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
-				Animation.ABSOLUTE, -80 * (childPosition + 1), Animation.RELATIVE_TO_SELF, 0.0f
-				);
+				Animation.ABSOLUTE, -80 * (childPosition + 1), Animation.RELATIVE_TO_SELF, 0.0f);
+
 		currentAnimation.setAnimationListener(new AnimationListener() {
 			public void onAnimationStart(Animation animation) {
 			}
@@ -62,14 +62,16 @@ public class BrickListAnimation {
 				adapter.setAnimateChildren(false);
 			}
 		});
-		set.addAnimation(currentAnimation);
+
+		animationSet.addAnimation(currentAnimation);
 		Animation alpha = new AlphaAnimation(0.0f, 1.0f);
-		set.addAnimation(alpha);
-		set.setDuration(Consts.ANIMATION_DURATION_EXPAND);
-		set.setFillBefore(true);
-		set.setFillAfter(true);
-		set.setStartTime(AnimationUtils.currentAnimationTimeMillis() + childPosition * Consts.ANIMATION_EXPAND_DELAY);
-		currentListView.setAnimation(set);
+		animationSet.addAnimation(alpha);
+		animationSet.setDuration(Consts.ANIMATION_DURATION_EXPAND);
+		animationSet.setFillBefore(true);
+		animationSet.setFillAfter(true);
+		animationSet.setStartTime(AnimationUtils.currentAnimationTimeMillis() + childPosition
+				* Consts.ANIMATION_EXPAND_DELAY);
+		currentListView.setAnimation(animationSet);
 	}
 
 	private void doUpAnimation(int groupCount, int groupPosition) {
@@ -85,8 +87,7 @@ public class BrickListAnimation {
 	private void doDownAnimation(int groupCount, final int groupPosition) {
 		Animation down_animation = new TranslateAnimation(
 				Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
-				Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, (groupCount - groupPosition - 1)
-				);
+				Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, (groupCount - groupPosition - 1));
 		down_animation.setDuration(Consts.ANIMATION_DURATION_BRICK_SWITCHING);
 		down_animation.setFillAfter(true);
 

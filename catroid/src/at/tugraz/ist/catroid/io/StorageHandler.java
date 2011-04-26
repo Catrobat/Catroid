@@ -180,8 +180,7 @@ public class StorageHandler {
 				noMediaFile.createNewFile();
 			}
 			BufferedWriter out = new BufferedWriter(new FileWriter(projectDirectory.getAbsolutePath() + "/"
-					+ project.getName()
-					+ Consts.PROJECT_EXTENTION));
+					+ project.getName() + Consts.PROJECT_EXTENTION));
 			out.write(spfFile);
 			out.flush();
 			out.close();
@@ -251,6 +250,7 @@ public class StorageHandler {
 		Log.d("StorageHandler: ", "Path to original soundFile: " + path);
 		String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
 		File soundDirectory = new File(catroidRoot.getAbsolutePath() + "/" + currentProject + Consts.SOUND_DIRECTORY);
+
 		File inputFile = new File(path);
 		if (!inputFile.exists() || !inputFile.canRead()) {
 			return null;
@@ -358,9 +358,9 @@ public class StorageHandler {
 
 	public String getMD5Checksum(File file) throws IOException {
 
-		MessageDigest md = null;
+		MessageDigest messageDigest = null;
 		try {
-			md = MessageDigest.getInstance("MD5");
+			messageDigest = MessageDigest.getInstance("MD5");
 		} catch (NoSuchAlgorithmException e1) {
 			e1.printStackTrace();
 		}
@@ -375,15 +375,15 @@ public class StorageHandler {
 		int nread = 0;
 
 		while ((nread = fis.read(dataBytes)) != -1) {
-			md.update(dataBytes, 0, nread);
+			messageDigest.update(dataBytes, 0, nread);
 		}
 
-		byte[] mdbytes = md.digest();
+		byte[] mdbytes = messageDigest.digest();
 		StringBuffer sb = new StringBuffer("");
 		for (int i = 0; i < mdbytes.length; i++) {
 			sb.append(Integer.toString((mdbytes[i] & 0xff) + 0x100, 16).substring(1));
 		}
-		md.reset();
+		messageDigest.reset();
 		return sb.toString();
 	}
 
