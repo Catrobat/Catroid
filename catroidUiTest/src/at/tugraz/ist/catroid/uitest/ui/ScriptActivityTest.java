@@ -27,6 +27,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectValuesManager;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
@@ -36,6 +37,8 @@ import com.jayway.android.robotium.solo.Solo;
 public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private List<Brick> brickListToCheck;
+
+	private ProjectValuesManager projectValuesManager = ProjectManager.getInstance().getProjectValuesManager();
 
 	public ScriptActivityTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -64,7 +67,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 		ArrayList<Integer> yposlist = getListItemYPositions();
 		Thread.sleep(2000);
 		solo.drag(30, 30, yposlist.get(2), (yposlist.get(4) + yposlist.get(5)) / 2, 20);
-		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
+		ArrayList<Brick> brickList = projectValuesManager.getCurrentScript().getBrickList();
 
 		assertEquals(brickListToCheck.size(), brickList.size());
 		assertEquals(brickListToCheck.get(0), brickList.get(0));
@@ -82,7 +85,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 		Thread.sleep(2000);
 		solo.drag(30, 400, yposlist.get(2), (yposlist.get(4) + yposlist.get(5)) / 2, 20);
 		Thread.sleep(2000);
-		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
+		ArrayList<Brick> brickList = projectValuesManager.getCurrentScript().getBrickList();
 
 		assertEquals(brickListToCheck.size() - 1, brickList.size());
 		assertEquals(brickListToCheck.get(0), brickList.get(0));
