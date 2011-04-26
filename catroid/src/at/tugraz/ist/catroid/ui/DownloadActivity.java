@@ -17,7 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.tugraz.ist.catroid.download;
+package at.tugraz.ist.catroid.ui;
 
 import java.net.URLDecoder;
 
