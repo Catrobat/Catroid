@@ -24,6 +24,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectValuesManager;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -36,11 +37,12 @@ import com.jayway.android.robotium.solo.Solo;
 /**
  * 
  * @author Daniel Burtscher
- *
+ * 
  */
-public class ShowBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity>{
+public class ShowBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
+	private ProjectValuesManager projectValuesManager = ProjectManager.getInstance().getProjectValuesManager();
 
 	public ShowBrickTest() {
 		super("at.tugraz.ist.catroid",
@@ -75,8 +77,9 @@ public class ShowBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScriptList().get(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(groupCount-1,
-				     0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				getActivity().getAdapter().getChild(groupCount - 1,
+						0));
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.show_main_adapter)));
 
 	}
@@ -91,7 +94,7 @@ public class ShowBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		project.addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentScript(script);
+		projectValuesManager.setCurrentSprite(sprite);
+		projectValuesManager.setCurrentScript(script);
 	}
 }

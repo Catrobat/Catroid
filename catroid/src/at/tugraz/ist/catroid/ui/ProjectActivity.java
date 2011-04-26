@@ -37,6 +37,7 @@ import android.widget.TextView;
 import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectValuesManager;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.NewSpriteDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameSpriteDialog;
@@ -47,9 +48,10 @@ public class ProjectActivity extends Activity {
 	private ArrayAdapter<Sprite> adapter;
 	private ArrayList<Sprite> adapterSpriteList;
 	private Sprite spriteToEdit;
+	private ProjectValuesManager projectValuesManager = ProjectManager.getInstance().getProjectValuesManager();
 
 	private void initListeners() {
-		adapterSpriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		adapterSpriteList = (ArrayList<Sprite>) projectValuesManager.getSpriteList();
 		adapter = new ArrayAdapter<Sprite>(this, android.R.layout.simple_list_item_1, adapterSpriteList);
 
 		listView = (ListView) findViewById(R.id.spriteListView);
@@ -57,7 +59,7 @@ public class ProjectActivity extends Activity {
 		registerForContextMenu(listView);
 		listView.setOnItemClickListener(new ListView.OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				ProjectManager.getInstance().setCurrentSprite(adapter.getItem(position));
+				projectValuesManager.setCurrentSprite(adapter.getItem(position));
 				Intent intent = new Intent(ProjectActivity.this, ScriptActivity.class);
 				ProjectActivity.this.startActivity(intent);
 			}
@@ -154,10 +156,10 @@ public class ProjectActivity extends Activity {
 				this.showDialog(Consts.DIALOG_RENAME_SPRITE);
 				return true;
 			case R.id.project_menu_delete:
-				ProjectManager projectManager = ProjectManager.getInstance();
-				projectManager.getCurrentProject().getSpriteList().remove(spriteToEdit);
-				if (projectManager.getCurrentSprite() != null && projectManager.getCurrentSprite().equals(spriteToEdit)) {
-					projectManager.setCurrentSprite(null);
+				projectValuesManager.getSpriteList().remove(spriteToEdit);
+				if (projectValuesManager.getCurrentSprite() != null
+						&& projectValuesManager.getCurrentSprite().equals(spriteToEdit)) {
+					projectValuesManager.setCurrentSprite(null);
 				}
 				return true;
 			default:

@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectValuesManager;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -38,6 +39,7 @@ import com.jayway.android.robotium.solo.Solo;
 public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private ArrayList<Brick> brickListToCheck;
+	private ProjectValuesManager projectValuesManager = ProjectManager.getInstance().getProjectValuesManager();
 
 	public ScriptDeleteTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -74,7 +76,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptAct
 		solo.clickOnText(getActivity().getString(R.string.delete_script_button));
 		Thread.sleep(1000);
 
-		int numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getScriptList().size();
+		int numberOfScripts = projectValuesManager.getCurrentSprite().getScriptList().size();
 		assertEquals("Incorrect number of scripts in scriptList", 1, numberOfScripts);
 		assertEquals("Incorrect number of elements in listView", 4, solo.getCurrentListViews().get(0).getChildCount());
 
@@ -82,7 +84,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptAct
 		solo.clickOnText(getActivity().getString(R.string.delete_script_button));
 		Thread.sleep(1000);
 
-		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getScriptList().size();
+		numberOfScripts = projectValuesManager.getCurrentSprite().getScriptList().size();
 		assertEquals("Incorrect number of scripts in list", 0, numberOfScripts);
 		assertEquals("Incorrect number of elements in listView", 0, solo.getCurrentListViews().get(0).getChildCount());
 
@@ -92,7 +94,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptAct
 		solo.clickOnText(getActivity().getString(R.string.hide_main_adapter));
 		Thread.sleep(1000);
 
-		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getScriptList().size();
+		numberOfScripts = projectValuesManager.getCurrentSprite().getScriptList().size();
 		assertEquals("Incorrect number of scripts in scriptList", 1, numberOfScripts);
 		assertEquals("Incorrect number of elements in listView", 2, solo.getCurrentListViews().get(0).getChildCount());
 	}
@@ -121,8 +123,8 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptAct
 		project.addSprite(firstSprite);
 
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
-		ProjectManager.getInstance().setCurrentScript(testScript);
+		projectValuesManager.setCurrentSprite(firstSprite);
+		projectValuesManager.setCurrentScript(testScript);
 	}
 
 }
