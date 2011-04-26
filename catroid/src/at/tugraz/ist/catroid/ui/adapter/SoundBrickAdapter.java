@@ -28,7 +28,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
-import at.tugraz.ist.catroid.content.entities.SoundInfo;
+import at.tugraz.ist.catroid.SoundInfo;
 
 public class SoundBrickAdapter extends BaseAdapter {
 	private Context context;
