@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectValuesManager;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -42,9 +43,9 @@ import com.jayway.android.robotium.solo.Solo;
 /**
  * 
  * @author Daniel Burtscher
- *
+ * 
  */
-public class SoundBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity>{
+public class SoundBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
 	private PlaySoundBrick soundBrick;
@@ -54,6 +55,7 @@ public class SoundBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 
 	private File soundFile;
 	private static final int SOUND_FILE_ID = at.tugraz.ist.catroid.uitest.R.raw.testsound;
+	private ProjectValuesManager projectValuesManager = ProjectManager.getInstance().getProjectValuesManager();
 
 	public SoundBrickTest() {
 		super("at.tugraz.ist.catroid",
@@ -74,7 +76,7 @@ public class SoundBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 			e.printStackTrace();
 		}
 
-		if(soundFile != null){
+		if (soundFile != null) {
 			soundFile.delete();
 		}
 
@@ -92,8 +94,10 @@ public class SoundBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScriptList().get(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(groupCount-1, 0));
-		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(at.tugraz.ist.catroid.R.string.play_sound_main_adapter)));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				getActivity().getAdapter().getChild(groupCount - 1, 0));
+		assertNotNull("TextView does not exist.",
+				solo.getText(getActivity().getString(at.tugraz.ist.catroid.R.string.play_sound_main_adapter)));
 
 		assertTrue("Wrong title selected", solo.searchText(selectedTitle));
 		assertTrue("Wrong title selected", solo.searchText(selectedTitle));
@@ -139,13 +143,14 @@ public class SoundBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		project.addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentScript(script);
+		projectValuesManager.setCurrentSprite(sprite);
+		projectValuesManager.setCurrentScript(script);
 	}
 
-	private void setUpSoundFile() throws IOException{
+	private void setUpSoundFile() throws IOException {
 
-		BufferedInputStream inputStream = new BufferedInputStream(getInstrumentation().getContext().getResources().openRawResource(SOUND_FILE_ID));
+		BufferedInputStream inputStream = new BufferedInputStream(getInstrumentation().getContext().getResources()
+				.openRawResource(SOUND_FILE_ID));
 		soundFile = File.createTempFile("audioTest_new", ".mp3");
 		BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(soundFile), 1024);
 

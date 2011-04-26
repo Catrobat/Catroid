@@ -24,6 +24,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectValuesManager;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -42,6 +43,7 @@ public class ScaleCostumeTest extends ActivityInstrumentationTestCase2<ScriptAct
 	private Solo solo;
 	private Project project;
 	private ScaleCostumeBrick scaleCostumeBrick;
+	private ProjectValuesManager projectValuesManager = ProjectManager.getInstance().getProjectValuesManager();
 
 	public ScaleCostumeTest() {
 		super("at.tugraz.ist.catroid",
@@ -104,8 +106,8 @@ public class ScaleCostumeTest extends ActivityInstrumentationTestCase2<ScriptAct
 		project.addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentScript(script);
+		projectValuesManager.setCurrentSprite(sprite);
+		projectValuesManager.setCurrentScript(script);
 	}
 
 }
