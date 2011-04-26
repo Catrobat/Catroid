@@ -47,7 +47,7 @@ public class UtilZip {
 				if (file.isDirectory()) {
 					writeDirToZip(file, file.getName() + "/");
 				} else {
-					writeDirToZip(file, "");
+					writeFileToZip(file, "");
 				}
 			}
 
