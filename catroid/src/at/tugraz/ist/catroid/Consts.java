@@ -69,7 +69,7 @@ public final class Consts {
 	public static final String CAT1 = "normalCat";
 	public static final String CAT2 = "banzaiCat";
 	public static final String CAT3 = "cheshireCat";
-	
+
 	//Download:
 	public static final String PROJECTNAME_TAG = "fname=";
 
