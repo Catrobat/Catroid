@@ -37,11 +37,12 @@ public class ProjectManager {
 
 	private Project project;
 	private static ProjectManager instance;
-	private ProjectValuesManager projectValuesManager = new ProjectValuesManager();
+	private ProjectValuesManager projectValuesManager;
 	// used in uiTests
 	private transient int serverProjectId;
 
 	private ProjectManager() {
+		projectValuesManager = new ProjectValuesManager();
 	}
 
 	public static ProjectManager getInstance() {
