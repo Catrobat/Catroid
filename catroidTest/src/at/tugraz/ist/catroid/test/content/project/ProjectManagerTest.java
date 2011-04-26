@@ -95,7 +95,7 @@ public class ProjectManagerTest extends AndroidTestCase {
 
 		//loadProject ----------------------------------------
 
-		manager.loadProject(projectNameOne, context);
+		manager.loadProject(projectNameOne, context, false);
 		assertNotNull("no current project set", manager.getCurrentProject());
 		assertEquals("The Projectname is not " + projectNameOne, projectNameOne, manager.getCurrentProject().getName());
 		assertNull("there is a current sprite set", projectValuesManager.getCurrentSprite());
