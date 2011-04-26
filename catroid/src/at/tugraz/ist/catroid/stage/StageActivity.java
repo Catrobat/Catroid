@@ -29,6 +29,7 @@ import android.view.SurfaceView;
 import android.view.Window;
 import android.view.WindowManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -132,10 +133,14 @@ public class StageActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {
+		ProjectManager projectManager = ProjectManager.getInstance();
+		projectManager.loadProject(projectManager.getCurrentProject().getName(), this);
 		finish();
 	}
 
 	private void toMainActivity() {
+		ProjectManager projectManager = ProjectManager.getInstance();
+		projectManager.loadProject(projectManager.getCurrentProject().getName(), this);
 		finish();
 	}
 

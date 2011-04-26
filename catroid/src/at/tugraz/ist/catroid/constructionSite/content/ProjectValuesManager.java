@@ -33,8 +33,6 @@ public class ProjectValuesManager {
 	private Script currentScript = null;
 	private List<Sprite> spriteList = null;
 
-	private ProjectManager projectManager = ProjectManager.getInstance();
-
 	public Sprite getCurrentSprite() {
 		return this.currentSprite;
 	}
@@ -64,7 +62,7 @@ public class ProjectValuesManager {
 	}
 
 	public int getCurrentSpritePosition() {
-		return projectManager.getCurrentProject().getSpriteList().indexOf(currentSprite);
+		return spriteList.indexOf(currentSprite);
 	}
 
 	public int getCurrentScriptPosition() {
@@ -73,16 +71,17 @@ public class ProjectValuesManager {
 			return -1;
 		}
 
-		return projectManager.getCurrentProject().getSpriteList().get(currentSpritePos).getScriptList()
+		return spriteList.get(currentSpritePos).getScriptList()
 				.indexOf(currentScript);
 	}
 
 	public boolean setCurrentSpriteWithPosition(int position) {
-		if (position >= projectManager.getCurrentProject().getSpriteList().size() || position < 0) {
+
+		if (position >= spriteList.size() || position < 0) {
 			return false;
 		}
 
-		currentSprite = projectManager.getCurrentProject().getSpriteList().get(position);
+		currentSprite = spriteList.get(position);
 		return true;
 
 	}
@@ -93,12 +92,12 @@ public class ProjectValuesManager {
 			return false;
 		}
 
-		if (position >= projectManager.getCurrentProject().getSpriteList().get(currentSpritePos).getScriptList().size()
+		if (position >= spriteList.get(currentSpritePos).getScriptList().size()
 				|| position < 0) {
 			return false;
 		}
 
-		currentScript = projectManager.getCurrentProject().getSpriteList().get(this.getCurrentSpritePosition())
+		currentScript = spriteList.get(this.getCurrentSpritePosition())
 				.getScriptList().get(position);
 		return true;
 
