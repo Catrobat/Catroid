@@ -141,11 +141,11 @@ public class Utils {
 	public static boolean deleteFolder(String path) {
 		File fileFrom = new File(path);
 		if (fileFrom.isDirectory()) {
-			for (File c : fileFrom.listFiles()) {
-				if (c.isDirectory()) {
-					deleteFolder(c.getAbsolutePath());
+			for (File file : fileFrom.listFiles()) {
+				if (file.isDirectory()) {
+					deleteFolder(file.getAbsolutePath());
 				} else {
-					c.delete();
+					file.delete();
 				}
 			}
 		} else {
@@ -158,12 +158,12 @@ public class Utils {
 	public static boolean deleteFolder(String path, String ignoreFile) {
 		File fileFrom = new File(path);
 		if (fileFrom.isDirectory()) {
-			for (File c : fileFrom.listFiles()) {
-				if (c.isDirectory()) {
-					deleteFolder(c.getAbsolutePath(), ignoreFile);
+			for (File file : fileFrom.listFiles()) {
+				if (file.isDirectory()) {
+					deleteFolder(file.getAbsolutePath(), ignoreFile);
 				} else {
-					if (!c.getName().equals(ignoreFile)) {
-						c.delete();
+					if (!file.getName().equals(ignoreFile)) {
+						file.delete();
 					}
 				}
 
