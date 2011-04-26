@@ -54,9 +54,11 @@ public class SoundBrickAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		parent.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-		TextView view = (TextView) inflater.inflate(android.R.layout.simple_list_item_1, null);
-		view.setText(soundList.get(position).getTitle());
-		return view;
+
+		TextView textView = (TextView) inflater.inflate(android.R.layout.simple_list_item_1, null);
+		textView.setText(soundList.get(position).getTitle());
+
+		return textView;
 	}
 
 	@Override
