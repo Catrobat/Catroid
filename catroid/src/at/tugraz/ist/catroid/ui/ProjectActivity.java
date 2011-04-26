@@ -82,7 +82,7 @@ public class ProjectActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.project_activity);
+		setContentView(R.layout.activity_project);
 		initListeners();
 	}
 
