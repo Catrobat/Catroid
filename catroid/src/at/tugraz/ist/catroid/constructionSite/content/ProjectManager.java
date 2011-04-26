@@ -68,6 +68,7 @@ public class ProjectManager {
 					Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
 					return false;
 				}
+				return true;
 			}
 
 			if (oldProjectName == projectName && oldCurrentScriptPos != -1 && oldCurrentSpritePos != -1) {
