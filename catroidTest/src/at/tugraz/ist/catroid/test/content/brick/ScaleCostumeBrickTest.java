@@ -47,10 +47,12 @@ public class ScaleCostumeBrickTest extends InstrumentationTestCase {
 		final int fileSize = 4147;
 		final String imagePath = "/mnt/sdcard/catroid/testImage.png";
 		testImage = new File(imagePath);
+		// TODO: use this instead of hardcoded fileSize, verify it's the same
+		//		System.out.println("Filesize " + testImage.length());
 		if (!testImage.exists()) {
 			testImage.createNewFile();
 		}
-		InputStream in   = getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID);
+		InputStream in = getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID);
 		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), fileSize);
 		byte[] buffer = new byte[fileSize];
 		int length = 0;
@@ -76,7 +78,7 @@ public class ScaleCostumeBrickTest extends InstrumentationTestCase {
 
 		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite, scale);
 		brick.execute();
-		assertEquals( "Incorrect sprite scale value after ScaleCostumeBrick executed",
+		assertEquals("Incorrect sprite scale value after ScaleCostumeBrick executed",
 				scale, sprite.getScale());
 	}
 
@@ -86,7 +88,7 @@ public class ScaleCostumeBrickTest extends InstrumentationTestCase {
 		try {
 			brick.execute();
 			fail("Execution of ScaleCostumeBrick with null Sprite did not cause " +
-			"a NullPointerException to be thrown");
+					"a NullPointerException to be thrown");
 		} catch (NullPointerException e) {
 			// expected behavior
 		}
@@ -114,7 +116,7 @@ public class ScaleCostumeBrickTest extends InstrumentationTestCase {
 		try {
 			brick.execute();
 			fail("Execution of ScaleCostumeBrick with 0.0 scale did not cause a " +
-			"IllegalArgumentException to be thrown.");
+					"IllegalArgumentException to be thrown.");
 		} catch (IllegalArgumentException e) {
 			// expected behavior
 		}
@@ -127,7 +129,7 @@ public class ScaleCostumeBrickTest extends InstrumentationTestCase {
 		try {
 			brick.execute();
 			fail("Execution of ScaleCostumeBrick with negative scale did not cause" +
-			" a IllegalArgumentException to be thrown.");
+					" a IllegalArgumentException to be thrown.");
 		} catch (IllegalArgumentException e) {
 			// expected behavior
 		}
@@ -145,7 +147,7 @@ public class ScaleCostumeBrickTest extends InstrumentationTestCase {
 		brick.execute();
 
 		int newWidth = sprite.getCostume().getImageWidthHeight().first;
-		int newHeight= sprite.getCostume().getImageWidthHeight().second;
+		int newHeight = sprite.getCostume().getImageWidthHeight().second;
 
 		assertTrue("ScaleCostumeBrick width of scaled image to big", newWidth <= 1000);
 		assertTrue("ScaleCostumeBrick height of scaled image to big", newHeight <= 1000);
@@ -163,7 +165,7 @@ public class ScaleCostumeBrickTest extends InstrumentationTestCase {
 		brick.execute();
 
 		int newWidth = sprite.getCostume().getImageWidthHeight().first;
-		int newHeight= sprite.getCostume().getImageWidthHeight().second;
+		int newHeight = sprite.getCostume().getImageWidthHeight().second;
 
 		assertTrue("ScaleCostumeBrick width of scaled image to small", newWidth > 0);
 		assertTrue("ScaleCostumeBrick height of scaled image to small", newHeight > 0);
