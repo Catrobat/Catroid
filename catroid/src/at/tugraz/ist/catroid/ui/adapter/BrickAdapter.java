@@ -174,7 +174,7 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 			sprite.getScriptList().add(groupPosition, lastScript);
 		}
 
-		ProjectManager.getInstance().setCurrentScript(currentScript);
+		ProjectManager.getInstance().getProjectValuesManager().setCurrentScript(currentScript);
 
 		notifyDataSetChanged();
 		parent.expandGroup(getGroupCount() - 1);

@@ -189,6 +189,7 @@ public class StorageHandler {
 		}
 	}
 
+	//TODO: just for debugging
 	public void deleteProject(Project project) {
 		if (project != null) {
 			UtilFile.deleteDirectory(new File(catroidRoot.getAbsolutePath() + "/" + project.getName()));
