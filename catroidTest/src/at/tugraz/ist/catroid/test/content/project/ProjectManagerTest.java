@@ -26,6 +26,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.AndroidTestCase;
 import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectValuesManager;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -45,6 +46,7 @@ public class ProjectManagerTest extends AndroidTestCase {
 	String scriptNameTwo = "Ulukai2";
 	String spriteNameOne = "Zuul";
 	String spriteNameTwo = "Zuuul";
+	private ProjectValuesManager projectValuesManager = ProjectManager.getInstance().getProjectValuesManager();
 
 	@Override
 	public void tearDown() {
@@ -55,18 +57,20 @@ public class ProjectManagerTest extends AndroidTestCase {
 		File oldProjectFolder = new File(Consts.DEFAULT_ROOT + "/" + "oldProject");
 		File newProjectFolder = new File(Consts.DEFAULT_ROOT + "/" + "newProject");
 
-		if(newProjectFolder.exists())
+		if (newProjectFolder.exists()) {
 			UtilFile.deleteDirectory(newProjectFolder);
+		}
 
-		if(oldProjectFolder.exists())
+		if (oldProjectFolder.exists()) {
 			UtilFile.deleteDirectory(oldProjectFolder);
+		}
 	}
 
 	public void testBasicFunctions() throws NameNotFoundException {
 
 		ProjectManager manager = ProjectManager.getInstance();
-		assertNull("there is a current sprite set", manager.getCurrentSprite());
-		assertNull("there is a current script set", manager.getCurrentScript());
+		assertNull("there is a current sprite set", projectValuesManager.getCurrentSprite());
+		assertNull("there is a current script set", projectValuesManager.getCurrentScript());
 
 		Context context = getContext().createPackageContext("at.tugraz.ist.catroid", Context.CONTEXT_IGNORE_SECURITY);
 		manager.initializeNewProject(projectNameOne, context);
@@ -75,57 +79,61 @@ public class ProjectManagerTest extends AndroidTestCase {
 
 		Sprite sprite = new Sprite(spriteNameOne);
 		manager.addSprite(sprite);
-		manager.setCurrentSprite(sprite);
+		projectValuesManager.setCurrentSprite(sprite);
 
-		assertNotNull("no current sprite set", manager.getCurrentSprite());
-		assertEquals("The Spritename is not " + spriteNameOne, spriteNameOne, manager.getCurrentSprite().getName());
+		assertNotNull("no current sprite set", projectValuesManager.getCurrentSprite());
+		assertEquals("The Spritename is not " + spriteNameOne, spriteNameOne, projectValuesManager.getCurrentSprite()
+				.getName());
 
 		Script script = new Script(scriptNameOne, sprite);
 		manager.addScript(script);
-		manager.setCurrentScript(script);
+		projectValuesManager.setCurrentScript(script);
 
-		assertNotNull("no current script set", manager.getCurrentScript());
-		assertEquals("The Spritename is not " + scriptNameOne, scriptNameOne, manager.getCurrentScript().getName());
+		assertNotNull("no current script set", projectValuesManager.getCurrentScript());
+		assertEquals("The Spritename is not " + scriptNameOne, scriptNameOne, projectValuesManager.getCurrentScript()
+				.getName());
 
 		//loadProject ----------------------------------------
 
 		manager.loadProject(projectNameOne, context);
 		assertNotNull("no current project set", manager.getCurrentProject());
 		assertEquals("The Projectname is not " + projectNameOne, projectNameOne, manager.getCurrentProject().getName());
-		assertNull("there is a current sprite set", manager.getCurrentSprite());
-		assertNull("there is a current script set", manager.getCurrentScript());
+		assertNull("there is a current sprite set", projectValuesManager.getCurrentSprite());
+		assertNull("there is a current script set", projectValuesManager.getCurrentScript());
 
 		//resetProject ---------------------------------------
 
 		manager.addSprite(sprite);
-		manager.setCurrentSprite(sprite);
+		projectValuesManager.setCurrentSprite(sprite);
 		manager.addScript(script);
-		manager.setCurrentScript(script);
+		projectValuesManager.setCurrentScript(script);
 
 		manager.resetProject(context);
 
-		assertNull("there is a current sprite set", manager.getCurrentSprite());
-		assertNull("there is a current script set", manager.getCurrentScript());
+		assertNull("there is a current sprite set", projectValuesManager.getCurrentSprite());
+		assertNull("there is a current script set", projectValuesManager.getCurrentScript());
 
 		//addSprite
 
 		Sprite sprite2 = new Sprite(spriteNameTwo);
 		manager.addSprite(sprite2);
-		assertTrue("Sprite not in current Project", manager.getCurrentProject().getSpriteList().contains(sprite2));
+		assertTrue("Sprite not in current Project", projectValuesManager.getSpriteList().contains(sprite2));
 
 		//addScript
 
-		manager.setCurrentSprite(sprite2);
+		projectValuesManager.setCurrentSprite(sprite2);
 		Script script2 = new Script(scriptNameTwo, sprite2);
 		manager.addScript(script2);
-		assertTrue("Script not in current Sprite", manager.getCurrentSprite().getScriptList().contains(script2));
+		assertTrue("Script not in current Sprite",
+				projectValuesManager.getCurrentSprite().getScriptList().contains(script2));
 
 		//addBrick
 
-		manager.setCurrentScript(script2);
+		projectValuesManager.setCurrentScript(script2);
 		SetCostumeBrick brick = new SetCostumeBrick(sprite2);
 		manager.addBrick(brick);
-		assertTrue("Brick not in current Script", manager.getCurrentScript().getBrickList().contains(brick));
+		assertTrue("Brick not in current Script", projectValuesManager.getCurrentScript().getBrickList()
+				.contains(brick));
 
 		//move brick already tested
 
@@ -152,7 +160,6 @@ public class ProjectManagerTest extends AndroidTestCase {
 
 		assertTrue("New project folder is not existing", newProjectFolder.exists());
 		assertTrue("New project file is not existing", newProjectFile.exists());
-
 
 	}
 
