@@ -25,10 +25,11 @@ public class SoundInfo implements Comparable<SoundInfo> {
 	private String title;
 
 	public String getTitleWithPath() {
-		if (path.endsWith("/"))
+		if (path.endsWith("/")) {
 			return path + title;
-		else
+		} else {
 			return path + "/" + title;
+		}
 	}
 
 	public int getId() {
