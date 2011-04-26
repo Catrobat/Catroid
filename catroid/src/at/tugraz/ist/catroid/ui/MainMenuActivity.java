@@ -179,6 +179,7 @@ public class MainMenuActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		this.removeDialog(Consts.DIALOG_UPLOAD_PROJECT);
 		if (projectManager.getCurrentProject() == null) {
 			return;
 		}
