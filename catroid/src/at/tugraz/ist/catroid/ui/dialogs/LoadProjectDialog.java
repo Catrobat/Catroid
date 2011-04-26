@@ -63,7 +63,7 @@ public class LoadProjectDialog extends Dialog {
 		listView.setOnItemClickListener(new ListView.OnItemClickListener() {
 
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				if (!ProjectManager.getInstance().loadProjectFromDialog(adapter.getItem(position), context)) {
+				if (!ProjectManager.getInstance().loadProject(adapter.getItem(position), context, true)) {
 					return; // error message already in ProjectManager loadProject
 				}
 				Intent intent = new Intent(context, ProjectActivity.class);
