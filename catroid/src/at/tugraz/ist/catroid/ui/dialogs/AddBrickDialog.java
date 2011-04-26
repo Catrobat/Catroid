@@ -29,6 +29,7 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectValuesManager;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.Brick;
@@ -55,6 +56,7 @@ public class AddBrickDialog extends Dialog {
 	private ArrayList<Brick> prototypeBrickList;
 	private ListView listView;
 	private PrototypeBrickAdapter adapter;
+	private ProjectValuesManager projectValuesManager = ProjectManager.getInstance().getProjectValuesManager();
 
 	private void setupBrickPrototypes(Sprite sprite) {
 		if (sprite.getName().equals("Stage")) {
@@ -106,20 +108,20 @@ public class AddBrickDialog extends Dialog {
 				final ProjectManager projectManager = ProjectManager.getInstance();
 
 				if (addedBrick instanceof IfStartedBrick) {
-					Script newScript = new Script("script", projectManager.getCurrentSprite());
+					Script newScript = new Script("script", projectValuesManager.getCurrentSprite());
 					projectManager.addScript(newScript);
-					projectManager.setCurrentScript(newScript);
+					projectValuesManager.setCurrentScript(newScript);
 					newScript.setTouchScript(false);
 				} else if (addedBrick instanceof IfTouchedBrick) {
-					Script newScript = new Script("script", projectManager.getCurrentSprite());
+					Script newScript = new Script("script", projectValuesManager.getCurrentSprite());
 					projectManager.addScript(newScript);
-					projectManager.setCurrentScript(newScript);
+					projectValuesManager.setCurrentScript(newScript);
 					newScript.setTouchScript(true);
 				} else {
-					if (projectManager.getCurrentSprite().getScriptList().isEmpty()) {
-						Script newScript = new Script("script", projectManager.getCurrentSprite());
+					if (projectValuesManager.getCurrentSprite().getScriptList().isEmpty()) {
+						Script newScript = new Script("script", projectValuesManager.getCurrentSprite());
 						projectManager.addScript(newScript);
-						projectManager.setCurrentScript(newScript);
+						projectValuesManager.setCurrentScript(newScript);
 						newScript.setTouchScript(false);
 						projectManager.addBrick(getBrickClone(adapter.getItem(position)));
 					} else {

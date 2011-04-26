@@ -43,6 +43,7 @@ import android.widget.ImageView;
 import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectValuesManager;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
@@ -57,13 +58,14 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	private Sprite sprite;
 	private Script scriptToEdit;
 	private final static int DELETE = 0;
+	private ProjectValuesManager projectValuesManager = ProjectManager.getInstance().getProjectValuesManager();
 
 	private void initListeners() {
-		sprite = ProjectManager.getInstance().getCurrentSprite();
+		sprite = projectValuesManager.getCurrentSprite();
 		listView = (DragNDropListView) findViewById(R.id.brickListView);
-		adapter = new BrickAdapter(this, ProjectManager.getInstance().getCurrentSprite(), listView);
+		adapter = new BrickAdapter(this, projectValuesManager.getCurrentSprite(), listView);
 		if (adapter.getGroupCount() > 0) {
-			ProjectManager.getInstance().setCurrentScript(adapter.getGroup(adapter.getGroupCount() - 1));
+			projectValuesManager.setCurrentScript(adapter.getGroup(adapter.getGroupCount() - 1));
 		}
 
 		listView.setTrashView((ImageView) findViewById(R.id.trash));
@@ -227,13 +229,13 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 			case DELETE:
 				sprite.getScriptList().remove(scriptToEdit);
 				if (sprite.getScriptList().isEmpty()) {
-					ProjectManager.getInstance().setCurrentScript(null);
+					projectValuesManager.setCurrentScript(null);
 					adapter.notifyDataSetChanged();
 					return false;
 				}
 				int lastScriptIndex = sprite.getScriptList().size() - 1;
 				Script lastScript = sprite.getScriptList().get(lastScriptIndex);
-				ProjectManager.getInstance().setCurrentScript(lastScript);
+				projectValuesManager.setCurrentScript(lastScript);
 				adapter.notifyDataSetChanged();
 				listView.expandGroup(adapter.getGroupCount() - 1);
 		}

@@ -37,6 +37,7 @@ import android.widget.TextView;
 import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectValuesManager;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.NewSpriteDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameSpriteDialog;
@@ -47,9 +48,10 @@ public class ProjectActivity extends Activity {
 	private ArrayAdapter<Sprite> adapter;
 	private ArrayList<Sprite> adapterSpriteList;
 	private Sprite spriteToEdit;
+	private ProjectValuesManager projectValuesManager = ProjectManager.getInstance().getProjectValuesManager();
 
 	private void initListeners() {
-		adapterSpriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		adapterSpriteList = (ArrayList<Sprite>) projectValuesManager.getSpriteList();
 		adapter = new ArrayAdapter<Sprite>(this, android.R.layout.simple_list_item_1, adapterSpriteList);
 
 		listView = (ListView) findViewById(R.id.spriteListView);
@@ -57,7 +59,7 @@ public class ProjectActivity extends Activity {
 		registerForContextMenu(listView);
 		listView.setOnItemClickListener(new ListView.OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				ProjectManager.getInstance().setCurrentSprite(adapter.getItem(position));
+				projectValuesManager.setCurrentSprite(adapter.getItem(position));
 				Intent intent = new Intent(ProjectActivity.this, ScriptActivity.class);
 				ProjectActivity.this.startActivity(intent);
 			}
@@ -91,15 +93,15 @@ public class ProjectActivity extends Activity {
 		Dialog dialog;
 
 		switch (id) {
-		case Consts.DIALOG_NEW_SPRITE:
-			dialog = new NewSpriteDialog(this);
-			break;
-		case Consts.DIALOG_RENAME_SPRITE:
-			dialog = new RenameSpriteDialog(this);
-			break;
-		default:
-			dialog = null;
-			break;
+			case Consts.DIALOG_NEW_SPRITE:
+				dialog = new NewSpriteDialog(this);
+				break;
+			case Consts.DIALOG_RENAME_SPRITE:
+				dialog = new RenameSpriteDialog(this);
+				break;
+			default:
+				dialog = null;
+				break;
 		}
 
 		return dialog;
@@ -152,17 +154,17 @@ public class ProjectActivity extends Activity {
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case 0: // rename
-			this.showDialog(Consts.DIALOG_RENAME_SPRITE);
-			break;
-		case 1: // delete
-			ProjectManager projectManager = ProjectManager.getInstance();
-			projectManager.getCurrentProject().getSpriteList().remove(spriteToEdit);
-			if (projectManager.getCurrentSprite() != null && projectManager.getCurrentSprite().equals(spriteToEdit)) {
-				projectManager.setCurrentSprite(null);
-			}
-			// updateTextAndAdapter();
-			break;
+			case 0: // rename
+				this.showDialog(Consts.DIALOG_RENAME_SPRITE);
+				break;
+			case 1: // delete
+				projectValuesManager.getSpriteList().remove(spriteToEdit);
+				if (projectValuesManager.getCurrentSprite() != null
+						&& projectValuesManager.getCurrentSprite().equals(spriteToEdit)) {
+					projectValuesManager.setCurrentSprite(null);
+				}
+				// updateTextAndAdapter();
+				break;
 		}
 		return true;
 	}
