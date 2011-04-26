@@ -120,7 +120,7 @@ public class MainMenuActivity extends Activity {
 		String projectName = prefs.getString(PREF_PROJECTNAME_KEY, null);
 
 		if (projectName != null) {
-			projectManager.loadProject(projectName, this);
+			projectManager.loadProject(projectName, this, false);
 		} else {
 			projectManager.initializeDefaultProject(this);
 			//projectManager.loadProject(this.getString(R.string.default_project_name), this); 
@@ -186,7 +186,7 @@ public class MainMenuActivity extends Activity {
 		currentProjectTextView.setText(getString(R.string.current_project) + " "
 				+ projectManager.getCurrentProject().getName());
 
-		projectManager.loadProject(projectManager.getCurrentProject().getName(), this);
+		projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
 		//TODO es wird zweimal unn�tig geladen wenn man von der stage zur�ckkommt
 	}
 

@@ -398,18 +398,25 @@ public class StorageHandler {
 		Project defaultProject = new Project(context, projectName);
 		saveProject(defaultProject);
 		Sprite sprite = new Sprite("Catroid");
+		Sprite stageSprite = defaultProject.getSpriteList().get(0);
 		//scripts:
+		Script stageStartScript = new Script("stageStartScript", stageSprite);
 		Script startScript = new Script("startScript", sprite);
 		Script touchScript = new Script("touchScript", sprite);
 		touchScript.setTouchScript(true);
 		//bricks:
-		File normalCat = savePictureFromResInProject(projectName, 4147, "normalCat", R.drawable.catroid, context);
-		File banzaiCat = savePictureFromResInProject(projectName, 4147, "banzaiCat", R.drawable.catroid_banzai, context);
-		File cheshireCat = savePictureFromResInProject(projectName, 4147, "cheshireCat", R.drawable.catroid_cheshire,
+		File normalCat = savePictureFromResInProject(projectName, 4147, Consts.CAT1, R.drawable.catroid, context);
+		File banzaiCat = savePictureFromResInProject(projectName, 4147, Consts.CAT2, R.drawable.catroid_banzai, context);
+		File cheshireCat = savePictureFromResInProject(projectName, 4147, Consts.CAT3, R.drawable.catroid_cheshire,
 				context);
+		File background = savePictureFromResInProject(projectName, 4147, Consts.BACKGROUND,
+				R.drawable.background_blueish, context);
 
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
 		setCostumeBrick.setCostume(normalCat.getAbsolutePath());
+
+		SetCostumeBrick setCostumeBrick1 = new SetCostumeBrick(sprite);
+		setCostumeBrick1.setCostume(normalCat.getAbsolutePath());
 
 		SetCostumeBrick setCostumeBrick2 = new SetCostumeBrick(sprite);
 		setCostumeBrick2.setCostume(banzaiCat.getAbsolutePath());
@@ -417,23 +424,26 @@ public class StorageHandler {
 		SetCostumeBrick setCostumeBrick3 = new SetCostumeBrick(sprite);
 		setCostumeBrick3.setCostume(cheshireCat.getAbsolutePath());
 
-		WaitBrick waitBrick1 = new WaitBrick(sprite, 1000);
+		SetCostumeBrick setCostumeBackground = new SetCostumeBrick(stageSprite);
+		setCostumeBackground.setCostume(background.getAbsolutePath());
 
-		//define script:
-		for (int i = 0; i < 5; i++) {
-			startScript.addBrick(setCostumeBrick);
-			startScript.addBrick(waitBrick1);
-			startScript.addBrick(setCostumeBrick2);
-			startScript.addBrick(waitBrick1);
-		}
-		startScript.addBrick(setCostumeBrick3);
+		WaitBrick waitBrick1 = new WaitBrick(sprite, 500);
+		WaitBrick waitBrick2 = new WaitBrick(sprite, 500);
 
+		startScript.addBrick(setCostumeBrick);
+
+		touchScript.addBrick(setCostumeBrick2);
+		touchScript.addBrick(waitBrick1);
 		touchScript.addBrick(setCostumeBrick3);
+		touchScript.addBrick(waitBrick2);
+		touchScript.addBrick(setCostumeBrick1);
+		stageStartScript.addBrick(setCostumeBackground);
 
 		//merging:
 		defaultProject.addSprite(sprite);
 		sprite.getScriptList().add(startScript);
 		sprite.getScriptList().add(touchScript);
+		stageSprite.getScriptList().add(stageStartScript);
 		ProjectManager.getInstance().setProject(defaultProject);
 		this.saveProject(defaultProject);
 		return defaultProject;
