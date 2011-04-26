@@ -26,6 +26,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectValuesManager;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -38,6 +39,8 @@ import com.jayway.android.robotium.solo.Solo;
 public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
 	private String testProject = "testProject";
+
+	private ProjectValuesManager projectValuesManager = ProjectManager.getInstance().getProjectValuesManager();
 
 	public AddBrickDialogTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -144,8 +147,8 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 		project.addSprite(firstSprite);
 
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
-		ProjectManager.getInstance().setCurrentScript(testScript);
+		projectValuesManager.setCurrentSprite(firstSprite);
+		projectValuesManager.setCurrentScript(testScript);
 
 		storageHandler.saveProject(project);
 	}

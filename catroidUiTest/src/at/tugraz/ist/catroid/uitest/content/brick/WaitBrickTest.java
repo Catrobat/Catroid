@@ -24,6 +24,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectValuesManager;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -36,12 +37,13 @@ import com.jayway.android.robotium.solo.Solo;
 /**
  * 
  * @author Daniel Burtscher
- *
+ * 
  */
-public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity>{
+public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
 	private WaitBrick waitBrick;
+	private ProjectValuesManager projectValuesManager = ProjectManager.getInstance().getProjectValuesManager();
 
 	public WaitBrickTest() {
 		super("at.tugraz.ist.catroid",
@@ -75,7 +77,8 @@ public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScriptList().get(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(groupCount-1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				getActivity().getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.wait_main_adapter)));
 
 		double waitTime = 2.25;
@@ -86,7 +89,7 @@ public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		solo.clickOnButton(0);
 
 		Thread.sleep(1000);
-		assertEquals("Wrong text in field", (long)(waitTime*1000), waitBrick.getWaitTime());
+		assertEquals("Wrong text in field", (long) (waitTime * 1000), waitBrick.getWaitTime());
 		assertEquals("Text not updated", waitTime, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
 
@@ -101,7 +104,7 @@ public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		project.addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentScript(script);
+		projectValuesManager.setCurrentSprite(sprite);
+		projectValuesManager.setCurrentScript(script);
 	}
 }

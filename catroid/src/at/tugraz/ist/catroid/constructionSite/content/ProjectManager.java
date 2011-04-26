@@ -35,14 +35,14 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class ProjectManager {
 
-	private Sprite currentSprite;
 	private Project project;
 	private static ProjectManager instance;
-	private Script currentScript;
+	private ProjectValuesManager projectValuesManager;
 	// used in uiTests
 	private transient int serverProjectId;
 
 	private ProjectManager() {
+		projectValuesManager = new ProjectValuesManager();
 	}
 
 	public static ProjectManager getInstance() {
@@ -52,30 +52,47 @@ public class ProjectManager {
 		return instance;
 	}
 
-	public boolean loadProject(String projectName, Context context, boolean errorMessage) {
+	public void loadProject(String projectName, Context context, boolean errorMessage) {
 		try {
+			String oldProjectName = project.getName();
+			int oldCurrentSpritePos = projectValuesManager.getCurrentSpritePosition();
+			int oldCurrentScriptPos = projectValuesManager.getCurrentScriptPosition();
+
 			project = StorageHandler.getInstance().loadProject(projectName);
 			if (project == null) {
 				project = StorageHandler.getInstance().createDefaultProject(context);
+				projectValuesManager.setCurrentSprite(null);
+				projectValuesManager.setCurrentScript(null);
+				projectValuesManager.updateProjectValuesManager();
 				if (errorMessage) {
 					Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
-					return false;
+					return;
 				}
 			}
-			currentSprite = null;
-			currentScript = null;
-			return true;
+
+			if (oldProjectName == projectName && oldCurrentScriptPos != -1 && oldCurrentSpritePos != -1) {
+				projectValuesManager.setCurrentSpriteWithPosition(oldCurrentSpritePos);
+				projectValuesManager.setCurrentScriptWithPosition(oldCurrentScriptPos);
+				projectValuesManager.updateProjectValuesManager();
+				return;
+			}
+
+			projectValuesManager.setCurrentSprite(null);
+			projectValuesManager.setCurrentScript(null);
+			projectValuesManager.updateProjectValuesManager();
+
 		} catch (Exception e) {
 			Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
-			return false;
+
 		}
 	}
 
 	public boolean initializeDefaultProject(Context context) {
 		try {
 			project = StorageHandler.getInstance().createDefaultProject(context);
-			currentSprite = null;
-			currentScript = null;
+			projectValuesManager.setCurrentSprite(null);
+			projectValuesManager.setCurrentScript(null);
+			projectValuesManager.updateProjectValuesManager();
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -95,6 +112,7 @@ public class ProjectManager {
 		}
 	}
 
+	//TODO: just for debugging
 	public void deleteCurrentProject(Context context) {
 		try {
 			StorageHandler.getInstance().deleteProject(project);
@@ -104,10 +122,12 @@ public class ProjectManager {
 		project = null;
 	}
 
+	//TODO: just for debugging
 	public void resetProject(Context context) throws NameNotFoundException {
 		project = new Project(context, project.getName());
-		currentSprite = null;
-		currentScript = null;
+
+		projectValuesManager.setCurrentSprite(null);
+		projectValuesManager.setCurrentScript(null);
 	}
 
 	public void addSprite(Sprite sprite) {
@@ -115,71 +135,45 @@ public class ProjectManager {
 	}
 
 	public void addScript(Script script) {
-		currentSprite.getScriptList().add(script);
+		projectValuesManager.getCurrentSprite().getScriptList().add(script);
 	}
 
 	public void addBrick(Brick brick) {
-		currentScript.addBrick(brick);
+		projectValuesManager.getCurrentScript().addBrick(brick);
 	}
 
 	public void moveBrickUpInList(int position) {
+		Script currentScript = projectValuesManager.getCurrentScript();
 		if (position >= 0 && position < currentScript.getBrickList().size()) {
 			currentScript.moveBrickBySteps(currentScript.getBrickList().get(position), -1);
 		}
 	}
 
 	public void moveBrickDownInList(int position) {
+		Script currentScript = projectValuesManager.getCurrentScript();
 		if (position >= 0 && position < currentScript.getBrickList().size()) {
 			currentScript.moveBrickBySteps(currentScript.getBrickList().get(position), 1);
 
 		}
 	}
 
-	public Sprite getCurrentSprite() {
-		return currentSprite;
-	}
-
 	public Project getCurrentProject() {
 		return project;
 	}
 
-	public Script getCurrentScript() {
-		return currentScript;
-	}
-
 	public void initializeNewProject(String projectName, Context context) {
 		project = new Project(context, projectName);
-		currentSprite = null;
-		currentScript = null;
+
+		projectValuesManager.setCurrentSprite(null);
+		projectValuesManager.setCurrentScript(null);
 		saveProject(context);
 	}
 
-	/**
-	 * @return false if project doesn't contain the new sprite, true otherwise
-	 */
-	public void setCurrentSprite(Sprite sprite) {
-		currentSprite = sprite;
-	}
-
-	/**
-	 * @return false if currentSprite doesn't contain the new script, true
-	 *         otherwise
-	 */
-	public boolean setCurrentScript(Script script) {
-		if (script == null) {
-			currentScript = null;
-			return true;
-		}
-		if (currentSprite.getScriptList().contains(script)) {
-			currentScript = script;
-			return true;
-		}
-		return false;
-	}
-
+	//TODO: just for debugging
 	public void setProject(Project project) {
-		currentScript = null;
-		currentSprite = null;
+
+		projectValuesManager.setCurrentSprite(null);
+		projectValuesManager.setCurrentScript(null);
 
 		this.project = project;
 	}
@@ -233,6 +227,10 @@ public class ProjectManager {
 
 	public int getServerProjectId() {
 		return serverProjectId;
+	}
+
+	public ProjectValuesManager getProjectValuesManager() {
+		return this.projectValuesManager;
 	}
 
 }

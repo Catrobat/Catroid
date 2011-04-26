@@ -25,6 +25,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectValuesManager;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -39,6 +40,7 @@ public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 	private Project project;
 	private ChangeYByBrick changeYByBrick;
 	private int yToChange;
+	private ProjectValuesManager projectValuesManager = ProjectManager.getInstance().getProjectValuesManager();
 
 	public ChangeYByBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -99,7 +101,7 @@ public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		project.addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentScript(script);
+		projectValuesManager.setCurrentSprite(sprite);
+		projectValuesManager.setCurrentScript(script);
 	}
 }
