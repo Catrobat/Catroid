@@ -308,7 +308,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		this.createTestProjectWithSound();
 		solo.clickOnButton(1);
 		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
-		Thread.sleep(150);
+		Thread.sleep(200);
 		assertTrue("Media player is not playing", mediaPlayer.isPlaying());
 	}
 
