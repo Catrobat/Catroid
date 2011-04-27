@@ -20,7 +20,6 @@
 package at.tugraz.ist.catroid.constructionSite.content;
 
 import java.io.File;
-import java.io.IOException;
 
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -204,15 +203,17 @@ public class ProjectManager {
 		File newProjectFile = new File(Consts.DEFAULT_ROOT + "/" + project.getName() + "/" + newProjectName
 				+ Consts.PROJECT_EXTENTION);
 
-		try {
-			String projectAsString = StorageHandler.getInstance().getProjectfileAsString(this.project.getName());
-			StorageHandler.getInstance().overwriteSpfFile(project.getName(),
-					projectAsString.replace(project.getName(), newProjectName));
-			loadProject(project.getName(), context, false);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
+		project.setName(newProjectName);
+
+		//		try {
+		//			String projectAsString = StorageHandler.getInstance().getProjectfileAsString(this.project.getName());
+		//			StorageHandler.getInstance().overwriteSpfFile(project.getName(),
+		//					projectAsString.replace(project.getName(), newProjectName));
+		//			loadProject(project.getName(), context, false);
+		//		} catch (IOException e) {
+		//			e.printStackTrace();
+		//			return false;
+		//		}
 
 		boolean fileRenamed = oldProjectFile.renameTo(newProjectFile);
 		boolean directoryRenamed = oldProjectDirectory.renameTo(newProjectDirectory);
