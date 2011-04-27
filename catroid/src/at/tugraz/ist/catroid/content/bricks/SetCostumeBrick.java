@@ -87,7 +87,8 @@ public class SetCostumeBrick implements Brick {
 
 		if (imageName != null) {
 			if (thumbnail == null) {
-				thumbnail = ImageEditing.getScaledBitmap(imageName, Consts.THUMBNAIL_HEIGHT, Consts.THUMBNAIL_WIDTH);
+				thumbnail = ImageEditing.getScaledBitmap(getAbsoluteImagePath(), Consts.THUMBNAIL_HEIGHT,
+						Consts.THUMBNAIL_WIDTH);
 			}
 
 			imageView.setImageBitmap(thumbnail);
