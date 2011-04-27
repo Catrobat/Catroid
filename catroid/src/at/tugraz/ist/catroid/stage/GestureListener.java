@@ -24,11 +24,11 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 
 public class GestureListener extends GestureDetector.SimpleOnGestureListener {
-	private StageActivity mStageView;
+	private StageActivity stageView;
 
 	public GestureListener(StageActivity stageActivity) {
 		super();
-		mStageView = stageActivity;
+		stageView = stageActivity;
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener {
 	@Override
 	public boolean onDown(MotionEvent ev) {
 		Log.d("StageGestureDetection", "onDown" + ev.toString() + " number of pointers " + ev.getPointerCount());
-		mStageView.processOnTouch((int)ev.getX(),(int)ev.getY());
+		stageView.processOnTouch((int)ev.getX(),(int)ev.getY());
 		return true;
 	}
 

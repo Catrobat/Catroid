@@ -107,7 +107,7 @@ public class MainMenuActivity extends Activity {
 		Values.SCREEN_WIDTH = dm.widthPixels;
 		Values.SCREEN_HEIGHT = dm.heightPixels;
 
-		setContentView(R.layout.main_menu);
+		setContentView(R.layout.activity_main_menu);
 		projectManager = ProjectManager.getInstance();
 
 		if (projectManager.getCurrentProject() != null) {
@@ -120,7 +120,7 @@ public class MainMenuActivity extends Activity {
 		String projectName = prefs.getString(PREF_PROJECTNAME_KEY, null);
 
 		if (projectName != null) {
-			projectManager.loadProject(projectName, this);
+			projectManager.loadProject(projectName, this, false);
 		} else {
 			projectManager.initializeDefaultProject(this);
 			//projectManager.loadProject(this.getString(R.string.default_project_name), this); 
@@ -179,6 +179,7 @@ public class MainMenuActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		this.removeDialog(Consts.DIALOG_UPLOAD_PROJECT);
 		if (projectManager.getCurrentProject() == null) {
 			return;
 		}
@@ -186,8 +187,8 @@ public class MainMenuActivity extends Activity {
 		currentProjectTextView.setText(getString(R.string.current_project) + " "
 				+ projectManager.getCurrentProject().getName());
 
-		projectManager.loadProject(projectManager.getCurrentProject().getName(), this);
-		//TODO es wird zweimal unnötig geladen wenn man von der stage zurückkommt
+		projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
+		//TODO es wird zweimal unnï¿½tig geladen wenn man von der stage zurï¿½ckkommt
 	}
 
 	@Override

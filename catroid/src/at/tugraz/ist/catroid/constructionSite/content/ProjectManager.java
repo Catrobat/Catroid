@@ -52,27 +52,15 @@ public class ProjectManager {
 		return instance;
 	}
 
-	public boolean loadProject(String projectName, Context context) {
+	public boolean loadProject(String projectName, Context context, boolean errorMessage) {
 		try {
 			project = StorageHandler.getInstance().loadProject(projectName);
 			if (project == null) {
 				project = StorageHandler.getInstance().createDefaultProject(context);
-			}
-			currentSprite = null;
-			currentScript = null;
-			return true;
-		} catch (Exception e) {
-			Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
-			return false;
-		}
-	}
-
-	public boolean loadProjectFromDialog(String projectName, Context context) {
-		try {
-			project = StorageHandler.getInstance().loadProject(projectName);
-			if (project == null) {
-				Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
-				return false;
+				if (errorMessage) {
+					Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
+					return false;
+				}
 			}
 			currentSprite = null;
 			currentScript = null;
@@ -227,7 +215,7 @@ public class ProjectManager {
 			String projectAsString = StorageHandler.getInstance().getProjectfileAsString(this.project.getName());
 			StorageHandler.getInstance().overwriteSpfFile(project.getName(),
 					projectAsString.replace(project.getName(), newProjectName));
-			loadProject(project.getName(), context);
+			loadProject(project.getName(), context, false);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;

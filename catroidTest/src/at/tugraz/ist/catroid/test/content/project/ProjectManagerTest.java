@@ -55,11 +55,13 @@ public class ProjectManagerTest extends AndroidTestCase {
 		File oldProjectFolder = new File(Consts.DEFAULT_ROOT + "/" + "oldProject");
 		File newProjectFolder = new File(Consts.DEFAULT_ROOT + "/" + "newProject");
 
-		if(newProjectFolder.exists())
+		if (newProjectFolder.exists()) {
 			UtilFile.deleteDirectory(newProjectFolder);
+		}
 
-		if(oldProjectFolder.exists())
+		if (oldProjectFolder.exists()) {
 			UtilFile.deleteDirectory(oldProjectFolder);
+		}
 	}
 
 	public void testBasicFunctions() throws NameNotFoundException {
@@ -89,7 +91,7 @@ public class ProjectManagerTest extends AndroidTestCase {
 
 		//loadProject ----------------------------------------
 
-		manager.loadProject(projectNameOne, context);
+		manager.loadProject(projectNameOne, context, false);
 		assertNotNull("no current project set", manager.getCurrentProject());
 		assertEquals("The Projectname is not " + projectNameOne, projectNameOne, manager.getCurrentProject().getName());
 		assertNull("there is a current sprite set", manager.getCurrentSprite());
@@ -152,7 +154,6 @@ public class ProjectManagerTest extends AndroidTestCase {
 
 		assertTrue("New project folder is not existing", newProjectFolder.exists());
 		assertTrue("New project file is not existing", newProjectFile.exists());
-
 
 	}
 

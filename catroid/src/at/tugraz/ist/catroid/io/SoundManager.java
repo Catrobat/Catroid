@@ -28,17 +28,17 @@ public class SoundManager {
 	private ArrayList<MediaPlayer> mediaPlayers;
 
 	public static final int MAX_MEDIA_PLAYERS = 10;
-	private static SoundManager mSoundManager = null;
+	private static SoundManager soundManager = null;
 
 	private SoundManager() {
 		mediaPlayers = new ArrayList<MediaPlayer>();
 	}
 
 	public synchronized static SoundManager getInstance() {
-		if (mSoundManager == null) {
-			mSoundManager = new SoundManager();
+		if (soundManager == null) {
+			soundManager = new SoundManager();
 		}
-		return mSoundManager;
+		return soundManager;
 	}
 
 	public MediaPlayer getMediaPlayer() {

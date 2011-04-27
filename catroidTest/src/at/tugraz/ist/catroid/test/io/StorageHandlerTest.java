@@ -30,11 +30,22 @@ import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.bricks.Brick;
+import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
+import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
+import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
+import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
+import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
+import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
+import at.tugraz.ist.catroid.content.bricks.SetXBrick;
+import at.tugraz.ist.catroid.content.bricks.SetYBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
+import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
@@ -46,19 +57,19 @@ public class StorageHandlerTest extends AndroidTestCase {
 	}
 
 	@Override
-	public void tearDown(){
+	public void tearDown() {
 		File defProject = new File(Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name));
 
-		if(defProject.exists()){
+		if (defProject.exists()) {
 			UtilFile.deleteDirectory(defProject);
 		}
 	}
 
 	@Override
-	public void setUp(){
+	public void setUp() {
 		File defProject = new File(Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name));
 
-		if(defProject.exists()){
+		if (defProject.exists()) {
 			UtilFile.deleteDirectory(defProject);
 		}
 	}
@@ -148,25 +159,92 @@ public class StorageHandlerTest extends AndroidTestCase {
 		assertEquals("Version names are not equal", preVersionName, postVersionName);
 	}
 
-	public void testDefaultProject() throws IOException{
+	public void testDefaultProject() throws IOException {
 		StorageHandler handler = StorageHandler.getInstance();
 		ProjectManager project = ProjectManager.getInstance();
 		project.setProject(handler.createDefaultProject(getContext()));
-		assertEquals("not the right number of sprites in the default project",2, project.getCurrentProject().getSpriteList().size());
-		assertEquals("not the right number of scripts in the default project",2, project.getCurrentProject().getSpriteList().get(1).getScriptList().size());
-		assertEquals("not the right number of bricks in the first script",21, project.getCurrentProject().getSpriteList().get(1).getScriptList().get(0).getBrickList().size());
-		assertEquals("not the right number of bricks in the second script",1, project.getCurrentProject().getSpriteList().get(1).getScriptList().get(1).getBrickList().size());
+		assertEquals("not the right number of sprites in the default project", 2, project.getCurrentProject()
+				.getSpriteList().size());
+		assertEquals("not the right number of scripts in the second sprite of default project", 2, project
+				.getCurrentProject()
+				.getSpriteList().get(1).getScriptList().size());
+		assertEquals("not the right number of bricks in the first script of Stage", 1, project.getCurrentProject()
+				.getSpriteList().get(0).getScriptList().get(0).getBrickList().size());
+		assertEquals("not the right number of bricks in the first script", 1, project.getCurrentProject()
+				.getSpriteList().get(1).getScriptList().get(0).getBrickList().size());
+		assertEquals("not the right number of bricks in the second script", 5, project.getCurrentProject()
+				.getSpriteList().get(1).getScriptList().get(1).getBrickList().size());
 
 		//test if images are existing:
-		String imagePath = Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name) + Consts.IMAGE_DIRECTORY + "/" + Consts.CAT1;
+		String imagePath = Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name)
+				+ Consts.IMAGE_DIRECTORY + "/" + Consts.CAT1;
 		File testFile = new File(imagePath);
 		assertTrue("Image " + Consts.CAT1 + " does not exist", testFile.exists());
-		imagePath = Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name) + Consts.IMAGE_DIRECTORY + "/" + Consts.CAT2;
+		imagePath = Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name)
+				+ Consts.IMAGE_DIRECTORY + "/" + Consts.CAT2;
 		testFile = new File(imagePath);
-		assertTrue("Image " + Consts.CAT2 + " does not exist",testFile.exists());
-		imagePath = Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name) + Consts.IMAGE_DIRECTORY + "/" + Consts.CAT3;
+		assertTrue("Image " + Consts.CAT2 + " does not exist", testFile.exists());
+		imagePath = Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name)
+				+ Consts.IMAGE_DIRECTORY + "/" + Consts.CAT3;
 		testFile = new File(imagePath);
-		assertTrue("Image " + Consts.CAT3 + " does not exist",testFile.exists());
+		assertTrue("Image " + Consts.BACKGROUND + " does not exist", testFile.exists());
+		imagePath = Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name)
+				+ Consts.IMAGE_DIRECTORY + "/" + Consts.BACKGROUND;
+		testFile = new File(imagePath);
+		assertTrue("Image " + Consts.BACKGROUND + " does not exist", testFile.exists());
 
+	}
+
+	public void testAliases() throws IOException {
+
+		String projectName = "myProject";
+
+		File proj = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+		if (proj.exists()) {
+			UtilFile.deleteDirectory(proj);
+		}
+
+		Project project = new Project(getContext(), projectName);
+		Sprite sprite = new Sprite("testSprite");
+		Script script = new Script("testScript", sprite);
+		Script touchedScript = new Script("touchedScript", sprite);
+		sprite.getScriptList().add(script);
+		sprite.getScriptList().add(touchedScript);
+		project.getSpriteList().add(sprite);
+
+		ArrayList<Brick> a1 = new ArrayList<Brick>();
+		ArrayList<Brick> a2 = new ArrayList<Brick>();
+		a1.add(new ChangeXByBrick(sprite, 4));
+		a1.add(new ChangeYByBrick(sprite, 5));
+		a1.add(new ComeToFrontBrick(sprite));
+		a1.add(new GoNStepsBackBrick(sprite, 5));
+		a1.add(new HideBrick(sprite));
+		a1.add(new IfStartedBrick(sprite, script));
+
+		a2.add(new IfTouchedBrick(sprite, touchedScript));
+		a2.add(new PlaceAtBrick(sprite, 50, 50));
+		a2.add(new PlaySoundBrick(sprite));
+		a2.add(new ScaleCostumeBrick(sprite, 50));
+		a2.add(new SetCostumeBrick(sprite));
+		a2.add(new SetXBrick(sprite, 50));
+		a2.add(new SetYBrick(sprite, 50));
+		a2.add(new ShowBrick(sprite));
+		a2.add(new WaitBrick(sprite, 1000));
+
+		for (Brick b : a1) {
+			script.addBrick(b);
+		}
+		for (Brick b : a2) {
+			touchedScript.addBrick(b);
+		}
+
+		StorageHandler.getInstance().saveProject(project);
+		String spf = StorageHandler.getInstance().getProjectfileAsString(projectName);
+		assertFalse("project contains package Information", spf.contains("at.tugraz.ist"));
+
+		proj = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+		if (proj.exists()) {
+			UtilFile.deleteDirectory(proj);
+		}
 	}
 }

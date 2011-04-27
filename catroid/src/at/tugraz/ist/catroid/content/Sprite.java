@@ -24,6 +24,7 @@ import java.util.List;
 
 import android.graphics.Color;
 import android.util.Pair;
+import at.tugraz.ist.catroid.Consts;
 
 public class Sprite implements Serializable, Comparable<Sprite> {
 	private static final long serialVersionUID = 1L;
@@ -155,8 +156,33 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		if (scale <= 0.0) {
 			throw new IllegalArgumentException("Sprite scale must be greater than zero!");
 		}
+
+		int width = costume.getImageWidthHeight().first;
+		int height = costume.getImageWidthHeight().second;
+
+		if (width == 0 || height == 0) {
+			this.scale = scale;
+			return;
+		}
+
 		this.scale = scale;
-		costume.scale(scale);
+
+		if (width * this.scale / 100. < 1) {
+			this.scale = 1. / width * 100.;
+		}
+		if (height * this.scale / 100. < 1) {
+			this.scale = 1. / height * 100.;
+		}
+
+		if (width * this.scale / 100. > Consts.MAX_COSTUME_WIDTH) {
+			this.scale = (double) Consts.MAX_COSTUME_WIDTH / width * 100.;
+		}
+
+		if (height * this.scale / 100. > Consts.MAX_COSTUME_HEIGHT) {
+			this.scale = (double) Consts.MAX_COSTUME_HEIGHT / height * 100.;
+		}
+
+		costume.scale(this.scale);
 		toDraw = true;
 	}
 

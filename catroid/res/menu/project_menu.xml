@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <!-- 
  *  Catroid: An on-device graphical programming language for Android devices
@@ -18,11 +18,12 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
-
-<resources>
-	<array
-		name="menu_project_activity">
-		<item>@string/rename</item>
-		<item>@string/delete</item>
-	</array>
-</resources>
+ 
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<item
+		android:id="@+id/project_menu_rename"
+		android:title="@string/rename" />
+	<item
+		android:id="@+id/project_menu_delete"
+		android:title="@string/delete" />
+</menu>

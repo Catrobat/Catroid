@@ -48,6 +48,7 @@ import android.util.Log;
 import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.FileChecksumContainer;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.SoundInfo;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.Costume;
 import at.tugraz.ist.catroid.content.Project;
@@ -68,7 +69,6 @@ import at.tugraz.ist.catroid.content.bricks.SetXBrick;
 import at.tugraz.ist.catroid.content.bricks.SetYBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
-import at.tugraz.ist.catroid.content.entities.SoundInfo;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -180,8 +180,7 @@ public class StorageHandler {
 				noMediaFile.createNewFile();
 			}
 			BufferedWriter out = new BufferedWriter(new FileWriter(projectDirectory.getAbsolutePath() + "/"
-					+ project.getName()
-					+ Consts.PROJECT_EXTENTION));
+					+ project.getName() + Consts.PROJECT_EXTENTION));
 			out.write(spfFile);
 			out.flush();
 			out.close();
@@ -251,6 +250,7 @@ public class StorageHandler {
 		Log.d("StorageHandler: ", "Path to original soundFile: " + path);
 		String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
 		File soundDirectory = new File(catroidRoot.getAbsolutePath() + "/" + currentProject + Consts.SOUND_DIRECTORY);
+
 		File inputFile = new File(path);
 		if (!inputFile.exists() || !inputFile.canRead()) {
 			return null;
@@ -358,9 +358,9 @@ public class StorageHandler {
 
 	public String getMD5Checksum(File file) throws IOException {
 
-		MessageDigest md = null;
+		MessageDigest messageDigest = null;
 		try {
-			md = MessageDigest.getInstance("MD5");
+			messageDigest = MessageDigest.getInstance("MD5");
 		} catch (NoSuchAlgorithmException e1) {
 			e1.printStackTrace();
 		}
@@ -375,15 +375,15 @@ public class StorageHandler {
 		int nread = 0;
 
 		while ((nread = fis.read(dataBytes)) != -1) {
-			md.update(dataBytes, 0, nread);
+			messageDigest.update(dataBytes, 0, nread);
 		}
 
-		byte[] mdbytes = md.digest();
+		byte[] mdbytes = messageDigest.digest();
 		StringBuffer sb = new StringBuffer("");
 		for (int i = 0; i < mdbytes.length; i++) {
 			sb.append(Integer.toString((mdbytes[i] & 0xff) + 0x100, 16).substring(1));
 		}
-		md.reset();
+		messageDigest.reset();
 		return sb.toString();
 	}
 
@@ -398,18 +398,25 @@ public class StorageHandler {
 		Project defaultProject = new Project(context, projectName);
 		saveProject(defaultProject);
 		Sprite sprite = new Sprite("Catroid");
+		Sprite stageSprite = defaultProject.getSpriteList().get(0);
 		//scripts:
+		Script stageStartScript = new Script("stageStartScript", stageSprite);
 		Script startScript = new Script("startScript", sprite);
 		Script touchScript = new Script("touchScript", sprite);
 		touchScript.setTouchScript(true);
 		//bricks:
-		File normalCat = savePictureFromResInProject(projectName, 4147, "normalCat", R.drawable.catroid, context);
-		File banzaiCat = savePictureFromResInProject(projectName, 4147, "banzaiCat", R.drawable.catroid_banzai, context);
-		File cheshireCat = savePictureFromResInProject(projectName, 4147, "cheshireCat", R.drawable.catroid_cheshire,
+		File normalCat = savePictureFromResInProject(projectName, 4147, Consts.CAT1, R.drawable.catroid, context);
+		File banzaiCat = savePictureFromResInProject(projectName, 4147, Consts.CAT2, R.drawable.catroid_banzai, context);
+		File cheshireCat = savePictureFromResInProject(projectName, 4147, Consts.CAT3, R.drawable.catroid_cheshire,
 				context);
+		File background = savePictureFromResInProject(projectName, 4147, Consts.BACKGROUND,
+				R.drawable.background_blueish, context);
 
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
 		setCostumeBrick.setCostume(normalCat.getAbsolutePath());
+
+		SetCostumeBrick setCostumeBrick1 = new SetCostumeBrick(sprite);
+		setCostumeBrick1.setCostume(normalCat.getAbsolutePath());
 
 		SetCostumeBrick setCostumeBrick2 = new SetCostumeBrick(sprite);
 		setCostumeBrick2.setCostume(banzaiCat.getAbsolutePath());
@@ -417,23 +424,26 @@ public class StorageHandler {
 		SetCostumeBrick setCostumeBrick3 = new SetCostumeBrick(sprite);
 		setCostumeBrick3.setCostume(cheshireCat.getAbsolutePath());
 
-		WaitBrick waitBrick1 = new WaitBrick(sprite, 1000);
+		SetCostumeBrick setCostumeBackground = new SetCostumeBrick(stageSprite);
+		setCostumeBackground.setCostume(background.getAbsolutePath());
 
-		//define script:
-		for (int i = 0; i < 5; i++) {
-			startScript.addBrick(setCostumeBrick);
-			startScript.addBrick(waitBrick1);
-			startScript.addBrick(setCostumeBrick2);
-			startScript.addBrick(waitBrick1);
-		}
-		startScript.addBrick(setCostumeBrick3);
+		WaitBrick waitBrick1 = new WaitBrick(sprite, 500);
+		WaitBrick waitBrick2 = new WaitBrick(sprite, 500);
 
+		startScript.addBrick(setCostumeBrick);
+
+		touchScript.addBrick(setCostumeBrick2);
+		touchScript.addBrick(waitBrick1);
 		touchScript.addBrick(setCostumeBrick3);
+		touchScript.addBrick(waitBrick2);
+		touchScript.addBrick(setCostumeBrick1);
+		stageStartScript.addBrick(setCostumeBackground);
 
 		//merging:
 		defaultProject.addSprite(sprite);
 		sprite.getScriptList().add(startScript);
 		sprite.getScriptList().add(touchScript);
+		stageSprite.getScriptList().add(stageStartScript);
 		ProjectManager.getInstance().setProject(defaultProject);
 		this.saveProject(defaultProject);
 		return defaultProject;

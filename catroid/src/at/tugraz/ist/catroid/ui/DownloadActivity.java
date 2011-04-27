@@ -17,7 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.tugraz.ist.catroid.download;
+package at.tugraz.ist.catroid.ui;
 
 import java.net.URLDecoder;
 
@@ -44,8 +44,7 @@ public class DownloadActivity extends Activity {
 
 		String projectName = getProjectName(zipUrl);
 
-		new ProjectDownloadTask(this, zipUrl, projectName,
-					Consts.TMP_PATH + "/down.zip").execute();
+		new ProjectDownloadTask(this, zipUrl, projectName, Consts.TMP_PATH + "/down.zip").execute();
 
 	}
 
