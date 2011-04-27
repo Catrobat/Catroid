@@ -29,6 +29,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 
@@ -37,7 +38,7 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 public class SetCostumeBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
-	private String imagePath;
+	private String imageName;
 	@XStreamOmitField
 	private transient Bitmap thumbnail;
 
@@ -45,15 +46,16 @@ public class SetCostumeBrick implements Brick {
 		this.sprite = sprite;
 	}
 
-	public void setCostume(String imagePath) {
-		this.imagePath = imagePath;
-		if (imagePath != null) {
-			thumbnail = ImageEditing.getScaledBitmap(imagePath, Consts.THUMBNAIL_HEIGHT, Consts.THUMBNAIL_WIDTH);
+	public void setCostume(String imageName) {
+		this.imageName = imageName;
+		if (imageName != null) {
+			thumbnail = ImageEditing.getScaledBitmap(getAbsoluteImagePath(), Consts.THUMBNAIL_HEIGHT,
+					Consts.THUMBNAIL_WIDTH);
 		}
 	}
 
 	public void execute() {
-		this.sprite.getCostume().setImagePath(imagePath);
+		this.sprite.getCostume().setImagePath(getAbsoluteImagePath());
 	}
 
 	public Sprite getSprite() {
@@ -61,7 +63,12 @@ public class SetCostumeBrick implements Brick {
 	}
 
 	public String getImagePath() {
-		return imagePath;
+		return getAbsoluteImagePath();
+	}
+
+	private String getAbsoluteImagePath() {
+		return Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName()
+				+ Consts.IMAGE_DIRECTORY + "/" + imageName;
 	}
 
 	public View getView(final Context context, final int brickId, BaseExpandableListAdapter adapter) {
@@ -78,9 +85,9 @@ public class SetCostumeBrick implements Brick {
 
 		ImageView imageView = (ImageView) view.findViewById(R.id.costume_image_view);
 
-		if (imagePath != null) {
+		if (imageName != null) {
 			if (thumbnail == null) {
-				thumbnail = ImageEditing.getScaledBitmap(imagePath, Consts.THUMBNAIL_HEIGHT, Consts.THUMBNAIL_WIDTH);
+				thumbnail = ImageEditing.getScaledBitmap(imageName, Consts.THUMBNAIL_HEIGHT, Consts.THUMBNAIL_WIDTH);
 			}
 
 			imageView.setImageBitmap(thumbnail);

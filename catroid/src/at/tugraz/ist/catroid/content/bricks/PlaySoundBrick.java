@@ -35,8 +35,10 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.SoundInfo;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.io.StorageHandler;
@@ -44,7 +46,7 @@ import at.tugraz.ist.catroid.ui.adapter.SoundBrickAdapter;
 
 public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable {
 	private static final long serialVersionUID = 1L;
-	protected String pathToSoundfile;
+	protected String soundfileName;
 	private Sprite sprite;
 	private String title;
 
@@ -57,8 +59,8 @@ public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable 
 	}
 
 	public void execute() {
-		if (pathToSoundfile != null) {
-			SoundManager.getInstance().playSoundFile(pathToSoundfile);
+		if (soundfileName != null) {
+			SoundManager.getInstance().playSoundFile(getAbsoluteImagePath());
 		}
 	}
 
@@ -67,7 +69,7 @@ public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable 
 	}
 
 	public String getPathToSoundFile() {
-		return pathToSoundfile;
+		return getAbsoluteImagePath();
 	}
 
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
@@ -80,18 +82,10 @@ public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable 
 		View view = inflater.inflate(R.layout.construction_brick_play_sound, null);
 		Button soundButton = (Button) view.findViewById(R.id.btSoundChoose);
 
-		if (pathToSoundfile != null) {
-
-			int index = pathToSoundfile.lastIndexOf("/") + 1;
-
-			if (index > 0) {
-				String soundFileName = title;
-				soundButton.setText(soundFileName);
-			} else {
-				soundButton.setText("<choose a title>");
-			}
+		if (soundfileName != null) {
+			soundButton.setText(title);
 		} else {
-			soundButton.setText("<choose a title>");
+			soundButton.setText(context.getString(R.string.choose_sound_title));
 		}
 
 		final SoundBrickAdapter soundBrickAdapter = new SoundBrickAdapter(context, soundList);
@@ -129,17 +123,17 @@ public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable 
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		File soundFile = null;
 
-		if (pathToSoundfile != null) {
-			StorageHandler.getInstance().deleteFile(pathToSoundfile);
+		if (soundfileName != null) {
+			StorageHandler.getInstance().deleteFile(getAbsoluteImagePath());
 		}
 
 		try {
 			soundFile = StorageHandler.getInstance().copySoundFile(soundList.get(position).getPath());
 
 			if (soundFile != null) {
-				pathToSoundfile = soundFile.getAbsolutePath();
+				soundfileName = soundFile.getName();
 			} else {
-				pathToSoundfile = soundList.get(position).getTitleWithPath();
+				soundfileName = soundList.get(position).getTitleWithPath();
 			}
 
 			adapter.notifyDataSetChanged();
@@ -152,7 +146,12 @@ public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable 
 	}
 
 	public void setPathToSoundfile(String pathToSoundfile) {
-		this.pathToSoundfile = pathToSoundfile;
+		this.soundfileName = pathToSoundfile;
+	}
+
+	private String getAbsoluteImagePath() {
+		return Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName()
+				+ Consts.SOUND_DIRECTORY + "/" + soundfileName;
 	}
 
 	public void setTitle(String title) {
