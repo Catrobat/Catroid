@@ -186,7 +186,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 					File outputFile = StorageHandler.getInstance().copyImage(
 							ProjectManager.getInstance().getCurrentProject().getName(), selectedImagePath);
 					if (outputFile != null) {
-						affectedBrick.setCostume(outputFile.getAbsolutePath());
+						affectedBrick.setCostume(outputFile.getName());
 						adapter.notifyDataSetChanged();
 					}
 				} catch (IOException e) {

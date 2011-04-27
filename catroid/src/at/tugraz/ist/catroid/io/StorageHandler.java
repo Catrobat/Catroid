@@ -410,6 +410,7 @@ public class StorageHandler {
 		String projectName = context.getString(R.string.default_project_name);
 		Project defaultProject = new Project(context, projectName);
 		saveProject(defaultProject);
+		ProjectManager.getInstance().setProject(defaultProject);
 		Sprite sprite = new Sprite("Catroid");
 		Sprite stageSprite = defaultProject.getSpriteList().get(0);
 		//scripts:
@@ -426,19 +427,19 @@ public class StorageHandler {
 				R.drawable.background_blueish, context);
 
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
-		setCostumeBrick.setCostume(normalCat.getAbsolutePath());
+		setCostumeBrick.setCostume(normalCat.getName());
 
 		SetCostumeBrick setCostumeBrick1 = new SetCostumeBrick(sprite);
-		setCostumeBrick1.setCostume(normalCat.getAbsolutePath());
+		setCostumeBrick1.setCostume(normalCat.getName());
 
 		SetCostumeBrick setCostumeBrick2 = new SetCostumeBrick(sprite);
-		setCostumeBrick2.setCostume(banzaiCat.getAbsolutePath());
+		setCostumeBrick2.setCostume(banzaiCat.getName());
 
 		SetCostumeBrick setCostumeBrick3 = new SetCostumeBrick(sprite);
-		setCostumeBrick3.setCostume(cheshireCat.getAbsolutePath());
+		setCostumeBrick3.setCostume(cheshireCat.getName());
 
 		SetCostumeBrick setCostumeBackground = new SetCostumeBrick(stageSprite);
-		setCostumeBackground.setCostume(background.getAbsolutePath());
+		setCostumeBackground.setCostume(background.getName());
 
 		WaitBrick waitBrick1 = new WaitBrick(sprite, 500);
 		WaitBrick waitBrick2 = new WaitBrick(sprite, 500);
@@ -457,7 +458,7 @@ public class StorageHandler {
 		sprite.getScriptList().add(startScript);
 		sprite.getScriptList().add(touchScript);
 		stageSprite.getScriptList().add(stageStartScript);
-		ProjectManager.getInstance().setProject(defaultProject);
+		//ProjectManager.getInstance().setProject(defaultProject);
 		this.saveProject(defaultProject);
 		return defaultProject;
 	}

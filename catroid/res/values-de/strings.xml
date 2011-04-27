@@ -153,6 +153,8 @@
 	<string name="change_y_main_adapter">Ändere Y um:</string>
 	<string name="set_x_main_adapter">Setze X auf:</string>
 	<string name="set_y_main_adapter">Setze Y auf:</string>
+	
+	<string name="choose_sound_title">Sound wählen</string>
 
     <!-- defaulValues -->
     <string name="default_project_name">standardProjekt</string>

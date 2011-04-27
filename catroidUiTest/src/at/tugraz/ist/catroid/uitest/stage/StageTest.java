@@ -82,7 +82,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 	@Override
 	public void setUp() throws Exception {
-		File directory = new File(Consts.DEFAULT_ROOT + projectName);
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName);
 		UtilFile.deleteDirectory(directory);
 
 		solo = new Solo(getInstrumentation(), getActivity());
@@ -104,7 +104,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 			image2.delete();
 		}
 
-		File directory = new File(Consts.DEFAULT_ROOT + projectName);
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName);
 		UtilFile.deleteDirectory(directory);
 
 		if (soundFile != null) {
@@ -312,9 +312,8 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 	public void testMediaPlayerPause() throws IOException, InterruptedException {
 		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
 
-		this.setUpSoundFile();
-
 		this.createTestProjectWithSound();
+
 		solo.clickOnButton(1);
 		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
 		solo.pressMenuItem(1);
@@ -341,7 +340,11 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		// Note: File needs to be copied as MediaPlayer has no access to resources
 		BufferedInputStream inputStream = new BufferedInputStream(getInstrumentation().getContext().getResources()
 				.openRawResource(SOUND_FILE_ID));
-		soundFile = File.createTempFile("audioTest", ".mp3");
+		String pathToSoundfile = Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName()
+				+ Consts.SOUND_DIRECTORY + "/" + "soundTest.mp3";
+		soundFile = new File(pathToSoundfile);
+		soundFile.createNewFile();
+
 		BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(soundFile), 1024);
 
 		byte[] buffer = new byte[1024];
@@ -462,6 +465,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 	public void createTestProject1(String projectName) throws IOException {
 		Project project = new Project(getActivity(), projectName);
 		storageHandler.saveProject(project);
+		ProjectManager.getInstance().setProject(project);
 
 		image1 = savePictureInProject(projectName, imageName1, IMAGE_FILE_ID);
 		image2 = savePictureInProject(projectName, imageName2, IMAGE_FILE_ID2);
@@ -472,9 +476,9 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		touchScript.setTouchScript(true);
 
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
-		setCostumeBrick.setCostume(image1.getAbsolutePath());
+		setCostumeBrick.setCostume(image1.getName());
 		SetCostumeBrick setCostumeBrick2 = new SetCostumeBrick(firstSprite);
-		setCostumeBrick2.setCostume(image2.getAbsolutePath());
+		setCostumeBrick2.setCostume(image2.getName());
 
 		project.addSprite(firstSprite);
 		testScript.addBrick(setCostumeBrick);
@@ -482,7 +486,6 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		firstSprite.getScriptList().add(testScript);
 		firstSprite.getScriptList().add(touchScript);
 
-		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 		ProjectManager.getInstance().setCurrentScript(testScript);
 
@@ -492,6 +495,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 	public void createTestProject2(String projectName) throws IOException {
 		Project project = new Project(getActivity(), projectName);
 		storageHandler.saveProject(project);
+		ProjectManager.getInstance().setProject(project);
 
 		image1 = savePictureInProject(projectName, imageName1, IMAGE_FILE_ID);
 		image2 = savePictureInProject(projectName, imageName2, IMAGE_FILE_ID2);
@@ -502,9 +506,9 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		touchScript.setTouchScript(true);
 
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
-		setCostumeBrick.setCostume(image1.getAbsolutePath());
+		setCostumeBrick.setCostume(image1.getName());
 		SetCostumeBrick setCostumeBrick2 = new SetCostumeBrick(firstSprite);
-		setCostumeBrick2.setCostume(image2.getAbsolutePath());
+		setCostumeBrick2.setCostume(image2.getName());
 		ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(firstSprite, 50);
 		ScaleCostumeBrick scaleCostumeBrick2 = new ScaleCostumeBrick(firstSprite, 100);
 		WaitBrick waitBrick = new WaitBrick(firstSprite, 3000);
@@ -520,7 +524,6 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		firstSprite.getScriptList().add(startScript);
 		firstSprite.getScriptList().add(touchScript);
 
-		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 
 		storageHandler.saveProject(project);
@@ -529,6 +532,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 	public void createTestProject3(String projectName) throws IOException {
 		Project project = new Project(getActivity(), projectName);
 		storageHandler.saveProject(project);
+		ProjectManager.getInstance().setProject(project);
 
 		image1 = savePictureInProject(projectName, imageName1, IMAGE_FILE_ID);
 		image2 = savePictureInProject(projectName, imageName2, IMAGE_FILE_ID2);
@@ -540,7 +544,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		touchScript1.setTouchScript(true);
 		// creating bricks:
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
-		setCostumeBrick.setCostume(image1.getAbsolutePath());
+		setCostumeBrick.setCostume(image1.getName());
 		// adding bricks:
 		startScript1.addBrick(setCostumeBrick);
 		startScript1.addBrick(new ComeToFrontBrick(firstSprite));
@@ -556,7 +560,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		touchScript2.setTouchScript(true);
 		// creating bricks:
 		SetCostumeBrick setCostumeBrick2 = new SetCostumeBrick(secondSprite);
-		setCostumeBrick2.setCostume(image2.getAbsolutePath());
+		setCostumeBrick2.setCostume(image2.getName());
 		// adding bricks:
 		startScript2.addBrick(setCostumeBrick2);
 		touchScript2.addBrick(new ScaleCostumeBrick(secondSprite, 200));
@@ -568,14 +572,13 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		project.addSprite(firstSprite);
 		project.addSprite(secondSprite);
 
-		ProjectManager.getInstance().setProject(project);
-
 		storageHandler.saveProject(project);
 	}
 
 	public void createTestProject4(String projectName) throws IOException {
 		Project project = new Project(getActivity(), projectName);
 		storageHandler.saveProject(project);
+		ProjectManager.getInstance().setProject(project);
 
 		image1 = savePictureInProject(projectName, imageName1, IMAGE_FILE_ID);
 
@@ -585,7 +588,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		touchScript.setTouchScript(true);
 
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
-		setCostumeBrick.setCostume(image1.getAbsolutePath());
+		setCostumeBrick.setCostume(image1.getName());
 
 		ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(firstSprite, 50);
 		HideBrick hideBrick = new HideBrick(firstSprite);
@@ -597,7 +600,6 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		firstSprite.getScriptList().add(startScript);
 		firstSprite.getScriptList().add(touchScript);
 
-		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 
 		storageHandler.saveProject(project);
@@ -606,6 +608,9 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 	public void createTestProjectWithSound() throws IOException {
 		Project project = new Project(getActivity(), projectName);
 		storageHandler.saveProject(project);
+		ProjectManager.getInstance().setProject(project);
+
+		this.setUpSoundFile();
 
 		image1 = savePictureInProject(projectName, imageName1, IMAGE_FILE_ID);
 
@@ -615,7 +620,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		touchScript.setTouchScript(true);
 
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
-		setCostumeBrick.setCostume(image1.getAbsolutePath());
+		setCostumeBrick.setCostume(image1.getName());
 
 		//		SoundInfo soundInfo = new SoundInfo();
 		//		soundInfo.setId(5);
@@ -623,7 +628,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		//		soundInfo.setPath(this.soundFile.getAbsolutePath());
 
 		PlaySoundBrick playSoundBrick = new PlaySoundBrick(firstSprite);
-		playSoundBrick.setPathToSoundfile(soundFile.getAbsolutePath());
+		playSoundBrick.setPathToSoundfile(soundFile.getName());
 
 		ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(firstSprite, 50);
 
@@ -635,7 +640,6 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		firstSprite.getScriptList().add(startScript);
 		firstSprite.getScriptList().add(touchScript);
 
-		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
 
 		storageHandler.saveProject(project);
