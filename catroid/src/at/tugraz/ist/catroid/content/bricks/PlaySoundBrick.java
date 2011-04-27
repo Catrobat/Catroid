@@ -71,52 +71,47 @@ public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable 
 	}
 
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
-		try {
-			this.adapter = adapter;
+		this.adapter = adapter;
 
-			StorageHandler.getInstance().loadSoundContent(context);
-			soundList = StorageHandler.getInstance().getSoundContent();
+		StorageHandler.getInstance().loadSoundContent(context);
+		soundList = StorageHandler.getInstance().getSoundContent();
 
-			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View view = inflater.inflate(R.layout.construction_brick_play_sound, null);
-			Button soundButton = (Button) view.findViewById(R.id.btSoundChoose);
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.construction_brick_play_sound, null);
+		Button soundButton = (Button) view.findViewById(R.id.btSoundChoose);
 
-			if (pathToSoundfile != null) {
+		if (pathToSoundfile != null) {
 
-				int index = pathToSoundfile.lastIndexOf("/") + 1;
+			int index = pathToSoundfile.lastIndexOf("/") + 1;
 
-				if (index > 0) {
-					String soundFileName = title;
-					soundButton.setText(soundFileName);
-				} else {
-					soundButton.setText("<choose a title>");
-				}
+			if (index > 0) {
+				String soundFileName = title;
+				soundButton.setText(soundFileName);
 			} else {
 				soundButton.setText("<choose a title>");
 			}
+		} else {
+			soundButton.setText("<choose a title>");
+		}
 
-			final SoundBrickAdapter soundBrickAdapter = new SoundBrickAdapter(context, soundList);
+		final SoundBrickAdapter soundBrickAdapter = new SoundBrickAdapter(context, soundList);
 
-			soundButton.setOnClickListener(new OnClickListener() {
-				public void onClick(View v) {
-					soundDialog = new Dialog(context);
-					soundDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-					soundDialog.setContentView(R.layout.sound_list);
-					soundDialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+		soundButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				soundDialog = new Dialog(context);
+				soundDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+				soundDialog.setContentView(R.layout.sound_list);
+				soundDialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 							WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-					ListView list = (ListView) soundDialog.findViewById(R.id.sound_list);
-					list.setAdapter(soundBrickAdapter);
-					list.setOnItemClickListener(PlaySoundBrick.this);
+				ListView list = (ListView) soundDialog.findViewById(R.id.sound_list);
+				list.setAdapter(soundBrickAdapter);
+				list.setOnItemClickListener(PlaySoundBrick.this);
 
-					soundDialog.show();
-				}
-			});
-			return view;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
+				soundDialog.show();
+			}
+		});
+		return view;
 
 	}
 
@@ -135,11 +130,7 @@ public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable 
 		File soundFile = null;
 
 		if (pathToSoundfile != null) {
-			try {
-				StorageHandler.getInstance().deleteFile(pathToSoundfile);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			StorageHandler.getInstance().deleteFile(pathToSoundfile);
 		}
 
 		try {

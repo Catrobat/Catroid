@@ -19,8 +19,6 @@
 
 package at.tugraz.ist.catroid.ui;
 
-import java.io.IOException;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -142,13 +140,9 @@ public class MainMenuActivity extends Activity {
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialog;
-		try {
-			if (projectManager.getCurrentProject() != null
+		if (projectManager.getCurrentProject() != null
 					&& StorageHandler.getInstance().projectExists(projectManager.getCurrentProject().getName())) {
-				projectManager.saveProject(this);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
+			projectManager.saveProject(this);
 		}
 
 		switch (id) {

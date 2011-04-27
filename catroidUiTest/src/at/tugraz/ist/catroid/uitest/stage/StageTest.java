@@ -54,6 +54,7 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
+	private StorageHandler storageHandler;
 	final String projectName = "project1";
 	final String dummyName = "dummy";
 
@@ -76,12 +77,12 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 	public StageTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
+		storageHandler = StorageHandler.getInstance();
 	}
 
 	@Override
 	public void setUp() throws Exception {
-
-		File directory = new File("/sdcard/catroid/" + projectName);
+		File directory = new File(Consts.DEFAULT_ROOT + projectName);
 		UtilFile.deleteDirectory(directory);
 
 		solo = new Solo(getInstrumentation(), getActivity());
@@ -103,7 +104,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 			image2.delete();
 		}
 
-		File directory = new File("/sdcard/catroid/" + projectName);
+		File directory = new File(Consts.DEFAULT_ROOT + projectName);
 		UtilFile.deleteDirectory(directory);
 
 		if (soundFile != null) {
@@ -236,7 +237,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		// it is not allowed for the .spf file to change when in stage
 		// add another test when you add new stage buttons
 		createTestProject1(projectName);
-		File mySpfFile = new File("/mnt/sdcard/catroid/" + projectName + "/" + projectName + Consts.PROJECT_EXTENTION);
+		File mySpfFile = new File(Consts.DEFAULT_ROOT + projectName + "/" + projectName + Consts.PROJECT_EXTENTION);
 
 		solo.clickOnButton(1);
 		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
@@ -244,13 +245,12 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		solo.clickOnButton(0);
 		solo.clickInList(1);
 
-		File mySpfFile2 = new File("/mnt/sdcard/catroid/" + projectName + "/" + projectName + Consts.PROJECT_EXTENTION);
+		File mySpfFile2 = new File(Consts.DEFAULT_ROOT + projectName + "/" + projectName + Consts.PROJECT_EXTENTION);
 
 		assertEquals("spf File changed!", mySpfFile.hashCode(), mySpfFile2.hashCode());
 	}
 
 	public void testPlayPauseHomeButton() throws IOException, InterruptedException {
-		StorageHandler storageHandler = StorageHandler.getInstance();
 		double scale = 50.0;
 
 		Project project = new Project(getActivity(), projectName);
@@ -349,6 +349,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		while ((length = inputStream.read(buffer)) > 0) {
 			outputStream.write(buffer, 0, length);
 		}
+
 		inputStream.close();
 		outputStream.flush();
 		outputStream.close();
@@ -379,7 +380,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 	//			}
 	//		}
 	//
-	//		final String imagePath = "/sdcard/catroid/" + this.projectName + "/images/temp.png";
+	//		final String imagePath = Consts.DEFAULT_ROOT + this.projectName + "/images/temp.png";
 	//		File testImage = new File(imagePath);
 	//
 	//		try {
@@ -421,7 +422,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 	//			}
 	//		}
 	//
-	//		final String imagePath = "/sdcard/catroid/" + this.projectName + "/images/temp.png";
+	//		final String imagePath = Consts.DEFAULT_ROOT + this.projectName + "/images/temp.png";
 	//		File testImage = new File(imagePath);
 	//
 	//		try {
@@ -459,13 +460,11 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 	}
 
 	public void createTestProject1(String projectName) throws IOException {
-		StorageHandler storageHandler = StorageHandler.getInstance();
-
 		Project project = new Project(getActivity(), projectName);
 		storageHandler.saveProject(project);
 
-		image1 = savePictureInProject(projectName, 4147, imageName1, IMAGE_FILE_ID);
-		image2 = savePictureInProject(projectName, 4147, imageName2, IMAGE_FILE_ID2);
+		image1 = savePictureInProject(projectName, imageName1, IMAGE_FILE_ID);
+		image2 = savePictureInProject(projectName, imageName2, IMAGE_FILE_ID2);
 
 		Sprite firstSprite = new Sprite("sprite1");
 		Script testScript = new Script("script1", firstSprite);
@@ -491,13 +490,11 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 	}
 
 	public void createTestProject2(String projectName) throws IOException {
-		StorageHandler storageHandler = StorageHandler.getInstance();
-
 		Project project = new Project(getActivity(), projectName);
 		storageHandler.saveProject(project);
 
-		image1 = savePictureInProject(projectName, 4147, imageName1, IMAGE_FILE_ID);
-		image2 = savePictureInProject(projectName, 4147, imageName2, IMAGE_FILE_ID2);
+		image1 = savePictureInProject(projectName, imageName1, IMAGE_FILE_ID);
+		image2 = savePictureInProject(projectName, imageName2, IMAGE_FILE_ID2);
 
 		Sprite firstSprite = new Sprite("sprite1");
 		Script startScript = new Script("startscript", firstSprite);
@@ -530,13 +527,11 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 	}
 
 	public void createTestProject3(String projectName) throws IOException {
-		StorageHandler storageHandler = StorageHandler.getInstance();
-
 		Project project = new Project(getActivity(), projectName);
 		storageHandler.saveProject(project);
 
-		image1 = savePictureInProject(projectName, 4147, imageName1, IMAGE_FILE_ID);
-		image2 = savePictureInProject(projectName, 4147, imageName2, IMAGE_FILE_ID2);
+		image1 = savePictureInProject(projectName, imageName1, IMAGE_FILE_ID);
+		image2 = savePictureInProject(projectName, imageName2, IMAGE_FILE_ID2);
 
 		// sprite1 --------------------------------
 		Sprite firstSprite = new Sprite("sprite1");
@@ -579,12 +574,10 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 	}
 
 	public void createTestProject4(String projectName) throws IOException {
-		StorageHandler storageHandler = StorageHandler.getInstance();
-
 		Project project = new Project(getActivity(), projectName);
 		storageHandler.saveProject(project);
 
-		image1 = savePictureInProject(projectName, 4147, imageName1, IMAGE_FILE_ID);
+		image1 = savePictureInProject(projectName, imageName1, IMAGE_FILE_ID);
 
 		Sprite firstSprite = new Sprite("sprite1");
 		Script startScript = new Script("startscript", firstSprite);
@@ -611,12 +604,10 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 	}
 
 	public void createTestProjectWithSound() throws IOException {
-		StorageHandler storageHandler = StorageHandler.getInstance();
-
 		Project project = new Project(getActivity(), projectName);
 		storageHandler.saveProject(project);
 
-		image1 = savePictureInProject(projectName, 4147, imageName1, IMAGE_FILE_ID);
+		image1 = savePictureInProject(projectName, imageName1, IMAGE_FILE_ID);
 
 		Sprite firstSprite = new Sprite("sprite1");
 		Script startScript = new Script("startscript", firstSprite);
@@ -650,17 +641,16 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		storageHandler.saveProject(project);
 	}
 
-	public File savePictureInProject(String project, int fileSize, String name, int fileID) throws IOException {
+	public File savePictureInProject(String project, String name, int fileID) throws IOException {
 
-		// final int fileSize = 4147;
-		final String imagePath = "/sdcard/catroid/" + project + "/images/" + name;
+		final String imagePath = Consts.DEFAULT_ROOT + "/" + project + "/images/" + name;
 		File testImage = new File(imagePath);
 		if (!testImage.exists()) {
 			testImage.createNewFile();
 		}
 		InputStream in = getInstrumentation().getContext().getResources().openRawResource(fileID);
-		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), fileSize);
-		byte[] buffer = new byte[fileSize];
+		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage));
+		byte[] buffer = new byte[1024];
 		int length = 0;
 		while ((length = in.read(buffer)) > 0) {
 			out.write(buffer, 0, length);
