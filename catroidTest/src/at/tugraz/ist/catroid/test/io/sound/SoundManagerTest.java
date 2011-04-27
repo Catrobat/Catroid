@@ -157,6 +157,9 @@ public class SoundManagerTest extends InstrumentationTestCase {
 					mp.release();
 				}
 			});
+		}
+
+		for (MediaPlayer mediaPlayer : mediaPlayers) {
 			mediaPlayer.start();
 			assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
 		}
