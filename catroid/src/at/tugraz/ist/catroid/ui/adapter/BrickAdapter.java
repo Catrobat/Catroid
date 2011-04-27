@@ -97,13 +97,13 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 	}
 
 	public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-		View v;
+		View view;
 		if (getGroup(groupPosition).isTouchScript()) {
-			v = new IfTouchedBrick(sprite, getGroup(groupPosition)).getPrototypeView(context);
+			view = new IfTouchedBrick(sprite, getGroup(groupPosition)).getPrototypeView(context);
 		} else {
-			v = new IfStartedBrick(sprite, getGroup(groupPosition)).getPrototypeView(context);
+			view = new IfStartedBrick(sprite, getGroup(groupPosition)).getPrototypeView(context);
 		}
-		return v;
+		return view;
 	}
 
 	public boolean hasStableIds() {

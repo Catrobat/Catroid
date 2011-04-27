@@ -20,12 +20,13 @@ package at.tugraz.ist.catroid.ui.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout.LayoutParams;
@@ -96,6 +97,14 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 			}
 		});
 
+		this.setOnShowListener(new OnShowListener() {
+			public void onShow(DialogInterface dialog) {
+				InputMethodManager inputManager = (InputMethodManager) context
+						.getSystemService(Context.INPUT_METHOD_SERVICE);
+				inputManager.showSoftInput(projectUploadName, InputMethodManager.SHOW_IMPLICIT);
+			}
+		});
+
 		Button cancelButton = (Button) findViewById(R.id.cancel_button);
 		cancelButton.setOnClickListener(this);
 	}
@@ -138,28 +147,9 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 
 			case R.id.cancel_button:
 				dismiss();
-				((EditText) findViewById(R.id.project_upload_name)).setText(ProjectManager.getInstance()
-						.getCurrentProject().getName());
-				((EditText) findViewById(R.id.project_description_upload)).setText(null);
-				projectRename.setVisibility(View.GONE);
-
 				break;
 		}
 
-	}
-
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-			dismiss();
-			((EditText) findViewById(R.id.project_upload_name)).setText(ProjectManager.getInstance()
-					.getCurrentProject().getName());
-			((EditText) findViewById(R.id.project_description_upload)).setText(null);
-			projectRename.setVisibility(View.GONE);
-			return true;
-		}
-
-		return super.onKeyDown(keyCode, event);
 	}
 
 }

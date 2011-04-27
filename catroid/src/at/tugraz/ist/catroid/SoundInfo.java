@@ -16,7 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content.entities;
+package at.tugraz.ist.catroid;
 
 public class SoundInfo implements Comparable<SoundInfo> {
 
@@ -25,10 +25,11 @@ public class SoundInfo implements Comparable<SoundInfo> {
 	private String title;
 
 	public String getTitleWithPath() {
-		if (path.endsWith("/"))
+		if (path.endsWith("/")) {
 			return path + title;
-		else
+		} else {
 			return path + "/" + title;
+		}
 	}
 
 	public int getId() {

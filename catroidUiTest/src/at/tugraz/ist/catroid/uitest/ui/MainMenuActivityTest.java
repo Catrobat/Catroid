@@ -24,13 +24,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.ListView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
-import at.tugraz.ist.catroid.content.Costume;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -246,7 +246,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 				solo.searchText(getActivity().getString(R.string.error_project_exists)));
 	}
 
-	public void testDefaultProject() throws IOException {
+	public void testDefaultProject() throws IOException, InterruptedException {
 		File directory = new File(Consts.DEFAULT_ROOT + "/" + getActivity().getString(R.string.default_project_name));
 		UtilFile.deleteDirectory(directory);
 
@@ -254,8 +254,9 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		ProjectManager project = ProjectManager.getInstance();
 		project.setProject(handler.createDefaultProject(getActivity()));
 		solo.clickOnButton(1);
-		Costume costume = project.getCurrentProject().getSpriteList().get(1).getCostume();
-		assertNotNull("Costume is null", costume);
+		Thread.sleep(1000);
+		Bitmap bitmap = project.getCurrentProject().getSpriteList().get(1).getCostume().getBitmap();
+		assertNotNull("Bitmap is null", bitmap);
 		assertTrue("Sprite not visible", project.getCurrentProject().getSpriteList().get(1).isVisible());
 
 		directory = new File(Consts.DEFAULT_ROOT + "/" + getActivity().getString(R.string.default_project_name));
