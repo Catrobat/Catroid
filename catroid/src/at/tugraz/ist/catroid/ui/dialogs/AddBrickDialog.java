@@ -55,6 +55,7 @@ public class AddBrickDialog extends Dialog {
 	private ArrayList<Brick> prototypeBrickList;
 	private ListView listView;
 	private PrototypeBrickAdapter adapter;
+	private ScriptActivity scriptActivity;
 
 	private void setupBrickPrototypes(Sprite sprite) {
 		if (sprite.getName().equals("Stage")) {
@@ -86,16 +87,21 @@ public class AddBrickDialog extends Dialog {
 
 	}
 
-	public AddBrickDialog(ScriptActivity scriptActivity, Sprite sprite) {
+	public AddBrickDialog(ScriptActivity scriptActivity) {
 		super(scriptActivity);
-		setupBrickPrototypes(sprite);
-
+		this.scriptActivity = scriptActivity;
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.dialog_toolbox);
 		getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-		adapter = new PrototypeBrickAdapter(scriptActivity, prototypeBrickList);
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		setupBrickPrototypes(ProjectManager.getInstance().getCurrentSprite());
+		adapter = new PrototypeBrickAdapter(this.scriptActivity, prototypeBrickList);
 
 		listView = (ListView) findViewById(R.id.toolboxListView);
 		listView.setAdapter(adapter);
@@ -130,6 +136,7 @@ public class AddBrickDialog extends Dialog {
 				dismiss();
 			}
 		});
+
 	}
 
 	public Brick getBrickClone(Brick brick) {

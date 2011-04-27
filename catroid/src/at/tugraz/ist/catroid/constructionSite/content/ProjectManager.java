@@ -85,19 +85,18 @@ public class ProjectManager {
 	}
 
 	public void saveProject(Context context) {
+
 		if (project == null) {
 			return;
 		}
+		StorageHandler.getInstance().saveProject(project);
 
-		if (!StorageHandler.getInstance().saveProject(project)) {
-			Utils.displayErrorMessage(context, context.getString(R.string.error_save_project));
-		}
 	}
 
 	public void deleteCurrentProject(Context context) {
-		if (!StorageHandler.getInstance().deleteProject(project)) {
-			Utils.displayErrorMessage(context, context.getString(R.string.error_delete_project));
-		}
+
+		StorageHandler.getInstance().deleteProject(project);
+
 		project = null;
 	}
 
@@ -191,6 +190,7 @@ public class ProjectManager {
 	}
 
 	public boolean renameProject(String newProjectName, Context context) {
+
 		if (StorageHandler.getInstance().projectExists(newProjectName)) {
 			Utils.displayErrorMessage(context, context.getString(R.string.error_project_exists));
 			return false;
@@ -226,6 +226,48 @@ public class ProjectManager {
 
 	public int getServerProjectId() {
 		return serverProjectId;
+	}
+
+	public int getCurrentSpritePosition() {
+		return project.getSpriteList().indexOf(currentSprite);
+	}
+
+	public int getCurrentScriptPosition() {
+		int currentSpritePos = this.getCurrentSpritePosition();
+		if (currentSpritePos == -1) {
+			return -1;
+		}
+
+		return project.getSpriteList().get(currentSpritePos).getScriptList()
+				.indexOf(currentScript);
+	}
+
+	public boolean setCurrentSpriteWithPosition(int position) {
+
+		if (position >= project.getSpriteList().size() || position < 0) {
+			return false;
+		}
+
+		currentSprite = project.getSpriteList().get(position);
+		return true;
+
+	}
+
+	public boolean setCurrentScriptWithPosition(int position) {
+		int currentSpritePos = this.getCurrentSpritePosition();
+		if (currentSpritePos == -1) {
+			return false;
+		}
+
+		if (position >= project.getSpriteList().get(currentSpritePos).getScriptList().size()
+				|| position < 0) {
+			return false;
+		}
+
+		currentScript = project.getSpriteList().get(this.getCurrentSpritePosition())
+				.getScriptList().get(position);
+		return true;
+
 	}
 
 }
