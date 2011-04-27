@@ -27,6 +27,7 @@ import java.io.OutputStream;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.test.InstrumentationTestCase;
+import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.Values;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
@@ -146,8 +147,8 @@ public class ScaleCostumeBrickTest extends InstrumentationTestCase {
 		int newWidth = sprite.getCostume().getImageWidthHeight().first;
 		int newHeight = sprite.getCostume().getImageWidthHeight().second;
 
-		assertTrue("ScaleCostumeBrick width of scaled image to big", newWidth <= 1000);
-		assertTrue("ScaleCostumeBrick height of scaled image to big", newHeight <= 1000);
+		assertTrue("ScaleCostumeBrick scaled image has a wrong size", newWidth == Consts.MAX_COSTUME_WIDTH
+				|| newHeight == Consts.MAX_COSTUME_HEIGHT);
 	}
 
 	public void testCostumeToSmall() {
@@ -164,8 +165,6 @@ public class ScaleCostumeBrickTest extends InstrumentationTestCase {
 		int newWidth = sprite.getCostume().getImageWidthHeight().first;
 		int newHeight = sprite.getCostume().getImageWidthHeight().second;
 
-		assertTrue("ScaleCostumeBrick width of scaled image to small", newWidth > 0);
-		assertTrue("ScaleCostumeBrick height of scaled image to small", newHeight > 0);
+		assertTrue("ScaleCostumeBrick scaled image has a wrong size", newWidth == 1 || newHeight == 1);
 	}
-
 }
