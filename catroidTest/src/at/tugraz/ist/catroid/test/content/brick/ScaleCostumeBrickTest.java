@@ -55,7 +55,7 @@ public class ScaleCostumeBrickTest extends InstrumentationTestCase {
 		InputStream in = getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID);
 		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage));
 
-		byte[] buffer = new byte[(int) sdCard.length()];
+		byte[] buffer = new byte[1024];
 		int length = 0;
 		while ((length = in.read(buffer)) > 0) {
 			out.write(buffer, 0, length);
