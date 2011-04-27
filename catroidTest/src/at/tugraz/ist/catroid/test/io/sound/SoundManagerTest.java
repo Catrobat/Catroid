@@ -157,7 +157,6 @@ public class SoundManagerTest extends InstrumentationTestCase {
 					mp.release();
 				}
 			});
-
 		}
 
 		for (MediaPlayer mediaPlayer : mediaPlayers) {
