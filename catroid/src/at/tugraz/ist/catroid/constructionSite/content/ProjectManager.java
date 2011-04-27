@@ -85,20 +85,17 @@ public class ProjectManager {
 	}
 
 	public void saveProject(Context context) {
-		try {
-			if (project == null) {
-				return;
-			}
-			StorageHandler.getInstance().saveProject(project);
-		} catch (IOException e) {
+		if (project == null) {
+			return;
+		}
+
+		if (!StorageHandler.getInstance().saveProject(project)) {
 			Utils.displayErrorMessage(context, context.getString(R.string.error_save_project));
 		}
 	}
 
 	public void deleteCurrentProject(Context context) {
-		try {
-			StorageHandler.getInstance().deleteProject(project);
-		} catch (IOException e) {
+		if (!StorageHandler.getInstance().deleteProject(project)) {
 			Utils.displayErrorMessage(context, context.getString(R.string.error_delete_project));
 		}
 		project = null;
@@ -194,13 +191,9 @@ public class ProjectManager {
 	}
 
 	public boolean renameProject(String newProjectName, Context context) {
-		try {
-			if (StorageHandler.getInstance().projectExists(newProjectName)) {
-				Utils.displayErrorMessage(context, context.getString(R.string.error_project_exists));
-				return false;
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (StorageHandler.getInstance().projectExists(newProjectName)) {
+			Utils.displayErrorMessage(context, context.getString(R.string.error_project_exists));
+			return false;
 		}
 
 		File oldProjectDirectory = new File(Consts.DEFAULT_ROOT + "/" + project.getName());

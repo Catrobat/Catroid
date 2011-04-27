@@ -82,6 +82,7 @@ import com.thoughtworks.xstream.XStream;
 public class StorageHandler {
 
 	private static StorageHandler instance;
+	private static final String TAG = "StorageHandler";
 	private ArrayList<SoundInfo> soundContent;
 	private File catroidRoot;
 	private XStream xstream;
@@ -127,9 +128,14 @@ public class StorageHandler {
 		}
 	}
 
-	public synchronized static StorageHandler getInstance() throws IOException {
+	public synchronized static StorageHandler getInstance() {
 		if (instance == null) {
-			instance = new StorageHandler();
+			try {
+				instance = new StorageHandler();
+			} catch (IOException e) {
+				e.printStackTrace();
+				Log.e(TAG, "Exception in Storagehandler, please refer to the StackTrace");
+			}
 		}
 		return instance;
 	}
@@ -155,10 +161,10 @@ public class StorageHandler {
 		}
 	}
 
-	public void saveProject(Project project) {
+	public boolean saveProject(Project project) {
 		createCatroidRoot();
 		if (project == null) {
-			return;
+			return false;
 		}
 		try {
 			String spfFile = xstream.toXML(project);
@@ -179,20 +185,27 @@ public class StorageHandler {
 				noMediaFile = new File(projectDirectory.getAbsolutePath() + Consts.SOUND_DIRECTORY + "/.nomedia");
 				noMediaFile.createNewFile();
 			}
+
 			BufferedWriter out = new BufferedWriter(new FileWriter(projectDirectory.getAbsolutePath() + "/"
 					+ project.getName() + Consts.PROJECT_EXTENTION));
+
 			out.write(spfFile);
 			out.flush();
 			out.close();
+
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
+			Log.e(TAG, "saveProject threw an exception and failed.");
+			return false;
 		}
 	}
 
-	public void deleteProject(Project project) {
+	public boolean deleteProject(Project project) {
 		if (project != null) {
-			UtilFile.deleteDirectory(new File(catroidRoot.getAbsolutePath() + "/" + project.getName()));
+			return UtilFile.deleteDirectory(new File(catroidRoot.getAbsolutePath() + "/" + project.getName()));
 		}
+		return false;
 	}
 
 	public boolean projectExists(String projectName) {
