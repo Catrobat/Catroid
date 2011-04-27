@@ -112,6 +112,7 @@ public class ProjectActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		removeDialog(Consts.DIALOG_RENAME_SPRITE);
 		updateTextAndAdapter();
 	}
 
