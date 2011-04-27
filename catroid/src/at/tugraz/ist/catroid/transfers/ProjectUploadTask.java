@@ -161,7 +161,8 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 			return;
 		}
 
-		showDialog(serverAnswer);
+		//		showDialog(serverAnswer);
+		showDialog(context.getString(R.string.success_project_upload));
 
 	}
 
