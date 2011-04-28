@@ -203,6 +203,9 @@
     <string name="error_no_number_entered">
         Please enter a number.
     </string>
+     <string name="error_screenshot_failed">
+        An error occurred while saving the screenshot.
+    </string>
 
     <!-- Notifications -->
     <string name="success_project_upload">Upload successful.</string>
@@ -211,4 +214,5 @@
     <string name="upload_button">Upload</string>
     <string name="upload_project_dialog_title">Upload project</string>
     <string name="project_rename">(Your project will be renamed.)</string>
+    <string name="screenshot_ok">Screenshot saved</string>
 </resources>
