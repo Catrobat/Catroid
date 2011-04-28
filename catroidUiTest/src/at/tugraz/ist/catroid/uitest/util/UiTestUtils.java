@@ -80,7 +80,6 @@ public class UiTestUtils {
 		UiTestUtils.pause();
 		solo.clearEditText(0);
 		solo.enterText(0, value);
-		solo.clickOnButton(0);
 	}
 
 	public static void addNewBrickAndScrollDown(Solo solo, int brickStringId) {

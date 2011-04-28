@@ -24,19 +24,20 @@ import java.io.IOException;
 
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.ActivityInstrumentationTestCase2;
-import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
+public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
 	private String testingproject = "testingproject";
+	private String testingsprite = "testingsprite";
 
-	public NewProjectDialogTest() {
+	public NewSpriteDialogTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
 	}
 
@@ -57,30 +58,35 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 		File directory = new File("/sdcard/catroid/" + testingproject);
 		UtilFile.deleteDirectory(directory);
 		assertFalse("testProject was not deleted!", directory.exists());
+
 		try {
 			solo.finalize();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
+
 		getActivity().finish();
 		super.tearDown();
 	}
 
-	public void testNewProjectDialog() throws NameNotFoundException, IOException {
+	public void testNewSpriteDialog() throws NameNotFoundException, IOException {
 
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
-
 		int nameEditTextId = solo.getCurrentEditTexts().size() - 1;
-
 		UiTestUtils.enterText(solo, nameEditTextId, "testingproject");
-
 		solo.sendKey(Solo.ENTER);
 
+		solo.clickOnButton(solo.getCurrentActivity().getString(R.string.add_sprite));
+		int spriteEditTextId = solo.getCurrentEditTexts().size() - 1;
+		UiTestUtils.enterText(solo, spriteEditTextId, "testingsprite");
+		solo.sleep(1000);
+		//solo.clickOnButton(0);
+		solo.sendKey(Solo.ENTER);
+		solo.sleep(1000);
+		solo.clickOnText(testingsprite);
 		solo.sleep(1000);
 
-		TextView newProject = (TextView) solo.getCurrentActivity().findViewById(R.id.projectTitleTextView);
-
-		assertEquals("New Project is not testingproject!", "Project: " + testingproject, newProject.getText());
+		assertEquals("CurentActivity is not Script Activity!", solo.getCurrentActivity(), ScriptActivity.class);
 
 	}
 
