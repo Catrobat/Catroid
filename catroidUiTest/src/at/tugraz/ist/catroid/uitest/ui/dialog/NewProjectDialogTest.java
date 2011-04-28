@@ -43,6 +43,11 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
+
+		File directory = new File("/sdcard/catroid/" + testingproject);
+		UtilFile.deleteDirectory(directory);
+		assertFalse("testProject was not deleted!", directory.exists());
+
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
@@ -69,7 +74,7 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 
 		UiTestUtils.enterText(solo, nameEditTextId, "testingproject");
 
-		solo.sendKey(solo.ENTER);
+		solo.sendKey(Solo.ENTER);
 
 		solo.sleep(1000);
 
