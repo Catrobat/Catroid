@@ -76,4 +76,9 @@ public final class Consts {
 	//Download:
 	public static final String PROJECTNAME_TAG = "fname=";
 
+	//Stage:
+	public static final int SCREENSHOT_ICON_PADDING_TOP = 3;
+	public static final int SCREENSHOT_ICON_PADDING_RIGHT = 3;
+	public static final String SCREENSHOT_FILE_NAME = "thumbnail.png";
+
 }
