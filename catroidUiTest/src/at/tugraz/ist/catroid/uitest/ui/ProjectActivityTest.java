@@ -110,10 +110,9 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		// Create sprites manually so we're able to check for equality
 		final String spriteName = "foo";
 		final String spriteName2 = "bar";
-		Sprite testSprite = new Sprite(spriteName);
-		ProjectManager.getInstance().getCurrentProject().addSprite(testSprite);
-		Sprite testSprite2 = new Sprite(spriteName2);
-		ProjectManager.getInstance().getCurrentProject().addSprite(testSprite2);
+
+		addNewSprite(spriteName);
+		addNewSprite(spriteName2);
 
 		Thread.sleep(500);
 
@@ -130,7 +129,6 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.spriteListView);
 		Sprite sprite = (Sprite) spritesList.getItemAtPosition(1);
-		assertEquals("Sprite on position one is not the same that was created", testSprite, sprite);
 		assertEquals("Sprite on position wasn't renamed correctly", newSpriteName, sprite.getName());
 
 		// Delete sprite
@@ -146,7 +144,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.spriteListView);
 		Sprite sprite2 = (Sprite) spritesList.getItemAtPosition(1);
-		assertEquals("Subsequent sprite was not moved up after predecessor's deletion", testSprite2, sprite2);
+		assertEquals("Subsequent sprite was not moved up after predecessor's deletion", spriteName2, sprite2.getName());
 	}
 
 	public void testMainMenuButton() {
