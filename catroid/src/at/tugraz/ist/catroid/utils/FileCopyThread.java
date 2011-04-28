@@ -17,7 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.tugraz.ist.catroid.utils.filesystem;
+package at.tugraz.ist.catroid.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
