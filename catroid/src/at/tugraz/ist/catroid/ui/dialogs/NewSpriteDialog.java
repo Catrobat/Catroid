@@ -82,30 +82,31 @@ public class NewSpriteDialog extends Dialog {
 
 		this.setOnKeyListener(new OnKeyListener() {
 			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-				if (event.getAction() == KeyEvent.ACTION_DOWN)
+				if (event.getAction() == KeyEvent.ACTION_DOWN) {
+					switch (keyCode)
 					{
-						switch (keyCode)
-					{
-						case KeyEvent.KEYCODE_ENTER:
-						String spriteName = ((EditText) findViewById(R.id.newSpriteNameEditText)).getText().toString();
-						if (spriteName.length() == 0) {
-							Utils.displayErrorMessage(context, context.getString(R.string.error_no_name_entered));
+						case KeyEvent.KEYCODE_ENTER: {
+							String spriteName = ((EditText) findViewById(R.id.newSpriteNameEditText)).getText()
+									.toString();
+							if (spriteName.length() == 0) {
+								Utils.displayErrorMessage(context, context.getString(R.string.error_no_name_entered));
+								return true;
+							}
+
+							ProjectManager projectManager = ProjectManager.getInstance();
+
+							if (projectManager.spriteExists(spriteName)) {
+								Utils.displayErrorMessage(context, context.getString(R.string.error_sprite_exists));
+								return true;
+							}
+							Sprite sprite = new Sprite(spriteName);
+							projectManager.addSprite(sprite);
+
+							((EditText) findViewById(R.id.newSpriteNameEditText)).setText(null);
+							dismiss();
 							return true;
 						}
-
-						ProjectManager projectManager = ProjectManager.getInstance();
-
-						if (projectManager.spriteExists(spriteName)) {
-							Utils.displayErrorMessage(context, context.getString(R.string.error_sprite_exists));
-							return true;
-						}
-						Sprite sprite = new Sprite(spriteName);
-						projectManager.addSprite(sprite);
-
-						((EditText) findViewById(R.id.newSpriteNameEditText)).setText(null);
-						dismiss();
-						return true;
-					default:
+						default:
 							break;
 					}
 				}
