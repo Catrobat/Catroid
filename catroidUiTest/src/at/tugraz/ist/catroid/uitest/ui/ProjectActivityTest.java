@@ -123,6 +123,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickOnText(getActivity().getString(R.string.rename));
 		Thread.sleep(50);
 
+		solo.clearEditText(0);
 		UiTestUtils.enterText(solo, 0, newSpriteName);
 		solo.clickOnButton(getActivity().getString(R.string.rename_button));
 		Thread.sleep(50);
