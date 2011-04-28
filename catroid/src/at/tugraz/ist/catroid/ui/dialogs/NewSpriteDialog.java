@@ -83,8 +83,7 @@ public class NewSpriteDialog extends Dialog {
 		this.setOnKeyListener(new OnKeyListener() {
 			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
 				if (event.getAction() == KeyEvent.ACTION_DOWN) {
-					switch (keyCode)
-					{
+					switch (keyCode) {
 						case KeyEvent.KEYCODE_ENTER: {
 							String spriteName = ((EditText) findViewById(R.id.newSpriteNameEditText)).getText()
 									.toString();
