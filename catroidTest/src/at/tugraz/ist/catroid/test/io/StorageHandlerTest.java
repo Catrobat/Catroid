@@ -18,10 +18,7 @@
  */
 package at.tugraz.ist.catroid.test.io;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -54,8 +51,6 @@ import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class StorageHandlerTest extends AndroidTestCase {
 	private StorageHandler storageHandler;
-	//private static final int IMAGE_FILE_ID = at.tugraz.ist.catroid.test.R.raw.icon;
-	private static final int SOUND_FILE_ID = at.tugraz.ist.catroid.test.R.raw.testsound;
 
 	public StorageHandlerTest() throws IOException {
 		storageHandler = StorageHandler.getInstance();
@@ -251,112 +246,5 @@ public class StorageHandlerTest extends AndroidTestCase {
 		if (proj.exists()) {
 			UtilFile.deleteDirectory(proj);
 		}
-	}
-
-	public void testPathsInSpfFile() throws IOException {
-		String projectName = "myProject";
-
-		File proj = new File(Consts.DEFAULT_ROOT + "/" + projectName);
-		if (proj.exists()) {
-			UtilFile.deleteDirectory(proj);
-		}
-
-		Project project = new Project(getContext(), projectName);
-		StorageHandler.getInstance().saveProject(project);
-		ProjectManager.getInstance().setProject(project);
-		Sprite sprite = new Sprite("testSprite");
-		Script script = new Script("testScript", sprite);
-		Script touchedScript = new Script("touchedScript", sprite);
-		sprite.getScriptList().add(script);
-		sprite.getScriptList().add(touchedScript);
-		project.getSpriteList().add(sprite);
-
-		ArrayList<Brick> a1 = new ArrayList<Brick>();
-		ArrayList<Brick> a2 = new ArrayList<Brick>();
-		a1.add(new ChangeXByBrick(sprite, 4));
-		a1.add(new ChangeYByBrick(sprite, 5));
-		a1.add(new ComeToFrontBrick(sprite));
-		a1.add(new GoNStepsBackBrick(sprite, 5));
-		a1.add(new HideBrick(sprite));
-		a1.add(new IfStartedBrick(sprite, script));
-
-		SetCostumeBrick costumeBrick = new SetCostumeBrick(sprite);
-		//File image = savePictureInProject(projectName, "testimage.png", IMAGE_FILE_ID);
-		//		costumeBrick.setCostume(image.getName());
-
-		PlaySoundBrick soundBrick = new PlaySoundBrick(sprite);
-		soundBrick.setPathToSoundfile(saveSoundFileInProject(projectName, "sound", SOUND_FILE_ID).getName());
-
-		a2.add(new IfTouchedBrick(sprite, touchedScript));
-		a2.add(new PlaceAtBrick(sprite, 50, 50));
-		a2.add(soundBrick);
-		a2.add(new ScaleCostumeBrick(sprite, 50));
-		a2.add(costumeBrick);
-		a2.add(new SetXBrick(sprite, 50));
-		a2.add(new SetYBrick(sprite, 50));
-		a2.add(new ShowBrick(sprite));
-		a2.add(new WaitBrick(sprite, 1000));
-
-		for (Brick b : a1) {
-			script.addBrick(b);
-		}
-		for (Brick b : a2) {
-			touchedScript.addBrick(b);
-		}
-
-		StorageHandler.getInstance().saveProject(project);
-		String spf = StorageHandler.getInstance().getProjectfileAsString(projectName);
-		assertFalse("project contains path", spf.contains(Consts.DEFAULT_ROOT) || spf.contains(Consts.IMAGE_DIRECTORY)
-				|| spf.contains(Consts.SOUND_DIRECTORY) || spf.contains("sdcard/"));
-
-		proj = new File(Consts.DEFAULT_ROOT + "/" + projectName);
-		if (proj.exists()) {
-			UtilFile.deleteDirectory(proj);
-		}
-
-	}
-
-	//	private File savePictureInProject(String project, String name, int fileID) throws IOException {
-	//
-	//		final String imagePath = Consts.DEFAULT_ROOT + "/" + project + Consts.IMAGE_DIRECTORY + "/" + name;
-	//		File testImage = new File(imagePath);
-	//		if (!testImage.exists()) {
-	//			testImage.createNewFile();
-	//		}
-	//		InputStream in = getContext().getResources().openRawResource(fileID);
-	//		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage));
-	//		byte[] buffer = new byte[1024];
-	//		int length = 0;
-	//		while ((length = in.read(buffer)) > 0) {
-	//			out.write(buffer, 0, length);
-	//		}
-	//
-	//		in.close();
-	//		out.flush();
-	//		out.close();
-	//
-	//		return testImage;
-	//	}
-
-	private File saveSoundFileInProject(String project, String name, int fileID) throws IOException {
-		// Note: File needs to be copied as MediaPlayer has no access to resources
-		BufferedInputStream inputStream = new BufferedInputStream(getContext().getResources().openRawResource(fileID));
-		String pathToSoundfile = Consts.DEFAULT_ROOT + "/" + project + Consts.SOUND_DIRECTORY + "/" + name;
-		File soundFile = new File(pathToSoundfile);
-		soundFile.createNewFile();
-
-		BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(soundFile), 1024);
-
-		byte[] buffer = new byte[1024];
-		int length = 0;
-		while ((length = inputStream.read(buffer)) > 0) {
-			outputStream.write(buffer, 0, length);
-		}
-
-		inputStream.close();
-		outputStream.flush();
-		outputStream.close();
-
-		return soundFile;
 	}
 }
