@@ -39,7 +39,6 @@ import android.net.Uri;
 import android.util.Log;
 import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.utils.filesystem.FileCopyThread;
 
 public class Utils {
 	private static boolean hasSdCard() {

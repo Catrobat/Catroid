@@ -42,9 +42,9 @@ import com.jayway.android.robotium.solo.Solo;
 /**
  * 
  * @author Daniel Burtscher
- *
+ * 
  */
-public class SoundBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity>{
+public class SoundBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
 	private PlaySoundBrick soundBrick;
@@ -74,7 +74,7 @@ public class SoundBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 			e.printStackTrace();
 		}
 
-		if(soundFile != null){
+		if (soundFile != null) {
 			soundFile.delete();
 		}
 
@@ -92,8 +92,10 @@ public class SoundBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScriptList().get(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(groupCount-1, 0));
-		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(at.tugraz.ist.catroid.R.string.play_sound_main_adapter)));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				getActivity().getAdapter().getChild(groupCount - 1, 0));
+		assertNotNull("TextView does not exist.",
+				solo.getText(getActivity().getString(at.tugraz.ist.catroid.R.string.play_sound_main_adapter)));
 
 		assertTrue("Wrong title selected", solo.searchText(selectedTitle));
 		assertTrue("Wrong title selected", solo.searchText(selectedTitle));
@@ -131,7 +133,7 @@ public class SoundBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		Sprite sprite = new Sprite("cat");
 		Script script = new Script("script", sprite);
 		soundBrick = new PlaySoundBrick(sprite);
-		soundBrick.setPathToSoundfile(soundInfo.getTitleWithPath());
+		soundBrick.setPathToSoundfile(soundInfo.getTitle());
 		soundBrick.setTitle(selectedTitle);
 		script.addBrick(soundBrick);
 
@@ -143,9 +145,10 @@ public class SoundBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
 
-	private void setUpSoundFile() throws IOException{
+	private void setUpSoundFile() throws IOException {
 
-		BufferedInputStream inputStream = new BufferedInputStream(getInstrumentation().getContext().getResources().openRawResource(SOUND_FILE_ID));
+		BufferedInputStream inputStream = new BufferedInputStream(getInstrumentation().getContext().getResources()
+				.openRawResource(SOUND_FILE_ID));
 		soundFile = File.createTempFile("audioTest_new", ".mp3");
 		BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(soundFile), 1024);
 

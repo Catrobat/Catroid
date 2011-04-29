@@ -20,8 +20,10 @@
 package at.tugraz.ist.catroid.ui.dialogs;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -46,6 +48,31 @@ public class EditDoubleDialog extends EditDialog implements OnClickListener {
 
 		Button closeButton = (Button) findViewById(R.id.dialogEditTextSubmit);
 		closeButton.setOnClickListener(this);
+
+		this.setOnKeyListener(new OnKeyListener() {
+
+			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+				if (event.getAction() == KeyEvent.ACTION_DOWN) {
+					switch (keyCode) {
+						case KeyEvent.KEYCODE_ENTER: {
+							try {
+								value = Double.parseDouble((editText.getText().toString()));
+								dismiss();
+							} catch (NumberFormatException e) {
+								Utils.displayErrorMessage(context,
+													context.getString(R.string.error_no_number_entered));
+							}
+
+						}
+						default: {
+							break;
+						}
+					}
+				}
+				return false;
+			}
+
+		});
 	}
 
 	public double getValue() {

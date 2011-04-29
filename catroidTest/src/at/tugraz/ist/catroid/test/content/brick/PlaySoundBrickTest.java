@@ -22,34 +22,31 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 import android.media.MediaPlayer;
 import android.test.InstrumentationTestCase;
+import at.tugraz.ist.catroid.Consts;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.io.SoundManager;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.R;
+import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class PlaySoundBrickTest extends InstrumentationTestCase {
 	private static final int SOUND_FILE_ID = R.raw.testsound;
 	private File soundFile;
 	private final int timeoutMarginInMilliseconds = 200; // acceptable time margin for PlaySoundBrick to finish playing sound
+	private String projectName = "projectiName";
 
 	@Override
 	protected void setUp() throws Exception {
-		// Note: File needs to be copied as MediaPlayer has no access to resources
-		BufferedInputStream inputStream = new BufferedInputStream(getInstrumentation().getContext().getResources().openRawResource(SOUND_FILE_ID));
-		soundFile = File.createTempFile("audioTest", ".mp3");
-		BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(soundFile), 1024);
-
-		byte[] buffer = new byte[1024];
-		int length = 0;
-		while ((length = inputStream.read(buffer)) > 0) {
-			outputStream.write(buffer, 0, length);
-		}
-		inputStream.close();
-		outputStream.flush();
-		outputStream.close();
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+		UtilFile.deleteDirectory(directory);
+		this.createTestProject();
 	}
 
 	@Override
@@ -57,6 +54,8 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 		if (soundFile != null && soundFile.exists()) {
 			soundFile.delete();
 		}
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+		UtilFile.deleteDirectory(directory);
 		SoundManager.getInstance().clear();
 	}
 
@@ -68,7 +67,7 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
 
 		PlaySoundBrick testBrick = new PlaySoundBrick(new Sprite("1"));
-		testBrick.setPathToSoundfile(soundFilePath);
+		testBrick.setPathToSoundfile(soundFile.getName());
 		testBrick.execute();
 		assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
 
@@ -103,7 +102,7 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 		for (int i = 0; i < playerCount; i++) {
 			MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
 			PlaySoundBrick testBrick = new PlaySoundBrick(new Sprite("3"));
-			testBrick.setPathToSoundfile(soundFilePath);
+			testBrick.setPathToSoundfile(soundFile.getName());
 			testBrick.execute();
 			assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
 		}
@@ -111,20 +110,21 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 
 	public void testPlaySimultaneousSounds() throws InterruptedException {
 		Thread t1 = new Thread(new Runnable() {
-			final String soundFilePath = soundFile.getAbsolutePath();
+			//final String soundFilePath = soundFile.getAbsolutePath();
 			PlaySoundBrick testBrick1 = new PlaySoundBrick(new Sprite("4"));
 
 			public void run() {
-				testBrick1.setPathToSoundfile(soundFilePath);
+				testBrick1.setPathToSoundfile(soundFile.getName());
 				testBrick1.execute();
 			}
 		});
 
 		Thread t2 = new Thread(new Runnable() {
-			final String soundFilePath = soundFile.getAbsolutePath();
+			//final String soundFilePath = soundFile.getAbsolutePath();
 			PlaySoundBrick testBrick2 = new PlaySoundBrick(new Sprite("5"));
+
 			public void run() {
-				testBrick2.setPathToSoundfile(soundFilePath);
+				testBrick2.setPathToSoundfile(soundFile.getName());
 				testBrick2.execute();
 			}
 		});
@@ -143,7 +143,7 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
 
 		PlaySoundBrick testBrick = new PlaySoundBrick(new Sprite("4"));
-		testBrick.setPathToSoundfile(soundFilePath);
+		testBrick.setPathToSoundfile(soundFile.getName());
 		testBrick.execute();
 		assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
 
@@ -161,5 +161,34 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 			fail();
 		}
 		assertFalse("MediaPlayer is not done playing after pause and resume", mediaPlayer.isPlaying());
+	}
+
+	private void createTestProject() throws IOException {
+		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
+		StorageHandler.getInstance().saveProject(project);
+		ProjectManager.getInstance().setProject(project);
+		setUpSoundFile();
+	}
+
+	private void setUpSoundFile() throws IOException {
+		// Note: File needs to be copied as MediaPlayer has no access to resources
+		BufferedInputStream inputStream = new BufferedInputStream(getInstrumentation().getContext().getResources()
+				.openRawResource(SOUND_FILE_ID));
+		String pathToSoundfile = Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName()
+				+ Consts.SOUND_DIRECTORY + "/" + "soundTest.mp3";
+		soundFile = new File(pathToSoundfile);
+		soundFile.createNewFile();
+
+		BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(soundFile), 1024);
+
+		byte[] buffer = new byte[1024];
+		int length = 0;
+		while ((length = inputStream.read(buffer)) > 0) {
+			outputStream.write(buffer, 0, length);
+		}
+
+		inputStream.close();
+		outputStream.flush();
+		outputStream.close();
 	}
 }

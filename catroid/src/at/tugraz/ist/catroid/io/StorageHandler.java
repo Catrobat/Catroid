@@ -82,6 +82,7 @@ import com.thoughtworks.xstream.XStream;
 public class StorageHandler {
 
 	private static StorageHandler instance;
+	private static final String TAG = "StorageHandler";
 	private ArrayList<SoundInfo> soundContent;
 	private File catroidRoot;
 	private XStream xstream;
@@ -127,9 +128,14 @@ public class StorageHandler {
 		}
 	}
 
-	public synchronized static StorageHandler getInstance() throws IOException {
+	public synchronized static StorageHandler getInstance() {
 		if (instance == null) {
-			instance = new StorageHandler();
+			try {
+				instance = new StorageHandler();
+			} catch (IOException e) {
+				e.printStackTrace();
+				Log.e(TAG, "Exception in Storagehandler, please refer to the StackTrace");
+			}
 		}
 		return instance;
 	}
@@ -155,10 +161,10 @@ public class StorageHandler {
 		}
 	}
 
-	public void saveProject(Project project) {
+	public boolean saveProject(Project project) {
 		createCatroidRoot();
 		if (project == null) {
-			return;
+			return false;
 		}
 		try {
 			String spfFile = xstream.toXML(project);
@@ -179,20 +185,27 @@ public class StorageHandler {
 				noMediaFile = new File(projectDirectory.getAbsolutePath() + Consts.SOUND_DIRECTORY + "/.nomedia");
 				noMediaFile.createNewFile();
 			}
+
 			BufferedWriter out = new BufferedWriter(new FileWriter(projectDirectory.getAbsolutePath() + "/"
 					+ project.getName() + Consts.PROJECT_EXTENTION));
+
 			out.write(spfFile);
 			out.flush();
 			out.close();
+
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
+			Log.e(TAG, "saveProject threw an exception and failed.");
+			return false;
 		}
 	}
 
-	public void deleteProject(Project project) {
+	public boolean deleteProject(Project project) {
 		if (project != null) {
-			UtilFile.deleteDirectory(new File(catroidRoot.getAbsolutePath() + "/" + project.getName()));
+			return UtilFile.deleteDirectory(new File(catroidRoot.getAbsolutePath() + "/" + project.getName()));
 		}
+		return false;
 	}
 
 	public boolean projectExists(String projectName) {
@@ -397,6 +410,7 @@ public class StorageHandler {
 		String projectName = context.getString(R.string.default_project_name);
 		Project defaultProject = new Project(context, projectName);
 		saveProject(defaultProject);
+		ProjectManager.getInstance().setProject(defaultProject);
 		Sprite sprite = new Sprite("Catroid");
 		Sprite stageSprite = defaultProject.getSpriteList().get(0);
 		//scripts:
@@ -413,19 +427,19 @@ public class StorageHandler {
 				R.drawable.background_blueish, context);
 
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
-		setCostumeBrick.setCostume(normalCat.getAbsolutePath());
+		setCostumeBrick.setCostume(normalCat.getName());
 
 		SetCostumeBrick setCostumeBrick1 = new SetCostumeBrick(sprite);
-		setCostumeBrick1.setCostume(normalCat.getAbsolutePath());
+		setCostumeBrick1.setCostume(normalCat.getName());
 
 		SetCostumeBrick setCostumeBrick2 = new SetCostumeBrick(sprite);
-		setCostumeBrick2.setCostume(banzaiCat.getAbsolutePath());
+		setCostumeBrick2.setCostume(banzaiCat.getName());
 
 		SetCostumeBrick setCostumeBrick3 = new SetCostumeBrick(sprite);
-		setCostumeBrick3.setCostume(cheshireCat.getAbsolutePath());
+		setCostumeBrick3.setCostume(cheshireCat.getName());
 
 		SetCostumeBrick setCostumeBackground = new SetCostumeBrick(stageSprite);
-		setCostumeBackground.setCostume(background.getAbsolutePath());
+		setCostumeBackground.setCostume(background.getName());
 
 		WaitBrick waitBrick1 = new WaitBrick(sprite, 500);
 		WaitBrick waitBrick2 = new WaitBrick(sprite, 500);
@@ -444,7 +458,7 @@ public class StorageHandler {
 		sprite.getScriptList().add(startScript);
 		sprite.getScriptList().add(touchScript);
 		stageSprite.getScriptList().add(stageStartScript);
-		ProjectManager.getInstance().setProject(defaultProject);
+		//ProjectManager.getInstance().setProject(defaultProject);
 		this.saveProject(defaultProject);
 		return defaultProject;
 	}

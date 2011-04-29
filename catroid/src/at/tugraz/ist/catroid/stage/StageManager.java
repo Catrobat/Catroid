@@ -65,7 +65,7 @@ public class StageManager {
 		this.activity = activity;
 
 		spritesChanged = true;
-		draw = new CanvasDraw();
+		draw = new CanvasDraw(activity);
 
 		for (Sprite sprite : spriteList) {
 			sprite.startScripts();
@@ -77,6 +77,7 @@ public class StageManager {
 	}
 
 	public void processOnTouch(int coordX, int coordY) {
+		draw.processOnTouch(coordX, coordY);
 		ArrayList<Sprite> touchedSpriteList = new ArrayList<Sprite>();
 		for (Sprite sprite : spriteList) {
 			if (sprite.processOnTouch(coordX, coordY)) {

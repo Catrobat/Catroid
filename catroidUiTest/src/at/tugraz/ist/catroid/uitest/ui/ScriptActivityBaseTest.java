@@ -22,6 +22,7 @@ package at.tugraz.ist.catroid.uitest.ui;
 import java.io.File;
 
 import android.test.ActivityInstrumentationTestCase2;
+import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.utils.UtilFile;
@@ -41,14 +42,17 @@ public class ScriptActivityBaseTest extends ActivityInstrumentationTestCase2<Mai
 
 	@Override
 	public void setUp() throws Exception {
-		File directory = new File("/sdcard/catroid/" + projectNameOne);
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectNameOne);
 		UtilFile.deleteDirectory(directory);
+		assertFalse(projectNameOne + " was not deleted!", directory.exists());
 
-		directory = new File("/sdcard/catroid/" + projectNameTwo);
+		directory = new File(Consts.DEFAULT_ROOT + "/" + projectNameTwo);
 		UtilFile.deleteDirectory(directory);
+		assertFalse(projectNameTwo + " was not deleted!", directory.exists());
 
-		directory = new File("/sdcard/catroid/" + projectNameThree);
+		directory = new File(Consts.DEFAULT_ROOT + "/" + projectNameThree);
 		UtilFile.deleteDirectory(directory);
+		assertFalse(projectNameThree + " was not deleted!", directory.exists());
 
 		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
@@ -56,15 +60,15 @@ public class ScriptActivityBaseTest extends ActivityInstrumentationTestCase2<Mai
 
 	@Override
 	public void tearDown() throws Exception {
-		File directory = new File("/sdcard/catroid/" + projectNameOne);
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectNameOne);
 		UtilFile.deleteDirectory(directory);
 		assertFalse(projectNameOne + " was not deleted!", directory.exists());
 
-		directory = new File("/sdcard/catroid/" + projectNameTwo);
+		directory = new File(Consts.DEFAULT_ROOT + "/" + projectNameTwo);
 		UtilFile.deleteDirectory(directory);
 		assertFalse(projectNameTwo + " was not deleted!", directory.exists());
 
-		directory = new File("/sdcard/catroid/" + projectNameThree);
+		directory = new File(Consts.DEFAULT_ROOT + "/" + projectNameThree);
 		UtilFile.deleteDirectory(directory);
 		assertFalse(projectNameThree + " was not deleted!", directory.exists());
 

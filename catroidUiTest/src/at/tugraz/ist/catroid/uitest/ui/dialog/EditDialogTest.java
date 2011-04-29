@@ -61,22 +61,24 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		int xPositionEditTextId = yPositionEditTextId - 1;
 
 		UiTestUtils.insertIntegerIntoEditText(solo, xPositionEditTextId, xPosition);
+		solo.sendKey(Solo.ENTER);
 		UiTestUtils.insertIntegerIntoEditText(solo, yPositionEditTextId, yPosition);
+		solo.sendKey(Solo.ENTER);
 
 		assertEquals(xPosition + "", solo.getEditText(xPositionEditTextId).getText().toString());
 		assertEquals(yPosition + "", solo.getEditText(yPositionEditTextId).getText().toString());
 	}
 
 	public void testDoubleDialog() {
-		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_scale_costume);
+		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.wait_main_adapter);
 
-		double scale = 5.9;
+		double wait = 5.9;
 
-		int scaleEditTextId = solo.getCurrentEditTexts().size() - 1;
+		int waitEditTextId = solo.getCurrentEditTexts().size() - 1;
+		UiTestUtils.insertDoubleIntoEditText(solo, waitEditTextId, wait);
+		solo.sendKey(Solo.ENTER);
 
-		UiTestUtils.insertDoubleIntoEditText(solo, scaleEditTextId, scale);
-
-		assertEquals(scale + "", solo.getEditText(scaleEditTextId).getText().toString());
+		assertEquals(wait + "", solo.getEditText(waitEditTextId).getText().toString());
 	}
 
 	public void testEmptyEditDoubleDialog() {
