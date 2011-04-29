@@ -147,11 +147,11 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2); // click in se middle
 
-		Thread.sleep(1000);
+		Thread.sleep(1500);
 		costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
 		assertEquals("image not right scaled", (Integer) (image1Width / 2), costume.getImageWidthHeight().first);
 
-		Thread.sleep(3000);
+		Thread.sleep(2500);
 		costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
 		assertEquals("image not right scaled", (Integer) (image1Width), costume.getImageWidthHeight().first);
 
@@ -511,7 +511,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		setCostumeBrick2.setCostume(image2.getName());
 		ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(firstSprite, 50);
 		ScaleCostumeBrick scaleCostumeBrick2 = new ScaleCostumeBrick(firstSprite, 100);
-		WaitBrick waitBrick = new WaitBrick(firstSprite, 3000);
+		WaitBrick waitBrick = new WaitBrick(firstSprite, 2000);
 		PlaceAtBrick placeAt = new PlaceAtBrick(firstSprite, this.placeAt, this.placeAt);
 
 		project.addSprite(firstSprite);
