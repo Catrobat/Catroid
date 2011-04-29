@@ -115,9 +115,13 @@ public class MediaPathTest extends InstrumentationTestCase {
 		StorageHandler.getInstance().saveProject(project);
 		String spf = StorageHandler.getInstance().getProjectfileAsString(projectName);
 		System.out.println(spf);
-		assertFalse("project contains path", spf.contains(Consts.DEFAULT_ROOT) || spf.contains(Consts.IMAGE_DIRECTORY)
-				|| spf.contains(Consts.SOUND_DIRECTORY) || spf.contains("sdcard/"));
 
+		String spfWithoutHeader = spf.split("</fileChecksumContainer>")[1];
+
+		assertFalse("project contains DEFAULT_ROOT", spfWithoutHeader.contains(Consts.DEFAULT_ROOT));
+		assertFalse("project contains IMAGE_DIRECTORY", spfWithoutHeader.contains(Consts.IMAGE_DIRECTORY));
+		assertFalse("project contains SOUND_DIRECTORY", spfWithoutHeader.contains(Consts.SOUND_DIRECTORY));
+		assertFalse("project contains sdcard/", spfWithoutHeader.contains("sdcard/"));
 		projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);
 		if (projectFile.exists()) {
 			UtilFile.deleteDirectory(projectFile);
