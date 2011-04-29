@@ -20,7 +20,6 @@
 package at.tugraz.ist.catroid.constructionSite.content;
 
 import java.io.File;
-import java.io.IOException;
 
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -85,22 +84,18 @@ public class ProjectManager {
 	}
 
 	public void saveProject(Context context) {
-		try {
-			if (project == null) {
-				return;
-			}
-			StorageHandler.getInstance().saveProject(project);
-		} catch (IOException e) {
-			Utils.displayErrorMessage(context, context.getString(R.string.error_save_project));
+
+		if (project == null) {
+			return;
 		}
+		StorageHandler.getInstance().saveProject(project);
+
 	}
 
 	public void deleteCurrentProject(Context context) {
-		try {
-			StorageHandler.getInstance().deleteProject(project);
-		} catch (IOException e) {
-			Utils.displayErrorMessage(context, context.getString(R.string.error_delete_project));
-		}
+
+		StorageHandler.getInstance().deleteProject(project);
+
 		project = null;
 	}
 
@@ -194,13 +189,10 @@ public class ProjectManager {
 	}
 
 	public boolean renameProject(String newProjectName, Context context) {
-		try {
-			if (StorageHandler.getInstance().projectExists(newProjectName)) {
-				Utils.displayErrorMessage(context, context.getString(R.string.error_project_exists));
-				return false;
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
+
+		if (StorageHandler.getInstance().projectExists(newProjectName)) {
+			Utils.displayErrorMessage(context, context.getString(R.string.error_project_exists));
+			return false;
 		}
 
 		File oldProjectDirectory = new File(Consts.DEFAULT_ROOT + "/" + project.getName());
@@ -211,15 +203,17 @@ public class ProjectManager {
 		File newProjectFile = new File(Consts.DEFAULT_ROOT + "/" + project.getName() + "/" + newProjectName
 				+ Consts.PROJECT_EXTENTION);
 
-		try {
-			String projectAsString = StorageHandler.getInstance().getProjectfileAsString(this.project.getName());
-			StorageHandler.getInstance().overwriteSpfFile(project.getName(),
-					projectAsString.replace(project.getName(), newProjectName));
-			loadProject(project.getName(), context, false);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
+		project.setName(newProjectName);
+
+		//		try {
+		//			String projectAsString = StorageHandler.getInstance().getProjectfileAsString(this.project.getName());
+		//			StorageHandler.getInstance().overwriteSpfFile(project.getName(),
+		//					projectAsString.replace(project.getName(), newProjectName));
+		//			loadProject(project.getName(), context, false);
+		//		} catch (IOException e) {
+		//			e.printStackTrace();
+		//			return false;
+		//		}
 
 		boolean fileRenamed = oldProjectFile.renameTo(newProjectFile);
 		boolean directoryRenamed = oldProjectDirectory.renameTo(newProjectDirectory);
@@ -233,6 +227,48 @@ public class ProjectManager {
 
 	public int getServerProjectId() {
 		return serverProjectId;
+	}
+
+	public int getCurrentSpritePosition() {
+		return project.getSpriteList().indexOf(currentSprite);
+	}
+
+	public int getCurrentScriptPosition() {
+		int currentSpritePos = this.getCurrentSpritePosition();
+		if (currentSpritePos == -1) {
+			return -1;
+		}
+
+		return project.getSpriteList().get(currentSpritePos).getScriptList()
+				.indexOf(currentScript);
+	}
+
+	public boolean setCurrentSpriteWithPosition(int position) {
+
+		if (position >= project.getSpriteList().size() || position < 0) {
+			return false;
+		}
+
+		currentSprite = project.getSpriteList().get(position);
+		return true;
+
+	}
+
+	public boolean setCurrentScriptWithPosition(int position) {
+		int currentSpritePos = this.getCurrentSpritePosition();
+		if (currentSpritePos == -1) {
+			return false;
+		}
+
+		if (position >= project.getSpriteList().get(currentSpritePos).getScriptList().size()
+				|| position < 0) {
+			return false;
+		}
+
+		currentScript = project.getSpriteList().get(this.getCurrentSpritePosition())
+				.getScriptList().get(position);
+		return true;
+
 	}
 
 }

@@ -81,9 +81,7 @@ public class ProjectActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		setContentView(R.layout.activity_project);
-		initListeners();
 	}
 
 	@Override
@@ -106,8 +104,15 @@ public class ProjectActivity extends Activity {
 	}
 
 	@Override
+	protected void onStart() {
+		super.onStart();
+		initListeners();
+	}
+
+	@Override
 	protected void onResume() {
 		super.onResume();
+		removeDialog(Consts.DIALOG_RENAME_SPRITE);
 		updateTextAndAdapter();
 	}
 

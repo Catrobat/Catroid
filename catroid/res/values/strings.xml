@@ -154,6 +154,8 @@
 	<string name="change_y_main_adapter">Change Y by:</string>
 	<string name="set_x_main_adapter">Set X to:</string>
 	<string name="set_y_main_adapter">Set Y to:</string>
+	
+	<string name="choose_sound_title">choose a title</string>
 
     <!-- defaulValues -->
     <string name="default_project_name">defaultProject</string>
@@ -201,6 +203,9 @@
     <string name="error_no_number_entered">
         Please enter a number.
     </string>
+     <string name="error_screenshot_failed">
+        An error occurred while saving the screenshot.
+    </string>
 
     <!-- Notifications -->
     <string name="success_project_upload">Upload successful.</string>
@@ -209,4 +214,5 @@
     <string name="upload_button">Upload</string>
     <string name="upload_project_dialog_title">Upload project</string>
     <string name="project_rename">(Your project will be renamed.)</string>
+    <string name="screenshot_ok">Screenshot saved</string>
 </resources>

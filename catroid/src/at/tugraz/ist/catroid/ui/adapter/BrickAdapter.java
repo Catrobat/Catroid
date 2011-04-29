@@ -23,7 +23,6 @@ package at.tugraz.ist.catroid.ui.adapter;
  *
  */
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -126,26 +125,22 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 
 	public void remove(int which) {
 		ArrayList<Brick> brickList = sprite.getScriptList().get(getGroupCount() - 1).getBrickList();
-		try {
 
-			if (brickList.get(which) instanceof PlaySoundBrick) {
-				PlaySoundBrick toDelete = (PlaySoundBrick) brickList.get(which);
-				String pathToSoundFile = toDelete.getPathToSoundFile();
-				if (pathToSoundFile != null) {
-					StorageHandler.getInstance().deleteFile(pathToSoundFile);
-				}
-
-			} else if (brickList.get(which) instanceof SetCostumeBrick) {
-				SetCostumeBrick toDelete = (SetCostumeBrick) brickList.get(which);
-				String imagePath = toDelete.getImagePath();
-				if (imagePath != null) {
-					StorageHandler.getInstance().deleteFile(imagePath);
-				}
+		if (brickList.get(which) instanceof PlaySoundBrick) {
+			PlaySoundBrick toDelete = (PlaySoundBrick) brickList.get(which);
+			String pathToSoundFile = toDelete.getPathToSoundFile();
+			if (pathToSoundFile != null) {
+				StorageHandler.getInstance().deleteFile(pathToSoundFile);
 			}
 
-		} catch (IOException e) {
-			e.printStackTrace();
+		} else if (brickList.get(which) instanceof SetCostumeBrick) {
+			SetCostumeBrick toDelete = (SetCostumeBrick) brickList.get(which);
+			String imagePath = toDelete.getImagePath();
+			if (imagePath != null) {
+				StorageHandler.getInstance().deleteFile(imagePath);
+			}
 		}
+
 		brickList.remove(which);
 		notifyDataSetChanged();
 	}

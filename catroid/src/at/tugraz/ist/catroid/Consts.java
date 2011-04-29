@@ -18,13 +18,15 @@
  */
 package at.tugraz.ist.catroid;
 
+import android.os.Environment;
+
 public final class Consts {
 
 	public static final String DIRECTORY_NAME = "catroid";
 	public static final String PROJECT_EXTENTION = ".spf";
 	public static final String CATROID_EXTENTION = ".zip";
 
-	public static final String DEFAULT_ROOT = "/sdcard/catroid";
+	public static final String DEFAULT_ROOT = Environment.getExternalStorageDirectory() + "/catroid";
 	public static final String TMP_PATH = DEFAULT_ROOT + "/tmp";
 	public static final String IMAGE_DIRECTORY = "/images";
 	public static final String SOUND_DIRECTORY = "/sounds";
@@ -73,5 +75,10 @@ public final class Consts {
 
 	//Download:
 	public static final String PROJECTNAME_TAG = "fname=";
+
+	//Stage:
+	public static final int SCREENSHOT_ICON_PADDING_TOP = 3;
+	public static final int SCREENSHOT_ICON_PADDING_RIGHT = 3;
+	public static final String SCREENSHOT_FILE_NAME = "thumbnail.png";
 
 }

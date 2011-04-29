@@ -254,7 +254,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		ProjectManager project = ProjectManager.getInstance();
 		project.setProject(handler.createDefaultProject(getActivity()));
 		solo.clickOnButton(1);
-		Thread.sleep(1000);
+		Thread.sleep(1300);
 		Bitmap bitmap = project.getCurrentProject().getSpriteList().get(1).getCostume().getBitmap();
 		assertNotNull("Bitmap is null", bitmap);
 		assertTrue("Sprite not visible", project.getCurrentProject().getSpriteList().get(1).isVisible());

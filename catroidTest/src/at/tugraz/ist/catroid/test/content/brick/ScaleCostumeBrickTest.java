@@ -25,7 +25,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.test.InstrumentationTestCase;
+import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.Values;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
@@ -44,17 +46,17 @@ public class ScaleCostumeBrickTest extends InstrumentationTestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		final int fileSize = 4147;
-		final String imagePath = "/mnt/sdcard/catroid/testImage.png";
-		testImage = new File(imagePath);
-		// TODO: use this instead of hardcoded fileSize, verify it's the same
-		//		System.out.println("Filesize " + testImage.length());
+		File sdCard = Environment.getExternalStorageDirectory();
+		testImage = new File(sdCard.getAbsolutePath() + "/catroid/testImage.png");
+
 		if (!testImage.exists()) {
 			testImage.createNewFile();
 		}
+
 		InputStream in = getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID);
-		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), fileSize);
-		byte[] buffer = new byte[fileSize];
+		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage));
+
+		byte[] buffer = new byte[1024];
 		int length = 0;
 		while ((length = in.read(buffer)) > 0) {
 			out.write(buffer, 0, length);
@@ -66,7 +68,7 @@ public class ScaleCostumeBrickTest extends InstrumentationTestCase {
 
 		BitmapFactory.Options o = new BitmapFactory.Options();
 		o.inJustDecodeBounds = true;
-		BitmapFactory.decodeFile(imagePath, o);
+		BitmapFactory.decodeFile(sdCard.getAbsolutePath() + "/catroid/testImage.png", o);
 
 		width = o.outWidth;
 		height = o.outHeight;
@@ -78,8 +80,7 @@ public class ScaleCostumeBrickTest extends InstrumentationTestCase {
 
 		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite, scale);
 		brick.execute();
-		assertEquals("Incorrect sprite scale value after ScaleCostumeBrick executed",
-				scale, sprite.getScale());
+		assertEquals("Incorrect sprite scale value after ScaleCostumeBrick executed", scale, sprite.getScale());
 	}
 
 	public void testNullSprite() {
@@ -87,8 +88,7 @@ public class ScaleCostumeBrickTest extends InstrumentationTestCase {
 
 		try {
 			brick.execute();
-			fail("Execution of ScaleCostumeBrick with null Sprite did not cause " +
-					"a NullPointerException to be thrown");
+			fail("Execution of ScaleCostumeBrick with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException e) {
 			// expected behavior
 		}
@@ -100,13 +100,13 @@ public class ScaleCostumeBrickTest extends InstrumentationTestCase {
 		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite,
 				Double.MAX_VALUE);
 		brick.execute();
-		assertEquals("ScaleCostumeBrick failed to scale Sprite to maximum Double value",
-				Double.MAX_VALUE, sprite.getScale());
+		assertEquals("ScaleCostumeBrick failed to scale Sprite to maximum Double value", Double.MAX_VALUE,
+				sprite.getScale());
 
 		brick = new ScaleCostumeBrick(sprite, Double.MIN_VALUE);
 		brick.execute();
-		assertEquals("ScaleCostumeBrick failed to scale Sprite to minimum Double value",
-				Double.MIN_VALUE, sprite.getScale());
+		assertEquals("ScaleCostumeBrick failed to scale Sprite to minimum Double value", Double.MIN_VALUE,
+				sprite.getScale());
 	}
 
 	public void testZeroScale() {
@@ -115,8 +115,7 @@ public class ScaleCostumeBrickTest extends InstrumentationTestCase {
 
 		try {
 			brick.execute();
-			fail("Execution of ScaleCostumeBrick with 0.0 scale did not cause a " +
-					"IllegalArgumentException to be thrown.");
+			fail("Execution of ScaleCostumeBrick with 0.0 scale did not cause a IllegalArgumentException to be thrown.");
 		} catch (IllegalArgumentException e) {
 			// expected behavior
 		}
@@ -128,8 +127,7 @@ public class ScaleCostumeBrickTest extends InstrumentationTestCase {
 
 		try {
 			brick.execute();
-			fail("Execution of ScaleCostumeBrick with negative scale did not cause" +
-					" a IllegalArgumentException to be thrown.");
+			fail("Execution of ScaleCostumeBrick with negative scale did not cause a IllegalArgumentException to be thrown.");
 		} catch (IllegalArgumentException e) {
 			// expected behavior
 		}
@@ -149,8 +147,8 @@ public class ScaleCostumeBrickTest extends InstrumentationTestCase {
 		int newWidth = sprite.getCostume().getImageWidthHeight().first;
 		int newHeight = sprite.getCostume().getImageWidthHeight().second;
 
-		assertTrue("ScaleCostumeBrick width of scaled image to big", newWidth <= 1000);
-		assertTrue("ScaleCostumeBrick height of scaled image to big", newHeight <= 1000);
+		assertTrue("ScaleCostumeBrick scaled image has a wrong size", newWidth == Consts.MAX_COSTUME_WIDTH
+				|| newHeight == Consts.MAX_COSTUME_HEIGHT);
 	}
 
 	public void testCostumeToSmall() {
@@ -167,8 +165,6 @@ public class ScaleCostumeBrickTest extends InstrumentationTestCase {
 		int newWidth = sprite.getCostume().getImageWidthHeight().first;
 		int newHeight = sprite.getCostume().getImageWidthHeight().second;
 
-		assertTrue("ScaleCostumeBrick width of scaled image to small", newWidth > 0);
-		assertTrue("ScaleCostumeBrick height of scaled image to small", newHeight > 0);
+		assertTrue("ScaleCostumeBrick scaled image has a wrong size", newWidth == 1 || newHeight == 1);
 	}
-
 }

@@ -17,7 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.tugraz.ist.catroid.utils.filesystem;
+package at.tugraz.ist.catroid.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -66,16 +66,19 @@ public class FileCopyThread extends Thread {
 				fos.write(buf, 0, i);
 			}
 
-			if (fis != null)
+			if (fis != null) {
 				fis.close();
-			if (fos != null)
+			}
+			if (fos != null) {
 				fos.close();
+			}
 		} catch (Exception e) {
 			Log.e("FileCopyThread", "Error copying file \"" + sourceFile.getPath() + "\" to \""
 					+ destinationFile.getPath() + "\".");
 		}
 
-		if(progressDialog != null && progressDialog.isShowing())
+		if (progressDialog != null && progressDialog.isShowing()) {
 			progressDialog.dismiss();
+		}
 	}
 }
