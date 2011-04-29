@@ -23,7 +23,7 @@ import java.io.IOException;
 
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.test.AndroidTestCase;
+import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.Project;
@@ -36,9 +36,9 @@ import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
-import at.tugraz.ist.catroid.utils.UtilFile;
+import at.tugraz.ist.catroid.test.util.Utils;
 
-public class ProjectManagerTest extends AndroidTestCase {
+public class ProjectManagerTest extends InstrumentationTestCase {
 
 	String projectNameOne = "Ulumulu";
 	String scriptNameOne = "Ulukai";
@@ -48,20 +48,9 @@ public class ProjectManagerTest extends AndroidTestCase {
 
 	@Override
 	public void tearDown() {
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectNameOne);
-		if (directory.exists()) {
-			UtilFile.deleteDirectory(directory);
-		}
-		File oldProjectFolder = new File(Consts.DEFAULT_ROOT + "/" + "oldProject");
-		File newProjectFolder = new File(Consts.DEFAULT_ROOT + "/" + "newProject");
-
-		if (newProjectFolder.exists()) {
-			UtilFile.deleteDirectory(newProjectFolder);
-		}
-
-		if (oldProjectFolder.exists()) {
-			UtilFile.deleteDirectory(oldProjectFolder);
-		}
+		Utils.clearProject(projectNameOne);
+		Utils.clearProject("oldProject");
+		Utils.clearProject("newProject");
 	}
 
 	public void testBasicFunctions() throws NameNotFoundException {
@@ -70,7 +59,8 @@ public class ProjectManagerTest extends AndroidTestCase {
 		assertNull("there is a current sprite set", manager.getCurrentSprite());
 		assertNull("there is a current script set", manager.getCurrentScript());
 
-		Context context = getContext().createPackageContext("at.tugraz.ist.catroid", Context.CONTEXT_IGNORE_SECURITY);
+		Context context = getInstrumentation().getContext().createPackageContext("at.tugraz.ist.catroid",
+				Context.CONTEXT_IGNORE_SECURITY);
 		manager.initializeNewProject(projectNameOne, context);
 		assertNotNull("no current project set", manager.getCurrentProject());
 		assertEquals("The Projectname is not " + projectNameOne, projectNameOne, manager.getCurrentProject().getName());
@@ -138,8 +128,11 @@ public class ProjectManagerTest extends AndroidTestCase {
 		String newProjectName = "newProject";
 		ProjectManager projectManager = ProjectManager.getInstance();
 
-		projectManager.setProject(createTestProject(oldProjectName));
-		projectManager.renameProject(newProjectName, getContext());
+		createTestProject(oldProjectName);
+		if (!projectManager.renameProject(newProjectName, getInstrumentation().getContext())) {
+			fail("could not rename Project");
+		}
+		projectManager.saveProject(getInstrumentation().getContext());
 
 		File oldProjectFolder = new File(Consts.DEFAULT_ROOT + "/" + oldProjectName);
 		File oldProjectFile = new File(Consts.DEFAULT_ROOT + "/" + oldProjectName + "/" + oldProjectName
@@ -149,11 +142,17 @@ public class ProjectManagerTest extends AndroidTestCase {
 		File newProjectFile = new File(Consts.DEFAULT_ROOT + "/" + newProjectName + "/" + newProjectName
 				+ Consts.PROJECT_EXTENTION);
 
+		String spfFileAsString = StorageHandler.getInstance().getProjectfileAsString(newProjectName);
+
 		assertFalse("Old project folder is still existing", oldProjectFolder.exists());
 		assertFalse("Old project file is still existing", oldProjectFile.exists());
 
 		assertTrue("New project folder is not existing", newProjectFolder.exists());
 		assertTrue("New project file is not existing", newProjectFile.exists());
+
+		//this fails because catroid is buggy, fix catroid not this test --> we haven't decided yet how to fix the FileChecksumContainer
+		System.out.println(spfFileAsString);
+		assertFalse("old projectName still in spf file", spfFileAsString.contains(oldProjectName));
 
 	}
 
@@ -164,7 +163,9 @@ public class ProjectManagerTest extends AndroidTestCase {
 		int yPosition = 598;
 		double scaleValue = 0.8;
 
-		Project project = new Project(getContext(), projectName);
+		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
+		storageHandler.saveProject(project);
+		ProjectManager.getInstance().setProject(project);
 		Sprite firstSprite = new Sprite("cat");
 		Sprite secondSprite = new Sprite("dog");
 		Sprite thirdSprite = new Sprite("horse");
@@ -173,6 +174,10 @@ public class ProjectManagerTest extends AndroidTestCase {
 		Script otherScript = new Script("otherScript", secondSprite);
 		HideBrick hideBrick = new HideBrick(firstSprite);
 		ShowBrick showBrick = new ShowBrick(firstSprite);
+		SetCostumeBrick costumeBrick = new SetCostumeBrick(firstSprite);
+		File image = Utils.savePictureInProject(projectName, "image.png", at.tugraz.ist.catroid.test.R.raw.icon,
+				getInstrumentation().getContext());
+		costumeBrick.setCostume(image.getName());
 		ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(secondSprite, scaleValue);
 		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(firstSprite);
 		PlaceAtBrick placeAtBrick = new PlaceAtBrick(secondSprite, xPosition, yPosition);
@@ -194,6 +199,9 @@ public class ProjectManagerTest extends AndroidTestCase {
 		project.addSprite(secondSprite);
 		project.addSprite(thirdSprite);
 		project.addSprite(fourthSprite);
+
+		project.getFileChecksumContainer().addChecksum(StorageHandler.getInstance().getMD5Checksum(image),
+				image.getAbsolutePath());
 
 		storageHandler.saveProject(project);
 		return project;

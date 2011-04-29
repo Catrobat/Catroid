@@ -17,7 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package at.tugraz.ist.catroid.test.utils;
+package at.tugraz.ist.catroid.test.utiltests;
 
 import java.io.BufferedOutputStream;
 import java.io.File;

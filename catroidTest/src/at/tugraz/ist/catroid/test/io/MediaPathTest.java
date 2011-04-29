@@ -18,10 +18,7 @@
  */
 package at.tugraz.ist.catroid.test.io;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -48,6 +45,7 @@ import at.tugraz.ist.catroid.content.bricks.SetYBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.test.util.Utils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class MediaPathTest extends InstrumentationTestCase {
@@ -83,11 +81,13 @@ public class MediaPathTest extends InstrumentationTestCase {
 		brickList1.add(new IfStartedBrick(sprite, script));
 
 		SetCostumeBrick costumeBrick = new SetCostumeBrick(sprite);
-		File image = savePictureInProject(projectName, "testimage.png", IMAGE_FILE_ID);
+		File image = Utils.savePictureInProject(projectName, "testimage.png", IMAGE_FILE_ID, getInstrumentation()
+				.getContext());
 		costumeBrick.setCostume(image.getName());
 
 		PlaySoundBrick soundBrick = new PlaySoundBrick(sprite);
-		File soundFile = saveSoundFileInProject(projectName, "sound", SOUND_FILE_ID);
+		File soundFile = Utils.saveSoundFileInProject(projectName, "sound", SOUND_FILE_ID, getInstrumentation()
+				.getContext());
 		soundBrick.setPathToSoundfile(soundFile.getName());
 
 		project.getFileChecksumContainer().addChecksum(StorageHandler.getInstance().getMD5Checksum(image),
@@ -127,51 +127,6 @@ public class MediaPathTest extends InstrumentationTestCase {
 			UtilFile.deleteDirectory(projectFile);
 		}
 
-	}
-
-	private File savePictureInProject(String project, String name, int fileID) throws IOException {
-
-		BufferedInputStream in = new BufferedInputStream(getInstrumentation().getContext().getResources()
-				.openRawResource(fileID));
-		final String imagePath = Consts.DEFAULT_ROOT + "/" + project + Consts.IMAGE_DIRECTORY + "/" + name;
-		File testImage = new File(imagePath);
-		testImage.createNewFile();
-
-		BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), 1024);
-		byte[] buffer = new byte[1024];
-		int length = 0;
-		while ((length = in.read(buffer)) > 0) {
-			out.write(buffer, 0, length);
-		}
-
-		in.close();
-		out.flush();
-		out.close();
-
-		return testImage;
-	}
-
-	private File saveSoundFileInProject(String project, String name, int fileID) throws IOException {
-		// Note: File needs to be copied as MediaPlayer has no access to resources
-		BufferedInputStream inputStream = new BufferedInputStream(getInstrumentation().getContext().getResources()
-				.openRawResource(fileID));
-		final String pathToSoundfile = Consts.DEFAULT_ROOT + "/" + project + Consts.SOUND_DIRECTORY + "/" + name;
-		File soundFile = new File(pathToSoundfile);
-		soundFile.createNewFile();
-
-		BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(soundFile), 1024);
-
-		byte[] buffer = new byte[1024];
-		int length = 0;
-		while ((length = inputStream.read(buffer)) > 0) {
-			outputStream.write(buffer, 0, length);
-		}
-
-		inputStream.close();
-		outputStream.flush();
-		outputStream.close();
-
-		return soundFile;
 	}
 
 }
