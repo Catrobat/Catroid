@@ -56,8 +56,7 @@ public class SoundBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 	private static final int SOUND_FILE_ID = at.tugraz.ist.catroid.uitest.R.raw.testsound;
 
 	public SoundBrickTest() {
-		super("at.tugraz.ist.catroid",
-				ScriptActivity.class);
+		super("at.tugraz.ist.catroid", ScriptActivity.class);
 	}
 
 	@Override
@@ -92,10 +91,10 @@ public class SoundBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScriptList().get(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
-				getActivity().getAdapter().getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist.",
-				solo.getText(getActivity().getString(at.tugraz.ist.catroid.R.string.play_sound_main_adapter)));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
+				groupCount - 1, 0));
+		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(
+				at.tugraz.ist.catroid.R.string.play_sound_main_adapter)));
 
 		assertTrue("Wrong title selected", solo.searchText(selectedTitle));
 		assertTrue("Wrong title selected", solo.searchText(selectedTitle));
