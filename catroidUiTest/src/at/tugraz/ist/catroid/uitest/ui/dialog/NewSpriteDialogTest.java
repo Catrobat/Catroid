@@ -25,6 +25,9 @@ import java.io.IOException;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.content.Project;
+import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
@@ -71,16 +74,13 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 
 	public void testNewSpriteDialog() throws NameNotFoundException, IOException {
 
-		solo.clickOnButton(getActivity().getString(R.string.new_project));
-		int nameEditTextId = solo.getCurrentEditTexts().size() - 1;
-		UiTestUtils.enterText(solo, nameEditTextId, "testingproject");
-		solo.sendKey(Solo.ENTER);
+		createTestProject(testingproject);
+		solo.clickOnButton(getActivity().getString(R.string.load_project));
+		solo.clickOnText(testingproject);
 
 		solo.clickOnButton(solo.getCurrentActivity().getString(R.string.add_sprite));
 		int spriteEditTextId = solo.getCurrentEditTexts().size() - 1;
 		UiTestUtils.enterText(solo, spriteEditTextId, "testingsprite");
-		solo.sleep(1000);
-		//solo.clickOnButton(0);
 		solo.sendKey(Solo.ENTER);
 		solo.sleep(1000);
 		solo.clickOnText(testingsprite);
@@ -88,6 +88,17 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 
 		assertTrue("CurentActivity is not Script Activity!", solo.getCurrentActivity() instanceof ScriptActivity);
 
+	}
+
+	public void createTestProject(String projectName) throws IOException, NameNotFoundException {
+		StorageHandler storageHandler = StorageHandler.getInstance();
+
+		Project project = new Project(getActivity(), projectName);
+		Sprite firstSprite = new Sprite("cat");
+
+		project.addSprite(firstSprite);
+
+		storageHandler.saveProject(project);
 	}
 
 }
