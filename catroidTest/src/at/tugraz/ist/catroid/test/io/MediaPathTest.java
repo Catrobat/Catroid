@@ -81,13 +81,13 @@ public class MediaPathTest extends InstrumentationTestCase {
 		brickList1.add(new IfStartedBrick(sprite, script));
 
 		SetCostumeBrick costumeBrick = new SetCostumeBrick(sprite);
-		File image = Utils.savePictureInProject(projectName, "testimage.png", IMAGE_FILE_ID, getInstrumentation()
-				.getContext());
+		File image = Utils.saveFileToProject(projectName, "testimage.png", IMAGE_FILE_ID, getInstrumentation()
+				.getContext(), 0);
 		costumeBrick.setCostume(image.getName());
 
 		PlaySoundBrick soundBrick = new PlaySoundBrick(sprite);
-		File soundFile = Utils.saveSoundFileInProject(projectName, "sound", SOUND_FILE_ID, getInstrumentation()
-				.getContext());
+		File soundFile = Utils.saveFileToProject(projectName, "sound", SOUND_FILE_ID, getInstrumentation()
+				.getContext(), 1);
 		soundBrick.setPathToSoundfile(soundFile.getName());
 
 		project.getFileChecksumContainer().addChecksum(StorageHandler.getInstance().getMD5Checksum(image),

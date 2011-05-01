@@ -18,13 +18,8 @@
  */
 package at.tugraz.ist.catroid.uitest.stage;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
@@ -48,7 +43,7 @@ import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.uitest.R;
-import at.tugraz.ist.catroid.utils.UtilFile;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -82,8 +77,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 	@Override
 	public void setUp() throws Exception {
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName);
-		UtilFile.deleteDirectory(directory);
+		UiTestUtils.clearProject(projectName);
 
 		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
@@ -104,12 +98,11 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 			image2.delete();
 		}
 
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName);
-		UtilFile.deleteDirectory(directory);
-
 		if (soundFile != null) {
 			soundFile.delete();
 		}
+
+		UiTestUtils.clearProject(projectName);
 
 		getActivity().finish();
 		super.tearDown();
@@ -300,8 +293,6 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
 
-		this.setUpSoundFile();
-
 		this.createTestProjectWithSound();
 		solo.clickOnButton(1);
 		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
@@ -326,8 +317,6 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 	public void testMediaPlayerNotPlayerAfterPause() throws IOException, InterruptedException {
 		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
 
-		this.setUpSoundFile();
-
 		this.createTestProjectWithSound();
 		solo.clickOnButton(1);
 		solo.pressMenuItem(1);
@@ -335,110 +324,6 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		solo.pressMenuItem(1);
 		assertFalse("Media Player is playing", mediaPlayer.isPlaying());
 	}
-
-	private void setUpSoundFile() throws IOException {
-		// Note: File needs to be copied as MediaPlayer has no access to resources
-		BufferedInputStream inputStream = new BufferedInputStream(getInstrumentation().getContext().getResources()
-				.openRawResource(SOUND_FILE_ID));
-		String pathToSoundfile = Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName()
-				+ Consts.SOUND_DIRECTORY + "/" + "soundTest.mp3";
-		soundFile = new File(pathToSoundfile);
-		soundFile.createNewFile();
-
-		BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(soundFile), 1024);
-
-		byte[] buffer = new byte[1024];
-		int length = 0;
-		while ((length = inputStream.read(buffer)) > 0) {
-			outputStream.write(buffer, 0, length);
-		}
-
-		inputStream.close();
-		outputStream.flush();
-		outputStream.close();
-	}
-
-	//	public void testCanvas() throws IOException, InterruptedException{
-	//
-	//		final String checksum = "79ee0e009eddc798007708b64d2b22d5a09319ec";
-	//
-	//		createTestProject1(projectName);
-	//		solo.clickOnButton(1);
-	//
-	//		Bitmap bitmap = Bitmap.createBitmap(500, 500, Bitmap.Config.ARGB_8888);
-	//		Canvas singleUseCanvas = new Canvas(bitmap);
-	//
-	//		singleUseCanvas.setBitmap(bitmap);
-	//
-	//		ArrayList<Sprite> sprites = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
-	//		java.util.Collections.sort(sprites);
-	//		Thread.sleep(3000);
-	//		for (Sprite sprite : sprites) {
-	//			if(!sprite.isVisible()){
-	//				continue;
-	//			}
-	//			if (sprite.getCostume().getBitmap() != null) {
-	//				Costume tempCostume = sprite.getCostume();
-	//				singleUseCanvas.drawBitmap(tempCostume.getBitmap(), tempCostume.getDrawPositionX(), tempCostume.getDrawPositionY(), null);
-	//			}
-	//		}
-	//
-	//		final String imagePath = Consts.DEFAULT_ROOT + this.projectName + "/images/temp.png";
-	//		File testImage = new File(imagePath);
-	//
-	//		try {
-	//			FileOutputStream out = new FileOutputStream(testImage);
-	//			bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
-	//		} catch (Exception e) {
-	//			e.printStackTrace();
-	//		}
-	//
-	//		String checksumNew = StorageHandler.getInstance().getMD5Checksum(testImage);
-	//
-	//		assertEquals("The checksum of the 'screenshot' is wrong", checksum, checksumNew);
-	//	}
-	//
-	//	public void testCanvas2() throws IOException, InterruptedException{
-	//		final String checksum = "d15e1df97307ca568aa3129df430f71f1f6f31d0";
-	//
-	//		createTestProject3(projectName);
-	//		solo.clickOnButton(1);
-	//
-	//		Thread.sleep(1000);
-	//		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
-	//
-	//		Bitmap bitmap = Bitmap.createBitmap(500, 500, Bitmap.Config.ARGB_8888);
-	//		Canvas singleUseCanvas = new Canvas(bitmap);
-	//
-	//		singleUseCanvas.setBitmap(bitmap);
-	//
-	//		ArrayList<Sprite> sprites = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
-	//		java.util.Collections.sort(sprites);
-	//		Thread.sleep(3000);
-	//		for (Sprite sprite : sprites) {
-	//			if(!sprite.isVisible()){
-	//				continue;
-	//			}
-	//			if (sprite.getCostume().getBitmap() != null) {
-	//				Costume tempCostume = sprite.getCostume();
-	//				singleUseCanvas.drawBitmap(tempCostume.getBitmap(), tempCostume.getDrawPositionX(), tempCostume.getDrawPositionY(), null);
-	//			}
-	//		}
-	//
-	//		final String imagePath = Consts.DEFAULT_ROOT + this.projectName + "/images/temp.png";
-	//		File testImage = new File(imagePath);
-	//
-	//		try {
-	//			FileOutputStream out = new FileOutputStream(testImage);
-	//			bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
-	//		} catch (Exception e) {
-	//			e.printStackTrace();
-	//		}
-	//
-	//		String checksumNew = StorageHandler.getInstance().getMD5Checksum(testImage);
-	//
-	//		assertEquals("The checksum of the 'screenshot' is wrong", checksum, checksumNew);
-	//	}
 
 	public void testClickOnHiddenSprite() throws IOException, InterruptedException {
 		createTestProject4(projectName);
@@ -467,8 +352,12 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		storageHandler.saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
-		image1 = savePictureInProject(projectName, imageName1, IMAGE_FILE_ID);
-		image2 = savePictureInProject(projectName, imageName2, IMAGE_FILE_ID2);
+		image1 = UiTestUtils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation()
+				.getContext(), 0);
+		image2 = UiTestUtils.saveFileToProject(projectName, imageName2, IMAGE_FILE_ID2, getInstrumentation()
+				.getContext(), 0);
+		setImageMemberProperties(image1);
+		setImageMemberProperties(image2);
 
 		Sprite firstSprite = new Sprite("sprite1");
 		Script testScript = new Script("script1", firstSprite);
@@ -497,8 +386,12 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		storageHandler.saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
-		image1 = savePictureInProject(projectName, imageName1, IMAGE_FILE_ID);
-		image2 = savePictureInProject(projectName, imageName2, IMAGE_FILE_ID2);
+		image1 = UiTestUtils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation()
+				.getContext(), 0);
+		image2 = UiTestUtils.saveFileToProject(projectName, imageName2, IMAGE_FILE_ID2, getInstrumentation()
+				.getContext(), 0);
+		setImageMemberProperties(image1);
+		setImageMemberProperties(image2);
 
 		Sprite firstSprite = new Sprite("sprite1");
 		Script startScript = new Script("startscript", firstSprite);
@@ -534,8 +427,12 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		storageHandler.saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
-		image1 = savePictureInProject(projectName, imageName1, IMAGE_FILE_ID);
-		image2 = savePictureInProject(projectName, imageName2, IMAGE_FILE_ID2);
+		image1 = UiTestUtils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation()
+				.getContext(), 0);
+		image2 = UiTestUtils.saveFileToProject(projectName, imageName2, IMAGE_FILE_ID2, getInstrumentation()
+				.getContext(), 0);
+		setImageMemberProperties(image1);
+		setImageMemberProperties(image2);
 
 		// sprite1 --------------------------------
 		Sprite firstSprite = new Sprite("sprite1");
@@ -580,7 +477,9 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		storageHandler.saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
-		image1 = savePictureInProject(projectName, imageName1, IMAGE_FILE_ID);
+		image1 = UiTestUtils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation()
+				.getContext(), 0);
+		setImageMemberProperties(image1);
 
 		Sprite firstSprite = new Sprite("sprite1");
 		Script startScript = new Script("startscript", firstSprite);
@@ -610,9 +509,12 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		storageHandler.saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
-		this.setUpSoundFile();
+		this.soundFile = UiTestUtils.saveFileToProject(projectName, "soundfile.mp3", SOUND_FILE_ID,
+				getInstrumentation().getContext(), 1);
 
-		image1 = savePictureInProject(projectName, imageName1, IMAGE_FILE_ID);
+		image1 = UiTestUtils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation()
+				.getContext(), 0);
+		setImageMemberProperties(image1);
 
 		Sprite firstSprite = new Sprite("sprite1");
 		Script startScript = new Script("startscript", firstSprite);
@@ -621,11 +523,6 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
 		setCostumeBrick.setCostume(image1.getName());
-
-		//		SoundInfo soundInfo = new SoundInfo();
-		//		soundInfo.setId(5);
-		//		soundInfo.setTitle("whatever");
-		//		soundInfo.setPath(this.soundFile.getAbsolutePath());
 
 		PlaySoundBrick playSoundBrick = new PlaySoundBrick(firstSprite);
 		playSoundBrick.setPathToSoundfile(soundFile.getName());
@@ -645,38 +542,18 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		storageHandler.saveProject(project);
 	}
 
-	public File savePictureInProject(String project, String name, int fileID) throws IOException {
-
-		final String imagePath = Consts.DEFAULT_ROOT + "/" + project + "/images/" + name;
-		File testImage = new File(imagePath);
-		if (!testImage.exists()) {
-			testImage.createNewFile();
-		}
-		InputStream in = getInstrumentation().getContext().getResources().openRawResource(fileID);
-		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage));
-		byte[] buffer = new byte[1024];
-		int length = 0;
-		while ((length = in.read(buffer)) > 0) {
-			out.write(buffer, 0, length);
-		}
-
-		in.close();
-		out.flush();
-		out.close();
-
+	private void setImageMemberProperties(File image) {
 		BitmapFactory.Options o = new BitmapFactory.Options();
 		o.inJustDecodeBounds = true;
-		BitmapFactory.decodeFile(imagePath, o);
+		BitmapFactory.decodeFile(image.getAbsolutePath(), o);
 
-		if (name.equalsIgnoreCase(imageName1)) {
+		if (image.getName().equalsIgnoreCase(imageName1)) {
 			image1Width = o.outWidth;
 			image1Height = o.outHeight;
 		} else {
 			image2Width = o.outWidth;
 			image2Height = o.outHeight;
 		}
-
-		return testImage;
 	}
 
 }
