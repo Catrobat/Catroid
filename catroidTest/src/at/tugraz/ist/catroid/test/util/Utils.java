@@ -12,15 +12,47 @@ import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class Utils {
 
-	public static File savePictureInProject(String project, String name, int fileID, Context context)
+	/**
+	 * saves a file into the project folder
+	 * if project == null or "" file will be saved into Catroid folder
+	 * 
+	 * @param project
+	 *            Folder where the file will be saved, this folder should exist
+	 * @param name
+	 *            Name of the file
+	 * @param fileID
+	 *            the id of the file --> needs the right context
+	 * @param context
+	 * @param type
+	 *            type of the file: 0 = imagefile, 1 = soundfile
+	 * @return the file
+	 * @throws IOException
+	 */
+	public static File saveFileToProject(String project, String name, int fileID, Context context, int type)
 			throws IOException {
 
+		String filePath;
+		if (project == null || project.equalsIgnoreCase("")) {
+			filePath = Consts.DEFAULT_ROOT + "/" + name;
+		} else {
+			switch (type) {
+				case 0:
+					filePath = Consts.DEFAULT_ROOT + "/" + project + Consts.IMAGE_DIRECTORY + "/" + name;
+					break;
+				case 1:
+					filePath = Consts.DEFAULT_ROOT + "/" + project + Consts.SOUND_DIRECTORY + "/" + name;
+					break;
+				default:
+					filePath = Consts.DEFAULT_ROOT + "/" + name;
+					break;
+			}
+		}
 		BufferedInputStream in = new BufferedInputStream(context.getResources().openRawResource(fileID));
-		final String imagePath = Consts.DEFAULT_ROOT + "/" + project + Consts.IMAGE_DIRECTORY + "/" + name;
-		File testImage = new File(imagePath);
-		testImage.createNewFile();
 
-		BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), 1024);
+		File file = new File(filePath);
+		file.createNewFile();
+
+		BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file), 1024);
 		byte[] buffer = new byte[1024];
 		int length = 0;
 		while ((length = in.read(buffer)) > 0) {
@@ -31,30 +63,7 @@ public class Utils {
 		out.flush();
 		out.close();
 
-		return testImage;
-	}
-
-	public static File saveSoundFileInProject(String project, String name, int fileID, Context context)
-			throws IOException {
-		// Note: File needs to be copied as MediaPlayer has no access to resources
-		BufferedInputStream inputStream = new BufferedInputStream(context.getResources().openRawResource(fileID));
-		final String pathToSoundfile = Consts.DEFAULT_ROOT + "/" + project + Consts.SOUND_DIRECTORY + "/" + name;
-		File soundFile = new File(pathToSoundfile);
-		soundFile.createNewFile();
-
-		BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(soundFile), 1024);
-
-		byte[] buffer = new byte[1024];
-		int length = 0;
-		while ((length = inputStream.read(buffer)) > 0) {
-			outputStream.write(buffer, 0, length);
-		}
-
-		inputStream.close();
-		outputStream.flush();
-		outputStream.close();
-
-		return soundFile;
+		return file;
 	}
 
 	public static boolean clearProject(String projectname) {

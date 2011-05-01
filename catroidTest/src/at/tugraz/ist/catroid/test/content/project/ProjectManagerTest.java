@@ -175,8 +175,8 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		HideBrick hideBrick = new HideBrick(firstSprite);
 		ShowBrick showBrick = new ShowBrick(firstSprite);
 		SetCostumeBrick costumeBrick = new SetCostumeBrick(firstSprite);
-		File image = Utils.savePictureInProject(projectName, "image.png", at.tugraz.ist.catroid.test.R.raw.icon,
-				getInstrumentation().getContext());
+		File image = Utils.saveFileToProject(projectName, "image.png", at.tugraz.ist.catroid.test.R.raw.icon,
+				getInstrumentation().getContext(), 0);
 		costumeBrick.setCostume(image.getName());
 		ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(secondSprite, scaleValue);
 		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(firstSprite);
