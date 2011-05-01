@@ -22,7 +22,7 @@ package at.tugraz.ist.catroid.uitest.ui.dialog;
 import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
-import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
+import at.tugraz.ist.catroid.uitest.util.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -36,7 +36,7 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptActiv
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		UiTestUtils.createTestProject();
+		Utils.createTestProject();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
@@ -52,7 +52,7 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptActiv
 	}
 
 	public void testIntegerDialog() {
-		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_place_at);
+		Utils.addNewBrickAndScrollDown(solo, R.string.brick_place_at);
 
 		int xPosition = 5;
 		int yPosition = 7;
@@ -60,9 +60,9 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		int yPositionEditTextId = solo.getCurrentEditTexts().size() - 1;
 		int xPositionEditTextId = yPositionEditTextId - 1;
 
-		UiTestUtils.insertIntegerIntoEditText(solo, xPositionEditTextId, xPosition);
+		Utils.insertIntegerIntoEditText(solo, xPositionEditTextId, xPosition);
 		solo.sendKey(Solo.ENTER);
-		UiTestUtils.insertIntegerIntoEditText(solo, yPositionEditTextId, yPosition);
+		Utils.insertIntegerIntoEditText(solo, yPositionEditTextId, yPosition);
 		solo.sendKey(Solo.ENTER);
 
 		assertEquals(xPosition + "", solo.getEditText(xPositionEditTextId).getText().toString());
@@ -70,24 +70,24 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptActiv
 	}
 
 	public void testDoubleDialog() {
-		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.wait_main_adapter);
+		Utils.addNewBrickAndScrollDown(solo, R.string.wait_main_adapter);
 
 		double wait = 5.9;
 
 		int waitEditTextId = solo.getCurrentEditTexts().size() - 1;
-		UiTestUtils.insertDoubleIntoEditText(solo, waitEditTextId, wait);
+		Utils.insertDoubleIntoEditText(solo, waitEditTextId, wait);
 		solo.sendKey(Solo.ENTER);
 
 		assertEquals(wait + "", solo.getEditText(waitEditTextId).getText().toString());
 	}
 
 	public void testEmptyEditDoubleDialog() {
-		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_scale_costume);
+		Utils.addNewBrickAndScrollDown(solo, R.string.brick_scale_costume);
 
 		int editTextId = solo.getCurrentEditTexts().size() - 1;
 
 		solo.clickOnEditText(editTextId);
-		UiTestUtils.pause();
+		Utils.pause();
 		System.out.println(solo.getCurrentEditTexts().size());
 		solo.clearEditText(0);
 		assertTrue("Toast with warning was not found",
@@ -99,12 +99,12 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptActiv
 	}
 
 	public void testEmptyEditIntegerDialog() {
-		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_place_at);
+		Utils.addNewBrickAndScrollDown(solo, R.string.brick_place_at);
 
 		int editTextId = solo.getCurrentEditTexts().size() - 1;
 
 		solo.clickOnEditText(editTextId);
-		UiTestUtils.pause();
+		Utils.pause();
 		solo.clearEditText(0);
 		assertTrue("Toast with warning was not found",
 				solo.searchText(getActivity().getString(R.string.notification_invalid_text_entered)));
