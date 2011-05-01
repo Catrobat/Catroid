@@ -24,7 +24,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
-import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
+import at.tugraz.ist.catroid.uitest.util.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -43,7 +43,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		// Create new test project
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
-		UiTestUtils.enterText(solo, 0, TEST_PROJECT_NAME);
+		Utils.enterText(solo, 0, TEST_PROJECT_NAME);
 
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
 	}
@@ -63,13 +63,13 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	}
 
 	private void addNewSprite(String spriteName) {
-		UiTestUtils.pause();
+		Utils.pause();
 		solo.clickOnButton(getActivity().getString(R.string.add_sprite));
-		UiTestUtils.pause();
-		UiTestUtils.enterText(solo, 0, spriteName);
+		Utils.pause();
+		Utils.enterText(solo, 0, spriteName);
 
 		solo.clickOnButton(getActivity().getString(R.string.new_sprite_dialog_button));
-		UiTestUtils.pause();
+		Utils.pause();
 	}
 
 	public void testAddNewSprite() {
@@ -123,7 +123,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		Thread.sleep(50);
 
 		solo.clearEditText(0);
-		UiTestUtils.enterText(solo, 0, newSpriteName);
+		Utils.enterText(solo, 0, newSpriteName);
 		solo.clickOnButton(getActivity().getString(R.string.rename_button));
 		Thread.sleep(50);
 
@@ -149,7 +149,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	public void testMainMenuButton() {
 		solo.clickOnButton(getActivity().getString(R.string.main_menu));
-		UiTestUtils.pause();
+		Utils.pause();
 		assertTrue("Main menu is not visible", solo.searchText(getActivity().getString(R.string.main_menu)));
 		assertTrue("Current project is not visible", solo.searchText(getActivity().getString(R.string.current_project)));
 	}

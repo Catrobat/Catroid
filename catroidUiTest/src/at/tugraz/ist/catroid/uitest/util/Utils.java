@@ -42,11 +42,12 @@ import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class UiTestUtils {
+public class Utils {
 	private static final int WAIT_TIME_IN_MILLISECONDS = 50;
 	private static final String TAG = "UiTestUtils";
 	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
@@ -85,7 +86,7 @@ public class UiTestUtils {
 
 	private static void insertValue(Solo solo, int editTextId, String value) {
 		solo.clickOnEditText(editTextId);
-		UiTestUtils.pause();
+		Utils.pause();
 		solo.clearEditText(0);
 		solo.enterText(0, value);
 	}
@@ -194,5 +195,18 @@ public class UiTestUtils {
 			return UtilFile.deleteDirectory(directory);
 		}
 		return false;
+	}
+
+	public static Project createProject(String projectName, ArrayList<Sprite> spriteList, Context context) {
+		Project project = new Project(context, projectName);
+		StorageHandler.getInstance().saveProject(project);
+		ProjectManager.getInstance().setProject(project);
+
+		for (Sprite sprite : spriteList) {
+			ProjectManager.getInstance().addSprite(sprite);
+		}
+
+		StorageHandler.getInstance().saveProject(project);
+		return project;
 	}
 }

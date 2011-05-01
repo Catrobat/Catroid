@@ -27,7 +27,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
-import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
+import at.tugraz.ist.catroid.uitest.util.Utils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -72,7 +72,7 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 
 		int nameEditTextId = solo.getCurrentEditTexts().size() - 1;
 
-		UiTestUtils.enterText(solo, nameEditTextId, "testingproject");
+		Utils.enterText(solo, nameEditTextId, "testingproject");
 
 		solo.sendKey(Solo.ENTER);
 

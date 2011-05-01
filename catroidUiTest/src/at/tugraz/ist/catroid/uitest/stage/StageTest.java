@@ -20,6 +20,7 @@ package at.tugraz.ist.catroid.uitest.stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
@@ -43,32 +44,31 @@ import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.uitest.R;
-import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
+import at.tugraz.ist.catroid.uitest.util.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
 	private StorageHandler storageHandler;
-	final String projectName = "project1";
-	final String dummyName = "dummy";
+	private final String projectName = "project1";
 
-	File image1;
-	File image2;
-	String imageName1 = "image1";
-	String imageName2 = "image2";
-	int placeAt = 400;
+	private File image1;
+	private File image2;
+	private File soundFile;
+	private String imageName1 = "image1";
+	private String imageName2 = "image2";
 
-	int image1Width;
-	int image2Width;
-	int image1Height;
-	int image2Height;
+	private int placeAt = 400;
+
+	private int image1Width;
+	private int image2Width;
+	private int image1Height;
+	private int image2Height;
 
 	private static final int IMAGE_FILE_ID = R.raw.icon;
 	private static final int IMAGE_FILE_ID2 = R.raw.icon2;
-
 	private static final int SOUND_FILE_ID = R.raw.testsound;
-	private File soundFile;
 
 	public StageTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -77,7 +77,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 	@Override
 	public void setUp() throws Exception {
-		UiTestUtils.clearProject(projectName);
+		Utils.clearProject(projectName);
 
 		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
@@ -102,14 +102,14 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 			soundFile.delete();
 		}
 
-		UiTestUtils.clearProject(projectName);
+		Utils.clearProject(projectName);
 
 		getActivity().finish();
 		super.tearDown();
 	}
 
 	public void testClickOnPictureAndChangeCostume() throws IOException, InterruptedException {
-		createTestProject1(projectName);
+		createTestproject(projectName);
 
 		System.out.println("image1: " + image1.getAbsolutePath() + " " + image1Width + " " + image1Height);
 		System.out.println("image2: " + image2.getAbsolutePath() + " " + image2Width + " " + image2Height);
@@ -155,7 +155,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 	}
 
 	public void testClickAroundPicture() throws IOException, InterruptedException {
-		createTestProject1(projectName);
+		createTestproject(projectName);
 		solo.clickOnButton(1);
 
 		Thread.sleep(2000);
@@ -199,7 +199,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 	}
 
 	public void testClickImageBoundaries() throws IOException, InterruptedException {
-		createTestProject1(projectName);
+		createTestproject(projectName);
 		solo.clickOnButton(1);
 		Thread.sleep(2000);
 		Costume costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
@@ -229,7 +229,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 	public void testSpfChangesInStage() throws IOException {
 		// it is not allowed for the .spf file to change when in stage
 		// add another test when you add new stage buttons
-		createTestProject1(projectName);
+		createTestproject(projectName);
 		File mySpfFile = new File(Consts.DEFAULT_ROOT + projectName + "/" + projectName + Consts.PROJECT_EXTENTION);
 
 		solo.clickOnButton(1);
@@ -347,67 +347,54 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		solo.clickOnButton(1);
 	}
 
-	public void createTestProject1(String projectName) throws IOException {
-		Project project = new Project(getActivity(), projectName);
-		storageHandler.saveProject(project);
-		ProjectManager.getInstance().setProject(project);
+	public void createTestproject(String projectName) throws IOException {
 
-		image1 = UiTestUtils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation()
-				.getContext(), 0);
-		image2 = UiTestUtils.saveFileToProject(projectName, imageName2, IMAGE_FILE_ID2, getInstrumentation()
-				.getContext(), 0);
-		setImageMemberProperties(image1);
-		setImageMemberProperties(image2);
-
+		//creating sprites for project:
 		Sprite firstSprite = new Sprite("sprite1");
 		Script testScript = new Script("script1", firstSprite);
 		Script touchScript = new Script("script2", firstSprite);
 		touchScript.setTouchScript(true);
 
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
-		setCostumeBrick.setCostume(image1.getName());
 		SetCostumeBrick setCostumeBrick2 = new SetCostumeBrick(firstSprite);
-		setCostumeBrick2.setCostume(image2.getName());
 
-		project.addSprite(firstSprite);
 		testScript.addBrick(setCostumeBrick);
 		touchScript.addBrick(setCostumeBrick2);
 		firstSprite.getScriptList().add(testScript);
 		firstSprite.getScriptList().add(touchScript);
 
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
-		ProjectManager.getInstance().setCurrentScript(testScript);
+		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
+		spriteList.add(firstSprite);
+		Project project = Utils.createProject(projectName, spriteList, getActivity());
+
+		image1 = Utils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation()
+				.getContext(), 0);
+		image2 = Utils.saveFileToProject(projectName, imageName2, IMAGE_FILE_ID2, getInstrumentation()
+				.getContext(), 0);
+		setImageMemberProperties(image1);
+		setImageMemberProperties(image2);
+		setCostumeBrick.setCostume(image1.getName());
+		setCostumeBrick2.setCostume(image2.getName());
 
 		storageHandler.saveProject(project);
 	}
 
 	public void createTestProject2(String projectName) throws IOException {
-		Project project = new Project(getActivity(), projectName);
-		storageHandler.saveProject(project);
-		ProjectManager.getInstance().setProject(project);
 
-		image1 = UiTestUtils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation()
-				.getContext(), 0);
-		image2 = UiTestUtils.saveFileToProject(projectName, imageName2, IMAGE_FILE_ID2, getInstrumentation()
-				.getContext(), 0);
-		setImageMemberProperties(image1);
-		setImageMemberProperties(image2);
-
+		//creating sprites for project:
 		Sprite firstSprite = new Sprite("sprite1");
 		Script startScript = new Script("startscript", firstSprite);
 		Script touchScript = new Script("script2", firstSprite);
 		touchScript.setTouchScript(true);
 
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
-		setCostumeBrick.setCostume(image1.getName());
 		SetCostumeBrick setCostumeBrick2 = new SetCostumeBrick(firstSprite);
-		setCostumeBrick2.setCostume(image2.getName());
+
 		ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(firstSprite, 50);
 		ScaleCostumeBrick scaleCostumeBrick2 = new ScaleCostumeBrick(firstSprite, 100);
 		WaitBrick waitBrick = new WaitBrick(firstSprite, 2000);
 		PlaceAtBrick placeAt = new PlaceAtBrick(firstSprite, this.placeAt, this.placeAt);
 
-		project.addSprite(firstSprite);
 		startScript.addBrick(setCostumeBrick2);
 		touchScript.addBrick(setCostumeBrick);
 		touchScript.addBrick(scaleCostumeBrick);
@@ -417,22 +404,25 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		firstSprite.getScriptList().add(startScript);
 		firstSprite.getScriptList().add(touchScript);
 
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
+		spriteList.add(firstSprite);
+		Project project = Utils.createProject(projectName, spriteList, getActivity());
+
+		image1 = Utils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation()
+				.getContext(), 0);
+		image2 = Utils.saveFileToProject(projectName, imageName2, IMAGE_FILE_ID2, getInstrumentation()
+				.getContext(), 0);
+		setImageMemberProperties(image1);
+		setImageMemberProperties(image2);
+		setCostumeBrick.setCostume(image1.getName());
+		setCostumeBrick2.setCostume(image2.getName());
 
 		storageHandler.saveProject(project);
 	}
 
 	public void createTestProject3(String projectName) throws IOException {
-		Project project = new Project(getActivity(), projectName);
-		storageHandler.saveProject(project);
-		ProjectManager.getInstance().setProject(project);
 
-		image1 = UiTestUtils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation()
-				.getContext(), 0);
-		image2 = UiTestUtils.saveFileToProject(projectName, imageName2, IMAGE_FILE_ID2, getInstrumentation()
-				.getContext(), 0);
-		setImageMemberProperties(image1);
-		setImageMemberProperties(image2);
+		//creating sprites for project:
 
 		// sprite1 --------------------------------
 		Sprite firstSprite = new Sprite("sprite1");
@@ -441,12 +431,11 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		touchScript1.setTouchScript(true);
 		// creating bricks:
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
-		setCostumeBrick.setCostume(image1.getName());
+
 		// adding bricks:
 		startScript1.addBrick(setCostumeBrick);
 		startScript1.addBrick(new ComeToFrontBrick(firstSprite));
 		touchScript1.addBrick(new GoNStepsBackBrick(firstSprite, 2));
-
 		firstSprite.getScriptList().add(startScript1);
 		firstSprite.getScriptList().add(touchScript1);
 
@@ -457,7 +446,6 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		touchScript2.setTouchScript(true);
 		// creating bricks:
 		SetCostumeBrick setCostumeBrick2 = new SetCostumeBrick(secondSprite);
-		setCostumeBrick2.setCostume(image2.getName());
 		// adding bricks:
 		startScript2.addBrick(setCostumeBrick2);
 		touchScript2.addBrick(new ScaleCostumeBrick(secondSprite, 200));
@@ -465,71 +453,66 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		secondSprite.getScriptList().add(startScript2);
 		secondSprite.getScriptList().add(touchScript2);
 
-		// ---------------------------------------
-		project.addSprite(firstSprite);
-		project.addSprite(secondSprite);
+		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
+		spriteList.add(firstSprite);
+		spriteList.add(secondSprite);
+		Project project = Utils.createProject(projectName, spriteList, getActivity());
+
+		image1 = Utils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation()
+				.getContext(), 0);
+		image2 = Utils.saveFileToProject(projectName, imageName2, IMAGE_FILE_ID2, getInstrumentation()
+				.getContext(), 0);
+		setImageMemberProperties(image1);
+		setImageMemberProperties(image2);
+		setCostumeBrick.setCostume(image1.getName());
+		setCostumeBrick2.setCostume(image2.getName());
 
 		storageHandler.saveProject(project);
 	}
 
 	public void createTestProject4(String projectName) throws IOException {
-		Project project = new Project(getActivity(), projectName);
-		storageHandler.saveProject(project);
-		ProjectManager.getInstance().setProject(project);
 
-		image1 = UiTestUtils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation()
-				.getContext(), 0);
-		setImageMemberProperties(image1);
-
+		//creating sprites for project:
 		Sprite firstSprite = new Sprite("sprite1");
 		Script startScript = new Script("startscript", firstSprite);
 		Script touchScript = new Script("touchscript", firstSprite);
 		touchScript.setTouchScript(true);
 
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
-		setCostumeBrick.setCostume(image1.getName());
 
 		ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(firstSprite, 50);
 		HideBrick hideBrick = new HideBrick(firstSprite);
 
-		project.addSprite(firstSprite);
 		startScript.addBrick(setCostumeBrick);
 		startScript.addBrick(hideBrick);
 		touchScript.addBrick(scaleCostumeBrick);
 		firstSprite.getScriptList().add(startScript);
 		firstSprite.getScriptList().add(touchScript);
 
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
+		spriteList.add(firstSprite);
+		Project project = Utils.createProject(projectName, spriteList, getActivity());
+
+		image1 = Utils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation()
+				.getContext(), 0);
+		setImageMemberProperties(image1);
+		setCostumeBrick.setCostume(image1.getName());
 
 		storageHandler.saveProject(project);
 	}
 
 	public void createTestProjectWithSound() throws IOException {
-		Project project = new Project(getActivity(), projectName);
-		storageHandler.saveProject(project);
-		ProjectManager.getInstance().setProject(project);
 
-		this.soundFile = UiTestUtils.saveFileToProject(projectName, "soundfile.mp3", SOUND_FILE_ID,
-				getInstrumentation().getContext(), 1);
-
-		image1 = UiTestUtils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation()
-				.getContext(), 0);
-		setImageMemberProperties(image1);
-
+		//creating sprites for project:
 		Sprite firstSprite = new Sprite("sprite1");
 		Script startScript = new Script("startscript", firstSprite);
 		Script touchScript = new Script("touchscript", firstSprite);
 		touchScript.setTouchScript(true);
 
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
-		setCostumeBrick.setCostume(image1.getName());
-
 		PlaySoundBrick playSoundBrick = new PlaySoundBrick(firstSprite);
-		playSoundBrick.setPathToSoundfile(soundFile.getName());
-
 		ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(firstSprite, 50);
 
-		project.addSprite(firstSprite);
 		startScript.addBrick(setCostumeBrick);
 		touchScript.addBrick(scaleCostumeBrick);
 		touchScript.addBrick(playSoundBrick);
@@ -537,7 +520,18 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		firstSprite.getScriptList().add(startScript);
 		firstSprite.getScriptList().add(touchScript);
 
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
+		spriteList.add(firstSprite);
+		Project project = Utils.createProject(projectName, spriteList, getActivity());
+
+		soundFile = Utils.saveFileToProject(projectName, "soundfile.mp3", SOUND_FILE_ID, getInstrumentation()
+				.getContext(), 1);
+
+		image1 = Utils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation()
+				.getContext(), 0);
+		setImageMemberProperties(image1);
+		setCostumeBrick.setCostume(image1.getName());
+		playSoundBrick.setPathToSoundfile(soundFile.getName());
 
 		storageHandler.saveProject(project);
 	}

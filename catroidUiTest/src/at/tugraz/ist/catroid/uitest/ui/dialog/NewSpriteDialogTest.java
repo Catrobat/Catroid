@@ -30,7 +30,7 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
-import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
+import at.tugraz.ist.catroid.uitest.util.Utils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -80,7 +80,7 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 
 		solo.clickOnButton(solo.getCurrentActivity().getString(R.string.add_sprite));
 		int spriteEditTextId = solo.getCurrentEditTexts().size() - 1;
-		UiTestUtils.enterText(solo, spriteEditTextId, "testingsprite");
+		Utils.enterText(solo, spriteEditTextId, "testingsprite");
 		solo.sendKey(Solo.ENTER);
 		solo.sleep(1000);
 		solo.clickOnText(testingsprite);

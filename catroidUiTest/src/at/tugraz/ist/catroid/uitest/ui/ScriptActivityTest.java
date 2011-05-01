@@ -29,7 +29,7 @@ import android.widget.ListView;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
-import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
+import at.tugraz.ist.catroid.uitest.util.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -43,7 +43,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 
 	@Override
 	public void setUp() throws Exception {
-		brickListToCheck = UiTestUtils.createTestProject();
+		brickListToCheck = Utils.createTestProject();
 		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
 	}
