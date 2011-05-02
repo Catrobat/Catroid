@@ -41,7 +41,7 @@ import at.tugraz.ist.catroid.ui.dialogs.UploadProjectDialog;
 
 public class MainMenuActivity extends Activity {
 	private static final String PREFS_NAME = "at.tugraz.ist.catroid";
-	private static final String PREF_PROJECTNAME_KEY = "prefix_";
+	private static final String PREF_PROJECTNAME_KEY = "projectName";
 	private ProjectManager projectManager;
 
 	private void initListeners() {
@@ -173,7 +173,6 @@ public class MainMenuActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		//this.removeDialog(Consts.DIALOG_UPLOAD_PROJECT);
 		if (projectManager.getCurrentProject() == null) {
 			return;
 		}
@@ -182,7 +181,6 @@ public class MainMenuActivity extends Activity {
 				+ projectManager.getCurrentProject().getName());
 
 		projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
-		//TODO es wird zweimal unn�tig geladen wenn man von der stage zur�ckkommt
 	}
 
 	@Override
