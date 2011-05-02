@@ -61,7 +61,9 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 		this.projectPath = projectPath;
 		this.projectName = projectName;
 		this.projectDescription = projectDescription;
-		serverAnswer = context.getString(R.string.error_project_upload);
+		if (context != null) {
+			serverAnswer = context.getString(R.string.error_project_upload);
+		}
 	}
 
 	@Override
