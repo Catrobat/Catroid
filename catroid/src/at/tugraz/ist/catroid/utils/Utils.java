@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
@@ -51,19 +50,19 @@ public class Utils {
 	 * RuntimeException is thrown after the call to Activity.finish; find out
 	 * why!
 	 * 
-	 * @param parentActivity
-	 *            the activity that calls this method
+	 * @param context
 	 */
-	public static boolean checkForSdCard(final Activity parentActivity) {
+	public static boolean checkForSdCard(final Context context) {
 		if (!hasSdCard()) {
-			Builder builder = new AlertDialog.Builder(parentActivity);
+			Builder builder = new AlertDialog.Builder(context);
 
-			builder.setTitle(parentActivity.getString(R.string.error));
-			builder.setMessage(parentActivity.getString(R.string.error_no_sd_card));
-			builder.setNeutralButton(parentActivity.getString(R.string.close), new OnClickListener() {
+			builder.setTitle(context.getString(R.string.error));
+			builder.setMessage(context.getString(R.string.error_no_sd_card));
+			builder.setNeutralButton(context.getString(R.string.close), new OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					// finish parent activity
-					parentActivity.finish();
+					// parentActivity.finish();
+					System.exit(0);
 				}
 			});
 			builder.show();

@@ -58,7 +58,7 @@ public class CanvasDraw implements IDraw {
 	private Bitmap canvasBitmap;
 	private Canvas bufferCanvas;
 	private boolean firstRun;
-	Rect flushRectangle;
+	private Rect flushRectangle;
 	private Bitmap screenshotIcon;
 	private int screenshotIconPosX;
 	private Activity activity;
@@ -155,9 +155,8 @@ public class CanvasDraw implements IDraw {
 
 	public boolean saveThumbnail(boolean overwrite) {
 		try {
-			String path = Consts.DEFAULT_ROOT + "/"
-					+ ProjectManager.getInstance().getCurrentProject().getName()
-					+ "/" + Consts.SCREENSHOT_FILE_NAME;
+			String path = Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName() + "/"
+					+ Consts.SCREENSHOT_FILE_NAME;
 			File file = new File(path);
 			if (file.exists() && !overwrite) {
 				return false;

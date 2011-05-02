@@ -97,7 +97,7 @@ public class StageActivity extends Activity {
 				pauseOrContinue();
 				break;
 			case R.id.stagemenuConstructionSite:
-				toMainActivity();
+				manageLoadAndFinish(); //calls finish
 				break;
 		}
 		return true;
@@ -123,27 +123,14 @@ public class StageActivity extends Activity {
 	protected void onDestroy() {
 		super.onDestroy();
 		soundManager.clear();
-		//		ProjectManager projectManager = ProjectManager.getInstance();
-		//		Sprite currentSprite = projectManager.getCurrentSprite();
-		//		Script currentScript = projectManager.getCurrentScript();
-		//		projectManager.loadProject(projectManager.getCurrentProject().getName(), this);
-		//		projectManager.setCurrentSprite(currentSprite);
-		//		projectManager.setCurrentScript(currentScript);
 	}
 
 	@Override
 	public void onBackPressed() {
-		ProjectManager projectManager = ProjectManager.getInstance();
-		int currentSpritePos = projectManager.getCurrentSpritePosition();
-		int currentScriptPos = projectManager.getCurrentScriptPosition();
-		projectManager.loadProject(projectManager.getCurrentProject().getName(), this,
-				false);
-		projectManager.setCurrentSpriteWithPosition(currentSpritePos);
-		projectManager.setCurrentScriptWithPosition(currentScriptPos);
-		finish();
+		manageLoadAndFinish();
 	}
 
-	private void toMainActivity() {
+	private void manageLoadAndFinish() {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		int currentSpritePos = projectManager.getCurrentSpritePosition();
 		int currentScriptPos = projectManager.getCurrentScriptPosition();
