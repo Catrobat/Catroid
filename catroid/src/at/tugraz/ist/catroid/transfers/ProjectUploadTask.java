@@ -20,15 +20,14 @@
 package at.tugraz.ist.catroid.transfers;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.HashMap;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.os.AsyncTask;
 import at.tugraz.ist.catroid.Consts;
@@ -62,7 +61,7 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 		this.projectPath = projectPath;
 		this.projectName = projectName;
 		this.projectDescription = projectDescription;
-		serverAnswer = "An error occurred while uploading the project.";
+		serverAnswer = context.getString(R.string.error_project_upload);
 	}
 
 	@Override
@@ -80,22 +79,11 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 	protected Boolean doInBackground(Void... arg0) {
 		try {
 			File dirPath = new File(projectPath);
-			String[] paths = dirPath.list(new FilenameFilter() {
-				public boolean accept(File dir, String filename) {
-					if (filename.endsWith(Consts.PROJECT_EXTENTION) || filename.equalsIgnoreCase("images")
-							|| filename.equalsIgnoreCase("sounds")) {
-						return true;
-					}
-					return false;
-				}
-			});
+			String[] paths = dirPath.list();
+
 			if (paths == null) {
 				return false;
 			}
-
-			//			for (String path : paths) {
-			//				path = dirPath + "/" + path;
-			//			}
 
 			for (int i = 0; i < paths.length; i++) {
 				paths[i] = dirPath + "/" + paths[i];
