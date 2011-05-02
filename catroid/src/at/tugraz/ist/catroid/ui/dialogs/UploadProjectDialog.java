@@ -26,10 +26,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.Consts;
@@ -44,8 +44,8 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 	private EditText projectUploadName;
 	private EditText projectDescriptionField;
 	private TextView projectRename;
+	private Button uploadButton;
 	private String newProjectName;
-	private boolean renameProject = false;
 
 	public UploadProjectDialog(Context context) {
 		super(context);
@@ -61,13 +61,10 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 		getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
 
 		projectRename = (TextView) findViewById(R.id.tv_project_rename);
-		projectRename.setVisibility(View.GONE);
 		projectDescriptionField = (EditText) findViewById(R.id.project_description_upload);
 		projectUploadName = (EditText) findViewById(R.id.project_upload_name);
-		currentProjectName = ProjectManager.getInstance().getCurrentProject().getName();
-		final Button uploadButton = (Button) findViewById(R.id.upload_button);
+		uploadButton = (Button) findViewById(R.id.upload_button);
 		uploadButton.setOnClickListener(this);
-		projectUploadName.setText(currentProjectName);
 
 		projectUploadName.addTextChangedListener(new TextWatcher() {
 
@@ -75,17 +72,14 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 				if (!projectUploadName.getText().toString().equals(currentProjectName)) {
 					projectRename.setVisibility(View.VISIBLE);
 					newProjectName = projectUploadName.getText().toString();
-					renameProject = true;
-				} else if (projectUploadName.getText().toString().equals(currentProjectName)) {
+				} else {
 					projectRename.setVisibility(View.GONE);
-					renameProject = false;
 				}
 				if (s.length() == 0) {
 					Toast.makeText(UploadProjectDialog.this.context, R.string.notification_invalid_text_entered,
 							Toast.LENGTH_SHORT).show();
 					uploadButton.setEnabled(false);
-				}
-				else {
+				} else {
 					uploadButton.setEnabled(true);
 				}
 			}
@@ -109,6 +103,15 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 		cancelButton.setOnClickListener(this);
 	}
 
+	@Override
+	public void show() {
+		super.show();
+		projectRename.setVisibility(View.GONE);
+		currentProjectName = ProjectManager.getInstance().getCurrentProject().getName();
+		projectUploadName.setText(currentProjectName);
+		projectDescriptionField.setText("");
+	}
+
 	public void onClick(View v) {
 		ProjectManager projectManager = ProjectManager.getInstance();
 
@@ -120,15 +123,12 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 					return;
 				} else if (!uploadName.equals(currentProjectName)) {
 					projectRename.setVisibility(View.VISIBLE);
-					renameProject = true;
-				}
-
-				if (renameProject) {
 					boolean renamed = projectManager.renameProject(newProjectName, context);
 					if (!renamed) {
 						break;
 					}
 				}
+
 				projectManager.getCurrentProject().setDeviceData();
 				projectManager.saveProject(context);
 
