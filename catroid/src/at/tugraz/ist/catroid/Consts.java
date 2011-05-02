@@ -26,7 +26,7 @@ public final class Consts {
 	public static final String PROJECT_EXTENTION = ".spf";
 	public static final String CATROID_EXTENTION = ".zip";
 
-	public static final String DEFAULT_ROOT = Environment.getExternalStorageDirectory() + "/catroid";
+	public static final String DEFAULT_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath() + "/catroid";
 	public static final String TMP_PATH = DEFAULT_ROOT + "/tmp";
 	public static final String IMAGE_DIRECTORY = "/images";
 	public static final String SOUND_DIRECTORY = "/sounds";
