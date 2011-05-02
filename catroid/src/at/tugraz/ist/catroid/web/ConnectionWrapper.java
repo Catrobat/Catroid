@@ -29,9 +29,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Map.Entry;
 import java.util.Set;
+import java.util.Map.Entry;
 
+import android.util.Log;
 import android.webkit.MimeTypeMap;
 
 public class ConnectionWrapper {
@@ -116,7 +117,7 @@ public class ConnectionWrapper {
 		}
 
 		URL url = new URL(urlString);
-		System.out.println("url: " + urlString);
+		//System.out.println("url: " + urlString);
 
 		String boundary = MultiPartFormOutputStream.createBoundary();
 		urlConn = (HttpURLConnection) MultiPartFormOutputStream.createConnection(url);
@@ -131,7 +132,7 @@ public class ConnectionWrapper {
 
 		Set<Entry<String, String>> entries = postValues.entrySet();
 		for (Entry<String, String> entry : entries) {
-			System.out.println("key: " + entry.getKey() + ", value: " + entry.getValue());
+			Log.i(ConnectionWrapper.class.getName(), "key: " + entry.getKey() + ", value: " + entry.getValue());
 			out.writeField(entry.getKey(), entry.getValue());
 		}
 
