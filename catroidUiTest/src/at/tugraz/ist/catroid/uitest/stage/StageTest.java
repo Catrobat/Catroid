@@ -22,7 +22,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.Consts;
@@ -336,6 +338,61 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		assertEquals(100.0, sprite.getScale());
 	}
 
+	public void testCanvas() {
+		Sprite sprite = new Sprite("sprite1");
+		Script script = new Script("script1", sprite);
+		sprite.getScriptList().add(script);
+		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
+		script.addBrick(setCostumeBrick);
+		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
+		spriteList.add(sprite);
+		Utils.createProject(projectName, spriteList, getActivity());
+		File image = Utils.saveFileToProject(projectName, imageName1, R.raw.red_quad, getInstrumentation()
+					.getContext(), 0);
+		setImageMemberProperties(image);
+		setCostumeBrick.setCostume(image.getName());
+
+		solo.clickOnButton(1);
+		solo.clickOnScreen(Values.SCREEN_WIDTH, 0); //save thumbnail
+
+		//File file = new File(Consts.DEFAULT_ROOT + "/" + projectName + "/" + Consts.SCREENSHOT_FILE_NAME);
+		Bitmap bitmap = BitmapFactory.decodeFile(Consts.DEFAULT_ROOT + "/" + projectName + "/"
+				+ Consts.SCREENSHOT_FILE_NAME);
+
+		int borderWidth = ((Values.SCREEN_WIDTH / 2) + 100 / 2);
+		int borderHeight = ((Values.SCREEN_HEIGHT / 2) + 100 / 2);
+		int startWidth = ((Values.SCREEN_WIDTH - 100) / 2);
+		int startHeight = ((Values.SCREEN_HEIGHT - 100) / 2);
+
+		for (int i = startWidth; i < borderWidth; i++) {
+			for (int j = startHeight; j < borderHeight; j++) {
+				assertEquals("pixel is not red", Color.RED, bitmap.getPixel(i, j));
+				//System.out.println("in TEST " + i + " " + j);
+			}
+		}
+
+		for (int j = startHeight; j < borderHeight; j++) {
+			assertEquals("pixel is not white", Color.WHITE, bitmap.getPixel(startWidth - 1, j));
+			//System.out.println("in TEST2 " + (startWidth - 1) + " " + j);
+		}
+
+		for (int j = startHeight; j < borderHeight; j++) {
+			assertEquals("pixel is not white", Color.WHITE, bitmap.getPixel(borderWidth, j));
+			//System.out.println("in TEST3 " + borderWidth + " " + j);
+		}
+
+		for (int i = startWidth; i < borderWidth; i++) {
+			assertEquals("pixel is not white", Color.WHITE, bitmap.getPixel(i, startHeight - 1));
+			//System.out.println("in TEST4 " + i + " " + (startHeight - 1));
+		}
+
+		for (int i = startWidth; i < borderWidth; i++) {
+			assertEquals("pixel is not white", Color.WHITE, bitmap.getPixel(i, borderHeight));
+			//System.out.println("in TEST5 " + i + " " + borderHeight);
+		}
+
+	}
+
 	public void clickOnScreenAndReturn(int x, int y, int expectedWidth, int expectedHeight) throws InterruptedException {
 		solo.clickOnScreen(x, y);
 		Thread.sleep(1000);
@@ -347,7 +404,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		solo.clickOnButton(1);
 	}
 
-	public void createTestproject(String projectName) throws IOException {
+	public void createTestproject(String projectName) {
 
 		//creating sprites for project:
 		Sprite firstSprite = new Sprite("sprite1");
@@ -379,7 +436,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		storageHandler.saveProject(project);
 	}
 
-	public void createTestProject2(String projectName) throws IOException {
+	public void createTestProject2(String projectName) {
 
 		//creating sprites for project:
 		Sprite firstSprite = new Sprite("sprite1");
@@ -420,7 +477,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		storageHandler.saveProject(project);
 	}
 
-	public void createTestProject3(String projectName) throws IOException {
+	public void createTestProject3(String projectName) {
 
 		//creating sprites for project:
 
