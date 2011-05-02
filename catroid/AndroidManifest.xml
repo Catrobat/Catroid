@@ -44,7 +44,7 @@
 			</intent-filter>
 		</activity>
 		<activity
-			android:name=".stage.StageActivity"
+			android:name=".stage.StageActivity" android:screenOrientation="portrait"
 			android:label="@string/stage" />
 		<activity
 			android:name=".ui.ProjectActivity" />
