@@ -18,10 +18,7 @@
  */
 package at.tugraz.ist.catroid.test.content.brick;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 import android.media.MediaPlayer;
@@ -34,6 +31,7 @@ import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.R;
+import at.tugraz.ist.catroid.test.util.Utils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class PlaySoundBrickTest extends InstrumentationTestCase {
@@ -167,28 +165,14 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
+
 		setUpSoundFile();
 	}
 
 	private void setUpSoundFile() throws IOException {
-		// Note: File needs to be copied as MediaPlayer has no access to resources
-		BufferedInputStream inputStream = new BufferedInputStream(getInstrumentation().getContext().getResources()
-				.openRawResource(SOUND_FILE_ID));
-		String pathToSoundfile = Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName()
-				+ Consts.SOUND_DIRECTORY + "/" + "soundTest.mp3";
-		soundFile = new File(pathToSoundfile);
-		soundFile.createNewFile();
 
-		BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(soundFile), 1024);
+		soundFile = Utils.saveFileToProject(projectName, "soundTest.mp3", SOUND_FILE_ID, getInstrumentation()
+				.getContext(), Utils.TYPE_SOUND_FILE);
 
-		byte[] buffer = new byte[1024];
-		int length = 0;
-		while ((length = inputStream.read(buffer)) > 0) {
-			outputStream.write(buffer, 0, length);
-		}
-
-		inputStream.close();
-		outputStream.flush();
-		outputStream.close();
 	}
 }
