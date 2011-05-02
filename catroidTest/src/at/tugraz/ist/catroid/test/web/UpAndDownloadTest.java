@@ -63,7 +63,8 @@ public class UpAndDownloadTest extends AndroidTestCase {
 		new File(pathToDefaultProject + "/" + spfFilename).createNewFile();
 		String projectDescription = "this is just a testproject";
 
-		ProjectUploadTask uploadTask = new ProjectUploadTask(null, testProjectName, projectDescription, pathToDefaultProject) {
+		ProjectUploadTask uploadTask = new ProjectUploadTask(null, testProjectName, projectDescription,
+				pathToDefaultProject) {
 			@Override
 			protected ConnectionWrapper createConnection() {
 				return mockConnection;
@@ -107,7 +108,7 @@ public class UpAndDownloadTest extends AndroidTestCase {
 
 		@Override
 		public void doHttpPostFileDownload(String urlstring, HashMap<String, String> postValues, String filePath)
-		throws IOException {
+				throws IOException {
 			projectZipOnMockServer.renameTo(new File(filePath));
 		}
 	}
