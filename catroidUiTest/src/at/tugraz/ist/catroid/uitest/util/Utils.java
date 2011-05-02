@@ -52,6 +52,9 @@ public class Utils {
 	private static final String TAG = "UiTestUtils";
 	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
 
+	public static final int TYPE_IMAGE_FILE = 0;
+	public static final int TYPE_SOUND_FILE = 1;
+
 	public static void pause() {
 		try {
 			Thread.sleep(WAIT_TIME_IN_MILLISECONDS);
@@ -151,18 +154,17 @@ public class Utils {
 	 * @return the file
 	 * @throws IOException
 	 */
-	public static File saveFileToProject(String project, String name, int fileID, Context context, int type)
-			throws IOException {
+	public static File saveFileToProject(String project, String name, int fileID, Context context, int type) {
 
 		String filePath;
 		if (project == null || project.equalsIgnoreCase("")) {
 			filePath = Consts.DEFAULT_ROOT + "/" + name;
 		} else {
 			switch (type) {
-				case 0:
+				case TYPE_IMAGE_FILE:
 					filePath = Consts.DEFAULT_ROOT + "/" + project + Consts.IMAGE_DIRECTORY + "/" + name;
 					break;
-				case 1:
+				case TYPE_SOUND_FILE:
 					filePath = Consts.DEFAULT_ROOT + "/" + project + Consts.SOUND_DIRECTORY + "/" + name;
 					break;
 				default:
@@ -172,21 +174,26 @@ public class Utils {
 		}
 		BufferedInputStream in = new BufferedInputStream(context.getResources().openRawResource(fileID));
 
-		File file = new File(filePath);
-		file.createNewFile();
+		try {
+			File file = new File(filePath);
+			file.createNewFile();
 
-		BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file), 1024);
-		byte[] buffer = new byte[1024];
-		int length = 0;
-		while ((length = in.read(buffer)) > 0) {
-			out.write(buffer, 0, length);
+			BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file), 1024);
+			byte[] buffer = new byte[1024];
+			int length = 0;
+			while ((length = in.read(buffer)) > 0) {
+				out.write(buffer, 0, length);
+			}
+
+			in.close();
+			out.flush();
+			out.close();
+
+			return file;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
 		}
-
-		in.close();
-		out.flush();
-		out.close();
-
-		return file;
 	}
 
 	public static boolean clearProject(String projectname) {

@@ -40,10 +40,10 @@ public class Utils {
 			filePath = Consts.DEFAULT_ROOT + "/" + name;
 		} else {
 			switch (type) {
-				case 0:
+				case TYPE_IMAGE_FILE:
 					filePath = Consts.DEFAULT_ROOT + "/" + project + Consts.IMAGE_DIRECTORY + "/" + name;
 					break;
-				case 1:
+				case TYPE_SOUND_FILE:
 					filePath = Consts.DEFAULT_ROOT + "/" + project + Consts.SOUND_DIRECTORY + "/" + name;
 					break;
 				default:
