@@ -52,18 +52,42 @@ public class MediaPathTest extends InstrumentationTestCase {
 
 	private static final int IMAGE_FILE_ID = at.tugraz.ist.catroid.test.R.raw.icon;
 	private static final int SOUND_FILE_ID = at.tugraz.ist.catroid.test.R.raw.testsound;
+	private Project project;
+	private File testImage;
+	private File testSound;
+	private String projectName = "testProject";
 
-	public void testPathsInSpfFile() throws IOException {
-		String projectName = "myProject";
+	@Override
+	protected void setUp() throws Exception {
 
 		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);
 		if (projectFile.exists()) {
 			UtilFile.deleteDirectory(projectFile);
 		}
 
-		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
+		project = new Project(getInstrumentation().getTargetContext(), projectName);
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
+
+		testImage = Utils.saveFileToProject(projectName, "testImage.png", IMAGE_FILE_ID, getInstrumentation()
+				.getContext(), Utils.TYPE_IMAGE_FILE);
+
+		testSound = Utils.saveFileToProject(projectName, "testSound.mp3", SOUND_FILE_ID, getInstrumentation()
+				.getContext(), Utils.TYPE_SOUND_FILE);
+	}
+
+	@Override
+	protected void tearDown() throws Exception {
+
+		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+
+		if (projectFile.exists()) {
+			UtilFile.deleteDirectory(projectFile);
+		}
+	}
+
+	public void testPathsInSpfFile() throws IOException {
+
 		Sprite sprite = new Sprite("testSprite");
 		Script script = new Script("testScript", sprite);
 		Script touchedScript = new Script("touchedScript", sprite);
@@ -81,19 +105,16 @@ public class MediaPathTest extends InstrumentationTestCase {
 		brickList1.add(new IfStartedBrick(sprite, script));
 
 		SetCostumeBrick costumeBrick = new SetCostumeBrick(sprite);
-		File image = Utils.saveFileToProject(projectName, "testimage.png", IMAGE_FILE_ID, getInstrumentation()
-				.getContext(), 0);
-		costumeBrick.setCostume(image.getName());
+
+		costumeBrick.setCostume(testImage.getName());
 
 		PlaySoundBrick soundBrick = new PlaySoundBrick(sprite);
-		File soundFile = Utils.saveFileToProject(projectName, "sound", SOUND_FILE_ID, getInstrumentation()
-				.getContext(), 1);
-		soundBrick.setPathToSoundfile(soundFile.getName());
+		soundBrick.setPathToSoundfile(testSound.getName());
 
-		project.getFileChecksumContainer().addChecksum(StorageHandler.getInstance().getMD5Checksum(image),
-				image.getAbsolutePath());
-		project.getFileChecksumContainer().addChecksum(StorageHandler.getInstance().getMD5Checksum(soundFile),
-				soundFile.getAbsolutePath());
+		project.getFileChecksumContainer().addChecksum(StorageHandler.getInstance().getMD5Checksum(testImage),
+				testImage.getAbsolutePath());
+		project.getFileChecksumContainer().addChecksum(StorageHandler.getInstance().getMD5Checksum(testSound),
+				testSound.getAbsolutePath());
 
 		brickList2.add(new IfTouchedBrick(sprite, touchedScript));
 		brickList2.add(new PlaceAtBrick(sprite, 50, 50));
@@ -114,7 +135,6 @@ public class MediaPathTest extends InstrumentationTestCase {
 
 		StorageHandler.getInstance().saveProject(project);
 		String spf = StorageHandler.getInstance().getProjectfileAsString(projectName);
-		System.out.println(spf);
 
 		String spfWithoutHeader = spf.split("</fileChecksumContainer>")[1];
 
@@ -122,10 +142,6 @@ public class MediaPathTest extends InstrumentationTestCase {
 		assertFalse("project contains IMAGE_DIRECTORY", spfWithoutHeader.contains(Consts.IMAGE_DIRECTORY));
 		assertFalse("project contains SOUND_DIRECTORY", spfWithoutHeader.contains(Consts.SOUND_DIRECTORY));
 		assertFalse("project contains sdcard/", spfWithoutHeader.contains("sdcard/"));
-		projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
-		}
 
 	}
 

@@ -1,16 +1,20 @@
 package at.tugraz.ist.catroid.test.util;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import android.content.Context;
 import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class Utils {
+
+	public static final int TYPE_IMAGE_FILE = 0;
+	public static final int TYPE_SOUND_FILE = 1;
 
 	/**
 	 * saves a file into the project folder
@@ -47,23 +51,23 @@ public class Utils {
 					break;
 			}
 		}
-		BufferedInputStream in = new BufferedInputStream(context.getResources().openRawResource(fileID));
+		//		BufferedInputStream in = new BufferedInputStream(context.getResources().openRawResource(fileID));
+		//
+		//		File file = new File(filePath);
+		//		file.createNewFile();
+		//
+		//		BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file), 1024);
+		//		byte[] buffer = new byte[1024];
+		//		int length = 0;
+		//		while ((length = in.read(buffer)) > 0) {
+		//			out.write(buffer, 0, length);
+		//		}
+		//
+		//		in.close();
+		//		out.flush();
+		//		out.close();
 
-		File file = new File(filePath);
-		file.createNewFile();
-
-		BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file), 1024);
-		byte[] buffer = new byte[1024];
-		int length = 0;
-		while ((length = in.read(buffer)) > 0) {
-			out.write(buffer, 0, length);
-		}
-
-		in.close();
-		out.flush();
-		out.close();
-
-		return file;
+		return createTestMediaFile(filePath, fileID, context);
 	}
 
 	public static boolean clearProject(String projectname) {
@@ -72,6 +76,31 @@ public class Utils {
 			return UtilFile.deleteDirectory(directory);
 		}
 		return false;
+	}
+
+	public static File createTestMediaFile(String filePath, int fileID, Context context) throws IOException {
+
+		File testImage = new File(filePath);
+
+		if (!testImage.exists()) {
+			testImage.createNewFile();
+		}
+
+		InputStream in = context.getResources().openRawResource(fileID);
+		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage));
+
+		byte[] buffer = new byte[1024];
+		int length = 0;
+
+		while ((length = in.read(buffer)) > 0) {
+			out.write(buffer, 0, length);
+		}
+
+		in.close();
+		out.flush();
+		out.close();
+
+		return testImage;
 	}
 
 }

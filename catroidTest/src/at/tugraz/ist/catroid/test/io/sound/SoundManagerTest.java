@@ -18,51 +18,30 @@
  */
 package at.tugraz.ist.catroid.test.io.sound;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import android.media.MediaPlayer;
 import android.test.InstrumentationTestCase;
+import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.test.R;
+import at.tugraz.ist.catroid.test.util.Utils;
 
 public class SoundManagerTest extends InstrumentationTestCase {
+	private static final int LONG_TEST_SOUND = R.raw.longtestsound;
+	private static final int TEST_SOUND = R.raw.testsound;
 	private File soundFile;
 	private File longSoundFile;
 
 	@Override
 	protected void setUp() throws Exception {
-		// Note: Files need to be copied as MediaPlayer has no access to resources
-		BufferedInputStream inputStream = new BufferedInputStream(getInstrumentation().getContext().getResources()
-				.openRawResource(R.raw.testsound));
-		soundFile = File.createTempFile("testSound", ".mp3");
-		BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(soundFile), 1024);
+		soundFile = Utils.createTestMediaFile(Consts.DEFAULT_ROOT + "testSound.mp3", TEST_SOUND,
+				getInstrumentation().getContext());
 
-		byte[] buffer = new byte[1024];
-		int length = 0;
-		while ((length = inputStream.read(buffer)) > 0) {
-			outputStream.write(buffer, 0, length);
-		}
-		inputStream.close();
-		outputStream.flush();
-		outputStream.close();
-
-		inputStream = new BufferedInputStream(getInstrumentation().getContext().getResources()
-				.openRawResource(R.raw.longtestsound));
-		longSoundFile = File.createTempFile("longTestSound", ".mp3");
-		outputStream = new BufferedOutputStream(new FileOutputStream(longSoundFile), 1024);
-
-		length = 0;
-		while ((length = inputStream.read(buffer)) > 0) {
-			outputStream.write(buffer, 0, length);
-		}
-		inputStream.close();
-		outputStream.flush();
-		outputStream.close();
+		longSoundFile = Utils.createTestMediaFile(Consts.DEFAULT_ROOT + "longTestSound.mp3", LONG_TEST_SOUND,
+				getInstrumentation().getContext());
 	}
 
 	@Override

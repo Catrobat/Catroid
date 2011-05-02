@@ -18,20 +18,19 @@
  */
 package at.tugraz.ist.catroid.test.content.brick;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
 
-import android.graphics.BitmapFactory;
-import android.os.Environment;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.Values;
+import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.R;
+import at.tugraz.ist.catroid.test.util.Utils;
+import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class ScaleCostumeBrickTest extends InstrumentationTestCase {
 
@@ -40,38 +39,34 @@ public class ScaleCostumeBrickTest extends InstrumentationTestCase {
 	private final double scaleToSmall = .00001;
 
 	private static final int IMAGE_FILE_ID = R.raw.icon;
+
 	private File testImage;
-	int width;
-	int height;
+	private final String projectName = "testProject";
 
 	@Override
 	protected void setUp() throws Exception {
-		File sdCard = Environment.getExternalStorageDirectory();
-		testImage = new File(sdCard.getAbsolutePath() + "/catroid/testImage.png");
 
-		if (!testImage.exists()) {
-			testImage.createNewFile();
+		File defProject = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+
+		if (defProject.exists()) {
+			UtilFile.deleteDirectory(defProject);
 		}
 
-		InputStream in = getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID);
-		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage));
+		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
+		StorageHandler.getInstance().saveProject(project);
+		ProjectManager.getInstance().setProject(project);
 
-		byte[] buffer = new byte[1024];
-		int length = 0;
-		while ((length = in.read(buffer)) > 0) {
-			out.write(buffer, 0, length);
+		testImage = Utils.saveFileToProject(this.projectName, "testImage.png", IMAGE_FILE_ID,
+				getInstrumentation().getContext(), Utils.TYPE_IMAGE_FILE);
+	}
+
+	@Override
+	protected void tearDown() throws Exception {
+		File defProject = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+
+		if (defProject.exists()) {
+			UtilFile.deleteDirectory(defProject);
 		}
-
-		in.close();
-		out.flush();
-		out.close();
-
-		BitmapFactory.Options o = new BitmapFactory.Options();
-		o.inJustDecodeBounds = true;
-		BitmapFactory.decodeFile(sdCard.getAbsolutePath() + "/catroid/testImage.png", o);
-
-		width = o.outWidth;
-		height = o.outHeight;
 	}
 
 	public void testScale() {
