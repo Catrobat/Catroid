@@ -51,6 +51,7 @@ import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
 import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class ScriptActivity extends Activity implements OnDismissListener, OnCancelListener {
 	private BrickAdapter adapter;
@@ -145,6 +146,9 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	@Override
 	protected void onResume() {
 		super.onResume();
+		if (!Utils.checkForSdCard(this)) {
+			return;
+		}
 	}
 
 	public void onDismiss(DialogInterface dialog) {

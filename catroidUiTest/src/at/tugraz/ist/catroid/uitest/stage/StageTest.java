@@ -137,8 +137,8 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		solo.clickOnButton(1);
 		Thread.sleep(2000);
 		Costume costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
-		assertEquals("some image is set", (Integer) this.image2Width, costume.getImageWidthHeight().first);
-		assertEquals("some image is set", (Integer) this.image2Height, costume.getImageWidthHeight().second);
+		assertEquals("a wrong image is set", (Integer) this.image2Width, costume.getImageWidthHeight().first);
+		assertEquals("a wrong image is set", (Integer) this.image2Height, costume.getImageWidthHeight().second);
 
 		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2); // click in se middle
 
@@ -205,23 +205,26 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		solo.clickOnButton(1);
 		Thread.sleep(2000);
 		Costume costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
-		int clickWidth = (Values.SCREEN_WIDTH - costume.getBitmap().getWidth()) / 2 + 4;
+		int costumeWidth = costume.getBitmap().getWidth();
+		int costumeHeight = costume.getBitmap().getHeight();
+		int clickWidth = (Values.SCREEN_WIDTH - costumeWidth) / 2 + 4;
 		int clickHeight = Values.SCREEN_HEIGHT / 2;
 		System.out.println("click: " + clickWidth + " " + clickHeight);
 		clickOnScreenAndReturn(clickWidth, clickHeight, image2Width, image2Height);
 
 		clickWidth = (Values.SCREEN_WIDTH / 2);
-		clickHeight = (Values.SCREEN_HEIGHT - costume.getBitmap().getHeight()) / 2 + 4;
-		System.out.println("click: " + clickWidth + " " + clickHeight);
+		clickHeight = (Values.SCREEN_HEIGHT - costumeHeight) / 2 + 18;
+		System.out.println("click: " + clickWidth + " " + clickHeight + " SCREEN:" + Values.SCREEN_WIDTH + " "
+				+ Values.SCREEN_HEIGHT);
 		clickOnScreenAndReturn(clickWidth, clickHeight, image2Width, image2Height);
 
-		clickWidth = (Values.SCREEN_WIDTH / 2);
-		clickHeight = ((Values.SCREEN_HEIGHT - costume.getBitmap().getHeight()) / 2) + costume.getBitmap().getHeight()
+		clickWidth = (Values.SCREEN_WIDTH / 2 + 15);
+		clickHeight = ((Values.SCREEN_HEIGHT - costumeHeight) / 2) + costumeHeight
 				- 4;
 		System.out.println("click: " + clickWidth + " " + clickHeight);
 		clickOnScreenAndReturn(clickWidth, clickHeight, image2Width, image2Height);
 
-		clickWidth = ((Values.SCREEN_WIDTH - costume.getBitmap().getWidth()) / 2) + costume.getBitmap().getWidth() - 4;
+		clickWidth = ((Values.SCREEN_WIDTH - costumeWidth) / 2) + costumeWidth - 4;
 		clickHeight = (Values.SCREEN_HEIGHT / 2);
 		System.out.println("click: " + clickWidth + " " + clickHeight);
 		clickOnScreenAndReturn(clickWidth, clickHeight, image2Width, image2Height);
@@ -316,7 +319,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		assertTrue("Media player is not playing after pause", mediaPlayer.isPlaying());
 	}
 
-	public void testMediaPlayerNotPlayerAfterPause() throws IOException, InterruptedException {
+	public void testMediaPlayerNotPlayingAfterPause() throws IOException, InterruptedException {
 		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
 
 		this.createTestProjectWithSound();

@@ -152,4 +152,12 @@ public class StageActivity extends Activity {
 			stagePlaying = true;
 		}
 	}
+
+	@Override
+	protected void onResume() {
+		if (!Utils.checkForSdCard(this)) {
+			return;
+		}
+		super.onResume();
+	}
 }
