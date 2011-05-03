@@ -50,8 +50,9 @@ import com.jayway.android.robotium.solo.Solo;
 public class Utils {
 	private static final int WAIT_TIME_IN_MILLISECONDS = 50;
 	private static final String TAG = "UiTestUtils";
-	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
+	private static ProjectManager projectManager = ProjectManager.getInstance();
 
+	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
 	public static final int TYPE_IMAGE_FILE = 0;
 	public static final int TYPE_SOUND_FILE = 1;
 
@@ -121,21 +122,32 @@ public class Utils {
 		brickList.add(new ComeToFrontBrick(firstSprite));
 		brickList.add(new PlaceAtBrick(firstSprite, xPosition, yPosition));
 
-		// adding Bricks: ----------------
 		for (Brick brick : brickList) {
 			testScript.addBrick(brick);
 		}
-		// -------------------------------
 
 		firstSprite.getScriptList().add(testScript);
 
 		project.addSprite(firstSprite);
 
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(firstSprite);
-		ProjectManager.getInstance().setCurrentScript(testScript);
+		projectManager.setProject(project);
+		projectManager.setCurrentSprite(firstSprite);
+		projectManager.setCurrentScript(testScript);
 
 		return brickList;
+	}
+
+	public static void createEmptyProject() {
+		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
+		Sprite firstSprite = new Sprite("cat");
+		Script testScript = new Script("testscript", firstSprite);
+
+		firstSprite.getScriptList().add(testScript);
+		project.addSprite(firstSprite);
+
+		projectManager.setProject(project);
+		projectManager.setCurrentSprite(firstSprite);
+		projectManager.setCurrentScript(testScript);
 	}
 
 	/**

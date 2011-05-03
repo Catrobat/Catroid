@@ -78,7 +78,7 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 
 		solo.sleep(1000);
 
-		TextView newProject = (TextView) solo.getCurrentActivity().findViewById(R.id.projectTitleTextView);
+		TextView newProject = (TextView) solo.getCurrentActivity().findViewById(R.id.project_title_text_view);
 
 		assertEquals("New Project is not testingproject!", "Project: " + testingproject, newProject.getText());
 

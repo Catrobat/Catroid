@@ -53,7 +53,7 @@ public class ProjectActivity extends Activity {
 		adapterSpriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		adapter = new ArrayAdapter<Sprite>(this, android.R.layout.simple_list_item_1, adapterSpriteList);
 
-		listView = (ListView) findViewById(R.id.spriteListView);
+		listView = (ListView) findViewById(R.id.sprite_list_view);
 		listView.setAdapter(adapter);
 		registerForContextMenu(listView);
 		listView.setOnItemClickListener(new ListView.OnItemClickListener() {
@@ -64,14 +64,14 @@ public class ProjectActivity extends Activity {
 			}
 		});
 
-		Button mainMenuButton = (Button) findViewById(R.id.mainMenuButton);
+		Button mainMenuButton = (Button) findViewById(R.id.main_menu_button);
 		mainMenuButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				finish();
 			}
 		});
 
-		Button NewSpriteButton = (Button) findViewById(R.id.addSpriteButton);
+		Button NewSpriteButton = (Button) findViewById(R.id.add_sprite_button);
 		NewSpriteButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				showDialog(Consts.DIALOG_NEW_SPRITE);
@@ -133,7 +133,7 @@ public class ProjectActivity extends Activity {
 	}
 
 	private void updateTextAndAdapter() {
-		TextView currentProjectTextView = (TextView) findViewById(R.id.projectTitleTextView);
+		TextView currentProjectTextView = (TextView) findViewById(R.id.project_title_text_view);
 		currentProjectTextView.setText(this.getString(R.string.project_name) + " "
 				+ ProjectManager.getInstance().getCurrentProject().getName());
 		adapter.notifyDataSetChanged();

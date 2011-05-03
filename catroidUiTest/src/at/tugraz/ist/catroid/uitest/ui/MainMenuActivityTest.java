@@ -153,7 +153,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		solo.clickOnButton(getActivity().getString(R.string.load_project));
 		solo.clickOnText(testProject2);
-		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.spriteListView);
+		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.sprite_list_view);
 		Sprite first = (Sprite) spritesList.getItemAtPosition(1);
 		assertEquals("Sprite at index 1 is not \"cat\"!", "cat", first.getName());
 		Sprite second = (Sprite) spritesList.getItemAtPosition(2);
@@ -181,12 +181,12 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		solo.clickOnButton(getActivity().getString(R.string.resume));
 
-		TextView projectTitle = (TextView) solo.getCurrentActivity().findViewById(R.id.projectTitleTextView);
+		TextView projectTitle = (TextView) solo.getCurrentActivity().findViewById(R.id.project_title_text_view);
 
 		assertEquals("Project title is not " + testProject3, getActivity().getString(R.string.project_name)
 				+ " " + testProject3, projectTitle.getText());
 
-		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.spriteListView);
+		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.sprite_list_view);
 		Sprite first = (Sprite) spritesList.getItemAtPosition(1);
 		assertEquals("Sprite at index 1 is not \"cat\"!", "cat", first.getName());
 		Sprite second = (Sprite) spritesList.getItemAtPosition(2);

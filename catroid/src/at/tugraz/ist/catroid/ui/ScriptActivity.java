@@ -34,7 +34,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -58,11 +58,10 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	private DragNDropListView listView;
 	private Sprite sprite;
 	private Script scriptToEdit;
-	private final static int DELETE = 0;
 
 	private void initListeners() {
 		sprite = ProjectManager.getInstance().getCurrentSprite();
-		listView = (DragNDropListView) findViewById(R.id.brickListView);
+		listView = (DragNDropListView) findViewById(R.id.brick_list_view);
 		adapter = new BrickAdapter(this, ProjectManager.getInstance().getCurrentSprite(), listView);
 		if (adapter.getGroupCount() > 0) {
 			ProjectManager.getInstance().setCurrentScript(adapter.getGroup(adapter.getGroupCount() - 1));
@@ -73,12 +72,13 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		listView.setOnDropListener(adapter);
 		listView.setOnRemoveListener(adapter);
 		listView.setAdapter(adapter);
+		// Sets scroll behavior. TODO: Find a better way to do it.
 		//listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
 		listView.setGroupIndicator(null);
 		listView.setOnGroupClickListener(adapter);
 		registerForContextMenu(listView);
 
-		Button mainMenuButton = (Button) findViewById(R.id.mainMenuButton);
+		Button mainMenuButton = (Button) findViewById(R.id.main_menu_button);
 		mainMenuButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent(ScriptActivity.this, MainMenuActivity.class);
@@ -95,7 +95,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 			}
 		});
 
-		Button addBrickButton = (Button) findViewById(R.id.addBrickButton);
+		Button addBrickButton = (Button) findViewById(R.id.add_brick_button);
 		addBrickButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				showDialog(Consts.DIALOG_ADD_BRICK);
@@ -200,7 +200,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		}
 	}
 
-	public String getPathFromContentUri(Uri uri) {
+	private String getPathFromContentUri(Uri uri) {
 		String[] projection = { MediaStore.Images.Media.DATA };
 		Cursor cursor = managedQuery(uri, projection, null, null, null);
 		int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
@@ -214,7 +214,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
-		if (view.getId() == R.id.brickListView) {
+		if (view.getId() == R.id.brick_list_view) {
 			ExpandableListView.ExpandableListContextMenuInfo info =
 					(ExpandableListView.ExpandableListContextMenuInfo) menuInfo;
 			menu.setHeaderTitle("Script Menu");
@@ -226,25 +226,27 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 			int position = ExpandableListView.getPackedPositionGroup(info.packedPosition);
 			scriptToEdit = adapter.getGroup(position);
 
-			menu.add(Menu.NONE, 0, 0, this.getString(R.string.delete_script_button));
+			MenuInflater inflater = getMenuInflater();
+			inflater.inflate(R.menu.script_menu, menu);
 		}
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case DELETE:
+			case R.id.script_menu_delete: {
 				sprite.getScriptList().remove(scriptToEdit);
 				if (sprite.getScriptList().isEmpty()) {
 					ProjectManager.getInstance().setCurrentScript(null);
 					adapter.notifyDataSetChanged();
-					return false;
+					return true;
 				}
 				int lastScriptIndex = sprite.getScriptList().size() - 1;
 				Script lastScript = sprite.getScriptList().get(lastScriptIndex);
 				ProjectManager.getInstance().setCurrentScript(lastScript);
 				adapter.notifyDataSetChanged();
 				listView.expandGroup(adapter.getGroupCount() - 1);
+			}
 		}
 		return true;
 	}

@@ -26,6 +26,8 @@
 		android:versionName="1.0">
     <application>
 		<uses-library android:name="android.test.runner" />
+		<activity
+			android:name=".mockups.MockGalleryActivity" />
     </application>
     
     <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="8"/>
