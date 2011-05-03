@@ -40,6 +40,7 @@ import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.NewSpriteDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameSpriteDialog;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class ProjectActivity extends Activity {
 
@@ -112,6 +113,9 @@ public class ProjectActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		if (!Utils.checkForSdCard(this)) {
+			return;
+		}
 		removeDialog(Consts.DIALOG_RENAME_SPRITE);
 		updateTextAndAdapter();
 	}

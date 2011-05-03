@@ -62,6 +62,7 @@ public class CanvasDraw implements IDraw {
 	private Bitmap screenshotIcon;
 	private int screenshotIconPosX;
 	private Activity activity;
+	ArrayList<Sprite> sprites;
 
 	public CanvasDraw(Activity activity) {
 		super();
@@ -77,6 +78,7 @@ public class CanvasDraw implements IDraw {
 		flushRectangle = new Rect(0, 0, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
 		screenshotIcon = BitmapFactory.decodeResource(activity.getResources(), R.drawable.screenshot);
 		screenshotIconPosX = Values.SCREEN_WIDTH - screenshotIcon.getWidth() - Consts.SCREENSHOT_ICON_PADDING_RIGHT;
+		sprites = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
 	}
 
 	public synchronized boolean draw() {
@@ -85,8 +87,6 @@ public class CanvasDraw implements IDraw {
 			if (canvas == null) {
 				throw new Exception();
 			}
-			ArrayList<Sprite> sprites = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
-					.getSpriteList();
 
 			// draw white rectangle:
 			bufferCanvas.drawRect(flushRectangle, whitePaint);

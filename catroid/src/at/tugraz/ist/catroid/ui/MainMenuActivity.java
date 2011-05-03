@@ -38,6 +38,7 @@ import at.tugraz.ist.catroid.ui.dialogs.AboutDialog;
 import at.tugraz.ist.catroid.ui.dialogs.LoadProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.UploadProjectDialog;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class MainMenuActivity extends Activity {
 	private static final String PREFS_NAME = "at.tugraz.ist.catroid";
@@ -173,6 +174,9 @@ public class MainMenuActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		if (!Utils.checkForSdCard(this)) {
+			return;
+		}
 		if (projectManager.getCurrentProject() == null) {
 			return;
 		}
