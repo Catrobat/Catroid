@@ -32,8 +32,8 @@
 		android:layout_weight="0"
 	>
 		<TextView
+			android:id="@+id/script_name_text_view"
 			android:text="@string/script_name"
-			android:id="@+id/scriptNameTextView"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
@@ -49,8 +49,8 @@
 		>
 		</Button>
 		<Button
+			android:id="@+id/main_menu_button"
 			android:text="@string/main_menu"
-			android:id="@+id/mainMenuButton"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_weight="0"
@@ -66,8 +66,8 @@
 		android:layout_weight="1"
 	>
 		<TextView
+			android:id="@+id/brick_list_label"
 			android:text="@string/brick_list"
-			android:id="@+id/brickListLabel"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			android:textSize="14dip"
@@ -77,9 +77,9 @@
 			android:layout_height="wrap_content"
 		>
 			<at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView
+				android:id="@+id/brick_list_view"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
-				android:id="@+id/brickListView"
 				android:drawSelectorOnTop="false"
 				android:fastScrollEnabled="true"
 				android:clickable="false"
@@ -97,7 +97,7 @@
 	</LinearLayout>
 	<!-- Add brick button -->
 	<Button
-		android:id="@+id/addBrickButton"
+		android:id="@+id/add_brick_button"
 		android:text="@string/add_new_brick"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"

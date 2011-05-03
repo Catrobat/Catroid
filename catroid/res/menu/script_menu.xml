@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <!-- 
  *  Catroid: An on-device graphical programming language for Android devices
@@ -18,14 +18,10 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
-
+ 
 <menu
   xmlns:android="http://schemas.android.com/apk/res/android">
-<item android:title="@string/construction_site_play" android:id="@+id/play"></item>
-<item android:title="@string/reset" android:id="@+id/reset"></item>
-<item android:title="@string/new_project" android:id="@+id/newProject"></item>
-<item android:id="@+id/load" android:title="@string/load"></item>
-<item android:id="@+id/changeProject" android:title="@string/change_project_name_main"></item>
-<item android:id="@+id/aboutCatroid" android:title="@string/about"></item>
-<item android:id="@+id/uploadProject" android:title="@string/upload_project"></item>
+  <item
+  	android:id="@+id/script_menu_delete"
+	android:title="@string/delete" />
 </menu>

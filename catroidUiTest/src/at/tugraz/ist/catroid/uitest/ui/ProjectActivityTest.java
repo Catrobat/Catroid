@@ -76,7 +76,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		final String spriteName = "testSprite";
 		addNewSprite(spriteName);
 
-		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.spriteListView);
+		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.sprite_list_view);
 		Sprite secondSprite = (Sprite) spritesList.getItemAtPosition(1);
 		assertEquals("Sprite at index 1 is not " + spriteName, spriteName, secondSprite.getName());
 		assertTrue("Sprite is not in current Project", ProjectManager.getInstance().getCurrentProject().getSpriteList()
@@ -84,7 +84,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		final String spriteName2 = "anotherTestSprite";
 		addNewSprite(spriteName2);
-		spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.spriteListView);
+		spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.sprite_list_view);
 		Sprite thirdSprite = (Sprite) spritesList.getItemAtPosition(2);
 		assertEquals("Sprite at index 2 is not " + spriteName2, spriteName2, thirdSprite.getName());
 		assertTrue("Sprite is not in current Project", ProjectManager.getInstance().getCurrentProject().getSpriteList()
@@ -127,7 +127,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickOnButton(getActivity().getString(R.string.rename_button));
 		Thread.sleep(50);
 
-		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.spriteListView);
+		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.sprite_list_view);
 		Sprite sprite = (Sprite) spritesList.getItemAtPosition(1);
 		assertEquals("Sprite on position wasn't renamed correctly", newSpriteName, sprite.getName());
 
@@ -142,7 +142,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 				.contains(sprite));
 		assertFalse("Sprite is still in Project", solo.searchText(newSpriteName));
 
-		spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.spriteListView);
+		spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.sprite_list_view);
 		Sprite sprite2 = (Sprite) spritesList.getItemAtPosition(1);
 		assertEquals("Subsequent sprite was not moved up after predecessor's deletion", spriteName2, sprite2.getName());
 	}
