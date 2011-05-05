@@ -65,8 +65,10 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		Utils.insertIntegerIntoEditText(solo, yPositionEditTextId, yPosition);
 		solo.sendKey(Solo.ENTER);
 
-		assertEquals(xPosition + "", solo.getEditText(xPositionEditTextId).getText().toString());
-		assertEquals(yPosition + "", solo.getEditText(yPositionEditTextId).getText().toString());
+		assertEquals("Wrong value in X-Position EditText", xPosition + "", solo.getEditText(xPositionEditTextId)
+				.getText().toString());
+		assertEquals("Wrong value in Y-Position EditText", yPosition + "", solo.getEditText(yPositionEditTextId)
+				.getText().toString());
 	}
 
 	public void testDoubleDialog() {
@@ -78,7 +80,8 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		Utils.insertDoubleIntoEditText(solo, waitEditTextId, wait);
 		solo.sendKey(Solo.ENTER);
 
-		assertEquals(wait + "", solo.getEditText(waitEditTextId).getText().toString());
+		assertEquals("Wrong value in WaitBrick EditText", wait + "", solo.getEditText(waitEditTextId).getText()
+				.toString());
 	}
 
 	public void testEmptyEditDoubleDialog() {
@@ -87,14 +90,16 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		int editTextId = solo.getCurrentEditTexts().size() - 1;
 
 		solo.clickOnEditText(editTextId);
-		Utils.pause();
-		System.out.println(solo.getCurrentEditTexts().size());
+		solo.sleep(50);
+
 		solo.clearEditText(0);
 		assertTrue("Toast with warning was not found",
 				solo.searchText(getActivity().getString(R.string.notification_invalid_text_entered)));
-		assertFalse(solo.getButton(0).isEnabled());
+		assertFalse(solo.getButton(getActivity().getString(R.string.ok)).isEnabled());
 
 		solo.enterText(0, ".");
+		assertTrue("Toast with warning was not found",
+				solo.searchText(getActivity().getString(R.string.notification_invalid_text_entered)));
 		assertFalse(solo.getButton(0).isEnabled());
 	}
 
@@ -104,7 +109,8 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		int editTextId = solo.getCurrentEditTexts().size() - 1;
 
 		solo.clickOnEditText(editTextId);
-		Utils.pause();
+		solo.sleep(50);
+
 		solo.clearEditText(0);
 		assertTrue("Toast with warning was not found",
 				solo.searchText(getActivity().getString(R.string.notification_invalid_text_entered)));

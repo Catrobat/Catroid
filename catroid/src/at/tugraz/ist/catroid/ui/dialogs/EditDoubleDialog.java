@@ -26,7 +26,6 @@ import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -46,8 +45,7 @@ public class EditDoubleDialog extends EditDialog implements OnClickListener {
 		editText.setText(String.valueOf(value));
 		editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
-		Button closeButton = (Button) findViewById(R.id.dialogEditTextSubmit);
-		closeButton.setOnClickListener(this);
+		okButton.setOnClickListener(this);
 
 		this.setOnKeyListener(new OnKeyListener() {
 
@@ -80,7 +78,7 @@ public class EditDoubleDialog extends EditDialog implements OnClickListener {
 	}
 
 	public void onClick(View v) {
-		if (v.getId() == R.id.dialogEditText) {
+		if (v.getId() == R.id.dialog_edit_dialog_edit_text) {
 			editText.selectAll();
 		} else if (v.getId() == referencedEditText.getId()) {
 			show();
