@@ -18,8 +18,6 @@
  */
 package at.tugraz.ist.catroid.uitest.mockups;
 
-import java.io.File;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -28,7 +26,7 @@ import android.net.Uri;
  * A mock gallery activity that simply returns an image file from the drawable resources.
  */
 public class MockGalleryActivity extends Activity {
-	private static final String RESOURCE_LOCATION = "res/drawable/catroid_sunglasses";
+	private static final String RESOURCE_LOCATION = "drawable/catroid_sunglasses";
 
 	@Override
 	protected void onCreate(android.os.Bundle savedInstanceState) {
@@ -38,11 +36,13 @@ public class MockGalleryActivity extends Activity {
 
 	@Override
 	protected void onDestroy() {
+		Uri imageUri = Uri.parse(Uri.encode(RESOURCE_LOCATION));
+
+		//		if (!resourceFile.exists() || !resourceFile.canRead()) {
+		//			throw new RuntimeException("Could not open resource file: " + resourceFile.getAbsolutePath());
+		//		}
 		Intent resultIntent = new Intent();
-		File resourceFile = new File(RESOURCE_LOCATION);
-		if (!resourceFile.exists() || !resourceFile.canRead())
-			throw new RuntimeException("Could not open resource file: " + resourceFile.getAbsolutePath());
-		resultIntent.setData(Uri.fromFile(resourceFile));
+		resultIntent.setData(imageUri);
 
 		setResult(RESULT_OK, resultIntent);
 		super.onDestroy();

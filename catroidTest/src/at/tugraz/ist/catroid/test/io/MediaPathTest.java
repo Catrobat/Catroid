@@ -55,25 +55,33 @@ public class MediaPathTest extends InstrumentationTestCase {
 	private Project project;
 	private File testImage;
 	private File testSound;
-	private String projectName = "testProject";
+	private File testImageCopy;
+	private File testSoundCopy;
+	private String imageName = "testImage.png";
+	private String soundName = "testSound.mp3";
+	private String projectName = "testProject3";
 
 	@Override
 	protected void setUp() throws Exception {
 
-		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
-		}
+		Utils.clearProject(projectName);
 
 		project = new Project(getInstrumentation().getTargetContext(), projectName);
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
-		testImage = Utils.saveFileToProject(projectName, "testImage.png", IMAGE_FILE_ID, getInstrumentation()
+		Project mockProject = new Project(getInstrumentation().getTargetContext(), "mockProject");
+		StorageHandler.getInstance().saveProject(mockProject);
+
+		testImage = Utils.saveFileToProject(projectName, imageName, IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), Utils.TYPE_IMAGE_FILE);
 
-		testSound = Utils.saveFileToProject(projectName, "testSound.mp3", SOUND_FILE_ID, getInstrumentation()
+		testImageCopy = StorageHandler.getInstance().copyImage(projectName, testImage.getAbsolutePath());
+
+		testSound = Utils.saveFileToProject(projectName, soundName, SOUND_FILE_ID, getInstrumentation()
 				.getContext(), Utils.TYPE_SOUND_FILE);
+
+		testSoundCopy = StorageHandler.getInstance().copySoundFile(testSound.getAbsolutePath());
 	}
 
 	@Override
@@ -87,7 +95,47 @@ public class MediaPathTest extends InstrumentationTestCase {
 	}
 
 	public void testPathsInSpfFile() throws IOException {
+		createProjectWithAllBricksAndMediaFiles();
+		String spf = StorageHandler.getInstance().getProjectfileAsString(projectName);
 
+		assertFalse("project contains DEFAULT_ROOT", spf.contains(Consts.DEFAULT_ROOT));
+		assertFalse("project contains IMAGE_DIRECTORY", spf.contains(Consts.IMAGE_DIRECTORY));
+		assertFalse("project contains SOUND_DIRECTORY", spf.contains(Consts.SOUND_DIRECTORY));
+		assertFalse("project contains sdcard/", spf.contains("sdcard/"));
+	}
+
+	public void testFilenameChecksum() throws IOException {
+		createProjectWithAllBricksAndMediaFiles();
+		String spf = StorageHandler.getInstance().getProjectfileAsString(projectName);
+
+		String checksumImage = StorageHandler.getInstance().getMD5Checksum(testImageCopy);
+		String checksumSound = StorageHandler.getInstance().getMD5Checksum(testSoundCopy);
+
+		String expectedImagename = checksumImage + "_" + imageName;
+		String expectedSoundname = checksumSound + "_" + soundName;
+
+		assertTrue("expected image name not in spf", spf.contains(expectedImagename));
+		assertTrue("expected sound name not in spf", spf.contains(expectedSoundname));
+
+		String expectedImagenameTags = ">" + checksumImage + "_" + imageName + "<";
+		String expectedSoundnameTags = ">" + checksumSound + "_" + soundName + "<";
+
+		assertTrue("the imagename is not only the expected name", spf.contains(expectedImagenameTags));
+		assertTrue("the soundname is not only the expected name", spf.contains(expectedSoundnameTags));
+
+		String unexpectedImagenameTags = ">" + imageName + "<";
+		String unexpectedSoundnameTags = ">" + soundName + "<";
+		assertFalse("the imagename has no checksum", spf.contains(unexpectedImagenameTags));
+		assertFalse("the soundname has no checksum", spf.contains(unexpectedSoundnameTags));
+
+		StorageHandler storage = StorageHandler.getInstance();
+		assertEquals("the copy does not equal the original image", storage.getMD5Checksum(testImage),
+				storage.getMD5Checksum(testImageCopy));
+		assertEquals("the copy does not equal the original image", storage.getMD5Checksum(testSound),
+				storage.getMD5Checksum(testSoundCopy));
+	}
+
+	private void createProjectWithAllBricksAndMediaFiles() throws IOException {
 		Sprite sprite = new Sprite("testSprite");
 		Script script = new Script("testScript", sprite);
 		Script touchedScript = new Script("touchedScript", sprite);
@@ -106,15 +154,15 @@ public class MediaPathTest extends InstrumentationTestCase {
 
 		SetCostumeBrick costumeBrick = new SetCostumeBrick(sprite);
 
-		costumeBrick.setCostume(testImage.getName());
+		costumeBrick.setCostume(testImageCopy.getName());
 
 		PlaySoundBrick soundBrick = new PlaySoundBrick(sprite);
-		soundBrick.setPathToSoundfile(testSound.getName());
+		soundBrick.setPathToSoundfile(testSoundCopy.getName());
 
-		project.getFileChecksumContainer().addChecksum(StorageHandler.getInstance().getMD5Checksum(testImage),
-				testImage.getAbsolutePath());
-		project.getFileChecksumContainer().addChecksum(StorageHandler.getInstance().getMD5Checksum(testSound),
-				testSound.getAbsolutePath());
+		project.getFileChecksumContainer().addChecksum(StorageHandler.getInstance().getMD5Checksum(testImageCopy),
+					testImageCopy.getAbsolutePath());
+		project.getFileChecksumContainer().addChecksum(StorageHandler.getInstance().getMD5Checksum(testSoundCopy),
+					testSoundCopy.getAbsolutePath());
 
 		brickList2.add(new IfTouchedBrick(sprite, touchedScript));
 		brickList2.add(new PlaceAtBrick(sprite, 50, 50));
@@ -134,15 +182,6 @@ public class MediaPathTest extends InstrumentationTestCase {
 		}
 
 		StorageHandler.getInstance().saveProject(project);
-		String spf = StorageHandler.getInstance().getProjectfileAsString(projectName);
-
-		String spfWithoutHeader = spf.split("</fileChecksumContainer>")[1];
-
-		assertFalse("project contains DEFAULT_ROOT", spfWithoutHeader.contains(Consts.DEFAULT_ROOT));
-		assertFalse("project contains IMAGE_DIRECTORY", spfWithoutHeader.contains(Consts.IMAGE_DIRECTORY));
-		assertFalse("project contains SOUND_DIRECTORY", spfWithoutHeader.contains(Consts.SOUND_DIRECTORY));
-		assertFalse("project contains sdcard/", spfWithoutHeader.contains("sdcard/"));
-
 	}
 
 }
