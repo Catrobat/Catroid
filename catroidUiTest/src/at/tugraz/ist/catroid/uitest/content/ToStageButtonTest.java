@@ -23,6 +23,7 @@ import java.io.File;
 import java.util.List;
 
 import android.test.ActivityInstrumentationTestCase2;
+import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -45,7 +46,7 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 
 	@Override
 	public void setUp() throws Exception {
-		File directory = new File("/sdcard/catroid/" + projectNameThree);
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectNameThree);
 		UtilFile.deleteDirectory(directory);
 
 		solo = new Solo(getInstrumentation(), getActivity());
@@ -54,7 +55,7 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 
 	@Override
 	public void tearDown() throws Exception {
-		File directory = new File("/sdcard/catroid/" + projectNameThree);
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectNameThree);
 		UtilFile.deleteDirectory(directory);
 		assertFalse(projectNameThree + " was not deleted!", directory.exists());
 
@@ -68,14 +69,14 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 		super.tearDown();
 	}
 
-	public void testToStageButton() throws InterruptedException {
+	public void testToStageButton() {
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
 		solo.clickOnEditText(0);
 		solo.enterText(0, projectNameThree);
 		solo.goBack();
 
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
-		Thread.sleep(500);
+		solo.sleep(500);
 		solo.clickOnText(getActivity().getString(R.string.stage));
 		solo.clickOnButton(getActivity().getString(R.string.construction_site_play));
 
@@ -85,12 +86,12 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		solo.goBack();
 		solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
-		solo.clickOnText(getActivity().getString(R.string.touched_main_adapter));
+		solo.clickOnText(getActivity().getString(R.string.brick_if_touched));
 		solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
 		solo.clickOnText(getActivity().getString(R.string.brick_scale_costume));
 		solo.clickOnButton(getActivity().getString(R.string.construction_site_play));
 
-		Thread.sleep(500);
+		solo.sleep(500);
 		sprite_list = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		assertTrue("Not in stage", solo.getCurrentActivity() instanceof StageActivity);
 		assertEquals("Script list has wrong number of elements", 1, sprite_list.get(0).getScriptList().size());
@@ -98,10 +99,10 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 				sprite_list.get(0).getScriptList().get(0).getBrickList().get(0) instanceof ScaleCostumeBrick);
 
 		solo.goBack();
-		solo.clickLongOnText(getActivity().getString(R.string.touched_main_adapter));
+		solo.clickLongOnText(getActivity().getString(R.string.brick_if_touched));
 		solo.clickOnText(getActivity().getString(R.string.delete_script_button));
 
-		Thread.sleep(500);
+		solo.sleep(500);
 		sprite_list = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		solo.clickOnButton(getActivity().getString(R.string.construction_site_play));
 
@@ -119,7 +120,7 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 		solo.clickOnButton(getActivity().getString(R.string.new_sprite_dialog_button));
 		solo.clickOnText(spriteNameTwo);
 
-		Thread.sleep(500);
+		solo.sleep(500);
 		sprite_list = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		solo.clickOnButton(getActivity().getString(R.string.construction_site_play));
 
@@ -128,12 +129,12 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		solo.goBack();
 		solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
-		solo.clickOnText(getActivity().getString(R.string.touched_main_adapter));
+		solo.clickOnText(getActivity().getString(R.string.brick_if_touched));
 		solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
 		solo.clickOnText(getActivity().getString(R.string.brick_scale_costume));
 		solo.clickOnButton(getActivity().getString(R.string.construction_site_play));
 
-		Thread.sleep(500);
+		solo.sleep(500);
 		sprite_list = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		assertTrue("Not in stage", solo.getCurrentActivity() instanceof StageActivity);
 		assertEquals("Script list has wrong number of elements", 1, sprite_list.get(1).getScriptList().size());
@@ -147,7 +148,7 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 		solo.clickOnText(projectNameThree);
 
 		solo.clickOnText(spriteNameTwo);
-		Thread.sleep(500);
+		solo.sleep(500);
 		sprite_list = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		assertEquals("Script list has wrong number of elements", 1, sprite_list.get(1).getScriptList().size());
 		assertTrue("Is not correct Block",

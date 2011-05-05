@@ -123,7 +123,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 
 	}
 
-	public void testRenameProject() throws NameNotFoundException, IOException, InterruptedException {
+	public void testRenameProject() throws NameNotFoundException, IOException {
 		String oldProjectName = "oldProject";
 		String newProjectName = "newProject";
 		ProjectManager projectManager = ProjectManager.getInstance();

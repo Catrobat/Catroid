@@ -66,7 +66,7 @@ public class ComeToFrontTest extends ActivityInstrumentationTestCase2<ScriptActi
 	}
 
 	@Smoke
-	public void testComeToFrontBrick() throws Throwable {
+	public void testComeToFrontBrick() {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
 		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
@@ -77,8 +77,7 @@ public class ComeToFrontTest extends ActivityInstrumentationTestCase2<ScriptActi
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
 				getActivity().getAdapter().getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist.",
-				solo.getText(getActivity().getString(R.string.come_to_front_main_adapter)));
+		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_come_to_front)));
 	}
 
 	private void createProject() {

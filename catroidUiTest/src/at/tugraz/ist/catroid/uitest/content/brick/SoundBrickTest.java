@@ -27,6 +27,7 @@ import java.util.ArrayList;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
+import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.SoundInfo;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.Project;
@@ -82,7 +83,7 @@ public class SoundBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 	}
 
 	@Smoke
-	public void testPlaySoundBrick() throws Throwable {
+	public void testPlaySoundBrick() {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
 		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
@@ -91,17 +92,16 @@ public class SoundBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScriptList().get(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
-				groupCount - 1, 0));
-		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(
-				at.tugraz.ist.catroid.R.string.play_sound_main_adapter)));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				getActivity().getAdapter().getChild(groupCount - 1, 0));
+		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_play_sound)));
 
 		assertTrue("Wrong title selected", solo.searchText(selectedTitle));
 		assertTrue("Wrong title selected", solo.searchText(selectedTitle));
 
 		solo.clickOnButton(selectedTitle);
 		solo.clickInList(0);
-		Thread.sleep(500);
+		solo.sleep(500);
 		//assertTrue("Wrong title selected", solo.searchText(title));
 	}
 

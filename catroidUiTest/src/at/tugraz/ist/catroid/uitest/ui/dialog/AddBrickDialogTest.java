@@ -22,8 +22,8 @@ package at.tugraz.ist.catroid.uitest.ui.dialog;
 import java.io.File;
 import java.io.IOException;
 
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.ActivityInstrumentationTestCase2;
+import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.Project;
@@ -31,6 +31,7 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.uitest.util.Utils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -58,77 +59,51 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 		}
 		getActivity().finish();
 
-		File directory = new File("/sdcard/catroid/" + testProject);
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + testProject);
 		UtilFile.deleteDirectory(directory);
 
 		super.tearDown();
 	}
 
-	public void testAddBrickDialog() throws NameNotFoundException, IOException {
+	public void testAddBrickDialog() {
 
 		solo.clickOnButton(getActivity().getString(R.string.load_project));
 
 		solo.clickOnText(testProject);
 		solo.clickInList(2);
 
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.brick_wait));
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.brick_wait));
+		Utils.addNewBrickAndScrollDown(solo, R.string.brick_wait);
 
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.hide_main_adapter));
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.hide_main_adapter));
+		Utils.addNewBrickAndScrollDown(solo, R.string.brick_hide);
 
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.show_main_adapter));
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.show_main_adapter));
+		Utils.addNewBrickAndScrollDown(solo, R.string.brick_show);
 
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.brick_place_at));
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.brick_place_at));
+		Utils.addNewBrickAndScrollDown(solo, R.string.brick_place_at);
 
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.set_x_main_adapter));
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.set_x_main_adapter));
+		Utils.addNewBrickAndScrollDown(solo, R.string.brick_set_x);
 
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.set_y_main_adapter));
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.set_y_main_adapter));
+		Utils.addNewBrickAndScrollDown(solo, R.string.brick_set_y);
 
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.change_x_main_adapter));
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.change_x_main_adapter));
+		Utils.addNewBrickAndScrollDown(solo, R.string.brick_change_x_by);
 
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
-		// solo.scrollDownList(0);
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.change_y_main_adapter));
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.change_y_main_adapter));
+		Utils.addNewBrickAndScrollDown(solo, R.string.brick_change_y_by);
 
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
-		//solo.scrollDownList(1);
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.costume_main_adapter));
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.costume_main_adapter));
+		Utils.addNewBrickAndScrollDown(solo, R.string.brick_set_costume);
 
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.brick_scale_costume));
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.brick_scale_costume));
+		Utils.addNewBrickAndScrollDown(solo, R.string.brick_scale_costume);
 
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
-		solo.scrollDownList(1);
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.go_back_main_adapter));
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.go_back_main_adapter));
+		Utils.addNewBrickAndScrollDown(solo, R.string.brick_go_back);
 
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.come_to_front_main_adapter));
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.come_to_front_main_adapter));
+		Utils.addNewBrickAndScrollDown(solo, R.string.brick_come_to_front);
 
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.play_sound_main_adapter));
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.play_sound_main_adapter));
+		Utils.addNewBrickAndScrollDown(solo, R.string.brick_play_sound);
 
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.touched_main_adapter));
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.touched_main_adapter));
+		Utils.addNewBrickAndScrollDown(solo, R.string.brick_if_touched);
+
+		//TODO: brick_if_started not tested?
+
+		//TODO: This test takes ages but there is not a single assert. Guess what's to do.
+		assertTrue(false);
 	}
 
 	private void createTestProject(String projectName) throws IOException {
