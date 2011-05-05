@@ -64,23 +64,23 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptAct
 		super.tearDown();
 	}
 
-	public void testDeleteScript() throws InterruptedException {
+	public void testDeleteScript() {
 		solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
 		solo.scrollDownList(0);
 		solo.scrollDownList(0);
-		solo.clickOnText(getActivity().getString(R.string.touched_main_adapter));
+		solo.clickOnText(getActivity().getString(R.string.brick_if_touched));
 
-		solo.clickLongOnText(getActivity().getString(R.string.touched_main_adapter));
+		solo.clickLongOnText(getActivity().getString(R.string.brick_if_touched));
 		solo.clickOnText(getActivity().getString(R.string.delete_script_button));
-		Thread.sleep(1000);
+		solo.sleep(1000);
 
 		int numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getScriptList().size();
 		assertEquals("Incorrect number of scripts in scriptList", 1, numberOfScripts);
 		assertEquals("Incorrect number of elements in listView", 4, solo.getCurrentListViews().get(0).getChildCount());
 
-		solo.clickLongOnText(getActivity().getString(R.string.started_main_adapter));
+		solo.clickLongOnText(getActivity().getString(R.string.brick_if_started));
 		solo.clickOnText(getActivity().getString(R.string.delete_script_button));
-		Thread.sleep(1000);
+		solo.sleep(1000);
 
 		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getScriptList().size();
 		assertEquals("Incorrect number of scripts in list", 0, numberOfScripts);
@@ -89,8 +89,8 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptAct
 		solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
 		solo.scrollUpList(0);
 		solo.scrollUpList(0);
-		solo.clickOnText(getActivity().getString(R.string.hide_main_adapter));
-		Thread.sleep(1000);
+		solo.clickOnText(getActivity().getString(R.string.brick_hide));
+		solo.sleep(1000);
 
 		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getScriptList().size();
 		assertEquals("Incorrect number of scripts in scriptList", 1, numberOfScripts);

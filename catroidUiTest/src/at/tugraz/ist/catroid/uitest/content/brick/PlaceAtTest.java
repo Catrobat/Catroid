@@ -70,7 +70,7 @@ public class PlaceAtTest extends ActivityInstrumentationTestCase2<ScriptActivity
 	}
 
 	@Smoke
-	public void testPlaceAtBrick() throws Throwable {
+	public void testPlaceAtBrick() {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
 

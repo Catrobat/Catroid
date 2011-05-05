@@ -67,7 +67,7 @@ public class ScaleCostumeTest extends ActivityInstrumentationTestCase2<ScriptAct
 	}
 
 	@Smoke
-	public void testScaleCostumeBrick() throws Throwable {
+	public void testScaleCostumeBrick() {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
 		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
@@ -87,7 +87,7 @@ public class ScaleCostumeTest extends ActivityInstrumentationTestCase2<ScriptAct
 		solo.enterText(0, newScale + "");
 		solo.clickOnButton(0);
 
-		Thread.sleep(1000);
+		solo.sleep(1000);
 
 		assertEquals("Wrong text in field", newScale, scaleCostumeBrick.getScale());
 		assertEquals("Text not updated", newScale, Double.parseDouble(solo.getEditText(0).getText().toString()));

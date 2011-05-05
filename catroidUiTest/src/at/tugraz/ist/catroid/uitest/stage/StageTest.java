@@ -235,7 +235,8 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		// it is not allowed for the .spf file to change when in stage
 		// add another test when you add new stage buttons
 		createTestproject(projectName);
-		File mySpfFile = new File(Consts.DEFAULT_ROOT + projectName + "/" + projectName + Consts.PROJECT_EXTENTION);
+		File mySpfFile = new File(Consts.DEFAULT_ROOT + "/" + projectName + "/" + projectName
+				+ Consts.PROJECT_EXTENTION);
 
 		solo.clickOnButton(1);
 		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
@@ -243,7 +244,8 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		solo.clickOnButton(0);
 		solo.clickInList(1);
 
-		File mySpfFile2 = new File(Consts.DEFAULT_ROOT + projectName + "/" + projectName + Consts.PROJECT_EXTENTION);
+		File mySpfFile2 = new File(Consts.DEFAULT_ROOT + "/" + projectName + "/" + projectName
+				+ Consts.PROJECT_EXTENTION);
 
 		assertEquals("spf File changed!", mySpfFile.hashCode(), mySpfFile2.hashCode());
 	}

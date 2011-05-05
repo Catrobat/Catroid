@@ -37,62 +37,62 @@ import com.jayway.android.robotium.solo.Solo;
 /**
  * 
  * @author Daniel Burtscher
- *
+ * 
  */
-public class HideTest extends ActivityInstrumentationTestCase2<ScriptActivity>{
+public class HideTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
 
 	public HideTest() {
-		super("at.tugraz.ist.catroid",
-				ScriptActivity.class);
+		super("at.tugraz.ist.catroid", ScriptActivity.class);
 	}
-	
+
 	@Override
-    public void setUp() throws Exception {
+	public void setUp() throws Exception {
 		createProject();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
-	
+
 	@Override
-    public void tearDown() throws Exception {	
-		try {	
+	public void tearDown() throws Exception {
+		try {
 			solo.finalize();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
-		
+
 		getActivity().finish();
 		super.tearDown();
 	}
-	
+
 	@Smoke
-	public void testHideBrick() throws Throwable {
+	public void testHideBrick() {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
-		
+
 		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
-		
+
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScriptList().get(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
-		
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(groupCount-1, 0));
-		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.hide_main_adapter)));
+
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				getActivity().getAdapter().getChild(groupCount - 1, 0));
+		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_hide)));
 	}
-	
+
 	private void createProject() {
 		project = new Project(null, "testProject");
-        Sprite sprite = new Sprite("cat");
-        Script script = new Script("script", sprite);
-        script.addBrick(new HideBrick(sprite));
+		Sprite sprite = new Sprite("cat");
+		Script script = new Script("script", sprite);
+		script.addBrick(new HideBrick(sprite));
 
-        sprite.getScriptList().add(script);
-        project.addSprite(sprite);
-        
-        ProjectManager.getInstance().setProject(project);
-        ProjectManager.getInstance().setCurrentSprite(sprite);
-        ProjectManager.getInstance().setCurrentScript(script);
+		sprite.getScriptList().add(script);
+		project.addSprite(sprite);
+
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(sprite);
+		ProjectManager.getInstance().setCurrentScript(script);
 	}
-	
+
 }

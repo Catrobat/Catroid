@@ -63,7 +63,7 @@ public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 	}
 
 	@Smoke
-	public void testChangeYByBrick() throws Throwable {
+	public void testChangeYByBrick() {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
 
@@ -75,14 +75,14 @@ public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
 				getActivity().getAdapter().getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.change_y_main_adapter)));
+		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_change_y_by)));
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, yToChange + "");
 		solo.clickOnButton(0);
 
-		Thread.sleep(300);
+		solo.sleep(300);
 		assertEquals("Wrong text in field.", yToChange, changeYByBrick.getYMovement());
 		assertEquals("Value in Brick is not updated.", yToChange + "", solo.getEditText(0).getText().toString());
 	}

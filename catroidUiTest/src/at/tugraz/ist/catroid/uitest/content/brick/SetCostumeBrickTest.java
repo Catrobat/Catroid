@@ -72,7 +72,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 
 		solo = new Solo(getInstrumentation(), getActivity());
 
-		Utils.addNewBrickAndScrollDown(solo, R.string.costume_main_adapter);
+		Utils.addNewBrickAndScrollDown(solo, R.string.brick_set_costume);
 		final int setCostumeBrickIndex = brickList.size();
 
 		//setCostumeImageView = solo.getCurrentImageViews().get(imageViewIndex);

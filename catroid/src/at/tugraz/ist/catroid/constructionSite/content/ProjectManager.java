@@ -30,7 +30,7 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.io.StorageHandler;
-import at.tugraz.ist.catroid.utils.Utils;
+import at.tugraz.ist.catroid.utils.Utils; 
 
 public class ProjectManager {
 
