@@ -84,13 +84,21 @@ public class Utils {
 		insertValue(solo, editTextId, value + "");
 	}
 
+	/**
+	 * Clicks on the EditText given by editTextId, inserts the double value and closes the Dialog
+	 * 
+	 * @param editTextId
+	 *            The ID of the EditText to click on
+	 * @param value
+	 *            The value you want to put into the EditText
+	 */
 	public static void insertDoubleIntoEditText(Solo solo, int editTextId, double value) {
 		insertValue(solo, editTextId, value + "");
 	}
 
 	private static void insertValue(Solo solo, int editTextId, String value) {
 		solo.clickOnEditText(editTextId);
-		Utils.pause();
+		solo.sleep(50);
 		solo.clearEditText(0);
 		solo.enterText(0, value);
 	}

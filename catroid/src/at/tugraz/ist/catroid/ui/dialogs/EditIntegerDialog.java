@@ -26,7 +26,6 @@ import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -51,8 +50,7 @@ public class EditIntegerDialog extends EditDialog implements OnClickListener {
 			editText.setInputType(InputType.TYPE_CLASS_NUMBER);
 		}
 
-		Button closeButton = (Button) findViewById(R.id.dialogEditTextSubmit);
-		closeButton.setOnClickListener(this);
+		okButton.setOnClickListener(this);
 
 		this.setOnKeyListener(new OnKeyListener() {
 
