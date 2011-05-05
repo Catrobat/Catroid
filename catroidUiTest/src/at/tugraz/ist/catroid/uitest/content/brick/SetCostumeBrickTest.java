@@ -20,6 +20,7 @@ package at.tugraz.ist.catroid.uitest.content.brick;
 
 import java.util.List;
 
+import android.content.ComponentName;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
@@ -79,12 +80,14 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 
 		OnClickListener listener = new OnClickListener() {
 			public void onClick(View v) {
-				Intent intent = new Intent(getInstrumentation().getContext(),
-						at.tugraz.ist.catroid.uitest.mockups.MockGalleryActivity.class);
-				getActivity().startActivityForResult(intent, setCostumeBrickIndex);
-
-				//				Intent intent = new Intent("at.tugraz.ist.catroid.uitest.mockups.MockGalleryActivity");
+				//				Intent intent = new Intent(getInstrumentation().getContext(),
+				//						at.tugraz.ist.catroid.uitest.mockups.MockGalleryActivity.class);
 				//				getActivity().startActivityForResult(intent, setCostumeBrickIndex);
+
+				Intent intent = new Intent();
+				intent.setComponent(new ComponentName("at.tugraz.ist.catroid.uitest",
+						"at.tugraz.ist.catroid.uitest.mockups.MockGalleryActivity"));
+				getActivity().startActivityForResult(intent, setCostumeBrickIndex);
 			}
 		};
 
