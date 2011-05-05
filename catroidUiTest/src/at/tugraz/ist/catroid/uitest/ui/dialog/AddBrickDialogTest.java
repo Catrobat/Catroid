@@ -72,8 +72,8 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.clickInList(2);
 
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.wait_main_adapter));
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.wait_main_adapter));
+		solo.clickOnText(solo.getCurrentActivity().getString(R.string.brick_wait));
+		solo.clickOnText(solo.getCurrentActivity().getString(R.string.brick_wait));
 
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick).substring(2));
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.hide_main_adapter));
