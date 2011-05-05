@@ -33,7 +33,7 @@ import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.R;
-import at.tugraz.ist.catroid.utils.UtilFile;
+import at.tugraz.ist.catroid.test.util.Utils;
 
 public class FileChecksumContainerTest extends InstrumentationTestCase {
 
@@ -42,15 +42,12 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 	private ProjectManager projectManager;
 	private File testImage;
 	private File testSound;
-	private String currentProjectName = "testCopyFile";
+	private String currentProjectName = "testCopyFile2";
 	private final int fileSizeImage = 4000;
 	private final int fileSizeSound = 4000;
 
 	public FileChecksumContainerTest() throws IOException {
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName);
-		if (directory.exists()) {
-			UtilFile.deleteDirectory(directory);
-		}
+		Utils.clearProject(currentProjectName);
 		storageHandler = StorageHandler.getInstance();
 		Project testCopyFile = new Project(null, currentProjectName);
 		projectManager = ProjectManager.getInstance();
@@ -99,12 +96,12 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		if (testImage != null && testImage.exists()) {
-			testImage.delete();
-		}
-		if (testSound != null && testSound.exists()) {
-			testSound.delete();
-		}
+		//		if (testImage != null && testImage.exists()) {
+		//			testImage.delete();
+		//		}
+		//		if (testSound != null && testSound.exists()) {
+		//			testSound.delete();
+		//		}
 	}
 
 	public void testContainer() throws IOException, InterruptedException {
@@ -120,7 +117,7 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 		Thread.sleep(2000);
 
 		storageHandler.copyImage(currentProjectName, testImage.getAbsolutePath());
-		File imageDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName + Consts.IMAGE_DIRECTORY);
+		File imageDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName + Consts.IMAGE_DIRECTORY + "/");
 		File[] filesImage = imageDirectory.listFiles();
 
 		//nomedia file is also in images folder
