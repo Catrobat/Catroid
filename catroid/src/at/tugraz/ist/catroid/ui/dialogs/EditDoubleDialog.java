@@ -52,11 +52,10 @@ public class EditDoubleDialog extends EditDialog implements OnClickListener {
 			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
 				if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
 					try {
-						value = Double.parseDouble((editText.getText().toString()));
+						value = Double.parseDouble(editText.getText().toString());
 						dismiss();
 					} catch (NumberFormatException e) {
-						Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT)
-								.show();
+						Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 					}
 					return true;
 				}
@@ -76,7 +75,7 @@ public class EditDoubleDialog extends EditDialog implements OnClickListener {
 			show();
 		} else {
 			try {
-				value = Double.parseDouble((editText.getText().toString()));
+				value = Double.parseDouble(editText.getText().toString());
 				dismiss();
 			} catch (NumberFormatException e) {
 				Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
