@@ -103,7 +103,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		solo.clickOnText(getActivity().getString(R.string.add_new_brick));
 
 		solo.sleep(500);
-		solo.clickOnText(getActivity().getString(R.string.wait_main_adapter));
+		solo.clickOnText(getActivity().getString(R.string.brick_wait));
 
 		solo.clickOnButton(getActivity().getString(R.string.main_menu));
 	}
