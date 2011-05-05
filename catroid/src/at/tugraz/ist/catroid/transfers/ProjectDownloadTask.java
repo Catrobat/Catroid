@@ -109,6 +109,7 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 		if (activity == null) {
 			return;
 		}
+		//TODO: refactor to use strings.xml
 		new Builder(activity)
 				.setMessage(messageId)
 				.setPositiveButton("OK", null)
