@@ -27,7 +27,8 @@
     <application>
 		<uses-library android:name="android.test.runner" />
 		<activity
-			android:name=".mockups.MockGalleryActivity" />
+			android:name="at.tugraz.ist.catroid.uitest.mockups.MockGalleryActivity">
+		</activity>
     </application>
     
     <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="8"/>
