@@ -27,15 +27,14 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
-import at.tugraz.ist.catroid.uitest.mockups.MockGalleryActivity;
 import at.tugraz.ist.catroid.uitest.util.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
+	private ImageView setCostumeImageView;
 
 	/*
 	 * public class MockGalleryActivity extends Activity {
@@ -51,8 +50,9 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 	 * protected void onDestroy() {
 	 * Intent resultIntent = new Intent();
 	 * File resourceFile = new File(RESOURCE_LOCATION);
-	 * if (!resourceFile.exists() || !resourceFile.canRead())
+	 * if (!resourceFile.exists() || !resourceFile.canRead()) {
 	 * throw new RuntimeException("Could not open resource file: " + resourceFile.getAbsolutePath());
+	 * }
 	 * resultIntent.setData(Uri.fromFile(resourceFile));
 	 * 
 	 * setResult(RESULT_OK, resultIntent);
@@ -60,33 +60,36 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 	 * }
 	 * }
 	 */
-
 	public SetCostumeBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
+		super.setUp();
 		List<Brick> brickList = Utils.createTestProject();
+
 		solo = new Solo(getInstrumentation(), getActivity());
 
-		// Replace onClickListener of Brick in order to use MockGalleryActivity
-		int index = -1;
-		for (int i = 0; i < brickList.size(); i++) {
-			if (brickList.get(i).getClass() == SetCostumeBrick.class) {
-				index = i;
-			}
-		}
-		final int setCostumeBrickIndex = index;
-		ImageView imageView = (ImageView) solo.getView(R.id.costume_image_view);
+		Utils.addNewBrickAndScrollDown(solo, R.string.costume_main_adapter);
+		final int setCostumeBrickIndex = brickList.size();
+
+		//setCostumeImageView = solo.getCurrentImageViews().get(imageViewIndex);
+		setCostumeImageView = (ImageView) solo.getView(R.id.costume_image_view);
 
 		OnClickListener listener = new OnClickListener() {
 			public void onClick(View v) {
-				Intent intent = new Intent(getInstrumentation().getContext(), MockGalleryActivity.class);
+				Intent intent = new Intent(getInstrumentation().getContext(),
+						at.tugraz.ist.catroid.uitest.mockups.MockGalleryActivity.class);
 				getActivity().startActivityForResult(intent, setCostumeBrickIndex);
+
+				//				Intent intent = new Intent("at.tugraz.ist.catroid.uitest.mockups.MockGalleryActivity");
+				//				getActivity().startActivityForResult(intent, setCostumeBrickIndex);
 			}
 		};
-		imageView.setOnClickListener(listener);
+
+		assertNotNull("ImageView of change costume brick was not found", setCostumeImageView);
+		setCostumeImageView.setOnClickListener(listener);
 	}
 
 	@Override
@@ -101,10 +104,10 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		super.tearDown();
 	}
 
-	public void testChangeCostume() throws InterruptedException {
-		Thread.sleep(1000);
-		solo.clickOnView(solo.getView(R.id.costume_image_view));
-		Thread.sleep(5000);
+	public void testChangeCostume() {
+		solo.sleep(1000);
+		solo.clickOnView(setCostumeImageView);
+		solo.sleep(5000);
 		assertTrue(true);
 	}
 }
