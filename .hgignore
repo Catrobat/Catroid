@@ -12,3 +12,6 @@ build/*
 R.java
 testProject\
 Paintroid/.project
+
+syntax: regexp
+^catroidUiTest/\.settings/org\.eclipse\.jdt\.ui\.prefs$

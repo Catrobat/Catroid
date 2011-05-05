@@ -26,10 +26,9 @@ import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.utils.Utils;
 
 public class EditDoubleDialog extends EditDialog implements OnClickListener {
 	private double value;
@@ -46,32 +45,23 @@ public class EditDoubleDialog extends EditDialog implements OnClickListener {
 		editText.setText(String.valueOf(value));
 		editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
-		Button closeButton = (Button) findViewById(R.id.dialogEditTextSubmit);
-		closeButton.setOnClickListener(this);
+		okButton.setOnClickListener(this);
 
 		this.setOnKeyListener(new OnKeyListener() {
 
 			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-				if (event.getAction() == KeyEvent.ACTION_DOWN) {
-					switch (keyCode) {
-						case KeyEvent.KEYCODE_ENTER: {
-							try {
-								value = Double.parseDouble((editText.getText().toString()));
-								dismiss();
-							} catch (NumberFormatException e) {
-								Utils.displayErrorMessage(context,
-													context.getString(R.string.error_no_number_entered));
-							}
-
-						}
-						default: {
-							break;
-						}
+				if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+					try {
+						value = Double.parseDouble((editText.getText().toString()));
+						dismiss();
+					} catch (NumberFormatException e) {
+						Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT)
+								.show();
 					}
+					return true;
 				}
 				return false;
 			}
-
 		});
 	}
 
@@ -80,7 +70,7 @@ public class EditDoubleDialog extends EditDialog implements OnClickListener {
 	}
 
 	public void onClick(View v) {
-		if (v.getId() == R.id.dialogEditText) {
+		if (v.getId() == R.id.dialog_edit_dialog_edit_text) {
 			editText.selectAll();
 		} else if (v.getId() == referencedEditText.getId()) {
 			show();
@@ -89,7 +79,7 @@ public class EditDoubleDialog extends EditDialog implements OnClickListener {
 				value = Double.parseDouble((editText.getText().toString()));
 				dismiss();
 			} catch (NumberFormatException e) {
-				Utils.displayErrorMessage(context, context.getString(R.string.error_no_number_entered));
+				Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 			}
 		}
 	}

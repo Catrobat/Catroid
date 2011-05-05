@@ -34,10 +34,11 @@ import at.tugraz.ist.catroid.R;
 
 public class EditDialog extends Dialog {
 
+	protected Button okButton;
+	protected Context context;
 	protected EditText editText;
 	protected EditText addCourseText;
 	protected EditText referencedEditText;
-	protected Context context;
 
 	public EditDialog(Context context, EditText referencedEditText) {
 		super(context);
@@ -50,21 +51,17 @@ public class EditDialog extends Dialog {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.dialog_edit_text);
 		setCanceledOnTouchOutside(true);
-		final Button closeButton = (Button) findViewById(R.id.dialogEditTextSubmit);
-		editText = (EditText) findViewById(R.id.dialogEditText);
+		okButton = (Button) findViewById(R.id.dialog_edit_dialog_ok_button);
+		editText = (EditText) findViewById(R.id.dialog_edit_dialog_edit_text);
 		editText.addTextChangedListener(new TextWatcher() {
 
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				if (s.length() == 0) {
+				if (s.length() == 0 || (s.length() == 1 && s.charAt(0) == '.')) {
 					Toast.makeText(EditDialog.this.context, R.string.notification_invalid_text_entered,
 							Toast.LENGTH_SHORT).show();
-					closeButton.setEnabled(false);
-				}
-				else if (s.length() == 1 && s.charAt(0) == '.') {
-					closeButton.setEnabled(false);
-				}
-				else {
-					closeButton.setEnabled(true);
+					okButton.setEnabled(false);
+				} else {
+					okButton.setEnabled(true);
 				}
 			}
 
