@@ -34,9 +34,7 @@ import java.io.Writer;
 import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -218,9 +216,6 @@ public class StorageHandler {
 
 	// TODO: Find a way to access sound files on the device
 	public void loadSoundContent(Context context) {
-		//		if (soundContent != null) {
-		//			return;
-		//		}
 		soundContent = new ArrayList<SoundInfo>();
 		String[] projectionOnOrig = { MediaStore.Audio.Media.DATA, MediaStore.Audio.AudioColumns.TITLE,
 				MediaStore.Audio.Media._ID };
@@ -260,7 +255,6 @@ public class StorageHandler {
 	}
 
 	public File copySoundFile(String path) throws IOException {
-		Log.d("StorageHandler: ", "Path to original soundFile: " + path);
 		String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
 		File soundDirectory = new File(catroidRoot.getAbsolutePath() + "/" + currentProject + Consts.SOUND_DIRECTORY);
 
@@ -268,80 +262,76 @@ public class StorageHandler {
 		if (!inputFile.exists() || !inputFile.canRead()) {
 			return null;
 		}
-
-		final String timestamp = Utils.getTimestamp();
-		File outputFile = new File(soundDirectory.getAbsolutePath() + "/" + timestamp + inputFile.getName());
+		String inputFileChecksum = getMD5Checksum(inputFile);
+		File outputFile = new File(soundDirectory.getAbsolutePath() + "/" + inputFileChecksum + "_"
+				+ inputFile.getName());
 
 		return copyFile(outputFile, inputFile, soundDirectory);
 	}
 
 	public File copyImage(String currentProjectName, String inputFilePath) throws IOException {
 		File imageDirectory = new File(catroidRoot.getAbsolutePath() + "/" + currentProjectName
-				+ Consts.IMAGE_DIRECTORY);
+						+ Consts.IMAGE_DIRECTORY);
 
 		File inputFile = new File(inputFilePath);
 		if (!inputFile.exists() || !inputFile.canRead()) {
 			return null;
 		}
 
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-		String timestamp = simpleDateFormat.format(new Date());
-		File outputFile = new File(imageDirectory.getAbsolutePath() + "/" + timestamp + inputFile.getName());
-
 		int[] imageDimensions = new int[2];
 		imageDimensions = ImageEditing.getImageDimensions(inputFilePath);
 
 		if ((imageDimensions[0] <= Consts.MAX_COSTUME_WIDTH) && (imageDimensions[1] <= Consts.MAX_COSTUME_HEIGHT)) {
+			String checksumSource = getMD5Checksum(inputFile);
+			File outputFile = new File(imageDirectory + "/" + checksumSource + "_" + inputFile.getName());
 			return copyFile(outputFile, inputFile, imageDirectory);
 		} else {
+			File outputFile = new File(imageDirectory + "/" + inputFile.getName());
 			return copyAndResizeImage(outputFile, inputFile, imageDirectory);
 		}
 	}
 
-	public File copyAndResizeImage(File destinationFile, File sourceFile, File directory) throws IOException {
-
-		FileOutputStream outputStream = new FileOutputStream(destinationFile);
-
-		String checksumSource = getMD5Checksum(sourceFile);
-
-		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getCurrentProject()
-				.getFileChecksumContainer();
-
-		if (fileChecksumContainer.containsChecksum(checksumSource)) {
-			fileChecksumContainer.incrementValue(checksumSource);
-			destinationFile.delete();
-			return new File(fileChecksumContainer.getPath(checksumSource));
-		}
-
+	private File copyAndResizeImage(File outputFile, File inputFile, File imageDirectory) throws IOException {
+		FileOutputStream outputStream = new FileOutputStream(outputFile);
+		Bitmap bitmap = ImageEditing.getBitmap(inputFile.getAbsolutePath(), Consts.MAX_COSTUME_WIDTH,
+				Consts.MAX_COSTUME_HEIGHT);
 		try {
-			fileChecksumContainer.addChecksum(checksumSource, destinationFile.getAbsolutePath());
-			Bitmap bitmap = ImageEditing.getBitmap(sourceFile.getAbsolutePath(), Consts.MAX_COSTUME_WIDTH,
-					Consts.MAX_COSTUME_HEIGHT);
-			if (sourceFile.getName().contains(".jpg") || sourceFile.getName().contains(".jpeg")) {
+			String name = inputFile.getName();
+			if (name.contains(".jpg") || name.contains(".jpeg") || name.contains(".JPG") || name.contains(".JPEG")) {
 				bitmap.compress(CompressFormat.JPEG, Consts.JPG_COMPRESSION_SETING, outputStream);
 			} else {
 				bitmap.compress(CompressFormat.PNG, Consts.JPG_COMPRESSION_SETING, outputStream);
 			}
 			outputStream.flush();
 			outputStream.close();
-
-			return destinationFile;
 		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
 
-	public File copyFile(File destinationFile, File sourceFile, File directory) throws IOException {
-		FileChannel inputChannel = new FileInputStream(sourceFile).getChannel();
-		FileChannel outputChannel = new FileOutputStream(destinationFile).getChannel();
-		String checksumSource = getMD5Checksum(sourceFile);
+		}
+
+		String checksumCompressedFile = StorageHandler.getInstance().getMD5Checksum(outputFile);
 
 		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getCurrentProject()
 				.getFileChecksumContainer();
+		if (fileChecksumContainer.containsChecksum(checksumCompressedFile)) {
+			fileChecksumContainer.incrementValue(checksumCompressedFile);
+			return new File(fileChecksumContainer.getPath(checksumCompressedFile));
+		}
+
+		File compressedFile = new File(imageDirectory + "/" + checksumCompressedFile + "_" + inputFile.getName());
+		outputFile.renameTo(compressedFile);
+
+		return compressedFile;
+	}
+
+	private File copyFile(File destinationFile, File sourceFile, File directory) throws IOException {
+		FileChannel inputChannel = new FileInputStream(sourceFile).getChannel();
+		FileChannel outputChannel = new FileOutputStream(destinationFile).getChannel();
+
+		String checksumSource = getMD5Checksum(sourceFile);
+		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getCurrentProject()
+						.getFileChecksumContainer();
 		if (fileChecksumContainer.containsChecksum(checksumSource)) {
 			fileChecksumContainer.incrementValue(checksumSource);
-			destinationFile.delete();
 			return new File(fileChecksumContainer.getPath(checksumSource));
 		}
 
@@ -489,6 +479,9 @@ public class StorageHandler {
 	public String getProjectfileAsString(String projectName) {
 		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName + "/" + projectName
 				+ Consts.PROJECT_EXTENTION);
+		if (!projectFile.exists()) {
+			return null;
+		}
 		StringBuilder contents = new StringBuilder();
 
 		try {
