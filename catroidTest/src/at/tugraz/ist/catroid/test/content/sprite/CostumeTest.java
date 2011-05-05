@@ -29,49 +29,47 @@ import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.test.R;
 
-public class CostumeTest extends InstrumentationTestCase{
-	
+public class CostumeTest extends InstrumentationTestCase {
+
 	private static final int IMAGE_FILE_ID = R.raw.icon;
-    private File testImage;
-    
-    // width and height of testImage
-    int width;
-    int height;
+	private File testImage;
 
-    @Override
-    protected void setUp() throws Exception {
-        final int fileSize = 4147;
-        final String imagePath = Consts.DEFAULT_ROOT + "/testImage.png"; 
-        testImage = new File(imagePath);
-        if (!testImage.exists()) {
-            testImage.createNewFile();
-        }
-        InputStream in   = getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID);
-        OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), fileSize);
-        byte[] buffer = new byte[fileSize];
-        int length = 0;
-        while ((length = in.read(buffer)) > 0) {
-            out.write(buffer, 0, length);
-        }
-        
-        in.close();
-        out.flush();
-        out.close();
-        
-        BitmapFactory.Options o = new BitmapFactory.Options();
-        o.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(imagePath, o);
+	// width and height of testImage
+	int width;
+	int height;
 
-        width = o.outWidth;
-        height = o.outHeight;
-    }
-    
-    @Override
-    protected void tearDown() throws Exception {
-        if (testImage != null && testImage.exists()){
-            testImage.delete();
-        }
-    }
+	@Override
+	protected void setUp() throws Exception {
+		final String imagePath = Consts.DEFAULT_ROOT + "/testImage.png";
+		testImage = new File(imagePath);
+		if (!testImage.exists()) {
+			testImage.createNewFile();
+		}
+		InputStream in = getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID);
+		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage));
+		byte[] buffer = new byte[1024];
+		int length = 0;
+		while ((length = in.read(buffer)) > 0) {
+			out.write(buffer, 0, length);
+		}
 
-    
+		in.close();
+		out.flush();
+		out.close();
+
+		BitmapFactory.Options o = new BitmapFactory.Options();
+		o.inJustDecodeBounds = true;
+		BitmapFactory.decodeFile(imagePath, o);
+
+		width = o.outWidth;
+		height = o.outHeight;
+	}
+
+	@Override
+	protected void tearDown() throws Exception {
+		if (testImage != null && testImage.exists()) {
+			testImage.delete();
+		}
+	}
+
 }

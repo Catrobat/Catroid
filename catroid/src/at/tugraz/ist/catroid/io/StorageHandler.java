@@ -409,12 +409,11 @@ public class StorageHandler {
 		Script touchScript = new Script("touchScript", sprite);
 		touchScript.setTouchScript(true);
 		//bricks:
-		File normalCat = savePictureFromResInProject(projectName, 4147, Consts.CAT1, R.drawable.catroid, context);
-		File banzaiCat = savePictureFromResInProject(projectName, 4147, Consts.CAT2, R.drawable.catroid_banzai, context);
-		File cheshireCat = savePictureFromResInProject(projectName, 4147, Consts.CAT3, R.drawable.catroid_cheshire,
+		File normalCat = savePictureFromResInProject(projectName, Consts.CAT1, R.drawable.catroid, context);
+		File banzaiCat = savePictureFromResInProject(projectName, Consts.CAT2, R.drawable.catroid_banzai, context);
+		File cheshireCat = savePictureFromResInProject(projectName, Consts.CAT3, R.drawable.catroid_cheshire, context);
+		File background = savePictureFromResInProject(projectName, Consts.BACKGROUND, R.drawable.background_blueish,
 				context);
-		File background = savePictureFromResInProject(projectName, 4147, Consts.BACKGROUND,
-				R.drawable.background_blueish, context);
 
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
 		setCostumeBrick.setCostume(normalCat.getName());
@@ -453,7 +452,7 @@ public class StorageHandler {
 		return defaultProject;
 	}
 
-	private File savePictureFromResInProject(String project, int fileSize, String name, int fileID, Context context)
+	private File savePictureFromResInProject(String project, String name, int fileID, Context context)
 			throws IOException {
 
 		final String imagePath = Consts.DEFAULT_ROOT + "/" + project + Consts.IMAGE_DIRECTORY + "/" + name;
@@ -462,8 +461,8 @@ public class StorageHandler {
 			testImage.createNewFile();
 		}
 		InputStream in = context.getResources().openRawResource(fileID);
-		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), fileSize);
-		byte[] buffer = new byte[fileSize];
+		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage));
+		byte[] buffer = new byte[1024];
 		int length = 0;
 		while ((length = in.read(buffer)) > 0) {
 			out.write(buffer, 0, length);
@@ -503,8 +502,7 @@ public class StorageHandler {
 	}
 
 	//TODO: nobody is using this method?
-	public void overwriteSpfFile(String projectName, String content)
-			throws FileNotFoundException, IOException {
+	public void overwriteSpfFile(String projectName, String content) throws FileNotFoundException, IOException {
 		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName + "/" + projectName
 				+ Consts.PROJECT_EXTENTION);
 

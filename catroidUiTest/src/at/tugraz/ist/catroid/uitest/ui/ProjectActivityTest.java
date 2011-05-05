@@ -106,7 +106,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 				solo.searchText(getActivity().getString(R.string.error_sprite_exists)));
 	}
 
-	public void testContextMenu() throws InterruptedException {
+	public void testContextMenu() {
 		// Create sprites manually so we're able to check for equality
 		final String spriteName = "foo";
 		final String spriteName2 = "bar";
@@ -114,18 +114,18 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		addNewSprite(spriteName);
 		addNewSprite(spriteName2);
 
-		Thread.sleep(500);
+		solo.sleep(500);
 
 		// Rename sprite
 		final String newSpriteName = "baz";
 		solo.clickLongOnText(spriteName);
 		solo.clickOnText(getActivity().getString(R.string.rename));
-		Thread.sleep(50);
+		solo.sleep(50);
 
 		solo.clearEditText(0);
 		Utils.enterText(solo, 0, newSpriteName);
 		solo.clickOnButton(getActivity().getString(R.string.rename_button));
-		Thread.sleep(50);
+		solo.sleep(50);
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.sprite_list_view);
 		Sprite sprite = (Sprite) spritesList.getItemAtPosition(1);
@@ -136,7 +136,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickOnText(getActivity().getString(R.string.delete));
 
 		// Dialog is handled asynchronously, so we need to wait a while for it to finish
-		Thread.sleep(1000);
+		solo.sleep(1000);
 
 		assertFalse("Sprite is still in Project", ProjectManager.getInstance().getCurrentProject().getSpriteList()
 				.contains(sprite));
