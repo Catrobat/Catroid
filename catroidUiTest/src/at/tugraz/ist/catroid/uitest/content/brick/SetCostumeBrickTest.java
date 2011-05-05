@@ -22,6 +22,8 @@ import java.util.List;
 
 import android.content.ComponentName;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -77,6 +79,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 
 		//setCostumeImageView = solo.getCurrentImageViews().get(imageViewIndex);
 		setCostumeImageView = (ImageView) solo.getView(R.id.costume_image_view);
+		setCostumeImageView.setDrawingCacheEnabled(true);
 
 		OnClickListener listener = new OnClickListener() {
 			public void onClick(View v) {
@@ -88,6 +91,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 				intent.setComponent(new ComponentName("at.tugraz.ist.catroid.uitest",
 						"at.tugraz.ist.catroid.uitest.mockups.MockGalleryActivity"));
 				getActivity().startActivityForResult(intent, setCostumeBrickIndex);
+
 			}
 		};
 
@@ -111,6 +115,22 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		solo.sleep(1000);
 		solo.clickOnView(setCostumeImageView);
 		solo.sleep(5000);
-		assertTrue(true);
+
+		Bitmap bitmapToTest = setCostumeImageView.getDrawingCache();
+		assertNotNull(bitmapToTest);
+
+		Bitmap originalBitmap = BitmapFactory.decodeResource(getInstrumentation().getContext().getResources(),
+				at.tugraz.ist.catroid.uitest.R.drawable.catroid_sunglasses);
+		assertNotNull(originalBitmap);
+
+		//		assertEquals("Wrong width in Bitmap.", originalBitmap.getWidth(), bitmapToTest.getWidth());
+		//		assertEquals("Wrong height in Bitmap.", originalBitmap.getHeight(), bitmapToTest.getHeight());
+		//		for (int y = 0; y < originalBitmap.getHeight(); ++y) {
+		//			for (int x = 0; x < originalBitmap.getWidth(); ++x) {
+		//				assertEquals("Wrong Pixel at Position " + x + "," + y, originalBitmap.getPixel(x, y), bitmapToTest
+		//						.getPixel(x, y));
+		//			}
+		//		}
+
 	}
 }
