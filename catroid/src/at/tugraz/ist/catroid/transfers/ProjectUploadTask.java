@@ -26,8 +26,8 @@ import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.ProgressDialog;
 import android.app.AlertDialog.Builder;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import at.tugraz.ist.catroid.Consts;
@@ -92,22 +92,22 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 			}
 
 			String zipFileString = Consts.TMP_PATH + "/upload.zip";
-			File file = new File(zipFileString);
-			if (!file.exists()) {
-				file.getParentFile().mkdirs();
-				file.createNewFile();
+			File zipFile = new File(zipFileString);
+			if (!zipFile.exists()) {
+				zipFile.getParentFile().mkdirs();
+				zipFile.createNewFile();
 			}
 			if (!UtilZip.writeToZipFile(paths, zipFileString)) {
-				file.delete();
+				zipFile.delete();
 				return false;
 			}
 
-			HashMap<String, String> hm = buildPostValues(file);
+			HashMap<String, String> postValues = buildPostValues(zipFile);
 
 			String serverUrl = useTestUrl ? Consts.TEST_FILE_UPLOAD_URL : Consts.FILE_UPLOAD_URL;
 
 			resultString = createConnection()
-					.doHttpPostFileUpload(serverUrl, hm, Consts.FILE_UPLOAD_TAG, zipFileString);
+					.doHttpPostFileUpload(serverUrl, postValues, Consts.FILE_UPLOAD_TAG, zipFileString);
 
 			JSONObject jsonObject = null;
 			int statusCode = 0;
@@ -122,7 +122,7 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 				e.printStackTrace();
 			}
 			if (statusCode == 200) {
-				file.delete();
+				zipFile.delete();
 				return true;
 			} else if (statusCode >= 500) {
 				return false;
@@ -160,6 +160,7 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 		if (context == null) {
 			return;
 		}
+		//TODO: Refactor to use stings.xml
 		new Builder(context)
 				.setMessage(message)
 				.setPositiveButton("OK", null)
@@ -169,27 +170,27 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 	private HashMap<String, String> buildPostValues(File zipFile) throws IOException {
 		String md5Checksum = StorageHandler.getInstance().getMD5Checksum(zipFile);
 
-		HashMap<String, String> hm = new HashMap<String, String>();
-		hm.put(Consts.PROJECT_NAME_TAG, projectName);
-		hm.put(Consts.PROJECT_DESCRIPTION_TAG, projectDescription);
-		hm.put(Consts.PROJECT_CHECKSUM_TAG, md5Checksum);
+		HashMap<String, String> postValues = new HashMap<String, String>();
+		postValues.put(Consts.PROJECT_NAME_TAG, projectName);
+		postValues.put(Consts.PROJECT_DESCRIPTION_TAG, projectDescription);
+		postValues.put(Consts.PROJECT_CHECKSUM_TAG, md5Checksum);
 
 		String deviceIMEI = UtilDeviceInfo.getDeviceIMEI(context);
 		if (deviceIMEI != null) {
-			hm.put(Consts.DEVICE_IMEI, deviceIMEI);
+			postValues.put(Consts.DEVICE_IMEI, deviceIMEI);
 		}
 
 		String userEmail = UtilDeviceInfo.getUserEmail(context);
 		if (userEmail != null) {
-			hm.put(Consts.USER_EMAIL, userEmail);
+			postValues.put(Consts.USER_EMAIL, userEmail);
 		}
 
 		String language = UtilDeviceInfo.getUserLanguageCode(context);
 		if (language != null) {
-			hm.put(Consts.USER_LANGUAGE, language);
+			postValues.put(Consts.USER_LANGUAGE, language);
 		}
 
-		return hm;
+		return postValues;
 	}
 
 	public String getResultString() {
