@@ -72,7 +72,7 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptActiv
 	}
 
 	public void testDoubleDialog() {
-		Utils.addNewBrickAndScrollDown(solo, R.string.wait_main_adapter);
+		Utils.addNewBrickAndScrollDown(solo, R.string.brick_wait);
 
 		double wait = 5.9;
 
