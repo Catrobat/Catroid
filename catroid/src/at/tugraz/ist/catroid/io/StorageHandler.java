@@ -476,6 +476,7 @@ public class StorageHandler {
 		return testImage;
 	}
 
+	//TODO: Only used in tests, put it there!
 	public String getProjectfileAsString(String projectName) {
 		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName + "/" + projectName
 				+ Consts.PROJECT_EXTENTION);
@@ -501,6 +502,7 @@ public class StorageHandler {
 		return contents.toString();
 	}
 
+	//TODO: nobody is using this method?
 	public void overwriteSpfFile(String projectName, String content)
 			throws FileNotFoundException, IOException {
 		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName + "/" + projectName

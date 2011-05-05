@@ -73,13 +73,13 @@ public class MediaPathTest extends InstrumentationTestCase {
 		Project mockProject = new Project(getInstrumentation().getTargetContext(), "mockProject");
 		StorageHandler.getInstance().saveProject(mockProject);
 
-		testImage = Utils.saveFileToProject(projectName, imageName, IMAGE_FILE_ID, getInstrumentation()
-				.getContext(), Utils.TYPE_IMAGE_FILE);
+		testImage = Utils.saveFileToProject(projectName, imageName, IMAGE_FILE_ID, getInstrumentation().getContext(),
+				Utils.TYPE_IMAGE_FILE);
 
 		testImageCopy = StorageHandler.getInstance().copyImage(projectName, testImage.getAbsolutePath());
 
-		testSound = Utils.saveFileToProject(projectName, soundName, SOUND_FILE_ID, getInstrumentation()
-				.getContext(), Utils.TYPE_SOUND_FILE);
+		testSound = Utils.saveFileToProject(projectName, soundName, SOUND_FILE_ID, getInstrumentation().getContext(),
+				Utils.TYPE_SOUND_FILE);
 
 		testSoundCopy = StorageHandler.getInstance().copySoundFile(testSound.getAbsolutePath());
 	}
