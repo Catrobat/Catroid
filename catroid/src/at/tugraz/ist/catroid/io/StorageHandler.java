@@ -262,9 +262,7 @@ public class StorageHandler {
 		if (!inputFile.exists() || !inputFile.canRead()) {
 			return null;
 		}
-
 		String inputFileChecksum = getMD5Checksum(inputFile);
-
 		File outputFile = new File(soundDirectory.getAbsolutePath() + "/" + inputFileChecksum + "_"
 				+ inputFile.getName());
 
@@ -316,7 +314,6 @@ public class StorageHandler {
 				.getFileChecksumContainer();
 		if (fileChecksumContainer.containsChecksum(checksumCompressedFile)) {
 			fileChecksumContainer.incrementValue(checksumCompressedFile);
-			//outputFile.delete();
 			return new File(fileChecksumContainer.getPath(checksumCompressedFile));
 		}
 
@@ -325,63 +322,6 @@ public class StorageHandler {
 
 		return compressedFile;
 	}
-
-	//	public File copyImage(String currentProjectName, String inputFilePath) throws IOException {
-	//		File imageDirectory = new File(catroidRoot.getAbsolutePath() + "/" + currentProjectName
-	//				+ Consts.IMAGE_DIRECTORY);
-	//
-	//		File inputFile = new File(inputFilePath);
-	//		if (!inputFile.exists() || !inputFile.canRead()) {
-	//			return null;
-	//		}
-	//
-	//		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-	//		String timestamp = simpleDateFormat.format(new Date());
-	//		File outputFile = new File(imageDirectory.getAbsolutePath() + "/" + timestamp + inputFile.getName());
-	//
-	//		int[] imageDimensions = new int[2];
-	//		imageDimensions = ImageEditing.getImageDimensions(inputFilePath);
-	//
-	//		if ((imageDimensions[0] <= Consts.MAX_COSTUME_WIDTH) && (imageDimensions[1] <= Consts.MAX_COSTUME_HEIGHT)) {
-	//			return copyFile(outputFile, inputFile, imageDirectory);
-	//		} else {
-	//			return copyAndResizeImage(outputFile, inputFile, imageDirectory);
-	//		}
-	//	}
-	//
-	//	public File copyAndResizeImage(File destinationFile, File sourceFile, File directory) throws IOException {
-	//
-	//		FileOutputStream outputStream = new FileOutputStream(destinationFile);
-	//
-	//		String checksumSource = getMD5Checksum(sourceFile);
-	//
-	//		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getCurrentProject()
-	//				.getFileChecksumContainer();
-	//
-	//		if (fileChecksumContainer.containsChecksum(checksumSource)) {
-	//			fileChecksumContainer.incrementValue(checksumSource);
-	//			destinationFile.delete();
-	//			return new File(fileChecksumContainer.getPath(checksumSource));
-	//		}
-	//
-	//		try {
-	//			fileChecksumContainer.addChecksum(checksumSource, destinationFile.getAbsolutePath());
-	//			Bitmap bitmap = ImageEditing.getBitmap(sourceFile.getAbsolutePath(), Consts.MAX_COSTUME_WIDTH,
-	//					Consts.MAX_COSTUME_HEIGHT);
-	//			if (sourceFile.getName().contains(".jpg") || sourceFile.getName().contains(".jpeg")) {
-	//				bitmap.compress(CompressFormat.JPEG, Consts.JPG_COMPRESSION_SETING, outputStream);
-	//			} else {
-	//				bitmap.compress(CompressFormat.PNG, Consts.JPG_COMPRESSION_SETING, outputStream);
-	//			}
-	//			outputStream.flush();
-	//			outputStream.close();
-	//
-	//			return destinationFile;
-	//		} catch (Exception e) {
-	//			e.printStackTrace();
-	//			return null;
-	//		}
-	//	}
 
 	private File copyFile(File destinationFile, File sourceFile, File directory) throws IOException {
 		FileChannel inputChannel = new FileInputStream(sourceFile).getChannel();
@@ -392,7 +332,6 @@ public class StorageHandler {
 						.getFileChecksumContainer();
 		if (fileChecksumContainer.containsChecksum(checksumSource)) {
 			fileChecksumContainer.incrementValue(checksumSource);
-			//destinationFile.delete();
 			return new File(fileChecksumContainer.getPath(checksumSource));
 		}
 
