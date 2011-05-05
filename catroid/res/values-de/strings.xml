@@ -134,7 +134,7 @@
 
     <string name="set_background_main_adapter">Setze Hintergrund</string>
     <string name="play_sound_main_adapter">Spiele Klang</string>
-    <string name="wait_main_adapter">Warte</string>
+    <string name="brick_wait">Warte</string>
     <string name="seconds">Sekunden</string>
 
     <string name="hide_main_adapter">Verstecke dich</string>

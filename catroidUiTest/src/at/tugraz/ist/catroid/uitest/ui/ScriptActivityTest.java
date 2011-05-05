@@ -74,10 +74,10 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 		int brickCountInList = brickListToCheck.size();
 
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick));
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.wait_main_adapter));
+		solo.clickOnText(solo.getCurrentActivity().getString(R.string.brick_wait));
 		solo.sleep(100);
 
-		assertTrue("Wait brick is not in List", solo.searchText(getActivity().getString(R.string.wait_main_adapter)));
+		assertTrue("Wait brick is not in List", solo.searchText(getActivity().getString(R.string.brick_wait)));
 
 		assertEquals("Brick count in list view not correct", brickCountInView + 1, solo.getCurrentListViews().get(0)
 				.getCount());

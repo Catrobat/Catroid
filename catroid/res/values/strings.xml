@@ -135,12 +135,12 @@
 
     <string name="set_background_main_adapter">Set Background</string>
     <string name="play_sound_main_adapter">Play Sound</string>
-    <string name="wait_main_adapter">Wait</string>
+    <string name="brick_wait">Wait</string>
     <string name="seconds">Seconds</string>
     
     <string name="hide_main_adapter">Hide</string>
     <string name="show_main_adapter">Show</string>
-    <string name="brick_place_at">Go To</string>
+    <string name="brick_place_at">Place at</string>
     <string name="x_label">X:</string>
     <string name="y_label">Y:</string>
     <string name="costume_main_adapter">Set Costume</string>
