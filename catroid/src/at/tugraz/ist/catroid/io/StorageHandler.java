@@ -283,6 +283,14 @@ public class StorageHandler {
 
 		if ((imageDimensions[0] <= Consts.MAX_COSTUME_WIDTH) && (imageDimensions[1] <= Consts.MAX_COSTUME_HEIGHT)) {
 			String checksumSource = getMD5Checksum(inputFile);
+
+			//TODO: replace when refact checksumcontainer:
+			FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getCurrentProject()
+					.getFileChecksumContainer();
+			if (fileChecksumContainer.containsChecksum(checksumSource)) {
+				fileChecksumContainer.incrementValue(checksumSource);
+				return new File(fileChecksumContainer.getPath(checksumSource));
+			}
 			File outputFile = new File(imageDirectory + "/" + checksumSource + "_" + inputFile.getName());
 			return copyFile(outputFile, inputFile, imageDirectory);
 		} else {
@@ -310,6 +318,7 @@ public class StorageHandler {
 
 		String checksumCompressedFile = StorageHandler.getInstance().getMD5Checksum(outputFile);
 
+		//TODO: replace when refact checksumcontainer:
 		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getCurrentProject()
 				.getFileChecksumContainer();
 		if (fileChecksumContainer.containsChecksum(checksumCompressedFile)) {
@@ -328,6 +337,7 @@ public class StorageHandler {
 		FileChannel outputChannel = new FileOutputStream(destinationFile).getChannel();
 
 		String checksumSource = getMD5Checksum(sourceFile);
+		//TODO: replace when refact checksumcontainer:
 		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getCurrentProject()
 						.getFileChecksumContainer();
 		if (fileChecksumContainer.containsChecksum(checksumSource)) {
