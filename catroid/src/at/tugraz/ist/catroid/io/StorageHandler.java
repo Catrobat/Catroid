@@ -263,6 +263,13 @@ public class StorageHandler {
 			return null;
 		}
 		String inputFileChecksum = getMD5Checksum(inputFile);
+		//TODO: replace when refact checksumcontainer:
+		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getCurrentProject()
+				.getFileChecksumContainer();
+		if (fileChecksumContainer.containsChecksum(inputFileChecksum)) {
+			fileChecksumContainer.incrementValue(inputFileChecksum);
+			return new File(fileChecksumContainer.getPath(inputFileChecksum));
+		}
 		File outputFile = new File(soundDirectory.getAbsolutePath() + "/" + inputFileChecksum + "_"
 				+ inputFile.getName());
 
@@ -337,13 +344,8 @@ public class StorageHandler {
 		FileChannel outputChannel = new FileOutputStream(destinationFile).getChannel();
 
 		String checksumSource = getMD5Checksum(sourceFile);
-		//TODO: replace when refact checksumcontainer:
 		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getCurrentProject()
 						.getFileChecksumContainer();
-		if (fileChecksumContainer.containsChecksum(checksumSource)) {
-			fileChecksumContainer.incrementValue(checksumSource);
-			return new File(fileChecksumContainer.getPath(checksumSource));
-		}
 
 		try {
 			inputChannel.transferTo(0, inputChannel.size(), outputChannel);
