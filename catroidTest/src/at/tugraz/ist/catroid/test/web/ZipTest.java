@@ -22,7 +22,7 @@ package at.tugraz.ist.catroid.test.web;
 import java.io.File;
 
 import android.test.AndroidTestCase;
-import at.tugraz.ist.catroid.Consts;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.utils.UtilZip;
 
 public class ZipTest extends AndroidTestCase {

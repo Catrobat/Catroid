@@ -22,7 +22,7 @@ package at.tugraz.ist.catroid.test.content.brick;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.AndroidTestCase;
 import android.view.View;
-import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;

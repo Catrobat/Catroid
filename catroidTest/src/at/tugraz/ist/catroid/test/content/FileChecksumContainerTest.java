@@ -27,9 +27,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import android.test.InstrumentationTestCase;
-import at.tugraz.ist.catroid.Consts;
-import at.tugraz.ist.catroid.FileChecksumContainer;
-import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.ProjectManager;
+import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.R;

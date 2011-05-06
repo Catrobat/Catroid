@@ -21,9 +21,9 @@ package at.tugraz.ist.catroid.test.content.brick;
 import java.io.File;
 
 import android.test.InstrumentationTestCase;
-import at.tugraz.ist.catroid.Consts;
-import at.tugraz.ist.catroid.Values;
-import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.ProjectManager;
+import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
