@@ -20,6 +20,7 @@ package at.tugraz.ist.catroid.test.io;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -246,5 +247,38 @@ public class StorageHandlerTest extends AndroidTestCase {
 		if (proj.exists()) {
 			UtilFile.deleteDirectory(proj);
 		}
+	}
+
+	/*
+	 * This test documents that our calculation of the MD5 checksum is correct aswell as that checksums should be
+	 * upper case only
+	 */
+	public void testMD5Checksum() {
+		String md5EmptyFile = "D41D8CD98F00B204E9800998ECF8427E";
+		String md5CatroidString = "4F982D927F4784F69AD6D6AF38FD96AD";
+
+		PrintWriter out = null;
+		File md5TestFile = new File(Consts.TMP_PATH + "/" + "catroid.txt");
+
+		if (md5TestFile.exists()) {
+			md5TestFile.delete();
+		}
+
+		assertEquals("MD5 sums are not the same for empty file", md5EmptyFile,
+				storageHandler.getMD5Checksum(md5TestFile));
+
+		try {
+			out = new PrintWriter(md5TestFile);
+			out.print("catroid");
+		} catch (IOException e) {
+
+		} finally {
+			if (out != null) {
+				out.close();
+			}
+		}
+
+		assertEquals("MD5 sums are not the same for catroid file", md5CatroidString,
+				storageHandler.getMD5Checksum(md5TestFile));
 	}
 }

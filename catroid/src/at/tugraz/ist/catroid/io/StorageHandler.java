@@ -82,7 +82,6 @@ public class StorageHandler {
 	private static StorageHandler instance;
 	private static final String TAG = "StorageHandler";
 	private ArrayList<SoundInfo> soundContent;
-	private File catroidRoot;
 	private XStream xstream;
 
 	private StorageHandler() throws IOException {
@@ -119,8 +118,7 @@ public class StorageHandler {
 
 	private void createCatroidRoot() {
 		// We can read and write the media
-		String catroidPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + Consts.DIRECTORY_NAME;
-		catroidRoot = new File(catroidPath);
+		File catroidRoot = new File(Consts.DEFAULT_ROOT);
 		if (!catroidRoot.exists()) {
 			catroidRoot.mkdirs();
 		}
@@ -143,7 +141,7 @@ public class StorageHandler {
 		try {
 			projectName = Utils.getProjectName(projectName);
 
-			File projectDirectory = new File(catroidRoot.getAbsolutePath() + "/" + projectName);
+			File projectDirectory = new File(Consts.DEFAULT_ROOT + "/" + projectName);
 
 			if (projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite()) {
 				InputStream spfFileStream = new FileInputStream(projectDirectory.getAbsolutePath() + "/" + projectName
@@ -167,25 +165,27 @@ public class StorageHandler {
 		try {
 			String spfFile = xstream.toXML(project);
 
-			File projectDirectory = new File(catroidRoot.getAbsolutePath() + "/" + project.getName());
+			String projectDirectoryName = Consts.DEFAULT_ROOT + "/" + project.getName();
+			File projectDirectory = new File(projectDirectoryName);
+
 			if (!(projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite())) {
 				projectDirectory.mkdir();
 
-				File imageDirectory = new File(projectDirectory.getAbsolutePath() + Consts.IMAGE_DIRECTORY);
+				File imageDirectory = new File(projectDirectoryName + Consts.IMAGE_DIRECTORY);
 				imageDirectory.mkdir();
 
-				File noMediaFile = new File(projectDirectory.getAbsolutePath() + Consts.IMAGE_DIRECTORY + "/.nomedia");
+				File noMediaFile = new File(projectDirectoryName + Consts.IMAGE_DIRECTORY + "/.nomedia");
 				noMediaFile.createNewFile();
 
-				File soundDirectory = new File(projectDirectory.getAbsolutePath() + Consts.SOUND_DIRECTORY);
+				File soundDirectory = new File(projectDirectoryName + Consts.SOUND_DIRECTORY);
 				soundDirectory.mkdir();
 
-				noMediaFile = new File(projectDirectory.getAbsolutePath() + Consts.SOUND_DIRECTORY + "/.nomedia");
+				noMediaFile = new File(projectDirectoryName + Consts.SOUND_DIRECTORY + "/.nomedia");
 				noMediaFile.createNewFile();
 			}
 
-			BufferedWriter out = new BufferedWriter(new FileWriter(projectDirectory.getAbsolutePath() + "/"
-					+ project.getName() + Consts.PROJECT_EXTENTION));
+			BufferedWriter out = new BufferedWriter(new FileWriter(projectDirectoryName + "/" + project.getName()
+					+ Consts.PROJECT_EXTENTION));
 
 			out.write(spfFile);
 			out.flush();
@@ -201,13 +201,13 @@ public class StorageHandler {
 
 	public boolean deleteProject(Project project) {
 		if (project != null) {
-			return UtilFile.deleteDirectory(new File(catroidRoot.getAbsolutePath() + "/" + project.getName()));
+			return UtilFile.deleteDirectory(new File(Consts.DEFAULT_ROOT + "/" + project.getName()));
 		}
 		return false;
 	}
 
 	public boolean projectExists(String projectName) {
-		File projectDirectory = new File(catroidRoot.getAbsolutePath() + "/" + projectName);
+		File projectDirectory = new File(Consts.DEFAULT_ROOT + "/" + projectName);
 		if (!projectDirectory.exists()) {
 			return false;
 		}
@@ -224,15 +224,15 @@ public class StorageHandler {
 				projectionOnOrig, null, null, null);
 
 		if (cursor.moveToFirst()) {
-			int column_data_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
-			int column_title_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.TITLE);
-			int column_id_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID);
+			int columnDataIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
+			int columnTitleIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.TITLE);
+			int columnIdIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID);
 
 			do {
 				SoundInfo info = new SoundInfo();
-				info.setId(cursor.getInt(column_id_index));
-				info.setTitle(cursor.getString(column_title_index));
-				info.setPath(cursor.getString(column_data_index));
+				info.setId(cursor.getInt(columnIdIndex));
+				info.setTitle(cursor.getString(columnTitleIndex));
+				info.setPath(cursor.getString(columnDataIndex));
 				soundContent.add(info);
 			} while (cursor.moveToNext());
 		}
@@ -256,7 +256,7 @@ public class StorageHandler {
 
 	public File copySoundFile(String path) throws IOException {
 		String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
-		File soundDirectory = new File(catroidRoot.getAbsolutePath() + "/" + currentProject + Consts.SOUND_DIRECTORY);
+		File soundDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProject + Consts.SOUND_DIRECTORY);
 
 		File inputFile = new File(path);
 		if (!inputFile.exists() || !inputFile.canRead()) {
@@ -277,7 +277,7 @@ public class StorageHandler {
 	}
 
 	public File copyImage(String currentProjectName, String inputFilePath) throws IOException {
-		File imageDirectory = new File(catroidRoot.getAbsolutePath() + "/" + currentProjectName
+		File imageDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName
 						+ Consts.IMAGE_DIRECTORY);
 
 		File inputFile = new File(inputFilePath);
@@ -371,35 +371,46 @@ public class StorageHandler {
 		container.deleteChecksum(checksum);
 	}
 
-	public String getMD5Checksum(File file) throws IOException {
+	public String getMD5Checksum(File file) {
 
 		MessageDigest messageDigest = null;
 		try {
 			messageDigest = MessageDigest.getInstance("MD5");
-		} catch (NoSuchAlgorithmException e1) {
-			e1.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			Log.e(TAG, "NoSuchAlgorithmException thrown in StorageHandler::getMD5Checksum");
 		}
+
 		FileInputStream fis = null;
 		try {
 			fis = new FileInputStream(file);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		byte[] dataBytes = new byte[1024];
+			byte[] buffer = new byte[8192];
 
-		int nread = 0;
+			int length = 0;
 
-		while ((nread = fis.read(dataBytes)) != -1) {
-			messageDigest.update(dataBytes, 0, nread);
+			while ((length = fis.read(buffer)) != -1) {
+				messageDigest.update(buffer, 0, length);
+			}
+		} catch (IOException e) {
+			Log.e(TAG, "IOException thrown in StorageHandler::getMD5Checksum");
+		} finally {
+			try {
+				if (fis != null) {
+					fis.close();
+				}
+			} catch (IOException e) {
+				Log.e(TAG, "IOException thrown in StorageHandler::getMD5Checksum by FileInputStream.close()");
+			}
 		}
 
 		byte[] mdbytes = messageDigest.digest();
-		StringBuffer sb = new StringBuffer("");
-		for (int i = 0; i < mdbytes.length; i++) {
-			sb.append(Integer.toString((mdbytes[i] & 0xff) + 0x100, 16).substring(1));
+		StringBuilder md5StringBuilder = new StringBuilder(2 * mdbytes.length);
+
+		for (byte b : mdbytes) {
+			md5StringBuilder.append("0123456789ABCDEF".charAt((b & 0xF0) >> 4));
+			md5StringBuilder.append("0123456789ABCDEF".charAt((b & 0x0F)));
 		}
-		messageDigest.reset();
-		return sb.toString();
+
+		return md5StringBuilder.toString();
 	}
 
 	/**
