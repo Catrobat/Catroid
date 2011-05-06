@@ -46,21 +46,23 @@ import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.util.Utils;
-import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class MediaPathTest extends InstrumentationTestCase {
 
 	private static final int IMAGE_FILE_ID = at.tugraz.ist.catroid.test.R.raw.icon;
 	private static final int SOUND_FILE_ID = at.tugraz.ist.catroid.test.R.raw.testsound;
+	private static final int BIGBLUE_ID = at.tugraz.ist.catroid.test.R.raw.bigblue;
 	private Project project;
 	private File testImage;
+	private File bigBlue;
 	private File testSound;
 	private File testImageCopy;
 	private File testImageCopy2;
 	private File testSoundCopy;
 	private String imageName = "testImage.png";
 	private String soundName = "testSound.mp3";
-	private String projectName = "testProject3";
+	private String projectName = "testProject5";
+	private String bigBlueName = "bigblue.png";
 
 	@Override
 	protected void setUp() throws Exception {
@@ -80,6 +82,10 @@ public class MediaPathTest extends InstrumentationTestCase {
 		testImageCopy = StorageHandler.getInstance().copyImage(projectName, testImage.getAbsolutePath());
 		testImageCopy2 = StorageHandler.getInstance().copyImage(projectName, testImage.getAbsolutePath());
 
+		bigBlue = Utils.saveFileToProject(mockProject.getName(), bigBlueName, BIGBLUE_ID, getInstrumentation()
+				.getContext(),
+				Utils.TYPE_IMAGE_FILE);
+
 		testSound = Utils.saveFileToProject(projectName, soundName, SOUND_FILE_ID, getInstrumentation().getContext(),
 				Utils.TYPE_SOUND_FILE);
 
@@ -89,11 +95,11 @@ public class MediaPathTest extends InstrumentationTestCase {
 	@Override
 	protected void tearDown() throws Exception {
 
-		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);
-
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
-		}
+		//		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+		//
+		//		if (projectFile.exists()) {
+		//			UtilFile.deleteDirectory(projectFile);
+		//		}
 	}
 
 	public void testPathsInSpfFile() throws IOException {
@@ -122,8 +128,8 @@ public class MediaPathTest extends InstrumentationTestCase {
 		String expectedImagenameTags = ">" + checksumImage + "_" + imageName + "<";
 		String expectedSoundnameTags = ">" + checksumSound + "_" + soundName + "<";
 
-		assertTrue("the imagename is not only the expected name", spf.contains(expectedImagenameTags));
-		assertTrue("the soundname is not only the expected name", spf.contains(expectedSoundnameTags));
+		assertTrue("unexpected imagename", spf.contains(expectedImagenameTags));
+		assertTrue("unexpected soundname", spf.contains(expectedSoundnameTags));
 
 		String unexpectedImagenameTags = ">" + imageName + "<";
 		String unexpectedSoundnameTags = ">" + soundName + "<";
@@ -138,11 +144,26 @@ public class MediaPathTest extends InstrumentationTestCase {
 		assertEquals("the copy does not equal the original image", storage.getMD5Checksum(testSound),
 				storage.getMD5Checksum(testSoundCopy));
 
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName + "/" + Consts.IMAGE_DIRECTORY + "/");
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName + Consts.IMAGE_DIRECTORY);
 		File[] filesImage = directory.listFiles();
 
 		//nomedia file is also in images folder
 		assertEquals("Wrong amount of files in folder", 3, filesImage.length);
+	}
+
+	public void testCopyLargeImage() throws IOException, InterruptedException {
+		createProjectWithAllBricksAndMediaFiles();
+		StorageHandler storage = StorageHandler.getInstance();
+		File bigBlue2 = storage.copyImage(projectName, bigBlue.getAbsolutePath());
+		File bigBlue3 = storage.copyImage(projectName, bigBlue.getAbsolutePath());
+
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName + Consts.IMAGE_DIRECTORY);
+		File[] filesImage = directory.listFiles();
+
+		//nomedia file is also in images folder
+		assertEquals("Wrong amount of files in folder", 4, filesImage.length);
+		assertNotSame("The image was not downsized", storage.getMD5Checksum(bigBlue), storage.getMD5Checksum(bigBlue2));
+		assertEquals("The copies are not the same", bigBlue2.hashCode(), bigBlue3.hashCode());
 	}
 
 	private void createProjectWithAllBricksAndMediaFiles() throws IOException {
