@@ -24,7 +24,7 @@ import java.util.List;
 
 import android.graphics.Color;
 import android.util.Pair;
-import at.tugraz.ist.catroid.Consts;
+import at.tugraz.ist.catroid.common.Consts;
 
 public class Sprite implements Serializable, Comparable<Sprite> {
 	private static final long serialVersionUID = 1L;
