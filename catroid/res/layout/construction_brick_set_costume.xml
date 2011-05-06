@@ -52,7 +52,7 @@
 			android:layout_height="50dip"
 			android:layout_width="50dip"
 			android:layout_alignParentRight="true"
-			android:background="@drawable/ic_launcher_catroid"
+			android:background="@drawable/ic_launcher_catroid_plain"
 			android:maxHeight="100dip"
 			android:maxWidth="100dip"
 			android:scaleType="centerInside"
