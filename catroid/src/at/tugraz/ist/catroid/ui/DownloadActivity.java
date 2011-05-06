@@ -23,8 +23,8 @@ import java.net.URLDecoder;
 
 import android.app.Activity;
 import android.os.Bundle;
-import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.transfers.ProjectDownloadTask;
 
 public class DownloadActivity extends Activity {

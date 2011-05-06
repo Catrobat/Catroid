@@ -25,7 +25,7 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
-import at.tugraz.ist.catroid.Consts;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView;
 
 public class BrickListAnimation {
