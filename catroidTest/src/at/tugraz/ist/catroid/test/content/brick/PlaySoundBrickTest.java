@@ -23,8 +23,8 @@ import java.io.IOException;
 
 import android.media.MediaPlayer;
 import android.test.InstrumentationTestCase;
-import at.tugraz.ist.catroid.Consts;
-import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.ProjectManager;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;

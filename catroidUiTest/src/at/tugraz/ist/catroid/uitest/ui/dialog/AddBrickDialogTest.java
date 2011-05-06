@@ -23,9 +23,9 @@ import java.io.File;
 import java.io.IOException;
 
 import android.test.ActivityInstrumentationTestCase2;
-import at.tugraz.ist.catroid.Consts;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;

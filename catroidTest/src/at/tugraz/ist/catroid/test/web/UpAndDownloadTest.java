@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import android.test.AndroidTestCase;
-import at.tugraz.ist.catroid.Consts;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.transfers.ProjectDownloadTask;
 import at.tugraz.ist.catroid.transfers.ProjectUploadTask;
 import at.tugraz.ist.catroid.utils.UtilFile;

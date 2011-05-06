@@ -20,8 +20,8 @@ package at.tugraz.ist.catroid.uitest.ui;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.ListView;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.uitest.util.Utils;

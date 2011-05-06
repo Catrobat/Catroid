@@ -23,9 +23,9 @@ import java.io.File;
 import java.util.List;
 
 import android.test.ActivityInstrumentationTestCase2;
-import at.tugraz.ist.catroid.Consts;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.stage.StageActivity;

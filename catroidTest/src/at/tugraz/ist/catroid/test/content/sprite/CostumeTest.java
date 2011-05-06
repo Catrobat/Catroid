@@ -26,7 +26,7 @@ import java.io.OutputStream;
 
 import android.graphics.BitmapFactory;
 import android.test.InstrumentationTestCase;
-import at.tugraz.ist.catroid.Consts;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.test.R;
 
 public class CostumeTest extends InstrumentationTestCase {

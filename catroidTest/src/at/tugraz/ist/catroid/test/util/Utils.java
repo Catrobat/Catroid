@@ -26,7 +26,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import android.content.Context;
-import at.tugraz.ist.catroid.Consts;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class Utils {
