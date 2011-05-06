@@ -56,6 +56,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 	private File testImage;
 	private File testSound;
 	private File testImageCopy;
+	private File testImageCopy2;
 	private File testSoundCopy;
 	private String imageName = "testImage.png";
 	private String soundName = "testSound.mp3";
@@ -77,6 +78,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 				Utils.TYPE_IMAGE_FILE);
 
 		testImageCopy = StorageHandler.getInstance().copyImage(projectName, testImage.getAbsolutePath());
+		testImageCopy2 = StorageHandler.getInstance().copyImage(projectName, testImage.getAbsolutePath());
 
 		testSound = Utils.saveFileToProject(projectName, soundName, SOUND_FILE_ID, getInstrumentation().getContext(),
 				Utils.TYPE_SOUND_FILE);
@@ -131,8 +133,16 @@ public class MediaPathTest extends InstrumentationTestCase {
 		StorageHandler storage = StorageHandler.getInstance();
 		assertEquals("the copy does not equal the original image", storage.getMD5Checksum(testImage),
 				storage.getMD5Checksum(testImageCopy));
+		assertEquals("the copy does not equal the original image", storage.getMD5Checksum(testImage),
+				storage.getMD5Checksum(testImageCopy2));
 		assertEquals("the copy does not equal the original image", storage.getMD5Checksum(testSound),
 				storage.getMD5Checksum(testSoundCopy));
+
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName + "/" + Consts.IMAGE_DIRECTORY + "/");
+		File[] filesImage = directory.listFiles();
+
+		//nomedia file is also in images folder
+		assertEquals("Wrong amount of files in folder", 3, filesImage.length);
 	}
 
 	private void createProjectWithAllBricksAndMediaFiles() throws IOException {

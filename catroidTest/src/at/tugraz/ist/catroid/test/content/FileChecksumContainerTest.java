@@ -47,16 +47,17 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 	private final int fileSizeSound = 4000;
 
 	public FileChecksumContainerTest() throws IOException {
+	}
+
+	@Override
+	protected void setUp() throws Exception {
+
 		Utils.clearProject(currentProjectName);
 		storageHandler = StorageHandler.getInstance();
 		Project testCopyFile = new Project(null, currentProjectName);
 		projectManager = ProjectManager.getInstance();
 		storageHandler.saveProject(testCopyFile);
 		projectManager.setProject(testCopyFile);
-	}
-
-	@Override
-	protected void setUp() throws Exception {
 
 		final String imagePath = Consts.DEFAULT_ROOT + "/testImage.png";
 		testImage = new File(imagePath);
@@ -96,12 +97,7 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		//		if (testImage != null && testImage.exists()) {
-		//			testImage.delete();
-		//		}
-		//		if (testSound != null && testSound.exists()) {
-		//			testSound.delete();
-		//		}
+		Utils.clearProject(currentProjectName);
 	}
 
 	public void testContainer() throws IOException, InterruptedException {
