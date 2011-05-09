@@ -43,7 +43,7 @@ public class Project implements Serializable {
 	private String screenResolution;
 
 	private int versionCode;
-	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
+	private transient FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
 
 	public Project(Context context, String name) {
 		this.name = name;

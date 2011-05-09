@@ -26,8 +26,8 @@ import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.os.AsyncTask;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -112,6 +112,7 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 			JSONObject jsonObject = null;
 			int statusCode = 0;
 
+			System.out.println("out: " + resultString);
 			try {
 				jsonObject = new JSONObject(resultString);
 				statusCode = jsonObject.getInt("statusCode");
@@ -173,7 +174,7 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 		HashMap<String, String> postValues = new HashMap<String, String>();
 		postValues.put(Consts.PROJECT_NAME_TAG, projectName);
 		postValues.put(Consts.PROJECT_DESCRIPTION_TAG, projectDescription);
-		postValues.put(Consts.PROJECT_CHECKSUM_TAG, md5Checksum);
+		postValues.put(Consts.PROJECT_CHECKSUM_TAG, md5Checksum.toLowerCase());
 
 		String deviceIMEI = UtilDeviceInfo.getDeviceIMEI(context);
 		if (deviceIMEI != null) {

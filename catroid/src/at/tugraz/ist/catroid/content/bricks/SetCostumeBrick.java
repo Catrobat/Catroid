@@ -54,6 +54,15 @@ public class SetCostumeBrick implements Brick {
 		}
 	}
 
+	private Object readResolve() {
+		System.out.println("------in brick readResolve");
+		System.out.println("image name: " + imageName);
+		//		if (imageName != null) {
+		//			ProjectManager.getInstance().getCurrentProject().getFileChecksumContainer().addChecksum(checksum, path);
+		//		}
+		return this;
+	}
+
 	public void execute() {
 		this.sprite.getCostume().setImagePath(getAbsoluteImagePath());
 	}
