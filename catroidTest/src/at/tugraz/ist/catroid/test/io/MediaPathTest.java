@@ -46,7 +46,6 @@ import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.util.Utils;
-import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class MediaPathTest extends InstrumentationTestCase {
 
@@ -60,9 +59,13 @@ public class MediaPathTest extends InstrumentationTestCase {
 	private File testImageCopy;
 	private File testImageCopy2;
 	private File testSoundCopy;
+
+	private File bigBlue2;
+	private File bigBlue3;
+
 	private String imageName = "testImage.png";
 	private String soundName = "testSound.mp3";
-	private String projectName = "testProject5";
+	private String projectName = "testProject7";
 	private String bigBlueName = "bigblue.png";
 
 	@Override
@@ -77,14 +80,16 @@ public class MediaPathTest extends InstrumentationTestCase {
 		Project mockProject = new Project(getInstrumentation().getTargetContext(), "mockProject");
 		StorageHandler.getInstance().saveProject(mockProject);
 
-		testImage = Utils.saveFileToProject(projectName, imageName, IMAGE_FILE_ID, getInstrumentation().getContext(),
+		testImage = Utils.saveFileToProject(mockProject.getName(), imageName, IMAGE_FILE_ID, getInstrumentation()
+				.getContext(),
 				Utils.TYPE_IMAGE_FILE);
 
 		bigBlue = Utils.saveFileToProject(mockProject.getName(), bigBlueName, BIGBLUE_ID, getInstrumentation()
 				.getContext(),
 				Utils.TYPE_IMAGE_FILE);
 
-		testSound = Utils.saveFileToProject(projectName, soundName, SOUND_FILE_ID, getInstrumentation().getContext(),
+		testSound = Utils.saveFileToProject(mockProject.getName(), soundName, SOUND_FILE_ID, getInstrumentation()
+				.getContext(),
 				Utils.TYPE_SOUND_FILE);
 
 		//copy files with the Storagehandler copy function
@@ -97,11 +102,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 	@Override
 	protected void tearDown() throws Exception {
 
-		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);
-
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
-		}
+		//Utils.clearProject(projectName);
 	}
 
 	public void testPathsInSpfFile() throws IOException {
@@ -152,20 +153,20 @@ public class MediaPathTest extends InstrumentationTestCase {
 		File[] filesImage = directory.listFiles();
 
 		//nomedia file is also in images folder
-		assertEquals("Wrong amount of files in folder", 3, filesImage.length);
+		assertEquals("Wrong amount of files in folder", 2, filesImage.length);
 	}
 
 	public void testCopyLargeImage() throws IOException, InterruptedException {
-		createProjectWithAllBricksAndMediaFiles();
 		StorageHandler storage = StorageHandler.getInstance();
-		File bigBlue2 = storage.copyImage(projectName, bigBlue.getAbsolutePath());
-		File bigBlue3 = storage.copyImage(projectName, bigBlue.getAbsolutePath());
+		bigBlue2 = storage.copyImage(projectName, bigBlue.getAbsolutePath());
+		bigBlue3 = storage.copyImage(projectName, bigBlue.getAbsolutePath());
+		createProjectWithAllBricksAndMediaFiles();
 
 		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName + Consts.IMAGE_DIRECTORY);
 		File[] filesImage = directory.listFiles();
 
 		//nomedia file is also in images folder
-		assertEquals("Wrong amount of files in folder", 4, filesImage.length);
+		assertEquals("Wrong amount of files in folder", 3, filesImage.length);
 		assertNotSame("The image was not downsized", storage.getMD5Checksum(bigBlue), storage.getMD5Checksum(bigBlue2));
 		assertEquals("The copies are not the same", bigBlue2.hashCode(), bigBlue3.hashCode());
 	}
@@ -194,10 +195,21 @@ public class MediaPathTest extends InstrumentationTestCase {
 		PlaySoundBrick soundBrick = new PlaySoundBrick(sprite);
 		soundBrick.setPathToSoundfile(testSoundCopy.getName());
 
-		project.getFileChecksumContainer().addChecksum(StorageHandler.getInstance().getMD5Checksum(testImageCopy),
-					testImageCopy.getAbsolutePath());
-		project.getFileChecksumContainer().addChecksum(StorageHandler.getInstance().getMD5Checksum(testSoundCopy),
-					testSoundCopy.getAbsolutePath());
+		StorageHandler handler = StorageHandler.getInstance();
+
+		project.getFileChecksumContainer().addChecksum(handler.getMD5Checksum(testImageCopy),
+				testImageCopy.getAbsolutePath());
+		project.getFileChecksumContainer().addChecksum(handler.getMD5Checksum(testImageCopy2),
+				testImageCopy2.getAbsolutePath());
+		project.getFileChecksumContainer().addChecksum(handler.getMD5Checksum(testSoundCopy),
+				testSoundCopy.getAbsolutePath());
+
+		if ((bigBlue2 != null) && (bigBlue3 != null)) {
+			project.getFileChecksumContainer().addChecksum(handler.getMD5Checksum(bigBlue2),
+					bigBlue2.getAbsolutePath());
+			project.getFileChecksumContainer().addChecksum(handler.getMD5Checksum(bigBlue3),
+					bigBlue3.getAbsolutePath());
+		}
 
 		brickList2.add(new IfTouchedBrick(sprite, touchedScript));
 		brickList2.add(new PlaceAtBrick(sprite, 50, 50));

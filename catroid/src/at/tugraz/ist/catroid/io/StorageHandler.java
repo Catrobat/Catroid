@@ -263,7 +263,7 @@ public class StorageHandler {
 			return null;
 		}
 		String inputFileChecksum = getMD5Checksum(inputFile);
-		//TODO: replace when refact checksumcontainer:
+
 		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getCurrentProject()
 				.getFileChecksumContainer();
 		if (fileChecksumContainer.containsChecksum(inputFileChecksum)) {
@@ -287,16 +287,16 @@ public class StorageHandler {
 
 		int[] imageDimensions = new int[2];
 		imageDimensions = ImageEditing.getImageDimensions(inputFilePath);
+		FileChecksumContainer checksumCont = ProjectManager.getInstance().getCurrentProject()
+				.getFileChecksumContainer();
 
 		if ((imageDimensions[0] <= Consts.MAX_COSTUME_WIDTH) && (imageDimensions[1] <= Consts.MAX_COSTUME_HEIGHT)) {
 			String checksumSource = getMD5Checksum(inputFile);
 
-			FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getCurrentProject()
-					.getFileChecksumContainer();
 			String newFilePath = imageDirectory.getAbsolutePath() + "/" + checksumSource + "_" + inputFile.getName();
-			if (fileChecksumContainer.containsChecksum(checksumSource)) {
-				fileChecksumContainer.addChecksum(checksumSource, newFilePath);
-				return new File(fileChecksumContainer.getPath(checksumSource));
+			if (checksumCont.containsChecksum(checksumSource)) {
+				checksumCont.addChecksum(checksumSource, newFilePath);
+				return new File(checksumCont.getPath(checksumSource));
 			}
 			File outputFile = new File(newFilePath);
 			return copyFile(outputFile, inputFile, imageDirectory);
@@ -327,10 +327,10 @@ public class StorageHandler {
 
 		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getCurrentProject()
 				.getFileChecksumContainer();
-
-		String newFile = imageDirectory + "/" + checksumCompressedFile + "_" + inputFile.getName();
+		String newFile = imageDirectory.getAbsolutePath() + "/" + checksumCompressedFile + "_" + inputFile.getName();
 
 		if (!fileChecksumContainer.addChecksum(checksumCompressedFile, newFile)) {
+			outputFile.delete();
 			return new File(fileChecksumContainer.getPath(checksumCompressedFile));
 		}
 
@@ -368,8 +368,14 @@ public class StorageHandler {
 	public void deleteFile(String filepath) {
 		FileChecksumContainer container = ProjectManager.getInstance().getCurrentProject()
 				.getFileChecksumContainer();
-		String checksum = container.getChecksumForPath(filepath);
-		container.deleteChecksum(checksum);
+		try {
+			if (container.decrementUsage(filepath)) {
+				File toDelete = new File(filepath);
+				toDelete.delete();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public String getMD5Checksum(File file) {

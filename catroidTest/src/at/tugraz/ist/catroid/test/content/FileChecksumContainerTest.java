@@ -112,14 +112,14 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 		//wait to get a different timestamp on next file
 		Thread.sleep(2000);
 
-		storageHandler.copyImage(currentProjectName, testImage.getAbsolutePath());
+		File newTestImage = storageHandler.copyImage(currentProjectName, testImage.getAbsolutePath());
 		File imageDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName + Consts.IMAGE_DIRECTORY + "/");
 		File[] filesImage = imageDirectory.listFiles();
 
 		//nomedia file is also in images folder
 		assertEquals("Wrong amount of files in folder", 2, filesImage.length);
 
-		storageHandler.copySoundFile(testSound.getAbsolutePath());
+		File newTestSound = storageHandler.copySoundFile(testSound.getAbsolutePath());
 		String checksumSound = storageHandler.getMD5Checksum(testSound);
 		assertTrue("Checksum isn't in container", container.containsChecksum(checksumSound));
 		File soundDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName + Consts.SOUND_DIRECTORY);
@@ -128,34 +128,26 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 		//nomedia file is also in sounds folder
 		assertEquals("Wrong amount of files in folder", 2, filesSound.length);
 
-		container.deleteChecksum(checksumImage);
+		container.decrementUsage(newTestImage.getAbsolutePath());
 		assertTrue("Checksum was deleted", container.containsChecksum(checksumImage));
-		container.deleteChecksum(checksumImage);
+		container.decrementUsage(newTestImage.getAbsolutePath());
 		assertFalse("Checksum wasn't deleted", container.containsChecksum(checksumImage));
-		container.deleteChecksum(checksumSound);
+		container.decrementUsage(newTestSound.getAbsolutePath());
 		assertFalse("Checksum wasn't deleted", container.containsChecksum(checksumSound));
 	}
 
 	public void testDeleteFile() throws IOException, InterruptedException {
-		storageHandler.copyImage(currentProjectName, testImage.getAbsolutePath());
+		File newTestImage1 = storageHandler.copyImage(currentProjectName, testImage.getAbsolutePath());
 		//wait to get a different timestamp on next file
 		Thread.sleep(2000);
-		storageHandler.copyImage(currentProjectName, testImage.getAbsolutePath());
-		String checksumImage = storageHandler.getMD5Checksum(testImage);
-		FileChecksumContainer container = projectManager.getCurrentProject().getFileChecksumContainer();
 
-		container.deleteChecksum(checksumImage);
+		storageHandler.deleteFile(newTestImage1.getAbsolutePath());
 		File imageDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName + Consts.IMAGE_DIRECTORY);
 		File[] filesImage = imageDirectory.listFiles();
-		assertEquals("Wrong amount of files in folder", 2, filesImage.length);
-
-		container.deleteChecksum(checksumImage);
-		filesImage = imageDirectory.listFiles();
 		assertEquals("Wrong amount of files in folder", 1, filesImage.length);
 
-		storageHandler.copySoundFile(testSound.getAbsolutePath());
-		String checksumSound = storageHandler.getMD5Checksum(testSound);
-		container.deleteChecksum(checksumSound);
+		File newTestSound = storageHandler.copySoundFile(testSound.getAbsolutePath());
+		storageHandler.deleteFile(newTestSound.getAbsolutePath());
 
 		File soundDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName + Consts.SOUND_DIRECTORY);
 		File[] filesSound = soundDirectory.listFiles();
