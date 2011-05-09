@@ -18,7 +18,6 @@
  */
 package at.tugraz.ist.catroid.common;
 
-import java.io.File;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,57 +29,74 @@ import java.util.Map;
 public class FileChecksumContainer implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private Map<String, Integer> fileReferenceMap = new HashMap<String, Integer>(); //checksum / usages
-	private Map<String, String> checksumFilePathMap = new HashMap<String, String>(); //checksum / path
 
-	public void addChecksum(String checksum, String path) {
+	public class FileInfo {
+		private String checksum;
+		private int usage;
+		private String path;
+	}
+
+	private Map<String, FileInfo> fileReferenceMap = new HashMap<String, FileInfo>(); //checksum / usages
+
+	/**
+	 * 
+	 * @param checksum
+	 * @param path
+	 * @return true if a new File is added and false if the file already exists
+	 */
+	public boolean addChecksum(String checksum, String path) {
 		if (fileReferenceMap.containsKey(checksum)) {
-			incrementValue(checksum);
+			FileInfo fileInfo = fileReferenceMap.get(checksum);
+			++fileInfo.usage;
+			return false;
 		} else {
-			fileReferenceMap.put(checksum, new Integer(1));
-			checksumFilePathMap.put(checksum, path);
-		}
-	}
-
-	public void incrementValue(String checksum) {
-		if (fileReferenceMap.containsKey(checksum)) {
-			fileReferenceMap.put(checksum, fileReferenceMap.get(checksum) + 1);
-		}
-	}
-
-	public boolean containsChecksum(String checksum) {
-		if (fileReferenceMap.containsKey(checksum)) {
+			FileInfo fileInfo = new FileInfo();
+			fileInfo.checksum = checksum;
+			fileInfo.usage = 1;
+			fileInfo.path = path;
+			fileReferenceMap.put(checksum, fileInfo);
 			return true;
 		}
-		return false;
+	}
+
+	//	private void incrementValue(String checksum) {
+	//		if (fileReferenceMap.containsKey(checksum)) {
+	//			fileReferenceMap.put(checksum, fileReferenceMap.get(checksum) + 1);
+	//		}
+	//	}
+
+	public boolean containsChecksum(String checksum) {
+		return fileReferenceMap.containsKey(checksum);
 	}
 
 	public String getPath(String checksum) {
-		return checksumFilePathMap.get(checksum);
+		return fileReferenceMap.get(checksum).path;
 	}
 
 	public String getChecksumForPath(String filepath) {
-		for (Map.Entry<String, String> entry : checksumFilePathMap.entrySet()) {
-			if (entry.getValue().equals(filepath)) {
-				return entry.getKey();
-			}
-		}
+		//		for (Map.Entry<String, String> entry : checksumFilePathMap.entrySet()) {
+		//			if (entry.getValue().equals(filepath)) {
+		//				return entry.getKey();
+		//			}
+		//		}
 		return null;
 	}
 
 	public boolean deleteChecksum(String checksum) {
-		if (!fileReferenceMap.containsKey(checksum))
+		if (!fileReferenceMap.containsKey(checksum)) {
 			return false;
-		if (fileReferenceMap.get(checksum) > 1) {
-			fileReferenceMap.put(checksum, fileReferenceMap.get(checksum) - 1);
-			return false;
-		} else {
-			File toDelete = new File(checksumFilePathMap.get(checksum));
-			toDelete.delete();
-			fileReferenceMap.remove(checksum);
-			checksumFilePathMap.remove(checksum);
-			return true;
 		}
+		//		if (fileReferenceMap.get(checksum) > 1) {
+		//			fileReferenceMap.put(checksum, fileReferenceMap.get(checksum) - 1);
+		//			return false;
+		//		} else {
+		//			File toDelete = new File(checksumFilePathMap.get(checksum));
+		//			toDelete.delete();
+		//			fileReferenceMap.remove(checksum);
+		//			checksumFilePathMap.remove(checksum);
+		//			return true;
+		//		}
+		return false;
 	}
 
 }

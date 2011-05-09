@@ -267,7 +267,7 @@ public class StorageHandler {
 		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getCurrentProject()
 				.getFileChecksumContainer();
 		if (fileChecksumContainer.containsChecksum(inputFileChecksum)) {
-			fileChecksumContainer.incrementValue(inputFileChecksum);
+			fileChecksumContainer.addChecksum(inputFileChecksum, null);
 			return new File(fileChecksumContainer.getPath(inputFileChecksum));
 		}
 		File outputFile = new File(soundDirectory.getAbsolutePath() + "/" + inputFileChecksum + "_"
@@ -291,14 +291,14 @@ public class StorageHandler {
 		if ((imageDimensions[0] <= Consts.MAX_COSTUME_WIDTH) && (imageDimensions[1] <= Consts.MAX_COSTUME_HEIGHT)) {
 			String checksumSource = getMD5Checksum(inputFile);
 
-			//TODO: replace when refact checksumcontainer:
 			FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getCurrentProject()
 					.getFileChecksumContainer();
+			String newFilePath = imageDirectory.getAbsolutePath() + "/" + checksumSource + "_" + inputFile.getName();
 			if (fileChecksumContainer.containsChecksum(checksumSource)) {
-				fileChecksumContainer.incrementValue(checksumSource);
+				fileChecksumContainer.addChecksum(checksumSource, newFilePath);
 				return new File(fileChecksumContainer.getPath(checksumSource));
 			}
-			File outputFile = new File(imageDirectory + "/" + checksumSource + "_" + inputFile.getName());
+			File outputFile = new File(newFilePath);
 			return copyFile(outputFile, inputFile, imageDirectory);
 		} else {
 			File outputFile = new File(imageDirectory + "/" + inputFile.getName());
@@ -312,28 +312,29 @@ public class StorageHandler {
 				Consts.MAX_COSTUME_HEIGHT);
 		try {
 			String name = inputFile.getName();
-			if (name.contains(".jpg") || name.contains(".jpeg") || name.contains(".JPG") || name.contains(".JPEG")) {
+			if (name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".JPG") || name.endsWith(".JPEG")) {
 				bitmap.compress(CompressFormat.JPEG, Consts.JPG_COMPRESSION_SETING, outputStream);
 			} else {
 				bitmap.compress(CompressFormat.PNG, Consts.JPG_COMPRESSION_SETING, outputStream);
 			}
 			outputStream.flush();
 			outputStream.close();
-		} catch (Exception e) {
+		} catch (IOException e) {
 
 		}
 
 		String checksumCompressedFile = StorageHandler.getInstance().getMD5Checksum(outputFile);
 
-		//TODO: replace when refact checksumcontainer:
 		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().getCurrentProject()
 				.getFileChecksumContainer();
-		if (fileChecksumContainer.containsChecksum(checksumCompressedFile)) {
-			fileChecksumContainer.incrementValue(checksumCompressedFile);
+
+		String newFile = imageDirectory + "/" + checksumCompressedFile + "_" + inputFile.getName();
+
+		if (!fileChecksumContainer.addChecksum(checksumCompressedFile, newFile)) {
 			return new File(fileChecksumContainer.getPath(checksumCompressedFile));
 		}
 
-		File compressedFile = new File(imageDirectory + "/" + checksumCompressedFile + "_" + inputFile.getName());
+		File compressedFile = new File(newFile);
 		outputFile.renameTo(compressedFile);
 
 		return compressedFile;
