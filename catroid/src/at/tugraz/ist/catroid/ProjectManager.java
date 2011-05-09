@@ -23,14 +23,14 @@ import java.io.File;
 
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
-import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.io.StorageHandler;
-import at.tugraz.ist.catroid.utils.Utils; 
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class ProjectManager {
 
@@ -39,9 +39,12 @@ public class ProjectManager {
 	private static ProjectManager instance;
 	private Script currentScript;
 	// used in uiTests
-	private transient int serverProjectId;
+	private int serverProjectId;
+
+	public FileChecksumContainer fileChecksumContainer;
 
 	private ProjectManager() {
+		fileChecksumContainer = new FileChecksumContainer();
 	}
 
 	public static ProjectManager getInstance() {
@@ -53,6 +56,7 @@ public class ProjectManager {
 
 	public boolean loadProject(String projectName, Context context, boolean errorMessage) {
 		try {
+			fileChecksumContainer = new FileChecksumContainer();
 			project = StorageHandler.getInstance().loadProject(projectName);
 			if (project == null) {
 				project = StorageHandler.getInstance().createDefaultProject(context);
@@ -144,6 +148,7 @@ public class ProjectManager {
 
 	public void initializeNewProject(String projectName, Context context) {
 		project = new Project(context, projectName);
+		fileChecksumContainer = new FileChecksumContainer();
 		currentSprite = null;
 		currentScript = null;
 		saveProject(context);

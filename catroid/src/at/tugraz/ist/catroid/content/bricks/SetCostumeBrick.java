@@ -55,12 +55,16 @@ public class SetCostumeBrick implements Brick {
 	}
 
 	private Object readResolve() {
-		System.out.println("------in brick readResolve");
-		System.out.println("image name: " + imageName);
-		//		if (imageName != null) {
-		//			ProjectManager.getInstance().getCurrentProject().getFileChecksumContainer().addChecksum(checksum, path);
-		//		}
-		return this;
+		try {
+			if (imageName != null) {
+				String[] checksum = imageName.split("_");
+				ProjectManager.getInstance().fileChecksumContainer.addChecksum(checksum[0], getAbsoluteImagePath());
+			}
+			return this;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return this; //whatever -.- (TODO)
+		}
 	}
 
 	public void execute() {

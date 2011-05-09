@@ -119,11 +119,10 @@ public class MainMenuActivity extends Activity {
 		String projectName = prefs.getString(PREF_PROJECTNAME_KEY, null);
 
 		if (projectName != null) {
+			System.out.println("PROJECTNAME______________________________________  ::::: " + projectName);
 			projectManager.loadProject(projectName, this, false);
 		} else {
 			projectManager.initializeDefaultProject(this);
-			//projectManager.loadProject(this.getString(R.string.default_project_name), this); 
-			// default project is created
 		}
 
 		if (projectManager.getCurrentProject() == null) {
