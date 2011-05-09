@@ -36,7 +36,7 @@ public class FileChecksumContainer implements Serializable {
 		private String path;
 	}
 
-	private Map<String, FileInfo> fileReferenceMap = new HashMap<String, FileInfo>(); //checksum / usages
+	public Map<String, FileInfo> fileReferenceMap = new HashMap<String, FileInfo>(); //checksum / usages
 
 	/**
 	 * 

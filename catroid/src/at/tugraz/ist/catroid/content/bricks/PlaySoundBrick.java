@@ -60,7 +60,7 @@ public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable 
 
 	public void execute() {
 		if (soundfileName != null) {
-			SoundManager.getInstance().playSoundFile(getAbsoluteImagePath());
+			SoundManager.getInstance().playSoundFile(getAbsoluteSoundPath());
 		}
 	}
 
@@ -69,7 +69,7 @@ public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable 
 	}
 
 	public String getPathToSoundFile() {
-		return getAbsoluteImagePath();
+		return getAbsoluteSoundPath();
 	}
 
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
@@ -124,7 +124,7 @@ public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable 
 		File soundFile = null;
 
 		if (soundfileName != null) {
-			StorageHandler.getInstance().deleteFile(getAbsoluteImagePath());
+			StorageHandler.getInstance().deleteFile(getAbsoluteSoundPath());
 		}
 
 		try {
@@ -149,12 +149,26 @@ public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable 
 		this.soundfileName = pathToSoundfile;
 	}
 
-	private String getAbsoluteImagePath() {
+	private String getAbsoluteSoundPath() {
 		return Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName()
 				+ Consts.SOUND_DIRECTORY + "/" + soundfileName;
 	}
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	private Object readResolve() {
+		try {
+			if (soundfileName != null) {
+				String[] checksum = soundfileName.split("_");
+				ProjectManager.getInstance().fileChecksumContainer.addChecksum(checksum[0], getAbsoluteSoundPath());
+			}
+			return this;
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return this; //whatever -.- (TODO)
+		}
 	}
 }

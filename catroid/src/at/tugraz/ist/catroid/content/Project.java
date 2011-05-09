@@ -27,7 +27,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.common.Values;
 
 public class Project implements Serializable {
@@ -43,7 +42,6 @@ public class Project implements Serializable {
 	private String screenResolution;
 
 	private int versionCode;
-	private transient FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
 
 	public Project(Context context, String name) {
 		this.name = name;
@@ -116,10 +114,6 @@ public class Project implements Serializable {
 
 	public int getVersionCode() {
 		return versionCode;
-	}
-
-	public FileChecksumContainer getFileChecksumContainer() {
-		return fileChecksumContainer;
 	}
 
 	public void setDeviceData() {

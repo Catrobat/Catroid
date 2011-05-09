@@ -106,7 +106,7 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 
 		String checksumImage = storageHandler.getMD5Checksum(testImage);
 
-		FileChecksumContainer container = projectManager.getCurrentProject().getFileChecksumContainer();
+		FileChecksumContainer container = projectManager.fileChecksumContainer;
 		assertTrue("Checksum isn't in container", container.containsChecksum(checksumImage));
 
 		//wait to get a different timestamp on next file

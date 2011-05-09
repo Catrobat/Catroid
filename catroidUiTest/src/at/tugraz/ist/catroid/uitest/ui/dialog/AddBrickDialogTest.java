@@ -100,7 +100,7 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 
 		Utils.addNewBrickAndScrollDown(solo, R.string.brick_if_touched);
 
-		//TODO: This test takes ages but there is not a single assert. Guess what's to do. --> U mad Bro? when addnewbrick doesn't work this test fails hard
+		//TODO: please write some asserts
 	}
 
 	private void createTestProject(String projectName) throws IOException {

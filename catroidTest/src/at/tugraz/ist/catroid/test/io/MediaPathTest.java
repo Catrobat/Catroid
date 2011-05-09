@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -102,7 +103,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 	@Override
 	protected void tearDown() throws Exception {
 
-		//Utils.clearProject(projectName);
+		Utils.clearProject(projectName);
 	}
 
 	public void testPathsInSpfFile() throws IOException {
@@ -196,19 +197,15 @@ public class MediaPathTest extends InstrumentationTestCase {
 		soundBrick.setPathToSoundfile(testSoundCopy.getName());
 
 		StorageHandler handler = StorageHandler.getInstance();
+		FileChecksumContainer container = ProjectManager.getInstance().fileChecksumContainer;
 
-		project.getFileChecksumContainer().addChecksum(handler.getMD5Checksum(testImageCopy),
-				testImageCopy.getAbsolutePath());
-		project.getFileChecksumContainer().addChecksum(handler.getMD5Checksum(testImageCopy2),
-				testImageCopy2.getAbsolutePath());
-		project.getFileChecksumContainer().addChecksum(handler.getMD5Checksum(testSoundCopy),
-				testSoundCopy.getAbsolutePath());
+		container.addChecksum(handler.getMD5Checksum(testImageCopy), testImageCopy.getAbsolutePath());
+		container.addChecksum(handler.getMD5Checksum(testImageCopy2), testImageCopy2.getAbsolutePath());
+		container.addChecksum(handler.getMD5Checksum(testSoundCopy), testSoundCopy.getAbsolutePath());
 
 		if ((bigBlue2 != null) && (bigBlue3 != null)) {
-			project.getFileChecksumContainer().addChecksum(handler.getMD5Checksum(bigBlue2),
-					bigBlue2.getAbsolutePath());
-			project.getFileChecksumContainer().addChecksum(handler.getMD5Checksum(bigBlue3),
-					bigBlue3.getAbsolutePath());
+			container.addChecksum(handler.getMD5Checksum(bigBlue2), bigBlue2.getAbsolutePath());
+			container.addChecksum(handler.getMD5Checksum(bigBlue3), bigBlue3.getAbsolutePath());
 		}
 
 		brickList2.add(new IfTouchedBrick(sprite, touchedScript));
