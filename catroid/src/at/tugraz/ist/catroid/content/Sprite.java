@@ -28,13 +28,13 @@ import at.tugraz.ist.catroid.common.Consts;
 
 public class Sprite implements Serializable, Comparable<Sprite> {
 	private static final long serialVersionUID = 1L;
-	private String name;
-	private int xPosition;
-	private int yPosition;
-	private int zPosition;
+	private transient int xPosition;
+	private transient int yPosition;
+	private transient int zPosition;
+	private transient boolean isVisible;
+	private transient boolean toDraw;
 	private double scale;
-	private boolean isVisible;
-	private boolean toDraw;
+	private String name;
 	private List<Script> scriptList;
 	private List<Thread> threadList;
 	private Costume costume;

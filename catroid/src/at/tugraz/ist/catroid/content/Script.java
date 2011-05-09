@@ -29,12 +29,15 @@ public class Script implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Brick> brickList;
 	private boolean isTouchScript;
-	private boolean isFinished;
-	private boolean paused;
-	private int brickPositionAfterPause;
+	private transient boolean isFinished;
+	private transient boolean paused;
+	private transient int brickPositionAfterPause;
 	private String name;
 	private Sprite sprite;
 
+	/*
+	 * TODO: name pretty much useless. Not used anywhere besides tests. Cluttering the XML. Hurray!
+	 */
 	public Script(String name, Sprite sprite) {
 		this.name = name;
 		brickList = new ArrayList<Brick>();
@@ -71,6 +74,7 @@ public class Script implements Serializable {
 		brickList.add(brick);
 	}
 
+	// TODO: Never used anywhere. But we _do_ remove bricks. So... where is this done and why isn't _this_ function called?
 	public void removeBrick(Brick brick) {
 		brickList.remove(brick);
 	}
@@ -96,6 +100,8 @@ public class Script implements Serializable {
 		return brickList;
 	}
 
+	// TODO: Exactly used once. Was it just used because it existed or should we think of a better way to do this?
+	// Not really high priority, just thoughts.
 	public void setTouchScript(boolean isTouchScript) {
 		this.isTouchScript = isTouchScript;
 		if (isTouchScript) {
@@ -119,18 +125,22 @@ public class Script implements Serializable {
 		return isFinished;
 	}
 
+	// TODO: Only used in tests --> put it there (reflection)
 	public String getName() {
 		return name;
 	}
 
+	// TODO: Never used anywhere
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	// TODO: Never used anywhere
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
+	// TODO: Never used anywhere
 	public Sprite getSprite() {
 		return sprite;
 	}

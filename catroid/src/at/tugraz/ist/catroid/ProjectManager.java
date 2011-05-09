@@ -23,14 +23,13 @@ import java.io.File;
 
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
-import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.io.StorageHandler;
-import at.tugraz.ist.catroid.utils.Utils; 
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class ProjectManager {
 
@@ -113,6 +112,12 @@ public class ProjectManager {
 		currentSprite.getScriptList().add(script);
 	}
 
+	/*
+	 * TODO: Only used in AddBrickDialog. Could remove this function and use the one implemented in Script.
+	 * (AddBrickDialog has access to scripts, and if not, there's getCurrentScript. No need to duplicated functionality)
+	 * Whereas getCurrentScript is only used in tests. So it would probably better to get rid of getCurrentScript and
+	 * use this function!?
+	 */
 	public void addBrick(Brick brick) {
 		currentScript.addBrick(brick);
 	}
@@ -138,6 +143,9 @@ public class ProjectManager {
 		return project;
 	}
 
+	/*
+	 * TODO: Only used in tests --> put it there (reflection)
+	 */
 	public Script getCurrentScript() {
 		return currentScript;
 	}
@@ -239,8 +247,7 @@ public class ProjectManager {
 			return -1;
 		}
 
-		return project.getSpriteList().get(currentSpritePos).getScriptList()
-				.indexOf(currentScript);
+		return project.getSpriteList().get(currentSpritePos).getScriptList().indexOf(currentScript);
 	}
 
 	public boolean setCurrentSpriteWithPosition(int position) {
@@ -260,15 +267,13 @@ public class ProjectManager {
 			return false;
 		}
 
-		if (position >= project.getSpriteList().get(currentSpritePos).getScriptList().size()
-				|| position < 0) {
+		if (position >= project.getSpriteList().get(currentSpritePos).getScriptList().size() || position < 0) {
 			return false;
 		}
 
-		currentScript = project.getSpriteList().get(this.getCurrentSpritePosition())
-				.getScriptList().get(position);
-		return true;
+		currentScript = project.getSpriteList().get(this.getCurrentSpritePosition()).getScriptList().get(position);
 
+		return true;
 	}
 
 }
