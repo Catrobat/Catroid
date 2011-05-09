@@ -36,7 +36,7 @@ public class FileChecksumContainer implements Serializable {
 		private String path;
 	}
 
-	public Map<String, FileInfo> fileReferenceMap = new HashMap<String, FileInfo>(); //checksum / usages
+	private Map<String, FileInfo> checksumFileInfoMap = new HashMap<String, FileInfo>(); //checksum / usages
 
 	/**
 	 * 
@@ -45,29 +45,29 @@ public class FileChecksumContainer implements Serializable {
 	 * @return true if a new File is added and false if the file already exists
 	 */
 	public boolean addChecksum(String checksum, String path) {
-		if (fileReferenceMap.containsKey(checksum)) {
-			FileInfo fileInfo = fileReferenceMap.get(checksum);
+		if (checksumFileInfoMap.containsKey(checksum)) {
+			FileInfo fileInfo = checksumFileInfoMap.get(checksum);
 			++fileInfo.usage;
 			return false;
 		} else {
 			FileInfo fileInfo = new FileInfo();
 			fileInfo.usage = 1;
 			fileInfo.path = path;
-			fileReferenceMap.put(checksum, fileInfo);
+			checksumFileInfoMap.put(checksum, fileInfo);
 			return true;
 		}
 	}
 
 	public boolean containsChecksum(String checksum) {
-		return fileReferenceMap.containsKey(checksum);
+		return checksumFileInfoMap.containsKey(checksum);
 	}
 
 	public String getPath(String checksum) {
-		return fileReferenceMap.get(checksum).path;
+		return checksumFileInfoMap.get(checksum).path;
 	}
 
 	public String getChecksumForPath(String filepath) {
-		for (Map.Entry<String, FileInfo> entry : fileReferenceMap.entrySet()) {
+		for (Map.Entry<String, FileInfo> entry : checksumFileInfoMap.entrySet()) {
 			if (entry.getValue().path.equals(filepath)) {
 				return entry.getKey();
 			}
@@ -83,7 +83,7 @@ public class FileChecksumContainer implements Serializable {
 	 */
 	public boolean decrementUsage(String filepath) throws FileNotFoundException {
 		String checksum = null;
-		for (Map.Entry<String, FileInfo> entry : fileReferenceMap.entrySet()) {
+		for (Map.Entry<String, FileInfo> entry : checksumFileInfoMap.entrySet()) {
 			if (entry.getValue().path.equals(filepath)) {
 				checksum = entry.getKey();
 				break;
@@ -92,10 +92,10 @@ public class FileChecksumContainer implements Serializable {
 		if (checksum == null) {
 			throw new FileNotFoundException();
 		}
-		FileInfo fileInfo = fileReferenceMap.get(checksum);
+		FileInfo fileInfo = checksumFileInfoMap.get(checksum);
 		fileInfo.usage--;
 		if (fileInfo.usage < 1) {
-			fileReferenceMap.remove(checksum);
+			checksumFileInfoMap.remove(checksum);
 			return true;
 		}
 		return false;
