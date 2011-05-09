@@ -46,6 +46,7 @@ import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.util.Utils;
+import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class MediaPathTest extends InstrumentationTestCase {
 
@@ -79,9 +80,6 @@ public class MediaPathTest extends InstrumentationTestCase {
 		testImage = Utils.saveFileToProject(projectName, imageName, IMAGE_FILE_ID, getInstrumentation().getContext(),
 				Utils.TYPE_IMAGE_FILE);
 
-		testImageCopy = StorageHandler.getInstance().copyImage(projectName, testImage.getAbsolutePath());
-		testImageCopy2 = StorageHandler.getInstance().copyImage(projectName, testImage.getAbsolutePath());
-
 		bigBlue = Utils.saveFileToProject(mockProject.getName(), bigBlueName, BIGBLUE_ID, getInstrumentation()
 				.getContext(),
 				Utils.TYPE_IMAGE_FILE);
@@ -89,17 +87,21 @@ public class MediaPathTest extends InstrumentationTestCase {
 		testSound = Utils.saveFileToProject(projectName, soundName, SOUND_FILE_ID, getInstrumentation().getContext(),
 				Utils.TYPE_SOUND_FILE);
 
+		//copy files with the Storagehandler copy function
+		testImageCopy = StorageHandler.getInstance().copyImage(projectName, testImage.getAbsolutePath());
+		testImageCopy2 = StorageHandler.getInstance().copyImage(projectName, testImage.getAbsolutePath());
 		testSoundCopy = StorageHandler.getInstance().copySoundFile(testSound.getAbsolutePath());
+
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
 
-		//		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);
-		//
-		//		if (projectFile.exists()) {
-		//			UtilFile.deleteDirectory(projectFile);
-		//		}
+		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+
+		if (projectFile.exists()) {
+			UtilFile.deleteDirectory(projectFile);
+		}
 	}
 
 	public void testPathsInSpfFile() throws IOException {
@@ -113,7 +115,9 @@ public class MediaPathTest extends InstrumentationTestCase {
 	}
 
 	public void testFilenameChecksum() throws IOException {
+
 		createProjectWithAllBricksAndMediaFiles();
+
 		String spf = StorageHandler.getInstance().getProjectfileAsString(projectName);
 
 		String checksumImage = StorageHandler.getInstance().getMD5Checksum(testImageCopy);
