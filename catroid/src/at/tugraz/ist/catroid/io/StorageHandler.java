@@ -30,7 +30,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.Writer;
 import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -500,7 +499,7 @@ public class StorageHandler {
 		return testImage;
 	}
 
-	//TODO: Only used in tests, put it there!
+	//TODO: Only used in tests, put it there! - don't wanna
 	public String getProjectfileAsString(String projectName) {
 		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName + "/" + projectName
 				+ Consts.PROJECT_EXTENTION);
@@ -524,29 +523,5 @@ public class StorageHandler {
 			ex.printStackTrace();
 		}
 		return contents.toString();
-	}
-
-	//TODO: nobody is using this method?
-	public void overwriteSpfFile(String projectName, String content) throws FileNotFoundException, IOException {
-		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName + "/" + projectName
-				+ Consts.PROJECT_EXTENTION);
-
-		if (!projectFile.exists()) {
-			throw new FileNotFoundException("File does not exist: " + projectFile);
-		}
-		if (!projectFile.isFile()) {
-			throw new IllegalArgumentException("Should not be a directory: " + projectFile);
-		}
-		if (!projectFile.canWrite()) {
-			throw new IllegalArgumentException("File cannot be written: " + projectFile);
-		}
-
-		Writer output = new BufferedWriter(new FileWriter(projectFile));
-		try {
-			output.write(content);
-			output.flush();
-		} finally {
-			output.close();
-		}
 	}
 }
