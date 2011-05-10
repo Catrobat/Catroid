@@ -64,15 +64,11 @@ public class FileChecksumContainer implements Serializable {
 
 	public String getPath(String checksum) {
 		return checksumFileInfoMap.get(checksum).path;
-	}
-
-	public String getChecksumForPath(String filepath) {
-		for (Map.Entry<String, FileInfo> entry : checksumFileInfoMap.entrySet()) {
-			if (entry.getValue().path.equals(filepath)) {
-				return entry.getKey();
-			}
-		}
-		return null;
+		//		FileInfo info = checksumFileInfoMap.get(checksum);
+		//		if (info != null) {
+		//			return info.path;
+		//		}
+		//		return null;
 	}
 
 	/**
@@ -84,7 +80,7 @@ public class FileChecksumContainer implements Serializable {
 	public boolean decrementUsage(String filepath) throws FileNotFoundException {
 		String checksum = null;
 		for (Map.Entry<String, FileInfo> entry : checksumFileInfoMap.entrySet()) {
-			if (entry.getValue().path.equals(filepath)) {
+			if (entry.getValue().path.equalsIgnoreCase(filepath)) {
 				checksum = entry.getKey();
 				break;
 			}

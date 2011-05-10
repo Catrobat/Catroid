@@ -183,6 +183,29 @@ public class MediaPathTest extends InstrumentationTestCase {
 		sHandler.deleteFile(testImageCopy2.getAbsolutePath());
 		assertFalse("checksum in project although file should not exist",
 				container.containsChecksum(sHandler.getMD5Checksum(testImageCopy2)));
+
+		sHandler.deleteFile(testImageCopy.getAbsolutePath()); //there a FileNotFoundException is thrown and caugth (this is expected behavior)
+	}
+
+	public void testContainerOnLoadProject() throws IOException {
+		createProjectWithAllBricksAndMediaFiles();
+		ProjectManager pManager = ProjectManager.getInstance();
+		StorageHandler sHandler = StorageHandler.getInstance();
+		String checksumImage = sHandler.getMD5Checksum(testImage);
+		String checksumSound = sHandler.getMD5Checksum(testSound);
+
+		assertTrue("does not contain checksum", pManager.fileChecksumContainer.containsChecksum(checksumImage));
+		assertTrue("does not contain checksum", pManager.fileChecksumContainer.containsChecksum(checksumSound));
+		assertFalse("returns true even when the checksum is for sure not added",
+				pManager.fileChecksumContainer.containsChecksum(checksumImage + "5"));
+
+		pManager.loadProject(projectName, getInstrumentation().getTargetContext(), false);
+		assertEquals("The path to the file is not found or wrong", testImageCopy.getAbsolutePath(),
+				pManager.fileChecksumContainer.getPath(checksumImage));
+
+		assertEquals("The path to the file is not found or wrong", testSoundCopy.getAbsolutePath(),
+				pManager.fileChecksumContainer.getPath(checksumSound));
+
 	}
 
 	private void createProjectWithAllBricksAndMediaFiles() throws IOException {
@@ -208,18 +231,6 @@ public class MediaPathTest extends InstrumentationTestCase {
 
 		PlaySoundBrick soundBrick = new PlaySoundBrick(sprite);
 		soundBrick.setPathToSoundfile(testSoundCopy.getName());
-
-		StorageHandler handler = StorageHandler.getInstance();
-		FileChecksumContainer container = ProjectManager.getInstance().fileChecksumContainer;
-
-		container.addChecksum(handler.getMD5Checksum(testImageCopy), testImageCopy.getAbsolutePath());
-		container.addChecksum(handler.getMD5Checksum(testImageCopy2), testImageCopy2.getAbsolutePath());
-		container.addChecksum(handler.getMD5Checksum(testSoundCopy), testSoundCopy.getAbsolutePath());
-
-		if ((bigBlue2 != null) && (bigBlue3 != null)) {
-			container.addChecksum(handler.getMD5Checksum(bigBlue2), bigBlue2.getAbsolutePath());
-			container.addChecksum(handler.getMD5Checksum(bigBlue3), bigBlue3.getAbsolutePath());
-		}
 
 		brickList2.add(new IfTouchedBrick(sprite, touchedScript));
 		brickList2.add(new PlaceAtBrick(sprite, 50, 50));
