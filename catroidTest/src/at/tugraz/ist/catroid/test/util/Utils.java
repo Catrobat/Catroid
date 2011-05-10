@@ -69,21 +69,6 @@ public class Utils {
 					break;
 			}
 		}
-		//		BufferedInputStream in = new BufferedInputStream(context.getResources().openRawResource(fileID));
-		//
-		//		File file = new File(filePath);
-		//		file.createNewFile();
-		//
-		//		BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file), 1024);
-		//		byte[] buffer = new byte[1024];
-		//		int length = 0;
-		//		while ((length = in.read(buffer)) > 0) {
-		//			out.write(buffer, 0, length);
-		//		}
-		//
-		//		in.close();
-		//		out.flush();
-		//		out.close();
 
 		return createTestMediaFile(filePath, fileID, context);
 	}
