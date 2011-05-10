@@ -155,14 +155,17 @@ public class CanvasDraw implements IDraw {
 
 	public boolean saveThumbnail(boolean overwrite) {
 		try {
-			String path = Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName() + "/"
-					+ Consts.SCREENSHOT_FILE_NAME;
-			File file = new File(path);
+			String path = Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName() + "/";
+			File file = new File(path + Consts.SCREENSHOT_FILE_NAME);
+			File noMediaFile = new File(path + ".nomedia");
+			if (!noMediaFile.exists()) {
+				noMediaFile.createNewFile();
+			}
 			if (file.exists() && !overwrite) {
 				return false;
 			}
 
-			FileOutputStream fileOutputStream = new FileOutputStream(path);
+			FileOutputStream fileOutputStream = new FileOutputStream(file.getAbsolutePath());
 			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream);
 			canvasBitmap.compress(CompressFormat.PNG, 0, bos);
 			bos.flush();

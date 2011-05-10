@@ -194,12 +194,14 @@ public class MediaPathTest extends InstrumentationTestCase {
 		String checksumImage = sHandler.getMD5Checksum(testImage);
 		String checksumSound = sHandler.getMD5Checksum(testSound);
 
+		pManager.fileChecksumContainer = null; //hack to delete it
+		pManager.loadProject(projectName, getInstrumentation().getTargetContext(), false);
+
 		assertTrue("does not contain checksum", pManager.fileChecksumContainer.containsChecksum(checksumImage));
 		assertTrue("does not contain checksum", pManager.fileChecksumContainer.containsChecksum(checksumSound));
 		assertFalse("returns true even when the checksum is for sure not added",
 				pManager.fileChecksumContainer.containsChecksum(checksumImage + "5"));
 
-		pManager.loadProject(projectName, getInstrumentation().getTargetContext(), false);
 		assertEquals("The path to the file is not found or wrong", testImageCopy.getAbsolutePath(),
 				pManager.fileChecksumContainer.getPath(checksumImage));
 
