@@ -159,16 +159,10 @@ public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable 
 	}
 
 	private Object readResolve() {
-		try {
-			if (soundfileName != null) {
-				String[] checksum = soundfileName.split("_");
-				ProjectManager.getInstance().fileChecksumContainer.addChecksum(checksum[0], getAbsoluteSoundPath());
-			}
-			return this;
-
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			return this; //whatever -.- (TODO)
+		if (soundfileName != null && ProjectManager.getInstance().getCurrentProject() != null) {
+			String[] checksum = soundfileName.split("_");
+			ProjectManager.getInstance().fileChecksumContainer.addChecksum(checksum[0], getAbsoluteSoundPath());
 		}
+		return this;
 	}
 }
