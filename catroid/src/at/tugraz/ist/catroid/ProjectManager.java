@@ -76,6 +76,7 @@ public class ProjectManager {
 
 	public boolean initializeDefaultProject(Context context) {
 		try {
+			fileChecksumContainer = new FileChecksumContainer();
 			project = StorageHandler.getInstance().createDefaultProject(context);
 			currentSprite = null;
 			currentScript = null;
@@ -88,12 +89,10 @@ public class ProjectManager {
 	}
 
 	public void saveProject(Context context) {
-
 		if (project == null) {
 			return;
 		}
 		StorageHandler.getInstance().saveProject(project);
-
 	}
 
 	public void deleteCurrentProject(Context context) {
@@ -121,19 +120,6 @@ public class ProjectManager {
 		currentScript.addBrick(brick);
 	}
 
-	public void moveBrickUpInList(int position) {
-		if (position >= 0 && position < currentScript.getBrickList().size()) {
-			currentScript.moveBrickBySteps(currentScript.getBrickList().get(position), -1);
-		}
-	}
-
-	public void moveBrickDownInList(int position) {
-		if (position >= 0 && position < currentScript.getBrickList().size()) {
-			currentScript.moveBrickBySteps(currentScript.getBrickList().get(position), 1);
-
-		}
-	}
-
 	public Sprite getCurrentSprite() {
 		return currentSprite;
 	}
@@ -154,9 +140,6 @@ public class ProjectManager {
 		saveProject(context);
 	}
 
-	/**
-	 * @return false if project doesn't contain the new sprite, true otherwise
-	 */
 	public void setCurrentSprite(Sprite sprite) {
 		currentSprite = sprite;
 	}
@@ -209,16 +192,6 @@ public class ProjectManager {
 				+ Consts.PROJECT_EXTENTION);
 
 		project.setName(newProjectName);
-
-		//		try {
-		//			String projectAsString = StorageHandler.getInstance().getProjectfileAsString(this.project.getName());
-		//			StorageHandler.getInstance().overwriteSpfFile(project.getName(),
-		//					projectAsString.replace(project.getName(), newProjectName));
-		//			loadProject(project.getName(), context, false);
-		//		} catch (IOException e) {
-		//			e.printStackTrace();
-		//			return false;
-		//		}
 
 		boolean fileRenamed = oldProjectFile.renameTo(newProjectFile);
 		boolean directoryRenamed = oldProjectDirectory.renameTo(newProjectDirectory);
