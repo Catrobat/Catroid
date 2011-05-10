@@ -77,6 +77,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 		project = new Project(getInstrumentation().getTargetContext(), projectName);
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().fileChecksumContainer = new FileChecksumContainer();
 
 		Project mockProject = new Project(getInstrumentation().getTargetContext(), "mockProject");
 		StorageHandler.getInstance().saveProject(mockProject);
@@ -104,6 +105,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 	protected void tearDown() throws Exception {
 
 		Utils.clearProject(projectName);
+
 	}
 
 	public void testPathsInSpfFile() throws IOException {
@@ -170,6 +172,17 @@ public class MediaPathTest extends InstrumentationTestCase {
 		assertEquals("Wrong amount of files in folder", 3, filesImage.length);
 		assertNotSame("The image was not downsized", storage.getMD5Checksum(bigBlue), storage.getMD5Checksum(bigBlue2));
 		assertEquals("The copies are not the same", bigBlue2.hashCode(), bigBlue3.hashCode());
+	}
+
+	public void testDecrementUsage() {
+		StorageHandler sHandler = StorageHandler.getInstance();
+		sHandler.deleteFile(testImageCopy.getAbsolutePath());
+		FileChecksumContainer container = ProjectManager.getInstance().fileChecksumContainer;
+		assertTrue("checksum not in project although file should exist",
+				container.containsChecksum(sHandler.getMD5Checksum(testImageCopy)));
+		sHandler.deleteFile(testImageCopy2.getAbsolutePath());
+		assertFalse("checksum in project although file should not exist",
+				container.containsChecksum(sHandler.getMD5Checksum(testImageCopy2)));
 	}
 
 	private void createProjectWithAllBricksAndMediaFiles() throws IOException {
