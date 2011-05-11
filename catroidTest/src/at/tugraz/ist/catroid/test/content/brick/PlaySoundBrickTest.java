@@ -52,8 +52,7 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 		if (soundFile != null && soundFile.exists()) {
 			soundFile.delete();
 		}
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName);
-		UtilFile.deleteDirectory(directory);
+		Utils.clearProject(projectName);
 		SoundManager.getInstance().clear();
 	}
 

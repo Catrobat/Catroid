@@ -256,7 +256,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		Project project = new Project(getActivity(), projectName);
 		Sprite sprite = new Sprite("testSprite");
 		Script script = new Script("script", sprite);
-		WaitBrick waitBrick = new WaitBrick(sprite, 4000);
+		WaitBrick waitBrick = new WaitBrick(sprite, 5000);
 		ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(sprite, scale);
 
 		script.getBrickList().add(waitBrick);
@@ -268,8 +268,9 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		ProjectManager.getInstance().setProject(project);
 
 		solo.clickOnButton(1);
+		assertEquals(100.0, sprite.getScale());
 		solo.pressMenuItem(1);
-		Thread.sleep(5000);
+		Thread.sleep(6000);
 		solo.pressMenuItem(1);
 		assertEquals(100.0, sprite.getScale());
 		Thread.sleep(4000);

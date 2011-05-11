@@ -48,6 +48,7 @@ import at.tugraz.ist.catroid.content.bricks.SetYBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.test.util.Utils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class StorageHandlerTest extends AndroidTestCase {
@@ -59,11 +60,8 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 	@Override
 	public void tearDown() {
-		File defProject = new File(Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name));
-
-		if (defProject.exists()) {
-			UtilFile.deleteDirectory(defProject);
-		}
+		Utils.clearProject(getContext().getString(R.string.default_project_name));
+		Utils.clearProject("testProject");
 	}
 
 	@Override
