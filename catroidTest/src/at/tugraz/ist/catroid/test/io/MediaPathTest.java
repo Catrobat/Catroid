@@ -73,6 +73,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 	protected void setUp() throws Exception {
 
 		Utils.clearProject(projectName);
+		Utils.clearProject("mockProject");
 
 		project = new Project(getInstrumentation().getTargetContext(), projectName);
 		StorageHandler.getInstance().saveProject(project);
@@ -103,13 +104,12 @@ public class MediaPathTest extends InstrumentationTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-
 		Utils.clearProject(projectName);
-
+		Utils.clearProject("mockProject");
 	}
 
 	public void testPathsInSpfFile() throws IOException {
-		createProjectWithAllBricksAndMediaFiles();
+		fillProjectWithAllBricksAndMediaFiles();
 		String spf = StorageHandler.getInstance().getProjectfileAsString(projectName);
 
 		assertFalse("project contains DEFAULT_ROOT", spf.contains(Consts.DEFAULT_ROOT));
@@ -119,13 +119,17 @@ public class MediaPathTest extends InstrumentationTestCase {
 	}
 
 	public void testFilenameChecksum() throws IOException {
-
-		createProjectWithAllBricksAndMediaFiles();
+		fillProjectWithAllBricksAndMediaFiles();
 
 		String spf = StorageHandler.getInstance().getProjectfileAsString(projectName);
 
 		String checksumImage = StorageHandler.getInstance().getMD5Checksum(testImageCopy);
 		String checksumSound = StorageHandler.getInstance().getMD5Checksum(testSoundCopy);
+
+		String unexpectedImagenameTags = ">" + imageName + "<";
+		String unexpectedSoundnameTags = ">" + soundName + "<";
+		assertFalse("the imagename has no checksum", spf.contains(unexpectedImagenameTags));
+		assertFalse("the soundname has no checksum", spf.contains(unexpectedSoundnameTags));
 
 		String expectedImagename = checksumImage + "_" + imageName;
 		String expectedSoundname = checksumSound + "_" + soundName;
@@ -139,11 +143,6 @@ public class MediaPathTest extends InstrumentationTestCase {
 		assertTrue("unexpected imagename", spf.contains(expectedImagenameTags));
 		assertTrue("unexpected soundname", spf.contains(expectedSoundnameTags));
 
-		String unexpectedImagenameTags = ">" + imageName + "<";
-		String unexpectedSoundnameTags = ">" + soundName + "<";
-		assertFalse("the imagename has no checksum", spf.contains(unexpectedImagenameTags));
-		assertFalse("the soundname has no checksum", spf.contains(unexpectedSoundnameTags));
-
 		StorageHandler storage = StorageHandler.getInstance();
 		assertEquals("the copy does not equal the original image", storage.getMD5Checksum(testImage),
 				storage.getMD5Checksum(testImageCopy));
@@ -152,6 +151,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 		assertEquals("the copy does not equal the original image", storage.getMD5Checksum(testSound),
 				storage.getMD5Checksum(testSoundCopy));
 
+		//check if copy doesn't save more instances of the same file:
 		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName + Consts.IMAGE_DIRECTORY);
 		File[] filesImage = directory.listFiles();
 
@@ -163,7 +163,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 		StorageHandler storage = StorageHandler.getInstance();
 		bigBlue2 = storage.copyImage(projectName, bigBlue.getAbsolutePath());
 		bigBlue3 = storage.copyImage(projectName, bigBlue.getAbsolutePath());
-		createProjectWithAllBricksAndMediaFiles();
+		fillProjectWithAllBricksAndMediaFiles();
 
 		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName + Consts.IMAGE_DIRECTORY);
 		File[] filesImage = directory.listFiles();
@@ -184,17 +184,23 @@ public class MediaPathTest extends InstrumentationTestCase {
 		assertFalse("checksum in project although file should not exist",
 				container.containsChecksum(sHandler.getMD5Checksum(testImageCopy2)));
 
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName + Consts.IMAGE_DIRECTORY);
+		File[] filesImage = directory.listFiles();
+
+		//nomedia file is also in images folder
+		assertEquals("Wrong amount of files in folder - delete unsuccessfull", 1, filesImage.length);
+
 		sHandler.deleteFile(testImageCopy.getAbsolutePath()); //there a FileNotFoundException is thrown and caugth (this is expected behavior)
 	}
 
 	public void testContainerOnLoadProject() throws IOException {
-		createProjectWithAllBricksAndMediaFiles();
+		fillProjectWithAllBricksAndMediaFiles();
 		ProjectManager pManager = ProjectManager.getInstance();
 		StorageHandler sHandler = StorageHandler.getInstance();
 		String checksumImage = sHandler.getMD5Checksum(testImage);
 		String checksumSound = sHandler.getMD5Checksum(testSound);
 
-		pManager.fileChecksumContainer = null; //hack to delete it
+		pManager.fileChecksumContainer = null; //hack to delete the filechecksumcontainer and see if a new one is created on load
 		pManager.loadProject(projectName, getInstrumentation().getTargetContext(), false);
 
 		assertTrue("does not contain checksum", pManager.fileChecksumContainer.containsChecksum(checksumImage));
@@ -207,16 +213,27 @@ public class MediaPathTest extends InstrumentationTestCase {
 
 		assertEquals("The path to the file is not found or wrong", testSoundCopy.getAbsolutePath(),
 				pManager.fileChecksumContainer.getPath(checksumSound));
-
 	}
 
-	private void createProjectWithAllBricksAndMediaFiles() throws IOException {
+	public void testFileChecksumContainerNotInSPF() throws IOException {
+		fillProjectWithAllBricksAndMediaFiles();
+		String spf = StorageHandler.getInstance().getProjectfileAsString(projectName);
+		assertFalse("FileChecksumcontainer is in the spf", spf.contains("FileChecksumContainer"));
+		ProjectManager.getInstance().loadProject(projectName, getInstrumentation().getTargetContext(), false);
+		spf = StorageHandler.getInstance().getProjectfileAsString(projectName);
+		assertFalse("FileChecksumcontainer is in the spf", spf.contains("FileChecksumContainer"));
+	}
+
+	private void fillProjectWithAllBricksAndMediaFiles() throws IOException {
 		Sprite sprite = new Sprite("testSprite");
 		Script script = new Script("testScript", sprite);
 		Script touchedScript = new Script("touchedScript", sprite);
 		sprite.getScriptList().add(script);
 		sprite.getScriptList().add(touchedScript);
 		project.getSpriteList().add(sprite);
+
+		SetCostumeBrick costumeBrick2 = new SetCostumeBrick(sprite);
+		costumeBrick2.setCostume(testImageCopy2.getName());
 
 		ArrayList<Brick> brickList1 = new ArrayList<Brick>();
 		ArrayList<Brick> brickList2 = new ArrayList<Brick>();
@@ -226,9 +243,9 @@ public class MediaPathTest extends InstrumentationTestCase {
 		brickList1.add(new GoNStepsBackBrick(sprite, 5));
 		brickList1.add(new HideBrick(sprite));
 		brickList1.add(new IfStartedBrick(sprite, script));
+		brickList1.add(costumeBrick2);
 
 		SetCostumeBrick costumeBrick = new SetCostumeBrick(sprite);
-
 		costumeBrick.setCostume(testImageCopy.getName());
 
 		PlaySoundBrick soundBrick = new PlaySoundBrick(sprite);

@@ -19,18 +19,16 @@
 
 package at.tugraz.ist.catroid.uitest.content;
 
-import java.io.File;
 import java.util.List;
 
 import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
-import at.tugraz.ist.catroid.utils.UtilFile;
+import at.tugraz.ist.catroid.uitest.util.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -46,8 +44,7 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 
 	@Override
 	public void setUp() throws Exception {
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectNameThree);
-		UtilFile.deleteDirectory(directory);
+		Utils.clearProject(projectNameThree);
 
 		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
@@ -55,9 +52,7 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 
 	@Override
 	public void tearDown() throws Exception {
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectNameThree);
-		UtilFile.deleteDirectory(directory);
-		assertFalse(projectNameThree + " was not deleted!", directory.exists());
+		Utils.clearProject(projectNameThree);
 
 		try {
 			solo.finalize();
@@ -66,7 +61,9 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 		}
 		getActivity().finish();
 
+		Utils.clearProject(projectNameThree);
 		super.tearDown();
+		Utils.clearProject(projectNameThree);
 	}
 
 	public void testToStageButton() {
@@ -153,6 +150,8 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 		assertEquals("Script list has wrong number of elements", 1, sprite_list.get(1).getScriptList().size());
 		assertTrue("Is not correct Block",
 				sprite_list.get(1).getScriptList().get(0).getBrickList().get(0) instanceof ScaleCostumeBrick);
+
+		Utils.clearProject(projectNameThree);
 
 	}
 }
