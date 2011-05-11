@@ -27,6 +27,7 @@ import android.view.View;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.uitest.util.Utils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -38,24 +39,27 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 	public UploadDialogTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
-		deleteCreatedProjects();
 	}
 
 	@Override
 	@UiThreadTest
 	public void setUp() throws Exception {
+		Utils.clearProject(testProject);
+		Utils.clearProject(newTestProject);
 		solo = new Solo(getInstrumentation(), getActivity());
+		super.setUp();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
+		Utils.clearProject(testProject);
+		Utils.clearProject(newTestProject);
 		try {
 			solo.finalize();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 		getActivity().finish();
-		deleteCreatedProjects();
 
 		super.tearDown();
 	}
@@ -113,12 +117,5 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		File file = new File(Consts.DEFAULT_ROOT + "/" + testProject + "/" + testProject + Consts.PROJECT_EXTENTION);
 		assertTrue(testProject + " was not created!", file.exists());
 		solo.clickOnButton(getActivity().getString(R.string.main_menu));
-	}
-
-	private void deleteCreatedProjects() {
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + testProject);
-		UtilFile.deleteDirectory(directory);
-		File newDirectory = new File(Consts.DEFAULT_ROOT + "/" + newTestProject);
-		UtilFile.deleteDirectory(newDirectory);
 	}
 }

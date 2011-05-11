@@ -42,6 +42,7 @@ import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.uitest.util.Utils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -59,29 +60,25 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 	@Override
 	public void setUp() throws Exception {
+		Utils.clearProject(testProject);
+		Utils.clearProject(testProject2);
+		Utils.clearProject(testProject3);
+		Utils.clearProject(existingProject);
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
 	@Override
 	public void tearDown() throws Exception {
+		Utils.clearProject(testProject);
+		Utils.clearProject(testProject2);
+		Utils.clearProject(testProject3);
+		Utils.clearProject(existingProject);
 		try {
 			solo.finalize();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 		getActivity().finish();
-
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + testProject);
-		UtilFile.deleteDirectory(directory);
-
-		File directory2 = new File(Consts.DEFAULT_ROOT + "/" + testProject2);
-		UtilFile.deleteDirectory(directory2);
-
-		File directory3 = new File(Consts.DEFAULT_ROOT + "/" + testProject3);
-		UtilFile.deleteDirectory(directory3);
-
-		File directory4 = new File(Consts.DEFAULT_ROOT + "/" + existingProject);
-		UtilFile.deleteDirectory(directory4);
 
 		super.tearDown();
 	}

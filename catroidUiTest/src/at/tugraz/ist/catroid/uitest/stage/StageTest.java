@@ -315,6 +315,8 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		solo.clickOnButton(1);
 		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
 		solo.pressMenuItem(1);
+		Thread.sleep(500);
+		assertFalse("Media player is playing while pausing", mediaPlayer.isPlaying());
 		Thread.sleep(1000);
 		solo.pressMenuItem(1);
 		Thread.sleep(50);
@@ -325,7 +327,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
 
 		this.createTestProjectWithSound();
-		solo.clickOnButton(1);
+		solo.clickOnButton(1); //now in stage NOT playing sound
 		solo.pressMenuItem(1);
 		Thread.sleep(1000);
 		solo.pressMenuItem(1);

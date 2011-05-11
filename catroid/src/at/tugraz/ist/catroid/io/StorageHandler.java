@@ -90,7 +90,6 @@ public class StorageHandler {
 		xstream.alias("sprite", Sprite.class);
 		xstream.alias("script", Script.class);
 		xstream.alias("costume", Costume.class);
-		xstream.alias("fileChecksumContainer", FileChecksumContainer.class);
 
 		xstream.alias("changeXByBrick", ChangeXByBrick.class);
 		xstream.alias("changeYByBrick", ChangeYByBrick.class);
@@ -323,14 +322,14 @@ public class StorageHandler {
 		String checksumCompressedFile = StorageHandler.getInstance().getMD5Checksum(outputFile);
 
 		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().fileChecksumContainer;
-		String newFile = imageDirectory.getAbsolutePath() + "/" + checksumCompressedFile + "_" + inputFile.getName();
+		String newFilePath = imageDirectory.getAbsolutePath() + "/" + checksumCompressedFile + "_" + inputFile.getName();
 
-		if (!fileChecksumContainer.addChecksum(checksumCompressedFile, newFile)) {
+		if (!fileChecksumContainer.addChecksum(checksumCompressedFile, newFilePath)) {
 			outputFile.delete();
 			return new File(fileChecksumContainer.getPath(checksumCompressedFile));
 		}
 
-		File compressedFile = new File(newFile);
+		File compressedFile = new File(newFilePath);
 		outputFile.renameTo(compressedFile);
 
 		return compressedFile;

@@ -19,7 +19,6 @@
 
 package at.tugraz.ist.catroid.uitest.ui.dialog;
 
-import java.io.File;
 import java.io.IOException;
 
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -31,7 +30,6 @@ import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.uitest.util.Utils;
-import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -47,10 +45,7 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-
-		File directory = new File("/sdcard/catroid/" + testingproject);
-		UtilFile.deleteDirectory(directory);
-		assertFalse("testProject was not deleted!", directory.exists());
+		Utils.clearProject(testingproject);
 
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
@@ -58,9 +53,7 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 	@Override
 	protected void tearDown() throws Exception {
 
-		File directory = new File("/sdcard/catroid/" + testingproject);
-		UtilFile.deleteDirectory(directory);
-		assertFalse("testProject was not deleted!", directory.exists());
+		Utils.clearProject(testingproject);
 
 		try {
 			solo.finalize();

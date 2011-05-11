@@ -18,7 +18,6 @@
  */
 package at.tugraz.ist.catroid.uitest.ui.dialog;
 
-import java.io.File;
 import java.io.IOException;
 
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -30,7 +29,6 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.uitest.util.Utils;
-import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -47,20 +45,14 @@ public class RenameSpriteDialogTest extends ActivityInstrumentationTestCase2<Mai
 	@Override
 	public void setUp() throws Exception {
 
-		File directory = new File("/sdcard/catroid/" + testProject2);
-		UtilFile.deleteDirectory(directory);
-		assertFalse("testProject was not deleted!", directory.exists());
-
+		Utils.clearProject(testProject2);
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
 	@Override
 	public void tearDown() throws Exception {
 
-		File directory = new File("/sdcard/catroid/" + testProject2);
-		UtilFile.deleteDirectory(directory);
-		assertFalse("testProject was not deleted!", directory.exists());
-
+		Utils.clearProject(testProject2);
 		try {
 			solo.finalize();
 		} catch (Throwable e) {
