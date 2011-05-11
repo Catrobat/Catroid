@@ -39,7 +39,7 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 	private final String spriteNameTwo = "Balmung";
 
 	public ToStageButtonTest() {
-		super("at.tugraz.ist.catroid.ui", MainMenuActivity.class);
+		super("at.tugraz.ist.catroid", MainMenuActivity.class);
 	}
 
 	@Override

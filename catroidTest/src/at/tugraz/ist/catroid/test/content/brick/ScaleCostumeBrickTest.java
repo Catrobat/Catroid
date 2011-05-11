@@ -67,6 +67,9 @@ public class ScaleCostumeBrickTest extends InstrumentationTestCase {
 		if (defProject.exists()) {
 			UtilFile.deleteDirectory(defProject);
 		}
+		if (testImage != null && testImage.exists()) {
+			testImage.delete();
+		}
 	}
 
 	public void testScale() {
