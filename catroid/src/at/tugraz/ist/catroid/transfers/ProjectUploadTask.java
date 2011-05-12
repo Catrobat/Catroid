@@ -26,8 +26,8 @@ import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.ProgressDialog;
 import android.app.AlertDialog.Builder;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -175,6 +175,7 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 		postValues.put(Consts.PROJECT_NAME_TAG, projectName);
 		postValues.put(Consts.PROJECT_DESCRIPTION_TAG, projectDescription);
 		postValues.put(Consts.PROJECT_CHECKSUM_TAG, md5Checksum.toLowerCase());
+		postValues.put(Consts.TOKEN, "0"); //anonymous
 
 		String deviceIMEI = UtilDeviceInfo.getDeviceIMEI(context);
 		if (deviceIMEI != null) {

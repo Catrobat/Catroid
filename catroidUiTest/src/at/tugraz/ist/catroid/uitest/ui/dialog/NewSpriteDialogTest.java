@@ -53,8 +53,6 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 	@Override
 	protected void tearDown() throws Exception {
 
-		Utils.clearProject(testingproject);
-
 		try {
 			solo.finalize();
 		} catch (Throwable e) {
@@ -63,6 +61,7 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 
 		getActivity().finish();
 		super.tearDown();
+		Utils.clearProject(testingproject);
 	}
 
 	public void testNewSpriteDialog() throws NameNotFoundException, IOException {
