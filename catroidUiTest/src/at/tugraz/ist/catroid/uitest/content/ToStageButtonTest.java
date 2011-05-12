@@ -52,8 +52,6 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 
 	@Override
 	public void tearDown() throws Exception {
-		Utils.clearProject(projectNameThree);
-
 		try {
 			solo.finalize();
 		} catch (Throwable e) {
@@ -61,7 +59,6 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 		}
 		getActivity().finish();
 
-		Utils.clearProject(projectNameThree);
 		super.tearDown();
 		Utils.clearProject(projectNameThree);
 	}
@@ -150,8 +147,5 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 		assertEquals("Script list has wrong number of elements", 1, sprite_list.get(1).getScriptList().size());
 		assertTrue("Is not correct Block",
 				sprite_list.get(1).getScriptList().get(0).getBrickList().get(0) instanceof ScaleCostumeBrick);
-
-		Utils.clearProject(projectNameThree);
-
 	}
 }

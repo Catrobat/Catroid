@@ -69,18 +69,18 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 	@Override
 	public void tearDown() throws Exception {
-		Utils.clearProject(testProject);
-		Utils.clearProject(testProject2);
-		Utils.clearProject(testProject3);
-		Utils.clearProject(existingProject);
 		try {
 			solo.finalize();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 		getActivity().finish();
-
 		super.tearDown();
+
+		Utils.clearProject(testProject);
+		Utils.clearProject(testProject2);
+		Utils.clearProject(testProject3);
+		Utils.clearProject(existingProject);
 	}
 
 	public void testCreateNewProject() throws InterruptedException {

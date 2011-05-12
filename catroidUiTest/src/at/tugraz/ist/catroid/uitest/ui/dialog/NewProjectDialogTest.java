@@ -47,7 +47,6 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 
 	@Override
 	protected void tearDown() throws Exception {
-		Utils.clearProject(testingproject);
 		try {
 			solo.finalize();
 		} catch (Throwable e) {
@@ -55,6 +54,7 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 		}
 		getActivity().finish();
 		super.tearDown();
+		Utils.clearProject(testingproject);
 	}
 
 	public void testNewProjectDialog() throws NameNotFoundException, IOException {
