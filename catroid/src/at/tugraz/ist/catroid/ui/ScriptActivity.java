@@ -183,6 +183,10 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 			if (affectedBrick != null) {
 				Uri selectedImageUri = data.getData();
 				String selectedImagePath = getPathFromContentUri(selectedImageUri);
+				if (selectedImagePath == null) {
+					Utils.displayErrorMessage(this, getString(R.string.error_load_image));
+					return;
+				}
 				try {
 					if (affectedBrick.getImagePath() != null) {
 						StorageHandler.getInstance().deleteFile(affectedBrick.getImagePath());
@@ -203,9 +207,13 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	private String getPathFromContentUri(Uri uri) {
 		String[] projection = { MediaStore.Images.Media.DATA };
 		Cursor cursor = managedQuery(uri, projection, null, null, null);
-		int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-		cursor.moveToFirst();
-		return cursor.getString(columnIndex);
+		if (cursor != null) {
+			int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+			cursor.moveToFirst();
+			return cursor.getString(columnIndex);
+		} else {
+			return null;
+		}
 	}
 
 	public BrickAdapter getAdapter() {
