@@ -29,39 +29,44 @@ import at.tugraz.ist.catroid.common.Consts;
 public class Sprite implements Serializable, Comparable<Sprite> {
 	private static final long serialVersionUID = 1L;
 	private String name;
-	private int xPosition;
-	private int yPosition;
-	private int zPosition;
-	private double scale;
-	private boolean isVisible;
-	private boolean toDraw;
+	private transient int xPosition;
+	private transient int yPosition;
+	private transient int zPosition;
+	private transient double scale;
+	private transient boolean isVisible;
+	private transient boolean toDraw;
 	private List<Script> scriptList;
-	private List<Thread> threadList;
-	private Costume costume;
+	private transient List<Thread> threadList;
+	private transient Costume costume;
+
+	private Object readResolve() {
+		init();
+		return this;
+	}
 
 	private void init() {
 		zPosition = 0;
 		scale = 100.0;
 		isVisible = true;
-		scriptList = new ArrayList<Script>();
 		threadList = new ArrayList<Thread>();
 		costume = new Costume(this, null);
+		xPosition = 0;
+		yPosition = 0;
+		toDraw = false;
 	}
 
 	public Sprite(String name) {
 		this.name = name;
-		xPosition = 0;
-		yPosition = 0;
-		toDraw = false;
+		scriptList = new ArrayList<Script>();
 		init();
 	}
 
 	public Sprite(String name, int xPosition, int yPosition) {
 		this.name = name;
+		scriptList = new ArrayList<Script>();
+		init();
 		this.xPosition = xPosition;
 		this.yPosition = yPosition;
-		toDraw = false;
-		init();
 	}
 
 	public void startScripts() {

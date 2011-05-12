@@ -29,20 +29,29 @@ public class Script implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Brick> brickList;
 	private boolean isTouchScript;
-	private boolean isFinished;
-	private boolean paused;
-	private int brickPositionAfterPause;
+	private transient boolean isFinished;
+	private transient boolean paused;
+	private transient int brickPositionAfterPause;
 	private String name;
 	private Sprite sprite;
+
+	private Object readResolve() {
+		init();
+		return this;
+	}
 
 	public Script(String name, Sprite sprite) {
 		this.name = name;
 		brickList = new ArrayList<Brick>();
-		paused = false;
-		isFinished = false;
-		brickPositionAfterPause = 0;
 		this.sprite = sprite;
 		setTouchScript(false);
+		init();
+	}
+
+	private void init() {
+		isFinished = isTouchScript ? true : false;
+		paused = false;
+		brickPositionAfterPause = 0;
 	}
 
 	public void run() {
