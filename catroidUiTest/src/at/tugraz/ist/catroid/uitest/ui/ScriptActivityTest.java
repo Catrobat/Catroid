@@ -61,6 +61,8 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 		getActivity().finish();
 
 		super.tearDown();
+
+		Utils.clearProject(Utils.DEFAULT_TEST_PROJECT_NAME);
 	}
 
 	public void testMainMenuButton() {

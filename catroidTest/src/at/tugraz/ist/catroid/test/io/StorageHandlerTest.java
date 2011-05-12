@@ -256,6 +256,10 @@ public class StorageHandlerTest extends AndroidTestCase {
 		String md5CatroidString = "4F982D927F4784F69AD6D6AF38FD96AD";
 
 		PrintWriter out = null;
+
+		File tempDir = new File(Consts.TMP_PATH);
+		tempDir.mkdirs();
+
 		File md5TestFile = new File(Consts.TMP_PATH + "/" + "catroid.txt");
 
 		if (md5TestFile.exists()) {
@@ -278,5 +282,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 		assertEquals("MD5 sums are not the same for catroid file", md5CatroidString,
 				storageHandler.getMD5Checksum(md5TestFile));
+
+		UtilFile.deleteDirectory(tempDir);
 	}
 }
