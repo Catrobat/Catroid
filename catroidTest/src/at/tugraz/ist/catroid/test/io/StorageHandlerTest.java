@@ -144,10 +144,6 @@ public class StorageHandlerTest extends AndroidTestCase {
 				.isTouchScript(), postSpriteList.get(1).getScriptList().get(0).isTouchScript());
 		assertFalse("paused should not be set in script", preSpriteList.get(1).getScriptList().get(0).isPaused());
 
-		// Test script value
-		assertEquals("paused should be set in script", preSpriteList.get(2).getScriptList().get(0).isPaused(),
-				postSpriteList.get(2).getScriptList().get(0).isPaused());
-
 		// Test version codes and names
 		final int preVersionCode = project.getVersionCode();
 		final int postVersionCode = loadedProject.getVersionCode();
