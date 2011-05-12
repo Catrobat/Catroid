@@ -202,7 +202,10 @@
         Bitte eine Zahl eingeben.
     </string>
     <string name="error_screenshot_failed">
-        Fehler beim Speichern des Screenshots.
+        Beim Speichern des Screenshots ist ein Fehler aufgetreten.
+    </string>
+    <string name="error_load_image">
+    	Beim Laden des Bildes ist ein Fehler aufgetreten.
     </string>
 
     <!-- Notifications -->
