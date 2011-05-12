@@ -38,9 +38,6 @@ public class MockGalleryActivity extends Activity {
 	protected void onDestroy() {
 		Uri imageUri = Uri.parse(Uri.encode(RESOURCE_LOCATION));
 
-		//		if (!resourceFile.exists() || !resourceFile.canRead()) {
-		//			throw new RuntimeException("Could not open resource file: " + resourceFile.getAbsolutePath());
-		//		}
 		Intent resultIntent = new Intent();
 		resultIntent.setData(imageUri);
 
