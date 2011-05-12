@@ -206,6 +206,9 @@
      <string name="error_screenshot_failed">
         An error occurred while saving the screenshot.
     </string>
+    <string name="error_load_image">
+    	An error occurred while loading the image.
+    </string>
 
     <!-- Notifications -->
     <string name="success_project_upload">Upload successful.</string>
