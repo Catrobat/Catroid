@@ -66,7 +66,7 @@ public class UpAndDownloadTest extends AndroidTestCase {
 		String projectDescription = "this is just a testproject";
 
 		ProjectUploadTask uploadTask = new ProjectUploadTask(null, testProjectName, projectDescription,
-				pathToDefaultProject) {
+				pathToDefaultProject, null) {
 			@Override
 			protected ConnectionWrapper createConnection() {
 				return mockConnection;

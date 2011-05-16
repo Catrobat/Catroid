@@ -21,10 +21,14 @@ package at.tugraz.ist.catroid.uitest.web;
 
 import java.io.File;
 
+import org.json.JSONObject;
+
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
+import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
@@ -39,6 +43,25 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	private Solo solo;
 	private String testProject = "testProject";
 	private String newTestProject = "newProjectToTest";
+
+	private class MockProjectUploadTask extends ProjectUploadTask {
+
+		public MockProjectUploadTask(Context context, String projectName, String projectDescription,
+				String projectPath, String token) {
+			super(context, projectName, projectDescription, projectPath, token);
+			// TODO Auto-generated constructor stub
+		}
+
+		public String getResultString() {
+			return resultString;
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			// nothing to be done
+
+		}
+	}
 
 	public ProjectUpAndDownloadTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -64,12 +87,17 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		super.tearDown();
 	}
 
-	public void testUploadProject() throws Throwable {
+	private void startProjectUploadTask() throws Throwable {
 		runTestOnUiThread(new Runnable() {
 			public void run() {
 				ProjectUploadTask.useTestUrl = true;
 			}
 		});
+
+	}
+
+	public void testUploadProjectSuccess() throws Throwable {
+		startProjectUploadTask();
 
 		createTestProject();
 		addABrickToProject();
@@ -78,6 +106,32 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		deleteCreatedProjects();
 
 		downloadProject();
+	}
+
+	public void testUploadProjectFailure() throws Throwable {
+		startProjectUploadTask();
+
+		createTestProject();
+		addABrickToProject();
+
+		File projectPath = new File(Consts.DEFAULT_ROOT + "/" + testProject);
+		String invalidToken = "foobar";
+		assertTrue("Could not read project from path: " + projectPath.getAbsolutePath(), projectPath.exists()
+				&& projectPath.canRead());
+		MockProjectUploadTask mockProjectUploadTask = new MockProjectUploadTask(getActivity(), testProject, "foo",
+				projectPath.getAbsolutePath(), invalidToken);
+		mockProjectUploadTask.execute();
+
+		solo.sleep(5000);
+		String resultString = mockProjectUploadTask.getResultString();
+
+		JSONObject jsonObject = new JSONObject(resultString);
+		int statusCode = jsonObject.getInt("statusCode");
+		Log.v("ProjectUpAndDownloadTest", "Received status code: " + statusCode);
+
+		assertEquals("Received wrong result status code", 601, statusCode);
+
+		deleteCreatedProjects();
 	}
 
 	private void createTestProject() {
