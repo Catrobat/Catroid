@@ -35,7 +35,7 @@ import com.jayway.android.robotium.solo.Solo;
 public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
 
-	private final String projectNameThree = "Ulumulu3";
+	private final String projectNameThree = Utils.PROJECTNAME1;
 	private final String spriteNameTwo = "Balmung";
 
 	public ToStageButtonTest() {
@@ -44,7 +44,7 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 
 	@Override
 	public void setUp() throws Exception {
-		Utils.clearProject(projectNameThree);
+		Utils.clearAllUtilTestProjects();
 
 		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
@@ -58,9 +58,8 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 			e.printStackTrace();
 		}
 		getActivity().finish();
-
+		Utils.clearAllUtilTestProjects();
 		super.tearDown();
-		Utils.clearProject(projectNameThree);
 	}
 
 	public void testToStageButton() {

@@ -32,7 +32,7 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
-	private String testingproject = "testingproject";
+	private String testingproject = Utils.PROJECTNAME1;
 
 	public NewProjectDialogTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -41,7 +41,7 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		Utils.clearProject(testingproject);
+		Utils.clearAllUtilTestProjects();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
@@ -53,8 +53,8 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 			e.printStackTrace();
 		}
 		getActivity().finish();
+		Utils.clearAllUtilTestProjects();
 		super.tearDown();
-		Utils.clearProject(testingproject);
 	}
 
 	public void testNewProjectDialog() throws NameNotFoundException, IOException {
@@ -63,7 +63,7 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 
 		int nameEditTextId = solo.getCurrentEditTexts().size() - 1;
 
-		Utils.enterText(solo, nameEditTextId, "testingproject");
+		Utils.enterText(solo, nameEditTextId, testingproject);
 
 		solo.sendKey(Solo.ENTER);
 

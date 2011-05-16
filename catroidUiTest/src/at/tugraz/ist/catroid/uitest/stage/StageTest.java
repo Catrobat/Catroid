@@ -52,7 +52,7 @@ import com.jayway.android.robotium.solo.Solo;
 public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
 	private StorageHandler storageHandler;
-	private final String projectName = "project1";
+	private final String projectName = Utils.PROJECTNAME1;
 
 	private File image1;
 	private File image2;
@@ -66,7 +66,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 	private int image2Width;
 	private int image1Height;
 	private int image2Height;
-	private int attempts = 3;
+	private int attempts = 30;
 
 	private static final int IMAGE_FILE_ID = R.raw.icon;
 	private static final int IMAGE_FILE_ID2 = R.raw.icon2;
@@ -79,7 +79,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 	@Override
 	public void setUp() throws Exception {
-		Utils.clearProject(projectName);
+		Utils.clearAllUtilTestProjects();
 
 		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
@@ -104,7 +104,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 			soundFile.delete();
 		}
 
-		Utils.clearProject(projectName);
+		Utils.clearAllUtilTestProjects();
 
 		getActivity().finish();
 		super.tearDown();
@@ -329,8 +329,17 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		assertFalse("Media player is playing while pausing", mediaPlayer.isPlaying());
 		solo.sleep(1000);
 		solo.pressMenuItem(1);
-		solo.sleep(50);
-		assertTrue("Media player is not playing after pause", mediaPlayer.isPlaying());
+		int count = 0;
+		while (true) {
+			if (mediaPlayer.isPlaying()) {
+				break;
+			}
+			solo.sleep(20);
+			count++;
+			if (count >= attempts) {
+				fail("Media player is not playing after pause");
+			}
+		}
 	}
 
 	public void testMediaPlayerNotPlayingAfterPause() {

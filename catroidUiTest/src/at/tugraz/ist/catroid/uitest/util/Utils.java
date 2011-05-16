@@ -53,6 +53,10 @@ public class Utils {
 	private static ProjectManager projectManager = ProjectManager.getInstance();
 
 	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
+	public static final String PROJECTNAME1 = "testproject1";
+	public static final String PROJECTNAME2 = "testproject2";
+	public static final String PROJECTNAME3 = "testproject3";
+	public static final String PROJECTNAME4 = "testproject4";
 	public static final int TYPE_IMAGE_FILE = 0;
 	public static final int TYPE_SOUND_FILE = 1;
 
@@ -235,5 +239,42 @@ public class Utils {
 
 		StorageHandler.getInstance().saveProject(project);
 		return project;
+	}
+
+	public static void clearAllUtilTestProjects() {
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + PROJECTNAME1);
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
+
+		directory = new File(Consts.DEFAULT_ROOT + "/" + PROJECTNAME2);
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
+
+		directory = new File(Consts.DEFAULT_ROOT + "/" + PROJECTNAME3);
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
+
+		directory = new File(Consts.DEFAULT_ROOT + "/" + PROJECTNAME4);
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
+
+		directory = new File(Consts.DEFAULT_ROOT + "/" + DEFAULT_TEST_PROJECT_NAME);
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
+
+		directory = new File(Consts.DEFAULT_ROOT + "/" + "defaultProject");
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
+
+		directory = new File(Consts.DEFAULT_ROOT + "/" + "standardProjekt");
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
 	}
 }
