@@ -80,6 +80,7 @@ public class Script implements Serializable {
 		brickList.add(brick);
 	}
 
+	// TODO: Never used anywhere. But we _do_ remove bricks. So... where is this done and why isn't _this_ function called?
 	public void removeBrick(Brick brick) {
 		brickList.remove(brick);
 	}
@@ -132,14 +133,17 @@ public class Script implements Serializable {
 		return name;
 	}
 
+	// TODO: Never used anywhere
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	// TODO: Never used anywhere
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
+	// TODO: Never used anywhere
 	public Sprite getSprite() {
 		return sprite;
 	}
