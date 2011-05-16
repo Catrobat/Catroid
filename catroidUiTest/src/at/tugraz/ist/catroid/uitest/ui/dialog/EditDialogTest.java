@@ -48,6 +48,7 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptActiv
 			e.printStackTrace();
 		}
 		getActivity().finish();
+		Utils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
