@@ -142,7 +142,7 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 					projectDescription = "";
 				}
 
-				new ProjectUploadTask(context, uploadName, projectDescription, projectPath).execute();
+				new ProjectUploadTask(context, uploadName, projectDescription, projectPath, null).execute();
 				break;
 
 			case R.id.cancel_button:

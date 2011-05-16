@@ -26,10 +26,11 @@ import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
@@ -42,25 +43,31 @@ import at.tugraz.ist.catroid.web.WebconnectionException;
 public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 
 	public static boolean useTestUrl = false;
+	private final static String TAG = "ProjectUploadTask";
 
 	private Context context;
 	private String projectPath;
 	private ProgressDialog progressdialog;
 	private String projectName;
 	private String projectDescription;
-	private String resultString;
+	protected String resultString;
 	private String serverAnswer;
+	private String token;
 
 	// mock object testing
 	protected ConnectionWrapper createConnection() {
 		return new ConnectionWrapper();
 	}
 
-	public ProjectUploadTask(Context context, String projectName, String projectDescription, String projectPath) {
+	public ProjectUploadTask(Context context, String projectName, String projectDescription, String projectPath,
+			String token) {
 		this.context = context;
 		this.projectPath = projectPath;
 		this.projectName = projectName;
 		this.projectDescription = projectDescription;
+
+		this.token = (token == null) ? "0" : token;
+
 		if (context != null) {
 			serverAnswer = context.getString(R.string.error_project_upload);
 		}
@@ -112,7 +119,7 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 			JSONObject jsonObject = null;
 			int statusCode = 0;
 
-			System.out.println("out: " + resultString);
+			Log.v(TAG, "out: " + resultString);
 			try {
 				jsonObject = new JSONObject(resultString);
 				statusCode = jsonObject.getInt("statusCode");
@@ -175,7 +182,7 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 		postValues.put(Consts.PROJECT_NAME_TAG, projectName);
 		postValues.put(Consts.PROJECT_DESCRIPTION_TAG, projectDescription);
 		postValues.put(Consts.PROJECT_CHECKSUM_TAG, md5Checksum.toLowerCase());
-		postValues.put(Consts.TOKEN, "0"); //anonymous
+		postValues.put(Consts.TOKEN, token); //anonymous
 
 		String deviceIMEI = UtilDeviceInfo.getDeviceIMEI(context);
 		if (deviceIMEI != null) {
@@ -194,9 +201,4 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 
 		return postValues;
 	}
-
-	public String getResultString() {
-		return resultString;
-	}
-
 }
