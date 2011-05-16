@@ -26,9 +26,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.FlakyTest;
-import android.test.suitebuilder.annotation.LargeTest;
-import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
@@ -69,7 +66,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 	private int image2Width;
 	private int image1Height;
 	private int image2Height;
-	public static int flakyCount = 0;
+	private int attempts = 3;
 
 	private static final int IMAGE_FILE_ID = R.raw.icon;
 	private static final int IMAGE_FILE_ID2 = R.raw.icon2;
@@ -299,21 +296,25 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		assertEquals("costume has wrong height", image2Height * 2, costume.getBitmap().getHeight());
 	}
 
-	@LargeTest
-	@FlakyTest(tolerance = 3)
 	public void testMediaPlayerPlaying() {
-		Utils.clearProject(projectName);
-
 		this.createTestProjectWithSound();
 		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
 		solo.sleep(800);
-		if (flakyCount == 0) {
-			solo.clickOnButton(1);
-		}
+		solo.clickOnButton(1);
 		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
-		solo.sleep(350);
-		Log.e("FlakeyTestCase", "Execution Count:" + ++flakyCount);
-		assertTrue("Media player is not playing", mediaPlayer.isPlaying());
+		solo.sleep(250);
+		int count = 0;
+		while (true) {
+			if (mediaPlayer.isPlaying()) {
+				break;
+			}
+			solo.sleep(200);
+			count++;
+			if (count >= attempts) {
+				fail("MediaPlayer is not playing");
+			}
+		}
+
 	}
 
 	public void testMediaPlayerPause() {
