@@ -24,11 +24,12 @@ public class StartScript extends Script {
 
 	public StartScript(String name, Sprite sprite) {
 		super(name, sprite);
+		super.isFinished = false;
 	}
 
 	@Override
 	protected Object readResolve() {
-		isFinished = true;
+		isFinished = false;
 		super.readResolve();
 		return this;
 	}
