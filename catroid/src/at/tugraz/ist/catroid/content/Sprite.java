@@ -72,7 +72,9 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	public void startScripts() {
 		for (Script s : scriptList) {
 			if (s instanceof StartScript) {
-				startScript(s);
+				if (!s.isFinished()) {
+					startScript(s);
+				}
 			}
 		}
 	}

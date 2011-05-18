@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import android.test.AndroidTestCase;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
@@ -32,7 +33,7 @@ import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 
 public class ScriptTest extends AndroidTestCase {
-	
+
 	private Sprite sprite;
 	private HideBrick hideBrick;
 	private ShowBrick showBrick;
@@ -40,7 +41,7 @@ public class ScriptTest extends AndroidTestCase {
 	private ScaleCostumeBrick scaleCostumeBrick;
 	private ComeToFrontBrick comeToFrontBrick;
 	private ArrayList<Brick> brickList;
-	
+
 	//pause/resume and Brick.execute functionality tested in WaitBrickTest.java 
 
 	@Override
@@ -50,12 +51,12 @@ public class ScriptTest extends AndroidTestCase {
 		showBrick = new ShowBrick(sprite);
 		placeAtBrick = new PlaceAtBrick(sprite, 0, 0);
 		scaleCostumeBrick = new ScaleCostumeBrick(sprite, 0);
-        comeToFrontBrick = new ComeToFrontBrick(sprite);
+		comeToFrontBrick = new ComeToFrontBrick(sprite);
 	};
 
 	public void testAddBricks() {
-        Sprite testSprite = new Sprite("sprite");
-        Script script = new Script("test", testSprite);
+		Sprite testSprite = new Sprite("sprite");
+		Script script = new StartScript("test", testSprite);
 		script.addBrick(hideBrick);
 		script.addBrick(showBrick);
 		script.addBrick(placeAtBrick);
@@ -72,8 +73,8 @@ public class ScriptTest extends AndroidTestCase {
 	}
 
 	public void testMoveTopBrickDown() {
-        Sprite testSprite = new Sprite("sprite");
-        Script script = new Script("test", testSprite);
+		Sprite testSprite = new Sprite("sprite");
+		Script script = new StartScript("test", testSprite);
 		script.addBrick(hideBrick);
 		script.addBrick(showBrick);
 		script.addBrick(placeAtBrick);
@@ -90,8 +91,8 @@ public class ScriptTest extends AndroidTestCase {
 	}
 
 	public void testMoveTopBrickUp() {
-        Sprite testSprite = new Sprite("sprite");
-        Script script = new Script("test", testSprite);
+		Sprite testSprite = new Sprite("sprite");
+		Script script = new StartScript("test", testSprite);
 		script.addBrick(hideBrick);
 		script.addBrick(showBrick);
 		script.addBrick(placeAtBrick);
@@ -108,8 +109,8 @@ public class ScriptTest extends AndroidTestCase {
 	}
 
 	public void testMoveBottomBrickUp() {
-        Sprite testSprite = new Sprite("sprite");
-        Script script = new Script("test", testSprite);
+		Sprite testSprite = new Sprite("sprite");
+		Script script = new StartScript("test", testSprite);
 		script.addBrick(hideBrick);
 		script.addBrick(showBrick);
 		script.addBrick(placeAtBrick);
@@ -126,8 +127,8 @@ public class ScriptTest extends AndroidTestCase {
 	}
 
 	public void testMoveBottomBrickDown() {
-        Sprite testSprite = new Sprite("sprite");
-        Script script = new Script("test", testSprite);
+		Sprite testSprite = new Sprite("sprite");
+		Script script = new StartScript("test", testSprite);
 		script.addBrick(hideBrick);
 		script.addBrick(showBrick);
 		script.addBrick(placeAtBrick);
@@ -144,8 +145,8 @@ public class ScriptTest extends AndroidTestCase {
 	}
 
 	public void testMoveBrick() {
-        Sprite testSprite = new Sprite("sprite");
-        Script script = new Script("test", testSprite);
+		Sprite testSprite = new Sprite("sprite");
+		Script script = new StartScript("test", testSprite);
 		script.addBrick(hideBrick);
 		script.addBrick(showBrick);
 		script.addBrick(placeAtBrick);

@@ -99,14 +99,6 @@ public abstract class Script implements Serializable {
 		return brickList;
 	}
 
-	//
-	//	public void setTouchScript(boolean isTouchScript) {
-	//		this.isTouchScript = isTouchScript;
-	//		if (isTouchScript) {
-	//			this.isFinished = true;
-	//		}
-	//	}
-
 	public synchronized void setPaused(boolean paused) {
 		this.paused = paused;
 	}
