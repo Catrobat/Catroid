@@ -1,7 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- The warning concerning the minSdkVersion can be ignored, as this is our intended behavior -->
-
-<!-- 
+/**
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010  Catroid development team 
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
@@ -18,30 +15,22 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+ */
+package at.tugraz.ist.catroid.content;
 
-<manifest
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:versionCode="5"
-	android:versionName="0.5.0a"
-	package="at.tugraz.ist.catroid.test"
->
-	<application
-		android:icon="@drawable/icon"
-		android:label="@string/app_name"
-		android:debuggable="true"
-	>
+public class StartScript extends Script {
 
+	private static final long serialVersionUID = 1L;
 
-		<uses-library
-			android:name="android.test.runner" />
-	</application>
-	<uses-permission
-		android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	<uses-sdk
-		android:minSdkVersion="7"
-		android:targetSdkVersion="8" />
-	<instrumentation
-		android:targetPackage="at.tugraz.ist.catroid"
-		android:name="android.test.InstrumentationTestRunner" />
-</manifest> 
+	public StartScript(String name, Sprite sprite) {
+		super(name, sprite);
+	}
+
+	@Override
+	protected Object readResolve() {
+		isFinished = true;
+		super.readResolve();
+		return this;
+	}
+
+}
