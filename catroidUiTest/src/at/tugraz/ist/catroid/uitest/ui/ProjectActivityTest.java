@@ -22,6 +22,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.R.string;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.uitest.util.Utils;
@@ -30,7 +31,6 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
-	private static final String TEST_PROJECT_NAME = "projectActivityTest";
 
 	public ProjectActivityTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -40,12 +40,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	public void setUp() throws Exception {
 		super.setUp();
 		solo = new Solo(getInstrumentation(), getActivity());
-
-		// Create new test project
-		solo.clickOnButton(getActivity().getString(R.string.new_project));
-		Utils.enterText(solo, 0, TEST_PROJECT_NAME);
-
-		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
+		Utils.createEmptyProject();
 	}
 
 	@Override
@@ -59,6 +54,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		}
 
 		getActivity().finish();
+		Utils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -74,6 +70,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	public void testAddNewSprite() {
 		final String spriteName = "testSprite";
+		solo.clickOnButton(getActivity().getString(string.resume));
 		addNewSprite(spriteName);
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.sprite_list_view);
@@ -92,6 +89,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	}
 
 	public void testAddNewSpriteErrors() {
+		solo.clickOnButton(getActivity().getString(string.resume));
 		addNewSprite("");
 		assertTrue("No error message was displayed upon creating a sprite with an empty name.",
 				solo.searchText(getActivity().getString(R.string.error_no_name_entered)));
@@ -107,6 +105,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	}
 
 	public void testContextMenu() {
+		solo.clickOnButton(getActivity().getString(string.resume));
 		// Create sprites manually so we're able to check for equality
 		final String spriteName = "foo";
 		final String spriteName2 = "bar";
@@ -148,6 +147,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	}
 
 	public void testMainMenuButton() {
+		solo.clickOnButton(getActivity().getString(string.resume));
 		solo.clickOnButton(getActivity().getString(R.string.main_menu));
 		Utils.pause();
 		assertTrue("Main menu is not visible", solo.searchText(getActivity().getString(R.string.main_menu)));

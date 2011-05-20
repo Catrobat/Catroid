@@ -35,21 +35,21 @@ import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.transfers.ProjectUploadTask;
 import at.tugraz.ist.catroid.ui.DownloadActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.uitest.util.Utils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
-	private String testProject = "testProject";
-	private String newTestProject = "newProjectToTest";
+	private String testProject = Utils.PROJECTNAME1;
+	private String newTestProject = Utils.PROJECTNAME2;
 
 	private class MockProjectUploadTask extends ProjectUploadTask {
 
 		public MockProjectUploadTask(Context context, String projectName, String projectDescription,
 				String projectPath, String token) {
 			super(context, projectName, projectDescription, projectPath, token);
-			// TODO Auto-generated constructor stub
 		}
 
 		public String getResultString() {
@@ -65,7 +65,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 	public ProjectUpAndDownloadTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
-		deleteCreatedProjects();
+		Utils.clearAllUtilTestProjects();
 	}
 
 	@Override
@@ -82,8 +82,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 			e.printStackTrace();
 		}
 		getActivity().finish();
-		deleteCreatedProjects();
-
+		Utils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -103,7 +102,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		addABrickToProject();
 		uploadProject();
 
-		deleteCreatedProjects();
+		Utils.clearAllUtilTestProjects();
 
 		downloadProject();
 	}
@@ -131,7 +130,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		assertEquals("Received wrong result status code", 601, statusCode);
 
-		deleteCreatedProjects();
+		Utils.clearAllUtilTestProjects();
 	}
 
 	private void createTestProject() {
@@ -203,12 +202,5 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		assertTrue("Downloaded Directory does not exist.", downloadedDirectory.exists());
 		assertTrue("Project File does not exist.", downloadedSPFFile.exists());
 
-	}
-
-	private void deleteCreatedProjects() {
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + testProject);
-		UtilFile.deleteDirectory(directory);
-		File newDirectory = new File(Consts.DEFAULT_ROOT + "/" + newTestProject);
-		UtilFile.deleteDirectory(newDirectory);
 	}
 }

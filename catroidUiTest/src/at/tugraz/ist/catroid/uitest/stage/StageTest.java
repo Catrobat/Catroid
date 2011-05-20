@@ -33,6 +33,8 @@ import at.tugraz.ist.catroid.content.Costume;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
+import at.tugraz.ist.catroid.content.TapScript;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
@@ -52,7 +54,7 @@ import com.jayway.android.robotium.solo.Solo;
 public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
 	private StorageHandler storageHandler;
-	private final String projectName = "project1";
+	private final String projectName = Utils.PROJECTNAME1;
 
 	private File image1;
 	private File image2;
@@ -66,7 +68,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 	private int image2Width;
 	private int image1Height;
 	private int image2Height;
-	private int attempts = 3;
+	private int attempts = 30;
 
 	private static final int IMAGE_FILE_ID = R.raw.icon;
 	private static final int IMAGE_FILE_ID2 = R.raw.icon2;
@@ -79,7 +81,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 	@Override
 	public void setUp() throws Exception {
-		Utils.clearProject(projectName);
+		Utils.clearAllUtilTestProjects();
 
 		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
@@ -104,7 +106,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 			soundFile.delete();
 		}
 
-		Utils.clearProject(projectName);
+		Utils.clearAllUtilTestProjects();
 
 		getActivity().finish();
 		super.tearDown();
@@ -254,7 +256,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		Project project = new Project(getActivity(), projectName);
 		Sprite sprite = new Sprite("testSprite");
-		Script script = new Script("script", sprite);
+		Script script = new StartScript("script", sprite);
 		WaitBrick waitBrick = new WaitBrick(sprite, 5000);
 		ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(sprite, scale);
 
@@ -329,8 +331,17 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		assertFalse("Media player is playing while pausing", mediaPlayer.isPlaying());
 		solo.sleep(1000);
 		solo.pressMenuItem(1);
-		solo.sleep(50);
-		assertTrue("Media player is not playing after pause", mediaPlayer.isPlaying());
+		int count = 0;
+		while (true) {
+			if (mediaPlayer.isPlaying()) {
+				break;
+			}
+			solo.sleep(20);
+			count++;
+			if (count >= attempts) {
+				fail("Media player is not playing after pause");
+			}
+		}
 	}
 
 	public void testMediaPlayerNotPlayingAfterPause() {
@@ -357,7 +368,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 	public void testCanvas() {
 		Sprite sprite = new Sprite("sprite1");
-		Script script = new Script("script1", sprite);
+		Script script = new StartScript("script1", sprite);
 		sprite.getScriptList().add(script);
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
 		script.addBrick(setCostumeBrick);
@@ -425,9 +436,8 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		//creating sprites for project:
 		Sprite firstSprite = new Sprite("sprite1");
-		Script testScript = new Script("script1", firstSprite);
-		Script touchScript = new Script("script2", firstSprite);
-		touchScript.setTouchScript(true);
+		Script testScript = new StartScript("script1", firstSprite);
+		Script touchScript = new TapScript("script2", firstSprite);
 
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
 		SetCostumeBrick setCostumeBrick2 = new SetCostumeBrick(firstSprite);
@@ -455,9 +465,8 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		//creating sprites for project:
 		Sprite firstSprite = new Sprite("sprite1");
-		Script startScript = new Script("startscript", firstSprite);
-		Script touchScript = new Script("script2", firstSprite);
-		touchScript.setTouchScript(true);
+		Script startScript = new StartScript("startscript", firstSprite);
+		Script touchScript = new TapScript("script2", firstSprite);
 
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
 		SetCostumeBrick setCostumeBrick2 = new SetCostumeBrick(firstSprite);
@@ -496,9 +505,8 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		// sprite1 --------------------------------
 		Sprite firstSprite = new Sprite("sprite1");
-		Script startScript1 = new Script("start1", firstSprite);
-		Script touchScript1 = new Script("script1", firstSprite);
-		touchScript1.setTouchScript(true);
+		Script startScript1 = new StartScript("start1", firstSprite);
+		Script touchScript1 = new TapScript("script1", firstSprite);
 		// creating bricks:
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
 
@@ -511,9 +519,8 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		// sprite2 --------------------------------
 		Sprite secondSprite = new Sprite("sprite2");
-		Script startScript2 = new Script("start2", secondSprite);
-		Script touchScript2 = new Script("script2", secondSprite);
-		touchScript2.setTouchScript(true);
+		Script startScript2 = new StartScript("start2", secondSprite);
+		Script touchScript2 = new TapScript("script2", secondSprite);
 		// creating bricks:
 		SetCostumeBrick setCostumeBrick2 = new SetCostumeBrick(secondSprite);
 		// adding bricks:
@@ -542,9 +549,8 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		//creating sprites for project:
 		Sprite firstSprite = new Sprite("sprite1");
-		Script startScript = new Script("startscript", firstSprite);
-		Script touchScript = new Script("touchscript", firstSprite);
-		touchScript.setTouchScript(true);
+		Script startScript = new StartScript("startscript", firstSprite);
+		Script touchScript = new TapScript("touchscript", firstSprite);
 
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
 
@@ -572,9 +578,8 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		//creating sprites for project:
 		Sprite firstSprite = new Sprite("sprite1");
-		Script startScript = new Script("startscript", firstSprite);
-		Script touchScript = new Script("touchscript", firstSprite);
-		touchScript.setTouchScript(true);
+		Script startScript = new StartScript("startscript", firstSprite);
+		Script touchScript = new TapScript("touchscript", firstSprite);
 
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
 		PlaySoundBrick playSoundBrick = new PlaySoundBrick(firstSprite);

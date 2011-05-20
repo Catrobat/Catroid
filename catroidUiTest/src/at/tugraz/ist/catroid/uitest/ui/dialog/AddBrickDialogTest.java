@@ -19,26 +19,24 @@
 
 package at.tugraz.ist.catroid.uitest.ui.dialog;
 
-import java.io.File;
 import java.io.IOException;
 
 import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.uitest.util.Utils;
-import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
-	private String testProject = "testProject";
+	private String testProject = Utils.PROJECTNAME1;
 
 	public AddBrickDialogTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -58,10 +56,7 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 			e.printStackTrace();
 		}
 		getActivity().finish();
-
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + testProject);
-		UtilFile.deleteDirectory(directory);
-
+		Utils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -110,7 +105,7 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 		Project project = new Project(getActivity(), projectName);
 		Sprite firstSprite = new Sprite("cat");
 
-		Script testScript = new Script("ScriptTest", firstSprite);
+		Script testScript = new StartScript("ScriptTest", firstSprite);
 
 		firstSprite.getScriptList().add(testScript);
 		project.addSprite(firstSprite);

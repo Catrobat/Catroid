@@ -35,7 +35,7 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
-	private String testingproject = "testingproject";
+	private String testingproject = Utils.PROJECTNAME1;
 	private String testingsprite = "testingsprite";
 
 	public NewSpriteDialogTest() {
@@ -45,7 +45,7 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		Utils.clearProject(testingproject);
+		Utils.clearAllUtilTestProjects();
 
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
@@ -60,8 +60,8 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 		}
 
 		getActivity().finish();
+		Utils.clearAllUtilTestProjects();
 		super.tearDown();
-		Utils.clearProject(testingproject);
 	}
 
 	public void testNewSpriteDialog() throws NameNotFoundException, IOException {

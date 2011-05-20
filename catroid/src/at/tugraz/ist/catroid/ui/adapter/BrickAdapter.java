@@ -34,6 +34,7 @@ import android.widget.ExpandableListView.OnGroupClickListener;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.TapScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
 import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
@@ -97,7 +98,7 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 
 	public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 		View view;
-		if (getGroup(groupPosition).isTouchScript()) {
+		if (getGroup(groupPosition) instanceof TapScript) {
 			view = new IfTouchedBrick(sprite, getGroup(groupPosition)).getPrototypeView(context);
 		} else {
 			view = new IfStartedBrick(sprite, getGroup(groupPosition)).getPrototypeView(context);

@@ -27,6 +27,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
@@ -103,7 +104,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptAct
 		Project project = new Project(null, projectName);
 		Sprite firstSprite = new Sprite("cat");
 
-		Script testScript = new Script("testscript", firstSprite);
+		Script testScript = new StartScript("testscript", firstSprite);
 
 		brickListToCheck = new ArrayList<Brick>();
 		brickListToCheck.add(new HideBrick(firstSprite));
