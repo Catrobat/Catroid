@@ -189,7 +189,7 @@ public class StorageHandler {
 			}
 
 			BufferedWriter out = new BufferedWriter(new FileWriter(projectDirectoryName + "/" + project.getName()
-					+ Consts.PROJECT_EXTENTION));
+					+ Consts.PROJECT_EXTENTION), 8 * 1024);
 
 			out.write(spfFile);
 			out.flush();
@@ -239,7 +239,7 @@ public class StorageHandler {
 				soundContent.add(info);
 			} while (cursor.moveToNext());
 		}
-		System.out.println("LOAD SOUND");
+		Log.v(TAG, "LOAD SOUND");
 		cursor.close();
 	}
 
@@ -389,7 +389,7 @@ public class StorageHandler {
 		FileInputStream fis = null;
 		try {
 			fis = new FileInputStream(file);
-			byte[] buffer = new byte[8192];
+			byte[] buffer = new byte[8 * 1024];
 
 			int length = 0;
 
@@ -398,6 +398,7 @@ public class StorageHandler {
 			}
 		} catch (IOException e) {
 			Log.e(TAG, "IOException thrown in StorageHandler::getMD5Checksum");
+			e.printStackTrace();
 		} finally {
 			try {
 				if (fis != null) {
@@ -483,14 +484,16 @@ public class StorageHandler {
 	private File savePictureFromResInProject(String project, String name, int fileID, Context context)
 			throws IOException {
 
+		int bufferSize = 8 * 1024;
+
 		final String imagePath = Consts.DEFAULT_ROOT + "/" + project + Consts.IMAGE_DIRECTORY + "/" + name;
 		File testImage = new File(imagePath);
 		if (!testImage.exists()) {
 			testImage.createNewFile();
 		}
 		InputStream in = context.getResources().openRawResource(fileID);
-		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage));
-		byte[] buffer = new byte[1024];
+		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), bufferSize);
+		byte[] buffer = new byte[bufferSize];
 		int length = 0;
 		while ((length = in.read(buffer)) > 0) {
 			out.write(buffer, 0, length);

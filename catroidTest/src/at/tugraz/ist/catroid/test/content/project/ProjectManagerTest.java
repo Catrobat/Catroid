@@ -24,6 +24,7 @@ import java.io.IOException;
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.InstrumentationTestCase;
+import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Project;
@@ -41,6 +42,7 @@ import at.tugraz.ist.catroid.test.util.Utils;
 
 public class ProjectManagerTest extends InstrumentationTestCase {
 
+	private static final String TAG = "ProjectManagerTest";
 	String projectNameOne = "Ulumulu";
 	String scriptNameOne = "Ulukai";
 	String scriptNameTwo = "Ulukai2";
@@ -152,7 +154,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		assertTrue("New project file is not existing", newProjectFile.exists());
 
 		//this fails because catroid is buggy, fix catroid not this test --> we haven't decided yet how to fix the FileChecksumContainer
-		System.out.println(spfFileAsString);
+		Log.v(TAG, spfFileAsString);
 		assertFalse("old projectName still in spf file", spfFileAsString.contains(oldProjectName));
 
 	}

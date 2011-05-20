@@ -26,6 +26,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
@@ -54,6 +55,7 @@ import com.jayway.android.robotium.solo.Solo;
 public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
 	private StorageHandler storageHandler;
+	private final static String TAG = "StageUITest";
 	private final String projectName = Utils.PROJECTNAME1;
 
 	private File image1;
@@ -115,8 +117,8 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 	public void testClickOnPictureAndChangeCostume() {
 		createTestproject(projectName);
 
-		System.out.println("image1: " + image1.getAbsolutePath() + " " + image1Width + " " + image1Height);
-		System.out.println("image2: " + image2.getAbsolutePath() + " " + image2Width + " " + image2Height);
+		Log.v(TAG, "image1: " + image1.getAbsolutePath() + " " + image1Width + " " + image1Height);
+		Log.v(TAG, "image2: " + image2.getAbsolutePath() + " " + image2Width + " " + image2Height);
 		solo.clickOnButton(1); // this is the stage //change it when you mess with the buttons
 
 		solo.sleep(2000);
@@ -134,7 +136,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 	public void testRunScript() {
 		createTestProject2(projectName);
 
-		System.out.println("image1: " + image1.getAbsolutePath() + " " + image1Width + " " + image1Height);
+		Log.v(TAG, "image1: " + image1.getAbsolutePath() + " " + image1Width + " " + image1Height);
 
 		solo.clickOnButton(1);
 		solo.sleep(2000);
@@ -146,11 +148,11 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		solo.sleep(1500);
 		costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
-		assertEquals("image not right scaled", (Integer) (image1Width / 2), costume.getImageWidthHeight().first);
+		assertEquals("image not scaled correctly", (Integer) (image1Width / 2), costume.getImageWidthHeight().first);
 
 		solo.sleep(2500);
 		costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
-		assertEquals("image not right scaled", (Integer) (image1Width), costume.getImageWidthHeight().first);
+		assertEquals("image not scaled correctly", (Integer) (image1Width), costume.getImageWidthHeight().first);
 
 		int drawPositionX = Math.round(((Values.SCREEN_WIDTH / (2f * Consts.MAX_REL_COORDINATES)) * placeAt)
 				+ Values.SCREEN_WIDTH / 2f);
@@ -167,27 +169,27 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		assertEquals("image1 is not set ", (Integer) image1Width, costume.getImageWidthHeight().first);
 		assertEquals("image1 is not set ", (Integer) image1Height, costume.getImageWidthHeight().second);
 
-		System.out.println("image1: " + image1.getAbsolutePath() + " " + image1Width + " " + image1Height);
+		Log.v(TAG, "image1: " + image1.getAbsolutePath() + " " + image1Width + " " + image1Height);
 
 		int clickWidth = (Values.SCREEN_WIDTH - costume.getBitmap().getWidth()) / 2 - 4;
 		int clickHeight = Values.SCREEN_HEIGHT / 2;
-		System.out.println("click: " + clickWidth + " " + clickHeight);
+		Log.v(TAG, "click: " + clickWidth + " " + clickHeight);
 		solo.clickOnScreen(clickWidth, clickHeight);
 
 		clickWidth = (Values.SCREEN_WIDTH / 2);
 		clickHeight = (Values.SCREEN_HEIGHT - costume.getBitmap().getHeight()) / 2 - 4;
-		System.out.println("click: " + clickWidth + " " + clickHeight);
+		Log.v(TAG, "click: " + clickWidth + " " + clickHeight);
 		solo.clickOnScreen(clickWidth, clickHeight);
 
 		clickWidth = (Values.SCREEN_WIDTH / 2);
 		clickHeight = ((Values.SCREEN_HEIGHT - costume.getBitmap().getHeight()) / 2) + costume.getBitmap().getHeight()
 				+ 4;
-		System.out.println("click: " + clickWidth + " " + clickHeight);
+		Log.v(TAG, "click: " + clickWidth + " " + clickHeight);
 		solo.clickOnScreen(clickWidth, clickHeight);
 
 		clickWidth = ((Values.SCREEN_WIDTH - costume.getBitmap().getWidth()) / 2) + costume.getBitmap().getWidth() + 4;
 		clickHeight = (Values.SCREEN_HEIGHT / 2);
-		System.out.println("click: " + clickWidth + " " + clickHeight);
+		Log.v(TAG, "click: " + clickWidth + " " + clickHeight);
 		solo.clickOnScreen(clickWidth, clickHeight);
 
 		solo.sleep(1000);
@@ -211,23 +213,23 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		int costumeHeight = costume.getBitmap().getHeight();
 		int clickWidth = (Values.SCREEN_WIDTH - costumeWidth) / 2 + 4;
 		int clickHeight = Values.SCREEN_HEIGHT / 2;
-		System.out.println("click: " + clickWidth + " " + clickHeight);
+		Log.v(TAG, "click: " + clickWidth + " " + clickHeight);
 		clickOnScreenAndReturn(clickWidth, clickHeight, image2Width, image2Height);
 
 		clickWidth = (Values.SCREEN_WIDTH / 2);
 		clickHeight = (Values.SCREEN_HEIGHT - costumeHeight) / 2 + 18;
-		System.out.println("click: " + clickWidth + " " + clickHeight + " SCREEN:" + Values.SCREEN_WIDTH + " "
+		Log.v(TAG, "click: " + clickWidth + " " + clickHeight + " SCREEN:" + Values.SCREEN_WIDTH + " "
 				+ Values.SCREEN_HEIGHT);
 		clickOnScreenAndReturn(clickWidth, clickHeight, image2Width, image2Height);
 
 		clickWidth = (Values.SCREEN_WIDTH / 2 + 15);
 		clickHeight = ((Values.SCREEN_HEIGHT - costumeHeight) / 2) + costumeHeight - 4;
-		System.out.println("click: " + clickWidth + " " + clickHeight);
+		Log.v(TAG, "click: " + clickWidth + " " + clickHeight);
 		clickOnScreenAndReturn(clickWidth, clickHeight, image2Width, image2Height);
 
 		clickWidth = ((Values.SCREEN_WIDTH - costumeWidth) / 2) + costumeWidth - 4;
 		clickHeight = (Values.SCREEN_HEIGHT / 2);
-		System.out.println("click: " + clickWidth + " " + clickHeight);
+		Log.v(TAG, "click: " + clickWidth + " " + clickHeight);
 		clickOnScreenAndReturn(clickWidth, clickHeight, image2Width, image2Height);
 
 	}
@@ -395,28 +397,28 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		for (int i = startWidth; i < borderWidth; i++) {
 			for (int j = startHeight; j < borderHeight; j++) {
 				assertEquals("pixel is not red", Color.RED, bitmap.getPixel(i, j));
-				//System.out.println("in TEST " + i + " " + j);
+				//Log.v(TAG, "in TEST " + i + " " + j);
 			}
 		}
 
 		for (int j = startHeight; j < borderHeight; j++) {
 			assertEquals("pixel is not white", Color.WHITE, bitmap.getPixel(startWidth - 1, j));
-			//System.out.println("in TEST2 " + (startWidth - 1) + " " + j);
+			//Log.v(TAG, "in TEST2 " + (startWidth - 1) + " " + j);
 		}
 
 		for (int j = startHeight; j < borderHeight; j++) {
 			assertEquals("pixel is not white", Color.WHITE, bitmap.getPixel(borderWidth, j));
-			//System.out.println("in TEST3 " + borderWidth + " " + j);
+			//Log.v(TAG, "in TEST3 " + borderWidth + " " + j);
 		}
 
 		for (int i = startWidth; i < borderWidth; i++) {
 			assertEquals("pixel is not white", Color.WHITE, bitmap.getPixel(i, startHeight - 1));
-			//System.out.println("in TEST4 " + i + " " + (startHeight - 1));
+			//Log.v(TAG, "in TEST4 " + i + " " + (startHeight - 1));
 		}
 
 		for (int i = startWidth; i < borderWidth; i++) {
 			assertEquals("pixel is not white", Color.WHITE, bitmap.getPixel(i, borderHeight));
-			//System.out.println("in TEST5 " + i + " " + borderHeight);
+			//Log.v(TAG, "in TEST5 " + i + " " + borderHeight);
 		}
 
 	}

@@ -124,9 +124,8 @@ public class SoundManagerTest extends InstrumentationTestCase {
 		assertNotNull("Could not open test sound file", soundFilePath);
 		assertTrue("Could not open test sound file", soundFilePath.length() > 0);
 
-		final int mediaPlayerCount = 10;
 		ArrayList<MediaPlayer> mediaPlayers = new ArrayList<MediaPlayer>();
-		for (int i = 0; i < mediaPlayerCount; i++) {
+		for (int i = 0; i < SoundManager.MAX_MEDIA_PLAYERS; i++) {
 			MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
 			mediaPlayers.add(mediaPlayer);
 			mediaPlayer.setDataSource(soundFilePath);
@@ -160,8 +159,7 @@ public class SoundManagerTest extends InstrumentationTestCase {
 		assertNotNull("Could not open test sound file", soundFilePath);
 		assertTrue("Could not open test sound file", soundFilePath.length() > 0);
 
-		final int mediaPlayerCount = SoundManager.MAX_MEDIA_PLAYERS;
-		for (int i = 0; i < mediaPlayerCount; i++) {
+		for (int i = 0; i < SoundManager.MAX_MEDIA_PLAYERS; i++) {
 			MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
 			mediaPlayer.setDataSource(soundFilePath);
 			mediaPlayer.prepare();

@@ -67,8 +67,6 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptAct
 
 	public void testDeleteScript() {
 		solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
-		solo.scrollDownList(0);
-		solo.scrollDownList(0);
 		solo.clickOnText(getActivity().getString(R.string.brick_if_touched));
 
 		solo.clickLongOnText(getActivity().getString(R.string.brick_if_touched));
@@ -88,8 +86,6 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptAct
 		assertEquals("Incorrect number of elements in listView", 0, solo.getCurrentListViews().get(0).getChildCount());
 
 		solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
-		solo.scrollUpList(0);
-		solo.scrollUpList(0);
 		solo.clickOnText(getActivity().getString(R.string.brick_hide));
 		solo.sleep(1000);
 
@@ -111,11 +107,9 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptAct
 		brickListToCheck.add(new ShowBrick(firstSprite));
 		brickListToCheck.add(new ScaleCostumeBrick(firstSprite, scaleValue));
 
-		// adding Bricks: ----------------
 		for (Brick brick : brickListToCheck) {
 			testScript.addBrick(brick);
 		}
-		// -------------------------------
 
 		firstSprite.getScriptList().add(testScript);
 

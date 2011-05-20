@@ -95,8 +95,7 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 		assertNotNull("Could not open test sound file", soundFilePath);
 		assertTrue("Could not open test sound file", soundFilePath.length() > 0);
 
-		final int playerCount = SoundManager.MAX_MEDIA_PLAYERS;
-		for (int i = 0; i < playerCount; i++) {
+		for (int i = 0; i < SoundManager.MAX_MEDIA_PLAYERS; i++) {
 			MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
 			PlaySoundBrick testBrick = new PlaySoundBrick(new Sprite("3"));
 			testBrick.setPathToSoundfile(soundFile.getName());
@@ -106,7 +105,7 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 	}
 
 	public void testPlaySimultaneousSounds() throws InterruptedException {
-		Thread t1 = new Thread(new Runnable() {
+		Thread soundThread01 = new Thread(new Runnable() {
 			//final String soundFilePath = soundFile.getAbsolutePath();
 			PlaySoundBrick testBrick1 = new PlaySoundBrick(new Sprite("4"));
 
@@ -116,7 +115,7 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 			}
 		});
 
-		Thread t2 = new Thread(new Runnable() {
+		Thread soundThread02 = new Thread(new Runnable() {
 			//final String soundFilePath = soundFile.getAbsolutePath();
 			PlaySoundBrick testBrick2 = new PlaySoundBrick(new Sprite("5"));
 
@@ -126,8 +125,8 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 			}
 		});
 
-		t1.start();
-		t2.start();
+		soundThread01.start();
+		soundThread02.start();
 		Thread.sleep(1000);
 		//Test fails if MediaPlayer throws IllegalArgumentException
 	}
