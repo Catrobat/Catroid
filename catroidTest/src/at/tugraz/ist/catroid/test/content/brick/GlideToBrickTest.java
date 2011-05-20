@@ -21,6 +21,7 @@ package at.tugraz.ist.catroid.test.content.brick;
 import android.test.AndroidTestCase;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
@@ -85,7 +86,7 @@ public class GlideToBrickTest extends AndroidTestCase {
 
 	public void testTime() {
 		Sprite sprite = new Sprite("testSprite");
-		Script script = new Script("testScript", sprite);
+		Script script = new StartScript("testScript", sprite);
 		HideBrick hideBrick = new HideBrick(sprite);
 		GlideToBrick glideToBrick = new GlideToBrick(sprite, 0, 0, 1000);
 		ShowBrick showBrick = new ShowBrick(sprite);
@@ -116,7 +117,7 @@ public class GlideToBrickTest extends AndroidTestCase {
 
 	public void testPauseResume() {
 		Sprite sprite = new Sprite("testSprite");
-		Script script = new Script("testScript", sprite);
+		Script script = new StartScript("testScript", sprite);
 		HideBrick hideBrick = new HideBrick(sprite);
 		GlideToBrick glideToBrick = new GlideToBrick(sprite, 0, 0, 3000);
 		ShowBrick showBrick = new ShowBrick(sprite);

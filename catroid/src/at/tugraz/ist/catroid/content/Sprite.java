@@ -71,15 +71,17 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 
 	public void startScripts() {
 		for (Script s : scriptList) {
-			if (!s.isTouchScript()) {
-				startScript(s);
+			if (s instanceof StartScript) {
+				if (!s.isFinished()) {
+					startScript(s);
+				}
 			}
 		}
 	}
 
 	public void startTouchScripts() {
 		for (Script s : scriptList) {
-			if (s.isTouchScript()) {
+			if (s instanceof TapScript) {
 				startScript(s);
 			}
 		}
@@ -109,12 +111,11 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	public void resume() {
 		for (Script s : scriptList) {
 			s.setPaused(false);
-			if (s.isTouchScript() && s.isFinished()) {
+			if (s.isFinished()) {
 				continue;
 			}
 			startScript(s);
 		}
-		//		this.startScripts();
 	}
 
 	public String getName() {
