@@ -176,7 +176,7 @@ public class SpriteTest extends AndroidTestCase {
 		testSprite.startScripts();
 
 		try {
-			Thread.sleep(10);
+			Thread.sleep(20);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

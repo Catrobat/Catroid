@@ -117,7 +117,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 
 		manager.setCurrentScript(script2);
 		SetCostumeBrick brick = new SetCostumeBrick(sprite2);
-		manager.addBrick(brick);
+		manager.getCurrentScript().addBrick(brick);
 		assertTrue("Brick not in current Script", manager.getCurrentScript().getBrickList().contains(brick));
 
 		//move brick already tested

@@ -218,7 +218,6 @@ public class StorageHandler {
 		return true;
 	}
 
-	// TODO: Find a way to access sound files on the device
 	public void loadSoundContent(Context context) {
 		soundContent = new ArrayList<SoundInfo>();
 		String[] projectionOnOrig = { MediaStore.Audio.Media.DATA, MediaStore.Audio.AudioColumns.TITLE,
