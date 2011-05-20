@@ -50,7 +50,8 @@ public class SpriteTest extends AndroidTestCase {
 		final String spriteName = "new sprite";
 		final int xPosition = 100;
 		final int yPosition = -500;
-		Sprite sprite = new Sprite(spriteName, xPosition, yPosition);
+		Sprite sprite = new Sprite(spriteName);
+		sprite.setXYPosition(xPosition, yPosition);
 		assertEquals("Unexpected Sprite name", spriteName, sprite.getName());
 		assertEquals("Unexpected x position", xPosition, sprite.getXPosition());
 		assertEquals("Unexpected y position", yPosition, sprite.getYPosition());
@@ -62,7 +63,8 @@ public class SpriteTest extends AndroidTestCase {
 		assertEquals("Script list contains items after constructor", 0, sprite.getScriptList().size());
 		assertNotNull("Costume was not initialized", sprite.getCostume());
 
-		sprite = new Sprite(spriteName, Integer.MAX_VALUE, Integer.MIN_VALUE);
+		sprite = new Sprite(spriteName);
+		sprite.setXYPosition(Integer.MAX_VALUE, Integer.MIN_VALUE);
 		assertEquals("Failed to set Sprite X position to maximum Integer value", Integer.MAX_VALUE,
 				sprite.getXPosition());
 		assertEquals("Failed to set Sprite Y position to minimum Integer value", Integer.MIN_VALUE,
@@ -173,7 +175,7 @@ public class SpriteTest extends AndroidTestCase {
 
 		testSprite.getScriptList().add(testScript);
 
-		testSprite.startScripts();
+		testSprite.startStartScripts();
 
 		try {
 			Thread.sleep(20);

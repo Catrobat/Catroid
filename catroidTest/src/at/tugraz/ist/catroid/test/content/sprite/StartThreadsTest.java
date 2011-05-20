@@ -40,7 +40,7 @@ public class StartThreadsTest extends AndroidTestCase {
 		testScript.addBrick(scaleCostumeBrick);
 		testSprite.getScriptList().add(testScript);
 
-		testSprite.startScripts();
+		testSprite.startStartScripts();
 
 		try {
 			Thread.sleep(200);
@@ -64,7 +64,7 @@ public class StartThreadsTest extends AndroidTestCase {
 		testScript.addBrick(showBrick);
 		testSprite.getScriptList().add(testScript);
 
-		testSprite.startScripts();
+		testSprite.startStartScripts();
 
 		try {
 			Thread.sleep(100);
@@ -86,7 +86,7 @@ public class StartThreadsTest extends AndroidTestCase {
 
 		testScript.getBrickList().clear();
 		testScript.addBrick(hideBrick);
-		testSprite.startScripts();
+		testSprite.startStartScripts();
 
 		try {
 			Thread.sleep(100);

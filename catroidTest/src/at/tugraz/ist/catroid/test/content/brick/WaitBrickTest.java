@@ -41,7 +41,7 @@ public class WaitBrickTest extends AndroidTestCase {
 
 		testSprite.getScriptList().add(testScript);
 
-		testSprite.startScripts();
+		testSprite.startStartScripts();
 
 		try {
 			Thread.sleep(200);
@@ -72,7 +72,7 @@ public class WaitBrickTest extends AndroidTestCase {
 
 		testSprite.getScriptList().add(testScript);
 
-		testSprite.startScripts();
+		testSprite.startStartScripts();
 
 		try {
 			Thread.sleep(1000);

@@ -97,7 +97,7 @@ public class GlideToBrickTest extends AndroidTestCase {
 
 		sprite.getScriptList().add(script);
 
-		sprite.startScripts();
+		sprite.startStartScripts();
 
 		try {
 			Thread.sleep(200);
@@ -128,7 +128,7 @@ public class GlideToBrickTest extends AndroidTestCase {
 
 		sprite.getScriptList().add(script);
 
-		sprite.startScripts();
+		sprite.startStartScripts();
 
 		try {
 			Thread.sleep(1000);
