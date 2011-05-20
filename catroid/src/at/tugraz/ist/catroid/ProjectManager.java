@@ -28,7 +28,6 @@ import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -116,16 +115,6 @@ public class ProjectManager {
 		currentSprite.getScriptList().add(script);
 	}
 
-	/*
-	 * TODO: Only used in AddBrickDialog. Could remove this function and use the one implemented in Script.
-	 * (AddBrickDialog has access to scripts, and if not, there's getCurrentScript. No need to duplicated functionality)
-	 * Whereas getCurrentScript is only used in tests. So it would probably better to get rid of getCurrentScript and
-	 * use this function!?
-	 */
-	public void addBrick(Brick brick) {
-		currentScript.addBrick(brick);
-	}
-
 	public Sprite getCurrentSprite() {
 		return currentSprite;
 	}
@@ -134,9 +123,6 @@ public class ProjectManager {
 		return project;
 	}
 
-	/*
-	 * TODO: Only used in tests --> put it there (reflection)
-	 */
 	public Script getCurrentScript() {
 		return currentScript;
 	}

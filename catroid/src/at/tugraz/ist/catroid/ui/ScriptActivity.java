@@ -72,7 +72,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		listView.setOnDropListener(adapter);
 		listView.setOnRemoveListener(adapter);
 		listView.setAdapter(adapter);
-		// Sets scroll behavior. TODO: Find a better way to do it.
+		// Sets scroll behavior. --> Find a better way to do it.
 		//listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
 		listView.setGroupIndicator(null);
 		listView.setOnGroupClickListener(adapter);
