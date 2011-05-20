@@ -100,11 +100,11 @@ public class GlideToBrickTest extends AndroidTestCase {
 		sprite.startStartScripts();
 
 		try {
-			Thread.sleep(200);
+			Thread.sleep(250);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		assertFalse("Unexpected visibility of test sprite", sprite.isVisible());
+		assertFalse("GlideToBrick should not be visible!", sprite.isVisible());
 
 		try {
 			Thread.sleep(1000);
@@ -112,7 +112,7 @@ public class GlideToBrickTest extends AndroidTestCase {
 			e.printStackTrace();
 		}
 
-		assertTrue("Unexpected visibility of test sprite", sprite.isVisible());
+		assertTrue("GlideToBrick should be visible!", sprite.isVisible());
 	}
 
 	public void testPauseResume() {

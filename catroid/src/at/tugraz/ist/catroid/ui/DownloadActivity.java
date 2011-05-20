@@ -23,11 +23,14 @@ import java.net.URLDecoder;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.transfers.ProjectDownloadTask;
 
 public class DownloadActivity extends Activity {
+
+	private static final String TAG = "DownloadActivity";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +40,7 @@ public class DownloadActivity extends Activity {
 
 		String zipUrl = getIntent().getDataString();
 
-		System.out.println("data: " + zipUrl);
+		Log.v(TAG, "data: " + zipUrl);
 		if (zipUrl == null || zipUrl.length() <= 0) {
 			return;
 		}
