@@ -29,6 +29,7 @@ import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
@@ -72,7 +73,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		assertNotNull("no current sprite set", manager.getCurrentSprite());
 		assertEquals("The Spritename is not " + spriteNameOne, spriteNameOne, manager.getCurrentSprite().getName());
 
-		Script script = new Script(scriptNameOne, sprite);
+		Script script = new StartScript(scriptNameOne, sprite);
 		manager.addScript(script);
 		manager.setCurrentScript(script);
 
@@ -108,7 +109,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		//addScript
 
 		manager.setCurrentSprite(sprite2);
-		Script script2 = new Script(scriptNameTwo, sprite2);
+		Script script2 = new StartScript(scriptNameTwo, sprite2);
 		manager.addScript(script2);
 		assertTrue("Script not in current Sprite", manager.getCurrentSprite().getScriptList().contains(script2));
 
@@ -116,7 +117,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 
 		manager.setCurrentScript(script2);
 		SetCostumeBrick brick = new SetCostumeBrick(sprite2);
-		manager.addBrick(brick);
+		manager.getCurrentScript().addBrick(brick);
 		assertTrue("Brick not in current Script", manager.getCurrentScript().getBrickList().contains(brick));
 
 		//move brick already tested
@@ -170,8 +171,8 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		Sprite secondSprite = new Sprite("dog");
 		Sprite thirdSprite = new Sprite("horse");
 		Sprite fourthSprite = new Sprite("pig");
-		Script testScript = new Script("testScript", firstSprite);
-		Script otherScript = new Script("otherScript", secondSprite);
+		Script testScript = new StartScript("testScript", firstSprite);
+		Script otherScript = new StartScript("otherScript", secondSprite);
 		HideBrick hideBrick = new HideBrick(firstSprite);
 		ShowBrick showBrick = new ShowBrick(firstSprite);
 		SetCostumeBrick costumeBrick = new SetCostumeBrick(firstSprite);

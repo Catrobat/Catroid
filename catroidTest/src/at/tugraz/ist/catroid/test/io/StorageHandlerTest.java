@@ -31,6 +31,8 @@ import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
+import at.tugraz.ist.catroid.content.TapScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
@@ -48,7 +50,6 @@ import at.tugraz.ist.catroid.content.bricks.SetYBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
-import at.tugraz.ist.catroid.test.util.Utils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class StorageHandlerTest extends AndroidTestCase {
@@ -60,8 +61,8 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 	@Override
 	public void tearDown() {
-		Utils.clearProject(getContext().getString(R.string.default_project_name));
-		Utils.clearProject("testProject");
+		//		Utils.clearProject(getContext().getString(R.string.default_project_name));
+		//		Utils.clearProject("testProject");
 	}
 
 	@Override
@@ -84,8 +85,8 @@ public class StorageHandlerTest extends AndroidTestCase {
 		Sprite secondSprite = new Sprite("second");
 		Sprite thirdSprite = new Sprite("third");
 		Sprite fourthSprite = new Sprite("fourth");
-		Script testScript = new Script("testScript", firstSprite);
-		Script otherScript = new Script("otherScript", secondSprite);
+		Script testScript = new StartScript("testScript", firstSprite);
+		Script otherScript = new StartScript("otherScript", secondSprite);
 		HideBrick hideBrick = new HideBrick(firstSprite);
 		ShowBrick showBrick = new ShowBrick(firstSprite);
 		ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(secondSprite, scaleValue);
@@ -140,8 +141,6 @@ public class StorageHandlerTest extends AndroidTestCase {
 		assertEquals("YPosition was not deserialized right", yPosition, ((PlaceAtBrick) (postSpriteList.get(2)
 				.getScriptList().get(0).getBrickList().get(0))).getYPosition());
 
-		assertEquals("isTouchScript should not be set in script", preSpriteList.get(1).getScriptList().get(0)
-				.isTouchScript(), postSpriteList.get(1).getScriptList().get(0).isTouchScript());
 		assertFalse("paused should not be set in script", preSpriteList.get(1).getScriptList().get(0).isPaused());
 
 		// Test version codes and names
@@ -201,8 +200,8 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 		Project project = new Project(getContext(), projectName);
 		Sprite sprite = new Sprite("testSprite");
-		Script script = new Script("testScript", sprite);
-		Script touchedScript = new Script("touchedScript", sprite);
+		Script script = new StartScript("testScript", sprite);
+		Script touchedScript = new TapScript("touchedScript", sprite);
 		sprite.getScriptList().add(script);
 		sprite.getScriptList().add(touchedScript);
 		project.getSpriteList().add(sprite);

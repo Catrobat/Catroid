@@ -34,8 +34,8 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
-	private String testProject = "testProject";
-	private String newTestProject = "newProjectToTest";
+	private String testProject = Utils.PROJECTNAME1;
+	private String newTestProject = Utils.PROJECTNAME2;
 
 	public UploadDialogTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -44,16 +44,14 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 	@Override
 	@UiThreadTest
 	public void setUp() throws Exception {
-		Utils.clearProject(testProject);
-		Utils.clearProject(newTestProject);
+		Utils.clearAllUtilTestProjects();
 		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		Utils.clearProject(testProject);
-		Utils.clearProject(newTestProject);
+		Utils.clearAllUtilTestProjects();
 		try {
 			solo.finalize();
 		} catch (Throwable e) {

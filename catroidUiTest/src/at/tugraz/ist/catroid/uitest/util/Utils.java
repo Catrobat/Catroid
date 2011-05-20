@@ -35,6 +35,7 @@ import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
@@ -53,6 +54,10 @@ public class Utils {
 	private static ProjectManager projectManager = ProjectManager.getInstance();
 
 	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
+	public static final String PROJECTNAME1 = "testproject1";
+	public static final String PROJECTNAME2 = "testproject2";
+	public static final String PROJECTNAME3 = "testproject3";
+	public static final String PROJECTNAME4 = "testproject4";
 	public static final int TYPE_IMAGE_FILE = 0;
 	public static final int TYPE_SOUND_FILE = 1;
 
@@ -120,7 +125,7 @@ public class Utils {
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
 		Sprite firstSprite = new Sprite("cat");
 
-		Script testScript = new Script("testscript", firstSprite);
+		Script testScript = new StartScript("testscript", firstSprite);
 
 		ArrayList<Brick> brickList = new ArrayList<Brick>();
 		brickList.add(new HideBrick(firstSprite));
@@ -148,7 +153,7 @@ public class Utils {
 	public static void createEmptyProject() {
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
 		Sprite firstSprite = new Sprite("cat");
-		Script testScript = new Script("testscript", firstSprite);
+		Script testScript = new StartScript("testscript", firstSprite);
 
 		firstSprite.getScriptList().add(testScript);
 		project.addSprite(firstSprite);
@@ -235,5 +240,42 @@ public class Utils {
 
 		StorageHandler.getInstance().saveProject(project);
 		return project;
+	}
+
+	public static void clearAllUtilTestProjects() {
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + PROJECTNAME1);
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
+
+		directory = new File(Consts.DEFAULT_ROOT + "/" + PROJECTNAME2);
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
+
+		directory = new File(Consts.DEFAULT_ROOT + "/" + PROJECTNAME3);
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
+
+		directory = new File(Consts.DEFAULT_ROOT + "/" + PROJECTNAME4);
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
+
+		directory = new File(Consts.DEFAULT_ROOT + "/" + DEFAULT_TEST_PROJECT_NAME);
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
+
+		directory = new File(Consts.DEFAULT_ROOT + "/" + "defaultProject");
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
+
+		directory = new File(Consts.DEFAULT_ROOT + "/" + "standardProjekt");
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
 	}
 }
