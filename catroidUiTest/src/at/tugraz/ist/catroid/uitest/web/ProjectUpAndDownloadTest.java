@@ -50,7 +50,6 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		public MockProjectUploadTask(Context context, String projectName, String projectDescription,
 				String projectPath, String token) {
 			super(context, projectName, projectDescription, projectPath, token);
-			// TODO Auto-generated constructor stub
 		}
 
 		public String getResultString() {
