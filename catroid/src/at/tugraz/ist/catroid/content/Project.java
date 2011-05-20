@@ -34,14 +34,13 @@ public class Project implements Serializable {
 	private List<Sprite> spriteList = new ArrayList<Sprite>();
 	private String name;
 	private String versionName;
+	private int versionCode;
 
 	//only used for catroid website
 	@SuppressWarnings("unused")
 	private String deviceName;
 	@SuppressWarnings("unused")
 	private String screenResolution;
-
-	private int versionCode;
 
 	public Project(Context context, String name) {
 		this.name = name;
