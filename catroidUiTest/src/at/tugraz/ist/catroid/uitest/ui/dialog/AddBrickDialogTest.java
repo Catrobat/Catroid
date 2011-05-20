@@ -56,46 +56,70 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 			e.printStackTrace();
 		}
 		getActivity().finish();
+
 		Utils.clearAllUtilTestProjects();
+
 		super.tearDown();
 	}
 
-	public void testAddBrickDialog() {
+	private void checkIfBrickIsPresent(int brickStringId) {
 
-		solo.clickOnButton(getActivity().getString(R.string.load_project));
+		String brickText = solo.getCurrentActivity().getString(R.string.add_new_brick);
+		assertTrue("Inserted brick " + brickText + " was not found.", solo.searchText(brickText));
+
+	}
+
+	private void addAndCheckBrick(Solo solo, int brickStringId) {
+		Utils.addNewBrickAndScrollDown(solo, brickStringId);
+		checkIfBrickIsPresent(brickStringId);
+	}
+
+	public void testAddBrickDialog() {
+		solo.clickOnButton(getActivity().getString(R.string.resume));
 
 		solo.clickOnText(testProject);
 		solo.clickInList(2);
 
-		Utils.addNewBrickAndScrollDown(solo, R.string.brick_wait);
+		int[] brickIds = new int[] {
+				R.string.brick_wait,
+				R.string.brick_hide,
+				R.string.brick_show,
+				R.string.brick_place_at,
+				R.string.brick_set_x,
+				R.string.brick_set_y,
+				R.string.brick_change_x_by,
+				R.string.brick_change_y_by,
+				R.string.brick_set_costume,
+				R.string.brick_scale_costume,
+				R.string.brick_go_back,
+				R.string.brick_come_to_front,
+				R.string.brick_play_sound,
+				R.string.brick_glide
+		};
 
-		Utils.addNewBrickAndScrollDown(solo, R.string.brick_hide);
+		ProjectManager manager = ProjectManager.getInstance();
+		for (int id : brickIds) {
+			Script script = manager.getCurrentScript();
+			int numberOfBricksBeforeAdding = id == R.string.brick_if_touched ? 0 : script.getBrickList().size();
+			addAndCheckBrick(solo, id);
+			assertEquals("Brick " + solo.getCurrentActivity().getString(id) + " was not added in the BrickList.",
+					numberOfBricksBeforeAdding + 1,
+					script.getBrickList().size());
+		}
 
-		Utils.addNewBrickAndScrollDown(solo, R.string.brick_show);
+		int[] triggerBrickIds = new int[] {
+				R.string.brick_if_started,
+				R.string.brick_if_touched
+		};
 
-		Utils.addNewBrickAndScrollDown(solo, R.string.brick_place_at);
-
-		Utils.addNewBrickAndScrollDown(solo, R.string.brick_set_x);
-
-		Utils.addNewBrickAndScrollDown(solo, R.string.brick_set_y);
-
-		Utils.addNewBrickAndScrollDown(solo, R.string.brick_change_x_by);
-
-		Utils.addNewBrickAndScrollDown(solo, R.string.brick_change_y_by);
-
-		Utils.addNewBrickAndScrollDown(solo, R.string.brick_set_costume);
-
-		Utils.addNewBrickAndScrollDown(solo, R.string.brick_scale_costume);
-
-		Utils.addNewBrickAndScrollDown(solo, R.string.brick_go_back);
-
-		Utils.addNewBrickAndScrollDown(solo, R.string.brick_come_to_front);
-
-		Utils.addNewBrickAndScrollDown(solo, R.string.brick_play_sound);
-
-		Utils.addNewBrickAndScrollDown(solo, R.string.brick_if_touched);
-
-		//TODO: please write some asserts
+		for (int id : triggerBrickIds) {
+			int oldNumberOfScripts = manager.getCurrentSprite().getScriptList().size();
+			addAndCheckBrick(solo, id);
+			Script script = manager.getCurrentScript();
+			assertEquals("Adding new trigger brick did not create new empty script", 0, script.getBrickList().size());
+			assertEquals("Adding new trigger brick did not create an additional script", oldNumberOfScripts + 1,
+					manager.getCurrentSprite().getScriptList().size());
+		}
 	}
 
 	private void createTestProject(String projectName) throws IOException {

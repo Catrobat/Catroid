@@ -72,8 +72,9 @@ public class SoundManager {
 	}
 
 	public synchronized void clear() {
-		for (MediaPlayer mediaPlayer : mediaPlayers)
+		for (MediaPlayer mediaPlayer : mediaPlayers) {
 			mediaPlayer.release();
+		}
 		mediaPlayers.clear();
 	}
 
@@ -90,9 +91,11 @@ public class SoundManager {
 	}
 
 	public synchronized void resume() {
-		for (MediaPlayer mediaPlayer : mediaPlayers)
-			if (!mediaPlayer.isPlaying())
+		for (MediaPlayer mediaPlayer : mediaPlayers) {
+			if (!mediaPlayer.isPlaying()) {
 				mediaPlayer.start();
+			}
+		}
 	}
 
 }

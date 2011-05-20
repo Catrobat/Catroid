@@ -73,6 +73,7 @@ public class Utils {
 	public static void enterText(Solo solo, int editTextIndex, String text) {
 		pause();
 		solo.getEditText(editTextIndex).setInputType(InputType.TYPE_NULL);
+		solo.clearEditText(editTextIndex);
 		solo.enterText(editTextIndex, text);
 		pause();
 	}
