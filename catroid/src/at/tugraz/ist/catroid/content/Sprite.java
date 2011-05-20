@@ -61,15 +61,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		init();
 	}
 
-	public Sprite(String name, int xPosition, int yPosition) {
-		this.name = name;
-		scriptList = new ArrayList<Script>();
-		init();
-		this.xPosition = xPosition;
-		this.yPosition = yPosition;
-	}
-
-	public void startScripts() {
+	public void startStartScripts() {
 		for (Script s : scriptList) {
 			if (s instanceof StartScript) {
 				if (!s.isFinished()) {
@@ -79,7 +71,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		}
 	}
 
-	public void startTouchScripts() {
+	public void startTapScripts() {
 		for (Script s : scriptList) {
 			if (s instanceof TapScript) {
 				startScript(s);

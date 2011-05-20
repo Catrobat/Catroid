@@ -69,7 +69,7 @@ public class StageManager {
 		draw = new CanvasDraw(activity);
 
 		for (Sprite sprite : spriteList) {
-			sprite.startScripts();
+			sprite.startStartScripts();
 		}
 	}
 
@@ -88,7 +88,7 @@ public class StageManager {
 
 		Collections.sort(touchedSpriteList);
 		if (!touchedSpriteList.isEmpty()) {
-			touchedSpriteList.get(touchedSpriteList.size() - 1).startTouchScripts();
+			touchedSpriteList.get(touchedSpriteList.size() - 1).startTapScripts();
 		}
 	}
 
