@@ -21,6 +21,7 @@ package at.tugraz.ist.catroid.content;
 import java.io.Serializable;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Pair;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
@@ -39,6 +40,8 @@ public class Costume implements Serializable {
 	private int origHeight;
 	private int origWidth;
 
+	private int resourceId;
+
 	@XStreamOmitField
 	private transient Bitmap costumeBitmap;
 
@@ -54,17 +57,44 @@ public class Costume implements Serializable {
 		if (costumeBitmap == null) {
 			return;
 		}
+		setDimensions();
+		setDrawPosition();
+	}
 
-		actHeight = costumeBitmap.getHeight();
-		actWidth = costumeBitmap.getWidth();
+	public synchronized void setBitmapFromRes(int resourceId) {
+		imagePath = null;
+		this.resourceId = resourceId;
 
-		origHeight = costumeBitmap.getHeight();
-		origWidth = costumeBitmap.getWidth();
+		BitmapFactory.Options boundsOptions = new BitmapFactory.Options();
+		boundsOptions.inJustDecodeBounds = true;
+		BitmapFactory.decodeResource(Values.NATIVE_APP_CONTEXT.getResources(), resourceId, boundsOptions);
+
+		double sampleSizeWidth = boundsOptions.outWidth / (double) Values.SCREEN_WIDTH;
+		double sampleSizeHeight = boundsOptions.outHeight / (double) Values.SCREEN_HEIGHT;
+		double sampleSize = Math.max(sampleSizeWidth, sampleSizeHeight);
+
+		if (sampleSize > 1) {
+			int sampleSizeRounded = (int) Math.floor(sampleSize);
+
+			int newHeight = (int) Math.ceil(costumeBitmap.getWidth() / sampleSize);
+			int newWidth = (int) Math.ceil(costumeBitmap.getDensity() / sampleSize);
+
+			BitmapFactory.Options scaleOptions = new BitmapFactory.Options();
+			scaleOptions.inSampleSize = sampleSizeRounded;
+
+			Bitmap tmpBitmap = BitmapFactory.decodeResource(Values.NATIVE_APP_CONTEXT.getResources(), resourceId,
+					scaleOptions);
+			costumeBitmap = ImageEditing.scaleBitmap(tmpBitmap, newWidth, newHeight, true);
+		} else {
+			costumeBitmap = BitmapFactory.decodeResource(Values.NATIVE_APP_CONTEXT.getResources(), resourceId);
+		}
+
+		setDimensions();
 		setDrawPosition();
 	}
 
 	public synchronized void scale(double scaleFactorPercent) {
-		if (costumeBitmap == null || imagePath == null) {
+		if (costumeBitmap == null || (imagePath == null && Values.RUNNING_AS_NATIVE_APP == false)) {
 			return;
 		}
 
@@ -76,7 +106,11 @@ public class Costume implements Serializable {
 
 		if (newHeight > actHeight || newWidth > actWidth) {
 			//costumeBitmap.recycle();
-			costumeBitmap = ImageEditing.getBitmap(imagePath, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
+			if (Values.RUNNING_AS_NATIVE_APP == false) {
+				costumeBitmap = ImageEditing.getBitmap(imagePath, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
+			} else {
+				costumeBitmap = BitmapFactory.decodeResource(Values.NATIVE_APP_CONTEXT.getResources(), resourceId);
+			}
 		}
 
 		costumeBitmap = ImageEditing.scaleBitmap(costumeBitmap, newWidth, newHeight, true);
@@ -94,6 +128,14 @@ public class Costume implements Serializable {
 
 	public Bitmap getBitmap() {
 		return costumeBitmap;
+	}
+
+	public synchronized void setDimensions() {
+		actHeight = costumeBitmap.getHeight();
+		actWidth = costumeBitmap.getWidth();
+
+		origHeight = costumeBitmap.getHeight();
+		origWidth = costumeBitmap.getWidth();
 	}
 
 	public synchronized void setDrawPosition() {

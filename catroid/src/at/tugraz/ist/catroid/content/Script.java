@@ -21,6 +21,7 @@ package at.tugraz.ist.catroid.content;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import android.util.Log;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.exception.InterruptedRuntimeException;
 
@@ -52,6 +53,7 @@ public abstract class Script implements Serializable {
 	}
 
 	public void run() {
+		Log.e("Script", "Scrtpt running " + this.toString());
 		isFinished = false;
 		for (int i = brickPositionAfterPause; i < brickList.size(); i++) {
 			if (paused) {
