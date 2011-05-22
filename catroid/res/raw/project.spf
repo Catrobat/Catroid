@@ -6,7 +6,7 @@
     <sprite>
       <name>Bühne</name>
       <scriptList>
-        <script>
+        <startScript>
           <brickList>
             <setCostumeBrick>
               <imageName>hay_field</imageName>
@@ -15,14 +15,13 @@
           </brickList>
           <sprite reference="../../.."/>
           <name>script</name>
-          <tapScript>false</tapScript>
-        </script>
+        </startScript>
       </scriptList>
     </sprite>
     <sprite>
       <name>bat</name>
       <scriptList>
-        <script>
+        <tapScript>
           <brickList>
             <setCostumeBrick>
               <imageName>bat1b</imageName>
@@ -55,9 +54,8 @@
           </brickList>
           <sprite reference="../../.."/>
           <name>script</name>
-          <tapScript>true</tapScript>
-        </script>
-        <script>
+        </tapScript>
+        <startScript>
           <brickList>
             <setCostumeBrick>
               <imageName>bat1a</imageName>
@@ -70,8 +68,7 @@
           </brickList>
           <sprite reference="../../.."/>
           <name>script</name>
-          <tapScript>false</tapScript>
-        </script>
+        </startScript>
       </scriptList>
     </sprite>
   </spriteList>

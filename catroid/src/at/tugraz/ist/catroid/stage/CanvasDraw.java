@@ -27,12 +27,12 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.Bitmap.CompressFormat;
 import android.os.Vibrator;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -102,7 +102,9 @@ public class CanvasDraw implements IDraw {
 					sprite.setToDraw(false);
 				}
 			}
-			bufferCanvas.drawBitmap(screenshotIcon, screenshotIconPosX, Consts.SCREENSHOT_ICON_PADDING_TOP, null);
+			if (!Values.RUNNING_AS_NATIVE_APP) {
+				bufferCanvas.drawBitmap(screenshotIcon, screenshotIconPosX, Consts.SCREENSHOT_ICON_PADDING_TOP, null);
+			}
 			canvas.drawBitmap(canvasBitmap, 0, 0, null);
 			holder.unlockCanvasAndPost(canvas);
 
@@ -138,7 +140,8 @@ public class CanvasDraw implements IDraw {
 
 	public void processOnTouch(int coordX, int coordY) {
 		CharSequence text;
-		if (coordX >= screenshotIconPosX && coordY <= Consts.SCREENSHOT_ICON_PADDING_TOP + screenshotIcon.getHeight()) {
+		if (coordX >= screenshotIconPosX && coordY <= Consts.SCREENSHOT_ICON_PADDING_TOP + screenshotIcon.getHeight()
+				&& !Values.RUNNING_AS_NATIVE_APP) {
 			Vibrator vibr = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
 			vibr.vibrate(100);
 			if (saveThumbnail(true)) {
