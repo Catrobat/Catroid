@@ -47,6 +47,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.common.SoundInfo;
+import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Costume;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
@@ -143,6 +144,13 @@ public class StorageHandler {
 	public Project loadProject(String projectName) {
 		createCatroidRoot();
 		try {
+			if (Values.RUNNING_AS_NATIVE_APP) {
+				int resId = Values.NATIVE_APP_CONTEXT.getResources().getIdentifier(projectName, "raw",
+						Values.NATIVE_APP_CONTEXT.getPackageName());
+				InputStream spfFileStream = Values.NATIVE_APP_CONTEXT.getResources().openRawResource(resId);
+				return (Project) xstream.fromXML(spfFileStream);
+			}
+
 			projectName = Utils.getProjectName(projectName);
 
 			File projectDirectory = new File(Consts.DEFAULT_ROOT + "/" + projectName);

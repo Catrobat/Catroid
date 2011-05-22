@@ -30,6 +30,7 @@ import android.widget.ImageView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 
@@ -63,7 +64,13 @@ public class SetCostumeBrick implements Brick {
 	}
 
 	public void execute() {
-		this.sprite.getCostume().setImagePath(getAbsoluteImagePath());
+		if (Values.RUNNING_AS_NATIVE_APP == false) {
+			this.sprite.getCostume().setImagePath(getAbsoluteImagePath());
+		} else {
+			this.sprite.getCostume().setBitmapFromRes(
+					Values.NATIVE_APP_CONTEXT.getResources().getIdentifier(imageName, "raw",
+							Values.NATIVE_APP_CONTEXT.getPackageName()));
+		}
 	}
 
 	public Sprite getSprite() {

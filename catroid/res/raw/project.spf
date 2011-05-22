@@ -1,0 +1,80 @@
+<project>
+  <deviceName>HTC Desire</deviceName>
+  <name>flying bat</name>
+  <screenResolution>480/800</screenResolution>
+  <spriteList>
+    <sprite>
+      <name>Bühne</name>
+      <scriptList>
+        <script>
+          <brickList>
+            <setCostumeBrick>
+              <imageName>hay_field</imageName>
+              <sprite reference="../../../../.."/>
+            </setCostumeBrick>
+          </brickList>
+          <sprite reference="../../.."/>
+          <name>script</name>
+          <tapScript>false</tapScript>
+        </script>
+      </scriptList>
+    </sprite>
+    <sprite>
+      <name>bat</name>
+      <scriptList>
+        <script>
+          <brickList>
+            <setCostumeBrick>
+              <imageName>bat1b</imageName>
+              <sprite reference="../../../../.."/>
+            </setCostumeBrick>
+            <waitBrick>
+              <sprite reference="../../../../.."/>
+              <timeToWaitInMilliSeconds>200</timeToWaitInMilliSeconds>
+            </waitBrick>
+            <setCostumeBrick>
+              <imageName>bat1a</imageName>
+              <sprite reference="../../../../.."/>
+            </setCostumeBrick>
+            <waitBrick>
+              <sprite reference="../../../../.."/>
+              <timeToWaitInMilliSeconds>200</timeToWaitInMilliSeconds>
+            </waitBrick>
+            <setCostumeBrick>
+              <imageName>bat1b</imageName>
+              <sprite reference="../../../../.."/>
+            </setCostumeBrick>
+            <waitBrick>
+              <sprite reference="../../../../.."/>
+              <timeToWaitInMilliSeconds>200</timeToWaitInMilliSeconds>
+            </waitBrick>
+            <setCostumeBrick>
+              <imageName>bat1a</imageName>
+              <sprite reference="../../../../.."/>
+            </setCostumeBrick>
+          </brickList>
+          <sprite reference="../../.."/>
+          <name>script</name>
+          <tapScript>true</tapScript>
+        </script>
+        <script>
+          <brickList>
+            <setCostumeBrick>
+              <imageName>bat1a</imageName>
+              <sprite reference="../../../../.."/>
+            </setCostumeBrick>
+            <setYBrick>
+              <sprite reference="../../../../.."/>
+              <yPosition>120</yPosition>
+            </setYBrick>
+          </brickList>
+          <sprite reference="../../.."/>
+          <name>script</name>
+          <tapScript>false</tapScript>
+        </script>
+      </scriptList>
+    </sprite>
+  </spriteList>
+  <versionName>0.5.1</versionName>
+  <versionCode>5</versionCode>
+</project>

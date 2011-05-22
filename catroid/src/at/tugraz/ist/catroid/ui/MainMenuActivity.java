@@ -106,6 +106,9 @@ public class MainMenuActivity extends Activity {
 		Values.SCREEN_WIDTH = dm.widthPixels;
 		Values.SCREEN_HEIGHT = dm.heightPixels;
 
+		Values.RUNNING_AS_NATIVE_APP = false;
+		Values.NATIVE_APP_CONTEXT = null;
+
 		setContentView(R.layout.activity_main_menu);
 		projectManager = ProjectManager.getInstance();
 
