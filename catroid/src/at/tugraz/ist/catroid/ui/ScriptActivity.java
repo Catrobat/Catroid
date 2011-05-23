@@ -78,22 +78,22 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		listView.setOnGroupClickListener(adapter);
 		registerForContextMenu(listView);
 
-		Button mainMenuButton = (Button) findViewById(R.id.main_menu_button);
-		mainMenuButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				Intent intent = new Intent(ScriptActivity.this, MainMenuActivity.class);
-				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(intent);
-			}
-		});
+		//		Button mainMenuButton = (Button) findViewById(R.id.main_menu_button);
+		//		mainMenuButton.setOnClickListener(new View.OnClickListener() {
+		//			public void onClick(View v) {
+		//				Intent intent = new Intent(ScriptActivity.this, MainMenuActivity.class);
+		//				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		//				startActivity(intent);
+		//			}
+		//		});
 
-		Button toStageButton = (Button) findViewById(R.id.toStageButton);
-		toStageButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				Intent intent = new Intent(ScriptActivity.this, StageActivity.class);
-				startActivity(intent);
-			}
-		});
+		//		Button toStageButton = (Button) findViewById(R.id.toStageButton);
+		//		toStageButton.setOnClickListener(new View.OnClickListener() {
+		//			public void onClick(View v) {
+		//				Intent intent = new Intent(ScriptActivity.this, StageActivity.class);
+		//				startActivity(intent);
+		//			}
+		//		});
 
 		Button addBrickButton = (Button) findViewById(R.id.add_brick_button);
 		addBrickButton.setOnClickListener(new View.OnClickListener() {
@@ -101,12 +101,24 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 				showDialog(Consts.DIALOG_ADD_BRICK);
 			}
 		});
+
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_script);
+
+		ActivityHelper helper = new ActivityHelper(this);
+		helper.setupActionBar(false, null);
+
+		helper.addActionButton(R.drawable.play_icon, new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent(ScriptActivity.this, StageActivity.class);
+				startActivity(intent);
+			}
+		}, false);
+
 	}
 
 	@Override
