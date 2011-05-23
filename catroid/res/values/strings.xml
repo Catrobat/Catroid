@@ -80,7 +80,7 @@
 
     <!-- Project activity view -->
     <string name="project_name">Project:</string>
-    <string name="sprite_list">Sprites:</string>
+    <string name="sprite_list">Sprites</string>
     <string name="add_sprite">Add new Sprite</string>
 
     <!-- Script activity view -->

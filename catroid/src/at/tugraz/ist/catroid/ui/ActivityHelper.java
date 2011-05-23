@@ -20,11 +20,14 @@ package at.tugraz.ist.catroid.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 
 /**
@@ -48,7 +51,8 @@ public class ActivityHelper {
 		if (actionBar == null) {
 			return false;
 		}
-
+		LinearLayout.LayoutParams springLayoutParams = new LinearLayout.LayoutParams(0,
+				ViewGroup.LayoutParams.FILL_PARENT);
 		ImageButton imgButton = new ImageButton(activity);
 		if (isHome) {
 			imgButton.setImageResource(R.drawable.catroid_logo);
@@ -76,11 +80,16 @@ public class ActivityHelper {
 				}
 			});
 			actionBar.addView(imgButton);
+			TextView titleText = new TextView(activity);
+			titleText.setLayoutParams(springLayoutParams);
+			titleText.setText(title);
+			titleText.setGravity(Gravity.CENTER_VERTICAL);
+			titleText.setTypeface(null, Typeface.BOLD);
+			actionBar.addView(titleText);
 		}
 
 		//spring layout ensures that all consecutive items are added at the right side of the actionbar
-		LinearLayout.LayoutParams springLayoutParams = new LinearLayout.LayoutParams(0,
-				ViewGroup.LayoutParams.FILL_PARENT);
+
 		springLayoutParams.weight = 1;
 		View spring = new View(activity);
 		spring.setLayoutParams(springLayoutParams);

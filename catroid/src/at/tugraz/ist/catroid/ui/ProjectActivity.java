@@ -84,7 +84,7 @@ public class ProjectActivity extends Activity {
 		setContentView(R.layout.activity_project);
 
 		ActivityHelper helper = new ActivityHelper(this);
-		helper.setupActionBar(false, null);
+		helper.setupActionBar(false, this.getResources().getString(R.string.sprite_list));
 
 		helper.addActionButton(R.drawable.plus_icon, new View.OnClickListener() {
 			public void onClick(View v) {

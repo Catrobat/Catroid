@@ -110,7 +110,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		setContentView(R.layout.activity_script);
 
 		ActivityHelper helper = new ActivityHelper(this);
-		helper.setupActionBar(false, null);
+		helper.setupActionBar(false, ProjectManager.getInstance().getCurrentSprite().getName());
 
 		helper.addActionButton(R.drawable.play_icon, new View.OnClickListener() {
 			public void onClick(View v) {

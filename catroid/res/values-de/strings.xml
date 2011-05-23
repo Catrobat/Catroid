@@ -79,7 +79,7 @@
 
     <!-- Project activity view -->
     <string name="project_name">Projekt:</string>
-    <string name="sprite_list">Objekte:</string>
+    <string name="sprite_list">Objekte</string>
     <string name="add_sprite">Neues Objekt hinzufügen</string>
 
     <!-- Script activity view -->
