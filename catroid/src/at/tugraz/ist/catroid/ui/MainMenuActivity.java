@@ -87,7 +87,7 @@ public class MainMenuActivity extends Activity {
 		ActivityHelper helper = new ActivityHelper(this);
 		helper.setupActionBar(true, null);
 
-		helper.addActionButton(R.drawable.play_icon, new View.OnClickListener() {
+		helper.addActionButton(R.drawable.play_icon_pressed, new View.OnClickListener() {
 			public void onClick(View v) {
 				if (projectManager.getCurrentProject() != null) {
 					Intent intent = new Intent(MainMenuActivity.this, StageActivity.class);

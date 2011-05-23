@@ -66,7 +66,7 @@ public class ActivityHelper {
 			imgButton.setClickable(false);
 			actionBar.addView(imgButton);
 		} else {
-			imgButton.setImageResource(R.drawable.ic_title_home);
+			imgButton.setImageResource(R.drawable.home_selector);
 
 			imgButton.setLayoutParams(
 						new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, (int) activity.getResources()

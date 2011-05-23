@@ -23,6 +23,7 @@
 	android:orientation="vertical"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
+	android:background="@drawable/backrepeat"
 >
 	<!-- Action bar -->
 	<include layout="@layout/actionbar"/>
@@ -35,17 +36,11 @@
 		android:layout_height="fill_parent"
 		android:layout_weight="1"
 	>
-		<TextView
-			android:id="@+id/sprite_list_label"
-			android:text="@string/sprite_list"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:textSize="14dip"
-		></TextView>
 		<ListView
 			android:id="@+id/sprite_list_view"
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
+			android:cacheColorHint="#00000000"
 		></ListView>
 	</LinearLayout>
 

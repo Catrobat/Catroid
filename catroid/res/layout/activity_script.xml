@@ -23,6 +23,7 @@
 	android:orientation="vertical"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
+	android:background="@drawable/backrepeat"
 >
 	<!-- Action bar -->
 	<include layout="@layout/actionbar"/>
@@ -33,6 +34,7 @@
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:layout_weight="1"
+		
 	>
 		<TextView
 			android:id="@+id/brick_list_label"
@@ -52,7 +54,8 @@
 				android:drawSelectorOnTop="false"
 				android:fastScrollEnabled="true"
 				android:clickable="false"
-				android:drawingCacheQuality="high" />
+				android:drawingCacheQuality="high" 
+				android:cacheColorHint="#00000000" />
 			<ImageView
 				android:id="@+id/trash"
 				android:layout_width="51dip"
