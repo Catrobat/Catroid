@@ -86,13 +86,13 @@ public class ProjectActivity extends Activity {
 		ActivityHelper helper = new ActivityHelper(this);
 		helper.setupActionBar(false, this.getResources().getString(R.string.sprite_list));
 
-		helper.addActionButton(R.drawable.plus_icon, new View.OnClickListener() {
+		helper.addActionButton(R.drawable.plus_icon_selector, new View.OnClickListener() {
 			public void onClick(View v) {
 				showDialog(Consts.DIALOG_NEW_SPRITE);
 			}
 		}, false);
 
-		helper.addActionButton(R.drawable.play_icon, new View.OnClickListener() {
+		helper.addActionButton(R.drawable.play_icon_pressed, new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent(ProjectActivity.this, StageActivity.class);
 				startActivity(intent);
