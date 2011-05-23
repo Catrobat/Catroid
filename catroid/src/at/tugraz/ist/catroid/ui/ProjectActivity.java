@@ -92,7 +92,7 @@ public class ProjectActivity extends Activity {
 			}
 		}, false);
 
-		helper.addActionButton(R.drawable.play_icon_pressed, new View.OnClickListener() {
+		helper.addActionButton(R.drawable.play_icon_selector, new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent(ProjectActivity.this, StageActivity.class);
 				startActivity(intent);
