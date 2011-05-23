@@ -56,10 +56,15 @@
     <string name="upload_project">Projekt hochladen</string>
 
     <!-- Main menu activity -->
-    <string name="resume">Weiter machen</string>
     <string name="current_project">Aktuelles Projekt:</string>
     <string name="no_project">Kein Projekt geladen</string>
+    <string name="current_project_button">Aktuelles Projekt</string>
+    <string name="projects_on_phone">Projekte am Handy</string>
     <string name="create_new_project">Neues Projekt erstellen</string>
+	<string name="tutorial">Anleitung</string>
+	<string name="settings">Einstellungen</string>
+	<string name="web_resources">Internet-Ressourcen</string>
+	
 
     <!-- About Dialog -->
     <string name="about_title">Über Catroid</string>

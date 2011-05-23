@@ -31,13 +31,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.dialogs.NewSpriteDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameSpriteDialog;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -64,25 +63,41 @@ public class ProjectActivity extends Activity {
 			}
 		});
 
-		Button mainMenuButton = (Button) findViewById(R.id.main_menu_button);
-		mainMenuButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				finish();
-			}
-		});
+		//		Button mainMenuButton = (Button) findViewById(R.id.main_menu_button);
+		//		mainMenuButton.setOnClickListener(new View.OnClickListener() {
+		//			public void onClick(View v) {
+		//				finish();
+		//			}
+		//		});
 
-		Button NewSpriteButton = (Button) findViewById(R.id.add_sprite_button);
-		NewSpriteButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				showDialog(Consts.DIALOG_NEW_SPRITE);
-			}
-		});
+		//		Button NewSpriteButton = (Button) findViewById(R.id.add_sprite_button);
+		//		NewSpriteButton.setOnClickListener(new View.OnClickListener() {
+		//			public void onClick(View v) {
+		//				showDialog(Consts.DIALOG_NEW_SPRITE);
+		//			}
+		//		});
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_project);
+
+		ActivityHelper helper = new ActivityHelper(this);
+		helper.setupActionBar(false, null);
+
+		helper.addActionButton(R.drawable.plus_icon, new View.OnClickListener() {
+			public void onClick(View v) {
+				showDialog(Consts.DIALOG_NEW_SPRITE);
+			}
+		}, false);
+
+		helper.addActionButton(R.drawable.play_icon, new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent(ProjectActivity.this, StageActivity.class);
+				startActivity(intent);
+			}
+		}, false);
 	}
 
 	@Override
@@ -133,9 +148,9 @@ public class ProjectActivity extends Activity {
 	}
 
 	private void updateTextAndAdapter() {
-		TextView currentProjectTextView = (TextView) findViewById(R.id.project_title_text_view);
-		currentProjectTextView.setText(this.getString(R.string.project_name) + " "
-				+ ProjectManager.getInstance().getCurrentProject().getName());
+		//		TextView currentProjectTextView = (TextView) findViewById(R.id.project_title_text_view);
+		//		currentProjectTextView.setText(this.getString(R.string.project_name) + " "
+		//				+ ProjectManager.getInstance().getCurrentProject().getName());
 		adapter.notifyDataSetChanged();
 	}
 
