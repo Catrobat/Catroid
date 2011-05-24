@@ -154,9 +154,9 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		Sprite fourth = (Sprite) spritesList.getItemAtPosition(4);
 		assertEquals("Sprite at index 4 is not \"pig\"!", "pig", fourth.getName());
 		solo.goBack();
-		TextView currentProject = (TextView) getActivity().findViewById(R.id.currentProjectNameTextView);
-		assertEquals("Current project is not testProject2!", getActivity().getString(R.string.current_project) + " "
-				+ testProject2, currentProject.getText());
+		//		TextView currentProject = (TextView) getActivity().findViewById(R.id.currentProjectNameTextView);
+		//		assertEquals("Current project is not testProject2!", getActivity().getString(R.string.current_project) + " "
+		//				+ testProject2, currentProject.getText());
 	}
 
 	public void testResume() throws NameNotFoundException, IOException {
