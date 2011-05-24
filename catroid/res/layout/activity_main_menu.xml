@@ -23,29 +23,12 @@
 	android:orientation="vertical"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
+	android:background="#d8e0f5"
 >
-	<!-- Top bar -->
-	<LinearLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		android:orientation="vertical"
-		android:layout_height="wrap_content"
-		android:layout_width="match_parent"
-		android:layout_weight="0"
-	>
-		<TextView
-			android:text="@string/main_menu"
-			android:layout_height="wrap_content"
-			android:layout_width="match_parent"
-			android:layout_weight="1"
-			android:textSize="18dip"
-		></TextView>
-		<TextView
-			android:id="@+id/currentProjectNameTextView"
-			android:text="@string/current_project"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-		></TextView>
-	</LinearLayout>
+	<!-- Action bar -->
+	<include layout="@layout/actionbar"/>
+
+	
 	<!-- Menu buttons -->
 	<LinearLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
@@ -59,21 +42,27 @@
 			android:orientation="horizontal"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:layout_weight=".33"
+			android:layout_weight=".25"
 		>
 			<Button
-				android:id="@+id/resumeButton"
-				android:text="@string/resume"
+				android:id="@+id/current_project_button"
+				android:text="@string/current_project_button"
 				android:layout_height="match_parent"
 				android:layout_width="match_parent"
 				android:layout_weight=".5"
+				android:background="@null"
+				android:drawableTop="@drawable/ic_launcher_catroid_clear"
+				android:paddingTop="20dip"
 			></Button>
 			<Button
-				android:id="@+id/toStageButton"
-				android:text="@string/construction_site_play"
+				android:id="@+id/projects_on_phone_button"
+				android:text="@string/projects_on_phone"
 				android:layout_height="match_parent"
 				android:layout_width="match_parent"
 				android:layout_weight=".5"
+				android:background="@null"
+				android:drawableTop="@drawable/ic_launcher_catroid_clear"
+				android:paddingTop="20dip"
 			></Button>
 		</LinearLayout>
 		<LinearLayout
@@ -81,21 +70,27 @@
 			android:orientation="horizontal"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:layout_weight=".33"
+			android:layout_weight=".25"
 		>
 			<Button
-				android:id="@+id/newProjectButton"
+				android:id="@+id/new_project_button"
 				android:text="@string/new_project"
 				android:layout_height="match_parent"
 				android:layout_width="match_parent"
 				android:layout_weight=".5"
+				android:background="@null"
+				android:drawableTop="@drawable/ic_launcher_catroid_clear"
+				android:paddingTop="20dip"
 			></Button>
 			<Button
-				android:id="@+id/loadProjectButton"
-				android:text="@string/load_project"
+				android:id="@+id/tutorial_button"
+				android:text="@string/tutorial"
 				android:layout_height="match_parent"
 				android:layout_width="match_parent"
 				android:layout_weight=".5"
+				android:background="@null"
+				android:drawableTop="@drawable/ic_launcher_catroid_clear"
+				android:paddingTop="20dip"
 			></Button>
 		</LinearLayout>
 		<LinearLayout
@@ -103,21 +98,55 @@
 			android:orientation="horizontal"
 			android:layout_height="match_parent"
 			android:layout_width="match_parent"
-			android:layout_weight=".33"
+			android:layout_weight=".25"
 		>
 			<Button
-				android:id="@+id/uploadProjectButton"
+				android:id="@+id/settings_button"
+				android:text="@string/settings"
+				android:layout_height="match_parent"
+				android:layout_width="match_parent"
+				android:layout_weight=".5"
+				android:background="@null"
+				android:drawableTop="@drawable/ic_launcher_catroid_clear"
+				android:paddingTop="20dip"
+			></Button>
+			<Button
+				android:id="@+id/web_button"
+				android:text="@string/web_resources"
+				android:layout_height="match_parent"
+				android:layout_width="match_parent"
+				android:layout_weight=".5"
+				android:background="@null"
+				android:drawableTop="@drawable/ic_launcher_catroid_clear"
+				android:paddingTop="20dip"
+			></Button>
+		</LinearLayout>
+		<LinearLayout
+			xmlns:android="http://schemas.android.com/apk/res/android"
+			android:orientation="horizontal"
+			android:layout_height="match_parent"
+			android:layout_width="match_parent"
+			android:layout_weight=".25"
+		>
+			<Button
+				android:id="@+id/upload_project_button"
 				android:text="@string/upload_project"
 				android:layout_height="match_parent"
 				android:layout_width="match_parent"
 				android:layout_weight=".5"
+				android:background="@null"
+				android:drawableTop="@drawable/ic_launcher_catroid_clear"
+				android:paddingTop="20dip"
 			></Button>
 			<Button
-				android:id="@+id/aboutCatroidButton"
+				android:id="@+id/about_catroid_button"
 				android:text="@string/about"
 				android:layout_height="match_parent"
 				android:layout_width="match_parent"
 				android:layout_weight=".5"
+				android:background="@null"
+				android:drawableTop="@drawable/ic_launcher_catroid_clear"
+				android:paddingTop="20dip"
 			></Button>
 		</LinearLayout>
 	</LinearLayout>
