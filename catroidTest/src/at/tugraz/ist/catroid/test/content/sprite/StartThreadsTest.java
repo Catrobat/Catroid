@@ -21,6 +21,7 @@ package at.tugraz.ist.catroid.test.content.sprite;
 import android.test.AndroidTestCase;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
@@ -31,7 +32,7 @@ public class StartThreadsTest extends AndroidTestCase {
 	public void testStartThreads() {
 		double scale = 300;
 		Sprite testSprite = new Sprite("testSprite");
-		Script testScript = new Script("testScript", testSprite);
+		Script testScript = new StartScript("testScript", testSprite);
 		HideBrick hideBrick = new HideBrick(testSprite);
 		ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(testSprite, scale);
 
@@ -39,7 +40,7 @@ public class StartThreadsTest extends AndroidTestCase {
 		testScript.addBrick(scaleCostumeBrick);
 		testSprite.getScriptList().add(testScript);
 
-		testSprite.startScripts();
+		testSprite.startStartScripts();
 
 		try {
 			Thread.sleep(200);
@@ -48,12 +49,12 @@ public class StartThreadsTest extends AndroidTestCase {
 		}
 
 		assertFalse("Sprite is not hidden", testSprite.isVisible());
-		assertEquals("the scale is not as expected",scale, testSprite.getScale());
+		assertEquals("the scale is not as expected", scale, testSprite.getScale());
 	}
 
-	public void testResumeThreads(){
+	public void testResumeThreads() {
 		Sprite testSprite = new Sprite("testSprite");
-		Script testScript = new Script("testScript", testSprite);
+		Script testScript = new StartScript("testScript", testSprite);
 		HideBrick hideBrick = new HideBrick(testSprite);
 		WaitBrick waitBrick = new WaitBrick(testSprite, 400);
 		ShowBrick showBrick = new ShowBrick(testSprite);
@@ -63,7 +64,7 @@ public class StartThreadsTest extends AndroidTestCase {
 		testScript.addBrick(showBrick);
 		testSprite.getScriptList().add(testScript);
 
-		testSprite.startScripts();
+		testSprite.startStartScripts();
 
 		try {
 			Thread.sleep(100);
@@ -85,7 +86,7 @@ public class StartThreadsTest extends AndroidTestCase {
 
 		testScript.getBrickList().clear();
 		testScript.addBrick(hideBrick);
-		testSprite.startScripts();
+		testSprite.startStartScripts();
 
 		try {
 			Thread.sleep(100);
@@ -93,8 +94,6 @@ public class StartThreadsTest extends AndroidTestCase {
 			e.printStackTrace();
 		}
 
-		assertTrue("Sprite is hidden - should not be because this script shouldnt be executed", testSprite.isVisible());
+		assertTrue("Sprite is hidden - this script shall not be execute", testSprite.isVisible());
 	}
-
-	//startTouchScript is tested in Ui-Tests for Stage
 }

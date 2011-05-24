@@ -28,6 +28,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
@@ -83,7 +84,7 @@ public class ComeToFrontTest extends ActivityInstrumentationTestCase2<ScriptActi
 	private void createProject() {
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
-		Script script = new Script("script", sprite);
+		Script script = new StartScript("script", sprite);
 		ProjectManager.getInstance().setProject(project);
 		script.addBrick(new ComeToFrontBrick(sprite));
 

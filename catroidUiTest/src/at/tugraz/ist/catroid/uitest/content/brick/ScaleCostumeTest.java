@@ -27,6 +27,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
@@ -96,7 +97,7 @@ public class ScaleCostumeTest extends ActivityInstrumentationTestCase2<ScriptAct
 	private void createProject() {
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
-		Script script = new Script("script", sprite);
+		Script script = new StartScript("script", sprite);
 		scaleCostumeBrick = new ScaleCostumeBrick(sprite, 20);
 		script.addBrick(scaleCostumeBrick);
 
