@@ -28,6 +28,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.SetYBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
@@ -91,7 +92,7 @@ public class SetYBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		setY = 17;
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
-		Script script = new Script("script", sprite);
+		Script script = new StartScript("script", sprite);
 		setYBrick = new SetYBrick(sprite, 0);
 		script.addBrick(setYBrick);
 

@@ -51,9 +51,12 @@ import at.tugraz.ist.catroid.content.Costume;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
+import at.tugraz.ist.catroid.content.TapScript;
 import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
+import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
 import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
@@ -89,6 +92,8 @@ public class StorageHandler {
 		xstream.alias("project", Project.class);
 		xstream.alias("sprite", Sprite.class);
 		xstream.alias("script", Script.class);
+		xstream.alias("startScript", StartScript.class);
+		xstream.alias("tapScript", TapScript.class);
 		xstream.alias("costume", Costume.class);
 
 		xstream.alias("changeXByBrick", ChangeXByBrick.class);
@@ -106,6 +111,7 @@ public class StorageHandler {
 		xstream.alias("setYBrick", SetYBrick.class);
 		xstream.alias("showBrick", ShowBrick.class);
 		xstream.alias("waitBrick", WaitBrick.class);
+		xstream.alias("glideToBrick", GlideToBrick.class);
 
 		if (!Environment.MEDIA_MOUNTED.equals(state)) {
 			throw new IOException("Could not read external storage");
@@ -212,7 +218,6 @@ public class StorageHandler {
 		return true;
 	}
 
-	// TODO: Find a way to access sound files on the device
 	public void loadSoundContent(Context context) {
 		soundContent = new ArrayList<SoundInfo>();
 		String[] projectionOnOrig = { MediaStore.Audio.Media.DATA, MediaStore.Audio.AudioColumns.TITLE,
@@ -322,7 +327,8 @@ public class StorageHandler {
 		String checksumCompressedFile = StorageHandler.getInstance().getMD5Checksum(outputFile);
 
 		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().fileChecksumContainer;
-		String newFilePath = imageDirectory.getAbsolutePath() + "/" + checksumCompressedFile + "_" + inputFile.getName();
+		String newFilePath = imageDirectory.getAbsolutePath() + "/" + checksumCompressedFile + "_"
+				+ inputFile.getName();
 
 		if (!fileChecksumContainer.addChecksum(checksumCompressedFile, newFilePath)) {
 			outputFile.delete();
@@ -427,10 +433,9 @@ public class StorageHandler {
 		Sprite sprite = new Sprite("Catroid");
 		Sprite stageSprite = defaultProject.getSpriteList().get(0);
 		//scripts:
-		Script stageStartScript = new Script("stageStartScript", stageSprite);
-		Script startScript = new Script("startScript", sprite);
-		Script touchScript = new Script("touchScript", sprite);
-		touchScript.setTouchScript(true);
+		Script stageStartScript = new StartScript("stageStartScript", stageSprite);
+		Script startScript = new StartScript("startScript", sprite);
+		Script touchScript = new TapScript("touchScript", sprite);
 		//bricks:
 		File normalCat = savePictureFromResInProject(projectName, Consts.CAT1, R.drawable.catroid, context);
 		File banzaiCat = savePictureFromResInProject(projectName, Consts.CAT2, R.drawable.catroid_banzai, context);

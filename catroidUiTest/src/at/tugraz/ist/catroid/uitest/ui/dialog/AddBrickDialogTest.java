@@ -27,6 +27,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.uitest.util.Utils;
@@ -104,7 +105,7 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 		Project project = new Project(getActivity(), projectName);
 		Sprite firstSprite = new Sprite("cat");
 
-		Script testScript = new Script("ScriptTest", firstSprite);
+		Script testScript = new StartScript("ScriptTest", firstSprite);
 
 		firstSprite.getScriptList().add(testScript);
 		project.addSprite(firstSprite);

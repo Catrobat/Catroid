@@ -35,6 +35,7 @@ import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
@@ -124,7 +125,7 @@ public class Utils {
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
 		Sprite firstSprite = new Sprite("cat");
 
-		Script testScript = new Script("testscript", firstSprite);
+		Script testScript = new StartScript("testscript", firstSprite);
 
 		ArrayList<Brick> brickList = new ArrayList<Brick>();
 		brickList.add(new HideBrick(firstSprite));
@@ -152,7 +153,7 @@ public class Utils {
 	public static void createEmptyProject() {
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
 		Sprite firstSprite = new Sprite("cat");
-		Script testScript = new Script("testscript", firstSprite);
+		Script testScript = new StartScript("testscript", firstSprite);
 
 		firstSprite.getScriptList().add(testScript);
 		project.addSprite(firstSprite);
