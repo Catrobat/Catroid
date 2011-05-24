@@ -64,7 +64,7 @@ public class LoadProjectDialogTest extends ActivityInstrumentationTestCase2<Main
 		solo.clickOnButton(getActivity().getString(R.string.load_project));
 		solo.clickOnText(testProject);
 
-		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.sprite_list_view);
+		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.list);
 		Sprite first = (Sprite) spritesList.getItemAtPosition(1);
 		assertEquals("Sprite at index 1 is not \"cat\"!", "cat", first.getName());
 		Sprite second = (Sprite) spritesList.getItemAtPosition(2);

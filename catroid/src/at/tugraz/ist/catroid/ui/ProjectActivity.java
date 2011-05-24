@@ -22,15 +22,16 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -38,25 +39,27 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.ui.adapter.SpriteAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.NewSpriteDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameSpriteDialog;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class ProjectActivity extends Activity {
+public class ProjectActivity extends ListActivity {
 
-	private ListView listView;
-	private ArrayAdapter<Sprite> adapter;
+	private SpriteAdapter adapter;
 	private ArrayList<Sprite> adapterSpriteList;
 	private Sprite spriteToEdit;
 
 	private void initListeners() {
 		adapterSpriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
-		adapter = new ArrayAdapter<Sprite>(this, android.R.layout.simple_list_item_1, adapterSpriteList);
+		adapter = new SpriteAdapter(this, R.layout.list, R.id.title, adapterSpriteList,
+				(LayoutInflater) getSystemService(Activity.LAYOUT_INFLATER_SERVICE));
 
-		listView = (ListView) findViewById(R.id.sprite_list_view);
-		listView.setAdapter(adapter);
-		registerForContextMenu(listView);
-		listView.setOnItemClickListener(new ListView.OnItemClickListener() {
+		setListAdapter(adapter);
+		getListView().setTextFilterEnabled(true);
+
+		registerForContextMenu(getListView());
+		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				ProjectManager.getInstance().setCurrentSprite(adapter.getItem(position));
 				Intent intent = new Intent(ProjectActivity.this, ScriptActivity.class);
@@ -135,7 +138,7 @@ public class ProjectActivity extends Activity {
 	private void updateTextAndAdapter() {
 		TextView currentProjectTextView = (TextView) findViewById(R.id.project_title_text_view);
 		currentProjectTextView.setText(this.getString(R.string.project_name) + " "
-				+ ProjectManager.getInstance().getCurrentProject().getName());
+						+ ProjectManager.getInstance().getCurrentProject().getName());
 		adapter.notifyDataSetChanged();
 	}
 
