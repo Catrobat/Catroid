@@ -66,13 +66,14 @@ public class ActivityHelper {
 			imgButton.setClickable(false);
 			actionBar.addView(imgButton);
 		} else {
-			imgButton.setImageResource(R.drawable.home_selector);
+			imgButton.setImageResource(R.drawable.home_black);
 
 			imgButton.setLayoutParams(
-						new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, (int) activity.getResources()
+						new ViewGroup.LayoutParams((int) activity.getResources()
+								.getDimension(R.dimen.actionbar_height), (int) activity.getResources()
 								.getDimension(R.dimen.actionbar_height)));
 
-			imgButton.setBackgroundResource(0);
+			imgButton.setBackgroundResource(R.drawable.actionbar_selector);
 			imgButton.setScaleType(ImageView.ScaleType.CENTER);
 			imgButton.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View view) {
@@ -80,11 +81,18 @@ public class ActivityHelper {
 				}
 			});
 			actionBar.addView(imgButton);
+			ImageView separator = new ImageView(activity);
+			separator.setLayoutParams(
+					new ViewGroup.LayoutParams(2, ViewGroup.LayoutParams.FILL_PARENT));
+			separator.setBackgroundResource(R.drawable.actionbar_separator);
+			actionBar.addView(separator);
+
 			TextView titleText = new TextView(activity);
 			titleText.setLayoutParams(springLayoutParams);
 			titleText.setText(title);
 			titleText.setGravity(Gravity.CENTER_VERTICAL);
 			titleText.setTypeface(null, Typeface.BOLD);
+			titleText.setPadding(10, 0, 0, 0);
 			actionBar.addView(titleText);
 		}
 
