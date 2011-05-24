@@ -57,10 +57,15 @@
     <string name="upload_project">Upload Project</string>
 
     <!-- Main menu activity -->
-    <string name="resume">Resume</string>
     <string name="current_project">Current project:</string>
     <string name="no_project">No project currently loaded</string>
+    <string name="current_project_button">Current Project</string>
+    <string name="projects_on_phone">Projects on phone</string>
     <string name="create_new_project">Create new project</string>
+	<string name="tutorial">Tutorial</string>
+	<string name="settings">Settings</string>
+	<string name="web_resources">Web resources</string>
+	
 
     <!-- About Dialog -->
     <string name="about_title">About Catroid</string>
@@ -75,7 +80,7 @@
 
     <!-- Project activity view -->
     <string name="project_name">Project:</string>
-    <string name="sprite_list">Sprites:</string>
+    <string name="sprite_list">Sprites</string>
     <string name="add_sprite">Add new Sprite</string>
 
     <!-- Script activity view -->
