@@ -49,7 +49,7 @@ public class SetCostumeBrick implements Brick {
 
 	public void setCostume(String imageName) {
 		this.imageName = imageName;
-		if (imageName != null) {
+		if (imageName != null && !Values.RUNNING_AS_NATIVE_APP) {
 			thumbnail = ImageEditing.getScaledBitmap(getAbsoluteImagePath(), Consts.THUMBNAIL_HEIGHT,
 					Consts.THUMBNAIL_WIDTH);
 		}
