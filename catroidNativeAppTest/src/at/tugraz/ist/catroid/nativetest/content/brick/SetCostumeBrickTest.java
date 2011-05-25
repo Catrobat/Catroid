@@ -48,7 +48,8 @@ public class SetCostumeBrickTest extends InstrumentationTestCase {
 		options.inJustDecodeBounds = true;
 		BitmapFactory.decodeResource(getInstrumentation().getTargetContext().getResources(), TEST_IMAGE_ID, options);
 		
-		assertEquals("Wrong height.", options.outHeight, sprite.getCostume().getBitmap().getHeight());
-		assertEquals("Wrong width.", options.outWidth, sprite.getCostume().getBitmap().getWidth());
+		double scaleFactor = (double) options.inTargetDensity / options.inDensity;
+		assertEquals("Wrong height.", options.outHeight, (int) (sprite.getCostume().getBitmap().getHeight() * scaleFactor));
+		assertEquals("Wrong width.", options.outWidth, (int) (sprite.getCostume().getBitmap().getWidth() * scaleFactor));
 	}
 }
