@@ -16,7 +16,7 @@
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
 	<ListView 
-		android:id="@+id/list" 
+		android:id="@+id/sprite_list" 
 		android:layout_width="1px"
 		android:layout_height="1px" 
 		android:layout_weight="1">
