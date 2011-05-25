@@ -55,7 +55,11 @@ public class NativeAppActivity extends StageActivity {
 			return true;
 		}
 	}
-	
+
+	public static void setContext(Context context) {
+		NativeAppActivity.context = context;
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Do nothing.

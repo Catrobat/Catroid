@@ -27,8 +27,6 @@ import java.io.OutputStream;
 import android.graphics.BitmapFactory;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.common.Consts;
-import at.tugraz.ist.catroid.content.Costume;
-import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.test.R;
 
 public class CostumeTest extends InstrumentationTestCase {
@@ -66,19 +64,6 @@ public class CostumeTest extends InstrumentationTestCase {
 
 		width = o.outWidth;
 		height = o.outHeight;
-
-		nativeAppCostumeTest();
-	}
-
-	private void nativeAppCostumeTest() {
-		Sprite sprite = new Sprite("testSprite");
-		Costume costume = new Costume(sprite, null);
-		costume.setBitmapFromRes(R.raw.icon);
-		BitmapFactory.Options options = new BitmapFactory.Options();
-		options.inJustDecodeBounds = true;
-		BitmapFactory.decodeResource(getInstrumentation().getContext().getResources(), R.raw.icon, options);
-		assertEquals("Wrong image height.", costume.getBitmap().getHeight(), options.outHeight);
-		assertEquals("Wrong image width.", costume.getBitmap().getHeight(), options.outWidth);
 	}
 
 	@Override
