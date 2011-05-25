@@ -119,7 +119,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 
 		activityHelper.setupActionBar(false, ProjectManager.getInstance().getCurrentSprite().getName());
 
-		activityHelper.addActionButton(R.drawable.ic_play_black, new View.OnClickListener() {
+		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent(ScriptActivity.this, StageActivity.class);
 				startActivity(intent);
