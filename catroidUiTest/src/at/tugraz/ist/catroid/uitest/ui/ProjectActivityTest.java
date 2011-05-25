@@ -18,7 +18,10 @@
  */
 package at.tugraz.ist.catroid.uitest.ui;
 
+import java.util.List;
+
 import android.test.ActivityInstrumentationTestCase2;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -44,7 +47,6 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		// Create new test project
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
 		Utils.enterText(solo, 0, TEST_PROJECT_NAME);
-
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
 	}
 
@@ -64,7 +66,13 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	private void addNewSprite(String spriteName) {
 		Utils.pause();
-		solo.clickOnButton(getActivity().getString(R.string.add_sprite));
+		List<ImageButton> btnList = solo.getCurrentImageButtons();
+		for (int i = 0; i < btnList.size(); i++) {
+			ImageButton btn = btnList.get(i);
+			if (btn.getId() == R.id.btn_action_add_sprite) {
+				solo.clickOnImageButton(i);
+			}
+		}
 		Utils.pause();
 		Utils.enterText(solo, 0, spriteName);
 
@@ -148,9 +156,24 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	}
 
 	public void testMainMenuButton() {
-		solo.clickOnButton(getActivity().getString(R.string.main_menu));
+		List<ImageButton> btnList = solo.getCurrentImageButtons();
+		for (int i = 0; i < btnList.size(); i++) {
+			ImageButton btn = btnList.get(i);
+			if (btn.getId() == R.id.btn_action_home) {
+				solo.clickOnImageButton(i);
+			}
+		}
 		Utils.pause();
-		assertTrue("Main menu is not visible", solo.searchText(getActivity().getString(R.string.main_menu)));
-		assertTrue("Current project is not visible", solo.searchText(getActivity().getString(R.string.current_project)));
+		btnList = solo.getCurrentImageButtons();
+		boolean buttonFound = false;
+		for (int i = 0; i < btnList.size(); i++) {
+			ImageButton btn = btnList.get(i);
+			if (btn.getId() == R.id.btn_home) {
+				buttonFound = true;
+			}
+		}
+		assertTrue("Main menu is not visible", buttonFound);
+
+		//assertTrue("Current project is not visible", solo.searchText(getActivity().getString(R.string.current_project)));
 	}
 }

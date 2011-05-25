@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- action bar buttons -->
+	<item type="id" name="btn_action_add_sprite" />
+	<item type="id" name="btn_action_play" />
+	<item type="id" name="btn_action_home" />
+	<item type="id" name="btn_action_main" />
+	<item type="id" name="btn_home" />
+</resources>
