@@ -39,6 +39,7 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.dialogs.NewSpriteDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameSpriteDialog;
+import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class ProjectActivity extends Activity {
@@ -47,6 +48,7 @@ public class ProjectActivity extends Activity {
 	private ArrayAdapter<Sprite> adapter;
 	private ArrayList<Sprite> adapterSpriteList;
 	private Sprite spriteToEdit;
+	private ActivityHelper activityHelper = new ActivityHelper(this);
 
 	private void initListeners() {
 		adapterSpriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
@@ -83,16 +85,20 @@ public class ProjectActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_project);
 
-		ActivityHelper helper = new ActivityHelper(this);
-		helper.setupActionBar(false, this.getResources().getString(R.string.sprite_list));
+	}
 
-		helper.addActionButton(R.drawable.plus_black, new View.OnClickListener() {
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		activityHelper.setupActionBar(false, this.getResources().getString(R.string.sprite_list));
+
+		activityHelper.addActionButton(R.drawable.ic_plus_black, new View.OnClickListener() {
 			public void onClick(View v) {
 				showDialog(Consts.DIALOG_NEW_SPRITE);
 			}
 		}, false);
 
-		helper.addActionButton(R.drawable.play_black, new View.OnClickListener() {
+		activityHelper.addActionButton(R.drawable.ic_play_black, new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent(ProjectActivity.this, StageActivity.class);
 				startActivity(intent);
