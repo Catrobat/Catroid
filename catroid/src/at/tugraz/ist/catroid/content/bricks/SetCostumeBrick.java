@@ -67,7 +67,7 @@ public class SetCostumeBrick implements Brick {
 		if (!NativeAppActivity.isRunning()) {
 			this.sprite.getCostume().setImagePath(getAbsoluteImagePath());
 		} else {
-			this.sprite.getCostume().setBitmapFromRes(
+			this.sprite.getCostume().setBitmapFromRes(NativeAppActivity.getContext(),
 					NativeAppActivity.getContext().getResources().getIdentifier(imageName, "raw",
 							NativeAppActivity.getContext().getPackageName()));
 		}
