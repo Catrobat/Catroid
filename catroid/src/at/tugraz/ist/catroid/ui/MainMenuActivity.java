@@ -37,12 +37,14 @@ import at.tugraz.ist.catroid.ui.dialogs.AboutDialog;
 import at.tugraz.ist.catroid.ui.dialogs.LoadProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.UploadProjectDialog;
+import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class MainMenuActivity extends Activity {
 	private static final String PREFS_NAME = "at.tugraz.ist.catroid";
 	private static final String PREF_PROJECTNAME_KEY = "projectName";
 	private ProjectManager projectManager;
+	private ActivityHelper activityHelper = new ActivityHelper(this);
 
 	private void initListeners() {
 
@@ -84,18 +86,6 @@ public class MainMenuActivity extends Activity {
 			}
 		});
 
-		ActivityHelper helper = new ActivityHelper(this);
-		helper.setupActionBar(true, null);
-
-		helper.addActionButton(R.drawable.play_black, new View.OnClickListener() {
-			public void onClick(View v) {
-				if (projectManager.getCurrentProject() != null) {
-					Intent intent = new Intent(MainMenuActivity.this, StageActivity.class);
-					startActivity(intent);
-				}
-			}
-		}, false);
-
 	}
 
 	@Override
@@ -130,13 +120,23 @@ public class MainMenuActivity extends Activity {
 			Button currentProjectButton = (Button) findViewById(R.id.current_project_button);
 			currentProjectButton.setEnabled(false);
 
-			//			Button toStageButton = (Button) findViewById(R.id.toStageButton);
-			//			toStageButton.setEnabled(false);
-
-			//			TextView currentProjectTextView = (TextView) findViewById(R.id.currentProjectNameTextView);
-			//			currentProjectTextView.setText(getString(R.string.current_project) + " " + getString(R.string.no_project));
 		}
 		initListeners();
+
+	}
+
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		activityHelper.setupActionBar(true, null);
+		activityHelper.addActionButton(R.drawable.ic_play_black, new View.OnClickListener() {
+			public void onClick(View v) {
+				if (projectManager.getCurrentProject() != null) {
+					Intent intent = new Intent(MainMenuActivity.this, StageActivity.class);
+					startActivity(intent);
+				}
+			}
+		}, false);
 	}
 
 	@Override
