@@ -102,13 +102,13 @@ public class CanvasDraw implements IDraw {
 					sprite.setToDraw(false);
 				}
 			}
-			if (!Values.RUNNING_AS_NATIVE_APP) {
+			if (!NativeAppActivity.isRunning()) {
 				bufferCanvas.drawBitmap(screenshotIcon, screenshotIconPosX, Consts.SCREENSHOT_ICON_PADDING_TOP, null);
 			}
 			canvas.drawBitmap(canvasBitmap, 0, 0, null);
 			holder.unlockCanvasAndPost(canvas);
 
-			if (firstRun) {
+			if (firstRun && !NativeAppActivity.isRunning()) {
 				saveThumbnail(false);
 				firstRun = false;
 			}
@@ -141,7 +141,7 @@ public class CanvasDraw implements IDraw {
 	public void processOnTouch(int coordX, int coordY) {
 		CharSequence text;
 		if (coordX >= screenshotIconPosX && coordY <= Consts.SCREENSHOT_ICON_PADDING_TOP + screenshotIcon.getHeight()
-				&& !Values.RUNNING_AS_NATIVE_APP) {
+				&& !NativeAppActivity.isRunning()) {
 			Vibrator vibr = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
 			vibr.vibrate(100);
 			if (saveThumbnail(true)) {

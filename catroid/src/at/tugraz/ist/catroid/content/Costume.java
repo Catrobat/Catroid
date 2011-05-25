@@ -25,6 +25,7 @@ import android.graphics.BitmapFactory;
 import android.util.Pair;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
+import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
@@ -67,7 +68,7 @@ public class Costume implements Serializable {
 
 		BitmapFactory.Options boundsOptions = new BitmapFactory.Options();
 		boundsOptions.inJustDecodeBounds = true;
-		BitmapFactory.decodeResource(Values.NATIVE_APP_CONTEXT.getResources(), resourceId, boundsOptions);
+		BitmapFactory.decodeResource(NativeAppActivity.getContext().getResources(), resourceId, boundsOptions);
 
 		double sampleSizeWidth = boundsOptions.outWidth / (double) Values.SCREEN_WIDTH;
 		double sampleSizeHeight = boundsOptions.outHeight / (double) Values.SCREEN_HEIGHT;
@@ -82,11 +83,11 @@ public class Costume implements Serializable {
 			BitmapFactory.Options scaleOptions = new BitmapFactory.Options();
 			scaleOptions.inSampleSize = sampleSizeRounded;
 
-			Bitmap tmpBitmap = BitmapFactory.decodeResource(Values.NATIVE_APP_CONTEXT.getResources(), resourceId,
+			Bitmap tmpBitmap = BitmapFactory.decodeResource(NativeAppActivity.getContext().getResources(), resourceId,
 					scaleOptions);
 			costumeBitmap = ImageEditing.scaleBitmap(tmpBitmap, newWidth, newHeight, true);
 		} else {
-			costumeBitmap = BitmapFactory.decodeResource(Values.NATIVE_APP_CONTEXT.getResources(), resourceId);
+			costumeBitmap = BitmapFactory.decodeResource(NativeAppActivity.getContext().getResources(), resourceId);
 		}
 
 		setDimensions();
@@ -94,7 +95,7 @@ public class Costume implements Serializable {
 	}
 
 	public synchronized void scale(double scaleFactorPercent) {
-		if (costumeBitmap == null || (imagePath == null && Values.RUNNING_AS_NATIVE_APP == false)) {
+		if (costumeBitmap == null || (imagePath == null && !NativeAppActivity.isRunning())) {
 			return;
 		}
 
@@ -106,10 +107,10 @@ public class Costume implements Serializable {
 
 		if (newHeight > actHeight || newWidth > actWidth) {
 			//costumeBitmap.recycle();
-			if (Values.RUNNING_AS_NATIVE_APP == false) {
+			if (!NativeAppActivity.isRunning()) {
 				costumeBitmap = ImageEditing.getBitmap(imagePath, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
 			} else {
-				costumeBitmap = BitmapFactory.decodeResource(Values.NATIVE_APP_CONTEXT.getResources(), resourceId);
+				costumeBitmap = BitmapFactory.decodeResource(NativeAppActivity.getContext().getResources(), resourceId);
 			}
 		}
 

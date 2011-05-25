@@ -18,13 +18,8 @@
  */
 package at.tugraz.ist.catroid.common;
 
-import android.content.Context;
 
 public class Values {
-
 	public static int SCREEN_WIDTH;
 	public static int SCREEN_HEIGHT;
-
-	public static boolean RUNNING_AS_NATIVE_APP = false;
-	public static Context NATIVE_APP_CONTEXT;
 }
