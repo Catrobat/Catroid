@@ -20,8 +20,10 @@ package at.tugraz.ist.catroid.content;
 
 import java.io.Serializable;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.util.Pair;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
@@ -62,32 +64,33 @@ public class Costume implements Serializable {
 		setDrawPosition();
 	}
 
-	public synchronized void setBitmapFromRes(int resourceId) {
+	public synchronized void setBitmapFromRes(Context context, int resourceId) {
 		imagePath = null;
 		this.resourceId = resourceId;
 
 		BitmapFactory.Options boundsOptions = new BitmapFactory.Options();
 		boundsOptions.inJustDecodeBounds = true;
-		BitmapFactory.decodeResource(NativeAppActivity.getContext().getResources(), resourceId, boundsOptions);
+		BitmapFactory.decodeResource(context.getResources(), resourceId, boundsOptions);
 
 		double sampleSizeWidth = boundsOptions.outWidth / (double) Values.SCREEN_WIDTH;
 		double sampleSizeHeight = boundsOptions.outHeight / (double) Values.SCREEN_HEIGHT;
 		double sampleSize = Math.max(sampleSizeWidth, sampleSizeHeight);
 
+		Log.v("Costume", "sampleSize = " + sampleSize);
 		if (sampleSize > 1) {
 			int sampleSizeRounded = (int) Math.floor(sampleSize);
 
-			int newHeight = (int) Math.ceil(costumeBitmap.getWidth() / sampleSize);
-			int newWidth = (int) Math.ceil(costumeBitmap.getDensity() / sampleSize);
+			int newHeight = (int) Math.ceil(boundsOptions.outWidth / sampleSize);
+			int newWidth = (int) Math.ceil(boundsOptions.outHeight / sampleSize);
 
 			BitmapFactory.Options scaleOptions = new BitmapFactory.Options();
 			scaleOptions.inSampleSize = sampleSizeRounded;
 
-			Bitmap tmpBitmap = BitmapFactory.decodeResource(NativeAppActivity.getContext().getResources(), resourceId,
+			Bitmap tmpBitmap = BitmapFactory.decodeResource(context.getResources(), resourceId,
 					scaleOptions);
 			costumeBitmap = ImageEditing.scaleBitmap(tmpBitmap, newWidth, newHeight, true);
 		} else {
-			costumeBitmap = BitmapFactory.decodeResource(NativeAppActivity.getContext().getResources(), resourceId);
+			costumeBitmap = BitmapFactory.decodeResource(context.getResources(), resourceId);
 		}
 
 		setDimensions();
