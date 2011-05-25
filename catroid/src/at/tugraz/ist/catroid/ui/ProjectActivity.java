@@ -97,6 +97,12 @@ public class ProjectActivity extends ListActivity {
 	}
 
 	@Override
+	protected void onStart() {
+		super.onStart();
+		initListeners();
+	}
+
+	@Override
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialog;
 
@@ -113,12 +119,6 @@ public class ProjectActivity extends ListActivity {
 		}
 
 		return dialog;
-	}
-
-	@Override
-	protected void onStart() {
-		super.onStart();
-		initListeners();
 	}
 
 	@Override

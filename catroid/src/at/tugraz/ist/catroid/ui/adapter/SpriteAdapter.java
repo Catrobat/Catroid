@@ -47,18 +47,19 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		ViewHolder holder = null;
+		SpriteViewHolder spriteViewHolder = null;
 		TextView spriteTitle = null;
 		ImageView imageView = null;
 		Sprite sprite = getItem(position);
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.sprite_list, null);
-			holder = new ViewHolder(convertView);
-			convertView.setTag(holder);
+			spriteViewHolder = new SpriteViewHolder(convertView);
+			convertView.setTag(spriteViewHolder);
 		}
-		holder = (ViewHolder) convertView.getTag();
-		spriteTitle = holder.gettitle();
+		spriteViewHolder = (SpriteViewHolder) convertView.getTag();
+		spriteTitle = spriteViewHolder.gettitle();
 		spriteTitle.setText(sprite.getName());
+
 		String imagepath = null;
 		//this will change after the refactoring of the scriptactivity
 		for (Script script : sprite.getScriptList()) {
@@ -72,7 +73,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 				break;
 			}
 		}
-		imageView = holder.getImage();
+		imageView = spriteViewHolder.getSpriteImageView();
 		if (imagepath == null) {
 			imageView.setImageResource(R.drawable.sadfrog);
 		} else {
@@ -82,27 +83,27 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		return convertView;
 	}
 
-	private class ViewHolder {
+	private class SpriteViewHolder {
 		private View row;
-		private TextView title = null;
-		private ImageView i11 = null;
+		private TextView spriteTitle = null;
+		private ImageView spriteImageView = null;
 
-		public ViewHolder(View row) {
+		public SpriteViewHolder(View row) {
 			this.row = row;
 		}
 
 		public TextView gettitle() {
-			if (null == title) {
-				title = (TextView) row.findViewById(R.id.title);
+			if (spriteTitle == null) {
+				spriteTitle = (TextView) row.findViewById(R.id.title);
 			}
-			return title;
+			return spriteTitle;
 		}
 
-		public ImageView getImage() {
-			if (null == i11) {
-				i11 = (ImageView) row.findViewById(R.id.img);
+		public ImageView getSpriteImageView() {
+			if (spriteImageView == null) {
+				spriteImageView = (ImageView) row.findViewById(R.id.img);
 			}
-			return i11;
+			return spriteImageView;
 		}
 	}
 }
