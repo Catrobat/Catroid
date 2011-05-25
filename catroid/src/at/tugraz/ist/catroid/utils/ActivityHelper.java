@@ -16,7 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.ui;
+package at.tugraz.ist.catroid.utils;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.ui.MainMenuActivity;
 
 /**
  * @author David Reisenberger
@@ -45,46 +46,48 @@ public class ActivityHelper {
 		return (ViewGroup) activity.findViewById(R.id.actionbar);
 	}
 
-	public boolean setupActionBar(boolean isHome, String title) {
-		//TODO: check if first item should be the logo or a home-button
+	public void setupActionBar(boolean isMainMenu, String title) {
 		final ViewGroup actionBar = getActionBar();
 		if (actionBar == null) {
-			return false;
+			return;
 		}
 		LinearLayout.LayoutParams springLayoutParams = new LinearLayout.LayoutParams(0,
 				ViewGroup.LayoutParams.FILL_PARENT);
 		ImageButton imgButton = new ImageButton(activity);
-		if (isHome) {
+		if (isMainMenu) {
+			imgButton.setId(R.id.btn_home);
 			imgButton.setImageResource(R.drawable.catroid_logo);
-
-			imgButton.setLayoutParams(
-						new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, (int) activity.getResources()
-								.getDimension(R.dimen.actionbar_height)));
+			int buttonWidth = ViewGroup.LayoutParams.WRAP_CONTENT;
+			int buttonHeight = (int) activity.getResources().getDimension(R.dimen.actionbar_height);
+			imgButton.setLayoutParams(new ViewGroup.LayoutParams(buttonWidth, buttonHeight));
 
 			imgButton.setBackgroundResource(0);
 			imgButton.setScaleType(ImageView.ScaleType.CENTER);
 			imgButton.setClickable(false);
 			actionBar.addView(imgButton);
 		} else {
-			imgButton.setImageResource(R.drawable.home_black);
+			imgButton.setId(R.id.btn_action_home);
+			imgButton.setImageResource(R.drawable.ic_home_black);
+			imgButton.setBackgroundResource(R.drawable.btn_actionbar_selector);
 
-			imgButton.setLayoutParams(
-						new ViewGroup.LayoutParams((int) activity.getResources()
-								.getDimension(R.dimen.actionbar_height), (int) activity.getResources()
-								.getDimension(R.dimen.actionbar_height)));
-
-			imgButton.setBackgroundResource(R.drawable.actionbar_selector);
+			//2 times actionbar_height, cause we want the button to be square
+			int buttonWidth = (int) activity.getResources().getDimension(R.dimen.actionbar_height);
+			int buttonHeight = (int) activity.getResources().getDimension(R.dimen.actionbar_height);
+			imgButton.setLayoutParams(new ViewGroup.LayoutParams(buttonWidth, buttonHeight));
 			imgButton.setScaleType(ImageView.ScaleType.CENTER);
 			imgButton.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View view) {
-					goHome();
+					goToMainMenu();
 				}
 			});
+
 			actionBar.addView(imgButton);
+
 			ImageView separator = new ImageView(activity);
+			separator.setBackgroundResource(R.drawable.actionbar_separator);
 			separator.setLayoutParams(
 					new ViewGroup.LayoutParams(2, ViewGroup.LayoutParams.FILL_PARENT));
-			separator.setBackgroundResource(R.drawable.actionbar_separator);
+
 			actionBar.addView(separator);
 
 			TextView titleText = new TextView(activity);
@@ -93,20 +96,19 @@ public class ActivityHelper {
 			titleText.setGravity(Gravity.CENTER_VERTICAL);
 			titleText.setTypeface(null, Typeface.BOLD);
 			titleText.setPadding(10, 0, 0, 0);
+
 			actionBar.addView(titleText);
 		}
 
-		//spring layout ensures that all consecutive items are added at the right side of the actionbar
-
+		//spring layout ensures that all consecutive items are added at the far right side of the actionbar
 		springLayoutParams.weight = 1;
 		View spring = new View(activity);
 		spring.setLayoutParams(springLayoutParams);
 		actionBar.addView(spring);
-
-		return true;
 	}
 
-	public boolean addActionButton(int imgResId, View.OnClickListener clickListener, boolean separatorAfter) {
+	public boolean addActionButton(int buttonId, int imgResId, View.OnClickListener clickListener,
+			boolean separatorAfter) {
 		final ViewGroup actionBar = getActionBar();
 
 		if (actionBar == null) {
@@ -119,13 +121,15 @@ public class ActivityHelper {
 		separator.setBackgroundResource(R.drawable.actionbar_separator);
 
 		ImageButton imgButton = new ImageButton(activity);
+		imgButton.setId(buttonId);
 		imgButton.setImageResource(imgResId);
 
-		imgButton.setLayoutParams(
-					new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, (int) activity.getResources()
-							.getDimension(R.dimen.actionbar_height)));
+		//2 times actionbar_height, cause we want the button to be square
+		int buttonWidth = (int) activity.getResources().getDimension(R.dimen.actionbar_height);
+		int buttonHeight = (int) activity.getResources().getDimension(R.dimen.actionbar_height);
+		imgButton.setLayoutParams(new ViewGroup.LayoutParams(buttonWidth, buttonHeight));
 
-		imgButton.setBackgroundResource(0);
+		imgButton.setBackgroundResource(R.drawable.btn_actionbar_selector);
 		imgButton.setScaleType(ImageView.ScaleType.CENTER);
 		if (clickListener != null) {
 			imgButton.setOnClickListener(clickListener);
@@ -143,7 +147,7 @@ public class ActivityHelper {
 		return true;
 	}
 
-	private void goHome() {
+	private void goToMainMenu() {
 		Intent intent = new Intent(activity, MainMenuActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		activity.startActivity(intent);

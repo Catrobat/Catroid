@@ -41,6 +41,7 @@ import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.adapter.SpriteAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.NewSpriteDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameSpriteDialog;
+import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class ProjectActivity extends ListActivity {
@@ -48,10 +49,11 @@ public class ProjectActivity extends ListActivity {
 	private SpriteAdapter adapter;
 	private ArrayList<Sprite> adapterSpriteList;
 	private Sprite spriteToEdit;
+	private ActivityHelper activityHelper = new ActivityHelper(this);
 
 	private void initListeners() {
 		adapterSpriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
-		adapter = new SpriteAdapter(this, R.layout.list, R.id.title, adapterSpriteList,
+		adapter = new SpriteAdapter(this, R.layout.sprite_list, R.id.title, adapterSpriteList,
 				(LayoutInflater) getSystemService(Activity.LAYOUT_INFLATER_SERVICE));
 
 		setListAdapter(adapter);
@@ -72,16 +74,21 @@ public class ProjectActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_project);
 
-		ActivityHelper helper = new ActivityHelper(this);
-		helper.setupActionBar(false, this.getResources().getString(R.string.sprite_list));
+	}
 
-		helper.addActionButton(R.drawable.plus_black, new View.OnClickListener() {
-			public void onClick(View v) {
-				showDialog(Consts.DIALOG_NEW_SPRITE);
-			}
-		}, false);
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		activityHelper.setupActionBar(false, this.getResources().getString(R.string.sprite_list));
 
-		helper.addActionButton(R.drawable.play_black, new View.OnClickListener() {
+		activityHelper.addActionButton(R.id.btn_action_add_sprite, R.drawable.ic_plus_black,
+				new View.OnClickListener() {
+					public void onClick(View v) {
+						showDialog(Consts.DIALOG_NEW_SPRITE);
+					}
+				}, false);
+
+		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent(ProjectActivity.this, StageActivity.class);
 				startActivity(intent);

@@ -52,7 +52,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		ImageView imageView = null;
 		Sprite sprite = getItem(position);
 		if (convertView == null) {
-			convertView = inflater.inflate(R.layout.list, null);
+			convertView = inflater.inflate(R.layout.sprite_list, null);
 			holder = new ViewHolder(convertView);
 			convertView.setTag(holder);
 		}
