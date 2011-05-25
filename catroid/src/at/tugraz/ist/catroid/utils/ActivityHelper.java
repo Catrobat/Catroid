@@ -55,6 +55,7 @@ public class ActivityHelper {
 				ViewGroup.LayoutParams.FILL_PARENT);
 		ImageButton imgButton = new ImageButton(activity);
 		if (isMainMenu) {
+			imgButton.setId(R.id.btn_home);
 			imgButton.setImageResource(R.drawable.catroid_logo);
 			int buttonWidth = ViewGroup.LayoutParams.WRAP_CONTENT;
 			int buttonHeight = (int) activity.getResources().getDimension(R.dimen.actionbar_height);
@@ -65,6 +66,7 @@ public class ActivityHelper {
 			imgButton.setClickable(false);
 			actionBar.addView(imgButton);
 		} else {
+			imgButton.setId(R.id.btn_action_home);
 			imgButton.setImageResource(R.drawable.ic_home_black);
 			imgButton.setBackgroundResource(R.drawable.btn_actionbar_selector);
 
@@ -105,7 +107,8 @@ public class ActivityHelper {
 		actionBar.addView(spring);
 	}
 
-	public boolean addActionButton(int imgResId, View.OnClickListener clickListener, boolean separatorAfter) {
+	public boolean addActionButton(int buttonId, int imgResId, View.OnClickListener clickListener,
+			boolean separatorAfter) {
 		final ViewGroup actionBar = getActionBar();
 
 		if (actionBar == null) {
@@ -118,6 +121,7 @@ public class ActivityHelper {
 		separator.setBackgroundResource(R.drawable.actionbar_separator);
 
 		ImageButton imgButton = new ImageButton(activity);
+		imgButton.setId(buttonId);
 		imgButton.setImageResource(imgResId);
 
 		//2 times actionbar_height, cause we want the button to be square

@@ -92,13 +92,14 @@ public class ProjectActivity extends Activity {
 		super.onPostCreate(savedInstanceState);
 		activityHelper.setupActionBar(false, this.getResources().getString(R.string.sprite_list));
 
-		activityHelper.addActionButton(R.drawable.ic_plus_black, new View.OnClickListener() {
-			public void onClick(View v) {
-				showDialog(Consts.DIALOG_NEW_SPRITE);
-			}
-		}, false);
+		activityHelper.addActionButton(R.id.btn_action_add_sprite, R.drawable.ic_plus_black,
+				new View.OnClickListener() {
+					public void onClick(View v) {
+						showDialog(Consts.DIALOG_NEW_SPRITE);
+					}
+				}, false);
 
-		activityHelper.addActionButton(R.drawable.ic_play_black, new View.OnClickListener() {
+		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent(ProjectActivity.this, StageActivity.class);
 				startActivity(intent);
