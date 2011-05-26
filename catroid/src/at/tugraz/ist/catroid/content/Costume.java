@@ -23,7 +23,6 @@ import java.io.Serializable;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.util.Pair;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
@@ -76,7 +75,6 @@ public class Costume implements Serializable {
 		double sampleSizeHeight = boundsOptions.outHeight / (double) Values.SCREEN_HEIGHT;
 		double sampleSize = Math.max(sampleSizeWidth, sampleSizeHeight);
 
-		Log.v("Costume", "sampleSize = " + sampleSize);
 		if (sampleSize > 1) {
 			int sampleSizeRounded = (int) Math.floor(sampleSize);
 
