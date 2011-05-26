@@ -49,7 +49,6 @@ public class ProjectActivity extends ListActivity {
 	private Sprite spriteToEdit;
 	private ActivityHelper activityHelper = new ActivityHelper(this);
 	private CustomIconContextMenu iconContextMenu;
-	private static final int DIALOG_CONTEXT_MENU = 9;
 	private static final int CONTEXT_MENU_ITEM_RENAME = 0; //or R.id.project_menu_rename
 	private static final int CONTEXT_MENU_ITEM_DELETE = 1; //or R.id.project_menu_delete
 
@@ -71,13 +70,13 @@ public class ProjectActivity extends ListActivity {
 		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 				spriteToEdit = spriteList.get(position);
-				if (spriteToEdit.getName().equalsIgnoreCase( //better make a independent object for stage to work when switching languages
+				if (spriteToEdit.getName().equalsIgnoreCase( //better make a independent object for stage (to solve problem when switching languages)
 						ProjectActivity.this.getString(R.string.stage))) {
 					return true;
 				}
-				ProjectActivity.this.removeDialog(DIALOG_CONTEXT_MENU);
+				removeDialog(Consts.DIALOG_CONTEXT_MENU);
 				initCustomContextMenu();
-				showDialog(DIALOG_CONTEXT_MENU);
+				showDialog(Consts.DIALOG_CONTEXT_MENU);
 				return true;
 			}
 		});
@@ -85,7 +84,7 @@ public class ProjectActivity extends ListActivity {
 
 	private void initCustomContextMenu() {
 		Resources res = getResources();
-		iconContextMenu = new CustomIconContextMenu(this, DIALOG_CONTEXT_MENU);
+		iconContextMenu = new CustomIconContextMenu(this, Consts.DIALOG_CONTEXT_MENU);
 		iconContextMenu.addItem(res, this.getString(R.string.rename), R.drawable.ic_context_rename,
 				CONTEXT_MENU_ITEM_RENAME);
 		iconContextMenu.addItem(res, this.getString(R.string.delete), R.drawable.ic_context_delete,
@@ -95,6 +94,7 @@ public class ProjectActivity extends ListActivity {
 			public void onClick(int menuId) {
 				switch (menuId) {
 					case CONTEXT_MENU_ITEM_RENAME:
+						removeDialog(Consts.DIALOG_RENAME_SPRITE);
 						ProjectActivity.this.showDialog(Consts.DIALOG_RENAME_SPRITE);
 						break;
 					case CONTEXT_MENU_ITEM_DELETE:
@@ -154,7 +154,7 @@ public class ProjectActivity extends ListActivity {
 			case Consts.DIALOG_RENAME_SPRITE:
 				dialog = new RenameSpriteDialog(this);
 				break;
-			case DIALOG_CONTEXT_MENU:
+			case Consts.DIALOG_CONTEXT_MENU:
 				dialog = iconContextMenu.createMenu(spriteToEdit.getName());
 				break;
 			default:
@@ -171,7 +171,6 @@ public class ProjectActivity extends ListActivity {
 		if (!Utils.checkForSdCard(this)) {
 			return;
 		}
-		removeDialog(Consts.DIALOG_RENAME_SPRITE);
 		updateTextAndAdapter();
 	}
 
