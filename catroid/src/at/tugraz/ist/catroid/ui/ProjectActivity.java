@@ -24,14 +24,13 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -50,6 +49,10 @@ public class ProjectActivity extends ListActivity {
 	private ArrayList<Sprite> adapterSpriteList;
 	private Sprite spriteToEdit;
 	private ActivityHelper activityHelper = new ActivityHelper(this);
+	private IconContextMenu iconContextMenu;
+	private static final int DIALOG_CONTEXT_MENU = 9;
+	private static final int CONTEXT_MENU_ITEM_RENAME = 0;
+	private static final int CONTEXT_MENU_ITEM_DELETE = 1;
 
 	private void initListeners() {
 		adapterSpriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
@@ -59,12 +62,51 @@ public class ProjectActivity extends ListActivity {
 		setListAdapter(adapter);
 		getListView().setTextFilterEnabled(true);
 
-		registerForContextMenu(getListView());
+		//registerForContextMenu(getListView());
 		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				ProjectManager.getInstance().setCurrentSprite(adapter.getItem(position));
 				Intent intent = new Intent(ProjectActivity.this, ScriptActivity.class);
 				ProjectActivity.this.startActivity(intent);
+			}
+		});
+		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
+			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+				try {
+					ProjectActivity.this.removeDialog(DIALOG_CONTEXT_MENU);
+
+				} catch (IllegalArgumentException e) {
+					Log.d("ProjectActivity", "catching illegalArgumentException first time long Click");
+				}
+				initContextMenu();
+				spriteToEdit = adapterSpriteList.get(position);
+				showDialog(DIALOG_CONTEXT_MENU);
+				return true;
+			}
+		});
+	}
+
+	private void initContextMenu() {
+		Resources res = getResources();
+		iconContextMenu = new IconContextMenu(this, DIALOG_CONTEXT_MENU);
+		iconContextMenu.addItem(res, "Rename", R.drawable.ic_context_rename, CONTEXT_MENU_ITEM_RENAME);
+		iconContextMenu.addItem(res, "Delete", R.drawable.ic_context_delete, CONTEXT_MENU_ITEM_DELETE);
+
+		iconContextMenu.setOnClickListener(new IconContextMenu.IconContextMenuOnClickListener() {
+			public void onClick(int menuId) {
+				switch (menuId) {
+					case CONTEXT_MENU_ITEM_RENAME:
+						ProjectActivity.this.showDialog(Consts.DIALOG_RENAME_SPRITE);
+						break;
+					case CONTEXT_MENU_ITEM_DELETE:
+						ProjectManager projectManager = ProjectManager.getInstance();
+						projectManager.getCurrentProject().getSpriteList().remove(spriteToEdit);
+						if (projectManager.getCurrentSprite() != null
+								&& projectManager.getCurrentSprite().equals(spriteToEdit)) {
+							projectManager.setCurrentSprite(null);
+						}
+						break;
+				}
 			}
 		});
 	}
@@ -113,6 +155,9 @@ public class ProjectActivity extends ListActivity {
 			case Consts.DIALOG_RENAME_SPRITE:
 				dialog = new RenameSpriteDialog(this);
 				break;
+			case DIALOG_CONTEXT_MENU:
+				dialog = iconContextMenu.createMenu(spriteToEdit.getName());
+				break;
 			default:
 				dialog = null;
 				break;
@@ -147,40 +192,40 @@ public class ProjectActivity extends ListActivity {
 		adapter.notifyDataSetChanged();
 	}
 
-	@Override
-	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
-		super.onCreateContextMenu(menu, view, menuInfo);
-
-		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-		spriteToEdit = adapterSpriteList.get(info.position);
-
-		if (spriteToEdit.getName().equalsIgnoreCase(getString(R.string.stage))) {
-			return;
-		}
-
-		menu.setHeaderTitle(adapterSpriteList.get(info.position).getName());
-
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.project_menu, menu);
-	}
-
-	@Override
-	public boolean onContextItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.project_menu_rename:
-				this.showDialog(Consts.DIALOG_RENAME_SPRITE);
-				return true;
-			case R.id.project_menu_delete:
-				ProjectManager projectManager = ProjectManager.getInstance();
-				projectManager.getCurrentProject().getSpriteList().remove(spriteToEdit);
-				if (projectManager.getCurrentSprite() != null && projectManager.getCurrentSprite().equals(spriteToEdit)) {
-					projectManager.setCurrentSprite(null);
-				}
-				return true;
-			default:
-				return super.onContextItemSelected(item);
-		}
-	}
+	//	@Override
+	//	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
+	//		super.onCreateContextMenu(menu, view, menuInfo);
+	//
+	//		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+	//		spriteToEdit = adapterSpriteList.get(info.position);
+	//
+	//		if (spriteToEdit.getName().equalsIgnoreCase(getString(R.string.stage))) {
+	//			return;
+	//		}
+	//
+	//		menu.setHeaderTitle(adapterSpriteList.get(info.position).getName());
+	//
+	//		MenuInflater inflater = getMenuInflater();
+	//		inflater.inflate(R.menu.project_menu, menu);
+	//	}
+	//
+	//	@Override
+	//	public boolean onContextItemSelected(MenuItem item) {
+	//		switch (item.getItemId()) {
+	//			case R.id.project_menu_rename:
+	//				this.showDialog(Consts.DIALOG_RENAME_SPRITE);
+	//				return true;
+	//			case R.id.project_menu_delete:
+	//				ProjectManager projectManager = ProjectManager.getInstance();
+	//				projectManager.getCurrentProject().getSpriteList().remove(spriteToEdit);
+	//				if (projectManager.getCurrentSprite() != null && projectManager.getCurrentSprite().equals(spriteToEdit)) {
+	//					projectManager.setCurrentSprite(null);
+	//				}
+	//				return true;
+	//			default:
+	//				return super.onContextItemSelected(item);
+	//		}
+	//	}
 
 	@Override
 	public void onPause() {
