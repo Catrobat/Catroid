@@ -20,7 +20,7 @@
  * 
  */
 
-package at.tugraz.ist.catroid.ui;
+package at.tugraz.ist.catroid.ui.adapter;
 
 import java.util.ArrayList;
 
