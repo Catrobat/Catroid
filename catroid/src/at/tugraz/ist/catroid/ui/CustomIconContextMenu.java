@@ -1,19 +1,25 @@
 /*
- * Copyright (C) 2010 Tani Group 
- * http://android-demo.blogspot.com/
+ *  Copyright (C) 2010 Tani Group 
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *  Catroid: An on-device graphical programming language for Android devices
+ *  Copyright (C) 2010  Catroid development team 
+ *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * 
  */
+
 package at.tugraz.ist.catroid.ui;
 
 import java.util.ArrayList;
@@ -38,22 +44,21 @@ public class CustomIconContextMenu implements DialogInterface.OnCancelListener, 
 
 	private static final int LIST_HEIGHT = 65;
 
-	private IconMenuAdapter menuAdapter = null;
-	private Activity parentActivity = null;
-	private int dialogId = 0;
+	private IconMenuAdapter menuAdapter;
+	private Activity activity;
+	private int dialogId;
 	public AlertDialog dialog;
 
-	private IconContextMenuOnClickListener clickListener = null;
+	private IconContextMenuOnClickListener clickListener;
 
 	public CustomIconContextMenu(Activity parent, int id) {
-		this.parentActivity = parent;
+		this.activity = parent;
 		this.dialogId = id;
-
-		menuAdapter = new IconMenuAdapter(parentActivity);
+		menuAdapter = new IconMenuAdapter(activity);
 	}
 
-	public void addItem(Resources res, String title, int imageResourceId, int actionTag) {
-		menuAdapter.addItem(new IconContextMenuItem(res, title, imageResourceId, actionTag));
+	public void addItem(Resources res, String title, int imageResourceId, int id) {
+		menuAdapter.addItem(new CustomContextMenuItem(res, title, imageResourceId, id));
 	}
 
 	public void setOnClickListener(IconContextMenuOnClickListener listener) {
@@ -61,14 +66,14 @@ public class CustomIconContextMenu implements DialogInterface.OnCancelListener, 
 	}
 
 	public Dialog createMenu(String menuItitle) {
-		final AlertDialog.Builder builder = new AlertDialog.Builder(parentActivity);
+		final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 		builder.setTitle(menuItitle);
 		builder.setAdapter(menuAdapter, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialoginterface, int i) {
-				IconContextMenuItem item = (IconContextMenuItem) menuAdapter.getItem(i);
+			public void onClick(DialogInterface dialoginterface, int position) {
+				CustomContextMenuItem item = (CustomContextMenuItem) menuAdapter.getItem(position);
 
 				if (clickListener != null) {
-					clickListener.onClick(item.actionTag);
+					clickListener.onClick(item.contextMenuItemId);
 				}
 			}
 		});
@@ -89,7 +94,7 @@ public class CustomIconContextMenu implements DialogInterface.OnCancelListener, 
 	}
 
 	private void cleanup() {
-		parentActivity.dismissDialog(dialogId);
+		activity.dismissDialog(dialogId);
 	}
 
 	public interface IconContextMenuOnClickListener {
@@ -102,26 +107,26 @@ public class CustomIconContextMenu implements DialogInterface.OnCancelListener, 
 	protected class IconMenuAdapter extends BaseAdapter {
 		private Context context = null;
 
-		private ArrayList<IconContextMenuItem> items = new ArrayList<IconContextMenuItem>();
+		private ArrayList<CustomContextMenuItem> items = new ArrayList<CustomContextMenuItem>();
 
 		public IconMenuAdapter(Context context) {
 			this.context = context;
 		}
 
-		public void addItem(IconContextMenuItem menuItem) {
+		public void addItem(CustomContextMenuItem menuItem) {
 			items.add(menuItem);
 		}
 
 		//View for each list element (icon and text)
 		public View getView(int position, View convertView, ViewGroup parent) {
-			IconContextMenuItem item = (IconContextMenuItem) getItem(position);
+			CustomContextMenuItem item = (CustomContextMenuItem) getItem(position);
 
-			Resources res = parentActivity.getResources();
+			Resources res = activity.getResources();
 
 			if (convertView == null) {
 				TextView temp = new TextView(context);
 				AbsListView.LayoutParams param = new AbsListView.LayoutParams(AbsListView.LayoutParams.FILL_PARENT,
-																				AbsListView.LayoutParams.WRAP_CONTENT);
+						AbsListView.LayoutParams.WRAP_CONTENT);
 				temp.setLayoutParams(param);
 				temp.setPadding((int) toPixel(res, 15), 0, (int) toPixel(res, 15), 0);
 				temp.setGravity(android.view.Gravity.CENTER_VERTICAL);
@@ -142,7 +147,7 @@ public class CustomIconContextMenu implements DialogInterface.OnCancelListener, 
 			textView.setTextColor(Color.BLACK);
 			textView.setTag(item);
 			textView.setText(item.text);
-			textView.setCompoundDrawablesWithIntrinsicBounds(item.image, null, null, null);
+			textView.setCompoundDrawablesWithIntrinsicBounds(item.icon, null, null, null);
 
 			return textView;
 		}
@@ -161,29 +166,25 @@ public class CustomIconContextMenu implements DialogInterface.OnCancelListener, 
 		}
 
 		public long getItemId(int position) {
-			IconContextMenuItem item = (IconContextMenuItem) getItem(position);
-			return item.actionTag;
+			CustomContextMenuItem item = (CustomContextMenuItem) getItem(position);
+			return item.contextMenuItemId;
 		}
 	}
 
-	/**
-	 * menu-like list item with icon
-	 */
-	protected class IconContextMenuItem {
-		public final String text;
-		public final Drawable image;
-		public final int actionTag;
+	protected class CustomContextMenuItem {
+		public String text;
+		public Drawable icon;
+		public int contextMenuItemId;
 
-		public IconContextMenuItem(Resources res, String title,
-				int imageResourceId, int actionTag) {
+		public CustomContextMenuItem(Resources res, String title,
+				int iconResourceId, int contextMenuItemId) {
 			text = title;
-			if (imageResourceId != -1) {
-				image = res.getDrawable(imageResourceId);
+			if (iconResourceId != -1) {
+				icon = res.getDrawable(iconResourceId);
 			} else {
-				image = null;
+				icon = null;
 			}
-			this.actionTag = actionTag;
+			this.contextMenuItemId = contextMenuItemId;
 		}
 	}
-
 }
