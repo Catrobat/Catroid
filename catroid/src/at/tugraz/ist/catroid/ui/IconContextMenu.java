@@ -25,15 +25,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.content.res.Resources.Theme;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
-import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import at.tugraz.ist.catroid.R;
 
 public class IconContextMenu implements DialogInterface.OnCancelListener,
 										DialogInterface.OnDismissListener {
@@ -90,9 +89,9 @@ public class IconContextMenu implements DialogInterface.OnCancelListener,
 	 * @return
 	 */
 	public Dialog createMenu(String menuItitle) {
-		final AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this.parentActivity,
-				R.layout.alertdialog_projectactivity_custom));
-		//final AlertDialog.Builder builder = new AlertDialog.Builder(parentActivity);
+		//		final AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this.parentActivity,
+		//				R.layout.alertdialog_projectactivity_custom));
+		final AlertDialog.Builder builder = new AlertDialog.Builder(parentActivity);
 		builder.setTitle(menuItitle);
 		builder.setAdapter(menuAdapter, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialoginterface, int i) {
@@ -190,6 +189,7 @@ public class IconContextMenu implements DialogInterface.OnCancelListener,
 			}
 
 			TextView textView = (TextView) convertView;
+			textView.setTextColor(Color.BLACK);
 			textView.setTag(item);
 			textView.setText(item.text);
 			textView.setCompoundDrawablesWithIntrinsicBounds(item.image, null, null, null);
