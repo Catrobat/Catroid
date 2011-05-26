@@ -65,7 +65,6 @@
 	<string name="settings">Einstellungen</string>
 	<string name="web_resources">Internet-Ressourcen</string>
 	
-
     <!-- About Dialog -->
     <string name="about_title">Über Catroid</string>
     <string name="about_text">
@@ -161,7 +160,7 @@
 	
 	<string name="choose_sound_title">Sound wählen</string>
 
-    <!-- defaulValues -->
+    <!-- defaultValues -->
     <string name="default_project_name">standardProjekt</string>
     
     <!-- Notifications -->

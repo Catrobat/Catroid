@@ -34,71 +34,41 @@ import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-public class IconContextMenu implements DialogInterface.OnCancelListener,
-										DialogInterface.OnDismissListener {
+public class CustomIconContextMenu implements DialogInterface.OnCancelListener, DialogInterface.OnDismissListener {
 
-	private static final int LIST_PREFERED_HEIGHT = 65;
+	private static final int LIST_HEIGHT = 65;
 
 	private IconMenuAdapter menuAdapter = null;
 	private Activity parentActivity = null;
 	private int dialogId = 0;
 	public AlertDialog dialog;
 
-	private IconContextMenuOnClickListener clickHandler = null;
+	private IconContextMenuOnClickListener clickListener = null;
 
-	/**
-	 * constructor
-	 * 
-	 * @param parent
-	 * @param id
-	 */
-	public IconContextMenu(Activity parent, int id) {
+	public CustomIconContextMenu(Activity parent, int id) {
 		this.parentActivity = parent;
 		this.dialogId = id;
 
 		menuAdapter = new IconMenuAdapter(parentActivity);
 	}
 
-	/**
-	 * Add menu item
-	 * 
-	 * @param menuItem
-	 */
-	public void addItem(Resources res, CharSequence title,
-			int imageResourceId, int actionTag) {
+	public void addItem(Resources res, String title, int imageResourceId, int actionTag) {
 		menuAdapter.addItem(new IconContextMenuItem(res, title, imageResourceId, actionTag));
 	}
 
-	public void addItem(Resources res, int textResourceId,
-			int imageResourceId, int actionTag) {
-		menuAdapter.addItem(new IconContextMenuItem(res, textResourceId, imageResourceId, actionTag));
-	}
-
-	/**
-	 * Set menu onclick listener
-	 * 
-	 * @param listener
-	 */
 	public void setOnClickListener(IconContextMenuOnClickListener listener) {
-		clickHandler = listener;
+		clickListener = listener;
 	}
 
-	/**
-	 * Create menu
-	 * 
-	 * @return
-	 */
 	public Dialog createMenu(String menuItitle) {
-		//		final AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this.parentActivity,
-		//				R.layout.alertdialog_projectactivity_custom));
 		final AlertDialog.Builder builder = new AlertDialog.Builder(parentActivity);
 		builder.setTitle(menuItitle);
 		builder.setAdapter(menuAdapter, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialoginterface, int i) {
 				IconContextMenuItem item = (IconContextMenuItem) menuAdapter.getItem(i);
 
-				if (clickHandler != null) {
-					clickHandler.onClick(item.actionTag);
+				if (clickListener != null) {
+					clickListener.onClick(item.actionTag);
 				}
 			}
 		});
@@ -115,16 +85,13 @@ public class IconContextMenu implements DialogInterface.OnCancelListener,
 		cleanup();
 	}
 
-	public void onDismiss(DialogInterface dialog) {
+	public void onDismiss(DialogInterface arg0) {
 	}
 
 	private void cleanup() {
 		parentActivity.dismissDialog(dialogId);
 	}
 
-	/**
-	 * IconContextMenu On Click Listener interface
-	 */
 	public interface IconContextMenuOnClickListener {
 		public abstract void onClick(int menuId);
 	}
@@ -135,34 +102,17 @@ public class IconContextMenu implements DialogInterface.OnCancelListener,
 	protected class IconMenuAdapter extends BaseAdapter {
 		private Context context = null;
 
-		private ArrayList<IconContextMenuItem> mItems = new ArrayList<IconContextMenuItem>();
+		private ArrayList<IconContextMenuItem> items = new ArrayList<IconContextMenuItem>();
 
 		public IconMenuAdapter(Context context) {
 			this.context = context;
 		}
 
-		/**
-		 * add item to adapter
-		 * 
-		 * @param menuItem
-		 */
 		public void addItem(IconContextMenuItem menuItem) {
-			mItems.add(menuItem);
+			items.add(menuItem);
 		}
 
-		public int getCount() {
-			return mItems.size();
-		}
-
-		public Object getItem(int position) {
-			return mItems.get(position);
-		}
-
-		public long getItemId(int position) {
-			IconContextMenuItem item = (IconContextMenuItem) getItem(position);
-			return item.actionTag;
-		}
-
+		//View for each list element (icon and text)
 		public View getView(int position, View convertView, ViewGroup parent) {
 			IconContextMenuItem item = (IconContextMenuItem) getItem(position);
 
@@ -183,7 +133,7 @@ public class IconContextMenu implements DialogInterface.OnCancelListener,
 					temp.setTextAppearance(context, tv.resourceId);
 				}
 
-				temp.setMinHeight(LIST_PREFERED_HEIGHT);
+				temp.setMinHeight(LIST_HEIGHT);
 				temp.setCompoundDrawablePadding((int) toPixel(res, 14));
 				convertView = temp;
 			}
@@ -201,52 +151,30 @@ public class IconContextMenu implements DialogInterface.OnCancelListener,
 			float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dip, res.getDisplayMetrics());
 			return px;
 		}
+
+		public Object getItem(int position) {
+			return items.get(position);
+		}
+
+		public int getCount() {
+			return items.size();
+		}
+
+		public long getItemId(int position) {
+			IconContextMenuItem item = (IconContextMenuItem) getItem(position);
+			return item.actionTag;
+		}
 	}
 
 	/**
 	 * menu-like list item with icon
 	 */
 	protected class IconContextMenuItem {
-		public final CharSequence text;
+		public final String text;
 		public final Drawable image;
 		public final int actionTag;
 
-		/**
-		 * public constructor
-		 * 
-		 * @param res
-		 *            resource handler
-		 * @param textResourceId
-		 *            id of title in resource
-		 * @param imageResourceId
-		 *            id of icon in resource
-		 * @param actionTag
-		 *            indicate action of menu item
-		 */
-		public IconContextMenuItem(Resources res, int textResourceId,
-				int imageResourceId, int actionTag) {
-			text = res.getString(textResourceId);
-			if (imageResourceId != -1) {
-				image = res.getDrawable(imageResourceId);
-			} else {
-				image = null;
-			}
-			this.actionTag = actionTag;
-		}
-
-		/**
-		 * public constructor
-		 * 
-		 * @param res
-		 *            resource handler
-		 * @param title
-		 *            menu item title
-		 * @param imageResourceId
-		 *            id of icon in resource
-		 * @param actionTag
-		 *            indicate action of menu item
-		 */
-		public IconContextMenuItem(Resources res, CharSequence title,
+		public IconContextMenuItem(Resources res, String title,
 				int imageResourceId, int actionTag) {
 			text = title;
 			if (imageResourceId != -1) {
@@ -257,4 +185,5 @@ public class IconContextMenu implements DialogInterface.OnCancelListener,
 			this.actionTag = actionTag;
 		}
 	}
+
 }
