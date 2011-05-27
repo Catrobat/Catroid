@@ -1,0 +1,93 @@
+<project>
+  <deviceName>HTC Desire</deviceName>
+  <name>testProject</name>
+  <screenResolution>480/800</screenResolution>
+  <spriteList>
+    <sprite>
+      <name>Stage</name>
+    </sprite>
+    <sprite>
+      <name>first</name>
+      <scriptList>
+        <startScript>
+          <brickList>
+            <hideBrick>
+              <sprite reference="../../../../.."/>
+            </hideBrick>
+            <showBrick>
+              <sprite reference="../../../../.."/>
+            </showBrick>
+            <scaleCostumeBrick>
+              <scale>0.8</scale>
+            </scaleCostumeBrick>
+            <comeToFrontBrick>
+              <sprite reference="../../../../.."/>
+            </comeToFrontBrick>
+            <setCostumeBrick>
+              <sprite reference="../../../../.."/>
+            </setCostumeBrick>
+          </brickList>
+          <sprite reference="../../.."/>
+          <name>testScript</name>
+        </startScript>
+        <tapScript>
+          <brickList>
+            <waitBrick>
+              <sprite reference="../../../../.."/>
+              <timeToWaitInMilliSeconds>1000</timeToWaitInMilliSeconds>
+            </waitBrick>
+            <playSoundBrick>
+              <sprite reference="../../../../.."/>
+            </playSoundBrick>
+          </brickList>
+          <sprite reference="../../.."/>
+          <name>script</name>
+        </tapScript>
+      </scriptList>
+    </sprite>
+    <sprite>
+        <name>second</name>
+        <scriptList>
+          <startScript>
+            <brickList>
+              <placeAtBrick>
+                <sprite reference="../../../../.."/>
+                <xPosition>100</xPosition>
+                <yPosition>100</yPosition>
+              </placeAtBrick>
+              <setXBrick>
+                <sprite reference="../../../../.."/>
+                <xPosition>100</xPosition>
+              </setXBrick>
+              <setYBrick>
+                <sprite reference="../../../../.."/>
+                <yPosition>100</yPosition>
+              </setYBrick>
+              <changeXByBrick>
+                <sprite reference="../../../../.."/>
+                <xMovement>-100</xMovement>
+              </changeXByBrick>
+              <changeYByBrick>
+                <sprite reference="../../../../.."/>
+                <yMovement>-100</yMovement>
+              </changeYByBrick>
+              <glideToBrick>
+                <sprite reference="../../../../.."/>
+                <durationInMilliSeconds>3000</durationInMilliSeconds>
+                <xDestination>500</xDestination>
+                <yDestination>500</yDestination>
+              </glideToBrick>
+              <goNStepsBackBrick>
+                <sprite reference="../../../../.."/>
+                <steps>1</steps>
+              </goNStepsBackBrick>
+            </brickList>
+            <sprite reference="../../.."/>
+            <name>otherScript</name>
+          </startScript>
+        </scriptList>
+    </sprite>
+  </spriteList>
+  <versionName>0.5.0a</versionName>
+  <versionCode>5</versionCode>
+</project>
