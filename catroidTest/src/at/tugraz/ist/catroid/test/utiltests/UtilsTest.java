@@ -24,13 +24,19 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 
 import junit.framework.TestCase;
+import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class UtilsTest extends TestCase {
 
 	private final String testFileContent = "Hello, this is a Test-String";
+	private final String MD5_EMPTY = "D41D8CD98F00B204E9800998ECF8427E";
+	private final String MD5_CATROID = "4F982D927F4784F69AD6D6AF38FD96AD";
+	private final String MD5_HELLO_WORLD = "ED076287532E86365E841E92BFC50D8C";
 	private File mTestFile;
 	private File copiedFile;
 
@@ -46,18 +52,18 @@ public class UtilsTest extends TestCase {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		super.setUp();
 	}
 
 	@Override
-    protected void tearDown() throws Exception {
+	protected void tearDown() throws Exception {
 		if (mTestFile != null && mTestFile.exists()) {
-            mTestFile.delete();
-        }
+			mTestFile.delete();
+		}
 		if (copiedFile != null && copiedFile.exists()) {
-            copiedFile.delete();
-        }
+			copiedFile.delete();
+		}
 	}
 
 	public void testCopyFile() throws InterruptedException {
@@ -70,7 +76,7 @@ public class UtilsTest extends TestCase {
 
 		FileReader fReader;
 		String newContent = "";
-		
+
 		try {
 			fReader = new FileReader(copiedFile);
 
@@ -125,59 +131,40 @@ public class UtilsTest extends TestCase {
 		assertEquals(Utils.changeFileEndingToPng(imageName2), "blablabla.png");
 	}
 
-    //	private void createFile(String filePath) throws IOException {
-    //		File toCreate = new File(filePath);
-    //		if (!toCreate.exists()) {
-    //			toCreate.createNewFile();
-    //		}
-    //	}
+	public void testMD5CheckSumOfFile() {
 
-    //	public void testRenameProject() {
-    //		String catroidRoot = "/sdcard/catroid"; 
-    //		String testDirPath = Utils.concatPaths(catroidRoot, "testDir");
-    //		String imagesPath = Utils.concatPaths(testDirPath, "images");
-    //		String soundsPath = Utils.concatPaths(testDirPath, "sounds");
-    //
-    //		try {
-    //			createFile(testDirPath);
-    //			createFile(Utils.concatPaths(testDirPath, "testDir.spf"));
-    //			createFile(imagesPath);
-    //			createFile(Utils.concatPaths(imagesPath, "test.png"));
-    //			createFile(soundsPath);
-    //			createFile(Utils.concatPaths(soundsPath, "test.mp3"));
-    //
-    //			assertTrue("Project was renamed successfully", Utils.renameProject(null, "/sdcard/catroid/testDir/testDir.spf", "newProject"));
-    //			File newProjectFile = new File("/sdcard/catroid/newProject/newProject.spf");
-    //			assertTrue("Renamed project file exists in renamed project directory", newProjectFile.exists());
-    //			File newTestImageFile = new File("/sdcard/catroid/newProject/images/test.png");
-    //			assertTrue("Test image file was moved to renamed folder", newTestImageFile.exists());
-    //			File newTestSoundFile = new File("/sdcard/catroid/newProject/sounds/test.mp3");
-    //			assertTrue("Test image file was moved to renamed folder", newTestSoundFile.exists());
-    //
-    //			createFile(testDirPath);
-    //			assertFalse("Can't rename to existing directory name", Utils.renameProject(null, "/sdcard/catroid/newProject/newProject.spf", "testDir"));
-    //
-    //		} catch (IOException e) {
-    //			e.printStackTrace();
-    //		} finally {
-    //			File testDir = new File(testDirPath);
-    //			if (testDir.exists()) {
-    //				testDir.delete();
-    //			}
-    //			File newDir = new File("/sdcard/catroid/newProject");
-    //			if (newDir.exists()) {
-    //				newDir.delete();
-    //			}
-    //		}
-    //
-    //		File nonexistantPath = new File("/sdcard/catroid/i/dont/exist.spf");
-    //		if (nonexistantPath.exists()) {
-    //            nonexistantPath.delete();
-    //        }
-    //		assertFalse("Can't rename a project that doesn't exist", Utils.renameProject(null, nonexistantPath.getAbsolutePath(), "newProject"));
-    //
-    //		//assertFalse("If old project path is not set and the current project can't be read from the ConstructionSiteActivity, renaming fails",
-    //		//		Utils.renameProject(null, null, "newProject"));
-    //		assertFalse("New project name may not be null", Utils.renameProject(null, "oldProject/path", null));
-    //	}
+		PrintWriter out = null;
+
+		File tempDir = new File(Consts.TMP_PATH);
+		tempDir.mkdirs();
+
+		File md5TestFile = new File(Consts.TMP_PATH + "/" + "catroid.txt");
+
+		if (md5TestFile.exists()) {
+			md5TestFile.delete();
+		}
+
+		assertEquals("MD5 sums are not the same for empty file", MD5_EMPTY, Utils.md5Checksum(md5TestFile));
+
+		try {
+			out = new PrintWriter(md5TestFile);
+			out.print("catroid");
+		} catch (IOException e) {
+
+		} finally {
+			if (out != null) {
+				out.close();
+			}
+		}
+
+		assertEquals("MD5 sums are not the same for catroid file", MD5_CATROID, Utils.md5Checksum(md5TestFile));
+
+		UtilFile.deleteDirectory(tempDir);
+	}
+
+	public void testMD5CheckSumOfString() {
+		assertEquals("MD5 sums do not match!", MD5_CATROID, Utils.md5Checksum("catroid"));
+		assertEquals("MD5 sums do not match!", MD5_EMPTY, Utils.md5Checksum(""));
+		assertEquals("MD5 sums do not match!", MD5_HELLO_WORLD, Utils.md5Checksum("Hello World!"));
+	}
 }
