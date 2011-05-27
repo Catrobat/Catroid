@@ -20,13 +20,11 @@ package at.tugraz.ist.catroid.ui;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -37,7 +35,7 @@ import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.adapter.CustomIconContextMenu;
-import at.tugraz.ist.catroid.ui.adapter.SpriteAdapter;
+import at.tugraz.ist.catroid.ui.adapter.SpriteAdapter2;
 import at.tugraz.ist.catroid.ui.dialogs.NewSpriteDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameSpriteDialog;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
@@ -45,7 +43,8 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class ProjectActivity extends ListActivity {
 
-	private SpriteAdapter spriteAdapter;
+	//private SpriteAdapter spriteAdapter;
+	private SpriteAdapter2 spriteAdapter2;
 	private ArrayList<Sprite> spriteList;
 	private Sprite spriteToEdit;
 	private ActivityHelper activityHelper = new ActivityHelper(this);
@@ -55,15 +54,18 @@ public class ProjectActivity extends ListActivity {
 
 	private void initListeners() {
 		spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
-		spriteAdapter = new SpriteAdapter(this, R.layout.sprite_list, R.id.title, spriteList,
-				(LayoutInflater) getSystemService(Activity.LAYOUT_INFLATER_SERVICE));
+		//		spriteAdapter = new SpriteAdapter(this, R.layout.sprite_list, R.id.title, spriteList,
+		//				(LayoutInflater) getSystemService(Activity.LAYOUT_INFLATER_SERVICE));
+		spriteAdapter2 = new SpriteAdapter2(this, R.layout.sprite_list, R.id.title, spriteList);
 
-		setListAdapter(spriteAdapter);
+		//setListAdapter(spriteAdapter);
+		setListAdapter(spriteAdapter2);
 		getListView().setTextFilterEnabled(true);
 
 		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				ProjectManager.getInstance().setCurrentSprite(spriteAdapter.getItem(position));
+				//ProjectManager.getInstance().setCurrentSprite(spriteAdapter.getItem(position));
+				ProjectManager.getInstance().setCurrentSprite(spriteAdapter2.getItem(position));
 				Intent intent = new Intent(ProjectActivity.this, ScriptActivity.class);
 				ProjectActivity.this.startActivity(intent);
 			}
@@ -188,7 +190,7 @@ public class ProjectActivity extends ListActivity {
 	}
 
 	private void updateTextAndAdapter() {
-		spriteAdapter.notifyDataSetChanged();
+		spriteAdapter2.notifyDataSetChanged();
 	}
 
 	@Override
