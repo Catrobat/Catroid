@@ -21,10 +21,10 @@ package at.tugraz.ist.catroid.nativetest.content.brick;
 
 import android.graphics.BitmapFactory;
 import android.test.InstrumentationTestCase;
-import at.tugraz.ist.catroid.nativetest.R;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
+import at.tugraz.ist.catroid.nativetest.R;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
 
 public class SetCostumeBrickTest extends InstrumentationTestCase {
