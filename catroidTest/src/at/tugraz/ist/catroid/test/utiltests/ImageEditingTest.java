@@ -27,11 +27,10 @@ import junit.framework.TestCase;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.os.Environment;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 
 public class ImageEditingTest extends TestCase {
-
-	private final static int bufferSize = 8 * 1024;
 
 	public void testScaleImage() {
 		// create a 100x100 bitmap
@@ -56,7 +55,7 @@ public class ImageEditingTest extends TestCase {
 
 		try {
 			fileOutputStream = new FileOutputStream(sdImageMainDirectory.toString() + "/tmp" + ".jpg");
-			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream, bufferSize);
+			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream, Consts.BUFFER_8K);
 			bitmap.compress(CompressFormat.PNG, 0, bos);
 			bos.flush();
 			bos.close();
@@ -88,7 +87,7 @@ public class ImageEditingTest extends TestCase {
 
 		try {
 			fileOutputStream = new FileOutputStream(sdImageMainDirectory.toString() + "/" + "tmp" + ".jpg");
-			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream, bufferSize);
+			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream, Consts.BUFFER_8K);
 			bitmap.compress(CompressFormat.PNG, 0, bos);
 			bos.flush();
 			bos.close();
@@ -119,7 +118,7 @@ public class ImageEditingTest extends TestCase {
 
 		try {
 			fileOutputStream = new FileOutputStream(sdImageMainDirectory.toString() + "/" + "tmp" + ".jpg");
-			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream, bufferSize);
+			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream, Consts.BUFFER_8K);
 			bitmap.compress(CompressFormat.PNG, 0, bos);
 			bos.flush();
 			bos.close();
@@ -150,7 +149,7 @@ public class ImageEditingTest extends TestCase {
 
 		try {
 			fileOutputStream = new FileOutputStream(sdImageMainDirectory.toString() + "/" + "tmp" + ".jpg");
-			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream, bufferSize);
+			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream, Consts.BUFFER_8K);
 			bitmap.compress(CompressFormat.PNG, 0, bos);
 			bos.flush();
 			bos.close();

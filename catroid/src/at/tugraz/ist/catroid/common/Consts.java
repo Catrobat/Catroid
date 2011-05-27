@@ -70,9 +70,9 @@ public final class Consts {
 	public static final String TEST_FILE_DOWNLOAD_URL = "http://catroidwebtest.ist.tugraz.at/catroid/download/";
 
 	//DefaultProject:
-	public static final String CAT1 = "normalCat";
-	public static final String CAT2 = "banzaiCat";
-	public static final String CAT3 = "cheshireCat";
+	public static final String NORMAL_CAT = "normalCat";
+	public static final String BANZAI_CAT = "banzaiCat";
+	public static final String CHESHIRE_CAT = "cheshireCat";
 	public static final String BACKGROUND = "background";
 
 	//Download:
@@ -83,4 +83,6 @@ public final class Consts {
 	public static final int SCREENSHOT_ICON_PADDING_RIGHT = 3;
 	public static final String SCREENSHOT_FILE_NAME = "thumbnail.png";
 
+	//Various:
+	public static final int BUFFER_8K = 8 * 1024;
 }
