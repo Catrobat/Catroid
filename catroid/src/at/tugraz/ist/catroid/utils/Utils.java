@@ -273,4 +273,12 @@ public class Utils {
 		builder.show();
 	}
 
+	public static String md5Checksum(File file) {
+		return null;
+	}
+
+	public static String md5Checksum(String string) {
+		return null;
+	}
+
 }
