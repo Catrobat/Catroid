@@ -43,7 +43,6 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 	private File testImage;
 	private File testSound;
 	private String currentProjectName = "testCopyFile2";
-	private final int bufferSize = 8 * 1024;
 
 	public FileChecksumContainerTest() throws IOException {
 	}
@@ -64,9 +63,9 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 			testImage.createNewFile();
 		}
 		InputStream in = getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID);
-		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), bufferSize);
+		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), Consts.BUFFER_8K);
 
-		byte[] buffer = new byte[bufferSize];
+		byte[] buffer = new byte[Consts.BUFFER_8K];
 		int length = 0;
 		while ((length = in.read(buffer)) > 0) {
 			out.write(buffer, 0, length);
@@ -82,8 +81,8 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 			testSound.createNewFile();
 		}
 		in = getInstrumentation().getContext().getResources().openRawResource(R.raw.testsound);
-		out = new BufferedOutputStream(new FileOutputStream(testSound), bufferSize);
-		buffer = new byte[bufferSize];
+		out = new BufferedOutputStream(new FileOutputStream(testSound), Consts.BUFFER_8K);
+		buffer = new byte[Consts.BUFFER_8K];
 		length = 0;
 		while ((length = in.read(buffer)) > 0) {
 			out.write(buffer, 0, length);

@@ -171,15 +171,15 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 		//test if images are existing:
 		String imagePath = Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name)
-				+ Consts.IMAGE_DIRECTORY + "/" + Consts.CAT1;
+				+ Consts.IMAGE_DIRECTORY + "/" + Consts.NORMAL_CAT;
 		File testFile = new File(imagePath);
-		assertTrue("Image " + Consts.CAT1 + " does not exist", testFile.exists());
+		assertTrue("Image " + Consts.NORMAL_CAT + " does not exist", testFile.exists());
 		imagePath = Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name)
-				+ Consts.IMAGE_DIRECTORY + "/" + Consts.CAT2;
+				+ Consts.IMAGE_DIRECTORY + "/" + Consts.BANZAI_CAT;
 		testFile = new File(imagePath);
-		assertTrue("Image " + Consts.CAT2 + " does not exist", testFile.exists());
+		assertTrue("Image " + Consts.BANZAI_CAT + " does not exist", testFile.exists());
 		imagePath = Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name)
-				+ Consts.IMAGE_DIRECTORY + "/" + Consts.CAT3;
+				+ Consts.IMAGE_DIRECTORY + "/" + Consts.CHESHIRE_CAT;
 		testFile = new File(imagePath);
 		assertTrue("Image " + Consts.BACKGROUND + " does not exist", testFile.exists());
 		imagePath = Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name)
