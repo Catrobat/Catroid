@@ -112,7 +112,9 @@ public class ProjectActivity extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_project);
-
+		//setting divider for list:
+		this.getListView().setDivider(getResources().getDrawable(R.drawable.divider));
+		this.getListView().setDividerHeight(2);
 	}
 
 	@Override
