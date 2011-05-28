@@ -50,6 +50,7 @@ import at.tugraz.ist.catroid.content.bricks.SetYBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.test.util.Utils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class StorageHandlerTest extends AndroidTestCase {
@@ -61,8 +62,8 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 	@Override
 	public void tearDown() {
-		//		Utils.clearProject(getContext().getString(R.string.default_project_name));
-		//		Utils.clearProject("testProject");
+		Utils.clearProject(getContext().getString(R.string.default_project_name));
+		Utils.clearProject("testProject");
 	}
 
 	@Override
@@ -233,7 +234,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 		}
 
 		StorageHandler.getInstance().saveProject(project);
-		String spf = StorageHandler.getInstance().getProjectfileAsString(projectName);
+		String spf = Utils.getProjectfileAsString(projectName);
 		assertFalse("project contains package information", spf.contains("at.tugraz.ist"));
 
 		proj = new File(Consts.DEFAULT_ROOT + "/" + projectName);
