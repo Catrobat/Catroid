@@ -33,7 +33,6 @@ public class Utils {
 
 	public static final int TYPE_IMAGE_FILE = 0;
 	public static final int TYPE_SOUND_FILE = 1;
-	private static final int bufferSize = 8 * 1024;
 
 	/**
 	 * saves a file into the project folder
@@ -91,9 +90,9 @@ public class Utils {
 		}
 
 		InputStream in = context.getResources().openRawResource(fileID);
-		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), bufferSize);
+		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), Consts.BUFFER_8K);
 
-		byte[] buffer = new byte[bufferSize];
+		byte[] buffer = new byte[Consts.BUFFER_8K];
 		int length = 0;
 
 		while ((length = in.read(buffer)) > 0) {

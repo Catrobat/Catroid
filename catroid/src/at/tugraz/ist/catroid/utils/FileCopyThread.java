@@ -25,6 +25,7 @@ import java.io.FileOutputStream;
 
 import android.app.ProgressDialog;
 import android.util.Log;
+import at.tugraz.ist.catroid.common.Consts;
 
 /**
  * @author Peter Treitler
@@ -60,7 +61,7 @@ public class FileCopyThread extends Thread {
 			fis = new FileInputStream(sourceFile);
 			fos = new FileOutputStream(destinationFile);
 
-			byte[] buf = new byte[1024];
+			byte[] buf = new byte[Consts.BUFFER_8K];
 			int i = 0;
 			while ((i = fis.read(buf)) != -1) {
 				fos.write(buf, 0, i);

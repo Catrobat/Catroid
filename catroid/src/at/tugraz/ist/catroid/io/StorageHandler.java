@@ -189,7 +189,7 @@ public class StorageHandler {
 			}
 
 			BufferedWriter out = new BufferedWriter(new FileWriter(projectDirectoryName + "/" + project.getName()
-					+ Consts.PROJECT_EXTENTION), 8 * 1024);
+					+ Consts.PROJECT_EXTENTION), Consts.BUFFER_8K);
 
 			out.write(spfFile);
 			out.flush();
@@ -389,7 +389,7 @@ public class StorageHandler {
 		FileInputStream fis = null;
 		try {
 			fis = new FileInputStream(file);
-			byte[] buffer = new byte[8 * 1024];
+			byte[] buffer = new byte[Consts.BUFFER_8K];
 
 			int length = 0;
 
@@ -438,9 +438,10 @@ public class StorageHandler {
 		Script startScript = new StartScript("startScript", sprite);
 		Script touchScript = new TapScript("touchScript", sprite);
 		//bricks:
-		File normalCat = savePictureFromResInProject(projectName, Consts.CAT1, R.drawable.catroid, context);
-		File banzaiCat = savePictureFromResInProject(projectName, Consts.CAT2, R.drawable.catroid_banzai, context);
-		File cheshireCat = savePictureFromResInProject(projectName, Consts.CAT3, R.drawable.catroid_cheshire, context);
+		File normalCat = savePictureFromResInProject(projectName, Consts.NORMAL_CAT, R.drawable.catroid, context);
+		File banzaiCat = savePictureFromResInProject(projectName, Consts.BANZAI_CAT, R.drawable.catroid_banzai, context);
+		File cheshireCat = savePictureFromResInProject(projectName, Consts.CHESHIRE_CAT, R.drawable.catroid_cheshire,
+				context);
 		File background = savePictureFromResInProject(projectName, Consts.BACKGROUND, R.drawable.background_blueish,
 				context);
 
@@ -484,16 +485,14 @@ public class StorageHandler {
 	private File savePictureFromResInProject(String project, String name, int fileID, Context context)
 			throws IOException {
 
-		int bufferSize = 8 * 1024;
-
 		final String imagePath = Consts.DEFAULT_ROOT + "/" + project + Consts.IMAGE_DIRECTORY + "/" + name;
 		File testImage = new File(imagePath);
 		if (!testImage.exists()) {
 			testImage.createNewFile();
 		}
 		InputStream in = context.getResources().openRawResource(fileID);
-		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), bufferSize);
-		byte[] buffer = new byte[bufferSize];
+		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), Consts.BUFFER_8K);
+		byte[] buffer = new byte[Consts.BUFFER_8K];
 		int length = 0;
 		while ((length = in.read(buffer)) > 0) {
 			out.write(buffer, 0, length);
@@ -506,7 +505,7 @@ public class StorageHandler {
 		return testImage;
 	}
 
-	//Only used in tests, put it there! - don't wanna
+	//TODO Only used in tests, put it there!
 	public String getProjectfileAsString(String projectName) {
 		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName + "/" + projectName
 				+ Consts.PROJECT_EXTENTION);
