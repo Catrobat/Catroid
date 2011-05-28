@@ -53,7 +53,7 @@ public class ProjectActivity extends ListActivity {
 
 	private void initListeners() {
 		spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
-		spriteAdapter = new SpriteAdapter(this, R.layout.sprite_list, R.id.title, spriteList);
+		spriteAdapter = new SpriteAdapter(this, R.layout.sprite_list, R.id.sprite_title, spriteList);
 
 		setListAdapter(spriteAdapter);
 		getListView().setTextFilterEnabled(true);
