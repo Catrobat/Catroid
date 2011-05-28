@@ -112,7 +112,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 
 	public void testPathsInSpfFile() throws IOException {
 		fillProjectWithAllBricksAndMediaFiles();
-		String spf = StorageHandler.getInstance().getProjectfileAsString(projectName);
+		String spf = Utils.getProjectfileAsString(projectName);
 
 		assertFalse("project contains DEFAULT_ROOT", spf.contains(Consts.DEFAULT_ROOT));
 		assertFalse("project contains IMAGE_DIRECTORY", spf.contains(Consts.IMAGE_DIRECTORY));
@@ -123,7 +123,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 	public void testFilenameChecksum() throws IOException {
 		fillProjectWithAllBricksAndMediaFiles();
 
-		String spf = StorageHandler.getInstance().getProjectfileAsString(projectName);
+		String spf = Utils.getProjectfileAsString(projectName);
 
 		String checksumImage = StorageHandler.getInstance().getMD5Checksum(testImageCopy);
 		String checksumSound = StorageHandler.getInstance().getMD5Checksum(testSoundCopy);
@@ -219,10 +219,10 @@ public class MediaPathTest extends InstrumentationTestCase {
 
 	public void testFileChecksumContainerNotInSPF() throws IOException {
 		fillProjectWithAllBricksAndMediaFiles();
-		String spf = StorageHandler.getInstance().getProjectfileAsString(projectName);
+		String spf = Utils.getProjectfileAsString(projectName);
 		assertFalse("FileChecksumcontainer is in the spf", spf.contains("FileChecksumContainer"));
 		ProjectManager.getInstance().loadProject(projectName, getInstrumentation().getTargetContext(), false);
-		spf = StorageHandler.getInstance().getProjectfileAsString(projectName);
+		spf = Utils.getProjectfileAsString(projectName);
 		assertFalse("FileChecksumcontainer is in the spf", spf.contains("FileChecksumContainer"));
 	}
 
