@@ -37,31 +37,38 @@ import at.tugraz.ist.catroid.utils.ImageEditing;
 
 public class SpriteAdapter extends ArrayAdapter<Sprite> {
 
-	private LayoutInflater inflater;
+	private Context context;
+	private static LayoutInflater inflater = null;
 
-	public SpriteAdapter(Context context, int resource, int textViewResourceId, List<Sprite> objects,
-			LayoutInflater inflater) {
-		super(context, resource, textViewResourceId, objects);
-		this.inflater = inflater;
+	public SpriteAdapter(Context context2, int resource, int textViewResourceId, List<Sprite> objects) {
+		super(context2, resource, textViewResourceId, objects);
+		this.context = context2;
+		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	}
+
+	public static class ViewHolder {
+		public TextView text;
+		public ImageView image;
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		SpriteViewHolder spriteViewHolder = null;
-		TextView spriteTitle = null;
-		ImageView imageView = null;
-		Sprite sprite = getItem(position);
+		View spriteView = convertView;
+		ViewHolder holder;
 		if (convertView == null) {
-			convertView = inflater.inflate(R.layout.sprite_list, null);
-			spriteViewHolder = new SpriteViewHolder(convertView);
-			convertView.setTag(spriteViewHolder);
+			spriteView = inflater.inflate(R.layout.sprite_list, null);
+			holder = new ViewHolder();
+			holder.text = (TextView) spriteView.findViewById(R.id.title);
+			holder.image = (ImageView) spriteView.findViewById(R.id.img);
+			spriteView.setTag(holder);
+		} else {
+			holder = (ViewHolder) spriteView.getTag();
 		}
-		spriteViewHolder = (SpriteViewHolder) convertView.getTag();
-		spriteTitle = spriteViewHolder.gettitle();
-		spriteTitle.setText(sprite.getName());
 
-		String imagepath = null;
+		//------------------------------------------------------------
 		//this will change after the refactoring of the scriptactivity
+		Sprite sprite = getItem(position);
+		String imagepath = null;
 		for (Script script : sprite.getScriptList()) {
 			for (Brick brick : script.getBrickList()) {
 				if (brick instanceof SetCostumeBrick) {
@@ -73,37 +80,16 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 				break;
 			}
 		}
-		imageView = spriteViewHolder.getSpriteImageView();
+		//------------------------------------------------------------
+
+		holder.text.setText(sprite.getName());
 		if (imagepath == null) {
-			imageView.setImageResource(R.drawable.sadfrog);
-		} else {
-			imageView.setImageBitmap(ImageEditing.getScaledBitmap(imagepath, Consts.THUMBNAIL_HEIGHT,
+			holder.image.setImageResource(R.drawable.sadfrog);
+		} else { //it would be more efficient to use the thumb from setCostumeBrick - but this will change in the near future so I didn't implement it
+			//TODO make this more efficient after the refact of ScriptActivity
+			holder.image.setImageBitmap(ImageEditing.getScaledBitmap(imagepath, Consts.THUMBNAIL_HEIGHT,
 					Consts.THUMBNAIL_WIDTH));
 		}
-		return convertView;
-	}
-
-	private class SpriteViewHolder {
-		private View row;
-		private TextView spriteTitle = null;
-		private ImageView spriteImageView = null;
-
-		public SpriteViewHolder(View row) {
-			this.row = row;
-		}
-
-		public TextView gettitle() {
-			if (spriteTitle == null) {
-				spriteTitle = (TextView) row.findViewById(R.id.title);
-			}
-			return spriteTitle;
-		}
-
-		public ImageView getSpriteImageView() {
-			if (spriteImageView == null) {
-				spriteImageView = (ImageView) row.findViewById(R.id.img);
-			}
-			return spriteImageView;
-		}
+		return spriteView;
 	}
 }
