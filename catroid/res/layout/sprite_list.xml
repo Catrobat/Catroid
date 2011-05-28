@@ -15,7 +15,8 @@
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		android:orientation="horizontal" 
 		android:layout_width="fill_parent"
-		android:layout_height="fill_parent">
+		android:layout_height="fill_parent"
+		android:background="@color/spritelist_background">
 		<ImageView 
 			android:id="@+id/sprite_img" 
 			android:layout_width="40dp"
