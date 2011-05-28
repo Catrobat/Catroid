@@ -19,7 +19,9 @@
 		android:id="@+id/sprite_list" 
 		android:layout_width="1px"
 		android:layout_height="1px" 
-		android:layout_weight="1">
+		android:layout_weight="1"
+		android:divider="@drawable/divider"
+		android:dividerHeight="3px">
 	</ListView>
 	<LinearLayout 
 		xmlns:android="http://schemas.android.com/apk/res/android"
@@ -27,7 +29,7 @@
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent">
 		<ImageView 
-			android:id="@+id/img" 
+			android:id="@+id/sprite_img" 
 			android:layout_width="40dp"
 			android:layout_height="50dp" />
 		<LinearLayout 
@@ -37,14 +39,14 @@
 			android:layout_height="wrap_content">
 			<TextView 
 				android:layout_width="fill_parent" 
-				android:id="@+id/title"
+				android:id="@+id/sprite_title"
 				android:layout_height="wrap_content" 
 				android:textStyle="bold"
 				android:paddingLeft="10dp" 
 				android:textSize="16sp" />
 			<TextView 
 				android:layout_width="fill_parent" 
-				android:id="@+id/detail"
+				android:id="@+id/sprite_detail"
 				android:layout_height="wrap_content" 
 				android:paddingLeft="10dp" />
 		</LinearLayout>
