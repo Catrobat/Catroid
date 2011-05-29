@@ -114,7 +114,9 @@ public class ProjectActivity extends ListActivity {
 		setContentView(R.layout.activity_project);
 		//setting divider for list:
 		this.getListView().setDivider(getResources().getDrawable(R.drawable.divider));
-		this.getListView().setDividerHeight(2);
+		this.getListView().setDividerHeight(3);
+		//setting background of the list
+		this.getListView().setBackgroundColor(getResources().getColor(R.color.solid_black));
 	}
 
 	@Override

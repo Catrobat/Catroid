@@ -32,7 +32,8 @@
 				android:layout_height="wrap_content" 
 				android:textStyle="bold"
 				android:paddingLeft="10dp" 
-				android:textSize="16sp" />
+				android:textSize="16sp" 
+				android:textColor="@color/solid_white"/>
 			<TextView 
 				android:layout_width="fill_parent" 
 				android:id="@+id/sprite_detail"
