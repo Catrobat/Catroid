@@ -28,10 +28,6 @@ import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 
-/**
- * @author jib218
- * 
- */
 public class NoteBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
@@ -54,6 +50,10 @@ public class NoteBrick implements Brick {
 		return this.sprite;
 	}
 
+	public String getNote() {
+		return this.note;
+	}
+
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View brickView = inflater.inflate(R.layout.construction_brick_note, null);
@@ -61,8 +61,8 @@ public class NoteBrick implements Brick {
 		EditText editText = (EditText) brickView.findViewById(R.id.edit_text_note);
 		editText.setText(note);
 		editText.addTextChangedListener(new TextWatcher() {
-			public void afterTextChanged(Editable arg0) {
-				note = arg0.toString();
+			public void afterTextChanged(Editable s) {
+				note = s.toString();
 			}
 
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
