@@ -19,10 +19,12 @@
 package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.TextView;
+import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 
@@ -56,8 +58,20 @@ public class NoteBrick implements Brick {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View brickView = inflater.inflate(R.layout.construction_brick_note, null);
 
-		TextView textView = (TextView) brickView.findViewById(R.id.edit_text_note);
-		textView.setText(note);
+		EditText editText = (EditText) brickView.findViewById(R.id.edit_text_note);
+		editText.setText(note);
+		editText.addTextChangedListener(new TextWatcher() {
+			public void afterTextChanged(Editable arg0) {
+				note = arg0.toString();
+			}
+
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			}
+
+		});
 
 		return brickView;
 	}
