@@ -146,7 +146,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		File newProjectFile = new File(Consts.DEFAULT_ROOT + "/" + newProjectName + "/" + newProjectName
 				+ Consts.PROJECT_EXTENTION);
 
-		String spfFileAsString = StorageHandler.getInstance().getProjectfileAsString(newProjectName);
+		String spfFileAsString = TestUtils.getProjectfileAsString(newProjectName);
 
 		assertFalse("Old project folder is still existing", oldProjectFolder.exists());
 		assertFalse("Old project file is still existing", oldProjectFile.exists());
