@@ -26,13 +26,13 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
-import at.tugraz.ist.catroid.test.util.Utils;
+import at.tugraz.ist.catroid.test.utils.TestUtils;
 
 public class ComeToFrontBrickTest extends AndroidTestCase {
 
 	@Override
 	public void tearDown() {
-		Utils.clearProject("testProject");
+		TestUtils.clearProject("testProject");
 	}
 
 	public void testComeToFront() throws NameNotFoundException {
@@ -78,8 +78,8 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 		ProjectManager.getInstance().setProject(project);
 		brick.execute();
 
-		assertEquals("An Integer overflow occured during ComeToFrontBrick Execution",
-				Integer.MAX_VALUE, sprite.getZPosition());
+		assertEquals("An Integer overflow occured during ComeToFrontBrick Execution", Integer.MAX_VALUE,
+				sprite.getZPosition());
 	}
 
 	public void testGetView() throws NameNotFoundException {

@@ -64,12 +64,9 @@ public class ScriptTest extends AndroidTestCase {
 		brickList = script.getBrickList();
 
 		assertEquals("Wrong size of brick list", 3, brickList.size());
-		assertEquals("hideBrick is not at index 0", 0,
-				brickList.indexOf(hideBrick));
-		assertEquals("showBrick is not at index 1", 1,
-				brickList.indexOf(showBrick));
-		assertEquals("placeAtBrick is not at index 2", 2,
-				brickList.indexOf(placeAtBrick));
+		assertEquals("hideBrick is not at index 0", 0, brickList.indexOf(hideBrick));
+		assertEquals("showBrick is not at index 1", 1, brickList.indexOf(showBrick));
+		assertEquals("placeAtBrick is not at index 2", 2, brickList.indexOf(placeAtBrick));
 	}
 
 	public void testMoveTopBrickDown() {
@@ -82,12 +79,9 @@ public class ScriptTest extends AndroidTestCase {
 
 		brickList = script.getBrickList();
 
-		assertEquals("hideBrick is not at index 1", 1,
-				brickList.indexOf(hideBrick));
-		assertEquals("showBrick is not at index 0", 0,
-				brickList.indexOf(showBrick));
-		assertEquals("placeAtBrick is not at index 2", 2,
-				brickList.indexOf(placeAtBrick));
+		assertEquals("hideBrick is not at index 1", 1, brickList.indexOf(hideBrick));
+		assertEquals("showBrick is not at index 0", 0, brickList.indexOf(showBrick));
+		assertEquals("placeAtBrick is not at index 2", 2, brickList.indexOf(placeAtBrick));
 	}
 
 	public void testMoveTopBrickUp() {
@@ -102,10 +96,8 @@ public class ScriptTest extends AndroidTestCase {
 
 		assertEquals("hideBrick was moved up even though it was the first brick in the list", 0,
 				brickList.indexOf(hideBrick));
-		assertEquals("showBrick is not at index 1", 1,
-				brickList.indexOf(showBrick));
-		assertEquals("placeAtBrick is not at index 2", 2,
-				brickList.indexOf(placeAtBrick));
+		assertEquals("showBrick is not at index 1", 1, brickList.indexOf(showBrick));
+		assertEquals("placeAtBrick is not at index 2", 2, brickList.indexOf(placeAtBrick));
 	}
 
 	public void testMoveBottomBrickUp() {
@@ -118,12 +110,9 @@ public class ScriptTest extends AndroidTestCase {
 
 		brickList = script.getBrickList();
 
-		assertEquals("hideBrick is not at index 0", 0,
-				brickList.indexOf(hideBrick));
-		assertEquals("showBrick is not at index 2", 2,
-				brickList.indexOf(showBrick));
-		assertEquals("placeAtBrick is not at index 1", 1,
-				brickList.indexOf(placeAtBrick));
+		assertEquals("hideBrick is not at index 0", 0, brickList.indexOf(hideBrick));
+		assertEquals("showBrick is not at index 2", 2, brickList.indexOf(showBrick));
+		assertEquals("placeAtBrick is not at index 1", 1, brickList.indexOf(placeAtBrick));
 	}
 
 	public void testMoveBottomBrickDown() {
@@ -136,10 +125,8 @@ public class ScriptTest extends AndroidTestCase {
 
 		brickList = script.getBrickList();
 
-		assertEquals("hideBrick is not at index 0", 0,
-				brickList.indexOf(hideBrick));
-		assertEquals("showBrick is not at index 1", 1,
-				brickList.indexOf(showBrick));
+		assertEquals("hideBrick is not at index 0", 0, brickList.indexOf(hideBrick));
+		assertEquals("showBrick is not at index 1", 1, brickList.indexOf(showBrick));
 		assertEquals("placeAtBrick was moved down even though it was the last brick in the list", 2,
 				brickList.indexOf(placeAtBrick));
 	}
@@ -156,16 +143,11 @@ public class ScriptTest extends AndroidTestCase {
 
 		brickList = script.getBrickList();
 
-		assertEquals("hideBrick is not at index 0", 0,
-				brickList.indexOf(hideBrick));
-		assertEquals("showBrick is not at index 2", 2,
-				brickList.indexOf(showBrick));
-		assertEquals("placeAtBrick is not at index 3", 3,
-				brickList.indexOf(placeAtBrick));
-		assertEquals("scaleCostumeBrick is not at index 1", 1,
-				brickList.indexOf(scaleCostumeBrick));
-		assertEquals("comeToFrontBrick is not at index 4", 4,
-				brickList.indexOf(comeToFrontBrick));
+		assertEquals("hideBrick is not at index 0", 0, brickList.indexOf(hideBrick));
+		assertEquals("showBrick is not at index 2", 2, brickList.indexOf(showBrick));
+		assertEquals("placeAtBrick is not at index 3", 3, brickList.indexOf(placeAtBrick));
+		assertEquals("scaleCostumeBrick is not at index 1", 1, brickList.indexOf(scaleCostumeBrick));
+		assertEquals("comeToFrontBrick is not at index 4", 4, brickList.indexOf(comeToFrontBrick));
 	}
 
 }

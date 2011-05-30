@@ -29,7 +29,7 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.R;
-import at.tugraz.ist.catroid.test.util.Utils;
+import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class ScaleCostumeBrickTest extends InstrumentationTestCase {
@@ -56,8 +56,8 @@ public class ScaleCostumeBrickTest extends InstrumentationTestCase {
 		StorageHandler.getInstance().saveProject(project);
 		ProjectManager.getInstance().setProject(project);
 
-		testImage = Utils.saveFileToProject(this.projectName, "testImage.png", IMAGE_FILE_ID,
-				getInstrumentation().getContext(), Utils.TYPE_IMAGE_FILE);
+		testImage = TestUtils.saveFileToProject(this.projectName, "testImage.png", IMAGE_FILE_ID, getInstrumentation()
+				.getContext(), TestUtils.TYPE_IMAGE_FILE);
 	}
 
 	@Override
@@ -95,8 +95,7 @@ public class ScaleCostumeBrickTest extends InstrumentationTestCase {
 	public void testBoundaryScale() {
 		Sprite sprite = new Sprite("testSprite");
 
-		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite,
-				Double.MAX_VALUE);
+		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite, Double.MAX_VALUE);
 		brick.execute();
 		assertEquals("ScaleCostumeBrick failed to scale Sprite to maximum Double value", Double.MAX_VALUE,
 				sprite.getScale());

@@ -27,7 +27,7 @@ import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.test.R;
-import at.tugraz.ist.catroid.test.util.Utils;
+import at.tugraz.ist.catroid.test.utils.TestUtils;
 
 public class SoundManagerTest extends InstrumentationTestCase {
 	private static final int LONG_TEST_SOUND = R.raw.longtestsound;
@@ -37,10 +37,10 @@ public class SoundManagerTest extends InstrumentationTestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		soundFile = Utils.createTestMediaFile(Consts.DEFAULT_ROOT + "testSound.mp3", TEST_SOUND,
+		soundFile = TestUtils.createTestMediaFile(Consts.DEFAULT_ROOT + "testSound.mp3", TEST_SOUND,
 				getInstrumentation().getContext());
 
-		longSoundFile = Utils.createTestMediaFile(Consts.DEFAULT_ROOT + "longTestSound.mp3", LONG_TEST_SOUND,
+		longSoundFile = TestUtils.createTestMediaFile(Consts.DEFAULT_ROOT + "longTestSound.mp3", LONG_TEST_SOUND,
 				getInstrumentation().getContext());
 	}
 

@@ -33,7 +33,8 @@ import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.R;
-import at.tugraz.ist.catroid.test.util.Utils;
+import at.tugraz.ist.catroid.test.utils.TestUtils;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class FileChecksumContainerTest extends InstrumentationTestCase {
 
@@ -50,7 +51,7 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 	@Override
 	protected void setUp() throws Exception {
 
-		Utils.clearProject(currentProjectName);
+		TestUtils.clearProject(currentProjectName);
 		storageHandler = StorageHandler.getInstance();
 		Project testCopyFile = new Project(null, currentProjectName);
 		projectManager = ProjectManager.getInstance();
@@ -95,7 +96,7 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		Utils.clearProject(currentProjectName);
+		TestUtils.clearProject(currentProjectName);
 		if (testImage != null && testImage.exists()) {
 			testImage.delete();
 		}
@@ -108,7 +109,7 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 
 		storageHandler.copyImage(currentProjectName, testImage.getAbsolutePath());
 
-		String checksumImage = storageHandler.getMD5Checksum(testImage);
+		String checksumImage = Utils.md5Checksum(testImage);
 
 		FileChecksumContainer container = projectManager.fileChecksumContainer;
 		assertTrue("Checksum isn't in container", container.containsChecksum(checksumImage));
@@ -124,7 +125,7 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 		assertEquals("Wrong amount of files in folder", 2, filesImage.length);
 
 		File newTestSound = storageHandler.copySoundFile(testSound.getAbsolutePath());
-		String checksumSound = storageHandler.getMD5Checksum(testSound);
+		String checksumSound = Utils.md5Checksum(testSound);
 		assertTrue("Checksum isn't in container", container.containsChecksum(checksumSound));
 		File soundDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName + Consts.SOUND_DIRECTORY);
 		File[] filesSound = soundDirectory.listFiles();

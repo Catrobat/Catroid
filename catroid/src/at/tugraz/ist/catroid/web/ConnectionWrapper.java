@@ -132,7 +132,7 @@ public class ConnectionWrapper {
 
 		Set<Entry<String, String>> entries = postValues.entrySet();
 		for (Entry<String, String> entry : entries) {
-			Log.i(ConnectionWrapper.class.getName(), "key: " + entry.getKey() + ", value: " + entry.getValue());
+			Log.d(ConnectionWrapper.class.getName(), "key: " + entry.getKey() + ", value: " + entry.getValue());
 			out.writeField(entry.getKey(), entry.getValue());
 		}
 

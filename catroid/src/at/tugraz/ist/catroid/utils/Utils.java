@@ -20,9 +20,12 @@
 package at.tugraz.ist.catroid.utils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -40,6 +43,9 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 
 public class Utils {
+
+	private static final String TAG = "Utils";
+
 	private static boolean hasSdCard() {
 		return android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
 	}
@@ -224,10 +230,10 @@ public class Utils {
 			bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);
 			os.close();
 		} catch (FileNotFoundException e) {
-			Log.e("UTILS", e.getMessage());
+			Log.e(TAG, e.getMessage());
 			e.printStackTrace();
 		} catch (IOException e) {
-			Log.e("UTILS", e.getMessage());
+			Log.e(TAG, e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -274,11 +280,67 @@ public class Utils {
 	}
 
 	public static String md5Checksum(File file) {
-		return null;
+		if (!file.isFile()) {
+			return null;
+		}
+
+		MessageDigest messageDigest = getMD5MessageDigest();
+
+		FileInputStream fis = null;
+		try {
+			fis = new FileInputStream(file);
+			byte[] buffer = new byte[Consts.BUFFER_8K];
+
+			int length = 0;
+
+			while ((length = fis.read(buffer)) != -1) {
+				messageDigest.update(buffer, 0, length);
+			}
+		} catch (IOException e) {
+			Log.w(TAG, "IOException thrown in md5Checksum()");
+		} finally {
+			try {
+				if (fis != null) {
+					fis.close();
+				}
+			} catch (IOException e) {
+				Log.w(TAG, "IOException thrown in finally block of md5Checksum()");
+			}
+		}
+
+		return toHex(messageDigest.digest());
 	}
 
 	public static String md5Checksum(String string) {
-		return null;
+		MessageDigest messageDigest = getMD5MessageDigest();
+
+		messageDigest.update(string.getBytes());
+
+		return toHex(messageDigest.digest());
 	}
 
+	private static String toHex(byte[] messageDigest) {
+		StringBuilder md5StringBuilder = new StringBuilder(2 * messageDigest.length);
+
+		for (byte b : messageDigest) {
+			md5StringBuilder.append("0123456789ABCDEF".charAt((b & 0xF0) >> 4));
+			md5StringBuilder.append("0123456789ABCDEF".charAt((b & 0x0F)));
+		}
+
+		Log.v(TAG, md5StringBuilder.toString());
+
+		return md5StringBuilder.toString();
+	}
+
+	private static MessageDigest getMD5MessageDigest() {
+		MessageDigest messageDigest = null;
+
+		try {
+			messageDigest = MessageDigest.getInstance("MD5");
+		} catch (NoSuchAlgorithmException e) {
+			Log.w(TAG, "NoSuchAlgorithmException thrown in getMD5MessageDigest()");
+		}
+
+		return messageDigest;
+	}
 }

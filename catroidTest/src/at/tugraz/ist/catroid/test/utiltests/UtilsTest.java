@@ -133,7 +133,7 @@ public class UtilsTest extends TestCase {
 
 	public void testMD5CheckSumOfFile() {
 
-		PrintWriter out = null;
+		PrintWriter printWriter = null;
 
 		File tempDir = new File(Consts.TMP_PATH);
 		tempDir.mkdirs();
@@ -144,16 +144,17 @@ public class UtilsTest extends TestCase {
 			md5TestFile.delete();
 		}
 
-		assertEquals("MD5 sums are not the same for empty file", MD5_EMPTY, Utils.md5Checksum(md5TestFile));
-
 		try {
-			out = new PrintWriter(md5TestFile);
-			out.print("catroid");
-		} catch (IOException e) {
+			md5TestFile.createNewFile();
+			assertEquals("MD5 sums are not the same for empty file", MD5_EMPTY, Utils.md5Checksum(md5TestFile));
 
+			printWriter = new PrintWriter(md5TestFile);
+			printWriter.print("catroid");
+		} catch (IOException e) {
+			e.printStackTrace();
 		} finally {
-			if (out != null) {
-				out.close();
+			if (printWriter != null) {
+				printWriter.close();
 			}
 		}
 

@@ -47,18 +47,15 @@ public class GlideToBrickTest extends AndroidTestCase {
 			e.printStackTrace();
 		}
 
-		assertEquals("Incorrect sprite x position after GlideToBrick executed",
-				xPosition, sprite.getXPosition());
-		assertEquals("Incorrect sprite y position after GlideToBrick executed",
-				yPosition, sprite.getYPosition());
+		assertEquals("Incorrect sprite x position after GlideToBrick executed", xPosition, sprite.getXPosition());
+		assertEquals("Incorrect sprite y position after GlideToBrick executed", yPosition, sprite.getYPosition());
 	}
 
 	public void testNullSprite() {
 		GlideToBrick glideToBrick = new GlideToBrick(null, xPosition, yPosition, duration);
 		try {
 			glideToBrick.execute();
-			fail("Execution of GlideToBrick with null Sprite did not cause a " +
-					"NullPointerException to be thrown");
+			fail("Execution of GlideToBrick with null Sprite did not cause a " + "NullPointerException to be thrown");
 		} catch (NullPointerException e) {
 			// expected behavior
 		}
@@ -70,18 +67,18 @@ public class GlideToBrickTest extends AndroidTestCase {
 		PlaceAtBrick brick = new PlaceAtBrick(sprite, Integer.MAX_VALUE, Integer.MAX_VALUE);
 		brick.execute();
 
-		assertEquals("PlaceAtBrick failed to place Sprite at maximum x integer value",
-				Integer.MAX_VALUE, sprite.getXPosition());
-		assertEquals("PlaceAtBrick failed to place Sprite at maximum y integer value",
-				Integer.MAX_VALUE, sprite.getYPosition());
+		assertEquals("PlaceAtBrick failed to place Sprite at maximum x integer value", Integer.MAX_VALUE,
+				sprite.getXPosition());
+		assertEquals("PlaceAtBrick failed to place Sprite at maximum y integer value", Integer.MAX_VALUE,
+				sprite.getYPosition());
 
 		brick = new PlaceAtBrick(sprite, Integer.MIN_VALUE, Integer.MIN_VALUE);
 		brick.execute();
 
-		assertEquals("PlaceAtBrick failed to place Sprite at minimum x integer value",
-				Integer.MIN_VALUE, sprite.getXPosition());
-		assertEquals("PlaceAtBrick failed to place Sprite at minimum y integer value",
-				Integer.MIN_VALUE, sprite.getYPosition());
+		assertEquals("PlaceAtBrick failed to place Sprite at minimum x integer value", Integer.MIN_VALUE,
+				sprite.getXPosition());
+		assertEquals("PlaceAtBrick failed to place Sprite at minimum y integer value", Integer.MIN_VALUE,
+				sprite.getYPosition());
 	}
 
 	public void testTime() {

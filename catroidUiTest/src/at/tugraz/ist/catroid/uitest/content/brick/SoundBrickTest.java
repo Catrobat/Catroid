@@ -99,7 +99,6 @@ public class SoundBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_play_sound)));
 
 		assertTrue("Wrong title selected", solo.searchText(selectedTitle));
-		assertTrue("Wrong title selected", solo.searchText(selectedTitle));
 
 		solo.clickOnButton(selectedTitle);
 		solo.clickInList(0);

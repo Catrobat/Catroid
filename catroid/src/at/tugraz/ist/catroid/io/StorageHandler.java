@@ -31,8 +31,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.FileChannel;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -265,7 +263,7 @@ public class StorageHandler {
 		if (!inputFile.exists() || !inputFile.canRead()) {
 			return null;
 		}
-		String inputFileChecksum = getMD5Checksum(inputFile);
+		String inputFileChecksum = Utils.md5Checksum(inputFile);
 
 		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().fileChecksumContainer;
 		if (fileChecksumContainer.containsChecksum(inputFileChecksum)) {
@@ -292,7 +290,7 @@ public class StorageHandler {
 		FileChecksumContainer checksumCont = ProjectManager.getInstance().fileChecksumContainer;
 
 		if ((imageDimensions[0] <= Consts.MAX_COSTUME_WIDTH) && (imageDimensions[1] <= Consts.MAX_COSTUME_HEIGHT)) {
-			String checksumSource = getMD5Checksum(inputFile);
+			String checksumSource = Utils.md5Checksum(inputFile);
 
 			String newFilePath = imageDirectory.getAbsolutePath() + "/" + checksumSource + "_" + inputFile.getName();
 			if (checksumCont.containsChecksum(checksumSource)) {
@@ -324,7 +322,7 @@ public class StorageHandler {
 
 		}
 
-		String checksumCompressedFile = StorageHandler.getInstance().getMD5Checksum(outputFile);
+		String checksumCompressedFile = Utils.md5Checksum(outputFile);
 
 		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().fileChecksumContainer;
 		String newFilePath = imageDirectory.getAbsolutePath() + "/" + checksumCompressedFile + "_"
@@ -345,7 +343,7 @@ public class StorageHandler {
 		FileChannel inputChannel = new FileInputStream(sourceFile).getChannel();
 		FileChannel outputChannel = new FileOutputStream(destinationFile).getChannel();
 
-		String checksumSource = getMD5Checksum(sourceFile);
+		String checksumSource = Utils.md5Checksum(sourceFile);
 		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().fileChecksumContainer;
 
 		try {
@@ -375,49 +373,6 @@ public class StorageHandler {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public String getMD5Checksum(File file) {
-
-		MessageDigest messageDigest = null;
-		try {
-			messageDigest = MessageDigest.getInstance("MD5");
-		} catch (NoSuchAlgorithmException e) {
-			Log.e(TAG, "NoSuchAlgorithmException thrown in StorageHandler::getMD5Checksum");
-		}
-
-		FileInputStream fis = null;
-		try {
-			fis = new FileInputStream(file);
-			byte[] buffer = new byte[Consts.BUFFER_8K];
-
-			int length = 0;
-
-			while ((length = fis.read(buffer)) != -1) {
-				messageDigest.update(buffer, 0, length);
-			}
-		} catch (IOException e) {
-			Log.e(TAG, "IOException thrown in StorageHandler::getMD5Checksum");
-			e.printStackTrace();
-		} finally {
-			try {
-				if (fis != null) {
-					fis.close();
-				}
-			} catch (IOException e) {
-				Log.e(TAG, "IOException thrown in StorageHandler::getMD5Checksum by FileInputStream.close()");
-			}
-		}
-
-		byte[] mdbytes = messageDigest.digest();
-		StringBuilder md5StringBuilder = new StringBuilder(2 * mdbytes.length);
-
-		for (byte b : mdbytes) {
-			md5StringBuilder.append("0123456789ABCDEF".charAt((b & 0xF0) >> 4));
-			md5StringBuilder.append("0123456789ABCDEF".charAt((b & 0x0F)));
-		}
-
-		return md5StringBuilder.toString();
 	}
 
 	/**

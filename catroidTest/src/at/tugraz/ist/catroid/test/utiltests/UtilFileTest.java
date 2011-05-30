@@ -28,11 +28,11 @@ public class UtilFileTest extends InstrumentationTestCase {
 	private File subDirectory;
 	private File file1;
 	private File file2;
-	
+
 	@Override
 	protected void setUp() throws Exception {
 		final String catroidDirectory = "/sdcard/catroid";
-		
+
 		testDirectory = new File(catroidDirectory + "/testDirectory");
 		testDirectory.mkdir();
 		file1 = new File(testDirectory.getAbsolutePath() + "/file1");
@@ -41,15 +41,15 @@ public class UtilFileTest extends InstrumentationTestCase {
 		subDirectory.mkdir();
 		file2 = new File(subDirectory.getAbsolutePath() + "/file2");
 		file2.createNewFile();
-		
+
 		super.setUp();
 	}
-	
+
 	private void deleteFile(File file) {
-		if(file.exists())
+		if (file.exists())
 			file.delete();
 	}
-	
+
 	@Override
 	protected void tearDown() throws Exception {
 		deleteFile(file2);
@@ -57,7 +57,7 @@ public class UtilFileTest extends InstrumentationTestCase {
 		deleteFile(file1);
 		deleteFile(testDirectory);
 	}
-	
+
 	public void testClearDirectory() {
 		UtilFile.clearDirectory(testDirectory);
 		assertFalse("File in subdirectory still exists after call to clearDirectory", file2.exists());
@@ -65,7 +65,7 @@ public class UtilFileTest extends InstrumentationTestCase {
 		assertFalse("File in test directory still exists after call to clearDirectory", file1.exists());
 		assertTrue("Directory itself was deleted as well after call to clearDirectory", testDirectory.exists());
 	}
-	
+
 	public void testDeleteDirectory() {
 		UtilFile.deleteDirectory(testDirectory);
 		assertFalse("File in subdirectory still exists after call to deleteDirectory", file2.exists());
