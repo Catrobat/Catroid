@@ -19,8 +19,11 @@
 package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.TextView;
+import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 
 /**
@@ -28,31 +31,45 @@ import at.tugraz.ist.catroid.content.Sprite;
  * 
  */
 public class NoteBrick implements Brick {
-
 	private static final long serialVersionUID = 1L;
+	private Sprite sprite;
+	private String note = "";
+
+	public NoteBrick(Sprite sprite) {
+		this.sprite = sprite;
+	}
+
+	public NoteBrick(Sprite sprite, String note) {
+		this.sprite = sprite;
+		this.note = note;
+	}
 
 	public void execute() {
-		// TODO Auto-generated method stub
-
+		// nothing to execute
 	}
 
 	public Sprite getSprite() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.sprite;
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
-		// TODO Auto-generated method stub
-		return null;
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View brickView = inflater.inflate(R.layout.construction_brick_note, null);
+
+		TextView textView = (TextView) brickView.findViewById(R.id.edit_text_note);
+		textView.setText(note);
+
+		return brickView;
 	}
 
 	public View getPrototypeView(Context context) {
-		// TODO Auto-generated method stub
-		return null;
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View brickView = inflater.inflate(R.layout.toolbox_brick_note, null);
+		return brickView;
 	}
 
 	@Override
 	public Brick clone() {
-		return null;
+		return new NoteBrick(this.sprite, this.note);
 	}
 }

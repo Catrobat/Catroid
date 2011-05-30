@@ -159,6 +159,8 @@
 	
 	<string name="choose_sound_title">choose a title</string>
 
+	<string name="brick_note">Note</string>
+	
     <!-- defaulValues -->
     <string name="default_project_name">defaultProject</string>
     
