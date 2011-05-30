@@ -71,6 +71,7 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new SetCostumeBrick(sprite));
 			prototypeBrickList.add(new ScaleCostumeBrick(sprite, 100));
 			prototypeBrickList.add(new PlaySoundBrick(sprite));
+			prototypeBrickList.add(new NoteBrick(sprite));
 		} else {
 			prototypeBrickList = new ArrayList<Brick>();
 			prototypeBrickList.add(new WaitBrick(sprite, 1000));
