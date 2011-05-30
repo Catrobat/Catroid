@@ -56,11 +56,15 @@
     <string name="upload_project">Projekt hochladen</string>
 
     <!-- Main menu activity -->
-    <string name="resume">Weiter machen</string>
     <string name="current_project">Aktuelles Projekt:</string>
     <string name="no_project">Kein Projekt geladen</string>
+    <string name="current_project_button">Aktuelles Projekt</string>
+    <string name="projects_on_phone">Projekte am Handy</string>
     <string name="create_new_project">Neues Projekt erstellen</string>
-
+	<string name="tutorial">Anleitung</string>
+	<string name="settings">Einstellungen</string>
+	<string name="web_resources">Internet-Ressourcen</string>
+	
     <!-- About Dialog -->
     <string name="about_title">Über Catroid</string>
     <string name="about_text">
@@ -74,7 +78,7 @@
 
     <!-- Project activity view -->
     <string name="project_name">Projekt:</string>
-    <string name="sprite_list">Objekte:</string>
+    <string name="sprite_list">Objekte</string>
     <string name="add_sprite">Neues Objekt hinzufügen</string>
 
     <!-- Script activity view -->
@@ -156,7 +160,7 @@
 	
 	<string name="choose_sound_title">Sound wählen</string>
 
-    <!-- defaulValues -->
+    <!-- defaultValues -->
     <string name="default_project_name">standardProjekt</string>
     
     <!-- Notifications -->

@@ -24,32 +24,9 @@
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 >
-	<!-- Top bar -->
-	<LinearLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		android:orientation="horizontal"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:layout_weight="0"
-	>
-		<TextView
-			android:id="@+id/project_title_text_view"
-			android:text="@string/project_name"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:textSize="18dip"
-		></TextView>
-		<Button
-			android:id="@+id/main_menu_button"
-			android:text="@string/main_menu"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_weight="0"
-			android:textStyle="bold"
-		>
-		</Button>
-	</LinearLayout>
+	<!-- Action bar -->
+	<include layout="@layout/actionbar"/>
+
 	<!-- Sprite list -->
 	<LinearLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
@@ -58,25 +35,10 @@
 		android:layout_height="fill_parent"
 		android:layout_weight="1"
 	>
-		<TextView
-			android:id="@+id/sprite_list_label"
-			android:text="@string/sprite_list"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:textSize="14dip"
-		></TextView>
 		<ListView
-			android:id="@+id/sprite_list_view"
+			android:id="@android:id/list"
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
 		></ListView>
 	</LinearLayout>
-	<!-- Add sprite button -->
-	<Button
-		android:id="@+id/add_sprite_button"
-		android:text="@string/add_sprite"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:layout_weight="0"
-	></Button>
 </LinearLayout>

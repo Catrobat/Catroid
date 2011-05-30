@@ -67,10 +67,11 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 	public void testNewSpriteDialog() throws NameNotFoundException, IOException {
 
 		createTestProject(testingproject);
-		solo.clickOnButton(getActivity().getString(R.string.load_project));
+		solo.clickOnButton(getActivity().getString(R.string.projects_on_phone));
 		solo.clickOnText(testingproject);
 
-		solo.clickOnButton(solo.getCurrentActivity().getString(R.string.add_sprite));
+		//solo.clickOnButton(solo.getCurrentActivity().getString(R.string.add_sprite));
+		solo.clickOnImageButton(1);
 		int spriteEditTextId = solo.getCurrentEditTexts().size() - 1;
 		Utils.enterText(solo, spriteEditTextId, "testingsprite");
 		solo.sendKey(Solo.ENTER);
