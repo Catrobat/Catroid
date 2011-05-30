@@ -38,7 +38,7 @@
 		android:id="@+id/toolbox_brick_note_edit_text"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:minLines = "2"
+		android:minLines = "1"
 		android:scrollbars="vertical"
 		android:clickable="false"
 		android:focusable="false"
