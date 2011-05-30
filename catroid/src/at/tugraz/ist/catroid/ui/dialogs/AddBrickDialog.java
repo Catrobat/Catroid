@@ -43,6 +43,7 @@ import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
 import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
+import at.tugraz.ist.catroid.content.bricks.NoteBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
@@ -88,6 +89,7 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new IfTouchedBrick(sprite, null));
 			prototypeBrickList.add(new IfStartedBrick(sprite, null));
 			prototypeBrickList.add(new GlideToBrick(sprite, 100, 100, 3000));
+			prototypeBrickList.add(new NoteBrick(sprite));
 		}
 
 	}

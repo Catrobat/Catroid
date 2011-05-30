@@ -155,7 +155,8 @@
 	<string name="brick_set_y">Setze Y auf:</string>
 	
 	<string name="choose_sound_title">Sound wählen</string>
-
+	
+	<string name="brick_note">Notiz</string>
     <!-- defaulValues -->
     <string name="default_project_name">standardProjekt</string>
     
