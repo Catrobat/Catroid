@@ -34,7 +34,7 @@
 		android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen"
 	>
 		<activity
-			android:name=".ui.MainMenuActivity"
+			android:name=".stage.NativeAppActivity"
 		>
 			<intent-filter>
 				<action

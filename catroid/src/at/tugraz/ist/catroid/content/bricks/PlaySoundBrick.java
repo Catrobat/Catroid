@@ -27,14 +27,14 @@ import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.AdapterView.OnItemClickListener;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
@@ -42,6 +42,7 @@ import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.ui.adapter.SoundBrickAdapter;
 
 public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable {
@@ -60,7 +61,11 @@ public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable 
 
 	public void execute() {
 		if (soundfileName != null) {
-			SoundManager.getInstance().playSoundFile(getAbsoluteSoundPath());
+			if (!NativeAppActivity.isRunning()) {
+				SoundManager.getInstance().playSoundFile(getAbsoluteSoundPath());
+			} else {
+				SoundManager.getInstance().playSoundFile(soundfileName);
+			}
 		}
 	}
 
