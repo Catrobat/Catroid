@@ -24,7 +24,7 @@ import java.util.HashMap;
 
 import android.test.AndroidTestCase;
 import at.tugraz.ist.catroid.common.Consts;
-import at.tugraz.ist.catroid.test.util.Utils;
+import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.transfers.ProjectDownloadTask;
 import at.tugraz.ist.catroid.transfers.ProjectUploadTask;
 import at.tugraz.ist.catroid.utils.UtilFile;
@@ -50,7 +50,7 @@ public class UpAndDownloadTest extends AndroidTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		Utils.clearProject("uploadtestProject");
+		TestUtils.clearProject("uploadtestProject");
 		super.tearDown();
 	}
 

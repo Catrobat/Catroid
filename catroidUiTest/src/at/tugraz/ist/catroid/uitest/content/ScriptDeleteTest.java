@@ -87,7 +87,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptAct
 
 		solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
 		solo.clickOnText(getActivity().getString(R.string.brick_hide));
-		solo.sleep(1000);
+		solo.sleep(5000);
 
 		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getScriptList().size();
 		assertEquals("Incorrect number of scripts in scriptList", 1, numberOfScripts);

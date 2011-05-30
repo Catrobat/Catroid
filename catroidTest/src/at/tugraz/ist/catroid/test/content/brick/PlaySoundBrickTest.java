@@ -31,7 +31,7 @@ import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.R;
-import at.tugraz.ist.catroid.test.util.Utils;
+import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class PlaySoundBrickTest extends InstrumentationTestCase {
@@ -52,7 +52,7 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 		if (soundFile != null && soundFile.exists()) {
 			soundFile.delete();
 		}
-		Utils.clearProject(projectName);
+		TestUtils.clearProject(projectName);
 		SoundManager.getInstance().clear();
 	}
 
@@ -169,8 +169,8 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 
 	private void setUpSoundFile() throws IOException {
 
-		soundFile = Utils.saveFileToProject(projectName, "soundTest.mp3", SOUND_FILE_ID, getInstrumentation()
-				.getContext(), Utils.TYPE_SOUND_FILE);
+		soundFile = TestUtils.saveFileToProject(projectName, "soundTest.mp3", SOUND_FILE_ID, getInstrumentation()
+				.getContext(), TestUtils.TYPE_SOUND_FILE);
 
 	}
 }

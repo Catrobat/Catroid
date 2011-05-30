@@ -66,8 +66,8 @@ public final class Consts {
 	public static final String USER_LANGUAGE = "userLanguage";
 
 	public static final String FILE_UPLOAD_URL = "http://www.catroid.org/api/upload/upload.json";
-	public static final String TEST_FILE_UPLOAD_URL = "http://catroidwebtest.ist.tugraz.at/api/upload/upload.json";
-	public static final String TEST_FILE_DOWNLOAD_URL = "http://catroidwebtest.ist.tugraz.at/catroid/download/";
+	public static final String TEST_FILE_UPLOAD_URL = "http://catroidtest.ist.tugraz.at/api/upload/upload.json";
+	public static final String TEST_FILE_DOWNLOAD_URL = "http://catroidtest.ist.tugraz.at/catroid/download/";
 
 	//DefaultProject:
 	public static final String NORMAL_CAT = "normalCat";

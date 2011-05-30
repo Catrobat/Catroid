@@ -38,7 +38,8 @@ import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
-import at.tugraz.ist.catroid.test.util.Utils;
+import at.tugraz.ist.catroid.test.utils.TestUtils;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class ProjectManagerTest extends InstrumentationTestCase {
 
@@ -51,9 +52,9 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 
 	@Override
 	public void tearDown() {
-		Utils.clearProject(projectNameOne);
-		Utils.clearProject("oldProject");
-		Utils.clearProject("newProject");
+		TestUtils.clearProject(projectNameOne);
+		TestUtils.clearProject("oldProject");
+		TestUtils.clearProject("newProject");
 	}
 
 	public void testBasicFunctions() throws NameNotFoundException {
@@ -178,7 +179,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		HideBrick hideBrick = new HideBrick(firstSprite);
 		ShowBrick showBrick = new ShowBrick(firstSprite);
 		SetCostumeBrick costumeBrick = new SetCostumeBrick(firstSprite);
-		File image = Utils.saveFileToProject(projectName, "image.png", at.tugraz.ist.catroid.test.R.raw.icon,
+		File image = TestUtils.saveFileToProject(projectName, "image.png", at.tugraz.ist.catroid.test.R.raw.icon,
 				getInstrumentation().getContext(), 0);
 		costumeBrick.setCostume(image.getName());
 		ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(secondSprite, scaleValue);
@@ -203,8 +204,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		project.addSprite(thirdSprite);
 		project.addSprite(fourthSprite);
 
-		ProjectManager.getInstance().fileChecksumContainer.addChecksum(
-				StorageHandler.getInstance().getMD5Checksum(image),
+		ProjectManager.getInstance().fileChecksumContainer.addChecksum(Utils.md5Checksum(image),
 				image.getAbsolutePath());
 
 		storageHandler.saveProject(project);

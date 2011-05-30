@@ -26,17 +26,17 @@ import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.ProgressDialog;
 import android.app.AlertDialog.Builder;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
-import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.utils.UtilDeviceInfo;
 import at.tugraz.ist.catroid.utils.UtilZip;
+import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.web.ConnectionWrapper;
 import at.tugraz.ist.catroid.web.WebconnectionException;
 
@@ -176,7 +176,7 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 	}
 
 	private HashMap<String, String> buildPostValues(File zipFile) throws IOException {
-		String md5Checksum = StorageHandler.getInstance().getMD5Checksum(zipFile);
+		String md5Checksum = Utils.md5Checksum(zipFile);
 
 		HashMap<String, String> postValues = new HashMap<String, String>();
 		postValues.put(Consts.PROJECT_NAME_TAG, projectName);
