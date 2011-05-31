@@ -18,9 +18,7 @@
  */
 package at.tugraz.ist.catroid.ui;
 
-import android.app.TabActivity;
-import android.content.Intent;
-import android.content.res.Resources;
+import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TabHost;
 import at.tugraz.ist.catroid.R;
@@ -29,37 +27,53 @@ import at.tugraz.ist.catroid.R;
  * @author ainulhusna
  * 
  */
-public class ScriptActivityTab extends TabActivity {
+public class ScriptActivityTab extends Activity {
+
+	//private int ADD_NEW_TAB = Menu.FIRST;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_scripttab);
+		TabHost tabs = (TabHost) this.findViewById(R.id.tabhost);
+		tabs.setup();
 
-		Resources res = getResources(); // Resource object to get Drawables
-		TabHost tabHost = getTabHost(); // The activity TabHost
-		TabHost.TabSpec spec; // Resusable TabSpec for each tab
-		Intent intent; // Reusable Intent for each tab
-
-		// Create an Intent to launch an Activity for the tab (to be reused)
-		intent = new Intent().setClass(ScriptActivityTab.this, ArtistsActivity.class);
-
-		// Initialize a TabSpec for each tab and add it to the TabHost
-		spec = tabHost.newTabSpec("artists").setIndicator("Scripts", res.getDrawable(R.drawable.ic_tab_artists))
-				.setContent(intent);
-		tabHost.addTab(spec);
-
-		// Do the same for the other tabs
-		intent = new Intent().setClass(ScriptActivityTab.this, ArtistsActivity.class);
-		spec = tabHost.newTabSpec("albums").setIndicator("Costumes", res.getDrawable(R.drawable.ic_tab_artists))
-				.setContent(intent);
-		tabHost.addTab(spec);
-
-		intent = new Intent().setClass(ScriptActivityTab.this, ArtistsActivity.class);
-		spec = tabHost.newTabSpec("songs").setIndicator("Sounds", res.getDrawable(R.drawable.ic_tab_artists))
-				.setContent(intent);
-		tabHost.addTab(spec);
-
-		tabHost.setCurrentTab(2);
+		//		TabSpec tspec1 = tabs.newTabSpec("First Tab");
+		//		tspec1.setIndicator("One");
+		//		tspec1.setContent(R.id.tabcontent);
+		//		tabs.addTab(tspec1);
+		//
+		//		TabSpec tspec2 = tabs.newTabSpec("Second Tab");
+		//		tspec2.setIndicator("Two");
+		//		tspec2.setContent(R.id.tabcontent);
+		//		tabs.addTab(tspec2);
+		//		TabSpec tspec3 = tabs.newTabSpec("Third Tab");
+		//		tspec3.setIndicator("Three");
+		//		tspec3.setContent(R.id.tabcontent);
+		//		tabs.addTab(tspec3);
 	}
+
+	//@Override
+	//public boolean onCreateOptionsMenu(Menu menu) {
+	//super.onCreateOptionsMenu(menu);
+	//menu.add(0, ADD_NEW_TAB, 0, “New Tabs”);
+	//return true;
+	//}
+
+	//Dynamically delete tabs, then add one again
+	//Problem with SDK 1.1 returns null pointer exception
+
+	/*
+	 * @Override
+	 * public boolean onOptionsItemSelected(MenuItem item) {
+	 * TabHost tabs = (TabHost) this.findViewById(R.id.my_tabhost);
+	 * tabs.clearAllTabs();
+	 * tabs.setup();
+	 * TabSpec tspec1 = tabs.newTabSpec(”New Tab”);
+	 * tspec1.setIndicator(”NEWTAB”, this.getResources().getDrawable(R.drawable.icon));
+	 * tspec1.setContent(R.id.content);
+	 * tabs.addTab(tspec1);
+	 * return super.onOptionsItemSelected(item);
+	 * }
+	 */
 }
