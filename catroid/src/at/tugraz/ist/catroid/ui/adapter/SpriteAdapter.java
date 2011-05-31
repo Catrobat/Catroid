@@ -57,7 +57,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		View spriteView = convertView;
 		ViewHolder holder;
 		if (convertView == null) {
-			spriteView = inflater.inflate(R.layout.sprite_list, null);
+			spriteView = inflater.inflate(R.layout.sprite_list_item, null);
 			holder = new ViewHolder();
 			holder.text = (TextView) spriteView.findViewById(R.id.sprite_title);
 			holder.detail = (TextView) spriteView.findViewById(R.id.sprite_detail);
@@ -87,7 +87,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		holder.text.setText(sprite.getName());
 		holder.detail.setText("details");
 		if (imagepath == null) {
-			holder.image.setImageResource(R.drawable.sadfrog);
+			holder.image.setImageBitmap(null);
 		} else { //it would be more efficient to use the thumb from setCostumeBrick - but this will change in the near future so I didn't implement it
 			//TODO make this more efficient after the refact of ScriptActivity
 			holder.image.setImageBitmap(ImageEditing.getScaledBitmap(imagepath, Consts.THUMBNAIL_HEIGHT,

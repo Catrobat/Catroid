@@ -28,7 +28,6 @@
 	<!-- Action bar -->
 	<include layout="@layout/actionbar"/>
 
-	
 	<!-- Menu buttons -->
 	<ScrollView
 		xmlns:android="http://schemas.android.com/apk/res/android"
