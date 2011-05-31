@@ -16,11 +16,11 @@
 		android:orientation="horizontal" 
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
-		android:background="@color/spritelist_background">
+		android:background="@color/spritelist_item_background">
 		<ImageView 
 			android:id="@+id/sprite_img" 
-			android:layout_width="40dp"
-			android:layout_height="50dp" />
+			android:layout_width="70dp"
+			android:layout_height="60dp" />
 		<LinearLayout 
 			xmlns:android="http://schemas.android.com/apk/res/android"
 			android:orientation="vertical" 
@@ -32,8 +32,8 @@
 				android:layout_height="wrap_content" 
 				android:textStyle="bold"
 				android:paddingLeft="10dp" 
-				android:textSize="16sp" 
-				android:textColor="@color/solid_white"/>
+				android:textSize="18sp" 
+				android:textColor="@color/solid_black"/>
 			<TextView 
 				android:layout_width="fill_parent" 
 				android:id="@+id/sprite_detail"

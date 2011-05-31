@@ -53,7 +53,7 @@ public class ProjectActivity extends ListActivity {
 
 	private void initListeners() {
 		spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
-		spriteAdapter = new SpriteAdapter(this, R.layout.sprite_list, R.id.sprite_title, spriteList);
+		spriteAdapter = new SpriteAdapter(this, R.layout.sprite_list_item, R.id.sprite_title, spriteList);
 
 		setListAdapter(spriteAdapter);
 		getListView().setTextFilterEnabled(true);
@@ -116,7 +116,7 @@ public class ProjectActivity extends ListActivity {
 		this.getListView().setDivider(getResources().getDrawable(R.drawable.divider));
 		this.getListView().setDividerHeight(3);
 		//setting background of the list
-		this.getListView().setBackgroundColor(getResources().getColor(R.color.solid_black));
+		this.getListView().setBackgroundColor(getResources().getColor(R.color.website_blue));
 	}
 
 	@Override
