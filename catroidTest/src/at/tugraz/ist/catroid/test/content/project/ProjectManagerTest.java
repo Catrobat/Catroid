@@ -146,7 +146,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		File newProjectFile = new File(Consts.DEFAULT_ROOT + "/" + newProjectName + "/" + newProjectName
 				+ Consts.PROJECT_EXTENTION);
 
-		String spfFileAsString = StorageHandler.getInstance().getProjectfileAsString(newProjectName);
+		String projectFileAsString = StorageHandler.getInstance().getProjectFileAsString(newProjectName);
 
 		assertFalse("Old project folder is still existing", oldProjectFolder.exists());
 		assertFalse("Old project file is still existing", oldProjectFile.exists());
@@ -155,8 +155,8 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		assertTrue("New project file is not existing", newProjectFile.exists());
 
 		//this fails because catroid is buggy, fix catroid not this test --> we haven't decided yet how to fix the FileChecksumContainer
-		Log.v(TAG, spfFileAsString);
-		assertFalse("old projectName still in spf file", spfFileAsString.contains(oldProjectName));
+		Log.v(TAG, projectFileAsString);
+		assertFalse("old projectName still in project file", projectFileAsString.contains(oldProjectName));
 
 	}
 
