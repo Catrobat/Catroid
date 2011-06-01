@@ -153,18 +153,17 @@ public class StorageHandlerTest extends AndroidTestCase {
 	}
 
 	public void testDefaultProject() throws IOException {
-		StorageHandler handler = StorageHandler.getInstance();
-		ProjectManager project = ProjectManager.getInstance();
-		project.setProject(handler.createDefaultProject(getContext()));
-		assertEquals("not the right number of sprites in the default project", 2, project.getCurrentProject()
+		ProjectManager projectManager = ProjectManager.getInstance();
+		projectManager.setProject(storageHandler.createDefaultProject(getContext()));
+		assertEquals("not the right number of sprites in the default project", 2, projectManager.getCurrentProject()
 				.getSpriteList().size());
-		assertEquals("not the right number of scripts in the second sprite of default project", 2, project
+		assertEquals("not the right number of scripts in the second sprite of default project", 2, projectManager
 				.getCurrentProject().getSpriteList().get(1).getScriptList().size());
-		assertEquals("not the right number of bricks in the first script of Stage", 1, project.getCurrentProject()
-				.getSpriteList().get(0).getScriptList().get(0).getBrickList().size());
-		assertEquals("not the right number of bricks in the first script", 1, project.getCurrentProject()
+		assertEquals("not the right number of bricks in the first script of Stage", 1, projectManager
+				.getCurrentProject().getSpriteList().get(0).getScriptList().get(0).getBrickList().size());
+		assertEquals("not the right number of bricks in the first script", 1, projectManager.getCurrentProject()
 				.getSpriteList().get(1).getScriptList().get(0).getBrickList().size());
-		assertEquals("not the right number of bricks in the second script", 5, project.getCurrentProject()
+		assertEquals("not the right number of bricks in the second script", 5, projectManager.getCurrentProject()
 				.getSpriteList().get(1).getScriptList().get(1).getBrickList().size());
 
 		//test if images are existing:
@@ -172,22 +171,24 @@ public class StorageHandlerTest extends AndroidTestCase {
 				+ Consts.IMAGE_DIRECTORY + "/" + Consts.NORMAL_CAT;
 		File testFile = new File(imagePath);
 		assertTrue("Image " + Consts.NORMAL_CAT + " does not exist", testFile.exists());
+
 		imagePath = Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name)
 				+ Consts.IMAGE_DIRECTORY + "/" + Consts.BANZAI_CAT;
 		testFile = new File(imagePath);
 		assertTrue("Image " + Consts.BANZAI_CAT + " does not exist", testFile.exists());
+
 		imagePath = Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name)
 				+ Consts.IMAGE_DIRECTORY + "/" + Consts.CHESHIRE_CAT;
 		testFile = new File(imagePath);
 		assertTrue("Image " + Consts.BACKGROUND + " does not exist", testFile.exists());
+
 		imagePath = Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name)
 				+ Consts.IMAGE_DIRECTORY + "/" + Consts.BACKGROUND;
 		testFile = new File(imagePath);
 		assertTrue("Image " + Consts.BACKGROUND + " does not exist", testFile.exists());
-
 	}
 
-	public void testAliases() throws IOException {
+	public void testAliasesAndXmlHeader() throws IOException {
 
 		String projectName = "myProject";
 
@@ -198,41 +199,43 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 		Project project = new Project(getContext(), projectName);
 		Sprite sprite = new Sprite("testSprite");
-		Script script = new StartScript("testScript", sprite);
-		Script touchedScript = new TapScript("touchedScript", sprite);
-		sprite.getScriptList().add(script);
-		sprite.getScriptList().add(touchedScript);
+		Script startScript = new StartScript("testScript", sprite);
+		Script tapScript = new TapScript("touchedScript", sprite);
+		sprite.getScriptList().add(startScript);
+		sprite.getScriptList().add(tapScript);
 		project.getSpriteList().add(sprite);
 
-		ArrayList<Brick> a1 = new ArrayList<Brick>();
-		ArrayList<Brick> a2 = new ArrayList<Brick>();
-		a1.add(new ChangeXByBrick(sprite, 4));
-		a1.add(new ChangeYByBrick(sprite, 5));
-		a1.add(new ComeToFrontBrick(sprite));
-		a1.add(new GoNStepsBackBrick(sprite, 5));
-		a1.add(new HideBrick(sprite));
-		a1.add(new IfStartedBrick(sprite, script));
+		ArrayList<Brick> startScriptBrickList = new ArrayList<Brick>();
+		ArrayList<Brick> tapScriptBrickList = new ArrayList<Brick>();
+		startScriptBrickList.add(new ChangeXByBrick(sprite, 4));
+		startScriptBrickList.add(new ChangeYByBrick(sprite, 5));
+		startScriptBrickList.add(new ComeToFrontBrick(sprite));
+		startScriptBrickList.add(new GoNStepsBackBrick(sprite, 5));
+		startScriptBrickList.add(new HideBrick(sprite));
+		startScriptBrickList.add(new IfStartedBrick(sprite, startScript));
 
-		a2.add(new IfTouchedBrick(sprite, touchedScript));
-		a2.add(new PlaceAtBrick(sprite, 50, 50));
-		a2.add(new PlaySoundBrick(sprite));
-		a2.add(new ScaleCostumeBrick(sprite, 50));
-		a2.add(new SetCostumeBrick(sprite));
-		a2.add(new SetXBrick(sprite, 50));
-		a2.add(new SetYBrick(sprite, 50));
-		a2.add(new ShowBrick(sprite));
-		a2.add(new WaitBrick(sprite, 1000));
+		tapScriptBrickList.add(new IfTouchedBrick(sprite, tapScript));
+		tapScriptBrickList.add(new PlaceAtBrick(sprite, 50, 50));
+		tapScriptBrickList.add(new PlaySoundBrick(sprite));
+		tapScriptBrickList.add(new ScaleCostumeBrick(sprite, 50));
+		tapScriptBrickList.add(new SetCostumeBrick(sprite));
+		tapScriptBrickList.add(new SetXBrick(sprite, 50));
+		tapScriptBrickList.add(new SetYBrick(sprite, 50));
+		tapScriptBrickList.add(new ShowBrick(sprite));
+		tapScriptBrickList.add(new WaitBrick(sprite, 1000));
 
-		for (Brick b : a1) {
-			script.addBrick(b);
+		for (Brick b : startScriptBrickList) {
+			startScript.addBrick(b);
 		}
-		for (Brick b : a2) {
-			touchedScript.addBrick(b);
+		for (Brick b : tapScriptBrickList) {
+			tapScript.addBrick(b);
 		}
 
-		StorageHandler.getInstance().saveProject(project);
-		String projectString = StorageHandler.getInstance().getProjectFileAsString(projectName);
+		storageHandler.saveProject(project);
+		String projectString = storageHandler.getProjectFileAsString(projectName);
 		assertFalse("project contains package information", projectString.contains("at.tugraz.ist"));
+
+		assertTrue("Project file did not contain correct XML header.", projectString.startsWith("foobar"));
 
 		proj = new File(Consts.DEFAULT_ROOT + "/" + projectName);
 		if (proj.exists()) {

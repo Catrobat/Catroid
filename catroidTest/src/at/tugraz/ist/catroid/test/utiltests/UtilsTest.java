@@ -28,6 +28,7 @@ import java.io.PrintWriter;
 
 import junit.framework.TestCase;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -167,5 +168,10 @@ public class UtilsTest extends TestCase {
 		assertEquals("MD5 sums do not match!", MD5_CATROID, Utils.md5Checksum("catroid"));
 		assertEquals("MD5 sums do not match!", MD5_EMPTY, Utils.md5Checksum(""));
 		assertEquals("MD5 sums do not match!", MD5_HELLO_WORLD, Utils.md5Checksum("Hello World!"));
+	}
+
+	public void testGetPrivateField() {
+		String secret = (String) TestUtils.getPrivateField("SECRET", TestUtils.class);
+		assertEquals("Getting private String failed!", "This is a secret string!", secret);
 	}
 }
