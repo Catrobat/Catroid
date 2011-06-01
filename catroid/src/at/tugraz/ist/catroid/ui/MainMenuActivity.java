@@ -33,7 +33,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.io.StorageHandler;
-import at.tugraz.ist.catroid.stage.StageActivity;
+import at.tugraz.ist.catroid.stage.first;
 import at.tugraz.ist.catroid.ui.dialogs.AboutDialog;
 import at.tugraz.ist.catroid.ui.dialogs.LoadProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
@@ -61,7 +61,7 @@ public class MainMenuActivity extends Activity {
 		toStageButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				if (projectManager.getCurrentProject() != null) {
-					Intent intent = new Intent(MainMenuActivity.this, StageActivity.class);
+					Intent intent = new Intent(MainMenuActivity.this, first.class);
 					startActivity(intent);
 				}
 			}
@@ -140,7 +140,7 @@ public class MainMenuActivity extends Activity {
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialog;
 		if (projectManager.getCurrentProject() != null
-					&& StorageHandler.getInstance().projectExists(projectManager.getCurrentProject().getName())) {
+				&& StorageHandler.getInstance().projectExists(projectManager.getCurrentProject().getName())) {
 			projectManager.saveProject(this);
 		}
 

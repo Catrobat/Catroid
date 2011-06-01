@@ -32,6 +32,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.MediaStore.MediaColumns;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
@@ -205,10 +206,10 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	}
 
 	private String getPathFromContentUri(Uri uri) {
-		String[] projection = { MediaStore.Images.Media.DATA };
+		String[] projection = { MediaColumns.DATA };
 		Cursor cursor = managedQuery(uri, projection, null, null, null);
 		if (cursor != null) {
-			int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+			int columnIndex = cursor.getColumnIndexOrThrow(MediaColumns.DATA);
 			cursor.moveToFirst();
 			return cursor.getString(columnIndex);
 		} else {

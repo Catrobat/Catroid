@@ -370,7 +370,7 @@ public class DragNDropListView extends ExpandableListView {
 		windowParams.x = 0;
 		windowParams.y = y - dragPoint + coordOffset;
 
-		windowParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+		windowParams.height = android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 		windowParams.width = screenWidth - trashWidth + 2;//WindowManager.LayoutParams.WRAP_CONTENT;
 		windowParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
 				| WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
