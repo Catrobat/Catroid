@@ -1,0 +1,112 @@
+<project>
+  <deviceName>Orange San Francisco</deviceName>
+  <name>Test project</name>
+  <screenResolution>480/800</screenResolution>
+  <spriteList>
+    <sprite>
+      <name>Stage</name>
+      <scriptList>
+        <startScript>
+          <brickList>
+            <setCostumeBrick>
+              <imageName>image1</imageName>
+              <sprite reference="../../../../.."/>
+            </setCostumeBrick>
+          </brickList>
+          <sprite reference="../../.."/>
+          <name>stageStartScript</name>
+        </startScript>
+      </scriptList>
+    </sprite>
+    <sprite>
+      <name>Catroid</name>
+      <scriptList>
+        <startScript>
+          <brickList>
+            <setCostumeBrick>
+              <imageName>image2</imageName>
+              <sprite reference="../../../../.."/>
+            </setCostumeBrick>
+          </brickList>
+          <sprite reference="../../.."/>
+          <name>startScript</name>
+        </startScript>
+        <tapScript>
+          <brickList>
+            <setCostumeBrick>
+              <imageName>image3</imageName>
+              <sprite reference="../../../../.."/>
+            </setCostumeBrick>
+            <waitBrick>
+              <sprite reference="../../../../.."/>
+              <timeToWaitInMilliSeconds>500</timeToWaitInMilliSeconds>
+            </waitBrick>
+            <setCostumeBrick>
+              <imageName>image4</imageName>
+              <sprite reference="../../../../.."/>
+            </setCostumeBrick>
+            <waitBrick>
+              <sprite reference="../../../../.."/>
+              <timeToWaitInMilliSeconds>500</timeToWaitInMilliSeconds>
+            </waitBrick>
+            <setCostumeBrick>
+              <imageName>image2</imageName>
+              <sprite reference="../../../../.."/>
+            </setCostumeBrick>
+            <playSoundBrick>
+              <soundfileName>sound1</soundfileName>
+              <sprite reference="../../../../.."/>
+              <title>Beatbox</title>
+            </playSoundBrick>
+          </brickList>
+          <sprite reference="../../.."/>
+          <name>touchScript</name>
+        </tapScript>
+      </scriptList>
+    </sprite>
+    <sprite>
+      <name>ball</name>
+      <scriptList>
+        <tapScript>
+          <brickList>
+            <setCostumeBrick>
+              <imageName>image5</imageName>
+              <sprite reference="../../../../.."/>
+            </setCostumeBrick>
+            <scaleCostumeBrick>
+              <sprite reference="../../../../.."/>
+              <scale>150.0</scale>
+            </scaleCostumeBrick>
+            <waitBrick>
+              <sprite reference="../../../../.."/>
+              <timeToWaitInMilliSeconds>1000</timeToWaitInMilliSeconds>
+            </waitBrick>
+            <setCostumeBrick>
+              <imageName>image6</imageName>
+              <sprite reference="../../../../.."/>
+            </setCostumeBrick>
+          </brickList>
+          <sprite reference="../../.."/>
+          <name>script</name>
+        </tapScript>
+        <startScript>
+          <brickList>
+            <setCostumeBrick>
+              <imageName>image6</imageName>
+              <sprite reference="../../../../.."/>
+            </setCostumeBrick>
+            <placeAtBrick>
+              <sprite reference="../../../../.."/>
+              <xPosition>0</xPosition>
+              <yPosition>600</yPosition>
+            </placeAtBrick>
+          </brickList>
+          <sprite reference="../../.."/>
+          <name>script</name>
+        </startScript>
+      </scriptList>
+    </sprite>
+  </spriteList>
+  <versionName>0.5.0a</versionName>
+  <versionCode>5</versionCode>
+</project>
