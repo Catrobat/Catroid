@@ -44,7 +44,7 @@ public class UpAndDownloadTest extends AndroidTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 
-		projectZipOnMockServer = new File(Consts.TMP_PATH + "/projectSave.zip");
+		projectZipOnMockServer = new File(Consts.TMP_PATH + "/projectSave" + Consts.CATROID_EXTENTION);
 		mockConnection = new MockConnection();
 	}
 
@@ -54,15 +54,12 @@ public class UpAndDownloadTest extends AndroidTestCase {
 		super.tearDown();
 	}
 
-	public void testInit() throws Throwable {
-	}
-
 	public void testUpAndDownload() throws Throwable {
 		String testProjectName = "UpAndDownloadTest" + System.currentTimeMillis();
 		String pathToDefaultProject = Consts.DEFAULT_ROOT + "/uploadtestProject";
 		new File(pathToDefaultProject).mkdirs();
-		String spfFilename = "test" + Consts.PROJECT_EXTENTION;
-		new File(pathToDefaultProject + "/" + spfFilename).createNewFile();
+		String projectFilename = "test" + Consts.PROJECT_EXTENTION;
+		new File(pathToDefaultProject + "/" + projectFilename).createNewFile();
 		String projectDescription = "this is just a testproject";
 
 		ProjectUploadTask uploadTask = new ProjectUploadTask(null, testProjectName, projectDescription,
@@ -73,8 +70,8 @@ public class UpAndDownloadTest extends AndroidTestCase {
 			}
 		};
 
-		ProjectDownloadTask downloadTask = new ProjectDownloadTask(null, "", testProjectName, Consts.TMP_PATH
-				+ "/down.zip") {
+		ProjectDownloadTask downloadTask = new ProjectDownloadTask(null, "", testProjectName, Consts.TMP_PATH + "/down"
+				+ Consts.CATROID_EXTENTION) {
 			@Override
 			protected ConnectionWrapper createConnection() {
 				return mockConnection;
@@ -85,15 +82,15 @@ public class UpAndDownloadTest extends AndroidTestCase {
 		uploadTask.execute();
 		Thread.sleep(3000);
 
-		assertTrue("uploaded file does not exist", projectZipOnMockServer.exists());
+		assertTrue("Uploaded file does not exist", projectZipOnMockServer.exists());
 
 		downloadTask.execute();
 		Thread.sleep(3000);
 
 		File downloadProjectRoot = new File(Consts.DEFAULT_ROOT + "/" + testProjectName);
-		assertTrue("project does not exist after download", downloadProjectRoot.exists());
-		File testSPFFile = new File(Consts.DEFAULT_ROOT + "/" + testProjectName + "/" + spfFilename);
-		assertTrue("spf file does not exist after download", testSPFFile.exists());
+		assertTrue("Project does not exist after download", downloadProjectRoot.exists());
+		File testProjectFile = new File(Consts.DEFAULT_ROOT + "/" + testProjectName + "/" + projectFilename);
+		assertTrue("Project file does not exist after download", testProjectFile.exists());
 
 		UtilFile.deleteDirectory(downloadProjectRoot);
 		UtilFile.deleteDirectory(new File(pathToDefaultProject));

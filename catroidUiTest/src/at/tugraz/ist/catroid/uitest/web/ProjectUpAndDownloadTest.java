@@ -198,9 +198,9 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		String projectPath = Consts.DEFAULT_ROOT + "/" + newTestProject;
 		File downloadedDirectory = new File(projectPath);
-		File downloadedSPFFile = new File(projectPath + "/" + newTestProject + Consts.PROJECT_EXTENTION);
+		File downloadedProjectFile = new File(projectPath + "/" + newTestProject + Consts.PROJECT_EXTENTION);
 		assertTrue("Downloaded Directory does not exist.", downloadedDirectory.exists());
-		assertTrue("Project File does not exist.", downloadedSPFFile.exists());
+		assertTrue("Project File does not exist.", downloadedProjectFile.exists());
 
 	}
 }
