@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+	<TextView  
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content" 
+	    android:text="legoroid"
+	    android:textAppearance="?android:attr/textAppearanceMedium"
+    	android:layout_marginTop="10dip"
+    	android:layout_marginBottom="10dip"
+    	/>
+	<TextView  
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content" 
+	    android:id="@+id/messageText"
+	    android:textAppearance="?android:attr/textAppearanceMedium"
+    	android:layout_marginTop="10dip"
+    	android:layout_marginBottom="10dip"
+    	/>	
+</LinearLayout>
