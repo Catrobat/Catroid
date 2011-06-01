@@ -25,7 +25,7 @@ import at.tugraz.ist.catroid.stage.NativeAppActivity;
 
 public class SoundManagerTest extends InstrumentationTestCase {
 
-	public void testPlaySoundfile() throws Exception {
+	public void testPlaySoundfile() throws InterruptedException {
 		String soundfileName = "test_sound";
 		NativeAppActivity.setContext(getInstrumentation().getContext());
 		MediaPlayer mediaPlayer = SoundManager.getInstance().playSoundFile(soundfileName);
@@ -37,14 +37,10 @@ public class SoundManagerTest extends InstrumentationTestCase {
 		SoundManager.getInstance().resume();
 		assertTrue("MediaPlayer is not playing after resume", mediaPlayer.isPlaying());
 
-		long duration = mediaPlayer.getDuration() + 300;
+		long leeway = 300; // required value depends on phone performance, 300ms should be on the safe side
+		long duration = mediaPlayer.getDuration() + leeway;
 
-		try {
-			Thread.sleep(duration);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-			fail();
-		}
+		Thread.sleep(duration);
 
 		assertFalse("MediaPlayer is not done playing after pause and resume", mediaPlayer.isPlaying());
 	}

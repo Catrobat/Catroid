@@ -28,23 +28,45 @@ import at.tugraz.ist.catroid.nativetest.R;
 
 public class CostumeTest extends InstrumentationTestCase {
 	private final int TEST_IMAGE_ID = R.drawable.icon;
-	
+	private final int TEST_BIG_IMAGE_ID = R.raw.big_image;
+
 	public void testSetBitmapFromRes() throws Exception {
 		Sprite sprite = new Sprite("testSprite");
 		Costume costume = new Costume(sprite, null);
-		
+
 		Values.SCREEN_WIDTH = 200;
 		Values.SCREEN_HEIGHT = 200;
-		
+
 		assertNull("Bitmap of the costume is not null.", costume.getBitmap());
-		
-		costume.setBitmapFromRes(getInstrumentation().getContext(), TEST_IMAGE_ID);
-		
+
+		testImage(costume, TEST_IMAGE_ID);
+		testImage(costume, TEST_BIG_IMAGE_ID);
+	}
+
+	private void testImage(Costume costume, int resId) {
+		costume.setBitmapFromRes(getInstrumentation().getContext(), resId);
+
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = true;
-		BitmapFactory.decodeResource(getInstrumentation().getContext().getResources(), TEST_IMAGE_ID, options);
-		
-		assertEquals("Wrong height.", costume.getBitmap().getHeight(), options.outHeight);
-		assertEquals("Wrong width.", costume.getBitmap().getWidth(), options.outWidth);
+		BitmapFactory.decodeResource(getInstrumentation().getContext().getResources(), resId, options);
+
+		int initialWidth = options.outWidth;
+		int initialHeight = options.outHeight;
+		int scaledWidth = initialWidth;
+		int scaledHeight = initialHeight;
+
+		double sampleSizeWidth = initialWidth / (double) Values.SCREEN_WIDTH;
+		double sampleSizeHeight = initialHeight / (double) Values.SCREEN_HEIGHT;
+		double sampleSize = Math.max(sampleSizeWidth, sampleSizeHeight);
+
+		if (sampleSize > 1) {
+			int sampleSizeRounded = (int) Math.floor(sampleSize);
+
+			scaledHeight = (int) Math.ceil(initialWidth / sampleSizeRounded);
+			scaledWidth = (int) Math.ceil(initialHeight / sampleSizeRounded);
+		}
+
+		assertEquals("Wrong height.", scaledHeight, costume.getBitmap().getHeight());
+		assertEquals("Wrong width.", scaledWidth, costume.getBitmap().getWidth());
 	}
 }
