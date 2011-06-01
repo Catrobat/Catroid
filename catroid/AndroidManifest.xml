@@ -41,17 +41,10 @@
 		android:icon="@drawable/ic_launcher_catroid_plain"
 		android:label="@string/app_name"
 		android:debuggable="true"
-<<<<<<< local
 		android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen"
 	>
-		<activity
-			android:name=".stage.NativeAppActivity"
-		>
-=======
-		android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen">
 		
-		<activity android:name=".ui.MainMenuActivity">
->>>>>>> other
+		<activity android:name=".stage.NativeAppActivity">
 			<intent-filter>
 				<action	android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
