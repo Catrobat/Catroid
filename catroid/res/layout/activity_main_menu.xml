@@ -149,7 +149,7 @@
 					android:layout_width="match_parent"
 					android:layout_weight=".5"
 					android:background="@null"
-					android:drawableTop="@drawable/projects_selector"
+					android:drawableTop="@drawable/about_selector"
 					android:paddingTop="25dip"
 				></Button>
 			</LinearLayout>
