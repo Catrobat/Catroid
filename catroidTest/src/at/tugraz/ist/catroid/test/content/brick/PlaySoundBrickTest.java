@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -18,43 +18,41 @@
  */
 package at.tugraz.ist.catroid.test.content.brick;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
+import java.io.IOException;
 
 import android.media.MediaPlayer;
 import android.test.InstrumentationTestCase;
-import at.tugraz.ist.catroid.content.brick.PlaySoundBrick;
-import at.tugraz.ist.catroid.io.sound.SoundManager;
+import at.tugraz.ist.catroid.ProjectManager;
+import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.content.Project;
+import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
+import at.tugraz.ist.catroid.io.SoundManager;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.R;
+import at.tugraz.ist.catroid.test.utils.TestUtils;
+import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class PlaySoundBrickTest extends InstrumentationTestCase {
 	private static final int SOUND_FILE_ID = R.raw.testsound;
 	private File soundFile;
-	private final int timeoutMarginInMilliseconds = 100; // acceptable time margin for PlaySoundBrick to finish playing sound
+	private final int timeoutMarginInMilliseconds = 200; // acceptable time margin for PlaySoundBrick to finish playing sound
+	private String projectName = "projectiName";
 
 	@Override
 	protected void setUp() throws Exception {
-		// Note: File needs to be copied as MediaPlayer has no access to resources
-		BufferedInputStream inputStream = new BufferedInputStream(getInstrumentation().getContext().getResources().openRawResource(SOUND_FILE_ID));
-		soundFile = File.createTempFile("audioTest", ".mp3");
-		BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(soundFile), 1024);
-
-		byte[] buffer = new byte[1024];
-		int length = 0;
-		while ((length = inputStream.read(buffer)) > 0) {
-			outputStream.write(buffer, 0, length);
-		}
-		inputStream.close();
-		outputStream.flush();
-		outputStream.close();
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+		UtilFile.deleteDirectory(directory);
+		this.createTestProject();
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		if (soundFile != null && soundFile.exists())
+		if (soundFile != null && soundFile.exists()) {
 			soundFile.delete();
+		}
+		TestUtils.clearProject(projectName);
 		SoundManager.getInstance().clear();
 	}
 
@@ -65,7 +63,8 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 
 		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
 
-		PlaySoundBrick testBrick = new PlaySoundBrick(soundFilePath);
+		PlaySoundBrick testBrick = new PlaySoundBrick(new Sprite("1"));
+		testBrick.setPathToSoundfile(soundFile.getName());
 		testBrick.execute();
 		assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
 
@@ -81,7 +80,8 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 
 	public void testIllegalArgument() {
 		final String illegalPath = "file/that/does/not/exist";
-		PlaySoundBrick testBrick = new PlaySoundBrick(illegalPath);
+		PlaySoundBrick testBrick = new PlaySoundBrick(new Sprite("2"));
+		testBrick.setPathToSoundfile(illegalPath);
 		try {
 			testBrick.execute();
 			fail("Execution of PlaySoundBrick with illegal file path did not cause an IllegalArgumentException to be thrown");
@@ -95,15 +95,42 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 		assertNotNull("Could not open test sound file", soundFilePath);
 		assertTrue("Could not open test sound file", soundFilePath.length() > 0);
 
-		final int playerCount = SoundManager.MAX_MEDIA_PLAYERS;
-		for (int i = 0; i < playerCount; i++) {
+		for (int i = 0; i < SoundManager.MAX_MEDIA_PLAYERS; i++) {
 			MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
-			PlaySoundBrick testBrick = new PlaySoundBrick(soundFilePath);
+			PlaySoundBrick testBrick = new PlaySoundBrick(new Sprite("3"));
+			testBrick.setPathToSoundfile(soundFile.getName());
 			testBrick.execute();
 			assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
 		}
 	}
-	
+
+	public void testPlaySimultaneousSounds() throws InterruptedException {
+		Thread soundThread01 = new Thread(new Runnable() {
+			//final String soundFilePath = soundFile.getAbsolutePath();
+			PlaySoundBrick testBrick1 = new PlaySoundBrick(new Sprite("4"));
+
+			public void run() {
+				testBrick1.setPathToSoundfile(soundFile.getName());
+				testBrick1.execute();
+			}
+		});
+
+		Thread soundThread02 = new Thread(new Runnable() {
+			//final String soundFilePath = soundFile.getAbsolutePath();
+			PlaySoundBrick testBrick2 = new PlaySoundBrick(new Sprite("5"));
+
+			public void run() {
+				testBrick2.setPathToSoundfile(soundFile.getName());
+				testBrick2.execute();
+			}
+		});
+
+		soundThread01.start();
+		soundThread02.start();
+		Thread.sleep(1000);
+		//Test fails if MediaPlayer throws IllegalArgumentException
+	}
+
 	public void testPauseAndResume() {
 		final String soundFilePath = soundFile.getAbsolutePath();
 		assertNotNull("Could not open test sound file", soundFilePath);
@@ -111,16 +138,17 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 
 		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
 
-		PlaySoundBrick testBrick = new PlaySoundBrick(soundFilePath);
+		PlaySoundBrick testBrick = new PlaySoundBrick(new Sprite("4"));
+		testBrick.setPathToSoundfile(soundFile.getName());
 		testBrick.execute();
 		assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
 
 		mediaPlayer.pause();
 		assertFalse("MediaPlayer is still playing after pause", mediaPlayer.isPlaying());
-		
+
 		mediaPlayer.start();
 		assertTrue("MediaPlayer is not playing after resume", mediaPlayer.isPlaying());
-		
+
 		final int duration = mediaPlayer.getDuration() + timeoutMarginInMilliseconds;
 		try {
 			Thread.sleep(duration);
@@ -129,5 +157,20 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 			fail();
 		}
 		assertFalse("MediaPlayer is not done playing after pause and resume", mediaPlayer.isPlaying());
+	}
+
+	private void createTestProject() throws IOException {
+		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
+		StorageHandler.getInstance().saveProject(project);
+		ProjectManager.getInstance().setProject(project);
+
+		setUpSoundFile();
+	}
+
+	private void setUpSoundFile() throws IOException {
+
+		soundFile = TestUtils.saveFileToProject(projectName, "soundTest.mp3", SOUND_FILE_ID, getInstrumentation()
+				.getContext(), TestUtils.TYPE_SOUND_FILE);
+
 	}
 }

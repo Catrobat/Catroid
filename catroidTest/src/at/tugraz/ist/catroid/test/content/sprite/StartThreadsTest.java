@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -19,123 +19,81 @@
 package at.tugraz.ist.catroid.test.content.sprite;
 
 import android.test.AndroidTestCase;
-import at.tugraz.ist.catroid.content.brick.HideBrick;
-import at.tugraz.ist.catroid.content.brick.IfTouchedBrick;
-import at.tugraz.ist.catroid.content.brick.ScaleCostumeBrick;
-import at.tugraz.ist.catroid.content.brick.ShowBrick;
-import at.tugraz.ist.catroid.content.brick.WaitBrick;
-import at.tugraz.ist.catroid.content.script.Script;
-import at.tugraz.ist.catroid.content.sprite.Sprite;
+import at.tugraz.ist.catroid.content.Script;
+import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
+import at.tugraz.ist.catroid.content.bricks.HideBrick;
+import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
+import at.tugraz.ist.catroid.content.bricks.ShowBrick;
+import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 
 public class StartThreadsTest extends AndroidTestCase {
-    
-    public void testStartThreads() {
-        double scale = 300;
-        Sprite testSprite = new Sprite("testSprite");
-        Script testScript = new Script();
-        HideBrick hideBrick = new HideBrick(testSprite);
-        ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(testSprite, scale);
-        
-        testScript.addBrick(hideBrick);
-        testScript.addBrick(scaleCostumeBrick);
-        testSprite.getScriptList().add(testScript);
-        
-        testSprite.startScripts();
-        try {
-            Thread.sleep(200);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        assertFalse("Sprite is not hidden", testSprite.isVisible());
-        assertEquals("the scale is not as expected",scale, testSprite.getScale());
-    }
-    
-    public void testResumeThreads(){
-        Sprite testSprite = new Sprite("testSprite");
-        Script testScript = new Script();
-        HideBrick hideBrick = new HideBrick(testSprite);
-        WaitBrick waitBrick = new WaitBrick(400);
-        ShowBrick showBrick = new ShowBrick(testSprite);
-        
-        testScript.addBrick(hideBrick);
-        testScript.addBrick(waitBrick);
-        testScript.addBrick(showBrick);
-        testSprite.getScriptList().add(testScript);
-        
-        testSprite.startScripts();
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        testSprite.pause();
-        assertFalse("Sprite is not hidden", testSprite.isVisible());
-        testSprite.resume();
-        try {
-            Thread.sleep(400);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        assertTrue("Sprite is hidden", testSprite.isVisible());
-        
-        testScript.getBrickList().clear();
-        testScript.addBrick(hideBrick);
-        testSprite.startScripts();
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        assertTrue("Sprite is hidden - should not be because this script shouldnt be executed", testSprite.isVisible());
-    }
-    
-    public void testStartTouchScripts() {
-        Sprite testSprite = new Sprite("testSprite");
-        Script testScript = new Script();
-        Script touchScript = new Script();
-        HideBrick hideBrick = new HideBrick(testSprite);
-        
-        IfTouchedBrick touchedBrick = new IfTouchedBrick(testSprite, touchScript);
-        ShowBrick showBrick = new ShowBrick(testSprite);
-        
-        testScript.addBrick(hideBrick);
-        touchScript.addBrick(touchedBrick);
-        touchScript.addBrick(showBrick);
-        
-        testSprite.getScriptList().add(testScript);
-        testSprite.getScriptList().add(touchScript);
-        
-        testSprite.startScripts();
-        
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        
-        assertFalse("Sprite is visible", testSprite.isVisible());
-        
-        testSprite.processOnTouch(0, 0);
-        
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        
-        assertTrue("Sprite is not visible", testSprite.isVisible());
-        
-        touchScript.getBrickList().clear();
-        touchScript.addBrick(hideBrick);
-        
-        testSprite.processOnTouch(0, 0);
-        
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        
-        assertFalse("Sprite is visible", testSprite.isVisible());
-    }
+
+	public void testStartThreads() {
+		double scale = 300;
+		Sprite testSprite = new Sprite("testSprite");
+		Script testScript = new StartScript("testScript", testSprite);
+		HideBrick hideBrick = new HideBrick(testSprite);
+		ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(testSprite, scale);
+
+		testScript.addBrick(hideBrick);
+		testScript.addBrick(scaleCostumeBrick);
+		testSprite.getScriptList().add(testScript);
+
+		testSprite.startStartScripts();
+
+		try {
+			Thread.sleep(200);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		assertFalse("Sprite is not hidden", testSprite.isVisible());
+		assertEquals("the scale is not as expected", scale, testSprite.getScale());
+	}
+
+	public void testResumeThreads() {
+		Sprite testSprite = new Sprite("testSprite");
+		Script testScript = new StartScript("testScript", testSprite);
+		HideBrick hideBrick = new HideBrick(testSprite);
+		WaitBrick waitBrick = new WaitBrick(testSprite, 400);
+		ShowBrick showBrick = new ShowBrick(testSprite);
+
+		testScript.addBrick(hideBrick);
+		testScript.addBrick(waitBrick);
+		testScript.addBrick(showBrick);
+		testSprite.getScriptList().add(testScript);
+
+		testSprite.startStartScripts();
+
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		testSprite.pause();
+		assertFalse("Sprite is not hidden", testSprite.isVisible());
+		testSprite.resume();
+
+		try {
+			Thread.sleep(400);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		assertTrue("Sprite is hidden", testSprite.isVisible());
+
+		testScript.getBrickList().clear();
+		testScript.addBrick(hideBrick);
+		testSprite.startStartScripts();
+
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		assertTrue("Sprite is hidden - this script shall not be execute", testSprite.isVisible());
+	}
 }

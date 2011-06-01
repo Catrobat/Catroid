@@ -1,13 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- The warning concerning the minSdkVersion can be ignored, as this is our intended behavior -->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      android:versionCode="1" android:versionName="0.3b" package="at.tugraz.ist.catroid.test">
-    <application android:icon="@drawable/icon" android:label="@string/app_name" android:debuggable="true">
-	
-	
-    <uses-library android:name="android.test.runner" />
-    </application>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="8"/>
-    <instrumentation android:targetPackage="at.tugraz.ist.catroid" android:name="android.test.InstrumentationTestRunner" />
+
+<!-- 
+ *  Catroid: An on-device graphical programming language for Android devices
+ *  Copyright (C) 2010  Catroid development team 
+ *  (<http://code.google.com/p/catroid/wiki/Credits>)
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+
+<manifest
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:versionCode="5"
+	android:versionName="0.5.0a"
+	package="at.tugraz.ist.catroid.test"
+>
+	<application
+		android:icon="@drawable/icon"
+		android:label="@string/app_name"
+		android:debuggable="true"
+	>
+
+
+		<uses-library
+			android:name="android.test.runner" />
+	</application>
+	<uses-permission
+		android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-sdk
+		android:minSdkVersion="7"
+		android:targetSdkVersion="8" />
+	<instrumentation
+		android:targetPackage="at.tugraz.ist.catroid"
+		android:name="android.test.InstrumentationTestRunner" />
 </manifest> 

@@ -1,67 +1,106 @@
+/**
+ *  Catroid: An on-device graphical programming language for Android devices
+ *  Copyright (C) 2010  Catroid development team 
+ *  (<http://code.google.com/p/catroid/wiki/Credits>)
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package at.tugraz.ist.catroid.test.content.brick;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
+import android.graphics.BitmapFactory;
 import android.test.InstrumentationTestCase;
-import at.tugraz.ist.catroid.content.brick.SetCostumeBrick;
-import at.tugraz.ist.catroid.content.sprite.Sprite;
-import at.tugraz.ist.catroid.stage.StageActivity;
+import at.tugraz.ist.catroid.ProjectManager;
+import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Values;
+import at.tugraz.ist.catroid.content.Project;
+import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.R;
+import at.tugraz.ist.catroid.test.utils.TestUtils;
+import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class SetCostumeBrickTest extends InstrumentationTestCase {
-    
-    private static final int IMAGE_FILE_ID = R.raw.icon;
-    
-    private File testImage;
-    final int width = 72;
-    final int height = 72;
 
-    @Override
-    protected void setUp() throws Exception {
-        final int fileSize = 4147;
-        testImage = new File("/mnt/sdcard/catroid/testImage.png");
-        if(!testImage.exists())
-            testImage.createNewFile();
-        InputStream in   = getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID);
-        OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), fileSize);
-        byte[] buffer = new byte[fileSize];
-        int length = 0;
-        while ((length = in.read(buffer)) > 0) {
-            out.write(buffer, 0, length);
-        }
-        
-        in.close();
-        out.flush();
-        out.close();
-    }
-    
-    @Override
-    protected void tearDown() throws Exception {
-        if(testImage != null && testImage.exists()){
-            testImage.delete();
-        }
-    }
-    
-    public void testSetCostume() throws IOException {
-        
-        StageActivity.SCREEN_HEIGHT = 200;
-        StageActivity.SCREEN_WIDTH  = 200;
-        
-        Sprite sprite = new Sprite("new sprite");
-        SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
-        setCostumeBrick.setCostume(testImage.getAbsolutePath());
-        assertNull("current Costume is not null (should not be set)", sprite.getCurrentCostume());
-        
-        assertEquals("the new Costume is not in the costumeList of the sprite", width,  sprite.getCostumeList().get(0).getBitmap().getWidth());
-        assertEquals("the new Costume is not in the costumeList of the sprite", height, sprite.getCostumeList().get(0).getBitmap().getHeight());
-        setCostumeBrick.execute(); //now setting current costume
-        assertEquals("Width of loaded bitmap is not the same as width of original image",   width,  sprite.getCurrentCostume().getBitmap().getWidth());
-        assertEquals("Height of loaded bitmap is not the same as height of original image", height, sprite.getCurrentCostume().getBitmap().getHeight());
-    }
+	private static final int IMAGE_FILE_ID = R.raw.icon;
+	private File testImage;
+	int width;
+	int height;
+	private String projectName = "testProject";
+	private Project project;
+
+	@Override
+	protected void setUp() throws Exception {
+
+		File defProject = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+
+		if (defProject.exists()) {
+			UtilFile.deleteDirectory(defProject);
+		}
+
+		project = new Project(getInstrumentation().getTargetContext(), projectName);
+		StorageHandler.getInstance().saveProject(project);
+		ProjectManager.getInstance().setProject(project);
+
+		testImage = TestUtils.saveFileToProject(this.projectName, "testImage.png", IMAGE_FILE_ID, getInstrumentation()
+				.getContext(), TestUtils.TYPE_IMAGE_FILE);
+
+		BitmapFactory.Options o = new BitmapFactory.Options();
+		o.inJustDecodeBounds = true;
+		BitmapFactory.decodeFile(this.testImage.getAbsolutePath(), o);
+
+		this.width = o.outWidth;
+		this.height = o.outHeight;
+	}
+
+	@Override
+	protected void tearDown() throws Exception {
+		File defProject = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+
+		if (defProject.exists()) {
+			UtilFile.deleteDirectory(defProject);
+		}
+		if (testImage != null && testImage.exists()) {
+			testImage.delete();
+		}
+	}
+
+	public void testSetCostume() throws IOException {
+
+		Values.SCREEN_HEIGHT = 200;
+		Values.SCREEN_WIDTH = 200;
+
+		Sprite sprite = new Sprite("new sprite");
+		project.addSprite(sprite);
+		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
+		setCostumeBrick.setCostume(testImage.getName());
+		setCostumeBrick.execute();
+		assertNotNull("current Costume is null", sprite.getCostume());
+
+		assertEquals("the new Costume is not in the costumeList of the sprite", width, sprite.getCostume().getBitmap()
+				.getWidth());
+		assertEquals("the new Costume is not in the costumeList of the sprite", height, sprite.getCostume().getBitmap()
+				.getHeight());
+		setCostumeBrick.execute(); //now setting current costume
+		assertEquals("Width of loaded bitmap is not the same as width of original image", width, sprite.getCostume()
+				.getBitmap().getWidth());
+		assertEquals("Height of loaded bitmap is not the same as height of original image", height, sprite.getCostume()
+				.getBitmap().getHeight());
+	}
 
 }
