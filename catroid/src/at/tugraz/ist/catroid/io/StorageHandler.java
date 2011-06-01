@@ -73,14 +73,11 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 import com.thoughtworks.xstream.XStream;
 
-/**
- * @author Peter Treitler
- * 
- */
 public class StorageHandler {
 
 	private static StorageHandler instance;
 	private static final String TAG = "StorageHandler";
+	private static final String XML_HEADER = "<? xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
 	private ArrayList<SoundInfo> soundContent;
 	private XStream xstream;
 
@@ -189,7 +186,7 @@ public class StorageHandler {
 			BufferedWriter out = new BufferedWriter(new FileWriter(projectDirectoryName + "/" + project.getName()
 					+ Consts.PROJECT_EXTENTION), Consts.BUFFER_8K);
 
-			out.write(projectFile);
+			out.write(XML_HEADER.concat(projectFile));
 			out.flush();
 			out.close();
 

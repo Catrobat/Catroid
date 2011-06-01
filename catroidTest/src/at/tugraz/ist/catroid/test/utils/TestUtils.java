@@ -31,6 +31,8 @@ import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class TestUtils {
 
+	@SuppressWarnings("unused")
+	private static final String SECRET = "This is a secret string!";
 	public static final int TYPE_IMAGE_FILE = 0;
 	public static final int TYPE_SOUND_FILE = 1;
 
@@ -104,5 +106,9 @@ public class TestUtils {
 		out.close();
 
 		return testImage;
+	}
+
+	public static Object getPrivateField(String fieldName, Object sourceClass) {
+		return null;
 	}
 }
