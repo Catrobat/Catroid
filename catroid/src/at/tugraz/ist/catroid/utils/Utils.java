@@ -1,11 +1,34 @@
+/**
+ *  Catroid: An on-device graphical programming language for Android devices
+ *  Copyright (C) 2010  Catroid development team 
+ *  (<http://code.google.com/p/catroid/wiki/Credits>)
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package at.tugraz.ist.catroid.utils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
@@ -16,35 +39,36 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.util.Log;
-import at.tugraz.ist.catroid.ConstructionSiteActivity;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.io.StorageHandler;
-import at.tugraz.ist.catroid.utils.filesystem.FileCopyThread;
+import at.tugraz.ist.catroid.common.Consts;
 
 public class Utils {
+
+	private static final String TAG = "Utils";
+
 	private static boolean hasSdCard() {
 		return android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
 	}
 
-    /**
-     * Checks whether the current device has an SD card. If it has none an error
-     * message is displayed and the calling activity is finished. A
-     * RuntimeException is thrown after the call to Activity.finish; find out
-     * why!
-     * 
-     * @param parentActivity
-     *            the activity that calls this method
-     */
-	public static boolean checkForSdCard(final Activity parentActivity) {
+	/**
+	 * Checks whether the current device has an SD card. If it has none an error
+	 * message is displayed and the calling activity is finished. A
+	 * RuntimeException is thrown after the call to Activity.finish; find out
+	 * why!
+	 * 
+	 * @param context
+	 */
+	public static boolean checkForSdCard(final Context context) {
 		if (!hasSdCard()) {
-			Builder builder = new AlertDialog.Builder(parentActivity);
+			Builder builder = new AlertDialog.Builder(context);
 
-			builder.setTitle(parentActivity.getString(R.string.error));
-			builder.setMessage(parentActivity.getString(R.string.error_no_sd_card));
-			builder.setNeutralButton(parentActivity.getString(R.string.close), new OnClickListener() {
+			builder.setTitle(context.getString(R.string.error));
+			builder.setMessage(context.getString(R.string.error_no_sd_card));
+			builder.setNeutralButton(context.getString(R.string.close), new OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					// finish parent activity
-					parentActivity.finish();
+					// parentActivity.finish();
+					System.exit(0);
 				}
 			});
 			builder.show();
@@ -73,8 +97,8 @@ public class Utils {
 		File fileTo = new File(to);
 
 		if (fileTo.exists()) {
-            deleteFile(fileTo.getAbsolutePath());
-        }
+			deleteFile(fileTo.getAbsolutePath());
+		}
 		try {
 			fileTo.createNewFile();
 		} catch (IOException e1) {
@@ -82,12 +106,13 @@ public class Utils {
 		}
 
 		if (!fileFrom.exists() || !fileTo.exists()) {
-            return false;
-        }
+			return false;
+		}
 
 		ProgressDialog progressDialog = null;
 		if (showProgressDialog && context != null) {
-			progressDialog = ProgressDialog.show(context, context.getString(R.string.please_wait), context.getString(R.string.loading));
+			progressDialog = ProgressDialog.show(context, context.getString(R.string.please_wait),
+					context.getString(R.string.loading));
 		}
 
 		Thread t = new FileCopyThread(fileTo, fileFrom, progressDialog);
@@ -108,23 +133,28 @@ public class Utils {
 	 * @return whether the project exists
 	 */
 	public static boolean projectExists(String projectName) {
-		File projectFolder = new File(concatPaths(ConstructionSiteActivity.DEFAULT_ROOT, projectName));
+		File projectFolder = new File(concatPaths(Consts.DEFAULT_ROOT, projectName));
 		return projectFolder.exists();
+	}
+
+	public static String getTimestamp() {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+		return simpleDateFormat.format(new Date());
 	}
 
 	public static boolean deleteFolder(String path) {
 		File fileFrom = new File(path);
 		if (fileFrom.isDirectory()) {
-			for (File c : fileFrom.listFiles()) {
-				if (c.isDirectory()) {
-                    deleteFolder(c.getAbsolutePath());
-                } else {
-                    c.delete();
-                }
+			for (File file : fileFrom.listFiles()) {
+				if (file.isDirectory()) {
+					deleteFolder(file.getAbsolutePath());
+				} else {
+					file.delete();
+				}
 			}
 		} else {
-            fileFrom.delete();
-        }
+			fileFrom.delete();
+		}
 
 		return true;
 	}
@@ -132,20 +162,20 @@ public class Utils {
 	public static boolean deleteFolder(String path, String ignoreFile) {
 		File fileFrom = new File(path);
 		if (fileFrom.isDirectory()) {
-			for (File c : fileFrom.listFiles()) {
-				if (c.isDirectory()) {
-                    deleteFolder(c.getAbsolutePath(), ignoreFile);
-                } else {
-					if (!c.getName().equals(ignoreFile)) {
-                        c.delete();
-                    }
+			for (File file : fileFrom.listFiles()) {
+				if (file.isDirectory()) {
+					deleteFolder(file.getAbsolutePath(), ignoreFile);
+				} else {
+					if (!file.getName().equals(ignoreFile)) {
+						file.delete();
+					}
 				}
 
 			}
 		} else {
 			if (!fileFrom.getName().equals(ignoreFile)) {
-                fileFrom.delete();
-            }
+				fileFrom.delete();
+			}
 		}
 
 		return true;
@@ -153,41 +183,42 @@ public class Utils {
 
 	public static String concatPaths(String first, String second) {
 		if (first == null && second == null) {
-            return null;
-        }
+			return null;
+		}
 		if (first == null) {
-            return second;
-        }
+			return second;
+		}
 		if (second == null) {
-            return first;
-        }
+			return first;
+		}
 		if (first.endsWith("/")) {
-            if (second.startsWith("/")) {
-                return first + second.replaceFirst("/", "");
-            } else {
-                return first + second;
-            }
-        } else if (second.startsWith("/")) {
-            return first + second;
-        } else {
-            return first + "/" + second;
-        }
+			if (second.startsWith("/")) {
+				return first + second.replaceFirst("/", "");
+			} else {
+				return first + second;
+			}
+		} else if (second.startsWith("/")) {
+			return first + second;
+		} else {
+			return first + "/" + second;
+		}
 	}
 
 	public static String addDefaultFileEnding(String filename) {
-		if (!filename.endsWith(ConstructionSiteActivity.DEFAULT_FILE_ENDING)) {
-            return filename + ConstructionSiteActivity.DEFAULT_FILE_ENDING;
-        }
+		if (!filename.endsWith(Consts.PROJECT_EXTENTION)) {
+			return filename + Consts.PROJECT_EXTENTION;
+		}
 		return filename;
 	}
+
 	/**
 	 * 
-	 * @param projectFileName 
+	 * @param projectFileName
 	 * @return the project name without the default file extension, else returns unchanged string
 	 */
 	public static String getProjectName(String projectFileName) {
-		if (projectFileName.endsWith(StorageHandler.PROJECT_EXTENTION)) {
-	        return projectFileName.substring(0, projectFileName.length() - StorageHandler.PROJECT_EXTENTION.length());
+		if (projectFileName.endsWith(Consts.PROJECT_EXTENTION)) {
+			return projectFileName.substring(0, projectFileName.length() - Consts.PROJECT_EXTENTION.length());
 		}
 		return projectFileName;
 	}
@@ -199,10 +230,10 @@ public class Utils {
 			bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);
 			os.close();
 		} catch (FileNotFoundException e) {
-			Log.e("UTILS", e.getMessage());
+			Log.e(TAG, e.getMessage());
 			e.printStackTrace();
 		} catch (IOException e) {
-			Log.e("UTILS", e.getMessage());
+			Log.e(TAG, e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -248,61 +279,68 @@ public class Utils {
 		builder.show();
 	}
 
-	/**
-	 * Renames a project and moves / renames the project files accordingly
-	 * 
-	 * @param context
-	 *            The context; used to display progress dialog, may be null
-	 * @param oldProjectPath
-	 *            the absolute path to the old project file. If this is null the
-	 *            function attempts to read the current project from the
-	 *            ConstructionSiteActivity.
-	 * @param newProjectName
-	 *            the desired new project name (without .spf file ending!).
-	 * @return true if renaming was successful, false otherwise
-	 */
-	public static boolean renameProject(Context context, String oldProjectPath, String newProjectName) {
-		File oldPath = null;
-		File oldProjectDirectory = null;
-		if (oldProjectPath == null || oldProjectPath.length() == 0) {
-			if (ConstructionSiteActivity.ROOT == null || ConstructionSiteActivity.ROOT.length() == 0 || ConstructionSiteActivity.SPF_FILE == null
-					|| ConstructionSiteActivity.SPF_FILE.length() == 0) {
-                return false;
-            }
-			oldPath = new File(Utils.concatPaths(ConstructionSiteActivity.ROOT, ConstructionSiteActivity.SPF_FILE));
-		} else {
-			oldPath = new File(oldProjectPath);
+	public static String md5Checksum(File file) {
+		if (!file.isFile()) {
+			return null;
 		}
 
-		if (newProjectName == null || newProjectName.length() == 0 || oldPath == null) {
-            return false;
-        }
+		MessageDigest messageDigest = getMD5MessageDigest();
 
-		oldProjectDirectory = new File(oldPath.getParent());
-		String oldProjectFileName = oldPath.getName();
+		FileInputStream fis = null;
+		try {
+			fis = new FileInputStream(file);
+			byte[] buffer = new byte[Consts.BUFFER_8K];
 
-		File newProjectDirectory = new File(Utils.concatPaths(oldProjectDirectory.getParent(), newProjectName));
-		if (newProjectDirectory.exists()) {
-			Log.e("Utils.renameProject", "New project folder already exists. aborting");
-			return false;
+			int length = 0;
+
+			while ((length = fis.read(buffer)) != -1) {
+				messageDigest.update(buffer, 0, length);
+			}
+		} catch (IOException e) {
+			Log.w(TAG, "IOException thrown in md5Checksum()");
+		} finally {
+			try {
+				if (fis != null) {
+					fis.close();
+				}
+			} catch (IOException e) {
+				Log.w(TAG, "IOException thrown in finally block of md5Checksum()");
+			}
 		}
 
-		if (!oldProjectDirectory.renameTo(newProjectDirectory)) {
-			Log.e("Utils.renameProject", "Failed to rename project directory");
-			return false;
+		return toHex(messageDigest.digest());
+	}
+
+	public static String md5Checksum(String string) {
+		MessageDigest messageDigest = getMD5MessageDigest();
+
+		messageDigest.update(string.getBytes());
+
+		return toHex(messageDigest.digest());
+	}
+
+	private static String toHex(byte[] messageDigest) {
+		StringBuilder md5StringBuilder = new StringBuilder(2 * messageDigest.length);
+
+		for (byte b : messageDigest) {
+			md5StringBuilder.append("0123456789ABCDEF".charAt((b & 0xF0) >> 4));
+			md5StringBuilder.append("0123456789ABCDEF".charAt((b & 0x0F)));
 		}
 
-		File oldProjectFile = new File(Utils.concatPaths(newProjectDirectory.getAbsolutePath(), oldProjectFileName));
-		String newProjectFileName = Utils.addDefaultFileEnding(newProjectName);
-		String newProjectFilePath = Utils.concatPaths(newProjectDirectory.getAbsolutePath(), newProjectFileName);
-		if (Utils.copyFile(oldProjectFile.getAbsolutePath(), newProjectFilePath, context, true)) {
-            Utils.deleteFile(oldProjectFile.getAbsolutePath());
-        } else {
-			Log.e("Utils.renameProject", "Failed to rename project file");
-			return false;
+		Log.v(TAG, md5StringBuilder.toString());
+
+		return md5StringBuilder.toString();
+	}
+
+	private static MessageDigest getMD5MessageDigest() {
+		MessageDigest messageDigest = null;
+
+		try {
+			messageDigest = MessageDigest.getInstance("MD5");
+		} catch (NoSuchAlgorithmException e) {
+			Log.w(TAG, "NoSuchAlgorithmException thrown in getMD5MessageDigest()");
 		}
 
-		ConstructionSiteActivity.setRoot(newProjectDirectory.getAbsolutePath(), newProjectFileName);
-		return true;
+		return messageDigest;
 	}
 }

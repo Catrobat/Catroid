@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -31,33 +31,30 @@ import at.tugraz.ist.catroid.R;
 public class AboutDialog extends Dialog {
 
 	private Context context;
-	
-    public AboutDialog(Context context) {
-        super(context);
-        this.context = context;
-    }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    	requestWindowFeature(Window.FEATURE_LEFT_ICON);
-    	setContentView(R.layout.dialog_about);
-    	setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, android.R.drawable.ic_dialog_info);
+	public AboutDialog(Context context) {
+		super(context);
+		this.context = context;
+	}
 
-    	setTitle(R.string.about_title);
-    	setCanceledOnTouchOutside(true);
-    	
-    	TextView aboutUrlTextView = (TextView)findViewById(R.id.tvAboutURL);
-    	aboutUrlTextView.setMovementMethod(LinkMovementMethod.getInstance());
-    	
-    	Resources res = context.getResources();
-    	String aboutUrl = String.format(res.getString(R.string.about_link_template), 
-    			res.getString(R.string.about_catroid_url), res.getString(R.string.about_link_text));
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_LEFT_ICON);
+		setContentView(R.layout.dialog_about);
+		setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, android.R.drawable.ic_dialog_info);
 
-    	System.out.println(res.getString(R.string.about_link_template));
-    	System.out.println(aboutUrl);
-    	
-    	aboutUrlTextView.setText(Html.fromHtml(aboutUrl));
-    }
+		setTitle(R.string.about_title);
+		setCanceledOnTouchOutside(true);
+
+		TextView aboutUrlTextView = (TextView) findViewById(R.id.tvAboutURL);
+		aboutUrlTextView.setMovementMethod(LinkMovementMethod.getInstance());
+
+		Resources res = context.getResources();
+		String aboutUrl = String.format(res.getString(R.string.about_link_template),
+				res.getString(R.string.about_catroid_url), res.getString(R.string.about_link_text));
+
+		aboutUrlTextView.setText(Html.fromHtml(aboutUrl));
+	}
 
 }

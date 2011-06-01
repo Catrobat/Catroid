@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -29,54 +29,53 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
-import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class LoadProjectDialog extends Dialog {
-    private final Context context;
-    private ListView listView;
-    private ArrayAdapter<String> adapter;
-    private ArrayList<String> adapterFileList;
+	private final Context context;
+	private ListView listView;
+	private ArrayAdapter<String> adapter;
+	private ArrayList<String> adapterFileList;
 
 	public LoadProjectDialog(Context context) {
-        super(context);
-        this.context = context;
-        adapterFileList = new ArrayList<String>();
-    }
+		super(context);
+		this.context = context;
+		adapterFileList = new ArrayList<String>();
+	}
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_load_project);
-        setTitle(R.string.load_project_dialog_title);
-        setCanceledOnTouchOutside(true);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.dialog_load_project);
+		setTitle(R.string.load_project_dialog_title);
+		setCanceledOnTouchOutside(true);
 
-        File rootDirectory = new File(context.getString(R.string.default_root));
-        searchForProjectFiles(rootDirectory);
-        adapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, adapterFileList);
-        
-        listView = (ListView) findViewById(R.id.loadfilelist);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new ListView.OnItemClickListener() {
-        	
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				if (!ProjectManager.getInstance().loadProject(adapter.getItem(position), context)) {
-                    dismiss(); //TODO: should we dismiss here? or continue project choosing
-                    return;
-                }
-                Intent intent = new Intent(context, ProjectActivity.class);
-            	context.startActivity(intent);
-                dismiss();
-            }
-        });
-    }
+		File rootDirectory = new File(Consts.DEFAULT_ROOT);
+		searchForProjectFiles(rootDirectory);
+		adapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, adapterFileList);
+
+		listView = (ListView) findViewById(R.id.loadfilelist);
+		listView.setAdapter(adapter);
+		listView.setOnItemClickListener(new ListView.OnItemClickListener() {
+
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				if (!ProjectManager.getInstance().loadProject(adapter.getItem(position), context, true)) {
+					return; // error message already in ProjectManager loadProject
+				}
+				Intent intent = new Intent(context, ProjectActivity.class);
+				context.startActivity(intent);
+				dismiss();
+			}
+		});
+	}
 
 	@Override
 	protected void onStart() {
-		//update List:
+		// update List:
 		adapterFileList.clear();
 		File rootDirectory = new File(context.getString(R.string.default_root));
 		searchForProjectFiles(rootDirectory);
@@ -84,14 +83,14 @@ public class LoadProjectDialog extends Dialog {
 		super.onStart();
 	}
 
-    public void searchForProjectFiles(File directory) {
-        File[] sdFileList = directory.listFiles();
-        for (File file : sdFileList) {
-        	if (file.isDirectory()) {
-                searchForProjectFiles(file);
-            } else if (file.isFile() && file.getName().endsWith(StorageHandler.PROJECT_EXTENTION)) {
-            	adapterFileList.add(Utils.getProjectName(file.getName()));
-            }
-        }
-    }
+	public void searchForProjectFiles(File directory) {
+		File[] sdFileList = directory.listFiles();
+		for (File file : sdFileList) {
+			if (file.isDirectory()) {
+				searchForProjectFiles(file);
+			} else if (file.isFile() && file.getName().endsWith(Consts.PROJECT_EXTENTION)) {
+				adapterFileList.add(Utils.getProjectName(file.getName()));
+			}
+		}
+	}
 }

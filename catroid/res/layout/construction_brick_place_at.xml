@@ -1,85 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-	<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android" 
-		android:id="@+id/RelativeLayout01" 
-		android:layout_height="wrap_content" 
-		android:layout_width="wrap_content" 
-		android:focusable="false" 
-		android:focusableInTouchMode="false" 
-		android:background="@drawable/brick_blue" 
-		android:longClickable="true">
-		<TextView 
-		    android:id="@+id/ValueTextViewXY" 
-			android:layout_alignParentLeft="true" 
-			android:textStyle="bold" 
-			android:textSize="18dip" 
-			android:textColor="@color/white" 
-			android:layout_width="wrap_content" 
-			android:layout_height="wrap_content" 
-			android:layout_centerVertical="true" 
-			android:text="@string/goto_main_adapter" 
+<!-- 
+ *  Catroid: An on-device graphical programming language for Android devices
+ *  Copyright (C) 2010  Catroid development team 
+ *  (<http://code.google.com/p/catroid/wiki/Credits>)
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:orientation="horizontal"
+>
+	<ImageView
+		android:id="@+id/grabber"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentTop="true"
+		android:layout_alignParentBottom="true"
+		android:layout_gravity="center_vertical"
+		android:layout_width="wrap_content"
+		android:src="@drawable/ic_mp_move"
+		android:layout_height="wrap_content" />
+	<RelativeLayout
+		android:id="@+id/RelativeLayout01"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:background="@drawable/brick_blue"
+		android:focusable="false"
+		android:focusableInTouchMode="false"
+		android:longClickable="true"
+	>
+		<TextView
+			android:id="@+id/ValueTextViewXY"
+			android:text="@string/brick_place_at"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_alignParentLeft="true"
+			android:layout_centerVertical="true"
 			android:layout_toLeftOf="@+id/GoToLinearLayout"
-			android:paddingRight="5dip">
+			android:paddingRight="5dip"
+			android:textColor="@color/white"
+			android:textSize="18dip"
+			android:textStyle="bold"
+		>
 		</TextView>
 		<LinearLayout
-		    android:layout_width="wrap_content" 
-			android:layout_height="wrap_content" 
-			android:layout_alignParentRight="true" 
-			android:layout_centerVertical="true" 
-			android:clickable="true" 
-			android:longClickable="true" 
-			android:layout_marginLeft="5dip" 
-			android:id="@+id/GoToLinearLayout">
+			android:id="@+id/GoToLinearLayout"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_centerVertical="true"
+			android:layout_marginLeft="5dip"
+			android:clickable="true"
+			android:longClickable="true"
+		>
 			<TextView
-			    android:id="@+id/TextView01" 
-				android:layout_width="wrap_content" 
-				android:layout_height="wrap_content" 
-				android:textStyle="bold" 
-				android:textSize="18dip" 
-				android:textColor="@color/white" 
-				android:text="@string/x_label" 
-				android:paddingRight="10dip">
+				android:id="@+id/TextView01"
+				android:text="@string/x_label"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:paddingRight="10dip"
+				android:textColor="@color/white"
+				android:textSize="18dip"
+				android:textStyle="bold"
+			>
 			</TextView>
 			<EditText
-			    android:layout_width="60dp" 
-				android:layout_height="wrap_content" 
-				android:text="0" 
+				android:id="@+id/construction_brick_place_at_x_edit_text"
+				android:text="0"
+				android:layout_height="wrap_content"
+				android:layout_width="60dp"
+				android:cursorVisible="false"
+				android:focusable="false"
+				android:focusableInTouchMode="false"
+				android:gravity="right"
+				android:inputType="number|numberDecimal|numberSigned"
+				android:maxLength="4"
+				android:maxLines="1"
 				android:numeric="signed"
-				android:inputType="number|numberDecimal|numberSigned" 
-				android:maxLines="1" 
-				android:maxLength="4" 
-				android:id="@+id/InputValueEditTextX" 
-				android:tag="@string/constructional_brick_go_to_x_tag"
-				android:cursorVisible="false" 
-		 		android:focusable="false" 
-		 		android:focusableInTouchMode="false">
+			>
 			</EditText>
 			<TextView
-			android:focusable="false" 
-			android:focusableInTouchMode="false" 
-			    android:id="@+id/TextView02" 
-				android:layout_width="wrap_content" 
+				android:id="@+id/TextView02"
+				android:text="@string/y_label"
 				android:layout_height="wrap_content"
-				android:textSize="18dip" 
-				android:textColor="@color/white" 
-				android:textStyle="bold" 
-				android:text="@string/y_label" 
-				android:paddingRight="10dip" 
-				android:paddingLeft="10dip">
+				android:layout_width="wrap_content"
+				android:focusable="false"
+				android:focusableInTouchMode="false"
+				android:paddingLeft="10dip"
+				android:paddingRight="10dip"
+				android:textColor="@color/white"
+				android:textSize="18dip"
+				android:textStyle="bold"
+			>
 			</TextView>
 			<EditText
-			    android:layout_width="60dp" 
-				android:layout_height="wrap_content" 
-				android:text="0" 
-				android:inputType="number|numberDecimal|numberSigned" 
-				android:maxLines="1" 
-				android:maxLength="4" 
-				android:id="@+id/InputValueEditTextY" 
-				android:tag="@string/constructional_brick_go_to_y_tag"
-				android:cursorVisible="false" 
-		 		android:focusable="false" 
-		 		android:focusableInTouchMode="false">
+				android:id="@+id/construction_brick_place_at_y_edit_text"
+				android:text="0"
+				android:layout_height="wrap_content"
+				android:layout_width="60dp"
+				android:cursorVisible="false"
+				android:focusable="false"
+				android:focusableInTouchMode="false"
+				android:gravity="right"
+				android:inputType="number|numberDecimal|numberSigned"
+				android:maxLength="4"
+				android:maxLines="1"
+			>
 			</EditText>
 		</LinearLayout>
-	
 	</RelativeLayout>
+</LinearLayout>
