@@ -1,6 +1,24 @@
+/**
+ *  Catroid: An on-device graphical programming language for Android devices
+ *  Copyright (C) 2010  Catroid development team
+ *  (<http://code.google.com/p/catroid/wiki/Credits>)
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package at.tugraz.ist.catroid.stage;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -8,113 +26,98 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
-import android.util.Log;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.project.Project;
-import at.tugraz.ist.catroid.content.sprite.Sprite;
-import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.content.Sprite;
 
 public class StageManager {
-    private Activity mActivity;
-    protected ArrayList<Sprite> mSpritesList;
-    private Boolean mSpritesChanged;
-    private IDraw mDraw;
-    private int maxZValue = 0;
-    private boolean isPaused;
+	private Activity activity;
+	protected ArrayList<Sprite> spriteList;
+	private Boolean spritesChanged;
+	private IDraw draw;
+	private boolean isPaused;
+	private Handler handler = new Handler();
 
-    private Handler mHandler = new Handler();
-    private Runnable mRunnable = new Runnable() {
-        public void run() {
-            // Log.v("StageManager", "run");
-            for (int i = 0; i < mSpritesList.size(); i++) {
-                if (mSpritesList.get(i).getToDraw() == true) {
-                    mSpritesChanged = true;
-                    mSpritesList.get(i).setToDraw(false);
-                }
-            }
-            if (mSpritesChanged) {
-                mSpritesChanged = !drawSprites();
-            }
+	private Runnable runnable = new Runnable() {
+		public void run() {
+			for (Sprite sprite : spriteList) {
+				if (sprite.getToDraw() == true) {
+					spritesChanged = true;
+					sprite.setToDraw(false);
+				}
+			}
+			if (spritesChanged) {
+				spritesChanged = !drawSprites();
+			}
 
-            if (!isPaused)
-                mHandler.postDelayed(this, 33);
-        }
+			if (!isPaused) {
+				handler.postDelayed(this, 33);
+			}
+		}
+	};
 
-    };
+	public int getMaxZValue() {
+		return ProjectManager.getInstance().getCurrentProject().getMaxZValue();
+	}
 
-    public int getMaxZValue() {
-        Log.d("StageManager", "Max z value = " + maxZValue);
-        return maxZValue;
-    }
+	public StageManager(Activity activity) {
 
-    public StageManager(Activity activity, String projectFile) {
-        StorageHandler storageHandler;
-        try {
-            storageHandler = StorageHandler.getInstance();
-            Project project = storageHandler.loadProject(projectFile);
-            mSpritesList = (ArrayList<Sprite>) project.getSpriteList();
-            mActivity = activity;
+		spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		this.activity = activity;
 
-            // set stage z coordinate to minimum
-            sortSpriteList();
-            mSpritesChanged = true;
+		spritesChanged = true;
+		draw = new CanvasDraw(activity);
 
-            mDraw = new CanvasDraw(mSpritesList);
+		for (Sprite sprite : spriteList) {
+			sprite.startStartScripts();
+		}
+	}
 
-            for (int i = 0; i < mSpritesList.size(); i++) {
-                mSpritesList.get(i).startScripts();
-            }
-        } catch (IOException e) {
-            // TODO: Show error dialog
-        }
-    }
+	public boolean drawSprites() {
+		return draw.draw();
+	}
 
-    public void sortSpriteList() {
-        Collections.sort(mSpritesList);
-        maxZValue = mSpritesList.get(mSpritesList.size() - 1).getZPosition();
-        Log.d("StageManager", "Sort:");
-        for (Sprite s : mSpritesList) {
-            Log.d("StageManager", s.getName() + ": z = " + s.getZPosition());
-        }
-    }
+	public void processOnTouch(int coordX, int coordY) {
+		draw.processOnTouch(coordX, coordY);
+		ArrayList<Sprite> touchedSpriteList = new ArrayList<Sprite>();
+		for (Sprite sprite : spriteList) {
+			if (sprite.processOnTouch(coordX, coordY)) {
+				touchedSpriteList.add(sprite);
+			}
+		}
 
-    public boolean drawSprites() {
-        Log.v("StageManager", "drawSprites");
-        return mDraw.draw();
-    }
+		Collections.sort(touchedSpriteList);
+		if (!touchedSpriteList.isEmpty()) {
+			touchedSpriteList.get(touchedSpriteList.size() - 1).startTapScripts();
+		}
+	}
 
-    public void processOnTouch(int coordX, int coordY) {
-        // for (int i = 0; i < mSpritesList.size(); i++) {
-        // mSpritesList.get(i).processOnTouch(coordX, coordY);
-        // }
-    }
+	public void pause(boolean drawScreen) {
+		for (Sprite sprite : spriteList) {
+			sprite.pause();
+		}
 
-    public void pause(boolean drawScreen) {
-        for (int i = 0; i < mSpritesList.size(); i++) {
-            mSpritesList.get(i).pause();
-        }
+		if (drawScreen) {
+			Bitmap pauseBitmap = BitmapFactory.decodeResource(activity.getResources(), R.drawable.paused_cat);
+			draw.drawPauseScreen(pauseBitmap);
+			handler.removeCallbacks(runnable);
+			spritesChanged = true;
+		}
 
-        if (drawScreen) {
-            Bitmap pauseBitmap = BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.paused_cat);
-            mDraw.drawPauseScreen(pauseBitmap);
-            mHandler.removeCallbacks(mRunnable);
-            mSpritesChanged = true;
-        }
+		isPaused = true;
+	}
 
-        isPaused = true;
-    }
+	public void resume() {
+		for (Sprite sprite : spriteList) {
+			sprite.resume();
+		}
+		isPaused = false;
+		spritesChanged = true;
+		runnable.run();
+	}
 
-    public void unPause() {
-        for (int i = 0; i < mSpritesList.size(); i++) {
-            mSpritesList.get(i).resume();
-        }
-        isPaused = false;
-        mSpritesChanged = true;
-        mRunnable.run();
-    }
-
-    public void start() {
-        isPaused = false;
-        mRunnable.run();
-    }
+	public void start() {
+		isPaused = false;
+		runnable.run();
+	}
 }

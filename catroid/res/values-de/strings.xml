@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!-- 
+ *  Catroid: An on-device graphical programming language for Android devices
+ *  Copyright (C) 2010  Catroid development team 
+ *  (<http://code.google.com/p/catroid/wiki/Credits>)
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+
 <resources>
     <!-- General terms -->
     <string name="project">Projekt</string>
@@ -7,6 +27,8 @@
     <string name="brick">Baustein</string>
     <string name="quit">Beenden</string>
     <string name="cancel_button">Abbrechen</string>
+    <string name="rename">Umbenennen</string>
+    <string name="delete">Löschen</string>
     
     <!-- User interface -->
     <string name="main_menu">Hauptmenü</string>
@@ -35,7 +57,7 @@
 
     <!-- Main menu activity -->
     <string name="resume">Weiter machen</string>
-    <string name="current_project">Aktuelles Projekt: </string>
+    <string name="current_project">Aktuelles Projekt:</string>
     <string name="no_project">Kein Projekt geladen</string>
     <string name="create_new_project">Neues Projekt erstellen</string>
 
@@ -58,22 +80,21 @@
     <!-- Script activity view -->
     <string name="script_name">Skript:</string>
     <string name="brick_list">Bausteine:</string>
-    <string name="add_new_brick">+ Neuen Baustein hinzufügen</string>
+    <string name="add_new_brick">Neuen Baustein hinzufügen</string>
     
     <!-- Sprite activity -->
     <string name="sprite_name">Objekt:</string>
     <string name="script_list">Skripte:</string>
-    <string name="add_new_script">+ Neues Skript hinzufügen</string>
+    <string name="add_new_script">Neues Skript hinzufügen</string>
 
     <!-- Sprite dialog -->
-    <string name="SpriteButtonText">Anlegen</string>
+    <string name="sprite_button_text">Anlegen</string>
     <string name="newsprite">Neues Objekt</string>
 
     <!-- New project dialog -->
-    <string name="new_project_dialog_button">Erstellen</string>
+    <string name="new_project_dialog_create_button">Erstellen</string>
     <string name="new_project_dialog_title">Name des Projekts</string>
     <string name="new_project_dialog_default_project_name">Projektname</string>
-    <string name="projectname_already_exists">Dieser Projektname existiert bereits</string>
     
     <!-- Edit Sprite Dialog -->
     <string name="delete_sprite_button">löschen</string>
@@ -93,7 +114,6 @@
     <string name="new_script_dialog_button">Erstellen</string>
     <string name="new_script_dialog_title">Name des Skripts</string>
     <string name="new_script_dialog_default_script_name">Skriptname</string>
-    <string name="scriptname_already_exists">Dieser Skriptname existiert bereits</string>
     <string name="script_invalid">Dieser Skriptname ist ungültig</string>
 
     <!-- New sprite dialog -->
@@ -112,32 +132,53 @@
     <string name="stagemenu_construction_site">Zur Baustelle</string>
     <string name="stagemenu_start">Abspielen/Pause</string>
 
-    <string name="set_background_main_adapter">Setze Hintergrund</string>
-    <string name="play_sound_main_adapter">Spiele Klang</string>
-    <string name="wait_main_adapter">Warte</string>
+    <string name="brick_set_background">Setze Hintergrund</string>
+    <string name="brick_play_sound">Spiele Klang</string>
+    <string name="brick_wait">Warte</string>
     <string name="seconds">Sekunden</string>
 
-    <string name="hide_main_adapter">Verstecke dich</string>
-    <string name="show_main_adapter">Zeige dich</string>
-    <string name="goto_main_adapter">Gehe zu</string>
+    <string name="brick_hide">Verstecke dich</string>
+    <string name="brick_show">Zeige dich</string>
+    <string name="brick_place_at">Gehe zu</string>
     <string name="x_label">X:</string>
     <string name="y_label">Y:</string>
-    <string name="costume_main_adapter">Setze Kostüm</string>
-    <string name="scaleCustome">Skaliere Kostüm auf</string>
-    <string name="go_back_main_adapter">Gehe</string>
+    <string name="brick_set_costume">Setze Kostüm</string>
+    <string name="brick_scale_costume">Skaliere Kostüm auf</string>
+    <string name="brick_go_back">Gehe</string>
     <string name="steps_label">Schritte nach hinten</string>
-    <string name="come_to_front_main_adapter">Komm nach vorne</string>
-    <string name="touched_main_adapter">Wenn berührt</string>
+    <string name="brick_come_to_front">Komm nach vorne</string>
+    <string name="brick_if_touched">Wenn berührt</string>
+    <string name="brick_if_started">Wenn gestartet</string>
+    <string name="brick_change_x_by">Ändere X um:</string>
+	<string name="brick_change_y_by">Ändere Y um:</string>
+	<string name="brick_set_x">Setze X auf:</string>
+	<string name="brick_set_y">Setze Y auf:</string>
+	
+	<string name="choose_sound_title">Sound wählen</string>
 
     <!-- defaulValues -->
     <string name="default_project_name">standardProjekt</string>
+    
+    <!-- Notifications -->
+    <string name="notification_invalid_text_entered">
+    	Bitte einen Wert eingeben
+    </string>
+    <string name="notification_invalid_name_entered">
+    	Bitte einen Namen eingeben
+    </string>
 
     <!-- Error messages -->
     <string name="error_no_sd_card">
         Um Catroid zu starten wird eine SD Karte benötigt.\nLegen Sie bitte eine SD Karte ein und versuchen Sie es erneut.
     </string>
+    <string name="error_no_name_entered">
+    	Bitte einen Namen eingeben.
+    </string>
     <string name="error_project_exists">
         Es gibt bereits ein Projekt mit dem eingegebenen Namen.\nBitte einen anderen Namen eingeben.
+    </string>
+    <string name="error_sprite_exists">
+    	Es gibt bereits ein Objekt mit dem eingegebenen Namen.\nBitte einen anderen Namen eingeben.
     </string>
     <string name="error_project_upload">
         Beim Upload des Projektes ist ein Fehler aufgetreten.
@@ -154,9 +195,25 @@
     <string name="error_load_project">
         Beim Laden des Projektes ist ein Fehler aufgetreten.
     </string>
+    <string name="error_delete_project">
+        Beim Löschen des Projektes ist ein Fehler aufgetreten.
+    </string>
+    <string name="error_no_number_entered">
+        Bitte eine Zahl eingeben.
+    </string>
+    <string name="error_screenshot_failed">
+        Beim Speichern des Screenshots ist ein Fehler aufgetreten.
+    </string>
+    <string name="error_load_image">
+    	Beim Laden des Bildes ist ein Fehler aufgetreten.
+    </string>
 
     <!-- Notifications -->
     <string name="success_project_upload">Upload erfolgreich.</string>
     <string name="success_project_download">Download erfolgreich.</string>
     <string name="load_project">Projekt laden</string>
+    <string name="upload_button">Hochladen</string>
+    <string name="upload_project_dialog_title">Projekt hochladen</string>
+    <string name="project_rename">(Das Projekt wird umbenannt.)</string>
+     <string name="screenshot_ok">Screenshot erfolgreich gespeichert</string>
 </resources>
