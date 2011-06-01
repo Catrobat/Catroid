@@ -31,6 +31,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
@@ -48,7 +49,7 @@ public class SetCostumeBrick implements Brick {
 
 	public void setCostume(String imageName) {
 		this.imageName = imageName;
-		if (imageName != null) {
+		if (imageName != null && !NativeAppActivity.isRunning()) {
 			thumbnail = ImageEditing.getScaledBitmap(getAbsoluteImagePath(), Consts.THUMBNAIL_HEIGHT,
 					Consts.THUMBNAIL_WIDTH);
 		}
@@ -63,7 +64,13 @@ public class SetCostumeBrick implements Brick {
 	}
 
 	public void execute() {
-		this.sprite.getCostume().setImagePath(getAbsoluteImagePath());
+		if (!NativeAppActivity.isRunning()) {
+			this.sprite.getCostume().setImagePath(getAbsoluteImagePath());
+		} else {
+			this.sprite.getCostume().setBitmapFromRes(NativeAppActivity.getContext(),
+					NativeAppActivity.getContext().getResources().getIdentifier(imageName, "raw",
+							NativeAppActivity.getContext().getPackageName()));
+		}
 	}
 
 	public Sprite getSprite() {
