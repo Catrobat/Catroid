@@ -234,8 +234,8 @@ public class StorageHandlerTest extends AndroidTestCase {
 		}
 
 		StorageHandler.getInstance().saveProject(project);
-		String spf = TestUtils.getProjectfileAsString(projectName);
-		assertFalse("project contains package information", spf.contains("at.tugraz.ist"));
+		String projectString = TestUtils.getProjectfileAsString(projectName);
+		assertFalse("project contains package information", projectString.contains("at.tugraz.ist"));
 
 		proj = new File(Consts.DEFAULT_ROOT + "/" + projectName);
 		if (proj.exists()) {

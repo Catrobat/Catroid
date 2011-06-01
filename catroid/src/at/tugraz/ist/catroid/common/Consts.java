@@ -23,7 +23,7 @@ import android.os.Environment;
 public final class Consts {
 
 	public static final String DIRECTORY_NAME = "catroid";
-	public static final String PROJECT_EXTENTION = ".spf";
+	public static final String PROJECT_EXTENTION = ".xml";
 	public static final String CATROID_EXTENTION = ".zip";
 
 	public static final String DEFAULT_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath() + "/catroid";

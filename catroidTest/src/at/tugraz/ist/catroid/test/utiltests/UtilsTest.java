@@ -119,7 +119,7 @@ public class UtilsTest extends TestCase {
 
 	public void testAddDefaultFileEnding() {
 		String filename = "test";
-		assertEquals(Utils.addDefaultFileEnding(filename), "test.spf");
+		assertEquals(Utils.addDefaultFileEnding(filename), "test" + Consts.PROJECT_EXTENTION);
 	}
 
 	public void testChangeFileEndingToPng() {

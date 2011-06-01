@@ -98,7 +98,7 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 				paths[i] = dirPath + "/" + paths[i];
 			}
 
-			String zipFileString = Consts.TMP_PATH + "/upload.zip";
+			String zipFileString = Consts.TMP_PATH + "/upload" + Consts.CATROID_EXTENTION;
 			File zipFile = new File(zipFileString);
 			if (!zipFile.exists()) {
 				zipFile.getParentFile().mkdirs();
@@ -113,8 +113,8 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 
 			String serverUrl = useTestUrl ? Consts.TEST_FILE_UPLOAD_URL : Consts.FILE_UPLOAD_URL;
 
-			resultString = createConnection()
-					.doHttpPostFileUpload(serverUrl, postValues, Consts.FILE_UPLOAD_TAG, zipFileString);
+			resultString = createConnection().doHttpPostFileUpload(serverUrl, postValues, Consts.FILE_UPLOAD_TAG,
+					zipFileString);
 
 			JSONObject jsonObject = null;
 			int statusCode = 0;
@@ -169,10 +169,7 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 			return;
 		}
 		//TODO: Refactor to use stings.xml
-		new Builder(context)
-				.setMessage(message)
-				.setPositiveButton("OK", null)
-				.show();
+		new Builder(context).setMessage(message).setPositiveButton("OK", null).show();
 	}
 
 	private HashMap<String, String> buildPostValues(File zipFile) throws IOException {

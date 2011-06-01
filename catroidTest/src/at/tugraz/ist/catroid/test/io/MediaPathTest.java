@@ -108,40 +108,40 @@ public class MediaPathTest extends InstrumentationTestCase {
 		TestUtils.clearProject("mockProject");
 	}
 
-	public void testPathsInSpfFile() throws IOException {
+	public void testPathsInProjectFile() throws IOException {
 		fillProjectWithAllBricksAndMediaFiles();
-		String spf = TestUtils.getProjectfileAsString(projectName);
+		String project = TestUtils.getProjectfileAsString(projectName);
 
-		assertFalse("project contains DEFAULT_ROOT", spf.contains(Consts.DEFAULT_ROOT));
-		assertFalse("project contains IMAGE_DIRECTORY", spf.contains(Consts.IMAGE_DIRECTORY));
-		assertFalse("project contains SOUND_DIRECTORY", spf.contains(Consts.SOUND_DIRECTORY));
-		assertFalse("project contains sdcard/", spf.contains("sdcard/"));
+		assertFalse("project contains DEFAULT_ROOT", project.contains(Consts.DEFAULT_ROOT));
+		assertFalse("project contains IMAGE_DIRECTORY", project.contains(Consts.IMAGE_DIRECTORY));
+		assertFalse("project contains SOUND_DIRECTORY", project.contains(Consts.SOUND_DIRECTORY));
+		assertFalse("project contains sdcard/", project.contains("sdcard/"));
 	}
 
 	public void testFilenameChecksum() throws IOException {
 		fillProjectWithAllBricksAndMediaFiles();
 
-		String spf = TestUtils.getProjectfileAsString(projectName);
+		String project = TestUtils.getProjectfileAsString(projectName);
 
 		String checksumImage = Utils.md5Checksum(testImageCopy);
 		String checksumSound = Utils.md5Checksum(testSoundCopy);
 
 		String unexpectedImagenameTags = ">" + imageName + "<";
 		String unexpectedSoundnameTags = ">" + soundName + "<";
-		assertFalse("the imagename has no checksum", spf.contains(unexpectedImagenameTags));
-		assertFalse("the soundname has no checksum", spf.contains(unexpectedSoundnameTags));
+		assertFalse("the imagename has no checksum", project.contains(unexpectedImagenameTags));
+		assertFalse("the soundname has no checksum", project.contains(unexpectedSoundnameTags));
 
 		String expectedImagename = checksumImage + "_" + imageName;
 		String expectedSoundname = checksumSound + "_" + soundName;
 
-		assertTrue("expected image name not in spf", spf.contains(expectedImagename));
-		assertTrue("expected sound name not in spf", spf.contains(expectedSoundname));
+		assertTrue("expected image name not in project", project.contains(expectedImagename));
+		assertTrue("expected sound name not in project", project.contains(expectedSoundname));
 
 		String expectedImagenameTags = ">" + checksumImage + "_" + imageName + "<";
 		String expectedSoundnameTags = ">" + checksumSound + "_" + soundName + "<";
 
-		assertTrue("unexpected imagename", spf.contains(expectedImagenameTags));
-		assertTrue("unexpected soundname", spf.contains(expectedSoundnameTags));
+		assertTrue("unexpected imagename", project.contains(expectedImagenameTags));
+		assertTrue("unexpected soundname", project.contains(expectedSoundnameTags));
 
 		assertEquals("the copy does not equal the original image", Utils.md5Checksum(testImage),
 				Utils.md5Checksum(testImageCopy));
@@ -213,13 +213,13 @@ public class MediaPathTest extends InstrumentationTestCase {
 				pManager.fileChecksumContainer.getPath(checksumSound));
 	}
 
-	public void testFileChecksumContainerNotInSPF() throws IOException {
+	public void testFileChecksumContainerNotInProjectFile() throws IOException {
 		fillProjectWithAllBricksAndMediaFiles();
-		String spf = TestUtils.getProjectfileAsString(projectName);
-		assertFalse("FileChecksumcontainer is in the spf", spf.contains("FileChecksumContainer"));
+		String projectString = TestUtils.getProjectfileAsString(projectName);
+		assertFalse("FileChecksumcontainer is in the project", projectString.contains("FileChecksumContainer"));
 		ProjectManager.getInstance().loadProject(projectName, getInstrumentation().getTargetContext(), false);
-		spf = TestUtils.getProjectfileAsString(projectName);
-		assertFalse("FileChecksumcontainer is in the spf", spf.contains("FileChecksumContainer"));
+		projectString = TestUtils.getProjectfileAsString(projectName);
+		assertFalse("FileChecksumcontainer is in the project", projectString.contains("FileChecksumContainer"));
 	}
 
 	private void fillProjectWithAllBricksAndMediaFiles() throws IOException {
