@@ -1,3 +1,21 @@
+/**
+ *  Catroid: An on-device graphical programming language for Android devices
+ *  Copyright (C) 2010  Catroid development team
+ *  (<http://code.google.com/p/catroid/wiki/Credits>)
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package at.tugraz.ist.catroid.test.web;
 
 import java.io.File;
@@ -5,90 +23,92 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import android.test.AndroidTestCase;
-import at.tugraz.ist.catroid.ConstructionSiteActivity;
-import at.tugraz.ist.catroid.constructionSite.tasks.ProjectUploadTask;
-import at.tugraz.ist.catroid.download.tasks.ProjectDownloadTask;
+import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.test.utils.TestUtils;
+import at.tugraz.ist.catroid.transfers.ProjectDownloadTask;
+import at.tugraz.ist.catroid.transfers.ProjectUploadTask;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.web.ConnectionWrapper;
 import at.tugraz.ist.catroid.web.WebconnectionException;
 
 public class UpAndDownloadTest extends AndroidTestCase {
 
-	private MockConnection mMockConnection;
-	private File mProjectZipOnMockServer;
-	
+	private MockConnection mockConnection;
+	private File projectZipOnMockServer;
+
 	public UpAndDownloadTest() {
 		super();
 	}
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		
-		mProjectZipOnMockServer = new File(ConstructionSiteActivity.TMP_PATH+"/projectSave.zip");
-		mMockConnection = new MockConnection();
+
+		projectZipOnMockServer = new File(Consts.TMP_PATH + "/projectSave" + Consts.CATROID_EXTENTION);
+		mockConnection = new MockConnection();
 	}
 
+	@Override
 	protected void tearDown() throws Exception {
+		TestUtils.clearProject("uploadtestProject");
 		super.tearDown();
 	}
 
-	public void testInit() throws Throwable {
-	}
-	
 	public void testUpAndDownload() throws Throwable {
-		String testProjectName = "UpAndDownloadTest"+System.currentTimeMillis();
-		String pathToDefaultProject = ConstructionSiteActivity.DEFAULT_ROOT+"/uploadtestProject";
+		String testProjectName = "UpAndDownloadTest" + System.currentTimeMillis();
+		String pathToDefaultProject = Consts.DEFAULT_ROOT + "/uploadtestProject";
 		new File(pathToDefaultProject).mkdirs();
-		String spfFilename = "test"+ConstructionSiteActivity.DEFAULT_FILE_ENDING;
-		new File(pathToDefaultProject+"/"+spfFilename).createNewFile();
-		
-		ProjectUploadTask uploadTask = new ProjectUploadTask(null, testProjectName,
-				pathToDefaultProject, ConstructionSiteActivity.TMP_PATH+"/tmp.zip") {
+		String projectFilename = "test" + Consts.PROJECT_EXTENTION;
+		new File(pathToDefaultProject + "/" + projectFilename).createNewFile();
+		String projectDescription = "this is just a testproject";
+
+		ProjectUploadTask uploadTask = new ProjectUploadTask(null, testProjectName, projectDescription,
+				pathToDefaultProject, null) {
 			@Override
 			protected ConnectionWrapper createConnection() {
-				return mMockConnection;
+				return mockConnection;
 			}
 		};
-		ProjectDownloadTask downloadTask = new ProjectDownloadTask(null, 
-				"", testProjectName, ConstructionSiteActivity.TMP_PATH+"/down.zip") {
+
+		ProjectDownloadTask downloadTask = new ProjectDownloadTask(null, "", testProjectName, Consts.TMP_PATH + "/down"
+				+ Consts.CATROID_EXTENTION) {
 			@Override
 			protected ConnectionWrapper createConnection() {
-				return mMockConnection;
+				return mockConnection;
 			}
 		};
-		
+
 		assertTrue("The default Project does not exist.", new File(pathToDefaultProject).exists());
-		uploadTask.execute();		
+		uploadTask.execute();
 		Thread.sleep(3000);
-		
-		assertTrue("uploaded file does not exist", mProjectZipOnMockServer.exists());
-		
+
+		assertTrue("Uploaded file does not exist", projectZipOnMockServer.exists());
+
 		downloadTask.execute();
 		Thread.sleep(3000);
-		
-		File downloadProjectRoot = new File(ConstructionSiteActivity.DEFAULT_ROOT+"/"+testProjectName);
-		assertTrue("project does not exist after download", downloadProjectRoot.exists());
-		File testSPFFile = new File(ConstructionSiteActivity.DEFAULT_ROOT+"/"+testProjectName+"/"+spfFilename);
-		assertTrue("spf file does not exist after download", testSPFFile.exists());
-		
+
+		File downloadProjectRoot = new File(Consts.DEFAULT_ROOT + "/" + testProjectName);
+		assertTrue("Project does not exist after download", downloadProjectRoot.exists());
+		File testProjectFile = new File(Consts.DEFAULT_ROOT + "/" + testProjectName + "/" + projectFilename);
+		assertTrue("Project file does not exist after download", testProjectFile.exists());
+
 		UtilFile.deleteDirectory(downloadProjectRoot);
 		UtilFile.deleteDirectory(new File(pathToDefaultProject));
 	}
 
 	private class MockConnection extends ConnectionWrapper {
 		@Override
-		public String doHttpPostFileUpload(String urlstring,
-				HashMap<String, String> postValues, String filetag,
+		public String doHttpPostFileUpload(String urlstring, HashMap<String, String> postValues, String filetag,
 				String filePath) throws IOException, WebconnectionException {
 
-			new File(filePath).renameTo(mProjectZipOnMockServer);
+			new File(filePath).renameTo(projectZipOnMockServer);
 			return "";
 		}
+
 		@Override
-		public void doHttpPostFileDownload(String urlstring,
-				HashMap<String, String> postValues, String filePath)
+		public void doHttpPostFileDownload(String urlstring, HashMap<String, String> postValues, String filePath)
 				throws IOException {
-			mProjectZipOnMockServer.renameTo(new File(filePath));
+			projectZipOnMockServer.renameTo(new File(filePath));
 		}
 	}
 }
