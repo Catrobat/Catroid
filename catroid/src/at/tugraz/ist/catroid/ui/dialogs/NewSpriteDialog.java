@@ -47,7 +47,7 @@ public class NewSpriteDialog extends Dialog {
 		setContentView(R.layout.dialog_new_sprite);
 		setTitle(R.string.new_sprite_dialog_title);
 		setCanceledOnTouchOutside(true);
-		getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		getWindow().setLayout(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 
 		this.setOnShowListener(new OnShowListener() {
 			public void onShow(DialogInterface dialog) {

@@ -38,7 +38,9 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.os.Environment;
+import android.provider.BaseColumns;
 import android.provider.MediaStore;
+import android.provider.MediaStore.MediaColumns;
 import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -218,16 +220,16 @@ public class StorageHandler {
 
 	public void loadSoundContent(Context context) {
 		soundContent = new ArrayList<SoundInfo>();
-		String[] projectionOnOrig = { MediaStore.Audio.Media.DATA, MediaStore.Audio.AudioColumns.TITLE,
-				MediaStore.Audio.Media._ID };
+		String[] projectionOnOrig = { MediaColumns.DATA, MediaColumns.TITLE,
+				BaseColumns._ID };
 
 		Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
 				projectionOnOrig, null, null, null);
 
 		if (cursor.moveToFirst()) {
-			int columnDataIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
-			int columnTitleIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.TITLE);
-			int columnIdIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID);
+			int columnDataIndex = cursor.getColumnIndexOrThrow(MediaColumns.DATA);
+			int columnTitleIndex = cursor.getColumnIndexOrThrow(MediaColumns.TITLE);
+			int columnIdIndex = cursor.getColumnIndexOrThrow(BaseColumns._ID);
 
 			do {
 				SoundInfo info = new SoundInfo();

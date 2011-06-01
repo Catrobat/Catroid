@@ -25,8 +25,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
+import android.widget.LinearLayout.LayoutParams;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.R.string;
@@ -51,6 +51,15 @@ import at.tugraz.ist.catroid.content.bricks.SetXBrick;
 import at.tugraz.ist.catroid.content.bricks.SetYBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
+import at.tugraz.ist.catroid.content.bricks.move_backward;
+import at.tugraz.ist.catroid.content.bricks.move_forward;
+import at.tugraz.ist.catroid.content.bricks.play_goodbye;
+import at.tugraz.ist.catroid.content.bricks.play_goodmorning;
+import at.tugraz.ist.catroid.content.bricks.stop;
+import at.tugraz.ist.catroid.content.bricks.turn_left;
+import at.tugraz.ist.catroid.content.bricks.turn_light_off;
+import at.tugraz.ist.catroid.content.bricks.turn_light_on;
+import at.tugraz.ist.catroid.content.bricks.turn_right;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.ui.adapter.PrototypeBrickAdapter;
 
@@ -70,6 +79,15 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new SetCostumeBrick(sprite));
 			prototypeBrickList.add(new ScaleCostumeBrick(sprite, 100));
 			prototypeBrickList.add(new PlaySoundBrick(sprite));
+			prototypeBrickList.add(new play_goodmorning(sprite));
+			prototypeBrickList.add(new play_goodbye(sprite));
+			prototypeBrickList.add(new move_forward(sprite));
+			prototypeBrickList.add(new move_backward(sprite));
+			prototypeBrickList.add(new stop(sprite));
+			prototypeBrickList.add(new turn_right(sprite));
+			prototypeBrickList.add(new turn_left(sprite));
+			prototypeBrickList.add(new turn_light_on(sprite));
+			prototypeBrickList.add(new turn_light_off(sprite));
 		} else {
 			prototypeBrickList = new ArrayList<Brick>();
 			prototypeBrickList.add(new WaitBrick(sprite, 1000));
@@ -97,7 +115,7 @@ public class AddBrickDialog extends Dialog {
 		this.scriptActivity = scriptActivity;
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.dialog_toolbox);
-		getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		getWindow().setLayout(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 	}
