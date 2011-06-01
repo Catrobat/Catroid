@@ -144,9 +144,9 @@ public class StorageHandler {
 			File projectDirectory = new File(Consts.DEFAULT_ROOT + "/" + projectName);
 
 			if (projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite()) {
-				InputStream spfFileStream = new FileInputStream(projectDirectory.getAbsolutePath() + "/" + projectName
-						+ Consts.PROJECT_EXTENTION);
-				return (Project) xstream.fromXML(spfFileStream);
+				InputStream projectFileStream = new FileInputStream(projectDirectory.getAbsolutePath() + "/"
+						+ projectName + Consts.PROJECT_EXTENTION);
+				return (Project) xstream.fromXML(projectFileStream);
 			} else {
 				return null;
 			}
@@ -163,7 +163,7 @@ public class StorageHandler {
 			return false;
 		}
 		try {
-			String spfFile = xstream.toXML(project);
+			String projectFile = xstream.toXML(project);
 
 			String projectDirectoryName = Consts.DEFAULT_ROOT + "/" + project.getName();
 			File projectDirectory = new File(projectDirectoryName);
@@ -187,7 +187,7 @@ public class StorageHandler {
 			BufferedWriter out = new BufferedWriter(new FileWriter(projectDirectoryName + "/" + project.getName()
 					+ Consts.PROJECT_EXTENTION), Consts.BUFFER_8K);
 
-			out.write(spfFile);
+			out.write(projectFile);
 			out.flush();
 			out.close();
 
