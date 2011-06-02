@@ -59,24 +59,6 @@
 					android:paddingTop="10dip"
 				></Button>
 				<Button
-					android:id="@+id/projects_on_phone_button"
-					android:text="@string/projects_on_phone"
-					android:layout_height="match_parent"
-					android:layout_width="match_parent"
-					android:layout_weight=".5"
-					android:background="@null"
-					android:drawableTop="@drawable/projects_selector"
-					android:paddingTop="10dip"
-				></Button>
-			</LinearLayout>
-			<LinearLayout
-				xmlns:android="http://schemas.android.com/apk/res/android"
-				android:orientation="horizontal"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:layout_weight=".25"
-			>
-				<Button
 					android:id="@+id/new_project_button"
 					android:text="@string/new_project"
 					android:layout_height="match_parent"
@@ -84,16 +66,35 @@
 					android:layout_weight=".5"
 					android:background="@null"
 					android:drawableTop="@drawable/new_project_selector"
-					android:paddingTop="25dp"
+					android:paddingTop="10dp"
 				></Button>
+				
+			</LinearLayout>
+			<LinearLayout
+				xmlns:android="http://schemas.android.com/apk/res/android"
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:layout_weight=".25"
+			>
 				<Button
-					android:id="@+id/tutorial_button"
-					android:text="@string/tutorial"
+					android:id="@+id/projects_on_phone_button"
+					android:text="@string/projects_on_phone"
 					android:layout_height="match_parent"
 					android:layout_width="match_parent"
 					android:layout_weight=".5"
 					android:background="@null"
 					android:drawableTop="@drawable/projects_selector"
+					android:paddingTop="25dip"
+				></Button>
+				<Button
+					android:id="@+id/upload_project_button"
+					android:text="@string/upload_project"
+					android:layout_height="match_parent"
+					android:layout_width="match_parent"
+					android:layout_weight=".5"
+					android:background="@null"
+					android:drawableTop="@drawable/upload_selector"
 					android:paddingTop="25dip"
 				></Button>
 			</LinearLayout>
@@ -104,16 +105,6 @@
 				android:layout_width="match_parent"
 				android:layout_weight=".25"
 			>
-				<Button
-					android:id="@+id/settings_button"
-					android:text="@string/settings"
-					android:layout_height="match_parent"
-					android:layout_width="match_parent"
-					android:layout_weight=".5"
-					android:background="@null"
-					android:drawableTop="@drawable/settings_selector"
-					android:paddingTop="25dip"
-				></Button>
 				<Button
 					android:id="@+id/web_button"
 					android:text="@string/web_resources"
@@ -124,6 +115,16 @@
 					android:drawableTop="@drawable/web_selector"
 					android:paddingTop="25dip"
 				></Button>
+				<Button
+					android:id="@+id/settings_button"
+					android:text="@string/settings"
+					android:layout_height="match_parent"
+					android:layout_width="match_parent"
+					android:layout_weight=".5"
+					android:background="@null"
+					android:drawableTop="@drawable/settings_selector"
+					android:paddingTop="25dip"
+				></Button>
 			</LinearLayout>
 			<LinearLayout
 				xmlns:android="http://schemas.android.com/apk/res/android"
@@ -133,13 +134,13 @@
 				android:layout_weight=".25"
 			>
 				<Button
-					android:id="@+id/upload_project_button"
-					android:text="@string/upload_project"
+					android:id="@+id/tutorial_button"
+					android:text="@string/tutorial"
 					android:layout_height="match_parent"
 					android:layout_width="match_parent"
 					android:layout_weight=".5"
 					android:background="@null"
-					android:drawableTop="@drawable/upload_selector"
+					android:drawableTop="@drawable/tutorial_selector"
 					android:paddingTop="25dip"
 				></Button>
 				<Button
