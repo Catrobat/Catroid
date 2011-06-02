@@ -24,15 +24,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Field;
 
 import android.content.Context;
+import android.util.Log;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class TestUtils {
 
-	@SuppressWarnings("unused")
-	private static final String SECRET = "This is a secret string!";
+	private static final String TAG = TestUtils.class.getSimpleName();
 	public static final int TYPE_IMAGE_FILE = 0;
 	public static final int TYPE_SOUND_FILE = 1;
 
@@ -108,7 +109,31 @@ public class TestUtils {
 		return testImage;
 	}
 
-	public static Object getPrivateField(String fieldName, Object sourceClass) {
-		return null;
+	public static Object getPrivateField(String fieldName, Object object, boolean ofSuperclass) {
+
+		Field field = null;
+
+		try {
+			Class<?> c = object.getClass();
+			field = ofSuperclass ? c.getSuperclass().getDeclaredField(fieldName) : c.getDeclaredField(fieldName);
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (NoSuchFieldException e) {
+			Log.w(TAG, e.getClass().getName() + ": " + fieldName);
+		}
+
+		if (field != null) {
+			field.setAccessible(true);
+
+			try {
+				return field.get(object);
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return field;
 	}
 }
