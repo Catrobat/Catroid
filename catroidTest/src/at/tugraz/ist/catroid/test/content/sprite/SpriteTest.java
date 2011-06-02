@@ -18,8 +18,6 @@
  */
 package at.tugraz.ist.catroid.test.content.sprite;
 
-import java.lang.reflect.Field;
-
 import android.test.AndroidTestCase;
 import android.util.Log;
 import at.tugraz.ist.catroid.content.Script;
@@ -28,6 +26,7 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
+import at.tugraz.ist.catroid.test.utils.TestUtils;
 
 public class SpriteTest extends AndroidTestCase {
 
@@ -207,21 +206,7 @@ public class SpriteTest extends AndroidTestCase {
 	}
 
 	private int getBrickPositionAfterPause(Script script) {
-		Field field = null;
-		int brickPositionAfterPause = 0;
-
-		try {
-			field = Script.class.getDeclaredField("brickPositionAfterPause");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		field.setAccessible(true);
-
-		try {
-			brickPositionAfterPause = (Integer) field.get(script);
-		} catch (Exception e) {
-		}
+		int brickPositionAfterPause = (Integer) TestUtils.getPrivateField("brickPositionAfterPause", script, true);
 
 		return brickPositionAfterPause;
 	}

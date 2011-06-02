@@ -27,6 +27,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 
 import junit.framework.TestCase;
+import android.util.Log;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
@@ -34,6 +35,7 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class UtilsTest extends TestCase {
 
+	private static final String TAG = UtilsTest.class.getSimpleName();
 	private final String testFileContent = "Hello, this is a Test-String";
 	private final String MD5_EMPTY = "D41D8CD98F00B204E9800998ECF8427E";
 	private final String MD5_CATROID = "4F982D927F4784F69AD6D6AF38FD96AD";
@@ -171,7 +173,31 @@ public class UtilsTest extends TestCase {
 	}
 
 	public void testGetPrivateField() {
-		String secret = (String) TestUtils.getPrivateField("SECRET", TestUtils.class);
-		assertEquals("Getting private String failed!", "This is a secret string!", secret);
+
+		class Super {
+			@SuppressWarnings("unused")
+			private float SECRET_PRIMITIVE_FLOAT = 3.1415f;
+		}
+		class Sub extends Super {
+			@SuppressWarnings("unused")
+			private final String SECRET_STRING = "This is a secret string!";
+			@SuppressWarnings("unused")
+			private final Integer SECRET_INTEGER = 42;
+		}
+
+		String secretString = (String) TestUtils.getPrivateField("SECRET_STRING", new Sub(), false);
+		Log.v(TAG, secretString);
+		assertEquals("Getting private String failed!", "This is a secret string!", secretString);
+
+		Integer secretInteger = (Integer) TestUtils.getPrivateField("SECRET_INTEGER", new Sub(), false);
+		Log.v(TAG, secretInteger.toString());
+		assertEquals("Getting private Integer failed!", new Integer(42), secretInteger);
+
+		Float secretFloat = (Float) TestUtils.getPrivateField("SECRET_PRIMITIVE_FLOAT", new Sub(), false);
+		assertNull("Getting private float succeeded!", secretFloat);
+
+		secretFloat = (Float) TestUtils.getPrivateField("SECRET_PRIMITIVE_FLOAT", new Sub(), true);
+		Log.v(TAG, secretFloat.toString());
+		assertEquals("Getting private float failed!", new Float(3.1415f), secretFloat);
 	}
 }
