@@ -39,6 +39,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import at.tugraz.ist.catroid.R;
 
 public class CustomIconContextMenu implements DialogInterface.OnCancelListener, DialogInterface.OnDismissListener {
 
@@ -148,6 +149,7 @@ public class CustomIconContextMenu implements DialogInterface.OnCancelListener, 
 			textView.setTag(item);
 			textView.setText(item.text);
 			textView.setCompoundDrawablesWithIntrinsicBounds(item.icon, null, null, null);
+			textView.setBackgroundResource(R.color.contextmenu_item_background);
 
 			return textView;
 		}
@@ -176,8 +178,7 @@ public class CustomIconContextMenu implements DialogInterface.OnCancelListener, 
 		public Drawable icon;
 		public int contextMenuItemId;
 
-		public CustomContextMenuItem(Resources res, String title,
-				int iconResourceId, int contextMenuItemId) {
+		public CustomContextMenuItem(Resources res, String title, int iconResourceId, int contextMenuItemId) {
 			text = title;
 			if (iconResourceId != -1) {
 				icon = res.getDrawable(iconResourceId);
