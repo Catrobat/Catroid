@@ -37,12 +37,11 @@ import at.tugraz.ist.catroid.utils.ImageEditing;
 
 public class SpriteAdapter extends ArrayAdapter<Sprite> {
 
-	private Context context;
 	private static LayoutInflater inflater = null;
+	boolean first = true;
 
-	public SpriteAdapter(Context context2, int resource, int textViewResourceId, List<Sprite> objects) {
-		super(context2, resource, textViewResourceId, objects);
-		this.context = context2;
+	public SpriteAdapter(Context context, int resource, int textViewResourceId, List<Sprite> objects) {
+		super(context, resource, textViewResourceId, objects);
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
@@ -57,7 +56,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		View spriteView = convertView;
 		ViewHolder holder;
 		if (convertView == null) {
-			spriteView = inflater.inflate(R.layout.sprite_list_item, null);
+			spriteView = inflater.inflate(R.layout.activity_project_spritelist_item, null);
 			holder = new ViewHolder();
 			holder.text = (TextView) spriteView.findViewById(R.id.sprite_title);
 			holder.detail = (TextView) spriteView.findViewById(R.id.sprite_detail);

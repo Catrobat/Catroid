@@ -53,7 +53,8 @@ public class ProjectActivity extends ListActivity {
 
 	private void initListeners() {
 		spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
-		spriteAdapter = new SpriteAdapter(this, R.layout.sprite_list_item, R.id.sprite_title, spriteList);
+		spriteAdapter = new SpriteAdapter(this, R.layout.activity_project_spritelist_item, R.id.sprite_title,
+				spriteList);
 
 		setListAdapter(spriteAdapter);
 		getListView().setTextFilterEnabled(true);
@@ -112,12 +113,6 @@ public class ProjectActivity extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_project);
-		//setting divider for list:
-		this.getListView().setDivider(getResources().getDrawable(R.drawable.divider));
-		this.getListView().setDividerHeight(5);
-		//setting background of the list
-		this.getListView().setBackgroundColor(getResources().getColor(R.color.website_blue));
-		this.getListView().setFooterDividersEnabled(false);
 	}
 
 	@Override
