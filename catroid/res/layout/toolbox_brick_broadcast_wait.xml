@@ -18,44 +18,45 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="match_parent"
-  android:layout_height="wrap_content"
-  android:orientation="horizontal">
-  	<ImageView
-		android:id="@+id/grabber"
-		android:layout_alignParentLeft="true"
-		android:layout_alignParentTop="true"
-		android:layout_alignParentBottom="true"
-		android:layout_gravity="center_vertical"
-		android:layout_width="wrap_content"
-		android:src="@drawable/ic_mp_move"
-		android:layout_height="wrap_content" />
-		
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:orientation="horizontal"
+>
 	<LinearLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		android:layout_height="wrap_content"
-		android:layout_width="fill_parent"
 		android:orientation="vertical"
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
 		android:background="@drawable/brick_yellow"
 	>
 		<TextView
-			android:text="@string/brick_note"
+			android:text="@string/brick_broadcast_wait"
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
 			android:textColor="@color/white"
 			android:textSize="18dip"
-			android:textStyle="bold"
-		>
-	    </TextView>
-		<EditText
-			android:id="@+id/edit_text_note"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:minLines = "1"
-			android:scrollbars="vertical"
-			android:scrollbarStyle="insideInset">
-		</EditText>
-
+			android:textStyle="bold" />
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+			>
+				<Spinner 
+					android:id="@+id/broadcast_spinner" 
+					android:layout_width="wrap_content" 
+					android:layout_height="wrap_content"
+					android:layout_weight="5"
+					android:focusable="false"
+					android:clickable="false"
+				/>
+				<Button 
+					android:layout_width="wrap_content" 
+					android:id="@+id/broadcast_new_message" 
+					android:layout_height="wrap_content" 
+					android:text="@string/new_broadcast_message" 
+					android:layout_weight="1"
+					android:focusable = "false"
+					android:clickable="false"/>
+			</LinearLayout>
 	</LinearLayout>
 </LinearLayout>

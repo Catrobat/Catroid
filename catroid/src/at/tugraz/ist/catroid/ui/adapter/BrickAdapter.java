@@ -32,10 +32,12 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnGroupClickListener;
 import at.tugraz.ist.catroid.ProjectManager;
+import at.tugraz.ist.catroid.content.BroadcastScript;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.TapScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
+import at.tugraz.ist.catroid.content.bricks.BroadcastReceiverBrick;
 import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
 import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
@@ -100,6 +102,9 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 		View view;
 		if (getGroup(groupPosition) instanceof TapScript) {
 			view = new IfTouchedBrick(sprite, getGroup(groupPosition)).getPrototypeView(context);
+		} else if (getGroup(groupPosition) instanceof BroadcastScript) {
+			view = new BroadcastReceiverBrick(sprite, (BroadcastScript) getGroup(groupPosition)).getView(context, 0,
+					null);
 		} else {
 			view = new IfStartedBrick(sprite, getGroup(groupPosition)).getPrototypeView(context);
 		}
@@ -150,7 +155,6 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 		if (groupPosition == getGroupCount() - 1) {
 			return false;
 		}
-
 		animateChildren = true;
 		brickListAnimation.doClickOnGroupAnimate(getGroupCount(), groupPosition);
 		return true;
