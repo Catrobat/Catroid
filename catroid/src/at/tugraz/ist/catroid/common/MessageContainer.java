@@ -74,7 +74,7 @@ public class MessageContainer {
 		return receiverMap.keySet();
 	}
 
-	private void addMessageToAdapter(String message) {
+	private synchronized void addMessageToAdapter(String message) {
 		if (messageAdapter != null) {
 			messageAdapter.add(message);
 		}
