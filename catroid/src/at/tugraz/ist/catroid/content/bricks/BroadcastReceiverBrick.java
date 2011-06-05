@@ -59,7 +59,6 @@ public class BroadcastReceiverBrick implements Brick {
 	}
 
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
-		//		return this.getPrototypeView(context);
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View brickView = inflater.inflate(R.layout.construction_brick_broadcast_receive, null);
 
@@ -137,6 +136,8 @@ public class BroadcastReceiverBrick implements Brick {
 			}
 		});
 
+		spinner.setFocusable(false);
+		newBroadcastMessage.setFocusable(false);
 		return brickView;
 	}
 

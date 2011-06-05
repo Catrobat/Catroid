@@ -25,13 +25,11 @@
 	android:layout_width="match_parent"
 	android:background="@drawable/brick_touched"
 	android:orientation="horizontal"
-	android:focusable = "false"
 >
 	<LinearLayout
 		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
+		android:layout_width="fill_parent"
 		android:orientation="vertical"
-		android:focusable = "false"
 	>
     	<TextView 
     		android:textSize="18dip" 
@@ -40,29 +38,25 @@
     		android:layout_width="wrap_content" 
     		android:textColor="@color/white" 
     		android:textStyle="bold"
-    		android:focusable = "false"
     		/>
 		<LinearLayout
 			android:layout_height="wrap_content"
 			android:layout_width="fill_parent"
 			android:orientation="horizontal"
-			android:focusable = "false"
 		>
-			<Spinner 
-				android:layout_width="wrap_content" 
-				android:layout_height="wrap_content" 
-				android:id="@+id/broadcast_spinner" 
-				android:layout_weight="5"
-				android:focusable = "false">
-			</Spinner>
-			<Button 
-				android:layout_width="wrap_content" 
-				android:id="@+id/broadcast_new_message" 
-				android:layout_height="wrap_content" 
-				android:text="@string/new_broadcast_message" 
-				android:layout_gravity="right" 
-				android:layout_weight="1"
-				android:focusable = "false"></Button>
+				<Spinner 
+					android:id="@+id/broadcast_spinner" 
+					android:layout_width="wrap_content" 
+					android:layout_height="wrap_content"
+					android:layout_weight="5"
+				/>
+				<Button 
+					android:layout_width="wrap_content" 
+					android:id="@+id/broadcast_new_message" 
+					android:layout_height="wrap_content" 
+					android:text="@string/new_broadcast_message" 
+					android:layout_weight="1"
+					/>
 		</LinearLayout>
 	</LinearLayout>
 </LinearLayout>

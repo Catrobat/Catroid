@@ -161,6 +161,11 @@
 	<string name="choose_sound_title">Sound wählen</string>
 	
 	<string name="brick_note">Notiz</string>
+	
+	<string name="brick_broadcast_receive">Wenn ich folgendes empfange</string>
+	<string name="brick_broadcast">Verschicke an alle</string>
+    <string name="brick_broadcast_wait">Verschicke und warte</string>
+    
     <!-- defaulValues -->
     <string name="default_project_name">standardProjekt</string>
     
