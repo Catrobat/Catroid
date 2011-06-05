@@ -21,6 +21,7 @@ package at.tugraz.ist.catroid.content;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 import android.graphics.Color;
 import android.util.Pair;
@@ -84,6 +85,37 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		Thread t = new Thread(new Runnable() {
 			public void run() {
 				script.run();
+			}
+		});
+		threadList.add(t);
+		t.start();
+	}
+
+	public void startScriptBroadcast(Script s, final CountDownLatch simultaneousStart) {
+		final Script script = s;
+		Thread t = new Thread(new Runnable() {
+			public void run() {
+				try {
+					simultaneousStart.await();
+				} catch (InterruptedException e) {
+				}
+				script.run();
+			}
+		});
+		threadList.add(t);
+		t.start();
+	}
+
+	public void startScriptBroadcastWait(Script s, final CountDownLatch simultaneousStart, final CountDownLatch wait) {
+		final Script script = s;
+		Thread t = new Thread(new Runnable() {
+			public void run() {
+				try {
+					simultaneousStart.await();
+				} catch (InterruptedException e) {
+				}
+				script.run();
+				wait.countDown();
 			}
 		});
 		threadList.add(t);

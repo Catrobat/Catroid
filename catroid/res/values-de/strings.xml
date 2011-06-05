@@ -128,6 +128,10 @@
     <!-- Load project dialog -->
     <string name="load_project_dialog_title">Projekt laden</string>
 
+	<!-- Broadcast spinner -->
+	<string name="new_broadcast_message">Neu...</string>
+	<string name="broadcast_select">Wähle...</string>
+	
     <!--  Stage context menu -->
     <string name="stagemenu_construction_site">Zur Baustelle</string>
     <string name="stagemenu_start">Abspielen/Pause</string>

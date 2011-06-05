@@ -32,7 +32,7 @@ public abstract class Script implements Serializable {
 	private transient boolean paused;
 	private transient int brickPositionAfterPause;
 	private String name;
-	private Sprite sprite;
+	protected Sprite sprite;
 
 	protected Object readResolve() {
 		init();
