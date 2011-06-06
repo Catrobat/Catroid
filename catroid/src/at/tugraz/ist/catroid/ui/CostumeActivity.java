@@ -19,226 +19,172 @@
 
 package at.tugraz.ist.catroid.ui;
 
+import java.util.List;
+import java.util.Vector;
+
 import android.app.Activity;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
-import android.content.DialogInterface.OnDismissListener;
+import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ParseException;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.stage.StageActivity;
-import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
-import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView;
-import at.tugraz.ist.catroid.utils.ActivityHelper;
-import at.tugraz.ist.catroid.utils.Utils;
+import at.tugraz.ist.catroid.content.Sprite;
 
-public class CostumeActivity extends Activity implements OnDismissListener, OnCancelListener {
-	private BrickAdapter adapter;
-	private DragNDropListView listView;
-	//private Sprite sprite;
-	//private Script scriptToEdit;
-	private ActivityHelper activityHelper = new ActivityHelper(this);
+public class CostumeActivity extends ListActivity {
+	private LayoutInflater mInflater;
+	private Vector<RowData> data;
+	RowData rd;
+	private Sprite sprite;
+
+	static final String[] imageName = new String[] {};
+
+	private Integer[] thumbnail = {};
 
 	private void initListeners() {
-		//sprite = ProjectManager.getInstance().getCurrentSprite();
-		listView = (DragNDropListView) findViewById(R.id.costume_list_view);
-		//		adapter = new BrickAdapter(this, ProjectManager.getInstance().getCurrentSprite(), listView);
-		//		if (adapter.getGroupCount() > 0) {
-		//			ProjectManager.getInstance().setCurrentScript(adapter.getGroup(adapter.getGroupCount() - 1));
-		//		}
-
-		listView.setTrashView((ImageView) findViewById(R.id.trash));
-		listView.setOnCreateContextMenuListener(this);
-		listView.setOnDropListener(adapter);
-		listView.setOnRemoveListener(adapter);
-		listView.setAdapter(adapter);
-		// Sets scroll behavior. TODO: Find a better way to do it.
-		//listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
-		listView.setGroupIndicator(null);
-		listView.setOnGroupClickListener(adapter);
-		registerForContextMenu(listView);
+		sprite = ProjectManager.getInstance().getCurrentSprite();
 
 		Button addCostumeButton = (Button) findViewById(R.id.add_costume_button);
 		addCostumeButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				//showDialog(Consts.DIALOG_ADD_BRICK);
+				Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+				intent.setType("image/*");
 			}
 		});
 
 	}
 
+	/*
+	 * public View getView(final Context context, final int brickId, BaseExpandableListAdapter adapter) {
+	 * LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	 * View view = inflater.inflate(R.layout.construction_brick_set_costume, null);
+	 * 
+	 * OnClickListener listener = new OnClickListener() {
+	 * public void onClick(View v) {
+	 * Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+	 * intent.setType("image/*");
+	 * ((Activity) context).startActivityForResult(intent, brickId);
+	 * }
+	 * };
+	 * 
+	 * ImageView imageView = (ImageView) view.findViewById(R.id.costume_image_view);
+	 * 
+	 * if (imageName != null) {
+	 * if (thumbnail == null) {
+	 * thumbnail = ImageEditing.getScaledBitmap(getAbsoluteImagePath(), Consts.THUMBNAIL_HEIGHT,
+	 * Consts.THUMBNAIL_WIDTH);
+	 * }
+	 * 
+	 * imageView.setImageBitmap(thumbnail);
+	 * imageView.setBackgroundDrawable(null);
+	 * }
+	 * 
+	 * imageView.setOnClickListener(listener);
+	 * 
+	 * return view;
+	 * }
+	 */
+
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_costume);
-
-	}
-
-	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-
-		activityHelper.setupActionBar(false, ProjectManager.getInstance().getCurrentSprite().getName());
-
-		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, new View.OnClickListener() {
-			public void onClick(View v) {
-				Intent intent = new Intent(CostumeActivity.this, StageActivity.class);
-				startActivity(intent);
+		mInflater = (LayoutInflater) getSystemService(
+				Activity.LAYOUT_INFLATER_SERVICE);
+		data = new Vector<RowData>();
+		for (int i = 0; i < imageName.length; i++) {
+			try {
+				rd = new RowData(i, imageName[i]);
+			} catch (ParseException e) {
+				e.printStackTrace();
 			}
-		}, false);
-	}
-
-	//	@Override
-	//	protected Dialog onCreateDialog(int id) {
-	//		Dialog dialog;
-	//
-	//		switch (id) {
-	//			case Consts.DIALOG_ADD_BRICK:
-	//				dialog = new AddBrickDialog(this);
-	//				dialog.setOnDismissListener(this);
-	//				break;
-	//			default:
-	//				dialog = null;
-	//				break;
-	//		}
-	//		return dialog;
-	//	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		ProjectManager projectManager = ProjectManager.getInstance();
-		if (projectManager.getCurrentProject() != null) {
-			projectManager.saveProject(this);
+			data.add(rd);
 		}
+		CustomAdapter adapter = new CustomAdapter(this, R.layout.activity_costumelist, R.id.title, data);
+		setListAdapter(adapter);
+		getListView().setTextFilterEnabled(true);
 	}
 
 	@Override
-	protected void onStart() {
-		super.onStart();
-		initListeners();
-		if (adapter.getGroupCount() > 0) {
-			listView.expandGroup(adapter.getGroupCount() - 1);
+	public void onListItemClick(ListView parent, View v, int position, long id) {
+		Toast.makeText(getApplicationContext(), "You have selected "
+						+ (position + 1) + "th item", Toast.LENGTH_SHORT).show();
+	}
+
+	private class RowData {
+		protected int mId;
+		protected String mTitle;
+		protected String mDetail;
+
+		RowData(int id, String title) {
+			mId = id;
+			mTitle = title;
+		}
+
+		@Override
+		public String toString() {
+			return mId + " " + mTitle + " " + mDetail;
 		}
 	}
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		if (!Utils.checkForSdCard(this)) {
-			return;
-		}
-	}
-
-	public void onDismiss(DialogInterface dialog) {
-		for (int i = 0; i < adapter.getGroupCount() - 1; ++i) {
-			listView.collapseGroup(i);
+	private class CustomAdapter extends ArrayAdapter<RowData> {
+		public CustomAdapter(Context context, int resource,
+							int textViewResourceId, List<RowData> objects) {
+			super(context, resource, textViewResourceId, objects);
 		}
 
-		adapter.notifyDataSetChanged();
-		if (adapter.getGroupCount() > 0) {
-			listView.expandGroup(adapter.getGroupCount() - 1);
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			ViewHolder holder = null;
+			TextView title = null;
+			TextView detail = null;
+			ImageView i11 = null;
+			RowData rowData = getItem(position);
+			if (null == convertView) {
+				convertView = mInflater.inflate(R.layout.activity_costumelist, null);
+				holder = new ViewHolder(convertView);
+				convertView.setTag(holder);
+			}
+			holder = (ViewHolder) convertView.getTag();
+			title = holder.gettitle();
+			title.setText(rowData.mTitle);
+			i11 = holder.getImage();
+			i11.setImageResource(thumbnail[rowData.mId]);
+			return convertView;
+		}
+
+		private class ViewHolder {
+			private View mRow;
+			private TextView title = null;
+			private ImageView i11 = null;
+
+			public ViewHolder(View row) {
+				mRow = row;
+			}
+
+			public TextView gettitle() {
+				if (null == title) {
+					title = (TextView) mRow.findViewById(R.id.title);
+				}
+				return title;
+			}
+
+			public ImageView getImage() {
+				if (null == i11) {
+					i11 = (ImageView) mRow.findViewById(R.id.img);
+				}
+				return i11;
+			}
 		}
 	}
-
-	public void onCancel(DialogInterface arg0) {
-		adapter.notifyDataSetChanged();
-	}
-
-	//	@Override
-	//	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-	//		super.onActivityResult(requestCode, resultCode, data);
-	//
-	//		/*
-	//		 * This is used for getting the results of the gallery intent when the
-	//		 * user selected an image. requestCode holds the ID / position of the
-	//		 * brick that issued the request. If and when we have different kinds of
-	//		 * intents we need to find a better way.
-	//		 */
-	//
-	//		if (resultCode == RESULT_OK) {
-	//			SetCostumeBrick affectedBrick = (SetCostumeBrick) adapter
-	//					.getChild(adapter.getGroupCount() - 1, requestCode);
-	//			if (affectedBrick != null) {
-	//				Uri selectedImageUri = data.getData();
-	//				String selectedImagePath = getPathFromContentUri(selectedImageUri);
-	//				if (selectedImagePath == null) {
-	//					Utils.displayErrorMessage(this, getString(R.string.error_load_image));
-	//					return;
-	//				}
-	//				try {
-	//					if (affectedBrick.getImagePath() != null) {
-	//						StorageHandler.getInstance().deleteFile(affectedBrick.getImagePath());
-	//					}
-	//					File outputFile = StorageHandler.getInstance().copyImage(
-	//							ProjectManager.getInstance().getCurrentProject().getName(), selectedImagePath);
-	//					if (outputFile != null) {
-	//						affectedBrick.setCostume(outputFile.getName());
-	//						adapter.notifyDataSetChanged();
-	//					}
-	//				} catch (IOException e) {
-	//					e.printStackTrace();
-	//				}
-	//			}
-	//		}
-	//	}
-
-	//	private String getPathFromContentUri(Uri uri) {
-	//		String[] projection = { MediaStore.Images.Media.DATA };
-	//		Cursor cursor = managedQuery(uri, projection, null, null, null);
-	//		if (cursor != null) {
-	//			int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-	//			cursor.moveToFirst();
-	//			return cursor.getString(columnIndex);
-	//		} else {
-	//			return null;
-	//		}
-	//	}
-
-	//	public BrickAdapter getAdapter() {
-	//		return adapter;
-	//	}
-	//
-	//	@Override
-	//	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
-	//		if (view.getId() == R.id.brick_list_view) {
-	//			ExpandableListView.ExpandableListContextMenuInfo info =
-	//					(ExpandableListView.ExpandableListContextMenuInfo) menuInfo;
-	//			menu.setHeaderTitle("Script Menu");
-	//
-	//			if (ExpandableListView.getPackedPositionType(info.packedPosition) == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-	//				return;
-	//			}
-	//
-	//			int position = ExpandableListView.getPackedPositionGroup(info.packedPosition);
-	//			scriptToEdit = adapter.getGroup(position);
-	//
-	//			MenuInflater inflater = getMenuInflater();
-	//			inflater.inflate(R.menu.script_menu, menu);
-	//		}
-	//	}
-	//
-	//	@Override
-	//	public boolean onContextItemSelected(MenuItem item) {
-	//		switch (item.getItemId()) {
-	//			case R.id.script_menu_delete: {
-	//				sprite.getScriptList().remove(scriptToEdit);
-	//				if (sprite.getScriptList().isEmpty()) {
-	//					ProjectManager.getInstance().setCurrentScript(null);
-	//					adapter.notifyDataSetChanged();
-	//					return true;
-	//				}
-	//				int lastScriptIndex = sprite.getScriptList().size() - 1;
-	//				Script lastScript = sprite.getScriptList().get(lastScriptIndex);
-	//				ProjectManager.getInstance().setCurrentScript(lastScript);
-	//				adapter.notifyDataSetChanged();
-	//				listView.expandGroup(adapter.getGroupCount() - 1);
-	//			}
-	//		}
-	//		return true;
-	//	}
 }
