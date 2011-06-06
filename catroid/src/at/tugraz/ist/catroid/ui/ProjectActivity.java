@@ -22,6 +22,8 @@ import java.util.ArrayList;
 
 import android.app.Dialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnShowListener;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -48,8 +50,8 @@ public class ProjectActivity extends ListActivity {
 	private Sprite spriteToEdit;
 	private ActivityHelper activityHelper = new ActivityHelper(this);
 	private CustomIconContextMenu iconContextMenu;
-	public static final int CONTEXT_MENU_ITEM_RENAME = 0; //or R.id.project_menu_rename
-	public static final int CONTEXT_MENU_ITEM_DELETE = 1; //or R.id.project_menu_delete
+	private static final int CONTEXT_MENU_ITEM_RENAME = 0; //or R.id.project_menu_rename
+	private static final int CONTEXT_MENU_ITEM_DELETE = 1; //or R.id.project_menu_delete
 
 	private void initListeners() {
 		spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
@@ -73,8 +75,6 @@ public class ProjectActivity extends ListActivity {
 						ProjectActivity.this.getString(R.string.stage))) {
 					return true;
 				}
-				//removeDialog(Consts.DIALOG_CONTEXT_MENU);
-				initCustomContextMenu();
 				showDialog(Consts.DIALOG_CONTEXT_MENU);
 				return true;
 			}
@@ -139,6 +139,7 @@ public class ProjectActivity extends ListActivity {
 	protected void onStart() {
 		super.onStart();
 		initListeners();
+		initCustomContextMenu();
 	}
 
 	@Override
@@ -153,10 +154,16 @@ public class ProjectActivity extends ListActivity {
 				dialog = new RenameSpriteDialog(this);
 				break;
 			case Consts.DIALOG_CONTEXT_MENU:
-				if (iconContextMenu == null) {
-					return null;
+				if (iconContextMenu == null || spriteToEdit == null) {
+					dialog = null;
+				} else {
+					dialog = iconContextMenu.createMenu(spriteToEdit.getName());
+					dialog.setOnShowListener(new OnShowListener() { //TODO try to find a better place: not in init Custom.. (there this is not initialized) also not in CustomIconContextMenu 
+						public void onShow(DialogInterface dialog) {
+							iconContextMenu.dialog.setTitle(spriteToEdit.getName());
+						}
+					});
 				}
-				dialog = iconContextMenu.createMenu(spriteToEdit.getName());
 				break;
 			default:
 				dialog = null;
