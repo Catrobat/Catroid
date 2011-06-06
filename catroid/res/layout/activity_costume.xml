@@ -72,5 +72,5 @@
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:layout_weight="0"
-	android:id="@+id/add_costume_button"></Button>
+		android:id="@+id/add_costume_button"></Button>
 </LinearLayout>
