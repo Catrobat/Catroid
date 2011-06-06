@@ -48,8 +48,8 @@ public class ProjectActivity extends ListActivity {
 	private Sprite spriteToEdit;
 	private ActivityHelper activityHelper = new ActivityHelper(this);
 	private CustomIconContextMenu iconContextMenu;
-	private static final int CONTEXT_MENU_ITEM_RENAME = 0; //or R.id.project_menu_rename
-	private static final int CONTEXT_MENU_ITEM_DELETE = 1; //or R.id.project_menu_delete
+	public static final int CONTEXT_MENU_ITEM_RENAME = 0; //or R.id.project_menu_rename
+	public static final int CONTEXT_MENU_ITEM_DELETE = 1; //or R.id.project_menu_delete
 
 	private void initListeners() {
 		spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
@@ -73,7 +73,7 @@ public class ProjectActivity extends ListActivity {
 						ProjectActivity.this.getString(R.string.stage))) {
 					return true;
 				}
-				removeDialog(Consts.DIALOG_CONTEXT_MENU);
+				//removeDialog(Consts.DIALOG_CONTEXT_MENU);
 				initCustomContextMenu();
 				showDialog(Consts.DIALOG_CONTEXT_MENU);
 				return true;
@@ -153,6 +153,9 @@ public class ProjectActivity extends ListActivity {
 				dialog = new RenameSpriteDialog(this);
 				break;
 			case Consts.DIALOG_CONTEXT_MENU:
+				if (iconContextMenu == null) {
+					return null;
+				}
 				dialog = iconContextMenu.createMenu(spriteToEdit.getName());
 				break;
 			default:
