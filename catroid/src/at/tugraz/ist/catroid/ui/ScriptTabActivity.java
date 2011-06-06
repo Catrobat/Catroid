@@ -49,7 +49,7 @@ public class ScriptTabActivity extends TabActivity {
 		spec = tabHost.newTabSpec("costumes").setIndicator("Costumes").setContent(intent);
 		tabHost.addTab(spec);
 
-		intent = new Intent().setClass(this, CostumeActivity.class);
+		intent = new Intent().setClass(this, ScriptActivity.class);//just for demo because SoundActivity is not done yet
 		spec = tabHost.newTabSpec("sounds").setIndicator("Sounds").setContent(intent);
 		tabHost.addTab(spec);
 
