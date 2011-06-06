@@ -92,6 +92,10 @@
     <string name="sprite_name">Sprite:</string>
     <string name="script_list">Scripts:</string>
     <string name="add_new_script">Add new Script</string>
+    
+    <!-- Script tab activity -->
+    <string name="costume_list">Costume:</string>
+    <string name="add_new_costume">Add new Costume</string>
 
     <!-- Sprite dialog -->
     <string name="sprite_button_text">Create</string>
