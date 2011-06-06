@@ -25,8 +25,6 @@
 	android:layout_height="match_parent"
 	android:background="@drawable/backrepeat"
 >
-	<!-- Action bar -->
-	<include layout="@layout/actionbar"/>
 	
 	<!-- Sprite list -->
 	<LinearLayout
