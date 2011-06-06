@@ -66,6 +66,7 @@
 		</RelativeLayout>
 	</LinearLayout>
 	<!-- Add brick button -->
+	
 	<Button
 		android:text="@string/add_new_costume"
 		android:layout_width="fill_parent"
