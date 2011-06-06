@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<item 
+	android:state_selected="false"
+    android:state_pressed="false" 
+    android:drawable="@color/website_blue"/>
+<item>
+	android:state_pressed="true" 
+    <shape>
+		<gradient
+			android:startColor="@color/website_blue"
+			android:centerColor="@color/egg_yellow"
+			android:endColor="@color/website_blue"
+			android:angle="0" />
+	</shape>
+</item>
+<item android:state_selected="true"
+	android:state_pressed="false" 
+    android:drawable="@color/egg_yellow"/>
+</selector>

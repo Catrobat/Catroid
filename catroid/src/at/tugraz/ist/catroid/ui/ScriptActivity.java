@@ -51,6 +51,7 @@ import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
 import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView;
+import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class ScriptActivity extends Activity implements OnDismissListener, OnCancelListener {
@@ -58,6 +59,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	private DragNDropListView listView;
 	private Sprite sprite;
 	private Script scriptToEdit;
+	private ActivityHelper activityHelper = new ActivityHelper(this);
 
 	private void initListeners() {
 		sprite = ProjectManager.getInstance().getCurrentSprite();
@@ -78,35 +80,33 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		listView.setOnGroupClickListener(adapter);
 		registerForContextMenu(listView);
 
-		Button mainMenuButton = (Button) findViewById(R.id.main_menu_button);
-		mainMenuButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				Intent intent = new Intent(ScriptActivity.this, MainMenuActivity.class);
-				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(intent);
-			}
-		});
-
-		Button toStageButton = (Button) findViewById(R.id.toStageButton);
-		toStageButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				Intent intent = new Intent(ScriptActivity.this, StageActivity.class);
-				startActivity(intent);
-			}
-		});
-
 		Button addBrickButton = (Button) findViewById(R.id.add_brick_button);
 		addBrickButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				showDialog(Consts.DIALOG_ADD_BRICK);
 			}
 		});
+
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_script);
+
+	}
+
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		activityHelper.setupActionBar(false, ProjectManager.getInstance().getCurrentSprite().getName());
+
+		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent(ScriptActivity.this, StageActivity.class);
+				startActivity(intent);
+			}
+		}, false);
 	}
 
 	@Override
@@ -223,8 +223,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
 		if (view.getId() == R.id.brick_list_view) {
-			ExpandableListView.ExpandableListContextMenuInfo info =
-					(ExpandableListView.ExpandableListContextMenuInfo) menuInfo;
+			ExpandableListView.ExpandableListContextMenuInfo info = (ExpandableListView.ExpandableListContextMenuInfo) menuInfo;
 			menu.setHeaderTitle("Script Menu");
 
 			if (ExpandableListView.getPackedPositionType(info.packedPosition) == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {

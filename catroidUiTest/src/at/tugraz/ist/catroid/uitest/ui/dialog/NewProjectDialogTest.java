@@ -23,7 +23,7 @@ import java.io.IOException;
 
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.ActivityInstrumentationTestCase2;
-import android.widget.TextView;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.uitest.util.Utils;
@@ -68,11 +68,8 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 		solo.sendKey(Solo.ENTER);
 
 		solo.sleep(1000);
-
-		TextView newProject = (TextView) solo.getCurrentActivity().findViewById(R.id.project_title_text_view);
-
-		assertEquals("New Project is not testingproject!", "Project: " + testingproject, newProject.getText());
-
+		assertTrue("New Project is not testingproject!",
+				ProjectManager.getInstance().getCurrentProject().getName().equals(Utils.PROJECTNAME1));
 	}
 
 }

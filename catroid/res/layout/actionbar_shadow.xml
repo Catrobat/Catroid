@@ -1,5 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
 <!-- 
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010  Catroid development team 
@@ -18,12 +16,9 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
- 
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-	<item
-		android:id="@+id/project_menu_rename"
-		android:title="@string/rename" />
-	<item
-		android:id="@+id/project_menu_delete"
-		android:title="@string/delete" />
-</menu>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/actionbar_shadow"
+    android:layout_width="fill_parent"
+    android:layout_height="6dp"
+    android:foreground="@drawable/actionbar_shadow"/>
