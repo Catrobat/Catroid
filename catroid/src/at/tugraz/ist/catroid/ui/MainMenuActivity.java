@@ -52,7 +52,7 @@ public class MainMenuActivity extends Activity {
 		currentProjectButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				if (projectManager.getCurrentProject() != null) {
-					Intent intent = new Intent(MainMenuActivity.this, ScriptActivityTab.class);
+					Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
 					startActivity(intent);
 				}
 			}
