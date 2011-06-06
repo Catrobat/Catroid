@@ -110,7 +110,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 
 	public void testPathsInProjectFile() throws IOException {
 		fillProjectWithAllBricksAndMediaFiles();
-		String project = StorageHandler.getInstance().getProjectFileAsString(projectName);
+		String project = TestUtils.getProjectfileAsString(projectName);
 
 		assertFalse("project contains DEFAULT_ROOT", project.contains(Consts.DEFAULT_ROOT));
 		assertFalse("project contains IMAGE_DIRECTORY", project.contains(Consts.IMAGE_DIRECTORY));
@@ -121,7 +121,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 	public void testFilenameChecksum() throws IOException {
 		fillProjectWithAllBricksAndMediaFiles();
 
-		String project = StorageHandler.getInstance().getProjectFileAsString(projectName);
+		String project = TestUtils.getProjectfileAsString(projectName);
 
 		String checksumImage = Utils.md5Checksum(testImageCopy);
 		String checksumSound = Utils.md5Checksum(testSoundCopy);
@@ -215,10 +215,10 @@ public class MediaPathTest extends InstrumentationTestCase {
 
 	public void testFileChecksumContainerNotInProjectFile() throws IOException {
 		fillProjectWithAllBricksAndMediaFiles();
-		String projectString = StorageHandler.getInstance().getProjectFileAsString(projectName);
+		String projectString = TestUtils.getProjectfileAsString(projectName);
 		assertFalse("FileChecksumcontainer is in the project", projectString.contains("FileChecksumContainer"));
 		ProjectManager.getInstance().loadProject(projectName, getInstrumentation().getTargetContext(), false);
-		projectString = StorageHandler.getInstance().getProjectFileAsString(projectName);
+		projectString = TestUtils.getProjectfileAsString(projectName);
 		assertFalse("FileChecksumcontainer is in the project", projectString.contains("FileChecksumContainer"));
 	}
 

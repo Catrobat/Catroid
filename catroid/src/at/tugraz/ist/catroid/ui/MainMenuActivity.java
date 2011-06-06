@@ -27,7 +27,6 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
@@ -38,17 +37,19 @@ import at.tugraz.ist.catroid.ui.dialogs.AboutDialog;
 import at.tugraz.ist.catroid.ui.dialogs.LoadProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.UploadProjectDialog;
+import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class MainMenuActivity extends Activity {
 	private static final String PREFS_NAME = "at.tugraz.ist.catroid";
 	private static final String PREF_PROJECTNAME_KEY = "projectName";
 	private ProjectManager projectManager;
+	private ActivityHelper activityHelper = new ActivityHelper(this);
 
 	private void initListeners() {
 
-		Button resumeButton = (Button) findViewById(R.id.resumeButton);
-		resumeButton.setOnClickListener(new View.OnClickListener() {
+		Button currentProjectButton = (Button) findViewById(R.id.current_project_button);
+		currentProjectButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				if (projectManager.getCurrentProject() != null) {
 					Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
@@ -57,43 +58,34 @@ public class MainMenuActivity extends Activity {
 			}
 		});
 
-		Button toStageButton = (Button) findViewById(R.id.toStageButton);
-		toStageButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				if (projectManager.getCurrentProject() != null) {
-					Intent intent = new Intent(MainMenuActivity.this, StageActivity.class);
-					startActivity(intent);
-				}
-			}
-		});
-
-		Button newProjectButton = (Button) findViewById(R.id.newProjectButton);
+		Button newProjectButton = (Button) findViewById(R.id.new_project_button);
 		newProjectButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				showDialog(Consts.DIALOG_NEW_PROJECT);
 			}
 		});
 
-		Button loadProjectButton = (Button) findViewById(R.id.loadProjectButton);
+		Button loadProjectButton = (Button) findViewById(R.id.projects_on_phone_button);
 		loadProjectButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				showDialog(Consts.DIALOG_LOAD_PROJECT);
 			}
 		});
 
-		Button uploadProjectButton = (Button) findViewById(R.id.uploadProjectButton);
+		Button uploadProjectButton = (Button) findViewById(R.id.upload_project_button);
 		uploadProjectButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				showDialog(Consts.DIALOG_UPLOAD_PROJECT);
 			}
 		});
 
-		Button aboutCatroidButton = (Button) findViewById(R.id.aboutCatroidButton);
+		Button aboutCatroidButton = (Button) findViewById(R.id.about_catroid_button);
 		aboutCatroidButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				showDialog(Consts.DIALOG_ABOUT);
 			}
 		});
+
 	}
 
 	@Override
@@ -125,15 +117,26 @@ public class MainMenuActivity extends Activity {
 		}
 
 		if (projectManager.getCurrentProject() == null) {
-			Button resumeButton = (Button) findViewById(R.id.resumeButton);
-			resumeButton.setEnabled(false);
-			Button toStageButton = (Button) findViewById(R.id.toStageButton);
-			toStageButton.setEnabled(false);
+			Button currentProjectButton = (Button) findViewById(R.id.current_project_button);
+			currentProjectButton.setEnabled(false);
 
-			TextView currentProjectTextView = (TextView) findViewById(R.id.currentProjectNameTextView);
-			currentProjectTextView.setText(getString(R.string.current_project) + " " + getString(R.string.no_project));
 		}
 		initListeners();
+
+	}
+
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		activityHelper.setupActionBar(true, null);
+		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, new View.OnClickListener() {
+			public void onClick(View v) {
+				if (projectManager.getCurrentProject() != null) {
+					Intent intent = new Intent(MainMenuActivity.this, StageActivity.class);
+					startActivity(intent);
+				}
+			}
+		}, false);
 	}
 
 	@Override
@@ -178,9 +181,9 @@ public class MainMenuActivity extends Activity {
 		if (projectManager.getCurrentProject() == null) {
 			return;
 		}
-		TextView currentProjectTextView = (TextView) findViewById(R.id.currentProjectNameTextView);
-		currentProjectTextView.setText(getString(R.string.current_project) + " "
-				+ projectManager.getCurrentProject().getName());
+		//		TextView currentProjectTextView = (TextView) findViewById(R.id.currentProjectNameTextView);
+		//		currentProjectTextView.setText(getString(R.string.current_project) + " "
+		//				+ projectManager.getCurrentProject().getName());
 
 		projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
 	}
@@ -191,9 +194,9 @@ public class MainMenuActivity extends Activity {
 		if (projectManager.getCurrentProject() == null) {
 			return;
 		}
-		TextView currentProjectTextView = (TextView) findViewById(R.id.currentProjectNameTextView);
-		currentProjectTextView.setText(getString(R.string.current_project) + " "
-				+ projectManager.getCurrentProject().getName());
+		//		TextView currentProjectTextView = (TextView) findViewById(R.id.currentProjectNameTextView);
+		//		currentProjectTextView.setText(getString(R.string.current_project) + " "
+		//				+ projectManager.getCurrentProject().getName());
 	}
 
 	@Override

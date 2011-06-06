@@ -75,9 +75,9 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	public void testAddBrickDialog() {
-		solo.clickOnButton(getActivity().getString(R.string.resume));
+		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
 
-		solo.clickOnText(testProject);
+		//solo.clickOnText(testProject);
 		solo.clickInList(2);
 
 		int[] brickIds = new int[] {
