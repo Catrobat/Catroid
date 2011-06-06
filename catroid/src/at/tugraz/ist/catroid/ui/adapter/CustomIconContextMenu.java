@@ -29,7 +29,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnShowListener;
 import android.content.res.Resources;
 import android.content.res.Resources.Theme;
 import android.graphics.Color;
@@ -41,7 +40,6 @@ import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.ui.ProjectActivity;
 
 public class CustomIconContextMenu implements DialogInterface.OnCancelListener, DialogInterface.OnDismissListener {
 
@@ -86,13 +84,6 @@ public class CustomIconContextMenu implements DialogInterface.OnCancelListener, 
 		dialog = builder.create();
 		dialog.setOnCancelListener(this);
 		dialog.setOnDismissListener(this);
-		dialog.setOnShowListener(new OnShowListener() {
-
-			public void onShow(DialogInterface dialog) {
-				CustomIconContextMenu thisObject = CustomIconContextMenu.this;
-				thisObject.dialog.setTitle(((ProjectActivity) thisObject.activity).getSpriteToEdit().getName());
-			}
-		});
 
 		return dialog;
 	}
