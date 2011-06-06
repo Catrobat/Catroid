@@ -45,7 +45,8 @@ public class ScriptTabActivity extends TabActivity {
 		tabHost.addTab(spec);
 
 		// Do the same for the other tabs
-		intent = new Intent().setClass(this, CostumeActivity.class);
+		intent = new Intent().setClass(this, ScriptActivity.class);// just for demo because CostumeActivity is not ready yet
+		//intent = new Intent().setClass(this, CostumeActivity.class);
 		spec = tabHost.newTabSpec("costumes").setIndicator("Costumes").setContent(intent);
 		tabHost.addTab(spec);
 
