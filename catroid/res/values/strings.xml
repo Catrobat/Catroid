@@ -96,6 +96,8 @@
     <!-- Script tab activity -->
     <string name="costume_list">Costume:</string>
     <string name="add_new_costume">Add new Costume</string>
+    <string name="edit_costume">Edit</string>
+    <string name="copy_costume">Copy</string>
 
     <!-- Sprite dialog -->
     <string name="sprite_button_text">Create</string>
