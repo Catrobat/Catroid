@@ -48,7 +48,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 	public static class ViewHolder {
 		public TextView text;
 		public ImageView image;
-		public TextView detail;
+		//public TextView detail;
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 			spriteView = inflater.inflate(R.layout.activity_project_spritelist_item, null);
 			holder = new ViewHolder();
 			holder.text = (TextView) spriteView.findViewById(R.id.sprite_title);
-			holder.detail = (TextView) spriteView.findViewById(R.id.sprite_detail);
+			//holder.detail = (TextView) spriteView.findViewById(R.id.sprite_detail);
 			holder.image = (ImageView) spriteView.findViewById(R.id.sprite_img);
 			spriteView.setTag(holder);
 		} else {
@@ -84,7 +84,7 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		//------------------------------------------------------------
 
 		holder.text.setText(sprite.getName());
-		holder.detail.setText("details");
+		//holder.detail.setText("details");
 		if (imagepath == null) {
 			holder.image.setImageBitmap(null);
 		} else { //it would be more efficient to use the thumb from setCostumeBrick - but this will change in the near future so I didn't implement it

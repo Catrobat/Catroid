@@ -38,12 +38,7 @@
 				android:layout_height="wrap_content" 
 				android:textStyle="bold"
 				android:paddingLeft="10dp" 
-				android:textSize="20sp" 
+				android:textSize="22sp" 
 				android:textColor="@color/solid_black"/>
-			<TextView 
-				android:layout_width="fill_parent" 
-				android:id="@+id/sprite_detail"
-				android:layout_height="wrap_content" 
-				android:paddingLeft="10dp" />
 		</LinearLayout>
 	</LinearLayout>
