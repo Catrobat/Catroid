@@ -144,7 +144,7 @@ public class ProjectActivity extends ListActivity {
 
 	@Override
 	protected Dialog onCreateDialog(int id) {
-		Dialog dialog;
+		final Dialog dialog;
 
 		switch (id) {
 			case Consts.DIALOG_NEW_SPRITE:
@@ -163,8 +163,8 @@ public class ProjectActivity extends ListActivity {
 				} else {
 					dialog = iconContextMenu.createMenu(spriteToEdit.getName());
 					dialog.setOnShowListener(new OnShowListener() { //TODO try to find a better place: not in init Custom.. (there this is not initialized) also not in CustomIconContextMenu 
-						public void onShow(DialogInterface dialog) {
-							iconContextMenu.dialog.setTitle(spriteToEdit.getName());
+						public void onShow(DialogInterface dialogInterface) {
+							dialog.setTitle(spriteToEdit.getName());
 						}
 					});
 				}
