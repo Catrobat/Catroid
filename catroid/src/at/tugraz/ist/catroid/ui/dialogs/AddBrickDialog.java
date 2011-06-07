@@ -62,14 +62,22 @@ public class AddBrickDialog extends Dialog {
 	private ScriptActivity scriptActivity;
 
 	private void setupBrickPrototypes(Sprite sprite) {
-		if (sprite.getName().equals(scriptActivity.getString(string.stage))) {
+		if (sprite.getName().equals(scriptActivity.getString(string.background))) {
 			prototypeBrickList = new ArrayList<Brick>();
-			prototypeBrickList.add(new IfTouchedBrick(sprite, null));
-			prototypeBrickList.add(new IfStartedBrick(sprite, null));
 			prototypeBrickList.add(new WaitBrick(sprite, 1000));
+			prototypeBrickList.add(new HideBrick(sprite));
+			prototypeBrickList.add(new ShowBrick(sprite));
+			prototypeBrickList.add(new PlaceAtBrick(sprite, 0, 0));
+			prototypeBrickList.add(new SetXBrick(sprite, 0));
+			prototypeBrickList.add(new SetYBrick(sprite, 0));
+			prototypeBrickList.add(new ChangeXByBrick(sprite, 0));
+			prototypeBrickList.add(new ChangeYByBrick(sprite, 0));
 			prototypeBrickList.add(new SetCostumeBrick(sprite));
 			prototypeBrickList.add(new ScaleCostumeBrick(sprite, 100));
 			prototypeBrickList.add(new PlaySoundBrick(sprite));
+			prototypeBrickList.add(new IfTouchedBrick(sprite, null));
+			prototypeBrickList.add(new IfStartedBrick(sprite, null));
+			prototypeBrickList.add(new GlideToBrick(sprite, 100, 100, 3000));
 		} else {
 			prototypeBrickList = new ArrayList<Brick>();
 			prototypeBrickList.add(new WaitBrick(sprite, 1000));

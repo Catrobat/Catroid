@@ -40,7 +40,9 @@
     <string name="error">Fehler</string>
     <string name="please_wait">Bitte warten</string>
     <string name="loading">Laden...</string>
+    <string name="background">Hintergrund</string>
     <string name="stage">Bühne</string>
+    
 
 	<!-- Brick captions -->
     <string name="show">Zeige dich</string>

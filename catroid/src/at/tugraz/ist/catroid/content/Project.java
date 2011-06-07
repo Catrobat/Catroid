@@ -53,8 +53,8 @@ public class Project implements Serializable {
 			return;
 		}
 
-		Sprite stage = new Sprite(context.getString(R.string.stage));
-		addSprite(stage);
+		Sprite background = new Sprite(context.getString(R.string.background));
+		addSprite(background);
 
 		try {
 			PackageInfo packageInfo = context.getPackageManager().getPackageInfo("at.tugraz.ist.catroid", 0);
