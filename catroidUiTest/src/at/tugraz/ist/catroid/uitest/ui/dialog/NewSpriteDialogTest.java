@@ -83,7 +83,7 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 
 	}
 
-	public void createTestProject(String projectName) throws IOException, NameNotFoundException {
+	public void createTestProject(String projectName) {
 		StorageHandler storageHandler = StorageHandler.getInstance();
 
 		Project project = new Project(getActivity(), projectName);

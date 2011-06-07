@@ -61,7 +61,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	}
 
 	private void addNewSprite(String spriteName) {
-		Utils.pause();
+		solo.sleep(50);
 		List<ImageButton> btnList = solo.getCurrentImageButtons();
 		for (int i = 0; i < btnList.size(); i++) {
 			ImageButton btn = btnList.get(i);
@@ -69,11 +69,11 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 				solo.clickOnImageButton(i);
 			}
 		}
-		Utils.pause();
+		solo.sleep(50);
 		Utils.enterText(solo, 0, spriteName);
 
 		solo.clickOnButton(getActivity().getString(R.string.new_sprite_dialog_button));
-		Utils.pause();
+		solo.sleep(50);
 	}
 
 	public void testAddNewSprite() {
@@ -163,7 +163,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 				solo.clickOnImageButton(i);
 			}
 		}
-		Utils.pause();
+		solo.sleep(50);
 		btnList = solo.getCurrentImageButtons();
 		boolean buttonFound = false;
 		for (int i = 0; i < btnList.size(); i++) {

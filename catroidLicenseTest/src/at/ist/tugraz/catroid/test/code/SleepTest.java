@@ -16,34 +16,21 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-package at.ist.tugraz.catroid.test.license;
+package at.ist.tugraz.catroid.test.code;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import junit.framework.TestCase;
 
-public class LicenseTest extends TestCase {
-	private static final String[] DIRECTORIES = { ".", "../catroid", "../catroidTest", "../catroidUiTest", };
+public class SleepTest extends TestCase {
+	private static final String[] DIRECTORIES = { "../catroidUiTest" };
+	private static final String REGEX_PATTERN = "^.*Thread\\.sleep\\(\\w+\\).*$";
 
-	private ArrayList<String> licenseText;
-
-	public LicenseTest() throws IOException {
-		licenseText = new ArrayList<String>();
-		File licenseTextFile = new File("res/license_text.txt");
-		BufferedReader reader = new BufferedReader(new FileReader(licenseTextFile));
-
-		String line = null;
-		while ((line = reader.readLine()) != null) {
-			if (line.length() > 0) {
-				licenseText.add(line);
-			}
-		}
+	public SleepTest() {
 	}
 
 	private void traverseDirectory(File directory) throws IOException {
@@ -51,7 +38,7 @@ public class LicenseTest extends TestCase {
 			@Override
 			public boolean accept(File pathname) {
 				return (pathname.isDirectory() && !pathname.getName().equals("gen"))
-						|| pathname.getName().endsWith(".java") || pathname.getName().endsWith(".xml");
+						|| pathname.getName().endsWith(".java");
 			}
 		});
 
@@ -59,32 +46,37 @@ public class LicenseTest extends TestCase {
 			if (file.isDirectory()) {
 				traverseDirectory(file);
 			} else {
-				checkFileForLicense(file);
+				checkFileForThreadSleep(file);
 			}
 		}
 	}
 
-	private void checkFileForLicense(File file) throws IOException {
-		StringBuilder fileContentsBuilder = new StringBuilder();
+	private void checkFileForThreadSleep(File file) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(file));
 
+		int lineCount = 1;
 		String line = null;
+
 		while ((line = reader.readLine()) != null) {
-			fileContentsBuilder.append(line);
-		}
-
-		final String fileContents = fileContentsBuilder.toString();
-
-		int lastPosition = 0;
-		for (String licenseTextLine : licenseText) {
-			int position = fileContents.indexOf(licenseTextLine);
-			assertTrue("License text was not found in file " + file.getPath(), position != -1);
-			assertTrue("License text was found in the wrong order in file " + file.getPath(), position > lastPosition);
-			lastPosition = position;
+			assertFalse("File " + file.getName() + ":" + lineCount + " contains \"Thread.sleep()\"",
+					line.matches(REGEX_PATTERN));
+			++lineCount;
 		}
 	}
 
-	public void testLicensePresentInAllFiles() throws IOException {
+	public void testThreadSleepNotPresentInAnyUiTests() throws IOException {
+		assertTrue("Pattern didn't match!", "Thread.sleep(1337)".matches(REGEX_PATTERN));
+		assertTrue("Pattern didn't match!", "Thread.sleep(virtualVariable)".matches(REGEX_PATTERN));
+		assertTrue("Pattern didn't match!", "Thread.sleep(VIRTUAL_08_VARIABLE)".matches(REGEX_PATTERN));
+		assertTrue("Pattern didn't match!", "Thread.sleep(virtual_VAR14BLE_)".matches(REGEX_PATTERN));
+		assertTrue("Pattern didn't match!", "Thread.sleep(_)".matches(REGEX_PATTERN));
+		assertTrue("Pattern didn't match!", "foo(); Thread.sleep(42); bar();".matches(REGEX_PATTERN));
+		assertFalse("Pattern matched! But shouldn't!", "Thread.sleep()".matches(REGEX_PATTERN));
+		assertFalse("Pattern matched! But shouldn't!", "Thread.sleep(.)".matches(REGEX_PATTERN));
+		assertFalse("Pattern matched! But shouldn't!", "Thread.sleep(\"foobar\")".matches(REGEX_PATTERN));
+		assertFalse("Pattern matched! But shouldn't!", "Thread.sleep(\"42\")".matches(REGEX_PATTERN));
+		assertFalse("Pattern matched! But shouldn't!", "Thread0sleep(MyVar)".matches(REGEX_PATTERN));
+
 		for (String directoryName : DIRECTORIES) {
 			File directory = new File(directoryName);
 			assertTrue("Couldn't find directory: " + directoryName, directory.exists() && directory.isDirectory());

@@ -19,9 +19,6 @@
 
 package at.tugraz.ist.catroid.uitest.ui.dialog;
 
-import java.io.IOException;
-
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -57,7 +54,7 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 		super.tearDown();
 	}
 
-	public void testNewProjectDialog() throws NameNotFoundException, IOException {
+	public void testNewProjectDialog() {
 
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
 
@@ -68,8 +65,10 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 		solo.sendKey(Solo.ENTER);
 
 		solo.sleep(1000);
-		assertTrue("New Project is not testingproject!",
-				ProjectManager.getInstance().getCurrentProject().getName().equals(Utils.PROJECTNAME1));
+
+		assertTrue("New Project is not testingproject!", ProjectManager.getInstance().getCurrentProject().getName()
+				.equals(Utils.PROJECTNAME1));
+
 	}
 
 }

@@ -67,7 +67,7 @@ public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 	}
 
 	@Smoke
-	public void testWaitBrick() throws Throwable {
+	public void testWaitBrick() {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
 		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
@@ -86,7 +86,7 @@ public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		solo.enterText(0, waitTime + "");
 		solo.clickOnButton(0);
 
-		Thread.sleep(1000);
+		solo.sleep(1000);
 		assertEquals("Wrong text in field", (long) (waitTime * 1000), waitBrick.getWaitTime());
 		assertEquals("Text not updated", waitTime, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
