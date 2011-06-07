@@ -22,10 +22,35 @@ package at.tugraz.ist.catroid.ui;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TabHost;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.stage.StageActivity;
+import at.tugraz.ist.catroid.utils.ActivityHelper;
 
 public class ScriptTabActivity extends TabActivity {
+	private ActivityHelper activityHelper = new ActivityHelper(this);
+
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		activityHelper.setupActionBar(false, this.getResources().getString(R.string.sprite_list));
+
+		activityHelper.addActionButton(R.id.btn_action_add_sprite, R.drawable.ic_plus_black,
+				new View.OnClickListener() {
+					public void onClick(View v) {
+						showDialog(Consts.DIALOG_NEW_SPRITE);
+					}
+				}, false);
+
+		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent(ScriptTabActivity.this, StageActivity.class);
+				startActivity(intent);
+			}
+		}, false);
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
