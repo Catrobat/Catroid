@@ -164,7 +164,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 				.getSpriteList().size());
 		assertEquals("not the right number of scripts in the second sprite of default project", 2, projectManager
 				.getCurrentProject().getSpriteList().get(1).getScriptList().size());
-		assertEquals("not the right number of bricks in the first script of Stage", 1, projectManager
+		assertEquals("not the right number of bricks in the first script of background", 1, projectManager
 				.getCurrentProject().getSpriteList().get(0).getScriptList().get(0).getBrickList().size());
 		assertEquals("not the right number of bricks in the first script", 1, projectManager.getCurrentProject()
 				.getSpriteList().get(1).getScriptList().get(0).getBrickList().size());
