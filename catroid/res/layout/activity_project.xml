@@ -41,7 +41,7 @@
 			android:layout_height="fill_parent"
 			android:fadingEdge="none"
 			android:divider="@color/divider"
-			android:dividerHeight="5px"
+			android:dividerHeight="4px"
 		></ListView>
 	</LinearLayout>
 </LinearLayout>
