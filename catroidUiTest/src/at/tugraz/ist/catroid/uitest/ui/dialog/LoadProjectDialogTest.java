@@ -82,7 +82,7 @@ public class LoadProjectDialogTest extends ActivityInstrumentationTestCase2<Main
 
 	}
 
-	public void createTestProject(String projectName) throws IOException, NameNotFoundException {
+	public void createTestProject(String projectName) {
 		StorageHandler storageHandler = StorageHandler.getInstance();
 
 		Project project = new Project(getActivity(), projectName);
