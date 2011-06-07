@@ -3,6 +3,7 @@ import sys
 import zipfile
 import shutil
 import hashlib
+import xml.dom.minidom
 
 '''
 Automatically build and sign Catroid application.
@@ -26,22 +27,20 @@ def verify_checksum(path, filename):
         return False
 
 def rename_file_in_project(old_name, new_name, project_file_path,resource_type):
-    project_file = open(project_file_path, 'r')
-    content = project_file.read()
-    project_file.close()
+    doc = xml.dom.minidom.parse(project_file_path)
 
     if resource_type == 'images':
-        content = content.replace('<imageName>' + old_name + '</imageName>',\
-                                  '<imageName>' + new_name + '</imageName>')
+        tag_name = 'imageName'
     elif resource_type == 'sounds':
-        content = content.replace('<soundfileName>' + old_name +\
-                                              '</soundfileName>',\
-                                  '<soundfileName>' + new_name +\
-                                              '</soundfileName>')
+        tag_name = 'soundfileName'
 
-    project_file = open(project_file_path, 'w')
-    project_file.write(content)
-    project_file.close()
+    for node in doc.getElementsByTagName(tag_name):
+        if node.childNodes[0].nodeValue == old_name:
+            node.childNodes[0].nodeValue = new_name
+       
+    f = open(project_file_path, 'w')
+    doc.writexml(f)
+    f.close()
 
 def rename_resources(project_name):
     os.rename(os.path.join(project_name, project_name + '.xml'),\
@@ -71,29 +70,31 @@ def copy_project(path_to_catroid, project_name):
                 os.path.join(project_name, 'catroid', 'res', 'raw', filename))
 
 def set_project_name(new_name, path_to_file):
-    project_file = open(path_to_file, 'r')
-    content = project_file.read()
-    project_file.close()
+    doc = xml.dom.minidom.parse(path_to_file)
 
-    content = content.replace('<string name="app_name">Catroid</string>',\
-                            '<string name="app_name">' + new_name + '</string>')
-
-    project_file = open(path_to_file, 'w')
-    project_file.write(content)
-    project_file.close()
+    for node in doc.getElementsByTagName('string'):
+        if node.attributes.item(0).value == 'app_name':
+            node.childNodes[0].nodeValue = new_name
+    
+    f = open(path_to_file, 'w')
+    doc.writexml(f)
+    f.close()
+    
+def get_project_name(project_filename):
+    for node in xml.dom.minidom.parse(project_filename).getElementsByTagName('name'):
+        if node.parentNode.nodeName == 'project':
+            return node.childNodes[0].nodeValue
 
 def main():
     archive_name = sys.argv[1]
     path_to_catroid = sys.argv[2]
     unzip_project(archive_name)
-    project_name = os.path.splitext(archive_name)[0]
-    rename_resources(project_name)
-    copy_project(path_to_catroid, project_name)
-    
-#   set_project_name(project_name, os.path.join(project_name, 'catroid', 'res', 'values', 'common.xml'))
-    
-    os.system('ant release -f ' + os.path.join(project_name, 'catroid', 'build.xml'))
-        
+    project_filename = os.path.splitext(archive_name)[0]
+    rename_resources(project_filename)
+    project_name = get_project_name(os.path.join(project_filename, 'project.xml'))
+    copy_project(path_to_catroid, project_filename)
+    set_project_name(project_name, os.path.join(project_filename, 'catroid', 'res', 'values', 'common.xml'))
+    os.system('ant release -f ' + os.path.join(project_filename, 'catroid', 'build.xml'))       
     return 0
 
 if __name__ == '__main__':
