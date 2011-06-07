@@ -80,5 +80,6 @@ public class ScriptTabActivity extends TabActivity {
 		tabHost.addTab(spec);
 
 		tabHost.setCurrentTab(2);
+
 	}
 }
