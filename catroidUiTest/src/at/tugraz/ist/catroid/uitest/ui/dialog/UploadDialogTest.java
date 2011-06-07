@@ -62,7 +62,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		super.tearDown();
 	}
 
-	public void testUploadDialog() throws Throwable {
+	public void testUploadDialog() {
 
 		createTestProject();
 
