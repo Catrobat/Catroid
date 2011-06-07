@@ -99,7 +99,9 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-		activityHelper.setupActionBar(false, ProjectManager.getInstance().getCurrentSprite().getName());
+		String title = this.getResources().getString(R.string.sprite_name) + " "
+				+ ProjectManager.getInstance().getCurrentSprite().getName();
+		activityHelper.setupActionBar(false, title);
 
 		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, new View.OnClickListener() {
 			public void onClick(View v) {
