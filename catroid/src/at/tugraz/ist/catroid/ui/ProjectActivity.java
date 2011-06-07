@@ -118,7 +118,9 @@ public class ProjectActivity extends ListActivity {
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-		activityHelper.setupActionBar(false, this.getResources().getString(R.string.sprite_list));
+		String title = this.getResources().getString(R.string.project_name) + " "
+				+ ProjectManager.getInstance().getCurrentProject().getName();
+		activityHelper.setupActionBar(false, title);
 
 		activityHelper.addActionButton(R.id.btn_action_add_sprite, R.drawable.ic_plus_black,
 				new View.OnClickListener() {
