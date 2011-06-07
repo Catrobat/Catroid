@@ -64,12 +64,19 @@ android:textSize="16sp" />
     android:layout_width="5dip" 
     android:text="@string/edit_costume" 
     android:layout_height="wrap_content"></Button>
+    
     <Button 
     android:layout_weight=".25" 
     android:id="@+id/copy_costume" 
     android:layout_width="5dip" 
     android:text="@string/copy_costume" 
     android:layout_height="wrap_content"></Button>
+    
+    <ImageButton 
+    android:id="@+id/delete_button" 
+    android:layout_width="wrap_content" 
+    android:src="@drawable/exit" android:layout_height="48dip">
+    </ImageButton>
 </LinearLayout>
 </LinearLayout>
 </LinearLayout>
