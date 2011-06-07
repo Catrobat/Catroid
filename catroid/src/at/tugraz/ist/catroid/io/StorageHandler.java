@@ -385,9 +385,9 @@ public class StorageHandler {
 		saveProject(defaultProject);
 		ProjectManager.getInstance().setProject(defaultProject);
 		Sprite sprite = new Sprite("Catroid");
-		Sprite stageSprite = defaultProject.getSpriteList().get(0);
+		Sprite backgroundSprite = defaultProject.getSpriteList().get(0);
 		//scripts:
-		Script stageStartScript = new StartScript("stageStartScript", stageSprite);
+		Script backgroundStartScript = new StartScript("stageStartScript", backgroundSprite);
 		Script startScript = new StartScript("startScript", sprite);
 		Script touchScript = new TapScript("touchScript", sprite);
 		//bricks:
@@ -410,7 +410,7 @@ public class StorageHandler {
 		SetCostumeBrick setCostumeBrick3 = new SetCostumeBrick(sprite);
 		setCostumeBrick3.setCostume(cheshireCat.getName());
 
-		SetCostumeBrick setCostumeBackground = new SetCostumeBrick(stageSprite);
+		SetCostumeBrick setCostumeBackground = new SetCostumeBrick(backgroundSprite);
 		setCostumeBackground.setCostume(background.getName());
 
 		WaitBrick waitBrick1 = new WaitBrick(sprite, 500);
@@ -423,13 +423,13 @@ public class StorageHandler {
 		touchScript.addBrick(setCostumeBrick3);
 		touchScript.addBrick(waitBrick2);
 		touchScript.addBrick(setCostumeBrick1);
-		stageStartScript.addBrick(setCostumeBackground);
+		backgroundStartScript.addBrick(setCostumeBackground);
 
 		//merging:
 		defaultProject.addSprite(sprite);
 		sprite.getScriptList().add(startScript);
 		sprite.getScriptList().add(touchScript);
-		stageSprite.getScriptList().add(stageStartScript);
+		backgroundSprite.getScriptList().add(backgroundStartScript);
 		//ProjectManager.getInstance().setProject(defaultProject);
 		this.saveProject(defaultProject);
 		return defaultProject;

@@ -72,7 +72,7 @@ public class ProjectActivity extends ListActivity {
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 				spriteToEdit = spriteList.get(position);
 				if (spriteToEdit.getName().equalsIgnoreCase( //better make a independent object for stage (to solve problem when switching languages)
-						ProjectActivity.this.getString(R.string.stage))) {
+						ProjectActivity.this.getString(R.string.background))) {
 					return true;
 				}
 				showDialog(Consts.DIALOG_CONTEXT_MENU);
