@@ -189,7 +189,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 		//nomedia file is also in images folder
 		assertEquals("Wrong amount of files in folder - delete unsuccessfull", 1, filesImage.length);
 
-		storageHandler.deleteFile(testImageCopy.getAbsolutePath()); //there a FileNotFoundException is thrown and caugth (this is expected behavior)
+		storageHandler.deleteFile(testImageCopy.getAbsolutePath()); //there a FileNotFoundException is thrown and caught (this is expected behavior)
 	}
 
 	public void testContainerOnLoadProject() throws IOException {
