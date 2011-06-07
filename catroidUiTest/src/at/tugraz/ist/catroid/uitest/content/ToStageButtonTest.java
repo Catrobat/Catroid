@@ -71,7 +71,7 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
 		solo.sleep(500);
-		solo.clickOnText(getActivity().getString(R.string.stage));
+		solo.clickOnText(getActivity().getString(R.string.background));
 		solo.sleep(500);
 		List<ImageButton> btnList = solo.getCurrentImageButtons();
 		for (int i = 0; i < btnList.size(); i++) {
