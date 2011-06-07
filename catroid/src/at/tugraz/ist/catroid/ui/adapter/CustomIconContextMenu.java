@@ -84,6 +84,7 @@ public class CustomIconContextMenu implements DialogInterface.OnCancelListener, 
 		dialog = builder.create();
 		dialog.setOnCancelListener(this);
 		dialog.setOnDismissListener(this);
+		dialog.setCanceledOnTouchOutside(true);
 
 		return dialog;
 	}
