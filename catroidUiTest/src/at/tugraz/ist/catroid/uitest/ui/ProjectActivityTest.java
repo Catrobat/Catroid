@@ -59,13 +59,13 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	}
 
 	private void addNewSprite(String spriteName) {
-		Utils.pause();
+		solo.sleep(50);
 		solo.clickOnButton(getActivity().getString(R.string.add_sprite));
-		Utils.pause();
+		solo.sleep(50);
 		Utils.enterText(solo, 0, spriteName);
 
 		solo.clickOnButton(getActivity().getString(R.string.new_sprite_dialog_button));
-		Utils.pause();
+		solo.sleep(50);
 	}
 
 	public void testAddNewSprite() {
@@ -149,7 +149,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	public void testMainMenuButton() {
 		solo.clickOnButton(getActivity().getString(string.resume));
 		solo.clickOnButton(getActivity().getString(R.string.main_menu));
-		Utils.pause();
+		solo.sleep(50);
 		assertTrue("Main menu is not visible", solo.searchText(getActivity().getString(R.string.main_menu)));
 		assertTrue("Current project is not visible", solo.searchText(getActivity().getString(R.string.current_project)));
 	}

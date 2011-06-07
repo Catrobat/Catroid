@@ -28,7 +28,6 @@ import java.util.List;
 
 import android.content.Context;
 import android.text.InputType;
-import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
@@ -49,8 +48,6 @@ import at.tugraz.ist.catroid.utils.UtilFile;
 import com.jayway.android.robotium.solo.Solo;
 
 public class Utils {
-	private static final int WAIT_TIME_IN_MILLISECONDS = 50;
-	private static final String TAG = "UiTestUtils";
 	private static ProjectManager projectManager = ProjectManager.getInstance();
 
 	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
@@ -61,21 +58,12 @@ public class Utils {
 	public static final int TYPE_IMAGE_FILE = 0;
 	public static final int TYPE_SOUND_FILE = 1;
 
-	public static void pause() {
-		try {
-			Thread.sleep(WAIT_TIME_IN_MILLISECONDS);
-		} catch (InterruptedException e) {
-			Log.e(TAG, "pause() threw an InterruptedException");
-			Log.e(TAG, e.getMessage());
-		}
-	}
-
 	public static void enterText(Solo solo, int editTextIndex, String text) {
-		pause();
+		solo.sleep(50);
 		solo.getEditText(editTextIndex).setInputType(InputType.TYPE_NULL);
 		solo.clearEditText(editTextIndex);
 		solo.enterText(editTextIndex, text);
-		pause();
+		solo.sleep(50);
 	}
 
 	/**

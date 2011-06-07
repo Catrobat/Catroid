@@ -19,8 +19,6 @@
 
 package at.tugraz.ist.catroid.uitest.ui.dialog;
 
-import java.io.IOException;
-
 import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -80,22 +78,10 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.clickOnText(testProject);
 		solo.clickInList(2);
 
-		int[] brickIds = new int[] {
-				R.string.brick_wait,
-				R.string.brick_hide,
-				R.string.brick_show,
-				R.string.brick_place_at,
-				R.string.brick_set_x,
-				R.string.brick_set_y,
-				R.string.brick_change_x_by,
-				R.string.brick_change_y_by,
-				R.string.brick_set_costume,
-				R.string.brick_scale_costume,
-				R.string.brick_go_back,
-				R.string.brick_come_to_front,
-				R.string.brick_play_sound,
-				R.string.brick_glide
-		};
+		int[] brickIds = new int[] { R.string.brick_wait, R.string.brick_hide, R.string.brick_show,
+				R.string.brick_place_at, R.string.brick_set_x, R.string.brick_set_y, R.string.brick_change_x_by,
+				R.string.brick_change_y_by, R.string.brick_set_costume, R.string.brick_scale_costume,
+				R.string.brick_go_back, R.string.brick_come_to_front, R.string.brick_play_sound, R.string.brick_glide };
 
 		ProjectManager manager = ProjectManager.getInstance();
 		for (int id : brickIds) {
@@ -103,14 +89,10 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 			int numberOfBricksBeforeAdding = id == R.string.brick_if_touched ? 0 : script.getBrickList().size();
 			addAndCheckBrick(solo, id);
 			assertEquals("Brick " + solo.getCurrentActivity().getString(id) + " was not added in the BrickList.",
-					numberOfBricksBeforeAdding + 1,
-					script.getBrickList().size());
+					numberOfBricksBeforeAdding + 1, script.getBrickList().size());
 		}
 
-		int[] triggerBrickIds = new int[] {
-				R.string.brick_if_started,
-				R.string.brick_if_touched
-		};
+		int[] triggerBrickIds = new int[] { R.string.brick_if_started, R.string.brick_if_touched };
 
 		for (int id : triggerBrickIds) {
 			int oldNumberOfScripts = manager.getCurrentSprite().getScriptList().size();
@@ -122,7 +104,7 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 		}
 	}
 
-	private void createTestProject(String projectName) throws IOException {
+	private void createTestProject(String projectName) {
 
 		StorageHandler storageHandler = StorageHandler.getInstance();
 

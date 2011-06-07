@@ -84,7 +84,7 @@ public class RenameSpriteDialogTest extends ActivityInstrumentationTestCase2<Mai
 
 	}
 
-	public void createTestProject(String projectName) throws IOException, NameNotFoundException {
+	public void createTestProject(String projectName) {
 		StorageHandler storageHandler = StorageHandler.getInstance();
 
 		Project project = new Project(getActivity(), projectName);
