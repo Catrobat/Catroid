@@ -31,6 +31,7 @@ android:layout_width="1px"
 android:layout_height="1px"
 android:layout_weight="1">
 </ListView>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 android:orientation="horizontal"
 android:layout_width="match_parent"
@@ -38,20 +39,38 @@ android:layout_height="match_parent"
 >
 <ImageView
 android:id="@+id/img"
-android:layout_width="40dp"
-android:layout_height="50dp"/>
+android:layout_width="80dp" android:layout_height="100dp"/>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 android:orientation="vertical"
 android:layout_width="match_parent"
-android:layout_height="wrap_content"
->
-<TextView
+android:layout_height="wrap_content">
+
+<EditText 
+android:text="EditText" 
+android:id="@+id/editName" 
 android:layout_width="match_parent"
-android:id="@+id/title"
 android:layout_height="wrap_content"
-android:textStyle="bold"
 android:paddingLeft="10dp"
 android:textSize="16sp" />
+
+<LinearLayout 
+	android:id="@+id/linearLayout1" 
+	android:orientation="horizontal" 
+	android:layout_width="fill_parent" 
+	android:layout_height="wrap_content">
+    <Button 
+    android:layout_weight=".25" 
+    android:id="@+id/edit_costume" 
+    android:layout_width="5dip" 
+    android:text="@string/edit_costume" 
+    android:layout_height="wrap_content"></Button>
+    <Button 
+    android:layout_weight=".25" 
+    android:id="@+id/copy_costume" 
+    android:layout_width="5dip" 
+    android:text="@string/copy_costume" 
+    android:layout_height="wrap_content"></Button>
+</LinearLayout>
 </LinearLayout>
 </LinearLayout>
 </LinearLayout>
