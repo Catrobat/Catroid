@@ -110,7 +110,7 @@ public class CostumeActivity extends ListActivity {
 			}
 			data.add(rd);
 		}
-		CustomAdapter adapter = new CustomAdapter(this, R.layout.activity_costumelist, R.id.title, data);
+		CustomAdapter adapter = new CustomAdapter(this, R.layout.activity_costumelist, R.id.editName, data);
 		setListAdapter(adapter);
 		getListView().setTextFilterEnabled(true);
 	}
@@ -174,7 +174,7 @@ public class CostumeActivity extends ListActivity {
 
 			public TextView gettitle() {
 				if (null == title) {
-					title = (TextView) mRow.findViewById(R.id.title);
+					title = (TextView) mRow.findViewById(R.id.editName);
 				}
 				return title;
 			}
