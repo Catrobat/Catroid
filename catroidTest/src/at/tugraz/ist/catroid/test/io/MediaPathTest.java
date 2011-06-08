@@ -41,7 +41,7 @@ import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
 import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
-import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
+import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetXBrick;
 import at.tugraz.ist.catroid.content.bricks.SetYBrick;
@@ -252,7 +252,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 		brickList2.add(new IfTouchedBrick(sprite, tapedScript));
 		brickList2.add(new PlaceAtBrick(sprite, 50, 50));
 		brickList2.add(soundBrick);
-		brickList2.add(new ScaleCostumeBrick(sprite, 50));
+		brickList2.add(new SetSizeToBrick(sprite, 50));
 		brickList2.add(costumeBrick);
 		brickList2.add(new SetXBrick(sprite, 50));
 		brickList2.add(new SetYBrick(sprite, 50));

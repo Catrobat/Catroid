@@ -30,36 +30,36 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 
-public class ScaleCostumeBrick implements Brick, OnDismissListener {
+public class SetSizeToBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
-	private double scale;
+	private double size;
 
-	public ScaleCostumeBrick(Sprite sprite, double scale) {
+	public SetSizeToBrick(Sprite sprite, double size) {
 		this.sprite = sprite;
-		this.scale = scale;
+		this.size = size;
 	}
 
 	public void execute() {
-		sprite.setScale(scale);
+		sprite.setSize(size);
 	}
 
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
-	public double getScale() {
-		return scale;
+	public double getSize() {
+		return size;
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_scale_costume, null);
+		View view = inflater.inflate(R.layout.construction_brick_set_size_to, null);
 
-		EditText edit = (EditText) view.findViewById(R.id.construction_brick_scale_costume_edit_text);
-		edit.setText(String.valueOf(scale));
+		EditText edit = (EditText) view.findViewById(R.id.construction_brick_set_size_to_edit_text);
+		edit.setText(String.valueOf(size));
 
-		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, scale);
+		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, size);
 		dialog.setOnDismissListener(this);
 		dialog.setOnCancelListener((OnCancelListener) context);
 
@@ -70,17 +70,17 @@ public class ScaleCostumeBrick implements Brick, OnDismissListener {
 
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.toolbox_brick_scale_costume, null);
+		View view = inflater.inflate(R.layout.toolbox_brick_set_size_to, null);
 		return view;
 	}
 
 	@Override
 	public Brick clone() {
-		return new ScaleCostumeBrick(getSprite(), getScale());
+		return new SetSizeToBrick(getSprite(), getSize());
 	}
 
 	public void onDismiss(DialogInterface dialog) {
-		scale = ((EditDoubleDialog) dialog).getValue();
+		size = ((EditDoubleDialog) dialog).getValue();
 		dialog.cancel();
 	}
 }
