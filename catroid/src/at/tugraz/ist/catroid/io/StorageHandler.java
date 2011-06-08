@@ -61,8 +61,8 @@ import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
 import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
-import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
+import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.SetXBrick;
 import at.tugraz.ist.catroid.content.bricks.SetYBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
@@ -100,7 +100,7 @@ public class StorageHandler {
 		xstream.alias("ifTouchedBrick", IfTouchedBrick.class);
 		xstream.alias("placeAtBrick", PlaceAtBrick.class);
 		xstream.alias("playSoundBrick", PlaySoundBrick.class);
-		xstream.alias("scaleCostumeBrick", ScaleCostumeBrick.class);
+		xstream.alias("setSizeToBrick", SetSizeToBrick.class);
 		xstream.alias("setCostumeBrick", SetCostumeBrick.class);
 		xstream.alias("setXBrick", SetXBrick.class);
 		xstream.alias("setYBrick", SetYBrick.class);

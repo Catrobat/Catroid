@@ -74,10 +74,10 @@ public class EditTextAlignmentTest extends AndroidTestCase {
 				Gravity.RIGHT & editY.getGravity());
 	}
 
-	public void testRightAlignmentConstructionScaleCostumeBrick() {
-		View brickView = inflater.inflate(R.layout.construction_brick_scale_costume, null);
+	public void testRightAlignmentConstructionSetSizeToBrick() {
+		View brickView = inflater.inflate(R.layout.construction_brick_set_size_to, null);
 
-		EditText edit = (EditText) brickView.findViewById(R.id.construction_brick_scale_costume_edit_text);
+		EditText edit = (EditText) brickView.findViewById(R.id.construction_brick_set_size_to_edit_text);
 		assertEquals("Brick does not have correct gravity (horizontal alignment)", Gravity.RIGHT,
 				Gravity.RIGHT & edit.getGravity());
 	}
@@ -137,10 +137,10 @@ public class EditTextAlignmentTest extends AndroidTestCase {
 				Gravity.RIGHT & editY.getGravity());
 	}
 
-	public void testRightAlignmentToolboxScaleCostumeBrick() {
-		View brickView = inflater.inflate(R.layout.toolbox_brick_scale_costume, null);
+	public void testRightAlignmentToolboxSetSizeToBrick() {
+		View brickView = inflater.inflate(R.layout.toolbox_brick_set_size_to, null);
 
-		EditText edit = (EditText) brickView.findViewById(R.id.toolbox_brick_scale_costume_edit_text);
+		EditText edit = (EditText) brickView.findViewById(R.id.toolbox_brick_set_size_to_edit_text);
 		assertEquals("Brick does not have correct gravity (horizontal alignment)", Gravity.RIGHT,
 				Gravity.RIGHT & edit.getGravity());
 	}

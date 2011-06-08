@@ -144,7 +144,7 @@
     <string name="x_label">X:</string>
     <string name="y_label">Y:</string>
     <string name="brick_set_costume">Set Costume</string>
-    <string name="brick_scale_costume">Scale Costume to</string>
+    <string name="brick_set_size_to">Set size to</string>
     <string name="brick_go_back">Go back</string>
     <string name="steps_label">steps</string>
     <string name="brick_come_to_front">Come to front</string>
@@ -205,7 +205,7 @@
     <string name="error_no_number_entered">
         Please enter a number.
     </string>
-     <string name="error_screenshot_failed">
+    <string name="error_screenshot_failed">
         An error occurred while saving the screenshot.
     </string>
     <string name="error_load_image">

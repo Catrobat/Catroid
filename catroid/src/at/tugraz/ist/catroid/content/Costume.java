@@ -63,12 +63,12 @@ public class Costume implements Serializable {
 		setDrawPosition();
 	}
 
-	public synchronized void scale(double scaleFactorPercent) {
+	public synchronized void setSizeTo(double size) {
 		if (costumeBitmap == null || imagePath == null) {
 			return;
 		}
 
-		double scaleFactor = scaleFactorPercent / 100;
+		double scaleFactor = size / 100;
 		int newHeight = (int) (origHeight * scaleFactor);
 		int newWidth = (int) (origWidth * scaleFactor);
 

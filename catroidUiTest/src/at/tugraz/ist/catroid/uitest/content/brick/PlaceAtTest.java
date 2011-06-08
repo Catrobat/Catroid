@@ -32,7 +32,7 @@ import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
-import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
+import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -122,7 +122,7 @@ public class PlaceAtTest extends ActivityInstrumentationTestCase2<ScriptActivity
 		soundBrick.setPathToSoundfile("sound.mp3");
 		script.addBrick(soundBrick);
 
-		script.addBrick(new ScaleCostumeBrick(sprite, 80));
+		script.addBrick(new SetSizeToBrick(sprite, 80));
 
 		sprite.getScriptList().add(script);
 		project.addSprite(sprite);

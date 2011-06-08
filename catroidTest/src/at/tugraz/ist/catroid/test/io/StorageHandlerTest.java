@@ -43,8 +43,8 @@ import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
 import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
-import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
+import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.SetXBrick;
 import at.tugraz.ist.catroid.content.bricks.SetYBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
@@ -80,7 +80,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 		int xPosition = 457;
 		int yPosition = 598;
-		double scaleValue = 0.8;
+		double size = 0.8;
 
 		Project project = new Project(getContext(), "testProject");
 		Sprite firstSprite = new Sprite("first");
@@ -91,14 +91,14 @@ public class StorageHandlerTest extends AndroidTestCase {
 		Script otherScript = new StartScript("otherScript", secondSprite);
 		HideBrick hideBrick = new HideBrick(firstSprite);
 		ShowBrick showBrick = new ShowBrick(firstSprite);
-		ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(secondSprite, scaleValue);
+		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(secondSprite, size);
 		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(firstSprite);
 		PlaceAtBrick placeAtBrick = new PlaceAtBrick(secondSprite, xPosition, yPosition);
 
 		// adding Bricks: ----------------
 		testScript.addBrick(hideBrick);
 		testScript.addBrick(showBrick);
-		testScript.addBrick(scaleCostumeBrick);
+		testScript.addBrick(setSizeToBrick);
 		testScript.addBrick(comeToFrontBrick);
 
 		otherScript.addBrick(placeAtBrick); // secondSprite
@@ -136,8 +136,8 @@ public class StorageHandlerTest extends AndroidTestCase {
 		assertEquals("Title missmatch after deserialization", project.getName(), loadedProject.getName());
 
 		// Test random brick values
-		assertEquals("Scale was not deserialized right", scaleValue, ((ScaleCostumeBrick) (postSpriteList.get(1)
-				.getScriptList().get(0).getBrickList().get(2))).getScale());
+		assertEquals("Size was not deserialized right", size, ((SetSizeToBrick) (postSpriteList.get(1).getScriptList()
+				.get(0).getBrickList().get(2))).getSize());
 		assertEquals("XPosition was not deserialized right", xPosition, ((PlaceAtBrick) (postSpriteList.get(2)
 				.getScriptList().get(0).getBrickList().get(0))).getXPosition());
 		assertEquals("YPosition was not deserialized right", yPosition, ((PlaceAtBrick) (postSpriteList.get(2)
@@ -220,7 +220,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 		tapScriptBrickList.add(new IfTouchedBrick(sprite, tapScript));
 		tapScriptBrickList.add(new PlaceAtBrick(sprite, 50, 50));
 		tapScriptBrickList.add(new PlaySoundBrick(sprite));
-		tapScriptBrickList.add(new ScaleCostumeBrick(sprite, 50));
+		tapScriptBrickList.add(new SetSizeToBrick(sprite, 50));
 		tapScriptBrickList.add(new SetCostumeBrick(sprite));
 		tapScriptBrickList.add(new SetXBrick(sprite, 50));
 		tapScriptBrickList.add(new SetYBrick(sprite, 50));

@@ -45,7 +45,7 @@ import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
 import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
-import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
+import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetXBrick;
 import at.tugraz.ist.catroid.content.bricks.SetYBrick;
@@ -68,7 +68,7 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new IfStartedBrick(sprite, null));
 			prototypeBrickList.add(new WaitBrick(sprite, 1000));
 			prototypeBrickList.add(new SetCostumeBrick(sprite));
-			prototypeBrickList.add(new ScaleCostumeBrick(sprite, 100));
+			prototypeBrickList.add(new SetSizeToBrick(sprite, 100));
 			prototypeBrickList.add(new PlaySoundBrick(sprite));
 		} else {
 			prototypeBrickList = new ArrayList<Brick>();
@@ -81,7 +81,7 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new ChangeXByBrick(sprite, 0));
 			prototypeBrickList.add(new ChangeYByBrick(sprite, 0));
 			prototypeBrickList.add(new SetCostumeBrick(sprite));
-			prototypeBrickList.add(new ScaleCostumeBrick(sprite, 100));
+			prototypeBrickList.add(new SetSizeToBrick(sprite, 100));
 			prototypeBrickList.add(new GoNStepsBackBrick(sprite, 1));
 			prototypeBrickList.add(new ComeToFrontBrick(sprite));
 			prototypeBrickList.add(new PlaySoundBrick(sprite));
