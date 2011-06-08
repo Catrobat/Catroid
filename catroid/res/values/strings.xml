@@ -165,6 +165,8 @@
 
 	<string name="brick_note">Note</string>
 	<string name="brick_broadcast_receive">When I receive</string>
+	<string name="brick_broadcast_receive_2"></string>
+	
 	<string name="brick_broadcast">Broadcast</string>
     <string name="brick_broadcast_wait">Broadcast and wait</string>
 	

@@ -58,5 +58,13 @@
 					android:layout_weight="1"
 					/>
 		</LinearLayout>
+		<TextView 
+    		android:textSize="18dip" 
+    		android:layout_height="wrap_content" 
+    		android:text="@string/brick_broadcast_receive_2" 
+    		android:layout_width="wrap_content" 
+    		android:textColor="@color/white" 
+    		android:textStyle="bold"
+    		/>
 	</LinearLayout>
 </LinearLayout>

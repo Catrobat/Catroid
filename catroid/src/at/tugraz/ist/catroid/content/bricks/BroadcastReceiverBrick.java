@@ -74,17 +74,13 @@ public class BroadcastReceiverBrick implements Brick {
 				}
 				String message = ((String) parent.getItemAtPosition(pos)).trim();
 
-				ProjectManager.getInstance().messageContainer.deleteReceiverScript(receiveScript.getBroadcastMessage(),
-										receiveScript);
-
 				if (message == context.getString(R.string.broadcast_select))
 				{
 					receiveScript.setBroadcastMessage("");
-					return;
 				}
-				receiveScript.setBroadcastMessage(message);
-				ProjectManager.getInstance().messageContainer.addMessage(message,
-						receiveScript);
+				else {
+					receiveScript.setBroadcastMessage(message);
+				}
 			}
 
 			public void onNothingSelected(AdapterView<?> arg0) {
@@ -111,13 +107,8 @@ public class BroadcastReceiverBrick implements Brick {
 							dialog.cancel();
 							return;
 						}
-
-						ProjectManager.getInstance().messageContainer.deleteReceiverScript(
-												receiveScript.getBroadcastMessage(),
-												receiveScript);
 						receiveScript.setBroadcastMessage(newMessage);
-						ProjectManager.getInstance().messageContainer.addMessage(newMessage,
-												receiveScript);
+
 						int pos = ProjectManager.getInstance().messageContainer
 												.getPosOfMessageInAdapter(newMessage);
 

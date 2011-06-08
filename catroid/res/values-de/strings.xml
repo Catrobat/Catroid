@@ -162,7 +162,8 @@
 	
 	<string name="brick_note">Notiz</string>
 	
-	<string name="brick_broadcast_receive">Wenn ich folgendes empfange</string>
+	<string name="brick_broadcast_receive">Wenn ich</string>
+	<string name="brick_broadcast_receive_2">empfange</string>
 	<string name="brick_broadcast">Verschicke an alle</string>
     <string name="brick_broadcast_wait">Verschicke und warte</string>
     
