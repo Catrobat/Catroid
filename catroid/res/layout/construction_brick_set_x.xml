@@ -43,7 +43,7 @@
 	>
 		<TextView
 			android:id="@+id/ValueTextViewX"
-			android:text="@string/set_x_main_adapter"
+			android:text="@string/brick_set_x"
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
 			android:layout_alignParentLeft="true"
@@ -56,7 +56,7 @@
 		>
 		</TextView>
 		<EditText
-			android:id="@+id/InputValueEditTextX"
+			android:id="@+id/construction_brick_set_x_edit_text"
 			android:text="0"
 			android:layout_height="wrap_content"
 			android:layout_width="60dp"

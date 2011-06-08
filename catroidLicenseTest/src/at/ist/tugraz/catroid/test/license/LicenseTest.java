@@ -40,8 +40,9 @@ public class LicenseTest extends TestCase {
 
 		String line = null;
 		while ((line = reader.readLine()) != null) {
-			if (line.length() > 0)
+			if (line.length() > 0) {
 				licenseText.add(line);
+			}
 		}
 	}
 
@@ -55,10 +56,11 @@ public class LicenseTest extends TestCase {
 		});
 
 		for (File file : contents) {
-			if (file.isDirectory())
+			if (file.isDirectory()) {
 				traverseDirectory(file);
-			else
+			} else {
 				checkFileForLicense(file);
+			}
 		}
 	}
 
@@ -67,8 +69,9 @@ public class LicenseTest extends TestCase {
 		BufferedReader reader = new BufferedReader(new FileReader(file));
 
 		String line = null;
-		while ((line = reader.readLine()) != null)
+		while ((line = reader.readLine()) != null) {
 			fileContentsBuilder.append(line);
+		}
 
 		final String fileContents = fileContentsBuilder.toString();
 

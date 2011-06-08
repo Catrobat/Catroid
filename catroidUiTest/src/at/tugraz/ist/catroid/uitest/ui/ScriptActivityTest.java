@@ -26,10 +26,12 @@ import android.graphics.Rect;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.widget.ListView;
-import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.ProjectManager;
+import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.bricks.Brick;
+import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
-import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
+import at.tugraz.ist.catroid.uitest.util.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -38,15 +40,15 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 	private List<Brick> brickListToCheck;
 
 	public ScriptActivityTest() {
-		super(ScriptActivity.class);
-
+		super("at.tugraz.ist.catroid", ScriptActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
-		brickListToCheck = UiTestUtils.createTestProject();
-		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
+		Utils.createTestProject();
+		brickListToCheck = Utils.createTestProject();
+		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
 	@Override
@@ -57,58 +59,84 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 			e.printStackTrace();
 		}
 		getActivity().finish();
-
+		Utils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
-	public void testSimpleDragNDrop() throws InterruptedException {
-		ArrayList<Integer> yposlist = getListItemYPositions();
-		Thread.sleep(2000);
-		solo.drag(30, 30, yposlist.get(2), (yposlist.get(4)+yposlist.get(5))/2, 20);
-		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
-
-		assertEquals(brickListToCheck.size(), brickList.size());
-		assertEquals(brickListToCheck.get(0), brickList.get(0));
-		assertEquals(brickListToCheck.get(1), brickList.get(3));
-		assertEquals(brickListToCheck.get(2), brickList.get(1));
-		assertEquals(brickListToCheck.get(3), brickList.get(2));
-		assertEquals(brickListToCheck.get(4), brickList.get(4));
-
-		Thread.sleep(2000);
-		brickListToCheck = brickList;
+	public void testMainMenuButton() {
+		solo.clickOnButton(getActivity().getString(R.string.main_menu));
+		assertTrue("Clicking on main menu button did not cause main menu to be displayed",
+				solo.getCurrentActivity() instanceof MainMenuActivity);
 	}
 
-	public void testDeleteItem() throws InterruptedException {
-		ArrayList<Integer> yposlist = getListItemYPositions();
-		Thread.sleep(2000);
-		solo.drag(30, 400, yposlist.get(2), (yposlist.get(4)+yposlist.get(5))/2, 20);
-		Thread.sleep(2000);
-		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
+	public void testCreateNewBrickButton() {
+		int brickCountInView = solo.getCurrentListViews().get(0).getCount();
+		int brickCountInList = brickListToCheck.size();
 
-		assertEquals(brickListToCheck.size()-1, brickList.size());
-		assertEquals(brickListToCheck.get(0), brickList.get(0));
-		assertEquals(brickListToCheck.get(2), brickList.get(1));
-		assertEquals(brickListToCheck.get(3), brickList.get(2));
-		assertEquals(brickListToCheck.get(4), brickList.get(3));
+		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick));
+		solo.clickOnText(solo.getCurrentActivity().getString(R.string.brick_wait));
+		solo.sleep(100);
 
-		Thread.sleep(2000);
-		brickListToCheck = brickList;
+		assertTrue("Wait brick is not in List", solo.searchText(getActivity().getString(R.string.brick_wait)));
+
+		assertEquals("Brick count in list view not correct", brickCountInView + 1, solo.getCurrentListViews().get(0)
+				.getCount());
+		assertEquals("Brick count in brick list not correct", brickCountInList + 1, ProjectManager.getInstance()
+				.getCurrentScript().getBrickList().size());
 	}
 
+	public void testSimpleDragNDrop() {
+		ArrayList<Integer> yPosList = getListItemYPositions();
+		assertTrue("Test project brick list smaller than expected", yPosList.size() >= 6);
+
+		solo.sleep(1000);
+		solo.drag(30, 30, yPosList.get(4), (yPosList.get(1) + yPosList.get(2)) / 2 + 30, 20);
+		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
+
+		assertEquals("Brick count not equal before and after dragging & dropping", brickListToCheck.size(),
+				brickList.size());
+		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(0), brickList.get(0));
+		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(3), brickList.get(1));
+		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(1), brickList.get(2));
+		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(2), brickList.get(3));
+		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(4), brickList.get(4));
+	}
+
+	public void testDeleteItem() {
+		ArrayList<Integer> yPosList = getListItemYPositions();
+		assertTrue("Test project brick list smaller than expected", yPosList.size() >= 6);
+
+		solo.drag(30, 400, yPosList.get(2), (yPosList.get(4) + yPosList.get(5)) / 2, 20);
+		solo.sleep(1000);
+		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
+
+		assertEquals("Brick count did not decrease by one after deleting a brick", brickListToCheck.size() - 1,
+				brickList.size());
+		assertEquals("Incorrect brick order after deleting a brick", brickListToCheck.get(0), brickList.get(0));
+		assertEquals("Incorrect brick order after deleting a brick", brickListToCheck.get(2), brickList.get(1));
+		assertEquals("Incorrect brick order after deleting a brick", brickListToCheck.get(3), brickList.get(2));
+		assertEquals("Incorrect brick order after deleting a brick", brickListToCheck.get(4), brickList.get(3));
+	}
+
+	/**
+	 * Returns the absolute pixel y coordinates of the displayed bricks
+	 * 
+	 * @return a list of the y pixel coordinates of the center of displayed bricks
+	 */
 	private ArrayList<Integer> getListItemYPositions() {
-		ArrayList<Integer> yposlist = new ArrayList<Integer>();
-
+		ArrayList<Integer> yPosList = new ArrayList<Integer>();
 		ListView listView = solo.getCurrentListViews().get(0);
 
-		for(int i=0;i<listView.getChildCount();++i) {
+		for (int i = 0; i < listView.getChildCount(); ++i) {
 			View currentViewInList = listView.getChildAt(i);
 
-			Rect globalVisilbleRect = new Rect();
-			currentViewInList.getGlobalVisibleRect(globalVisilbleRect);
-			int middleYPos = globalVisilbleRect.top+globalVisilbleRect.height()/2;
-			yposlist.add(middleYPos);
+			Rect globalVisibleRect = new Rect();
+			currentViewInList.getGlobalVisibleRect(globalVisibleRect);
+			int middleYPos = globalVisibleRect.top + globalVisibleRect.height() / 2;
+			yPosList.add(middleYPos);
 		}
 
-		return yposlist;
+		return yPosList;
 	}
+
 }

@@ -26,7 +26,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -34,12 +34,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import at.tugraz.ist.catroid.Consts;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.NewSpriteDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameSpriteDialog;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class ProjectActivity extends Activity {
 
@@ -52,7 +53,7 @@ public class ProjectActivity extends Activity {
 		adapterSpriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		adapter = new ArrayAdapter<Sprite>(this, android.R.layout.simple_list_item_1, adapterSpriteList);
 
-		listView = (ListView) findViewById(R.id.spriteListView);
+		listView = (ListView) findViewById(R.id.sprite_list_view);
 		listView.setAdapter(adapter);
 		registerForContextMenu(listView);
 		listView.setOnItemClickListener(new ListView.OnItemClickListener() {
@@ -63,14 +64,14 @@ public class ProjectActivity extends Activity {
 			}
 		});
 
-		Button mainMenuButton = (Button) findViewById(R.id.mainMenuButton);
+		Button mainMenuButton = (Button) findViewById(R.id.main_menu_button);
 		mainMenuButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				finish();
 			}
 		});
 
-		Button NewSpriteButton = (Button) findViewById(R.id.addSpriteButton);
+		Button NewSpriteButton = (Button) findViewById(R.id.add_sprite_button);
 		NewSpriteButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				showDialog(Consts.DIALOG_NEW_SPRITE);
@@ -81,9 +82,7 @@ public class ProjectActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		setContentView(R.layout.project_activity);
-		initListeners();
+		setContentView(R.layout.activity_project);
 	}
 
 	@Override
@@ -91,23 +90,33 @@ public class ProjectActivity extends Activity {
 		Dialog dialog;
 
 		switch (id) {
-		case Consts.DIALOG_NEW_SPRITE:
-			dialog = new NewSpriteDialog(this);
-			break;
-		case Consts.DIALOG_RENAME_SPRITE:
-			dialog = new RenameSpriteDialog(this);
-			break;
-		default:
-			dialog = null;
-			break;
+			case Consts.DIALOG_NEW_SPRITE:
+				dialog = new NewSpriteDialog(this);
+				break;
+			case Consts.DIALOG_RENAME_SPRITE:
+				dialog = new RenameSpriteDialog(this);
+				break;
+			default:
+				dialog = null;
+				break;
 		}
 
 		return dialog;
 	}
 
 	@Override
+	protected void onStart() {
+		super.onStart();
+		initListeners();
+	}
+
+	@Override
 	protected void onResume() {
 		super.onResume();
+		if (!Utils.checkForSdCard(this)) {
+			return;
+		}
+		removeDialog(Consts.DIALOG_RENAME_SPRITE);
 		updateTextAndAdapter();
 	}
 
@@ -124,7 +133,7 @@ public class ProjectActivity extends Activity {
 	}
 
 	private void updateTextAndAdapter() {
-		TextView currentProjectTextView = (TextView) findViewById(R.id.projectTitleTextView);
+		TextView currentProjectTextView = (TextView) findViewById(R.id.project_title_text_view);
 		currentProjectTextView.setText(this.getString(R.string.project_name) + " "
 				+ ProjectManager.getInstance().getCurrentProject().getName());
 		adapter.notifyDataSetChanged();
@@ -132,39 +141,37 @@ public class ProjectActivity extends Activity {
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
-		if (view.getId() == R.id.spriteListView) {
-			AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-			menu.setHeaderTitle(adapterSpriteList.get(info.position).getName());
-			spriteToEdit = adapterSpriteList.get(info.position);
-			String[] menuItems = getResources().getStringArray(R.array.menu_project_activity);
+		super.onCreateContextMenu(menu, view, menuInfo);
 
-			// Stage not allowed to delete or rename:
-			if (spriteToEdit.getName().equalsIgnoreCase(this.getString(R.string.stage))) {
-				return;
-			}
-			for (int i = 0; i < menuItems.length; i++) {
-				menu.add(Menu.NONE, i, i, menuItems[i]);
-			}
+		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+		spriteToEdit = adapterSpriteList.get(info.position);
 
+		if (spriteToEdit.getName().equalsIgnoreCase(getString(R.string.stage))) {
+			return;
 		}
+
+		menu.setHeaderTitle(adapterSpriteList.get(info.position).getName());
+
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.project_menu, menu);
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case 0: // rename
-			this.showDialog(Consts.DIALOG_RENAME_SPRITE);
-			break;
-		case 1: // delete
-			ProjectManager projectManager = ProjectManager.getInstance();
-			projectManager.getCurrentProject().getSpriteList().remove(spriteToEdit);
-			if (projectManager.getCurrentSprite() != null && projectManager.getCurrentSprite().equals(spriteToEdit)) {
-				projectManager.setCurrentSprite(null);
-			}
-			// updateTextAndAdapter();
-			break;
+			case R.id.project_menu_rename:
+				this.showDialog(Consts.DIALOG_RENAME_SPRITE);
+				return true;
+			case R.id.project_menu_delete:
+				ProjectManager projectManager = ProjectManager.getInstance();
+				projectManager.getCurrentProject().getSpriteList().remove(spriteToEdit);
+				if (projectManager.getCurrentSprite() != null && projectManager.getCurrentSprite().equals(spriteToEdit)) {
+					projectManager.setCurrentSprite(null);
+				}
+				return true;
+			default:
+				return super.onContextItemSelected(item);
 		}
-		return true;
 	}
 
 	@Override

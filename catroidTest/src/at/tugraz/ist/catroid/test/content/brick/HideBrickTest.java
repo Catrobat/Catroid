@@ -23,7 +23,7 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 
 public class HideBrickTest extends AndroidTestCase {
-	
+
 	public void testHide() {
 		Sprite sprite = new Sprite("new sprite");
 		assertTrue("Unexpected default visibility", sprite.isVisible());
@@ -31,10 +31,10 @@ public class HideBrickTest extends AndroidTestCase {
 		hideBrick.execute();
 		assertFalse("Sprite is still visible after HideBrick executed", sprite.isVisible());
 	}
-	
+
 	public void testNullSprite() {
 		HideBrick hideBrick = new HideBrick(null);
-		
+
 		try {
 			hideBrick.execute();
 			fail("Execution of HideBrick with null Sprite did not cause a NullPointerException to be thrown");

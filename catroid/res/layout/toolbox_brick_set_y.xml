@@ -26,7 +26,7 @@
 >
 	<TextView
 		android:id="@+id/ValueTextViewY"
-		android:text="@string/set_y_main_adapter"
+		android:text="@string/brick_set_y"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
 		android:layout_alignParentLeft="true"
@@ -38,7 +38,7 @@
 	>
 	</TextView>
 	<EditText
-		android:id="@+id/InputValueEditTextY"
+		android:id="@+id/toolbox_brick_set_y_edit_text"
 		android:text="0"
 		android:layout_height="wrap_content"
 		android:layout_width="50dp"

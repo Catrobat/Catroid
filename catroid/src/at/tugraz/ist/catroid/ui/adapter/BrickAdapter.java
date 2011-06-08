@@ -23,7 +23,6 @@ package at.tugraz.ist.catroid.ui.adapter;
  *
  */
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -32,9 +31,10 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnGroupClickListener;
-import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.TapScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
 import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
@@ -97,13 +97,13 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 	}
 
 	public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-		View v;
-		if (getGroup(groupPosition).isTouchScript()) {
-			v = new IfTouchedBrick(sprite, getGroup(groupPosition)).getPrototypeView(context);
+		View view;
+		if (getGroup(groupPosition) instanceof TapScript) {
+			view = new IfTouchedBrick(sprite, getGroup(groupPosition)).getPrototypeView(context);
 		} else {
-			v = new IfStartedBrick(sprite, getGroup(groupPosition)).getPrototypeView(context);
+			view = new IfStartedBrick(sprite, getGroup(groupPosition)).getPrototypeView(context);
 		}
-		return v;
+		return view;
 	}
 
 	public boolean hasStableIds() {
@@ -126,26 +126,22 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 
 	public void remove(int which) {
 		ArrayList<Brick> brickList = sprite.getScriptList().get(getGroupCount() - 1).getBrickList();
-		try {
 
-			if (brickList.get(which) instanceof PlaySoundBrick) {
-				PlaySoundBrick toDelete = (PlaySoundBrick) brickList.get(which);
-				String pathToSoundFile = toDelete.getPathToSoundFile();
-				if (pathToSoundFile != null) {
-					StorageHandler.getInstance().deleteFile(pathToSoundFile);
-				}
-
-			} else if (brickList.get(which) instanceof SetCostumeBrick) {
-				SetCostumeBrick toDelete = (SetCostumeBrick) brickList.get(which);
-				String imagePath = toDelete.getImagePath();
-				if (imagePath != null) {
-					StorageHandler.getInstance().deleteFile(imagePath);
-				}
+		if (brickList.get(which) instanceof PlaySoundBrick) {
+			PlaySoundBrick toDelete = (PlaySoundBrick) brickList.get(which);
+			String pathToSoundFile = toDelete.getPathToSoundFile();
+			if (pathToSoundFile != null) {
+				StorageHandler.getInstance().deleteFile(pathToSoundFile);
 			}
 
-		} catch (IOException e) {
-			e.printStackTrace();
+		} else if (brickList.get(which) instanceof SetCostumeBrick) {
+			SetCostumeBrick toDelete = (SetCostumeBrick) brickList.get(which);
+			String imagePath = toDelete.getImagePath();
+			if (imagePath != null) {
+				StorageHandler.getInstance().deleteFile(imagePath);
+			}
 		}
+
 		brickList.remove(which);
 		notifyDataSetChanged();
 	}

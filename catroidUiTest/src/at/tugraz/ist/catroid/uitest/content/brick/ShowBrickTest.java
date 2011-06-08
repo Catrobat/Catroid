@@ -22,11 +22,12 @@ import java.util.ArrayList;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
@@ -36,15 +37,14 @@ import com.jayway.android.robotium.solo.Solo;
 /**
  * 
  * @author Daniel Burtscher
- *
+ * 
  */
-public class ShowBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity>{
+public class ShowBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
 
 	public ShowBrickTest() {
-		super("at.tugraz.ist.catroid",
-				ScriptActivity.class);
+		super("at.tugraz.ist.catroid", ScriptActivity.class);
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class ShowBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 	}
 
 	@Smoke
-	public void testShowBrick() throws Throwable {
+	public void testShowBrick() {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
 		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
@@ -75,16 +75,15 @@ public class ShowBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScriptList().get(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(groupCount-1,
-				     0));
-		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.show_main_adapter)));
-
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				getActivity().getAdapter().getChild(groupCount - 1, 0));
+		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_show)));
 	}
 
 	private void createProject() {
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
-		Script script = new Script("script", sprite);
+		Script script = new StartScript("script", sprite);
 		script.addBrick(new ShowBrick(sprite));
 
 		sprite.getScriptList().add(script);

@@ -22,11 +22,12 @@ import java.util.ArrayList;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
@@ -39,9 +40,9 @@ import com.jayway.android.robotium.solo.Solo;
 /**
  * 
  * @author Daniel Burtscher
- *
+ * 
  */
-public class PlaceAtTest extends ActivityInstrumentationTestCase2<ScriptActivity>{
+public class PlaceAtTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
 	private PlaceAtBrick placeAtBrick;
@@ -70,7 +71,7 @@ public class PlaceAtTest extends ActivityInstrumentationTestCase2<ScriptActivity
 	}
 
 	@Smoke
-	public void testPlaceAtBrick() throws Throwable {
+	public void testPlaceAtBrick() {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
 
@@ -80,11 +81,15 @@ public class PlaceAtTest extends ActivityInstrumentationTestCase2<ScriptActivity
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScriptList().get(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(groupCount-1, 0));
-		assertEquals("Wrong Brick instance.", projectBrickList.get(1), getActivity().getAdapter().getChild(groupCount-1, 1));
-		assertEquals("Wrong Brick instance.", projectBrickList.get(2), getActivity().getAdapter().getChild(groupCount-1, 2));
-		assertEquals("Wrong Brick instance.", projectBrickList.get(3), getActivity().getAdapter().getChild(groupCount-1, 3));
-		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.goto_main_adapter)));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				getActivity().getAdapter().getChild(groupCount - 1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(1),
+				getActivity().getAdapter().getChild(groupCount - 1, 1));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(2),
+				getActivity().getAdapter().getChild(groupCount - 1, 2));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(3),
+				getActivity().getAdapter().getChild(groupCount - 1, 3));
+		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_place_at)));
 
 		int xPosition = 987;
 		int yPosition = 654;
@@ -109,7 +114,7 @@ public class PlaceAtTest extends ActivityInstrumentationTestCase2<ScriptActivity
 	private void createProject() {
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
-		Script script = new Script("script", sprite);
+		Script script = new StartScript("script", sprite);
 		script.addBrick(new HideBrick(sprite));
 		placeAtBrick = new PlaceAtBrick(sprite, 105, 206);
 		script.addBrick(placeAtBrick);

@@ -25,18 +25,18 @@
 	android:background="@drawable/brick_violet"
 >
 	<TextView
+		android:text="@string/brick_set_costume"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:textStyle="bold"
 		android:layout_alignParentLeft="true"
-		android:textColor="@color/white"
 		android:layout_centerVertical="true"
-		android:text="@string/costume_main_adapter"
-		android:textSize="18dip" />
+		android:textColor="@color/white"
+		android:textSize="18dip" 
+		android:textStyle="bold" />
 	<ImageView
 		android:id="@+id/costume_image_view"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_alignParentRight="true"
-		android:background="@drawable/icon" />
+		android:background="@drawable/ic_launcher_catroid_contour" />
 </RelativeLayout>

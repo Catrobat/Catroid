@@ -22,11 +22,12 @@ import java.util.ArrayList;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
@@ -36,9 +37,9 @@ import com.jayway.android.robotium.solo.Solo;
 /**
  * 
  * @author Daniel Burtscher
- *
+ * 
  */
-public class ScaleCostumeTest extends ActivityInstrumentationTestCase2<ScriptActivity>{
+public class ScaleCostumeTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
 	private ScaleCostumeBrick scaleCostumeBrick;
@@ -67,7 +68,7 @@ public class ScaleCostumeTest extends ActivityInstrumentationTestCase2<ScriptAct
 	}
 
 	@Smoke
-	public void testScaleCostumeBrick() throws Throwable {
+	public void testScaleCostumeBrick() {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
 		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
@@ -76,8 +77,9 @@ public class ScaleCostumeTest extends ActivityInstrumentationTestCase2<ScriptAct
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScriptList().get(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(groupCount-1, 0));
-		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.scale_costume)));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				getActivity().getAdapter().getChild(groupCount - 1, 0));
+		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_scale_costume)));
 
 		double newScale = 25;
 
@@ -86,8 +88,8 @@ public class ScaleCostumeTest extends ActivityInstrumentationTestCase2<ScriptAct
 		solo.enterText(0, newScale + "");
 		solo.clickOnButton(0);
 
-		Thread.sleep(1000);
-		
+		solo.sleep(1000);
+
 		assertEquals("Wrong text in field", newScale, scaleCostumeBrick.getScale());
 		assertEquals("Text not updated", newScale, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
@@ -95,7 +97,7 @@ public class ScaleCostumeTest extends ActivityInstrumentationTestCase2<ScriptAct
 	private void createProject() {
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
-		Script script = new Script("script", sprite);
+		Script script = new StartScript("script", sprite);
 		scaleCostumeBrick = new ScaleCostumeBrick(sprite, 20);
 		script.addBrick(scaleCostumeBrick);
 

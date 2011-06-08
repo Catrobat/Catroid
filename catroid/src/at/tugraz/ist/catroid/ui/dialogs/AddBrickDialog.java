@@ -27,14 +27,18 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.R.string;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
+import at.tugraz.ist.catroid.content.TapScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
+import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
 import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
@@ -55,9 +59,10 @@ public class AddBrickDialog extends Dialog {
 	private ArrayList<Brick> prototypeBrickList;
 	private ListView listView;
 	private PrototypeBrickAdapter adapter;
+	private ScriptActivity scriptActivity;
 
 	private void setupBrickPrototypes(Sprite sprite) {
-		if (sprite.getName().equals("Stage")) {
+		if (sprite.getName().equals(scriptActivity.getString(string.stage))) {
 			prototypeBrickList = new ArrayList<Brick>();
 			prototypeBrickList.add(new IfTouchedBrick(sprite, null));
 			prototypeBrickList.add(new IfStartedBrick(sprite, null));
@@ -82,20 +87,26 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new PlaySoundBrick(sprite));
 			prototypeBrickList.add(new IfTouchedBrick(sprite, null));
 			prototypeBrickList.add(new IfStartedBrick(sprite, null));
+			prototypeBrickList.add(new GlideToBrick(sprite, 100, 100, 3000));
 		}
 
 	}
 
-	public AddBrickDialog(ScriptActivity scriptActivity, Sprite sprite) {
+	public AddBrickDialog(ScriptActivity scriptActivity) {
 		super(scriptActivity);
-		setupBrickPrototypes(sprite);
-
+		this.scriptActivity = scriptActivity;
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.dialog_toolbox);
 		getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-		adapter = new PrototypeBrickAdapter(scriptActivity, prototypeBrickList);
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		setupBrickPrototypes(ProjectManager.getInstance().getCurrentSprite());
+		adapter = new PrototypeBrickAdapter(this.scriptActivity, prototypeBrickList);
 
 		listView = (ListView) findViewById(R.id.toolboxListView);
 		listView.setAdapter(adapter);
@@ -106,30 +117,28 @@ public class AddBrickDialog extends Dialog {
 				final ProjectManager projectManager = ProjectManager.getInstance();
 
 				if (addedBrick instanceof IfStartedBrick) {
-					Script newScript = new Script("script", projectManager.getCurrentSprite());
+					Script newScript = new StartScript("script", projectManager.getCurrentSprite());
 					projectManager.addScript(newScript);
 					projectManager.setCurrentScript(newScript);
-					newScript.setTouchScript(false);
 				} else if (addedBrick instanceof IfTouchedBrick) {
-					Script newScript = new Script("script", projectManager.getCurrentSprite());
+					Script newScript = new TapScript("script", projectManager.getCurrentSprite());
 					projectManager.addScript(newScript);
 					projectManager.setCurrentScript(newScript);
-					newScript.setTouchScript(true);
 				} else {
 					if (projectManager.getCurrentSprite().getScriptList().isEmpty()) {
-						Script newScript = new Script("script", projectManager.getCurrentSprite());
+						Script newScript = new StartScript("script", projectManager.getCurrentSprite());
 						projectManager.addScript(newScript);
 						projectManager.setCurrentScript(newScript);
-						newScript.setTouchScript(false);
-						projectManager.addBrick(getBrickClone(adapter.getItem(position)));
+						projectManager.getCurrentScript().addBrick(adapter.getItem(position));
 					} else {
-						projectManager.addBrick(getBrickClone(adapter.getItem(position)));
+						projectManager.getCurrentScript().addBrick(getBrickClone(adapter.getItem(position)));
 					}
 
 				}
 				dismiss();
 			}
 		});
+
 	}
 
 	public Brick getBrickClone(Brick brick) {

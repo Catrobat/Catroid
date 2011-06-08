@@ -24,56 +24,56 @@ import java.util.List;
 
 import android.graphics.Color;
 import android.util.Pair;
+import at.tugraz.ist.catroid.common.Consts;
 
 public class Sprite implements Serializable, Comparable<Sprite> {
 	private static final long serialVersionUID = 1L;
 	private String name;
-	private int xPosition;
-	private int yPosition;
-	private int zPosition;
-	private double scale;
-	private boolean isVisible;
-	private boolean toDraw;
+	private transient int xPosition;
+	private transient int yPosition;
+	private transient int zPosition;
+	private transient double scale;
+	private transient boolean isVisible;
+	private transient boolean toDraw;
 	private List<Script> scriptList;
-	private List<Thread> threadList;
-	private Costume costume;
+	private transient List<Thread> threadList;
+	private transient Costume costume;
+
+	private Object readResolve() {
+		init();
+		return this;
+	}
 
 	private void init() {
 		zPosition = 0;
 		scale = 100.0;
 		isVisible = true;
-		scriptList = new ArrayList<Script>();
 		threadList = new ArrayList<Thread>();
 		costume = new Costume(this, null);
+		xPosition = 0;
+		yPosition = 0;
+		toDraw = false;
 	}
 
 	public Sprite(String name) {
 		this.name = name;
-		xPosition = 0;
-		yPosition = 0;
-		toDraw = false;
+		scriptList = new ArrayList<Script>();
 		init();
 	}
 
-	public Sprite(String name, int xPosition, int yPosition) {
-		this.name = name;
-		this.xPosition = xPosition;
-		this.yPosition = yPosition;
-		toDraw = false;
-		init();
-	}
-
-	public void startScripts() {
+	public void startStartScripts() {
 		for (Script s : scriptList) {
-			if (!s.isTouchScript()) {
-				startScript(s);
+			if (s instanceof StartScript) {
+				if (!s.isFinished()) {
+					startScript(s);
+				}
 			}
 		}
 	}
 
-	public void startTouchScripts() {
+	public void startTapScripts() {
 		for (Script s : scriptList) {
-			if (s.isTouchScript()) {
+			if (s instanceof TapScript) {
 				startScript(s);
 			}
 		}
@@ -103,12 +103,11 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	public void resume() {
 		for (Script s : scriptList) {
 			s.setPaused(false);
-			if (s.isTouchScript() && s.isFinished()) {
+			if (s.isFinished()) {
 				continue;
 			}
 			startScript(s);
 		}
-		//		this.startScripts();
 	}
 
 	public String getName() {
@@ -155,8 +154,33 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		if (scale <= 0.0) {
 			throw new IllegalArgumentException("Sprite scale must be greater than zero!");
 		}
+
+		int width = costume.getImageWidthHeight().first;
+		int height = costume.getImageWidthHeight().second;
+
+		if (width == 0 || height == 0) {
+			this.scale = scale;
+			return;
+		}
+
 		this.scale = scale;
-		costume.scale(scale);
+
+		if (width * this.scale / 100. < 1) {
+			this.scale = 1. / width * 100.;
+		}
+		if (height * this.scale / 100. < 1) {
+			this.scale = 1. / height * 100.;
+		}
+
+		if (width * this.scale / 100. > Consts.MAX_COSTUME_WIDTH) {
+			this.scale = (double) Consts.MAX_COSTUME_WIDTH / width * 100.;
+		}
+
+		if (height * this.scale / 100. > Consts.MAX_COSTUME_HEIGHT) {
+			this.scale = (double) Consts.MAX_COSTUME_HEIGHT / height * 100.;
+		}
+
+		costume.scale(this.scale);
 		toDraw = true;
 	}
 

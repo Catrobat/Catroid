@@ -28,6 +28,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.Window;
 import android.view.WindowManager;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -47,7 +48,7 @@ public class StageActivity extends Activity {
 			window.requestFeature(Window.FEATURE_NO_TITLE);
 			window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-			setContentView(R.layout.stage);
+			setContentView(R.layout.activity_stage);
 			stage = (SurfaceView) findViewById(R.id.stageView);
 
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -96,7 +97,7 @@ public class StageActivity extends Activity {
 				pauseOrContinue();
 				break;
 			case R.id.stagemenuConstructionSite:
-				toMainActivity();
+				manageLoadAndFinish(); //calls finish
 				break;
 		}
 		return true;
@@ -122,20 +123,21 @@ public class StageActivity extends Activity {
 	protected void onDestroy() {
 		super.onDestroy();
 		soundManager.clear();
-		//		ProjectManager projectManager = ProjectManager.getInstance();
-		//		Sprite currentSprite = projectManager.getCurrentSprite();
-		//		Script currentScript = projectManager.getCurrentScript();
-		//		projectManager.loadProject(projectManager.getCurrentProject().getName(), this);
-		//		projectManager.setCurrentSprite(currentSprite);
-		//		projectManager.setCurrentScript(currentScript);
 	}
 
 	@Override
 	public void onBackPressed() {
-		finish();
+		manageLoadAndFinish();
 	}
 
-	private void toMainActivity() {
+	private void manageLoadAndFinish() {
+		ProjectManager projectManager = ProjectManager.getInstance();
+		int currentSpritePos = projectManager.getCurrentSpritePosition();
+		int currentScriptPos = projectManager.getCurrentScriptPosition();
+		projectManager.loadProject(projectManager.getCurrentProject().getName(), this,
+				false);
+		projectManager.setCurrentSpriteWithPosition(currentSpritePos);
+		projectManager.setCurrentScriptWithPosition(currentScriptPos);
 		finish();
 	}
 
@@ -149,5 +151,13 @@ public class StageActivity extends Activity {
 			soundManager.resume();
 			stagePlaying = true;
 		}
+	}
+
+	@Override
+	protected void onResume() {
+		if (!Utils.checkForSdCard(this)) {
+			return;
+		}
+		super.onResume();
 	}
 }

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- 
+ *  Catroid: An on-device graphical programming language for Android devices
+ *  Copyright (C) 2010  Catroid development team 
+ *  (<http://code.google.com/p/catroid/wiki/Credits>)
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+>
+	<!-- Top bar -->
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_weight="0"
+	>
+		<TextView
+			android:id="@+id/script_name_text_view"
+			android:text="@string/script_name"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:textSize="18dip"
+		></TextView>
+		<Button
+			android:text="@string/construction_site_play"
+			android:id="@+id/toStageButton"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="0"
+			android:textStyle="bold"
+		>
+		</Button>
+		<Button
+			android:id="@+id/main_menu_button"
+			android:text="@string/main_menu"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="0"
+			android:textStyle="bold"
+		>
+		</Button>
+	</LinearLayout>
+	<!-- Sprite list -->
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_weight="1"
+	>
+		<TextView
+			android:id="@+id/brick_list_label"
+			android:text="@string/brick_list"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:textSize="14dip"
+		></TextView>
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+		>
+			<at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView
+				android:id="@+id/brick_list_view"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:drawSelectorOnTop="false"
+				android:fastScrollEnabled="true"
+				android:clickable="false"
+				android:drawingCacheQuality="high" />
+			<ImageView
+				android:id="@+id/trash"
+				android:layout_width="51dip"
+				android:layout_height="97dip"
+				android:layout_alignParentRight="true"
+				android:layout_centerVertical="true"
+				android:layout_marginRight="-3dip"
+				android:visibility="gone"
+				android:src="@drawable/trash_green" />
+		</RelativeLayout>
+	</LinearLayout>
+	<!-- Add brick button -->
+	<Button
+		android:id="@+id/add_brick_button"
+		android:text="@string/add_new_brick"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_weight="0"
+	></Button>
+</LinearLayout>

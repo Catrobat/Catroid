@@ -29,8 +29,8 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
-import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.utils.UtilZip;
 import at.tugraz.ist.catroid.web.ConnectionWrapper;
@@ -109,6 +109,7 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 		if (activity == null) {
 			return;
 		}
+		//TODO: refactor to use strings.xml
 		new Builder(activity)
 				.setMessage(messageId)
 				.setPositiveButton("OK", null)

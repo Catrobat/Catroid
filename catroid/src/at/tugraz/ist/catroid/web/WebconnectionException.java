@@ -21,17 +21,15 @@ package at.tugraz.ist.catroid.web;
 
 public class WebconnectionException extends Exception {
 
-	private static final long serialVersionUID = -6911428763559513678L;
-	private int mHttpResultCode;
-	
-	
+	private static final long serialVersionUID = 1L;
+	private int httpResultCode;
+
 	public WebconnectionException(int httpResultCode) {
-		mHttpResultCode = httpResultCode;
+		this.httpResultCode = httpResultCode;
 	}
 
 	public int getmHttpResultCode() {
-		return mHttpResultCode;
+		return httpResultCode;
 	}
-	
-	
+
 }

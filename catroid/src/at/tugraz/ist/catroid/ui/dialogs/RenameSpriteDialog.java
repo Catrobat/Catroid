@@ -19,20 +19,23 @@
 package at.tugraz.ist.catroid.ui.dialogs;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class RenameSpriteDialog extends Dialog {
 	protected ProjectActivity projectActivity;
+	private EditText renameName;
 
 	public RenameSpriteDialog(ProjectActivity projectActivity) {
 		super(projectActivity);
@@ -45,6 +48,8 @@ public class RenameSpriteDialog extends Dialog {
 		setContentView(R.layout.dialog_rename);
 		setTitle(R.string.rename_sprite_dialog);
 		setCanceledOnTouchOutside(true);
+		renameName = (EditText) findViewById(R.id.rename_edit_text);
+		renameName.setText(projectActivity.getSpriteToEdit().getName());
 
 		Button renameButton = (Button) findViewById(R.id.rename_button);
 		renameButton.setOnClickListener(new View.OnClickListener() {
@@ -68,6 +73,14 @@ public class RenameSpriteDialog extends Dialog {
 					return;
 				}
 				dismiss();
+			}
+		});
+
+		this.setOnShowListener(new OnShowListener() {
+			public void onShow(DialogInterface dialog) {
+				InputMethodManager inputManager = (InputMethodManager) getContext().getSystemService(
+						Context.INPUT_METHOD_SERVICE);
+				inputManager.showSoftInput(renameName, InputMethodManager.SHOW_IMPLICIT);
 			}
 		});
 

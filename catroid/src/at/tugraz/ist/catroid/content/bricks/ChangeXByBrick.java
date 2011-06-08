@@ -66,7 +66,7 @@ public class ChangeXByBrick implements Brick, OnDismissListener {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View brickView = inflater.inflate(R.layout.construction_brick_change_x, null);
 
-		EditText editX = (EditText) brickView.findViewById(R.id.InputValueEditTextX);
+		EditText editX = (EditText) brickView.findViewById(R.id.construction_brick_change_x_edit_text);
 		editX.setText(String.valueOf(xMovement));
 
 		EditIntegerDialog dialogX = new EditIntegerDialog(context, editX, xMovement, true);

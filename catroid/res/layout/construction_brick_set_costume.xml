@@ -39,7 +39,7 @@
 		android:longClickable="true"
 	>
 		<TextView
-			android:text="@string/costume_main_adapter"
+			android:text="@string/brick_set_costume"
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
 			android:layout_alignParentLeft="true"
@@ -52,7 +52,7 @@
 			android:layout_height="50dip"
 			android:layout_width="50dip"
 			android:layout_alignParentRight="true"
-			android:background="@drawable/icon"
+			android:background="@drawable/ic_launcher_catroid_contour"
 			android:maxHeight="100dip"
 			android:maxWidth="100dip"
 			android:scaleType="centerInside"
