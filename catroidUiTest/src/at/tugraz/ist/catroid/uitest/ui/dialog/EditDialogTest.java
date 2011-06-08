@@ -22,7 +22,7 @@ package at.tugraz.ist.catroid.uitest.ui.dialog;
 import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
-import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
+import at.tugraz.ist.catroid.uitest.util.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -30,13 +30,13 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptActiv
 	private Solo solo;
 
 	public EditDialogTest() {
-		super("at.tugraz.ist.catroid.ui", ScriptActivity.class);
+		super("at.tugraz.ist.catroid", ScriptActivity.class);
 	}
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		UiTestUtils.createTestProject();
+		Utils.createTestProject();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
@@ -48,20 +48,73 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptActiv
 			e.printStackTrace();
 		}
 		getActivity().finish();
+		Utils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
-	public void testEditIntegerDialog() throws InterruptedException {
-		solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.goto_main_adapter));
+	public void testIntegerDialog() {
+		Utils.addNewBrickAndScrollDown(solo, R.string.brick_place_at);
 
-		while(solo.scrollDown())
-			;
+		int xPosition = 5;
+		int yPosition = 7;
+
+		int yPositionEditTextId = solo.getCurrentEditTexts().size() - 1;
+		int xPositionEditTextId = yPositionEditTextId - 1;
+
+		Utils.insertIntegerIntoEditText(solo, xPositionEditTextId, xPosition);
+		solo.sendKey(Solo.ENTER);
+		Utils.insertIntegerIntoEditText(solo, yPositionEditTextId, yPosition);
+		solo.sendKey(Solo.ENTER);
+
+		assertEquals("Wrong value in X-Position EditText", xPosition + "", solo.getEditText(xPositionEditTextId)
+				.getText().toString());
+		assertEquals("Wrong value in Y-Position EditText", yPosition + "", solo.getEditText(yPositionEditTextId)
+				.getText().toString());
+	}
+
+	public void testDoubleDialog() {
+		Utils.addNewBrickAndScrollDown(solo, R.string.brick_wait);
+
+		double wait = 5.9;
+
+		int waitEditTextId = solo.getCurrentEditTexts().size() - 1;
+		Utils.insertDoubleIntoEditText(solo, waitEditTextId, wait);
+		solo.sendKey(Solo.ENTER);
+
+		assertEquals("Wrong value in WaitBrick EditText", wait + "", solo.getEditText(waitEditTextId).getText()
+				.toString());
+	}
+
+	public void testEmptyEditDoubleDialog() {
+		Utils.addNewBrickAndScrollDown(solo, R.string.brick_scale_costume);
 
 		int editTextId = solo.getCurrentEditTexts().size() - 1;
+
 		solo.clickOnEditText(editTextId);
-		UiTestUtils.pause();
-		solo.clearEditText(solo.getCurrentEditTexts().get(0));
-		assertTrue("Toast with warning was not found", solo.searchText(getActivity().getString(R.string.notification_no_text_entered)));
+		solo.sleep(50);
+
+		solo.clearEditText(0);
+		assertTrue("Toast with warning was not found",
+				solo.searchText(getActivity().getString(R.string.notification_invalid_text_entered)));
+		assertFalse(solo.getButton(getActivity().getString(R.string.ok)).isEnabled());
+
+		solo.enterText(0, ".");
+		assertTrue("Toast with warning was not found",
+				solo.searchText(getActivity().getString(R.string.notification_invalid_text_entered)));
+		assertFalse(solo.getButton(0).isEnabled());
+	}
+
+	public void testEmptyEditIntegerDialog() {
+		Utils.addNewBrickAndScrollDown(solo, R.string.brick_place_at);
+
+		int editTextId = solo.getCurrentEditTexts().size() - 1;
+
+		solo.clickOnEditText(editTextId);
+		solo.sleep(50);
+
+		solo.clearEditText(0);
+		assertTrue("Toast with warning was not found",
+				solo.searchText(getActivity().getString(R.string.notification_invalid_text_entered)));
+		assertFalse(solo.getButton(0).isEnabled());
 	}
 }

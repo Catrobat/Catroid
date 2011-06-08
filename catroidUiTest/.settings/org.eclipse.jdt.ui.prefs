@@ -1,4 +1,4 @@
-#Wed Apr 20 11:31:27 CEST 2011
+#Fri Apr 22 14:48:42 CEST 2011
 eclipse.preferences.version=1
 editor_save_participant_org.eclipse.jdt.ui.postsavelistener.cleanup=true
 formatter_profile=_Eclipse [Catroid]
@@ -18,7 +18,7 @@ sp_cleanup.always_use_this_for_non_static_field_access=false
 sp_cleanup.always_use_this_for_non_static_method_access=false
 sp_cleanup.convert_to_enhanced_for_loop=false
 sp_cleanup.correct_indentation=true
-sp_cleanup.format_source_code=false
+sp_cleanup.format_source_code=true
 sp_cleanup.format_source_code_changes_only=false
 sp_cleanup.make_local_variable_final=false
 sp_cleanup.make_parameters_final=false

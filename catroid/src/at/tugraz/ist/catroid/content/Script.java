@@ -24,31 +24,34 @@ import java.util.ArrayList;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.exception.InterruptedRuntimeException;
 
-public class Script implements Serializable {
+public abstract class Script implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Brick> brickList;
-	private boolean isTouchScript;
-	private boolean isFinished;
-	private boolean paused;
-	private int brickPositionAfterPause;
+	protected transient boolean isFinished;
+	private transient boolean paused;
+	private transient int brickPositionAfterPause;
 	private String name;
 	private Sprite sprite;
+
+	protected Object readResolve() {
+		init();
+		return this;
+	}
 
 	public Script(String name, Sprite sprite) {
 		this.name = name;
 		brickList = new ArrayList<Brick>();
-		paused = false;
-		isFinished = false;
-		brickPositionAfterPause = 0;
 		this.sprite = sprite;
-		setTouchScript(false);
+		init();
+	}
+
+	private void init() {
+		paused = false;
+		brickPositionAfterPause = 0;
 	}
 
 	public void run() {
-		if (isFinished && !isTouchScript) {
-			return;
-		}
 		isFinished = false;
 		for (int i = brickPositionAfterPause; i < brickList.size(); i++) {
 			if (paused) {
@@ -94,17 +97,6 @@ public class Script implements Serializable {
 
 	public ArrayList<Brick> getBrickList() {
 		return brickList;
-	}
-
-	public void setTouchScript(boolean isTouchScript) {
-		this.isTouchScript = isTouchScript;
-		if (isTouchScript) {
-			this.isFinished = true;
-		}
-	}
-
-	public boolean isTouchScript() {
-		return isTouchScript;
 	}
 
 	public synchronized void setPaused(boolean paused) {

@@ -21,28 +21,51 @@ package at.tugraz.ist.catroid.uitest.web;
 
 import java.io.File;
 
+import org.json.JSONObject;
+
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
-import at.tugraz.ist.catroid.Consts;
+import android.util.Log;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
-import at.tugraz.ist.catroid.download.DownloadActivity;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.transfers.ProjectUploadTask;
+import at.tugraz.ist.catroid.ui.DownloadActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.uitest.util.Utils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<MainMenuActivity>{
+public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
-	private String testProject = "testProject";
-	private String newTestProject = "newProjectToTest";
+	private String testProject = Utils.PROJECTNAME1;
+	private String newTestProject = Utils.PROJECTNAME2;
+
+	private class MockProjectUploadTask extends ProjectUploadTask {
+
+		public MockProjectUploadTask(Context context, String projectName, String projectDescription,
+				String projectPath, String token) {
+			super(context, projectName, projectDescription, projectPath, token);
+		}
+
+		public String getResultString() {
+			return resultString;
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			// nothing to be done
+
+		}
+	}
 
 	public ProjectUpAndDownloadTest() {
-		super(MainMenuActivity.class);
-		deleteCreatedProjects();
+		super("at.tugraz.ist.catroid", MainMenuActivity.class);
+		Utils.clearAllUtilTestProjects();
 	}
 
 	@Override
@@ -59,29 +82,62 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 			e.printStackTrace();
 		}
 		getActivity().finish();
-		deleteCreatedProjects();
-
+		Utils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
-	public void testUploadProject() throws Throwable {
+	private void startProjectUploadTask() throws Throwable {
 		runTestOnUiThread(new Runnable() {
 			public void run() {
 				ProjectUploadTask.useTestUrl = true;
 			}
 		});
 
+	}
+
+	public void testUploadProjectSuccess() throws Throwable {
+		startProjectUploadTask();
+
 		createTestProject();
 		addABrickToProject();
 		uploadProject();
 
-		deleteCreatedProjects();
+		Utils.clearAllUtilTestProjects();
 
 		downloadProject();
 	}
 
+	public void testUploadProjectFailure() throws Throwable {
+		startProjectUploadTask();
+
+		createTestProject();
+		addABrickToProject();
+
+		File projectPath = new File(Consts.DEFAULT_ROOT + "/" + testProject);
+		String invalidToken = "foobar";
+		assertTrue("Could not read project from path: " + projectPath.getAbsolutePath(), projectPath.exists()
+				&& projectPath.canRead());
+		MockProjectUploadTask mockProjectUploadTask = new MockProjectUploadTask(getActivity(), testProject, "foo",
+				projectPath.getAbsolutePath(), invalidToken);
+		mockProjectUploadTask.execute();
+
+		solo.sleep(5000);
+		String resultString = mockProjectUploadTask.getResultString();
+
+		JSONObject jsonObject = new JSONObject(resultString);
+		int statusCode = jsonObject.getInt("statusCode");
+		Log.v("ProjectUpAndDownloadTest", "Received status code: " + statusCode);
+
+		assertEquals("Received wrong result status code", 601, statusCode);
+
+		Utils.clearAllUtilTestProjects();
+	}
+
 	private void createTestProject() {
-		File directory = new File(Consts.DEFAULT_ROOT+"/" + testProject);
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + testProject);
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
 		assertFalse("testProject was not deleted!", directory.exists());
 
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
@@ -91,7 +147,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
 		solo.sleep(2000);
 
-		File file = new File(Consts.DEFAULT_ROOT+"/"+testProject+"/"+testProject+Consts.PROJECT_EXTENTION);
+		File file = new File(Consts.DEFAULT_ROOT + "/" + testProject + "/" + testProject + Consts.PROJECT_EXTENTION);
 		assertTrue(testProject + " was not created!", file.exists());
 	}
 
@@ -100,7 +156,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		solo.clickOnText(getActivity().getString(R.string.add_new_brick));
 
 		solo.sleep(500);
-		solo.clickOnText(getActivity().getString(R.string.wait_main_adapter));
+		solo.clickOnText(getActivity().getString(R.string.brick_wait));
 
 		solo.clickOnButton(getActivity().getString(R.string.main_menu));
 	}
@@ -130,7 +186,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	private void downloadProject() {
 		int serverProjectId = ProjectManager.getInstance().getServerProjectId();
 		String downloadUrl = Consts.TEST_FILE_DOWNLOAD_URL + serverProjectId + Consts.CATROID_EXTENTION;
-		downloadUrl += "?fname="+newTestProject;
+		downloadUrl += "?fname=" + newTestProject;
 		Intent intent = new Intent(getActivity(), DownloadActivity.class);
 		intent.setAction(Intent.ACTION_VIEW);
 		intent.setData(Uri.parse(downloadUrl));
@@ -140,18 +196,11 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		assertNotNull("Download not successful.",
 				solo.searchText(getActivity().getString(R.string.success_project_download)));
 
-		String projectPath = Consts.DEFAULT_ROOT+"/" + newTestProject;
+		String projectPath = Consts.DEFAULT_ROOT + "/" + newTestProject;
 		File downloadedDirectory = new File(projectPath);
-		File downloadedSPFFile = new File(projectPath+"/"+newTestProject+Consts.PROJECT_EXTENTION);
+		File downloadedProjectFile = new File(projectPath + "/" + newTestProject + Consts.PROJECT_EXTENTION);
 		assertTrue("Downloaded Directory does not exist.", downloadedDirectory.exists());
-		assertTrue("Project File does not exist.", downloadedSPFFile.exists());
+		assertTrue("Project File does not exist.", downloadedProjectFile.exists());
 
-	}
-
-	private void deleteCreatedProjects() {
-		File directory = new File(Consts.DEFAULT_ROOT+"/" + testProject);
-		UtilFile.deleteDirectory(directory);
-		File newDirectory = new File(Consts.DEFAULT_ROOT+"/" + newTestProject);
-		UtilFile.deleteDirectory(newDirectory);
 	}
 }

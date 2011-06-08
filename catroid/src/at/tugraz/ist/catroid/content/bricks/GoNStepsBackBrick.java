@@ -41,8 +41,9 @@ public class GoNStepsBackBrick implements Brick, OnDismissListener {
 	}
 
 	public void execute() {
-		if (steps <= 0)
+		if (steps <= 0) {
 			throw new NumberFormatException("Steps was not a positive number!");
+		}
 
 		int currentPosition = sprite.getZPosition();
 
@@ -65,7 +66,7 @@ public class GoNStepsBackBrick implements Brick, OnDismissListener {
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.construction_brick_go_back, null);
-		EditText edit = (EditText) view.findViewById(R.id.InputValueEditText);
+		EditText edit = (EditText) view.findViewById(R.id.construction_brick_go_back_edit_text);
 
 		edit.setText(String.valueOf(steps));
 		EditIntegerDialog dialog = new EditIntegerDialog(context, edit, steps, false);

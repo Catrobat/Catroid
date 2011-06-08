@@ -27,68 +27,63 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import android.test.InstrumentationTestCase;
-import at.tugraz.ist.catroid.Consts;
-import at.tugraz.ist.catroid.FileChecksumContainer;
-import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.ProjectManager;
+import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.R;
-import at.tugraz.ist.catroid.utils.UtilFile;
+import at.tugraz.ist.catroid.test.utils.TestUtils;
+import at.tugraz.ist.catroid.utils.Utils;
 
-public class FileChecksumContainerTest extends InstrumentationTestCase{
+public class FileChecksumContainerTest extends InstrumentationTestCase {
 
 	private static final int IMAGE_FILE_ID = R.raw.icon;
 	private StorageHandler storageHandler;
 	private ProjectManager projectManager;
 	private File testImage;
 	private File testSound;
-	private String currentProjectName = "testCopyFile";
-	private final int fileSizeImage = 4000;
-	private final int fileSizeSound = 4000;
-
+	private String currentProjectName = "testCopyFile2";
 
 	public FileChecksumContainerTest() throws IOException {
-		File directory = new File("/sdcard/catroid/" + currentProjectName);
-		if (directory.exists()) {
-			UtilFile.deleteDirectory(directory);
-		}
-		storageHandler = StorageHandler.getInstance();
-		Project testCopyFile = new Project(null, currentProjectName);
-		projectManager = ProjectManager.getInstance();
-		projectManager.setProject(testCopyFile);
-		storageHandler.saveProject(testCopyFile);
 	}
 
 	@Override
-	protected void setUp() throws Exception{
+	protected void setUp() throws Exception {
 
-		final String imagePath = "/sdcard/catroid/testImage.png";
+		TestUtils.clearProject(currentProjectName);
+		storageHandler = StorageHandler.getInstance();
+		Project testCopyFile = new Project(null, currentProjectName);
+		projectManager = ProjectManager.getInstance();
+		storageHandler.saveProject(testCopyFile);
+		projectManager.setProject(testCopyFile);
+
+		final String imagePath = Consts.DEFAULT_ROOT + "/testImage.png";
 		testImage = new File(imagePath);
 		if (!testImage.exists()) {
 			testImage.createNewFile();
 		}
-		InputStream in   = getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID);
-		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), fileSizeImage);
+		InputStream in = getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID);
+		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), Consts.BUFFER_8K);
 
-		byte[] buffer = new byte[fileSizeImage];
+		byte[] buffer = new byte[Consts.BUFFER_8K];
 		int length = 0;
 		while ((length = in.read(buffer)) > 0) {
 			out.write(buffer, 0, length);
 		}
 
-
 		in.close();
 		out.flush();
 		out.close();
 
-		final String soundPath = "/sdcard/catroid/testsound.mp3";
+		final String soundPath = Consts.DEFAULT_ROOT + "/testsound.mp3";
 		testSound = new File(soundPath);
 		if (!testSound.exists()) {
 			testSound.createNewFile();
 		}
-		in   = getInstrumentation().getContext().getResources().openRawResource(R.raw.testsound);
-		out  = new BufferedOutputStream(new FileOutputStream(testSound), fileSizeSound);
-		buffer = new byte[fileSizeSound];
+		in = getInstrumentation().getContext().getResources().openRawResource(R.raw.testsound);
+		out = new BufferedOutputStream(new FileOutputStream(testSound), Consts.BUFFER_8K);
+		buffer = new byte[Consts.BUFFER_8K];
 		length = 0;
 		while ((length = in.read(buffer)) > 0) {
 			out.write(buffer, 0, length);
@@ -101,10 +96,11 @@ public class FileChecksumContainerTest extends InstrumentationTestCase{
 
 	@Override
 	protected void tearDown() throws Exception {
-		if (testImage != null && testImage.exists()){
+		TestUtils.clearProject(currentProjectName);
+		if (testImage != null && testImage.exists()) {
 			testImage.delete();
 		}
-		if (testSound != null && testSound.exists()){
+		if (testSound != null && testSound.exists()) {
 			testSound.delete();
 		}
 	}
@@ -113,23 +109,23 @@ public class FileChecksumContainerTest extends InstrumentationTestCase{
 
 		storageHandler.copyImage(currentProjectName, testImage.getAbsolutePath());
 
-		String checksumImage = storageHandler.getMD5Checksum(testImage);
+		String checksumImage = Utils.md5Checksum(testImage);
 
-		FileChecksumContainer container = projectManager.getCurrentProject().getFileChecksumContainer();
+		FileChecksumContainer container = projectManager.fileChecksumContainer;
 		assertTrue("Checksum isn't in container", container.containsChecksum(checksumImage));
 
 		//wait to get a different timestamp on next file
 		Thread.sleep(2000);
 
-		storageHandler.copyImage(currentProjectName, testImage.getAbsolutePath());
-		File imageDirectory = new File(Consts.DEFAULT_ROOT + "/"+ currentProjectName + Consts.IMAGE_DIRECTORY);
+		File newTestImage = storageHandler.copyImage(currentProjectName, testImage.getAbsolutePath());
+		File imageDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName + Consts.IMAGE_DIRECTORY + "/");
 		File[] filesImage = imageDirectory.listFiles();
 
 		//nomedia file is also in images folder
 		assertEquals("Wrong amount of files in folder", 2, filesImage.length);
 
-		storageHandler.copySoundFile(testSound.getAbsolutePath());
-		String checksumSound = storageHandler.getMD5Checksum(testSound);
+		File newTestSound = storageHandler.copySoundFile(testSound.getAbsolutePath());
+		String checksumSound = Utils.md5Checksum(testSound);
 		assertTrue("Checksum isn't in container", container.containsChecksum(checksumSound));
 		File soundDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName + Consts.SOUND_DIRECTORY);
 		File[] filesSound = soundDirectory.listFiles();
@@ -137,35 +133,26 @@ public class FileChecksumContainerTest extends InstrumentationTestCase{
 		//nomedia file is also in sounds folder
 		assertEquals("Wrong amount of files in folder", 2, filesSound.length);
 
-
-		container.deleteChecksum(checksumImage);
-		assertTrue("Checksum was deleted",container.containsChecksum(checksumImage));
-		container.deleteChecksum(checksumImage);
-		assertFalse("Checksum wasn't deleted",container.containsChecksum(checksumImage));
-		container.deleteChecksum(checksumSound);
-		assertFalse("Checksum wasn't deleted",container.containsChecksum(checksumSound));
+		container.decrementUsage(newTestImage.getAbsolutePath());
+		assertTrue("Checksum was deleted", container.containsChecksum(checksumImage));
+		container.decrementUsage(newTestImage.getAbsolutePath());
+		assertFalse("Checksum wasn't deleted", container.containsChecksum(checksumImage));
+		container.decrementUsage(newTestSound.getAbsolutePath());
+		assertFalse("Checksum wasn't deleted", container.containsChecksum(checksumSound));
 	}
 
 	public void testDeleteFile() throws IOException, InterruptedException {
-		storageHandler.copyImage(currentProjectName, testImage.getAbsolutePath());
+		File newTestImage1 = storageHandler.copyImage(currentProjectName, testImage.getAbsolutePath());
 		//wait to get a different timestamp on next file
 		Thread.sleep(2000);
-		storageHandler.copyImage(currentProjectName, testImage.getAbsolutePath());
-		String checksumImage = storageHandler.getMD5Checksum(testImage);
-		FileChecksumContainer container = projectManager.getCurrentProject().getFileChecksumContainer();
 
-		container.deleteChecksum(checksumImage);
-		File imageDirectory = new File(Consts.DEFAULT_ROOT + "/"+ currentProjectName + Consts.IMAGE_DIRECTORY);
+		storageHandler.deleteFile(newTestImage1.getAbsolutePath());
+		File imageDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName + Consts.IMAGE_DIRECTORY);
 		File[] filesImage = imageDirectory.listFiles();
-		assertEquals("Wrong amount of files in folder", 2, filesImage.length);
-
-		container.deleteChecksum(checksumImage);
-		filesImage = imageDirectory.listFiles();
 		assertEquals("Wrong amount of files in folder", 1, filesImage.length);
 
-		storageHandler.copySoundFile(testSound.getAbsolutePath());
-		String checksumSound = storageHandler.getMD5Checksum(testSound);
-		container.deleteChecksum(checksumSound);
+		File newTestSound = storageHandler.copySoundFile(testSound.getAbsolutePath());
+		storageHandler.deleteFile(newTestSound.getAbsolutePath());
 
 		File soundDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName + Consts.SOUND_DIRECTORY);
 		File[] filesSound = soundDirectory.listFiles();

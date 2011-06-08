@@ -26,7 +26,7 @@
 >
 	<TextView
 		android:id="@+id/ValueTextViewXY"
-		android:text="@string/goto_main_adapter"
+		android:text="@string/brick_place_at"
 		android:layout_alignParentLeft="true"
 		android:layout_centerVertical="true"
 		android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
 		>
 		</TextView>
 		<EditText
-			android:id="@+id/InputValueEditTextX"
+			android:id="@+id/toolbox_brick_place_at_x_edit_text"
 			android:text="0"
 			android:layout_height="wrap_content"
 			android:layout_width="50dp"
@@ -80,7 +80,7 @@
 		>
 		</TextView>
 		<EditText
-			android:id="@+id/InputValueEditTextY"
+			android:id="@+id/toolbox_brick_place_at_y_edit_text"
 			android:text="0"
 			android:layout_height="wrap_content"
 			android:layout_width="50dp"

@@ -38,17 +38,15 @@ public class ChangeYByBrickTest extends AndroidTestCase {
 		brick.execute();
 
 		yPosition += yMovement;
-		assertEquals("Incorrect sprite y position after ChangeYByBrick executed", yPosition, 
-				sprite.getYPosition());
+		assertEquals("Incorrect sprite y position after ChangeYByBrick executed", yPosition, sprite.getYPosition());
 	}
 
 	public void testNullSprite() {
 		ChangeXByBrick brick = new ChangeXByBrick(null, yMovement);
-		
+
 		try {
 			brick.execute();
-			fail("Execution of ChangeYByBrick with null Sprite did not cause a " + 
-					"NullPointerException to be thrown");
+			fail("Execution of ChangeYByBrick with null Sprite did not cause a " + "NullPointerException to be thrown");
 		} catch (NullPointerException e) {
 			// expected behavior
 		}
@@ -62,16 +60,16 @@ public class ChangeYByBrickTest extends AndroidTestCase {
 		ChangeYByBrick brick = new ChangeYByBrick(sprite, Integer.MAX_VALUE);
 		brick.execute();
 
-		assertEquals("ChangeYByBrick failed to place Sprite at maximum y integer value", 
-				Integer.MAX_VALUE, sprite.getYPosition());
+		assertEquals("ChangeYByBrick failed to place Sprite at maximum y integer value", Integer.MAX_VALUE,
+				sprite.getYPosition());
 
 		yPosition = -10;
 		sprite.setXYPosition(sprite.getXPosition(), yPosition);
 		brick = new ChangeYByBrick(sprite, Integer.MIN_VALUE);
 		brick.execute();
 
-		assertEquals("ChangeYByBrick failed to place Sprite at minimum y integer value", 
-				Integer.MIN_VALUE, sprite.getYPosition());
+		assertEquals("ChangeYByBrick failed to place Sprite at minimum y integer value", Integer.MIN_VALUE,
+				sprite.getYPosition());
 
 	}
 }

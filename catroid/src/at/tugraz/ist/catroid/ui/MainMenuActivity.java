@@ -19,8 +19,6 @@
 
 package at.tugraz.ist.catroid.ui;
 
-import java.io.IOException;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -30,20 +28,21 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import at.tugraz.ist.catroid.Consts;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.Values;
-import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.dialogs.AboutDialog;
 import at.tugraz.ist.catroid.ui.dialogs.LoadProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.UploadProjectDialog;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class MainMenuActivity extends Activity {
 	private static final String PREFS_NAME = "at.tugraz.ist.catroid";
-	private static final String PREF_PROJECTNAME_KEY = "prefix_";
+	private static final String PREF_PROJECTNAME_KEY = "projectName";
 	private ProjectManager projectManager;
 
 	private void initListeners() {
@@ -107,7 +106,7 @@ public class MainMenuActivity extends Activity {
 		Values.SCREEN_WIDTH = dm.widthPixels;
 		Values.SCREEN_HEIGHT = dm.heightPixels;
 
-		setContentView(R.layout.main_menu);
+		setContentView(R.layout.activity_main_menu);
 		projectManager = ProjectManager.getInstance();
 
 		if (projectManager.getCurrentProject() != null) {
@@ -120,11 +119,9 @@ public class MainMenuActivity extends Activity {
 		String projectName = prefs.getString(PREF_PROJECTNAME_KEY, null);
 
 		if (projectName != null) {
-			projectManager.loadProject(projectName, this);
+			projectManager.loadProject(projectName, this, false);
 		} else {
 			projectManager.initializeDefaultProject(this);
-			//projectManager.loadProject(this.getString(R.string.default_project_name), this); 
-			// default project is created
 		}
 
 		if (projectManager.getCurrentProject() == null) {
@@ -142,12 +139,9 @@ public class MainMenuActivity extends Activity {
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialog;
-		try {
-			if (StorageHandler.getInstance().projectExists(projectManager.getCurrentProject().getName())) {
-				projectManager.saveProject(this);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (projectManager.getCurrentProject() != null
+					&& StorageHandler.getInstance().projectExists(projectManager.getCurrentProject().getName())) {
+			projectManager.saveProject(this);
 		}
 
 		switch (id) {
@@ -161,6 +155,10 @@ public class MainMenuActivity extends Activity {
 				dialog = new AboutDialog(this);
 				break;
 			case Consts.DIALOG_UPLOAD_PROJECT:
+				if (projectManager.getCurrentProject() == null) {
+					dialog = null;
+					break;
+				}
 				dialog = new UploadProjectDialog(this);
 				break;
 			default:
@@ -174,6 +172,9 @@ public class MainMenuActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		if (!Utils.checkForSdCard(this)) {
+			return;
+		}
 		if (projectManager.getCurrentProject() == null) {
 			return;
 		}
@@ -181,8 +182,18 @@ public class MainMenuActivity extends Activity {
 		currentProjectTextView.setText(getString(R.string.current_project) + " "
 				+ projectManager.getCurrentProject().getName());
 
-		projectManager.loadProject(projectManager.getCurrentProject().getName(), this);
-		//TODO es wird zweimal unnötig geladen wenn man von der stage zurückkommt
+		projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
+	}
+
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		super.onWindowFocusChanged(hasFocus);
+		if (projectManager.getCurrentProject() == null) {
+			return;
+		}
+		TextView currentProjectTextView = (TextView) findViewById(R.id.currentProjectNameTextView);
+		currentProjectTextView.setText(getString(R.string.current_project) + " "
+				+ projectManager.getCurrentProject().getName());
 	}
 
 	@Override

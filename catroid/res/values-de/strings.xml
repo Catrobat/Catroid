@@ -132,34 +132,39 @@
     <string name="stagemenu_construction_site">Zur Baustelle</string>
     <string name="stagemenu_start">Abspielen/Pause</string>
 
-    <string name="set_background_main_adapter">Setze Hintergrund</string>
-    <string name="play_sound_main_adapter">Spiele Klang</string>
-    <string name="wait_main_adapter">Warte</string>
+    <string name="brick_set_background">Setze Hintergrund</string>
+    <string name="brick_play_sound">Spiele Klang</string>
+    <string name="brick_wait">Warte</string>
     <string name="seconds">Sekunden</string>
 
-    <string name="hide_main_adapter">Verstecke dich</string>
-    <string name="show_main_adapter">Zeige dich</string>
-    <string name="goto_main_adapter">Gehe zu</string>
+    <string name="brick_hide">Verstecke dich</string>
+    <string name="brick_show">Zeige dich</string>
+    <string name="brick_place_at">Gehe zu</string>
     <string name="x_label">X:</string>
     <string name="y_label">Y:</string>
-    <string name="costume_main_adapter">Setze Kostüm</string>
-    <string name="scale_costume">Skaliere Kostüm auf</string>
-    <string name="go_back_main_adapter">Gehe</string>
+    <string name="brick_set_costume">Setze Kostüm</string>
+    <string name="brick_scale_costume">Skaliere Kostüm auf</string>
+    <string name="brick_go_back">Gehe</string>
     <string name="steps_label">Schritte nach hinten</string>
-    <string name="come_to_front_main_adapter">Komm nach vorne</string>
-    <string name="touched_main_adapter">Wenn berührt</string>
-    <string name="started_main_adapter">Wenn gestartet</string>
-    <string name="change_x_main_adapter">Ändere X um:</string>
-	<string name="change_y_main_adapter">Ändere Y um:</string>
-	<string name="set_x_main_adapter">Setze X auf:</string>
-	<string name="set_y_main_adapter">Setze Y auf:</string>
+    <string name="brick_come_to_front">Komm nach vorne</string>
+    <string name="brick_if_touched">Wenn berührt</string>
+    <string name="brick_if_started">Wenn gestartet</string>
+    <string name="brick_change_x_by">Ändere X um:</string>
+	<string name="brick_change_y_by">Ändere Y um:</string>
+	<string name="brick_set_x">Setze X auf:</string>
+	<string name="brick_set_y">Setze Y auf:</string>
+	
+	<string name="choose_sound_title">Sound wählen</string>
 
     <!-- defaulValues -->
     <string name="default_project_name">standardProjekt</string>
     
     <!-- Notifications -->
-    <string name="notification_no_text_entered">
+    <string name="notification_invalid_text_entered">
     	Bitte einen Wert eingeben
+    </string>
+    <string name="notification_invalid_name_entered">
+    	Bitte einen Namen eingeben
     </string>
 
     <!-- Error messages -->
@@ -196,6 +201,12 @@
     <string name="error_no_number_entered">
         Bitte eine Zahl eingeben.
     </string>
+    <string name="error_screenshot_failed">
+        Beim Speichern des Screenshots ist ein Fehler aufgetreten.
+    </string>
+    <string name="error_load_image">
+    	Beim Laden des Bildes ist ein Fehler aufgetreten.
+    </string>
 
     <!-- Notifications -->
     <string name="success_project_upload">Upload erfolgreich.</string>
@@ -204,4 +215,5 @@
     <string name="upload_button">Hochladen</string>
     <string name="upload_project_dialog_title">Projekt hochladen</string>
     <string name="project_rename">(Das Projekt wird umbenannt.)</string>
+     <string name="screenshot_ok">Screenshot erfolgreich gespeichert</string>
 </resources>

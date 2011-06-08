@@ -23,17 +23,17 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.ListView;
 import android.widget.TextView;
-import at.tugraz.ist.catroid.Consts;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
-import at.tugraz.ist.catroid.content.Costume;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
@@ -42,23 +42,25 @@ import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.uitest.util.Utils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
-	private String testProject = "testProject";
-	private String testProject2 = "testProject2";
-	private String testProject3 = "testProject3";
-	private String existingProject = "existingProject";
+	private String testProject = Utils.PROJECTNAME1;
+	private String testProject2 = Utils.PROJECTNAME2;
+	private String testProject3 = Utils.PROJECTNAME3;
+	private String existingProject = Utils.PROJECTNAME4;
 
 	public MainMenuActivityTest() {
-		super("at.tugraz.ist.catroid.ui", MainMenuActivity.class);
+		super("at.tugraz.ist.catroid", MainMenuActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
+		Utils.clearAllUtilTestProjects();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
@@ -70,23 +72,11 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 			e.printStackTrace();
 		}
 		getActivity().finish();
-
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + testProject);
-		UtilFile.deleteDirectory(directory);
-
-		File directory2 = new File(Consts.DEFAULT_ROOT + "/" + testProject2);
-		UtilFile.deleteDirectory(directory2);
-
-		File directory3 = new File(Consts.DEFAULT_ROOT + "/" + testProject3);
-		UtilFile.deleteDirectory(directory3);
-
-		File directory4 = new File(Consts.DEFAULT_ROOT + "/" + existingProject);
-		UtilFile.deleteDirectory(directory4);
-
+		Utils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
-	public void testCreateNewProject() throws InterruptedException {
+	public void testCreateNewProject() {
 		File directory = new File(Consts.DEFAULT_ROOT + "/" + testProject);
 		UtilFile.deleteDirectory(directory);
 		assertFalse("testProject was not deleted!", directory.exists());
@@ -96,37 +86,38 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.enterText(0, testProject);
 		solo.goBack();
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
-		Thread.sleep(2000);
+		solo.sleep(2000);
 
-		File file = new File(Consts.DEFAULT_ROOT + "/testProject/" + testProject + Consts.PROJECT_EXTENTION);
+		File file = new File(Consts.DEFAULT_ROOT + "/" + testProject + "/" + testProject + Consts.PROJECT_EXTENTION);
 		assertTrue(testProject + " was not created!", file.exists());
 	}
 
-	public void testCreateNewProjectErrors() throws InterruptedException {
+	public void testCreateNewProjectErrors() {
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
 		solo.clickOnEditText(0);
 		solo.enterText(0, "");
 		solo.goBack();
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
-		Thread.sleep(50);
-		assertTrue("No error message was displayed upon creating a project with an empty name.", solo.searchText(getActivity().getString(R.string.error_no_name_entered)));
+		solo.sleep(50);
+		assertTrue("No error message was displayed upon creating a project with an empty name.",
+				solo.searchText(getActivity().getString(R.string.error_no_name_entered)));
 
 		solo.clickOnButton(0);
 
 		File directory = new File(Consts.DEFAULT_ROOT + "/" + testProject);
 		directory.mkdirs();
-		Thread.sleep(50);
+		solo.sleep(50);
 
 		solo.clickOnEditText(0);
 		solo.enterText(0, testProject);
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
-		Thread.sleep(50);
+		solo.sleep(50);
 		assertTrue("No error message was displayed upon creating a project with the same name twice.",
 				solo.searchText(getActivity().getString(R.string.error_project_exists)));
 
 	}
 
-	public void testCreateNewProjectWithSpecialCharacters() throws InterruptedException {
+	public void testCreateNewProjectWithSpecialCharacters() {
 		final String projectNameWithSpecialCharacters = "Hey, look, I'm special! ?äöüß<>";
 
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
@@ -134,15 +125,16 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.enterText(0, projectNameWithSpecialCharacters);
 		solo.goBack();
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
-		Thread.sleep(1000);
+		solo.sleep(1000);
 
-		assertEquals("Project name with special characters was not set properly", ProjectManager.getInstance().getCurrentProject().getName(), projectNameWithSpecialCharacters);
+		assertEquals("Project name with special characters was not set properly", ProjectManager.getInstance()
+				.getCurrentProject().getName(), projectNameWithSpecialCharacters);
 
 		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectNameWithSpecialCharacters);
 		UtilFile.deleteDirectory(directory);
 	}
 
-	public void testLoadProject() throws IOException, NameNotFoundException, InterruptedException {
+	public void testLoadProject() {
 		File directory = new File(Consts.DEFAULT_ROOT + "/" + testProject2);
 		UtilFile.deleteDirectory(directory);
 		assertFalse(testProject2 + " was not deleted!", directory.exists());
@@ -151,7 +143,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		solo.clickOnButton(getActivity().getString(R.string.load_project));
 		solo.clickOnText(testProject2);
-		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.spriteListView);
+		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.sprite_list_view);
 		Sprite first = (Sprite) spritesList.getItemAtPosition(1);
 		assertEquals("Sprite at index 1 is not \"cat\"!", "cat", first.getName());
 		Sprite second = (Sprite) spritesList.getItemAtPosition(2);
@@ -162,10 +154,11 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		assertEquals("Sprite at index 4 is not \"pig\"!", "pig", fourth.getName());
 		solo.goBack();
 		TextView currentProject = (TextView) getActivity().findViewById(R.id.currentProjectNameTextView);
-		assertEquals("Current project is not testProject2!", getActivity().getString(R.string.current_project) + " " + testProject2, currentProject.getText());
+		assertEquals("Current project is not testProject2!", getActivity().getString(R.string.current_project) + " "
+				+ testProject2, currentProject.getText());
 	}
 
-	public void testResume() throws NameNotFoundException, IOException {
+	public void testResume() {
 		File directory = new File(Consts.DEFAULT_ROOT + "/" + testProject3);
 		UtilFile.deleteDirectory(directory);
 		assertFalse(testProject3 + " was not deleted!", directory.exists());
@@ -178,12 +171,12 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		solo.clickOnButton(getActivity().getString(R.string.resume));
 
-		TextView projectTitle = (TextView) solo.getCurrentActivity().findViewById(R.id.projectTitleTextView);
+		TextView projectTitle = (TextView) solo.getCurrentActivity().findViewById(R.id.project_title_text_view);
 
-		assertEquals("Project title is not " + testProject3, getActivity().getString(R.string.project_name)
-				+ " " + testProject3, projectTitle.getText());
+		assertEquals("Project title is not " + testProject3, getActivity().getString(R.string.project_name) + " "
+				+ testProject3, projectTitle.getText());
 
-		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.spriteListView);
+		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.sprite_list_view);
 		Sprite first = (Sprite) spritesList.getItemAtPosition(1);
 		assertEquals("Sprite at index 1 is not \"cat\"!", "cat", first.getName());
 		Sprite second = (Sprite) spritesList.getItemAtPosition(2);
@@ -198,9 +191,12 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnButton(getActivity().getString(R.string.about));
 		ArrayList<TextView> textViewList = solo.getCurrentTextViews(null);
 
-		assertEquals("Title is not correct!", getActivity().getString(R.string.about_title), textViewList.get(0).getText().toString());
-		assertEquals("About text not correct!", getActivity().getString(R.string.about_text), textViewList.get(1).getText().toString());
-		assertEquals("Link text is not correct!", getActivity().getString(R.string.about_link_text), textViewList.get(2).getText().toString());
+		assertEquals("Title is not correct!", getActivity().getString(R.string.about_title), textViewList.get(0)
+				.getText().toString());
+		assertEquals("About text not correct!", getActivity().getString(R.string.about_text), textViewList.get(1)
+				.getText().toString());
+		assertEquals("Link text is not correct!", getActivity().getString(R.string.about_link_text), textViewList
+				.get(2).getText().toString());
 	}
 
 	public void testToStageButton() {
@@ -208,25 +204,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		assertTrue("StageActivity is not showing!", solo.getCurrentActivity() instanceof StageActivity);
 	}
 
-	public void testUploadProjectWithNoName() {
-		solo.clickOnButton(getActivity().getString(R.string.upload_project));
-		solo.enterText(0, "");
-		solo.clickOnButton(getActivity().getString(R.string.upload_button));
-		assertTrue("No error message was displayed upon uploading a project with no title.",
-				solo.searchText(getActivity().getString(R.string.error_no_name_entered)));
-	}
-
-	//	public void testUploadDefaultProject() throws InterruptedException {
-	//		solo.clickOnButton(getActivity().getString(R.string.upload_project));
-	//		solo.clickOnButton(getActivity().getString(R.string.upload_button));
-	//
-	//		//may fail with slow internet connection
-	//		Thread.sleep(5000);
-	//		assertTrue("Uploading the defaultProject succeeded.",
-	//				solo.searchText("Uploading projects with project title \'defaultSaveFile\' is not allowed."));
-	//	}
-
-	public void testRenameToExistingProject() throws NameNotFoundException, IOException {
+	public void testRenameToExistingProject() {
 		createTestProject(existingProject);
 		solo.clickOnButton(getActivity().getString(R.string.upload_project));
 		solo.clickOnEditText(0);
@@ -240,7 +218,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 				solo.searchText(getActivity().getString(R.string.error_project_exists)));
 	}
 
-	public void testDefaultProject() throws IOException{
+	public void testDefaultProject() throws IOException {
 		File directory = new File(Consts.DEFAULT_ROOT + "/" + getActivity().getString(R.string.default_project_name));
 		UtilFile.deleteDirectory(directory);
 
@@ -248,15 +226,16 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		ProjectManager project = ProjectManager.getInstance();
 		project.setProject(handler.createDefaultProject(getActivity()));
 		solo.clickOnButton(1);
-		Costume costume = project.getCurrentProject().getSpriteList().get(1).getCostume();
-		assertNotNull("Costume is null", costume);
+		solo.sleep(1500);
+		Bitmap bitmap = project.getCurrentProject().getSpriteList().get(1).getCostume().getBitmap();
+		assertNotNull("Bitmap is null", bitmap);
 		assertTrue("Sprite not visible", project.getCurrentProject().getSpriteList().get(1).isVisible());
 
 		directory = new File(Consts.DEFAULT_ROOT + "/" + getActivity().getString(R.string.default_project_name));
 		UtilFile.deleteDirectory(directory);
 	}
 
-	public void createTestProject(String projectName) throws IOException, NameNotFoundException {
+	public void createTestProject(String projectName) {
 		StorageHandler storageHandler = StorageHandler.getInstance();
 
 		int xPosition = 457;
@@ -268,8 +247,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		Sprite secondSprite = new Sprite("dog");
 		Sprite thirdSprite = new Sprite("horse");
 		Sprite fourthSprite = new Sprite("pig");
-		Script testScript = new Script("testScript", firstSprite);
-		Script otherScript = new Script("otherScript", secondSprite);
+		Script testScript = new StartScript("testScript", firstSprite);
+		Script otherScript = new StartScript("otherScript", secondSprite);
 		HideBrick hideBrick = new HideBrick(firstSprite);
 		ShowBrick showBrick = new ShowBrick(firstSprite);
 		ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(secondSprite, scaleValue);

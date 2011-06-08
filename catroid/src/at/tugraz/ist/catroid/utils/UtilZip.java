@@ -29,28 +29,30 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
+import at.tugraz.ist.catroid.common.Consts;
+
 public class UtilZip {
-	private static final int BUFFER = 2048;
 	private static final int QUICKEST_COMPRESSION = 0;
 
-	private static ZipOutputStream mZipOutputStream;
+	private static ZipOutputStream zipOutputStream;
 
-	public static boolean writeToZipFile(String[] file_pathes, String zipfile) {
+	public static boolean writeToZipFile(String[] filePaths, String zipFile) {
 
 		try {
-			FileOutputStream fileOutputStream = new FileOutputStream(zipfile);
-			mZipOutputStream = new ZipOutputStream(fileOutputStream);
-			mZipOutputStream.setLevel(QUICKEST_COMPRESSION);
-			for (int i = 0; i < file_pathes.length; i++) {
-				File file = new File(file_pathes[i]);
+			FileOutputStream fileOutputStream = new FileOutputStream(zipFile);
+			zipOutputStream = new ZipOutputStream(fileOutputStream);
+			zipOutputStream.setLevel(QUICKEST_COMPRESSION);
+
+			for (String filePath : filePaths) {
+				File file = new File(filePath);
 				if (file.isDirectory()) {
 					writeDirToZip(file, file.getName() + "/");
 				} else {
 					writeFileToZip(file, "");
 				}
-
 			}
-			mZipOutputStream.close();
+
+			zipOutputStream.close();
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -59,59 +61,55 @@ public class UtilZip {
 		return false;
 	}
 
-	private static void writeDirToZip(File dir, String zipEntryPath)
-			throws IOException {
-		String[] dirList = dir.list();
-
-		for (int i = 0; i < dirList.length; i++) {
-			File f = new File(dir, dirList[i]);
-			if (f.isDirectory()) {
-				writeDirToZip(f, zipEntryPath + f.getName() + "/");
+	private static void writeDirToZip(File dir, String zipEntryPath) throws IOException {
+		for (String dirListEntry : dir.list()) {
+			File file = new File(dir, dirListEntry);
+			if (file.isDirectory()) {
+				writeDirToZip(file, zipEntryPath + file.getName() + "/");
 				continue;
 			}
-			writeFileToZip(f, zipEntryPath);
-
+			writeFileToZip(file, zipEntryPath);
 		}
 	}
 
 	private static void writeFileToZip(File file, String zipEntryPath) throws IOException {
-		byte[] readBuffer = new byte[BUFFER];
+		byte[] readBuffer = new byte[Consts.BUFFER_8K];
 		int bytesIn = 0;
 
 		FileInputStream fis = new FileInputStream(file);
 		ZipEntry anEntry = new ZipEntry(zipEntryPath + file.getName());
-		mZipOutputStream.putNextEntry(anEntry);
+		zipOutputStream.putNextEntry(anEntry);
 
 		while ((bytesIn = fis.read(readBuffer)) != -1) {
-			mZipOutputStream.write(readBuffer, 0, bytesIn);
+			zipOutputStream.write(readBuffer, 0, bytesIn);
 		}
-		mZipOutputStream.closeEntry();
+		zipOutputStream.closeEntry();
 		fis.close();
 	}
 
-	public static boolean unZipFile(String zipfile, String outdir) {
+	public static boolean unZipFile(String zipFile, String outDir) {
 		try {
-			FileInputStream fin = new FileInputStream(zipfile);
+			FileInputStream fin = new FileInputStream(zipFile);
 			ZipInputStream zin = new ZipInputStream(fin);
-			ZipEntry ze = null;
+			ZipEntry zipEntry = null;
 
 			BufferedOutputStream dest = null;
-			byte data[] = new byte[BUFFER];
-			while ((ze = zin.getNextEntry()) != null) {
+			byte data[] = new byte[Consts.BUFFER_8K];
+			while ((zipEntry = zin.getNextEntry()) != null) {
 
-				if (ze.isDirectory()) {
-					File f = new File(outdir + ze.getName());
+				if (zipEntry.isDirectory()) {
+					File f = new File(outDir + zipEntry.getName());
 					f.mkdir();
 					zin.closeEntry();
 					continue;
 				}
-				File f = new File(outdir + ze.getName());
+				File f = new File(outDir + zipEntry.getName());
 				f.getParentFile().mkdirs();
-				FileOutputStream fout = new FileOutputStream(f);
+				FileOutputStream fos = new FileOutputStream(f);
 
 				int count;
-				dest = new BufferedOutputStream(fout, BUFFER);
-				while ((count = zin.read(data, 0, BUFFER)) != -1) {
+				dest = new BufferedOutputStream(fos, Consts.BUFFER_8K);
+				while ((count = zin.read(data, 0, Consts.BUFFER_8K)) != -1) {
 					dest.write(data, 0, count);
 				}
 				dest.flush();

@@ -54,9 +54,6 @@ public class AboutDialog extends Dialog {
 		String aboutUrl = String.format(res.getString(R.string.about_link_template),
 				res.getString(R.string.about_catroid_url), res.getString(R.string.about_link_text));
 
-		System.out.println(res.getString(R.string.about_link_template));
-		System.out.println(aboutUrl);
-
 		aboutUrlTextView.setText(Html.fromHtml(aboutUrl));
 	}
 

@@ -27,7 +27,7 @@
 >
 	<TextView
 		android:id="@+id/ValueTextView"
-		android:text="@string/go_back_main_adapter"
+		android:text="@string/brick_go_back"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
 		android:layout_alignParentLeft="true"
@@ -39,7 +39,7 @@
 	>
 	</TextView>
 	<EditText
-		android:id="@+id/InputValueEditText"
+		android:id="@+id/toolbox_brick_go_back_edit_text"
 		android:text="1"
 		android:layout_height="wrap_content"
 		android:layout_width="50dp"

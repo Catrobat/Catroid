@@ -20,13 +20,15 @@
 package at.tugraz.ist.catroid.utils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
@@ -37,11 +39,13 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.util.Log;
-import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.utils.filesystem.FileCopyThread;
+import at.tugraz.ist.catroid.common.Consts;
 
 public class Utils {
+
+	private static final String TAG = "Utils";
+
 	private static boolean hasSdCard() {
 		return android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
 	}
@@ -52,19 +56,19 @@ public class Utils {
 	 * RuntimeException is thrown after the call to Activity.finish; find out
 	 * why!
 	 * 
-	 * @param parentActivity
-	 *            the activity that calls this method
+	 * @param context
 	 */
-	public static boolean checkForSdCard(final Activity parentActivity) {
+	public static boolean checkForSdCard(final Context context) {
 		if (!hasSdCard()) {
-			Builder builder = new AlertDialog.Builder(parentActivity);
+			Builder builder = new AlertDialog.Builder(context);
 
-			builder.setTitle(parentActivity.getString(R.string.error));
-			builder.setMessage(parentActivity.getString(R.string.error_no_sd_card));
-			builder.setNeutralButton(parentActivity.getString(R.string.close), new OnClickListener() {
+			builder.setTitle(context.getString(R.string.error));
+			builder.setMessage(context.getString(R.string.error_no_sd_card));
+			builder.setNeutralButton(context.getString(R.string.close), new OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					// finish parent activity
-					parentActivity.finish();
+					// parentActivity.finish();
+					System.exit(0);
 				}
 			});
 			builder.show();
@@ -141,11 +145,11 @@ public class Utils {
 	public static boolean deleteFolder(String path) {
 		File fileFrom = new File(path);
 		if (fileFrom.isDirectory()) {
-			for (File c : fileFrom.listFiles()) {
-				if (c.isDirectory()) {
-					deleteFolder(c.getAbsolutePath());
+			for (File file : fileFrom.listFiles()) {
+				if (file.isDirectory()) {
+					deleteFolder(file.getAbsolutePath());
 				} else {
-					c.delete();
+					file.delete();
 				}
 			}
 		} else {
@@ -158,12 +162,12 @@ public class Utils {
 	public static boolean deleteFolder(String path, String ignoreFile) {
 		File fileFrom = new File(path);
 		if (fileFrom.isDirectory()) {
-			for (File c : fileFrom.listFiles()) {
-				if (c.isDirectory()) {
-					deleteFolder(c.getAbsolutePath(), ignoreFile);
+			for (File file : fileFrom.listFiles()) {
+				if (file.isDirectory()) {
+					deleteFolder(file.getAbsolutePath(), ignoreFile);
 				} else {
-					if (!c.getName().equals(ignoreFile)) {
-						c.delete();
+					if (!file.getName().equals(ignoreFile)) {
+						file.delete();
 					}
 				}
 
@@ -226,10 +230,10 @@ public class Utils {
 			bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);
 			os.close();
 		} catch (FileNotFoundException e) {
-			Log.e("UTILS", e.getMessage());
+			Log.e(TAG, e.getMessage());
 			e.printStackTrace();
 		} catch (IOException e) {
-			Log.e("UTILS", e.getMessage());
+			Log.e(TAG, e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -275,4 +279,68 @@ public class Utils {
 		builder.show();
 	}
 
+	public static String md5Checksum(File file) {
+		if (!file.isFile()) {
+			return null;
+		}
+
+		MessageDigest messageDigest = getMD5MessageDigest();
+
+		FileInputStream fis = null;
+		try {
+			fis = new FileInputStream(file);
+			byte[] buffer = new byte[Consts.BUFFER_8K];
+
+			int length = 0;
+
+			while ((length = fis.read(buffer)) != -1) {
+				messageDigest.update(buffer, 0, length);
+			}
+		} catch (IOException e) {
+			Log.w(TAG, "IOException thrown in md5Checksum()");
+		} finally {
+			try {
+				if (fis != null) {
+					fis.close();
+				}
+			} catch (IOException e) {
+				Log.w(TAG, "IOException thrown in finally block of md5Checksum()");
+			}
+		}
+
+		return toHex(messageDigest.digest());
+	}
+
+	public static String md5Checksum(String string) {
+		MessageDigest messageDigest = getMD5MessageDigest();
+
+		messageDigest.update(string.getBytes());
+
+		return toHex(messageDigest.digest());
+	}
+
+	private static String toHex(byte[] messageDigest) {
+		StringBuilder md5StringBuilder = new StringBuilder(2 * messageDigest.length);
+
+		for (byte b : messageDigest) {
+			md5StringBuilder.append("0123456789ABCDEF".charAt((b & 0xF0) >> 4));
+			md5StringBuilder.append("0123456789ABCDEF".charAt((b & 0x0F)));
+		}
+
+		Log.v(TAG, md5StringBuilder.toString());
+
+		return md5StringBuilder.toString();
+	}
+
+	private static MessageDigest getMD5MessageDigest() {
+		MessageDigest messageDigest = null;
+
+		try {
+			messageDigest = MessageDigest.getInstance("MD5");
+		} catch (NoSuchAlgorithmException e) {
+			Log.w(TAG, "NoSuchAlgorithmException thrown in getMD5MessageDigest()");
+		}
+
+		return messageDigest;
+	}
 }

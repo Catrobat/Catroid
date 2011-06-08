@@ -29,9 +29,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import at.tugraz.ist.catroid.Consts;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -63,7 +63,7 @@ public class LoadProjectDialog extends Dialog {
 		listView.setOnItemClickListener(new ListView.OnItemClickListener() {
 
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				if (!ProjectManager.getInstance().loadProject(adapter.getItem(position), context)) {
+				if (!ProjectManager.getInstance().loadProject(adapter.getItem(position), context, true)) {
 					return; // error message already in ProjectManager loadProject
 				}
 				Intent intent = new Intent(context, ProjectActivity.class);
@@ -77,7 +77,7 @@ public class LoadProjectDialog extends Dialog {
 	protected void onStart() {
 		// update List:
 		adapterFileList.clear();
-		File rootDirectory = new File(context.getString(R.string.default_root));
+		File rootDirectory = new File(Consts.DEFAULT_ROOT);
 		searchForProjectFiles(rootDirectory);
 		adapter.notifyDataSetChanged();
 		super.onStart();

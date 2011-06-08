@@ -26,7 +26,7 @@
 >
 	<TextView
 		android:id="@+id/ValueTextViewX"
-		android:text="@string/change_x_main_adapter"
+		android:text="@string/brick_change_x_by"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
 		android:layout_alignParentLeft="true"
@@ -38,7 +38,7 @@
 	>
 	</TextView>
 	<EditText
-		android:id="@+id/InputValueEditTextX"
+		android:id="@+id/toolbox_brick_change_x_edit_text"
 		android:text="0"
 		android:layout_height="wrap_content"
 		android:layout_width="50dp"
