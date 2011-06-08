@@ -47,7 +47,11 @@ public class BroadcastScript extends Script {
 	}
 
 	public void setBroadcastMessage(String selectedMessage) {
+		ProjectManager.getInstance().messageContainer.deleteReceiverScript(this.selectedMessage,
+				this);
 		this.selectedMessage = selectedMessage;
+		ProjectManager.getInstance().messageContainer.addMessage(this.selectedMessage,
+				this);
 	}
 
 	public String getBroadcastMessage() {
