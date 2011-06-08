@@ -94,7 +94,10 @@ def main():
     project_name = get_project_name(os.path.join(project_filename, 'project.xml'))
     copy_project(path_to_catroid, project_filename)
     set_project_name(project_name, os.path.join(project_filename, 'catroid', 'res', 'values', 'common.xml'))
-    os.system('ant release -f ' + os.path.join(project_filename, 'catroid', 'build.xml'))       
+    os.system('ant release -f ' + os.path.join(project_filename, 'catroid', 'build.xml'))
+    shutil.move(os.path.join(project_name, 'catroid', 'bin', 'NativeAppActivity-release.apk'),\
+                project_filename + '.apk')
+    #shutil.rmtree(os.path.join(project_name))
     return 0
 
 if __name__ == '__main__':
