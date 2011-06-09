@@ -265,8 +265,12 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 		File md5TestFile = new File(Consts.TMP_PATH + "/" + "catroid.txt");
 
-		if (md5TestFile.exists()) {
-			md5TestFile.delete();
+		if (!md5TestFile.exists()) {
+			try {
+				md5TestFile.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 		assertEquals("MD5 sums are not the same for empty file", md5EmptyFile, Utils.md5Checksum(md5TestFile));
