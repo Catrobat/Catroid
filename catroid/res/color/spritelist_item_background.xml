@@ -8,9 +8,9 @@
 	android:state_pressed="true" 
     <shape>
 		<gradient
-			android:startColor="@color/website_blue"
+			android:startColor="@color/egg_yellow"
 			android:centerColor="@color/egg_yellow"
-			android:endColor="@color/website_blue"
+			android:endColor="@color/egg_yellow"
 			android:angle="0" />
 	</shape>
 </item>
