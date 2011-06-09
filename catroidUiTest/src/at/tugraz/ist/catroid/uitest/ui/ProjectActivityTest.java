@@ -176,4 +176,20 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		//assertTrue("Current project is not visible", solo.searchText(getActivity().getString(R.string.current_project)));
 	}
+
+	/**
+	 * This is a test that confirms that Catroid doesn't dump the core if we change the orientation while running this
+	 * activity
+	 */
+	public void testChangeOrientation() {
+		String spriteName = "testSprite";
+		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(500);
+		addNewSprite(spriteName);
+		solo.clickLongOnText(spriteName);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		assertTrue(solo.searchText(spriteName));
+	}
 }
