@@ -39,7 +39,7 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
-import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
+import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.StageActivity;
@@ -254,7 +254,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		int xPosition = 457;
 		int yPosition = 598;
-		double scaleValue = 0.8;
+		double size = 0.8;
 
 		Project project = new Project(getActivity(), projectName);
 		Sprite firstSprite = new Sprite("cat");
@@ -265,14 +265,14 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		Script otherScript = new StartScript("otherScript", secondSprite);
 		HideBrick hideBrick = new HideBrick(firstSprite);
 		ShowBrick showBrick = new ShowBrick(firstSprite);
-		ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(secondSprite, scaleValue);
+		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(secondSprite, size);
 		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(firstSprite);
 		PlaceAtBrick placeAtBrick = new PlaceAtBrick(secondSprite, xPosition, yPosition);
 
 		// adding Bricks: ----------------
 		testScript.addBrick(hideBrick);
 		testScript.addBrick(showBrick);
-		testScript.addBrick(scaleCostumeBrick);
+		testScript.addBrick(setSizeToBrick);
 		testScript.addBrick(comeToFrontBrick);
 
 		otherScript.addBrick(placeAtBrick); // secondSprite

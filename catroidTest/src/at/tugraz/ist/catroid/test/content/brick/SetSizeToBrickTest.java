@@ -26,17 +26,17 @@ import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
+import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.R;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
-public class ScaleCostumeBrickTest extends InstrumentationTestCase {
+public class SetSizeToBrickTest extends InstrumentationTestCase {
 
-	private double scale = 70;
-	private final double scaleToBig = 1000000.;
-	private final double scaleToSmall = .00001;
+	private double size = 70;
+	private final double sizeToBig = 1000000.;
+	private final double sizeToSmall = .00001;
 
 	private static final int IMAGE_FILE_ID = R.raw.icon;
 
@@ -72,59 +72,57 @@ public class ScaleCostumeBrickTest extends InstrumentationTestCase {
 		}
 	}
 
-	public void testScale() {
+	public void testSize() {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite scale value", 100.0, sprite.getScale());
+		assertEquals("Unexpected initial sprite size value", 100.0, sprite.getSize());
 
-		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite, scale);
+		SetSizeToBrick brick = new SetSizeToBrick(sprite, size);
 		brick.execute();
-		assertEquals("Incorrect sprite scale value after ScaleCostumeBrick executed", scale, sprite.getScale());
+		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", size, sprite.getSize());
 	}
 
 	public void testNullSprite() {
-		ScaleCostumeBrick brick = new ScaleCostumeBrick(null, scale);
+		SetSizeToBrick brick = new SetSizeToBrick(null, size);
 
 		try {
 			brick.execute();
-			fail("Execution of ScaleCostumeBrick with null Sprite did not cause a NullPointerException to be thrown");
+			fail("Execution of SetSizeToBrick with null Sprite did not cause a NullPointerException to be thrown");
 		} catch (NullPointerException e) {
 			// expected behavior
 		}
 	}
 
-	public void testBoundaryScale() {
+	public void testBoundarySize() {
 		Sprite sprite = new Sprite("testSprite");
 
-		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite, Double.MAX_VALUE);
+		SetSizeToBrick brick = new SetSizeToBrick(sprite, Double.MAX_VALUE);
 		brick.execute();
-		assertEquals("ScaleCostumeBrick failed to scale Sprite to maximum Double value", Double.MAX_VALUE,
-				sprite.getScale());
+		assertEquals("SetSizeToBrick failed to size Sprite to maximum Double value", Double.MAX_VALUE, sprite.getSize());
 
-		brick = new ScaleCostumeBrick(sprite, Double.MIN_VALUE);
+		brick = new SetSizeToBrick(sprite, Double.MIN_VALUE);
 		brick.execute();
-		assertEquals("ScaleCostumeBrick failed to scale Sprite to minimum Double value", Double.MIN_VALUE,
-				sprite.getScale());
+		assertEquals("SetSizeToBrick failed to size Sprite to minimum Double value", Double.MIN_VALUE, sprite.getSize());
 	}
 
-	public void testZeroScale() {
+	public void testZeroSize() {
 		Sprite sprite = new Sprite("testSprite");
-		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite, 0);
+		SetSizeToBrick brick = new SetSizeToBrick(sprite, 0);
 
 		try {
 			brick.execute();
-			fail("Execution of ScaleCostumeBrick with 0.0 scale did not cause a IllegalArgumentException to be thrown.");
+			fail("Execution of SetSizeToBrick with 0.0 size did not cause a IllegalArgumentException to be thrown.");
 		} catch (IllegalArgumentException e) {
 			// expected behavior
 		}
 	}
 
-	public void testNegativeScale() {
+	public void testNegativeSize() {
 		Sprite sprite = new Sprite("testSprite");
-		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite, -scale);
+		SetSizeToBrick brick = new SetSizeToBrick(sprite, -size);
 
 		try {
 			brick.execute();
-			fail("Execution of ScaleCostumeBrick with negative scale did not cause a IllegalArgumentException to be thrown.");
+			fail("Execution of SetSizeToBrick with negative size did not cause a IllegalArgumentException to be thrown.");
 		} catch (IllegalArgumentException e) {
 			// expected behavior
 		}
@@ -137,14 +135,14 @@ public class ScaleCostumeBrickTest extends InstrumentationTestCase {
 		Sprite sprite = new Sprite("testSprite");
 		sprite.getCostume().setImagePath(testImage.getAbsolutePath());
 
-		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite, scaleToBig);
+		SetSizeToBrick brick = new SetSizeToBrick(sprite, sizeToBig);
 
 		brick.execute();
 
 		int newWidth = sprite.getCostume().getImageWidthHeight().first;
 		int newHeight = sprite.getCostume().getImageWidthHeight().second;
 
-		assertTrue("ScaleCostumeBrick scaled image has a wrong size", newWidth == Consts.MAX_COSTUME_WIDTH
+		assertTrue("Costume has a wrong size after setting it!", newWidth == Consts.MAX_COSTUME_WIDTH
 				|| newHeight == Consts.MAX_COSTUME_HEIGHT);
 	}
 
@@ -155,13 +153,13 @@ public class ScaleCostumeBrickTest extends InstrumentationTestCase {
 		Sprite sprite = new Sprite("testSprite");
 		sprite.getCostume().setImagePath(testImage.getAbsolutePath());
 
-		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite, scaleToSmall);
+		SetSizeToBrick brick = new SetSizeToBrick(sprite, sizeToSmall);
 
 		brick.execute();
 
 		int newWidth = sprite.getCostume().getImageWidthHeight().first;
 		int newHeight = sprite.getCostume().getImageWidthHeight().second;
 
-		assertTrue("ScaleCostumeBrick scaled image has a wrong size", newWidth == 1 || newHeight == 1);
+		assertTrue("Costume has a wrong size after setting it!", newWidth == 1 || newHeight == 1);
 	}
 }

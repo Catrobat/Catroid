@@ -32,7 +32,7 @@ public class ImageEditing {
 	/**
 	 * Scales the bitmap to the specified size.
 	 * 
-	 * @param bm
+	 * @param bitmap
 	 *            the bitmap to resize
 	 * @param xSize
 	 *            desired x size
@@ -43,24 +43,24 @@ public class ImageEditing {
 	 *            after scaling
 	 * @return a new, scaled bitmap
 	 */
-	public static Bitmap scaleBitmap(Bitmap bm, int xSize, int ySize, boolean recycleOldBm) {
+	public static Bitmap scaleBitmap(Bitmap bitmap, int xSize, int ySize, boolean recycleOldBm) {
 		Matrix matrix = new Matrix();
-		float scaleWidth = (((float) xSize) / bm.getWidth());
-		float scaleHeight = (((float) ySize) / bm.getHeight());
+		float scaleWidth = (((float) xSize) / bitmap.getWidth());
+		float scaleHeight = (((float) ySize) / bitmap.getHeight());
 		matrix.postScale(scaleWidth, scaleHeight);
-		Bitmap newbm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
+		Bitmap newBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 		//		if (recycleOldBm)
 		//			bm.recycle();
-		return newbm;
+		return newBitmap;
 	}
 
-	public static Bitmap scaleBitmap(Bitmap bm, int xSize, int ySize) {
-		return ImageEditing.scaleBitmap(bm, xSize, ySize, false);
+	public static Bitmap scaleBitmap(Bitmap bitmap, int xSize, int ySize) {
+		return ImageEditing.scaleBitmap(bitmap, xSize, ySize, false);
 	}
 
-	public static Bitmap scaleBitmap(Bitmap bm, double scalingFactor, boolean recycleOldBm) {
-		return scaleBitmap(bm, (int) Math.round(bm.getWidth() * scalingFactor),
-				(int) Math.round(bm.getHeight() * scalingFactor), recycleOldBm);
+	public static Bitmap scaleBitmap(Bitmap bitmap, double scalingFactor, boolean recycleOldBm) {
+		return scaleBitmap(bitmap, (int) Math.round(bitmap.getWidth() * scalingFactor),
+				(int) Math.round(bitmap.getHeight() * scalingFactor), recycleOldBm);
 	}
 
 	public static Bitmap getScaledBitmap(String imagePath, int outWidth, int outHeight) {

@@ -86,7 +86,7 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptActiv
 	}
 
 	public void testEmptyEditDoubleDialog() {
-		Utils.addNewBrickAndScrollDown(solo, R.string.brick_scale_costume);
+		Utils.addNewBrickAndScrollDown(solo, R.string.brick_set_size_to);
 
 		int editTextId = solo.getCurrentEditTexts().size() - 1;
 
