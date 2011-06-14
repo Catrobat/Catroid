@@ -24,7 +24,7 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
-import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
+import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 
@@ -37,7 +37,7 @@ public class SpriteTest extends AndroidTestCase {
 		assertEquals("Unexpected default x position", 0, sprite.getXPosition());
 		assertEquals("Unexpected default y position", 0, sprite.getYPosition());
 		assertEquals("Unexpected default z position", 0, sprite.getZPosition());
-		assertEquals("Unexpected default scale", 100.0, sprite.getScale());
+		assertEquals("Unexpected default size", 100.0, sprite.getSize());
 		assertTrue("Unexpected default visibility", sprite.isVisible());
 		assertNotNull("Unexpected Sprite costume", sprite.getCostume());
 		assertNotNull("Script list was not initialized", sprite.getScriptList());
@@ -55,7 +55,7 @@ public class SpriteTest extends AndroidTestCase {
 		assertEquals("Unexpected x position", xPosition, sprite.getXPosition());
 		assertEquals("Unexpected y position", yPosition, sprite.getYPosition());
 		assertEquals("Unexpected default z position", 0, sprite.getZPosition());
-		assertEquals("Unexpected default scale", 100.0, sprite.getScale());
+		assertEquals("Unexpected default size", 100.0, sprite.getSize());
 		assertTrue("Unexpected default visibility", sprite.isVisible());
 		assertNotNull("Unexpected Sprite costume", sprite.getCostume());
 		assertNotNull("Script list was not initialized", sprite.getScriptList());
@@ -110,43 +110,43 @@ public class SpriteTest extends AndroidTestCase {
 		assertEquals("Script list could not be cleared", 0, sprite.getScriptList().size());
 	}
 
-	public void testSetScale() {
+	public void testSetSize() {
 		Sprite sprite = new Sprite("new sprite");
-		final double scale = 2.0;
-		sprite.setScale(scale);
-		assertEquals("Unexpected scale", scale, sprite.getScale());
+		final double size = 2.0;
+		sprite.setSize(size);
+		assertEquals("Unexpected size", size, sprite.getSize());
 
-		final double hugeScale = 10.0e100;
-		sprite.setScale(hugeScale);
-		assertEquals("Failed to scale sprite to a very large size", hugeScale, sprite.getScale());
+		final double hugeSize = 10.0e100;
+		sprite.setSize(hugeSize);
+		assertEquals("Failed to size sprite to a very large size", hugeSize, sprite.getSize());
 
-		final double tinyScale = 10.0e-100;
-		sprite.setScale(tinyScale);
-		assertEquals("Failed to scale sprite to a very small size", tinyScale, sprite.getScale());
+		final double tinySize = 10.0e-100;
+		sprite.setSize(tinySize);
+		assertEquals("Failed to size sprite to a very small size", tinySize, sprite.getSize());
 	}
 
-	public void testZeroScale() {
+	public void testZeroSize() {
 		Sprite sprite = new Sprite("testSprite");
 
-		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite, 0.0);
+		SetSizeToBrick brick = new SetSizeToBrick(sprite, 0.0);
 
 		try {
 			brick.execute();
-			fail("Execution of ScaleCostumeBrick with 0.0 scale did not cause a IllegalArgumentException to be thrown.");
+			fail("Execution of SetSizeToBrick with 0.0 size did not cause a IllegalArgumentException to be thrown.");
 		} catch (IllegalArgumentException e) {
 			// expected behavior
 		}
 	}
 
-	public void testNegativeScale() {
+	public void testNegativeSize() {
 		Sprite sprite = new Sprite("testSprite");
 
-		final double scale = -5.0;
-		ScaleCostumeBrick brick = new ScaleCostumeBrick(sprite, (int) (scale * 100));
+		final double size = -5.0;
+		SetSizeToBrick brick = new SetSizeToBrick(sprite, (int) (size * 100));
 
 		try {
 			brick.execute();
-			fail("Execution of ScaleCostumeBrick with negative scale did not cause a IllegalArgumentException to be thrown.");
+			fail("Execution of SetSizeToBrick with negative size did not cause a IllegalArgumentException to be thrown.");
 		} catch (IllegalArgumentException e) {
 			// expected behavior
 		}

@@ -34,7 +34,7 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.TapScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
-import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
+import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 
@@ -95,7 +95,7 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptAct
 	}
 
 	private void createTestProject(String projectName) {
-		double scaleValue = 0.8;
+		double size = 0.8;
 
 		Project project = new Project(null, projectName);
 		Sprite firstSprite = new Sprite("cat");
@@ -107,7 +107,7 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptAct
 		brickListToCheck = new ArrayList<Brick>();
 		brickListToCheck.add(new HideBrick(firstSprite));
 		brickListToCheck.add(new ShowBrick(firstSprite));
-		brickListToCheck.add(new ScaleCostumeBrick(firstSprite, scaleValue));
+		brickListToCheck.add(new SetSizeToBrick(firstSprite, size));
 
 		// adding Bricks: ----------------
 		for (Brick brick : brickListToCheck) {

@@ -40,7 +40,7 @@ import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
-import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
+import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.utils.UtilFile;
@@ -109,7 +109,7 @@ public class Utils {
 	public static List<Brick> createTestProject() {
 		int xPosition = 457;
 		int yPosition = 598;
-		double scaleValue = 0.8;
+		double size = 0.8;
 
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
 		Sprite firstSprite = new Sprite("cat");
@@ -119,7 +119,7 @@ public class Utils {
 		ArrayList<Brick> brickList = new ArrayList<Brick>();
 		brickList.add(new HideBrick(firstSprite));
 		brickList.add(new ShowBrick(firstSprite));
-		brickList.add(new ScaleCostumeBrick(firstSprite, scaleValue));
+		brickList.add(new SetSizeToBrick(firstSprite, size));
 		brickList.add(new GoNStepsBackBrick(firstSprite, 1));
 		brickList.add(new ComeToFrontBrick(firstSprite));
 		brickList.add(new PlaceAtBrick(firstSprite, xPosition, yPosition));

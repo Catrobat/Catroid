@@ -42,7 +42,7 @@
 		android:longClickable="true"
 	>
 		<TextView
-			android:id="@+id/ScaleCostumeTextView"
+			android:id="@+id/SetSizeToTextView"
 			android:text="@string/percent"
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
@@ -56,12 +56,12 @@
 		>
 		</TextView>
 		<EditText
-			android:id="@+id/construction_brick_scale_costume_edit_text"
+			android:id="@+id/construction_brick_set_size_to_edit_text"
 			android:text="100"
 			android:layout_height="wrap_content"
 			android:layout_width="50dp"
             android:layout_marginLeft="5dip"
-			android:layout_toLeftOf="@+id/ScaleCostumeTextView"
+			android:layout_toLeftOf="@+id/SetSizeToTextView"
 			android:cursorVisible="false"
 			android:focusable="false"
 			android:focusableInTouchMode="false"
@@ -73,7 +73,7 @@
 		</EditText>
 		<TextView
 			android:id="@+id/ValueTextView"
-			android:text="@string/brick_scale_costume"
+			android:text="@string/brick_set_size_to"
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
 			android:layout_alignParentLeft="true"

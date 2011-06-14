@@ -26,7 +26,7 @@ import android.widget.ImageButton;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
+import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.uitest.util.Utils;
@@ -90,7 +90,7 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 		solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
 		solo.clickOnText(getActivity().getString(R.string.brick_if_touched));
 		solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
-		solo.clickOnText(getActivity().getString(R.string.brick_scale_costume));
+		solo.clickOnText(getActivity().getString(R.string.brick_set_size_to));
 
 		solo.sleep(500);
 		btnList = solo.getCurrentImageButtons();
@@ -106,7 +106,7 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 		assertTrue("Not in stage", solo.getCurrentActivity() instanceof StageActivity);
 		assertEquals("Script list has wrong number of elements", 1, sprite_list.get(0).getScriptList().size());
 		assertTrue("Is not correct Block",
-				sprite_list.get(0).getScriptList().get(0).getBrickList().get(0) instanceof ScaleCostumeBrick);
+				sprite_list.get(0).getScriptList().get(0).getBrickList().get(0) instanceof SetSizeToBrick);
 
 		solo.goBack();
 		solo.clickLongOnText(getActivity().getString(R.string.brick_if_touched));
@@ -160,7 +160,7 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 		solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
 		solo.clickOnText(getActivity().getString(R.string.brick_if_touched));
 		solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
-		solo.clickOnText(getActivity().getString(R.string.brick_scale_costume));
+		solo.clickOnText(getActivity().getString(R.string.brick_set_size_to));
 		solo.sleep(500);
 		btnList = solo.getCurrentImageButtons();
 		for (int i = 0; i < btnList.size(); i++) {
@@ -175,7 +175,7 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 		assertTrue("Not in stage", solo.getCurrentActivity() instanceof StageActivity);
 		assertEquals("Script list has wrong number of elements", 1, sprite_list.get(1).getScriptList().size());
 		assertTrue("Is not correct Block",
-				sprite_list.get(1).getScriptList().get(0).getBrickList().get(0) instanceof ScaleCostumeBrick);
+				sprite_list.get(1).getScriptList().get(0).getBrickList().get(0) instanceof SetSizeToBrick);
 
 		solo.goBack();
 		solo.sleep(500);
@@ -195,6 +195,6 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 		sprite_list = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		assertEquals("Script list has wrong number of elements", 1, sprite_list.get(1).getScriptList().size());
 		assertTrue("Is not correct Block",
-				sprite_list.get(1).getScriptList().get(0).getBrickList().get(0) instanceof ScaleCostumeBrick);
+				sprite_list.get(1).getScriptList().get(0).getBrickList().get(0) instanceof SetSizeToBrick);
 	}
 }
