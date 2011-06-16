@@ -30,11 +30,15 @@ import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.R.string;
+import at.tugraz.ist.catroid.content.BroadcastScript;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.TapScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
+import at.tugraz.ist.catroid.content.bricks.BroadcastBrick;
+import at.tugraz.ist.catroid.content.bricks.BroadcastReceiverBrick;
+import at.tugraz.ist.catroid.content.bricks.BroadcastWaitBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
@@ -43,6 +47,7 @@ import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
 import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
+import at.tugraz.ist.catroid.content.bricks.NoteBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
@@ -95,7 +100,11 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new PlaySoundBrick(sprite));
 			prototypeBrickList.add(new IfTouchedBrick(sprite, null));
 			prototypeBrickList.add(new IfStartedBrick(sprite, null));
+			prototypeBrickList.add(new BroadcastReceiverBrick(sprite, null));
+			prototypeBrickList.add(new BroadcastBrick(sprite));
+			prototypeBrickList.add(new BroadcastWaitBrick(sprite));
 			prototypeBrickList.add(new GlideToBrick(sprite, 100, 100, 3000));
+			prototypeBrickList.add(new NoteBrick(sprite));
 		}
 
 	}
@@ -130,6 +139,10 @@ public class AddBrickDialog extends Dialog {
 					projectManager.setCurrentScript(newScript);
 				} else if (addedBrick instanceof IfTouchedBrick) {
 					Script newScript = new TapScript("script", projectManager.getCurrentSprite());
+					projectManager.addScript(newScript);
+					projectManager.setCurrentScript(newScript);
+				} else if (addedBrick instanceof BroadcastReceiverBrick) {
+					Script newScript = new BroadcastScript("script", projectManager.getCurrentSprite());
 					projectManager.addScript(newScript);
 					projectManager.setCurrentScript(newScript);
 				} else {
