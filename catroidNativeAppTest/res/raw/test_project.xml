@@ -17,9 +17,9 @@
             <showBrick>
               <sprite reference="../../../../.."/>
             </showBrick>
-            <scaleCostumeBrick>
-              <scale>0.8</scale>
-            </scaleCostumeBrick>
+            <setSizeToBrick>
+              <size>0.8</size>
+            </setSizeToBrick>
             <comeToFrontBrick>
               <sprite reference="../../../../.."/>
             </comeToFrontBrick>
