@@ -4,6 +4,7 @@ syntax: glob
 #.classpath
 #.settings
 .metadata
+*.pyc
 Scratch2Android\.settings
 Scratch2AndroidTest\.settings
 local.properties

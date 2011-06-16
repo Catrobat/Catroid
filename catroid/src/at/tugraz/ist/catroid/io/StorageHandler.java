@@ -65,6 +65,7 @@ import at.tugraz.ist.catroid.content.bricks.SetXBrick;
 import at.tugraz.ist.catroid.content.bricks.SetYBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
+import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -136,6 +137,13 @@ public class StorageHandler {
 	public Project loadProject(String projectName) {
 		createCatroidRoot();
 		try {
+			if (NativeAppActivity.isRunning()) {
+				int resId = NativeAppActivity.getContext().getResources().getIdentifier(projectName, "raw",
+						NativeAppActivity.getContext().getPackageName());
+				InputStream spfFileStream = NativeAppActivity.getContext().getResources().openRawResource(resId);
+				return (Project) xstream.fromXML(spfFileStream);
+			}
+
 			projectName = Utils.getProjectName(projectName);
 
 			File projectDirectory = new File(Consts.DEFAULT_ROOT + "/" + projectName);

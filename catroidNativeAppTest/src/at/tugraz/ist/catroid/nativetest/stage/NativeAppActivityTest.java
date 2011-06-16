@@ -16,10 +16,28 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.common;
+package at.tugraz.ist.catroid.nativetest.stage;
 
+import android.test.ActivityInstrumentationTestCase2;
+import at.tugraz.ist.catroid.stage.NativeAppActivity;
 
-public class Values {
-	public static int SCREEN_WIDTH;
-	public static int SCREEN_HEIGHT;
+import com.jayway.android.robotium.solo.Solo;
+
+public class NativeAppActivityTest extends ActivityInstrumentationTestCase2<NativeAppActivity> {
+
+	private Solo solo;
+
+	public NativeAppActivityTest() {
+		super("at.tugraz.ist.catroid", NativeAppActivity.class);
+	}
+
+	@Override
+	public void setUp() throws Exception {
+		solo = new Solo(getInstrumentation(), getActivity());
+		super.setUp();
+	}
+
+	public void testNativeAppActivity() {
+		assertTrue("NativeAppActivity is not showing!", solo.getCurrentActivity() instanceof NativeAppActivity);
+	}
 }
