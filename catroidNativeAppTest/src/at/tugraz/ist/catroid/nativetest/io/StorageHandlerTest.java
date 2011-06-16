@@ -31,8 +31,8 @@ import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
-import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
+import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.SetXBrick;
 import at.tugraz.ist.catroid.content.bricks.SetYBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
@@ -90,8 +90,8 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 				.getScriptList().get(0).getBrickList().get(0).getClass());
 		assertEquals("ShowBrick was not loaded right", ShowBrick.class, loadedProject.getSpriteList().get(1)
 				.getScriptList().get(0).getBrickList().get(1).getClass());
-		assertEquals("ScaleBrick was not loaded right", scaleValue, ((ScaleCostumeBrick) (loadedProject.getSpriteList()
-				.get(1).getScriptList().get(0).getBrickList().get(2))).getScale());
+		assertEquals("ScaleBrick was not loaded right", scaleValue, ((SetSizeToBrick) (loadedProject.getSpriteList()
+				.get(1).getScriptList().get(0).getBrickList().get(2))).getSize());
 		assertEquals("ComeToFrontBrick was not loaded right", ComeToFrontBrick.class, loadedProject.getSpriteList()
 				.get(1).getScriptList().get(0).getBrickList().get(3).getClass());
 		assertEquals("SetCostumeBrick was not loaded right", SetCostumeBrick.class, loadedProject.getSpriteList()
