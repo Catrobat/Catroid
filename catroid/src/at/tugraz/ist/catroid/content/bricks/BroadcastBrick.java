@@ -109,8 +109,7 @@ public class BroadcastBrick implements Brick {
 					return;
 				}
 				selectedMessage = ((String) parent.getItemAtPosition(pos)).trim();
-				if (selectedMessage == context.getString(R.string.broadcast_select))
-				{
+				if (selectedMessage == context.getString(R.string.broadcast_nothing_selected)) {
 					selectedMessage = "";
 				}
 			}
@@ -143,18 +142,18 @@ public class BroadcastBrick implements Brick {
 						selectedMessage = newMessage;
 						ProjectManager.getInstance().messageContainer.addMessage(selectedMessage);
 						int pos = ProjectManager.getInstance().messageContainer
-												.getPosOfMessageInAdapter(selectedMessage);
+								.getPosOfMessageInAdapter(selectedMessage);
 
 						spinner.setSelection(pos);
 
 					}
 				});
 				dialog.setNeutralButton(context.getString(R.string.cancel_button),
-										new DialogInterface.OnClickListener() {
-											public void onClick(DialogInterface dialog, int which) {
-												dialog.cancel();
-											}
-										});
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int which) {
+								dialog.cancel();
+							}
+						});
 
 				dialog.show();
 			}

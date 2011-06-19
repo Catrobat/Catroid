@@ -74,11 +74,9 @@ public class BroadcastReceiverBrick implements Brick {
 				}
 				String message = ((String) parent.getItemAtPosition(pos)).trim();
 
-				if (message == context.getString(R.string.broadcast_select))
-				{
+				if (message == context.getString(R.string.broadcast_nothing_selected)) {
 					receiveScript.setBroadcastMessage("");
-				}
-				else {
+				} else {
 					receiveScript.setBroadcastMessage(message);
 				}
 			}
@@ -87,7 +85,7 @@ public class BroadcastReceiverBrick implements Brick {
 			}
 		});
 		int pos = ProjectManager.getInstance().messageContainer.getPosOfMessageInAdapter(receiveScript
-								.getBroadcastMessage());
+				.getBroadcastMessage());
 		if (pos > 0) {
 			spinner.setSelection(pos);
 		}
@@ -109,19 +107,18 @@ public class BroadcastReceiverBrick implements Brick {
 						}
 						receiveScript.setBroadcastMessage(newMessage);
 
-						int pos = ProjectManager.getInstance().messageContainer
-												.getPosOfMessageInAdapter(newMessage);
+						int pos = ProjectManager.getInstance().messageContainer.getPosOfMessageInAdapter(newMessage);
 
 						spinner.setSelection(pos);
 
 					}
 				});
 				dialog.setNeutralButton(context.getString(R.string.cancel_button),
-										new DialogInterface.OnClickListener() {
-											public void onClick(DialogInterface dialog, int which) {
-												dialog.cancel();
-											}
-										});
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int which) {
+								dialog.cancel();
+							}
+						});
 
 				dialog.show();
 			}
