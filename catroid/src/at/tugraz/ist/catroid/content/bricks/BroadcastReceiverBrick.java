@@ -100,8 +100,8 @@ public class BroadcastReceiverBrick implements Brick {
 				dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						String newMessage = (input.getText().toString()).trim();
-						if (newMessage.length() == 0) {
-
+						if (newMessage.length() == 0
+								|| newMessage.equals(context.getString(R.string.broadcast_nothing_selected))) {
 							dialog.cancel();
 							return;
 						}
