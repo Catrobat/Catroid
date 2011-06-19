@@ -79,7 +79,7 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 		String testString2 = "test2";
 		String testString3 = "test3";
 
-		solo.clickOnButton(2);
+		solo.clickOnButton(0);
 
 		solo.enterText(0, testString);
 		solo.clickOnButton(getActivity().getString(R.string.ok));
@@ -93,14 +93,14 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 		solo.pressSpinnerItem(2, 2);
 		assertEquals("Wrong selection", testString, (String) solo.getCurrentSpinners().get(2).getSelectedItem());
 
-		solo.clickOnButton(3);
+		solo.clickOnButton(1);
 		solo.enterText(0, testString2);
 		solo.clickOnButton(getActivity().getString(R.string.ok));
 		assertEquals("Wrong selection", testString, (String) solo.getCurrentSpinners().get(0).getSelectedItem());
 		assertEquals("Wrong selection", testString2, (String) solo.getCurrentSpinners().get(1).getSelectedItem());
 		assertEquals("Wrong selection", testString, (String) solo.getCurrentSpinners().get(2).getSelectedItem());
 
-		solo.clickOnButton(4);
+		solo.clickOnButton(2);
 		solo.enterText(0, testString3);
 		solo.clickOnButton(getActivity().getString(R.string.ok));
 		assertEquals("Wrong selection", testString, (String) solo.getCurrentSpinners().get(0).getSelectedItem());

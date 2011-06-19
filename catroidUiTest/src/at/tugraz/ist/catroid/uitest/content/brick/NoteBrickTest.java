@@ -80,7 +80,7 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 		solo.clickOnEditText(0);
 		solo.enterText(0, testString);
-
+		solo.clickOnButton(0);
 		solo.sleep(300);
 		assertEquals("Wrong text in field.", testString, noteBrick.getNote());
 
