@@ -137,7 +137,7 @@
 
 	<!-- Broadcast spinner -->
 	<string name="new_broadcast_message">new...</string>
-	<string name="broadcast_select">select...</string>
+	<string name="broadcast_nothing_selected">Nothing...</string>
 	
     <!-- Stage context menu -->
     <string name="stagemenu_construction_site">To Construction Site</string>

@@ -35,14 +35,14 @@
 	<LinearLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_height="wrap_content"
-		android:layout_width="fill_parent"
+		android:layout_width="match_parent"
 		android:orientation="vertical"
 		android:background="@drawable/brick_yellow"
 	>
 		<TextView
 			android:text="@string/brick_note"
 			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
+			android:layout_width="fill_parent"
 			android:textColor="@color/white"
 			android:textSize="18dip"
 			android:textStyle="bold"
@@ -50,12 +50,13 @@
 	    </TextView>
 		<EditText
 			android:id="@+id/edit_text_note"
-			android:layout_width="match_parent"
+			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:minLines = "1"
 			android:scrollbars="vertical"
-			android:scrollbarStyle="insideInset">
-		</EditText>
-
+			android:scrollbarStyle="insideInset"
+			android:clickable="true"
+			android:cursorVisible="false"
+			android:focusable="false"
+			android:focusableInTouchMode="false"/>
 	</LinearLayout>
 </LinearLayout>

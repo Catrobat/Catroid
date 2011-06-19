@@ -18,11 +18,12 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
+import android.app.AlertDialog;
 import android.content.Context;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
@@ -43,7 +44,6 @@ public class NoteBrick implements Brick {
 	}
 
 	public void execute() {
-		// nothing to execute
 	}
 
 	public Sprite getSprite() {
@@ -54,23 +54,35 @@ public class NoteBrick implements Brick {
 		return this.note;
 	}
 
-	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
+	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View brickView = inflater.inflate(R.layout.construction_brick_note, null);
 
 		EditText editText = (EditText) brickView.findViewById(R.id.edit_text_note);
 		editText.setText(note);
-		editText.addTextChangedListener(new TextWatcher() {
-			public void afterTextChanged(Editable s) {
-				note = s.toString();
-			}
+		editText.setMaxLines(14);
+		editText.setOnClickListener(new OnClickListener() {
 
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-			}
+			public void onClick(View v) {
+				AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+				final EditText input = new EditText(context);
+				input.setText(note);
+				dialog.setView(input);
+				dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						note = (input.getText().toString()).trim();
+					}
+				});
+				dialog.setNeutralButton(context.getString(R.string.cancel_button),
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int which) {
+								dialog.cancel();
+							}
+						});
 
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-			}
+				dialog.show();
 
+			}
 		});
 
 		return brickView;
