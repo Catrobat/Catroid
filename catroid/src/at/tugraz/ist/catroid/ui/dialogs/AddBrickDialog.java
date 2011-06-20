@@ -82,7 +82,11 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new PlaySoundBrick(sprite));
 			prototypeBrickList.add(new IfTouchedBrick(sprite, null));
 			prototypeBrickList.add(new IfStartedBrick(sprite, null));
+			prototypeBrickList.add(new BroadcastReceiverBrick(sprite, null));
+			prototypeBrickList.add(new BroadcastBrick(sprite));
+			prototypeBrickList.add(new BroadcastWaitBrick(sprite));
 			prototypeBrickList.add(new GlideToBrick(sprite, 100, 100, 3000));
+			prototypeBrickList.add(new NoteBrick(sprite));
 		} else {
 			prototypeBrickList = new ArrayList<Brick>();
 			prototypeBrickList.add(new WaitBrick(sprite, 1000));
