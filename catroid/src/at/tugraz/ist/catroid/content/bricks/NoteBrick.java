@@ -34,6 +34,8 @@ public class NoteBrick implements Brick {
 	private Sprite sprite;
 	private String note = "";
 
+	private final transient int MAXLINES = 14;
+
 	public NoteBrick(Sprite sprite) {
 		this.sprite = sprite;
 	}
@@ -60,7 +62,7 @@ public class NoteBrick implements Brick {
 
 		EditText editText = (EditText) brickView.findViewById(R.id.edit_text_note);
 		editText.setText(note);
-		editText.setMaxLines(14);
+		editText.setMaxLines(MAXLINES);
 		editText.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
