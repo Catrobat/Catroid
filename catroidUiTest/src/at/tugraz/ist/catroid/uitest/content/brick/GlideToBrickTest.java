@@ -27,7 +27,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
-import at.tugraz.ist.catroid.uitest.util.Utils;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -40,7 +40,7 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 
 	@Override
 	public void setUp() throws Exception {
-		Utils.createTestProject();
+		UiTestUtils.createTestProject();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
@@ -58,7 +58,7 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 
 	private void enterValue(int editTextId, String value) {
 		solo.clickOnEditText(editTextId);
-		Utils.enterText(solo, 0, value);
+		UiTestUtils.enterText(solo, 0, value);
 
 		solo.clickOnButton(0);
 
@@ -66,7 +66,7 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 	}
 
 	public void testNumberInput() {
-		Utils.addNewBrickAndScrollDown(solo, R.string.brick_glide);
+		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_glide);
 
 		double duration = 1.5;
 		int xPosition = 123;

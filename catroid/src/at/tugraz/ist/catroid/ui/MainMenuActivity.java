@@ -92,11 +92,11 @@ public class MainMenuActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		DisplayMetrics dm = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics(dm);
+		DisplayMetrics displayMetrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
-		Values.SCREEN_WIDTH = dm.widthPixels;
-		Values.SCREEN_HEIGHT = dm.heightPixels;
+		Values.SCREEN_WIDTH = displayMetrics.widthPixels;
+		Values.SCREEN_HEIGHT = displayMetrics.heightPixels;
 
 		setContentView(R.layout.activity_main_menu);
 		projectManager = ProjectManager.getInstance();

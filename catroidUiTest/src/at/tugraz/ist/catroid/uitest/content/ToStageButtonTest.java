@@ -29,14 +29,14 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
-import at.tugraz.ist.catroid.uitest.util.Utils;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
 
-	private final String projectNameThree = Utils.PROJECTNAME1;
+	private final String projectNameThree = UiTestUtils.PROJECTNAME1;
 	private final String spriteNameTwo = "Balmung";
 
 	public ToStageButtonTest() {
@@ -45,7 +45,7 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 
 	@Override
 	public void setUp() throws Exception {
-		Utils.clearAllUtilTestProjects();
+		UiTestUtils.clearAllUtilTestProjects();
 
 		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
@@ -59,7 +59,7 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 			e.printStackTrace();
 		}
 		getActivity().finish();
-		Utils.clearAllUtilTestProjects();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 

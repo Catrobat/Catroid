@@ -139,10 +139,10 @@ public class CanvasDraw implements IDraw {
 	public void processOnTouch(int coordX, int coordY) {
 		CharSequence text;
 		if (coordX >= screenshotIconPosX && coordY <= Consts.SCREENSHOT_ICON_PADDING_TOP + screenshotIcon.getHeight()) {
-			Vibrator vibr = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
-			vibr.vibrate(100);
+			Vibrator vibrator = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
+			vibrator.vibrate(100);
 			if (saveThumbnail(true)) {
-				text = activity.getString(R.string.screenshot_ok);
+				text = activity.getString(R.string.notification_screenshot_ok);
 			} else {
 				text = activity.getString(R.string.error_screenshot_failed);
 			}

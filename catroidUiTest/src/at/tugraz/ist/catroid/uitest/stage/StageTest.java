@@ -48,7 +48,7 @@ import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.uitest.R;
-import at.tugraz.ist.catroid.uitest.util.Utils;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -56,7 +56,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 	private Solo solo;
 	private StorageHandler storageHandler;
 	private final static String TAG = "StageUITest";
-	private final String projectName = Utils.PROJECTNAME1;
+	private final String projectName = UiTestUtils.PROJECTNAME1;
 
 	private File image1;
 	private File image2;
@@ -83,7 +83,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 	@Override
 	public void setUp() throws Exception {
-		Utils.clearAllUtilTestProjects();
+		UiTestUtils.clearAllUtilTestProjects();
 
 		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
@@ -108,7 +108,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 			soundFile.delete();
 		}
 
-		Utils.clearAllUtilTestProjects();
+		UiTestUtils.clearAllUtilTestProjects();
 
 		getActivity().finish();
 		super.tearDown();
@@ -383,9 +383,9 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		script.addBrick(setCostumeBrick);
 		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
 		spriteList.add(sprite);
-		Utils.createProject(projectName, spriteList, getActivity());
-		File image = Utils.saveFileToProject(projectName, imageName1, R.raw.red_quad,
-				getInstrumentation().getContext(), 0);
+		UiTestUtils.createProject(projectName, spriteList, getActivity());
+		File image = UiTestUtils.saveFileToProject(projectName, imageName1, R.raw.red_quad, getInstrumentation()
+				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
 		setImageMemberProperties(image);
 		setCostumeBrick.setCostume(image.getName());
 		solo.sleep(100);
@@ -439,7 +439,6 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		solo.goBack();
 		solo.clickOnImageButton(1);
-
 	}
 
 	public void createTestproject(String projectName) {
@@ -459,10 +458,12 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
 		spriteList.add(firstSprite);
-		Project project = Utils.createProject(projectName, spriteList, getActivity());
+		Project project = UiTestUtils.createProject(projectName, spriteList, getActivity());
 
-		image1 = Utils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation().getContext(), 0);
-		image2 = Utils.saveFileToProject(projectName, imageName2, IMAGE_FILE_ID2, getInstrumentation().getContext(), 0);
+		image1 = UiTestUtils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation()
+				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
+		image2 = UiTestUtils.saveFileToProject(projectName, imageName2, IMAGE_FILE_ID2, getInstrumentation()
+				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
 		setImageMemberProperties(image1);
 		setImageMemberProperties(image2);
 		setCostumeBrick.setCostume(image1.getName());
@@ -497,10 +498,12 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
 		spriteList.add(firstSprite);
-		Project project = Utils.createProject(projectName, spriteList, getActivity());
+		Project project = UiTestUtils.createProject(projectName, spriteList, getActivity());
 
-		image1 = Utils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation().getContext(), 0);
-		image2 = Utils.saveFileToProject(projectName, imageName2, IMAGE_FILE_ID2, getInstrumentation().getContext(), 0);
+		image1 = UiTestUtils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation()
+				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
+		image2 = UiTestUtils.saveFileToProject(projectName, imageName2, IMAGE_FILE_ID2, getInstrumentation()
+				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
 		setImageMemberProperties(image1);
 		setImageMemberProperties(image2);
 		setCostumeBrick.setCostume(image1.getName());
@@ -543,10 +546,12 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
 		spriteList.add(firstSprite);
 		spriteList.add(secondSprite);
-		Project project = Utils.createProject(projectName, spriteList, getActivity());
+		Project project = UiTestUtils.createProject(projectName, spriteList, getActivity());
 
-		image1 = Utils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation().getContext(), 0);
-		image2 = Utils.saveFileToProject(projectName, imageName2, IMAGE_FILE_ID2, getInstrumentation().getContext(), 0);
+		image1 = UiTestUtils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation()
+				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
+		image2 = UiTestUtils.saveFileToProject(projectName, imageName2, IMAGE_FILE_ID2, getInstrumentation()
+				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
 		setImageMemberProperties(image1);
 		setImageMemberProperties(image2);
 		setCostumeBrick.setCostume(image1.getName());
@@ -575,9 +580,10 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
 		spriteList.add(firstSprite);
-		Project project = Utils.createProject(projectName, spriteList, getActivity());
+		Project project = UiTestUtils.createProject(projectName, spriteList, getActivity());
 
-		image1 = Utils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation().getContext(), 0);
+		image1 = UiTestUtils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation()
+				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
 		setImageMemberProperties(image1);
 		setCostumeBrick.setCostume(image1.getName());
 
@@ -604,12 +610,13 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
 		spriteList.add(firstSprite);
-		Project project = Utils.createProject(projectName, spriteList, getActivity());
+		Project project = UiTestUtils.createProject(projectName, spriteList, getActivity());
 
-		soundFile = Utils.saveFileToProject(projectName, "soundfile.mp3", SOUND_FILE_ID, getInstrumentation()
-				.getContext(), 1);
+		soundFile = UiTestUtils.saveFileToProject(projectName, "soundfile.mp3", SOUND_FILE_ID, getInstrumentation()
+				.getContext(), UiTestUtils.TYPE_SOUND_FILE);
 
-		image1 = Utils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation().getContext(), 0);
+		image1 = UiTestUtils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation()
+				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
 		setImageMemberProperties(image1);
 		setCostumeBrick.setCostume(image1.getName());
 		playSoundBrick.setPathToSoundfile(soundFile.getName());

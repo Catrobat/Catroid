@@ -44,17 +44,17 @@ import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
-import at.tugraz.ist.catroid.uitest.util.Utils;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
-	private String testProject = Utils.PROJECTNAME1;
-	private String testProject2 = Utils.PROJECTNAME2;
-	private String testProject3 = Utils.PROJECTNAME3;
-	private String existingProject = Utils.PROJECTNAME4;
+	private String testProject = UiTestUtils.PROJECTNAME1;
+	private String testProject2 = UiTestUtils.PROJECTNAME2;
+	private String testProject3 = UiTestUtils.PROJECTNAME3;
+	private String existingProject = UiTestUtils.PROJECTNAME4;
 
 	public MainMenuActivityTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -62,7 +62,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 	@Override
 	public void setUp() throws Exception {
-		Utils.clearAllUtilTestProjects();
+		UiTestUtils.clearAllUtilTestProjects();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
@@ -74,7 +74,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 			e.printStackTrace();
 		}
 		getActivity().finish();
-		Utils.clearAllUtilTestProjects();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -120,7 +120,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	}
 
 	public void testCreateNewProjectWithSpecialCharacters() {
-		final String projectNameWithSpecialCharacters = "Hey, look, I'm special! ?äöüß<>";
+		final String projectNameWithSpecialCharacters = "Hey, look, I'm special! ?ï¿½ï¿½ï¿½ï¿½<>";
 
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
 		solo.clickOnEditText(0);

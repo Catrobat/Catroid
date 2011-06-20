@@ -37,15 +37,15 @@ import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.transfers.ProjectUploadTask;
 import at.tugraz.ist.catroid.ui.DownloadActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
-import at.tugraz.ist.catroid.uitest.util.Utils;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
-	private String testProject = Utils.PROJECTNAME1;
-	private String newTestProject = Utils.PROJECTNAME2;
+	private String testProject = UiTestUtils.PROJECTNAME1;
+	private String newTestProject = UiTestUtils.PROJECTNAME2;
 
 	private class MockProjectUploadTask extends ProjectUploadTask {
 
@@ -67,7 +67,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 	public ProjectUpAndDownloadTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
-		Utils.clearAllUtilTestProjects();
+		UiTestUtils.clearAllUtilTestProjects();
 	}
 
 	@Override
@@ -84,7 +84,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 			e.printStackTrace();
 		}
 		getActivity().finish();
-		Utils.clearAllUtilTestProjects();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -104,7 +104,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		addABrickToProject();
 		uploadProject();
 
-		Utils.clearAllUtilTestProjects();
+		UiTestUtils.clearAllUtilTestProjects();
 
 		downloadProject();
 	}
@@ -132,7 +132,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		assertEquals("Received wrong result status code", 601, statusCode);
 
-		Utils.clearAllUtilTestProjects();
+		UiTestUtils.clearAllUtilTestProjects();
 	}
 
 	private void createTestProject() {

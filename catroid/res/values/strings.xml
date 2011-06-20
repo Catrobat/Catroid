@@ -175,6 +175,9 @@
     <string name="notification_invalid_name_entered">
     	Please enter a name
     </string>
+    <string name="notification_screenshot_ok">
+        Screenshot saved
+    </string>
 
     <!-- Error messages -->
     <string name="error_no_sd_card">
@@ -225,5 +228,4 @@
     <string name="upload_button">Upload</string>
     <string name="upload_project_dialog_title">Upload project</string>
     <string name="project_rename">(Your project will be renamed.)</string>
-    <string name="screenshot_ok">Screenshot saved</string>
 </resources>
