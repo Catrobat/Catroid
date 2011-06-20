@@ -28,6 +28,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.text.InputType;
+import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
@@ -47,7 +48,7 @@ import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class Utils {
+public class UiTestUtils {
 	private static ProjectManager projectManager = ProjectManager.getInstance();
 
 	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
@@ -57,6 +58,8 @@ public class Utils {
 	public static final String PROJECTNAME4 = "testproject4";
 	public static final int TYPE_IMAGE_FILE = 0;
 	public static final int TYPE_SOUND_FILE = 1;
+
+	private static final String TAG = UiTestUtils.class.getSimpleName();
 
 	public static void enterText(Solo solo, int editTextIndex, String text) {
 		solo.sleep(50);
@@ -189,7 +192,9 @@ public class Utils {
 		BufferedInputStream in = new BufferedInputStream(context.getResources().openRawResource(fileID));
 
 		try {
+			Log.v(TAG, filePath);
 			File file = new File(filePath);
+			file.getParentFile().mkdirs();
 			file.createNewFile();
 
 			BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file), Consts.BUFFER_8K);

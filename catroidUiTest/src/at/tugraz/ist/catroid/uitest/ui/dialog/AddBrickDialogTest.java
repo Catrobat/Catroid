@@ -28,13 +28,13 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
-import at.tugraz.ist.catroid.uitest.util.Utils;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
-	private String testProject = Utils.PROJECTNAME1;
+	private String testProject = UiTestUtils.PROJECTNAME1;
 
 	public AddBrickDialogTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -55,7 +55,7 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 		}
 		getActivity().finish();
 
-		Utils.clearAllUtilTestProjects();
+		UiTestUtils.clearAllUtilTestProjects();
 
 		super.tearDown();
 	}
@@ -68,7 +68,7 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 	}
 
 	private void addAndCheckBrick(Solo solo, int brickStringId) {
-		Utils.addNewBrickAndScrollDown(solo, brickStringId);
+		UiTestUtils.addNewBrickAndScrollDown(solo, brickStringId);
 		checkIfBrickIsPresent(brickStringId);
 	}
 

@@ -30,7 +30,7 @@ import android.widget.ImageView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
-import at.tugraz.ist.catroid.uitest.util.Utils;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -45,11 +45,11 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		List<Brick> brickList = Utils.createTestProject();
+		List<Brick> brickList = UiTestUtils.createTestProject();
 
 		solo = new Solo(getInstrumentation(), getActivity());
 
-		Utils.addNewBrickAndScrollDown(solo, R.string.brick_set_costume);
+		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_set_costume);
 		final int setCostumeBrickIndex = brickList.size();
 		setCostumeImageView = (ImageView) solo.getView(R.id.costume_image_view);
 		setCostumeImageView.setDrawingCacheEnabled(true);
