@@ -40,6 +40,7 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 	private Project project;
 	private NoteBrick noteBrick;
 	private String testString = "test";
+	private String testString2 = "";
 
 	public NoteBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -82,7 +83,22 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		solo.enterText(0, testString);
 		solo.clickOnButton(0);
 		solo.sleep(300);
+
 		assertEquals("Wrong text in field.", testString, noteBrick.getNote());
+
+		solo.clickOnEditText(0);
+		solo.enterText(0, "");
+		solo.clickOnButton(0);
+		solo.sleep(300);
+
+		assertEquals("Wrong text in field.", "", noteBrick.getNote());
+
+		solo.clickOnEditText(0);
+		solo.enterText(0, testString2);
+		solo.clickOnButton(0);
+		solo.sleep(300);
+
+		assertEquals("Wrong text in field.", testString2, noteBrick.getNote());
 
 	}
 
@@ -99,5 +115,8 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
+		testString2 = getInstrumentation().getContext().getString(at.tugraz.ist.catroid.uitest.R.string.test_text);
+
+		System.out.println(testString2);
 	}
 }
