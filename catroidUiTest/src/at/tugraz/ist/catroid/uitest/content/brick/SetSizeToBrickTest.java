@@ -92,9 +92,7 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 
 		double newSize = 200;
 
-		solo.clickOnEditText(0);
-		UiTestUtils.enterText(solo, 0, newSize + "");
-		solo.clickOnButton(0);
+		UiTestUtils.clickEnterClose(solo, 0, newSize + "");
 
 		solo.sleep(500);
 
