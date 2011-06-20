@@ -117,6 +117,5 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		ProjectManager.getInstance().setCurrentScript(script);
 		testString2 = getInstrumentation().getContext().getString(at.tugraz.ist.catroid.uitest.R.string.test_text);
 
-		System.out.println(testString2);
 	}
 }
