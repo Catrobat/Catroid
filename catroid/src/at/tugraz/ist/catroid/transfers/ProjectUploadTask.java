@@ -21,28 +21,18 @@ package at.tugraz.ist.catroid.transfers;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
-import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
-import at.tugraz.ist.catroid.utils.UtilDeviceInfo;
 import at.tugraz.ist.catroid.utils.UtilZip;
-import at.tugraz.ist.catroid.utils.Utils;
-import at.tugraz.ist.catroid.web.ConnectionWrapper;
+import at.tugraz.ist.catroid.web.ServerCalls;
 import at.tugraz.ist.catroid.web.WebconnectionException;
 
 public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
-
-	public static boolean useTestUrl = false;
 	private final static String TAG = "ProjectUploadTask";
 
 	private Context context;
@@ -50,14 +40,8 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 	private ProgressDialog progressdialog;
 	private String projectName;
 	private String projectDescription;
-	protected String resultString;
 	private String serverAnswer;
 	private String token;
-
-	// mock object testing
-	protected ConnectionWrapper createConnection() {
-		return new ConnectionWrapper();
-	}
 
 	public ProjectUploadTask(Context context, String projectName, String projectDescription, String projectPath,
 			String token) {
@@ -109,35 +93,8 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 				return false;
 			}
 
-			HashMap<String, String> postValues = buildPostValues(zipFile);
-
-			String serverUrl = useTestUrl ? Consts.TEST_FILE_UPLOAD_URL : Consts.FILE_UPLOAD_URL;
-
-			resultString = createConnection().doHttpPostFileUpload(serverUrl, postValues, Consts.FILE_UPLOAD_TAG,
-					zipFileString);
-
-			JSONObject jsonObject = null;
-			int statusCode = 0;
-
-			Log.v(TAG, "out: " + resultString);
-			try {
-				jsonObject = new JSONObject(resultString);
-				statusCode = jsonObject.getInt("statusCode");
-				serverAnswer = jsonObject.getString("answer");
-				int serverProjectId = jsonObject.getInt("projectId");
-				ProjectManager.getInstance().setServerProjectId(serverProjectId);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			if (statusCode == 200) {
-				zipFile.delete();
-				return true;
-			} else if (statusCode >= 500) {
-				return false;
-			}
-
-			return false;
-
+			ServerCalls.uploadProject(projectName, projectDescription, zipFileString);
+			zipFile.delete();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (WebconnectionException e) {
@@ -172,30 +129,4 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 		new Builder(context).setMessage(message).setPositiveButton("OK", null).show();
 	}
 
-	private HashMap<String, String> buildPostValues(File zipFile) throws IOException {
-		String md5Checksum = Utils.md5Checksum(zipFile);
-
-		HashMap<String, String> postValues = new HashMap<String, String>();
-		postValues.put(Consts.PROJECT_NAME_TAG, projectName);
-		postValues.put(Consts.PROJECT_DESCRIPTION_TAG, projectDescription);
-		postValues.put(Consts.PROJECT_CHECKSUM_TAG, md5Checksum.toLowerCase());
-		postValues.put(Consts.TOKEN, token); //anonymous
-
-		String deviceIMEI = UtilDeviceInfo.getDeviceIMEI(context);
-		if (deviceIMEI != null) {
-			postValues.put(Consts.DEVICE_IMEI, deviceIMEI);
-		}
-
-		String userEmail = UtilDeviceInfo.getUserEmail(context);
-		if (userEmail != null) {
-			postValues.put(Consts.USER_EMAIL, userEmail);
-		}
-
-		String language = UtilDeviceInfo.getUserLanguageCode(context);
-		if (language != null) {
-			postValues.put(Consts.USER_LANGUAGE, language);
-		}
-
-		return postValues;
-	}
 }
