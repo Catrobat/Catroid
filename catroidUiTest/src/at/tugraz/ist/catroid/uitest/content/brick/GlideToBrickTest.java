@@ -56,15 +56,6 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		super.tearDown();
 	}
 
-	private void enterValue(int editTextId, String value) {
-		solo.clickOnEditText(editTextId);
-		UiTestUtils.enterText(solo, 0, value);
-
-		solo.clickOnButton(0);
-
-		solo.sleep(100);
-	}
-
 	public void testNumberInput() {
 		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_glide);
 
@@ -73,9 +64,9 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		int yPosition = 567;
 
 		int numberOfEditTexts = solo.getCurrentEditTexts().size();
-		enterValue(numberOfEditTexts - 3, String.valueOf(duration));
-		enterValue(numberOfEditTexts - 2, String.valueOf(xPosition));
-		enterValue(numberOfEditTexts - 1, String.valueOf(yPosition));
+		UiTestUtils.clickEnterClose(solo, numberOfEditTexts - 3, String.valueOf(duration));
+		UiTestUtils.clickEnterClose(solo, numberOfEditTexts - 2, String.valueOf(xPosition));
+		UiTestUtils.clickEnterClose(solo, numberOfEditTexts - 1, String.valueOf(yPosition));
 
 		ProjectManager manager = ProjectManager.getInstance();
 		List<Brick> brickList = manager.getCurrentScript().getBrickList();
@@ -84,6 +75,5 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 				glideToBrick.getDurationInMilliSeconds());
 		assertEquals("Wrong x input in Glide to brick", xPosition, glideToBrick.getXDestination());
 		assertEquals("Wrong y input in Glide to brick", yPosition, glideToBrick.getYDestination());
-
 	}
 }

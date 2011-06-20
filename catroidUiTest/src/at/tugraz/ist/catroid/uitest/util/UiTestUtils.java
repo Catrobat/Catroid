@@ -100,6 +100,13 @@ public class UiTestUtils {
 		solo.enterText(0, value);
 	}
 
+	public static void clickEnterClose(Solo solo, int editTextIndex, String value) {
+		solo.clickOnEditText(editTextIndex);
+		enterText(solo, 0, value);
+		solo.clickOnButton(0);
+		solo.sleep(50);
+	}
+
 	public static void addNewBrickAndScrollDown(Solo solo, int brickStringId) {
 		solo.clickOnButton(solo.getCurrentActivity().getString(R.string.add_new_brick));
 		solo.clickOnText(solo.getCurrentActivity().getString(brickStringId));
