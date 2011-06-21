@@ -65,7 +65,7 @@
 				android:src="@drawable/trash_green" />
 		</RelativeLayout>
 	</LinearLayout>
-	<!-- Add brick button -->
+	<!-- Add Costume button -->
 	
 	<Button
 		android:text="@string/add_new_costume"
