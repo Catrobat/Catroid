@@ -64,6 +64,7 @@ public class ScriptTabActivity extends TabActivity {
 
 		// Create an Intent to launch an Activity for the tab (to be reused)
 		intent = new Intent().setClass(this, ScriptActivity.class);
+		//intent = new Intent().setClass(this, CostumeActivity.class);
 
 		// Initialize a TabSpec for each tab and add it to the TabHost
 		spec = tabHost.newTabSpec("script").setIndicator("Script").setContent(intent);
@@ -76,6 +77,7 @@ public class ScriptTabActivity extends TabActivity {
 		tabHost.addTab(spec);
 
 		intent = new Intent().setClass(this, ScriptActivity.class);//just for demo because SoundActivity is not done yet
+		//intent = new Intent().setClass(this, CostumeActivity.class);
 		spec = tabHost.newTabSpec("sounds").setIndicator("Sounds").setContent(intent);
 		tabHost.addTab(spec);
 
