@@ -28,17 +28,20 @@ import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.io.SoundManager;
+import at.tugraz.ist.catroid.stage.SimpleGestureFilter.SimpleGestureListener;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class StageActivity extends Activity {
+public class StageActivity extends Activity implements SimpleGestureListener {
 
 	public static SurfaceView stage;
 	private SoundManager soundManager;
 	private StageManager stageManager;
 	private boolean stagePlaying = false;
+	private SimpleGestureFilter detector;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -56,31 +59,23 @@ public class StageActivity extends Activity {
 			stageManager = new StageManager(this);
 			stageManager.start();
 			stagePlaying = true;
-
 		}
+		detector = new SimpleGestureFilter(this, this);
 	}
 
 	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-
-		// first pointer: MotionEvent.ACTION_DOWN
-		if (event.getAction() == MotionEvent.ACTION_DOWN) {
-			processOnTouch((int) event.getX(), (int) event.getY());
-		}
-
-		// second pointer: MotionEvent.ACTION_POINTER_2_DOWN
-		if (event.getAction() == MotionEvent.ACTION_POINTER_2_DOWN) {
-			processOnTouch((int) event.getX(1), (int) event.getY(1));
-		}
-
-		return false;
+	public boolean dispatchTouchEvent(MotionEvent e) {
+		this.detector.onTouchEvent(e);
+		return super.dispatchTouchEvent(e);
 	}
 
-	public void processOnTouch(int coordX, int coordY) {
+	public void processOnTouch(int coordX, int coordY, String act) {
+		System.out.println("2 this is the function called!!!" + act);
 		coordX = coordX + stage.getTop();
 		coordY = coordY + stage.getLeft();
 
-		stageManager.processOnTouch(coordX, coordY);
+		//		stageManager.processOnTouch(coordX, coordY);
+		stageManager.processOnTouch(coordX, coordY, act);
 	}
 
 	@Override
@@ -160,4 +155,40 @@ public class StageActivity extends Activity {
 		}
 		super.onResume();
 	}
+
+	public void onSwipe(int direction) {
+		String str = "";
+
+		switch (direction) {
+			case SimpleGestureFilter.SWIPE_RIGHT:
+				str = "Swipe Right";
+				break;
+			case SimpleGestureFilter.SWIPE_LEFT:
+				str = "Swipe Left";
+				break;
+			case SimpleGestureFilter.SWIPE_DOWN:
+				str = "Swipe Down";
+				break;
+			case SimpleGestureFilter.SWIPE_UP:
+				str = "Swipe Up";
+				break;
+
+		}
+		Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
+	}
+
+	public void onDoubleTap() {
+		Toast.makeText(this, "Double Tap", Toast.LENGTH_SHORT).show();
+	}
+
+	public void onSingleTouch() {
+		Toast.makeText(this, "Touch", Toast.LENGTH_SHORT).show();
+
+	}
+
+	public void onLongPress() {
+		Toast.makeText(this, "Long Press", Toast.LENGTH_SHORT).show();
+
+	}
+
 }

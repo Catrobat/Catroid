@@ -25,6 +25,7 @@ import android.view.MotionEvent;
 
 public class GestureListener extends GestureDetector.SimpleOnGestureListener {
 	private StageActivity stageView;
+	private final static String TAG = GestureListener.class.getSimpleName();
 
 	public GestureListener(StageActivity stageActivity) {
 		super();
@@ -33,38 +34,44 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener {
 
 	@Override
 	public boolean onSingleTapUp(MotionEvent ev) {
-		Log.d("StageGestureDetection", "onsingleTapUp" + ev.toString());
+		Log.v(TAG, "onSingleTapUp" + ev.toString());
 		return true;
 	}
 
 	@Override
 	public void onShowPress(MotionEvent ev) {
-		Log.d("StageGestureDetection", "onShowPress" + ev.toString());
+		Log.v(TAG, "onShowPress" + ev.toString());
 	}
 
 	@Override
 	public void onLongPress(MotionEvent ev) {
-		Log.d("StageGestureDetection", "onLongPress" + ev.toString());
+		Log.v(TAG, "onLongPress" + ev.toString());
 	}
 
 	@Override
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-		Log.d("StageGestureDetection", "onScroll" + e1.toString() + " distanceX="
+		Log.v(TAG, "onScroll" + e1.toString() + " distanceX="
 				+ Float.toString(distanceX) + " distanceY=" + Float.toString(distanceY));
 		return true;
 	}
 
 	@Override
 	public boolean onDown(MotionEvent ev) {
-		Log.d("StageGestureDetection", "onDown" + ev.toString() + " number of pointers " + ev.getPointerCount());
-		stageView.processOnTouch((int)ev.getX(),(int)ev.getY());
+		Log.v(TAG, "onDown" + ev.toString() + " number of pointers " + ev.getPointerCount());
+		stageView.processOnTouch((int) ev.getX(), (int) ev.getY(), "touch");
 		return true;
 	}
 
 	@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-		Log.d("StageGestureDetection", "onFlying Start" + e1.toString());
-		Log.d("StageGestureDetection", "onFlying Stop" + e2.toString());
+		Log.v(TAG, "onFlying Start" + e1.toString());
+		Log.v(TAG, "onFlying Stop" + e2.toString());
+		return true;
+	}
+
+	@Override
+	public boolean onDoubleTapEvent(MotionEvent ev) {
+		Log.v(TAG, "6 this is the function called!!!" + ev);
 		return true;
 	}
 }
