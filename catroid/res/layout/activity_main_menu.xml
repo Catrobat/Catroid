@@ -51,6 +51,7 @@
 				<Button
 					android:id="@+id/current_project_button"
 					android:text="@string/current_project_button"
+					android:onClick="handleCurrentProjectButton"
 					android:layout_height="match_parent"
 					android:layout_width="match_parent"
 					android:layout_weight=".5"
@@ -61,6 +62,7 @@
 				<Button
 					android:id="@+id/new_project_button"
 					android:text="@string/new_project"
+					android:onClick="handleNewProjectButton"
 					android:layout_height="match_parent"
 					android:layout_width="match_parent"
 					android:layout_weight=".5"
@@ -80,6 +82,7 @@
 				<Button
 					android:id="@+id/projects_on_phone_button"
 					android:text="@string/projects_on_phone"
+					android:onClick="handleLoadProjectButton"
 					android:layout_height="match_parent"
 					android:layout_width="match_parent"
 					android:layout_weight=".5"
@@ -90,6 +93,7 @@
 				<Button
 					android:id="@+id/upload_project_button"
 					android:text="@string/upload_project"
+					android:onClick="handleUploadProjectButton"
 					android:layout_height="match_parent"
 					android:layout_width="match_parent"
 					android:layout_weight=".5"
@@ -108,6 +112,7 @@
 				<Button
 					android:id="@+id/web_button"
 					android:text="@string/web_resources"
+					android:onClick="handleAboutCatroidButton"
 					android:layout_height="match_parent"
 					android:layout_width="match_parent"
 					android:layout_weight=".5"
