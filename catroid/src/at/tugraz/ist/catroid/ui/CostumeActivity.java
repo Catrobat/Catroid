@@ -172,7 +172,7 @@ public class CostumeActivity extends ListActivity {
 
 			public TextView gettitle() {
 				if (null == title) {
-					title = (TextView) mRow.findViewById(R.id.editName);
+					title = (TextView) mRow.findViewById(R.id.costume_edit_name);
 				}
 				return title;
 			}
