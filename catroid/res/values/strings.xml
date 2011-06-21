@@ -93,11 +93,15 @@
     <string name="script_list">Scripts:</string>
     <string name="add_new_script">Add new Script</string>
     
-    <!-- Script tab activity -->
+    <!-- Costume activity -->
     <string name="costume_list">Costume:</string>
     <string name="add_new_costume">Add new Costume</string>
     <string name="edit_costume">Edit</string>
     <string name="copy_costume">Copy</string>
+    
+    <!-- Sound activity -->
+    <string name="sound_list">Sound:</string>
+    <string name="add_new_sound">Add new Sound</string>
 
     <!-- Sprite dialog -->
     <string name="sprite_button_text">Create</string>
