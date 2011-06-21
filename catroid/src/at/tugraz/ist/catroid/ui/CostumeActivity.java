@@ -26,10 +26,14 @@ import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.ParseException;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -37,88 +41,82 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.Sprite;
 
 public class CostumeActivity extends ListActivity {
 	private LayoutInflater mInflater;
 	private Vector<RowData> data;
 	RowData rd;
-	private Sprite sprite;
 
-	static final String[] imageName = new String[] {};
+	private static final int SELECT_IMAGE = 1;
 
-	private Integer[] thumbnail = {};
+	private String selectedImagePath;
 
-	private void initListeners() {
-		sprite = ProjectManager.getInstance().getCurrentSprite();
+	static final String[] title = new String[] {
+			"*New*Apple iPad Wi-Fi (16GB)", "7 Touch Tablet -2GB Google Android",
+			"Apple iPad Wi-Fi (16GB) Rarely Used ", "Apple iPad Wi-Fi (16GB) AppleCase" };
 
-		Button addCostumeButton = (Button) findViewById(R.id.add_costume_button);
-		addCostumeButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-				intent.setType("image/*");
-			}
-		});
-
-	}
-
-	/*
-	 * public View getView(final Context context, final int brickId, BaseExpandableListAdapter adapter) {
-	 * LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	 * View view = inflater.inflate(R.layout.construction_brick_set_costume, null);
-	 * 
-	 * OnClickListener listener = new OnClickListener() {
-	 * public void onClick(View v) {
-	 * Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-	 * intent.setType("image/*");
-	 * ((Activity) context).startActivityForResult(intent, brickId);
-	 * }
-	 * };
-	 * 
-	 * ImageView imageView = (ImageView) view.findViewById(R.id.costume_image_view);
-	 * 
-	 * if (imageName != null) {
-	 * if (thumbnail == null) {
-	 * thumbnail = ImageEditing.getScaledBitmap(getAbsoluteImagePath(), Consts.THUMBNAIL_HEIGHT,
-	 * Consts.THUMBNAIL_WIDTH);
-	 * }
-	 * 
-	 * imageView.setImageBitmap(thumbnail);
-	 * imageView.setBackgroundDrawable(null);
-	 * }
-	 * 
-	 * imageView.setOnClickListener(listener);
-	 * 
-	 * return view;
-	 * }
-	 */
+	private Integer[] imgid = {
+			R.drawable.bsfimg, R.drawable.bsfimg4, R.drawable.bsfimg2,
+			R.drawable.bsfimg5 };
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_costume);
-		mInflater = (LayoutInflater) getSystemService(
-				Activity.LAYOUT_INFLATER_SERVICE);
+
+		mInflater = (LayoutInflater) getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 		data = new Vector<RowData>();
-		for (int i = 0; i < imageName.length; i++) {
+		for (int i = 0; i < title.length; i++) {
 			try {
-				rd = new RowData(i, imageName[i]);
+				rd = new RowData(i, title[i]);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 			data.add(rd);
 		}
-		CustomAdapter adapter = new CustomAdapter(this, R.layout.activity_costumelist, R.id.editName, data);
+
+		CustomAdapter adapter = new CustomAdapter(this, R.layout.activity_costumelist, R.id.costume_edit_name, data);
 		setListAdapter(adapter);
 		getListView().setTextFilterEnabled(true);
+
+		Button addnewcostume = (Button) findViewById(R.id.add_costume_button);
+		addnewcostume.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent();
+				intent.setType("image/*");
+				intent.setAction(Intent.ACTION_GET_CONTENT);
+				startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_IMAGE);
+
+			}
+		});
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == RESULT_OK) {
+			if (requestCode == SELECT_IMAGE) {
+				Uri selectedImageUri = data.getData();
+				selectedImagePath = getPath(selectedImageUri);
+			}
+		}
+	}
+
+	public String getPath(Uri uri) {
+		String[] projection = { MediaStore.Images.Media.DATA };
+		Cursor cursor = managedQuery(uri, projection, null, null, null);
+		int column_index = cursor
+				.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+		cursor.moveToFirst();
+		return cursor.getString(column_index);
 	}
 
 	@Override
 	public void onListItemClick(ListView parent, View v, int position, long id) {
-		Toast.makeText(getApplicationContext(), "You have selected "
-						+ (position + 1) + "th item", Toast.LENGTH_SHORT).show();
+		Toast.makeText(getApplicationContext(),
+				"You have selected " + (position + 1) + "th item",
+				Toast.LENGTH_SHORT).show();
 	}
 
 	private class RowData {
@@ -129,6 +127,7 @@ public class CostumeActivity extends ListActivity {
 		RowData(int id, String title) {
 			mId = id;
 			mTitle = title;
+
 		}
 
 		@Override
@@ -139,7 +138,7 @@ public class CostumeActivity extends ListActivity {
 
 	private class CustomAdapter extends ArrayAdapter<RowData> {
 		public CustomAdapter(Context context, int resource,
-							int textViewResourceId, List<RowData> objects) {
+				int textViewResourceId, List<RowData> objects) {
 			super(context, resource, textViewResourceId, objects);
 		}
 
@@ -147,7 +146,6 @@ public class CostumeActivity extends ListActivity {
 		public View getView(int position, View convertView, ViewGroup parent) {
 			ViewHolder holder = null;
 			TextView title = null;
-			TextView detail = null;
 			ImageView i11 = null;
 			RowData rowData = getItem(position);
 			if (null == convertView) {
@@ -159,7 +157,7 @@ public class CostumeActivity extends ListActivity {
 			title = holder.gettitle();
 			title.setText(rowData.mTitle);
 			i11 = holder.getImage();
-			i11.setImageResource(thumbnail[rowData.mId]);
+			i11.setImageResource(imgid[rowData.mId]);
 			return convertView;
 		}
 
