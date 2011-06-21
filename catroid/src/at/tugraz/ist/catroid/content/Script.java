@@ -33,6 +33,7 @@ public abstract class Script implements Serializable {
 	private transient int brickPositionAfterPause;
 	private String name;
 	private Sprite sprite;
+	private String action;
 
 	protected Object readResolve() {
 		init();
@@ -126,4 +127,5 @@ public abstract class Script implements Serializable {
 	public Sprite getSprite() {
 		return sprite;
 	}
+
 }

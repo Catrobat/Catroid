@@ -156,8 +156,19 @@
 	<string name="brick_set_y">Set Y to:</string>
 	<string name="brick_glide">Glide</string>
 	<string name="brick_glide_to">to</string>
+	<string name="brick_when">When</string>
 	
 	<string name="choose_sound_title">choose a title</string>
+	
+	
+    <string name="when_action">Choose an action</string>
+    <string name="action_tapped">Tapped</string>
+    <string name="action_doubleTapped">Double Tapped</string>
+    <string name="action_longPressed">Long Pressed</string>
+    <string name="action_touchingStarts">Touching Starts</string>
+    <string name="action_touchingStops">Touching Stops</string>
+     
+ 
 
     <!-- defaulValues -->
     <string name="default_project_name">defaultProject</string>

@@ -34,6 +34,7 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.TapScript;
+import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
@@ -51,6 +52,7 @@ import at.tugraz.ist.catroid.content.bricks.SetXBrick;
 import at.tugraz.ist.catroid.content.bricks.SetYBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
+import at.tugraz.ist.catroid.content.bricks.WhenBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.ui.adapter.PrototypeBrickAdapter;
 
@@ -87,6 +89,7 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new PlaySoundBrick(sprite));
 			prototypeBrickList.add(new IfTouchedBrick(sprite, null));
 			prototypeBrickList.add(new IfStartedBrick(sprite, null));
+			prototypeBrickList.add(new WhenBrick(sprite, null));
 			prototypeBrickList.add(new GlideToBrick(sprite, 100, 100, 3000));
 		}
 
@@ -124,6 +127,10 @@ public class AddBrickDialog extends Dialog {
 					Script newScript = new TapScript("script", projectManager.getCurrentSprite());
 					projectManager.addScript(newScript);
 					projectManager.setCurrentScript(newScript);
+				} else if (addedBrick instanceof WhenBrick) {
+					Script newScript = new WhenScript("script", projectManager.getCurrentSprite());
+					projectManager.addScript(newScript);
+					projectManager.setCurrentScript(newScript);
 				} else {
 					if (projectManager.getCurrentSprite().getScriptList().isEmpty()) {
 						Script newScript = new StartScript("script", projectManager.getCurrentSprite());
@@ -133,7 +140,6 @@ public class AddBrickDialog extends Dialog {
 					} else {
 						projectManager.getCurrentScript().addBrick(getBrickClone(adapter.getItem(position)));
 					}
-
 				}
 				dismiss();
 			}

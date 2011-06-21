@@ -258,4 +258,5 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		}
 		return true;
 	}
+
 }

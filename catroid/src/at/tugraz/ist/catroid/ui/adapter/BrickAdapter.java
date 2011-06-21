@@ -27,6 +27,7 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.view.View;
+import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
@@ -34,24 +35,29 @@ import android.widget.ExpandableListView.OnGroupClickListener;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.TapScript;
+import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
 import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
+import at.tugraz.ist.catroid.content.bricks.WhenBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView;
 import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView.DropListener;
 import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView.RemoveListener;
 
 public class BrickAdapter extends BaseExpandableListAdapter implements DropListener, RemoveListener,
-		OnGroupClickListener {
+		OnGroupClickListener, OnFocusChangeListener {
 
 	private Context context;
 	private Sprite sprite;
 	private BrickListAnimation brickListAnimation;
 	private boolean animateChildren;
+	private transient boolean isSpinner = true;
+	public static final int FOCUS_BLOCK_DESCENDANTS = 2;
 
 	public BrickAdapter(Context context, Sprite sprite, DragNDropListView listView) {
 		this.context = context;
@@ -97,12 +103,15 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 	}
 
 	public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-		View view;
+		View view = null;
 		if (getGroup(groupPosition) instanceof TapScript) {
 			view = new IfTouchedBrick(sprite, getGroup(groupPosition)).getPrototypeView(context);
-		} else {
+		} else if (getGroup(groupPosition) instanceof StartScript) {
 			view = new IfStartedBrick(sprite, getGroup(groupPosition)).getPrototypeView(context);
+		} else if (getGroup(groupPosition) instanceof WhenScript) {
+			view = new WhenBrick(sprite, getGroup(groupPosition)).getView(context, groupPosition, this);
 		}
+		parent.getDescendantFocusability();
 		return view;
 	}
 
@@ -182,6 +191,11 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 
 	public int getChildCountFromLastGroup() {
 		return getChildrenCount(getGroupCount() - 1);
+	}
+
+	public void onFocusChange(View v, boolean hasFocus) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

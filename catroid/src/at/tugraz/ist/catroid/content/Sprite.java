@@ -38,6 +38,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	private List<Script> scriptList;
 	private transient List<Thread> threadList;
 	private transient Costume costume;
+	private String action;
 
 	private Object readResolve() {
 		init();
@@ -59,6 +60,20 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		this.name = name;
 		scriptList = new ArrayList<Script>();
 		init();
+	}
+
+	public void startWhenScripts(String act) {
+		for (Script s : scriptList) {
+			if (s instanceof WhenScript) {
+				if (((WhenScript) s).getAction().equalsIgnoreCase(act)) {
+					startScript(s);
+				} else if (((WhenScript) s).getAction().equalsIgnoreCase(WhenScript.TOUCHINGSTARTS)) {
+					startScript(s);
+				} else if (((WhenScript) s).getAction().equalsIgnoreCase(WhenScript.TOUCHINGSTOPS)) {
+					stopScript(s);
+				}
+			}
+		}
 	}
 
 	public void startStartScripts() {
@@ -84,6 +99,17 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		Thread t = new Thread(new Runnable() {
 			public void run() {
 				script.run();
+			}
+		});
+		threadList.add(t);
+		t.start();
+	}
+
+	private void stopScript(Script s) {
+		final Script script = s;
+		Thread t = new Thread(new Runnable() {
+			public void run() {
+				script.readResolve();
 			}
 		});
 		threadList.add(t);
@@ -248,11 +274,16 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		}
 
 		return true;
-
 	}
 
 	@Override
 	public String toString() {
 		return name;
 	}
+
+	public boolean processOnGesture(String action) {
+
+		return true;
+	}
+
 }
