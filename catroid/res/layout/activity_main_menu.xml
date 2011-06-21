@@ -112,7 +112,6 @@
 				<Button
 					android:id="@+id/web_button"
 					android:text="@string/web_resources"
-					android:onClick="handleAboutCatroidButton"
 					android:layout_height="match_parent"
 					android:layout_width="match_parent"
 					android:layout_weight=".5"
@@ -151,6 +150,7 @@
 				<Button
 					android:id="@+id/about_catroid_button"
 					android:text="@string/about"
+					android:onClick="handleAboutCatroidButton"
 					android:layout_height="match_parent"
 					android:layout_width="match_parent"
 					android:layout_weight=".5"
