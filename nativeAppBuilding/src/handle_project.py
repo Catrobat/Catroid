@@ -8,7 +8,7 @@ import xml.dom.minidom
 '''
 Automatically build and sign Catroid application.
 
-python handle_project.py <project> <path_to_catroid_project>
+python handle_project.py <path_to_project> <path_to_catroid>
 
 Example:
 python handle_project.py test.zip ~/hg/catroid
@@ -87,6 +87,10 @@ def get_project_name(project_filename):
             return node.childNodes[0].nodeValue
 
 def main():
+    if len(sys.argv) != 3:
+        print 'Invalid arguments. Correct usage:'
+        print 'python handle_project.py <path_to_project> <path_to_catroid>'
+        return 1
     archive_name = sys.argv[1]
     path_to_catroid = sys.argv[2]
     project_filename = os.path.splitext(archive_name)[0]
