@@ -33,14 +33,10 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 
 public class CostumeActivity extends ListActivity {
@@ -60,10 +56,25 @@ public class CostumeActivity extends ListActivity {
 			R.drawable.bsfimg, R.drawable.bsfimg4, R.drawable.bsfimg2,
 			R.drawable.bsfimg5 };
 
+	private void initListeners() {
+
+		//		Button addnewcostume = (Button) findViewById(R.id.add_costume_button);
+		//		addnewcostume.setOnClickListener(new OnClickListener() {
+		//			public void onClick(View v) {
+		//				// TODO Auto-generated method stub
+		//				Intent intent = new Intent();
+		//				intent.setType("image/*");
+		//				intent.setAction(Intent.ACTION_GET_CONTENT);
+		//				startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_IMAGE);
+		//			}
+		//		});
+
+	}
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_costume);
+		//setContentView(R.layout.activity_costume);
 
 		mInflater = (LayoutInflater) getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 		data = new Vector<RowData>();
@@ -76,21 +87,10 @@ public class CostumeActivity extends ListActivity {
 			data.add(rd);
 		}
 
-		CustomAdapter adapter = new CustomAdapter(this, R.layout.activity_costumelist, R.id.costume_edit_name, data);
+		CostumeAdapter adapter = new CostumeAdapter(this, R.layout.activity_costumelist, R.id.costume_edit_name, data);
 		setListAdapter(adapter);
 		getListView().setTextFilterEnabled(true);
 
-		Button addnewcostume = (Button) findViewById(R.id.add_costume_button);
-		addnewcostume.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Intent intent = new Intent();
-				intent.setType("image/*");
-				intent.setAction(Intent.ACTION_GET_CONTENT);
-				startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_IMAGE);
-
-			}
-		});
 	}
 
 	@Override
@@ -112,13 +112,6 @@ public class CostumeActivity extends ListActivity {
 		return cursor.getString(column_index);
 	}
 
-	@Override
-	public void onListItemClick(ListView parent, View v, int position, long id) {
-		Toast.makeText(getApplicationContext(),
-				"You have selected " + (position + 1) + "th item",
-				Toast.LENGTH_SHORT).show();
-	}
-
 	private class RowData {
 		protected int mId;
 		protected String mTitle;
@@ -136,9 +129,8 @@ public class CostumeActivity extends ListActivity {
 		}
 	}
 
-	private class CustomAdapter extends ArrayAdapter<RowData> {
-		public CustomAdapter(Context context, int resource,
-				int textViewResourceId, List<RowData> objects) {
+	private class CostumeAdapter extends ArrayAdapter<RowData> {
+		public CostumeAdapter(Context context, int resource, int textViewResourceId, List<RowData> objects) {
 			super(context, resource, textViewResourceId, objects);
 		}
 
@@ -179,7 +171,7 @@ public class CostumeActivity extends ListActivity {
 
 			public ImageView getImage() {
 				if (null == i11) {
-					i11 = (ImageView) mRow.findViewById(R.id.img);
+					i11 = (ImageView) mRow.findViewById(R.id.costume_image);
 				}
 				return i11;
 			}
