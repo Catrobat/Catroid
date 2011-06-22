@@ -122,7 +122,6 @@ public class MainMenuActivity extends Activity {
 
 		}
 		initListeners();
-
 	}
 
 	@Override
