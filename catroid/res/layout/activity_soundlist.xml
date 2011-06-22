@@ -20,25 +20,12 @@
  -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:orientation="vertical"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:background="@drawable/backrepeat"
->
-<ListView
-android:id="@+id/list"
-android:layout_width="1px"
-android:layout_height="1px"
-android:layout_weight="1">
-</ListView>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 android:orientation="horizontal"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 >
 <ImageView
-android:id="@+id/img"
+android:id="@+id/sound_img"
 android:layout_width="80dp" android:layout_height="100dp"/>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 android:orientation="vertical"
@@ -69,7 +56,6 @@ android:textSize="16sp" />
     android:layout_width="wrap_content" 
     android:src="@drawable/stop" android:layout_height="48dip"></ImageButton>
     <ImageButton android:layout_height="48dip" android:id="@+id/delete_button" android:layout_width="wrap_content" android:src="@drawable/exit"></ImageButton>
-</LinearLayout>
 </LinearLayout>
 </LinearLayout>
 </LinearLayout>
