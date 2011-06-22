@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <!-- 
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010  Catroid development team 
@@ -25,48 +24,15 @@
 	android:layout_height="match_parent"
 	android:background="@drawable/backrepeat"
 >
-
 	<!-- Costume list -->
-	<LinearLayout
-		android:orientation="vertical"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:layout_weight="1"
-		
-	>
-		<TextView
-			android:id="@+id/costume_list_label"
-			android:text="@string/costume_list"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:textSize="14dip"
-		></TextView>
-		<RelativeLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-		>
-			<at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView
+			<ListView
 				android:id="@+id/costume_list_view"
 				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:drawSelectorOnTop="false"
-				android:fastScrollEnabled="true"
-				android:clickable="false"
-				android:drawingCacheQuality="high" 
-				android:cacheColorHint="#00000000" />
-			<ImageView
-				android:id="@+id/trash"
-				android:layout_width="51dip"
-				android:layout_height="97dip"
-				android:layout_alignParentRight="true"
-				android:layout_centerVertical="true"
-				android:layout_marginRight="-3dip"
-				android:visibility="gone"
-				android:src="@drawable/trash_green" />
-		</RelativeLayout>
-	</LinearLayout>
+				android:layout_height="wrap_content"
+				android:layout_weight="1.0"
+			/>
+			
 	<!-- Add Costume button -->
-	
 	<Button
 		android:text="@string/add_new_costume"
 		android:layout_width="fill_parent"
