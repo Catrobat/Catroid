@@ -34,10 +34,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -61,7 +59,7 @@ public class SoundActivity extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_sound);
+		//setContentView(R.layout.activity_sound);
 
 		mInflater = (LayoutInflater) getSystemService(
 				Activity.LAYOUT_INFLATER_SERVICE);
@@ -74,21 +72,22 @@ public class SoundActivity extends ListActivity {
 			}
 			data.add(rd);
 		}
-		CustomAdapter adapter = new CustomAdapter(this, R.layout.activity_soundlist, R.id.edit_sound_name, data);
+
+		SoundAdapter adapter = new SoundAdapter(this, R.layout.activity_soundlist, R.id.edit_sound_name, data);
 		setListAdapter(adapter);
 		getListView().setTextFilterEnabled(true);
 
-		Button addnewcostume = (Button) findViewById(R.id.add_sound_button);
-		addnewcostume.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Intent intent = new Intent();
-				intent.setType("sound/*");
-				intent.setAction(Intent.ACTION_GET_CONTENT);
-				startActivityForResult(Intent.createChooser(intent, "Select Sound"), SELECT_SOUND);
-
-			}
-		});
+		//		Button addnewcostume = (Button) findViewById(R.id.add_sound_button);
+		//		addnewcostume.setOnClickListener(new OnClickListener() {
+		//			public void onClick(View v) {
+		//				// TODO Auto-generated method stub
+		//				Intent intent = new Intent();
+		//				intent.setType("sound/*");
+		//				intent.setAction(Intent.ACTION_GET_CONTENT);
+		//				startActivityForResult(Intent.createChooser(intent, "Select Sound"), SELECT_SOUND);
+		//
+		//			}
+		//		});
 	}
 
 	@Override
@@ -100,17 +99,6 @@ public class SoundActivity extends ListActivity {
 			}
 		}
 	}
-
-	/*
-	 * public String getPath(Uri uri) {
-	 * String[] projection = { MediaStore.Sound.Media.DATA };
-	 * Cursor cursor = managedQuery(uri, projection, null, null, null);
-	 * int column_index = cursor
-	 * .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-	 * cursor.moveToFirst();
-	 * return cursor.getString(column_index);
-	 * }
-	 */
 
 	@Override
 	public void onListItemClick(ListView parent, View v, int position, long id) {
@@ -135,9 +123,8 @@ public class SoundActivity extends ListActivity {
 		}
 	}
 
-	private class CustomAdapter extends ArrayAdapter<RowData> {
-		public CustomAdapter(Context context, int resource,
-							int textViewResourceId, List<RowData> objects) {
+	private class SoundAdapter extends ArrayAdapter<RowData> {
+		public SoundAdapter(Context context, int resource, int textViewResourceId, List<RowData> objects) {
 			super(context, resource, textViewResourceId, objects);
 		}
 
@@ -178,7 +165,7 @@ public class SoundActivity extends ListActivity {
 
 			public ImageView getImage() {
 				if (null == i11) {
-					i11 = (ImageView) mRow.findViewById(R.id.img);
+					i11 = (ImageView) mRow.findViewById(R.id.sound_img);
 				}
 				return i11;
 			}
