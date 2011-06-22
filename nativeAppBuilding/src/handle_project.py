@@ -51,6 +51,8 @@ def rename_resources(project_name):
     for resource_type in ['images', 'sounds']:
         path = os.path.join(project_name, resource_type)
         for filename in os.listdir(path):
+            if filename == '.nomedia':
+                continue
             basename, extension = os.path.splitext(filename)
             if verify_checksum(os.path.join(path, filename)):
                 new_filename = res_token + str(res_count)
@@ -60,6 +62,9 @@ def rename_resources(project_name):
                 shutil.move(os.path.join(path, filename),\
                            os.path.join(project_name, new_filename + extension))
                 res_count = res_count + 1
+            else:
+                print 'Wrong checksum for file', filename
+                exit(1)
     shutil.rmtree(os.path.join(project_name, 'sounds'))
     shutil.rmtree(os.path.join(project_name, 'images'))
 
