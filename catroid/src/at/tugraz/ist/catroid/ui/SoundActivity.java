@@ -53,8 +53,7 @@ public class SoundActivity extends ListActivity {
 			"Apple iPad Wi-Fi (16GB) Rarely Used ", "Apple iPad Wi-Fi (16GB) AppleCase" };
 
 	private Integer[] imgid = {
-			R.drawable.bsfimg, R.drawable.bsfimg4, R.drawable.bsfimg2,
-			R.drawable.bsfimg5 };
+			R.drawable.speaker, R.drawable.speaker, R.drawable.speaker, R.drawable.speaker };
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
