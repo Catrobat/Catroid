@@ -31,6 +31,8 @@ public abstract class Script implements Serializable {
 	protected transient boolean isFinished;
 	private transient boolean paused;
 	private transient int brickPositionAfterPause;
+	private transient int executingBrickIndex;
+
 	private String name;
 	private Sprite sprite;
 
@@ -59,6 +61,7 @@ public abstract class Script implements Serializable {
 				return;
 			}
 			try {
+				executingBrickIndex = i;
 				brickList.get(i).execute();
 				sprite.setToDraw(true);
 			} catch (InterruptedRuntimeException e) { //Brick was interrupted
@@ -126,4 +129,13 @@ public abstract class Script implements Serializable {
 	public Sprite getSprite() {
 		return sprite;
 	}
+
+	public int getExecutingBrickIndex() {
+		return executingBrickIndex;
+	}
+
+	public void setExecutingBrickIndex(int executingBrickIndex) {
+		this.executingBrickIndex = executingBrickIndex;
+	}
+
 }
