@@ -151,7 +151,7 @@ public class ProjectManager {
 			currentScript = null;
 			return true;
 		}
-		if (currentSprite.getScriptList().contains(script)) {
+		if (currentSprite.getScriptIndex(script) != -1) {
 			currentScript = script;
 			return true;
 		}
@@ -215,7 +215,7 @@ public class ProjectManager {
 			return -1;
 		}
 
-		return project.getSpriteList().get(currentSpritePos).getScriptList().indexOf(currentScript);
+		return project.getSpriteList().get(currentSpritePos).getScriptIndex(currentScript);
 	}
 
 	public boolean setCurrentSpriteWithPosition(int position) {

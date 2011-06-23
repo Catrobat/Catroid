@@ -198,10 +198,6 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return costume;
 	}
 
-	public List<Script> getScriptList() {
-		return scriptList;
-	}
-
 	public void addScript(Script script) {
 		if (script != null) {
 			scriptList.add(script);
@@ -220,6 +216,18 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 
 	public int getNumberOfScripts() {
 		return scriptList.size();
+	}
+
+	public int getScriptIndex(Script script) {
+		return scriptList.indexOf(script);
+	}
+
+	public void removeAllScripts() {
+		scriptList.clear();
+	}
+
+	public boolean removeScript(Script script) {
+		return scriptList.remove(script);
 	}
 
 	public boolean getToDraw() {
