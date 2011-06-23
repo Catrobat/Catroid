@@ -31,8 +31,10 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 
 	private Sprite testSprite;
 	private Script testScript;
-	private int firstPosition = 100;
-	private int secondPosition = 300;
+	private int brickSleepTime = 1000;
+	private int positionOfFirstWaitBrick;
+	private int positionOfSecondWaitBrick;
+	private int numberOfBricksInScript;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -41,10 +43,10 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 
 		ShowBrick showBrick = new ShowBrick(testSprite);
 		ForeverBrick foreverBrick = new ForeverBrick(testSprite);
-		WaitBrick firstWaitBrick = new WaitBrick(testSprite, 1000);
-		SetXBrick firstSetXBrick = new SetXBrick(testSprite, firstPosition);
-		WaitBrick secondWaitBrick = new WaitBrick(testSprite, 1000);
-		SetXBrick secondSetXBrick = new SetXBrick(testSprite, secondPosition);
+		WaitBrick firstWaitBrick = new WaitBrick(testSprite, brickSleepTime);
+		SetXBrick firstSetXBrick = new SetXBrick(testSprite, 100);
+		WaitBrick secondWaitBrick = new WaitBrick(testSprite, brickSleepTime);
+		SetXBrick secondSetXBrick = new SetXBrick(testSprite, 200);
 
 		testScript.addBrick(showBrick);
 		testScript.addBrick(foreverBrick);
@@ -52,6 +54,11 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 		testScript.addBrick(firstSetXBrick);
 		testScript.addBrick(secondWaitBrick);
 		testScript.addBrick(secondSetXBrick);
+
+		positionOfFirstWaitBrick = testScript.getBrickList().indexOf(firstWaitBrick);
+		positionOfSecondWaitBrick = testScript.getBrickList().indexOf(secondWaitBrick);
+
+		numberOfBricksInScript = testScript.getBrickList().size();
 	}
 
 	public void testForeverBrick() throws Exception {
@@ -63,18 +70,20 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 		t.start();
 
 		Thread.sleep(500);
-		assertEquals("Wrong brick executing", 2, testScript.getExecutingBrickIndex());
-		Thread.sleep(1000);
-		assertEquals("Wrong brick executing", 4, testScript.getExecutingBrickIndex());
-		Thread.sleep(1000);
-		assertEquals("Wrong brick executing", 2, testScript.getExecutingBrickIndex());
 
-		Thread.sleep(10000);
-		assertEquals("Wrong brick executing", 2, testScript.getExecutingBrickIndex());
-		Thread.sleep(1000);
-		assertEquals("Wrong brick executing", 4, testScript.getExecutingBrickIndex());
-		Thread.sleep(1000);
-		assertEquals("Wrong brick executing", 2, testScript.getExecutingBrickIndex());
+		assertEquals("EndOfLoop Brick was not created", numberOfBricksInScript + 1, testScript.getBrickList().size());
 
+		assertEquals("Wrong brick executing", positionOfFirstWaitBrick, testScript.getExecutingBrickIndex());
+		Thread.sleep(brickSleepTime);
+		assertEquals("Wrong brick executing", positionOfSecondWaitBrick, testScript.getExecutingBrickIndex());
+		Thread.sleep(brickSleepTime);
+		assertEquals("Wrong brick executing", positionOfFirstWaitBrick, testScript.getExecutingBrickIndex());
+
+		Thread.sleep(brickSleepTime * 10);
+		assertEquals("Wrong brick executing", positionOfFirstWaitBrick, testScript.getExecutingBrickIndex());
+		Thread.sleep(brickSleepTime);
+		assertEquals("Wrong brick executing", positionOfSecondWaitBrick, testScript.getExecutingBrickIndex());
+		Thread.sleep(brickSleepTime);
+		assertEquals("Wrong brick executing", positionOfFirstWaitBrick, testScript.getExecutingBrickIndex());
 	}
 }
