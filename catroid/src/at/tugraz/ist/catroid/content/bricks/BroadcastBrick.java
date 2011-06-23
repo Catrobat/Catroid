@@ -24,9 +24,11 @@ import java.util.concurrent.CountDownLatch;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnShowListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseExpandableListAdapter;
@@ -127,11 +129,11 @@ public class BroadcastBrick implements Brick {
 		newBroadcastMessage.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
-				AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+				AlertDialog.Builder builder = new AlertDialog.Builder(context);
 				final EditText input = new EditText(context);
 
-				dialog.setView(input);
-				dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+				builder.setView(input);
+				builder.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						String newMessage = (input.getText().toString()).trim();
 						if (newMessage.length() == 0
@@ -148,14 +150,22 @@ public class BroadcastBrick implements Brick {
 
 					}
 				});
-				dialog.setNeutralButton(context.getString(R.string.cancel_button),
+				builder.setNegativeButton(context.getString(R.string.cancel_button),
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int which) {
 								dialog.cancel();
 							}
 						});
 
-				dialog.show();
+				AlertDialog alertDialog = builder.create();
+				alertDialog.setOnShowListener(new OnShowListener() {
+					public void onShow(DialogInterface dialog) {
+						InputMethodManager inputManager = (InputMethodManager) context
+								.getSystemService(Context.INPUT_METHOD_SERVICE);
+						inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
+					}
+				});
+				alertDialog.show();
 			}
 		});
 		return brickView;
