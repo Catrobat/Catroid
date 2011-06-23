@@ -114,7 +114,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		manager.setCurrentSprite(sprite2);
 		Script script2 = new StartScript(scriptNameTwo, sprite2);
 		manager.addScript(script2);
-		assertTrue("Script not in current Sprite", manager.getCurrentSprite().getScriptList().contains(script2));
+		assertTrue("Script not in current Sprite", manager.getCurrentSprite().getScriptIndex(script2) != -1);
 
 		//addBrick
 

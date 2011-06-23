@@ -40,7 +40,6 @@ public class SpriteTest extends AndroidTestCase {
 		assertEquals("Unexpected default size", 100.0, sprite.getSize());
 		assertTrue("Unexpected default visibility", sprite.isVisible());
 		assertNotNull("Unexpected Sprite costume", sprite.getCostume());
-		assertNotNull("Script list was not initialized", sprite.getScriptList());
 		assertEquals("Script list contains items after constructor", 0, sprite.getNumberOfScripts());
 		assertNotNull("Costume was not initialized", sprite.getCostume());
 	}
@@ -58,7 +57,6 @@ public class SpriteTest extends AndroidTestCase {
 		assertEquals("Unexpected default size", 100.0, sprite.getSize());
 		assertTrue("Unexpected default visibility", sprite.isVisible());
 		assertNotNull("Unexpected Sprite costume", sprite.getCostume());
-		assertNotNull("Script list was not initialized", sprite.getScriptList());
 		assertEquals("Script list contains items after constructor", 0, sprite.getNumberOfScripts());
 		assertNotNull("Costume was not initialized", sprite.getCostume());
 
@@ -101,22 +99,67 @@ public class SpriteTest extends AndroidTestCase {
 		assertEquals("Failed to set z position to negative value", -zPosition, sprite.getZPosition());
 	}
 
-	public void testScriptList() {
+	public void testAddScript() {
 		Sprite sprite = new Sprite("new sprite");
-		sprite.addScript(new StartScript("script", sprite));
+		Script firstScript = new StartScript("firstScript", sprite);
+		Script secondScript = new StartScript("secondScript", sprite);
+		sprite.addScript(firstScript);
 		assertEquals("Script list does not contain script after adding", 1, sprite.getNumberOfScripts());
 
-		sprite.getScriptList().clear();
+		sprite.addScript(0, secondScript);
+		assertEquals("Script list does not contain script after adding", 2, sprite.getNumberOfScripts());
+
+		assertEquals("Script list does not contain script after adding", 1, sprite.getScriptIndex(firstScript));
+		assertEquals("Script list does not contain script after adding", 0, sprite.getScriptIndex(secondScript));
+
+		sprite.removeAllScripts();
 		assertEquals("Script list could not be cleared", 0, sprite.getNumberOfScripts());
 	}
 
-	public void testAddSprite() {
+	public void testGetScript() {
 		Sprite sprite = new Sprite("new sprite");
-		sprite.addScript(new StartScript("script", sprite));
-		assertEquals("Script list does not contain script after adding", 1, sprite.getNumberOfScripts());
+		Script firstScript = new StartScript("firstScript", sprite);
+		Script secondScript = new StartScript("secondScript", sprite);
+		sprite.addScript(firstScript);
+		sprite.addScript(secondScript);
+		assertEquals("Scripts do not match after retrieving", firstScript, sprite.getScript(0));
+		assertEquals("Script doo not match after retrieving", secondScript, sprite.getScript(1));
+	}
 
-		sprite.getScriptList().clear();
-		assertEquals("Script list could not be cleared", 0, sprite.getNumberOfScripts());
+	public void testRemoveAllScripts() {
+		Sprite sprite = new Sprite("new sprite");
+		Script firstScript = new StartScript("firstScript", sprite);
+		Script secondScript = new StartScript("secondScript", sprite);
+		sprite.addScript(firstScript);
+		sprite.addScript(secondScript);
+
+		sprite.removeAllScripts();
+
+		assertEquals("Script list was not cleared", 0, sprite.getNumberOfScripts());
+	}
+
+	public void testRemoveScript() {
+		Sprite sprite = new Sprite("new sprite");
+		Script firstScript = new StartScript("firstScript", sprite);
+		Script secondScript = new StartScript("secondScript", sprite);
+		sprite.addScript(firstScript);
+		sprite.addScript(secondScript);
+
+		sprite.removeScript(firstScript);
+
+		assertEquals("Wrong script list size", 1, sprite.getNumberOfScripts());
+		assertEquals("Wrong script remained", secondScript, sprite.getScript(0));
+
+	}
+
+	public void testGetScriptIndex() {
+		Sprite sprite = new Sprite("new sprite");
+		Script firstScript = new StartScript("firstScript", sprite);
+		Script secondScript = new StartScript("secondScript", sprite);
+		sprite.addScript(firstScript);
+		sprite.addScript(secondScript);
+		assertEquals("Indexes do not match", 0, sprite.getScriptIndex(firstScript));
+		assertEquals("Indexes do not match", 1, sprite.getScriptIndex(secondScript));
 	}
 
 	public void testSetSize() {
