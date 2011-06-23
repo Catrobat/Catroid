@@ -218,6 +218,10 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return scriptList.get(location);
 	}
 
+	public int getNumberOfScripts() {
+		return scriptList.size();
+	}
+
 	public boolean getToDraw() {
 		return toDraw;
 	}

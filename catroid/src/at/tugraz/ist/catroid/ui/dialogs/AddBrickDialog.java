@@ -133,7 +133,7 @@ public class AddBrickDialog extends Dialog {
 					projectManager.addScript(newScript);
 					projectManager.setCurrentScript(newScript);
 				} else {
-					if (projectManager.getCurrentSprite().getScriptList().isEmpty()) {
+					if (projectManager.getCurrentSprite().getNumberOfScripts() == 0) {
 						Script newScript = new StartScript("script", projectManager.getCurrentSprite());
 						projectManager.addScript(newScript);
 						projectManager.setCurrentScript(newScript);

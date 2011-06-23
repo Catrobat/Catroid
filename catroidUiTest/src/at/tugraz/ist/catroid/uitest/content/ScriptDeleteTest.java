@@ -73,7 +73,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptAct
 		solo.clickOnText(getActivity().getString(R.string.delete_script_button));
 		solo.sleep(1000);
 
-		int numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getScriptList().size();
+		int numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
 		assertEquals("Incorrect number of scripts in scriptList", 1, numberOfScripts);
 		assertEquals("Incorrect number of elements in listView", 4, solo.getCurrentListViews().get(0).getChildCount());
 
@@ -81,7 +81,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptAct
 		solo.clickOnText(getActivity().getString(R.string.delete_script_button));
 		solo.sleep(1000);
 
-		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getScriptList().size();
+		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
 		assertEquals("Incorrect number of scripts in list", 0, numberOfScripts);
 		assertEquals("Incorrect number of elements in listView", 0, solo.getCurrentListViews().get(0).getChildCount());
 
@@ -89,7 +89,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptAct
 		solo.clickOnText(getActivity().getString(R.string.brick_hide));
 		solo.sleep(5000);
 
-		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getScriptList().size();
+		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
 		assertEquals("Incorrect number of scripts in scriptList", 1, numberOfScripts);
 		assertEquals("Incorrect number of elements in listView", 2, solo.getCurrentListViews().get(0).getChildCount());
 	}

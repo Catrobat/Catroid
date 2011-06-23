@@ -89,7 +89,7 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 	}
 
 	public int getGroupCount() {
-		return sprite.getScriptList().size();
+		return sprite.getNumberOfScripts();
 	}
 
 	public long getGroupId(int groupPosition) {
@@ -161,7 +161,7 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 			parent.collapseGroup(i);
 		}
 		Script currentScript = sprite.getScript(groupPosition);
-		int lastScriptIndex = sprite.getScriptList().size() - 1;
+		int lastScriptIndex = sprite.getNumberOfScripts() - 1;
 		Script lastScript = sprite.getScript(lastScriptIndex);
 		boolean scriptDeleted = sprite.getScriptList().remove(currentScript);
 		if (scriptDeleted) {
