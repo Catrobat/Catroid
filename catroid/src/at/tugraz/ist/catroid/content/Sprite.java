@@ -124,9 +124,9 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		for (Script s : scriptList) {
 			s.setPaused(true);
 		}
-		for (Thread t : threadList) {
-			t.interrupt();
-		}
+		//		for (Thread t : threadList) {
+		//			t.interrupt();
+		//		}
 		this.isPaused = true;
 	}
 

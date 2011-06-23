@@ -22,7 +22,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.exception.InterruptedRuntimeException;
 
 public abstract class Script implements Serializable {
 
@@ -55,12 +54,12 @@ public abstract class Script implements Serializable {
 			while (paused) {
 				Thread.yield();
 			}
-			try {
-				brickList.get(i).execute();
-				sprite.setToDraw(true);
-			} catch (InterruptedRuntimeException e) { //Brick was interrupted
-				i--;
-			}
+			//try {
+			brickList.get(i).execute();
+			sprite.setToDraw(true);
+			//} catch (InterruptedRuntimeException e) { //Brick was interrupted
+			//	i--;
+			//}
 		}
 		isFinished = true;
 	}
