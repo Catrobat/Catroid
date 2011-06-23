@@ -23,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 
 public class ForeverBrick implements Brick {
@@ -34,7 +35,16 @@ public class ForeverBrick implements Brick {
 	}
 
 	public void execute() {
-		//TODO ForeverBrick
+		getScript().addBrick(new EndOfLoopBrick(this.sprite, this));
+	}
+
+	private Script getScript() {
+		for (Script script : this.sprite.getScriptList()) {
+			if (script.getBrickList().contains(this)) {
+				return script;
+			}
+		}
+		return null;
 	}
 
 	public Sprite getSprite() {
@@ -48,7 +58,7 @@ public class ForeverBrick implements Brick {
 
 	@Override
 	public Brick clone() {
-		return new HideBrick(getSprite());
+		return new ForeverBrick(getSprite());
 	}
 
 	public View getPrototypeView(Context context) {
