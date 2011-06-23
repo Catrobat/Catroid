@@ -29,7 +29,7 @@ public abstract class Script implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Brick> brickList;
 	protected transient boolean isFinished;
-	private transient boolean paused;
+	private transient volatile boolean paused;
 	private String name;
 	protected Sprite sprite;
 
