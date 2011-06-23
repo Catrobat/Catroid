@@ -30,7 +30,6 @@ public abstract class Script implements Serializable {
 	private ArrayList<Brick> brickList;
 	protected transient boolean isFinished;
 	private transient boolean paused;
-	private transient int brickPositionAfterPause;
 	private String name;
 	protected Sprite sprite;
 
@@ -48,26 +47,22 @@ public abstract class Script implements Serializable {
 
 	private void init() {
 		paused = false;
-		brickPositionAfterPause = 0;
 	}
 
 	public void run() {
 		isFinished = false;
-		for (int i = brickPositionAfterPause; i < brickList.size(); i++) {
-			if (paused) {
-				brickPositionAfterPause = i;
-				return;
+		for (int i = 0; i < brickList.size(); i++) {
+			while (paused) {
+				Thread.yield();
 			}
 			try {
 				brickList.get(i).execute();
 				sprite.setToDraw(true);
 			} catch (InterruptedRuntimeException e) { //Brick was interrupted
-				brickPositionAfterPause = i;
-				return;
+				i--;
 			}
 		}
 		isFinished = true;
-		brickPositionAfterPause = 0;
 	}
 
 	public void addBrick(Brick brick) {
