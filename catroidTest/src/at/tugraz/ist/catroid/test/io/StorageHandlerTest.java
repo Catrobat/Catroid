@@ -138,14 +138,14 @@ public class StorageHandlerTest extends AndroidTestCase {
 		assertEquals("Title missmatch after deserialization", project.getName(), loadedProject.getName());
 
 		// Test random brick values
-		assertEquals("Size was not deserialized right", size, ((SetSizeToBrick) (postSpriteList.get(1).getScriptList()
-				.get(0).getBrickList().get(2))).getSize());
+		assertEquals("Size was not deserialized right", size, ((SetSizeToBrick) (postSpriteList.get(1).getScript(0)
+				.getBrickList().get(2))).getSize());
 		assertEquals("XPosition was not deserialized right", xPosition, ((PlaceAtBrick) (postSpriteList.get(2)
-				.getScriptList().get(0).getBrickList().get(0))).getXPosition());
+				.getScript(0).getBrickList().get(0))).getXPosition());
 		assertEquals("YPosition was not deserialized right", yPosition, ((PlaceAtBrick) (postSpriteList.get(2)
-				.getScriptList().get(0).getBrickList().get(0))).getYPosition());
+				.getScript(0).getBrickList().get(0))).getYPosition());
 
-		assertFalse("paused should not be set in script", preSpriteList.get(1).getScriptList().get(0).isPaused());
+		assertFalse("paused should not be set in script", preSpriteList.get(1).getScript(0).isPaused());
 
 		// Test version codes and names
 		final int preVersionCode = project.getVersionCode();
@@ -165,11 +165,11 @@ public class StorageHandlerTest extends AndroidTestCase {
 		assertEquals("not the right number of scripts in the second sprite of default project", 2, projectManager
 				.getCurrentProject().getSpriteList().get(1).getScriptList().size());
 		assertEquals("not the right number of bricks in the first script of Stage", 1, projectManager
-				.getCurrentProject().getSpriteList().get(0).getScriptList().get(0).getBrickList().size());
+				.getCurrentProject().getSpriteList().get(0).getScript(0).getBrickList().size());
 		assertEquals("not the right number of bricks in the first script", 1, projectManager.getCurrentProject()
-				.getSpriteList().get(1).getScriptList().get(0).getBrickList().size());
+				.getSpriteList().get(1).getScript(0).getBrickList().size());
 		assertEquals("not the right number of bricks in the second script", 5, projectManager.getCurrentProject()
-				.getSpriteList().get(1).getScriptList().get(1).getBrickList().size());
+				.getSpriteList().get(1).getScript(1).getBrickList().size());
 
 		//test if images are existing:
 		String imagePath = Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name)

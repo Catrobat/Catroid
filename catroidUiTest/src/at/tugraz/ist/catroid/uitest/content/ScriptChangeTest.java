@@ -75,18 +75,16 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptAct
 		solo.clickOnView(testScriptBrick);
 		solo.sleep(3000);
 
-		List<Script> scriptList = ProjectManager.getInstance().getCurrentSprite().getScriptList();
-		assertEquals("First script in list is not testScript2", "testScript2", scriptList.get(0).getName());
-		assertEquals("Second script in list is not touchScript", "touchScript", scriptList.get(1).getName());
-		assertEquals("Third script in list is not testScript", "testScript", scriptList.get(2).getName());
+		assertEquals("First script in list is not testScript2", "testScript2", ProjectManager.getInstance().getCurrentSprite().getScript(0).getName());
+		assertEquals("Second script in list is not touchScript", "touchScript", ProjectManager.getInstance().getCurrentSprite().getScript(1).getName());
+		assertEquals("Third script in list is not testScript", "testScript", ProjectManager.getInstance().getCurrentSprite().getScript(2).getName());
 
 		View touchBrick = parent.getChildAt(1);
 		solo.clickOnView(touchBrick);
 		solo.sleep(1500);
-		scriptList = ProjectManager.getInstance().getCurrentSprite().getScriptList();
-		assertEquals("First script in list is not testScript2", "testScript2", scriptList.get(0).getName());
-		assertEquals("Second script in list is not testScript", "testScript", scriptList.get(1).getName());
-		assertEquals("Third script in list is not touchScript", "touchScript", scriptList.get(2).getName());
+		assertEquals("First script in list is not testScript2", "testScript2", ProjectManager.getInstance().getCurrentSprite().getScript(0).getName());
+		assertEquals("Second script in list is not testScript", "testScript", ProjectManager.getInstance().getCurrentSprite().getScript(1).getName());
+		assertEquals("Third script in list is not touchScript", "touchScript", ProjectManager.getInstance().getCurrentSprite().getScript(2).getName());
 
 		touchBrick = parent.getChildAt(2);
 		String textViewText = solo.getCurrentTextViews(touchBrick).get(0).getText().toString();
