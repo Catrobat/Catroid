@@ -202,6 +202,22 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return scriptList;
 	}
 
+	public void addScript(Script script) {
+		if (script != null) {
+			scriptList.add(script);
+		}
+	}
+
+	public void addScript(int location, Script script) {
+		if (script != null) {
+			scriptList.add(location, script);
+		}
+	}
+
+	public Script getScript(int location) {
+		return scriptList.get(location);
+	}
+
 	public boolean getToDraw() {
 		return toDraw;
 	}

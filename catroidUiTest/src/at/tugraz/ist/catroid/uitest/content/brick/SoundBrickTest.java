@@ -124,7 +124,7 @@ public class SoundBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		soundBrick.setTitle(selectedTitle);
 		script.addBrick(soundBrick);
 
-		sprite.getScriptList().add(script);
+		sprite.addScript(script);
 		project.addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);

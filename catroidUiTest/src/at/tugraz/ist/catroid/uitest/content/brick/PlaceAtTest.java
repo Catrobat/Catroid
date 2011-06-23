@@ -48,8 +48,7 @@ public class PlaceAtTest extends ActivityInstrumentationTestCase2<ScriptActivity
 	private PlaceAtBrick placeAtBrick;
 
 	public PlaceAtTest() {
-		super("at.tugraz.ist.catroid",
-				ScriptActivity.class);
+		super("at.tugraz.ist.catroid", ScriptActivity.class);
 	}
 
 	@Override
@@ -124,7 +123,7 @@ public class PlaceAtTest extends ActivityInstrumentationTestCase2<ScriptActivity
 
 		script.addBrick(new SetSizeToBrick(sprite, 80));
 
-		sprite.getScriptList().add(script);
+		sprite.addScript(script);
 		project.addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);

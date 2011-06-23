@@ -98,7 +98,7 @@ public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		waitBrick = new WaitBrick(sprite, 1000);
 		script.addBrick(waitBrick);
 
-		sprite.getScriptList().add(script);
+		sprite.addScript(script);
 		project.addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);

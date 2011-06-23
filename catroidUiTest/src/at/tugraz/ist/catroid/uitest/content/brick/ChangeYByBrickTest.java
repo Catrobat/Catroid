@@ -96,7 +96,7 @@ public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		changeYByBrick = new ChangeYByBrick(sprite, 0);
 		script.addBrick(changeYByBrick);
 
-		sprite.getScriptList().add(script);
+		sprite.addScript(script);
 		project.addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);

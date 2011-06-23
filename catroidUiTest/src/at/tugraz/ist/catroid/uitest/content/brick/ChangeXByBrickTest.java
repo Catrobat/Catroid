@@ -96,7 +96,7 @@ public class ChangeXByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		changeXByBrick = new ChangeXByBrick(sprite, 0);
 		script.addBrick(changeXByBrick);
 
-		sprite.getScriptList().add(script);
+		sprite.addScript(script);
 		project.addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);

@@ -267,7 +267,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		script.getBrickList().add(waitBrick);
 		script.getBrickList().add(setSizeToBrick);
-		sprite.getScriptList().add(script);
+		sprite.addScript(script);
 		project.getSpriteList().add(sprite);
 
 		storageHandler.saveProject(project);
@@ -378,7 +378,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 	public void testCanvas() {
 		Sprite sprite = new Sprite("sprite1");
 		Script script = new StartScript("script1", sprite);
-		sprite.getScriptList().add(script);
+		sprite.addScript(script);
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
 		script.addBrick(setCostumeBrick);
 		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
@@ -454,8 +454,8 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		testScript.addBrick(setCostumeBrick);
 		touchScript.addBrick(setCostumeBrick2);
-		firstSprite.getScriptList().add(testScript);
-		firstSprite.getScriptList().add(touchScript);
+		firstSprite.addScript(testScript);
+		firstSprite.addScript(touchScript);
 
 		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
 		spriteList.add(firstSprite);
@@ -492,8 +492,8 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		touchScript.addBrick(waitBrick);
 		touchScript.addBrick(setSizeToBrick2);
 		touchScript.addBrick(placeAtBrick);
-		firstSprite.getScriptList().add(startScript);
-		firstSprite.getScriptList().add(touchScript);
+		firstSprite.addScript(startScript);
+		firstSprite.addScript(touchScript);
 
 		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
 		spriteList.add(firstSprite);
@@ -524,8 +524,8 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		startScript1.addBrick(setCostumeBrick);
 		startScript1.addBrick(new ComeToFrontBrick(firstSprite));
 		touchScript1.addBrick(new GoNStepsBackBrick(firstSprite, 2));
-		firstSprite.getScriptList().add(startScript1);
-		firstSprite.getScriptList().add(touchScript1);
+		firstSprite.addScript(startScript1);
+		firstSprite.addScript(touchScript1);
 
 		// sprite2 --------------------------------
 		Sprite secondSprite = new Sprite("sprite2");
@@ -537,8 +537,8 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		startScript2.addBrick(setCostumeBrick2);
 		touchScript2.addBrick(new SetSizeToBrick(secondSprite, 200));
 
-		secondSprite.getScriptList().add(startScript2);
-		secondSprite.getScriptList().add(touchScript2);
+		secondSprite.addScript(startScript2);
+		secondSprite.addScript(touchScript2);
 
 		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
 		spriteList.add(firstSprite);
@@ -570,8 +570,8 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		startScript.addBrick(setCostumeBrick);
 		startScript.addBrick(hideBrick);
 		touchScript.addBrick(setSizeToBrick);
-		firstSprite.getScriptList().add(startScript);
-		firstSprite.getScriptList().add(touchScript);
+		firstSprite.addScript(startScript);
+		firstSprite.addScript(touchScript);
 
 		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
 		spriteList.add(firstSprite);
@@ -599,8 +599,8 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		touchScript.addBrick(setSizeToBrick);
 		touchScript.addBrick(playSoundBrick);
 
-		firstSprite.getScriptList().add(startScript);
-		firstSprite.getScriptList().add(touchScript);
+		firstSprite.addScript(startScript);
+		firstSprite.addScript(touchScript);
 
 		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
 		spriteList.add(firstSprite);

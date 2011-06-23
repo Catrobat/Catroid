@@ -103,7 +103,16 @@ public class SpriteTest extends AndroidTestCase {
 
 	public void testScriptList() {
 		Sprite sprite = new Sprite("new sprite");
-		sprite.getScriptList().add(new StartScript("script", sprite));
+		sprite.addScript(new StartScript("script", sprite));
+		assertEquals("Script list does not contain script after adding", 1, sprite.getScriptList().size());
+
+		sprite.getScriptList().clear();
+		assertEquals("Script list could not be cleared", 0, sprite.getScriptList().size());
+	}
+
+	public void testAddSprite() {
+		Sprite sprite = new Sprite("new sprite");
+		sprite.addScript(new StartScript("script", sprite));
 		assertEquals("Script list does not contain script after adding", 1, sprite.getScriptList().size());
 
 		sprite.getScriptList().clear();
@@ -172,7 +181,7 @@ public class SpriteTest extends AndroidTestCase {
 			testScript.addBrick(showBrick);
 		}
 
-		testSprite.getScriptList().add(testScript);
+		testSprite.addScript(testScript);
 
 		testSprite.startStartScripts();
 
