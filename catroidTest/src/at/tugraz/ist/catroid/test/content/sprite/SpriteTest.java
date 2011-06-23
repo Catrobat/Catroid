@@ -41,7 +41,7 @@ public class SpriteTest extends AndroidTestCase {
 		assertTrue("Unexpected default visibility", sprite.isVisible());
 		assertNotNull("Unexpected Sprite costume", sprite.getCostume());
 		assertNotNull("Script list was not initialized", sprite.getScriptList());
-		assertEquals("Script list contains items after constructor", 0, sprite.getScriptList().size());
+		assertEquals("Script list contains items after constructor", 0, sprite.getNumberOfScripts());
 		assertNotNull("Costume was not initialized", sprite.getCostume());
 	}
 
@@ -59,7 +59,7 @@ public class SpriteTest extends AndroidTestCase {
 		assertTrue("Unexpected default visibility", sprite.isVisible());
 		assertNotNull("Unexpected Sprite costume", sprite.getCostume());
 		assertNotNull("Script list was not initialized", sprite.getScriptList());
-		assertEquals("Script list contains items after constructor", 0, sprite.getScriptList().size());
+		assertEquals("Script list contains items after constructor", 0, sprite.getNumberOfScripts());
 		assertNotNull("Costume was not initialized", sprite.getCostume());
 
 		sprite = new Sprite(spriteName);
@@ -104,19 +104,19 @@ public class SpriteTest extends AndroidTestCase {
 	public void testScriptList() {
 		Sprite sprite = new Sprite("new sprite");
 		sprite.addScript(new StartScript("script", sprite));
-		assertEquals("Script list does not contain script after adding", 1, sprite.getScriptList().size());
+		assertEquals("Script list does not contain script after adding", 1, sprite.getNumberOfScripts());
 
 		sprite.getScriptList().clear();
-		assertEquals("Script list could not be cleared", 0, sprite.getScriptList().size());
+		assertEquals("Script list could not be cleared", 0, sprite.getNumberOfScripts());
 	}
 
 	public void testAddSprite() {
 		Sprite sprite = new Sprite("new sprite");
 		sprite.addScript(new StartScript("script", sprite));
-		assertEquals("Script list does not contain script after adding", 1, sprite.getScriptList().size());
+		assertEquals("Script list does not contain script after adding", 1, sprite.getNumberOfScripts());
 
 		sprite.getScriptList().clear();
-		assertEquals("Script list could not be cleared", 0, sprite.getScriptList().size());
+		assertEquals("Script list could not be cleared", 0, sprite.getNumberOfScripts());
 	}
 
 	public void testSetSize() {

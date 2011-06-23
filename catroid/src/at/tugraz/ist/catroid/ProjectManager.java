@@ -235,7 +235,7 @@ public class ProjectManager {
 			return false;
 		}
 
-		if (position >= project.getSpriteList().get(currentSpritePos).getScriptList().size() || position < 0) {
+		if (position >= project.getSpriteList().get(currentSpritePos).getNumberOfScripts() || position < 0) {
 			return false;
 		}
 
