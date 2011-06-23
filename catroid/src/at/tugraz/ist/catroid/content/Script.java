@@ -63,6 +63,7 @@ public abstract class Script implements Serializable {
 			try {
 				executingBrickIndex = i;
 				brickList.get(i).execute();
+				i = executingBrickIndex;
 				sprite.setToDraw(true);
 			} catch (InterruptedRuntimeException e) { //Brick was interrupted
 				brickPositionAfterPause = i;

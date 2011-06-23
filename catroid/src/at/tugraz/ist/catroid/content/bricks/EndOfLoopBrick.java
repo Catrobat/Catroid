@@ -21,6 +21,7 @@ package at.tugraz.ist.catroid.content.bricks;
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
+import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 
 public class EndOfLoopBrick implements Brick {
@@ -34,7 +35,17 @@ public class EndOfLoopBrick implements Brick {
 	}
 
 	public void execute() {
-		//TODO EndOfLoopBrick
+		Script script = getScript();
+		script.setExecutingBrickIndex(script.getBrickList().indexOf(loopStartingBrick));
+	}
+
+	private Script getScript() {
+		for (Script script : this.sprite.getScriptList()) {
+			if (script.getBrickList().contains(this)) {
+				return script;
+			}
+		}
+		return null;
 	}
 
 	public Sprite getSprite() {

@@ -19,7 +19,6 @@
 package at.tugraz.ist.catroid.test.content.brick;
 
 import android.test.InstrumentationTestCase;
-import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.ForeverBrick;
@@ -30,7 +29,7 @@ import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 public class ForeverBrickTest extends InstrumentationTestCase {
 
 	private Sprite testSprite;
-	private Script testScript;
+	private StartScript testScript;
 	private int brickSleepTime = 1000;
 	private int positionOfFirstWaitBrick;
 	private int positionOfSecondWaitBrick;
@@ -39,7 +38,7 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		testSprite = new Sprite("testSprite");
-		testScript = new StartScript("testScripte", testSprite);
+		testScript = new StartScript("testScript", testSprite);
 
 		ShowBrick showBrick = new ShowBrick(testSprite);
 		ForeverBrick foreverBrick = new ForeverBrick(testSprite);
@@ -55,6 +54,8 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 		testScript.addBrick(secondWaitBrick);
 		testScript.addBrick(secondSetXBrick);
 
+		testSprite.getScriptList().add(testScript);
+
 		positionOfFirstWaitBrick = testScript.getBrickList().indexOf(firstWaitBrick);
 		positionOfSecondWaitBrick = testScript.getBrickList().indexOf(secondWaitBrick);
 
@@ -62,14 +63,9 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 	}
 
 	public void testForeverBrick() throws Exception {
-		Thread t = new Thread(new Runnable() {
-			public void run() {
-				testScript.run();
-			}
-		});
-		t.start();
+		testSprite.startStartScripts();
 
-		Thread.sleep(500);
+		Thread.sleep(brickSleepTime / 2);
 
 		assertEquals("EndOfLoop Brick was not created", numberOfBricksInScript + 1, testScript.getBrickList().size());
 
