@@ -165,9 +165,9 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 		Script lastScript = sprite.getScriptList().get(lastScriptIndex);
 		boolean scriptDeleted = sprite.getScriptList().remove(currentScript);
 		if (scriptDeleted) {
-			sprite.getScriptList().add(currentScript);
+			sprite.addScript(currentScript);
 			sprite.getScriptList().remove(lastScript);
-			sprite.getScriptList().add(groupPosition, lastScript);
+			sprite.addScript(groupPosition, lastScript);
 		}
 
 		ProjectManager.getInstance().setCurrentScript(currentScript);

@@ -115,9 +115,9 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptAct
 		}
 		// -------------------------------
 
-		firstSprite.getScriptList().add(testScript);
-		firstSprite.getScriptList().add(touchScript);
-		firstSprite.getScriptList().add(testScript2);
+		firstSprite.addScript(testScript);
+		firstSprite.addScript(touchScript);
+		firstSprite.addScript(testScript2);
 
 		project.addSprite(firstSprite);
 

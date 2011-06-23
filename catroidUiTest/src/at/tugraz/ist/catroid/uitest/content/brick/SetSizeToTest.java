@@ -95,7 +95,7 @@ public class SetSizeToTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		setSizeToBrick = new SetSizeToBrick(sprite, 20);
 		script.addBrick(setSizeToBrick);
 
-		sprite.getScriptList().add(script);
+		sprite.addScript(script);
 		project.addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);

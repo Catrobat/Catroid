@@ -96,7 +96,7 @@ public class SetYBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		setYBrick = new SetYBrick(sprite, 0);
 		script.addBrick(setYBrick);
 
-		sprite.getScriptList().add(script);
+		sprite.addScript(script);
 		project.addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);

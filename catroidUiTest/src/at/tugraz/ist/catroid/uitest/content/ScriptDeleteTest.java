@@ -111,7 +111,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptAct
 			testScript.addBrick(brick);
 		}
 
-		firstSprite.getScriptList().add(testScript);
+		firstSprite.addScript(testScript);
 
 		project.addSprite(firstSprite);
 

@@ -88,7 +88,7 @@ public class ComeToFrontTest extends ActivityInstrumentationTestCase2<ScriptActi
 		ProjectManager.getInstance().setProject(project);
 		script.addBrick(new ComeToFrontBrick(sprite));
 
-		sprite.getScriptList().add(script);
+		sprite.addScript(script);
 		project.addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);

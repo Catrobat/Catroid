@@ -96,7 +96,7 @@ public class SetXBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		setXBrick = new SetXBrick(sprite, 0);
 		script.addBrick(setXBrick);
 
-		sprite.getScriptList().add(script);
+		sprite.addScript(script);
 		project.addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);

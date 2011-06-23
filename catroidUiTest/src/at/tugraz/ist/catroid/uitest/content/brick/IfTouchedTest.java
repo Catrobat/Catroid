@@ -88,7 +88,7 @@ public class IfTouchedTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		Script script = new StartScript("script", sprite);
 		script.addBrick(new IfTouchedBrick(sprite, script));
 
-		sprite.getScriptList().add(script);
+		sprite.addScript(script);
 		project.addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);

@@ -112,7 +112,7 @@ public class ProjectManager {
 	}
 
 	public void addScript(Script script) {
-		currentSprite.getScriptList().add(script);
+		currentSprite.addScript(script);
 	}
 
 	public Sprite getCurrentSprite() {

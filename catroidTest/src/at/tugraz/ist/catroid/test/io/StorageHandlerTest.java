@@ -107,8 +107,8 @@ public class StorageHandlerTest extends AndroidTestCase {
 		otherScript.setPaused(true);
 		// -------------------------------
 
-		firstSprite.getScriptList().add(testScript);
-		secondSprite.getScriptList().add(otherScript);
+		firstSprite.addScript(testScript);
+		secondSprite.addScript(otherScript);
 
 		project.addSprite(firstSprite);
 		project.addSprite(secondSprite);
@@ -206,8 +206,8 @@ public class StorageHandlerTest extends AndroidTestCase {
 		Sprite sprite = new Sprite("testSprite");
 		Script startScript = new StartScript("testScript", sprite);
 		Script tapScript = new TapScript("touchedScript", sprite);
-		sprite.getScriptList().add(startScript);
-		sprite.getScriptList().add(tapScript);
+		sprite.addScript(startScript);
+		sprite.addScript(tapScript);
 		project.getSpriteList().add(sprite);
 
 		ArrayList<Brick> startScriptBrickList = new ArrayList<Brick>();
