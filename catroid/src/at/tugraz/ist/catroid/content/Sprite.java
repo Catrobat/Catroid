@@ -40,6 +40,8 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	private transient List<Thread> threadList;
 	private transient Costume costume;
 
+	public transient volatile boolean isPaused;
+
 	private Object readResolve() {
 		init();
 		return this;
@@ -54,6 +56,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		xPosition = 0;
 		yPosition = 0;
 		toDraw = false;
+		isPaused = false;
 	}
 
 	public Sprite(String name) {
@@ -124,12 +127,14 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		for (Thread t : threadList) {
 			t.interrupt();
 		}
+		this.isPaused = true;
 	}
 
 	public void resume() {
 		for (Script s : scriptList) {
 			s.setPaused(false);
 		}
+		this.isPaused = false;
 	}
 
 	public String getName() {
