@@ -239,7 +239,7 @@ public class ProjectManager {
 			return false;
 		}
 
-		currentScript = project.getSpriteList().get(this.getCurrentSpritePosition()).getScriptList().get(position);
+		currentScript = project.getSpriteList().get(this.getCurrentSpritePosition()).getScript(position);
 
 		return true;
 

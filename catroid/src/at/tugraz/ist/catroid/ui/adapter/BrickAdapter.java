@@ -60,7 +60,7 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 	}
 
 	public Brick getChild(int groupPosition, int childPosition) {
-		return sprite.getScriptList().get(groupPosition).getBrickList().get(childPosition);
+		return sprite.getScript(groupPosition).getBrickList().get(childPosition);
 	}
 
 	public long getChildId(int groupPosition, int childPosition) {
@@ -81,11 +81,11 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 	}
 
 	public int getChildrenCount(int groupPosition) {
-		return sprite.getScriptList().get(groupPosition).getBrickList().size();
+		return sprite.getScript(groupPosition).getBrickList().size();
 	}
 
 	public Script getGroup(int groupPosition) {
-		return sprite.getScriptList().get(groupPosition);
+		return sprite.getScript(groupPosition);
 	}
 
 	public int getGroupCount() {
@@ -118,14 +118,14 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 		if (from == to) {
 			return;
 		}
-		ArrayList<Brick> brickList = sprite.getScriptList().get(getGroupCount() - 1).getBrickList();
+		ArrayList<Brick> brickList = sprite.getScript(getGroupCount() - 1).getBrickList();
 		Brick removedBrick = brickList.remove(from);
 		brickList.add(to, removedBrick);
 		notifyDataSetChanged();
 	}
 
 	public void remove(int which) {
-		ArrayList<Brick> brickList = sprite.getScriptList().get(getGroupCount() - 1).getBrickList();
+		ArrayList<Brick> brickList = sprite.getScript(getGroupCount() - 1).getBrickList();
 
 		if (brickList.get(which) instanceof PlaySoundBrick) {
 			PlaySoundBrick toDelete = (PlaySoundBrick) brickList.get(which);
@@ -160,9 +160,9 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 		for (int i = 0; i < getGroupCount(); ++i) {
 			parent.collapseGroup(i);
 		}
-		Script currentScript = sprite.getScriptList().get(groupPosition);
+		Script currentScript = sprite.getScript(groupPosition);
 		int lastScriptIndex = sprite.getScriptList().size() - 1;
-		Script lastScript = sprite.getScriptList().get(lastScriptIndex);
+		Script lastScript = sprite.getScript(lastScriptIndex);
 		boolean scriptDeleted = sprite.getScriptList().remove(currentScript);
 		if (scriptDeleted) {
 			sprite.addScript(currentScript);
