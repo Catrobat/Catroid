@@ -34,8 +34,8 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
-import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
+import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
@@ -114,7 +114,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		manager.setCurrentSprite(sprite2);
 		Script script2 = new StartScript(scriptNameTwo, sprite2);
 		manager.addScript(script2);
-		assertTrue("Script not in current Sprite", manager.getCurrentSprite().getScriptList().contains(script2));
+		assertTrue("Script not in current Sprite", manager.getCurrentSprite().getScriptIndex(script2) != -1);
 
 		//addBrick
 
@@ -196,8 +196,8 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		otherScript.setPaused(true);
 		// -------------------------------
 
-		firstSprite.getScriptList().add(testScript);
-		secondSprite.getScriptList().add(otherScript);
+		firstSprite.addScript(testScript);
+		secondSprite.addScript(otherScript);
 
 		project.addSprite(firstSprite);
 		project.addSprite(secondSprite);

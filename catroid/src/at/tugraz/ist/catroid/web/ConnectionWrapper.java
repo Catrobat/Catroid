@@ -39,6 +39,7 @@ import at.tugraz.ist.catroid.common.Consts;
 public class ConnectionWrapper {
 
 	private HttpURLConnection urlConn;
+	private final static String TAG = ConnectionWrapper.class.getSimpleName();
 
 	private String getString(InputStream is) {
 		if (is == null) {
@@ -132,7 +133,7 @@ public class ConnectionWrapper {
 
 		Set<Entry<String, String>> entries = postValues.entrySet();
 		for (Entry<String, String> entry : entries) {
-			Log.d(ConnectionWrapper.class.getName(), "key: " + entry.getKey() + ", value: " + entry.getValue());
+			Log.d(TAG, "key: " + entry.getKey() + ", value: " + entry.getValue());
 			out.writeField(entry.getKey(), entry.getValue());
 		}
 

@@ -431,9 +431,9 @@ public class StorageHandler {
 
 		//merging:
 		defaultProject.addSprite(sprite);
-		sprite.getScriptList().add(startScript);
-		sprite.getScriptList().add(touchScript);
-		backgroundSprite.getScriptList().add(backgroundStartScript);
+		sprite.addScript(startScript);
+		sprite.addScript(touchScript);
+		backgroundSprite.addScript(backgroundStartScript);
 		//ProjectManager.getInstance().setProject(defaultProject);
 		this.saveProject(defaultProject);
 		return defaultProject;

@@ -39,7 +39,7 @@ public class WaitBrickTest extends AndroidTestCase {
 		testScript.addBrick(waitBrick);
 		testScript.addBrick(showBrick);
 
-		testSprite.getScriptList().add(testScript);
+		testSprite.addScript(testScript);
 
 		testSprite.startStartScripts();
 
@@ -70,7 +70,7 @@ public class WaitBrickTest extends AndroidTestCase {
 		testScript.addBrick(waitBrick);
 		testScript.addBrick(showBrick);
 
-		testSprite.getScriptList().add(testScript);
+		testSprite.addScript(testScript);
 		for (int i = 0; i < 3; i++) {
 			//Should use: void startScript(Script s)
 			Thread t = new Thread(new Runnable() {

@@ -97,12 +97,12 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 				R.string.brick_broadcast_receive };
 
 		for (int id : triggerBrickIds) {
-			int oldNumberOfScripts = manager.getCurrentSprite().getScriptList().size();
+			int oldNumberOfScripts = manager.getCurrentSprite().getNumberOfScripts();
 			addAndCheckBrick(solo, id);
 			Script script = manager.getCurrentScript();
 			assertEquals("Adding new trigger brick did not create new empty script", 0, script.getBrickList().size());
 			assertEquals("Adding new trigger brick did not create an additional script", oldNumberOfScripts + 1,
-					manager.getCurrentSprite().getScriptList().size());
+					manager.getCurrentSprite().getNumberOfScripts());
 		}
 	}
 
@@ -115,7 +115,7 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 
 		Script testScript = new StartScript("ScriptTest", firstSprite);
 
-		firstSprite.getScriptList().add(testScript);
+		firstSprite.addScript(testScript);
 		project.addSprite(firstSprite);
 
 		ProjectManager.getInstance().setProject(project);
