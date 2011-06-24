@@ -199,13 +199,13 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	}
 
 	public void addScript(Script script) {
-		if (script != null) {
+		if (script != null && !scriptList.contains(script)) {
 			scriptList.add(script);
 		}
 	}
 
 	public void addScript(int location, Script script) {
-		if (script != null) {
+		if (script != null && !scriptList.contains(script)) {
 			scriptList.add(location, script);
 		}
 	}
