@@ -228,7 +228,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 		Script tapedScript = new TapScript("tapScript", sprite);
 		sprite.addScript(script);
 		sprite.addScript(tapedScript);
-		project.getSpriteList().add(sprite);
+		project.addSprite(sprite);
 
 		SetCostumeBrick costumeBrick2 = new SetCostumeBrick(sprite);
 		costumeBrick2.setCostume(testImageCopy2.getName());

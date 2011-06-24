@@ -268,7 +268,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		script.getBrickList().add(waitBrick);
 		script.getBrickList().add(setSizeToBrick);
 		sprite.addScript(script);
-		project.getSpriteList().add(sprite);
+		project.addSprite(sprite);
 
 		storageHandler.saveProject(project);
 		ProjectManager.getInstance().setProject(project);
