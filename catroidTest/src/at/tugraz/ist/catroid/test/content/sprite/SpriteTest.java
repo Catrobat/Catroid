@@ -196,7 +196,7 @@ public class SpriteTest extends AndroidTestCase {
 		assertFalse("Script is paused", testScript.isPaused());
 
 		try {
-			Thread.sleep(100);
+			Thread.sleep(500);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
