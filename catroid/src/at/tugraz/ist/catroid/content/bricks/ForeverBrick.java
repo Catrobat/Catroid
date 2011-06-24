@@ -29,13 +29,19 @@ import at.tugraz.ist.catroid.content.Sprite;
 public class ForeverBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
+	private EndOfLoopBrick endOfLoopBrick;
 
 	public ForeverBrick(Sprite sprite) {
 		this.sprite = sprite;
+		endOfLoopBrick = null;
 	}
 
 	public void execute() {
-		getScript().addBrick(new EndOfLoopBrick(this.sprite, this));
+		if (endOfLoopBrick != null && getScript().getBrickList().contains(endOfLoopBrick)) {
+			getScript().getBrickList().remove(endOfLoopBrick);
+		}
+		endOfLoopBrick = new EndOfLoopBrick(this.sprite, this);
+		getScript().addBrick(endOfLoopBrick);
 	}
 
 	private Script getScript() {
