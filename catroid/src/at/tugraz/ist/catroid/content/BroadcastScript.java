@@ -18,8 +18,9 @@
  */
 package at.tugraz.ist.catroid.content;
 
+import java.util.concurrent.CountDownLatch;
+
 import at.tugraz.ist.catroid.ProjectManager;
-import at.tugraz.ist.catroid.common.CustomCountDownLatch;
 
 /**
  * @author Johannes Iber
@@ -55,11 +56,11 @@ public class BroadcastScript extends Script {
 		return this.selectedMessage;
 	}
 
-	public void executeBroadcast(CustomCountDownLatch simultaneousStart) {
+	public void executeBroadcast(CountDownLatch simultaneousStart) {
 		sprite.startScriptBroadcast(this, simultaneousStart);
 	}
 
-	public void executeBroadcastWait(CustomCountDownLatch simultaneousStart, CustomCountDownLatch wait) {
+	public void executeBroadcastWait(CountDownLatch simultaneousStart, CountDownLatch wait) {
 		sprite.startScriptBroadcastWait(this, simultaneousStart, wait);
 	}
 }
