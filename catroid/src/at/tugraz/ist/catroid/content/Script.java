@@ -29,6 +29,7 @@ public abstract class Script implements Serializable {
 	private ArrayList<Brick> brickList;
 	protected transient boolean isFinished;
 	private transient volatile boolean paused;
+	private transient volatile boolean finish;
 	private String name;
 	protected Sprite sprite;
 
@@ -46,12 +47,17 @@ public abstract class Script implements Serializable {
 
 	private void init() {
 		paused = false;
+		finish = false;
 	}
 
 	public void run() {
 		isFinished = false;
 		for (int i = 0; i < brickList.size(); i++) {
 			while (paused) {
+				if (finish) {
+					isFinished = true;
+					return;
+				}
 				Thread.yield();
 			}
 			brickList.get(i).execute();
@@ -91,6 +97,10 @@ public abstract class Script implements Serializable {
 
 	public synchronized void setPaused(boolean paused) {
 		this.paused = paused;
+	}
+
+	public synchronized void setFinish(boolean finish) {
+		this.finish = finish;
 	}
 
 	public boolean isPaused() {

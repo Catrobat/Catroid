@@ -48,6 +48,9 @@ public class WaitBrick implements Brick, OnDismissListener {
 			if (sprite.isPaused) {
 				timeToWait = timeToWait - (int) (System.currentTimeMillis() - startTime);
 				while (sprite.isPaused) {
+					if (sprite.isFinished) {
+						return;
+					}
 					Thread.yield();
 				}
 				startTime = System.currentTimeMillis();
