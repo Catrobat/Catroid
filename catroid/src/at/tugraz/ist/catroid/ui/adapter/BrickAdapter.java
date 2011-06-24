@@ -62,7 +62,7 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 	}
 
 	public Brick getChild(int groupPosition, int childPosition) {
-		return sprite.getScriptList().get(groupPosition).getBrickList().get(childPosition);
+		return sprite.getScript(groupPosition).getBrickList().get(childPosition);
 	}
 
 	public long getChildId(int groupPosition, int childPosition) {
@@ -83,15 +83,15 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 	}
 
 	public int getChildrenCount(int groupPosition) {
-		return sprite.getScriptList().get(groupPosition).getBrickList().size();
+		return sprite.getScript(groupPosition).getBrickList().size();
 	}
 
 	public Script getGroup(int groupPosition) {
-		return sprite.getScriptList().get(groupPosition);
+		return sprite.getScript(groupPosition);
 	}
 
 	public int getGroupCount() {
-		return sprite.getScriptList().size();
+		return sprite.getNumberOfScripts();
 	}
 
 	public long getGroupId(int groupPosition) {
@@ -123,14 +123,13 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 		if (from == to) {
 			return;
 		}
-		ArrayList<Brick> brickList = sprite.getScriptList().get(getGroupCount() - 1).getBrickList();
-		Brick removedBrick = brickList.remove(from);
-		brickList.add(to, removedBrick);
+		Brick removedBrick = sprite.getScript(getGroupCount() - 1).getBrickList().remove(from);
+		sprite.getScript(getGroupCount() - 1).addBrick(to, removedBrick);
 		notifyDataSetChanged();
 	}
 
 	public void remove(int which) {
-		ArrayList<Brick> brickList = sprite.getScriptList().get(getGroupCount() - 1).getBrickList();
+		ArrayList<Brick> brickList = sprite.getScript(getGroupCount() - 1).getBrickList();
 
 		if (brickList.get(which) instanceof PlaySoundBrick) {
 			PlaySoundBrick toDelete = (PlaySoundBrick) brickList.get(which);
@@ -155,6 +154,7 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 		if (groupPosition == getGroupCount() - 1) {
 			return false;
 		}
+
 		animateChildren = true;
 		brickListAnimation.doClickOnGroupAnimate(getGroupCount(), groupPosition);
 		return true;
@@ -164,14 +164,14 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 		for (int i = 0; i < getGroupCount(); ++i) {
 			parent.collapseGroup(i);
 		}
-		Script currentScript = sprite.getScriptList().get(groupPosition);
-		int lastScriptIndex = sprite.getScriptList().size() - 1;
-		Script lastScript = sprite.getScriptList().get(lastScriptIndex);
-		boolean scriptDeleted = sprite.getScriptList().remove(currentScript);
+		Script currentScript = sprite.getScript(groupPosition);
+		int lastScriptIndex = sprite.getNumberOfScripts() - 1;
+		Script lastScript = sprite.getScript(lastScriptIndex);
+		boolean scriptDeleted = sprite.removeScript(currentScript);
 		if (scriptDeleted) {
-			sprite.getScriptList().add(currentScript);
-			sprite.getScriptList().remove(lastScript);
-			sprite.getScriptList().add(groupPosition, lastScript);
+			sprite.addScript(currentScript);
+			sprite.removeScript(lastScript);
+			sprite.addScript(groupPosition, lastScript);
 		}
 
 		ProjectManager.getInstance().setCurrentScript(currentScript);
