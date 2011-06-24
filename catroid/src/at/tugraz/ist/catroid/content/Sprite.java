@@ -37,7 +37,6 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	private transient boolean isVisible;
 	private transient boolean toDraw;
 	private List<Script> scriptList;
-	private transient List<Thread> threadList;
 	private transient Costume costume;
 
 	public transient volatile boolean isPaused;
@@ -51,7 +50,6 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		zPosition = 0;
 		size = 100.0;
 		isVisible = true;
-		threadList = new ArrayList<Thread>();
 		costume = new Costume(this, null);
 		xPosition = 0;
 		yPosition = 0;
@@ -90,7 +88,6 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 				script.run();
 			}
 		});
-		threadList.add(t);
 		t.start();
 	}
 
@@ -105,7 +102,6 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 				script.run();
 			}
 		});
-		threadList.add(t);
 		t.start();
 	}
 
@@ -121,7 +117,6 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 				wait.countDown();
 			}
 		});
-		threadList.add(t);
 		t.start();
 	}
 
