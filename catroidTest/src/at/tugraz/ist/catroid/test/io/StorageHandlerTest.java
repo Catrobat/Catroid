@@ -208,7 +208,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 		Script tapScript = new TapScript("touchedScript", sprite);
 		sprite.addScript(startScript);
 		sprite.addScript(tapScript);
-		project.getSpriteList().add(sprite);
+		project.addSprite(sprite);
 
 		ArrayList<Brick> startScriptBrickList = new ArrayList<Brick>();
 		ArrayList<Brick> tapScriptBrickList = new ArrayList<Brick>();
