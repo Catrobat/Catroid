@@ -19,6 +19,7 @@
 package at.tugraz.ist.catroid.content.bricks;
 
 import java.util.Vector;
+import java.util.concurrent.CountDownLatch;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -36,7 +37,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.CustomCountDownLatch;
 import at.tugraz.ist.catroid.content.BroadcastScript;
 import at.tugraz.ist.catroid.content.Sprite;
 
@@ -63,15 +63,18 @@ public class BroadcastWaitBrick implements Brick {
 		if (receiver.size() == 0) {
 			return;
 		}
-		CustomCountDownLatch simultaneousStart = new CustomCountDownLatch(1);
-		CustomCountDownLatch wait = new CustomCountDownLatch(receiver.size());
+		CountDownLatch simultaneousStart = new CountDownLatch(1);
+		CountDownLatch wait = new CountDownLatch(receiver.size());
 
 		for (BroadcastScript receiverScript : receiver) {
 			receiverScript.executeBroadcastWait(simultaneousStart, wait);
 		}
 		simultaneousStart.countDown();
 
-		wait.await();
+		try {
+			wait.await();
+		} catch (InterruptedException e) {
+		}
 	}
 
 	public Sprite getSprite() {

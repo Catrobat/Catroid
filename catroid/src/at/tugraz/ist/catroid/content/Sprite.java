@@ -21,11 +21,11 @@ package at.tugraz.ist.catroid.content;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 import android.graphics.Color;
 import android.util.Pair;
 import at.tugraz.ist.catroid.common.Consts;
-import at.tugraz.ist.catroid.common.CustomCountDownLatch;
 
 public class Sprite implements Serializable, Comparable<Sprite> {
 	private static final long serialVersionUID = 1L;
@@ -94,11 +94,14 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		t.start();
 	}
 
-	public void startScriptBroadcast(Script s, final CustomCountDownLatch simultaneousStart) {
+	public void startScriptBroadcast(Script s, final CountDownLatch simultaneousStart) {
 		final Script script = s;
 		Thread t = new Thread(new Runnable() {
 			public void run() {
-				simultaneousStart.await();
+				try {
+					simultaneousStart.await();
+				} catch (InterruptedException e) {
+				}
 				script.run();
 			}
 		});
@@ -106,12 +109,14 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		t.start();
 	}
 
-	public void startScriptBroadcastWait(Script s, final CustomCountDownLatch simultaneousStart,
-			final CustomCountDownLatch wait) {
+	public void startScriptBroadcastWait(Script s, final CountDownLatch simultaneousStart, final CountDownLatch wait) {
 		final Script script = s;
 		Thread t = new Thread(new Runnable() {
 			public void run() {
-				simultaneousStart.await();
+				try {
+					simultaneousStart.await();
+				} catch (InterruptedException e) {
+				}
 				script.run();
 				wait.countDown();
 			}
@@ -124,9 +129,6 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		for (Script s : scriptList) {
 			s.setPaused(true);
 		}
-		//		for (Thread t : threadList) {
-		//			t.interrupt();
-		//		}
 		this.isPaused = true;
 	}
 
