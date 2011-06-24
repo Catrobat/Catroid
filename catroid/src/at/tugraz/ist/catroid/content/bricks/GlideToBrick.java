@@ -56,11 +56,15 @@ public class GlideToBrick implements Brick, OnDismissListener {
 					sleep = (int) ((timeBeforeSleep + sleep) - System.currentTimeMillis());
 					long milliSecondsBeforePause = System.currentTimeMillis();
 					while (sprite.isPaused) {
+						if (sprite.isFinished) {
+							return;
+						}
 						Thread.yield();
 					}
 					timeBeforeSleep = System.currentTimeMillis();
 					startTime += System.currentTimeMillis() - milliSecondsBeforePause;
 				}
+
 				Thread.yield();
 			}
 			long currentTime = System.currentTimeMillis();

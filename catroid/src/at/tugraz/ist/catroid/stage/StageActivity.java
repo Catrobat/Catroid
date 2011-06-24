@@ -122,6 +122,7 @@ public class StageActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		stageManager.finish();
 		soundManager.clear();
 	}
 
@@ -134,8 +135,7 @@ public class StageActivity extends Activity {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		int currentSpritePos = projectManager.getCurrentSpritePosition();
 		int currentScriptPos = projectManager.getCurrentScriptPosition();
-		projectManager.loadProject(projectManager.getCurrentProject().getName(), this,
-				false);
+		projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
 		projectManager.setCurrentSpriteWithPosition(currentSpritePos);
 		projectManager.setCurrentScriptWithPosition(currentScriptPos);
 		finish();

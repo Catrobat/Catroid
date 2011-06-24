@@ -120,4 +120,10 @@ public class StageManager {
 		isPaused = false;
 		runnable.run();
 	}
+
+	public void finish() {
+		for (Sprite sprite : spriteList) {
+			sprite.finish();
+		}
+	}
 }
