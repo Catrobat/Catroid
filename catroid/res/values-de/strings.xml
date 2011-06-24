@@ -42,7 +42,6 @@
     <string name="loading">Laden...</string>
     <string name="background">Hintergrund</string>
     <string name="stage">Bühne</string>
-    
 
 	<!-- Brick captions -->
     <string name="show">Zeige dich</string>
@@ -134,6 +133,10 @@
     <!-- Load project dialog -->
     <string name="load_project_dialog_title">Projekt laden</string>
 
+	<!-- Broadcast spinner -->
+	<string name="new_broadcast_message">Neu...</string>
+	<string name="broadcast_nothing_selected">Nichts...</string>
+	
     <!--  Stage context menu -->
     <string name="stagemenu_construction_site">Zur Baustelle</string>
     <string name="stagemenu_start">Abspielen/Pause</string>
@@ -148,8 +151,8 @@
     <string name="brick_place_at">Gehe zu</string>
     <string name="x_label">X:</string>
     <string name="y_label">Y:</string>
-    <string name="brick_set_costume">Setze Kost�m</string>
-    <string name="brick_set_size_to">Setze Gr��e auf</string>
+    <string name="brick_set_costume">Setze Kostüm</string>
+    <string name="brick_set_size_to">Setze Größe auf</string>
     <string name="brick_go_back">Gehe</string>
     <string name="steps_label">Schritte nach hinten</string>
     <string name="brick_come_to_front">Komm nach vorne</string>
@@ -163,8 +166,15 @@
 	<string name="brick_glide_to">zu</string>
 	
 	<string name="choose_sound_title">Sound wählen</string>
-
-    <!-- defaultValues -->
+	
+	<string name="brick_note">Notiz</string>
+	
+	<string name="brick_broadcast_receive">Wenn ich</string>
+	<string name="brick_broadcast_receive_2">empfange</string>
+	<string name="brick_broadcast">Verschicke an alle</string>
+    <string name="brick_broadcast_wait">Verschicke und warte</string>
+    
+    <!-- defaulValues -->
     <string name="default_project_name">standardProjekt</string>
     
     <!-- Notifications -->
