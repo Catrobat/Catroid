@@ -19,14 +19,12 @@
 package at.tugraz.ist.catroid.test.content.sprite;
 
 import android.test.AndroidTestCase;
-import android.util.Log;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
-import at.tugraz.ist.catroid.test.utils.TestUtils;
 
 public class SpriteTest extends AndroidTestCase {
 
@@ -183,6 +181,8 @@ public class SpriteTest extends AndroidTestCase {
 		}
 
 		testSprite.pause();
+		assertTrue("Sprite isn't paused", testSprite.isPaused);
+		assertTrue("Script isn't paused", testScript.isPaused());
 
 		try {
 			Thread.sleep(1000);
@@ -190,25 +190,18 @@ public class SpriteTest extends AndroidTestCase {
 			e.printStackTrace();
 		}
 
-		int brickPositionAfterPause = getBrickPositionAfterPause(testScript);
-		Log.d("SpriteTest ", "Paused at brickPositionAfterPause  " + brickPositionAfterPause);
-
-		assertTrue("brickPositionAfterPause is still zero", brickPositionAfterPause != 0);
-
 		testSprite.resume();
+
+		assertFalse("Sprite is paused", testSprite.isPaused);
+		assertFalse("Script is paused", testScript.isPaused());
 
 		try {
 			Thread.sleep(100);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		assertTrue("Script hasn't finished", testScript.isFinished());
 
-	}
-
-	private int getBrickPositionAfterPause(Script script) {
-		int brickPositionAfterPause = (Integer) TestUtils.getPrivateField("brickPositionAfterPause", script, true);
-
-		return brickPositionAfterPause;
 	}
 
 	public void compareTo() {

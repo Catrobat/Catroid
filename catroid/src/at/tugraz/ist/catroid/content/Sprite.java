@@ -21,6 +21,7 @@ package at.tugraz.ist.catroid.content;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 import android.graphics.Color;
 import android.util.Pair;
@@ -39,6 +40,8 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	private transient List<Thread> threadList;
 	private transient Costume costume;
 
+	public transient volatile boolean isPaused;
+
 	private Object readResolve() {
 		init();
 		return this;
@@ -53,6 +56,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		xPosition = 0;
 		yPosition = 0;
 		toDraw = false;
+		isPaused = false;
 	}
 
 	public Sprite(String name) {
@@ -90,24 +94,49 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		t.start();
 	}
 
+	public void startScriptBroadcast(Script s, final CountDownLatch simultaneousStart) {
+		final Script script = s;
+		Thread t = new Thread(new Runnable() {
+			public void run() {
+				try {
+					simultaneousStart.await();
+				} catch (InterruptedException e) {
+				}
+				script.run();
+			}
+		});
+		threadList.add(t);
+		t.start();
+	}
+
+	public void startScriptBroadcastWait(Script s, final CountDownLatch simultaneousStart, final CountDownLatch wait) {
+		final Script script = s;
+		Thread t = new Thread(new Runnable() {
+			public void run() {
+				try {
+					simultaneousStart.await();
+				} catch (InterruptedException e) {
+				}
+				script.run();
+				wait.countDown();
+			}
+		});
+		threadList.add(t);
+		t.start();
+	}
+
 	public void pause() {
 		for (Script s : scriptList) {
 			s.setPaused(true);
 		}
-		for (Thread t : threadList) {
-			t.interrupt();
-		}
-		threadList.clear();
+		this.isPaused = true;
 	}
 
 	public void resume() {
 		for (Script s : scriptList) {
 			s.setPaused(false);
-			if (s.isFinished()) {
-				continue;
-			}
-			startScript(s);
 		}
+		this.isPaused = false;
 	}
 
 	public String getName() {

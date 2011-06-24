@@ -25,6 +25,7 @@ import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
+import at.tugraz.ist.catroid.common.MessageContainer;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -41,9 +42,11 @@ public class ProjectManager {
 	private int serverProjectId;
 
 	public FileChecksumContainer fileChecksumContainer;
+	public MessageContainer messageContainer;
 
 	private ProjectManager() {
 		fileChecksumContainer = new FileChecksumContainer();
+		messageContainer = new MessageContainer();
 	}
 
 	public static ProjectManager getInstance() {
@@ -56,6 +59,8 @@ public class ProjectManager {
 	public boolean loadProject(String projectName, Context context, boolean errorMessage) {
 		try {
 			fileChecksumContainer = new FileChecksumContainer();
+			messageContainer = new MessageContainer();
+
 			project = StorageHandler.getInstance().loadProject(projectName);
 			if (project == null) {
 				project = StorageHandler.getInstance().createDefaultProject(context);
@@ -76,6 +81,7 @@ public class ProjectManager {
 	public boolean initializeDefaultProject(Context context) {
 		try {
 			fileChecksumContainer = new FileChecksumContainer();
+			messageContainer = new MessageContainer();
 			project = StorageHandler.getInstance().createDefaultProject(context);
 			currentSprite = null;
 			currentScript = null;
@@ -130,6 +136,8 @@ public class ProjectManager {
 	public void initializeNewProject(String projectName, Context context) {
 		project = new Project(context, projectName);
 		fileChecksumContainer = new FileChecksumContainer();
+		messageContainer = new MessageContainer();
+
 		currentSprite = null;
 		currentScript = null;
 		saveProject(context);
