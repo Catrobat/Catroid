@@ -118,9 +118,8 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 		if (from == to) {
 			return;
 		}
-		ArrayList<Brick> brickList = sprite.getScript(getGroupCount() - 1).getBrickList();
-		Brick removedBrick = brickList.remove(from);
-		brickList.add(to, removedBrick);
+		Brick removedBrick = sprite.getScript(getGroupCount() - 1).getBrickList().remove(from);
+		sprite.getScript(getGroupCount() - 1).addBrick(to, removedBrick);
 		notifyDataSetChanged();
 	}
 
