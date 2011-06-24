@@ -265,8 +265,8 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		WaitBrick waitBrick = new WaitBrick(sprite, 5000);
 		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(sprite, size);
 
-		script.getBrickList().add(waitBrick);
-		script.getBrickList().add(setSizeToBrick);
+		script.addBrick(waitBrick);
+		script.addBrick(setSizeToBrick);
 		sprite.addScript(script);
 		project.addSprite(sprite);
 
