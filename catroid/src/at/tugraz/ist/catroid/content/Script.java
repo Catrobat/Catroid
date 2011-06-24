@@ -54,12 +54,8 @@ public abstract class Script implements Serializable {
 			while (paused) {
 				Thread.yield();
 			}
-			//try {
 			brickList.get(i).execute();
 			sprite.setToDraw(true);
-			//} catch (InterruptedRuntimeException e) { //Brick was interrupted
-			//	i--;
-			//}
 		}
 		isFinished = true;
 	}
