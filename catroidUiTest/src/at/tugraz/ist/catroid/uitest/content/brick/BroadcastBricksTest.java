@@ -16,6 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package at.tugraz.ist.catroid.uitest.content.brick;
 
 import java.util.ArrayList;
@@ -24,30 +25,22 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.content.BroadcastScript;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.content.bricks.HideBrick;
-import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
-import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
-import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
+import at.tugraz.ist.catroid.content.bricks.BroadcastBrick;
+import at.tugraz.ist.catroid.content.bricks.BroadcastWaitBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 
 import com.jayway.android.robotium.solo.Solo;
 
-/**
- * 
- * @author Daniel Burtscher
- * 
- */
-public class PlaceAtTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
-	private PlaceAtBrick placeAtBrick;
 
-	public PlaceAtTest() {
+	public BroadcastBricksTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
 	}
 
@@ -70,58 +63,63 @@ public class PlaceAtTest extends ActivityInstrumentationTestCase2<ScriptActivity
 	}
 
 	@Smoke
-	public void testPlaceAtBrick() {
+	public void testBroadcastBricks() {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
-
-		assertEquals("Incorrect number of bricks.", 5, solo.getCurrentListViews().get(0).getChildCount());
-		assertEquals("Incorrect number of bricks.", 4, childrenCount);
+		assertEquals("Incorrect number of bricks.", 3, solo.getCurrentListViews().get(0).getChildCount());
+		assertEquals("Incorrect number of bricks.", 2, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
-		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
+		assertEquals("Incorrect number of bricks.", 2, projectBrickList.size());
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
 				getActivity().getAdapter().getChild(groupCount - 1, 0));
-		assertEquals("Wrong Brick instance.", projectBrickList.get(1),
-				getActivity().getAdapter().getChild(groupCount - 1, 1));
-		assertEquals("Wrong Brick instance.", projectBrickList.get(2),
-				getActivity().getAdapter().getChild(groupCount - 1, 2));
-		assertEquals("Wrong Brick instance.", projectBrickList.get(3),
-				getActivity().getAdapter().getChild(groupCount - 1, 3));
-		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_place_at)));
 
-		int xPosition = 987;
-		int yPosition = 654;
+		String testString = "test";
+		String testString2 = "test2";
+		String testString3 = "test3";
 
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, xPosition + "");
 		solo.clickOnButton(0);
 
-		assertEquals("Text not updated", xPosition + "", solo.getEditText(0).getText().toString());
-		assertEquals("Value in Brick is not updated", xPosition, placeAtBrick.getXPosition());
+		solo.enterText(0, testString);
+		solo.clickOnButton(getActivity().getString(R.string.ok));
 
-		solo.clickOnEditText(1);
-		solo.clearEditText(0);
-		solo.enterText(0, yPosition + "");
-		solo.clickOnButton(0);
+		assertEquals("Wrong selection", testString, (String) solo.getCurrentSpinners().get(0).getSelectedItem());
+		assertNotSame("Wrong selection", testString, solo.getCurrentSpinners().get(1).getSelectedItem());
 
-		assertEquals("Text not updated", yPosition + "", solo.getEditText(1).getText().toString());
-		assertEquals("Value in Brick is not updated", yPosition, placeAtBrick.getYPosition());
+		solo.pressSpinnerItem(1, 2);
+		assertEquals("Wrong selection", testString, (String) solo.getCurrentSpinners().get(1).getSelectedItem());
+
+		solo.pressSpinnerItem(2, 2);
+		assertEquals("Wrong selection", testString, (String) solo.getCurrentSpinners().get(2).getSelectedItem());
+
+		solo.clickOnButton(1);
+		solo.enterText(0, testString2);
+		solo.clickOnButton(getActivity().getString(R.string.ok));
+		assertEquals("Wrong selection", testString, (String) solo.getCurrentSpinners().get(0).getSelectedItem());
+		assertEquals("Wrong selection", testString2, (String) solo.getCurrentSpinners().get(1).getSelectedItem());
+		assertEquals("Wrong selection", testString, (String) solo.getCurrentSpinners().get(2).getSelectedItem());
+
+		solo.clickOnButton(2);
+		solo.enterText(0, testString3);
+		solo.clickOnButton(getActivity().getString(R.string.ok));
+		assertEquals("Wrong selection", testString, (String) solo.getCurrentSpinners().get(0).getSelectedItem());
+		assertEquals("Wrong selection", testString2, (String) solo.getCurrentSpinners().get(1).getSelectedItem());
+		assertEquals("Wrong selection", testString3, (String) solo.getCurrentSpinners().get(2).getSelectedItem());
+
+		solo.pressSpinnerItem(1, 4);
+		assertEquals("Wrong selection", testString3, (String) solo.getCurrentSpinners().get(1).getSelectedItem());
+
 	}
 
 	private void createProject() {
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript("script", sprite);
-		script.addBrick(new HideBrick(sprite));
-		placeAtBrick = new PlaceAtBrick(sprite, 105, 206);
-		script.addBrick(placeAtBrick);
-		PlaySoundBrick soundBrick = new PlaySoundBrick(sprite);
-		soundBrick.setPathToSoundfile("sound.mp3");
-		script.addBrick(soundBrick);
-
-		script.addBrick(new SetSizeToBrick(sprite, 80));
+		Script script = new BroadcastScript("script", sprite);
+		BroadcastBrick broadcastBrick = new BroadcastBrick(sprite);
+		BroadcastWaitBrick broadcastWaitBrick = new BroadcastWaitBrick(sprite);
+		script.addBrick(broadcastBrick);
+		script.addBrick(broadcastWaitBrick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);
@@ -130,5 +128,4 @@ public class PlaceAtTest extends ActivityInstrumentationTestCase2<ScriptActivity
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }
