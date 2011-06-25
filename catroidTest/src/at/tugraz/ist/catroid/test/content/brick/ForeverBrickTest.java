@@ -54,7 +54,7 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 		testScript.addBrick(secondWaitBrick);
 		testScript.addBrick(secondSetXBrick);
 
-		testSprite.getScriptList().add(testScript);
+		testSprite.addScript(testScript);
 
 		positionOfFirstWaitBrick = testScript.getBrickList().indexOf(firstWaitBrick);
 		positionOfSecondWaitBrick = testScript.getBrickList().indexOf(secondWaitBrick);

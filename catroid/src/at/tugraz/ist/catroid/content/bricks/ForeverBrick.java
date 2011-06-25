@@ -45,7 +45,8 @@ public class ForeverBrick implements Brick {
 	}
 
 	private Script getScript() {
-		for (Script script : this.sprite.getScriptList()) {
+		for (int i = 0; i < sprite.getNumberOfScripts(); i++) {
+			Script script = sprite.getScript(i);
 			if (script.getBrickList().contains(this)) {
 				return script;
 			}

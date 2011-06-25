@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010  Catroid development team 
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -16,6 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package at.tugraz.ist.catroid.uitest.content.brick;
 
 import java.util.ArrayList;
@@ -29,16 +30,19 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.content.bricks.ForeverBrick;
+import at.tugraz.ist.catroid.content.bricks.NoteBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class ForeverBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
+	private NoteBrick noteBrick;
+	private String testString = "test";
+	private String testString2 = "";
 
-	public ForeverBrickTest() {
+	public NoteBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
 	}
 
@@ -61,9 +65,10 @@ public class ForeverBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 	}
 
 	@Smoke
-	public void testForeverBrick() {
+	public void testNoteBrick() {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
+
 		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
@@ -72,14 +77,37 @@ public class ForeverBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
 				getActivity().getAdapter().getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_forever)));
+		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_note)));
+
+		solo.clickOnEditText(0);
+		solo.enterText(0, testString);
+		solo.clickOnButton(0);
+		solo.sleep(300);
+
+		assertEquals("Wrong text in field.", testString, noteBrick.getNote());
+
+		solo.clickOnEditText(0);
+		solo.enterText(0, "");
+		solo.clickOnButton(0);
+		solo.sleep(300);
+
+		assertEquals("Wrong text in field.", "", noteBrick.getNote());
+
+		solo.clickOnEditText(0);
+		solo.enterText(0, testString2);
+		solo.clickOnButton(0);
+		solo.sleep(300);
+
+		assertEquals("Wrong text in field.", testString2, noteBrick.getNote());
+
 	}
 
 	private void createProject() {
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript("script", sprite);
-		script.addBrick(new ForeverBrick(sprite));
+		noteBrick = new NoteBrick(sprite);
+		script.addBrick(noteBrick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);
@@ -87,5 +115,7 @@ public class ForeverBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
+		testString2 = getInstrumentation().getContext().getString(at.tugraz.ist.catroid.uitest.R.string.test_text);
+
 	}
 }
