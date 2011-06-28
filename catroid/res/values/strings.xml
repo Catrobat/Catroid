@@ -141,6 +141,7 @@
 
     <string name="brick_set_background">Set Background</string>
     <string name="brick_play_sound">Play Sound</string>
+    <string name="brick_stop_all_sounds">Stop All Sounds</string>
     <string name="brick_wait">Wait</string>
     <string name="seconds">Seconds</string>
     
@@ -227,5 +228,4 @@
     <string name="upload_project_dialog_title">Upload project</string>
     <string name="project_rename">(Your project will be renamed.)</string>
     <string name="screenshot_ok">Screenshot saved</string>
-    <string name="stop_all_sounds">Stop All Sounds</string>
 </resources>
