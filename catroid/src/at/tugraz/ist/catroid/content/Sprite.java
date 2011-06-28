@@ -38,7 +38,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	private List<Script> scriptList;
 	private transient List<Thread> threadList;
 	private transient Costume costume;
-	private String action;
+	private transient int ghostEffectValue;
 
 	private Object readResolve() {
 		init();
@@ -54,6 +54,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		xPosition = 0;
 		yPosition = 0;
 		toDraw = false;
+		ghostEffectValue = 225;
 	}
 
 	public Sprite(String name) {
@@ -160,6 +161,10 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return scale;
 	}
 
+	public int getGhostEffectValue() {
+		return ghostEffectValue;
+	}
+
 	public boolean isVisible() {
 		return isVisible;
 	}
@@ -173,6 +178,17 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 
 	public synchronized void setZPosition(int zPosition) {
 		this.zPosition = zPosition;
+		toDraw = true;
+	}
+
+	public synchronized void setGhostEffectValue(int ghostEffectValue) {
+
+		if (ghostEffectValue <= 0.0) {
+			throw new IllegalArgumentException("Sprite scale must be greater than zero!");
+		}
+
+		this.ghostEffectValue = ghostEffectValue;
+
 		toDraw = true;
 	}
 
@@ -279,11 +295,6 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	@Override
 	public String toString() {
 		return name;
-	}
-
-	public boolean processOnGesture(String action) {
-
-		return true;
 	}
 
 }

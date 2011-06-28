@@ -60,6 +60,7 @@ public class Costume implements Serializable {
 
 		origHeight = costumeBitmap.getHeight();
 		origWidth = costumeBitmap.getWidth();
+
 		setDrawPosition();
 	}
 
