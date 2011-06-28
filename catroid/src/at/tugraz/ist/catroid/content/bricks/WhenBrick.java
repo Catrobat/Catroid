@@ -66,7 +66,7 @@ public class WhenBrick implements Brick {
 		spinnerAdapter.add(context.getString(R.string.action_touchingStops));
 		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(spinnerAdapter);
-		//		Log.i("set selecton: ", value + "");
+
 		if (WhenScript.getAction() != null) {
 			for (int count = 0; count < spinnerAdapter.getCount(); count++) {
 				if (WhenScript.getAction().equalsIgnoreCase(spinnerAdapter.getItem(count).toString())) {

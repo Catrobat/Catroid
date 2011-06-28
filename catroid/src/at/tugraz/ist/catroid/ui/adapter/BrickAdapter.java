@@ -27,7 +27,6 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.view.View;
-import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
@@ -50,13 +49,12 @@ import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView.DropListener;
 import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView.RemoveListener;
 
 public class BrickAdapter extends BaseExpandableListAdapter implements DropListener, RemoveListener,
-		OnGroupClickListener, OnFocusChangeListener {
+		OnGroupClickListener {
 
 	private Context context;
 	private Sprite sprite;
 	private BrickListAnimation brickListAnimation;
 	private boolean animateChildren;
-	private transient boolean isSpinner = true;
 	public static final int FOCUS_BLOCK_DESCENDANTS = 2;
 
 	public BrickAdapter(Context context, Sprite sprite, DragNDropListView listView) {
@@ -191,11 +189,6 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 
 	public int getChildCountFromLastGroup() {
 		return getChildrenCount(getGroupCount() - 1);
-	}
-
-	public void onFocusChange(View v, boolean hasFocus) {
-		// TODO Auto-generated method stub
-
 	}
 
 }
