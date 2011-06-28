@@ -46,6 +46,7 @@ import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.uitest.R;
 import at.tugraz.ist.catroid.uitest.util.Utils;
@@ -112,6 +113,17 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		getActivity().finish();
 		super.tearDown();
+	}
+
+	public void testStageFromLandscapeOrientation() {
+		createTestproject(projectName);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+
+		solo.clickOnImageButton(1);
+		solo.waitForActivity(StageActivity.class.getName(), 1000);
+
+		assertTrue("Wrong orientation! Screen height: " + Values.SCREEN_HEIGHT + ", Screen width: "
+				+ Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT > Values.SCREEN_WIDTH);
 	}
 
 	public void testClickOnPictureAndChangeCostume() {
