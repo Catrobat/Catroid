@@ -19,24 +19,35 @@
 package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
+import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 
-public class EndOfLoopBrick implements Brick {
+public class LoopEndBrick implements Brick {
+	public static final int FOREVER = -1;
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
-	private Brick loopStartingBrick;
+	private LoopBeginBrick loopBeginBrick;
+	private int timesToRepeat;
 
-	public EndOfLoopBrick(Sprite sprite, Brick loopStartingBrick) {
+	public LoopEndBrick(Sprite sprite, LoopBeginBrick loopStartingBrick, int timesToRepeat) {
 		this.sprite = sprite;
-		this.loopStartingBrick = loopStartingBrick;
+		this.loopBeginBrick = loopStartingBrick;
+		this.timesToRepeat = timesToRepeat;
 	}
 
 	public void execute() {
-		Script script = getScript();
-		script.setExecutingBrickIndex(script.getBrickList().indexOf(loopStartingBrick));
+		if (timesToRepeat == FOREVER) {
+			Script script = getScript();
+			script.setExecutingBrickIndex(script.getBrickList().indexOf(loopBeginBrick));
+		} else if (timesToRepeat > 0) {
+			Script script = getScript();
+			script.setExecutingBrickIndex(script.getBrickList().indexOf(loopBeginBrick));
+			timesToRepeat--;
+		}
 	}
 
 	private Script getScript() {
@@ -50,20 +61,25 @@ public class EndOfLoopBrick implements Brick {
 	}
 
 	public Sprite getSprite() {
-		return this.sprite;
+		return sprite;
 	}
 
-	public Brick getLoopStartingBrick() {
-		return this.loopStartingBrick;
+	public int getTimesToRepeat() {
+		return timesToRepeat;
+	}
+
+	public LoopBeginBrick getLoopBeginBrick() {
+		return loopBeginBrick;
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
-		return null;
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		return inflater.inflate(R.layout.construction_brick_loop_end, null);
 	}
 
 	@Override
 	public Brick clone() {
-		return new EndOfLoopBrick(getSprite(), getLoopStartingBrick());
+		return new LoopEndBrick(getSprite(), getLoopBeginBrick(), getTimesToRepeat());
 	}
 
 	public View getPrototypeView(Context context) {
