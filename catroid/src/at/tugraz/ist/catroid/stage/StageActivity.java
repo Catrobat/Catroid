@@ -53,6 +53,7 @@ public class StageActivity extends Activity {
 			stage = (SurfaceView) findViewById(R.id.stageView);
 
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+			// Force portrait orientation by exchanging width and height if necessary
 			if (Values.SCREEN_WIDTH > Values.SCREEN_HEIGHT) {
 				int temp = Values.SCREEN_HEIGHT;
 				Values.SCREEN_HEIGHT = Values.SCREEN_WIDTH;
