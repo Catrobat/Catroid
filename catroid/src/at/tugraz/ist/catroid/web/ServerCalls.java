@@ -28,30 +28,64 @@ import org.json.JSONObject;
 import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
-import at.tugraz.ist.catroid.utils.UtilDeviceInfo;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class ServerCalls {
 	private final static String TAG = "ServerCalls";
 
+	private static ServerCalls instance;
 	public static boolean useTestUrl = false;
-	protected static String resultString;
+	protected String resultString;
+	private ConnectionWrapper connection;
 
-	// mock object testing
-	protected static ConnectionWrapper createConnection() {
-		return new ConnectionWrapper();
+	// protected constructor to prevent direct instancing
+	protected ServerCalls() {
+		connection = new ConnectionWrapper();
 	}
 
-	public static boolean uploadProject(String projectName, String projectDescription, String zipFileString)
-			throws WebconnectionException {
-		try {
-			HashMap<String, String> postValues = buildPostValues(projectName, projectDescription, new File(
-					zipFileString));
+	public static ServerCalls getInstance() {
+		if (instance == null) {
+			instance = new ServerCalls();
+			// set the default connection
+			//instance.connection = new ConnectionWrapper();
+		}
+		return instance;
+	}
 
+	//	// mock object testing
+	//	protected ConnectionWrapper createConnection() {
+	//		return new ConnectionWrapper();
+	//	}
+
+	// used for mock object testing
+	public void setConnectionToUse(ConnectionWrapper connection) {
+		this.connection = connection;
+	}
+
+	public boolean uploadProject(String projectName, String projectDescription, String zipFileString,
+			String deviceIMEI, String userEmail, String language, String token) throws WebconnectionException {
+		try {
+			String md5Checksum = Utils.md5Checksum(new File(zipFileString));
+
+			HashMap<String, String> postValues = new HashMap<String, String>();
+			postValues.put(Consts.PROJECT_NAME_TAG, projectName);
+			postValues.put(Consts.PROJECT_DESCRIPTION_TAG, projectDescription);
+			postValues.put(Consts.PROJECT_CHECKSUM_TAG, md5Checksum.toLowerCase());
+			postValues.put(Consts.TOKEN, token); //anonymous
+
+			if (deviceIMEI != null) {
+				postValues.put(Consts.DEVICE_IMEI, deviceIMEI);
+			}
+			if (userEmail != null) {
+				postValues.put(Consts.USER_EMAIL, userEmail);
+			}
+			if (language != null) {
+				postValues.put(Consts.USER_LANGUAGE, language);
+			}
 			String serverUrl = useTestUrl ? Consts.TEST_FILE_UPLOAD_URL : Consts.FILE_UPLOAD_URL;
 
-			resultString = createConnection().doHttpPostFileUpload(serverUrl, postValues, Consts.FILE_UPLOAD_TAG,
-					zipFileString);
+			resultString = connection
+					.doHttpPostFileUpload(serverUrl, postValues, Consts.FILE_UPLOAD_TAG, zipFileString);
 
 			JSONObject jsonObject = null;
 			int statusCode = 0;
@@ -78,31 +112,13 @@ public class ServerCalls {
 		return false;
 	}
 
-	private static HashMap<String, String> buildPostValues(String projectName, String projectDescription, File zipFile)
-			throws IOException {
-		String md5Checksum = Utils.md5Checksum(zipFile);
-
-		HashMap<String, String> postValues = new HashMap<String, String>();
-		postValues.put(Consts.PROJECT_NAME_TAG, projectName);
-		postValues.put(Consts.PROJECT_DESCRIPTION_TAG, projectDescription);
-		postValues.put(Consts.PROJECT_CHECKSUM_TAG, md5Checksum.toLowerCase());
-		postValues.put(Consts.TOKEN, token); //anonymous
-
-		String deviceIMEI = UtilDeviceInfo.getDeviceIMEI(context);
-		if (deviceIMEI != null) {
-			postValues.put(Consts.DEVICE_IMEI, deviceIMEI);
+	public void downloadProject(String downloadUrl, String zipFileString) throws WebconnectionException {
+		try {
+			connection.doHttpPostFileDownload(downloadUrl, null, zipFileString);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new WebconnectionException(0);
 		}
-
-		String userEmail = UtilDeviceInfo.getUserEmail(context);
-		if (userEmail != null) {
-			postValues.put(Consts.USER_EMAIL, userEmail);
-		}
-
-		String language = UtilDeviceInfo.getUserLanguageCode(context);
-		if (language != null) {
-			postValues.put(Consts.USER_LANGUAGE, language);
-		}
-
-		return postValues;
 	}
+
 }
