@@ -68,10 +68,18 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 			if (s instanceof WhenScript) {
 				if (((WhenScript) s).getAction().equalsIgnoreCase(act)) {
 					startScript(s);
-				} else if (((WhenScript) s).getAction().equalsIgnoreCase(WhenScript.TOUCHINGSTARTS)) {
-					startScript(s);
 				} else if (((WhenScript) s).getAction().equalsIgnoreCase(WhenScript.TOUCHINGSTOPS)) {
 					stopScript(s);
+				}
+			}
+		}
+	}
+
+	public void startWhenScriptsForTouchingStops() {
+		for (Script s : scriptList) {
+			if (s instanceof WhenScript) {
+				if (((WhenScript) s).getAction().equalsIgnoreCase(WhenScript.TOUCHINGSTOPS)) {
+					startScript(s);
 				}
 			}
 		}

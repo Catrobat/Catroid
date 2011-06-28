@@ -70,6 +70,7 @@ public class StageManager {
 
 		for (Sprite sprite : spriteList) {
 			sprite.startStartScripts();
+			sprite.startWhenScriptsForTouchingStops();
 		}
 	}
 
