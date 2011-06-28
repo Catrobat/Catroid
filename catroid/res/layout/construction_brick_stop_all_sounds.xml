@@ -39,7 +39,7 @@
 		android:background="@drawable/brick_magenta"
 	>
 		<TextView
-			android:text="@string/stop_all_sounds"
+			android:text="@string/brick_stop_all_sounds"
 			android:layout_height="wrap_content"
 			android:layout_width="fill_parent"
 			android:textColor="@color/white"
