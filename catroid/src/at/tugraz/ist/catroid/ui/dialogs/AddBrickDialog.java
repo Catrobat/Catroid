@@ -53,6 +53,7 @@ import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
 import at.tugraz.ist.catroid.content.bricks.NoteBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
+import at.tugraz.ist.catroid.content.bricks.RepeatBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.SetXBrick;
@@ -91,6 +92,7 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new GlideToBrick(sprite, 100, 100, 3000));
 			prototypeBrickList.add(new NoteBrick(sprite));
 			prototypeBrickList.add(new ForeverBrick(sprite));
+			prototypeBrickList.add(new RepeatBrick(sprite, 3));
 		} else {
 			prototypeBrickList = new ArrayList<Brick>();
 			prototypeBrickList.add(new WaitBrick(sprite, 1000));
@@ -114,6 +116,7 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new GlideToBrick(sprite, 100, 100, 3000));
 			prototypeBrickList.add(new NoteBrick(sprite));
 			prototypeBrickList.add(new ForeverBrick(sprite));
+			prototypeBrickList.add(new RepeatBrick(sprite, 3));
 		}
 
 	}
@@ -170,7 +173,7 @@ public class AddBrickDialog extends Dialog {
 
 					if (addedBrick instanceof LoopBeginBrick) {
 						LoopEndBrick loopEndBrick = new LoopEndBrick(projectManager.getCurrentSprite(),
-								(LoopBeginBrick) brickClone, LoopEndBrick.FOREVER);
+								(LoopBeginBrick) brickClone);
 						projectManager.getCurrentScript().addBrick(loopEndBrick);
 						((LoopBeginBrick) brickClone).setLoopEndBrick(loopEndBrick);
 					}

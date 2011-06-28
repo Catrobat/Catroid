@@ -19,36 +19,58 @@
 package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
+import android.content.DialogInterface.OnDismissListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
-public class ForeverBrick extends LoopBeginBrick {
+public class RepeatBrick extends LoopBeginBrick implements OnDismissListener {
 	private static final long serialVersionUID = 1L;
+	private int timesToRepeat;
 
-	public ForeverBrick(Sprite sprite) {
+	public RepeatBrick(Sprite sprite, int timesToRepeat) {
 		this.sprite = sprite;
+		this.timesToRepeat = timesToRepeat;
 	}
 
 	@Override
 	public void execute() {
-		loopEndBrick.setTimesToRepeat(LoopEndBrick.FOREVER);
+		loopEndBrick.setTimesToRepeat(timesToRepeat);
 	}
 
 	@Override
 	public Brick clone() {
-		return new ForeverBrick(getSprite());
+		return new RepeatBrick(getSprite(), timesToRepeat);
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.construction_brick_forever, null);
+		View view = inflater.inflate(R.layout.construction_brick_repeat, null);
+
+		EditText edit = (EditText) view.findViewById(R.id.InputValueEditText);
+		edit.setText(timesToRepeat + "");
+
+		EditIntegerDialog dialog = new EditIntegerDialog(context, edit, timesToRepeat, false);
+		dialog.setOnDismissListener(this);
+		dialog.setOnCancelListener((OnCancelListener) context);
+
+		edit.setOnClickListener(dialog);
+		return view;
 	}
 
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.toolbox_brick_forever, null);
+		return inflater.inflate(R.layout.toolbox_brick_repeat, null);
+	}
+
+	public void onDismiss(DialogInterface dialog) {
+		timesToRepeat = ((EditIntegerDialog) dialog).getValue();
+		dialog.cancel();
 	}
 }
