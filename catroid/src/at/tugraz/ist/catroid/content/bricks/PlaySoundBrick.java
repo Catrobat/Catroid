@@ -27,14 +27,14 @@ import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.AdapterView.OnItemClickListener;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
@@ -96,7 +96,7 @@ public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable 
 				soundDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 				soundDialog.setContentView(R.layout.sound_list);
 				soundDialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-							WindowManager.LayoutParams.FLAG_FULLSCREEN);
+						WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 				ListView list = (ListView) soundDialog.findViewById(R.id.sound_list);
 				list.setAdapter(soundBrickAdapter);

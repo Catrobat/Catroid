@@ -25,8 +25,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
+import android.widget.LinearLayout.LayoutParams;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.R.string;
@@ -42,7 +42,6 @@ import at.tugraz.ist.catroid.content.bricks.BroadcastWaitBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
-import at.tugraz.ist.catroid.content.bricks.ForeverBrick;
 import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
 import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
@@ -56,6 +55,7 @@ import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.SetXBrick;
 import at.tugraz.ist.catroid.content.bricks.SetYBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
+import at.tugraz.ist.catroid.content.bricks.StopAllSoundsBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.ui.adapter.PrototypeBrickAdapter;
@@ -87,8 +87,9 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new BroadcastBrick(sprite));
 			prototypeBrickList.add(new BroadcastWaitBrick(sprite));
 			prototypeBrickList.add(new GlideToBrick(sprite, 100, 100, 3000));
+			//prototypeBrickList.add(new ForeverBrick(sprite));
+			prototypeBrickList.add(new StopAllSoundsBrick(sprite));
 			prototypeBrickList.add(new NoteBrick(sprite));
-			prototypeBrickList.add(new ForeverBrick(sprite));
 		} else {
 			prototypeBrickList = new ArrayList<Brick>();
 			prototypeBrickList.add(new WaitBrick(sprite, 1000));
@@ -110,8 +111,9 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new BroadcastBrick(sprite));
 			prototypeBrickList.add(new BroadcastWaitBrick(sprite));
 			prototypeBrickList.add(new GlideToBrick(sprite, 100, 100, 3000));
+			//prototypeBrickList.add(new ForeverBrick(sprite));
+			prototypeBrickList.add(new StopAllSoundsBrick(sprite));
 			prototypeBrickList.add(new NoteBrick(sprite));
-			prototypeBrickList.add(new ForeverBrick(sprite));
 		}
 
 	}
