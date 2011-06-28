@@ -23,31 +23,67 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 
-public class ForeverBrick extends LoopBeginBrick {
+public class LoopEndBrick implements Brick {
+	public static final int FOREVER = -1;
 	private static final long serialVersionUID = 1L;
+	private Sprite sprite;
+	private LoopBeginBrick loopBeginBrick;
+	private int timesToRepeat;
 
-	public ForeverBrick(Sprite sprite) {
+	public LoopEndBrick(Sprite sprite, LoopBeginBrick loopStartingBrick, int timesToRepeat) {
 		this.sprite = sprite;
+		this.loopBeginBrick = loopStartingBrick;
+		this.timesToRepeat = timesToRepeat;
 	}
 
-	@Override
 	public void execute() {
+		if (timesToRepeat == FOREVER) {
+			Script script = getScript();
+			script.setExecutingBrickIndex(script.getBrickList().indexOf(loopBeginBrick));
+		} else if (timesToRepeat > 0) {
+			Script script = getScript();
+			script.setExecutingBrickIndex(script.getBrickList().indexOf(loopBeginBrick));
+			timesToRepeat--;
+		}
 	}
 
-	@Override
-	public Brick clone() {
-		return new ForeverBrick(getSprite());
+	private Script getScript() {
+		for (int i = 0; i < sprite.getNumberOfScripts(); i++) {
+			Script script = sprite.getScript(i);
+			if (script.getBrickList().contains(this)) {
+				return script;
+			}
+		}
+		return null;
+	}
+
+	public Sprite getSprite() {
+		return sprite;
+	}
+
+	public int getTimesToRepeat() {
+		return timesToRepeat;
+	}
+
+	public LoopBeginBrick getLoopBeginBrick() {
+		return loopBeginBrick;
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.construction_brick_forever, null);
+		return inflater.inflate(R.layout.construction_brick_loop_end, null);
+	}
+
+	@Override
+	public Brick clone() {
+		return new LoopEndBrick(getSprite(), getLoopBeginBrick(), getTimesToRepeat());
 	}
 
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.toolbox_brick_forever, null);
+		return null;
 	}
+
 }

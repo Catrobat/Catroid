@@ -40,6 +40,8 @@ import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.BroadcastReceiverBrick;
 import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
 import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
+import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
+import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
@@ -120,6 +122,21 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 	}
 
 	public void drop(int from, int to) {
+		Brick BrickToRemove = sprite.getScript(getGroupCount() - 1).getBrickList().get(from);
+		if (BrickToRemove instanceof LoopBeginBrick) {
+			LoopEndBrick loopEndBrick = ((LoopBeginBrick) BrickToRemove).getLoopEndBrick();
+			int loopEndPosition = sprite.getScript(getGroupCount() - 1).getBrickList().indexOf(loopEndBrick);
+			if (to >= loopEndPosition) {
+				to = loopEndPosition - 1;
+			}
+		} else if (BrickToRemove instanceof LoopEndBrick) {
+			LoopBeginBrick loopBeginBrick = ((LoopEndBrick) BrickToRemove).getLoopBeginBrick();
+			int loopBeginPosition = sprite.getScript(getGroupCount() - 1).getBrickList().indexOf(loopBeginBrick);
+			if (to <= loopBeginPosition) {
+				to = loopBeginPosition + 1;
+			}
+		}
+
 		if (from == to) {
 			return;
 		}
@@ -130,23 +147,30 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 
 	public void remove(int which) {
 		ArrayList<Brick> brickList = sprite.getScript(getGroupCount() - 1).getBrickList();
-
-		if (brickList.get(which) instanceof PlaySoundBrick) {
-			PlaySoundBrick toDelete = (PlaySoundBrick) brickList.get(which);
+		Brick brick = brickList.get(which);
+		if (brick instanceof PlaySoundBrick) {
+			PlaySoundBrick toDelete = (PlaySoundBrick) brick;
 			String pathToSoundFile = toDelete.getPathToSoundFile();
 			if (pathToSoundFile != null) {
 				StorageHandler.getInstance().deleteFile(pathToSoundFile);
 			}
 
-		} else if (brickList.get(which) instanceof SetCostumeBrick) {
-			SetCostumeBrick toDelete = (SetCostumeBrick) brickList.get(which);
+		} else if (brick instanceof SetCostumeBrick) {
+			SetCostumeBrick toDelete = (SetCostumeBrick) brick;
 			String imagePath = toDelete.getImagePath();
 			if (imagePath != null) {
 				StorageHandler.getInstance().deleteFile(imagePath);
 			}
+
+		} else if (brick instanceof LoopBeginBrick) {
+			LoopBeginBrick loopBeginBrick = (LoopBeginBrick) brick;
+			brickList.remove(loopBeginBrick.getLoopEndBrick());
+		} else if (brick instanceof LoopEndBrick) {
+			LoopEndBrick loopEndBrick = (LoopEndBrick) brick;
+			brickList.remove(loopEndBrick.getLoopBeginBrick());
 		}
 
-		brickList.remove(which);
+		brickList.remove(brick);
 		notifyDataSetChanged();
 	}
 

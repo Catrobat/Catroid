@@ -22,6 +22,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import at.tugraz.ist.catroid.content.bricks.Brick;
+import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
 
 public abstract class Script implements Serializable {
 
@@ -144,5 +145,14 @@ public abstract class Script implements Serializable {
 
 	public void setExecutingBrickIndex(int executingBrickIndex) {
 		this.executingBrickIndex = executingBrickIndex;
+	}
+
+	public boolean containsLoopBrick() {
+		for (Brick brick : brickList) {
+			if (brick instanceof LoopBeginBrick) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

@@ -48,6 +48,8 @@ import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
 import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
+import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
+import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
 import at.tugraz.ist.catroid.content.bricks.NoteBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
@@ -152,16 +154,26 @@ public class AddBrickDialog extends Dialog {
 					Script newScript = new BroadcastScript("script", projectManager.getCurrentSprite());
 					projectManager.addScript(newScript);
 					projectManager.setCurrentScript(newScript);
+				} else if (addedBrick instanceof LoopBeginBrick
+						&& projectManager.getCurrentScript().containsLoopBrick()) {
+					//Don't add new loop brick, only one loop per script for now
 				} else {
+					Brick brickClone = getBrickClone(adapter.getItem(position));
 					if (projectManager.getCurrentSprite().getNumberOfScripts() == 0) {
 						Script newScript = new StartScript("script", projectManager.getCurrentSprite());
 						projectManager.addScript(newScript);
 						projectManager.setCurrentScript(newScript);
-						projectManager.getCurrentScript().addBrick(adapter.getItem(position));
+						projectManager.getCurrentScript().addBrick(brickClone);
 					} else {
-						projectManager.getCurrentScript().addBrick(getBrickClone(adapter.getItem(position)));
+						projectManager.getCurrentScript().addBrick(brickClone);
 					}
 
+					if (addedBrick instanceof LoopBeginBrick) {
+						LoopEndBrick loopEndBrick = new LoopEndBrick(projectManager.getCurrentSprite(),
+								(LoopBeginBrick) brickClone, LoopEndBrick.FOREVER);
+						projectManager.getCurrentScript().addBrick(loopEndBrick);
+						((LoopBeginBrick) brickClone).setLoopEndBrick(loopEndBrick);
+					}
 				}
 				dismiss();
 			}
