@@ -81,6 +81,7 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new IfStartedBrick(sprite, null));
 			prototypeBrickList.add(new GlideToBrick(sprite, 100, 100, 3000));
 			prototypeBrickList.add(new ForeverBrick(sprite));
+			prototypeBrickList.add(new StopAllSoundsBrick(sprite));
 		} else {
 			prototypeBrickList = new ArrayList<Brick>();
 			prototypeBrickList.add(new WaitBrick(sprite, 1000));
