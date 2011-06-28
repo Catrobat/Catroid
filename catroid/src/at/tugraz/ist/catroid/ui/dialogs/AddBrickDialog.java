@@ -87,7 +87,6 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new BroadcastBrick(sprite));
 			prototypeBrickList.add(new BroadcastWaitBrick(sprite));
 			prototypeBrickList.add(new GlideToBrick(sprite, 100, 100, 3000));
-			//prototypeBrickList.add(new ForeverBrick(sprite));
 			prototypeBrickList.add(new StopAllSoundsBrick(sprite));
 			prototypeBrickList.add(new NoteBrick(sprite));
 		} else {
@@ -111,7 +110,6 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new BroadcastBrick(sprite));
 			prototypeBrickList.add(new BroadcastWaitBrick(sprite));
 			prototypeBrickList.add(new GlideToBrick(sprite, 100, 100, 3000));
-			//prototypeBrickList.add(new ForeverBrick(sprite));
 			prototypeBrickList.add(new StopAllSoundsBrick(sprite));
 			prototypeBrickList.add(new NoteBrick(sprite));
 		}
