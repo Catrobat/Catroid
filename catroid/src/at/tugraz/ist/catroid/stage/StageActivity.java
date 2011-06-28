@@ -30,6 +30,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -52,6 +53,12 @@ public class StageActivity extends Activity {
 			stage = (SurfaceView) findViewById(R.id.stageView);
 
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+			if (Values.SCREEN_WIDTH > Values.SCREEN_HEIGHT) {
+				int temp = Values.SCREEN_HEIGHT;
+				Values.SCREEN_HEIGHT = Values.SCREEN_WIDTH;
+				Values.SCREEN_WIDTH = temp;
+			}
+
 			soundManager = SoundManager.getInstance();
 			stageManager = new StageManager(this);
 			stageManager.start();
