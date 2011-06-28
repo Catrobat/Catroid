@@ -21,19 +21,20 @@ package at.tugraz.ist.catroid.test.content.brick;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
-import at.tugraz.ist.catroid.content.bricks.ForeverBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
+import at.tugraz.ist.catroid.content.bricks.RepeatBrick;
 import at.tugraz.ist.catroid.content.bricks.SetXBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 
-public class ForeverBrickTest extends InstrumentationTestCase {
+public class RepeatBrickTest extends InstrumentationTestCase {
 
 	private Sprite testSprite;
 	private StartScript testScript;
 	private int brickSleepTime = 1000;
 	private int positionOfFirstWaitBrick;
 	private int positionOfSecondWaitBrick;
+	private int repeatTimes = 3;
 	private LoopEndBrick loopEndBrick;
 
 	@Override
@@ -42,7 +43,7 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 		testScript = new StartScript("testScript", testSprite);
 
 		ShowBrick showBrick = new ShowBrick(testSprite);
-		ForeverBrick foreverBrick = new ForeverBrick(testSprite);
+		RepeatBrick foreverBrick = new RepeatBrick(testSprite, repeatTimes);
 		WaitBrick firstWaitBrick = new WaitBrick(testSprite, brickSleepTime);
 		SetXBrick firstSetXBrick = new SetXBrick(testSprite, 100);
 		WaitBrick secondWaitBrick = new WaitBrick(testSprite, brickSleepTime);
@@ -69,19 +70,21 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 
 		Thread.sleep(brickSleepTime / 2);
 
+		assertEquals("Wrong number of times to repeat", repeatTimes, loopEndBrick.getTimesToRepeat());
+
 		assertEquals("Wrong brick executing", positionOfFirstWaitBrick, testScript.getExecutingBrickIndex());
 		Thread.sleep(brickSleepTime);
 		assertEquals("Wrong brick executing", positionOfSecondWaitBrick, testScript.getExecutingBrickIndex());
 		Thread.sleep(brickSleepTime);
-		assertEquals("Wrong brick executing", positionOfFirstWaitBrick, testScript.getExecutingBrickIndex());
 
-		Thread.sleep(brickSleepTime * 6);
+		assertEquals("Wrong number of times to repeat", repeatTimes - 1, loopEndBrick.getTimesToRepeat());
+
+		Thread.sleep(brickSleepTime * (repeatTimes - 1) * 2);
 		assertEquals("Wrong brick executing", positionOfFirstWaitBrick, testScript.getExecutingBrickIndex());
 		Thread.sleep(brickSleepTime);
 		assertEquals("Wrong brick executing", positionOfSecondWaitBrick, testScript.getExecutingBrickIndex());
 		Thread.sleep(brickSleepTime);
-		assertEquals("Wrong brick executing", positionOfFirstWaitBrick, testScript.getExecutingBrickIndex());
 
-		assertEquals("Wrong number of times to repeat", LoopEndBrick.FOREVER, loopEndBrick.getTimesToRepeat());
+		assertEquals("Wrong number of times to repeat", 0, loopEndBrick.getTimesToRepeat());
 	}
 }

@@ -33,10 +33,9 @@ public class LoopEndBrick implements Brick {
 	private LoopBeginBrick loopBeginBrick;
 	private int timesToRepeat;
 
-	public LoopEndBrick(Sprite sprite, LoopBeginBrick loopStartingBrick, int timesToRepeat) {
+	public LoopEndBrick(Sprite sprite, LoopBeginBrick loopStartingBrick) {
 		this.sprite = sprite;
 		this.loopBeginBrick = loopStartingBrick;
-		this.timesToRepeat = timesToRepeat;
 	}
 
 	public void execute() {
@@ -64,6 +63,10 @@ public class LoopEndBrick implements Brick {
 		return sprite;
 	}
 
+	public void setTimesToRepeat(int timesToRepeat) {
+		this.timesToRepeat = timesToRepeat;
+	}
+
 	public int getTimesToRepeat() {
 		return timesToRepeat;
 	}
@@ -79,7 +82,7 @@ public class LoopEndBrick implements Brick {
 
 	@Override
 	public Brick clone() {
-		return new LoopEndBrick(getSprite(), getLoopBeginBrick(), getTimesToRepeat());
+		return new LoopEndBrick(getSprite(), getLoopBeginBrick());
 	}
 
 	public View getPrototypeView(Context context) {
