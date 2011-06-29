@@ -27,88 +27,114 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ParseException;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
+import android.provider.MediaStore.MediaColumns;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 
 public class CostumeActivity extends ListActivity {
+	private ListView costumeListView;
 	private LayoutInflater mInflater;
-	private Vector<RowData> data;
+	ImageView img;
+	private Vector<RowData> costume_data;
+	int column_index;
+	Cursor cursor;
+	Intent intent = null;
 	RowData rd;
+	String imagePath;
+	private static final long serialVersionUID = 1L;
 
 	private static final int SELECT_IMAGE = 1;
 
-	private String selectedImagePath;
+	private String[] costumeName = { "cat1" };
 
-	static final String[] title = new String[] {
-			"*New*Apple iPad Wi-Fi (16GB)", "7 Touch Tablet -2GB Google Android",
-			"Apple iPad Wi-Fi (16GB) Rarely Used ", "Apple iPad Wi-Fi (16GB) AppleCase" };
-
-	private Integer[] imgid = {
-			R.drawable.bsfimg, R.drawable.bsfimg4, R.drawable.bsfimg2,
-			R.drawable.bsfimg5 };
-
-	private void initListeners() {
-
-		//		Button addnewcostume = (Button) findViewById(R.id.add_costume_button);
-		//		addnewcostume.setOnClickListener(new OnClickListener() {
-		//			public void onClick(View v) {
-		//				// TODO Auto-generated method stub
-		//				Intent intent = new Intent();
-		//				intent.setType("image/*");
-		//				intent.setAction(Intent.ACTION_GET_CONTENT);
-		//				startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_IMAGE);
-		//			}
-		//		});
-
-	}
+	private Integer[] imgid = { R.drawable.catroid };
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//setContentView(R.layout.activity_costume);
+		setContentView(R.layout.activity_costume);
+		costumeListView = (ListView) findViewById(android.R.id.list);
 
 		mInflater = (LayoutInflater) getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-		data = new Vector<RowData>();
-		for (int i = 0; i < title.length; i++) {
+		costume_data = new Vector<RowData>();
+		for (int i = 0; i < costumeName.length; i++) {
 			try {
-				rd = new RowData(i, title[i]);
+				rd = new RowData(i, costumeName[i]);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-			data.add(rd);
+			costume_data.add(rd);
 		}
 
-		CostumeAdapter adapter = new CostumeAdapter(this, R.layout.activity_costumelist, R.id.costume_edit_name, data);
-		setListAdapter(adapter);
+		CostumeAdapter adapter = new CostumeAdapter(this, R.layout.activity_costumelist, R.id.costume_edit_name,
+				costume_data);
+		costumeListView.setAdapter(adapter);
 		getListView().setTextFilterEnabled(true);
+
+		Button addnewcostume = (Button) findViewById(R.id.add_costume_button);
+		addnewcostume.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent();
+				intent.setType("image/*");
+				intent.setAction(Intent.ACTION_GET_CONTENT);
+				startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_IMAGE);
+			}
+		});
 
 	}
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (resultCode == RESULT_OK) {
+		if (resultCode == Activity.RESULT_OK) {
 			if (requestCode == SELECT_IMAGE) {
 				Uri selectedImageUri = data.getData();
-				selectedImagePath = getPath(selectedImageUri);
+
+				//OI FILE Manager
+				String filemanagerstring = selectedImageUri.getPath();
+
+				//MEDIA GALLERY
+				String selectedImagePath = getPath(selectedImageUri);
+
+				img.setImageURI(selectedImageUri);
+
+				imagePath.getBytes();
+
+				String imageName = imagePath.toString();
+
+				costumeName[(costumeName.length) + 1] = new String(imageName);
+
+				//TextView costumeName = (TextView) findViewById(R.id.edit_costume);
+				//costumeName.setText(imagePath.toString());
+
+				Bitmap bm = BitmapFactory.decodeFile(imagePath);
+
 			}
+
 		}
+
 	}
 
 	public String getPath(Uri uri) {
-		String[] projection = { MediaStore.Images.Media.DATA };
+		String[] projection = { MediaColumns.DATA };
 		Cursor cursor = managedQuery(uri, projection, null, null, null);
-		int column_index = cursor
-				.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+		column_index = cursor.getColumnIndexOrThrow(MediaColumns.DATA);
 		cursor.moveToFirst();
+		imagePath = cursor.getString(column_index);
+
 		return cursor.getString(column_index);
 	}
 
@@ -117,9 +143,9 @@ public class CostumeActivity extends ListActivity {
 		protected String mTitle;
 		protected String mDetail;
 
-		RowData(int id, String title) {
+		RowData(int id, String costumeName) {
 			mId = id;
-			mTitle = title;
+			mTitle = costumeName;
 
 		}
 
@@ -137,8 +163,8 @@ public class CostumeActivity extends ListActivity {
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			ViewHolder holder = null;
-			TextView title = null;
-			ImageView i11 = null;
+			TextView costumeName = null;
+			ImageView costumeImage = null;
 			RowData rowData = getItem(position);
 			if (null == convertView) {
 				convertView = mInflater.inflate(R.layout.activity_costumelist, null);
@@ -146,34 +172,34 @@ public class CostumeActivity extends ListActivity {
 				convertView.setTag(holder);
 			}
 			holder = (ViewHolder) convertView.getTag();
-			title = holder.gettitle();
-			title.setText(rowData.mTitle);
-			i11 = holder.getImage();
-			i11.setImageResource(imgid[rowData.mId]);
+			costumeName = holder.gettitle();
+			costumeName.setText(rowData.mTitle);
+			costumeImage = holder.getImage();
+			costumeImage.setImageResource(imgid[rowData.mId]);
 			return convertView;
 		}
 
 		private class ViewHolder {
 			private View mRow;
-			private TextView title = null;
-			private ImageView i11 = null;
+			private TextView costumeName = null;
+			private ImageView costumeImage = null;
 
 			public ViewHolder(View row) {
 				mRow = row;
 			}
 
 			public TextView gettitle() {
-				if (null == title) {
-					title = (TextView) mRow.findViewById(R.id.costume_edit_name);
+				if (null == costumeName) {
+					costumeName = (TextView) mRow.findViewById(R.id.costume_edit_name);
 				}
-				return title;
+				return costumeName;
 			}
 
 			public ImageView getImage() {
-				if (null == i11) {
-					i11 = (ImageView) mRow.findViewById(R.id.costume_image);
+				if (null == costumeImage) {
+					costumeImage = (ImageView) mRow.findViewById(R.id.costume_image);
 				}
-				return i11;
+				return costumeImage;
 			}
 		}
 	}
