@@ -34,8 +34,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -43,6 +45,7 @@ import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 
 public class SoundActivity extends ListActivity {
+	private ListView soundListView;
 	private LayoutInflater mInflater;
 	private Vector<RowData> data;
 	RowData rd;
@@ -58,7 +61,8 @@ public class SoundActivity extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//setContentView(R.layout.activity_sound);
+		setContentView(R.layout.activity_sound);
+		soundListView = (ListView) findViewById(android.R.id.list);
 
 		mInflater = (LayoutInflater) getSystemService(
 				Activity.LAYOUT_INFLATER_SERVICE);
@@ -73,20 +77,20 @@ public class SoundActivity extends ListActivity {
 		}
 
 		SoundAdapter adapter = new SoundAdapter(this, R.layout.activity_soundlist, R.id.edit_sound_name, data);
-		setListAdapter(adapter);
+		soundListView.setAdapter(adapter);
 		getListView().setTextFilterEnabled(true);
 
-		//		Button addnewcostume = (Button) findViewById(R.id.add_sound_button);
-		//		addnewcostume.setOnClickListener(new OnClickListener() {
-		//			public void onClick(View v) {
-		//				// TODO Auto-generated method stub
-		//				Intent intent = new Intent();
-		//				intent.setType("sound/*");
-		//				intent.setAction(Intent.ACTION_GET_CONTENT);
-		//				startActivityForResult(Intent.createChooser(intent, "Select Sound"), SELECT_SOUND);
-		//
-		//			}
-		//		});
+		Button addnewcostume = (Button) findViewById(R.id.add_sound_button);
+		addnewcostume.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent();
+				intent.setType("sound/*");
+				intent.setAction(Intent.ACTION_GET_CONTENT);
+				startActivityForResult(Intent.createChooser(intent, "Select Sound"), SELECT_SOUND);
+
+			}
+		});
 	}
 
 	@Override
