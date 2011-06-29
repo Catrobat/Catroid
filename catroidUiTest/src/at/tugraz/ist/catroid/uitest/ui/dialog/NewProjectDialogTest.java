@@ -58,18 +58,13 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 	}
 
 	public void testNewProjectDialog() throws NameNotFoundException, IOException {
-
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
-
 		int nameEditTextId = solo.getCurrentEditTexts().size() - 1;
-
 		Utils.enterText(solo, nameEditTextId, "testingproject");
-
 		solo.sendKey(Solo.ENTER);
-
 		solo.sleep(1000);
-		assertTrue("New Project is not testingproject!",
-				ProjectManager.getInstance().getCurrentProject().getName().equals("testingproject"));
+		assertTrue("New Project is not testingproject!", ProjectManager.getInstance().getCurrentProject().getName()
+				.equals("testingproject"));
 
 	}
 
