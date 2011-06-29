@@ -26,7 +26,7 @@ android:layout_height="match_parent"
 >
 <ImageView
 android:id="@+id/costume_image"
-android:layout_width="80dp" android:layout_height="100dp"/>
+android:layout_width="80dp" android:layout_height="90dp"/>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 android:orientation="vertical"
 android:layout_width="match_parent"
@@ -50,14 +50,14 @@ android:textSize="16sp" />
     android:id="@+id/edit_costume" 
     android:layout_width="5dip" 
     android:text="@string/edit_costume" 
-    android:layout_height="wrap_content"></Button>
+    android:layout_height="48dip"></Button>
     
     <Button 
     android:layout_weight=".25" 
     android:id="@+id/copy_costume" 
     android:layout_width="5dip" 
     android:text="@string/copy_costume" 
-    android:layout_height="wrap_content"></Button>
+    android:layout_height="48dip"></Button>
     
     <ImageButton 
     android:id="@+id/delete_button" 
