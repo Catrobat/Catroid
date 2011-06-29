@@ -23,6 +23,7 @@ import java.io.IOException;
 
 import android.media.MediaPlayer;
 import android.test.InstrumentationTestCase;
+import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Project;
@@ -68,53 +69,54 @@ public class StopAllSoundsBrickTest extends InstrumentationTestCase {
 		testBrick.setPathToSoundfile(soundFile.getName());
 		testBrick.execute();
 		assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
-		while (mediaPlayer.isPlaying()) {
-
-		}
-
-		//		final int duration = mediaPlayer.getDuration() / 2;
-		//		try {
-		//			Thread.sleep(duration);
-		//		} catch (InterruptedException e) {
-		//			e.printStackTrace();
-		//			fail();
-		//		}
-		//		assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
-		//		testBrick1.execute();
-		//
-		//		assertFalse("MediaPlayer is still playing", mediaPlayer.isPlaying());
+		testBrick1.execute();
+		assertFalse("MediaPlayer is still playing", mediaPlayer.isPlaying());
 
 	}
 
-	//	public void testStopSimultaneousPlayingSounds() throws InterruptedException {
-	//
-	//		class ThreadSound extends Thread {
-	//			MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
-	//			PlaySoundBrick testBrick1 = new PlaySoundBrick(new Sprite("4"));
-	//
-	//			@Override
-	//			public void run() {
-	//				testBrick1.setPathToSoundfile(soundFile.getName());
-	//				testBrick1.execute();
-	//			}
-	//
-	//			public boolean isPlaying() {
-	//				return mediaPlayer.isPlaying();
-	//			}
-	//		}
-	//
-	//		ThreadSound th1 = new ThreadSound();
-	//		ThreadSound th2 = new ThreadSound();
-	//		StopAllSoundsBrick testBrick1 = new StopAllSoundsBrick(new Sprite("4"));
-	//		th1.start();
-	//		//th2.start();
-	//		//		Thread.sleep(50);
-	//		//		assertTrue("mediaPlayer is not playing", th1.isPlaying());
-	//		//		assertTrue("mediaPlayer is not playing", th2.isPlaying());
-	//		//		testBrick1.execute();
-	//		//		assertFalse("mediaPlayer is still playing", th1.isPlaying());
-	//		//		assertFalse("mediaPlayer is still playing", th2.isPlaying());
-	//	}
+	public void testStopSimultaneousPlayingSounds() throws InterruptedException {
+		final MediaPlayer mediaPlayer1 = SoundManager.getInstance().getMediaPlayer();
+		final MediaPlayer mediaPlayer2 = SoundManager.getInstance().getMediaPlayer();
+		class ThreadSound1 extends Thread {
+			PlaySoundBrick testBrick1 = new PlaySoundBrick(new Sprite("8"));
+
+			@Override
+			public void run() {
+
+				testBrick1.setPathToSoundfile(soundFile.getName());
+				testBrick1.execute();
+				Log.i("sound", "media1" + mediaPlayer1.isPlaying());
+			}
+
+		}
+
+		class ThreadSound2 extends Thread {
+			PlaySoundBrick testBrick1 = new PlaySoundBrick(new Sprite("9"));
+
+			@Override
+			public void run() {
+
+				testBrick1.setPathToSoundfile(soundFile.getName());
+				testBrick1.execute();
+				Log.i("sound", "media2" + mediaPlayer2.isPlaying());
+			}
+
+		}
+
+		StopAllSoundsBrick testBrick1 = new StopAllSoundsBrick(new Sprite("10"));
+		ThreadSound1 th1 = new ThreadSound1();
+		ThreadSound2 th2 = new ThreadSound2();
+		th1.start();
+		th2.start();
+		Thread.sleep(100);
+		assertTrue("mediaPlayer1 is not playing", mediaPlayer1.isPlaying());
+		assertTrue("mediaPlayer2 is not playing", mediaPlayer2.isPlaying());
+		//		testBrick1.execute();
+		Thread.sleep(100);
+		assertFalse("mediaPlayer1 is not stopped", mediaPlayer1.isPlaying());
+		assertFalse("mediaPlayer2 is not stopped", mediaPlayer2.isPlaying());
+		Thread.sleep(1000);
+	}
 
 	private void createTestProject() throws IOException {
 		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
