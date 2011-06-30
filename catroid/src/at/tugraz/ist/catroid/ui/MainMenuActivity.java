@@ -26,8 +26,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
@@ -106,16 +108,7 @@ public class MainMenuActivity extends Activity {
 				break;
 			case Consts.DIALOG_UPLOAD_PROJECT:
 				if (projectManager.getCurrentProject() == null) {
-					dialog = null;public void connect() {
-						BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-						if (mBluetoothAdapter == null) {
-							// Device does not support Bluetooth
-						}
-						if (!mBluetoothAdapter.isEnabled()) {
-							Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-							startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-						}
-					}
+					dialog = null;
 					break;
 				}
 				dialog = new UploadProjectDialog(this);
@@ -147,16 +140,7 @@ public class MainMenuActivity extends Activity {
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
-		if (projectManager.getCurrentProjectpublic void connect() {
-			BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-			if (mBluetoothAdapter == null) {
-				// Device does not support Bluetooth
-			}
-			if (!mBluetoothAdapter.isEnabled()) {
-				Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-				startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-			}
-		}() == null) {
+		if (projectManager.getCurrentProject() == null) {
 			return;
 		}
 		//		TextView currentProjectTextView = (TextView) findViewById(R.id.currentProjectNameTextView);
@@ -201,13 +185,6 @@ public class MainMenuActivity extends Activity {
 		showDialog(Consts.DIALOG_ABOUT);
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		getMenuInflater().inflate(R.menu.lego_menu, menu);
-		return true;
-	}
-
 	public void connect() {
 		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		if (mBluetoothAdapter == null) {
@@ -216,6 +193,35 @@ public class MainMenuActivity extends Activity {
 		if (!mBluetoothAdapter.isEnabled()) {
 			Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
 			startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		getMenuInflater().inflate(R.menu.lego_menu, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.bluetooth_btn:
+				connect();
+				break;
+		}
+		return true;
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == REQUEST_ENABLE_BT) {
+			if (resultCode == Activity.RESULT_OK) {
+				Toast.makeText(this, "Blurtooth enablad", Toast.LENGTH_LONG).show();
+			} else {
+				Toast.makeText(this, "Blurtooth not activ", Toast.LENGTH_LONG).show();
+			}
+
 		}
 	}
 }

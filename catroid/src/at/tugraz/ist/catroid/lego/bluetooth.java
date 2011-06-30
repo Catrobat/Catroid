@@ -35,7 +35,7 @@ public class bluetooth {
 		}
 		if (!mBluetoothAdapter.isEnabled()) {
 			Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-			startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+			//startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
 		}
 	}
 }
