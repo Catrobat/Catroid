@@ -39,6 +39,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	private transient List<Thread> threadList;
 	private transient Costume costume;
 	private transient int ghostEffectValue;
+	private transient int brightnessValue;
 
 	private Object readResolve() {
 		init();
@@ -54,7 +55,8 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		xPosition = 0;
 		yPosition = 0;
 		toDraw = false;
-		ghostEffectValue = 225;
+		ghostEffectValue = 0;
+		brightnessValue = 0;
 	}
 
 	public Sprite(String name) {
@@ -66,10 +68,20 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	public void startWhenScripts(String act) {
 		for (Script s : scriptList) {
 			if (s instanceof WhenScript) {
-				if (((WhenScript) s).getAction().equalsIgnoreCase(act)) {
+				if (act.equalsIgnoreCase(WhenScript.TAPPED)) {
+					if (((WhenScript) s).getAction().equalsIgnoreCase(WhenScript.TAPPED)) {
+						startScript(s);
+					}
+
+					if (((WhenScript) s).getAction().equalsIgnoreCase(WhenScript.TOUCHINGSTOPS)) {
+						stopScript(s);
+					}
+
+					if (((WhenScript) s).getAction().equalsIgnoreCase(WhenScript.TOUCHINGSTARTS)) {
+						startScript(s);
+					}
+				} else if (((WhenScript) s).getAction().equalsIgnoreCase(act)) {
 					startScript(s);
-				} else if (((WhenScript) s).getAction().equalsIgnoreCase(WhenScript.TOUCHINGSTOPS)) {
-					stopScript(s);
 				}
 			}
 		}
@@ -110,19 +122,27 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 				script.run();
 			}
 		});
+		if (s instanceof WhenScript && ((WhenScript) s).getAction().equalsIgnoreCase(WhenScript.TOUCHINGSTOPS)) {
+			t.setName(WhenScript.TOUCHINGSTOPS);
+		}
 		threadList.add(t);
 		t.start();
 	}
 
 	private void stopScript(Script s) {
-		final Script script = s;
-		Thread t = new Thread(new Runnable() {
-			public void run() {
-				script.readResolve();
+		s.setPaused(true);
+		for (Thread t : threadList) {
+			if (t.getName().equalsIgnoreCase(WhenScript.TOUCHINGSTOPS)) {
+				try {
+					t.join();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				threadList.remove(t);
 			}
-		});
-		threadList.add(t);
-		t.start();
+		}
+
 	}
 
 	public void pause() {
@@ -173,6 +193,10 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return ghostEffectValue;
 	}
 
+	public int getBrightnessValue() {
+		return brightnessValue;
+	}
+
 	public boolean isVisible() {
 		return isVisible;
 	}
@@ -189,14 +213,51 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		toDraw = true;
 	}
 
-	public synchronized void setGhostEffectValue(int ghostEffectValue) {
+	public synchronized void clearGraphicEffect() {
+		costume.clearGraphicEffect();
+		ghostEffectValue = 0;
+		brightnessValue = 0;
+		toDraw = true;
+	}
 
-		if (ghostEffectValue <= 0.0) {
-			throw new IllegalArgumentException("Sprite scale must be greater than zero!");
+	public synchronized void setBrightnessValue(int brightnessValue) {
+		this.brightnessValue = brightnessValue;
+		int brightness;
+		if (brightnessValue < 0) {
+			throw new IllegalArgumentException("Sprite brightness must be greater than or equal to zero!");
 		}
 
-		this.ghostEffectValue = ghostEffectValue;
+		if (brightnessValue > 100) {
+			brightness = 100;
+		} else {
+			brightness = brightnessValue;
+		}
 
+		costume.setBrightness(brightness);
+		toDraw = true;
+	}
+
+	public synchronized void setGhostEffectValue(int ghostEffectValue) {
+		this.ghostEffectValue = ghostEffectValue;
+		int calculation;
+		int opacityValue = 0;
+		if (ghostEffectValue < 0) {
+			throw new IllegalArgumentException("Sprite ghost effect must be greater than or equal to zero!");
+		}
+
+		calculation = (int) Math.floor(255 - (ghostEffectValue * 2.55));
+		// calculation: a value between 0 (completely transparent) and 255 (completely opaque).
+		if (calculation > 0) {
+			if (calculation >= 12) {
+				opacityValue = calculation;
+			} else {
+				opacityValue = 12;
+			}
+		} else if (calculation <= 0) {
+			opacityValue = 0;
+		}
+
+		costume.setGhostEffect(opacityValue);
 		toDraw = true;
 	}
 

@@ -180,6 +180,10 @@ public class SimpleGestureFilter extends SimpleOnGestureListener {
 			arg0.setAction(ACTION_FAKE); //action which will be converted to an ACTION_UP later.                                    
 			this.context.dispatchTouchEvent(arg0);
 			context.processOnTouch((int) arg0.getX(), (int) arg0.getY(), context.getString(R.string.action_tapped));
+			context.processOnTouch((int) arg0.getX(), (int) arg0.getY(),
+					context.getString(R.string.action_touchingStops));
+			context.processOnTouch((int) arg0.getX(), (int) arg0.getY(),
+					context.getString(R.string.action_touchingStarts));
 		}
 
 		return false;

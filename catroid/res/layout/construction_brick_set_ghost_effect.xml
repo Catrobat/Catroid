@@ -40,7 +40,7 @@
 	>
 		<EditText
 		android:id="@+id/construction_brick_set_ghost_effect_edit_text"
-		android:text="100"
+		android:text="0"
 		android:layout_height="wrap_content"
 		android:layout_width="60dp"
 		android:layout_toRightOf="@+id/SetGhostEffectTextView"
@@ -66,5 +66,6 @@
 		android:paddingRight="5dip"
 	>
 	</TextView>
+	
 	</RelativeLayout>
 </LinearLayout>

@@ -70,6 +70,13 @@ public abstract class Script implements Serializable {
 		brickPositionAfterPause = 0;
 	}
 
+	public void stop() {
+		paused = true;
+		isFinished = true;
+		brickPositionAfterPause = 0;
+		return;
+	}
+
 	public void addBrick(Brick brick) {
 		brickList.add(brick);
 	}

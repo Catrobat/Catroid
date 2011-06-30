@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
-import android.widget.ArrayAdapter;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Project;
@@ -20,9 +19,6 @@ import com.jayway.android.robotium.solo.Solo;
 public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
-
-	//	private WhenBrick whenBrick;
-	//	private String selectedTitle;
 
 	public WhenBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -60,19 +56,13 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
 				getActivity().getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_when)));
-		//		solo.clickOnButton(name);
-		solo.clickInList(0);
+
+		solo.clickOnText("Tapped");
+		solo.clickInList(2);
 		solo.sleep(500);
 	}
 
 	private void createProject() {
-		ArrayAdapter<CharSequence> spinnerAdapter = new ArrayAdapter<CharSequence>(
-				null, android.R.layout.simple_spinner_item);
-		spinnerAdapter.add("Tapped");
-		spinnerAdapter.add("Double Tapped");
-		spinnerAdapter.add("Long Pressed");
-		spinnerAdapter.add("Touching Starts");
-		spinnerAdapter.add("Touching Stops");
 
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
