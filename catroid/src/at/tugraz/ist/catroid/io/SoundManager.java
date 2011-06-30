@@ -66,6 +66,7 @@ public class SoundManager {
 				mediaPlayer.start();
 			} catch (IOException e) {
 				throw new IllegalArgumentException("IO error", e);
+
 			}
 		}
 		return mediaPlayer;
