@@ -185,7 +185,10 @@
     <string name="notification_invalid_name_entered">
     	Please enter a name
     </string>
-
+	
+	<!-- Lego NXT -->
+	<string name="activate_bluetooth">Activate Bluetooth</string>
+	
     <!-- Error messages -->
     <string name="error_no_sd_card">
         Catroid requires an SD card in order to run, but none was found.\nPlease insert an SD card and try again.

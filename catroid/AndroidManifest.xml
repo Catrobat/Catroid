@@ -37,6 +37,10 @@
 	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
 	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
 	
+	<!-- Lego NXT Bluetooth permission-->
+	<uses-permission android:name="android.permission.BLUETOOTH" />
+	<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+	
 	<application
 		android:icon="@drawable/ic_launcher_catroid_plain"
 		android:label="@string/app_name"

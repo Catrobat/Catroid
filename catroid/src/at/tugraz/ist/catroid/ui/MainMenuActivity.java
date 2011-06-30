@@ -21,9 +21,11 @@ package at.tugraz.ist.catroid.ui;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -43,6 +45,7 @@ public class MainMenuActivity extends Activity {
 	private static final String PREF_PROJECTNAME_KEY = "projectName";
 	private ProjectManager projectManager;
 	private ActivityHelper activityHelper = new ActivityHelper(this);
+	private static final int REQUEST_ENABLE_BT = 3;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +106,16 @@ public class MainMenuActivity extends Activity {
 				break;
 			case Consts.DIALOG_UPLOAD_PROJECT:
 				if (projectManager.getCurrentProject() == null) {
-					dialog = null;
+					dialog = null;public void connect() {
+						BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+						if (mBluetoothAdapter == null) {
+							// Device does not support Bluetooth
+						}
+						if (!mBluetoothAdapter.isEnabled()) {
+							Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+							startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+						}
+					}
 					break;
 				}
 				dialog = new UploadProjectDialog(this);
@@ -135,7 +147,16 @@ public class MainMenuActivity extends Activity {
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
-		if (projectManager.getCurrentProject() == null) {
+		if (projectManager.getCurrentProjectpublic void connect() {
+			BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+			if (mBluetoothAdapter == null) {
+				// Device does not support Bluetooth
+			}
+			if (!mBluetoothAdapter.isEnabled()) {
+				Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+				startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+			}
+		}() == null) {
 			return;
 		}
 		//		TextView currentProjectTextView = (TextView) findViewById(R.id.currentProjectNameTextView);
@@ -180,4 +201,21 @@ public class MainMenuActivity extends Activity {
 		showDialog(Consts.DIALOG_ABOUT);
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		getMenuInflater().inflate(R.menu.lego_menu, menu);
+		return true;
+	}
+
+	public void connect() {
+		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+		if (mBluetoothAdapter == null) {
+			// Device does not support Bluetooth
+		}
+		if (!mBluetoothAdapter.isEnabled()) {
+			Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+			startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+		}
+	}
 }
