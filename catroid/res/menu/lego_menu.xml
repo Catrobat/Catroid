@@ -21,5 +21,5 @@
 
 <menu
   xmlns:android="http://schemas.android.com/apk/res/android">
-  <item android:id="@+id/bluetooth" android:title="@string/activate_bluetooth" />
+  <item android:id="@+id/bluetooth_btn" android:title="@string/activate_bluetooth" />
 </menu>
