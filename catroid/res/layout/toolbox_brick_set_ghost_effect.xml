@@ -25,21 +25,6 @@
 	android:background="@drawable/brick_violet"
 >
 
-	<EditText
-		android:id="@+id/toolbox_brick_set_ghost_effect_edit_text"
-		android:text="100"
-		android:layout_height="wrap_content"
-		android:layout_width="60dp"
-		android:layout_toRightOf="@+id/SetGhostEffectTextView"
-		android:clickable="false"
-		android:focusable="false"
-		android:focusableInTouchMode="false"
-		android:gravity="right"
-		android:maxLength="3"
-		android:maxLines="1"
-		android:paddingLeft="5dip"
-	>
-	</EditText>
 	<TextView
 		android:id="@+id/SetGhostEffectTextView"
 		android:text="@string/brick_set_ghost_effect"
@@ -53,4 +38,20 @@
 		android:paddingRight="5dip"
 	>
 	</TextView>
+	
+	<EditText
+		android:id="@+id/toolbox_set_ghost_effect_edit_text"
+		android:text="0"
+		android:layout_height="wrap_content"
+		android:layout_width="60dp"
+		android:layout_toRightOf="@+id/SetGhostEffectTextView"
+		android:clickable="false"
+		android:focusable="false"
+		android:focusableInTouchMode="false"
+		android:gravity="right"
+		android:maxLength="3"
+		android:maxLines="1"
+	>
+	</EditText>
+	
 </RelativeLayout>

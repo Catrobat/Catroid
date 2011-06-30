@@ -158,6 +158,10 @@
 	<string name="brick_glide_to">to</string>
 	<string name="brick_when">When</string>
 	<string name="brick_set_ghost_effect">Set Ghost Effect to</string>
+	<string name="brick_change_ghost_effect">Change Ghost Effect by</string>
+	<string name="brick_set_brightness">Set Brightness to</string>
+	<string name="brick_change_brightness">Change Brightness by</string>
+	<string name="brick_clear_graphic_effect">Clear Graphic Effect</string>
 	
 	<string name="choose_sound_title">choose a title</string>
 	

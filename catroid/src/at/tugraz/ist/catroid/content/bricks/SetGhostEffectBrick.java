@@ -30,10 +30,6 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
-/**
- * @author DENISE
- * 
- */
 public class SetGhostEffectBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
 	private int ghostEffectValue;
