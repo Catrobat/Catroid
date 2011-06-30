@@ -23,7 +23,6 @@ import java.io.IOException;
 
 import android.media.MediaPlayer;
 import android.test.InstrumentationTestCase;
-import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Project;
@@ -85,7 +84,7 @@ public class StopAllSoundsBrickTest extends InstrumentationTestCase {
 
 				testBrick1.setPathToSoundfile(soundFile.getName());
 				testBrick1.execute();
-				Log.i("sound", "media1" + mediaPlayer1.isPlaying());
+
 			}
 
 		}
@@ -98,7 +97,7 @@ public class StopAllSoundsBrickTest extends InstrumentationTestCase {
 
 				testBrick1.setPathToSoundfile(soundFile.getName());
 				testBrick1.execute();
-				Log.i("sound", "media2" + mediaPlayer2.isPlaying());
+
 			}
 
 		}
@@ -111,8 +110,7 @@ public class StopAllSoundsBrickTest extends InstrumentationTestCase {
 		Thread.sleep(100);
 		assertTrue("mediaPlayer1 is not playing", mediaPlayer1.isPlaying());
 		assertTrue("mediaPlayer2 is not playing", mediaPlayer2.isPlaying());
-		//		testBrick1.execute();
-		Thread.sleep(100);
+		testBrick1.execute();
 		assertFalse("mediaPlayer1 is not stopped", mediaPlayer1.isPlaying());
 		assertFalse("mediaPlayer2 is not stopped", mediaPlayer2.isPlaying());
 		Thread.sleep(1000);
@@ -128,7 +126,7 @@ public class StopAllSoundsBrickTest extends InstrumentationTestCase {
 
 	private void setUpSoundFile() throws IOException {
 
-		soundFile = TestUtils.saveFileToProject(projectName, "soundTest.mp3", SOUND_FILE_ID, getInstrumentation()
+		soundFile = TestUtils.saveFileToProject(projectName, "longtestsound", SOUND_FILE_ID, getInstrumentation()
 				.getContext(), TestUtils.TYPE_SOUND_FILE);
 
 	}

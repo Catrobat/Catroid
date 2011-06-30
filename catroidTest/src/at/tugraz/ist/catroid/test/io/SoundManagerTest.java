@@ -37,10 +37,10 @@ public class SoundManagerTest extends InstrumentationTestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		soundFile = TestUtils.createTestMediaFile(Consts.DEFAULT_ROOT + "testSound.mp3", TEST_SOUND,
-				getInstrumentation().getContext());
+		soundFile = TestUtils.createTestMediaFile(Consts.DEFAULT_ROOT + "testSound", TEST_SOUND, getInstrumentation()
+				.getContext());
 
-		longSoundFile = TestUtils.createTestMediaFile(Consts.DEFAULT_ROOT + "longTestSound.mp3", LONG_TEST_SOUND,
+		longSoundFile = TestUtils.createTestMediaFile(Consts.DEFAULT_ROOT + "longTestSound", LONG_TEST_SOUND,
 				getInstrumentation().getContext());
 	}
 

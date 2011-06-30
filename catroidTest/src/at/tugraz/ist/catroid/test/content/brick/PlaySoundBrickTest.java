@@ -100,13 +100,18 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 			PlaySoundBrick testBrick = new PlaySoundBrick(new Sprite("3"));
 			testBrick.setPathToSoundfile(soundFile.getName());
 			testBrick.execute();
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
 		}
 	}
 
 	public void testPlaySimultaneousSounds() throws InterruptedException {
 		Thread soundThread01 = new Thread(new Runnable() {
-			//final String soundFilePath = soundFile.getAbsolutePath();
 			PlaySoundBrick testBrick1 = new PlaySoundBrick(new Sprite("4"));
 
 			public void run() {
@@ -116,7 +121,6 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 		});
 
 		Thread soundThread02 = new Thread(new Runnable() {
-			//final String soundFilePath = soundFile.getAbsolutePath();
 			PlaySoundBrick testBrick2 = new PlaySoundBrick(new Sprite("5"));
 
 			public void run() {
@@ -169,7 +173,7 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 
 	private void setUpSoundFile() throws IOException {
 
-		soundFile = TestUtils.saveFileToProject(projectName, "soundTest.mp3", SOUND_FILE_ID, getInstrumentation()
+		soundFile = TestUtils.saveFileToProject(projectName, "soundTest", SOUND_FILE_ID, getInstrumentation()
 				.getContext(), TestUtils.TYPE_SOUND_FILE);
 
 	}
