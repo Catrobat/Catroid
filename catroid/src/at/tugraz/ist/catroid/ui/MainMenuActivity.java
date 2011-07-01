@@ -24,13 +24,11 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
-import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.dialogs.AboutDialog;
@@ -46,65 +44,13 @@ public class MainMenuActivity extends Activity {
 	private ProjectManager projectManager;
 	private ActivityHelper activityHelper = new ActivityHelper(this);
 
-	private void initListeners() {
-
-		Button currentProjectButton = (Button) findViewById(R.id.current_project_button);
-		currentProjectButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				if (projectManager.getCurrentProject() != null) {
-					Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
-					startActivity(intent);
-				}
-			}
-		});
-
-		Button newProjectButton = (Button) findViewById(R.id.new_project_button);
-		newProjectButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				showDialog(Consts.DIALOG_NEW_PROJECT);
-			}
-		});
-
-		Button loadProjectButton = (Button) findViewById(R.id.projects_on_phone_button);
-		loadProjectButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				showDialog(Consts.DIALOG_LOAD_PROJECT);
-			}
-		});
-
-		Button uploadProjectButton = (Button) findViewById(R.id.upload_project_button);
-		uploadProjectButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				showDialog(Consts.DIALOG_UPLOAD_PROJECT);
-			}
-		});
-
-		Button aboutCatroidButton = (Button) findViewById(R.id.about_catroid_button);
-		aboutCatroidButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				showDialog(Consts.DIALOG_ABOUT);
-			}
-		});
-
-	}
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		DisplayMetrics dm = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics(dm);
-
-		Values.SCREEN_WIDTH = dm.widthPixels;
-		Values.SCREEN_HEIGHT = dm.heightPixels;
+		Utils.updateScreenWidthAndHeight(this);
 
 		setContentView(R.layout.activity_main_menu);
 		projectManager = ProjectManager.getInstance();
-
-		if (projectManager.getCurrentProject() != null) {
-			initListeners();
-			return;
-		}
 
 		// Try to load sharedPreferences
 		SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
@@ -121,8 +67,6 @@ public class MainMenuActivity extends Activity {
 			currentProjectButton.setEnabled(false);
 
 		}
-		initListeners();
-
 	}
 
 	@Override
@@ -143,7 +87,7 @@ public class MainMenuActivity extends Activity {
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialog;
 		if (projectManager.getCurrentProject() != null
-					&& StorageHandler.getInstance().projectExists(projectManager.getCurrentProject().getName())) {
+				&& StorageHandler.getInstance().projectExists(projectManager.getCurrentProject().getName())) {
 			projectManager.saveProject(this);
 		}
 
@@ -211,6 +155,29 @@ public class MainMenuActivity extends Activity {
 			prefs.putString(PREF_PROJECTNAME_KEY, projectManager.getCurrentProject().getName());
 			prefs.commit();
 		}
+	}
+
+	public void handleCurrentProjectButton(View v) {
+		if (projectManager.getCurrentProject() != null) {
+			Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
+			startActivity(intent);
+		}
+	}
+
+	public void handleNewProjectButton(View v) {
+		showDialog(Consts.DIALOG_NEW_PROJECT);
+	}
+
+	public void handleLoadProjectButton(View v) {
+		showDialog(Consts.DIALOG_LOAD_PROJECT);
+	}
+
+	public void handleUploadProjectButton(View v) {
+		showDialog(Consts.DIALOG_UPLOAD_PROJECT);
+	}
+
+	public void handleAboutCatroidButton(View v) {
+		showDialog(Consts.DIALOG_ABOUT);
 	}
 
 }

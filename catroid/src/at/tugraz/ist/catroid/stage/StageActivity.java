@@ -52,6 +52,8 @@ public class StageActivity extends Activity {
 			stage = (SurfaceView) findViewById(R.id.stageView);
 
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+			Utils.updateScreenWidthAndHeight(this);
+
 			soundManager = SoundManager.getInstance();
 			stageManager = new StageManager(this);
 			stageManager.start();
@@ -122,6 +124,7 @@ public class StageActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		stageManager.finish();
 		soundManager.clear();
 	}
 
@@ -134,8 +137,7 @@ public class StageActivity extends Activity {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		int currentSpritePos = projectManager.getCurrentSpritePosition();
 		int currentScriptPos = projectManager.getCurrentScriptPosition();
-		projectManager.loadProject(projectManager.getCurrentProject().getName(), this,
-				false);
+		projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
 		projectManager.setCurrentSpriteWithPosition(currentSpritePos);
 		projectManager.setCurrentScriptWithPosition(currentScriptPos);
 		finish();

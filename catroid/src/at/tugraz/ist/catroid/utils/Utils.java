@@ -29,6 +29,7 @@ import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
@@ -38,9 +39,11 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Values;
 
 public class Utils {
 
@@ -48,6 +51,14 @@ public class Utils {
 
 	private static boolean hasSdCard() {
 		return android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
+	}
+
+	public static void updateScreenWidthAndHeight(Activity currentActivity) {
+		DisplayMetrics dm = new DisplayMetrics();
+		currentActivity.getWindowManager().getDefaultDisplay().getMetrics(dm);
+
+		Values.SCREEN_WIDTH = dm.widthPixels;
+		Values.SCREEN_HEIGHT = dm.heightPixels;
 	}
 
 	/**
