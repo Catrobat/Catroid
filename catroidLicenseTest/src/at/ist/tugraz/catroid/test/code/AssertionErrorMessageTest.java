@@ -186,7 +186,7 @@ public class AssertionErrorMessageTest extends TestCase {
 
 				if (!currentLine.matches(regexAssertContainsErrorMessage)) {
 					errorFound = true;
-					errorMessages.append(file.getAbsolutePath() + " in line " + lineNumber + "\n");
+					errorMessages.append(file.getCanonicalPath() + " in line " + lineNumber + "\n");
 				}
 			}
 		}

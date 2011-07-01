@@ -27,38 +27,30 @@ import java.util.List;
 import junit.framework.TestCase;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
-public class GetXListTest extends TestCase {
-	private static final String[] DIRECTORIES = { "../catroid", "../catroidTest", "../catroidUiTest" };
-	private static final String REGEX_PATTERN = "^.*get(Sprite|Script|Brick)List\\(\\)\\.add\\(.*$";
+public class BlockCharacterTest extends TestCase {
 
 	private StringBuffer errorMessages;
 	private boolean errorFound;
 
-	private void checkFile(File file) throws IOException {
+	private static final String[] DIRECTORIES = { "../catroidUiTest", "../catroidTest", "../catroid",
+			"../catroidLicenseTest" };
+
+	private void checkFileForBlockCharacters(File file) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(file));
 
 		int lineCount = 1;
 		String line = null;
 
 		while ((line = reader.readLine()) != null) {
-			if (line.matches(REGEX_PATTERN)) {
+			if (line.contains("\uFFFD")) {
 				errorFound = true;
-				errorMessages.append("File " + file.getName() + ":" + lineCount + " contains 'getScriptList().add()'");
+				errorMessages.append(file.getName() + " in line " + lineCount + "\n");
 			}
 			++lineCount;
 		}
 	}
 
-	public void testGetXListAddNotPresent() throws IOException {
-		assertTrue("Pattern didn't match!", "getBrickList().add(new HideBrick(sprite))".matches(REGEX_PATTERN));
-		assertTrue("Pattern didn't match!", "getScriptList().add(virtualVariable)".matches(REGEX_PATTERN));
-		assertTrue("Pattern didn't match!", "getSpriteList().add(VIRTUAL_08_VARIABLE)".matches(REGEX_PATTERN));
-		assertTrue("Pattern didn't match!", "getBrickList().add(virtual_VAR14BLE_)".matches(REGEX_PATTERN));
-		assertTrue("Pattern didn't match!", "getScriptList().add(_)".matches(REGEX_PATTERN));
-		assertTrue("Pattern didn't match!", "foo(); getScriptList().add(42); bar();".matches(REGEX_PATTERN));
-		assertFalse("Pattern matched! But shouldn't!", "getScriptList()add(MyVar)".matches(REGEX_PATTERN));
-		assertFalse("Pattern matched! But shouldn't!", "getBrickList.add(MyVar)".matches(REGEX_PATTERN));
-
+	public void testForBlockCharacters() throws IOException {
 		errorMessages = new StringBuffer();
 		errorFound = false;
 
@@ -67,9 +59,10 @@ public class GetXListTest extends TestCase {
 			assertTrue("Couldn't find directory: " + directoryName, directory.exists() && directory.isDirectory());
 			assertTrue("Couldn't read directory: " + directoryName, directory.canRead());
 
-			List<File> filesToCheck = UtilFile.getFilesFromDirectoryByExtension(directory, ".java");
+			List<File> filesToCheck = UtilFile.getFilesFromDirectoryByExtension(directory, new String[] { ".java",
+					".xml" });
 			for (File file : filesToCheck) {
-				checkFile(file);
+				checkFileForBlockCharacters(file);
 			}
 		}
 
