@@ -22,8 +22,6 @@ import java.util.ArrayList;
 
 import android.app.Dialog;
 import android.app.ListActivity;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnShowListener;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -75,6 +73,7 @@ public class ProjectActivity extends ListActivity {
 						ProjectActivity.this.getString(R.string.background))) {
 					return true;
 				}
+				removeDialog(Consts.DIALOG_CONTEXT_MENU);
 				showDialog(Consts.DIALOG_CONTEXT_MENU);
 				return true;
 			}
@@ -164,11 +163,6 @@ public class ProjectActivity extends ListActivity {
 					dialog = null;
 				} else {
 					dialog = iconContextMenu.createMenu(spriteToEdit.getName());
-					dialog.setOnShowListener(new OnShowListener() { //TODO try to find a better place: not in init Custom.. (there this is not initialized) also not in CustomIconContextMenu 
-						public void onShow(DialogInterface dialogInterface) {
-							dialog.setTitle(spriteToEdit.getName());
-						}
-					});
 				}
 				break;
 			default:
