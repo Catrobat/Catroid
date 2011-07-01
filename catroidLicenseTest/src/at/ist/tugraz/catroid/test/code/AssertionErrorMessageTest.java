@@ -33,14 +33,16 @@ public class AssertionErrorMessageTest extends TestCase {
 
 	// Bits of regular expressions to be used
 	private static final String OPENING_BRACKET = "\\(";
+	private static final String CLOSING_BRACKET = "\\)";
 	private static final String WHITESPACES = "(\\s)*";
 	private static final String ANYTHING = ".*";
 	private static final String STRING_LITERAL = "\"[^\"]*\"";
 	private static final String COMMENT = "/\\*[^\\*/]\\*/";
 	private static final String NON_STRING_NON_COMMA = "[^\",]";
-	private static final String PARAMETER = "(" + STRING_LITERAL + "|" + COMMENT + "|" + NON_STRING_NON_COMMA + ")+";
+	private static final String METHOD_CALL = "[a-zA-Z0-9_]+" + OPENING_BRACKET + ".*" + CLOSING_BRACKET;
+	private static final String PARAMETER = "(" + STRING_LITERAL + "|" + COMMENT + "|" + METHOD_CALL + "|"
+			+ NON_STRING_NON_COMMA + ")+";
 	private static final String COMMA = ",";
-	private static final String CLOSING_BRACKET = "\\)";
 	private static final String LINE_COMMENT = "//.*";
 
 	private class AssertMethod {
@@ -108,7 +110,6 @@ public class AssertionErrorMessageTest extends TestCase {
 				regexAssertContainsErrorMessage += "|";
 			}
 		}
-		System.out.println(regexAssertContainsErrorMessage);
 
 		// Build regular expression to check if a command is complete (i.e. not one line of a multi-line command)
 		regexIsCompleteCommand = "(" + STRING_LITERAL + "|" + COMMENT + "|[^;]" + ")*;" + WHITESPACES + "("
@@ -143,6 +144,7 @@ public class AssertionErrorMessageTest extends TestCase {
 		matchingAsserts.add("assertTrue(\"message, with a comma\", value);");
 		matchingAsserts.add("assertTrue(name + \" has wrong value, but...\", value);");
 		matchingAsserts.add("fail(\"epic fail\");");
+		matchingAsserts.add("assertTrue(getErrorMessage(a, b, c), value)");
 
 		for (String matchingAssert : matchingAsserts) {
 			assertTrue("Regex didn't match expression " + matchingAssert,
@@ -202,7 +204,7 @@ public class AssertionErrorMessageTest extends TestCase {
 
 				if (!currentLine.matches(regexAssertContainsErrorMessage)) {
 					errorFound = true;
-					errorMessages.append(file.getAbsolutePath() + " on line " + lineNumber + "\n");
+					errorMessages.append(file.getAbsolutePath() + " in line " + lineNumber + "\n");
 				}
 			}
 		}
@@ -211,18 +213,16 @@ public class AssertionErrorMessageTest extends TestCase {
 	}
 
 	public void testAssertionErrorMessagesPresent() throws IOException {
+		errorMessages = new StringBuffer();
+		errorFound = false;
 		for (String directoryName : DIRECTORIES) {
 			File directory = new File(directoryName);
 			assertTrue("Couldn't find directory: " + directoryName, directory.exists() && directory.isDirectory());
 			assertTrue("Couldn't read directory: " + directoryName, directory.canRead());
 
-			errorMessages = new StringBuffer();
-			errorFound = false;
-
 			traverseDirectory(directory);
-
-			assertFalse("Assert statements without error messages have been found in the following files:\n"
-					+ errorMessages.toString(), errorFound);
 		}
+		assertFalse("Assert statements without error messages have been found in the following files: \n"
+				+ errorMessages.toString(), errorFound);
 	}
 }
