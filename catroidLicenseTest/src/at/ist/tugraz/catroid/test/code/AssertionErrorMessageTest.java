@@ -36,11 +36,11 @@ public class AssertionErrorMessageTest extends TestCase {
 	private static final String WHITESPACES = "(\\s)*";
 	private static final String ANYTHING = ".*";
 	private static final String STRING_LITERAL = "\"[^\"]*\"";
+	private static final String COMMENT = "/\\*[^\\*/]\\*/";
 	private static final String NON_STRING_NON_COMMA = "[^\",]";
-	private static final String PARAMETER = "(" + STRING_LITERAL + "|" + NON_STRING_NON_COMMA + ")*";
+	private static final String PARAMETER = "(" + STRING_LITERAL + "|" + COMMENT + "|" + NON_STRING_NON_COMMA + ")+";
 	private static final String COMMA = ",";
 	private static final String CLOSING_BRACKET = "\\)";
-	private static final String COMMENT = "/\\*[^\\*/]\\*/";
 	private static final String LINE_COMMENT = "//.*";
 
 	private class AssertMethod {
@@ -64,15 +64,14 @@ public class AssertionErrorMessageTest extends TestCase {
 	private List<AssertMethod> assertMethods;
 	private String regexIsAssertMethod;
 	private String regexAssertContainsErrorMessage;
-	private String regexIsCompleteCommand = "(" + STRING_LITERAL + "|" + COMMENT + "|[^;]" + ")*;" + WHITESPACES + "("
-			+ LINE_COMMENT + ")?";
+	private String regexIsCompleteCommand;
 	private StringBuffer errorMessages;
 	private boolean errorFound;
 
 	public AssertionErrorMessageTest() {
-		System.out.println(regexIsCompleteCommand);
 		/*
-		 * All JUnit assert commands taken from http://www.junit.org/apidocs/org/junit/Assert.html and
+		 * All JUnit assert commands, along with the number of parameters IF an error message is included,
+		 * taken from http://www.junit.org/apidocs/org/junit/Assert.html and
 		 * http://www.junit.org/apidocs/junit/framework/Assert.html as of JUnit version 4.9b2
 		 */
 		assertMethods = new ArrayList<AssertionErrorMessageTest.AssertMethod>();
@@ -87,11 +86,18 @@ public class AssertionErrorMessageTest extends TestCase {
 		assertMethods.add(new AssertMethod("assertTrue", 2));
 		assertMethods.add(new AssertMethod("fail", 1));
 
-		// Build regular expressions to check if a String is an assert method and if it contains an error message
+		// Build regular expressions to check if a String is an assert method
 		regexIsAssertMethod = "";
-		regexAssertContainsErrorMessage = "";
 		for (int i = 0; i < assertMethods.size(); i++) {
 			regexIsAssertMethod += "(" + WHITESPACES + assertMethods.get(i).getCommandName() + ANYTHING + ")";
+			if (i < assertMethods.size() - 1) {
+				regexIsAssertMethod += "|";
+			}
+		}
+
+		//  Build regular expression to check if an assert method contains an error message
+		regexAssertContainsErrorMessage = "";
+		for (int i = 0; i < assertMethods.size(); i++) {
 			regexAssertContainsErrorMessage += "(" + WHITESPACES + assertMethods.get(i).getCommandName()
 					+ OPENING_BRACKET;
 			for (int parameterCount = 0; parameterCount < assertMethods.get(i).getNumberOfParameters() - 1; parameterCount++) {
@@ -99,10 +105,14 @@ public class AssertionErrorMessageTest extends TestCase {
 			}
 			regexAssertContainsErrorMessage += PARAMETER + CLOSING_BRACKET + ANYTHING + ")";
 			if (i < assertMethods.size() - 1) {
-				regexIsAssertMethod += "|";
 				regexAssertContainsErrorMessage += "|";
 			}
 		}
+		System.out.println(regexAssertContainsErrorMessage);
+
+		// Build regular expression to check if a command is complete (i.e. not one line of a multi-line command)
+		regexIsCompleteCommand = "(" + STRING_LITERAL + "|" + COMMENT + "|[^;]" + ")*;" + WHITESPACES + "("
+				+ LINE_COMMENT + ")?";
 	}
 
 	private void traverseDirectory(File directory) throws IOException {
@@ -123,33 +133,53 @@ public class AssertionErrorMessageTest extends TestCase {
 		}
 	}
 
+	/** Test that tests the regular expressions used in the actual test (meta-test :)) */
 	public void testRegex() {
-		String[] regexMatches = { "assertTrue(\"message\", parameter);", "assertFalse( \"message\", parameter);",
-				"assertEquals(\"message\", a, b);", "assertTrue(\"message, with a comma\", value);",
-				"assertTrue(name + \" has wrong value, but...\", value);" };
+		List<String> matchingAsserts = new ArrayList<String>();
+		matchingAsserts.add("assertTrue(\"message\", parameter);");
+		matchingAsserts.add("assertTrue(iAmAString, parameter);");
+		matchingAsserts.add("assertFalse(\"message\", parameter); // comment");
+		matchingAsserts.add("assertEquals(\"message\", a, b);");
+		matchingAsserts.add("assertTrue(\"message, with a comma\", value);");
+		matchingAsserts.add("assertTrue(name + \" has wrong value, but...\", value);");
+		matchingAsserts.add("fail(\"epic fail\");");
 
-		for (String matchingRegex : regexMatches) {
-			assertTrue("No regex matched expression " + matchingRegex,
-					matchingRegex.matches(regexAssertContainsErrorMessage));
+		for (String matchingAssert : matchingAsserts) {
+			assertTrue("Regex didn't match expression " + matchingAssert,
+					matchingAssert.matches(regexAssertContainsErrorMessage));
 		}
 
-		String[] regexNotMatches = { "assertTrue(parameter);", "assertTrue((name + \"text\").equals(value));",
-				"assertTrue(text.equals(\"a,b\"));", "assertEquals(a, b)" };
+		List<String> notMatchingAsserts = new ArrayList<String>();
+		notMatchingAsserts.add("assertTrue(parameter);");
+		notMatchingAsserts.add("assertTrue((name + \"text\").equals(value));");
+		notMatchingAsserts.add("assertTrue(text.equals(\"a,b\"));");
+		notMatchingAsserts.add("assertTrue(/* Comment; evil */ value);");
+		notMatchingAsserts.add("assertEquals(a, b)");
+		notMatchingAsserts.add("fail();");
 
-		for (String notMatchingRegex : regexNotMatches) {
-			assertFalse("Expression was matched even though it shouldn't: " + notMatchingRegex,
-					notMatchingRegex.matches(regexAssertContainsErrorMessage));
+		for (String notMatchingAssert : notMatchingAsserts) {
+			assertFalse("Expression was matched even though it shouldn't: " + notMatchingAssert,
+					notMatchingAssert.matches(regexAssertContainsErrorMessage));
 		}
 
-		String[] completeCommands = { "method();", "method(param);", "method(\"text;\");" };
+		List<String> completeCommands = new ArrayList<String>();
+		completeCommands.add("method();");
+		completeCommands.add("method(param);");
+		completeCommands.add("method(\"text;\");");
 		for (String completeCommand : completeCommands) {
-			assertTrue("Regex for complete commands did not match " + completeCommand,
+			assertTrue("Regex for complete commands did not match command: " + completeCommand,
 					completeCommand.matches(regexIsCompleteCommand));
 		}
 
-		String[] incompleteCommands = { "method()", "method(", "method(\";\"", "method(/*;*/" };
+		List<String> incompleteCommands = new ArrayList<String>();
+		incompleteCommands.add("method()");
+		incompleteCommands.add("method(");
+		incompleteCommands.add("method(\";\"");
+		incompleteCommands.add("method(/*;*/");
+		// TODO: Incorporate this one; don't know how to exclude "//" from regex
+		// incompleteCommands.add("method(//;");
 		for (String incompleteCommand : incompleteCommands) {
-			assertFalse("Regex for complete commands matched incomplete command " + incompleteCommand,
+			assertFalse("Regex for complete commands matched incomplete command: " + incompleteCommand,
 					incompleteCommand.matches(regexIsCompleteCommand));
 		}
 	}
