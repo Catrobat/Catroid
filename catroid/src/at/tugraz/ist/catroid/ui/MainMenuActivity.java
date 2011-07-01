@@ -48,6 +48,9 @@ public class MainMenuActivity extends Activity {
 	private ProjectManager projectManager;
 	private ActivityHelper activityHelper = new ActivityHelper(this);
 	private static final int REQUEST_ENABLE_BT = 3;
+	private Menu myMenu;
+	public static final int MENU_TOGGLE_CONNECT = Menu.FIRST;
+	public static final int MENU_TOOGLE_DISCONNECT = Menu.FIRST + 1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -185,7 +188,13 @@ public class MainMenuActivity extends Activity {
 		showDialog(Consts.DIALOG_ABOUT);
 	}
 
-	public void connect() {
+	public boolean BtisOn() {
+		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+		return mBluetoothAdapter.isEnabled();
+
+	}
+
+	public void connectBT() {
 		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		if (mBluetoothAdapter == null) {
 			// Device does not support Bluetooth
@@ -196,30 +205,63 @@ public class MainMenuActivity extends Activity {
 		}
 	}
 
+	public void disconnectBT() {
+		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+		mBluetoothAdapter.disable();
+		// Device does not support Bluetooth
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		getMenuInflater().inflate(R.menu.lego_menu, menu);
+		myMenu = menu;
+		if (BtisOn()) {
+			myMenu.add(Menu.NONE, MENU_TOGGLE_CONNECT, Menu.NONE, "disconnect");
+		} else {
+			myMenu.add(Menu.NONE, MENU_TOOGLE_DISCONNECT, Menu.NONE, "connect");
+		}
+		//		super.onCreateOptionsMenu(menu);
+		//		getMenuInflater().inflate(R.menu.lego_menu, menu);
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.bluetooth_btn:
-				connect();
+			case MENU_TOGGLE_CONNECT:
+				connectBT();
+				break;
+			case MENU_TOOGLE_DISCONNECT:
+				disconnectBT();
 				break;
 		}
 		return true;
+	}
+
+	public void updateMenu() {
+		if (myMenu == null) {
+			return;
+		}
+
+		myMenu.clear();
+
+		if (connected) {
+			myMenu.add(0, MENU_TOGGLE_CONNECT, 1, getResources().getString(R.string.disconnect)).setIcon(
+					R.drawable.ic_menu_connected);
+
+		} else {
+			myMenu.add(0, MENU_TOGGLE_CONNECT, 1, getResources().getString(R.string.connect)).setIcon(
+					R.drawable.ic_menu_connect);
+		}
+
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == REQUEST_ENABLE_BT) {
 			if (resultCode == Activity.RESULT_OK) {
-				Toast.makeText(this, "Blurtooth enablad", Toast.LENGTH_LONG).show();
+				Toast.makeText(this, "Bluetooth enablad", Toast.LENGTH_LONG).show();
 			} else {
-				Toast.makeText(this, "Blurtooth not activ", Toast.LENGTH_LONG).show();
+				Toast.makeText(this, "Bluetooth not activ", Toast.LENGTH_LONG).show();
 			}
 
 		}
