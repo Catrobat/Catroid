@@ -187,8 +187,9 @@
     </string>
 	
 	<!-- Lego NXT -->
-	<string name="activate_bluetooth">Activate Bluetooth</string>
-	
+	<string name="enable_bluetooth">enable Bluetooth and Lego Bricks</string>
+	<string name="disable_bluetooth">disable Bluetooth and Lego Bricks</string>
+    
     <!-- Error messages -->
     <string name="error_no_sd_card">
         Catroid requires an SD card in order to run, but none was found.\nPlease insert an SD card and try again.

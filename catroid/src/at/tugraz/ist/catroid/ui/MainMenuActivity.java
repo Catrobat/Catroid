@@ -25,6 +25,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,6 +52,7 @@ public class MainMenuActivity extends Activity {
 	private Menu myMenu;
 	public static final int MENU_TOGGLE_CONNECT = Menu.FIRST;
 	public static final int MENU_TOOGLE_DISCONNECT = Menu.FIRST + 1;
+	private boolean connected = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -190,8 +192,9 @@ public class MainMenuActivity extends Activity {
 
 	public boolean BtisOn() {
 		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-		return mBluetoothAdapter.isEnabled();
-
+		connected = mBluetoothAdapter.isEnabled();
+		Log.i("bt", "BtisOn() " + connected);
+		return connected;
 	}
 
 	public void connectBT() {
@@ -208,19 +211,24 @@ public class MainMenuActivity extends Activity {
 	public void disconnectBT() {
 		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		mBluetoothAdapter.disable();
+		Toast.makeText(this, "bluetooth disabled", Toast.LENGTH_LONG).show();
+		connected = false;
+		updateMenu();
 		// Device does not support Bluetooth
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		myMenu = menu;
-		if (BtisOn()) {
-			myMenu.add(Menu.NONE, MENU_TOGGLE_CONNECT, Menu.NONE, "disconnect");
+
+		if (!BtisOn()) {
+			Log.i("bt", "menu_connect connected is " + BtisOn());
+			myMenu.add(Menu.NONE, MENU_TOGGLE_CONNECT, Menu.NONE, R.string.enable_bluetooth);
 		} else {
-			myMenu.add(Menu.NONE, MENU_TOOGLE_DISCONNECT, Menu.NONE, "connect");
+			Log.i("bt", "menu_disconnect connected is " + BtisOn());
+			myMenu.add(Menu.NONE, MENU_TOOGLE_DISCONNECT, Menu.NONE, R.string.disable_bluetooth);
 		}
-		//		super.onCreateOptionsMenu(menu);
-		//		getMenuInflater().inflate(R.menu.lego_menu, menu);
+
 		return true;
 	}
 
@@ -228,9 +236,11 @@ public class MainMenuActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case MENU_TOGGLE_CONNECT:
+				Log.i("bt", "menu toogle connect selected");
 				connectBT();
 				break;
 			case MENU_TOOGLE_DISCONNECT:
+				Log.i("bt", "menu toogle disconnected selected");
 				disconnectBT();
 				break;
 		}
@@ -238,19 +248,17 @@ public class MainMenuActivity extends Activity {
 	}
 
 	public void updateMenu() {
-		if (myMenu == null) {
-			return;
-		}
+		//		if (myMenu == null) {
+		//			return;
+		//		}
 
 		myMenu.clear();
 
-		if (connected) {
-			myMenu.add(0, MENU_TOGGLE_CONNECT, 1, getResources().getString(R.string.disconnect)).setIcon(
-					R.drawable.ic_menu_connected);
+		if (!connected) {
+			myMenu.add(Menu.NONE, MENU_TOGGLE_CONNECT, Menu.NONE, R.string.enable_bluetooth);
 
 		} else {
-			myMenu.add(0, MENU_TOGGLE_CONNECT, 1, getResources().getString(R.string.connect)).setIcon(
-					R.drawable.ic_menu_connect);
+			myMenu.add(Menu.NONE, MENU_TOOGLE_DISCONNECT, Menu.NONE, R.string.disable_bluetooth);
 		}
 
 	}
@@ -259,9 +267,15 @@ public class MainMenuActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == REQUEST_ENABLE_BT) {
 			if (resultCode == Activity.RESULT_OK) {
+				Log.i("bt", "resultCode is RESULT_OK " + resultCode);
 				Toast.makeText(this, "Bluetooth enablad", Toast.LENGTH_LONG).show();
+				connected = true;
+				updateMenu();
 			} else {
+				Log.i("bt", "resultCode is not RESULT_OK" + resultCode);
 				Toast.makeText(this, "Bluetooth not activ", Toast.LENGTH_LONG).show();
+				connected = false;
+				updateMenu();
 			}
 
 		}
