@@ -23,32 +23,85 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import junit.framework.TestCase;
 
 public class AssertionErrorMessageTest extends TestCase {
 	private static final String[] DIRECTORIES = { ".", "../catroid", "../catroidTest", "../catroidUiTest", };
+
+	// Bits of regular expressions to be used
 	private static final String OPENING_BRACKET = "\\(";
-	private static final String WHITESPACES = "\\s*";
+	private static final String WHITESPACES = "(\\s)*";
+	private static final String ANYTHING = ".*";
 	private static final String STRING_LITERAL = "\"[^\"]*\"";
-	private static final String PARAMETER = "(" + STRING_LITERAL + "|[^\",])*";
+	private static final String NON_STRING_NON_COMMA = "[^\",]";
+	private static final String PARAMETER = "(" + STRING_LITERAL + "|" + NON_STRING_NON_COMMA + ")*";
 	private static final String COMMA = ",";
 	private static final String CLOSING_BRACKET = "\\)";
+	private static final String COMMENT = "/\\*[^\\*/]\\*/";
+	private static final String LINE_COMMENT = "//.*";
 
-	private String[] assertCommands = { "assertTrue", "assertFalse", "assertEquals" };
-	private int[] numberOfParameters = { 2, 2, 3 };
+	private class AssertMethod {
+		private String commandName;
+		private int numberOfParameters;
 
-	private String[] regularExpressions;
+		public AssertMethod(String commandName, int numberOfParameters) {
+			this.commandName = commandName;
+			this.numberOfParameters = numberOfParameters;
+		}
+
+		public String getCommandName() {
+			return commandName;
+		}
+
+		public int getNumberOfParameters() {
+			return numberOfParameters;
+		}
+	}
+
+	private List<AssertMethod> assertMethods;
+	private String regexIsAssertMethod;
+	private String regexAssertContainsErrorMessage;
+	private String regexIsCompleteCommand = "(" + STRING_LITERAL + "|" + COMMENT + "|[^;]" + ")*;" + WHITESPACES + "("
+			+ LINE_COMMENT + ")?";
+	private StringBuffer errorMessages;
+	private boolean errorFound;
 
 	public AssertionErrorMessageTest() {
-		regularExpressions = new String[assertCommands.length];
-		for (int i = 0; i < assertCommands.length; i++) {
-			String regex = WHITESPACES + assertCommands[i] + OPENING_BRACKET;
-			for (int parameterCount = 0; parameterCount < numberOfParameters[i] - 1; parameterCount++) {
-				regex += PARAMETER + COMMA;
+		System.out.println(regexIsCompleteCommand);
+		/*
+		 * All JUnit assert commands taken from http://www.junit.org/apidocs/org/junit/Assert.html and
+		 * http://www.junit.org/apidocs/junit/framework/Assert.html as of JUnit version 4.9b2
+		 */
+		assertMethods = new ArrayList<AssertionErrorMessageTest.AssertMethod>();
+		assertMethods.add(new AssertMethod("assertArrayEquals", 3));
+		assertMethods.add(new AssertMethod("assertEquals", 3));
+		assertMethods.add(new AssertMethod("assertFalse", 2));
+		assertMethods.add(new AssertMethod("assertNotNull", 2));
+		assertMethods.add(new AssertMethod("assertNotSame", 3));
+		assertMethods.add(new AssertMethod("assertNull", 2));
+		assertMethods.add(new AssertMethod("assertSame", 3));
+		assertMethods.add(new AssertMethod("assertThat", 3));
+		assertMethods.add(new AssertMethod("assertTrue", 2));
+		assertMethods.add(new AssertMethod("fail", 1));
+
+		// Build regular expressions to check if a String is an assert method and if it contains an error message
+		regexIsAssertMethod = "";
+		regexAssertContainsErrorMessage = "";
+		for (int i = 0; i < assertMethods.size(); i++) {
+			regexIsAssertMethod += "(" + WHITESPACES + assertMethods.get(i).getCommandName() + ANYTHING + ")";
+			regexAssertContainsErrorMessage += "(" + WHITESPACES + assertMethods.get(i).getCommandName()
+					+ OPENING_BRACKET;
+			for (int parameterCount = 0; parameterCount < assertMethods.get(i).getNumberOfParameters() - 1; parameterCount++) {
+				regexAssertContainsErrorMessage += PARAMETER + COMMA;
 			}
-			regex += PARAMETER + CLOSING_BRACKET + ".*";
-			regularExpressions[i] = regex;
+			regexAssertContainsErrorMessage += PARAMETER + CLOSING_BRACKET + ANYTHING + ")";
+			if (i < assertMethods.size() - 1) {
+				regexIsAssertMethod += "|";
+				regexAssertContainsErrorMessage += "|";
+			}
 		}
 	}
 
@@ -71,41 +124,33 @@ public class AssertionErrorMessageTest extends TestCase {
 	}
 
 	public void testRegex() {
-		String[] regularExpressions = new String[assertCommands.length];
-		for (int i = 0; i < assertCommands.length; i++) {
-			String regex = WHITESPACES + assertCommands[i] + OPENING_BRACKET;
-			for (int parameterCount = 0; parameterCount < numberOfParameters[i] - 1; parameterCount++) {
-				regex += PARAMETER + COMMA;
-			}
-			regex += PARAMETER + CLOSING_BRACKET + ".*";
-			regularExpressions[i] = regex;
-		}
-
 		String[] regexMatches = { "assertTrue(\"message\", parameter);", "assertFalse( \"message\", parameter);",
 				"assertEquals(\"message\", a, b);", "assertTrue(\"message, with a comma\", value);",
 				"assertTrue(name + \" has wrong value, but...\", value);" };
 
+		for (String matchingRegex : regexMatches) {
+			assertTrue("No regex matched expression " + matchingRegex,
+					matchingRegex.matches(regexAssertContainsErrorMessage));
+		}
+
 		String[] regexNotMatches = { "assertTrue(parameter);", "assertTrue((name + \"text\").equals(value));",
 				"assertTrue(text.equals(\"a,b\"));", "assertEquals(a, b)" };
 
-		for (String matchingRegex : regexMatches) {
-			boolean matchFound = false;
-			for (String regex : regularExpressions) {
-				if (matchingRegex.matches(regex)) {
-					matchFound = true;
-				}
-			}
-			assertTrue("No regex matched expression " + matchingRegex, matchFound);
+		for (String notMatchingRegex : regexNotMatches) {
+			assertFalse("Expression was matched even though it shouldn't: " + notMatchingRegex,
+					notMatchingRegex.matches(regexAssertContainsErrorMessage));
 		}
 
-		for (String notMatchingRegex : regexNotMatches) {
-			boolean matchFound = false;
-			for (String regex : regularExpressions) {
-				if (notMatchingRegex.matches(regex)) {
-					matchFound = true;
-				}
-			}
-			assertFalse("Expression was matched even though it shouldn't: " + notMatchingRegex, matchFound);
+		String[] completeCommands = { "method();", "method(param);", "method(\"text;\");" };
+		for (String completeCommand : completeCommands) {
+			assertTrue("Regex for complete commands did not match " + completeCommand,
+					completeCommand.matches(regexIsCompleteCommand));
+		}
+
+		String[] incompleteCommands = { "method()", "method(", "method(\";\"", "method(/*;*/" };
+		for (String incompleteCommand : incompleteCommands) {
+			assertFalse("Regex for complete commands matched incomplete command " + incompleteCommand,
+					incompleteCommand.matches(regexIsCompleteCommand));
 		}
 	}
 
@@ -118,21 +163,17 @@ public class AssertionErrorMessageTest extends TestCase {
 		int lineNumber = 0;
 		while ((currentLine = reader.readLine()) != null) {
 			lineNumber++;
-			boolean isAssertCommand = false;
-			for (String assertCommand : assertCommands) {
-				if (currentLine.contains(assertCommand) && !currentLine.contains("\"" + assertCommand)) {
-					isAssertCommand = true;
+			if (currentLine.matches(regexIsAssertMethod)) {
+				while (!currentLine.matches(regexIsCompleteCommand)) {
+					currentLine += reader.readLine();
+					currentLine.replace("\n", "");
+					lineNumber++;
 				}
-			}
-			if (isAssertCommand && currentLine.contains(";")) {
-				boolean matchFound = false;
-				for (String regex : regularExpressions) {
-					if (currentLine.matches(regex)) {
-						matchFound = true;
-					}
+
+				if (!currentLine.matches(regexAssertContainsErrorMessage)) {
+					errorFound = true;
+					errorMessages.append(file.getAbsolutePath() + " on line " + lineNumber + "\n");
 				}
-				assertTrue("Assert without message found in file " + file.getAbsolutePath() + " on line " + lineNumber,
-						matchFound);
 			}
 		}
 
@@ -145,7 +186,13 @@ public class AssertionErrorMessageTest extends TestCase {
 			assertTrue("Couldn't find directory: " + directoryName, directory.exists() && directory.isDirectory());
 			assertTrue("Couldn't read directory: " + directoryName, directory.canRead());
 
+			errorMessages = new StringBuffer();
+			errorFound = false;
+
 			traverseDirectory(directory);
+
+			assertFalse("Assert statements without error messages have been found in the following files:\n"
+					+ errorMessages.toString(), errorFound);
 		}
 	}
 }
