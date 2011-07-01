@@ -74,28 +74,9 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		listView.setOnDropListener(adapter);
 		listView.setOnRemoveListener(adapter);
 		listView.setAdapter(adapter);
-		// Sets scroll behavior. TODO: Find a better way to do it.
-		//listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
 		listView.setGroupIndicator(null);
 		listView.setOnGroupClickListener(adapter);
 		registerForContextMenu(listView);
-
-		//		Button mainMenuButton = (Button) findViewById(R.id.main_menu_button);
-		//		mainMenuButton.setOnClickListener(new View.OnClickListener() {
-		//			public void onClick(View v) {
-		//				Intent intent = new Intent(ScriptActivity.this, MainMenuActivity.class);
-		//				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		//				startActivity(intent);
-		//			}
-		//		});
-
-		//		Button toStageButton = (Button) findViewById(R.id.toStageButton);
-		//		toStageButton.setOnClickListener(new View.OnClickListener() {
-		//			public void onClick(View v) {
-		//				Intent intent = new Intent(ScriptActivity.this, StageActivity.class);
-		//				startActivity(intent);
-		//			}
-		//		});
 
 		Button addBrickButton = (Button) findViewById(R.id.add_brick_button);
 		addBrickButton.setOnClickListener(new View.OnClickListener() {
