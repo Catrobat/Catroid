@@ -92,32 +92,38 @@ public class Costume implements Serializable {
 		return imagePath;
 	}
 
+	//
 	public Bitmap getBitmap() {
 		return costumeBitmap;
 	}
 
+	//
 	public synchronized void setDrawPosition() {
 
 		setPositionToSpriteTopLeft();
 		drawPositionX = Math.round(((Values.SCREEN_WIDTH / (2f * Consts.MAX_REL_COORDINATES)) * sprite.getXPosition())
-				+ Values.SCREEN_WIDTH / 2f);
+					+ Values.SCREEN_WIDTH / 2f);
 		drawPositionY = Math.round((Values.SCREEN_HEIGHT / 2f)
-				- ((Values.SCREEN_HEIGHT / (2f * Consts.MAX_REL_COORDINATES)) * sprite.getYPosition()));
+					- ((Values.SCREEN_HEIGHT / (2f * Consts.MAX_REL_COORDINATES)) * sprite.getYPosition()));
 		setPositionToSpriteCenter();
 	}
 
+	//
 	public int getDrawPositionX() {
 		return this.drawPositionX;
 	}
 
+	//
 	public int getDrawPositionY() {
 		return this.drawPositionY;
 	}
 
+	//
 	public Pair<Integer, Integer> getImageWidthHeight() {
 		return new Pair<Integer, Integer>(actWidth, actHeight);
 	}
 
+	//
 	private synchronized void setPositionToSpriteCenter() {
 		if (costumeBitmap == null) {
 			return;
@@ -126,6 +132,7 @@ public class Costume implements Serializable {
 		drawPositionY = drawPositionY - costumeBitmap.getHeight() / 2;
 	}
 
+	//
 	private synchronized void setPositionToSpriteTopLeft() {
 		if (costumeBitmap == null) {
 			return;
