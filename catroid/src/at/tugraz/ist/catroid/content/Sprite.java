@@ -35,6 +35,8 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	private transient double scale;
 	private transient boolean isVisible;
 	private transient boolean toDraw;
+	//	public ArrayList<String> costumeName;
+	//	public ArrayList<String> costumeImage;
 	private List<Script> scriptList;
 	private transient List<Thread> threadList;
 	private transient Costume costume;
@@ -124,6 +126,14 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	//	public void addCostumeName(String costumename) {
+	//		costumeName.add(costumename);
+	//	}
+	//
+	//	public void addCostumeImage(String image) {
+	//		costumeImage.add(image);
+	//	}
 
 	public int getXPosition() {
 		return xPosition;
