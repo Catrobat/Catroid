@@ -32,8 +32,12 @@ public class LicenseTest extends TestCase {
 	private static final String[] DIRECTORIES = { ".", "../catroid", "../catroidTest", "../catroidUiTest", };
 
 	private ArrayList<String> licenseText;
+	private boolean allLicenseTextsPresentAndCorrect;
+	private StringBuilder errorMessages;
 
 	public LicenseTest() throws IOException {
+		allLicenseTextsPresentAndCorrect = true;
+		errorMessages = new StringBuilder();
 		licenseText = new ArrayList<String>();
 		File licenseTextFile = new File("res/license_text.txt");
 		BufferedReader reader = new BufferedReader(new FileReader(licenseTextFile));
@@ -76,11 +80,25 @@ public class LicenseTest extends TestCase {
 		final String fileContents = fileContentsBuilder.toString();
 
 		int lastPosition = 0;
+		boolean notFound = false;
+		boolean wrongOrder = false;
 		for (String licenseTextLine : licenseText) {
 			int position = fileContents.indexOf(licenseTextLine);
-			assertTrue("License text was not found in file " + file.getPath(), position != -1);
-			assertTrue("License text was found in the wrong order in file " + file.getPath(), position > lastPosition);
+			if (position == -1) {
+				notFound = true;
+			} else if (position <= lastPosition) {
+				wrongOrder = true;
+			}
+
 			lastPosition = position;
+		}
+
+		if (notFound) {
+			allLicenseTextsPresentAndCorrect = false;
+			errorMessages.append("License text was not found in file " + file.getPath() + "\n");
+		} else if (wrongOrder) {
+			allLicenseTextsPresentAndCorrect = false;
+			errorMessages.append("License text was found in the wrong order in file " + file.getPath() + "\n");
 		}
 	}
 
@@ -91,6 +109,9 @@ public class LicenseTest extends TestCase {
 			assertTrue("Couldn't read directory: " + directoryName, directory.canRead());
 
 			traverseDirectory(directory);
+
+			assertTrue("Correct license text was not found in all files:\n" + errorMessages.toString(),
+					allLicenseTextsPresentAndCorrect);
 		}
 	}
 }

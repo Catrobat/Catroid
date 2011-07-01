@@ -29,7 +29,6 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.exception.InterruptedRuntimeException;
 import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 
 public class WaitBrick implements Brick, OnDismissListener {
@@ -43,14 +42,30 @@ public class WaitBrick implements Brick, OnDismissListener {
 	}
 
 	public void execute() {
-		long startTime = 0;
-		try {
-			startTime = System.currentTimeMillis();
-			Thread.sleep(timeToWaitInMilliSeconds);
-		} catch (InterruptedException e) {
-			timeToWaitInMilliSeconds = timeToWaitInMilliSeconds - (int) (System.currentTimeMillis() - startTime);
-			throw new InterruptedRuntimeException("WaitBrick was interrupted", e);
+		long startTime = System.currentTimeMillis();
+		int timeToWait = timeToWaitInMilliSeconds;
+		while (System.currentTimeMillis() <= (startTime + timeToWait)) {
+			if (sprite.isPaused) {
+				timeToWait = timeToWait - (int) (System.currentTimeMillis() - startTime);
+				while (sprite.isPaused) {
+					if (sprite.isFinished) {
+						return;
+					}
+					Thread.yield();
+				}
+				startTime = System.currentTimeMillis();
+			}
+			Thread.yield();
 		}
+
+		//		long startTime = 0;
+		//		try {
+		//			startTime = System.currentTimeMillis();
+		//			Thread.sleep(timeToWaitInMilliSeconds);
+		//		} catch (InterruptedException e) {
+		//			timeToWaitInMilliSeconds = timeToWaitInMilliSeconds - (int) (System.currentTimeMillis() - startTime);
+		//			throw new InterruptedRuntimeException("WaitBrick was interrupted", e);
+		//		}
 	}
 
 	public Sprite getSprite() {

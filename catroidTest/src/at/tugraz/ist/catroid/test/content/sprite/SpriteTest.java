@@ -19,14 +19,12 @@
 package at.tugraz.ist.catroid.test.content.sprite;
 
 import android.test.AndroidTestCase;
-import android.util.Log;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
-import at.tugraz.ist.catroid.test.utils.TestUtils;
 
 public class SpriteTest extends AndroidTestCase {
 
@@ -40,8 +38,7 @@ public class SpriteTest extends AndroidTestCase {
 		assertEquals("Unexpected default size", 100.0, sprite.getSize());
 		assertTrue("Unexpected default visibility", sprite.isVisible());
 		assertNotNull("Unexpected Sprite costume", sprite.getCostume());
-		assertNotNull("Script list was not initialized", sprite.getScriptList());
-		assertEquals("Script list contains items after constructor", 0, sprite.getScriptList().size());
+		assertEquals("Script list contains items after constructor", 0, sprite.getNumberOfScripts());
 		assertNotNull("Costume was not initialized", sprite.getCostume());
 	}
 
@@ -58,8 +55,7 @@ public class SpriteTest extends AndroidTestCase {
 		assertEquals("Unexpected default size", 100.0, sprite.getSize());
 		assertTrue("Unexpected default visibility", sprite.isVisible());
 		assertNotNull("Unexpected Sprite costume", sprite.getCostume());
-		assertNotNull("Script list was not initialized", sprite.getScriptList());
-		assertEquals("Script list contains items after constructor", 0, sprite.getScriptList().size());
+		assertEquals("Script list contains items after constructor", 0, sprite.getNumberOfScripts());
 		assertNotNull("Costume was not initialized", sprite.getCostume());
 
 		sprite = new Sprite(spriteName);
@@ -101,13 +97,67 @@ public class SpriteTest extends AndroidTestCase {
 		assertEquals("Failed to set z position to negative value", -zPosition, sprite.getZPosition());
 	}
 
-	public void testScriptList() {
+	public void testAddScript() {
 		Sprite sprite = new Sprite("new sprite");
-		sprite.getScriptList().add(new StartScript("script", sprite));
-		assertEquals("Script list does not contain script after adding", 1, sprite.getScriptList().size());
+		Script firstScript = new StartScript("firstScript", sprite);
+		Script secondScript = new StartScript("secondScript", sprite);
+		sprite.addScript(firstScript);
+		assertEquals("Script list does not contain script after adding", 1, sprite.getNumberOfScripts());
 
-		sprite.getScriptList().clear();
-		assertEquals("Script list could not be cleared", 0, sprite.getScriptList().size());
+		sprite.addScript(0, secondScript);
+		assertEquals("Script list does not contain script after adding", 2, sprite.getNumberOfScripts());
+
+		assertEquals("Script list does not contain script after adding", 1, sprite.getScriptIndex(firstScript));
+		assertEquals("Script list does not contain script after adding", 0, sprite.getScriptIndex(secondScript));
+
+		sprite.removeAllScripts();
+		assertEquals("Script list could not be cleared", 0, sprite.getNumberOfScripts());
+	}
+
+	public void testGetScript() {
+		Sprite sprite = new Sprite("new sprite");
+		Script firstScript = new StartScript("firstScript", sprite);
+		Script secondScript = new StartScript("secondScript", sprite);
+		sprite.addScript(firstScript);
+		sprite.addScript(secondScript);
+		assertEquals("Scripts do not match after retrieving", firstScript, sprite.getScript(0));
+		assertEquals("Script doo not match after retrieving", secondScript, sprite.getScript(1));
+	}
+
+	public void testRemoveAllScripts() {
+		Sprite sprite = new Sprite("new sprite");
+		Script firstScript = new StartScript("firstScript", sprite);
+		Script secondScript = new StartScript("secondScript", sprite);
+		sprite.addScript(firstScript);
+		sprite.addScript(secondScript);
+
+		sprite.removeAllScripts();
+
+		assertEquals("Script list was not cleared", 0, sprite.getNumberOfScripts());
+	}
+
+	public void testRemoveScript() {
+		Sprite sprite = new Sprite("new sprite");
+		Script firstScript = new StartScript("firstScript", sprite);
+		Script secondScript = new StartScript("secondScript", sprite);
+		sprite.addScript(firstScript);
+		sprite.addScript(secondScript);
+
+		sprite.removeScript(firstScript);
+
+		assertEquals("Wrong script list size", 1, sprite.getNumberOfScripts());
+		assertEquals("Wrong script remained", secondScript, sprite.getScript(0));
+
+	}
+
+	public void testGetScriptIndex() {
+		Sprite sprite = new Sprite("new sprite");
+		Script firstScript = new StartScript("firstScript", sprite);
+		Script secondScript = new StartScript("secondScript", sprite);
+		sprite.addScript(firstScript);
+		sprite.addScript(secondScript);
+		assertEquals("Indexes do not match", 0, sprite.getScriptIndex(firstScript));
+		assertEquals("Indexes do not match", 1, sprite.getScriptIndex(secondScript));
 	}
 
 	public void testSetSize() {
@@ -172,7 +222,7 @@ public class SpriteTest extends AndroidTestCase {
 			testScript.addBrick(showBrick);
 		}
 
-		testSprite.getScriptList().add(testScript);
+		testSprite.addScript(testScript);
 
 		testSprite.startStartScripts();
 
@@ -183,6 +233,8 @@ public class SpriteTest extends AndroidTestCase {
 		}
 
 		testSprite.pause();
+		assertTrue("Sprite isn't paused", testSprite.isPaused);
+		assertTrue("Script isn't paused", testScript.isPaused());
 
 		try {
 			Thread.sleep(1000);
@@ -190,25 +242,18 @@ public class SpriteTest extends AndroidTestCase {
 			e.printStackTrace();
 		}
 
-		int brickPositionAfterPause = getBrickPositionAfterPause(testScript);
-		Log.d("SpriteTest ", "Paused at brickPositionAfterPause  " + brickPositionAfterPause);
-
-		assertTrue("brickPositionAfterPause is still zero", brickPositionAfterPause != 0);
-
 		testSprite.resume();
 
+		assertFalse("Sprite is paused", testSprite.isPaused);
+		assertFalse("Script is paused", testScript.isPaused());
+
 		try {
-			Thread.sleep(100);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		assertTrue("Script hasn't finished", testScript.isFinished());
 
-	}
-
-	private int getBrickPositionAfterPause(Script script) {
-		int brickPositionAfterPause = (Integer) TestUtils.getPrivateField("brickPositionAfterPause", script, true);
-
-		return brickPositionAfterPause;
 	}
 
 	public void compareTo() {
