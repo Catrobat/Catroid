@@ -19,8 +19,9 @@
 
 package at.tugraz.ist.catroid.ui;
 
-import java.util.List;
-import java.util.Vector;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.ListActivity;
@@ -28,62 +29,43 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.ParseException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore.MediaColumns;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.utils.ImageEditing;
+import at.tugraz.ist.catroid.utils.Utils;
+
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public class CostumeActivity extends ListActivity {
-	private ListView costumeListView;
-	private LayoutInflater mInflater;
-	ImageView img;
-	private Vector<RowData> costume_data;
+	private ArrayList<costumeData> costumeData;
+	private ArrayList<String> name;
+	private ArrayList<String> image;
+	private CostumeAdapter c_adapter;
+	private Runnable viewCostumes;
+	Bitmap bm;
 	int column_index;
-	Cursor cursor;
 	Intent intent = null;
-	RowData rd;
-	String imagePath;
-	private static final long serialVersionUID = 1L;
+	// Declare our Views, so we can access them later
+	String filemanagerstring, selectedImagePath, imagePath, costume, lala, costumeImage;
+	Cursor cursor;
 
 	private static final int SELECT_IMAGE = 1;
 
-	private String[] costumeName = { "cat1" };
-
-	private Integer[] imgid = { R.drawable.catroid };
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_costume);
-		costumeListView = (ListView) findViewById(android.R.id.list);
-
-		mInflater = (LayoutInflater) getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-		costume_data = new Vector<RowData>();
-		for (int i = 0; i < costumeName.length; i++) {
-			try {
-				rd = new RowData(i, costumeName[i]);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			costume_data.add(rd);
-		}
-
-		CostumeAdapter adapter = new CostumeAdapter(this, R.layout.activity_costumelist, R.id.costume_edit_name,
-				costume_data);
-		costumeListView.setAdapter(adapter);
-		getListView().setTextFilterEnabled(true);
-
+	private void initListeners() {
 		Button addnewcostume = (Button) findViewById(R.id.add_costume_button);
 		addnewcostume.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -92,9 +74,50 @@ public class CostumeActivity extends ListActivity {
 				intent.setType("image/*");
 				intent.setAction(Intent.ACTION_GET_CONTENT);
 				startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_IMAGE);
+
 			}
 		});
 
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_costume);
+
+		costumeData = new ArrayList<costumeData>();
+		this.c_adapter = new CostumeAdapter(this, R.layout.activity_costumelist, costumeData);
+		setListAdapter(this.c_adapter);
+
+		//costumeData c = new costumeData();
+		//c.setCostumeName("cat1");
+		//c.setCostumeImage(R.drawable.catroid);
+		//costumeData.add(c);
+
+		getListView().setTextFilterEnabled(true);
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		initListeners();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		ProjectManager projectManager = ProjectManager.getInstance();
+		if (projectManager.getCurrentProject() != null) {
+			projectManager.saveProject(this);
+		}
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (!Utils.checkForSdCard(this)) {
+			return;
+		}
 	}
 
 	@Override
@@ -104,30 +127,47 @@ public class CostumeActivity extends ListActivity {
 				Uri selectedImageUri = data.getData();
 
 				//OI FILE Manager
-				String filemanagerstring = selectedImageUri.getPath();
+				filemanagerstring = selectedImageUri.getPath();
 
 				//MEDIA GALLERY
-				String selectedImagePath = getPath(selectedImageUri);
+				selectedImagePath = getPath(selectedImageUri);
 
-				img.setImageURI(selectedImageUri);
+				if (selectedImagePath == null) {
+					Utils.displayErrorMessage(this, getString(R.string.error_load_image));
+					return;
+				}
+				try {
+					File outputFile = StorageHandler.getInstance().copyImage(
+							ProjectManager.getInstance().getCurrentProject().getName(), selectedImagePath);
+					if (outputFile != null) {
+						costumeImage = outputFile.getName();
+						c_adapter.notifyDataSetChanged();
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 
 				imagePath.getBytes();
+				costume = imagePath.toString();
+				name.add(costume);
+				image.add(costumeImage);
+				//ProjectManager.getInstance().getCurrentSprite().addCostumeName(costume);
+				//ProjectManager.getInstance().getCurrentSprite().addCostumeImage(costumeImage);
 
-				String imageName = imagePath.toString();
+				viewCostumes = new Runnable() {
+					public void run() {
+						getCostumes();
+					}
+				};
 
-				costumeName[(costumeName.length) + 1] = new String(imageName);
-
-				//TextView costumeName = (TextView) findViewById(R.id.edit_costume);
-				//costumeName.setText(imagePath.toString());
-
-				Bitmap bm = BitmapFactory.decodeFile(imagePath);
+				Thread thread = new Thread(null, viewCostumes, "MagentoBackground");
+				thread.start();
 
 			}
-
 		}
-
 	}
 
+	//UPDATED!
 	public String getPath(Uri uri) {
 		String[] projection = { MediaColumns.DATA };
 		Cursor cursor = managedQuery(uri, projection, null, null, null);
@@ -138,69 +178,95 @@ public class CostumeActivity extends ListActivity {
 		return cursor.getString(column_index);
 	}
 
-	private class RowData {
-		protected int mId;
-		protected String mTitle;
-		protected String mDetail;
+	private Runnable returnRes = new Runnable() {
 
-		RowData(int id, String costumeName) {
-			mId = id;
-			mTitle = costumeName;
+		public void run() {
+			if (costumeData != null && costumeData.size() > 0) {
+				c_adapter.notifyDataSetChanged();
+				for (int i = 0; i < costumeData.size(); i++) {
+					c_adapter.add(costumeData.get(i));
+				}
+			}
+			c_adapter.notifyDataSetChanged();
+		}
+	};
 
+	public class costumeData {
+		private String costumeName;
+		@XStreamOmitField
+		private transient Bitmap thumbnail;
+
+		public String getCostumeName() {
+			return costumeName;
 		}
 
-		@Override
-		public String toString() {
-			return mId + " " + mTitle + " " + mDetail;
+		public void setCostumeName(String costumeName) {
+			this.costumeName = costumeName;
 		}
+
+		public Bitmap getCostumeImage() {
+			return thumbnail;
+		}
+
+		public void setCostumeImage(String imageName) {
+			if (imageName != null) {
+				thumbnail = ImageEditing.getScaledBitmap(getAbsoluteImagePath(), Consts.THUMBNAIL_HEIGHT,
+						Consts.THUMBNAIL_WIDTH);
+			}
+		}
+
 	}
 
-	private class CostumeAdapter extends ArrayAdapter<RowData> {
-		public CostumeAdapter(Context context, int resource, int textViewResourceId, List<RowData> objects) {
-			super(context, resource, textViewResourceId, objects);
+	private void getCostumes() {
+		try {
+			costumeData = new ArrayList<costumeData>();
+			costumeData c = new costumeData();
+			c.setCostumeName(costume);
+			c.setCostumeImage(costumeImage);
+			costumeData.add(c);
+
+			Log.i("ARRAY", "" + costumeData.size());
+		} catch (Exception e) {
+			Log.e("BACKGROUND_PROC", e.getMessage());
+		}
+		runOnUiThread(returnRes);
+	}
+
+	private String getAbsoluteImagePath() {
+		return Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName()
+				+ Consts.IMAGE_DIRECTORY + "/" + costumeImage;
+	}
+
+	private class CostumeAdapter extends ArrayAdapter<costumeData> {
+
+		private ArrayList<costumeData> items;
+
+		public CostumeAdapter(Context context, int textViewResourceId, ArrayList<costumeData> items) {
+			super(context, textViewResourceId, items);
+			this.items = items;
 		}
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			ViewHolder holder = null;
-			TextView costumeName = null;
-			ImageView costumeImage = null;
-			RowData rowData = getItem(position);
-			if (null == convertView) {
-				convertView = mInflater.inflate(R.layout.activity_costumelist, null);
-				holder = new ViewHolder(convertView);
-				convertView.setTag(holder);
-			}
-			holder = (ViewHolder) convertView.getTag();
-			costumeName = holder.gettitle();
-			costumeName.setText(rowData.mTitle);
-			costumeImage = holder.getImage();
-			costumeImage.setImageResource(imgid[rowData.mId]);
-			return convertView;
-		}
-
-		private class ViewHolder {
-			private View mRow;
-			private TextView costumeName = null;
-			private ImageView costumeImage = null;
-
-			public ViewHolder(View row) {
-				mRow = row;
+			View v = convertView;
+			if (v == null) {
+				LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				v = vi.inflate(R.layout.activity_costumelist, null);
 			}
 
-			public TextView gettitle() {
-				if (null == costumeName) {
-					costumeName = (TextView) mRow.findViewById(R.id.costume_edit_name);
+			costumeData c = items.get(position);
+			if (c != null) {
+				EditText costumeName = (EditText) v.findViewById(R.id.costume_edit_name);
+				ImageView costumeImage = (ImageView) v.findViewById(R.id.costume_image);
+				if (costumeName != null) {
+					costumeName.setText(c.getCostumeName());
 				}
-				return costumeName;
-			}
-
-			public ImageView getImage() {
-				if (null == costumeImage) {
-					costumeImage = (ImageView) mRow.findViewById(R.id.costume_image);
+				if (costumeImage != null) {
+					costumeImage.setImageBitmap(c.getCostumeImage());
 				}
-				return costumeImage;
 			}
+			return v;
 		}
 	}
+
 }
