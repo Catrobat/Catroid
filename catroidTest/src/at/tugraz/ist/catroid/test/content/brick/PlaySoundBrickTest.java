@@ -56,7 +56,7 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 		SoundManager.getInstance().clear();
 	}
 
-	public void testPlaySound() {
+	public void testPlaySound() throws InterruptedException {
 		final String soundFilePath = soundFile.getAbsolutePath();
 		assertNotNull("Could not open test sound file", soundFilePath);
 		assertTrue("Could not open test sound file", soundFilePath.length() > 0);
@@ -69,12 +69,8 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 		assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
 
 		final int duration = mediaPlayer.getDuration() + timeoutMarginInMilliseconds;
-		try {
-			Thread.sleep(duration);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-			fail();
-		}
+		Thread.sleep(duration);
+
 		assertFalse("MediaPlayer is not done playing", mediaPlayer.isPlaying());
 	}
 
@@ -131,7 +127,7 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 		//Test fails if MediaPlayer throws IllegalArgumentException
 	}
 
-	public void testPauseAndResume() {
+	public void testPauseAndResume() throws InterruptedException {
 		final String soundFilePath = soundFile.getAbsolutePath();
 		assertNotNull("Could not open test sound file", soundFilePath);
 		assertTrue("Could not open test sound file", soundFilePath.length() > 0);
@@ -150,12 +146,8 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 		assertTrue("MediaPlayer is not playing after resume", mediaPlayer.isPlaying());
 
 		final int duration = mediaPlayer.getDuration() + timeoutMarginInMilliseconds;
-		try {
-			Thread.sleep(duration);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-			fail();
-		}
+		Thread.sleep(duration);
+
 		assertFalse("MediaPlayer is not done playing after pause and resume", mediaPlayer.isPlaying());
 	}
 
