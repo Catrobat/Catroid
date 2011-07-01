@@ -28,6 +28,9 @@ import junit.framework.TestCase;
 
 public class BlockCharacterTest extends TestCase {
 
+	private StringBuffer errorMessages;
+	private boolean errorFound;
+
 	private static final String[] DIRECTORIES = { "../catroidUiTest", "../catroidTest", "../catroid",
 			"../catroidLicenseTest" };
 
@@ -56,13 +59,18 @@ public class BlockCharacterTest extends TestCase {
 		String line = null;
 
 		while ((line = reader.readLine()) != null) {
-			assertFalse("File " + file.getName() + ":" + lineCount + " contains a block character",
-					line.contains("\uFFFD"));
+			if (line.contains("\uFFFD")) {
+				errorFound = true;
+				errorMessages.append(file.getName() + " in line " + lineCount + "\n");
+			}
 			++lineCount;
 		}
 	}
 
 	public void testForBlockCharacters() throws IOException {
+		errorMessages = new StringBuffer();
+		errorFound = false;
+
 		for (String directoryName : DIRECTORIES) {
 			File directory = new File(directoryName);
 			assertTrue("Couldn't find directory: " + directoryName, directory.exists() && directory.isDirectory());
@@ -70,5 +78,7 @@ public class BlockCharacterTest extends TestCase {
 
 			traverseDirectory(directory);
 		}
+
+		assertFalse("Files with Block Characters found: \n" + errorMessages.toString(), errorFound);
 	}
 }
