@@ -43,6 +43,8 @@
 				android:textStyle="bold"
 				android:paddingLeft="10dp" 
 				android:textSize="22sp" 
-				android:textColor="@color/solid_black"/>
+				android:textColor="@color/solid_black"
+				android:ellipsize="end"
+				android:maxLines="2"/>
 		</LinearLayout>
 	</LinearLayout>
