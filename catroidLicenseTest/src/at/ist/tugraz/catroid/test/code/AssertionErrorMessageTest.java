@@ -20,13 +20,13 @@ package at.ist.tugraz.catroid.test.code;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.TestCase;
+import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class AssertionErrorMessageTest extends TestCase {
 	private static final String[] DIRECTORIES = { ".", "../catroid", "../catroidTest", "../catroidUiTest", };
@@ -116,24 +116,6 @@ public class AssertionErrorMessageTest extends TestCase {
 				+ LINE_COMMENT + ")?";
 	}
 
-	private void traverseDirectory(File directory) throws IOException {
-		File[] contents = directory.listFiles(new FileFilter() {
-			@Override
-			public boolean accept(File pathname) {
-				return (pathname.isDirectory() && !pathname.getName().equals("gen"))
-						|| pathname.getName().endsWith(".java");
-			}
-		});
-
-		for (File file : contents) {
-			if (file.isDirectory()) {
-				traverseDirectory(file);
-			} else {
-				assertionErrorMessagesPresentInFile(file);
-			}
-		}
-	}
-
 	/** Test that tests the regular expressions used in the actual test (meta-test :)) */
 	public void testRegex() {
 		List<String> matchingAsserts = new ArrayList<String>();
@@ -220,7 +202,10 @@ public class AssertionErrorMessageTest extends TestCase {
 			assertTrue("Couldn't find directory: " + directoryName, directory.exists() && directory.isDirectory());
 			assertTrue("Couldn't read directory: " + directoryName, directory.canRead());
 
-			traverseDirectory(directory);
+			List<File> filesToCheck = UtilFile.getFilesFromDirectoryByExtension(directory, ".java");
+			for (File file : filesToCheck) {
+				assertionErrorMessagesPresentInFile(file);
+			}
 		}
 		assertFalse("Assert statements without error messages have been found in the following files: \n"
 				+ errorMessages.toString(), errorFound);
