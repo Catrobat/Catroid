@@ -120,7 +120,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	}
 
 	public void testCreateNewProjectWithSpecialCharacters() {
-		final String projectNameWithSpecialCharacters = "Hey, look, I'm special! ?äöüß<>";
+		final String projectNameWithSpecialCharacters = "Hey, look, I'm special! ?Ã¤Ã¶Ã¼ÃŸ<>";
 
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
 		solo.clickOnEditText(0);
