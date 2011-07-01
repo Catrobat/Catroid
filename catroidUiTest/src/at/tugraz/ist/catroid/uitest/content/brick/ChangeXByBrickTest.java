@@ -83,7 +83,7 @@ public class ChangeXByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		solo.enterText(0, xToChange + "");
 		solo.clickOnButton(0);
 
-		solo.sleep(300);
+		solo.sleep(1000);
 		assertEquals("Wrong text in field.", xToChange, changeXByBrick.getXMovement());
 		assertEquals("Value in Brick is not updated.", xToChange + "", solo.getEditText(0).getText().toString());
 	}

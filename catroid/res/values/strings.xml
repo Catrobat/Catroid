@@ -166,8 +166,28 @@
 	<string name="brick_set_y">Set Y to:</string>
 	<string name="brick_glide">Glide</string>
 	<string name="brick_glide_to">to</string>
+	<string name="brick_when">When</string>
+	<string name="brick_set_ghost_effect">Set Ghost Effect </string>
+	<string name="brick_change_ghost_effect">Change Ghost Effect</string>
+	<string name="brick_set_brightness">Set Brightness</string>
+	<string name="brick_change_brightness">Change Brightness</string>
+	<string name="by_label">by</string>
+	<string name="to_label">to</string>
+	<string name="brick_clear_graphic_effect">Clear graphic effect</string>
 	
 	<string name="choose_sound_title">choose a title</string>
+	
+	
+    <string name="when_action">Choose an action</string>
+    <string name="action_tapped">Tapped</string>
+    <string name="action_doubleTapped">Double Tapped</string>
+    <string name="action_longPressed">Long Pressed</string>
+    <string name="action_touchingStarts">Touching Starts</string>
+    <string name="action_touchingStops">Touching Stops</string>
+    <string name="action_swipeLeft">Swipe Left</string> 
+    <string name="action_swipeRight">Swipe Right</string>
+    <string name="action_swipeUp">Swipe Up</string>
+    <string name="action_swipeDown">Swipe Down</string>
 
 	<string name="brick_note">Note</string>
 	<string name="brick_broadcast_receive">When I receive</string>

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <!-- 
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010  Catroid development team 
@@ -17,50 +18,34 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<LinearLayout
+ 
+ <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
+	android:layout_width="wrap_content"
+	android:background="@drawable/brick_touched"
 	android:orientation="horizontal"
 >
-	<ImageView
-		android:id="@+id/grabber"
-		android:layout_alignParentLeft="true"
-		android:layout_alignParentTop="true"
-		android:layout_alignParentBottom="true"
-		android:layout_gravity="center_vertical"
-		android:layout_width="wrap_content"
-		android:src="@drawable/ic_mp_move"
-		android:layout_height="wrap_content" />
-	<RelativeLayout
-		android:id="@+id/RelativeLayout01"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:background="@drawable/brick_magenta"
-		android:focusable="false"
-		android:focusableInTouchMode="false"
-		android:longClickable="true"
-	>
 		<TextView
-			android:id="@+id/ValueTextView"
-			android:text="@string/brick_play_sound"
+			android:id="@+id/WhenBrick"
+			android:text="@string/brick_when"
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
-			android:layout_alignParentLeft="true"
-			android:layout_centerVertical="true"
 			android:textColor="@color/white"
 			android:textSize="18dip"
 			android:textStyle="bold"
 		>
 		</TextView>
 		
-		<Button
-			android:id="@+id/btSoundChoose"
-			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:layout_alignParentRight="true"
-			android:layout_centerVertical="true"
-			android:maxWidth="150dip" />
+	<Spinner
+		android:id="@+id/Spinner03"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:layout_alignParentRight="true"
+		android:layout_centerVertical="true"
+		android:prompt="@string/when_action"
+		android:focusable="false"
+		android:focusableInTouchMode="false"
+	/>
 			
-	</RelativeLayout>
 </LinearLayout>
