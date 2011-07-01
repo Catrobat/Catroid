@@ -174,7 +174,7 @@
 	
 	<string name="brick_broadcast">Broadcast</string>
     <string name="brick_broadcast_wait">Broadcast and wait</string>
-	
+	<string name="brick_stop_all_sounds">Stop all sounds</string>
     <!-- defaulValues -->
     <string name="default_project_name">defaultProject</string>
     
