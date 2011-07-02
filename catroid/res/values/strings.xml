@@ -70,6 +70,7 @@
 	
     <!-- About Dialog -->
     <string name="about_title">About Catroid</string>
+    <string name="revision_number">$Revision$</string>
     <string name="about_text">
         Catroid is a graphical programming language for Android,
         inspired by the Scratch project of the MIT.\n
