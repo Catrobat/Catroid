@@ -37,4 +37,10 @@
 		android:layout_height="match_parent"
 		android:gravity="center"
 		android:textSize="20dp" />
+	<TextView
+		android:id="@+id/tvRevisionNumber"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/revision_number"
+		android:gravity="center" android:paddingTop="20dp"/>
 </LinearLayout>
