@@ -81,7 +81,8 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 		int[] brickIds = new int[] { R.string.brick_wait, R.string.brick_hide, R.string.brick_show,
 				R.string.brick_place_at, R.string.brick_set_x, R.string.brick_set_y, R.string.brick_change_x_by,
 				R.string.brick_change_y_by, R.string.brick_set_costume, R.string.brick_set_size_to,
-				R.string.brick_go_back, R.string.brick_come_to_front, R.string.brick_play_sound, R.string.brick_glide };
+				R.string.brick_go_back, R.string.brick_come_to_front, R.string.brick_play_sound, R.string.brick_glide,
+				R.string.brick_broadcast, R.string.brick_broadcast_wait, R.string.brick_note };
 
 		ProjectManager manager = ProjectManager.getInstance();
 		for (int id : brickIds) {
@@ -92,15 +93,16 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 					numberOfBricksBeforeAdding + 1, script.getBrickList().size());
 		}
 
-		int[] triggerBrickIds = new int[] { R.string.brick_if_started, R.string.brick_if_touched };
+		int[] triggerBrickIds = new int[] { R.string.brick_if_started, R.string.brick_if_touched,
+				R.string.brick_broadcast_receive };
 
 		for (int id : triggerBrickIds) {
-			int oldNumberOfScripts = manager.getCurrentSprite().getScriptList().size();
+			int oldNumberOfScripts = manager.getCurrentSprite().getNumberOfScripts();
 			addAndCheckBrick(solo, id);
 			Script script = manager.getCurrentScript();
 			assertEquals("Adding new trigger brick did not create new empty script", 0, script.getBrickList().size());
 			assertEquals("Adding new trigger brick did not create an additional script", oldNumberOfScripts + 1,
-					manager.getCurrentSprite().getScriptList().size());
+					manager.getCurrentSprite().getNumberOfScripts());
 		}
 	}
 
@@ -113,7 +115,7 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 
 		Script testScript = new StartScript("ScriptTest", firstSprite);
 
-		firstSprite.getScriptList().add(testScript);
+		firstSprite.addScript(testScript);
 		project.addSprite(firstSprite);
 
 		ProjectManager.getInstance().setProject(project);
