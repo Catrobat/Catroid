@@ -85,7 +85,7 @@ public class SoundManagerTest extends InstrumentationTestCase {
 		assertFalse("SoundManager provided a MediaPlayer that was already playing", mediaPlayer.isPlaying());
 	}
 
-	public void testPauseAndResume() throws IllegalStateException, IOException {
+	public void testPauseAndResume() throws IllegalStateException, IOException, InterruptedException {
 		final String soundFilePath = soundFile.getAbsolutePath();
 		assertNotNull("Could not open test sound file", soundFilePath);
 		assertTrue("Could not open test sound file", soundFilePath.length() > 0);
@@ -108,13 +108,7 @@ public class SoundManagerTest extends InstrumentationTestCase {
 		assertTrue("MediaPlayer is not playing after resume", mediaPlayer.isPlaying());
 
 		final int duration = mediaPlayer.getDuration() + 100;
-
-		try {
-			Thread.sleep(duration);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-			fail();
-		}
+		Thread.sleep(duration);
 
 		assertFalse("MediaPlayer is not done playing after pause and resume", mediaPlayer.isPlaying());
 	}

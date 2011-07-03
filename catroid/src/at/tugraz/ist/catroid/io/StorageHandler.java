@@ -43,12 +43,15 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.common.SoundInfo;
+import at.tugraz.ist.catroid.content.BroadcastScript;
 import at.tugraz.ist.catroid.content.Costume;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.TapScript;
+import at.tugraz.ist.catroid.content.bricks.BroadcastBrick;
+import at.tugraz.ist.catroid.content.bricks.BroadcastWaitBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
@@ -57,6 +60,7 @@ import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
 import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
+import at.tugraz.ist.catroid.content.bricks.NoteBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
@@ -88,6 +92,7 @@ public class StorageHandler {
 		xstream.alias("script", Script.class);
 		xstream.alias("startScript", StartScript.class);
 		xstream.alias("tapScript", TapScript.class);
+		xstream.alias("broadcastScript", BroadcastScript.class);
 		xstream.alias("costume", Costume.class);
 
 		xstream.alias("changeXByBrick", ChangeXByBrick.class);
@@ -106,6 +111,9 @@ public class StorageHandler {
 		xstream.alias("showBrick", ShowBrick.class);
 		xstream.alias("waitBrick", WaitBrick.class);
 		xstream.alias("glideToBrick", GlideToBrick.class);
+		xstream.alias("noteBrick", NoteBrick.class);
+		xstream.alias("broadcastWaitBrick", BroadcastWaitBrick.class);
+		xstream.alias("broadcastBrick", BroadcastBrick.class);
 
 		if (!Environment.MEDIA_MOUNTED.equals(state)) {
 			throw new IOException("Could not read external storage");
@@ -431,9 +439,9 @@ public class StorageHandler {
 
 		//merging:
 		defaultProject.addSprite(sprite);
-		sprite.getScriptList().add(startScript);
-		sprite.getScriptList().add(touchScript);
-		backgroundSprite.getScriptList().add(backgroundStartScript);
+		sprite.addScript(startScript);
+		sprite.addScript(touchScript);
+		backgroundSprite.addScript(backgroundStartScript);
 		//ProjectManager.getInstance().setProject(defaultProject);
 		this.saveProject(defaultProject);
 		return defaultProject;
