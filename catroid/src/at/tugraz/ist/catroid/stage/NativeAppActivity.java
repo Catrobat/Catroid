@@ -18,12 +18,17 @@
  */
 package at.tugraz.ist.catroid.stage;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Menu;
+import android.view.MenuItem;
 import at.tugraz.ist.catroid.ProjectManager;
+import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
+import at.tugraz.ist.catroid.ui.dialogs.AboutDialog;
 
 public class NativeAppActivity extends StageActivity {
 	private static Context context = null;
@@ -62,8 +67,25 @@ public class NativeAppActivity extends StageActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Do nothing.
+		getMenuInflater().inflate(R.menu.nativeapp_menu, menu);
 		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == R.id.nativeappMenuAbout) {
+			showDialog(Consts.DIALOG_ABOUT);
+		}
+		return true;
+	}
+
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		Dialog dialog = null;
+		if (id == Consts.DIALOG_ABOUT) {
+			dialog = new AboutDialog(this);
+		}
+		return dialog;
 	}
 
 	@Override
