@@ -58,6 +58,7 @@ import at.tugraz.ist.catroid.content.bricks.SetBrightnessBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetGhostEffectBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
+import at.tugraz.ist.catroid.content.bricks.SetVolumeToBrick;
 import at.tugraz.ist.catroid.content.bricks.SetXBrick;
 import at.tugraz.ist.catroid.content.bricks.SetYBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
@@ -115,6 +116,7 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new GoNStepsBackBrick(sprite, 1));
 			prototypeBrickList.add(new ComeToFrontBrick(sprite));
 			prototypeBrickList.add(new PlaySoundBrick(sprite));
+			prototypeBrickList.add(new SetVolumeToBrick(sprite, 100));
 			prototypeBrickList.add(new IfTouchedBrick(sprite, null));
 			prototypeBrickList.add(new IfStartedBrick(sprite, null));
 			prototypeBrickList.add(new WhenBrick(sprite, null));
