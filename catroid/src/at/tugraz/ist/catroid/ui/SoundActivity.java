@@ -52,11 +52,10 @@ public class SoundActivity extends ListActivity {
 	private static final int SELECT_SOUND = 1;
 
 	static final String[] title = new String[] {
-			"*New*Apple iPad Wi-Fi (16GB)", "7 Touch Tablet -2GB Google Android",
-			"Apple iPad Wi-Fi (16GB) Rarely Used ", "Apple iPad Wi-Fi (16GB) AppleCase" };
+			"meow" };
 
 	private Integer[] imgid = {
-			R.drawable.speaker, R.drawable.speaker, R.drawable.speaker, R.drawable.speaker };
+			R.drawable.speaker };
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
