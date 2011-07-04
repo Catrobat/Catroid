@@ -24,22 +24,28 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     >
+<ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="60dip">
     <LinearLayout
             android:id="@+id/title_template"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:gravity="center_vertical"
             android:layout_marginTop="6dip"
             android:layout_marginBottom="6dip"
             android:layout_marginLeft="10dip"
-            android:layout_marginRight="10dip">
+            android:layout_marginRight="10dip"
+            android:orientation="horizontal"
+            android:scrollbars="vertical"
+            android:scrollbarAlwaysDrawVerticalTrack="true">
             <ImageView android:id="@+id/alert_dialog_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
                 android:paddingTop="6dip"
                 android:paddingRight="10dip"
+                android:paddingLeft="6dip"
                 android:paddingBottom="6dip"
                 android:src="@drawable/ic_dialog_menu_generic"/>
             <TextView android:id="@+id/alert_dialog_title"
@@ -48,4 +54,5 @@
                 android:textColor="@color/solid_white"
                 android:textSize = "18dip"/>
 	</LinearLayout>
+</ScrollView>
 </LinearLayout>
