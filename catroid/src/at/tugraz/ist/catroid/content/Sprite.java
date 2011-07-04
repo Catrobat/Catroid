@@ -40,6 +40,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	private transient Costume costume;
 	private transient int ghostEffectValue;
 	private transient int brightnessValue;
+	private transient int volume;
 
 	public transient volatile boolean isPaused;
 	public transient volatile boolean isFinished;
@@ -61,6 +62,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		brightnessValue = 0;
 		isPaused = false;
 		isFinished = false;
+		volume = 0;
 	}
 
 	public Sprite(String name) {
@@ -197,6 +199,10 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return this.brightnessValue;
 	}
 
+	public int getVolume() {
+		return this.volume;
+	}
+
 	public boolean isVisible() {
 		return isVisible;
 	}
@@ -210,6 +216,21 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 
 	public synchronized void setZPosition(int zPosition) {
 		this.zPosition = zPosition;
+		toDraw = true;
+	}
+
+	public synchronized void setVolume(double volume) {
+		int vol;
+		if (volume < 0) {
+			throw new IllegalArgumentException("Sprite brightness must be greater than or equal to zero!");
+		}
+
+		if (volume > 100) {
+			vol = 100;
+		} else {
+			vol = (int) Math.floor(volume);
+		}
+		this.volume = vol;
 		toDraw = true;
 	}
 
