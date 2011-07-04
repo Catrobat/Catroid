@@ -25,6 +25,7 @@ import java.util.List;
 import android.graphics.Color;
 import android.util.Pair;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.ui.CostumeActivity.costumeData;
 
 public class Sprite implements Serializable, Comparable<Sprite> {
 	private static final long serialVersionUID = 1L;
@@ -35,9 +36,10 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	private transient double scale;
 	private transient boolean isVisible;
 	private transient boolean toDraw;
-	//	public ArrayList<String> costumeName;
-	//	public ArrayList<String> costumeImage;
 	private List<Script> scriptList;
+	private ArrayList<costumeData> costumeList;
+	private static ArrayList<String> costumeName;
+	private static ArrayList<String> costumeImage;
 	private transient List<Thread> threadList;
 	private transient Costume costume;
 
@@ -60,6 +62,8 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	public Sprite(String name) {
 		this.name = name;
 		scriptList = new ArrayList<Script>();
+		costumeName = new ArrayList<String>();
+		costumeImage = new ArrayList<String>();
 		init();
 	}
 
@@ -127,13 +131,13 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		this.name = name;
 	}
 
-	//	public void addCostumeName(String costumename) {
-	//		costumeName.add(costumename);
-	//	}
-	//
-	//	public void addCostumeImage(String image) {
-	//		costumeImage.add(image);
-	//	}
+	public void addName(String cName) {
+		costumeName.add(cName);
+	}
+
+	public void addImage(String cImage) {
+		costumeImage.add(cImage);
+	}
 
 	public int getXPosition() {
 		return xPosition;
@@ -217,6 +221,10 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 
 	public List<Script> getScriptList() {
 		return scriptList;
+	}
+
+	public ArrayList<costumeData> getCostumeList() {
+		return costumeList;
 	}
 
 	public boolean getToDraw() {
