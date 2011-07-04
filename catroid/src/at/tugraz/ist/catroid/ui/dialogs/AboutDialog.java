@@ -18,6 +18,11 @@
  */
 package at.tugraz.ist.catroid.ui.dialogs;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Resources;
@@ -55,6 +60,16 @@ public class AboutDialog extends Dialog {
 				res.getString(R.string.about_catroid_url), res.getString(R.string.about_link_text));
 
 		aboutUrlTextView.setText(Html.fromHtml(aboutUrl));
-	}
 
+		TextView revisionTextView = (TextView) findViewById(R.id.tvRevisionNumber);
+		try {
+			InputStream inputStream = context.getResources().openRawResource(R.raw.revision);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+			String revision = reader.readLine();
+			revisionTextView.setText(revision);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
 }
