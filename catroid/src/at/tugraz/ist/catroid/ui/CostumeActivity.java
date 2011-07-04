@@ -40,10 +40,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -51,9 +53,9 @@ import at.tugraz.ist.catroid.utils.Utils;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public class CostumeActivity extends ListActivity {
+	private Sprite sprite;
+	//	private ListView listView;
 	private ArrayList<costumeData> costumeData;
-	private ArrayList<String> name;
-	private ArrayList<String> image;
 	private CostumeAdapter c_adapter;
 	private Runnable viewCostumes;
 	Bitmap bm;
@@ -66,6 +68,10 @@ public class CostumeActivity extends ListActivity {
 	private static final int SELECT_IMAGE = 1;
 
 	private void initListeners() {
+		//		sprite = ProjectManager.getInstance().getCurrentSprite();
+		//		c_adapter = new CostumeAdapter(this, R.layout.activity_costumelist, ProjectManager.getInstance()
+		//				.getCurrentSprite().getCostumeList());
+
 		Button addnewcostume = (Button) findViewById(R.id.add_costume_button);
 		addnewcostume.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -86,13 +92,8 @@ public class CostumeActivity extends ListActivity {
 		setContentView(R.layout.activity_costume);
 
 		costumeData = new ArrayList<costumeData>();
-		this.c_adapter = new CostumeAdapter(this, R.layout.activity_costumelist, costumeData);
-		setListAdapter(this.c_adapter);
-
-		//costumeData c = new costumeData();
-		//c.setCostumeName("cat1");
-		//c.setCostumeImage(R.drawable.catroid);
-		//costumeData.add(c);
+		c_adapter = new CostumeAdapter(this, R.layout.activity_costumelist, costumeData);
+		setListAdapter(c_adapter);
 
 		getListView().setTextFilterEnabled(true);
 	}
@@ -141,18 +142,14 @@ public class CostumeActivity extends ListActivity {
 							ProjectManager.getInstance().getCurrentProject().getName(), selectedImagePath);
 					if (outputFile != null) {
 						costumeImage = outputFile.getName();
+						//ProjectManager.getInstance().getCurrentSprite().addImage(costumeImage);
+						costume = outputFile.getName();
+						//ProjectManager.getInstance().getCurrentSprite().addName(costume);
 						c_adapter.notifyDataSetChanged();
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-
-				imagePath.getBytes();
-				costume = imagePath.toString();
-				name.add(costume);
-				image.add(costumeImage);
-				//ProjectManager.getInstance().getCurrentSprite().addCostumeName(costume);
-				//ProjectManager.getInstance().getCurrentSprite().addCostumeImage(costumeImage);
 
 				viewCostumes = new Runnable() {
 					public void run() {
@@ -211,7 +208,7 @@ public class CostumeActivity extends ListActivity {
 		public void setCostumeImage(String imageName) {
 			if (imageName != null) {
 				thumbnail = ImageEditing.getScaledBitmap(getAbsoluteImagePath(), Consts.THUMBNAIL_HEIGHT,
-						Consts.THUMBNAIL_WIDTH);
+											Consts.THUMBNAIL_WIDTH);
 			}
 		}
 
@@ -232,9 +229,10 @@ public class CostumeActivity extends ListActivity {
 		runOnUiThread(returnRes);
 	}
 
+	//
 	private String getAbsoluteImagePath() {
 		return Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName()
-				+ Consts.IMAGE_DIRECTORY + "/" + costumeImage;
+							+ Consts.IMAGE_DIRECTORY + "/" + costumeImage;
 	}
 
 	private class CostumeAdapter extends ArrayAdapter<costumeData> {
@@ -256,6 +254,26 @@ public class CostumeActivity extends ListActivity {
 
 			costumeData c = items.get(position);
 			if (c != null) {
+				Button editCostume = (Button) v.findViewById(R.id.edit_costume);
+
+				Button copyCostume = (Button) v.findViewById(R.id.copy_costume);
+				copyCostume.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+						costumeData data = (costumeData) v.getTag();
+						items.add(data);
+						c_adapter.notifyDataSetChanged();
+					}
+				});
+
+				ImageButton deleteCostume = (ImageButton) v.findViewById(R.id.delete_button);
+				deleteCostume.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+						costumeData data = (costumeData) v.getTag();
+						items.remove(data);
+						c_adapter.notifyDataSetChanged();
+					}
+				});
+
 				EditText costumeName = (EditText) v.findViewById(R.id.costume_edit_name);
 				ImageView costumeImage = (ImageView) v.findViewById(R.id.costume_image);
 				if (costumeName != null) {
@@ -264,6 +282,7 @@ public class CostumeActivity extends ListActivity {
 				if (costumeImage != null) {
 					costumeImage.setImageBitmap(c.getCostumeImage());
 				}
+
 			}
 			return v;
 		}
