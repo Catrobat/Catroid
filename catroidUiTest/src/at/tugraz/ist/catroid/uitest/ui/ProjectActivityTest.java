@@ -23,6 +23,7 @@ import java.util.List;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -191,5 +192,17 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickLongOnText(spriteName);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		assertTrue("Sprite name not visible after changing orientation", solo.searchText(spriteName));
+	}
+
+	public void testCheckMaxTextLines() {
+		String spriteName = "poor poor poor poor poor poor poor poor me me me me me me";
+		int expectedLineCount = 2;
+		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
+		addNewSprite(spriteName);
+		TextView textView = solo.getText(2);
+		assertEquals("linecount is wrong - ellipsize failed", expectedLineCount, textView.getLineCount());
+		solo.clickLongOnText(spriteName);
+		TextView textView2 = solo.getText(1);
+		assertEquals("linecount is wrong", expectedLineCount + 1, textView2.getLineCount());
 	}
 }
