@@ -35,6 +35,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.lego.DeviceListActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.dialogs.AboutDialog;
 import at.tugraz.ist.catroid.ui.dialogs.LoadProjectDialog;
@@ -52,7 +53,9 @@ public class MainMenuActivity extends Activity {
 	private Menu myMenu;
 	public static final int MENU_TOGGLE_CONNECT = Menu.FIRST;
 	public static final int MENU_TOOGLE_DISCONNECT = Menu.FIRST + 1;
+	public static final int MENU_CONNECT_NXT = Menu.FIRST + 2;
 	private boolean connected = false;
+	private static final int REQUEST_CONNECT_DEVICE = 1000;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -222,11 +225,14 @@ public class MainMenuActivity extends Activity {
 		myMenu = menu;
 
 		if (!BtisOn()) {
-			Log.i("bt", "menu_connect connected is " + BtisOn());
+			//Log.i("bt", "menu_connect connected is " + BtisOn());
 			myMenu.add(Menu.NONE, MENU_TOGGLE_CONNECT, Menu.NONE, R.string.enable_bluetooth);
+			myMenu.add(Menu.NONE, MENU_CONNECT_NXT, Menu.NONE, R.string.connect_nxt).setEnabled(false);
+
 		} else {
-			Log.i("bt", "menu_disconnect connected is " + BtisOn());
+			//Log.i("bt", "menu_disconnect connected is " + BtisOn());
 			myMenu.add(Menu.NONE, MENU_TOOGLE_DISCONNECT, Menu.NONE, R.string.disable_bluetooth);
+			myMenu.add(Menu.NONE, MENU_CONNECT_NXT, Menu.NONE, R.string.connect_nxt).setEnabled(true);
 		}
 
 		return true;
@@ -256,9 +262,10 @@ public class MainMenuActivity extends Activity {
 
 		if (!connected) {
 			myMenu.add(Menu.NONE, MENU_TOGGLE_CONNECT, Menu.NONE, R.string.enable_bluetooth);
-
+			myMenu.add(Menu.NONE, MENU_CONNECT_NXT, Menu.NONE, R.string.connect_nxt).setEnabled(false);
 		} else {
 			myMenu.add(Menu.NONE, MENU_TOOGLE_DISCONNECT, Menu.NONE, R.string.disable_bluetooth);
+			myMenu.add(Menu.NONE, MENU_CONNECT_NXT, Menu.NONE, R.string.connect_nxt).setEnabled(true);
 		}
 
 	}
@@ -267,17 +274,22 @@ public class MainMenuActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == REQUEST_ENABLE_BT) {
 			if (resultCode == Activity.RESULT_OK) {
-				Log.i("bt", "resultCode is RESULT_OK " + resultCode);
+				//Log.i("bt", "resultCode is RESULT_OK " + resultCode);
 				Toast.makeText(this, "Bluetooth enablad", Toast.LENGTH_LONG).show();
 				connected = true;
 				updateMenu();
 			} else {
-				Log.i("bt", "resultCode is not RESULT_OK" + resultCode);
+				//Log.i("bt", "resultCode is not RESULT_OK" + resultCode);
 				Toast.makeText(this, "Bluetooth not activ", Toast.LENGTH_LONG).show();
 				connected = false;
 				updateMenu();
 			}
 
 		}
+	}
+
+	void selectNXT() {
+		Intent serverIntent = new Intent(this, DeviceListActivity.class);
+		startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
 	}
 }
