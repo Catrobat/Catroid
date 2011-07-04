@@ -21,12 +21,13 @@ package at.ist.tugraz.catroid.test.license;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import junit.framework.TestCase;
+import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class LicenseTest extends TestCase {
 	private static final String[] DIRECTORIES = { ".", "../catroid", "../catroidTest", "../catroidUiTest", };
@@ -46,24 +47,6 @@ public class LicenseTest extends TestCase {
 		while ((line = reader.readLine()) != null) {
 			if (line.length() > 0) {
 				licenseText.add(line);
-			}
-		}
-	}
-
-	private void traverseDirectory(File directory) throws IOException {
-		File[] contents = directory.listFiles(new FileFilter() {
-			@Override
-			public boolean accept(File pathname) {
-				return (pathname.isDirectory() && !pathname.getName().equals("gen"))
-						|| pathname.getName().endsWith(".java") || pathname.getName().endsWith(".xml");
-			}
-		});
-
-		for (File file : contents) {
-			if (file.isDirectory()) {
-				traverseDirectory(file);
-			} else {
-				checkFileForLicense(file);
 			}
 		}
 	}
@@ -95,10 +78,10 @@ public class LicenseTest extends TestCase {
 
 		if (notFound) {
 			allLicenseTextsPresentAndCorrect = false;
-			errorMessages.append("License text was not found in file " + file.getPath() + "\n");
+			errorMessages.append("License text was not found in file " + file.getCanonicalPath() + "\n");
 		} else if (wrongOrder) {
 			allLicenseTextsPresentAndCorrect = false;
-			errorMessages.append("License text was found in the wrong order in file " + file.getPath() + "\n");
+			errorMessages.append("License text was found in the wrong order in file " + file.getCanonicalPath() + "\n");
 		}
 	}
 
@@ -108,10 +91,13 @@ public class LicenseTest extends TestCase {
 			assertTrue("Couldn't find directory: " + directoryName, directory.exists() && directory.isDirectory());
 			assertTrue("Couldn't read directory: " + directoryName, directory.canRead());
 
-			traverseDirectory(directory);
-
-			assertTrue("Correct license text was not found in all files:\n" + errorMessages.toString(),
-					allLicenseTextsPresentAndCorrect);
+			List<File> filesToCheck = UtilFile.getFilesFromDirectoryByExtension(directory, new String[] { ".java",
+					".xml" });
+			for (File file : filesToCheck) {
+				checkFileForLicense(file);
+			}
 		}
+		assertTrue("Correct license text was not found in all files:\n" + errorMessages.toString(),
+				allLicenseTextsPresentAndCorrect);
 	}
 }
