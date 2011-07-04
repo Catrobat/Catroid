@@ -30,6 +30,7 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.ui.CostumeActivity.costumeData;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class ProjectManager {
@@ -38,6 +39,7 @@ public class ProjectManager {
 	private Project project;
 	private static ProjectManager instance;
 	private Script currentScript;
+	private costumeData currentCostume;
 	// used in uiTests
 	private int serverProjectId;
 
@@ -146,6 +148,7 @@ public class ProjectManager {
 		fileChecksumContainer = new FileChecksumContainer();
 		currentSprite = null;
 		currentScript = null;
+		currentCostume = null;
 		saveProject(context);
 	}
 
@@ -167,6 +170,18 @@ public class ProjectManager {
 		}
 		if (currentSprite.getScriptList().contains(script)) {
 			currentScript = script;
+			return true;
+		}
+		return false;
+	}
+
+	public boolean setCurrentCostumes(costumeData costume) {
+		if (costume == null) {
+			currentCostume = null;
+			return true;
+		}
+		if (currentSprite.getCostumeList().contains(costume)) {
+			currentCostume = costume;
 			return true;
 		}
 		return false;
