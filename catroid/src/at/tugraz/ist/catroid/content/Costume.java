@@ -26,7 +26,6 @@ import android.util.Pair;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
-import at.tugraz.ist.catroid.ui.CostumeActivity.costumeData;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
