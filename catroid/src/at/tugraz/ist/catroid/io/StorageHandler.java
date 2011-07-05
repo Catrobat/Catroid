@@ -273,7 +273,8 @@ public class StorageHandler {
 		return copyFile(outputFile, inputFile, soundDirectory);
 	}
 
-	public File copyImage(String currentProjectName, String inputFilePath) throws IOException {
+	public File copyImage(String currentProjectName, String inputFilePath, String newName) throws IOException {
+		String newFilePath;
 		File imageDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName
 						+ Consts.IMAGE_DIRECTORY);
 
@@ -289,7 +290,11 @@ public class StorageHandler {
 		if ((imageDimensions[0] <= Consts.MAX_COSTUME_WIDTH) && (imageDimensions[1] <= Consts.MAX_COSTUME_HEIGHT)) {
 			String checksumSource = getMD5Checksum(inputFile);
 
-			String newFilePath = imageDirectory.getAbsolutePath() + "/" + checksumSource + "_" + inputFile.getName();
+			if (newName != null) {
+				newFilePath = imageDirectory.getAbsolutePath() + "/" + checksumSource + "_" + newName;
+			} else {
+				newFilePath = imageDirectory.getAbsolutePath() + "/" + checksumSource + "_" + inputFile.getName();
+			}
 			if (checksumCont.containsChecksum(checksumSource)) {
 				checksumCont.addChecksum(checksumSource, newFilePath);
 				return new File(checksumCont.getPath(checksumSource));
@@ -322,7 +327,8 @@ public class StorageHandler {
 		String checksumCompressedFile = StorageHandler.getInstance().getMD5Checksum(outputFile);
 
 		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().fileChecksumContainer;
-		String newFilePath = imageDirectory.getAbsolutePath() + "/" + checksumCompressedFile + "_" + inputFile.getName();
+		String newFilePath = imageDirectory.getAbsolutePath() + "/" + checksumCompressedFile + "_"
+				+ inputFile.getName();
 
 		if (!fileChecksumContainer.addChecksum(checksumCompressedFile, newFilePath)) {
 			outputFile.delete();
