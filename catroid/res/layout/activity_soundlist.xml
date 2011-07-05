@@ -55,6 +55,7 @@ android:textSize="16sp" />
     android:id="@+id/stop_button" 
     android:layout_width="wrap_content" 
     android:src="@drawable/stop" android:layout_height="48dip"></ImageButton>
+    
     <ImageButton android:layout_height="48dip" android:id="@+id/delete_button" android:layout_width="wrap_content" android:src="@drawable/exit"></ImageButton>
 </LinearLayout>
 </LinearLayout>
