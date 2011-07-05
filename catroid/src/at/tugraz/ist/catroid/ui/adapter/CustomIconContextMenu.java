@@ -72,9 +72,6 @@ public class CustomIconContextMenu implements DialogInterface.OnCancelListener, 
 		View customTitle = View.inflate(activity, R.layout.alert_dialog_title, null);
 		TextView customTitleTextView = (TextView) customTitle.findViewById(R.id.alert_dialog_title);
 		customTitleTextView.setText(menuTitle);
-		//		ImageView customTitleImageView = (ImageView) customTitle.findViewById(R.id.alert_dialog_icon);
-		//		Resources res = activity.getResources();
-		//		customTitleImageView.setImageDrawable(res.getDrawable(android.R.drawable.ic_menu_more));
 		builder.setCustomTitle(customTitle);
 
 		builder.setAdapter(menuAdapter, new DialogInterface.OnClickListener() {
