@@ -63,8 +63,9 @@ public class SensorBrick implements Brick {
 	 * android.widget.BaseExpandableListAdapter)
 	 */
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
-		// TODO Auto-generated method stub
-		return null;
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.construction_brick_sensor, null);
+		return view;
 	}
 
 	/*
