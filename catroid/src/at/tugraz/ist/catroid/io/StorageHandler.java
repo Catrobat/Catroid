@@ -63,6 +63,7 @@ import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
 import at.tugraz.ist.catroid.content.bricks.NoteBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
+import at.tugraz.ist.catroid.content.bricks.SensorBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.SetXBrick;
@@ -113,6 +114,7 @@ public class StorageHandler {
 		xstream.alias("noteBrick", NoteBrick.class);
 		xstream.alias("broadcastWaitBrick", BroadcastWaitBrick.class);
 		xstream.alias("broadcastBrick", BroadcastBrick.class);
+		xstream.alias("sensorBrick", SensorBrick.class);
 
 		if (!Environment.MEDIA_MOUNTED.equals(state)) {
 			throw new IOException("Could not read external storage");
