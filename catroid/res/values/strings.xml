@@ -168,6 +168,11 @@
 	<string name="brick_glide_to">to</string>
 	
 	<string name="sensor_main_adapter">Sensor</string>
+	<string name="brick_sensor_type">Type</string>
+	<string name="brick_sensor_pin">Pin</string>
+	<string name="brick_sensor_value">Value</string>
+	<string name="brick_sensor_time">Time</string>
+	<string name="brick_sensor_time_seconds">ms</string>
 	
 	<string name="choose_sound_title">choose a title</string>
 

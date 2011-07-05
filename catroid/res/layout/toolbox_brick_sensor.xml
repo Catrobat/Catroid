@@ -27,7 +27,6 @@
 		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
 		android:background="@drawable/brick_violet"
-		android:longClickable="true"
 	>
 		<TextView
 			android:text="@string/sensor_main_adapter"

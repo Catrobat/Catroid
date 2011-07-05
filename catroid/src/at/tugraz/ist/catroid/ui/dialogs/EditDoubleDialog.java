@@ -82,4 +82,11 @@ public class EditDoubleDialog extends EditDialog implements OnClickListener {
 			}
 		}
 	}
+
+	/**
+	 * @return
+	 */
+	public int getRefernecedEditTextId() {
+		return referencedEditText.getId();
+	}
 }
