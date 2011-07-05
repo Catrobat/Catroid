@@ -101,7 +101,6 @@ public class ProjectManager {
 	}
 
 	public void deleteCurrentProject(Context context) {
-
 		StorageHandler.getInstance().deleteProject(project);
 
 		project = null;
