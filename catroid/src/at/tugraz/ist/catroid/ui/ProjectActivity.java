@@ -155,7 +155,7 @@ public class ProjectActivity extends ListActivity {
 				if (spriteToEdit == null) {
 					dialog = null;
 				} else {
-					dialog = new RenameSpriteDialog(this);
+					dialog = (new RenameSpriteDialog(this)).createDialog(spriteToEdit.getName());
 				}
 				break;
 			case Consts.DIALOG_CONTEXT_MENU:
