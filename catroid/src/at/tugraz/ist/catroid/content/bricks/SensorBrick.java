@@ -27,6 +27,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
+import at.abraxas.amarino.Amarino;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
@@ -47,12 +48,16 @@ public class SensorBrick implements Brick, OnDismissListener {
 
 	private static final long serialVersionUID = 1L;
 
-	public SensorBrick(Sprite sprite, int type, double pin, double value, double time) {
+	//ToDo change this to your Bluetooth device address 
+	private static final String deviceAddress;
+
+	public SensorBrick(Sprite sprite, int type, double pin, double value, double time, String deviceAddress) {
 		this.sprite = sprite;
 		this.type = type;
 		this.pin = pin;
 		this.value = value;
 		this.time = time;
+		this.deviceAddress = deviceAddress;
 	}
 
 	public void execute() {
@@ -85,6 +90,10 @@ public class SensorBrick implements Brick, OnDismissListener {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.construction_brick_sensor, null);
 
+		//Turn Bluetooth on an scan for devices
+
+		//Connect to the Arduino via Bluetooth
+		Amarino.connect(context, deviceAddress);
 		//Type 1...Digital
 		OnClickListener listener = new OnClickListener() {
 			public void onClick(View v) {
