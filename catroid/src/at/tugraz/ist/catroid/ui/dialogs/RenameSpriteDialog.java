@@ -51,6 +51,7 @@ public class RenameSpriteDialog {
 		input = new EditText(projectActivity);
 		input.setText(projectActivity.getSpriteToEdit().getName());
 		input.setSingleLine(true);
+
 		builder.setView(input);
 
 		initBuilder(builder);
@@ -63,20 +64,27 @@ public class RenameSpriteDialog {
 		return alertDialog;
 	}
 
-	private void handleOkButton(DialogInterface dialog) {
+	private boolean handleOkButton(DialogInterface dialog) {
 		String newSpriteName = (input.getText().toString()).trim();
+
+		if (spriteAlreadyExists(newSpriteName)
+				&& !newSpriteName.equalsIgnoreCase(projectActivity.getSpriteToEdit().getName())) {
+			Utils.displayErrorMessage(projectActivity, projectActivity.getString(R.string.spritename_already_exists));
+			return false;
+		}
 
 		if (newSpriteName.equalsIgnoreCase(projectActivity.getSpriteToEdit().getName())) {
 			dialog.dismiss();
-			return;
+			return false;
 		}
 		if (newSpriteName != null && !newSpriteName.equalsIgnoreCase("")) {
 			projectActivity.getSpriteToEdit().setName(newSpriteName);
 		} else {
 			Utils.displayErrorMessage(projectActivity, projectActivity.getString(R.string.spritename_invalid));
-			return;
+			return false;
 		}
 		dialog.dismiss();
+		return true;
 	}
 
 	private void initBuilder(AlertDialog.Builder builder) {
@@ -96,10 +104,6 @@ public class RenameSpriteDialog {
 		builder.setOnKeyListener(new OnKeyListener() {
 			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
 				if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-					String newSpriteName = (input.getText().toString()).trim();
-					if (spriteAlreadyExists(newSpriteName)) {
-						return false;
-					}
 					handleOkButton(dialog);
 					return false;
 				}
@@ -127,19 +131,19 @@ public class RenameSpriteDialog {
 				} else {
 					alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(true);
 				}
-
-				if (spriteAlreadyExists(s.toString())
-						&& !(s.toString()).equalsIgnoreCase(projectActivity.getSpriteToEdit().getName())) {
-					alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false);
-					Toast.makeText(projectActivity, R.string.spritename_already_exists, Toast.LENGTH_SHORT).show();
-					return;
-				}
 			}
 
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 			}
 
 			public void afterTextChanged(Editable s) {
+				//				if (spriteAlreadyExists(s.toString())
+				//						&& !(s.toString()).equalsIgnoreCase(projectActivity.getSpriteToEdit().getName())) {
+				//					alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false);
+				//					Toast.makeText(projectActivity, R.string.spritename_already_exists, Toast.LENGTH_SHORT).show();
+				//				} else {
+				//					alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(true);
+				//				}
 			}
 		});
 	}
