@@ -38,9 +38,10 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	private transient boolean toDraw;
 	private List<Script> scriptList;
 	private transient Costume costume;
-	private transient int ghostEffectValue;
-	private transient int brightnessValue;
-	private transient int volume;
+	private transient double ghostEffectValue;
+	private transient double brightnessValue;
+	private transient double volume;
+	private transient String text;
 
 	public transient volatile boolean isPaused;
 	public transient volatile boolean isFinished;
@@ -58,11 +59,11 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		xPosition = 0;
 		yPosition = 0;
 		toDraw = false;
-		ghostEffectValue = 0;
-		brightnessValue = 0;
+		ghostEffectValue = 0.0;
+		brightnessValue = 0.0;
 		isPaused = false;
 		isFinished = false;
-		volume = 0;
+		volume = 70.0;
 	}
 
 	public Sprite(String name) {
@@ -191,16 +192,20 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return size;
 	}
 
-	public int getGhostEffectValue() {
+	public double getGhostEffectValue() {
 		return ghostEffectValue;
 	}
 
-	public int getBrightnessValue() {
+	public double getBrightnessValue() {
 		return this.brightnessValue;
 	}
 
-	public int getVolume() {
+	public double getVolume() {
 		return this.volume;
+	}
+
+	public String getTextToSpeech() {
+		return this.text;
 	}
 
 	public boolean isVisible() {
@@ -220,17 +225,10 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	}
 
 	public synchronized void setVolume(double volume) {
-		int vol;
-		if (volume < 0) {
-			throw new IllegalArgumentException("Sprite brightness must be greater than or equal to zero!");
+		if (volume < 0.0) {
+			throw new IllegalArgumentException("Sprite brightness must be greater than zero!");
 		}
-
-		if (volume > 100) {
-			vol = 100;
-		} else {
-			vol = (int) Math.floor(volume);
-		}
-		this.volume = vol;
+		this.volume = volume;
 		toDraw = true;
 	}
 
@@ -241,43 +239,46 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		toDraw = true;
 	}
 
-	public synchronized void setBrightnessValue(int brightnessValue) {
+	public synchronized void setBrightnessValue(double brightnessValue) {
 		this.brightnessValue = brightnessValue;
-		int brightness;
-		if (brightnessValue < 0) {
-			throw new IllegalArgumentException("Sprite brightness must be greater than or equal to zero!");
+		if (brightnessValue < 0.0) {
+			throw new IllegalArgumentException("Sprite brightness must be greater than zero!");
 		}
+		int brightness;
 
 		if (brightnessValue > 100) {
-			brightness = 100;
+			brightness = 150;
 		} else {
-			brightness = brightnessValue;
+			brightness = (int) (brightnessValue + 50);
 		}
 
 		costume.setBrightness(brightness);
 		toDraw = true;
 	}
 
-	public synchronized void setGhostEffectValue(int ghostEffectValue) {
+	public synchronized void setGhostEffectValue(double ghostEffectValue) {
 		this.ghostEffectValue = ghostEffectValue;
-		int calculation;
+		double calculation = 0;
 		int opacityValue = 0;
-		if (ghostEffectValue < 0) {
-			throw new IllegalArgumentException("Sprite ghost effect must be greater than or equal to zero!");
-		}
 
-		calculation = (int) Math.floor(255 - (ghostEffectValue * 2.55));
-		// calculation: a value between 0 (completely transparent) and 255 (completely opaque).
+		if (ghostEffectValue < 0.0) {
+			throw new IllegalArgumentException("Sprite ghost effect must be greater than zero!");
+		}
+		calculation = Math.floor(255 - (ghostEffectValue * 2.55));
+		//		 calculation: a value between 0 (completely transparent) and 255 (completely opaque).
 		if (calculation > 0) {
 			if (calculation >= 12) {
-				opacityValue = calculation;
+				if (calculation >= 64) {
+					opacityValue = (int) (calculation - (80 - ghostEffectValue));//Effect value from 0% to 75%
+				} else {
+					opacityValue = (int) calculation; // Effect value from 76% to 95%
+				}
 			} else {
-				opacityValue = 12;
+				opacityValue = 11; // Effect value from 96% to 99%. Opacity Value more than 12 sprite would be untouchable.
 			}
 		} else if (calculation <= 0) {
-			opacityValue = 0;
+			opacityValue = 0; //  Effect value 100%. Sprite untouchable.
 		}
-
 		costume.setGhostEffect(opacityValue);
 		toDraw = true;
 	}
@@ -413,5 +414,10 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	public void setTextToSpeech(String text) {
+		this.text = text;
+
 	}
 }

@@ -28,22 +28,24 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
+import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 
 public class ChangeBrightnessBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
-	private int changeBrightness;
+	private double changeBrightness;
 	private Sprite sprite;
 
-	public ChangeBrightnessBrick(Sprite sprite, int changeBrightness) {
+	public ChangeBrightnessBrick(Sprite sprite, double changeBrightness) {
 		this.sprite = sprite;
 		this.changeBrightness = changeBrightness;
 	}
 
 	public void execute() {
-		int brightnessValue = sprite.getBrightnessValue();
+		double brightnessValue = sprite.getBrightnessValue();
 		brightnessValue += changeBrightness;
-
+		if (brightnessValue < 0.0) {
+			brightnessValue = 0.0;
+		}
 		sprite.setBrightnessValue(brightnessValue);
 	}
 
@@ -51,7 +53,7 @@ public class ChangeBrightnessBrick implements Brick, OnDismissListener {
 		return this.sprite;
 	}
 
-	public int getChangeBrightness() {
+	public double getChangeBrightness() {
 		return changeBrightness;
 	}
 
@@ -62,7 +64,7 @@ public class ChangeBrightnessBrick implements Brick, OnDismissListener {
 		EditText editX = (EditText) brickView.findViewById(R.id.construction_brick_change_brightness_edit_text);
 		editX.setText(String.valueOf(changeBrightness));
 
-		EditIntegerDialog dialogX = new EditIntegerDialog(context, editX, changeBrightness, true);
+		EditDoubleDialog dialogX = new EditDoubleDialog(context, editX, changeBrightness, true);
 		dialogX.setOnDismissListener(this);
 		dialogX.setOnCancelListener((OnCancelListener) context);
 
@@ -83,7 +85,7 @@ public class ChangeBrightnessBrick implements Brick, OnDismissListener {
 	}
 
 	public void onDismiss(DialogInterface dialog) {
-		EditIntegerDialog inputDialog = (EditIntegerDialog) dialog;
+		EditDoubleDialog inputDialog = (EditDoubleDialog) dialog;
 		changeBrightness = inputDialog.getValue();
 		dialog.cancel();
 	}

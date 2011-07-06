@@ -62,7 +62,7 @@
 	</TextView>
 	<EditText
 		android:id="@+id/construction_brick_set_ghost_effect_edit_text"
-		android:text="25"
+		android:text="0"
 		android:layout_height="wrap_content"
 		android:layout_width="60dp"
 		android:layout_toRightOf="@+id/SetGhostEffectTextView"
@@ -70,8 +70,9 @@
 		android:focusable="false"
 		android:focusableInTouchMode="false"
 		android:gravity="right"
-		android:maxLength="3"
+		android:maxLength="4"
 		android:maxLines="1"
+		android:inputType="number|numberDecimal"
 	>
 	</EditText>
 	<TextView

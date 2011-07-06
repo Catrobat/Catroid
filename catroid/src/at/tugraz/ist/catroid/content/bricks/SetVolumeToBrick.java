@@ -61,7 +61,7 @@ public class SetVolumeToBrick implements Brick, OnDismissListener {
 		EditText edit = (EditText) view.findViewById(R.id.construction_brick_set_volume_to_edit_text);
 		edit.setText(String.valueOf(volume));
 
-		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, volume);
+		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, volume, true);
 		dialog.setOnDismissListener(this);
 		dialog.setOnCancelListener((OnCancelListener) context);
 
@@ -82,7 +82,8 @@ public class SetVolumeToBrick implements Brick, OnDismissListener {
 	}
 
 	public void onDismiss(DialogInterface dialog) {
-		volume = ((EditDoubleDialog) dialog).getValue();
+		EditDoubleDialog inputDialog = (EditDoubleDialog) dialog;
+		volume = inputDialog.getValue();
 		dialog.cancel();
 	}
 }

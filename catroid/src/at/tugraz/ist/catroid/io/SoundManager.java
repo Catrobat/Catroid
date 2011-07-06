@@ -73,11 +73,10 @@ public class SoundManager {
 
 	public synchronized void setVolume(double volume) {
 		float vol;
-		vol = (float) (volume / 100);
+		vol = (float) (volume * 0.01);
 		for (MediaPlayer mediaPlayer : mediaPlayers) {
 			mediaPlayer.setVolume(vol, vol);
 		}
-		mediaPlayers.clear();
 	}
 
 	public synchronized void clear() {

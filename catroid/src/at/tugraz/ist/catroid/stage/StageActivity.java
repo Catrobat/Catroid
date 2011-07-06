@@ -19,9 +19,13 @@
 
 package at.tugraz.ist.catroid.stage;
 
+import java.util.Locale;
+
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.TextToSpeech.OnInitListener;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,13 +40,15 @@ import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.stage.SimpleGestureFilter.SimpleGestureListener;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class StageActivity extends Activity implements SimpleGestureListener {
+public class StageActivity extends Activity implements SimpleGestureListener, OnInitListener {
 
 	public static SurfaceView stage;
 	private SoundManager soundManager;
 	private StageManager stageManager;
 	private boolean stagePlaying = false;
 	private SimpleGestureFilter detector;
+	private TextToSpeech talker;
+	private String text;
 	private final static String TAG = StageActivity.class.getSimpleName();
 
 	@Override
@@ -65,6 +71,7 @@ public class StageActivity extends Activity implements SimpleGestureListener {
 			stagePlaying = true;
 		}
 		detector = new SimpleGestureFilter(this, this);
+		talker = new TextToSpeech(this, this);
 	}
 
 	@Override
@@ -122,6 +129,10 @@ public class StageActivity extends Activity implements SimpleGestureListener {
 		super.onDestroy();
 		stageManager.finish();
 		soundManager.clear();
+		if (talker != null) {
+			talker.stop();
+			talker.shutdown();
+		}
 	}
 
 	@Override
@@ -194,4 +205,27 @@ public class StageActivity extends Activity implements SimpleGestureListener {
 
 	}
 
+	public void say(String text2say) {
+		talker.speak(text2say, TextToSpeech.QUEUE_FLUSH, null);
+	}
+
+	public void onInit(int status) {
+		// status can be either TextToSpeech.SUCCESS or TextToSpeech.ERROR.
+		if (status == TextToSpeech.SUCCESS) {
+			// Set preferred language to US english.
+			// Note that a language may not be available, and the result will indicate this.
+			int result = talker.setLanguage(Locale.US);
+			// Try this someday for some interesting results.
+			// int result mTts.setLanguage(Locale.FRANCE);
+			if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+				// Lanuage data is missing or the language is not supported.
+				Log.e(TAG, "Language is not available.");
+			} else {
+				// Check the documentation for other possible result codes.
+				// For example, the language may be available for the locale,
+				// but not for the specified country and variant.
+				say("hello");
+			}
+		}
+	}
 }

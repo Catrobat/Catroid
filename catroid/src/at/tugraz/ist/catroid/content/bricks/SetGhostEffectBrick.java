@@ -28,14 +28,14 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
+import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 
 public class SetGhostEffectBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
-	private int ghostEffectValue;
+	private double ghostEffectValue;
 	private Sprite sprite;
 
-	public SetGhostEffectBrick(Sprite sprite, int ghostEffectValue) {
+	public SetGhostEffectBrick(Sprite sprite, double ghostEffectValue) {
 		this.sprite = sprite;
 		this.ghostEffectValue = ghostEffectValue;
 	}
@@ -48,7 +48,7 @@ public class SetGhostEffectBrick implements Brick, OnDismissListener {
 		return this.sprite;
 	}
 
-	public int getGhostEffectValue() {
+	public double getGhostEffectValue() {
 		return ghostEffectValue;
 	}
 
@@ -59,7 +59,7 @@ public class SetGhostEffectBrick implements Brick, OnDismissListener {
 		EditText editX = (EditText) brickView.findViewById(R.id.construction_brick_set_ghost_effect_edit_text);
 		editX.setText(String.valueOf(ghostEffectValue));
 
-		EditIntegerDialog dialogX = new EditIntegerDialog(context, editX, ghostEffectValue, true);
+		EditDoubleDialog dialogX = new EditDoubleDialog(context, editX, ghostEffectValue, true);
 		dialogX.setOnDismissListener(this);
 		dialogX.setOnCancelListener((OnCancelListener) context);
 
@@ -80,7 +80,7 @@ public class SetGhostEffectBrick implements Brick, OnDismissListener {
 	}
 
 	public void onDismiss(DialogInterface dialog) {
-		EditIntegerDialog inputDialog = (EditIntegerDialog) dialog;
+		EditDoubleDialog inputDialog = (EditDoubleDialog) dialog;
 		this.ghostEffectValue = inputDialog.getValue();
 
 		dialog.cancel();

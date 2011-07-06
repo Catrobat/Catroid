@@ -175,6 +175,8 @@
 	<string name="to_label">to</string>
 	<string name="brick_clear_graphic_effect">Clear graphic effect</string>
 	<string name="brick_set_volume_to">Set volume to</string>
+	<string name="brick_change_volume_by">Change volume by</string>
+	<string name="brick_speak">Speak</string>
 	
 	<string name="choose_sound_title">choose a title</string>
 	

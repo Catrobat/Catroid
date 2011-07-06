@@ -74,7 +74,7 @@
 		android:maxLength="4"
 		android:maxLines="1"
 		android:numeric="signed"
-		android:inputType="number|numberSigned"
+		android:inputType="number|numberDecimal|numberSigned"
 	>
 	</EditText>
 	</LinearLayout>
