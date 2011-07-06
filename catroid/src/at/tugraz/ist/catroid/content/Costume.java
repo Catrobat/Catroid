@@ -21,9 +21,6 @@ package at.tugraz.ist.catroid.content;
 import java.io.Serializable;
 
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.PorterDuff.Mode;
 import android.util.Pair;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
@@ -41,6 +38,8 @@ public class Costume implements Serializable {
 	private int actWidth;
 	private int origHeight;
 	private int origWidth;
+	private transient int actBrightness = 0;
+	private transient int actGhostEffect = 255;
 
 	@XStreamOmitField
 	private transient Bitmap costumeBitmap;
@@ -84,6 +83,8 @@ public class Costume implements Serializable {
 			costumeBitmap = ImageEditing.getBitmap(imagePath, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
 		}
 
+		costumeBitmap = ImageEditing.adjustOpacity(costumeBitmap, actGhostEffect);
+		costumeBitmap = ImageEditing.adjustBrightness(costumeBitmap, actBrightness);
 		costumeBitmap = ImageEditing.scaleBitmap(costumeBitmap, newWidth, newHeight, true);
 
 		actWidth = newWidth;
@@ -144,81 +145,26 @@ public class Costume implements Serializable {
 		if (costumeBitmap == null) {
 			return;
 		}
-
+		this.actGhostEffect = effectVal;
 		costumeBitmap = ImageEditing.getScaledBitmap(imagePath, actWidth, actHeight);
-		costumeBitmap = adjustOpacity(costumeBitmap, effectVal);
+		costumeBitmap = ImageEditing.adjustBrightness(costumeBitmap, actBrightness);
+		costumeBitmap = ImageEditing.adjustOpacity(costumeBitmap, actGhostEffect);
 		return;
 	}
 
-	private static Bitmap adjustOpacity(Bitmap bitmap, int opacity) {
-		Bitmap mutableBitmap = bitmap.isMutable() ? bitmap : bitmap.copy(Bitmap.Config.ARGB_8888, true);
-		Canvas canvas = new Canvas(mutableBitmap);
-		int colour = (opacity & 0xFF) << 24;
-		System.out.println("1st" + colour);
-		canvas.drawColor(colour, Mode.DST_IN);
-		return mutableBitmap;
-	}
-
 	public synchronized void setBrightness(int brightness) {
+
 		if (costumeBitmap == null) {
 			return;
 		}
 
+		this.actBrightness = brightness;
+
 		costumeBitmap = ImageEditing.getScaledBitmap(imagePath, actWidth, actHeight);
-		costumeBitmap = adjustBrightness(costumeBitmap, brightness);
+		costumeBitmap = ImageEditing.adjustOpacity(costumeBitmap, actGhostEffect);
+		costumeBitmap = ImageEditing.adjustBrightness(costumeBitmap, actBrightness);
 
 		return;
-	}
-
-	private static Bitmap adjustBrightness(Bitmap src, int value) {
-		// image size
-		int width = src.getWidth();
-		int height = src.getHeight();
-		// create output bitmap
-		Bitmap bmOut = Bitmap.createBitmap(width, height, src.getConfig());
-		// color information
-		int A, R, G, B;
-		int pixel;
-
-		// scan through all pixels
-		for (int x = 0; x < width; ++x) {
-			for (int y = 0; y < height; ++y) {
-				// get pixel color
-				pixel = src.getPixel(x, y);
-				A = Color.alpha(pixel);
-				R = Color.red(pixel);
-				G = Color.green(pixel);
-				B = Color.blue(pixel);
-
-				// increase/decrease each channel
-				R += value;
-				if (R > 255) {
-					R = 255;
-				} else if (R < 0) {
-					R = 0;
-				}
-
-				G += value;
-				if (G > 255) {
-					G = 255;
-				} else if (G < 0) {
-					G = 0;
-				}
-
-				B += value;
-				if (B > 255) {
-					B = 255;
-				} else if (B < 0) {
-					B = 0;
-				}
-
-				// apply new pixel color to output bitmap
-				bmOut.setPixel(x, y, Color.argb(A, R, G, B));
-			}
-		}
-
-		// return final image
-		return bmOut;
 	}
 
 	public synchronized void clearGraphicEffect() {

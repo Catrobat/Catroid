@@ -19,7 +19,6 @@
 package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -88,7 +87,6 @@ public class WhenBrick implements Brick {
 					} else {
 						spinner.setSelected(true);
 						String choice = parent.getItemAtPosition(pos).toString();
-						Log.i("choosen", choice);
 						WhenScript.setAction(choice);
 						spinner.setSelection(pos);
 						adapter.notifyDataSetChanged();

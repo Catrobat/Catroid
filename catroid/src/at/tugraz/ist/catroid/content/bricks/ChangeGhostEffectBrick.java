@@ -28,22 +28,24 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
+import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 
 public class ChangeGhostEffectBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
-	private int changeGhostEffect;
+	private double changeGhostEffect;
 	private Sprite sprite;
 
-	public ChangeGhostEffectBrick(Sprite sprite, int changeGhostEffect) {
+	public ChangeGhostEffectBrick(Sprite sprite, double changeGhostEffect) {
 		this.sprite = sprite;
 		this.changeGhostEffect = changeGhostEffect;
 	}
 
 	public void execute() {
-		int ghostEffectValue = sprite.getGhostEffectValue();
+		double ghostEffectValue = sprite.getGhostEffectValue();
 		ghostEffectValue += changeGhostEffect;
-
+		if (ghostEffectValue < 0.0) {
+			ghostEffectValue = 0.0;
+		}
 		sprite.setGhostEffectValue(ghostEffectValue);
 	}
 
@@ -51,7 +53,7 @@ public class ChangeGhostEffectBrick implements Brick, OnDismissListener {
 		return this.sprite;
 	}
 
-	public int getChangeGhostEffect() {
+	public double getChangeGhostEffect() {
 		return changeGhostEffect;
 	}
 
@@ -62,7 +64,7 @@ public class ChangeGhostEffectBrick implements Brick, OnDismissListener {
 		EditText editX = (EditText) brickView.findViewById(R.id.construction_brick_change_ghost_effect_edit_text);
 		editX.setText(String.valueOf(changeGhostEffect));
 
-		EditIntegerDialog dialogX = new EditIntegerDialog(context, editX, changeGhostEffect, true);
+		EditDoubleDialog dialogX = new EditDoubleDialog(context, editX, changeGhostEffect, true);
 		dialogX.setOnDismissListener(this);
 		dialogX.setOnCancelListener((OnCancelListener) context);
 
@@ -83,7 +85,7 @@ public class ChangeGhostEffectBrick implements Brick, OnDismissListener {
 	}
 
 	public void onDismiss(DialogInterface dialog) {
-		EditIntegerDialog inputDialog = (EditIntegerDialog) dialog;
+		EditDoubleDialog inputDialog = (EditDoubleDialog) dialog;
 		changeGhostEffect = inputDialog.getValue();
 		dialog.cancel();
 	}

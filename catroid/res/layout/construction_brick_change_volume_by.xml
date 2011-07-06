@@ -41,39 +41,26 @@
 		android:focusableInTouchMode="false"
 		android:longClickable="true"
 	>
-		<TextView
-			android:id="@+id/SetVolumeToTextView"
-			android:text="@string/percent"
-			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:layout_alignParentRight="true"
-			android:layout_centerVertical="true"
-			android:paddingLeft="5dip"
-			android:paddingRight="10dip"
-			android:textColor="@color/white"
-			android:textSize="18dip"
-			android:textStyle="bold"
-		>
-		</TextView>
 		<EditText
-			android:id="@+id/construction_brick_set_volume_to_edit_text"
+			android:id="@+id/construction_brick_change_volume_by_edit_text"
 			android:text="100"
 			android:layout_height="wrap_content"
 			android:layout_width="50dp"
             android:layout_marginLeft="5dip"
-			android:layout_toLeftOf="@+id/SetVolumeToTextView"
+			android:layout_alignParentRight="true"
 			android:cursorVisible="false"
 			android:focusable="false"
 			android:focusableInTouchMode="false"
 			android:gravity="right"
-			android:maxLength="4"
+			android:maxLength="3"
 			android:maxLines="1"
-			android:inputType="number|numberDecimal"
+			android:numeric="signed"
+		    android:inputType="number|numberDecimal|numberSigned"
 		>
 		</EditText>
 		<TextView
-			android:id="@+id/ValueTextView"
-			android:text="@string/brick_set_volume_to"
+			android:id="@+id/ChangeVolumeByTextView"
+			android:text="@string/brick_change_volume_by"
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
 			android:layout_alignParentLeft="true"

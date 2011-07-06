@@ -48,8 +48,9 @@
 		android:focusable="false"
 		android:focusableInTouchMode="false"
 		android:gravity="right"
-		android:maxLength="3"
+		android:maxLength="4"
 		android:maxLines="1"
+		android:inputType="number|numberDecimal"
 	>
 	</EditText>
 	<TextView

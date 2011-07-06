@@ -28,14 +28,14 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
+import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 
 public class SetBrightnessBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
-	private int brightnessValue;
+	private double brightnessValue;
 	private Sprite sprite;
 
-	public SetBrightnessBrick(Sprite sprite, int brightnessValue) {
+	public SetBrightnessBrick(Sprite sprite, double brightnessValue) {
 		this.sprite = sprite;
 		this.brightnessValue = brightnessValue;
 	}
@@ -48,7 +48,7 @@ public class SetBrightnessBrick implements Brick, OnDismissListener {
 		return this.sprite;
 	}
 
-	public int getBrightnessValue() {
+	public double getBrightnessValue() {
 		return brightnessValue;
 	}
 
@@ -59,7 +59,7 @@ public class SetBrightnessBrick implements Brick, OnDismissListener {
 		EditText editX = (EditText) brickView.findViewById(R.id.construction_brick_set_brightness_edit_text);
 		editX.setText(String.valueOf(brightnessValue));
 
-		EditIntegerDialog dialogX = new EditIntegerDialog(context, editX, brightnessValue, true);
+		EditDoubleDialog dialogX = new EditDoubleDialog(context, editX, brightnessValue, true);
 		dialogX.setOnDismissListener(this);
 		dialogX.setOnCancelListener((OnCancelListener) context);
 
@@ -80,7 +80,7 @@ public class SetBrightnessBrick implements Brick, OnDismissListener {
 	}
 
 	public void onDismiss(DialogInterface dialog) {
-		EditIntegerDialog inputDialog = (EditIntegerDialog) dialog;
+		EditDoubleDialog inputDialog = (EditDoubleDialog) dialog;
 		this.brightnessValue = inputDialog.getValue();
 
 		dialog.cancel();
