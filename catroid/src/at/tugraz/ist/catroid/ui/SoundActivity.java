@@ -22,155 +22,221 @@ package at.tugraz.ist.catroid.ui;
  * @author ainulhusna
  *
  */
-import java.util.List;
-import java.util.Vector;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 
-import android.app.Activity;
+import android.app.Dialog;
 import android.app.ListActivity;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ParseException;
-import android.net.Uri;
+import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.SoundInfo;
+import at.tugraz.ist.catroid.content.SoundData;
+import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.ui.adapter.SoundBrickAdapter;
+import at.tugraz.ist.catroid.utils.Utils;
 
-public class SoundActivity extends ListActivity {
-	private ListView soundListView;
-	private LayoutInflater mInflater;
-	private Vector<RowData> data;
-	RowData rd;
+public class SoundActivity extends ListActivity implements OnItemClickListener {
+	private Sprite sprite;
+	private ArrayList<SoundData> SoundData;
+	private ArrayList<SoundData> currentSound;
+	private transient ArrayList<SoundInfo> soundList;
+	//private SoundAdapter s_adapter;
+	private SoundBrickAdapter soundBrickAdapter;
+	private Runnable viewSounds;
+	Bitmap bm;
+	int column_index;
+	Intent intent = null;
+	// Declare our Views, so we can access them later
+	String filemanagerstring, selectedSoundPath, soundfileName, soundPath, soundTitle;
+	int counter;
+	Cursor cursor;
+	private String TAG = SoundActivity.class.getSimpleName();
+	protected ProjectActivity projectActivity;
+	private transient Dialog soundDialog;
+
 	private static final int SELECT_SOUND = 1;
-
-	static final String[] title = new String[] {
-			"meow" };
-
-	private Integer[] imgid = {
-			R.drawable.speaker };
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sound);
-		soundListView = (ListView) findViewById(android.R.id.list);
+		StorageHandler.getInstance().loadSoundContent(this);
+		soundList = StorageHandler.getInstance().getSoundContent();
 
-		mInflater = (LayoutInflater) getSystemService(
-				Activity.LAYOUT_INFLATER_SERVICE);
-		data = new Vector<RowData>();
-		for (int i = 0; i < title.length; i++) {
-			try {
-				rd = new RowData(i, title[i]);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			data.add(rd);
+		sprite = ProjectManager.getInstance().getCurrentSprite();
+		SoundData = new ArrayList<SoundData>();
+		currentSound = sprite.getSoundList();
+		//Log.v(TAG, "*************************" + sprite.getSoundList().size());
+
+		if (currentSound != null) {
+			SoundData.addAll(currentSound);
+
+			Log.v(TAG,
+					"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ all old sound had been loaded and the size is" + SoundData.size());
 		}
 
-		SoundAdapter adapter = new SoundAdapter(this, R.layout.activity_soundlist, R.id.edit_sound_name, data);
-		soundListView.setAdapter(adapter);
-		getListView().setTextFilterEnabled(true);
+		final SoundBrickAdapter soundBrickAdapter = new SoundBrickAdapter(this, soundList);
+		soundDialog = new Dialog(this);
 
-		Button addnewcostume = (Button) findViewById(R.id.add_sound_button);
-		addnewcostume.setOnClickListener(new OnClickListener() {
+		Button addnewsound = (Button) findViewById(R.id.add_sound_button);
+		addnewsound.setOnClickListener(new OnClickListener() {
+			// TODO Auto-generated method stub
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Intent intent = new Intent();
-				intent.setType("sound/*");
-				intent.setAction(Intent.ACTION_GET_CONTENT);
-				startActivityForResult(Intent.createChooser(intent, "Select Sound"), SELECT_SOUND);
+				soundDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+				soundDialog.setContentView(R.layout.sound_list);
+				soundDialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+										WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+				ListView list = (ListView) soundDialog.findViewById(R.id.sound_list);
+				list.setAdapter(soundBrickAdapter);
+				list.setOnItemClickListener(SoundActivity.this);
+
+				soundDialog.show();
 
 			}
 		});
+
+		//s_adapter = new SoundAdapter(this, R.layout.activity_soundlist, SoundData);
+		//setListAdapter(s_adapter);
+		getListView().setTextFilterEnabled(true);
 	}
 
 	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (resultCode == RESULT_OK) {
-			if (requestCode == SELECT_SOUND) {
-				Uri selectedSoundUri = data.getData();
-				//String selectedSoundPath = getPath(selectedSoundUri);
-			}
+	protected void onStart() {
+		super.onStart();
+		//initListeners();
+
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		ProjectManager projectManager = ProjectManager.getInstance();
+		if (projectManager.getCurrentProject() != null) {
+			projectManager.saveProject(this);
 		}
 	}
 
 	@Override
-	public void onListItemClick(ListView parent, View v, int position, long id) {
-		Toast.makeText(getApplicationContext(), "You have selected "
-						+ (position + 1) + "th item", Toast.LENGTH_SHORT).show();
-	}
-
-	private class RowData {
-		protected int mId;
-		protected String mTitle;
-		protected String mDetail;
-
-		RowData(int id, String title) {
-			mId = id;
-			mTitle = title;
-
-		}
-
-		@Override
-		public String toString() {
-			return mId + " " + mTitle + " " + mDetail;
+	protected void onResume() {
+		super.onResume();
+		if (!Utils.checkForSdCard(this)) {
+			return;
 		}
 	}
 
-	private class SoundAdapter extends ArrayAdapter<RowData> {
-		public SoundAdapter(Context context, int resource, int textViewResourceId, List<RowData> objects) {
-			super(context, resource, textViewResourceId, objects);
+	//	private Runnable returnRes = new Runnable() {
+	//
+	//		public void run() {
+	//			if (SoundData != null && SoundData.size() > 0) {
+	//				s_adapter.notifyDataSetChanged();
+	//				for (int i = 0; i < SoundData.size(); i++) {
+	//					s_adapter.add(SoundData.get(i));
+	//				}
+	//			}
+	//			s_adapter.notifyDataSetChanged();
+	//		}
+	//	};
+
+	private void getSounds() {
+		try {
+			SoundData = new ArrayList<SoundData>();
+			SoundData s = new SoundData();
+			s.setSoundName(soundTitle);
+			s.setSoundAbsolutePath(soundfileName);
+			SoundData.add(s);
+			sprite.setSoundList(s);
+
+			Log.i("ARRAY", "" + SoundData.size());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		//runOnUiThread(returnRes);
+	}
+
+	//	private class SoundAdapter extends ArrayAdapter<SoundData> {
+	//
+	//		private ArrayList<SoundData> items;
+	//
+	//		public SoundAdapter(final Context context, int textViewResourceId, ArrayList<SoundData> items) {
+	//			super(context, textViewResourceId, items);
+	//			this.items = items;
+	//		}
+	//
+	//		@Override
+	//		public View getView(final int position, View convertView, ViewGroup parent) {
+	//
+	//			View v = convertView;
+	//			if (v == null) {
+	//				LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	//				v = vi.inflate(R.layout.activity_soundlist, null);
+	//			}
+	//
+	//			final SoundData c = items.get(position);
+	//			if (c != null) {
+	//				ImageView soundImage = (ImageView) findViewById(R.id.sound_img);
+	//				soundImage.setImageResource(R.drawable.speaker);
+	//
+	//				EditText soundName = (EditText) findViewById(R.id.edit_sound_name);
+	//				soundName.setText(c.getSoundName());
+	//
+	//				ImageButton deleteSound = (ImageButton) v.findViewById(R.id.delete_button);
+	//				deleteSound.setOnClickListener(new View.OnClickListener() {
+	//					public void onClick(View v) {
+	//						items.remove(c);
+	//						sprite.removeSoundList(c);
+	//						notifyDataSetChanged();
+	//					}
+	//				});
+	//
+	//			}
+	//			return v;
+	//		}
+	//
+	//	}
+
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		File soundFile = null;
+
+		try {
+			soundFile = StorageHandler.getInstance().copySoundFile(soundList.get(position).getPath());
+
+			if (soundFile != null) {
+				soundfileName = soundFile.getName();
+			} else {
+				soundfileName = soundList.get(position).getTitleWithPath();
+			}
+
+			soundTitle = soundList.get(position).getTitle();
+			soundDialog.dismiss();
+
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			ViewHolder holder = null;
-			TextView title = null;
-			ImageView i11 = null;
-			RowData rowData = getItem(position);
-			if (null == convertView) {
-				convertView = mInflater.inflate(R.layout.activity_soundlist, null);
-				holder = new ViewHolder(convertView);
-				convertView.setTag(holder);
+		viewSounds = new Runnable() {
+			public void run() {
+				getSounds();
 			}
-			holder = (ViewHolder) convertView.getTag();
-			title = holder.gettitle();
-			title.setText(rowData.mTitle);
-			i11 = holder.getImage();
-			i11.setImageResource(imgid[rowData.mId]);
-			return convertView;
-		}
+		};
 
-		private class ViewHolder {
-			private View mRow;
-			private TextView title = null;
-			private ImageView i11 = null;
+		Thread thread = new Thread(null, viewSounds, "MagentoBackground");
+		thread.start();
 
-			public ViewHolder(View row) {
-				mRow = row;
-			}
-
-			public TextView gettitle() {
-				if (null == title) {
-					title = (TextView) mRow.findViewById(R.id.edit_sound_name);
-				}
-				return title;
-			}
-
-			public ImageView getImage() {
-				if (null == i11) {
-					i11 = (ImageView) mRow.findViewById(R.id.sound_img);
-				}
-				return i11;
-			}
-		}
 	}
 }
