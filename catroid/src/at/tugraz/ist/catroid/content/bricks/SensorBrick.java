@@ -57,7 +57,7 @@ public class SensorBrick implements Brick, OnDismissListener {
 		this.pin = pin;
 		this.value = value;
 		this.time = time;
-		this.deviceAddress = deviceAddress; // for example "00:06:66:03:73:7B";
+		this.deviceAddress = deviceAddress;
 	}
 
 	public void execute() {
