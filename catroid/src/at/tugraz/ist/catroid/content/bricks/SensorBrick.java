@@ -30,6 +30,7 @@ import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
+import at.tugraz.ist.catroid.ui.dialogs.PinAnalogDialog;
 
 /**
  * @author manuelzoderer
@@ -39,7 +40,7 @@ public class SensorBrick implements Brick, OnDismissListener {
 
 	private Sprite sprite;
 	private int type;
-	private double pin;
+	private int pin;
 	private double value;
 	private double time;
 	private final int DIGITAL = 1;
@@ -47,7 +48,7 @@ public class SensorBrick implements Brick, OnDismissListener {
 
 	private static final long serialVersionUID = 1L;
 
-	public SensorBrick(Sprite sprite, int type, double pin, double value, double time) {
+	public SensorBrick(Sprite sprite, int type, int pin, double value, double time) {
 		this.sprite = sprite;
 		this.type = type;
 		this.pin = pin;
@@ -69,7 +70,7 @@ public class SensorBrick implements Brick, OnDismissListener {
 		return type;
 	}
 
-	public double getPin() {
+	public int getPin() {
 		return pin;
 	}
 
@@ -104,16 +105,16 @@ public class SensorBrick implements Brick, OnDismissListener {
 		//Pin TODO: CHECK FOR WRONG INPUT AND MAKE NEW DIALOG FOR EACH ONE? OR CHECK IT SOMEHOW....
 		EditText editPin = (EditText) view.findViewById(R.id.construction_brick_sensor_pin);
 		editPin.setText(String.valueOf(pin));
-		EditDoubleDialog dialogPin;
+		PinAnalogDialog dialogPin;
 		switch (type) {
 			case DIGITAL:
-				dialogPin = new EditDoubleDialog(context, editPin, pin);
+				dialogPin = new PinAnalogDialog(context, editPin, pin, true);
 				dialogPin.setOnDismissListener(this);
 				dialogPin.setOnCancelListener((OnCancelListener) context);
 				editPin.setOnClickListener(dialogPin);
 				break;
 			case ANALOG:
-				dialogPin = new EditDoubleDialog(context, editPin, pin);
+				dialogPin = new PinAnalogDialog(context, editPin, pin, true);
 				dialogPin.setOnDismissListener(this);
 				dialogPin.setOnCancelListener((OnCancelListener) context);
 				editPin.setOnClickListener(dialogPin);
@@ -170,7 +171,7 @@ public class SensorBrick implements Brick, OnDismissListener {
 		EditDoubleDialog inputDialog = (EditDoubleDialog) dialog;
 
 		if (inputDialog.getRefernecedEditTextId() == R.id.construction_brick_sensor_pin) {
-			pin = inputDialog.getValue();
+			pin = Integer.parseInt(String.valueOf(inputDialog.getValue()));
 		} else if (inputDialog.getRefernecedEditTextId() == R.id.construction_brick_sensor_time) {
 			time = inputDialog.getValue();
 		} else if (inputDialog.getRefernecedEditTextId() == R.id.construction_brick_sensor_value) {
