@@ -23,9 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.util.Pair;
 import at.tugraz.ist.catroid.common.Consts;
-import at.tugraz.ist.catroid.ui.CostumeActivity.costumeData;
 
 public class Sprite implements Serializable, Comparable<Sprite> {
 	private static final long serialVersionUID = 1L;
@@ -38,10 +38,10 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	private transient boolean toDraw;
 	private List<Script> scriptList;
 	private ArrayList<costumeData> costumeList;
-	private static ArrayList<String> costumeName;
-	private static ArrayList<String> costumeImage;
+	private ArrayList<SoundData> soundList;
 	private transient List<Thread> threadList;
 	private transient Costume costume;
+	private String TAG = Sprite.class.getSimpleName();
 
 	private Object readResolve() {
 		init();
@@ -62,14 +62,16 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	public Sprite(String name) {
 		this.name = name;
 		scriptList = new ArrayList<Script>();
-		costumeName = new ArrayList<String>();
-		costumeImage = new ArrayList<String>();
+		costumeList = new ArrayList<costumeData>();
+		soundList = new ArrayList<SoundData>();
 		init();
 	}
 
 	public Sprite(String name, int xPosition, int yPosition) {
 		this.name = name;
 		scriptList = new ArrayList<Script>();
+		costumeList = new ArrayList<costumeData>();
+		soundList = new ArrayList<SoundData>();
 		init();
 		this.xPosition = xPosition;
 		this.yPosition = yPosition;
@@ -129,14 +131,6 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public void addName(String cName) {
-		costumeName.add(cName);
-	}
-
-	public void addImage(String cImage) {
-		costumeImage.add(cImage);
 	}
 
 	public int getXPosition() {
@@ -223,8 +217,33 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return scriptList;
 	}
 
+	public void setCostumeList(costumeData costumeData) {
+		costumeList.add(costumeData);
+		Log.v(TAG, "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@One costume has been loaded");
+	}
+
+	public void removeCostumeList(costumeData costumeData) {
+		costumeList.remove(costumeData);
+	}
+
 	public ArrayList<costumeData> getCostumeList() {
 		return costumeList;
+	}
+
+	public void setSoundList(SoundData soundData) {
+		Log.v(TAG, "%%%%%%%%%%%%%%%%%%%%%%%%%" + soundData.getSoundName());
+		Log.v(TAG, "%%%%%%%%%%%%%%%%%%%%%%%%%" + soundData.getSoundAbsolutePath());
+		soundList.add(soundData);
+		Log.v(TAG, "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" + soundList.size());
+	}
+
+	public void removeSoundList(SoundData soundData) {
+		soundList.remove(soundData);
+	}
+
+	public ArrayList<SoundData> getSoundList() {
+		Log.v(TAG, "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" + soundList.size());
+		return soundList;
 	}
 
 	public boolean getToDraw() {
