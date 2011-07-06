@@ -4,5 +4,6 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="lib" path="lib/xstream.jar"/>
+	<classpathentry kind="lib" path="/Users/manuelzoderer/Desktop/AmarinoLibrary_v0_55.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
