@@ -47,7 +47,9 @@ public class ProjectActivity extends Activity {
 	private ListView listView;
 	private ArrayAdapter<Sprite> adapter;
 	private ArrayList<Sprite> adapterSpriteList;
+	//	private ArrayList<costumeData> adapterCostumeDataList;
 	private Sprite spriteToEdit;
+	//	private costumeData costumeNameToEdit;
 	private ActivityHelper activityHelper = new ActivityHelper(this);
 
 	private void initListeners() {
@@ -153,6 +155,10 @@ public class ProjectActivity extends Activity {
 	public Sprite getSpriteToEdit() {
 		return spriteToEdit;
 	}
+
+	//	public costumeData getCostumeNameToEdit() {
+	//		return costumeNameToEdit;
+	//	}
 
 	private void updateTextAndAdapter() {
 		//		TextView currentProjectTextView = (TextView) findViewById(R.id.project_title_text_view);
