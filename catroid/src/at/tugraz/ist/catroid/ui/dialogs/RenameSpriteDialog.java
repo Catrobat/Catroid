@@ -27,12 +27,14 @@ import android.content.DialogInterface.OnShowListener;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -40,6 +42,8 @@ import at.tugraz.ist.catroid.utils.Utils;
 public class RenameSpriteDialog {
 	protected ProjectActivity projectActivity;
 	private EditText input;
+	private Button buttonPositive;
+	public Dialog renameDialog;
 
 	public RenameSpriteDialog(ProjectActivity projectActivity) {
 		this.projectActivity = projectActivity;
@@ -49,36 +53,39 @@ public class RenameSpriteDialog {
 		AlertDialog.Builder builder = new AlertDialog.Builder(projectActivity);
 		builder.setTitle(R.string.rename_sprite_dialog);
 
-		input = new EditText(projectActivity);
+		LayoutInflater inflater = (LayoutInflater) projectActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.dialog_rename_sprite, null);
+
+		input = (EditText) view.findViewById(R.id.dialog_rename_sprite_editText);
 		input.setText(projectActivity.getSpriteToEdit().getName());
 		input.setSingleLine(true);
 		input.setSelectAllOnFocus(true);
 
-		builder.setView(input);
+		buttonPositive = (Button) view.findViewById(R.id.dialog_rename_sprite_ok_button);
 
-		initBuilder(builder);
+		builder.setView(view);
 
-		final AlertDialog alertDialog = builder.create();
-		alertDialog.setCanceledOnTouchOutside(true);
+		initKeyListener(builder);
 
-		initAlertDialogListener(alertDialog);
+		renameDialog = builder.create();
+		renameDialog.setCanceledOnTouchOutside(true);
 
-		return alertDialog;
+		initAlertDialogListener(renameDialog);
+
+		return renameDialog;
 	}
 
-	private void handleOkButton(DialogInterface dialog) {
+	public void handleOkButton() {
 		String newSpriteName = (input.getText().toString()).trim();
 
 		if (spriteAlreadyExists(newSpriteName)
 				&& !newSpriteName.equalsIgnoreCase(projectActivity.getSpriteToEdit().getName())) {
-			projectActivity.removeDialog(Consts.DIALOG_RENAME_SPRITE);
-			projectActivity.showDialog(Consts.DIALOG_RENAME_SPRITE);
 			Utils.displayErrorMessage(projectActivity, projectActivity.getString(R.string.spritename_already_exists));
 			return;
 		}
 
 		if (newSpriteName.equalsIgnoreCase(projectActivity.getSpriteToEdit().getName())) {
-			dialog.dismiss();
+			renameDialog.cancel();
 			return;
 		}
 		if (newSpriteName != null && !newSpriteName.equalsIgnoreCase("")) {
@@ -87,37 +94,30 @@ public class RenameSpriteDialog {
 			Utils.displayErrorMessage(projectActivity, projectActivity.getString(R.string.spritename_invalid));
 			return;
 		}
-		dialog.dismiss();
+		renameDialog.cancel();
 	}
 
-	private void initBuilder(AlertDialog.Builder builder) {
-		builder.setPositiveButton(projectActivity.getString(R.string.ok), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				handleOkButton(dialog);
-			}
-		});
-
-		builder.setNegativeButton(projectActivity.getString(R.string.cancel_button),
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.cancel();
-					}
-				});
-
+	private void initKeyListener(AlertDialog.Builder builder) {
 		builder.setOnKeyListener(new OnKeyListener() {
 			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
 				if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-					handleOkButton(dialog);
-					return false;
+					String newSpriteName = (input.getText().toString()).trim();
+					if (spriteAlreadyExists(newSpriteName)) {
+						Utils.displayErrorMessage(projectActivity,
+								projectActivity.getString(R.string.spritename_already_exists));
+					} else {
+						handleOkButton();
+						return true;
+					}
 				}
 				return false;
 			}
 		});
 	}
 
-	private void initAlertDialogListener(final AlertDialog alertDialog) {
+	private void initAlertDialogListener(Dialog dialog) {
 
-		alertDialog.setOnShowListener(new OnShowListener() {
+		dialog.setOnShowListener(new OnShowListener() {
 			public void onShow(DialogInterface dialog) {
 				InputMethodManager inputManager = (InputMethodManager) projectActivity
 						.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -130,9 +130,9 @@ public class RenameSpriteDialog {
 				if (s.length() == 0 || (s.length() == 1 && s.charAt(0) == '.')) {
 					Toast.makeText(projectActivity, R.string.notification_invalid_text_entered, Toast.LENGTH_SHORT)
 							.show();
-					alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false);
+					buttonPositive.setEnabled(false);
 				} else {
-					alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(true);
+					buttonPositive.setEnabled(true);
 				}
 			}
 
