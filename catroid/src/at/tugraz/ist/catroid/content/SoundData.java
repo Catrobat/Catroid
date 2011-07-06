@@ -18,19 +18,23 @@
  */
 package at.tugraz.ist.catroid.content;
 
+import at.tugraz.ist.catroid.ProjectManager;
+import at.tugraz.ist.catroid.common.Consts;
+
 /**
  * @author ainulhusna
  * 
  */
 public class SoundData {
-	private String soundId, soundName, soundPath;
+	private String soundAbsolutePath, soundName;
 
-	public String getSoundId() {
-		return soundId;
+	public String getSoundAbsolutePath() {
+		return soundAbsolutePath;
 	}
 
-	public void setSoundId(String soundId) {
-		this.soundId = soundId;
+	public void setSoundAbsolutePath(String absolutePath) {
+		this.soundAbsolutePath = Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName()
+				+ Consts.SOUND_DIRECTORY + "/" + absolutePath;
 	}
 
 	public String getSoundName() {
@@ -39,14 +43,6 @@ public class SoundData {
 
 	public void setSoundName(String soundName) {
 		this.soundName = soundName;
-	}
-
-	public String getSoundPath() {
-		return soundPath;
-	}
-
-	public void setSoundPath(String soundPath) {
-		this.soundPath = soundPath;
 	}
 
 }
