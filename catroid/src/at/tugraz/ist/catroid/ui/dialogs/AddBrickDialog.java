@@ -158,6 +158,7 @@ public class AddBrickDialog extends Dialog {
 					projectManager.addScript(newScript);
 					projectManager.setCurrentScript(newScript);
 				} else if (addedBrick instanceof LoopBeginBrick
+						&& projectManager.getCurrentSprite().getNumberOfScripts() > 0
 						&& projectManager.getCurrentScript().containsLoopBrick()) {
 					//Don't add new loop brick, only one loop per script for now
 				} else {
