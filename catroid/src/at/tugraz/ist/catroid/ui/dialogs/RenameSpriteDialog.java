@@ -32,6 +32,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -51,6 +52,7 @@ public class RenameSpriteDialog {
 		input = new EditText(projectActivity);
 		input.setText(projectActivity.getSpriteToEdit().getName());
 		input.setSingleLine(true);
+		input.setSelectAllOnFocus(true);
 
 		builder.setView(input);
 
@@ -64,27 +66,28 @@ public class RenameSpriteDialog {
 		return alertDialog;
 	}
 
-	private boolean handleOkButton(DialogInterface dialog) {
+	private void handleOkButton(DialogInterface dialog) {
 		String newSpriteName = (input.getText().toString()).trim();
 
 		if (spriteAlreadyExists(newSpriteName)
 				&& !newSpriteName.equalsIgnoreCase(projectActivity.getSpriteToEdit().getName())) {
+			projectActivity.removeDialog(Consts.DIALOG_RENAME_SPRITE);
+			projectActivity.showDialog(Consts.DIALOG_RENAME_SPRITE);
 			Utils.displayErrorMessage(projectActivity, projectActivity.getString(R.string.spritename_already_exists));
-			return false;
+			return;
 		}
 
 		if (newSpriteName.equalsIgnoreCase(projectActivity.getSpriteToEdit().getName())) {
 			dialog.dismiss();
-			return false;
+			return;
 		}
 		if (newSpriteName != null && !newSpriteName.equalsIgnoreCase("")) {
 			projectActivity.getSpriteToEdit().setName(newSpriteName);
 		} else {
 			Utils.displayErrorMessage(projectActivity, projectActivity.getString(R.string.spritename_invalid));
-			return false;
+			return;
 		}
 		dialog.dismiss();
-		return true;
 	}
 
 	private void initBuilder(AlertDialog.Builder builder) {
