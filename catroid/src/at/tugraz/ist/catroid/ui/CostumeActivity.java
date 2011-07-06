@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -42,12 +43,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.costumeData;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.ui.dialogs.NewSpriteDialog;
+import at.tugraz.ist.catroid.ui.dialogs.RenameCostumeDialog;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -58,6 +62,7 @@ public class CostumeActivity extends ListActivity {
 	//	private ListView listView;
 	private ArrayList<costumeData> costumeData;
 	private ArrayList<costumeData> currentCostume;
+	private costumeData costumetoEdit;
 	private CostumeAdapter c_adapter;
 	private Runnable viewCostumes;
 	Bitmap bm;
@@ -65,12 +70,12 @@ public class CostumeActivity extends ListActivity {
 	Intent intent = null;
 	// Declare our Views, so we can access them later
 	String filemanagerstring, selectedImagePath, imagePath, costume, costumeImage;
-	int counter;
+	int counter, positiontoEdit;
 	Cursor cursor;
 	@XStreamOmitField
 	private transient Bitmap thumbnail;
 	private String TAG = CostumeActivity.class.getSimpleName();
-	protected ProjectActivity projectActivity;
+	private EditText editName;
 
 	private static final int SELECT_IMAGE = 1;
 
@@ -136,6 +141,25 @@ public class CostumeActivity extends ListActivity {
 	}
 
 	@Override
+	protected Dialog onCreateDialog(int id) {
+		Dialog dialog;
+
+		switch (id) {
+			case Consts.DIALOG_NEW_SPRITE:
+				dialog = new NewSpriteDialog(this);
+				break;
+			case Consts.DIALOG_RENAME_COSTUME:
+				dialog = new RenameCostumeDialog(this);
+				break;
+			default:
+				dialog = null;
+				break;
+		}
+
+		return dialog;
+	}
+
+	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == Activity.RESULT_OK) {
 			if (requestCode == SELECT_IMAGE) {
@@ -159,6 +183,7 @@ public class CostumeActivity extends ListActivity {
 						thumbnail = ImageEditing.getScaledBitmap(getAbsoluteImagePath(), Consts.THUMBNAIL_HEIGHT,
 								Consts.THUMBNAIL_WIDTH);
 						int length = costumeImage.length();
+						costume = costumeImage.substring(33);
 						costume = costumeImage.substring(33, length - 4);
 						String format = costumeImage.substring(length - 4, length);
 						costume = costume.concat("_" + 0) + format;
@@ -166,8 +191,7 @@ public class CostumeActivity extends ListActivity {
 						int count = costume.length();
 						String name = costume.substring(0, count - 6);
 						for (int i = 0; i < sprite.getCostumeList().size(); i++) {
-							if (name.equalsIgnoreCase(sprite.getCostumeList().get(i).getCostumeName()
-									.substring(0, count - 6))) {
+							if (name.equals(sprite.getCostumeList().get(i).getCostumeName().substring(0, count - 6))) {
 								if (counter < Integer.decode(sprite.getCostumeList().get(i).getCostumeName()
 										.substring(count - 5, count - 4))) {
 									counter = Integer.decode(sprite.getCostumeList().get(i).getCostumeName()
@@ -205,6 +229,10 @@ public class CostumeActivity extends ListActivity {
 		imagePath = cursor.getString(column_index);
 
 		return cursor.getString(column_index);
+	}
+
+	public costumeData getCostumeToEdit() {
+		return costumetoEdit;
 	}
 
 	private Runnable returnRes = new Runnable() {
@@ -274,8 +302,7 @@ public class CostumeActivity extends ListActivity {
 						int length = c.getCostumeName().length();
 						String format = c.getCostumeName().substring(length - 4, length);
 						for (int i = 0; i < sprite.getCostumeList().size(); i++) {
-							if (name.equalsIgnoreCase(sprite.getCostumeList().get(i).getCostumeName()
-									.substring(0, count - 6))) {
+							if (name.equals(sprite.getCostumeList().get(i).getCostumeName().substring(0, count - 6))) {
 								if (counter < Integer.decode(sprite.getCostumeList().get(i).getCostumeName()
 										.substring(count - 5, count - 4))) {
 									counter = Integer.decode(sprite.getCostumeList().get(i).getCostumeName()
@@ -316,34 +343,21 @@ public class CostumeActivity extends ListActivity {
 					}
 				});
 
-				EditText costumeName = (EditText) v.findViewById(R.id.costume_edit_name);
-				if (costumeName != null) {
-					costumeName.setText(c.getCostumeName());
+				TextView editName = (TextView) v.findViewById(R.id.costume_edit_name);
+				if (editName != null) {
+					editName.setText(c.getCostumeName());
 				}
-				//				costumeName.setOnClickListener(new View.OnClickListener() {
-				//					public void onClick(View v) {
-				//						String costumeName = ((EditText) findViewById(R.id.costume_edit_name)).getText().toString();
-				//						if (costumeName != null && !costumeName.equalsIgnoreCase("")) {
-				//							for (costumeData tempCostume : sprite.getCostumeList()) {
-				//								if (tempCostume.getCostumeName().equalsIgnoreCase(costumeName)) {
-				//									Utils.displayErrorMessage(projectActivity,
-				//											projectActivity.getString(R.string.costumename_already_exists));
-				//									return;
-				//								}
-				//							}
-				//							//projectActivity.getCostumeNameToEdit().setCostumeName(costumeName);
-				//						} else {
-				//							Utils.displayErrorMessage(projectActivity,
-				//									projectActivity.getString(R.string.costumename_invalid));
-				//							return;
-				//						}
-				//						sprite.getCostumeList().get(position).setCostumeName(costumeName);
-				//						notifyDataSetChanged();
-				//					}
-				//				});
+				costumetoEdit = items.get(position);
+
+				editName.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+						showDialog(Consts.DIALOG_RENAME_COSTUME);
+
+					}
+
+				});
 
 				ImageView costumeImage = (ImageView) v.findViewById(R.id.costume_image);
-
 				if (costumeImage != null) {
 					costumeImage.setImageBitmap(c.getCostumeImage());
 				}
