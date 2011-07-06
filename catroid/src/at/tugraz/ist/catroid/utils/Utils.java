@@ -254,13 +254,6 @@ public class Utils {
 		context.startActivity(websiteIntent);
 	}
 
-	/**
-	 * Displays an AlertDialog with the given error message and just a close
-	 * button
-	 * 
-	 * @param context
-	 * @param errorMessage
-	 */
 	public static void displayErrorMessage(Context context, String errorMessage) {
 		Builder builder = new AlertDialog.Builder(context);
 
@@ -272,5 +265,10 @@ public class Utils {
 		});
 		builder.show();
 	}
+
+	/**
+	 * @param onClickListener
+	 * @param string
+	 */
 
 }
