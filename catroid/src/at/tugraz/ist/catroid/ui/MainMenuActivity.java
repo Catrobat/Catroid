@@ -249,6 +249,9 @@ public class MainMenuActivity extends Activity {
 				Log.i("bt", "menu toogle disconnected selected");
 				disconnectBT();
 				break;
+			case MENU_CONNECT_NXT:
+				selectNXT();
+				break;
 		}
 		return true;
 	}
@@ -290,6 +293,6 @@ public class MainMenuActivity extends Activity {
 
 	void selectNXT() {
 		Intent serverIntent = new Intent(this, DeviceListActivity.class);
-		startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
+		startActivity(serverIntent);
 	}
 }
