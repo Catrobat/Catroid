@@ -190,6 +190,6 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		addNewSprite(spriteName);
 		solo.clickLongOnText(spriteName);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
-		assertTrue(solo.searchText(spriteName));
+		assertTrue("Sprite name not visible after changing orientation", solo.searchText(spriteName));
 	}
 }

@@ -27,41 +27,30 @@ import java.util.List;
 import junit.framework.TestCase;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
-public class SleepTest extends TestCase {
-	private static final String[] DIRECTORIES = { "../catroidUiTest" };
-	private static final String REGEX_PATTERN = "^.*Thread\\.sleep\\(\\w+\\).*$";
+public class BlockCharacterTest extends TestCase {
 
 	private StringBuffer errorMessages;
 	private boolean errorFound;
 
-	private void checkFileForThreadSleep(File file) throws IOException {
+	private static final String[] DIRECTORIES = { "../catroidUiTest", "../catroidTest", "../catroid",
+			"../catroidLicenseTest" };
+
+	private void checkFileForBlockCharacters(File file) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(file));
 
 		int lineCount = 1;
 		String line = null;
 
 		while ((line = reader.readLine()) != null) {
-			if (line.matches(REGEX_PATTERN)) {
+			if (line.contains("\uFFFD")) {
 				errorFound = true;
-				errorMessages.append("File " + file.getName() + ":" + lineCount + " contains \"Thread.sleep()\"");
+				errorMessages.append(file.getName() + " in line " + lineCount + "\n");
 			}
 			++lineCount;
 		}
 	}
 
-	public void testThreadSleepNotPresentInAnyUiTests() throws IOException {
-		assertTrue("Pattern didn't match!", "Thread.sleep(1337)".matches(REGEX_PATTERN));
-		assertTrue("Pattern didn't match!", "Thread.sleep(virtualVariable)".matches(REGEX_PATTERN));
-		assertTrue("Pattern didn't match!", "Thread.sleep(VIRTUAL_08_VARIABLE)".matches(REGEX_PATTERN));
-		assertTrue("Pattern didn't match!", "Thread.sleep(virtual_VAR14BLE_)".matches(REGEX_PATTERN));
-		assertTrue("Pattern didn't match!", "Thread.sleep(_)".matches(REGEX_PATTERN));
-		assertTrue("Pattern didn't match!", "foo(); Thread.sleep(42); bar();".matches(REGEX_PATTERN));
-		assertFalse("Pattern matched! But shouldn't!", "Thread.sleep()".matches(REGEX_PATTERN));
-		assertFalse("Pattern matched! But shouldn't!", "Thread.sleep(.)".matches(REGEX_PATTERN));
-		assertFalse("Pattern matched! But shouldn't!", "Thread.sleep(\"foobar\")".matches(REGEX_PATTERN));
-		assertFalse("Pattern matched! But shouldn't!", "Thread.sleep(\"42\")".matches(REGEX_PATTERN));
-		assertFalse("Pattern matched! But shouldn't!", "Thread0sleep(MyVar)".matches(REGEX_PATTERN));
-
+	public void testForBlockCharacters() throws IOException {
 		errorMessages = new StringBuffer();
 		errorFound = false;
 
@@ -70,9 +59,10 @@ public class SleepTest extends TestCase {
 			assertTrue("Couldn't find directory: " + directoryName, directory.exists() && directory.isDirectory());
 			assertTrue("Couldn't read directory: " + directoryName, directory.canRead());
 
-			List<File> filesToCheck = UtilFile.getFilesFromDirectoryByExtension(directory, ".java");
+			List<File> filesToCheck = UtilFile.getFilesFromDirectoryByExtension(directory, new String[] { ".java",
+					".xml" });
 			for (File file : filesToCheck) {
-				checkFileForThreadSleep(file);
+				checkFileForBlockCharacters(file);
 			}
 		}
 
