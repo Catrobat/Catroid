@@ -48,6 +48,7 @@ public class ProjectActivity extends ListActivity {
 	private Sprite spriteToEdit;
 	private ActivityHelper activityHelper = new ActivityHelper(this);
 	private CustomIconContextMenu iconContextMenu;
+	private RenameSpriteDialog renameDialog;
 	private static final int CONTEXT_MENU_ITEM_RENAME = 0; //or R.id.project_menu_rename
 	private static final int CONTEXT_MENU_ITEM_DELETE = 1; //or R.id.project_menu_delete
 
@@ -155,7 +156,8 @@ public class ProjectActivity extends ListActivity {
 				if (spriteToEdit == null) {
 					dialog = null;
 				} else {
-					dialog = (new RenameSpriteDialog(this)).createDialog(spriteToEdit.getName());
+					renameDialog = new RenameSpriteDialog(this);
+					dialog = renameDialog.createDialog(spriteToEdit.getName());
 				}
 				break;
 			case Consts.DIALOG_CONTEXT_MENU:
@@ -205,5 +207,13 @@ public class ProjectActivity extends ListActivity {
 		if (projectManager.getCurrentProject() != null) {
 			projectManager.saveProject(this);
 		}
+	}
+
+	public void handlePositiveButton(View v) {
+		renameDialog.handleOkButton();
+	}
+
+	public void handleNegativeButton(View v) {
+		renameDialog.renameDialog.cancel();
 	}
 }
