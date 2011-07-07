@@ -28,34 +28,42 @@ import java.util.ArrayList;
 
 import android.app.Dialog;
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.SoundData;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.adapter.SoundBrickAdapter;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class SoundActivity extends ListActivity implements OnItemClickListener {
 	private Sprite sprite;
-	private ArrayList<SoundData> SoundData;
+	private ArrayList<SoundData> soundData;
 	private ArrayList<SoundData> currentSound;
 	private transient ArrayList<SoundInfo> soundList;
-	//private SoundAdapter s_adapter;
+	private SoundAdapter s_adapter;
 	private SoundBrickAdapter soundBrickAdapter;
 	private Runnable viewSounds;
 	Bitmap bm;
@@ -79,18 +87,18 @@ public class SoundActivity extends ListActivity implements OnItemClickListener {
 		soundList = StorageHandler.getInstance().getSoundContent();
 
 		sprite = ProjectManager.getInstance().getCurrentSprite();
-		SoundData = new ArrayList<SoundData>();
+		soundData = new ArrayList<SoundData>();
 		currentSound = sprite.getSoundList();
 		//Log.v(TAG, "*************************" + sprite.getSoundList().size());
 
 		if (currentSound != null) {
-			SoundData.addAll(currentSound);
+			soundData.addAll(currentSound);
 
 			Log.v(TAG,
-					"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ all old sound had been loaded and the size is" + SoundData.size());
+					"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ all old sound had been loaded and the size is" + soundData.size());
 		}
 
-		final SoundBrickAdapter soundBrickAdapter = new SoundBrickAdapter(this, soundList);
+		soundBrickAdapter = new SoundBrickAdapter(this, soundList);
 		soundDialog = new Dialog(this);
 
 		Button addnewsound = (Button) findViewById(R.id.add_sound_button);
@@ -111,8 +119,8 @@ public class SoundActivity extends ListActivity implements OnItemClickListener {
 			}
 		});
 
-		//s_adapter = new SoundAdapter(this, R.layout.activity_soundlist, SoundData);
-		//setListAdapter(s_adapter);
+		s_adapter = new SoundAdapter(this, R.layout.activity_soundlist, soundData);
+		setListAdapter(s_adapter);
 		getListView().setTextFilterEnabled(true);
 	}
 
@@ -140,75 +148,91 @@ public class SoundActivity extends ListActivity implements OnItemClickListener {
 		}
 	}
 
-	//	private Runnable returnRes = new Runnable() {
-	//
-	//		public void run() {
-	//			if (SoundData != null && SoundData.size() > 0) {
-	//				s_adapter.notifyDataSetChanged();
-	//				for (int i = 0; i < SoundData.size(); i++) {
-	//					s_adapter.add(SoundData.get(i));
-	//				}
-	//			}
-	//			s_adapter.notifyDataSetChanged();
-	//		}
-	//	};
+	private Runnable returnRes = new Runnable() {
+
+		public void run() {
+			if (soundData != null && soundData.size() > 0) {
+				s_adapter.notifyDataSetChanged();
+				for (int i = 0; i < soundData.size(); i++) {
+					s_adapter.add(soundData.get(i));
+				}
+			}
+			s_adapter.notifyDataSetChanged();
+		}
+	};
 
 	private void getSounds() {
 		try {
-			SoundData = new ArrayList<SoundData>();
+			soundData = new ArrayList<SoundData>();
 			SoundData s = new SoundData();
 			s.setSoundName(soundTitle);
 			s.setSoundAbsolutePath(soundfileName);
-			SoundData.add(s);
+			soundData.add(s);
 			sprite.setSoundList(s);
 
-			Log.i("ARRAY", "" + SoundData.size());
+			Log.i("ARRAY", "" + soundData.size());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		//runOnUiThread(returnRes);
+		runOnUiThread(returnRes);
 	}
 
-	//	private class SoundAdapter extends ArrayAdapter<SoundData> {
-	//
-	//		private ArrayList<SoundData> items;
-	//
-	//		public SoundAdapter(final Context context, int textViewResourceId, ArrayList<SoundData> items) {
-	//			super(context, textViewResourceId, items);
-	//			this.items = items;
-	//		}
-	//
-	//		@Override
-	//		public View getView(final int position, View convertView, ViewGroup parent) {
-	//
-	//			View v = convertView;
-	//			if (v == null) {
-	//				LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	//				v = vi.inflate(R.layout.activity_soundlist, null);
-	//			}
-	//
-	//			final SoundData c = items.get(position);
-	//			if (c != null) {
-	//				ImageView soundImage = (ImageView) findViewById(R.id.sound_img);
-	//				soundImage.setImageResource(R.drawable.speaker);
-	//
-	//				EditText soundName = (EditText) findViewById(R.id.edit_sound_name);
-	//				soundName.setText(c.getSoundName());
-	//
-	//				ImageButton deleteSound = (ImageButton) v.findViewById(R.id.delete_button);
-	//				deleteSound.setOnClickListener(new View.OnClickListener() {
-	//					public void onClick(View v) {
-	//						items.remove(c);
-	//						sprite.removeSoundList(c);
-	//						notifyDataSetChanged();
-	//					}
-	//				});
-	//
-	//			}
-	//			return v;
-	//		}
-	//
-	//	}
+	private class SoundAdapter extends ArrayAdapter<SoundData> {
+
+		private ArrayList<SoundData> items;
+
+		public SoundAdapter(final Context context, int textViewResourceId, ArrayList<SoundData> items) {
+			super(context, textViewResourceId, items);
+			this.items = items;
+		}
+
+		@Override
+		public View getView(final int position, View convertView, ViewGroup parent) {
+
+			View v = convertView;
+			if (v == null) {
+				LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				v = vi.inflate(R.layout.activity_soundlist, null);
+			}
+
+			final SoundData s = items.get(position);
+			if (s != null) {
+				ImageView soundImage = (ImageView) v.findViewById(R.id.sound_img);
+				soundImage.setImageResource(R.drawable.speaker);
+
+				TextView soundName = (TextView) v.findViewById(R.id.edit_sound_name);
+				soundName.setText(s.getSoundName());
+
+				ImageButton playSound = (ImageButton) v.findViewById(R.id.play_button);
+				playSound.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+						SoundManager.getInstance().playSoundFile(s.getSoundAbsolutePath());
+						notifyDataSetChanged();
+					}
+				});
+
+				ImageButton stopSound = (ImageButton) v.findViewById(R.id.stop_button);
+				stopSound.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+						SoundManager.getInstance().stop();
+						notifyDataSetChanged();
+					}
+				});
+
+				ImageButton deleteSound = (ImageButton) v.findViewById(R.id.delete_button);
+				deleteSound.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+						items.remove(s);
+						sprite.removeSoundList(s);
+						notifyDataSetChanged();
+					}
+				});
+
+			}
+			return v;
+		}
+
+	}
 
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		File soundFile = null;
