@@ -57,15 +57,6 @@ public class WaitBrick implements Brick, OnDismissListener {
 			}
 			Thread.yield();
 		}
-
-		//		long startTime = 0;
-		//		try {
-		//			startTime = System.currentTimeMillis();
-		//			Thread.sleep(timeToWaitInMilliSeconds);
-		//		} catch (InterruptedException e) {
-		//			timeToWaitInMilliSeconds = timeToWaitInMilliSeconds - (int) (System.currentTimeMillis() - startTime);
-		//			throw new InterruptedRuntimeException("WaitBrick was interrupted", e);
-		//		}
 	}
 
 	public Sprite getSprite() {
