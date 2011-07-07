@@ -20,36 +20,19 @@ package at.ist.tugraz.catroid.test.code;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 
 import junit.framework.TestCase;
+import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class GetXListTest extends TestCase {
 	private static final String[] DIRECTORIES = { "../catroid", "../catroidTest", "../catroidUiTest" };
 	private static final String REGEX_PATTERN = "^.*get(Sprite|Script|Brick)List\\(\\)\\.add\\(.*$";
 
-	public GetXListTest() {
-	}
-
-	private void traverseDirectory(File directory) throws IOException {
-		File[] contents = directory.listFiles(new FileFilter() {
-			@Override
-			public boolean accept(File pathname) {
-				return (pathname.isDirectory() && !pathname.getName().equals("gen"))
-						|| pathname.getName().endsWith(".java");
-			}
-		});
-
-		for (File file : contents) {
-			if (file.isDirectory()) {
-				traverseDirectory(file);
-			} else {
-				checkFile(file);
-			}
-		}
-	}
+	private StringBuffer errorMessages;
+	private boolean errorFound;
 
 	private void checkFile(File file) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -58,8 +41,10 @@ public class GetXListTest extends TestCase {
 		String line = null;
 
 		while ((line = reader.readLine()) != null) {
-			assertFalse("File " + file.getName() + ":" + lineCount + " contains \"getScriptList().add()\"",
-					line.matches(REGEX_PATTERN));
+			if (line.matches(REGEX_PATTERN)) {
+				errorFound = true;
+				errorMessages.append("File " + file.getName() + ":" + lineCount + " contains 'getScriptList().add()'");
+			}
 			++lineCount;
 		}
 	}
@@ -74,12 +59,20 @@ public class GetXListTest extends TestCase {
 		assertFalse("Pattern matched! But shouldn't!", "getScriptList()add(MyVar)".matches(REGEX_PATTERN));
 		assertFalse("Pattern matched! But shouldn't!", "getBrickList.add(MyVar)".matches(REGEX_PATTERN));
 
+		errorMessages = new StringBuffer();
+		errorFound = false;
+
 		for (String directoryName : DIRECTORIES) {
 			File directory = new File(directoryName);
 			assertTrue("Couldn't find directory: " + directoryName, directory.exists() && directory.isDirectory());
 			assertTrue("Couldn't read directory: " + directoryName, directory.canRead());
 
-			traverseDirectory(directory);
+			List<File> filesToCheck = UtilFile.getFilesFromDirectoryByExtension(directory, ".java");
+			for (File file : filesToCheck) {
+				checkFile(file);
+			}
 		}
+
+		assertFalse("Files with Block Characters found: \n" + errorMessages.toString(), errorFound);
 	}
 }

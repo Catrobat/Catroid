@@ -52,6 +52,8 @@ public class StageActivity extends Activity {
 			stage = (SurfaceView) findViewById(R.id.stageView);
 
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+			Utils.updateScreenWidthAndHeight(this);
+
 			soundManager = SoundManager.getInstance();
 			stageManager = new StageManager(this);
 			stageManager.start();
