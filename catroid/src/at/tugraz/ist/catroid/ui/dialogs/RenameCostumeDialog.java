@@ -39,6 +39,7 @@ public class RenameCostumeDialog extends Dialog {
 	private EditText renameName;
 	private Sprite sprite;
 	int length;
+	String last;
 
 	public RenameCostumeDialog(CostumeActivity costumeActivity) {
 		super(costumeActivity);
@@ -47,13 +48,14 @@ public class RenameCostumeDialog extends Dialog {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		renameName = null;
 		sprite = ProjectManager.getInstance().getCurrentSprite();
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dialog_rename);
 		setTitle(R.string.rename_costume_dialog);
 		setCanceledOnTouchOutside(true);
 		length = costumeActivity.getCostumeToEdit().getCostumeName().length();
-		final String last = costumeActivity.getCostumeToEdit().getCostumeName().substring(length - 6, length);
+		last = costumeActivity.getCostumeToEdit().getCostumeName().substring(length - 6, length);
 		renameName = (EditText) findViewById(R.id.rename_edit_text);
 		renameName.setText(costumeActivity.getCostumeToEdit().getCostumeName().substring(0, length - 6));
 
@@ -64,6 +66,7 @@ public class RenameCostumeDialog extends Dialog {
 				if (costumeName.equalsIgnoreCase(costumeActivity.getCostumeToEdit().getCostumeName()
 						.substring(0, length - 5))) {
 					dismiss();
+					((EditText) findViewById(R.id.rename_edit_text)).setText(null);
 					return;
 				}
 				if (costumeName != null && !costumeName.equalsIgnoreCase("")) {
@@ -80,6 +83,7 @@ public class RenameCostumeDialog extends Dialog {
 					return;
 				}
 				dismiss();
+				((EditText) findViewById(R.id.rename_edit_text)).setText(null);
 			}
 		});
 
@@ -100,6 +104,7 @@ public class RenameCostumeDialog extends Dialog {
 							if (costumeName.equalsIgnoreCase(costumeActivity.getCostumeToEdit().getCostumeName()
 									.substring(0, length - 5))) {
 								dismiss();
+								((EditText) findViewById(R.id.rename_edit_text)).setText(null);
 								return true;
 							}
 							if (costumeName != null && !costumeName.equalsIgnoreCase("")) {
@@ -118,7 +123,7 @@ public class RenameCostumeDialog extends Dialog {
 								return true;
 							}
 							dismiss();
-
+							((EditText) findViewById(R.id.rename_edit_text)).setText(null);
 							return true;
 						}
 						default: {
