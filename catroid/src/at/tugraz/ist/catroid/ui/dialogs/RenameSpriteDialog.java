@@ -35,7 +35,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -44,9 +43,11 @@ public class RenameSpriteDialog {
 	private EditText input;
 	private Button buttonPositive;
 	public Dialog renameDialog;
+	private ProjectManager projectManager;
 
 	public RenameSpriteDialog(ProjectActivity projectActivity) {
 		this.projectActivity = projectActivity;
+		projectManager = ProjectManager.getInstance();
 	}
 
 	public Dialog createDialog(String dialogTitle) {
@@ -58,8 +59,6 @@ public class RenameSpriteDialog {
 
 		input = (EditText) view.findViewById(R.id.dialog_rename_sprite_editText);
 		input.setText(projectActivity.getSpriteToEdit().getName());
-		input.setSingleLine(true);
-		input.setSelectAllOnFocus(true);
 
 		buttonPositive = (Button) view.findViewById(R.id.dialog_rename_sprite_ok_button);
 
@@ -77,9 +76,9 @@ public class RenameSpriteDialog {
 
 	public void handleOkButton() {
 		String newSpriteName = (input.getText().toString()).trim();
+		String oldSpriteName = projectActivity.getSpriteToEdit().getName();
 
-		if (spriteAlreadyExists(newSpriteName)
-				&& !newSpriteName.equalsIgnoreCase(projectActivity.getSpriteToEdit().getName())) {
+		if (projectManager.spriteExists(newSpriteName) && !newSpriteName.equalsIgnoreCase(oldSpriteName)) {
 			Utils.displayErrorMessage(projectActivity, projectActivity.getString(R.string.spritename_already_exists));
 			return;
 		}
@@ -102,7 +101,8 @@ public class RenameSpriteDialog {
 			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
 				if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
 					String newSpriteName = (input.getText().toString()).trim();
-					if (spriteAlreadyExists(newSpriteName)) {
+					String oldSpriteName = projectActivity.getSpriteToEdit().getName();
+					if (projectManager.spriteExists(newSpriteName) && !newSpriteName.equalsIgnoreCase(oldSpriteName)) {
 						Utils.displayErrorMessage(projectActivity,
 								projectActivity.getString(R.string.spritename_already_exists));
 					} else {
@@ -149,14 +149,5 @@ public class RenameSpriteDialog {
 				//				}
 			}
 		});
-	}
-
-	private boolean spriteAlreadyExists(String newSpriteName) {
-		for (Sprite tempSprite : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
-			if (tempSprite.getName().equalsIgnoreCase(newSpriteName.toString())) {
-				return true;
-			}
-		}
-		return false;
 	}
 }

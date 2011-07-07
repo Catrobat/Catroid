@@ -32,6 +32,8 @@
 		android:gravity="left"
 		android:inputType="text"
 		android:maxLines="1"
+		android:singleLine="true"
+		android:selectAllOnFocus="true"
 	>
 	</EditText>
 		<LinearLayout

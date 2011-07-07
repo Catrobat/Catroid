@@ -49,6 +49,7 @@ public class ProjectActivity extends ListActivity {
 	private ActivityHelper activityHelper = new ActivityHelper(this);
 	private CustomIconContextMenu iconContextMenu;
 	private RenameSpriteDialog renameDialog;
+	private NewSpriteDialog newSpriteDialog;
 	private static final int CONTEXT_MENU_ITEM_RENAME = 0; //or R.id.project_menu_rename
 	private static final int CONTEXT_MENU_ITEM_DELETE = 1; //or R.id.project_menu_delete
 
@@ -150,7 +151,8 @@ public class ProjectActivity extends ListActivity {
 
 		switch (id) {
 			case Consts.DIALOG_NEW_SPRITE:
-				dialog = new NewSpriteDialog(this);
+				newSpriteDialog = new NewSpriteDialog(this);
+				dialog = newSpriteDialog.createDialog();
 				break;
 			case Consts.DIALOG_RENAME_SPRITE:
 				if (spriteToEdit == null) {
@@ -215,5 +217,13 @@ public class ProjectActivity extends ListActivity {
 
 	public void handleNegativeButton(View v) {
 		renameDialog.renameDialog.cancel();
+	}
+
+	public void handlePositiveButtonNewSprite(View v) {
+		newSpriteDialog.handleOkButton();
+	}
+
+	public void handleNegativeButtonNewSprite(View v) {
+		newSpriteDialog.newSpriteDialog.cancel();
 	}
 }
