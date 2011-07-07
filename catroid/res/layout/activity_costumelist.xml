@@ -37,8 +37,7 @@ android:text="EditText"
 android:id="@+id/costume_edit_name" 
 android:layout_width="match_parent"
 android:paddingLeft="10dp"
-android:textSize="20sp" android:layout_height="50dip" 
-android:background="@color/white"
+android:textSize="16sp" android:layout_height="50dip" 
 android:gravity="center_vertical"/>
 
 <LinearLayout 
