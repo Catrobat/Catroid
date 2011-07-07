@@ -72,7 +72,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.sleep(500);
 
 		View renameView = solo.getText(getActivity().getString(R.string.project_rename));
-		assertNotNull(renameView);
+		assertNotNull("View for rename project could not be found", renameView);
 		assertEquals("rename View is visible.", renameView.getVisibility(), View.GONE);
 
 		// clear the title
@@ -94,7 +94,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.clickOnText(getActivity().getString(R.string.upload_project));
 
 		renameView = solo.getText(getActivity().getString(R.string.project_rename));
-		assertNotNull(renameView);
+		assertNotNull("View for rename project could not be found", renameView);
 		assertEquals("rename View is visible.", View.GONE, renameView.getVisibility());
 		assertNotNull("Project Name is not saved.", solo.getEditText(testProject));
 

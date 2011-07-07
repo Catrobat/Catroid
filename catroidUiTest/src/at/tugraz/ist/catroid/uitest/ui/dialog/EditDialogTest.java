@@ -96,12 +96,13 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		solo.clearEditText(0);
 		assertTrue("Toast with warning was not found",
 				solo.searchText(getActivity().getString(R.string.notification_invalid_text_entered)));
-		assertFalse(solo.getButton(getActivity().getString(R.string.ok)).isEnabled());
+		assertFalse("OK button was not disabled upon deleting text field contents",
+				solo.getButton(getActivity().getString(R.string.ok)).isEnabled());
 
 		solo.enterText(0, ".");
 		assertTrue("Toast with warning was not found",
 				solo.searchText(getActivity().getString(R.string.notification_invalid_text_entered)));
-		assertFalse(solo.getButton(0).isEnabled());
+		assertFalse("OK button was not disabled upon entering invalid text", solo.getButton(0).isEnabled());
 	}
 
 	public void testEmptyEditIntegerDialog() {
@@ -115,6 +116,6 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		solo.clearEditText(0);
 		assertTrue("Toast with warning was not found",
 				solo.searchText(getActivity().getString(R.string.notification_invalid_text_entered)));
-		assertFalse(solo.getButton(0).isEnabled());
+		assertFalse("OK button was not disabled upon deleting text field contents", solo.getButton(0).isEnabled());
 	}
 }
