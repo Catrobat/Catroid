@@ -21,9 +21,9 @@
  -->
 <manifest
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:versionCode="5"
+	android:versionCode="6"
 	package="at.tugraz.ist.catroid"
-	android:versionName="0.5.1a"
+	android:versionName="0.5.2a"
 	android:installLocation="auto">
 
     <uses-sdk
