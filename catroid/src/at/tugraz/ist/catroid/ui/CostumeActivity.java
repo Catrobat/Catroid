@@ -40,7 +40,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -75,7 +74,6 @@ public class CostumeActivity extends ListActivity {
 	@XStreamOmitField
 	private transient Bitmap thumbnail;
 	private String TAG = CostumeActivity.class.getSimpleName();
-	private EditText editName;
 
 	private static final int SELECT_IMAGE = 1;
 
@@ -138,6 +136,7 @@ public class CostumeActivity extends ListActivity {
 		if (!Utils.checkForSdCard(this)) {
 			return;
 		}
+		removeDialog(Consts.DIALOG_RENAME_COSTUME);
 	}
 
 	@Override
@@ -347,12 +346,11 @@ public class CostumeActivity extends ListActivity {
 				if (editName != null) {
 					editName.setText(c.getCostumeName());
 				}
-				costumetoEdit = items.get(position);
-
 				editName.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
+						costumetoEdit = costumeData.get(position);
+						CostumeActivity.this.removeDialog(9);
 						showDialog(Consts.DIALOG_RENAME_COSTUME);
-
 					}
 
 				});
