@@ -19,12 +19,16 @@
 
 package at.tugraz.ist.catroid.ui;
 
+import java.io.IOException;
+
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,6 +39,8 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.lego.BTCommunicator;
+import at.tugraz.ist.catroid.lego.BTConnectable;
 import at.tugraz.ist.catroid.lego.DeviceListActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.dialogs.AboutDialog;
@@ -44,7 +50,7 @@ import at.tugraz.ist.catroid.ui.dialogs.UploadProjectDialog;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class MainMenuActivity extends Activity {
+public class MainMenuActivity extends Activity implements BTConnectable {
 	private static final String PREFS_NAME = "at.tugraz.ist.catroid";
 	private static final String PREF_PROJECTNAME_KEY = "projectName";
 	private ProjectManager projectManager;
@@ -56,7 +62,15 @@ public class MainMenuActivity extends Activity {
 	public static final int MENU_CONNECT_NXT = Menu.FIRST + 2;
 	private boolean connected = false;
 
-	//private static final int REQUEST_CONNECT_DEVICE = 1000;
+	private static final int REQUEST_CONNECT_DEVICE = 1000;
+
+	public static final int UPDATE_TIME = 200;
+	public static final int MENU_QUIT = Menu.FIRST + 1;
+
+	private BTCommunicator myBTCommunicator = null;
+	private ProgressDialog connectingProgressDialog;
+	private boolean pairing;
+	private Handler btcHandler;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -274,26 +288,80 @@ public class MainMenuActivity extends Activity {
 
 	}
 
+	private void startBTCommunicator(String mac_address) {
+		connected = false;
+		connectingProgressDialog = ProgressDialog.show(this, "", getResources().getString(
+				R.string.connecting_please_wait), true);
+
+		if (myBTCommunicator != null) {
+			try {
+				myBTCommunicator.destroyNXTconnection();
+			} catch (IOException e) {
+			}
+		}
+		createBTCommunicator();
+		myBTCommunicator.setMACAddress(mac_address);
+		myBTCommunicator.start();
+		//updateButtonsAndMenu();
+	}
+
+	/**
+	 * Creates a new object for communication to the NXT robot via bluetooth and fetches the corresponding handler.
+	 */
+	private void createBTCommunicator() {
+		// interestingly BT adapter needs to be obtained by the UI thread - so we pass it in in the constructor
+		myBTCommunicator = new BTCommunicator(this, myHandler, BluetoothAdapter.getDefaultAdapter(), getResources());
+		btcHandler = myBTCommunicator.getHandler();
+	}
+
+	final Handler myHandler = new Handler();
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == REQUEST_ENABLE_BT) {
-			if (resultCode == Activity.RESULT_OK) {
-				//Log.i("bt", "resultCode is RESULT_OK " + resultCode);
-				Toast.makeText(this, "Bluetooth enablad", Toast.LENGTH_LONG).show();
-				connected = true;
-				updateMenu();
-			} else {
-				//Log.i("bt", "resultCode is not RESULT_OK" + resultCode);
-				Toast.makeText(this, "Bluetooth not activ", Toast.LENGTH_LONG).show();
-				connected = false;
-				updateMenu();
-			}
+		switch (requestCode) {
+			case REQUEST_CONNECT_DEVICE:
 
+				// When DeviceListActivity returns with a device to connect
+				if (resultCode == Activity.RESULT_OK) {
+					// Get the device MAC address and start a new bt communicator thread
+					String address = data.getExtras().getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
+					pairing = data.getExtras().getBoolean(DeviceListActivity.PAIRING);
+					startBTCommunicator(address);
+				}
+
+				break;
+
+			case REQUEST_ENABLE_BT:
+				if (resultCode == Activity.RESULT_OK) {
+					//Log.i("bt", "resultCode is RESULT_OK " + resultCode);
+					Toast.makeText(this, "Bluetooth enablad", Toast.LENGTH_LONG).show();
+					connected = true;
+					updateMenu();
+				} else {
+					//Log.i("bt", "resultCode is not RESULT_OK" + resultCode);
+					Toast.makeText(this, "Bluetooth not activ", Toast.LENGTH_LONG).show();
+					connected = false;
+					updateMenu();
+				}
+
+				break;
 		}
+
 	}
 
 	void selectNXT() {
 		Intent serverIntent = new Intent(this, DeviceListActivity.class);
 		startActivity(serverIntent);
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see at.tugraz.ist.catroid.lego.BTConnectable#isPairing()
+	 */
+	public boolean isPairing() {
+		// TODO Auto-generated method stub
+		return pairing;
+	}
+
 }

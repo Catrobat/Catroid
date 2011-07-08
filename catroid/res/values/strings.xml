@@ -166,6 +166,10 @@
 	<string name="brick_set_y">Set Y to:</string>
 	<string name="brick_glide">Glide</string>
 	<string name="brick_glide_to">to</string>
+	<string name="brick_forever">Forever</string>
+	<string name="brick_loop_end">End Of Loop</string>
+	<string name="brick_repeat">Repeat</string>
+	<string name="times_label">times</string>
 	
 	<string name="choose_sound_title">choose a title</string>
 
@@ -175,12 +179,7 @@
 	<string name="brick_broadcast">Broadcast</string>
     <string name="brick_broadcast_wait">Broadcast and wait</string>
 	<string name="brick_stop_all_sounds">Stop all sounds</string>
-    <string name="brick_forever">Forever</string>
-    <string name="brick_loop_end">Loop end</string>
-    <string name="brick_repeat">Repeat</string>
-	<string name="times_label">times</string>
-	
-	<!-- defaulValues -->
+    <!-- defaulValues -->
     <string name="default_project_name">defaultProject</string>
     
     <!-- Notifications -->
@@ -202,7 +201,10 @@
 	<string name="scanning">scanning for devices...</string>
 	<string name="select_device">Select a device to connect</string>    
 	<string name="none_found">No devices found</string>
-	
+	<string name="connecting_please_wait">Connecting to your robot.\nPlease wait...</string>
+    <string name="no_paired_nxt">No paired NXT robot found!</string>
+    <string name="pairing_message">After pairing, press menu and connect.</string>
+    <string name="problem_at_closing">Problem in closing the connection!</string>
     <!-- Error messages -->
     <string name="error_no_sd_card">
         Catroid requires an SD card in order to run, but none was found.\nPlease insert an SD card and try again.

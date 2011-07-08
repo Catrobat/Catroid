@@ -44,7 +44,7 @@ import at.tugraz.ist.catroid.R;
  * 
  */
 public class DeviceListActivity extends Activity {
-	static final String PAIRING = "pairing";
+	public static final String PAIRING = "pairing";
 
 	// Return Intent extra
 	public static String DEVICE_NAME_AND_ADDRESS = "device_infos";
