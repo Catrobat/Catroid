@@ -59,7 +59,7 @@ public class SensorBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
 	protected static final int REQUEST_CONNECT_DEVICE = 3;
 
-	public SensorBrick(Sprite sprite, int type, double pin, double value, double time, String deviceAddress) {
+	public SensorBrick(Sprite sprite, int type, int pin, double value, double time, String deviceAddress) {
 		this.sprite = sprite;
 		this.type = type;
 		this.pin = pin;
