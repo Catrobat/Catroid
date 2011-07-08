@@ -19,37 +19,40 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
  
- <LinearLayout
+<LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:background="@drawable/backrepeat" >
+	android:background="#d8e0f5" 
+>
 	
 	<!-- Action bar -->
 	<include layout="@layout/actionbar"/>
 		
-<TabHost 
-	xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@android:id/tabhost"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+	<TabHost 
+		xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:id="@android:id/tabhost"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	>
     
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="5dp">
-        <TabWidget
-            android:id="@android:id/tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="5dp" 
-            android:id="@android:id/tabcontent"/>
-    </LinearLayout>
-</TabHost>
-
+	    <LinearLayout
+	        android:orientation="vertical"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	    >
+	        <TabWidget
+	            android:id="@android:id/tabs"
+	            android:layout_width="match_parent"
+	            android:layout_height="30dp"
+	            android:gravity="bottom"
+	        />
+	        <FrameLayout
+	            android:layout_width="match_parent"
+	            android:layout_height="match_parent"
+	            android:id="@android:id/tabcontent"
+	        />
+	    </LinearLayout>
+	</TabHost>
 </LinearLayout>
