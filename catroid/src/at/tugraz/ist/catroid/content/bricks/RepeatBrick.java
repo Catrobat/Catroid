@@ -19,43 +19,58 @@
 package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
+import android.content.DialogInterface.OnDismissListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
-public class IfStartedBrick implements Brick {
-	protected Script script;
-	private Sprite sprite;
+public class RepeatBrick extends LoopBeginBrick implements OnDismissListener {
 	private static final long serialVersionUID = 1L;
+	private int timesToRepeat;
 
-	public IfStartedBrick(Sprite sprite, Script script) {
-		this.script = script;
+	public RepeatBrick(Sprite sprite, int timesToRepeat) {
 		this.sprite = sprite;
+		this.timesToRepeat = timesToRepeat;
 	}
 
+	@Override
 	public void execute() {
+		loopEndBrick.setTimesToRepeat(timesToRepeat);
 	}
 
-	public Sprite getSprite() {
-		return sprite;
+	@Override
+	public Brick clone() {
+		return new RepeatBrick(getSprite(), timesToRepeat);
 	}
 
-	public View getView(Context context, int brickId, final BaseExpandableListAdapter adapter) {
-		View view = getPrototypeView(context);
+	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.construction_brick_repeat, null);
+
+		EditText edit = (EditText) view.findViewById(R.id.InputValueEditText);
+		edit.setText(timesToRepeat + "");
+
+		EditIntegerDialog dialog = new EditIntegerDialog(context, edit, timesToRepeat, false);
+		dialog.setOnDismissListener(this);
+		dialog.setOnCancelListener((OnCancelListener) context);
+
+		edit.setOnClickListener(dialog);
 		return view;
 	}
 
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.toolbox_brick_started, null);
-		return view;
+		return inflater.inflate(R.layout.toolbox_brick_repeat, null);
 	}
 
-	@Override
-	public Brick clone() {
-		return new IfStartedBrick(getSprite(), script);
+	public void onDismiss(DialogInterface dialog) {
+		timesToRepeat = ((EditIntegerDialog) dialog).getValue();
+		dialog.cancel();
 	}
 }

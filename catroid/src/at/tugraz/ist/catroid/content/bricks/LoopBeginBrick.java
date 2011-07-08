@@ -18,44 +18,38 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.BaseExpandableListAdapter;
-import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 
-public class IfStartedBrick implements Brick {
-	protected Script script;
-	private Sprite sprite;
+public abstract class LoopBeginBrick implements Brick {
 	private static final long serialVersionUID = 1L;
+	protected Sprite sprite;
+	protected LoopEndBrick loopEndBrick;
 
-	public IfStartedBrick(Sprite sprite, Script script) {
-		this.script = script;
-		this.sprite = sprite;
-	}
+	public abstract void execute();
 
-	public void execute() {
+	protected Script getScript() {
+		for (int i = 0; i < sprite.getNumberOfScripts(); i++) {
+			Script script = sprite.getScript(i);
+			if (script.getBrickList().contains(this)) {
+				return script;
+			}
+		}
+		return null;
 	}
 
 	public Sprite getSprite() {
-		return sprite;
+		return this.sprite;
 	}
 
-	public View getView(Context context, int brickId, final BaseExpandableListAdapter adapter) {
-		View view = getPrototypeView(context);
-		return view;
+	public LoopEndBrick getLoopEndBrick() {
+		return this.loopEndBrick;
 	}
 
-	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.toolbox_brick_started, null);
-		return view;
+	public void setLoopEndBrick(LoopEndBrick loopEndBrick) {
+		this.loopEndBrick = loopEndBrick;
 	}
 
 	@Override
-	public Brick clone() {
-		return new IfStartedBrick(getSprite(), script);
-	}
+	public abstract Brick clone();
 }

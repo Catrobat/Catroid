@@ -26,36 +26,66 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 
-public class IfStartedBrick implements Brick {
-	protected Script script;
-	private Sprite sprite;
+public class LoopEndBrick implements Brick {
+	public static final int FOREVER = -1;
 	private static final long serialVersionUID = 1L;
+	private Sprite sprite;
+	private LoopBeginBrick loopBeginBrick;
+	private int timesToRepeat;
 
-	public IfStartedBrick(Sprite sprite, Script script) {
-		this.script = script;
+	public LoopEndBrick(Sprite sprite, LoopBeginBrick loopStartingBrick) {
 		this.sprite = sprite;
+		this.loopBeginBrick = loopStartingBrick;
 	}
 
 	public void execute() {
+		if (timesToRepeat == FOREVER) {
+			Script script = getScript();
+			script.setExecutingBrickIndex(script.getBrickList().indexOf(loopBeginBrick));
+		} else if (timesToRepeat > 0) {
+			Script script = getScript();
+			script.setExecutingBrickIndex(script.getBrickList().indexOf(loopBeginBrick));
+			timesToRepeat--;
+		}
+	}
+
+	private Script getScript() {
+		for (int i = 0; i < sprite.getNumberOfScripts(); i++) {
+			Script script = sprite.getScript(i);
+			if (script.getBrickList().contains(this)) {
+				return script;
+			}
+		}
+		return null;
 	}
 
 	public Sprite getSprite() {
 		return sprite;
 	}
 
-	public View getView(Context context, int brickId, final BaseExpandableListAdapter adapter) {
-		View view = getPrototypeView(context);
-		return view;
+	public void setTimesToRepeat(int timesToRepeat) {
+		this.timesToRepeat = timesToRepeat;
 	}
 
-	public View getPrototypeView(Context context) {
+	public int getTimesToRepeat() {
+		return timesToRepeat;
+	}
+
+	public LoopBeginBrick getLoopBeginBrick() {
+		return loopBeginBrick;
+	}
+
+	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.toolbox_brick_started, null);
-		return view;
+		return inflater.inflate(R.layout.construction_brick_loop_end, null);
 	}
 
 	@Override
 	public Brick clone() {
-		return new IfStartedBrick(getSprite(), script);
+		return new LoopEndBrick(getSprite(), getLoopBeginBrick());
+	}
+
+	public View getPrototypeView(Context context) {
+		return null;
 	}
 }
