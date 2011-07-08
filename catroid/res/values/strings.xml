@@ -175,7 +175,12 @@
 	<string name="brick_broadcast">Broadcast</string>
     <string name="brick_broadcast_wait">Broadcast and wait</string>
 	<string name="brick_stop_all_sounds">Stop all sounds</string>
-    <!-- defaulValues -->
+    <string name="brick_forever">Forever</string>
+    <string name="brick_loop_end">Loop end</string>
+    <string name="brick_repeat">Repeat</string>
+	<string name="times_label">times</string>
+	
+	<!-- defaulValues -->
     <string name="default_project_name">defaultProject</string>
     
     <!-- Notifications -->
