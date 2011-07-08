@@ -22,43 +22,70 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
-import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 
-public class ComeToFrontBrick implements Brick {
+public class LoopEndBrick implements Brick {
+	public static final int FOREVER = -1;
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
+	private LoopBeginBrick loopBeginBrick;
+	private int timesToRepeat;
 
-	public ComeToFrontBrick(Sprite sprite) {
+	public LoopEndBrick(Sprite sprite, LoopBeginBrick loopStartingBrick) {
 		this.sprite = sprite;
+		this.loopBeginBrick = loopStartingBrick;
 	}
 
 	public void execute() {
-		int maxZValue = ProjectManager.getInstance().getCurrentProject().getMaxZValue();
-		maxZValue = maxZValue > (maxZValue + 1) ? Integer.MAX_VALUE : maxZValue + 1;
+		if (timesToRepeat == FOREVER) {
+			Script script = getScript();
+			script.setExecutingBrickIndex(script.getBrickList().indexOf(loopBeginBrick));
+		} else if (timesToRepeat > 0) {
+			Script script = getScript();
+			script.setExecutingBrickIndex(script.getBrickList().indexOf(loopBeginBrick));
+			timesToRepeat--;
+		}
+	}
 
-		sprite.setZPosition(maxZValue);
+	private Script getScript() {
+		for (int i = 0; i < sprite.getNumberOfScripts(); i++) {
+			Script script = sprite.getScript(i);
+			if (script.getBrickList().contains(this)) {
+				return script;
+			}
+		}
+		return null;
 	}
 
 	public Sprite getSprite() {
-		return this.sprite;
+		return sprite;
+	}
+
+	public void setTimesToRepeat(int timesToRepeat) {
+		this.timesToRepeat = timesToRepeat;
+	}
+
+	public int getTimesToRepeat() {
+		return timesToRepeat;
+	}
+
+	public LoopBeginBrick getLoopBeginBrick() {
+		return loopBeginBrick;
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_come_to_front, null);
-		return view;
+		return inflater.inflate(R.layout.construction_brick_loop_end, null);
 	}
 
 	@Override
 	public Brick clone() {
-		return new ComeToFrontBrick(getSprite());
+		return new LoopEndBrick(getSprite(), getLoopBeginBrick());
 	}
 
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.toolbox_brick_come_to_front, null);
-		return view;
+		return null;
 	}
 }

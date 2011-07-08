@@ -234,7 +234,6 @@ public class ProjectManager {
 
 		currentSprite = project.getSpriteList().get(position);
 		return true;
-
 	}
 
 	public boolean setCurrentScriptWithPosition(int position) {
@@ -250,7 +249,5 @@ public class ProjectManager {
 		currentScript = project.getSpriteList().get(this.getCurrentSpritePosition()).getScript(position);
 
 		return true;
-
 	}
-
 }

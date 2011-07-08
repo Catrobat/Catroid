@@ -22,43 +22,33 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
-import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 
-public class ComeToFrontBrick implements Brick {
+public class ForeverBrick extends LoopBeginBrick {
 	private static final long serialVersionUID = 1L;
-	private Sprite sprite;
 
-	public ComeToFrontBrick(Sprite sprite) {
+	public ForeverBrick(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
+	@Override
 	public void execute() {
-		int maxZValue = ProjectManager.getInstance().getCurrentProject().getMaxZValue();
-		maxZValue = maxZValue > (maxZValue + 1) ? Integer.MAX_VALUE : maxZValue + 1;
-
-		sprite.setZPosition(maxZValue);
-	}
-
-	public Sprite getSprite() {
-		return this.sprite;
-	}
-
-	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_come_to_front, null);
-		return view;
+		loopEndBrick.setTimesToRepeat(LoopEndBrick.FOREVER);
 	}
 
 	@Override
 	public Brick clone() {
-		return new ComeToFrontBrick(getSprite());
+		return new ForeverBrick(getSprite());
+	}
+
+	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		return inflater.inflate(R.layout.construction_brick_forever, null);
 	}
 
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.toolbox_brick_come_to_front, null);
-		return view;
+		return inflater.inflate(R.layout.toolbox_brick_forever, null);
 	}
 }
