@@ -23,22 +23,24 @@
 	android:orientation="vertical"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:background="@drawable/backrepeat"
+	android:background="#d8e0f5"
 >
 
 	<!-- Sound list -->
-			<ListView
-				android:id="@android:id/list"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_weight="1.0"
-			/>
-	<!-- Add Sound button -->
+	<ListView
+		android:id="@android:id/list"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_weight="1.0"
+		android:cacheColorHint="#00000000"
+	/>
 	
+	<!-- Add Sound button -->
 	<Button
 		android:text="@string/add_new_sound"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:layout_weight="0"
-		android:id="@+id/add_sound_button"></Button>
+		android:id="@+id/add_sound_button"
+	/>
 </LinearLayout>

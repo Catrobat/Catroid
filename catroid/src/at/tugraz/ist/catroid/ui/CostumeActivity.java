@@ -211,9 +211,15 @@ public class CostumeActivity extends ListActivity {
 						getCostumes();
 					}
 				};
-
-				Thread thread = new Thread(null, viewCostumes, "MagentoBackground");
-				thread.start();
+				costumeData c = new costumeData();
+				c.setCostumeName(costume);
+				c.setCostumeImage(thumbnail);
+				c.setCostumeAbsoluteImagepath(costumeImage);
+				costumeData.add(c);
+				sprite.setCostumeList(c);
+				c_adapter.notifyDataSetChanged();
+				//				Thread thread = new Thread(null, viewCostumes, "MagentoBackground");
+				//				thread.start();
 
 			}
 		}
@@ -249,7 +255,7 @@ public class CostumeActivity extends ListActivity {
 
 	private void getCostumes() {
 		try {
-			costumeData = new ArrayList<costumeData>();
+			//costumeData = new ArrayList<costumeData>();
 			costumeData c = new costumeData();
 			c.setCostumeName(costume);
 			c.setCostumeImage(thumbnail);
