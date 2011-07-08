@@ -56,7 +56,7 @@ public class DeviceListActivity extends Activity {
 	private ArrayAdapter<String> mNewDevicesArrayAdapter;
 
 	//LEGO ID
-	public static final String OUI_LEGO = "00:16:53";
+	private static final String OUI_LEGO = "00:16:53";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +113,7 @@ public class DeviceListActivity extends Activity {
 		if (pairedDevices.size() > 0) {
 			findViewById(R.id.title_paired_devices).setVisibility(View.VISIBLE);
 			for (BluetoothDevice device : pairedDevices) {
+				mPairedDevicesArrayAdapter.add(device.getName() + "-" + device.getAddress());
 				// only add LEGO devices
 				if (device.getAddress().startsWith(OUI_LEGO)) {
 					legoDevicesFound = true;
