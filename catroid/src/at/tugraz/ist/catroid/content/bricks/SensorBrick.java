@@ -28,6 +28,7 @@ import android.view.View.OnClickListener;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.connections.Bluetooth;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 
@@ -46,6 +47,7 @@ public class SensorBrick implements Brick, OnDismissListener {
 	private final int ANALOG = 0;
 
 	private static final long serialVersionUID = 1L;
+	protected static final int REQUEST_CONNECT_DEVICE = 3;
 
 	public SensorBrick(Sprite sprite, int type, double pin, double value, double time, String deviceAddress) {
 		this.sprite = sprite;
@@ -85,6 +87,13 @@ public class SensorBrick implements Brick, OnDismissListener {
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.construction_brick_sensor, null);
+
+		Bluetooth bluetooth = new Bluetooth(context);
+		if (!bluetooth.getBluetoothAdapter().isEnabled()) {
+			bluetooth.start();
+		}
+
+		bluetooth.checkForDevices();
 
 		//Type 1...Digital
 		OnClickListener listener = new OnClickListener() {

@@ -18,11 +18,73 @@
  */
 package at.tugraz.ist.catroid.connections;
 
+import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 
 /**
  * @author manuelzoderer
- * 
  */
+
 public class Bluetooth {
 
+	private String selectedAddress;
+	public Context context;
+	private BluetoothAdapter bluetoothAdapter;
+
+	/**
+	 * @param context
+	 */
+	public Bluetooth(Context context) {
+		this.context = context;
+		this.bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+		BluetoothBroadcastReceiver broadCaster = new BluetoothBroadcastReceiver(context);
+	}
+
+	/**
+	 * @return the bluetoothAdapter
+	 */
+	public BluetoothAdapter getBluetoothAdapter() {
+		return bluetoothAdapter;
+	}
+
+	public String getBluetoothArrayAdapter() {
+
+		return selectedAddress;
+	}
+
+	public void start() {
+
+		int REQUEST_ENABLE_BT = 0;
+
+		// Checking if the Device supports Bluetooth
+		if (bluetoothAdapter == null) {
+		}
+
+		Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+		context.startActivity(enableBtIntent);
+
+	}
+
+	/**
+	 * 
+	 */
+
+	public void checkForDevices() {
+
+		//Stop any discovery before starting to discovering for our Brick
+		//bluetoothAdapter.cancelDiscovery();
+
+		if (bluetoothAdapter != null) {
+			if (bluetoothAdapter.isDiscovering()) {
+				bluetoothAdapter.cancelDiscovery();
+			}
+
+			bluetoothAdapter.startDiscovery();
+		}
+
+		Log.d("FOUND", "Scannvorgang gestartet");
+
+	}
 }
