@@ -30,11 +30,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 
-public class EditIntegerDialog extends EditDialog implements OnClickListener {
+public class SensorPinDigitalDialog extends EditDialog implements OnClickListener {
 	private int value;
 	private boolean signed;
 
-	public EditIntegerDialog(Context context, EditText referencedEditText, int value, boolean signed) {
+	public SensorPinDigitalDialog(Context context, EditText referencedEditText, int value, boolean signed) {
 		super(context, referencedEditText);
 		this.value = value;
 		this.signed = signed;
@@ -84,11 +84,14 @@ public class EditIntegerDialog extends EditDialog implements OnClickListener {
 		} else {
 			try {
 				value = Integer.parseInt(editText.getText().toString());
+				if (value < 0 || value > 13) {
+					throw new NumberFormatException();
+				}
 				dismiss();
 			} catch (NumberFormatException e) {
-				Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
+				Toast.makeText(context, R.string.error_sensor_enter_digital_pin, Toast.LENGTH_SHORT).show();
+
 			}
 		}
 	}
-
 }

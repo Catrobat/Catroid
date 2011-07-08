@@ -122,6 +122,15 @@
     <string name="new_script_dialog_title">Name of new script</string>
     <string name="new_script_dialog_default_script_name">scriptname</string>
     <string name="script_invalid">This scriptname is invalid</string>
+    
+    <!-- Sensor Dialogs -->
+    <string name="error_sensor_enter_analog_pin">You just have 0 to 5 PINs here so please a number from 0-5</string>
+    <string name="error_sensor_enter_digital_pin">You just have 0 to 13 PINs here so please a number from 0-13</string>
+    <string name="error_sensor_enter_analog_value">For this PIN you can just enter a value from 0.0 to 5.0</string>
+    <string name="error_sensor_enter_digital_value">For this PIN you can just enter 1 for HIGH or 0 for LOW</string>
+    
+    
+    
 
     <!-- New sprite dialog -->
     <string name="new_sprite_dialog_default_sprite_name">spritename</string>
@@ -172,7 +181,7 @@
 	<string name="brick_sensor_pin">Pin</string>
 	<string name="brick_sensor_value">Value</string>
 	<string name="brick_sensor_time">Time</string>
-	<string name="brick_sensor_time_seconds">ms</string>
+	<string name="brick_sensor_time_seconds">sec</string>
 	
 	<string name="choose_sound_title">choose a title</string>
 

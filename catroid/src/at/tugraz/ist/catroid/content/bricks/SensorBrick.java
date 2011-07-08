@@ -22,21 +22,30 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.ui.dialogs.EditDialog;
 import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
-import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
+import at.tugraz.ist.catroid.ui.dialogs.SensorPinAnalogDialog;
+import at.tugraz.ist.catroid.ui.dialogs.SensorPinDigitalDialog;
+import at.tugraz.ist.catroid.ui.dialogs.SensorValueAnalogDialog;
+import at.tugraz.ist.catroid.ui.dialogs.SensorValueDigitalDialog;
 
 /**
  * @author manuelzoderer
  * 
  */
 public class SensorBrick implements Brick, OnDismissListener {
+
+	//TODO INVALIDATE THE SENSOR BRICK !!!!
+	// SO THAT CHANGES LIKE BUTTON CLICKS ARE REGISTERD PROPERLY!!!!!
 
 	private Sprite sprite;
 	private int type;
@@ -86,58 +95,65 @@ public class SensorBrick implements Brick, OnDismissListener {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.construction_brick_sensor, null);
 
-		//Type 1...Digital
-		OnClickListener listener = new OnClickListener() {
-			public void onClick(View v) {
-				switch (v.getId()) {
-					case R.id.brick_sensor_digital_button:
-						type = DIGITAL;
-						break;
-					case R.id.brick_sensor_analog_button:
-						type = ANALOG;
-						break;
-					default:
-						break;
-				}
-			}
-		};
-
 		//Pin TODO: CHECK FOR WRONG INPUT AND MAKE NEW DIALOG FOR EACH ONE? OR CHECK IT SOMEHOW....
 		EditText editPin = (EditText) view.findViewById(R.id.construction_brick_sensor_pin);
 		editPin.setText(String.valueOf(pin));
-		EditIntegerDialog dialogPin;
+		SensorPinAnalogDialog dialogPinAnalog;
+		SensorPinDigitalDialog dialogPinDigital;
 		switch (type) {
 			case DIGITAL:
-				dialogPin = new EditIntegerDialog(context, editPin, pin, true);
-				dialogPin.setOnDismissListener(this);
-				dialogPin.setOnCancelListener((OnCancelListener) context);
-				editPin.setOnClickListener(dialogPin);
+				dialogPinDigital = new SensorPinDigitalDialog(context, editPin, pin, true);
+				dialogPinDigital.setOnDismissListener(this);
+				dialogPinDigital.setOnCancelListener((OnCancelListener) context);
+				editPin.setOnClickListener(dialogPinDigital);
 				break;
 			case ANALOG:
-				dialogPin = new EditIntegerDialog(context, editPin, pin, true);
-				dialogPin.setOnDismissListener(this);
-				dialogPin.setOnCancelListener((OnCancelListener) context);
-				editPin.setOnClickListener(dialogPin);
+				dialogPinAnalog = new SensorPinAnalogDialog(context, editPin, pin, true);
+				dialogPinAnalog.setOnDismissListener(this);
+				dialogPinAnalog.setOnCancelListener((OnCancelListener) context);
+				editPin.setOnClickListener(dialogPinAnalog);
 				break;
 			default:
 				break;
 		}
+
+		Button digitalButton = (Button) view.findViewById(R.id.construction_brick_sensor_digital_button);
+		Button analogButton = (Button) view.findViewById(R.id.construction_brick_sensor_analog_button);
+
+		digitalButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Log.d("TAG", "DIGITAL BUTTON");
+				type = DIGITAL;
+			}
+		});
+
+		analogButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Log.d("TAG", "ANALOG BUTTON");
+				type = ANALOG;
+			}
+		});
+
 		//Value TODO: CHECK FOR WRONG INPUT AND MAKE NEW DIALOG FOR EACH ONE? OR CHECK IT SOMEHOW....
 		EditText editValue = (EditText) view.findViewById(R.id.construction_brick_sensor_value);
 		editValue.setText(String.valueOf(value));
-		EditDoubleDialog dialogValue;
+		SensorValueAnalogDialog dialogValueAnalog;
+		SensorValueDigitalDialog dialogValueDigital;
+
 		switch (type) {
 			case DIGITAL:
-				dialogValue = new EditDoubleDialog(context, editValue, value);
-				dialogValue.setOnDismissListener(this);
-				dialogValue.setOnCancelListener((OnCancelListener) context);
-				editValue.setOnClickListener(dialogValue);
+				dialogValueDigital = new SensorValueDigitalDialog(context, editValue, (int) value, true);
+				dialogValueDigital.setOnDismissListener(this);
+				dialogValueDigital.setOnCancelListener((OnCancelListener) context);
+				editValue.setOnClickListener(dialogValueDigital);
 				break;
 			case ANALOG:
-				dialogValue = new EditDoubleDialog(context, editValue, value);
-				dialogValue.setOnDismissListener(this);
-				dialogValue.setOnCancelListener((OnCancelListener) context);
-				editValue.setOnClickListener(dialogValue);
+				dialogValueAnalog = new SensorValueAnalogDialog(context, editValue, value);
+				dialogValueAnalog.setOnDismissListener(this);
+				dialogValueAnalog.setOnCancelListener((OnCancelListener) context);
+				editValue.setOnClickListener(dialogValueAnalog);
 				break;
 			default:
 				break;
@@ -168,19 +184,32 @@ public class SensorBrick implements Brick, OnDismissListener {
 	}
 
 	public void onDismiss(DialogInterface dialog) {
-		EditDoubleDialog inputDialog = (EditDoubleDialog) dialog;
+		EditDialog inputDialog = (EditDialog) dialog;
 
 		if (inputDialog.getRefernecedEditTextId() == R.id.construction_brick_sensor_pin) {
-			pin = (int) inputDialog.getValue();
+			if (type == ANALOG) {
+				SensorPinAnalogDialog pindialog = (SensorPinAnalogDialog) inputDialog;
+				pin = pindialog.getValue();
+			} else {
+				SensorPinDigitalDialog pindialog = (SensorPinDigitalDialog) inputDialog;
+				pin = pindialog.getValue();
+			}
 		} else if (inputDialog.getRefernecedEditTextId() == R.id.construction_brick_sensor_time) {
-			time = inputDialog.getValue();
+			EditDoubleDialog timeDialog = (EditDoubleDialog) inputDialog;
+			time = timeDialog.getValue();
 		} else if (inputDialog.getRefernecedEditTextId() == R.id.construction_brick_sensor_value) {
-			value = inputDialog.getValue();
+			if (type == ANALOG) {
+				SensorValueAnalogDialog valuedialog = (SensorValueAnalogDialog) inputDialog;
+				value = valuedialog.getValue();
+			} else {
+				SensorValueDigitalDialog valuedialog = (SensorValueDigitalDialog) inputDialog;
+				value = valuedialog.getValue();
+			}
+
 		} else {
 			throw new RuntimeException("Received illegal id from EditText: " + inputDialog.getRefernecedEditTextId());
 		}
 
 		dialog.cancel();
 	}
-
 }
