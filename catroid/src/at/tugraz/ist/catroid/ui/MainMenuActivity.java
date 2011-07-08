@@ -55,7 +55,8 @@ public class MainMenuActivity extends Activity {
 	public static final int MENU_TOOGLE_DISCONNECT = Menu.FIRST + 1;
 	public static final int MENU_CONNECT_NXT = Menu.FIRST + 2;
 	private boolean connected = false;
-	private static final int REQUEST_CONNECT_DEVICE = 1000;
+
+	//private static final int REQUEST_CONNECT_DEVICE = 1000;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
