@@ -58,10 +58,6 @@ public class Bluetooth {
 
 		int REQUEST_ENABLE_BT = 0;
 
-		// Checking if the Device supports Bluetooth
-		if (bluetoothAdapter == null) {
-		}
-
 		Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
 		context.startActivity(enableBtIntent);
 
