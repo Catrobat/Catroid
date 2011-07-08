@@ -64,7 +64,7 @@
 					android:id="@+id/sensor_main_adapter"/>
 					
 				<Button
-					android:id="@+id/brick_sensor_digital_button"
+					android:id="@+id/construction_brick_sensor_digital_button"
 					android:text="D"
 					android:layout_height="45dip"
 					android:layout_width="50dip"
@@ -73,7 +73,7 @@
 				></Button>
 				
 				<Button
-					android:id="@+id/brick_sensor_analog_button"
+					android:id="@+id/construction_brick_sensor_analog_button"
 					android:text="A"
 					android:layout_height="45dip"
 					android:layout_width="50dip"
