@@ -67,7 +67,7 @@
 					android:id="@+id/construction_brick_sensor_digital_button"
 					android:text="D"
 					android:layout_height="45dip"
-					android:layout_width="50dip"
+					android:layout_width="25dip"
 					android:layout_marginLeft="64dip"
 					android:layout_weight=".10"
 				></Button>
@@ -76,7 +76,15 @@
 					android:id="@+id/construction_brick_sensor_analog_button"
 					android:text="A"
 					android:layout_height="45dip"
-					android:layout_width="50dip"
+					android:layout_width="25dip"
+					android:layout_weight=".10"
+				></Button>
+				
+				<Button
+					android:id="@+id/construction_brick_sensor_bluetooth_button"
+					android:text="B"
+					android:layout_height="45dip"
+					android:layout_width="25dip"
 					android:layout_weight=".10"
 				></Button>
 			</LinearLayout>

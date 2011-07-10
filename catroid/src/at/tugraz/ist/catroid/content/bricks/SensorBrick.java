@@ -18,10 +18,12 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,8 +32,8 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.connections.Bluetooth;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.ui.dialogs.DevicesDialog;
 import at.tugraz.ist.catroid.ui.dialogs.EditDialog;
 import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 import at.tugraz.ist.catroid.ui.dialogs.SensorPinAnalogDialog;
@@ -56,8 +58,11 @@ public class SensorBrick implements Brick, OnDismissListener {
 	private final int DIGITAL = 1;
 	private final int ANALOG = 0;
 
+	private DevicesDialog bluetoothDeviceDialog;
+	private String selectedAddress;
+
 	private static final long serialVersionUID = 1L;
-	protected static final int REQUEST_CONNECT_DEVICE = 3;
+	protected static final int REQUEST_CONNECT_DEVICE = 1;
 
 	public SensorBrick(Sprite sprite, int type, int pin, double value, double time, String deviceAddress) {
 		this.sprite = sprite;
@@ -98,12 +103,8 @@ public class SensorBrick implements Brick, OnDismissListener {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.construction_brick_sensor, null);
 
-		Bluetooth bluetooth = new Bluetooth(context);
-		if (!bluetooth.getBluetoothAdapter().isEnabled()) {
-			bluetooth.start();
-		}
-
-		bluetooth.checkForDevices();
+		Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+		context.startActivity(enableBtIntent);
 
 		//Pin TODO: CHECK FOR WRONG INPUT AND MAKE NEW DIALOG FOR EACH ONE? OR CHECK IT SOMEHOW....
 		EditText editPin = (EditText) view.findViewById(R.id.construction_brick_sensor_pin);
@@ -129,6 +130,7 @@ public class SensorBrick implements Brick, OnDismissListener {
 
 		Button digitalButton = (Button) view.findViewById(R.id.construction_brick_sensor_digital_button);
 		Button analogButton = (Button) view.findViewById(R.id.construction_brick_sensor_analog_button);
+		Button bluetoothButton = (Button) view.findViewById(R.id.construction_brick_sensor_bluetooth_button);
 
 		digitalButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -145,6 +147,12 @@ public class SensorBrick implements Brick, OnDismissListener {
 				type = ANALOG;
 			}
 		});
+
+		//Bluetooth Devices Dialog
+		bluetoothDeviceDialog = new DevicesDialog(context, bluetoothButton, this);
+		//bluetoothDeviceDialog.setOnDismissListener(this);
+		bluetoothDeviceDialog.setOnCancelListener((OnCancelListener) context);
+		bluetoothButton.setOnClickListener(bluetoothDeviceDialog);
 
 		//Value TODO: CHECK FOR WRONG INPUT AND MAKE NEW DIALOG FOR EACH ONE? OR CHECK IT SOMEHOW....
 		EditText editValue = (EditText) view.findViewById(R.id.construction_brick_sensor_value);
@@ -215,11 +223,17 @@ public class SensorBrick implements Brick, OnDismissListener {
 				SensorValueDigitalDialog valuedialog = (SensorValueDigitalDialog) inputDialog;
 				value = valuedialog.getValue();
 			}
-
 		} else {
 			throw new RuntimeException("Received illegal id from EditText: " + inputDialog.getRefernecedEditTextId());
 		}
 
 		dialog.cancel();
+	}
+
+	/**
+	 * @param selectedAddress
+	 */
+	public void setSelectedAddress(String selectedAddress) {
+		this.selectedAddress = selectedAddress;
 	}
 }
