@@ -57,10 +57,10 @@ public class NewSpriteDialog {
 		LayoutInflater inflater = (LayoutInflater) projectActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.dialog_new_sprite, null);
 
-		input = (EditText) view.findViewById(R.id.dialog_rename_sprite_editText);
+		input = (EditText) view.findViewById(R.id.dialog_new_sprite_editText);
 		input.setHint(projectActivity.getString(R.string.new_sprite_dialog_default_sprite_name));
 
-		buttonPositive = (Button) view.findViewById(R.id.dialog_rename_sprite_ok_button);
+		buttonPositive = (Button) view.findViewById(R.id.dialog_new_sprite_ok_button);
 
 		builder.setView(view);
 
