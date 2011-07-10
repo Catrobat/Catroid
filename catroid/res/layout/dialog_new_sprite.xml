@@ -26,7 +26,7 @@
 	android:layout_height="wrap_content"
 >
 	<EditText
-		android:id="@+id/dialog_rename_sprite_editText"
+		android:id="@+id/dialog_new_sprite_editText"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:gravity="left"
@@ -42,14 +42,14 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content">
 	<Button
-		android:id="@+id/dialog_rename_sprite_ok_button"
+		android:id="@+id/dialog_new_sprite_ok_button"
 		android:text="@string/ok"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_weight=".5" 
 		android:onClick="handlePositiveButtonNewSprite"/>
 	<Button
-		android:id="@+id/dialog_rename_sprite_cancel_button"
+		android:id="@+id/dialog_new_sprite_cancel_button"
 		android:text="@string/cancel_button"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"

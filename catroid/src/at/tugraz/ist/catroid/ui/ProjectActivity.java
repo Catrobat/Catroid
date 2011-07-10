@@ -211,11 +211,11 @@ public class ProjectActivity extends ListActivity {
 		}
 	}
 
-	public void handlePositiveButton(View v) {
+	public void handlePositiveButtonRenameSprite(View v) {
 		renameDialog.handleOkButton();
 	}
 
-	public void handleNegativeButton(View v) {
+	public void handleNegativeButtonRenameSprite(View v) {
 		renameDialog.renameDialog.cancel();
 	}
 

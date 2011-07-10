@@ -47,13 +47,13 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_weight=".5" 
-		android:onClick="handlePositiveButton"/>
+		android:onClick="handlePositiveButtonRenameSprite"/>
 	<Button
 		android:id="@+id/dialog_rename_sprite_cancel_button"
 		android:text="@string/cancel_button"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_weight=".5"
-		android:onClick="handleNegativeButton" />
+		android:onClick="handleNegativeButtonRenameSprite" />
 	</LinearLayout>
 </LinearLayout>
