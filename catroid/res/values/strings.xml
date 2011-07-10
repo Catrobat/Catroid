@@ -128,8 +128,8 @@
     <string name="error_sensor_enter_digital_pin">You just have 0 to 13 PINs here so please a number from 0-13</string>
     <string name="error_sensor_enter_analog_value">For this PIN you can just enter a value from 0.0 to 5.0</string>
     <string name="error_sensor_enter_digital_value">For this PIN you can just enter 1 for HIGH or 0 for LOW</string>
-    
-    
+    <string name="error_no_bluetooth_devices_available">There are no bluetooth devices available</string>
+        
     
 
     <!-- New sprite dialog -->

@@ -39,13 +39,6 @@
 	<uses-permission android:name="android.permission.BLUETOOTH" />
 	<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 	
-	<receiver android:name="at.tugraz.ist.catroid.connections.BluetoothBroadcastReceiver" android:permission="android.permission.BLUETOOTH">	
- 		<intent-filter>
- 			<action android:name="android.bluetooth.adapter.action.DISCOVERY_STARTED" />
- 			<action android:name="android.bluetooth.adapter.action.DISCOVERY_FINISHED" />
- 			<action android:name="android.intent.category.DEFAULT" />
- 		</intent-filter>
-	</receiver>
 	
 	
 	<application
@@ -69,8 +62,8 @@
 			
 		<activity android:name=".ui.ProjectActivity" />
 		
-		<activity android:name=".ui.ScriptActivity" />
-			<receiver android:name="at.tugraz.ist.catroid.connections.BluetoothBroadcastReceiver" android:permission="android.permission.BLUETOOTH">	
+		<activity android:name=".ui.ScriptActivity" >
+			<receiver android:name=".dialogs.DevicesDialog" android:permission="android.permission.BLUETOOTH">	
  				<intent-filter>
  					<category android:name="android.intent.category.LAUNCHER" />
  					<action android:name="android.bluetooth.adapter.action.DISCOVERY_STARTED" />
@@ -79,7 +72,7 @@
  					<action android:name="android.intent.action.MAIN" />
  				</intent-filter>
 			</receiver>
-		<activity android:name=".ui.SpriteActivity" />
+		</activity>
 
 		<activity
 			android:name=".ui.DownloadActivity"
