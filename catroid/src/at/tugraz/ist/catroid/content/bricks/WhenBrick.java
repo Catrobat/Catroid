@@ -36,7 +36,6 @@ public class WhenBrick implements Brick {
 	private Sprite sprite;
 	private transient BaseExpandableListAdapter adapter;
 	private static final long serialVersionUID = 1L;
-	private boolean firstTime = true;
 
 	public WhenBrick(Sprite sprite, Script WhenScript) {
 		this.WhenScript = (WhenScript) WhenScript;
@@ -80,21 +79,17 @@ public class WhenBrick implements Brick {
 
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-				try {
-					if (firstTime) {
-						spinner.setSelected(false);
-						firstTime = false;
-					} else {
-						spinner.setSelected(true);
-						String choice = parent.getItemAtPosition(pos).toString();
-						WhenScript.setAction(choice);
-						spinner.setSelection(pos);
-						adapter.notifyDataSetChanged();
-					}
+				boolean start = true;
 
-				} catch (Exception e) {
-					e.printStackTrace();
+				if (start) {
+					start = false;
+					return;
 				}
+				spinner.setSelected(true);
+				String choice = parent.getItemAtPosition(pos).toString();
+				WhenScript.setAction(choice);
+				spinner.setSelection(pos);
+				adapter.notifyDataSetChanged();
 			}
 
 			public void onNothingSelected(AdapterView parent) {
