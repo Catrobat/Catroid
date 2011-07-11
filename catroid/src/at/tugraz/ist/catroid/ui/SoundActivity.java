@@ -26,27 +26,27 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -105,16 +105,19 @@ public class SoundActivity extends ListActivity implements OnItemClickListener {
 		addnewsound.setOnClickListener(new OnClickListener() {
 			// TODO Auto-generated method stub
 			public void onClick(View v) {
-				soundDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-				soundDialog.setContentView(R.layout.sound_list);
-				soundDialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-										WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-				ListView list = (ListView) soundDialog.findViewById(R.id.sound_list);
-				list.setAdapter(soundBrickAdapter);
-				list.setOnItemClickListener(SoundActivity.this);
-
-				soundDialog.show();
+				Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+				intent.setType("audio/*");
+				startActivityForResult(Intent.createChooser(intent, "Select music"), 0);
+				//				soundDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+				//				soundDialog.setContentView(R.layout.sound_list);
+				//				soundDialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				//										WindowManager.LayoutParams.FLAG_FULLSCREEN);
+				//
+				//				ListView list = (ListView) soundDialog.findViewById(R.id.sound_list);
+				//				list.setAdapter(soundBrickAdapter);
+				//				list.setOnItemClickListener(SoundActivity.this);
+				//
+				//				soundDialog.show();
 
 			}
 		});
@@ -232,6 +235,40 @@ public class SoundActivity extends ListActivity implements OnItemClickListener {
 			return v;
 		}
 
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == Activity.RESULT_OK && requestCode == 0) {
+
+			//get real path of soundfile --------------------------
+			Uri audioUri = data.getData();
+			String[] proj = { MediaStore.Audio.Media.DATA };
+			Cursor actualSoundCursor = managedQuery(audioUri, proj, null, null, null);
+			int actualSoundColumnIndex = actualSoundCursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
+			actualSoundCursor.moveToFirst();
+			String audioPath = actualSoundCursor.getString(actualSoundColumnIndex);
+			//-----------------------------------------------------
+
+			try {
+				File soundFile = StorageHandler.getInstance().copySoundFile(audioPath);
+				soundfileName = soundFile.getName();
+				soundTitle = soundFile.getName().substring(33);
+			} catch (IOException e) {
+				Utils.displayErrorMessage(this, this.getString(R.string.error_load_image)); //TODO fix to audio
+			}
+
+			viewSounds = new Runnable() {
+				public void run() {
+					getSounds();
+				}
+			};
+
+			Thread thread = new Thread(null, viewSounds, "MagentoBackground");
+			thread.start();
+
+		}
 	}
 
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
