@@ -2,6 +2,7 @@ import os
 import sys
 import zipfile
 import shutil
+import fileinput
 import hashlib
 import xml.dom.minidom
 
@@ -91,6 +92,15 @@ def get_project_name(project_filename):
         if node.parentNode.nodeName == 'project':
             return node.childNodes[0].nodeValue
 
+def rename_package(project_filename, new_package):
+    catroid_package = 'at.tugraz.ist.catroid'
+    for root, dirs, files in os.walk(project_filename):
+        for name in files:
+            for line in fileinput.input(os.path.join(root, name), inplace=1):
+                if catroid_package in line:
+                    line = line.replace(catroid_package, new_package)
+                sys.stdout.write(line)
+
 def main():
     if len(sys.argv) != 3:
         print 'Invalid arguments. Correct usage:'
@@ -105,6 +115,7 @@ def main():
     rename_resources(project_filename)
     project_name = get_project_name(os.path.join(project_filename, 'project.xml'))
     copy_project(path_to_catroid, project_filename)
+    rename_package(project_filename, 'at.tugraz.ist.ololo')
     set_project_name(project_name, os.path.join(project_filename, 'catroid', 'res', 'values', 'common.xml'))
     os.system('ant release -f ' + os.path.join(project_filename, 'catroid', 'build.xml'))
     shutil.move(os.path.join(project_filename, 'catroid', 'bin', 'NativeAppActivity-release.apk'),\
