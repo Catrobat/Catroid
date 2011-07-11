@@ -212,6 +212,9 @@
     <string name="error_load_image">
     	Beim Laden des Bildes ist ein Fehler aufgetreten.
     </string>
+    <string name="error_load_sound">
+    	Beim Laden des Audiofiles ist ein Fehler aufgetreten.
+    </string>
 
     <!-- Notifications -->
     <string name="success_project_upload">Upload erfolgreich.</string>
