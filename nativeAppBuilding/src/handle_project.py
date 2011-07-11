@@ -94,12 +94,19 @@ def get_project_name(project_filename):
 
 def rename_package(project_filename, new_package):
     catroid_package = 'at.tugraz.ist.catroid'
+    path_to_source = os.path.join(project_filename, 'catroid', 'src', 'at', 'tugraz', 'ist')
+    os.rename(os.path.join(path_to_source, 'catroid'),\
+              os.path.join(path_to_source, new_package))
+    os.mkdir(os.path.join(path_to_source, 'catroid'))
+    shutil.move(os.path.join(path_to_source, new_package),\
+                os.path.join(path_to_source, 'catroid'))
     for root, dirs, files in os.walk(project_filename):
         for name in files:
-            for line in fileinput.input(os.path.join(root, name), inplace=1):
-                if catroid_package in line:
-                    line = line.replace(catroid_package, new_package)
-                sys.stdout.write(line)
+            if os.path.splitext(name)[1] in ('.java', '.xml'):
+                for line in fileinput.input(os.path.join(root, name), inplace=1):
+                    if catroid_package in line:
+                        line = line.replace(catroid_package, catroid_package + '.' + new_package)
+                    sys.stdout.write(line)
 
 def main():
     if len(sys.argv) != 3:
@@ -115,7 +122,7 @@ def main():
     rename_resources(project_filename)
     project_name = get_project_name(os.path.join(project_filename, 'project.xml'))
     copy_project(path_to_catroid, project_filename)
-    rename_package(project_filename, 'at.tugraz.ist.ololo')
+    rename_package(project_filename, 'newpackage')
     set_project_name(project_name, os.path.join(project_filename, 'catroid', 'res', 'values', 'common.xml'))
     os.system('ant release -f ' + os.path.join(project_filename, 'catroid', 'build.xml'))
     shutil.move(os.path.join(project_filename, 'catroid', 'bin', 'NativeAppActivity-release.apk'),\
