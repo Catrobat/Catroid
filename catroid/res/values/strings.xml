@@ -233,6 +233,9 @@
     <string name="error_load_image">
     	An error occurred while loading the image.
     </string>
+    <string name="error_load_sound">
+    	An error occurred while loading the sound.
+    </string>
 
     <!-- Notifications -->
     <string name="success_project_upload">Upload successful.</string>

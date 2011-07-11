@@ -230,11 +230,8 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return costumeList;
 	}
 
-	public void setSoundList(SoundData soundData) {
-		Log.v(TAG, "%%%%%%%%%%%%%%%%%%%%%%%%%" + soundData.getSoundName());
-		Log.v(TAG, "%%%%%%%%%%%%%%%%%%%%%%%%%" + soundData.getSoundAbsolutePath());
+	public void addToSoundList(SoundData soundData) {
 		soundList.add(soundData);
-		Log.v(TAG, "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" + soundList.size());
 	}
 
 	public void removeSoundList(SoundData soundData) {
@@ -242,7 +239,6 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	}
 
 	public ArrayList<SoundData> getSoundList() {
-		Log.v(TAG, "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" + soundList.size());
 		return soundList;
 	}
 

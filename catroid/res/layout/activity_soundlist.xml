@@ -24,39 +24,46 @@ android:orientation="horizontal"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 >
-<ImageView
-android:id="@+id/sound_img"
-android:layout_width="80dp" android:layout_height="90dip"/>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:orientation="vertical"
-android:layout_width="match_parent"
-android:layout_height="wrap_content">
+	<ImageView
+		android:id="@+id/sound_img"
+		android:layout_width="80dp" 
+		android:layout_height="90dip"/>
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="vertical"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
 
-<TextView 
-android:text="EditText" 
-android:id="@+id/edit_sound_name" 
-android:layout_width="match_parent"
-android:paddingLeft="10dp"
-android:textSize="16sp" android:layout_height="50dip" 
-android:gravity="center_vertical"/>
+		<TextView 
+			android:text="EditText" 
+			android:id="@+id/edit_sound_name" 
+			android:layout_width="match_parent"
+			android:paddingLeft="10dp"
+			android:textSize="16sp" 
+			android:layout_height="50dip" 
+			android:gravity="center_vertical"/>
 
-<LinearLayout 
-	android:id="@+id/linearLayout1" 
-	android:orientation="horizontal" 
-	android:layout_width="fill_parent" 
-	android:layout_height="wrap_content">
-    <ImageButton 
-    android:id="@+id/play_button" 
-    android:layout_width="wrap_content" 
-    android:src="@drawable/play" android:layout_height="48dip">
-    </ImageButton>
+		<LinearLayout 
+			android:id="@+id/linearLayout1" 
+			android:orientation="horizontal" 
+			android:layout_width="fill_parent" 
+			android:layout_height="wrap_content">
+    		<ImageButton 
+    			android:id="@+id/play_button" 
+    			android:layout_width="wrap_content" 
+    			android:src="@drawable/play" 
+    			android:layout_height="48dip"/>
     
-    <ImageButton 
-    android:id="@+id/stop_button" 
-    android:layout_width="wrap_content" 
-    android:src="@drawable/stop" android:layout_height="48dip"></ImageButton>
+    		<ImageButton 
+    			android:id="@+id/stop_button" 
+    			android:layout_width="wrap_content" 
+    			android:src="@drawable/stop" 
+    			android:layout_height="48dip"/>
     
-    <ImageButton android:layout_height="48dip" android:id="@+id/delete_button" android:layout_width="wrap_content" android:src="@drawable/exit"></ImageButton>
-</LinearLayout>
-</LinearLayout>
+    		<ImageButton 
+    			android:layout_height="48dip" 
+    			android:id="@+id/delete_button" 
+    			android:layout_width="wrap_content" 
+    			android:src="@drawable/exit"/>
+		</LinearLayout>
+	</LinearLayout>
 </LinearLayout>
