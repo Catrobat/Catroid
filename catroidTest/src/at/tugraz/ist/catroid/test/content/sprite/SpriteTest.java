@@ -256,6 +256,22 @@ public class SpriteTest extends AndroidTestCase {
 
 	}
 
+	public void testSetDirection() {
+		Sprite sprite = new Sprite("testSprite");
+
+		sprite.setDirection(90.);
+		assertEquals("Direction wrong set", 90., sprite.getDirection());
+
+		sprite.setDirection(450.);
+		assertEquals("Direction wrong set", 90., sprite.getDirection());
+
+		sprite.setDirection(-90.);
+		assertEquals("Direction wrong set", 270., sprite.getDirection());
+
+		sprite.setDirection(-450.);
+		assertEquals("Direction wrong set", 270., sprite.getDirection());
+	}
+
 	public void compareTo() {
 		int ZValue = 0;
 		int otherZValue = 0;
