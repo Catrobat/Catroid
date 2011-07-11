@@ -4,6 +4,16 @@
     android:id="@+id/list"
     android:layout_height="fill_parent" 
     android:orientation="vertical">   
+    <TextView
+		android:text="@string/dialog_bluetooth_available_devices"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:textColor="@color/white"
+		android:textSize="18dip"
+		android:textStyle="bold" 
+		android:id="@+id/dialog_bluetooth_available_devices"/>
+		
     <ListView android:id="@+id/new_devices"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
