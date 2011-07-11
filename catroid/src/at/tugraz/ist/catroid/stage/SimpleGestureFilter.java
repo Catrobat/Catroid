@@ -21,7 +21,7 @@ package at.tugraz.ist.catroid.stage;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
-import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.content.WhenScript;
 
 /**
  * @author DENISE
@@ -136,20 +136,20 @@ public class SimpleGestureFilter extends SimpleOnGestureListener {
 		if (velocityX > this.swipe_Min_Velocity && xDistance > this.swipe_Min_Distance) {
 			if (e1.getX() > e2.getX()) {
 				this.listener.onSwipe(SWIPE_LEFT);
-				context.processOnTouch((int) e1.getX(), (int) e1.getY(), context.getString(R.string.action_swipeLeft));
+				context.processOnTouch((int) e1.getX(), (int) e1.getY(), WhenScript.SWIPELEFT.toString());
 			} else {
 				this.listener.onSwipe(SWIPE_RIGHT);
-				context.processOnTouch((int) e1.getX(), (int) e1.getY(), context.getString(R.string.action_swipeRight));
+				context.processOnTouch((int) e1.getX(), (int) e1.getY(), WhenScript.SWIPERIGHT.toString());
 			}
 
 			result = true;
 		} else if (velocityY > this.swipe_Min_Velocity && yDistance > this.swipe_Min_Distance) {
 			if (e1.getY() > e2.getY()) {
 				this.listener.onSwipe(SWIPE_UP);
-				context.processOnTouch((int) e1.getX(), (int) e1.getY(), context.getString(R.string.action_swipeUp));
+				context.processOnTouch((int) e1.getX(), (int) e1.getY(), WhenScript.SWIPEUP.toString());
 			} else {
 				this.listener.onSwipe(SWIPE_DOWN);
-				context.processOnTouch((int) e1.getX(), (int) e1.getY(), context.getString(R.string.action_swipeDown));
+				context.processOnTouch((int) e1.getX(), (int) e1.getY(), WhenScript.SWIPEDOWN.toString());
 			}
 
 			result = true;
@@ -167,7 +167,7 @@ public class SimpleGestureFilter extends SimpleOnGestureListener {
 	@Override
 	public boolean onDoubleTap(MotionEvent arg0) {
 		this.listener.onDoubleTap();
-		context.processOnTouch((int) arg0.getX(), (int) arg0.getY(), context.getString(R.string.action_doubleTapped));
+		context.processOnTouch((int) arg0.getX(), (int) arg0.getY(), WhenScript.DOUBLETAPPED.toString());
 		return true;
 	}
 
@@ -182,11 +182,9 @@ public class SimpleGestureFilter extends SimpleOnGestureListener {
 		if (this.mode == MODE_DYNAMIC) { // we owe an ACTION_UP, so we fake an       
 			arg0.setAction(ACTION_FAKE); //action which will be converted to an ACTION_UP later.                                    
 			this.context.dispatchTouchEvent(arg0);
-			context.processOnTouch((int) arg0.getX(), (int) arg0.getY(), context.getString(R.string.action_tapped));
-			context.processOnTouch((int) arg0.getX(), (int) arg0.getY(),
-					context.getString(R.string.action_touchingStops));
-			context.processOnTouch((int) arg0.getX(), (int) arg0.getY(),
-					context.getString(R.string.action_touchingStarts));
+			context.processOnTouch((int) arg0.getX(), (int) arg0.getY(), WhenScript.TAPPED.toString());
+			context.processOnTouch((int) arg0.getX(), (int) arg0.getY(), WhenScript.TOUCHINGSTOPS.toString());
+			context.processOnTouch((int) arg0.getX(), (int) arg0.getY(), WhenScript.TOUCHINGSTARTS.toString());
 		}
 
 		return false;
@@ -195,7 +193,7 @@ public class SimpleGestureFilter extends SimpleOnGestureListener {
 	@Override
 	public void onLongPress(MotionEvent e) {
 		this.listener.onLongPress();
-		context.processOnTouch((int) e.getX(), (int) e.getY(), context.getString(R.string.action_longPressed));
+		context.processOnTouch((int) e.getX(), (int) e.getY(), WhenScript.LONGPRESSED.toString());
 	}
 
 	static interface SimpleGestureListener {

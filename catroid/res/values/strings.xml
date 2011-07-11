@@ -179,7 +179,7 @@
 	<string name="brick_speak">Speak</string>
 	
 	<string name="choose_sound_title">choose a title</string>
-	
+	<string name="choose_language">choose a language</string>
 	
     <string name="when_action">Choose an action</string>
     <string name="action_tapped">Tapped</string>

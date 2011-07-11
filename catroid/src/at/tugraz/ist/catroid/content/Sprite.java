@@ -41,7 +41,6 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	private transient double ghostEffectValue;
 	private transient double brightnessValue;
 	private transient double volume;
-	private transient String text;
 
 	public transient volatile boolean isPaused;
 	public transient volatile boolean isFinished;
@@ -77,9 +76,11 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 			if (s instanceof WhenScript) {
 				if (((WhenScript) s).getAction().equalsIgnoreCase(WhenScript.TOUCHINGSTOPS)) {
 					s.setPaused(true);
-				} else if (((WhenScript) s).getAction().equalsIgnoreCase(act)
-						&& !act.equalsIgnoreCase(WhenScript.TOUCHINGSTOPS)) {
-					startScript(s);
+				} else {
+					if (((WhenScript) s).getAction().equalsIgnoreCase(act)) {
+						s.setPaused(false);
+						startScript(s);
+					}
 				}
 			}
 		}
@@ -91,8 +92,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 				if (!s.isFinished()) {
 					startScript(s);
 				}
-			}
-			if (s instanceof WhenScript) {
+			} else if (s instanceof WhenScript) {
 				if (((WhenScript) s).getAction().equalsIgnoreCase(WhenScript.TOUCHINGSTOPS)) {
 					startScript(s);
 				}
@@ -202,10 +202,6 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 
 	public double getVolume() {
 		return this.volume;
-	}
-
-	public String getTextToSpeech() {
-		return this.text;
 	}
 
 	public boolean isVisible() {
@@ -414,10 +410,5 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	@Override
 	public String toString() {
 		return name;
-	}
-
-	public void setTextToSpeech(String text) {
-		this.text = text;
-
 	}
 }
