@@ -99,5 +99,4 @@ public class MessageContainer {
 		}
 		return messageAdapter.getPosition(message);
 	}
-
 }

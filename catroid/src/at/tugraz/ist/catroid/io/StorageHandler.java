@@ -79,7 +79,7 @@ public class StorageHandler {
 
 	private static StorageHandler instance;
 	private static final String TAG = StorageHandler.class.getSimpleName();
-	private static final String XML_HEADER = "<? xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
+	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
 	private ArrayList<SoundInfo> soundContent;
 	private XStream xstream;
 

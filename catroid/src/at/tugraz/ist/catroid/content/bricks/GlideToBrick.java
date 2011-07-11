@@ -75,26 +75,6 @@ public class GlideToBrick implements Brick, OnDismissListener {
 		}
 		sprite.setXYPosition(xDestination, yDestination);
 		sprite.setToDraw(true);
-
-		//		long startTime = System.currentTimeMillis();
-		//		while (durationInMilliSeconds > 0) {
-		//			try {
-		//				Thread.sleep(33);
-		//
-		//				long currentTime = System.currentTimeMillis();
-		//				durationInMilliSeconds -= (int) (currentTime - startTime);
-		//
-		//				updatePositions((int) (currentTime - startTime));
-		//
-		//				startTime = currentTime;
-		//				sprite.setToDraw(true);
-		//			} catch (InterruptedException e) {
-		//				durationInMilliSeconds -= (int) (System.currentTimeMillis() - startTime);
-		//				throw new InterruptedRuntimeException("GlideToBrick was interrupted", e);
-		//			}
-		//		}
-		//		sprite.setXYPosition(xDestination, yDestination);
-		//		sprite.setToDraw(true);
 	}
 
 	private void updatePositions(int timePassed, int duration) {
