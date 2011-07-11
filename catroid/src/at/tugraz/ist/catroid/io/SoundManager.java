@@ -27,7 +27,7 @@ import android.media.MediaPlayer;
 public class SoundManager {
 	private ArrayList<MediaPlayer> mediaPlayers;
 
-	public static final int MAX_MEDIA_PLAYERS = 7;
+	public static final int MAX_MEDIA_PLAYERS = 10;
 	private static SoundManager soundManager = null;
 
 	private SoundManager() {
