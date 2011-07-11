@@ -51,6 +51,7 @@ public class SoundActivity extends ListActivity {
 	private Sprite sprite;
 	private ArrayList<SoundData> soundData;
 	private SoundAdapter soundActivityListAdapter;
+	private final int REQUEST_SELECT_MUSIC = 0;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -61,7 +62,7 @@ public class SoundActivity extends ListActivity {
 		sprite = ProjectManager.getInstance().getCurrentSprite();
 		soundData = new ArrayList<SoundData>();
 		ArrayList<SoundData> currentSounds = sprite.getSoundList();
-		soundActivityListAdapter = new SoundAdapter(this, R.layout.activity_soundlist, soundData);
+		soundActivityListAdapter = new SoundAdapter(this, R.layout.activity_soundlist_item, soundData);
 		setListAdapter(soundActivityListAdapter);
 		getListView().setTextFilterEnabled(true);
 
@@ -74,7 +75,7 @@ public class SoundActivity extends ListActivity {
 			public void onClick(View v) {
 				Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 				intent.setType("audio/*");
-				startActivityForResult(Intent.createChooser(intent, "Select music"), 0);
+				startActivityForResult(Intent.createChooser(intent, "Select music"), REQUEST_SELECT_MUSIC);
 			}
 		});
 	}
@@ -96,7 +97,7 @@ public class SoundActivity extends ListActivity {
 		}
 	}
 
-	private void updateSounds(String title, String path) {
+	private void updateSoundAdapter(String title, String path) {
 		SoundData s = new SoundData();
 		s.setSoundName(title);
 		s.setSoundAbsolutePath(path);
@@ -105,7 +106,7 @@ public class SoundActivity extends ListActivity {
 		soundActivityListAdapter.notifyDataSetChanged();
 	}
 
-	private class SoundAdapter extends ArrayAdapter<SoundData> {
+	private class SoundAdapter extends ArrayAdapter<SoundData> { //TODO: distingt class
 
 		private ArrayList<SoundData> items;
 
@@ -120,21 +121,21 @@ public class SoundActivity extends ListActivity {
 			View convertView = convView;
 			if (convertView == null) {
 				LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				convertView = vi.inflate(R.layout.activity_soundlist, null);
+				convertView = vi.inflate(R.layout.activity_soundlist_item, null);
 			}
 
-			final SoundData s = items.get(position);
-			if (s != null) {
+			final SoundData soundData = items.get(position);
+			if (soundData != null) {
 				ImageView soundImage = (ImageView) convertView.findViewById(R.id.sound_img);
 				soundImage.setImageResource(R.drawable.speaker);
 
 				TextView soundName = (TextView) convertView.findViewById(R.id.edit_sound_name);
-				soundName.setText(s.getSoundName());
+				soundName.setText(soundData.getSoundName()); //TODO change this to edittextfield
 
 				ImageButton playSound = (ImageButton) convertView.findViewById(R.id.play_button);
 				playSound.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
-						SoundManager.getInstance().playSoundFile(s.getSoundAbsolutePath());
+						SoundManager.getInstance().playSoundFile(soundData.getSoundAbsolutePath());
 						notifyDataSetChanged();
 					}
 				});
@@ -150,8 +151,9 @@ public class SoundActivity extends ListActivity {
 				ImageButton deleteSound = (ImageButton) convertView.findViewById(R.id.delete_button);
 				deleteSound.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
-						items.remove(s);
-						sprite.removeSoundList(s);
+						items.remove(soundData);
+						sprite.removeSoundList(soundData);
+						//StorageHandler.getInstance().deleteFile(soundData.getSoundAbsolutePath()); //TODO this wont work I guess, check if everything is in filechecksumcontainer
 						notifyDataSetChanged();
 					}
 				});
@@ -165,7 +167,7 @@ public class SoundActivity extends ListActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode == Activity.RESULT_OK && requestCode == 0) {
+		if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_SELECT_MUSIC) {
 
 			String audioPath = "";
 			//get real path of soundfile --------------------------
@@ -185,7 +187,7 @@ public class SoundActivity extends ListActivity {
 				File soundFile = StorageHandler.getInstance().copySoundFile(audioPath);
 				String soundPath = soundFile.getName(); //TODO wrong name ...
 				String soundTitle = soundFile.getName().substring(33);
-				updateSounds(soundTitle, soundPath);
+				updateSoundAdapter(soundTitle, soundPath);
 			} catch (IOException e) {
 				Utils.displayErrorMessage(this, this.getString(R.string.error_load_sound));
 			}
