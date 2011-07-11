@@ -166,6 +166,10 @@
 	<string name="brick_set_y">Set Y to:</string>
 	<string name="brick_glide">Glide</string>
 	<string name="brick_glide_to">to</string>
+	<string name="brick_forever">Forever</string>
+	<string name="brick_loop_end">End Of Loop</string>
+	<string name="brick_repeat">Repeat</string>
+	<string name="times_label">times</string>
 	
 	<string name="choose_sound_title">choose a title</string>
 
@@ -174,7 +178,7 @@
 	
 	<string name="brick_broadcast">Broadcast</string>
     <string name="brick_broadcast_wait">Broadcast and wait</string>
-	
+	<string name="brick_stop_all_sounds">Stop all sounds</string>
     <!-- defaulValues -->
     <string name="default_project_name">defaultProject</string>
     
