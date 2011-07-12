@@ -170,6 +170,7 @@
 	<string name="brick_loop_end">End Of Loop</string>
 	<string name="brick_repeat">Repeat</string>
 	<string name="times_label">times</string>
+	<string name="brick_if_on_edge_bounce">If on edge bounce</string>
 	
 	<string name="choose_sound_title">choose a title</string>
 

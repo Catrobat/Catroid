@@ -19,13 +19,16 @@
 package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
+import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Sprite;
 
 public class IfOnEdgeBounceBrick implements Brick {
 
+	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 
 	public IfOnEdgeBounceBrick(Sprite sprite) {
@@ -34,23 +37,29 @@ public class IfOnEdgeBounceBrick implements Brick {
 
 	public void execute() {
 
-		int width = sprite.getCostume().getImageWidthHeight().first;
-		int height = sprite.getCostume().getImageWidthHeight().second;
+		int width = sprite.getCostume().getRelativeWidth();
+		int height = sprite.getCostume().getRelativeHeight();
 
-		if (sprite.getXPosition() < -Consts.MAX_REL_COORDINATES) {
-			sprite.setXYPosition(-Consts.MAX_REL_COORDINATES, sprite.getYPosition());
-			sprite.setDirection(180 - sprite.getDirection());
-		} else if (sprite.getXPosition() + width > Consts.MAX_REL_COORDINATES) {
-			sprite.setXYPosition(Consts.MAX_REL_COORDINATES - width, sprite.getYPosition());
-			sprite.setDirection(180 - sprite.getDirection());
+		if (sprite.getXPosition() < -Consts.MAX_REL_COORDINATES + width / 2) {
+
+			sprite.setXYPosition(-Consts.MAX_REL_COORDINATES + width / 2, sprite.getYPosition());
+			sprite.setDirection(-sprite.getDirection());
+
+		} else if (sprite.getXPosition() > Consts.MAX_REL_COORDINATES - width / 2) {
+
+			sprite.setXYPosition(Consts.MAX_REL_COORDINATES - width / 2, sprite.getYPosition());
+			sprite.setDirection(-sprite.getDirection());
 		}
 
-		if (sprite.getYPosition() > Consts.MAX_REL_COORDINATES) {
-			sprite.setXYPosition(sprite.getYPosition(), -Consts.MAX_REL_COORDINATES);
-			sprite.setDirection(360 - sprite.getDirection());
-		} else if (sprite.getYPosition() - height < -Consts.MAX_REL_COORDINATES) {
-			sprite.setXYPosition(sprite.getXPosition(), Consts.MAX_REL_COORDINATES + height);
-			sprite.setDirection(360 - sprite.getDirection());
+		if (sprite.getYPosition() > Consts.MAX_REL_COORDINATES - height / 2) {
+
+			sprite.setXYPosition(sprite.getXPosition(), Consts.MAX_REL_COORDINATES - height / 2);
+			sprite.setDirection(180 - sprite.getDirection());
+
+		} else if (sprite.getYPosition() - height < -Consts.MAX_REL_COORDINATES + height / 2) {
+
+			sprite.setXYPosition(sprite.getXPosition(), -Consts.MAX_REL_COORDINATES + height / 2);
+			sprite.setDirection(180 - sprite.getDirection());
 		}
 	}
 
@@ -59,13 +68,13 @@ public class IfOnEdgeBounceBrick implements Brick {
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
-		// TODO Auto-generated method stub
-		return null;
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		return inflater.inflate(R.layout.construction_brick_if_on_edge_bounce, null);
 	}
 
 	public View getPrototypeView(Context context) {
-		// TODO Auto-generated method stub
-		return null;
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		return inflater.inflate(R.layout.toolbox_brick_if_on_edge_bounce, null);
 	}
 
 	@Override

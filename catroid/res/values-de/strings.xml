@@ -168,6 +168,7 @@
 	<string name="brick_loop_end">Wiederholen beenden</string>
 	<string name="brick_repeat">Wiederhole</string>
 	<string name="times_label">mal</string>
+	<string name="brick_if_on_edge_bounce">pralle von Rand ab</string>
 	
 	<string name="choose_sound_title">Sound wählen</string>
 	
