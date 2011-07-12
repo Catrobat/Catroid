@@ -164,6 +164,10 @@
 	<string name="brick_set_y">Setze Y auf:</string>
 	<string name="brick_glide">Gleite</string>
 	<string name="brick_glide_to">zu</string>
+	<string name="brick_forever">Wiederhole fortlaufend</string>
+	<string name="brick_loop_end">Wiederholen beenden</string>
+	<string name="brick_repeat">Wiederhole</string>
+	<string name="times_label">mal</string>
 	
 	<string name="choose_sound_title">Sound wählen</string>
 	
