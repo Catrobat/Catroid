@@ -51,7 +51,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	private void init() {
 		zPosition = 0;
 		size = 100.0;
-		direction = 0;
+		direction = 90.;
 		isVisible = true;
 		costume = new Costume(this, null);
 		xPosition = 0;
@@ -225,13 +225,23 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 
 	public void setDirection(double direction) {
 
+		double oldDirection = this.direction;
 		int floored = (int) Math.floor(direction);
 
-		if (direction >= 0) {
-			this.direction = (floored % 360) + (direction - floored);
+		int mod = ((floored + 180) % 360);
+		double remainder = direction - floored;
+
+		if (mod >= 0) {
+			this.direction = Math.abs(mod) + remainder - 180;
 		} else {
-			this.direction = 360. + (floored % 360) + (direction - floored);
+			this.direction = 180 - (Math.abs(mod) - remainder);
 		}
+
+		if (this.direction == -180) {
+			this.direction = 180;
+		}
+
+		costume.rotateBy(oldDirection - this.direction);
 	}
 
 	public synchronized void show() {

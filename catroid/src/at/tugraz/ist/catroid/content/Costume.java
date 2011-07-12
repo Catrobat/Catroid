@@ -88,6 +88,10 @@ public class Costume implements Serializable {
 		return;
 	}
 
+	public synchronized void rotateBy(double degrees) {
+		costumeBitmap = ImageEditing.rotateBitmap(costumeBitmap, (float) degrees);
+	}
+
 	public String getImagePath() {
 		return imagePath;
 	}
@@ -116,6 +120,14 @@ public class Costume implements Serializable {
 
 	public Pair<Integer, Integer> getImageWidthHeight() {
 		return new Pair<Integer, Integer>(actWidth, actHeight);
+	}
+
+	public int getRelativeWidth() {
+		return 2 * Consts.MAX_REL_COORDINATES / Values.SCREEN_WIDTH * actWidth;
+	}
+
+	public int getRelativeHeight() {
+		return 2 * Consts.MAX_REL_COORDINATES / Values.SCREEN_HEIGHT * actHeight;
 	}
 
 	private synchronized void setPositionToSpriteCenter() {
