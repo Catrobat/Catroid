@@ -122,12 +122,12 @@ public class Costume implements Serializable {
 		return new Pair<Integer, Integer>(actWidth, actHeight);
 	}
 
-	public int getRelativeWidth() {
-		return 2 * Consts.MAX_REL_COORDINATES / Values.SCREEN_WIDTH * actWidth;
+	public double getRelativeWidth() {
+		return 2. * Consts.MAX_REL_COORDINATES / Values.SCREEN_WIDTH * actWidth;
 	}
 
-	public int getRelativeHeight() {
-		return 2 * Consts.MAX_REL_COORDINATES / Values.SCREEN_HEIGHT * actHeight;
+	public double getRelativeHeight() {
+		return 2. * Consts.MAX_REL_COORDINATES / Values.SCREEN_HEIGHT * actHeight;
 	}
 
 	private synchronized void setPositionToSpriteCenter() {

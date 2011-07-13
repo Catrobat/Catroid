@@ -37,28 +37,28 @@ public class IfOnEdgeBounceBrick implements Brick {
 
 	public void execute() {
 
-		int width = sprite.getCostume().getRelativeWidth();
-		int height = sprite.getCostume().getRelativeHeight();
+		double width = sprite.getCostume().getRelativeWidth();
+		double height = sprite.getCostume().getRelativeHeight();
 
 		if (sprite.getXPosition() < -Consts.MAX_REL_COORDINATES + width / 2) {
 
-			sprite.setXYPosition(-Consts.MAX_REL_COORDINATES + width / 2, sprite.getYPosition());
+			sprite.setXYPosition(-Consts.MAX_REL_COORDINATES + (int) Math.floor(width / 2), sprite.getYPosition());
 			sprite.setDirection(-sprite.getDirection());
 
 		} else if (sprite.getXPosition() > Consts.MAX_REL_COORDINATES - width / 2) {
 
-			sprite.setXYPosition(Consts.MAX_REL_COORDINATES - width / 2, sprite.getYPosition());
+			sprite.setXYPosition(Consts.MAX_REL_COORDINATES - (int) Math.floor(width / 2), sprite.getYPosition());
 			sprite.setDirection(-sprite.getDirection());
 		}
 
 		if (sprite.getYPosition() > Consts.MAX_REL_COORDINATES - height / 2) {
 
-			sprite.setXYPosition(sprite.getXPosition(), Consts.MAX_REL_COORDINATES - height / 2);
+			sprite.setXYPosition(sprite.getXPosition(), Consts.MAX_REL_COORDINATES - (int) Math.floor(height / 2));
 			sprite.setDirection(180 - sprite.getDirection());
 
-		} else if (sprite.getYPosition() - height < -Consts.MAX_REL_COORDINATES + height / 2) {
+		} else if (sprite.getYPosition() < -Consts.MAX_REL_COORDINATES + height / 2) {
 
-			sprite.setXYPosition(sprite.getXPosition(), -Consts.MAX_REL_COORDINATES + height / 2);
+			sprite.setXYPosition(sprite.getXPosition(), -Consts.MAX_REL_COORDINATES + (int) Math.floor(height / 2));
 			sprite.setDirection(180 - sprite.getDirection());
 		}
 	}
