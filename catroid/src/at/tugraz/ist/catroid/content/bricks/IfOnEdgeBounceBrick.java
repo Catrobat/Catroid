@@ -37,30 +37,47 @@ public class IfOnEdgeBounceBrick implements Brick {
 
 	public void execute() {
 
-		double width = sprite.getCostume().getRelBoundingBoxWidth();
-		double height = sprite.getCostume().getRelBoudingBoxHeight();
+		double width = sprite.getCostume().getRelativeWidth();
+		int xPos = sprite.getXPosition();
+		int yPos = sprite.getYPosition();
 
 		if (sprite.getXPosition() < -Consts.MAX_REL_COORDINATES + width / 2) {
 
-			sprite.setXYPosition(-Consts.MAX_REL_COORDINATES + (int) Math.floor(width / 2), sprite.getYPosition());
-			sprite.setDirection(-sprite.getDirection());
+			sprite.setDirection(Math.abs(sprite.getDirection()));
+
+			double newWidth = sprite.getCostume().getRelativeWidth();
+			xPos = -Consts.MAX_REL_COORDINATES + (int) (newWidth / 2);
 
 		} else if (sprite.getXPosition() > Consts.MAX_REL_COORDINATES - width / 2) {
 
-			sprite.setXYPosition(Consts.MAX_REL_COORDINATES - (int) Math.floor(width / 2), sprite.getYPosition());
-			sprite.setDirection(-sprite.getDirection());
+			sprite.setDirection(-Math.abs(sprite.getDirection()));
+
+			double newWidth = sprite.getCostume().getRelativeWidth();
+			xPos = Consts.MAX_REL_COORDINATES - (int) (newWidth / 2);
 		}
+
+		double height = sprite.getCostume().getRelativeHeight();
 
 		if (sprite.getYPosition() > Consts.MAX_REL_COORDINATES - height / 2) {
 
-			sprite.setXYPosition(sprite.getXPosition(), Consts.MAX_REL_COORDINATES - (int) Math.floor(height / 2));
-			sprite.setDirection(180 - sprite.getDirection());
+			if (Math.abs(sprite.getDirection()) < 90) {
+				sprite.setDirection(180 - sprite.getDirection());
+			}
+
+			double newHeight = sprite.getCostume().getRelativeHeight();
+			yPos = Consts.MAX_REL_COORDINATES - (int) (newHeight / 2);
 
 		} else if (sprite.getYPosition() < -Consts.MAX_REL_COORDINATES + height / 2) {
 
-			sprite.setXYPosition(sprite.getXPosition(), -Consts.MAX_REL_COORDINATES + (int) Math.floor(height / 2));
-			sprite.setDirection(180 - sprite.getDirection());
+			if (Math.abs(sprite.getDirection()) > 90) {
+				sprite.setDirection(180 - sprite.getDirection());
+			}
+
+			double newHeight = sprite.getCostume().getRelativeHeight();
+			yPos = -Consts.MAX_REL_COORDINATES + (int) (newHeight / 2);
 		}
+
+		sprite.setXYPosition(xPos, yPos);
 	}
 
 	public Sprite getSprite() {

@@ -65,9 +65,6 @@ public class ImageEditing {
 
 	public static Bitmap rotateBitmap(Bitmap bitmap, float rotation, boolean recycleOldBm) {
 		Matrix matrix = new Matrix();
-		//		float centerX = (float) bitmap.getWidth() / 2;
-		//		float centerY = (float) bitmap.getHeight() / 2;
-		//		matrix.postRotate(rotation, centerX, centerY);
 		matrix.postRotate(rotation);
 
 		Bitmap newBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
