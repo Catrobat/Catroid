@@ -177,6 +177,7 @@
 	<string name="brick_broadcast_receive">Wenn ich empfange:</string>
 	<string name="brick_broadcast">Verschicke an alle:</string>
     <string name="brick_broadcast_wait">Verschicke und warte:</string>
+    <string name="brick_stop_all_sounds">Stoppe alle Sounds</string>
     
     <!-- defaulValues -->
     <string name="default_project_name">standardProjekt</string>
