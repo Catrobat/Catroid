@@ -66,7 +66,6 @@ public class SensorDialogTest extends ActivityInstrumentationTestCase2<ScriptAct
 		solo.clickOnButton(bluetoothScanButton);
 		solo.sleep(2000);
 		solo.clickOnButton(bluetoothExitButton);
-		solo.sleep(2000);
 
 	}
 
