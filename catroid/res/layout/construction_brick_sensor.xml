@@ -37,16 +37,31 @@
 		android:layout_width="match_parent"
 		android:background="@drawable/brick_violet" 
 		android:orientation="vertical">
-		
-	  <TextView
-			android:text="@string/sensor_main_adapter"
+		<LinearLayout
+			android:id="@+id/layout6"
+			android:layout_alignTop="@+id/analog"
 			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:layout_alignParentLeft="true"
-			android:layout_centerVertical="true"
-			android:textColor="@color/white"
-			android:textSize="25dip"
-			android:textStyle="bold" />
+			android:layout_width="fill_parent"
+			android:orientation="horizontal" android:baselineAligned="false" android:layout_weight="1">
+		
+		  <TextView
+				android:text="@string/sensor_main_adapter"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:layout_alignParentLeft="true"
+				android:layout_centerVertical="true"
+				android:textColor="@color/white"
+				android:textSize="25dip"
+				android:textStyle="bold"
+				android:layout_weight=".75" />
+			<Button
+				android:id="@+id/construction_brick_sensor_bluetooth_button"
+				android:text="B"
+				android:layout_height="45dip" 
+				android:layout_width="25dip"
+				android:layout_weight=".10" >
+			</Button>
+		</LinearLayout>
 		<LinearLayout
 					android:id="@+id/layout2"
 					android:layout_alignTop="@+id/analog"
@@ -67,7 +82,7 @@
 					android:id="@+id/construction_brick_sensor_digital_button"
 					android:text="D"
 					android:layout_height="45dip"
-					android:layout_width="25dip"
+					android:layout_width="50dip"
 					android:layout_marginLeft="64dip"
 					android:layout_weight=".10"
 				></Button>
@@ -76,15 +91,7 @@
 					android:id="@+id/construction_brick_sensor_analog_button"
 					android:text="A"
 					android:layout_height="45dip"
-					android:layout_width="25dip"
-					android:layout_weight=".10"
-				></Button>
-				
-				<Button
-					android:id="@+id/construction_brick_sensor_bluetooth_button"
-					android:text="B"
-					android:layout_height="45dip"
-					android:layout_width="25dip"
+					android:layout_width="50dip"
 					android:layout_weight=".10"
 				></Button>
 			</LinearLayout>

@@ -123,14 +123,21 @@
     <string name="new_script_dialog_default_script_name">scriptname</string>
     <string name="script_invalid">This scriptname is invalid</string>
     
-    <!-- Sensor Dialogs -->
+    <!-- Sensor Dialog Errors -->
     <string name="error_sensor_enter_analog_pin">You just have 0 to 5 PINs here so please a number from 0-5</string>
     <string name="error_sensor_enter_digital_pin">You just have 0 to 13 PINs here so please a number from 0-13</string>
     <string name="error_sensor_enter_analog_value">For this PIN you can just enter a value from 0.0 to 5.0</string>
     <string name="error_sensor_enter_digital_value">For this PIN you can just enter 1 for HIGH or 0 for LOW</string>
     <string name="error_no_bluetooth_devices_available">There are no bluetooth devices available</string>
-        
     
+    
+    <!-- Sensor Dialog Pin -->
+    <string name="dialog_pin_analog_text">Pls enter a Pin from 0 to 13.\n Remember these Pins are analog.</string>
+    
+    <!-- Bluetooth Dialog -->
+	<string name="dialog_bluetooth_available_devices">Available Devices</string>
+	
+	
 
     <!-- New sprite dialog -->
     <string name="new_sprite_dialog_default_sprite_name">spritename</string>
