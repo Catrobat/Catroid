@@ -37,8 +37,8 @@ public class IfOnEdgeBounceBrick implements Brick {
 
 	public void execute() {
 
-		double width = sprite.getCostume().getRelativeWidth();
-		double height = sprite.getCostume().getRelativeHeight();
+		double width = sprite.getCostume().getRelBoundingBoxWidth();
+		double height = sprite.getCostume().getRelBoudingBoxHeight();
 
 		if (sprite.getXPosition() < -Consts.MAX_REL_COORDINATES + width / 2) {
 
