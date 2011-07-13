@@ -259,17 +259,41 @@ public class SpriteTest extends AndroidTestCase {
 	public void testSetDirection() {
 		Sprite sprite = new Sprite("testSprite");
 
-		sprite.setDirection(90.);
-		assertEquals("Direction wrong set", 90., sprite.getDirection());
+		sprite.setDirection(90);
+		assertEquals("Direction wrong set", 90.0, sprite.getDirection(), 1e-3);
 
-		sprite.setDirection(450.);
-		assertEquals("Direction wrong set", 90., sprite.getDirection());
+		sprite.setDirection(360);
+		assertEquals("Direction wrong set", 0., sprite.getDirection(), 1e-3);
 
-		sprite.setDirection(-90.);
-		assertEquals("Direction wrong set", 270., sprite.getDirection());
+		sprite.setDirection(-360);
+		assertEquals("Direction wrong set", 0., sprite.getDirection(), 1e-3);
+
+		sprite.setDirection(540);
+		assertEquals("Direction wrong set", 180, sprite.getDirection(), 1e-3);
+
+		sprite.setDirection(-540);
+		assertEquals("Direction wrong set", 180, sprite.getDirection(), 1e-3);
+
+		sprite.setDirection(540.2);
+		assertEquals("Direction wrong set", -179.8, sprite.getDirection(), 1e-3);
+
+		sprite.setDirection(-540.2);
+		assertEquals("Direction wrong set", 179.8, sprite.getDirection(), 1e-3);
 
 		sprite.setDirection(-450.);
-		assertEquals("Direction wrong set", 270., sprite.getDirection());
+		assertEquals("Direction wrong set", -90., sprite.getDirection(), 1e-3);
+
+		sprite.setDirection(198.12);
+		assertEquals("Direction wrong set", -161.88, sprite.getDirection(), 1e-3);
+
+		sprite.setDirection(-73.123);
+		assertEquals("Direction wrong set", -73.123, sprite.getDirection(), 1e-3);
+
+		sprite.setDirection(-198.12);
+		assertEquals("Direction wrong set", 161.88, sprite.getDirection(), 1e-3);
+
+		sprite.setDirection(73.123);
+		assertEquals("Direction wrong set", 73.123, sprite.getDirection(), 1e-3);
 	}
 
 	public void compareTo() {
