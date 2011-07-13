@@ -36,9 +36,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.SoundData;
@@ -62,7 +62,7 @@ public class SoundActivity extends ListActivity {
 		sprite = ProjectManager.getInstance().getCurrentSprite();
 		soundData = new ArrayList<SoundData>();
 		ArrayList<SoundData> currentSounds = sprite.getSoundList();
-		soundActivityListAdapter = new SoundAdapter(this, R.layout.activity_soundlist_item, soundData);
+		soundActivityListAdapter = new SoundAdapter(this, R.layout.activity_sound_soundlist_item, soundData);
 		setListAdapter(soundActivityListAdapter);
 		getListView().setTextFilterEnabled(true);
 
@@ -97,71 +97,14 @@ public class SoundActivity extends ListActivity {
 		}
 	}
 
-	private void updateSoundAdapter(String title, String path) {
-		SoundData s = new SoundData();
-		s.setSoundName(title);
-		s.setSoundAbsolutePath(path);
-		soundData.add(s);
-		sprite.addToSoundList(s);
+	private void updateSoundAdapter(String title, String path, String fileName) {
+		SoundData newSoundData = new SoundData();
+		newSoundData.setSoundName(title);
+		newSoundData.setSoundAbsolutePath(path);
+		newSoundData.setSoundFileName(fileName);
+		soundData.add(newSoundData);
+		sprite.addToSoundList(newSoundData);
 		soundActivityListAdapter.notifyDataSetChanged();
-	}
-
-	private class SoundAdapter extends ArrayAdapter<SoundData> { //TODO: distingt class
-
-		private ArrayList<SoundData> items;
-
-		public SoundAdapter(final Context context, int textViewResourceId, ArrayList<SoundData> items) {
-			super(context, textViewResourceId, items);
-			this.items = items;
-		}
-
-		@Override
-		public View getView(final int position, View convView, ViewGroup parent) {
-
-			View convertView = convView;
-			if (convertView == null) {
-				LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				convertView = vi.inflate(R.layout.activity_soundlist_item, null);
-			}
-
-			final SoundData soundData = items.get(position);
-			if (soundData != null) {
-				ImageView soundImage = (ImageView) convertView.findViewById(R.id.sound_img);
-				soundImage.setImageResource(R.drawable.speaker);
-
-				TextView soundName = (TextView) convertView.findViewById(R.id.edit_sound_name);
-				soundName.setText(soundData.getSoundName()); //TODO change this to edittextfield
-
-				ImageButton playSound = (ImageButton) convertView.findViewById(R.id.play_button);
-				playSound.setOnClickListener(new View.OnClickListener() {
-					public void onClick(View v) {
-						SoundManager.getInstance().playSoundFile(soundData.getSoundAbsolutePath());
-						notifyDataSetChanged();
-					}
-				});
-
-				ImageButton stopSound = (ImageButton) convertView.findViewById(R.id.stop_button);
-				stopSound.setOnClickListener(new View.OnClickListener() {
-					public void onClick(View v) {
-						SoundManager.getInstance().stop();
-						notifyDataSetChanged();
-					}
-				});
-
-				ImageButton deleteSound = (ImageButton) convertView.findViewById(R.id.delete_button);
-				deleteSound.setOnClickListener(new View.OnClickListener() {
-					public void onClick(View v) {
-						items.remove(soundData);
-						sprite.removeSoundList(soundData);
-						//StorageHandler.getInstance().deleteFile(soundData.getSoundAbsolutePath()); //TODO this wont work I guess, check if everything is in filechecksumcontainer
-						notifyDataSetChanged();
-					}
-				});
-
-			}
-			return convertView;
-		}
-
 	}
 
 	@Override
@@ -185,13 +128,72 @@ public class SoundActivity extends ListActivity {
 					throw new IOException();
 				}
 				File soundFile = StorageHandler.getInstance().copySoundFile(audioPath);
-				String soundPath = soundFile.getName(); //TODO wrong name ...
+				String soundPath = soundFile.getAbsolutePath();
 				String soundTitle = soundFile.getName().substring(33);
-				updateSoundAdapter(soundTitle, soundPath);
+				String soundFileName = soundFile.getName();
+				updateSoundAdapter(soundTitle, soundPath, soundFileName);
 			} catch (IOException e) {
 				Utils.displayErrorMessage(this, this.getString(R.string.error_load_sound));
 			}
 
+		}
+	}
+
+	private class SoundAdapter extends ArrayAdapter<SoundData> { //TODO: distinct class
+
+		private ArrayList<SoundData> items;
+
+		public SoundAdapter(final Context context, int textViewResourceId, ArrayList<SoundData> items) {
+			super(context, textViewResourceId, items);
+			this.items = items;
+		}
+
+		@Override
+		public View getView(final int position, View convView, ViewGroup parent) {
+
+			View convertView = convView;
+			if (convertView == null) {
+				LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				convertView = vi.inflate(R.layout.activity_sound_soundlist_item, null);
+			}
+
+			final SoundData soundData = items.get(position);
+			if (soundData != null) {
+				ImageView soundImage = (ImageView) convertView.findViewById(R.id.sound_img);
+				soundImage.setImageResource(R.drawable.speaker);
+
+				EditText soundName = (EditText) convertView.findViewById(R.id.edit_sound_name);
+				soundName.setSelectAllOnFocus(true);
+				soundName.setText(soundData.getSoundName());
+
+				ImageButton playSound = (ImageButton) convertView.findViewById(R.id.play_button);
+				playSound.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+						SoundManager.getInstance().playSoundFile(soundData.getSoundAbsolutePath());
+						notifyDataSetChanged();
+					}
+				});
+
+				ImageButton stopSound = (ImageButton) convertView.findViewById(R.id.stop_button);
+				stopSound.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+						SoundManager.getInstance().stop();
+						notifyDataSetChanged();
+					}
+				});
+
+				ImageButton deleteSound = (ImageButton) convertView.findViewById(R.id.delete_button);
+				deleteSound.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+						items.remove(soundData);
+						sprite.removeSoundList(soundData);
+						StorageHandler.getInstance().deleteFile(soundData.getSoundAbsolutePath());
+						notifyDataSetChanged();
+					}
+				});
+
+			}
+			return convertView;
 		}
 	}
 }

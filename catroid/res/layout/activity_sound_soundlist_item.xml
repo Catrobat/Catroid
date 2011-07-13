@@ -19,11 +19,18 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
 
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 android:orientation="horizontal"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 >
+
+	<!-- Dummy item to prevent AutoCompleteTextView from receiving focus -->
+	<LinearLayout
+    	android:focusable="true" android:focusableInTouchMode="true"
+    	android:layout_width="0px" android:layout_height="0px"/>
+        
 	<ImageView
 		android:id="@+id/sound_img"
 		android:layout_width="80dp" 
@@ -32,15 +39,17 @@ android:layout_height="match_parent"
 		android:orientation="vertical"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content">
-
-		<TextView 
+		
+		<EditText 
 			android:text="EditText" 
 			android:id="@+id/edit_sound_name" 
 			android:layout_width="match_parent"
 			android:paddingLeft="10dp"
 			android:textSize="16sp" 
 			android:layout_height="50dip" 
-			android:gravity="center_vertical"/>
+			android:gravity="center_vertical"
+			android:nextFocusUp="@+id/edit_sound_name" 
+			android:nextFocusLeft="@+id/edit_sound_name"/>
 
 		<LinearLayout 
 			android:id="@+id/linearLayout1" 
