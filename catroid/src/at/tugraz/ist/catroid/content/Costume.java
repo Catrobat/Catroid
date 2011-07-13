@@ -38,8 +38,6 @@ public class Costume implements Serializable {
 	private int actWidth;
 	private int origHeight;
 	private int origWidth;
-	private double boundingBoxWidth;
-	private double boundingBoxHeight;
 
 	@XStreamOmitField
 	private transient Bitmap costumeBitmap;
@@ -91,13 +89,7 @@ public class Costume implements Serializable {
 	}
 
 	public synchronized void rotateBy(double degrees) {
-
-		costumeBitmap = ImageEditing.getBitmap(imagePath, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
-		costumeBitmap = ImageEditing.scaleBitmap(costumeBitmap, actWidth, actHeight, true);
-
 		costumeBitmap = ImageEditing.rotateBitmap(costumeBitmap, (float) degrees);
-		boundingBoxWidth = costumeBitmap.getWidth();
-		boundingBoxHeight = costumeBitmap.getHeight();
 	}
 
 	public String getImagePath() {
@@ -130,12 +122,12 @@ public class Costume implements Serializable {
 		return new Pair<Integer, Integer>(actWidth, actHeight);
 	}
 
-	public double getRelBoundingBoxWidth() {
-		return 2. * Consts.MAX_REL_COORDINATES / Values.SCREEN_WIDTH * actWidth;
+	public double getRelativeWidth() {
+		return 2. * Consts.MAX_REL_COORDINATES / Values.SCREEN_WIDTH * costumeBitmap.getWidth();
 	}
 
-	public double getRelBoudingBoxHeight() {
-		return 2. * Consts.MAX_REL_COORDINATES / Values.SCREEN_HEIGHT * actHeight;
+	public double getRelativeHeight() {
+		return 2. * Consts.MAX_REL_COORDINATES / Values.SCREEN_HEIGHT * costumeBitmap.getHeight();
 	}
 
 	private synchronized void setPositionToSpriteCenter() {
