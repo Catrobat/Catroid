@@ -20,15 +20,20 @@
 package at.tugraz.ist.catroid.ui;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,9 +44,6 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.io.StorageHandler;
-import at.tugraz.ist.catroid.lego.BTCommunicator;
-import at.tugraz.ist.catroid.lego.BTConnectable;
-import at.tugraz.ist.catroid.lego.DeviceListActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.dialogs.AboutDialog;
 import at.tugraz.ist.catroid.ui.dialogs.LoadProjectDialog;
@@ -71,6 +73,10 @@ public class MainMenuActivity extends Activity implements BTConnectable {
 	private ProgressDialog connectingProgressDialog;
 	private boolean pairing;
 	private Handler btcHandler;
+	private Toast reusableToast;
+	private List<String> programList;
+	private boolean btErrorPending = false;
+	private Activity thisActivity;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -228,7 +234,10 @@ public class MainMenuActivity extends Activity implements BTConnectable {
 
 	public void disconnectBT() {
 		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-		mBluetoothAdapter.disable();
+		if (mBluetoothAdapter.isEnabled()) {
+			mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+			mBluetoothAdapter.disable();
+		}
 		Toast.makeText(this, "bluetooth disabled", Toast.LENGTH_LONG).show();
 		connected = false;
 		updateMenu();
@@ -289,18 +298,24 @@ public class MainMenuActivity extends Activity implements BTConnectable {
 	}
 
 	private void startBTCommunicator(String mac_address) {
+		Log.i("sbt", "start startBTCommunicator");
 		connected = false;
+		Log.i("sbt", "start startBTCommunicator progressdialog");
 		connectingProgressDialog = ProgressDialog.show(this, "", getResources().getString(
 				R.string.connecting_please_wait), true);
-
+		Log.i("sbt", "start startBTCommunicator after progressdialog");
 		if (myBTCommunicator != null) {
 			try {
+				Log.i("sbt", "myBTCommunicator.destroyNXTconnection()");
 				myBTCommunicator.destroyNXTconnection();
 			} catch (IOException e) {
 			}
 		}
+		Log.i("sbt", "start createBTCommunicator()");
 		createBTCommunicator();
+		Log.i("sbt", "finish createBTCommunicator()");
 		myBTCommunicator.setMACAddress(mac_address);
+		Log.i("sbt", "setMACAddress(mac_address)");
 		myBTCommunicator.start();
 		//updateButtonsAndMenu();
 	}
@@ -314,16 +329,141 @@ public class MainMenuActivity extends Activity implements BTConnectable {
 		btcHandler = myBTCommunicator.getHandler();
 	}
 
-	final Handler myHandler = new Handler();
+	/**
+	 * Sends the message via the BTCommuncator to the robot.
+	 * 
+	 * @param delay
+	 *            time to wait before sending the message.
+	 * @param message
+	 *            the message type (as defined in BTCommucator)
+	 * @param String
+	 *            a String parameter
+	 */
+	void sendBTCmessage(int delay, int message, String name) {
+		Bundle myBundle = new Bundle();
+		myBundle.putInt("message", message);
+		myBundle.putString("name", name);
+		Message myMessage = myHandler.obtainMessage();
+		myMessage.setData(myBundle);
+
+		if (delay == 0) {
+			btcHandler.sendMessage(myMessage);
+		} else {
+			btcHandler.sendMessageDelayed(myMessage, delay);
+		}
+	}
+
+	/**
+	 * Sends the message via the BTCommuncator to the robot.
+	 * 
+	 * @param delay
+	 *            time to wait before sending the message.
+	 * @param message
+	 *            the message type (as defined in BTCommucator)
+	 * @param value1
+	 *            first parameter
+	 * @param value2
+	 *            second parameter
+	 */
+	void sendBTCmessage(int delay, int message, int value1, int value2) {
+		Bundle myBundle = new Bundle();
+		myBundle.putInt("message", message);
+		myBundle.putInt("value1", value1);
+		myBundle.putInt("value2", value2);
+		Message myMessage = myHandler.obtainMessage();
+		myMessage.setData(myBundle);
+
+		if (delay == 0) {
+			btcHandler.sendMessage(myMessage);
+		} else {
+			btcHandler.sendMessageDelayed(myMessage, delay);
+		}
+	}
+
+	/**
+	 * Sends a message for disconnecting to the communication thread.
+	 */
+	public void destroyBTCommunicator() {
+
+		if (myBTCommunicator != null) {
+			sendBTCmessage(BTCommunicator.NO_DELAY, BTCommunicator.DISCONNECT, 0, 0);
+			myBTCommunicator = null;
+		}
+
+		connected = false;
+		//updateButtonsAndMenu();
+	}
+
+	/**
+	 * Receive messages from the BTCommunicator
+	 */
+	final Handler myHandler = new Handler() {
+		@Override
+		public void handleMessage(Message myMessage) {
+			switch (myMessage.getData().getInt("message")) {
+
+				case BTCommunicator.STATE_CONNECTED:
+					connected = true;
+					programList = new ArrayList<String>();
+					connectingProgressDialog.dismiss();
+					sendBTCmessage(BTCommunicator.NO_DELAY, BTCommunicator.GET_FIRMWARE_VERSION, 0, 0);
+					break;
+				//				case BTCommunicator.MOTOR_STATE:
+				//
+				//					if (myBTCommunicator != null) {
+				//						byte[] motorMessage = myBTCommunicator.getReturnMessage();
+				//						int position = byteToInt(motorMessage[21]) + (byteToInt(motorMessage[22]) << 8)
+				//								+ (byteToInt(motorMessage[23]) << 16) + (byteToInt(motorMessage[24]) << 24);
+				//						showToast(getResources().getString(R.string.current_position) + position, Toast.LENGTH_SHORT);
+				//					}
+				//
+				//					break;
+
+				case BTCommunicator.STATE_CONNECTERROR_PAIRING:
+					connectingProgressDialog.dismiss();
+					destroyBTCommunicator();
+					break;
+
+				case BTCommunicator.STATE_CONNECTERROR:
+					connectingProgressDialog.dismiss();
+				case BTCommunicator.STATE_RECEIVEERROR:
+				case BTCommunicator.STATE_SENDERROR:
+
+					destroyBTCommunicator();
+					if (btErrorPending == false) {
+						btErrorPending = true;
+						// inform the user of the error with an AlertDialog
+						AlertDialog.Builder builder = new AlertDialog.Builder(thisActivity);
+						builder.setTitle(getResources().getString(R.string.bt_error_dialog_title)).setMessage(
+								getResources().getString(R.string.bt_error_dialog_message)).setCancelable(false)
+								.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+									//why not ovverride
+									//@Override
+									public void onClick(DialogInterface dialog, int id) {
+										btErrorPending = false;
+										dialog.cancel();
+										selectNXT();
+									}
+								});
+						builder.create().show();
+					}
+
+					break;
+
+			}
+		}
+	};
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		Log.i("mainmenu", "start onActivityResult");
 		switch (requestCode) {
 			case REQUEST_CONNECT_DEVICE:
 
 				// When DeviceListActivity returns with a device to connect
 				if (resultCode == Activity.RESULT_OK) {
 					// Get the device MAC address and start a new bt communicator thread
+					Log.i("mainmenu", "resultCode == Activity.RESULT_OK");
 					String address = data.getExtras().getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
 					pairing = data.getExtras().getBoolean(DeviceListActivity.PAIRING);
 					startBTCommunicator(address);
@@ -333,7 +473,7 @@ public class MainMenuActivity extends Activity implements BTConnectable {
 
 			case REQUEST_ENABLE_BT:
 				if (resultCode == Activity.RESULT_OK) {
-					//Log.i("bt", "resultCode is RESULT_OK " + resultCode);
+					Log.i("mainmenu", "resultCode is RESULT_OK " + resultCode);
 					Toast.makeText(this, "Bluetooth enablad", Toast.LENGTH_LONG).show();
 					connected = true;
 					updateMenu();
@@ -351,7 +491,7 @@ public class MainMenuActivity extends Activity implements BTConnectable {
 
 	void selectNXT() {
 		Intent serverIntent = new Intent(this, DeviceListActivity.class);
-		startActivity(serverIntent);
+		startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
 	}
 
 	/*
@@ -364,4 +504,41 @@ public class MainMenuActivity extends Activity implements BTConnectable {
 		return pairing;
 	}
 
+	public void actionButtonPressed() {
+		//		Log.i("btc", " begin actionButtonPressed main menu");
+		//		new Thread(new Runnable() {
+		//
+		//			public void run() {
+		//
+		//				if (myBTCommunicator != null) {
+		//
+		//					// MOTOR ACTION: forth an back
+		//					// other robots: 180 degrees forth and back
+		//					sendBTCmessage(BTCommunicator.NO_DELAY, BTCommunicator.MOTOR_A, 75 * 1, 0);
+		//					sendBTCmessage(500, BTCommunicator.MOTOR_A, -75 * 1, 0);
+		//					sendBTCmessage(1000, BTCommunicator.MOTOR_A, 0, 0);
+		//
+		//				}
+		//
+		//			}
+		//		}).start();
+		//		if (myBTCommunicator != null) {
+		//
+		//			// MOTOR ACTION: forth an back
+		//			// other robots: 180 degrees forth and back
+		sendBTCmessage(1000, BTCommunicator.MOTOR_A, 0, 0);
+		//			sendBTCmessage(500, BTCommunicator.MOTOR_A, -75 * 1, 0);
+		//			sendBTCmessage(1000, BTCommunicator.MOTOR_A, 0, 0);
+
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+		if (mBluetoothAdapter.isEnabled()) {
+			mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+			mBluetoothAdapter.disable();
+		}
+	}
 }

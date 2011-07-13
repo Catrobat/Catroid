@@ -17,7 +17,7 @@
  *   along with MINDdroid.  If not, see <http://www.gnu.org/licenses/>.
 **/
 
-package at.tugraz.ist.catroid.lego;
+package at.tugraz.ist.catroid.ui;
 
 
 /**
