@@ -1,22 +1,26 @@
 /**
- *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
- *  (<http://code.google.com/p/catroid/wiki/Credits>)
+ *   (Changes from original are) Copyright 2010 Guenther Hoelzl, Shawn Brown
  *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ *   This file is part of MINDdroid.
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *   MINDdroid is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-package at.tugraz.ist.catroid.lego;
+ *   MINDdroid is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with MINDdroid.  If not, see <http://www.gnu.org/licenses/>.
+ *   
+ * 
+ * (original work is) Copyright (C) 2009 The Android Open Source Project
+ **/
+
+package at.tugraz.ist.catroid.ui;
 
 import java.util.Set;
 
@@ -40,11 +44,13 @@ import android.widget.AdapterView.OnItemClickListener;
 import at.tugraz.ist.catroid.R;
 
 /**
- * @author oussama
- * 
+ * This Activity appears as a dialog. It lists any paired devices and
+ * devices detected in the area after discovery. When a device is chosen
+ * by the user, the MAC address of the device is sent back to the parent
+ * Activity in the result Intent.
  */
 public class DeviceListActivity extends Activity {
-	public static final String PAIRING = "pairing";
+	static final String PAIRING = "pairing";
 
 	// Return Intent extra
 	public static String DEVICE_NAME_AND_ADDRESS = "device_infos";
@@ -54,9 +60,6 @@ public class DeviceListActivity extends Activity {
 	private BluetoothAdapter mBtAdapter;
 	private ArrayAdapter<String> mPairedDevicesArrayAdapter;
 	private ArrayAdapter<String> mNewDevicesArrayAdapter;
-
-	//LEGO ID
-	private static final String OUI_LEGO = "00:16:53";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -113,9 +116,8 @@ public class DeviceListActivity extends Activity {
 		if (pairedDevices.size() > 0) {
 			findViewById(R.id.title_paired_devices).setVisibility(View.VISIBLE);
 			for (BluetoothDevice device : pairedDevices) {
-				mPairedDevicesArrayAdapter.add(device.getName() + "-" + device.getAddress());
 				// only add LEGO devices
-				if (device.getAddress().startsWith(OUI_LEGO)) {
+				if (device.getAddress().startsWith(BTCommunicator.OUI_LEGO)) {
 					legoDevicesFound = true;
 					mPairedDevicesArrayAdapter.add(device.getName() + "-" + device.getAddress());
 				}

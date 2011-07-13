@@ -17,7 +17,7 @@
  *   along with MINDdroid.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-package at.tugraz.ist.catroid.lego;
+package at.tugraz.ist.catroid.ui;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,6 +32,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import at.tugraz.ist.catroid.R;
 
 /**
@@ -86,6 +87,9 @@ public class BTCommunicator extends Thread {
 	private BTConnectable myOwner;
 
 	private byte[] returnMessage;
+	private MainMenuActivity m;
+
+	//
 
 	public BTCommunicator(BTConnectable myOwner, Handler uiHandler, BluetoothAdapter btAdapter, Resources resources) {
 		this.myOwner = myOwner;
@@ -120,16 +124,22 @@ public class BTCommunicator extends Thread {
 	@Override
 	public void run() {
 
+		Log.i("btc", "begin run btc");
 		try {
+			Log.i("btc", "begin createNXTconnection()");
 			createNXTconnection();
+			Log.i("btc", "end createNXTconnection()");
 		} catch (IOException e) {
 		}
-
+		//m.actionButtonPressed();
 		while (connected) {
+
 			try {
 				returnMessage = receiveMessage();
 				if ((returnMessage.length >= 2)
 						&& ((returnMessage[0] == LCPMessage.REPLY_COMMAND) || (returnMessage[0] == LCPMessage.DIRECT_COMMAND_NOREPLY))) {
+					Log.i("bt", "run");
+
 					dispatchMessage(returnMessage);
 				}
 
@@ -246,6 +256,7 @@ public class BTCommunicator extends Thread {
 	 *            , the message as a byte array
 	 */
 	public void sendMessage(byte[] message) throws IOException {
+		Log.i("bt", "sendmessage");
 		if (nxtOutputStream == null) {
 			throw new IOException();
 		}
@@ -352,6 +363,7 @@ public class BTCommunicator extends Thread {
 	}
 
 	private void doAction(int actionNr) {
+		Log.i("bt", "action button");
 		byte[] message = LCPMessage.getActionMessage(actionNr);
 		sendMessageAndState(message);
 	}
@@ -466,6 +478,7 @@ public class BTCommunicator extends Thread {
 					doBeep(myMessage.getData().getInt("value1"), myMessage.getData().getInt("value2"));
 					break;
 				case DO_ACTION:
+					Log.i("bt", "do action");
 					doAction(0);
 					break;
 				case READ_MOTOR_STATE:

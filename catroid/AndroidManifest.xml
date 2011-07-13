@@ -87,7 +87,7 @@
 					android:pathPrefix="/catroid/download/" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".lego.DeviceListActivity" android:screenOrientation="portrait" android:label="@string/select_device"
+		<activity android:name=".ui.DeviceListActivity" android:screenOrientation="portrait" android:label="@string/select_device"
 			android:theme="@android:style/Theme.Dialog"/>
 		
 	</application>

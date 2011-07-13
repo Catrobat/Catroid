@@ -205,6 +205,12 @@
     <string name="no_paired_nxt">No paired NXT robot found!</string>
     <string name="pairing_message">After pairing, press menu and connect.</string>
     <string name="problem_at_closing">Problem in closing the connection!</string>
+    <string name="bt_error_dialog_title">Bluetooth Error</string>    
+    <string name="bt_error_dialog_message">
+        Oh, no! It seems that your robot is not switched on. Please make sure that
+        your robot is on, has BlueTooth activated and then try again to connect.
+    </string>    
+    
     <!-- Error messages -->
     <string name="error_no_sd_card">
         Catroid requires an SD card in order to run, but none was found.\nPlease insert an SD card and try again.
