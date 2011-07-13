@@ -101,7 +101,6 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new ChangeXByBrick(sprite, 0));
 			prototypeBrickList.add(new ChangeYByBrick(sprite, 0));
 			prototypeBrickList.add(new SetCostumeBrick(sprite));
-			prototypeBrickList.add(new SensorBrick(sprite, 0, 0, 0.0, 0.0, null));
 			prototypeBrickList.add(new SetSizeToBrick(sprite, 100));
 			prototypeBrickList.add(new GoNStepsBackBrick(sprite, 1));
 			prototypeBrickList.add(new ComeToFrontBrick(sprite));
@@ -114,6 +113,7 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new GlideToBrick(sprite, 100, 100, 3000));
 			prototypeBrickList.add(new NoteBrick(sprite));
 			prototypeBrickList.add(new StopAllSoundsBrick(sprite));
+			prototypeBrickList.add(new SensorBrick(sprite, 0, 0, 0.0, 0.0, null));
 		}
 
 	}
