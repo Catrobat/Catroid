@@ -79,7 +79,6 @@ public class SensorBrick implements Brick, OnDismissListener {
 	}
 
 	public Sprite getSprite() {
-		// TODO Auto-generated method stub
 		return sprite;
 	}
 
@@ -134,7 +133,6 @@ public class SensorBrick implements Brick, OnDismissListener {
 
 		digitalButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				Log.d("TAG", "DIGITAL BUTTON");
 				type = DIGITAL;
 			}
