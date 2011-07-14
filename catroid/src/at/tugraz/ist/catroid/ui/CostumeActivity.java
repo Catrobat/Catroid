@@ -27,6 +27,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.DialogInterface.OnKeyListener;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -40,9 +41,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
@@ -58,7 +59,6 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public class CostumeActivity extends ListActivity {
 	private Sprite sprite;
-	//	private ListView listView;
 	private ArrayList<costumeData> costumeData;
 	private ArrayList<costumeData> currentCostume;
 	private costumeData costumetoEdit;
@@ -68,13 +68,13 @@ public class CostumeActivity extends ListActivity {
 	int column_index;
 	Intent intent = null;
 	// Declare our Views, so we can access them later
-	String filemanagerstring, selectedImagePath, imagePath, costume, costumeImage;
-	int counter, positiontoEdit;
+	String filemanagerstring, selectedImagePath, imagePath, costumeName, absolutePath, costume, costumeFormat,
+			costumeDisplayName;
+	int counter, positiontoEdit, splitAt, costumeId;
 	Cursor cursor;
 	@XStreamOmitField
 	private transient Bitmap thumbnail;
 	private String TAG = CostumeActivity.class.getSimpleName();
-
 	private static final int SELECT_IMAGE = 1;
 
 	private void initListeners() {
@@ -178,28 +178,31 @@ public class CostumeActivity extends ListActivity {
 					File outputFile = StorageHandler.getInstance().copyImage(
 							ProjectManager.getInstance().getCurrentProject().getName(), selectedImagePath, null);
 					if (outputFile != null) {
-						costumeImage = outputFile.getName();
+						absolutePath = outputFile.getName();
 						thumbnail = ImageEditing.getScaledBitmap(getAbsoluteImagePath(), Consts.THUMBNAIL_HEIGHT,
 								Consts.THUMBNAIL_WIDTH);
-						int length = costumeImage.length();
-						costume = costumeImage.substring(33);
-						costume = costumeImage.substring(33, length - 4);
-						String format = costumeImage.substring(length - 4, length);
-						costume = costume.concat("_" + 0) + format;
-						int counter = 0;
-						int count = costume.length();
-						String name = costume.substring(0, count - 6);
+						costume = absolutePath.substring(33);
+						int length = costume.length();
+						for (int i = length - 1; i > 0; i--) {
+							if (costume.charAt(i) == '.') {
+								splitAt = i;
+							}
+						}
+						costumeName = absolutePath.substring(33, splitAt + 33);
+						costumeFormat = costume.substring(splitAt);
+						costumeId = 0;
 						for (int i = 0; i < sprite.getCostumeList().size(); i++) {
-							if (name.equals(sprite.getCostumeList().get(i).getCostumeName().substring(0, count - 6))) {
-								if (counter < Integer.decode(sprite.getCostumeList().get(i).getCostumeName()
-										.substring(count - 5, count - 4))) {
-									counter = Integer.decode(sprite.getCostumeList().get(i).getCostumeName()
-											.substring(count - 5, count - 4));
+							if (costumeName.equals(sprite.getCostumeList().get(i).getCostumeName())) {
+								if (costumeId <= sprite.getCostumeList().get(i).getCostumeId()) {
+									costumeId = sprite.getCostumeList().get(i).getCostumeId();
 								}
 							}
 						}
-						counter = counter + 1;
-						costume = name.concat("_" + counter + format);
+
+						costumeId = costumeId + 1;
+
+						costumeDisplayName = costumeName.concat("_" + costumeId);
+
 						c_adapter.notifyDataSetChanged();
 					}
 				} catch (IOException e) {
@@ -211,15 +214,9 @@ public class CostumeActivity extends ListActivity {
 						getCostumes();
 					}
 				};
-				costumeData c = new costumeData();
-				c.setCostumeName(costume);
-				c.setCostumeImage(thumbnail);
-				c.setCostumeAbsoluteImagepath(costumeImage);
-				costumeData.add(c);
-				sprite.setCostumeList(c);
-				c_adapter.notifyDataSetChanged();
-				//				Thread thread = new Thread(null, viewCostumes, "MagentoBackground");
-				//				thread.start();
+
+				Thread thread = new Thread(null, viewCostumes, "MagentoBackground");
+				thread.start();
 
 			}
 		}
@@ -255,11 +252,14 @@ public class CostumeActivity extends ListActivity {
 
 	private void getCostumes() {
 		try {
-			//costumeData = new ArrayList<costumeData>();
+			costumeData = new ArrayList<costumeData>();
 			costumeData c = new costumeData();
-			c.setCostumeName(costume);
+			c.setCostumeName(costumeName);
 			c.setCostumeImage(thumbnail);
-			c.setCostumeAbsoluteImagepath(costumeImage);
+			c.setCostumeAbsoluteImagepath(absolutePath);
+			c.setCostumeFormat(costumeFormat);
+			c.setCostumeDisplayName(costumeDisplayName);
+			c.setCostumeId(costumeId);
 			costumeData.add(c);
 			sprite.setCostumeList(c);
 
@@ -272,7 +272,7 @@ public class CostumeActivity extends ListActivity {
 
 	private String getAbsoluteImagePath() {
 		return Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName()
-							+ Consts.IMAGE_DIRECTORY + "/" + costumeImage;
+				+ Consts.IMAGE_DIRECTORY + "/" + absolutePath;
 	}
 
 	private class CostumeAdapter extends ArrayAdapter<costumeData> {
@@ -300,29 +300,29 @@ public class CostumeActivity extends ListActivity {
 				copyCostume.setOnClickListener(new View.OnClickListener() {
 
 					public void onClick(View v) {
-						int counter = 0;
-						int count = c.getCostumeName().length();
-						String absolutePath = c.getCostumeAbsoluteImagepath();
-						String name = c.getCostumeName().substring(0, count - 6);
-						int length = c.getCostumeName().length();
-						String format = c.getCostumeName().substring(length - 4, length);
+						int costumeId = 0;
+						absolutePath = c.getCostumeAbsoluteImagepath();
+						String costumeName = c.getCostumeName();
+						String costumeFormat = c.getCostumeFormat();
+
 						for (int i = 0; i < sprite.getCostumeList().size(); i++) {
-							if (name.equals(sprite.getCostumeList().get(i).getCostumeName().substring(0, count - 6))) {
-								if (counter < Integer.decode(sprite.getCostumeList().get(i).getCostumeName()
-										.substring(count - 5, count - 4))) {
-									counter = Integer.decode(sprite.getCostumeList().get(i).getCostumeName()
-											.substring(count - 5, count - 4));
+							if (costumeName.equals(sprite.getCostumeList().get(i).getCostumeName())) {
+								if (costumeId <= sprite.getCostumeList().get(i).getCostumeId()) {
+									costumeId = sprite.getCostumeList().get(i).getCostumeId();
 								}
 							}
 						}
-						counter = counter + 1;
-						costume = name.concat("_" + counter + format);
 
+						costumeId = costumeId + 1;
+
+						String costumeDisplayName = costumeName.concat("_" + costumeId);
 						try {
 							File copyFile = StorageHandler.getInstance().copyImage(
-									ProjectManager.getInstance().getCurrentProject().getName(), absolutePath, costume);
+									ProjectManager.getInstance().getCurrentProject().getName(),
+									absolutePath, costumeDisplayName + costumeFormat);
+
 							if (copyFile != null) {
-								costumeImage = copyFile.getName();
+								absolutePath = copyFile.getName();
 								thumbnail = ImageEditing.getScaledBitmap(getAbsoluteImagePath(),
 										Consts.THUMBNAIL_HEIGHT, Consts.THUMBNAIL_WIDTH);
 							}
@@ -330,9 +330,12 @@ public class CostumeActivity extends ListActivity {
 							e.printStackTrace();
 						}
 						costumeData c = new costumeData();
-						c.setCostumeName(costume);
+						c.setCostumeName(costumeName);
 						c.setCostumeImage(thumbnail);
-						c.setCostumeAbsoluteImagepath(costumeImage);
+						c.setCostumeAbsoluteImagepath(absolutePath);
+						c.setCostumeFormat(costumeFormat);
+						c.setCostumeDisplayName(costumeDisplayName);
+						c.setCostumeId(costumeId);
 						items.add(c);
 						sprite.setCostumeList(c);
 						notifyDataSetChanged();
@@ -342,32 +345,70 @@ public class CostumeActivity extends ListActivity {
 				ImageButton deleteCostume = (ImageButton) v.findViewById(R.id.delete_button);
 				deleteCostume.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
-						items.remove(c);
-						sprite.removeCostumeList(c);
-						notifyDataSetChanged();
+						if (costumeData.size() > 1) {
+							items.remove(c);
+							sprite.removeCostumeList(c);
+							notifyDataSetChanged();
+						}
 					}
 				});
 
-				TextView editName = (TextView) v.findViewById(R.id.costume_edit_name);
+				final EditText editName = (EditText) v.findViewById(R.id.costume_edit_name);
+				final Button done = (Button) v.findViewById(R.id.rename_costume);
+				done.setVisibility(View.INVISIBLE);
 				if (editName != null) {
-					editName.setText(c.getCostumeName());
+					editName.setText(c.getCostumeDisplayName());
 				}
+
 				editName.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
-						costumetoEdit = costumeData.get(position);
-						CostumeActivity.this.removeDialog(9);
-						showDialog(Consts.DIALOG_RENAME_COSTUME);
+						done.setVisibility(View.VISIBLE);
 					}
+				});
 
+				done.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+						String nameToEdit = ((EditText) findViewById(R.id.costume_edit_name)).getText()
+								.toString();
+						if (nameToEdit.equalsIgnoreCase(c.getCostumeName())) {
+							editName.setText(nameToEdit);
+							notifyDataSetChanged();
+							return;
+						}
+						if (nameToEdit != null && !nameToEdit.equalsIgnoreCase("")) {
+							for (costumeData tempCostume : ProjectManager.getInstance().getCurrentSprite()
+									.getCostumeList()) {
+								if (tempCostume.getCostumeName().equalsIgnoreCase(nameToEdit)) {
+									//Utils.displayErrorMessage(costumeActivity,costumeActivity.getString(R.string.costumename_already_exists));
+									return;
+								}
+							}
+							c.setCostumeName(nameToEdit);
+							c.setCostumeDisplayName(nameToEdit);
+							editName.setText(nameToEdit);
+							notifyDataSetChanged();
+						} else {
+							//Utils.displayErrorMessage(this,this.getString(R.string.costumename_invalid));
+							return;
+						}
+						notifyDataSetChanged();
+					}
 				});
 
 				ImageView costumeImage = (ImageView) v.findViewById(R.id.costume_image);
 				if (costumeImage != null) {
 					costumeImage.setImageBitmap(c.getCostumeImage());
 				}
-
 			}
 			return v;
+		}
+
+		/**
+		 * @param onKeyListener
+		 */
+		private void setOnKeyListener(OnKeyListener onKeyListener) {
+			// TODO Auto-generated method stub
+
 		}
 
 	}

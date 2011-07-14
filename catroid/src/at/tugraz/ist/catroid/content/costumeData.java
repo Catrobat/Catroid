@@ -1,5 +1,4 @@
-/**
- *  Catroid: An on-device graphical programming language for Android devices
+/*  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010  Catroid development team 
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
@@ -29,9 +28,27 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
  * 
  */
 public class costumeData {
-	private String costumeName, costumeAbsoluteImagepath;
+	private String costumeName, costumeFormat, costumeAbsoluteImagepath, costumeDisplayName;
 	@XStreamOmitField
 	private transient Bitmap costumeThumbnail;
+	private int costumeId;
+	private String TAG = costumeData.class.getSimpleName();
+
+	public int getCostumeId() {
+		return costumeId;
+	}
+
+	public void setCostumeId(int costumeId) {
+		this.costumeId = costumeId;
+	}
+
+	public String getCostumeDisplayName() {
+		return costumeDisplayName;
+	}
+
+	public void setCostumeDisplayName(String costumeDisplayName) {
+		this.costumeDisplayName = costumeDisplayName;
+	}
 
 	public String getCostumeName() {
 		return costumeName;
@@ -39,6 +56,14 @@ public class costumeData {
 
 	public void setCostumeName(String costumeName) {
 		this.costumeName = costumeName;
+	}
+
+	public String getCostumeFormat() {
+		return costumeFormat;
+	}
+
+	public void setCostumeFormat(String costumeFormat) {
+		this.costumeFormat = costumeFormat;
 	}
 
 	public Bitmap getCostumeImage() {

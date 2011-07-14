@@ -25,11 +25,6 @@ android:orientation="horizontal"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 >
-
-	<!-- Dummy item to prevent AutoCompleteTextView from receiving focus -->
-	<LinearLayout
-    	android:focusable="true" android:focusableInTouchMode="true"
-    	android:layout_width="0px" android:layout_height="0px"/>
         
 	<ImageView
 		android:id="@+id/sound_img"
@@ -49,7 +44,9 @@ android:layout_height="match_parent"
 			android:layout_height="50dip" 
 			android:gravity="center_vertical"
 			android:nextFocusUp="@+id/edit_sound_name" 
-			android:nextFocusLeft="@+id/edit_sound_name"/>
+			android:nextFocusLeft="@+id/edit_sound_name"
+			android:selectAllOnFocus="true"
+			android:onClick="handleOnClickSoundNameEditText"/>
 
 		<LinearLayout 
 			android:id="@+id/linearLayout1" 
