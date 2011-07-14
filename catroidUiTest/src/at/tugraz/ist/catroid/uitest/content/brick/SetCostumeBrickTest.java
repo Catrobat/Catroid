@@ -58,7 +58,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		OnClickListener listener = new OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent(getInstrumentation().getContext(),
-										at.tugraz.ist.catroid.uitest.mockups.MockGalleryActivity.class);
+						at.tugraz.ist.catroid.uitest.mockups.MockGalleryActivity.class);
 				//				Intent intent = new Intent();
 				//				intent.setAction(Intent.ACTION_PICK);
 				//				intent.setPackage("at.tugraz.ist.catroid.uitest");
@@ -90,11 +90,11 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		solo.sleep(2000);
 
 		Bitmap bitmapToTest = setCostumeImageView.getDrawingCache();
-		assertNotNull(bitmapToTest);
+		assertNotNull("Bitmap of costume ImageView is null", bitmapToTest);
 
 		Bitmap originalBitmap = BitmapFactory.decodeResource(getInstrumentation().getContext().getResources(),
 				at.tugraz.ist.catroid.uitest.R.drawable.catroid_sunglasses);
-		assertNotNull(originalBitmap);
+		assertNotNull("Decoding the costume resource failed", originalBitmap);
 
 		//		assertEquals("Wrong width in Bitmap.", originalBitmap.getWidth(), bitmapToTest.getWidth());
 		//		assertEquals("Wrong height in Bitmap.", originalBitmap.getHeight(), bitmapToTest.getHeight());
