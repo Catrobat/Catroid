@@ -27,14 +27,20 @@ public class TurnRightBrick implements Brick {
 
 	private static final long serialVersionUID = 1L;
 
-	public void execute() {
-		// TODO Auto-generated method stub
+	private Sprite sprite;
 
+	private double degrees;
+
+	public TurnRightBrick(Sprite sprite, double degrees) {
+		this.sprite = sprite;
+	}
+
+	public void execute() {
+		sprite.setDirection(sprite.getDirection() + degrees);
 	}
 
 	public Sprite getSprite() {
-		// TODO Auto-generated method stub
-		return null;
+		return sprite;
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
@@ -49,8 +55,7 @@ public class TurnRightBrick implements Brick {
 
 	@Override
 	public Brick clone() {
-		return null;
-
+		return new TurnRightBrick(sprite, degrees);
 	}
 
 }
