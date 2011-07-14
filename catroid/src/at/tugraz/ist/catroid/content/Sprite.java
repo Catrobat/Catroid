@@ -223,9 +223,8 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		toDraw = true;
 	}
 
-	public void setDirection(double direction) {
+	public synchronized void setDirection(double direction) {
 
-		double oldDirection = this.direction;
 		int floored = (int) Math.floor(direction);
 
 		int mod = ((floored + 180) % 360);
@@ -241,7 +240,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 			this.direction = 180;
 		}
 
-		costume.rotateBy(oldDirection - this.direction);
+		costume.rotateTo(this.direction);
 	}
 
 	public synchronized void show() {
