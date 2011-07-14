@@ -33,7 +33,7 @@ import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class ProjectManager {
-
+	//
 	private Sprite currentSprite;
 	private Project project;
 	private static ProjectManager instance;
