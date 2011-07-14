@@ -156,6 +156,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	public void testMainMenuButton() {
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
+
 		List<ImageButton> btnList = solo.getCurrentImageButtons();
 		for (int i = 0; i < btnList.size(); i++) {
 			ImageButton btn = btnList.get(i);
@@ -163,12 +164,13 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 				solo.clickOnImageButton(i);
 			}
 		}
+
 		solo.sleep(50);
+
 		btnList = solo.getCurrentImageButtons();
 		boolean buttonFound = false;
-		for (int i = 0; i < btnList.size(); i++) {
-			ImageButton btn = btnList.get(i);
-			if (btn.getId() == R.id.btn_home) {
+		for (ImageButton button : btnList) {
+			if (button.getId() == R.id.btn_home) {
 				buttonFound = true;
 			}
 		}
@@ -186,7 +188,9 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.setActivityOrientation(Solo.PORTRAIT);
+
 		solo.sleep(500);
+
 		addNewSprite(spriteName);
 		solo.clickLongOnText(spriteName);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
