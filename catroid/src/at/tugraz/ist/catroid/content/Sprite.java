@@ -26,6 +26,7 @@ import android.graphics.Color;
 import android.util.Log;
 import android.util.Pair;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.SoundData;
 
 public class Sprite implements Serializable, Comparable<Sprite> {
 	private static final long serialVersionUID = 1L;
