@@ -69,7 +69,7 @@
 		>
 		</TextView>
 		<EditText
-			android:id="@+id/InputValueEditText"
+			android:id="@+id/construction_brick_turn_left_edit_text"
 			android:layout_height="wrap_content"
 			android:layout_width="75dp"
 			android:layout_centerVertical="true"
@@ -80,7 +80,7 @@
 			android:focusableInTouchMode="false"
 			android:freezesText="false"
 			android:gravity="right"
-			android:inputType="number|numberDecimal"
+			android:inputType="number|numberDecimal|numberSigned"
 			android:maxLength="5"
 			android:maxLines="1"
 		>

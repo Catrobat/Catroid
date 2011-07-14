@@ -77,6 +77,7 @@ public class Costume implements Serializable {
 		if (newHeight > actHeight || newWidth > actWidth) {
 			//costumeBitmap.recycle();
 			costumeBitmap = ImageEditing.getBitmap(imagePath, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
+			costumeBitmap = ImageEditing.rotateBitmap(costumeBitmap, (float) sprite.getDirection());
 		}
 
 		costumeBitmap = ImageEditing.scaleBitmap(costumeBitmap, newWidth, newHeight, true);
@@ -88,12 +89,16 @@ public class Costume implements Serializable {
 		return;
 	}
 
-	public synchronized void rotateBy(double degrees) {
+	public synchronized void rotateTo(double degrees) {
 		if (costumeBitmap == null || imagePath == null) {
 			return;
 		}
 
-		costumeBitmap = ImageEditing.rotateBitmap(costumeBitmap, (float) degrees);
+		costumeBitmap = ImageEditing.getBitmap(imagePath, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
+		costumeBitmap = ImageEditing.scaleBitmap(costumeBitmap, actWidth, actHeight, true);
+
+		costumeBitmap = ImageEditing.rotateBitmap(costumeBitmap, (float) (90 - degrees));
+		setDrawPosition();
 	}
 
 	public String getImagePath() {
