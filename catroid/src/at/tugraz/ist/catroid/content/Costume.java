@@ -74,13 +74,10 @@ public class Costume implements Serializable {
 
 		setPositionToSpriteTopLeft();
 
-		if (newHeight > actHeight || newWidth > actWidth) {
-			//costumeBitmap.recycle();
-			costumeBitmap = ImageEditing.getBitmap(imagePath, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
-			costumeBitmap = ImageEditing.rotateBitmap(costumeBitmap, (float) sprite.getDirection());
-		}
-
+		costumeBitmap = ImageEditing.getBitmap(imagePath, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
 		costumeBitmap = ImageEditing.scaleBitmap(costumeBitmap, newWidth, newHeight, true);
+		costumeBitmap = ImageEditing.rotateBitmap(costumeBitmap, (float) (90 - sprite.getDirection()));
+
 		actWidth = newWidth;
 		actHeight = newHeight;
 
