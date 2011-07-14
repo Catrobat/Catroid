@@ -138,7 +138,7 @@ public class UiTestUtils {
 			testScript.addBrick(brick);
 		}
 
-		firstSprite.getScriptList().add(testScript);
+		firstSprite.addScript(testScript);
 
 		project.addSprite(firstSprite);
 
@@ -154,7 +154,7 @@ public class UiTestUtils {
 		Sprite firstSprite = new Sprite("cat");
 		Script testScript = new StartScript("testscript", firstSprite);
 
-		firstSprite.getScriptList().add(testScript);
+		firstSprite.addScript(testScript);
 		project.addSprite(firstSprite);
 
 		projectManager.setProject(project);
