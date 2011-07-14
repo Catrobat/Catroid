@@ -200,7 +200,8 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		intent.setData(Uri.parse(downloadUrl));
 		launchActivityWithIntent("at.tugraz.ist.catroid", DownloadActivity.class, intent);
 
-		assertTrue("Download takes to long.", solo.waitForActivity("MainMenuActivity", 10000));
+		boolean waitResult = solo.waitForActivity("MainMenuActivity", 10000);
+		assertTrue("Download takes too long.", waitResult);
 		assertNotNull("Download not successful.",
 				solo.searchText(getActivity().getString(R.string.success_project_download)));
 

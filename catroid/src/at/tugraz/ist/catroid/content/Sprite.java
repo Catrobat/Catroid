@@ -21,6 +21,7 @@ package at.tugraz.ist.catroid.content;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 import android.graphics.Color;
 import android.util.Pair;
@@ -36,8 +37,10 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	private transient boolean isVisible;
 	private transient boolean toDraw;
 	private List<Script> scriptList;
-	private transient List<Thread> threadList;
 	private transient Costume costume;
+
+	public transient volatile boolean isPaused;
+	public transient volatile boolean isFinished;
 
 	private Object readResolve() {
 		init();
@@ -48,11 +51,12 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		zPosition = 0;
 		size = 100.0;
 		isVisible = true;
-		threadList = new ArrayList<Thread>();
 		costume = new Costume(this, null);
 		xPosition = 0;
 		yPosition = 0;
 		toDraw = false;
+		isPaused = false;
+		isFinished = false;
 	}
 
 	public Sprite(String name) {
@@ -86,7 +90,35 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 				script.run();
 			}
 		});
-		threadList.add(t);
+		t.start();
+	}
+
+	public void startScriptBroadcast(Script s, final CountDownLatch simultaneousStart) {
+		final Script script = s;
+		Thread t = new Thread(new Runnable() {
+			public void run() {
+				try {
+					simultaneousStart.await();
+				} catch (InterruptedException e) {
+				}
+				script.run();
+			}
+		});
+		t.start();
+	}
+
+	public void startScriptBroadcastWait(Script s, final CountDownLatch simultaneousStart, final CountDownLatch wait) {
+		final Script script = s;
+		Thread t = new Thread(new Runnable() {
+			public void run() {
+				try {
+					simultaneousStart.await();
+				} catch (InterruptedException e) {
+				}
+				script.run();
+				wait.countDown();
+			}
+		});
 		t.start();
 	}
 
@@ -94,20 +126,21 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		for (Script s : scriptList) {
 			s.setPaused(true);
 		}
-		for (Thread t : threadList) {
-			t.interrupt();
-		}
-		threadList.clear();
+		this.isPaused = true;
 	}
 
 	public void resume() {
 		for (Script s : scriptList) {
 			s.setPaused(false);
-			if (s.isFinished()) {
-				continue;
-			}
-			startScript(s);
 		}
+		this.isPaused = false;
+	}
+
+	public void finish() {
+		for (Script s : scriptList) {
+			s.setFinish(true);
+		}
+		this.isFinished = true;
 	}
 
 	public String getName() {
@@ -198,8 +231,36 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return costume;
 	}
 
-	public List<Script> getScriptList() {
-		return scriptList;
+	public void addScript(Script script) {
+		if (script != null && !scriptList.contains(script)) {
+			scriptList.add(script);
+		}
+	}
+
+	public void addScript(int location, Script script) {
+		if (script != null && !scriptList.contains(script)) {
+			scriptList.add(location, script);
+		}
+	}
+
+	public Script getScript(int location) {
+		return scriptList.get(location);
+	}
+
+	public int getNumberOfScripts() {
+		return scriptList.size();
+	}
+
+	public int getScriptIndex(Script script) {
+		return scriptList.indexOf(script);
+	}
+
+	public void removeAllScripts() {
+		scriptList.clear();
+	}
+
+	public boolean removeScript(Script script) {
+		return scriptList.remove(script);
 	}
 
 	public boolean getToDraw() {

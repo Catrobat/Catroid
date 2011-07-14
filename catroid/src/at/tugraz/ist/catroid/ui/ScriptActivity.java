@@ -244,14 +244,14 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.script_menu_delete: {
-				sprite.getScriptList().remove(scriptToEdit);
-				if (sprite.getScriptList().isEmpty()) {
+				sprite.removeScript(scriptToEdit);
+				if (sprite.getNumberOfScripts() == 0) {
 					ProjectManager.getInstance().setCurrentScript(null);
 					adapter.notifyDataSetChanged();
 					return true;
 				}
-				int lastScriptIndex = sprite.getScriptList().size() - 1;
-				Script lastScript = sprite.getScriptList().get(lastScriptIndex);
+				int lastScriptIndex = sprite.getNumberOfScripts() - 1;
+				Script lastScript = sprite.getScript(lastScriptIndex);
 				ProjectManager.getInstance().setCurrentScript(lastScript);
 				adapter.notifyDataSetChanged();
 				listView.expandGroup(adapter.getGroupCount() - 1);
