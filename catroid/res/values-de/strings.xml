@@ -154,7 +154,7 @@
     <string name="brick_set_costume">Setze Kostüm</string>
     <string name="brick_set_size_to">Setze Größe auf</string>
     <string name="brick_go_back">Gehe</string>
-    <string name="steps_label">Ebene nach hinten</string>
+    <string name="steps_label">Schritte nach hinten</string>
     <string name="brick_come_to_front">Komm nach vorne</string>
     <string name="brick_if_touched">Wenn berührt</string>
     <string name="brick_if_started">Wenn gestartet</string>
@@ -169,6 +169,8 @@
 	<string name="brick_repeat">Wiederhole</string>
 	<string name="times_label">mal</string>
 	<string name="brick_if_on_edge_bounce">pralle von Rand ab</string>
+	<string name="brick_move">Gehe</string>
+	<string name="brick_move_n_steps">Schritte</string>
 	<string name="brick_turn_right">Drehe rechts</string>
 	<string name="brick_turn_right_n_degrees">Grad</string>
 	<string name="brick_turn_left">Drehe links</string>

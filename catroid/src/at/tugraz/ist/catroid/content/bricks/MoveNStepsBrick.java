@@ -19,41 +19,78 @@
 package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
+import android.content.DialogInterface.OnDismissListener;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.EditText;
+import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 
-public class MoveNStepsBrick implements Brick {
+public class MoveNStepsBrick implements Brick, OnDismissListener {
+
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
+	private double steps;
 
-	public MoveNStepsBrick(Sprite sprite) {
+	public MoveNStepsBrick(Sprite sprite, double steps) {
 		this.sprite = sprite;
+		this.steps = steps;
 	}
 
 	public void execute() {
-		// TODO Auto-generated method stub
+
+		int xPos = sprite.getXPosition();
+		int yPos = sprite.getYPosition();
+
+		double radians = sprite.getDirection() / 180 * Math.PI;
+
+		int newX = (int) Math.round(xPos + steps * Math.sin(radians));
+		int newY = (int) Math.round(yPos + steps * Math.cos(radians));
+
+		sprite.setXYPosition(newX, newY);
 
 	}
 
 	public Sprite getSprite() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.sprite;
+	}
+
+	public double getSteps() {
+		return steps;
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
-		// TODO Auto-generated method stub
-		return null;
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.construction_brick_move_n_steps, null);
+		EditText edit = (EditText) view.findViewById(R.id.construction_brick_move_n_steps_edit_text);
+
+		edit.setText(String.valueOf(steps));
+		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, steps);
+		dialog.setOnDismissListener(this);
+		dialog.setOnCancelListener((OnCancelListener) context);
+		edit.setOnClickListener(dialog);
+
+		return view;
+	}
+
+	public View getPrototypeView(Context context) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.toolbox_brick_move_n_steps, null);
+		return view;
 	}
 
 	@Override
 	public Brick clone() {
-		return new MoveNStepsBrick(getSprite());
+		return new MoveNStepsBrick(getSprite(), getSteps());
 	}
 
-	public View getPrototypeView(Context context) {
-		// TODO Auto-generated method stub
-		return null;
+	public void onDismiss(DialogInterface dialog) {
+		steps = ((EditDoubleDialog) dialog).getValue();
+		dialog.cancel();
 	}
 
 }
