@@ -89,6 +89,10 @@ public class Costume implements Serializable {
 	}
 
 	public synchronized void rotateBy(double degrees) {
+		if (costumeBitmap == null || imagePath == null) {
+			return;
+		}
+
 		costumeBitmap = ImageEditing.rotateBitmap(costumeBitmap, (float) degrees);
 	}
 
