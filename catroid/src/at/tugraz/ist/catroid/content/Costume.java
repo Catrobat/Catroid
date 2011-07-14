@@ -76,7 +76,7 @@ public class Costume implements Serializable {
 
 		costumeBitmap = ImageEditing.getBitmap(imagePath, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
 		costumeBitmap = ImageEditing.scaleBitmap(costumeBitmap, newWidth, newHeight, true);
-		costumeBitmap = ImageEditing.rotateBitmap(costumeBitmap, (float) (90 - sprite.getDirection()));
+		costumeBitmap = ImageEditing.rotateBitmap(costumeBitmap, (float) -(90 - sprite.getDirection()));
 
 		actWidth = newWidth;
 		actHeight = newHeight;
@@ -94,7 +94,7 @@ public class Costume implements Serializable {
 		costumeBitmap = ImageEditing.getBitmap(imagePath, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
 		costumeBitmap = ImageEditing.scaleBitmap(costumeBitmap, actWidth, actHeight, true);
 
-		costumeBitmap = ImageEditing.rotateBitmap(costumeBitmap, (float) (90 - degrees));
+		costumeBitmap = ImageEditing.rotateBitmap(costumeBitmap, (float) -(90 - degrees));
 		setDrawPosition();
 	}
 
