@@ -93,7 +93,6 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_script);
-
 	}
 
 	@Override

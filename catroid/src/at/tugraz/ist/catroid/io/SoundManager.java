@@ -71,6 +71,14 @@ public class SoundManager {
 		return mediaPlayer;
 	}
 
+	public synchronized void setVolume(double volume) {
+		float vol;
+		vol = (float) (volume * 0.01);
+		for (MediaPlayer mediaPlayer : mediaPlayers) {
+			mediaPlayer.setVolume(vol, vol);
+		}
+	}
+
 	public synchronized void clear() {
 		for (MediaPlayer mediaPlayer : mediaPlayers) {
 			mediaPlayer.release();

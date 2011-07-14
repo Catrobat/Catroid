@@ -19,26 +19,44 @@
 
 package at.tugraz.ist.catroid.stage;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Locale;
+
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.media.AudioManager;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.TextToSpeech.OnInitListener;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.io.SoundManager;
+import at.tugraz.ist.catroid.stage.SimpleGestureFilter.SimpleGestureListener;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class StageActivity extends Activity {
+public class StageActivity extends Activity implements SimpleGestureListener, OnInitListener {
 
 	public static SurfaceView stage;
 	private SoundManager soundManager;
 	private StageManager stageManager;
 	private boolean stagePlaying = false;
+	private SimpleGestureFilter detector;
+	private final static String TAG = StageActivity.class.getSimpleName();
+	private int MY_DATA_CHECK_CODE = 0;
+	public TextToSpeech tts;
+	private ArrayList<Locale> availableLocales = null;
+	public String text;
+	public boolean flag = true;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -58,31 +76,25 @@ public class StageActivity extends Activity {
 			stageManager = new StageManager(this);
 			stageManager.start();
 			stagePlaying = true;
-
 		}
+		detector = new SimpleGestureFilter(this, this);
+		Intent checkIntent = new Intent();
+		checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+		startActivityForResult(checkIntent, MY_DATA_CHECK_CODE);
 	}
 
 	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-
-		// first pointer: MotionEvent.ACTION_DOWN
-		if (event.getAction() == MotionEvent.ACTION_DOWN) {
-			processOnTouch((int) event.getX(), (int) event.getY());
-		}
-
-		// second pointer: MotionEvent.ACTION_POINTER_2_DOWN
-		if (event.getAction() == MotionEvent.ACTION_POINTER_2_DOWN) {
-			processOnTouch((int) event.getX(1), (int) event.getY(1));
-		}
-
-		return false;
+	public boolean dispatchTouchEvent(MotionEvent e) {
+		this.detector.onTouchEvent(e);
+		return super.dispatchTouchEvent(e);
 	}
 
-	public void processOnTouch(int coordX, int coordY) {
+	public void processOnTouch(int coordX, int coordY, String act) {
+		Log.v(TAG, "2 this is the function called!!!" + act);
 		coordX = coordX + stage.getTop();
 		coordY = coordY + stage.getLeft();
 
-		stageManager.processOnTouch(coordX, coordY);
+		stageManager.processOnTouch(coordX, coordY, act);
 	}
 
 	@Override
@@ -126,6 +138,11 @@ public class StageActivity extends Activity {
 		super.onDestroy();
 		stageManager.finish();
 		soundManager.clear();
+		if (tts != null) {
+			tts.stop();
+			tts.shutdown();
+		}
+
 	}
 
 	@Override
@@ -161,5 +178,77 @@ public class StageActivity extends Activity {
 			return;
 		}
 		super.onResume();
+	}
+
+	public void onSwipe(int direction) {
+		String str = "";
+
+		switch (direction) {
+			case SimpleGestureFilter.SWIPE_RIGHT:
+				str = "Swipe Right";
+				break;
+			case SimpleGestureFilter.SWIPE_LEFT:
+				str = "Swipe Left";
+				break;
+			case SimpleGestureFilter.SWIPE_DOWN:
+				str = "Swipe Down";
+				break;
+			case SimpleGestureFilter.SWIPE_UP:
+				str = "Swipe Up";
+				break;
+
+		}
+		Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
+	}
+
+	public void onDoubleTap() {
+		Toast.makeText(this, "Double Tap", Toast.LENGTH_SHORT).show();
+	}
+
+	public void onSingleTouch() {
+		Toast.makeText(this, "Tapped", Toast.LENGTH_SHORT).show();
+
+	}
+
+	public void onLongPress() {
+		Toast.makeText(this, "Long Press", Toast.LENGTH_SHORT).show();
+
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == MY_DATA_CHECK_CODE) {
+			if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+				// success, create the TTS instance
+				tts = new TextToSpeech(this, this);
+			} else {
+				// missing data, install it
+				Intent installIntent = new Intent();
+				installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+				startActivity(installIntent);
+			}
+		}
+
+	}
+
+	public void onInit(int status) {
+		if (status == TextToSpeech.SUCCESS) {
+			Toast.makeText(StageActivity.this, "Text-To-Speech engine is initialized", Toast.LENGTH_LONG).show();
+		} else if (status == TextToSpeech.ERROR) {
+			Toast.makeText(StageActivity.this, "Error occurred while initializing Text-To-Speech engine",
+					Toast.LENGTH_LONG).show();
+		}
+	}
+
+	public void textToSpeech(String Text) {
+		HashMap<String, String> myHashAlarm = new HashMap();
+		myHashAlarm.put(TextToSpeech.Engine.KEY_PARAM_STREAM, String.valueOf(AudioManager.STREAM_ALARM));
+
+		int result = tts.setLanguage(Locale.ENGLISH);
+		if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+			Log.e(TAG, "Language is not available.");
+		} else {
+			tts.speak(text, TextToSpeech.QUEUE_FLUSH, myHashAlarm);
+		}
 	}
 }

@@ -38,6 +38,9 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	private transient boolean toDraw;
 	private List<Script> scriptList;
 	private transient Costume costume;
+	private transient double ghostEffectValue;
+	private transient double brightnessValue;
+	private transient double volume;
 
 	public transient volatile boolean isPaused;
 	public transient volatile boolean isFinished;
@@ -55,8 +58,11 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		xPosition = 0;
 		yPosition = 0;
 		toDraw = false;
+		ghostEffectValue = 0.0;
+		brightnessValue = 0.0;
 		isPaused = false;
 		isFinished = false;
+		volume = 70.0;
 	}
 
 	public Sprite(String name) {
@@ -65,10 +71,29 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		init();
 	}
 
+	public void startWhenScripts(String act) {
+		for (Script s : scriptList) {
+			if (s instanceof WhenScript) {
+				if (((WhenScript) s).getAction().equalsIgnoreCase(WhenScript.TOUCHINGSTOPS)) {
+					s.setPaused(true);
+				} else {
+					if (((WhenScript) s).getAction().equalsIgnoreCase(act)) {
+						s.setPaused(false);
+						startScript(s);
+					}
+				}
+			}
+		}
+	}
+
 	public void startStartScripts() {
 		for (Script s : scriptList) {
 			if (s instanceof StartScript) {
 				if (!s.isFinished()) {
+					startScript(s);
+				}
+			} else if (s instanceof WhenScript) {
+				if (((WhenScript) s).getAction().equalsIgnoreCase(WhenScript.TOUCHINGSTOPS)) {
 					startScript(s);
 				}
 			}
@@ -167,6 +192,18 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return size;
 	}
 
+	public double getGhostEffectValue() {
+		return ghostEffectValue;
+	}
+
+	public double getBrightnessValue() {
+		return this.brightnessValue;
+	}
+
+	public double getVolume() {
+		return this.volume;
+	}
+
 	public boolean isVisible() {
 		return isVisible;
 	}
@@ -180,6 +217,65 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 
 	public synchronized void setZPosition(int zPosition) {
 		this.zPosition = zPosition;
+		toDraw = true;
+	}
+
+	public synchronized void setVolume(double volume) {
+		if (volume < 0.0) {
+			throw new IllegalArgumentException("Sprite brightness must be greater than zero!");
+		}
+		this.volume = volume;
+		toDraw = true;
+	}
+
+	public synchronized void clearGraphicEffect() {
+		costume.clearGraphicEffect();
+		ghostEffectValue = 0;
+		brightnessValue = 0;
+		toDraw = true;
+	}
+
+	public synchronized void setBrightnessValue(double brightnessValue) {
+		this.brightnessValue = brightnessValue;
+		if (brightnessValue < 0.0) {
+			throw new IllegalArgumentException("Sprite brightness must be greater than zero!");
+		}
+		int brightness;
+
+		if (brightnessValue > 100) {
+			brightness = 150;
+		} else {
+			brightness = (int) (brightnessValue + 50);
+		}
+
+		costume.setBrightness(brightness);
+		toDraw = true;
+	}
+
+	public synchronized void setGhostEffectValue(double ghostEffectValue) {
+		this.ghostEffectValue = ghostEffectValue;
+		double calculation = 0;
+		int opacityValue = 0;
+
+		if (ghostEffectValue < 0.0) {
+			throw new IllegalArgumentException("Sprite ghost effect must be greater than zero!");
+		}
+		calculation = Math.floor(255 - (ghostEffectValue * 2.55));
+		//		 calculation: a value between 0 (completely transparent) and 255 (completely opaque).
+		if (calculation > 0) {
+			if (calculation >= 12) {
+				if (calculation >= 64) {
+					opacityValue = (int) (calculation - (80 - ghostEffectValue));//Effect value from 0% to 75%
+				} else {
+					opacityValue = (int) calculation; // Effect value from 76% to 95%
+				}
+			} else {
+				opacityValue = 11; // Effect value from 96% to 99%. Opacity Value more than 12 sprite would be untouchable.
+			}
+		} else if (calculation <= 0) {
+			opacityValue = 0; //  Effect value 100%. Sprite untouchable.
+		}
+		costume.setGhostEffect(opacityValue);
 		toDraw = true;
 	}
 
@@ -309,7 +405,6 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		}
 
 		return true;
-
 	}
 
 	@Override
