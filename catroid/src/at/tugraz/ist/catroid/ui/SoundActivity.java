@@ -30,6 +30,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -122,6 +123,7 @@ public class SoundActivity extends ListActivity {
 				actualSoundCursor.moveToFirst();
 				audioPath = actualSoundCursor.getString(actualSoundColumnIndex);
 			}
+			//-----------------------------------------------------
 
 			try {
 				if (audioPath.equalsIgnoreCase("")) {
@@ -129,7 +131,7 @@ public class SoundActivity extends ListActivity {
 				}
 				File soundFile = StorageHandler.getInstance().copySoundFile(audioPath);
 				String soundPath = soundFile.getAbsolutePath();
-				String soundTitle = soundFile.getName().substring(33);
+				String soundTitle = soundFile.getName().substring(33, soundFile.getName().length() - 4);
 				String soundFileName = soundFile.getName();
 				updateSoundAdapter(soundTitle, soundPath, soundFileName);
 			} catch (IOException e) {
@@ -137,6 +139,10 @@ public class SoundActivity extends ListActivity {
 			}
 
 		}
+	}
+
+	public void handleOnClickSoundNameEditText() {
+		Log.e("lolololololololololo", "dadsad");
 	}
 
 	private class SoundAdapter extends ArrayAdapter<SoundData> { //TODO: distinct class
@@ -162,9 +168,13 @@ public class SoundActivity extends ListActivity {
 				ImageView soundImage = (ImageView) convertView.findViewById(R.id.sound_img);
 				soundImage.setImageResource(R.drawable.speaker);
 
-				EditText soundName = (EditText) convertView.findViewById(R.id.edit_sound_name);
-				soundName.setSelectAllOnFocus(true);
-				soundName.setText(soundData.getSoundName());
+				EditText soundNameEditText = (EditText) convertView.findViewById(R.id.edit_sound_name);
+				soundNameEditText.setText(soundData.getSoundName());
+				//				soundNameEditText.setOnClickListener(new EditText.OnClickListener(){
+				//					public void onClick(View arg0) {
+				//						
+				//					}
+				//				});
 
 				ImageButton playSound = (ImageButton) convertView.findViewById(R.id.play_button);
 				playSound.setOnClickListener(new View.OnClickListener() {

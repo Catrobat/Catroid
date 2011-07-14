@@ -102,6 +102,7 @@
     <string name="costumename_already_exists">This costumename already exists</string>
     <string name="rename_costume_button">Rename</string>
     <string name="rename_costume_dialog">Rename Costume</string>
+    <string name="rename_costume">Done</string>
     
     <!-- Sound activity -->
     <string name="sound_list">Sound:</string>
