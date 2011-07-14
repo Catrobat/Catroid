@@ -16,8 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content;
-
+package at.tugraz.ist.catroid.common;
 
 /**
  * @author ainulhusna
@@ -50,6 +49,18 @@ public class SoundData {
 
 	public String getSoundFileName() {
 		return soundFileName;
+	}
+
+	public String getChecksum() {
+		return soundFileName.substring(0, 32);
+	}
+
+	public String getFileExtension() {
+		return soundFileName.substring(soundFileName.length() - 4, soundFileName.length());
+	}
+
+	public String getPathWithoutTitle() {
+		return soundAbsolutePath.substring(0, soundAbsolutePath.length() - soundFileName.length());
 	}
 
 }

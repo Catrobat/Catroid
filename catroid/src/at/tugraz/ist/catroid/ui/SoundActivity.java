@@ -30,19 +30,22 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.SoundData;
+import at.tugraz.ist.catroid.common.SoundData;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.io.StorageHandler;
@@ -130,19 +133,15 @@ public class SoundActivity extends ListActivity {
 					throw new IOException();
 				}
 				File soundFile = StorageHandler.getInstance().copySoundFile(audioPath);
-				String soundPath = soundFile.getAbsolutePath();
+				String absoluteSoundPath = soundFile.getAbsolutePath();
 				String soundTitle = soundFile.getName().substring(33, soundFile.getName().length() - 4);
 				String soundFileName = soundFile.getName();
-				updateSoundAdapter(soundTitle, soundPath, soundFileName);
+				updateSoundAdapter(soundTitle, absoluteSoundPath, soundFileName);
 			} catch (IOException e) {
 				Utils.displayErrorMessage(this, this.getString(R.string.error_load_sound));
 			}
 
 		}
-	}
-
-	public void handleOnClickSoundNameEditText() {
-		Log.e("lolololololololololo", "dadsad");
 	}
 
 	private class SoundAdapter extends ArrayAdapter<SoundData> { //TODO: distinct class
@@ -164,17 +163,54 @@ public class SoundActivity extends ListActivity {
 			}
 
 			final SoundData soundData = items.get(position);
+
 			if (soundData != null) {
 				ImageView soundImage = (ImageView) convertView.findViewById(R.id.sound_img);
 				soundImage.setImageResource(R.drawable.speaker);
 
-				EditText soundNameEditText = (EditText) convertView.findViewById(R.id.edit_sound_name);
+				final EditText soundNameEditText = (EditText) convertView.findViewById(R.id.edit_sound_name);
 				soundNameEditText.setText(soundData.getSoundName());
-				//				soundNameEditText.setOnClickListener(new EditText.OnClickListener(){
-				//					public void onClick(View arg0) {
-				//						
-				//					}
-				//				});
+				final Button editSoundNameButton = (Button) convertView.findViewById(R.id.rename_sound_button);
+				editSoundNameButton.setEnabled(false);
+				soundNameEditText.addTextChangedListener(new TextWatcher() {
+					public void onTextChanged(CharSequence s, int start, int before, int count) {
+						if (s.length() == 0 || (s.length() == 1 && s.charAt(0) == '.')) {
+							Toast.makeText(SoundActivity.this, R.string.notification_invalid_text_entered,
+									Toast.LENGTH_SHORT).show();
+							editSoundNameButton.setEnabled(false);
+						} else {
+							editSoundNameButton.setEnabled(true);
+						}
+					}
+
+					public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+					}
+
+					public void afterTextChanged(Editable arg0) {
+					}
+				});
+
+				editSoundNameButton.setOnClickListener(new OnClickListener() {
+					public void onClick(View v) {
+						editSoundNameButton.setEnabled(false);
+						soundNameEditText.clearFocus();
+						InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+						imm.hideSoftInputFromWindow(editSoundNameButton.getWindowToken(), 0);
+
+						//rename
+						String newSoundName = soundNameEditText.getText().toString();
+						String checksum = soundData.getChecksum();
+						String extension = soundData.getFileExtension();
+						String newSoundFileName = checksum + "_" + newSoundName + extension;
+						File renamedFile = new File(soundData.getPathWithoutTitle() + newSoundFileName);
+						File oldFile = new File(soundData.getSoundAbsolutePath());
+						soundData.setSoundAbsolutePath(renamedFile.getAbsolutePath());
+						soundData.setSoundFileName(newSoundFileName);
+						soundData.setSoundName(newSoundName);
+						oldFile.renameTo(renamedFile);
+
+					}
+				});
 
 				ImageButton playSound = (ImageButton) convertView.findViewById(R.id.play_button);
 				playSound.setOnClickListener(new View.OnClickListener() {

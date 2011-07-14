@@ -41,7 +41,7 @@ android:layout_height="match_parent"
 			android:layout_width="match_parent"
 			android:paddingLeft="10dp"
 			android:textSize="16sp" 
-			android:layout_height="50dip" 
+			android:layout_height="70dip" 
 			android:gravity="center_vertical"
 			android:nextFocusUp="@+id/edit_sound_name" 
 			android:nextFocusLeft="@+id/edit_sound_name"
@@ -70,6 +70,11 @@ android:layout_height="match_parent"
     			android:id="@+id/delete_button" 
     			android:layout_width="wrap_content" 
     			android:src="@drawable/exit"/>
+    		<Button
+    		    android:layout_height="wrap_content" 
+    			android:id="@+id/rename_sound_button" 
+    			android:layout_width="wrap_content"
+    			android:text="@string/rename_button"/>
 		</LinearLayout>
 	</LinearLayout>
 </LinearLayout>
