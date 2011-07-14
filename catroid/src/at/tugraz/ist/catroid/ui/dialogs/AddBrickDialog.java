@@ -51,6 +51,7 @@ import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
 import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
+import at.tugraz.ist.catroid.content.bricks.MoveNStepsBrick;
 import at.tugraz.ist.catroid.content.bricks.NoteBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
@@ -61,7 +62,6 @@ import at.tugraz.ist.catroid.content.bricks.SetXBrick;
 import at.tugraz.ist.catroid.content.bricks.SetYBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.content.bricks.StopAllSoundsBrick;
-import at.tugraz.ist.catroid.content.bricks.TurnLeftBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.ui.adapter.PrototypeBrickAdapter;
@@ -123,6 +123,7 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new ForeverBrick(sprite));
 			prototypeBrickList.add(new RepeatBrick(sprite, 3));
 			prototypeBrickList.add(new IfOnEdgeBounceBrick(sprite));
+			prototypeBrickList.add(new MoveNStepsBrick(sprite, 10));
 			prototypeBrickList.add(new TurnLeftBrick(sprite, 15));
 		}
 
