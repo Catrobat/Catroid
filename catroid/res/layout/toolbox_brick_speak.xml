@@ -19,48 +19,29 @@
  -->
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
-	android:orientation="horizontal"
+	android:layout_width="wrap_content"
+	android:background="@drawable/brick_magenta"
+	android:orientation="vertical"
 >
-	<ImageView
-		android:id="@+id/grabber"
-		android:layout_alignParentLeft="true"
-		android:layout_alignParentTop="true"
-		android:layout_alignParentBottom="true"
-		android:layout_gravity="center_vertical"
-		android:layout_width="wrap_content"
-		android:src="@drawable/ic_mp_move"
-		android:layout_height="wrap_content" />
-	<RelativeLayout
-		android:id="@+id/RelativeLayout01"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:background="@drawable/brick_magenta"
-		android:focusable="false"
-		android:focusableInTouchMode="false"
-		android:longClickable="true"
-	>
 		<TextView
-			android:id="@+id/ValueTextView"
-			android:text="@string/brick_play_sound"
+			android:id="@+id/construction_brick_speak"
+			android:text="@string/brick_speak"
 			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:layout_alignParentLeft="true"
-			android:layout_centerVertical="true"
+			android:layout_width="fill_parent"
 			android:textColor="@color/white"
 			android:textSize="18dip"
 			android:textStyle="bold"
 		>
-		</TextView>
-		
-		<Button
-			android:id="@+id/btSoundChoose"
+	    </TextView>
+		<EditText
+			android:id="@+id/edit_text_speak"
+			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:layout_alignParentRight="true"
-			android:layout_centerVertical="true"
-			android:maxWidth="150dip" />
-			
-	</RelativeLayout>
+			android:scrollbars="vertical"
+			android:scrollbarStyle="insideInset"
+			android:clickable="true"
+			android:cursorVisible="false"
+			android:focusable="false"
+			android:focusableInTouchMode="false"/>
 </LinearLayout>

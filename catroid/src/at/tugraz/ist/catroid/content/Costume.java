@@ -38,6 +38,8 @@ public class Costume implements Serializable {
 	private int actWidth;
 	private int origHeight;
 	private int origWidth;
+	private transient int actBrightness = 0;
+	private transient int actGhostEffect = 255;
 
 	@XStreamOmitField
 	private transient Bitmap costumeBitmap;
@@ -51,6 +53,7 @@ public class Costume implements Serializable {
 
 		this.imagePath = imagePath;
 		costumeBitmap = ImageEditing.getBitmap(imagePath, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
+
 		if (costumeBitmap == null) {
 			return;
 		}
@@ -60,6 +63,7 @@ public class Costume implements Serializable {
 
 		origHeight = costumeBitmap.getHeight();
 		origWidth = costumeBitmap.getWidth();
+
 		setDrawPosition();
 	}
 
@@ -79,7 +83,10 @@ public class Costume implements Serializable {
 			costumeBitmap = ImageEditing.getBitmap(imagePath, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
 		}
 
+		costumeBitmap = ImageEditing.adjustOpacity(costumeBitmap, actGhostEffect);
+		costumeBitmap = ImageEditing.adjustBrightness(costumeBitmap, actBrightness);
 		costumeBitmap = ImageEditing.scaleBitmap(costumeBitmap, newWidth, newHeight, true);
+
 		actWidth = newWidth;
 		actHeight = newHeight;
 
@@ -134,4 +141,38 @@ public class Costume implements Serializable {
 		drawPositionY = drawPositionY + costumeBitmap.getHeight() / 2;
 	}
 
+	public synchronized void setGhostEffect(int effectVal) {
+		if (costumeBitmap == null) {
+			return;
+		}
+		this.actGhostEffect = effectVal;
+		costumeBitmap = ImageEditing.getScaledBitmap(imagePath, actWidth, actHeight);
+		costumeBitmap = ImageEditing.adjustBrightness(costumeBitmap, actBrightness);
+		costumeBitmap = ImageEditing.adjustOpacity(costumeBitmap, actGhostEffect);
+		return;
+	}
+
+	public synchronized void setBrightness(int brightness) {
+
+		if (costumeBitmap == null) {
+			return;
+		}
+
+		this.actBrightness = brightness;
+
+		costumeBitmap = ImageEditing.getScaledBitmap(imagePath, actWidth, actHeight);
+		costumeBitmap = ImageEditing.adjustOpacity(costumeBitmap, actGhostEffect);
+		costumeBitmap = ImageEditing.adjustBrightness(costumeBitmap, actBrightness);
+
+		return;
+	}
+
+	public synchronized void clearGraphicEffect() {
+		if (costumeBitmap == null) {
+			return;
+		}
+
+		costumeBitmap = ImageEditing.getScaledBitmap(imagePath, actWidth, actHeight);
+		return;
+	}
 }
