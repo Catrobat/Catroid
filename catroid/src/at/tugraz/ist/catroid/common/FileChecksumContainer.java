@@ -97,4 +97,14 @@ public class FileChecksumContainer implements Serializable {
 		return false;
 	}
 
+	public boolean changePath(String checksum, String path) {
+		FileInfo tempFileInfo = checksumFileInfoMap.get(checksum);
+		if (tempFileInfo != null) {
+			tempFileInfo.path = path;
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 }

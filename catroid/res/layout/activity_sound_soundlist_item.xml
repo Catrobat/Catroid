@@ -45,8 +45,7 @@ android:layout_height="match_parent"
 			android:gravity="center_vertical"
 			android:nextFocusUp="@+id/edit_sound_name" 
 			android:nextFocusLeft="@+id/edit_sound_name"
-			android:selectAllOnFocus="true"
-			android:onClick="handleOnClickSoundNameEditText"/>
+			android:selectAllOnFocus="true"/>
 
 		<LinearLayout 
 			android:id="@+id/linearLayout1" 
