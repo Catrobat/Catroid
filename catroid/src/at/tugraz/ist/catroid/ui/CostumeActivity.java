@@ -259,7 +259,7 @@ public class CostumeActivity extends ListActivity {
 			c.setCostumeDisplayName(costumeDisplayName);
 			c.setCostumeId(costumeId);
 			costumeData.add(c);
-			sprite.setCostumeList(c);
+			sprite.addCostumeDataToCostumeList(c);
 
 			Log.i("ARRAY", "" + costumeData.size());
 		} catch (Exception e) {
@@ -335,7 +335,7 @@ public class CostumeActivity extends ListActivity {
 						c.setCostumeDisplayName(costumeDisplayName);
 						c.setCostumeId(costumeId);
 						items.add(c);
-						sprite.setCostumeList(c);
+						sprite.addCostumeDataToCostumeList(c);
 						notifyDataSetChanged();
 					}
 				});
@@ -345,7 +345,7 @@ public class CostumeActivity extends ListActivity {
 					public void onClick(View v) {
 						if (costumeData.size() > 1) {
 							items.remove(c);
-							sprite.removeCostumeList(c);
+							sprite.removeCostumeDataFromCostumeList(c);
 							notifyDataSetChanged();
 						}
 					}

@@ -107,7 +107,7 @@ public class SoundActivity extends ListActivity {
 		newSoundData.setSoundAbsolutePath(path);
 		newSoundData.setSoundFileName(fileName);
 		soundData.add(newSoundData);
-		sprite.addToSoundList(newSoundData);
+		sprite.addSoundDataToSoundList(newSoundData);
 		soundActivityListAdapter.notifyDataSetChanged();
 	}
 
@@ -227,7 +227,7 @@ public class SoundActivity extends ListActivity {
 				deleteSound.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
 						items.remove(soundData);
-						sprite.removeFromSoundList(soundData);
+						sprite.removeSoundDataFromSoundList(soundData);
 						StorageHandler.getInstance().deleteFile(soundData.getSoundAbsolutePath());
 						notifyDataSetChanged();
 					}
