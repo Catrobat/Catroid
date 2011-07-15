@@ -39,7 +39,9 @@ public class StageManager {
 	private Handler handler = new Handler();
 
 	private Runnable runnable = new Runnable() {
+
 		public void run() {
+
 			for (Sprite sprite : spriteList) {
 				if (sprite.getToDraw() == true) {
 					spritesChanged = true;
@@ -126,4 +128,5 @@ public class StageManager {
 			sprite.finish();
 		}
 	}
+
 }
