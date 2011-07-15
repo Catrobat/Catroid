@@ -28,7 +28,7 @@ import android.util.Pair;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
-import at.tugraz.ist.catroid.common.SoundData;
+import at.tugraz.ist.catroid.common.SoundInfo;
 
 public class Sprite implements Serializable, Comparable<Sprite> {
 	private static final long serialVersionUID = 1L;
@@ -41,7 +41,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	private transient boolean toDraw;
 	private List<Script> scriptList;
 	private ArrayList<costumeData> costumeList;
-	private ArrayList<SoundData> soundList;
+	private ArrayList<SoundInfo> soundList;
 	private transient Costume costume;
 
 	public transient volatile boolean isPaused;
@@ -52,8 +52,8 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		FileChecksumContainer container = ProjectManager.getInstance().fileChecksumContainer;
 		//TODO: handle costumes (too early for that because costumeData lacks functionality
 		if (soundList != null && container != null) {
-			for (SoundData soundData : soundList) {
-				container.addChecksum(soundData.getChecksum(), soundData.getSoundAbsolutePath());
+			for (SoundInfo soundInfo : soundList) {
+				container.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
 			}
 		}
 		init();
@@ -71,7 +71,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		isPaused = false;
 		isFinished = false;
 		if (soundList == null) {
-			soundList = new ArrayList<SoundData>(); //TODO: affirm that this is really needed
+			soundList = new ArrayList<SoundInfo>(); //TODO: affirm that this is really needed
 		}
 	}
 
@@ -79,7 +79,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		this.name = name;
 		scriptList = new ArrayList<Script>();
 		costumeList = new ArrayList<costumeData>();
-		soundList = new ArrayList<SoundData>();
+		soundList = new ArrayList<SoundInfo>();
 		init();
 	}
 
@@ -293,15 +293,15 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return costumeList;
 	}
 
-	public void addSoundDataToSoundList(SoundData soundData) {
-		soundList.add(soundData);
+	public void addSoundInfoToSoundList(SoundInfo soundInfo) {
+		soundList.add(soundInfo);
 	}
 
-	public void removeSoundDataFromSoundList(SoundData soundData) {
-		soundList.remove(soundData);
+	public void removeSoundInfoFromSoundList(SoundInfo soundInfo) {
+		soundList.remove(soundInfo);
 	}
 
-	public ArrayList<SoundData> getSoundList() {
+	public ArrayList<SoundInfo> getSoundList() {
 		return soundList;
 	}
 

@@ -102,18 +102,18 @@ public class SoundBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		SoundInfo soundInfo = new SoundInfo();
 		soundInfo.setId(5);
 		soundInfo.setTitle("something");
-		soundInfo.setPath("path/path/1/");
+		soundInfo.setAbsolutePath("path/path/1/");
 		soundlist.add(soundInfo);
 		soundInfo = new SoundInfo();
 		soundInfo.setId(6);
 		soundInfo.setTitle(title);
-		soundInfo.setPath("path/path/2/");
+		soundInfo.setAbsolutePath("path/path/2/");
 		soundlist.add(soundInfo);
 		soundInfo = new SoundInfo();
 		soundInfo.setId(7);
 		selectedTitle = "selectedTitle";
 		soundInfo.setTitle(selectedTitle);
-		soundInfo.setPath("path/path/3/");
+		soundInfo.setAbsolutePath("path/path/3/");
 		soundlist.add(soundInfo);
 
 		project = new Project(null, "testProject");
