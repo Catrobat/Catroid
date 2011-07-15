@@ -172,15 +172,16 @@ public class SoundActivity extends ListActivity {
 				final EditText soundNameEditText = (EditText) convertView.findViewById(R.id.edit_sound_name);
 				soundNameEditText.setText(soundData.getSoundName());
 				final Button editSoundNameButton = (Button) convertView.findViewById(R.id.rename_sound_button);
-				editSoundNameButton.setEnabled(false);
+				editSoundNameButton.setVisibility(Button.INVISIBLE);
+
 				soundNameEditText.addTextChangedListener(new TextWatcher() {
 					public void onTextChanged(CharSequence s, int start, int before, int count) {
 						if (s.length() == 0 || (s.length() == 1 && s.charAt(0) == '.')) {
 							Toast.makeText(SoundActivity.this, R.string.notification_invalid_text_entered,
 									Toast.LENGTH_SHORT).show();
-							editSoundNameButton.setEnabled(false);
+							editSoundNameButton.setVisibility(Button.INVISIBLE);
 						} else {
-							editSoundNameButton.setEnabled(true);
+							editSoundNameButton.setVisibility(Button.VISIBLE);
 						}
 					}
 
@@ -191,6 +192,7 @@ public class SoundActivity extends ListActivity {
 					}
 				});
 
+				//rename sounds (does not rename the actual file but the name shown in the activity
 				editSoundNameButton.setOnClickListener(new OnClickListener() {
 					public void onClick(View v) {
 						//deactivate renameButton, clear the focus of EditText and kill keyboard
@@ -201,22 +203,9 @@ public class SoundActivity extends ListActivity {
 
 						//rename
 						String newSoundName = soundNameEditText.getText().toString();
-						String checksum = soundData.getChecksum();
-						String extension = soundData.getFileExtension();
-						String newSoundFileName = checksum + "_" + newSoundName + extension;
-						File renamedFile = new File(soundData.getPathWithoutTitle() + newSoundFileName);
-						File oldFile = new File(soundData.getSoundAbsolutePath());
-						soundData.setSoundAbsolutePath(renamedFile.getAbsolutePath());
-						soundData.setSoundFileName(newSoundFileName);
 						soundData.setSoundName(newSoundName);
-						oldFile.renameTo(renamedFile);
-
-						//update FileChecksumContainer:
-						ProjectManager.getInstance().fileChecksumContainer.changePath(soundData.getChecksum(),
-								soundData.getSoundAbsolutePath());
 					}
 				});
-				//TODO: keep the original title in catroid folder and just change the internal title .. so we dont have any problems
 
 				ImageButton playSound = (ImageButton) convertView.findViewById(R.id.play_button);
 				playSound.setOnClickListener(new View.OnClickListener() {
