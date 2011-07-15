@@ -68,6 +68,7 @@ public class BTCommunicator extends Thread {
 	public static final int PROGRAM_NAME = 1011;
 	public static final int SAY_TEXT = 1030;
 	public static final int VIBRATE_PHONE = 1031;
+	public static final int MOVE_MOTOR = 2011;
 
 	public static final int NO_DELAY = 0;
 
@@ -87,11 +88,23 @@ public class BTCommunicator extends Thread {
 	private BTConnectable myOwner;
 
 	private byte[] returnMessage;
-	private MainMenuActivity m;
 
 	//
+	private static BTCommunicator bt = null;
 
-	public BTCommunicator(BTConnectable myOwner, Handler uiHandler, BluetoothAdapter btAdapter, Resources resources) {
+	public static synchronized BTCommunicator getInstance(BTConnectable myOwner, Handler uiHandler,
+			BluetoothAdapter btAdapter, Resources resources) {
+		if (bt == null) {
+			bt = new BTCommunicator(myOwner, uiHandler, btAdapter, resources);
+		}
+		return bt;
+	}
+
+	public static synchronized BTCommunicator getInstance() {
+		return bt;
+	}
+
+	private BTCommunicator(BTConnectable myOwner, Handler uiHandler, BluetoothAdapter btAdapter, Resources resources) {
 		this.myOwner = myOwner;
 		this.uiHandler = uiHandler;
 		this.btAdapter = btAdapter;
@@ -124,21 +137,22 @@ public class BTCommunicator extends Thread {
 	@Override
 	public void run() {
 
-		Log.i("btc", "begin run btc");
+		Log.i("bt", "begin run btc");
 		try {
 			Log.i("btc", "begin createNXTconnection()");
 			createNXTconnection();
 			Log.i("btc", "end createNXTconnection()");
 		} catch (IOException e) {
 		}
-		//m.actionButtonPressed();
-		while (connected) {
 
+		//m.actionButtonPressed();
+
+		while (connected) {
+			Log.i("bt", "run inside while");
 			try {
 				returnMessage = receiveMessage();
 				if ((returnMessage.length >= 2)
 						&& ((returnMessage[0] == LCPMessage.REPLY_COMMAND) || (returnMessage[0] == LCPMessage.DIRECT_COMMAND_NOREPLY))) {
-					Log.i("bt", "run");
 
 					dispatchMessage(returnMessage);
 				}
@@ -151,6 +165,7 @@ public class BTCommunicator extends Thread {
 				return;
 			}
 		}
+		bt = null;
 	}
 
 	/**
@@ -223,6 +238,7 @@ public class BTCommunicator extends Thread {
 		if (uiHandler != null) {
 			sendState(STATE_CONNECTED);
 		}
+
 	}
 
 	/**
@@ -450,7 +466,7 @@ public class BTCommunicator extends Thread {
 	final Handler myHandler = new Handler() {
 		@Override
 		public void handleMessage(Message myMessage) {
-
+			Log.i("handlerBT", "inside handler" + myMessage.getData().getInt("message"));
 			int message;
 
 			switch (message = myMessage.getData().getInt("message")) {
@@ -504,4 +520,54 @@ public class BTCommunicator extends Thread {
 			}
 		}
 	};
+
+	//	void sendBTCmessage(int delay, int message, String name) {
+	//		Bundle myBundle = new Bundle();
+	//		myBundle.putInt("message", message);
+	//		myBundle.putString("name", name);
+	//		Message myMessage = myHandler.obtainMessage();
+	//		myMessage.setData(myBundle);
+	//
+	//		if (delay == 0) {
+	//			myHandler.sendMessage(myMessage);
+	//		} else {
+	//			myHandler.sendMessageDelayed(myMessage, delay);
+	//		}
+	//	}
+
+	public void actionButtonPressed() {
+		Log.i("handlerBT", "action button pressed begin ");
+		sendBTCmessage(BTCommunicator.NO_DELAY, BTCommunicator.MOTOR_A, 75 * 1, 0);
+		sendBTCmessage(500, BTCommunicator.MOTOR_A, -75 * 1, 0);
+		sendBTCmessage(1000, BTCommunicator.MOTOR_A, 0, 0);
+		Log.i("handlerBT", "end");
+	}
+
+	/**
+	 * Sends the message via the BTCommuncator to the robot.
+	 * 
+	 * @param delay
+	 *            time to wait before sending the message.
+	 * @param message
+	 *            the message type (as defined in BTCommucator)
+	 * @param value1
+	 *            first parameter
+	 * @param value2
+	 *            second parameter
+	 */
+	void sendBTCmessage(int delay, int message, int value1, int value2) {
+		Bundle myBundle = new Bundle();
+		myBundle.putInt("message", message);
+		myBundle.putInt("value1", value1);
+		myBundle.putInt("value2", value2);
+		Message myMessage = myHandler.obtainMessage();
+		myMessage.setData(myBundle);
+
+		if (delay == 0) {
+			myHandler.sendMessage(myMessage);
+		} else {
+			myHandler.sendMessageDelayed(myMessage, delay);
+		}
+	}
+
 }

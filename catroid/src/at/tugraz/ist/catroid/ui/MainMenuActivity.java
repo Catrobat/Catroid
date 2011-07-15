@@ -20,8 +20,6 @@
 package at.tugraz.ist.catroid.ui;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -73,8 +71,6 @@ public class MainMenuActivity extends Activity implements BTConnectable {
 	private ProgressDialog connectingProgressDialog;
 	private boolean pairing;
 	private Handler btcHandler;
-	private Toast reusableToast;
-	private List<String> programList;
 	private boolean btErrorPending = false;
 	private Activity thisActivity;
 
@@ -84,6 +80,7 @@ public class MainMenuActivity extends Activity implements BTConnectable {
 		Utils.updateScreenWidthAndHeight(this);
 
 		setContentView(R.layout.activity_main_menu);
+
 		projectManager = ProjectManager.getInstance();
 
 		// Try to load sharedPreferences
@@ -239,7 +236,7 @@ public class MainMenuActivity extends Activity implements BTConnectable {
 			mBluetoothAdapter.disable();
 		}
 		Toast.makeText(this, "bluetooth disabled", Toast.LENGTH_LONG).show();
-		connected = false;
+
 		updateMenu();
 		// Device does not support Bluetooth
 	}
@@ -273,6 +270,7 @@ public class MainMenuActivity extends Activity implements BTConnectable {
 				Log.i("bt", "menu toogle disconnected selected");
 				disconnectBT();
 				break;
+
 			case MENU_CONNECT_NXT:
 				selectNXT();
 				break;
@@ -318,6 +316,7 @@ public class MainMenuActivity extends Activity implements BTConnectable {
 		Log.i("sbt", "setMACAddress(mac_address)");
 		myBTCommunicator.start();
 		//updateButtonsAndMenu();
+
 	}
 
 	/**
@@ -325,7 +324,8 @@ public class MainMenuActivity extends Activity implements BTConnectable {
 	 */
 	private void createBTCommunicator() {
 		// interestingly BT adapter needs to be obtained by the UI thread - so we pass it in in the constructor
-		myBTCommunicator = new BTCommunicator(this, myHandler, BluetoothAdapter.getDefaultAdapter(), getResources());
+		myBTCommunicator = BTCommunicator.getInstance(this, myHandler, BluetoothAdapter.getDefaultAdapter(),
+				getResources());
 		btcHandler = myBTCommunicator.getHandler();
 	}
 
@@ -400,11 +400,11 @@ public class MainMenuActivity extends Activity implements BTConnectable {
 	final Handler myHandler = new Handler() {
 		@Override
 		public void handleMessage(Message myMessage) {
+			Log.i("mainmenu", "start handler" + myMessage.getData().getInt("message"));
 			switch (myMessage.getData().getInt("message")) {
 
 				case BTCommunicator.STATE_CONNECTED:
 					connected = true;
-					programList = new ArrayList<String>();
 					connectingProgressDialog.dismiss();
 					sendBTCmessage(BTCommunicator.NO_DELAY, BTCommunicator.GET_FIRMWARE_VERSION, 0, 0);
 					break;
@@ -448,6 +448,10 @@ public class MainMenuActivity extends Activity implements BTConnectable {
 						builder.create().show();
 					}
 
+					break;
+				case BTCommunicator.MOVE_MOTOR:
+					Log.i("mainmenu", "handler movemotor");
+					actionButtonPressed();
 					break;
 
 			}
@@ -505,40 +509,24 @@ public class MainMenuActivity extends Activity implements BTConnectable {
 	}
 
 	public void actionButtonPressed() {
-		//		Log.i("btc", " begin actionButtonPressed main menu");
-		//		new Thread(new Runnable() {
-		//
-		//			public void run() {
-		//
-		//				if (myBTCommunicator != null) {
-		//
-		//					// MOTOR ACTION: forth an back
-		//					// other robots: 180 degrees forth and back
-		//					sendBTCmessage(BTCommunicator.NO_DELAY, BTCommunicator.MOTOR_A, 75 * 1, 0);
-		//					sendBTCmessage(500, BTCommunicator.MOTOR_A, -75 * 1, 0);
-		//					sendBTCmessage(1000, BTCommunicator.MOTOR_A, 0, 0);
-		//
-		//				}
-		//
-		//			}
-		//		}).start();
-		//		if (myBTCommunicator != null) {
-		//
-		//			// MOTOR ACTION: forth an back
-		//			// other robots: 180 degrees forth and back
+
+		sendBTCmessage(BTCommunicator.NO_DELAY, BTCommunicator.MOTOR_A, 75 * 1, 0);
+		sendBTCmessage(500, BTCommunicator.MOTOR_A, -75 * 1, 0);
 		sendBTCmessage(1000, BTCommunicator.MOTOR_A, 0, 0);
-		//			sendBTCmessage(500, BTCommunicator.MOTOR_A, -75 * 1, 0);
-		//			sendBTCmessage(1000, BTCommunicator.MOTOR_A, 0, 0);
 
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-		if (mBluetoothAdapter.isEnabled()) {
-			mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-			mBluetoothAdapter.disable();
-		}
+		destroyBTCommunicator();
+	}
+
+	public Handler gethandler() {
+		return myHandler;
+	}
+
+	public Handler getBThandler() {
+		return btcHandler;
 	}
 }

@@ -24,17 +24,29 @@ import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.ui.BTCommunicator;
 
 public class HideBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
+
+	//private MainMenuActivity m;
+	private BTCommunicator bt = null;
 
 	public HideBrick(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
 	public void execute() {
-		sprite.hide();
+		bt = BTCommunicator.getInstance();
+		bt.actionButtonPressed();
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//sprite.hide();
 	}
 
 	public Sprite getSprite() {
