@@ -109,12 +109,14 @@ def rename_package(project_filename, new_package):
                     sys.stdout.write(line)
 
 def main():
-    if len(sys.argv) != 3:
+    if len(sys.argv) != 5:
         print 'Invalid arguments. Correct usage:'
-        print 'python handle_project.py <path_to_project> <path_to_catroid>'
+        print 'python handle_project.py <path_to_project> <path_to_catroid> <project_id> <ouput_folder>'
         return 1
     archive_name = sys.argv[1]
     path_to_catroid = sys.argv[2]
+    project_id = sys.argv[3]
+    output_folder = sys.argv[4]
     project_filename = os.path.splitext(archive_name)[0]
     if os.path.exists(project_filename):
         shutil.rmtree(project_filename)
@@ -122,11 +124,11 @@ def main():
     rename_resources(project_filename)
     project_name = get_project_name(os.path.join(project_filename, 'project.xml'))
     copy_project(path_to_catroid, project_filename)
-    rename_package(project_filename, 'newpackage')
+    rename_package(project_filename, 'app' + str(project_id))
     set_project_name(project_name, os.path.join(project_filename, 'catroid', 'res', 'values', 'common.xml'))
     os.system('ant release -f ' + os.path.join(project_filename, 'catroid', 'build.xml'))
     shutil.move(os.path.join(project_filename, 'catroid', 'bin', 'NativeAppActivity-release.apk'),\
-                project_filename + '.apk')
+                os.path.join(output_folder, project_filename + '.apk'))
     shutil.rmtree(project_filename)
     return 0
 
