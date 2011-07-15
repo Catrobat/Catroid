@@ -128,11 +128,11 @@ public class Costume implements Serializable {
 		return new Pair<Integer, Integer>(actWidth, actHeight);
 	}
 
-	public double getRelativeWidth() {
+	public double getRelBoundingBoxWidth() {
 		return 2. * Consts.MAX_REL_COORDINATES / Values.SCREEN_WIDTH * costumeBitmap.getWidth();
 	}
 
-	public double getRelativeHeight() {
+	public double getRelBoundingBoxHeight() {
 		return 2. * Consts.MAX_REL_COORDINATES / Values.SCREEN_HEIGHT * costumeBitmap.getHeight();
 	}
 
