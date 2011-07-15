@@ -42,14 +42,18 @@ import at.tugraz.ist.catroid.content.bricks.BroadcastWaitBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
+import at.tugraz.ist.catroid.content.bricks.ForeverBrick;
 import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
 import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
 import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
+import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
+import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
 import at.tugraz.ist.catroid.content.bricks.NoteBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
+import at.tugraz.ist.catroid.content.bricks.RepeatBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.SetXBrick;
@@ -89,6 +93,8 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new GlideToBrick(sprite, 100, 100, 3000));
 			prototypeBrickList.add(new NoteBrick(sprite));
 			prototypeBrickList.add(new StopAllSoundsBrick(sprite));
+			prototypeBrickList.add(new ForeverBrick(sprite));
+			prototypeBrickList.add(new RepeatBrick(sprite, 3));
 		} else {
 			prototypeBrickList = new ArrayList<Brick>();
 			prototypeBrickList.add(new WaitBrick(sprite, 1000));
@@ -112,6 +118,8 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new GlideToBrick(sprite, 100, 100, 3000));
 			prototypeBrickList.add(new NoteBrick(sprite));
 			prototypeBrickList.add(new StopAllSoundsBrick(sprite));
+			prototypeBrickList.add(new ForeverBrick(sprite));
+			prototypeBrickList.add(new RepeatBrick(sprite, 3));
 		}
 
 	}
@@ -152,16 +160,27 @@ public class AddBrickDialog extends Dialog {
 					Script newScript = new BroadcastScript("script", projectManager.getCurrentSprite());
 					projectManager.addScript(newScript);
 					projectManager.setCurrentScript(newScript);
+				} else if (addedBrick instanceof LoopBeginBrick
+						&& projectManager.getCurrentSprite().getNumberOfScripts() > 0
+						&& projectManager.getCurrentScript().containsLoopBrick()) {
+					//Don't add new loop brick, only one loop per script for now
 				} else {
+					Brick brickClone = getBrickClone(adapter.getItem(position));
 					if (projectManager.getCurrentSprite().getNumberOfScripts() == 0) {
 						Script newScript = new StartScript("script", projectManager.getCurrentSprite());
 						projectManager.addScript(newScript);
 						projectManager.setCurrentScript(newScript);
-						projectManager.getCurrentScript().addBrick(adapter.getItem(position));
+						projectManager.getCurrentScript().addBrick(brickClone);
 					} else {
-						projectManager.getCurrentScript().addBrick(getBrickClone(adapter.getItem(position)));
+						projectManager.getCurrentScript().addBrick(brickClone);
 					}
 
+					if (addedBrick instanceof LoopBeginBrick) {
+						LoopEndBrick loopEndBrick = new LoopEndBrick(projectManager.getCurrentSprite(),
+								(LoopBeginBrick) brickClone);
+						projectManager.getCurrentScript().addBrick(loopEndBrick);
+						((LoopBeginBrick) brickClone).setLoopEndBrick(loopEndBrick);
+					}
 				}
 				dismiss();
 			}
