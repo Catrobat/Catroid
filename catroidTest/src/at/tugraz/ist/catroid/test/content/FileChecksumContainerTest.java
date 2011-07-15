@@ -33,7 +33,8 @@ import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.R;
-import at.tugraz.ist.catroid.test.util.Utils;
+import at.tugraz.ist.catroid.test.utils.TestUtils;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class FileChecksumContainerTest extends InstrumentationTestCase {
 
@@ -43,8 +44,6 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 	private File testImage;
 	private File testSound;
 	private String currentProjectName = "testCopyFile2";
-	private final int fileSizeImage = 4000;
-	private final int fileSizeSound = 4000;
 
 	public FileChecksumContainerTest() throws IOException {
 	}
@@ -52,7 +51,7 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 	@Override
 	protected void setUp() throws Exception {
 
-		Utils.clearProject(currentProjectName);
+		TestUtils.clearProject(currentProjectName);
 		storageHandler = StorageHandler.getInstance();
 		Project testCopyFile = new Project(null, currentProjectName);
 		projectManager = ProjectManager.getInstance();
@@ -65,9 +64,9 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 			testImage.createNewFile();
 		}
 		InputStream in = getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID);
-		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), fileSizeImage);
+		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), Consts.BUFFER_8K);
 
-		byte[] buffer = new byte[fileSizeImage];
+		byte[] buffer = new byte[Consts.BUFFER_8K];
 		int length = 0;
 		while ((length = in.read(buffer)) > 0) {
 			out.write(buffer, 0, length);
@@ -83,8 +82,8 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 			testSound.createNewFile();
 		}
 		in = getInstrumentation().getContext().getResources().openRawResource(R.raw.testsound);
-		out = new BufferedOutputStream(new FileOutputStream(testSound), fileSizeSound);
-		buffer = new byte[fileSizeSound];
+		out = new BufferedOutputStream(new FileOutputStream(testSound), Consts.BUFFER_8K);
+		buffer = new byte[Consts.BUFFER_8K];
 		length = 0;
 		while ((length = in.read(buffer)) > 0) {
 			out.write(buffer, 0, length);
@@ -97,7 +96,7 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		Utils.clearProject(currentProjectName);
+		TestUtils.clearProject(currentProjectName);
 		if (testImage != null && testImage.exists()) {
 			testImage.delete();
 		}
@@ -110,7 +109,7 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 
 		storageHandler.copyImage(currentProjectName, testImage.getAbsolutePath(), null);
 
-		String checksumImage = storageHandler.getMD5Checksum(testImage);
+		String checksumImage = Utils.md5Checksum(testImage);
 
 		FileChecksumContainer container = projectManager.fileChecksumContainer;
 		assertTrue("Checksum isn't in container", container.containsChecksum(checksumImage));
@@ -126,7 +125,7 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 		assertEquals("Wrong amount of files in folder", 2, filesImage.length);
 
 		File newTestSound = storageHandler.copySoundFile(testSound.getAbsolutePath());
-		String checksumSound = storageHandler.getMD5Checksum(testSound);
+		String checksumSound = Utils.md5Checksum(testSound);
 		assertTrue("Checksum isn't in container", container.containsChecksum(checksumSound));
 		File soundDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName + Consts.SOUND_DIRECTORY);
 		File[] filesSound = soundDirectory.listFiles();

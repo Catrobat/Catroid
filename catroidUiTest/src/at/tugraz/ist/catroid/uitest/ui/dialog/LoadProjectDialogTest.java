@@ -34,7 +34,7 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class LoadProjectDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
-	private String testProject2 = "testProject2";
+	private String testProject = Utils.PROJECTNAME1;
 
 	public LoadProjectDialogTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -42,29 +42,28 @@ public class LoadProjectDialogTest extends ActivityInstrumentationTestCase2<Main
 
 	@Override
 	public void setUp() throws Exception {
-		Utils.clearProject(testProject2);
+		Utils.clearAllUtilTestProjects();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		Utils.clearProject(testProject2);
 		try {
 			solo.finalize();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 		getActivity().finish();
-
+		Utils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
 	public void testLoadProjectDialog() throws NameNotFoundException, IOException {
-		createTestProject(testProject2);
+		createTestProject(testProject);
 		solo.clickOnButton(getActivity().getString(R.string.projects_on_phone));
-		solo.clickOnText(testProject2);
+		solo.clickOnText(testProject);
 
-		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.sprite_list_view);
+		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
 		Sprite first = (Sprite) spritesList.getItemAtPosition(1);
 		assertEquals("Sprite at index 1 is not \"cat\"!", "cat", first.getName());
 		Sprite second = (Sprite) spritesList.getItemAtPosition(2);
@@ -76,16 +75,14 @@ public class LoadProjectDialogTest extends ActivityInstrumentationTestCase2<Main
 
 		solo.goBack();
 
-		//		TextView currentProject = (TextView) getActivity().findViewById(R.id.currentProjectNameTextView);
-		//
-		//		assertEquals("Current project is not testProject2!", getActivity().getString(R.string.current_project) + " "
-		//				+ testProject2, currentProject.getText());
+		//TextView currentProject = (TextView) getActivity().findViewById(R.id.currentProjectNameTextView);
 
-		Utils.clearProject(testProject2);
+		//assertEquals("Current project is not testProject2!", getActivity().getString(R.string.current_project) + " "
+		//+ testProject, currentProject.getText());
 
 	}
 
-	public void createTestProject(String projectName) throws IOException, NameNotFoundException {
+	public void createTestProject(String projectName) {
 		StorageHandler storageHandler = StorageHandler.getInstance();
 
 		Project project = new Project(getActivity(), projectName);

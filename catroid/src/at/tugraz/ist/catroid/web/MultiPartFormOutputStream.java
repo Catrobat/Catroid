@@ -28,6 +28,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
+import at.tugraz.ist.catroid.common.Consts;
+
 /**
  * <code>MultiPartFormOutputStream</code> is used to write
  * "multipart/form-data" to a <code>java.net.URLConnection</code> for
@@ -288,10 +290,10 @@ public class MultiPartFormOutputStream {
 		}
 		out.writeBytes(NEWLINE);
 		// write content
-		byte[] data = new byte[1024];
-		int r = 0;
-		while ((r = is.read(data, 0, data.length)) != -1) {
-			out.write(data, 0, r);
+		byte[] data = new byte[Consts.BUFFER_8K];
+		int length = 0;
+		while ((length = is.read(data, 0, data.length)) != -1) {
+			out.write(data, 0, length);
 		}
 		// close input stream, but ignore any possible exception for it
 		try {

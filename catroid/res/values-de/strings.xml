@@ -40,6 +40,7 @@
     <string name="error">Fehler</string>
     <string name="please_wait">Bitte warten</string>
     <string name="loading">Laden...</string>
+    <string name="background">Hintergrund</string>
     <string name="stage">Bühne</string>
 
 	<!-- Brick captions -->
@@ -65,7 +66,6 @@
 	<string name="settings">Einstellungen</string>
 	<string name="web_resources">Internet-Ressourcen</string>
 	
-
     <!-- About Dialog -->
     <string name="about_title">Über Catroid</string>
     <string name="about_text">
@@ -97,7 +97,7 @@
     <string name="newsprite">Neues Objekt</string>
 
     <!-- New project dialog -->
-    <string name="new_project_dialog_create_button">Erstellen</string>
+    <string name="new_project_dialog_button">Erstellen</string>
     <string name="new_project_dialog_title">Name des Projekts</string>
     <string name="new_project_dialog_default_project_name">Projektname</string>
     
@@ -133,6 +133,10 @@
     <!-- Load project dialog -->
     <string name="load_project_dialog_title">Projekt laden</string>
 
+	<!-- Broadcast spinner -->
+	<string name="new_broadcast_message">Neu...</string>
+	<string name="broadcast_nothing_selected">Nichts...</string>
+	
     <!--  Stage context menu -->
     <string name="stagemenu_construction_site">Zur Baustelle</string>
     <string name="stagemenu_start">Abspielen/Pause</string>
@@ -148,7 +152,7 @@
     <string name="x_label">X:</string>
     <string name="y_label">Y:</string>
     <string name="brick_set_costume">Setze Kostüm</string>
-    <string name="brick_scale_costume">Skaliere Kostüm auf</string>
+    <string name="brick_set_size_to">Setze Größe auf</string>
     <string name="brick_go_back">Gehe</string>
     <string name="steps_label">Schritte nach hinten</string>
     <string name="brick_come_to_front">Komm nach vorne</string>
@@ -158,9 +162,17 @@
 	<string name="brick_change_y_by">Ändere Y um:</string>
 	<string name="brick_set_x">Setze X auf:</string>
 	<string name="brick_set_y">Setze Y auf:</string>
+	<string name="brick_glide">Gleite</string>
+	<string name="brick_glide_to">zu</string>
 	
 	<string name="choose_sound_title">Sound wählen</string>
-
+	
+	<string name="brick_note">Notiz</string>
+	
+	<string name="brick_broadcast_receive">Wenn ich empfange:</string>
+	<string name="brick_broadcast">Verschicke an alle:</string>
+    <string name="brick_broadcast_wait">Verschicke und warte:</string>
+    
     <!-- defaulValues -->
     <string name="default_project_name">standardProjekt</string>
     
@@ -223,5 +235,5 @@
     <string name="upload_button">Hochladen</string>
     <string name="upload_project_dialog_title">Projekt hochladen</string>
     <string name="project_rename">(Das Projekt wird umbenannt.)</string>
-     <string name="screenshot_ok">Screenshot erfolgreich gespeichert</string>
+    <string name="screenshot_ok">Screenshot erfolgreich gespeichert</string>
 </resources>

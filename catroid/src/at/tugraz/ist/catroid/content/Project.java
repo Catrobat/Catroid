@@ -34,14 +34,13 @@ public class Project implements Serializable {
 	private List<Sprite> spriteList = new ArrayList<Sprite>();
 	private String name;
 	private String versionName;
+	private int versionCode;
 
 	//only used for catroid website
 	@SuppressWarnings("unused")
 	private String deviceName;
 	@SuppressWarnings("unused")
 	private String screenResolution;
-
-	private int versionCode;
 
 	public Project(Context context, String name) {
 		this.name = name;
@@ -54,8 +53,8 @@ public class Project implements Serializable {
 			return;
 		}
 
-		Sprite stage = new Sprite(context.getString(R.string.stage));
-		addSprite(stage);
+		Sprite background = new Sprite(context.getString(R.string.background));
+		addSprite(background);
 
 		try {
 			PackageInfo packageInfo = context.getPackageManager().getPackageInfo("at.tugraz.ist.catroid", 0);

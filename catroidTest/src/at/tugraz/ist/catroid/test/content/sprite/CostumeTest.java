@@ -46,8 +46,8 @@ public class CostumeTest extends InstrumentationTestCase {
 			testImage.createNewFile();
 		}
 		InputStream in = getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID);
-		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage));
-		byte[] buffer = new byte[1024];
+		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), Consts.BUFFER_8K);
+		byte[] buffer = new byte[Consts.BUFFER_8K];
 		int length = 0;
 		while ((length = in.read(buffer)) > 0) {
 			out.write(buffer, 0, length);

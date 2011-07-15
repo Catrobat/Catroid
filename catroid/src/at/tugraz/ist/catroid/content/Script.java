@@ -22,20 +22,20 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.exception.InterruptedRuntimeException;
+import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
 
-public class Script implements Serializable {
+public abstract class Script implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Brick> brickList;
-	private boolean isTouchScript;
-	private transient boolean isFinished;
-	private transient boolean paused;
-	private transient int brickPositionAfterPause;
+	protected transient boolean isFinished;
+	private transient volatile boolean paused;
+	private transient volatile boolean finish;
+	private transient int executingBrickIndex;
 	private String name;
-	private Sprite sprite;
+	protected Sprite sprite;
 
-	private Object readResolve() {
+	protected Object readResolve() {
 		init();
 		return this;
 	}
@@ -44,43 +44,44 @@ public class Script implements Serializable {
 		this.name = name;
 		brickList = new ArrayList<Brick>();
 		this.sprite = sprite;
-		setTouchScript(false);
 		init();
 	}
 
 	private void init() {
-		isFinished = isTouchScript ? true : false;
 		paused = false;
-		brickPositionAfterPause = 0;
+		finish = false;
 	}
 
 	public void run() {
-		if (isFinished && !isTouchScript) {
-			return;
-		}
 		isFinished = false;
-		for (int i = brickPositionAfterPause; i < brickList.size(); i++) {
-			if (paused) {
-				brickPositionAfterPause = i;
-				return;
+		for (int i = 0; i < brickList.size(); i++) {
+			while (paused) {
+				if (finish) {
+					isFinished = true;
+					return;
+				}
+				Thread.yield();
 			}
-			try {
-				brickList.get(i).execute();
-				sprite.setToDraw(true);
-			} catch (InterruptedRuntimeException e) { //Brick was interrupted
-				brickPositionAfterPause = i;
-				return;
-			}
+			executingBrickIndex = i;
+			brickList.get(i).execute();
+			i = executingBrickIndex;
+			sprite.setToDraw(true);
 		}
 		isFinished = true;
-		brickPositionAfterPause = 0;
 	}
 
 	public void addBrick(Brick brick) {
-		brickList.add(brick);
+		if (brick != null) {
+			brickList.add(brick);
+		}
 	}
 
-	// TODO: Never used anywhere. But we _do_ remove bricks. So... where is this done and why isn't _this_ function called?
+	public void addBrick(int position, Brick brick) {
+		if (brick != null) {
+			brickList.add(position, brick);
+		}
+	}
+
 	public void removeBrick(Brick brick) {
 		brickList.remove(brick);
 	}
@@ -106,19 +107,12 @@ public class Script implements Serializable {
 		return brickList;
 	}
 
-	public void setTouchScript(boolean isTouchScript) {
-		this.isTouchScript = isTouchScript;
-		if (isTouchScript) {
-			this.isFinished = true;
-		}
-	}
-
-	public boolean isTouchScript() {
-		return isTouchScript;
-	}
-
 	public synchronized void setPaused(boolean paused) {
 		this.paused = paused;
+	}
+
+	public synchronized void setFinish(boolean finish) {
+		this.finish = finish;
 	}
 
 	public boolean isPaused() {
@@ -133,18 +127,32 @@ public class Script implements Serializable {
 		return name;
 	}
 
-	// TODO: Never used anywhere
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	// TODO: Never used anywhere
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
-	// TODO: Never used anywhere
 	public Sprite getSprite() {
 		return sprite;
+	}
+
+	public int getExecutingBrickIndex() {
+		return executingBrickIndex;
+	}
+
+	public void setExecutingBrickIndex(int executingBrickIndex) {
+		this.executingBrickIndex = executingBrickIndex;
+	}
+
+	public boolean containsLoopBrick() {
+		for (Brick brick : brickList) {
+			if (brick instanceof LoopBeginBrick) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

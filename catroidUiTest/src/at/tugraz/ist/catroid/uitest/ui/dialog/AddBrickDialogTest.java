@@ -19,26 +19,22 @@
 
 package at.tugraz.ist.catroid.uitest.ui.dialog;
 
-import java.io.File;
-import java.io.IOException;
-
 import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.uitest.util.Utils;
-import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
-	private String testProject = "testProject";
+	private String testProject = Utils.PROJECTNAME1;
 
 	public AddBrickDialogTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -59,60 +55,72 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 		}
 		getActivity().finish();
 
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + testProject);
-		UtilFile.deleteDirectory(directory);
+		Utils.clearAllUtilTestProjects();
 
 		super.tearDown();
 	}
 
-	public void testAddBrickDialog() {
+	private void checkIfBrickIsPresent(int brickStringId) {
 
-		solo.clickOnButton(getActivity().getString(R.string.load_project));
+		String brickText = solo.getCurrentActivity().getString(R.string.add_new_brick);
+		assertTrue("Inserted brick " + brickText + " was not found.", solo.searchText(brickText));
 
-		solo.clickOnText(testProject);
-		solo.clickInList(2);
-
-		Utils.addNewBrickAndScrollDown(solo, R.string.brick_wait);
-
-		Utils.addNewBrickAndScrollDown(solo, R.string.brick_hide);
-
-		Utils.addNewBrickAndScrollDown(solo, R.string.brick_show);
-
-		Utils.addNewBrickAndScrollDown(solo, R.string.brick_place_at);
-
-		Utils.addNewBrickAndScrollDown(solo, R.string.brick_set_x);
-
-		Utils.addNewBrickAndScrollDown(solo, R.string.brick_set_y);
-
-		Utils.addNewBrickAndScrollDown(solo, R.string.brick_change_x_by);
-
-		Utils.addNewBrickAndScrollDown(solo, R.string.brick_change_y_by);
-
-		Utils.addNewBrickAndScrollDown(solo, R.string.brick_set_costume);
-
-		Utils.addNewBrickAndScrollDown(solo, R.string.brick_scale_costume);
-
-		Utils.addNewBrickAndScrollDown(solo, R.string.brick_go_back);
-
-		Utils.addNewBrickAndScrollDown(solo, R.string.brick_come_to_front);
-
-		Utils.addNewBrickAndScrollDown(solo, R.string.brick_play_sound);
-
-		Utils.addNewBrickAndScrollDown(solo, R.string.brick_if_touched);
-
-		//TODO: please write some asserts
 	}
 
-	private void createTestProject(String projectName) throws IOException {
+	private void addAndCheckBrick(Solo solo, int brickStringId) {
+		Utils.addNewBrickAndScrollDown(solo, brickStringId);
+		checkIfBrickIsPresent(brickStringId);
+	}
+
+	public void testAddBrickDialog() {
+		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
+
+		//solo.clickOnText(testProject);
+		solo.clickInList(2);
+
+		int[] brickIds = new int[] { R.string.brick_wait, R.string.brick_hide, R.string.brick_show,
+				R.string.brick_place_at, R.string.brick_set_x, R.string.brick_set_y, R.string.brick_change_x_by,
+				R.string.brick_change_y_by, R.string.brick_set_costume, R.string.brick_set_size_to,
+				R.string.brick_go_back, R.string.brick_come_to_front, R.string.brick_play_sound, R.string.brick_glide,
+				R.string.brick_broadcast, R.string.brick_broadcast_wait, R.string.brick_note, R.string.brick_forever };
+
+		ProjectManager manager = ProjectManager.getInstance();
+		for (int id : brickIds) {
+			Script script = manager.getCurrentScript();
+			int numberOfBricksBeforeAdding = id == R.string.brick_if_touched ? 0 : script.getBrickList().size();
+			addAndCheckBrick(solo, id);
+			if (id == R.string.brick_forever) {
+				assertEquals("Brick " + solo.getCurrentActivity().getString(id) + " didn't created a LoopEndBrick.",
+						numberOfBricksBeforeAdding + 2, script.getBrickList().size());
+			} else {
+				assertEquals("Brick " + solo.getCurrentActivity().getString(id) + " was not added in the BrickList.",
+						numberOfBricksBeforeAdding + 1, script.getBrickList().size());
+			}
+		}
+
+		int[] triggerBrickIds = new int[] { R.string.brick_if_started, R.string.brick_if_touched,
+				R.string.brick_broadcast_receive };
+
+		for (int id : triggerBrickIds) {
+			int oldNumberOfScripts = manager.getCurrentSprite().getNumberOfScripts();
+			addAndCheckBrick(solo, id);
+			Script script = manager.getCurrentScript();
+			assertEquals("Adding new trigger brick did not create new empty script", 0, script.getBrickList().size());
+			assertEquals("Adding new trigger brick did not create an additional script", oldNumberOfScripts + 1,
+					manager.getCurrentSprite().getNumberOfScripts());
+		}
+	}
+
+	private void createTestProject(String projectName) {
 
 		StorageHandler storageHandler = StorageHandler.getInstance();
 
 		Project project = new Project(getActivity(), projectName);
 		Sprite firstSprite = new Sprite("cat");
 
-		Script testScript = new Script("ScriptTest", firstSprite);
+		Script testScript = new StartScript("ScriptTest", firstSprite);
 
-		firstSprite.getScriptList().add(testScript);
+		firstSprite.addScript(testScript);
 		project.addSprite(firstSprite);
 
 		ProjectManager.getInstance().setProject(project);

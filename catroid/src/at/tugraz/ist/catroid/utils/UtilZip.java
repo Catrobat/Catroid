@@ -29,8 +29,9 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
+import at.tugraz.ist.catroid.common.Consts;
+
 public class UtilZip {
-	private static final int BUFFER = 2048;
 	private static final int QUICKEST_COMPRESSION = 0;
 
 	private static ZipOutputStream zipOutputStream;
@@ -72,7 +73,7 @@ public class UtilZip {
 	}
 
 	private static void writeFileToZip(File file, String zipEntryPath) throws IOException {
-		byte[] readBuffer = new byte[BUFFER];
+		byte[] readBuffer = new byte[Consts.BUFFER_8K];
 		int bytesIn = 0;
 
 		FileInputStream fis = new FileInputStream(file);
@@ -93,7 +94,7 @@ public class UtilZip {
 			ZipEntry zipEntry = null;
 
 			BufferedOutputStream dest = null;
-			byte data[] = new byte[BUFFER];
+			byte data[] = new byte[Consts.BUFFER_8K];
 			while ((zipEntry = zin.getNextEntry()) != null) {
 
 				if (zipEntry.isDirectory()) {
@@ -104,11 +105,11 @@ public class UtilZip {
 				}
 				File f = new File(outDir + zipEntry.getName());
 				f.getParentFile().mkdirs();
-				FileOutputStream fout = new FileOutputStream(f);
+				FileOutputStream fos = new FileOutputStream(f);
 
 				int count;
-				dest = new BufferedOutputStream(fout, BUFFER);
-				while ((count = zin.read(data, 0, BUFFER)) != -1) {
+				dest = new BufferedOutputStream(fos, Consts.BUFFER_8K);
+				while ((count = zin.read(data, 0, Consts.BUFFER_8K)) != -1) {
 					dest.write(data, 0, count);
 				}
 				dest.flush();

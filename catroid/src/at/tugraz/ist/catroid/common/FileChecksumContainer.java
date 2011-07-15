@@ -64,11 +64,6 @@ public class FileChecksumContainer implements Serializable {
 
 	public String getPath(String checksum) {
 		return checksumFileInfoMap.get(checksum).path;
-		//		FileInfo info = checksumFileInfoMap.get(checksum);
-		//		if (info != null) {
-		//			return info.path;
-		//		}
-		//		return null;
 	}
 
 	/**

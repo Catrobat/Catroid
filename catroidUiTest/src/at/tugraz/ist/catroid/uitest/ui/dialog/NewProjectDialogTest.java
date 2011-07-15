@@ -19,9 +19,6 @@
 
 package at.tugraz.ist.catroid.uitest.ui.dialog;
 
-import java.io.IOException;
-
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -32,7 +29,7 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
-	private String testingproject = "testingproject";
+	private String testingproject = Utils.PROJECTNAME1;
 
 	public NewProjectDialogTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -41,7 +38,7 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		Utils.clearProject(testingproject);
+		Utils.clearAllUtilTestProjects();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
@@ -53,18 +50,24 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 			e.printStackTrace();
 		}
 		getActivity().finish();
+		Utils.clearAllUtilTestProjects();
 		super.tearDown();
-		Utils.clearProject(testingproject);
 	}
 
-	public void testNewProjectDialog() throws NameNotFoundException, IOException {
+	public void testNewProjectDialog() {
+
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
+
 		int nameEditTextId = solo.getCurrentEditTexts().size() - 1;
-		Utils.enterText(solo, nameEditTextId, "testingproject");
+
+		Utils.enterText(solo, nameEditTextId, testingproject);
+
 		solo.sendKey(Solo.ENTER);
+
 		solo.sleep(1000);
+
 		assertTrue("New Project is not testingproject!", ProjectManager.getInstance().getCurrentProject().getName()
-				.equals("testingproject"));
+				.equals(Utils.PROJECTNAME1));
 
 	}
 

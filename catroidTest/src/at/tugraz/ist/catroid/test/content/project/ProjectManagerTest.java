@@ -24,22 +24,26 @@ import java.io.IOException;
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.InstrumentationTestCase;
+import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
-import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
+import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
-import at.tugraz.ist.catroid.test.util.Utils;
+import at.tugraz.ist.catroid.test.utils.TestUtils;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class ProjectManagerTest extends InstrumentationTestCase {
 
+	private static final String TAG = "ProjectManagerTest";
 	String projectNameOne = "Ulumulu";
 	String scriptNameOne = "Ulukai";
 	String scriptNameTwo = "Ulukai2";
@@ -48,9 +52,9 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 
 	@Override
 	public void tearDown() {
-		Utils.clearProject(projectNameOne);
-		Utils.clearProject("oldProject");
-		Utils.clearProject("newProject");
+		TestUtils.clearProject(projectNameOne);
+		TestUtils.clearProject("oldProject");
+		TestUtils.clearProject("newProject");
 	}
 
 	public void testBasicFunctions() throws NameNotFoundException {
@@ -72,7 +76,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		assertNotNull("no current sprite set", manager.getCurrentSprite());
 		assertEquals("The Spritename is not " + spriteNameOne, spriteNameOne, manager.getCurrentSprite().getName());
 
-		Script script = new Script(scriptNameOne, sprite);
+		Script script = new StartScript(scriptNameOne, sprite);
 		manager.addScript(script);
 		manager.setCurrentScript(script);
 
@@ -108,15 +112,15 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		//addScript
 
 		manager.setCurrentSprite(sprite2);
-		Script script2 = new Script(scriptNameTwo, sprite2);
+		Script script2 = new StartScript(scriptNameTwo, sprite2);
 		manager.addScript(script2);
-		assertTrue("Script not in current Sprite", manager.getCurrentSprite().getScriptList().contains(script2));
+		assertTrue("Script not in current Sprite", manager.getCurrentSprite().getScriptIndex(script2) != -1);
 
 		//addBrick
 
 		manager.setCurrentScript(script2);
 		SetCostumeBrick brick = new SetCostumeBrick(sprite2);
-		manager.addBrick(brick);
+		manager.getCurrentScript().addBrick(brick);
 		assertTrue("Brick not in current Script", manager.getCurrentScript().getBrickList().contains(brick));
 
 		//move brick already tested
@@ -142,7 +146,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		File newProjectFile = new File(Consts.DEFAULT_ROOT + "/" + newProjectName + "/" + newProjectName
 				+ Consts.PROJECT_EXTENTION);
 
-		String spfFileAsString = StorageHandler.getInstance().getProjectfileAsString(newProjectName);
+		String projectFileAsString = TestUtils.getProjectfileAsString(newProjectName);
 
 		assertFalse("Old project folder is still existing", oldProjectFolder.exists());
 		assertFalse("Old project file is still existing", oldProjectFile.exists());
@@ -151,8 +155,8 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		assertTrue("New project file is not existing", newProjectFile.exists());
 
 		//this fails because catroid is buggy, fix catroid not this test --> we haven't decided yet how to fix the FileChecksumContainer
-		System.out.println(spfFileAsString);
-		assertFalse("old projectName still in spf file", spfFileAsString.contains(oldProjectName));
+		Log.v(TAG, projectFileAsString);
+		assertFalse("old projectName still in project file", projectFileAsString.contains(oldProjectName));
 
 	}
 
@@ -161,7 +165,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 
 		int xPosition = 457;
 		int yPosition = 598;
-		double scaleValue = 0.8;
+		double size = 0.8;
 
 		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
 		storageHandler.saveProject(project);
@@ -170,38 +174,37 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		Sprite secondSprite = new Sprite("dog");
 		Sprite thirdSprite = new Sprite("horse");
 		Sprite fourthSprite = new Sprite("pig");
-		Script testScript = new Script("testScript", firstSprite);
-		Script otherScript = new Script("otherScript", secondSprite);
+		Script testScript = new StartScript("testScript", firstSprite);
+		Script otherScript = new StartScript("otherScript", secondSprite);
 		HideBrick hideBrick = new HideBrick(firstSprite);
 		ShowBrick showBrick = new ShowBrick(firstSprite);
 		SetCostumeBrick costumeBrick = new SetCostumeBrick(firstSprite);
-		File image = Utils.saveFileToProject(projectName, "image.png", at.tugraz.ist.catroid.test.R.raw.icon,
+		File image = TestUtils.saveFileToProject(projectName, "image.png", at.tugraz.ist.catroid.test.R.raw.icon,
 				getInstrumentation().getContext(), 0);
 		costumeBrick.setCostume(image.getName());
-		ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(secondSprite, scaleValue);
+		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(secondSprite, size);
 		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(firstSprite);
 		PlaceAtBrick placeAtBrick = new PlaceAtBrick(secondSprite, xPosition, yPosition);
 
 		// adding Bricks: ----------------
 		testScript.addBrick(hideBrick);
 		testScript.addBrick(showBrick);
-		testScript.addBrick(scaleCostumeBrick);
+		testScript.addBrick(setSizeToBrick);
 		testScript.addBrick(comeToFrontBrick);
 
 		otherScript.addBrick(placeAtBrick); // secondSprite
 		otherScript.setPaused(true);
 		// -------------------------------
 
-		firstSprite.getScriptList().add(testScript);
-		secondSprite.getScriptList().add(otherScript);
+		firstSprite.addScript(testScript);
+		secondSprite.addScript(otherScript);
 
 		project.addSprite(firstSprite);
 		project.addSprite(secondSprite);
 		project.addSprite(thirdSprite);
 		project.addSprite(fourthSprite);
 
-		ProjectManager.getInstance().fileChecksumContainer.addChecksum(
-				StorageHandler.getInstance().getMD5Checksum(image),
+		ProjectManager.getInstance().fileChecksumContainer.addChecksum(Utils.md5Checksum(image),
 				image.getAbsolutePath());
 
 		storageHandler.saveProject(project);

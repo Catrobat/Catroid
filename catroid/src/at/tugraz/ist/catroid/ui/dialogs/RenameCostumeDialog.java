@@ -29,7 +29,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.costumeData;
 import at.tugraz.ist.catroid.ui.CostumeActivity;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -37,7 +36,6 @@ import at.tugraz.ist.catroid.utils.Utils;
 public class RenameCostumeDialog extends Dialog {
 	protected CostumeActivity costumeActivity;
 	private EditText renameName;
-	private Sprite sprite;
 	int length;
 	String last;
 
@@ -49,7 +47,6 @@ public class RenameCostumeDialog extends Dialog {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		renameName = null;
-		sprite = ProjectManager.getInstance().getCurrentSprite();
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dialog_rename);
 		setTitle(R.string.rename_costume_dialog);

@@ -28,19 +28,19 @@ import java.util.List;
 
 import android.content.Context;
 import android.text.InputType;
-import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
-import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
+import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.utils.UtilFile;
@@ -48,28 +48,22 @@ import at.tugraz.ist.catroid.utils.UtilFile;
 import com.jayway.android.robotium.solo.Solo;
 
 public class Utils {
-	private static final int WAIT_TIME_IN_MILLISECONDS = 50;
-	private static final String TAG = "UiTestUtils";
 	private static ProjectManager projectManager = ProjectManager.getInstance();
 
 	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
+	public static final String PROJECTNAME1 = "testproject1";
+	public static final String PROJECTNAME2 = "testproject2";
+	public static final String PROJECTNAME3 = "testproject3";
+	public static final String PROJECTNAME4 = "testproject4";
 	public static final int TYPE_IMAGE_FILE = 0;
 	public static final int TYPE_SOUND_FILE = 1;
 
-	public static void pause() {
-		try {
-			Thread.sleep(WAIT_TIME_IN_MILLISECONDS);
-		} catch (InterruptedException e) {
-			Log.e(TAG, "pause() threw an InterruptedException");
-			Log.e(TAG, e.getMessage());
-		}
-	}
-
 	public static void enterText(Solo solo, int editTextIndex, String text) {
-		pause();
+		solo.sleep(50);
 		solo.getEditText(editTextIndex).setInputType(InputType.TYPE_NULL);
+		solo.clearEditText(editTextIndex);
 		solo.enterText(editTextIndex, text);
-		pause();
+		solo.sleep(50);
 	}
 
 	/**
@@ -115,17 +109,17 @@ public class Utils {
 	public static List<Brick> createTestProject() {
 		int xPosition = 457;
 		int yPosition = 598;
-		double scaleValue = 0.8;
+		double size = 0.8;
 
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
 		Sprite firstSprite = new Sprite("cat");
 
-		Script testScript = new Script("testscript", firstSprite);
+		Script testScript = new StartScript("testscript", firstSprite);
 
 		ArrayList<Brick> brickList = new ArrayList<Brick>();
 		brickList.add(new HideBrick(firstSprite));
 		brickList.add(new ShowBrick(firstSprite));
-		brickList.add(new ScaleCostumeBrick(firstSprite, scaleValue));
+		brickList.add(new SetSizeToBrick(firstSprite, size));
 		brickList.add(new GoNStepsBackBrick(firstSprite, 1));
 		brickList.add(new ComeToFrontBrick(firstSprite));
 		brickList.add(new PlaceAtBrick(firstSprite, xPosition, yPosition));
@@ -134,7 +128,7 @@ public class Utils {
 			testScript.addBrick(brick);
 		}
 
-		firstSprite.getScriptList().add(testScript);
+		firstSprite.addScript(testScript);
 
 		project.addSprite(firstSprite);
 
@@ -148,9 +142,9 @@ public class Utils {
 	public static void createEmptyProject() {
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
 		Sprite firstSprite = new Sprite("cat");
-		Script testScript = new Script("testscript", firstSprite);
+		Script testScript = new StartScript("testscript", firstSprite);
 
-		firstSprite.getScriptList().add(testScript);
+		firstSprite.addScript(testScript);
 		project.addSprite(firstSprite);
 
 		projectManager.setProject(project);
@@ -198,8 +192,8 @@ public class Utils {
 			File file = new File(filePath);
 			file.createNewFile();
 
-			BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file), 1024);
-			byte[] buffer = new byte[1024];
+			BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file), Consts.BUFFER_8K);
+			byte[] buffer = new byte[Consts.BUFFER_8K];
 			int length = 0;
 			while ((length = in.read(buffer)) > 0) {
 				out.write(buffer, 0, length);
@@ -235,5 +229,42 @@ public class Utils {
 
 		StorageHandler.getInstance().saveProject(project);
 		return project;
+	}
+
+	public static void clearAllUtilTestProjects() {
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + PROJECTNAME1);
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
+
+		directory = new File(Consts.DEFAULT_ROOT + "/" + PROJECTNAME2);
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
+
+		directory = new File(Consts.DEFAULT_ROOT + "/" + PROJECTNAME3);
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
+
+		directory = new File(Consts.DEFAULT_ROOT + "/" + PROJECTNAME4);
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
+
+		directory = new File(Consts.DEFAULT_ROOT + "/" + DEFAULT_TEST_PROJECT_NAME);
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
+
+		directory = new File(Consts.DEFAULT_ROOT + "/" + "defaultProject");
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
+
+		directory = new File(Consts.DEFAULT_ROOT + "/" + "standardProjekt");
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
 	}
 }

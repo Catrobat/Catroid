@@ -44,7 +44,8 @@ public class Costume implements Serializable {
 	private String costumeName, costumeImage;
 
 	@XStreamOmitField
-	private transient Bitmap costumeBitmap, thumbnail;
+	private transient Bitmap costumeBitmap;
+	private transient Bitmap thumbnail;
 
 	public Costume(Sprite sprite, String imagePath) {
 		this.sprite = sprite;
@@ -58,7 +59,7 @@ public class Costume implements Serializable {
 
 		if (costumeImage != null) {
 			thumbnail = ImageEditing.getScaledBitmap(getAbsoluteImagePath(), Consts.THUMBNAIL_HEIGHT,
-										Consts.THUMBNAIL_WIDTH);
+					Consts.THUMBNAIL_WIDTH);
 		}
 	}
 
@@ -78,12 +79,12 @@ public class Costume implements Serializable {
 		setDrawPosition();
 	}
 
-	public synchronized void scale(double scaleFactorPercent) {
+	public synchronized void setSizeTo(double size) {
 		if (costumeBitmap == null || imagePath == null) {
 			return;
 		}
 
-		double scaleFactor = scaleFactorPercent / 100;
+		double scaleFactor = size / 100;
 		int newHeight = (int) (origHeight * scaleFactor);
 		int newWidth = (int) (origWidth * scaleFactor);
 
@@ -113,7 +114,7 @@ public class Costume implements Serializable {
 
 	private String getAbsoluteImagePath() {
 		return Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName()
-							+ Consts.IMAGE_DIRECTORY + "/" + costumeImage;
+				+ Consts.IMAGE_DIRECTORY + "/" + costumeImage;
 	}
 
 	public String getImagePath() {
@@ -128,9 +129,9 @@ public class Costume implements Serializable {
 
 		setPositionToSpriteTopLeft();
 		drawPositionX = Math.round(((Values.SCREEN_WIDTH / (2f * Consts.MAX_REL_COORDINATES)) * sprite.getXPosition())
-					+ Values.SCREEN_WIDTH / 2f);
+				+ Values.SCREEN_WIDTH / 2f);
 		drawPositionY = Math.round((Values.SCREEN_HEIGHT / 2f)
-					- ((Values.SCREEN_HEIGHT / (2f * Consts.MAX_REL_COORDINATES)) * sprite.getYPosition()));
+				- ((Values.SCREEN_HEIGHT / (2f * Consts.MAX_REL_COORDINATES)) * sprite.getYPosition()));
 		setPositionToSpriteCenter();
 	}
 

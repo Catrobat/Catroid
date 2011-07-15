@@ -27,6 +27,7 @@ import junit.framework.TestCase;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.os.Environment;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 
 public class ImageEditingTest extends TestCase {
@@ -37,13 +38,13 @@ public class ImageEditingTest extends TestCase {
 
 		Bitmap scaledBitmap = ImageEditing.scaleBitmap(bitmap, 0.5f, false);
 
-		assertEquals(50, scaledBitmap.getWidth());
-		assertEquals(50, scaledBitmap.getHeight());
+		assertEquals("Wrong bitmap width after scaling", 50, scaledBitmap.getWidth());
+		assertEquals("Wrong bitmap height after scaling", 50, scaledBitmap.getHeight());
 
 		scaledBitmap = ImageEditing.scaleBitmap(bitmap, 60, 70);
 
-		assertEquals(60, scaledBitmap.getWidth());
-		assertEquals(70, scaledBitmap.getHeight());
+		assertEquals("Wrong bitmap width after scaling", 60, scaledBitmap.getWidth());
+		assertEquals("Wrong bitmap height after scaling", 70, scaledBitmap.getHeight());
 	}
 
 	public void testGetImageDimensions() {
@@ -54,7 +55,7 @@ public class ImageEditingTest extends TestCase {
 
 		try {
 			fileOutputStream = new FileOutputStream(sdImageMainDirectory.toString() + "/tmp" + ".jpg");
-			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream);
+			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream, Consts.BUFFER_8K);
 			bitmap.compress(CompressFormat.PNG, 0, bos);
 			bos.flush();
 			bos.close();
@@ -67,8 +68,8 @@ public class ImageEditingTest extends TestCase {
 
 		dimensions = ImageEditing.getImageDimensions(sdImageMainDirectory.toString() + "/tmp.jpg");
 
-		assertEquals(100, dimensions[0]);
-		assertEquals(200, dimensions[1]);
+		assertEquals("Wrong image width", 100, dimensions[0]);
+		assertEquals("Wrong image height", 200, dimensions[1]);
 
 	}
 
@@ -86,7 +87,7 @@ public class ImageEditingTest extends TestCase {
 
 		try {
 			fileOutputStream = new FileOutputStream(sdImageMainDirectory.toString() + "/" + "tmp" + ".jpg");
-			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream);
+			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream, Consts.BUFFER_8K);
 			bitmap.compress(CompressFormat.PNG, 0, bos);
 			bos.flush();
 			bos.close();
@@ -95,15 +96,15 @@ public class ImageEditingTest extends TestCase {
 			e.printStackTrace();
 		}
 
-		Bitmap loadedBitmap = ImageEditing.getBitmap(sdImageMainDirectory.toString() + "/tmp.jpg", maxBitmapWidth, maxBitmapHeight);
+		Bitmap loadedBitmap = ImageEditing.getBitmap(sdImageMainDirectory.toString() + "/tmp.jpg", maxBitmapWidth,
+				maxBitmapHeight);
 
-		assertEquals(bitmap.getHeight(),loadedBitmap.getHeight());
-		assertEquals(bitmap.getWidth(),loadedBitmap.getWidth());
-		
+		assertEquals("Loaded bitmap has incorrect height", bitmap.getHeight(), loadedBitmap.getHeight());
+		assertEquals("Loaded bitmap has incorrect width", bitmap.getWidth(), loadedBitmap.getWidth());
 
 		bitmapWidth = 600;
 		bitmapHeight = 800;
-		
+
 		double sampleSizeWidth = (bitmapWidth / (double) maxBitmapWidth);
 		double sampleSizeHeight = bitmapHeight / (double) maxBitmapHeight;
 		double sampleSize = Math.max(sampleSizeWidth, sampleSizeHeight);
@@ -117,7 +118,7 @@ public class ImageEditingTest extends TestCase {
 
 		try {
 			fileOutputStream = new FileOutputStream(sdImageMainDirectory.toString() + "/" + "tmp" + ".jpg");
-			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream);
+			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream, Consts.BUFFER_8K);
 			bitmap.compress(CompressFormat.PNG, 0, bos);
 			bos.flush();
 			bos.close();
@@ -126,15 +127,15 @@ public class ImageEditingTest extends TestCase {
 			e.printStackTrace();
 		}
 
-		loadedBitmap = ImageEditing.getBitmap(sdImageMainDirectory.toString() + "/tmp.jpg", maxBitmapWidth, maxBitmapHeight);
+		loadedBitmap = ImageEditing.getBitmap(sdImageMainDirectory.toString() + "/tmp.jpg", maxBitmapWidth,
+				maxBitmapHeight);
 		bitmap = ImageEditing.scaleBitmap(bitmap, newWidth, newHeight);
-		
-		
-		assertEquals(bitmap.getHeight(),loadedBitmap.getHeight());
-		assertEquals(bitmap.getWidth(),loadedBitmap.getWidth());
+
+		assertEquals("Loaded bitmap has incorrect height", bitmap.getHeight(), loadedBitmap.getHeight());
+		assertEquals("Loaded bitmap has incorrect width", bitmap.getWidth(), loadedBitmap.getWidth());
 	}
-	
-	public void testGetScaledBitmap(){
+
+	public void testGetScaledBitmap() {
 		int targetBitmapWidth = 300;
 		int targetBitmapHeight = 500;
 
@@ -148,7 +149,7 @@ public class ImageEditingTest extends TestCase {
 
 		try {
 			fileOutputStream = new FileOutputStream(sdImageMainDirectory.toString() + "/" + "tmp" + ".jpg");
-			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream);
+			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream, Consts.BUFFER_8K);
 			bitmap.compress(CompressFormat.PNG, 0, bos);
 			bos.flush();
 			bos.close();
@@ -157,8 +158,9 @@ public class ImageEditingTest extends TestCase {
 			e.printStackTrace();
 		}
 
-		Bitmap loadedBitmap = ImageEditing.getScaledBitmap(sdImageMainDirectory.toString() +"/tmp.jpg", targetBitmapWidth, targetBitmapHeight);
-		
+		Bitmap loadedBitmap = ImageEditing.getScaledBitmap(sdImageMainDirectory.toString() + "/tmp.jpg",
+				targetBitmapWidth, targetBitmapHeight);
+
 		double sampleSizeWidth = (bitmapWidth / (double) targetBitmapWidth);
 		double sampleSizeHeight = bitmapHeight / (double) targetBitmapHeight;
 		double sampleSize = Math.max(sampleSizeWidth, sampleSizeHeight);
@@ -166,10 +168,9 @@ public class ImageEditingTest extends TestCase {
 		int newWidth = (int) Math.ceil(bitmapWidth / sampleSize);
 		int newHeight = (int) Math.ceil(bitmapHeight / sampleSize);
 		bitmap = ImageEditing.scaleBitmap(bitmap, newWidth, newHeight);
-		
-		
-		assertEquals(bitmap.getHeight(),loadedBitmap.getHeight());
-		assertEquals(bitmap.getWidth(),loadedBitmap.getWidth());
+
+		assertEquals("Loaded and scaled bitmap has incorrect height", bitmap.getHeight(), loadedBitmap.getHeight());
+		assertEquals("Loaded and scaled bitmap has incorrect width", bitmap.getWidth(), loadedBitmap.getWidth());
 	}
 
 }

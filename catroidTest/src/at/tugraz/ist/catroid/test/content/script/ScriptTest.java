@@ -24,23 +24,24 @@ import java.util.ArrayList;
 import android.test.AndroidTestCase;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
-import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
+import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 
 public class ScriptTest extends AndroidTestCase {
-	
+
 	private Sprite sprite;
 	private HideBrick hideBrick;
 	private ShowBrick showBrick;
 	private PlaceAtBrick placeAtBrick;
-	private ScaleCostumeBrick scaleCostumeBrick;
+	private SetSizeToBrick setSizeToBrick;
 	private ComeToFrontBrick comeToFrontBrick;
 	private ArrayList<Brick> brickList;
-	
+
 	//pause/resume and Brick.execute functionality tested in WaitBrickTest.java 
 
 	@Override
@@ -49,13 +50,13 @@ public class ScriptTest extends AndroidTestCase {
 		hideBrick = new HideBrick(sprite);
 		showBrick = new ShowBrick(sprite);
 		placeAtBrick = new PlaceAtBrick(sprite, 0, 0);
-		scaleCostumeBrick = new ScaleCostumeBrick(sprite, 0);
-        comeToFrontBrick = new ComeToFrontBrick(sprite);
+		setSizeToBrick = new SetSizeToBrick(sprite, 0);
+		comeToFrontBrick = new ComeToFrontBrick(sprite);
 	};
 
 	public void testAddBricks() {
-        Sprite testSprite = new Sprite("sprite");
-        Script script = new Script("test", testSprite);
+		Sprite testSprite = new Sprite("sprite");
+		Script script = new StartScript("test", testSprite);
 		script.addBrick(hideBrick);
 		script.addBrick(showBrick);
 		script.addBrick(placeAtBrick);
@@ -63,17 +64,14 @@ public class ScriptTest extends AndroidTestCase {
 		brickList = script.getBrickList();
 
 		assertEquals("Wrong size of brick list", 3, brickList.size());
-		assertEquals("hideBrick is not at index 0", 0,
-				brickList.indexOf(hideBrick));
-		assertEquals("showBrick is not at index 1", 1,
-				brickList.indexOf(showBrick));
-		assertEquals("placeAtBrick is not at index 2", 2,
-				brickList.indexOf(placeAtBrick));
+		assertEquals("hideBrick is not at index 0", 0, brickList.indexOf(hideBrick));
+		assertEquals("showBrick is not at index 1", 1, brickList.indexOf(showBrick));
+		assertEquals("placeAtBrick is not at index 2", 2, brickList.indexOf(placeAtBrick));
 	}
 
 	public void testMoveTopBrickDown() {
-        Sprite testSprite = new Sprite("sprite");
-        Script script = new Script("test", testSprite);
+		Sprite testSprite = new Sprite("sprite");
+		Script script = new StartScript("test", testSprite);
 		script.addBrick(hideBrick);
 		script.addBrick(showBrick);
 		script.addBrick(placeAtBrick);
@@ -81,17 +79,14 @@ public class ScriptTest extends AndroidTestCase {
 
 		brickList = script.getBrickList();
 
-		assertEquals("hideBrick is not at index 1", 1,
-				brickList.indexOf(hideBrick));
-		assertEquals("showBrick is not at index 0", 0,
-				brickList.indexOf(showBrick));
-		assertEquals("placeAtBrick is not at index 2", 2,
-				brickList.indexOf(placeAtBrick));
+		assertEquals("hideBrick is not at index 1", 1, brickList.indexOf(hideBrick));
+		assertEquals("showBrick is not at index 0", 0, brickList.indexOf(showBrick));
+		assertEquals("placeAtBrick is not at index 2", 2, brickList.indexOf(placeAtBrick));
 	}
 
 	public void testMoveTopBrickUp() {
-        Sprite testSprite = new Sprite("sprite");
-        Script script = new Script("test", testSprite);
+		Sprite testSprite = new Sprite("sprite");
+		Script script = new StartScript("test", testSprite);
 		script.addBrick(hideBrick);
 		script.addBrick(showBrick);
 		script.addBrick(placeAtBrick);
@@ -101,15 +96,13 @@ public class ScriptTest extends AndroidTestCase {
 
 		assertEquals("hideBrick was moved up even though it was the first brick in the list", 0,
 				brickList.indexOf(hideBrick));
-		assertEquals("showBrick is not at index 1", 1,
-				brickList.indexOf(showBrick));
-		assertEquals("placeAtBrick is not at index 2", 2,
-				brickList.indexOf(placeAtBrick));
+		assertEquals("showBrick is not at index 1", 1, brickList.indexOf(showBrick));
+		assertEquals("placeAtBrick is not at index 2", 2, brickList.indexOf(placeAtBrick));
 	}
 
 	public void testMoveBottomBrickUp() {
-        Sprite testSprite = new Sprite("sprite");
-        Script script = new Script("test", testSprite);
+		Sprite testSprite = new Sprite("sprite");
+		Script script = new StartScript("test", testSprite);
 		script.addBrick(hideBrick);
 		script.addBrick(showBrick);
 		script.addBrick(placeAtBrick);
@@ -117,17 +110,14 @@ public class ScriptTest extends AndroidTestCase {
 
 		brickList = script.getBrickList();
 
-		assertEquals("hideBrick is not at index 0", 0,
-				brickList.indexOf(hideBrick));
-		assertEquals("showBrick is not at index 2", 2,
-				brickList.indexOf(showBrick));
-		assertEquals("placeAtBrick is not at index 1", 1,
-				brickList.indexOf(placeAtBrick));
+		assertEquals("hideBrick is not at index 0", 0, brickList.indexOf(hideBrick));
+		assertEquals("showBrick is not at index 2", 2, brickList.indexOf(showBrick));
+		assertEquals("placeAtBrick is not at index 1", 1, brickList.indexOf(placeAtBrick));
 	}
 
 	public void testMoveBottomBrickDown() {
-        Sprite testSprite = new Sprite("sprite");
-        Script script = new Script("test", testSprite);
+		Sprite testSprite = new Sprite("sprite");
+		Script script = new StartScript("test", testSprite);
 		script.addBrick(hideBrick);
 		script.addBrick(showBrick);
 		script.addBrick(placeAtBrick);
@@ -135,36 +125,29 @@ public class ScriptTest extends AndroidTestCase {
 
 		brickList = script.getBrickList();
 
-		assertEquals("hideBrick is not at index 0", 0,
-				brickList.indexOf(hideBrick));
-		assertEquals("showBrick is not at index 1", 1,
-				brickList.indexOf(showBrick));
+		assertEquals("hideBrick is not at index 0", 0, brickList.indexOf(hideBrick));
+		assertEquals("showBrick is not at index 1", 1, brickList.indexOf(showBrick));
 		assertEquals("placeAtBrick was moved down even though it was the last brick in the list", 2,
 				brickList.indexOf(placeAtBrick));
 	}
 
 	public void testMoveBrick() {
-        Sprite testSprite = new Sprite("sprite");
-        Script script = new Script("test", testSprite);
+		Sprite testSprite = new Sprite("sprite");
+		Script script = new StartScript("test", testSprite);
 		script.addBrick(hideBrick);
 		script.addBrick(showBrick);
 		script.addBrick(placeAtBrick);
-		script.addBrick(scaleCostumeBrick);
+		script.addBrick(setSizeToBrick);
 		script.addBrick(comeToFrontBrick);
-		script.moveBrickBySteps(scaleCostumeBrick, -2);
+		script.moveBrickBySteps(setSizeToBrick, -2);
 
 		brickList = script.getBrickList();
 
-		assertEquals("hideBrick is not at index 0", 0,
-				brickList.indexOf(hideBrick));
-		assertEquals("showBrick is not at index 2", 2,
-				brickList.indexOf(showBrick));
-		assertEquals("placeAtBrick is not at index 3", 3,
-				brickList.indexOf(placeAtBrick));
-		assertEquals("scaleCostumeBrick is not at index 1", 1,
-				brickList.indexOf(scaleCostumeBrick));
-		assertEquals("comeToFrontBrick is not at index 4", 4,
-				brickList.indexOf(comeToFrontBrick));
+		assertEquals("hideBrick is not at index 0", 0, brickList.indexOf(hideBrick));
+		assertEquals("showBrick is not at index 2", 2, brickList.indexOf(showBrick));
+		assertEquals("placeAtBrick is not at index 3", 3, brickList.indexOf(placeAtBrick));
+		assertEquals("setSizeToBrick is not at index 1", 1, brickList.indexOf(setSizeToBrick));
+		assertEquals("comeToFrontBrick is not at index 4", 4, brickList.indexOf(comeToFrontBrick));
 	}
 
 }

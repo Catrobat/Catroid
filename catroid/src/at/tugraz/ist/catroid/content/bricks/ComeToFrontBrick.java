@@ -45,7 +45,7 @@ public class ComeToFrontBrick implements Brick {
 		return this.sprite;
 	}
 
-	public View getView(Context context, int brickId,  BaseExpandableListAdapter adapter) {
+	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.construction_brick_come_to_front, null);
 		return view;

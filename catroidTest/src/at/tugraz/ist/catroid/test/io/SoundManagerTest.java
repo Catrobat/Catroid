@@ -27,7 +27,7 @@ import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.test.R;
-import at.tugraz.ist.catroid.test.util.Utils;
+import at.tugraz.ist.catroid.test.utils.TestUtils;
 
 public class SoundManagerTest extends InstrumentationTestCase {
 	private static final int LONG_TEST_SOUND = R.raw.longtestsound;
@@ -37,10 +37,10 @@ public class SoundManagerTest extends InstrumentationTestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		soundFile = Utils.createTestMediaFile(Consts.DEFAULT_ROOT + "testSound.mp3", TEST_SOUND,
+		soundFile = TestUtils.createTestMediaFile(Consts.DEFAULT_ROOT + "testSound.mp3", TEST_SOUND,
 				getInstrumentation().getContext());
 
-		longSoundFile = Utils.createTestMediaFile(Consts.DEFAULT_ROOT + "longTestSound.mp3", LONG_TEST_SOUND,
+		longSoundFile = TestUtils.createTestMediaFile(Consts.DEFAULT_ROOT + "longTestSound.mp3", LONG_TEST_SOUND,
 				getInstrumentation().getContext());
 	}
 
@@ -85,7 +85,7 @@ public class SoundManagerTest extends InstrumentationTestCase {
 		assertFalse("SoundManager provided a MediaPlayer that was already playing", mediaPlayer.isPlaying());
 	}
 
-	public void testPauseAndResume() throws IllegalStateException, IOException {
+	public void testPauseAndResume() throws IllegalStateException, IOException, InterruptedException {
 		final String soundFilePath = soundFile.getAbsolutePath();
 		assertNotNull("Could not open test sound file", soundFilePath);
 		assertTrue("Could not open test sound file", soundFilePath.length() > 0);
@@ -108,13 +108,7 @@ public class SoundManagerTest extends InstrumentationTestCase {
 		assertTrue("MediaPlayer is not playing after resume", mediaPlayer.isPlaying());
 
 		final int duration = mediaPlayer.getDuration() + 100;
-
-		try {
-			Thread.sleep(duration);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-			fail();
-		}
+		Thread.sleep(duration);
 
 		assertFalse("MediaPlayer is not done playing after pause and resume", mediaPlayer.isPlaying());
 	}
@@ -124,9 +118,8 @@ public class SoundManagerTest extends InstrumentationTestCase {
 		assertNotNull("Could not open test sound file", soundFilePath);
 		assertTrue("Could not open test sound file", soundFilePath.length() > 0);
 
-		final int mediaPlayerCount = 10;
 		ArrayList<MediaPlayer> mediaPlayers = new ArrayList<MediaPlayer>();
-		for (int i = 0; i < mediaPlayerCount; i++) {
+		for (int i = 0; i < SoundManager.MAX_MEDIA_PLAYERS; i++) {
 			MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
 			mediaPlayers.add(mediaPlayer);
 			mediaPlayer.setDataSource(soundFilePath);
@@ -160,8 +153,7 @@ public class SoundManagerTest extends InstrumentationTestCase {
 		assertNotNull("Could not open test sound file", soundFilePath);
 		assertTrue("Could not open test sound file", soundFilePath.length() > 0);
 
-		final int mediaPlayerCount = SoundManager.MAX_MEDIA_PLAYERS;
-		for (int i = 0; i < mediaPlayerCount; i++) {
+		for (int i = 0; i < SoundManager.MAX_MEDIA_PLAYERS; i++) {
 			MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
 			mediaPlayer.setDataSource(soundFilePath);
 			mediaPlayer.prepare();

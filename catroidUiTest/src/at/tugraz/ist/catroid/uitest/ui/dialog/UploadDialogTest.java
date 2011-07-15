@@ -36,8 +36,8 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
-	private String testProject = "testProject";
-	private String newTestProject = "newProjectToTest";
+	private String testProject = Utils.PROJECTNAME1;
+	private String newTestProject = Utils.PROJECTNAME2;
 
 	public UploadDialogTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -46,16 +46,14 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 	@Override
 	@UiThreadTest
 	public void setUp() throws Exception {
-		Utils.clearProject(testProject);
-		Utils.clearProject(newTestProject);
+		Utils.clearAllUtilTestProjects();
 		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		Utils.clearProject(testProject);
-		Utils.clearProject(newTestProject);
+		Utils.clearAllUtilTestProjects();
 		try {
 			solo.finalize();
 		} catch (Throwable e) {
@@ -66,7 +64,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		super.tearDown();
 	}
 
-	public void testUploadDialog() throws Throwable {
+	public void testUploadDialog() {
 
 		createTestProject();
 
@@ -74,7 +72,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.sleep(500);
 
 		View renameView = solo.getText(getActivity().getString(R.string.project_rename));
-		assertNotNull(renameView);
+		assertNotNull("View for rename project could not be found", renameView);
 		assertEquals("rename View is visible.", renameView.getVisibility(), View.GONE);
 
 		// clear the title
@@ -96,7 +94,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.clickOnText(getActivity().getString(R.string.upload_project));
 
 		renameView = solo.getText(getActivity().getString(R.string.project_rename));
-		assertNotNull(renameView);
+		assertNotNull("View for rename project could not be found", renameView);
 		assertEquals("rename View is visible.", View.GONE, renameView.getVisibility());
 		assertNotNull("Project Name is not saved.", solo.getEditText(testProject));
 
