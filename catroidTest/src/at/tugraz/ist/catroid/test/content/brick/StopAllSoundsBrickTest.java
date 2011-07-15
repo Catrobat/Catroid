@@ -82,12 +82,9 @@ public class StopAllSoundsBrickTest extends InstrumentationTestCase {
 
 			@Override
 			public void run() {
-
 				testBrick1.setPathToSoundfile(soundFile.getName());
 				testBrick1.execute();
-
 			}
-
 		}
 
 		class ThreadSound2 extends Thread {
@@ -95,12 +92,9 @@ public class StopAllSoundsBrickTest extends InstrumentationTestCase {
 
 			@Override
 			public void run() {
-
 				testBrick1.setPathToSoundfile(soundFile.getName());
 				testBrick1.execute();
-
 			}
-
 		}
 
 		StopAllSoundsBrick testBrick1 = new StopAllSoundsBrick(new Sprite("10"));
@@ -126,10 +120,7 @@ public class StopAllSoundsBrickTest extends InstrumentationTestCase {
 	}
 
 	private void setUpSoundFile() throws IOException {
-
 		soundFile = TestUtils.saveFileToProject(projectName, "longtestsound", SOUND_FILE_ID, getInstrumentation()
 				.getContext(), TestUtils.TYPE_SOUND_FILE);
-
 	}
-
 }

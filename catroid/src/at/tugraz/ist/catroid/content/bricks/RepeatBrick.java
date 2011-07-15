@@ -16,7 +16,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
@@ -29,73 +28,49 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
+import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
-public class WaitBrick implements Brick, OnDismissListener {
+public class RepeatBrick extends LoopBeginBrick implements OnDismissListener {
 	private static final long serialVersionUID = 1L;
-	private int timeToWaitInMilliSeconds;
-	private Sprite sprite;
+	private int timesToRepeat;
 
-	public WaitBrick(Sprite sprite, int timeToWaitInMilliseconds) {
-		this.timeToWaitInMilliSeconds = timeToWaitInMilliseconds;
+	public RepeatBrick(Sprite sprite, int timesToRepeat) {
 		this.sprite = sprite;
+		this.timesToRepeat = timesToRepeat;
 	}
 
+	@Override
 	public void execute() {
-		long startTime = System.currentTimeMillis();
-		int timeToWait = timeToWaitInMilliSeconds;
-		while (System.currentTimeMillis() <= (startTime + timeToWait)) {
-			if (sprite.isPaused) {
-				timeToWait = timeToWait - (int) (System.currentTimeMillis() - startTime);
-				while (sprite.isPaused) {
-					if (sprite.isFinished) {
-						return;
-					}
-					Thread.yield();
-				}
-				startTime = System.currentTimeMillis();
-			}
-			Thread.yield();
-		}
+		loopEndBrick.setTimesToRepeat(timesToRepeat);
 	}
 
-	public Sprite getSprite() {
-		return sprite;
-	}
-
-	public long getWaitTime() {
-		return timeToWaitInMilliSeconds;
+	@Override
+	public Brick clone() {
+		return new RepeatBrick(getSprite(), timesToRepeat);
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_wait, null);
+		View view = inflater.inflate(R.layout.construction_brick_repeat, null);
 
 		EditText edit = (EditText) view.findViewById(R.id.InputValueEditText);
-		edit.setText((timeToWaitInMilliSeconds / 1000.0) + "");
+		edit.setText(timesToRepeat + "");
 
-		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, timeToWaitInMilliSeconds / 1000.0);
+		EditIntegerDialog dialog = new EditIntegerDialog(context, edit, timesToRepeat, false);
 		dialog.setOnDismissListener(this);
 		dialog.setOnCancelListener((OnCancelListener) context);
 
 		edit.setOnClickListener(dialog);
-
 		return view;
 	}
 
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.toolbox_brick_wait, null);
-		return view;
-	}
-
-	@Override
-	public Brick clone() {
-		return new WaitBrick(getSprite(), timeToWaitInMilliSeconds);
+		return inflater.inflate(R.layout.toolbox_brick_repeat, null);
 	}
 
 	public void onDismiss(DialogInterface dialog) {
-		timeToWaitInMilliSeconds = (int) Math.round(((EditDoubleDialog) dialog).getValue() * 1000);
+		timesToRepeat = ((EditIntegerDialog) dialog).getValue();
 		dialog.cancel();
 	}
 }
