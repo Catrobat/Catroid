@@ -236,7 +236,7 @@ public class StorageHandler {
 				SoundInfo info = new SoundInfo();
 				info.setId(cursor.getInt(columnIdIndex));
 				info.setTitle(cursor.getString(columnTitleIndex));
-				info.setPath(cursor.getString(columnDataIndex));
+				info.setAbsolutePath(cursor.getString(columnDataIndex));
 				soundContent.add(info);
 			} while (cursor.moveToNext());
 		}

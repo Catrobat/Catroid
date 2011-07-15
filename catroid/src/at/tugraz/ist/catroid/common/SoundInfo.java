@@ -21,15 +21,16 @@ package at.tugraz.ist.catroid.common;
 public class SoundInfo implements Comparable<SoundInfo> {
 
 	private int id;
-	private String path;
+	private String absolutePath;
 	private String title;
+	private String fileName;
 
-	public String getTitleWithPath() {
-		if (path.endsWith("/")) {
-			return path + title;
-		} else {
-			return path + "/" + title;
-		}
+	public String getAbsolutePath() {
+		return absolutePath;
+	}
+
+	public void setAbsolutePath(String path) {
+		this.absolutePath = path;
 	}
 
 	public int getId() {
@@ -40,14 +41,6 @@ public class SoundInfo implements Comparable<SoundInfo> {
 		this.id = id;
 	}
 
-	public String getPath() {
-		return path;
-	}
-
-	public void setPath(String path) {
-		this.path = path;
-	}
-
 	public String getTitle() {
 		return title;
 	}
@@ -56,9 +49,33 @@ public class SoundInfo implements Comparable<SoundInfo> {
 		this.title = title;
 	}
 
+	public void setSoundFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public String getSoundFileName() {
+		return fileName;
+	}
+
+	public String getChecksum() {
+		if (fileName == null) {
+			return null;
+		}
+		return fileName.substring(0, 32);
+	}
+
+	public String getFileExtension() {
+		if (fileName == null) {
+			return null;
+		}
+		return fileName.substring(fileName.length() - 4, fileName.length());
+	}
+
+	public String getPathWithoutFileName() {
+		return absolutePath.substring(0, absolutePath.length() - fileName.length());
+	}
+
 	public int compareTo(SoundInfo soundInfo) {
-		String thisTitle = title;
-		String otherTitle = soundInfo.title;
-		return thisTitle.compareTo(otherTitle);
+		return title.compareTo(soundInfo.title);
 	}
 }

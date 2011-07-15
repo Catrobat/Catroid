@@ -128,12 +128,12 @@ public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable 
 		}
 
 		try {
-			soundFile = StorageHandler.getInstance().copySoundFile(soundList.get(position).getPath());
+			soundFile = StorageHandler.getInstance().copySoundFile(soundList.get(position).getAbsolutePath());
 
 			if (soundFile != null) {
 				soundfileName = soundFile.getName();
 			} else {
-				soundfileName = soundList.get(position).getTitleWithPath();
+				soundfileName = soundList.get(position).getAbsolutePath();
 			}
 
 			adapter.notifyDataSetChanged();

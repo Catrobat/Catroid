@@ -45,7 +45,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.SoundData;
+import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.io.StorageHandler;
@@ -53,7 +53,7 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class SoundActivity extends ListActivity {
 	private Sprite sprite;
-	private ArrayList<SoundData> soundData;
+	private ArrayList<SoundInfo> soundInfoList;
 	private SoundAdapter soundActivityListAdapter;
 	private final int REQUEST_SELECT_MUSIC = 0;
 
@@ -62,27 +62,20 @@ public class SoundActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_sound);
-		StorageHandler.getInstance().loadSoundContent(this);
-
 		sprite = ProjectManager.getInstance().getCurrentSprite();
-		soundData = new ArrayList<SoundData>();
-		ArrayList<SoundData> currentSounds = sprite.getSoundList();
-		soundActivityListAdapter = new SoundAdapter(this, R.layout.activity_sound_soundlist_item, soundData);
+
+		ArrayList<SoundInfo> currentSounds = sprite.getSoundList();
+		soundInfoList = new ArrayList<SoundInfo>(currentSounds);
+
+		soundActivityListAdapter = new SoundAdapter(this, R.layout.activity_sound_soundlist_item, soundInfoList);
 		setListAdapter(soundActivityListAdapter);
 		getListView().setTextFilterEnabled(true);
+	}
 
-		if (currentSounds != null && !currentSounds.isEmpty()) {
-			soundData.addAll(currentSounds);
-		}
-
-		Button addNewSound = (Button) findViewById(R.id.add_sound_button);
-		addNewSound.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-				intent.setType("audio/*");
-				startActivityForResult(Intent.createChooser(intent, "Select music"), REQUEST_SELECT_MUSIC);
-			}
-		});
+	public void handleAddNewSoundButton(View view) {
+		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+		intent.setType("audio/*");
+		startActivityForResult(Intent.createChooser(intent, "Select music"), REQUEST_SELECT_MUSIC);
 	}
 
 	@Override
@@ -103,12 +96,12 @@ public class SoundActivity extends ListActivity {
 	}
 
 	private void updateSoundAdapter(String title, String path, String fileName) {
-		SoundData newSoundData = new SoundData();
-		newSoundData.setSoundName(title);
-		newSoundData.setSoundAbsolutePath(path);
-		newSoundData.setSoundFileName(fileName);
-		soundData.add(newSoundData);
-		sprite.addSoundDataToSoundList(newSoundData);
+		SoundInfo newSoundInfo = new SoundInfo();
+		newSoundInfo.setTitle(title);
+		newSoundInfo.setAbsolutePath(path);
+		newSoundInfo.setSoundFileName(fileName);
+		soundInfoList.add(newSoundInfo);
+		sprite.addSoundInfoToSoundList(newSoundInfo);
 		soundActivityListAdapter.notifyDataSetChanged();
 	}
 
@@ -146,11 +139,11 @@ public class SoundActivity extends ListActivity {
 		}
 	}
 
-	private class SoundAdapter extends ArrayAdapter<SoundData> { //TODO: distinct class
+	private class SoundAdapter extends ArrayAdapter<SoundInfo> { //TODO: distinct class
 
-		private ArrayList<SoundData> items;
+		private ArrayList<SoundInfo> items;
 
-		public SoundAdapter(final Context context, int textViewResourceId, ArrayList<SoundData> items) {
+		public SoundAdapter(final Context context, int textViewResourceId, ArrayList<SoundInfo> items) {
 			super(context, textViewResourceId, items);
 			this.items = items;
 		}
@@ -164,14 +157,14 @@ public class SoundActivity extends ListActivity {
 				convertView = vi.inflate(R.layout.activity_sound_soundlist_item, null);
 			}
 
-			final SoundData soundData = items.get(position);
+			final SoundInfo soundInfo = items.get(position);
 
-			if (soundData != null) {
+			if (soundInfo != null) {
 				ImageView soundImage = (ImageView) convertView.findViewById(R.id.sound_img);
 				soundImage.setImageResource(R.drawable.speaker);
 
 				final EditText soundNameEditText = (EditText) convertView.findViewById(R.id.edit_sound_name);
-				soundNameEditText.setText(soundData.getSoundName());
+				soundNameEditText.setText(soundInfo.getTitle());
 				final Button editSoundNameButton = (Button) convertView.findViewById(R.id.rename_sound_button);
 				editSoundNameButton.setVisibility(Button.INVISIBLE);
 
@@ -203,15 +196,15 @@ public class SoundActivity extends ListActivity {
 						imm.hideSoftInputFromWindow(editSoundNameButton.getWindowToken(), 0);
 
 						//rename
-						String newSoundName = soundNameEditText.getText().toString();
-						soundData.setSoundName(newSoundName);
+						String newSoundTitle = soundNameEditText.getText().toString();
+						soundInfo.setTitle(newSoundTitle);
 					}
 				});
 
 				ImageButton playSound = (ImageButton) convertView.findViewById(R.id.play_button);
 				playSound.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
-						SoundManager.getInstance().playSoundFile(soundData.getSoundAbsolutePath());
+						SoundManager.getInstance().playSoundFile(soundInfo.getAbsolutePath());
 						notifyDataSetChanged();
 					}
 				});
@@ -227,9 +220,9 @@ public class SoundActivity extends ListActivity {
 				ImageButton deleteSound = (ImageButton) convertView.findViewById(R.id.delete_button);
 				deleteSound.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
-						items.remove(soundData);
-						sprite.removeSoundDataFromSoundList(soundData);
-						StorageHandler.getInstance().deleteFile(soundData.getSoundAbsolutePath());
+						items.remove(soundInfo);
+						sprite.removeSoundInfoFromSoundList(soundInfo);
+						StorageHandler.getInstance().deleteFile(soundInfo.getAbsolutePath());
 						notifyDataSetChanged();
 					}
 				});

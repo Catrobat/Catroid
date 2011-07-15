@@ -23,8 +23,7 @@
 	android:orientation="vertical"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:background="#d8e0f5"
->
+	android:background="#d8e0f5">
 
 	<!-- Sound list -->
 	<ListView
@@ -42,5 +41,5 @@
 		android:layout_height="wrap_content"
 		android:layout_weight="0"
 		android:id="@+id/add_sound_button"
-	/>
+		android:onClick="handleAddNewSoundButton"/>
 </LinearLayout>
