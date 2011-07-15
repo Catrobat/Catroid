@@ -47,7 +47,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-
+		Utils.createTestProject();
 		brickListToCheck = Utils.createTestProject();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
@@ -60,10 +60,8 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 			e.printStackTrace();
 		}
 		getActivity().finish();
-
+		Utils.clearAllUtilTestProjects();
 		super.tearDown();
-
-		Utils.clearProject(Utils.DEFAULT_TEST_PROJECT_NAME);
 	}
 
 	public void testMainMenuButton() {

@@ -32,12 +32,12 @@ public class ZipTest extends AndroidTestCase {
 	}
 
 	@Override
-    protected void setUp() throws Exception {
+	protected void setUp() throws Exception {
 		super.setUp();
 	}
 
 	@Override
-    protected void tearDown() throws Exception {
+	protected void tearDown() throws Exception {
 		super.tearDown();
 	}
 
@@ -45,24 +45,24 @@ public class ZipTest extends AndroidTestCase {
 	}
 
 	public void testZipUnzip() throws Throwable {
-				
-        String pathToTest = Consts.TMP_PATH + "/test1/";
-		
-		File testfile = new File(pathToTest+"test2/testfile.txt");
+
+		String pathToTest = Consts.TMP_PATH + "/test1/";
+
+		File testfile = new File(pathToTest + "test2/testfile.txt");
 		testfile.getParentFile().mkdirs();
 		testfile.createNewFile();
-		
-		String[] pathes = {pathToTest};
-			
-        String zipFileName = Consts.TMP_PATH + "/testzip.zip";
+
+		String[] pathes = { pathToTest };
+
+		String zipFileName = Consts.TMP_PATH + "/testzip" + Consts.CATROID_EXTENTION;
 		File zipFile = new File(zipFileName);
-    	if(zipFile.exists()) {
-            zipFile.delete();
-        }
-    	
+		if (zipFile.exists()) {
+			zipFile.delete();
+		}
+
 		zipFile.getParentFile().mkdirs();
 		zipFile.createNewFile();
-    	
+
 		if (!UtilZip.writeToZipFile(pathes, zipFileName)) {
 			zipFile.delete();
 			assertFalse("zip failed", true);
@@ -70,19 +70,19 @@ public class ZipTest extends AndroidTestCase {
 		}
 		testfile.delete();
 		testfile.getParentFile().delete();
-		
-        if (!UtilZip.unZipFile(zipFileName, Consts.TMP_PATH + "/")) {
+
+		if (!UtilZip.unZipFile(zipFileName, Consts.TMP_PATH + "/")) {
 			zipFile.delete();
-			assertFalse("unzip failed", true);  
-			return;     
+			assertFalse("unzip failed", true);
+			return;
 		}
-		
-		File checkfile = new File(pathToTest+"/test2/testfile.txt");
-		
+
+		File checkfile = new File(pathToTest + "/test2/testfile.txt");
+
 		assertTrue("File was not recreated from zip.", checkfile.exists());
-		
+
 		zipFile.delete();
-		
+
 	}
 
 }

@@ -20,7 +20,9 @@ package at.tugraz.ist.catroid.utils;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,16 +87,22 @@ public class ActivityHelper {
 
 			ImageView separator = new ImageView(activity);
 			separator.setBackgroundResource(R.drawable.actionbar_separator);
-			separator.setLayoutParams(
-					new ViewGroup.LayoutParams(2, ViewGroup.LayoutParams.FILL_PARENT));
+			separator.setLayoutParams(new ViewGroup.LayoutParams(2, ViewGroup.LayoutParams.FILL_PARENT));
 
 			actionBar.addView(separator);
 
+			LinearLayout.LayoutParams textViewLayout = new LinearLayout.LayoutParams(
+					ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.FILL_PARENT);
+			int maxWidth = (int) activity.getResources().getDimension(R.dimen.actionbar_height) * 3;
 			TextView titleText = new TextView(activity);
-			titleText.setLayoutParams(springLayoutParams);
+			titleText.setLayoutParams(textViewLayout);
 			titleText.setText(title);
+			titleText.setMaxWidth(maxWidth);
 			titleText.setGravity(Gravity.CENTER_VERTICAL);
 			titleText.setTypeface(null, Typeface.BOLD);
+			titleText.setTextColor(Color.BLACK);
+			titleText.setMaxLines(2);
+			titleText.setEllipsize(TextUtils.TruncateAt.END);
 			titleText.setPadding(10, 0, 0, 0);
 
 			actionBar.addView(titleText);
@@ -116,8 +124,7 @@ public class ActivityHelper {
 		}
 
 		ImageView separator = new ImageView(activity);
-		separator.setLayoutParams(
-				new ViewGroup.LayoutParams(2, ViewGroup.LayoutParams.FILL_PARENT));
+		separator.setLayoutParams(new ViewGroup.LayoutParams(2, ViewGroup.LayoutParams.FILL_PARENT));
 		separator.setBackgroundResource(R.drawable.actionbar_separator);
 
 		ImageButton imgButton = new ImageButton(activity);

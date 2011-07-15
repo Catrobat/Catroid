@@ -21,6 +21,7 @@ package at.tugraz.ist.catroid.test.content.brick;
 import android.test.AndroidTestCase;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
@@ -46,18 +47,15 @@ public class GlideToBrickTest extends AndroidTestCase {
 			e.printStackTrace();
 		}
 
-		assertEquals("Incorrect sprite x position after GlideToBrick executed",
-				xPosition, sprite.getXPosition());
-		assertEquals("Incorrect sprite y position after GlideToBrick executed",
-				yPosition, sprite.getYPosition());
+		assertEquals("Incorrect sprite x position after GlideToBrick executed", xPosition, sprite.getXPosition());
+		assertEquals("Incorrect sprite y position after GlideToBrick executed", yPosition, sprite.getYPosition());
 	}
 
 	public void testNullSprite() {
 		GlideToBrick glideToBrick = new GlideToBrick(null, xPosition, yPosition, duration);
 		try {
 			glideToBrick.execute();
-			fail("Execution of GlideToBrick with null Sprite did not cause a " +
-					"NullPointerException to be thrown");
+			fail("Execution of GlideToBrick with null Sprite did not cause a " + "NullPointerException to be thrown");
 		} catch (NullPointerException e) {
 			// expected behavior
 		}
@@ -69,23 +67,23 @@ public class GlideToBrickTest extends AndroidTestCase {
 		PlaceAtBrick brick = new PlaceAtBrick(sprite, Integer.MAX_VALUE, Integer.MAX_VALUE);
 		brick.execute();
 
-		assertEquals("PlaceAtBrick failed to place Sprite at maximum x integer value",
-				Integer.MAX_VALUE, sprite.getXPosition());
-		assertEquals("PlaceAtBrick failed to place Sprite at maximum y integer value",
-				Integer.MAX_VALUE, sprite.getYPosition());
+		assertEquals("PlaceAtBrick failed to place Sprite at maximum x integer value", Integer.MAX_VALUE,
+				sprite.getXPosition());
+		assertEquals("PlaceAtBrick failed to place Sprite at maximum y integer value", Integer.MAX_VALUE,
+				sprite.getYPosition());
 
 		brick = new PlaceAtBrick(sprite, Integer.MIN_VALUE, Integer.MIN_VALUE);
 		brick.execute();
 
-		assertEquals("PlaceAtBrick failed to place Sprite at minimum x integer value",
-				Integer.MIN_VALUE, sprite.getXPosition());
-		assertEquals("PlaceAtBrick failed to place Sprite at minimum y integer value",
-				Integer.MIN_VALUE, sprite.getYPosition());
+		assertEquals("PlaceAtBrick failed to place Sprite at minimum x integer value", Integer.MIN_VALUE,
+				sprite.getXPosition());
+		assertEquals("PlaceAtBrick failed to place Sprite at minimum y integer value", Integer.MIN_VALUE,
+				sprite.getYPosition());
 	}
 
 	public void testTime() {
 		Sprite sprite = new Sprite("testSprite");
-		Script script = new Script("testScript", sprite);
+		Script script = new StartScript("testScript", sprite);
 		HideBrick hideBrick = new HideBrick(sprite);
 		GlideToBrick glideToBrick = new GlideToBrick(sprite, 0, 0, 1000);
 		ShowBrick showBrick = new ShowBrick(sprite);
@@ -94,16 +92,16 @@ public class GlideToBrickTest extends AndroidTestCase {
 		script.addBrick(glideToBrick);
 		script.addBrick(showBrick);
 
-		sprite.getScriptList().add(script);
+		sprite.addScript(script);
 
-		sprite.startScripts();
+		sprite.startStartScripts();
 
 		try {
-			Thread.sleep(200);
+			Thread.sleep(250);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		assertFalse("Unexpected visibility of test sprite", sprite.isVisible());
+		assertFalse("GlideToBrick should not be visible!", sprite.isVisible());
 
 		try {
 			Thread.sleep(1000);
@@ -111,12 +109,12 @@ public class GlideToBrickTest extends AndroidTestCase {
 			e.printStackTrace();
 		}
 
-		assertTrue("Unexpected visibility of test sprite", sprite.isVisible());
+		assertTrue("GlideToBrick should be visible!", sprite.isVisible());
 	}
 
 	public void testPauseResume() {
 		Sprite sprite = new Sprite("testSprite");
-		Script script = new Script("testScript", sprite);
+		Script script = new StartScript("testScript", sprite);
 		HideBrick hideBrick = new HideBrick(sprite);
 		GlideToBrick glideToBrick = new GlideToBrick(sprite, 0, 0, 3000);
 		ShowBrick showBrick = new ShowBrick(sprite);
@@ -125,9 +123,9 @@ public class GlideToBrickTest extends AndroidTestCase {
 		script.addBrick(glideToBrick);
 		script.addBrick(showBrick);
 
-		sprite.getScriptList().add(script);
+		sprite.addScript(script);
 
-		sprite.startScripts();
+		sprite.startStartScripts();
 
 		try {
 			Thread.sleep(1000);

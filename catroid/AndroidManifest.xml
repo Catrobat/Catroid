@@ -21,57 +21,60 @@
  -->
 <manifest
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:versionCode="5"
+	android:versionCode="6"
 	package="at.tugraz.ist.catroid"
-	android:versionName="0.5.0a"
-	android:installLocation="auto"
->
-    <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
+	android:versionName="0.5.2a"
+	android:installLocation="auto">
+
+    <uses-sdk
+        android:minSdkVersion="7" 
+        android:targetSdkVersion="8" />
+        
+	<uses-permission android:name="android.permission.VIBRATE" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
+	
 	<application
-		android:icon="@drawable/ic_launcher_catroid_plain"
+		android:icon="@drawable/ic_launcher_catroid_fat"
 		android:label="@string/app_name"
 		android:debuggable="true"
-		android:windowContentOverlay="@null"
-		android:theme="@android:style/Theme.Light.NoTitleBar"
-	>
-		<activity
-			android:name=".ui.MainMenuActivity"
-		>
+		android:theme="@android:style/Theme.Light.NoTitleBar">
+		
+		<activity android:name=".ui.MainMenuActivity">
 			<intent-filter>
-				<action
-					android:name="android.intent.action.MAIN" />
-				<category
-					android:name="android.intent.category.LAUNCHER" />
+				<action	android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
+		
 		<activity
-			android:name=".stage.StageActivity" android:screenOrientation="portrait"
-			android:label="@string/stage" 
+			android:name=".stage.StageActivity"
+			android:screenOrientation="portrait"
+			android:label="@string/stage"
 			android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen"/>
-		<activity
-			android:name=".ui.ProjectActivity" />
-		<activity
-			android:name=".ui.ScriptActivity" />
-		<activity
-			android:name=".ui.ScriptTabActivity" />
-		<activity
-			android:name=".ui.SpriteActivity" />
-		<activity
-			android:name=".ui.CostumeActivity" />
-		<activity
-			android:name=".ui.SoundActivity" />
+			
+		<activity android:name=".ui.ProjectActivity" />
+		
+		<activity android:name=".ui.ScriptActivity" />
+		
+		<activity android:name=".ui.ScriptTabActivity" />
+		
+		<activity android:name=".ui.SpriteActivity" />
+		
+		<activity android:name=".ui.CostumeActivity" />
+		
+		<activity android:name=".ui.SoundActivity" />
+
 		<activity
 			android:name=".ui.DownloadActivity"
 			android:label="@string/app_name"
-			android:noHistory="true"
-		>
+			android:noHistory="true">
 			<intent-filter>
-				<action
-					android:name="android.intent.action.VIEW" />
-				<category
-					android:name="android.intent.category.DEFAULT" />
-				<category
-					android:name="android.intent.category.BROWSABLE" />
+				<action	android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
 				<data
 					android:scheme="http"
 					android:host="catroidwebtest.ist.tugraz.at"
@@ -86,18 +89,7 @@
 					android:pathPrefix="/catroid/download/" />
 			</intent-filter>
 		</activity>
+		
 	</application>
-	<uses-permission
-		android:name="android.permission.INTERNET" />
-	<uses-permission
-		android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	<uses-permission
-		android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-	<uses-permission
-		android:name="android.permission.READ_PHONE_STATE" />
-	<uses-permission
-		android:name="android.permission.GET_ACCOUNTS" />
-	<uses-sdk
-		android:minSdkVersion="7"
-		android:targetSdkVersion="8" />
+	
 </manifest>

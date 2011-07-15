@@ -35,7 +35,7 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
-	private String testingproject = "testingproject";
+	private String testingproject = Utils.PROJECTNAME1;
 	private String testingsprite = "testingsprite";
 
 	public NewSpriteDialogTest() {
@@ -45,7 +45,7 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		Utils.clearProject(testingproject);
+		Utils.clearAllUtilTestProjects();
 
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
@@ -60,17 +60,18 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 		}
 
 		getActivity().finish();
+		Utils.clearAllUtilTestProjects();
 		super.tearDown();
-		Utils.clearProject(testingproject);
 	}
 
 	public void testNewSpriteDialog() throws NameNotFoundException, IOException {
 
 		createTestProject(testingproject);
-		solo.clickOnButton(getActivity().getString(R.string.load_project));
+		solo.clickOnButton(getActivity().getString(R.string.projects_on_phone));
 		solo.clickOnText(testingproject);
 
-		solo.clickOnButton(solo.getCurrentActivity().getString(R.string.add_sprite));
+		//solo.clickOnButton(solo.getCurrentActivity().getString(R.string.add_sprite));
+		solo.clickOnImageButton(1);
 		int spriteEditTextId = solo.getCurrentEditTexts().size() - 1;
 		Utils.enterText(solo, spriteEditTextId, "testingsprite");
 		solo.sendKey(Solo.ENTER);
@@ -82,7 +83,7 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 
 	}
 
-	public void createTestProject(String projectName) throws IOException, NameNotFoundException {
+	public void createTestProject(String projectName) {
 		StorageHandler storageHandler = StorageHandler.getInstance();
 
 		Project project = new Project(getActivity(), projectName);

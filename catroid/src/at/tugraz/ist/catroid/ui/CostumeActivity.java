@@ -27,7 +27,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
-import android.content.DialogInterface.OnKeyListener;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -74,7 +73,6 @@ public class CostumeActivity extends ListActivity {
 	Cursor cursor;
 	@XStreamOmitField
 	private transient Bitmap thumbnail;
-	private String TAG = CostumeActivity.class.getSimpleName();
 	private static final int SELECT_IMAGE = 1;
 
 	private void initListeners() {
@@ -294,7 +292,7 @@ public class CostumeActivity extends ListActivity {
 
 			final costumeData c = items.get(position);
 			if (c != null) {
-				Button editCostume = (Button) v.findViewById(R.id.edit_costume);
+				//Button editCostume = (Button) v.findViewById(R.id.edit_costume);
 
 				Button copyCostume = (Button) v.findViewById(R.id.copy_costume);
 				copyCostume.setOnClickListener(new View.OnClickListener() {
@@ -318,8 +316,8 @@ public class CostumeActivity extends ListActivity {
 						String costumeDisplayName = costumeName.concat("_" + costumeId);
 						try {
 							File copyFile = StorageHandler.getInstance().copyImage(
-									ProjectManager.getInstance().getCurrentProject().getName(),
-									absolutePath, costumeDisplayName + costumeFormat);
+									ProjectManager.getInstance().getCurrentProject().getName(), absolutePath,
+									costumeDisplayName + costumeFormat);
 
 							if (copyFile != null) {
 								absolutePath = copyFile.getName();
@@ -368,8 +366,7 @@ public class CostumeActivity extends ListActivity {
 
 				done.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
-						String nameToEdit = ((EditText) findViewById(R.id.costume_edit_name)).getText()
-								.toString();
+						String nameToEdit = ((EditText) findViewById(R.id.costume_edit_name)).getText().toString();
 						if (nameToEdit.equalsIgnoreCase(c.getCostumeName())) {
 							editName.setText(nameToEdit);
 							notifyDataSetChanged();
@@ -402,15 +399,6 @@ public class CostumeActivity extends ListActivity {
 			}
 			return v;
 		}
-
-		/**
-		 * @param onKeyListener
-		 */
-		private void setOnKeyListener(OnKeyListener onKeyListener) {
-			// TODO Auto-generated method stub
-
-		}
-
 	}
 
 }

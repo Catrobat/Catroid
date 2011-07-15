@@ -97,8 +97,9 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-
-		activityHelper.setupActionBar(false, ProjectManager.getInstance().getCurrentSprite().getName());
+		String title = this.getResources().getString(R.string.sprite_name) + " "
+				+ ProjectManager.getInstance().getCurrentSprite().getName();
+		activityHelper.setupActionBar(false, title);
 
 		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, new View.OnClickListener() {
 			public void onClick(View v) {
@@ -222,8 +223,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
 		if (view.getId() == R.id.brick_list_view) {
-			ExpandableListView.ExpandableListContextMenuInfo info =
-					(ExpandableListView.ExpandableListContextMenuInfo) menuInfo;
+			ExpandableListView.ExpandableListContextMenuInfo info = (ExpandableListView.ExpandableListContextMenuInfo) menuInfo;
 			menu.setHeaderTitle("Script Menu");
 
 			if (ExpandableListView.getPackedPositionType(info.packedPosition) == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
@@ -242,14 +242,14 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.script_menu_delete: {
-				sprite.getScriptList().remove(scriptToEdit);
-				if (sprite.getScriptList().isEmpty()) {
+				sprite.removeScript(scriptToEdit);
+				if (sprite.getNumberOfScripts() == 0) {
 					ProjectManager.getInstance().setCurrentScript(null);
 					adapter.notifyDataSetChanged();
 					return true;
 				}
-				int lastScriptIndex = sprite.getScriptList().size() - 1;
-				Script lastScript = sprite.getScriptList().get(lastScriptIndex);
+				int lastScriptIndex = sprite.getNumberOfScripts() - 1;
+				Script lastScript = sprite.getScript(lastScriptIndex);
 				ProjectManager.getInstance().setCurrentScript(lastScript);
 				adapter.notifyDataSetChanged();
 				listView.expandGroup(adapter.getGroupCount() - 1);

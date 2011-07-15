@@ -33,7 +33,6 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
-	private static final String TEST_PROJECT_NAME = "projectActivityTest";
 
 	public ProjectActivityTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -43,11 +42,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	public void setUp() throws Exception {
 		super.setUp();
 		solo = new Solo(getInstrumentation(), getActivity());
-
-		// Create new test project
-		solo.clickOnButton(getActivity().getString(R.string.new_project));
-		Utils.enterText(solo, 0, TEST_PROJECT_NAME);
-		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
+		Utils.createEmptyProject();
 	}
 
 	@Override
@@ -61,11 +56,12 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		}
 
 		getActivity().finish();
+		Utils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
 	private void addNewSprite(String spriteName) {
-		Utils.pause();
+		solo.sleep(50);
 		List<ImageButton> btnList = solo.getCurrentImageButtons();
 		for (int i = 0; i < btnList.size(); i++) {
 			ImageButton btn = btnList.get(i);
@@ -73,18 +69,19 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 				solo.clickOnImageButton(i);
 			}
 		}
-		Utils.pause();
+		solo.sleep(50);
 		Utils.enterText(solo, 0, spriteName);
 
 		solo.clickOnButton(getActivity().getString(R.string.new_sprite_dialog_button));
-		Utils.pause();
+		solo.sleep(50);
 	}
 
 	public void testAddNewSprite() {
 		final String spriteName = "testSprite";
+		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
 		addNewSprite(spriteName);
 
-		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.sprite_list_view);
+		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
 		Sprite secondSprite = (Sprite) spritesList.getItemAtPosition(1);
 		assertEquals("Sprite at index 1 is not " + spriteName, spriteName, secondSprite.getName());
 		assertTrue("Sprite is not in current Project", ProjectManager.getInstance().getCurrentProject().getSpriteList()
@@ -92,7 +89,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		final String spriteName2 = "anotherTestSprite";
 		addNewSprite(spriteName2);
-		spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.sprite_list_view);
+		spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
 		Sprite thirdSprite = (Sprite) spritesList.getItemAtPosition(2);
 		assertEquals("Sprite at index 2 is not " + spriteName2, spriteName2, thirdSprite.getName());
 		assertTrue("Sprite is not in current Project", ProjectManager.getInstance().getCurrentProject().getSpriteList()
@@ -100,6 +97,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	}
 
 	public void testAddNewSpriteErrors() {
+		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
 		addNewSprite("");
 		assertTrue("No error message was displayed upon creating a sprite with an empty name.",
 				solo.searchText(getActivity().getString(R.string.error_no_name_entered)));
@@ -115,6 +113,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	}
 
 	public void testContextMenu() {
+		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
 		// Create sprites manually so we're able to check for equality
 		final String spriteName = "foo";
 		final String spriteName2 = "bar";
@@ -135,7 +134,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickOnButton(getActivity().getString(R.string.rename_button));
 		solo.sleep(50);
 
-		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.sprite_list_view);
+		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
 		Sprite sprite = (Sprite) spritesList.getItemAtPosition(1);
 		assertEquals("Sprite on position wasn't renamed correctly", newSpriteName, sprite.getName());
 
@@ -150,12 +149,13 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 				.contains(sprite));
 		assertFalse("Sprite is still in Project", solo.searchText(newSpriteName));
 
-		spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.sprite_list_view);
+		spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
 		Sprite sprite2 = (Sprite) spritesList.getItemAtPosition(1);
 		assertEquals("Subsequent sprite was not moved up after predecessor's deletion", spriteName2, sprite2.getName());
 	}
 
 	public void testMainMenuButton() {
+		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
 		List<ImageButton> btnList = solo.getCurrentImageButtons();
 		for (int i = 0; i < btnList.size(); i++) {
 			ImageButton btn = btnList.get(i);
@@ -163,7 +163,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 				solo.clickOnImageButton(i);
 			}
 		}
-		Utils.pause();
+		solo.sleep(50);
 		btnList = solo.getCurrentImageButtons();
 		boolean buttonFound = false;
 		for (int i = 0; i < btnList.size(); i++) {
@@ -175,5 +175,21 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertTrue("Main menu is not visible", buttonFound);
 
 		//assertTrue("Current project is not visible", solo.searchText(getActivity().getString(R.string.current_project)));
+	}
+
+	/**
+	 * This is a test that confirms that Catroid doesn't dump the core if we change the orientation while running this
+	 * activity
+	 */
+	public void testChangeOrientation() {
+		String spriteName = "testSprite";
+		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(500);
+		addNewSprite(spriteName);
+		solo.clickLongOnText(spriteName);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		assertTrue("Sprite name not visible after changing orientation", solo.searchText(spriteName));
 	}
 }

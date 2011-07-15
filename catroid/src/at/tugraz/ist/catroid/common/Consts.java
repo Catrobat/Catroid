@@ -23,7 +23,7 @@ import android.os.Environment;
 public final class Consts {
 
 	public static final String DIRECTORY_NAME = "catroid";
-	public static final String PROJECT_EXTENTION = ".spf";
+	public static final String PROJECT_EXTENTION = ".xml";
 	public static final String CATROID_EXTENTION = ".zip";
 
 	public static final String DEFAULT_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath() + "/catroid";
@@ -41,7 +41,8 @@ public final class Consts {
 	public static final int DIALOG_RENAME_SCRIPT = 6;
 	public static final int DIALOG_ADD_BRICK = 7;
 	public static final int DIALOG_UPLOAD_PROJECT = 8;
-	public static final int DIALOG_RENAME_COSTUME = 9;
+	public static final int DIALOG_CONTEXT_MENU = 9;
+	public static final int DIALOG_RENAME_COSTUME = 10;
 
 	//Costume:
 	public static final int MAX_REL_COORDINATES = 1000;
@@ -67,13 +68,13 @@ public final class Consts {
 	public static final String USER_LANGUAGE = "userLanguage";
 
 	public static final String FILE_UPLOAD_URL = "http://www.catroid.org/api/upload/upload.json";
-	public static final String TEST_FILE_UPLOAD_URL = "http://catroidwebtest.ist.tugraz.at/api/upload/upload.json";
-	public static final String TEST_FILE_DOWNLOAD_URL = "http://catroidwebtest.ist.tugraz.at/catroid/download/";
+	public static final String TEST_FILE_UPLOAD_URL = "http://catroidtest.ist.tugraz.at/api/upload/upload.json";
+	public static final String TEST_FILE_DOWNLOAD_URL = "http://catroidtest.ist.tugraz.at/catroid/download/";
 
 	//DefaultProject:
-	public static final String CAT1 = "normalCat";
-	public static final String CAT2 = "banzaiCat";
-	public static final String CAT3 = "cheshireCat";
+	public static final String NORMAL_CAT = "normalCat";
+	public static final String BANZAI_CAT = "banzaiCat";
+	public static final String CHESHIRE_CAT = "cheshireCat";
 	public static final String BACKGROUND = "background";
 
 	//Download:
@@ -84,4 +85,6 @@ public final class Consts {
 	public static final int SCREENSHOT_ICON_PADDING_RIGHT = 3;
 	public static final String SCREENSHOT_FILE_NAME = "thumbnail.png";
 
+	//Various:
+	public static final int BUFFER_8K = 8 * 1024;
 }

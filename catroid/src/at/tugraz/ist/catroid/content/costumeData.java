@@ -32,7 +32,6 @@ public class costumeData {
 	@XStreamOmitField
 	private transient Bitmap costumeThumbnail;
 	private int costumeId;
-	private String TAG = costumeData.class.getSimpleName();
 
 	public int getCostumeId() {
 		return costumeId;

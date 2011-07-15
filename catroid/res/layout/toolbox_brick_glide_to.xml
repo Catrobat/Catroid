@@ -32,7 +32,6 @@
 		android:layout_centerVertical="true"
 	>
 		<TextView
-			android:id="@+id/TextView01"
 			android:text="@string/brick_glide"
 			android:layout_centerVertical="true"
 			android:layout_height="wrap_content"
@@ -50,7 +49,7 @@
 			android:layout_centerVertical="true"
 		>
 			<EditText
-				android:id="@+id/InputValueEditTextDuration"
+				android:id="@+id/edit_text_glide_duration"
 				android:text="3"
 				android:layout_height="wrap_content"
 				android:layout_width="60dp"
@@ -63,7 +62,6 @@
 			>
 			</EditText>
 			<TextView
-				android:id="@+id/TextView02"
 				android:text="@string/seconds"
 				android:layout_height="wrap_content"
 				android:layout_width="wrap_content"
@@ -83,7 +81,6 @@
 		android:layout_centerVertical="true"
 	>
 		<TextView
-			android:id="@+id/TextView03"
 			android:text="@string/brick_glide_to"
 			android:layout_centerVertical="true"
 			android:layout_height="wrap_content"
@@ -101,7 +98,6 @@
 			android:layout_centerVertical="true"
 		>
 			<TextView
-				android:id="@+id/TextView04"
 				android:text="@string/x_label"
 				android:layout_height="wrap_content"
 				android:layout_width="wrap_content"
@@ -112,7 +108,7 @@
 			>
 			</TextView>
 			<EditText
-				android:id="@+id/InputValueEditTextX"
+				android:id="@+id/edit_text_glide_x"
 				android:text="0"
 				android:layout_height="wrap_content"
 				android:layout_width="60dp"
@@ -125,7 +121,6 @@
 			>
 			</EditText>
 			<TextView
-				android:id="@+id/TextView05"
 				android:text="@string/y_label"
 				android:layout_height="wrap_content"
 				android:layout_width="wrap_content"
@@ -137,7 +132,7 @@
 			>
 			</TextView>
 			<EditText
-				android:id="@+id/InputValueEditTextY"
+				android:id="@+id/edit_text_glide_y"
 				android:text="0"
 				android:layout_height="wrap_content"
 				android:layout_width="60dp"

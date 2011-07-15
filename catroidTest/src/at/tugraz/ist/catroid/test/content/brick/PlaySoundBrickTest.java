@@ -31,7 +31,7 @@ import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.R;
-import at.tugraz.ist.catroid.test.util.Utils;
+import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class PlaySoundBrickTest extends InstrumentationTestCase {
@@ -52,11 +52,11 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 		if (soundFile != null && soundFile.exists()) {
 			soundFile.delete();
 		}
-		Utils.clearProject(projectName);
+		TestUtils.clearProject(projectName);
 		SoundManager.getInstance().clear();
 	}
 
-	public void testPlaySound() {
+	public void testPlaySound() throws InterruptedException {
 		final String soundFilePath = soundFile.getAbsolutePath();
 		assertNotNull("Could not open test sound file", soundFilePath);
 		assertTrue("Could not open test sound file", soundFilePath.length() > 0);
@@ -69,12 +69,8 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 		assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
 
 		final int duration = mediaPlayer.getDuration() + timeoutMarginInMilliseconds;
-		try {
-			Thread.sleep(duration);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-			fail();
-		}
+		Thread.sleep(duration);
+
 		assertFalse("MediaPlayer is not done playing", mediaPlayer.isPlaying());
 	}
 
@@ -95,8 +91,7 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 		assertNotNull("Could not open test sound file", soundFilePath);
 		assertTrue("Could not open test sound file", soundFilePath.length() > 0);
 
-		final int playerCount = SoundManager.MAX_MEDIA_PLAYERS;
-		for (int i = 0; i < playerCount; i++) {
+		for (int i = 0; i < SoundManager.MAX_MEDIA_PLAYERS; i++) {
 			MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
 			PlaySoundBrick testBrick = new PlaySoundBrick(new Sprite("3"));
 			testBrick.setPathToSoundfile(soundFile.getName());
@@ -106,7 +101,7 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 	}
 
 	public void testPlaySimultaneousSounds() throws InterruptedException {
-		Thread t1 = new Thread(new Runnable() {
+		Thread soundThread01 = new Thread(new Runnable() {
 			//final String soundFilePath = soundFile.getAbsolutePath();
 			PlaySoundBrick testBrick1 = new PlaySoundBrick(new Sprite("4"));
 
@@ -116,7 +111,7 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 			}
 		});
 
-		Thread t2 = new Thread(new Runnable() {
+		Thread soundThread02 = new Thread(new Runnable() {
 			//final String soundFilePath = soundFile.getAbsolutePath();
 			PlaySoundBrick testBrick2 = new PlaySoundBrick(new Sprite("5"));
 
@@ -126,13 +121,13 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 			}
 		});
 
-		t1.start();
-		t2.start();
+		soundThread01.start();
+		soundThread02.start();
 		Thread.sleep(1000);
 		//Test fails if MediaPlayer throws IllegalArgumentException
 	}
 
-	public void testPauseAndResume() {
+	public void testPauseAndResume() throws InterruptedException {
 		final String soundFilePath = soundFile.getAbsolutePath();
 		assertNotNull("Could not open test sound file", soundFilePath);
 		assertTrue("Could not open test sound file", soundFilePath.length() > 0);
@@ -151,12 +146,8 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 		assertTrue("MediaPlayer is not playing after resume", mediaPlayer.isPlaying());
 
 		final int duration = mediaPlayer.getDuration() + timeoutMarginInMilliseconds;
-		try {
-			Thread.sleep(duration);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-			fail();
-		}
+		Thread.sleep(duration);
+
 		assertFalse("MediaPlayer is not done playing after pause and resume", mediaPlayer.isPlaying());
 	}
 
@@ -170,8 +161,8 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 
 	private void setUpSoundFile() throws IOException {
 
-		soundFile = Utils.saveFileToProject(projectName, "soundTest.mp3", SOUND_FILE_ID, getInstrumentation()
-				.getContext(), Utils.TYPE_SOUND_FILE);
+		soundFile = TestUtils.saveFileToProject(projectName, "soundTest.mp3", SOUND_FILE_ID, getInstrumentation()
+				.getContext(), TestUtils.TYPE_SOUND_FILE);
 
 	}
 }

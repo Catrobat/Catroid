@@ -28,7 +28,6 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.exception.InterruptedRuntimeException;
 import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
@@ -48,32 +47,42 @@ public class GlideToBrick implements Brick, OnDismissListener {
 
 	public void execute() {
 		long startTime = System.currentTimeMillis();
-		while (durationInMilliSeconds > 0) {
-			try {
-				Thread.sleep(33);
+		int duration = durationInMilliSeconds;
+		while (duration > 0) {
+			long timeBeforeSleep = System.currentTimeMillis();
+			int sleep = 33;
+			while (System.currentTimeMillis() <= (timeBeforeSleep + sleep)) {
+				if (sprite.isPaused) {
+					sleep = (int) ((timeBeforeSleep + sleep) - System.currentTimeMillis());
+					long milliSecondsBeforePause = System.currentTimeMillis();
+					while (sprite.isPaused) {
+						if (sprite.isFinished) {
+							return;
+						}
+						Thread.yield();
+					}
+					timeBeforeSleep = System.currentTimeMillis();
+					startTime += System.currentTimeMillis() - milliSecondsBeforePause;
+				}
 
-				long currentTime = System.currentTimeMillis();
-				durationInMilliSeconds -= (int) (currentTime - startTime);
-
-				updatePositions((int) (currentTime - startTime));
-
-				startTime = currentTime;
-				sprite.setToDraw(true);
-			} catch (InterruptedException e) {
-				durationInMilliSeconds -= (int) (System.currentTimeMillis() - startTime);
-				throw new InterruptedRuntimeException("GlideToBrick was interrupted", e);
+				Thread.yield();
 			}
+			long currentTime = System.currentTimeMillis();
+			duration -= (int) (currentTime - startTime);
+			updatePositions((int) (currentTime - startTime), duration);
+			startTime = currentTime;
+			sprite.setToDraw(true);
 		}
 		sprite.setXYPosition(xDestination, yDestination);
 		sprite.setToDraw(true);
 	}
 
-	private void updatePositions(int timePassed) {
+	private void updatePositions(int timePassed, int duration) {
 		int xPosition = sprite.getXPosition();
 		int yPosition = sprite.getYPosition();
 
-		xPosition += ((float) timePassed / durationInMilliSeconds) * (xDestination - xPosition);
-		yPosition += ((float) timePassed / durationInMilliSeconds) * (yDestination - yPosition);
+		xPosition += ((float) timePassed / duration) * (xDestination - xPosition);
+		yPosition += ((float) timePassed / duration) * (yDestination - yPosition);
 
 		sprite.setXYPosition(xPosition, yPosition);
 	}
@@ -98,21 +107,21 @@ public class GlideToBrick implements Brick, OnDismissListener {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View brickView = inflater.inflate(R.layout.construction_brick_glide_to, null);
 
-		EditText editX = (EditText) brickView.findViewById(R.id.InputValueEditTextX);
+		EditText editX = (EditText) brickView.findViewById(R.id.edit_text_glide_x);
 		editX.setText(String.valueOf(xDestination));
 		EditIntegerDialog dialogX = new EditIntegerDialog(context, editX, xDestination, true);
 		dialogX.setOnDismissListener(this);
 		dialogX.setOnCancelListener((OnCancelListener) context);
 		editX.setOnClickListener(dialogX);
 
-		EditText editY = (EditText) brickView.findViewById(R.id.InputValueEditTextY);
+		EditText editY = (EditText) brickView.findViewById(R.id.edit_text_glide_y);
 		editY.setText(String.valueOf(yDestination));
 		EditIntegerDialog dialogY = new EditIntegerDialog(context, editY, yDestination, true);
 		dialogY.setOnDismissListener(this);
 		dialogY.setOnCancelListener((OnCancelListener) context);
 		editY.setOnClickListener(dialogY);
 
-		EditText editDuration = (EditText) brickView.findViewById(R.id.InputValueEditTextDuration);
+		EditText editDuration = (EditText) brickView.findViewById(R.id.edit_text_glide_duration);
 		editDuration.setText(String.valueOf(durationInMilliSeconds / 1000.0));
 		EditDoubleDialog dialogDuration = new EditDoubleDialog(context, editDuration, durationInMilliSeconds / 1000.0);
 		dialogDuration.setOnDismissListener(this);
@@ -136,9 +145,9 @@ public class GlideToBrick implements Brick, OnDismissListener {
 	public void onDismiss(DialogInterface dialog) {
 		if (dialog instanceof EditIntegerDialog) {
 			EditIntegerDialog inputDialog = (EditIntegerDialog) dialog;
-			if (inputDialog.getRefernecedEditTextId() == R.id.InputValueEditTextX) {
+			if (inputDialog.getRefernecedEditTextId() == R.id.edit_text_glide_x) {
 				xDestination = inputDialog.getValue();
-			} else if (inputDialog.getRefernecedEditTextId() == R.id.InputValueEditTextY) {
+			} else if (inputDialog.getRefernecedEditTextId() == R.id.edit_text_glide_y) {
 				yDestination = inputDialog.getValue();
 			} else {
 				throw new RuntimeException("Received illegal id from EditText: "
