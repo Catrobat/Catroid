@@ -37,7 +37,7 @@ public class IfOnEdgeBounceBrick implements Brick {
 
 	public void execute() {
 
-		double width = sprite.getCostume().getRelativeWidth();
+		double width = sprite.getCostume().getRelBoundingBoxWidth();
 		int xPos = sprite.getXPosition();
 		int yPos = sprite.getYPosition();
 
@@ -45,18 +45,18 @@ public class IfOnEdgeBounceBrick implements Brick {
 
 			sprite.setDirection(Math.abs(sprite.getDirection()));
 
-			double newWidth = sprite.getCostume().getRelativeWidth();
+			double newWidth = sprite.getCostume().getRelBoundingBoxWidth();
 			xPos = -Consts.MAX_REL_COORDINATES + (int) (newWidth / 2);
 
 		} else if (sprite.getXPosition() > Consts.MAX_REL_COORDINATES - width / 2) {
 
 			sprite.setDirection(-Math.abs(sprite.getDirection()));
 
-			double newWidth = sprite.getCostume().getRelativeWidth();
+			double newWidth = sprite.getCostume().getRelBoundingBoxWidth();
 			xPos = Consts.MAX_REL_COORDINATES - (int) (newWidth / 2);
 		}
 
-		double height = sprite.getCostume().getRelativeHeight();
+		double height = sprite.getCostume().getRelBoundingBoxHeight();
 
 		if (sprite.getYPosition() > Consts.MAX_REL_COORDINATES - height / 2) {
 
@@ -64,7 +64,7 @@ public class IfOnEdgeBounceBrick implements Brick {
 				sprite.setDirection(180 - sprite.getDirection());
 			}
 
-			double newHeight = sprite.getCostume().getRelativeHeight();
+			double newHeight = sprite.getCostume().getRelBoundingBoxHeight();
 			yPos = Consts.MAX_REL_COORDINATES - (int) (newHeight / 2);
 
 		} else if (sprite.getYPosition() < -Consts.MAX_REL_COORDINATES + height / 2) {
@@ -73,7 +73,7 @@ public class IfOnEdgeBounceBrick implements Brick {
 				sprite.setDirection(180 - sprite.getDirection());
 			}
 
-			double newHeight = sprite.getCostume().getRelativeHeight();
+			double newHeight = sprite.getCostume().getRelBoundingBoxHeight();
 			yPos = -Consts.MAX_REL_COORDINATES + (int) (newHeight / 2);
 		}
 
