@@ -124,6 +124,8 @@ def main():
     rename_resources(project_filename)
     project_name = get_project_name(os.path.join(project_filename, 'project.xml'))
     copy_project(path_to_catroid, project_filename)
+    if os.path.exists(os.path.join(project_filename, 'catroid', 'gen')):
+        shutil.rmtree(os.path.join(project_filename, 'catroid', 'gen'))
     rename_package(project_filename, 'app' + str(project_id))
     set_project_name(project_name, os.path.join(project_filename, 'catroid', 'res', 'values', 'common.xml'))
     os.system('ant release -f ' + os.path.join(project_filename, 'catroid', 'build.xml'))
