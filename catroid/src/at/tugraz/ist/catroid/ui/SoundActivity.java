@@ -128,6 +128,7 @@ public class SoundActivity extends ListActivity {
 			}
 			//-----------------------------------------------------
 
+			//copy music to catroid:
 			try {
 				if (audioPath.equalsIgnoreCase("")) {
 					throw new IOException();
@@ -192,6 +193,7 @@ public class SoundActivity extends ListActivity {
 
 				editSoundNameButton.setOnClickListener(new OnClickListener() {
 					public void onClick(View v) {
+						//deactivate renameButton, clear the focus of EditText and kill keyboard
 						editSoundNameButton.setEnabled(false);
 						soundNameEditText.clearFocus();
 						InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -209,8 +211,12 @@ public class SoundActivity extends ListActivity {
 						soundData.setSoundName(newSoundName);
 						oldFile.renameTo(renamedFile);
 
+						//update FileChecksumContainer:
+						ProjectManager.getInstance().fileChecksumContainer.changePath(soundData.getChecksum(),
+								soundData.getSoundAbsolutePath());
 					}
 				});
+				//TODO: keep the original title in catroid folder and just change the internal title .. so we dont have any problems
 
 				ImageButton playSound = (ImageButton) convertView.findViewById(R.id.play_button);
 				playSound.setOnClickListener(new View.OnClickListener() {
@@ -232,7 +238,7 @@ public class SoundActivity extends ListActivity {
 				deleteSound.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
 						items.remove(soundData);
-						sprite.removeSoundList(soundData);
+						sprite.removeFromSoundList(soundData);
 						StorageHandler.getInstance().deleteFile(soundData.getSoundAbsolutePath());
 						notifyDataSetChanged();
 					}

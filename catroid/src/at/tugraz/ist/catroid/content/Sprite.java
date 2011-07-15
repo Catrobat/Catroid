@@ -235,7 +235,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		soundList.add(soundData);
 	}
 
-	public void removeSoundList(SoundData soundData) {
+	public void removeFromSoundList(SoundData soundData) {
 		soundList.remove(soundData);
 	}
 
