@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import android.graphics.Color;
-import android.util.Log;
 import android.util.Pair;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.SoundData;
@@ -42,7 +41,6 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	private ArrayList<costumeData> costumeList;
 	private ArrayList<SoundData> soundList;
 	private transient Costume costume;
-	private String TAG = Sprite.class.getSimpleName();
 
 	public transient volatile boolean isPaused;
 	public transient volatile boolean isFinished;
@@ -270,12 +268,11 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return scriptList.remove(script);
 	}
 
-	public void setCostumeList(costumeData costumeData) {
+	public void addCostumeDataToCostumeList(costumeData costumeData) {
 		costumeList.add(costumeData);
-		Log.v(TAG, "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@One costume has been loaded");
 	}
 
-	public void removeCostumeList(costumeData costumeData) {
+	public void removeCostumeDataFromCostumeList(costumeData costumeData) {
 		costumeList.remove(costumeData);
 	}
 
@@ -283,11 +280,11 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return costumeList;
 	}
 
-	public void addToSoundList(SoundData soundData) {
+	public void addSoundDataToSoundList(SoundData soundData) {
 		soundList.add(soundData);
 	}
 
-	public void removeFromSoundList(SoundData soundData) {
+	public void removeSoundDataFromSoundList(SoundData soundData) {
 		soundList.remove(soundData);
 	}
 

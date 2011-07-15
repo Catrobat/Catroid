@@ -19,11 +19,9 @@
 package at.tugraz.ist.catroid.content;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 import android.graphics.Bitmap;
 import android.util.Pair;
-import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.utils.ImageEditing;
@@ -34,33 +32,19 @@ public class Costume implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String imagePath;
 	private Sprite sprite;
-	private ArrayList<costumeData> costumeList;
 	private int drawPositionX;
 	private int drawPositionY;
 	private int actHeight;
 	private int actWidth;
 	private int origHeight;
 	private int origWidth;
-	private String costumeName, costumeImage;
 
 	@XStreamOmitField
 	private transient Bitmap costumeBitmap;
-	private transient Bitmap thumbnail;
 
 	public Costume(Sprite sprite, String imagePath) {
 		this.sprite = sprite;
 		this.setImagePath(imagePath);
-		costumeList = new ArrayList<costumeData>();
-	}
-
-	public Costume(String costumeName, String costumeImage) {
-		this.costumeName = costumeName;
-		this.costumeImage = costumeImage;
-
-		if (costumeImage != null) {
-			thumbnail = ImageEditing.getScaledBitmap(getAbsoluteImagePath(), Consts.THUMBNAIL_HEIGHT,
-					Consts.THUMBNAIL_WIDTH);
-		}
 	}
 
 	public synchronized void setImagePath(String imagePath) {
@@ -104,23 +88,6 @@ public class Costume implements Serializable {
 		return;
 	}
 
-	public String getCostumeName() {
-		return costumeName;
-	}
-
-	public Bitmap getCostumeImage() {
-		return thumbnail;
-	}
-
-	private String getAbsoluteImagePath() {
-		return Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName()
-				+ Consts.IMAGE_DIRECTORY + "/" + costumeImage;
-	}
-
-	public String getImagePath() {
-		return imagePath;
-	}
-
 	public Bitmap getBitmap() {
 		return costumeBitmap;
 	}
@@ -162,9 +129,4 @@ public class Costume implements Serializable {
 		drawPositionX = drawPositionX + costumeBitmap.getWidth() / 2;
 		drawPositionY = drawPositionY + costumeBitmap.getHeight() / 2;
 	}
-
-	public ArrayList<costumeData> getCostumeList() {
-		return costumeList;
-	}
-
 }
