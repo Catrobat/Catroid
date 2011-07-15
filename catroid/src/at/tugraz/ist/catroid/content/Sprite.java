@@ -25,7 +25,9 @@ import java.util.concurrent.CountDownLatch;
 
 import android.graphics.Color;
 import android.util.Pair;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.common.SoundData;
 
 public class Sprite implements Serializable, Comparable<Sprite> {
@@ -46,6 +48,14 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	public transient volatile boolean isFinished;
 
 	private Object readResolve() {
+		//filling FileChecksumContainer:
+		FileChecksumContainer container = ProjectManager.getInstance().fileChecksumContainer;
+		//TODO: handle costumes (too early for that because costumeData lacks functionality
+		if (soundList != null && container != null) {
+			for (SoundData soundData : soundList) {
+				container.addChecksum(soundData.getChecksum(), soundData.getSoundAbsolutePath());
+			}
+		}
 		init();
 		return this;
 	}
@@ -60,6 +70,9 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		toDraw = false;
 		isPaused = false;
 		isFinished = false;
+		if (soundList == null) {
+			soundList = new ArrayList<SoundData>(); //TODO: affirm that this is really needed
+		}
 	}
 
 	public Sprite(String name) {

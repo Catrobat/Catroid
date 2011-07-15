@@ -60,6 +60,7 @@ public class SoundActivity extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.activity_sound);
 		StorageHandler.getInstance().loadSoundContent(this);
 
