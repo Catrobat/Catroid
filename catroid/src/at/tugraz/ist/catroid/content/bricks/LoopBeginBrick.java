@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -16,21 +16,40 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.content;
+package at.tugraz.ist.catroid.content.bricks;
 
-public class TapScript extends Script {
+import at.tugraz.ist.catroid.content.Script;
+import at.tugraz.ist.catroid.content.Sprite;
 
+public abstract class LoopBeginBrick implements Brick {
 	private static final long serialVersionUID = 1L;
+	protected Sprite sprite;
+	protected LoopEndBrick loopEndBrick;
 
-	public TapScript(String name, Sprite sprite) {
-		super(name, sprite);
-		super.isFinished = true;
+	public abstract void execute();
+
+	protected Script getScript() {
+		for (int i = 0; i < sprite.getNumberOfScripts(); i++) {
+			Script script = sprite.getScript(i);
+			if (script.getBrickList().contains(this)) {
+				return script;
+			}
+		}
+		return null;
+	}
+
+	public Sprite getSprite() {
+		return this.sprite;
+	}
+
+	public LoopEndBrick getLoopEndBrick() {
+		return this.loopEndBrick;
+	}
+
+	public void setLoopEndBrick(LoopEndBrick loopEndBrick) {
+		this.loopEndBrick = loopEndBrick;
 	}
 
 	@Override
-	protected Object readResolve() {
-		isFinished = true;
-		super.readResolve();
-		return this;
-	}
+	public abstract Brick clone();
 }
