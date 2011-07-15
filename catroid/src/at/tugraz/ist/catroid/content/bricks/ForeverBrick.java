@@ -23,39 +23,32 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 
-public class IfStartedBrick implements Brick {
-	protected Script script;
-	private Sprite sprite;
+public class ForeverBrick extends LoopBeginBrick {
 	private static final long serialVersionUID = 1L;
 
-	public IfStartedBrick(Sprite sprite, Script script) {
-		this.script = script;
+	public ForeverBrick(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
+	@Override
 	public void execute() {
-	}
-
-	public Sprite getSprite() {
-		return sprite;
-	}
-
-	public View getView(Context context, int brickId, final BaseExpandableListAdapter adapter) {
-		View view = getPrototypeView(context);
-		return view;
-	}
-
-	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.toolbox_brick_started, null);
-		return view;
+		loopEndBrick.setTimesToRepeat(LoopEndBrick.FOREVER);
 	}
 
 	@Override
 	public Brick clone() {
-		return new IfStartedBrick(getSprite(), script);
+		return new ForeverBrick(getSprite());
+	}
+
+	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		return inflater.inflate(R.layout.construction_brick_forever, null);
+	}
+
+	public View getPrototypeView(Context context) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		return inflater.inflate(R.layout.toolbox_brick_forever, null);
 	}
 }

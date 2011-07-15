@@ -29,7 +29,7 @@ import at.tugraz.ist.catroid.stage.NativeAppActivity;
 public class SoundManager {
 	private ArrayList<MediaPlayer> mediaPlayers;
 
-	public static final int MAX_MEDIA_PLAYERS = 10;
+	public static final int MAX_MEDIA_PLAYERS = 7;
 	private static SoundManager soundManager = null;
 
 	private SoundManager() {
