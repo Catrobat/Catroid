@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,7 @@ public class ActivityHelper {
 	}
 
 	public void setupActionBar(boolean isMainMenu, String title) {
+		Log.e("huhlhlhlh", "setupActionBar " + activity.toString());
 		final ViewGroup actionBar = getActionBar();
 		if (actionBar == null) {
 			return;
@@ -117,6 +119,7 @@ public class ActivityHelper {
 
 	public boolean addActionButton(int buttonId, int imgResId, View.OnClickListener clickListener,
 			boolean separatorAfter) {
+		Log.e("huhlhlhlh", "addActionButton " + activity.toString());
 		final ViewGroup actionBar = getActionBar();
 
 		if (actionBar == null) {
@@ -152,6 +155,19 @@ public class ActivityHelper {
 			actionBar.addView(separator);
 		}
 		return true;
+	}
+
+	public void changeClickListener(int resourceId, View.OnClickListener clickListener) {
+		Log.e("huhlhlhlh", "changeClickListener " + activity.toString());
+		final ViewGroup actionBar = getActionBar();
+		if (actionBar == null) {
+			return;
+		}
+
+		View buttonView = actionBar.findViewById(resourceId);
+		if (buttonView != null) {
+			buttonView.setOnClickListener(clickListener);
+		}
 	}
 
 	private void goToMainMenu() {
