@@ -177,7 +177,12 @@ public class SoundActivity extends ListActivity {
 
 			if (soundInfo != null) {
 				ImageView soundImage = (ImageView) convertView.findViewById(R.id.sound_img);
-				soundImage.setImageResource(R.drawable.speaker);
+				//play sound on speaker picture
+				soundImage.setOnClickListener(new OnClickListener() {
+					public void onClick(View v) {
+						SoundManager.getInstance().playSoundFile(soundInfo.getAbsolutePath());
+					}
+				});
 
 				final EditText soundNameEditText = (EditText) convertView.findViewById(R.id.edit_sound_name);
 				soundNameEditText.setText(soundInfo.getTitle());
@@ -224,7 +229,7 @@ public class SoundActivity extends ListActivity {
 				soundNameEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
 					public void onFocusChange(View v, boolean hasFocus) {
 						if (hasFocus == false) {
-							editSoundNameButton.setEnabled(false);
+							editSoundNameButton.setVisibility(Button.INVISIBLE);
 							//rename
 							String newSoundTitle = soundNameEditText.getText().toString();
 							soundInfo.setTitle(newSoundTitle);
@@ -236,7 +241,7 @@ public class SoundActivity extends ListActivity {
 				editSoundNameButton.setOnClickListener(new OnClickListener() {
 					public void onClick(View v) {
 						//deactivate renameButton, clear the focus of EditText and kill keyboard
-						editSoundNameButton.setEnabled(false);
+						editSoundNameButton.setVisibility(Button.INVISIBLE);
 						soundNameEditText.clearFocus();
 						InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 						imm.hideSoftInputFromWindow(editSoundNameButton.getWindowToken(), 0);
@@ -251,7 +256,6 @@ public class SoundActivity extends ListActivity {
 				playSound.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
 						SoundManager.getInstance().playSoundFile(soundInfo.getAbsolutePath());
-						notifyDataSetChanged();
 					}
 				});
 
@@ -259,7 +263,6 @@ public class SoundActivity extends ListActivity {
 				stopSound.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
 						SoundManager.getInstance().stop();
-						notifyDataSetChanged();
 					}
 				});
 
