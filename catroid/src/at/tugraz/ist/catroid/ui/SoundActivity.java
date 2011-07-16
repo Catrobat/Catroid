@@ -32,9 +32,11 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
@@ -50,6 +52,8 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.utils.Utils;
+
+//TODO: done and cancel buttons for edittext, use + button from action bar for new sounds
 
 public class SoundActivity extends ListActivity {
 	private Sprite sprite;
@@ -183,6 +187,24 @@ public class SoundActivity extends ListActivity {
 					}
 
 					public void afterTextChanged(Editable arg0) {
+					}
+				});
+
+				//rename with pressing enter key (does not rename the actual file but the name shown in the activity)
+				soundNameEditText.setOnKeyListener(new OnKeyListener() {
+					public boolean onKey(View v, int keyCode, KeyEvent event) {
+						if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+							//clear the focus of EditText and kill keyboard
+							soundNameEditText.clearFocus();
+							InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+							imm.hideSoftInputFromWindow(editSoundNameButton.getWindowToken(), 0);
+
+							//rename
+							String newSoundTitle = soundNameEditText.getText().toString();
+							soundInfo.setTitle(newSoundTitle);
+							return true;
+						}
+						return false;
 					}
 				});
 
