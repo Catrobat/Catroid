@@ -36,6 +36,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -53,7 +54,7 @@ import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.utils.Utils;
 
-//TODO: done and cancel buttons for edittext, use + button from action bar for new sounds
+//TODO: done and cancel buttons for edittext, strings also in german
 
 public class SoundActivity extends ListActivity {
 	private Sprite sprite;
@@ -76,10 +77,20 @@ public class SoundActivity extends ListActivity {
 		getListView().setTextFilterEnabled(true);
 	}
 
-	public void handleAddNewSoundButton(View view) {
-		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-		intent.setType("audio/*");
-		startActivityForResult(Intent.createChooser(intent, "Select music"), REQUEST_SELECT_MUSIC);
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+
+		//set new functionality for actionbar add button:
+		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
+		View.OnClickListener addSoundClickListener = new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+				intent.setType("audio/*");
+				startActivityForResult(Intent.createChooser(intent, "Select music"), REQUEST_SELECT_MUSIC);
+			}
+		};
+		scriptTabActivity.activityHelper.changeClickListener(R.id.btn_action_add_sprite, addSoundClickListener);
 	}
 
 	@Override
@@ -208,7 +219,19 @@ public class SoundActivity extends ListActivity {
 					}
 				});
 
-				//rename sounds (does not rename the actual file but the name shown in the activity
+				//rename sounds on focuschange (does not rename the actual file but the name shown in the activity)
+				soundNameEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
+					public void onFocusChange(View v, boolean hasFocus) {
+						if (hasFocus == false) {
+							editSoundNameButton.setEnabled(false);
+							//rename
+							String newSoundTitle = soundNameEditText.getText().toString();
+							soundInfo.setTitle(newSoundTitle);
+						}
+					}
+				});
+
+				//rename sounds with button (does not rename the actual file but the name shown in the activity)
 				editSoundNameButton.setOnClickListener(new OnClickListener() {
 					public void onClick(View v) {
 						//deactivate renameButton, clear the focus of EditText and kill keyboard
