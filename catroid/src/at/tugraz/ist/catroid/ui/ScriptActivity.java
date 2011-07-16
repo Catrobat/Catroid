@@ -81,7 +81,6 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 				showDialog(Consts.DIALOG_ADD_BRICK);
 			}
 		});
-
 	}
 
 	@Override

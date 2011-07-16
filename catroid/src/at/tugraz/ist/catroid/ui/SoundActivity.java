@@ -78,19 +78,34 @@ public class SoundActivity extends ListActivity {
 	}
 
 	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
+	public void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
 
 		//set new functionality for actionbar add button:
 		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
-		View.OnClickListener addSoundClickListener = new View.OnClickListener() {
+		if (scriptTabActivity.activityHelper == null) {
+			return;
+		}
+		scriptTabActivity.activityHelper.changeClickListener(R.id.btn_action_add_sprite, createAddSoundClickListener());
+
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (!Utils.checkForSdCard(this)) {
+			return;
+		}
+	}
+
+	private View.OnClickListener createAddSoundClickListener() {
+		return new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 				intent.setType("audio/*");
 				startActivityForResult(Intent.createChooser(intent, "Select music"), REQUEST_SELECT_MUSIC);
 			}
 		};
-		scriptTabActivity.activityHelper.changeClickListener(R.id.btn_action_add_sprite, addSoundClickListener);
 	}
 
 	@Override
@@ -99,14 +114,6 @@ public class SoundActivity extends ListActivity {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		if (projectManager.getCurrentProject() != null) {
 			projectManager.saveProject(this);
-		}
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		if (!Utils.checkForSdCard(this)) {
-			return;
 		}
 	}
 

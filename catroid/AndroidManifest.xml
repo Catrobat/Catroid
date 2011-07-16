@@ -57,11 +57,9 @@
 			
 		<activity android:name=".ui.ProjectActivity" />
 		
-		<activity android:name=".ui.ScriptActivity" />
-		
 		<activity android:name=".ui.ScriptTabActivity" />
 		
-		<activity android:name=".ui.SpriteActivity" />
+		<activity android:name=".ui.ScriptActivity" />
 		
 		<activity android:name=".ui.CostumeActivity" />
 		
