@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -49,8 +48,6 @@ import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.costumeData;
 import at.tugraz.ist.catroid.io.StorageHandler;
-import at.tugraz.ist.catroid.ui.dialogs.NewSpriteDialog;
-import at.tugraz.ist.catroid.ui.dialogs.RenameCostumeDialog;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -135,25 +132,6 @@ public class CostumeActivity extends ListActivity {
 			return;
 		}
 		removeDialog(Consts.DIALOG_RENAME_COSTUME);
-	}
-
-	@Override
-	protected Dialog onCreateDialog(int id) {
-		Dialog dialog;
-
-		switch (id) {
-			case Consts.DIALOG_NEW_SPRITE:
-				dialog = new NewSpriteDialog(this);
-				break;
-			case Consts.DIALOG_RENAME_COSTUME:
-				dialog = new RenameCostumeDialog(this);
-				break;
-			default:
-				dialog = null;
-				break;
-		}
-
-		return dialog;
 	}
 
 	@Override
