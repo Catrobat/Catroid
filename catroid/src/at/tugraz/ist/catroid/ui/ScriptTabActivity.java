@@ -24,23 +24,25 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TabHost;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
 
 public class ScriptTabActivity extends TabActivity {
-	private ActivityHelper activityHelper = new ActivityHelper(this);
+	protected ActivityHelper activityHelper = new ActivityHelper(this);
 
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-		activityHelper.setupActionBar(false, this.getResources().getString(R.string.sprite_list));
+		String title = this.getResources().getString(R.string.sprite_name) + " "
+				+ ProjectManager.getInstance().getCurrentSprite().getName();
+		activityHelper.setupActionBar(false, title);
 
 		activityHelper.addActionButton(R.id.btn_action_add_sprite, R.drawable.ic_plus_black,
 				new View.OnClickListener() {
 					public void onClick(View v) {
-						showDialog(Consts.DIALOG_NEW_SPRITE);
+						//standard action
 					}
 				}, false);
 
@@ -57,31 +59,27 @@ public class ScriptTabActivity extends TabActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_scripttab);
 
-		//Resources res = getResources(); // Resource object to get Drawables
 		TabHost tabHost = getTabHost(); // The activity TabHost
 		TabHost.TabSpec spec; // Resusable TabSpec for each tab
 		Intent intent; // Reusable Intent for each tab
 
 		// Create an Intent to launch an Activity for the tab (to be reused)
 		intent = new Intent().setClass(this, ScriptActivity.class);
-		//intent = new Intent().setClass(this, CostumeActivity.class);
 
 		// Initialize a TabSpec for each tab and add it to the TabHost
 		spec = tabHost.newTabSpec("script").setIndicator("Script").setContent(intent);
 		tabHost.addTab(spec);
 
-		// Do the same for the other tabs
-		//intent = new Intent().setClass(this, ScriptActivity.class);// just for demo because CostumeActivity is not ready yet
+		//costumeactivity
 		intent = new Intent().setClass(this, CostumeActivity.class);
 		spec = tabHost.newTabSpec("costumes").setIndicator("Costumes").setContent(intent);
 		tabHost.addTab(spec);
 
-		//intent = new Intent().setClass(this, ScriptActivity.class);//just for demo because SoundActivity is not done yet
+		//soundactivity
 		intent = new Intent().setClass(this, SoundActivity.class);
 		spec = tabHost.newTabSpec("sounds").setIndicator("Sounds").setContent(intent);
 		tabHost.addTab(spec);
 
 		tabHost.setCurrentTab(0);
-
 	}
 }
