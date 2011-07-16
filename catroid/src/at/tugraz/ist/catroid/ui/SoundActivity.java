@@ -78,8 +78,11 @@ public class SoundActivity extends ListActivity {
 	}
 
 	@Override
-	public void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
+	protected void onResume() {
+		super.onResume();
+		if (!Utils.checkForSdCard(this)) {
+			return;
+		}
 
 		//set new functionality for actionbar add button:
 		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
@@ -87,15 +90,6 @@ public class SoundActivity extends ListActivity {
 			return;
 		}
 		scriptTabActivity.activityHelper.changeClickListener(R.id.btn_action_add_sprite, createAddSoundClickListener());
-
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		if (!Utils.checkForSdCard(this)) {
-			return;
-		}
 	}
 
 	private View.OnClickListener createAddSoundClickListener() {
