@@ -30,29 +30,7 @@ import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
 
 public class ScriptTabActivity extends TabActivity {
-	protected ActivityHelper activityHelper = new ActivityHelper(this);
-
-	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-		String title = this.getResources().getString(R.string.sprite_name) + " "
-				+ ProjectManager.getInstance().getCurrentSprite().getName();
-		activityHelper.setupActionBar(false, title);
-
-		activityHelper.addActionButton(R.id.btn_action_add_sprite, R.drawable.ic_plus_black,
-				new View.OnClickListener() {
-					public void onClick(View v) {
-						//standard action
-					}
-				}, false);
-
-		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, new View.OnClickListener() {
-			public void onClick(View v) {
-				Intent intent = new Intent(ScriptTabActivity.this, StageActivity.class);
-				startActivity(intent);
-			}
-		}, false);
-	}
+	protected ActivityHelper activityHelper;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -81,5 +59,25 @@ public class ScriptTabActivity extends TabActivity {
 		tabHost.addTab(spec);
 
 		tabHost.setCurrentTab(0);
+
+		//action bar:
+		setUpActionBar();
+	}
+
+	private void setUpActionBar() {
+		activityHelper = new ActivityHelper(this);
+
+		String title = this.getResources().getString(R.string.sprite_name) + " "
+				+ ProjectManager.getInstance().getCurrentSprite().getName();
+		activityHelper.setupActionBar(false, title);
+
+		activityHelper.addActionButton(R.id.btn_action_add_sprite, R.drawable.ic_plus_black, null, false);
+
+		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent(ScriptTabActivity.this, StageActivity.class);
+				startActivity(intent);
+			}
+		}, false);
 	}
 }
