@@ -37,7 +37,6 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -74,20 +73,12 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		listView.setGroupIndicator(null);
 		listView.setOnGroupClickListener(adapter);
 		registerForContextMenu(listView);
-
-		Button addBrickButton = (Button) findViewById(R.id.add_brick_button);
-		addBrickButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				showDialog(Consts.DIALOG_ADD_BRICK);
-			}
-		});
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_script);
-
 	}
 
 	@Override
@@ -130,6 +121,21 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		if (!Utils.checkForSdCard(this)) {
 			return;
 		}
+
+		//set new functionality for actionbar add button:
+		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
+		if (scriptTabActivity.activityHelper == null) {
+			return;
+		}
+		scriptTabActivity.activityHelper.changeClickListener(R.id.btn_action_add_sprite, createAddBrickClickListener());
+	}
+
+	private View.OnClickListener createAddBrickClickListener() {
+		return new View.OnClickListener() {
+			public void onClick(View v) {
+				showDialog(Consts.DIALOG_ADD_BRICK);
+			}
+		};
 	}
 
 	public void onDismiss(DialogInterface dialog) {

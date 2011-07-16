@@ -58,11 +58,4 @@
 				android:src="@drawable/trash_green" />
 		</RelativeLayout>
 	</LinearLayout>
-	<!-- Add brick button -->
-	<Button
-		android:text="@string/add_new_brick"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:layout_weight="0"
-	android:id="@+id/add_brick_button"></Button>
 </LinearLayout>
