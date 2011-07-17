@@ -54,7 +54,7 @@ import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.utils.Utils;
 
-//TODO: done and cancel buttons for edittext, strings also in german
+//TODO: done and cancel buttons for edittext
 
 public class SoundActivity extends ListActivity {
 	private Sprite sprite;
@@ -125,7 +125,6 @@ public class SoundActivity extends ListActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_SELECT_MUSIC) {
-
 			String audioPath = "";
 			//get real path of soundfile --------------------------
 			{
@@ -157,11 +156,11 @@ public class SoundActivity extends ListActivity {
 
 	private class SoundAdapter extends ArrayAdapter<SoundInfo> { //TODO: distinct class
 
-		private ArrayList<SoundInfo> items;
+		private ArrayList<SoundInfo> soundInfoItems;
 
 		public SoundAdapter(final Context context, int textViewResourceId, ArrayList<SoundInfo> items) {
 			super(context, textViewResourceId, items);
-			this.items = items;
+			this.soundInfoItems = items;
 		}
 
 		@Override
@@ -169,24 +168,18 @@ public class SoundActivity extends ListActivity {
 
 			View convertView = convView;
 			if (convertView == null) {
-				LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				convertView = vi.inflate(R.layout.activity_sound_soundlist_item, null);
+				LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				convertView = inflater.inflate(R.layout.activity_sound_soundlist_item, null);
 			}
 
-			final SoundInfo soundInfo = items.get(position);
+			final SoundInfo soundInfo = soundInfoItems.get(position);
 
 			if (soundInfo != null) {
 				ImageView soundImage = (ImageView) convertView.findViewById(R.id.sound_img);
-				//play sound on speaker picture
-				soundImage.setOnClickListener(new OnClickListener() {
-					public void onClick(View v) {
-						SoundManager.getInstance().playSoundFile(soundInfo.getAbsolutePath());
-					}
-				});
-
 				final EditText soundNameEditText = (EditText) convertView.findViewById(R.id.edit_sound_name);
-				soundNameEditText.setText(soundInfo.getTitle());
 				final Button editSoundNameButton = (Button) convertView.findViewById(R.id.rename_sound_button);
+
+				soundNameEditText.setText(soundInfo.getTitle());
 				editSoundNameButton.setVisibility(Button.INVISIBLE);
 
 				soundNameEditText.addTextChangedListener(new TextWatcher() {
@@ -213,12 +206,10 @@ public class SoundActivity extends ListActivity {
 						if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
 							//clear the focus of EditText and kill keyboard
 							soundNameEditText.clearFocus();
-							InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-							imm.hideSoftInputFromWindow(editSoundNameButton.getWindowToken(), 0);
+							hideKeyboard(editSoundNameButton);
 
 							//rename
-							String newSoundTitle = soundNameEditText.getText().toString();
-							soundInfo.setTitle(newSoundTitle);
+							renameSound(soundInfo, soundNameEditText.getText().toString());
 							return true;
 						}
 						return false;
@@ -231,8 +222,7 @@ public class SoundActivity extends ListActivity {
 						if (hasFocus == false) {
 							editSoundNameButton.setVisibility(Button.INVISIBLE);
 							//rename
-							String newSoundTitle = soundNameEditText.getText().toString();
-							soundInfo.setTitle(newSoundTitle);
+							renameSound(soundInfo, soundNameEditText.getText().toString());
 						}
 					}
 				});
@@ -243,17 +233,22 @@ public class SoundActivity extends ListActivity {
 						//deactivate renameButton, clear the focus of EditText and kill keyboard
 						editSoundNameButton.setVisibility(Button.INVISIBLE);
 						soundNameEditText.clearFocus();
-						InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-						imm.hideSoftInputFromWindow(editSoundNameButton.getWindowToken(), 0);
+						hideKeyboard(editSoundNameButton);
 
 						//rename
-						String newSoundTitle = soundNameEditText.getText().toString();
-						soundInfo.setTitle(newSoundTitle);
+						renameSound(soundInfo, soundNameEditText.getText().toString());
 					}
 				});
 
 				ImageButton playSound = (ImageButton) convertView.findViewById(R.id.play_button);
 				playSound.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+						SoundManager.getInstance().playSoundFile(soundInfo.getAbsolutePath());
+					}
+				});
+
+				//play sound on speaker picture
+				soundImage.setOnClickListener(new OnClickListener() {
 					public void onClick(View v) {
 						SoundManager.getInstance().playSoundFile(soundInfo.getAbsolutePath());
 					}
@@ -269,7 +264,7 @@ public class SoundActivity extends ListActivity {
 				ImageButton deleteSound = (ImageButton) convertView.findViewById(R.id.delete_button);
 				deleteSound.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
-						items.remove(soundInfo);
+						soundInfoItems.remove(soundInfo);
 						sprite.removeSoundInfoFromSoundList(soundInfo);
 						StorageHandler.getInstance().deleteFile(soundInfo.getAbsolutePath());
 						notifyDataSetChanged();
@@ -278,6 +273,15 @@ public class SoundActivity extends ListActivity {
 
 			}
 			return convertView;
+		}
+
+		private void renameSound(SoundInfo soundInfo, String newTitle) {
+			soundInfo.setTitle(newTitle);
+		}
+
+		private void hideKeyboard(View view) {
+			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 		}
 	}
 }
