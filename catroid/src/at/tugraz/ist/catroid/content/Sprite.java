@@ -51,8 +51,11 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		//filling FileChecksumContainer:
 		FileChecksumContainer container = ProjectManager.getInstance().fileChecksumContainer;
 		//TODO: handle costumes (too early for that because costumeData lacks functionality
-		if (soundList != null && container != null) {
+		if (soundList != null) {
 			for (SoundInfo soundInfo : soundList) {
+				if (container == null) {
+					ProjectManager.getInstance().fileChecksumContainer = new FileChecksumContainer();
+				}
 				container.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
 			}
 		}
