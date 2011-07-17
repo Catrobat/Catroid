@@ -26,6 +26,7 @@ import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
+import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -264,6 +265,18 @@ public class MediaPathTest extends InstrumentationTestCase {
 		}
 		for (Brick brick : brickList2) {
 			tapedScript.addBrick(brick);
+		}
+
+		//temporary:
+		{
+			String absoluteSoundPath = testSoundCopy.getAbsolutePath();
+			String soundTitle = testSoundCopy.getName().substring(33, testSoundCopy.getName().length() - 4);
+			String soundFileName = testSoundCopy.getName();
+			SoundInfo newSoundInfo = new SoundInfo();
+			newSoundInfo.setTitle(soundTitle);
+			newSoundInfo.setAbsolutePath(absoluteSoundPath);
+			newSoundInfo.setSoundFileName(soundFileName);
+			sprite.addSoundInfoToSoundList(newSoundInfo);
 		}
 
 		StorageHandler.getInstance().saveProject(project);
