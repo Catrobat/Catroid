@@ -353,9 +353,4 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return true;
 
 	}
-
-	@Override
-	public String toString() {
-		return name;
-	}
 }
