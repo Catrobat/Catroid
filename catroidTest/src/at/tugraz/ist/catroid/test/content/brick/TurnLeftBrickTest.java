@@ -10,6 +10,7 @@ import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.TurnLeftBrick;
+import at.tugraz.ist.catroid.content.bricks.TurnRightBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.R;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
@@ -134,4 +135,18 @@ public class TurnLeftBrickTest extends InstrumentationTestCase {
 		assertEquals("Wrong Y-Position!", 0, sprite.getYPosition());
 	}
 
+	public void testTurnLeftAndTurnRight() {
+		Sprite sprite = new Sprite("test");
+		sprite.getCostume().setImagePath(testImage.getAbsolutePath());
+
+		TurnLeftBrick brickTurnLeft = new TurnLeftBrick(sprite, 50);
+		TurnRightBrick brickTurnRight = new TurnRightBrick(sprite, 30);
+
+		brickTurnLeft.execute();
+		brickTurnRight.execute();
+
+		assertEquals("Wrong direction!", 70, sprite.getDirection(), 1e-3);
+		assertEquals("Wrong X-Position!", 0, sprite.getXPosition());
+		assertEquals("Wrong Y-Position!", 0, sprite.getYPosition());
+	}
 }
