@@ -65,7 +65,6 @@ public class MainMenuActivity extends Activity {
 		if (projectManager.getCurrentProject() == null) {
 			Button currentProjectButton = (Button) findViewById(R.id.current_project_button);
 			currentProjectButton.setEnabled(false);
-
 		}
 	}
 
@@ -125,9 +124,6 @@ public class MainMenuActivity extends Activity {
 		if (projectManager.getCurrentProject() == null) {
 			return;
 		}
-		//		TextView currentProjectTextView = (TextView) findViewById(R.id.currentProjectNameTextView);
-		//		currentProjectTextView.setText(getString(R.string.current_project) + " "
-		//				+ projectManager.getCurrentProject().getName());
 
 		projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
 	}
@@ -138,9 +134,7 @@ public class MainMenuActivity extends Activity {
 		if (projectManager.getCurrentProject() == null) {
 			return;
 		}
-		//		TextView currentProjectTextView = (TextView) findViewById(R.id.currentProjectNameTextView);
-		//		currentProjectTextView.setText(getString(R.string.current_project) + " "
-		//				+ projectManager.getCurrentProject().getName());
+
 	}
 
 	@Override

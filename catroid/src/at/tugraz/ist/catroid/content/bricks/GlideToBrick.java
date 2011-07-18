@@ -158,5 +158,4 @@ public class GlideToBrick implements Brick, OnDismissListener {
 		}
 		dialog.cancel();
 	}
-
 }

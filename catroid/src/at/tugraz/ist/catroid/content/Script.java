@@ -86,6 +86,7 @@ public abstract class Script implements Serializable {
 		brickList.remove(brick);
 	}
 
+	@Deprecated
 	public void moveBrickBySteps(Brick brick, int steps) {
 		int oldIndex = brickList.indexOf(brick);
 		int newIndex;

@@ -86,12 +86,10 @@ public class GoNStepsBackBrick implements Brick, OnDismissListener {
 	@Override
 	public Brick clone() {
 		return new GoNStepsBackBrick(getSprite(), getSteps());
-
 	}
 
 	public void onDismiss(DialogInterface dialog) {
 		steps = ((EditIntegerDialog) dialog).getValue();
 		dialog.cancel();
 	}
-
 }

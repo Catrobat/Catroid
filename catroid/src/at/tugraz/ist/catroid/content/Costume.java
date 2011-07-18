@@ -34,10 +34,10 @@ public class Costume implements Serializable {
 	private Sprite sprite;
 	private int drawPositionX;
 	private int drawPositionY;
-	private int actHeight;
-	private int actWidth;
-	private int origHeight;
-	private int origWidth;
+	private int actualHeight;
+	private int actualWidth;
+	private int originalHeight;
+	private int originalWidth;
 
 	@XStreamOmitField
 	private transient Bitmap costumeBitmap;
@@ -55,11 +55,11 @@ public class Costume implements Serializable {
 			return;
 		}
 
-		actHeight = costumeBitmap.getHeight();
-		actWidth = costumeBitmap.getWidth();
+		actualHeight = costumeBitmap.getHeight();
+		actualWidth = costumeBitmap.getWidth();
 
-		origHeight = costumeBitmap.getHeight();
-		origWidth = costumeBitmap.getWidth();
+		originalHeight = costumeBitmap.getHeight();
+		originalWidth = costumeBitmap.getWidth();
 		setDrawPosition();
 	}
 
@@ -69,19 +69,18 @@ public class Costume implements Serializable {
 		}
 
 		double scaleFactor = size / 100;
-		int newHeight = (int) (origHeight * scaleFactor);
-		int newWidth = (int) (origWidth * scaleFactor);
+		int newHeight = (int) (originalHeight * scaleFactor);
+		int newWidth = (int) (originalWidth * scaleFactor);
 
 		setPositionToSpriteTopLeft();
 
-		if (newHeight > actHeight || newWidth > actWidth) {
-			//costumeBitmap.recycle();
+		if (newHeight > actualHeight || newWidth > actualWidth) {
 			costumeBitmap = ImageEditing.getBitmap(imagePath, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
 		}
 
-		costumeBitmap = ImageEditing.scaleBitmap(costumeBitmap, newWidth, newHeight, true);
-		actWidth = newWidth;
-		actHeight = newHeight;
+		costumeBitmap = ImageEditing.scaleBitmap(costumeBitmap, newWidth, newHeight);
+		actualWidth = newWidth;
+		actualHeight = newHeight;
 
 		setPositionToSpriteCenter();
 
@@ -97,7 +96,6 @@ public class Costume implements Serializable {
 	}
 
 	public synchronized void setDrawPosition() {
-
 		setPositionToSpriteTopLeft();
 		drawPositionX = Math.round(((Values.SCREEN_WIDTH / (2f * Consts.MAX_REL_COORDINATES)) * sprite.getXPosition())
 				+ Values.SCREEN_WIDTH / 2f);
@@ -115,7 +113,7 @@ public class Costume implements Serializable {
 	}
 
 	public Pair<Integer, Integer> getImageWidthHeight() {
-		return new Pair<Integer, Integer>(actWidth, actHeight);
+		return new Pair<Integer, Integer>(actualWidth, actualHeight);
 	}
 
 	private synchronized void setPositionToSpriteCenter() {

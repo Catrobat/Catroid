@@ -149,7 +149,5 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 				dismiss();
 				break;
 		}
-
 	}
-
 }
