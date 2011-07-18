@@ -19,6 +19,7 @@
 
 package at.tugraz.ist.catroid.uitest.ui.dialog;
 
+import android.bluetooth.BluetoothAdapter;
 import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
@@ -28,6 +29,7 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class SensorDialogTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
+	BluetoothAdapter bluetoothAdapter;
 
 	public SensorDialogTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -38,6 +40,11 @@ public class SensorDialogTest extends ActivityInstrumentationTestCase2<ScriptAct
 		super.setUp();
 		Utils.createTestProject();
 		solo = new Solo(getInstrumentation(), getActivity());
+		bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+		if (!bluetoothAdapter.isEnabled()) {
+			bluetoothAdapter.enable();
+		}
+
 	}
 
 	@Override
@@ -52,11 +59,27 @@ public class SensorDialogTest extends ActivityInstrumentationTestCase2<ScriptAct
 		super.tearDown();
 	}
 
-	public void testBluetoothDialog() {
+	public void testBluetoothConnection() {
+
+		//TODO Check if BTImagebutton changes color
+		if (bluetoothAdapter != null) {
+			if (bluetoothAdapter.isEnabled()) {
+				bluetoothAdapter.disable();
+			}
+
+			assertEquals(false, bluetoothAdapter.isEnabled());
+
+			bluetoothAdapter.enable();
+
+			assertEquals(true, bluetoothAdapter.isEnabled());
+		}
+
+	}
+
+	public void testBluetoothScanDialog() {
 		Utils.addNewBrickAndScrollDown(solo, R.string.sensor_main_adapter);
 
 		solo.clickOnButton("B");
-		//solo.clickOnButton(analogButton);
 
 		solo.getViews().size();
 
@@ -64,12 +87,12 @@ public class SensorDialogTest extends ActivityInstrumentationTestCase2<ScriptAct
 		int bluetoothExitButton = solo.getCurrentButtons().size() - 1;
 
 		solo.clickOnButton(bluetoothScanButton);
-		solo.sleep(2000);
+		//solo.sleep(2000);
 		solo.clickOnButton(bluetoothExitButton);
 
 	}
 
-	public void testDigitalSensorDialog() {
+	public void testDigitalSensorValues() {
 		Utils.addNewBrickAndScrollDown(solo, R.string.sensor_main_adapter);
 
 		int pinValue = 5;
@@ -79,9 +102,7 @@ public class SensorDialogTest extends ActivityInstrumentationTestCase2<ScriptAct
 		int pinTextEdits = solo.getCurrentEditTexts().size() - 3;
 		int valueTextEdits = solo.getCurrentEditTexts().size() - 2;
 		int timeTextEdits = solo.getCurrentEditTexts().size() - 1;
-		int digitalButton = solo.getCurrentButtons().size() - 4;
 
-		//solo.clickOnButton(digitalButton);
 		solo.clickOnButton("D");
 
 		Utils.insertIntegerIntoEditText(solo, pinTextEdits, pinValue);
@@ -95,7 +116,7 @@ public class SensorDialogTest extends ActivityInstrumentationTestCase2<ScriptAct
 
 	}
 
-	public void testAnalogSensorDialog() {
+	public void testAnalogSensorValues() {
 		Utils.addNewBrickAndScrollDown(solo, R.string.sensor_main_adapter);
 
 		int pinValue = 5;
@@ -105,10 +126,8 @@ public class SensorDialogTest extends ActivityInstrumentationTestCase2<ScriptAct
 		int pinTextEdits = solo.getCurrentEditTexts().size() - 3;
 		int valueTextEdits = solo.getCurrentEditTexts().size() - 2;
 		int timeTextEdits = solo.getCurrentEditTexts().size() - 1;
-		int analogButton = solo.getCurrentButtons().size() - 3;
 
 		solo.clickOnButton("A");
-		//solo.clickOnButton(analogButton);
 
 		Utils.insertIntegerIntoEditText(solo, pinTextEdits, pinValue);
 		solo.clickOnButton("OK");
@@ -121,7 +140,7 @@ public class SensorDialogTest extends ActivityInstrumentationTestCase2<ScriptAct
 
 	}
 
-	public void testFalseDigitalSensorDialog() {
+	public void testFalseDigitalSensorValues() {
 		Utils.addNewBrickAndScrollDown(solo, R.string.sensor_main_adapter);
 
 		int pinValue = 20;
@@ -131,10 +150,8 @@ public class SensorDialogTest extends ActivityInstrumentationTestCase2<ScriptAct
 		int pinTextEdits = solo.getCurrentEditTexts().size() - 1;
 		int valueTextEdits = solo.getCurrentEditTexts().size() - 2;
 		int timeTextEdits = solo.getCurrentEditTexts().size() - 3;
-		int digitalButton = solo.getCurrentButtons().size() - 4;
 
 		solo.clickOnButton("D");
-		//solo.clickOnButton(digitalButton);
 
 		Utils.insertIntegerIntoEditText(solo, pinTextEdits, pinValue);
 		solo.clickOnButton("OK");
@@ -151,7 +168,7 @@ public class SensorDialogTest extends ActivityInstrumentationTestCase2<ScriptAct
 				solo.getEditText(valueTextEdits).getText().toString());
 	}
 
-	public void testFalseAnalogSensorDialog() {
+	public void testFalseAnalogSensorValues() {
 		Utils.addNewBrickAndScrollDown(solo, R.string.sensor_main_adapter);
 
 		int pinValue = 20;
@@ -161,10 +178,8 @@ public class SensorDialogTest extends ActivityInstrumentationTestCase2<ScriptAct
 		int pinTextEdits = solo.getCurrentEditTexts().size() - 3;
 		int valueTextEdits = solo.getCurrentEditTexts().size() - 2;
 		int timeTextEdits = solo.getCurrentEditTexts().size() - 1;
-		int analogButton = solo.getCurrentButtons().size() - 3;
 
 		solo.clickOnButton("A");
-		//solo.clickOnButton(analogButton);
 
 		Utils.insertIntegerIntoEditText(solo, pinTextEdits, pinValue);
 		solo.clickOnButton("OK");
@@ -180,25 +195,5 @@ public class SensorDialogTest extends ActivityInstrumentationTestCase2<ScriptAct
 		assertEquals("For this PIN you can just enter a value from 0.0 to 5.0", valueAnalog + "",
 				solo.getEditText(valueTextEdits).getText().toString());
 	}
-
-	//	public void testEmptyEditDoubleDialog() {
-	//		Utils.addNewBrickAndScrollDown(solo, R.string.brick_set_size_to);
-	//
-	//		int editTextId = solo.getCurrentEditTexts().size() - 1;
-	//
-	//		solo.clickOnEditText(editTextId);
-	//		solo.sleep(50);
-	//
-	//		solo.clearEditText(0);
-	//		assertTrue("Toast with warning was not found",
-	//				solo.searchText(getActivity().getString(R.string.notification_invalid_text_entered)));
-	//		assertFalse("OK button was not disabled upon deleting text field contents",
-	//				solo.getButton(getActivity().getString(R.string.ok)).isEnabled());
-	//
-	//		solo.enterText(0, ".");
-	//		assertTrue("Toast with warning was not found",
-	//				solo.searchText(getActivity().getString(R.string.notification_invalid_text_entered)));
-	//		assertFalse("OK button was not disabled upon entering invalid text", solo.getButton(0).isEnabled());
-	//	}
 
 }
