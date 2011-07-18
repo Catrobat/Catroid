@@ -58,7 +58,6 @@ public class StageActivity extends Activity {
 			stageManager = new StageManager(this);
 			stageManager.start();
 			stagePlaying = true;
-
 		}
 	}
 
@@ -78,11 +77,11 @@ public class StageActivity extends Activity {
 		return false;
 	}
 
-	public void processOnTouch(int coordX, int coordY) {
-		coordX = coordX + stage.getTop();
-		coordY = coordY + stage.getLeft();
+	public void processOnTouch(int xCoordinate, int yCoordinate) {
+		xCoordinate = xCoordinate + stage.getTop();
+		yCoordinate = yCoordinate + stage.getLeft();
 
-		stageManager.processOnTouch(coordX, coordY);
+		stageManager.processOnTouch(xCoordinate, yCoordinate);
 	}
 
 	@Override
@@ -99,7 +98,7 @@ public class StageActivity extends Activity {
 				pauseOrContinue();
 				break;
 			case R.id.stagemenuConstructionSite:
-				manageLoadAndFinish(); //calls finish
+				manageLoadAndFinish();
 				break;
 		}
 		return true;

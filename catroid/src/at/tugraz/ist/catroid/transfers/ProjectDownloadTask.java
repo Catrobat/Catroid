@@ -110,10 +110,7 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 			return;
 		}
 		//TODO: refactor to use strings.xml
-		new Builder(activity)
-				.setMessage(messageId)
-				.setPositiveButton("OK", null)
-				.show();
+		new Builder(activity).setMessage(messageId).setPositiveButton("OK", null).show();
 	}
 
 	public void onClick(DialogInterface dialog, int which) {

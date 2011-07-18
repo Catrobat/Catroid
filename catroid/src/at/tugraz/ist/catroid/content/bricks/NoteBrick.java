@@ -83,7 +83,6 @@ public class NoteBrick implements Brick {
 						});
 
 				dialog.show();
-
 			}
 		});
 

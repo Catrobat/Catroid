@@ -38,7 +38,7 @@ import at.tugraz.ist.catroid.common.Consts;
 
 public class ConnectionWrapper {
 
-	private HttpURLConnection urlConn;
+	private HttpURLConnection urlConnection;
 	private final static String TAG = ConnectionWrapper.class.getSimpleName();
 
 	private String getString(InputStream is) {
@@ -50,11 +50,11 @@ public class ConnectionWrapper {
 			BufferedReader br = new BufferedReader(isr);
 
 			String line;
-			String resp = "";
+			String response = "";
 			while ((line = br.readLine()) != null) {
-				resp += line;
+				response += line;
 			}
-			return resp;
+			return response;
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -73,19 +73,19 @@ public class ConnectionWrapper {
 		MultiPartFormOutputStream out = buildPost(urlString, postValues);
 
 		if (filePath != null) {
-			String ext = filePath.substring(filePath.lastIndexOf(".") + 1).toLowerCase();
-			String mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(ext);
+			String extension = filePath.substring(filePath.lastIndexOf(".") + 1).toLowerCase();
+			String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
 
-			out.writeFile(fileTag, mime, new File(filePath));
+			out.writeFile(fileTag, mimeType, new File(filePath));
 		}
 		out.close();
 
-		// respone code != 2xx -> error
-		if (urlConn.getResponseCode() / 100 != 2) {
-			throw new WebconnectionException(urlConn.getResponseCode());
+		// response code != 2xx -> error
+		if (urlConnection.getResponseCode() / 100 != 2) {
+			throw new WebconnectionException(urlConnection.getResponseCode());
 		}
 
-		InputStream resultStream = urlConn.getInputStream();
+		InputStream resultStream = urlConnection.getInputStream();
 
 		return getString(resultStream);
 	}
@@ -96,7 +96,7 @@ public class ConnectionWrapper {
 		out.close();
 
 		// read response from server
-		DataInputStream input = new DataInputStream(urlConn.getInputStream());
+		DataInputStream input = new DataInputStream(urlConnection.getInputStream());
 
 		File file = new File(filePath);
 		file.getParentFile().mkdirs();
@@ -121,15 +121,15 @@ public class ConnectionWrapper {
 		URL url = new URL(urlString);
 
 		String boundary = MultiPartFormOutputStream.createBoundary();
-		urlConn = (HttpURLConnection) MultiPartFormOutputStream.createConnection(url);
+		urlConnection = (HttpURLConnection) MultiPartFormOutputStream.createConnection(url);
 
-		urlConn.setRequestProperty("Accept", "*/*");
-		urlConn.setRequestProperty("Content-Type", MultiPartFormOutputStream.getContentType(boundary));
+		urlConnection.setRequestProperty("Accept", "*/*");
+		urlConnection.setRequestProperty("Content-Type", MultiPartFormOutputStream.getContentType(boundary));
 
-		urlConn.setRequestProperty("Connection", "Keep-Alive");
-		urlConn.setRequestProperty("Cache-Control", "no-cache");
+		urlConnection.setRequestProperty("Connection", "Keep-Alive");
+		urlConnection.setRequestProperty("Cache-Control", "no-cache");
 
-		MultiPartFormOutputStream out = new MultiPartFormOutputStream(urlConn.getOutputStream(), boundary);
+		MultiPartFormOutputStream out = new MultiPartFormOutputStream(urlConnection.getOutputStream(), boundary);
 
 		Set<Entry<String, String>> entries = postValues.entrySet();
 		for (Entry<String, String> entry : entries) {

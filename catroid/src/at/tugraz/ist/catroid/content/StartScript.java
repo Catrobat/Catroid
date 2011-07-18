@@ -33,5 +33,4 @@ public class StartScript extends Script {
 		super.readResolve();
 		return this;
 	}
-
 }

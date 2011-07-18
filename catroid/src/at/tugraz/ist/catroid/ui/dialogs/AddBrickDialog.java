@@ -25,8 +25,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.R.string;
@@ -121,7 +121,6 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new ForeverBrick(sprite));
 			prototypeBrickList.add(new RepeatBrick(sprite, 3));
 		}
-
 	}
 
 	public AddBrickDialog(ScriptActivity scriptActivity) {
@@ -131,7 +130,6 @@ public class AddBrickDialog extends Dialog {
 		setContentView(R.layout.dialog_toolbox);
 		getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
 	}
 
 	@Override
@@ -185,7 +183,6 @@ public class AddBrickDialog extends Dialog {
 				dismiss();
 			}
 		});
-
 	}
 
 	public Brick getBrickClone(Brick brick) {
