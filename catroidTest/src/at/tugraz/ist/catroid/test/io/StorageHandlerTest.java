@@ -71,10 +71,10 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 	@Override
 	public void setUp() {
-		File defProject = new File(Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name));
+		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name));
 
-		if (defProject.exists()) {
-			UtilFile.deleteDirectory(defProject);
+		if (projectFile.exists()) {
+			UtilFile.deleteDirectory(projectFile);
 		}
 	}
 
