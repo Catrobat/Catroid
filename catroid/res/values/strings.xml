@@ -139,6 +139,12 @@
 	<string name="new_broadcast_message">new...</string>
 	<string name="broadcast_nothing_selected">Nothing...</string>
 	
+	<!-- Point in direction spinner -->
+	<string name="point_in_direction_right">(90) right</string>
+	<string name="point_in_direction_left">(-90) left</string>
+	<string name="point_in_direction_up">(0) up</string>
+	<string name="point_in_direction_down">(180) down</string>
+	
     <!-- Stage context menu -->
     <string name="stagemenu_construction_site">To Construction Site</string>
     <string name="stagemenu_start">Play/Pause</string>
@@ -177,6 +183,7 @@
 	<string name="brick_turn_right_n_degrees">degrees</string>
 	<string name="brick_turn_left">Turn left</string>
 	<string name="brick_turn_left_n_degrees">degrees</string>
+	<string name="brick_point_in_direction">Point in direction</string>
 	
 	<string name="choose_sound_title">choose a title</string>
 
