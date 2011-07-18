@@ -18,7 +18,7 @@
  */
 package at.tugraz.ist.catroid.ui;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Dialog;
 import android.app.ListActivity;
@@ -46,7 +46,7 @@ import at.tugraz.ist.catroid.utils.Utils;
 public class ProjectActivity extends ListActivity {
 
 	private SpriteAdapter spriteAdapter;
-	private ArrayList<Sprite> spriteList;
+	private List<Sprite> spriteList;
 	private Sprite spriteToEdit;
 	private ActivityHelper activityHelper = new ActivityHelper(this);
 	private CustomIconContextMenu iconContextMenu;
@@ -54,7 +54,7 @@ public class ProjectActivity extends ListActivity {
 	private static final int CONTEXT_MENU_ITEM_DELETE = 1; //or R.id.project_menu_delete
 
 	private void initListeners() {
-		spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		spriteAdapter = new SpriteAdapter(this, R.layout.activity_project_spritelist_item, R.id.sprite_title,
 				spriteList);
 

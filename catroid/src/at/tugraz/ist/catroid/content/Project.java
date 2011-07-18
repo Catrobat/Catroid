@@ -19,19 +19,21 @@
 package at.tugraz.ist.catroid.content;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
+import android.util.Log;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Values;
 
 public class Project implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private List<Sprite> spriteList = new ArrayList<Sprite>();
+	private List<Sprite> spriteList = Collections.synchronizedList(new LinkedList());
 	private String name;
 	private String versionName;
 	private int versionCode;
@@ -70,9 +72,11 @@ public class Project implements Serializable {
 
 	public synchronized void addSprite(Sprite sprite) {
 		if (spriteList.contains(sprite)) {
+			sprite.setZPosition(spriteList.size() - 1);
 			return;
 		}
 		spriteList.add(sprite);
+		sprite.setZPosition(spriteList.size() - 1);
 	}
 
 	public synchronized boolean removeSprite(Sprite sprite) {
@@ -85,6 +89,40 @@ public class Project implements Serializable {
 			maxZValue = Math.max(sprite.getZPosition(), maxZValue);
 		}
 		return maxZValue;
+	}
+
+	public synchronized void moveSpriteLayer(Sprite sprite, int depthdistance) {
+		Log.v("MSL", "start");
+		int spriteZPos = sprite.getZPosition();
+		int maxZPos = spriteList.size();
+		int currentSpriteZPos = spriteList.indexOf(sprite);
+		int newPosition = 0;
+		if (spriteZPos != currentSpriteZPos) {
+			Log.v("NewLayer", "List is inconsistent");
+			//return;
+		}
+		newPosition = currentSpriteZPos - depthdistance - 1;
+		if (newPosition <= 0) {
+			newPosition = 1;
+		}
+		spriteList.remove(currentSpriteZPos);
+		spriteList.add(newPosition, sprite);
+		sprite.setZPosition(newPosition);
+		Log.v("MSL", "end");
+	}
+
+	public synchronized void moveSpriteLayerToTop(Sprite sprite) {
+		int spriteZPos = sprite.getZPosition();
+		int maxZPos = spriteList.size();
+		int currentSpriteZPos = spriteList.indexOf(sprite);
+		if (spriteZPos != currentSpriteZPos) {
+			Log.v("NewLayer", "List is inconsistent");
+			//return;
+		}
+
+		spriteList.remove(currentSpriteZPos);
+		spriteList.add(sprite);
+		sprite.setZPosition(spriteList.size() - 1);
 	}
 
 	public List<Sprite> getSpriteList() {

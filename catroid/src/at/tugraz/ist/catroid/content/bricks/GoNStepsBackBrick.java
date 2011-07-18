@@ -26,6 +26,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
@@ -45,14 +46,16 @@ public class GoNStepsBackBrick implements Brick, OnDismissListener {
 			throw new NumberFormatException("Steps was not a positive number!");
 		}
 
-		int currentPosition = sprite.getZPosition();
+		//int currentPosition = sprite.getZPosition();
 
-		if (currentPosition - steps > currentPosition) {
-			sprite.setZPosition(Integer.MIN_VALUE);
-			return;
-		}
+		//if (currentPosition - steps > currentPosition) {
+		//	sprite.setZPosition(Integer.MIN_VALUE);
+		//	return;
+		//}
 
-		sprite.setZPosition(currentPosition - steps);
+		//sprite.setZPosition(currentPosition - steps);
+		ProjectManager.getInstance().getCurrentProject().moveSpriteLayer(sprite, steps);
+
 	}
 
 	public Sprite getSprite() {

@@ -35,10 +35,11 @@ public class ComeToFrontBrick implements Brick {
 	}
 
 	public void execute() {
-		int maxZValue = ProjectManager.getInstance().getCurrentProject().getMaxZValue();
-		maxZValue = maxZValue > (maxZValue + 1) ? Integer.MAX_VALUE : maxZValue + 1;
+		//int maxZValue = ProjectManager.getInstance().getCurrentProject().getMaxZValue();
+		//maxZValue = maxZValue > (maxZValue + 1) ? Integer.MAX_VALUE : maxZValue + 1;
 
-		sprite.setZPosition(maxZValue);
+		//sprite.setZPosition(maxZValue);
+		ProjectManager.getInstance().getCurrentProject().moveSpriteLayerToTop(sprite);
 	}
 
 	public Sprite getSprite() {

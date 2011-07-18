@@ -22,7 +22,8 @@ package at.tugraz.ist.catroid.stage;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
@@ -62,7 +63,7 @@ public class CanvasDraw implements IDraw {
 	private Bitmap screenshotIcon;
 	private int screenshotIconPosX;
 	private Activity activity;
-	ArrayList<Sprite> sprites;
+	List<Sprite> sprites;
 
 	public CanvasDraw(Activity activity) {
 		super();
@@ -78,10 +79,13 @@ public class CanvasDraw implements IDraw {
 		flushRectangle = new Rect(0, 0, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
 		screenshotIcon = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_screenshot);
 		screenshotIconPosX = Values.SCREEN_WIDTH - screenshotIcon.getWidth() - Consts.SCREENSHOT_ICON_PADDING_RIGHT;
-		sprites = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		sprites = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 	}
 
 	public synchronized boolean draw() {
+
+		List<Sprite> copylist = new LinkedList<Sprite>();
+		copylist.addAll(sprites);
 		canvas = holder.lockCanvas();
 		try {
 			if (canvas == null) {
@@ -91,7 +95,7 @@ public class CanvasDraw implements IDraw {
 			// draw white rectangle:
 			bufferCanvas.drawRect(flushRectangle, whitePaint);
 			java.util.Collections.sort(sprites);
-			for (Sprite sprite : sprites) {
+			for (Sprite sprite : copylist) {
 				if (!sprite.isVisible()) {
 					continue; //don't need to draw
 				}

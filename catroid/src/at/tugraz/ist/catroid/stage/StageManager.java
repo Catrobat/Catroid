@@ -19,8 +19,10 @@
 
 package at.tugraz.ist.catroid.stage;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -30,9 +32,9 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 
-public class StageManager {
+public class StageManager implements Serializable {
 	private Activity activity;
-	protected ArrayList<Sprite> spriteList;
+	protected List<Sprite> spriteList;
 	private Boolean spritesChanged;
 	private IDraw draw;
 	private boolean isPaused;
@@ -56,13 +58,9 @@ public class StageManager {
 		}
 	};
 
-	public int getMaxZValue() {
-		return ProjectManager.getInstance().getCurrentProject().getMaxZValue();
-	}
-
 	public StageManager(Activity activity) {
 
-		spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		this.activity = activity;
 
 		spritesChanged = true;
