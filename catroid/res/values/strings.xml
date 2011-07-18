@@ -140,10 +140,12 @@
 	<string name="broadcast_nothing_selected">Nothing...</string>
 	
 	<!-- Point in direction spinner -->
-	<string name="point_in_direction_right">(90) right</string>
-	<string name="point_in_direction_left">(-90) left</string>
-	<string name="point_in_direction_up">(0) up</string>
-	<string name="point_in_direction_down">(180) down</string>
+	<string-array name="point_in_direction_array">
+		<item>90</item>
+		<item>-90</item>
+		<item>0</item>
+		<item>180</item>
+	</string-array>
 	
     <!-- Stage context menu -->
     <string name="stagemenu_construction_site">To Construction Site</string>

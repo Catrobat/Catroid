@@ -19,16 +19,17 @@
 package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnDismissListener;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Spinner;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 
-public class PointInDirectionBrick implements Brick, OnDismissListener {
+public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
@@ -53,24 +54,38 @@ public class PointInDirectionBrick implements Brick, OnDismissListener {
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.construction_brick_broadcast_receive, null);
+		View brickView = inflater.inflate(R.layout.construction_brick_point_in_direction, null);
 
-		return null;
+		final Spinner spinner = (Spinner) brickView.findViewById(R.id.point_in_direction_spinner);
+
+		ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(context,
+				R.array.point_in_direction_array, android.R.layout.simple_spinner_item);
+		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner.setAdapter(arrayAdapter);
+		spinner.setOnItemSelectedListener(this);
+
+		return brickView;
 	}
 
 	public View getPrototypeView(Context context) {
-		// TODO Auto-generated method stub
-		return null;
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View brickView = inflater.inflate(R.layout.toolbox_brick_point_in_direction, null);
+
+		return brickView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new MoveNStepsBrick(getSprite(), getDirection());
+		return new PointInDirectionBrick(getSprite(), getDirection());
 	}
 
-	public void onDismiss(DialogInterface dialog) {
-		direction = ((EditDoubleDialog) dialog).getValue();
-		dialog.cancel();
+	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+		direction = Double.parseDouble(parent.getItemAtPosition(position).toString());
+
+	}
+
+	public void onNothingSelected(AdapterView<?> arg0) {
+
 	}
 
 }

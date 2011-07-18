@@ -138,10 +138,18 @@
 	<string name="broadcast_nothing_selected">Nichts...</string>
 	
 	<!-- Point in direction spinner -->
-	<string name="point_in_direction_right">(90) rechts</string>
+	<!-- <string name="point_in_direction_right">(90) rechts</string>
 	<string name="point_in_direction_left">(-90) links</string>
 	<string name="point_in_direction_up">(0) oben</string>
-	<string name="point_in_direction_down">(180) unten</string>
+	<string name="point_in_direction_down">(180) unten</string> -->
+	
+	<!-- Point in direction spinner -->
+	<string-array name="point_in_direction_array">
+		<item>90</item>
+		<item>-90</item>
+		<item>0</item>
+		<item>180</item>
+	</string-array>
 	
     <!--  Stage context menu -->
     <string name="stagemenu_construction_site">Zur Baustelle</string>
