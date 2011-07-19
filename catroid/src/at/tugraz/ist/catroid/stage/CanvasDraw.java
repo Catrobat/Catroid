@@ -148,8 +148,7 @@ public class CanvasDraw implements IDraw {
 				toastText = activity.getString(R.string.error_screenshot_failed);
 			}
 
-			Toast toast = Toast.makeText(activity, toastText, Toast.LENGTH_SHORT);
-			toast.show();
+			Toast.makeText(activity, toastText, Toast.LENGTH_SHORT).show();
 		}
 	}
 
