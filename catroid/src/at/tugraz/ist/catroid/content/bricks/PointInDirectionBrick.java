@@ -47,20 +47,12 @@ public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 		return this.sprite;
 	}
 
-	public double getDirection() {
-		return direction;
-	}
-
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View brickView = inflater.inflate(R.layout.construction_brick_point_in_direction, null);
 
 		final Spinner spinner = (Spinner) brickView.findViewById(R.id.point_in_direction_spinner);
 
-		//		ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(context,
-		//				R.array.point_in_direction_strings, android.R.layout.simple_spinner_item);
-		//		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		//		spinner.setAdapter(arrayAdapter);
 		spinner.setOnItemSelectedListener(this);
 
 		return brickView;
@@ -75,7 +67,7 @@ public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 
 	@Override
 	public Brick clone() {
-		return new PointInDirectionBrick(getSprite(), getDirection());
+		return new PointInDirectionBrick(getSprite(), direction);
 	}
 
 	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

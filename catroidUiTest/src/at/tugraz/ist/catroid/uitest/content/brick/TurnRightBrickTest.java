@@ -32,6 +32,7 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.TurnRightBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.uitest.util.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -86,7 +87,9 @@ public class TurnRightBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 
 		solo.sleep(1000);
 
-		assertEquals("Wrong text in field", turnDegrees, turnRightBrick.getDegrees());
+		double actualDegrees = (Double) Utils.getPrivateField("degrees", turnRightBrick);
+
+		assertEquals("Wrong text in field", turnDegrees, actualDegrees);
 		assertEquals("Text not updated", turnDegrees, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
 
