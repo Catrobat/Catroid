@@ -47,7 +47,7 @@ import at.tugraz.ist.catroid.content.Sprite;
 public class BroadcastBrick implements Brick {
 
 	private static final long serialVersionUID = 1L;
-	private transient final ProjectManager projectManager;
+	private transient ProjectManager projectManager;
 	private Sprite sprite;
 	private String selectedMessage = "";
 
@@ -90,6 +90,7 @@ public class BroadcastBrick implements Brick {
 	}
 
 	private Object readResolve() {
+		projectManager = ProjectManager.getInstance();
 		if (selectedMessage != null && projectManager.getCurrentProject() != null) {
 			projectManager.messageContainer.addMessage(selectedMessage);
 		}

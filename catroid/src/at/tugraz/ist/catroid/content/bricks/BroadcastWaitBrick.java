@@ -47,8 +47,7 @@ import at.tugraz.ist.catroid.content.Sprite;
 public class BroadcastWaitBrick implements Brick {
 
 	private static final long serialVersionUID = 1L;
-	private transient final ProjectManager projectManager;
-
+	private transient ProjectManager projectManager;
 	private Sprite sprite;
 	private String selectedMessage = "";
 
@@ -93,6 +92,7 @@ public class BroadcastWaitBrick implements Brick {
 	}
 
 	private Object readResolve() {
+		projectManager = ProjectManager.getInstance();
 		if (selectedMessage != null && projectManager.getCurrentProject() != null) {
 			projectManager.messageContainer.addMessage(selectedMessage);
 		}
@@ -102,10 +102,10 @@ public class BroadcastWaitBrick implements Brick {
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View brickView = inflater.inflate(R.layout.construction_brick_broadcast_wait, null);
-		final Spinner spinner = (Spinner) brickView.findViewById(R.id.broadcast_spinner);
-		spinner.setAdapter(projectManager.messageContainer.getMessageAdapter(context));
+		final Spinner broadcastSpinner = (Spinner) brickView.findViewById(R.id.broadcast_spinner);
+		broadcastSpinner.setAdapter(projectManager.messageContainer.getMessageAdapter(context));
 
-		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+		broadcastSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			private boolean start = true;
 
 			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
@@ -125,7 +125,7 @@ public class BroadcastWaitBrick implements Brick {
 
 		int position = projectManager.messageContainer.getPositionOfMessageInAdapter(selectedMessage);
 		if (position > 0) {
-			spinner.setSelection(position);
+			broadcastSpinner.setSelection(position);
 		}
 
 		Button newBroadcastMessage = (Button) brickView.findViewById(R.id.broadcast_new_message);
@@ -148,7 +148,7 @@ public class BroadcastWaitBrick implements Brick {
 						projectManager.messageContainer.addMessage(selectedMessage);
 						int position = projectManager.messageContainer.getPositionOfMessageInAdapter(selectedMessage);
 
-						spinner.setSelection(position);
+						broadcastSpinner.setSelection(position);
 					}
 				});
 				builder.setNegativeButton(context.getString(R.string.cancel_button),

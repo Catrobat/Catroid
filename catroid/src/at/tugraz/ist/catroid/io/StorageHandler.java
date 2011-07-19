@@ -36,7 +36,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -85,7 +84,6 @@ public class StorageHandler {
 	private XStream xstream;
 
 	private StorageHandler() throws IOException {
-		String state = Environment.getExternalStorageState();
 		xstream = new XStream();
 		xstream.alias("project", Project.class);
 		xstream.alias("sprite", Sprite.class);
@@ -115,7 +113,7 @@ public class StorageHandler {
 		xstream.alias("broadcastWaitBrick", BroadcastWaitBrick.class);
 		xstream.alias("broadcastBrick", BroadcastBrick.class);
 
-		if (!Environment.MEDIA_MOUNTED.equals(state)) {
+		if (!Utils.hasSdCard()) {
 			throw new IOException("Could not read external storage");
 		}
 		createCatroidRoot();

@@ -137,7 +137,7 @@ public class CanvasDraw implements IDraw {
 	}
 
 	public void processOnTouch(int xCoordinate, int yCoordinate) {
-		CharSequence toastText;
+		String toastText;
 		if (xCoordinate >= screenshotIconXPosition
 				&& yCoordinate <= Consts.SCREENSHOT_ICON_PADDING_TOP + screenshotIcon.getHeight()) {
 			Vibrator vibrator = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
