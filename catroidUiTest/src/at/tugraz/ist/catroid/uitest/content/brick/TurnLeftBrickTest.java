@@ -86,7 +86,7 @@ public class TurnLeftBrickTest extends ActivityInstrumentationTestCase2<ScriptAc
 
 		solo.sleep(1000);
 
-		assertEquals("Wrong text in field", turnDegrees, turnLeftBrick.getSprite().getDirection());
+		assertEquals("Wrong text in field", turnDegrees, turnLeftBrick.getDegrees());
 		assertEquals("Text not updated", turnDegrees, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
 
@@ -94,7 +94,7 @@ public class TurnLeftBrickTest extends ActivityInstrumentationTestCase2<ScriptAc
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript("script", sprite);
-		turnLeftBrick = new TurnLeftBrick(sprite, 15);
+		turnLeftBrick = new TurnLeftBrick(sprite, 0);
 		script.addBrick(turnLeftBrick);
 
 		sprite.addScript(script);
