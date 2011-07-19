@@ -193,7 +193,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 
 		this.size = size;
 
-		if (!(costumeWidth == 0 || costumeHeight == 0)) {
+		if (costumeWidth > 0 && costumeHeight > 0) {
 			if (costumeWidth * this.size / 100. < 1) {
 				this.size = 1. / costumeWidth * 100.;
 			}

@@ -45,7 +45,6 @@ public class BroadcastReceiverBrick implements Brick {
 
 	private static final long serialVersionUID = 1L;
 	private transient final ProjectManager projectManager;
-
 	protected BroadcastScript receiveScript;
 	private Sprite sprite;
 

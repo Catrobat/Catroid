@@ -179,9 +179,9 @@ public class CustomIconContextMenu implements DialogInterface.OnCancelListener, 
 		public Drawable icon;
 		public int contextMenuItemId;
 
-		public CustomContextMenuItem(Resources res, String title, int iconResourceId, int contextMenuItemId) {
+		public CustomContextMenuItem(Resources resource, String title, int iconResourceId, int contextMenuItemId) {
 			text = title;
-			icon = (iconResourceId != -1) ? res.getDrawable(iconResourceId) : null;
+			icon = (iconResourceId != -1) ? resource.getDrawable(iconResourceId) : null;
 			this.contextMenuItemId = contextMenuItemId;
 		}
 	}
