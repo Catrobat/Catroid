@@ -62,8 +62,8 @@ public class ServerCalls {
 		this.connection = connection;
 	}
 
-	public boolean uploadProject(String projectName, String projectDescription, String zipFileString,
-			String deviceIMEI, String userEmail, String language, String token) throws WebconnectionException {
+	public String uploadProject(String projectName, String projectDescription, String zipFileString, String userEmail,
+			String language, String token) throws WebconnectionException {
 		try {
 			String md5Checksum = Utils.md5Checksum(new File(zipFileString));
 
@@ -73,9 +73,9 @@ public class ServerCalls {
 			postValues.put(Consts.PROJECT_CHECKSUM_TAG, md5Checksum.toLowerCase());
 			postValues.put(Consts.TOKEN, token); //anonymous
 
-			if (deviceIMEI != null) {
-				postValues.put(Consts.DEVICE_IMEI, deviceIMEI);
-			}
+			//			if (deviceIMEI != null) {
+			//				postValues.put(Consts.DEVICE_IMEI, deviceIMEI);
+			//			}
 			if (userEmail != null) {
 				postValues.put(Consts.USER_EMAIL, userEmail);
 			}
@@ -84,32 +84,32 @@ public class ServerCalls {
 			}
 			String serverUrl = useTestUrl ? Consts.TEST_FILE_UPLOAD_URL : Consts.FILE_UPLOAD_URL;
 
+			Log.v(TAG, "url to upload: " + serverUrl);
 			resultString = connection
 					.doHttpPostFileUpload(serverUrl, postValues, Consts.FILE_UPLOAD_TAG, zipFileString);
 
 			JSONObject jsonObject = null;
 			int statusCode = 0;
 
-			Log.v(TAG, "out: " + resultString);
-			try {
-				jsonObject = new JSONObject(resultString);
-				statusCode = jsonObject.getInt("statusCode");
-				String serverAnswer = jsonObject.getString("answer");
-				int serverProjectId = jsonObject.getInt("projectId");
-				ProjectManager.getInstance().setServerProjectId(serverProjectId);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+			Log.v(TAG, "result string: " + resultString);
+
+			jsonObject = new JSONObject(resultString);
+			statusCode = jsonObject.getInt("statusCode");
+			String serverAnswer = jsonObject.getString("answer");
+			int serverProjectId = jsonObject.optInt("projectId");
+			ProjectManager.getInstance().setServerProjectId(serverProjectId);
 			if (statusCode == 200) {
-				return true;
-			} else if (statusCode >= 500) {
-				return false;
+				return serverAnswer;
+			} else {
+				throw new WebconnectionException(0);
 			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+			throw new WebconnectionException(0);
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new WebconnectionException(0);
 		}
-		return false;
 	}
 
 	public void downloadProject(String downloadUrl, String zipFileString) throws WebconnectionException {

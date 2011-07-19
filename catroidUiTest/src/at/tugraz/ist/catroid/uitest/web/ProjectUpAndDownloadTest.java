@@ -22,6 +22,8 @@ package at.tugraz.ist.catroid.uitest.web;
 import java.io.File;
 import java.util.List;
 
+import org.json.JSONObject;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -44,14 +46,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	private Solo solo;
 	private String testProject = Utils.PROJECTNAME1;
 	private String newTestProject = Utils.PROJECTNAME2;
-
-	//	private class MockProjectUploadTask extends ServerCalls {
-	//
-	//		public String getResultString() {
-	//			return resultString;
-	//		}
-	//
-	//	}
+	private String saveToken;
 
 	public ProjectUpAndDownloadTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -62,10 +57,14 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	@UiThreadTest
 	public void setUp() throws Exception {
 		solo = new Solo(getInstrumentation(), getActivity());
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		saveToken = prefs.getString(Consts.TOKEN, "0");
 	}
 
 	@Override
 	public void tearDown() throws Exception {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		prefs.edit().putString(Consts.TOKEN, saveToken).commit();
 		try {
 			solo.finalize();
 		} catch (Throwable e) {
@@ -89,42 +88,34 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		createTestProject();
 		addABrickToProject();
-		uploadProject();
+
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		prefs.edit().putString(Consts.TOKEN, "0").commit();
+
+		uploadProject(true);
 
 		Utils.clearAllUtilTestProjects();
 
 		downloadProject();
 	}
 
-	// kein ui test!!
 	public void testUploadProjectWithWrongToken() throws Throwable {
+		Utils.clearAllUtilTestProjects();
 		startProjectUploadTask();
 
 		createTestProject();
 		addABrickToProject();
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		prefs.edit().putString(Consts.TOKEN, "foobar").commit();
+		prefs.edit().putString(Consts.TOKEN, "wrong_token").commit();
 
-		uploadProject();
+		uploadProject(false);
 
-		//			File projectPath = new File(Consts.DEFAULT_ROOT + "/" + testProject);
-		//			String invalidToken = "foobar";
-		//			assertTrue("Could not read project from path: " + projectPath.getAbsolutePath(), projectPath.exists()
-		//					&& projectPath.canRead());
-		//			ServerCalls.getInstance().uploadProject(projectName, projectDescription, zipFileString, deviceIMEI, userEmail, language)
-		//			MockProjectUploadTask mockProjectUploadTask = new MockProjectUploadTask(getActivity(), testProject, "foo",
-		//					projectPath.getAbsolutePath(), invalidToken);
-		//			mockProjectUploadTask.execute();
-		//	
-		//			solo.sleep(5000);
-		//			String resultString = mockProjectUploadTask.getResultString();
-		//	
-		//			JSONObject jsonObject = new JSONObject(resultString);
-		//			int statusCode = jsonObject.getInt("statusCode");
-		//			Log.v("ProjectUpAndDownloadTest", "Received status code: " + statusCode);
+		String resultString = (String) Utils.getPrivateField("resultString", ServerCalls.getInstance(), false);
+		JSONObject jsonObject = new JSONObject(resultString);
+		int statusCode = jsonObject.getInt("statusCode");
 
-		MockServerCalls.getInstance().assertEquals("Received wrong result status code", 601, statusCode);
+		assertEquals("Received wrong result status code", 601, statusCode);
 
 		Utils.clearAllUtilTestProjects();
 	}
@@ -163,7 +154,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		}
 	}
 
-	private void uploadProject() {
+	private void uploadProject(boolean expect_success) {
 		solo.clickOnText(getActivity().getString(R.string.upload_project));
 		solo.sleep(500);
 
@@ -180,8 +171,13 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		solo.clickOnButton(getActivity().getString(R.string.upload_button));
 
 		solo.waitForDialogToClose(10000);
-		assertTrue("Upload failed. Internet connection?", solo.searchText(getActivity().getString(
-				R.string.success_project_upload)));
+		if (expect_success) {
+			assertTrue("Upload failed. Internet connection?", solo.searchText(getActivity().getString(
+					R.string.success_project_upload)));
+		} else {
+			assertTrue("Error message not found on screen. ", solo.searchText(getActivity().getString(
+					R.string.error_project_upload)));
+		}
 		solo.clickOnButton(0);
 	}
 
@@ -206,14 +202,4 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 	}
 
-	private class MockServerCalls extends ServerCalls {
-		public MockServerCalls() {
-
-			new MockServerCalls();
-		}
-
-		public String getResultString() {
-			return resultString;
-		}
-	}
 }

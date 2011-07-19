@@ -79,7 +79,7 @@ public class UpAndDownloadTest extends AndroidTestCase {
 		ServerCalls.getInstance().setConnectionToUse(new MockConnection());
 
 		assertTrue("The default Project does not exist.", new File(pathToDefaultProject).exists());
-		new ProjectUploadTask(null, testProjectName, projectDescription, pathToDefaultProject).execute();
+		new ProjectUploadTask(null, testProjectName, projectDescription, pathToDefaultProject, "0").execute();
 		Thread.sleep(3000);
 
 		assertTrue("Uploaded file does not exist", projectZipOnMockServer.exists());
