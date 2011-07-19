@@ -40,6 +40,7 @@ public class TurnRightBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 	private Solo solo;
 	private Project project;
 	private TurnRightBrick turnRightBrick;
+	private double turnDegrees;
 
 	public TurnRightBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -67,6 +68,7 @@ public class TurnRightBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 	public void testTurnRightBrickTest() {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
+
 		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
@@ -77,8 +79,6 @@ public class TurnRightBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 				getActivity().getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_turn_right)));
 
-		double turnDegrees = 25;
-
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, turnDegrees + "");
@@ -86,15 +86,16 @@ public class TurnRightBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 
 		solo.sleep(1000);
 
-		assertEquals("Wrong text in field", turnDegrees, turnRightBrick.getSprite().getDirection());
+		assertEquals("Wrong text in field", turnDegrees, turnRightBrick.getDegrees());
 		assertEquals("Text not updated", turnDegrees, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
 
 	private void createProject() {
+		turnDegrees = 25;
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript("script", sprite);
-		turnRightBrick = new TurnRightBrick(sprite, 15);
+		turnRightBrick = new TurnRightBrick(sprite, 0);
 		script.addBrick(turnRightBrick);
 
 		sprite.addScript(script);
