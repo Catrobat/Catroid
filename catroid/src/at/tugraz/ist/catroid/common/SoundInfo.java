@@ -18,19 +18,16 @@
  */
 package at.tugraz.ist.catroid.common;
 
+import at.tugraz.ist.catroid.ProjectManager;
+
 public class SoundInfo implements Comparable<SoundInfo> {
 
 	private int id;
-	private String absolutePath;
 	private String title;
 	private String fileName;
 
 	public String getAbsolutePath() {
-		return absolutePath;
-	}
-
-	public void setAbsolutePath(String path) {
-		this.absolutePath = path;
+		return getPathWithoutFileName() + fileName;
 	}
 
 	public int getId() {
@@ -72,7 +69,8 @@ public class SoundInfo implements Comparable<SoundInfo> {
 	}
 
 	public String getPathWithoutFileName() {
-		return absolutePath.substring(0, absolutePath.length() - fileName.length());
+		return Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName()
+				+ Consts.SOUND_DIRECTORY + "/";
 	}
 
 	public int compareTo(SoundInfo soundInfo) {

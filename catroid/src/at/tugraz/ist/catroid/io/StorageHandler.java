@@ -228,7 +228,6 @@ public class StorageHandler {
 				projectionOnOrig, null, null, null);
 
 		if (cursor.moveToFirst()) {
-			int columnDataIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
 			int columnTitleIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.TITLE);
 			int columnIdIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID);
 
@@ -236,7 +235,6 @@ public class StorageHandler {
 				SoundInfo info = new SoundInfo();
 				info.setId(cursor.getInt(columnIdIndex));
 				info.setTitle(cursor.getString(columnTitleIndex));
-				info.setAbsolutePath(cursor.getString(columnDataIndex));
 				soundContent.add(info);
 			} while (cursor.moveToNext());
 		}

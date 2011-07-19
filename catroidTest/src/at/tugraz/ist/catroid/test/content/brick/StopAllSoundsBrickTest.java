@@ -37,7 +37,7 @@ import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class StopAllSoundsBrickTest extends InstrumentationTestCase {
-	private static final int SOUND_FILE_ID = R.raw.testsound;
+	private static final int SOUND_FILE_ID = R.raw.longtestsound;
 	private File soundFile;
 	private String projectName = "projectName";
 
@@ -102,7 +102,7 @@ public class StopAllSoundsBrickTest extends InstrumentationTestCase {
 		ThreadSound2 th2 = new ThreadSound2();
 		th1.start();
 		th2.start();
-		Thread.sleep(100);
+		Thread.sleep(200);
 		assertTrue("mediaPlayer1 is not playing", mediaPlayer1.isPlaying());
 		assertTrue("mediaPlayer2 is not playing", mediaPlayer2.isPlaying());
 		testBrick1.execute();
