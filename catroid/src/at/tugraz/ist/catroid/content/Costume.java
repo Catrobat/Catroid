@@ -66,7 +66,7 @@ public class Costume implements Serializable {
 	}
 
 	public synchronized void setSizeTo(double size) {
-		if (costumeBitmap == null || imagePath == null) {
+		if (imagePath == null) {
 			return;
 		}
 
@@ -77,6 +77,11 @@ public class Costume implements Serializable {
 		setPositionToSpriteTopLeft();
 
 		costumeBitmap = ImageEditing.getBitmap(imagePath, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
+
+		if (costumeBitmap == null) {
+			return;
+		}
+
 		costumeBitmap = ImageEditing.scaleBitmap(costumeBitmap, newWidth, newHeight, true);
 		costumeBitmap = ImageEditing.rotateBitmap(costumeBitmap, (float) -(90 - sprite.getDirection()));
 
@@ -89,14 +94,19 @@ public class Costume implements Serializable {
 	}
 
 	public synchronized void rotateTo(double degrees) {
-		if (costumeBitmap == null || imagePath == null) {
+		if (imagePath == null) {
 			return;
 		}
 
 		costumeBitmap = ImageEditing.getBitmap(imagePath, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
-		costumeBitmap = ImageEditing.scaleBitmap(costumeBitmap, actWidth, actHeight, true);
 
+		if (costumeBitmap == null) {
+			return;
+		}
+
+		costumeBitmap = ImageEditing.scaleBitmap(costumeBitmap, actWidth, actHeight);
 		costumeBitmap = ImageEditing.rotateBitmap(costumeBitmap, (float) -(90 - degrees));
+
 		setDrawPosition();
 	}
 
