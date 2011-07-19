@@ -23,7 +23,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Spinner;
 import at.tugraz.ist.catroid.R;
@@ -58,10 +57,10 @@ public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 
 		final Spinner spinner = (Spinner) brickView.findViewById(R.id.point_in_direction_spinner);
 
-		ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(context,
-				R.array.point_in_direction_array, android.R.layout.simple_spinner_item);
-		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spinner.setAdapter(arrayAdapter);
+		//		ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(context,
+		//				R.array.point_in_direction_strings, android.R.layout.simple_spinner_item);
+		//		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		//		spinner.setAdapter(arrayAdapter);
 		spinner.setOnItemSelectedListener(this);
 
 		return brickView;
@@ -80,8 +79,8 @@ public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 	}
 
 	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-		direction = Double.parseDouble(parent.getItemAtPosition(position).toString());
-
+		String[] values = parent.getContext().getResources().getStringArray(R.array.point_in_direction_values);
+		direction = Double.parseDouble(values[position]);
 	}
 
 	public void onNothingSelected(AdapterView<?> arg0) {
