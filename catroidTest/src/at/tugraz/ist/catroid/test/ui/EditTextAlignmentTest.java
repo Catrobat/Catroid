@@ -54,6 +54,22 @@ public class EditTextAlignmentTest extends AndroidTestCase {
 				Gravity.RIGHT & edit.getGravity());
 	}
 
+	public void testRightAlignmentConstructionGlideToBrick() {
+		View brickView = inflater.inflate(R.layout.construction_brick_glide_to, null);
+
+		EditText duration = (EditText) brickView.findViewById(R.id.construction_brick_glide_to_duration_edit_text);
+		assertEquals("Brick does not have correct gravity (horizontal alignment)", Gravity.RIGHT, Gravity.RIGHT
+				& duration.getGravity());
+
+		EditText x = (EditText) brickView.findViewById(R.id.construction_brick_glide_to_x_edit_text);
+		assertEquals("Brick does not have correct gravity (horizontal alignment)", Gravity.RIGHT,
+				Gravity.RIGHT & x.getGravity());
+
+		EditText y = (EditText) brickView.findViewById(R.id.construction_brick_glide_to_y_edit_text);
+		assertEquals("Brick does not have correct gravity (horizontal alignment)", Gravity.RIGHT,
+				Gravity.RIGHT & y.getGravity());
+	}
+
 	public void testRightAlignmentConstructionGoBackBrick() {
 		View brickView = inflater.inflate(R.layout.construction_brick_go_back, null);
 
@@ -115,6 +131,22 @@ public class EditTextAlignmentTest extends AndroidTestCase {
 		EditText edit = (EditText) brickView.findViewById(R.id.toolbox_brick_change_y_edit_text);
 		assertEquals("Brick does not have correct gravity (horizontal alignment)", Gravity.RIGHT,
 				Gravity.RIGHT & edit.getGravity());
+	}
+
+	public void testRightAlignmentTooboxGlideToBrick() {
+		View brickView = inflater.inflate(R.layout.toolbox_brick_glide_to, null);
+
+		EditText duration = (EditText) brickView.findViewById(R.id.toolbox_brick_glide_to_duration_edit_text);
+		assertEquals("Brick does not have correct gravity (horizontal alignment)", Gravity.RIGHT, Gravity.RIGHT
+				& duration.getGravity());
+
+		EditText x = (EditText) brickView.findViewById(R.id.toolbox_brick_glide_to_x_edit_text);
+		assertEquals("Brick does not have correct gravity (horizontal alignment)", Gravity.RIGHT,
+				Gravity.RIGHT & x.getGravity());
+
+		EditText y = (EditText) brickView.findViewById(R.id.toolbox_brick_glide_to_y_edit_text);
+		assertEquals("Brick does not have correct gravity (horizontal alignment)", Gravity.RIGHT,
+				Gravity.RIGHT & y.getGravity());
 	}
 
 	public void testRightAlignmentToolboxGoBackBrick() {
