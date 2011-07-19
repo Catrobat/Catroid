@@ -81,10 +81,6 @@ public class BroadcastWaitBrick implements Brick {
 		return sprite;
 	}
 
-	public String getSelectedMessage() {
-		return selectedMessage;
-	}
-
 	public void setSelectedMessage(String selectedMessage) {
 		this.selectedMessage = selectedMessage;
 		ProjectManager.getInstance().messageContainer.addMessage(this.selectedMessage);

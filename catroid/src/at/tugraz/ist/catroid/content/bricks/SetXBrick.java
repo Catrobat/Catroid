@@ -48,10 +48,6 @@ public class SetXBrick implements Brick, OnDismissListener {
 		return this.sprite;
 	}
 
-	public int getXPosition() {
-		return xPosition;
-	}
-
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View brickView = inflater.inflate(R.layout.construction_brick_set_x, null);
@@ -76,7 +72,7 @@ public class SetXBrick implements Brick, OnDismissListener {
 
 	@Override
 	public Brick clone() {
-		return new SetXBrick(getSprite(), getXPosition());
+		return new SetXBrick(getSprite(), xPosition);
 	}
 
 	public void onDismiss(DialogInterface dialog) {

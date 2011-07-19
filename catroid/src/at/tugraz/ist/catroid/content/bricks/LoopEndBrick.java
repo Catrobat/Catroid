@@ -67,10 +67,6 @@ public class LoopEndBrick implements Brick {
 		this.timesToRepeat = timesToRepeat;
 	}
 
-	public int getTimesToRepeat() {
-		return timesToRepeat;
-	}
-
 	public LoopBeginBrick getLoopBeginBrick() {
 		return loopBeginBrick;
 	}
