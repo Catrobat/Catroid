@@ -49,8 +49,6 @@ public class ImageEditing {
 		float scaleHeight = (((float) ySize) / bitmap.getHeight());
 		matrix.postScale(scaleWidth, scaleHeight);
 		Bitmap newBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-		//		if (recycleOldBm)
-		//			bm.recycle();
 		return newBitmap;
 	}
 
@@ -63,21 +61,13 @@ public class ImageEditing {
 				(int) Math.round(bitmap.getHeight() * scalingFactor), recycleOldBm);
 	}
 
-	public static Bitmap rotateBitmap(Bitmap bitmap, float rotation, boolean recycleOldBm) {
+	public static Bitmap rotateBitmap(Bitmap bitmap, float rotation) {
 		Matrix matrix = new Matrix();
 		matrix.postRotate(rotation);
 
 		Bitmap newBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 
-		if (recycleOldBm) {
-			bitmap.recycle();
-		}
-
 		return newBitmap;
-	}
-
-	public static Bitmap rotateBitmap(Bitmap bitmap, float rotation) {
-		return rotateBitmap(bitmap, rotation, false);
 	}
 
 	public static Bitmap getScaledBitmap(String imagePath, int outWidth, int outHeight) {

@@ -91,14 +91,6 @@ public class GlideToBrick implements Brick, OnDismissListener {
 		return this.sprite;
 	}
 
-	public int getXDestination() {
-		return xDestination;
-	}
-
-	public int getYDestination() {
-		return yDestination;
-	}
-
 	public int getDurationInMilliSeconds() {
 		return durationInMilliSeconds;
 	}
@@ -139,7 +131,7 @@ public class GlideToBrick implements Brick, OnDismissListener {
 
 	@Override
 	public Brick clone() {
-		return new GlideToBrick(getSprite(), getXDestination(), getYDestination(), getDurationInMilliSeconds());
+		return new GlideToBrick(getSprite(), xDestination, yDestination, getDurationInMilliSeconds());
 	}
 
 	public void onDismiss(DialogInterface dialog) {

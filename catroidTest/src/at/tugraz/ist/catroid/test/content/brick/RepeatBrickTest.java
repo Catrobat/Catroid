@@ -26,6 +26,7 @@ import at.tugraz.ist.catroid.content.bricks.RepeatBrick;
 import at.tugraz.ist.catroid.content.bricks.SetXBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
+import at.tugraz.ist.catroid.test.utils.TestUtils;
 
 public class RepeatBrickTest extends InstrumentationTestCase {
 
@@ -70,14 +71,16 @@ public class RepeatBrickTest extends InstrumentationTestCase {
 
 		Thread.sleep(brickSleepTime / 2);
 
-		assertEquals("Wrong number of times to repeat", repeatTimes, loopEndBrick.getTimesToRepeat());
+		int timesToRepeat = (Integer) TestUtils.getPrivateField("timesToRepeat", loopEndBrick, false);
+		assertEquals("Wrong number of times to repeat", repeatTimes, timesToRepeat);
 
 		assertEquals("Wrong brick executing", positionOfFirstWaitBrick, testScript.getExecutingBrickIndex());
 		Thread.sleep(brickSleepTime);
 		assertEquals("Wrong brick executing", positionOfSecondWaitBrick, testScript.getExecutingBrickIndex());
 		Thread.sleep(brickSleepTime);
 
-		assertEquals("Wrong number of times to repeat", repeatTimes - 1, loopEndBrick.getTimesToRepeat());
+		timesToRepeat = (Integer) TestUtils.getPrivateField("timesToRepeat", loopEndBrick, false);
+		assertEquals("Wrong number of times to repeat", repeatTimes - 1, timesToRepeat);
 
 		Thread.sleep(brickSleepTime * (repeatTimes - 1) * 2);
 		assertEquals("Wrong brick executing", positionOfFirstWaitBrick, testScript.getExecutingBrickIndex());
@@ -85,6 +88,7 @@ public class RepeatBrickTest extends InstrumentationTestCase {
 		assertEquals("Wrong brick executing", positionOfSecondWaitBrick, testScript.getExecutingBrickIndex());
 		Thread.sleep(brickSleepTime);
 
-		assertEquals("Wrong number of times to repeat", 0, loopEndBrick.getTimesToRepeat());
+		timesToRepeat = (Integer) TestUtils.getPrivateField("timesToRepeat", loopEndBrick, false);
+		assertEquals("Wrong number of times to repeat", 0, timesToRepeat);
 	}
 }
