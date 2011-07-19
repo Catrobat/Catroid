@@ -49,7 +49,7 @@
 			android:layout_centerVertical="true"
 		>
 			<EditText
-				android:id="@+id/edit_text_glide_duration"
+				android:id="@+id/toolbox_brick_glide_to_duration_edit_text"
 				android:text="3"
 				android:layout_height="wrap_content"
 				android:layout_width="60dp"
@@ -108,7 +108,7 @@
 			>
 			</TextView>
 			<EditText
-				android:id="@+id/edit_text_glide_x"
+				android:id="@+id/toolbox_brick_glide_to_x_edit_text"
 				android:text="0"
 				android:layout_height="wrap_content"
 				android:layout_width="60dp"
@@ -132,7 +132,7 @@
 			>
 			</TextView>
 			<EditText
-				android:id="@+id/edit_text_glide_y"
+				android:id="@+id/toolbox_brick_glide_to_y_edit_text"
 				android:text="0"
 				android:layout_height="wrap_content"
 				android:layout_width="60dp"
