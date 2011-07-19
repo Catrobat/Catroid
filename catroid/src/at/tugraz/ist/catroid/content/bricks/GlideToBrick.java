@@ -114,7 +114,7 @@ public class GlideToBrick implements Brick, OnDismissListener {
 		dialogX.setOnCancelListener((OnCancelListener) context);
 		editX.setOnClickListener(dialogX);
 
-		EditText editY = (EditText) brickView.findViewById(R.id.construction_brick_place_at_y_edit_text);
+		EditText editY = (EditText) brickView.findViewById(R.id.construction_brick_glide_to_y_edit_text);
 		editY.setText(String.valueOf(yDestination));
 		EditIntegerDialog dialogY = new EditIntegerDialog(context, editY, yDestination, true);
 		dialogY.setOnDismissListener(this);
