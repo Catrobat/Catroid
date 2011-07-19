@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -36,31 +37,30 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
 import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.ui.dialogs.RenameSoundDialog;
 import at.tugraz.ist.catroid.utils.Utils;
-
-//TODO: done and cancel buttons for edittext
 
 public class SoundActivity extends ListActivity {
 	private Sprite sprite;
 	private ArrayList<SoundInfo> soundInfoList;
 	private SoundAdapter soundActivityListAdapter;
 	private final int REQUEST_SELECT_MUSIC = 0;
+	public SoundInfo soundInfoToEdit;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -75,6 +75,7 @@ public class SoundActivity extends ListActivity {
 		soundActivityListAdapter = new SoundAdapter(this, R.layout.activity_sound_soundlist_item, soundInfoList);
 		setListAdapter(soundActivityListAdapter);
 		getListView().setTextFilterEnabled(true);
+
 	}
 
 	@Override
@@ -100,6 +101,20 @@ public class SoundActivity extends ListActivity {
 				startActivityForResult(Intent.createChooser(intent, "Select music"), REQUEST_SELECT_MUSIC);
 			}
 		};
+	}
+
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		final Dialog dialog;
+		switch (id) {
+			case Consts.DIALOG_RENAME_SOUND:
+				dialog = new RenameSoundDialog(this).createDialog(soundInfoToEdit);
+				break;
+			default:
+				dialog = null;
+				break;
+		}
+		return dialog;
 	}
 
 	@Override
@@ -154,10 +169,12 @@ public class SoundActivity extends ListActivity {
 	private class SoundAdapter extends ArrayAdapter<SoundInfo> { //TODO: distinct class
 
 		private ArrayList<SoundInfo> soundInfoItems;
+		private SoundActivity activity;
 
-		public SoundAdapter(final Context context, int textViewResourceId, ArrayList<SoundInfo> items) {
-			super(context, textViewResourceId, items);
+		public SoundAdapter(final SoundActivity activity, int textViewResourceId, ArrayList<SoundInfo> items) {
+			super(activity, textViewResourceId, items);
 			this.soundInfoItems = items;
+			this.activity = activity;
 		}
 
 		@Override
@@ -174,19 +191,29 @@ public class SoundActivity extends ListActivity {
 			if (soundInfo != null) {
 				ImageView soundImage = (ImageView) convertView.findViewById(R.id.sound_img);
 				final EditText soundNameEditText = (EditText) convertView.findViewById(R.id.edit_sound_name);
-				final Button editSoundNameButton = (Button) convertView.findViewById(R.id.rename_sound_button);
 
 				soundNameEditText.setText(soundInfo.getTitle());
-				editSoundNameButton.setVisibility(Button.INVISIBLE);
+
+				soundNameEditText.setOnClickListener(new OnClickListener() {
+					public void onClick(View v) {
+						activity.soundInfoToEdit = soundInfo;
+						findViewById(R.id.btn_rename_sound).setOnClickListener(
+								getOkBtnOnClickListener(soundNameEditText, soundInfo));
+						//final Button cancelButton = (Button) findViewById(R.id.btn_cancel_sound);
+						activity.showDialog(Consts.DIALOG_RENAME_SOUND);
+						//cancelButton.setOnClickListener();
+
+					}
+				});
 
 				soundNameEditText.addTextChangedListener(new TextWatcher() {
 					public void onTextChanged(CharSequence s, int start, int before, int count) {
+
 						if (s.length() == 0 || (s.length() == 1 && s.charAt(0) == '.')) {
 							Toast.makeText(SoundActivity.this, R.string.notification_invalid_text_entered,
 									Toast.LENGTH_SHORT).show();
-							editSoundNameButton.setVisibility(Button.INVISIBLE);
 						} else {
-							editSoundNameButton.setVisibility(Button.VISIBLE);
+
 						}
 					}
 
@@ -203,37 +230,13 @@ public class SoundActivity extends ListActivity {
 						if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
 							//clear the focus of EditText and kill keyboard
 							soundNameEditText.clearFocus();
-							hideKeyboard(editSoundNameButton);
+							hideKeyboard(soundNameEditText);
 
 							//rename
 							renameSound(soundInfo, soundNameEditText.getText().toString());
 							return true;
 						}
 						return false;
-					}
-				});
-
-				//rename sounds on focuschange (does not rename the actual file but the name shown in the activity)
-				soundNameEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
-					public void onFocusChange(View v, boolean hasFocus) {
-						if (hasFocus == false) {
-							editSoundNameButton.setVisibility(Button.INVISIBLE);
-							//rename
-							renameSound(soundInfo, soundNameEditText.getText().toString());
-						}
-					}
-				});
-
-				//rename sounds with button (does not rename the actual file but the name shown in the activity)
-				editSoundNameButton.setOnClickListener(new OnClickListener() {
-					public void onClick(View v) {
-						//deactivate renameButton, clear the focus of EditText and kill keyboard
-						editSoundNameButton.setVisibility(Button.INVISIBLE);
-						soundNameEditText.clearFocus();
-						hideKeyboard(editSoundNameButton);
-
-						//rename
-						renameSound(soundInfo, soundNameEditText.getText().toString());
 					}
 				});
 
@@ -270,6 +273,20 @@ public class SoundActivity extends ListActivity {
 
 			}
 			return convertView;
+		}
+
+		private View.OnClickListener getOkBtnOnClickListener(final EditText soundNameEditText, final SoundInfo soundInfo) {
+			return new OnClickListener() {
+				public void onClick(View v) {
+					//deactivate renameButton, clear the focus of EditText and kill keyboard
+					soundNameEditText.clearFocus();
+					hideKeyboard(soundNameEditText);
+
+					//rename
+					renameSound(soundInfo, soundNameEditText.getText().toString());
+				}
+			};
+
 		}
 
 		private void renameSound(SoundInfo soundInfo, String newTitle) {
