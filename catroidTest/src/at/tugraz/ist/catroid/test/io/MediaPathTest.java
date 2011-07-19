@@ -269,12 +269,10 @@ public class MediaPathTest extends InstrumentationTestCase {
 
 		//temporary:
 		{
-			String absoluteSoundPath = testSoundCopy.getAbsolutePath();
 			String soundTitle = testSoundCopy.getName().substring(33, testSoundCopy.getName().length() - 4);
 			String soundFileName = testSoundCopy.getName();
 			SoundInfo newSoundInfo = new SoundInfo();
 			newSoundInfo.setTitle(soundTitle);
-			newSoundInfo.setAbsolutePath(absoluteSoundPath);
 			newSoundInfo.setSoundFileName(soundFileName);
 			sprite.addSoundInfoToSoundList(newSoundInfo);
 		}

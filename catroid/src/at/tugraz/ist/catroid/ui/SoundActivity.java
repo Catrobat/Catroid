@@ -111,10 +111,9 @@ public class SoundActivity extends ListActivity {
 		}
 	}
 
-	private void updateSoundAdapter(String title, String path, String fileName) {
+	private void updateSoundAdapter(String title, String fileName) {
 		SoundInfo newSoundInfo = new SoundInfo();
 		newSoundInfo.setTitle(title);
-		newSoundInfo.setAbsolutePath(path);
 		newSoundInfo.setSoundFileName(fileName);
 		soundInfoList.add(newSoundInfo);
 		sprite.addSoundInfoToSoundList(newSoundInfo);
@@ -143,14 +142,12 @@ public class SoundActivity extends ListActivity {
 					throw new IOException();
 				}
 				File soundFile = StorageHandler.getInstance().copySoundFile(audioPath);
-				String absoluteSoundPath = soundFile.getAbsolutePath();
 				String soundTitle = soundFile.getName().substring(33, soundFile.getName().length() - 4);
 				String soundFileName = soundFile.getName();
-				updateSoundAdapter(soundTitle, absoluteSoundPath, soundFileName);
+				updateSoundAdapter(soundTitle, soundFileName);
 			} catch (IOException e) {
 				Utils.displayErrorMessage(this, this.getString(R.string.error_load_sound));
 			}
-
 		}
 	}
 
