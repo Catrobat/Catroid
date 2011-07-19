@@ -56,6 +56,7 @@
     			android:id="@+id/point_in_direction_spinner" 
     			android:layout_width="wrap_content" 
     			android:layout_height="wrap_content"
+    			android:entries="@array/point_in_direction_strings"
     		/>
     	</LinearLayout>
   </LinearLayout>

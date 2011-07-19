@@ -139,14 +139,6 @@
 	<string name="new_broadcast_message">new...</string>
 	<string name="broadcast_nothing_selected">Nothing...</string>
 	
-	<!-- Point in direction spinner -->
-	<string-array name="point_in_direction_array">
-		<item>90</item>
-		<item>-90</item>
-		<item>0</item>
-		<item>180</item>
-	</string-array>
-	
     <!-- Stage context menu -->
     <string name="stagemenu_construction_site">To Construction Site</string>
     <string name="stagemenu_start">Play/Pause</string>
