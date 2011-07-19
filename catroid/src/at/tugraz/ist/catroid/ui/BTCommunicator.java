@@ -92,19 +92,11 @@ public class BTCommunicator extends Thread {
 	//
 	private static BTCommunicator bt = null;
 
-	public static synchronized BTCommunicator getInstance(BTConnectable myOwner, Handler uiHandler,
-			BluetoothAdapter btAdapter, Resources resources) {
-		if (bt == null) {
-			bt = new BTCommunicator(myOwner, uiHandler, btAdapter, resources);
-		}
-		return bt;
-	}
-
 	public static synchronized BTCommunicator getInstance() {
 		return bt;
 	}
 
-	private BTCommunicator(BTConnectable myOwner, Handler uiHandler, BluetoothAdapter btAdapter, Resources resources) {
+	public BTCommunicator(BTConnectable myOwner, Handler uiHandler, BluetoothAdapter btAdapter, Resources resources) {
 		this.myOwner = myOwner;
 		this.uiHandler = uiHandler;
 		this.btAdapter = btAdapter;

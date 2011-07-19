@@ -24,17 +24,32 @@ import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.ui.BTCommunicator;
 
-public class HideBrick implements Brick {
+public class MotorActionBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
+	private BTCommunicator bt;
 
-	public HideBrick(Sprite sprite) {
+	public MotorActionBrick(Sprite sprite) {
 		this.sprite = sprite;
+		bt = BTCommunicator.getInstance();
 	}
 
 	public void execute() {
-		sprite.hide();
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		bt.actionButtonPressed();
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public Sprite getSprite() {
@@ -43,17 +58,17 @@ public class HideBrick implements Brick {
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.construction_brick_hide, null);
+		return inflater.inflate(R.layout.construction_motor_action, null);
 	}
 
 	@Override
 	public Brick clone() {
-		return new HideBrick(getSprite());
+		return new MotorActionBrick(getSprite());
 	}
 
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.brick_hide, null);
+		return inflater.inflate(R.layout.brick_motor_action, null);
 	}
 
 }
