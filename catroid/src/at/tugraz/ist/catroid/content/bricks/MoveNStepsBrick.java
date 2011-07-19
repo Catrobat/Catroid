@@ -59,10 +59,6 @@ public class MoveNStepsBrick implements Brick, OnDismissListener {
 		return this.sprite;
 	}
 
-	public double getSteps() {
-		return steps;
-	}
-
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.construction_brick_move_n_steps, null);
@@ -85,7 +81,7 @@ public class MoveNStepsBrick implements Brick, OnDismissListener {
 
 	@Override
 	public Brick clone() {
-		return new MoveNStepsBrick(getSprite(), getSteps());
+		return new MoveNStepsBrick(getSprite(), steps);
 	}
 
 	public void onDismiss(DialogInterface dialog) {
