@@ -51,6 +51,10 @@ public class TurnRightBrick implements Brick, OnDismissListener {
 		return sprite;
 	}
 
+	public double getDegrees() {
+		return degrees;
+	}
+
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.construction_brick_turn_right, null);
@@ -74,7 +78,7 @@ public class TurnRightBrick implements Brick, OnDismissListener {
 
 	@Override
 	public Brick clone() {
-		return new TurnRightBrick(sprite, degrees);
+		return new TurnRightBrick(getSprite(), getDegrees());
 	}
 
 	public void onDismiss(DialogInterface dialog) {
