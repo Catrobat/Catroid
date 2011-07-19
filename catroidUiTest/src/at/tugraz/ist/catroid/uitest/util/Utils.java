@@ -23,11 +23,13 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
 import android.text.InputType;
+import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
@@ -266,5 +268,33 @@ public class Utils {
 		if (directory.exists()) {
 			UtilFile.deleteDirectory(directory);
 		}
+	}
+
+	public static Object getPrivateField(String fieldName, Object object, boolean ofSuperclass) {
+
+		Field field = null;
+
+		try {
+			Class<?> c = object.getClass();
+			field = ofSuperclass ? c.getSuperclass().getDeclaredField(fieldName) : c.getDeclaredField(fieldName);
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (NoSuchFieldException e) {
+			Log.w(e.getClass().getName(), fieldName);
+		}
+
+		if (field != null) {
+			field.setAccessible(true);
+
+			try {
+				return field.get(object);
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return field;
 	}
 }

@@ -25,9 +25,7 @@ import java.io.IOException;
 import android.app.ProgressDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.utils.UtilDeviceInfo;
@@ -44,12 +42,15 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 	private String projectName;
 	private String projectDescription;
 	private String serverAnswer;
+	private String token;
 
-	public ProjectUploadTask(Context context, String projectName, String projectDescription, String projectPath) {
+	public ProjectUploadTask(Context context, String projectName, String projectDescription, String projectPath,
+			String token) {
 		this.context = context;
 		this.projectPath = projectPath;
 		this.projectName = projectName;
 		this.projectDescription = projectDescription;
+		this.token = token;
 
 		if (context != null) {
 			serverAnswer = context.getString(R.string.error_project_upload);
@@ -92,16 +93,14 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 				return false;
 			}
 
-			String deviceIMEI = UtilDeviceInfo.getDeviceIMEI(context);
+			//String deviceIMEI = UtilDeviceInfo.getDeviceIMEI(context);
 			String userEmail = UtilDeviceInfo.getUserEmail(context);
 			String language = UtilDeviceInfo.getUserLanguageCode(context);
 
-			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-			String token = prefs.getString(Consts.TOKEN, "0");
-
-			ServerCalls.getInstance().uploadProject(projectName, projectDescription, zipFileString, deviceIMEI,
-					userEmail, language, token);
+			ServerCalls.getInstance().uploadProject(projectName, projectDescription, zipFileString, userEmail,
+					language, token);
 			zipFile.delete();
+			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (WebconnectionException e) {
