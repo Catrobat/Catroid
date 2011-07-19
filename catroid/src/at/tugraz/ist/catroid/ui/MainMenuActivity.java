@@ -61,6 +61,7 @@ public class MainMenuActivity extends Activity implements BTConnectable {
 	public static final int MENU_TOOGLE_DISCONNECT = Menu.FIRST + 1;
 	public static final int MENU_CONNECT_NXT = Menu.FIRST + 2;
 	private boolean connected = false;
+	private boolean BtIsOn = false;
 
 	private static final int REQUEST_CONNECT_DEVICE = 1000;
 
@@ -77,6 +78,7 @@ public class MainMenuActivity extends Activity implements BTConnectable {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		BtIsOn = BtisOn();
 		Utils.updateScreenWidthAndHeight(this);
 
 		setContentView(R.layout.activity_main_menu);
@@ -213,12 +215,11 @@ public class MainMenuActivity extends Activity implements BTConnectable {
 
 	public boolean BtisOn() {
 		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-		connected = mBluetoothAdapter.isEnabled();
-		Log.i("bt", "BtisOn() " + connected);
-		return connected;
+		Log.i("bt", "BtisOn() " + BtIsOn);
+		return mBluetoothAdapter.isEnabled();
 	}
 
-	public void connectBT() {
+	public void ActivateBT() {
 		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		if (mBluetoothAdapter == null) {
 			// Device does not support Bluetooth
@@ -229,10 +230,9 @@ public class MainMenuActivity extends Activity implements BTConnectable {
 		}
 	}
 
-	public void disconnectBT() {
+	public void DisactivateBT() {
 		BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		if (mBluetoothAdapter.isEnabled()) {
-			mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 			mBluetoothAdapter.disable();
 		}
 		Toast.makeText(this, "bluetooth disabled", Toast.LENGTH_LONG).show();
@@ -264,11 +264,11 @@ public class MainMenuActivity extends Activity implements BTConnectable {
 		switch (item.getItemId()) {
 			case MENU_TOGGLE_CONNECT:
 				Log.i("bt", "menu toogle connect selected");
-				connectBT();
+				ActivateBT();
 				break;
 			case MENU_TOOGLE_DISCONNECT:
 				Log.i("bt", "menu toogle disconnected selected");
-				disconnectBT();
+				DisactivateBT();
 				break;
 
 			case MENU_CONNECT_NXT:
@@ -324,8 +324,7 @@ public class MainMenuActivity extends Activity implements BTConnectable {
 	 */
 	private void createBTCommunicator() {
 		// interestingly BT adapter needs to be obtained by the UI thread - so we pass it in in the constructor
-		myBTCommunicator = BTCommunicator.getInstance(this, myHandler, BluetoothAdapter.getDefaultAdapter(),
-				getResources());
+		myBTCommunicator = new BTCommunicator(this, myHandler, BluetoothAdapter.getDefaultAdapter(), getResources());
 		btcHandler = myBTCommunicator.getHandler();
 	}
 
@@ -520,10 +519,6 @@ public class MainMenuActivity extends Activity implements BTConnectable {
 	protected void onDestroy() {
 		super.onDestroy();
 		destroyBTCommunicator();
-	}
-
-	public Handler gethandler() {
-		return myHandler;
 	}
 
 	public Handler getBThandler() {

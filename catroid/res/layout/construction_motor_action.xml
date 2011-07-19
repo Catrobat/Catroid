@@ -39,7 +39,7 @@
 		android:background="@drawable/brick_yellow"
 	>
 		<TextView
-			android:text="@string/motor_action"
+			android:text="@string/hide"
 			android:layout_height="wrap_content"
 			android:layout_width="fill_parent"
 			android:textColor="@color/white"
