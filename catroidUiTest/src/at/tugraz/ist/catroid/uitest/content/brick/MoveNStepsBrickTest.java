@@ -30,19 +30,18 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.content.bricks.TurnRightBrick;
+import at.tugraz.ist.catroid.content.bricks.MoveNStepsBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class TurnRightBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
-
+public class MoveNStepsBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
-	private TurnRightBrick turnRightBrick;
-	private double turnDegrees;
+	private MoveNStepsBrick moveNStepsBrick;
+	private double stepsToMove;
 
-	public TurnRightBrickTest() {
+	public MoveNStepsBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
 	}
 
@@ -64,8 +63,24 @@ public class TurnRightBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		super.tearDown();
 	}
 
+	private void createProject() {
+		stepsToMove = 23.0;
+		project = new Project(null, "testProject");
+		Sprite sprite = new Sprite("cat");
+		Script script = new StartScript("script", sprite);
+		moveNStepsBrick = new MoveNStepsBrick(sprite, 0);
+		script.addBrick(moveNStepsBrick);
+
+		sprite.addScript(script);
+		project.addSprite(sprite);
+
+		ProjectManager.getInstance().setProject(project);
+		ProjectManager.getInstance().setCurrentSprite(sprite);
+		ProjectManager.getInstance().setCurrentScript(script);
+	}
+
 	@Smoke
-	public void testTurnRightBrickTest() {
+	public void testGoNStepsBackBrick() {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
 
@@ -77,32 +92,16 @@ public class TurnRightBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
 				getActivity().getAdapter().getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_turn_right)));
+		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_move)));
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
-		solo.enterText(0, turnDegrees + "");
+		solo.enterText(0, stepsToMove + "");
 		solo.clickOnButton(0);
 
-		solo.sleep(1000);
-
-		assertEquals("Wrong text in field", turnDegrees, turnRightBrick.getDegrees());
-		assertEquals("Text not updated", turnDegrees, Double.parseDouble(solo.getEditText(0).getText().toString()));
+		solo.sleep(300);
+		assertEquals("Wrong text in field.", stepsToMove, moveNStepsBrick.getSteps());
+		assertEquals("Value in Brick is not updated.", stepsToMove + "", solo.getEditText(0).getText().toString());
 	}
 
-	private void createProject() {
-		turnDegrees = 25;
-		project = new Project(null, "testProject");
-		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript("script", sprite);
-		turnRightBrick = new TurnRightBrick(sprite, 0);
-		script.addBrick(turnRightBrick);
-
-		sprite.addScript(script);
-		project.addSprite(sprite);
-
-		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentScript(script);
-	}
 }
