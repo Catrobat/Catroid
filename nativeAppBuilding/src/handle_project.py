@@ -28,7 +28,7 @@ def verify_checksum(path_to_file):
     else:
         return False
 
-def rename_file_in_project(old_name, new_name, project_file_path,resource_type):
+def rename_file_in_project(old_name, new_name, project_file_path, resource_type):
     doc = xml.dom.minidom.parse(project_file_path)
 
     if resource_type == 'images':
@@ -44,13 +44,13 @@ def rename_file_in_project(old_name, new_name, project_file_path,resource_type):
     doc.writexml(f)
     f.close()
 
-def rename_resources(project_name):
-    os.rename(os.path.join(project_name, project_name + '.xml'),\
-              os.path.join(project_name, 'project.xml'))
+def rename_resources(path_to_project, project_name):
+    os.rename(os.path.join(path_to_project, project_name + '.xml'),\
+              os.path.join(path_to_project, 'project.xml'))
     res_token = 'resource'
     res_count = 0
     for resource_type in ['images', 'sounds']:
-        path = os.path.join(project_name, resource_type)
+        path = os.path.join(path_to_project, resource_type)
         for filename in os.listdir(path):
             if filename == '.nomedia':
                 continue
@@ -58,23 +58,23 @@ def rename_resources(project_name):
             if verify_checksum(os.path.join(path, filename)):
                 new_filename = res_token + str(res_count)
                 rename_file_in_project(filename, new_filename,\
-                                    os.path.join(project_name, 'project.xml'),\
+                                    os.path.join(path_to_project, 'project.xml'),\
                                     resource_type)
                 shutil.move(os.path.join(path, filename),\
-                           os.path.join(project_name, new_filename + extension))
+                           os.path.join(path_to_project, new_filename + extension))
                 res_count = res_count + 1
             else:
                 print 'Wrong checksum for file', filename
                 exit(1)
-    shutil.rmtree(os.path.join(project_name, 'sounds'))
-    shutil.rmtree(os.path.join(project_name, 'images'))
+    shutil.rmtree(os.path.join(path_to_project, 'sounds'))
+    shutil.rmtree(os.path.join(path_to_project, 'images'))
 
-def copy_project(path_to_catroid, project_name):
-    shutil.copytree(path_to_catroid, os.path.join(project_name, 'catroid'))
-    for filename in os.listdir(project_name):
-        if not os.path.isdir(os.path.join(project_name, filename)):
-            shutil.move(os.path.join(project_name, filename),\
-                os.path.join(project_name, 'catroid', 'res', 'raw', filename))
+def copy_project(path_to_catroid, path_to_project):
+    shutil.copytree(path_to_catroid, os.path.join(path_to_project, 'catroid'))
+    for filename in os.listdir(path_to_project):
+        if not os.path.isdir(os.path.join(path_to_project, filename)):
+            shutil.move(os.path.join(path_to_project, filename),\
+                os.path.join(path_to_project, 'catroid', 'res', 'raw', filename))
 
 def set_project_name(new_name, path_to_file):
     doc = xml.dom.minidom.parse(path_to_file)
@@ -92,15 +92,15 @@ def get_project_name(project_filename):
         if node.parentNode.nodeName == 'project':
             return node.childNodes[0].nodeValue
 
-def rename_package(project_filename, new_package):
+def rename_package(path_to_project, new_package):
     catroid_package = 'at.tugraz.ist.catroid'
-    path_to_source = os.path.join(project_filename, 'catroid', 'src', 'at', 'tugraz', 'ist')
+    path_to_source = os.path.join(path_to_project, 'catroid', 'src', 'at', 'tugraz', 'ist')
     os.rename(os.path.join(path_to_source, 'catroid'),\
               os.path.join(path_to_source, new_package))
     os.mkdir(os.path.join(path_to_source, 'catroid'))
     shutil.move(os.path.join(path_to_source, new_package),\
                 os.path.join(path_to_source, 'catroid'))
-    for root, dirs, files in os.walk(project_filename):
+    for root, dirs, files in os.walk(path_to_project):
         for name in files:
             if os.path.splitext(name)[1] in ('.java', '.xml'):
                 for line in fileinput.input(os.path.join(root, name), inplace=1):
@@ -113,25 +113,26 @@ def main():
         print 'Invalid arguments. Correct usage:'
         print 'python handle_project.py <path_to_project> <path_to_catroid> <project_id> <ouput_folder>'
         return 1
-    archive_name = sys.argv[1]
+    path_to_project, archive_name = os.path.split(sys.argv[1])
     path_to_catroid = sys.argv[2]
     project_id = sys.argv[3]
     output_folder = sys.argv[4]
     project_filename = os.path.splitext(archive_name)[0]
-    if os.path.exists(project_filename):
-        shutil.rmtree(project_filename)
-    unzip_project(archive_name)
-    rename_resources(project_filename)
-    project_name = get_project_name(os.path.join(project_filename, 'project.xml'))
-    copy_project(path_to_catroid, project_filename)
-    if os.path.exists(os.path.join(project_filename, 'catroid', 'gen')):
-        shutil.rmtree(os.path.join(project_filename, 'catroid', 'gen'))
-    rename_package(project_filename, 'app' + str(project_id))
-    set_project_name(project_name, os.path.join(project_filename, 'catroid', 'res', 'values', 'common.xml'))
-    os.system('ant release -f ' + os.path.join(project_filename, 'catroid', 'build.xml'))
-    shutil.move(os.path.join(project_filename, 'catroid', 'bin', 'NativeAppActivity-release.apk'),\
+    if os.path.exists(os.path.join(path_to_project, project_filename)):
+        shutil.rmtree(os.path.join(path_to_project, project_filename))
+    unzip_project(os.path.join(path_to_project, archive_name))
+    path_to_project = os.path.join(path_to_project, project_filename)
+    rename_resources(path_to_project, project_filename)
+    project_name = get_project_name(os.path.join(path_to_project, 'project.xml'))
+    copy_project(path_to_catroid, path_to_project)
+    if os.path.exists(os.path.join(path_to_project, 'catroid', 'gen')):
+        shutil.rmtree(os.path.join(path_to_project, 'catroid', 'gen'))
+    rename_package(path_to_project, 'app_' + str(project_id))
+    set_project_name(project_name, os.path.join(path_to_project, 'catroid', 'res', 'values', 'common.xml'))
+    os.system('ant release -f ' + os.path.join(path_to_project, 'catroid', 'build.xml'))
+    shutil.move(os.path.join(path_to_project, 'catroid', 'bin', 'NativeAppActivity-release.apk'),\
                 os.path.join(output_folder, project_filename + '.apk'))
-    shutil.rmtree(project_filename)
+    shutil.rmtree(path_to_project)
     return 0
 
 if __name__ == '__main__':
