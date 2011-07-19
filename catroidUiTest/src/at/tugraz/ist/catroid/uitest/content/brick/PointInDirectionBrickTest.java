@@ -78,17 +78,8 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 		assertNotNull("TextView does not exist",
 				solo.getText(getActivity().getString(R.string.brick_point_in_direction)));
 
-		//		double pointInDirection = 25;
-		//
-		//		solo.clickOnEditText(0);
-		//		solo.clearEditText(0);
-		//		solo.enterText(0, turnDegrees + "");
-		//		solo.clickOnButton(0);
-		//
-		//		solo.sleep(1000);
-		//
-		//		assertEquals("Wrong text in field", turnDegrees, turnLeftBrick;
-		//		assertEquals("Text not updated", turnDegrees, Double.parseDouble(solo.getEditText(0).getText().toString()));
+		solo.pressSpinnerItem(0, 1);
+		assertEquals("Wrong selection", "(-90) left", solo.getCurrentSpinners().get(0).getSelectedItem());
 	}
 
 	private void createProject() {
