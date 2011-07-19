@@ -64,7 +64,7 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 	}
 
 	@Smoke
-	public void testPointInDirectionBrickTest() {
+	public void testPointInDirectionBrickTest() throws InterruptedException {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
 		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
@@ -78,7 +78,9 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 		assertNotNull("TextView does not exist",
 				solo.getText(getActivity().getString(R.string.brick_point_in_direction)));
 
-		solo.pressSpinnerItem(0, 1);
+		//test will fail in 2.1 because index in 2.2 starts at 1 and at 0 in 2.1 
+		solo.pressSpinnerItem(0, 2);
+		Thread.sleep(300);
 		assertEquals("Wrong selection", "(-90) left", solo.getCurrentSpinners().get(0).getSelectedItem());
 	}
 
