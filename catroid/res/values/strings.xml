@@ -107,6 +107,8 @@
     
     <!-- Sound activity -->
     <string name="sound_list">Sound:</string>
+    <string name="rename_sound_dialog">Rename sound</string>
+    <string name="soundname_invalid">This soundname is invalid</string>
 
     <!-- Sprite dialog -->
     <string name="sprite_button_text">Create</string>
