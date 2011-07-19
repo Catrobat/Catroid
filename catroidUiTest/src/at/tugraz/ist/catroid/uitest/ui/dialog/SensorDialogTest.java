@@ -129,14 +129,15 @@ public class SensorDialogTest extends ActivityInstrumentationTestCase2<ScriptAct
 
 		solo.clickOnButton("A");
 
-		Utils.insertIntegerIntoEditText(solo, pinTextEdits, pinValue);
-		solo.clickOnButton("OK");
+		solo.clickOnEditText(pinTextEdits);
+		solo.clearEditText(0);
+		solo.enterText(0, Integer.toString(pinValue));
+		solo.clickOnButton(0);
+		solo.sleep(3000);
 
 		Utils.insertDoubleIntoEditText(solo, valueTextEdits, valueAnalog);
 		solo.clickOnButton("OK");
-
-		Utils.insertDoubleIntoEditText(solo, timeTextEdits, time);
-		solo.clickOnButton("OK");
+		solo.sleep(3000);
 
 	}
 
@@ -184,16 +185,16 @@ public class SensorDialogTest extends ActivityInstrumentationTestCase2<ScriptAct
 		Utils.insertIntegerIntoEditText(solo, pinTextEdits, pinValue);
 		solo.clickOnButton("OK");
 
+		assertTrue(solo.searchText("You just have 0 to 5 PINs here so please a number from 0-5"));
+
 		Utils.insertDoubleIntoEditText(solo, valueTextEdits, valueAnalog);
 		solo.clickOnButton("OK");
+
+		assertEquals("For this PIN you can just enter a value from 0.0 to 5.0", valueAnalog + "",
+				solo.getEditText(valueTextEdits).getText().toString());
 
 		Utils.insertDoubleIntoEditText(solo, timeTextEdits, time);
 		solo.clickOnButton("OK");
 
-		assertEquals("You just have 0 to 13 PINs here so please a number from 0-13", pinValue + "",
-				solo.getEditText(pinTextEdits).getText().toString());
-		assertEquals("For this PIN you can just enter a value from 0.0 to 5.0", valueAnalog + "",
-				solo.getEditText(valueTextEdits).getText().toString());
 	}
-
 }
