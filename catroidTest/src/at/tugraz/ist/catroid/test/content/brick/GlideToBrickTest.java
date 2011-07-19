@@ -92,7 +92,7 @@ public class GlideToBrickTest extends AndroidTestCase {
 		script.addBrick(glideToBrick);
 		script.addBrick(showBrick);
 
-		sprite.getScriptList().add(script);
+		sprite.addScript(script);
 
 		sprite.startStartScripts();
 
@@ -123,7 +123,7 @@ public class GlideToBrickTest extends AndroidTestCase {
 		script.addBrick(glideToBrick);
 		script.addBrick(showBrick);
 
-		sprite.getScriptList().add(script);
+		sprite.addScript(script);
 
 		sprite.startStartScripts();
 
