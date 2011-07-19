@@ -46,13 +46,15 @@
                 android:text="@string/ok"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight=".5"/>
+                android:layout_weight=".5"
+                android:onClick="handlePositiveButtonRenameSound"/>
         <Button
                 android:id="@+id/btn_cancel_sound"
                 android:text="@string/cancel_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight=".5"/>
+                android:layout_weight=".5"
+                android:onClick="handleNegativeButtonRenameSound"/>
         </LinearLayout>
 </LinearLayout>
 

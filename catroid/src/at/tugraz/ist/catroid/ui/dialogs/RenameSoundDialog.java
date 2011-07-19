@@ -33,7 +33,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.ui.SoundActivity;
@@ -44,16 +43,14 @@ public class RenameSoundDialog {
 	private EditText input;
 	private Button buttonPositive;
 	public Dialog renameDialog;
-	private ProjectManager projectManager;
 
 	public RenameSoundDialog(SoundActivity soundActivity) {
 		this.soundActivity = soundActivity;
-		projectManager = ProjectManager.getInstance();
 	}
 
 	public Dialog createDialog(SoundInfo soundInfoToEdit) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(soundActivity);
-		builder.setTitle(R.string.rename_sprite_dialog);
+		builder.setTitle(R.string.rename_sound_dialog);
 
 		LayoutInflater inflater = (LayoutInflater) soundActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.dialog_rename_sound, null);
@@ -76,22 +73,17 @@ public class RenameSoundDialog {
 	}
 
 	public void handleOkButton() {
-		String newSpriteName = (input.getText().toString()).trim();
-		String oldSpriteName = soundActivity.soundInfoToEdit.getTitle();
+		String newSoundTitle = (input.getText().toString()).trim();
+		String oldSoundTitle = soundActivity.selectedSoundInfo.getTitle();
 
-		if (projectManager.spriteExists(newSpriteName) && !newSpriteName.equalsIgnoreCase(oldSpriteName)) {
-			Utils.displayErrorMessage(soundActivity, soundActivity.getString(R.string.spritename_already_exists));
-			return;
-		}
-
-		if (newSpriteName.equalsIgnoreCase(soundActivity.soundInfoToEdit.getTitle())) {
+		if (newSoundTitle.equalsIgnoreCase(oldSoundTitle)) {
 			renameDialog.cancel();
 			return;
 		}
-		if (newSpriteName != null && !newSpriteName.equalsIgnoreCase("")) {
-			soundActivity.soundInfoToEdit.setTitle(newSpriteName);
+		if (newSoundTitle != null && !newSoundTitle.equalsIgnoreCase("")) {
+			soundActivity.selectedSoundInfo.setTitle(newSoundTitle);
 		} else {
-			Utils.displayErrorMessage(soundActivity, soundActivity.getString(R.string.spritename_invalid));
+			Utils.displayErrorMessage(soundActivity, soundActivity.getString(R.string.soundname_invalid));
 			return;
 		}
 		renameDialog.cancel();
@@ -101,15 +93,8 @@ public class RenameSoundDialog {
 		builder.setOnKeyListener(new OnKeyListener() {
 			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
 				if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-					String newSpriteName = (input.getText().toString()).trim();
-					String oldSpriteName = soundActivity.soundInfoToEdit.getTitle();
-					if (projectManager.spriteExists(newSpriteName) && !newSpriteName.equalsIgnoreCase(oldSpriteName)) {
-						Utils.displayErrorMessage(soundActivity,
-								soundActivity.getString(R.string.spritename_already_exists));
-					} else {
-						handleOkButton();
-						return true;
-					}
+					handleOkButton();
+					return true;
 				}
 				return false;
 			}
@@ -123,6 +108,7 @@ public class RenameSoundDialog {
 				InputMethodManager inputManager = (InputMethodManager) soundActivity
 						.getSystemService(Context.INPUT_METHOD_SERVICE);
 				inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
+				input.setText(soundActivity.selectedSoundInfo.getTitle());
 			}
 		});
 
