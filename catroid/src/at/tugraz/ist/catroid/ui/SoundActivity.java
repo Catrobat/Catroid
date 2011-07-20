@@ -36,10 +36,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
@@ -206,11 +207,13 @@ public class SoundActivity extends ListActivity {
 
 			if (soundInfo != null) {
 				ImageView soundImage = (ImageView) convertView.findViewById(R.id.sound_img);
-				final EditText soundNameEditText = (EditText) convertView.findViewById(R.id.edit_sound_name);
+				final TextView soundNameTextView = (TextView) convertView.findViewById(R.id.sound_name);
+				final Button renameSoundButton = (Button) convertView.findViewById(R.id.rename_button);
 
-				soundNameEditText.setText(soundInfo.getTitle());
+				soundNameTextView.setText(soundInfo.getTitle());
 
-				soundNameEditText.setOnClickListener(new OnClickListener() {
+				renameSoundButton.setOnClickListener(new OnClickListener() {
+
 					public void onClick(View v) {
 						activity.selectedSoundInfo = soundInfo;
 						activity.showDialog(Consts.DIALOG_RENAME_SOUND);

@@ -37,17 +37,19 @@ android:layout_height="match_parent"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content">
 		
-		<EditText 
-			android:text="EditText" 
-			android:id="@+id/edit_sound_name" 
+		<TextView 
+			android:id="@+id/sound_name" 
 			android:layout_width="match_parent"
 			android:paddingLeft="10dp"
-			android:textSize="14sp" 
+			android:textSize="18dip" 
 			android:layout_height="55dip" 
 			android:gravity="center_vertical"
 			android:clickable="true"
 			android:focusable="false"
-			android:longClickable="false"/>
+			android:longClickable="false"
+			android:textColor="@color/dark_gray"
+			android:ellipsize="end"
+			android:maxLines="2"/>
 
 		<LinearLayout 
 			android:id="@+id/linearLayout1" 
@@ -69,6 +71,11 @@ android:layout_height="match_parent"
     			android:layout_width="wrap_content"
     			android:layout_height="48dip"
     			android:src="@android:drawable/ic_delete"/>
+    		<Button 
+    			android:id="@+id/rename_button" 
+    			android:layout_width="wrap_content"
+    			android:layout_height="48dip"
+    			android:text="@string/rename_button"/>
 		</LinearLayout>
 	</LinearLayout>
 </LinearLayout>
