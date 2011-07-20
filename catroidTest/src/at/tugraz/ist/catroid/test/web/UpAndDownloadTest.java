@@ -60,22 +60,6 @@ public class UpAndDownloadTest extends AndroidTestCase {
 		new File(pathToDefaultProject + "/" + projectFilename).createNewFile();
 		String projectDescription = "this is just a testproject";
 
-		//		ProjectUploadTask uploadTask = new ProjectUploadTask(null, testProjectName, projectDescription,
-		//				pathToDefaultProject, null) {
-		//			@Override
-		//			protected ConnectionWrapper createConnection() {
-		//				return mockConnection;
-		//			}
-		//		};
-		//
-		//		ProjectDownloadTask downloadTask = new ProjectDownloadTask(null, "", testProjectName, Consts.TMP_PATH + "/down"
-		//				+ Consts.CATROID_EXTENTION) {
-		//			@Override
-		//			protected ConnectionWrapper createConnection() {
-		//				return mockConnection;
-		//			}
-		//		};
-
 		ServerCalls.getInstance().setConnectionToUse(new MockConnection());
 
 		assertTrue("The default Project does not exist.", new File(pathToDefaultProject).exists());

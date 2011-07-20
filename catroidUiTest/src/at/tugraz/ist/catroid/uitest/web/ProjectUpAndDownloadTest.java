@@ -22,6 +22,7 @@ package at.tugraz.ist.catroid.uitest.web;
 import java.io.File;
 import java.util.List;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
@@ -31,7 +32,6 @@ import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
 import android.widget.ImageButton;
-import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.ui.DownloadActivity;
@@ -47,6 +47,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	private String testProject = Utils.PROJECTNAME1;
 	private String newTestProject = Utils.PROJECTNAME2;
 	private String saveToken;
+	private int serverProjectId;
 
 	public ProjectUpAndDownloadTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -170,19 +171,26 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		solo.clickOnButton(getActivity().getString(R.string.upload_button));
 
-		solo.waitForDialogToClose(10000);
-		if (expect_success) {
-			assertTrue("Upload failed. Internet connection?", solo.searchText(getActivity().getString(
-					R.string.success_project_upload)));
-		} else {
-			assertTrue("Error message not found on screen. ", solo.searchText(getActivity().getString(
-					R.string.error_project_upload)));
+		try {
+			solo.waitForDialogToClose(10000);
+			if (expect_success) {
+				assertTrue("Upload failed. Internet connection?", solo.searchText(getActivity().getString(
+						R.string.success_project_upload)));
+				String resultString = (String) Utils.getPrivateField("resultString", ServerCalls.getInstance());
+				JSONObject jsonObject;
+				jsonObject = new JSONObject(resultString);
+				serverProjectId = jsonObject.optInt("projectId");
+			} else {
+				assertTrue("Error message not found on screen. ", solo.searchText(getActivity().getString(
+						R.string.error_project_upload)));
+			}
+			solo.clickOnButton(0);
+		} catch (JSONException e) {
+			assertFalse("json exception orrured", true);
 		}
-		solo.clickOnButton(0);
 	}
 
 	private void downloadProject() {
-		int serverProjectId = ProjectManager.getInstance().getServerProjectId();
 		String downloadUrl = Consts.TEST_FILE_DOWNLOAD_URL + serverProjectId + Consts.CATROID_EXTENTION;
 		downloadUrl += "?fname=" + newTestProject;
 		Intent intent = new Intent(getActivity(), DownloadActivity.class);
