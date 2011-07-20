@@ -49,7 +49,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		zPosition = 0;
 		size = 100.0;
 		isVisible = true;
-		costume = new CostumeA(this);
+		costume = new CostumeA();
 		xPosition = 0;
 		yPosition = 0;
 		toDraw = false;

@@ -25,7 +25,19 @@ import at.tugraz.ist.catroid.content.Sprite;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Forever;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveBy;
+import com.badlogic.gdx.scenes.scene2d.actions.Sequence;
 
 /**
  * @author jib218
@@ -33,15 +45,41 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
  */
 public class StageListener implements ApplicationListener {
 	Stage stage;
+	boolean paused = false;
+	SpriteBatch batch;
+	BitmapFont font;
+	private OrthographicCamera camera;
+	private OrthoCamController camController;
+	private InputMultiplexer multiplexer;
+
+	private final int VIRTUAL_WIDTH = 320;
+	private final int VIRTUAL_HEIGHT = 320;
+	private int DEVICE_WIDTH = 480;
+	private int DEVICE_HEIGHT = 480;
+
+	private ImmediateModeRenderer20 renderer;
+	private Matrix4 projModelView = new Matrix4();
 
 	public void create() {
-		stage = new Stage(800, 480, true);
+		batch = new SpriteBatch();
+		font = new BitmapFont();
+		renderer = new ImmediateModeRenderer20(200, false, true, 0);
+
+		stage = new Stage(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, true);
+		camera = (OrthographicCamera) stage.getCamera();
+		camera.position.set(0, 0, 0);
+		camController = new OrthoCamController(camera);
+
 		List<Sprite> sprites = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		for (Sprite sprite : sprites) {
 			stage.addActor(sprite.costume);
+			sprite.costume.action(Forever.$(Sequence.$(MoveBy.$(100, 100, 2), MoveBy.$(-100, -100, 2))));
 		}
 
-		Gdx.input.setInputProcessor(stage);
+		multiplexer = new InputMultiplexer();
+		multiplexer.addProcessor(stage);
+		multiplexer.addProcessor(camController);
+		Gdx.input.setInputProcessor(multiplexer);
 
 		for (Sprite sprite : sprites) {
 			sprite.startStartScripts();
@@ -59,17 +97,63 @@ public class StageListener implements ApplicationListener {
 	}
 
 	public void render() {
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		float scale = VIRTUAL_WIDTH / (float) DEVICE_WIDTH;
+
+		Gdx.gl.glViewport(0, (int) (DEVICE_HEIGHT - DEVICE_HEIGHT * scale) / 2, DEVICE_WIDTH,
+				(int) (scale * DEVICE_HEIGHT));
+
+		renderRectangle(projModelView, -1, -1, 2, 2, Color.RED);
+		renderAxis(camera.combined);
+
+		if (!paused) {
+			stage.act(Gdx.graphics.getDeltaTime());
+		}
 		stage.draw();
+
+		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		batch.begin();
+		font.draw(batch, "res: " + Gdx.graphics.getWidth() + ", " + Gdx.graphics.getHeight(), 0, 30);
+		batch.end();
 	}
 
-	public void resize(int arg0, int arg1) {
-		// TODO Auto-generated method stub
+	private void renderRectangle(Matrix4 projModelView, float x, float y, float width, float height, Color color) {
+		renderer.begin(projModelView, GL10.GL_TRIANGLE_FAN);
+		renderer.color(color.r, color.g, color.b, color.a);
+		renderer.vertex(x, y, 0);
 
+		renderer.color(color.r, color.g, color.b, color.a);
+		renderer.vertex(x + width, y, 0);
+
+		renderer.color(color.r, color.g, color.b, color.a);
+		renderer.vertex(x + width, y + height, 0);
+
+		renderer.color(color.r, color.g, color.b, color.a);
+		renderer.vertex(x, y + height, 0);
+		renderer.end();
+	}
+
+	private void renderAxis(Matrix4 projModelView) {
+		renderer.begin(projModelView, GL10.GL_LINES);
+		renderer.color(0, 1, 0, 1);
+		renderer.vertex(-VIRTUAL_WIDTH, 0, 0);
+		renderer.color(0, 1, 0, 1);
+		renderer.vertex(VIRTUAL_WIDTH, 0, 0);
+
+		renderer.color(0, 1, 0, 1);
+		renderer.vertex(0, -VIRTUAL_HEIGHT, 0);
+		renderer.color(0, 1, 0, 1);
+		renderer.vertex(0, VIRTUAL_HEIGHT, 0);
+		renderer.end();
+	}
+
+	public void resize(int width, int height) {
+		DEVICE_WIDTH = width;
+		DEVICE_HEIGHT = height;
 	}
 
 	public void resume() {
 		// TODO Auto-generated method stub
 
 	}
-
 }
