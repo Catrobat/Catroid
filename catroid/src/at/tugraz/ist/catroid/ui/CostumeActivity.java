@@ -62,7 +62,7 @@ public class CostumeActivity extends ListActivity {
 	Intent intent = null;
 	String filemanagerstring, selectedImagePath, imagePath, costumeName, absolutePath, costume, costumeFormat,
 			costumeDisplayName;
-	int counter, positiontoEdit, splitAt, costumeId, column_index;
+	int counter, splitAt, costumeId, column_index;
 	Cursor cursor;
 	@XStreamOmitField
 	private transient Bitmap thumbnail;
@@ -209,7 +209,6 @@ public class CostumeActivity extends ListActivity {
 		}
 	}
 
-	//UPDATED!
 	public String getPath(Uri uri) {
 		String[] projection = { MediaColumns.DATA };
 		Cursor cursor = managedQuery(uri, projection, null, null, null);
