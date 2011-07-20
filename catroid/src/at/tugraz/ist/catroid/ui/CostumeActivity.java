@@ -87,8 +87,8 @@ public class CostumeActivity extends ListActivity {
 		return new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-				intent.setType("audio/*");
-				startActivityForResult(Intent.createChooser(intent, "Select music"), SELECT_IMAGE);
+				intent.setType("image/*");
+				startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_IMAGE);
 			}
 		};
 	}
