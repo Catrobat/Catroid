@@ -73,14 +73,14 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
-				getActivity().getAdapter().getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist",
-				solo.getText(getActivity().getString(R.string.brick_point_in_direction)));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
+				groupCount - 1, 0));
+		assertNotNull("TextView does not exist", solo.getText(getActivity()
+				.getString(R.string.brick_point_in_direction)));
 
 		//test will fail in 2.1 because index in 2.2 starts at 1 and at 0 in 2.1 
 		solo.pressSpinnerItem(0, 2);
-		Thread.sleep(300);
+		solo.sleep(300);
 		assertEquals("Wrong selection", "(-90) left", solo.getCurrentSpinners().get(0).getSelectedItem());
 	}
 
