@@ -110,6 +110,8 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 		currentProjectName = ProjectManager.getInstance().getCurrentProject().getName();
 		projectUploadName.setText(currentProjectName);
 		projectDescriptionField.setText("");
+		projectUploadName.requestFocus();
+		projectUploadName.selectAll();
 	}
 
 	public void onClick(View v) {
