@@ -81,6 +81,9 @@
 					android:scheme="http"
 					android:host="catroid.org"
 					android:pathPrefix="/catroid/download/" />
+				<data
+					android:scheme="http"
+					android:pathPattern=".*\\.catroid" />
 			</intent-filter>
 		</activity>
 		
