@@ -24,7 +24,6 @@ public class WhenScript extends Script {
 	public static final String LONGPRESSED = "Long Pressed";
 	public static final String TAPPED = "Tapped";
 	public static final String DOUBLETAPPED = "Double Tapped";
-	public static final String TOUCHINGSTARTS = "Touching Starts";
 	public static final String TOUCHINGSTOPS = "Touching Stops";
 	public static final String SWIPELEFT = "Swipe Left";
 	public static final String SWIPERIGHT = "Swipe Right";
@@ -35,6 +34,7 @@ public class WhenScript extends Script {
 	public WhenScript(String name, Sprite sprite) {
 		super(name, sprite);
 		super.isFinished = true;
+		this.action = TAPPED;
 	}
 
 	@Override
@@ -51,8 +51,6 @@ public class WhenScript extends Script {
 			this.action = TAPPED;
 		} else if (actionChoosen.equalsIgnoreCase(LONGPRESSED)) {
 			this.action = LONGPRESSED;
-		} else if (actionChoosen.equalsIgnoreCase(TOUCHINGSTARTS)) {
-			this.action = TOUCHINGSTARTS;
 		} else if (actionChoosen.equalsIgnoreCase(TOUCHINGSTOPS)) {
 			this.action = TOUCHINGSTOPS;
 		} else if (actionChoosen.equalsIgnoreCase(SWIPELEFT)) {
@@ -63,11 +61,6 @@ public class WhenScript extends Script {
 			this.action = SWIPEUP;
 		} else if (actionChoosen.equalsIgnoreCase(SWIPEDOWN)) {
 			this.action = SWIPEDOWN;
-		}
-	}
-
-	public void executeReaction(String motion) {
-		if (motion.equalsIgnoreCase(getAction())) {
 		}
 	}
 

@@ -189,7 +189,6 @@
     <string name="action_tapped">Tapped</string>
     <string name="action_doubleTapped">Double Tapped</string>
     <string name="action_longPressed">Long Pressed</string>
-    <string name="action_touchingStarts">Touching Starts</string>
     <string name="action_touchingStops">Touching Stops</string>
     <string name="action_swipeLeft">Swipe Left</string> 
     <string name="action_swipeRight">Swipe Right</string>

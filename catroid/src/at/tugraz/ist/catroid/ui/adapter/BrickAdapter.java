@@ -84,7 +84,6 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 			return currentBrickView;
 		}
 		brickListAnimation.doExpandAnimation(currentBrickView, childPosition);
-
 		return currentBrickView;
 	}
 
@@ -114,9 +113,8 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 		} else if (getGroup(groupPosition) instanceof StartScript) {
 			view = new IfStartedBrick(sprite, getGroup(groupPosition)).getPrototypeView(context);
 		} else if (getGroup(groupPosition) instanceof WhenScript) {
-			view = new WhenBrick(sprite, getGroup(groupPosition)).getView(context, groupPosition, this);
+			view = new WhenBrick(sprite, (WhenScript) getGroup(groupPosition)).getView(context, groupPosition, this);
 		}
-		parent.getDescendantFocusability();
 		return view;
 	}
 

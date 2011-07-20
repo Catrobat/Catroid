@@ -77,7 +77,7 @@ public class StageManager {
 		return draw.draw();
 	}
 
-	public void processOnTouch(int coordX, int coordY, String act) {
+	public void processOnTouch(int coordX, int coordY, String action) {
 		draw.processOnTouch(coordX, coordY);
 		ArrayList<Sprite> touchedSpriteList = new ArrayList<Sprite>();
 		for (Sprite sprite : spriteList) {
@@ -89,7 +89,7 @@ public class StageManager {
 		Collections.sort(touchedSpriteList);
 		if (!touchedSpriteList.isEmpty()) {
 			touchedSpriteList.get(touchedSpriteList.size() - 1).startTapScripts();
-			touchedSpriteList.get(touchedSpriteList.size() - 1).startWhenScripts(act);
+			touchedSpriteList.get(touchedSpriteList.size() - 1).startWhenScripts(action);
 		}
 	}
 

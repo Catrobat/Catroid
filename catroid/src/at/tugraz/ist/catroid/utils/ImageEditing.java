@@ -141,7 +141,7 @@ public class ImageEditing {
 		return mutableBitmap;
 	}
 
-	public static Bitmap adjustBrightness(Bitmap src, int value) {
+	public static Bitmap adjustBrightness(Bitmap src, double value) {
 		// image size
 		int width = src.getWidth();
 		int height = src.getHeight();

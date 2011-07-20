@@ -60,7 +60,7 @@
 				android:clickable="true" 
 				android:layout_weight="1" 
 				android:layout_height="wrap_content"
-				android:layout_width="200dp" 
+				android:layout_width="180dp" 
 				android:scrollbarStyle="insideInset" 
 				android:scrollbars="vertical" 
 				android:cursorVisible="false" 

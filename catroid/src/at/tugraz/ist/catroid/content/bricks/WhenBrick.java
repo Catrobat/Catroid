@@ -28,19 +28,16 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Spinner;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.WhenScript;
 
 public class WhenBrick implements Brick {
-	protected WhenScript WhenScript;
+	protected WhenScript whenScript;
 	private Sprite sprite;
-	private transient BaseExpandableListAdapter adapter;
-	private transient boolean firstTime = true;
 	private static final long serialVersionUID = 1L;
 
-	public WhenBrick(Sprite sprite, Script WhenScript) {
-		this.WhenScript = (WhenScript) WhenScript;
+	public WhenBrick(Sprite sprite, WhenScript whenScript) {
+		this.whenScript = whenScript;
 		this.sprite = sprite;
 	}
 
@@ -52,8 +49,8 @@ public class WhenBrick implements Brick {
 	}
 
 	public View getView(final Context context, int brickId, final BaseExpandableListAdapter adapter) {
-		this.adapter = adapter;
-		View view = getProtoView(context);
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.construction_brick_when, null);
 		final Spinner spinner = (Spinner) view.findViewById(R.id.Spinner03);
 		spinner.setFocusableInTouchMode(false);
 		spinner.setFocusable(false);
@@ -62,52 +59,44 @@ public class WhenBrick implements Brick {
 		spinnerAdapter.add(context.getString(R.string.action_tapped));
 		spinnerAdapter.add(context.getString(R.string.action_doubleTapped));
 		spinnerAdapter.add(context.getString(R.string.action_longPressed));
-		spinnerAdapter.add(context.getString(R.string.action_touchingStarts));
 		spinnerAdapter.add(context.getString(R.string.action_touchingStops));
+		spinnerAdapter.add(context.getString(R.string.action_swipeUp));
+		spinnerAdapter.add(context.getString(R.string.action_swipeDown));
+		spinnerAdapter.add(context.getString(R.string.action_swipeLeft));
+		spinnerAdapter.add(context.getString(R.string.action_swipeRight));
 		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(spinnerAdapter);
 
-		if (WhenScript.getAction() != null) {
+		if (whenScript.getAction() != null) {
 			for (int count = 0; count < spinnerAdapter.getCount(); count++) {
-				if (WhenScript.getAction().equalsIgnoreCase(spinnerAdapter.getItem(count).toString())) {
+				if (whenScript.getAction().equalsIgnoreCase(spinnerAdapter.getItem(count).toString())) {
 					spinner.setSelection(count);
 				}
 			}
 		}
 
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+			boolean start = true;
 
-			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-				try {
-					if (firstTime) {
-						spinner.setSelected(false);
-						firstTime = false;
-					} else {
-						spinner.setSelected(true);
-						String choice = parent.getItemAtPosition(pos).toString();
-						Log.i("choosen", choice);
-						WhenScript.setAction(choice);
-						spinner.setSelection(pos);
-						adapter.notifyDataSetChanged();
-					}
-
-				} catch (Exception e) {
-					e.printStackTrace();
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				if (start) {
+					start = false;
+					return;
 				}
-				//			        Toast.makeText(parent.getContext(), "The planet is " +
-				//			            parent.getItemAtPosition(pos).toString(), Toast.LENGTH_LONG).show();
+
+				spinner.setSelected(true);
+				String choice = parent.getItemAtPosition(position).toString();
+
+				Log.i("choosen", choice);
+				whenScript.setAction(choice);
+				spinner.setSelection(position);
+				adapter.notifyDataSetChanged();
 			}
 
-			public void onNothingSelected(AdapterView parent) {
+			public void onNothingSelected(AdapterView<?> parent) {
 				//		 Do nothing.
 			}
 		});
-		return view;
-	}
-
-	public View getProtoView(final Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_when, null);
 		return view;
 	}
 
@@ -119,7 +108,7 @@ public class WhenBrick implements Brick {
 
 	@Override
 	public Brick clone() {
-		return new WhenBrick(getSprite(), WhenScript);
+		return new WhenBrick(getSprite(), whenScript);
 	}
 
 }

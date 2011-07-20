@@ -38,7 +38,7 @@ public class Costume implements Serializable {
 	private int actWidth;
 	private int origHeight;
 	private int origWidth;
-	private transient int actBrightness = 0;
+	private transient double actBrightness = 0.0;
 	private transient int actGhostEffect = 255;
 
 	@XStreamOmitField
@@ -152,7 +152,7 @@ public class Costume implements Serializable {
 		return;
 	}
 
-	public synchronized void setBrightness(int brightness) {
+	public synchronized void setBrightness(double brightness) {
 
 		if (costumeBitmap == null) {
 			return;
