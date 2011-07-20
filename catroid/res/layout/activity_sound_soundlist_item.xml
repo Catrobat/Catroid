@@ -50,9 +50,40 @@ android:layout_height="match_parent"
 			android:textColor="@color/dark_gray"
 			android:ellipsize="end"
 			android:maxLines="2"/>
+			
+		<LinearLayout 
+			android:orientation="horizontal" 
+			android:layout_width="fill_parent" 
+			android:layout_height="wrap_content">
+			
+			<TextView 
+				android:id="@+id/sound_length" 
+				android:layout_width="wrap_content"
+				android:paddingLeft="10dp"
+				android:textSize="7dip" 
+				android:layout_height="20dip" 
+				android:gravity="left"
+				android:clickable="false"
+				android:focusable="false"
+				android:longClickable="false"
+				android:textColor="@color/dark_gray"
+				android:maxLines="1"/>
+			
+			<TextView 
+				android:id="@+id/sound_size" 
+				android:layout_width="wrap_content"
+				android:paddingLeft="10dp"
+				android:textSize="7dip" 
+				android:layout_height="20dip" 
+				android:gravity="right"
+				android:clickable="false"
+				android:focusable="false"
+				android:longClickable="false"
+				android:textColor="@color/dark_gray"
+				android:maxLines="1"/>
+			</LinearLayout>
 
 		<LinearLayout 
-			android:id="@+id/linearLayout1" 
 			android:orientation="horizontal" 
 			android:layout_width="fill_parent" 
 			android:layout_height="wrap_content">

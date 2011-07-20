@@ -141,7 +141,6 @@ public class SoundActivity extends ListActivity {
 				}
 			});
 		}
-
 	}
 
 	public void handlePositiveButtonRenameSound(View v) {
