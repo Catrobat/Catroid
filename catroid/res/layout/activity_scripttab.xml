@@ -18,44 +18,41 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
+ 
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:background="#d8e0f5"
+	android:background="#d8e0f5" 
 >
 	
-	<!-- Sprite list -->
-	<LinearLayout
-		android:orientation="vertical"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:layout_weight="1"
+	<!-- Action bar -->
+	<include layout="@layout/actionbar"/>
 		
+	<TabHost 
+		xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:id="@android:id/tabhost"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
 	>
-		<RelativeLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-		>
-			<at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView
-				android:id="@+id/brick_list_view"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:drawSelectorOnTop="false"
-				android:fastScrollEnabled="true"
-				android:clickable="false"
-				android:drawingCacheQuality="high" 
-				android:cacheColorHint="#00000000" />
-			<ImageView
-				android:id="@+id/trash"
-				android:layout_width="51dip"
-				android:layout_height="97dip"
-				android:layout_alignParentRight="true"
-				android:layout_centerVertical="true"
-				android:layout_marginRight="-3dip"
-				android:visibility="gone"
-				android:src="@drawable/trash_green" />
-		</RelativeLayout>
-	</LinearLayout>
+    
+	    <LinearLayout
+	        android:orientation="vertical"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	    >
+	        <TabWidget
+	            android:id="@android:id/tabs"
+	            android:layout_width="match_parent"
+	            android:layout_height="30dp"
+	            android:gravity="bottom"
+	        />
+	        <FrameLayout
+	            android:layout_width="match_parent"
+	            android:layout_height="match_parent"
+	            android:id="@android:id/tabcontent"
+	        />
+	    </LinearLayout>
+	</TabHost>
 </LinearLayout>

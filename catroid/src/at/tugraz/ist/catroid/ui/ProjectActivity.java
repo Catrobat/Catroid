@@ -64,7 +64,7 @@ public class ProjectActivity extends ListActivity {
 		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				ProjectManager.getInstance().setCurrentSprite(spriteAdapter.getItem(position));
-				Intent intent = new Intent(ProjectActivity.this, ScriptActivity.class);
+				Intent intent = new Intent(ProjectActivity.this, ScriptTabActivity.class);
 				ProjectActivity.this.startActivity(intent);
 			}
 		});

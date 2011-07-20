@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <!-- 
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010  Catroid development team 
@@ -20,42 +19,39 @@
  -->
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:background="#d8e0f5"
+	android:layout_height="wrap_content"
+	android:orientation="horizontal"
 >
-	
-	<!-- Sprite list -->
-	<LinearLayout
-		android:orientation="vertical"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:layout_weight="1"
-		
+	<ImageView
+		android:id="@+id/grabber"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentTop="true"
+		android:layout_alignParentBottom="true"
+		android:layout_gravity="center_vertical"
+		android:layout_width="wrap_content"
+		android:src="@drawable/ic_mp_move"
+		android:layout_height="wrap_content" />
+	<RelativeLayout
+		android:id="@+id/RelativeLayout01"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:background="@drawable/brick_magenta"
+		android:focusable="false"
+		android:focusableInTouchMode="false"
+		android:longClickable="true"
 	>
-		<RelativeLayout
-			android:layout_width="match_parent"
+		<TextView
+			android:id="@+id/ValueTextView"
+			android:text="@string/brick_stop_all_sound"
 			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_alignParentLeft="true"
+			android:layout_centerVertical="true"
+			android:textColor="@color/white"
+			android:textSize="18dip"
+			android:textStyle="bold"
 		>
-			<at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView
-				android:id="@+id/brick_list_view"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:drawSelectorOnTop="false"
-				android:fastScrollEnabled="true"
-				android:clickable="false"
-				android:drawingCacheQuality="high" 
-				android:cacheColorHint="#00000000" />
-			<ImageView
-				android:id="@+id/trash"
-				android:layout_width="51dip"
-				android:layout_height="97dip"
-				android:layout_alignParentRight="true"
-				android:layout_centerVertical="true"
-				android:layout_marginRight="-3dip"
-				android:visibility="gone"
-				android:src="@drawable/trash_green" />
-		</RelativeLayout>
-	</LinearLayout>
+		</TextView>
+	</RelativeLayout>
 </LinearLayout>

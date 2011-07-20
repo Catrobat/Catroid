@@ -24,7 +24,10 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import android.graphics.Color;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.FileChecksumContainer;
+import at.tugraz.ist.catroid.common.SoundInfo;
 
 public class Sprite implements Serializable, Comparable<Sprite> {
 	private static final long serialVersionUID = 1L;
@@ -37,12 +40,25 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	private transient boolean isVisible;
 	private transient boolean toDraw;
 	private List<Script> scriptList;
+	private ArrayList<costumeData> costumeList;
+	private ArrayList<SoundInfo> soundList;
 	private transient Costume costume;
 
 	public transient volatile boolean isPaused;
 	public transient volatile boolean isFinished;
 
 	private Object readResolve() {
+		//filling FileChecksumContainer:
+		FileChecksumContainer container = ProjectManager.getInstance().fileChecksumContainer;
+		//TODO: handle costumes (too early for that because costumeData lacks functionality
+		if (soundList != null && ProjectManager.getInstance().getCurrentProject() != null) {
+			for (SoundInfo soundInfo : soundList) {
+				if (container == null) {
+					ProjectManager.getInstance().fileChecksumContainer = new FileChecksumContainer();
+				}
+				container.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
+			}
+		}
 		init();
 		return this;
 	}
@@ -57,11 +73,16 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		toDraw = false;
 		isPaused = false;
 		isFinished = false;
+		if (soundList == null) {
+			soundList = new ArrayList<SoundInfo>(); //TODO: affirm that this is really needed
+		}
 	}
 
 	public Sprite(String name) {
 		this.name = name;
 		scriptList = new ArrayList<Script>();
+		costumeList = new ArrayList<costumeData>();
+		soundList = new ArrayList<SoundInfo>();
 		init();
 	}
 
@@ -260,6 +281,30 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return scriptList.remove(script);
 	}
 
+	public void addCostumeDataToCostumeList(costumeData costumeData) {
+		costumeList.add(costumeData);
+	}
+
+	public void removeCostumeDataFromCostumeList(costumeData costumeData) {
+		costumeList.remove(costumeData);
+	}
+
+	public ArrayList<costumeData> getCostumeList() {
+		return costumeList;
+	}
+
+	public void addSoundInfoToSoundList(SoundInfo soundInfo) {
+		soundList.add(soundInfo);
+	}
+
+	public void removeSoundInfoFromSoundList(SoundInfo soundInfo) {
+		soundList.remove(soundInfo);
+	}
+
+	public ArrayList<SoundInfo> getSoundList() {
+		return soundList;
+	}
+
 	public boolean getToDraw() {
 		return toDraw;
 	}
@@ -300,10 +345,5 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		}
 
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		return name;
 	}
 }
