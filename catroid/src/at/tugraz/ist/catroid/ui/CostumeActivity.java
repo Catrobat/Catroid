@@ -48,6 +48,7 @@ import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.costumeData;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -56,17 +57,12 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 public class CostumeActivity extends ListActivity {
 	private Sprite sprite;
 	private ArrayList<costumeData> costumeData;
-	private ArrayList<costumeData> currentCostume;
-	private costumeData costumetoEdit;
 	private CostumeAdapter c_adapter;
 	private Runnable viewCostumes;
-	Bitmap bm;
-	int column_index;
 	Intent intent = null;
-	// Declare our Views, so we can access them later
 	String filemanagerstring, selectedImagePath, imagePath, costumeName, absolutePath, costume, costumeFormat,
 			costumeDisplayName;
-	int counter, positiontoEdit, splitAt, costumeId;
+	int counter, positiontoEdit, splitAt, costumeId, column_index;
 	Cursor cursor;
 	@XStreamOmitField
 	private transient Bitmap thumbnail;
@@ -87,6 +83,16 @@ public class CostumeActivity extends ListActivity {
 
 	}
 
+	private View.OnClickListener createAddCostumeClickListener() {
+		return new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+				intent.setType("audio/*");
+				startActivityForResult(Intent.createChooser(intent, "Select music"), SELECT_IMAGE);
+			}
+		};
+	}
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -94,7 +100,7 @@ public class CostumeActivity extends ListActivity {
 
 		sprite = ProjectManager.getInstance().getCurrentSprite();
 		costumeData = new ArrayList<costumeData>();
-		currentCostume = sprite.getCostumeList();
+		ArrayList<costumeData> currentCostume = sprite.getCostumeList();
 		for (int i = 0; i < currentCostume.size(); i++) {
 			currentCostume.get(i).setCostumeImage(
 					ImageEditing.getScaledBitmap(currentCostume.get(i).getCostumeAbsoluteImagepath(),
@@ -131,7 +137,12 @@ public class CostumeActivity extends ListActivity {
 		if (!Utils.checkForSdCard(this)) {
 			return;
 		}
-		removeDialog(Consts.DIALOG_RENAME_COSTUME);
+
+		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
+		ActivityHelper activityHelper = scriptTabActivity.activityHelper;
+		if (activityHelper != null) {
+			activityHelper.changeClickListener(R.id.btn_action_add_sprite, createAddCostumeClickListener());
+		}
 	}
 
 	@Override
@@ -207,10 +218,6 @@ public class CostumeActivity extends ListActivity {
 		imagePath = cursor.getString(column_index);
 
 		return cursor.getString(column_index);
-	}
-
-	public costumeData getCostumeToEdit() {
-		return costumetoEdit;
 	}
 
 	private Runnable returnRes = new Runnable() {
