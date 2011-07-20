@@ -55,6 +55,12 @@
 			android:label="@string/stage"
 			android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen"/>
 			
+		<activity
+			android:name=".stage.StageA"
+			android:screenOrientation="portrait"
+			android:label="@string/stage"
+			android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen"/>
+			
 		<activity android:name=".ui.ProjectActivity" />
 		
 		<activity android:name=".ui.ScriptActivity" />

@@ -28,6 +28,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.Semaphore;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -48,6 +49,8 @@ import at.tugraz.ist.catroid.common.Values;
 public class Utils {
 
 	private static final String TAG = "Utils";
+	private static long uniqueLong = 0;
+	private static Semaphore uniqueNameLock = new Semaphore(1);
 
 	private static boolean hasSdCard() {
 		return android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
@@ -328,6 +331,13 @@ public class Utils {
 		messageDigest.update(string.getBytes());
 
 		return toHex(messageDigest.digest());
+	}
+
+	public static String getUniqueName() {
+		uniqueNameLock.acquireUninterruptibly();
+		String uniqueName = String.valueOf(uniqueLong++);
+		uniqueNameLock.release();
+		return uniqueName;
 	}
 
 	private static String toHex(byte[] messageDigest) {
