@@ -63,10 +63,6 @@ public class WaitBrick implements Brick, OnDismissListener {
 		return sprite;
 	}
 
-	public long getWaitTime() {
-		return timeToWaitInMilliSeconds;
-	}
-
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.construction_brick_wait, null);

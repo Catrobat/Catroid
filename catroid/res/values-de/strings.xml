@@ -164,6 +164,18 @@
 	<string name="brick_set_y">Setze Y auf:</string>
 	<string name="brick_glide">Gleite</string>
 	<string name="brick_glide_to">zu</string>
+	<string name="brick_forever">Wiederhole fortlaufend</string>
+	<string name="brick_loop_end">Wiederholen beenden</string>
+	<string name="brick_repeat">Wiederhole</string>
+	<string name="times_label">mal</string>
+	<string name="brick_if_on_edge_bounce">pralle von Rand ab</string>
+	<string name="brick_move">Gehe</string>
+	<string name="brick_move_n_steps">Schritte</string>
+	<string name="brick_turn_right">Drehe rechts</string>
+	<string name="brick_turn_right_n_degrees">Grad</string>
+	<string name="brick_turn_left">Drehe links</string>
+	<string name="brick_turn_left_n_degrees">Grad</string>
+	<string name="brick_point_in_direction">Zeige Richtung</string>
 	
 	<string name="choose_sound_title">Sound wählen</string>
 	
@@ -172,6 +184,7 @@
 	<string name="brick_broadcast_receive">Wenn ich empfange:</string>
 	<string name="brick_broadcast">Verschicke an alle:</string>
     <string name="brick_broadcast_wait">Verschicke und warte:</string>
+    <string name="brick_stop_all_sounds">Stoppe alle Sounds</string>
     
     <!-- defaulValues -->
     <string name="default_project_name">standardProjekt</string>
