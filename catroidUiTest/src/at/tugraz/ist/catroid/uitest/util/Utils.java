@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.text.InputType;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -35,6 +36,7 @@ import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
+import at.tugraz.ist.catroid.content.costumeData;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
@@ -43,6 +45,7 @@ import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -104,6 +107,34 @@ public class Utils {
 		while (solo.scrollDown()) {
 			;
 		}
+	}
+
+	public static List<costumeData> createTestCostume() {
+		String RESOURCE_LOCATION = "drawable/catroid_sunglasses";
+		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
+		Sprite firstSprite = new Sprite("cat");
+
+		costumeData testCostume = new costumeData();
+
+		ArrayList<costumeData> costumeList = new ArrayList<costumeData>();
+		testCostume.setCostumeAbsoluteImagepath(RESOURCE_LOCATION);
+		testCostume.setCostumeDisplayName("cat");
+		testCostume.setCostumeFormat(".jpg");
+		testCostume.setCostumeId(1);
+		Bitmap thumbnail = ImageEditing.getScaledBitmap(RESOURCE_LOCATION, Consts.THUMBNAIL_HEIGHT,
+				Consts.THUMBNAIL_WIDTH);
+		testCostume.setCostumeImage(thumbnail);
+		testCostume.setCostumeName("cat");
+		costumeList.add(testCostume);
+
+		firstSprite.addCostumeDataToCostumeList(testCostume);
+
+		project.addSprite(firstSprite);
+
+		projectManager.setProject(project);
+		projectManager.setCurrentSprite(firstSprite);
+
+		return costumeList;
 	}
 
 	public static List<Brick> createTestProject() {
