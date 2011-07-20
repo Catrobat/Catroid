@@ -54,6 +54,15 @@ public class ImageEditing {
 				(int) Math.round(bitmap.getHeight() * scalingFactor));
 	}
 
+	public static Bitmap rotateBitmap(Bitmap bitmap, float rotation) {
+		Matrix matrix = new Matrix();
+		matrix.postRotate(rotation);
+
+		Bitmap newBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+
+		return newBitmap;
+	}
+
 	public static Bitmap getScaledBitmap(String imagePath, int outWidth, int outHeight) {
 		if (imagePath == null) {
 			return null;

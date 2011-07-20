@@ -18,7 +18,6 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
-import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 
 public abstract class LoopBeginBrick implements Brick {
@@ -27,16 +26,6 @@ public abstract class LoopBeginBrick implements Brick {
 	protected LoopEndBrick loopEndBrick;
 
 	public abstract void execute();
-
-	protected Script getScript() {
-		for (int i = 0; i < sprite.getNumberOfScripts(); i++) {
-			Script script = sprite.getScript(i);
-			if (script.getBrickList().contains(this)) {
-				return script;
-			}
-		}
-		return null;
-	}
 
 	public Sprite getSprite() {
 		return this.sprite;
