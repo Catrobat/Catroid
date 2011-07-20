@@ -22,8 +22,6 @@ import java.util.ArrayList;
 
 import android.app.Dialog;
 import android.app.ListActivity;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnShowListener;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -50,8 +48,10 @@ public class ProjectActivity extends ListActivity {
 	private Sprite spriteToEdit;
 	private ActivityHelper activityHelper = new ActivityHelper(this);
 	private CustomIconContextMenu iconContextMenu;
+	private RenameSpriteDialog renameDialog;
+	private NewSpriteDialog newSpriteDialog;
 	private static final int CONTEXT_MENU_ITEM_RENAME = 0; //or R.id.project_menu_rename
-	private static final int CONTEXT_MENU_ITEM_DELETE = 1; //or R.id.project_menu_delete
+	private static final int CONTEXT_MENU_ITEM_DELETE = 1; //or R.id.project_menu_delete 
 
 	private void initListeners() {
 		spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
@@ -75,6 +75,7 @@ public class ProjectActivity extends ListActivity {
 						ProjectActivity.this.getString(R.string.background))) {
 					return true;
 				}
+				removeDialog(Consts.DIALOG_CONTEXT_MENU);
 				showDialog(Consts.DIALOG_CONTEXT_MENU);
 				return true;
 			}
@@ -150,13 +151,15 @@ public class ProjectActivity extends ListActivity {
 
 		switch (id) {
 			case Consts.DIALOG_NEW_SPRITE:
-				dialog = new NewSpriteDialog(this);
+				newSpriteDialog = new NewSpriteDialog(this);
+				dialog = newSpriteDialog.createDialog();
 				break;
 			case Consts.DIALOG_RENAME_SPRITE:
 				if (spriteToEdit == null) {
 					dialog = null;
 				} else {
-					dialog = new RenameSpriteDialog(this);
+					renameDialog = new RenameSpriteDialog(this);
+					dialog = renameDialog.createDialog(spriteToEdit.getName());
 				}
 				break;
 			case Consts.DIALOG_CONTEXT_MENU:
@@ -164,11 +167,6 @@ public class ProjectActivity extends ListActivity {
 					dialog = null;
 				} else {
 					dialog = iconContextMenu.createMenu(spriteToEdit.getName());
-					dialog.setOnShowListener(new OnShowListener() { //TODO try to find a better place: not in init Custom.. (there this is not initialized) also not in CustomIconContextMenu 
-						public void onShow(DialogInterface dialogInterface) {
-							dialog.setTitle(spriteToEdit.getName());
-						}
-					});
 				}
 				break;
 			default:
@@ -211,5 +209,21 @@ public class ProjectActivity extends ListActivity {
 		if (projectManager.getCurrentProject() != null) {
 			projectManager.saveProject(this);
 		}
+	}
+
+	public void handlePositiveButtonRenameSprite(View v) {
+		renameDialog.handleOkButton();
+	}
+
+	public void handleNegativeButtonRenameSprite(View v) {
+		renameDialog.renameDialog.cancel();
+	}
+
+	public void handlePositiveButtonNewSprite(View v) {
+		newSpriteDialog.handleOkButton();
+	}
+
+	public void handleNegativeButtonNewSprite(View v) {
+		newSpriteDialog.newSpriteDialog.cancel();
 	}
 }
