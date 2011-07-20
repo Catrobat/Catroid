@@ -60,11 +60,13 @@ public class Costume implements Serializable {
 
 		originalHeight = costumeBitmap.getHeight();
 		originalWidth = costumeBitmap.getWidth();
+		setSizeTo(sprite.getSize());
+		rotateTo(sprite.getDirection());
 		setDrawPosition();
 	}
 
 	public synchronized void setSizeTo(double size) {
-		if (costumeBitmap == null || imagePath == null) {
+		if (imagePath == null) {
 			return;
 		}
 
@@ -74,17 +76,38 @@ public class Costume implements Serializable {
 
 		setPositionToSpriteTopLeft();
 
-		if (newHeight > actualHeight || newWidth > actualWidth) {
-			costumeBitmap = ImageEditing.getBitmap(imagePath, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
+		costumeBitmap = ImageEditing.getBitmap(imagePath, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
+
+		if (costumeBitmap == null) {
+			return;
 		}
 
 		costumeBitmap = ImageEditing.scaleBitmap(costumeBitmap, newWidth, newHeight);
+		costumeBitmap = ImageEditing.rotateBitmap(costumeBitmap, (float) -(90 - sprite.getDirection()));
+
 		actualWidth = newWidth;
 		actualHeight = newHeight;
 
 		setPositionToSpriteCenter();
 
 		return;
+	}
+
+	public synchronized void rotateTo(double degrees) {
+		if (imagePath == null) {
+			return;
+		}
+
+		costumeBitmap = ImageEditing.getBitmap(imagePath, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
+
+		if (costumeBitmap == null) {
+			return;
+		}
+
+		costumeBitmap = ImageEditing.scaleBitmap(costumeBitmap, actualWidth, actualHeight);
+		costumeBitmap = ImageEditing.rotateBitmap(costumeBitmap, (float) -(90 - degrees));
+
+		setDrawPosition();
 	}
 
 	public String getImagePath() {
@@ -96,6 +119,7 @@ public class Costume implements Serializable {
 	}
 
 	public synchronized void setDrawPosition() {
+
 		setPositionToSpriteTopLeft();
 		drawPositionX = Math.round(((Values.SCREEN_WIDTH / (2f * Consts.MAX_REL_COORDINATES)) * sprite.getXPosition())
 				+ Values.SCREEN_WIDTH / 2f);
@@ -114,6 +138,14 @@ public class Costume implements Serializable {
 
 	public Pair<Integer, Integer> getImageWidthHeight() {
 		return new Pair<Integer, Integer>(actualWidth, actualHeight);
+	}
+
+	public double getRelativeBoundingBoxWidth() {
+		return 2. * Consts.MAX_REL_COORDINATES / Values.SCREEN_WIDTH * costumeBitmap.getWidth();
+	}
+
+	public double getRelativeBoundingBoxHeight() {
+		return 2. * Consts.MAX_REL_COORDINATES / Values.SCREEN_HEIGHT * costumeBitmap.getHeight();
 	}
 
 	private synchronized void setPositionToSpriteCenter() {
