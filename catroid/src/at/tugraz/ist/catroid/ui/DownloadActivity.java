@@ -58,5 +58,4 @@ public class DownloadActivity extends Activity {
 
 		return projectName;
 	}
-
 }

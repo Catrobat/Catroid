@@ -25,8 +25,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.R.string;
@@ -46,13 +46,16 @@ import at.tugraz.ist.catroid.content.bricks.ForeverBrick;
 import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
 import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
+import at.tugraz.ist.catroid.content.bricks.IfOnEdgeBounceBrick;
 import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
 import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
+import at.tugraz.ist.catroid.content.bricks.MoveNStepsBrick;
 import at.tugraz.ist.catroid.content.bricks.NoteBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
+import at.tugraz.ist.catroid.content.bricks.PointInDirectionBrick;
 import at.tugraz.ist.catroid.content.bricks.RepeatBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
@@ -60,6 +63,8 @@ import at.tugraz.ist.catroid.content.bricks.SetXBrick;
 import at.tugraz.ist.catroid.content.bricks.SetYBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.content.bricks.StopAllSoundsBrick;
+import at.tugraz.ist.catroid.content.bricks.TurnLeftBrick;
+import at.tugraz.ist.catroid.content.bricks.TurnRightBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.ui.adapter.PrototypeBrickAdapter;
@@ -120,8 +125,12 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new StopAllSoundsBrick(sprite));
 			prototypeBrickList.add(new ForeverBrick(sprite));
 			prototypeBrickList.add(new RepeatBrick(sprite, 3));
+			prototypeBrickList.add(new IfOnEdgeBounceBrick(sprite));
+			prototypeBrickList.add(new MoveNStepsBrick(sprite, 10));
+			prototypeBrickList.add(new TurnLeftBrick(sprite, 15));
+			prototypeBrickList.add(new TurnRightBrick(sprite, 15));
+			prototypeBrickList.add(new PointInDirectionBrick(sprite, 90));
 		}
-
 	}
 
 	public AddBrickDialog(ScriptActivity scriptActivity) {
@@ -131,7 +140,6 @@ public class AddBrickDialog extends Dialog {
 		setContentView(R.layout.dialog_toolbox);
 		getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
 	}
 
 	@Override
@@ -185,7 +193,6 @@ public class AddBrickDialog extends Dialog {
 				dismiss();
 			}
 		});
-
 	}
 
 	public Brick getBrickClone(Brick brick) {
