@@ -96,7 +96,8 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 
 		solo.sleep(500);
 
-		assertEquals("Wrong text in field", newSize, setSizeToBrick.getSize());
+		double size = (Double) UiTestUtils.getPrivateField("size", setSizeToBrick);
+		assertEquals("Wrong text in field", newSize, size);
 		assertEquals("Text not updated", newSize, Double.parseDouble(solo.getEditText(0).getText().toString()));
 
 		// -------------------------------------------------------------------------------------------------------------
