@@ -111,7 +111,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		uploadProject(false);
 
-		String resultString = (String) Utils.getPrivateField("resultString", ServerCalls.getInstance(), false);
+		String resultString = (String) Utils.getPrivateField("resultString", ServerCalls.getInstance());
 		JSONObject jsonObject = new JSONObject(resultString);
 		int statusCode = jsonObject.getInt("statusCode");
 

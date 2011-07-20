@@ -52,10 +52,6 @@ public class NoteBrick implements Brick {
 		return this.sprite;
 	}
 
-	public String getNote() {
-		return this.note;
-	}
-
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View brickView = inflater.inflate(R.layout.construction_brick_note, null);
@@ -83,7 +79,6 @@ public class NoteBrick implements Brick {
 						});
 
 				dialog.show();
-
 			}
 		});
 

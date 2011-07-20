@@ -270,17 +270,19 @@ public class Utils {
 		}
 	}
 
-	public static Object getPrivateField(String fieldName, Object object, boolean ofSuperclass) {
+	public static Object getPrivateField(String fieldName, Object object) {
 
 		Field field = null;
 
 		try {
 			Class<?> c = object.getClass();
-			field = ofSuperclass ? c.getSuperclass().getDeclaredField(fieldName) : c.getDeclaredField(fieldName);
+			//field = ofSuperclass ? c.getSuperclass().getDeclaredField(fieldName) : c.getDeclaredField(fieldName);
+			field = c.getDeclaredField(fieldName);
 		} catch (SecurityException e) {
 			e.printStackTrace();
 		} catch (NoSuchFieldException e) {
 			Log.w(e.getClass().getName(), fieldName);
+
 		}
 
 		if (field != null) {
