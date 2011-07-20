@@ -23,39 +23,13 @@
 	android:orientation="vertical"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:background="#d8e0f5"
->
-	
-	<!-- Sprite list -->
-	<LinearLayout
-		android:orientation="vertical"
+	android:background="@color/website_blue">
+
+	<!-- Sound list -->
+	<ListView
+		android:id="@android:id/list"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:layout_weight="1"
-		
-	>
-		<RelativeLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-		>
-			<at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView
-				android:id="@+id/brick_list_view"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:drawSelectorOnTop="false"
-				android:fastScrollEnabled="true"
-				android:clickable="false"
-				android:drawingCacheQuality="high" 
-				android:cacheColorHint="#00000000" />
-			<ImageView
-				android:id="@+id/trash"
-				android:layout_width="51dip"
-				android:layout_height="97dip"
-				android:layout_alignParentRight="true"
-				android:layout_centerVertical="true"
-				android:layout_marginRight="-3dip"
-				android:visibility="gone"
-				android:src="@drawable/trash_green" />
-		</RelativeLayout>
-	</LinearLayout>
+		android:layout_height="wrap_content"
+		android:layout_weight="1.0"
+		android:cacheColorHint="#00000000"/>
 </LinearLayout>

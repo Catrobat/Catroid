@@ -225,7 +225,6 @@ public class StorageHandler {
 				projectionOnOrig, null, null, null);
 
 		if (cursor.moveToFirst()) {
-			int columnDataIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
 			int columnTitleIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.TITLE);
 			int columnIdIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID);
 
@@ -233,7 +232,6 @@ public class StorageHandler {
 				SoundInfo info = new SoundInfo();
 				info.setId(cursor.getInt(columnIdIndex));
 				info.setTitle(cursor.getString(columnTitleIndex));
-				info.setPath(cursor.getString(columnDataIndex));
 				soundContent.add(info);
 			} while (cursor.moveToNext());
 		}
@@ -276,7 +274,8 @@ public class StorageHandler {
 		return copyFile(outputFile, inputFile, soundDirectory);
 	}
 
-	public File copyImage(String currentProjectName, String inputFilePath) throws IOException {
+	public File copyImage(String currentProjectName, String inputFilePath, String newName) throws IOException {
+		String newFilePath;
 		File imageDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName + Consts.IMAGE_DIRECTORY);
 
 		File inputFile = new File(inputFilePath);
@@ -291,7 +290,11 @@ public class StorageHandler {
 		if ((imageDimensions[0] <= Consts.MAX_COSTUME_WIDTH) && (imageDimensions[1] <= Consts.MAX_COSTUME_HEIGHT)) {
 			String checksumSource = Utils.md5Checksum(inputFile);
 
-			String newFilePath = imageDirectory.getAbsolutePath() + "/" + checksumSource + "_" + inputFile.getName();
+			if (newName != null) {
+				newFilePath = imageDirectory.getAbsolutePath() + "/" + checksumSource + "_" + newName;
+			} else {
+				newFilePath = imageDirectory.getAbsolutePath() + "/" + checksumSource + "_" + inputFile.getName();
+			}
 			if (checksumCont.containsChecksum(checksumSource)) {
 				checksumCont.addChecksum(checksumSource, newFilePath);
 				return new File(checksumCont.getPath(checksumSource));

@@ -107,7 +107,7 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 
 	public void testContainer() throws IOException, InterruptedException {
 
-		storageHandler.copyImage(currentProjectName, testImage.getAbsolutePath());
+		storageHandler.copyImage(currentProjectName, testImage.getAbsolutePath(), null);
 
 		String checksumImage = Utils.md5Checksum(testImage);
 
@@ -117,7 +117,7 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 		//wait to get a different timestamp on next file
 		Thread.sleep(2000);
 
-		File newTestImage = storageHandler.copyImage(currentProjectName, testImage.getAbsolutePath());
+		File newTestImage = storageHandler.copyImage(currentProjectName, testImage.getAbsolutePath(), null);
 		File imageDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName + Consts.IMAGE_DIRECTORY + "/");
 		File[] filesImage = imageDirectory.listFiles();
 
@@ -142,7 +142,7 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 	}
 
 	public void testDeleteFile() throws IOException, InterruptedException {
-		File newTestImage1 = storageHandler.copyImage(currentProjectName, testImage.getAbsolutePath());
+		File newTestImage1 = storageHandler.copyImage(currentProjectName, testImage.getAbsolutePath(), null);
 		//wait to get a different timestamp on next file
 		Thread.sleep(2000);
 

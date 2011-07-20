@@ -118,7 +118,6 @@ public class ActivityHelper {
 	public boolean addActionButton(int buttonId, int imageResourceId, View.OnClickListener clickListener,
 			boolean separatorAfter) {
 		final ViewGroup actionBar = getActionBar();
-
 		if (actionBar == null) {
 			return false;
 		}
@@ -152,6 +151,18 @@ public class ActivityHelper {
 			actionBar.addView(separator);
 		}
 		return true;
+	}
+
+	public void changeClickListener(int resourceId, View.OnClickListener clickListener) {
+		final ViewGroup actionBar = getActionBar();
+		if (actionBar == null) {
+			return;
+		}
+
+		View buttonView = actionBar.findViewById(resourceId);
+		if (buttonView != null) {
+			buttonView.setOnClickListener(clickListener);
+		}
 	}
 
 	private void goToMainMenu() {
