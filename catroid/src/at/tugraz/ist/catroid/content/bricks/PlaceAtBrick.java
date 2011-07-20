@@ -50,14 +50,6 @@ public class PlaceAtBrick implements Brick, OnDismissListener {
 		return this.sprite;
 	}
 
-	public int getXPosition() {
-		return xPosition;
-	}
-
-	public int getYPosition() {
-		return yPosition;
-	}
-
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View brickView = inflater.inflate(R.layout.construction_brick_place_at, null);
@@ -91,7 +83,7 @@ public class PlaceAtBrick implements Brick, OnDismissListener {
 
 	@Override
 	public Brick clone() {
-		return new PlaceAtBrick(getSprite(), getXPosition(), getYPosition());
+		return new PlaceAtBrick(getSprite(), xPosition, yPosition);
 	}
 
 	public void onDismiss(DialogInterface dialog) {

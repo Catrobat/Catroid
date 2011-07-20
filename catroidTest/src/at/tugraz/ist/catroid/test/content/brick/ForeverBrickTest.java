@@ -26,6 +26,7 @@ import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
 import at.tugraz.ist.catroid.content.bricks.SetXBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
+import at.tugraz.ist.catroid.test.utils.TestUtils;
 
 public class ForeverBrickTest extends InstrumentationTestCase {
 
@@ -82,6 +83,8 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 		Thread.sleep(brickSleepTime);
 		assertEquals("Wrong brick executing", positionOfFirstWaitBrick, testScript.getExecutingBrickIndex());
 
-		assertEquals("Wrong number of times to repeat", LoopEndBrick.FOREVER, loopEndBrick.getTimesToRepeat());
+		int timesToRepeat = (Integer) TestUtils.getPrivateField("timesToRepeat", loopEndBrick, false);
+
+		assertEquals("Wrong number of times to repeat", LoopEndBrick.FOREVER, timesToRepeat);
 	}
 }
