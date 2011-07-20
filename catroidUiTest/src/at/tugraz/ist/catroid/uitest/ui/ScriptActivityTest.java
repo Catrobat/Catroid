@@ -70,6 +70,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 			ImageButton btn = btnList.get(i);
 			if (btn.getId() == R.id.btn_action_home) {
 				solo.clickOnImageButton(i);
+				break;
 			}
 		}
 		assertTrue("Clicking on main menu button did not cause main menu to be displayed",
