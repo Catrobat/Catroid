@@ -23,8 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
-import android.graphics.Color;
-import android.util.Pair;
 import at.tugraz.ist.catroid.common.Consts;
 
 public class Sprite implements Serializable, Comparable<Sprite> {
@@ -37,7 +35,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	private transient boolean isVisible;
 	private transient boolean toDraw;
 	private List<Script> scriptList;
-	private transient Costume costume;
+	public transient CostumeA costume;
 
 	public transient volatile boolean isPaused;
 	public transient volatile boolean isFinished;
@@ -51,7 +49,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		zPosition = 0;
 		size = 100.0;
 		isVisible = true;
-		costume = new Costume(this, null);
+		costume = new CostumeA(this);
 		xPosition = 0;
 		yPosition = 0;
 		toDraw = false;
@@ -174,7 +172,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	public synchronized void setXYPosition(int xPosition, int yPosition) {
 		this.xPosition = xPosition;
 		this.yPosition = yPosition;
-		costume.setDrawPosition();
+		//		costume.setDrawPosition();
 		toDraw = true;
 	}
 
@@ -188,8 +186,8 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 			throw new IllegalArgumentException("Sprite size must be greater than zero!");
 		}
 
-		int width = costume.getImageWidthHeight().first;
-		int height = costume.getImageWidthHeight().second;
+		int width = 0; //costume.getImageWidthHeight().first;
+		int height = 0; //costume.getImageWidthHeight().second;
 
 		if (width == 0 || height == 0) {
 			this.size = size;
@@ -213,7 +211,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 			this.size = (double) Consts.MAX_COSTUME_HEIGHT / height * 100.;
 		}
 
-		costume.setSizeTo(this.size);
+		//	costume.setSizeTo(this.size);
 		toDraw = true;
 	}
 
@@ -228,7 +226,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	}
 
 	public synchronized Costume getCostume() {
-		return costume;
+		return null;
 	}
 
 	public void addScript(Script script) {
@@ -282,16 +280,16 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	}
 
 	public boolean processOnTouch(int coordX, int coordY) {
-		if (costume.getBitmap() == null || isVisible == false) {
+		if (/* costume.getBitmap() == null || */isVisible == false) {
 			return false;
 		}
 
-		int inSpriteCoordX = coordX - costume.getDrawPositionX();
-		int inSpriteCoordY = coordY - costume.getDrawPositionY();
+		int inSpriteCoordX = coordX /*- costume.getDrawPositionX()*/;
+		int inSpriteCoordY = coordY /*- costume.getDrawPositionY()*/;
 
-		Pair<Integer, Integer> tempPair = costume.getImageWidthHeight();
-		int width = tempPair.first;
-		int height = tempPair.second;
+		//Pair<Integer, Integer> tempPair = costume.getImageWidthHeight();
+		int width = 0;//tempPair.first;
+		int height = 0;//tempPair.second;
 
 		if (inSpriteCoordX < 0 || inSpriteCoordX > width) {
 			return false;
@@ -301,9 +299,9 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		}
 
 		try {
-			if (Color.alpha(costume.getBitmap().getPixel(inSpriteCoordX, inSpriteCoordY)) <= 10) {
-				return false;
-			}
+			//	if (Color.alpha(costume.getBitmap().getPixel(inSpriteCoordX, inSpriteCoordY)) <= 10) {
+			//		return false;
+			//	}
 		} catch (Exception ex) {
 			return false;
 		}
