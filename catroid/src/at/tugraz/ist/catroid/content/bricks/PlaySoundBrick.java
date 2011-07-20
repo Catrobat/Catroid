@@ -128,12 +128,12 @@ public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable 
 		}
 
 		try {
-			soundFile = StorageHandler.getInstance().copySoundFile(soundList.get(position).getPath());
+			soundFile = StorageHandler.getInstance().copySoundFile(soundList.get(position).getAbsolutePath());
 
 			if (soundFile != null) {
 				soundfileName = soundFile.getName();
 			} else {
-				soundfileName = soundList.get(position).getTitleWithPath();
+				soundfileName = soundList.get(position).getAbsolutePath();
 			}
 
 			adapter.notifyDataSetChanged();
@@ -156,13 +156,5 @@ public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable 
 
 	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	private Object readResolve() {
-		if (soundfileName != null && ProjectManager.getInstance().getCurrentProject() != null) {
-			String[] checksum = soundfileName.split("_");
-			ProjectManager.getInstance().fileChecksumContainer.addChecksum(checksum[0], getAbsoluteSoundPath());
-		}
-		return this;
 	}
 }

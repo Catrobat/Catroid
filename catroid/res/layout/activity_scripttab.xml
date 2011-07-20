@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- The warning concerning the minSdkVersion can be ignored, as this is our intended behavior -->
 
 <!-- 
  *  Catroid: An on-device graphical programming language for Android devices
@@ -19,41 +18,41 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
+ 
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical"
 	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
+	android:layout_height="match_parent"
+	android:background="#d8e0f5" 
 >
-	<EditText
-		android:id="@+id/dialog_new_sprite_editText"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:gravity="left"
-		android:inputType="text"
-		android:maxLines="1"
-		android:singleLine="true"
-		android:selectAllOnFocus="true"
-	>
-	</EditText>
-		<LinearLayout
+	
+	<!-- Action bar -->
+	<include layout="@layout/actionbar"/>
+		
+	<TabHost 
 		xmlns:android="http://schemas.android.com/apk/res/android"
-		android:orientation="horizontal"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
-	<Button
-		android:id="@+id/dialog_new_sprite_ok_button"
-		android:text="@string/ok"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_weight=".5" 
-		android:onClick="handlePositiveButtonNewSprite"/>
-	<Button
-		android:id="@+id/dialog_new_sprite_cancel_button"
-		android:text="@string/cancel_button"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_weight=".5"
-		android:onClick="handleNegativeButtonNewSprite" />
-	</LinearLayout>
+	    android:id="@android:id/tabhost"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	>
+    
+	    <LinearLayout
+	        android:orientation="vertical"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	    >
+	        <TabWidget
+	            android:id="@android:id/tabs"
+	            android:layout_width="match_parent"
+	            android:layout_height="30dp"
+	            android:gravity="bottom"
+	        />
+	        <FrameLayout
+	            android:layout_width="match_parent"
+	            android:layout_height="match_parent"
+	            android:id="@android:id/tabcontent"
+	        />
+	    </LinearLayout>
+	</TabHost>
 </LinearLayout>

@@ -21,8 +21,10 @@ package at.tugraz.ist.catroid.uitest.ui;
 import java.util.List;
 
 import android.test.ActivityInstrumentationTestCase2;
+import android.view.KeyEvent;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -60,22 +62,6 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		super.tearDown();
 	}
 
-	private void addNewSprite(String spriteName) {
-		solo.sleep(50);
-		List<ImageButton> btnList = solo.getCurrentImageButtons();
-		for (int i = 0; i < btnList.size(); i++) {
-			ImageButton btn = btnList.get(i);
-			if (btn.getId() == R.id.btn_action_add_sprite) {
-				solo.clickOnImageButton(i);
-			}
-		}
-		solo.sleep(50);
-		UiTestUtils.enterText(solo, 0, spriteName);
-
-		solo.clickOnButton(getActivity().getString(R.string.new_sprite_dialog_button));
-		solo.sleep(50);
-	}
-
 	public void testAddNewSprite() {
 		final String spriteName = "testSprite";
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
@@ -94,22 +80,6 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertEquals("Sprite at index 2 is not " + spriteName2, spriteName2, thirdSprite.getName());
 		assertTrue("Sprite is not in current Project", ProjectManager.getInstance().getCurrentProject().getSpriteList()
 				.contains(thirdSprite));
-	}
-
-	public void testAddNewSpriteErrors() {
-		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
-		addNewSprite("");
-		assertTrue("No error message was displayed upon creating a sprite with an empty name.",
-				solo.searchText(getActivity().getString(R.string.error_no_name_entered)));
-		solo.clickOnButton(0);
-		solo.goBack();
-
-		final String spriteName = "testSprite";
-		addNewSprite(spriteName);
-		addNewSprite(spriteName);
-
-		assertTrue("No error message was displayed upon creating a sprite with the same name twice.",
-				solo.searchText(getActivity().getString(R.string.error_sprite_exists)));
 	}
 
 	public void testContextMenu() {
@@ -131,7 +101,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		solo.clearEditText(0);
 		UiTestUtils.enterText(solo, 0, newSpriteName);
-		solo.clickOnButton(getActivity().getString(R.string.rename_button));
+		solo.clickOnButton(getActivity().getString(R.string.ok));
 		solo.sleep(50);
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
@@ -175,8 +145,6 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 			}
 		}
 		assertTrue("Main menu is not visible", buttonFound);
-
-		//assertTrue("Current project is not visible", solo.searchText(getActivity().getString(R.string.current_project)));
 	}
 
 	/**
@@ -195,5 +163,163 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickLongOnText(spriteName);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		assertTrue("Sprite name not visible after changing orientation", solo.searchText(spriteName));
+	}
+
+	public void testCheckMaxTextLines() {
+		String spriteName = "poor poor poor poor poor poor poor poor me me me me me me";
+		int expectedLineCount = 2;
+		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
+		addNewSprite(spriteName);
+		TextView textView = solo.getText(2);
+		assertEquals("linecount is wrong - ellipsize failed", expectedLineCount, textView.getLineCount());
+		solo.clickLongOnText(spriteName);
+		TextView textView2 = solo.getText(1);
+		assertEquals("linecount is wrong", expectedLineCount + 1, textView2.getLineCount());
+	}
+
+	public void testNewSpriteDialog() {
+
+		ProjectManager projectManager = ProjectManager.getInstance();
+		String spriteName1 = "sprite1";
+		String spriteName2 = "sprite2";
+		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
+
+		openNewSpriteDialog();
+		UiTestUtils.enterText(solo, 0, spriteName1);
+		solo.clickOnButton(getActivity().getString(R.string.ok));
+
+		solo.sleep(800); //WARGLWARGLWARGL!!! damned random sleep -.-
+
+		assertTrue("Sprite not successfully added", projectManager.spriteExists(spriteName1));
+
+		openNewSpriteDialog();
+		UiTestUtils.enterText(solo, 0, spriteName2);
+		sendKeys(KeyEvent.KEYCODE_ENTER);
+
+		solo.sleep(800);
+
+		assertTrue("Sprite not successfully added", projectManager.spriteExists(spriteName2));
+
+	}
+
+	public void testNewSpriteDialogErrorMessages() {
+		ProjectManager projectManager = ProjectManager.getInstance();
+		String spriteName = "spriteError";
+		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
+
+		openNewSpriteDialog();
+		UiTestUtils.enterText(solo, 0, spriteName);
+		solo.clickOnButton(getActivity().getString(R.string.ok));
+
+		solo.sleep(800);
+
+		assertTrue("Sprite not successfully added", projectManager.spriteExists(spriteName));
+
+		//trying to add sprite which already exists:
+		openNewSpriteDialog();
+		UiTestUtils.enterText(solo, 0, spriteName);
+		solo.clickOnButton(getActivity().getString(R.string.ok));
+
+		assertTrue("ErrorMessage not visible",
+				solo.searchText(getActivity().getString(R.string.spritename_already_exists)));
+		solo.clickOnButton(getActivity().getString(R.string.close));
+
+		solo.sleep(200);
+
+		sendKeys(KeyEvent.KEYCODE_ENTER);
+		assertTrue("ErrorMessage not visible",
+				solo.searchText(getActivity().getString(R.string.spritename_already_exists)));
+		solo.sleep(200);
+		solo.clickOnButton(getActivity().getString(R.string.close));
+
+		//trying to add sprite without name ("")
+
+		UiTestUtils.enterText(solo, 0, "");
+		sendKeys(KeyEvent.KEYCODE_ENTER);
+		assertTrue("ErrorMessage not visible", solo.searchText(getActivity().getString(R.string.spritename_invalid)));
+		solo.clickOnButton(getActivity().getString(R.string.close));
+
+		solo.sleep(200);
+		solo.clickOnButton(getActivity().getString(R.string.ok));
+		assertTrue("not in NewSpriteDialog", solo.searchText(getActivity().getString(R.string.new_sprite_dialog_title)));
+	}
+
+	public void testRenameSpriteDialog() {
+		String spriteName = "spriteRename";
+		String spriteName2 = "spriteRename2";
+		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
+		addNewSprite(spriteName);
+		addNewSprite(spriteName2);
+
+		//trying to rename sprite to name which already exists:
+		//------------ OK Button:
+		openRenameSpriteDialog(spriteName);
+		UiTestUtils.enterText(solo, 0, spriteName2);
+		solo.clickOnButton(getActivity().getString(R.string.ok));
+
+		solo.sleep(200);
+		assertTrue("ErrorMessage not visible",
+				solo.searchText(getActivity().getString(R.string.spritename_already_exists)));
+		solo.clickOnButton(getActivity().getString(R.string.close));
+		assertTrue("RenameSpriteDialog not visible",
+				solo.searchText(getActivity().getString(R.string.rename_sprite_dialog)));
+
+		//------------ Enter Key:
+		solo.sleep(200);
+		sendKeys(KeyEvent.KEYCODE_ENTER);
+		solo.sleep(200);
+		assertTrue("ErrorMessage not visible",
+				solo.searchText(getActivity().getString(R.string.spritename_already_exists)));
+		solo.clickOnButton(getActivity().getString(R.string.close));
+		solo.sleep(100);
+
+		//trying to rename sprite to ""
+		//------------ OK Button:
+		UiTestUtils.enterText(solo, 0, "");
+		sendKeys(KeyEvent.KEYCODE_ENTER);
+		assertTrue("ErrorMessage not visible", solo.searchText(getActivity().getString(R.string.spritename_invalid)));
+		solo.clickOnButton(getActivity().getString(R.string.close));
+
+		solo.sleep(200);
+		solo.clickOnButton(getActivity().getString(R.string.ok));
+		assertTrue("not in RenameSpriteDialog", solo.searchText(getActivity().getString(R.string.rename_sprite_dialog)));
+
+	}
+
+	private void addNewSprite(String spriteName) {
+		solo.sleep(50);
+		List<ImageButton> btnList = solo.getCurrentImageButtons();
+		for (int i = 0; i < btnList.size(); i++) {
+			ImageButton btn = btnList.get(i);
+			if (btn.getId() == R.id.btn_action_add_sprite) {
+				solo.clickOnImageButton(i);
+			}
+		}
+		solo.sleep(50);
+		UiTestUtils.enterText(solo, 0, spriteName);
+
+		solo.clickOnButton(getActivity().getString(R.string.new_sprite_dialog_button));
+		solo.sleep(50);
+	}
+
+	private void openNewSpriteDialog() {
+		solo.sleep(200);
+		List<ImageButton> btnList = solo.getCurrentImageButtons();
+		for (int i = 0; i < btnList.size(); i++) {
+			ImageButton btn = btnList.get(i);
+			if (btn.getId() == R.id.btn_action_add_sprite) {
+				solo.clickOnImageButton(i);
+			}
+		}
+		solo.sleep(50);
+	}
+
+	private void openRenameSpriteDialog(String spriteName) {
+		solo.sleep(200);
+		solo.clickLongOnText(spriteName);
+		solo.sleep(2500);
+		solo.clickInList(1);
+		//solo.clickOnText(getActivity().getString(R.string.rename));
+		solo.sleep(50);
 	}
 }

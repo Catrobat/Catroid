@@ -110,10 +110,6 @@ public class Costume implements Serializable {
 		setDrawPosition();
 	}
 
-	public String getImagePath() {
-		return imagePath;
-	}
-
 	public Bitmap getBitmap() {
 		return costumeBitmap;
 	}
@@ -163,5 +159,4 @@ public class Costume implements Serializable {
 		drawPositionX = drawPositionX + costumeBitmap.getWidth() / 2;
 		drawPositionY = drawPositionY + costumeBitmap.getHeight() / 2;
 	}
-
 }

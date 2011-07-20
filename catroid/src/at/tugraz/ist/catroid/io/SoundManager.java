@@ -96,4 +96,12 @@ public class SoundManager {
 		}
 	}
 
+	public synchronized void stop() {
+		for (MediaPlayer mediaPlayer : mediaPlayers) {
+			if (mediaPlayer.isPlaying()) {
+				mediaPlayer.stop();
+			}
+		}
+	}
+
 }

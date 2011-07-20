@@ -32,80 +32,69 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import at.tugraz.ist.catroid.ProjectManager;
+import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.ui.ProjectActivity;
+import at.tugraz.ist.catroid.common.SoundInfo;
+import at.tugraz.ist.catroid.ui.SoundActivity;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class NewSpriteDialog {
-	protected ProjectActivity projectActivity;
+public class RenameSoundDialog {
+	protected SoundActivity soundActivity;
 	private EditText input;
 	private Button buttonPositive;
-	public Dialog newSpriteDialog;
-	private ProjectManager projectManager;
+	public Dialog renameDialog;
 
-	public NewSpriteDialog(ProjectActivity projectActivity) {
-		this.projectActivity = projectActivity;
-		projectManager = ProjectManager.getInstance();
+	public RenameSoundDialog(SoundActivity soundActivity) {
+		this.soundActivity = soundActivity;
 	}
 
-	public Dialog createDialog() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(projectActivity);
-		builder.setTitle(R.string.new_sprite_dialog_title);
+	public Dialog createDialog(SoundInfo soundInfoToEdit) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(soundActivity);
+		builder.setTitle(R.string.rename_sound_dialog);
 
-		LayoutInflater inflater = (LayoutInflater) projectActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.dialog_new_sprite, null);
+		LayoutInflater inflater = (LayoutInflater) soundActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.dialog_rename_sound, null);
 
-		input = (EditText) view.findViewById(R.id.dialog_new_sprite_editText);
-		input.setHint(projectActivity.getString(R.string.new_sprite_dialog_default_sprite_name));
+		input = (EditText) view.findViewById(R.id.dialog_rename_sound_editText);
+		input.setText(soundInfoToEdit.getTitle());
 
-		buttonPositive = (Button) view.findViewById(R.id.dialog_new_sprite_ok_button);
+		buttonPositive = (Button) view.findViewById(R.id.btn_rename_sound);
 
 		builder.setView(view);
 
 		initKeyListener(builder);
 
-		newSpriteDialog = builder.create();
-		newSpriteDialog.setCanceledOnTouchOutside(true);
+		renameDialog = builder.create();
+		renameDialog.setCanceledOnTouchOutside(true);
 
-		initAlertDialogListener(newSpriteDialog);
+		initAlertDialogListener(renameDialog);
 
-		return newSpriteDialog;
+		return renameDialog;
 	}
 
 	public void handleOkButton() {
+		String newSoundTitle = (input.getText().toString()).trim();
+		String oldSoundTitle = soundActivity.selectedSoundInfo.getTitle();
 
-		String spriteName = input.getText().toString();
-
-		if (spriteName == null || spriteName.equalsIgnoreCase("")) {
-			Utils.displayErrorMessage(projectActivity, projectActivity.getString(R.string.spritename_invalid));
+		if (newSoundTitle.equalsIgnoreCase(oldSoundTitle)) {
+			renameDialog.cancel();
 			return;
 		}
-
-		if (projectManager.spriteExists(spriteName)) {
-			Utils.displayErrorMessage(projectActivity, projectActivity.getString(R.string.spritename_already_exists));
+		if (newSoundTitle != null && !newSoundTitle.equalsIgnoreCase("")) {
+			soundActivity.selectedSoundInfo.setTitle(newSoundTitle);
+		} else {
+			Utils.displayErrorMessage(soundActivity, soundActivity.getString(R.string.soundname_invalid));
 			return;
 		}
-		Sprite sprite = new Sprite(spriteName);
-		projectManager.addSprite(sprite);
-
-		input.setText(null);
-		newSpriteDialog.dismiss();
+		renameDialog.cancel();
 	}
 
 	private void initKeyListener(AlertDialog.Builder builder) {
 		builder.setOnKeyListener(new OnKeyListener() {
 			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
 				if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-					String newSpriteName = (input.getText().toString()).trim();
-					if (projectManager.spriteExists(newSpriteName)) {
-						Utils.displayErrorMessage(projectActivity,
-								projectActivity.getString(R.string.spritename_already_exists));
-					} else {
-						handleOkButton();
-						return true;
-					}
+					handleOkButton();
+					return true;
 				}
 				return false;
 			}
@@ -116,15 +105,18 @@ public class NewSpriteDialog {
 
 		dialog.setOnShowListener(new OnShowListener() {
 			public void onShow(DialogInterface dialog) {
-				InputMethodManager inputManager = (InputMethodManager) projectActivity
+				InputMethodManager inputManager = (InputMethodManager) soundActivity
 						.getSystemService(Context.INPUT_METHOD_SERVICE);
 				inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
+				input.setText(soundActivity.selectedSoundInfo.getTitle());
 			}
 		});
 
 		input.addTextChangedListener(new TextWatcher() {
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				if (s.length() == 0 || (s.length() == 1 && s.charAt(0) == '.')) {
+					Toast.makeText(soundActivity, R.string.notification_invalid_text_entered, Toast.LENGTH_SHORT)
+							.show();
 					buttonPositive.setEnabled(false);
 				} else {
 					buttonPositive.setEnabled(true);
@@ -135,13 +127,6 @@ public class NewSpriteDialog {
 			}
 
 			public void afterTextChanged(Editable s) {
-				//				if (spriteAlreadyExists(s.toString())
-				//						&& !(s.toString()).equalsIgnoreCase(projectActivity.getSpriteToEdit().getName())) {
-				//					alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false);
-				//					Toast.makeText(projectActivity, R.string.spritename_already_exists, Toast.LENGTH_SHORT).show();
-				//				} else {
-				//					alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(true);
-				//				}
 			}
 		});
 	}

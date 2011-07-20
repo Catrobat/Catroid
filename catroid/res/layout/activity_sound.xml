@@ -17,28 +17,19 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->	
-	<LinearLayout 
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		android:orientation="horizontal" 
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:background="@color/spritelist_item_background">
-		<ImageView 
-			android:id="@+id/sprite_img" 
-			android:layout_width="70dp"
-			android:layout_height="70dp" 
-			android:layout_marginRight="6dip" 
-			android:layout_marginLeft="5dip"
-			android:scaleType="centerCrop"/>
-		<TextView 
-			android:layout_width="fill_parent" 
-			android:id="@+id/sprite_title"
-			android:layout_height="wrap_content" 
-			android:textStyle="bold"
-			android:paddingLeft="10dp" 
-			android:textSize="22sp" 
-			android:textColor="@color/solid_black"
-			android:ellipsize="end"
-			android:maxLines="2"/>
-	</LinearLayout>
+ -->
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/website_blue">
+
+	<!-- Sound list -->
+	<ListView
+		android:id="@android:id/list"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_weight="1.0"
+		android:cacheColorHint="#00000000"/>
+</LinearLayout>
