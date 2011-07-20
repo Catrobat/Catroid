@@ -18,99 +18,129 @@
  */
 package at.tugraz.ist.catroid.ui.dialogs;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.Bundle;
+import android.content.DialogInterface.OnKeyListener;
+import android.content.DialogInterface.OnShowListener;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class RenameSpriteDialog extends Dialog {
+public class RenameSpriteDialog {
 	protected ProjectActivity projectActivity;
-	private EditText renameName;
+	private EditText input;
+	private Button buttonPositive;
+	public Dialog renameDialog;
+	private ProjectManager projectManager;
 
 	public RenameSpriteDialog(ProjectActivity projectActivity) {
-		super(projectActivity);
 		this.projectActivity = projectActivity;
+		projectManager = ProjectManager.getInstance();
 	}
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.dialog_rename);
-		setTitle(R.string.rename_sprite_dialog);
-		setCanceledOnTouchOutside(true);
-		renameName = (EditText) findViewById(R.id.rename_edit_text);
-		renameName.setText(projectActivity.getSpriteToEdit().getName());
+	public Dialog createDialog(String dialogTitle) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(projectActivity);
+		builder.setTitle(R.string.rename_sprite_dialog);
 
-		Button renameButton = (Button) findViewById(R.id.rename_button);
-		renameButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				String spriteName = ((EditText) findViewById(R.id.rename_edit_text)).getText().toString();
-				if (spriteName.equalsIgnoreCase(projectActivity.getSpriteToEdit().getName())) {
-					dismiss();
-					return;
-				}
-				if (spriteName != null && !spriteName.equalsIgnoreCase("")) {
-					for (Sprite tempSprite : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
-						if (tempSprite.getName().equalsIgnoreCase(spriteName)) {
-							Utils.displayErrorMessage(projectActivity,
-									projectActivity.getString(R.string.spritename_already_exists));
-							return;
-						}
-					}
-					projectActivity.getSpriteToEdit().setName(spriteName);
-				} else {
-					Utils.displayErrorMessage(projectActivity, projectActivity.getString(R.string.spritename_invalid));
-					return;
-				}
-				dismiss();
-			}
-		});
+		LayoutInflater inflater = (LayoutInflater) projectActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.dialog_rename_sprite, null);
 
-		this.setOnShowListener(new OnShowListener() {
-			public void onShow(DialogInterface dialog) {
-				InputMethodManager inputManager = (InputMethodManager) getContext().getSystemService(
-						Context.INPUT_METHOD_SERVICE);
-				inputManager.showSoftInput(renameName, InputMethodManager.SHOW_IMPLICIT);
-			}
-		});
+		input = (EditText) view.findViewById(R.id.dialog_rename_sprite_editText);
+		input.setText(projectActivity.getSpriteToEdit().getName());
 
-		this.setOnKeyListener(new OnKeyListener() {
+		buttonPositive = (Button) view.findViewById(R.id.dialog_rename_sprite_ok_button);
+
+		builder.setView(view);
+
+		initKeyListener(builder);
+
+		renameDialog = builder.create();
+		renameDialog.setCanceledOnTouchOutside(true);
+
+		initAlertDialogListener(renameDialog);
+
+		return renameDialog;
+	}
+
+	public void handleOkButton() {
+		String newSpriteName = (input.getText().toString()).trim();
+		String oldSpriteName = projectActivity.getSpriteToEdit().getName();
+
+		if (projectManager.spriteExists(newSpriteName) && !newSpriteName.equalsIgnoreCase(oldSpriteName)) {
+			Utils.displayErrorMessage(projectActivity, projectActivity.getString(R.string.spritename_already_exists));
+			return;
+		}
+
+		if (newSpriteName.equalsIgnoreCase(projectActivity.getSpriteToEdit().getName())) {
+			renameDialog.cancel();
+			return;
+		}
+		if (newSpriteName != null && !newSpriteName.equalsIgnoreCase("")) {
+			projectActivity.getSpriteToEdit().setName(newSpriteName);
+		} else {
+			Utils.displayErrorMessage(projectActivity, projectActivity.getString(R.string.spritename_invalid));
+			return;
+		}
+		renameDialog.cancel();
+	}
+
+	private void initKeyListener(AlertDialog.Builder builder) {
+		builder.setOnKeyListener(new OnKeyListener() {
 			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
 				if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-					String spriteName = ((EditText) findViewById(R.id.rename_edit_text)).getText().toString();
-					if (spriteName.equalsIgnoreCase(projectActivity.getSpriteToEdit().getName())) {
-						dismiss();
-						return true;
-					}
-					if (spriteName != null && !spriteName.equalsIgnoreCase("")) {
-						for (Sprite tempSprite : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
-							if (tempSprite.getName().equalsIgnoreCase(spriteName)) {
-								Utils.displayErrorMessage(projectActivity,
-										projectActivity.getString(R.string.spritename_already_exists));
-								return true;
-							}
-						}
-						projectActivity.getSpriteToEdit().setName(spriteName);
-					} else {
+					String newSpriteName = (input.getText().toString()).trim();
+					String oldSpriteName = projectActivity.getSpriteToEdit().getName();
+					if (projectManager.spriteExists(newSpriteName) && !newSpriteName.equalsIgnoreCase(oldSpriteName)) {
 						Utils.displayErrorMessage(projectActivity,
-								projectActivity.getString(R.string.spritename_invalid));
+								projectActivity.getString(R.string.spritename_already_exists));
+					} else {
+						handleOkButton();
 						return true;
 					}
-					dismiss();
-
-					return true;
 				}
 				return false;
+			}
+		});
+	}
+
+	private void initAlertDialogListener(Dialog dialog) {
+
+		dialog.setOnShowListener(new OnShowListener() {
+			public void onShow(DialogInterface dialog) {
+				InputMethodManager inputManager = (InputMethodManager) projectActivity
+						.getSystemService(Context.INPUT_METHOD_SERVICE);
+				inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
+				input.setText(projectActivity.getSpriteToEdit().getName());
+			}
+		});
+
+		input.addTextChangedListener(new TextWatcher() {
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				if (s.length() == 0 || (s.length() == 1 && s.charAt(0) == '.')) {
+					Toast.makeText(projectActivity, R.string.notification_invalid_text_entered, Toast.LENGTH_SHORT)
+							.show();
+					buttonPositive.setEnabled(false);
+				} else {
+					buttonPositive.setEnabled(true);
+				}
+			}
+
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			public void afterTextChanged(Editable s) {
 			}
 		});
 	}

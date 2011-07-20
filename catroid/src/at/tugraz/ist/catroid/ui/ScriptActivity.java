@@ -37,7 +37,6 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -47,11 +46,9 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
-import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
 import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView;
-import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class ScriptActivity extends Activity implements OnDismissListener, OnCancelListener {
@@ -59,7 +56,6 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	private DragNDropListView listView;
 	private Sprite sprite;
 	private Script scriptToEdit;
-	private ActivityHelper activityHelper = new ActivityHelper(this);
 
 	private void initListeners() {
 		sprite = ProjectManager.getInstance().getCurrentSprite();
@@ -74,40 +70,15 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		listView.setOnDropListener(adapter);
 		listView.setOnRemoveListener(adapter);
 		listView.setAdapter(adapter);
-		// Sets scroll behavior. --> Find a better way to do it.
-		//listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
 		listView.setGroupIndicator(null);
 		listView.setOnGroupClickListener(adapter);
 		registerForContextMenu(listView);
-
-		Button addBrickButton = (Button) findViewById(R.id.add_brick_button);
-		addBrickButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				showDialog(Consts.DIALOG_ADD_BRICK);
-			}
-		});
-
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_script);
-	}
-
-	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-		String title = this.getResources().getString(R.string.sprite_name) + " "
-				+ ProjectManager.getInstance().getCurrentSprite().getName();
-		activityHelper.setupActionBar(false, title);
-
-		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, new View.OnClickListener() {
-			public void onClick(View v) {
-				Intent intent = new Intent(ScriptActivity.this, StageActivity.class);
-				startActivity(intent);
-			}
-		}, false);
 	}
 
 	@Override
@@ -150,6 +121,21 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		if (!Utils.checkForSdCard(this)) {
 			return;
 		}
+
+		//set new functionality for actionbar add button:
+		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
+		if (scriptTabActivity == null || scriptTabActivity.activityHelper == null) {
+			return;
+		}
+		scriptTabActivity.activityHelper.changeClickListener(R.id.btn_action_add_sprite, createAddBrickClickListener());
+	}
+
+	private View.OnClickListener createAddBrickClickListener() {
+		return new View.OnClickListener() {
+			public void onClick(View v) {
+				showDialog(Consts.DIALOG_ADD_BRICK);
+			}
+		};
 	}
 
 	public void onDismiss(DialogInterface dialog) {
@@ -193,7 +179,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 						StorageHandler.getInstance().deleteFile(affectedBrick.getImagePath());
 					}
 					File outputFile = StorageHandler.getInstance().copyImage(
-							ProjectManager.getInstance().getCurrentProject().getName(), selectedImagePath);
+							ProjectManager.getInstance().getCurrentProject().getName(), selectedImagePath, null);
 					if (outputFile != null) {
 						affectedBrick.setCostume(outputFile.getName());
 						adapter.notifyDataSetChanged();

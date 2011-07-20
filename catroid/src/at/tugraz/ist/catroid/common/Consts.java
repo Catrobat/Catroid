@@ -42,6 +42,8 @@ public final class Consts {
 	public static final int DIALOG_ADD_BRICK = 7;
 	public static final int DIALOG_UPLOAD_PROJECT = 8;
 	public static final int DIALOG_CONTEXT_MENU = 9;
+	public static final int DIALOG_RENAME_COSTUME = 10;
+	public static final int DIALOG_RENAME_SOUND = 11;
 
 	//Costume:
 	public static final int MAX_REL_COORDINATES = 1000;

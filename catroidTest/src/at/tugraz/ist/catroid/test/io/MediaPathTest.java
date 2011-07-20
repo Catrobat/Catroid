@@ -26,6 +26,7 @@ import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
+import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -96,8 +97,8 @@ public class MediaPathTest extends InstrumentationTestCase {
 				.getContext(), TestUtils.TYPE_SOUND_FILE);
 
 		//copy files with the Storagehandler copy function
-		testImageCopy = StorageHandler.getInstance().copyImage(projectName, testImage.getAbsolutePath());
-		testImageCopy2 = StorageHandler.getInstance().copyImage(projectName, testImage.getAbsolutePath());
+		testImageCopy = StorageHandler.getInstance().copyImage(projectName, testImage.getAbsolutePath(), null);
+		testImageCopy2 = StorageHandler.getInstance().copyImage(projectName, testImage.getAbsolutePath(), null);
 		testSoundCopy = StorageHandler.getInstance().copySoundFile(testSound.getAbsolutePath());
 
 	}
@@ -160,8 +161,8 @@ public class MediaPathTest extends InstrumentationTestCase {
 
 	public void testCopyLargeImage() throws IOException, InterruptedException {
 		StorageHandler storage = StorageHandler.getInstance();
-		bigBlue2 = storage.copyImage(projectName, bigBlue.getAbsolutePath());
-		bigBlue3 = storage.copyImage(projectName, bigBlue.getAbsolutePath());
+		bigBlue2 = storage.copyImage(projectName, bigBlue.getAbsolutePath(), null);
+		bigBlue3 = storage.copyImage(projectName, bigBlue.getAbsolutePath(), null);
 		fillProjectWithAllBricksAndMediaFiles();
 
 		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName + Consts.IMAGE_DIRECTORY);
@@ -264,6 +265,16 @@ public class MediaPathTest extends InstrumentationTestCase {
 		}
 		for (Brick brick : brickList2) {
 			tapedScript.addBrick(brick);
+		}
+
+		//temporary:
+		{
+			String soundTitle = testSoundCopy.getName().substring(33, testSoundCopy.getName().length() - 4);
+			String soundFileName = testSoundCopy.getName();
+			SoundInfo newSoundInfo = new SoundInfo();
+			newSoundInfo.setTitle(soundTitle);
+			newSoundInfo.setSoundFileName(soundFileName);
+			sprite.addSoundInfoToSoundList(newSoundInfo);
 		}
 
 		StorageHandler.getInstance().saveProject(project);
