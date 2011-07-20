@@ -34,6 +34,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	private transient int yPosition;
 	private transient int zPosition;
 	private transient double size;
+	private transient double direction;
 	private transient boolean isVisible;
 	private transient boolean toDraw;
 	private List<Script> scriptList;
@@ -50,6 +51,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	private void init() {
 		zPosition = 0;
 		size = 100.0;
+		direction = 90.;
 		isVisible = true;
 		costume = new Costume(this, null);
 		xPosition = 0;
@@ -167,6 +169,10 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return size;
 	}
 
+	public double getDirection() {
+		return direction;
+	}
+
 	public boolean isVisible() {
 		return isVisible;
 	}
@@ -212,6 +218,26 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 			costume.setSizeTo(this.size);
 			toDraw = true;
 		}
+	}
+
+	public synchronized void setDirection(double direction) {
+
+		int floored = (int) Math.floor(direction);
+
+		int mod = ((floored + 180) % 360);
+		double remainder = direction - floored;
+
+		if (mod >= 0) {
+			this.direction = Math.abs(mod) + remainder - 180;
+		} else {
+			this.direction = 180 - (Math.abs(mod) - remainder);
+		}
+
+		if (this.direction == -180) {
+			this.direction = 180;
+		}
+
+		costume.rotateTo(this.direction);
 	}
 
 	public synchronized void show() {
