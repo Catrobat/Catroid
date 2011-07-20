@@ -26,7 +26,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
-import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -46,16 +45,9 @@ public class ServerCalls {
 	public static ServerCalls getInstance() {
 		if (instance == null) {
 			instance = new ServerCalls();
-			// set the default connection
-			//instance.connection = new ConnectionWrapper();
 		}
 		return instance;
 	}
-
-	//	// mock object testing
-	//	protected ConnectionWrapper createConnection() {
-	//		return new ConnectionWrapper();
-	//	}
 
 	// used for mock object testing
 	public void setConnectionToUse(ConnectionWrapper connection) {
@@ -71,11 +63,8 @@ public class ServerCalls {
 			postValues.put(Consts.PROJECT_NAME_TAG, projectName);
 			postValues.put(Consts.PROJECT_DESCRIPTION_TAG, projectDescription);
 			postValues.put(Consts.PROJECT_CHECKSUM_TAG, md5Checksum.toLowerCase());
-			postValues.put(Consts.TOKEN, token); //anonymous
+			postValues.put(Consts.TOKEN, token);
 
-			//			if (deviceIMEI != null) {
-			//				postValues.put(Consts.DEVICE_IMEI, deviceIMEI);
-			//			}
 			if (userEmail != null) {
 				postValues.put(Consts.USER_EMAIL, userEmail);
 			}
@@ -96,8 +85,7 @@ public class ServerCalls {
 			jsonObject = new JSONObject(resultString);
 			statusCode = jsonObject.getInt("statusCode");
 			String serverAnswer = jsonObject.getString("answer");
-			int serverProjectId = jsonObject.optInt("projectId");
-			ProjectManager.getInstance().setServerProjectId(serverProjectId);
+
 			if (statusCode == 200) {
 				return serverAnswer;
 			} else {
