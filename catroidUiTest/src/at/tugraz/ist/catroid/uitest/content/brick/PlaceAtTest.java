@@ -34,6 +34,7 @@ import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.uitest.util.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -70,7 +71,7 @@ public class PlaceAtTest extends ActivityInstrumentationTestCase2<ScriptActivity
 	}
 
 	@Smoke
-	public void testPlaceAtBrick() {
+	public void testPlaceAtBrick() throws InterruptedException {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
 
@@ -98,16 +99,20 @@ public class PlaceAtTest extends ActivityInstrumentationTestCase2<ScriptActivity
 		solo.enterText(0, xPosition + "");
 		solo.clickOnButton(0);
 
+		Thread.sleep(300);
+		int actualXPosition = (Integer) Utils.getPrivateField("xPosition", placeAtBrick);
 		assertEquals("Text not updated", xPosition + "", solo.getEditText(0).getText().toString());
-		assertEquals("Value in Brick is not updated", xPosition, placeAtBrick.getXPosition());
+		assertEquals("Value in Brick is not updated", xPosition, actualXPosition);
 
 		solo.clickOnEditText(1);
 		solo.clearEditText(0);
 		solo.enterText(0, yPosition + "");
 		solo.clickOnButton(0);
 
+		Thread.sleep(300);
+		int actualYPosition = (Integer) Utils.getPrivateField("yPosition", placeAtBrick);
 		assertEquals("Text not updated", yPosition + "", solo.getEditText(1).getText().toString());
-		assertEquals("Value in Brick is not updated", yPosition, placeAtBrick.getYPosition());
+		assertEquals("Value in Brick is not updated", yPosition, actualYPosition);
 	}
 
 	private void createProject() {

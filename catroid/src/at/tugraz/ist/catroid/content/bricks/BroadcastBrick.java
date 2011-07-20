@@ -80,10 +80,6 @@ public class BroadcastBrick implements Brick {
 		return sprite;
 	}
 
-	public String getSelectedMessage() {
-		return selectedMessage;
-	}
-
 	public void setSelectedMessage(String message) {
 		selectedMessage = message;
 		projectManager.messageContainer.addMessage(selectedMessage);
