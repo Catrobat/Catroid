@@ -24,6 +24,7 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.actors.Image;
 
@@ -34,11 +35,11 @@ import com.badlogic.gdx.scenes.scene2d.actors.Image;
 public class CostumeA extends Image {
 	private Semaphore xyLock = new Semaphore(1);
 	private Semaphore setImageLock = new Semaphore(1);
-	private Sprite sprite;
+	private boolean imageChanged = false;
+	private String imagePath;
 
-	public CostumeA(Sprite sprite) {
+	public CostumeA() {
 		super(Utils.getUniqueName());
-		this.sprite = sprite;
 		this.x = 0;
 		this.y = 0;
 	}
@@ -55,6 +56,29 @@ public class CostumeA extends Image {
 		xyLock.release();
 	}
 
+	@Override
+	public void draw(SpriteBatch batch, float parentAlpha) {
+		checkImageChanged();
+		super.draw(batch, parentAlpha);
+	}
+
+	private void checkImageChanged() {
+		if (imageChanged) {
+			if (this.region != null && this.region.getTexture() != null) {
+				this.region.getTexture().dispose();
+			}
+			Texture tex = new Texture(Gdx.files.absolute(imagePath));
+			//			this.width = tex.getWidth();
+			//			this.height = tex.getHeight();
+			this.width = 256;
+			this.height = 256;
+			this.x = this.width / -2;
+			this.y = this.height / -2;
+			this.region = new TextureRegion(tex);
+			imageChanged = false;
+		}
+	}
+
 	public void setXY(float x, float y) {
 		xyLock.acquireUninterruptibly();
 		this.x = x;
@@ -64,8 +88,8 @@ public class CostumeA extends Image {
 
 	public void setImagePath(String path) {
 		setImageLock.acquireUninterruptibly();
-		Texture tex = new Texture(Gdx.files.absolute(path));
-		this.region = new TextureRegion(tex);
+		imageChanged = true;
+		imagePath = path;
 		System.out.println("++++++++++ Path: " + path);
 		setImageLock.release();
 	}
