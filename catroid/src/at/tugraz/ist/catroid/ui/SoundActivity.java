@@ -28,6 +28,7 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -208,6 +209,28 @@ public class SoundActivity extends ListActivity {
 				ImageView soundImage = (ImageView) convertView.findViewById(R.id.sound_img);
 				final TextView soundNameTextView = (TextView) convertView.findViewById(R.id.sound_name);
 				final Button renameSoundButton = (Button) convertView.findViewById(R.id.rename_button);
+				TextView soundFileSize = (TextView) convertView.findViewById(R.id.sound_size);
+				TextView soundDuration = (TextView) convertView.findViewById(R.id.sound_duration);
+
+				try {
+					MediaPlayer tempPlayer = new MediaPlayer();
+					tempPlayer.setDataSource(soundInfo.getAbsolutePath());
+					tempPlayer.prepare();
+					//setting size and duration TextViews:
+
+					long milliseconds = tempPlayer.getDuration();
+					int seconds = (int) ((milliseconds / 1000) % 60);
+					int minutes = (int) ((milliseconds / 1000) / 60);
+					int hours = (int) ((milliseconds / 1000) / 3600);
+					String secondsString = seconds < 10 ? "0" + Integer.toString(seconds) : Integer.toString(seconds);
+					String minutesString = minutes < 10 ? "0" + Integer.toString(minutes) : Integer.toString(minutes);
+					String hoursString = hours < 10 ? "0" + Integer.toString(hours) : Integer.toString(hours);
+
+					soundFileSize.setText(Long.toString(new File(soundInfo.getAbsolutePath()).length() / 1024) + " KB");
+					soundDuration.setText(hoursString + ":" + minutesString + ":" + secondsString);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 
 				soundNameTextView.setText(soundInfo.getTitle());
 
