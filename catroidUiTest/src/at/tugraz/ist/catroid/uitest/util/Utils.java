@@ -23,9 +23,11 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import junit.framework.Assert;
 import android.content.Context;
 import android.text.InputType;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -267,4 +269,17 @@ public class Utils {
 			UtilFile.deleteDirectory(directory);
 		}
 	}
+
+	public static Object getPrivateField(String fieldName, Object object) {
+
+		try {
+			Field field = object.getClass().getDeclaredField(fieldName);
+			field.setAccessible(true);
+			return field.get(object);
+		} catch (Exception e) {
+			Assert.fail(e.getClass().getName() + " when accessing " + fieldName);
+		}
+		return null;
+	}
+
 }
