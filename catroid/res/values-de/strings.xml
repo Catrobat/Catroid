@@ -196,6 +196,9 @@
     <string name="notification_invalid_name_entered">
     	Bitte einen Namen eingeben
     </string>
+    <string name="notification_screenshot_ok">
+        Screenshot erfolgreich gespeichert
+    </string>
 
     <!-- Error messages -->
     <string name="error_no_sd_card">
@@ -245,5 +248,4 @@
     <string name="upload_button">Hochladen</string>
     <string name="upload_project_dialog_title">Projekt hochladen</string>
     <string name="project_rename">(Das Projekt wird umbenannt.)</string>
-    <string name="screenshot_ok">Screenshot erfolgreich gespeichert</string>
 </resources>

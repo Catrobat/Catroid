@@ -27,7 +27,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
-import at.tugraz.ist.catroid.uitest.util.Utils;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -42,7 +42,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	public void setUp() throws Exception {
 		super.setUp();
 		solo = new Solo(getInstrumentation(), getActivity());
-		Utils.createEmptyProject();
+		UiTestUtils.createEmptyProject();
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		}
 
 		getActivity().finish();
-		Utils.clearAllUtilTestProjects();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -70,7 +70,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 			}
 		}
 		solo.sleep(50);
-		Utils.enterText(solo, 0, spriteName);
+		UiTestUtils.enterText(solo, 0, spriteName);
 
 		solo.clickOnButton(getActivity().getString(R.string.new_sprite_dialog_button));
 		solo.sleep(50);
@@ -130,7 +130,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.sleep(50);
 
 		solo.clearEditText(0);
-		Utils.enterText(solo, 0, newSpriteName);
+		UiTestUtils.enterText(solo, 0, newSpriteName);
 		solo.clickOnButton(getActivity().getString(R.string.rename_button));
 		solo.sleep(50);
 
@@ -156,6 +156,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	public void testMainMenuButton() {
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
+
 		List<ImageButton> btnList = solo.getCurrentImageButtons();
 		for (int i = 0; i < btnList.size(); i++) {
 			ImageButton btn = btnList.get(i);
@@ -163,12 +164,13 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 				solo.clickOnImageButton(i);
 			}
 		}
+
 		solo.sleep(50);
+
 		btnList = solo.getCurrentImageButtons();
 		boolean buttonFound = false;
-		for (int i = 0; i < btnList.size(); i++) {
-			ImageButton btn = btnList.get(i);
-			if (btn.getId() == R.id.btn_home) {
+		for (ImageButton button : btnList) {
+			if (button.getId() == R.id.btn_home) {
 				buttonFound = true;
 			}
 		}
@@ -186,7 +188,9 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.setActivityOrientation(Solo.PORTRAIT);
+
 		solo.sleep(500);
+
 		addNewSprite(spriteName);
 		solo.clickLongOnText(spriteName);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
