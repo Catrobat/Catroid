@@ -71,14 +71,14 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		init();
 	}
 
-	public void startWhenScripts(String act) {
+	public void startWhenScripts(String action) {
 		for (Script s : scriptList) {
 			if (s instanceof WhenScript) {
 				if (((WhenScript) s).getAction().equalsIgnoreCase(WhenScript.TOUCHINGSTOPS)) {
 					s.setPaused(true);
+					s.isFinished = true;
 				} else {
-					if (((WhenScript) s).getAction().equalsIgnoreCase(act)) {
-						s.setPaused(false);
+					if (((WhenScript) s).getAction().equalsIgnoreCase(action)) {
 						startScript(s);
 					}
 				}
@@ -163,7 +163,9 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 
 	public void finish() {
 		for (Script s : scriptList) {
+			s.setPaused(true);
 			s.setFinish(true);
+			s.isFinished = true;
 		}
 		this.isFinished = true;
 	}
@@ -221,9 +223,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	}
 
 	public synchronized void setVolume(double volume) {
-		if (volume < 0.0) {
-			throw new IllegalArgumentException("Sprite brightness must be greater than zero!");
-		}
+
 		this.volume = volume;
 		toDraw = true;
 	}
@@ -237,15 +237,16 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 
 	public synchronized void setBrightnessValue(double brightnessValue) {
 		this.brightnessValue = brightnessValue;
-		if (brightnessValue < 0.0) {
-			throw new IllegalArgumentException("Sprite brightness must be greater than zero!");
-		}
-		int brightness;
+		double brightness;
 
 		if (brightnessValue > 100) {
-			brightness = 150;
+			brightness = 170;
+		} else if (brightnessValue < 0 && brightnessValue > -100) {
+			brightness = brightnessValue - 70;
+		} else if (brightnessValue <= -100) {
+			brightness = -255;
 		} else {
-			brightness = (int) (brightnessValue + 50);
+			brightness = brightnessValue + 70;
 		}
 
 		costume.setBrightness(brightness);
@@ -253,24 +254,17 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	}
 
 	public synchronized void setGhostEffectValue(double ghostEffectValue) {
-		this.ghostEffectValue = ghostEffectValue;
+		this.ghostEffectValue = Math.abs(ghostEffectValue);
 		double calculation = 0;
 		int opacityValue = 0;
 
-		if (ghostEffectValue < 0.0) {
-			throw new IllegalArgumentException("Sprite ghost effect must be greater than zero!");
-		}
-		calculation = Math.floor(255 - (ghostEffectValue * 2.55));
+		calculation = Math.floor(255 - (this.ghostEffectValue * 2.55));
 		//		 calculation: a value between 0 (completely transparent) and 255 (completely opaque).
 		if (calculation > 0) {
 			if (calculation >= 12) {
-				if (calculation >= 64) {
-					opacityValue = (int) (calculation - (80 - ghostEffectValue));//Effect value from 0% to 75%
-				} else {
-					opacityValue = (int) calculation; // Effect value from 76% to 95%
-				}
+				opacityValue = (int) calculation; // Effect value from 0% to 95%
 			} else {
-				opacityValue = 11; // Effect value from 96% to 99%. Opacity Value more than 12 sprite would be untouchable.
+				opacityValue = 12; // Effect value from 96% to 99%. Opacity Value more than 12 sprite would be untouchable.
 			}
 		} else if (calculation <= 0) {
 			opacityValue = 0; //  Effect value 100%. Sprite untouchable.

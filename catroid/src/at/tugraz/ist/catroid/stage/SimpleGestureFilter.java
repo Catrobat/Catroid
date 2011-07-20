@@ -39,9 +39,9 @@ public class SimpleGestureFilter extends SimpleOnGestureListener {
 	public final static int MODE_DYNAMIC = 2;
 
 	private final static int ACTION_FAKE = -13; //just an unlikely number
-	private int swipe_Min_Distance = 100;
-	private int swipe_Max_Distance = 350;
-	private int swipe_Min_Velocity = 100;
+	private final static int SWIPE_MIN_DISTANCE = 100;
+	private final static int SWIPE_MAX_DISTANCE = 500;
+	private final static int SWIPE_MIN_VELOCITY = 100;
 
 	private int mode = MODE_DYNAMIC;
 	private boolean running = true;
@@ -95,37 +95,13 @@ public class SimpleGestureFilter extends SimpleOnGestureListener {
 		this.running = status;
 	}
 
-	public void setSwipeMaxDistance(int distance) {
-		this.swipe_Max_Distance = distance;
-	}
-
-	public void setSwipeMinDistance(int distance) {
-		this.swipe_Min_Distance = distance;
-	}
-
-	public void setSwipeMinVelocity(int distance) {
-		this.swipe_Min_Velocity = distance;
-	}
-
-	public int getSwipeMaxDistance() {
-		return this.swipe_Max_Distance;
-	}
-
-	public int getSwipeMinDistance() {
-		return this.swipe_Min_Distance;
-	}
-
-	public int getSwipeMinVelocity() {
-		return this.swipe_Min_Velocity;
-	}
-
 	@Override
-	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+	public boolean onFling(MotionEvent firstDownEvent, MotionEvent secondDownEvent, float velocityX, float velocityY) {
 
-		final float xDistance = Math.abs(e1.getX() - e2.getX());
-		final float yDistance = Math.abs(e1.getY() - e2.getY());
+		final float xDistance = Math.abs(firstDownEvent.getX() - secondDownEvent.getX());
+		final float yDistance = Math.abs(firstDownEvent.getY() - secondDownEvent.getY());
 
-		if (xDistance > this.swipe_Max_Distance || yDistance > this.swipe_Max_Distance) {
+		if (xDistance > SWIPE_MAX_DISTANCE || yDistance > SWIPE_MAX_DISTANCE) {
 			return false;
 		}
 
@@ -133,23 +109,23 @@ public class SimpleGestureFilter extends SimpleOnGestureListener {
 		velocityY = Math.abs(velocityY);
 		boolean result = false;
 
-		if (velocityX > this.swipe_Min_Velocity && xDistance > this.swipe_Min_Distance) {
-			if (e1.getX() > e2.getX()) {
+		if (velocityX > SWIPE_MIN_VELOCITY && xDistance > SWIPE_MIN_DISTANCE) {
+			if (firstDownEvent.getX() > secondDownEvent.getX()) {
 				this.listener.onSwipe(SWIPE_LEFT);
-				context.processOnTouch((int) e1.getX(), (int) e1.getY(), WhenScript.SWIPELEFT.toString());
+				context.processOnTouch((int) firstDownEvent.getX(), (int) firstDownEvent.getY(), WhenScript.SWIPELEFT);
 			} else {
 				this.listener.onSwipe(SWIPE_RIGHT);
-				context.processOnTouch((int) e1.getX(), (int) e1.getY(), WhenScript.SWIPERIGHT.toString());
+				context.processOnTouch((int) firstDownEvent.getX(), (int) firstDownEvent.getY(), WhenScript.SWIPERIGHT);
 			}
 
 			result = true;
-		} else if (velocityY > this.swipe_Min_Velocity && yDistance > this.swipe_Min_Distance) {
-			if (e1.getY() > e2.getY()) {
+		} else if (velocityY > SWIPE_MIN_VELOCITY && yDistance > SWIPE_MIN_DISTANCE) {
+			if (firstDownEvent.getY() > secondDownEvent.getY()) {
 				this.listener.onSwipe(SWIPE_UP);
-				context.processOnTouch((int) e1.getX(), (int) e1.getY(), WhenScript.SWIPEUP.toString());
+				context.processOnTouch((int) firstDownEvent.getX(), (int) firstDownEvent.getY(), WhenScript.SWIPEUP);
 			} else {
 				this.listener.onSwipe(SWIPE_DOWN);
-				context.processOnTouch((int) e1.getX(), (int) e1.getY(), WhenScript.SWIPEDOWN.toString());
+				context.processOnTouch((int) firstDownEvent.getX(), (int) firstDownEvent.getY(), WhenScript.SWIPEDOWN);
 			}
 
 			result = true;
@@ -159,15 +135,15 @@ public class SimpleGestureFilter extends SimpleOnGestureListener {
 	}
 
 	@Override
-	public boolean onSingleTapUp(MotionEvent e) {
+	public boolean onSingleTapUp(MotionEvent upEvent) {
 		this.tapIndicator = true;
 		return false;
 	}
 
 	@Override
-	public boolean onDoubleTap(MotionEvent arg0) {
+	public boolean onDoubleTap(MotionEvent doubleTap) {
 		this.listener.onDoubleTap();
-		context.processOnTouch((int) arg0.getX(), (int) arg0.getY(), WhenScript.DOUBLETAPPED.toString());
+		context.processOnTouch((int) doubleTap.getX(), (int) doubleTap.getY(), WhenScript.DOUBLETAPPED);
 		return true;
 	}
 
@@ -177,23 +153,22 @@ public class SimpleGestureFilter extends SimpleOnGestureListener {
 	}
 
 	@Override
-	public boolean onSingleTapConfirmed(MotionEvent arg0) {
+	public boolean onSingleTapConfirmed(MotionEvent singleTap) {
 		this.listener.onSingleTouch();
 		if (this.mode == MODE_DYNAMIC) { // we owe an ACTION_UP, so we fake an       
-			arg0.setAction(ACTION_FAKE); //action which will be converted to an ACTION_UP later.                                    
-			this.context.dispatchTouchEvent(arg0);
-			context.processOnTouch((int) arg0.getX(), (int) arg0.getY(), WhenScript.TAPPED.toString());
-			context.processOnTouch((int) arg0.getX(), (int) arg0.getY(), WhenScript.TOUCHINGSTOPS.toString());
-			context.processOnTouch((int) arg0.getX(), (int) arg0.getY(), WhenScript.TOUCHINGSTARTS.toString());
+			singleTap.setAction(ACTION_FAKE); //action which will be converted to an ACTION_UP later.                                    
+			this.context.dispatchTouchEvent(singleTap);
+			context.processOnTouch((int) singleTap.getX(), (int) singleTap.getY(), WhenScript.TAPPED);
+			context.processOnTouch((int) singleTap.getX(), (int) singleTap.getY(), WhenScript.TOUCHINGSTOPS);
 		}
 
 		return false;
 	}
 
 	@Override
-	public void onLongPress(MotionEvent e) {
+	public void onLongPress(MotionEvent longPress) {
 		this.listener.onLongPress();
-		context.processOnTouch((int) e.getX(), (int) e.getY(), WhenScript.LONGPRESSED.toString());
+		context.processOnTouch((int) longPress.getX(), (int) longPress.getY(), WhenScript.LONGPRESSED);
 	}
 
 	static interface SimpleGestureListener {

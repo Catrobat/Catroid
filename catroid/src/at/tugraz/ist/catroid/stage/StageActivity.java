@@ -19,7 +19,6 @@
 
 package at.tugraz.ist.catroid.stage;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -53,8 +52,7 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 	private SimpleGestureFilter detector;
 	private final static String TAG = StageActivity.class.getSimpleName();
 	private int MY_DATA_CHECK_CODE = 0;
-	public TextToSpeech tts;
-	private ArrayList<Locale> availableLocales = null;
+	public static TextToSpeech tts;
 	public String text;
 	public boolean flag = true;
 
@@ -89,12 +87,12 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 		return super.dispatchTouchEvent(e);
 	}
 
-	public void processOnTouch(int coordX, int coordY, String act) {
-		Log.v(TAG, "2 this is the function called!!!" + act);
+	public void processOnTouch(int coordX, int coordY, String action) {
+		Log.v(TAG, "2 this is the function called!!!" + action);
 		coordX = coordX + stage.getTop();
 		coordY = coordY + stage.getLeft();
 
-		stageManager.processOnTouch(coordX, coordY, act);
+		stageManager.processOnTouch(coordX, coordY, action);
 	}
 
 	@Override
@@ -181,24 +179,24 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 	}
 
 	public void onSwipe(int direction) {
-		String str = "";
+		String toastText = "";
 
 		switch (direction) {
 			case SimpleGestureFilter.SWIPE_RIGHT:
-				str = "Swipe Right";
+				toastText = "Swipe Right";
 				break;
 			case SimpleGestureFilter.SWIPE_LEFT:
-				str = "Swipe Left";
+				toastText = "Swipe Left";
 				break;
 			case SimpleGestureFilter.SWIPE_DOWN:
-				str = "Swipe Down";
+				toastText = "Swipe Down";
 				break;
 			case SimpleGestureFilter.SWIPE_UP:
-				str = "Swipe Up";
+				toastText = "Swipe Up";
 				break;
 
 		}
-		Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
+		Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show();
 	}
 
 	public void onDoubleTap() {
@@ -207,12 +205,10 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 
 	public void onSingleTouch() {
 		Toast.makeText(this, "Tapped", Toast.LENGTH_SHORT).show();
-
 	}
 
 	public void onLongPress() {
 		Toast.makeText(this, "Long Press", Toast.LENGTH_SHORT).show();
-
 	}
 
 	@Override
@@ -240,15 +236,16 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 		}
 	}
 
-	public void textToSpeech(String Text) {
-		HashMap<String, String> myHashAlarm = new HashMap();
-		myHashAlarm.put(TextToSpeech.Engine.KEY_PARAM_STREAM, String.valueOf(AudioManager.STREAM_ALARM));
-
-		int result = tts.setLanguage(Locale.ENGLISH);
+	public static void textToSpeech(String Text) {
+		HashMap<String, String> myHashAlarm = new HashMap<String, String>();
+		myHashAlarm.put(TextToSpeech.Engine.KEY_PARAM_STREAM, String.valueOf(AudioManager.STREAM_MUSIC));
+		tts.setSpeechRate(1);
+		tts.setPitch(1);
+		int result = tts.setLanguage(Locale.getDefault());
 		if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
 			Log.e(TAG, "Language is not available.");
 		} else {
-			tts.speak(text, TextToSpeech.QUEUE_FLUSH, myHashAlarm);
+			tts.speak(Text, TextToSpeech.QUEUE_FLUSH, myHashAlarm);
 		}
 	}
 }

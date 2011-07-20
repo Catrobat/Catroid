@@ -36,9 +36,9 @@ public class ChangeVolumeByBrick implements Brick, OnDismissListener {
 	private Sprite sprite;
 	private double volume;
 
-	public ChangeVolumeByBrick(Sprite sprite, double volume) {
+	public ChangeVolumeByBrick(Sprite sprite, double changeVolume) {
 		this.sprite = sprite;
-		this.volume = volume;
+		this.volume = changeVolume;
 	}
 
 	public void execute() {
