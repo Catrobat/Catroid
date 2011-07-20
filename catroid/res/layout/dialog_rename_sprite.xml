@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- The warning concerning the minSdkVersion can be ignored, as this is our intended behavior -->
 
 <!-- 
  *  Catroid: An on-device graphical programming language for Android devices
@@ -22,19 +23,37 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
+	android:layout_height="wrap_content"
 >
 	<EditText
-		android:id="@+id/rename_edit_text"
-		android:hint="@string/rename_hint"
+		android:id="@+id/dialog_rename_sprite_editText"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:gravity="left"
+		android:inputType="text"
 		android:maxLines="1"
-		android:inputType="text" />
+		android:singleLine="true"
+		android:selectAllOnFocus="true"
+	>
+	</EditText>
+		<LinearLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="horizontal"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
 	<Button
-		android:id="@+id/rename_button"
-		android:text="@string/rename_button"
+		android:id="@+id/dialog_rename_sprite_ok_button"
+		android:text="@string/ok"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_weight=".5" />
+		android:layout_weight=".5" 
+		android:onClick="handlePositiveButtonRenameSprite"/>
+	<Button
+		android:id="@+id/dialog_rename_sprite_cancel_button"
+		android:text="@string/cancel_button"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_weight=".5"
+		android:onClick="handleNegativeButtonRenameSprite" />
+	</LinearLayout>
 </LinearLayout>

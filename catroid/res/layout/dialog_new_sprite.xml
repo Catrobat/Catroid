@@ -23,34 +23,37 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:theme="@android:style/Theme.Light"
+	android:layout_height="wrap_content"
 >
 	<EditText
-		android:id="@+id/newSpriteNameEditText"
-		android:hint="@string/new_sprite_dialog_default_sprite_name"
+		android:id="@+id/dialog_new_sprite_editText"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:gravity="left"
 		android:inputType="text"
 		android:maxLines="1"
-	></EditText>
-	<LinearLayout
+		android:singleLine="true"
+		android:selectAllOnFocus="true"
+	>
+	</EditText>
+		<LinearLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		android:orientation="horizontal"
 		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
+	<Button
+		android:id="@+id/dialog_new_sprite_ok_button"
+		android:text="@string/ok"
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-	>
-		<Button
-			android:id="@+id/createNewSpriteButton"
-			android:text="@string/new_sprite_dialog_button"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_weight=".5" />
-		<Button
-			android:id="@+id/cancelDialogButton"
-			android:text="@string/cancel_button"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_weight=".5" />
+		android:layout_weight=".5" 
+		android:onClick="handlePositiveButtonNewSprite"/>
+	<Button
+		android:id="@+id/dialog_new_sprite_cancel_button"
+		android:text="@string/cancel_button"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_weight=".5"
+		android:onClick="handleNegativeButtonNewSprite" />
 	</LinearLayout>
 </LinearLayout>
