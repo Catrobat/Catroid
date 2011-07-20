@@ -94,7 +94,6 @@ public class ProjectActivity extends ListActivity {
 			public void onClick(int menuId) {
 				switch (menuId) {
 					case CONTEXT_MENU_ITEM_RENAME:
-						removeDialog(Consts.DIALOG_RENAME_SPRITE);
 						ProjectActivity.this.showDialog(Consts.DIALOG_RENAME_SPRITE);
 						break;
 					case CONTEXT_MENU_ITEM_DELETE:
@@ -183,23 +182,19 @@ public class ProjectActivity extends ListActivity {
 		if (!Utils.checkForSdCard(this)) {
 			return;
 		}
-		updateTextAndAdapter();
+		spriteAdapter.notifyDataSetChanged();
 	}
 
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
 		if (hasFocus) {
-			updateTextAndAdapter();
+			spriteAdapter.notifyDataSetChanged();
 		}
 	}
 
 	public Sprite getSpriteToEdit() {
 		return spriteToEdit;
-	}
-
-	private void updateTextAndAdapter() {
-		spriteAdapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -225,5 +220,15 @@ public class ProjectActivity extends ListActivity {
 
 	public void handleNegativeButtonNewSprite(View v) {
 		newSpriteDialog.newSpriteDialog.cancel();
+	}
+
+	//	public void handleProjectActivityItemClick(AdapterView<?> parent, View view, int position, long id) {
+	//		ProjectManager.getInstance().setCurrentSprite(spriteAdapter.getItem(position));
+	//		Intent intent = new Intent(ProjectActivity.this, ScriptTabActivity.class);
+	//		ProjectActivity.this.startActivity(intent);
+	//	}
+
+	public void handleProjectActivityItemLongClick(View view) {
+
 	}
 }
