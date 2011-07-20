@@ -80,7 +80,7 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 
 		//test will fail in 2.1 because index in 2.2 starts at 1 and at 0 in 2.1 
 		solo.pressSpinnerItem(0, 2);
-		Thread.sleep(300);
+		solo.sleep(300);
 		assertEquals("Wrong selection", "(-90) left", solo.getCurrentSpinners().get(0).getSelectedItem());
 	}
 
