@@ -57,6 +57,7 @@
 			<Button
 				android:id="@+id/construction_brick_sensor_bluetooth_button"
 				android:text="B"
+				android:background="#022c5e"
 				android:layout_height="45dip" 
 				android:layout_width="25dip"
 				android:layout_weight=".10" >
