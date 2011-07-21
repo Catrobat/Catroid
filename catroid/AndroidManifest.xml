@@ -37,7 +37,7 @@
 	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
 	
 	<application
-		android:icon="@drawable/ic_launcher_catroid_plain"
+		android:icon="@drawable/ic_launcher_catroid_fat"
 		android:label="@string/app_name"
 		android:debuggable="true"
 		android:theme="@android:style/Theme.Light.NoTitleBar">
@@ -81,6 +81,9 @@
 					android:scheme="http"
 					android:host="catroid.org"
 					android:pathPrefix="/catroid/download/" />
+				<data
+					android:scheme="http"
+					android:pathPattern=".*\\.catroid" />
 			</intent-filter>
 		</activity>
 		

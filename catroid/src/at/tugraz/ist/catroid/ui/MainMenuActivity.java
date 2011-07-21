@@ -24,8 +24,13 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
@@ -65,7 +70,6 @@ public class MainMenuActivity extends Activity {
 		if (projectManager.getCurrentProject() == null) {
 			Button currentProjectButton = (Button) findViewById(R.id.current_project_button);
 			currentProjectButton.setEnabled(false);
-
 		}
 	}
 
@@ -125,9 +129,6 @@ public class MainMenuActivity extends Activity {
 		if (projectManager.getCurrentProject() == null) {
 			return;
 		}
-		//		TextView currentProjectTextView = (TextView) findViewById(R.id.currentProjectNameTextView);
-		//		currentProjectTextView.setText(getString(R.string.current_project) + " "
-		//				+ projectManager.getCurrentProject().getName());
 
 		projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
 	}
@@ -138,9 +139,7 @@ public class MainMenuActivity extends Activity {
 		if (projectManager.getCurrentProject() == null) {
 			return;
 		}
-		//		TextView currentProjectTextView = (TextView) findViewById(R.id.currentProjectNameTextView);
-		//		currentProjectTextView.setText(getString(R.string.current_project) + " "
-		//				+ projectManager.getCurrentProject().getName());
+
 	}
 
 	@Override
@@ -176,8 +175,35 @@ public class MainMenuActivity extends Activity {
 		showDialog(Consts.DIALOG_UPLOAD_PROJECT);
 	}
 
+	public void handleSettingsButton(View v) {
+		LayoutInflater inflater = getLayoutInflater();
+		View layout = inflater.inflate(R.layout.toast_settings, (ViewGroup) findViewById(R.id.toast_layout_root));
+
+		TextView text = (TextView) layout.findViewById(R.id.text);
+		text.setText("Settings not yet implemented!");
+
+		Toast toast = new Toast(getApplicationContext());
+		toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+		toast.setDuration(Toast.LENGTH_LONG);
+		toast.setView(layout);
+		toast.show();
+	}
+
+	public void handleTutorialButton(View v) {
+		LayoutInflater inflater = getLayoutInflater();
+		View layout = inflater.inflate(R.layout.toast_tutorial, (ViewGroup) findViewById(R.id.toast_layout_root));
+
+		TextView text = (TextView) layout.findViewById(R.id.text);
+		text.setText("Tutorial not yet implemented!");
+
+		Toast toast = new Toast(getApplicationContext());
+		toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+		toast.setDuration(Toast.LENGTH_LONG);
+		toast.setView(layout);
+		toast.show();
+	}
+
 	public void handleAboutCatroidButton(View v) {
 		showDialog(Consts.DIALOG_ABOUT);
 	}
-
 }

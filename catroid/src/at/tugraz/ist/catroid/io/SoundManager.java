@@ -99,8 +99,6 @@ public class SoundManager {
 				mediaPlayer.pause();
 			} else {
 				mediaPlayer.reset();
-				//				mediaPlayers.remove(mediaPlayer);
-				//				mediaPlayer.release();
 			}
 		}
 	}

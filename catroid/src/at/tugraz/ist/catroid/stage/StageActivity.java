@@ -87,12 +87,11 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 		return super.dispatchTouchEvent(e);
 	}
 
-	public void processOnTouch(int coordX, int coordY, String action) {
-		Log.v(TAG, "2 this is the function called!!!" + action);
-		coordX = coordX + stage.getTop();
-		coordY = coordY + stage.getLeft();
+	public void processOnTouch(int xCoordinate, int yCoordinate, String action) {
+		xCoordinate = xCoordinate + stage.getTop();
+		yCoordinate = yCoordinate + stage.getLeft();
 
-		stageManager.processOnTouch(coordX, coordY, action);
+		stageManager.processOnTouch(xCoordinate, yCoordinate, action);
 	}
 
 	@Override
@@ -109,7 +108,7 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 				pauseOrContinue();
 				break;
 			case R.id.stagemenuConstructionSite:
-				manageLoadAndFinish(); //calls finish
+				manageLoadAndFinish();
 				break;
 		}
 		return true;

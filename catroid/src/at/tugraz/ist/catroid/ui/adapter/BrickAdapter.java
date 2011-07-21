@@ -152,30 +152,28 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 
 	public void remove(int which) {
 		ArrayList<Brick> brickList = sprite.getScript(getGroupCount() - 1).getBrickList();
-		Brick brick = brickList.get(which);
-		if (brick instanceof PlaySoundBrick) {
-			PlaySoundBrick toDelete = (PlaySoundBrick) brick;
+		Brick brickToRemove = brickList.get(which);
+		if (brickToRemove instanceof PlaySoundBrick) {
+			PlaySoundBrick toDelete = (PlaySoundBrick) brickToRemove;
 			String pathToSoundFile = toDelete.getPathToSoundFile();
 			if (pathToSoundFile != null) {
 				StorageHandler.getInstance().deleteFile(pathToSoundFile);
 			}
-
-		} else if (brick instanceof SetCostumeBrick) {
-			SetCostumeBrick toDelete = (SetCostumeBrick) brick;
+		} else if (brickToRemove instanceof SetCostumeBrick) {
+			SetCostumeBrick toDelete = (SetCostumeBrick) brickToRemove;
 			String imagePath = toDelete.getImagePath();
 			if (imagePath != null) {
 				StorageHandler.getInstance().deleteFile(imagePath);
 			}
-
-		} else if (brick instanceof LoopBeginBrick) {
-			LoopBeginBrick loopBeginBrick = (LoopBeginBrick) brick;
+		} else if (brickToRemove instanceof LoopBeginBrick) {
+			LoopBeginBrick loopBeginBrick = (LoopBeginBrick) brickToRemove;
 			brickList.remove(loopBeginBrick.getLoopEndBrick());
-		} else if (brick instanceof LoopEndBrick) {
-			LoopEndBrick loopEndBrick = (LoopEndBrick) brick;
+		} else if (brickToRemove instanceof LoopEndBrick) {
+			LoopEndBrick loopEndBrick = (LoopEndBrick) brickToRemove;
 			brickList.remove(loopEndBrick.getLoopBeginBrick());
 		}
 
-		brickList.remove(brick);
+		brickList.remove(brickToRemove);
 		notifyDataSetChanged();
 	}
 

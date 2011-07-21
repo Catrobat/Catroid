@@ -62,7 +62,7 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 
 	private void checkIfBrickIsPresent(int brickStringId) {
 
-		String brickText = solo.getCurrentActivity().getString(R.string.add_new_brick);
+		String brickText = solo.getCurrentActivity().getString(brickStringId);
 		assertTrue("Inserted brick " + brickText + " was not found.", solo.searchText(brickText));
 
 	}

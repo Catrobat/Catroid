@@ -49,7 +49,6 @@ public class DownloadActivity extends Activity {
 
 		new ProjectDownloadTask(this, zipUrl, projectName, Consts.TMP_PATH + "/down" + Consts.CATROID_EXTENTION)
 				.execute();
-
 	}
 
 	private String getProjectName(String zipUrl) {
@@ -59,5 +58,4 @@ public class DownloadActivity extends Activity {
 
 		return projectName;
 	}
-
 }

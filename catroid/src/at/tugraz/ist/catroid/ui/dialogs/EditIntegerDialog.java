@@ -89,5 +89,4 @@ public class EditIntegerDialog extends EditDialog implements OnClickListener {
 			}
 		}
 	}
-
 }

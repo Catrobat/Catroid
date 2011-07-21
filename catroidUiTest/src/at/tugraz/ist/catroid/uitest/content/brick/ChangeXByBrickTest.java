@@ -32,6 +32,7 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.uitest.util.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -83,8 +84,9 @@ public class ChangeXByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		solo.enterText(0, xToChange + "");
 		solo.clickOnButton(0);
 
-		solo.sleep(1000);
-		assertEquals("Wrong text in field.", xToChange, changeXByBrick.getXMovement());
+		solo.sleep(300);
+		int xMovementValue = (Integer) Utils.getPrivateField("xMovement", changeXByBrick);
+		assertEquals("Wrong text in field.", xToChange, xMovementValue);
 		assertEquals("Value in Brick is not updated.", xToChange + "", solo.getEditText(0).getText().toString());
 	}
 
