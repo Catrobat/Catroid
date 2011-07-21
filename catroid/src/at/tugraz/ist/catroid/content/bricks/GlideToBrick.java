@@ -46,6 +46,18 @@ public class GlideToBrick implements Brick, OnDismissListener {
 	}
 
 	public void execute() {
+		//		Action action = MoveBy.$(xDestination, yDestination, this.durationInMilliSeconds);
+		//		final CountDownLatch latch = new CountDownLatch(1);
+		//		action = action.setCompletionListener(new OnActionCompleted() {
+		//			public void completed(Action action) {
+		//				latch.countDown();
+		//			}
+		//		});
+		//		sprite.costume.addAction(action);
+		//		try {
+		//			latch.await();
+		//		} catch (InterruptedException e) {
+		//		}
 		long startTime = System.currentTimeMillis();
 		int duration = durationInMilliSeconds;
 		while (duration > 0) {
@@ -78,8 +90,8 @@ public class GlideToBrick implements Brick, OnDismissListener {
 	}
 
 	private void updatePositions(int timePassed, int duration) {
-		float xPosition = sprite.costume.x;
-		float yPosition = sprite.costume.y;
+		float xPosition = sprite.costume.getXPosition();
+		float yPosition = sprite.costume.getYPosition();
 
 		xPosition += ((float) timePassed / duration) * (xDestination - xPosition);
 		yPosition += ((float) timePassed / duration) * (yDestination - yPosition);
