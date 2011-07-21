@@ -169,13 +169,6 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return isVisible;
 	}
 
-	public synchronized void setXYPosition(int xPosition, int yPosition) {
-		this.xPosition = xPosition;
-		this.yPosition = yPosition;
-		//		costume.setDrawPosition();
-		toDraw = true;
-	}
-
 	public synchronized void setZPosition(int zPosition) {
 		this.zPosition = zPosition;
 		toDraw = true;
@@ -213,20 +206,6 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 
 		//	costume.setSizeTo(this.size);
 		toDraw = true;
-	}
-
-	public synchronized void show() {
-		isVisible = true;
-		toDraw = true;
-	}
-
-	public synchronized void hide() {
-		isVisible = false;
-		toDraw = true;
-	}
-
-	public synchronized Costume getCostume() {
-		return null;
 	}
 
 	public void addScript(Script script) {

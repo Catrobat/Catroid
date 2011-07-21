@@ -41,7 +41,6 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
-import at.tugraz.ist.catroid.content.Costume;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 
@@ -95,12 +94,12 @@ public class CanvasDraw implements IDraw {
 				if (!sprite.isVisible()) {
 					continue; //don't need to draw
 				}
-				if (sprite.getCostume().getBitmap() != null) {
-					Costume tempCostume = sprite.getCostume();
-					bufferCanvas.drawBitmap(tempCostume.getBitmap(), tempCostume.getDrawPositionX(),
-							tempCostume.getDrawPositionY(), null);
-					sprite.setToDraw(false);
-				}
+				//				if (sprite.getCostume().getBitmap() != null) {
+				//					Costume tempCostume = sprite.getCostume();
+				//					bufferCanvas.drawBitmap(tempCostume.getBitmap(), tempCostume.getDrawPositionX(),
+				//							tempCostume.getDrawPositionY(), null);
+				//					sprite.setToDraw(false);
+				//				}
 			}
 			bufferCanvas.drawBitmap(screenshotIcon, screenshotIconPosX, Consts.SCREENSHOT_ICON_PADDING_TOP, null);
 			canvas.drawBitmap(canvasBitmap, 0, 0, null);
