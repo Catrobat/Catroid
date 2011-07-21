@@ -142,7 +142,6 @@ public class AssertionErrorMessageTest extends TestCase {
 		notMatchingAsserts.add("assertTrue(/* Comment; evil */ value);");
 		notMatchingAsserts.add("assertEquals(a, b)");
 		notMatchingAsserts.add("fail();");
-		notMatchingAsserts.add("assertEquals(bar, baz(), 1e3, WRONG);");
 
 		for (String notMatchingAssert : notMatchingAsserts) {
 			assertFalse("Expression was matched even though it shouldn't: " + notMatchingAssert,

@@ -73,8 +73,10 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		GlideToBrick glideToBrick = (GlideToBrick) brickList.get(brickList.size() - 1);
 		assertEquals("Wrong duration input in Glide to brick", Math.round(duration * 1000),
 				glideToBrick.getDurationInMilliSeconds());
-		
-		assertEquals("Wrong x input in Glide to brick", xPosition, UiTestUtils.getPrivateField("xDestination", glideToBrick));
-		assertEquals("Wrong y input in Glide to brick", yPosition, UiTestUtils.getPrivateField("yDestination", glideToBrick));
+
+		assertEquals("Wrong x input in Glide to brick", xPosition,
+				UiTestUtils.getPrivateField("xDestination", glideToBrick));
+		assertEquals("Wrong y input in Glide to brick", yPosition,
+				UiTestUtils.getPrivateField("yDestination", glideToBrick));
 	}
 }
