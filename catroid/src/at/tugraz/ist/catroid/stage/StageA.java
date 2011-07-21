@@ -19,6 +19,10 @@
 package at.tugraz.ist.catroid.stage;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import at.tugraz.ist.catroid.ProjectManager;
+import at.tugraz.ist.catroid.R;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 
@@ -32,5 +36,35 @@ public class StageA extends AndroidApplication {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		initialize(new StageListener(), true);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		getMenuInflater().inflate(R.menu.stage_menu, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.stagemenuStart:
+				//pauseOrContinue();
+				break;
+			case R.id.stagemenuConstructionSite:
+				manageLoadAndFinish(); //calls finish
+				break;
+		}
+		return true;
+	}
+
+	private void manageLoadAndFinish() {
+		ProjectManager projectManager = ProjectManager.getInstance();
+		int currentSpritePos = projectManager.getCurrentSpritePosition();
+		int currentScriptPos = projectManager.getCurrentScriptPosition();
+		projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
+		projectManager.setCurrentSpriteWithPosition(currentSpritePos);
+		projectManager.setCurrentScriptWithPosition(currentScriptPos);
+		finish();
 	}
 }

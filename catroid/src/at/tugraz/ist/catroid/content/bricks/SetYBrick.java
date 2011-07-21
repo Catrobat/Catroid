@@ -41,7 +41,7 @@ public class SetYBrick implements Brick, OnDismissListener {
 	}
 
 	public void execute() {
-		sprite.setXYPosition(sprite.getXPosition(), yPosition);
+		sprite.costume.setYPosition(yPosition);
 	}
 
 	public Sprite getSprite() {
