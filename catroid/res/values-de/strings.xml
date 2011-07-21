@@ -154,7 +154,7 @@
     <string name="brick_set_costume">Setze Kostüm</string>
     <string name="brick_set_size_to">Setze Größe auf</string>
     <string name="brick_go_back">Gehe</string>
-    <string name="steps_label">Schritte nach hinten</string>
+    <string name="brick_go_back_layers">Ebenen nach hinten</string>
     <string name="brick_come_to_front">Komm nach vorne</string>
     <string name="brick_if_touched">Wenn berührt</string>
     <string name="brick_if_started">Wenn gestartet</string>
