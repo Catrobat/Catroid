@@ -31,6 +31,7 @@ import android.view.View.OnClickListener;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import at.abraxas.amarino.Amarino;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.DevicesDialog;
@@ -47,9 +48,6 @@ import at.tugraz.ist.catroid.ui.dialogs.SensorValueDigitalDialog;
  */
 public class SensorBrick implements Brick, OnDismissListener {
 
-	//TODO INVALIDATE THE SENSOR BRICK !!!!
-	// SO THAT CHANGES LIKE BUTTON CLICKS ARE REGISTERD PROPERLY!!!!!
-
 	private Sprite sprite;
 	private int type;
 	private int pin;
@@ -57,6 +55,8 @@ public class SensorBrick implements Brick, OnDismissListener {
 	private double time;
 	private final int DIGITAL = 1;
 	private final int ANALOG = 0;
+	private BluetoothAdapter bluetoothAdapter;
+	private Context context;
 
 	private DevicesDialog bluetoothDeviceDialog;
 	private String selectedAddress;
@@ -74,7 +74,29 @@ public class SensorBrick implements Brick, OnDismissListener {
 	}
 
 	public void execute() {
-		// TODO Auto-generated method stub
+
+		double[] arduinoPackage = new double[3];
+
+		arduinoPackage[0] = (this.pin);
+		arduinoPackage[1] = (this.value);
+		arduinoPackage[2] = (this.time);
+
+		for (int i = 0; i < arduinoPackage.length; i++) {
+			Log.d("Packet", Double.toString(arduinoPackage[i]));
+		}
+
+		bluetoothAdapter.getDefaultAdapter();
+
+		if (bluetoothAdapter.isEnabled() && bluetoothAdapter.getBondedDevices() != null) {
+			Amarino.connect(this.context, selectedAddress);
+			if (type == DIGITAL) {
+				Amarino.sendDataToArduino(this.context, selectedAddress, 'd', arduinoPackage);
+			} else if (type == ANALOG) {
+				Amarino.sendDataToArduino(this.context, selectedAddress, 'a', arduinoPackage);
+			}
+		}
+
+		Amarino.disconnect(this.context, selectedAddress);
 
 	}
 
@@ -102,6 +124,7 @@ public class SensorBrick implements Brick, OnDismissListener {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.construction_brick_sensor, null);
 
+		this.context = context;
 		Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
 		context.startActivity(enableBtIntent);
 
