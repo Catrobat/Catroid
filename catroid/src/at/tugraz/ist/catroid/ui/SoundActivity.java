@@ -29,6 +29,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -47,7 +48,6 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.dialogs.RenameSoundDialog;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
@@ -206,11 +206,17 @@ public class SoundActivity extends ListActivity {
 			final SoundInfo soundInfo = soundInfoItems.get(position);
 
 			if (soundInfo != null) {
-				ImageView soundImage = (ImageView) convertView.findViewById(R.id.sound_img);
+				final ImageView soundImage = (ImageView) convertView.findViewById(R.id.sound_img);
 				final TextView soundNameTextView = (TextView) convertView.findViewById(R.id.sound_name);
-				final Button renameSoundButton = (Button) convertView.findViewById(R.id.rename_button);
+				final ImageButton renameSoundButton = (ImageButton) convertView.findViewById(R.id.rename_button);
+				final ImageButton stopSoundButton = (ImageButton) convertView.findViewById(R.id.stop_button);
+				final ImageButton playSoundButton = (ImageButton) convertView.findViewById(R.id.play_button);
 				TextView soundFileSize = (TextView) convertView.findViewById(R.id.sound_size);
 				TextView soundDuration = (TextView) convertView.findViewById(R.id.sound_duration);
+
+				final MediaPlayer player = new MediaPlayer();
+
+				stopSoundButton.setVisibility(Button.GONE);
 
 				try {
 					MediaPlayer tempPlayer = new MediaPlayer();
@@ -242,24 +248,36 @@ public class SoundActivity extends ListActivity {
 					}
 				});
 
-				ImageButton playSound = (ImageButton) convertView.findViewById(R.id.play_button);
-				playSound.setOnClickListener(new View.OnClickListener() {
+				playSoundButton.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
-						SoundManager.getInstance().playSoundFile(soundInfo.getAbsolutePath());
+						try {
+							player.reset();
+							player.setDataSource(soundInfo.getAbsolutePath());
+							player.prepare();
+							player.start();
+							soundImage.setImageDrawable(activity.getResources().getDrawable(
+									R.drawable.speaker_sound_playing));
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						playSoundButton.setVisibility(Button.GONE);
+						stopSoundButton.setVisibility(Button.VISIBLE);
+						player.setOnCompletionListener(new OnCompletionListener() {
+							public void onCompletion(MediaPlayer mp) {
+								playSoundButton.setVisibility(Button.VISIBLE);
+								stopSoundButton.setVisibility(Button.GONE);
+								soundImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.speaker));
+							}
+						});
 					}
 				});
 
-				//play sound on speaker picture
-				soundImage.setOnClickListener(new OnClickListener() {
+				stopSoundButton.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
-						SoundManager.getInstance().playSoundFile(soundInfo.getAbsolutePath());
-					}
-				});
-
-				ImageButton stopSound = (ImageButton) convertView.findViewById(R.id.stop_button);
-				stopSound.setOnClickListener(new View.OnClickListener() {
-					public void onClick(View v) {
-						SoundManager.getInstance().stop();
+						player.stop();
+						soundImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.speaker));
+						playSoundButton.setVisibility(Button.VISIBLE);
+						stopSoundButton.setVisibility(Button.GONE);
 					}
 				});
 
