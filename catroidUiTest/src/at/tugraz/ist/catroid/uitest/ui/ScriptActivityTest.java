@@ -47,7 +47,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		UiTestUtils.createTestProject();
+		// UiTestUtils.createTestProject();
 		brickListToCheck = UiTestUtils.createTestProject();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
@@ -70,6 +70,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 			ImageButton btn = btnList.get(i);
 			if (btn.getId() == R.id.btn_action_home) {
 				solo.clickOnImageButton(i);
+				break;
 			}
 		}
 		assertTrue("Clicking on main menu button did not cause main menu to be displayed",
@@ -100,8 +101,8 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 		solo.drag(30, 30, yPosList.get(4), (yPosList.get(1) + yPosList.get(2)) / 2 + 30, 20);
 		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
 
-		assertEquals("Brick count not equal before and after dragging & dropping", brickListToCheck.size(),
-				brickList.size());
+		assertEquals("Brick count not equal before and after dragging & dropping", brickListToCheck.size(), brickList
+				.size());
 		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(0), brickList.get(0));
 		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(3), brickList.get(1));
 		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(1), brickList.get(2));

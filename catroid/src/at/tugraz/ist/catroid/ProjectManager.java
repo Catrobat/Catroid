@@ -38,8 +38,6 @@ public class ProjectManager {
 	private Project project;
 	private static ProjectManager instance;
 	private Script currentScript;
-	// used in uiTests
-	private int serverProjectId;
 
 	public FileChecksumContainer fileChecksumContainer;
 	public MessageContainer messageContainer;
@@ -198,14 +196,6 @@ public class ProjectManager {
 		boolean directoryRenamed = oldProjectDirectory.renameTo(newProjectDirectory);
 
 		return (directoryRenamed && fileRenamed);
-	}
-
-	public void setServerProjectId(int serverProjectId) {
-		this.serverProjectId = serverProjectId;
-	}
-
-	public int getServerProjectId() {
-		return serverProjectId;
 	}
 
 	public int getCurrentSpritePosition() {
