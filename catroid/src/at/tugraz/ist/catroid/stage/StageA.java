@@ -28,7 +28,7 @@ import at.tugraz.ist.catroid.io.SoundManager;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 
 /**
- * @author jib218
+ * @author Johannes Iber
  * 
  */
 public class StageA extends AndroidApplication {
@@ -77,11 +77,9 @@ public class StageA extends AndroidApplication {
 	private void pauseOrContinue() {
 		if (stagePlaying) {
 			stageListener.pause();
-			soundManager.pause();
 			stagePlaying = false;
 		} else {
 			stageListener.resume();
-			soundManager.resume();
 			stagePlaying = true;
 		}
 	}

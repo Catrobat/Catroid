@@ -22,6 +22,7 @@ import java.util.List;
 
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.io.SoundManager;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -37,7 +38,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 /**
- * @author jib218
+ * @author Johannes Iber
  * 
  */
 public class StageListener implements ApplicationListener {
@@ -92,6 +93,7 @@ public class StageListener implements ApplicationListener {
 
 	public void pause() {
 		paused = true;
+		SoundManager.getInstance().pause();
 		for (Sprite sprite : sprites) {
 			sprite.pause();
 		}
@@ -99,6 +101,7 @@ public class StageListener implements ApplicationListener {
 
 	public void resume() {
 		paused = false;
+		SoundManager.getInstance().resume();
 		for (Sprite sprite : sprites) {
 			sprite.resume();
 		}
