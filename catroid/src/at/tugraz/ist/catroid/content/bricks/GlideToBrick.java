@@ -73,18 +73,18 @@ public class GlideToBrick implements Brick, OnDismissListener {
 			startTime = currentTime;
 			sprite.setToDraw(true);
 		}
-		sprite.setXYPosition(xDestination, yDestination);
+		sprite.costume.setXYPosition(xDestination, yDestination);
 		sprite.setToDraw(true);
 	}
 
 	private void updatePositions(int timePassed, int duration) {
-		int xPosition = sprite.getXPosition();
-		int yPosition = sprite.getYPosition();
+		float xPosition = sprite.costume.x;
+		float yPosition = sprite.costume.y;
 
 		xPosition += ((float) timePassed / duration) * (xDestination - xPosition);
 		yPosition += ((float) timePassed / duration) * (yDestination - yPosition);
 
-		sprite.setXYPosition(xPosition, yPosition);
+		sprite.costume.setXYPosition(xPosition, yPosition);
 	}
 
 	public Sprite getSprite() {

@@ -51,7 +51,7 @@ public class ChangeXByBrick implements Brick, OnDismissListener {
 			xPosition += xMovement;
 		}
 
-		sprite.setXYPosition(xPosition, sprite.getYPosition());
+		sprite.costume.setXYPosition(xPosition, sprite.costume.y);
 	}
 
 	public Sprite getSprite() {

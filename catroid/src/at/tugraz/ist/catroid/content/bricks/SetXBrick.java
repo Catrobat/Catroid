@@ -42,7 +42,7 @@ public class SetXBrick implements Brick, OnDismissListener {
 
 	public void execute() {
 		//sprite.setXYPosition(xPosition, sprite.getYPosition());
-		sprite.costume.setXY(xPosition, 40);
+		sprite.costume.setXPosition(xPosition);
 	}
 
 	public Sprite getSprite() {

@@ -51,7 +51,7 @@ public class ChangeYByBrick implements Brick, OnDismissListener {
 			yPosition += yMovement;
 		}
 
-		sprite.setXYPosition(sprite.getXPosition(), yPosition);
+		sprite.costume.setXYPosition(sprite.costume.x, yPosition);
 	}
 
 	public Sprite getSprite() {

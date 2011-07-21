@@ -37,29 +37,21 @@ public class CostumeA extends Image {
 	private Semaphore setImageLock = new Semaphore(1);
 	private boolean imageChanged = false;
 	private String imagePath;
+	private Sprite sprite;
+	public float alphaValue;
 
-	public CostumeA() {
+	public CostumeA(Sprite sprite) {
 		super(Utils.getUniqueName());
 		this.x = 0;
 		this.y = 0;
-	}
-
-	public void setX(float x) {
-		xyLock.acquireUninterruptibly();
-		this.x = x;
-		xyLock.release();
-	}
-
-	public void setY(float y) {
-		xyLock.acquireUninterruptibly();
-		this.y = y;
-		xyLock.release();
+		this.sprite = sprite;
+		this.alphaValue = 1f;
 	}
 
 	@Override
 	public void draw(SpriteBatch batch, float parentAlpha) {
 		checkImageChanged();
-		super.draw(batch, parentAlpha);
+		super.draw(batch, this.alphaValue);
 	}
 
 	private void checkImageChanged() {
@@ -79,7 +71,19 @@ public class CostumeA extends Image {
 		}
 	}
 
-	public void setXY(float x, float y) {
+	public void setXPosition(float x) {
+		xyLock.acquireUninterruptibly();
+		this.x = x;
+		xyLock.release();
+	}
+
+	public void setYPosition(float y) {
+		xyLock.acquireUninterruptibly();
+		this.y = y;
+		xyLock.release();
+	}
+
+	public void setXYPosition(float x, float y) {
 		xyLock.acquireUninterruptibly();
 		this.x = x;
 		this.y = y;
@@ -90,7 +94,6 @@ public class CostumeA extends Image {
 		setImageLock.acquireUninterruptibly();
 		imageChanged = true;
 		imagePath = path;
-		System.out.println("++++++++++ Path: " + path);
 		setImageLock.release();
 	}
 }

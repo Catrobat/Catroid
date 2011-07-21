@@ -35,9 +35,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.Forever;
-import com.badlogic.gdx.scenes.scene2d.actions.MoveBy;
-import com.badlogic.gdx.scenes.scene2d.actions.Sequence;
 
 /**
  * @author jib218
@@ -52,10 +49,10 @@ public class StageListener implements ApplicationListener {
 	private OrthoCamController camController;
 	private InputMultiplexer multiplexer;
 
-	private final int VIRTUAL_WIDTH = 320;
-	private final int VIRTUAL_HEIGHT = 320;
+	private final int VIRTUAL_WIDTH = 480;
+	private final int VIRTUAL_HEIGHT = 800;
 	private int DEVICE_WIDTH = 480;
-	private int DEVICE_HEIGHT = 480;
+	private int DEVICE_HEIGHT = 800;
 
 	private ImmediateModeRenderer20 renderer;
 	private Matrix4 projModelView = new Matrix4();
@@ -73,7 +70,7 @@ public class StageListener implements ApplicationListener {
 		List<Sprite> sprites = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		for (Sprite sprite : sprites) {
 			stage.addActor(sprite.costume);
-			sprite.costume.action(Forever.$(Sequence.$(MoveBy.$(100, 100, 2), MoveBy.$(-100, -100, 2))));
+			//sprite.costume.action(Forever.$(Sequence.$(MoveBy.$(100, 100, 2), MoveBy.$(-100, -100, 2))));
 		}
 
 		multiplexer = new InputMultiplexer();
@@ -103,7 +100,7 @@ public class StageListener implements ApplicationListener {
 		Gdx.gl.glViewport(0, (int) (DEVICE_HEIGHT - DEVICE_HEIGHT * scale) / 2, DEVICE_WIDTH,
 				(int) (scale * DEVICE_HEIGHT));
 
-		renderRectangle(projModelView, -1, -1, 2, 2, Color.RED);
+		renderRectangle(projModelView, -1, -1, 2, 2, Color.WHITE);
 		renderAxis(camera.combined);
 
 		if (!paused) {
