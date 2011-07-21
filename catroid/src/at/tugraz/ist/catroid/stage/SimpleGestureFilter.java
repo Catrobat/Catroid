@@ -23,29 +23,15 @@ import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import at.tugraz.ist.catroid.content.WhenScript;
 
-/**
- * @author DENISE
- * 
- */
 public class SimpleGestureFilter extends SimpleOnGestureListener {
 
 	public final static int SWIPE_UP = 1;
 	public final static int SWIPE_DOWN = 2;
 	public final static int SWIPE_LEFT = 3;
 	public final static int SWIPE_RIGHT = 4;
-
-	public final static int MODE_TRANSPARENT = 0;
-	public final static int MODE_SOLID = 1;
-	public final static int MODE_DYNAMIC = 2;
-
-	private final static int ACTION_FAKE = -13; //just an unlikely number
 	private final static int SWIPE_MIN_DISTANCE = 100;
 	private final static int SWIPE_MAX_DISTANCE = 500;
 	private final static int SWIPE_MIN_VELOCITY = 100;
-
-	private int mode = MODE_DYNAMIC;
-	private boolean running = true;
-	private boolean tapIndicator = false;
 
 	private StageActivity context;
 	private GestureDetector detector;
@@ -60,39 +46,10 @@ public class SimpleGestureFilter extends SimpleOnGestureListener {
 
 	public void onTouchEvent(MotionEvent event) {
 
-		if (!this.running) {
-			return;
-		}
-
 		boolean result = this.detector.onTouchEvent(event);
-
-		if (this.mode == MODE_SOLID) {
+		if (result) {
 			event.setAction(MotionEvent.ACTION_CANCEL);
-		} else if (this.mode == MODE_DYNAMIC) {
-
-			if (event.getAction() == ACTION_FAKE) {
-				event.setAction(MotionEvent.ACTION_UP);
-			} else if (result) {
-				event.setAction(MotionEvent.ACTION_CANCEL);
-			} else if (this.tapIndicator) {
-				event.setAction(MotionEvent.ACTION_DOWN);
-				this.tapIndicator = false;
-			}
-
 		}
-		//else just do nothing, it's Transparent
-	}
-
-	public void setMode(int m) {
-		this.mode = m;
-	}
-
-	public int getMode() {
-		return this.mode;
-	}
-
-	public void setEnabled(boolean status) {
-		this.running = status;
 	}
 
 	@Override
@@ -136,8 +93,7 @@ public class SimpleGestureFilter extends SimpleOnGestureListener {
 
 	@Override
 	public boolean onSingleTapUp(MotionEvent upEvent) {
-		this.tapIndicator = true;
-		return false;
+		return true;
 	}
 
 	@Override
@@ -155,14 +111,9 @@ public class SimpleGestureFilter extends SimpleOnGestureListener {
 	@Override
 	public boolean onSingleTapConfirmed(MotionEvent singleTap) {
 		this.listener.onSingleTouch();
-		if (this.mode == MODE_DYNAMIC) { // we owe an ACTION_UP, so we fake an       
-			singleTap.setAction(ACTION_FAKE); //action which will be converted to an ACTION_UP later.                                    
-			this.context.dispatchTouchEvent(singleTap);
-			context.processOnTouch((int) singleTap.getX(), (int) singleTap.getY(), WhenScript.TAPPED);
-			context.processOnTouch((int) singleTap.getX(), (int) singleTap.getY(), WhenScript.TOUCHINGSTOPS);
-		}
-
-		return false;
+		context.processOnTouch((int) singleTap.getX(), (int) singleTap.getY(), WhenScript.TAPPED);
+		context.processOnTouch((int) singleTap.getX(), (int) singleTap.getY(), WhenScript.TOUCHINGSTOPS);
+		return true;
 	}
 
 	@Override

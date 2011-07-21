@@ -52,15 +52,11 @@ public class NoteBrick implements Brick {
 		return this.sprite;
 	}
 
-	public String getNote() {
-		return this.note;
-	}
-
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View brickView = inflater.inflate(R.layout.construction_brick_note, null);
 
-		EditText editText = (EditText) brickView.findViewById(R.id.edit_text_note);
+		EditText editText = (EditText) brickView.findViewById(R.id.construction_brick_note_edit_text);
 		editText.setText(note);
 		editText.setMaxLines(MAXLINES);
 		editText.setOnClickListener(new OnClickListener() {
@@ -83,7 +79,6 @@ public class NoteBrick implements Brick {
 						});
 
 				dialog.show();
-
 			}
 		});
 

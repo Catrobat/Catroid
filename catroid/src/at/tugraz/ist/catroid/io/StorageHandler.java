@@ -30,12 +30,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -85,7 +85,6 @@ public class StorageHandler {
 	private XStream xstream;
 
 	private StorageHandler() throws IOException {
-		String state = Environment.getExternalStorageState();
 		xstream = new XStream();
 		xstream.alias("project", Project.class);
 		xstream.alias("sprite", Sprite.class);
@@ -116,15 +115,13 @@ public class StorageHandler {
 		xstream.alias("broadcastBrick", BroadcastBrick.class);
 		xstream.alias("whenBrick", WhenBrick.class);
 
-		if (!Environment.MEDIA_MOUNTED.equals(state)) {
+		if (!Utils.hasSdCard()) {
 			throw new IOException("Could not read external storage");
 		}
 		createCatroidRoot();
-
 	}
 
 	private void createCatroidRoot() {
-		// We can read and write the media
 		File catroidRoot = new File(Consts.DEFAULT_ROOT);
 		if (!catroidRoot.exists()) {
 			catroidRoot.mkdirs();
@@ -191,12 +188,12 @@ public class StorageHandler {
 				noMediaFile.createNewFile();
 			}
 
-			BufferedWriter out = new BufferedWriter(new FileWriter(projectDirectoryName + "/" + project.getName()
+			BufferedWriter writer = new BufferedWriter(new FileWriter(projectDirectoryName + "/" + project.getName()
 					+ Consts.PROJECT_EXTENTION), Consts.BUFFER_8K);
 
-			out.write(XML_HEADER.concat(projectFile));
-			out.flush();
-			out.close();
+			writer.write(XML_HEADER.concat(projectFile));
+			writer.flush();
+			writer.close();
 
 			return true;
 		} catch (Exception e) {
@@ -247,7 +244,7 @@ public class StorageHandler {
 	}
 
 	public ArrayList<SoundInfo> getSoundContent() {
-		java.util.Collections.sort(soundContent);
+		Collections.sort(soundContent);
 		return soundContent;
 	}
 
@@ -392,11 +389,11 @@ public class StorageHandler {
 		ProjectManager.getInstance().setProject(defaultProject);
 		Sprite sprite = new Sprite("Catroid");
 		Sprite backgroundSprite = defaultProject.getSpriteList().get(0);
-		//scripts:
+
 		Script backgroundStartScript = new StartScript("stageStartScript", backgroundSprite);
 		Script startScript = new StartScript("startScript", sprite);
 		Script touchScript = new TapScript("touchScript", sprite);
-		//bricks:
+
 		File normalCat = savePictureFromResInProject(projectName, Consts.NORMAL_CAT, R.drawable.catroid, context);
 		File banzaiCat = savePictureFromResInProject(projectName, Consts.BANZAI_CAT, R.drawable.catroid_banzai, context);
 		File cheshireCat = savePictureFromResInProject(projectName, Consts.CHESHIRE_CAT, R.drawable.catroid_cheshire,
@@ -431,17 +428,17 @@ public class StorageHandler {
 		touchScript.addBrick(setCostumeBrick1);
 		backgroundStartScript.addBrick(setCostumeBackground);
 
-		//merging:
 		defaultProject.addSprite(sprite);
 		sprite.addScript(startScript);
 		sprite.addScript(touchScript);
 		backgroundSprite.addScript(backgroundStartScript);
-		//ProjectManager.getInstance().setProject(defaultProject);
+
 		this.saveProject(defaultProject);
+
 		return defaultProject;
 	}
 
-	private File savePictureFromResInProject(String project, String name, int fileID, Context context)
+	private File savePictureFromResInProject(String project, String name, int fileId, Context context)
 			throws IOException {
 
 		final String imagePath = Consts.DEFAULT_ROOT + "/" + project + Consts.IMAGE_DIRECTORY + "/" + name;
@@ -449,7 +446,7 @@ public class StorageHandler {
 		if (!testImage.exists()) {
 			testImage.createNewFile();
 		}
-		InputStream in = context.getResources().openRawResource(fileID);
+		InputStream in = context.getResources().openRawResource(fileId);
 		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), Consts.BUFFER_8K);
 		byte[] buffer = new byte[Consts.BUFFER_8K];
 		int length = 0;

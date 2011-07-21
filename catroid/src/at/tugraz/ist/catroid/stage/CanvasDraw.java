@@ -60,7 +60,7 @@ public class CanvasDraw implements IDraw {
 	private boolean firstRun;
 	private Rect flushRectangle;
 	private Bitmap screenshotIcon;
-	private int screenshotIconPosX;
+	private int screenshotIconXPosition;
 	private Activity activity;
 	ArrayList<Sprite> sprites;
 
@@ -77,7 +77,8 @@ public class CanvasDraw implements IDraw {
 		bufferCanvas = new Canvas(canvasBitmap);
 		flushRectangle = new Rect(0, 0, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
 		screenshotIcon = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_screenshot);
-		screenshotIconPosX = Values.SCREEN_WIDTH - screenshotIcon.getWidth() - Consts.SCREENSHOT_ICON_PADDING_RIGHT;
+		screenshotIconXPosition = Values.SCREEN_WIDTH - screenshotIcon.getWidth()
+				- Consts.SCREENSHOT_ICON_PADDING_RIGHT;
 		sprites = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
 	}
 
@@ -102,7 +103,7 @@ public class CanvasDraw implements IDraw {
 					sprite.setToDraw(false);
 				}
 			}
-			bufferCanvas.drawBitmap(screenshotIcon, screenshotIconPosX, Consts.SCREENSHOT_ICON_PADDING_TOP, null);
+			bufferCanvas.drawBitmap(screenshotIcon, screenshotIconXPosition, Consts.SCREENSHOT_ICON_PADDING_TOP, null);
 			canvas.drawBitmap(canvasBitmap, 0, 0, null);
 			holder.unlockCanvasAndPost(canvas);
 
@@ -126,31 +127,29 @@ public class CanvasDraw implements IDraw {
 			canvas.drawRect(new Rect(0, 0, canvas.getWidth(), canvas.getHeight()), greyPaint);
 			if (pauseBitmap != null) {
 				Bitmap scaledPauseBitmap = ImageEditing.scaleBitmap(pauseBitmap,
-						(canvas.getWidth() / 2f) / pauseBitmap.getWidth(), false);
+						(canvas.getWidth() / 2f) / pauseBitmap.getWidth());
 				int posX = canvas.getWidth() / 2 - scaledPauseBitmap.getWidth() / 2;
 				int posY = canvas.getHeight() / 2 - scaledPauseBitmap.getHeight() / 2;
 				canvas.drawBitmap(scaledPauseBitmap, posX, posY, null);
 			}
 		}
 		holder.unlockCanvasAndPost(canvas);
-
 	}
 
-	public void processOnTouch(int coordX, int coordY) {
-		CharSequence text;
-		if (coordX >= screenshotIconPosX && coordY <= Consts.SCREENSHOT_ICON_PADDING_TOP + screenshotIcon.getHeight()) {
-			Vibrator vibr = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
-			vibr.vibrate(100);
+	public void processOnTouch(int xCoordinate, int yCoordinate) {
+		String toastText;
+		if (xCoordinate >= screenshotIconXPosition
+				&& yCoordinate <= Consts.SCREENSHOT_ICON_PADDING_TOP + screenshotIcon.getHeight()) {
+			Vibrator vibrator = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
+			vibrator.vibrate(100);
 			if (saveThumbnail(true)) {
-				text = activity.getString(R.string.screenshot_ok);
+				toastText = activity.getString(R.string.screenshot_ok);
 			} else {
-				text = activity.getString(R.string.error_screenshot_failed);
+				toastText = activity.getString(R.string.error_screenshot_failed);
 			}
 
-			Toast toast = Toast.makeText(activity, text, Toast.LENGTH_SHORT);
-			toast.show();
+			Toast.makeText(activity, toastText, Toast.LENGTH_SHORT).show();
 		}
-
 	}
 
 	public boolean saveThumbnail(boolean overwrite) {
@@ -174,8 +173,6 @@ public class CanvasDraw implements IDraw {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
-
 		}
 	}
-
 }

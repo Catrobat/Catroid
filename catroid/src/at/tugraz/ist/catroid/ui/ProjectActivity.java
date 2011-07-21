@@ -82,11 +82,11 @@ public class ProjectActivity extends ListActivity {
 	}
 
 	private void initCustomContextMenu() {
-		Resources res = getResources();
+		Resources resources = getResources();
 		iconContextMenu = new CustomIconContextMenu(this, Consts.DIALOG_CONTEXT_MENU);
-		iconContextMenu.addItem(res, this.getString(R.string.rename), R.drawable.ic_context_rename,
+		iconContextMenu.addItem(resources, this.getString(R.string.rename), R.drawable.ic_context_rename,
 				CONTEXT_MENU_ITEM_RENAME);
-		iconContextMenu.addItem(res, this.getString(R.string.delete), R.drawable.ic_context_delete,
+		iconContextMenu.addItem(resources, this.getString(R.string.delete), R.drawable.ic_context_delete,
 				CONTEXT_MENU_ITEM_DELETE);
 
 		iconContextMenu.setOnClickListener(new CustomIconContextMenu.IconContextMenuOnClickListener() {

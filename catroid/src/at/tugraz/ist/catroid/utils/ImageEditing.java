@@ -41,29 +41,29 @@ public class ImageEditing {
 	 *            desired x size
 	 * @param ySize
 	 *            desired y size
-	 * @param recycleOldBm
-	 *            if true, the assigned bitmap at parameter bm will be recycled
-	 *            after scaling
 	 * @return a new, scaled bitmap
 	 */
-	public static Bitmap scaleBitmap(Bitmap bitmap, int xSize, int ySize, boolean recycleOldBm) {
+	public static Bitmap scaleBitmap(Bitmap bitmap, int xSize, int ySize) {
 		Matrix matrix = new Matrix();
 		float scaleWidth = (((float) xSize) / bitmap.getWidth());
 		float scaleHeight = (((float) ySize) / bitmap.getHeight());
 		matrix.postScale(scaleWidth, scaleHeight);
 		Bitmap newBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-		//		if (recycleOldBm)
-		//			bm.recycle();
 		return newBitmap;
 	}
 
-	public static Bitmap scaleBitmap(Bitmap bitmap, int xSize, int ySize) {
-		return ImageEditing.scaleBitmap(bitmap, xSize, ySize, false);
+	public static Bitmap scaleBitmap(Bitmap bitmap, double scalingFactor) {
+		return scaleBitmap(bitmap, (int) Math.round(bitmap.getWidth() * scalingFactor),
+				(int) Math.round(bitmap.getHeight() * scalingFactor));
 	}
 
-	public static Bitmap scaleBitmap(Bitmap bitmap, double scalingFactor, boolean recycleOldBm) {
-		return scaleBitmap(bitmap, (int) Math.round(bitmap.getWidth() * scalingFactor),
-				(int) Math.round(bitmap.getHeight() * scalingFactor), recycleOldBm);
+	public static Bitmap rotateBitmap(Bitmap bitmap, float rotation) {
+		Matrix matrix = new Matrix();
+		matrix.postRotate(rotation);
+
+		Bitmap newBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+
+		return newBitmap;
 	}
 
 	public static Bitmap getScaledBitmap(String imagePath, int outWidth, int outHeight) {
@@ -71,11 +71,11 @@ public class ImageEditing {
 			return null;
 		}
 
-		int[] imageDim = new int[2];
-		imageDim = getImageDimensions(imagePath);
+		int[] imageDimensions = new int[2];
+		imageDimensions = getImageDimensions(imagePath);
 
-		int origWidth = imageDim[0];
-		int origHeight = imageDim[1];
+		int origWidth = imageDimensions[0];
+		int origHeight = imageDimensions[1];
 
 		double sampleSizeWidth = (origWidth / (double) outWidth);
 		double sampleSizeHeight = origHeight / (double) outHeight;
@@ -85,23 +85,23 @@ public class ImageEditing {
 		int newHeight = (int) Math.ceil(origHeight / sampleSize);
 		int newWidth = (int) Math.ceil(origWidth / sampleSize);
 
-		BitmapFactory.Options o = new BitmapFactory.Options();
-		o.inSampleSize = sampleSizeRounded;
+		BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+		bitmapOptions.inSampleSize = sampleSizeRounded;
 
-		Bitmap tmpBitmap = BitmapFactory.decodeFile(imagePath, o);
-		return scaleBitmap(tmpBitmap, newWidth, newHeight, true);
+		Bitmap tempBitmap = BitmapFactory.decodeFile(imagePath, bitmapOptions);
+		return scaleBitmap(tempBitmap, newWidth, newHeight);
 	}
 
 	public static Bitmap getBitmap(String imagePath, int maxOutWidth, int maxOutHeight) {
 		if (imagePath == null) {
 			return null;
 		}
-		int[] imageDim = new int[2];
+		int[] imageDimensions = new int[2];
 
-		imageDim = getImageDimensions(imagePath);
+		imageDimensions = getImageDimensions(imagePath);
 
-		double sampleSizeWidth = (imageDim[0] / (double) maxOutWidth);
-		double sampleSizeHeight = imageDim[1] / (double) maxOutHeight;
+		double sampleSizeWidth = (imageDimensions[0] / (double) maxOutWidth);
+		double sampleSizeHeight = imageDimensions[1] / (double) maxOutHeight;
 		double sampleSize = Math.max(sampleSizeWidth, sampleSizeHeight);
 
 		if (sampleSize < 1) {
@@ -110,27 +110,27 @@ public class ImageEditing {
 
 		int sampleSizeRounded = (int) Math.floor(sampleSize);
 
-		int newHeight = (int) Math.ceil(imageDim[1] / sampleSize);
-		int newWidth = (int) Math.ceil(imageDim[0] / sampleSize);
+		int newHeight = (int) Math.ceil(imageDimensions[1] / sampleSize);
+		int newWidth = (int) Math.ceil(imageDimensions[0] / sampleSize);
 
-		BitmapFactory.Options o = new BitmapFactory.Options();
-		o.inSampleSize = sampleSizeRounded;
+		BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+		bitmapOptions.inSampleSize = sampleSizeRounded;
 
-		Bitmap tmpBitmap = BitmapFactory.decodeFile(imagePath, o);
-		return scaleBitmap(tmpBitmap, newWidth, newHeight, true);
+		Bitmap tmpBitmap = BitmapFactory.decodeFile(imagePath, bitmapOptions);
+		return scaleBitmap(tmpBitmap, newWidth, newHeight);
 	}
 
 	public static int[] getImageDimensions(String imagePath) {
-		int[] imageDim = new int[2];
+		int[] imageDimensions = new int[2];
 
 		BitmapFactory.Options o = new BitmapFactory.Options();
 		o.inJustDecodeBounds = true;
 		BitmapFactory.decodeFile(imagePath, o);
 
-		imageDim[0] = o.outWidth;
-		imageDim[1] = o.outHeight;
+		imageDimensions[0] = o.outWidth;
+		imageDimensions[1] = o.outHeight;
 
-		return imageDim;
+		return imageDimensions;
 	}
 
 	public static Bitmap adjustOpacity(Bitmap bitmap, int opacity) {

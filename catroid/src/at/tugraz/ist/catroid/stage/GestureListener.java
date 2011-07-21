@@ -52,6 +52,9 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener {
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
 		Log.v(TAG, "onScroll" + e1.toString() + " distanceX="
 				+ Float.toString(distanceX) + " distanceY=" + Float.toString(distanceY));
+		Log.d(TAG,
+				"onScroll" + e1.toString() + " distanceX=" + Float.toString(distanceX) + " distanceY="
+						+ Float.toString(distanceY));
 		return true;
 	}
 
