@@ -120,9 +120,7 @@ public class SetCostumeBrick implements Brick {
 	@Override
 	public Brick clone() {
 		SetCostumeBrick clonedBrick = new SetCostumeBrick(getSprite());
-		if (sprite.getCostume() != null) {
-			clonedBrick.setCostume(null);
-		}
+		clonedBrick.setCostume(null);
 
 		return clonedBrick;
 	}

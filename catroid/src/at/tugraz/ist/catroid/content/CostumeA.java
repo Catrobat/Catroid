@@ -29,7 +29,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.actors.Image;
 
 /**
- * @author jib218
+ * @author Johannes Iber
  * 
  */
 public class CostumeA extends Image {
@@ -42,10 +42,12 @@ public class CostumeA extends Image {
 
 	public CostumeA(Sprite sprite) {
 		super(Utils.getUniqueName());
+		this.sprite = sprite;
 		this.x = 0;
 		this.y = 0;
-		this.sprite = sprite;
 		this.alphaValue = 1f;
+		this.width = 0f;
+		this.height = 0f;
 	}
 
 	@Override
@@ -60,40 +62,53 @@ public class CostumeA extends Image {
 				this.region.getTexture().dispose();
 			}
 			Texture tex = new Texture(Gdx.files.absolute(imagePath));
-			//			this.width = tex.getWidth();
-			//			this.height = tex.getHeight();
-			this.width = 256;
-			this.height = 256;
-			this.x = this.width / -2;
-			this.y = this.height / -2;
+			this.x += this.width / 2;
+			this.y += this.height / 2;
+			this.width = tex.getWidth();
+			this.height = tex.getHeight();
 			this.region = new TextureRegion(tex);
+			this.x -= this.width / 2;
+			this.y -= this.height / 2;
 			imageChanged = false;
 		}
 	}
 
 	public void setXPosition(float x) {
 		xyLock.acquireUninterruptibly();
-		this.x = x;
+		if (this.region != null && this.region.getTexture() != null) {
+			this.x = x - this.width / 2;
+		} else {
+			this.x = x;
+		}
 		xyLock.release();
 	}
 
 	public void setYPosition(float y) {
 		xyLock.acquireUninterruptibly();
-		this.y = y;
+		if (this.region != null && this.region.getTexture() != null) {
+			this.y = y - this.height / 2;
+		} else {
+			this.y = y;
+		}
 		xyLock.release();
 	}
 
 	public void setXYPosition(float x, float y) {
 		xyLock.acquireUninterruptibly();
-		this.x = x;
-		this.y = y;
+		if (this.region != null && this.region.getTexture() != null) {
+			this.x = x - this.width / 2;
+			this.y = y - this.height / 2;
+		} else {
+			this.x = x;
+			this.y = y;
+		}
 		xyLock.release();
 	}
 
 	public void setImagePath(String path) {
 		setImageLock.acquireUninterruptibly();
-		imageChanged = true;
 		imagePath = path;
+		imageChanged = true;
 		setImageLock.release();
 	}
 }
