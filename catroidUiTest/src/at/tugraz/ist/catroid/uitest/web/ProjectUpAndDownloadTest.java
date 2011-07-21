@@ -22,23 +22,23 @@ package at.tugraz.ist.catroid.uitest.web;
 import java.io.File;
 import java.util.List;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
-import android.util.Log;
 import android.widget.ImageButton;
-import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
-import at.tugraz.ist.catroid.transfers.ProjectUploadTask;
 import at.tugraz.ist.catroid.ui.DownloadActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.uitest.util.Utils;
 import at.tugraz.ist.catroid.utils.UtilFile;
+import at.tugraz.ist.catroid.web.ServerCalls;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -46,24 +46,8 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	private Solo solo;
 	private String testProject = Utils.PROJECTNAME1;
 	private String newTestProject = Utils.PROJECTNAME2;
-
-	private class MockProjectUploadTask extends ProjectUploadTask {
-
-		public MockProjectUploadTask(Context context, String projectName, String projectDescription,
-				String projectPath, String token) {
-			super(context, projectName, projectDescription, projectPath, token);
-		}
-
-		public String getResultString() {
-			return resultString;
-		}
-
-		@Override
-		protected void onPostExecute(Boolean result) {
-			// nothing to be done
-
-		}
-	}
+	private String saveToken;
+	private int serverProjectId;
 
 	public ProjectUpAndDownloadTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -74,10 +58,14 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	@UiThreadTest
 	public void setUp() throws Exception {
 		solo = new Solo(getInstrumentation(), getActivity());
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		saveToken = prefs.getString(Consts.TOKEN, "0");
 	}
 
 	@Override
 	public void tearDown() throws Exception {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		prefs.edit().putString(Consts.TOKEN, saveToken).commit();
 		try {
 			solo.finalize();
 		} catch (Throwable e) {
@@ -91,10 +79,9 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	private void startProjectUploadTask() throws Throwable {
 		runTestOnUiThread(new Runnable() {
 			public void run() {
-				ProjectUploadTask.useTestUrl = true;
+				ServerCalls.useTestUrl = true;
 			}
 		});
-
 	}
 
 	public void testUploadProjectSuccess() throws Throwable {
@@ -102,33 +89,32 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		createTestProject();
 		addABrickToProject();
-		uploadProject();
+
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		prefs.edit().putString(Consts.TOKEN, "0").commit();
+
+		uploadProject(true);
 
 		Utils.clearAllUtilTestProjects();
 
 		downloadProject();
 	}
 
-	public void testUploadProjectFailure() throws Throwable {
+	public void testUploadProjectWithWrongToken() throws Throwable {
+		Utils.clearAllUtilTestProjects();
 		startProjectUploadTask();
 
 		createTestProject();
 		addABrickToProject();
 
-		File projectPath = new File(Consts.DEFAULT_ROOT + "/" + testProject);
-		String invalidToken = "foobar";
-		assertTrue("Could not read project from path: " + projectPath.getAbsolutePath(), projectPath.exists()
-				&& projectPath.canRead());
-		MockProjectUploadTask mockProjectUploadTask = new MockProjectUploadTask(getActivity(), testProject, "foo",
-				projectPath.getAbsolutePath(), invalidToken);
-		mockProjectUploadTask.execute();
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		prefs.edit().putString(Consts.TOKEN, "wrong_token").commit();
 
-		solo.sleep(5000);
-		String resultString = mockProjectUploadTask.getResultString();
+		uploadProject(false);
 
+		String resultString = (String) Utils.getPrivateField("resultString", ServerCalls.getInstance());
 		JSONObject jsonObject = new JSONObject(resultString);
 		int statusCode = jsonObject.getInt("statusCode");
-		Log.v("ProjectUpAndDownloadTest", "Received status code: " + statusCode);
 
 		assertEquals("Received wrong result status code", 601, statusCode);
 
@@ -169,7 +155,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		}
 	}
 
-	private void uploadProject() {
+	private void uploadProject(boolean expect_success) {
 		solo.clickOnText(getActivity().getString(R.string.upload_project));
 		solo.sleep(500);
 
@@ -185,14 +171,26 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		solo.clickOnButton(getActivity().getString(R.string.upload_button));
 
-		solo.waitForDialogToClose(10000);
-		assertTrue("Upload failed. Internet connection?",
-				solo.searchText(getActivity().getString(R.string.success_project_upload)));
-		solo.clickOnButton(0);
+		try {
+			solo.waitForDialogToClose(10000);
+			if (expect_success) {
+				assertTrue("Upload failed. Internet connection?", solo.searchText(getActivity().getString(
+						R.string.success_project_upload)));
+				String resultString = (String) Utils.getPrivateField("resultString", ServerCalls.getInstance());
+				JSONObject jsonObject;
+				jsonObject = new JSONObject(resultString);
+				serverProjectId = jsonObject.optInt("projectId");
+			} else {
+				assertTrue("Error message not found on screen. ", solo.searchText(getActivity().getString(
+						R.string.error_project_upload)));
+			}
+			solo.clickOnButton(0);
+		} catch (JSONException e) {
+			assertFalse("json exception orrured", true);
+		}
 	}
 
 	private void downloadProject() {
-		int serverProjectId = ProjectManager.getInstance().getServerProjectId();
 		String downloadUrl = Consts.TEST_FILE_DOWNLOAD_URL + serverProjectId + Consts.CATROID_EXTENTION;
 		downloadUrl += "?fname=" + newTestProject;
 		Intent intent = new Intent(getActivity(), DownloadActivity.class);
@@ -202,8 +200,8 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		boolean waitResult = solo.waitForActivity("MainMenuActivity", 10000);
 		assertTrue("Download takes too long.", waitResult);
-		assertNotNull("Download not successful.",
-				solo.searchText(getActivity().getString(R.string.success_project_download)));
+		assertNotNull("Download not successful.", solo.searchText(getActivity().getString(
+				R.string.success_project_download)));
 
 		String projectPath = Consts.DEFAULT_ROOT + "/" + newTestProject;
 		File downloadedDirectory = new File(projectPath);
@@ -212,4 +210,5 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		assertTrue("Project File does not exist.", downloadedProjectFile.exists());
 
 	}
+
 }

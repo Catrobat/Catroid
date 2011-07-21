@@ -75,7 +75,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 	private static final int IMAGE_FILE_ID = R.raw.icon;
 	private static final int IMAGE_FILE_ID2 = R.raw.icon2;
-	private static final int SOUND_FILE_ID = R.raw.testsound;
+	private static final int SOUND_FILE_ID = R.raw.testsoundui;
 
 	public StageTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -305,10 +305,10 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		solo.sleep(1000);
 		Costume costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(2).getCostume();
 
-		assertEquals("costume has wrong width --> touch worked on it", (Integer) image2Width,
-				costume.getImageWidthHeight().first);
-		assertEquals("costume has wrong height --> touch worked on it", (Integer) image2Height,
-				costume.getImageWidthHeight().second);
+		assertEquals("costume has wrong width --> touch worked on it", (Integer) image2Width, costume
+				.getImageWidthHeight().first);
+		assertEquals("costume has wrong height --> touch worked on it", (Integer) image2Height, costume
+				.getImageWidthHeight().second);
 
 		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
 		solo.sleep(500);

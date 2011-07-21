@@ -27,9 +27,9 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.Assert;
 import android.content.Context;
 import android.text.InputType;
+import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
@@ -272,14 +272,31 @@ public class Utils {
 
 	public static Object getPrivateField(String fieldName, Object object) {
 
-		try {
-			Field field = object.getClass().getDeclaredField(fieldName);
-			field.setAccessible(true);
-			return field.get(object);
-		} catch (Exception e) {
-			Assert.fail(e.getClass().getName() + " when accessing " + fieldName);
-		}
-		return null;
-	}
+		Field field = null;
 
+		try {
+			Class<?> c = object.getClass();
+			//field = ofSuperclass ? c.getSuperclass().getDeclaredField(fieldName) : c.getDeclaredField(fieldName);
+			field = c.getDeclaredField(fieldName);
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (NoSuchFieldException e) {
+			Log.w(e.getClass().getName(), fieldName);
+
+		}
+
+		if (field != null) {
+			field.setAccessible(true);
+
+			try {
+				return field.get(object);
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return field;
+	}
 }
