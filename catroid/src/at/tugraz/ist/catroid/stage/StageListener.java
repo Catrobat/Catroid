@@ -57,6 +57,8 @@ public class StageListener implements ApplicationListener {
 	private ImmediateModeRenderer20 renderer;
 	private Matrix4 projModelView = new Matrix4();
 
+	private List<Sprite> sprites;
+
 	public void create() {
 		batch = new SpriteBatch();
 		font = new BitmapFont();
@@ -67,7 +69,7 @@ public class StageListener implements ApplicationListener {
 		camera.position.set(0, 0, 0);
 		camController = new OrthoCamController(camera);
 
-		List<Sprite> sprites = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		sprites = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		for (Sprite sprite : sprites) {
 			stage.addActor(sprite.costume);
 			//sprite.costume.action(Forever.$(Sequence.$(MoveBy.$(100, 100, 2), MoveBy.$(-100, -100, 2))));
@@ -89,7 +91,17 @@ public class StageListener implements ApplicationListener {
 	}
 
 	public void pause() {
-		// TODO Auto-generated method stub
+		paused = true;
+		for (Sprite sprite : sprites) {
+			sprite.pause();
+		}
+	}
+
+	public void resume() {
+		paused = false;
+		for (Sprite sprite : sprites) {
+			sprite.resume();
+		}
 
 	}
 
@@ -149,8 +161,4 @@ public class StageListener implements ApplicationListener {
 		DEVICE_HEIGHT = height;
 	}
 
-	public void resume() {
-		// TODO Auto-generated method stub
-
-	}
 }

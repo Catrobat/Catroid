@@ -23,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.io.SoundManager;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 
@@ -31,11 +32,16 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
  * 
  */
 public class StageA extends AndroidApplication {
+	private boolean stagePlaying = true;
+	private SoundManager soundManager;
+	private StageListener stageListener;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		initialize(new StageListener(), true);
+		soundManager = SoundManager.getInstance();
+		stageListener = new StageListener();
+		initialize(stageListener, true);
 	}
 
 	@Override
@@ -49,10 +55,10 @@ public class StageA extends AndroidApplication {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.stagemenuStart:
-				//pauseOrContinue();
+				pauseOrContinue();
 				break;
 			case R.id.stagemenuConstructionSite:
-				manageLoadAndFinish(); //calls finish
+				manageLoadAndFinish();
 				break;
 		}
 		return true;
@@ -66,5 +72,17 @@ public class StageA extends AndroidApplication {
 		projectManager.setCurrentSpriteWithPosition(currentSpritePos);
 		projectManager.setCurrentScriptWithPosition(currentScriptPos);
 		finish();
+	}
+
+	private void pauseOrContinue() {
+		if (stagePlaying) {
+			stageListener.pause();
+			soundManager.pause();
+			stagePlaying = false;
+		} else {
+			stageListener.resume();
+			soundManager.resume();
+			stagePlaying = true;
+		}
 	}
 }

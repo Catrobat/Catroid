@@ -26,6 +26,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actors.Image;
 
 /**
@@ -48,6 +49,13 @@ public class CostumeA extends Image {
 		this.alphaValue = 1f;
 		this.width = 0f;
 		this.height = 0f;
+		this.touchable = true;
+	}
+
+	@Override
+	protected boolean touchDown(float x, float y, int pointer) {
+		sprite.startTapScripts();
+		return true;
 	}
 
 	@Override
@@ -105,10 +113,30 @@ public class CostumeA extends Image {
 		xyLock.release();
 	}
 
+	public float getXPosition() {
+		float xPos = this.x;
+		if (this.region != null && this.region.getTexture() != null) {
+			xPos += this.width / 2;
+		}
+		return xPos;
+	}
+
+	public float getYPosition() {
+		float yPos = this.y;
+		if (this.region != null && this.region.getTexture() != null) {
+			yPos += this.height / 2;
+		}
+		return yPos;
+	}
+
 	public void setImagePath(String path) {
 		setImageLock.acquireUninterruptibly();
 		imagePath = path;
 		imageChanged = true;
 		setImageLock.release();
+	}
+
+	public void addAction(Action action) {
+		this.actions.add(action);
 	}
 }
