@@ -88,10 +88,10 @@ public class Costume implements Serializable {
 
 		costumeBitmap = ImageEditing.adjustOpacity(costumeBitmap, actGhostEffect);
 		costumeBitmap = ImageEditing.adjustBrightness(costumeBitmap, actBrightness);
-		costumeBitmap = ImageEditing.scaleBitmap(costumeBitmap, newWidth, newHeight, true);
+		costumeBitmap = ImageEditing.scaleBitmap(costumeBitmap, newWidth, newHeight);
 
-		actWidth = newWidth;
-		actHeight = newHeight;
+		actualWidth = newWidth;
+		actualHeight = newHeight;
 		costumeBitmap = ImageEditing.scaleBitmap(costumeBitmap, newWidth, newHeight);
 		costumeBitmap = ImageEditing.rotateBitmap(costumeBitmap, (float) -(90 - sprite.getDirection()));
 
@@ -179,7 +179,7 @@ public class Costume implements Serializable {
 			return;
 		}
 		this.actGhostEffect = effectVal;
-		costumeBitmap = ImageEditing.getScaledBitmap(imagePath, actWidth, actHeight);
+		costumeBitmap = ImageEditing.getScaledBitmap(imagePath, actualWidth, actualHeight);
 		costumeBitmap = ImageEditing.adjustBrightness(costumeBitmap, actBrightness);
 		costumeBitmap = ImageEditing.adjustOpacity(costumeBitmap, actGhostEffect);
 		return;
@@ -193,7 +193,7 @@ public class Costume implements Serializable {
 
 		this.actBrightness = brightness;
 
-		costumeBitmap = ImageEditing.getScaledBitmap(imagePath, actWidth, actHeight);
+		costumeBitmap = ImageEditing.getScaledBitmap(imagePath, actualWidth, actualHeight);
 		costumeBitmap = ImageEditing.adjustOpacity(costumeBitmap, actGhostEffect);
 		costumeBitmap = ImageEditing.adjustBrightness(costumeBitmap, actBrightness);
 
@@ -205,7 +205,7 @@ public class Costume implements Serializable {
 			return;
 		}
 
-		costumeBitmap = ImageEditing.getScaledBitmap(imagePath, actWidth, actHeight);
+		costumeBitmap = ImageEditing.getScaledBitmap(imagePath, actualWidth, actualHeight);
 		return;
 	}
 }
