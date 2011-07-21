@@ -53,7 +53,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnDismissListener {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.construction_brick_repeat, null);
 
-		EditText edit = (EditText) view.findViewById(R.id.InputValueEditText);
+		EditText edit = (EditText) view.findViewById(R.id.construction_brick_repeat_edit_text);
 		edit.setText(timesToRepeat + "");
 
 		EditIntegerDialog dialog = new EditIntegerDialog(context, edit, timesToRepeat, false);
