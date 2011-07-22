@@ -54,6 +54,7 @@ import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
 import at.tugraz.ist.catroid.content.bricks.NoteBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
+import at.tugraz.ist.catroid.content.bricks.PointToBrick;
 import at.tugraz.ist.catroid.content.bricks.SetBrightnessBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetGhostEffectBrick;
@@ -125,6 +126,7 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new BroadcastWaitBrick(sprite));
 			prototypeBrickList.add(new GlideToBrick(sprite, 100, 100, 3000));
 			prototypeBrickList.add(new NoteBrick(sprite));
+			prototypeBrickList.add(new PointToBrick(sprite));
 		}
 
 	}
