@@ -62,13 +62,8 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	private void addNewSprite(String spriteName) {
 		solo.sleep(50);
-		List<ImageButton> btnList = solo.getCurrentImageButtons();
-		for (int i = 0; i < btnList.size(); i++) {
-			ImageButton btn = btnList.get(i);
-			if (btn.getId() == R.id.btn_action_add_sprite) {
-				solo.clickOnImageButton(i);
-			}
-		}
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
+
 		solo.sleep(50);
 		UiTestUtils.enterText(solo, 0, spriteName);
 
@@ -157,21 +152,16 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	public void testMainMenuButton() {
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
 
-		List<ImageButton> btnList = solo.getCurrentImageButtons();
-		for (int i = 0; i < btnList.size(); i++) {
-			ImageButton btn = btnList.get(i);
-			if (btn.getId() == R.id.btn_action_home) {
-				solo.clickOnImageButton(i);
-			}
-		}
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
 
 		solo.sleep(50);
 
-		btnList = solo.getCurrentImageButtons();
+		List<ImageButton> btnList = solo.getCurrentImageButtons();
 		boolean buttonFound = false;
 		for (ImageButton button : btnList) {
 			if (button.getId() == R.id.btn_home) {
 				buttonFound = true;
+				break;
 			}
 		}
 		assertTrue("Main menu is not visible", buttonFound);

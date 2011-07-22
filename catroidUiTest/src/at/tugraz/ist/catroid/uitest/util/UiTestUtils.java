@@ -28,10 +28,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.Assert;
-
 import android.content.Context;
 import android.text.InputType;
 import android.util.Log;
+import android.widget.ImageButton;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
@@ -292,5 +292,16 @@ public class UiTestUtils {
 			Assert.fail(e.getClass().getName() + " when accessing " + fieldName);
 		}
 		return null;
+	}
+
+	public static void clickOnImageButton(Solo solo, int imageButtonId) {
+		int i = 0;
+		for (ImageButton imageButton : solo.getCurrentImageButtons()) {
+			if (imageButton.getId() == imageButtonId) {
+				solo.clickOnImageButton(i);
+				break;
+			}
+			++i;
+		}
 	}
 }
