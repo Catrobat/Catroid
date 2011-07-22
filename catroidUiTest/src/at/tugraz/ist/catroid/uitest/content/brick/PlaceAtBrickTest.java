@@ -43,12 +43,12 @@ import com.jayway.android.robotium.solo.Solo;
  * @author Daniel Burtscher
  * 
  */
-public class PlaceAtTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
 	private PlaceAtBrick placeAtBrick;
 
-	public PlaceAtTest() {
+	public PlaceAtBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
 	}
 
@@ -99,7 +99,7 @@ public class PlaceAtTest extends ActivityInstrumentationTestCase2<ScriptActivity
 		solo.enterText(0, xPosition + "");
 		solo.clickOnButton(0);
 
-		Thread.sleep(300);
+		solo.sleep(300);
 		int actualXPosition = (Integer) Utils.getPrivateField("xPosition", placeAtBrick);
 		assertEquals("Text not updated", xPosition + "", solo.getEditText(0).getText().toString());
 		assertEquals("Value in Brick is not updated", xPosition, actualXPosition);
@@ -109,7 +109,7 @@ public class PlaceAtTest extends ActivityInstrumentationTestCase2<ScriptActivity
 		solo.enterText(0, yPosition + "");
 		solo.clickOnButton(0);
 
-		Thread.sleep(300);
+		solo.sleep(300);
 		int actualYPosition = (Integer) Utils.getPrivateField("yPosition", placeAtBrick);
 		assertEquals("Text not updated", yPosition + "", solo.getEditText(1).getText().toString());
 		assertEquals("Value in Brick is not updated", yPosition, actualYPosition);
