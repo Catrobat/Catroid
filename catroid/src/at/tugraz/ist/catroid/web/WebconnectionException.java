@@ -24,10 +24,7 @@ public class WebconnectionException extends Exception {
 	private static final long serialVersionUID = 1L;
 	private int httpResultCode;
 
-	private final int x;
-
 	public WebconnectionException(int httpResultCode) {
-		x = 5;
 		this.httpResultCode = httpResultCode;
 	}
 

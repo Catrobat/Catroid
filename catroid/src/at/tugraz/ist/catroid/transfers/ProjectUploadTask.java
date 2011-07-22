@@ -22,8 +22,8 @@ package at.tugraz.ist.catroid.transfers;
 import java.io.File;
 import java.io.IOException;
 
-import android.app.ProgressDialog;
 import android.app.AlertDialog.Builder;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import at.tugraz.ist.catroid.R;
@@ -34,7 +34,7 @@ import at.tugraz.ist.catroid.web.ServerCalls;
 import at.tugraz.ist.catroid.web.WebconnectionException;
 
 public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
-	private final static String TAG = "ProjectUploadTask";
+	//private final static String TAG = ProjectUploadTask.class.getSimpleName();
 
 	private Context context;
 	private String projectPath;
