@@ -180,7 +180,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	public synchronized void setXYPosition(int xPosition, int yPosition) {
 		this.xPosition = xPosition;
 		this.yPosition = yPosition;
-		costume.setDrawPosition();
+		costume.updatePosition();
 		toDraw = true;
 	}
 
@@ -189,15 +189,15 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		toDraw = true;
 	}
 
-	public synchronized void setSize(double size) {
-		if (size <= 0.0) {
+	public synchronized void setSize(double percent) {
+		if (percent <= 0.0) {
 			throw new IllegalArgumentException("Sprite size must be greater than zero!");
 		}
 
-		int costumeWidth = costume.getImageWidthHeight().first;
-		int costumeHeight = costume.getImageWidthHeight().second;
+		int costumeWidth = costume.getImageWidth();
+		int costumeHeight = costume.getImageHeight();
 
-		this.size = size;
+		this.size = percent;
 
 		if (costumeWidth > 0 && costumeHeight > 0) {
 			if (costumeWidth * this.size / 100. < 1) {
@@ -215,7 +215,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 				this.size = (double) Consts.MAX_COSTUME_HEIGHT / costumeHeight * 100.;
 			}
 
-			costume.setSizeTo(this.size);
+			costume.updateImage();
 			toDraw = true;
 		}
 	}
@@ -237,7 +237,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 			this.direction = 180;
 		}
 
-		costume.rotateTo(this.direction);
+		costume.updateImage();
 	}
 
 	public synchronized void show() {
@@ -312,8 +312,8 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		int inSpriteXCoordinate = xCoordinate - costume.getDrawPositionX();
 		int inSpriteYCoordinate = yCoordinate - costume.getDrawPositionY();
 
-		int width = costume.getImageWidthHeight().first;
-		int height = costume.getImageWidthHeight().second;
+		int width = costume.getImageWidth();
+		int height = costume.getImageHeight();
 
 		if (inSpriteXCoordinate < 0 || inSpriteXCoordinate > width) {
 			return false;
