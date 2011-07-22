@@ -86,9 +86,8 @@ public class WhenBrick implements Brick {
 
 				spinner.setSelected(true);
 				String choice = parent.getItemAtPosition(position).toString();
-
 				Log.i("choosen", choice);
-				whenScript.setAction(choice);
+				whenScript.setAction(position);
 				spinner.setSelection(position);
 				adapter.notifyDataSetChanged();
 			}

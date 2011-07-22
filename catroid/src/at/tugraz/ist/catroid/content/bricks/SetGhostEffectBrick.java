@@ -56,7 +56,7 @@ public class SetGhostEffectBrick implements Brick, OnDismissListener {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View brickView = inflater.inflate(R.layout.construction_brick_set_ghost_effect, null);
 
-		EditText editX = (EditText) brickView.findViewById(R.id.construction_brick_set_ghost_effect_edit_text);
+		EditText editX = (EditText) brickView.findViewById(R.id.construction_brick_set_ghost_effect_to_edit_text);
 		editX.setText(String.valueOf(ghostEffectValue));
 
 		EditDoubleDialog dialogX = new EditDoubleDialog(context, editX, ghostEffectValue, true);
@@ -80,9 +80,7 @@ public class SetGhostEffectBrick implements Brick, OnDismissListener {
 	}
 
 	public void onDismiss(DialogInterface dialog) {
-		EditDoubleDialog inputDialog = (EditDoubleDialog) dialog;
-		this.ghostEffectValue = inputDialog.getValue();
-
+		ghostEffectValue = ((EditDoubleDialog) dialog).getValue();
 		dialog.cancel();
 	}
 }

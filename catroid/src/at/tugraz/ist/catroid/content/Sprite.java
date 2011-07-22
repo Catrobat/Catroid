@@ -39,8 +39,8 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	private transient boolean toDraw;
 	private List<Script> scriptList;
 	private transient Costume costume;
-	private transient double ghostEffectValue;
-	private transient double brightnessValue;
+	private transient double ghostEffect;
+	private transient double brightness;
 	private transient double volume;
 
 	public transient volatile boolean isPaused;
@@ -60,8 +60,8 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		xPosition = 0;
 		yPosition = 0;
 		toDraw = false;
-		ghostEffectValue = 0.0;
-		brightnessValue = 0.0;
+		ghostEffect = 0.0;
+		brightness = 0.0;
 		isPaused = false;
 		isFinished = false;
 		volume = 70.0;
@@ -164,7 +164,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	}
 
 	public void finish() {
-		for (Script s : scriptList) {	
+		for (Script s : scriptList) {
 			s.setFinish(true);
 		}
 		this.isFinished = true;
@@ -195,21 +195,20 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	}
 
 	public double getGhostEffectValue() {
-		return ghostEffectValue;
+		return ghostEffect;
 	}
 
 	public double getBrightnessValue() {
-		return this.brightnessValue;
+		return this.brightness;
 	}
 
 	public double getVolume() {
 		return this.volume;
 	}
-	
+
 	public double getDirection() {
 		return direction;
 	}
-	
 
 	public boolean isVisible() {
 		return isVisible;
@@ -235,23 +234,23 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 
 	public synchronized void clearGraphicEffect() {
 		costume.clearGraphicEffect();
-		ghostEffectValue = 0;
-		brightnessValue = 0;
+		ghostEffect = 0;
+		brightness = 0;
 		toDraw = true;
 	}
 
 	public synchronized void setBrightnessValue(double brightnessValue) {
-		this.brightnessValue = brightnessValue;
+		this.brightness = brightnessValue;
 		double brightness;
 
-		if (brightnessValue > 100) {
-			brightness = 170;
-		} else if (brightnessValue < 0 && brightnessValue > -100) {
-			brightness = brightnessValue - 70;
-		} else if (brightnessValue <= -100) {
+		if (brightnessValue > 100.0) {
+			brightness = 150;
+		} else if (brightnessValue <= -100.0) {
 			brightness = -255;
+		} else if (brightnessValue < 0.0 && brightnessValue > -100.0) {
+			brightness = brightnessValue - 100;
 		} else {
-			brightness = brightnessValue + 70;
+			brightness = brightnessValue + 30;
 		}
 
 		costume.setBrightness(brightness);
@@ -259,11 +258,11 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	}
 
 	public synchronized void setGhostEffectValue(double ghostEffectValue) {
-		this.ghostEffectValue = Math.abs(ghostEffectValue);
-		double calculation = 0;
+		this.ghostEffect = Math.abs(ghostEffectValue);
+		double calculation = 0.0;
 		int opacityValue = 0;
 
-		calculation = Math.floor(255 - (this.ghostEffectValue * 2.55));
+		calculation = Math.floor(255 - (this.ghostEffect * 2.55));
 		//		 calculation: a value between 0 (completely transparent) and 255 (completely opaque).
 		if (calculation > 0) {
 			if (calculation >= 12) {
