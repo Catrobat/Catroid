@@ -25,7 +25,6 @@ import java.io.IOException;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
@@ -38,8 +37,6 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -79,13 +76,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		listView.setGroupIndicator(null);
 		listView.setOnGroupClickListener(adapter);
 		registerForContextMenu(listView);
-		
-		Button addBrickButton = (Button) findViewById(R.id.add_brick_button);
-		addBrickButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				showDialog(Consts.DIALOG_ADD_BRICK);
-			}
-		});
+
 	}
 
 	@Override
@@ -207,7 +198,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 						StorageHandler.getInstance().deleteFile(affectedBrick.getImagePath());
 					}
 					File outputFile = StorageHandler.getInstance().copyImage(
-							ProjectManager.getInstance().getCurrentProject().getName(), selectedImagePath);
+							ProjectManager.getInstance().getCurrentProject().getName(), selectedImagePath, null);
 					if (outputFile != null) {
 						affectedBrick.setCostume(outputFile.getName());
 						adapter.notifyDataSetChanged();
