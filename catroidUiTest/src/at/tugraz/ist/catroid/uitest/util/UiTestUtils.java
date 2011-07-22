@@ -111,7 +111,7 @@ public class UiTestUtils {
 	}
 
 	public static void addNewBrickAndScrollDown(Solo solo, int brickStringId) {
-		solo.clickOnButton(solo.getCurrentActivity().getString(R.string.add_new_brick));
+		clickOnImageButton(solo, R.id.btn_action_add_sprite);
 		solo.clickOnText(solo.getCurrentActivity().getString(brickStringId));
 
 		while (solo.scrollDown()) {
@@ -292,5 +292,16 @@ public class UiTestUtils {
 			Assert.fail(e.getClass().getName() + " when accessing " + fieldName);
 		}
 		return null;
+	}
+
+	public static void clickOnImageButton(Solo solo, int imageButtonId) {
+		int i = 0;
+		for (ImageButton imageButton : solo.getCurrentImageButtons()) {
+			if (imageButton.getId() == imageButtonId) {
+				solo.clickOnImageButton(i);
+				break;
+			}
+			++i;
+		}
 	}
 }
