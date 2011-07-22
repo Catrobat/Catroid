@@ -70,26 +70,27 @@
 	>
 	</TextView>
 	<EditText
-		android:id="@+id/construction_brick_set_ghost_effect_edit_text"
-		android:text="25"
-		android:layout_height="wrap_content"
-		android:layout_width="60dp"
-		android:layout_toRightOf="@+id/SetGhostEffectTextView"
-		android:clickable="false"
-		android:focusable="false"
-		android:focusableInTouchMode="false"
-		android:gravity="right"
-		android:maxLength="4"
-		android:maxLines="1"
-		android:inputType="number|numberDecimal"
-	>
-	</EditText>
+			android:id="@+id/construction_brick_set_ghost_effect_to_edit_text"
+			android:text="0"
+			android:layout_height="wrap_content"
+			android:layout_width="50dp"
+            android:layout_marginLeft="5dip"
+			android:layout_toLeftOf="@+id/SetGhostEffectToTextView"
+			android:cursorVisible="false"
+			android:focusable="false"
+			android:focusableInTouchMode="false"
+			android:gravity="right"
+			android:inputType="number|numberDecimal"
+			android:maxLength="3"
+			android:maxLines="1"
+		>
+		</EditText>
 	<TextView
-		android:id="@+id/SetGhostEffectTextView"
+		android:id="@+id/SetGhostEffectToTextView"
 		android:text="@string/percent"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
-		android:layout_toRightOf="@+id/construction_brick_set_ghost_effect_edit_text"
+		android:layout_toRightOf="@+id/construction_brick_set_ghost_effect_to_edit_text"
 		android:layout_centerVertical="true"
 		android:paddingLeft="5dip"
 		android:paddingRight="10dip"

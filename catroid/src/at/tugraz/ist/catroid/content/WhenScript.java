@@ -44,22 +44,22 @@ public class WhenScript extends Script {
 		return this;
 	}
 
-	public void setAction(String actionChoosen) {
-		if (actionChoosen.equalsIgnoreCase(DOUBLETAPPED)) {
-			this.action = DOUBLETAPPED;
-		} else if (actionChoosen.equalsIgnoreCase(TAPPED)) {
+	public void setAction(int position) {
+		if (position == 0) {
 			this.action = TAPPED;
-		} else if (actionChoosen.equalsIgnoreCase(LONGPRESSED)) {
+		} else if (position == 1) {
+			this.action = DOUBLETAPPED;
+		} else if (position == 2) {
 			this.action = LONGPRESSED;
-		} else if (actionChoosen.equalsIgnoreCase(TOUCHINGSTOPS)) {
+		} else if (position == 3) {
 			this.action = TOUCHINGSTOPS;
-		} else if (actionChoosen.equalsIgnoreCase(SWIPELEFT)) {
+		} else if (position == 4) {
 			this.action = SWIPELEFT;
-		} else if (actionChoosen.equalsIgnoreCase(SWIPERIGHT)) {
+		} else if (position == 5) {
 			this.action = SWIPERIGHT;
-		} else if (actionChoosen.equalsIgnoreCase(SWIPEUP)) {
+		} else if (position == 6) {
 			this.action = SWIPEUP;
-		} else if (actionChoosen.equalsIgnoreCase(SWIPEDOWN)) {
+		} else if (position == 7) {
 			this.action = SWIPEDOWN;
 		}
 	}

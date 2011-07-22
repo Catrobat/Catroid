@@ -141,12 +141,12 @@ public class ImageEditing {
 		return mutableBitmap;
 	}
 
-	public static Bitmap adjustBrightness(Bitmap src, double value) {
+	public static Bitmap adjustBrightness(Bitmap source, double value) {
 		// image size
-		int width = src.getWidth();
-		int height = src.getHeight();
+		int width = source.getWidth();
+		int height = source.getHeight();
 		// create output bitmap
-		Bitmap bmOut = Bitmap.createBitmap(width, height, src.getConfig());
+		Bitmap bitmap = Bitmap.createBitmap(width, height, source.getConfig());
 		// color information
 		int A, R, G, B;
 		int pixel;
@@ -155,7 +155,7 @@ public class ImageEditing {
 		for (int x = 0; x < width; ++x) {
 			for (int y = 0; y < height; ++y) {
 				// get pixel color
-				pixel = src.getPixel(x, y);
+				pixel = source.getPixel(x, y);
 				A = Color.alpha(pixel);
 				R = Color.red(pixel);
 				G = Color.green(pixel);
@@ -184,12 +184,11 @@ public class ImageEditing {
 				}
 
 				// apply new pixel color to output bitmap
-				bmOut.setPixel(x, y, Color.argb(A, R, G, B));
+				bitmap.setPixel(x, y, Color.argb(A, R, G, B));
 			}
 		}
 
 		// return final image
-		return bmOut;
+		return bitmap;
 	}
-
 }

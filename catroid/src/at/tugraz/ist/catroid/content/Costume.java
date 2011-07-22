@@ -38,8 +38,8 @@ public class Costume implements Serializable {
 	private int actualWidth;
 	private int originalHeight;
 	private int originalWidth;
-	private transient double actBrightness = 0.0;
-	private transient int actGhostEffect = 255;
+	private transient double actualBrightness = 0.0;
+	private transient int actualGhostEffect = 255;
 
 	@XStreamOmitField
 	private transient Bitmap costumeBitmap;
@@ -86,14 +86,13 @@ public class Costume implements Serializable {
 			return;
 		}
 
-		costumeBitmap = ImageEditing.adjustOpacity(costumeBitmap, actGhostEffect);
-		costumeBitmap = ImageEditing.adjustBrightness(costumeBitmap, actBrightness);
-		costumeBitmap = ImageEditing.scaleBitmap(costumeBitmap, newWidth, newHeight);
-
 		actualWidth = newWidth;
 		actualHeight = newHeight;
+
 		costumeBitmap = ImageEditing.scaleBitmap(costumeBitmap, newWidth, newHeight);
 		costumeBitmap = ImageEditing.rotateBitmap(costumeBitmap, (float) -(90 - sprite.getDirection()));
+		costumeBitmap = ImageEditing.adjustOpacity(costumeBitmap, actualGhostEffect);
+		costumeBitmap = ImageEditing.adjustBrightness(costumeBitmap, actualBrightness);
 
 		actualWidth = newWidth;
 		actualHeight = newHeight;
@@ -116,6 +115,8 @@ public class Costume implements Serializable {
 
 		costumeBitmap = ImageEditing.scaleBitmap(costumeBitmap, actualWidth, actualHeight);
 		costumeBitmap = ImageEditing.rotateBitmap(costumeBitmap, (float) -(90 - degrees));
+		costumeBitmap = ImageEditing.adjustOpacity(costumeBitmap, actualGhostEffect);
+		costumeBitmap = ImageEditing.adjustBrightness(costumeBitmap, actualBrightness);
 
 		setDrawPosition();
 	}
@@ -178,25 +179,26 @@ public class Costume implements Serializable {
 		if (costumeBitmap == null) {
 			return;
 		}
-		this.actGhostEffect = effectVal;
-		costumeBitmap = ImageEditing.getScaledBitmap(imagePath, actualWidth, actualHeight);
-		costumeBitmap = ImageEditing.adjustBrightness(costumeBitmap, actBrightness);
-		costumeBitmap = ImageEditing.adjustOpacity(costumeBitmap, actGhostEffect);
+		this.actualGhostEffect = effectVal;
+		costumeBitmap = ImageEditing.getBitmap(imagePath, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
+		costumeBitmap = ImageEditing.scaleBitmap(costumeBitmap, actualWidth, actualHeight);
+		costumeBitmap = ImageEditing.rotateBitmap(costumeBitmap, (float) -(90 - sprite.getDirection()));
+		costumeBitmap = ImageEditing.adjustOpacity(costumeBitmap, actualGhostEffect);
+		costumeBitmap = ImageEditing.adjustBrightness(costumeBitmap, actualBrightness);
+
 		return;
 	}
 
 	public synchronized void setBrightness(double brightness) {
-
 		if (costumeBitmap == null) {
 			return;
 		}
-
-		this.actBrightness = brightness;
-
-		costumeBitmap = ImageEditing.getScaledBitmap(imagePath, actualWidth, actualHeight);
-		costumeBitmap = ImageEditing.adjustOpacity(costumeBitmap, actGhostEffect);
-		costumeBitmap = ImageEditing.adjustBrightness(costumeBitmap, actBrightness);
-
+		this.actualBrightness = brightness;
+		costumeBitmap = ImageEditing.getBitmap(imagePath, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
+		costumeBitmap = ImageEditing.scaleBitmap(costumeBitmap, actualWidth, actualHeight);
+		costumeBitmap = ImageEditing.rotateBitmap(costumeBitmap, (float) -(90 - sprite.getDirection()));
+		costumeBitmap = ImageEditing.adjustOpacity(costumeBitmap, actualGhostEffect);
+		costumeBitmap = ImageEditing.adjustBrightness(costumeBitmap, actualBrightness);
 		return;
 	}
 

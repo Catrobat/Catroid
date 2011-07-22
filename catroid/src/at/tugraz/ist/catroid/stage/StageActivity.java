@@ -55,6 +55,7 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 	public static TextToSpeech tts;
 	public String text;
 	public boolean flag = true;
+	private boolean toastEnabled = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -195,19 +196,27 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 				break;
 
 		}
-		Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show();
+		if (toastEnabled) {
+			Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	public void onDoubleTap() {
-		Toast.makeText(this, "Double Tap", Toast.LENGTH_SHORT).show();
+		if (toastEnabled) {
+			Toast.makeText(this, "Double Tap", Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	public void onSingleTouch() {
-		Toast.makeText(this, "Tapped", Toast.LENGTH_SHORT).show();
+		if (toastEnabled) {
+			Toast.makeText(this, "Tapped", Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	public void onLongPress() {
-		Toast.makeText(this, "Long Press", Toast.LENGTH_SHORT).show();
+		if (toastEnabled) {
+			Toast.makeText(this, "Long Press", Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	@Override

@@ -21,6 +21,7 @@ package at.tugraz.ist.catroid.stage;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
+import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.WhenScript;
 
 public class SimpleGestureFilter extends SimpleOnGestureListener {
@@ -30,18 +31,18 @@ public class SimpleGestureFilter extends SimpleOnGestureListener {
 	public final static int SWIPE_LEFT = 3;
 	public final static int SWIPE_RIGHT = 4;
 	private final static int SWIPE_MIN_DISTANCE = 100;
-	private final static int SWIPE_MAX_DISTANCE = 500;
+	private final static int SWIPE_MAX_DISTANCE = Values.SCREEN_WIDTH;
 	private final static int SWIPE_MIN_VELOCITY = 100;
 
 	private StageActivity context;
 	private GestureDetector detector;
 	private SimpleGestureListener listener;
 
-	public SimpleGestureFilter(StageActivity stageActivity, SimpleGestureListener sgl) {
+	public SimpleGestureFilter(StageActivity stageActivity, SimpleGestureListener simpleGestureListener) {
 
 		this.context = stageActivity;
 		this.detector = new GestureDetector(context, this);
-		this.listener = sgl;
+		this.listener = simpleGestureListener;
 	}
 
 	public void onTouchEvent(MotionEvent event) {
