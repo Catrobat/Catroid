@@ -72,7 +72,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickOnButton(getActivity().getString(R.string.new_sprite_dialog_button));
 		solo.sleep(50);
 	}
-	
+
 	public void testAddNewSprite() {
 		final String spriteName = "testSprite";
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
@@ -92,7 +92,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertTrue("Sprite is not in current Project", ProjectManager.getInstance().getCurrentProject().getSpriteList()
 				.contains(thirdSprite));
 	}
-	
+
 	public void testAddNewSpriteErrors() {
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
 		addNewSprite("");
@@ -306,22 +306,6 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickOnButton(getActivity().getString(R.string.ok));
 		assertTrue("not in RenameSpriteDialog", solo.searchText(getActivity().getString(R.string.rename_sprite_dialog)));
 
-	}
-
-	private void addNewSprite(String spriteName) {
-		solo.sleep(50);
-		List<ImageButton> btnList = solo.getCurrentImageButtons();
-		for (int i = 0; i < btnList.size(); i++) {
-			ImageButton btn = btnList.get(i);
-			if (btn.getId() == R.id.btn_action_add_sprite) {
-				solo.clickOnImageButton(i);
-			}
-		}
-		solo.sleep(50);
-		UiTestUtils.enterText(solo, 0, spriteName);
-
-		solo.clickOnButton(getActivity().getString(R.string.new_sprite_dialog_button));
-		solo.sleep(50);
 	}
 
 	private void openNewSpriteDialog() {
