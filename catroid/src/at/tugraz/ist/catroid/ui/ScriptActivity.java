@@ -25,6 +25,7 @@ import java.io.IOException;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
@@ -37,6 +38,8 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -46,9 +49,11 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
 import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView;
+import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class ScriptActivity extends Activity implements OnDismissListener, OnCancelListener {
@@ -56,11 +61,12 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	private DragNDropListView listView;
 	private Sprite sprite;
 	private Script scriptToEdit;
+	private ActivityHelper activityHelper = new ActivityHelper(this);
 
 	private void initListeners() {
 		sprite = ProjectManager.getInstance().getCurrentSprite();
 		listView = (DragNDropListView) findViewById(R.id.brick_list_view);
-		adapter = new BrickAdapter(this, ProjectManager.getInstance().getCurrentSprite(), listView);
+		adapter = new BrickAdapter(this, sprite, listView);
 		if (adapter.getGroupCount() > 0) {
 			ProjectManager.getInstance().setCurrentScript(adapter.getGroup(adapter.getGroupCount() - 1));
 		}
@@ -73,12 +79,34 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		listView.setGroupIndicator(null);
 		listView.setOnGroupClickListener(adapter);
 		registerForContextMenu(listView);
+		
+		Button addBrickButton = (Button) findViewById(R.id.add_brick_button);
+		addBrickButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				showDialog(Consts.DIALOG_ADD_BRICK);
+			}
+		});
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_script);
+	}
+
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		String title = this.getResources().getString(R.string.sprite_name) + " "
+				+ ProjectManager.getInstance().getCurrentSprite().getName();
+		activityHelper.setupActionBar(false, title);
+
+		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent(ScriptActivity.this, StageActivity.class);
+				startActivity(intent);
+			}
+		}, false);
 	}
 
 	@Override
@@ -179,7 +207,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 						StorageHandler.getInstance().deleteFile(affectedBrick.getImagePath());
 					}
 					File outputFile = StorageHandler.getInstance().copyImage(
-							ProjectManager.getInstance().getCurrentProject().getName(), selectedImagePath, null);
+							ProjectManager.getInstance().getCurrentProject().getName(), selectedImagePath);
 					if (outputFile != null) {
 						affectedBrick.setCostume(outputFile.getName());
 						adapter.notifyDataSetChanged();

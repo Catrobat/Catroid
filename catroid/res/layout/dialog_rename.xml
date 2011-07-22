@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- The warning concerning the minSdkVersion can be ignored, as this is our intended behavior -->
 
 <!-- 
  *  Catroid: An on-device graphical programming language for Android devices
@@ -21,25 +20,24 @@
  -->
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/layoutDialog"
 	android:orientation="vertical"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 >
 	<EditText
-		android:id="@+id/dialog_edit_dialog_edit_text"
+		android:id="@+id/rename_edit_text"
+		android:hint="@string/rename_hint"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:gravity="right"
-		android:inputType="text"
 		android:maxLines="1"
-		android:minWidth="100dp"
+		android:inputType="text"
 		android:selectAllOnFocus="true"
-	>
-	</EditText>
+		android:gravity="left" />
+
 	<Button
-		android:id="@+id/dialog_edit_dialog_ok_button"
-		android:text="@string/ok"
+		android:id="@+id/rename_button"
+		android:text="@string/rename_button"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content" />
+		android:layout_height="wrap_content"
+		android:layout_weight=".5" />
 </LinearLayout>

@@ -31,6 +31,7 @@ import junit.framework.Assert;
 import android.content.Context;
 import android.text.InputType;
 import android.util.Log;
+import android.widget.ImageButton;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
@@ -110,7 +111,7 @@ public class UiTestUtils {
 	}
 
 	public static void addNewBrickAndScrollDown(Solo solo, int brickStringId) {
-		solo.clickOnImageButton(R.id.btn_action_add_sprite);
+		solo.clickOnButton(solo.getCurrentActivity().getString(R.string.add_new_brick));
 		solo.clickOnText(solo.getCurrentActivity().getString(brickStringId));
 
 		while (solo.scrollDown()) {

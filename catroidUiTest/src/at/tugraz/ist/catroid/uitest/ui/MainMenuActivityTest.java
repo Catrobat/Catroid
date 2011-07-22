@@ -22,11 +22,9 @@ package at.tugraz.ist.catroid.uitest.ui;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -202,13 +200,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	}
 
 	public void testPlayButton() {
-		List<ImageButton> btnList = solo.getCurrentImageButtons();
-		for (int i = 0; i < btnList.size(); i++) {
-			ImageButton btn = btnList.get(i);
-			if (btn.getId() == R.id.btn_action_play) {
-				solo.clickOnImageButton(i);
-			}
-		}
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
 		assertTrue("StageActivity is not showing!", solo.getCurrentActivity() instanceof StageActivity);
 	}
 
@@ -233,13 +225,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		StorageHandler handler = StorageHandler.getInstance();
 		ProjectManager project = ProjectManager.getInstance();
 		project.setProject(handler.createDefaultProject(getActivity()));
-		List<ImageButton> btnList = solo.getCurrentImageButtons();
-		for (int i = 0; i < btnList.size(); i++) {
-			ImageButton btn = btnList.get(i);
-			if (btn.getId() == R.id.btn_action_play) {
-				solo.clickOnImageButton(i);
-			}
-		}
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
 		solo.sleep(1500);
 		Bitmap bitmap = project.getCurrentProject().getSpriteList().get(1).getCostume().getBitmap();
 		assertNotNull("Bitmap is null", bitmap);
