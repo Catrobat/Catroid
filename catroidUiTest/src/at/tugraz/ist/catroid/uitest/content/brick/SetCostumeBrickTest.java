@@ -29,17 +29,17 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
 	private Solo solo;
 	private ImageView setCostumeImageView;
 
 	public SetCostumeBrickTest() {
-		super("at.tugraz.ist.catroid", ScriptActivity.class);
+		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
 	}
 
 	@Override
@@ -95,15 +95,6 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		Bitmap originalBitmap = BitmapFactory.decodeResource(getInstrumentation().getContext().getResources(),
 				at.tugraz.ist.catroid.uitest.R.drawable.catroid_sunglasses);
 		assertNotNull("Decoding the costume resource failed", originalBitmap);
-
-		//		assertEquals("Wrong width in Bitmap.", originalBitmap.getWidth(), bitmapToTest.getWidth());
-		//		assertEquals("Wrong height in Bitmap.", originalBitmap.getHeight(), bitmapToTest.getHeight());
-		//		for (int y = 0; y < originalBitmap.getHeight(); ++y) {
-		//			for (int x = 0; x < originalBitmap.getWidth(); ++x) {
-		//				assertEquals("Wrong Pixel at Position " + x + "," + y, originalBitmap.getPixel(x, y), bitmapToTest
-		//								.getPixel(x, y));
-		//			}
-		//		}
 
 		solo.sleep(1000);
 
