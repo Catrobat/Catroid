@@ -23,7 +23,9 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,7 +60,7 @@ public class MainMenuActivity extends Activity {
 		projectManager = ProjectManager.getInstance();
 
 		// Try to load sharedPreferences
-		SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		String projectName = prefs.getString(PREF_PROJECTNAME_KEY, null);
 
 		if (projectName != null) {
@@ -150,9 +152,10 @@ public class MainMenuActivity extends Activity {
 		// also when you switch activities
 		if (projectManager.getCurrentProject() != null) {
 			projectManager.saveProject(this);
-			SharedPreferences.Editor prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
-			prefs.putString(PREF_PROJECTNAME_KEY, projectManager.getCurrentProject().getName());
-			prefs.commit();
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+			Editor edit = prefs.edit();
+			edit.putString(PREF_PROJECTNAME_KEY, projectManager.getCurrentProject().getName());
+			edit.commit();
 		}
 	}
 

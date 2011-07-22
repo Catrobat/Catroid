@@ -62,6 +62,17 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		super.tearDown();
 	}
 
+	private void addNewSprite(String spriteName) {
+		solo.sleep(50);
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
+
+		solo.sleep(50);
+		UiTestUtils.enterText(solo, 0, spriteName);
+
+		solo.clickOnButton(getActivity().getString(R.string.new_sprite_dialog_button));
+		solo.sleep(50);
+	}
+	
 	public void testAddNewSprite() {
 		final String spriteName = "testSprite";
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
@@ -80,6 +91,22 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertEquals("Sprite at index 2 is not " + spriteName2, spriteName2, thirdSprite.getName());
 		assertTrue("Sprite is not in current Project", ProjectManager.getInstance().getCurrentProject().getSpriteList()
 				.contains(thirdSprite));
+	}
+	
+	public void testAddNewSpriteErrors() {
+		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
+		addNewSprite("");
+		assertTrue("No error message was displayed upon creating a sprite with an empty name.",
+				solo.searchText(getActivity().getString(R.string.error_no_name_entered)));
+		solo.clickOnButton(0);
+		solo.goBack();
+
+		final String spriteName = "testSprite";
+		addNewSprite(spriteName);
+		addNewSprite(spriteName);
+
+		assertTrue("No error message was displayed upon creating a sprite with the same name twice.",
+				solo.searchText(getActivity().getString(R.string.error_sprite_exists)));
 	}
 
 	public void testContextMenu() {
@@ -101,7 +128,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		solo.clearEditText(0);
 		UiTestUtils.enterText(solo, 0, newSpriteName);
-		solo.clickOnButton(getActivity().getString(R.string.ok));
+		solo.clickOnButton(getActivity().getString(R.string.rename_button));
 		solo.sleep(50);
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
@@ -127,21 +154,16 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	public void testMainMenuButton() {
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
 
-		List<ImageButton> btnList = solo.getCurrentImageButtons();
-		for (int i = 0; i < btnList.size(); i++) {
-			ImageButton btn = btnList.get(i);
-			if (btn.getId() == R.id.btn_action_home) {
-				solo.clickOnImageButton(i);
-			}
-		}
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
 
 		solo.sleep(50);
 
-		btnList = solo.getCurrentImageButtons();
+		List<ImageButton> btnList = solo.getCurrentImageButtons();
 		boolean buttonFound = false;
 		for (ImageButton button : btnList) {
 			if (button.getId() == R.id.btn_home) {
 				buttonFound = true;
+				break;
 			}
 		}
 		assertTrue("Main menu is not visible", buttonFound);

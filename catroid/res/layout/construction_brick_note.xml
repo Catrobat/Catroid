@@ -49,7 +49,7 @@
 		>
 	    </TextView>
 		<EditText
-			android:id="@+id/edit_text_note"
+			android:id="@+id/construction_brick_note_edit_text"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			android:scrollbars="vertical"
