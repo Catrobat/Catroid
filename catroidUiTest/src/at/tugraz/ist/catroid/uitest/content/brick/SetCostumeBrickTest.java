@@ -48,10 +48,13 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		List<Brick> brickList = UiTestUtils.createTestProject();
 
 		solo = new Solo(getInstrumentation(), getActivity());
-
+		solo.clickOnText("Costumes");
+		solo.clickOnText("Script");
+		solo.sleep(100);
 		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_set_costume);
 		final int setCostumeBrickIndex = brickList.size();
-		setCostumeImageView = (ImageView) solo.getView(R.id.costume_image_view);
+
+		setCostumeImageView = (ImageView) solo.getCurrentActivity().findViewById(R.id.costume_image_view);
 		setCostumeImageView.setDrawingCacheEnabled(true);
 
 		// Override OnClickListener to launch MockGalleryActivity
