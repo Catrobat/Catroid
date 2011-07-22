@@ -55,6 +55,7 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 	}
 
 	public void testScriptTab() {
+		solo.clickOnText("Costumes");
 		solo.clickOnText("Script");
 		solo.sleep(100);
 		assertTrue("Clicking on Script Tab did not cause ScriptActivity to be displayed",
