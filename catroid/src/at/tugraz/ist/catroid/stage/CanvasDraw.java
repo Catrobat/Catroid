@@ -41,6 +41,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
+import at.tugraz.ist.catroid.content.Bubble;
 import at.tugraz.ist.catroid.content.Costume;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.utils.ImageEditing;
@@ -92,14 +93,20 @@ public class CanvasDraw implements IDraw {
 			// draw white rectangle:
 			bufferCanvas.drawRect(flushRectangle, whitePaint);
 			java.util.Collections.sort(sprites);
+
 			for (Sprite sprite : sprites) {
 				if (!sprite.isVisible()) {
 					continue; //don't need to draw
 				}
 				if (sprite.getCostume().getBitmap() != null) {
 					Costume tempCostume = sprite.getCostume();
+					Bubble tempBubble = new Bubble("party", tempCostume, activity);
 					bufferCanvas.drawBitmap(tempCostume.getBitmap(), tempCostume.getDrawPositionX(),
 							tempCostume.getDrawPositionY(), null);
+					tempBubble.setCanvas(bufferCanvas);
+					if (!sprite.getName().equals(activity.getString(R.string.background))) {
+						tempBubble.draw();
+					}
 					sprite.setToDraw(false);
 				}
 			}
