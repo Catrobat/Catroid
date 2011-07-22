@@ -28,6 +28,7 @@ import android.media.MediaPlayer;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
+import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Costume;
@@ -48,7 +49,6 @@ import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
-import at.tugraz.ist.catroid.uitest.R;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -73,9 +73,9 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 	private int image2Height;
 	private int attempts = 3;
 
-	private static final int IMAGE_FILE_ID = R.raw.icon;
-	private static final int IMAGE_FILE_ID2 = R.raw.icon2;
-	private static final int SOUND_FILE_ID = R.raw.testsoundui;
+	private static final int IMAGE_FILE_ID = at.tugraz.ist.catroid.uitest.R.raw.icon;
+	private static final int IMAGE_FILE_ID2 = at.tugraz.ist.catroid.uitest.R.raw.icon2;
+	private static final int SOUND_FILE_ID = at.tugraz.ist.catroid.uitest.R.raw.testsoundui;
 
 	public StageTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -396,8 +396,9 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
 		spriteList.add(sprite);
 		UiTestUtils.createProject(projectName, spriteList, getActivity());
-		File image = UiTestUtils.saveFileToProject(projectName, imageName1, R.raw.red_quad, getInstrumentation()
-				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
+		File image = UiTestUtils.saveFileToProject(projectName, imageName1,
+				at.tugraz.ist.catroid.uitest.R.raw.red_quad, getInstrumentation().getContext(),
+				UiTestUtils.TYPE_IMAGE_FILE);
 		setImageMemberProperties(image);
 		setCostumeBrick.setCostume(image.getName());
 		solo.sleep(100);
