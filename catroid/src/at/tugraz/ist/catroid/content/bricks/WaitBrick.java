@@ -70,7 +70,7 @@ public class WaitBrick implements Brick, OnDismissListener {
 		EditText edit = (EditText) view.findViewById(R.id.InputValueEditText);
 		edit.setText((timeToWaitInMilliSeconds / 1000.0) + "");
 
-		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, timeToWaitInMilliSeconds / 1000.0);
+		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, timeToWaitInMilliSeconds / 1000.0, false);
 		dialog.setOnDismissListener(this);
 		dialog.setOnCancelListener((OnCancelListener) context);
 

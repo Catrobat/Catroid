@@ -115,7 +115,8 @@ public class GlideToBrick implements Brick, OnDismissListener {
 
 		EditText editDuration = (EditText) brickView.findViewById(R.id.construction_brick_glide_to_duration_edit_text);
 		editDuration.setText(String.valueOf(durationInMilliSeconds / 1000.0));
-		EditDoubleDialog dialogDuration = new EditDoubleDialog(context, editDuration, durationInMilliSeconds / 1000.0);
+		EditDoubleDialog dialogDuration = new EditDoubleDialog(context, editDuration, durationInMilliSeconds / 1000.0,
+				false);
 		dialogDuration.setOnDismissListener(this);
 		dialogDuration.setOnCancelListener((OnCancelListener) context);
 		editDuration.setOnClickListener(dialogDuration);

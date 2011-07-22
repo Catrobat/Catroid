@@ -65,7 +65,7 @@ public class MoveNStepsBrick implements Brick, OnDismissListener {
 		EditText edit = (EditText) view.findViewById(R.id.construction_brick_move_n_steps_edit_text);
 
 		edit.setText(String.valueOf(steps));
-		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, steps);
+		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, steps, false);
 		dialog.setOnDismissListener(this);
 		dialog.setOnCancelListener((OnCancelListener) context);
 		edit.setOnClickListener(dialog);

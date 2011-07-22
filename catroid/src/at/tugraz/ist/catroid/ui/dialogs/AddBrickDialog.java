@@ -39,6 +39,7 @@ import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.BroadcastBrick;
 import at.tugraz.ist.catroid.content.bricks.BroadcastReceiverBrick;
 import at.tugraz.ist.catroid.content.bricks.BroadcastWaitBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeSizeByNBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
@@ -100,6 +101,7 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new StopAllSoundsBrick(sprite));
 			prototypeBrickList.add(new ForeverBrick(sprite));
 			prototypeBrickList.add(new RepeatBrick(sprite, 3));
+			prototypeBrickList.add(new ChangeSizeByNBrick(sprite, 20));
 		} else {
 			prototypeBrickList = new ArrayList<Brick>();
 			prototypeBrickList.add(new WaitBrick(sprite, 1000));
@@ -130,6 +132,7 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new TurnLeftBrick(sprite, 15));
 			prototypeBrickList.add(new TurnRightBrick(sprite, 15));
 			prototypeBrickList.add(new PointInDirectionBrick(sprite, 90));
+			prototypeBrickList.add(new ChangeSizeByNBrick(sprite, 20));
 		}
 	}
 

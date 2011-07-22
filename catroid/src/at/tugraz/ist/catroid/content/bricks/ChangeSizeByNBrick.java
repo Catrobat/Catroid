@@ -30,18 +30,22 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 
-public class SetSizeToBrick implements Brick, OnDismissListener {
+public class ChangeSizeByNBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private double size;
 
-	public SetSizeToBrick(Sprite sprite, double size) {
+	public ChangeSizeByNBrick(Sprite sprite, double size) {
 		this.sprite = sprite;
 		this.size = size;
 	}
 
 	public void execute() {
-		sprite.setSize(size);
+		double newSize = sprite.getSize() + size;
+		if (newSize < 0.01) {
+			newSize = 0.01;
+		}
+		sprite.setSize(newSize);
 	}
 
 	public Sprite getSprite() {
@@ -50,12 +54,12 @@ public class SetSizeToBrick implements Brick, OnDismissListener {
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_set_size_to, null);
+		View view = inflater.inflate(R.layout.construction_brick_change_size_by_n, null);
 
-		EditText edit = (EditText) view.findViewById(R.id.construction_brick_set_size_to_edit_text);
+		EditText edit = (EditText) view.findViewById(R.id.construction_brick_change_size_by_edit_text);
 		edit.setText(String.valueOf(size));
 
-		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, size, false);
+		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, size, true);
 		dialog.setOnDismissListener(this);
 		dialog.setOnCancelListener((OnCancelListener) context);
 
@@ -66,13 +70,13 @@ public class SetSizeToBrick implements Brick, OnDismissListener {
 
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.toolbox_brick_set_size_to, null);
+		View view = inflater.inflate(R.layout.toolbox_brick_change_size_by_n, null);
 		return view;
 	}
 
 	@Override
 	public Brick clone() {
-		return new SetSizeToBrick(getSprite(), size);
+		return new ChangeSizeByNBrick(getSprite(), size);
 	}
 
 	public void onDismiss(DialogInterface dialog) {
