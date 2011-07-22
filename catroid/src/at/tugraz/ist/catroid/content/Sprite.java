@@ -39,6 +39,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	private transient boolean toDraw;
 	private List<Script> scriptList;
 	private transient Costume costume;
+	private transient Bubble bubble;
 
 	public transient volatile boolean isPaused;
 	public transient volatile boolean isFinished;
@@ -252,6 +253,10 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 
 	public synchronized Costume getCostume() {
 		return costume;
+	}
+
+	public synchronized Bubble getBubble() {
+		return bubble;
 	}
 
 	public void addScript(Script script) {
