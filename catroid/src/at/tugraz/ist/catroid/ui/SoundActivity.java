@@ -20,6 +20,7 @@ package at.tugraz.ist.catroid.ui;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -39,7 +40,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -59,6 +59,8 @@ public class SoundActivity extends ListActivity {
 	private final int REQUEST_SELECT_MUSIC = 0;
 	public SoundInfo selectedSoundInfo;
 	private RenameSoundDialog renameSoundDialog;
+	public static final int SPEAKER_ID = R.drawable.speaker;
+	public static final int SPEAKER_PLAYING_ID = R.drawable.speaker_playing;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -208,11 +210,17 @@ public class SoundActivity extends ListActivity {
 			if (soundInfo != null) {
 				final ImageView soundImage = (ImageView) convertView.findViewById(R.id.sound_img);
 				final TextView soundNameTextView = (TextView) convertView.findViewById(R.id.sound_name);
-				final ImageButton renameSoundButton = (ImageButton) convertView.findViewById(R.id.rename_button);
-				final ImageButton stopSoundButton = (ImageButton) convertView.findViewById(R.id.stop_button);
-				final ImageButton playSoundButton = (ImageButton) convertView.findViewById(R.id.play_button);
+				final Button renameSoundButton = (Button) convertView.findViewById(R.id.rename_button);
+				final Button stopSoundButton = (Button) convertView.findViewById(R.id.stop_button);
+				final Button playSoundButton = (Button) convertView.findViewById(R.id.play_button);
+				Button deleteSoundButton = (Button) convertView.findViewById(R.id.delete_button);
 				TextView soundFileSize = (TextView) convertView.findViewById(R.id.sound_size);
 				TextView soundDuration = (TextView) convertView.findViewById(R.id.sound_duration);
+
+				playSoundButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_media_play, 0, 0);
+				stopSoundButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_media_pause, 0, 0);
+				renameSoundButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_menu_edit, 0, 0);
+				deleteSoundButton.setCompoundDrawablesWithIntrinsicBounds(0, android.R.drawable.ic_delete, 0, 0);
 
 				final MediaPlayer player = new MediaPlayer();
 
@@ -222,8 +230,8 @@ public class SoundActivity extends ListActivity {
 					MediaPlayer tempPlayer = new MediaPlayer();
 					tempPlayer.setDataSource(soundInfo.getAbsolutePath());
 					tempPlayer.prepare();
-					//setting size and duration TextViews:
 
+					//setting duration TextView:
 					long milliseconds = tempPlayer.getDuration();
 					int seconds = (int) ((milliseconds / 1000) % 60);
 					int minutes = (int) ((milliseconds / 1000) / 60);
@@ -231,9 +239,17 @@ public class SoundActivity extends ListActivity {
 					String secondsString = seconds < 10 ? "0" + Integer.toString(seconds) : Integer.toString(seconds);
 					String minutesString = minutes < 10 ? "0" + Integer.toString(minutes) : Integer.toString(minutes);
 					String hoursString = hours < 10 ? "0" + Integer.toString(hours) : Integer.toString(hours);
-
-					soundFileSize.setText(Long.toString(new File(soundInfo.getAbsolutePath()).length() / 1024) + " KB");
 					soundDuration.setText(hoursString + ":" + minutesString + ":" + secondsString);
+					//setting filesize TextView:
+					float fileSizeInKB = new File(soundInfo.getAbsolutePath()).length() / 1024;
+					String fileSizeString;
+					if (fileSizeInKB > 1024) {
+						DecimalFormat decimalFormat = new DecimalFormat("#.00");
+						fileSizeString = decimalFormat.format(fileSizeInKB / 1024) + " MB";
+					} else {
+						fileSizeString = Long.toString((long) fileSizeInKB) + " KB";
+					}
+					soundFileSize.setText(fileSizeString);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -255,18 +271,20 @@ public class SoundActivity extends ListActivity {
 							player.setDataSource(soundInfo.getAbsolutePath());
 							player.prepare();
 							player.start();
-							soundImage.setImageDrawable(activity.getResources().getDrawable(
-									R.drawable.speaker_sound_playing));
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
+						soundImage.setImageDrawable(activity.getResources().getDrawable(
+								SoundActivity.SPEAKER_PLAYING_ID));
+
 						playSoundButton.setVisibility(Button.GONE);
 						stopSoundButton.setVisibility(Button.VISIBLE);
 						player.setOnCompletionListener(new OnCompletionListener() {
 							public void onCompletion(MediaPlayer mp) {
 								playSoundButton.setVisibility(Button.VISIBLE);
 								stopSoundButton.setVisibility(Button.GONE);
-								soundImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.speaker));
+								soundImage.setImageDrawable(activity.getResources().getDrawable(
+										SoundActivity.SPEAKER_ID));
 							}
 						});
 					}
@@ -275,14 +293,13 @@ public class SoundActivity extends ListActivity {
 				stopSoundButton.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
 						player.stop();
-						soundImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.speaker));
+						soundImage.setImageDrawable(activity.getResources().getDrawable(SoundActivity.SPEAKER_ID));
 						playSoundButton.setVisibility(Button.VISIBLE);
 						stopSoundButton.setVisibility(Button.GONE);
 					}
 				});
 
-				ImageButton deleteSound = (ImageButton) convertView.findViewById(R.id.delete_button);
-				deleteSound.setOnClickListener(new View.OnClickListener() {
+				deleteSoundButton.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
 						soundInfoItems.remove(soundInfo);
 						sprite.removeSoundInfoFromSoundList(soundInfo);

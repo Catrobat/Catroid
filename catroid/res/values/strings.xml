@@ -109,6 +109,10 @@
     <string name="sound_list">Sound:</string>
     <string name="rename_sound_dialog">Rename sound</string>
     <string name="soundname_invalid">This soundname is invalid</string>
+    <string name="sound_play">play</string>
+    <string name="sound_stop">stop</string>
+    <string name="sound_delete">delete</string>
+    <string name="sound_rename">rename</string>
 
     <!-- Sprite dialog -->
     <string name="sprite_button_text">Create</string>
