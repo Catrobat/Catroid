@@ -55,7 +55,7 @@ public class SetSizeToBrick implements Brick, OnDismissListener {
 		EditText edit = (EditText) view.findViewById(R.id.construction_brick_set_size_to_edit_text);
 		edit.setText(String.valueOf(size));
 
-		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, size);
+		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, size, false);
 		dialog.setOnDismissListener(this);
 		dialog.setOnCancelListener((OnCancelListener) context);
 
