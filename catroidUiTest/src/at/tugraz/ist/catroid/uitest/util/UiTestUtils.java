@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.Assert;
-
 import android.content.Context;
 import android.text.InputType;
 import android.util.Log;
@@ -111,7 +110,7 @@ public class UiTestUtils {
 	}
 
 	public static void addNewBrickAndScrollDown(Solo solo, int brickStringId) {
-		solo.clickOnButton(solo.getCurrentActivity().getString(R.string.add_new_brick));
+		solo.clickOnImageButton(R.id.btn_action_add_sprite);
 		solo.clickOnText(solo.getCurrentActivity().getString(brickStringId));
 
 		while (solo.scrollDown()) {
