@@ -45,6 +45,8 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	public transient volatile boolean isPaused;
 	public transient volatile boolean isFinished;
 
+	private transient Sprite selectedPointToSprite;
+
 	private Object readResolve() {
 		init();
 		return this;
@@ -368,6 +370,14 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 
 	public void setToDraw(boolean value) {
 		toDraw = value;
+	}
+
+	public Sprite getSelectedPointToSprite() {
+		return selectedPointToSprite;
+	}
+
+	public void setSelectedPointToSprite(Sprite message) {
+		selectedPointToSprite = message;
 	}
 
 	public int compareTo(Sprite sprite) {
