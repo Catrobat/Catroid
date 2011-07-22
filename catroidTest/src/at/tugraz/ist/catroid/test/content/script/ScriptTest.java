@@ -26,10 +26,8 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
-import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 
 public class ScriptTest extends AndroidTestCase {
@@ -38,11 +36,7 @@ public class ScriptTest extends AndroidTestCase {
 	private HideBrick hideBrick;
 	private ShowBrick showBrick;
 	private PlaceAtBrick placeAtBrick;
-	private SetSizeToBrick setSizeToBrick;
-	private ComeToFrontBrick comeToFrontBrick;
 	private ArrayList<Brick> brickList;
-
-	//pause/resume and Brick.execute functionality tested in WaitBrickTest.java 
 
 	@Override
 	protected void setUp() throws Exception {
@@ -50,8 +44,6 @@ public class ScriptTest extends AndroidTestCase {
 		hideBrick = new HideBrick(sprite);
 		showBrick = new ShowBrick(sprite);
 		placeAtBrick = new PlaceAtBrick(sprite, 0, 0);
-		setSizeToBrick = new SetSizeToBrick(sprite, 0);
-		comeToFrontBrick = new ComeToFrontBrick(sprite);
 	};
 
 	public void testAddBricks() {
