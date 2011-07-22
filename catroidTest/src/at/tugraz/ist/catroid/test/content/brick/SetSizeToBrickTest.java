@@ -133,14 +133,14 @@ public class SetSizeToBrickTest extends InstrumentationTestCase {
 		Values.SCREEN_WIDTH = 480;
 
 		Sprite sprite = new Sprite("testSprite");
-		sprite.getCostume().setImagePath(testImage.getAbsolutePath());
+		sprite.getCostume().changeImagePath(testImage.getAbsolutePath());
 
 		SetSizeToBrick brick = new SetSizeToBrick(sprite, sizeToBig);
 
 		brick.execute();
 
-		int newWidth = sprite.getCostume().getImageWidthHeight().first;
-		int newHeight = sprite.getCostume().getImageWidthHeight().second;
+		int newWidth = sprite.getCostume().getImageWidth();
+		int newHeight = sprite.getCostume().getImageHeight();
 
 		assertTrue("Costume has a wrong size after setting it!", newWidth == Consts.MAX_COSTUME_WIDTH
 				|| newHeight == Consts.MAX_COSTUME_HEIGHT);
@@ -151,14 +151,14 @@ public class SetSizeToBrickTest extends InstrumentationTestCase {
 		Values.SCREEN_WIDTH = 480;
 
 		Sprite sprite = new Sprite("testSprite");
-		sprite.getCostume().setImagePath(testImage.getAbsolutePath());
+		sprite.getCostume().changeImagePath(testImage.getAbsolutePath());
 
 		SetSizeToBrick brick = new SetSizeToBrick(sprite, sizeToSmall);
 
 		brick.execute();
 
-		int newWidth = sprite.getCostume().getImageWidthHeight().first;
-		int newHeight = sprite.getCostume().getImageWidthHeight().second;
+		int newWidth = sprite.getCostume().getImageWidth();
+		int newHeight = sprite.getCostume().getImageHeight();
 
 		assertTrue("Costume has a wrong size after setting it!", newWidth == 1 || newHeight == 1);
 	}
