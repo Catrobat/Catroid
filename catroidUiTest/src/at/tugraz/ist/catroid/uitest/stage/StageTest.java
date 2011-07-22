@@ -135,14 +135,14 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		solo.sleep(3000);
 		Costume costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
-		assertEquals("image1 is not set", (Integer) image1Width, costume.getImageWidthHeight().first);
-		assertEquals("image1 is not set", (Integer) image1Height, costume.getImageWidthHeight().second);
+		assertEquals("image1 is not set", image1Width, costume.getImageWidth());
+		assertEquals("image1 is not set", image1Height, costume.getImageHeight());
 		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
 
 		solo.sleep(1000);
 		costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
-		assertEquals("image2 is not set", (Integer) image2Width, costume.getImageWidthHeight().first);
-		assertEquals("image2 is not set", (Integer) image2Height, costume.getImageWidthHeight().second);
+		assertEquals("image2 is not set", image2Width, costume.getImageWidth());
+		assertEquals("image2 is not set", image2Height, costume.getImageHeight());
 	}
 
 	public void testRunScript() {
@@ -154,18 +154,18 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		solo.sleep(2000);
 		Costume costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
-		assertEquals("A wrong image is set", (Integer) this.image2Width, costume.getImageWidthHeight().first);
-		assertEquals("A wrong image is set", (Integer) this.image2Height, costume.getImageWidthHeight().second);
+		assertEquals("A wrong image is set", this.image2Width, costume.getImageWidth());
+		assertEquals("A wrong image is set", this.image2Height, costume.getImageHeight());
 
 		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2); // click in se middle
 
 		solo.sleep(1500);
 		costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
-		assertEquals("Image size not set correctly", (Integer) (image1Width / 2), costume.getImageWidthHeight().first);
+		assertEquals("Image size not set correctly", (image1Width / 2), costume.getImageWidth());
 
 		solo.sleep(2500);
 		costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
-		assertEquals("Image size not set correctly", (Integer) (image1Width), costume.getImageWidthHeight().first);
+		assertEquals("Image size not set correctly", (image1Width), costume.getImageWidth());
 
 		int drawPositionX = Math.round(((Values.SCREEN_WIDTH / (2f * Consts.MAX_REL_COORDINATES)) * placeAt)
 				+ Values.SCREEN_WIDTH / 2f);
@@ -179,8 +179,8 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		solo.sleep(2000);
 		Costume costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
-		assertEquals("image1 is not set ", (Integer) image1Width, costume.getImageWidthHeight().first);
-		assertEquals("image1 is not set ", (Integer) image1Height, costume.getImageWidthHeight().second);
+		assertEquals("image1 is not set ", image1Width, costume.getImageWidth());
+		assertEquals("image1 is not set ", image1Height, costume.getImageHeight());
 
 		Log.v(TAG, "image1: " + image1.getAbsolutePath() + " " + image1Width + " " + image1Height);
 
@@ -207,14 +207,14 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		solo.sleep(1000);
 		costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
-		assertEquals("image1 is not set ", (Integer) image1Width, costume.getImageWidthHeight().first);
-		assertEquals("image1 is not set ", (Integer) image1Height, costume.getImageWidthHeight().second);
+		assertEquals("image1 is not set ", image1Width, costume.getImageWidth());
+		assertEquals("image1 is not set ", image1Height, costume.getImageHeight());
 
 		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
 		solo.sleep(1000);
 		costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
-		assertEquals("image2 is not set ", (Integer) image2Width, costume.getImageWidthHeight().first);
-		assertEquals("image2 is not set ", (Integer) image2Height, costume.getImageWidthHeight().second);
+		assertEquals("image2 is not set ", image2Width, costume.getImageWidth());
+		assertEquals("image2 is not set ", image2Height, costume.getImageHeight());
 	}
 
 	public void testClickImageBoundaries() {
@@ -305,10 +305,8 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		solo.sleep(1000);
 		Costume costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(2).getCostume();
 
-		assertEquals("costume has wrong width --> touch worked on it", (Integer) image2Width,
-				costume.getImageWidthHeight().first);
-		assertEquals("costume has wrong height --> touch worked on it", (Integer) image2Height,
-				costume.getImageWidthHeight().second);
+		assertEquals("costume has wrong width --> touch worked on it", image2Width, costume.getImageWidth());
+		assertEquals("costume has wrong height --> touch worked on it", image2Height, costume.getImageHeight());
 
 		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
 		solo.sleep(500);
@@ -446,8 +444,8 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		solo.clickOnScreen(x, y);
 		solo.sleep(1000);
 		Costume costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
-		assertEquals("Unexpected image width", (Integer) expectedWidth, costume.getImageWidthHeight().first);
-		assertEquals("Unexpected image height", (Integer) expectedHeight, costume.getImageWidthHeight().second);
+		assertEquals("Unexpected image width", expectedWidth, costume.getImageWidth());
+		assertEquals("Unexpected image height", expectedHeight, costume.getImageHeight());
 
 		solo.goBack();
 		solo.clickOnImageButton(1);
