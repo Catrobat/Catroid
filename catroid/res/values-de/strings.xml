@@ -107,6 +107,10 @@
     <string name="sound_list">Sound:</string>
     <string name="rename_sound_dialog">Sound umbenennen</string>
     <string name="soundname_invalid">Dieser Name ist nicht zulässig</string>
+    <string name="sound_play">abspielen</string>
+    <string name="sound_stop">abbrechen</string>
+    <string name="sound_delete">löschen</string>
+    <string name="sound_rename">editieren</string>
 
     <!-- Sprite dialog -->
     <string name="sprite_button_text">Anlegen</string>

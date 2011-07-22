@@ -93,32 +93,32 @@ android:layout_height="match_parent"
 			android:layout_height="wrap_content"
 			android:paddingRight="3dip"
 			android:paddingLeft="3dip">
-    		<ImageButton 
+    		<Button 
     			android:id="@+id/play_button" 
     			android:layout_width="wrap_content" 
-    			android:layout_height="48dip"
-    			android:src="@drawable/play"
-    			android:layout_weight=".2"/>
-    		<ImageButton 
+    			android:layout_height="wrap_content"
+    			android:layout_weight=".2"
+    			android:text="@string/sound_play"/>
+    		<Button 
     			android:id="@+id/stop_button" 
     			android:layout_width="wrap_content"
-    			android:layout_height="48dip"
-    			android:src="@drawable/stop"
-    			android:layout_weight=".2"/>
-    		<ImageButton 
+    			android:layout_height="wrap_content"
+    			android:layout_weight=".2"
+    			android:text="@string/sound_stop"/>
+    		<Button 
     			android:id="@+id/rename_button" 
     			android:layout_width="wrap_content"
-    			android:layout_height="48dip"
-    			android:src="@drawable/ic_context_rename"
-    			android:layout_weight=".3"/>
-    		<ImageButton 
+    			android:layout_height="wrap_content"
+    			android:layout_weight=".3"
+    			android:text="@string/sound_rename"/>
+    		<Button 
     			android:id="@+id/delete_button" 
-    			android:src="@android:drawable/ic_delete" 
     			android:layout_width="wrap_content" 
-    			android:layout_height="48dip" 
+    			android:layout_height="wrap_content"
     			android:layout_gravity="right"
-    			android:layout_weight=".3">
-    		</ImageButton>
+    			android:layout_weight=".3"
+    			android:text="@string/sound_delete">
+    		</Button>
 		</LinearLayout>
 	</LinearLayout>
 </LinearLayout>
