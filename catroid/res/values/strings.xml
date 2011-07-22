@@ -182,7 +182,6 @@
 	<string name="brick_set_y">Set Y to:</string>
 	<string name="brick_glide">Glide</string>
 	<string name="brick_glide_to">to</string>
-	<string name="brick_move">Move</string>
 	<string name="brick_stop_all_sound">Stop all Sounds</string>
 	<string name="brick_speak">Speak</string>
 	<string name="brick_forever">Forever</string>
