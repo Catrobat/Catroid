@@ -26,7 +26,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actors.Image;
 
 /**
@@ -35,7 +34,7 @@ import com.badlogic.gdx.scenes.scene2d.actors.Image;
  */
 public class CostumeA extends Image {
 	private Semaphore xyLock = new Semaphore(1);
-	private Semaphore setImageLock = new Semaphore(1);
+	private Semaphore imageLock = new Semaphore(1);
 	private boolean imageChanged = false;
 	private String imagePath;
 	private Sprite sprite;
@@ -65,20 +64,38 @@ public class CostumeA extends Image {
 	}
 
 	private void checkImageChanged() {
+		imageLock.acquireUninterruptibly();
 		if (imageChanged) {
 			if (this.region != null && this.region.getTexture() != null) {
 				this.region.getTexture().dispose();
 			}
-			Texture tex = new Texture(Gdx.files.absolute(imagePath));
+			if (imagePath.equals("")) {
+				this.x += this.width / 2;
+				this.y += this.height / 2;
+				this.width = 0f;
+				this.height = 0f;
+				imageChanged = false;
+				imageLock.release();
+				return;
+			}
+			//			TextureRegion textureRegion = TextureHandler.getInstance().getTexture(imagePath);
+			//			if (textureRegion == null) {
+			//				imageLock.release();
+			//				return;
+			//			}
+
 			this.x += this.width / 2;
 			this.y += this.height / 2;
+			Texture tex = new Texture(Gdx.files.absolute(imagePath));
+			TextureRegion textureRegion = new TextureRegion(tex);
+			this.region = textureRegion;
 			this.width = tex.getWidth();
 			this.height = tex.getHeight();
-			this.region = new TextureRegion(tex);
 			this.x -= this.width / 2;
 			this.y -= this.height / 2;
 			imageChanged = false;
 		}
+		imageLock.release();
 	}
 
 	public void setXPosition(float x) {
@@ -130,13 +147,12 @@ public class CostumeA extends Image {
 	}
 
 	public void setImagePath(String path) {
-		setImageLock.acquireUninterruptibly();
+		if (path == null) {
+			path = "";
+		}
+		imageLock.acquireUninterruptibly();
 		imagePath = path;
 		imageChanged = true;
-		setImageLock.release();
-	}
-
-	public void addAction(Action action) {
-		this.actions.add(action);
+		imageLock.release();
 	}
 }

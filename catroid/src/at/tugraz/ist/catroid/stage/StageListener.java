@@ -44,6 +44,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 public class StageListener implements ApplicationListener {
 	Stage stage;
 	boolean paused = false;
+	boolean firstStart = true;
 	SpriteBatch batch;
 	BitmapFont font;
 	private OrthographicCamera camera;
@@ -81,22 +82,6 @@ public class StageListener implements ApplicationListener {
 		multiplexer.addProcessor(camController);
 		Gdx.input.setInputProcessor(multiplexer);
 
-		for (Sprite sprite : sprites) {
-			sprite.startStartScripts();
-		}
-	}
-
-	public void dispose() {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void pause() {
-		paused = true;
-		SoundManager.getInstance().pause();
-		for (Sprite sprite : sprites) {
-			sprite.pause();
-		}
 	}
 
 	public void resume() {
@@ -108,6 +93,27 @@ public class StageListener implements ApplicationListener {
 
 	}
 
+	public void pause() {
+		paused = true;
+		SoundManager.getInstance().pause();
+		for (Sprite sprite : sprites) {
+			sprite.pause();
+		}
+	}
+
+	public void dispose() {
+		SoundManager.getInstance().clear();
+		for (Sprite sprite : sprites) {
+			if (sprite.costume.region.getTexture() != null) {
+				sprite.costume.region.getTexture().dispose();
+			}
+			sprite.costume.region = null;
+			sprite.finish();
+		}
+
+		//TextureHandler.getInstance().clear();
+	}
+
 	public void render() {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		float scale = VIRTUAL_WIDTH / (float) DEVICE_WIDTH;
@@ -117,6 +123,14 @@ public class StageListener implements ApplicationListener {
 
 		renderRectangle(projModelView, -1, -1, 2, 2, Color.WHITE);
 		renderAxis(camera.combined);
+
+		if (firstStart) {
+			//TextureHandler.getInstance().loadTextures();
+			for (Sprite sprite : sprites) {
+				sprite.startStartScripts();
+			}
+			firstStart = false;
+		}
 
 		if (!paused) {
 			stage.act(Gdx.graphics.getDeltaTime());

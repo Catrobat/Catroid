@@ -46,14 +46,15 @@ public class GlideToBrick implements Brick, OnDismissListener {
 	}
 
 	public void execute() {
-		//		Action action = MoveBy.$(xDestination, yDestination, this.durationInMilliSeconds);
+		/* That's the way how an action is made */
+		//		Action action = MoveBy.$(xDestination, yDestination, this.durationInMilliSeconds / 1000);
 		//		final CountDownLatch latch = new CountDownLatch(1);
 		//		action = action.setCompletionListener(new OnActionCompleted() {
 		//			public void completed(Action action) {
 		//				latch.countDown();
 		//			}
 		//		});
-		//		sprite.costume.addAction(action);
+		//		sprite.costume.action(action);
 		//		try {
 		//			latch.await();
 		//		} catch (InterruptedException e) {
