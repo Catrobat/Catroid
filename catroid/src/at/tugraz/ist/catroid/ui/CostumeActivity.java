@@ -41,6 +41,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
@@ -215,11 +216,11 @@ public class CostumeActivity extends ListActivity {
 		}
 	}
 
-	public void handlePositiveButtonRenameSound(View v) {
+	public void handlePositiveButtonRenameCostume(View v) {
 		renameCostumeDialog.handleOkButton();
 	}
 
-	public void handleNegativeButtonRenameSound(View v) {
+	public void handleNegativeButtonRenameCostume(View v) {
 		renameCostumeDialog.renameDialog.cancel();
 	}
 
@@ -274,10 +275,12 @@ public class CostumeActivity extends ListActivity {
 	private class CostumeAdapter extends ArrayAdapter<costumeData> {
 
 		private ArrayList<costumeData> items;
+		private CostumeActivity activity;
 
-		public CostumeAdapter(Context context, int textViewResourceId, ArrayList<costumeData> items) {
-			super(context, textViewResourceId, items);
+		public CostumeAdapter(final CostumeActivity activity, int textViewResourceId, ArrayList<costumeData> items) {
+			super(activity, textViewResourceId, items);
 			this.items = items;
+			this.activity = activity;
 		}
 
 		@Override
@@ -290,7 +293,8 @@ public class CostumeActivity extends ListActivity {
 
 			final costumeData c = items.get(position);
 			if (c != null) {
-				//Button editCostume = (Button) v.findViewById(R.id.edit_costume);
+				TextView costumeNameTextView = (TextView) v.findViewById(R.id.costume_edit_name);
+				costumeNameTextView.setText(c.getCostumeDisplayName());
 
 				Button copyCostume = (Button) v.findViewById(R.id.copy_costume);
 				copyCostume.setOnClickListener(new View.OnClickListener() {
@@ -353,8 +357,8 @@ public class CostumeActivity extends ListActivity {
 				renameCostume.setOnClickListener(new OnClickListener() {
 
 					public void onClick(View v) {
-						selectedCostumeInfo = c;
-						showDialog(Consts.DIALOG_RENAME_COSTUME);
+						activity.selectedCostumeInfo = c;
+						activity.showDialog(Consts.DIALOG_RENAME_COSTUME);
 					}
 				});
 
