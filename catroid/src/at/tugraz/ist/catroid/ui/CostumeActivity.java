@@ -35,7 +35,6 @@ import android.provider.MediaStore.MediaColumns;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -67,21 +66,6 @@ public class CostumeActivity extends ListActivity {
 	@XStreamOmitField
 	private transient Bitmap thumbnail;
 	private static final int SELECT_IMAGE = 1;
-
-	private void initListeners() {
-		Button addnewcostume = (Button) findViewById(R.id.add_costume_button);
-		addnewcostume.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Intent intent = new Intent();
-				intent.setType("image/*");
-				intent.setAction(Intent.ACTION_GET_CONTENT);
-				startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_IMAGE);
-
-			}
-		});
-
-	}
 
 	private View.OnClickListener createAddCostumeClickListener() {
 		return new View.OnClickListener() {
@@ -119,7 +103,6 @@ public class CostumeActivity extends ListActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		initListeners();
 	}
 
 	@Override
@@ -142,7 +125,6 @@ public class CostumeActivity extends ListActivity {
 		ActivityHelper activityHelper = scriptTabActivity.activityHelper;
 		if (activityHelper != null) {
 			activityHelper.changeClickListener(R.id.btn_action_add_sprite, createAddCostumeClickListener());
-			//set new icon for actionbar plus button:
 			scriptTabActivity.activityHelper.changeButtonIcon(R.id.btn_action_add_sprite, R.drawable.ic_plus_black);
 		}
 	}
