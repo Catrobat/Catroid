@@ -20,7 +20,9 @@
 package at.tugraz.ist.catroid.uitest.ui;
 
 import android.test.ActivityInstrumentationTestCase2;
+import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.ui.CostumeActivity;
+import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.SoundActivity;
@@ -52,6 +54,12 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		getActivity().finish();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+	}
+
+	public void testMainMenuButton() {
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
+		assertTrue("Clicking on main menu button did not cause main menu to be displayed",
+				solo.getCurrentActivity() instanceof MainMenuActivity);
 	}
 
 	public void testScriptTab() {
