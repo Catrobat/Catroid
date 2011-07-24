@@ -139,15 +139,16 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	@Override
 	protected void onStart() {
 		super.onStart();
-		initListeners();
-		if (adapter.getGroupCount() > 0) {
-			listView.expandGroup(adapter.getGroupCount() - 1);
-		}
+
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
+		initListeners();
+		if (adapter.getGroupCount() > 0) {
+			listView.expandGroup(adapter.getGroupCount() - 1);
+		}
 		if (!Utils.checkForSdCard(this)) {
 			return;
 		}

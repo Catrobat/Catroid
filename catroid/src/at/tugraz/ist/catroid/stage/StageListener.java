@@ -44,6 +44,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 public class StageListener implements ApplicationListener {
 	Stage stage;
 	boolean paused = false;
+	boolean finished = false;
 	boolean firstStart = true;
 	SpriteBatch batch;
 	BitmapFont font;
@@ -101,17 +102,16 @@ public class StageListener implements ApplicationListener {
 		}
 	}
 
-	public void dispose() {
+	public void finish() {
+		finished = true;
 		SoundManager.getInstance().clear();
 		for (Sprite sprite : sprites) {
-			if (sprite.costume.region.getTexture() != null) {
+			if (sprite.costume.region != null && sprite.costume.region.getTexture() != null) {
 				sprite.costume.region.getTexture().dispose();
 			}
 			sprite.costume.region = null;
 			sprite.finish();
 		}
-
-		//TextureHandler.getInstance().clear();
 	}
 
 	public void render() {
@@ -135,8 +135,9 @@ public class StageListener implements ApplicationListener {
 		if (!paused) {
 			stage.act(Gdx.graphics.getDeltaTime());
 		}
-		stage.draw();
-
+		if (!finished) {
+			stage.draw();
+		}
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		batch.begin();
 		font.draw(batch, "res: " + Gdx.graphics.getWidth() + ", " + Gdx.graphics.getHeight(), 0, 30);
@@ -176,6 +177,12 @@ public class StageListener implements ApplicationListener {
 	public void resize(int width, int height) {
 		DEVICE_WIDTH = width;
 		DEVICE_HEIGHT = height;
+	}
+
+	public void dispose() {
+		if (!finished) {
+			this.finish();
+		}
 	}
 
 }

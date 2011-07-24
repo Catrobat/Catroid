@@ -55,10 +55,15 @@ public class StageA extends AndroidApplication {
 				pauseOrContinue();
 				break;
 			case R.id.stagemenuConstructionSite:
-				finish();
+				manageLoadAndFinish();
 				break;
 		}
 		return true;
+	}
+
+	@Override
+	public void onBackPressed() {
+		manageLoadAndFinish();
 	}
 
 	@Override
@@ -68,12 +73,15 @@ public class StageA extends AndroidApplication {
 	}
 
 	private void manageLoadAndFinish() {
+		stageListener.finish();
 		ProjectManager projectManager = ProjectManager.getInstance();
 		int currentSpritePos = projectManager.getCurrentSpritePosition();
 		int currentScriptPos = projectManager.getCurrentScriptPosition();
 		projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
 		projectManager.setCurrentSpriteWithPosition(currentSpritePos);
 		projectManager.setCurrentScriptWithPosition(currentScriptPos);
+
+		finish();
 	}
 
 	private void pauseOrContinue() {
