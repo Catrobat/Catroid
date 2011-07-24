@@ -46,11 +46,9 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
-import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
 import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView;
-import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class ScriptActivity extends Activity implements OnDismissListener, OnCancelListener {
@@ -58,7 +56,6 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	private DragNDropListView listView;
 	private Sprite sprite;
 	private Script scriptToEdit;
-	private ActivityHelper activityHelper = new ActivityHelper(this);
 
 	private void initListeners() {
 		sprite = ProjectManager.getInstance().getCurrentSprite();
@@ -83,21 +80,6 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_script);
-	}
-
-	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-		String title = this.getResources().getString(R.string.sprite_name) + " "
-				+ ProjectManager.getInstance().getCurrentSprite().getName();
-		activityHelper.setupActionBar(false, title);
-
-		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, new View.OnClickListener() {
-			public void onClick(View v) {
-				Intent intent = new Intent(ScriptActivity.this, StageActivity.class);
-				startActivity(intent);
-			}
-		}, false);
 	}
 
 	@Override
@@ -141,12 +123,14 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 			return;
 		}
 
-		//set new functionality for actionbar add button:
 		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
-		if (scriptTabActivity == null || scriptTabActivity.activityHelper == null) {
-			return;
+		if (scriptTabActivity != null && scriptTabActivity.activityHelper != null) {
+			//set new functionality for actionbar add button:
+			scriptTabActivity.activityHelper.changeClickListener(R.id.btn_action_add_sprite,
+					createAddBrickClickListener());
+			//set new icon for actionbar plus button:
+			scriptTabActivity.activityHelper.changeButtonIcon(R.id.btn_action_add_sprite, R.drawable.ic_plus_black);
 		}
-		scriptTabActivity.activityHelper.changeClickListener(R.id.btn_action_add_sprite, createAddBrickClickListener());
 	}
 
 	private View.OnClickListener createAddBrickClickListener() {

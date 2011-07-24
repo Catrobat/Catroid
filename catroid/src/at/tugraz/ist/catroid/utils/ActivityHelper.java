@@ -165,6 +165,18 @@ public class ActivityHelper {
 		}
 	}
 
+	public void changeButtonIcon(int resourceId, int imageRecourseId) {
+		final ViewGroup actionBar = getActionBar();
+		if (actionBar == null) {
+			return;
+		}
+
+		ImageButton imageButtonView = (ImageButton) actionBar.findViewById(resourceId);
+		if (imageButtonView != null) {
+			imageButtonView.setImageResource(imageRecourseId);
+		}
+	}
+
 	private void goToMainMenu() {
 		Intent intent = new Intent(activity, MainMenuActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

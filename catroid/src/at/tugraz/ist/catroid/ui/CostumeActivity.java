@@ -142,6 +142,8 @@ public class CostumeActivity extends ListActivity {
 		ActivityHelper activityHelper = scriptTabActivity.activityHelper;
 		if (activityHelper != null) {
 			activityHelper.changeClickListener(R.id.btn_action_add_sprite, createAddCostumeClickListener());
+			//set new icon for actionbar plus button:
+			scriptTabActivity.activityHelper.changeButtonIcon(R.id.btn_action_add_sprite, R.drawable.ic_plus_black);
 		}
 	}
 

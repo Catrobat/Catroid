@@ -82,12 +82,16 @@ public class SoundActivity extends ListActivity {
 			return;
 		}
 
-		//set new functionality for actionbar add button:
+		//change actionbar:
 		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
 		ActivityHelper activityHelper = scriptTabActivity.activityHelper;
 		if (activityHelper != null) {
+			//set new functionality for actionbar add button:
 			activityHelper.changeClickListener(R.id.btn_action_add_sprite, createAddSoundClickListener());
+			//set new icon for actionbar plus button:
+			activityHelper.changeButtonIcon(R.id.btn_action_add_sprite, R.drawable.ic_music);
 		}
+
 	}
 
 	private View.OnClickListener createAddSoundClickListener() {
@@ -218,7 +222,7 @@ public class SoundActivity extends ListActivity {
 				TextView soundDuration = (TextView) convertView.findViewById(R.id.sound_duration);
 
 				playSoundButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_media_play, 0, 0);
-				stopSoundButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_media_pause, 0, 0);
+				stopSoundButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_media_stop, 0, 0);
 				renameSoundButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_menu_edit, 0, 0);
 				deleteSoundButton.setCompoundDrawablesWithIntrinsicBounds(0, android.R.drawable.ic_delete, 0, 0);
 
