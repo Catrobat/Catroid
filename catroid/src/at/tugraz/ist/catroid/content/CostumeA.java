@@ -35,10 +35,13 @@ import com.badlogic.gdx.scenes.scene2d.actors.Image;
 public class CostumeA extends Image {
 	private Semaphore xyLock = new Semaphore(1);
 	private Semaphore imageLock = new Semaphore(1);
+	private Semaphore scaleLock = new Semaphore(1);
 	private boolean imageChanged = false;
+	private boolean scaleChanged = false;
 	private String imagePath;
 	private Sprite sprite;
 	public float alphaValue;
+	private float size;
 
 	public CostumeA(Sprite sprite) {
 		super(Utils.getUniqueName());
@@ -46,6 +49,7 @@ public class CostumeA extends Image {
 		this.x = 0;
 		this.y = 0;
 		this.alphaValue = 1f;
+		this.size = 1f;
 		this.width = 0f;
 		this.height = 0f;
 		this.touchable = true;
@@ -53,13 +57,18 @@ public class CostumeA extends Image {
 
 	@Override
 	protected boolean touchDown(float x, float y, int pointer) {
-		sprite.startTapScripts();
+		xyLock.acquireUninterruptibly();
+		if (x > this.x && x < this.x + this.width && y > this.y && y < this.y + this.height) {
+			sprite.startTapScripts();
+		}
+		xyLock.release();
 		return true;
 	}
 
 	@Override
 	public void draw(SpriteBatch batch, float parentAlpha) {
 		checkImageChanged();
+		checkScaleChanged();
 		super.draw(batch, this.alphaValue);
 	}
 
@@ -70,8 +79,10 @@ public class CostumeA extends Image {
 				this.region.getTexture().dispose();
 			}
 			if (imagePath.equals("")) {
+				xyLock.acquireUninterruptibly();
 				this.x += this.width / 2;
 				this.y += this.height / 2;
+				xyLock.release();
 				this.width = 0f;
 				this.height = 0f;
 				imageChanged = false;
@@ -83,19 +94,42 @@ public class CostumeA extends Image {
 			//				imageLock.release();
 			//				return;
 			//			}
-
+			xyLock.acquireUninterruptibly();
 			this.x += this.width / 2;
 			this.y += this.height / 2;
+			xyLock.release();
 			Texture tex = new Texture(Gdx.files.absolute(imagePath));
 			TextureRegion textureRegion = new TextureRegion(tex);
 			this.region = textureRegion;
 			this.width = tex.getWidth();
 			this.height = tex.getHeight();
+			xyLock.acquireUninterruptibly();
 			this.x -= this.width / 2;
 			this.y -= this.height / 2;
+			xyLock.release();
+
 			imageChanged = false;
+			scaleChanged = true;
 		}
 		imageLock.release();
+	}
+
+	private void checkScaleChanged() {
+		scaleLock.acquireUninterruptibly();
+		if (scaleChanged) {
+			xyLock.acquireUninterruptibly();
+			this.x += this.width / 2;
+			this.y += this.height / 2;
+			xyLock.release();
+			this.width = this.region.getTexture().getWidth() * size;
+			this.height = this.region.getTexture().getHeight() * size;
+			xyLock.acquireUninterruptibly();
+			this.x -= this.width / 2;
+			this.y -= this.height / 2;
+			xyLock.release();
+			scaleChanged = false;
+		}
+		scaleLock.release();
 	}
 
 	public void setXPosition(float x) {
@@ -155,4 +189,12 @@ public class CostumeA extends Image {
 		imageChanged = true;
 		imageLock.release();
 	}
+
+	public void setSize(float size) {
+		scaleLock.acquireUninterruptibly();
+		this.size = size;
+		scaleChanged = true;
+		scaleLock.release();
+	}
+
 }
