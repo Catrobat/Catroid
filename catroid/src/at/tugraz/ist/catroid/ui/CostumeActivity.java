@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -35,11 +36,10 @@ import android.provider.MediaStore.MediaColumns;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -47,6 +47,7 @@ import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.costumeData;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.ui.dialogs.RenameCostumeDialog;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -56,6 +57,8 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 public class CostumeActivity extends ListActivity {
 	private Sprite sprite;
 	private ArrayList<costumeData> costumeData;
+	public costumeData selectedCostumeInfo;
+	private RenameCostumeDialog renameCostumeDialog;
 	private CostumeAdapter c_adapter;
 	private Runnable viewCostumes;
 	Intent intent = null;
@@ -103,6 +106,25 @@ public class CostumeActivity extends ListActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
+	}
+
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		final Dialog dialog;
+		switch (id) {
+			case Consts.DIALOG_RENAME_COSTUME:
+				if (selectedCostumeInfo == null) {
+					dialog = null;
+				} else {
+					renameCostumeDialog = new RenameCostumeDialog(this);
+					dialog = renameCostumeDialog.createDialog(selectedCostumeInfo);
+				}
+				break;
+			default:
+				dialog = null;
+				break;
+		}
+		return dialog;
 	}
 
 	@Override
@@ -191,6 +213,14 @@ public class CostumeActivity extends ListActivity {
 
 			}
 		}
+	}
+
+	public void handlePositiveButtonRenameSound(View v) {
+		renameCostumeDialog.handleOkButton();
+	}
+
+	public void handleNegativeButtonRenameSound(View v) {
+		renameCostumeDialog.renameDialog.cancel();
 	}
 
 	public String getPath(Uri uri) {
@@ -308,7 +338,7 @@ public class CostumeActivity extends ListActivity {
 					}
 				});
 
-				ImageButton deleteCostume = (ImageButton) v.findViewById(R.id.delete_button);
+				Button deleteCostume = (Button) v.findViewById(R.id.delete_button);
 				deleteCostume.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
 						if (costumeData.size() > 1) {
@@ -319,46 +349,55 @@ public class CostumeActivity extends ListActivity {
 					}
 				});
 
-				final EditText editName = (EditText) v.findViewById(R.id.costume_edit_name);
-				final Button done = (Button) v.findViewById(R.id.rename_costume);
-				done.setVisibility(View.INVISIBLE);
-				if (editName != null) {
-					editName.setText(c.getCostumeDisplayName());
-				}
+				Button renameCostume = (Button) v.findViewById(R.id.rename_button);
+				renameCostume.setOnClickListener(new OnClickListener() {
 
-				editName.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
-						done.setVisibility(View.VISIBLE);
+						selectedCostumeInfo = c;
+						showDialog(Consts.DIALOG_RENAME_COSTUME);
 					}
 				});
 
-				done.setOnClickListener(new View.OnClickListener() {
-					public void onClick(View v) {
-						String nameToEdit = ((EditText) findViewById(R.id.costume_edit_name)).getText().toString();
-						if (nameToEdit.equalsIgnoreCase(c.getCostumeName())) {
-							editName.setText(nameToEdit);
-							notifyDataSetChanged();
-							return;
-						}
-						if (nameToEdit != null && !nameToEdit.equalsIgnoreCase("")) {
-							for (costumeData tempCostume : ProjectManager.getInstance().getCurrentSprite()
-									.getCostumeList()) {
-								if (tempCostume.getCostumeName().equalsIgnoreCase(nameToEdit)) {
-									//Utils.displayErrorMessage(costumeActivity,costumeActivity.getString(R.string.costumename_already_exists));
-									return;
-								}
-							}
-							c.setCostumeName(nameToEdit);
-							c.setCostumeDisplayName(nameToEdit);
-							editName.setText(nameToEdit);
-							notifyDataSetChanged();
-						} else {
-							//Utils.displayErrorMessage(this,this.getString(R.string.costumename_invalid));
-							return;
-						}
-						notifyDataSetChanged();
-					}
-				});
+				//				final EditText editName = (EditText) v.findViewById(R.id.costume_edit_name);
+				//				final Button done = (Button) v.findViewById(R.id.rename_costume);
+				//				done.setVisibility(View.INVISIBLE);
+				//				if (editName != null) {
+				//					editName.setText(c.getCostumeDisplayName());
+				//				}
+				//
+				//				editName.setOnClickListener(new View.OnClickListener() {
+				//					public void onClick(View v) {
+				//						done.setVisibility(View.VISIBLE);
+				//					}
+				//				});
+				//
+				//				done.setOnClickListener(new View.OnClickListener() {
+				//					public void onClick(View v) {
+				//						String nameToEdit = ((EditText) findViewById(R.id.costume_edit_name)).getText().toString();
+				//						if (nameToEdit.equalsIgnoreCase(c.getCostumeName())) {
+				//							editName.setText(nameToEdit);
+				//							notifyDataSetChanged();
+				//							return;
+				//						}
+				//						if (nameToEdit != null && !nameToEdit.equalsIgnoreCase("")) {
+				//							for (costumeData tempCostume : ProjectManager.getInstance().getCurrentSprite()
+				//									.getCostumeList()) {
+				//								if (tempCostume.getCostumeName().equalsIgnoreCase(nameToEdit)) {
+				//									//Utils.displayErrorMessage(costumeActivity,costumeActivity.getString(R.string.costumename_already_exists));
+				//									return;
+				//								}
+				//							}
+				//							c.setCostumeName(nameToEdit);
+				//							c.setCostumeDisplayName(nameToEdit);
+				//							editName.setText(nameToEdit);
+				//							notifyDataSetChanged();
+				//						} else {
+				//							//Utils.displayErrorMessage(this,this.getString(R.string.costumename_invalid));
+				//							return;
+				//						}
+				//						notifyDataSetChanged();
+				//					}
+				//				});
 
 				ImageView costumeImage = (ImageView) v.findViewById(R.id.costume_image);
 				if (costumeImage != null) {
