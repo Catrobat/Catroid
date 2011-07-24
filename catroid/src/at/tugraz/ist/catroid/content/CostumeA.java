@@ -69,7 +69,9 @@ public class CostumeA extends Image {
 	public void draw(SpriteBatch batch, float parentAlpha) {
 		checkImageChanged();
 		checkScaleChanged();
-		super.draw(batch, this.alphaValue);
+		if (this.region != null) {
+			super.draw(batch, this.alphaValue);
+		}
 	}
 
 	private void checkImageChanged() {
