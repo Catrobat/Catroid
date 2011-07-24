@@ -1,13 +1,9 @@
 package at.tugraz.ist.catroid.uitest.ui;
 
-import java.util.List;
-
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.ui.CostumeActivity;
@@ -31,7 +27,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Costum
 		super.setUp();
 		UiTestUtils.createTestProject();
 		solo = new Solo(getInstrumentation(), getActivity());
-		Button addNewCostume = (Button) solo.getView(R.id.add_costume_button);
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
 
 		// Override OnClickListener to launch MockGalleryActivity
 		OnClickListener listener = new OnClickListener() {
@@ -45,7 +41,6 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Costum
 		setCostumeImageView = (ImageView) solo.getView(R.id.costume_image);
 
 		assertNotNull("ImageView of the costume was not found", setCostumeImageView);
-		addNewCostume.setOnClickListener(listener);
 	}
 
 	@Override
@@ -61,13 +56,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Costum
 	}
 
 	public void testMainMenuButton() {
-		List<ImageButton> btnList = solo.getCurrentImageButtons();
-		for (int i = 0; i < btnList.size(); i++) {
-			ImageButton btn = btnList.get(i);
-			if (btn.getId() == R.id.btn_action_home) {
-				solo.clickOnImageButton(i);
-			}
-		}
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
 		assertTrue("Clicking on main menu button did not cause main menu to be displayed",
 				solo.getCurrentActivity() instanceof MainMenuActivity);
 	}
