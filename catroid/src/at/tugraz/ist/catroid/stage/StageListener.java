@@ -95,6 +95,9 @@ public class StageListener implements ApplicationListener {
 	}
 
 	public void pause() {
+		if (finished) {
+			return;
+		}
 		paused = true;
 		SoundManager.getInstance().pause();
 		for (Sprite sprite : sprites) {

@@ -68,11 +68,14 @@ public class StageA extends AndroidApplication {
 
 	@Override
 	protected void onDestroy() {
-		this.manageLoadAndFinish();
+		if (stagePlaying) {
+			this.manageLoadAndFinish();
+		}
 		super.onDestroy();
 	}
 
 	private void manageLoadAndFinish() {
+		stageListener.pause();
 		stageListener.finish();
 		ProjectManager projectManager = ProjectManager.getInstance();
 		int currentSpritePos = projectManager.getCurrentSpritePosition();
@@ -80,7 +83,7 @@ public class StageA extends AndroidApplication {
 		projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
 		projectManager.setCurrentSpriteWithPosition(currentSpritePos);
 		projectManager.setCurrentScriptWithPosition(currentScriptPos);
-
+		stagePlaying = false;
 		finish();
 	}
 
