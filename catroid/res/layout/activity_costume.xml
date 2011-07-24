@@ -32,13 +32,4 @@
 		android:layout_weight="1.0"
 		android:cacheColorHint="#00000000"
 	/>
-			
-	<!-- Add Costume button -->
-	<Button
-		android:id="@+id/add_costume_button" 
-		android:text="@string/add_new_costume"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:layout_weight="0"
-	/>
 </LinearLayout>
