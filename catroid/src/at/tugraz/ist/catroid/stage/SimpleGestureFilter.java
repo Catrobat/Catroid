@@ -113,7 +113,6 @@ public class SimpleGestureFilter extends SimpleOnGestureListener {
 	public boolean onSingleTapConfirmed(MotionEvent singleTap) {
 		this.listener.onSingleTouch();
 		context.processOnTouch((int) singleTap.getX(), (int) singleTap.getY(), WhenScript.TAPPED);
-		context.processOnTouch((int) singleTap.getX(), (int) singleTap.getY(), WhenScript.TOUCHINGSTOPS);
 		return true;
 	}
 

@@ -24,7 +24,6 @@ public class WhenScript extends Script {
 	public static final String LONGPRESSED = "Long Pressed";
 	public static final String TAPPED = "Tapped";
 	public static final String DOUBLETAPPED = "Double Tapped";
-	public static final String TOUCHINGSTOPS = "Touching Stops";
 	public static final String SWIPELEFT = "Swipe Left";
 	public static final String SWIPERIGHT = "Swipe Right";
 	public static final String SWIPEUP = "Swipe Up";
@@ -58,18 +57,15 @@ public class WhenScript extends Script {
 				this.action = LONGPRESSED;
 				break;
 			case 3:
-				this.action = TOUCHINGSTOPS;
-				break;
-			case 4:
 				this.action = SWIPELEFT;
 				break;
-			case 5:
+			case 4:
 				this.action = SWIPERIGHT;
 				break;
-			case 6:
+			case 5:
 				this.action = SWIPEUP;
 				break;
-			case 7:
+			case 6:
 				this.action = SWIPEDOWN;
 				break;
 		}

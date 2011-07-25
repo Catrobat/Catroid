@@ -59,7 +59,6 @@ public class WhenBrick implements Brick {
 		spinnerAdapter.add(context.getString(R.string.action_tapped));
 		spinnerAdapter.add(context.getString(R.string.action_doubleTapped));
 		spinnerAdapter.add(context.getString(R.string.action_longPressed));
-		spinnerAdapter.add(context.getString(R.string.action_touchingStops));
 		spinnerAdapter.add(context.getString(R.string.action_swipeUp));
 		spinnerAdapter.add(context.getString(R.string.action_swipeDown));
 		spinnerAdapter.add(context.getString(R.string.action_swipeLeft));
