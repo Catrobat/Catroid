@@ -156,7 +156,7 @@
     <string name="brick_set_costume">Set Costume</string>
     <string name="brick_set_size_to">Set size to</string>
     <string name="brick_go_back">Go back</string>
-    <string name="steps_label">steps</string>
+    <string name="brick_go_back_layers">layers</string>
     <string name="brick_come_to_front">Come to front</string>
     <string name="brick_if_touched">If Touched</string>
     <string name="brick_if_started">If Started</string>
@@ -196,6 +196,9 @@
     </string>
     <string name="notification_invalid_name_entered">
     	Please enter a name
+    </string>
+    <string name="notification_screenshot_ok">
+        Screenshot saved
     </string>
 
     <!-- Error messages -->
@@ -247,5 +250,4 @@
     <string name="upload_button">Upload</string>
     <string name="upload_project_dialog_title">Upload project</string>
     <string name="project_rename">(Your project will be renamed.)</string>
-    <string name="screenshot_ok">Screenshot saved</string>
 </resources>

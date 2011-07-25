@@ -28,13 +28,13 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
-import at.tugraz.ist.catroid.uitest.util.Utils;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
-	private String testProject = Utils.PROJECTNAME1;
+	private String testProject = UiTestUtils.PROJECTNAME1;
 
 	public AddBrickDialogTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -55,20 +55,20 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 		}
 		getActivity().finish();
 
-		Utils.clearAllUtilTestProjects();
+		UiTestUtils.clearAllUtilTestProjects();
 
 		super.tearDown();
 	}
 
 	private void checkIfBrickIsPresent(int brickStringId) {
 
-		String brickText = solo.getCurrentActivity().getString(brickStringId);
+		String brickText = solo.getCurrentActivity().getString(R.string.add_new_brick);
 		assertTrue("Inserted brick " + brickText + " was not found.", solo.searchText(brickText));
 
 	}
 
 	private void addAndCheckBrick(Solo solo, int brickStringId) {
-		Utils.addNewBrickAndScrollDown(solo, brickStringId);
+		UiTestUtils.addNewBrickAndScrollDown(solo, brickStringId);
 		checkIfBrickIsPresent(brickStringId);
 	}
 
@@ -129,5 +129,4 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 
 		storageHandler.saveProject(project);
 	}
-
 }

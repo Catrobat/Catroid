@@ -34,12 +34,10 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class ProjectManager {
 
-	private Sprite currentSprite;
 	private Project project;
-	private static ProjectManager instance;
 	private Script currentScript;
-	// used in uiTests
-	private int serverProjectId;
+	private Sprite currentSprite;
+	private static ProjectManager instance;
 
 	public FileChecksumContainer fileChecksumContainer;
 	public MessageContainer messageContainer;
@@ -198,14 +196,6 @@ public class ProjectManager {
 		boolean directoryRenamed = oldProjectDirectory.renameTo(newProjectDirectory);
 
 		return (directoryRenamed && fileRenamed);
-	}
-
-	public void setServerProjectId(int serverProjectId) {
-		this.serverProjectId = serverProjectId;
-	}
-
-	public int getServerProjectId() {
-		return serverProjectId;
 	}
 
 	public int getCurrentSpritePosition() {

@@ -32,7 +32,7 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.NoteBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
-import at.tugraz.ist.catroid.uitest.util.Utils;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -85,7 +85,7 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		solo.clickOnButton(0);
 		solo.sleep(300);
 
-		String note = Utils.getPrivateField("note", noteBrick).toString();
+		String note = UiTestUtils.getPrivateField("note", noteBrick).toString();
 
 		assertEquals("Wrong text in field.", testString, note);
 
@@ -94,7 +94,7 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		solo.clickOnButton(0);
 		solo.sleep(300);
 
-		note = Utils.getPrivateField("note", noteBrick).toString();
+		note = UiTestUtils.getPrivateField("note", noteBrick).toString();
 
 		assertEquals("Wrong text in field.", "", note);
 
@@ -103,7 +103,7 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		solo.clickOnButton(0);
 		solo.sleep(300);
 
-		note = Utils.getPrivateField("note", noteBrick).toString();
+		note = UiTestUtils.getPrivateField("note", noteBrick).toString();
 
 		assertEquals("Wrong text in field.", testString2, note);
 

@@ -32,7 +32,7 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.MoveNStepsBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
-import at.tugraz.ist.catroid.uitest.util.Utils;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -102,7 +102,7 @@ public class MoveNStepsBrickTest extends ActivityInstrumentationTestCase2<Script
 
 		solo.sleep(300);
 
-		assertEquals("Wrong text in field.", stepsToMove, Utils.getPrivateField("steps", moveNStepsBrick));
+		assertEquals("Wrong text in field.", stepsToMove, UiTestUtils.getPrivateField("steps", moveNStepsBrick));
 		assertEquals("Value in Brick is not updated.", stepsToMove + "", solo.getEditText(0).getText().toString());
 	}
 
