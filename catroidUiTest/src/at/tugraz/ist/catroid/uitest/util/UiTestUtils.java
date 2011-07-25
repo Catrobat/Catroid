@@ -295,6 +295,7 @@ public class UiTestUtils {
 	}
 
 	public static void clickOnImageButton(Solo solo, int imageButtonId) {
+		solo.sleep(1000);
 		View imageButtonView = solo.getView(imageButtonId);
 		solo.clickOnView(imageButtonView);
 	}

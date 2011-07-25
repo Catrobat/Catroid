@@ -151,7 +151,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
 
-		solo.sleep(50);
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 
 		boolean buttonFound = solo.getView(R.id.btn_home) != null ? true : false;
 		assertTrue("Main menu is not visible", buttonFound);
