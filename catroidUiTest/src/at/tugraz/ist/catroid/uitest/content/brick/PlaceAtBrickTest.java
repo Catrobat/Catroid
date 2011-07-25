@@ -34,7 +34,7 @@ import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
-import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
+import at.tugraz.ist.catroid.uitest.util.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -43,12 +43,12 @@ import com.jayway.android.robotium.solo.Solo;
  * @author Daniel Burtscher
  * 
  */
-public class PlaceAtTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
 	private PlaceAtBrick placeAtBrick;
 
-	public PlaceAtTest() {
+	public PlaceAtBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
 	}
 
@@ -100,7 +100,7 @@ public class PlaceAtTest extends ActivityInstrumentationTestCase2<ScriptActivity
 		solo.clickOnButton(0);
 
 		solo.sleep(300);
-		int actualXPosition = (Integer) UiTestUtils.getPrivateField("xPosition", placeAtBrick);
+		int actualXPosition = (Integer) Utils.getPrivateField("xPosition", placeAtBrick);
 		assertEquals("Text not updated", xPosition + "", solo.getEditText(0).getText().toString());
 		assertEquals("Value in Brick is not updated", xPosition, actualXPosition);
 
@@ -110,7 +110,7 @@ public class PlaceAtTest extends ActivityInstrumentationTestCase2<ScriptActivity
 		solo.clickOnButton(0);
 
 		solo.sleep(300);
-		int actualYPosition = (Integer) UiTestUtils.getPrivateField("yPosition", placeAtBrick);
+		int actualYPosition = (Integer) Utils.getPrivateField("yPosition", placeAtBrick);
 		assertEquals("Text not updated", yPosition + "", solo.getEditText(1).getText().toString());
 		assertEquals("Value in Brick is not updated", yPosition, actualYPosition);
 	}
