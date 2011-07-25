@@ -65,8 +65,8 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 
 	public void testMainMenuButton() {
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
-		assertTrue("Clicking on main menu button did not cause main menu to be displayed",
-				solo.getCurrentActivity() instanceof MainMenuActivity);
+		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
+				MainMenuActivity.class);
 	}
 
 	public void testCreateNewBrickButton() {
