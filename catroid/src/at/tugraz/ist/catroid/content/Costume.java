@@ -208,6 +208,7 @@ public class Costume implements Serializable {
 		}
 
 		costumeBitmap = ImageEditing.getScaledBitmap(imagePath, actualWidth, actualHeight);
+		costumeBitmap = ImageEditing.rotateBitmap(costumeBitmap, (float) -(90 - sprite.getDirection()));
 		return;
 	}
 }
