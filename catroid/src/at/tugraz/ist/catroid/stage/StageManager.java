@@ -37,7 +37,7 @@ public class StageManager {
 	private IDraw draw;
 	private boolean isPaused;
 	private Handler handler = new Handler();
-
+	private boolean bluetoothNeeded;
 	private Runnable runnable = new Runnable() {
 		public void run() {
 			for (Sprite sprite : spriteList) {
@@ -64,9 +64,25 @@ public class StageManager {
 		spritesChanged = true;
 		draw = new CanvasDraw(activity);
 
+		if (checkForLegoNXTBricks()) {
+			bluetoothNeeded = true;
+		}
+	}
+
+	public void startScripts() {
 		for (Sprite sprite : spriteList) {
 			sprite.startStartScripts();
 		}
+
+	}
+
+	private boolean checkForLegoNXTBricks() {
+		for (Sprite sprite : spriteList) {
+			if (sprite.isLegoNXTSprite()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public boolean drawSprites() {
@@ -121,5 +137,9 @@ public class StageManager {
 		for (Sprite sprite : spriteList) {
 			sprite.finish();
 		}
+	}
+
+	public boolean getBluetoothNeeded() {
+		return bluetoothNeeded;
 	}
 }
