@@ -63,6 +63,7 @@ import at.tugraz.ist.catroid.content.bricks.SetXBrick;
 import at.tugraz.ist.catroid.content.bricks.SetYBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.content.bricks.StopAllSoundsBrick;
+import at.tugraz.ist.catroid.content.bricks.TalkBrick;
 import at.tugraz.ist.catroid.content.bricks.TurnLeftBrick;
 import at.tugraz.ist.catroid.content.bricks.TurnRightBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
@@ -130,6 +131,7 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new TurnLeftBrick(sprite, 15));
 			prototypeBrickList.add(new TurnRightBrick(sprite, 15));
 			prototypeBrickList.add(new PointInDirectionBrick(sprite, 90));
+			prototypeBrickList.add(new TalkBrick(sprite));
 		}
 	}
 
