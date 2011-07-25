@@ -28,6 +28,7 @@ import android.graphics.Paint.Align;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.NinePatchDrawable;
+import android.util.Log;
 import at.tugraz.ist.catroid.R;
 
 public class Bubble implements Serializable {
@@ -38,8 +39,8 @@ public class Bubble implements Serializable {
 	private String text;
 	private Paint textPaint;
 
-	private int defaultEdgeX;
-	private int defaultEdgeY;
+	private int textOffsetYStart;
+	private int textOffsetYNext;
 
 	private NinePatchDrawable bubble9Patch;
 	private float bubbleHeight;
@@ -52,6 +53,10 @@ public class Bubble implements Serializable {
 	private Costume costume;
 
 	private Canvas canvas;
+
+	public Bubble() {
+		text = "";
+	}
 
 	public Bubble(String text, Costume costume, Activity activity) {
 		this.activity = activity;
@@ -73,9 +78,35 @@ public class Bubble implements Serializable {
 
 		this.costume = costume;
 
-		defaultEdgeX = 10;
-		defaultEdgeY = 10;
+		textOffsetYStart = 6;
+		textOffsetYNext = 10;
 
+	}
+
+	public void init() {
+		textPaint = new Paint();
+		textPaint.setColor(Color.BLACK);
+		textPaint.setTextSize(22);
+		textPaint.setFakeBoldText(true);
+		textPaint.setTypeface(Typeface.MONOSPACE);
+
+		bubble9Patch = (NinePatchDrawable) activity.getResources().getDrawable(R.drawable.bubble);
+		bubbleDefaultHeight = bubble9Patch.getIntrinsicHeight();
+		bubbleDefaultWidth = bubble9Patch.getIntrinsicWidth();
+		bubbleHeight = bubbleDefaultHeight;
+		bubbleWidth = bubbleDefaultWidth;
+		bubblePosX = 0;
+		bubblePosY = 0;
+		textOffsetYStart = 6;
+		textOffsetYNext = 10;
+	}
+
+	public void setCostume(Costume costume) {
+		this.costume = costume;
+	}
+
+	public void setActivity(Activity activity) {
+		this.activity = activity;
 	}
 
 	public void setText(String text) {
@@ -88,6 +119,21 @@ public class Bubble implements Serializable {
 
 	public void setCanvas(Canvas canvas) {
 		this.canvas = canvas;
+		textPaint = new Paint();
+		textPaint.setColor(Color.BLACK);
+		textPaint.setTextSize(22);
+		textPaint.setFakeBoldText(true);
+		textPaint.setTypeface(Typeface.MONOSPACE);
+
+		bubble9Patch = (NinePatchDrawable) activity.getResources().getDrawable(R.drawable.bubble);
+		bubbleDefaultHeight = bubble9Patch.getIntrinsicHeight();
+		bubbleDefaultWidth = bubble9Patch.getIntrinsicWidth();
+		bubbleHeight = bubbleDefaultHeight;
+		bubbleWidth = bubbleDefaultWidth;
+		bubblePosX = 0;
+		bubblePosY = 0;
+		textOffsetYStart = 6;
+		textOffsetYNext = 10;
 	}
 
 	public void drawBubble() {
@@ -128,27 +174,83 @@ public class Bubble implements Serializable {
 			return;
 
 		} else if (numberOfCharacters >= 1 && numberOfCharacters <= 5) {
+			// basic scaling
 			textPaint.setTextAlign(Align.CENTER);
 			Rect textBound = new Rect();
 			textPaint.getTextBounds(text, 0, numberOfCharacters, textBound);
-			//textHeight = textBound.height();
-			//textWidth = textBound.height();
+
 			bubbleHeight = bubbleDefaultHeight;
 			bubbleWidth = bubbleDefaultWidth;
 			drawBubble();
-			int textPosX = (int) (bubbleWidth / 2);
-			int textPosY = (int) (bubbleHeight / 2) - 10;
+
+			int textPosX = (int) (bubbleDefaultWidth / 2);
+			int textPosY = (int) (bubbleDefaultHeight / 2) - textOffsetYStart;
 			drawText(text, textPosX, textPosY);
+
 		} else {
 			if (numberOfCharacters >= 6 && numberOfCharacters <= 13) {
-
+				// x- scaling
+				textPaint.setTextAlign(Align.CENTER);
+				Rect textBound = new Rect();
+				textPaint.getTextBounds(text, 0, text.length(), textBound);
+				int newWidth = textBound.width();
+				Rect textBoundQ = new Rect();
+				textPaint.getTextBounds("12345", 0, 5, textBoundQ);
+				int oldWidth = textBoundQ.width();
+				int diff = newWidth - oldWidth;
 				bubbleHeight = bubbleDefaultHeight;
-				bubbleWidth = bubbleDefaultWidth;
-				//drawBubble(canvas, costume);
+				bubbleWidth = bubbleDefaultWidth + diff;
+				drawBubble();
+
+				int textPosX = (int) (bubbleWidth / 2);
+				int textPosY = (int) (bubbleHeight / 2) - textOffsetYStart;
+				drawText(text, textPosX, textPosY);
 
 			} else if (numberOfCharacters >= 14) {
-				textPaint.setTextAlign(Align.RIGHT);
-				//drawBubble(canvas, costume);
+				// y- scaling
+				textPaint.setTextAlign(Align.CENTER);
+				Rect textBound = new Rect();
+				textPaint.getTextBounds("12345671234567", 0, 14, textBound);
+				int newWidth = textBound.width();
+				Rect textBoundQ = new Rect();
+				textPaint.getTextBounds("12345", 0, 5, textBoundQ);
+				int oldWidth = textBoundQ.width();
+				int diff = newWidth - oldWidth;
+				bubbleHeight = bubbleDefaultHeight;
+				bubbleWidth = bubbleDefaultWidth + diff;
+
+				int tcol = numberOfCharacters / 14;
+				if (numberOfCharacters % 14 > 0) {
+					tcol++;
+				}
+				bubbleHeight = bubbleDefaultHeight + (tcol - 1) * (textOffsetYNext + (int) textPaint.getTextSize());
+				bubbleWidth = bubbleDefaultWidth + diff;
+				drawBubble();
+				int charsToDraw = numberOfCharacters;
+				String subString = "";
+				int subStringStart = 0;
+				int subStringEnd = 14;
+				int initY = (int) (bubbleDefaultHeight / 2) - textOffsetYStart;
+				int counterT = 1;
+
+				while (counterT <= tcol) {
+
+					if (subStringEnd > numberOfCharacters) {
+						subStringEnd = numberOfCharacters;
+					}
+					subString = text.substring(subStringStart, subStringEnd);
+					Log.v("SubString", subString + "::" + subStringStart + "::" + subStringEnd + "::" + charsToDraw);
+
+					int textPosX = (int) (bubbleWidth / 2);
+					int textPosY = initY + (counterT - 1) * (textOffsetYNext + (int) textPaint.getTextSize());
+					drawText(subString, textPosX, textPosY);
+					subStringStart = subStringEnd;
+					subStringEnd = subStringStart + 14;
+					counterT++;
+					Log.v("SubString", subString + "::" + subStringStart + "::" + subStringEnd + "::" + charsToDraw);
+
+				}
+
 			}
 		}
 	}

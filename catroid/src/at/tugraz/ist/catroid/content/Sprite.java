@@ -60,6 +60,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		toDraw = false;
 		isPaused = false;
 		isFinished = false;
+		bubble = new Bubble();
 	}
 
 	public Sprite(String name) {
