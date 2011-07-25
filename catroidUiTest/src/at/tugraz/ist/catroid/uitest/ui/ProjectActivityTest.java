@@ -18,10 +18,7 @@
  */
 package at.tugraz.ist.catroid.uitest.ui;
 
-import java.util.List;
-
 import android.test.ActivityInstrumentationTestCase2;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -156,14 +153,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		solo.sleep(50);
 
-		List<ImageButton> btnList = solo.getCurrentImageButtons();
-		boolean buttonFound = false;
-		for (ImageButton button : btnList) {
-			if (button.getId() == R.id.btn_home) {
-				buttonFound = true;
-				break;
-			}
-		}
+		boolean buttonFound = solo.getView(R.id.btn_home) != null ? true : false;
 		assertTrue("Main menu is not visible", buttonFound);
 
 		//assertTrue("Current project is not visible", solo.searchText(getActivity().getString(R.string.current_project)));
