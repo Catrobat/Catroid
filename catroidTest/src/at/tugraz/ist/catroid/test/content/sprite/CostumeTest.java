@@ -124,9 +124,6 @@ public class CostumeTest extends InstrumentationTestCase {
 		int width = costume.getImageWidth();
 		int height = costume.getImageHeight();
 
-		System.out.println("CostumeTest.testUpdateDirection() width = " + width);
-		System.out.println("CostumeTest.testUpdateDirection() height = " + height);
-
 		sprite.setDirection(direction);
 
 		int expectedWidth = (int) Math
