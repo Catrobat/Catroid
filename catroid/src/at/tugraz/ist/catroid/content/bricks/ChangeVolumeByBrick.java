@@ -42,14 +42,13 @@ public class ChangeVolumeByBrick implements Brick, OnDismissListener {
 	}
 
 	public void execute() {
-		double currentVolume = sprite.getVolume();
+		double currentVolume = SoundManager.getInstance().getVolume();
 		currentVolume += volume;
 		if (currentVolume < 0.0) {
 			currentVolume = 0.0;
 		} else if (currentVolume > 100.0) {
 			currentVolume = 100.0;
 		}
-		sprite.setVolume(currentVolume);
 		SoundManager.getInstance().setVolume(currentVolume);
 	}
 

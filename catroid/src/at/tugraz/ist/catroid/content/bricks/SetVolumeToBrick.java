@@ -42,7 +42,11 @@ public class SetVolumeToBrick implements Brick, OnDismissListener {
 	}
 
 	public void execute() {
-		sprite.setVolume(volume);
+		if (volume < 0.0) {
+			volume = 0.0;
+		} else if (volume > 100.0) {
+			volume = 100.0;
+		}
 		SoundManager.getInstance().setVolume(getVolume());
 	}
 
@@ -61,7 +65,7 @@ public class SetVolumeToBrick implements Brick, OnDismissListener {
 		EditText edit = (EditText) view.findViewById(R.id.construction_brick_set_volume_to_edit_text);
 		edit.setText(String.valueOf(volume));
 
-		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, volume, true);
+		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, volume, false);
 		dialog.setOnDismissListener(this);
 		dialog.setOnCancelListener((OnCancelListener) context);
 
