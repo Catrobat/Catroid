@@ -314,21 +314,6 @@ public class SpriteTest extends AndroidTestCase {
 		assertEquals("Sprite1 is not in front of Sprite2.", Integer.MIN_VALUE, sprite1.compareTo(sprite4));
 	}
 
-	public void testSetVolume() {
-		Sprite sprite = new Sprite("new sprite");
-		final double volume = 60;
-		sprite.setVolume(volume);
-		assertEquals("Unexpected volume", volume, sprite.getVolume());
-
-		final double hugeVolume = 10.0e100;
-		sprite.setVolume(hugeVolume);
-		assertEquals("Failed to size sprite to a very large volume", hugeVolume, sprite.getVolume());
-
-		final double negativeVolume = -10.0e100;
-		sprite.setVolume(negativeVolume);
-		assertEquals("Failed to size sprite to a negative volume", negativeVolume, sprite.getVolume());
-	}
-
 	public void testSetBrightness() {
 		Sprite sprite = new Sprite("new sprite");
 		final double brightness = 70;

@@ -43,12 +43,12 @@ import com.jayway.android.robotium.solo.Solo;
  * @author Daniel Burtscher
  * 
  */
-public class PlaceAtTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
 	private PlaceAtBrick placeAtBrick;
 
-	public PlaceAtTest() {
+	public PlaceAtBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
 	}
 

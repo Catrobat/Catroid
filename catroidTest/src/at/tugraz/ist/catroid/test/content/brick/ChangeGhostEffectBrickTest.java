@@ -24,8 +24,8 @@ import at.tugraz.ist.catroid.content.bricks.ChangeGhostEffectBrick;
 
 public class ChangeGhostEffectBrickTest extends AndroidTestCase {
 
-	private double increaseGhostEffect = 100.0;
-	private double decreaseGhostEffect = -10.0;
+	private final double increaseGhostEffect = 100.0;
+	private final double decreaseGhostEffect = -10.0;
 
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");

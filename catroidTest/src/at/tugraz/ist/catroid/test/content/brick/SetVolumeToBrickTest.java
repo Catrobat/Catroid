@@ -58,30 +58,11 @@ public class SetVolumeToBrickTest extends InstrumentationTestCase {
 
 	public void testVolume() {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite size value", 70.0, sprite.getVolume());
-
 		SetVolumeToBrick brick = new SetVolumeToBrick(sprite, volume);
 		brick.execute();
-		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", volume, sprite.getVolume());
-	}
+		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", volume, SoundManager
+				.getInstance().getVolume());
 
-	public void testNullSprite() {
-		SetVolumeToBrick brick = new SetVolumeToBrick(null, volume);
-
-		try {
-			brick.execute();
-			fail("Execution of SetSizeToBrick with null Sprite did not cause a NullPointerException to be thrown");
-		} catch (NullPointerException e) {
-			// expected behavior
-		}
-	}
-
-	public void testNegativeVolume() {
-		Sprite sprite = new Sprite("testSprite");
-		SetVolumeToBrick brick = new SetVolumeToBrick(sprite, -volume);
-
-		brick.execute();
-		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", -volume, sprite.getVolume());
 	}
 
 	private void createTestProject() throws IOException {

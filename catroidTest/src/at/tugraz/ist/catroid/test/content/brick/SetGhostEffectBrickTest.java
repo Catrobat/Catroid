@@ -46,11 +46,4 @@ public class SetGhostEffectBrickTest extends InstrumentationTestCase {
 			// expected behavior
 		}
 	}
-
-	public void testNegativeEffectValue() {
-		Sprite sprite = new Sprite("testSprite");
-		SetGhostEffectBrick brick = new SetGhostEffectBrick(sprite, -effectValue);
-		brick.execute();
-		assertEquals("Negative value doesn't change to positive.", effectValue, sprite.getGhostEffectValue());
-	}
 }
