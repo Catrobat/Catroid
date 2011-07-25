@@ -81,7 +81,7 @@
 			android:focusableInTouchMode="false"
 			android:gravity="right"
 			android:inputType="number|numberDecimal"
-			android:maxLength="3"
+			android:maxLength="4"
 			android:maxLines="1"
 		>
 		</EditText>

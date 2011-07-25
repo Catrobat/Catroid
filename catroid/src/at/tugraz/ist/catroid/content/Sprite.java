@@ -258,7 +258,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	}
 
 	public synchronized void setGhostEffectValue(double ghostEffectValue) {
-		this.ghostEffect = Math.abs(ghostEffectValue);
+		this.ghostEffect = ghostEffectValue;
 		double calculation = 0.0;
 		int opacityValue = 0;
 
