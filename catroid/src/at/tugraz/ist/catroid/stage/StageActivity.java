@@ -59,7 +59,7 @@ public class StageActivity extends Activity {
 			stageManager.start();
 			stagePlaying = true;
 		}
-	}
+	} // dummy
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
