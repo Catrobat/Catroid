@@ -47,7 +47,7 @@ public class SetBrightnessBrickTest extends InstrumentationTestCase {
 		}
 	}
 
-	public void testNegativeBrighnessValue() {
+	public void testNegativeBrightnessValue() {
 		Sprite sprite = new Sprite("testSprite");
 		SetBrightnessBrick brick = new SetBrightnessBrick(sprite, -brightnessValue);
 		brick.execute();

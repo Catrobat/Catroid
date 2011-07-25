@@ -212,47 +212,21 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	}
 
 	public synchronized void clearGraphicEffect() {
-		costume.clearGraphicEffect();
 		ghostEffect = 0.0;
 		brightness = 0.0;
+		costume.updateImage();
 		toDraw = true;
 	}
 
 	public synchronized void setBrightnessValue(double brightnessValue) {
 		this.brightness = brightnessValue;
-		double brightness;
-
-		if (brightnessValue > 100.0) {
-			brightness = 200;
-		} else if (brightnessValue <= -100.0) {
-			brightness = -255;
-		} else if (brightnessValue < 0.0 && brightnessValue > -100.0) {
-			brightness = brightnessValue * 2.55;
-		} else {
-			brightness = brightnessValue * 2;
-		}
-
-		costume.setBrightness(brightness);
+		costume.updateImage();
 		toDraw = true;
 	}
 
 	public synchronized void setGhostEffectValue(double ghostEffectValue) {
 		this.ghostEffect = ghostEffectValue;
-		double calculation = 0.0;
-		int opacityValue = 0;
-
-		calculation = Math.floor(255 - (this.ghostEffect * 2.55));
-		//		 calculation: a value between 0 (completely transparent) and 255 (completely opaque).
-		if (calculation > 0) {
-			if (calculation >= 12) {
-				opacityValue = (int) calculation; // Effect value from 0% to 95%
-			} else {
-				opacityValue = 12; // Effect value from 96% to 99%. Opacity Value more than 12 sprite would be untouchable.
-			}
-		} else if (calculation <= 0) {
-			opacityValue = 0; //  Effect value 100%. Sprite untouchable.
-		}
-		costume.setGhostEffect(opacityValue);
+		costume.updateImage();
 		toDraw = true;
 	}
 

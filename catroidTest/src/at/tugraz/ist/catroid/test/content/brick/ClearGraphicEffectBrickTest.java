@@ -35,6 +35,7 @@ public class ClearGraphicEffectBrickTest extends AndroidTestCase {
 		ClearGraphicEffectBrick clearGraphicEffectBrick = new ClearGraphicEffectBrick(sprite);
 		clearGraphicEffectBrick.execute();
 		assertEquals("Sprite's ghost effect is removed.", 0.0, sprite.getGhostEffectValue());
+		assertEquals("Sprite's ghost effect is removed.", 0.0, sprite.getBrightnessValue());
 	}
 
 	public void testNullSprite() {

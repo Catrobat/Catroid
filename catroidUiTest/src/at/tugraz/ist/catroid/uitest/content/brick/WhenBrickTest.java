@@ -59,7 +59,7 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		solo.sleep(1000);
 		System.out.println(solo.getCurrentSpinners().get(0).getSelectedItemPosition());
 		System.out.println(solo.getCurrentSpinners().get(0).getSelectedItem().toString());
-		assertEquals("Wrong event selected!", 0, solo.getCurrentSpinners().get(0).getSelectedItemPosition());
+		assertEquals("Wrong event selected!", 1, solo.getCurrentSpinners().get(0).getSelectedItemPosition());
 	}
 
 	private void createProject() {

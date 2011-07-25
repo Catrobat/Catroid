@@ -27,7 +27,6 @@ import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.ChangeVolumeByBrick;
-import at.tugraz.ist.catroid.content.bricks.SetVolumeToBrick;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.R;
@@ -60,32 +59,21 @@ public class ChangeVolumeByBrickTest extends InstrumentationTestCase {
 
 	public void testVolume() {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite size value", 70.0, sprite.getVolume());
+		assertEquals("Unexpected initial sprite size value", 70.0, SoundManager.getInstance().getVolume());
 
-		double volume = sprite.getVolume();
+		double volume = SoundManager.getInstance().getVolume();
 		volume += louder;
-		//		volume = (int) volume;
 		ChangeVolumeByBrick brick1 = new ChangeVolumeByBrick(sprite, louder);
 		brick1.execute();
-		assertEquals("Incorrect sprite volume after ChangeVolumeByBrick executed", volume, sprite.getVolume());
+		assertEquals("Incorrect sprite volume after ChangeVolumeByBrick executed", volume, SoundManager.getInstance()
+				.getVolume());
 
-		volume = sprite.getVolume();
+		volume = SoundManager.getInstance().getVolume();
 		volume += softer;
-		//		volume = (int) volume;
 		ChangeVolumeByBrick brick2 = new ChangeVolumeByBrick(sprite, softer);
 		brick2.execute();
-		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", volume, sprite.getVolume());
-	}
-
-	public void testNullSprite() {
-		SetVolumeToBrick brick = new SetVolumeToBrick(null, louder);
-
-		try {
-			brick.execute();
-			fail("Execution of SetSizeToBrick with null Sprite did not cause a NullPointerException to be thrown");
-		} catch (NullPointerException e) {
-			// expected behavior
-		}
+		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", volume, SoundManager.getInstance()
+				.getVolume());
 	}
 
 	private void createTestProject() throws IOException {
