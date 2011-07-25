@@ -201,7 +201,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 	public void testPlayButton() {
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
-		assertTrue("StageActivity is not showing!", solo.getCurrentActivity() instanceof StageActivity);
+		solo.assertCurrentActivity("StageActivity not showing!", StageActivity.class);
 	}
 
 	public void testRenameToExistingProject() {
