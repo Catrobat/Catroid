@@ -33,34 +33,25 @@
 		android:src="@drawable/ic_mp_move"
 		android:layout_height="wrap_content" />
 	<RelativeLayout
-		android:id="@+id/RelativeLayout01"
 		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:background="@drawable/brick_magenta"
-		android:focusable="false"
-		android:focusableInTouchMode="false"
+		android:layout_width="match_parent"
+		android:background="@drawable/brick_violet"
 		android:longClickable="true"
 	>
-		<TextView
-			android:id="@+id/ValueTextView"
-			android:text="@string/brick_play_sound"
-			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:layout_alignParentLeft="true"
-			android:layout_centerVertical="true"
-			android:textColor="@color/white"
-			android:textSize="18dip"
-			android:textStyle="bold"
-		>
-		</TextView>
-		
-		<Button
-			android:id="@+id/btSoundChoose"
-			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:layout_alignParentRight="true"
-			android:layout_centerVertical="true"
-			android:maxWidth="150dip" />
-			
+	
+	<TextView
+		android:id="@+id/ClearGraphicEffectTextView"
+		android:text="@string/brick_clear_graphic_effect"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:layout_centerVertical="true"
+		android:textColor="@color/white"
+		android:textSize="18dip"
+		android:textStyle="bold"
+		android:paddingRight="5dip"
+	>
+	</TextView>
+	
 	</RelativeLayout>
 </LinearLayout>

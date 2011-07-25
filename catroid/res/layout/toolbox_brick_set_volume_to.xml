@@ -22,30 +22,16 @@
 	android:id="@+id/RelativeLayout01"
 	android:layout_height="wrap_content"
 	android:layout_width="wrap_content"
-	android:background="@drawable/brick_yellow"
-	android:focusable="false"
-	android:focusableInTouchMode="false"
+	android:background="@drawable/brick_magenta"
 >
 	<TextView
-		android:id="@+id/ValueTextView"
-		android:text="@string/brick_wait"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:layout_alignParentLeft="true"
-		android:layout_centerVertical="true"
-		android:textColor="@color/white"
-		android:textSize="18dip"
-		android:textStyle="bold"
-	>
-	</TextView>
-	<TextView
-		android:id="@+id/LabelTextView"
-		android:text="@string/seconds"
+		android:id="@+id/SetVolumeToTextView"
+		android:text="@string/percent"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
 		android:layout_alignParentRight="true"
 		android:layout_centerVertical="true"
-		android:paddingLeft="10dip"
+		android:paddingLeft="5dip"
 		android:paddingRight="10dip"
 		android:textColor="@color/white"
 		android:textSize="18dip"
@@ -53,20 +39,31 @@
 	>
 	</TextView>
 	<EditText
-		android:id="@+id/toolbox_brick_wait_edit_text"
-		android:text="1.0"
+		android:id="@+id/toolbox_brick_set_volume_to_edit_text"
+		android:text="100"
 		android:layout_height="wrap_content"
-		android:layout_width="75dp"
-		android:layout_centerVertical="true"
-		android:layout_toLeftOf="@+id/LabelTextView"
-		android:layout_toRightOf="@+id/ValueTextView"
+		android:layout_width="60dp"
+		android:layout_toLeftOf="@+id/SetVolumeToTextView"
 		android:clickable="false"
 		android:focusable="false"
 		android:focusableInTouchMode="false"
 		android:gravity="right"
-		android:inputType="number|numberDecimal"
-		android:maxLength="5"
+		android:maxLength="4"
 		android:maxLines="1"
+		android:inputType="number|numberDecimal"
 	>
 	</EditText>
+	<TextView
+		android:id="@+id/ValueTextView"
+		android:text="@string/brick_set_volume_to"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:layout_centerVertical="true"
+		android:layout_toLeftOf="@+id/SetVolumeToEditText"
+		android:textColor="@color/white"
+		android:textSize="18dip"
+		android:textStyle="bold"
+	>
+	</TextView>
 </RelativeLayout>

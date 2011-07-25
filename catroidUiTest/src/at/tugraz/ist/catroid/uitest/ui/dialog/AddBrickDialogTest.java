@@ -82,7 +82,8 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 				R.string.brick_place_at, R.string.brick_set_x, R.string.brick_set_y, R.string.brick_change_x_by,
 				R.string.brick_change_y_by, R.string.brick_set_costume, R.string.brick_set_size_to,
 				R.string.brick_go_back, R.string.brick_come_to_front, R.string.brick_play_sound, R.string.brick_glide,
-				R.string.brick_broadcast, R.string.brick_broadcast_wait, R.string.brick_note, R.string.brick_forever };
+				R.string.brick_broadcast, R.string.brick_broadcast_wait, R.string.brick_note, R.string.brick_forever,
+				R.string.brick_when };
 
 		ProjectManager manager = ProjectManager.getInstance();
 		for (int id : brickIds) {

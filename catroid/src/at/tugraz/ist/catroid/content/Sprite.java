@@ -39,6 +39,8 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	private transient boolean toDraw;
 	private List<Script> scriptList;
 	private transient Costume costume;
+	private transient double ghostEffect;
+	private transient double brightness;
 
 	public transient volatile boolean isPaused;
 	public transient volatile boolean isFinished;
@@ -57,6 +59,8 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		xPosition = 0;
 		yPosition = 0;
 		toDraw = false;
+		ghostEffect = 0.0;
+		brightness = 0.0;
 		isPaused = false;
 		isFinished = false;
 	}
@@ -65,6 +69,16 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		this.name = name;
 		scriptList = new ArrayList<Script>();
 		init();
+	}
+
+	public void startWhenScripts(String action) {
+		for (Script s : scriptList) {
+			if (s instanceof WhenScript) {
+				if (((WhenScript) s).getAction().equalsIgnoreCase(action)) {
+					startScript(s);
+				}
+			}
+		}
 	}
 
 	public void startStartScripts() {
@@ -169,6 +183,14 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return size;
 	}
 
+	public double getGhostEffectValue() {
+		return ghostEffect;
+	}
+
+	public double getBrightnessValue() {
+		return this.brightness;
+	}
+
 	public double getDirection() {
 		return direction;
 	}
@@ -189,15 +211,34 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		toDraw = true;
 	}
 
-	public synchronized void setSize(double percent) {
-		if (percent <= 0.0) {
+	public synchronized void clearGraphicEffect() {
+		ghostEffect = 0.0;
+		brightness = 0.0;
+		costume.updateImage();
+		toDraw = true;
+	}
+
+	public synchronized void setBrightnessValue(double brightnessValue) {
+		this.brightness = brightnessValue;
+		costume.updateImage();
+		toDraw = true;
+	}
+
+	public synchronized void setGhostEffectValue(double ghostEffectValue) {
+		this.ghostEffect = ghostEffectValue;
+		costume.updateImage();
+		toDraw = true;
+	}
+
+	public synchronized void setSize(double size) {
+		if (size <= 0.0) {
 			throw new IllegalArgumentException("Sprite size must be greater than zero!");
 		}
 
 		int costumeWidth = costume.getImageWidth();
 		int costumeHeight = costume.getImageHeight();
 
-		this.size = percent;
+		this.size = size;
 
 		if (costumeWidth > 0 && costumeHeight > 0) {
 			if (costumeWidth * this.size / 100. < 1) {

@@ -19,16 +19,19 @@
  -->
 <RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/RelativeLayout01"
+	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
-	android:layout_width="wrap_content"
-	android:background="@drawable/brick_yellow"
-	android:focusable="false"
-	android:focusableInTouchMode="false"
+	android:orientation="horizontal"
 >
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:background="@drawable/brick_violet"
+	>		
 	<TextView
-		android:id="@+id/ValueTextView"
-		android:text="@string/brick_wait"
+		android:id="@+id/ChangeBrightnessTextView"
+		android:text="@string/brick_change_brightness"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
 		android:layout_alignParentLeft="true"
@@ -36,37 +39,43 @@
 		android:textColor="@color/white"
 		android:textSize="18dip"
 		android:textStyle="bold"
+		android:paddingRight="5dip"
 	>
 	</TextView>
+	<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+	>	
 	<TextView
-		android:id="@+id/LabelTextView"
-		android:text="@string/seconds"
+		android:id="@+id/ChangeBrightnessTextView"
+		android:text="@string/by_label"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
-		android:layout_alignParentRight="true"
+		android:layout_alignParentLeft="true"
 		android:layout_centerVertical="true"
-		android:paddingLeft="10dip"
-		android:paddingRight="10dip"
 		android:textColor="@color/white"
 		android:textSize="18dip"
 		android:textStyle="bold"
+		android:paddingRight="5dip"
 	>
-	</TextView>
+	</TextView>	
 	<EditText
-		android:id="@+id/toolbox_brick_wait_edit_text"
-		android:text="1.0"
+		android:id="@+id/construction_brick_change_brightness_edit_text"
+		android:text="25"
 		android:layout_height="wrap_content"
-		android:layout_width="75dp"
-		android:layout_centerVertical="true"
-		android:layout_toLeftOf="@+id/LabelTextView"
-		android:layout_toRightOf="@+id/ValueTextView"
+		android:layout_width="60dp"
+		android:layout_toRightOf="@+id/ChangeBrightnessTextView"
 		android:clickable="false"
 		android:focusable="false"
 		android:focusableInTouchMode="false"
 		android:gravity="right"
-		android:inputType="number|numberDecimal"
-		android:maxLength="5"
+		android:maxLength="4"
 		android:maxLines="1"
+		android:numeric="signed"
+		android:inputType="number|numberDecimal|numberSigned"
 	>
 	</EditText>
+	</LinearLayout>
+</LinearLayout>
 </RelativeLayout>
