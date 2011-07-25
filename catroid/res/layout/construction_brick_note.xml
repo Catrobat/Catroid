@@ -48,22 +48,15 @@
 			android:textStyle="bold"
 		>
 	    </TextView>
-	  <ScrollView
-	    android:id="@+id/construction_brick_note_scroll_view"
-	    android:layout_height="wrap_content"
-	    android:layout_width="fill_parent">
-	  
-	  <EditText
-      android:id="@+id/construction_brick_note_edit_text"
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:scrollbars="vertical"
-      android:scrollbarStyle="insideInset"
-      android:clickable="true"
-      android:cursorVisible="true"
-      android:focusable="true"
-      android:focusableInTouchMode="true"/>
-	  
-	  </ScrollView>
+		<EditText
+			android:id="@+id/construction_brick_note_edit_text"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:scrollbars="vertical"
+			android:scrollbarStyle="insideInset"
+			android:clickable="true"
+			android:cursorVisible="false"
+			android:focusable="false"
+			android:focusableInTouchMode="false"/>
 	</LinearLayout>
 </LinearLayout>
