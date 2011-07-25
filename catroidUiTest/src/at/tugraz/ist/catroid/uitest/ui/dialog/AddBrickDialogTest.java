@@ -28,13 +28,13 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
-import at.tugraz.ist.catroid.uitest.util.Utils;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
-	private String testProject = Utils.PROJECTNAME1;
+	private String testProject = UiTestUtils.PROJECTNAME1;
 
 	public AddBrickDialogTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -55,20 +55,20 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 		}
 		getActivity().finish();
 
-		Utils.clearAllUtilTestProjects();
+		UiTestUtils.clearAllUtilTestProjects();
 
 		super.tearDown();
 	}
 
 	private void checkIfBrickIsPresent(int brickStringId) {
 
-		String brickText = solo.getCurrentActivity().getString(brickStringId);
+		String brickText = solo.getCurrentActivity().getString(R.string.add_new_brick);
 		assertTrue("Inserted brick " + brickText + " was not found.", solo.searchText(brickText));
 
 	}
 
 	private void addAndCheckBrick(Solo solo, int brickStringId) {
-		Utils.addNewBrickAndScrollDown(solo, brickStringId);
+		UiTestUtils.addNewBrickAndScrollDown(solo, brickStringId);
 		checkIfBrickIsPresent(brickStringId);
 	}
 
@@ -82,7 +82,8 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 				R.string.brick_place_at, R.string.brick_set_x, R.string.brick_set_y, R.string.brick_change_x_by,
 				R.string.brick_change_y_by, R.string.brick_set_costume, R.string.brick_set_size_to,
 				R.string.brick_go_back, R.string.brick_come_to_front, R.string.brick_play_sound, R.string.brick_glide,
-				R.string.brick_broadcast, R.string.brick_broadcast_wait, R.string.brick_note, R.string.brick_forever };
+				R.string.brick_broadcast, R.string.brick_broadcast_wait, R.string.brick_note, R.string.brick_forever,
+				R.string.brick_when };
 
 		ProjectManager manager = ProjectManager.getInstance();
 		for (int id : brickIds) {
@@ -129,5 +130,4 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 
 		storageHandler.saveProject(project);
 	}
-
 }

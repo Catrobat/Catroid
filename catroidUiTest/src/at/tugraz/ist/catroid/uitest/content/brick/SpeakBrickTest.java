@@ -65,7 +65,7 @@ public class SpeakBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 	}
 
 	@Smoke
-	public void testNoteBrick() {
+	public void testSpeakBrick() {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
 
@@ -77,7 +77,7 @@ public class SpeakBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
 				getActivity().getAdapter().getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_note)));
+		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_speak)));
 
 		solo.clickOnEditText(0);
 		solo.enterText(0, testString);

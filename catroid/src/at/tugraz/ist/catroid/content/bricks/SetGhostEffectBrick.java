@@ -59,7 +59,7 @@ public class SetGhostEffectBrick implements Brick, OnDismissListener {
 		EditText editX = (EditText) brickView.findViewById(R.id.construction_brick_set_ghost_effect_to_edit_text);
 		editX.setText(String.valueOf(ghostEffectValue));
 
-		EditDoubleDialog dialogX = new EditDoubleDialog(context, editX, ghostEffectValue, true);
+		EditDoubleDialog dialogX = new EditDoubleDialog(context, editX, ghostEffectValue, false);
 		dialogX.setOnDismissListener(this);
 		dialogX.setOnCancelListener((OnCancelListener) context);
 

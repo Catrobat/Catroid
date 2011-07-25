@@ -30,6 +30,7 @@ public class WhenScript extends Script {
 	public static final String SWIPEUP = "Swipe Up";
 	public static final String SWIPEDOWN = "Swipe Down";
 	private String action;
+	private int position;
 
 	public WhenScript(String name, Sprite sprite) {
 		super(name, sprite);
@@ -45,26 +46,40 @@ public class WhenScript extends Script {
 	}
 
 	public void setAction(int position) {
-		if (position == 0) {
-			this.action = TAPPED;
-		} else if (position == 1) {
-			this.action = DOUBLETAPPED;
-		} else if (position == 2) {
-			this.action = LONGPRESSED;
-		} else if (position == 3) {
-			this.action = TOUCHINGSTOPS;
-		} else if (position == 4) {
-			this.action = SWIPELEFT;
-		} else if (position == 5) {
-			this.action = SWIPERIGHT;
-		} else if (position == 6) {
-			this.action = SWIPEUP;
-		} else if (position == 7) {
-			this.action = SWIPEDOWN;
+		this.position = position;
+		switch (position) {
+			case 0:
+				this.action = TAPPED;
+				break;
+			case 1:
+				this.action = DOUBLETAPPED;
+				break;
+			case 2:
+				this.action = LONGPRESSED;
+				break;
+			case 3:
+				this.action = TOUCHINGSTOPS;
+				break;
+			case 4:
+				this.action = SWIPELEFT;
+				break;
+			case 5:
+				this.action = SWIPERIGHT;
+				break;
+			case 6:
+				this.action = SWIPEUP;
+				break;
+			case 7:
+				this.action = SWIPEDOWN;
+				break;
 		}
 	}
 
 	public String getAction() {
 		return action;
+	}
+
+	public int getPosition() {
+		return position;
 	}
 }
