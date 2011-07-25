@@ -186,6 +186,14 @@
     <string name="brick_broadcast_wait">Verschicke und warte:</string>
     <string name="brick_stop_all_sounds">Stoppe alle Sounds</string>
     
+    <!-- Lego Mindstorms Strings -->
+    <string name="brick_motor_action">Motor aktion</string>
+    <string name="notification_blueth_err">Bluetooth konnte nich aktiviert werden, schließe Stage</string>
+    <string name="title_paired_devices">Verbundene Geräte</string>
+    <string name="title_other_devices">Neue Geräte</string>
+    <string name="button_scan">Suche Bluetooth Geräte</string>
+    <string name="scanning">Suche</string>
+    
     <!-- defaulValues -->
     <string name="default_project_name">standardProjekt</string>
     
