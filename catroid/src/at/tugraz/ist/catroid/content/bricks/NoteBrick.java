@@ -58,7 +58,9 @@ public class NoteBrick implements Brick, TextWatcher {
 		EditText editText = (EditText) brickView.findViewById(R.id.construction_brick_note_edit_text);
 		editText.setText(note);
 		editText.setMaxLines(MAXLINES);
+		editText.setScrollbarFadingEnabled(false);
 		editText.addTextChangedListener(this);
+
 		//		editText.setOnClickListener(new OnClickListener() {
 		//
 		//			public void onClick(View v) {
