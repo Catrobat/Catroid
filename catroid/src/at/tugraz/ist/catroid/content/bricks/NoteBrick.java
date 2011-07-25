@@ -18,23 +18,22 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 
-public class NoteBrick implements Brick {
+public class NoteBrick implements Brick, TextWatcher {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private String note = "";
 
-	private final transient int MAXLINES = 14;
+	private final transient int MAXLINES = 5;
 
 	public NoteBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -52,10 +51,6 @@ public class NoteBrick implements Brick {
 		return this.sprite;
 	}
 
-	public String getNote() {
-		return this.note;
-	}
-
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View brickView = inflater.inflate(R.layout.construction_brick_note, null);
@@ -63,28 +58,31 @@ public class NoteBrick implements Brick {
 		EditText editText = (EditText) brickView.findViewById(R.id.construction_brick_note_edit_text);
 		editText.setText(note);
 		editText.setMaxLines(MAXLINES);
-		editText.setOnClickListener(new OnClickListener() {
+		editText.setScrollbarFadingEnabled(false);
+		editText.addTextChangedListener(this);
 
-			public void onClick(View v) {
-				AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-				final EditText input = new EditText(context);
-				input.setText(note);
-				dialog.setView(input);
-				dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-						note = (input.getText().toString()).trim();
-					}
-				});
-				dialog.setNeutralButton(context.getString(R.string.cancel_button),
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int which) {
-								dialog.cancel();
-							}
-						});
-
-				dialog.show();
-			}
-		});
+		//		editText.setOnClickListener(new OnClickListener() {
+		//
+		//			public void onClick(View v) {
+		//				AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+		//				final EditText input = new EditText(context);
+		//				input.setText(note);
+		//				dialog.setView(input);
+		//				dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+		//					public void onClick(DialogInterface dialog, int which) {
+		//						note = (input.getText().toString()).trim();
+		//					}
+		//				});
+		//				dialog.setNeutralButton(context.getString(R.string.cancel_button),
+		//						new DialogInterface.OnClickListener() {
+		//							public void onClick(DialogInterface dialog, int which) {
+		//								dialog.cancel();
+		//							}
+		//						});
+		//
+		//				dialog.show();
+		//			}
+		//		});
 
 		return brickView;
 	}
@@ -98,5 +96,19 @@ public class NoteBrick implements Brick {
 	@Override
 	public Brick clone() {
 		return new NoteBrick(this.sprite, this.note);
+	}
+
+	public void afterTextChanged(Editable s) {
+		note = s.toString();
+	}
+
+	public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void onTextChanged(CharSequence s, int start, int before, int count) {
+		// TODO Auto-generated method stub
+
 	}
 }
