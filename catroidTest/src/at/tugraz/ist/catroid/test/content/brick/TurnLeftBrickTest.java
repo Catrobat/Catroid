@@ -104,11 +104,14 @@ public class TurnLeftBrickTest extends InstrumentationTestCase {
 		brick.execute();
 		brickScale.execute();
 
+		int widthNew = sprite.getCostume().getImageWidthHeight().first;
+		int heightNew = sprite.getCostume().getImageWidthHeight().second;
+
 		assertEquals("Wrong direction!", 80, sprite.getDirection(), 1e-3);
 		assertEquals("Wrong X-Position!", 0, sprite.getXPosition());
 		assertEquals("Wrong Y-Position!", 0, sprite.getYPosition());
-		assertEquals("Wrong width!", width / 2, sprite.getCostume().getImageWidthHeight().first, 1e-3);
-		assertEquals("Wrong height!", height / 2, sprite.getCostume().getImageWidthHeight().second, 1e-3);
+		assertEquals("Wrong width!", width / 2, widthNew, 1e-3);
+		assertEquals("Wrong height!", height / 2, heightNew, 1e-3);
 
 	}
 
@@ -125,11 +128,14 @@ public class TurnLeftBrickTest extends InstrumentationTestCase {
 		brickScale.execute();
 		brick.execute();
 
+		int widthNew = sprite.getCostume().getImageWidthHeight().first;
+		int heightNew = sprite.getCostume().getImageWidthHeight().second;
+
 		assertEquals("Wrong direction!", 80, sprite.getDirection(), 1e-3);
 		assertEquals("Wrong X-Position!", 0, sprite.getXPosition());
 		assertEquals("Wrong Y-Position!", 0, sprite.getYPosition());
-		assertEquals("Wrong width!", width / 2, sprite.getCostume().getImageWidthHeight().first, 1e-3);
-		assertEquals("Wrong height!", height / 2, sprite.getCostume().getImageWidthHeight().second, 1e-3);
+		assertEquals("Wrong width!", width / 2, widthNew, 1e-3);
+		assertEquals("Wrong height!", height / 2, heightNew, 1e-3);
 
 	}
 

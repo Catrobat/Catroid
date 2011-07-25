@@ -134,6 +134,7 @@ public class CanvasDraw implements IDraw {
 			}
 		}
 		holder.unlockCanvasAndPost(canvas);
+
 	}
 
 	public void processOnTouch(int xCoordinate, int yCoordinate) {
@@ -143,7 +144,7 @@ public class CanvasDraw implements IDraw {
 			Vibrator vibrator = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
 			vibrator.vibrate(100);
 			if (saveThumbnail(true)) {
-				toastText = activity.getString(R.string.screenshot_ok);
+				toastText = activity.getString(R.string.notification_screenshot_ok);
 			} else {
 				toastText = activity.getString(R.string.error_screenshot_failed);
 			}

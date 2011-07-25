@@ -34,7 +34,7 @@ public class SpeakBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private static final int MAXLINES = 3;
 	private Sprite sprite;
-	private String text;
+	private String text = "";
 	protected int position = 0;
 
 	public SpeakBrick(Sprite sprite, String text) {

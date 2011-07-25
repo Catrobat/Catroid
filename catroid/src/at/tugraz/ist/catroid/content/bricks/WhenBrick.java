@@ -68,11 +68,7 @@ public class WhenBrick implements Brick {
 		spinner.setAdapter(spinnerAdapter);
 
 		if (whenScript.getAction() != null) {
-			for (int count = 0; count < spinnerAdapter.getCount(); count++) {
-				if (whenScript.getAction().equalsIgnoreCase(spinnerAdapter.getItem(count).toString())) {
-					spinner.setSelection(count);
-				}
-			}
+			spinner.setSelection(whenScript.getPosition());
 		}
 
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {

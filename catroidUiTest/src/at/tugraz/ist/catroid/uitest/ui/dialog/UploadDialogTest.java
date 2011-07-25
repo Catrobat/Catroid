@@ -29,15 +29,15 @@ import android.widget.ImageButton;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
-import at.tugraz.ist.catroid.uitest.util.Utils;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
-	private String testProject = Utils.PROJECTNAME1;
-	private String newTestProject = Utils.PROJECTNAME2;
+	private String testProject = UiTestUtils.PROJECTNAME1;
+	private String newTestProject = UiTestUtils.PROJECTNAME2;
 
 	public UploadDialogTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -46,14 +46,14 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 	@Override
 	@UiThreadTest
 	public void setUp() throws Exception {
-		Utils.clearAllUtilTestProjects();
+		UiTestUtils.clearAllUtilTestProjects();
 		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		Utils.clearAllUtilTestProjects();
+		UiTestUtils.clearAllUtilTestProjects();
 		try {
 			solo.finalize();
 		} catch (Throwable e) {
