@@ -72,7 +72,7 @@
 				<data
 					android:scheme="http"
 					android:host="*"
-					android:pathPattern=".*\\.catroid" />
+					android:pathPattern="@string/catroid_extension_pathPattern" />
 					
 			</intent-filter>
 		</activity>

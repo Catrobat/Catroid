@@ -56,10 +56,6 @@ public class StageManager {
 		}
 	};
 
-	public int getMaxZValue() {
-		return ProjectManager.getInstance().getCurrentProject().getMaxZValue();
-	}
-
 	public StageManager(Activity activity) {
 
 		spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();

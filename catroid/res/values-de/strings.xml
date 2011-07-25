@@ -154,7 +154,7 @@
     <string name="brick_set_costume">Setze Kostüm</string>
     <string name="brick_set_size_to">Setze Größe auf</string>
     <string name="brick_go_back">Gehe</string>
-    <string name="steps_label">Schritte nach hinten</string>
+    <string name="brick_go_back_layers">Ebenen nach hinten</string>
     <string name="brick_come_to_front">Komm nach vorne</string>
     <string name="brick_if_touched">Wenn berührt</string>
     <string name="brick_if_started">Wenn gestartet</string>
@@ -195,6 +195,9 @@
     </string>
     <string name="notification_invalid_name_entered">
     	Bitte einen Namen eingeben
+    </string>
+    <string name="notification_screenshot_ok">
+        Screenshot erfolgreich gespeichert
     </string>
 
     <!-- Error messages -->
@@ -245,5 +248,4 @@
     <string name="upload_button">Hochladen</string>
     <string name="upload_project_dialog_title">Projekt hochladen</string>
     <string name="project_rename">(Das Projekt wird umbenannt.)</string>
-    <string name="screenshot_ok">Screenshot erfolgreich gespeichert</string>
 </resources>
