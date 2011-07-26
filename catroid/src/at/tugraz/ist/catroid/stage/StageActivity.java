@@ -33,8 +33,9 @@ import android.view.WindowManager;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
+import at.tugraz.ist.catroid.bluetooth.BluetothManager;
 import at.tugraz.ist.catroid.bluetooth.DeviceListActivity;
-import at.tugraz.ist.catroid.bluetooth.LegoNXT;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -47,6 +48,7 @@ public class StageActivity extends Activity {
 	private StageManager stageManager;
 	private boolean stagePlaying = false;
 	private LegoNXT legoNXT;
+	private BluetothManager bluetothManager;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -65,23 +67,23 @@ public class StageActivity extends Activity {
 			soundManager = SoundManager.getInstance();
 			stageManager = new StageManager(this);
 			legoNXT = new LegoNXT(this);
+			bluetothManager = new BluetothManager(this);
 
 			if (!stageManager.getBluetoothNeeded()) {
 				stageManager.start();
 				stageManager.startScripts();
 				stagePlaying = true;
 			} else {
-
-				// Start Bluetooth 
-				legoNXT.activateBluetooth();
-
-				//stageManager.startScripts();
-				//stageManager.start();
-				//stagePlaying = true;
-
+				int bluetoothState = bluetothManager.activateBluetooth();
+				if (bluetoothState == -1) {
+					Toast.makeText(StageActivity.this, R.string.notification_blueth_err, Toast.LENGTH_LONG).show();
+					finish();
+				} else if (bluetoothState == 1) {
+					legoNXT.connectLegoNXT();
+				}
 			}
 		}
-	} // dummy
+	}
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {

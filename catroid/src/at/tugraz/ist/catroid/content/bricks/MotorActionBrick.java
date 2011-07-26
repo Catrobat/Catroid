@@ -26,8 +26,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.bluetooth.LegoNXT;
-import at.tugraz.ist.catroid.bluetooth.LegoNXTBtCommunicator;
+import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
+import at.tugraz.ist.catroid.LegoNXT.LegoNXTBtCommunicator;
 import at.tugraz.ist.catroid.content.Sprite;
 
 public class MotorActionBrick implements Brick {
