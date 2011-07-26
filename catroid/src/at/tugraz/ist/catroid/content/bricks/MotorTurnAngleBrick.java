@@ -35,23 +35,23 @@ import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
-public class MotorActionBrick implements Brick, OnDismissListener, OnItemSelectedListener {
+public class MotorTurnAngleBrick implements Brick, OnDismissListener, OnItemSelectedListener {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private Handler btcHandler;
 	private int motor;
 	private int speed;
-	private int duration;
+	private int angle;
 	private static final int MOTOR_A = 0;
 	private static final int MOTOR_B = 1;
 	private static final int MOTOR_C = 2;
 	private static final int NO_DELAY = 0;
 
-	public MotorActionBrick(Sprite sprite, int motor, int speed, int duration) {
+	public MotorTurnAngleBrick(Sprite sprite, int motor, int speed, int angle) {
 		this.sprite = sprite;
 		this.motor = motor;
 		this.speed = speed;
-		this.duration = duration;
+		this.angle = angle;
 
 	}
 
@@ -60,8 +60,7 @@ public class MotorActionBrick implements Brick, OnDismissListener, OnItemSelecte
 			btcHandler = LegoNXT.getBTCHandler();
 		}
 
-		LegoNXT.sendBTCmessage(NO_DELAY, motor, speed, 0);
-		LegoNXT.sendBTCmessage(duration * 1000, motor, 0, 0);
+		LegoNXT.sendBTCmessage(NO_DELAY, motor, speed, angle);
 
 	}
 
@@ -71,26 +70,26 @@ public class MotorActionBrick implements Brick, OnDismissListener, OnItemSelecte
 
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.toolbox_brick_motor_action, null);
+		return inflater.inflate(R.layout.toolbox_brick_motor_turn_angle, null);
 	}
 
 	@Override
 	public Brick clone() {
-		return new MotorActionBrick(getSprite(), motor, speed, duration);
+		return new MotorTurnAngleBrick(getSprite(), motor, speed, angle);
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.construction_brick_motor_action, null);
+		View brickView = inflater.inflate(R.layout.construction_brick_motor_turn_angle, null);
 
-		EditText editX = (EditText) brickView.findViewById(R.id.motor_action_duration_edit_text);
-		editX.setText(String.valueOf(duration));
-		EditIntegerDialog dialogX = new EditIntegerDialog(context, editX, duration, true);
+		EditText editX = (EditText) brickView.findViewById(R.id.motor_turn_angle_duration_edit_text);
+		editX.setText(String.valueOf(angle));
+		EditIntegerDialog dialogX = new EditIntegerDialog(context, editX, angle, true);
 		dialogX.setOnDismissListener(this);
 		dialogX.setOnCancelListener((OnCancelListener) context);
 		editX.setOnClickListener(dialogX);
 
-		EditText editY = (EditText) brickView.findViewById(R.id.motor_action_speed_edit_text);
+		EditText editY = (EditText) brickView.findViewById(R.id.motor_turn_angle_speed_edit_text);
 		editY.setText(String.valueOf(speed));
 		EditIntegerDialog dialogY = new EditIntegerDialog(context, editY, speed, true);
 		dialogY.setOnDismissListener(this);
@@ -100,6 +99,7 @@ public class MotorActionBrick implements Brick, OnDismissListener, OnItemSelecte
 		Spinner motorSpinner = (Spinner) brickView.findViewById(R.id.motor_spinner);
 		motorSpinner.setOnItemSelectedListener(this);
 		motorSpinner.setSelection(motor);
+
 		//return inflater.inflate(R.layout.toolbox_brick_motor_action, null);
 		return brickView;
 	}
@@ -107,10 +107,10 @@ public class MotorActionBrick implements Brick, OnDismissListener, OnItemSelecte
 	public void onDismiss(DialogInterface dialog) {
 		if (dialog instanceof EditIntegerDialog) {
 			EditIntegerDialog inputDialog = (EditIntegerDialog) dialog;
-			if (inputDialog.getRefernecedEditTextId() == R.id.motor_action_speed_edit_text) {
+			if (inputDialog.getRefernecedEditTextId() == R.id.motor_turn_angle_speed_edit_text) {
 				speed = inputDialog.getValue();
-			} else if (inputDialog.getRefernecedEditTextId() == R.id.motor_action_duration_edit_text) {
-				duration = inputDialog.getValue();
+			} else if (inputDialog.getRefernecedEditTextId() == R.id.motor_turn_angle_duration_edit_text) {
+				angle = inputDialog.getValue();
 			} else {
 				throw new RuntimeException("Received illegal id from EditText: "
 						+ inputDialog.getRefernecedEditTextId());
