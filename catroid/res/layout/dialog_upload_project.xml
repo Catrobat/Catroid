@@ -53,10 +53,11 @@
 		android:inputType="text"
 		android:selectAllOnFocus="true" />
 	<TextView 
-		android:text="Description" 
+		android:text="@+string/upload_description" 
 		android:id="@+id/tv_description" 
 		android:layout_width="wrap_content" 
-		android:layout_height="wrap_content" android:layout_marginLeft="10dp">
+		android:layout_height="wrap_content" 
+		android:layout_marginLeft="10dp">
 	</TextView>
 	<EditText
 		android:id="@+id/project_description_upload"
