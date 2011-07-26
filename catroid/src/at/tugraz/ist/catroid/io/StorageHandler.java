@@ -36,6 +36,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
 import android.provider.MediaStore;
 import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -50,6 +51,7 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.TapScript;
+import at.tugraz.ist.catroid.content.costumeData;
 import at.tugraz.ist.catroid.content.bricks.BroadcastBrick;
 import at.tugraz.ist.catroid.content.bricks.BroadcastWaitBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
@@ -402,6 +404,15 @@ public class StorageHandler {
 		File background = savePictureFromResInProject(projectName, Consts.BACKGROUND, R.drawable.background_blueish,
 				context);
 
+		costumeData costume = new costumeData();
+		costume.setCostumeAbsoluteImagepath(normalCat.getName());
+		costume.setCostumeDisplayName("Normal Cat");
+		costume.setCostumeFormat(".jpeg");
+		costume.setCostumeId(1);
+		Bitmap cat_thumbnail = BitmapFactory.decodeResource(context.getResources(), R.drawable.catroid);
+		costume.setCostumeImage(cat_thumbnail);
+		costume.setCostumeName("Normal Cat");
+
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
 		setCostumeBrick.setCostume(normalCat.getName());
 
@@ -432,6 +443,7 @@ public class StorageHandler {
 		defaultProject.addSprite(sprite);
 		sprite.addScript(startScript);
 		sprite.addScript(touchScript);
+		sprite.addCostumeDataToCostumeList(costume);
 		backgroundSprite.addScript(backgroundStartScript);
 
 		this.saveProject(defaultProject);
