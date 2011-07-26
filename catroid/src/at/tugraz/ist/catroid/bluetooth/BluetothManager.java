@@ -38,11 +38,34 @@
 
 package at.tugraz.ist.catroid.bluetooth;
 
-public interface BTConnectable {
+import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.content.Intent;
 
-	/**
-	 * @return true, when currently pairing
-	 */
-	public boolean isPairing();
+public class BluetothManager {
 
+	private static final int REQUEST_ENABLE_BT = 2000;
+	private BluetoothAdapter bluetoothAdapter;
+
+	Activity activity;
+
+	public BluetothManager(Activity activity) {
+		this.activity = activity;
+	}
+
+	public int activateBluetooth() {
+
+		bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+		if (bluetoothAdapter == null) {
+			return -1;// Device does not support Bluetooth
+		}
+		if (!bluetoothAdapter.isEnabled()) {
+			Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+			activity.startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+			return 0;
+		} else {
+			//connectLegoNXT();
+			return 1;
+		}
+	}
 }

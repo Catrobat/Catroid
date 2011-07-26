@@ -1,22 +1,42 @@
-/**
- *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
- *  (<http://code.google.com/p/catroid/wiki/Credits>)
+/*    Catroid: An on-device graphical programming language for Android devices
+ *    Copyright (C) 2010  Catroid development team
+ *    (<http://code.google.com/p/catroid/wiki/Credits>)
  *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ *    This program is free software: you can redistribute it and/or modify
+ *    it under the terms of the GNU General Public License as published by
+ *    the Free Software Foundation, either version 3 of the License, or
+ *    (at your option) any later version.
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *    This program is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *    You should have received a copy of the GNU General Public License
+ *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *    
+ *    This file incorporates work covered by the following copyright and  
+ *    permission notice: 
+ *    
+ *		   	Copyright 2010 Guenther Hoelzl, Shawn Brown
+ *
+ *		   	This file is part of MINDdroid.
+ *
+ * 		  	MINDdroid is free software: you can redistribute it and/or modify
+ * 		  	it under the terms of the GNU General Public License as published by
+ * 		  	the Free Software Foundation, either version 3 of the License, or
+ *   		(at your option) any later version.
+ *
+ *   		MINDdroid is distributed in the hope that it will be useful,
+ *   		but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   		GNU General Public License for more details.
+ *
+ *   		You should have received a copy of the GNU General Public License
+ *   		along with MINDdroid.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.bluetooth;
+
+package at.tugraz.ist.catroid.LegoNXT;
 
 import java.io.IOException;
 
@@ -28,6 +48,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.bluetooth.BTConnectable;
+import at.tugraz.ist.catroid.bluetooth.DeviceListActivity;
 
 /**
  * @author une
@@ -35,10 +57,8 @@ import at.tugraz.ist.catroid.R;
  */
 public class LegoNXT implements BTConnectable {
 
-	private static final int REQUEST_ENABLE_BT = 2000;
 	private static final int REQUEST_CONNECT_DEVICE = 1000;
 
-	private BluetoothAdapter bluetoothAdapter;
 	private LegoNXTBtCommunicator myBTCommunicator;
 	private ProgressDialog connectingProgressDialog;
 	private boolean pairing;
@@ -48,20 +68,6 @@ public class LegoNXT implements BTConnectable {
 
 	public LegoNXT(Activity activity) {
 		this.activity = activity;
-	}
-
-	public void activateBluetooth() {
-
-		bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-		if (bluetoothAdapter == null) {
-			return;// Device does not support Bluetooth
-		}
-		if (!bluetoothAdapter.isEnabled()) {
-			Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-			activity.startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-		} else {
-			connectLegoNXT();
-		}
 	}
 
 	public void startBTCommunicator(String mac_address) {
@@ -75,7 +81,6 @@ public class LegoNXT implements BTConnectable {
 			} catch (IOException e) {
 			}
 		}
-		// interestingly BT adapter needs to be obtained by the UI thread - so we pass it in in the constructor
 		myBTCommunicator = new LegoNXTBtCommunicator(this, myHandler, BluetoothAdapter.getDefaultAdapter(),
 				activity.getResources());
 		btcHandler = myBTCommunicator.getHandler();
@@ -92,7 +97,6 @@ public class LegoNXT implements BTConnectable {
 		public void handleMessage(Message myMessage) {
 			switch (myMessage.getData().getInt("message")) {
 				case LegoNXTBtCommunicator.DISPLAY_TOAST:
-
 					//showToast(myMessage.getData().getString("toastText"), Toast.LENGTH_SHORT);
 					break;
 				case LegoNXTBtCommunicator.STATE_CONNECTED:
