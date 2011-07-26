@@ -33,40 +33,24 @@ public class costumeData {
 	private transient Bitmap costumeThumbnail;
 	private int costumeId;
 
-	public int getCostumeId() {
-		return costumeId;
-	}
-
 	public void setCostumeId(int costumeId) {
 		this.costumeId = costumeId;
 	}
 
-	public String getCostumeDisplayName() {
-		return costumeDisplayName;
+	public int getCostumeId() {
+		return costumeId;
 	}
 
 	public void setCostumeDisplayName(String costumeDisplayName) {
 		this.costumeDisplayName = costumeDisplayName;
 	}
 
-	public String getCostumeName() {
-		return costumeName;
-	}
-
 	public void setCostumeName(String costumeName) {
 		this.costumeName = costumeName;
 	}
 
-	public String getCostumeFormat() {
-		return costumeFormat;
-	}
-
 	public void setCostumeFormat(String costumeFormat) {
 		this.costumeFormat = costumeFormat;
-	}
-
-	public Bitmap getCostumeImage() {
-		return costumeThumbnail;
 	}
 
 	public void setCostumeImage(Bitmap costumeThumbnail) {
@@ -77,6 +61,22 @@ public class costumeData {
 		this.costumeAbsoluteImagepath = Consts.DEFAULT_ROOT + "/"
 				+ ProjectManager.getInstance().getCurrentProject().getName() + Consts.IMAGE_DIRECTORY + "/"
 				+ costumeImage;
+	}
+
+	public String getCostumeDisplayName() {
+		return costumeDisplayName;
+	}
+
+	public String getCostumeName() {
+		return costumeName;
+	}
+
+	public String getCostumeFormat() {
+		return costumeFormat;
+	}
+
+	public Bitmap getCostumeImage() {
+		return costumeThumbnail;
 	}
 
 	public String getCostumeAbsoluteImagepath() {
