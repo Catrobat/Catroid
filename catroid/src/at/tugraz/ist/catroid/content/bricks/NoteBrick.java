@@ -34,7 +34,7 @@ public class NoteBrick implements Brick {
 	private Sprite sprite;
 	private String note = "";
 
-	private final transient int MAXLINES = 14;
+	private final transient int MAXLINES = 5;
 
 	public NoteBrick(Sprite sprite) {
 		this.sprite = sprite;
