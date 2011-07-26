@@ -50,7 +50,6 @@
 				android:layout_centerVertical="true">
 				<Spinner android:layout_weight="1" 
 					android:id="@+id/motor_spinner"
-					android:entries="@array/nxt_motor_chooser"
     				android:layout_height="wrap_content"
 					android:layout_width="wrap_content">
 				</Spinner>
