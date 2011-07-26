@@ -32,7 +32,7 @@
 		android:layout_centerVertical="true"
 	>
 		<TextView
-			android:text="@string/brick_glide"
+			android:text="@string/brick_motor_action"
 			android:layout_centerVertical="true"
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
@@ -82,7 +82,7 @@
 		android:layout_centerVertical="true"
 	>
 		<TextView
-			android:text="@string/brick_glide_to"
+			android:text="@string/brick_motor_action"
 			android:layout_centerVertical="true"
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
