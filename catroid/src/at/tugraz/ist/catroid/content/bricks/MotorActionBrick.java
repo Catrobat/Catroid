@@ -34,9 +34,15 @@ public class MotorActionBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private Handler btcHandler;
+	private int motor;
+	private int speed;
+	private int angle;
 
-	public MotorActionBrick(Sprite sprite) {
+	public MotorActionBrick(Sprite sprite, int motor, int speed, int angle) {
 		this.sprite = sprite;
+		this.motor = motor;
+		this.speed = speed;
+		this.angle = angle;
 
 	}
 
@@ -77,7 +83,7 @@ public class MotorActionBrick implements Brick {
 
 	@Override
 	public Brick clone() {
-		return new MotorActionBrick(getSprite());
+		return new MotorActionBrick(getSprite(), motor, speed, angle);
 	}
 
 	public View getPrototypeView(Context context) {

@@ -131,7 +131,7 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new TurnLeftBrick(sprite, 15));
 			prototypeBrickList.add(new TurnRightBrick(sprite, 15));
 			prototypeBrickList.add(new PointInDirectionBrick(sprite, 90));
-			prototypeBrickList.add(new MotorActionBrick(sprite));
+			prototypeBrickList.add(new MotorActionBrick(sprite, 100, 100, 3000));
 		}
 	}
 
