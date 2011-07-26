@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
 import at.tugraz.ist.catroid.content.bricks.MotorActionBrick;
+import at.tugraz.ist.catroid.content.bricks.MotorTurnAngleBrick;
 
 public abstract class Script implements Serializable {
 
@@ -142,7 +143,7 @@ public abstract class Script implements Serializable {
 
 	public boolean containsLegoNXTBrick() {
 		for (Brick brick : brickList) {
-			if (brick instanceof MotorActionBrick) {
+			if ((brick instanceof MotorActionBrick) || (brick instanceof MotorTurnAngleBrick)) {
 				return true;
 			}
 		}

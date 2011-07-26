@@ -52,6 +52,7 @@ import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
 import at.tugraz.ist.catroid.content.bricks.MotorActionBrick;
+import at.tugraz.ist.catroid.content.bricks.MotorTurnAngleBrick;
 import at.tugraz.ist.catroid.content.bricks.MoveNStepsBrick;
 import at.tugraz.ist.catroid.content.bricks.NoteBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
@@ -132,6 +133,7 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new TurnRightBrick(sprite, 15));
 			prototypeBrickList.add(new PointInDirectionBrick(sprite, 90));
 			prototypeBrickList.add(new MotorActionBrick(sprite, 0, 100, 3));
+			prototypeBrickList.add(new MotorTurnAngleBrick(sprite, 0, 30, 180));
 		}
 	}
 
