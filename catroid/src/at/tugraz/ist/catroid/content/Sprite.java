@@ -230,15 +230,15 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		toDraw = true;
 	}
 
-	public synchronized void setSize(double size) {
-		if (size <= 0.0) {
+	public synchronized void setSize(double percent) {
+		if (percent <= 0.0) {
 			throw new IllegalArgumentException("Sprite size must be greater than zero!");
 		}
 
 		int costumeWidth = costume.getImageWidth();
 		int costumeHeight = costume.getImageHeight();
 
-		this.size = size;
+		this.size = percent;
 
 		if (costumeWidth > 0 && costumeHeight > 0) {
 			if (costumeWidth * this.size / 100. < 1) {

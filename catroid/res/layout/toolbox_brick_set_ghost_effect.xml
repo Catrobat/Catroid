@@ -61,7 +61,7 @@
 	>
 	</TextView>
 	<EditText
-		android:id="@+id/construction_brick_set_ghost_effect_edit_text"
+		android:id="@+id/toolbox_brick_set_ghost_effect_to_edit_text"
 		android:text="0"
 		android:layout_height="wrap_content"
 		android:layout_width="60dp"
@@ -80,7 +80,7 @@
 		android:text="@string/percent"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
-		android:layout_toRightOf="@+id/construction_brick_set_ghost_effect_edit_text"
+		android:layout_toRightOf="@id/toolbox_brick_set_ghost_effect_to_edit_text"
 		android:layout_centerVertical="true"
 		android:paddingLeft="5dip"
 		android:paddingRight="10dip"

@@ -61,7 +61,7 @@
 	>
 	</TextView>
 	<EditText
-		android:id="@+id/construction_brick_set_brightness_edit_text"
+		android:id="@+id/toolbox_brick_set_brightness_edit_text"
 		android:text="0"
 		android:layout_height="wrap_content"
 		android:layout_width="60dp"
