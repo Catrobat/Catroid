@@ -51,9 +51,9 @@ public class MotorActionBrick implements Brick {
 			btcHandler = LegoNXT.getBTCHandler();
 		}
 
-		sendBTCmessage(LegoNXTBtCommunicator.NO_DELAY, LegoNXTBtCommunicator.MOTOR_A, 75 * 1, 0);
-		sendBTCmessage(500, LegoNXTBtCommunicator.MOTOR_A, -75 * 1, 0);
-		sendBTCmessage(1000, LegoNXTBtCommunicator.MOTOR_A, 0, 0);
+		sendBTCmessage(LegoNXTBtCommunicator.NO_DELAY, motor, 50, 180);
+		//sendBTCmessage(1000, LegoNXTBtCommunicator.MOTOR_A, -75, 0);
+		sendBTCmessage(1000, motor, 0, 0);
 
 	}
 
