@@ -18,8 +18,10 @@
  */
 package at.tugraz.ist.catroid.uitest.content.brick;
 
+import java.io.File;
 import java.util.List;
 
+import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -28,15 +30,19 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.bricks.Brick;
+import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
+import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
 	private Solo solo;
 	private ImageView setCostumeImageView;
+	private File imageFile;
 
 	public SetCostumeBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
@@ -57,17 +63,24 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		setCostumeImageView = (ImageView) solo.getCurrentActivity().findViewById(R.id.costume_image_view);
 		setCostumeImageView.setDrawingCacheEnabled(true);
 
+		// Copy test image to be used
+
+		final int RESOURCE_LOCATION = R.drawable.catroid_sunglasses;
+		String imageFilePath = Consts.DEFAULT_ROOT + "/" + UiTestUtils.DEFAULT_TEST_PROJECT_NAME
+				+ Consts.IMAGE_DIRECTORY + "/" + "catroid_sunglasses.png";
+		imageFile = UtilFile.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_sunglasses.png",
+				RESOURCE_LOCATION, getActivity(), TestUtils.TYPE_IMAGE_FILE);
+
+		final File imageFileReference = imageFile;
+
 		// Override OnClickListener to launch MockGalleryActivity
 		OnClickListener listener = new OnClickListener() {
 			public void onClick(View v) {
-				Intent intent = new Intent(getInstrumentation().getContext(),
-						at.tugraz.ist.catroid.uitest.mockups.MockGalleryActivity.class);
-				//				Intent intent = new Intent();
-				//				intent.setAction(Intent.ACTION_PICK);
-				//				intent.setPackage("at.tugraz.ist.catroid.uitest");
-				//				intent.setComponent(new ComponentName("at.tugraz.ist.catroid.uitest",
-				//										"at.tugraz.ist.catroid.uitest.mockups.MockGalleryActivity"));
-				getActivity().startActivityForResult(intent, setCostumeBrickIndex);
+				final Intent intent = new Intent("android.intent.action.MAIN");
+				intent.setComponent(new ComponentName("at.tugraz.ist.catroid.uitest",
+						"at.tugraz.ist.catroid.uitest.mockups.MockGalleryActivity"));
+				intent.putExtra("filePath", imageFileReference.getAbsolutePath());
+				solo.getActivityMonitor().getLastActivity().startActivityForResult(intent, setCostumeBrickIndex);
 			}
 		};
 
@@ -77,6 +90,10 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 
 	@Override
 	public void tearDown() throws Exception {
+		if (imageFile.exists()) {
+			imageFile.delete();
+		}
+
 		try {
 			solo.finalize();
 		} catch (Throwable e) {
@@ -90,7 +107,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 	public void testChangeCostume() {
 		solo.sleep(1000);
 		solo.clickOnView(setCostumeImageView);
-		solo.sleep(2000);
+		solo.sleep(5000);
 
 		Bitmap bitmapToTest = setCostumeImageView.getDrawingCache();
 		assertNotNull("Bitmap of costume ImageView is null", bitmapToTest);
