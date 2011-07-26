@@ -18,10 +18,7 @@
  */
 package at.tugraz.ist.catroid.uitest.util;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -30,7 +27,6 @@ import java.util.List;
 import junit.framework.Assert;
 import android.content.Context;
 import android.text.InputType;
-import android.util.Log;
 import android.widget.ImageButton;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -120,12 +116,25 @@ public class UiTestUtils {
 	}
 
 	public static List<Brick> createTestProject() {
+		Context context;
+		String projectName = DEFAULT_TEST_PROJECT_NAME;
 		int xPosition = 457;
 		int yPosition = 598;
 		double size = 0.8;
 
-		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
+		Project project = new Project(null, projectName);
 		Sprite firstSprite = new Sprite("cat");
+
+		//		File normalCat = savePictureFromResInProject(projectName, Consts.NORMAL_CAT, R.drawable.catroid, context);
+		//
+		//		costumeData costume = new costumeData();
+		//		costume.setCostumeAbsoluteImagepath(normalCat.getName());
+		//		costume.setCostumeDisplayName("Normal Cat");
+		//		costume.setCostumeFormat(".jpeg");
+		//		costume.setCostumeId(1);
+		//		Bitmap cat_thumbnail = BitmapFactory.decodeResource(context.getResources(), R.drawable.catroid);
+		//		costume.setCostumeImage(cat_thumbnail);
+		//		costume.setCostumeName("Normal Cat");
 
 		Script testScript = new StartScript("testscript", firstSprite);
 
@@ -181,49 +190,49 @@ public class UiTestUtils {
 	 * @return the file
 	 * @throws IOException
 	 */
-	public static File saveFileToProject(String project, String name, int fileID, Context context, int type) {
-
-		String filePath;
-		if (project == null || project.equalsIgnoreCase("")) {
-			filePath = Consts.DEFAULT_ROOT + "/" + name;
-		} else {
-			switch (type) {
-				case TYPE_IMAGE_FILE:
-					filePath = Consts.DEFAULT_ROOT + "/" + project + Consts.IMAGE_DIRECTORY + "/" + name;
-					break;
-				case TYPE_SOUND_FILE:
-					filePath = Consts.DEFAULT_ROOT + "/" + project + Consts.SOUND_DIRECTORY + "/" + name;
-					break;
-				default:
-					filePath = Consts.DEFAULT_ROOT + "/" + name;
-					break;
-			}
-		}
-		BufferedInputStream in = new BufferedInputStream(context.getResources().openRawResource(fileID));
-
-		try {
-			Log.v(TAG, filePath);
-			File file = new File(filePath);
-			file.getParentFile().mkdirs();
-			file.createNewFile();
-
-			BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file), Consts.BUFFER_8K);
-			byte[] buffer = new byte[Consts.BUFFER_8K];
-			int length = 0;
-			while ((length = in.read(buffer)) > 0) {
-				out.write(buffer, 0, length);
-			}
-
-			in.close();
-			out.flush();
-			out.close();
-
-			return file;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
+	//	public static File saveFileToProject(String project, String name, int fileID, Context context, int type) {
+	//
+	//		String filePath;
+	//		if (project == null || project.equalsIgnoreCase("")) {
+	//			filePath = Consts.DEFAULT_ROOT + "/" + name;
+	//		} else {
+	//			switch (type) {
+	//				case TYPE_IMAGE_FILE:
+	//					filePath = Consts.DEFAULT_ROOT + "/" + project + Consts.IMAGE_DIRECTORY + "/" + name;
+	//					break;
+	//				case TYPE_SOUND_FILE:
+	//					filePath = Consts.DEFAULT_ROOT + "/" + project + Consts.SOUND_DIRECTORY + "/" + name;
+	//					break;
+	//				default:
+	//					filePath = Consts.DEFAULT_ROOT + "/" + name;
+	//					break;
+	//			}
+	//		}
+	//		BufferedInputStream in = new BufferedInputStream(context.getResources().openRawResource(fileID));
+	//
+	//		try {
+	//			Log.v(TAG, filePath);
+	//			File file = new File(filePath);
+	//			file.getParentFile().mkdirs();
+	//			file.createNewFile();
+	//
+	//			BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file), Consts.BUFFER_8K);
+	//			byte[] buffer = new byte[Consts.BUFFER_8K];
+	//			int length = 0;
+	//			while ((length = in.read(buffer)) > 0) {
+	//				out.write(buffer, 0, length);
+	//			}
+	//
+	//			in.close();
+	//			out.flush();
+	//			out.close();
+	//
+	//			return file;
+	//		} catch (IOException e) {
+	//			e.printStackTrace();
+	//			return null;
+	//		}
+	//	}
 
 	public static boolean clearProject(String projectname) {
 		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectname);
