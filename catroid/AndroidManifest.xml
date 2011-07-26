@@ -89,7 +89,7 @@
 			</intent-filter>
 		</activity>
 		
-		<activity android:name=".io.DeviceListActivity" android:theme="@android:style/Theme.Dialog">
+		<activity android:name=".bluetooth.DeviceListActivity" android:theme="@android:style/Theme.Dialog">
 		</activity>
 		
 	</application>

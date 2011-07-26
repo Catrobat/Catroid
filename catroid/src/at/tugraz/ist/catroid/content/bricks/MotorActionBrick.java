@@ -26,9 +26,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.bluetooth.LegoNXT;
+import at.tugraz.ist.catroid.bluetooth.LegoNXTBtCommunicator;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.io.BTCommunicator;
-import at.tugraz.ist.catroid.stage.StageActivity;
 
 public class MotorActionBrick implements Brick {
 	private static final long serialVersionUID = 1L;
@@ -42,12 +42,12 @@ public class MotorActionBrick implements Brick {
 
 	public void execute() {
 		if (btcHandler == null) {
-			btcHandler = StageActivity.getBTCHandler();
+			btcHandler = LegoNXT.getBTCHandler();
 		}
 
-		sendBTCmessage(BTCommunicator.NO_DELAY, BTCommunicator.MOTOR_A, 75 * 1, 0);
-		sendBTCmessage(500, BTCommunicator.MOTOR_A, -75 * 1, 0);
-		sendBTCmessage(1000, BTCommunicator.MOTOR_A, 0, 0);
+		sendBTCmessage(LegoNXTBtCommunicator.NO_DELAY, LegoNXTBtCommunicator.MOTOR_A, 75 * 1, 0);
+		sendBTCmessage(500, LegoNXTBtCommunicator.MOTOR_A, -75 * 1, 0);
+		sendBTCmessage(1000, LegoNXTBtCommunicator.MOTOR_A, 0, 0);
 
 	}
 
