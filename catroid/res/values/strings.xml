@@ -249,5 +249,6 @@
     <string name="load_project">Load Project</string>
     <string name="upload_button">Upload</string>
     <string name="upload_project_dialog_title">Upload project</string>
+    <string name="upload_description">Description:</string>
     <string name="project_rename">(Your project will be renamed.)</string>
 </resources>
