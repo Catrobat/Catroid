@@ -29,21 +29,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.FileChannel;
-import java.util.ArrayList;
-import java.util.Collections;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
-import android.provider.MediaStore;
 import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
-import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.BroadcastScript;
 import at.tugraz.ist.catroid.content.Costume;
 import at.tugraz.ist.catroid.content.Project;
@@ -82,7 +77,6 @@ public class StorageHandler {
 	private static StorageHandler instance;
 	private static final String TAG = StorageHandler.class.getSimpleName();
 	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
-	private ArrayList<SoundInfo> soundContent;
 	private XStream xstream;
 
 	private StorageHandler() throws IOException {
@@ -216,43 +210,6 @@ public class StorageHandler {
 			return false;
 		}
 		return true;
-	}
-
-	public void loadSoundContent(Context context) {
-		soundContent = new ArrayList<SoundInfo>();
-		String[] projectionOnOrig = { MediaStore.Audio.Media.DATA, MediaStore.Audio.AudioColumns.TITLE,
-				MediaStore.Audio.Media._ID };
-
-		Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-				projectionOnOrig, null, null, null);
-
-		if (cursor.moveToFirst()) {
-			int columnTitleIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.TITLE);
-			int columnIdIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID);
-
-			do {
-				SoundInfo info = new SoundInfo();
-				info.setId(cursor.getInt(columnIdIndex));
-				info.setTitle(cursor.getString(columnTitleIndex));
-				soundContent.add(info);
-			} while (cursor.moveToNext());
-		}
-		Log.v(TAG, "LOAD SOUND");
-		cursor.close();
-	}
-
-	public ArrayList<SoundInfo> getSoundContent() {
-		Collections.sort(soundContent);
-		return soundContent;
-	}
-
-	public void setSoundContent(ArrayList<SoundInfo> soundContent) {
-		if (this.soundContent == null) {
-			this.soundContent = new ArrayList<SoundInfo>();
-		} else {
-			this.soundContent.clear();
-		}
-		this.soundContent.addAll(soundContent);
 	}
 
 	public File copySoundFile(String path) throws IOException {

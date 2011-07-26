@@ -32,7 +32,11 @@ public class SoundInfo implements Comparable<SoundInfo> {
 	}
 
 	public String getAbsolutePath() {
-		return getPathWithoutFileName() + fileName;
+		if (fileName != null) {
+			return getPathWithoutFileName() + fileName;
+		} else {
+			return null;
+		}
 	}
 
 	public int getId() {
@@ -80,5 +84,10 @@ public class SoundInfo implements Comparable<SoundInfo> {
 
 	public int compareTo(SoundInfo soundInfo) {
 		return title.compareTo(soundInfo.title);
+	}
+
+	@Override
+	public String toString() {
+		return title;
 	}
 }

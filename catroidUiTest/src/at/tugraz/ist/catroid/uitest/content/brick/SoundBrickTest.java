@@ -32,7 +32,6 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
-import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -88,7 +87,7 @@ public class SoundBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 
 		assertTrue("Wrong title selected", solo.searchText(selectedTitle));
 
-		StorageHandler.getInstance().setSoundContent(soundlist);
+		//StorageHandler.getInstance().setSoundContent(soundlist);
 
 		solo.clickOnButton(selectedTitle);
 		solo.clickInList(2);
