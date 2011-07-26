@@ -36,7 +36,7 @@
                 android:orientation="horizontal"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:background="@drawable/brick_yellow"
+                android:background="@drawable/brick_red"
         >
                 <TextView
                         android:text="@string/brick_motor_action"
