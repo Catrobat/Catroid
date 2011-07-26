@@ -32,14 +32,11 @@
 		android:layout_width="wrap_content"
 		android:src="@drawable/ic_mp_move"
 		android:layout_height="wrap_content" />
-	<RelativeLayout
-		android:id="@+id/RelativeLayout01"
+	<LinearLayout
+		android:orientation="vertical"
 		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
+		android:layout_width="match_parent"
 		android:background="@drawable/brick_magenta"
-		android:focusable="false"
-		android:focusableInTouchMode="false"
-		android:longClickable="true"
 	>
 		<TextView
 			android:id="@+id/ValueTextView"
@@ -50,15 +47,18 @@
 			android:layout_centerVertical="true"
 			android:textColor="@color/white"
 			android:textSize="18dip"
-			android:textStyle="bold"
-		>
+			android:textStyle="bold">
 		</TextView>
-		<Button
-			android:id="@+id/btSoundChoose"
+			<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+			<Spinner 
+			android:id="@+id/playsound_spinner" 
+			android:layout_width="wrap_content" 
 			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:layout_alignParentRight="true"
-			android:layout_centerVertical="true"
-			android:maxWidth="150dip" />
-	</RelativeLayout>
+			android:layout_weight="5"
+			android:layout_alignParentRight="true"/>
+	</LinearLayout>
+	</LinearLayout>
 </LinearLayout>
