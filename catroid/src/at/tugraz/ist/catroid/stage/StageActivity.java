@@ -72,14 +72,17 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 			Utils.updateScreenWidthAndHeight(this);
 
 			soundManager = SoundManager.getInstance();
+
+			detector = new SimpleGestureFilter(this, this);
+
+			Intent checkIntent = new Intent();
+			checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+			startActivityForResult(checkIntent, MY_DATA_CHECK_CODE);
+
 			stageManager = new StageManager(this);
 			stageManager.start();
 			stagePlaying = true;
 		}
-		detector = new SimpleGestureFilter(this, this);
-		Intent checkIntent = new Intent();
-		checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
-		startActivityForResult(checkIntent, MY_DATA_CHECK_CODE);
 	}
 
 	@Override

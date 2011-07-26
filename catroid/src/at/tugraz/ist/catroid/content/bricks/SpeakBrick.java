@@ -32,7 +32,7 @@ import at.tugraz.ist.catroid.stage.StageActivity;
 
 public class SpeakBrick implements Brick {
 	private static final long serialVersionUID = 1L;
-	private static final int MAXLINES = 3;
+	private static final int MAXLINES = 5;
 	private Sprite sprite;
 	private String text = "";
 	protected int position = 0;
@@ -58,7 +58,7 @@ public class SpeakBrick implements Brick {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View brickView = inflater.inflate(R.layout.construction_brick_speak, null);
 
-		EditText editText = (EditText) brickView.findViewById(R.id.edit_text_speak);
+		EditText editText = (EditText) brickView.findViewById(R.id.construction_brick_speak_edit_text);
 		editText.setText(text);
 		editText.setMaxLines(MAXLINES);
 
