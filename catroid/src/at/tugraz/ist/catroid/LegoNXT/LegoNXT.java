@@ -63,7 +63,6 @@ public class LegoNXT implements BTConnectable {
 	private ProgressDialog connectingProgressDialog;
 	private boolean pairing;
 	private static Handler btcHandler;
-	private boolean connected;
 	Activity activity;
 
 	public LegoNXT(Activity activity) {
@@ -71,7 +70,6 @@ public class LegoNXT implements BTConnectable {
 	}
 
 	public void startBTCommunicator(String mac_address) {
-		connected = false;
 		connectingProgressDialog = ProgressDialog.show(activity, "",
 				activity.getResources().getString(R.string.connecting_please_wait), true);
 
@@ -100,7 +98,6 @@ public class LegoNXT implements BTConnectable {
 					//showToast(myMessage.getData().getString("toastText"), Toast.LENGTH_SHORT);
 					break;
 				case LegoNXTBtCommunicator.STATE_CONNECTED:
-					connected = true;
 					connectingProgressDialog.dismiss();
 
 					break;
@@ -121,13 +118,9 @@ public class LegoNXT implements BTConnectable {
 			}
 			myBTCommunicator = null;
 		}
-
-		connected = false;
-		//updateButtonsAndMenu();
 	}
 
-	//Sollte in eine für alle verfügbare Klasse kommen
-	private void sendBTCmessage(int delay, int motor, int speed, int angle) {
+	public static void sendBTCmessage(int delay, int motor, int speed, int angle) {
 		Bundle myBundle = new Bundle();
 		myBundle.putInt("motor", motor);
 		myBundle.putInt("speed", speed);

@@ -19,9 +19,7 @@
 package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
@@ -45,25 +43,10 @@ public class MotorActionBrick implements Brick {
 			btcHandler = LegoNXT.getBTCHandler();
 		}
 
-		sendBTCmessage(LegoNXTBtCommunicator.NO_DELAY, LegoNXTBtCommunicator.MOTOR_A, 75 * 1, 0);
-		sendBTCmessage(500, LegoNXTBtCommunicator.MOTOR_A, -75 * 1, 0);
-		sendBTCmessage(1000, LegoNXTBtCommunicator.MOTOR_A, 0, 0);
+		LegoNXT.sendBTCmessage(LegoNXTBtCommunicator.NO_DELAY, LegoNXTBtCommunicator.MOTOR_A, 75 * 1, 0);
+		LegoNXT.sendBTCmessage(500, LegoNXTBtCommunicator.MOTOR_A, -75 * 1, 0);
+		LegoNXT.sendBTCmessage(1000, LegoNXTBtCommunicator.MOTOR_A, 0, 0);
 
-	}
-
-	private void sendBTCmessage(int delay, int motor, int speed, int angle) {
-		Bundle myBundle = new Bundle();
-		myBundle.putInt("motor", motor);
-		myBundle.putInt("speed", speed);
-		myBundle.putInt("angle", angle);
-		Message myMessage = btcHandler.obtainMessage();
-		myMessage.setData(myBundle);
-
-		if (delay == 0) {
-			btcHandler.sendMessage(myMessage);
-		} else {
-			btcHandler.sendMessageDelayed(myMessage, delay);
-		}
 	}
 
 	public Sprite getSprite() {
