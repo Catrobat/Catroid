@@ -56,9 +56,11 @@ import at.tugraz.ist.catroid.utils.Utils;
 public class SoundActivity extends ListActivity {
 	private Sprite sprite;
 	private ArrayList<SoundInfo> soundInfoList;
-	private final int REQUEST_SELECT_MUSIC = 0;
 	public SoundInfo selectedSoundInfo;
 	private RenameSoundDialog renameSoundDialog;
+	public MediaPlayer mediaPlayer;
+
+	private final int REQUEST_SELECT_MUSIC = 0;
 	public static final int SPEAKER_ID = R.drawable.speaker;
 	public static final int SPEAKER_PLAYING_ID = R.drawable.speaker_playing;
 
@@ -73,6 +75,8 @@ public class SoundActivity extends ListActivity {
 		soundInfoList = new ArrayList<SoundInfo>(currentSounds);
 
 		setListAdapter(new SoundAdapter(this, R.layout.activity_sound_soundlist_item, soundInfoList));
+
+		mediaPlayer = new MediaPlayer();
 	}
 
 	@Override
@@ -81,6 +85,8 @@ public class SoundActivity extends ListActivity {
 		if (!Utils.checkForSdCard(this)) {
 			return;
 		}
+
+		((ArrayAdapter<?>) this.getListAdapter()).notifyDataSetChanged();
 
 		//change actionbar:
 		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
@@ -130,6 +136,7 @@ public class SoundActivity extends ListActivity {
 		if (projectManager.getCurrentProject() != null) {
 			projectManager.saveProject(this);
 		}
+		stopSound();
 	}
 
 	private void updateSoundAdapter(String title, String fileName) {
@@ -156,6 +163,25 @@ public class SoundActivity extends ListActivity {
 
 	public void handleNegativeButtonRenameSound(View v) {
 		renameSoundDialog.renameDialog.cancel();
+	}
+
+	public void stopSound() {
+		mediaPlayer.stop();
+		for (SoundInfo soundInfo : soundInfoList) {
+			soundInfo.isPlaying = false;
+		}
+	}
+
+	public void startSound(SoundInfo soundInfo) {
+		soundInfo.isPlaying = true;
+		try {
+			mediaPlayer.reset();
+			mediaPlayer.setDataSource(soundInfo.getAbsolutePath());
+			mediaPlayer.prepare();
+			mediaPlayer.start();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -226,10 +252,17 @@ public class SoundActivity extends ListActivity {
 				renameSoundButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_menu_edit, 0, 0);
 				deleteSoundButton.setCompoundDrawablesWithIntrinsicBounds(0, android.R.drawable.ic_delete, 0, 0);
 
-				final MediaPlayer player = new MediaPlayer();
+				if (soundInfo.isPlaying) {
+					soundImage.setImageDrawable(activity.getResources().getDrawable(SoundActivity.SPEAKER_PLAYING_ID));
+					playSoundButton.setVisibility(Button.GONE);
+					stopSoundButton.setVisibility(Button.VISIBLE);
+				} else {
+					soundImage.setImageDrawable(activity.getResources().getDrawable(SoundActivity.SPEAKER_ID));
+					playSoundButton.setVisibility(Button.VISIBLE);
+					stopSoundButton.setVisibility(Button.GONE);
+				}
 
-				stopSoundButton.setVisibility(Button.GONE);
-
+				//setting filesize and duration
 				try {
 					MediaPlayer tempPlayer = new MediaPlayer();
 					tempPlayer.setDataSource(soundInfo.getAbsolutePath());
@@ -260,8 +293,8 @@ public class SoundActivity extends ListActivity {
 
 				soundNameTextView.setText(soundInfo.getTitle());
 
+				//rename: does not rename the actual file (only the title in the SoundInfo)
 				renameSoundButton.setOnClickListener(new OnClickListener() {
-
 					public void onClick(View v) {
 						activity.selectedSoundInfo = soundInfo;
 						activity.showDialog(Consts.DIALOG_RENAME_SOUND);
@@ -270,41 +303,30 @@ public class SoundActivity extends ListActivity {
 
 				playSoundButton.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
-						try {
-							player.reset();
-							player.setDataSource(soundInfo.getAbsolutePath());
-							player.prepare();
-							player.start();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-						soundImage.setImageDrawable(activity.getResources().getDrawable(
-								SoundActivity.SPEAKER_PLAYING_ID));
+						activity.stopSound();
+						activity.startSound(soundInfo);
 
-						playSoundButton.setVisibility(Button.GONE);
-						stopSoundButton.setVisibility(Button.VISIBLE);
-						player.setOnCompletionListener(new OnCompletionListener() {
+						activity.mediaPlayer.setOnCompletionListener(new OnCompletionListener() {
 							public void onCompletion(MediaPlayer mp) {
-								playSoundButton.setVisibility(Button.VISIBLE);
-								stopSoundButton.setVisibility(Button.GONE);
-								soundImage.setImageDrawable(activity.getResources().getDrawable(
-										SoundActivity.SPEAKER_ID));
+								soundInfo.isPlaying = false;
+								notifyDataSetChanged();
 							}
 						});
+
+						notifyDataSetChanged();
 					}
 				});
 
 				stopSoundButton.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
-						player.stop();
-						soundImage.setImageDrawable(activity.getResources().getDrawable(SoundActivity.SPEAKER_ID));
-						playSoundButton.setVisibility(Button.VISIBLE);
-						stopSoundButton.setVisibility(Button.GONE);
+						activity.stopSound();
+						notifyDataSetChanged();
 					}
 				});
 
 				deleteSoundButton.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
+						activity.stopSound();
 						soundInfoItems.remove(soundInfo);
 						sprite.removeSoundInfoFromSoundList(soundInfo);
 						StorageHandler.getInstance().deleteFile(soundInfo.getAbsolutePath());
