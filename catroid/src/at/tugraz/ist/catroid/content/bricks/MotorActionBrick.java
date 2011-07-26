@@ -26,15 +26,17 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXTBtCommunicator;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
-public class MotorActionBrick implements Brick, OnDismissListener {
+public class MotorActionBrick implements Brick, OnDismissListener, OnItemSelectedListener {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private Handler btcHandler;
@@ -67,9 +69,9 @@ public class MotorActionBrick implements Brick, OnDismissListener {
 		return this.sprite;
 	}
 
-	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
+	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.construction_brick_motor_action, null);
+		return inflater.inflate(R.layout.toolbox_brick_motor_action, null);
 	}
 
 	@Override
@@ -77,7 +79,7 @@ public class MotorActionBrick implements Brick, OnDismissListener {
 		return new MotorActionBrick(getSprite(), motor, speed, duration);
 	}
 
-	public View getPrototypeView(Context context) {
+	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View brickView = inflater.inflate(R.layout.construction_brick_motor_action, null);
 
@@ -95,6 +97,9 @@ public class MotorActionBrick implements Brick, OnDismissListener {
 		dialogY.setOnCancelListener((OnCancelListener) context);
 		editY.setOnClickListener(dialogY);
 
+		Spinner motorSpinner = (Spinner) brickView.findViewById(R.id.motor_spinner);
+		motorSpinner.setOnItemSelectedListener(this);
+
 		//return inflater.inflate(R.layout.toolbox_brick_motor_action, null);
 		return brickView;
 	}
@@ -102,10 +107,10 @@ public class MotorActionBrick implements Brick, OnDismissListener {
 	public void onDismiss(DialogInterface dialog) {
 		if (dialog instanceof EditIntegerDialog) {
 			EditIntegerDialog inputDialog = (EditIntegerDialog) dialog;
-			if (inputDialog.getRefernecedEditTextId() == R.id.construction_brick_glide_to_x_edit_text) {
-				motor = inputDialog.getValue();
-			} else if (inputDialog.getRefernecedEditTextId() == R.id.construction_brick_glide_to_y_edit_text) {
+			if (inputDialog.getRefernecedEditTextId() == R.id.motor_action_speed_edit_text) {
 				speed = inputDialog.getValue();
+			} else if (inputDialog.getRefernecedEditTextId() == R.id.motor_action_duration_edit_text) {
+				duration = inputDialog.getValue();
 			} else {
 				throw new RuntimeException("Received illegal id from EditText: "
 						+ inputDialog.getRefernecedEditTextId());
