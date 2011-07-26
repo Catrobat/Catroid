@@ -20,6 +20,7 @@ package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
 import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
@@ -32,9 +33,15 @@ public class MotorActionBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private Handler btcHandler;
+	private int motor;
+	private int speed;
+	private int angle;
 
-	public MotorActionBrick(Sprite sprite) {
+	public MotorActionBrick(Sprite sprite, int motor, int speed, int angle) {
 		this.sprite = sprite;
+		this.motor = motor;
+		this.speed = speed;
+		this.angle = angle;
 
 	}
 
@@ -43,10 +50,19 @@ public class MotorActionBrick implements Brick {
 			btcHandler = LegoNXT.getBTCHandler();
 		}
 
+		//sendBTCmessage(LegoNXTBtCommunicator.NO_DELAY, motor, 50, 180);
+		//sendBTCmessage(1000, LegoNXTBtCommunicator.MOTOR_A, -75, 0);
+		//sendBTCmessage(1000, motor, 0, 0);
 		LegoNXT.sendBTCmessage(LegoNXTBtCommunicator.NO_DELAY, LegoNXTBtCommunicator.MOTOR_A, 75 * 1, 0);
 		LegoNXT.sendBTCmessage(500, LegoNXTBtCommunicator.MOTOR_A, -75 * 1, 0);
 		LegoNXT.sendBTCmessage(1000, LegoNXTBtCommunicator.MOTOR_A, 0, 0);
+		//LegoNXT.sendBTCmessage(LegoNXTBtCommunicator.NO_DELAY, LegoNXTBtCommunicator.MOTOR_A, 75 * 1, 0);
+		//LegoNXT.sendBTCmessage(500, LegoNXTBtCommunicator.MOTOR_A, -75 * 1, 0);
+		//LegoNXT.sendBTCmessage(1000, LegoNXTBtCommunicator.MOTOR_A, 0, 0);
 
+	}
+		
+	
 	}
 
 	public Sprite getSprite() {
@@ -54,7 +70,8 @@ public class MotorActionBrick implements Brick {
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SE
+RVICE);
 		return inflater.inflate(R.layout.construction_brick_motor_action, null);
 	}
 
