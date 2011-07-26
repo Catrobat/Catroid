@@ -1,23 +1,42 @@
-/**
- *   Copyright 2010 Guenther Hoelzl, Shawn Brown
+/*    Catroid: An on-device graphical programming language for Android devices
+ *    Copyright (C) 2010  Catroid development team
+ *    (<http://code.google.com/p/catroid/wiki/Credits>)
  *
- *   This file is part of MINDdroid.
+ *    This program is free software: you can redistribute it and/or modify
+ *    it under the terms of the GNU General Public License as published by
+ *    the Free Software Foundation, either version 3 of the License, or
+ *    (at your option) any later version.
  *
- *   MINDdroid is free software: you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation, either version 3 of the License, or
- *   (at your option) any later version.
+ *    This program is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU General Public License for more details.
  *
- *   MINDdroid is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
+ *    You should have received a copy of the GNU General Public License
+ *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *    
+ *    This file incorporates work covered by the following copyright and  
+ *    permission notice: 
+ *    
+ *		   	Copyright 2010 Guenther Hoelzl, Shawn Brown
  *
- *   You should have received a copy of the GNU General Public License
- *   along with MINDdroid.  If not, see <http://www.gnu.org/licenses/>.
- **/
+ *		   	This file is part of MINDdroid.
+ *
+ * 		  	MINDdroid is free software: you can redistribute it and/or modify
+ * 		  	it under the terms of the GNU General Public License as published by
+ * 		  	the Free Software Foundation, either version 3 of the License, or
+ *   		(at your option) any later version.
+ *
+ *   		MINDdroid is distributed in the hope that it will be useful,
+ *   		but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   		GNU General Public License for more details.
+ *
+ *   		You should have received a copy of the GNU General Public License
+ *   		along with MINDdroid.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
-package at.tugraz.ist.catroid.bluetooth;
+package at.tugraz.ist.catroid.LegoNXT;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,6 +52,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.bluetooth.BTConnectable;
 
 /**
  * This class is for talking to a LEGO NXT robot via bluetooth.
@@ -87,7 +107,8 @@ public class LegoNXTBtCommunicator extends Thread {
 
 	private byte[] returnMessage;
 
-	public LegoNXTBtCommunicator(BTConnectable myOwner, Handler uiHandler, BluetoothAdapter btAdapter, Resources resources) {
+	public LegoNXTBtCommunicator(BTConnectable myOwner, Handler uiHandler, BluetoothAdapter btAdapter,
+			Resources resources) {
 		this.myOwner = myOwner;
 		this.uiHandler = uiHandler;
 		this.btAdapter = btAdapter;
