@@ -137,6 +137,12 @@
 	<string name="new_broadcast_message">Neu...</string>
 	<string name="broadcast_nothing_selected">Nichts...</string>
 	
+	<!-- Brick categories -->
+	<string name="category_motion">Bewegung</string>
+	<string name="category_looks">Aussehen</string>
+	<string name="category_sound">Klang</string>
+	<string name="category_control">Steuerung</string>
+	
     <!--  Stage context menu -->
     <string name="stagemenu_construction_site">Zur Baustelle</string>
     <string name="stagemenu_start">Abspielen/Pause</string>
