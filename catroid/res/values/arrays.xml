@@ -34,4 +34,11 @@
     <item>(180) down</item>
   </string-array>
   
+  <!-- Mindroid motors spinner -->
+    <string-array name="nxt_motor_chooser">
+	    <item>A</item>
+	    <item>B</item>
+	    <item>C</item>
+  	</string-array>
+  
 </resources>
