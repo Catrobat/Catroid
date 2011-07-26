@@ -51,6 +51,7 @@
 			<Spinner android:layout_weight="1" 
 				android:layout_height="wrap_content"
 				android:clickable="false" 
+				android:entries="@array/nxt_motor_chooser"
 				android:id="@+id/motor_spinner"
 				android:focusable="false" 
 				android:layout_width="wrap_content">
@@ -81,7 +82,7 @@
 			android:layout_centerVertical="true"
 		>
 			<EditText
-				android:id="@+id/toolbox_brick_glide_to_x_edit_text"
+				android:id="@+id/motor_action_duration_edit_text"
 				android:text="0"
 				android:layout_height="wrap_content"
 				android:layout_width="60dp"
@@ -103,7 +104,7 @@
 			android:layout_width="fill_parent" 
 			android:layout_centerVertical="true">
 			<EditText 
-				android:id="@string/brick_motor_action"
+				android:id="@+id/motor_action_speed_edit_text"
 				android:text="0" 
 				android:inputType="number|numberDecimal|numberSigned"
 				android:maxLength="3" 
