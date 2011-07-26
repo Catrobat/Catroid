@@ -362,47 +362,6 @@ public class CostumeActivity extends ListActivity {
 					}
 				});
 
-				//				final EditText editName = (EditText) v.findViewById(R.id.costume_edit_name);
-				//				final Button done = (Button) v.findViewById(R.id.rename_costume);
-				//				done.setVisibility(View.INVISIBLE);
-				//				if (editName != null) {
-				//					editName.setText(c.getCostumeDisplayName());
-				//				}
-				//
-				//				editName.setOnClickListener(new View.OnClickListener() {
-				//					public void onClick(View v) {
-				//						done.setVisibility(View.VISIBLE);
-				//					}
-				//				});
-				//
-				//				done.setOnClickListener(new View.OnClickListener() {
-				//					public void onClick(View v) {
-				//						String nameToEdit = ((EditText) findViewById(R.id.costume_edit_name)).getText().toString();
-				//						if (nameToEdit.equalsIgnoreCase(c.getCostumeName())) {
-				//							editName.setText(nameToEdit);
-				//							notifyDataSetChanged();
-				//							return;
-				//						}
-				//						if (nameToEdit != null && !nameToEdit.equalsIgnoreCase("")) {
-				//							for (costumeData tempCostume : ProjectManager.getInstance().getCurrentSprite()
-				//									.getCostumeList()) {
-				//								if (tempCostume.getCostumeName().equalsIgnoreCase(nameToEdit)) {
-				//									//Utils.displayErrorMessage(costumeActivity,costumeActivity.getString(R.string.costumename_already_exists));
-				//									return;
-				//								}
-				//							}
-				//							c.setCostumeName(nameToEdit);
-				//							c.setCostumeDisplayName(nameToEdit);
-				//							editName.setText(nameToEdit);
-				//							notifyDataSetChanged();
-				//						} else {
-				//							//Utils.displayErrorMessage(this,this.getString(R.string.costumename_invalid));
-				//							return;
-				//						}
-				//						notifyDataSetChanged();
-				//					}
-				//				});
-
 				ImageView costumeImage = (ImageView) v.findViewById(R.id.costume_image);
 				if (costumeImage != null) {
 					costumeImage.setImageBitmap(c.getCostumeImage());
