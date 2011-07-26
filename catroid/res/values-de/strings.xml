@@ -187,12 +187,22 @@
     <string name="brick_stop_all_sounds">Stoppe alle Sounds</string>
     
     <!-- Lego Mindstorms Strings -->
-    <string name="brick_motor_action">Motor aktion</string>
+	<string name="brick_motor_action">Motor aktion</string>
     <string name="notification_blueth_err">Bluetooth konnte nich aktiviert werden, schließe Stage</string>
     <string name="title_paired_devices">Verbundene Geräte</string>
-    <string name="title_other_devices">Neue Geräte</string>
+    <string name="title_other_devices">Nicht verbundene Geräte</string>
     <string name="button_scan">Suche Bluetooth Geräte</string>
-    <string name="scanning">Suche</string>
+	<string name="scanning">Suche</string>
+	<string name="select_device">Wähle dein Mindstorms NXT</string>
+
+	<string name="connecting_please_wait">Verbinde zum Lego NXT.\nBitte warten...</string>
+	<string name="pairing_message">Nach dem Pairing, verbinde.</string>
+	<string name="problem_at_closing">Problem beim Schließen der Verbindung!</string>
+	<string name="connect_device">Verbinde Gerät</string>
+	<string name="motor">Motor</string>
+	<string name="no_paired_nxt">Kein verbundenes NXT</string>
+	<string name="none_found">Keine nicht verbundenen Geräte gefunden</string>
+	<string name="none_paired">Keine verbundenen Geräte gefunden</string>
     
     <!-- defaulValues -->
     <string name="default_project_name">standardProjekt</string>

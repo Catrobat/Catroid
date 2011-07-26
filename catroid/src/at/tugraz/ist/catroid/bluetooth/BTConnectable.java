@@ -17,7 +17,7 @@
  *   along with MINDdroid.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-package at.tugraz.ist.catroid.io;
+package at.tugraz.ist.catroid.bluetooth;
 
 public interface BTConnectable {
 

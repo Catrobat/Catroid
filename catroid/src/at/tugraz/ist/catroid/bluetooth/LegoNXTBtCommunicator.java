@@ -17,7 +17,7 @@
  *   along with MINDdroid.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-package at.tugraz.ist.catroid.io;
+package at.tugraz.ist.catroid.bluetooth;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,7 +40,7 @@ import at.tugraz.ist.catroid.R;
  * Objects of this class can either be run as standalone thread or controlled
  * by the owners, i.e. calling the send/recive methods by themselves.
  */
-public class BTCommunicator extends Thread {
+public class LegoNXTBtCommunicator extends Thread {
 	public static final int MOTOR_A = 0;
 	public static final int MOTOR_B = 1;
 	public static final int MOTOR_C = 2;
@@ -87,7 +87,7 @@ public class BTCommunicator extends Thread {
 
 	private byte[] returnMessage;
 
-	public BTCommunicator(BTConnectable myOwner, Handler uiHandler, BluetoothAdapter btAdapter, Resources resources) {
+	public LegoNXTBtCommunicator(BTConnectable myOwner, Handler uiHandler, BluetoothAdapter btAdapter, Resources resources) {
 		this.myOwner = myOwner;
 		this.uiHandler = uiHandler;
 		this.btAdapter = btAdapter;
