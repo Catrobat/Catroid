@@ -120,7 +120,7 @@ public class LegoNXT implements BTConnectable {
 		}
 	}
 
-	public static void sendBTCmessage(int delay, int motor, int speed, int angle) {
+	public static synchronized void sendBTCmessage(int delay, int motor, int speed, int angle) {
 		Bundle myBundle = new Bundle();
 		myBundle.putInt("motor", motor);
 		myBundle.putInt("speed", speed);
