@@ -40,5 +40,12 @@
 	    <item>B</item>
 	    <item>C</item>
   	</string-array>
+  	
+  	<string-array name="nxt_stop_motor_chooser">
+	    <item>A</item>
+	    <item>B</item>
+	    <item>C</item>
+	    <item>All</item>
+  	</string-array>
   
 </resources>
