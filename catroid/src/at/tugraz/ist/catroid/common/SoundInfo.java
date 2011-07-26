@@ -25,6 +25,11 @@ public class SoundInfo implements Comparable<SoundInfo> {
 	private int id;
 	private String title;
 	private String fileName;
+	public boolean isPlaying;
+
+	public SoundInfo() {
+		isPlaying = false;
+	}
 
 	public String getAbsolutePath() {
 		return getPathWithoutFileName() + fileName;
