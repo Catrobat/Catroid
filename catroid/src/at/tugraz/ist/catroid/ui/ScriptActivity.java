@@ -32,6 +32,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
@@ -160,6 +161,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
+		Log.v("Catroid", "&&&&&&&&&&&&&&&&&&&OnResult ScriptActivity");
 		/*
 		 * This is used for getting the results of the gallery intent when the
 		 * user selected an image. requestCode holds the ID / position of the
@@ -168,11 +170,15 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		 */
 
 		if (resultCode == RESULT_OK) {
+			Log.v("Catroid", "&&&&&&&&&&&&&&&&&&& RESULT OK");
 			SetCostumeBrick affectedBrick = (SetCostumeBrick) adapter
 					.getChild(adapter.getGroupCount() - 1, requestCode);
 			if (affectedBrick != null) {
 				Uri selectedImageUri = data.getData();
-				String selectedImagePath = getPathFromContentUri(selectedImageUri);
+				String selectedImagePath = selectedImageUri.getPath();
+				if (selectedImageUri.getPath().startsWith("content:")) {
+					selectedImagePath = getPathFromContentUri(selectedImageUri);
+				}
 				if (selectedImagePath == null) {
 					Utils.displayErrorMessage(this, getString(R.string.error_load_image));
 					return;
