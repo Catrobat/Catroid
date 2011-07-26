@@ -62,12 +62,8 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	private ActivityHelper activityHelper = new ActivityHelper(this);
 
 	private void initListeners() {
-		sprite = ProjectManager.getInstance().getCurrentSprite();
 		listView = (DragNDropListView) findViewById(R.id.brick_list_view);
 		adapter = new BrickAdapter(this, sprite, listView);
-		if (sprite == null) {
-			return;
-		}
 		if (adapter.getGroupCount() > 0) {
 			ProjectManager.getInstance().setCurrentScript(adapter.getGroup(adapter.getGroupCount() - 1));
 		}
@@ -141,6 +137,10 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	@Override
 	protected void onStart() {
 		super.onStart();
+		sprite = ProjectManager.getInstance().getCurrentSprite();
+		if (sprite == null) {
+			return;
+		}
 		initListeners();
 		if (adapter.getGroupCount() > 0) {
 			listView.expandGroup(adapter.getGroupCount() - 1);
