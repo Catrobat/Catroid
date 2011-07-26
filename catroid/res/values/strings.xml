@@ -198,12 +198,13 @@
 	<string name="none_paired">No paired devices found</string>
 	
 	<!-- Lego Mindstorms Strings -->
-	<string name="brick_motor_action">Motor move</string>
+	<string name="brick_motor_action">Move motor</string>
 	<string name="motor">motor</string>
 	<string name="motor_duration">Duration</string>
 	<string name="motor_speed">Speed</string>
-	<string name="brick_motor_turn_angle">Motor turn</string>
+	<string name="brick_motor_turn_angle">Turn motor</string>
 	<string name="motor_angle">Angle</string>
+	<string name="motor_stop">Stop Motor</string>
 	
 	<!-- defaulValues -->
 	<string name="default_project_name">defaultProject</string>
