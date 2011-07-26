@@ -25,6 +25,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -32,6 +33,9 @@ import android.content.Context;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
@@ -53,6 +57,7 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class UiTestUtils {
 	private static ProjectManager projectManager = ProjectManager.getInstance();
+	private static HashMap<Integer, Integer> brickCategoryMap;
 
 	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
 	public static final String PROJECTNAME1 = "testproject1";
@@ -110,8 +115,113 @@ public class UiTestUtils {
 		solo.sleep(50);
 	}
 
+	private static void initBrickCategoryMap() {
+		brickCategoryMap = new HashMap<Integer, Integer>();
+
+		brickCategoryMap.put(R.string.brick_place_at, R.string.category_motion);
+		brickCategoryMap.put(R.string.brick_set_x, R.string.category_motion);
+		brickCategoryMap.put(R.string.brick_set_y, R.string.category_motion);
+		brickCategoryMap.put(R.string.brick_change_x_by, R.string.category_motion);
+		brickCategoryMap.put(R.string.brick_change_y_by, R.string.category_motion);
+		brickCategoryMap.put(R.string.brick_go_back, R.string.category_motion);
+		brickCategoryMap.put(R.string.brick_come_to_front, R.string.category_motion);
+		brickCategoryMap.put(R.string.brick_glide, R.string.category_motion);
+
+		brickCategoryMap.put(R.string.brick_set_costume, R.string.category_looks);
+		brickCategoryMap.put(R.string.brick_set_size_to, R.string.category_looks);
+		brickCategoryMap.put(R.string.brick_hide, R.string.category_looks);
+		brickCategoryMap.put(R.string.brick_show, R.string.category_looks);
+
+		brickCategoryMap.put(R.string.brick_play_sound, R.string.category_sound);
+		brickCategoryMap.put(R.string.brick_stop_all_sounds, R.string.category_sound);
+
+		brickCategoryMap.put(R.string.brick_if_started, R.string.category_control);
+		brickCategoryMap.put(R.string.brick_if_touched, R.string.category_control);
+		brickCategoryMap.put(R.string.brick_wait, R.string.category_control);
+		brickCategoryMap.put(R.string.brick_broadcast_receive, R.string.category_control);
+		brickCategoryMap.put(R.string.brick_broadcast, R.string.category_control);
+		brickCategoryMap.put(R.string.brick_broadcast_wait, R.string.category_control);
+		brickCategoryMap.put(R.string.brick_note, R.string.category_control);
+		brickCategoryMap.put(R.string.brick_forever, R.string.category_control);
+		brickCategoryMap.put(R.string.brick_repeat, R.string.category_control);
+	}
+
+	public static int getBrickCategory(Solo solo, int brickStringId) {
+		if (brickCategoryMap == null) {
+			initBrickCategoryMap();
+		}
+
+		Integer brickCategoryid = brickCategoryMap.get(brickStringId);
+		if (brickCategoryid == null) {
+			String brickString = solo.getCurrentActivity().getString(brickStringId);
+			throw new RuntimeException("No category was found for brick string \"" + brickString + "\".\n"
+					+ "Please check brick string or add brick string to category map");
+		}
+
+		return brickCategoryMap.get(brickStringId);
+	}
+
 	public static void addNewBrickAndScrollDown(Solo solo, int brickStringId) {
+		int categoryStringId = getBrickCategory(solo, brickStringId);
+		addNewBrickAndScrollDown(solo, categoryStringId, brickStringId);
+	}
+
+	/**
+	 * Ugly workaround because Robotium is acting flaky with clickOnText
+	 */
+
+	private static View getCategoryViewFromCategoryStringId(Solo solo, int categoryStringId) {
+		String text = solo.getString(categoryStringId);
+		ListView listView = solo.getCurrentListViews().get(0);
+
+		switch (categoryStringId) {
+			case R.string.category_motion:
+				return listView.getChildAt(0);
+			case R.string.category_looks:
+				return listView.getChildAt(1);
+			case R.string.category_sound:
+				return listView.getChildAt(2);
+			case R.string.category_control:
+				return listView.getChildAt(3);
+
+		}
+		/*
+		 * for (int i = 0; i < listView.getChildCount(); i++) {
+		 * LinearLayout childView = (LinearLayout) listView.getChildAt(i);
+		 * TextView textView = (TextView) childView.getChildAt(0);
+		 * Log.d("catroid", "Looking for: " + text + ", current: " + textView.getText());
+		 * if (textView.getText().equals(text)) {
+		 * return textView;
+		 * }
+		 * }
+		 */
+		throw new RuntimeException("Unknown category: " + text);
+	}
+
+	public static void addNewBrickAndScrollDown(Solo solo, int categoryStringId, int brickStringId) {
 		solo.clickOnButton(solo.getCurrentActivity().getString(R.string.add_new_brick));
+
+		Log.d("catroid", "---------- addNewBrickAndScrollDown ----------");
+
+		ListView listView = solo.getCurrentListViews().get(0);
+		Log.d("catroid", "ListView has " + listView.getChildCount() + " entries");
+		for (int i = 0; i < listView.getChildCount(); i++) {
+			LinearLayout child = (LinearLayout) listView.getChildAt(i);
+			TextView textView = (TextView) child.getChildAt(0);
+			Log.d("catroid", "Found text view " + textView.getText() + " inside ListView");
+		}
+
+		List<TextView> textViews = solo.getCurrentTextViews(null);
+		Log.d("catroid", textViews.size() + " TextViews were found");
+		for (TextView textView : textViews) {
+			Log.d("catroid", "Found text view " + textView.getText());
+		}
+
+		solo.sleep(500);
+		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
+		//solo.clickOnView(getCategoryViewFromCategoryStringId(solo, categoryStringId));
+		solo.sleep(500);
+
 		solo.clickOnText(solo.getCurrentActivity().getString(brickStringId));
 
 		while (solo.scrollDown()) {

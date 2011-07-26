@@ -80,10 +80,8 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 		assertEquals("Script list has to much elements", 0, sprite_list.get(0).getNumberOfScripts());
 
 		solo.goBack();
-		solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
-		solo.clickOnText(getActivity().getString(R.string.brick_if_touched));
-		solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
-		solo.clickOnText(getActivity().getString(R.string.brick_set_size_to));
+		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_if_touched);
+		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_set_size_to);
 		solo.sleep(500);
 
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);

@@ -25,18 +25,18 @@ import java.io.IOException;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
@@ -49,7 +49,7 @@ import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
-import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
+import at.tugraz.ist.catroid.ui.dialogs.BrickCategoryDialog;
 import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -64,7 +64,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	private void initListeners() {
 		sprite = ProjectManager.getInstance().getCurrentSprite();
 		listView = (DragNDropListView) findViewById(R.id.brick_list_view);
-		adapter = new BrickAdapter(this, sprite, listView);
+		adapter = new BrickAdapter(this, ProjectManager.getInstance().getCurrentSprite(), listView);
 		if (adapter.getGroupCount() > 0) {
 			ProjectManager.getInstance().setCurrentScript(adapter.getGroup(adapter.getGroupCount() - 1));
 		}
@@ -93,6 +93,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_script);
+
 	}
 
 	@Override
@@ -116,7 +117,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 
 		switch (id) {
 			case Consts.DIALOG_ADD_BRICK:
-				dialog = new AddBrickDialog(this);
+				dialog = new BrickCategoryDialog(this);
 				dialog.setOnDismissListener(this);
 				break;
 			default:

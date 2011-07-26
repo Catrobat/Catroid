@@ -19,6 +19,8 @@
 package at.tugraz.ist.catroid.ui.dialogs;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import android.app.Dialog;
 import android.view.View;
@@ -71,84 +73,80 @@ import at.tugraz.ist.catroid.ui.adapter.PrototypeBrickAdapter;
 
 public class AddBrickDialog extends Dialog {
 
-	private ArrayList<Brick> prototypeBrickList;
+	private HashMap<String, List<Brick>> brickMap;
+
 	private ListView listView;
 	private PrototypeBrickAdapter adapter;
 	private ScriptActivity scriptActivity;
+	private Dialog parentDialog;
+	private String category;
 
-	private void setupBrickPrototypes(Sprite sprite) {
-		if (sprite.getName().equals(scriptActivity.getString(string.background))) {
-			prototypeBrickList = new ArrayList<Brick>();
-			prototypeBrickList.add(new WaitBrick(sprite, 1000));
-			prototypeBrickList.add(new HideBrick(sprite));
-			prototypeBrickList.add(new ShowBrick(sprite));
-			prototypeBrickList.add(new PlaceAtBrick(sprite, 0, 0));
-			prototypeBrickList.add(new SetXBrick(sprite, 0));
-			prototypeBrickList.add(new SetYBrick(sprite, 0));
-			prototypeBrickList.add(new ChangeXByBrick(sprite, 0));
-			prototypeBrickList.add(new ChangeYByBrick(sprite, 0));
-			prototypeBrickList.add(new SetCostumeBrick(sprite));
-			prototypeBrickList.add(new SetSizeToBrick(sprite, 100));
-			prototypeBrickList.add(new PlaySoundBrick(sprite));
-			prototypeBrickList.add(new IfTouchedBrick(sprite, null));
-			prototypeBrickList.add(new IfStartedBrick(sprite, null));
-			prototypeBrickList.add(new BroadcastReceiverBrick(sprite, null));
-			prototypeBrickList.add(new BroadcastBrick(sprite));
-			prototypeBrickList.add(new BroadcastWaitBrick(sprite));
-			prototypeBrickList.add(new GlideToBrick(sprite, 100, 100, 3000));
-			prototypeBrickList.add(new NoteBrick(sprite));
-			prototypeBrickList.add(new StopAllSoundsBrick(sprite));
-			prototypeBrickList.add(new ForeverBrick(sprite));
-			prototypeBrickList.add(new RepeatBrick(sprite, 3));
-		} else {
-			prototypeBrickList = new ArrayList<Brick>();
-			prototypeBrickList.add(new WaitBrick(sprite, 1000));
-			prototypeBrickList.add(new HideBrick(sprite));
-			prototypeBrickList.add(new ShowBrick(sprite));
-			prototypeBrickList.add(new PlaceAtBrick(sprite, 0, 0));
-			prototypeBrickList.add(new SetXBrick(sprite, 0));
-			prototypeBrickList.add(new SetYBrick(sprite, 0));
-			prototypeBrickList.add(new ChangeXByBrick(sprite, 0));
-			prototypeBrickList.add(new ChangeYByBrick(sprite, 0));
-			prototypeBrickList.add(new SetCostumeBrick(sprite));
-			prototypeBrickList.add(new SetSizeToBrick(sprite, 100));
-			prototypeBrickList.add(new GoNStepsBackBrick(sprite, 1));
-			prototypeBrickList.add(new ComeToFrontBrick(sprite));
-			prototypeBrickList.add(new PlaySoundBrick(sprite));
-			prototypeBrickList.add(new IfTouchedBrick(sprite, null));
-			prototypeBrickList.add(new IfStartedBrick(sprite, null));
-			prototypeBrickList.add(new BroadcastReceiverBrick(sprite, null));
-			prototypeBrickList.add(new BroadcastBrick(sprite));
-			prototypeBrickList.add(new BroadcastWaitBrick(sprite));
-			prototypeBrickList.add(new GlideToBrick(sprite, 100, 100, 3000));
-			prototypeBrickList.add(new NoteBrick(sprite));
-			prototypeBrickList.add(new StopAllSoundsBrick(sprite));
-			prototypeBrickList.add(new ForeverBrick(sprite));
-			prototypeBrickList.add(new RepeatBrick(sprite, 3));
-			prototypeBrickList.add(new IfOnEdgeBounceBrick(sprite));
-			prototypeBrickList.add(new MoveNStepsBrick(sprite, 10));
-			prototypeBrickList.add(new TurnLeftBrick(sprite, 15));
-			prototypeBrickList.add(new TurnRightBrick(sprite, 15));
-			prototypeBrickList.add(new PointInDirectionBrick(sprite, 90));
+	private void setupBrickMap(Sprite sprite) {
+		brickMap = new HashMap<String, List<Brick>>();
+
+		List<Brick> motionBrickList = new ArrayList<Brick>();
+		motionBrickList.add(new PlaceAtBrick(sprite, 0, 0));
+		motionBrickList.add(new SetXBrick(sprite, 0));
+		motionBrickList.add(new SetYBrick(sprite, 0));
+		motionBrickList.add(new ChangeXByBrick(sprite, 100));
+		motionBrickList.add(new ChangeYByBrick(sprite, 100));
+		if (!sprite.getName().equals(scriptActivity.getString(string.background))) {
+			motionBrickList.add(new GoNStepsBackBrick(sprite, 1));
+			motionBrickList.add(new ComeToFrontBrick(sprite));
+			motionBrickList.add(new IfOnEdgeBounceBrick(sprite));
+			motionBrickList.add(new MoveNStepsBrick(sprite, 10));
+			motionBrickList.add(new TurnLeftBrick(sprite, 15));
+			motionBrickList.add(new TurnRightBrick(sprite, 15));
+			motionBrickList.add(new PointInDirectionBrick(sprite, 90));
 		}
+		motionBrickList.add(new GlideToBrick(sprite, 800, 0, 1000));
+		brickMap.put(getContext().getString(R.string.category_motion), motionBrickList);
+
+		List<Brick> looksBrickList = new ArrayList<Brick>();
+		looksBrickList.add(new SetCostumeBrick(sprite));
+		looksBrickList.add(new SetSizeToBrick(sprite, 100));
+		looksBrickList.add(new HideBrick(sprite));
+		looksBrickList.add(new ShowBrick(sprite));
+		brickMap.put(getContext().getString(R.string.category_looks), looksBrickList);
+
+		List<Brick> soundBrickList = new ArrayList<Brick>();
+		soundBrickList.add(new PlaySoundBrick(sprite));
+		soundBrickList.add(new StopAllSoundsBrick(sprite));
+		brickMap.put(getContext().getString(R.string.category_sound), soundBrickList);
+
+		List<Brick> controlBrickList = new ArrayList<Brick>();
+		controlBrickList.add(new IfStartedBrick(sprite, null));
+		controlBrickList.add(new IfTouchedBrick(sprite, null));
+		controlBrickList.add(new WaitBrick(sprite, 1000));
+		controlBrickList.add(new BroadcastReceiverBrick(sprite, null));
+		controlBrickList.add(new BroadcastBrick(sprite));
+		controlBrickList.add(new BroadcastWaitBrick(sprite));
+		controlBrickList.add(new NoteBrick(sprite));
+		controlBrickList.add(new ForeverBrick(sprite));
+		controlBrickList.add(new RepeatBrick(sprite, 3));
+		brickMap.put(getContext().getString(R.string.category_control), controlBrickList);
 	}
 
-	public AddBrickDialog(ScriptActivity scriptActivity) {
+	public AddBrickDialog(Dialog parentDialog, ScriptActivity scriptActivity, String category) {
 		super(scriptActivity);
+		this.parentDialog = parentDialog;
 		this.scriptActivity = scriptActivity;
+		this.category = category;
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.dialog_toolbox);
 		getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
-		setupBrickPrototypes(ProjectManager.getInstance().getCurrentSprite());
-		adapter = new PrototypeBrickAdapter(this.scriptActivity, prototypeBrickList);
 
 		listView = (ListView) findViewById(R.id.toolboxListView);
+		setupBrickMap(ProjectManager.getInstance().getCurrentSprite());
+		adapter = new PrototypeBrickAdapter(this.scriptActivity, brickMap.get(category));
+
 		listView.setAdapter(adapter);
 
 		listView.setOnItemClickListener(new ListView.OnItemClickListener() {
@@ -191,8 +189,10 @@ public class AddBrickDialog extends Dialog {
 					}
 				}
 				dismiss();
+				parentDialog.dismiss();
 			}
 		});
+
 	}
 
 	public Brick getBrickClone(Brick brick) {
