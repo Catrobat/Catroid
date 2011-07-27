@@ -37,7 +37,6 @@ public class PlaySoundBrick implements Brick, Serializable {
 	private static final long serialVersionUID = 1L;
 	private SoundInfo soundInfo;
 	private Sprite sprite;
-	private int position;
 
 	public PlaySoundBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -70,14 +69,17 @@ public class PlaySoundBrick implements Brick, Serializable {
 			//private boolean start = true;
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				soundInfo = (SoundInfo) parent.getItemAtPosition(position);
-				PlaySoundBrick.this.position = position;
 			}
 
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
 
-		soundbrickSpinner.setSelection(position);
+		if (sprite.getSoundList().contains(soundInfo)) {
+			soundbrickSpinner.setSelection(sprite.getSoundList().indexOf(soundInfo) + 1);
+		} else {
+			soundbrickSpinner.setSelection(0);
+		}
 
 		return view;
 
