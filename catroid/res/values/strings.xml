@@ -205,6 +205,7 @@
 	<string name="brick_motor_turn_angle">Turn motor</string>
 	<string name="motor_angle">Angle</string>
 	<string name="motor_stop">Stop Motor</string>
+	<string name="motor_inverse">Inverse</string>
 	
 	<!-- defaulValues -->
 	<string name="default_project_name">defaultProject</string>

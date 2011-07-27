@@ -211,6 +211,7 @@
 		<string name="brick_motor_turn_angle">Rotiere Motor</string>
 		<string name="motor_angle">Winkel</string>
 		<string name="motor_stop">Stoppe Motor</string>
+		<string name="motor_inverse">Invertieren</string>
     
     <!-- defaulValues -->
     <string name="default_project_name">standardProjekt</string>
