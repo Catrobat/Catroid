@@ -81,8 +81,7 @@ public class SetCostumeBrick implements Brick {
 		if (imageName == null) {
 			return null;
 		}
-		return Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName()
-				+ Consts.IMAGE_DIRECTORY + "/" + imageName;
+		return CostumeData.getCostumeAbsoluteImagepath();
 	}
 
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
@@ -97,6 +96,7 @@ public class SetCostumeBrick implements Brick {
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				CostumeData = (Costume) parent.getItemAtPosition(position);
 				SetCostumeBrick.this.position = position;
+				setCostume(CostumeData.getCostumeName());
 			}
 
 			public void onNothingSelected(AdapterView<?> arg0) {
@@ -129,7 +129,12 @@ public class SetCostumeBrick implements Brick {
 
 	@Override
 	public Brick clone() {
-		return new SetCostumeBrick(getSprite());
+		SetCostumeBrick clonedBrick = new SetCostumeBrick(getSprite());
+		if (sprite.getCostume() != null) {
+			clonedBrick.setCostume(null);
+		}
+
+		return clonedBrick;
 
 	}
 }
