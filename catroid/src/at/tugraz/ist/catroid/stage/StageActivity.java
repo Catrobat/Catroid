@@ -20,9 +20,12 @@
 package at.tugraz.ist.catroid.stage;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,6 +37,7 @@ import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
+import at.tugraz.ist.catroid.LegoNXT.LegoNXTBtCommunicator;
 import at.tugraz.ist.catroid.bluetooth.BluetothManager;
 import at.tugraz.ist.catroid.bluetooth.DeviceListActivity;
 import at.tugraz.ist.catroid.io.SoundManager;
@@ -49,6 +53,7 @@ public class StageActivity extends Activity {
 	private boolean stagePlaying = false;
 	private LegoNXT legoNXT;
 	private BluetothManager bluetothManager;
+	private ProgressDialog connectingProgressDialog;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -66,20 +71,18 @@ public class StageActivity extends Activity {
 
 			soundManager = SoundManager.getInstance();
 			stageManager = new StageManager(this);
-			legoNXT = new LegoNXT(this);
+			legoNXT = new LegoNXT(this, recieveHandler);
 			bluetothManager = new BluetothManager(this);
 
 			if (!stageManager.getBluetoothNeeded()) {
-				stageManager.start();
-				stageManager.startScripts();
-				stagePlaying = true;
+				startStage();
 			} else {
 				int bluetoothState = bluetothManager.activateBluetooth();
 				if (bluetoothState == -1) {
 					Toast.makeText(StageActivity.this, R.string.notification_blueth_err, Toast.LENGTH_LONG).show();
 					finish();
 				} else if (bluetoothState == 1) {
-					legoNXT.connectLegoNXT();
+					startLegoComm();
 				}
 			}
 		}
@@ -93,7 +96,7 @@ public class StageActivity extends Activity {
 			case REQUEST_ENABLE_BT:
 				switch (resultCode) {
 					case Activity.RESULT_OK:
-						legoNXT.connectLegoNXT();
+						startLegoComm();
 						break;
 
 					case Activity.RESULT_CANCELED:
@@ -109,10 +112,6 @@ public class StageActivity extends Activity {
 						String address = data.getExtras().getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
 						//pairing = data.getExtras().getBoolean(DeviceListActivity.PAIRING);
 						legoNXT.startBTCommunicator(address);
-
-						stageManager.startScripts();
-						stageManager.start();
-						stagePlaying = true;
 						break;
 
 					case Activity.RESULT_CANCELED:
@@ -123,6 +122,35 @@ public class StageActivity extends Activity {
 			}
 		}
 	}
+
+	private void startLegoComm() {
+		connectingProgressDialog = ProgressDialog.show(this, "",
+				getResources().getString(R.string.connecting_please_wait), true);
+		legoNXT.connectLegoNXT();
+
+	}
+
+	public void startStage() {
+		stageManager.startScripts();
+		stageManager.start();
+		stagePlaying = true;
+	}
+
+	final Handler recieveHandler = new Handler() {
+		@Override
+		public void handleMessage(Message myMessage) {
+			switch (myMessage.getData().getInt("message")) {
+				case LegoNXTBtCommunicator.STATE_CONNECTED:
+					connectingProgressDialog.dismiss();
+					startStage();
+					break;
+				default:
+					Toast.makeText(StageActivity.this, myMessage.getData().getString("toastText"), Toast.LENGTH_SHORT);
+					break;
+
+			}
+		}
+	};
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
