@@ -29,8 +29,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import at.abraxas.amarino.Amarino;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -63,6 +63,9 @@ public class SensorBrick implements Brick, OnDismissListener {
 
 	private static final long serialVersionUID = 1L;
 	protected static final int REQUEST_CONNECT_DEVICE = 1;
+
+	ImageButton digitalButton;
+	ImageButton analogButton;
 
 	public SensorBrick(Sprite sprite, int type, int pin, double value, double time, String deviceAddress) {
 		this.sprite = sprite;
@@ -122,7 +125,7 @@ public class SensorBrick implements Brick, OnDismissListener {
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_sensor, null);
+		final View view = inflater.inflate(R.layout.construction_brick_sensor, null);
 
 		this.context = context;
 		Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
@@ -150,14 +153,15 @@ public class SensorBrick implements Brick, OnDismissListener {
 				break;
 		}
 
-		Button digitalButton = (Button) view.findViewById(R.id.construction_brick_sensor_digital_button);
-		Button analogButton = (Button) view.findViewById(R.id.construction_brick_sensor_analog_button);
-		Button bluetoothButton = (Button) view.findViewById(R.id.construction_brick_sensor_bluetooth_button);
+		digitalButton = (ImageButton) view.findViewById(R.id.construction_brick_sensor_digital_button);
+		analogButton = (ImageButton) view.findViewById(R.id.construction_brick_sensor_analog_button);
 
 		digitalButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				Log.d("TAG", "DIGITAL BUTTON");
 				type = DIGITAL;
+				digitalButton.setImageDrawable(view.getResources().getDrawable(R.drawable.digital_active));
+				analogButton.setImageDrawable(view.getResources().getDrawable(R.drawable.analog_inactive));
 			}
 		});
 
@@ -166,14 +170,10 @@ public class SensorBrick implements Brick, OnDismissListener {
 				// TODO Auto-generated method stub
 				Log.d("TAG", "ANALOG BUTTON");
 				type = ANALOG;
+				analogButton.setImageDrawable(view.getResources().getDrawable(R.drawable.analog_active));
+				digitalButton.setImageDrawable(view.getResources().getDrawable(R.drawable.digital_inactive));
 			}
 		});
-
-		//Bluetooth Devices Dialog
-		bluetoothDeviceDialog = new DevicesDialog(context, bluetoothButton, this);
-		//bluetoothDeviceDialog.setOnDismissListener(this);
-		bluetoothDeviceDialog.setOnCancelListener((OnCancelListener) context);
-		bluetoothButton.setOnClickListener(bluetoothDeviceDialog);
 
 		//Value TODO: CHECK FOR WRONG INPUT AND MAKE NEW DIALOG FOR EACH ONE? OR CHECK IT SOMEHOW....
 		EditText editValue = (EditText) view.findViewById(R.id.construction_brick_sensor_value);
