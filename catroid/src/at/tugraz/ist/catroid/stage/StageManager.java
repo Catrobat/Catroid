@@ -64,7 +64,7 @@ public class StageManager {
 		spritesChanged = true;
 		draw = new CanvasDraw(activity);
 
-		if (checkForLegoNXTBricks()) {
+		if (checkForLegoNXTBricks() || checkForSensorBricks()) {
 			bluetoothNeeded = true;
 		}
 	}
@@ -79,6 +79,15 @@ public class StageManager {
 	private boolean checkForLegoNXTBricks() {
 		for (Sprite sprite : spriteList) {
 			if (sprite.isLegoNXTSprite()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean checkForSensorBricks() {
+		for (Sprite sprite : spriteList) {
+			if (sprite.isSensorSprite()) {
 				return true;
 			}
 		}

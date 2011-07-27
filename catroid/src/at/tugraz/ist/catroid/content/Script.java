@@ -26,6 +26,7 @@ import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
 import at.tugraz.ist.catroid.content.bricks.MotorActionBrick;
 import at.tugraz.ist.catroid.content.bricks.MotorStopBrick;
 import at.tugraz.ist.catroid.content.bricks.MotorTurnAngleBrick;
+import at.tugraz.ist.catroid.content.bricks.SensorBrick;
 
 public abstract class Script implements Serializable {
 
@@ -151,4 +152,14 @@ public abstract class Script implements Serializable {
 		}
 		return false;
 	}
+
+	public boolean containsSensorBrick() {
+		for (Brick brick : brickList) {
+			if ((brick instanceof SensorBrick)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

@@ -337,6 +337,15 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return false;
 	}
 
+	public boolean isSensorSprite() {
+		for (Script script : scriptList) {
+			if (script.containsSensorBrick()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	@Override
 	public String toString() {
 		return name;
