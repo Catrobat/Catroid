@@ -41,7 +41,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	private transient boolean isVisible;
 	private transient boolean toDraw;
 	private List<Script> scriptList;
-	private ArrayList<costumeData> costumeList;
+	private ArrayList<Costume> costumeList;
 	private ArrayList<SoundInfo> soundList;
 	private transient Costume costume;
 
@@ -83,7 +83,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	public Sprite(String name) {
 		this.name = name;
 		scriptList = new ArrayList<Script>();
-		costumeList = new ArrayList<costumeData>();
+		costumeList = new ArrayList<Costume>();
 		soundList = new ArrayList<SoundInfo>();
 		init();
 	}
@@ -307,15 +307,15 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return scriptList.remove(script);
 	}
 
-	public void addCostumeDataToCostumeList(costumeData costumeData) {
+	public void addCostumeDataToCostumeList(Costume costumeData) {
 		costumeList.add(costumeData);
 	}
 
-	public void removeCostumeDataFromCostumeList(costumeData costumeData) {
+	public void removeCostumeDataFromCostumeList(Costume costumeData) {
 		costumeList.remove(costumeData);
 	}
 
-	public ArrayList<costumeData> getCostumeList() {
+	public ArrayList<Costume> getCostumeList() {
 		return costumeList;
 	}
 

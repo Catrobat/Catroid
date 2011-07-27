@@ -46,7 +46,6 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.TapScript;
-import at.tugraz.ist.catroid.content.costumeData;
 import at.tugraz.ist.catroid.content.bricks.BroadcastBrick;
 import at.tugraz.ist.catroid.content.bricks.BroadcastWaitBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
@@ -361,7 +360,7 @@ public class StorageHandler {
 		File background = savePictureFromResInProject(projectName, Consts.BACKGROUND, R.drawable.background_blueish,
 				context);
 
-		costumeData costume = new costumeData();
+		Costume costume = new Costume(sprite, null);
 		costume.setCostumeAbsoluteImagepath(normalCat.getName());
 		costume.setCostumeDisplayName("Normal Cat");
 		costume.setCostumeFormat(".jpeg");

@@ -22,6 +22,7 @@ import java.io.Serializable;
 
 import android.graphics.Bitmap;
 import android.util.Pair;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.utils.ImageEditing;
@@ -38,9 +39,10 @@ public class Costume implements Serializable {
 	private int actualWidth;
 	private int originalHeight;
 	private int originalWidth;
-
+	private String costumeName, costumeFormat, costumeAbsoluteImagepath, costumeDisplayName;
 	@XStreamOmitField
-	private transient Bitmap costumeBitmap;
+	private transient Bitmap costumeThumbnail, costumeBitmap;
+	private int costumeId;
 
 	public Costume(Sprite sprite, String imagePath) {
 		this.sprite = sprite;
@@ -159,4 +161,60 @@ public class Costume implements Serializable {
 		drawPositionX = drawPositionX + costumeBitmap.getWidth() / 2;
 		drawPositionY = drawPositionY + costumeBitmap.getHeight() / 2;
 	}
+
+	public void setCostumeId(int costumeId) {
+		this.costumeId = costumeId;
+	}
+
+	public int getCostumeId() {
+		return costumeId;
+	}
+
+	public void setCostumeDisplayName(String costumeDisplayName) {
+		this.costumeDisplayName = costumeDisplayName;
+	}
+
+	public void setCostumeName(String costumeName) {
+		this.costumeName = costumeName;
+	}
+
+	public void setCostumeFormat(String costumeFormat) {
+		this.costumeFormat = costumeFormat;
+	}
+
+	public void setCostumeImage(Bitmap costumeThumbnail) {
+		this.costumeThumbnail = costumeThumbnail;
+	}
+
+	public void setCostumeAbsoluteImagepath(String costumeImage) {
+		this.costumeAbsoluteImagepath = Consts.DEFAULT_ROOT + "/"
+				+ ProjectManager.getInstance().getCurrentProject().getName() + Consts.IMAGE_DIRECTORY + "/"
+				+ costumeImage;
+	}
+
+	public String getCostumeDisplayName() {
+		return costumeDisplayName;
+	}
+
+	public String getCostumeName() {
+		return costumeName;
+	}
+
+	public String getCostumeFormat() {
+		return costumeFormat;
+	}
+
+	public Bitmap getCostumeImage() {
+		return costumeThumbnail;
+	}
+
+	public String getCostumeAbsoluteImagepath() {
+		return costumeAbsoluteImagepath;
+	}
+
+	@Override
+	public String toString() {
+		return costumeDisplayName;
+	}
+
 }

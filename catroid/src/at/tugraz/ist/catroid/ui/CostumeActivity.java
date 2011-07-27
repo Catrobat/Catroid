@@ -45,8 +45,8 @@ import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.content.Costume;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.content.costumeData;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.dialogs.RenameCostumeDialog;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
@@ -57,8 +57,8 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public class CostumeActivity extends ListActivity {
 	private Sprite sprite;
-	private ArrayList<costumeData> costumeData;
-	public costumeData selectedCostumeInfo;
+	private ArrayList<Costume> costumeData;
+	public Costume selectedCostumeInfo;
 	private RenameCostumeDialog renameCostumeDialog;
 	private CostumeAdapter c_adapter;
 	private Runnable viewCostumes;
@@ -87,8 +87,8 @@ public class CostumeActivity extends ListActivity {
 		setContentView(R.layout.activity_costume);
 
 		sprite = ProjectManager.getInstance().getCurrentSprite();
-		costumeData = new ArrayList<costumeData>();
-		ArrayList<costumeData> currentCostume = sprite.getCostumeList();
+		costumeData = new ArrayList<Costume>();
+		ArrayList<Costume> currentCostume = sprite.getCostumeList();
 		for (int i = 0; i < currentCostume.size(); i++) {
 			currentCostume.get(i).setCostumeImage(
 					ImageEditing.getScaledBitmap(currentCostume.get(i).getCostumeAbsoluteImagepath(),
@@ -249,8 +249,8 @@ public class CostumeActivity extends ListActivity {
 
 	private void getCostumes() {
 		try {
-			costumeData = new ArrayList<costumeData>();
-			costumeData c = new costumeData();
+			costumeData = new ArrayList<Costume>();
+			Costume c = new Costume(sprite, null);
 			c.setCostumeName(costumeName);
 			c.setCostumeImage(thumbnail);
 			c.setCostumeAbsoluteImagepath(absolutePath);
@@ -272,12 +272,12 @@ public class CostumeActivity extends ListActivity {
 				+ Consts.IMAGE_DIRECTORY + "/" + absolutePath;
 	}
 
-	private class CostumeAdapter extends ArrayAdapter<costumeData> {
+	private class CostumeAdapter extends ArrayAdapter<Costume> {
 
-		private ArrayList<costumeData> items;
+		private ArrayList<Costume> items;
 		private CostumeActivity activity;
 
-		public CostumeAdapter(final CostumeActivity activity, int textViewResourceId, ArrayList<costumeData> items) {
+		public CostumeAdapter(final CostumeActivity activity, int textViewResourceId, ArrayList<Costume> items) {
 			super(activity, textViewResourceId, items);
 			this.items = items;
 			this.activity = activity;
@@ -291,7 +291,7 @@ public class CostumeActivity extends ListActivity {
 				v = vi.inflate(R.layout.activity_costumelist, null);
 			}
 
-			final costumeData c = items.get(position);
+			final Costume c = items.get(position);
 			if (c != null) {
 				TextView costumeNameTextView = (TextView) v.findViewById(R.id.costume_edit_name);
 				costumeNameTextView.setText(c.getCostumeDisplayName());
@@ -329,7 +329,7 @@ public class CostumeActivity extends ListActivity {
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
-						costumeData c = new costumeData();
+						Costume c = new Costume(sprite, null);
 						c.setCostumeName(costumeName);
 						c.setCostumeImage(thumbnail);
 						c.setCostumeAbsoluteImagepath(absolutePath);
