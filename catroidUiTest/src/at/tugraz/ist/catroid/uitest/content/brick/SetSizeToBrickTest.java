@@ -109,7 +109,9 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
 
-		assertTrue("Not in stage", solo.getCurrentActivity() instanceof StageActivity);
+		solo.assertCurrentActivity("Not in stage", StageActivity.class);
+
+		solo.sleep(1500);
 
 		solo.clickOnScreen(Values.SCREEN_WIDTH, 0);
 

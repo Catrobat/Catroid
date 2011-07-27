@@ -53,6 +53,7 @@
 			android:textStyle="bold"
 		>
 		</TextView>
+		
 		<Button
 			android:id="@+id/btSoundChoose"
 			android:layout_height="wrap_content"
@@ -60,5 +61,6 @@
 			android:layout_alignParentRight="true"
 			android:layout_centerVertical="true"
 			android:maxWidth="150dip" />
+			
 	</RelativeLayout>
 </LinearLayout>
