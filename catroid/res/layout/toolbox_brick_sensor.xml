@@ -26,7 +26,7 @@
 	<RelativeLayout
 		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
-		android:background="@drawable/brick_violet"
+		android:background="@drawable/brick_turquoise"
 	>
 		<TextView
 			android:text="@string/sensor_main_adapter"
