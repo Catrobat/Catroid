@@ -33,10 +33,11 @@
 		android:textColor="@color/white"
 		android:textSize="18dip" 
 		android:textStyle="bold" />
-	<ImageView
-		android:id="@+id/costume_image_view"
-		android:layout_width="wrap_content"
+	<Spinner 
+		android:id="@+id/setcostume_spinner" 
+		android:layout_width="wrap_content" 
 		android:layout_height="wrap_content"
-		android:layout_alignParentRight="true"
-		android:background="@drawable/ic_launcher_catroid_contour" />
+    android:focusable="false"
+    android:clickable="false"
+	/>
 </RelativeLayout>
