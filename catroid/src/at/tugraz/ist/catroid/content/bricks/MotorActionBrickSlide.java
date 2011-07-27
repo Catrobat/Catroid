@@ -41,7 +41,7 @@ import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 public class MotorActionBrickSlide implements Brick, OnDismissListener, OnItemSelectedListener, OnSeekBarChangeListener {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
-	private Handler btcHandler;
+	private transient Handler btcHandler;
 	private int motor;
 	private int speed;
 	private double duration;
@@ -49,9 +49,14 @@ public class MotorActionBrickSlide implements Brick, OnDismissListener, OnItemSe
 	private static final int MOTOR_B = 1;
 	private static final int MOTOR_C = 2;
 	private static final int NO_DELAY = 0;
+	private static final int MIN_SPEED = -100;
+	private static final int MAX_SPEED = 100;
+	private static final double MIN_DURATION = 0;
+	private static final double MAX_DURATION = Double.MAX_VALUE;
 
-	EditText editSpeed;
-	SeekBar speedBar;
+	private transient EditText editSpeed;
+	private transient SeekBar speedBar;
+	private transient EditIntegerDialog dialogSpeed;
 
 	public MotorActionBrickSlide(Sprite sprite, int motor, int speed, double duration) {
 		this.sprite = sprite;
@@ -78,8 +83,8 @@ public class MotorActionBrickSlide implements Brick, OnDismissListener, OnItemSe
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View brickView = inflater.inflate(R.layout.toolbox_brick_motor_action_slide, null);
-		speedBar = (SeekBar) brickView.findViewById(R.id.seekBarSpeedMotorActionToolbox);
-		speedBar.setEnabled(false);
+		//speedBar = (SeekBar) brickView.findViewById(R.id.seekBarSpeedMotorActionToolbox);
+		//speedBar.setEnabled(false);
 		return brickView;
 	}
 
@@ -94,14 +99,15 @@ public class MotorActionBrickSlide implements Brick, OnDismissListener, OnItemSe
 
 		EditText editDuration = (EditText) brickView.findViewById(R.id.motor_action_duration_edit_text_slide);
 		editDuration.setText(String.valueOf(duration));
-		EditDoubleDialog dialogDuration = new EditDoubleDialog(context, editDuration, duration);
+		EditDoubleDialog dialogDuration = new EditDoubleDialog(context, editDuration, duration, MIN_DURATION,
+				MAX_DURATION);
 		dialogDuration.setOnDismissListener(this);
 		dialogDuration.setOnCancelListener((OnCancelListener) context);
 		editDuration.setOnClickListener(dialogDuration);
 
 		editSpeed = (EditText) brickView.findViewById(R.id.motor_action_speed_edit_text_slide);
 		editSpeed.setText(String.valueOf(speed));
-		EditIntegerDialog dialogSpeed = new EditIntegerDialog(context, editSpeed, speed, true);
+		dialogSpeed = new EditIntegerDialog(context, editSpeed, speed, true, MIN_SPEED, MAX_SPEED);
 		dialogSpeed.setOnDismissListener(this);
 		dialogSpeed.setOnCancelListener((OnCancelListener) context);
 		editSpeed.setOnClickListener(dialogSpeed);
@@ -113,16 +119,19 @@ public class MotorActionBrickSlide implements Brick, OnDismissListener, OnItemSe
 
 		speedBar = (SeekBar) brickView.findViewById(R.id.seekBarSpeedMotorAction);
 		speedBar.setOnSeekBarChangeListener(this);
-		speedBar.setMax(200);
+		speedBar.setMax(MAX_SPEED * 2);
 		speedBar.setEnabled(true);
 		speedToSeekBarVal();
 		return brickView;
 	}
 
 	public void onProgressChanged(SeekBar speedBar, int progress, boolean fromUser) {
-
-		speed = progress;
-		seekbarValToSpeed();
+		if (progress != (speed + 100)) {
+			seekbarValToSpeed();
+			if (dialogSpeed != null) {
+				dialogSpeed.setValue(progress - 100);
+			}
+		}
 
 	}
 
@@ -137,8 +146,9 @@ public class MotorActionBrickSlide implements Brick, OnDismissListener, OnItemSe
 	public void onDismiss(DialogInterface dialog) {
 		if (dialog instanceof EditIntegerDialog) {
 			EditIntegerDialog inputDialog = (EditIntegerDialog) dialog;
-			if (inputDialog.getRefernecedEditTextId() == R.id.motor_action_speed_edit_text) {
+			if (inputDialog.getRefernecedEditTextId() == R.id.motor_action_speed_edit_text_slide) {
 				speed = inputDialog.getValue();
+				speedToSeekBarVal();
 			}
 		} else if (dialog instanceof EditDoubleDialog) {
 			EditDoubleDialog inputDialog = (EditDoubleDialog) dialog;

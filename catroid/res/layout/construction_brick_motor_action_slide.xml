@@ -81,14 +81,13 @@
 					android:id="@+id/motor_action_duration_edit_text_slide"
 					android:text="0" 
 					android:layout_height="wrap_content"
-					android:layout_width="60dp" 
 					android:clickable="false"
 					android:focusable="false" 
 					android:focusableInTouchMode="false"
 					android:gravity="right" 
 					android:inputType="number|numberDecimal|numberSigned"
-					android:maxLength="3" 
-					android:maxLines="1">
+					android:maxLength="4" 
+					android:maxLines="1" android:layout_width="wrap_content">
 				</EditText>
 
 			</LinearLayout>
@@ -101,15 +100,14 @@
 				android:id="@+id/motor_action_speed_edit_text_slide"
 				android:text="0" 
 				android:inputType="number|numberDecimal|numberSigned"
-				android:maxLength="3" 
+				android:maxLength="4" 
 				android:layout_height="wrap_content"
 				android:maxLines="1" 
 				android:gravity="right" 
 				android:clickable="false"
-				android:layout_width="60dp" 
 				android:focusableInTouchMode="false"
 				android:focusable="false" 
-				android:layout_alignParentRight="true">
+				android:layout_alignParentRight="true" android:layout_width="wrap_content">
 				<requestFocus></requestFocus>
 			</EditText>
 			<TextView 
