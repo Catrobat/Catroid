@@ -57,16 +57,16 @@ public class WhenScript extends Script {
 				this.action = LONGPRESSED;
 				break;
 			case 3:
-				this.action = SWIPELEFT;
-				break;
-			case 4:
-				this.action = SWIPERIGHT;
-				break;
-			case 5:
 				this.action = SWIPEUP;
 				break;
-			case 6:
+			case 4:
 				this.action = SWIPEDOWN;
+				break;
+			case 5:
+				this.action = SWIPELEFT;
+				break;
+			case 6:
+				this.action = SWIPERIGHT;
 				break;
 		}
 	}
