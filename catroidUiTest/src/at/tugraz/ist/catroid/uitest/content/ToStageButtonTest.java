@@ -75,7 +75,7 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
 
-		assertTrue("Not in stage", solo.getCurrentActivity() instanceof StageActivity);
+		solo.assertCurrentActivity("Not in stage", StageActivity.class);
 		List<Sprite> sprite_list = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		assertEquals("Script list has to much elements", 0, sprite_list.get(0).getNumberOfScripts());
 
@@ -90,7 +90,7 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		solo.sleep(500);
 		sprite_list = ProjectManager.getInstance().getCurrentProject().getSpriteList();
-		assertTrue("Not in stage", solo.getCurrentActivity() instanceof StageActivity);
+		solo.assertCurrentActivity("Not in stage", StageActivity.class);
 		assertEquals("Script list has wrong number of elements", 1, sprite_list.get(0).getNumberOfScripts());
 		assertTrue("Is not correct Block",
 				sprite_list.get(0).getScript(0).getBrickList().get(0) instanceof SetSizeToBrick);
@@ -103,7 +103,7 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 		sprite_list = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
 
-		assertTrue("Not in stage", solo.getCurrentActivity() instanceof StageActivity);
+		solo.assertCurrentActivity("Not in stage", StageActivity.class);
 		assertEquals("Script list has wrong number of elements", 0, sprite_list.get(0).getNumberOfScripts());
 
 		solo.goBack();
@@ -123,7 +123,7 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 		sprite_list = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
 
-		assertTrue("Not in stage", solo.getCurrentActivity() instanceof StageActivity);
+		solo.assertCurrentActivity("Not in stage", StageActivity.class);
 		assertEquals("Script list has wrong number of elements", 0, sprite_list.get(0).getNumberOfScripts());
 
 		solo.goBack();
@@ -136,7 +136,7 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		solo.sleep(500);
 		sprite_list = ProjectManager.getInstance().getCurrentProject().getSpriteList();
-		assertTrue("Not in stage", solo.getCurrentActivity() instanceof StageActivity);
+		solo.assertCurrentActivity("Not in stage", StageActivity.class);
 		assertEquals("Script list has wrong number of elements", 1, sprite_list.get(1).getNumberOfScripts());
 		assertTrue("Is not correct Block",
 				sprite_list.get(1).getScript(0).getBrickList().get(0) instanceof SetSizeToBrick);

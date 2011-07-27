@@ -74,6 +74,7 @@
 			android:layout_width="75dp"
 			android:layout_centerVertical="true"
 			android:layout_toLeftOf="@+id/LabelTextView"
+			android:layout_toRightOf="@+id/ValueTextView"
 			android:clickable="true"
 			android:cursorVisible="false"
 			android:focusable="false"
