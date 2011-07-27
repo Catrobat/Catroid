@@ -35,6 +35,7 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 public class StageA extends AndroidApplication {
 	private boolean stagePlaying = true;
 	private StageListener stageListener;
+	private boolean maximizePossible;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -105,13 +106,9 @@ public class StageA extends AndroidApplication {
 		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().VIRTUAL_SCREEN_HEIGHT;
 		stageListener.screenMode = Consts.STRETCH;
 		if (virtualScreenWidth == Values.SCREEN_WIDTH && virtualScreenHeight == Values.SCREEN_HEIGHT) {
+			maximizePossible = false;
 			return;
 		}
-		if (Values.SCREEN_WIDTH < Values.SCREEN_HEIGHT) {
-			stageListener.scaleWidth = 1f;
 
-		} else {
-			stageListener.scaleHeight = 1f;
-		}
 	}
 }

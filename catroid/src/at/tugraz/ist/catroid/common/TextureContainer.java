@@ -54,7 +54,7 @@ public class TextureContainer {
 	private HashMap<String, TextureInfo> textureInfoMap = new HashMap<String, TextureInfo>();
 
 	public synchronized TextureRegion getTextureRegion(String currentAbsolutePath, String newAbsolutePath) {
-		if (!currentAbsolutePath.equals("")) {
+		if (!currentAbsolutePath.equals("") && textureInfoMap.containsKey(currentAbsolutePath)) {
 			TextureInfo textureInfo = textureInfoMap.get(currentAbsolutePath);
 			textureInfo.usage--;
 			if (textureInfo.usage < 1) {
