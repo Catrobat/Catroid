@@ -41,13 +41,11 @@ package at.tugraz.ist.catroid.LegoNXT;
 import java.io.IOException;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.bluetooth.BTConnectable;
 import at.tugraz.ist.catroid.bluetooth.DeviceListActivity;
 
@@ -60,18 +58,18 @@ public class LegoNXT implements BTConnectable {
 	private static final int REQUEST_CONNECT_DEVICE = 1000;
 
 	private LegoNXTBtCommunicator myBTCommunicator;
-	private ProgressDialog connectingProgressDialog;
+
 	private boolean pairing;
 	private static Handler btcHandler;
-	Activity activity;
+	private Handler recieverHandler;
+	private Activity activity;
 
-	public LegoNXT(Activity activity) {
+	public LegoNXT(Activity activity, Handler recieverHandler) {
 		this.activity = activity;
+		this.recieverHandler = recieverHandler;
 	}
 
 	public void startBTCommunicator(String mac_address) {
-		connectingProgressDialog = ProgressDialog.show(activity, "",
-				activity.getResources().getString(R.string.connecting_please_wait), true);
 
 		if (myBTCommunicator != null) {
 			try {
@@ -79,7 +77,7 @@ public class LegoNXT implements BTConnectable {
 			} catch (IOException e) {
 			}
 		}
-		myBTCommunicator = new LegoNXTBtCommunicator(this, myHandler, BluetoothAdapter.getDefaultAdapter(),
+		myBTCommunicator = new LegoNXTBtCommunicator(this, recieverHandler, BluetoothAdapter.getDefaultAdapter(),
 				activity.getResources());
 		btcHandler = myBTCommunicator.getHandler();
 
@@ -90,21 +88,6 @@ public class LegoNXT implements BTConnectable {
 	/**
 	 * Receive messages from the BTCommunicator
 	 */
-	final Handler myHandler = new Handler() {
-		@Override
-		public void handleMessage(Message myMessage) {
-			switch (myMessage.getData().getInt("message")) {
-				case LegoNXTBtCommunicator.DISPLAY_TOAST:
-					//showToast(myMessage.getData().getString("toastText"), Toast.LENGTH_SHORT);
-					break;
-				case LegoNXTBtCommunicator.STATE_CONNECTED:
-					connectingProgressDialog.dismiss();
-
-					break;
-
-			}
-		}
-	};
 
 	public void destroyBTCommunicator() {
 
