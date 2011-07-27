@@ -111,6 +111,8 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 
 		solo.assertCurrentActivity("Not in stage", StageActivity.class);
 
+		solo.sleep(1500);
+
 		solo.clickOnScreen(Values.SCREEN_WIDTH, 0);
 
 		assertTrue("Successful screenshot Toast not found!",

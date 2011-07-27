@@ -29,7 +29,6 @@ import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
@@ -65,8 +64,9 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 
 	public void testMainMenuButton() {
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
+		solo.sleep(2000);
 		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
-				MainMenuActivity.class);
+				"MainMenuActivity");
 	}
 
 	public void testCreateNewBrickButton() {

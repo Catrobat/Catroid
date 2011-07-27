@@ -30,20 +30,18 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.content.bricks.SpeakBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeVolumeByBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
-import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class SpeakBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class ChangeVolumeByBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
-	private SpeakBrick speakBrick;
-	private String testString = "test";
-	private String testString2 = "";
+	private ChangeVolumeByBrick changeVolumeByBrick;
+	private double volumeToChange;
 
-	public SpeakBrickTest() {
+	public ChangeVolumeByBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
 	}
 
@@ -66,7 +64,7 @@ public class SpeakBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 	}
 
 	@Smoke
-	public void testSpeakBrick() {
+	public void testChangeVolumeByBrick() {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
 
@@ -78,43 +76,25 @@ public class SpeakBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
 				getActivity().getAdapter().getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_speak)));
+		assertNotNull("TextView does not exist.",
+				solo.getText(getActivity().getString(R.string.brick_change_volume_by)));
 
 		solo.clickOnEditText(0);
-		solo.enterText(0, testString);
+		solo.clearEditText(0);
+		solo.enterText(0, volumeToChange + "");
 		solo.clickOnButton(0);
+
 		solo.sleep(300);
-
-		String text = UiTestUtils.getPrivateField("text", speakBrick).toString();
-
-		assertEquals("Wrong text in field.", testString, text);
-
-		solo.clickOnEditText(0);
-		solo.enterText(0, "");
-		solo.clickOnButton(0);
-		solo.sleep(300);
-
-		text = UiTestUtils.getPrivateField("text", speakBrick).toString();
-
-		assertEquals("Wrong text in field.", "", text);
-
-		solo.clickOnEditText(0);
-		solo.enterText(0, testString2);
-		solo.clickOnButton(0);
-		solo.sleep(300);
-
-		text = UiTestUtils.getPrivateField("text", speakBrick).toString();
-
-		assertEquals("Wrong text in field.", testString2, text);
-
+		assertEquals("Text not updated", volumeToChange, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
 
 	private void createProject() {
+		volumeToChange = 50.0;
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript("script", sprite);
-		speakBrick = new SpeakBrick(sprite, null);
-		script.addBrick(speakBrick);
+		changeVolumeByBrick = new ChangeVolumeByBrick(sprite, 100);
+		script.addBrick(changeVolumeByBrick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);
@@ -122,7 +102,6 @@ public class SpeakBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
-		testString2 = getInstrumentation().getContext().getString(at.tugraz.ist.catroid.uitest.R.string.test_text);
-
 	}
+
 }
