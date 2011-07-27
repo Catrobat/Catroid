@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
+import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Project;
@@ -19,6 +20,7 @@ import com.jayway.android.robotium.solo.Solo;
 public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
+	private static final String TAG = WhenBrickTest.class.getSimpleName();
 
 	public WhenBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -56,8 +58,8 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_when)));
 
 		solo.pressSpinnerItem(0, 1);
-		System.out.println(solo.getCurrentSpinners().get(0).getSelectedItemPosition());
-		System.out.println(solo.getCurrentSpinners().get(0).getSelectedItem().toString());
+		Log.v(TAG, solo.getCurrentSpinners().get(0).getSelectedItemPosition() + "");
+		Log.v(TAG, solo.getCurrentSpinners().get(0).getSelectedItem().toString());
 		solo.sleep(1500);
 		assertEquals("Wrong event selected!", 1, solo.getCurrentSpinners().get(0).getSelectedItemPosition());
 	}

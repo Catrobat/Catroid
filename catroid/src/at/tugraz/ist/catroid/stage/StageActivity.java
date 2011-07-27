@@ -96,7 +96,7 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 		yCoordinate = yCoordinate + stage.getLeft();
 
 		stageManager.processOnTouch(xCoordinate, yCoordinate, action);
-		System.out.println(action);
+		Log.v(TAG, action);
 	}
 
 	@Override
