@@ -19,20 +19,12 @@
 
 package at.tugraz.ist.catroid.ui;
 
-import java.io.File;
-import java.io.IOException;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
-import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
@@ -45,8 +37,6 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
-import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
 import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView;
@@ -155,61 +145,6 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 
 	public void onCancel(DialogInterface arg0) {
 		adapter.notifyDataSetChanged();
-	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-
-		Log.v("Catroid", "&&&&&&&&&&&&&&&&&&&OnResult ScriptActivity");
-		/*
-		 * This is used for getting the results of the gallery intent when the
-		 * user selected an image. requestCode holds the ID / position of the
-		 * brick that issued the request. If and when we have different kinds of
-		 * intents we need to find a better way.
-		 */
-
-		if (resultCode == RESULT_OK) {
-			Log.v("Catroid", "&&&&&&&&&&&&&&&&&&& RESULT OK");
-			SetCostumeBrick affectedBrick = (SetCostumeBrick) adapter
-					.getChild(adapter.getGroupCount() - 1, requestCode);
-			if (affectedBrick != null) {
-				Uri selectedImageUri = data.getData();
-				String selectedImagePath = selectedImageUri.getPath();
-				if (selectedImageUri.getPath().startsWith("content:")) {
-					selectedImagePath = getPathFromContentUri(selectedImageUri);
-				}
-				if (selectedImagePath == null) {
-					Utils.displayErrorMessage(this, getString(R.string.error_load_image));
-					return;
-				}
-				try {
-					if (affectedBrick.getImagePath() != null) {
-						StorageHandler.getInstance().deleteFile(affectedBrick.getImagePath());
-					}
-					File outputFile = StorageHandler.getInstance().copyImage(
-							ProjectManager.getInstance().getCurrentProject().getName(), selectedImagePath, null);
-					if (outputFile != null) {
-						affectedBrick.setCostume(outputFile.getName());
-						adapter.notifyDataSetChanged();
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
-
-	private String getPathFromContentUri(Uri uri) {
-		String[] projection = { MediaStore.Images.Media.DATA };
-		Cursor cursor = managedQuery(uri, projection, null, null, null);
-		if (cursor != null) {
-			int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-			cursor.moveToFirst();
-			return cursor.getString(columnIndex);
-		} else {
-			return null;
-		}
 	}
 
 	public BrickAdapter getAdapter() {
