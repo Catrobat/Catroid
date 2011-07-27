@@ -52,11 +52,6 @@ public class PlaySoundBrick implements Brick, Serializable {
 		return sprite;
 	}
 
-	public String getPathToSoundFile() {
-		//return getAbsoluteSoundPath();
-		return null;
-	}
-
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
 
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
