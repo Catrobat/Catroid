@@ -23,6 +23,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Values;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 
@@ -38,6 +40,7 @@ public class StageA extends AndroidApplication {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		stageListener = new StageListener();
+		this.calculateSizes();
 		initialize(stageListener, true);
 	}
 
@@ -94,6 +97,21 @@ public class StageA extends AndroidApplication {
 		} else {
 			stageListener.resume();
 			stagePlaying = true;
+		}
+	}
+
+	private void calculateSizes() {
+		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().VIRTUAL_SCREEN_WIDTH;
+		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().VIRTUAL_SCREEN_HEIGHT;
+		stageListener.screenMode = Consts.STRETCH;
+		if (virtualScreenWidth == Values.SCREEN_WIDTH && virtualScreenHeight == Values.SCREEN_HEIGHT) {
+			return;
+		}
+		if (Values.SCREEN_WIDTH < Values.SCREEN_HEIGHT) {
+			stageListener.scaleWidth = 1f;
+
+		} else {
+			stageListener.scaleHeight = 1f;
 		}
 	}
 }
