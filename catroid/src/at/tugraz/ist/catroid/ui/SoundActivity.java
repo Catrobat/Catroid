@@ -55,7 +55,6 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class SoundActivity extends ListActivity {
 	private Sprite sprite;
-	private ArrayList<SoundInfo> soundInfoList;
 	public SoundInfo selectedSoundInfo;
 	private RenameSoundDialog renameSoundDialog;
 	public MediaPlayer mediaPlayer;
@@ -71,10 +70,7 @@ public class SoundActivity extends ListActivity {
 		setContentView(R.layout.activity_sound);
 		sprite = ProjectManager.getInstance().getCurrentSprite();
 
-		ArrayList<SoundInfo> currentSounds = sprite.getSoundList();
-		soundInfoList = new ArrayList<SoundInfo>(currentSounds);
-
-		setListAdapter(new SoundAdapter(this, R.layout.activity_sound_soundlist_item, soundInfoList));
+		setListAdapter(new SoundAdapter(this, R.layout.activity_sound_soundlist_item, sprite.getSoundList()));
 
 		mediaPlayer = new MediaPlayer();
 	}
@@ -143,7 +139,6 @@ public class SoundActivity extends ListActivity {
 		SoundInfo newSoundInfo = new SoundInfo();
 		newSoundInfo.setTitle(title);
 		newSoundInfo.setSoundFileName(fileName);
-		soundInfoList.add(newSoundInfo);
 		sprite.addSoundInfoToSoundList(newSoundInfo);
 		((SoundAdapter) getListAdapter()).notifyDataSetChanged();
 		//scroll down the list to the new item:
@@ -167,7 +162,7 @@ public class SoundActivity extends ListActivity {
 
 	public void stopSound() {
 		mediaPlayer.stop();
-		for (SoundInfo soundInfo : soundInfoList) {
+		for (SoundInfo soundInfo : sprite.getSoundList()) {
 			soundInfo.isPlaying = false;
 		}
 	}
@@ -327,7 +322,6 @@ public class SoundActivity extends ListActivity {
 				deleteSoundButton.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
 						activity.stopSound();
-						soundInfoItems.remove(soundInfo);
 						sprite.removeSoundInfoFromSoundList(soundInfo);
 						StorageHandler.getInstance().deleteFile(soundInfo.getAbsolutePath());
 						notifyDataSetChanged();
