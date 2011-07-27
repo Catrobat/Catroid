@@ -42,32 +42,21 @@ import at.tugraz.ist.catroid.content.bricks.BroadcastWaitBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
-import at.tugraz.ist.catroid.content.bricks.ForeverBrick;
 import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
 import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
-import at.tugraz.ist.catroid.content.bricks.IfOnEdgeBounceBrick;
 import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
 import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
-import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
-import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
-import at.tugraz.ist.catroid.content.bricks.MotorActionBrick;
-import at.tugraz.ist.catroid.content.bricks.MotorStopBrick;
-import at.tugraz.ist.catroid.content.bricks.MotorTurnAngleBrick;
-import at.tugraz.ist.catroid.content.bricks.MoveNStepsBrick;
 import at.tugraz.ist.catroid.content.bricks.NoteBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
-import at.tugraz.ist.catroid.content.bricks.PointInDirectionBrick;
-import at.tugraz.ist.catroid.content.bricks.RepeatBrick;
+import at.tugraz.ist.catroid.content.bricks.SensorBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.SetXBrick;
 import at.tugraz.ist.catroid.content.bricks.SetYBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.content.bricks.StopAllSoundsBrick;
-import at.tugraz.ist.catroid.content.bricks.TurnLeftBrick;
-import at.tugraz.ist.catroid.content.bricks.TurnRightBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.ui.adapter.PrototypeBrickAdapter;
@@ -101,8 +90,6 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new GlideToBrick(sprite, 100, 100, 3000));
 			prototypeBrickList.add(new NoteBrick(sprite));
 			prototypeBrickList.add(new StopAllSoundsBrick(sprite));
-			prototypeBrickList.add(new ForeverBrick(sprite));
-			prototypeBrickList.add(new RepeatBrick(sprite, 3));
 		} else {
 			prototypeBrickList = new ArrayList<Brick>();
 			prototypeBrickList.add(new WaitBrick(sprite, 1000));
@@ -126,18 +113,12 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new GlideToBrick(sprite, 100, 100, 3000));
 			prototypeBrickList.add(new NoteBrick(sprite));
 			prototypeBrickList.add(new StopAllSoundsBrick(sprite));
-			prototypeBrickList.add(new ForeverBrick(sprite));
-			prototypeBrickList.add(new RepeatBrick(sprite, 3));
-			prototypeBrickList.add(new IfOnEdgeBounceBrick(sprite));
-			prototypeBrickList.add(new MoveNStepsBrick(sprite, 10));
-			prototypeBrickList.add(new TurnLeftBrick(sprite, 15));
-			prototypeBrickList.add(new TurnRightBrick(sprite, 15));
-			prototypeBrickList.add(new PointInDirectionBrick(sprite, 90));
+			prototypeBrickList.add(new SensorBrick(sprite, 0, 0, 0.0, 0.0, null));
 			prototypeBrickList.add(new MotorActionBrick(sprite, 0, 100, 3));
 			prototypeBrickList.add(new MotorTurnAngleBrick(sprite, 0, 30, 180));
 			prototypeBrickList.add(new MotorStopBrick(sprite, 0));
-			//prototypeBrickList.add(new MotorActionBrickSlide(sprite, 0, 100, 3));
 		}
+
 	}
 
 	public AddBrickDialog(ScriptActivity scriptActivity) {
@@ -147,6 +128,7 @@ public class AddBrickDialog extends Dialog {
 		setContentView(R.layout.dialog_toolbox);
 		getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 	}
 
 	@Override
@@ -175,31 +157,21 @@ public class AddBrickDialog extends Dialog {
 					Script newScript = new BroadcastScript("script", projectManager.getCurrentSprite());
 					projectManager.addScript(newScript);
 					projectManager.setCurrentScript(newScript);
-				} else if (addedBrick instanceof LoopBeginBrick
-						&& projectManager.getCurrentSprite().getNumberOfScripts() > 0
-						&& projectManager.getCurrentScript().containsLoopBrick()) {
-					//Don't add new loop brick, only one loop per script for now
 				} else {
-					Brick brickClone = getBrickClone(adapter.getItem(position));
 					if (projectManager.getCurrentSprite().getNumberOfScripts() == 0) {
 						Script newScript = new StartScript("script", projectManager.getCurrentSprite());
 						projectManager.addScript(newScript);
 						projectManager.setCurrentScript(newScript);
-						projectManager.getCurrentScript().addBrick(brickClone);
+						projectManager.getCurrentScript().addBrick(adapter.getItem(position));
 					} else {
-						projectManager.getCurrentScript().addBrick(brickClone);
+						projectManager.getCurrentScript().addBrick(getBrickClone(adapter.getItem(position)));
 					}
 
-					if (addedBrick instanceof LoopBeginBrick) {
-						LoopEndBrick loopEndBrick = new LoopEndBrick(projectManager.getCurrentSprite(),
-								(LoopBeginBrick) brickClone);
-						projectManager.getCurrentScript().addBrick(loopEndBrick);
-						((LoopBeginBrick) brickClone).setLoopEndBrick(loopEndBrick);
-					}
 				}
 				dismiss();
 			}
 		});
+
 	}
 
 	public Brick getBrickClone(Brick brick) {
