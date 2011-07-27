@@ -61,9 +61,11 @@ public class StageListener implements ApplicationListener {
 
 	private List<Sprite> sprites;
 
-	public float scaleHeight = 1;
-	public float scaleWidth = 1;
 	public int screenMode;
+	public int viewPortX = 0;
+	public int viewPortY = 0;
+	public int viewPortHeight = 0;
+	public int viewPortWidth = 0;
 
 	public void create() {
 		renderer = new ImmediateModeRenderer20(200, false, true, 0);
@@ -119,9 +121,10 @@ public class StageListener implements ApplicationListener {
 
 		switch (screenMode) {
 			case Consts.MAXIMIZE:
-				Gdx.gl.glViewport((int) (DEVICE_WIDTH - DEVICE_WIDTH * scaleWidth) / 2,
-						(int) (DEVICE_HEIGHT - DEVICE_HEIGHT * scaleHeight) / 2, (int) (scaleWidth * DEVICE_WIDTH),
-						(int) (scaleHeight * DEVICE_HEIGHT));
+				//Gdx.gl.glViewport((int) (DEVICE_WIDTH - DEVICE_WIDTH * scaleWidth) / 2,
+				//		(int) (DEVICE_HEIGHT - DEVICE_HEIGHT * scaleHeight) / 2, (int) (scaleWidth * DEVICE_WIDTH),
+				//		(int) (scaleHeight * DEVICE_HEIGHT));
+
 				break;
 			case Consts.STRETCH:
 			default:

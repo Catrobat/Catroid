@@ -57,7 +57,9 @@ public class CostumeA extends Image {
 	@Override
 	protected boolean touchDown(float x, float y, int pointer) {
 		xyLock.acquireUninterruptibly();
-		if (x > this.x && x < this.x + this.width && y > this.y && y < this.y + this.height) {
+		System.out.println("Actor x , y :" + x + "," + y);
+		System.out.println("World x , y :" + this.x + "," + this.y);
+		if (x >= 0 && x <= this.width && y >= 0 && y <= this.height) {
 			sprite.startTapScripts();
 		}
 		xyLock.release();
