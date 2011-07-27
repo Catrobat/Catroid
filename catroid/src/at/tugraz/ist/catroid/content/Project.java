@@ -39,13 +39,17 @@ public class Project implements Serializable {
 	//only used for catroid website
 	@SuppressWarnings("unused")
 	private String deviceName;
-	@SuppressWarnings("unused")
 	private String screenResolution;
+
+	public transient int VIRTUAL_SCREEN_WIDTH = 0;
+	public transient int VIRTUAL_SCREEN_HEIGHT = 0;
 
 	public Project(Context context, String name) {
 		this.name = name;
 		deviceName = Build.MODEL;
 		screenResolution = Values.SCREEN_WIDTH + "/" + Values.SCREEN_HEIGHT;
+		VIRTUAL_SCREEN_WIDTH = Values.SCREEN_WIDTH;
+		VIRTUAL_SCREEN_HEIGHT = Values.SCREEN_HEIGHT;
 
 		if (context == null) {
 			versionName = "unknown";
@@ -66,6 +70,15 @@ public class Project implements Serializable {
 			versionCode = 0;
 		}
 
+	}
+
+	protected Object readResolve() {
+		if (screenResolution != null) {
+			String[] resolutions = screenResolution.split("/");
+			VIRTUAL_SCREEN_WIDTH = Integer.valueOf(resolutions[0]);
+			VIRTUAL_SCREEN_HEIGHT = Integer.valueOf(resolutions[1]);
+		}
+		return this;
 	}
 
 	public synchronized void addSprite(Sprite sprite) {
@@ -117,6 +130,6 @@ public class Project implements Serializable {
 
 	public void setDeviceData() {
 		deviceName = Build.MODEL;
-		screenResolution = Values.SCREEN_WIDTH + "/" + Values.SCREEN_HEIGHT;
+		screenResolution = VIRTUAL_SCREEN_WIDTH + "/" + VIRTUAL_SCREEN_HEIGHT;
 	}
 }

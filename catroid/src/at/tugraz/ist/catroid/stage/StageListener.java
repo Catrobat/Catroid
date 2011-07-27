@@ -21,6 +21,9 @@ package at.tugraz.ist.catroid.stage;
 import java.util.List;
 
 import at.tugraz.ist.catroid.ProjectManager;
+import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.TextureContainer;
+import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.SoundManager;
 
@@ -31,8 +34,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -42,40 +43,39 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
  * 
  */
 public class StageListener implements ApplicationListener {
-	Stage stage;
-	boolean paused = false;
-	boolean finished = false;
-	boolean firstStart = true;
-	SpriteBatch batch;
-	BitmapFont font;
+	private Stage stage;
+	private boolean paused = false;
+	private boolean finished = false;
+	private boolean firstStart = true;
+	private Project project;
+
 	private OrthographicCamera camera;
 	private OrthoCamController camController;
 	private InputMultiplexer multiplexer;
 
-	private final int VIRTUAL_WIDTH = 480;
-	private final int VIRTUAL_HEIGHT = 800;
-	private int DEVICE_WIDTH = 480;
-	private int DEVICE_HEIGHT = 800;
+	private int DEVICE_WIDTH = 0;
+	private int DEVICE_HEIGHT = 0;
 
 	private ImmediateModeRenderer20 renderer;
 	private Matrix4 projModelView = new Matrix4();
 
 	private List<Sprite> sprites;
 
-	public void create() {
-		batch = new SpriteBatch();
-		font = new BitmapFont();
-		renderer = new ImmediateModeRenderer20(200, false, true, 0);
+	public float scaleHeight = 1;
+	public float scaleWidth = 1;
+	public int screenMode;
 
-		stage = new Stage(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, true);
+	public void create() {
+		renderer = new ImmediateModeRenderer20(200, false, true, 0);
+		project = ProjectManager.getInstance().getCurrentProject();
+		stage = new Stage(project.VIRTUAL_SCREEN_WIDTH, project.VIRTUAL_SCREEN_HEIGHT, true);
 		camera = (OrthographicCamera) stage.getCamera();
 		camera.position.set(0, 0, 0);
 		camController = new OrthoCamController(camera);
 
-		sprites = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		sprites = project.getSpriteList();
 		for (Sprite sprite : sprites) {
 			stage.addActor(sprite.costume);
-			//sprite.costume.action(Forever.$(Sequence.$(MoveBy.$(100, 100, 2), MoveBy.$(-100, -100, 2))));
 		}
 
 		multiplexer = new InputMultiplexer();
@@ -109,26 +109,33 @@ public class StageListener implements ApplicationListener {
 		finished = true;
 		SoundManager.getInstance().clear();
 		for (Sprite sprite : sprites) {
-			if (sprite.costume.region != null && sprite.costume.region.getTexture() != null) {
-				sprite.costume.region.getTexture().dispose();
-			}
-			sprite.costume.region = null;
 			sprite.finish();
 		}
+		TextureContainer.getInstance().clear();
 	}
 
 	public void render() {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		float scale = VIRTUAL_WIDTH / (float) DEVICE_WIDTH;
 
-		Gdx.gl.glViewport(0, (int) (DEVICE_HEIGHT - DEVICE_HEIGHT * scale) / 2, DEVICE_WIDTH,
-				(int) (scale * DEVICE_HEIGHT));
+		switch (screenMode) {
+			case Consts.MAXIMIZE:
+				Gdx.gl.glViewport((int) (DEVICE_WIDTH - DEVICE_WIDTH * scaleWidth) / 2,
+						(int) (DEVICE_HEIGHT - DEVICE_HEIGHT * scaleHeight) / 2, (int) (scaleWidth * DEVICE_WIDTH),
+						(int) (scaleHeight * DEVICE_HEIGHT));
+				break;
+			case Consts.STRETCH:
+			default:
+				Gdx.gl.glViewport(0, 0, DEVICE_WIDTH, DEVICE_HEIGHT);
+				break;
+
+		}
+		//		Gdx.gl.glViewport(0, (int) (DEVICE_HEIGHT - DEVICE_HEIGHT * scale) / 2, DEVICE_WIDTH,
+		//				(int) (scale * DEVICE_HEIGHT));
 
 		renderRectangle(projModelView, -1, -1, 2, 2, Color.WHITE);
 		renderAxis(camera.combined);
 
 		if (firstStart) {
-			//TextureHandler.getInstance().loadTextures();
 			for (Sprite sprite : sprites) {
 				sprite.startStartScripts();
 			}
@@ -141,10 +148,7 @@ public class StageListener implements ApplicationListener {
 		if (!finished) {
 			stage.draw();
 		}
-		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		batch.begin();
-		font.draw(batch, "res: " + Gdx.graphics.getWidth() + ", " + Gdx.graphics.getHeight(), 0, 30);
-		batch.end();
+
 	}
 
 	private void renderRectangle(Matrix4 projModelView, float x, float y, float width, float height, Color color) {
@@ -166,14 +170,14 @@ public class StageListener implements ApplicationListener {
 	private void renderAxis(Matrix4 projModelView) {
 		renderer.begin(projModelView, GL10.GL_LINES);
 		renderer.color(0, 1, 0, 1);
-		renderer.vertex(-VIRTUAL_WIDTH, 0, 0);
+		renderer.vertex(-project.VIRTUAL_SCREEN_WIDTH / 2, 0, 0);
 		renderer.color(0, 1, 0, 1);
-		renderer.vertex(VIRTUAL_WIDTH, 0, 0);
+		renderer.vertex(project.VIRTUAL_SCREEN_WIDTH / 2, 0, 0);
 
 		renderer.color(0, 1, 0, 1);
-		renderer.vertex(0, -VIRTUAL_HEIGHT, 0);
+		renderer.vertex(0, -project.VIRTUAL_SCREEN_HEIGHT / 2, 0);
 		renderer.color(0, 1, 0, 1);
-		renderer.vertex(0, VIRTUAL_HEIGHT, 0);
+		renderer.vertex(0, project.VIRTUAL_SCREEN_HEIGHT / 2, 0);
 		renderer.end();
 	}
 

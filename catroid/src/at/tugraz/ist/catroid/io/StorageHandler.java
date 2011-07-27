@@ -290,8 +290,9 @@ public class StorageHandler {
 		int[] imageDimensions = new int[2];
 		imageDimensions = ImageEditing.getImageDimensions(inputFilePath);
 		FileChecksumContainer checksumCont = ProjectManager.getInstance().fileChecksumContainer;
-
-		if ((imageDimensions[0] <= Consts.MAX_COSTUME_WIDTH) && (imageDimensions[1] <= Consts.MAX_COSTUME_HEIGHT)) {
+		Project project = ProjectManager.getInstance().getCurrentProject();
+		if ((imageDimensions[0] <= project.VIRTUAL_SCREEN_WIDTH)
+				&& (imageDimensions[1] <= project.VIRTUAL_SCREEN_HEIGHT)) {
 			String checksumSource = Utils.md5Checksum(inputFile);
 
 			String newFilePath = imageDirectory.getAbsolutePath() + "/" + checksumSource + "_" + inputFile.getName();
@@ -309,8 +310,9 @@ public class StorageHandler {
 
 	private File copyAndResizeImage(File outputFile, File inputFile, File imageDirectory) throws IOException {
 		FileOutputStream outputStream = new FileOutputStream(outputFile);
-		Bitmap bitmap = ImageEditing.getBitmap(inputFile.getAbsolutePath(), Consts.MAX_COSTUME_WIDTH,
-				Consts.MAX_COSTUME_HEIGHT);
+		Project project = ProjectManager.getInstance().getCurrentProject();
+		Bitmap bitmap = ImageEditing.getBitmap(inputFile.getAbsolutePath(), project.VIRTUAL_SCREEN_WIDTH,
+				project.VIRTUAL_SCREEN_HEIGHT);
 		try {
 			String name = inputFile.getName();
 			if (name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".JPG") || name.endsWith(".JPEG")) {

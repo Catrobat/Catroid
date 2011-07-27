@@ -20,12 +20,10 @@ package at.tugraz.ist.catroid.content;
 
 import java.util.concurrent.Semaphore;
 
+import at.tugraz.ist.catroid.common.TextureContainer;
 import at.tugraz.ist.catroid.utils.Utils;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.actors.Image;
 
 /**
@@ -39,6 +37,7 @@ public class CostumeA extends Image {
 	private boolean imageChanged = false;
 	private boolean scaleChanged = false;
 	private String imagePath;
+	private String currentImagePath = "";
 	private Sprite sprite;
 	public float alphaValue;
 	private float size;
@@ -77,34 +76,26 @@ public class CostumeA extends Image {
 	private void checkImageChanged() {
 		imageLock.acquireUninterruptibly();
 		if (imageChanged) {
-			if (this.region != null && this.region.getTexture() != null) {
-				this.region.getTexture().dispose();
-			}
 			if (imagePath.equals("")) {
 				xyLock.acquireUninterruptibly();
 				this.x += this.width / 2;
 				this.y += this.height / 2;
 				xyLock.release();
+				TextureContainer.getInstance().getTextureRegion(currentImagePath, imagePath);
 				this.width = 0f;
 				this.height = 0f;
 				imageChanged = false;
 				imageLock.release();
 				return;
 			}
-			//			TextureRegion textureRegion = TextureHandler.getInstance().getTexture(imagePath);
-			//			if (textureRegion == null) {
-			//				imageLock.release();
-			//				return;
-			//			}
 			xyLock.acquireUninterruptibly();
 			this.x += this.width / 2;
 			this.y += this.height / 2;
 			xyLock.release();
-			Texture tex = new Texture(Gdx.files.absolute(imagePath));
-			TextureRegion textureRegion = new TextureRegion(tex);
-			this.region = textureRegion;
-			this.width = tex.getWidth();
-			this.height = tex.getHeight();
+			this.region = TextureContainer.getInstance().getTextureRegion(currentImagePath, imagePath);
+			currentImagePath = imagePath;
+			this.width = this.region.getTexture().getWidth();
+			this.height = this.region.getTexture().getHeight();
 			xyLock.acquireUninterruptibly();
 			this.x -= this.width / 2;
 			this.y -= this.height / 2;

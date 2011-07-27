@@ -83,6 +83,8 @@ public final class Consts {
 	public static final int SCREENSHOT_ICON_PADDING_TOP = 3;
 	public static final int SCREENSHOT_ICON_PADDING_RIGHT = 3;
 	public static final String SCREENSHOT_FILE_NAME = "thumbnail.png";
+	public static final int STRETCH = 0;
+	public static final int MAXIMIZE = 1;
 
 	//Various:
 	public static final int BUFFER_8K = 8 * 1024;
