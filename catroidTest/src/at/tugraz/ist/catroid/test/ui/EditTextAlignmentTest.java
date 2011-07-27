@@ -23,6 +23,7 @@ import java.lang.reflect.Field;
 import android.content.Context;
 import android.test.AndroidTestCase;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,7 +59,7 @@ public class EditTextAlignmentTest extends AndroidTestCase {
 					String idName = idField.getName();
 
 					if (idName.contains(layoutName) && idName.contains("_edit_text")) {
-
+						Log.v("EDIT TEXT ERROR", idField.getName());
 						int brickId = layoutField.getInt(null);
 
 						View brickView = inflater.inflate(brickId, null);
