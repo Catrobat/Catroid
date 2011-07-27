@@ -32,6 +32,7 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.SpeakBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -84,21 +85,27 @@ public class SpeakBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		solo.clickOnButton(0);
 		solo.sleep(300);
 
-		assertEquals("Wrong text in field.", testString, speakBrick.getText());
+		String text = UiTestUtils.getPrivateField("text", speakBrick).toString();
+
+		assertEquals("Wrong text in field.", testString, text);
 
 		solo.clickOnEditText(0);
 		solo.enterText(0, "");
 		solo.clickOnButton(0);
 		solo.sleep(300);
 
-		assertEquals("Wrong text in field.", "", speakBrick.getText());
+		text = UiTestUtils.getPrivateField("text", speakBrick).toString();
+
+		assertEquals("Wrong text in field.", "", text);
 
 		solo.clickOnEditText(0);
 		solo.enterText(0, testString2);
 		solo.clickOnButton(0);
 		solo.sleep(300);
 
-		assertEquals("Wrong text in field.", testString2, speakBrick.getText());
+		text = UiTestUtils.getPrivateField("text", speakBrick).toString();
+
+		assertEquals("Wrong text in field.", testString2, text);
 
 	}
 

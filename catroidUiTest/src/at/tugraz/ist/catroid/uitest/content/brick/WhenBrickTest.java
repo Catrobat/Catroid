@@ -56,9 +56,9 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_when)));
 
 		solo.pressSpinnerItem(0, 1);
-		solo.sleep(1000);
 		System.out.println(solo.getCurrentSpinners().get(0).getSelectedItemPosition());
 		System.out.println(solo.getCurrentSpinners().get(0).getSelectedItem().toString());
+		solo.sleep(1500);
 		assertEquals("Wrong event selected!", 1, solo.getCurrentSpinners().get(0).getSelectedItemPosition());
 	}
 

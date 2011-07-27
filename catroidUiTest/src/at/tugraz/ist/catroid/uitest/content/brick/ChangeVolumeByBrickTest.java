@@ -30,19 +30,18 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeVolumeByBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
-import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class ChangeVolumeByBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
-	private ChangeYByBrick changeYByBrick;
-	private int yToChange;
+	private ChangeVolumeByBrick changeVolumeByBrick;
+	private double volumeToChange;
 
-	public ChangeYByBrickTest() {
+	public ChangeVolumeByBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
 	}
 
@@ -65,7 +64,7 @@ public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 	}
 
 	@Smoke
-	public void testChangeYByBrick() {
+	public void testChangeVolumeByBrick() {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
 
@@ -77,26 +76,25 @@ public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
 				getActivity().getAdapter().getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_change_y_by)));
+		assertNotNull("TextView does not exist.",
+				solo.getText(getActivity().getString(R.string.brick_change_volume_by)));
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
-		solo.enterText(0, yToChange + "");
+		solo.enterText(0, volumeToChange + "");
 		solo.clickOnButton(0);
 
-		solo.sleep(1000);
-		int yMovementValue = (Integer) UiTestUtils.getPrivateField("yMovement", changeYByBrick);
-		assertEquals("Wrong text in field.", yToChange, yMovementValue);
-		assertEquals("Value in Brick is not updated.", yToChange + "", solo.getEditText(0).getText().toString());
+		solo.sleep(300);
+		assertEquals("Text not updated", volumeToChange, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
 
 	private void createProject() {
-		yToChange = 17;
+		volumeToChange = 50.0;
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript("script", sprite);
-		changeYByBrick = new ChangeYByBrick(sprite, 0);
-		script.addBrick(changeYByBrick);
+		changeVolumeByBrick = new ChangeVolumeByBrick(sprite, 100);
+		script.addBrick(changeVolumeByBrick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);
@@ -105,4 +103,5 @@ public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
+
 }
