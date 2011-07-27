@@ -34,5 +34,10 @@
 	  <item>C</item>
 	  <item>Alle</item>
 	</string-array>
+	
+	<string-array name="yes_no_array">
+	  <item>Ja</item>
+	  <item>Nein</item>
+  </string-array>
   
 </resources>

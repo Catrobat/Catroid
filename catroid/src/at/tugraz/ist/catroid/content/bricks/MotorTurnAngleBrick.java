@@ -35,22 +35,21 @@ import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
-public class MotorTurnAngleBrick implements Brick, OnDismissListener, OnItemSelectedListener {
+public class MotorTurnAngleBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private Handler btcHandler;
 	private int motor;
-	private int speed;
 	private int angle;
+	private boolean inverse = false;
 	private static final int MOTOR_A = 0;
 	private static final int MOTOR_B = 1;
 	private static final int MOTOR_C = 2;
 	private static final int NO_DELAY = 0;
 
-	public MotorTurnAngleBrick(Sprite sprite, int motor, int speed, int angle) {
+	public MotorTurnAngleBrick(Sprite sprite, int motor, int angle) {
 		this.sprite = sprite;
 		this.motor = motor;
-		this.speed = speed;
 		this.angle = angle;
 
 	}
@@ -60,7 +59,11 @@ public class MotorTurnAngleBrick implements Brick, OnDismissListener, OnItemSele
 			btcHandler = LegoNXT.getBTCHandler();
 		}
 
-		LegoNXT.sendBTCmessage(NO_DELAY, motor, speed, angle);
+		if (inverse == false) {
+			LegoNXT.sendBTCmessage(NO_DELAY, motor, 30, angle);
+		} else {
+			LegoNXT.sendBTCmessage(NO_DELAY, motor, -30, angle);
+		}
 
 	}
 
@@ -75,7 +78,7 @@ public class MotorTurnAngleBrick implements Brick, OnDismissListener, OnItemSele
 
 	@Override
 	public Brick clone() {
-		return new MotorTurnAngleBrick(getSprite(), motor, speed, angle);
+		return new MotorTurnAngleBrick(getSprite(), motor, angle);
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
@@ -89,16 +92,57 @@ public class MotorTurnAngleBrick implements Brick, OnDismissListener, OnItemSele
 		dialogX.setOnCancelListener((OnCancelListener) context);
 		editX.setOnClickListener(dialogX);
 
-		EditText editY = (EditText) brickView.findViewById(R.id.motor_turn_angle_speed_edit_text);
-		editY.setText(String.valueOf(speed));
-		EditIntegerDialog dialogY = new EditIntegerDialog(context, editY, speed, true);
-		dialogY.setOnDismissListener(this);
-		dialogY.setOnCancelListener((OnCancelListener) context);
-		editY.setOnClickListener(dialogY);
-
 		Spinner motorSpinner = (Spinner) brickView.findViewById(R.id.motor_spinner);
-		motorSpinner.setOnItemSelectedListener(this);
+		motorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
+				switch (position) {
+					case 0:
+						motor = MOTOR_A;
+						break;
+					case 1:
+						motor = MOTOR_B;
+						break;
+					case 2:
+						motor = MOTOR_C;
+						break;
+				}
+
+			}
+
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+		});
+
 		motorSpinner.setSelection(motor);
+
+		Spinner inverseSpinner = (Spinner) brickView.findViewById(R.id.yes_no_dialog);
+		inverseSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
+				if (position == 0) {
+					inverse = true;
+				} else {
+					inverse = false;
+				}
+
+			}
+
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+		});
+
+		if (inverse == false) {
+			inverseSpinner.setSelection(1);
+		} else {
+			inverseSpinner.setSelection(0);
+		}
 
 		//return inflater.inflate(R.layout.toolbox_brick_motor_action, null);
 		return brickView;
@@ -107,9 +151,8 @@ public class MotorTurnAngleBrick implements Brick, OnDismissListener, OnItemSele
 	public void onDismiss(DialogInterface dialog) {
 		if (dialog instanceof EditIntegerDialog) {
 			EditIntegerDialog inputDialog = (EditIntegerDialog) dialog;
-			if (inputDialog.getRefernecedEditTextId() == R.id.motor_turn_angle_speed_edit_text) {
-				speed = inputDialog.getValue();
-			} else if (inputDialog.getRefernecedEditTextId() == R.id.motor_turn_angle_duration_edit_text) {
+
+			if (inputDialog.getRefernecedEditTextId() == R.id.motor_turn_angle_duration_edit_text) {
 				angle = inputDialog.getValue();
 			} else {
 				throw new RuntimeException("Received illegal id from EditText: "
@@ -118,25 +161,6 @@ public class MotorTurnAngleBrick implements Brick, OnDismissListener, OnItemSele
 		}
 
 		dialog.cancel();
-	}
-
-	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-		//String[] values = parent.getContext().getResources().getStringArray(R.array.nxt_motor_chooser);
-		switch (position) {
-			case 0:
-				motor = MOTOR_A;
-				break;
-			case 1:
-				motor = MOTOR_B;
-				break;
-			case 2:
-				motor = MOTOR_C;
-				break;
-		}
-	}
-
-	public void onNothingSelected(AdapterView<?> arg0) {
-
 	}
 
 }
