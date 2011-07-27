@@ -23,7 +23,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -128,8 +127,8 @@ public class SensorBrick implements Brick, OnDismissListener {
 		final View view = inflater.inflate(R.layout.construction_brick_sensor, null);
 
 		this.context = context;
-		Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-		context.startActivity(enableBtIntent);
+		//		Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+		//		context.startActivity(enableBtIntent);
 
 		//Pin TODO: CHECK FOR WRONG INPUT AND MAKE NEW DIALOG FOR EACH ONE? OR CHECK IT SOMEHOW....
 		EditText editPin = (EditText) view.findViewById(R.id.construction_brick_sensor_pin);
