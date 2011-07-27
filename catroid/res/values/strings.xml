@@ -207,6 +207,9 @@
 	<string name="motor_stop">Stop Motor</string>
 	<string name="motor_inverse">Inverse</string>
 	
+	<string name="number_to_small">Value is too small!</string>
+	<string name="number_to_big">Value is too big!</string>
+	
 	<!-- defaulValues -->
 	<string name="default_project_name">defaultProject</string>
 
