@@ -248,7 +248,10 @@ public class MediaPathTest extends InstrumentationTestCase {
 		costumeBrick.setCostume(testImageCopy.getName());
 
 		PlaySoundBrick soundBrick = new PlaySoundBrick(sprite);
-		soundBrick.setPathToSoundfile(testSoundCopy.getName());
+		SoundInfo soundInfo = new SoundInfo();
+		soundInfo.setSoundFileName(testSoundCopy.getName());
+		soundInfo.setTitle("title");
+		soundBrick.setSoundInfo(soundInfo);
 
 		brickList2.add(new IfTouchedBrick(sprite, tapedScript));
 		brickList2.add(new PlaceAtBrick(sprite, 50, 50));
