@@ -84,8 +84,8 @@ public class CanvasDraw implements IDraw {
 	}
 
 	public synchronized boolean draw() {
-		canvas = holder.lockCanvas();
 		try {
+			canvas = holder.lockCanvas();
 			if (canvas == null) {
 				throw new Exception();
 			}
@@ -120,7 +120,7 @@ public class CanvasDraw implements IDraw {
 			}
 			bufferCanvas.drawBitmap(screenshotIcon, screenshotIconXPosition, Consts.SCREENSHOT_ICON_PADDING_TOP, null);
 			canvas.drawBitmap(canvasBitmap, 0, 0, null);
-			holder.unlockCanvasAndPost(canvas);
+			//holder.unlockCanvasAndPost(canvas);
 
 			if (firstRun) {
 				saveThumbnail(false);
@@ -128,9 +128,17 @@ public class CanvasDraw implements IDraw {
 			}
 
 			return true;
+
 		} catch (Exception e) {
+			e.printStackTrace();
 			return false;
+
+		} finally {
+			if (canvas != null) {
+				holder.unlockCanvasAndPost(canvas);
+			}
 		}
+
 	}
 
 	public synchronized void drawPauseScreen(Bitmap pauseBitmap) {
