@@ -116,25 +116,15 @@ public class UiTestUtils {
 	}
 
 	public static List<Brick> createTestProject() {
-		Context context;
+		File imageFile;
 		String projectName = DEFAULT_TEST_PROJECT_NAME;
+		final int RESOURCE_LOCATION = R.drawable.catroid_sunglasses;
 		int xPosition = 457;
 		int yPosition = 598;
 		double size = 0.8;
 
 		Project project = new Project(null, projectName);
 		Sprite firstSprite = new Sprite("cat");
-
-		//		File normalCat = savePictureFromResInProject(projectName, Consts.NORMAL_CAT, R.drawable.catroid, context);
-		//
-		//		costumeData costume = new costumeData();
-		//		costume.setCostumeAbsoluteImagepath(normalCat.getName());
-		//		costume.setCostumeDisplayName("Normal Cat");
-		//		costume.setCostumeFormat(".jpeg");
-		//		costume.setCostumeId(1);
-		//		Bitmap cat_thumbnail = BitmapFactory.decodeResource(context.getResources(), R.drawable.catroid);
-		//		costume.setCostumeImage(cat_thumbnail);
-		//		costume.setCostumeName("Normal Cat");
 
 		Script testScript = new StartScript("testscript", firstSprite);
 

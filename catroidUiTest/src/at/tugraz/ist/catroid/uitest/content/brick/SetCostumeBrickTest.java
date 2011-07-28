@@ -60,8 +60,8 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_set_costume);
 		final int setCostumeBrickIndex = brickList.size();
 
-		setCostumeImageView = (ImageView) solo.getCurrentActivity().findViewById(R.id.costume_image_view);
-		setCostumeImageView.setDrawingCacheEnabled(true);
+		//setCostumeImageView = (ImageView) solo.getCurrentActivity().findViewById(R.id.costume_image_view);
+		//setCostumeImageView.setDrawingCacheEnabled(true);
 
 		// Copy test image to be used
 
