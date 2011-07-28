@@ -101,6 +101,8 @@
     <string name="copy_costume">copy</string>
     <string name="costumename_invalid">This costumename is invalid</string>
     <string name="costumename_already_exists">This costumename already exists</string>
+    <string name="normal_cat">Normal Cat</string>
+    <string name="white_background">White</string>
     
     <!-- Sound activity -->
     <string name="sound_list">Sound:</string>
@@ -230,6 +232,9 @@
     <string name="error_project_exists">
         A project with the same name already
         exists.\nPlease choose a different name.
+    </string>
+    <string name="error_create_project">
+        An error occurred while creating a new project.
     </string>
     <string name="error_sprite_exists">
     	A sprite with the same name already exists.\nPlease choose a different name.

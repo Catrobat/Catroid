@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ListActivity;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -34,20 +33,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore.MediaColumns;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Costume;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.ui.adapter.CostumeAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.RenameCostumeDialog;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.ImageEditing;
@@ -58,7 +51,7 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 public class CostumeActivity extends ListActivity {
 	private Sprite sprite;
 	private ArrayList<Costume> costumeData;
-	public Costume selectedCostumeInfo;
+	public Costume selectedCostumeInfo, c;
 	private RenameCostumeDialog renameCostumeDialog;
 	private CostumeAdapter c_adapter;
 	private Runnable viewCostumes;
@@ -99,7 +92,7 @@ public class CostumeActivity extends ListActivity {
 			costumeData.addAll(currentCostume);
 		}
 
-		c_adapter = new CostumeAdapter(this, R.layout.activity_costumelist, costumeData);
+		c_adapter = new CostumeAdapter(this, R.layout.activity_costumelist, costumeData, sprite);
 		setListAdapter(c_adapter);
 		getListView().setTextFilterEnabled(true);
 	}
@@ -270,105 +263,6 @@ public class CostumeActivity extends ListActivity {
 	private String getAbsoluteImagePath() {
 		return Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName()
 				+ Consts.IMAGE_DIRECTORY + "/" + absolutePath;
-	}
-
-	private class CostumeAdapter extends ArrayAdapter<Costume> {
-
-		private ArrayList<Costume> items;
-		private CostumeActivity activity;
-
-		public CostumeAdapter(final CostumeActivity activity, int textViewResourceId, ArrayList<Costume> items) {
-			super(activity, textViewResourceId, items);
-			this.items = items;
-			this.activity = activity;
-		}
-
-		@Override
-		public View getView(final int position, View convertView, ViewGroup parent) {
-			View v = convertView;
-			if (v == null) {
-				LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				v = vi.inflate(R.layout.activity_costumelist, null);
-			}
-
-			final Costume c = items.get(position);
-			if (c != null) {
-				TextView costumeNameTextView = (TextView) v.findViewById(R.id.costume_edit_name);
-				costumeNameTextView.setText(c.getCostumeDisplayName());
-
-				Button copyCostume = (Button) v.findViewById(R.id.copy_costume);
-				copyCostume.setOnClickListener(new View.OnClickListener() {
-
-					public void onClick(View v) {
-						int costumeId = 0;
-						absolutePath = c.getCostumeAbsoluteImagepath();
-						String costumeName = c.getCostumeName();
-						String costumeFormat = c.getCostumeFormat();
-
-						for (int i = 0; i < sprite.getCostumeList().size(); i++) {
-							if (costumeName.equals(sprite.getCostumeList().get(i).getCostumeName())) {
-								if (costumeId <= sprite.getCostumeList().get(i).getCostumeId()) {
-									costumeId = sprite.getCostumeList().get(i).getCostumeId();
-								}
-							}
-						}
-
-						costumeId = costumeId + 1;
-
-						String costumeDisplayName = costumeName.concat("_" + costumeId);
-						try {
-							File copyFile = StorageHandler.getInstance().copyImage(
-									ProjectManager.getInstance().getCurrentProject().getName(), absolutePath,
-									costumeDisplayName + costumeFormat);
-
-							if (copyFile != null) {
-								absolutePath = copyFile.getName();
-								thumbnail = ImageEditing.getScaledBitmap(getAbsoluteImagePath(),
-										Consts.THUMBNAIL_HEIGHT, Consts.THUMBNAIL_WIDTH);
-							}
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-						Costume c = new Costume(sprite, null);
-						c.setCostumeName(costumeName);
-						c.setCostumeImage(thumbnail);
-						c.setCostumeAbsoluteImagepath(absolutePath);
-						c.setCostumeFormat(costumeFormat);
-						c.setCostumeDisplayName(costumeDisplayName);
-						c.setCostumeId(costumeId);
-						items.add(c);
-						sprite.addCostumeDataToCostumeList(c);
-						notifyDataSetChanged();
-					}
-				});
-
-				Button deleteCostume = (Button) v.findViewById(R.id.delete_button);
-				deleteCostume.setOnClickListener(new View.OnClickListener() {
-					public void onClick(View v) {
-						if (costumeData.size() > 1) {
-							items.remove(c);
-							sprite.removeCostumeDataFromCostumeList(c);
-							notifyDataSetChanged();
-						}
-					}
-				});
-
-				Button renameCostume = (Button) v.findViewById(R.id.rename_button);
-				renameCostume.setOnClickListener(new OnClickListener() {
-
-					public void onClick(View v) {
-						activity.selectedCostumeInfo = c;
-						activity.showDialog(Consts.DIALOG_RENAME_COSTUME);
-					}
-				});
-
-				ImageView costumeImage = (ImageView) v.findViewById(R.id.costume_image);
-				if (costumeImage != null) {
-					costumeImage.setImageBitmap(c.getCostumeImage());
-				}
-			}
-			return v;
-		}
 	}
 
 }
