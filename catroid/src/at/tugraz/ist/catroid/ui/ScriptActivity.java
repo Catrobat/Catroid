@@ -114,6 +114,8 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 			return;
 		}
 
+		adapter.notifyDataSetChanged();
+
 		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
 		if (scriptTabActivity != null && scriptTabActivity.activityHelper != null) {
 			//set new functionality for actionbar add button:

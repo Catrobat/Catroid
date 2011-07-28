@@ -247,7 +247,7 @@ public class SoundActivity extends ListActivity {
 				playSoundButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_media_play, 0, 0);
 				stopSoundButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_media_stop, 0, 0);
 				renameSoundButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_menu_edit, 0, 0);
-				deleteSoundButton.setCompoundDrawablesWithIntrinsicBounds(0, android.R.drawable.ic_delete, 0, 0);
+				deleteSoundButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_trash, 0, 0);
 
 				if (soundInfo.isPlaying) {
 					soundImage.setImageDrawable(activity.getResources().getDrawable(SoundActivity.SPEAKER_PLAYING_ID));
