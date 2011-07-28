@@ -34,7 +34,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.costumeData;
+import at.tugraz.ist.catroid.content.Costume;
 import at.tugraz.ist.catroid.ui.CostumeActivity;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -48,7 +48,7 @@ public class RenameCostumeDialog {
 		this.costumeActivity = costumeActivity;
 	}
 
-	public Dialog createDialog(costumeData selectedCostumeInfo) {
+	public Dialog createDialog(Costume selectedCostumeInfo) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(costumeActivity);
 		builder.setTitle(R.string.rename_costume_dialog);
 

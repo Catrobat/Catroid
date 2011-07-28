@@ -46,7 +46,6 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.TapScript;
-import at.tugraz.ist.catroid.content.costumeData;
 import at.tugraz.ist.catroid.content.bricks.BroadcastBrick;
 import at.tugraz.ist.catroid.content.bricks.BroadcastWaitBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
@@ -336,14 +335,18 @@ public class StorageHandler {
 		}
 	}
 
+	public Project createDefaultProject(Context context) throws IOException {
+		String projectName = context.getString(R.string.default_project_name);
+		return createDefaultProject(context, projectName);
+	}
+
 	/**
 	 * Creates the default project and saves it to the filesystem
 	 * 
 	 * @return the default project object if successful, else null
 	 * @throws IOException
 	 */
-	public Project createDefaultProject(Context context) throws IOException {
-		String projectName = context.getString(R.string.default_project_name);
+	public Project createDefaultProject(Context context, String projectName) throws IOException {
 		Project defaultProject = new Project(context, projectName);
 		saveProject(defaultProject);
 		ProjectManager.getInstance().setProject(defaultProject);
@@ -355,52 +358,41 @@ public class StorageHandler {
 		Script touchScript = new TapScript("touchScript", sprite);
 
 		File normalCat = savePictureFromResInProject(projectName, Consts.NORMAL_CAT, R.drawable.catroid, context);
-		File banzaiCat = savePictureFromResInProject(projectName, Consts.BANZAI_CAT, R.drawable.catroid_banzai, context);
-		File cheshireCat = savePictureFromResInProject(projectName, Consts.CHESHIRE_CAT, R.drawable.catroid_cheshire,
-				context);
-		File background = savePictureFromResInProject(projectName, Consts.BACKGROUND, R.drawable.background_blueish,
+		File whiteBackground = savePictureFromResInProject(projectName, Consts.BACKGROUND, R.drawable.background_white,
 				context);
 
-		costumeData costume = new costumeData();
+		Costume costume = new Costume(sprite, null);
 		costume.setCostumeAbsoluteImagepath(normalCat.getName());
-		costume.setCostumeDisplayName("Normal Cat");
+		costume.setCostumeDisplayName(context.getString(R.string.normal_cat));
 		costume.setCostumeFormat(".jpeg");
 		costume.setCostumeId(1);
 		Bitmap cat_thumbnail = BitmapFactory.decodeResource(context.getResources(), R.drawable.catroid);
 		costume.setCostumeImage(cat_thumbnail);
-		costume.setCostumeName("Normal Cat");
+		costume.setCostumeName(context.getString(R.string.normal_cat));
 
-		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
-		setCostumeBrick.setCostume(normalCat.getName());
-
-		SetCostumeBrick setCostumeBrick1 = new SetCostumeBrick(sprite);
-		setCostumeBrick1.setCostume(normalCat.getName());
-
-		SetCostumeBrick setCostumeBrick2 = new SetCostumeBrick(sprite);
-		setCostumeBrick2.setCostume(banzaiCat.getName());
-
-		SetCostumeBrick setCostumeBrick3 = new SetCostumeBrick(sprite);
-		setCostumeBrick3.setCostume(cheshireCat.getName());
-
-		SetCostumeBrick setCostumeBackground = new SetCostumeBrick(backgroundSprite);
-		setCostumeBackground.setCostume(background.getName());
+		Costume background = new Costume(backgroundSprite, null);
+		background.setCostumeAbsoluteImagepath(whiteBackground.getName());
+		background.setCostumeDisplayName(context.getString(R.string.white_background));
+		background.setCostumeFormat(".jpeg");
+		background.setCostumeId(1);
+		Bitmap white_bg = BitmapFactory.decodeResource(context.getResources(), R.drawable.background_white);
+		background.setCostumeImage(white_bg);
+		background.setCostumeName(context.getString(R.string.white_background));
 
 		WaitBrick waitBrick1 = new WaitBrick(sprite, 500);
 		WaitBrick waitBrick2 = new WaitBrick(sprite, 500);
+		SetCostumeBrick bgcostume = new SetCostumeBrick(backgroundSprite);
+		//bgcostume.setCostume(background.getCostumeName());
 
-		startScript.addBrick(setCostumeBrick);
-
-		touchScript.addBrick(setCostumeBrick2);
 		touchScript.addBrick(waitBrick1);
-		touchScript.addBrick(setCostumeBrick3);
 		touchScript.addBrick(waitBrick2);
-		touchScript.addBrick(setCostumeBrick1);
-		backgroundStartScript.addBrick(setCostumeBackground);
+		backgroundStartScript.addBrick(bgcostume);
 
 		defaultProject.addSprite(sprite);
 		sprite.addScript(startScript);
 		sprite.addScript(touchScript);
 		sprite.addCostumeDataToCostumeList(costume);
+		backgroundSprite.addCostumeDataToCostumeList(background);
 		backgroundSprite.addScript(backgroundStartScript);
 
 		this.saveProject(defaultProject);
