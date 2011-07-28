@@ -274,7 +274,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 			SoundInfo newSoundInfo = new SoundInfo();
 			newSoundInfo.setTitle(soundTitle);
 			newSoundInfo.setSoundFileName(soundFileName);
-			sprite.addSoundInfoToSoundList(newSoundInfo);
+			sprite.getSoundList().add(newSoundInfo);
 		}
 
 		StorageHandler.getInstance().saveProject(project);
