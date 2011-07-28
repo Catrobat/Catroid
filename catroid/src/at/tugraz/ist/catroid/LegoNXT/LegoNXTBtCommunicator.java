@@ -42,6 +42,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import android.bluetooth.BluetoothAdapter;
@@ -51,6 +52,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.bluetooth.BTConnectable;
 
@@ -87,6 +89,7 @@ public class LegoNXTBtCommunicator extends Thread {
 	public static final int PROGRAM_NAME = 1011;
 	public static final int SAY_TEXT = 1030;
 	public static final int VIBRATE_PHONE = 1031;
+	public static final int RECEIVED_MESSAGE = 1111;
 
 	public static final int NO_DELAY = 0;
 
@@ -104,6 +107,9 @@ public class LegoNXTBtCommunicator extends Thread {
 	private Handler uiHandler;
 	private String mMACaddress;
 	private BTConnectable myOwner;
+	private static boolean requestConfirmFromDevice = false;
+
+	private static ArrayList<byte[]> receivedMessages = new ArrayList<byte[]>();
 
 	private byte[] returnMessage;
 
@@ -113,6 +119,14 @@ public class LegoNXTBtCommunicator extends Thread {
 		this.uiHandler = uiHandler;
 		this.btAdapter = btAdapter;
 		this.mResources = resources;
+	}
+
+	public static ArrayList<byte[]> getReceivedMessageList() {
+		return receivedMessages;
+	}
+
+	public static void enableRequestConfirmFromDevice() {
+		requestConfirmFromDevice = true;
 	}
 
 	public Handler getHandler() {
@@ -296,6 +310,7 @@ public class LegoNXTBtCommunicator extends Thread {
 		length = (nxtInputStream.read() << 8) + length;
 		byte[] returnMessage = new byte[length];
 		nxtInputStream.read(returnMessage);
+		//Log.i("bt", returnMessage.toString());
 		return returnMessage;
 	}
 
@@ -319,15 +334,16 @@ public class LegoNXTBtCommunicator extends Thread {
 	}
 
 	private void dispatchMessage(byte[] message) {
+
 		switch (message[1]) {
 
-			case LCPMessage.GET_OUTPUT_STATE:
-
-				if (message.length >= 25) {
-					sendState(MOTOR_STATE);
-				}
-
-				break;
+		//			case LCPMessage.GET_OUTPUT_STATE:
+		//
+		//				if (message.length >= 25) {
+		//					sendState(MOTOR_STATE);
+		//				}
+		//
+		//				break;
 
 			case LCPMessage.GET_FIRMWARE_VERSION:
 
@@ -367,73 +383,122 @@ public class LegoNXTBtCommunicator extends Thread {
 				if (message.length == 3) {
 					sendState(VIBRATE_PHONE);
 				}
+				break;
+
+			case LCPMessage.SET_OUTPUT_STATE:
+				//sendState(RECEIVED_MESSAGE, message);
+				analyzeMessageSetOutputState(message);
+				break;
+
+			case LCPMessage.GET_OUTPUT_STATE:
+				//sendState(RECEIVED_MESSAGE, message);
+				receivedMessages.add(message);
+				analyzeMessageGetOutputState(message);
+				break;
 		}
 	}
 
-	private void doBeep(int frequency, int duration) {
-		byte[] message = LCPMessage.getBeepMessage(frequency, duration);
-		sendMessageAndState(message);
-		waitSomeTime(20);
+	private void analyzeMessageSetOutputState(byte[] message) {
+		//change command byte0 to DIRECT_COMMAND_REPLY to use!
+		Log.i("bt", "Direct command executed: " + (int) message[0]);
+		Log.i("bt", "executed Command was: " + (int) message[1]);
+		Log.i("bt", "Status: " + (int) message[2]);
+		Log.i("bt", "Length: " + message.length);
+
 	}
 
-	private void doAction(int actionNr) {
-		byte[] message = LCPMessage.getActionMessage(actionNr);
-		sendMessageAndState(message);
+	private void analyzeMessageGetOutputState(byte[] message) {
+		//See Lego NXT Docu or LCPMessage class for info on numbers!
+		Log.i("bt", "Message Length: " + message.length);
+		Log.i("bt", "GetOutputState executed: " + (int) message[0]);
+		Log.i("bt", "executed Command was: " + (int) message[1]);
+		Log.i("bt", "Status: " + (int) message[2]);
+		Log.i("bt", "Used Motor: " + (int) message[3]);
+		Log.i("bt", "Used Power: " + (int) message[4]);
+		Log.i("bt", "Mode: " + (int) message[5]);
+		Log.i("bt", "Regulation: " + (int) message[6]);
+		Log.i("bt", "Turn Ratio: " + (int) message[7]);
+		Log.i("bt", "Run State: " + (int) message[8]);
+
+		int tacholimit = message[9];
+		tacholimit += (message[10] << 8);
+		tacholimit += (message[11] << 16);
+		tacholimit += (message[12] << 24);
+
+		Log.i("bt", "Tacholimit " + tacholimit);
+
+		int tachocount = message[13];
+		tachocount += (message[14] << 8);
+		tachocount += (message[15] << 16);
+		tachocount += (message[16] << 24);
+
+		Log.i("bt", "Tachocount " + tachocount);
 	}
 
-	private void startProgram(String programName) {
-		byte[] message = LCPMessage.getStartProgramMessage(programName);
-		sendMessageAndState(message);
-	}
-
-	private void stopProgram() {
-		byte[] message = LCPMessage.getStopProgramMessage();
-		sendMessageAndState(message);
-	}
-
-	private void getProgramName() {
-		byte[] message = LCPMessage.getProgramNameMessage();
-		sendMessageAndState(message);
-	}
-
-	private void changeMotorSpeed(int motor, int speed) {
-		if (speed > 100) {
-			speed = 100;
-		} else if (speed < -100) {
-			speed = -100;
-		}
-
-		byte[] message = LCPMessage.getMotorMessage(motor, speed);
-		sendMessageAndState(message);
-	}
-
-	private void reset(int motor) {
-		byte[] message = LCPMessage.getResetMessage(motor);
-		sendMessageAndState(message);
-	}
-
-	private void readMotorState(int motor) {
-		byte[] message = LCPMessage.getOutputStateMessage(motor);
-		sendMessageAndState(message);
-	}
-
-	private void getFirmwareVersion() {
-		byte[] message = LCPMessage.getFirmwareVersionMessage();
-		sendMessageAndState(message);
-	}
-
-	private void findFiles(boolean findFirst, int handle) {
-		byte[] message = LCPMessage.getFindFilesMessage(findFirst, handle, "*.*");
-		sendMessageAndState(message);
-	}
-
-	private void waitSomeTime(int millis) {
-		try {
-			Thread.sleep(millis);
-
-		} catch (InterruptedException e) {
-		}
-	}
+	//	private void doBeep(int frequency, int duration) {
+	//		byte[] message = LCPMessage.getBeepMessage(frequency, duration);
+	//		sendMessageAndState(message);
+	//		waitSomeTime(20);
+	//	}
+	//
+	//	private void doAction(int actionNr) {
+	//		byte[] message = LCPMessage.getActionMessage(actionNr);
+	//		sendMessageAndState(message);
+	//	}
+	//
+	//	private void startProgram(String programName) {
+	//		byte[] message = LCPMessage.getStartProgramMessage(programName);
+	//		sendMessageAndState(message);
+	//	}
+	//
+	//	private void stopProgram() {
+	//		byte[] message = LCPMessage.getStopProgramMessage();
+	//		sendMessageAndState(message);
+	//	}
+	//
+	//	private void getProgramName() {
+	//		byte[] message = LCPMessage.getProgramNameMessage();
+	//		sendMessageAndState(message);
+	//	}
+	//
+	//	private void changeMotorSpeed(int motor, int speed) {
+	//		if (speed > 100) {
+	//			speed = 100;
+	//		} else if (speed < -100) {
+	//			speed = -100;
+	//		}
+	//
+	//		byte[] message = LCPMessage.getMotorMessage(motor, speed);
+	//		sendMessageAndState(message);
+	//	}
+	//
+	//	private void reset(int motor) {
+	//		byte[] message = LCPMessage.getResetMessage(motor);
+	//		sendMessageAndState(message);
+	//	}
+	//
+	//	private void readMotorState(int motor) {
+	//		byte[] message = LCPMessage.getOutputStateMessage(motor);
+	//		sendMessageAndState(message);
+	//	}
+	//
+	//	private void getFirmwareVersion() {
+	//		byte[] message = LCPMessage.getFirmwareVersionMessage();
+	//		sendMessageAndState(message);
+	//	}
+	//
+	//	private void findFiles(boolean findFirst, int handle) {
+	//		byte[] message = LCPMessage.getFindFilesMessage(findFirst, handle, "*.*");
+	//		sendMessageAndState(message);
+	//	}
+	//
+	//	private void waitSomeTime(int millis) {
+	//		try {
+	//			Thread.sleep(millis);
+	//
+	//		} catch (InterruptedException e) {
+	//		}
+	//	}
 
 	private void sendToast(String toastText) {
 		Bundle myBundle = new Bundle();
@@ -448,15 +513,27 @@ public class LegoNXTBtCommunicator extends Thread {
 		sendBundle(myBundle);
 	}
 
+	private void sendState(int message, byte[] data) {
+		Bundle myBundle = new Bundle();
+		myBundle.putInt("message", message);
+		myBundle.putByteArray("received_message", data);
+		sendBundle(myBundle);
+	}
+
 	private void sendBundle(Bundle myBundle) {
 		Message myMessage = myHandler.obtainMessage();
 		myMessage.setData(myBundle);
 		uiHandler.sendMessage(myMessage);
 	}
 
-	private void rotateTo(int motor, int speed, int end) {
+	private void moveMotor(int motor, int speed, int end) {
 		byte[] message = LCPMessage.getMotorMessage(motor, speed, end);
 		sendMessageAndState(message);
+
+		if (requestConfirmFromDevice) {
+			byte[] test = LCPMessage.getOutputStateMessage(motor);
+			sendMessageAndState(test);
+		}
 	}
 
 	// receive messages from the UI
@@ -469,7 +546,7 @@ public class LegoNXTBtCommunicator extends Thread {
 			motor = myMessage.getData().getInt("motor");
 			speed = myMessage.getData().getInt("speed");
 			angle = myMessage.getData().getInt("angle");
-			rotateTo(motor, speed, angle);
+			moveMotor(motor, speed, angle);
 			//   int message;
 			//
 			//   switch (message = myMessage.getData().getInt("message")) {

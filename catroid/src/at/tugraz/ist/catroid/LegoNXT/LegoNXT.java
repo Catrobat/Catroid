@@ -108,13 +108,21 @@ public class LegoNXT implements BTConnectable {
 		myBundle.putInt("motor", motor);
 		myBundle.putInt("speed", speed);
 		myBundle.putInt("angle", angle);
+		myBundle.putInt("what", motor);
 		Message myMessage = btcHandler.obtainMessage();
 		myMessage.setData(myBundle);
 
 		if (delay == 0) {
+
+			btcHandler.removeMessages(motor);
 			btcHandler.sendMessage(myMessage);
+			//btcHandler.removeMessages(0);
+			//btcHandler.removeCallbacksAndMessages(myMessage);
 		} else {
+			btcHandler.removeMessages(motor);
 			btcHandler.sendMessageDelayed(myMessage, delay);
+
+			//btcHandler.removeMessages(0);
 		}
 	}
 

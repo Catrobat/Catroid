@@ -38,7 +38,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXTBtCommunicator;
-import at.tugraz.ist.catroid.bluetooth.BluetothManager;
+import at.tugraz.ist.catroid.bluetooth.BluetoothManager;
 import at.tugraz.ist.catroid.bluetooth.DeviceListActivity;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -52,7 +52,7 @@ public class StageActivity extends Activity {
 	private StageManager stageManager;
 	private boolean stagePlaying = false;
 	private LegoNXT legoNXT;
-	private BluetothManager bluetothManager;
+	private BluetoothManager bluetoothManager;
 	private ProgressDialog connectingProgressDialog;
 
 	@Override
@@ -72,12 +72,12 @@ public class StageActivity extends Activity {
 			soundManager = SoundManager.getInstance();
 			stageManager = new StageManager(this);
 			legoNXT = new LegoNXT(this, recieveHandler);
-			bluetothManager = new BluetothManager(this);
+			bluetoothManager = new BluetoothManager(this);
 
 			if (!stageManager.getBluetoothNeeded()) {
 				startStage();
 			} else {
-				int bluetoothState = bluetothManager.activateBluetooth();
+				int bluetoothState = bluetoothManager.activateBluetooth();
 				if (bluetoothState == -1) {
 					Toast.makeText(StageActivity.this, R.string.notification_blueth_err, Toast.LENGTH_LONG).show();
 					finish();
@@ -136,6 +136,7 @@ public class StageActivity extends Activity {
 		stagePlaying = true;
 	}
 
+	//messages from Lego NXT device can be handled here
 	final Handler recieveHandler = new Handler() {
 		@Override
 		public void handleMessage(Message myMessage) {
@@ -145,7 +146,8 @@ public class StageActivity extends Activity {
 					startStage();
 					break;
 				default:
-					Toast.makeText(StageActivity.this, myMessage.getData().getString("toastText"), Toast.LENGTH_SHORT);
+					//Log.i("bt", "received incoming bt message");
+					//Toast.makeText(StageActivity.this, myMessage.getData().getString("toastText"), Toast.LENGTH_SHORT);
 					break;
 
 			}
