@@ -22,13 +22,16 @@ import java.io.Serializable;
 import java.util.Vector;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.NinePatchDrawable;
+import android.util.Log;
 import at.tugraz.ist.catroid.R;
 
 public class Bubble implements Serializable {
@@ -39,6 +42,7 @@ public class Bubble implements Serializable {
 	private String text;
 	private Vector<String> textVector;
 	private Paint textPaint;
+	private Paint debugPaint;
 	private int textSize;
 
 	private int textOffsetYStart;
@@ -57,9 +61,10 @@ public class Bubble implements Serializable {
 	private float textDefaultWidth;
 	private float textMaxWidth;
 	private float textStartheightOffset;
-
 	private Costume costume;
 
+	Point leftStart;
+	Point rightStart;
 	private Canvas canvas;
 
 	public Bubble() {
@@ -67,6 +72,9 @@ public class Bubble implements Serializable {
 	}
 
 	public void init() {
+		debugPaint = new Paint();
+		debugPaint.setColor(Color.RED);
+
 		textPaint = new Paint();
 		textVector = new Vector<String>();
 		textSize = 22;
@@ -114,16 +122,67 @@ public class Bubble implements Serializable {
 		this.canvas = canvas;
 	}
 
-	public void drawBubble() {
+	public void drawDebugPoint(float x, float y) {
+		canvas.drawCircle(x, y, 3, debugPaint);
+	}
 
-		int costumePosX = costume.getDrawPositionX();
-		int costumePosY = costume.getDrawPositionY();
+	public void calculateStartPos() {
 
+		Bitmap temp = null;
 		double costumeHeight = costume.getBitmap().getHeight();
 		double costumeWidth = costume.getBitmap().getWidth();
+		leftStart = new Point(0, 0);
+		rightStart = new Point(0, 0);
+		double yq, xq, k, d;
+		yq = 0;
+		k = -3.46;
+		d = costumeHeight / 2;
+		double centerPointX = costumeWidth / 2;
+		double centerPointY = costumeHeight / 2;
 
-		int boundLeft = costumePosX + (int) costumeWidth;
-		int boundTop = costumePosY - (int) bubbleHeight;
+		xq = ((yq - d) / k) + (costumeWidth / 2);
+
+		double x = 0, y = 0, x_1 = centerPointX, x_2 = xq, y_1 = centerPointY, y_2 = 0;
+		boolean pointNotFound = true;
+		x = xq;
+		temp = costume.getBitmap();
+		drawDebugPoint((float) (costume.getDrawPositionX() + x), costume.getDrawPositionY());
+		int tempColor;
+		while (pointNotFound) {
+			y = y_1 + ((y_2 - y_1) / (x_2 - x_1)) * (x - x_1);
+
+			if (x <= temp.getWidth() && y <= temp.getHeight()) {
+				tempColor = temp.getPixel((int) x, (int) y);
+				Log.v("COLOR", "::" + tempColor);
+				if (tempColor == 0) {
+					x--;
+				} else {
+					pointNotFound = false;
+				}
+			}
+
+		}
+
+		rightStart.x = (int) x + 10;
+		rightStart.y = (int) (y_1 + ((y_2 - y_1) / (x_2 - x_1)) * ((rightStart.x - x_1)));
+		int i = 76655;
+		//		leftStart.x = (int) (x - (xq - x));
+		//		leftStart.y = (int) y;
+
+	}
+
+	public void drawBubble() {
+		calculateStartPos();
+		int costumePosX = costume.getDrawPositionX();
+		int costumePosY = costume.getDrawPositionY();
+		int relPosX = rightStart.x;
+		int relPosY = rightStart.y;
+
+		//double costumeHeight = costume.getBitmap().getHeight();
+		double costumeWidth = costume.getBitmap().getWidth();
+
+		int boundLeft = costumePosX + relPosX;
+		int boundTop = costumePosY - (int) bubbleHeight + relPosY;
 		int boundRight = boundLeft + (int) bubbleWidth;
 		int boundBottom = boundTop + (int) bubbleHeight;
 
@@ -132,15 +191,15 @@ public class Bubble implements Serializable {
 	}
 
 	public void drawText(String string, int textPosX, int textPosY) {
-
+		int relPosY = rightStart.y;
 		int costumePosX = costume.getDrawPositionX();
 		int costumePosY = costume.getDrawPositionY();
 
-		double costumeHeight = costume.getBitmap().getHeight();
-		double costumeWidth = costume.getBitmap().getWidth();
+		//double costumeHeight = costume.getBitmap().getHeight();
+		double costumeWidth = rightStart.x;//costume.getBitmap().getWidth();
 
 		int boundLeft = costumePosX + (int) costumeWidth;
-		int boundTop = costumePosY - (int) bubbleHeight;
+		int boundTop = costumePosY - (int) bubbleHeight + relPosY;
 		canvas.drawText(string, boundLeft + textPosX, boundTop + textPosY, textPaint);
 	}
 
@@ -174,35 +233,52 @@ public class Bubble implements Serializable {
 		String nextBuffer = "";
 		String tempBuffer = "";
 		String writeBuffer = "";
-		buildBuffer = words.get(0);
 
-		for (int i = 1; i < words.size(); i++) {
-			nextBuffer = buildBuffer;
+		String oldTextBuffer = "";
+		String newTextBuffer = "";
+		String tempString = "";
 
-			if (getTextWidth(nextBuffer) > textMaxWidth) {
-				tempBuffer = "" + nextBuffer.charAt(0);
-				for (int k = 1; k < nextBuffer.length(); k++) {
-					tempBuffer += nextBuffer.charAt(k);
-					if (getTextWidth(tempBuffer) > textMaxWidth) {
-						writeBuffer = tempBuffer.substring(0, tempBuffer.length() - 1);
-						tempBuffer = "" + nextBuffer.charAt(k);
-						textVector.add(writeBuffer);
+		try {
+			for (int i = 1; i <= words.size(); i++) {
+				//nextBuffer = buildBuffer;
+				newTextBuffer = oldTextBuffer + words.get(i - 1);
+
+				if (getTextWidth(newTextBuffer) > textMaxWidth) {
+					if (oldTextBuffer.length() != 0) {
+						textVector.add(oldTextBuffer);
+
 					}
-				}
-				buildBuffer = tempBuffer;
-				nextBuffer = buildBuffer;
-			}
+					tempString = words.get(i - 1);
+					if (getTextWidth(tempString) > textMaxWidth) {
 
-			nextBuffer += words.get(i);
-			if (getTextWidth(nextBuffer) > textMaxWidth) {
-				textVector.add(buildBuffer);
-				buildBuffer = "";
-				buildBuffer += words.get(i);
-			} else {
-				buildBuffer += words.get(i);
+						tempBuffer = "" + tempString.charAt(0);
+						for (int k = 2; k <= tempString.length(); k++) {
+							tempBuffer += tempString.charAt(k - 1);
+							if (getTextWidth(tempBuffer) > textMaxWidth) { // !!!!!!
+								writeBuffer = tempBuffer.substring(0, tempBuffer.length() - 1);
+								tempBuffer = "" + tempBuffer.charAt(k - 1);
+								textVector.add(writeBuffer);
+							}
+						}
+
+						oldTextBuffer = tempBuffer;
+					} else {
+						oldTextBuffer = tempString;
+					}
+
+				} else {
+					oldTextBuffer = newTextBuffer;
+				}
 			}
+		} catch (Exception e) {
+
+			int ie = 4;
+			e.printStackTrace();
 		}
-		textVector.add(buildBuffer);
+		if (oldTextBuffer.length() != 0) {
+			textVector.add(oldTextBuffer);
+		}
+		int i = 4;
 	}
 
 	public void draw() {
@@ -227,7 +303,6 @@ public class Bubble implements Serializable {
 				drawText(text, textPosX, textPosY);
 
 			} else {
-
 				if (totalTextWidth <= textMaxWidth) {
 					// x- scaling
 					bubbleHeight = bubbleDefaultHeight;
