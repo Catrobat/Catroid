@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +33,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import at.abraxas.amarino.Amarino;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.bluetooth.DeviceListActivity;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.DevicesDialog;
 import at.tugraz.ist.catroid.ui.dialogs.EditDialog;
@@ -127,8 +129,6 @@ public class SensorBrick implements Brick, OnDismissListener {
 		final View view = inflater.inflate(R.layout.construction_brick_sensor, null);
 
 		this.context = context;
-		//		Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-		//		context.startActivity(enableBtIntent);
 
 		//Pin TODO: CHECK FOR WRONG INPUT AND MAKE NEW DIALOG FOR EACH ONE? OR CHECK IT SOMEHOW....
 		EditText editPin = (EditText) view.findViewById(R.id.construction_brick_sensor_pin);
@@ -255,5 +255,10 @@ public class SensorBrick implements Brick, OnDismissListener {
 	 */
 	public void setSelectedAddress(String selectedAddress) {
 		this.selectedAddress = selectedAddress;
+	}
+
+	public void connectArduino() {
+		Intent serverIntent = new Intent(this.activity, DeviceListActivity.class);
+		activity.startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
 	}
 }

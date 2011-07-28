@@ -36,6 +36,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
 import at.tugraz.ist.catroid.bluetooth.BluetoothManager;
 import at.tugraz.ist.catroid.bluetooth.DeviceListActivity;
+import at.tugraz.ist.catroid.content.bricks.SensorBrick;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -48,6 +49,7 @@ public class StageActivity extends Activity {
 	private StageManager stageManager;
 	private boolean stagePlaying = false;
 	private LegoNXT legoNXT;
+	private SensorBrick arduino;
 	private BluetoothManager bluetoothManager;
 
 	@Override
@@ -81,6 +83,7 @@ public class StageActivity extends Activity {
 				} else if (bluetoothState == 1) {
 					legoNXT.connectLegoNXT();
 					// TODO connect to Arduino, when connected do: stageManager.start(); stageManager.startScripts(); stagePlaying = true; 
+					arduino.connectArduino();
 				}
 			}
 		}
