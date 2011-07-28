@@ -20,6 +20,7 @@
 package at.tugraz.ist.catroid;
 
 import java.io.File;
+import java.io.IOException;
 
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -132,11 +133,11 @@ public class ProjectManager {
 		return currentScript;
 	}
 
-	public void initializeNewProject(String projectName, Context context) {
-		project = new Project(context, projectName);
+	public void initializeNewProject(String projectName, Context context) throws IOException {
+		//project = new Project(context, projectName);
 		fileChecksumContainer = new FileChecksumContainer();
 		messageContainer = new MessageContainer();
-
+		project = StorageHandler.getInstance().createDefaultProject(context, projectName);
 		currentSprite = null;
 		currentScript = null;
 		saveProject(context);

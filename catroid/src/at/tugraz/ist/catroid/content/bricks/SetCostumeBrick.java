@@ -29,10 +29,8 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.Spinner;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Costume;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.utils.ImageEditing;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
@@ -51,10 +49,6 @@ public class SetCostumeBrick implements Brick {
 
 	public void setCostume(String imageName) {
 		this.imageName = imageName;
-		if (imageName != null) {
-			thumbnail = ImageEditing.getScaledBitmap(getAbsoluteImagePath(), Consts.THUMBNAIL_HEIGHT,
-					Consts.THUMBNAIL_WIDTH);
-		}
 	}
 
 	private Object readResolve() {
