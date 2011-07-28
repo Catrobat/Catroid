@@ -60,7 +60,9 @@ public class SetCostumeBrick implements Brick {
 	}
 
 	public void execute() {
-		this.sprite.getCostume().setImagePath(getAbsoluteImagePath());
+		if (CostumeData != null) {
+			this.sprite.getCostume().setImagePath(getAbsoluteImagePath());
+		}
 	}
 
 	public Sprite getSprite() {
