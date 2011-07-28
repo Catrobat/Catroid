@@ -29,7 +29,6 @@ import android.graphics.Paint.Align;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.NinePatchDrawable;
-import android.util.Log;
 import at.tugraz.ist.catroid.R;
 
 public class Bubble implements Serializable {
@@ -76,10 +75,9 @@ public class Bubble implements Serializable {
 		textPaint.setFakeBoldText(true);
 		textPaint.setTypeface(Typeface.DEFAULT);
 		textPaint.setTextAlign(Align.CENTER);
+
 		bubble9Patch = (NinePatchDrawable) activity.getResources().getDrawable(R.drawable.speech_bubble);
-		//bubbleDefaultHeight = bubble9Patch.getIntrinsicHeight();
-		//bubbleDefaultWidth = bubble9Patch.getIntrinsicWidth();
-		bubbleDefaultHeight = activity.getResources().getDrawable(R.drawable.speech_bubble).getIntrinsicHeight();
+		bubbleDefaultHeight = bubble9Patch.getIntrinsicHeight();
 		bubbleDefaultWidth = bubble9Patch.getIntrinsicWidth();
 		bubbleHeight = bubbleDefaultHeight;
 		bubbleWidth = bubbleDefaultWidth;
@@ -87,11 +85,10 @@ public class Bubble implements Serializable {
 		bubblePosY = 0;
 		textOffsetYStart = 6;
 		textOffsetYNext = 10;
-		Log.v("CALC", bubbleDefaultHeight + "+" + bubbleDefaultWidth);
 
 		bubbleMaxWidth = (float) (1.4 * bubbleDefaultWidth);
 		textStartheightOffset = 36;
-		Log.v("CALC", bubbleDefaultHeight + "+" + textStartheightOffset + "+" + textSize);
+
 		textBoarder = ((bubbleDefaultHeight - (bubbleDefaultHeight - textStartheightOffset)) - textSize) / 2;
 		textDefaultWidth = bubbleDefaultWidth - 4 * textBoarder;
 		textMaxWidth = bubbleMaxWidth - 4 * textBoarder;
@@ -145,7 +142,6 @@ public class Bubble implements Serializable {
 		int boundLeft = costumePosX + (int) costumeWidth;
 		int boundTop = costumePosY - (int) bubbleHeight;
 		canvas.drawText(string, boundLeft + textPosX, boundTop + textPosY, textPaint);
-
 	}
 
 	public int getTextWidth(String string) {
@@ -160,128 +156,53 @@ public class Bubble implements Serializable {
 		return textBound.height();
 	}
 
-	public void draw2() {
-		init();
-		int numberOfCharacters = text.length();
+	public void textSplit() {
 
-		if (numberOfCharacters == 0) {
-			return;
+		String unsplit = text;
+		String wordBuild = "";
+		Vector<String> words = new Vector<String>();
+		for (int i = 0; i < text.length(); i++) {
+			wordBuild += unsplit.charAt(i);
+			if (unsplit.charAt(i) == ' ') {
+				words.add(wordBuild);
+				wordBuild = "";
+			}
+		}
+		words.add(wordBuild);
 
-		} else {
-			float totalTextWidth = getTextWidth(text);
+		String buildBuffer = "";
+		String nextBuffer = "";
+		String tempBuffer = "";
+		String writeBuffer = "";
+		buildBuffer = words.get(0);
 
-			if (totalTextWidth <= textDefaultWidth) {
+		for (int i = 1; i < words.size(); i++) {
+			nextBuffer = buildBuffer;
 
-				// basic scaling
-				bubbleHeight = bubbleDefaultHeight;
-				bubbleWidth = bubbleDefaultWidth;
-				drawBubble();
-
-				int textPosX = (int) (bubbleDefaultWidth / 2);
-				int textPosY = (int) (bubbleDefaultHeight - textStartheightOffset - textBoarder);
-				drawText(text, textPosX, textPosY);
-
-			} else {
-
-				if (totalTextWidth <= textMaxWidth) {
-					// x- scaling
-					textPaint.setTextAlign(Align.CENTER);
-					Rect textBound = new Rect();
-					textPaint.getTextBounds(text, 0, text.length(), textBound);
-					int newWidth = textBound.width();
-					Rect textBoundQ = new Rect();
-					textPaint.getTextBounds("12345", 0, 5, textBoundQ);
-					int oldWidth = textBoundQ.width();
-					int diff = newWidth - oldWidth;
-					bubbleHeight = bubbleDefaultHeight;
-					bubbleWidth = 4 * textBoarder + totalTextWidth;
-					drawBubble();
-
-					int textPosX = (int) (bubbleWidth / 2);
-					int textPosY = (int) (bubbleDefaultHeight - textStartheightOffset - textBoarder);
-					drawText(text, textPosX, textPosY);
-
-				} else if (numberOfCharacters >= 1400) {
-					// y- scaling
-					textPaint.setTextAlign(Align.CENTER);
-					Rect textBound = new Rect();
-					textPaint.getTextBounds("12345671234567", 0, 14, textBound);
-					int newWidth = textBound.width();
-					Rect textBoundQ = new Rect();
-					textPaint.getTextBounds("12345", 0, 5, textBoundQ);
-					int oldWidth = textBoundQ.width();
-					int diff = newWidth - oldWidth;
-					bubbleHeight = bubbleDefaultHeight;
-					bubbleWidth = bubbleDefaultWidth + diff;
-
-					int tcol = numberOfCharacters / 14;
-					if (numberOfCharacters % 14 > 0) {
-						tcol++;
+			if (getTextWidth(nextBuffer) > textMaxWidth) {
+				tempBuffer = "" + nextBuffer.charAt(0);
+				for (int k = 1; k < nextBuffer.length(); k++) {
+					tempBuffer += nextBuffer.charAt(k);
+					if (getTextWidth(tempBuffer) > textMaxWidth) {
+						writeBuffer = tempBuffer.substring(0, tempBuffer.length() - 1);
+						tempBuffer = "" + nextBuffer.charAt(k);
+						textVector.add(writeBuffer);
 					}
-					bubbleHeight = bubbleDefaultHeight + (tcol - 1) * (textOffsetYNext + (int) textPaint.getTextSize());
-					bubbleWidth = bubbleDefaultWidth + diff;
-					drawBubble();
-					int charsToDraw = numberOfCharacters;
-					String subString = "";
-					int subStringStart = 0;
-					int subStringEnd = 14;
-					int initY = (int) (bubbleDefaultHeight / 2) - textOffsetYStart;
-					int counterT = 1;
-
-					while (counterT <= tcol) {
-
-						if (subStringEnd > numberOfCharacters) {
-							subStringEnd = numberOfCharacters;
-						}
-						subString = text.substring(subStringStart, subStringEnd);
-						Log.v("SubString", subString + "::" + subStringStart + "::" + subStringEnd + "::" + charsToDraw);
-
-						int textPosX = (int) (bubbleWidth / 2);
-						int textPosY = initY + (counterT - 1) * (textOffsetYNext + (int) textPaint.getTextSize());
-						drawText(subString, textPosX, textPosY);
-						subStringStart = subStringEnd;
-						subStringEnd = subStringStart + 14;
-						counterT++;
-						Log.v("SubString", subString + "::" + subStringStart + "::" + subStringEnd + "::" + charsToDraw);
-
-					}
-
 				}
+				buildBuffer = tempBuffer;
+				nextBuffer = buildBuffer;
+			}
+
+			nextBuffer += words.get(i);
+			if (getTextWidth(nextBuffer) > textMaxWidth) {
+				textVector.add(buildBuffer);
+				buildBuffer = "";
+				buildBuffer += words.get(i);
+			} else {
+				buildBuffer += words.get(i);
 			}
 		}
-
-	}
-
-	public void simpleTextsplit() {
-		// text, textMaxWidth -> textVector
-		String unsplit = text;
-		String build = "";
-		for (int i = 0; i < text.length(); i++) {
-			build += unsplit.charAt(i);
-			if (getTextWidth(build) > textMaxWidth) {
-				textVector.add(build);
-				build = "";
-			}
-		}
-		textVector.add(build);
-		build = "";
-
-	}
-
-	public void complicatedTextsplit() {
-		// text, textMaxWidth -> textVector
-		String unsplit = text;
-		String build = "";
-		for (int i = 0; i < text.length(); i++) {
-			build += unsplit.charAt(i);
-			if (getTextWidth(build) > textMaxWidth) {
-				textVector.add(build);
-				build = "";
-			}
-		}
-		textVector.add(build);
-		build = "";
-
+		textVector.add(buildBuffer);
 	}
 
 	public void draw() {
@@ -320,37 +241,18 @@ public class Bubble implements Serializable {
 				} else if (totalTextWidth > textMaxWidth) {
 					// x-scaling maxed & y- scaling
 
-					int tcol = (int) (totalTextWidth / textMaxWidth);
-					if (totalTextWidth % textMaxWidth > 0) {
-						tcol++;
-					}
+					textSplit();
 
-					bubbleHeight = bubbleDefaultHeight + (tcol - 1) * (textBoarder + textSize);
+					bubbleHeight = bubbleDefaultHeight + (textVector.size() - 1) * (textBoarder + textSize);
 					bubbleWidth = 4 * textBoarder + textMaxWidth;
 					drawBubble();
 
-					int charsToDraw = numberOfCharacters;
-					String subString = "";
-					int subStringStart = 0;
-					int subStringEnd = 14;
-					int initY = (int) (bubbleDefaultHeight / 2) - textOffsetYStart;
 					int counterT = 0;
-					complicatedTextsplit();
 					while (counterT < textVector.size()) {
-
-						if (subStringEnd > numberOfCharacters) {
-							subStringEnd = numberOfCharacters;
-						}
-						subString = text.substring(subStringStart, subStringEnd);
-						Log.v("SubString", subString + "::" + subStringStart + "::" + subStringEnd + "::" + charsToDraw);
-
 						int textPosX = (int) (bubbleWidth / 2);
 						int textPosY = (int) ((bubbleDefaultHeight - textStartheightOffset - textBoarder) + (counterT * (textBoarder + textSize)));
 						drawText(textVector.elementAt(counterT), textPosX, textPosY);
-						subStringStart = subStringEnd;
-						subStringEnd = subStringStart + 14;
 						counterT++;
-						Log.v("SubString", subString + "::" + subStringStart + "::" + subStringEnd + "::" + charsToDraw);
 
 					}
 
