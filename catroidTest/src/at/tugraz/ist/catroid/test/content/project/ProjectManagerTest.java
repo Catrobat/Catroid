@@ -57,7 +57,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		TestUtils.clearProject("newProject");
 	}
 
-	public void testBasicFunctions() throws NameNotFoundException {
+	public void testBasicFunctions() throws NameNotFoundException, IOException {
 
 		ProjectManager manager = ProjectManager.getInstance();
 		assertNull("there is a current sprite set", manager.getCurrentSprite());
