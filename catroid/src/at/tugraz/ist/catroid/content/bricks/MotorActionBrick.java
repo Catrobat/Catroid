@@ -38,7 +38,7 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
-public class MotorActionBrickSlide implements Brick, OnDismissListener, OnItemSelectedListener, OnSeekBarChangeListener {
+public class MotorActionBrick implements Brick, OnDismissListener, OnItemSelectedListener, OnSeekBarChangeListener {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private transient Handler btcHandler;
@@ -58,7 +58,7 @@ public class MotorActionBrickSlide implements Brick, OnDismissListener, OnItemSe
 	private transient SeekBar speedBar;
 	private transient EditIntegerDialog dialogSpeed;
 
-	public MotorActionBrickSlide(Sprite sprite, int motor, int speed, double duration) {
+	public MotorActionBrick(Sprite sprite, int motor, int speed, double duration) {
 		this.sprite = sprite;
 		this.motor = motor;
 		this.speed = speed;
@@ -82,22 +82,22 @@ public class MotorActionBrickSlide implements Brick, OnDismissListener, OnItemSe
 
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.toolbox_brick_motor_action_slide, null);
-		//speedBar = (SeekBar) brickView.findViewById(R.id.seekBarSpeedMotorActionToolbox);
-		//speedBar.setEnabled(false);
+		View brickView = inflater.inflate(R.layout.toolbox_brick_motor_action, null);
+		speedBar = (SeekBar) brickView.findViewById(R.id.seekBarSpeedMotorActionToolbox);
+		speedBar.setEnabled(false);
 		return brickView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new MotorActionBrickSlide(getSprite(), motor, speed, duration);
+		return new MotorActionBrick(getSprite(), motor, speed, duration);
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.construction_brick_motor_action_slide, null);
+		View brickView = inflater.inflate(R.layout.construction_brick_motor_action, null);
 
-		EditText editDuration = (EditText) brickView.findViewById(R.id.motor_action_duration_edit_text_slide);
+		EditText editDuration = (EditText) brickView.findViewById(R.id.motor_action_duration_edit_text);
 		editDuration.setText(String.valueOf(duration));
 		EditDoubleDialog dialogDuration = new EditDoubleDialog(context, editDuration, duration, MIN_DURATION,
 				MAX_DURATION);
@@ -105,14 +105,14 @@ public class MotorActionBrickSlide implements Brick, OnDismissListener, OnItemSe
 		dialogDuration.setOnCancelListener((OnCancelListener) context);
 		editDuration.setOnClickListener(dialogDuration);
 
-		editSpeed = (EditText) brickView.findViewById(R.id.motor_action_speed_edit_text_slide);
+		editSpeed = (EditText) brickView.findViewById(R.id.motor_action_speed_edit_text);
 		editSpeed.setText(String.valueOf(speed));
 		dialogSpeed = new EditIntegerDialog(context, editSpeed, speed, true, MIN_SPEED, MAX_SPEED);
 		dialogSpeed.setOnDismissListener(this);
 		dialogSpeed.setOnCancelListener((OnCancelListener) context);
 		editSpeed.setOnClickListener(dialogSpeed);
 
-		Spinner motorSpinner = (Spinner) brickView.findViewById(R.id.motor_spinner_slide);
+		Spinner motorSpinner = (Spinner) brickView.findViewById(R.id.motor_spinner);
 		motorSpinner.setOnItemSelectedListener(this);
 		motorSpinner.setSelection(motor);
 		//return inflater.inflate(R.layout.toolbox_brick_motor_action, null);
@@ -146,7 +146,7 @@ public class MotorActionBrickSlide implements Brick, OnDismissListener, OnItemSe
 	public void onDismiss(DialogInterface dialog) {
 		if (dialog instanceof EditIntegerDialog) {
 			EditIntegerDialog inputDialog = (EditIntegerDialog) dialog;
-			if (inputDialog.getRefernecedEditTextId() == R.id.motor_action_speed_edit_text_slide) {
+			if (inputDialog.getRefernecedEditTextId() == R.id.motor_action_speed_edit_text) {
 				speed = inputDialog.getValue();
 				speedToSeekBarVal();
 			}

@@ -148,6 +148,11 @@ public class MotorTurnAngleBrick implements Brick, OnDismissListener {
 		return brickView;
 	}
 
+	public void setInverse(boolean inverse) {
+
+		this.inverse = inverse;
+	}
+
 	public void onDismiss(DialogInterface dialog) {
 		if (dialog instanceof EditIntegerDialog) {
 			EditIntegerDialog inputDialog = (EditIntegerDialog) dialog;

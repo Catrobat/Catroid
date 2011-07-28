@@ -175,7 +175,7 @@ public class LCPMessage {
 		message[8] = 0;
 		message[9] = 0;
 		message[10] = 0;
-		message[11] = 0;
+		message[11] = (byte) 2;
 
 		return message;
 
