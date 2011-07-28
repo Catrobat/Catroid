@@ -30,6 +30,7 @@ import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Costume;
 import at.tugraz.ist.catroid.content.Project;
@@ -632,7 +633,10 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 				UiTestUtils.TYPE_IMAGE_FILE);
 		setImageMemberProperties(image1);
 		setCostumeBrick.setCostume(image1.getName());
-		playSoundBrick.setPathToSoundfile(soundFile.getName());
+		SoundInfo soundInfo = new SoundInfo();
+		soundInfo.setSoundFileName(soundFile.getName());
+		soundInfo.setTitle(soundFile.getName());
+		playSoundBrick.setSoundInfo(soundInfo);
 
 		storageHandler.saveProject(project);
 	}

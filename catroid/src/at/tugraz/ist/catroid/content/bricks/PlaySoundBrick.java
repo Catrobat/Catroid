@@ -103,11 +103,8 @@ public class PlaySoundBrick implements Brick, Serializable {
 		return new PlaySoundBrick(getSprite());
 	}
 
-	public void setPathToSoundfile(String pathToSoundfile) {
-		//this.soundfileName = pathToSoundfile;
-	}
-
-	public void setTitle(String title) {
-		//this.title = title;
+	//for testing purposes:
+	public void setSoundInfo(SoundInfo soundInfo) {
+		this.soundInfo = soundInfo;
 	}
 }
