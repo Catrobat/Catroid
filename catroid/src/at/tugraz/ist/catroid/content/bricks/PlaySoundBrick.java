@@ -57,7 +57,7 @@ public class PlaySoundBrick implements Brick, Serializable {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.construction_brick_play_sound, null);
 
-		final Spinner soundbrickSpinner = (Spinner) view.findViewById(R.id.playsound_spinner);
+		Spinner soundbrickSpinner = (Spinner) view.findViewById(R.id.playsound_spinner);
 		soundbrickSpinner.setAdapter(createSoundAdapter(context));
 
 		soundbrickSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {

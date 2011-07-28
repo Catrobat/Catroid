@@ -47,17 +47,16 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.SoundInfo;
-import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.dialogs.RenameSoundDialog;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class SoundActivity extends ListActivity {
-	private Sprite sprite;
 	public SoundInfo selectedSoundInfo;
 	private RenameSoundDialog renameSoundDialog;
-	public MediaPlayer mediaPlayer;
+	private MediaPlayer mediaPlayer;
+	private ArrayList<SoundInfo> soundInfoList;
 
 	private final int REQUEST_SELECT_MUSIC = 0;
 	public static final int SPEAKER_ID = R.drawable.speaker;
@@ -68,9 +67,9 @@ public class SoundActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_sound);
-		sprite = ProjectManager.getInstance().getCurrentSprite();
+		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 
-		setListAdapter(new SoundAdapter(this, R.layout.activity_sound_soundlist_item, sprite.getSoundList()));
+		setListAdapter(new SoundAdapter(this, R.layout.activity_sound_soundlist_item, soundInfoList));
 
 		mediaPlayer = new MediaPlayer();
 	}
@@ -82,7 +81,9 @@ public class SoundActivity extends ListActivity {
 			return;
 		}
 
-		((ArrayAdapter<?>) this.getListAdapter()).notifyDataSetChanged();
+		this.soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		setListAdapter(new SoundAdapter(this, R.layout.activity_sound_soundlist_item, soundInfoList));
+		((SoundAdapter) getListAdapter()).notifyDataSetChanged();
 
 		//change actionbar:
 		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
@@ -139,7 +140,8 @@ public class SoundActivity extends ListActivity {
 		SoundInfo newSoundInfo = new SoundInfo();
 		newSoundInfo.setTitle(title);
 		newSoundInfo.setSoundFileName(fileName);
-		sprite.addSoundInfoToSoundList(newSoundInfo);
+		soundInfoList.add(newSoundInfo);
+		//ProjectManager.getInstance().getCurrentSprite().getSoundList().add(newSoundInfo);
 		((SoundAdapter) getListAdapter()).notifyDataSetChanged();
 		//scroll down the list to the new item:
 		{
@@ -152,6 +154,10 @@ public class SoundActivity extends ListActivity {
 		}
 	}
 
+	//	public void removeSound(SoundInfo soundInfo) {
+	//		ProjectManager.getInstance().getCurrentSprite().getSoundList().remove(soundInfo);
+	//	}
+
 	public void handlePositiveButtonRenameSound(View v) {
 		renameSoundDialog.handleOkButton();
 	}
@@ -162,7 +168,7 @@ public class SoundActivity extends ListActivity {
 
 	public void stopSound() {
 		mediaPlayer.stop();
-		for (SoundInfo soundInfo : sprite.getSoundList()) {
+		for (SoundInfo soundInfo : soundInfoList) {
 			soundInfo.isPlaying = false;
 		}
 	}
@@ -212,13 +218,13 @@ public class SoundActivity extends ListActivity {
 	}
 
 	private class SoundAdapter extends ArrayAdapter<SoundInfo> {
-		private ArrayList<SoundInfo> soundInfoItems;
-		private SoundActivity activity;
+		protected ArrayList<SoundInfo> soundInfoItems;
+		protected SoundActivity activity;
 
 		public SoundAdapter(final SoundActivity activity, int textViewResourceId, ArrayList<SoundInfo> items) {
 			super(activity, textViewResourceId, items);
-			this.soundInfoItems = items;
 			this.activity = activity;
+			soundInfoItems = items;
 		}
 
 		@Override
@@ -322,7 +328,9 @@ public class SoundActivity extends ListActivity {
 				deleteSoundButton.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
 						activity.stopSound();
-						sprite.removeSoundInfoFromSoundList(soundInfo);
+						//ProjectManager.getInstance().getCurrentSprite().getSoundList().remove(soundInfo);
+						//activity.removeSound(soundInfo);
+						soundInfoItems.remove(soundInfo);
 						StorageHandler.getInstance().deleteFile(soundInfo.getAbsolutePath());
 						notifyDataSetChanged();
 					}
