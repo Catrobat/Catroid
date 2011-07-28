@@ -61,7 +61,6 @@ public class PlaySoundBrick implements Brick, Serializable {
 		soundbrickSpinner.setAdapter(createSoundAdapter(context));
 
 		soundbrickSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-			//private boolean start = true;
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				soundInfo = (SoundInfo) parent.getItemAtPosition(position);
 			}

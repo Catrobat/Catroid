@@ -141,8 +141,8 @@ public class SoundActivity extends ListActivity {
 		newSoundInfo.setTitle(title);
 		newSoundInfo.setSoundFileName(fileName);
 		soundInfoList.add(newSoundInfo);
-		//ProjectManager.getInstance().getCurrentSprite().getSoundList().add(newSoundInfo);
 		((SoundAdapter) getListAdapter()).notifyDataSetChanged();
+
 		//scroll down the list to the new item:
 		{
 			final ListView listView = getListView();
@@ -153,10 +153,6 @@ public class SoundActivity extends ListActivity {
 			});
 		}
 	}
-
-	//	public void removeSound(SoundInfo soundInfo) {
-	//		ProjectManager.getInstance().getCurrentSprite().getSoundList().remove(soundInfo);
-	//	}
 
 	public void handlePositiveButtonRenameSound(View v) {
 		renameSoundDialog.handleOkButton();
@@ -328,8 +324,6 @@ public class SoundActivity extends ListActivity {
 				deleteSoundButton.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
 						activity.stopSound();
-						//ProjectManager.getInstance().getCurrentSprite().getSoundList().remove(soundInfo);
-						//activity.removeSound(soundInfo);
 						soundInfoItems.remove(soundInfo);
 						StorageHandler.getInstance().deleteFile(soundInfo.getAbsolutePath());
 						notifyDataSetChanged();
