@@ -9,10 +9,10 @@ import xml.dom.minidom
 '''
 Automatically build and sign Catroid application.
 
-python handle_project.py <path_to_project> <path_to_catroid>
+python handle_project.py <path_to_project> <path_to_catroid> <project_id> <ouput_folder>
 
 Example:
-python handle_project.py test.zip ~/hg/catroid
+python handle_project.py test.zip ~/hg/catroid 42 .
 '''
 
 def unzip_project(archive_name):
@@ -108,6 +108,24 @@ def rename_package(path_to_project, new_package):
                         line = line.replace(catroid_package, catroid_package + '.' + new_package)
                     sys.stdout.write(line)
 
+def edit_manifest(path_to_project):
+    path_to_manifest = os.path.join(path_to_project, 'catroid', 'AndroidManifest.xml')
+    doc = xml.dom.minidom.parse(path_to_manifest)
+
+    for node in doc.getElementsByTagName('uses-permission'):
+        node.parentNode.removeChild(node)
+
+    for node in doc.getElementsByTagName('activity'):
+        for i in range(0, node.attributes.length):
+            if node.attributes.item(i).name == 'android:name':
+                if node.attributes.item(i).value == '.ui.MainMenuActivity':
+                   node.attributes.item(i).value = '.stage.NativeAppActivity'        
+
+    f = open(path_to_manifest, 'wb')
+    doc.writexml(f)
+    f.close()
+    
+
 def main():
     if len(sys.argv) != 5:
         print 'Invalid arguments. Correct usage:'
@@ -127,6 +145,7 @@ def main():
     copy_project(path_to_catroid, path_to_project)
     if os.path.exists(os.path.join(path_to_project, 'catroid', 'gen')):
         shutil.rmtree(os.path.join(path_to_project, 'catroid', 'gen'))
+    edit_manifest(path_to_project)
     rename_package(path_to_project, 'app_' + str(project_id))
     set_project_name(project_name, os.path.join(path_to_project, 'catroid', 'res', 'values', 'common.xml'))
     os.system('ant release -f ' + os.path.join(path_to_project, 'catroid', 'build.xml'))
