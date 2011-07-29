@@ -140,7 +140,10 @@
     <!--  Stage context menu -->
     <string name="stagemenu_construction_site">Zur Baustelle</string>
     <string name="stagemenu_start">Abspielen/Pause</string>
-
+    <string name="stagemenu_screen_size">Maximiere/Dehne</string>
+    <string name="stagemenu_axes">Achsen Ein/Aus</string>
+    
+    <!-- Bricks -->
     <string name="brick_set_background">Setze Hintergrund</string>
     <string name="brick_play_sound">Spiele Klang</string>
     <string name="brick_wait">Warte</string>
