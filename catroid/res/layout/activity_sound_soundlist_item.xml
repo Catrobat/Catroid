@@ -21,10 +21,9 @@
 
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:orientation="horizontal"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
->
+	android:orientation="horizontal"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
         
 	<ImageView
 		android:id="@+id/sound_img"
@@ -44,7 +43,7 @@ android:layout_height="match_parent"
 			android:textSize="18dip" 
 			android:layout_height="55dip" 
 			android:gravity="center_vertical"
-			android:clickable="true"
+			android:clickable="false"
 			android:focusable="false"
 			android:longClickable="false"
 			android:textColor="@color/solid_black"
@@ -94,25 +93,25 @@ android:layout_height="match_parent"
 			android:paddingRight="3dip"
 			android:paddingLeft="3dip">
     		<Button 
-    			android:id="@+id/play_button" 
+    			android:id="@+id/btn_sound_play" 
     			android:layout_width="wrap_content"
     			android:layout_height="wrap_content"
     			android:layout_weight=".4"
     			android:text="@string/sound_play"/>
     		<Button 
-    			android:id="@+id/stop_button" 
+    			android:id="@+id/btn_sound_stop" 
     			android:layout_width="wrap_content"
     			android:layout_height="wrap_content"
     			android:layout_weight=".4"
     			android:text="@string/sound_stop"/>
     		<Button 
-    			android:id="@+id/rename_button" 
+    			android:id="@+id/btn_sound_rename" 
     			android:layout_width="wrap_content"
     			android:layout_height="wrap_content"
     			android:layout_weight=".3"
     			android:text="@string/sound_rename"/>
     		<Button 
-    			android:id="@+id/delete_button" 
+    			android:id="@+id/btn_sound_delete" 
     			android:layout_width="wrap_content" 
     			android:layout_height="wrap_content"
     			android:layout_gravity="right"
