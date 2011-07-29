@@ -91,9 +91,9 @@ public class CanvasDraw implements IDraw {
 			bufferCanvas.drawRect(flushRectangle, whitePaint);
 			java.util.Collections.sort(sprites);
 			for (Sprite sprite : sprites) {
-				if (!sprite.isVisible()) {
-					continue; //don't need to draw
-				}
+				//if (!sprite.isVisible()) {
+				//	continue; //don't need to draw
+				//}
 				//				if (sprite.getCostume().getBitmap() != null) {
 				//					Costume tempCostume = sprite.getCostume();
 				//					bufferCanvas.drawBitmap(tempCostume.getBitmap(), tempCostume.getDrawPositionX(),

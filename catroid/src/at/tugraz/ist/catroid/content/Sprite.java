@@ -23,17 +23,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
-import at.tugraz.ist.catroid.common.Consts;
-
 public class Sprite implements Serializable, Comparable<Sprite> {
 	private static final long serialVersionUID = 1L;
 	private String name;
-	private transient int xPosition;
-	private transient int yPosition;
 	private transient int zPosition;
-	private transient double size;
-	private transient boolean isVisible;
-	private transient boolean toDraw;
 	private List<Script> scriptList;
 	public transient CostumeA costume;
 
@@ -47,12 +40,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 
 	private void init() {
 		zPosition = 0;
-		size = 100.0;
-		isVisible = true;
 		costume = new CostumeA(this);
-		xPosition = 0;
-		yPosition = 0;
-		toDraw = false;
 		isPaused = false;
 		isFinished = false;
 	}
@@ -149,63 +137,12 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		this.name = name;
 	}
 
-	public int getXPosition() {
-		return xPosition;
-	}
-
-	public int getYPosition() {
-		return yPosition;
-	}
-
 	public int getZPosition() {
 		return zPosition;
 	}
 
-	public double getSize() {
-		return size;
-	}
-
-	public boolean isVisible() {
-		return isVisible;
-	}
-
 	public synchronized void setZPosition(int zPosition) {
 		this.zPosition = zPosition;
-		toDraw = true;
-	}
-
-	public synchronized void setSize(double size) {
-		if (size <= 0.0) {
-			throw new IllegalArgumentException("Sprite size must be greater than zero!");
-		}
-
-		int width = 0; //costume.getImageWidthHeight().first;
-		int height = 0; //costume.getImageWidthHeight().second;
-
-		if (width == 0 || height == 0) {
-			this.size = size;
-			return;
-		}
-
-		this.size = size;
-
-		if (width * this.size / 100. < 1) {
-			this.size = 1. / width * 100.;
-		}
-		if (height * this.size / 100. < 1) {
-			this.size = 1. / height * 100.;
-		}
-
-		if (width * this.size / 100. > Consts.MAX_COSTUME_WIDTH) {
-			this.size = (double) Consts.MAX_COSTUME_WIDTH / width * 100.;
-		}
-
-		if (height * this.size / 100. > Consts.MAX_COSTUME_HEIGHT) {
-			this.size = (double) Consts.MAX_COSTUME_HEIGHT / height * 100.;
-		}
-
-		//	costume.setSizeTo(this.size);
-		toDraw = true;
 	}
 
 	public void addScript(Script script) {
@@ -240,14 +177,6 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return scriptList.remove(script);
 	}
 
-	public boolean getToDraw() {
-		return toDraw;
-	}
-
-	public void setToDraw(boolean value) {
-		toDraw = value;
-	}
-
 	public int compareTo(Sprite sprite) {
 		long thisZValue = getZPosition();
 		long otherZValue = sprite.getZPosition();
@@ -256,37 +185,6 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 			return Integer.MAX_VALUE;
 		}
 		return (int) difference;
-	}
-
-	public boolean processOnTouch(int coordX, int coordY) {
-		if (/* costume.getBitmap() == null || */isVisible == false) {
-			return false;
-		}
-
-		int inSpriteCoordX = coordX /*- costume.getDrawPositionX()*/;
-		int inSpriteCoordY = coordY /*- costume.getDrawPositionY()*/;
-
-		//Pair<Integer, Integer> tempPair = costume.getImageWidthHeight();
-		int width = 0;//tempPair.first;
-		int height = 0;//tempPair.second;
-
-		if (inSpriteCoordX < 0 || inSpriteCoordX > width) {
-			return false;
-		}
-		if (inSpriteCoordY < 0 || inSpriteCoordY > height) {
-			return false;
-		}
-
-		try {
-			//	if (Color.alpha(costume.getBitmap().getPixel(inSpriteCoordX, inSpriteCoordY)) <= 10) {
-			//		return false;
-			//	}
-		} catch (Exception ex) {
-			return false;
-		}
-
-		return true;
-
 	}
 
 	@Override

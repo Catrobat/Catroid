@@ -41,11 +41,11 @@ public class StageManager {
 	private Runnable runnable = new Runnable() {
 		public void run() {
 			for (Sprite sprite : spriteList) {
-				if (sprite.getToDraw() == true) {
-					spritesChanged = true;
-					sprite.setToDraw(false);
-				}
+				//if (sprite.getToDraw() == true) {
+				//	spritesChanged = true;
+				//	sprite.setToDraw(false);
 			}
+			//}
 			if (spritesChanged) {
 				spritesChanged = !drawSprites();
 			}
@@ -81,9 +81,9 @@ public class StageManager {
 		draw.processOnTouch(coordX, coordY);
 		ArrayList<Sprite> touchedSpriteList = new ArrayList<Sprite>();
 		for (Sprite sprite : spriteList) {
-			if (sprite.processOnTouch(coordX, coordY)) {
-				touchedSpriteList.add(sprite);
-			}
+			//if (sprite.processOnTouch(coordX, coordY)) {
+			//	touchedSpriteList.add(sprite);
+			//}
 		}
 
 		Collections.sort(touchedSpriteList);

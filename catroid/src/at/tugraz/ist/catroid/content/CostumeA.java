@@ -20,7 +20,10 @@ package at.tugraz.ist.catroid.content;
 
 import java.util.concurrent.Semaphore;
 
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import at.tugraz.ist.catroid.ProjectManager;
+import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.Utils;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -63,7 +66,13 @@ public class CostumeA extends Image {
 		}
 		xyLock.acquireUninterruptibly();
 		if (x >= 0 && x <= this.width && y >= 0 && y <= this.height) {
-			sprite.startTapScripts();
+			/*
+			 * The following solution is not really fast...
+			 */
+			Bitmap bitmap = ImageEditing.getBitmap(currentImagePath, (int) this.width, (int) this.height);
+			if (Color.alpha(bitmap.getPixel((int) x, (int) y)) > 10) {
+				sprite.startTapScripts();
+			}
 			xyLock.release();
 			return true;
 		}
