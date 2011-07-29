@@ -20,7 +20,7 @@ package at.tugraz.ist.catroid.content;
 
 import java.util.concurrent.Semaphore;
 
-import at.tugraz.ist.catroid.common.TextureRegionContainer;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.utils.Utils;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -87,7 +87,8 @@ public class CostumeA extends Image {
 				this.x += this.width / 2;
 				this.y += this.height / 2;
 				xyLock.release();
-				this.region = TextureRegionContainer.getInstance().getTextureRegion(currentImagePath, imagePath);
+				this.region = ProjectManager.getInstance().textureRegionContainer.getTextureRegion(currentImagePath,
+						imagePath);
 				currentImagePath = imagePath;
 				this.width = 0f;
 				this.height = 0f;
@@ -99,7 +100,8 @@ public class CostumeA extends Image {
 			this.x += this.width / 2;
 			this.y += this.height / 2;
 			xyLock.release();
-			this.region = TextureRegionContainer.getInstance().getTextureRegion(currentImagePath, imagePath);
+			this.region = ProjectManager.getInstance().textureRegionContainer.getTextureRegion(currentImagePath,
+					imagePath);
 			currentImagePath = imagePath;
 			this.width = this.region.getTexture().getWidth();
 			this.height = this.region.getTexture().getHeight();

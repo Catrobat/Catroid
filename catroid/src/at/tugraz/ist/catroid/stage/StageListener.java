@@ -22,7 +22,6 @@ import java.util.List;
 
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
-import at.tugraz.ist.catroid.common.TextureRegionContainer;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.SoundManager;
@@ -34,6 +33,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -52,6 +54,8 @@ public class StageListener implements ApplicationListener {
 	private OrthographicCamera camera;
 	private OrthoCamController camController;
 	private InputMultiplexer multiplexer;
+	private SpriteBatch batch;
+	private BitmapFont font;
 
 	private int DEVICE_WIDTH = 0;
 	private int DEVICE_HEIGHT = 0;
@@ -69,6 +73,11 @@ public class StageListener implements ApplicationListener {
 	public boolean axesOn = false;
 
 	public void create() {
+		batch = new SpriteBatch();
+		font = new BitmapFont();
+		font.setColor(1f, 0f, 0.05f, 1f);
+		font.setScale(1.2f);
+
 		renderer = new ImmediateModeRenderer20(200, false, true, 0);
 		project = ProjectManager.getInstance().getCurrentProject();
 		stage = new Stage(project.VIRTUAL_SCREEN_WIDTH, project.VIRTUAL_SCREEN_HEIGHT, true);
@@ -114,7 +123,7 @@ public class StageListener implements ApplicationListener {
 		for (Sprite sprite : sprites) {
 			sprite.finish();
 		}
-		TextureRegionContainer.getInstance().clear();
+		ProjectManager.getInstance().textureRegionContainer.clear();
 	}
 
 	public void render() {
@@ -132,10 +141,6 @@ public class StageListener implements ApplicationListener {
 
 		renderRectangle(-1, -1, 2, 2, Color.WHITE);
 
-		if (axesOn) {
-			renderAxes();
-		}
-
 		if (firstStart) {
 			for (Sprite sprite : sprites) {
 				sprite.startStartScripts();
@@ -145,10 +150,14 @@ public class StageListener implements ApplicationListener {
 		if (!paused) {
 			stage.act(Gdx.graphics.getDeltaTime());
 		}
+
 		if (!finished) {
 			stage.draw();
 		}
 
+		if (axesOn) {
+			renderAxes();
+		}
 	}
 
 	private void renderRectangle(float x, float y, float width, float height, Color color) {
@@ -168,17 +177,31 @@ public class StageListener implements ApplicationListener {
 	}
 
 	private void renderAxes() {
-		renderer.begin(camera.combined, GL10.GL_LINES);
-		renderer.color(0, 1, 0, 1);
-		renderer.vertex(-project.VIRTUAL_SCREEN_WIDTH / 2, 0, 0);
-		renderer.color(0, 1, 0, 1);
-		renderer.vertex(project.VIRTUAL_SCREEN_WIDTH / 2, 0, 0);
+		float virtualWidthHalf = project.VIRTUAL_SCREEN_WIDTH / 2;
+		float virtualHeightHalf = project.VIRTUAL_SCREEN_HEIGHT / 2;
+		renderer.begin(camera.combined, GL20.GL_LINES);
+		renderer.color(1f, 0f, 0.05f, 1f);
+		renderer.vertex(-virtualWidthHalf, 0, 0);
+		renderer.color(1f, 0f, 0.05f, 1f);
+		renderer.vertex(virtualWidthHalf, 0, 0);
 
-		renderer.color(0, 1, 0, 1);
-		renderer.vertex(0, -project.VIRTUAL_SCREEN_HEIGHT / 2, 0);
-		renderer.color(0, 1, 0, 1);
-		renderer.vertex(0, project.VIRTUAL_SCREEN_HEIGHT / 2, 0);
+		renderer.color(1f, 0f, 0.05f, 1f);
+		renderer.vertex(0, -virtualHeightHalf, 0);
+		renderer.color(1f, 0f, 0.05f, 1f);
+		renderer.vertex(0, virtualHeightHalf, 0);
 		renderer.end();
+
+		batch.setProjectionMatrix(camera.combined);
+		batch.begin();
+		font.draw(batch, "-" + (int) virtualWidthHalf, -virtualWidthHalf, 0);
+		TextBounds bounds = font.getBounds(String.valueOf((int) virtualWidthHalf));
+		font.draw(batch, String.valueOf((int) virtualWidthHalf), virtualWidthHalf - bounds.width, 0);
+
+		font.draw(batch, "-" + (int) virtualHeightHalf, 0, -virtualHeightHalf + bounds.height);
+		font.draw(batch, String.valueOf((int) virtualHeightHalf), 0, virtualHeightHalf);
+		font.draw(batch, "0", 0, 0);
+		batch.end();
+
 	}
 
 	public void resize(int width, int height) {
