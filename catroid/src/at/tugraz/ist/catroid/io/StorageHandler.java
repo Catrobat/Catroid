@@ -29,15 +29,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.content.BroadcastScript;
 import at.tugraz.ist.catroid.content.Costume;
@@ -335,18 +336,14 @@ public class StorageHandler {
 		}
 	}
 
-	public Project createDefaultProject(Context context) throws IOException {
-		String projectName = context.getString(R.string.default_project_name);
-		return createDefaultProject(context, projectName);
-	}
-
 	/**
 	 * Creates the default project and saves it to the filesystem
 	 * 
 	 * @return the default project object if successful, else null
 	 * @throws IOException
 	 */
-	public Project createDefaultProject(Context context, String projectName) throws IOException {
+	public Project createDefaultProject(Context context) throws IOException {
+		String projectName = context.getString(R.string.default_project_name);
 		Project defaultProject = new Project(context, projectName);
 		saveProject(defaultProject);
 		ProjectManager.getInstance().setProject(defaultProject);
@@ -358,41 +355,64 @@ public class StorageHandler {
 		Script touchScript = new TapScript("touchScript", sprite);
 
 		File normalCat = savePictureFromResInProject(projectName, Consts.NORMAL_CAT, R.drawable.catroid, context);
-		File whiteBackground = savePictureFromResInProject(projectName, Consts.BACKGROUND, R.drawable.background_white,
+		File banzaiCat = savePictureFromResInProject(projectName, Consts.BANZAI_CAT, R.drawable.catroid_banzai, context);
+		File cheshireCat = savePictureFromResInProject(projectName, Consts.CHESHIRE_CAT, R.drawable.catroid_cheshire,
+				context);
+		File background = savePictureFromResInProject(projectName, Consts.BACKGROUND, R.drawable.background_blueish,
 				context);
 
-		Costume costume = new Costume(sprite, null);
-		costume.setCostumeAbsoluteImagepath(normalCat.getName());
-		costume.setCostumeDisplayName(context.getString(R.string.normal_cat));
-		costume.setCostumeFormat(".jpeg");
-		costume.setCostumeId(1);
-		Bitmap cat_thumbnail = BitmapFactory.decodeResource(context.getResources(), R.drawable.catroid);
-		costume.setCostumeImage(cat_thumbnail);
-		costume.setCostumeName(context.getString(R.string.normal_cat));
+		CostumeData normalCatCostumeData = new CostumeData();
+		normalCatCostumeData.setCostumeName(Consts.NORMAL_CAT);
+		normalCatCostumeData.setCostumeFilename(normalCat.getName());
 
-		Costume background = new Costume(backgroundSprite, null);
-		background.setCostumeAbsoluteImagepath(whiteBackground.getName());
-		background.setCostumeDisplayName(context.getString(R.string.white_background));
-		background.setCostumeFormat(".jpeg");
-		background.setCostumeId(1);
-		Bitmap white_bg = BitmapFactory.decodeResource(context.getResources(), R.drawable.background_white);
-		background.setCostumeImage(white_bg);
-		background.setCostumeName(context.getString(R.string.white_background));
+		CostumeData banzaiCatCostumeData = new CostumeData();
+		normalCatCostumeData.setCostumeName(Consts.BANZAI_CAT);
+		normalCatCostumeData.setCostumeFilename(banzaiCat.getName());
+
+		CostumeData cheshireCatCostumeData = new CostumeData();
+		normalCatCostumeData.setCostumeName(Consts.CHESHIRE_CAT);
+		normalCatCostumeData.setCostumeFilename(cheshireCat.getName());
+
+		CostumeData backgroundCostumeData = new CostumeData();
+		normalCatCostumeData.setCostumeName(Consts.BACKGROUND);
+		normalCatCostumeData.setCostumeFilename(background.getName());
+
+		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
+		setCostumeBrick.setCostume(normalCatCostumeData);
+
+		SetCostumeBrick setCostumeBrick1 = new SetCostumeBrick(sprite);
+		setCostumeBrick1.setCostume(normalCatCostumeData);
+
+		SetCostumeBrick setCostumeBrick2 = new SetCostumeBrick(sprite);
+		setCostumeBrick2.setCostume(banzaiCatCostumeData);
+
+		SetCostumeBrick setCostumeBrick3 = new SetCostumeBrick(sprite);
+		setCostumeBrick3.setCostume(cheshireCatCostumeData);
+
+		SetCostumeBrick setCostumeBackground = new SetCostumeBrick(backgroundSprite);
+		setCostumeBackground.setCostume(backgroundCostumeData);
 
 		WaitBrick waitBrick1 = new WaitBrick(sprite, 500);
 		WaitBrick waitBrick2 = new WaitBrick(sprite, 500);
-		SetCostumeBrick bgcostume = new SetCostumeBrick(backgroundSprite);
-		//bgcostume.setCostume(background.getCostumeName());
 
+		startScript.addBrick(setCostumeBrick);
+
+		touchScript.addBrick(setCostumeBrick2);
 		touchScript.addBrick(waitBrick1);
+		touchScript.addBrick(setCostumeBrick3);
 		touchScript.addBrick(waitBrick2);
-		backgroundStartScript.addBrick(bgcostume);
+		touchScript.addBrick(setCostumeBrick1);
+		backgroundStartScript.addBrick(setCostumeBackground);
+
+		ArrayList<CostumeData> costumeDataList = sprite.getCostumeDataList();
+		costumeDataList.add(normalCatCostumeData);
+		costumeDataList.add(banzaiCatCostumeData);
+		costumeDataList.add(cheshireCatCostumeData);
+		costumeDataList.add(backgroundCostumeData);
 
 		defaultProject.addSprite(sprite);
 		sprite.addScript(startScript);
 		sprite.addScript(touchScript);
-		sprite.addCostumeDataToCostumeList(costume);
-		backgroundSprite.addCostumeDataToCostumeList(background);
 		backgroundSprite.addScript(backgroundStartScript);
 
 		this.saveProject(defaultProject);

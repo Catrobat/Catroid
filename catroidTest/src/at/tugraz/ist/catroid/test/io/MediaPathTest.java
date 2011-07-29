@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Project;
@@ -232,7 +233,10 @@ public class MediaPathTest extends InstrumentationTestCase {
 		project.addSprite(sprite);
 
 		SetCostumeBrick costumeBrick2 = new SetCostumeBrick(sprite);
-		costumeBrick2.setCostume(testImageCopy2.getName());
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(testImageCopy2.getName());
+		costumeData.setCostumeName("testImageCopy2");
+		costumeBrick2.setCostume(costumeData);
 
 		ArrayList<Brick> brickList1 = new ArrayList<Brick>();
 		ArrayList<Brick> brickList2 = new ArrayList<Brick>();
@@ -245,7 +249,10 @@ public class MediaPathTest extends InstrumentationTestCase {
 		brickList1.add(costumeBrick2);
 
 		SetCostumeBrick costumeBrick = new SetCostumeBrick(sprite);
-		costumeBrick.setCostume(testImageCopy.getName());
+		costumeData = new CostumeData();
+		costumeData.setCostumeFilename(testImageCopy.getName());
+		costumeData.setCostumeName("testImageCopy");
+		costumeBrick.setCostume(costumeData);
 
 		PlaySoundBrick soundBrick = new PlaySoundBrick(sprite);
 		SoundInfo soundInfo = new SoundInfo();

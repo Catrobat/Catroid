@@ -34,7 +34,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.Costume;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.ui.CostumeActivity;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -48,7 +48,7 @@ public class RenameCostumeDialog {
 		this.costumeActivity = costumeActivity;
 	}
 
-	public Dialog createDialog(Costume selectedCostumeInfo) {
+	public Dialog createDialog(CostumeData selectedCostumeInfo) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(costumeActivity);
 		builder.setTitle(R.string.rename_costume_dialog);
 
@@ -56,7 +56,7 @@ public class RenameCostumeDialog {
 		View view = inflater.inflate(R.layout.dialog_rename_costume, null);
 
 		input = (EditText) view.findViewById(R.id.dialog_rename_costume_editText);
-		input.setText(selectedCostumeInfo.getCostumeDisplayName());
+		input.setText(selectedCostumeInfo.getCostumeName());
 
 		buttonPositive = (Button) view.findViewById(R.id.btn_rename_costume);
 
@@ -74,14 +74,14 @@ public class RenameCostumeDialog {
 
 	public void handleOkButton() {
 		String newCostumeName = (input.getText().toString()).trim();
-		String oldCostumeName = costumeActivity.selectedCostumeInfo.getCostumeDisplayName();
+		String oldCostumeName = costumeActivity.selectedCostumeInfo.getCostumeName();
 
 		if (newCostumeName.equalsIgnoreCase(oldCostumeName)) {
 			renameDialog.cancel();
 			return;
 		}
 		if (newCostumeName != null && !newCostumeName.equalsIgnoreCase("")) {
-			costumeActivity.selectedCostumeInfo.setCostumeDisplayName(newCostumeName);
+			costumeActivity.selectedCostumeInfo.setCostumeName(newCostumeName);
 		} else {
 			Utils.displayErrorMessage(costumeActivity, costumeActivity.getString(R.string.costumename_invalid));
 			return;
@@ -108,7 +108,7 @@ public class RenameCostumeDialog {
 				InputMethodManager inputManager = (InputMethodManager) costumeActivity
 						.getSystemService(Context.INPUT_METHOD_SERVICE);
 				inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
-				input.setText(costumeActivity.selectedCostumeInfo.getCostumeDisplayName());
+				input.setText(costumeActivity.selectedCostumeInfo.getCostumeName());
 			}
 		});
 

@@ -22,7 +22,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,35 +33,22 @@ import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
-import at.tugraz.ist.catroid.content.Costume;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.CostumeActivity;
-import at.tugraz.ist.catroid.utils.ImageEditing;
-
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 /**
  * @author ainulhusna
  * 
  */
-public class CostumeAdapter extends ArrayAdapter<Costume> {
+public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 
-	private ArrayList<Costume> items;
+	private ArrayList<CostumeData> items;
 	private CostumeActivity activity;
 	String filemanagerstring, selectedImagePath, imagePath, costumeName, absolutePath, costume, costumeFormat,
 			costumeDisplayName;
 	private Sprite sprite;
-	@XStreamOmitField
-	private transient Bitmap thumbnail;
-
-	//	public CostumeAdapter(final CostumeActivity activity, int textViewResourceId, ArrayList<Costume> items,
-	//			Sprite sprite) {
-	//		super(activity, textViewResourceId, items);
-	//		this.sprite = sprite;
-	//		this.items = items;
-	//		this.activity = activity;
-	//	}
 
 	/**
 	 * @param activity2
@@ -70,16 +56,11 @@ public class CostumeAdapter extends ArrayAdapter<Costume> {
 	 * @param costumeData
 	 * @param sprite2
 	 */
-	public CostumeAdapter(CostumeActivity activity, int activityCostumelist, ArrayList<Costume> items, Sprite sprite) {
+	public CostumeAdapter(CostumeActivity activity, int activityCostumelist, ArrayList<CostumeData> items, Sprite sprite) {
 		super(activity, activityCostumelist, items);
 		this.sprite = sprite;
 		this.items = items;
 		this.activity = activity;
-	}
-
-	private String getAbsoluteImagePath() {
-		return Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName()
-				+ Consts.IMAGE_DIRECTORY + "/" + absolutePath;
 	}
 
 	@Override
@@ -90,24 +71,24 @@ public class CostumeAdapter extends ArrayAdapter<Costume> {
 			v = vi.inflate(R.layout.activity_costumelist, null);
 		}
 
-		final Costume c = items.get(position);
-		if (c != null) {
+		final CostumeData costumeData = items.get(position);
+		if (costumeData != null) {
 			TextView costumeNameTextView = (TextView) v.findViewById(R.id.costume_edit_name);
-			costumeNameTextView.setText(c.getCostumeDisplayName());
+			costumeNameTextView.setText(costumeData.getCostumeName());
 
 			Button copyCostume = (Button) v.findViewById(R.id.copy_costume);
 			copyCostume.setOnClickListener(new View.OnClickListener() {
 
 				public void onClick(View v) {
 					int costumeId = 0;
-					absolutePath = c.getCostumeAbsoluteImagepath();
-					String costumeName = c.getCostumeName();
-					String costumeFormat = c.getCostumeFormat();
+					absolutePath = costumeData.getAbsolutePath();
+					String costumeName = costumeData.getCostumeName();
+					String costumeFormat = costumeData.getFileExtension();
 
-					for (int i = 0; i < sprite.getCostumeList().size(); i++) {
-						if (costumeName.equals(sprite.getCostumeList().get(i).getCostumeName())) {
-							if (costumeId <= sprite.getCostumeList().get(i).getCostumeId()) {
-								costumeId = sprite.getCostumeList().get(i).getCostumeId();
+					for (int i = 0; i < sprite.getCostumeDataList().size(); i++) {
+						if (costumeName.equals(sprite.getCostumeDataList().get(i).getCostumeName())) {
+							if (costumeId <= sprite.getCostumeDataList().get(i).getCostumeId()) {
+								costumeId = sprite.getCostumeDataList().get(i).getCostumeId();
 							}
 						}
 					}
@@ -122,22 +103,18 @@ public class CostumeAdapter extends ArrayAdapter<Costume> {
 
 						if (copyFile != null) {
 							absolutePath = copyFile.getName();
-							thumbnail = ImageEditing.getScaledBitmap(getAbsoluteImagePath(), Consts.THUMBNAIL_HEIGHT,
-									Consts.THUMBNAIL_WIDTH);
 						}
+
+						CostumeData costumeData = new CostumeData();
+						costumeData.setCostumeFilename(copyFile.getName());
+						costumeData.setCostumeName(costumeDisplayName);
+						costumeData.setCostumeDataId(costumeId);
+						items.add(costumeData);
+						notifyDataSetChanged();
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-					Costume c = new Costume(sprite, null);
-					c.setCostumeName(costumeName);
-					c.setCostumeImage(thumbnail);
-					c.setCostumeAbsoluteImagepath(absolutePath);
-					c.setCostumeFormat(costumeFormat);
-					c.setCostumeDisplayName(costumeDisplayName);
-					c.setCostumeId(costumeId);
-					items.add(c);
-					sprite.addCostumeDataToCostumeList(c);
-					notifyDataSetChanged();
+
 				}
 			});
 
@@ -146,8 +123,8 @@ public class CostumeAdapter extends ArrayAdapter<Costume> {
 
 				public void onClick(View arg0) {
 					if (items.size() > 1) {
-						items.remove(c);
-						sprite.removeCostumeDataFromCostumeList(c);
+						items.remove(costumeData);
+						//sprite.getCostumeDataList().remove(costumeData);
 						notifyDataSetChanged();
 					}
 				}
@@ -157,14 +134,14 @@ public class CostumeAdapter extends ArrayAdapter<Costume> {
 			renameCostume.setOnClickListener(new OnClickListener() {
 
 				public void onClick(View v) {
-					activity.selectedCostumeInfo = c;
+					activity.selectedCostumeInfo = costumeData;
 					activity.showDialog(Consts.DIALOG_RENAME_COSTUME);
 				}
 			});
 
 			ImageView costumeImage = (ImageView) v.findViewById(R.id.costume_image);
 			if (costumeImage != null) {
-				costumeImage.setImageBitmap(c.getCostumeImage());
+				costumeImage.setImageBitmap(costumeData.getThumbnailBitmap());
 			}
 		}
 		return v;
