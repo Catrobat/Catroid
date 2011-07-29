@@ -25,18 +25,18 @@ import java.io.IOException;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
@@ -71,8 +71,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 
 		listView.setTrashView((ImageView) findViewById(R.id.trash));
 		listView.setOnCreateContextMenuListener(this);
-		listView.setOnDropListener(adapter);
-		listView.setOnRemoveListener(adapter);
+		listView.setOnDragAndDropListener(adapter);
 		listView.setAdapter(adapter);
 		// Sets scroll behavior. --> Find a better way to do it.
 		//listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
