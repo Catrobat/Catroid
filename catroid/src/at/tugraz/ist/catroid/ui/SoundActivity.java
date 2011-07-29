@@ -59,8 +59,6 @@ public class SoundActivity extends ListActivity {
 	private ArrayList<SoundInfo> soundInfoList;
 
 	private final int REQUEST_SELECT_MUSIC = 0;
-	public static final int SPEAKER_ID = R.drawable.speaker;
-	public static final int SPEAKER_PLAYING_ID = R.drawable.speaker_playing;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -237,10 +235,10 @@ public class SoundActivity extends ListActivity {
 			if (soundInfo != null) {
 				final ImageView soundImage = (ImageView) convertView.findViewById(R.id.sound_img);
 				final TextView soundNameTextView = (TextView) convertView.findViewById(R.id.sound_name);
-				final Button renameSoundButton = (Button) convertView.findViewById(R.id.rename_button);
-				final Button stopSoundButton = (Button) convertView.findViewById(R.id.stop_button);
-				final Button playSoundButton = (Button) convertView.findViewById(R.id.play_button);
-				Button deleteSoundButton = (Button) convertView.findViewById(R.id.delete_button);
+				final Button renameSoundButton = (Button) convertView.findViewById(R.id.btn_sound_rename);
+				final Button stopSoundButton = (Button) convertView.findViewById(R.id.btn_sound_stop);
+				final Button playSoundButton = (Button) convertView.findViewById(R.id.btn_sound_play);
+				Button deleteSoundButton = (Button) convertView.findViewById(R.id.btn_sound_delete);
 				TextView soundFileSize = (TextView) convertView.findViewById(R.id.sound_size);
 				TextView soundDuration = (TextView) convertView.findViewById(R.id.sound_duration);
 
@@ -250,11 +248,11 @@ public class SoundActivity extends ListActivity {
 				deleteSoundButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_trash, 0, 0);
 
 				if (soundInfo.isPlaying) {
-					soundImage.setImageDrawable(activity.getResources().getDrawable(SoundActivity.SPEAKER_PLAYING_ID));
+					soundImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.speaker_playing));
 					playSoundButton.setVisibility(Button.GONE);
 					stopSoundButton.setVisibility(Button.VISIBLE);
 				} else {
-					soundImage.setImageDrawable(activity.getResources().getDrawable(SoundActivity.SPEAKER_ID));
+					soundImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.speaker));
 					playSoundButton.setVisibility(Button.VISIBLE);
 					stopSoundButton.setVisibility(Button.GONE);
 				}

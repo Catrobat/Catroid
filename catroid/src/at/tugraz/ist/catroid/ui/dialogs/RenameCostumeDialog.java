@@ -74,14 +74,14 @@ public class RenameCostumeDialog {
 
 	public void handleOkButton() {
 		String newCostumeName = (input.getText().toString()).trim();
-		String oldCostumeName = costumeActivity.selectedCostumeInfo.getCostumeName();
+		String oldCostumeName = costumeActivity.selectedCostumeData.getCostumeName();
 
 		if (newCostumeName.equalsIgnoreCase(oldCostumeName)) {
 			renameDialog.cancel();
 			return;
 		}
 		if (newCostumeName != null && !newCostumeName.equalsIgnoreCase("")) {
-			costumeActivity.selectedCostumeInfo.setCostumeName(newCostumeName);
+			costumeActivity.selectedCostumeData.setCostumeName(newCostumeName);
 		} else {
 			Utils.displayErrorMessage(costumeActivity, costumeActivity.getString(R.string.costumename_invalid));
 			return;
@@ -108,7 +108,7 @@ public class RenameCostumeDialog {
 				InputMethodManager inputManager = (InputMethodManager) costumeActivity
 						.getSystemService(Context.INPUT_METHOD_SERVICE);
 				inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
-				input.setText(costumeActivity.selectedCostumeInfo.getCostumeName());
+				input.setText(costumeActivity.selectedCostumeData.getCostumeName());
 			}
 		});
 

@@ -366,16 +366,23 @@ public class StorageHandler {
 		normalCatCostumeData.setCostumeFilename(normalCat.getName());
 
 		CostumeData banzaiCatCostumeData = new CostumeData();
-		normalCatCostumeData.setCostumeName(Consts.BANZAI_CAT);
-		normalCatCostumeData.setCostumeFilename(banzaiCat.getName());
+		banzaiCatCostumeData.setCostumeName(Consts.BANZAI_CAT);
+		banzaiCatCostumeData.setCostumeFilename(banzaiCat.getName());
 
 		CostumeData cheshireCatCostumeData = new CostumeData();
-		normalCatCostumeData.setCostumeName(Consts.CHESHIRE_CAT);
-		normalCatCostumeData.setCostumeFilename(cheshireCat.getName());
+		cheshireCatCostumeData.setCostumeName(Consts.CHESHIRE_CAT);
+		cheshireCatCostumeData.setCostumeFilename(cheshireCat.getName());
 
 		CostumeData backgroundCostumeData = new CostumeData();
-		normalCatCostumeData.setCostumeName(Consts.BACKGROUND);
-		normalCatCostumeData.setCostumeFilename(background.getName());
+		backgroundCostumeData.setCostumeName(Consts.BACKGROUND);
+		backgroundCostumeData.setCostumeFilename(background.getName());
+
+		ArrayList<CostumeData> costumeDataList = sprite.getCostumeDataList();
+		costumeDataList.add(normalCatCostumeData);
+		costumeDataList.add(banzaiCatCostumeData);
+		costumeDataList.add(cheshireCatCostumeData);
+		costumeDataList = backgroundSprite.getCostumeDataList();
+		costumeDataList.add(backgroundCostumeData);
 
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
 		setCostumeBrick.setCostume(normalCatCostumeData);
@@ -403,12 +410,6 @@ public class StorageHandler {
 		touchScript.addBrick(waitBrick2);
 		touchScript.addBrick(setCostumeBrick1);
 		backgroundStartScript.addBrick(setCostumeBackground);
-
-		ArrayList<CostumeData> costumeDataList = sprite.getCostumeDataList();
-		costumeDataList.add(normalCatCostumeData);
-		costumeDataList.add(banzaiCatCostumeData);
-		costumeDataList.add(cheshireCatCostumeData);
-		costumeDataList.add(backgroundCostumeData);
 
 		defaultProject.addSprite(sprite);
 		sprite.addScript(startScript);
