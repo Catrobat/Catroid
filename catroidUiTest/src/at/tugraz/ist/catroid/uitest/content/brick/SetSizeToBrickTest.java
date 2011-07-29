@@ -31,6 +31,7 @@ import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
@@ -162,7 +163,10 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		File image = UtilFile.saveFileToProject(projectName, "black_quad.png", imageRawId, getInstrumentation()
 				.getContext(), UtilFile.TYPE_IMAGE_FILE);
 		Log.v(TAG, image.getName());
-		setCostumeBrick.setCostume(image.getName());
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image.getName());
+		costumeData.setCostumeName("image");
+		setCostumeBrick.setCostume(costumeData);
 	}
 
 }
