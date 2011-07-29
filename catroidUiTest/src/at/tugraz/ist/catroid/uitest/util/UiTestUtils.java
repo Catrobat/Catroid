@@ -31,7 +31,7 @@ import junit.framework.Assert;
 import android.content.Context;
 import android.text.InputType;
 import android.util.Log;
-import android.view.View;
+import android.widget.ImageButton;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
@@ -295,8 +295,8 @@ public class UiTestUtils {
 	}
 
 	public static void clickOnImageButton(Solo solo, int imageButtonId) {
-		solo.sleep(1000);
-		View imageButtonView = solo.getView(imageButtonId);
-		solo.clickOnView(imageButtonView);
+		solo.waitForView(ImageButton.class);
+		ImageButton imageButton = (ImageButton) solo.getView(imageButtonId);
+		solo.clickOnView(imageButton);
 	}
 }
