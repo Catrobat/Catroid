@@ -65,7 +65,6 @@ public abstract class Script implements Serializable {
 			executingBrickIndex = i;
 			brickList.get(i).execute();
 			i = executingBrickIndex;
-			sprite.setToDraw(true);
 		}
 		isFinished = true;
 	}

@@ -41,7 +41,7 @@ public class ChangeYByBrick implements Brick, OnDismissListener {
 	}
 
 	public void execute() {
-		int yPosition = sprite.getYPosition();
+		int yPosition = (int) sprite.costume.getYPosition();
 
 		if (yPosition > 0 && yMovement > 0 && yPosition + yMovement < 0) {
 			yPosition = Integer.MAX_VALUE;
@@ -51,7 +51,7 @@ public class ChangeYByBrick implements Brick, OnDismissListener {
 			yPosition += yMovement;
 		}
 
-		sprite.costume.setXYPosition(sprite.costume.x, yPosition);
+		sprite.costume.setXYPosition(sprite.costume.getXPosition(), yPosition);
 	}
 
 	public Sprite getSprite() {

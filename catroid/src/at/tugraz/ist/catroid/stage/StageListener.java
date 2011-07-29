@@ -45,6 +45,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
  * 
  */
 public class StageListener implements ApplicationListener {
+	private static final boolean DEBUG = false;
 	private Stage stage;
 	private boolean paused = false;
 	private boolean finished = false;
@@ -52,7 +53,6 @@ public class StageListener implements ApplicationListener {
 	private Project project;
 
 	private OrthographicCamera camera;
-	private OrthoCamController camController;
 	private InputMultiplexer multiplexer;
 	private SpriteBatch batch;
 	private BitmapFont font;
@@ -83,17 +83,20 @@ public class StageListener implements ApplicationListener {
 		stage = new Stage(project.VIRTUAL_SCREEN_WIDTH, project.VIRTUAL_SCREEN_HEIGHT, true);
 		camera = (OrthographicCamera) stage.getCamera();
 		camera.position.set(0, 0, 0);
-		camController = new OrthoCamController(camera);
 
 		sprites = project.getSpriteList();
 		for (Sprite sprite : sprites) {
 			stage.addActor(sprite.costume);
 		}
-
-		multiplexer = new InputMultiplexer();
-		multiplexer.addProcessor(stage);
-		multiplexer.addProcessor(camController);
-		Gdx.input.setInputProcessor(multiplexer);
+		if (DEBUG) {
+			OrthoCamController camController = new OrthoCamController(camera);
+			multiplexer = new InputMultiplexer();
+			multiplexer.addProcessor(stage);
+			multiplexer.addProcessor(camController);
+			Gdx.input.setInputProcessor(multiplexer);
+		} else {
+			Gdx.input.setInputProcessor(stage);
+		}
 
 	}
 
