@@ -18,7 +18,10 @@
  */
 package at.tugraz.ist.catroid.uitest.util;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -27,7 +30,8 @@ import java.util.List;
 import junit.framework.Assert;
 import android.content.Context;
 import android.text.InputType;
-import android.widget.ImageButton;
+import android.util.Log;
+import android.view.View;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
@@ -107,7 +111,7 @@ public class UiTestUtils {
 	}
 
 	public static void addNewBrickAndScrollDown(Solo solo, int brickStringId) {
-		clickOnImageButton(solo, R.id.btn_action_add_sprite);
+		solo.clickOnButton(solo.getCurrentActivity().getString(R.string.add_new_brick));
 		solo.clickOnText(solo.getCurrentActivity().getString(brickStringId));
 
 		while (solo.scrollDown()) {
@@ -116,14 +120,11 @@ public class UiTestUtils {
 	}
 
 	public static List<Brick> createTestProject() {
-		File imageFile;
-		String projectName = DEFAULT_TEST_PROJECT_NAME;
-		final int RESOURCE_LOCATION = R.drawable.catroid_sunglasses;
 		int xPosition = 457;
 		int yPosition = 598;
 		double size = 0.8;
 
-		Project project = new Project(null, projectName);
+		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
 		Sprite firstSprite = new Sprite("cat");
 
 		Script testScript = new StartScript("testscript", firstSprite);
@@ -180,49 +181,49 @@ public class UiTestUtils {
 	 * @return the file
 	 * @throws IOException
 	 */
-	//	public static File saveFileToProject(String project, String name, int fileID, Context context, int type) {
-	//
-	//		String filePath;
-	//		if (project == null || project.equalsIgnoreCase("")) {
-	//			filePath = Consts.DEFAULT_ROOT + "/" + name;
-	//		} else {
-	//			switch (type) {
-	//				case TYPE_IMAGE_FILE:
-	//					filePath = Consts.DEFAULT_ROOT + "/" + project + Consts.IMAGE_DIRECTORY + "/" + name;
-	//					break;
-	//				case TYPE_SOUND_FILE:
-	//					filePath = Consts.DEFAULT_ROOT + "/" + project + Consts.SOUND_DIRECTORY + "/" + name;
-	//					break;
-	//				default:
-	//					filePath = Consts.DEFAULT_ROOT + "/" + name;
-	//					break;
-	//			}
-	//		}
-	//		BufferedInputStream in = new BufferedInputStream(context.getResources().openRawResource(fileID));
-	//
-	//		try {
-	//			Log.v(TAG, filePath);
-	//			File file = new File(filePath);
-	//			file.getParentFile().mkdirs();
-	//			file.createNewFile();
-	//
-	//			BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file), Consts.BUFFER_8K);
-	//			byte[] buffer = new byte[Consts.BUFFER_8K];
-	//			int length = 0;
-	//			while ((length = in.read(buffer)) > 0) {
-	//				out.write(buffer, 0, length);
-	//			}
-	//
-	//			in.close();
-	//			out.flush();
-	//			out.close();
-	//
-	//			return file;
-	//		} catch (IOException e) {
-	//			e.printStackTrace();
-	//			return null;
-	//		}
-	//	}
+	public static File saveFileToProject(String project, String name, int fileID, Context context, int type) {
+
+		String filePath;
+		if (project == null || project.equalsIgnoreCase("")) {
+			filePath = Consts.DEFAULT_ROOT + "/" + name;
+		} else {
+			switch (type) {
+				case TYPE_IMAGE_FILE:
+					filePath = Consts.DEFAULT_ROOT + "/" + project + Consts.IMAGE_DIRECTORY + "/" + name;
+					break;
+				case TYPE_SOUND_FILE:
+					filePath = Consts.DEFAULT_ROOT + "/" + project + Consts.SOUND_DIRECTORY + "/" + name;
+					break;
+				default:
+					filePath = Consts.DEFAULT_ROOT + "/" + name;
+					break;
+			}
+		}
+		BufferedInputStream in = new BufferedInputStream(context.getResources().openRawResource(fileID));
+
+		try {
+			Log.v(TAG, filePath);
+			File file = new File(filePath);
+			file.getParentFile().mkdirs();
+			file.createNewFile();
+
+			BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file), Consts.BUFFER_8K);
+			byte[] buffer = new byte[Consts.BUFFER_8K];
+			int length = 0;
+			while ((length = in.read(buffer)) > 0) {
+				out.write(buffer, 0, length);
+			}
+
+			in.close();
+			out.flush();
+			out.close();
+
+			return file;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	public static boolean clearProject(String projectname) {
 		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectname);
@@ -294,13 +295,8 @@ public class UiTestUtils {
 	}
 
 	public static void clickOnImageButton(Solo solo, int imageButtonId) {
-		int i = 0;
-		for (ImageButton imageButton : solo.getCurrentImageButtons()) {
-			if (imageButton.getId() == imageButtonId) {
-				solo.clickOnImageButton(i);
-				break;
-			}
-			++i;
-		}
+		solo.sleep(1000);
+		View imageButtonView = solo.getView(imageButtonId);
+		solo.clickOnView(imageButtonView);
 	}
 }
