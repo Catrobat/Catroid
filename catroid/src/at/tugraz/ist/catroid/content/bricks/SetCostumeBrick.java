@@ -19,7 +19,6 @@
 package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -27,41 +26,26 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Spinner;
-import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.Costume;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.content.Sprite;
-
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public class SetCostumeBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
-	private String imageName;
-	@XStreamOmitField
-	private transient Bitmap thumbnail;
-	private Costume CostumeData;
-	private int position;
+	private CostumeData costumeData;
 
 	public SetCostumeBrick(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
-	public void setCostume(String imageName) {
-		this.imageName = imageName;
-	}
-
-	private Object readResolve() {
-		if (imageName != null && ProjectManager.getInstance().getCurrentProject() != null) {
-			String[] checksum = imageName.split("_");
-			ProjectManager.getInstance().fileChecksumContainer.addChecksum(checksum[0], getAbsoluteImagePath());
-		}
-		return this;
+	public void setCostume(CostumeData costumeData) {
+		this.costumeData = costumeData;
 	}
 
 	public void execute() {
-		if (CostumeData != null) {
-			this.sprite.getCostume().setImagePath(getAbsoluteImagePath());
+		if (costumeData != null && sprite != null) {
+			sprite.getCostume().setImagePath(costumeData.getAbsolutePath());
 		}
 	}
 
@@ -70,17 +54,11 @@ public class SetCostumeBrick implements Brick {
 	}
 
 	public String getImagePath() {
-		return getAbsoluteImagePath();
-	}
-
-	private String getAbsoluteImagePath() {
-		if (imageName == null) {
-			return null;
-		}
-		return CostumeData.getCostumeAbsoluteImagepath();
+		return costumeData.getAbsolutePath();
 	}
 
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
+
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.construction_brick_set_costume, null);
 
@@ -88,31 +66,32 @@ public class SetCostumeBrick implements Brick {
 		costumebrickSpinner.setAdapter(createCostumeAdapter(context));
 
 		costumebrickSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-			//private boolean start = true;
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				CostumeData = (Costume) parent.getItemAtPosition(position);
-				SetCostumeBrick.this.position = position;
-				setCostume(CostumeData.getCostumeName());
+				costumeData = (CostumeData) parent.getItemAtPosition(position);
 			}
 
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
 
-		costumebrickSpinner.setSelection(position);
+		if (sprite.getCostumeDataList().contains(costumeData)) {
+			costumebrickSpinner.setSelection(sprite.getCostumeDataList().indexOf(costumeData) + 1);
+		} else {
+			costumebrickSpinner.setSelection(0);
+		}
 
 		return view;
-
 	}
 
 	private ArrayAdapter<?> createCostumeAdapter(Context context) {
-		ArrayAdapter<Costume> arrayAdapter = new ArrayAdapter<Costume>(context, android.R.layout.simple_spinner_item);
+		ArrayAdapter<CostumeData> arrayAdapter = new ArrayAdapter<CostumeData>(context,
+				android.R.layout.simple_spinner_item);
 		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		Costume dummyCostume = new Costume(sprite, null);
-		dummyCostume.setCostumeDisplayName(context.getString(R.string.broadcast_nothing_selected));
-		arrayAdapter.add(dummyCostume);
-		for (Costume CostumeData : sprite.getCostumeList()) {
-			arrayAdapter.add(CostumeData);
+		CostumeData dummyCostumeData = new CostumeData();
+		dummyCostumeData.setCostumeName(context.getString(R.string.broadcast_nothing_selected));
+		arrayAdapter.add(dummyCostumeData);
+		for (CostumeData costumeData : sprite.getCostumeDataList()) {
+			arrayAdapter.add(costumeData);
 		}
 		return arrayAdapter;
 	}

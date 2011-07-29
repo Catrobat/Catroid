@@ -18,8 +18,6 @@
  */
 package at.tugraz.ist.catroid.ui.dialogs;
 
-import java.io.IOException;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -76,12 +74,8 @@ public class NewProjectDialog extends Dialog {
 					return;
 				}
 
-				try {
-					ProjectManager.getInstance().initializeNewProject(projectName, context);
-				} catch (IOException e) {
-					Utils.displayErrorMessage(context, context.getString(R.string.error_create_project));
-					e.printStackTrace();
-				}
+				ProjectManager.getInstance().initializeNewProject(projectName, context);
+
 				Intent intent = new Intent(context, ProjectActivity.class);
 				context.startActivity(intent);
 				dismiss();
@@ -107,12 +101,8 @@ public class NewProjectDialog extends Dialog {
 								return true;
 							}
 
-							try {
-								ProjectManager.getInstance().initializeNewProject(projectName, context);
-							} catch (IOException e) {
-								Utils.displayErrorMessage(context, context.getString(R.string.error_create_project));
-								e.printStackTrace();
-							}
+							ProjectManager.getInstance().initializeNewProject(projectName, context);
+
 							Intent intent = new Intent(context, ProjectActivity.class);
 							context.startActivity(intent);
 
