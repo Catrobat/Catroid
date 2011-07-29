@@ -22,7 +22,7 @@ import java.util.List;
 
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
-import at.tugraz.ist.catroid.common.TextureContainer;
+import at.tugraz.ist.catroid.common.TextureRegionContainer;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.SoundManager;
@@ -57,15 +57,16 @@ public class StageListener implements ApplicationListener {
 	private int DEVICE_HEIGHT = 0;
 
 	private ImmediateModeRenderer20 renderer;
-	private Matrix4 projModelView = new Matrix4();
 
 	private List<Sprite> sprites;
 
-	public int screenMode;
-	public int viewPortX = 0;
-	public int viewPortY = 0;
-	public int viewPortHeight = 0;
-	public int viewPortWidth = 0;
+	public int screenMode = Consts.STRETCH;
+	public int maximizeViewPortX = 0;
+	public int maximizeViewPortY = 0;
+	public int maximizeViewPortHeight = 0;
+	public int maximizeViewPortWidth = 0;
+
+	public boolean axesOn = false;
 
 	public void create() {
 		renderer = new ImmediateModeRenderer20(200, false, true, 0);
@@ -113,7 +114,7 @@ public class StageListener implements ApplicationListener {
 		for (Sprite sprite : sprites) {
 			sprite.finish();
 		}
-		TextureContainer.getInstance().clear();
+		TextureRegionContainer.getInstance().clear();
 	}
 
 	public void render() {
@@ -121,22 +122,19 @@ public class StageListener implements ApplicationListener {
 
 		switch (screenMode) {
 			case Consts.MAXIMIZE:
-				//Gdx.gl.glViewport((int) (DEVICE_WIDTH - DEVICE_WIDTH * scaleWidth) / 2,
-				//		(int) (DEVICE_HEIGHT - DEVICE_HEIGHT * scaleHeight) / 2, (int) (scaleWidth * DEVICE_WIDTH),
-				//		(int) (scaleHeight * DEVICE_HEIGHT));
-
+				Gdx.gl.glViewport(maximizeViewPortX, maximizeViewPortY, maximizeViewPortWidth, maximizeViewPortHeight);
 				break;
 			case Consts.STRETCH:
 			default:
 				Gdx.gl.glViewport(0, 0, DEVICE_WIDTH, DEVICE_HEIGHT);
 				break;
-
 		}
-		//		Gdx.gl.glViewport(0, (int) (DEVICE_HEIGHT - DEVICE_HEIGHT * scale) / 2, DEVICE_WIDTH,
-		//				(int) (scale * DEVICE_HEIGHT));
 
-		renderRectangle(projModelView, -1, -1, 2, 2, Color.WHITE);
-		renderAxis(camera.combined);
+		renderRectangle(-1, -1, 2, 2, Color.WHITE);
+
+		if (axesOn) {
+			renderAxes();
+		}
 
 		if (firstStart) {
 			for (Sprite sprite : sprites) {
@@ -144,7 +142,6 @@ public class StageListener implements ApplicationListener {
 			}
 			firstStart = false;
 		}
-
 		if (!paused) {
 			stage.act(Gdx.graphics.getDeltaTime());
 		}
@@ -154,8 +151,8 @@ public class StageListener implements ApplicationListener {
 
 	}
 
-	private void renderRectangle(Matrix4 projModelView, float x, float y, float width, float height, Color color) {
-		renderer.begin(projModelView, GL10.GL_TRIANGLE_FAN);
+	private void renderRectangle(float x, float y, float width, float height, Color color) {
+		renderer.begin(new Matrix4(), GL10.GL_TRIANGLE_FAN);
 		renderer.color(color.r, color.g, color.b, color.a);
 		renderer.vertex(x, y, 0);
 
@@ -170,8 +167,8 @@ public class StageListener implements ApplicationListener {
 		renderer.end();
 	}
 
-	private void renderAxis(Matrix4 projModelView) {
-		renderer.begin(projModelView, GL10.GL_LINES);
+	private void renderAxes() {
+		renderer.begin(camera.combined, GL10.GL_LINES);
 		renderer.color(0, 1, 0, 1);
 		renderer.vertex(-project.VIRTUAL_SCREEN_WIDTH / 2, 0, 0);
 		renderer.color(0, 1, 0, 1);

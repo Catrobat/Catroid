@@ -20,7 +20,7 @@ package at.tugraz.ist.catroid.content;
 
 import java.util.concurrent.Semaphore;
 
-import at.tugraz.ist.catroid.common.TextureContainer;
+import at.tugraz.ist.catroid.common.TextureRegionContainer;
 import at.tugraz.ist.catroid.utils.Utils;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -35,20 +35,22 @@ public class CostumeA extends Image {
 	private Semaphore imageLock = new Semaphore(1);
 	private Semaphore scaleLock = new Semaphore(1);
 	private boolean imageChanged = false;
-	private boolean scaleChanged = false;
 	private String imagePath;
 	private String currentImagePath = "";
 	private Sprite sprite;
 	public float alphaValue;
-	private float size;
 
 	public CostumeA(Sprite sprite) {
 		super(Utils.getUniqueName());
 		this.sprite = sprite;
-		this.x = 0;
-		this.y = 0;
+		this.x = 0f;
+		this.y = 0f;
+		this.originX = 0f;
+		this.originY = 0f;
 		this.alphaValue = 1f;
-		this.size = 1f;
+		this.scaleX = 1f;
+		this.scaleY = 1f;
+		this.rotation = 0f;
 		this.width = 0f;
 		this.height = 0f;
 		this.touchable = true;
@@ -56,20 +58,22 @@ public class CostumeA extends Image {
 
 	@Override
 	protected boolean touchDown(float x, float y, int pointer) {
+		if (sprite.isPaused) {
+			return true;
+		}
 		xyLock.acquireUninterruptibly();
-		System.out.println("Actor x , y :" + x + "," + y);
-		System.out.println("World x , y :" + this.x + "," + this.y);
 		if (x >= 0 && x <= this.width && y >= 0 && y <= this.height) {
 			sprite.startTapScripts();
+			xyLock.release();
+			return true;
 		}
 		xyLock.release();
-		return true;
+		return false;
 	}
 
 	@Override
 	public void draw(SpriteBatch batch, float parentAlpha) {
 		checkImageChanged();
-		checkScaleChanged();
 		if (this.region != null) {
 			super.draw(batch, this.alphaValue);
 		}
@@ -83,7 +87,8 @@ public class CostumeA extends Image {
 				this.x += this.width / 2;
 				this.y += this.height / 2;
 				xyLock.release();
-				TextureContainer.getInstance().getTextureRegion(currentImagePath, imagePath);
+				this.region = TextureRegionContainer.getInstance().getTextureRegion(currentImagePath, imagePath);
+				currentImagePath = imagePath;
 				this.width = 0f;
 				this.height = 0f;
 				imageChanged = false;
@@ -94,37 +99,19 @@ public class CostumeA extends Image {
 			this.x += this.width / 2;
 			this.y += this.height / 2;
 			xyLock.release();
-			this.region = TextureContainer.getInstance().getTextureRegion(currentImagePath, imagePath);
+			this.region = TextureRegionContainer.getInstance().getTextureRegion(currentImagePath, imagePath);
 			currentImagePath = imagePath;
 			this.width = this.region.getTexture().getWidth();
 			this.height = this.region.getTexture().getHeight();
+			this.originX = this.width / 2f;
+			this.originY = this.height / 2f;
 			xyLock.acquireUninterruptibly();
 			this.x -= this.width / 2;
 			this.y -= this.height / 2;
 			xyLock.release();
-
 			imageChanged = false;
-			scaleChanged = true;
 		}
 		imageLock.release();
-	}
-
-	private void checkScaleChanged() {
-		scaleLock.acquireUninterruptibly();
-		if (scaleChanged) {
-			xyLock.acquireUninterruptibly();
-			this.x += this.width / 2;
-			this.y += this.height / 2;
-			xyLock.release();
-			this.width = this.region.getTexture().getWidth() * size;
-			this.height = this.region.getTexture().getHeight() * size;
-			xyLock.acquireUninterruptibly();
-			this.x -= this.width / 2;
-			this.y -= this.height / 2;
-			xyLock.release();
-			scaleChanged = false;
-		}
-		scaleLock.release();
 	}
 
 	public void setXPosition(float x) {
@@ -187,8 +174,8 @@ public class CostumeA extends Image {
 
 	public void setSize(float size) {
 		scaleLock.acquireUninterruptibly();
-		this.size = size;
-		scaleChanged = true;
+		this.scaleX = size;
+		this.scaleY = size;
 		scaleLock.release();
 	}
 

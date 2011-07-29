@@ -29,9 +29,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  * @author Johannes Iber
  * 
  */
-public class TextureContainer {
+public class TextureRegionContainer {
 	private class TextureInfo {
-		public int usage = 0;
+		public int usage = 1;
 		public TextureRegion textureRegion = null;
 
 		public TextureInfo(TextureRegion textureRegion) {
@@ -39,14 +39,14 @@ public class TextureContainer {
 		}
 	}
 
-	private static TextureContainer instance;
+	private static TextureRegionContainer instance;
 
-	private TextureContainer() {
+	private TextureRegionContainer() {
 	}
 
-	public static TextureContainer getInstance() {
+	public static TextureRegionContainer getInstance() {
 		if (instance == null) {
-			instance = new TextureContainer();
+			instance = new TextureRegionContainer();
 		}
 		return instance;
 	}
@@ -65,7 +65,7 @@ public class TextureContainer {
 			}
 		}
 		if (newAbsolutePath.equals("")) {
-			return null;
+			return new TextureRegion();
 		}
 		if (textureInfoMap.containsKey(newAbsolutePath)) {
 			TextureInfo textureInfo = textureInfoMap.get(newAbsolutePath);

@@ -35,13 +35,13 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 public class StageA extends AndroidApplication {
 	private boolean stagePlaying = true;
 	private StageListener stageListener;
-	private boolean maximizePossible;
+	private boolean resizePossible;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		stageListener = new StageListener();
-		this.calculateSizes();
+		this.calculateScreenSizes();
 		initialize(stageListener, true);
 	}
 
@@ -49,6 +49,10 @@ public class StageA extends AndroidApplication {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		getMenuInflater().inflate(R.menu.stage_menu, menu);
+		if (!resizePossible) {
+			menu.removeItem(R.id.stagemenuScreenSize);
+		}
+
 		return true;
 	}
 
@@ -60,6 +64,12 @@ public class StageA extends AndroidApplication {
 				break;
 			case R.id.stagemenuConstructionSite:
 				manageLoadAndFinish();
+				break;
+			case R.id.stagemenuScreenSize:
+				changeScreenSize();
+				break;
+			case R.id.stagemenuAxes:
+				toggleAxes();
 				break;
 		}
 		return true;
@@ -91,6 +101,25 @@ public class StageA extends AndroidApplication {
 		finish();
 	}
 
+	private void changeScreenSize() {
+		switch (stageListener.screenMode) {
+			case Consts.MAXIMIZE:
+				stageListener.screenMode = Consts.STRETCH;
+				break;
+			case Consts.STRETCH:
+				stageListener.screenMode = Consts.MAXIMIZE;
+				break;
+		}
+	}
+
+	private void toggleAxes() {
+		if (stageListener.axesOn) {
+			stageListener.axesOn = false;
+		} else {
+			stageListener.axesOn = true;
+		}
+	}
+
 	private void pauseOrContinue() {
 		if (stagePlaying) {
 			stageListener.pause();
@@ -101,14 +130,21 @@ public class StageA extends AndroidApplication {
 		}
 	}
 
-	private void calculateSizes() {
+	private void calculateScreenSizes() {
 		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().VIRTUAL_SCREEN_WIDTH;
 		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().VIRTUAL_SCREEN_HEIGHT;
-		stageListener.screenMode = Consts.STRETCH;
 		if (virtualScreenWidth == Values.SCREEN_WIDTH && virtualScreenHeight == Values.SCREEN_HEIGHT) {
-			maximizePossible = false;
+			resizePossible = false;
 			return;
 		}
+		resizePossible = true;
+		stageListener.maximizeViewPortWidth = Values.SCREEN_WIDTH + 1;
+		do {
+			stageListener.maximizeViewPortWidth--;
+			stageListener.maximizeViewPortHeight = (int) (((float) stageListener.maximizeViewPortWidth / (float) virtualScreenWidth) * virtualScreenHeight);
+		} while (stageListener.maximizeViewPortHeight > Values.SCREEN_HEIGHT);
 
+		stageListener.maximizeViewPortX = (Values.SCREEN_WIDTH - stageListener.maximizeViewPortWidth) / 2;
+		stageListener.maximizeViewPortY = (Values.SCREEN_HEIGHT - stageListener.maximizeViewPortHeight) / 2;
 	}
 }
