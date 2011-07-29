@@ -55,6 +55,7 @@ import at.tugraz.ist.catroid.content.bricks.MotorActionBrick;
 import at.tugraz.ist.catroid.content.bricks.MotorStopBrick;
 import at.tugraz.ist.catroid.content.bricks.MotorTurnAngleBrick;
 import at.tugraz.ist.catroid.content.bricks.MoveNStepsBrick;
+import at.tugraz.ist.catroid.content.bricks.NXTPlayToneBrick;
 import at.tugraz.ist.catroid.content.bricks.NoteBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
@@ -136,6 +137,7 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new MotorTurnAngleBrick(sprite, 0, 180));
 			prototypeBrickList.add(new MotorStopBrick(sprite, 0));
 			prototypeBrickList.add(new MotorActionBrick(sprite, 0, 100, 3));
+			prototypeBrickList.add(new NXTPlayToneBrick(sprite, 2000, 1));
 		}
 	}
 

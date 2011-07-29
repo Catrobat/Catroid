@@ -53,6 +53,7 @@ public class MotorActionBrick implements Brick, OnDismissListener, OnItemSelecte
 	private static final int MAX_SPEED = 100;
 	private static final double MIN_DURATION = 0;
 	private static final double MAX_DURATION = Double.MAX_VALUE;
+	private static int MOTOR_COMMAND = 1;
 
 	private transient EditText editSpeed;
 	private transient SeekBar speedBar;
@@ -71,8 +72,8 @@ public class MotorActionBrick implements Brick, OnDismissListener, OnItemSelecte
 			btcHandler = LegoNXT.getBTCHandler();
 		}
 
-		LegoNXT.sendBTCmessage(NO_DELAY, motor, speed, 0);
-		LegoNXT.sendBTCmessage((int) (duration * 1000), motor, 0, 0);
+		LegoNXT.sendBTCMotorMessage(NO_DELAY, motor, speed, 0);
+		LegoNXT.sendBTCMotorMessage((int) (duration * 1000), motor, 0, 0);
 
 	}
 

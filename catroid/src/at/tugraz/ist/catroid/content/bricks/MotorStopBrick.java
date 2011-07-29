@@ -40,6 +40,7 @@ public class MotorStopBrick implements Brick, OnItemSelectedListener {
 	private static final int MOTOR_C = 2;
 	private static final int ALL_MOTORS = 3;
 	private static final int NO_DELAY = 0;
+	private static int MOTOR_COMMAND = 1;
 
 	public MotorStopBrick(Sprite sprite, int motor) {
 		this.sprite = sprite;
@@ -52,11 +53,11 @@ public class MotorStopBrick implements Brick, OnItemSelectedListener {
 			btcHandler = LegoNXT.getBTCHandler();
 		}
 		if (motor == ALL_MOTORS) {
-			LegoNXT.sendBTCmessage(NO_DELAY, MOTOR_A, 0, 0);
-			LegoNXT.sendBTCmessage(NO_DELAY, MOTOR_B, 0, 0);
-			LegoNXT.sendBTCmessage(NO_DELAY, MOTOR_C, 0, 0);
+			LegoNXT.sendBTCMotorMessage(NO_DELAY, MOTOR_A, 0, 0);
+			LegoNXT.sendBTCMotorMessage(NO_DELAY, MOTOR_B, 0, 0);
+			LegoNXT.sendBTCMotorMessage(NO_DELAY, MOTOR_C, 0, 0);
 		} else {
-			LegoNXT.sendBTCmessage(NO_DELAY, motor, 0, 0);
+			LegoNXT.sendBTCMotorMessage(NO_DELAY, motor, 0, 0);
 		}
 
 	}

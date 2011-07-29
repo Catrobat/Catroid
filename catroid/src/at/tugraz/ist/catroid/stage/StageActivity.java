@@ -71,12 +71,12 @@ public class StageActivity extends Activity {
 
 			soundManager = SoundManager.getInstance();
 			stageManager = new StageManager(this);
-			legoNXT = new LegoNXT(this, recieveHandler);
-			bluetoothManager = new BluetoothManager(this);
 
 			if (!stageManager.getBluetoothNeeded()) {
 				startStage();
 			} else {
+				bluetoothManager = new BluetoothManager(this);
+				legoNXT = new LegoNXT(this, recieveHandler);
 				int bluetoothState = bluetoothManager.activateBluetooth();
 				if (bluetoothState == -1) {
 					Toast.makeText(StageActivity.this, R.string.notification_blueth_err, Toast.LENGTH_LONG).show();
@@ -115,7 +115,7 @@ public class StageActivity extends Activity {
 						break;
 
 					case Activity.RESULT_CANCELED:
-
+						finish();
 						break;
 
 				}
