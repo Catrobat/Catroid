@@ -46,6 +46,7 @@ public class MotorTurnAngleBrick implements Brick, OnDismissListener {
 	private static final int MOTOR_B = 1;
 	private static final int MOTOR_C = 2;
 	private static final int NO_DELAY = 0;
+	private static int MOTOR_COMMAND = 1;
 
 	public MotorTurnAngleBrick(Sprite sprite, int motor, int angle) {
 		this.sprite = sprite;
@@ -60,9 +61,9 @@ public class MotorTurnAngleBrick implements Brick, OnDismissListener {
 		}
 
 		if (inverse == false) {
-			LegoNXT.sendBTCmessage(NO_DELAY, motor, 30, angle);
+			LegoNXT.sendBTCMotorMessage(NO_DELAY, motor, 30, angle);
 		} else {
-			LegoNXT.sendBTCmessage(NO_DELAY, motor, -30, angle);
+			LegoNXT.sendBTCMotorMessage(NO_DELAY, motor, -30, angle);
 		}
 
 	}

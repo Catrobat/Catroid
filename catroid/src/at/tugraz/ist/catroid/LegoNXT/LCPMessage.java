@@ -309,16 +309,36 @@ public class LCPMessage {
 		return message;
 	}
 
-	public static byte[] getWriteMessage(int handle, byte[] data, int dataLength) {
-		byte[] message = new byte[dataLength + 3];
+	//	public static byte[] getWriteMessage(int handle, byte[] data, int dataLength) {
+	//		byte[] message = new byte[dataLength + 3];
+	//
+	//		message[0] = SYSTEM_COMMAND_REPLY;
+	//		message[1] = WRITE;
+	//
+	//		// copy handle
+	//		message[2] = (byte) handle;
+	//		// copy data
+	//		System.arraycopy(data, 0, message, 3, dataLength);
+	//
+	//		return message;
+	//	}
+
+	public static byte[] getWriteMessage(int handle, byte[] asd, int dataLength) {
+
+		if (dataLength > 255) {
+			dataLength = 255;
+		}
+
+		byte[] message = new byte[dataLength + 4];
 
 		message[0] = SYSTEM_COMMAND_REPLY;
-		message[1] = WRITE;
+		message[1] = MESSAGE_WRITE;
 
 		// copy handle
-		message[2] = (byte) handle;
+		message[2] = (byte) 0;
+		message[3] = (byte) dataLength;
 		// copy data
-		System.arraycopy(data, 0, message, 3, dataLength);
+		System.arraycopy(asd, 0, message, 3, dataLength);
 
 		return message;
 	}

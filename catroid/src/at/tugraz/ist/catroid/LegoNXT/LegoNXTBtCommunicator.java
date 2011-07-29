@@ -92,6 +92,9 @@ public class LegoNXTBtCommunicator extends Thread {
 	public static final int RECEIVED_MESSAGE = 1111;
 
 	public static final int NO_DELAY = 0;
+	private static final int GENERAL_COMMAND = 100;
+	private static final int MOTOR_COMMAND = 102;
+	private static final int TONE_COMMAND = 101;
 
 	private static final UUID SERIAL_PORT_SERVICE_CLASS_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 	// this is the only OUI registered by LEGO, see http://standards.ieee.org/regauth/oui/index.shtml
@@ -107,7 +110,7 @@ public class LegoNXTBtCommunicator extends Thread {
 	private Handler uiHandler;
 	private String mMACaddress;
 	private BTConnectable myOwner;
-	private static boolean requestConfirmFromDevice = false;
+	private static boolean requestConfirmFromDevice = true;
 
 	private static ArrayList<byte[]> receivedMessages = new ArrayList<byte[]>();
 
@@ -409,16 +412,16 @@ public class LegoNXTBtCommunicator extends Thread {
 
 	private void analyzeMessageGetOutputState(byte[] message) {
 		//See Lego NXT Docu or LCPMessage class for info on numbers!
-		Log.i("bt", "Message Length: " + message.length);
-		Log.i("bt", "GetOutputState executed: " + (int) message[0]);
-		Log.i("bt", "executed Command was: " + (int) message[1]);
+		//Log.i("bt", "Message Length: " + message.length);
+		//Log.i("bt", "GetOutputState executed: " + (int) message[0]);
+		Log.i("bt", "----- executed Command:  " + (int) message[1]);
 		Log.i("bt", "Status: " + (int) message[2]);
 		Log.i("bt", "Used Motor: " + (int) message[3]);
 		Log.i("bt", "Used Power: " + (int) message[4]);
-		Log.i("bt", "Mode: " + (int) message[5]);
-		Log.i("bt", "Regulation: " + (int) message[6]);
-		Log.i("bt", "Turn Ratio: " + (int) message[7]);
-		Log.i("bt", "Run State: " + (int) message[8]);
+		//Log.i("bt", "Mode: " + (int) message[5]);
+		//Log.i("bt", "Regulation: " + (int) message[6]);
+		//Log.i("bt", "Turn Ratio: " + (int) message[7]);
+		//Log.i("bt", "Run State: " + (int) message[8]);
 
 		int tacholimit = message[9];
 		tacholimit += (message[10] << 8);
@@ -426,20 +429,22 @@ public class LegoNXTBtCommunicator extends Thread {
 		tacholimit += (message[12] << 24);
 
 		Log.i("bt", "Tacholimit " + tacholimit);
-
-		int tachocount = message[13];
-		tachocount += (message[14] << 8);
-		tachocount += (message[15] << 16);
-		tachocount += (message[16] << 24);
-
-		Log.i("bt", "Tachocount " + tachocount);
+		/*
+		 * int tachocount = message[13];
+		 * tachocount += (message[14] << 8);
+		 * tachocount += (message[15] << 16);
+		 * tachocount += (message[16] << 24);
+		 * 
+		 * Log.i("bt", "Tachocount " + tachocount);
+		 */
 	}
 
-	//	private void doBeep(int frequency, int duration) {
-	//		byte[] message = LCPMessage.getBeepMessage(frequency, duration);
-	//		sendMessageAndState(message);
-	//		waitSomeTime(20);
-	//	}
+	private void doBeep(int frequency, int duration) {
+		byte[] message = LCPMessage.getBeepMessage(frequency, duration);
+		sendMessageAndState(message);
+		waitSomeTime(20);
+	}
+
 	//
 	//	private void doAction(int actionNr) {
 	//		byte[] message = LCPMessage.getActionMessage(actionNr);
@@ -492,13 +497,13 @@ public class LegoNXTBtCommunicator extends Thread {
 	//		sendMessageAndState(message);
 	//	}
 	//
-	//	private void waitSomeTime(int millis) {
-	//		try {
-	//			Thread.sleep(millis);
-	//
-	//		} catch (InterruptedException e) {
-	//		}
-	//	}
+	private void waitSomeTime(int millis) {
+		try {
+			Thread.sleep(millis);
+
+		} catch (InterruptedException e) {
+		}
+	}
 
 	private void sendToast(String toastText) {
 		Bundle myBundle = new Bundle();
@@ -526,10 +531,10 @@ public class LegoNXTBtCommunicator extends Thread {
 		uiHandler.sendMessage(myMessage);
 	}
 
-	private void moveMotor(int motor, int speed, int end) {
+	private synchronized void moveMotor(int motor, int speed, int end) {
 		byte[] message = LCPMessage.getMotorMessage(motor, speed, end);
 		sendMessageAndState(message);
-
+		Log.i("bto", "Motor " + motor + " speed " + speed);
 		if (requestConfirmFromDevice) {
 			byte[] test = LCPMessage.getOutputStateMessage(motor);
 			sendMessageAndState(test);
@@ -540,13 +545,25 @@ public class LegoNXTBtCommunicator extends Thread {
 	final Handler myHandler = new Handler() {
 		@Override
 		public void handleMessage(Message myMessage) {
-			int motor;
-			int speed;
-			int angle;
-			motor = myMessage.getData().getInt("motor");
-			speed = myMessage.getData().getInt("speed");
-			angle = myMessage.getData().getInt("angle");
-			moveMotor(motor, speed, angle);
+
+			switch (myMessage.what) {
+				case TONE_COMMAND:
+					doBeep(myMessage.getData().getInt("frequency"), myMessage.getData().getInt("duration"));
+					break;
+
+				default:
+					int motor;
+					int speed;
+					int angle;
+					motor = myMessage.getData().getInt("motor");
+					speed = myMessage.getData().getInt("speed");
+					angle = myMessage.getData().getInt("angle");
+					moveMotor(motor, speed, angle);
+
+					break;
+
+			}
+
 			//   int message;
 			//
 			//   switch (message = myMessage.getData().getInt("message")) {
