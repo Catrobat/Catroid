@@ -12,7 +12,6 @@ import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.ui.CostumeActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
@@ -41,8 +40,6 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Costum
 		addCostumeButton = (ImageButton) solo.getCurrentActivity().findViewById(R.id.btn_action_add_sprite);
 
 		final int RESOURCE_LOCATION = R.drawable.catroid_sunglasses;
-		String imageFilePath = Consts.DEFAULT_ROOT + "/" + UiTestUtils.DEFAULT_TEST_PROJECT_NAME
-				+ Consts.IMAGE_DIRECTORY + "/" + "catroid_sunglasses.png";
 		imageFile = UtilFile.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_sunglasses.png",
 				RESOURCE_LOCATION, getActivity(), TestUtils.TYPE_IMAGE_FILE);
 

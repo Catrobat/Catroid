@@ -30,6 +30,7 @@ import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Costume;
@@ -401,7 +402,10 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		File image = UtilFile.saveFileToProject(projectName, imageName1, at.tugraz.ist.catroid.uitest.R.raw.red_quad,
 				getInstrumentation().getContext(), UiTestUtils.TYPE_IMAGE_FILE);
 		setImageMemberProperties(image);
-		setCostumeBrick.setCostume(image.getName());
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image.getName());
+		costumeData.setCostumeName("image");
+		setCostumeBrick.setCostume(costumeData);
 		solo.sleep(100);
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
 		solo.clickOnScreen(Values.SCREEN_WIDTH, 0); //save thumbnail
@@ -480,8 +484,14 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 				UiTestUtils.TYPE_IMAGE_FILE);
 		setImageMemberProperties(image1);
 		setImageMemberProperties(image2);
-		setCostumeBrick.setCostume(image1.getName());
-		setCostumeBrick2.setCostume(image2.getName());
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image1.getName());
+		costumeData.setCostumeName("image1");
+		setCostumeBrick.setCostume(costumeData);
+		costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image2.getName());
+		costumeData.setCostumeName("image2");
+		setCostumeBrick2.setCostume(costumeData);
 
 		storageHandler.saveProject(project);
 	}
@@ -520,8 +530,14 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 				UiTestUtils.TYPE_IMAGE_FILE);
 		setImageMemberProperties(image1);
 		setImageMemberProperties(image2);
-		setCostumeBrick.setCostume(image1.getName());
-		setCostumeBrick2.setCostume(image2.getName());
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image1.getName());
+		costumeData.setCostumeName("image1");
+		setCostumeBrick.setCostume(costumeData);
+		costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image2.getName());
+		costumeData.setCostumeName("image2");
+		setCostumeBrick2.setCostume(costumeData);
 
 		storageHandler.saveProject(project);
 	}
@@ -568,8 +584,14 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 				UiTestUtils.TYPE_IMAGE_FILE);
 		setImageMemberProperties(image1);
 		setImageMemberProperties(image2);
-		setCostumeBrick.setCostume(image1.getName());
-		setCostumeBrick2.setCostume(image2.getName());
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image1.getName());
+		costumeData.setCostumeName("image1");
+		setCostumeBrick.setCostume(costumeData);
+		costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image2.getName());
+		costumeData.setCostumeName("image2");
+		setCostumeBrick2.setCostume(costumeData);
 
 		storageHandler.saveProject(project);
 	}
@@ -599,7 +621,10 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		image1 = UtilFile.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation().getContext(),
 				UiTestUtils.TYPE_IMAGE_FILE);
 		setImageMemberProperties(image1);
-		setCostumeBrick.setCostume(image1.getName());
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image1.getName());
+		costumeData.setCostumeName("image1");
+		setCostumeBrick.setCostume(costumeData);
 
 		storageHandler.saveProject(project);
 	}
@@ -632,7 +657,12 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		image1 = UtilFile.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation().getContext(),
 				UiTestUtils.TYPE_IMAGE_FILE);
 		setImageMemberProperties(image1);
-		setCostumeBrick.setCostume(image1.getName());
+
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image1.getName());
+		costumeData.setCostumeName("image1");
+		setCostumeBrick.setCostume(costumeData);
+
 		SoundInfo soundInfo = new SoundInfo();
 		soundInfo.setSoundFileName(soundFile.getName());
 		soundInfo.setTitle(soundFile.getName());
