@@ -26,6 +26,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.common.MessageContainer;
+import at.tugraz.ist.catroid.common.TextureRegionContainer;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -43,10 +44,12 @@ public class ProjectManager {
 
 	public FileChecksumContainer fileChecksumContainer;
 	public MessageContainer messageContainer;
+	public TextureRegionContainer textureRegionContainer;
 
 	private ProjectManager() {
 		fileChecksumContainer = new FileChecksumContainer();
 		messageContainer = new MessageContainer();
+		textureRegionContainer = new TextureRegionContainer();
 	}
 
 	public static ProjectManager getInstance() {
@@ -60,6 +63,7 @@ public class ProjectManager {
 		try {
 			fileChecksumContainer = new FileChecksumContainer();
 			messageContainer = new MessageContainer();
+			textureRegionContainer = new TextureRegionContainer();
 
 			project = StorageHandler.getInstance().loadProject(projectName);
 			if (project == null) {
@@ -82,6 +86,7 @@ public class ProjectManager {
 		try {
 			fileChecksumContainer = new FileChecksumContainer();
 			messageContainer = new MessageContainer();
+			textureRegionContainer = new TextureRegionContainer();
 			project = StorageHandler.getInstance().createDefaultProject(context);
 			currentSprite = null;
 			currentScript = null;
@@ -137,6 +142,7 @@ public class ProjectManager {
 		project = new Project(context, projectName);
 		fileChecksumContainer = new FileChecksumContainer();
 		messageContainer = new MessageContainer();
+		textureRegionContainer = new TextureRegionContainer();
 
 		currentSprite = null;
 		currentScript = null;

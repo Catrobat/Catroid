@@ -39,16 +39,7 @@ public class TextureRegionContainer {
 		}
 	}
 
-	private static TextureRegionContainer instance;
-
-	private TextureRegionContainer() {
-	}
-
-	public static TextureRegionContainer getInstance() {
-		if (instance == null) {
-			instance = new TextureRegionContainer();
-		}
-		return instance;
+	public TextureRegionContainer() {
 	}
 
 	private HashMap<String, TextureInfo> textureInfoMap = new HashMap<String, TextureInfo>();
