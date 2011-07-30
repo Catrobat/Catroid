@@ -32,14 +32,14 @@
 	
 	<ImageView
 		android:id="@+id/costume_image"
-		android:layout_width="93dp" 
-		android:layout_height="93dp"
+		android:layout_width="110dip" 
+		android:layout_height="110dip"
 		android:scaleType="centerCrop"/>		
 
 	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		android:orientation="vertical"
 		android:layout_width="match_parent"
-		android:layout_height="90dp">
+		android:layout_height="110dip">
 		<TextView 
 			android:id="@+id/costume_name" 
 			android:layout_width="match_parent"
