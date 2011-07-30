@@ -18,7 +18,10 @@
  */
 package at.tugraz.ist.catroid.common;
 
+import java.io.File;
+
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 
@@ -27,6 +30,9 @@ public class CostumeData {
 	private String costumeName;
 	private String costumeFileName;
 	private transient Bitmap thumbnailBitmap;
+	private Integer resWidth;
+	private Integer resHeight;
+	private Long sizeInKB;
 
 	public String getAbsolutePath() {
 		if (costumeFileName != null) {
@@ -63,7 +69,7 @@ public class CostumeData {
 		if (costumeFileName == null) {
 			return null;
 		}
-		String[] splittedFileName = costumeFileName.split(".");
+		String[] splittedFileName = costumeFileName.split("\\.");
 		return splittedFileName[splittedFileName.length - 1];
 	}
 
@@ -78,6 +84,27 @@ public class CostumeData {
 					Consts.THUMBNAIL_WIDTH);
 		}
 		return thumbnailBitmap;
+	}
+
+	public int[] getResolution() {
+		if (resWidth != null && resHeight != null) {
+			return new int[] { resWidth, resHeight };
+		}
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inJustDecodeBounds = true;
+		BitmapFactory.decodeFile(getAbsolutePath(), options);
+		resWidth = options.outWidth;
+		resHeight = options.outHeight;
+
+		return new int[] { resWidth, resHeight };
+	}
+
+	public long getSizeInKb() {
+		if (sizeInKB != null) {
+			return sizeInKB;
+		}
+		sizeInKB = new File(getAbsolutePath()).length() / 1024;
+		return sizeInKB;
 	}
 
 	@Override

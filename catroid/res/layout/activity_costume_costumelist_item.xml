@@ -18,7 +18,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
-
+ 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical"
 	android:layout_width="match_parent"
@@ -27,27 +27,69 @@
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		android:orientation="horizontal"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
+		android:layout_height="wrap_content"
+		android:paddingLeft="5dip">
 	
 	<ImageView
 		android:id="@+id/costume_image"
-		android:layout_width="80dp" 
-		android:layout_height="90dp"/>
-			
-	<TextView 
-		android:id="@+id/costume_name" 
+		android:layout_width="93dp" 
+		android:layout_height="93dp"
+		android:scaleType="centerCrop"/>		
+
+	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="vertical"
 		android:layout_width="match_parent"
-		android:paddingLeft="10dp"
-		android:textSize="18dip" 
-		android:layout_height="55dip" 
-		android:gravity="center_vertical"
-		android:clickable="false"
-		android:focusable="false"
-		android:longClickable="false"
-		android:textColor="@color/solid_black"
-		android:ellipsize="end"
-		android:maxLines="2"
-		android:paddingRight="8dip"/>
+		android:layout_height="90dp">
+		<TextView 
+			android:id="@+id/costume_name" 
+			android:layout_width="match_parent"
+			android:paddingLeft="10dp"
+			android:textSize="18dip" 
+			android:layout_height="55dip" 
+			android:gravity="center_vertical"
+			android:clickable="false"
+			android:focusable="false"
+			android:longClickable="false"
+			android:textColor="@color/solid_black"
+			android:ellipsize="end"
+			android:maxLines="2"
+			android:paddingRight="8dip"/>
+		<LinearLayout 
+			android:orientation="horizontal" 
+			android:layout_width="fill_parent" 
+			android:layout_height="wrap_content"
+			android:layout_alignParentBottom="true">
+				
+			<TextView 
+				android:id="@+id/costume_res" 
+				android:layout_width="wrap_content"
+				android:paddingLeft="10dp"
+				android:textSize="12dip" 
+				android:layout_height="20dip" 
+				android:gravity="left"
+				android:clickable="false"
+				android:focusable="false"
+				android:longClickable="false"
+				android:textColor="@color/backbrown"
+				android:maxLines="1"
+				android:layout_weight=".5"/>
+			
+			<TextView 
+				android:id="@+id/costume_size" 
+				android:layout_width="wrap_content"
+				android:paddingLeft="10dp"
+				android:textSize="12dip" 
+				android:layout_height="20dip" 
+				android:gravity="right"
+				android:clickable="false"
+				android:focusable="false"
+				android:longClickable="false"
+				android:textColor="@color/backbrown"
+				android:maxLines="1"
+				android:layout_weight=".5"
+				android:paddingRight="8dip"/>
+			</LinearLayout>
+		</RelativeLayout>
 	</LinearLayout>
 
 		
