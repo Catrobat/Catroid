@@ -27,6 +27,7 @@ import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -44,6 +45,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.ui.adapter.CustomIconContextMenu;
 import at.tugraz.ist.catroid.ui.dialogs.RenameCostumeDialog;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -52,6 +54,7 @@ public class CostumeActivity extends ListActivity {
 	public CostumeData selectedCostumeData;
 	private RenameCostumeDialog renameCostumeDialog;
 	private ArrayList<CostumeData> costumeDataList;
+	private CustomIconContextMenu iconContextMenu;
 
 	private final int REQUEST_SELECT_IMAGE = 0;
 	private static final int CONTEXT_MENU_ITEM_RENAME = 0;
@@ -65,6 +68,7 @@ public class CostumeActivity extends ListActivity {
 		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
 
 		setListAdapter(new CostumeAdapter2(this, R.layout.activity_costume_costumelist_item, costumeDataList));
+		initCustomContextMenu();
 	}
 
 	@Override
@@ -74,9 +78,9 @@ public class CostumeActivity extends ListActivity {
 			return;
 		}
 
-		//		this.costumeDataList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
-		//		setListAdapter(new SoundAdapter(this, R.layout.activity_sound_soundlist_item, costumeDataList));
-		//		((SoundAdapter) getListAdapter()).notifyDataSetChanged();
+		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
+		setListAdapter(new CostumeAdapter2(this, R.layout.activity_costume_costumelist_item, costumeDataList));
+		((CostumeAdapter2) getListAdapter()).notifyDataSetChanged();
 
 		//change actionbar:
 		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
@@ -87,7 +91,6 @@ public class CostumeActivity extends ListActivity {
 			//set new icon for actionbar plus button:
 			activityHelper.changeButtonIcon(R.id.btn_action_add_sprite, R.drawable.ic_plus_black);
 		}
-
 	}
 
 	private View.OnClickListener createAddCostumeClickListener() {
@@ -104,12 +107,19 @@ public class CostumeActivity extends ListActivity {
 	protected Dialog onCreateDialog(int id) {
 		final Dialog dialog;
 		switch (id) {
-			case Consts.DIALOG_RENAME_SOUND:
+			case Consts.DIALOG_RENAME_SPRITE: //TODO: trololol not sprite .. sucker
 				if (selectedCostumeData == null) {
 					dialog = null;
 				} else {
 					renameCostumeDialog = new RenameCostumeDialog(this);
 					dialog = renameCostumeDialog.createDialog(selectedCostumeData);
+				}
+				break;
+			case Consts.DIALOG_CONTEXT_MENU:
+				if (iconContextMenu == null || selectedCostumeData == null) {
+					dialog = null;
+				} else {
+					dialog = iconContextMenu.createMenu(selectedCostumeData.getCostumeName());
 				}
 				break;
 			default:
@@ -187,6 +197,27 @@ public class CostumeActivity extends ListActivity {
 		}
 	}
 
+	private void initCustomContextMenu() {
+		Resources resources = getResources();
+		iconContextMenu = new CustomIconContextMenu(this, Consts.DIALOG_CONTEXT_MENU);
+		iconContextMenu.addItem(resources, this.getString(R.string.rename), R.drawable.ic_context_rename,
+				CONTEXT_MENU_ITEM_RENAME);
+		iconContextMenu.addItem(resources, this.getString(R.string.delete), R.drawable.ic_context_delete,
+				CONTEXT_MENU_ITEM_EDIT);
+
+		iconContextMenu.setOnClickListener(new CustomIconContextMenu.IconContextMenuOnClickListener() {
+			public void onClick(int menuId) {
+				switch (menuId) {
+					case CONTEXT_MENU_ITEM_RENAME:
+						CostumeActivity.this.showDialog(Consts.DIALOG_RENAME_SPRITE);
+						break;
+					case CONTEXT_MENU_ITEM_EDIT:
+						break;
+				}
+			}
+		});
+	}
+
 	private class CostumeAdapter2 extends ArrayAdapter<CostumeData> {
 		protected ArrayList<CostumeData> costumeDataItems;
 		protected CostumeActivity activity;
@@ -215,8 +246,8 @@ public class CostumeActivity extends ListActivity {
 				final Button copyCostumeButton = (Button) convertView.findViewById(R.id.btn_costume_copy);
 				Button deleteCostumeButton = (Button) convertView.findViewById(R.id.btn_costume_delete);
 
-				copyCostumeButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_media_play, 0, 0);
-				editCostumeButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_media_stop, 0, 0);
+				copyCostumeButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_copy, 0, 0);
+				editCostumeButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_menu_edit, 0, 0);
 				deleteCostumeButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_trash, 0, 0);
 
 				costumeImage.setImageBitmap(costumeData.getThumbnailBitmap());
@@ -231,7 +262,9 @@ public class CostumeActivity extends ListActivity {
 
 				editCostumeButton.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
-						//TODO: call context menu
+						activity.selectedCostumeData = costumeData;
+						activity.removeDialog(Consts.DIALOG_CONTEXT_MENU);
+						activity.showDialog(Consts.DIALOG_CONTEXT_MENU);
 					}
 				});
 
