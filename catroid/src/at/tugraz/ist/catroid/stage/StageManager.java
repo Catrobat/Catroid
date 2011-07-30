@@ -23,18 +23,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Handler;
 import at.tugraz.ist.catroid.ProjectManager;
-import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 
 public class StageManager {
 	private Activity activity;
 	protected ArrayList<Sprite> spriteList;
 	private Boolean spritesChanged;
-	private IDraw draw;
+
 	private boolean isPaused;
 	private Handler handler = new Handler();
 
@@ -66,7 +63,7 @@ public class StageManager {
 		this.activity = activity;
 
 		spritesChanged = true;
-		draw = new CanvasDraw(activity);
+		//	draw = new CanvasDraw(activity);
 
 		for (Sprite sprite : spriteList) {
 			sprite.startStartScripts();
@@ -74,11 +71,11 @@ public class StageManager {
 	}
 
 	public boolean drawSprites() {
-		return draw.draw();
+		return false;//draw.draw();
 	}
 
 	public void processOnTouch(int coordX, int coordY) {
-		draw.processOnTouch(coordX, coordY);
+		//	draw.processOnTouch(coordX, coordY);
 		ArrayList<Sprite> touchedSpriteList = new ArrayList<Sprite>();
 		for (Sprite sprite : spriteList) {
 			//if (sprite.processOnTouch(coordX, coordY)) {
@@ -98,8 +95,8 @@ public class StageManager {
 		}
 
 		if (drawScreen) {
-			Bitmap pauseBitmap = BitmapFactory.decodeResource(activity.getResources(), R.drawable.paused_cat);
-			draw.drawPauseScreen(pauseBitmap);
+			//	Bitmap pauseBitmap = BitmapFactory.decodeResource(activity.getResources(), R.drawable.paused_cat);
+			//		draw.drawPauseScreen(pauseBitmap);
 			handler.removeCallbacks(runnable);
 			spritesChanged = true;
 		}

@@ -33,7 +33,7 @@ import com.badlogic.gdx.scenes.scene2d.actors.Image;
  * @author Johannes Iber
  * 
  */
-public class CostumeA extends Image {
+public class Costume extends Image {
 	private Semaphore xyLock = new Semaphore(1);
 	private Semaphore imageLock = new Semaphore(1);
 	private Semaphore scaleLock = new Semaphore(1);
@@ -43,7 +43,7 @@ public class CostumeA extends Image {
 	private Sprite sprite;
 	public float alphaValue;
 
-	public CostumeA(Sprite sprite) {
+	public Costume(Sprite sprite) {
 		super(Utils.getUniqueName());
 		this.sprite = sprite;
 		this.x = 0f;
@@ -72,9 +72,9 @@ public class CostumeA extends Image {
 			Bitmap bitmap = ImageEditing.getBitmap(currentImagePath, (int) this.width, (int) this.height);
 			if (Color.alpha(bitmap.getPixel((int) x, (int) y)) > 10) {
 				sprite.startTapScripts();
+				xyLock.release();
+				return true;
 			}
-			xyLock.release();
-			return true;
 		}
 		xyLock.release();
 		return false;

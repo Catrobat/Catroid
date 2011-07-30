@@ -35,7 +35,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.stage.StageA;
+import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.adapter.CustomIconContextMenu;
 import at.tugraz.ist.catroid.ui.adapter.SpriteAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.NewSpriteDialog;
@@ -131,7 +131,7 @@ public class ProjectActivity extends ListActivity {
 
 		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, new View.OnClickListener() {
 			public void onClick(View v) {
-				Intent intent = new Intent(ProjectActivity.this, StageA.class);
+				Intent intent = new Intent(ProjectActivity.this, StageActivity.class);
 				startActivity(intent);
 			}
 		}, false);

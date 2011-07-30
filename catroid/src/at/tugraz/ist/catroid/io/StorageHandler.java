@@ -44,7 +44,6 @@ import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.BroadcastScript;
-import at.tugraz.ist.catroid.content.Costume;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -92,7 +91,6 @@ public class StorageHandler {
 		xstream.alias("startScript", StartScript.class);
 		xstream.alias("tapScript", TapScript.class);
 		xstream.alias("broadcastScript", BroadcastScript.class);
-		xstream.alias("costume", Costume.class);
 
 		xstream.alias("changeXByBrick", ChangeXByBrick.class);
 		xstream.alias("changeYByBrick", ChangeYByBrick.class);
