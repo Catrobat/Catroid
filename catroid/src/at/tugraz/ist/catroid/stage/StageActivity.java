@@ -40,7 +40,7 @@ public class StageActivity extends AndroidApplication {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		stageListener = new StageListener();
+		stageListener = new StageListener(this);
 		this.calculateScreenSizes();
 		initialize(stageListener, true);
 	}

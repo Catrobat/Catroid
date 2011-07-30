@@ -18,9 +18,14 @@
  */
 package at.tugraz.ist.catroid.stage;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
 
+import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
+import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
@@ -70,8 +75,15 @@ public class StageListener implements ApplicationListener {
 	public int maximizeViewPortWidth = 0;
 
 	public boolean axesOn = false;
+	public boolean makeScreenshot = false;
 
 	Texture pauseScreen;
+
+	StageActivity stageActivity;
+
+	public StageListener(StageActivity stageActivity) {
+		this.stageActivity = stageActivity;
+	}
 
 	public void create() {
 		batch = new SpriteBatch();
@@ -162,6 +174,17 @@ public class StageListener implements ApplicationListener {
 			stage.draw();
 		}
 
+		if (makeScreenshot) {
+			String text;
+			if (saveThumbnail()) {
+				text = stageActivity.getString(R.string.screenshot_ok);
+			} else {
+				text = stageActivity.getString(R.string.error_screenshot_failed);
+			}
+			Toast toast = Toast.makeText(stageActivity, text, Toast.LENGTH_SHORT);
+			toast.show();
+		}
+
 		if (paused && !finished) {
 			batch.setProjectionMatrix(camera.combined);
 			batch.begin();
@@ -225,6 +248,28 @@ public class StageListener implements ApplicationListener {
 	public void dispose() {
 		if (!finished) {
 			this.finish();
+		}
+	}
+
+	public boolean saveThumbnail() {
+		try {
+			String path = Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName() + "/";
+			File file = new File(path + Consts.SCREENSHOT_FILE_NAME);
+			File noMediaFile = new File(path + ".nomedia");
+			if (!noMediaFile.exists()) {
+				noMediaFile.createNewFile();
+			}
+
+			FileOutputStream fileOutputStream = new FileOutputStream(file.getAbsolutePath());
+			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream);
+			//canvasBitmap.compress(CompressFormat.PNG, 0, bos);
+			bos.flush();
+			bos.close();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+
 		}
 	}
 
