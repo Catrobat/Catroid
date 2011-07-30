@@ -21,8 +21,7 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
-	android:orientation="horizontal"
->
+	android:orientation="horizontal">
 	<ImageView
 		android:id="@+id/grabber"
 		android:layout_alignParentLeft="true"
@@ -32,12 +31,11 @@
 		android:layout_width="wrap_content"
 		android:src="@drawable/ic_mp_move"
 		android:layout_height="wrap_content" />
-	<RelativeLayout
+	<LinearLayout
+		android:orientation="vertical"
 		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
-		android:background="@drawable/brick_violet"
-		android:longClickable="true"
-	>
+		android:background="@drawable/brick_violet">
 		<TextView
 			android:text="@string/brick_set_costume"
 			android:layout_height="wrap_content"
@@ -46,12 +44,16 @@
 			android:layout_centerVertical="true"
 			android:textColor="@color/white"
 			android:textSize="18dip"
-			android:textStyle="bold" />
-		<Spinner 
-			android:id="@+id/setcostume_spinner" 
-			android:layout_width="wrap_content" 
-			android:layout_height="wrap_content"
-			android:layout_weight="5"
-			android:layout_alignParentRight="true"/>
-	</RelativeLayout>
+			android:textStyle="bold"
+			android:layout_marginLeft="3dip"/>
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content">
+				<Spinner 
+					android:id="@+id/setcostume_spinner" 
+					android:layout_width="fill_parent" 
+					android:layout_height="wrap_content"/>
+			</LinearLayout>
+	</LinearLayout>
 </LinearLayout>

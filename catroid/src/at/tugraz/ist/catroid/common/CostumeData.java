@@ -27,7 +27,6 @@ public class CostumeData {
 	private String costumeName;
 	private String costumeFileName;
 	private transient Bitmap thumbnailBitmap;
-	private int id;
 
 	public String getAbsolutePath() {
 		if (costumeFileName != null) {
@@ -64,7 +63,8 @@ public class CostumeData {
 		if (costumeFileName == null) {
 			return null;
 		}
-		return costumeFileName.substring(costumeFileName.length() - 4, costumeFileName.length()); //TODO change to last dot
+		String[] splittedFileName = costumeFileName.split(".");
+		return splittedFileName[splittedFileName.length - 1];
 	}
 
 	public String getPathWithoutFileName() {
@@ -78,14 +78,6 @@ public class CostumeData {
 					Consts.THUMBNAIL_WIDTH);
 		}
 		return thumbnailBitmap;
-	}
-
-	public void setCostumeDataId(int id) {
-		this.id = id;
-	}
-
-	public int getCostumeId() {
-		return id;
 	}
 
 	@Override
