@@ -51,8 +51,8 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 
 	private Object readResolve() {
 		//filling FileChecksumContainer:
-		FileChecksumContainer container = ProjectManager.getInstance().fileChecksumContainer;
 		if (soundList != null && costumeDataList != null && ProjectManager.getInstance().getCurrentProject() != null) {
+			FileChecksumContainer container = ProjectManager.getInstance().fileChecksumContainer;
 			if (container == null) {
 				ProjectManager.getInstance().fileChecksumContainer = new FileChecksumContainer();
 			}
@@ -79,7 +79,10 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		isPaused = false;
 		isFinished = false;
 		if (soundList == null) {
-			soundList = new ArrayList<SoundInfo>(); //TODO: affirm that this is really needed
+			soundList = new ArrayList<SoundInfo>();
+		}
+		if (costumeDataList == null) {
+			costumeDataList = new ArrayList<CostumeData>();
 		}
 	}
 

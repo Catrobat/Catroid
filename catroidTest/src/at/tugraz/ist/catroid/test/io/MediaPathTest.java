@@ -237,6 +237,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 		costumeData.setCostumeFilename(testImageCopy2.getName());
 		costumeData.setCostumeName("testImageCopy2");
 		costumeBrick2.setCostume(costumeData);
+		sprite.getCostumeDataList().add(costumeData);
 
 		ArrayList<Brick> brickList1 = new ArrayList<Brick>();
 		ArrayList<Brick> brickList2 = new ArrayList<Brick>();
@@ -253,12 +254,14 @@ public class MediaPathTest extends InstrumentationTestCase {
 		costumeData.setCostumeFilename(testImageCopy.getName());
 		costumeData.setCostumeName("testImageCopy");
 		costumeBrick.setCostume(costumeData);
+		sprite.getCostumeDataList().add(costumeData);
 
 		PlaySoundBrick soundBrick = new PlaySoundBrick(sprite);
 		SoundInfo soundInfo = new SoundInfo();
 		soundInfo.setSoundFileName(testSoundCopy.getName());
 		soundInfo.setTitle("title");
 		soundBrick.setSoundInfo(soundInfo);
+		sprite.getSoundList().add(soundInfo);
 
 		brickList2.add(new IfTouchedBrick(sprite, tapedScript));
 		brickList2.add(new PlaceAtBrick(sprite, 50, 50));
