@@ -22,6 +22,7 @@ import java.util.List;
 
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.SoundManager;
@@ -33,6 +34,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -57,9 +59,6 @@ public class StageListener implements ApplicationListener {
 	private SpriteBatch batch;
 	private BitmapFont font;
 
-	private int DEVICE_WIDTH = 0;
-	private int DEVICE_HEIGHT = 0;
-
 	private ImmediateModeRenderer20 renderer;
 
 	private List<Sprite> sprites;
@@ -71,6 +70,8 @@ public class StageListener implements ApplicationListener {
 	public int maximizeViewPortWidth = 0;
 
 	public boolean axesOn = false;
+
+	Texture pauseScreen;
 
 	public void create() {
 		batch = new SpriteBatch();
@@ -97,6 +98,8 @@ public class StageListener implements ApplicationListener {
 		} else {
 			Gdx.input.setInputProcessor(stage);
 		}
+
+		pauseScreen = new Texture(Gdx.files.internal("data/paused_cat.png"));
 
 	}
 
@@ -127,6 +130,7 @@ public class StageListener implements ApplicationListener {
 			sprite.finish();
 		}
 		ProjectManager.getInstance().textureRegionContainer.clear();
+		pauseScreen.dispose();
 	}
 
 	public void render() {
@@ -138,7 +142,7 @@ public class StageListener implements ApplicationListener {
 				break;
 			case Consts.STRETCH:
 			default:
-				Gdx.gl.glViewport(0, 0, DEVICE_WIDTH, DEVICE_HEIGHT);
+				Gdx.gl.glViewport(0, 0, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
 				break;
 		}
 
@@ -158,7 +162,14 @@ public class StageListener implements ApplicationListener {
 			stage.draw();
 		}
 
-		if (axesOn) {
+		if (paused && !finished) {
+			batch.setProjectionMatrix(camera.combined);
+			batch.begin();
+			batch.draw(pauseScreen, -pauseScreen.getWidth() / 2, -pauseScreen.getHeight() / 2);
+			batch.end();
+		}
+
+		if (axesOn && !finished) {
 			renderAxes();
 		}
 	}
@@ -176,6 +187,7 @@ public class StageListener implements ApplicationListener {
 
 		renderer.color(color.r, color.g, color.b, color.a);
 		renderer.vertex(x, y + height, 0);
+
 		renderer.end();
 	}
 
@@ -208,8 +220,6 @@ public class StageListener implements ApplicationListener {
 	}
 
 	public void resize(int width, int height) {
-		DEVICE_WIDTH = width;
-		DEVICE_HEIGHT = height;
 	}
 
 	public void dispose() {

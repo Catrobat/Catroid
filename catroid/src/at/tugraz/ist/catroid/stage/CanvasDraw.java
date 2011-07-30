@@ -49,7 +49,7 @@ import at.tugraz.ist.catroid.utils.ImageEditing;
  * Draws DrawObjects into a canvas.
  */
 
-public class CanvasDraw implements IDraw {
+public class CanvasDraw {
 	private Canvas canvas = null;
 	private SurfaceView surfaceView;
 	private Paint whitePaint;
@@ -66,7 +66,7 @@ public class CanvasDraw implements IDraw {
 	public CanvasDraw(Activity activity) {
 		super();
 		this.activity = activity;
-		surfaceView = StageActivity.stage;
+
 		holder = surfaceView.getHolder();
 		whitePaint = new Paint();
 		whitePaint.setStyle(Paint.Style.FILL);

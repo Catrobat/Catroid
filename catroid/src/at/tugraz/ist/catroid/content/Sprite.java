@@ -28,7 +28,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	private String name;
 	private transient int zPosition;
 	private List<Script> scriptList;
-	public transient CostumeA costume;
+	public transient Costume costume;
 
 	public transient volatile boolean isPaused;
 	public transient volatile boolean isFinished;
@@ -40,7 +40,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 
 	private void init() {
 		zPosition = 0;
-		costume = new CostumeA(this);
+		costume = new Costume(this);
 		isPaused = false;
 		isFinished = false;
 	}
