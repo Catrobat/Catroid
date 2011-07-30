@@ -44,15 +44,12 @@ public class GoNStepsBackBrick implements Brick, OnDismissListener {
 		if (steps <= 0) {
 			throw new NumberFormatException("Steps was not a positive number!");
 		}
-
-		int currentPosition = sprite.getZPosition();
-
-		if (currentPosition - steps > currentPosition) {
-			sprite.setZPosition(Integer.MIN_VALUE);
-			return;
+		int zPosition = sprite.costume.zPosition;
+		if (zPosition - steps > zPosition) {
+			sprite.costume.zPosition = Integer.MIN_VALUE;
+		} else {
+			sprite.costume.zPosition -= steps;
 		}
-
-		sprite.setZPosition(currentPosition - steps);
 	}
 
 	public Sprite getSprite() {

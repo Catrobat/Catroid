@@ -22,7 +22,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
-import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 
@@ -35,10 +34,12 @@ public class ComeToFrontBrick implements Brick {
 	}
 
 	public void execute() {
-		int maxZValue = ProjectManager.getInstance().getCurrentProject().getMaxZValue();
-		maxZValue = maxZValue > (maxZValue + 1) ? Integer.MAX_VALUE : maxZValue + 1;
-
-		sprite.setZPosition(maxZValue);
+		int zPosition = sprite.costume.zPosition;
+		if (zPosition > zPosition + 1) {
+			sprite.costume.zPosition = Integer.MAX_VALUE;
+		} else {
+			sprite.costume.zPosition++;
+		}
 	}
 
 	public Sprite getSprite() {

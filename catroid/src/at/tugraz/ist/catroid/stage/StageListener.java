@@ -21,6 +21,7 @@ package at.tugraz.ist.catroid.stage;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.Comparator;
 import java.util.List;
 
 import android.widget.Toast;
@@ -45,6 +46,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 /**
@@ -67,6 +69,7 @@ public class StageListener implements ApplicationListener {
 	private ImmediateModeRenderer20 renderer;
 
 	private List<Sprite> sprites;
+	private Comparator<Actor> costumeComparator;
 
 	private float virtualWidthHalf;
 	private float virtualHeightHalf;
@@ -94,6 +97,8 @@ public class StageListener implements ApplicationListener {
 		font.setColor(1f, 0f, 0.05f, 1f);
 		font.setScale(1.2f);
 
+		costumeComparator = new CostumeComparator();
+
 		renderer = new ImmediateModeRenderer20(200, false, true, 0);
 		project = ProjectManager.getInstance().getCurrentProject();
 
@@ -119,7 +124,6 @@ public class StageListener implements ApplicationListener {
 		}
 
 		pauseScreen = new Texture(Gdx.files.internal("images/paused_cat.png"));
-
 	}
 
 	public void resume() {
@@ -154,6 +158,8 @@ public class StageListener implements ApplicationListener {
 
 	public void render() {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		stage.getRoot().sortChildren(costumeComparator);
 
 		switch (screenMode) {
 			case Consts.MAXIMIZE:
