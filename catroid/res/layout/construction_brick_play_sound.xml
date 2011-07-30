@@ -21,8 +21,7 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
-	android:orientation="horizontal"
->
+	android:orientation="horizontal">
 	<ImageView
 		android:id="@+id/grabber"
 		android:layout_alignParentLeft="true"
@@ -36,8 +35,7 @@
 		android:orientation="vertical"
 		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
-		android:background="@drawable/brick_magenta"
-	>
+		android:background="@drawable/brick_magenta">
 		<TextView
 			android:id="@+id/ValueTextView"
 			android:text="@string/brick_play_sound"

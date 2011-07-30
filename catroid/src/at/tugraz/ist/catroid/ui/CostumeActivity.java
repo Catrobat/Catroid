@@ -169,7 +169,7 @@ public class CostumeActivity extends ListActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 		//when new sound title is selected and ready to be added to the catroid project
 		if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_SELECT_IMAGE) {
-			String imagePath = "";
+			String originalImagePath = "";
 			//get path of image --------------------------
 			{
 				Uri imageUri = data.getData();
@@ -177,18 +177,23 @@ public class CostumeActivity extends ListActivity {
 				Cursor cursor = managedQuery(imageUri, projection, null, null, null);
 				int column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
 				cursor.moveToFirst();
-				imagePath = cursor.getString(column_index);
+				originalImagePath = cursor.getString(column_index);
 			}
 			//-----------------------------------------------------
 
+			File oldFile = new File(originalImagePath);
+
 			//copy image to catroid:
 			try {
-				if (imagePath.equalsIgnoreCase("")) {
+				if (originalImagePath.equalsIgnoreCase("")) {
 					throw new IOException();
 				}
-				File imageFile = StorageHandler.getInstance().copyImage(
-						ProjectManager.getInstance().getCurrentProject().getName(), imagePath, "testname");
-				String imageName = imageFile.getName().substring(33, imageFile.getName().length() - 4);
+				String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+				File imageFile;
+				String imageName;
+				imageFile = StorageHandler.getInstance().copyImage(projectName, originalImagePath, null);
+				imageName = oldFile.getName().substring(0, oldFile.getName().length() - 4);
+
 				String imageFileName = imageFile.getName();
 				updateCostumeAdapter(imageName, imageFileName);
 			} catch (IOException e) {
