@@ -68,6 +68,9 @@ public class StageListener implements ApplicationListener {
 
 	private List<Sprite> sprites;
 
+	private float virtualWidthHalf;
+	private float virtualHeightHalf;
+
 	public int screenMode = Consts.STRETCH;
 	public int maximizeViewPortX = 0;
 	public int maximizeViewPortY = 0;
@@ -93,6 +96,10 @@ public class StageListener implements ApplicationListener {
 
 		renderer = new ImmediateModeRenderer20(200, false, true, 0);
 		project = ProjectManager.getInstance().getCurrentProject();
+
+		virtualWidthHalf = project.VIRTUAL_SCREEN_WIDTH / 2;
+		virtualHeightHalf = project.VIRTUAL_SCREEN_HEIGHT / 2;
+
 		stage = new Stage(project.VIRTUAL_SCREEN_WIDTH, project.VIRTUAL_SCREEN_HEIGHT, true);
 		camera = (OrthographicCamera) stage.getCamera();
 		camera.position.set(0, 0, 0);
@@ -111,7 +118,7 @@ public class StageListener implements ApplicationListener {
 			Gdx.input.setInputProcessor(stage);
 		}
 
-		pauseScreen = new Texture(Gdx.files.internal("data/paused_cat.png"));
+		pauseScreen = new Texture(Gdx.files.internal("images/paused_cat.png"));
 
 	}
 
@@ -215,8 +222,6 @@ public class StageListener implements ApplicationListener {
 	}
 
 	private void renderAxes() {
-		float virtualWidthHalf = project.VIRTUAL_SCREEN_WIDTH / 2;
-		float virtualHeightHalf = project.VIRTUAL_SCREEN_HEIGHT / 2;
 		renderer.begin(camera.combined, GL20.GL_LINES);
 		renderer.color(1f, 0f, 0.05f, 1f);
 		renderer.vertex(-virtualWidthHalf, 0, 0);

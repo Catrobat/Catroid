@@ -21,9 +21,9 @@ package at.tugraz.ist.catroid.content;
 import java.util.concurrent.Semaphore;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import at.tugraz.ist.catroid.ProjectManager;
-import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.Utils;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -42,6 +42,7 @@ public class Costume extends Image {
 	private String currentImagePath = "";
 	private Sprite sprite;
 	public float alphaValue;
+	private Bitmap currentBitmap = null;
 
 	public Costume(Sprite sprite) {
 		super(Utils.getUniqueName());
@@ -69,8 +70,13 @@ public class Costume extends Image {
 			/*
 			 * The following solution is not really fast...
 			 */
-			Bitmap bitmap = ImageEditing.getBitmap(currentImagePath, (int) this.width, (int) this.height);
-			if (Color.alpha(bitmap.getPixel((int) x, (int) y)) > 10) {
+			Bitmap tmpBitmap = currentBitmap;
+			if (currentBitmap == null && !currentImagePath.equals("")) {
+				tmpBitmap = BitmapFactory.decodeFile(currentImagePath);
+				currentBitmap = tmpBitmap;
+			}
+
+			if (tmpBitmap != null && (Color.alpha(tmpBitmap.getPixel((int) x, (int) y)) > 10)) {
 				sprite.startTapScripts();
 				xyLock.release();
 				return true;
@@ -99,6 +105,7 @@ public class Costume extends Image {
 				this.region = ProjectManager.getInstance().textureRegionContainer.getTextureRegion(currentImagePath,
 						imagePath);
 				currentImagePath = imagePath;
+				currentBitmap = null;
 				this.width = 0f;
 				this.height = 0f;
 				imageChanged = false;
@@ -112,6 +119,7 @@ public class Costume extends Image {
 			this.region = ProjectManager.getInstance().textureRegionContainer.getTextureRegion(currentImagePath,
 					imagePath);
 			currentImagePath = imagePath;
+			currentBitmap = null;
 			this.width = this.region.getTexture().getWidth();
 			this.height = this.region.getTexture().getHeight();
 			this.originX = this.width / 2f;
@@ -158,18 +166,22 @@ public class Costume extends Image {
 	}
 
 	public float getXPosition() {
+		xyLock.acquireUninterruptibly();
 		float xPos = this.x;
 		if (this.region != null && this.region.getTexture() != null) {
 			xPos += this.width / 2;
 		}
+		xyLock.release();
 		return xPos;
 	}
 
 	public float getYPosition() {
+		xyLock.acquireUninterruptibly();
 		float yPos = this.y;
 		if (this.region != null && this.region.getTexture() != null) {
 			yPos += this.height / 2;
 		}
+		xyLock.release();
 		return yPos;
 	}
 
