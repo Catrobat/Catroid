@@ -20,6 +20,7 @@ package at.tugraz.ist.catroid.ui;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -60,6 +61,8 @@ public class CostumeActivity extends ListActivity {
 	private static final int CONTEXT_MENU_ITEM_RENAME = 0;
 	private static final int CONTEXT_MENU_ITEM_EDIT = 1;
 
+	//TODO on windowfocuschanges for this and soundActivity
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -89,7 +92,7 @@ public class CostumeActivity extends ListActivity {
 			//set new functionality for actionbar add button:
 			activityHelper.changeClickListener(R.id.btn_action_add_sprite, createAddCostumeClickListener());
 			//set new icon for actionbar plus button:
-			activityHelper.changeButtonIcon(R.id.btn_action_add_sprite, R.drawable.ic_plus_black);
+			activityHelper.changeButtonIcon(R.id.btn_action_add_sprite, R.drawable.ic_folder_open);
 		}
 	}
 
@@ -138,7 +141,7 @@ public class CostumeActivity extends ListActivity {
 		}
 	}
 
-	private void updateCostumeAdapter(String name, String fileName) {
+	public void updateCostumeAdapter(String name, String fileName) {
 		CostumeData costumeData = new CostumeData();
 		costumeData.setCostumeFilename(fileName);
 		costumeData.setCostumeName(name);
@@ -205,9 +208,9 @@ public class CostumeActivity extends ListActivity {
 	private void initCustomContextMenu() {
 		Resources resources = getResources();
 		iconContextMenu = new CustomIconContextMenu(this, Consts.DIALOG_CONTEXT_MENU);
-		iconContextMenu.addItem(resources, this.getString(R.string.rename), R.drawable.ic_context_rename,
-				CONTEXT_MENU_ITEM_RENAME);
-		iconContextMenu.addItem(resources, this.getString(R.string.delete), R.drawable.ic_context_delete,
+		iconContextMenu.addItem(resources, this.getString(R.string.rename_costume_dialog),
+				R.drawable.ic_context_rename, CONTEXT_MENU_ITEM_RENAME);
+		iconContextMenu.addItem(resources, this.getString(R.string.edit_in_paintroid), R.drawable.ic_context_rename,
 				CONTEXT_MENU_ITEM_EDIT);
 
 		iconContextMenu.setOnClickListener(new CustomIconContextMenu.IconContextMenuOnClickListener() {
@@ -250,6 +253,8 @@ public class CostumeActivity extends ListActivity {
 				final Button editCostumeButton = (Button) convertView.findViewById(R.id.btn_costume_edit);
 				final Button copyCostumeButton = (Button) convertView.findViewById(R.id.btn_costume_copy);
 				Button deleteCostumeButton = (Button) convertView.findViewById(R.id.btn_costume_delete);
+				TextView costumeResolution = (TextView) convertView.findViewById(R.id.costume_res);
+				TextView costumeSize = (TextView) convertView.findViewById(R.id.costume_size);
 
 				copyCostumeButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_copy, 0, 0);
 				editCostumeButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_menu_edit, 0, 0);
@@ -258,10 +263,55 @@ public class CostumeActivity extends ListActivity {
 				costumeImage.setImageBitmap(costumeData.getThumbnailBitmap());
 				costumeNameTextField.setText(costumeData.getCostumeName());
 
+				//setting duration and costume size:
+				{
+					int[] resolution = costumeData.getResolution();
+					costumeResolution.setText(resolution[0] + " x " + resolution[1]);
+
+					//setting size
+					float fileSizeInKB = costumeData.getSizeInKb();
+					String fileSizeString;
+					if (fileSizeInKB > 1024) {
+						DecimalFormat decimalFormat = new DecimalFormat("#.00");
+						fileSizeString = decimalFormat.format(fileSizeInKB / 1024) + " MB";
+					} else {
+						fileSizeString = Long.toString((long) fileSizeInKB) + " KB";
+					}
+					costumeSize.setText(fileSizeString);
+				}
+
 				copyCostumeButton.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
 
-						notifyDataSetChanged();
+						try {
+							String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+							StorageHandler.getInstance().copyImage(projectName, costumeData.getAbsolutePath(), null);
+							String imageName = costumeData.getCostumeName() + "_copy";
+							String imageFileName = costumeData.getCostumeFileName();
+							updateCostumeAdapter(imageName, imageFileName);
+						} catch (IOException e) {
+							Utils.displayErrorMessage(activity, activity.getString(R.string.error_load_image));
+							e.printStackTrace();
+						}
+
+						//if we need a seperate file (I think we don't need this yet)
+						//						try {
+						//							String path = costumeData.getAbsolutePath();
+						//							if (path.equalsIgnoreCase("")) {
+						//								throw new IOException();
+						//							}
+						//							String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+						//							String timeStamp = Utils.getTimestamp();
+						//							String newName = costumeData.getChecksum() + "_" + costumeData.getCostumeName() + "_"
+						//									+ timeStamp + "." + costumeData.getFileExtension();
+						//							File imageFile = StorageHandler.getInstance().copyImage(projectName, path, newName);
+						//							String imageName = costumeData.getCostumeName() + "_copy";
+						//							String imageFileName = imageFile.getName();
+						//							updateCostumeAdapter(imageName, imageFileName);
+						//						} catch (IOException e) {
+						//							Utils.displayErrorMessage(activity, activity.getString(R.string.error_load_image));
+						//						}
+						//						notifyDataSetChanged();
 					}
 				});
 

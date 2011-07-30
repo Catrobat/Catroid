@@ -100,9 +100,7 @@
     <string name="edit_costume">edit</string>
     <string name="copy_costume">copy</string>
     <string name="costumename_invalid">This costumename is invalid</string>
-    <string name="costumename_already_exists">This costumename already exists</string>
-    <string name="normal_cat">Normal Cat</string>
-    <string name="white_background">White</string>
+    <string name="edit_in_paintroid">Edit in paintroid</string>
     
     <!-- Sound activity -->
     <string name="sound_list">Sound:</string>

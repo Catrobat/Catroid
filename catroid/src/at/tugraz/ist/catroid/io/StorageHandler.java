@@ -253,10 +253,10 @@ public class StorageHandler {
 				newFilePath = imageDirectory.getAbsolutePath() + "/" + checksumSource + "_" + newName;
 			} else {
 				newFilePath = imageDirectory.getAbsolutePath() + "/" + checksumSource + "_" + inputFile.getName();
-			}
-			if (checksumCont.containsChecksum(checksumSource)) {
-				checksumCont.addChecksum(checksumSource, newFilePath);
-				return new File(checksumCont.getPath(checksumSource));
+				if (checksumCont.containsChecksum(checksumSource)) {
+					checksumCont.addChecksum(checksumSource, newFilePath);
+					return new File(checksumCont.getPath(checksumSource));
+				}
 			}
 			File outputFile = new File(newFilePath);
 			return copyFile(outputFile, inputFile, imageDirectory);
