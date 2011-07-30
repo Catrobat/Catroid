@@ -43,6 +43,7 @@ public class Costume extends Image {
 	private Sprite sprite;
 	public float alphaValue;
 	private Bitmap currentBitmap = null;
+	public int zPosition = 0;
 
 	public Costume(Sprite sprite) {
 		super(Utils.getUniqueName());
