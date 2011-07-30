@@ -354,12 +354,24 @@ public class StorageHandler {
 		Script startScript = new StartScript("startScript", sprite);
 		Script touchScript = new TapScript("touchScript", sprite);
 
-		File normalCat = savePictureFromResInProject(projectName, Consts.NORMAL_CAT, R.drawable.catroid, context);
-		File banzaiCat = savePictureFromResInProject(projectName, Consts.BANZAI_CAT, R.drawable.catroid_banzai, context);
-		File cheshireCat = savePictureFromResInProject(projectName, Consts.CHESHIRE_CAT, R.drawable.catroid_cheshire,
+		File normalCatTemp = savePictureFromResInProject(projectName, Consts.NORMAL_CAT, R.drawable.catroid, context);
+		File banzaiCatTemp = savePictureFromResInProject(projectName, Consts.BANZAI_CAT, R.drawable.catroid_banzai,
 				context);
-		File background = savePictureFromResInProject(projectName, Consts.BACKGROUND, R.drawable.background_blueish,
-				context);
+		File cheshireCatTemp = savePictureFromResInProject(projectName, Consts.CHESHIRE_CAT,
+				R.drawable.catroid_cheshire, context);
+		File backgroundTemp = savePictureFromResInProject(projectName, Consts.BACKGROUND,
+				R.drawable.background_blueish, context);
+
+		String dir = Consts.DEFAULT_ROOT + "/" + projectName + Consts.IMAGE_DIRECTORY + "/";
+		File normalCat = new File(dir + Utils.md5Checksum(normalCatTemp) + "_" + normalCatTemp.getName());
+		File banzaiCat = new File(dir + Utils.md5Checksum(banzaiCatTemp) + "_" + banzaiCatTemp.getName());
+		File cheshireCat = new File(dir + Utils.md5Checksum(cheshireCatTemp) + "_" + cheshireCatTemp.getName());
+		File background = new File(dir + Utils.md5Checksum(backgroundTemp) + "_" + backgroundTemp.getName());
+
+		normalCatTemp.renameTo(normalCat);
+		banzaiCatTemp.renameTo(banzaiCat);
+		cheshireCatTemp.renameTo(cheshireCat);
+		backgroundTemp.renameTo(background);
 
 		CostumeData normalCatCostumeData = new CostumeData();
 		normalCatCostumeData.setCostumeName(Consts.NORMAL_CAT);
