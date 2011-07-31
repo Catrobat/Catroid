@@ -25,18 +25,18 @@ import java.io.IOException;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
@@ -64,7 +64,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	private void initListeners() {
 		sprite = ProjectManager.getInstance().getCurrentSprite();
 		listView = (DragNDropListView) findViewById(R.id.brick_list_view);
-		adapter = new BrickAdapter(this, ProjectManager.getInstance().getCurrentSprite(), listView);
+		adapter = new BrickAdapter(this, sprite, listView);
 		if (adapter.getGroupCount() > 0) {
 			ProjectManager.getInstance().setCurrentScript(adapter.getGroup(adapter.getGroupCount() - 1));
 		}
@@ -93,7 +93,6 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_script);
-
 	}
 
 	@Override

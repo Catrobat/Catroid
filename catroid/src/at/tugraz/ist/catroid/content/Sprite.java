@@ -51,6 +51,16 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		init();
 	}
 
+	public void startWhenScripts(String action) {
+		for (Script s : scriptList) {
+			if (s instanceof WhenScript) {
+				if (((WhenScript) s).getAction().equalsIgnoreCase(action)) {
+					startScript(s);
+				}
+			}
+		}
+	}
+
 	public void startStartScripts() {
 		for (Script s : scriptList) {
 			if (s instanceof StartScript) {
@@ -151,14 +161,14 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		}
 	}
 
-	public void addScript(int location, Script script) {
+	public void addScript(int index, Script script) {
 		if (script != null && !scriptList.contains(script)) {
-			scriptList.add(location, script);
+			scriptList.add(index, script);
 		}
 	}
 
-	public Script getScript(int location) {
-		return scriptList.get(location);
+	public Script getScript(int index) {
+		return scriptList.get(index);
 	}
 
 	public int getNumberOfScripts() {

@@ -31,6 +31,7 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -87,7 +88,8 @@ public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		solo.clickOnButton(0);
 
 		solo.sleep(1000);
-		assertEquals("Wrong text in field", (long) (waitTime * 1000), waitBrick.getWaitTime());
+		int actualWaitTime = (Integer) UiTestUtils.getPrivateField("timeToWaitInMilliSeconds", waitBrick);
+		assertEquals("Wrong text in field", (long) (waitTime * 1000), actualWaitTime);
 		assertEquals("Text not updated", waitTime, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
 

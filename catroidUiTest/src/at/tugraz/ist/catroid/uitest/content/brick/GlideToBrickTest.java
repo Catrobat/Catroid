@@ -27,7 +27,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
-import at.tugraz.ist.catroid.uitest.util.Utils;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -40,7 +40,7 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 
 	@Override
 	public void setUp() throws Exception {
-		Utils.createTestProject();
+		UiTestUtils.createTestProject();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
@@ -56,34 +56,28 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		super.tearDown();
 	}
 
-	private void enterValue(int editTextId, String value) {
-		solo.clickOnEditText(editTextId);
-		Utils.enterText(solo, 0, value);
-
-		solo.clickOnButton(0);
-
-		solo.sleep(100);
-	}
-
 	public void testNumberInput() {
-		Utils.addNewBrickAndScrollDown(solo, R.string.brick_glide);
+		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_glide);
 
 		double duration = 1.5;
 		int xPosition = 123;
 		int yPosition = 567;
 
 		int numberOfEditTexts = solo.getCurrentEditTexts().size();
-		enterValue(numberOfEditTexts - 3, String.valueOf(duration));
-		enterValue(numberOfEditTexts - 2, String.valueOf(xPosition));
-		enterValue(numberOfEditTexts - 1, String.valueOf(yPosition));
+		UiTestUtils.clickEnterClose(solo, numberOfEditTexts - 3, String.valueOf(duration));
+		UiTestUtils.clickEnterClose(solo, numberOfEditTexts - 2, String.valueOf(xPosition));
+		UiTestUtils.clickEnterClose(solo, numberOfEditTexts - 1, String.valueOf(yPosition));
 
+		solo.sleep(1000);
 		ProjectManager manager = ProjectManager.getInstance();
 		List<Brick> brickList = manager.getCurrentScript().getBrickList();
 		GlideToBrick glideToBrick = (GlideToBrick) brickList.get(brickList.size() - 1);
 		assertEquals("Wrong duration input in Glide to brick", Math.round(duration * 1000),
 				glideToBrick.getDurationInMilliSeconds());
-		assertEquals("Wrong x input in Glide to brick", xPosition, glideToBrick.getXDestination());
-		assertEquals("Wrong y input in Glide to brick", yPosition, glideToBrick.getYDestination());
 
+		assertEquals("Wrong x input in Glide to brick", xPosition,
+				UiTestUtils.getPrivateField("xDestination", glideToBrick));
+		assertEquals("Wrong y input in Glide to brick", yPosition,
+				UiTestUtils.getPrivateField("yDestination", glideToBrick));
 	}
 }

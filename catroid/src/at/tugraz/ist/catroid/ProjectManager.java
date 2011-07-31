@@ -35,12 +35,10 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class ProjectManager {
 
-	private Sprite currentSprite;
 	private Project project;
-	private static ProjectManager instance;
 	private Script currentScript;
-	// used in uiTests
-	private int serverProjectId;
+	private Sprite currentSprite;
+	private static ProjectManager instance;
 
 	public FileChecksumContainer fileChecksumContainer;
 	public MessageContainer messageContainer;
@@ -106,7 +104,6 @@ public class ProjectManager {
 	}
 
 	public void deleteCurrentProject(Context context) {
-
 		StorageHandler.getInstance().deleteProject(project);
 
 		project = null;
@@ -149,9 +146,6 @@ public class ProjectManager {
 		saveProject(context);
 	}
 
-	/**
-	 * @return false if project doesn't contain the new sprite, true otherwise
-	 */
 	public void setCurrentSprite(Sprite sprite) {
 		currentSprite = sprite;
 	}
@@ -189,7 +183,6 @@ public class ProjectManager {
 	}
 
 	public boolean renameProject(String newProjectName, Context context) {
-
 		if (StorageHandler.getInstance().projectExists(newProjectName)) {
 			Utils.displayErrorMessage(context, context.getString(R.string.error_project_exists));
 			return false;
@@ -211,29 +204,20 @@ public class ProjectManager {
 		return (directoryRenamed && fileRenamed);
 	}
 
-	public void setServerProjectId(int serverProjectId) {
-		this.serverProjectId = serverProjectId;
-	}
-
-	public int getServerProjectId() {
-		return serverProjectId;
-	}
-
 	public int getCurrentSpritePosition() {
 		return project.getSpriteList().indexOf(currentSprite);
 	}
 
 	public int getCurrentScriptPosition() {
-		int currentSpritePos = this.getCurrentSpritePosition();
-		if (currentSpritePos == -1) {
+		int currentSpritePosition = this.getCurrentSpritePosition();
+		if (currentSpritePosition == -1) {
 			return -1;
 		}
 
-		return project.getSpriteList().get(currentSpritePos).getScriptIndex(currentScript);
+		return project.getSpriteList().get(currentSpritePosition).getScriptIndex(currentScript);
 	}
 
 	public boolean setCurrentSpriteWithPosition(int position) {
-
 		if (position >= project.getSpriteList().size() || position < 0) {
 			return false;
 		}
@@ -243,12 +227,12 @@ public class ProjectManager {
 	}
 
 	public boolean setCurrentScriptWithPosition(int position) {
-		int currentSpritePos = this.getCurrentSpritePosition();
-		if (currentSpritePos == -1) {
+		int currentSpritePosition = this.getCurrentSpritePosition();
+		if (currentSpritePosition == -1) {
 			return false;
 		}
 
-		if (position >= project.getSpriteList().get(currentSpritePos).getNumberOfScripts() || position < 0) {
+		if (position >= project.getSpriteList().get(currentSpritePosition).getNumberOfScripts() || position < 0) {
 			return false;
 		}
 

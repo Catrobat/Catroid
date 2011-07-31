@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- 
+ *  Catroid: An on-device graphical programming language for Android devices
+ *  Copyright (C) 2010  Catroid development team 
+ *  (<http://code.google.com/p/catroid/wiki/Credits>)
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+
+<resources>
+    <!-- General terms -->
+    <string name="project">проект</string>
+    <string name="sprite">объект</string>
+    <string name="script">скрипт</string>
+    <string name="brick">блок</string>
+    <string name="quit">Выход</string>
+    <string name="cancel_button">Отмена</string>
+    <string name="rename">Переименовать</string>
+    <string name="delete">Удалить</string>
+
+    <!-- User interface -->
+    <string name="main_menu">Главное меню</string>
+    <string name="menu">Меню</string>
+
+    <!-- General -->
+    <string name="save">Сохранить</string>
+    <string name="close">Закрыть</string>
+    <string name="error">Ошибка</string>
+    <string name="please_wait">Подождите, пожалуйста</string>
+    <string name="loading">Загрузка...</string>
+    <string name="background">Фон</string>
+    <string name="stage">Сцена</string>
+    <string name="ok">OK</string>
+
+    <!-- Brick captions -->
+    <string name="show">Показать</string>
+    <string name="hide">Спрятать</string>
+
+    <!-- Construction site context menu -->
+    <string name="construction_site_play">К сцене</string>
+    <string name="reset">Очитстить строительную слощадку</string>
+    <string name="new_project">Новый проект</string>
+    <string name="load">Загрузить</string>
+    <string name="change_project_name_main">Поменять имя проекта</string>
+    <string name="about">О Catroid</string>
+    <string name="upload_project">Закачать проект</string>
+
+    <!-- Main menu activity -->
+    <string name="resume">Возобновить</string>
+    <string name="current_project">Текущий проект:</string>
+    <string name="no_project">Нет загруженных проектов</string>
+    <string name="current_project_button">Текущий проект</string>
+    <string name="projects_on_phone">Проекты на телефоне</string>
+    <string name="create_new_project">Создать новый проект</string>
+	<string name="tutorial">Обучение</string>
+	<string name="settings">Настройки</string>
+	<string name="web_resources">Веб ресурсы</string>
+	
+    <!-- About Dialog -->
+    <string name="about_title">О Catroid</string>
+    <string name="about_text">
+        Catroid это графический язык программирования для Android,
+        вдохновленный проектом Scratch из MIT.\n
+        Catroid разрабатывается в Институте Технологий Программного Обеспечения в 
+        Техническом Университете Граца в Австрии.\n\n
+        Эта программа лицензированна под лицензией GNU GPL v3.\n\n
+    </string>
+    <string name="about_link_text">О Catroid</string>
+
+    <!-- Project activity view -->
+    <string name="project_name">Проект:</string>
+    <string name="sprite_list">Объекты</string>
+    <string name="add_sprite">Добавть новый объект</string>
+
+    <!-- Script activity view -->
+    <string name="script_name">Скрипт:</string>
+    <string name="brick_list">Блоки:</string>
+    <string name="add_new_brick">Добавить новый блок</string>
+
+    <!-- Sprite activity -->
+    <string name="sprite_name">Объекты:</string>
+    <string name="script_list">Скрипты:</string>
+    <string name="add_new_script">Добавить новый скрипт</string>
+
+    <!-- Sprite dialog -->
+    <string name="sprite_button_text">Создать</string>
+    <string name="newsprite">Новый объект</string>
+
+    <!-- New project dialog -->
+    <string name="new_project_dialog_button">Создать</string> 
+    <string name="new_project_dialog_title">Название нового проекта</string>
+    <string name="new_project_dialog_default_project_name">названиеПроекта</string>
+    
+    <!-- Edit Sprite Dialog -->
+    <string name="delete_sprite_button">Удалить</string>
+    <string name="rename_sprite_button">Переименовать</string>
+    <string name="edit_sprite_dialog_title">Изменить объект</string>
+
+    <!-- Edit Script Dialog -->
+    <string name="delete_script_button">Удалить</string>
+    <string name="rename_script_button">Переименовать</string>
+    <string name="edit_script_dialog_title">Удалить скрипт</string>
+
+    <!-- Rename Dialog -->
+    <string name="rename_hint">Название</string>
+    <string name="rename_button">Переименовать</string>
+
+    <!-- New script dialog -->
+    <string name="new_script_dialog_button">Создать</string>
+    <string name="new_script_dialog_title">Название нового скрипта</string>
+    <string name="new_script_dialog_default_script_name">названиеСкрипта</string>
+    <string name="script_invalid">Это название скрипта недопустимо</string>
+
+    <!-- New sprite dialog -->
+    <string name="new_sprite_dialog_default_sprite_name">названиеобъекта</string>
+    <string name="new_sprite_dialog_button">Создать</string>
+    <string name="new_sprite_dialog_title">Название нового объекта</string>
+    <string name="spritename_already_exists">Это название объекта уже существует</string>
+    <string name="rename_sprite_dialog">Переименовать объект</string>
+    <string name="spritename_invalid">Это название объекта недопустимо</string>
+    <string name="rename_script_dialog">Переименовать скрипт</string>
+
+    <!-- Load project dialog -->
+    <string name="load_project_dialog_title">Загрузить проект</string>
+
+	<!-- Broadcast spinner -->
+	<string name="new_broadcast_message">новое...</string>
+	<string name="broadcast_nothing_selected">Ничего...</string>
+	
+    <!-- Stage context menu -->
+    <string name="stagemenu_construction_site">К сторительной площадке</string>
+    <string name="stagemenu_start">Проигрывать/Пауза</string>
+
+    <string name="brick_set_background">Установить фон</string>
+    <string name="brick_play_sound">Воспроизвести звук</string>
+    <string name="brick_wait">Ждать</string>
+    <string name="seconds">Секунд</string>
+    
+    <string name="brick_hide">Спрятать</string>
+    <string name="brick_show">Показать</string>
+    <string name="brick_place_at">Поместить на</string>
+    <string name="x_label">X:</string>
+    <string name="y_label">Y:</string>
+    <string name="brick_set_costume">Задать костюм</string>
+    <string name="brick_set_size_to">Установить размер на</string>
+    <string name="brick_go_back">Назад на</string>
+    <string name="brick_go_back_layers">слоев</string>
+    <string name="brick_come_to_front">Прийти на перед</string>
+    <string name="brick_if_touched">При дотрагивании</string>
+    <string name="brick_if_started">При старте</string>
+    <string name="brick_change_x_by">Изменить X на:</string>
+	<string name="brick_change_y_by">Изменить Y на:</string>
+	<string name="brick_set_x">Установить X к:</string>
+	<string name="brick_set_y">Установить Y к:</string>
+	<string name="brick_glide">Скользить</string>
+	<string name="brick_glide_to">к</string>
+	<string name="brick_when">Когда</string>
+	<string name="brick_set_ghost_effect">Установить прозрачность</string>
+	<string name="brick_change_ghost_effect">Изменить прозрачность</string>
+	<string name="brick_set_brightness">Установить яркость</string>
+	<string name="brick_change_brightness">Изменить яркость</string>
+	<string name="by_label">на</string>
+	<string name="to_label">к</string>
+	<string name="brick_clear_graphic_effect">Очистить графические эффекты</string>
+	<string name="brick_set_volume_to">Установить громкость к</string>
+	<string name="brick_change_volume_by">Изменить громкость на</string>
+	<string name="brick_speak">Говорить</string>
+	<string name="brick_forever">Вечно</string>
+	<string name="brick_loop_end">Конец цикла</string>
+	<string name="brick_repeat">Повторять</string>
+	<string name="times_label">раз</string>
+	<string name="brick_if_on_edge_bounce">Отскочить если на краю</string>
+	<string name="brick_move">Идти</string>
+	<string name="brick_move_n_steps">шагов</string>
+	<string name="brick_turn_right">Повернуть направо</string>
+	<string name="brick_turn_right_n_degrees">градусов</string>
+	<string name="brick_turn_left">Повернуть налвео</string>
+	<string name="brick_turn_left_n_degrees">градусов</string>
+	<string name="brick_point_in_direction">Указать в направление</string>
+	
+	<string name="choose_sound_title">выберите название</string>
+	<string name="choose_language">выберите язык</string>
+	
+    <string name="when_action">Выберите действие</string>
+    <string name="action_tapped">Нажатие</string>
+    <string name="action_doubleTapped">Двойное нажатие</string>
+    <string name="action_longPressed">Длинное нажатие</string>
+    <string name="action_touchingStops">Нажатие прекратилось</string>
+    <string name="action_swipeLeft">Проведено пальцем налево</string> 
+    <string name="action_swipeRight">Проведено пальцем направо</string>
+    <string name="action_swipeUp">Проведено пальцем вверх</string>
+    <string name="action_swipeDown">Проведено пальцем вниз</string>
+
+	<string name="brick_note">Примечание</string>
+	<string name="brick_broadcast_receive">Когда я получу</string>
+	
+	<string name="brick_broadcast">Вещать всем</string>
+    <string name="brick_broadcast_wait">Вещать всем и ждать</string>
+	<string name="brick_stop_all_sounds">Остановить все звуки</string>
+    <!-- defaulValues -->
+    <string name="default_project_name">проектПоУмолчанию</string>
+    
+    <!-- Notifications -->
+    <string name="notification_invalid_text_entered">
+    	Пожалуйста, введите значение
+    </string>
+    <string name="notification_invalid_name_entered">
+    	Пожалуйста, введите название
+    </string>
+    <string name="notification_screenshot_ok">
+        Снимок сохранен
+    </string>
+
+    <!-- Error messages -->
+    <string name="error_no_sd_card">
+        Catroid требует наличие SD карты.
+        \nПожалуйста введите SD карту и попробуйте еще раз.
+    </string>
+    <string name="error_no_name_entered">
+        Пожалуйста, введите название.
+    </string>
+    <string name="error_project_exists">
+        Проект с таким названием уже существуетю\nПожалуйста, выберите другое название.
+    </string>
+    <string name="error_sprite_exists">
+    	Объект с таким названием уже существует.\nПожалуйста, выберите другое название.
+    </string>
+    <string name="error_project_upload">
+        Произошла ошибка во время закачивания проекта.
+    </string>
+    <string name="error_project_download">
+        Произошла ошибка во время скачивания проекта.
+    </string>
+    <string name="error_project_rename">
+        Произошла ошибка во время переименования проекта.
+    </string>
+    <string name="error_save_project">
+        Произошла ошибка во время сохранения проекта.
+    </string>
+    <string name="error_load_project">
+        Произошла ошибка во время загрузки проекта.
+    </string>
+    <string name="error_delete_project">
+        Произошла ошибка во время удаления проекта.
+    </string>
+    <string name="error_no_number_entered">
+        Пожалуйста, введите номер.
+    </string>
+    <string name="error_screenshot_failed">
+        Произошла ошибка во время сохранения снимка.
+    </string>
+    <string name="error_load_image">
+    	Произошла ошибка во время загрузки иображения.
+    </string>
+
+    <!-- Notifications -->
+    <string name="success_project_upload">Проект успешно закачан.</string>
+    <string name="success_project_download">Проект успешно скачан.</string>
+    <string name="load_project">Загрузить проект</string>
+    <string name="upload_button">Закачать</string>
+    <string name="upload_project_dialog_title">Закачать проект</string>
+    <string name="project_rename">(Ваш проект будет переименован.)</string>
+</resources>

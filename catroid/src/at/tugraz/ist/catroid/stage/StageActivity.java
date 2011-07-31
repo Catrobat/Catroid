@@ -18,9 +18,16 @@
  */
 package at.tugraz.ist.catroid.stage;
 
+import java.util.Locale;
+
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.TextToSpeech.OnInitListener;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
@@ -37,9 +44,29 @@ public class StageActivity extends AndroidApplication {
 	private StageListener stageListener;
 	private boolean resizePossible;
 
+	public static TextToSpeech tts;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+		tts = new TextToSpeech(this, new OnInitListener() {
+			public void onInit(int status) {
+				if (status == TextToSpeech.ERROR) {
+					Toast.makeText(StageActivity.this, "Error occurred while initializing Text-To-Speech engine",
+							Toast.LENGTH_LONG).show();
+				}
+			}
+		});
+
+		if (tts.isLanguageAvailable(Locale.getDefault()) == TextToSpeech.LANG_MISSING_DATA) {
+			Intent installIntent = new Intent();
+			installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+			startActivity(installIntent);
+		}
+
 		stageListener = new StageListener(this);
 		this.calculateScreenSizes();
 		initialize(stageListener, true);
@@ -98,6 +125,7 @@ public class StageActivity extends AndroidApplication {
 		projectManager.setCurrentSpriteWithPosition(currentSpritePos);
 		projectManager.setCurrentScriptWithPosition(currentScriptPos);
 		stagePlaying = false;
+		tts.shutdown();
 		finish();
 	}
 
@@ -146,5 +174,9 @@ public class StageActivity extends AndroidApplication {
 
 		stageListener.maximizeViewPortX = (Values.SCREEN_WIDTH - stageListener.maximizeViewPortWidth) / 2;
 		stageListener.maximizeViewPortY = (Values.SCREEN_HEIGHT - stageListener.maximizeViewPortHeight) / 2;
+	}
+
+	public static void textToSpeech(String Text) {
+		tts.speak(Text, TextToSpeech.QUEUE_FLUSH, null);
 	}
 }

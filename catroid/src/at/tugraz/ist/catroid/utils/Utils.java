@@ -40,6 +40,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import at.tugraz.ist.catroid.R;
@@ -52,8 +53,8 @@ public class Utils {
 	private static long uniqueLong = 0;
 	private static Semaphore uniqueNameLock = new Semaphore(1);
 
-	private static boolean hasSdCard() {
-		return android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
+	public static boolean hasSdCard() {
+		return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
 	}
 
 	public static void updateScreenWidthAndHeight(Activity currentActivity) {

@@ -41,16 +41,11 @@ public class SetXBrick implements Brick, OnDismissListener {
 	}
 
 	public void execute() {
-		//sprite.setXYPosition(xPosition, sprite.getYPosition());
 		sprite.costume.setXPosition(xPosition);
 	}
 
 	public Sprite getSprite() {
 		return this.sprite;
-	}
-
-	public int getXPosition() {
-		return xPosition;
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
@@ -77,7 +72,7 @@ public class SetXBrick implements Brick, OnDismissListener {
 
 	@Override
 	public Brick clone() {
-		return new SetXBrick(getSprite(), getXPosition());
+		return new SetXBrick(getSprite(), xPosition);
 	}
 
 	public void onDismiss(DialogInterface dialog) {
