@@ -42,8 +42,6 @@ import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
 import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
-import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
-import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView;
 import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView.DropListener;
 import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView.RemoveListener;
@@ -147,13 +145,7 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 	public void remove(int which) {
 		ArrayList<Brick> brickList = sprite.getScript(getGroupCount() - 1).getBrickList();
 		Brick brickToRemove = brickList.get(which);
-		if (brickToRemove instanceof SetCostumeBrick) {
-			SetCostumeBrick toDelete = (SetCostumeBrick) brickToRemove;
-			String imagePath = toDelete.getImagePath();
-			if (imagePath != null) {
-				StorageHandler.getInstance().deleteFile(imagePath);
-			}
-		} else if (brickToRemove instanceof LoopBeginBrick) {
+		if (brickToRemove instanceof LoopBeginBrick) {
 			LoopBeginBrick loopBeginBrick = (LoopBeginBrick) brickToRemove;
 			brickList.remove(loopBeginBrick.getLoopEndBrick());
 		} else if (brickToRemove instanceof LoopEndBrick) {
