@@ -190,7 +190,7 @@ public class StageListener implements ApplicationListener {
 		if (makeScreenshot) {
 			String text;
 			if (saveThumbnail()) {
-				text = stageActivity.getString(R.string.screenshot_ok);
+				text = stageActivity.getString(R.string.notification_screenshot_ok);
 			} else {
 				text = stageActivity.getString(R.string.error_screenshot_failed);
 			}

@@ -39,8 +39,8 @@ public class Project implements Serializable {
 	//only used for catroid website
 	@SuppressWarnings("unused")
 	private String deviceName;
-	private String screenResolution;
 
+	private String screenResolution;
 	public transient int VIRTUAL_SCREEN_WIDTH = 0;
 	public transient int VIRTUAL_SCREEN_HEIGHT = 0;
 

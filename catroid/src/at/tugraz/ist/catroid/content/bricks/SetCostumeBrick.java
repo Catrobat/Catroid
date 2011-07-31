@@ -47,14 +47,10 @@ public class SetCostumeBrick implements Brick {
 	}
 
 	public void setCostume(String imageName) {
-		//		if (this.imageName != null) {
-		//			TextureHandler.getInstance().deleteImage(getAbsoluteImagePath());
-		//		}
 		this.imageName = imageName;
 		if (imageName != null) {
 			thumbnail = ImageEditing.getScaledBitmap(getAbsoluteImagePath(), Consts.THUMBNAIL_HEIGHT,
 					Consts.THUMBNAIL_WIDTH);
-			//			TextureHandler.getInstance().addImage(getAbsoluteImagePath());
 		}
 	}
 
@@ -62,7 +58,6 @@ public class SetCostumeBrick implements Brick {
 		if (imageName != null && ProjectManager.getInstance().getCurrentProject() != null) {
 			String[] checksum = imageName.split("_");
 			ProjectManager.getInstance().fileChecksumContainer.addChecksum(checksum[0], getAbsoluteImagePath());
-			//			TextureHandler.getInstance().addImage(getAbsoluteImagePath());
 		}
 		return this;
 	}
@@ -83,7 +78,6 @@ public class SetCostumeBrick implements Brick {
 		if (imageName == null) {
 			return null;
 		}
-
 		return Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName()
 				+ Consts.IMAGE_DIRECTORY + "/" + imageName;
 	}

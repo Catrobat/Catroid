@@ -20,7 +20,6 @@ package at.tugraz.ist.catroid.test.io;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -53,7 +52,6 @@ import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
-import at.tugraz.ist.catroid.utils.Utils;
 
 public class StorageHandlerTest extends AndroidTestCase {
 	private static final String TAG = StorageHandlerTest.class.getSimpleName();
@@ -71,10 +69,10 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 	@Override
 	public void setUp() {
-		File defProject = new File(Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name));
+		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name));
 
-		if (defProject.exists()) {
-			UtilFile.deleteDirectory(defProject);
+		if (projectFile.exists()) {
+			UtilFile.deleteDirectory(projectFile);
 		}
 	}
 
@@ -138,12 +136,17 @@ public class StorageHandlerTest extends AndroidTestCase {
 		assertEquals("Title missmatch after deserialization", project.getName(), loadedProject.getName());
 
 		// Test random brick values
-		assertEquals("Size was not deserialized right", size, ((SetSizeToBrick) (postSpriteList.get(1).getScript(0)
-				.getBrickList().get(2))).getSize());
-		assertEquals("XPosition was not deserialized right", xPosition, ((PlaceAtBrick) (postSpriteList.get(2)
-				.getScript(0).getBrickList().get(0))).getXPosition());
-		assertEquals("YPosition was not deserialized right", yPosition, ((PlaceAtBrick) (postSpriteList.get(2)
-				.getScript(0).getBrickList().get(0))).getYPosition());
+		int actualXPosition = (Integer) TestUtils.getPrivateField("xPosition", (postSpriteList.get(2).getScript(0)
+				.getBrickList().get(0)), false);
+		int actualYPosition = (Integer) TestUtils.getPrivateField("yPosition", (postSpriteList.get(2).getScript(0)
+				.getBrickList().get(0)), false);
+
+		double actualSize = (Double) TestUtils.getPrivateField("size", (postSpriteList.get(1).getScript(0)
+				.getBrickList().get(2)), false);
+
+		assertEquals("Size was not deserialized right", size, actualSize);
+		assertEquals("XPosition was not deserialized right", xPosition, actualXPosition);
+		assertEquals("YPosition was not deserialized right", yPosition, actualYPosition);
 
 		assertFalse("paused should not be set in script", preSpriteList.get(1).getScript(0).isPaused());
 
@@ -248,46 +251,5 @@ public class StorageHandlerTest extends AndroidTestCase {
 		if (proj.exists()) {
 			UtilFile.deleteDirectory(proj);
 		}
-	}
-
-	/*
-	 * This test documents that our calculation of the MD5 checksum is correct aswell as that checksums should be
-	 * upper case only
-	 */
-	public void testMD5Checksum() {
-		String md5EmptyFile = "D41D8CD98F00B204E9800998ECF8427E";
-		String md5CatroidString = "4F982D927F4784F69AD6D6AF38FD96AD";
-
-		PrintWriter out = null;
-
-		File tempDir = new File(Consts.TMP_PATH);
-		tempDir.mkdirs();
-
-		File md5TestFile = new File(Consts.TMP_PATH + "/" + "catroid.txt");
-
-		if (!md5TestFile.exists()) {
-			try {
-				md5TestFile.createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
-		assertEquals("MD5 sums are not the same for empty file", md5EmptyFile, Utils.md5Checksum(md5TestFile));
-
-		try {
-			out = new PrintWriter(md5TestFile);
-			out.print("catroid");
-		} catch (IOException e) {
-
-		} finally {
-			if (out != null) {
-				out.close();
-			}
-		}
-
-		assertEquals("MD5 sums are not the same for catroid file", md5CatroidString, Utils.md5Checksum(md5TestFile));
-
-		UtilFile.deleteDirectory(tempDir);
 	}
 }

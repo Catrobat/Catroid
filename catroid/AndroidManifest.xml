@@ -71,16 +71,9 @@
 				<category android:name="android.intent.category.BROWSABLE" />
 				<data
 					android:scheme="http"
-					android:host="catroidwebtest.ist.tugraz.at"
-					android:pathPrefix="/catroid/download/" />
-				<data
-					android:scheme="http"
-					android:host="www.catroid.org"
-					android:pathPrefix="/catroid/download/" />
-				<data
-					android:scheme="http"
-					android:host="catroid.org"
-					android:pathPrefix="/catroid/download/" />
+					android:host="*"
+					android:pathPattern="@string/catroid_extension_pathPattern" />
+					
 			</intent-filter>
 		</activity>
 		

@@ -22,11 +22,9 @@ package at.tugraz.ist.catroid.uitest.ui;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -44,17 +42,17 @@ import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
-import at.tugraz.ist.catroid.uitest.util.Utils;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
-	private String testProject = Utils.PROJECTNAME1;
-	private String testProject2 = Utils.PROJECTNAME2;
-	private String testProject3 = Utils.PROJECTNAME3;
-	private String existingProject = Utils.PROJECTNAME4;
+	private String testProject = UiTestUtils.PROJECTNAME1;
+	private String testProject2 = UiTestUtils.PROJECTNAME2;
+	private String testProject3 = UiTestUtils.PROJECTNAME3;
+	private String existingProject = UiTestUtils.PROJECTNAME4;
 
 	public MainMenuActivityTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -62,7 +60,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 	@Override
 	public void setUp() throws Exception {
-		Utils.clearAllUtilTestProjects();
+		UiTestUtils.clearAllUtilTestProjects();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
@@ -74,7 +72,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 			e.printStackTrace();
 		}
 		getActivity().finish();
-		Utils.clearAllUtilTestProjects();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -202,14 +200,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	}
 
 	public void testPlayButton() {
-		List<ImageButton> btnList = solo.getCurrentImageButtons();
-		for (int i = 0; i < btnList.size(); i++) {
-			ImageButton btn = btnList.get(i);
-			if (btn.getId() == R.id.btn_action_play) {
-				solo.clickOnImageButton(i);
-			}
-		}
-		assertTrue("StageActivity is not showing!", solo.getCurrentActivity() instanceof StageActivity);
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		solo.assertCurrentActivity("StageActivity not showing!", StageActivity.class);
 	}
 
 	public void testRenameToExistingProject() {
@@ -232,15 +224,9 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		StorageHandler handler = StorageHandler.getInstance();
 		ProjectManager project = ProjectManager.getInstance();
-		project.setProject(handler.createDefaultProject(getActivity()));
-		List<ImageButton> btnList = solo.getCurrentImageButtons();
-		for (int i = 0; i < btnList.size(); i++) {
-			ImageButton btn = btnList.get(i);
-			if (btn.getId() == R.id.btn_action_play) {
-				solo.clickOnImageButton(i);
-			}
-		}
-		solo.sleep(1500);
+		project.setProject(handler.createDefaultProject(solo.getCurrentActivity()));
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		solo.sleep(5000);
 		Bitmap bitmap = project.getCurrentProject().getSpriteList().get(1).getCostume().getBitmap();
 		assertNotNull("Bitmap is null", bitmap);
 		assertTrue("Sprite not visible", project.getCurrentProject().getSpriteList().get(1).isVisible());

@@ -21,7 +21,9 @@ package at.tugraz.ist.catroid.ui.dialogs;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -110,6 +112,8 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 		currentProjectName = ProjectManager.getInstance().getCurrentProject().getName();
 		projectUploadName.setText(currentProjectName);
 		projectDescriptionField.setText("");
+		projectUploadName.requestFocus();
+		projectUploadName.selectAll();
 	}
 
 	public void onClick(View v) {
@@ -142,14 +146,14 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 					projectDescription = "";
 				}
 
-				new ProjectUploadTask(context, uploadName, projectDescription, projectPath, null).execute();
+				SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+				String token = prefs.getString(Consts.TOKEN, "0");
+				new ProjectUploadTask(context, uploadName, projectDescription, projectPath, token).execute();
 				break;
 
 			case R.id.cancel_button:
 				dismiss();
 				break;
 		}
-
 	}
-
 }

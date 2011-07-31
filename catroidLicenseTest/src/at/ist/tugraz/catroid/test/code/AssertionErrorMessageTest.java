@@ -79,6 +79,7 @@ public class AssertionErrorMessageTest extends TestCase {
 		assertMethods = new ArrayList<AssertionErrorMessageTest.AssertMethod>();
 		assertMethods.add(new AssertMethod("assertArrayEquals", 3));
 		assertMethods.add(new AssertMethod("assertEquals", 3));
+		assertMethods.add(new AssertMethod("assertEquals", 4));
 		assertMethods.add(new AssertMethod("assertFalse", 2));
 		assertMethods.add(new AssertMethod("assertNotNull", 2));
 		assertMethods.add(new AssertMethod("assertNotSame", 3));
@@ -127,6 +128,7 @@ public class AssertionErrorMessageTest extends TestCase {
 		matchingAsserts.add("assertTrue(name + \" has wrong value, but...\", value);");
 		matchingAsserts.add("fail(\"epic fail\");");
 		matchingAsserts.add("assertTrue(getErrorMessage(a, b, c), value)");
+		matchingAsserts.add("assertEquals(\"Foo!\", bar, baz(), 1e-3);");
 
 		for (String matchingAssert : matchingAsserts) {
 			assertTrue("Regex didn't match expression " + matchingAssert,

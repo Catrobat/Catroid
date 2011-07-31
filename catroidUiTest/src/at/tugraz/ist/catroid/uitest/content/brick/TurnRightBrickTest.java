@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010  Catroid development team 
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -16,6 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package at.tugraz.ist.catroid.uitest.content.brick;
 
 import java.util.ArrayList;
@@ -29,17 +30,20 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
+import at.tugraz.ist.catroid.content.bricks.TurnRightBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class SetSizeToTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class TurnRightBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+
 	private Solo solo;
 	private Project project;
-	private SetSizeToBrick setSizeToBrick;
+	private TurnRightBrick turnRightBrick;
+	private double turnDegrees;
 
-	public SetSizeToTest() {
+	public TurnRightBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
 	}
 
@@ -62,9 +66,10 @@ public class SetSizeToTest extends ActivityInstrumentationTestCase2<ScriptActivi
 	}
 
 	@Smoke
-	public void testSetSizeToBrick() {
+	public void testTurnRightBrickTest() {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
+
 		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
@@ -73,27 +78,28 @@ public class SetSizeToTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
 				getActivity().getAdapter().getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_set_size_to)));
-
-		double newSize = 25;
+		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_turn_right)));
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
-		solo.enterText(0, newSize + "");
+		solo.enterText(0, turnDegrees + "");
 		solo.clickOnButton(0);
 
 		solo.sleep(1000);
 
-		assertEquals("Wrong text in field", newSize, setSizeToBrick.getSize());
-		assertEquals("Text not updated", newSize, Double.parseDouble(solo.getEditText(0).getText().toString()));
+		double actualDegrees = (Double) UiTestUtils.getPrivateField("degrees", turnRightBrick);
+
+		assertEquals("Wrong text in field", turnDegrees, actualDegrees);
+		assertEquals("Text not updated", turnDegrees, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
 
 	private void createProject() {
+		turnDegrees = 25;
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript("script", sprite);
-		setSizeToBrick = new SetSizeToBrick(sprite, 20);
-		script.addBrick(setSizeToBrick);
+		turnRightBrick = new TurnRightBrick(sprite, 0);
+		script.addBrick(turnRightBrick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);
@@ -102,5 +108,4 @@ public class SetSizeToTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }
