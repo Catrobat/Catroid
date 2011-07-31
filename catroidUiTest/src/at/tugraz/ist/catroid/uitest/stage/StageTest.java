@@ -52,7 +52,6 @@ import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
-import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -520,11 +519,13 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		PlaceAtBrick placeAtBrick = new PlaceAtBrick(firstSprite, placeAt, placeAt);
 
 		startScript.addBrick(setCostumeBrick2);
+
 		touchScript.addBrick(setCostumeBrick);
 		touchScript.addBrick(setSizeToBrick);
 		touchScript.addBrick(waitBrick);
 		touchScript.addBrick(setSizeToBrick2);
 		touchScript.addBrick(placeAtBrick);
+
 		firstSprite.addScript(startScript);
 		firstSprite.addScript(touchScript);
 

@@ -30,17 +30,17 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
-import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
 	private Solo solo;
 	private List<Brick> brickListToCheck;
 
 	public ScriptActivityTest() {
-		super("at.tugraz.ist.catroid", ScriptActivity.class);
+		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
 	}
 
 	@Override
@@ -73,7 +73,8 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 		int brickCountInView = solo.getCurrentListViews().get(0).getCount();
 		int brickCountInList = brickListToCheck.size();
 
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick));
+		//solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick));
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.brick_wait));
 		solo.sleep(100);
 

@@ -18,8 +18,11 @@
  */
 package at.tugraz.ist.catroid.uitest.ui;
 
+import java.util.List;
+
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.KeyEvent;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -63,10 +66,10 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.sleep(50);
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
 
-		solo.sleep(50);
+		solo.sleep(200);
 		UiTestUtils.enterText(solo, 0, spriteName);
-
-		solo.clickOnButton(getActivity().getString(R.string.new_sprite_dialog_button));
+		solo.sleep(500);
+		solo.clickOnButton(getActivity().getString(R.string.ok));
 		solo.sleep(50);
 	}
 
@@ -90,22 +93,6 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 				.contains(thirdSprite));
 	}
 
-	public void testAddNewSpriteErrors() {
-		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
-		addNewSprite("");
-		assertTrue("No error message was displayed upon creating a sprite with an empty name.",
-				solo.searchText(getActivity().getString(R.string.error_no_name_entered)));
-		solo.clickOnButton(0);
-		solo.goBack();
-
-		final String spriteName = "testSprite";
-		addNewSprite(spriteName);
-		addNewSprite(spriteName);
-
-		assertTrue("No error message was displayed upon creating a sprite with the same name twice.",
-				solo.searchText(getActivity().getString(R.string.error_sprite_exists)));
-	}
-
 	public void testContextMenu() {
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
 		// Create sprites manually so we're able to check for equality
@@ -125,7 +112,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		solo.clearEditText(0);
 		UiTestUtils.enterText(solo, 0, newSpriteName);
-		solo.clickOnButton(getActivity().getString(R.string.rename_button));
+		solo.clickOnButton(getActivity().getString(R.string.ok));
 		solo.sleep(50);
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
