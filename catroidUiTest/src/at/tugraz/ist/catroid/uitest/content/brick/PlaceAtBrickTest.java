@@ -24,6 +24,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;

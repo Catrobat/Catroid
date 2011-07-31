@@ -111,7 +111,8 @@ public class UiTestUtils {
 	}
 
 	public static void addNewBrickAndScrollDown(Solo solo, int brickStringId) {
-		solo.clickOnButton(solo.getCurrentActivity().getString(R.string.add_new_brick));
+		//solo.clickOnButton(solo.getCurrentActivity().getString(R.string.add_new_brick));
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
 		solo.clickOnText(solo.getCurrentActivity().getString(brickStringId));
 
 		while (solo.scrollDown()) {

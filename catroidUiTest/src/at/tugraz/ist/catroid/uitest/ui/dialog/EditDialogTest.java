@@ -21,16 +21,16 @@ package at.tugraz.ist.catroid.uitest.ui.dialog;
 
 import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
 	private Solo solo;
 
 	public EditDialogTest() {
-		super("at.tugraz.ist.catroid", ScriptActivity.class);
+		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
 	}
 
 	@Override
