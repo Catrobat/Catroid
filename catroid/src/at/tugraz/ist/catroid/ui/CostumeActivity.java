@@ -286,7 +286,8 @@ public class CostumeActivity extends ListActivity {
 						try {
 							String projectName = ProjectManager.getInstance().getCurrentProject().getName();
 							StorageHandler.getInstance().copyImage(projectName, costumeData.getAbsolutePath(), null);
-							String imageName = costumeData.getCostumeName() + "_copy";
+							String imageName = costumeData.getCostumeName() + "_"
+									+ activity.getString(R.string.copy_costume_addition);
 							String imageFileName = costumeData.getCostumeFileName();
 							updateCostumeAdapter(imageName, imageFileName);
 						} catch (IOException e) {

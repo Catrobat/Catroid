@@ -99,6 +99,7 @@
     <string name="copy_costume">kopieren</string>
     <string name="costumename_invalid">Dieser Name ist nicht zulässig</string>
     <string name="edit_in_paintroid">In Paintroid editieren</string>
+    <string name="copy_costume_addition">Kopie</string>
     
     <!-- Sound activity -->
     <string name="sound_list">Sound:</string>
