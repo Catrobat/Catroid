@@ -84,7 +84,7 @@ public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		solo.enterText(0, yToChange + "");
 		solo.clickOnButton(0);
 
-		solo.sleep(300);
+		solo.sleep(1000);
 		int yMovementValue = (Integer) UiTestUtils.getPrivateField("yMovement", changeYByBrick);
 		assertEquals("Wrong text in field.", yToChange, yMovementValue);
 		assertEquals("Value in Brick is not updated.", yToChange + "", solo.getEditText(0).getText().toString());

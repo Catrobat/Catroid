@@ -45,7 +45,7 @@ public class SetCostumeBrick implements Brick {
 
 	public void execute() {
 		if (costumeData != null && sprite != null) {
-			sprite.getCostume().setImagePath(costumeData.getAbsolutePath());
+			sprite.getCostume().changeImagePath(costumeData.getAbsolutePath());
 		}
 	}
 
