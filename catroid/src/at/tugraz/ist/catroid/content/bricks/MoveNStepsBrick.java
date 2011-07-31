@@ -42,16 +42,15 @@ public class MoveNStepsBrick implements Brick, OnDismissListener {
 	}
 
 	public void execute() {
+		//		int xPosition = (int) sprite.costume.getXPosition();
+		//		int yPosition = (int) sprite.costume.getYPosition();
 		//
-		//		int xPosition = sprite.getXPosition();
-		//		int yPosition = sprite.getYPosition();
-		//
-		//		double radians = sprite.getDirection() / 180 * Math.PI;
+		//		double radians = sprite.costume.rotation / 180 * Math.PI;
 		//
 		//		int newXPosition = (int) Math.round(xPosition + steps * Math.sin(radians));
 		//		int newYPosition = (int) Math.round(yPosition + steps * Math.cos(radians));
 		//
-		//		sprite.setXYPosition(newXPosition, newYPosition);
+		//		sprite.costume.setXYPosition(newXPosition, newYPosition);
 
 	}
 

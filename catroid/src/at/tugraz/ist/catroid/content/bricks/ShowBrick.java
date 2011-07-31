@@ -35,7 +35,7 @@ public class ShowBrick implements Brick {
 	}
 
 	public void execute() {
-		sprite.costume.alphaValue = 1f;
+		sprite.costume.show = true;
 	}
 
 	public Sprite getSprite() {
