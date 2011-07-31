@@ -262,6 +262,11 @@ public class StageListener implements ApplicationListener {
 		}
 	}
 
+	/**
+	 * just a copied dummy method, doesn't work of course ;)
+	 * 
+	 * @return
+	 */
 	public boolean saveThumbnail() {
 		try {
 			String path = Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName() + "/";
