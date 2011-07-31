@@ -28,6 +28,7 @@ import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -175,25 +176,27 @@ public class StorageHandlerTest extends AndroidTestCase {
 				.getSpriteList().get(1).getScript(1).getBrickList().size());
 
 		//test if images are existing:
-		String imagePath = Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name)
-				+ Consts.IMAGE_DIRECTORY + "/" + Consts.NORMAL_CAT;
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		ArrayList<CostumeData> backgroundCostumeList = currentProject.getSpriteList().get(0).getCostumeDataList();
+		ArrayList<CostumeData> catroidCostumeList = currentProject.getSpriteList().get(1).getCostumeDataList();
+		assertEquals("no background picture or too many pictures in background sprite", 1, backgroundCostumeList.size());
+		assertEquals("wrong number of pictures in catroid sprite", 3, catroidCostumeList.size());
+
+		String imagePath = backgroundCostumeList.get(0).getAbsolutePath();
 		File testFile = new File(imagePath);
-		assertTrue("Image " + Consts.NORMAL_CAT + " does not exist", testFile.exists());
+		assertTrue("Image " + backgroundCostumeList.get(0).getCostumeFileName() + " does not exist", testFile.exists());
 
-		imagePath = Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name)
-				+ Consts.IMAGE_DIRECTORY + "/" + Consts.BANZAI_CAT;
+		imagePath = catroidCostumeList.get(0).getAbsolutePath();
 		testFile = new File(imagePath);
-		assertTrue("Image " + Consts.BANZAI_CAT + " does not exist", testFile.exists());
+		assertTrue("Image " + catroidCostumeList.get(0).getCostumeFileName() + " does not exist", testFile.exists());
 
-		imagePath = Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name)
-				+ Consts.IMAGE_DIRECTORY + "/" + Consts.CHESHIRE_CAT;
+		imagePath = catroidCostumeList.get(1).getAbsolutePath();
 		testFile = new File(imagePath);
-		assertTrue("Image " + Consts.BACKGROUND + " does not exist", testFile.exists());
+		assertTrue("Image " + catroidCostumeList.get(1).getCostumeFileName() + " does not exist", testFile.exists());
 
-		imagePath = Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name)
-				+ Consts.IMAGE_DIRECTORY + "/" + Consts.BACKGROUND;
+		imagePath = catroidCostumeList.get(2).getAbsolutePath();
 		testFile = new File(imagePath);
-		assertTrue("Image " + Consts.BACKGROUND + " does not exist", testFile.exists());
+		assertTrue("Image " + catroidCostumeList.get(2).getCostumeFileName() + " does not exist", testFile.exists());
 	}
 
 	public void testAliasesAndXmlHeader() throws IOException {
