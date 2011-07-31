@@ -32,18 +32,32 @@ import at.tugraz.ist.catroid.R;
 
 public class EditDoubleDialog extends EditDialog implements OnClickListener {
 	private double value;
+	private boolean signed = false;
 
 	public EditDoubleDialog(Context context, EditText referencedEditText, double value) {
 		super(context, referencedEditText);
 		this.value = value;
 	}
 
+	public EditDoubleDialog(Context context, EditText referencedEditText, double value, boolean signed) {
+		super(context, referencedEditText);
+		this.value = value;
+		this.signed = signed;
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		editText.setText(String.valueOf(value));
-		editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+
+		if (signed) {
+			editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
+					| InputType.TYPE_NUMBER_FLAG_SIGNED);
+		} else {
+			editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+		}
+
+		//		editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
 		okButton.setOnClickListener(this);
 

@@ -79,7 +79,7 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickOnText(testingsprite);
 		solo.sleep(1000);
 
-		assertTrue("CurentActivity is not Script Activity!", solo.getCurrentActivity() instanceof ScriptActivity);
+		solo.assertCurrentActivity("Current Activity is not ScriptActivity", ScriptActivity.class);
 
 	}
 

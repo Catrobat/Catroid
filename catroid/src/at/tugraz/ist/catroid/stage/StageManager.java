@@ -56,10 +56,6 @@ public class StageManager {
 		}
 	};
 
-	public int getMaxZValue() {
-		return ProjectManager.getInstance().getCurrentProject().getMaxZValue();
-	}
-
 	public StageManager(Activity activity) {
 
 		spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
@@ -77,11 +73,11 @@ public class StageManager {
 		return draw.draw();
 	}
 
-	public void processOnTouch(int coordX, int coordY) {
-		draw.processOnTouch(coordX, coordY);
+	public void processOnTouch(int xCoordinate, int yCoordinate, String action) {
+		draw.processOnTouch(xCoordinate, yCoordinate);
 		ArrayList<Sprite> touchedSpriteList = new ArrayList<Sprite>();
 		for (Sprite sprite : spriteList) {
-			if (sprite.processOnTouch(coordX, coordY)) {
+			if (sprite.processOnTouch(xCoordinate, yCoordinate)) {
 				touchedSpriteList.add(sprite);
 			}
 		}
@@ -89,6 +85,7 @@ public class StageManager {
 		Collections.sort(touchedSpriteList);
 		if (!touchedSpriteList.isEmpty()) {
 			touchedSpriteList.get(touchedSpriteList.size() - 1).startTapScripts();
+			touchedSpriteList.get(touchedSpriteList.size() - 1).startWhenScripts(action);
 		}
 	}
 

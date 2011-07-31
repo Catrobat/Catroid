@@ -43,7 +43,6 @@ import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
-import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -111,7 +110,9 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
 
-		assertTrue("Not in stage", solo.getCurrentActivity() instanceof StageActivity);
+		solo.assertCurrentActivity("Not in stage", StageActivity.class);
+
+		solo.sleep(1500);
 
 		solo.clickOnScreen(Values.SCREEN_WIDTH, 0);
 
@@ -160,8 +161,8 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 
-		File image = UtilFile.saveFileToProject(projectName, "black_quad.png", imageRawId, getInstrumentation()
-				.getContext(), UtilFile.TYPE_IMAGE_FILE);
+		File image = UiTestUtils.saveFileToProject(projectName, "black_quad.png", imageRawId, getInstrumentation()
+				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
 		Log.v(TAG, image.getName());
 		CostumeData costumeData = new CostumeData();
 		costumeData.setCostumeFilename(image.getName());
