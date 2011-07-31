@@ -37,12 +37,14 @@ public class Costume extends Image {
 	private Semaphore xyLock = new Semaphore(1);
 	private Semaphore imageLock = new Semaphore(1);
 	private Semaphore scaleLock = new Semaphore(1);
+	private Semaphore alphaValueLock = new Semaphore(1);
 	private boolean imageChanged = false;
 	private String imagePath;
 	private String currentImagePath = "";
 	private Sprite sprite;
-	public float alphaValue;
+	private float alphaValue;
 	private Bitmap currentBitmap = null;
+	public boolean show;
 	public int zPosition = 0;
 
 	public Costume(Sprite sprite) {
@@ -59,12 +61,16 @@ public class Costume extends Image {
 		this.width = 0f;
 		this.height = 0f;
 		this.touchable = true;
+		this.show = true;
 	}
 
 	@Override
 	protected boolean touchDown(float x, float y, int pointer) {
 		if (sprite.isPaused) {
 			return true;
+		}
+		if (!show) {
+			return false;
 		}
 		xyLock.acquireUninterruptibly();
 		if (x >= 0 && x <= this.width && y >= 0 && y <= this.height) {
@@ -90,7 +96,7 @@ public class Costume extends Image {
 	@Override
 	public void draw(SpriteBatch batch, float parentAlpha) {
 		checkImageChanged();
-		if (this.region != null) {
+		if (this.show && this.region != null) {
 			super.draw(batch, this.alphaValue);
 		}
 	}
@@ -203,4 +209,22 @@ public class Costume extends Image {
 		scaleLock.release();
 	}
 
+	public void setAlphaValue(float alphaValue) {
+		alphaValueLock.acquireUninterruptibly();
+		this.alphaValue = alphaValue;
+		alphaValueLock.release();
+	}
+
+	public void changeAlphaValueBy(float value) {
+		alphaValueLock.acquireUninterruptibly();
+		float newAlphaValue = this.alphaValue - value;
+		if (newAlphaValue < 0f) {
+			this.alphaValue = 0f;
+		} else if (newAlphaValue > 1f) {
+			this.alphaValue = 1f;
+		} else {
+			this.alphaValue = newAlphaValue;
+		}
+		alphaValueLock.release();
+	}
 }

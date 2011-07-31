@@ -34,7 +34,7 @@ public class ClearGraphicEffectBrick implements Brick {
 	}
 
 	public void execute() {
-		sprite.costume.alphaValue = 1f;
+		sprite.costume.setAlphaValue(1f);
 		sprite.costume.setSize(1f);
 	}
 

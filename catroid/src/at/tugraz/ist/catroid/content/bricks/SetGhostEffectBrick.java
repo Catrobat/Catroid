@@ -41,7 +41,7 @@ public class SetGhostEffectBrick implements Brick, OnDismissListener {
 	}
 
 	public void execute() {
-		//		sprite.setGhostEffectValue(ghostEffectValue);
+		sprite.costume.setAlphaValue((float) ghostEffectValue / 100);
 	}
 
 	public Sprite getSprite() {
