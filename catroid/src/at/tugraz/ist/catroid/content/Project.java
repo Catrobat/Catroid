@@ -92,14 +92,6 @@ public class Project implements Serializable {
 		return spriteList.remove(sprite);
 	}
 
-	public int getMaxZValue() {
-		int maxZValue = Integer.MIN_VALUE;
-		for (Sprite sprite : spriteList) {
-			maxZValue = Math.max(sprite.getZPosition(), maxZValue);
-		}
-		return maxZValue;
-	}
-
 	public List<Sprite> getSpriteList() {
 		return spriteList;
 	}

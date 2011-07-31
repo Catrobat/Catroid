@@ -44,7 +44,7 @@ public class TurnRightBrick implements Brick, OnDismissListener {
 	}
 
 	public void execute() {
-		//	sprite.setDirection(sprite.getDirection() + degrees);
+		sprite.costume.rotation += degrees;
 	}
 
 	public Sprite getSprite() {
