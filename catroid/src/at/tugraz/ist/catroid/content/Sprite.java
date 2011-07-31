@@ -23,15 +23,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
-public class Sprite implements Serializable, Comparable<Sprite> {
+public class Sprite implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String name;
-	private transient int zPosition;
 	private List<Script> scriptList;
 	public transient Costume costume;
 
-	public transient volatile boolean isPaused;
-	public transient volatile boolean isFinished;
+	public transient boolean isPaused;
+	public transient boolean isFinished;
 
 	private Object readResolve() {
 		init();
@@ -39,7 +38,6 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	}
 
 	private void init() {
-		zPosition = 0;
 		costume = new Costume(this);
 		isPaused = false;
 		isFinished = false;
@@ -147,14 +145,6 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		this.name = name;
 	}
 
-	public int getZPosition() {
-		return zPosition;
-	}
-
-	public synchronized void setZPosition(int zPosition) {
-		this.zPosition = zPosition;
-	}
-
 	public void addScript(Script script) {
 		if (script != null && !scriptList.contains(script)) {
 			scriptList.add(script);
@@ -185,16 +175,6 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 
 	public boolean removeScript(Script script) {
 		return scriptList.remove(script);
-	}
-
-	public int compareTo(Sprite sprite) {
-		long thisZValue = getZPosition();
-		long otherZValue = sprite.getZPosition();
-		long difference = thisZValue - otherZValue;
-		if (difference > Integer.MAX_VALUE) {
-			return Integer.MAX_VALUE;
-		}
-		return (int) difference;
 	}
 
 	@Override
