@@ -33,6 +33,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.NinePatchDrawable;
 import android.util.Log;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.Values;
 
 public class SpeechBubble implements Serializable {
 
@@ -57,7 +58,6 @@ public class SpeechBubble implements Serializable {
 	private float textOffsetBottom = 30;
 	private Paint textPaint;
 	private Paint debugPaint;
-	private float textMaxWidth = 100;
 	private float pinPointWidth = 20;
 	private float textSize;
 
@@ -68,6 +68,8 @@ public class SpeechBubble implements Serializable {
 	Activity activity;
 	Canvas canvas;
 	Costume costume;
+
+	// TODO: screenboarder adoptation
 
 	public SpeechBubble() {
 		textPaint = new Paint();
@@ -84,22 +86,23 @@ public class SpeechBubble implements Serializable {
 	public synchronized void setSpeechBubble(String speechBubbleText, int speechBubblePictureID) {
 		this.speechBubbleText = speechBubbleText;
 		this.speechBubblePictureID = speechBubblePictureID;
-		updateTextGrid();
-		updateBubbleScaling();
 	}
 
 	public synchronized void draw(Canvas canvas, Costume costume, Activity activity) {
-		this.canvas = canvas;
-		this.costume = costume;
-		bubble9Patch = (NinePatchDrawable) activity.getResources().getDrawable(R.drawable.speech_bubble);
-		speechBubblePicDefaultHeight = bubble9Patch.getIntrinsicHeight();
-		speechBubblePicDefaultWidth = bubble9Patch.getIntrinsicWidth();
-		textMaxWidth = speechBubblePicDefaultWidth - textOffsetLeft - textOffsetRight;
-		updateTextGrid();
-		updateBubbleScaling();
-		calculateDrawPosition(costume);
-		drawSpeechBubble(costume, canvas, activity);
-		drawTextGrid();
+		if (speechBubbleText.trim().length() != 0) {
+			this.canvas = canvas;
+			this.costume = costume;
+			this.activity = activity;
+			bubble9Patch = (NinePatchDrawable) activity.getResources().getDrawable(R.drawable.speech_bubble);
+			speechBubblePicDefaultHeight = bubble9Patch.getIntrinsicHeight();
+			speechBubblePicDefaultWidth = bubble9Patch.getIntrinsicWidth();
+			speechBubblePicMaxWidth = 2 * speechBubblePicDefaultWidth;
+			updateTextGrid();
+			updateBubbleScaling();
+			calculateDrawPosition(costume);
+			drawSpeechBubble(costume, canvas, activity);
+			drawTextGrid();
+		}
 	}
 
 	private void calculateDrawPosition(Costume costume) {
@@ -139,6 +142,12 @@ public class SpeechBubble implements Serializable {
 		position.x = relPosX + costumeX;
 		position.y = relPosY + costumeY;
 
+		if (position.x + speechBubblePicWidth > Values.SCREEN_WIDTH) {
+			bubble9Patch = (NinePatchDrawable) activity.getResources().getDrawable(R.drawable.speech_bubble_inv);
+			position.x = (int) (-position.x + speechBubblePicWidth + speechBubblePicWidth + relPosX);
+		} else {
+			bubble9Patch = (NinePatchDrawable) activity.getResources().getDrawable(R.drawable.speech_bubble);
+		}
 		if (DEBUG_DRAW) {
 			Point topLeft = new Point(costumeX, costumeY);
 			Point topRight = new Point(costumeX + costumeWidth, costumeY);
@@ -160,6 +169,7 @@ public class SpeechBubble implements Serializable {
 			drawDebugPoint(costumeCenter);
 			drawDebugLine(realBoarderPoint, costumeCenter);
 		}
+
 	}
 
 	private void drawTextGrid() {
@@ -228,13 +238,13 @@ public class SpeechBubble implements Serializable {
 
 	}
 
-	// TODO: add variable bubblewidth
 	private void updateTextGrid() {
 		textGrid.clear();
 
 		String entireText = speechBubbleText.trim();
 		Vector<String> wordVector = new Vector<String>();
 
+		float textfieldMaxWidth = speechBubblePicMaxWidth - textOffsetLeft - textOffsetRight;
 		String wordBuffer = "";
 		for (int charIndex = 0; charIndex < entireText.length(); charIndex++) {
 			wordBuffer += entireText.charAt(charIndex);
@@ -253,20 +263,18 @@ public class SpeechBubble implements Serializable {
 
 			newTextBuffer = oldTextBuffer + wordVector.get(wordIndex);
 
-			if (calcTextWidth(newTextBuffer) > textMaxWidth) {
+			if (calcTextWidth(newTextBuffer) > textfieldMaxWidth) {
 				if (oldTextBuffer.length() != 0) {
 					textGrid.add(oldTextBuffer);
-					Log.v("TextSplit|add", oldTextBuffer);
 				}
 				newWord = wordVector.get(wordIndex);
-				if (calcTextWidth(newWord) > textMaxWidth) {
+				if (calcTextWidth(newWord) > textfieldMaxWidth) {
 
 					splitWordBuffer = "";
 					for (int charIndex = 0; charIndex < newWord.length(); charIndex++) {
 						splitWordBuffer += newWord.charAt(charIndex);
-						if (calcTextWidth(splitWordBuffer) > textMaxWidth) {
+						if (calcTextWidth(splitWordBuffer) > textfieldMaxWidth) {
 							textGrid.add(splitWordBuffer.substring(0, splitWordBuffer.length() - 1));
-							Log.v("TextSplit|add2", splitWordBuffer.substring(0, splitWordBuffer.length() - 1));
 							splitWordBuffer = "" + splitWordBuffer.charAt(splitWordBuffer.length() - 1);
 						}
 					}
@@ -289,18 +297,19 @@ public class SpeechBubble implements Serializable {
 		Log.v("TextSplit", textGrid.toString());
 	}
 
-	// TODO: add variable bubblewidth
 	private void updateBubbleScaling() {
-		int numberOfCharacters = speechBubbleText.trim().length();
 
-		if (numberOfCharacters != 0) {
+		speechBubblePicHeight = speechBubblePicDefaultHeight + (textGrid.size() - 1) * (textOffsetTop + textSize);
 
-			speechBubblePicHeight = speechBubblePicDefaultHeight + (textGrid.size() - 1) * (textOffsetTop + textSize);
-
-			if (calcTextWidth(speechBubbleText.trim()) <= speechBubblePicWidth - textOffsetLeft - textOffsetRight) {
+		if (textGrid.size() > 1) {
+			speechBubblePicWidth = speechBubblePicMaxWidth;
+		} else if (textGrid.size() == 1) {
+			String textline = textGrid.elementAt(0);
+			int textlineLength = calcTextWidth(textline);
+			if (textlineLength <= speechBubblePicWidth - textOffsetLeft - textOffsetRight) {
 				speechBubblePicWidth = speechBubblePicDefaultWidth;
 			} else {
-				speechBubblePicWidth = textOffsetLeft + textOffsetRight + textMaxWidth;
+				speechBubblePicWidth = textlineLength + textOffsetLeft + textOffsetRight;
 			}
 		}
 	}
