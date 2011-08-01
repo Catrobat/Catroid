@@ -136,7 +136,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
 
 		Costume costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
-		solo.sleep(5000);
+		solo.sleep(6000);
 		assertEquals("image1 is not set", image1Width, costume.getImageWidth());
 		assertEquals("image1 is not set", image1Height, costume.getImageHeight());
 		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
@@ -162,7 +162,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2); // click in the middle
 
-		solo.sleep(3000);
+		solo.sleep(4000);
 		costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
 		assertEquals("Image size not set correctly", (image1Width / 2), costume.getImageWidth());
 
@@ -180,8 +180,9 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		createTestproject(projectName);
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
 
-		Costume costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
 		solo.sleep(5000);
+		Costume costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
+		solo.sleep(2000);
 		assertEquals("image1 is not set ", image1Width, costume.getImageWidth());
 		assertEquals("image1 is not set ", image1Height, costume.getImageHeight());
 
@@ -378,6 +379,17 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		solo.sleep(1000);
 		solo.pressMenuItem(1);
 		assertFalse("Media Player is playing", mediaPlayer.isPlaying());
+	}
+
+	public void testMediaPlayerNotPlayingAfterBack() {
+		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
+
+		this.createTestProjectWithSound();
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
+		solo.goBack();
+		solo.sleep(100);
+		assertFalse("Media Player is playing after pressing the back button", mediaPlayer.isPlaying());
 	}
 
 	public void testClickOnHiddenSprite() {
@@ -685,7 +697,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		o.inJustDecodeBounds = true;
 		BitmapFactory.decodeFile(image.getAbsolutePath(), o);
 
-		if (image.getName().equalsIgnoreCase(imageName1)) {
+		if (image.getName().endsWith(imageName1)) {
 			image1Width = o.outWidth;
 			image1Height = o.outHeight;
 		} else {

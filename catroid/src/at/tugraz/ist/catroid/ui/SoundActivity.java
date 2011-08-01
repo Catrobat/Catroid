@@ -95,16 +95,6 @@ public class SoundActivity extends ListActivity {
 
 	}
 
-	@Override
-	public void onWindowFocusChanged(boolean hasFocus) {
-		super.onWindowFocusChanged(hasFocus);
-		if (hasFocus) {
-			this.soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
-			setListAdapter(new SoundAdapter(this, R.layout.activity_sound_soundlist_item, soundInfoList));
-			((SoundAdapter) getListAdapter()).notifyDataSetChanged();
-		}
-	}
-
 	private View.OnClickListener createAddSoundClickListener() {
 		return new View.OnClickListener() {
 			public void onClick(View v) {
