@@ -18,24 +18,24 @@
  */
 package at.tugraz.ist.catroid.stage;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Comparator;
 import java.util.List;
 
-import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
-import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.SoundManager;
+import at.tugraz.ist.catroid.utils.RGBA8888ToPngEncoder;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.GL20;
@@ -48,6 +48,7 @@ import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.ScreenUtils;
 
 /**
  * @author Johannes Iber
@@ -82,6 +83,7 @@ public class StageListener implements ApplicationListener {
 
 	public boolean axesOn = false;
 	public boolean makeScreenshot = false;
+	private int screenshotCountDown = 300;
 
 	Texture pauseScreen;
 
@@ -178,6 +180,7 @@ public class StageListener implements ApplicationListener {
 				sprite.startStartScripts();
 			}
 			firstStart = false;
+			makeScreenshot = true;
 		}
 		if (!paused) {
 			stage.act(Gdx.graphics.getDeltaTime());
@@ -187,15 +190,20 @@ public class StageListener implements ApplicationListener {
 			stage.draw();
 		}
 
-		if (makeScreenshot) {
-			String text;
-			if (saveThumbnail()) {
-				text = stageActivity.getString(R.string.notification_screenshot_ok);
-			} else {
-				text = stageActivity.getString(R.string.error_screenshot_failed);
-			}
-			Toast toast = Toast.makeText(stageActivity, text, Toast.LENGTH_SHORT);
-			toast.show();
+		if (makeScreenshot && screenshotCountDown == 0) {
+			this.saveThumbnail();
+
+			//			String text;
+			//			if (saveThumbnail()) {
+			//				text = stageActivity.getString(R.string.notification_screenshot_ok);
+			//			} else {
+			//				text = stageActivity.getString(R.string.error_screenshot_failed);
+			//			}
+			//			Toast toast = Toast.makeText(stageActivity, text, Toast.LENGTH_SHORT);
+			//			toast.show();
+			makeScreenshot = false;
+		} else if (makeScreenshot) {
+			screenshotCountDown--;
 		}
 
 		if (paused && !finished) {
@@ -268,25 +276,54 @@ public class StageListener implements ApplicationListener {
 	 * @return
 	 */
 	public boolean saveThumbnail() {
-		try {
-			String path = Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName() + "/";
-			File file = new File(path + Consts.SCREENSHOT_FILE_NAME);
-			File noMediaFile = new File(path + ".nomedia");
-			if (!noMediaFile.exists()) {
+		String path = Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName() + "/";
+		File file = new File(path + Consts.SCREENSHOT_FILE_NAME);
+		File noMediaFile = new File(path + ".nomedia");
+		if (!noMediaFile.exists()) {
+			try {
 				noMediaFile.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-
-			FileOutputStream fileOutputStream = new FileOutputStream(file.getAbsolutePath());
-			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream);
-			//canvasBitmap.compress(CompressFormat.PNG, 0, bos);
-			bos.flush();
-			bos.close();
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-
 		}
+		try {
+			file.createNewFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		FileHandle image = Gdx.files.absolute(path + Consts.SCREENSHOT_FILE_NAME);
+		OutputStream stream = image.write(false);
+		try {
+
+			byte[] bytes = RGBA8888ToPngEncoder.toPNG(ScreenUtils.getFrameBufferPixels(true), Values.SCREEN_WIDTH,
+					Values.SCREEN_HEIGHT);
+			stream.write(bytes);
+			stream.close();
+		} catch (IOException e) {
+			// e.printStackTrace();
+			// TODO: fallback if fail
+		}
+		return true;
+		//		try {
+		//			String path = Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName() + "/";
+		//			File file = new File(path + Consts.SCREENSHOT_FILE_NAME);
+		//			File noMediaFile = new File(path + ".nomedia");
+		//			if (!noMediaFile.exists()) {
+		//				noMediaFile.createNewFile();
+		//			}
+		//
+		//			FileOutputStream fileOutputStream = new FileOutputStream(file.getAbsolutePath());
+		//			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream);
+		//			//canvasBitmap.compress(CompressFormat.PNG, 0, bos);
+		//			bos.flush();
+		//			bos.close();
+		//			return true;
+		//		} catch (Exception e) {
+		//			e.printStackTrace();
+		//			return false;
+		//
+		//		}
 	}
 
 }
