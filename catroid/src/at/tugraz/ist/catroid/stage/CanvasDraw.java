@@ -41,8 +41,8 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
-import at.tugraz.ist.catroid.content.Bubble;
 import at.tugraz.ist.catroid.content.Costume;
+import at.tugraz.ist.catroid.content.SpeechBubble;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 
@@ -100,20 +100,20 @@ public class CanvasDraw implements IDraw {
 				}
 				if (sprite.getCostume().getBitmap() != null) {
 					Costume tempCostume = sprite.getCostume();
-					Bubble tempBubble = sprite.getBubble();
+					SpeechBubble tempBubble = sprite.getBubble();
 					//Bubble tempBubble = new Bubble("THIS WAS A TRIUMPH, I'M MAKING A NOTE HERE - HUGE SUCCESS!",
 					//		tempCostume, activity);
 					bufferCanvas.drawBitmap(tempCostume.getBitmap(), tempCostume.getDrawPositionX(),
 							tempCostume.getDrawPositionY(), null);
 
 					if (!sprite.getName().equals(activity.getString(R.string.background))) {
-						if (!tempBubble.getText().equals("")) {
-							tempBubble.setCostume(tempCostume);
-							tempBubble.setActivity(activity);
-							tempBubble.setCanvas(bufferCanvas);
+						//if (!tempBubble.getText().equals("")) {
+						//tempBubble.setCostume(tempCostume);
+						//tempBubble.setActivity(activity);
+						//tempBubble.setCanvas(bufferCanvas);
 
-							tempBubble.draw();
-						}
+						tempBubble.draw(bufferCanvas, tempCostume, activity);
+						//}
 					}
 					sprite.setToDraw(false);
 				}

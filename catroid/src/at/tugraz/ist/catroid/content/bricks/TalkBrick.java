@@ -46,7 +46,7 @@ public class TalkBrick implements Brick {
 	}
 
 	public void execute() {
-		sprite.getBubble().setText(note);
+		sprite.getBubble().setSpeechBubble(note, 1);
 	}
 
 	public Sprite getSprite() {
