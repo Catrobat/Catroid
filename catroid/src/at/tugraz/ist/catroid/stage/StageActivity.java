@@ -98,6 +98,14 @@ public class StageActivity extends AndroidApplication {
 			case R.id.stagemenuAxes:
 				toggleAxes();
 				break;
+			case R.id.stagemenuScreenshot:
+				if (stageListener.makeScreenshot()) {
+					Toast.makeText(this, this.getString(R.string.notification_screenshot_ok), Toast.LENGTH_SHORT)
+							.show();
+				} else {
+					Toast.makeText(this, this.getString(R.string.error_screenshot_failed), Toast.LENGTH_SHORT).show();
+				}
+				break;
 		}
 		return true;
 	}
@@ -176,7 +184,11 @@ public class StageActivity extends AndroidApplication {
 		stageListener.maximizeViewPortY = (Values.SCREEN_HEIGHT - stageListener.maximizeViewPortHeight) / 2;
 	}
 
-	public static void textToSpeech(String Text) {
-		tts.speak(Text, TextToSpeech.QUEUE_FLUSH, null);
+	public static void textToSpeech(String text) {
+		tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+	}
+
+	public void makeToast(String text) {
+		Toast.makeText(this.getApplicationContext(), text, Toast.LENGTH_SHORT).show();
 	}
 }

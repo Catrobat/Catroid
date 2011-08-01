@@ -25,5 +25,5 @@
   <item android:id="@+id/stagemenuStart" android:title="@string/stagemenu_start" />
   <item android:id="@+id/stagemenuScreenSize" android:title="@string/stagemenu_screen_size" />
   <item android:id="@+id/stagemenuAxes" android:title="@string/stagemenu_axes" />
-    
+  <item android:id="@+id/stagemenuScreenshot" android:title="@string/stagemenu_screenshot" /> 
 </menu>
