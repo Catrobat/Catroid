@@ -40,7 +40,7 @@
 		android:focusableInTouchMode="false"
 		android:orientation="horizontal"
 		android:background="@drawable/brick_touched"
-		android:longClickable="true"
+		
 	>
 		<TextView
 			android:id="@+id/TouchedBrick"

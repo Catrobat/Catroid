@@ -40,7 +40,7 @@
 		android:background="@drawable/brick_blue"
 		android:focusable="false"
 		android:focusableInTouchMode="false"
-		android:longClickable="true"
+		
 	>
 		<TextView
 			android:id="@+id/ValueTextViewY"
