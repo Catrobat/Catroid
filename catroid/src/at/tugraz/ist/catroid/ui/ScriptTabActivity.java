@@ -45,17 +45,17 @@ public class ScriptTabActivity extends TabActivity {
 		intent = new Intent().setClass(this, ScriptActivity.class);
 
 		// Initialize a TabSpec for each tab and add it to the TabHost
-		spec = tabHost.newTabSpec("script").setIndicator("Script").setContent(intent);
+		spec = tabHost.newTabSpec("script").setIndicator(this.getString(R.string.scripts)).setContent(intent);
 		tabHost.addTab(spec);
 
 		//costumeactivity
 		intent = new Intent().setClass(this, CostumeActivity.class);
-		spec = tabHost.newTabSpec("costumes").setIndicator("Costumes").setContent(intent);
+		spec = tabHost.newTabSpec("costumes").setIndicator(this.getString(R.string.costumes)).setContent(intent);
 		tabHost.addTab(spec);
 
 		//soundactivity
 		intent = new Intent().setClass(this, SoundActivity.class);
-		spec = tabHost.newTabSpec("sounds").setIndicator("Sounds").setContent(intent);
+		spec = tabHost.newTabSpec("sounds").setIndicator(this.getString(R.string.sounds)).setContent(intent);
 		tabHost.addTab(spec);
 
 		tabHost.setCurrentTab(0);

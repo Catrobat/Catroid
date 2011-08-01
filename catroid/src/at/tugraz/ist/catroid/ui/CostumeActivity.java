@@ -110,7 +110,7 @@ public class CostumeActivity extends ListActivity {
 	protected Dialog onCreateDialog(int id) {
 		final Dialog dialog;
 		switch (id) {
-			case Consts.DIALOG_RENAME_SPRITE: //TODO: trololol not sprite .. sucker
+			case Consts.DIALOG_RENAME_COSTUME:
 				if (selectedCostumeData == null) {
 					dialog = null;
 				} else {
@@ -217,7 +217,7 @@ public class CostumeActivity extends ListActivity {
 			public void onClick(int menuId) {
 				switch (menuId) {
 					case CONTEXT_MENU_ITEM_RENAME:
-						CostumeActivity.this.showDialog(Consts.DIALOG_RENAME_SPRITE);
+						CostumeActivity.this.showDialog(Consts.DIALOG_RENAME_COSTUME);
 						break;
 					case CONTEXT_MENU_ITEM_EDIT:
 						break;

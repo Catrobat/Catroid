@@ -94,6 +94,11 @@
     <string name="script_list">Scripts:</string>
     <string name="add_new_script">Add new Script</string>
     
+    <!-- ScriptTab activity -->
+    <string name="scripts">Scripts</string>
+    <string name="costumes">Costumes</string>
+    <string name="sounds">Sounds</string>
+    
     <!-- Costume activity -->
     <string name="costume_list">Costume:</string>
     <string name="rename_costume_dialog">Rename costume</string>

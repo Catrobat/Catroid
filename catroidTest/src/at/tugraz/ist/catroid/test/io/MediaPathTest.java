@@ -280,16 +280,6 @@ public class MediaPathTest extends InstrumentationTestCase {
 			tapedScript.addBrick(brick);
 		}
 
-		//temporary:
-		{
-			String soundTitle = testSoundCopy.getName().substring(33, testSoundCopy.getName().length() - 4);
-			String soundFileName = testSoundCopy.getName();
-			SoundInfo newSoundInfo = new SoundInfo();
-			newSoundInfo.setTitle(soundTitle);
-			newSoundInfo.setSoundFileName(soundFileName);
-			sprite.getSoundList().add(newSoundInfo);
-		}
-
 		StorageHandler.getInstance().saveProject(project);
 	}
 
