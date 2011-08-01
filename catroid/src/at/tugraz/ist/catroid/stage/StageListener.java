@@ -60,6 +60,16 @@ public class StageListener implements ApplicationListener {
 	private boolean paused = false;
 	private boolean finished = false;
 	private boolean firstStart = true;
+
+	private boolean makeFirstScreenshot = true;
+	private String pathForScreenshot;
+	private int screenshotWidth;
+	private int screenshotHeight;
+	private int screenshotX;
+	private int screenshotY;
+	private byte[] screenshot;
+	private boolean makeScreenshot = false;
+
 	private Project project;
 
 	private OrthographicCamera camera;
@@ -82,8 +92,6 @@ public class StageListener implements ApplicationListener {
 	public int maximizeViewPortWidth = 0;
 
 	public boolean axesOn = false;
-	public boolean makeScreenshot = false;
-	private int screenshotCountDown = 300;
 
 	Texture pauseScreen;
 
@@ -98,6 +106,9 @@ public class StageListener implements ApplicationListener {
 		font = new BitmapFont();
 		font.setColor(1f, 0f, 0.05f, 1f);
 		font.setScale(1.2f);
+
+		pathForScreenshot = Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName()
+				+ "/";
 
 		costumeComparator = new CostumeComparator();
 
@@ -166,10 +177,18 @@ public class StageListener implements ApplicationListener {
 		switch (screenMode) {
 			case Consts.MAXIMIZE:
 				Gdx.gl.glViewport(maximizeViewPortX, maximizeViewPortY, maximizeViewPortWidth, maximizeViewPortHeight);
+				screenshotWidth = maximizeViewPortWidth;
+				screenshotHeight = maximizeViewPortHeight;
+				screenshotX = maximizeViewPortX;
+				screenshotY = maximizeViewPortY;
 				break;
 			case Consts.STRETCH:
 			default:
 				Gdx.gl.glViewport(0, 0, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
+				screenshotWidth = Values.SCREEN_WIDTH;
+				screenshotHeight = Values.SCREEN_HEIGHT;
+				screenshotX = 0;
+				screenshotY = 0;
 				break;
 		}
 
@@ -180,7 +199,6 @@ public class StageListener implements ApplicationListener {
 				sprite.startStartScripts();
 			}
 			firstStart = false;
-			makeScreenshot = true;
 		}
 		if (!paused) {
 			stage.act(Gdx.graphics.getDeltaTime());
@@ -190,20 +208,24 @@ public class StageListener implements ApplicationListener {
 			stage.draw();
 		}
 
-		if (makeScreenshot && screenshotCountDown == 0) {
-			this.saveThumbnail();
+		if (makeFirstScreenshot) {
+			File file = new File(pathForScreenshot + Consts.SCREENSHOT_FILE_NAME);
+			if (!file.exists()) {
+				try {
+					file.createNewFile();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 
-			//			String text;
-			//			if (saveThumbnail()) {
-			//				text = stageActivity.getString(R.string.notification_screenshot_ok);
-			//			} else {
-			//				text = stageActivity.getString(R.string.error_screenshot_failed);
-			//			}
-			//			Toast toast = Toast.makeText(stageActivity, text, Toast.LENGTH_SHORT);
-			//			toast.show();
+				this.saveThumbnail();
+			}
+			makeFirstScreenshot = false;
+		}
+
+		if (makeScreenshot) {
+			screenshot = ScreenUtils.getFrameBufferPixels(screenshotX, screenshotY, screenshotWidth, screenshotHeight,
+					true);
 			makeScreenshot = false;
-		} else if (makeScreenshot) {
-			screenshotCountDown--;
 		}
 
 		if (paused && !finished) {
@@ -270,60 +292,47 @@ public class StageListener implements ApplicationListener {
 		}
 	}
 
-	/**
-	 * just a copied dummy method, doesn't work of course ;)
-	 * 
-	 * @return
-	 */
-	public boolean saveThumbnail() {
-		String path = Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName() + "/";
-		File file = new File(path + Consts.SCREENSHOT_FILE_NAME);
-		File noMediaFile = new File(path + ".nomedia");
-		if (!noMediaFile.exists()) {
-			try {
-				noMediaFile.createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+	private void saveThumbnail() {
+		File noMediaFile = new File(pathForScreenshot + ".nomedia");
 		try {
-			file.createNewFile();
+			noMediaFile.createNewFile();
 		} catch (IOException e) {
-			e.printStackTrace();
+			return;
 		}
-
-		FileHandle image = Gdx.files.absolute(path + Consts.SCREENSHOT_FILE_NAME);
+		byte[] screenshot = ScreenUtils.getFrameBufferPixels(screenshotX, screenshotY, screenshotWidth,
+				screenshotHeight, true);
+		FileHandle image = Gdx.files.absolute(pathForScreenshot + Consts.SCREENSHOT_FILE_NAME);
 		OutputStream stream = image.write(false);
 		try {
-
-			byte[] bytes = RGBA8888ToPngEncoder.toPNG(ScreenUtils.getFrameBufferPixels(true), Values.SCREEN_WIDTH,
-					Values.SCREEN_HEIGHT);
+			byte[] bytes = RGBA8888ToPngEncoder.toPNG(screenshot, screenshotWidth, screenshotHeight);
 			stream.write(bytes);
 			stream.close();
 		} catch (IOException e) {
-			// e.printStackTrace();
-			// TODO: fallback if fail
+		}
+
+	}
+
+	public boolean makeScreenshot() {
+		File noMediaFile = new File(pathForScreenshot + ".nomedia");
+		try {
+			noMediaFile.createNewFile();
+		} catch (IOException e) {
+			return false;
+		}
+		makeScreenshot = true;
+		while (makeScreenshot) {
+			Thread.yield();
+		}
+		FileHandle image = Gdx.files.absolute(pathForScreenshot + Consts.SCREENSHOT_FILE_NAME);
+		OutputStream stream = image.write(false);
+		try {
+			byte[] bytes = RGBA8888ToPngEncoder.toPNG(screenshot, screenshotWidth, screenshotHeight);
+			stream.write(bytes);
+			stream.close();
+		} catch (IOException e) {
+			return false;
 		}
 		return true;
-		//		try {
-		//			String path = Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName() + "/";
-		//			File file = new File(path + Consts.SCREENSHOT_FILE_NAME);
-		//			File noMediaFile = new File(path + ".nomedia");
-		//			if (!noMediaFile.exists()) {
-		//				noMediaFile.createNewFile();
-		//			}
-		//
-		//			FileOutputStream fileOutputStream = new FileOutputStream(file.getAbsolutePath());
-		//			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream);
-		//			//canvasBitmap.compress(CompressFormat.PNG, 0, bos);
-		//			bos.flush();
-		//			bos.close();
-		//			return true;
-		//		} catch (Exception e) {
-		//			e.printStackTrace();
-		//			return false;
-		//
-		//		}
 	}
 
 }

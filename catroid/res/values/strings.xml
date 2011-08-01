@@ -144,6 +144,8 @@
     <string name="stagemenu_start">Play/Pause</string>
     <string name="stagemenu_screen_size">Maximize/Stretch</string>
     <string name="stagemenu_axes">Axes ON/OFF</string>
+    <string name="stagemenu_screenshot">Screenshot</string>
+    
     <!-- Bricks -->
     <string name="brick_set_background">Set Background</string>
     <string name="brick_play_sound">Play Sound</string>
