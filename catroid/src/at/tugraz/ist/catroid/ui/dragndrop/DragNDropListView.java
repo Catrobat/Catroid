@@ -43,19 +43,26 @@ import at.tugraz.ist.catroid.common.Values;
 
 public class DragNDropListView extends ExpandableListView implements OnLongClickListener {
 
+	private static final int DRAG_BACKGROUND_COLOR = Color.parseColor("#e0103010");
+
 	private ImageView dragView;
-	private WindowManager.LayoutParams windowParams;
+	private WindowManager.LayoutParams dragViewParameters;
+
 	private int dragPosition;
 	private int firstDragPosition;
 	private int dragPoint;
 	private int motionPositionY;
-	private DragAndDropListener dragAndDropListener;
+
 	private int upperBound;
 	private int lowerBound;
+
 	private ImageView trash;
 	private int trashWidth;
 	private int trashHeight;
+
 	private int screenWidth;
+
+	private DragAndDropListener dragAndDropListener;
 
 	public DragNDropListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -142,25 +149,19 @@ public class DragNDropListView extends ExpandableListView implements OnLongClick
 					trash.startAnimation(animation);
 				case MotionEvent.ACTION_MOVE:
 
-					int x = (int) ev.getX();
 					int y = (int) ev.getY();
-					dragView(x, (int) ev.getRawY());
-					int itemPosition = pointToPosition(x, y);
+					int itemPosition = pointToPosition((int) ev.getX(), y);
+					dragView((int) ev.getX(), (int) ev.getRawY());
 					if (itemPosition >= 0) {
 						dragAndDropListener.drag(dragPosition, itemPosition);
 						dragPosition = itemPosition;
-						int speed = 0;
+
 						adjustScrollBounds(y);
+
 						if (y > lowerBound) {
-							speed = y > (getHeight() + lowerBound) / 2 ? 16 : 4;
-
+							smoothScrollBy(10, 1);
 						} else if (y < upperBound) {
-							speed = y < upperBound / 2 ? -16 : -4;
-							speed = Math.max(-getScrollY(), speed);
-						}
-
-						if (getCount() > getLastVisiblePosition()) {
-							scrollBy(0, speed);
+							smoothScrollBy(-10, 1);
 						}
 
 					}
@@ -173,27 +174,34 @@ public class DragNDropListView extends ExpandableListView implements OnLongClick
 
 	private void startDragging(Bitmap bitmap, int y) {
 		stopDragging();
-		windowParams = new WindowManager.LayoutParams();
-		windowParams.gravity = Gravity.TOP | Gravity.LEFT;
-		windowParams.x = 0;
-		windowParams.y = y - dragPoint;
-
-		windowParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-		windowParams.width = screenWidth - trashWidth + 2;
-		windowParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-				| WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-				| WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
-		windowParams.format = PixelFormat.TRANSLUCENT;
-		windowParams.windowAnimations = 0;
+		dragViewParameters = createWindowsParameter();
+		dragViewParameters.y = y - dragPoint;
 
 		ImageView imageView = new ImageView(getContext());
-		int backgroundColor = Color.parseColor("#e0103010");
+		int backgroundColor = DRAG_BACKGROUND_COLOR;
 		imageView.setBackgroundColor(backgroundColor);
 		imageView.setImageBitmap(bitmap);
 
 		WindowManager windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
-		windowManager.addView(imageView, windowParams);
+		windowManager.addView(imageView, dragViewParameters);
 		dragView = imageView;
+	}
+
+	private WindowManager.LayoutParams createWindowsParameter() {
+
+		WindowManager.LayoutParams windowParameters = new WindowManager.LayoutParams();
+		windowParameters.gravity = Gravity.TOP | Gravity.LEFT;
+		windowParameters.x = 0;
+
+		windowParameters.height = WindowManager.LayoutParams.WRAP_CONTENT;
+		windowParameters.width = screenWidth - trashWidth + 2;
+		windowParameters.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+				| WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+				| WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
+		windowParameters.format = PixelFormat.TRANSLUCENT;
+		windowParameters.windowAnimations = 0;
+
+		return windowParameters;
 	}
 
 	private void dragView(int x, int y) {
@@ -207,13 +215,14 @@ public class DragNDropListView extends ExpandableListView implements OnLongClick
 			layoutParams.width = (int) (trashWidth * (1 + rate));
 			layoutParams.height = (int) (trashHeight * (1 + rate));
 			trash.setLayoutParams(layoutParams);
-			windowParams.alpha = alpha;
-			windowParams.width = screenWidth - layoutParams.width + 2;
+
+			dragViewParameters.alpha = alpha;
+			dragViewParameters.width = screenWidth - layoutParams.width + 2;
 		}
 
-		windowParams.y = y - dragPoint;
+		dragViewParameters.y = y - dragPoint;
 		WindowManager windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
-		windowManager.updateViewLayout(dragView, windowParams);
+		windowManager.updateViewLayout(dragView, dragViewParameters);
 	}
 
 	private void stopDragging() {
@@ -228,16 +237,20 @@ public class DragNDropListView extends ExpandableListView implements OnLongClick
 
 	public boolean onLongClick(View v) {
 
-		int itemPosition = indexOfChild(v);
+		int itemPosition = pointToPosition(v.getLeft(), v.getTop());
 		dragPoint = v.getHeight() / 2;
+
 		v.setDrawingCacheEnabled(true);
 		Bitmap bitmap = Bitmap.createBitmap(v.getDrawingCache());
 		v.setDrawingCacheEnabled(false);
+
 		startDragging(bitmap, motionPositionY);
 		dragAndDropListener.drag(itemPosition, itemPosition);
+
 		trash.setVisibility(View.VISIBLE);
 		Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.trash_in);
 		trash.startAnimation(animation);
+
 		dragPosition = itemPosition;
 		firstDragPosition = dragPosition;
 

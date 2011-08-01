@@ -32,7 +32,6 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnGroupClickListener;
-import android.widget.ImageView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.BroadcastScript;
@@ -83,8 +82,7 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDr
 
 		if (dragging && (dragTargetPosition == childPosition)) {
 
-			ImageView childView = new ImageView(context);
-			childView.setImageResource(R.drawable.brick_blue);
+			View childView = View.inflate(context, R.layout.brick_insert, null);
 			return childView;
 
 		}
@@ -160,6 +158,19 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDr
 
 	public void drop(int from, int to) {
 		dragging = false;
+
+		Brick droppedBrick = getChild(getGroupCount() - 1, to - getGroupCount());
+
+		if (droppedBrick instanceof LoopBeginBrick) {
+			sprite.getScript(getGroupCount() - 1).removeBrick(((LoopBeginBrick) droppedBrick).getLoopEndBrick());
+			sprite.getScript(getGroupCount() - 1).addBrick(to - getGroupCount() + 1,
+					((LoopBeginBrick) droppedBrick).getLoopEndBrick());
+		} else if (droppedBrick instanceof LoopEndBrick) {
+			sprite.getScript(getGroupCount() - 1).removeBrick(((LoopEndBrick) droppedBrick).getLoopBeginBrick());
+			sprite.getScript(getGroupCount() - 1).addBrick(to - getGroupCount() + 1,
+					((LoopEndBrick) droppedBrick).getLoopBeginBrick());
+		}
+
 		notifyDataSetChanged();
 	}
 
