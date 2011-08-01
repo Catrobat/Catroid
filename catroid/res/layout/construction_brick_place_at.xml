@@ -39,7 +39,7 @@
 		android:background="@drawable/brick_blue"
 		android:focusable="false"
 		android:focusableInTouchMode="false"
-		android:longClickable="true"
+		
 	>
 		<TextView
 			android:id="@+id/ValueTextViewXY"
@@ -63,7 +63,7 @@
 			android:layout_centerVertical="true"
 			android:layout_marginLeft="5dip"
 			android:clickable="true"
-			android:longClickable="true"
+			
 		>
 			<TextView
 				android:id="@+id/TextView01"
