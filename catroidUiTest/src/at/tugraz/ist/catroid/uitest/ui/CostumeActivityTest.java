@@ -11,7 +11,6 @@ import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.ui.CostumeActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
-import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -29,14 +28,17 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
+		UiTestUtils.clearAllUtilTestProjects();
 		UiTestUtils.createTestProject();
-		imageFile = UtilFile.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_sunglasses.png",
+		imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_sunglasses.png",
 				RESOURCE_IMAGE, getActivity(), UiTestUtils.TYPE_IMAGE_FILE);
 		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
 		CostumeData costumeData = new CostumeData();
 		costumeData.setCostumeFilename(imageFile.getName());
 		costumeData.setCostumeName(costumeName);
 		costumeDataList.add(costumeData);
+		ProjectManager.getInstance().fileChecksumContainer.addChecksum(costumeData.getChecksum(),
+				costumeData.getAbsolutePath());
 
 		solo = new Solo(getInstrumentation(), getActivity());
 
