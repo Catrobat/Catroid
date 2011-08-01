@@ -34,7 +34,7 @@ import android.graphics.drawable.NinePatchDrawable;
 import android.util.Log;
 import at.tugraz.ist.catroid.R;
 
-public class Bubble implements Serializable {
+public class TestBubble implements Serializable {
 	//private static final long serialVersionUID = 1L;
 
 	private Activity activity;
@@ -67,7 +67,7 @@ public class Bubble implements Serializable {
 	Point rightStart;
 	private Canvas canvas;
 
-	public Bubble() {
+	public TestBubble() {
 		text = "";
 	}
 
@@ -165,14 +165,14 @@ public class Bubble implements Serializable {
 
 		rightStart.x = (int) x + 10;
 		rightStart.y = (int) (y_1 + ((y_2 - y_1) / (x_2 - x_1)) * ((rightStart.x - x_1)));
-		int i = 76655;
-		//		leftStart.x = (int) (x - (xq - x));
-		//		leftStart.y = (int) y;
+
+		leftStart.x = -(int) x + 10;
+		leftStart.y = rightStart.y;
 
 	}
 
 	public void drawBubble() {
-		calculateStartPos();
+		//calculateStartPos();
 		int costumePosX = costume.getDrawPositionX();
 		int costumePosY = costume.getDrawPositionY();
 		int relPosX = rightStart.x;
@@ -188,6 +188,29 @@ public class Bubble implements Serializable {
 
 		bubble9Patch.setBounds(boundLeft, boundTop, boundRight, boundBottom);
 		bubble9Patch.draw(canvas);
+	}
+
+	public void moveBubble() {
+		calculateStartPos();
+		int costumePosX = costume.getDrawPositionX();
+		int costumePosY = costume.getDrawPositionY();
+		int relPosX = rightStart.x;
+		int relPosY = rightStart.y;
+		Point outRight = new Point();
+		Point outLeft = new Point();
+
+		outRight.x = costumePosX + relPosX + (int) bubbleWidth;
+		outRight.y = costumePosY - (int) bubbleHeight + relPosY + (int) bubbleHeight;
+
+		int maxY = canvas.getHeight();
+		int maxX = canvas.getWidth();
+
+		if (outRight.x > maxX) {
+
+		} else if (outRight.y < 0) {
+
+		}
+
 	}
 
 	public void drawText(String string, int textPosX, int textPosY) {
@@ -296,6 +319,7 @@ public class Bubble implements Serializable {
 				// basic scaling
 				bubbleHeight = bubbleDefaultHeight;
 				bubbleWidth = bubbleDefaultWidth;
+				moveBubble();
 				drawBubble();
 
 				int textPosX = (int) (bubbleDefaultWidth / 2);
