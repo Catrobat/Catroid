@@ -77,7 +77,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 	private static final int IMAGE_FILE_ID = at.tugraz.ist.catroid.uitest.R.raw.icon;
 	private static final int IMAGE_FILE_ID2 = at.tugraz.ist.catroid.uitest.R.raw.icon2;
-	private static final int SOUND_FILE_ID = at.tugraz.ist.catroid.uitest.R.raw.testsoundui;
+	private static final int SOUND_FILE_ID = at.tugraz.ist.catroid.uitest.R.raw.longsound;
 
 	public StageTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -162,7 +162,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2); // click in the middle
 
-		solo.sleep(4000);
+		solo.sleep(3000);
 		costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
 		assertEquals("Image size not set correctly", (image1Width / 2), costume.getImageWidth());
 
@@ -387,8 +387,9 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		this.createTestProjectWithSound();
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
 		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
+		solo.sleep(50);
 		solo.goBack();
-		solo.sleep(100);
+		solo.sleep(50);
 		assertFalse("Media Player is playing after pressing the back button", mediaPlayer.isPlaying());
 	}
 
