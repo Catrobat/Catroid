@@ -1,5 +1,20 @@
 /**
- * 
+ *  Catroid: An on-device graphical programming language for Android devices
+ *  Copyright (C) 2010  Catroid development team
+ *  (<http://code.google.com/p/catroid/wiki/Credits>)
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.uitest.content.brick;
 
@@ -95,6 +110,8 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		solo.sleep(100);
 		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
 		solo.sleep(100);
+		assertTrue(soundName + " is not in Spinner", solo.searchText(soundName));
+		assertTrue(soundName2 + " is not in Spinner", solo.searchText(soundName2));
 		solo.clickOnText(soundName);
 		solo.sleep(100);
 		assertTrue(soundName + " is not selected in Spinner", solo.searchText(soundName));
@@ -117,5 +134,46 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		solo.sleep(3000);
 		assertTrue("mediaPlayer is not playing", mediaPlayer.isPlaying());
 		assertEquals("wrong file playing", 4875, mediaPlayer.getDuration());
+	}
+
+	public void testSpinnerUpdatesDelete() {
+		solo.sleep(100);
+		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.sleep(100);
+		assertTrue(soundName + " is not in Spinner", solo.searchText(soundName));
+		assertTrue(soundName2 + " is not in Spinner", solo.searchText(soundName2));
+		solo.goBack();
+		solo.clickOnText(getActivity().getString(R.string.sounds));
+		solo.sleep(300);
+		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
+		solo.sleep(300);
+		solo.clickOnText(getActivity().getString(R.string.scripts));
+		solo.sleep(300);
+		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		assertFalse(soundName + " is still in Spinner", solo.searchText(soundName));
+		assertTrue(soundName2 + " is not in Spinner", solo.searchText(soundName2));
+	}
+
+	public void testSpinnerUpdatesRename() {
+		String newName = "nameRenamed";
+		solo.sleep(100);
+		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.sleep(100);
+		assertTrue(soundName + " is not in Spinner", solo.searchText(soundName));
+		assertTrue(soundName2 + " is not in Spinner", solo.searchText(soundName2));
+		solo.goBack();
+		solo.clickOnText(getActivity().getString(R.string.sounds));
+		solo.sleep(300);
+		solo.clickOnButton(getActivity().getString(R.string.sound_rename));
+		solo.sleep(100);
+		solo.clearEditText(0);
+		solo.enterText(0, newName);
+		solo.clickOnButton(getActivity().getString(R.string.ok));
+		solo.sleep(300);
+		solo.clickOnText(getActivity().getString(R.string.scripts));
+		solo.sleep(300);
+		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		assertTrue(newName + " is not in Spinner", solo.searchText(newName));
+		assertTrue(soundName2 + " is not in Spinner", solo.searchText(soundName2));
 	}
 }
