@@ -72,10 +72,7 @@ public class NXTPlayToneBrick implements Brick, OnDismissListener, OnSeekBarChan
 
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.toolbox_brick_nxt_play_tone, null);
-		freqBar = (SeekBar) brickView.findViewById(R.id.seekBarNXTToneFrequency);
-		freqBar.setEnabled(false);
-		return brickView;
+		return inflater.inflate(R.layout.toolbox_brick_nxt_play_tone, null);
 	}
 
 	@Override
