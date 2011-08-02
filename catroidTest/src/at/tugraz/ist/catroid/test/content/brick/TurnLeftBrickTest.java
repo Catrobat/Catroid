@@ -98,9 +98,6 @@ public class TurnLeftBrickTest extends InstrumentationTestCase {
 		TurnLeftBrick brick = new TurnLeftBrick(sprite, 10);
 		SetSizeToBrick brickScale = new SetSizeToBrick(sprite, 50);
 
-		int width = sprite.getCostume().getImageWidth();
-		int height = sprite.getCostume().getImageHeight();
-
 		brick.execute();
 		brickScale.execute();
 
@@ -115,7 +112,6 @@ public class TurnLeftBrickTest extends InstrumentationTestCase {
 
 		TurnLeftBrick brick = new TurnLeftBrick(sprite, 10);
 		SetSizeToBrick brickScale = new SetSizeToBrick(sprite, 50);
-
 
 		brickScale.execute();
 		brick.execute();
