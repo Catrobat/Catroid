@@ -328,9 +328,9 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return true;
 	}
 
-	public boolean isLegoNXTSprite() {
+	public boolean isBluetoothSprite() {
 		for (Script script : scriptList) {
-			if (script.containsLegoNXTBrick()) {
+			if (script.containsBluetoothBrick()) {
 				return true;
 			}
 		}
