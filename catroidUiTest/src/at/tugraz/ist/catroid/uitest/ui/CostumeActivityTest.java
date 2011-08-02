@@ -8,7 +8,9 @@ import android.widget.ListAdapter;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.CostumeActivity;
+import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
@@ -66,15 +68,6 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		super.tearDown();
 	}
 
-	//	public void testMainMenuButton() {
-	//		//fuck robotium .. derp
-	//		solo.clickOnText(getActivity().getString(R.string.costumes));
-	//		solo.sleep(1000);
-	//		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
-	//		assertTrue("Clicking on main menu button did not cause main menu to be displayed",
-	//				solo.getCurrentActivity() instanceof MainMenuActivity);
-	//	}
-
 	public void testCopyCostume() {
 		solo.clickOnText(getActivity().getString(R.string.costumes));
 		solo.sleep(500);
@@ -90,8 +83,8 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 
 	public void testDeleteCostume() {
 		solo.clickOnText(getActivity().getString(R.string.costumes));
-		solo.sleep(500);
-		ListAdapter adapter = ((CostumeActivity) getActivity().getCurrentActivity()).getListAdapter();
+		solo.sleep(700);
+		ListAdapter adapter = ((CostumeActivity) solo.getCurrentActivity()).getListAdapter();
 		int oldCount = adapter.getCount();
 		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
 		int newCount = adapter.getCount();
@@ -116,5 +109,29 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		if (!solo.searchText(newName)) {
 			fail("costume not renamed in actual view");
 		}
+	}
+
+	public void testToStageButton() {
+		solo.clickOnText(getActivity().getString(R.string.costumes));
+		solo.sleep(500);
+		//fu!?
+		solo.clickOnImageButton(2); //sorry UiTestUtils.clickOnImageButton just won't work after switching tabs
+
+		solo.sleep(5000);
+		solo.assertCurrentActivity("not in stage", StageActivity.class);
+		solo.goBack();
+		solo.sleep(3000);
+		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
+		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
+		assertEquals("costumeDataList in sprite doesn't hold the right number of costumeData", 1,
+				costumeDataList.size());
+	}
+
+	public void testMainMenuButton() {
+		solo.clickOnText(getActivity().getString(R.string.costumes));
+		solo.sleep(500);
+		solo.clickOnImageButton(0);
+		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
+				MainMenuActivity.class);
 	}
 }

@@ -119,7 +119,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		solo.goBack();
 		solo.sleep(200);
 
-		//changing le sound
+		//changing le costume
 		solo.clickOnText(costumeName);
 		solo.sleep(100);
 		solo.clickOnText(costumeName2);
@@ -129,5 +129,48 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		solo.sleep(7000);
 		costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).getCostume();
 		assertEquals("costume not set", costume.getImagePath(), costumeDataList.get(1).getAbsolutePath());
+	}
+
+	public void testSpinnerUpdates() {
+		solo.sleep(100);
+		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.sleep(100);
+		assertTrue(costumeName + " is not in Spinner", solo.searchText(costumeName));
+		assertTrue(costumeName2 + " is not in Spinner", solo.searchText(costumeName2));
+		solo.goBack();
+		solo.clickOnText(getActivity().getString(R.string.costumes));
+		solo.sleep(300);
+		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
+		solo.sleep(300);
+		solo.clickOnText(getActivity().getString(R.string.scripts));
+		solo.sleep(300);
+		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		assertFalse(costumeName + " is still in Spinner", solo.searchText(costumeName));
+		assertTrue(costumeName2 + " is not in Spinner", solo.searchText(costumeName2));
+	}
+
+	public void testSpinnerUpdatesRename() {
+		String newName = "nameRenamed";
+		solo.sleep(100);
+		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.sleep(100);
+		assertTrue(costumeName + " is not in Spinner", solo.searchText(costumeName));
+		assertTrue(costumeName2 + " is not in Spinner", solo.searchText(costumeName2));
+		solo.goBack();
+		solo.clickOnText(getActivity().getString(R.string.costumes));
+		solo.sleep(300);
+		solo.clickOnButton(getActivity().getString(R.string.edit_costume));
+		solo.sleep(100);
+		solo.clickOnText(getActivity().getString(R.string.rename_costume_dialog));
+		solo.sleep(100);
+		solo.clearEditText(0);
+		solo.enterText(0, newName);
+		solo.clickOnButton(getActivity().getString(R.string.ok));
+		solo.sleep(300);
+		solo.clickOnText(getActivity().getString(R.string.scripts));
+		solo.sleep(300);
+		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		assertTrue(newName + " is not in Spinner", solo.searchText(newName));
+		assertTrue(costumeName2 + " is not in Spinner", solo.searchText(costumeName2));
 	}
 }
