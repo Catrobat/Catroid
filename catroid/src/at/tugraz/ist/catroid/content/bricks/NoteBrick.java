@@ -21,7 +21,6 @@ package at.tugraz.ist.catroid.content.bricks;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseExpandableListAdapter;
@@ -29,10 +28,15 @@ import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 public class NoteBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private String note = "";
+
+	@XStreamOmitField
+	private View view;
 
 	private final transient int MAXLINES = 5;
 
@@ -57,10 +61,12 @@ public class NoteBrick implements Brick {
 	}
 
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.construction_brick_note, null);
 
-		EditText editText = (EditText) brickView.findViewById(R.id.construction_brick_note_edit_text);
+		if (view == null) {
+			view = View.inflate(context, R.layout.construction_brick_note, null);
+		}
+
+		EditText editText = (EditText) view.findViewById(R.id.construction_brick_note_edit_text);
 		editText.setText(note);
 		editText.setMaxLines(MAXLINES);
 		editText.setOnClickListener(new OnClickListener() {
@@ -86,13 +92,11 @@ public class NoteBrick implements Brick {
 			}
 		});
 
-		return brickView;
+		return view;
 	}
 
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.toolbox_brick_note, null);
-		return brickView;
+		return View.inflate(context, R.layout.toolbox_brick_note, null);
 	}
 
 	@Override

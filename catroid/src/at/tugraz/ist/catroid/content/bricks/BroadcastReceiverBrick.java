@@ -22,7 +22,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
@@ -37,6 +36,8 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.BroadcastScript;
 import at.tugraz.ist.catroid.content.Sprite;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 /**
  * @author Johannes Iber
  * 
@@ -47,6 +48,9 @@ public class BroadcastReceiverBrick implements Brick {
 	private transient final ProjectManager projectManager;
 	protected BroadcastScript receiveScript;
 	private Sprite sprite;
+
+	@XStreamOmitField
+	private View view;
 
 	public BroadcastReceiverBrick(Sprite sprite, BroadcastScript receiveScript) {
 		this.sprite = sprite;
@@ -62,10 +66,12 @@ public class BroadcastReceiverBrick implements Brick {
 	}
 
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.construction_brick_broadcast_receive, null);
 
-		final Spinner broadcastSpinner = (Spinner) brickView.findViewById(R.id.broadcast_spinner);
+		if (view == null) {
+			view = View.inflate(context, R.layout.construction_brick_broadcast_receive, null);
+		}
+
+		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.broadcast_spinner);
 		broadcastSpinner.setAdapter(projectManager.messageContainer.getMessageAdapter(context));
 		broadcastSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			private boolean start = true;
@@ -94,7 +100,7 @@ public class BroadcastReceiverBrick implements Brick {
 			broadcastSpinner.setSelection(position);
 		}
 
-		Button newBroadcastMessage = (Button) brickView.findViewById(R.id.broadcast_new_message);
+		Button newBroadcastMessage = (Button) view.findViewById(R.id.broadcast_new_message);
 		newBroadcastMessage.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
@@ -138,13 +144,11 @@ public class BroadcastReceiverBrick implements Brick {
 
 		broadcastSpinner.setFocusable(false);
 		newBroadcastMessage.setFocusable(false);
-		return brickView;
+		return view;
 	}
 
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.toolbox_brick_broadcast_receive, null);
-		return view;
+		return View.inflate(context, R.layout.toolbox_brick_broadcast_receive, null);
 	}
 
 	@Override

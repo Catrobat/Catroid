@@ -22,7 +22,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
@@ -30,9 +29,14 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 public class RepeatBrick extends LoopBeginBrick implements OnDismissListener {
 	private static final long serialVersionUID = 1L;
 	private int timesToRepeat;
+
+	@XStreamOmitField
+	private View view;
 
 	public RepeatBrick(Sprite sprite, int timesToRepeat) {
 		this.sprite = sprite;
@@ -50,8 +54,10 @@ public class RepeatBrick extends LoopBeginBrick implements OnDismissListener {
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_repeat, null);
+
+		if (view == null) {
+			view = View.inflate(context, R.layout.construction_brick_repeat, null);
+		}
 
 		EditText edit = (EditText) view.findViewById(R.id.construction_brick_repeat_edit_text);
 		edit.setText(timesToRepeat + "");
@@ -65,8 +71,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnDismissListener {
 	}
 
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.toolbox_brick_repeat, null);
+		return View.inflate(context, R.layout.toolbox_brick_repeat, null);
 	}
 
 	public void onDismiss(DialogInterface dialog) {

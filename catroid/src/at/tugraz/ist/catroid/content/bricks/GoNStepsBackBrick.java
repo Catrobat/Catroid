@@ -22,7 +22,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
@@ -30,10 +29,15 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 public class GoNStepsBackBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private int steps;
+
+	@XStreamOmitField
+	private View view;
 
 	public GoNStepsBackBrick(Sprite sprite, int steps) {
 		this.sprite = sprite;
@@ -60,8 +64,11 @@ public class GoNStepsBackBrick implements Brick, OnDismissListener {
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_go_back, null);
+
+		if (view == null) {
+			view = View.inflate(context, R.layout.construction_brick_go_back, null);
+		}
+
 		EditText edit = (EditText) view.findViewById(R.id.construction_brick_go_back_edit_text);
 
 		edit.setText(String.valueOf(steps));
@@ -74,9 +81,7 @@ public class GoNStepsBackBrick implements Brick, OnDismissListener {
 	}
 
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.toolbox_brick_go_back, null);
-		return view;
+		return View.inflate(context, R.layout.toolbox_brick_go_back, null);
 	}
 
 	@Override

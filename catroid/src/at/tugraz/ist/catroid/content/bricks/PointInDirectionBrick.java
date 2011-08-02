@@ -19,7 +19,6 @@
 package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -28,11 +27,16 @@ import android.widget.Spinner;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private double direction;
+
+	@XStreamOmitField
+	private View view;
 
 	public PointInDirectionBrick(Sprite sprite, double direction) {
 		this.sprite = sprite;
@@ -48,21 +52,20 @@ public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.construction_brick_point_in_direction, null);
 
-		final Spinner spinner = (Spinner) brickView.findViewById(R.id.point_in_direction_spinner);
+		if (view == null) {
+			view = View.inflate(context, R.layout.construction_brick_point_in_direction, null);
+		}
+
+		final Spinner spinner = (Spinner) view.findViewById(R.id.point_in_direction_spinner);
 
 		spinner.setOnItemSelectedListener(this);
 
-		return brickView;
+		return view;
 	}
 
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.toolbox_brick_point_in_direction, null);
-
-		return brickView;
+		return View.inflate(context, R.layout.toolbox_brick_point_in_direction, null);
 	}
 
 	@Override

@@ -19,15 +19,19 @@
 package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 public class HideBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
+
+	@XStreamOmitField
+	private View view;
 
 	public HideBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -42,8 +46,11 @@ public class HideBrick implements Brick {
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.construction_brick_hide, null);
+		if (view == null) {
+			view = View.inflate(context, R.layout.construction_brick_hide, null);
+		}
+
+		return view;
 	}
 
 	@Override
@@ -52,7 +59,6 @@ public class HideBrick implements Brick {
 	}
 
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.brick_hide, null);
+		return View.inflate(context, R.layout.brick_hide, null);
 	}
 }

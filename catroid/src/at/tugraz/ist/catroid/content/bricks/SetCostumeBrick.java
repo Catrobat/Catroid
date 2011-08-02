@@ -22,7 +22,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseExpandableListAdapter;
@@ -39,6 +38,9 @@ public class SetCostumeBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private String imageName;
+	@XStreamOmitField
+private View view;
+
 	@XStreamOmitField
 	private transient Bitmap thumbnail;
 
@@ -83,8 +85,10 @@ public class SetCostumeBrick implements Brick {
 	}
 
 	public View getView(final Context context, final int brickId, BaseExpandableListAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_set_costume, null);
+
+		if (view == null) {
+			view = View.inflate(context, R.layout.construction_brick_set_costume, null);
+		}
 
 		OnClickListener listener = new OnClickListener() {
 			public void onClick(View v) {
@@ -112,9 +116,7 @@ public class SetCostumeBrick implements Brick {
 	}
 
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.toolbox_brick_set_costume, null);
-		return view;
+		return View.inflate(context, R.layout.toolbox_brick_set_costume, null);
 	}
 
 	@Override

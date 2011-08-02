@@ -86,6 +86,7 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDr
 			return childView;
 
 		}
+
 		View currentBrickView = brick.getView(context, childPosition, this);
 		currentBrickView.setOnLongClickListener(longClickListener);
 
@@ -159,16 +160,12 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDr
 	public void drop(int from, int to) {
 		dragging = false;
 
-		Brick droppedBrick = getChild(getGroupCount() - 1, to - getGroupCount());
+		ArrayList<Brick> brickList = sprite.getScript(getGroupCount() - 1).getBrickList();
 
-		if (droppedBrick instanceof LoopBeginBrick) {
-			sprite.getScript(getGroupCount() - 1).removeBrick(((LoopBeginBrick) droppedBrick).getLoopEndBrick());
-			sprite.getScript(getGroupCount() - 1).addBrick(to - getGroupCount() + 1,
-					((LoopBeginBrick) droppedBrick).getLoopEndBrick());
-		} else if (droppedBrick instanceof LoopEndBrick) {
-			sprite.getScript(getGroupCount() - 1).removeBrick(((LoopEndBrick) droppedBrick).getLoopBeginBrick());
-			sprite.getScript(getGroupCount() - 1).addBrick(to - getGroupCount() + 1,
-					((LoopEndBrick) droppedBrick).getLoopBeginBrick());
+		System.out.println("BrickAdapter.drop() brick in script:");
+
+		for (Brick brick : brickList) {
+			System.out.println("BrickAdapter.drop() " + brick);
 		}
 
 		notifyDataSetChanged();
