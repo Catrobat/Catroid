@@ -41,6 +41,7 @@ public class SpeechBubble implements Serializable {
 
 	private static final boolean DEBUG_DRAW = true;
 	private String speechBubbleText = "";
+	// TODO: add Bricks
 	// TODO: load NinePatchDrawable with ID
 	private int speechBubblePictureID = 0;
 
@@ -60,6 +61,8 @@ public class SpeechBubble implements Serializable {
 	private Paint debugPaint;
 	private float pinPointWidth = 20;
 	private float textSize;
+	private Point pinPointRight = new Point(0, 0);
+	private Point pinPointLeft = new Point(0, 0);
 
 	private Vector<String> textGrid = new Vector<String>();
 
@@ -69,7 +72,11 @@ public class SpeechBubble implements Serializable {
 	Canvas canvas;
 	Costume costume;
 
-	// TODO: screenboarder adoptation
+	// DONE: screenboarder adoptation
+
+	// BUGS:
+	// TODO: first BubbleDraw scalingbug
+	// TODO: moving Bug (synch problem)
 
 	public SpeechBubble() {
 		textPaint = new Paint();
@@ -99,60 +106,47 @@ public class SpeechBubble implements Serializable {
 			speechBubblePicMaxWidth = 2 * speechBubblePicDefaultWidth;
 			updateTextGrid();
 			updateBubbleScaling();
-			calculateDrawPosition(costume);
+			calculatePinPoints(costume);
+			calculateDrawPosition();
 			drawSpeechBubble(costume, canvas, activity);
 			drawTextGrid();
 		}
 	}
 
-	private void calculateDrawPosition(Costume costume) {
-		Bitmap costumeBitmap = costume.getBitmap();
-		int costumeHeight = costumeBitmap.getHeight();
-		int costumeWidth = costumeBitmap.getWidth();
-		int costumeX = costume.getDrawPositionX();
-		int costumeY = costume.getDrawPositionY();
-		Point boarderPoint = new Point();
-		Point innerPoint = new Point();
-		double gradient = 0;
-		double offset = 0;
-		double costumeCenterPointX = costumeWidth / 2;
-		double costumeCenterPointY = costumeHeight / 2;
+	private void calculateDrawPosition() {
 
-		gradient = -(Math.sqrt(3) / 2) / (0.5);
-		offset = costumeCenterPointY;
-
-		boarderPoint.x = (int) (((boarderPoint.y - offset) / gradient) + costumeCenterPointX);
-
-		Point currentPoint = new Point();
-
-		for (currentPoint.x = boarderPoint.x; currentPoint.x >= costumeCenterPointX; currentPoint.x--) {
-			currentPoint.y = (int) (((currentPoint.x - costumeCenterPointX) * gradient) + offset);
-			Log.v("Point", "(" + currentPoint.x + "," + currentPoint.y + ")");
-			if (currentPoint.x <= costumeWidth && currentPoint.y <= costumeHeight) {
-				if (costumeBitmap.getPixel(currentPoint.x, currentPoint.y) != 0) {
-					innerPoint.x = currentPoint.x;
-					innerPoint.y = currentPoint.y;
-					break;
-				}
+		if (pinPointRight.x + speechBubblePicWidth > Values.SCREEN_WIDTH) {
+			bubble9Patch = (NinePatchDrawable) activity.getResources().getDrawable(R.drawable.mind_bubble_inv);
+			position.x = (int) (pinPointLeft.x - speechBubblePicWidth);
+			position.y = pinPointLeft.y;
+			if (position.y - speechBubblePicHeight < 0) {
+				position.y = (int) speechBubblePicHeight;
+			}
+		} else {
+			bubble9Patch = (NinePatchDrawable) activity.getResources().getDrawable(R.drawable.speech_bubble);
+			position.x = pinPointRight.x;
+			position.y = pinPointRight.y;
+			if (position.y - speechBubblePicHeight < 0) {
+				position.y = (int) speechBubblePicHeight;
 			}
 		}
 
-		int relPosX = (int) (innerPoint.x + pinPointWidth);
-		int relPosY = (int) (((relPosX - costumeCenterPointX) * gradient) + offset);
-		position.x = relPosX + costumeX;
-		position.y = relPosY + costumeY;
+	}
 
-		if (position.x + speechBubblePicWidth > Values.SCREEN_WIDTH) {
-			bubble9Patch = (NinePatchDrawable) activity.getResources().getDrawable(R.drawable.speech_bubble_inv);
-			position.x = (int) (-position.x + speechBubblePicWidth + speechBubblePicWidth + relPosX);
-		} else {
-			bubble9Patch = (NinePatchDrawable) activity.getResources().getDrawable(R.drawable.speech_bubble);
-		}
+	private void calculatePinPoints(Costume costume) {
+		Bitmap costumeBitmap = costume.getBitmap();
+		int costumeHeight = costumeBitmap.getHeight();
+		int costumeWidth = costumeBitmap.getWidth();
+		int costumePosX = costume.getDrawPositionX();
+		int costumePosY = costume.getDrawPositionY();
+		double costumeCenterPointX = costumeWidth / 2;
+		double costumeCenterPointY = costumeHeight / 2;
+
 		if (DEBUG_DRAW) {
-			Point topLeft = new Point(costumeX, costumeY);
-			Point topRight = new Point(costumeX + costumeWidth, costumeY);
-			Point bottomLeft = new Point(costumeX, costumeY + costumeHeight);
-			Point bottomRight = new Point(costumeX + costumeWidth, costumeY + costumeHeight);
+			Point topLeft = new Point(costumePosX, costumePosY);
+			Point topRight = new Point(costumePosX + costumeWidth, costumePosY);
+			Point bottomLeft = new Point(costumePosX, costumePosY + costumeHeight);
+			Point bottomRight = new Point(costumePosX + costumeWidth, costumePosY + costumeHeight);
 			drawDebugPoint(bottomLeft);
 			drawDebugPoint(bottomRight);
 			drawDebugPoint(topLeft);
@@ -161,13 +155,89 @@ public class SpeechBubble implements Serializable {
 			drawDebugLine(bottomLeft, topLeft);
 			drawDebugLine(topRight, topLeft);
 			drawDebugLine(topRight, bottomRight);
-			Point realBoarderPoint = new Point(boarderPoint.x + costumeX, boarderPoint.y + costumeY);
-			Point alphaBoardPoint = new Point(innerPoint.x + costumeX, innerPoint.y + costumeY);
-			Point costumeCenter = new Point(costumeX + (costumeWidth / 2), costumeY + (costumeHeight / 2));
-			drawDebugPoint(realBoarderPoint);
-			drawDebugPoint(alphaBoardPoint);
+			Point costumeCenter = new Point(costumePosX + (costumeWidth / 2), costumePosY + (costumeHeight / 2));
 			drawDebugPoint(costumeCenter);
-			drawDebugLine(realBoarderPoint, costumeCenter);
+		}
+
+		Point boarderPointRight = new Point();
+		Point innerPointRight = new Point();
+		double gradientRight = 0;
+		double offsetRight = 0;
+		gradientRight = -(Math.sqrt(3) / 2) / (0.5);
+		offsetRight = costumeCenterPointY;
+		boarderPointRight.x = (int) (((boarderPointRight.y - offsetRight) / gradientRight) + costumeCenterPointX);
+
+		Point currentPointRight = new Point();
+		for (currentPointRight.x = boarderPointRight.x; currentPointRight.x >= costumeCenterPointX; currentPointRight.x--) {
+			currentPointRight.y = (int) (((currentPointRight.x - costumeCenterPointX) * gradientRight) + offsetRight);
+			if (currentPointRight.x <= costumeWidth && currentPointRight.y <= costumeHeight) {
+				if (costumeBitmap.getPixel(currentPointRight.x, currentPointRight.y) != 0) {
+					innerPointRight.x = currentPointRight.x;
+					innerPointRight.y = currentPointRight.y;
+					break;
+				}
+			}
+		}
+
+		int rightRelPosX = (int) (innerPointRight.x + pinPointWidth);
+		int rightRelPosY = (int) (((rightRelPosX - costumeCenterPointX) * gradientRight) + offsetRight);
+		//pinPointRight.x = rightRelPosX + costumePosX;
+		//pinPointRight.y = rightRelPosY + costumePosY;
+		pinPointRight.x = boarderPointRight.x + costumePosX;
+		pinPointRight.y = boarderPointRight.y + costumePosY;
+
+		if (DEBUG_DRAW) {
+			Point rightRealBoarderPoint = new Point(boarderPointRight.x + costumePosX, boarderPointRight.y
+					+ costumePosY);
+			Point rightAlphaBoardPoint = new Point(innerPointRight.x + costumePosX, innerPointRight.y + costumePosY);
+			drawDebugPoint(rightRealBoarderPoint);
+			drawDebugPoint(rightAlphaBoardPoint);
+			Point costumeCenter = new Point(costumePosX + (costumeWidth / 2), costumePosY + (costumeHeight / 2));
+			drawDebugPoint(costumeCenter);
+			drawDebugLine(rightRealBoarderPoint, costumeCenter);
+		}
+
+		Point boarderPointLeft = new Point(0, 0);
+		Point innerPointLeft = new Point(0, 0);
+		double gradientLeft = 0;
+		double offsetLeft = 0;
+		gradientLeft = (Math.sqrt(3) / 2) / (0.5);
+		offsetLeft = costumeCenterPointY;
+		boarderPointLeft.x = (int) (((boarderPointLeft.y - offsetLeft) / gradientLeft) + costumeCenterPointX);
+
+		Point currentPointLeft = new Point();
+
+		for (currentPointLeft.x = boarderPointLeft.x; currentPointLeft.x <= costumeCenterPointX; currentPointLeft.x++) {
+			currentPointLeft.y = (int) (((currentPointLeft.x - costumeCenterPointX) * gradientLeft) + offsetLeft);
+			if (currentPointLeft.x <= costumeWidth && currentPointLeft.y <= costumeHeight && currentPointLeft.y > 0) {
+				Log.v("POINT", "(" + currentPointLeft.x + "|" + currentPointLeft.y + ")");
+				if (costumeBitmap.getPixel(currentPointLeft.x, currentPointLeft.y) != 0) {
+					innerPointLeft.x = currentPointLeft.x;
+					innerPointLeft.y = currentPointLeft.y;
+					break;
+				}
+			}
+		}
+
+		int leftRelPosX = (int) (innerPointRight.x + pinPointWidth);
+		int leftRelPosY = (int) (((leftRelPosX - costumeCenterPointX) * gradientLeft) + offsetLeft);
+
+		//pinPointLeft.x = leftRelPosX + costumePosX;
+		//pinPointLeft.y = leftRelPosY + costumePosY;
+		pinPointLeft.x = boarderPointLeft.x + costumePosX;
+		pinPointLeft.y = boarderPointLeft.y + costumePosY;
+
+		if (DEBUG_DRAW) {
+
+			Point leftRealBoarderPoint = new Point(boarderPointLeft.x + costumePosX, boarderPointLeft.y + costumePosY);
+			Point leftAlphaBoardPoint = new Point(innerPointLeft.x + costumePosX, innerPointLeft.y + costumePosY);
+			Point costumeCenter = new Point(costumePosX + (costumeWidth / 2), costumePosY + (costumeHeight / 2));
+
+			drawDebugPoint(leftRealBoarderPoint);
+			drawDebugPoint(leftAlphaBoardPoint);
+			drawDebugPoint(costumeCenter);
+			drawDebugPoint(new Point(costume.getDrawPositionX(), costume.getDrawPositionY()));
+			drawDebugLine(leftRealBoarderPoint, costumeCenter);
 		}
 
 	}
