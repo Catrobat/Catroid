@@ -29,24 +29,24 @@ import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 
-public class TalkBrick implements Brick {
+public class SayBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
-	private String note = "";
+	private String text = "";
 
-	private final transient int MAXLINES = 14;
+	private final transient int MAXLINES = 5;
 
-	public TalkBrick(Sprite sprite) {
+	public SayBrick(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
-	public TalkBrick(Sprite sprite, String note) {
+	public SayBrick(Sprite sprite, String text) {
 		this.sprite = sprite;
-		this.note = note;
+		this.text = text;
 	}
 
 	public void execute() {
-		sprite.getBubble().setSpeechBubble(note, 1);
+		sprite.getBubble().setSpeechBubble(text, 1);
 	}
 
 	public Sprite getSprite() {
@@ -55,21 +55,21 @@ public class TalkBrick implements Brick {
 
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.construction_brick_talk, null);
+		View brickView = inflater.inflate(R.layout.construction_brick_say, null);
 
-		EditText editText = (EditText) brickView.findViewById(R.id.edit_text_talk);
-		editText.setText(note);
+		EditText editText = (EditText) brickView.findViewById(R.id.edit_text_say);
+		editText.setText(text);
 		editText.setMaxLines(MAXLINES);
 		editText.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
 				AlertDialog.Builder dialog = new AlertDialog.Builder(context);
 				final EditText input = new EditText(context);
-				input.setText(note);
+				input.setText(text);
 				dialog.setView(input);
 				dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
-						note = (input.getText().toString()).trim();
+						text = (input.getText().toString()).trim();
 					}
 				});
 				dialog.setNeutralButton(context.getString(R.string.cancel_button),
@@ -88,12 +88,12 @@ public class TalkBrick implements Brick {
 
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.toolbox_brick_talk, null);
+		View brickView = inflater.inflate(R.layout.toolbox_brick_say, null);
 		return brickView;
 	}
 
 	@Override
 	public Brick clone() {
-		return new TalkBrick(this.sprite, this.note);
+		return new SayBrick(this.sprite, this.text);
 	}
 }

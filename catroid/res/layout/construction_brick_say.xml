@@ -40,7 +40,7 @@
 		android:background="@drawable/brick_violet"
 	>
 		<TextView
-			android:text="@string/brick_note"
+			android:text="@string/brick_say"
 			android:layout_height="wrap_content"
 			android:layout_width="fill_parent"
 			android:textColor="@color/white"
@@ -49,7 +49,7 @@
 		>
 	    </TextView>
 		<EditText
-			android:id="@+id/edit_text_talk"
+			android:id="@+id/edit_text_say"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			android:scrollbars="vertical"

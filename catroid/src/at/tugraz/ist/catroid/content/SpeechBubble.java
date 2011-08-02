@@ -43,7 +43,7 @@ public class SpeechBubble implements Serializable {
 	private String speechBubbleText = "";
 	// TODO: add Bricks
 	// TODO: load NinePatchDrawable with ID
-	private int speechBubblePictureID = 0;
+	//private int speechBubblePictureID = 0;
 
 	private Point position = new Point(0, 0);
 	private float speechBubblePicHeight = 0;
@@ -59,7 +59,7 @@ public class SpeechBubble implements Serializable {
 	private float textOffsetBottom = 30;
 	private Paint textPaint;
 	private Paint debugPaint;
-	private float pinPointWidth = 20;
+	//private float pinPointWidth = 20;
 	private float textSize;
 	private Point pinPointRight = new Point(0, 0);
 	private Point pinPointLeft = new Point(0, 0);
@@ -72,11 +72,10 @@ public class SpeechBubble implements Serializable {
 	Canvas canvas;
 	Costume costume;
 
-	// DONE: screenboarder adoptation
-
 	// BUGS:
 	// TODO: first BubbleDraw scalingbug
 	// TODO: moving Bug (synch problem)
+	// TODO: sameText think/say -> different textspace
 
 	public SpeechBubble() {
 		textPaint = new Paint();
@@ -92,7 +91,7 @@ public class SpeechBubble implements Serializable {
 
 	public synchronized void setSpeechBubble(String speechBubbleText, int speechBubblePictureID) {
 		this.speechBubbleText = speechBubbleText;
-		this.speechBubblePictureID = speechBubblePictureID;
+		//this.speechBubblePictureID = speechBubblePictureID;
 	}
 
 	public synchronized void draw(Canvas canvas, Costume costume, Activity activity) {
@@ -179,8 +178,8 @@ public class SpeechBubble implements Serializable {
 			}
 		}
 
-		int rightRelPosX = (int) (innerPointRight.x + pinPointWidth);
-		int rightRelPosY = (int) (((rightRelPosX - costumeCenterPointX) * gradientRight) + offsetRight);
+		//int rightRelPosX = (int) (innerPointRight.x + pinPointWidth);
+		//int rightRelPosY = (int) (((rightRelPosX - costumeCenterPointX) * gradientRight) + offsetRight);
 		//pinPointRight.x = rightRelPosX + costumePosX;
 		//pinPointRight.y = rightRelPosY + costumePosY;
 		pinPointRight.x = boarderPointRight.x + costumePosX;
@@ -219,8 +218,8 @@ public class SpeechBubble implements Serializable {
 			}
 		}
 
-		int leftRelPosX = (int) (innerPointRight.x + pinPointWidth);
-		int leftRelPosY = (int) (((leftRelPosX - costumeCenterPointX) * gradientLeft) + offsetLeft);
+		//int leftRelPosX = (int) (innerPointRight.x + pinPointWidth);
+		//int leftRelPosY = (int) (((leftRelPosX - costumeCenterPointX) * gradientLeft) + offsetLeft);
 
 		//pinPointLeft.x = leftRelPosX + costumePosX;
 		//pinPointLeft.y = leftRelPosY + costumePosY;
