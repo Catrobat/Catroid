@@ -83,10 +83,7 @@ public class MotorActionBrick implements Brick, OnDismissListener, OnItemSelecte
 
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.toolbox_brick_motor_action, null);
-		speedBar = (SeekBar) brickView.findViewById(R.id.seekBarSpeedMotorActionToolbox);
-		speedBar.setEnabled(false);
-		return brickView;
+		return inflater.inflate(R.layout.toolbox_brick_motor_action, null);
 	}
 
 	@Override
