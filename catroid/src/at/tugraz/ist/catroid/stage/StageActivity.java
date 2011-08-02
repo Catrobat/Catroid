@@ -82,7 +82,7 @@ public class StageActivity extends Activity {
 					Toast.makeText(StageActivity.this, R.string.notification_blueth_err, Toast.LENGTH_LONG).show();
 					finish();
 				} else if (bluetoothState == 1) {
-					startLegoComm();
+					startBTComm();
 				}
 			}
 		}
@@ -96,7 +96,7 @@ public class StageActivity extends Activity {
 			case REQUEST_ENABLE_BT:
 				switch (resultCode) {
 					case Activity.RESULT_OK:
-						startLegoComm();
+						startBTComm();
 						break;
 
 					case Activity.RESULT_CANCELED:
@@ -123,11 +123,12 @@ public class StageActivity extends Activity {
 		}
 	}
 
-	private void startLegoComm() {
+	private void startBTComm() {
 		connectingProgressDialog = ProgressDialog.show(this, "",
 				getResources().getString(R.string.connecting_please_wait), true);
-		legoNXT.connectLegoNXT();
 
+		Intent serverIntent = new Intent(this, DeviceListActivity.class);
+		this.startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
 	}
 
 	public void startStage() {

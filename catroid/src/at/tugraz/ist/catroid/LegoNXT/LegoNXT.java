@@ -63,7 +63,9 @@ public class LegoNXT implements BTConnectable {
 	private static Handler btcHandler;
 	private Handler recieverHandler;
 	private Activity activity;
+	@SuppressWarnings("unused")
 	private static int GENERAL_COMMAND = 100;
+	@SuppressWarnings("unused")
 	private static int MOTOR_COMMAND = 102;
 	private static int TONE_COMMAND = 101;
 
@@ -98,7 +100,8 @@ public class LegoNXT implements BTConnectable {
 			sendBTCMotorMessage(LegoNXTBtCommunicator.NO_DELAY, LegoNXTBtCommunicator.DISCONNECT, 0, 0);
 			try {
 				myBTCommunicator.destroyNXTconnection();
-			} catch (IOException e) {
+			} catch (IOException e) { // TODO Auto-generated method stub
+
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

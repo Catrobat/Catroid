@@ -55,6 +55,7 @@ import android.os.Message;
 import android.util.Log;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.bluetooth.BTConnectable;
+import at.tugraz.ist.catroid.bluetooth.BtCommunicator;
 
 /**
  * This class is for talking to a LEGO NXT robot via bluetooth.
@@ -62,7 +63,7 @@ import at.tugraz.ist.catroid.bluetooth.BTConnectable;
  * Objects of this class can either be run as standalone thread or controlled
  * by the owners, i.e. calling the send/recive methods by themselves.
  */
-public class LegoNXTBtCommunicator extends Thread {
+public class LegoNXTBtCommunicator extends BtCommunicator {
 	public static final int MOTOR_A = 0;
 	public static final int MOTOR_B = 1;
 	public static final int MOTOR_C = 2;
@@ -92,7 +93,9 @@ public class LegoNXTBtCommunicator extends Thread {
 	public static final int RECEIVED_MESSAGE = 1111;
 
 	public static final int NO_DELAY = 0;
+	@SuppressWarnings("unused")
 	private static final int GENERAL_COMMAND = 100;
+	@SuppressWarnings("unused")
 	private static final int MOTOR_COMMAND = 102;
 	private static final int TONE_COMMAND = 101;
 
@@ -132,14 +135,17 @@ public class LegoNXTBtCommunicator extends Thread {
 		requestConfirmFromDevice = true;
 	}
 
+	@Override
 	public Handler getHandler() {
 		return myHandler;
 	}
 
+	@Override
 	public byte[] getReturnMessage() {
 		return returnMessage;
 	}
 
+	@Override
 	public void setMACAddress(String mMACaddress) {
 		this.mMACaddress = mMACaddress;
 	}
@@ -147,6 +153,7 @@ public class LegoNXTBtCommunicator extends Thread {
 	/**
 	 * @return The current status of the connection
 	 */
+	@Override
 	public boolean isConnected() {
 		return connected;
 	}
@@ -518,6 +525,7 @@ public class LegoNXTBtCommunicator extends Thread {
 		sendBundle(myBundle);
 	}
 
+	@SuppressWarnings("unused")
 	private void sendState(int message, byte[] data) {
 		Bundle myBundle = new Bundle();
 		myBundle.putInt("message", message);

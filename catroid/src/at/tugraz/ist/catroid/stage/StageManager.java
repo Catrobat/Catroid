@@ -64,7 +64,7 @@ public class StageManager {
 		spritesChanged = true;
 		draw = new CanvasDraw(activity);
 
-		if (checkForLegoNXTBricks()) {
+		if (checkForBluetoothBricks()) {
 			bluetoothNeeded = true;
 		}
 	}
@@ -76,9 +76,9 @@ public class StageManager {
 
 	}
 
-	private boolean checkForLegoNXTBricks() {
+	private boolean checkForBluetoothBricks() {
 		for (Sprite sprite : spriteList) {
-			if (sprite.isLegoNXTSprite()) {
+			if (sprite.isBluetoothSprite()) {
 				return true;
 			}
 		}
