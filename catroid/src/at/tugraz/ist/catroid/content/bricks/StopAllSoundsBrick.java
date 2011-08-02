@@ -19,16 +19,20 @@
 package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.SoundManager;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 public class StopAllSoundsBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
+
+	@XStreamOmitField
+	private View view;
 
 	public StopAllSoundsBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -43,8 +47,10 @@ public class StopAllSoundsBrick implements Brick {
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.construction_brick_stop_all_sounds, null);
+		if (view == null) {
+			view = View.inflate(context, R.layout.construction_brick_stop_all_sounds, null);
+		}
+		return view;
 	}
 
 	@Override
@@ -53,7 +59,6 @@ public class StopAllSoundsBrick implements Brick {
 	}
 
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.brick_stop_all_sounds, null);
+		return View.inflate(context, R.layout.brick_stop_all_sounds, null);
 	}
 }

@@ -25,7 +25,6 @@ import java.util.ArrayList;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -44,11 +43,16 @@ import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.adapter.SoundBrickAdapter;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable {
 	private static final long serialVersionUID = 1L;
 	protected String soundfileName;
 	private Sprite sprite;
 	private String title;
+
+	@XStreamOmitField
+	private View view;
 
 	private transient ArrayList<SoundInfo> soundList;
 	private transient Dialog soundDialog;
@@ -78,8 +82,10 @@ public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable 
 		StorageHandler.getInstance().loadSoundContent(context);
 		soundList = StorageHandler.getInstance().getSoundContent();
 
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_play_sound, null);
+		if (view == null) {
+			view = View.inflate(context, R.layout.construction_brick_play_sound, null);
+		}
+
 		Button soundButton = (Button) view.findViewById(R.id.btSoundChoose);
 
 		if (soundfileName != null) {
@@ -110,9 +116,7 @@ public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable 
 	}
 
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.toolbox_brick_play_sound, null);
-		return view;
+		return View.inflate(context, R.layout.toolbox_brick_play_sound, null);
 	}
 
 	@Override

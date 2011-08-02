@@ -19,17 +19,22 @@
 package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 public class IfTouchedBrick implements Brick {
+	private static final long serialVersionUID = 1L;
+
 	protected Script touchScript;
 	private Sprite sprite;
-	private static final long serialVersionUID = 1L;
+
+	@XStreamOmitField
+	private View view;
 
 	public IfTouchedBrick(Sprite sprite, Script touchScript) {
 		this.touchScript = touchScript;
@@ -44,14 +49,15 @@ public class IfTouchedBrick implements Brick {
 	}
 
 	public View getView(Context context, int brickId, final BaseExpandableListAdapter adapter) {
-		View view = getPrototypeView(context);
+
+		if (view == null) {
+			view = View.inflate(context, R.layout.construction_brick_touched, null);
+		}
 		return view;
 	}
 
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.toolbox_brick_touched, null);
-		return view;
+		return View.inflate(context, R.layout.toolbox_brick_touched, null);
 	}
 
 	@Override

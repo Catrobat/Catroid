@@ -22,7 +22,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
@@ -30,10 +29,15 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 public class ChangeXByBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
 	private int xMovement;
 	private Sprite sprite;
+
+	@XStreamOmitField
+	private View view;
 
 	public ChangeXByBrick(Sprite sprite, int xMovement) {
 		this.sprite = sprite;
@@ -59,10 +63,12 @@ public class ChangeXByBrick implements Brick, OnDismissListener {
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.construction_brick_change_x, null);
 
-		EditText editX = (EditText) brickView.findViewById(R.id.construction_brick_change_x_edit_text);
+		if (view == null) {
+			view = View.inflate(context, R.layout.construction_brick_change_x, null);
+		}
+
+		EditText editX = (EditText) view.findViewById(R.id.construction_brick_change_x_edit_text);
 		editX.setText(String.valueOf(xMovement));
 
 		EditIntegerDialog dialogX = new EditIntegerDialog(context, editX, xMovement, true);
@@ -71,14 +77,11 @@ public class ChangeXByBrick implements Brick, OnDismissListener {
 
 		editX.setOnClickListener(dialogX);
 
-		return brickView;
+		return view;
 	}
 
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.toolbox_brick_change_x, null);
-
-		return brickView;
+		return View.inflate(context, R.layout.toolbox_brick_change_x, null);
 	}
 
 	@Override

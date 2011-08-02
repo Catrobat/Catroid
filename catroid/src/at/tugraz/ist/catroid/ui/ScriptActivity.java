@@ -128,6 +128,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	@Override
 	protected void onPause() {
 		super.onPause();
+
 		ProjectManager projectManager = ProjectManager.getInstance();
 		if (projectManager.getCurrentProject() != null) {
 			projectManager.saveProject(this);

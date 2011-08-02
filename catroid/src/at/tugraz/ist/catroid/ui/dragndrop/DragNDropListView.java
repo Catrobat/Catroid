@@ -233,9 +233,12 @@ public class DragNDropListView extends ExpandableListView implements OnLongClick
 			dragView.setImageDrawable(null);
 			dragView = null;
 		}
+		invalidate();
 	}
 
 	public boolean onLongClick(View v) {
+
+		System.out.println("DragNDropListView.onLongClick() view: " + v);
 
 		int itemPosition = pointToPosition(v.getLeft(), v.getTop());
 		dragPoint = v.getHeight() / 2;
