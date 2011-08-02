@@ -64,7 +64,6 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		listView.setGroupIndicator(null);
 		listView.setOnGroupClickListener(adapter);
 		registerForContextMenu(listView);
-
 	}
 
 	@Override
@@ -92,6 +91,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	@Override
 	protected void onPause() {
 		super.onPause();
+
 		ProjectManager projectManager = ProjectManager.getInstance();
 		if (projectManager.getCurrentProject() != null) {
 			projectManager.saveProject(this);
@@ -114,7 +114,10 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 			return;
 		}
 
-		adapter.notifyDataSetChanged();
+		initListeners();
+		if (adapter.getGroupCount() > 0) {
+			listView.expandGroup(adapter.getGroupCount() - 1);
+		}
 
 		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
 		if (scriptTabActivity != null && scriptTabActivity.activityHelper != null) {
