@@ -33,7 +33,7 @@ import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.SoundManager;
 
-public class PlaySoundBrick implements Brick, Serializable {
+public class PlaySoundBrick implements Brick, Serializable, OnItemSelectedListener {
 	private static final long serialVersionUID = 1L;
 	private SoundInfo soundInfo;
 	private Sprite sprite;
@@ -59,15 +59,7 @@ public class PlaySoundBrick implements Brick, Serializable {
 
 		Spinner soundbrickSpinner = (Spinner) view.findViewById(R.id.playsound_spinner);
 		soundbrickSpinner.setAdapter(createSoundAdapter(context));
-
-		soundbrickSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				soundInfo = (SoundInfo) parent.getItemAtPosition(position);
-			}
-
-			public void onNothingSelected(AdapterView<?> arg0) {
-			}
-		});
+		soundbrickSpinner.setOnItemSelectedListener(this);
 
 		if (sprite.getSoundList().contains(soundInfo)) {
 			soundbrickSpinner.setSelection(sprite.getSoundList().indexOf(soundInfo) + 1);
@@ -106,5 +98,12 @@ public class PlaySoundBrick implements Brick, Serializable {
 	//for testing purposes:
 	public void setSoundInfo(SoundInfo soundInfo) {
 		this.soundInfo = soundInfo;
+	}
+
+	public void onItemSelected(AdapterView<?> parent, View arg1, int position, long arg3) {
+		soundInfo = (SoundInfo) parent.getItemAtPosition(position);
+	}
+
+	public void onNothingSelected(AdapterView<?> arg0) {
 	}
 }
