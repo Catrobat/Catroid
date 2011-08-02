@@ -32,7 +32,6 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.NinePatchDrawable;
 import android.util.Log;
-import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Values;
 
 public class SpeechBubble implements Serializable {
@@ -41,9 +40,8 @@ public class SpeechBubble implements Serializable {
 
 	private static final boolean DEBUG_DRAW = true;
 	private String speechBubbleText = "";
-	// TODO: add Bricks
-	// TODO: load NinePatchDrawable with ID
-	//private int speechBubblePictureID = 0;
+	private int speechBubblePictureID = 0;
+	private int speechBubblePictureInvID = 0;
 
 	private Point position = new Point(0, 0);
 	private float speechBubblePicHeight = 0;
@@ -59,7 +57,7 @@ public class SpeechBubble implements Serializable {
 	private float textOffsetBottom = 30;
 	private Paint textPaint;
 	private Paint debugPaint;
-	//private float pinPointWidth = 20;
+	private float pinPointWidth = 20;
 	private float textSize;
 	private Point pinPointRight = new Point(0, 0);
 	private Point pinPointLeft = new Point(0, 0);
@@ -72,11 +70,6 @@ public class SpeechBubble implements Serializable {
 	Canvas canvas;
 	Costume costume;
 
-	// BUGS:
-	// TODO: first BubbleDraw scalingbug
-	// TODO: moving Bug (synch problem)
-	// TODO: sameText think/say -> different textspace
-
 	public SpeechBubble() {
 		textPaint = new Paint();
 		debugPaint = new Paint();
@@ -87,11 +80,14 @@ public class SpeechBubble implements Serializable {
 		textPaint.setFakeBoldText(true);
 		textPaint.setTypeface(Typeface.SANS_SERIF);
 		textPaint.setTextAlign(Align.CENTER);
+
 	}
 
-	public synchronized void setSpeechBubble(String speechBubbleText, int speechBubblePictureID) {
+	public synchronized void setSpeechBubble(String speechBubbleText, int speechBubblePictureID,
+			int speechBubblePictureInvID) {
 		this.speechBubbleText = speechBubbleText;
-		//this.speechBubblePictureID = speechBubblePictureID;
+		this.speechBubblePictureID = speechBubblePictureID;
+		this.speechBubblePictureInvID = speechBubblePictureInvID;
 	}
 
 	public synchronized void draw(Canvas canvas, Costume costume, Activity activity) {
@@ -99,7 +95,7 @@ public class SpeechBubble implements Serializable {
 			this.canvas = canvas;
 			this.costume = costume;
 			this.activity = activity;
-			bubble9Patch = (NinePatchDrawable) activity.getResources().getDrawable(R.drawable.speech_bubble);
+			bubble9Patch = (NinePatchDrawable) activity.getResources().getDrawable(speechBubblePictureID);
 			speechBubblePicDefaultHeight = bubble9Patch.getIntrinsicHeight();
 			speechBubblePicDefaultWidth = bubble9Patch.getIntrinsicWidth();
 			speechBubblePicMaxWidth = 2 * speechBubblePicDefaultWidth;
@@ -115,14 +111,14 @@ public class SpeechBubble implements Serializable {
 	private void calculateDrawPosition() {
 
 		if (pinPointRight.x + speechBubblePicWidth > Values.SCREEN_WIDTH) {
-			bubble9Patch = (NinePatchDrawable) activity.getResources().getDrawable(R.drawable.mind_bubble_inv);
+			bubble9Patch = (NinePatchDrawable) activity.getResources().getDrawable(speechBubblePictureInvID);
 			position.x = (int) (pinPointLeft.x - speechBubblePicWidth);
 			position.y = pinPointLeft.y;
 			if (position.y - speechBubblePicHeight < 0) {
 				position.y = (int) speechBubblePicHeight;
 			}
 		} else {
-			bubble9Patch = (NinePatchDrawable) activity.getResources().getDrawable(R.drawable.speech_bubble);
+			bubble9Patch = (NinePatchDrawable) activity.getResources().getDrawable(speechBubblePictureID);
 			position.x = pinPointRight.x;
 			position.y = pinPointRight.y;
 			if (position.y - speechBubblePicHeight < 0) {
@@ -165,7 +161,12 @@ public class SpeechBubble implements Serializable {
 		gradientRight = -(Math.sqrt(3) / 2) / (0.5);
 		offsetRight = costumeCenterPointY;
 		boarderPointRight.x = (int) (((boarderPointRight.y - offsetRight) / gradientRight) + costumeCenterPointX);
+		//if (boarderPointRight.x > costumeWidth) {
+		//	boarderPointRight.x = costumeWidth;
+		//	boarderPointRight.y = (int) (((innerPointRight.x - costumeCenterPointX) * gradientRight) + offsetRight);
+		//}
 
+		boolean found = false;
 		Point currentPointRight = new Point();
 		for (currentPointRight.x = boarderPointRight.x; currentPointRight.x >= costumeCenterPointX; currentPointRight.x--) {
 			currentPointRight.y = (int) (((currentPointRight.x - costumeCenterPointX) * gradientRight) + offsetRight);
@@ -173,6 +174,7 @@ public class SpeechBubble implements Serializable {
 				if (costumeBitmap.getPixel(currentPointRight.x, currentPointRight.y) != 0) {
 					innerPointRight.x = currentPointRight.x;
 					innerPointRight.y = currentPointRight.y;
+					found = true;
 					break;
 				}
 			}
@@ -375,12 +377,13 @@ public class SpeechBubble implements Serializable {
 		} else if (textGrid.size() == 1) {
 			String textline = textGrid.elementAt(0);
 			int textlineLength = calcTextWidth(textline);
-			if (textlineLength <= speechBubblePicWidth - textOffsetLeft - textOffsetRight) {
+			if (textlineLength <= speechBubblePicDefaultWidth - textOffsetLeft - textOffsetRight) {
 				speechBubblePicWidth = speechBubblePicDefaultWidth;
 			} else {
 				speechBubblePicWidth = textlineLength + textOffsetLeft + textOffsetRight;
 			}
 		}
+
 	}
 
 	private int calcTextWidth(String text) {

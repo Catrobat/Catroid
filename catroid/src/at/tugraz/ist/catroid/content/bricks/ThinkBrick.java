@@ -46,7 +46,7 @@ public class ThinkBrick implements Brick {
 	}
 
 	public void execute() {
-		sprite.getBubble().setSpeechBubble(text, 1);
+		sprite.getBubble().setSpeechBubble(text, R.drawable.mind_bubble, R.drawable.mind_bubble_inv);
 	}
 
 	public Sprite getSprite() {

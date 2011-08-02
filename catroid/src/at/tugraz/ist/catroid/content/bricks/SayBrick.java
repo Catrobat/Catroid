@@ -46,7 +46,7 @@ public class SayBrick implements Brick {
 	}
 
 	public void execute() {
-		sprite.getBubble().setSpeechBubble(text, 1);
+		sprite.getBubble().setSpeechBubble(text, R.drawable.speech_bubble, R.drawable.speech_bubble_inv);
 	}
 
 	public Sprite getSprite() {
