@@ -8,6 +8,7 @@ import android.widget.ListAdapter;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.SoundInfo;
+import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.SoundActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
@@ -36,13 +37,13 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 
 		soundFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "longsound.mp3",
-				RESOURCE_SOUND, getActivity(), UiTestUtils.TYPE_SOUND_FILE);
+				RESOURCE_SOUND, getInstrumentation().getContext(), UiTestUtils.TYPE_SOUND_FILE);
 		SoundInfo soundInfo = new SoundInfo();
 		soundInfo.setSoundFileName(soundFile.getName());
 		soundInfo.setTitle(soundName);
 
-		soundFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "shortsound.mp3",
-				RESOURCE_SOUND2, getActivity(), UiTestUtils.TYPE_SOUND_FILE);
+		soundFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "testsoundui.mp3",
+				RESOURCE_SOUND2, getInstrumentation().getContext(), UiTestUtils.TYPE_SOUND_FILE);
 		SoundInfo soundInfo2 = new SoundInfo();
 		soundInfo2.setSoundFileName(soundFile2.getName());
 		soundInfo2.setTitle(soundName2);
@@ -93,9 +94,9 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		solo.sleep(500);
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		assertEquals("sound is not renamed in SoundList", newName, soundInfoList.get(0).getTitle());
-		//		if (!solo.searchText(newName)) { //TODO this will work after setting on windowfocuschangelistener
-		//			fail("costume not renamed in actual view");
-		//		}
+		if (!solo.searchText(newName)) {
+			fail("sound not renamed in actual view");
+		}
 	}
 
 	public void testPlayAndStopStound() {
@@ -108,4 +109,27 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		solo.clickOnButton(getActivity().getString(R.string.sound_stop));
 		assertFalse("Mediaplayer is playing after touching stop button", soundInfo.isPlaying);
 	}
+
+	public void testToStageButton() {
+		solo.clickOnText(getActivity().getString(R.string.sounds));
+		solo.sleep(500);
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play); //this wont work I guess -.-
+		solo.sleep(6000);
+		solo.assertCurrentActivity("not in stage", StageActivity.class);
+		solo.goBack();
+		ListAdapter adapter = ((SoundActivity) solo.getCurrentActivity()).getListAdapter();
+		assertEquals("adapter doesn't hold the right number of soundinfos", 2, adapter.getCount());
+		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		assertEquals("soundlist in sprite doesn't hold the right number of soundinfos", 2, soundInfoList.size());
+	}
+
+	public void testMainMenuButton() {
+		//fuck robotium .. derp
+		solo.clickOnText(getActivity().getString(R.string.sounds));
+		solo.sleep(1000);
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
+		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
+				StageActivity.class);
+	}
+
 }

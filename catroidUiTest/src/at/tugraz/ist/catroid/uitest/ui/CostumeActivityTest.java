@@ -113,8 +113,8 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		solo.sleep(400);
 		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
 		assertEquals("costume is not renamed in CostumeList", newName, costumeDataList.get(0).getCostumeName());
-		//		if (!solo.searchText(newName)) { //TODO this will work after setting on windowfocuschangelistener
-		//			fail("costume not renamed in actual view");
-		//		}
+		if (!solo.searchText(newName)) {
+			fail("costume not renamed in actual view");
+		}
 	}
 }

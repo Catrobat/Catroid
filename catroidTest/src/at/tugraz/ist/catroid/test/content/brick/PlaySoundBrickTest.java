@@ -104,7 +104,6 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 
 	public void testPlaySimultaneousSounds() throws InterruptedException {
 		Thread soundThread01 = new Thread(new Runnable() {
-			//final String soundFilePath = soundFile.getAbsolutePath();
 			PlaySoundBrick testBrick1 = new PlaySoundBrick(new Sprite("4"));
 
 			public void run() {
@@ -114,7 +113,6 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 		});
 
 		Thread soundThread02 = new Thread(new Runnable() {
-			//final String soundFilePath = soundFile.getAbsolutePath();
 			PlaySoundBrick testBrick2 = new PlaySoundBrick(new Sprite("5"));
 
 			public void run() {
