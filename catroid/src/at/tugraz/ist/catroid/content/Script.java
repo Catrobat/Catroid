@@ -143,23 +143,13 @@ public abstract class Script implements Serializable {
 		return false;
 	}
 
-	public boolean containsLegoNXTBrick() {
+	public boolean containsBluetoothBrick() {
 		for (Brick brick : brickList) {
 			if ((brick instanceof MotorActionBrick) || (brick instanceof MotorTurnAngleBrick)
-					|| (brick instanceof MotorStopBrick)) {
+					|| (brick instanceof MotorStopBrick) || (brick instanceof SensorBrick)) {
 				return true;
 			}
 		}
 		return false;
 	}
-
-	public boolean containsSensorBrick() {
-		for (Brick brick : brickList) {
-			if ((brick instanceof SensorBrick)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 }
