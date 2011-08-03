@@ -26,6 +26,7 @@ import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
 import at.tugraz.ist.catroid.content.bricks.MotorActionBrick;
 import at.tugraz.ist.catroid.content.bricks.MotorStopBrick;
 import at.tugraz.ist.catroid.content.bricks.MotorTurnAngleBrick;
+import at.tugraz.ist.catroid.content.bricks.SensorBrick;
 
 public abstract class Script implements Serializable {
 
@@ -145,7 +146,7 @@ public abstract class Script implements Serializable {
 	public boolean containsBluetoothBrick() {
 		for (Brick brick : brickList) {
 			if ((brick instanceof MotorActionBrick) || (brick instanceof MotorTurnAngleBrick)
-					|| (brick instanceof MotorStopBrick)) { //for arduino || (brick instanceof SensorBrick)) {
+					|| (brick instanceof MotorStopBrick) || (brick instanceof SensorBrick)) {
 				return true;
 			}
 		}

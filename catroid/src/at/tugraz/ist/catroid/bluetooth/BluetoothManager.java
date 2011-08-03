@@ -41,6 +41,7 @@ package at.tugraz.ist.catroid.bluetooth;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
+import android.util.Log;
 
 public class BluetoothManager {
 
@@ -64,6 +65,7 @@ public class BluetoothManager {
 			activity.startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
 			return 0;
 		} else {
+			Log.d("TAG", "LOOP!!!!!");
 			//connectLegoNXT();
 			return 1;
 		}

@@ -19,6 +19,8 @@
 
 package at.tugraz.ist.catroid.stage;
 
+import java.io.IOException;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -36,8 +38,8 @@ import android.view.WindowManager;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXTBtCommunicator;
+import at.tugraz.ist.catroid.arduino.Arduino;
 import at.tugraz.ist.catroid.bluetooth.BluetoothManager;
 import at.tugraz.ist.catroid.bluetooth.DeviceListActivity;
 import at.tugraz.ist.catroid.io.SoundManager;
@@ -51,7 +53,8 @@ public class StageActivity extends Activity {
 	private SoundManager soundManager;
 	private StageManager stageManager;
 	private boolean stagePlaying = false;
-	private LegoNXT legoNXT;
+	private Arduino arduino;
+	Private LegoNXT legoNXT;
 	private BluetoothManager bluetoothManager;
 	private ProgressDialog connectingProgressDialog;
 
@@ -76,6 +79,7 @@ public class StageActivity extends Activity {
 				startStage();
 			} else {
 				bluetoothManager = new BluetoothManager(this);
+				//arduino = new Arduino(this, recieveHandler);
 				legoNXT = new LegoNXT(this, recieveHandler);
 				int bluetoothState = bluetoothManager.activateBluetooth();
 				if (bluetoothState == -1) {
@@ -111,7 +115,9 @@ public class StageActivity extends Activity {
 					case Activity.RESULT_OK:
 						String address = data.getExtras().getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
 						//pairing = data.getExtras().getBoolean(DeviceListActivity.PAIRING);
+						//arduino.startConnection(address);
 						legoNXT.startBTCommunicator(address);
+
 						break;
 
 					case Activity.RESULT_CANCELED:
@@ -141,12 +147,15 @@ public class StageActivity extends Activity {
 	final Handler recieveHandler = new Handler() {
 		@Override
 		public void handleMessage(Message myMessage) {
+			Log.d("TAG", "message" + myMessage.getData().getInt("message"));
 			switch (myMessage.getData().getInt("message")) {
 				case LegoNXTBtCommunicator.STATE_CONNECTED:
 					connectingProgressDialog.dismiss();
 					startStage();
 					break;
 				default:
+					connectingProgressDialog.dismiss();
+
 					//Log.i("bt", "received incoming bt message");
 					//Toast.makeText(StageActivity.this, myMessage.getData().getString("toastText"), Toast.LENGTH_SHORT);
 					break;
@@ -219,13 +228,27 @@ public class StageActivity extends Activity {
 		super.onDestroy();
 		stageManager.finish();
 		soundManager.clear();
-		legoNXT.destroyBTCommunicator();
+		try {
+			//arduino.destroyBTCommunicator();
+			legoNXT.destroyBTCommunicator();
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void onBackPressed() {
 		manageLoadAndFinish();
-		legoNXT.destroyBTCommunicator();
+		try {
+			//arduino.destroyBTCommunicator();
+			legoNXT.destroyBTCommunicator();
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
