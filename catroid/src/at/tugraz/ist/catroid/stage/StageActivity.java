@@ -19,10 +19,15 @@
 
 package at.tugraz.ist.catroid.stage;
 
+import java.io.IOException;
+
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,10 +38,10 @@ import android.view.WindowManager;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
+import at.tugraz.ist.catroid.LegoNXT.LegoNXTBtCommunicator;
+import at.tugraz.ist.catroid.arduino.Arduino;
 import at.tugraz.ist.catroid.bluetooth.BluetoothManager;
 import at.tugraz.ist.catroid.bluetooth.DeviceListActivity;
-import at.tugraz.ist.catroid.content.bricks.SensorBrick;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -48,9 +53,9 @@ public class StageActivity extends Activity {
 	private SoundManager soundManager;
 	private StageManager stageManager;
 	private boolean stagePlaying = false;
-	private LegoNXT legoNXT;
-	private SensorBrick arduino;
+	private Arduino arduino;
 	private BluetoothManager bluetoothManager;
+	private ProgressDialog connectingProgressDialog;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -68,22 +73,18 @@ public class StageActivity extends Activity {
 
 			soundManager = SoundManager.getInstance();
 			stageManager = new StageManager(this);
-			legoNXT = new LegoNXT(this);
-			bluetoothManager = new BluetoothManager(this);
 
 			if (!stageManager.getBluetoothNeeded()) {
-				stageManager.start();
-				stageManager.startScripts();
-				stagePlaying = true;
+				startStage();
 			} else {
+				bluetoothManager = new BluetoothManager(this);
+				arduino = new Arduino(this, recieveHandler);
 				int bluetoothState = bluetoothManager.activateBluetooth();
 				if (bluetoothState == -1) {
 					Toast.makeText(StageActivity.this, R.string.notification_blueth_err, Toast.LENGTH_LONG).show();
 					finish();
 				} else if (bluetoothState == 1) {
-					legoNXT.connectLegoNXT();
-					// TODO connect to Arduino, when connected do: stageManager.start(); stageManager.startScripts(); stagePlaying = true; 
-					arduino.connectArduino();
+					startBTComm();
 				}
 			}
 		}
@@ -97,7 +98,7 @@ public class StageActivity extends Activity {
 			case REQUEST_ENABLE_BT:
 				switch (resultCode) {
 					case Activity.RESULT_OK:
-						legoNXT.connectLegoNXT();
+						startBTComm();
 						break;
 
 					case Activity.RESULT_CANCELED:
@@ -112,21 +113,49 @@ public class StageActivity extends Activity {
 					case Activity.RESULT_OK:
 						String address = data.getExtras().getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
 						//pairing = data.getExtras().getBoolean(DeviceListActivity.PAIRING);
-						legoNXT.startBTCommunicator(address);
-
-						stageManager.startScripts();
-						stageManager.start();
-						stagePlaying = true;
+						arduino.startConnection(address);
 						break;
 
 					case Activity.RESULT_CANCELED:
-
+						finish();
 						break;
 
 				}
 			}
 		}
 	}
+
+	private void startBTComm() {
+		connectingProgressDialog = ProgressDialog.show(this, "",
+				getResources().getString(R.string.connecting_please_wait), true);
+
+		Intent serverIntent = new Intent(this, DeviceListActivity.class);
+		this.startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
+	}
+
+	public void startStage() {
+		stageManager.startScripts();
+		stageManager.start();
+		stagePlaying = true;
+	}
+
+	//messages from Lego NXT device can be handled here
+	final Handler recieveHandler = new Handler() {
+		@Override
+		public void handleMessage(Message myMessage) {
+			switch (myMessage.getData().getInt("message")) {
+				case LegoNXTBtCommunicator.STATE_CONNECTED:
+					connectingProgressDialog.dismiss();
+					startStage();
+					break;
+				default:
+					//Log.i("bt", "received incoming bt message");
+					//Toast.makeText(StageActivity.this, myMessage.getData().getString("toastText"), Toast.LENGTH_SHORT);
+					break;
+
+			}
+		}
+	};
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
@@ -192,13 +221,23 @@ public class StageActivity extends Activity {
 		super.onDestroy();
 		stageManager.finish();
 		soundManager.clear();
-		legoNXT.destroyBTCommunicator();
+		try {
+			arduino.destroyBTCommunicator();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void onBackPressed() {
 		manageLoadAndFinish();
-		legoNXT.destroyBTCommunicator();
+		try {
+			arduino.destroyBTCommunicator();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 

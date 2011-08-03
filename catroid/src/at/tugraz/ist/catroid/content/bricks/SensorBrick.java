@@ -23,7 +23,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,9 +30,7 @@ import android.view.View.OnClickListener;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import at.abraxas.amarino.Amarino;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.bluetooth.DeviceListActivity;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.DevicesDialog;
 import at.tugraz.ist.catroid.ui.dialogs.EditDialog;
@@ -54,8 +51,8 @@ public class SensorBrick implements Brick, OnDismissListener {
 	private int pin;
 	private double value;
 	private double time;
-	private final int DIGITAL = 1;
-	private final int ANALOG = 0;
+	public final static int DIGITAL = 1;
+	public final static int ANALOG = 0;
 	private BluetoothAdapter bluetoothAdapter;
 	private Context context;
 
@@ -90,17 +87,6 @@ public class SensorBrick implements Brick, OnDismissListener {
 		}
 
 		bluetoothAdapter.getDefaultAdapter();
-
-		if (bluetoothAdapter.isEnabled() && bluetoothAdapter.getBondedDevices() != null) {
-			Amarino.connect(this.context, selectedAddress);
-			if (type == DIGITAL) {
-				Amarino.sendDataToArduino(this.context, selectedAddress, 'd', arduinoPackage);
-			} else if (type == ANALOG) {
-				Amarino.sendDataToArduino(this.context, selectedAddress, 'a', arduinoPackage);
-			}
-		}
-
-		Amarino.disconnect(this.context, selectedAddress);
 
 	}
 
@@ -255,10 +241,5 @@ public class SensorBrick implements Brick, OnDismissListener {
 	 */
 	public void setSelectedAddress(String selectedAddress) {
 		this.selectedAddress = selectedAddress;
-	}
-
-	public void connectArduino() {
-		Intent serverIntent = new Intent(this.activity, DeviceListActivity.class);
-		activity.startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
 	}
 }
