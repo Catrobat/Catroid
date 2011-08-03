@@ -32,21 +32,10 @@ import at.tugraz.ist.catroid.R;
 
 public class EditDoubleDialog extends EditDialog implements OnClickListener {
 	private double value;
-	private double min;
-	private double max;
 
 	public EditDoubleDialog(Context context, EditText referencedEditText, double value) {
 		super(context, referencedEditText);
 		this.value = value;
-		min = Double.MIN_VALUE;
-		max = Double.MAX_VALUE;
-	}
-
-	public EditDoubleDialog(Context context, EditText referencedEditText, double value, double min, double max) {
-		super(context, referencedEditText);
-		this.value = value;
-		this.min = min;
-		this.max = max;
 	}
 
 	@Override
@@ -64,15 +53,6 @@ public class EditDoubleDialog extends EditDialog implements OnClickListener {
 				if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
 					try {
 						value = Double.parseDouble(editText.getText().toString());
-						if (value < min) {
-							value = min;
-							Toast.makeText(context, R.string.number_to_small, Toast.LENGTH_SHORT).show();
-							return false;
-						} else if (value > max) {
-							value = max;
-							Toast.makeText(context, R.string.number_to_big, Toast.LENGTH_SHORT).show();
-							return false;
-						}
 						dismiss();
 					} catch (NumberFormatException e) {
 						Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
@@ -96,17 +76,18 @@ public class EditDoubleDialog extends EditDialog implements OnClickListener {
 		} else {
 			try {
 				value = Double.parseDouble(editText.getText().toString());
-				if (value < min) {
-					value = min;
-					Toast.makeText(context, R.string.number_to_small, Toast.LENGTH_SHORT).show();
-				} else if (value > max) {
-					value = max;
-					Toast.makeText(context, R.string.number_to_big, Toast.LENGTH_SHORT).show();
-				}
 				dismiss();
 			} catch (NumberFormatException e) {
 				Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 			}
 		}
+	}
+
+	/**
+	 * @return
+	 */
+	@Override
+	public int getRefernecedEditTextId() {
+		return referencedEditText.getId();
 	}
 }

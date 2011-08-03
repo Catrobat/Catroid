@@ -30,37 +30,20 @@ import android.widget.EditText;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 
-public class EditIntegerDialog extends EditDialog implements OnClickListener {
-	private int value;
-	private boolean signed;
-	private int min;
-	private int max;
+public class SensorValueAnalogDialog extends EditDialog implements OnClickListener {
+	private double value;
 
-	public EditIntegerDialog(Context context, EditText referencedEditText, int value, boolean signed) {
+	public SensorValueAnalogDialog(Context context, EditText referencedEditText, double value) {
 		super(context, referencedEditText);
 		this.value = value;
-		this.signed = signed;
-		this.min = Integer.MIN_VALUE;
-		this.max = Integer.MAX_VALUE;
-	}
-
-	public EditIntegerDialog(Context context, EditText referencedEditText, int value, boolean signed, int min, int max) {
-		super(context, referencedEditText);
-		this.value = value;
-		this.signed = signed;
-		this.min = min;
-		this.max = max;
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		editText.setText(String.valueOf(value));
-		if (signed) {
-			editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
-		} else {
-			editText.setInputType(InputType.TYPE_CLASS_NUMBER);
-		}
+		editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
 		okButton.setOnClickListener(this);
 
@@ -69,16 +52,7 @@ public class EditIntegerDialog extends EditDialog implements OnClickListener {
 			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
 				if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
 					try {
-						value = Integer.parseInt(editText.getText().toString());
-						if (value < min) {
-							value = min;
-							Toast.makeText(context, R.string.number_to_small, Toast.LENGTH_SHORT).show();
-							return false;
-						} else if (value > max) {
-							value = max;
-							Toast.makeText(context, R.string.number_to_big, Toast.LENGTH_SHORT).show();
-							return false;
-						}
+						value = Double.parseDouble(editText.getText().toString());
 						dismiss();
 					} catch (NumberFormatException e) {
 						Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
@@ -90,33 +64,33 @@ public class EditIntegerDialog extends EditDialog implements OnClickListener {
 		});
 	}
 
-	public int getValue() {
+	public double getValue() {
 		return value;
 	}
 
-	@Override
-	public int getRefernecedEditTextId() {
-		return referencedEditText.getId();
-	}
-
 	public void onClick(View v) {
-		if (v.getId() == referencedEditText.getId()) {
+		if (v.getId() == R.id.dialog_edit_dialog_edit_text) {
+			editText.selectAll();
+		} else if (v.getId() == referencedEditText.getId()) {
 			show();
 		} else {
 			try {
-				value = Integer.parseInt(editText.getText().toString());
-				if (value < min) {
-					value = min;
-					Toast.makeText(context, R.string.number_to_small, Toast.LENGTH_SHORT).show();
-				} else if (value > max) {
-					value = max;
-					Toast.makeText(context, R.string.number_to_big, Toast.LENGTH_SHORT).show();
+				value = Double.parseDouble(editText.getText().toString());
+				if (value < 0.0 || value > 5.0) {
+					throw new NumberFormatException();
 				}
 				dismiss();
 			} catch (NumberFormatException e) {
-				Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
+				Toast.makeText(context, R.string.error_sensor_enter_analog_value, Toast.LENGTH_SHORT).show();
 			}
 		}
 	}
 
+	/**
+	 * @return
+	 */
+	@Override
+	public int getRefernecedEditTextId() {
+		return referencedEditText.getId();
+	}
 }
