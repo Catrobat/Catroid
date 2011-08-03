@@ -154,7 +154,7 @@
     <string name="brick_set_costume">Setze Kostüm</string>
     <string name="brick_set_size_to">Setze Größe auf</string>
     <string name="brick_go_back">Gehe</string>
-    <string name="steps_label">Schritte nach hinten</string>
+    <string name="brick_go_back_layers">Ebenen nach hinten</string>
     <string name="brick_come_to_front">Komm nach vorne</string>
     <string name="brick_if_touched">Wenn berührt</string>
     <string name="brick_if_started">Wenn gestartet</string>
@@ -162,6 +162,7 @@
 	<string name="brick_change_y_by">Ändere Y um:</string>
 	<string name="brick_set_x">Setze X auf:</string>
 	<string name="brick_set_y">Setze Y auf:</string>
+	<string name="brick_when">Wenn</string>
 	<string name="brick_glide">Gleite</string>
 	<string name="brick_glide_to">zu</string>
 	<string name="brick_forever">Wiederhole fortlaufend</string>
@@ -188,6 +189,9 @@
     <string name="brick_broadcast_wait">Verschicke und warte:</string>
     <string name="brick_stop_all_sounds">Stoppe alle Sounds</string>
     
+	<string name="when_action">Action wählen</string>
+    
+
     <!-- defaulValues -->
     <string name="default_project_name">standardProjekt</string>
     
@@ -197,6 +201,9 @@
     </string>
     <string name="notification_invalid_name_entered">
     	Bitte einen Namen eingeben
+    </string>
+    <string name="notification_screenshot_ok">
+        Screenshot erfolgreich gespeichert
     </string>
 
     <!-- Error messages -->
@@ -247,5 +254,4 @@
     <string name="upload_button">Hochladen</string>
     <string name="upload_project_dialog_title">Projekt hochladen</string>
     <string name="project_rename">(Das Projekt wird umbenannt.)</string>
-    <string name="screenshot_ok">Screenshot erfolgreich gespeichert</string>
 </resources>

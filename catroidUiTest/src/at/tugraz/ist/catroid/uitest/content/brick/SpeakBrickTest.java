@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010  Catroid development team 
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -16,6 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package at.tugraz.ist.catroid.uitest.content.brick;
 
 import java.util.ArrayList;
@@ -29,26 +30,20 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.content.bricks.HideBrick;
-import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
-import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
-import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
+import at.tugraz.ist.catroid.content.bricks.SpeakBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
-import at.tugraz.ist.catroid.uitest.util.Utils;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-/**
- * 
- * @author Daniel Burtscher
- * 
- */
-public class PlaceAtTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class SpeakBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
-	private PlaceAtBrick placeAtBrick;
+	private SpeakBrick speakBrick;
+	private String testString = "test";
+	private String testString2 = "";
 
-	public PlaceAtTest() {
+	public SpeakBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
 	}
 
@@ -71,62 +66,55 @@ public class PlaceAtTest extends ActivityInstrumentationTestCase2<ScriptActivity
 	}
 
 	@Smoke
-	public void testPlaceAtBrick() throws InterruptedException {
+	public void testSpeakBrick() {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
 
-		assertEquals("Incorrect number of bricks.", 5, solo.getCurrentListViews().get(0).getChildCount());
-		assertEquals("Incorrect number of bricks.", 4, childrenCount);
+		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
+		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
-		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
+		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
 				getActivity().getAdapter().getChild(groupCount - 1, 0));
-		assertEquals("Wrong Brick instance.", projectBrickList.get(1),
-				getActivity().getAdapter().getChild(groupCount - 1, 1));
-		assertEquals("Wrong Brick instance.", projectBrickList.get(2),
-				getActivity().getAdapter().getChild(groupCount - 1, 2));
-		assertEquals("Wrong Brick instance.", projectBrickList.get(3),
-				getActivity().getAdapter().getChild(groupCount - 1, 3));
-		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_place_at)));
-
-		int xPosition = 987;
-		int yPosition = 654;
+		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_speak)));
 
 		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, xPosition + "");
+		solo.enterText(0, testString);
 		solo.clickOnButton(0);
+		solo.sleep(300);
 
-		Thread.sleep(300);
-		int actualXPosition = (Integer) Utils.getPrivateField("xPosition", placeAtBrick);
-		assertEquals("Text not updated", xPosition + "", solo.getEditText(0).getText().toString());
-		assertEquals("Value in Brick is not updated", xPosition, actualXPosition);
+		String text = UiTestUtils.getPrivateField("text", speakBrick).toString();
 
-		solo.clickOnEditText(1);
-		solo.clearEditText(0);
-		solo.enterText(0, yPosition + "");
+		assertEquals("Wrong text in field.", testString, text);
+
+		solo.clickOnEditText(0);
+		solo.enterText(0, "");
 		solo.clickOnButton(0);
+		solo.sleep(300);
 
-		Thread.sleep(300);
-		int actualYPosition = (Integer) Utils.getPrivateField("yPosition", placeAtBrick);
-		assertEquals("Text not updated", yPosition + "", solo.getEditText(1).getText().toString());
-		assertEquals("Value in Brick is not updated", yPosition, actualYPosition);
+		text = UiTestUtils.getPrivateField("text", speakBrick).toString();
+
+		assertEquals("Wrong text in field.", "", text);
+
+		solo.clickOnEditText(0);
+		solo.enterText(0, testString2);
+		solo.clickOnButton(0);
+		solo.sleep(300);
+
+		text = UiTestUtils.getPrivateField("text", speakBrick).toString();
+
+		assertEquals("Wrong text in field.", testString2, text);
+
 	}
 
 	private void createProject() {
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript("script", sprite);
-		script.addBrick(new HideBrick(sprite));
-		placeAtBrick = new PlaceAtBrick(sprite, 105, 206);
-		script.addBrick(placeAtBrick);
-		PlaySoundBrick soundBrick = new PlaySoundBrick(sprite);
-		soundBrick.setPathToSoundfile("sound.mp3");
-		script.addBrick(soundBrick);
-
-		script.addBrick(new SetSizeToBrick(sprite, 80));
+		speakBrick = new SpeakBrick(sprite, null);
+		script.addBrick(speakBrick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);
@@ -134,6 +122,7 @@ public class PlaceAtTest extends ActivityInstrumentationTestCase2<ScriptActivity
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
-	}
+		testString2 = getInstrumentation().getContext().getString(at.tugraz.ist.catroid.uitest.R.string.test_text);
 
+	}
 }
