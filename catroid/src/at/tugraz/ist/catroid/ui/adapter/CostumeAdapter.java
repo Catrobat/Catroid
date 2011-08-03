@@ -71,7 +71,7 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 			TextView costumeSize = (TextView) convertView.findViewById(R.id.costume_size);
 
 			copyCostumeButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_copy, 0, 0);
-			paintroidButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_menu_edit, 0, 0);
+			paintroidButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_paintroid_logo, 0, 0);
 			deleteCostumeButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_trash, 0, 0);
 			renameCostumeButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_menu_edit, 0, 0);
 

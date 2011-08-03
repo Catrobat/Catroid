@@ -46,7 +46,7 @@
 			android:paddingLeft="10dp"
 			android:textSize="18dip" 
 			android:layout_height="55dip" 
-			android:gravity="top"
+			android:gravity="center_vertical"
 			android:clickable="false"
 			android:focusable="false"
 			android:longClickable="false"
@@ -97,7 +97,7 @@
 			android:orientation="horizontal"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:paddingRight="5dip">
+			android:paddingRight="4dip">
 
     	<Button 
     		android:id="@+id/btn_costume_edit" 

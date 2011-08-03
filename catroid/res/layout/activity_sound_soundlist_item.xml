@@ -42,7 +42,7 @@
 			android:paddingLeft="10dp"
 			android:textSize="18dip" 
 			android:layout_height="55dip" 
-			android:gravity="top"
+			android:gravity="center_vertical"
 			android:clickable="false"
 			android:focusable="false"
 			android:longClickable="false"

@@ -139,6 +139,7 @@ public class CostumeActivity extends ListActivity {
 
 	public void handlePositiveButtonRenameCostume(View v) {
 		renameCostumeDialog.handleOkButton();
+		reloadAdapter();
 	}
 
 	public void handleNegativeButtonRenameCostume(View v) {
@@ -180,7 +181,7 @@ public class CostumeActivity extends ListActivity {
 				imageName = oldFile.getName().substring(0, oldFile.getName().length() - 4);
 
 				String imageFileName = imageFile.getName();
-				reloadAdapter(); //TODO right?
+				//reloadAdapter();
 				updateCostumeAdapter(imageName, imageFileName);
 			} catch (IOException e) {
 				Utils.displayErrorMessage(this, this.getString(R.string.error_load_image));
@@ -188,7 +189,7 @@ public class CostumeActivity extends ListActivity {
 		}
 	}
 
-	public void reloadAdapter() {
+	private void reloadAdapter() {
 		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
 		setListAdapter(new CostumeAdapter(this, R.layout.activity_costume_costumelist_item, costumeDataList));
 		((CostumeAdapter) getListAdapter()).notifyDataSetChanged();
