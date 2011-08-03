@@ -86,8 +86,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		String newName = "newName";
 		solo.clickOnText(getActivity().getString(R.string.costumes));
 		solo.sleep(500);
-		solo.clickOnButton(getActivity().getString(R.string.edit_costume));
-		solo.clickOnText(getActivity().getString(R.string.rename_costume_dialog));
+		solo.clickOnButton(getActivity().getString(R.string.sound_rename));
 		solo.clearEditText(0);
 		solo.enterText(0, newName);
 		solo.sleep(300);

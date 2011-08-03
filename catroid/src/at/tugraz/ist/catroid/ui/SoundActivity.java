@@ -70,9 +70,7 @@ public class SoundActivity extends ListActivity {
 			return;
 		}
 
-		this.soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
-		setListAdapter(new SoundAdapter(this, R.layout.activity_sound_soundlist_item, soundInfoList));
-		((SoundAdapter) getListAdapter()).notifyDataSetChanged();
+		reloadAdapter();
 
 		//change actionbar:
 		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
@@ -143,17 +141,9 @@ public class SoundActivity extends ListActivity {
 		}
 	}
 
-	@Override
-	public void onWindowFocusChanged(boolean hasFocus) {
-		if (hasFocus) {
-			this.soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
-			setListAdapter(new SoundAdapter(this, R.layout.activity_sound_soundlist_item, soundInfoList));
-			((SoundAdapter) getListAdapter()).notifyDataSetChanged();
-		}
-	}
-
 	public void handlePositiveButtonRenameSound(View v) {
 		renameSoundDialog.handleOkButton();
+		reloadAdapter();
 	}
 
 	public void handleNegativeButtonRenameSound(View v) {
@@ -162,6 +152,7 @@ public class SoundActivity extends ListActivity {
 
 	public void stopSound() {
 		mediaPlayer.stop();
+
 		for (SoundInfo soundInfo : soundInfoList) {
 			soundInfo.isPlaying = false;
 		}
@@ -204,10 +195,17 @@ public class SoundActivity extends ListActivity {
 				File soundFile = StorageHandler.getInstance().copySoundFile(audioPath);
 				String soundTitle = soundFile.getName().substring(33, soundFile.getName().length() - 4);
 				String soundFileName = soundFile.getName();
+				//reloadAdapter();
 				updateSoundAdapter(soundTitle, soundFileName);
 			} catch (IOException e) {
 				Utils.displayErrorMessage(this, this.getString(R.string.error_load_sound));
 			}
 		}
+	}
+
+	private void reloadAdapter() {
+		this.soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		setListAdapter(new SoundAdapter(this, R.layout.activity_sound_soundlist_item, soundInfoList));
+		((SoundAdapter) getListAdapter()).notifyDataSetChanged();
 	}
 }
