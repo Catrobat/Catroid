@@ -19,8 +19,6 @@
 
 package at.tugraz.ist.catroid.stage;
 
-import java.io.IOException;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -38,6 +36,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXTBtCommunicator;
 import at.tugraz.ist.catroid.arduino.Arduino;
 import at.tugraz.ist.catroid.bluetooth.BluetoothManager;
@@ -54,7 +53,7 @@ public class StageActivity extends Activity {
 	private StageManager stageManager;
 	private boolean stagePlaying = false;
 	private Arduino arduino;
-	Private LegoNXT legoNXT;
+	private LegoNXT legoNXT;
 	private BluetoothManager bluetoothManager;
 	private ProgressDialog connectingProgressDialog;
 
@@ -228,27 +227,15 @@ public class StageActivity extends Activity {
 		super.onDestroy();
 		stageManager.finish();
 		soundManager.clear();
-		try {
-			//arduino.destroyBTCommunicator();
-			legoNXT.destroyBTCommunicator();
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//arduino.destroyBTCommunicator();
+		legoNXT.destroyBTCommunicator();
 	}
 
 	@Override
 	public void onBackPressed() {
 		manageLoadAndFinish();
-		try {
-			//arduino.destroyBTCommunicator();
-			legoNXT.destroyBTCommunicator();
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//arduino.destroyBTCommunicator();
+		legoNXT.destroyBTCommunicator();
 
 	}
 

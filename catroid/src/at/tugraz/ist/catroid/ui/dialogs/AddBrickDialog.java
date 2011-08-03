@@ -122,6 +122,7 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new MotorStopBrick(sprite, 0));
 			prototypeBrickList.add(new MotorActionBrick(sprite, 0, 100, 3));
 			prototypeBrickList.add(new NXTPlayToneBrick(sprite, 2000, 1));
+		}
 
 	}
 
