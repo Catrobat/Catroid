@@ -137,5 +137,4 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
 				MainMenuActivity.class);
 	}
-
 }

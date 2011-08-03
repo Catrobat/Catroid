@@ -43,17 +43,6 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 				costumeData.getAbsolutePath());
 
 		solo = new Solo(getInstrumentation(), getActivity());
-
-		//		// Override OnClickListener to launch MockGalleryActivity
-		//		OnClickListener listener = new OnClickListener() {
-		//			public void onClick(View v) {
-		//				final Intent intent = new Intent("android.intent.action.MAIN");
-		//				intent.setComponent(new ComponentName("at.tugraz.ist.catroid.uitest",
-		//						"at.tugraz.ist.catroid.uitest.mockups.MockGalleryActivity"));
-		//				intent.putExtra("filePath", imageFileReference.getAbsolutePath());
-		//				solo.getActivityMonitor().getLastActivity().startActivityForResult(intent, SELECT_IMAGE);
-		//			}
-		//		};
 	}
 
 	@Override
