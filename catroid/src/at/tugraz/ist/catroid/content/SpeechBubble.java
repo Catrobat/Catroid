@@ -63,10 +63,6 @@ public class SpeechBubble implements Serializable {
 
 	private Vector<String> textGrid = new Vector<String>();
 
-	// TODO: eliminate this 3 members
-	// TODO: calling optimization
-	// TODO: some code cleaning
-
 	public SpeechBubble() {
 		textPaint = new Paint();
 		debugPaint = new Paint();
