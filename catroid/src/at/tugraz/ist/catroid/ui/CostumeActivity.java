@@ -92,7 +92,9 @@ public class CostumeActivity extends ListActivity {
 			public void onClick(View v) {
 				Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 				intent.setType("image/*");
-				startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_SELECT_IMAGE);
+				startActivityForResult(
+						Intent.createChooser(intent, CostumeActivity.this.getString(R.string.select_image)),
+						REQUEST_SELECT_IMAGE);
 			}
 		};
 	}
@@ -169,6 +171,10 @@ public class CostumeActivity extends ListActivity {
 				Uri imageUri = data.getData();
 				String[] projection = { MediaStore.MediaColumns.DATA };
 				Cursor cursor = managedQuery(imageUri, projection, null, null, null);
+				if (cursor == null) {
+					Utils.displayErrorMessage(this, this.getString(R.string.error_load_image));
+					return;
+				}
 				int column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
 				cursor.moveToFirst();
 				originalImagePath = cursor.getString(column_index);

@@ -107,6 +107,7 @@
     <string name="costumename_invalid">This costumename is invalid</string>
     <string name="edit_in_paintroid">Edit in paintroid</string>
     <string name="copy_costume_addition">copy</string>
+    <string name="select_image">Select Image</string>
     
     <!-- Sound activity -->
     <string name="sound_list">Sound:</string>
