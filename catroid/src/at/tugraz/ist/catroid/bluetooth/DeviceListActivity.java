@@ -58,7 +58,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.LegoNXT.LegoNXTBtCommunicator;
 
 public class DeviceListActivity extends Activity {
 	static final String PAIRING = "pairing";
@@ -114,10 +113,8 @@ public class DeviceListActivity extends Activity {
 		if (pairedDevices.size() > 0) {
 			findViewById(R.id.title_paired_devices).setVisibility(View.VISIBLE);
 			for (BluetoothDevice device : pairedDevices) {
-				if (device.getAddress().startsWith(LegoNXTBtCommunicator.OUI_LEGO)) {
-					legoDevicesFound = true;
-					pairedDevicesArrayAdapter.add(device.getName() + "-" + device.getAddress());
-				}
+				legoDevicesFound = true;
+				pairedDevicesArrayAdapter.add(device.getName() + "-" + device.getAddress());
 			}
 		}
 
@@ -180,8 +177,7 @@ public class DeviceListActivity extends Activity {
 
 			if (BluetoothDevice.ACTION_FOUND.equals(action)) {
 				BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-				if ((device.getBondState() != BluetoothDevice.BOND_BONDED)
-						&& (device.getAddress().startsWith(LegoNXTBtCommunicator.OUI_LEGO))) {
+				if ((device.getBondState() != BluetoothDevice.BOND_BONDED)) {
 					newDevicesArrayAdapter.add(device.getName() + "-" + device.getAddress());
 				}
 			} else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {

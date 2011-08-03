@@ -143,12 +143,15 @@ public class StageActivity extends Activity {
 	final Handler recieveHandler = new Handler() {
 		@Override
 		public void handleMessage(Message myMessage) {
+			Log.d("TAG", "message" + myMessage.getData().getInt("message"));
 			switch (myMessage.getData().getInt("message")) {
 				case LegoNXTBtCommunicator.STATE_CONNECTED:
 					connectingProgressDialog.dismiss();
 					startStage();
 					break;
 				default:
+					connectingProgressDialog.dismiss();
+
 					//Log.i("bt", "received incoming bt message");
 					//Toast.makeText(StageActivity.this, myMessage.getData().getString("toastText"), Toast.LENGTH_SHORT);
 					break;
