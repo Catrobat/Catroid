@@ -46,7 +46,7 @@
 			android:paddingLeft="10dp"
 			android:textSize="18dip" 
 			android:layout_height="55dip" 
-			android:gravity="center_vertical"
+			android:gravity="top"
 			android:clickable="false"
 			android:focusable="false"
 			android:longClickable="false"
@@ -96,13 +96,21 @@
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 			android:orientation="horizontal"
 			android:layout_width="fill_parent"
-			android:layout_height="wrap_content">
+			android:layout_height="wrap_content"
+			android:paddingRight="5dip">
 
     	<Button 
     		android:id="@+id/btn_costume_edit" 
     		android:layout_width="wrap_content"
     		android:layout_height="wrap_content"
-    		android:text="@string/edit_costume" 
+    		android:text="@string/edit_costume_paintroid" 
+    		android:layout_weight=".3"/>
+    		
+    	<Button 
+    		android:id="@+id/btn_costume_rename" 
+    		android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		android:text="@string/sound_rename" 
     		android:layout_weight=".3"/>
     
     	<Button 
