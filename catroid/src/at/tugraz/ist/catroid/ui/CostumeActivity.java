@@ -26,7 +26,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -39,7 +38,6 @@ import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.adapter.CostumeAdapter;
-import at.tugraz.ist.catroid.ui.adapter.CustomIconContextMenu;
 import at.tugraz.ist.catroid.ui.dialogs.RenameCostumeDialog;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -48,11 +46,8 @@ public class CostumeActivity extends ListActivity {
 	public CostumeData selectedCostumeData;
 	private RenameCostumeDialog renameCostumeDialog;
 	private ArrayList<CostumeData> costumeDataList;
-	private CustomIconContextMenu iconContextMenu;
 
 	private final int REQUEST_SELECT_IMAGE = 0;
-	private static final int CONTEXT_MENU_ITEM_RENAME = 0;
-	private static final int CONTEXT_MENU_ITEM_EDIT = 1;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -62,7 +57,6 @@ public class CostumeActivity extends ListActivity {
 		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
 
 		setListAdapter(new CostumeAdapter(this, R.layout.activity_costume_costumelist_item, costumeDataList));
-		initCustomContextMenu();
 	}
 
 	@Override
@@ -72,9 +66,7 @@ public class CostumeActivity extends ListActivity {
 			return;
 		}
 
-		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
-		setListAdapter(new CostumeAdapter(this, R.layout.activity_costume_costumelist_item, costumeDataList));
-		((CostumeAdapter) getListAdapter()).notifyDataSetChanged();
+		reloadAdapter();
 
 		//change actionbar:
 		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
@@ -109,13 +101,6 @@ public class CostumeActivity extends ListActivity {
 				} else {
 					renameCostumeDialog = new RenameCostumeDialog(this);
 					dialog = renameCostumeDialog.createDialog(selectedCostumeData);
-				}
-				break;
-			case Consts.DIALOG_CONTEXT_MENU:
-				if (iconContextMenu == null || selectedCostumeData == null) {
-					dialog = null;
-				} else {
-					dialog = iconContextMenu.createMenu(selectedCostumeData.getCostumeName());
 				}
 				break;
 			default:
@@ -195,6 +180,7 @@ public class CostumeActivity extends ListActivity {
 				imageName = oldFile.getName().substring(0, oldFile.getName().length() - 4);
 
 				String imageFileName = imageFile.getName();
+				reloadAdapter(); //TODO right?
 				updateCostumeAdapter(imageName, imageFileName);
 			} catch (IOException e) {
 				Utils.displayErrorMessage(this, this.getString(R.string.error_load_image));
@@ -202,33 +188,9 @@ public class CostumeActivity extends ListActivity {
 		}
 	}
 
-	@Override
-	public void onWindowFocusChanged(boolean hasFocus) {
-		if (hasFocus) {
-			costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
-			setListAdapter(new CostumeAdapter(this, R.layout.activity_costume_costumelist_item, costumeDataList));
-			((CostumeAdapter) getListAdapter()).notifyDataSetChanged();
-		}
-	}
-
-	private void initCustomContextMenu() {
-		Resources resources = getResources();
-		iconContextMenu = new CustomIconContextMenu(this, Consts.DIALOG_CONTEXT_MENU);
-		iconContextMenu.addItem(resources, this.getString(R.string.rename_costume_dialog),
-				R.drawable.ic_context_rename, CONTEXT_MENU_ITEM_RENAME);
-		iconContextMenu.addItem(resources, this.getString(R.string.edit_in_paintroid), R.drawable.ic_context_rename,
-				CONTEXT_MENU_ITEM_EDIT);
-
-		iconContextMenu.setOnClickListener(new CustomIconContextMenu.IconContextMenuOnClickListener() {
-			public void onClick(int menuId) {
-				switch (menuId) {
-					case CONTEXT_MENU_ITEM_RENAME:
-						CostumeActivity.this.showDialog(Consts.DIALOG_RENAME_COSTUME);
-						break;
-					case CONTEXT_MENU_ITEM_EDIT:
-						break;
-				}
-			}
-		});
+	public void reloadAdapter() {
+		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
+		setListAdapter(new CostumeAdapter(this, R.layout.activity_costume_costumelist_item, costumeDataList));
+		((CostumeAdapter) getListAdapter()).notifyDataSetChanged();
 	}
 }

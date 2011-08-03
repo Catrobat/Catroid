@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -62,15 +63,17 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 		if (costumeData != null) {
 			final ImageView costumeImage = (ImageView) convertView.findViewById(R.id.costume_image);
 			final TextView costumeNameTextField = (TextView) convertView.findViewById(R.id.costume_name);
-			final Button editCostumeButton = (Button) convertView.findViewById(R.id.btn_costume_edit);
+			final Button paintroidButton = (Button) convertView.findViewById(R.id.btn_costume_edit);
+			final Button renameCostumeButton = (Button) convertView.findViewById(R.id.btn_costume_rename);
 			final Button copyCostumeButton = (Button) convertView.findViewById(R.id.btn_costume_copy);
 			Button deleteCostumeButton = (Button) convertView.findViewById(R.id.btn_costume_delete);
 			TextView costumeResolution = (TextView) convertView.findViewById(R.id.costume_res);
 			TextView costumeSize = (TextView) convertView.findViewById(R.id.costume_size);
 
 			copyCostumeButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_copy, 0, 0);
-			editCostumeButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_menu_edit, 0, 0);
+			paintroidButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_menu_edit, 0, 0);
 			deleteCostumeButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_trash, 0, 0);
+			renameCostumeButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_menu_edit, 0, 0);
 
 			costumeImage.setImageBitmap(costumeData.getThumbnailBitmap());
 			costumeNameTextField.setText(costumeData.getCostumeName());
@@ -128,11 +131,17 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 				}
 			});
 
-			editCostumeButton.setOnClickListener(new View.OnClickListener() {
+			paintroidButton.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
 					activity.selectedCostumeData = costumeData;
-					activity.removeDialog(Consts.DIALOG_CONTEXT_MENU);
-					activity.showDialog(Consts.DIALOG_CONTEXT_MENU);
+					//TODO call paintroid
+				}
+			});
+
+			renameCostumeButton.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {
+					activity.selectedCostumeData = costumeData;
+					activity.showDialog(Consts.DIALOG_RENAME_COSTUME);
 				}
 			});
 
