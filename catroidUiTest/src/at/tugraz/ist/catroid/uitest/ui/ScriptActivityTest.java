@@ -25,14 +25,13 @@ import java.util.List;
 import android.graphics.Rect;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
-import at.tugraz.ist.catroid.uitest.util.Utils;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -47,8 +46,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		Utils.createTestProject();
-		brickListToCheck = Utils.createTestProject();
+		brickListToCheck = UiTestUtils.createTestProject();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
@@ -60,20 +58,15 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 			e.printStackTrace();
 		}
 		getActivity().finish();
-		Utils.clearAllUtilTestProjects();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
 	public void testMainMenuButton() {
-		List<ImageButton> btnList = solo.getCurrentImageButtons();
-		for (int i = 0; i < btnList.size(); i++) {
-			ImageButton btn = btnList.get(i);
-			if (btn.getId() == R.id.btn_action_home) {
-				solo.clickOnImageButton(i);
-			}
-		}
-		assertTrue("Clicking on main menu button did not cause main menu to be displayed",
-				solo.getCurrentActivity() instanceof MainMenuActivity);
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
+				MainMenuActivity.class);
 	}
 
 	public void testCreateNewBrickButton() {
@@ -93,11 +86,11 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 	}
 
 	public void testSimpleDragNDrop() {
-		ArrayList<Integer> yPosList = getListItemYPositions();
-		assertTrue("Test project brick list smaller than expected", yPosList.size() >= 6);
+		ArrayList<Integer> yPositionList = getListItemYPositions();
+		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
 
 		solo.sleep(1000);
-		solo.drag(30, 30, yPosList.get(4), (yPosList.get(1) + yPosList.get(2)) / 2 + 30, 20);
+		solo.drag(30, 30, yPositionList.get(4), (yPositionList.get(1) + yPositionList.get(2)) / 2 + 30, 20);
 		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
 
 		assertEquals("Brick count not equal before and after dragging & dropping", brickListToCheck.size(),
@@ -110,10 +103,10 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 	}
 
 	public void testDeleteItem() {
-		ArrayList<Integer> yPosList = getListItemYPositions();
-		assertTrue("Test project brick list smaller than expected", yPosList.size() >= 6);
+		ArrayList<Integer> yPositionList = getListItemYPositions();
+		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
 
-		solo.drag(30, 400, yPosList.get(2), (yPosList.get(4) + yPosList.get(5)) / 2, 20);
+		solo.drag(30, 400, yPositionList.get(2), (yPositionList.get(4) + yPositionList.get(5)) / 2, 20);
 		solo.sleep(1000);
 		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
 
@@ -131,7 +124,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 	 * @return a list of the y pixel coordinates of the center of displayed bricks
 	 */
 	private ArrayList<Integer> getListItemYPositions() {
-		ArrayList<Integer> yPosList = new ArrayList<Integer>();
+		ArrayList<Integer> yPositionList = new ArrayList<Integer>();
 		ListView listView = solo.getCurrentListViews().get(0);
 
 		for (int i = 0; i < listView.getChildCount(); ++i) {
@@ -140,10 +133,9 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 			Rect globalVisibleRect = new Rect();
 			currentViewInList.getGlobalVisibleRect(globalVisibleRect);
 			int middleYPos = globalVisibleRect.top + globalVisibleRect.height() / 2;
-			yPosList.add(middleYPos);
+			yPositionList.add(middleYPos);
 		}
 
-		return yPosList;
+		return yPositionList;
 	}
-
 }

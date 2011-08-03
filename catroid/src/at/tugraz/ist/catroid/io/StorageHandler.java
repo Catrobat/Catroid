@@ -69,6 +69,7 @@ import at.tugraz.ist.catroid.content.bricks.SetXBrick;
 import at.tugraz.ist.catroid.content.bricks.SetYBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
+import at.tugraz.ist.catroid.content.bricks.WhenBrick;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -112,6 +113,7 @@ public class StorageHandler {
 		xstream.alias("noteBrick", NoteBrick.class);
 		xstream.alias("broadcastWaitBrick", BroadcastWaitBrick.class);
 		xstream.alias("broadcastBrick", BroadcastBrick.class);
+		xstream.alias("whenBrick", WhenBrick.class);
 
 		if (!Utils.hasSdCard()) {
 			throw new IOException("Could not read external storage");

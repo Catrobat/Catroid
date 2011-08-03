@@ -156,7 +156,7 @@
     <string name="brick_set_costume">Set Costume</string>
     <string name="brick_set_size_to">Set size to</string>
     <string name="brick_go_back">Go back</string>
-    <string name="steps_label">steps</string>
+    <string name="brick_go_back_layers">layers</string>
     <string name="brick_come_to_front">Come to front</string>
     <string name="brick_if_touched">If Touched</string>
     <string name="brick_if_started">If Started</string>
@@ -166,6 +166,17 @@
 	<string name="brick_set_y">Set Y to:</string>
 	<string name="brick_glide">Glide</string>
 	<string name="brick_glide_to">to</string>
+	<string name="brick_when">When</string>
+	<string name="brick_set_ghost_effect">Set Ghost Effect </string>
+	<string name="brick_change_ghost_effect">Change Ghost Effect</string>
+	<string name="brick_set_brightness">Set Brightness</string>
+	<string name="brick_change_brightness">Change Brightness</string>
+	<string name="by_label">by</string>
+	<string name="to_label">to</string>
+	<string name="brick_clear_graphic_effect">Clear graphic effect</string>
+	<string name="brick_set_volume_to">Set volume to</string>
+	<string name="brick_change_volume_by">Change volume by</string>
+	<string name="brick_speak">Speak</string>
 	<string name="brick_forever">Forever</string>
 	<string name="brick_loop_end">End Of Loop</string>
 	<string name="brick_repeat">Repeat</string>
@@ -182,6 +193,17 @@
 	<string name="brick_think">think</string>
 	
 	<string name="choose_sound_title">choose a title</string>
+	<string name="choose_language">choose a language</string>
+	
+    <string name="when_action">Choose an action</string>
+    <string name="action_tapped">Tapped</string>
+    <string name="action_doubleTapped">Double Tapped</string>
+    <string name="action_longPressed">Long Pressed</string>
+    <string name="action_touchingStops">Touching Stops</string>
+    <string name="action_swipeLeft">Swipe Left</string> 
+    <string name="action_swipeRight">Swipe Right</string>
+    <string name="action_swipeUp">Swipe Up</string>
+    <string name="action_swipeDown">Swipe Down</string>
 
 	<string name="brick_note">Note</string>
 	<string name="brick_broadcast_receive">When I receive</string>
@@ -198,6 +220,9 @@
     </string>
     <string name="notification_invalid_name_entered">
     	Please enter a name
+    </string>
+    <string name="notification_screenshot_ok">
+        Screenshot saved
     </string>
 
     <!-- Error messages -->
@@ -249,5 +274,4 @@
     <string name="upload_button">Upload</string>
     <string name="upload_project_dialog_title">Upload project</string>
     <string name="project_rename">(Your project will be renamed.)</string>
-    <string name="screenshot_ok">Screenshot saved</string>
 </resources>

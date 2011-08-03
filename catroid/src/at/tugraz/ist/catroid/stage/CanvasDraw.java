@@ -101,26 +101,18 @@ public class CanvasDraw implements IDraw {
 				if (sprite.getCostume().getBitmap() != null) {
 					Costume tempCostume = sprite.getCostume();
 					SpeechBubble tempBubble = sprite.getBubble();
-					//Bubble tempBubble = new Bubble("THIS WAS A TRIUMPH, I'M MAKING A NOTE HERE - HUGE SUCCESS!",
-					//		tempCostume, activity);
+					
 					bufferCanvas.drawBitmap(tempCostume.getBitmap(), tempCostume.getDrawPositionX(),
 							tempCostume.getDrawPositionY(), null);
 
 					if (!sprite.getName().equals(activity.getString(R.string.background))) {
-						//if (!tempBubble.getText().equals("")) {
-						//tempBubble.setCostume(tempCostume);
-						//tempBubble.setActivity(activity);
-						//tempBubble.setCanvas(bufferCanvas);
-
 						tempBubble.draw(bufferCanvas, tempCostume, activity);
-						//}
 					}
 					sprite.setToDraw(false);
 				}
 			}
 			bufferCanvas.drawBitmap(screenshotIcon, screenshotIconXPosition, Consts.SCREENSHOT_ICON_PADDING_TOP, null);
 			canvas.drawBitmap(canvasBitmap, 0, 0, null);
-			//holder.unlockCanvasAndPost(canvas);
 
 			if (firstRun) {
 				saveThumbnail(false);

@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- 
+ *  Catroid: An on-device graphical programming language for Android devices
+ *  Copyright (C) 2010  Catroid development team 
+ *  (<http://code.google.com/p/catroid/wiki/Credits>)
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+
+<resources>
+    <!-- General terms -->
+    <string name="project">proiect</string>
+    <string name="sprite">obiect</string>
+    <string name="script">script</string>
+    <string name="brick">bloc</string>
+    <string name="quit">Ieșire</string>
+    <string name="cancel_button">Anulare</string>
+    <string name="rename">Redenumire</string>
+    <string name="delete">Ștergere</string>
+
+    <!-- User interface -->
+    <string name="main_menu">Meniul principal</string>
+    <string name="menu">Meniu</string>
+
+    <!-- General -->
+    <string name="save">Salvare</string>
+    <string name="close">Închidere</string>
+    <string name="error">Eroare</string>
+    <string name="please_wait">Așteptați</string>
+    <string name="loading">Încărcare...</string>
+    <string name="background">Fundal</string>
+    <string name="stage">Scena</string>
+    <string name="ok">OK</string>
+
+    <!-- Brick captions -->
+    <string name="show">Arată</string>
+    <string name="hide">Ascunde</string>
+
+    <!-- Construction site context menu -->
+    <string name="construction_site_play">La scenă</string>
+    <string name="reset">Resetează terenul de construcție</string>
+    <string name="new_project">Proiect nou</string>
+    <string name="load">Incărcare</string>
+    <string name="change_project_name_main">Schimbarea denumirei proiectului</string>
+    <string name="about">Despre Catroid</string>
+    <string name="upload_project">Încărcarea proiectului</string>
+
+    <!-- Main menu activity -->
+    <string name="resume">Reluare</string>
+    <string name="current_project">Proiectul curent:</string>
+    <string name="no_project">Nu este încărcat nici un proiect</string>
+    <string name="current_project_button">Proiect curent</string>
+    <string name="projects_on_phone">Proiecte pe telefon</string>
+    <string name="create_new_project">Crearea proiectului nou</string>
+	<string name="tutorial">Tutorialul</string>
+	<string name="settings">Setări</string>
+	<string name="web_resources">Resurse web</string>
+	
+    <!-- About Dialog -->
+    <string name="about_title">Despre Catroid</string>
+    <string name="about_text">
+        Catroid este un limbaj grafic de programare pentru Android,
+        inspirat de proiectul Scratch al MIT.\n
+        Catroid este dezvoltat în Instituția Tehnologiilor Software la
+        Universitatea Tehnologică din Graz în Austria.\n\n
+        Această programă este licențiată sub licența GNU GPL v3.\n\n
+    </string>
+    <string name="about_link_text">Despre Catroid</string>
+
+    <!-- Project activity view -->
+    <string name="project_name">Proiect:</string>
+    <string name="sprite_list">Obiecte</string>
+    <string name="add_sprite">Adaugă obiect nou</string>
+
+    <!-- Script activity view -->
+    <string name="script_name">Script:</string>
+    <string name="brick_list">Blocurile:</string>
+    <string name="add_new_brick">Adaugă bloc nou</string>
+
+    <!-- Sprite activity -->
+    <string name="sprite_name">Obiecte:</string>
+    <string name="script_list">Scripte:</string>
+    <string name="add_new_script">Adaugă script nou</string>
+
+    <!-- Sprite dialog -->
+    <string name="sprite_button_text">Creare</string>
+    <string name="newsprite">Obiect nou</string>
+
+    <!-- New project dialog -->
+    <string name="new_project_dialog_button">Creare</string> 
+    <string name="new_project_dialog_title">Denumirea proiectului nou</string>
+    <string name="new_project_dialog_default_project_name">denumireaProiectului</string>
+    
+    <!-- Edit Sprite Dialog -->
+    <string name="delete_sprite_button">Ștergere</string>
+    <string name="rename_sprite_button">Redenumire</string>
+    <string name="edit_sprite_dialog_title">Modificarea obiectului</string>
+
+    <!-- Edit Script Dialog -->
+    <string name="delete_script_button">Ștergere</string>
+    <string name="rename_script_button">Redenumire</string>
+    <string name="edit_script_dialog_title">Modificarea scriptului</string>
+
+    <!-- Rename Dialog -->
+    <string name="rename_hint">Denumirea</string>
+    <string name="rename_button">Redenumirea</string>
+
+    <!-- New script dialog -->
+    <string name="new_script_dialog_button">Creare</string>
+    <string name="new_script_dialog_title">Denumirea scriptului nou</string>
+    <string name="new_script_dialog_default_script_name">numeleScriptului</string>
+    <string name="script_invalid">Această denumire de script este nevalabilă</string>
+
+    <!-- New sprite dialog -->
+    <string name="new_sprite_dialog_default_sprite_name">denumireaObiectului</string>
+    <string name="new_sprite_dialog_button">Creare</string>
+    <string name="new_sprite_dialog_title">Denumirea obiectului nou</string>
+    <string name="spritename_already_exists">Această denumire de obiect deja există</string>
+    <string name="rename_sprite_dialog">Redenumirea obiectului</string>
+    <string name="spritename_invalid">Această denumire de obiect este nevalabilă</string>
+    <string name="rename_script_dialog">Redenumirea scriptului</string>
+
+    <!-- Load project dialog -->
+    <string name="load_project_dialog_title">Încarcă proiectul</string>
+
+	<!-- Broadcast spinner -->
+	<string name="new_broadcast_message">nou...</string>
+	<string name="broadcast_nothing_selected">Nimic...</string>
+	
+    <!-- Stage context menu -->
+    <string name="stagemenu_construction_site">Către terenul de construcție</string>
+    <string name="stagemenu_start">Redare/Pauză</string>
+
+    <string name="brick_set_background">Setarea fundalului</string>
+    <string name="brick_play_sound">Redarea sunetul</string>
+    <string name="brick_wait">Așteaptă</string>
+    <string name="seconds">Secunde</string>
+    
+    <string name="brick_hide">Ascunde</string>
+    <string name="brick_show">Arată</string>
+    <string name="brick_place_at">Plasează la</string>
+    <string name="x_label">X:</string>
+    <string name="y_label">Y:</string>
+    <string name="brick_set_costume">Setează costumul</string>
+    <string name="brick_set_size_to">Setează mărimea la</string>
+    <string name="brick_go_back">Înapoi</string>
+    <string name="brick_go_back_layers">nivele</string>
+    <string name="brick_come_to_front">Spre față</string>
+    <string name="brick_if_touched">La atingere</string>
+    <string name="brick_if_started">La start</string>
+    <string name="brick_change_x_by">Schimbă X cu:</string>
+	<string name="brick_change_y_by">Schimbă Y cu:</string>
+	<string name="brick_set_x">Setează X la:</string>
+	<string name="brick_set_y">Setează Y la:</string>
+	<string name="brick_glide">Alunecă</string>
+	<string name="brick_glide_to">spre</string>
+	<string name="brick_when">Cînd</string>
+	<string name="brick_set_ghost_effect">Setează transparența</string>
+	<string name="brick_change_ghost_effect">Schimbă transparența</string>
+	<string name="brick_set_brightness">Setează lucirea</string>
+	<string name="brick_change_brightness">Schimbă lucirea</string>
+	<string name="by_label">cu</string>
+	<string name="to_label">la</string>
+	<string name="brick_clear_graphic_effect">Șterge efectele grafice</string>
+	<string name="brick_set_volume_to">Setează volumul la</string>
+	<string name="brick_change_volume_by">Schimbă volumul cu</string>
+	<string name="brick_speak">Vorbește</string>
+	<string name="brick_forever">Veșnic</string>
+	<string name="brick_loop_end">Sfîrșitul ciclului</string>
+	<string name="brick_repeat">Repetă</string>
+	<string name="times_label">ori</string>
+	<string name="brick_if_on_edge_bounce">Ricoșează dacă la margină</string>
+	<string name="brick_move">Mișcă</string>
+	<string name="brick_move_n_steps">pași</string>
+	<string name="brick_turn_right">Cotește la dreapta</string>
+	<string name="brick_turn_right_n_degrees">grade</string>
+	<string name="brick_turn_left">Cotește la stînga</string>
+	<string name="brick_turn_left_n_degrees">grade</string>
+	<string name="brick_point_in_direction">indică în direcția</string>
+	
+	<string name="choose_sound_title">selecteză denumirea</string>
+	<string name="choose_language">selectează limba</string>
+	
+    <string name="when_action">Selectați acțiunea</string>
+    <string name="action_tapped">Apăsat</string>
+    <string name="action_doubleTapped">Apăsat dublu</string>
+    <string name="action_longPressed">Apăsat lung</string>
+    <string name="action_touchingStops">Oprirea apăsării</string>
+    <string name="action_swipeLeft">Swipe stînga</string> 
+    <string name="action_swipeRight">Swipe dreapta</string>
+    <string name="action_swipeUp">Swipe sus</string>
+    <string name="action_swipeDown">Swipe jos</string>
+
+	<string name="brick_note">Notă</string>
+	<string name="brick_broadcast_receive">Cînd eu primesc</string>
+	
+	<string name="brick_broadcast">Difuzează</string>
+    <string name="brick_broadcast_wait">Difuează și așteaptă</string>
+	<string name="brick_stop_all_sounds">Oprește toate sunetele</string>
+    <!-- defaulValues -->
+    <string name="default_project_name">proiectulImplicit</string>
+    
+    <!-- Notifications -->
+    <string name="notification_invalid_text_entered">
+    	Introduceți o valoare, vă rog
+    </string>
+    <string name="notification_invalid_name_entered">
+    	Introduceți denumirea, vă rog
+    </string>
+    <string name="notification_screenshot_ok">
+        Imaginea a fost salvată
+    </string>
+
+    <!-- Error messages -->
+    <string name="error_no_sd_card">
+        Catroid necesită card SD, dar aceasta nu a fost găsită.\nInserați vă rog cardul SD și încercați din nou.
+    </string>
+    <string name="error_no_name_entered">
+        Introduceți denumirea, vă rog
+    </string>
+    <string name="error_project_exists">
+        Un proiect cu această denumire deja există.\nIntroduceți altă denumire, vă rog
+    </string>
+    <string name="error_sprite_exists">
+    	Un obiect cu această denumire deja există.\nIntroduceți altă denumire, vă rog.
+    </string>
+    <string name="error_project_upload">
+    	O eroare a avut loc la încărcarea proiectului.
+    </string>
+    <string name="error_project_download">
+        O eroare a avut loc la descărcarea proiectului.
+    </string>
+    <string name="error_project_rename">
+    	O eroare a avut loc la redenumirea proiectului.
+    </string>
+    <string name="error_save_project">
+    	O eroare a avut loc la salvarea proiectului.
+    </string>
+    <string name="error_load_project">
+    	O eroare a avut loc la încărcarea proiectului.
+    </string>
+    <string name="error_delete_project">
+    	O eroare a avut loc la ștergerea proiectului.
+    </string>
+    <string name="error_no_number_entered">
+        Întroduceți un număr, vă rog.
+    </string>
+    <string name="error_screenshot_failed">
+    	O eroare a avut loc la salvarea imaginii.
+    </string>
+    <string name="error_load_image">
+    	O eroare a avut loc la încărcarea imaginii.
+    </string>
+
+    <!-- Notifications -->
+    <string name="success_project_upload">Încărcarea a trecut cu succes.</string>
+    <string name="success_project_download">Descărcarea a trecut cu succes.</string>
+    <string name="load_project">Încprcarea proiectului</string>
+    <string name="upload_button">Încărcare</string>
+    <string name="upload_project_dialog_title">Încprcarea proiectului</string>
+    <string name="project_rename">(proiectul Dumneavoastră va fi redenumit.)</string>
+</resources>

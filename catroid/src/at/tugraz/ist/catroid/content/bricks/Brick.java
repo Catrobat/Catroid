@@ -36,4 +36,5 @@ public interface Brick extends Serializable {
 	public View getPrototypeView(Context context);
 
 	public Brick clone();
+
 }

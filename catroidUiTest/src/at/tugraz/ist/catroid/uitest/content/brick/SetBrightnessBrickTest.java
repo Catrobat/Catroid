@@ -29,18 +29,17 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
+import at.tugraz.ist.catroid.content.bricks.SetBrightnessBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
-import at.tugraz.ist.catroid.uitest.util.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class SetSizeToTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class SetBrightnessBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
-	private SetSizeToBrick setSizeToBrick;
+	private SetBrightnessBrick SetBrightnessBrick;
 
-	public SetSizeToTest() {
+	public SetBrightnessBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
 	}
 
@@ -63,7 +62,7 @@ public class SetSizeToTest extends ActivityInstrumentationTestCase2<ScriptActivi
 	}
 
 	@Smoke
-	public void testSetSizeToBrick() {
+	public void testSetBrightnessBrick() {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
 		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
@@ -74,29 +73,27 @@ public class SetSizeToTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
 				getActivity().getAdapter().getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_set_size_to)));
+		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_set_brightness)));
 
-		double newSize = 25;
+		double newBrightness = 65.5;
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
-		solo.enterText(0, newSize + "");
+		solo.enterText(0, newBrightness + "");
 		solo.clickOnButton(0);
 
 		solo.sleep(1000);
 
-		double actualSize = (Double) Utils.getPrivateField("size", setSizeToBrick);
-
-		assertEquals("Wrong text in field", newSize, actualSize);
-		assertEquals("Text not updated", newSize, Double.parseDouble(solo.getEditText(0).getText().toString()));
+		assertEquals("Wrong text in field", newBrightness, SetBrightnessBrick.getBrightnessValue());
+		assertEquals("Text not updated", newBrightness, Double.parseDouble(solo.getEditText(0).getText().toString()));
 	}
 
 	private void createProject() {
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript("script", sprite);
-		setSizeToBrick = new SetSizeToBrick(sprite, 20);
-		script.addBrick(setSizeToBrick);
+		SetBrightnessBrick = new SetBrightnessBrick(sprite, 30.5);
+		script.addBrick(SetBrightnessBrick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);

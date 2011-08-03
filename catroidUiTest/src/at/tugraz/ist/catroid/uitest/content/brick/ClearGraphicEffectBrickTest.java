@@ -29,26 +29,16 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.content.bricks.HideBrick;
-import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
-import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
-import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
+import at.tugraz.ist.catroid.content.bricks.ClearGraphicEffectBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
-import at.tugraz.ist.catroid.uitest.util.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-/**
- * 
- * @author Daniel Burtscher
- * 
- */
-public class PlaceAtTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class ClearGraphicEffectBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
-	private PlaceAtBrick placeAtBrick;
 
-	public PlaceAtTest() {
+	public ClearGraphicEffectBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
 	}
 
@@ -71,62 +61,26 @@ public class PlaceAtTest extends ActivityInstrumentationTestCase2<ScriptActivity
 	}
 
 	@Smoke
-	public void testPlaceAtBrick() throws InterruptedException {
+	public void testClearGraphicEffectBrick() {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
-
-		assertEquals("Incorrect number of bricks.", 5, solo.getCurrentListViews().get(0).getChildCount());
-		assertEquals("Incorrect number of bricks.", 4, childrenCount);
+		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
+		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
-		assertEquals("Incorrect number of bricks.", 4, projectBrickList.size());
+		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
 				getActivity().getAdapter().getChild(groupCount - 1, 0));
-		assertEquals("Wrong Brick instance.", projectBrickList.get(1),
-				getActivity().getAdapter().getChild(groupCount - 1, 1));
-		assertEquals("Wrong Brick instance.", projectBrickList.get(2),
-				getActivity().getAdapter().getChild(groupCount - 1, 2));
-		assertEquals("Wrong Brick instance.", projectBrickList.get(3),
-				getActivity().getAdapter().getChild(groupCount - 1, 3));
-		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_place_at)));
-
-		int xPosition = 987;
-		int yPosition = 654;
-
-		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, xPosition + "");
-		solo.clickOnButton(0);
-
-		Thread.sleep(300);
-		int actualXPosition = (Integer) Utils.getPrivateField("xPosition", placeAtBrick);
-		assertEquals("Text not updated", xPosition + "", solo.getEditText(0).getText().toString());
-		assertEquals("Value in Brick is not updated", xPosition, actualXPosition);
-
-		solo.clickOnEditText(1);
-		solo.clearEditText(0);
-		solo.enterText(0, yPosition + "");
-		solo.clickOnButton(0);
-
-		Thread.sleep(300);
-		int actualYPosition = (Integer) Utils.getPrivateField("yPosition", placeAtBrick);
-		assertEquals("Text not updated", yPosition + "", solo.getEditText(1).getText().toString());
-		assertEquals("Value in Brick is not updated", yPosition, actualYPosition);
+		assertNotNull("TextView does not exist",
+				solo.getText(getActivity().getString(R.string.brick_clear_graphic_effect)));
 	}
 
 	private void createProject() {
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript("script", sprite);
-		script.addBrick(new HideBrick(sprite));
-		placeAtBrick = new PlaceAtBrick(sprite, 105, 206);
-		script.addBrick(placeAtBrick);
-		PlaySoundBrick soundBrick = new PlaySoundBrick(sprite);
-		soundBrick.setPathToSoundfile("sound.mp3");
-		script.addBrick(soundBrick);
-
-		script.addBrick(new SetSizeToBrick(sprite, 80));
+		script.addBrick(new ClearGraphicEffectBrick(sprite));
 
 		sprite.addScript(script);
 		project.addSprite(sprite);
@@ -135,5 +89,4 @@ public class PlaceAtTest extends ActivityInstrumentationTestCase2<ScriptActivity
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
 }
