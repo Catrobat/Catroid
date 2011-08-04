@@ -362,10 +362,10 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		int width = costume.getImageWidth();
 		int height = costume.getImageHeight();
 
-		if (inSpriteXCoordinate < 0 || inSpriteXCoordinate > width) {
+		if (inSpriteXCoordinate < 0 || inSpriteXCoordinate >= width) {
 			return false;
 		}
-		if (inSpriteYCoordinate < 0 || inSpriteYCoordinate > height) {
+		if (inSpriteYCoordinate < 0 || inSpriteYCoordinate >= height) {
 			return false;
 		}
 		if (Color.alpha(costume.getBitmap().getPixel(inSpriteXCoordinate, inSpriteYCoordinate)) <= MIN_ALPHA) {
