@@ -94,7 +94,7 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		solo.enterText(0, newName);
 		solo.sleep(100);
 		solo.clickOnButton(getActivity().getString(R.string.ok));
-		solo.sleep(500);
+		solo.sleep(600);
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		assertEquals("sound is not renamed in SoundList", newName, soundInfoList.get(0).getTitle());
 		if (!solo.searchText(newName)) {
