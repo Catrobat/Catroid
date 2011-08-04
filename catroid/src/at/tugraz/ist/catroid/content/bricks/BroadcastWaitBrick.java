@@ -53,7 +53,7 @@ public class BroadcastWaitBrick implements Brick {
 	private String selectedMessage = "";
 
 	@XStreamOmitField
-	private View view;
+	private transient View view;
 
 	public BroadcastWaitBrick(Sprite sprite) {
 		this.sprite = sprite;

@@ -52,7 +52,7 @@ public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable 
 	private String title;
 
 	@XStreamOmitField
-	private View view;
+	private transient View view;
 
 	private transient ArrayList<SoundInfo> soundList;
 	private transient Dialog soundDialog;

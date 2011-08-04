@@ -32,7 +32,7 @@ public class ComeToFrontBrick implements Brick {
 	private Sprite sprite;
 
 	@XStreamOmitField
-	private View view;
+	private transient View view;
 
 	public ComeToFrontBrick(Sprite sprite) {
 		this.sprite = sprite;

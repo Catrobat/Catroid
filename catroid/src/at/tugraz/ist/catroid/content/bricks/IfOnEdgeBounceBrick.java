@@ -33,7 +33,7 @@ public class IfOnEdgeBounceBrick implements Brick {
 	private Sprite sprite;
 
 	@XStreamOmitField
-	private View view;
+	private transient View view;
 
 	public IfOnEdgeBounceBrick(Sprite sprite) {
 		this.sprite = sprite;

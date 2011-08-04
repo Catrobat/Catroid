@@ -38,7 +38,7 @@ public class PlaceAtBrick implements Brick, OnDismissListener {
 	private Sprite sprite;
 
 	@XStreamOmitField
-	private View view;
+	private transient View view;
 
 	public PlaceAtBrick(Sprite sprite, int xPosition, int yPosition) {
 		this.sprite = sprite;

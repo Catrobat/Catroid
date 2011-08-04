@@ -39,7 +39,7 @@ public class SetCostumeBrick implements Brick {
 	private Sprite sprite;
 	private String imageName;
 	@XStreamOmitField
-private View view;
+private transient View view;
 
 	@XStreamOmitField
 	private transient Bitmap thumbnail;

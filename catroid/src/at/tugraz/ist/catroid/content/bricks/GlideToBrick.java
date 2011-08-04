@@ -40,7 +40,7 @@ public class GlideToBrick implements Brick, OnDismissListener {
 	private Sprite sprite;
 
 	@XStreamOmitField
-	private View view;
+	private transient View view;
 
 	public GlideToBrick(Sprite sprite, int xDestination, int yDestination, int durationInMilliSeconds) {
 		this.sprite = sprite;

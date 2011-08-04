@@ -34,7 +34,7 @@ public class IfStartedBrick implements Brick {
 	private Sprite sprite;
 
 	@XStreamOmitField
-	private View view;
+	private transient View view;
 
 	public IfStartedBrick(Sprite sprite, Script script) {
 		this.script = script;

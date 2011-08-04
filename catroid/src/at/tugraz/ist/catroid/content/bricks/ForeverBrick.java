@@ -30,7 +30,7 @@ public class ForeverBrick extends LoopBeginBrick {
 	private static final long serialVersionUID = 1L;
 
 	@XStreamOmitField
-	private View view;
+	private transient View view;
 
 	public ForeverBrick(Sprite sprite) {
 		this.sprite = sprite;
