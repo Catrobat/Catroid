@@ -91,7 +91,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		solo.enterText(0, newName);
 		solo.sleep(300);
 		solo.clickOnButton(getActivity().getString(R.string.ok));
-		solo.sleep(400);
+		solo.sleep(500);
 		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
 		assertEquals("costume is not renamed in CostumeList", newName, costumeDataList.get(0).getCostumeName());
 		if (!solo.searchText(newName)) {

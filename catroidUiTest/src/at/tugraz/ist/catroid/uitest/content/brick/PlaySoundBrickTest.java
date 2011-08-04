@@ -103,6 +103,12 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		}
 		getActivity().finish();
 		UiTestUtils.clearAllUtilTestProjects();
+		if (soundFile.exists()) {
+			soundFile.delete();
+		}
+		if (soundFile2.exists()) {
+			soundFile2.delete();
+		}
 		super.tearDown();
 	}
 
