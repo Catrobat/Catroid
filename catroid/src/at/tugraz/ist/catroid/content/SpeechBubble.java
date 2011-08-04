@@ -160,10 +160,13 @@ public class SpeechBubble implements Serializable {
 		Point currentPointRight = new Point();
 		for (currentPointRight.x = boarderPointRight.x; currentPointRight.x >= costumeCenterPointX; currentPointRight.x--) {
 			currentPointRight.y = (int) (((currentPointRight.x - costumeCenterPointX) * gradientRight) + offsetRight);
-			if (costumeBitmap.getPixel(currentPointRight.x, currentPointRight.y) != 0) {
-				innerPointRight.x = currentPointRight.x;
-				innerPointRight.y = currentPointRight.y;
-				break;
+			if (0 <= currentPointRight.x && currentPointRight.x < costumeWidth && 0 <= currentPointRight.y
+					&& currentPointRight.y < costumeHeight) {
+				if (costumeBitmap.getPixel(currentPointRight.x, currentPointRight.y) != 0) {
+					innerPointRight.x = currentPointRight.x;
+					innerPointRight.y = currentPointRight.y;
+					break;
+				}
 			}
 		}
 
@@ -198,12 +201,14 @@ public class SpeechBubble implements Serializable {
 		}
 		for (currentPointLeft.x = boarderPointLeft.x; currentPointLeft.x <= costumeCenterPointX; currentPointLeft.x++) {
 			currentPointLeft.y = (int) (((currentPointLeft.x - costumeCenterPointX) * gradientLeft) + offsetLeft);
-			if (costumeBitmap.getPixel(currentPointLeft.x, currentPointLeft.y) != 0) {
-				innerPointLeft.x = currentPointLeft.x;
-				innerPointLeft.y = currentPointLeft.y;
-				break;
+			if (0 <= currentPointLeft.x && currentPointLeft.x < costumeWidth && 0 <= currentPointLeft.y
+					&& currentPointLeft.y < costumeHeight) {
+				if (costumeBitmap.getPixel(currentPointLeft.x, currentPointLeft.y) != 0) {
+					innerPointLeft.x = currentPointLeft.x;
+					innerPointLeft.y = currentPointLeft.y;
+					break;
+				}
 			}
-
 		}
 
 		pinPointLeft.x = innerPointLeft.x + costumePosX;

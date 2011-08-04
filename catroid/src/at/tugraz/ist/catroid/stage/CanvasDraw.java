@@ -99,16 +99,22 @@ public class CanvasDraw implements IDraw {
 					continue; //don't need to draw
 				}
 				if (sprite.getCostume().getBitmap() != null) {
-					Costume tempCostume = sprite.getCostume();
-					SpeechBubble tempBubble = sprite.getBubble();
-					
-					bufferCanvas.drawBitmap(tempCostume.getBitmap(), tempCostume.getDrawPositionX(),
-							tempCostume.getDrawPositionY(), null);
+					try {
+						Costume tempCostume = sprite.getCostume();
+						SpeechBubble tempBubble = sprite.getBubble();
 
-					if (!sprite.getName().equals(activity.getString(R.string.background))) {
-						tempBubble.draw(bufferCanvas, tempCostume, activity);
+						bufferCanvas.drawBitmap(tempCostume.getBitmap(), tempCostume.getDrawPositionX(),
+								tempCostume.getDrawPositionY(), null);
+
+						if (!sprite.getName().equals(activity.getString(R.string.background))) {
+
+							tempBubble.draw(bufferCanvas, tempCostume, activity);
+
+						}
+						sprite.setToDraw(false);
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
-					sprite.setToDraw(false);
 				}
 			}
 			bufferCanvas.drawBitmap(screenshotIcon, screenshotIconXPosition, Consts.SCREENSHOT_ICON_PADDING_TOP, null);
@@ -122,7 +128,7 @@ public class CanvasDraw implements IDraw {
 			return true;
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			return false;
 
 		} finally {
@@ -158,7 +164,7 @@ public class CanvasDraw implements IDraw {
 			Vibrator vibrator = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
 			vibrator.vibrate(100);
 			if (saveThumbnail(true)) {
-				toastText = activity.getString(R.string.screenshot_ok);
+				toastText = activity.getString(R.string.notification_screenshot_ok);
 			} else {
 				toastText = activity.getString(R.string.error_screenshot_failed);
 			}
