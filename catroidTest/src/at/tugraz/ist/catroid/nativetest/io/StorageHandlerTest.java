@@ -16,7 +16,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package at.tugraz.ist.catroid.nativetest.io;
 
 import java.io.IOException;
@@ -80,48 +79,48 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 				.getName());
 
 		assertEquals("Name of script does not match.", firstStartScriptName, loadedProject.getSpriteList().get(1)
-				.getScriptList().get(0).getName());
+				.getScript(0).getName());
 		assertEquals("Name of script does not match.", firstTapScriptName, loadedProject.getSpriteList().get(1)
-				.getScriptList().get(1).getName());
+				.getScript(1).getName());
 		assertEquals("Name of script does not match.", secondStartScriptName, loadedProject.getSpriteList().get(2)
-				.getScriptList().get(0).getName());
+				.getScript(0).getName());
 
-		assertEquals("HideBrick was not loaded right", HideBrick.class, loadedProject.getSpriteList().get(1)
-				.getScriptList().get(0).getBrickList().get(0).getClass());
-		assertEquals("ShowBrick was not loaded right", ShowBrick.class, loadedProject.getSpriteList().get(1)
-				.getScriptList().get(0).getBrickList().get(1).getClass());
+		assertEquals("HideBrick was not loaded right", HideBrick.class,
+				loadedProject.getSpriteList().get(1).getScript(0).getBrickList().get(0).getClass());
+		assertEquals("ShowBrick was not loaded right", ShowBrick.class,
+				loadedProject.getSpriteList().get(1).getScript(0).getBrickList().get(1).getClass());
 		assertEquals("ScaleBrick was not loaded right", scaleValue, ((SetSizeToBrick) (loadedProject.getSpriteList()
-				.get(1).getScriptList().get(0).getBrickList().get(2))).getSize());
+				.get(1).getScript(0).getBrickList().get(2))).getSize());
 		assertEquals("ComeToFrontBrick was not loaded right", ComeToFrontBrick.class, loadedProject.getSpriteList()
-				.get(1).getScriptList().get(0).getBrickList().get(3).getClass());
+				.get(1).getScript(0).getBrickList().get(3).getClass());
 		assertEquals("SetCostumeBrick was not loaded right", SetCostumeBrick.class, loadedProject.getSpriteList()
-				.get(1).getScriptList().get(0).getBrickList().get(4).getClass());
+				.get(1).getScript(0).getBrickList().get(4).getClass());
 
 		assertEquals("WaitBrick was not loaded right", timeToWaitInMilliSeconds, ((WaitBrick) (loadedProject
-				.getSpriteList().get(1).getScriptList().get(1).getBrickList().get(0))).getWaitTime());
+				.getSpriteList().get(1).getScript(1).getBrickList().get(0))).getWaitTime());
 		assertEquals("PlaySoundBrick was not loaded right", PlaySoundBrick.class, loadedProject.getSpriteList().get(1)
-				.getScriptList().get(1).getBrickList().get(1).getClass());
+				.getScript(1).getBrickList().get(1).getClass());
 
 		assertEquals("PlaceAtBrick was not loaded right", xPosition, ((PlaceAtBrick) (loadedProject.getSpriteList()
-				.get(2).getScriptList().get(0).getBrickList().get(0))).getXPosition());
+				.get(2).getScript(0).getBrickList().get(0))).getXPosition());
 		assertEquals("PlaceAtBrick was not loaded right", yPosition, ((PlaceAtBrick) (loadedProject.getSpriteList()
-				.get(2).getScriptList().get(0).getBrickList().get(0))).getYPosition());
+				.get(2).getScript(0).getBrickList().get(0))).getYPosition());
 		assertEquals("SetXBrick was not loaded right", xPosition, ((SetXBrick) (loadedProject.getSpriteList().get(2)
-				.getScriptList().get(0).getBrickList().get(1))).getXPosition());
+				.getScript(0).getBrickList().get(1))).getXPosition());
 		assertEquals("SetYBrick was not loaded right", yPosition, ((SetYBrick) (loadedProject.getSpriteList().get(2)
-				.getScriptList().get(0).getBrickList().get(2))).getYPosition());
+				.getScript(0).getBrickList().get(2))).getYPosition());
 		assertEquals("ChangeXByBrick was not loaded right", xMovement, ((ChangeXByBrick) (loadedProject.getSpriteList()
-				.get(2).getScriptList().get(0).getBrickList().get(3))).getXMovement());
+				.get(2).getScript(0).getBrickList().get(3))).getXMovement());
 		assertEquals("ChangeYByBrick was not loaded right", yMovement, ((ChangeYByBrick) (loadedProject.getSpriteList()
-				.get(2).getScriptList().get(0).getBrickList().get(4))).getYMovement());
+				.get(2).getScript(0).getBrickList().get(4))).getYMovement());
 		assertEquals("GlideToBrick was not loaded right", xDestination, ((GlideToBrick) (loadedProject.getSpriteList()
-				.get(2).getScriptList().get(0).getBrickList().get(5))).getXDestination());
+				.get(2).getScript(0).getBrickList().get(5))).getXDestination());
 		assertEquals("GlideToBrick was not loaded right", yDestination, ((GlideToBrick) (loadedProject.getSpriteList()
-				.get(2).getScriptList().get(0).getBrickList().get(5))).getYDestination());
+				.get(2).getScript(0).getBrickList().get(5))).getYDestination());
 		assertEquals("GlideToBrick was not loaded right", durationInMilliSeconds, ((GlideToBrick) (loadedProject
-				.getSpriteList().get(2).getScriptList().get(0).getBrickList().get(5))).getDurationInMilliSeconds());
+				.getSpriteList().get(2).getScript(0).getBrickList().get(5))).getDurationInMilliSeconds());
 		assertEquals("GoNStepsBackBrick was not loaded right", steps, ((GoNStepsBackBrick) (loadedProject
-				.getSpriteList().get(2).getScriptList().get(0).getBrickList().get(6))).getSteps());
+				.getSpriteList().get(2).getScript(0).getBrickList().get(6))).getSteps());
 
 	}
 }
