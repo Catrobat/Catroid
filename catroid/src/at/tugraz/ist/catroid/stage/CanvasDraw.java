@@ -84,11 +84,8 @@ public class CanvasDraw implements IDraw {
 	}
 
 	public synchronized boolean draw() {
-		try {
-			canvas = holder.lockCanvas();
-			if (canvas == null) {
-				throw new Exception();
-			}
+		canvas = holder.lockCanvas();
+		if (canvas != null) {
 
 			// draw white rectangle:
 			bufferCanvas.drawRect(flushRectangle, whitePaint);
@@ -99,22 +96,22 @@ public class CanvasDraw implements IDraw {
 					continue; //don't need to draw
 				}
 				if (sprite.getCostume().getBitmap() != null) {
-					try {
-						Costume tempCostume = sprite.getCostume();
-						SpeechBubble tempBubble = sprite.getBubble();
+					//try {
+					Costume tempCostume = sprite.getCostume();
+					SpeechBubble tempBubble = sprite.getBubble();
 
-						bufferCanvas.drawBitmap(tempCostume.getBitmap(), tempCostume.getDrawPositionX(),
-								tempCostume.getDrawPositionY(), null);
+					bufferCanvas.drawBitmap(tempCostume.getBitmap(), tempCostume.getDrawPositionX(),
+							tempCostume.getDrawPositionY(), null);
 
-						if (!sprite.getName().equals(activity.getString(R.string.background))) {
+					if (!sprite.getName().equals(activity.getString(R.string.background))) {
 
-							tempBubble.draw(bufferCanvas, tempCostume, activity);
+						tempBubble.draw(bufferCanvas, tempCostume, activity);
 
-						}
-						sprite.setToDraw(false);
-					} catch (Exception e) {
-						e.printStackTrace();
 					}
+					sprite.setToDraw(false);
+					//} catch (Exception e) {
+					//e.printStackTrace();
+					//}
 				}
 			}
 			bufferCanvas.drawBitmap(screenshotIcon, screenshotIconXPosition, Consts.SCREENSHOT_ICON_PADDING_TOP, null);
@@ -125,18 +122,12 @@ public class CanvasDraw implements IDraw {
 				firstRun = false;
 			}
 
-			return true;
-
-		} catch (Exception e) {
-			//e.printStackTrace();
+		} else {
 			return false;
-
-		} finally {
-			if (canvas != null) {
-				holder.unlockCanvasAndPost(canvas);
-			}
 		}
 
+		holder.unlockCanvasAndPost(canvas);
+		return true;
 	}
 
 	public synchronized void drawPauseScreen(Bitmap pauseBitmap) {
