@@ -227,15 +227,14 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 			ExpandableListView.ExpandableListContextMenuInfo info = (ExpandableListView.ExpandableListContextMenuInfo) menuInfo;
 			menu.setHeaderTitle("Script Menu");
 
-			if (ExpandableListView.getPackedPositionType(info.packedPosition) == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-				return;
+			if (ExpandableListView.getPackedPositionType(info.packedPosition) != ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+
+				int position = ExpandableListView.getPackedPositionGroup(info.packedPosition);
+				scriptToEdit = adapter.getGroup(position);
+
+				MenuInflater inflater = getMenuInflater();
+				inflater.inflate(R.menu.script_menu, menu);
 			}
-
-			int position = ExpandableListView.getPackedPositionGroup(info.packedPosition);
-			scriptToEdit = adapter.getGroup(position);
-
-			MenuInflater inflater = getMenuInflater();
-			inflater.inflate(R.menu.script_menu, menu);
 		}
 	}
 

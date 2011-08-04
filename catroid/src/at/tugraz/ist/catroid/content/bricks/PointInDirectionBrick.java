@@ -36,7 +36,7 @@ public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 	private double direction;
 
 	@XStreamOmitField
-	private View view;
+	private transient View view;
 
 	public PointInDirectionBrick(Sprite sprite, double direction) {
 		this.sprite = sprite;

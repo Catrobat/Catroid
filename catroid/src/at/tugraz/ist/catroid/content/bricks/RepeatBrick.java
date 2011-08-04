@@ -36,7 +36,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnDismissListener {
 	private int timesToRepeat;
 
 	@XStreamOmitField
-	private View view;
+	private transient View view;
 
 	public RepeatBrick(Sprite sprite, int timesToRepeat) {
 		this.sprite = sprite;

@@ -31,7 +31,7 @@ public class HideBrick implements Brick {
 	private Sprite sprite;
 
 	@XStreamOmitField
-	private View view;
+	private transient View view;
 
 	public HideBrick(Sprite sprite) {
 		this.sprite = sprite;

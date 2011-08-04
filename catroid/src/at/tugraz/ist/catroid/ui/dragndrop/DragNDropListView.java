@@ -113,6 +113,7 @@ public class DragNDropListView extends ExpandableListView implements OnLongClick
 							dragAndDropListener.drop(firstDragPosition, dragPosition);
 						}
 					}
+
 					break;
 			}
 		}
@@ -141,6 +142,7 @@ public class DragNDropListView extends ExpandableListView implements OnLongClick
 					} else {
 						dragAndDropListener.drop(firstDragPosition, dragPosition);
 					}
+
 					break;
 
 				case MotionEvent.ACTION_DOWN:
@@ -151,6 +153,7 @@ public class DragNDropListView extends ExpandableListView implements OnLongClick
 
 					int y = (int) ev.getY();
 					int itemPosition = pointToPosition((int) ev.getX(), y);
+
 					dragView((int) ev.getX(), (int) ev.getRawY());
 					if (itemPosition >= 0) {
 						dragAndDropListener.drag(dragPosition, itemPosition);
@@ -165,6 +168,7 @@ public class DragNDropListView extends ExpandableListView implements OnLongClick
 						}
 
 					}
+
 					break;
 			}
 			return true;
@@ -233,19 +237,18 @@ public class DragNDropListView extends ExpandableListView implements OnLongClick
 			dragView.setImageDrawable(null);
 			dragView = null;
 		}
-		invalidate();
 	}
 
 	public boolean onLongClick(View v) {
 
-		System.out.println("DragNDropListView.onLongClick() view: " + v);
-
 		int itemPosition = pointToPosition(v.getLeft(), v.getTop());
 		dragPoint = v.getHeight() / 2;
 
+		boolean drawingCacheEnabled = v.isDrawingCacheEnabled();
+
 		v.setDrawingCacheEnabled(true);
 		Bitmap bitmap = Bitmap.createBitmap(v.getDrawingCache());
-		v.setDrawingCacheEnabled(false);
+		v.setDrawingCacheEnabled(drawingCacheEnabled);
 
 		startDragging(bitmap, motionPositionY);
 		dragAndDropListener.drag(itemPosition, itemPosition);

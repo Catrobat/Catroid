@@ -32,7 +32,7 @@ public class ShowBrick implements Brick {
 	private Sprite sprite;
 
 	@XStreamOmitField
-	private View view;
+	private transient View view;
 
 	public ShowBrick(Sprite sprite) {
 		this.sprite = sprite;

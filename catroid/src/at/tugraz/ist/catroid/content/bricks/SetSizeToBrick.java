@@ -37,7 +37,7 @@ public class SetSizeToBrick implements Brick, OnDismissListener {
 	private double size;
 
 	@XStreamOmitField
-	private View view;
+	private transient View view;
 
 	public SetSizeToBrick(Sprite sprite, double size) {
 		this.sprite = sprite;

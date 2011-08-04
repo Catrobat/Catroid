@@ -32,7 +32,7 @@ public class StopAllSoundsBrick implements Brick {
 	private Sprite sprite;
 
 	@XStreamOmitField
-	private View view;
+	private transient View view;
 
 	public StopAllSoundsBrick(Sprite sprite) {
 		this.sprite = sprite;

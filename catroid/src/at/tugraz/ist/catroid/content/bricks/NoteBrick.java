@@ -36,7 +36,7 @@ public class NoteBrick implements Brick {
 	private String note = "";
 
 	@XStreamOmitField
-	private View view;
+	private transient View view;
 
 	private final transient int MAXLINES = 5;
 

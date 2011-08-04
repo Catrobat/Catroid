@@ -37,7 +37,7 @@ public class ChangeXByBrick implements Brick, OnDismissListener {
 	private Sprite sprite;
 
 	@XStreamOmitField
-	private View view;
+	private transient View view;
 
 	public ChangeXByBrick(Sprite sprite, int xMovement) {
 		this.sprite = sprite;

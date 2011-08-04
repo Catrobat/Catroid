@@ -40,7 +40,7 @@ public class TurnLeftBrick implements Brick, OnDismissListener {
 	private double degrees;
 
 	@XStreamOmitField
-	private View view;
+	private transient View view;
 
 	public TurnLeftBrick(Sprite sprite, double degrees) {
 		this.sprite = sprite;

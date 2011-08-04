@@ -39,7 +39,7 @@ public class MoveNStepsBrick implements Brick, OnDismissListener {
 	private double steps;
 
 	@XStreamOmitField
-	private View view;
+	private transient View view;
 
 	public MoveNStepsBrick(Sprite sprite, double steps) {
 		this.sprite = sprite;

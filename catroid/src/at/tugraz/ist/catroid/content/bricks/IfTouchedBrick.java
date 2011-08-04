@@ -34,7 +34,7 @@ public class IfTouchedBrick implements Brick {
 	private Sprite sprite;
 
 	@XStreamOmitField
-	private View view;
+	private transient View view;
 
 	public IfTouchedBrick(Sprite sprite, Script touchScript) {
 		this.touchScript = touchScript;

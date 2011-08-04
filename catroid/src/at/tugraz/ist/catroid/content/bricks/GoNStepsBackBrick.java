@@ -37,7 +37,7 @@ public class GoNStepsBackBrick implements Brick, OnDismissListener {
 	private int steps;
 
 	@XStreamOmitField
-	private View view;
+	private transient View view;
 
 	public GoNStepsBackBrick(Sprite sprite, int steps) {
 		this.sprite = sprite;

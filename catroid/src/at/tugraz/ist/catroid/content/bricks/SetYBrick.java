@@ -37,7 +37,7 @@ public class SetYBrick implements Brick, OnDismissListener {
 	private Sprite sprite;
 
 	@XStreamOmitField
-	private View view;
+	private transient View view;
 
 	public SetYBrick(Sprite sprite, int yPosition) {
 		this.sprite = sprite;
