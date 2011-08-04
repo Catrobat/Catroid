@@ -37,7 +37,7 @@ public class SpeechBubble implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final boolean DEBUG_DRAW = true;
+	private static boolean DEBUG_DRAW = false;
 	private String speechBubbleText = "";
 	private int speechBubblePictureID = 0;
 	private int speechBubblePictureInvID = 0;
@@ -61,6 +61,10 @@ public class SpeechBubble implements Serializable {
 	private Point pinPointLeft = new Point(0, 0);
 
 	private Vector<String> textGrid = new Vector<String>();
+
+	public static void setVisualMode(boolean drawAdditionalLines) {
+		DEBUG_DRAW = drawAdditionalLines;
+	}
 
 	public SpeechBubble() {
 		textPaint = new Paint();
