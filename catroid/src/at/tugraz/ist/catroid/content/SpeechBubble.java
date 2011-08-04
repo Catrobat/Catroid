@@ -31,7 +31,6 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.NinePatchDrawable;
-import android.util.Log;
 import at.tugraz.ist.catroid.common.Values;
 
 public class SpeechBubble implements Serializable {
@@ -348,10 +347,9 @@ public class SpeechBubble implements Serializable {
 
 		if (oldTextBuffer.length() != 0) {
 			textGrid.add(oldTextBuffer);
-			Log.v("TextSplit|add3", oldTextBuffer);
+
 		}
 
-		Log.v("TextSplit", textGrid.toString());
 	}
 
 	private void updateBubbleScaling() {
