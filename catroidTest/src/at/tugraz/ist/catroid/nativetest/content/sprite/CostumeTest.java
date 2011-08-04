@@ -16,7 +16,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package at.tugraz.ist.catroid.nativetest.content.sprite;
 
 import android.graphics.BitmapFactory;
@@ -24,7 +23,7 @@ import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Costume;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.nativetest.R;
+import at.tugraz.ist.catroid.test.R;
 
 public class CostumeTest extends InstrumentationTestCase {
 	private final int TEST_IMAGE_ID = R.drawable.icon;
