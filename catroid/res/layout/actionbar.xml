@@ -27,5 +27,4 @@
 		android:background="@drawable/actionbar_background"
 	>
 	</LinearLayout>
-	<include layout="@layout/actionbar_shadow" />
 </merge>
