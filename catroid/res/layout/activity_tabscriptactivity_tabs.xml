@@ -4,7 +4,7 @@
 	android:id="@+id/tabsLayout" 
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent" 
-	android:background="@drawable/tab_bg_selector"
+	android:background="@drawable/tab_background_selector"
 	android:gravity="center" 
 	android:orientation="vertical">
 

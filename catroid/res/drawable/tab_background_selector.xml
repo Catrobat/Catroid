@@ -18,11 +18,23 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_selected="true" 
-    	android:color="@android:color/white" />
-    <item android:state_focused="true" 
-    	android:color="@android:color/white" />
-    <item android:state_pressed="true" 
-    	android:color="@android:color/white" />
-    <item android:color="#f8f8f8" />
-</selector>
+
+	<!--  Active tab -->
+	<item android:state_selected="true" 
+		android:state_focused="false"
+		android:state_pressed="false" 
+		android:drawable="@drawable/tab_background_selected" />
+	<!--  Inactive tab -->
+	<item android:state_selected="false" 
+		android:state_focused="false"
+		android:state_pressed="false" 
+		android:drawable="@drawable/tab_background_unselected" />
+	<!--  Pressed tab -->
+	<item android:state_pressed="true" 
+		android:drawable="@color/transparent" />
+	<!--  Selected tab (using d-pad) -->
+	<item android:state_focused="true" 
+		android:state_selected="true"
+		android:state_pressed="false" 
+		android:drawable="@color/transparent" />
+</selector> 

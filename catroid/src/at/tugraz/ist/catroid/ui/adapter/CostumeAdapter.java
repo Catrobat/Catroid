@@ -78,7 +78,7 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 			costumeImage.setImageBitmap(costumeData.getThumbnailBitmap());
 			costumeNameTextField.setText(costumeData.getCostumeName());
 
-			//setting duration and costume size:
+			//setting resolution and costume size:
 			{
 				int[] resolution = costumeData.getResolution();
 				costumeResolution.setText(resolution[0] + " x " + resolution[1]);

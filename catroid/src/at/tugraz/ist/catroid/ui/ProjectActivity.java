@@ -222,12 +222,6 @@ public class ProjectActivity extends ListActivity {
 		newSpriteDialog.newSpriteDialog.cancel();
 	}
 
-	//	public void handleProjectActivityItemClick(AdapterView<?> parent, View view, int position, long id) {
-	//		ProjectManager.getInstance().setCurrentSprite(spriteAdapter.getItem(position));
-	//		Intent intent = new Intent(ProjectActivity.this, ScriptTabActivity.class);
-	//		ProjectActivity.this.startActivity(intent);
-	//	}
-
 	public void handleProjectActivityItemLongClick(View view) {
 
 	}

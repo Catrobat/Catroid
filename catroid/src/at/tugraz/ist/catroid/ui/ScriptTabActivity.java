@@ -61,32 +61,6 @@ public class ScriptTabActivity extends TabActivity {
 		setupTab(new TextView(this), this.getString(R.string.sounds), intent);
 
 		setUpActionBar();
-
-		//		TabHost tabHost = getTabHost(); // The activity TabHost
-		//		TabHost.TabSpec spec; // Resusable TabSpec for each tab
-		//		Intent intent; // Reusable Intent for each tab
-		//
-		//		// Create an Intent to launch an Activity for the tab (to be reused)
-		//		intent = new Intent().setClass(this, ScriptActivity.class);
-		//
-		//		// Initialize a TabSpec for each tab and add it to the TabHost
-		//		spec = tabHost.newTabSpec("script").setIndicator(this.getString(R.string.scripts)).setContent(intent);
-		//		tabHost.addTab(spec);
-		//
-		//		//costumeactivity
-		//		intent = new Intent().setClass(this, CostumeActivity.class);
-		//		spec = tabHost.newTabSpec("costumes").setIndicator(this.getString(R.string.costumes)).setContent(intent);
-		//		tabHost.addTab(spec);
-		//
-		//		//soundactivity
-		//		intent = new Intent().setClass(this, SoundActivity.class);
-		//		spec = tabHost.newTabSpec("sounds").setIndicator(this.getString(R.string.sounds)).setContent(intent);
-		//		tabHost.addTab(spec);
-		//
-		//		tabHost.setCurrentTab(0);
-		//
-		//		//action bar:
-		//		setUpActionBar();
 	}
 
 	private void setUpActionBar() {
@@ -115,7 +89,7 @@ public class ScriptTabActivity extends TabActivity {
 	}
 
 	private static View createTabView(final Context context, final String text) {
-		View view = LayoutInflater.from(context).inflate(R.layout.tabs_bg, null);
+		View view = LayoutInflater.from(context).inflate(R.layout.activity_tabscriptactivity_tabs, null);
 		TextView tv = (TextView) view.findViewById(R.id.tabsText);
 		tv.setText(text);
 		return view;
