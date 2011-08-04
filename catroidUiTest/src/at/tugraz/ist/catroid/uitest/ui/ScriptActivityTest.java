@@ -89,9 +89,10 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 		ArrayList<Integer> yPosList = getListItemYPositions();
 		assertTrue("Test project brick list smaller than expected", yPosList.size() >= 6);
 
-		solo.sleep(1000);
-		solo.drag(30, 30, yPosList.get(4), (yPosList.get(1) + yPosList.get(2)) / 2 + 30, 20);
+		solo.clickLongInList(4);
+		solo.drag(30, 30, yPosList.get(4), yPosList.get(2), 20);
 		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
+		solo.sleep(1000);
 
 		assertEquals("Brick count not equal before and after dragging & dropping", brickListToCheck.size(),
 				brickList.size());
@@ -106,6 +107,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 		ArrayList<Integer> yPosList = getListItemYPositions();
 		assertTrue("Test project brick list smaller than expected", yPosList.size() >= 6);
 
+		solo.clickLongInList(3);
 		solo.drag(30, 400, yPosList.get(2), (yPosList.get(4) + yPosList.get(5)) / 2, 20);
 		solo.sleep(1000);
 		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
