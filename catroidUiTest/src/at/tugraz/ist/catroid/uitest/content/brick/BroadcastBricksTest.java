@@ -33,15 +33,16 @@ import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.BroadcastBrick;
 import at.tugraz.ist.catroid.content.bricks.BroadcastWaitBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
 	private Solo solo;
 	private Project project;
 
 	public BroadcastBricksTest() {
-		super("at.tugraz.ist.catroid", ScriptActivity.class);
+		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
 	}
 
 	@Override
@@ -64,16 +65,18 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 
 	@Smoke
 	public void testBroadcastBricks() {
-		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
-		int groupCount = getActivity().getAdapter().getGroupCount();
+
+		int childrenCount = ((ScriptActivity) getActivity().getCurrentActivity()).getAdapter()
+				.getChildCountFromLastGroup();
+		int groupCount = ((ScriptActivity) getActivity().getCurrentActivity()).getAdapter().getGroupCount();
 		assertEquals("Incorrect number of bricks.", 3, solo.getCurrentListViews().get(0).getChildCount());
 		assertEquals("Incorrect number of bricks.", 2, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 2, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
-				getActivity().getAdapter().getChild(groupCount - 1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0), ((ScriptActivity) getActivity()
+				.getCurrentActivity()).getAdapter().getChild(groupCount - 1, 0));
 
 		String testString = "test";
 		String testString2 = "test2";
@@ -82,6 +85,8 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 		solo.clickOnButton(0);
 
 		solo.enterText(0, testString);
+		solo.sleep(200);
+		//solo.clickOnButton(1);
 		solo.clickOnButton(getActivity().getString(R.string.ok));
 
 		assertEquals("Wrong selection", testString, (String) solo.getCurrentSpinners().get(0).getSelectedItem());

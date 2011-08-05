@@ -26,6 +26,7 @@ import android.graphics.BitmapFactory;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -47,10 +48,10 @@ public class SetCostumeBrickTest extends InstrumentationTestCase {
 	@Override
 	protected void setUp() throws Exception {
 
-		File defProject = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);
 
-		if (defProject.exists()) {
-			UtilFile.deleteDirectory(defProject);
+		if (projectFile.exists()) {
+			UtilFile.deleteDirectory(projectFile);
 		}
 
 		project = new Project(getInstrumentation().getTargetContext(), projectName);
@@ -70,10 +71,10 @@ public class SetCostumeBrickTest extends InstrumentationTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		File defProject = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);
 
-		if (defProject.exists()) {
-			UtilFile.deleteDirectory(defProject);
+		if (projectFile.exists()) {
+			UtilFile.deleteDirectory(projectFile);
 		}
 		if (testImage != null && testImage.exists()) {
 			testImage.delete();
@@ -88,7 +89,10 @@ public class SetCostumeBrickTest extends InstrumentationTestCase {
 		Sprite sprite = new Sprite("new sprite");
 		project.addSprite(sprite);
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
-		setCostumeBrick.setCostume(testImage.getName());
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(testImage.getName());
+		costumeData.setCostumeName("testImage");
+		setCostumeBrick.setCostume(costumeData);
 		setCostumeBrick.execute();
 		assertNotNull("current Costume is null", sprite.getCostume());
 

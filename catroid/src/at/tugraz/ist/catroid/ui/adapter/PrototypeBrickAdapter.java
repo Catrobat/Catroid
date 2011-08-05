@@ -74,5 +74,4 @@ public class PrototypeBrickAdapter extends BaseAdapter implements DropListener, 
 		brickList.remove(which);
 		notifyDataSetChanged();
 	}
-
 }

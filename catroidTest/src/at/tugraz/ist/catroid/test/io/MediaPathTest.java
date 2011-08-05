@@ -25,7 +25,9 @@ import java.util.ArrayList;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
+import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -96,8 +98,8 @@ public class MediaPathTest extends InstrumentationTestCase {
 				.getContext(), TestUtils.TYPE_SOUND_FILE);
 
 		//copy files with the Storagehandler copy function
-		testImageCopy = StorageHandler.getInstance().copyImage(projectName, testImage.getAbsolutePath());
-		testImageCopy2 = StorageHandler.getInstance().copyImage(projectName, testImage.getAbsolutePath());
+		testImageCopy = StorageHandler.getInstance().copyImage(projectName, testImage.getAbsolutePath(), null);
+		testImageCopy2 = StorageHandler.getInstance().copyImage(projectName, testImage.getAbsolutePath(), null);
 		testSoundCopy = StorageHandler.getInstance().copySoundFile(testSound.getAbsolutePath());
 
 	}
@@ -160,8 +162,8 @@ public class MediaPathTest extends InstrumentationTestCase {
 
 	public void testCopyLargeImage() throws IOException, InterruptedException {
 		StorageHandler storage = StorageHandler.getInstance();
-		bigBlue2 = storage.copyImage(projectName, bigBlue.getAbsolutePath());
-		bigBlue3 = storage.copyImage(projectName, bigBlue.getAbsolutePath());
+		bigBlue2 = storage.copyImage(projectName, bigBlue.getAbsolutePath(), null);
+		bigBlue3 = storage.copyImage(projectName, bigBlue.getAbsolutePath(), null);
 		fillProjectWithAllBricksAndMediaFiles();
 
 		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName + Consts.IMAGE_DIRECTORY);
@@ -231,7 +233,11 @@ public class MediaPathTest extends InstrumentationTestCase {
 		project.addSprite(sprite);
 
 		SetCostumeBrick costumeBrick2 = new SetCostumeBrick(sprite);
-		costumeBrick2.setCostume(testImageCopy2.getName());
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(testImageCopy2.getName());
+		costumeData.setCostumeName("testImageCopy2");
+		costumeBrick2.setCostume(costumeData);
+		sprite.getCostumeDataList().add(costumeData);
 
 		ArrayList<Brick> brickList1 = new ArrayList<Brick>();
 		ArrayList<Brick> brickList2 = new ArrayList<Brick>();
@@ -244,10 +250,18 @@ public class MediaPathTest extends InstrumentationTestCase {
 		brickList1.add(costumeBrick2);
 
 		SetCostumeBrick costumeBrick = new SetCostumeBrick(sprite);
-		costumeBrick.setCostume(testImageCopy.getName());
+		costumeData = new CostumeData();
+		costumeData.setCostumeFilename(testImageCopy.getName());
+		costumeData.setCostumeName("testImageCopy");
+		costumeBrick.setCostume(costumeData);
+		sprite.getCostumeDataList().add(costumeData);
 
 		PlaySoundBrick soundBrick = new PlaySoundBrick(sprite);
-		soundBrick.setPathToSoundfile(testSoundCopy.getName());
+		SoundInfo soundInfo = new SoundInfo();
+		soundInfo.setSoundFileName(testSoundCopy.getName());
+		soundInfo.setTitle("title");
+		soundBrick.setSoundInfo(soundInfo);
+		sprite.getSoundList().add(soundInfo);
 
 		brickList2.add(new IfTouchedBrick(sprite, tapedScript));
 		brickList2.add(new PlaceAtBrick(sprite, 50, 50));

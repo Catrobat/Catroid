@@ -23,7 +23,6 @@
     <!-- Language independent -->
     <string name="app_name">Catroid</string>
     <string name="percent">%</string>
-    <string name="default_sprite">catroid</string>
     <string name="catroid_extension_pathPattern">.*\\.catroid</string>
 
     <!-- Website URLs -->

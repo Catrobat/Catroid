@@ -93,7 +93,7 @@ public class MessageContainer {
 		return messageAdapter;
 	}
 
-	public int getPosOfMessageInAdapter(String message) {
+	public int getPositionOfMessageInAdapter(String message) {
 		if (!receiverMap.containsKey(message)) {
 			return -1;
 		}

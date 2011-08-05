@@ -32,16 +32,17 @@ import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
-import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
 	private Solo solo;
 	private ArrayList<Brick> brickListToCheck;
 
 	public ScriptDeleteTest() {
-		super("at.tugraz.ist.catroid", ScriptActivity.class);
+		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
 
 	}
 
@@ -66,7 +67,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptAct
 	}
 
 	public void testDeleteScript() {
-		solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
 		solo.clickOnText(getActivity().getString(R.string.brick_if_touched));
 
 		solo.clickLongOnText(getActivity().getString(R.string.brick_if_touched));
@@ -85,7 +86,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptAct
 		assertEquals("Incorrect number of scripts in list", 0, numberOfScripts);
 		assertEquals("Incorrect number of elements in listView", 0, solo.getCurrentListViews().get(0).getChildCount());
 
-		solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
 		solo.clickOnText(getActivity().getString(R.string.brick_hide));
 		solo.sleep(5000);
 

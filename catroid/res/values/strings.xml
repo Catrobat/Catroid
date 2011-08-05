@@ -93,6 +93,31 @@
     <string name="sprite_name">Sprite:</string>
     <string name="script_list">Scripts:</string>
     <string name="add_new_script">Add new Script</string>
+    
+    <!-- ScriptTab activity -->
+    <string name="scripts">Scripts</string>
+    <string name="costumes">Costumes</string>
+    <string name="sounds">Sounds</string>
+    
+    <!-- Costume activity -->
+    <string name="costume_list">Costume:</string>
+    <string name="rename_costume_dialog">Rename costume</string>
+    <string name="edit_costume">edit</string>
+    <string name="edit_costume_paintroid">Paintroid</string>
+    <string name="copy_costume">copy</string>
+    <string name="costumename_invalid">This costumename is invalid</string>
+    <string name="edit_in_paintroid">Edit in paintroid</string>
+    <string name="copy_costume_addition">copy</string>
+    <string name="select_image">Select Image</string>
+    
+    <!-- Sound activity -->
+    <string name="sound_list">Sound:</string>
+    <string name="rename_sound_dialog">Rename sound</string>
+    <string name="soundname_invalid">This soundname is invalid</string>
+    <string name="sound_play">play</string>
+    <string name="sound_stop">stop</string>
+    <string name="sound_delete">delete</string>
+    <string name="sound_rename">rename</string>
 
     <!-- Sprite dialog -->
     <string name="sprite_button_text">Create</string>
@@ -156,7 +181,7 @@
     <string name="brick_set_costume">Set Costume</string>
     <string name="brick_set_size_to">Set size to</string>
     <string name="brick_go_back">Go back</string>
-    <string name="steps_label">steps</string>
+  <string name="brick_go_back_layers">layers</string>
     <string name="brick_come_to_front">Come to front</string>
     <string name="brick_if_touched">If Touched</string>
     <string name="brick_if_started">If Started</string>
@@ -166,12 +191,42 @@
 	<string name="brick_set_y">Set Y to:</string>
 	<string name="brick_glide">Glide</string>
 	<string name="brick_glide_to">to</string>
+	<string name="brick_when">When</string>
+	<string name="brick_set_ghost_effect">Set Ghost Effect </string>
+	<string name="brick_change_ghost_effect">Change Ghost Effect</string>
+	<string name="brick_set_brightness">Set Brightness</string>
+	<string name="brick_change_brightness">Change Brightness</string>
+	<string name="by_label">by</string>
+	<string name="to_label">to</string>
+	<string name="brick_clear_graphic_effect">Clear graphic effect</string>
+	<string name="brick_set_volume_to">Set volume to</string>
+	<string name="brick_change_volume_by">Change volume by</string>
+	<string name="brick_speak">Speak</string>
 	<string name="brick_forever">Forever</string>
 	<string name="brick_loop_end">End Of Loop</string>
 	<string name="brick_repeat">Repeat</string>
 	<string name="times_label">times</string>
+	<string name="brick_if_on_edge_bounce">If on edge bounce</string>
+	<string name="brick_move">Move</string>
+	<string name="brick_move_n_steps">steps</string>
+	<string name="brick_turn_right">Turn right</string>
+	<string name="brick_turn_right_n_degrees">degrees</string>
+	<string name="brick_turn_left">Turn left</string>
+	<string name="brick_turn_left_n_degrees">degrees</string>
+	<string name="brick_point_in_direction">Point in direction</string>
 	
 	<string name="choose_sound_title">choose a title</string>
+	<string name="choose_language">choose a language</string>
+	
+    <string name="when_action">Choose an action</string>
+    <string name="action_tapped">Tapped</string>
+    <string name="action_doubleTapped">Double Tapped</string>
+    <string name="action_longPressed">Long Pressed</string>
+    <string name="action_touchingStops">Touching Stops</string>
+    <string name="action_swipeLeft">Swipe Left</string> 
+    <string name="action_swipeRight">Swipe Right</string>
+    <string name="action_swipeUp">Swipe Up</string>
+    <string name="action_swipeDown">Swipe Down</string>
 
 	<string name="brick_note">Note</string>
 	<string name="brick_broadcast_receive">When I receive</string>
@@ -189,6 +244,9 @@
     <string name="notification_invalid_name_entered">
     	Please enter a name
     </string>
+    <string name="notification_screenshot_ok">
+        Screenshot saved
+    </string>
 
     <!-- Error messages -->
     <string name="error_no_sd_card">
@@ -200,6 +258,9 @@
     <string name="error_project_exists">
         A project with the same name already
         exists.\nPlease choose a different name.
+    </string>
+    <string name="error_create_project">
+        An error occurred while creating a new project.
     </string>
     <string name="error_sprite_exists">
     	A sprite with the same name already exists.\nPlease choose a different name.
@@ -231,6 +292,9 @@
     <string name="error_load_image">
     	An error occurred while loading the image.
     </string>
+    <string name="error_load_sound">
+    	An error occurred while loading the sound.
+    </string>
 
     <!-- Notifications -->
     <string name="success_project_upload">Upload successful.</string>
@@ -239,5 +303,4 @@
     <string name="upload_button">Upload</string>
     <string name="upload_project_dialog_title">Upload project</string>
     <string name="project_rename">(Your project will be renamed.)</string>
-    <string name="screenshot_ok">Screenshot saved</string>
 </resources>

@@ -18,8 +18,8 @@
  */
 package at.tugraz.ist.catroid.common;
 
-
 public class Values {
+
 	public static int SCREEN_WIDTH;
 	public static int SCREEN_HEIGHT;
 }

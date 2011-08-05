@@ -32,6 +32,7 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -83,8 +84,9 @@ public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		solo.enterText(0, yToChange + "");
 		solo.clickOnButton(0);
 
-		solo.sleep(300);
-		assertEquals("Wrong text in field.", yToChange, changeYByBrick.getYMovement());
+		solo.sleep(1000);
+		int yMovementValue = (Integer) UiTestUtils.getPrivateField("yMovement", changeYByBrick);
+		assertEquals("Wrong text in field.", yToChange, yMovementValue);
 		assertEquals("Value in Brick is not updated.", yToChange + "", solo.getEditText(0).getText().toString());
 	}
 

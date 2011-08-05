@@ -1,8 +1,6 @@
-/*
- *  Copyright (C) 2010 Tani Group 
- *
+/**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -17,7 +15,24 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  
+ * 		This file incorporates work covered by the following copyright and  
+ * 		permission notice:  
  * 
+ * 		Copyright (C) 2010 Tani Group 
+ * 		http://android-demo.blogspot.com/
+ *
+ * 		Licensed under the Apache License, Version 2.0 (the "License");
+ * 		you may not use this file except in compliance with the License.
+ * 		You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * 		Unless required by applicable law or agreed to in writing, software
+ * 		distributed under the License is distributed on an "AS IS" BASIS,
+ * 		WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * 		See the License for the specific language governing permissions and
+ * 		limitations under the License.
  */
 
 package at.tugraz.ist.catroid.ui.adapter;
@@ -58,17 +73,22 @@ public class CustomIconContextMenu implements DialogInterface.OnCancelListener, 
 		menuAdapter = new IconMenuAdapter(activity);
 	}
 
-	public void addItem(Resources res, String title, int imageResourceId, int id) {
-		menuAdapter.addItem(new CustomContextMenuItem(res, title, imageResourceId, id));
+	public void addItem(Resources resource, String title, int imageResourceId, int id) {
+		menuAdapter.addItem(new CustomContextMenuItem(resource, title, imageResourceId, id));
 	}
 
 	public void setOnClickListener(IconContextMenuOnClickListener listener) {
 		clickListener = listener;
 	}
 
-	public Dialog createMenu(String menuItitle) {
+	public Dialog createMenu(String menuTitle) {
 		final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-		builder.setTitle(menuItitle);
+
+		View customTitle = View.inflate(activity, R.layout.alert_dialog_title, null);
+		TextView customTitleTextView = (TextView) customTitle.findViewById(R.id.alert_dialog_title);
+		customTitleTextView.setText(menuTitle);
+		builder.setCustomTitle(customTitle);
+
 		builder.setAdapter(menuAdapter, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialoginterface, int position) {
 				CustomContextMenuItem item = (CustomContextMenuItem) menuAdapter.getItem(position);
@@ -124,26 +144,26 @@ public class CustomIconContextMenu implements DialogInterface.OnCancelListener, 
 		public View getView(int position, View convertView, ViewGroup parent) {
 			CustomContextMenuItem item = (CustomContextMenuItem) getItem(position);
 
-			Resources res = activity.getResources();
+			Resources resource = activity.getResources();
 
 			if (convertView == null) {
-				TextView temp = new TextView(context);
+				TextView tempTextView = new TextView(context);
 				AbsListView.LayoutParams param = new AbsListView.LayoutParams(AbsListView.LayoutParams.FILL_PARENT,
 						AbsListView.LayoutParams.WRAP_CONTENT);
-				temp.setLayoutParams(param);
-				temp.setPadding((int) toPixel(res, 15), 0, (int) toPixel(res, 15), 0);
-				temp.setGravity(android.view.Gravity.CENTER_VERTICAL);
+				tempTextView.setLayoutParams(param);
+				tempTextView.setPadding((int) toPixel(resource, 15), 0, (int) toPixel(resource, 15), 0);
+				tempTextView.setGravity(android.view.Gravity.CENTER_VERTICAL);
 
-				Theme th = context.getTheme();
-				TypedValue tv = new TypedValue();
+				Theme theme = context.getTheme();
+				TypedValue typedValue = new TypedValue();
 
-				if (th.resolveAttribute(android.R.attr.textAppearanceLargeInverse, tv, true)) {
-					temp.setTextAppearance(context, tv.resourceId);
+				if (theme.resolveAttribute(android.R.attr.textAppearanceLargeInverse, typedValue, true)) {
+					tempTextView.setTextAppearance(context, typedValue.resourceId);
 				}
 
-				temp.setMinHeight(LIST_HEIGHT);
-				temp.setCompoundDrawablePadding((int) toPixel(res, 14));
-				convertView = temp;
+				tempTextView.setMinHeight(LIST_HEIGHT);
+				tempTextView.setCompoundDrawablePadding((int) toPixel(resource, 14));
+				convertView = tempTextView;
 			}
 
 			TextView textView = (TextView) convertView;
@@ -156,9 +176,8 @@ public class CustomIconContextMenu implements DialogInterface.OnCancelListener, 
 			return textView;
 		}
 
-		private float toPixel(Resources res, int dip) {
-			float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dip, res.getDisplayMetrics());
-			return px;
+		private float toPixel(Resources resource, int dip) {
+			return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dip, resource.getDisplayMetrics());
 		}
 
 		public Object getItem(int position) {
@@ -180,13 +199,9 @@ public class CustomIconContextMenu implements DialogInterface.OnCancelListener, 
 		public Drawable icon;
 		public int contextMenuItemId;
 
-		public CustomContextMenuItem(Resources res, String title, int iconResourceId, int contextMenuItemId) {
+		public CustomContextMenuItem(Resources resource, String title, int iconResourceId, int contextMenuItemId) {
 			text = title;
-			if (iconResourceId != -1) {
-				icon = res.getDrawable(iconResourceId);
-			} else {
-				icon = null;
-			}
+			icon = (iconResourceId != -1) ? resource.getDrawable(iconResourceId) : null;
 			this.contextMenuItemId = contextMenuItemId;
 		}
 	}

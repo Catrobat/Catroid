@@ -256,6 +256,46 @@ public class SpriteTest extends AndroidTestCase {
 
 	}
 
+	public void testSetDirection() {
+		Sprite sprite = new Sprite("testSprite");
+
+		sprite.setDirection(90);
+		assertEquals("Direction wrong set", 90.0, sprite.getDirection(), 1e-3);
+
+		sprite.setDirection(360);
+		assertEquals("Direction wrong set", 0., sprite.getDirection(), 1e-3);
+
+		sprite.setDirection(-360);
+		assertEquals("Direction wrong set", 0., sprite.getDirection(), 1e-3);
+
+		sprite.setDirection(540);
+		assertEquals("Direction wrong set", 180, sprite.getDirection(), 1e-3);
+
+		sprite.setDirection(-540);
+		assertEquals("Direction wrong set", 180, sprite.getDirection(), 1e-3);
+
+		sprite.setDirection(540.2);
+		assertEquals("Direction wrong set", -179.8, sprite.getDirection(), 1e-3);
+
+		sprite.setDirection(-540.2);
+		assertEquals("Direction wrong set", 179.8, sprite.getDirection(), 1e-3);
+
+		sprite.setDirection(-450.);
+		assertEquals("Direction wrong set", -90., sprite.getDirection(), 1e-3);
+
+		sprite.setDirection(198.12);
+		assertEquals("Direction wrong set", -161.88, sprite.getDirection(), 1e-3);
+
+		sprite.setDirection(-73.123);
+		assertEquals("Direction wrong set", -73.123, sprite.getDirection(), 1e-3);
+
+		sprite.setDirection(-198.12);
+		assertEquals("Direction wrong set", 161.88, sprite.getDirection(), 1e-3);
+
+		sprite.setDirection(73.123);
+		assertEquals("Direction wrong set", 73.123, sprite.getDirection(), 1e-3);
+	}
+
 	public void compareTo() {
 		int ZValue = 0;
 		int otherZValue = 0;
@@ -272,5 +312,55 @@ public class SpriteTest extends AndroidTestCase {
 		assertEquals("Sprite1 and Sprite2 is not at the same position.", 0, sprite1.compareTo(sprite2));
 		assertEquals("Sprite1 is not behind Sprite2.", Integer.MAX_VALUE, sprite1.compareTo(sprite3));
 		assertEquals("Sprite1 is not in front of Sprite2.", Integer.MIN_VALUE, sprite1.compareTo(sprite4));
+	}
+
+	public void testSetBrightness() {
+		Sprite sprite = new Sprite("new sprite");
+		final double brightness = 70;
+		sprite.setBrightnessValue(brightness);
+		assertEquals("Unexpected brightness", brightness, sprite.getBrightnessValue());
+
+		final double hugeBrightness = 10.0e100;
+		sprite.setBrightnessValue(hugeBrightness);
+		assertEquals("Failed to set sprite to a very high brightness", hugeBrightness, sprite.getBrightnessValue());
+
+		final double negativeBrightness = -10.0e100;
+		sprite.setBrightnessValue(negativeBrightness);
+		assertEquals("Failed to set sprite to a negative brightness", negativeBrightness, sprite.getBrightnessValue());
+	}
+
+	public void testSetGhostEffect() {
+		Sprite sprite = new Sprite("new sprite");
+		final double effect = 70;
+		sprite.setGhostEffectValue(effect);
+		assertEquals("Unexpected effect", effect, sprite.getGhostEffectValue());
+
+		final double hugeEffect = 10.0e100;
+		sprite.setGhostEffectValue(hugeEffect);
+		assertEquals("Failed to set sprite to a very high transparent", hugeEffect, sprite.getGhostEffectValue());
+
+		final double negativeEffect = -10.0e100;
+		try {
+			sprite.setGhostEffectValue(negativeEffect);
+			assertNotSame("Failed to change negative effect value to positive", negativeEffect,
+					sprite.getGhostEffectValue());
+		} catch (IllegalArgumentException e) {
+			// expected behavior
+		}
+	}
+
+	public void testClearGraphicEffect() {
+		Sprite sprite = new Sprite("new sprite");
+		final double effect = 70;
+		sprite.setGhostEffectValue(effect);
+		assertEquals("Unexpected effect", effect, sprite.getGhostEffectValue());
+
+		final double brightness = 70;
+		sprite.setBrightnessValue(brightness);
+		assertEquals("Unexpected brightness", brightness, sprite.getBrightnessValue());
+
+		sprite.clearGraphicEffect();
+		assertEquals("Unexpected brightness", 0.0, sprite.getBrightnessValue());
+		assertEquals("Unexpected effect", 0.0, sprite.getGhostEffectValue());
 	}
 }

@@ -47,16 +47,17 @@ import at.tugraz.ist.catroid.content.Sprite;
 public class BroadcastWaitBrick implements Brick {
 
 	private static final long serialVersionUID = 1L;
+	private transient ProjectManager projectManager;
 	private Sprite sprite;
 	private String selectedMessage = "";
 
 	public BroadcastWaitBrick(Sprite sprite) {
 		this.sprite = sprite;
+		this.projectManager = ProjectManager.getInstance();
 	}
 
 	public void execute() {
-		Vector<BroadcastScript> receiver = ProjectManager.getInstance().messageContainer
-				.getReceiverOfMessage(selectedMessage);
+		Vector<BroadcastScript> receiver = projectManager.messageContainer.getReceiverOfMessage(selectedMessage);
 		if (receiver == null) {
 			return;
 		}
@@ -81,18 +82,15 @@ public class BroadcastWaitBrick implements Brick {
 		return sprite;
 	}
 
-	public String getSelectedMessage() {
-		return selectedMessage;
-	}
-
 	public void setSelectedMessage(String selectedMessage) {
 		this.selectedMessage = selectedMessage;
-		ProjectManager.getInstance().messageContainer.addMessage(this.selectedMessage);
+		projectManager.messageContainer.addMessage(this.selectedMessage);
 	}
 
 	private Object readResolve() {
-		if (selectedMessage != null && ProjectManager.getInstance().getCurrentProject() != null) {
-			ProjectManager.getInstance().messageContainer.addMessage(selectedMessage);
+		projectManager = ProjectManager.getInstance();
+		if (selectedMessage != null && projectManager.getCurrentProject() != null) {
+			projectManager.messageContainer.addMessage(selectedMessage);
 		}
 		return this;
 	}
@@ -100,10 +98,10 @@ public class BroadcastWaitBrick implements Brick {
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View brickView = inflater.inflate(R.layout.construction_brick_broadcast_wait, null);
-		final Spinner spinner = (Spinner) brickView.findViewById(R.id.broadcast_spinner);
-		spinner.setAdapter(ProjectManager.getInstance().messageContainer.getMessageAdapter(context));
+		final Spinner broadcastSpinner = (Spinner) brickView.findViewById(R.id.broadcast_spinner);
+		broadcastSpinner.setAdapter(projectManager.messageContainer.getMessageAdapter(context));
 
-		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+		broadcastSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			private boolean start = true;
 
 			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
@@ -121,9 +119,9 @@ public class BroadcastWaitBrick implements Brick {
 			}
 		});
 
-		int pos = ProjectManager.getInstance().messageContainer.getPosOfMessageInAdapter(selectedMessage);
-		if (pos > 0) {
-			spinner.setSelection(pos);
+		int position = projectManager.messageContainer.getPositionOfMessageInAdapter(selectedMessage);
+		if (position > 0) {
+			broadcastSpinner.setSelection(position);
 		}
 
 		Button newBroadcastMessage = (Button) brickView.findViewById(R.id.broadcast_new_message);
@@ -143,12 +141,10 @@ public class BroadcastWaitBrick implements Brick {
 							return;
 						}
 						selectedMessage = newMessage;
-						ProjectManager.getInstance().messageContainer.addMessage(selectedMessage);
-						int pos = ProjectManager.getInstance().messageContainer
-								.getPosOfMessageInAdapter(selectedMessage);
+						projectManager.messageContainer.addMessage(selectedMessage);
+						int position = projectManager.messageContainer.getPositionOfMessageInAdapter(selectedMessage);
 
-						spinner.setSelection(pos);
-
+						broadcastSpinner.setSelection(position);
 					}
 				});
 				builder.setNegativeButton(context.getString(R.string.cancel_button),
@@ -182,5 +178,4 @@ public class BroadcastWaitBrick implements Brick {
 	public Brick clone() {
 		return new BroadcastWaitBrick(sprite);
 	}
-
 }
