@@ -24,25 +24,47 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import android.graphics.Color;
-import android.util.Pair;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.common.FileChecksumContainer;
+import at.tugraz.ist.catroid.common.SoundInfo;
 
 public class Sprite implements Serializable, Comparable<Sprite> {
 	private static final long serialVersionUID = 1L;
+	private static final int MIN_ALPHA = 10;
 	private String name;
 	private transient int xPosition;
 	private transient int yPosition;
 	private transient int zPosition;
 	private transient double size;
+	private transient double direction;
 	private transient boolean isVisible;
 	private transient boolean toDraw;
 	private List<Script> scriptList;
+	private ArrayList<CostumeData> costumeDataList;
+	private ArrayList<SoundInfo> soundList;
 	private transient Costume costume;
+	private transient double ghostEffect;
+	private transient double brightness;
 
 	public transient volatile boolean isPaused;
 	public transient volatile boolean isFinished;
 
 	private Object readResolve() {
+		//filling FileChecksumContainer:
+		if (soundList != null && costumeDataList != null && ProjectManager.getInstance().getCurrentProject() != null) {
+			FileChecksumContainer container = ProjectManager.getInstance().fileChecksumContainer;
+			if (container == null) {
+				ProjectManager.getInstance().fileChecksumContainer = new FileChecksumContainer();
+			}
+			for (SoundInfo soundInfo : soundList) {
+				container.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
+			}
+			for (CostumeData costumeData : costumeDataList) {
+				container.addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
+			}
+		}
 		init();
 		return this;
 	}
@@ -50,19 +72,40 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	private void init() {
 		zPosition = 0;
 		size = 100.0;
+		direction = 90.;
 		isVisible = true;
-		costume = new Costume(this, null);
 		xPosition = 0;
 		yPosition = 0;
+		costume = new Costume(this, null);
 		toDraw = false;
+		ghostEffect = 0.0;
+		brightness = 0.0;
 		isPaused = false;
 		isFinished = false;
+		if (soundList == null) {
+			soundList = new ArrayList<SoundInfo>();
+		}
+		if (costumeDataList == null) {
+			costumeDataList = new ArrayList<CostumeData>();
+		}
 	}
 
 	public Sprite(String name) {
 		this.name = name;
 		scriptList = new ArrayList<Script>();
+		costumeDataList = new ArrayList<CostumeData>();
+		soundList = new ArrayList<SoundInfo>();
 		init();
+	}
+
+	public void startWhenScripts(String action) {
+		for (Script s : scriptList) {
+			if (s instanceof WhenScript) {
+				if (((WhenScript) s).getAction().equalsIgnoreCase(action)) {
+					startScript(s);
+				}
+			}
+		}
 	}
 
 	public void startStartScripts() {
@@ -167,6 +210,18 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return size;
 	}
 
+	public double getGhostEffectValue() {
+		return ghostEffect;
+	}
+
+	public double getBrightnessValue() {
+		return this.brightness;
+	}
+
+	public double getDirection() {
+		return direction;
+	}
+
 	public boolean isVisible() {
 		return isVisible;
 	}
@@ -174,7 +229,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	public synchronized void setXYPosition(int xPosition, int yPosition) {
 		this.xPosition = xPosition;
 		this.yPosition = yPosition;
-		costume.setDrawPosition();
+		costume.updatePosition();
 		toDraw = true;
 	}
 
@@ -183,38 +238,74 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		toDraw = true;
 	}
 
-	public synchronized void setSize(double size) {
-		if (size <= 0.0) {
+	public synchronized void clearGraphicEffect() {
+		ghostEffect = 0.0;
+		brightness = 0.0;
+		costume.updateImage();
+		toDraw = true;
+	}
+
+	public synchronized void setBrightnessValue(double brightnessValue) {
+		this.brightness = brightnessValue;
+		costume.updateImage();
+		toDraw = true;
+	}
+
+	public synchronized void setGhostEffectValue(double ghostEffectValue) {
+		this.ghostEffect = ghostEffectValue;
+		costume.updateImage();
+		toDraw = true;
+	}
+
+	public synchronized void setSize(double percent) {
+		if (percent <= 0.0) {
 			throw new IllegalArgumentException("Sprite size must be greater than zero!");
 		}
 
-		int width = costume.getImageWidthHeight().first;
-		int height = costume.getImageWidthHeight().second;
+		int costumeWidth = costume.getImageWidth();
+		int costumeHeight = costume.getImageHeight();
 
-		if (width == 0 || height == 0) {
-			this.size = size;
-			return;
+		this.size = percent;
+
+		if (costumeWidth > 0 && costumeHeight > 0) {
+			if (costumeWidth * this.size / 100. < 1) {
+				this.size = 1. / costumeWidth * 100.;
+			}
+			if (costumeHeight * this.size / 100. < 1) {
+				this.size = 1. / costumeHeight * 100.;
+			}
+
+			if (costumeWidth * this.size / 100. > Consts.MAX_COSTUME_WIDTH) {
+				this.size = (double) Consts.MAX_COSTUME_WIDTH / costumeWidth * 100.;
+			}
+
+			if (costumeHeight * this.size / 100. > Consts.MAX_COSTUME_HEIGHT) {
+				this.size = (double) Consts.MAX_COSTUME_HEIGHT / costumeHeight * 100.;
+			}
+
+			costume.updateImage();
+			toDraw = true;
+		}
+	}
+
+	public synchronized void setDirection(double direction) {
+
+		int floored = (int) Math.floor(direction);
+
+		int mod = ((floored + 180) % 360);
+		double remainder = direction - floored;
+
+		if (mod >= 0) {
+			this.direction = Math.abs(mod) + remainder - 180;
+		} else {
+			this.direction = 180 - (Math.abs(mod) - remainder);
 		}
 
-		this.size = size;
-
-		if (width * this.size / 100. < 1) {
-			this.size = 1. / width * 100.;
-		}
-		if (height * this.size / 100. < 1) {
-			this.size = 1. / height * 100.;
+		if (this.direction == -180) {
+			this.direction = 180;
 		}
 
-		if (width * this.size / 100. > Consts.MAX_COSTUME_WIDTH) {
-			this.size = (double) Consts.MAX_COSTUME_WIDTH / width * 100.;
-		}
-
-		if (height * this.size / 100. > Consts.MAX_COSTUME_HEIGHT) {
-			this.size = (double) Consts.MAX_COSTUME_HEIGHT / height * 100.;
-		}
-
-		costume.setSizeTo(this.size);
-		toDraw = true;
+		costume.updateImage();
 	}
 
 	public synchronized void show() {
@@ -237,14 +328,14 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		}
 	}
 
-	public void addScript(int location, Script script) {
+	public void addScript(int index, Script script) {
 		if (script != null && !scriptList.contains(script)) {
-			scriptList.add(location, script);
+			scriptList.add(index, script);
 		}
 	}
 
-	public Script getScript(int location) {
-		return scriptList.get(location);
+	public Script getScript(int index) {
+		return scriptList.get(index);
 	}
 
 	public int getNumberOfScripts() {
@@ -261,6 +352,14 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 
 	public boolean removeScript(Script script) {
 		return scriptList.remove(script);
+	}
+
+	public ArrayList<CostumeData> getCostumeDataList() {
+		return costumeDataList;
+	}
+
+	public ArrayList<SoundInfo> getSoundList() {
+		return soundList;
 	}
 
 	public boolean getToDraw() {
@@ -281,39 +380,27 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return (int) difference;
 	}
 
-	public boolean processOnTouch(int coordX, int coordY) {
+	public boolean processOnTouch(int xCoordinate, int yCoordinate) {
 		if (costume.getBitmap() == null || isVisible == false) {
 			return false;
 		}
 
-		int inSpriteCoordX = coordX - costume.getDrawPositionX();
-		int inSpriteCoordY = coordY - costume.getDrawPositionY();
+		int inSpriteXCoordinate = xCoordinate - costume.getDrawPositionX();
+		int inSpriteYCoordinate = yCoordinate - costume.getDrawPositionY();
 
-		Pair<Integer, Integer> tempPair = costume.getImageWidthHeight();
-		int width = tempPair.first;
-		int height = tempPair.second;
+		int width = costume.getImageWidth();
+		int height = costume.getImageHeight();
 
-		if (inSpriteCoordX < 0 || inSpriteCoordX > width) {
+		if (inSpriteXCoordinate < 0 || inSpriteXCoordinate > width) {
 			return false;
 		}
-		if (inSpriteCoordY < 0 || inSpriteCoordY > height) {
+		if (inSpriteYCoordinate < 0 || inSpriteYCoordinate > height) {
 			return false;
 		}
-
-		try {
-			if (Color.alpha(costume.getBitmap().getPixel(inSpriteCoordX, inSpriteCoordY)) <= 10) {
-				return false;
-			}
-		} catch (Exception ex) {
+		if (Color.alpha(costume.getBitmap().getPixel(inSpriteXCoordinate, inSpriteYCoordinate)) <= MIN_ALPHA) {
 			return false;
 		}
 
 		return true;
-
-	}
-
-	@Override
-	public String toString() {
-		return name;
 	}
 }

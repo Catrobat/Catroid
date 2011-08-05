@@ -63,15 +63,11 @@ public class WaitBrick implements Brick, OnDismissListener {
 		return sprite;
 	}
 
-	public long getWaitTime() {
-		return timeToWaitInMilliSeconds;
-	}
-
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.construction_brick_wait, null);
 
-		EditText edit = (EditText) view.findViewById(R.id.InputValueEditText);
+		EditText edit = (EditText) view.findViewById(R.id.construction_brick_wait_edit_text);
 		edit.setText((timeToWaitInMilliSeconds / 1000.0) + "");
 
 		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, timeToWaitInMilliSeconds / 1000.0);

@@ -86,23 +86,6 @@ public abstract class Script implements Serializable {
 		brickList.remove(brick);
 	}
 
-	public void moveBrickBySteps(Brick brick, int steps) {
-		int oldIndex = brickList.indexOf(brick);
-		int newIndex;
-
-		if (steps < 0) {
-			newIndex = oldIndex + steps < 0 ? 0 : oldIndex + steps;
-			brickList.remove(oldIndex);
-			brickList.add(newIndex, brick);
-		} else if (steps > 0) {
-			newIndex = oldIndex + steps >= brickList.size() ? brickList.size() - 1 : oldIndex + steps;
-			brickList.remove(oldIndex);
-			brickList.add(newIndex, brick);
-		} else {
-			return;
-		}
-	}
-
 	public ArrayList<Brick> getBrickList() {
 		return brickList;
 	}

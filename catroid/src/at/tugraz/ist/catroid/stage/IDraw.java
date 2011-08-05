@@ -46,4 +46,5 @@ public interface IDraw {
 	 * 
 	 */
 	public void processOnTouch(int coordX, int coordY);
+
 }

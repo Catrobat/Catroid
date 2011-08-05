@@ -74,8 +74,8 @@ public class FileCopyThread extends Thread {
 				fos.close();
 			}
 		} catch (Exception e) {
-			Log.e("FileCopyThread", "Error copying file \"" + sourceFile.getPath() + "\" to \""
-					+ destinationFile.getPath() + "\".");
+			Log.e("FileCopyThread",
+					"Error copying file \"" + sourceFile.getPath() + "\" to \"" + destinationFile.getPath() + "\".");
 		}
 
 		if (progressDialog != null && progressDialog.isShowing()) {
