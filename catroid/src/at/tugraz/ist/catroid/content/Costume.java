@@ -18,7 +18,6 @@
  */
 package at.tugraz.ist.catroid.content;
 
-import java.nio.ByteBuffer;
 import java.util.concurrent.Semaphore;
 
 import android.graphics.Bitmap;
@@ -44,12 +43,11 @@ public class Costume extends Image {
 	private Semaphore alphaValueLock = new Semaphore(1);
 	private Semaphore brightnessLock = new Semaphore(1);
 	private boolean imageChanged = false;
-	private boolean brightnessChanged = false;
 	private String imagePath;
 	private String currentImagePath = "";
 	private Sprite sprite;
 	private float alphaValue;
-	private int brightnessValue;
+	private float brightnessValue;
 	private Bitmap currentBitmap = null;
 	public boolean show;
 	public int zPosition = 0;
@@ -62,7 +60,7 @@ public class Costume extends Image {
 		this.originX = 0f;
 		this.originY = 0f;
 		this.alphaValue = 1f;
-		this.brightnessValue = 0;
+		this.brightnessValue = 1f;
 		this.scaleX = 1f;
 		this.scaleY = 1f;
 		this.rotation = 0f;
@@ -138,8 +136,9 @@ public class Costume extends Image {
 			xyLock.release();
 			Texture texture = null;
 			brightnessLock.acquireUninterruptibly();
-			if (brightnessChanged) {
+			if (brightnessValue != 1f) {
 				texture = new Texture(this.adjustBrightness());
+				System.out.println("+++++++++++++++ und jetzt hier");
 				brightnessLock.release();
 			} else {
 				brightnessLock.release();
@@ -162,21 +161,30 @@ public class Costume extends Image {
 
 	private Pixmap adjustBrightness() {
 		Pixmap pixmap = new Pixmap(Gdx.files.absolute(currentImagePath));
-		ByteBuffer byteBuffer = pixmap.getPixels();
-		byteBuffer.position(0);
-		for (int i = 0; i < byteBuffer.capacity(); i++) {
-			if ((i + 1 % 4) == 0) {
-				continue;
-			}
-			int color = byteBuffer.get(i);
-			color += brightnessValue;
-			if (color > 255) {
-				color = 255;
-			} else if (color < 0) {
-				color = 0;
-			}
-			byteBuffer.put((byte) color);
-		}
+
+		byte[] workingCopy = new byte[pixmap.getPixels().capacity()];
+		pixmap.getPixels().position(0);
+		pixmap.getPixels().limit(pixmap.getPixels().capacity());
+
+		pixmap.getPixels().get(workingCopy, 0, workingCopy.length);
+
+		//      System.out.println("workingCopy: " + workingCopy.length);
+		//		for (int i = 0; i < workingCopy.length; i++) {
+		//			if ((i + 1) % 4 != 0) {
+		//				int color = workingCopy[i];
+		//				color = (int) (color * brightnessValue);
+		//				if (color > 255) {
+		//					color = 255;
+		//				} else if (color < 0) {
+		//					color = 0;
+		//				}
+		//				workingCopy[i] = (byte) color;
+		//			}
+		//
+		//		}
+		//	pixmap.getPixels().clear();
+		//	pixmap.getPixels().put(workingCopy);
+
 		return pixmap;
 	}
 
@@ -270,20 +278,19 @@ public class Costume extends Image {
 
 	public void setBrightness(float percent) {
 		brightnessLock.acquireUninterruptibly();
-		if (percent > 100.0) {
-			brightnessValue = 200;
-		} else if (percent <= -100.0) {
-			brightnessValue = -255;
-		} else if (percent < 0.0 && percent > -100.0) {
-			brightnessValue = (int) (percent * 2.55);
-		} else {
-			brightnessValue = (int) (percent * 2);
-		}
-		brightnessChanged = true;
+		brightnessValue = percent;
 		brightnessLock.release();
+		imageLock.acquireUninterruptibly();
+		imageChanged = true;
+		imageLock.release();
 	}
 
 	public void changeBrightnessBy(float percent) {
-
+		brightnessLock.acquireUninterruptibly();
+		brightnessValue += percent;
+		brightnessLock.release();
+		imageLock.acquireUninterruptibly();
+		imageChanged = true;
+		imageLock.release();
 	}
 }
