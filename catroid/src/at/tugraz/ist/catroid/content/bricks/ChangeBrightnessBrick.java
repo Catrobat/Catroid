@@ -41,9 +41,7 @@ public class ChangeBrightnessBrick implements Brick, OnDismissListener {
 	}
 
 	public void execute() {
-		//		double brightnessValue = sprite.getBrightnessValue();
-		//		brightnessValue += changeBrightness;
-		//		sprite.setBrightnessValue(brightnessValue);
+		sprite.costume.changeBrightnessBy((float) (this.changeBrightness / 100));
 	}
 
 	public Sprite getSprite() {
