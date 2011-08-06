@@ -111,4 +111,12 @@ public class SoundManager {
 		}
 	}
 
+	public synchronized void stopAllSounds() {
+		for (MediaPlayer mediaPlayer : mediaPlayers) {
+			if (mediaPlayer.isPlaying()) {
+				mediaPlayer.stop();
+			}
+		}
+	}
+
 }

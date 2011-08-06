@@ -101,7 +101,7 @@ public class SpeakBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		solo.clickOnEditText(0);
 		solo.enterText(0, testString2);
 		solo.clickOnButton(0);
-		solo.sleep(300);
+		solo.sleep(900);
 
 		text = UiTestUtils.getPrivateField("text", speakBrick).toString();
 
