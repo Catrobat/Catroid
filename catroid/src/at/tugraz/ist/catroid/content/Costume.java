@@ -23,10 +23,8 @@ import java.io.Serializable;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Pair;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
-import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
@@ -183,9 +181,8 @@ public class Costume implements Serializable {
 			BitmapFactory.Options scaleOptions = new BitmapFactory.Options();
 			scaleOptions.inSampleSize = sampleSizeRounded;
 
-			Bitmap tmpBitmap = BitmapFactory.decodeResource(context.getResources(), resourceId,
-					scaleOptions);
-			costumeBitmap = ImageEditing.scaleBitmap(tmpBitmap, newWidth, newHeight, true);
+			Bitmap tmpBitmap = BitmapFactory.decodeResource(context.getResources(), resourceId, scaleOptions);
+			costumeBitmap = ImageEditing.scaleBitmap(tmpBitmap, newWidth, newHeight);
 		} else {
 			costumeBitmap = BitmapFactory.decodeResource(context.getResources(), resourceId);
 		}
