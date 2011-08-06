@@ -35,16 +35,16 @@ import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
-import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
 	private Solo solo;
 	private ArrayList<Brick> brickListToCheck;
 
 	public ScriptChangeTest() {
-		super("at.tugraz.ist.catroid", ScriptActivity.class);
+		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
 
 	}
 

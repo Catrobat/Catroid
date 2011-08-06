@@ -23,16 +23,38 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
+import android.graphics.Color;
+import at.tugraz.ist.catroid.ProjectManager;
+import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.common.FileChecksumContainer;
+import at.tugraz.ist.catroid.common.SoundInfo;
+
 public class Sprite implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private List<Script> scriptList;
+	private ArrayList<CostumeData> costumeDataList;
+	private ArrayList<SoundInfo> soundList;
 	public transient Costume costume;
 
 	public transient boolean isPaused;
 	public transient boolean isFinished;
 
 	private Object readResolve() {
+		//filling FileChecksumContainer:
+		if (soundList != null && costumeDataList != null && ProjectManager.getInstance().getCurrentProject() != null) {
+			FileChecksumContainer container = ProjectManager.getInstance().fileChecksumContainer;
+			if (container == null) {
+				ProjectManager.getInstance().fileChecksumContainer = new FileChecksumContainer();
+			}
+			for (SoundInfo soundInfo : soundList) {
+				container.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
+			}
+			for (CostumeData costumeData : costumeDataList) {
+				container.addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
+			}
+		}
 		init();
 		return this;
 	}
@@ -41,11 +63,19 @@ public class Sprite implements Serializable {
 		costume = new Costume(this);
 		isPaused = false;
 		isFinished = false;
+		if (soundList == null) {
+			soundList = new ArrayList<SoundInfo>();
+		}
+		if (costumeDataList == null) {
+			costumeDataList = new ArrayList<CostumeData>();
+		}
 	}
 
 	public Sprite(String name) {
 		this.name = name;
 		scriptList = new ArrayList<Script>();
+		costumeDataList = new ArrayList<CostumeData>();
+		soundList = new ArrayList<SoundInfo>();
 		init();
 	}
 
@@ -175,6 +205,14 @@ public class Sprite implements Serializable {
 
 	public boolean removeScript(Script script) {
 		return scriptList.remove(script);
+	}
+	
+	public ArrayList<CostumeData> getCostumeDataList() {
+		return costumeDataList;
+	}
+
+	public ArrayList<SoundInfo> getSoundList() {
+		return soundList;
 	}
 
 	@Override
