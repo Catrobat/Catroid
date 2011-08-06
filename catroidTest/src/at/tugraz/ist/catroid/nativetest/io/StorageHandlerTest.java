@@ -22,22 +22,15 @@ import java.io.IOException;
 
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.content.Project;
-import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
-import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
-import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
-import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
-import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
-import at.tugraz.ist.catroid.content.bricks.SetXBrick;
-import at.tugraz.ist.catroid.content.bricks.SetYBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
-import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
+import at.tugraz.ist.catroid.test.utils.TestUtils;
 
 public class StorageHandlerTest extends InstrumentationTestCase {
 	private StorageHandler storageHandler;
@@ -89,38 +82,72 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 				loadedProject.getSpriteList().get(1).getScript(0).getBrickList().get(0).getClass());
 		assertEquals("ShowBrick was not loaded right", ShowBrick.class,
 				loadedProject.getSpriteList().get(1).getScript(0).getBrickList().get(1).getClass());
-		assertEquals("ScaleBrick was not loaded right", scaleValue, ((SetSizeToBrick) (loadedProject.getSpriteList()
-				.get(1).getScript(0).getBrickList().get(2))).getSize());
+		assertEquals(
+				"ScaleBrick was not loaded right",
+				scaleValue,
+				TestUtils.getPrivateField("size",
+						loadedProject.getSpriteList().get(1).getScript(0).getBrickList().get(2), false));
 		assertEquals("ComeToFrontBrick was not loaded right", ComeToFrontBrick.class, loadedProject.getSpriteList()
 				.get(1).getScript(0).getBrickList().get(3).getClass());
 		assertEquals("SetCostumeBrick was not loaded right", SetCostumeBrick.class, loadedProject.getSpriteList()
 				.get(1).getScript(0).getBrickList().get(4).getClass());
 
-		assertEquals("WaitBrick was not loaded right", timeToWaitInMilliSeconds, ((WaitBrick) (loadedProject
-				.getSpriteList().get(1).getScript(1).getBrickList().get(0))).getWaitTime());
+		assertEquals(
+				"WaitBrick was not loaded right",
+				timeToWaitInMilliSeconds,
+				TestUtils.getPrivateField("timeToWaitInMilliSeconds", loadedProject.getSpriteList().get(1).getScript(1)
+						.getBrickList().get(0), false));
 		assertEquals("PlaySoundBrick was not loaded right", PlaySoundBrick.class, loadedProject.getSpriteList().get(1)
 				.getScript(1).getBrickList().get(1).getClass());
 
-		assertEquals("PlaceAtBrick was not loaded right", xPosition, ((PlaceAtBrick) (loadedProject.getSpriteList()
-				.get(2).getScript(0).getBrickList().get(0))).getXPosition());
-		assertEquals("PlaceAtBrick was not loaded right", yPosition, ((PlaceAtBrick) (loadedProject.getSpriteList()
-				.get(2).getScript(0).getBrickList().get(0))).getYPosition());
-		assertEquals("SetXBrick was not loaded right", xPosition, ((SetXBrick) (loadedProject.getSpriteList().get(2)
-				.getScript(0).getBrickList().get(1))).getXPosition());
-		assertEquals("SetYBrick was not loaded right", yPosition, ((SetYBrick) (loadedProject.getSpriteList().get(2)
-				.getScript(0).getBrickList().get(2))).getYPosition());
-		assertEquals("ChangeXByBrick was not loaded right", xMovement, ((ChangeXByBrick) (loadedProject.getSpriteList()
-				.get(2).getScript(0).getBrickList().get(3))).getXMovement());
-		assertEquals("ChangeYByBrick was not loaded right", yMovement, ((ChangeYByBrick) (loadedProject.getSpriteList()
-				.get(2).getScript(0).getBrickList().get(4))).getYMovement());
-		assertEquals("GlideToBrick was not loaded right", xDestination, ((GlideToBrick) (loadedProject.getSpriteList()
-				.get(2).getScript(0).getBrickList().get(5))).getXDestination());
-		assertEquals("GlideToBrick was not loaded right", yDestination, ((GlideToBrick) (loadedProject.getSpriteList()
-				.get(2).getScript(0).getBrickList().get(5))).getYDestination());
+		assertEquals(
+				"PlaceAtBrick was not loaded right",
+				xPosition,
+				TestUtils.getPrivateField("xPosition", loadedProject.getSpriteList().get(2).getScript(0).getBrickList()
+						.get(0), false));
+		assertEquals(
+				"PlaceAtBrick was not loaded right",
+				yPosition,
+				TestUtils.getPrivateField("xPosition", loadedProject.getSpriteList().get(2).getScript(0).getBrickList()
+						.get(0), false));
+
+		assertEquals(
+				"SetXBrick was not loaded right",
+				xPosition,
+				TestUtils.getPrivateField("xPosition", loadedProject.getSpriteList().get(2).getScript(0).getBrickList()
+						.get(1), false));
+		assertEquals(
+				"SetYBrick was not loaded right",
+				yPosition,
+				TestUtils.getPrivateField("yPosition", loadedProject.getSpriteList().get(2).getScript(0).getBrickList()
+						.get(2), false));
+		assertEquals(
+				"ChangeXByBrick was not loaded right",
+				xMovement,
+				TestUtils.getPrivateField("xMovement", loadedProject.getSpriteList().get(2).getScript(0).getBrickList()
+						.get(3), false));
+		assertEquals(
+				"ChangeYByBrick was not loaded right",
+				yMovement,
+				TestUtils.getPrivateField("yMovement", loadedProject.getSpriteList().get(2).getScript(0).getBrickList()
+						.get(4), false));
+		assertEquals(
+				"GlideToBrick was not loaded right",
+				xDestination,
+				TestUtils.getPrivateField("xDestination", loadedProject.getSpriteList().get(2).getScript(0)
+						.getBrickList().get(5), false));
+		assertEquals(
+				"GlideToBrick was not loaded right",
+				yDestination,
+				TestUtils.getPrivateField("yDestination", loadedProject.getSpriteList().get(2).getScript(0)
+						.getBrickList().get(5), false));
 		assertEquals("GlideToBrick was not loaded right", durationInMilliSeconds, ((GlideToBrick) (loadedProject
 				.getSpriteList().get(2).getScript(0).getBrickList().get(5))).getDurationInMilliSeconds());
-		assertEquals("GoNStepsBackBrick was not loaded right", steps, ((GoNStepsBackBrick) (loadedProject
-				.getSpriteList().get(2).getScript(0).getBrickList().get(6))).getSteps());
+		assertEquals(
+				"GoNStepsBackBrick was not loaded right",
+				steps,
+				TestUtils.getPrivateField("steps", loadedProject.getSpriteList().get(2).getScript(0).getBrickList()
+						.get(6), false));
 
 	}
 }
