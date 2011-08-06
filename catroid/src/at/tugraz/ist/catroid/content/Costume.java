@@ -18,6 +18,7 @@
  */
 package at.tugraz.ist.catroid.content;
 
+import java.nio.ByteBuffer;
 import java.util.concurrent.Semaphore;
 
 import android.graphics.Bitmap;
@@ -26,6 +27,7 @@ import android.graphics.Color;
 import at.tugraz.ist.catroid.utils.Utils;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -47,7 +49,7 @@ public class Costume extends Image {
 	private String currentImagePath = "";
 	private Sprite sprite;
 	private float alphaValue;
-	private float brightnessValue;
+	private int brightnessValue;
 	private Bitmap currentBitmap = null;
 	public boolean show;
 	public int zPosition = 0;
@@ -60,7 +62,7 @@ public class Costume extends Image {
 		this.originX = 0f;
 		this.originY = 0f;
 		this.alphaValue = 1f;
-		this.brightnessValue = 1f;
+		this.brightnessValue = 0;
 		this.scaleX = 1f;
 		this.scaleY = 1f;
 		this.rotation = 0f;
@@ -137,7 +139,7 @@ public class Costume extends Image {
 			Texture texture = null;
 			brightnessLock.acquireUninterruptibly();
 			if (brightnessChanged) {
-
+				texture = new Texture(this.adjustBrightness());
 				brightnessLock.release();
 			} else {
 				brightnessLock.release();
@@ -156,6 +158,26 @@ public class Costume extends Image {
 			imageChanged = false;
 		}
 		imageLock.release();
+	}
+
+	private Pixmap adjustBrightness() {
+		Pixmap pixmap = new Pixmap(Gdx.files.absolute(currentImagePath));
+		ByteBuffer byteBuffer = pixmap.getPixels();
+		byteBuffer.position(0);
+		for (int i = 0; i < byteBuffer.capacity(); i++) {
+			if ((i + 1 % 4) == 0) {
+				continue;
+			}
+			int color = byteBuffer.get(i);
+			color += brightnessValue;
+			if (color > 255) {
+				color = 255;
+			} else if (color < 0) {
+				color = 0;
+			}
+			byteBuffer.put((byte) color);
+		}
+		return pixmap;
 	}
 
 	public void setXPosition(float x) {
@@ -244,5 +266,24 @@ public class Costume extends Image {
 			this.alphaValue = newAlphaValue;
 		}
 		alphaValueLock.release();
+	}
+
+	public void setBrightness(float percent) {
+		brightnessLock.acquireUninterruptibly();
+		if (percent > 100.0) {
+			brightnessValue = 200;
+		} else if (percent <= -100.0) {
+			brightnessValue = -255;
+		} else if (percent < 0.0 && percent > -100.0) {
+			brightnessValue = (int) (percent * 2.55);
+		} else {
+			brightnessValue = (int) (percent * 2);
+		}
+		brightnessChanged = true;
+		brightnessLock.release();
+	}
+
+	public void changeBrightnessBy(float percent) {
+
 	}
 }
