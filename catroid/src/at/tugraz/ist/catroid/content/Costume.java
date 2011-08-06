@@ -23,10 +23,12 @@ import java.util.concurrent.Semaphore;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.utils.Utils;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.actors.Image;
 
 /**
@@ -38,11 +40,14 @@ public class Costume extends Image {
 	private Semaphore imageLock = new Semaphore(1);
 	private Semaphore scaleLock = new Semaphore(1);
 	private Semaphore alphaValueLock = new Semaphore(1);
+	private Semaphore brightnessLock = new Semaphore(1);
 	private boolean imageChanged = false;
+	private boolean brightnessChanged = false;
 	private String imagePath;
 	private String currentImagePath = "";
 	private Sprite sprite;
 	private float alphaValue;
+	private float brightnessValue;
 	private Bitmap currentBitmap = null;
 	public boolean show;
 	public int zPosition = 0;
@@ -55,6 +60,7 @@ public class Costume extends Image {
 		this.originX = 0f;
 		this.originY = 0f;
 		this.alphaValue = 1f;
+		this.brightnessValue = 1f;
 		this.scaleX = 1f;
 		this.scaleY = 1f;
 		this.rotation = 0f;
@@ -104,17 +110,20 @@ public class Costume extends Image {
 	private void checkImageChanged() {
 		imageLock.acquireUninterruptibly();
 		if (imageChanged) {
-			if (imagePath.equals("")) {
+			if (this.region != null && this.region.getTexture() != null) {
+				this.region.getTexture().dispose();
+			}
+			currentImagePath = imagePath;
+			currentBitmap = null;
+
+			if (currentImagePath.equals("")) {
 				xyLock.acquireUninterruptibly();
 				this.x += this.width / 2;
 				this.y += this.height / 2;
-				xyLock.release();
-				this.region = ProjectManager.getInstance().textureRegionContainer.getTextureRegion(currentImagePath,
-						imagePath);
-				currentImagePath = imagePath;
-				currentBitmap = null;
 				this.width = 0f;
 				this.height = 0f;
+				xyLock.release();
+				this.region = new TextureRegion();
 				imageChanged = false;
 				imageLock.release();
 				return;
@@ -122,11 +131,20 @@ public class Costume extends Image {
 			xyLock.acquireUninterruptibly();
 			this.x += this.width / 2;
 			this.y += this.height / 2;
+			this.width = 0f;
+			this.height = 0f;
 			xyLock.release();
-			this.region = ProjectManager.getInstance().textureRegionContainer.getTextureRegion(currentImagePath,
-					imagePath);
-			currentImagePath = imagePath;
-			currentBitmap = null;
+			Texture texture = null;
+			brightnessLock.acquireUninterruptibly();
+			if (brightnessChanged) {
+
+				brightnessLock.release();
+			} else {
+				brightnessLock.release();
+				texture = new Texture(Gdx.files.absolute(currentImagePath));
+			}
+
+			this.region = new TextureRegion(texture);
 			this.width = this.region.getTexture().getWidth();
 			this.height = this.region.getTexture().getHeight();
 			this.originX = this.width / 2f;
