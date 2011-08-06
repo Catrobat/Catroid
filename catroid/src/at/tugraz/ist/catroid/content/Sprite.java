@@ -23,9 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
-import android.graphics.Color;
 import at.tugraz.ist.catroid.ProjectManager;
-import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.common.SoundInfo;
@@ -206,7 +204,7 @@ public class Sprite implements Serializable {
 	public boolean removeScript(Script script) {
 		return scriptList.remove(script);
 	}
-	
+
 	public ArrayList<CostumeData> getCostumeDataList() {
 		return costumeDataList;
 	}
