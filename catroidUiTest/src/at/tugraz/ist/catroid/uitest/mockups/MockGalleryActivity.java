@@ -21,27 +21,31 @@ package at.tugraz.ist.catroid.uitest.mockups;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 
 /**
  * A mock gallery activity that simply returns an image file from the drawable resources.
  */
 public class MockGalleryActivity extends Activity {
-	private static final String RESOURCE_LOCATION = "drawable/catroid_sunglasses";
-
 	@Override
 	protected void onCreate(android.os.Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		finish();
-	}
+		Bundle b = this.getIntent().getExtras();
 
-	@Override
-	protected void onDestroy() {
-		Uri imageUri = Uri.parse(Uri.encode(RESOURCE_LOCATION));
+		String filePath = b.getString("filePath");
+
+		Uri imageUri = Uri.parse(filePath);
 
 		Intent resultIntent = new Intent();
 		resultIntent.setData(imageUri);
 
 		setResult(RESULT_OK, resultIntent);
+		finish();
+	}
+
+	@Override
+	protected void onDestroy() {
+
 		super.onDestroy();
 	}
 }

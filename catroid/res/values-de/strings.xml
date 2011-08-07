@@ -91,6 +91,31 @@
     <string name="sprite_name">Objekt:</string>
     <string name="script_list">Skripte:</string>
     <string name="add_new_script">Neues Skript hinzufügen</string>
+    
+    <!-- ScriptTab activity -->
+    <string name="scripts">Skripte</string>
+    <string name="costumes">Kostüme</string>
+    <string name="sounds">Sounds</string>
+    
+    <!-- Costume activity -->
+    <string name="costume_list">Kostüm:</string>
+    <string name="rename_costume_dialog">Kostüm umbenennen</string>
+    <string name="edit_costume">editieren</string>
+    <string name="edit_costume_paintroid">Paintroid</string>
+    <string name="copy_costume">kopieren</string>
+    <string name="costumename_invalid">Dieser Name ist nicht zulässig</string>
+    <string name="edit_in_paintroid">In Paintroid editieren</string>
+    <string name="copy_costume_addition">Kopie</string>
+    <string name="select_image">Bild auswählen</string>
+    
+    <!-- Sound activity -->
+    <string name="sound_list">Sound:</string>
+    <string name="rename_sound_dialog">Sound umbenennen</string>
+    <string name="soundname_invalid">Dieser Name ist nicht zulässig</string>
+    <string name="sound_play">abspielen</string>
+    <string name="sound_stop">anhalten </string>
+    <string name="sound_delete">löschen</string>
+    <string name="sound_rename">editieren</string>
 
     <!-- Sprite dialog -->
     <string name="sprite_button_text">Anlegen</string>
@@ -162,6 +187,7 @@
 	<string name="brick_change_y_by">Ändere Y um:</string>
 	<string name="brick_set_x">Setze X auf:</string>
 	<string name="brick_set_y">Setze Y auf:</string>
+	<string name="brick_when">Wenn</string>
 	<string name="brick_glide">Gleite</string>
 	<string name="brick_glide_to">zu</string>
 	<string name="brick_forever">Wiederhole fortlaufend</string>
@@ -186,6 +212,9 @@
     <string name="brick_broadcast_wait">Verschicke und warte:</string>
     <string name="brick_stop_all_sounds">Stoppe alle Sounds</string>
     
+	<string name="when_action">Action wählen</string>
+    
+
     <!-- defaulValues -->
     <string name="default_project_name">standardProjekt</string>
     
@@ -239,6 +268,9 @@
     </string>
     <string name="error_load_image">
     	Beim Laden des Bildes ist ein Fehler aufgetreten.
+    </string>
+    <string name="error_load_sound">
+    	Beim Laden des Audiofiles ist ein Fehler aufgetreten.
     </string>
 
     <!-- Notifications -->
