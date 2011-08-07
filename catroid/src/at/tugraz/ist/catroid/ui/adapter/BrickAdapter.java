@@ -35,16 +35,16 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.content.BroadcastScript;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.TapScript;
+import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.BroadcastReceiverBrick;
 import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
 import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
-import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
-import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
-import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.content.bricks.WhenBrick;
 import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView;
 import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView.DropListener;
 import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView.RemoveListener;
@@ -56,6 +56,7 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 	private Sprite sprite;
 	private BrickListAnimation brickListAnimation;
 	private boolean animateChildren;
+	public static final int FOCUS_BLOCK_DESCENDANTS = 2;
 
 	public BrickAdapter(Context context, Sprite sprite, DragNDropListView listView) {
 		this.context = context;
@@ -80,7 +81,6 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 			return currentBrickView;
 		}
 		brickListAnimation.doExpandAnimation(currentBrickView, childPosition);
-
 		return currentBrickView;
 	}
 
@@ -101,14 +101,16 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 	}
 
 	public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-		View view;
+		View view = null;
 		if (getGroup(groupPosition) instanceof TapScript) {
 			view = new IfTouchedBrick(sprite, getGroup(groupPosition)).getPrototypeView(context);
 		} else if (getGroup(groupPosition) instanceof BroadcastScript) {
 			view = new BroadcastReceiverBrick(sprite, (BroadcastScript) getGroup(groupPosition)).getView(context, 0,
 					null);
-		} else {
+		} else if (getGroup(groupPosition) instanceof StartScript) {
 			view = new IfStartedBrick(sprite, getGroup(groupPosition)).getPrototypeView(context);
+		} else if (getGroup(groupPosition) instanceof WhenScript) {
+			view = new WhenBrick(sprite, (WhenScript) getGroup(groupPosition)).getView(context, groupPosition, this);
 		}
 		return view;
 	}
@@ -148,19 +150,7 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 	public void remove(int which) {
 		ArrayList<Brick> brickList = sprite.getScript(getGroupCount() - 1).getBrickList();
 		Brick brickToRemove = brickList.get(which);
-		if (brickToRemove instanceof PlaySoundBrick) {
-			PlaySoundBrick toDelete = (PlaySoundBrick) brickToRemove;
-			String pathToSoundFile = toDelete.getPathToSoundFile();
-			if (pathToSoundFile != null) {
-				StorageHandler.getInstance().deleteFile(pathToSoundFile);
-			}
-		} else if (brickToRemove instanceof SetCostumeBrick) {
-			SetCostumeBrick toDelete = (SetCostumeBrick) brickToRemove;
-			String imagePath = toDelete.getImagePath();
-			if (imagePath != null) {
-				StorageHandler.getInstance().deleteFile(imagePath);
-			}
-		} else if (brickToRemove instanceof LoopBeginBrick) {
+		if (brickToRemove instanceof LoopBeginBrick) {
 			LoopBeginBrick loopBeginBrick = (LoopBeginBrick) brickToRemove;
 			brickList.remove(loopBeginBrick.getLoopEndBrick());
 		} else if (brickToRemove instanceof LoopEndBrick) {

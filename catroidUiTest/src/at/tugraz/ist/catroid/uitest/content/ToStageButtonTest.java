@@ -80,9 +80,9 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 		assertEquals("Script list has to much elements", 0, sprite_list.get(0).getNumberOfScripts());
 
 		solo.goBack();
-		solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
 		solo.clickOnText(getActivity().getString(R.string.brick_if_touched));
-		solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
 		solo.clickOnText(getActivity().getString(R.string.brick_set_size_to));
 		solo.sleep(500);
 
@@ -116,7 +116,7 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 		solo.enterText(0, spriteNameTwo);
 
 		solo.goBack();
-		solo.clickOnButton(getActivity().getString(R.string.new_sprite_dialog_button));
+		solo.clickOnButton(getActivity().getString(R.string.ok));
 		solo.clickOnText(spriteNameTwo);
 
 		solo.sleep(500);
@@ -127,9 +127,9 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 		assertEquals("Script list has wrong number of elements", 0, sprite_list.get(0).getNumberOfScripts());
 
 		solo.goBack();
-		solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
 		solo.clickOnText(getActivity().getString(R.string.brick_if_touched));
-		solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
 		solo.clickOnText(getActivity().getString(R.string.brick_set_size_to));
 		solo.sleep(500);
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);

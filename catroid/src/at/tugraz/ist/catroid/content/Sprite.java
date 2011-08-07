@@ -24,7 +24,11 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import android.graphics.Color;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.common.FileChecksumContainer;
+import at.tugraz.ist.catroid.common.SoundInfo;
 
 public class Sprite implements Serializable, Comparable<Sprite> {
 	private static final long serialVersionUID = 1L;
@@ -38,12 +42,29 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	private transient boolean isVisible;
 	private transient boolean toDraw;
 	private List<Script> scriptList;
+	private ArrayList<CostumeData> costumeDataList;
+	private ArrayList<SoundInfo> soundList;
 	private transient Costume costume;
+	private transient double ghostEffect;
+	private transient double brightness;
 
 	public transient volatile boolean isPaused;
 	public transient volatile boolean isFinished;
 
 	private Object readResolve() {
+		//filling FileChecksumContainer:
+		if (soundList != null && costumeDataList != null && ProjectManager.getInstance().getCurrentProject() != null) {
+			FileChecksumContainer container = ProjectManager.getInstance().fileChecksumContainer;
+			if (container == null) {
+				ProjectManager.getInstance().fileChecksumContainer = new FileChecksumContainer();
+			}
+			for (SoundInfo soundInfo : soundList) {
+				container.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
+			}
+			for (CostumeData costumeData : costumeDataList) {
+				container.addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
+			}
+		}
 		init();
 		return this;
 	}
@@ -53,18 +74,38 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		size = 100.0;
 		direction = 90.;
 		isVisible = true;
-		costume = new Costume(this, null);
 		xPosition = 0;
 		yPosition = 0;
+		costume = new Costume(this, null);
 		toDraw = false;
+		ghostEffect = 0.0;
+		brightness = 0.0;
 		isPaused = false;
 		isFinished = false;
+		if (soundList == null) {
+			soundList = new ArrayList<SoundInfo>();
+		}
+		if (costumeDataList == null) {
+			costumeDataList = new ArrayList<CostumeData>();
+		}
 	}
 
 	public Sprite(String name) {
 		this.name = name;
 		scriptList = new ArrayList<Script>();
+		costumeDataList = new ArrayList<CostumeData>();
+		soundList = new ArrayList<SoundInfo>();
 		init();
+	}
+
+	public void startWhenScripts(String action) {
+		for (Script s : scriptList) {
+			if (s instanceof WhenScript) {
+				if (((WhenScript) s).getAction().equalsIgnoreCase(action)) {
+					startScript(s);
+				}
+			}
+		}
 	}
 
 	public void startStartScripts() {
@@ -169,6 +210,14 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return size;
 	}
 
+	public double getGhostEffectValue() {
+		return ghostEffect;
+	}
+
+	public double getBrightnessValue() {
+		return this.brightness;
+	}
+
 	public double getDirection() {
 		return direction;
 	}
@@ -186,6 +235,25 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 
 	public synchronized void setZPosition(int zPosition) {
 		this.zPosition = zPosition;
+		toDraw = true;
+	}
+
+	public synchronized void clearGraphicEffect() {
+		ghostEffect = 0.0;
+		brightness = 0.0;
+		costume.updateImage();
+		toDraw = true;
+	}
+
+	public synchronized void setBrightnessValue(double brightnessValue) {
+		this.brightness = brightnessValue;
+		costume.updateImage();
+		toDraw = true;
+	}
+
+	public synchronized void setGhostEffectValue(double ghostEffectValue) {
+		this.ghostEffect = ghostEffectValue;
+		costume.updateImage();
 		toDraw = true;
 	}
 
@@ -286,6 +354,14 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return scriptList.remove(script);
 	}
 
+	public ArrayList<CostumeData> getCostumeDataList() {
+		return costumeDataList;
+	}
+
+	public ArrayList<SoundInfo> getSoundList() {
+		return soundList;
+	}
+
 	public boolean getToDraw() {
 		return toDraw;
 	}
@@ -326,10 +402,5 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		}
 
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		return name;
 	}
 }

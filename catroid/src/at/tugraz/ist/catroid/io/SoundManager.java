@@ -27,6 +27,8 @@ import android.media.MediaPlayer;
 public class SoundManager {
 	private ArrayList<MediaPlayer> mediaPlayers;
 
+	private transient double volume = 70.0;
+
 	public static final int MAX_MEDIA_PLAYERS = 7;
 	private static SoundManager soundManager = null;
 
@@ -71,6 +73,19 @@ public class SoundManager {
 		return mediaPlayer;
 	}
 
+	public synchronized void setVolume(double volume) {
+		this.volume = volume;
+		float vol;
+		vol = (float) (volume * 0.01);
+		for (MediaPlayer mediaPlayer : mediaPlayers) {
+			mediaPlayer.setVolume(vol, vol);
+		}
+	}
+
+	public double getVolume() {
+		return this.volume;
+	}
+
 	public synchronized void clear() {
 		for (MediaPlayer mediaPlayer : mediaPlayers) {
 			mediaPlayer.release();
@@ -92,6 +107,14 @@ public class SoundManager {
 		for (MediaPlayer mediaPlayer : mediaPlayers) {
 			if (!mediaPlayer.isPlaying()) {
 				mediaPlayer.start();
+			}
+		}
+	}
+
+	public synchronized void stopAllSounds() {
+		for (MediaPlayer mediaPlayer : mediaPlayers) {
+			if (mediaPlayer.isPlaying()) {
+				mediaPlayer.stop();
 			}
 		}
 	}

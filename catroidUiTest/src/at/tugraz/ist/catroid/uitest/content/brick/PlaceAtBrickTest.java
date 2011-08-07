@@ -24,6 +24,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -123,7 +124,10 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		placeAtBrick = new PlaceAtBrick(sprite, 105, 206);
 		script.addBrick(placeAtBrick);
 		PlaySoundBrick soundBrick = new PlaySoundBrick(sprite);
-		soundBrick.setPathToSoundfile("sound.mp3");
+		SoundInfo soundInfo = new SoundInfo();
+		soundInfo.setSoundFileName("sound.mp3");
+		soundInfo.setTitle("sound.mp3");
+		soundBrick.setSoundInfo(soundInfo);
 		script.addBrick(soundBrick);
 
 		script.addBrick(new SetSizeToBrick(sprite, 80));

@@ -60,6 +60,8 @@ public class Costume implements Serializable {
 
 				buffer = ImageEditing.scaleBitmap(buffer, newWidth, newHeight);
 				buffer = ImageEditing.rotateBitmap(buffer, (float) -(90 - sprite.getDirection()));
+				buffer = ImageEditing.adjustOpacity(buffer, convertOpacity(sprite.getGhostEffectValue()));
+				buffer = ImageEditing.adjustBrightness(buffer, convertBrightness(sprite.getBrightnessValue()));
 
 				costumeBitmap = buffer;
 
@@ -119,5 +121,38 @@ public class Costume implements Serializable {
 	private float toDeviceYCoordinate(int virtuelYCoordinate) {
 		return (Values.SCREEN_HEIGHT / 2f)
 				- ((Values.SCREEN_HEIGHT / (2f * Consts.MAX_REL_COORDINATES)) * virtuelYCoordinate);
+	}
+
+	private int convertOpacity(double percent) {
+		double calculation = Math.floor(255 - (percent * 2.55));
+		int opacityValue = 0;
+		//		 calculation: a value between 0 (completely transparent) and 255 (completely opaque).
+		if (calculation > 0) {
+			if (calculation >= 12) {
+				opacityValue = (int) calculation; // Effect value from 0% to 95%
+			} else {
+				opacityValue = 12; // Effect value from 96% to 99%. Opacity Value more than 12 sprite would be untouchable.
+			}
+		} else if (calculation <= 0) {
+			opacityValue = 0; //  Effect value 100%. Sprite untouchable.
+		}
+
+		return opacityValue;
+	}
+
+	private double convertBrightness(double percent) {
+		double brightness = 0;
+
+		if (percent > 100.0) {
+			brightness = 200;
+		} else if (percent <= -100.0) {
+			brightness = -255;
+		} else if (percent < 0.0 && percent > -100.0) {
+			brightness = percent * 2.55;
+		} else {
+			brightness = percent * 2;
+		}
+
+		return brightness;
 	}
 }
