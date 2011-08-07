@@ -49,7 +49,6 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	private Script scriptToEdit;
 
 	private void initListeners() {
-		sprite = ProjectManager.getInstance().getCurrentSprite();
 		listView = (DragNDropListView) findViewById(R.id.brick_list_view);
 		adapter = new BrickAdapter(this, sprite, listView);
 		if (adapter.getGroupCount() > 0) {
@@ -101,6 +100,10 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	@Override
 	protected void onStart() {
 		super.onStart();
+		sprite = ProjectManager.getInstance().getCurrentSprite();
+		if (sprite == null) {
+			return;
+		}
 		initListeners();
 		if (adapter.getGroupCount() > 0) {
 			listView.expandGroup(adapter.getGroupCount() - 1);
