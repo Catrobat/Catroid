@@ -94,8 +94,8 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 		solo.drag(30, 30, yPositionList.get(4), (yPositionList.get(1) + yPositionList.get(2)) / 2 + 30, 20);
 		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
 
-		assertEquals("Brick count not equal before and after dragging & dropping", brickListToCheck.size(),
-				brickList.size());
+		assertEquals("Brick count not equal before and after dragging & dropping", brickListToCheck.size(), brickList
+				.size());
 		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(0), brickList.get(0));
 		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(3), brickList.get(1));
 		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(1), brickList.get(2));
