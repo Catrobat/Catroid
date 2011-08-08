@@ -38,15 +38,20 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.SoundActivity;
 
 public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 	protected ArrayList<SoundInfo> soundInfoItems;
 	protected SoundActivity activity;
+	protected ScriptTabActivity scriptTabActivity;
 
-	public SoundAdapter(final SoundActivity activity, int textViewResourceId, ArrayList<SoundInfo> items) {
+	public SoundAdapter(final SoundActivity activity, final ScriptTabActivity scriptTabActivity,
+			int textViewResourceId, ArrayList<SoundInfo> items) {
 		super(activity, textViewResourceId, items);
 		this.activity = activity;
+		this.scriptTabActivity = scriptTabActivity;
+
 		soundInfoItems = items;
 	}
 
@@ -120,8 +125,8 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 			//rename: does not rename the actual file (only the title in the SoundInfo)
 			renameSoundButton.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
-					activity.selectedSoundInfo = soundInfo;
-					activity.showDialog(Consts.DIALOG_RENAME_SOUND);
+					scriptTabActivity.selectedSoundInfo = soundInfo;
+					scriptTabActivity.showDialog(Consts.DIALOG_RENAME_SOUND);
 				}
 			});
 
