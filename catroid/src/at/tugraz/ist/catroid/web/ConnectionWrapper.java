@@ -112,6 +112,14 @@ public class ConnectionWrapper {
 		fos.close();
 	}
 
+	public String doHttpPost(String urlString, HashMap<String, String> postValues) throws IOException {
+		MultiPartFormOutputStream out = buildPost(urlString, postValues);
+		out.close();
+
+		InputStream resultStream = urlConnection.getInputStream();
+		return getString(resultStream);
+	}
+
 	private MultiPartFormOutputStream buildPost(String urlString, HashMap<String, String> postValues)
 			throws IOException {
 		if (postValues == null) {

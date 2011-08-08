@@ -67,10 +67,21 @@ public final class Consts {
 	public static final String DEVICE_IMEI = "deviceIMEI";
 	public static final String USER_EMAIL = "userEmail";
 	public static final String USER_LANGUAGE = "userLanguage";
+	public static final String REG_USER_NAME = "registrationUsername";
+	public static final String REG_USER_PASSWORD = "registrationPassword";
+	public static final String REG_USER_COUNTRY = "registrationCountry";
+	public static final String REG_USER_LANGUAGE = "registrationLanguage";
+	public static final String REG_USER_EMAIL = "registrationEmail";
 
-	public static final String FILE_UPLOAD_URL = "http://catroidtest.ist.tugraz.at/api/upload/upload.json";
-	public static final String TEST_FILE_UPLOAD_URL = "http://catroidtest.ist.tugraz.at/api/upload/upload.json";
-	public static final String TEST_FILE_DOWNLOAD_URL = "http://catroidtest.ist.tugraz.at/catroid/download/";
+	public static final String BASE_URL = "http://catroidtest.ist.tugraz.at/";
+	public static final String BASE_URL_TEST = "http://catroidtest.ist.tugraz.at/";
+	public static final String FILE_UPLOAD_URL = BASE_URL + "api/upload/upload.json";
+	public static final String TEST_FILE_UPLOAD_URL = BASE_URL_TEST + "api/upload/upload.json";
+	public static final String TEST_FILE_DOWNLOAD_URL = BASE_URL_TEST + "catroid/download/";
+	public static final String CHECK_TOKEN_URL = BASE_URL + "api/checkToken/check.json";
+	public static final String TEST_CHECK_TOKEN_URL = BASE_URL_TEST + "api/checkToken/check.json";
+	public static final String REGISTRATION_URL = BASE_URL + "api/registration/registrationRequest.json";
+	public static final String TEST_REGISTRATION_URL = BASE_URL_TEST + "api/registration/registrationRequest.json";
 
 	//DefaultProject:
 	public static final String NORMAL_CAT = "normalCat";
