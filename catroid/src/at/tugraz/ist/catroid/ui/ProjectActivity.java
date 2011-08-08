@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.EditText;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -113,6 +114,13 @@ public class ProjectActivity extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_project);
+		spriteToEdit = (Sprite) getLastNonConfigurationInstance();
+	}
+
+	@Override
+	public Object onRetainNonConfigurationInstance() {
+		final Sprite savedSelectedSprite = spriteToEdit;
+		return savedSelectedSprite;
 	}
 
 	@Override
@@ -174,6 +182,18 @@ public class ProjectActivity extends ListActivity {
 		}
 
 		return dialog;
+	}
+
+	@Override
+	protected void onPrepareDialog(int id, Dialog dialog) {
+		switch (id) {
+			case Consts.DIALOG_RENAME_SPRITE:
+				if (dialog != null && spriteToEdit != null) {
+					EditText spriteTitleInput = (EditText) dialog.findViewById(R.id.dialog_rename_sprite_editText);
+					spriteTitleInput.setText(spriteToEdit.getName());
+				}
+				break;
+		}
 	}
 
 	@Override
