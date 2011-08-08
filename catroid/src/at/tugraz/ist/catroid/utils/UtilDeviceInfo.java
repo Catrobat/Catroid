@@ -51,4 +51,8 @@ public class UtilDeviceInfo {
 		return Locale.getDefault().getLanguage();
 	}
 
+	public static String getUserCountryCode(Context context) {
+		return Locale.getDefault().getCountry();
+	}
+
 }
