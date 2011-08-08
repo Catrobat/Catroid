@@ -32,6 +32,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -61,7 +62,14 @@ public class SoundActivity extends ListActivity {
 		setListAdapter(new SoundAdapter(this, R.layout.activity_sound_soundlist_item, soundInfoList));
 
 		mediaPlayer = new MediaPlayer();
+		//selectedSoundInfo = (SoundInfo) getLastNonConfigurationInstance();
 	}
+
+	//	@Override
+	//	public Object onRetainNonConfigurationInstance() {
+	//		final SoundInfo savedSelectedSoundInfo = selectedSoundInfo;
+	//		return savedSelectedSoundInfo;
+	//	}
 
 	@Override
 	protected void onResume() {
@@ -114,6 +122,16 @@ public class SoundActivity extends ListActivity {
 	}
 
 	@Override
+	protected void onPrepareDialog(int id, Dialog dialog) {
+		switch (id) {
+			case Consts.DIALOG_RENAME_SOUND:
+				EditText soundTitleInput = (EditText) dialog.findViewById(R.id.dialog_rename_sound_editText);
+				soundTitleInput.setText(selectedSoundInfo.getTitle());
+				break;
+		}
+	}
+
+	@Override
 	protected void onPause() {
 		super.onPause();
 		ProjectManager projectManager = ProjectManager.getInstance();
@@ -143,11 +161,10 @@ public class SoundActivity extends ListActivity {
 
 	public void handlePositiveButtonRenameSound(View v) {
 		renameSoundDialog.handleOkButton();
-		reloadAdapter();
 	}
 
 	public void handleNegativeButtonRenameSound(View v) {
-		renameSoundDialog.renameDialog.cancel();
+		renameSoundDialog.renameDialog.dismiss();
 	}
 
 	public void stopSound() {

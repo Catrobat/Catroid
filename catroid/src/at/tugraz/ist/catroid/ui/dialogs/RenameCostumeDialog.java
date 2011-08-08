@@ -36,6 +36,7 @@ import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.ui.CostumeActivity;
+import at.tugraz.ist.catroid.ui.adapter.CostumeAdapter;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class RenameCostumeDialog {
@@ -82,6 +83,7 @@ public class RenameCostumeDialog {
 		}
 		if (newCostumeName != null && !newCostumeName.equalsIgnoreCase("")) {
 			costumeActivity.selectedCostumeData.setCostumeName(newCostumeName);
+			((CostumeAdapter) costumeActivity.getListAdapter()).notifyDataSetChanged();
 		} else {
 			Utils.displayErrorMessage(costumeActivity, costumeActivity.getString(R.string.costumename_invalid));
 			return;

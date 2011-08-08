@@ -36,6 +36,7 @@ import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.ui.SoundActivity;
+import at.tugraz.ist.catroid.ui.adapter.SoundAdapter;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class RenameSoundDialog {
@@ -77,16 +78,17 @@ public class RenameSoundDialog {
 		String oldSoundTitle = soundActivity.selectedSoundInfo.getTitle();
 
 		if (newSoundTitle.equalsIgnoreCase(oldSoundTitle)) {
-			renameDialog.cancel();
+			renameDialog.dismiss();
 			return;
 		}
 		if (newSoundTitle != null && !newSoundTitle.equalsIgnoreCase("")) {
 			soundActivity.selectedSoundInfo.setTitle(newSoundTitle);
+			((SoundAdapter) soundActivity.getListAdapter()).notifyDataSetChanged();
 		} else {
 			Utils.displayErrorMessage(soundActivity, soundActivity.getString(R.string.soundname_invalid));
 			return;
 		}
-		renameDialog.cancel();
+		renameDialog.dismiss();
 	}
 
 	private void initKeyListener(AlertDialog.Builder builder) {
@@ -108,7 +110,6 @@ public class RenameSoundDialog {
 				InputMethodManager inputManager = (InputMethodManager) soundActivity
 						.getSystemService(Context.INPUT_METHOD_SERVICE);
 				inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
-				input.setText(soundActivity.selectedSoundInfo.getTitle());
 			}
 		});
 

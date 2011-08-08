@@ -135,13 +135,6 @@ public class NewSpriteDialog {
 			}
 
 			public void afterTextChanged(Editable s) {
-				//				if (spriteAlreadyExists(s.toString())
-				//						&& !(s.toString()).equalsIgnoreCase(projectActivity.getSpriteToEdit().getName())) {
-				//					alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false);
-				//					Toast.makeText(projectActivity, R.string.spritename_already_exists, Toast.LENGTH_SHORT).show();
-				//				} else {
-				//					alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(true);
-				//				}
 			}
 		});
 	}

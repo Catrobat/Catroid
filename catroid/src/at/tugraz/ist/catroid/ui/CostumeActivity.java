@@ -139,7 +139,6 @@ public class CostumeActivity extends ListActivity {
 
 	public void handlePositiveButtonRenameCostume(View v) {
 		renameCostumeDialog.handleOkButton();
-		reloadAdapter();
 	}
 
 	public void handleNegativeButtonRenameCostume(View v) {
