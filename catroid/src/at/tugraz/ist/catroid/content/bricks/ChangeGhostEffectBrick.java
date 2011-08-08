@@ -41,7 +41,7 @@ public class ChangeGhostEffectBrick implements Brick, OnDismissListener {
 	}
 
 	public void execute() {
-		sprite.costume.changeAlphaValueBy((float) this.changeGhostEffect / 100);
+		sprite.costume.changeAlphaValueBy((float) this.changeGhostEffect / -100);
 	}
 
 	public Sprite getSprite() {
