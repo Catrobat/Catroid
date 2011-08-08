@@ -31,6 +31,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -117,8 +118,30 @@ public class MainMenuActivity extends Activity {
 				dialog = null;
 				break;
 		}
-
 		return dialog;
+	}
+
+	@Override
+	protected void onPrepareDialog(int id, Dialog dialog) {
+		switch (id) {
+			case Consts.DIALOG_NEW_PROJECT:
+				break;
+			case Consts.DIALOG_LOAD_PROJECT:
+				break;
+			case Consts.DIALOG_ABOUT:
+				break;
+			case Consts.DIALOG_UPLOAD_PROJECT:
+				TextView projectRename = (TextView) dialog.findViewById(R.id.tv_project_rename);
+				EditText projectDescriptionField = (EditText) dialog.findViewById(R.id.project_description_upload);
+				final EditText projectUploadName = (EditText) dialog.findViewById(R.id.project_upload_name);
+
+				projectRename.setVisibility(View.GONE);
+				projectUploadName.setText(ProjectManager.getInstance().getCurrentProject().getName());
+				projectDescriptionField.setText("");
+				projectUploadName.requestFocus();
+				projectUploadName.selectAll();
+				break;
+		}
 	}
 
 	@Override

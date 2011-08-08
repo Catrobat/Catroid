@@ -19,24 +19,36 @@
 
 package at.tugraz.ist.catroid.ui;
 
+import android.app.Dialog;
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.stage.StageActivity;
+import at.tugraz.ist.catroid.ui.dialogs.RenameCostumeDialog;
+import at.tugraz.ist.catroid.ui.dialogs.RenameSoundDialog;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
 
 public class ScriptTabActivity extends TabActivity {
 	protected ActivityHelper activityHelper;
 
 	private TabHost tabHost;
+	public SoundInfo selectedSoundInfo;
+	private RenameSoundDialog renameSoundDialog;
+	public CostumeData selectedCostumeData;
+	private RenameCostumeDialog renameCostumeDialog;
 
 	private void setupTabHost() {
 		tabHost = (TabHost) findViewById(android.R.id.tabhost);
@@ -61,6 +73,18 @@ public class ScriptTabActivity extends TabActivity {
 		setupTab(new TextView(this), this.getString(R.string.sounds), intent);
 
 		setUpActionBar();
+		if (getLastNonConfigurationInstance() != null) {
+			selectedCostumeData = (CostumeData) ((Pair<?, ?>) getLastNonConfigurationInstance()).first;
+			selectedSoundInfo = (SoundInfo) ((Pair<?, ?>) getLastNonConfigurationInstance()).second;
+		}
+
+	}
+
+	@Override
+	public Object onRetainNonConfigurationInstance() {
+		final Pair<CostumeData, SoundInfo> savedCostumeDataAndSoundInfo = new Pair<CostumeData, SoundInfo>(
+				selectedCostumeData, selectedSoundInfo);
+		return savedCostumeDataAndSoundInfo;
 	}
 
 	private void setUpActionBar() {
@@ -94,4 +118,62 @@ public class ScriptTabActivity extends TabActivity {
 		tv.setText(text);
 		return view;
 	}
+
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		final Dialog dialog;
+		switch (id) {
+			case Consts.DIALOG_RENAME_SOUND:
+				if (selectedSoundInfo == null) {
+					dialog = null;
+				} else {
+					renameSoundDialog = new RenameSoundDialog(this);
+					dialog = renameSoundDialog.createDialog(selectedSoundInfo);
+				}
+				break;
+			case Consts.DIALOG_RENAME_COSTUME:
+				if (selectedCostumeData == null) {
+					dialog = null;
+				} else {
+					renameCostumeDialog = new RenameCostumeDialog(this);
+					dialog = renameCostumeDialog.createDialog(selectedCostumeData);
+				}
+				break;
+			default:
+				dialog = null;
+				break;
+		}
+		return dialog;
+	}
+
+	@Override
+	protected void onPrepareDialog(int id, Dialog dialog) {
+		switch (id) {
+			case Consts.DIALOG_RENAME_SOUND:
+				EditText soundTitleInput = (EditText) dialog.findViewById(R.id.dialog_rename_sound_editText);
+				soundTitleInput.setText(selectedSoundInfo.getTitle());
+				break;
+			case Consts.DIALOG_RENAME_COSTUME:
+				EditText costumeTitleInput = (EditText) dialog.findViewById(R.id.dialog_rename_costume_editText);
+				costumeTitleInput.setText(selectedCostumeData.getCostumeName());
+				break;
+		}
+	}
+
+	public void handlePositiveButtonRenameSound(View v) {
+		renameSoundDialog.handleOkButton();
+	}
+
+	public void handleNegativeButtonRenameSound(View v) {
+		renameSoundDialog.renameDialog.dismiss();
+	}
+
+	public void handlePositiveButtonRenameCostume(View v) {
+		renameCostumeDialog.handleOkButton();
+	}
+
+	public void handleNegativeButtonRenameCostume(View v) {
+		renameCostumeDialog.renameDialog.cancel();
+	}
+
 }

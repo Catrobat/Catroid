@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -34,17 +33,13 @@ import android.view.View;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.adapter.CostumeAdapter;
-import at.tugraz.ist.catroid.ui.dialogs.RenameCostumeDialog;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class CostumeActivity extends ListActivity {
-	public CostumeData selectedCostumeData;
-	private RenameCostumeDialog renameCostumeDialog;
 	private ArrayList<CostumeData> costumeDataList;
 
 	private final int REQUEST_SELECT_IMAGE = 0;
@@ -56,7 +51,8 @@ public class CostumeActivity extends ListActivity {
 		setContentView(R.layout.activity_costume);
 		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
 
-		setListAdapter(new CostumeAdapter(this, R.layout.activity_costume_costumelist_item, costumeDataList));
+		setListAdapter(new CostumeAdapter(this, (ScriptTabActivity) this.getParent(),
+				R.layout.activity_costume_costumelist_item, costumeDataList));
 	}
 
 	@Override
@@ -92,25 +88,6 @@ public class CostumeActivity extends ListActivity {
 	}
 
 	@Override
-	protected Dialog onCreateDialog(int id) {
-		final Dialog dialog;
-		switch (id) {
-			case Consts.DIALOG_RENAME_COSTUME:
-				if (selectedCostumeData == null) {
-					dialog = null;
-				} else {
-					renameCostumeDialog = new RenameCostumeDialog(this);
-					dialog = renameCostumeDialog.createDialog(selectedCostumeData);
-				}
-				break;
-			default:
-				dialog = null;
-				break;
-		}
-		return dialog;
-	}
-
-	@Override
 	protected void onPause() {
 		super.onPause();
 		ProjectManager projectManager = ProjectManager.getInstance();
@@ -135,14 +112,6 @@ public class CostumeActivity extends ListActivity {
 				}
 			});
 		}
-	}
-
-	public void handlePositiveButtonRenameCostume(View v) {
-		renameCostumeDialog.handleOkButton();
-	}
-
-	public void handleNegativeButtonRenameCostume(View v) {
-		renameCostumeDialog.renameDialog.cancel();
 	}
 
 	@Override
@@ -190,7 +159,8 @@ public class CostumeActivity extends ListActivity {
 
 	private void reloadAdapter() {
 		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
-		setListAdapter(new CostumeAdapter(this, R.layout.activity_costume_costumelist_item, costumeDataList));
+		setListAdapter(new CostumeAdapter(this, (ScriptTabActivity) this.getParent(),
+				R.layout.activity_costume_costumelist_item, costumeDataList));
 		((CostumeAdapter) getListAdapter()).notifyDataSetChanged();
 	}
 }
