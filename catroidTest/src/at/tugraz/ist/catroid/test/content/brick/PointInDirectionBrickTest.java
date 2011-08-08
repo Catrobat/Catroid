@@ -29,7 +29,7 @@ public class PointInDirectionBrickTest extends AndroidTestCase {
 		PointInDirectionBrick brick = new PointInDirectionBrick(sprite, 90);
 
 		brick.execute();
-		assertEquals("Wrong direction", 90, sprite.getDirection(), 1e-3);
+		assertEquals("Wrong direction", 90, sprite.costume.rotation, 1e-3);
 	}
 
 	public void testPointLeft() {
@@ -37,7 +37,7 @@ public class PointInDirectionBrickTest extends AndroidTestCase {
 		PointInDirectionBrick brick = new PointInDirectionBrick(sprite, -90);
 
 		brick.execute();
-		assertEquals("Wrong direction", -90, sprite.getDirection(), 1e-3);
+		assertEquals("Wrong direction", -90, sprite.costume.rotation, 1e-3);
 	}
 
 	public void testPointUp() {
@@ -45,7 +45,7 @@ public class PointInDirectionBrickTest extends AndroidTestCase {
 		PointInDirectionBrick brick = new PointInDirectionBrick(sprite, 0);
 
 		brick.execute();
-		assertEquals("Wrong direction", 0, sprite.getDirection(), 1e-3);
+		assertEquals("Wrong direction", 0, sprite.costume.rotation, 1e-3);
 	}
 
 	public void testPointDown() {
@@ -53,16 +53,16 @@ public class PointInDirectionBrickTest extends AndroidTestCase {
 		PointInDirectionBrick brick = new PointInDirectionBrick(sprite, 180);
 
 		brick.execute();
-		assertEquals("Wrong direction", 180, sprite.getDirection(), 1e-3);
+		assertEquals("Wrong direction", 180, sprite.costume.rotation, 1e-3);
 	}
 
 	public void testRotateAndPoint() {
 		Sprite sprite = new Sprite("test");
-		sprite.setDirection(-42);
+		sprite.costume.rotation = -42;
 		PointInDirectionBrick brick = new PointInDirectionBrick(sprite, 90);
 
 		brick.execute();
-		assertEquals("Wrong direction", 90, sprite.getDirection(), 1e-3);
+		assertEquals("Wrong direction", 90, sprite.costume.rotation, 1e-3);
 	}
 
 }

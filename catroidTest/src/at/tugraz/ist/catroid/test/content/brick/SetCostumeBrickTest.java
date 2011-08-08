@@ -94,17 +94,14 @@ public class SetCostumeBrickTest extends InstrumentationTestCase {
 		costumeData.setCostumeName("testImage");
 		setCostumeBrick.setCostume(costumeData);
 		setCostumeBrick.execute();
-		assertNotNull("current Costume is null", sprite.getCostume());
+		assertNotNull("current Costume is null", sprite.costume);
 
-		assertEquals("the new Costume is not in the costumeList of the sprite", width, sprite.getCostume().getBitmap()
-				.getWidth());
-		assertEquals("the new Costume is not in the costumeList of the sprite", height, sprite.getCostume().getBitmap()
-				.getHeight());
+		assertEquals("the new Costume is not in the costumeList of the sprite", width, sprite.costume.width);
+		assertEquals("the new Costume is not in the costumeList of the sprite", height, sprite.costume.height);
 		setCostumeBrick.execute(); //now setting current costume
-		assertEquals("Width of loaded bitmap is not the same as width of original image", width, sprite.getCostume()
-				.getBitmap().getWidth());
-		assertEquals("Height of loaded bitmap is not the same as height of original image", height, sprite.getCostume()
-				.getBitmap().getHeight());
+		assertEquals("Width of loaded bitmap is not the same as width of original image", width, sprite.costume.width);
+		assertEquals("Height of loaded bitmap is not the same as height of original image", height,
+				sprite.costume.height);
 	}
 
 }

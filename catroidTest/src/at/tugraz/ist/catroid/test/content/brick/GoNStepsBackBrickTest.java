@@ -29,14 +29,14 @@ public class GoNStepsBackBrickTest extends AndroidTestCase {
 
 	public void testSteps() {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite Z position", 0, sprite.getZPosition());
+		assertEquals("Unexpected initial sprite Z position", 0, sprite.costume.zPosition);
 
-		oldPosition = sprite.getZPosition();
+		oldPosition = sprite.costume.zPosition;
 
 		GoNStepsBackBrick brick = new GoNStepsBackBrick(sprite, steps);
 		brick.execute();
 		assertEquals("Incorrect sprite Z position after GoNStepsBackBrick executed", (oldPosition - steps),
-				sprite.getZPosition());
+				sprite.costume.zPosition);
 	}
 
 	public void testNullSprite() {
@@ -54,12 +54,12 @@ public class GoNStepsBackBrickTest extends AndroidTestCase {
 	public void testBoundarySteps() {
 		Sprite sprite = new Sprite("testSprite");
 
-		oldPosition = sprite.getZPosition();
+		oldPosition = sprite.costume.zPosition;
 
 		GoNStepsBackBrick brick = new GoNStepsBackBrick(sprite, Integer.MAX_VALUE);
 		brick.execute();
 		assertEquals("GoNStepsBackBrick execution failed. Wrong Z position.", (oldPosition - Integer.MAX_VALUE),
-				sprite.getZPosition());
+				sprite.costume.zPosition);
 
 		brick = new GoNStepsBackBrick(sprite, -steps);
 
@@ -75,7 +75,7 @@ public class GoNStepsBackBrickTest extends AndroidTestCase {
 		brick.execute();
 		brick.execute();
 		assertEquals("An Integer underflow occured during GoNStepsBackBrick execution.", Integer.MIN_VALUE,
-				sprite.getZPosition());
+				sprite.costume.zPosition);
 	}
 
 }

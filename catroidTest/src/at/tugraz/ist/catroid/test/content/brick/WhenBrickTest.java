@@ -42,7 +42,7 @@ public class WhenBrickTest extends AndroidTestCase {
 		} catch (InterruptedException e) {
 		}
 
-		assertEquals("Simple broadcast failed", testPosition, sprite.getXPosition());
+		assertEquals("Simple broadcast failed", testPosition, sprite.costume.getXPosition());
 	}
 
 }

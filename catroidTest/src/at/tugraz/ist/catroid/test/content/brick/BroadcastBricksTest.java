@@ -53,7 +53,7 @@ public class BroadcastBricksTest extends AndroidTestCase {
 		} catch (InterruptedException e) {
 		}
 
-		assertEquals("Simple broadcast failed", testPosition, sprite.getXPosition());
+		assertEquals("Simple broadcast failed", testPosition, (int) sprite.costume.getXPosition());
 	}
 
 	public void testBroadcastWait() {
@@ -84,6 +84,6 @@ public class BroadcastBricksTest extends AndroidTestCase {
 		} catch (InterruptedException e) {
 		}
 
-		assertEquals("Broadcast and wait failed", testPosition, sprite.getXPosition());
+		assertEquals("Broadcast and wait failed", testPosition, (int) sprite.costume.getXPosition());
 	}
 }

@@ -35,8 +35,8 @@ public class GlideToBrickTest extends AndroidTestCase {
 
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite x position", 0, sprite.getXPosition());
-		assertEquals("Unexpected initial sprite y position", 0, sprite.getYPosition());
+		assertEquals("Unexpected initial sprite x position", 0, sprite.costume.getXPosition());
+		assertEquals("Unexpected initial sprite y position", 0, sprite.costume.getYPosition());
 
 		GlideToBrick glideToBrick = new GlideToBrick(sprite, xPosition, yPosition, duration);
 		glideToBrick.execute();
@@ -47,8 +47,10 @@ public class GlideToBrickTest extends AndroidTestCase {
 			e.printStackTrace();
 		}
 
-		assertEquals("Incorrect sprite x position after GlideToBrick executed", xPosition, sprite.getXPosition());
-		assertEquals("Incorrect sprite y position after GlideToBrick executed", yPosition, sprite.getYPosition());
+		assertEquals("Incorrect sprite x position after GlideToBrick executed", xPosition,
+				sprite.costume.getXPosition());
+		assertEquals("Incorrect sprite y position after GlideToBrick executed", yPosition,
+				sprite.costume.getYPosition());
 	}
 
 	public void testNullSprite() {
@@ -68,17 +70,17 @@ public class GlideToBrickTest extends AndroidTestCase {
 		brick.execute();
 
 		assertEquals("PlaceAtBrick failed to place Sprite at maximum x integer value", Integer.MAX_VALUE,
-				sprite.getXPosition());
+				sprite.costume.getXPosition());
 		assertEquals("PlaceAtBrick failed to place Sprite at maximum y integer value", Integer.MAX_VALUE,
-				sprite.getYPosition());
+				sprite.costume.getYPosition());
 
 		brick = new PlaceAtBrick(sprite, Integer.MIN_VALUE, Integer.MIN_VALUE);
 		brick.execute();
 
 		assertEquals("PlaceAtBrick failed to place Sprite at minimum x integer value", Integer.MIN_VALUE,
-				sprite.getXPosition());
+				sprite.costume.getXPosition());
 		assertEquals("PlaceAtBrick failed to place Sprite at minimum y integer value", Integer.MIN_VALUE,
-				sprite.getYPosition());
+				sprite.costume.getYPosition());
 	}
 
 	public void testTime() {
@@ -101,7 +103,7 @@ public class GlideToBrickTest extends AndroidTestCase {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		assertFalse("GlideToBrick should not be visible!", sprite.isVisible());
+		assertFalse("GlideToBrick should not be visible!", sprite.costume.show);
 
 		try {
 			Thread.sleep(1000);
@@ -109,7 +111,7 @@ public class GlideToBrickTest extends AndroidTestCase {
 			e.printStackTrace();
 		}
 
-		assertTrue("GlideToBrick should be visible!", sprite.isVisible());
+		assertTrue("GlideToBrick should be visible!", sprite.costume.show);
 	}
 
 	public void testPauseResume() {
@@ -132,7 +134,7 @@ public class GlideToBrickTest extends AndroidTestCase {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		assertFalse("Unexpected visibility of test sprite", sprite.isVisible());
+		assertFalse("Unexpected visibility of test sprite", sprite.costume.show);
 
 		sprite.pause();
 		try {
@@ -140,7 +142,7 @@ public class GlideToBrickTest extends AndroidTestCase {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		assertFalse("Unexpected visibility of test sprite", sprite.isVisible());
+		assertFalse("Unexpected visibility of test sprite", sprite.costume.show);
 
 		sprite.resume();
 
@@ -150,13 +152,13 @@ public class GlideToBrickTest extends AndroidTestCase {
 			e.printStackTrace();
 		}
 
-		assertFalse("Unexpected visibility of testSprite", sprite.isVisible());
+		assertFalse("Unexpected visibility of testSprite", sprite.costume.show);
 
 		try {
 			Thread.sleep(1200);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		assertTrue("Unexpected visibility of testSprite", sprite.isVisible());
+		assertTrue("Unexpected visibility of testSprite", sprite.costume.show);
 	}
 }

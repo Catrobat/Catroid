@@ -48,7 +48,7 @@ public class WaitBrickTest extends AndroidTestCase {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		assertFalse("Unexpected visibility of testSprite", testSprite.isVisible());
+		assertFalse("Unexpected visibility of testSprite", testSprite.costume.show);
 
 		try {
 			Thread.sleep(1000);
@@ -56,7 +56,7 @@ public class WaitBrickTest extends AndroidTestCase {
 			e.printStackTrace();
 		}
 
-		assertTrue("Unexpected visibility of testSprite", testSprite.isVisible());
+		assertTrue("Unexpected visibility of testSprite", testSprite.costume.show);
 	}
 
 	public void testPauseResume() {
@@ -85,7 +85,7 @@ public class WaitBrickTest extends AndroidTestCase {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			assertFalse("Unexpected visibility of testSprite. Run: " + i, testSprite.isVisible());
+			assertFalse("Unexpected visibility of testSprite. Run: " + i, testSprite.costume.show);
 
 			testSprite.pause();
 
@@ -94,7 +94,7 @@ public class WaitBrickTest extends AndroidTestCase {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			assertFalse("Unexpected visibility of testSprite. Run: " + i, testSprite.isVisible());
+			assertFalse("Unexpected visibility of testSprite. Run: " + i, testSprite.costume.show);
 
 			testSprite.resume();
 
@@ -104,14 +104,14 @@ public class WaitBrickTest extends AndroidTestCase {
 				e.printStackTrace();
 			}
 
-			assertFalse("Unexpected visibility of testSprite. Run: " + i, testSprite.isVisible());
+			assertFalse("Unexpected visibility of testSprite. Run: " + i, testSprite.costume.show);
 
 			try {
 				Thread.sleep(1200);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			assertTrue("Unexpected visibility of testSprite. Run: " + i, testSprite.isVisible());
+			assertTrue("Unexpected visibility of testSprite. Run: " + i, testSprite.costume.show);
 		}
 	}
 }

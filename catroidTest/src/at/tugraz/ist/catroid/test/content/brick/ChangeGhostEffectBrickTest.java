@@ -24,28 +24,28 @@ import at.tugraz.ist.catroid.content.bricks.ChangeGhostEffectBrick;
 
 public class ChangeGhostEffectBrickTest extends AndroidTestCase {
 
-	private final double increaseGhostEffect = 100.0;
-	private final double decreaseGhostEffect = -10.0;
+	private final float increaseGhostEffect = 1f;
+	private final float decreaseGhostEffect = -0.1f;
 
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite ghost effect value", 0.0, sprite.getGhostEffectValue());
+		assertEquals("Unexpected initial sprite ghost effect value", 1f, sprite.costume.getAlphaValue());
 
-		double ghostEffect = sprite.getGhostEffectValue();
+		float ghostEffect = sprite.costume.getAlphaValue();
 		ghostEffect += increaseGhostEffect;
 
-		ChangeGhostEffectBrick brick1 = new ChangeGhostEffectBrick(sprite, increaseGhostEffect);
+		ChangeGhostEffectBrick brick1 = new ChangeGhostEffectBrick(sprite, increaseGhostEffect * 100);
 		brick1.execute();
 		assertEquals("Incorrect sprite ghost effect value after ChangeGhostEffectBrick executed", ghostEffect,
-				sprite.getGhostEffectValue());
+				sprite.costume.getAlphaValue());
 
-		ghostEffect = sprite.getGhostEffectValue();
+		ghostEffect = sprite.costume.getAlphaValue();
 		ghostEffect += decreaseGhostEffect;
 
-		ChangeGhostEffectBrick brick2 = new ChangeGhostEffectBrick(sprite, decreaseGhostEffect);
+		ChangeGhostEffectBrick brick2 = new ChangeGhostEffectBrick(sprite, decreaseGhostEffect * 100);
 		brick2.execute();
 		assertEquals("Incorrect sprite ghost effect value after ChangeGhostEffectBrick executed", ghostEffect,
-				sprite.getGhostEffectValue());
+				sprite.costume.getAlphaValue());
 	}
 
 	public void testNullSprite() {
