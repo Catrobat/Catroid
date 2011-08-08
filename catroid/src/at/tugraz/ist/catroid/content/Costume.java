@@ -20,13 +20,11 @@ package at.tugraz.ist.catroid.content;
 
 import java.util.concurrent.Semaphore;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import at.tugraz.ist.catroid.utils.Utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -45,10 +43,10 @@ public class Costume extends Image {
 	private boolean imageChanged = false;
 	private String imagePath;
 	private String currentImagePath = "";
+	private Pixmap currentAlphaPixmap = null;
 	private Sprite sprite;
 	private float alphaValue;
 	private float brightnessValue;
-	private Bitmap currentBitmap = null;
 	public boolean show;
 	public int zPosition = 0;
 
@@ -80,16 +78,7 @@ public class Costume extends Image {
 		}
 		xyLock.acquireUninterruptibly();
 		if (x >= 0 && x <= this.width && y >= 0 && y <= this.height) {
-			/*
-			 * The following solution is not really fast...
-			 */
-			Bitmap tmpBitmap = currentBitmap;
-			if (currentBitmap == null && !currentImagePath.equals("")) {
-				tmpBitmap = BitmapFactory.decodeFile(currentImagePath);
-				currentBitmap = tmpBitmap;
-			}
-
-			if (tmpBitmap != null && (Color.alpha(tmpBitmap.getPixel((int) x, (int) y)) > 10)) {
+			if (currentAlphaPixmap != null && ((currentAlphaPixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)) {
 				sprite.startTapScripts();
 				xyLock.release();
 				return true;
@@ -113,9 +102,11 @@ public class Costume extends Image {
 			if (this.region != null && this.region.getTexture() != null) {
 				this.region.getTexture().dispose();
 			}
+			if (currentAlphaPixmap != null) {
+				currentAlphaPixmap.dispose();
+			}
 			currentImagePath = imagePath;
-			currentBitmap = null;
-
+			currentAlphaPixmap = null;
 			if (currentImagePath.equals("")) {
 				xyLock.acquireUninterruptibly();
 				this.x += this.width / 2;
@@ -138,19 +129,22 @@ public class Costume extends Image {
 			brightnessLock.acquireUninterruptibly();
 			if (brightnessValue != 1f) {
 				texture = new Texture(this.adjustBrightness());
-				System.out.println("+++++++++++++++ und jetzt hier");
 				brightnessLock.release();
 			} else {
 				brightnessLock.release();
-				texture = new Texture(Gdx.files.absolute(currentImagePath));
+				Pixmap pixmap = new Pixmap(Gdx.files.absolute(currentImagePath));
+				currentAlphaPixmap = new Pixmap(pixmap.getWidth(), pixmap.getHeight(), Format.Alpha);
+				currentAlphaPixmap.drawPixmap(pixmap, 0, 0, 0, 0, pixmap.getWidth(), pixmap.getHeight());
+				texture = new Texture(pixmap);
+				pixmap.dispose();
 			}
 
 			this.region = new TextureRegion(texture);
-			this.width = this.region.getTexture().getWidth();
-			this.height = this.region.getTexture().getHeight();
 			this.originX = this.width / 2f;
 			this.originY = this.height / 2f;
 			xyLock.acquireUninterruptibly();
+			this.width = this.region.getTexture().getWidth();
+			this.height = this.region.getTexture().getHeight();
 			this.x -= this.width / 2;
 			this.y -= this.height / 2;
 			xyLock.release();
@@ -186,6 +180,15 @@ public class Costume extends Image {
 		//	pixmap.getPixels().put(workingCopy);
 
 		return pixmap;
+	}
+
+	public void disposeTextures() {
+		if (this.region != null && this.region.getTexture() != null) {
+			this.region.getTexture().dispose();
+		}
+		if (currentAlphaPixmap != null) {
+			currentAlphaPixmap.dispose();
+		}
 	}
 
 	public void setXPosition(float x) {
@@ -274,6 +277,13 @@ public class Costume extends Image {
 			this.alphaValue = newAlphaValue;
 		}
 		alphaValueLock.release();
+	}
+
+	public float getAlphaValue() {
+		alphaValueLock.acquireUninterruptibly();
+		float alphaValue = this.alphaValue;
+		alphaValueLock.release();
+		return alphaValue;
 	}
 
 	public void setBrightness(float percent) {
