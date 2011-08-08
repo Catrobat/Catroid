@@ -39,7 +39,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	private transient boolean toDraw;
 	private List<Script> scriptList;
 	private transient Costume costume;
-	private transient SpeechBubble bubble;
+	private transient SpeechBubble speechBubble;
 	private transient double ghostEffect;
 	private transient double brightness;
 
@@ -64,7 +64,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		brightness = 0.0;
 		isPaused = false;
 		isFinished = false;
-		bubble = new SpeechBubble();
+		speechBubble = new SpeechBubble();
 	}
 
 	public Sprite(String name) {
@@ -298,7 +298,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	}
 
 	public synchronized SpeechBubble getBubble() {
-		return bubble;
+		return speechBubble;
 	}
 
 	public void addScript(Script script) {

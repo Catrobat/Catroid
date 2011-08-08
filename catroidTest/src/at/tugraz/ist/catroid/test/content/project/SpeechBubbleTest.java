@@ -74,11 +74,9 @@ public class SpeechBubbleTest extends InstrumentationTestCase {
 		assertNotNull("textPaint not initialized", textPaint);
 		assertNotNull("textPaint not initialized", debugPaint);
 		assertEquals("Unexpected DebugColor", expectedDebugColor, debugPaint.getColor());
-
 	}
 
 	public void testInitSpeechBubble() {
-
 		SpeechBubble speechBubble = sprite.getBubble();
 		int speechBubblePictureID = 1;
 		int speechBubblePictureInvID = -1;
@@ -93,7 +91,6 @@ public class SpeechBubbleTest extends InstrumentationTestCase {
 		assertEquals("Unexpected speechBubblePictureID", speechBubblePictureID, speechBubblePictureIDOut);
 		assertEquals("Unexpected speechBubblePictureInvID", speechBubblePictureInvID, speechBubblePictureInvIDOut);
 		assertEquals("Unexpected speechBubbleText", speechBubbleText, speechBubbleTextOut);
-
 	}
 
 }
