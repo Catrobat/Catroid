@@ -28,13 +28,13 @@ public class SetYBrickTest extends AndroidTestCase {
 
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite x position", 0, sprite.getXPosition());
-		assertEquals("Unexpected initial sprite y position", 0, sprite.getYPosition());
+		assertEquals("Unexpected initial sprite x position", 0, sprite.costume.getXPosition());
+		assertEquals("Unexpected initial sprite y position", 0, sprite.costume.getYPosition());
 
 		SetYBrick brick = new SetYBrick(sprite, yPosition);
 		brick.execute();
 
-		assertEquals("Incorrect sprite y position after SetYBrick executed", yPosition, sprite.getYPosition());
+		assertEquals("Incorrect sprite y position after SetYBrick executed", yPosition, sprite.costume.getYPosition());
 	}
 
 	public void testNullSprite() {
@@ -54,12 +54,12 @@ public class SetYBrickTest extends AndroidTestCase {
 		brick.execute();
 
 		assertEquals("SetYBrick failed to place Sprite at maximum y integer value", Integer.MAX_VALUE,
-				sprite.getYPosition());
+				sprite.costume.getYPosition());
 
 		brick = new SetYBrick(sprite, Integer.MIN_VALUE);
 		brick.execute();
 
 		assertEquals("SetYBrick failed to place Sprite at minimum y integer value", Integer.MIN_VALUE,
-				sprite.getYPosition());
+				sprite.costume.getYPosition());
 	}
 }

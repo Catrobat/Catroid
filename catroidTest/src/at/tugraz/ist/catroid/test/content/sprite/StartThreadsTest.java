@@ -48,8 +48,9 @@ public class StartThreadsTest extends AndroidTestCase {
 			e.printStackTrace();
 		}
 
-		assertFalse("Sprite is not hidden", testSprite.isVisible());
-		assertEquals("the size is not as expected", size, testSprite.getSize());
+		assertFalse("Sprite is not hidden", testSprite.costume.show);
+		assertEquals("the size is not as expected", size, testSprite.costume.scaleX);
+		assertEquals("the size is not as expected", size, testSprite.costume.scaleY);
 	}
 
 	public void testResumeThreads() {
@@ -73,7 +74,7 @@ public class StartThreadsTest extends AndroidTestCase {
 		}
 
 		testSprite.pause();
-		assertFalse("Sprite is not hidden", testSprite.isVisible());
+		assertFalse("Sprite is not hidden", testSprite.costume.show);
 		testSprite.resume();
 
 		try {
@@ -82,7 +83,7 @@ public class StartThreadsTest extends AndroidTestCase {
 			e.printStackTrace();
 		}
 
-		assertTrue("Sprite is hidden", testSprite.isVisible());
+		assertTrue("Sprite is hidden", testSprite.costume.show);
 
 		testScript.getBrickList().clear();
 		testScript.addBrick(hideBrick);
@@ -94,6 +95,6 @@ public class StartThreadsTest extends AndroidTestCase {
 			e.printStackTrace();
 		}
 
-		assertTrue("Sprite is hidden - this script shall not be execute", testSprite.isVisible());
+		assertTrue("Sprite is hidden - this script shall not be execute", testSprite.costume.show);
 	}
 }

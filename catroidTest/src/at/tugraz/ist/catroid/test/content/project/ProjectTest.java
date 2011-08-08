@@ -50,20 +50,4 @@ public class ProjectTest extends AndroidTestCase {
 		assertTrue("topSprite was not removed from data structure", project.removeSprite(topSprite));
 		assertFalse("topSprite was not removed from data structure", project.getSpriteList().contains(topSprite));
 	}
-
-	public void testGetMaxZValue() throws NameNotFoundException {
-		Project project = new Project(getContext(), "testProject");
-		Sprite bottomSprite = new Sprite("bottom");
-		Sprite topSprite = new Sprite("top");
-
-		project.addSprite(bottomSprite);
-		project.addSprite(topSprite);
-
-		final int maxZ = 17;
-
-		bottomSprite.setZPosition(maxZ - 5);
-		topSprite.setZPosition(maxZ);
-
-		assertEquals("Maximum Z value was incorrect", project.getMaxZValue(), maxZ);
-	}
 }
