@@ -39,9 +39,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Values;
 
-public class DragNDropListView extends ExpandableListView implements OnLongClickListener {
+public class DragAndDropListView extends ExpandableListView implements OnLongClickListener {
 
 	private static final int DRAG_BACKGROUND_COLOR = Color.parseColor("#e0103010");
 
@@ -64,7 +63,7 @@ public class DragNDropListView extends ExpandableListView implements OnLongClick
 
 	private DragAndDropListener dragAndDropListener;
 
-	public DragNDropListView(Context context, AttributeSet attrs) {
+	public DragAndDropListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
 		DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -74,24 +73,25 @@ public class DragNDropListView extends ExpandableListView implements OnLongClick
 
 	public void setTrashView(ImageView trashView) {
 		this.trashView = trashView;
-		originalTrashWidth = trashView.getWidth();
-		originalTrashHeight = trashView.getHeight();
+		ViewGroup.LayoutParams params = trashView.getLayoutParams();
+		originalTrashWidth = params.width;
+		originalTrashHeight = params.height;
 	}
 
-	private void adjustScrollBounds(int y) {
-		if (y >= getHeight() / 3) {
-			upperBound = getHeight() / 3;
-		}
-		if (y <= getHeight() * 2 / 3) {
-			lowerBound = getHeight() * 2 / 3;
-		}
-
+	public void setOnDragAndDropListener(DragAndDropListener listener) {
+		dragAndDropListener = listener;
 	}
 
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
 
 		touchPointY = (int) ev.getRawY();
+
+		System.out.println("DragAndDropListView.onInterceptTouchEvent() y = " + touchPointY);
+
+		if (dragAndDropListener != null && dragView != null) {
+			onTouchEvent(ev);
+		}
 
 		return super.onInterceptTouchEvent(ev);
 	}
@@ -104,6 +104,7 @@ public class DragNDropListView extends ExpandableListView implements OnLongClick
 			switch (action) {
 				case MotionEvent.ACTION_UP:
 				case MotionEvent.ACTION_CANCEL:
+
 					stopDragging();
 
 					ViewGroup.LayoutParams layoutParams = trashView.getLayoutParams();
@@ -112,22 +113,26 @@ public class DragNDropListView extends ExpandableListView implements OnLongClick
 					trashView.setLayoutParams(layoutParams);
 					trashView.setVisibility(View.GONE);
 
-					if (ev.getX() > Values.SCREEN_WIDTH * 3 / 4) {
+					if (ev.getX() > getWidth() * 3 / 4) {
+						System.out.println("DragAndDropListView.onTouchEvent() removing x = " + ev.getX());
 						dragAndDropListener.remove(oldItemPosition);
 					} else {
+						System.out.println("DragAndDropListView.onTouchEvent() dropping");
 						dragAndDropListener.drop(firstItemPosition, oldItemPosition);
 					}
 
 					break;
 
-				case MotionEvent.ACTION_DOWN:
-					trashView.setVisibility(View.VISIBLE);
-					Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.trash_in);
-					trashView.startAnimation(animation);
 				case MotionEvent.ACTION_MOVE:
 
 					int y = (int) ev.getY();
 					int itemPosition = pointToPosition((int) ev.getX(), y);
+
+					System.out.println("DragAndDropListView.onTouchEvent() moving itemPosition = " + itemPosition);
+
+					if (itemPosition == INVALID_POSITION) {
+						break;
+					}
 
 					dragView((int) ev.getX(), (int) ev.getRawY());
 					if (itemPosition >= 0) {
@@ -151,12 +156,21 @@ public class DragNDropListView extends ExpandableListView implements OnLongClick
 		return super.onTouchEvent(ev);
 	}
 
+	private void adjustScrollBounds(int y) {
+		if (y >= getHeight() / 3) {
+			upperBound = getHeight() / 3;
+		}
+		if (y <= getHeight() * 2 / 3) {
+			lowerBound = getHeight() * 2 / 3;
+		}
+
+	}
+
 	private void startDragging(Bitmap bitmap, int y) {
 		stopDragging();
 
 		ImageView imageView = new ImageView(getContext());
-		int backgroundColor = DRAG_BACKGROUND_COLOR;
-		imageView.setBackgroundColor(backgroundColor);
+		imageView.setBackgroundColor(DRAG_BACKGROUND_COLOR);
 		imageView.setImageBitmap(bitmap);
 
 		dragViewParameters = createLayoutParameters();
@@ -171,7 +185,6 @@ public class DragNDropListView extends ExpandableListView implements OnLongClick
 
 		WindowManager.LayoutParams windowParameters = new WindowManager.LayoutParams();
 		windowParameters.gravity = Gravity.TOP | Gravity.LEFT;
-		windowParameters.x = 0;
 
 		windowParameters.height = WindowManager.LayoutParams.WRAP_CONTENT;
 		windowParameters.width = screenWidth - originalTrashWidth + 2;
@@ -179,7 +192,6 @@ public class DragNDropListView extends ExpandableListView implements OnLongClick
 				| WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
 				| WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
 		windowParameters.format = PixelFormat.TRANSLUCENT;
-		windowParameters.windowAnimations = 0;
 
 		return windowParameters;
 	}
@@ -237,10 +249,6 @@ public class DragNDropListView extends ExpandableListView implements OnLongClick
 		firstItemPosition = oldItemPosition;
 
 		return true;
-	}
-
-	public void setOnDragAndDropListener(DragAndDropListener listener) {
-		dragAndDropListener = listener;
 	}
 
 }

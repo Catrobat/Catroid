@@ -50,20 +50,20 @@ import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
-import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView;
+import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListView;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class ScriptActivity extends Activity implements OnDismissListener, OnCancelListener {
 	private BrickAdapter adapter;
-	private DragNDropListView listView;
+	private DragAndDropListView listView;
 	private Sprite sprite;
 	private Script scriptToEdit;
 	private ActivityHelper activityHelper = new ActivityHelper(this);
 
 	private void initListeners() {
 		sprite = ProjectManager.getInstance().getCurrentSprite();
-		listView = (DragNDropListView) findViewById(R.id.brick_list_view);
+		listView = (DragAndDropListView) findViewById(R.id.brick_list_view);
 		adapter = new BrickAdapter(this, sprite, listView);
 		if (adapter.getGroupCount() > 0) {
 			ProjectManager.getInstance().setCurrentScript(adapter.getGroup(adapter.getGroupCount() - 1));

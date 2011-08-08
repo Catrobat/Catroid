@@ -48,7 +48,7 @@ import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListener;
-import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView;
+import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListView;
 
 public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDropListener, OnGroupClickListener {
 
@@ -61,7 +61,7 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDr
 	private OnLongClickListener longClickListener;
 	private View childView;
 
-	public BrickAdapter(Context context, Sprite sprite, DragNDropListView listView) {
+	public BrickAdapter(Context context, Sprite sprite, DragAndDropListView listView) {
 		this.context = context;
 		this.sprite = sprite;
 		this.dragging = false;
@@ -209,10 +209,6 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDr
 		notifyDataSetChanged();
 	}
 
-	private ArrayList<Brick> getBrickList() {
-		return sprite.getScript(getCurrentGroup()).getBrickList();
-	}
-
 	public boolean onGroupClick(final ExpandableListView parent, View v, final int groupPosition, long id) {
 
 		if (groupPosition == getCurrentGroup()) {
@@ -254,6 +250,10 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDr
 
 	public OnLongClickListener getOnLongClickListener() {
 		return longClickListener;
+	}
+
+	private ArrayList<Brick> getBrickList() {
+		return sprite.getScript(getCurrentGroup()).getBrickList();
 	}
 
 	private int getCurrentGroup() {
