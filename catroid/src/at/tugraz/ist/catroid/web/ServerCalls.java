@@ -142,14 +142,15 @@ public class ServerCalls {
 		}
 	}
 
-	public boolean registration(String username, String password, String userEmail, String language, String country)
-			throws WebconnectionException {
+	public boolean registration(String username, String password, String userEmail, String language, String country,
+			String token) throws WebconnectionException {
 		try {
 
 			HashMap<String, String> postValues = new HashMap<String, String>();
 			postValues.put(Consts.REG_USER_NAME, username);
 			postValues.put(Consts.REG_USER_PASSWORD, password);
 			postValues.put(Consts.REG_USER_EMAIL, userEmail);
+			postValues.put(Consts.TOKEN, token);
 
 			if (country != null) {
 				postValues.put(Consts.REG_USER_COUNTRY, country);
@@ -195,8 +196,6 @@ public class ServerCalls {
 	 * if ok -> show upload dialog
 	 * if not -> show login dialog again with error message
 	 */
-
-	// registerOrLogin
 
 	// getusernameFromEmail
 
