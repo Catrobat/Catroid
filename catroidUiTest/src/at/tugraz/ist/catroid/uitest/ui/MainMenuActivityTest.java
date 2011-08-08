@@ -20,10 +20,8 @@
 package at.tugraz.ist.catroid.uitest.ui;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
-import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -215,22 +213,22 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 				solo.searchText(getActivity().getString(R.string.error_project_exists)));
 	}
 
-	public void testDefaultProject() throws IOException {
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + getActivity().getString(R.string.default_project_name));
-		UtilFile.deleteDirectory(directory);
-
-		StorageHandler handler = StorageHandler.getInstance();
-		ProjectManager project = ProjectManager.getInstance();
-		project.setProject(handler.createDefaultProject(solo.getCurrentActivity()));
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
-		solo.sleep(8000);
-		Bitmap bitmap = project.getCurrentProject().getSpriteList().get(1).getCostume().getBitmap();
-		assertNotNull("Bitmap is null", bitmap);
-		assertTrue("Sprite not visible", project.getCurrentProject().getSpriteList().get(1).isVisible());
-
-		directory = new File(Consts.DEFAULT_ROOT + "/" + getActivity().getString(R.string.default_project_name));
-		UtilFile.deleteDirectory(directory);
-	}
+	//	public void testDefaultProject() throws IOException {
+	//		File directory = new File(Consts.DEFAULT_ROOT + "/" + getActivity().getString(R.string.default_project_name));
+	//		UtilFile.deleteDirectory(directory);
+	//
+	//		StorageHandler handler = StorageHandler.getInstance();
+	//		ProjectManager project = ProjectManager.getInstance();
+	//		project.setProject(handler.createDefaultProject(solo.getCurrentActivity()));
+	//		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+	//		solo.sleep(8000);
+	//		Bitmap bitmap = project.getCurrentProject().getSpriteList().get(1).getCostume().getBitmap();
+	//		assertNotNull("Bitmap is null", bitmap);
+	//		assertTrue("Sprite not visible", project.getCurrentProject().getSpriteList().get(1).isVisible());
+	//
+	//		directory = new File(Consts.DEFAULT_ROOT + "/" + getActivity().getString(R.string.default_project_name));
+	//		UtilFile.deleteDirectory(directory);
+	//	}
 
 	public void createTestProject(String projectName) {
 		StorageHandler storageHandler = StorageHandler.getInstance();
