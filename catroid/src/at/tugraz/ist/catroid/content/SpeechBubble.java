@@ -37,7 +37,7 @@ public class SpeechBubble implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private static boolean DEBUG_DRAW = false;
+	private static boolean DEBUG_DRAW = true;
 	private String speechBubbleText = "";
 	private int speechBubblePictureID = 0;
 	private int speechBubblePictureInvID = 0;
