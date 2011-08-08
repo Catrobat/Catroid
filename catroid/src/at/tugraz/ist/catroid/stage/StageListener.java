@@ -164,9 +164,7 @@ public class StageListener implements ApplicationListener {
 		SoundManager.getInstance().clear();
 		for (Sprite sprite : sprites) {
 			sprite.finish();
-			if (sprite.costume.region != null && sprite.costume.region.getTexture() != null) {
-				sprite.costume.region.getTexture().dispose();
-			}
+			sprite.costume.disposeTextures();
 		}
 		pauseScreen.dispose();
 	}
