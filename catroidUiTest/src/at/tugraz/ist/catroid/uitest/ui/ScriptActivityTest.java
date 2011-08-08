@@ -23,8 +23,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.graphics.Rect;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.test.ActivityInstrumentationTestCase2;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -89,10 +93,8 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 		ArrayList<Integer> yPosList = getListItemYPositions();
 		assertTrue("Test project brick list smaller than expected", yPosList.size() >= 6);
 
-		solo.clickLongInList(4);
-		solo.drag(30, 30, yPosList.get(4), yPosList.get(2), 20);
+		longClickAndDrag(10, yPosList.get(4), 10, yPosList.get(2), 20);
 		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
-		solo.sleep(1000);
 
 		assertEquals("Brick count not equal before and after dragging & dropping", brickListToCheck.size(),
 				brickList.size());
@@ -107,9 +109,10 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 		ArrayList<Integer> yPosList = getListItemYPositions();
 		assertTrue("Test project brick list smaller than expected", yPosList.size() >= 6);
 
-		solo.clickLongInList(3);
-		solo.drag(30, 400, yPosList.get(2), (yPosList.get(4) + yPosList.get(5)) / 2, 20);
-		solo.sleep(1000);
+		int displayWidth = getActivity().getWindowManager().getDefaultDisplay().getWidth();
+
+		longClickAndDrag(30, yPosList.get(2), displayWidth, yPosList.get(2), 20);
+
 		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
 
 		assertEquals("Brick count did not decrease by one after deleting a brick", brickListToCheck.size() - 1,
@@ -141,4 +144,50 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 		return yPosList;
 	}
 
+	private void longClickAndDrag(final float xFrom, final float yFrom, final float xTo, final float yTo,
+			final int steps) {
+
+		Handler handler = new Handler(getActivity().getMainLooper());
+
+		handler.post(new Runnable() {
+
+			public void run() {
+				MotionEvent downEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
+						MotionEvent.ACTION_DOWN, xFrom, yFrom, 0);
+				getActivity().dispatchTouchEvent(downEvent);
+			}
+		});
+
+		solo.sleep(ViewConfiguration.getLongPressTimeout() + 100);
+
+		handler.post(new Runnable() {
+
+			public void run() {
+
+				for (int i = 0; i <= steps; i++) {
+					float x = xFrom + (((xTo - xFrom) / steps) * i);
+					float y = yFrom + (((yTo - yFrom) / steps) * i);
+					MotionEvent moveEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
+							MotionEvent.ACTION_MOVE, x, y, 0);
+					getActivity().dispatchTouchEvent(moveEvent);
+
+					solo.sleep(10);
+				}
+			}
+		});
+
+		solo.sleep(steps * 10 + 100);
+
+		handler.post(new Runnable() {
+
+			public void run() {
+				MotionEvent upEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
+						MotionEvent.ACTION_UP, xTo, yTo, 0);
+				getActivity().dispatchTouchEvent(upEvent);
+			}
+		});
+
+		solo.sleep(1000);
+
+	}
 }
