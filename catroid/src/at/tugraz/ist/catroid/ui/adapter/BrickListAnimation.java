@@ -26,14 +26,14 @@ import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
 import at.tugraz.ist.catroid.common.Consts;
-import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView;
+import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListView;
 
 public class BrickListAnimation {
 
-	private DragNDropListView listView;
+	private DragAndDropListView listView;
 	private BrickAdapter adapter;
 
-	public BrickListAnimation(BrickAdapter adapter, DragNDropListView listView) {
+	public BrickListAnimation(BrickAdapter adapter, DragAndDropListView listView) {
 		this.adapter = adapter;
 		this.listView = listView;
 	}

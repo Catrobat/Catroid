@@ -47,7 +47,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 		>
-			<at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView
+			<at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListView
 				android:id="@+id/brick_list_view"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
