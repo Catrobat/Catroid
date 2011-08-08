@@ -268,7 +268,7 @@ public class Costume extends Image {
 
 	public void changeAlphaValueBy(float value) {
 		alphaValueLock.acquireUninterruptibly();
-		float newAlphaValue = this.alphaValue - value;
+		float newAlphaValue = this.alphaValue + value;
 		if (newAlphaValue < 0f) {
 			this.alphaValue = 0f;
 		} else if (newAlphaValue > 1f) {
