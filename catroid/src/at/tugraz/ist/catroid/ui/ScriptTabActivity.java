@@ -66,11 +66,11 @@ public class ScriptTabActivity extends TabActivity {
 		Intent intent; // Reusable Intent for each tab
 
 		intent = new Intent().setClass(this, ScriptActivity.class);
-		setupTab(new TextView(this), this.getString(R.string.scripts), intent);
+		setupTab(null, this.getString(R.string.scripts), intent);
 		intent = new Intent().setClass(this, CostumeActivity.class);
-		setupTab(new TextView(this), this.getString(R.string.costumes), intent);
+		setupTab(null, this.getString(R.string.costumes), intent);
 		intent = new Intent().setClass(this, SoundActivity.class);
-		setupTab(new TextView(this), this.getString(R.string.sounds), intent);
+		setupTab(R.drawable.ic_sounds, this.getString(R.string.sounds), intent);
 
 		setUpActionBar();
 		if (getLastNonConfigurationInstance() != null) {
@@ -104,18 +104,21 @@ public class ScriptTabActivity extends TabActivity {
 		}, false);
 	}
 
-	private void setupTab(final View view, final String tag, Intent intent) {
-		View tabview = createTabView(tabHost.getContext(), tag);
+	private void setupTab(Integer drawableId, final String tag, Intent intent) {
+		View tabview = createTabView(drawableId, tabHost.getContext(), tag);
 
 		TabSpec setContent = tabHost.newTabSpec(tag).setIndicator(tabview).setContent(intent);
 		tabHost.addTab(setContent);
 
 	}
 
-	private static View createTabView(final Context context, final String text) {
+	private static View createTabView(Integer id, final Context context, final String text) {
 		View view = LayoutInflater.from(context).inflate(R.layout.activity_tabscriptactivity_tabs, null);
 		TextView tv = (TextView) view.findViewById(R.id.tabsText);
 		tv.setText(text);
+		if (id != null) {
+			tv.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_sounds, 0);
+		}
 		return view;
 	}
 
