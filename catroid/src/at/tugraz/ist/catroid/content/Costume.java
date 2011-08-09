@@ -140,14 +140,15 @@ public class Costume extends Image {
 			}
 
 			this.region = new TextureRegion(texture);
-			this.originX = this.width / 2f;
-			this.originY = this.height / 2f;
 			xyLock.acquireUninterruptibly();
 			this.width = this.region.getTexture().getWidth();
 			this.height = this.region.getTexture().getHeight();
 			this.x -= this.width / 2;
 			this.y -= this.height / 2;
 			xyLock.release();
+			this.originX = this.width / 2f;
+			this.originY = this.height / 2f;
+
 			imageChanged = false;
 		}
 		imageLock.release();
