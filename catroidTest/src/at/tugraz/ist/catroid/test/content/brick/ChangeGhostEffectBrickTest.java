@@ -32,7 +32,7 @@ public class ChangeGhostEffectBrickTest extends AndroidTestCase {
 		assertEquals("Unexpected initial sprite ghost effect value", 1f, sprite.costume.getAlphaValue());
 
 		float ghostEffect = sprite.costume.getAlphaValue();
-		ghostEffect += increaseGhostEffect;
+		ghostEffect -= increaseGhostEffect;
 
 		ChangeGhostEffectBrick brick1 = new ChangeGhostEffectBrick(sprite, increaseGhostEffect * 100);
 		brick1.execute();
@@ -40,7 +40,7 @@ public class ChangeGhostEffectBrickTest extends AndroidTestCase {
 				sprite.costume.getAlphaValue());
 
 		ghostEffect = sprite.costume.getAlphaValue();
-		ghostEffect += decreaseGhostEffect;
+		ghostEffect -= decreaseGhostEffect;
 
 		ChangeGhostEffectBrick brick2 = new ChangeGhostEffectBrick(sprite, decreaseGhostEffect * 100);
 		brick2.execute();
