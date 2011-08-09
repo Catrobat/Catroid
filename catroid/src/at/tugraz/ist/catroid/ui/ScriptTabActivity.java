@@ -165,7 +165,7 @@ public class ScriptTabActivity extends TabActivity {
 	}
 
 	public void handleNegativeButtonRenameSound(View v) {
-		renameSoundDialog.renameDialog.dismiss();
+		dismissDialog(Consts.DIALOG_RENAME_SOUND);
 	}
 
 	public void handlePositiveButtonRenameCostume(View v) {
@@ -173,7 +173,7 @@ public class ScriptTabActivity extends TabActivity {
 	}
 
 	public void handleNegativeButtonRenameCostume(View v) {
-		renameCostumeDialog.renameDialog.cancel();
+		dismissDialog(Consts.DIALOG_RENAME_COSTUME);
 	}
 
 }
