@@ -38,11 +38,13 @@ public class ServerCallsTest extends AndroidTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
+		ServerCalls.useTestUrl = true;
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
 		TestUtils.clearProject("uploadtestProject");
+		ServerCalls.useTestUrl = false;
 		super.tearDown();
 	}
 
@@ -51,9 +53,8 @@ public class ServerCallsTest extends AndroidTestCase {
 			String testUser = "testUser" + System.currentTimeMillis();
 			String testPassword = "pws";
 			String token = UtilToken.calculateToken(testUser, testPassword);
-			boolean regOk = ServerCalls.getInstance().registration(testUser, "pws", "mail", "de", "at", token);
+			boolean regOk = ServerCalls.getInstance().registration(testUser, testPassword, "mail", "de", "at", token);
 
-			Log.i(LOG_TAG, "regOk: " + regOk);
 			assertTrue("reg should be ok", regOk);
 
 		} catch (WebconnectionException e) {
