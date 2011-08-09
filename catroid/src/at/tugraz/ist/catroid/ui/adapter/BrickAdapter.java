@@ -47,8 +47,8 @@ import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
-import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListener;
 import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListView;
+import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListener;
 
 public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDropListener, OnGroupClickListener {
 
@@ -59,7 +59,7 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDr
 	private int dragTargetPosition;
 	private boolean dragging;
 	private OnLongClickListener longClickListener;
-	private View childView;
+	private View insertionView;
 
 	public BrickAdapter(Context context, Sprite sprite, DragAndDropListView listView) {
 		this.context = context;
@@ -67,7 +67,7 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDr
 		this.dragging = false;
 		brickListAnimation = new BrickListAnimation(this, listView);
 		longClickListener = listView;
-		childView = View.inflate(context, R.layout.brick_insert, null);
+		insertionView = View.inflate(context, R.layout.brick_insert, null);
 	}
 
 	public Brick getChild(int groupPosition, int childPosition) {
@@ -80,10 +80,11 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDr
 
 	public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView,
 			ViewGroup parent) {
+
 		Brick brick = getChild(groupPosition, childPosition);
 
 		if (dragging && (dragTargetPosition == childPosition)) {
-			return childView;
+			return insertionView;
 		}
 
 		View currentBrickView = brick.getView(context, childPosition, this);
@@ -122,6 +123,7 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDr
 
 	public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 		View view;
+
 		if (getGroup(groupPosition) instanceof TapScript) {
 			view = new IfTouchedBrick(sprite, getGroup(groupPosition)).getView(context, groupPosition, this);
 		} else if (getGroup(groupPosition) instanceof BroadcastScript) {
@@ -130,6 +132,7 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDr
 		} else {
 			view = new IfStartedBrick(sprite, getGroup(groupPosition)).getView(context, groupPosition, this);
 		}
+
 		return view;
 	}
 
