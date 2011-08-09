@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -191,6 +192,12 @@ public class ProjectActivity extends ListActivity {
 				if (dialog != null && spriteToEdit != null) {
 					EditText spriteTitleInput = (EditText) dialog.findViewById(R.id.dialog_rename_sprite_editText);
 					spriteTitleInput.setText(spriteToEdit.getName());
+				}
+				break;
+			case Consts.DIALOG_NEW_SPRITE:
+				if (dialog != null) {
+					Button buttonPositive = (Button) dialog.findViewById(R.id.dialog_new_sprite_ok_button);
+					buttonPositive.setEnabled(false);
 				}
 				break;
 		}
