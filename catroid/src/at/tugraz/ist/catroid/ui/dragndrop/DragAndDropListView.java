@@ -21,13 +21,11 @@
  */
 package at.tugraz.ist.catroid.ui.dragndrop;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -42,40 +40,41 @@ import at.tugraz.ist.catroid.R;
 
 public class DragAndDropListView extends ExpandableListView implements OnLongClickListener {
 
+	private static final int SCROLL_SPEED = 10;
 	private static final int DRAG_BACKGROUND_COLOR = Color.parseColor("#e0103010");
 
-	private ImageView dragView;
-	private WindowManager.LayoutParams dragViewParameters;
-
-	private int oldItemPosition;
+	private int previousItemPosition;
 	private int firstItemPosition;
-	private int itemHeight;
 	private int touchPointY;
 
-	private int upperBound;
-	private int lowerBound;
+	private int upperScrollBound;
+	private int lowerScrollBound;
+
+	private ImageView dragView;
 
 	private ImageView trashView;
 	private int originalTrashWidth;
 	private int originalTrashHeight;
 
-	private int screenWidth;
-
 	private DragAndDropListener dragAndDropListener;
 
-	public DragAndDropListView(Context context, AttributeSet attrs) {
-		super(context, attrs);
+	public DragAndDropListView(Context context) {
+		super(context);
+	}
 
-		DisplayMetrics displayMetrics = new DisplayMetrics();
-		((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-		screenWidth = displayMetrics.widthPixels;
+	public DragAndDropListView(Context context, AttributeSet attributes) {
+		super(context, attributes);
+	}
+
+	public DragAndDropListView(Context context, AttributeSet attributes, int defStyle) {
+		super(context, attributes, defStyle);
 	}
 
 	public void setTrashView(ImageView trashView) {
 		this.trashView = trashView;
-		ViewGroup.LayoutParams params = trashView.getLayoutParams();
-		originalTrashWidth = params.width;
-		originalTrashHeight = params.height;
+		ViewGroup.LayoutParams parameters = trashView.getLayoutParams();
+		originalTrashWidth = parameters.width;
+		originalTrashHeight = parameters.height;
 	}
 
 	public void setOnDragAndDropListener(DragAndDropListener listener) {
@@ -83,87 +82,97 @@ public class DragAndDropListView extends ExpandableListView implements OnLongCli
 	}
 
 	@Override
-	public boolean onInterceptTouchEvent(MotionEvent ev) {
+	public boolean onInterceptTouchEvent(MotionEvent event) {
 
-		touchPointY = (int) ev.getRawY();
-
-		System.out.println("DragAndDropListView.onInterceptTouchEvent() y = " + touchPointY);
+		touchPointY = (int) event.getRawY();
 
 		if (dragAndDropListener != null && dragView != null) {
-			onTouchEvent(ev);
+			onTouchEvent(event);
 		}
 
-		return super.onInterceptTouchEvent(ev);
+		return super.onInterceptTouchEvent(event);
 	}
 
 	@Override
-	public boolean onTouchEvent(MotionEvent ev) {
+	public boolean onTouchEvent(MotionEvent event) {
+
+		int x = (int) event.getX();
+		int y = (int) event.getY();
 
 		if (dragAndDropListener != null && dragView != null) {
-			int action = ev.getAction();
+			int action = event.getAction();
 			switch (action) {
 				case MotionEvent.ACTION_UP:
 				case MotionEvent.ACTION_CANCEL:
 
 					stopDragging();
 
-					ViewGroup.LayoutParams layoutParams = trashView.getLayoutParams();
-					layoutParams.width = originalTrashWidth;
-					layoutParams.height = originalTrashHeight;
-					trashView.setLayoutParams(layoutParams);
+					ViewGroup.LayoutParams layoutParamemters = trashView.getLayoutParams();
+					layoutParamemters.width = originalTrashWidth;
+					layoutParamemters.height = originalTrashHeight;
+					trashView.setLayoutParams(layoutParamemters);
 					trashView.setVisibility(View.GONE);
 
-					if (ev.getX() > getWidth() * 3 / 4) {
-						System.out.println("DragAndDropListView.onTouchEvent() removing x = " + ev.getX());
-						dragAndDropListener.remove(oldItemPosition);
+					if (x > getWidth() * 3 / 4) {
+						dragAndDropListener.remove(previousItemPosition);
 					} else {
-						System.out.println("DragAndDropListView.onTouchEvent() dropping");
-						dragAndDropListener.drop(firstItemPosition, oldItemPosition);
+						dragAndDropListener.drop(firstItemPosition, previousItemPosition);
 					}
 
 					break;
 
 				case MotionEvent.ACTION_MOVE:
 
-					int y = (int) ev.getY();
-					int itemPosition = pointToPosition((int) ev.getX(), y);
+					int itemPosition = pointToPosition(x, y);
 
-					System.out.println("DragAndDropListView.onTouchEvent() moving itemPosition = " + itemPosition);
-
-					if (itemPosition == INVALID_POSITION) {
-						break;
+					if (y > lowerScrollBound) {
+						smoothScrollBy(SCROLL_SPEED, 1);
+					} else if (y < upperScrollBound) {
+						smoothScrollBy(-SCROLL_SPEED, 1);
 					}
 
-					dragView((int) ev.getX(), (int) ev.getRawY());
-					if (itemPosition >= 0) {
-						dragAndDropListener.drag(oldItemPosition, itemPosition);
-						oldItemPosition = itemPosition;
+					dragView(x, (int) event.getRawY());
 
-						adjustScrollBounds(y);
-
-						if (y > lowerBound) {
-							smoothScrollBy(10, 1);
-						} else if (y < upperBound) {
-							smoothScrollBy(-10, 1);
-						}
-
+					if (itemPosition != INVALID_POSITION) {
+						dragAndDropListener.drag(previousItemPosition, itemPosition);
+						previousItemPosition = itemPosition;
 					}
 
 					break;
 			}
 			return true;
 		}
-		return super.onTouchEvent(ev);
+		return super.onTouchEvent(event);
 	}
 
-	private void adjustScrollBounds(int y) {
-		if (y >= getHeight() / 3) {
-			upperBound = getHeight() / 3;
-		}
-		if (y <= getHeight() * 2 / 3) {
-			lowerBound = getHeight() * 2 / 3;
-		}
+	@Override
+	protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
+		super.onSizeChanged(width, height, oldWidth, oldHeight);
+		upperScrollBound = height / 3;
+		lowerScrollBound = height * 2 / 3;
+	}
 
+	public boolean onLongClick(View view) {
+
+		int itemPosition = pointToPosition(view.getLeft(), view.getTop());
+
+		boolean drawingCacheEnabled = view.isDrawingCacheEnabled();
+
+		view.setDrawingCacheEnabled(true);
+		Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
+		view.setDrawingCacheEnabled(drawingCacheEnabled);
+
+		startDragging(bitmap, touchPointY);
+		dragAndDropListener.drag(itemPosition, itemPosition);
+
+		trashView.setVisibility(View.VISIBLE);
+		Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.trash_in);
+		trashView.startAnimation(animation);
+
+		previousItemPosition = itemPosition;
+		firstItemPosition = previousItemPosition;
+
+		return true;
 	}
 
 	private void startDragging(Bitmap bitmap, int y) {
@@ -173,12 +182,44 @@ public class DragAndDropListView extends ExpandableListView implements OnLongCli
 		imageView.setBackgroundColor(DRAG_BACKGROUND_COLOR);
 		imageView.setImageBitmap(bitmap);
 
-		dragViewParameters = createLayoutParameters();
-		dragViewParameters.y = y - itemHeight / 2;
+		WindowManager.LayoutParams dragViewParameters = createLayoutParameters();
+		dragViewParameters.y = y - bitmap.getHeight() / 2;
 
-		WindowManager windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+		WindowManager windowManager = getWindowManager();
 		windowManager.addView(imageView, dragViewParameters);
 		dragView = imageView;
+	}
+
+	private void dragView(int x, int y) {
+
+		ViewGroup.LayoutParams trashViewParameters = trashView.getLayoutParams();
+		WindowManager.LayoutParams dragViewParameters = (WindowManager.LayoutParams) dragView.getLayoutParams();
+
+		if (x > 100 && x < getWidth() - 100) {
+			float alpha = ((float) (getWidth() - x)) / (getWidth() - 100);
+			float rate = 1 - alpha;
+			trashViewParameters.width = (int) (originalTrashWidth * (1 + rate));
+			trashViewParameters.height = (int) (originalTrashHeight * (1 + rate));
+			trashView.setLayoutParams(trashViewParameters);
+
+			dragViewParameters.alpha = alpha;
+			dragViewParameters.width = getWidth() - trashViewParameters.width + 2;
+		}
+
+		dragViewParameters.y = y - dragView.getHeight() / 2;
+
+		WindowManager windowManager = getWindowManager();
+		windowManager.updateViewLayout(dragView, dragViewParameters);
+	}
+
+	private void stopDragging() {
+		if (dragView != null) {
+			dragView.setVisibility(GONE);
+			WindowManager windowManager = getWindowManager();
+			windowManager.removeView(dragView);
+			dragView.setImageDrawable(null);
+			dragView = null;
+		}
 	}
 
 	private WindowManager.LayoutParams createLayoutParameters() {
@@ -187,7 +228,7 @@ public class DragAndDropListView extends ExpandableListView implements OnLongCli
 		windowParameters.gravity = Gravity.TOP | Gravity.LEFT;
 
 		windowParameters.height = WindowManager.LayoutParams.WRAP_CONTENT;
-		windowParameters.width = screenWidth - originalTrashWidth + 2;
+		windowParameters.width = getWidth() - originalTrashWidth + 2;
 		windowParameters.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
 				| WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
 				| WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
@@ -196,59 +237,7 @@ public class DragAndDropListView extends ExpandableListView implements OnLongCli
 		return windowParameters;
 	}
 
-	private void dragView(int x, int y) {
-
-		float alpha = 1.0f;
-		android.view.ViewGroup.LayoutParams layoutParams = trashView.getLayoutParams();
-
-		if (x > 100 && x < screenWidth - 100) {
-			alpha = ((float) (screenWidth - x)) / (screenWidth - 100);
-			float rate = 1 - alpha;
-			layoutParams.width = (int) (originalTrashWidth * (1 + rate));
-			layoutParams.height = (int) (originalTrashHeight * (1 + rate));
-			trashView.setLayoutParams(layoutParams);
-
-			dragViewParameters.alpha = alpha;
-			dragViewParameters.width = screenWidth - layoutParams.width + 2;
-		}
-
-		dragViewParameters.y = y - itemHeight / 2;
-		WindowManager windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
-		windowManager.updateViewLayout(dragView, dragViewParameters);
+	private WindowManager getWindowManager() {
+		return (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
 	}
-
-	private void stopDragging() {
-		if (dragView != null) {
-			dragView.setVisibility(GONE);
-			WindowManager windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
-			windowManager.removeView(dragView);
-			dragView.setImageDrawable(null);
-			dragView = null;
-		}
-	}
-
-	public boolean onLongClick(View v) {
-
-		int itemPosition = pointToPosition(v.getLeft(), v.getTop());
-		itemHeight = v.getHeight();
-
-		boolean drawingCacheEnabled = v.isDrawingCacheEnabled();
-
-		v.setDrawingCacheEnabled(true);
-		Bitmap bitmap = Bitmap.createBitmap(v.getDrawingCache());
-		v.setDrawingCacheEnabled(drawingCacheEnabled);
-
-		startDragging(bitmap, touchPointY);
-		dragAndDropListener.drag(itemPosition, itemPosition);
-
-		trashView.setVisibility(View.VISIBLE);
-		Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.trash_in);
-		trashView.startAnimation(animation);
-
-		oldItemPosition = itemPosition;
-		firstItemPosition = oldItemPosition;
-
-		return true;
-	}
-
 }
