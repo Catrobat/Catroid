@@ -49,8 +49,8 @@ public class StartThreadsTest extends AndroidTestCase {
 		}
 
 		assertFalse("Sprite is not hidden", testSprite.costume.show);
-		assertEquals("the size is not as expected", size, testSprite.costume.scaleX);
-		assertEquals("the size is not as expected", size, testSprite.costume.scaleY);
+		assertEquals("the size is not as expected", (float) size / 100, testSprite.costume.scaleX);
+		assertEquals("the size is not as expected", (float) size / 100, testSprite.costume.scaleY);
 	}
 
 	public void testResumeThreads() {

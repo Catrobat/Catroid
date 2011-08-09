@@ -35,8 +35,8 @@ public class GlideToBrickTest extends AndroidTestCase {
 
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite x position", 0, sprite.costume.getXPosition());
-		assertEquals("Unexpected initial sprite y position", 0, sprite.costume.getYPosition());
+		assertEquals("Unexpected initial sprite x position", 0f, sprite.costume.getXPosition());
+		assertEquals("Unexpected initial sprite y position", 0f, sprite.costume.getYPosition());
 
 		GlideToBrick glideToBrick = new GlideToBrick(sprite, xPosition, yPosition, duration);
 		glideToBrick.execute();
@@ -47,9 +47,9 @@ public class GlideToBrickTest extends AndroidTestCase {
 			e.printStackTrace();
 		}
 
-		assertEquals("Incorrect sprite x position after GlideToBrick executed", xPosition,
+		assertEquals("Incorrect sprite x position after GlideToBrick executed", (float) xPosition,
 				sprite.costume.getXPosition());
-		assertEquals("Incorrect sprite y position after GlideToBrick executed", yPosition,
+		assertEquals("Incorrect sprite y position after GlideToBrick executed", (float) yPosition,
 				sprite.costume.getYPosition());
 	}
 
@@ -66,21 +66,21 @@ public class GlideToBrickTest extends AndroidTestCase {
 	public void testBoundaryPositions() {
 		Sprite sprite = new Sprite("testSprite");
 
-		PlaceAtBrick brick = new PlaceAtBrick(sprite, Integer.MAX_VALUE, Integer.MAX_VALUE);
+		PlaceAtBrick brick = new PlaceAtBrick(sprite, (int) Float.MAX_VALUE, (int) Float.MAX_VALUE);
 		brick.execute();
 
-		assertEquals("PlaceAtBrick failed to place Sprite at maximum x integer value", Integer.MAX_VALUE,
-				sprite.costume.getXPosition());
-		assertEquals("PlaceAtBrick failed to place Sprite at maximum y integer value", Integer.MAX_VALUE,
-				sprite.costume.getYPosition());
+		assertEquals("PlaceAtBrick failed to place Sprite at maximum x float value", (int) Float.MAX_VALUE,
+				(int) sprite.costume.getXPosition());
+		assertEquals("PlaceAtBrick failed to place Sprite at maximum y float value", (int) Float.MAX_VALUE,
+				(int) sprite.costume.getYPosition());
 
-		brick = new PlaceAtBrick(sprite, Integer.MIN_VALUE, Integer.MIN_VALUE);
+		brick = new PlaceAtBrick(sprite, (int) Float.MIN_VALUE, (int) Float.MIN_VALUE);
 		brick.execute();
 
-		assertEquals("PlaceAtBrick failed to place Sprite at minimum x integer value", Integer.MIN_VALUE,
-				sprite.costume.getXPosition());
-		assertEquals("PlaceAtBrick failed to place Sprite at minimum y integer value", Integer.MIN_VALUE,
-				sprite.costume.getYPosition());
+		assertEquals("PlaceAtBrick failed to place Sprite at minimum x float value", (int) Float.MIN_VALUE,
+				(int) sprite.costume.getXPosition());
+		assertEquals("PlaceAtBrick failed to place Sprite at minimum y float value", (int) Float.MIN_VALUE,
+				(int) sprite.costume.getYPosition());
 	}
 
 	public void testTime() {
