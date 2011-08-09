@@ -23,17 +23,17 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnKeyListener;
-import android.content.DialogInterface.OnShowListener;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.SoundActivity;
@@ -44,7 +44,6 @@ public class RenameSoundDialog {
 	protected ScriptTabActivity scriptTabActivity;
 	private EditText input;
 	private Button buttonPositive;
-	public Dialog renameDialog;
 
 	public RenameSoundDialog(ScriptTabActivity scriptTabActivity) {
 		this.scriptTabActivity = scriptTabActivity;
@@ -66,10 +65,19 @@ public class RenameSoundDialog {
 
 		initKeyListener(builder);
 
-		renameDialog = builder.create();
+		final Dialog renameDialog = builder.create();
 		renameDialog.setCanceledOnTouchOutside(true);
 
 		initAlertDialogListener(renameDialog);
+
+		input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					renameDialog.getWindow().setSoftInputMode(
+							WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+				}
+			}
+		});
 
 		return renameDialog;
 	}
@@ -79,7 +87,7 @@ public class RenameSoundDialog {
 		String oldSoundTitle = scriptTabActivity.selectedSoundInfo.getTitle();
 
 		if (newSoundTitle.equalsIgnoreCase(oldSoundTitle)) {
-			renameDialog.dismiss();
+			scriptTabActivity.dismissDialog(Consts.DIALOG_RENAME_SOUND);
 			return;
 		}
 		if (newSoundTitle != null && !newSoundTitle.equalsIgnoreCase("")) {
@@ -90,7 +98,7 @@ public class RenameSoundDialog {
 			Utils.displayErrorMessage(scriptTabActivity, scriptTabActivity.getString(R.string.soundname_invalid));
 			return;
 		}
-		renameDialog.dismiss();
+		scriptTabActivity.dismissDialog(Consts.DIALOG_RENAME_SOUND);
 	}
 
 	private void initKeyListener(AlertDialog.Builder builder) {
@@ -107,13 +115,13 @@ public class RenameSoundDialog {
 
 	private void initAlertDialogListener(Dialog dialog) {
 
-		dialog.setOnShowListener(new OnShowListener() {
-			public void onShow(DialogInterface dialog) {
-				InputMethodManager inputManager = (InputMethodManager) scriptTabActivity
-						.getSystemService(Context.INPUT_METHOD_SERVICE);
-				inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
-			}
-		});
+		//		dialog.setOnShowListener(new OnShowListener() {
+		//			public void onShow(DialogInterface dialog) {
+		//				InputMethodManager inputManager = (InputMethodManager) scriptTabActivity
+		//						.getSystemService(Context.INPUT_METHOD_SERVICE);
+		//				inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
+		//			}
+		//		});
 
 		input.addTextChangedListener(new TextWatcher() {
 			public void onTextChanged(CharSequence s, int start, int before, int count) {

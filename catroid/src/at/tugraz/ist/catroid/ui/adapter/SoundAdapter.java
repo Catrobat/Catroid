@@ -46,11 +46,10 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 	protected SoundActivity activity;
 	protected ScriptTabActivity scriptTabActivity;
 
-	public SoundAdapter(final SoundActivity activity, final ScriptTabActivity scriptTabActivity,
-			int textViewResourceId, ArrayList<SoundInfo> items) {
+	public SoundAdapter(final SoundActivity activity, int textViewResourceId, ArrayList<SoundInfo> items) {
 		super(activity, textViewResourceId, items);
 		this.activity = activity;
-		this.scriptTabActivity = scriptTabActivity;
+		this.scriptTabActivity = (ScriptTabActivity) activity.getParent();
 
 		soundInfoItems = items;
 	}

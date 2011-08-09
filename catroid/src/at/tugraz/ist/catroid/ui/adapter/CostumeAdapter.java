@@ -45,11 +45,10 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 	protected CostumeActivity activity;
 	protected ScriptTabActivity scriptTabActivity;
 
-	public CostumeAdapter(final CostumeActivity activity, final ScriptTabActivity scriptTabActivity,
-			int textViewResourceId, ArrayList<CostumeData> items) {
+	public CostumeAdapter(final CostumeActivity activity, int textViewResourceId, ArrayList<CostumeData> items) {
 		super(activity, textViewResourceId, items);
 		this.activity = activity;
-		this.scriptTabActivity = scriptTabActivity;
+		this.scriptTabActivity = (ScriptTabActivity) activity.getParent();
 		costumeDataItems = items;
 	}
 
