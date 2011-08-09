@@ -303,6 +303,9 @@
     <string name="error_load_sound">
     	An error occurred while loading the sound.
     </string>
+    <string name="error_internet_connection">
+    	An error occurred. Internet connection not available.
+    </string>
 
     <!-- Notifications -->
     <string name="success_project_upload">Upload successful.</string>

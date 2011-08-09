@@ -18,30 +18,28 @@
  */
 package at.tugraz.ist.catroid.ui.dialogs;
 
+import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.utils.UtilDeviceInfo;
-import at.tugraz.ist.catroid.utils.UtilToken;
-import at.tugraz.ist.catroid.web.ServerCalls;
-import at.tugraz.ist.catroid.web.WebconnectionException;
+import at.tugraz.ist.catroid.transfers.RegistrationTask;
 
 public class LoginRegisterDialog extends Dialog implements OnClickListener {
-	private final Context context;
+	private final Activity activity;
 
 	private EditText usernameEditText;
 	private EditText passwordEditText;
 	private Button loginOrRegister;
 	private Button passwordForgotten;
 
-	public LoginRegisterDialog(Context context) {
-		super(context);
-		this.context = context;
+	public LoginRegisterDialog(Activity activity) {
+		super(activity);
+		this.activity = activity;
 	}
 
 	@Override
@@ -50,6 +48,7 @@ public class LoginRegisterDialog extends Dialog implements OnClickListener {
 		setContentView(R.layout.dialog_login_register);
 		setTitle(R.string.login_register_dialog_title);
 		setCanceledOnTouchOutside(true);
+		getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 
 		initializeViews();
 		initializeListeners();
@@ -94,21 +93,10 @@ public class LoginRegisterDialog extends Dialog implements OnClickListener {
 			case R.id.login_register_button:
 				String username = usernameEditText.getText().toString();
 				String password = passwordEditText.getText().toString();
-				String email = "mail";
-				String language = UtilDeviceInfo.getUserCountryCode(context);
-				String country = UtilDeviceInfo.getUserLanguageCode(context);
-				String token = UtilToken.calculateToken(username, password);
 
-				try {
-					// need a task
-					ServerCalls.getInstance().registration(username, password, email, language, country, token);
+				new RegistrationTask(activity, username, password, this).execute();
 
-					// do ok things
-				} catch (WebconnectionException e) {
-					e.printStackTrace();
-				}
 				break;
-
 			case R.id.password_forgotten_button:
 				dismiss();
 				break;

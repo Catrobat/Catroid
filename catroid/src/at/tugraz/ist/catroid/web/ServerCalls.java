@@ -89,14 +89,14 @@ public class ServerCalls {
 			if (statusCode == 200) {
 				return serverAnswer;
 			} else {
-				throw new WebconnectionException(0);
+				throw new WebconnectionException(statusCode, serverAnswer);
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
-			throw new WebconnectionException(0);
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON);
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new WebconnectionException(0);
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK);
 		}
 	}
 
@@ -126,19 +126,19 @@ public class ServerCalls {
 
 			jsonObject = new JSONObject(resultString);
 			statusCode = jsonObject.getInt("statusCode");
-			//String serverAnswer = jsonObject.getString("answer");
+			String serverAnswer = jsonObject.optString("answer");
 
 			if (statusCode == 200) {
 				return true;
 			} else {
-				throw new WebconnectionException(0);
+				throw new WebconnectionException(statusCode, serverAnswer);
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
-			throw new WebconnectionException(0);
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON);
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new WebconnectionException(0);
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK);
 		}
 	}
 
@@ -170,19 +170,19 @@ public class ServerCalls {
 
 			jsonObject = new JSONObject(resultString);
 			statusCode = jsonObject.getInt("statusCode");
-			//String serverAnswer = jsonObject.getString("answer");
+			String serverAnswer = jsonObject.optString("answer");
 
 			if (statusCode == 200) {
 				return true;
 			} else {
-				throw new WebconnectionException(0);
+				throw new WebconnectionException(statusCode, serverAnswer);
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
-			throw new WebconnectionException(0);
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON);
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new WebconnectionException(0);
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK);
 		}
 	}
 	/*

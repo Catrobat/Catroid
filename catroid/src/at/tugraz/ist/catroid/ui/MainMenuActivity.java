@@ -38,10 +38,11 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.StageActivity;
+import at.tugraz.ist.catroid.transfers.CheckTokenTask;
 import at.tugraz.ist.catroid.ui.dialogs.AboutDialog;
 import at.tugraz.ist.catroid.ui.dialogs.LoadProjectDialog;
+import at.tugraz.ist.catroid.ui.dialogs.LoginRegisterDialog;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
-import at.tugraz.ist.catroid.ui.dialogs.UploadProjectDialog;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -111,7 +112,14 @@ public class MainMenuActivity extends Activity {
 					dialog = null;
 					break;
 				}
-				dialog = new UploadProjectDialog(this);
+				SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+				String token = preferences.getString(Consts.TOKEN, null);
+				if (token == null || token.length() == 0 || token.equals("0")) {
+					dialog = new LoginRegisterDialog(this);
+					break;
+				}
+				new CheckTokenTask(this, token).execute();
+				dialog = null;
 				break;
 			default:
 				dialog = null;
