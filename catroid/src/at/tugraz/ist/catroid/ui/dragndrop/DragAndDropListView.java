@@ -40,6 +40,10 @@ import at.tugraz.ist.catroid.R;
 
 public class DragAndDropListView extends ExpandableListView implements OnLongClickListener {
 
+	/**
+	 * 
+	 */
+	private static final int SCROLL_DURATION = 1;
 	private static final int SCROLL_SPEED = 10;
 	private static final int DRAG_BACKGROUND_COLOR = Color.parseColor("#e0103010");
 
@@ -126,9 +130,9 @@ public class DragAndDropListView extends ExpandableListView implements OnLongCli
 					int itemPosition = pointToPosition(x, y);
 
 					if (y > lowerScrollBound) {
-						smoothScrollBy(SCROLL_SPEED, 1);
+						smoothScrollBy(SCROLL_SPEED, SCROLL_DURATION);
 					} else if (y < upperScrollBound) {
-						smoothScrollBy(-SCROLL_SPEED, 1);
+						smoothScrollBy(-SCROLL_SPEED, SCROLL_DURATION);
 					}
 
 					dragView(x, (int) event.getRawY());

@@ -93,6 +93,8 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDr
 			brickListAnimation.doExpandAnimation(currentBrickView, childPosition);
 		}
 
+		//Hack!!!
+		//if wrapper isn't used the longClick event won't be triggered
 		ViewGroup wrapper = (ViewGroup) View.inflate(context, R.layout.construction_brick_wrapper, null);
 
 		if (currentBrickView.getParent() != null) {
