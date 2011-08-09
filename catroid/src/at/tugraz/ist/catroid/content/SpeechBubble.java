@@ -37,7 +37,7 @@ public class SpeechBubble implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private static boolean DEBUG_DRAW = true;
+	private static boolean DEBUG_DRAW = false;
 	private String speechBubbleText = "";
 	private int speechBubblePictureID = 0;
 	private int speechBubblePictureInvID = 0;
@@ -53,7 +53,7 @@ public class SpeechBubble implements Serializable {
 	private float textOffsetLeft = 10;
 	private float textOffsetRight = 10;
 	private float textOffsetTop = 5;
-	private float textOffsetBottom = 30;
+	private float textOffsetBottom = 25;
 	private Paint textPaint;
 	private Paint debugPaint;
 	private float textSize;
