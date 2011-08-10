@@ -51,7 +51,7 @@ public class IfTouchedBrick implements Brick {
 	public View getView(Context context, int brickId, final BaseExpandableListAdapter adapter) {
 
 		if (view == null) {
-			view = View.inflate(context, R.layout.construction_brick_touched, null);
+			view = View.inflate(context, R.layout.toolbox_brick_touched, null);
 		}
 		return view;
 	}

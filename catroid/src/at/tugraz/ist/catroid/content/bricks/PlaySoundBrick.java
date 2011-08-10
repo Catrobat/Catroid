@@ -83,7 +83,7 @@ public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable 
 		soundList = StorageHandler.getInstance().getSoundContent();
 
 		if (view == null) {
-			view = View.inflate(context, R.layout.construction_brick_play_sound, null);
+			view = View.inflate(context, R.layout.toolbox_brick_play_sound, null);
 		}
 
 		Button soundButton = (Button) view.findViewById(R.id.btSoundChoose);

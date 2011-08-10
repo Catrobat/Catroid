@@ -48,7 +48,7 @@ public class ForeverBrick extends LoopBeginBrick {
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		if (view == null) {
-			view = View.inflate(context, R.layout.construction_brick_forever, null);
+			view = View.inflate(context, R.layout.toolbox_brick_forever, null);
 		}
 
 		return view;

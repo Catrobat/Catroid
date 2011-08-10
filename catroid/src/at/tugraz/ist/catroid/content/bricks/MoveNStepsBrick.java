@@ -66,10 +66,10 @@ public class MoveNStepsBrick implements Brick, OnDismissListener {
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		if (view == null) {
-			view = View.inflate(context, R.layout.construction_brick_move_n_steps, null);
+			view = View.inflate(context, R.layout.toolbox_brick_move_n_steps, null);
 		}
 
-		EditText edit = (EditText) view.findViewById(R.id.construction_brick_move_n_steps_edit_text);
+		EditText edit = (EditText) view.findViewById(R.id.toolbox_brick_move_n_steps_edit_text);
 
 		edit.setText(String.valueOf(steps));
 		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, steps);

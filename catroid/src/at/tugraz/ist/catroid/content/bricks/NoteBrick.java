@@ -63,10 +63,10 @@ public class NoteBrick implements Brick {
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
 
 		if (view == null) {
-			view = View.inflate(context, R.layout.construction_brick_note, null);
+			view = View.inflate(context, R.layout.toolbox_brick_note, null);
 		}
 
-		EditText editText = (EditText) view.findViewById(R.id.construction_brick_note_edit_text);
+		EditText editText = (EditText) view.findViewById(R.id.toolbox_brick_note_edit_text);
 		editText.setText(note);
 		editText.setMaxLines(MAXLINES);
 		editText.setOnClickListener(new OnClickListener() {

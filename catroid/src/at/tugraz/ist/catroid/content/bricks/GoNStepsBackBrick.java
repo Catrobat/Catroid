@@ -66,10 +66,10 @@ public class GoNStepsBackBrick implements Brick, OnDismissListener {
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 
 		if (view == null) {
-			view = View.inflate(context, R.layout.construction_brick_go_back, null);
+			view = View.inflate(context, R.layout.toolbox_brick_go_back, null);
 		}
 
-		EditText edit = (EditText) view.findViewById(R.id.construction_brick_go_back_edit_text);
+		EditText edit = (EditText) view.findViewById(R.id.toolbox_brick_go_back_edit_text);
 
 		edit.setText(String.valueOf(steps));
 		EditIntegerDialog dialog = new EditIntegerDialog(context, edit, steps, false);

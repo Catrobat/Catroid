@@ -65,10 +65,10 @@ public class ChangeXByBrick implements Brick, OnDismissListener {
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 
 		if (view == null) {
-			view = View.inflate(context, R.layout.construction_brick_change_x, null);
+			view = View.inflate(context, R.layout.toolbox_brick_change_x, null);
 		}
 
-		EditText editX = (EditText) view.findViewById(R.id.construction_brick_change_x_edit_text);
+		EditText editX = (EditText) view.findViewById(R.id.toolbox_brick_change_x_edit_text);
 		editX.setText(String.valueOf(xMovement));
 
 		EditIntegerDialog dialogX = new EditIntegerDialog(context, editX, xMovement, true);

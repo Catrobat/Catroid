@@ -65,10 +65,10 @@ public class ChangeYByBrick implements Brick, OnDismissListener {
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 
 		if (view == null) {
-			view = View.inflate(context, R.layout.construction_brick_change_y, null);
+			view = View.inflate(context, R.layout.toolbox_brick_change_y, null);
 		}
 
-		EditText editY = (EditText) view.findViewById(R.id.construction_brick_change_y_edit_text);
+		EditText editY = (EditText) view.findViewById(R.id.toolbox_brick_change_y_edit_text);
 		editY.setText(String.valueOf(yMovement));
 
 		EditIntegerDialog dialogY = new EditIntegerDialog(context, editY, yMovement, true);

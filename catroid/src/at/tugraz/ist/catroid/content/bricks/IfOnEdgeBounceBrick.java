@@ -90,7 +90,7 @@ public class IfOnEdgeBounceBrick implements Brick {
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		if (view == null) {
-			view = View.inflate(context, R.layout.construction_brick_if_on_edge_bounce, null);
+			view = View.inflate(context, R.layout.toolbox_brick_if_on_edge_bounce, null);
 		}
 
 		return view;

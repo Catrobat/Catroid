@@ -102,10 +102,12 @@ public class BroadcastWaitBrick implements Brick {
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
 
 		if (view == null) {
-			view = View.inflate(context, R.layout.construction_brick_broadcast_wait, null);
+			view = View.inflate(context, R.layout.toolbox_brick_broadcast_wait, null);
 		}
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.broadcast_spinner);
 		broadcastSpinner.setAdapter(projectManager.messageContainer.getMessageAdapter(context));
+		broadcastSpinner.setClickable(true);
+		broadcastSpinner.setFocusable(true);
 
 		broadcastSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			private boolean start = true;
@@ -131,6 +133,8 @@ public class BroadcastWaitBrick implements Brick {
 		}
 
 		Button newBroadcastMessage = (Button) view.findViewById(R.id.broadcast_new_message);
+		newBroadcastMessage.setClickable(true);
+		newBroadcastMessage.setFocusable(true);
 		newBroadcastMessage.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
