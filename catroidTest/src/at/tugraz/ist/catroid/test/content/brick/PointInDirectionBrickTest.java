@@ -26,7 +26,7 @@ public class PointInDirectionBrickTest extends AndroidTestCase {
 
 	public void testPointRight() {
 		Sprite sprite = new Sprite("test");
-		PointInDirectionBrick brick = new PointInDirectionBrick(sprite, 90);
+		PointInDirectionBrick brick = new PointInDirectionBrick(sprite, PointInDirectionBrick.DIRECTION_RIGHT);
 
 		brick.execute();
 		assertEquals("Wrong direction", 90, sprite.getDirection(), 1e-3);
@@ -34,7 +34,7 @@ public class PointInDirectionBrickTest extends AndroidTestCase {
 
 	public void testPointLeft() {
 		Sprite sprite = new Sprite("test");
-		PointInDirectionBrick brick = new PointInDirectionBrick(sprite, -90);
+		PointInDirectionBrick brick = new PointInDirectionBrick(sprite, PointInDirectionBrick.DIRECTION_LEFT);
 
 		brick.execute();
 		assertEquals("Wrong direction", -90, sprite.getDirection(), 1e-3);
@@ -42,7 +42,7 @@ public class PointInDirectionBrickTest extends AndroidTestCase {
 
 	public void testPointUp() {
 		Sprite sprite = new Sprite("test");
-		PointInDirectionBrick brick = new PointInDirectionBrick(sprite, 0);
+		PointInDirectionBrick brick = new PointInDirectionBrick(sprite, PointInDirectionBrick.DIRECTION_UP);
 
 		brick.execute();
 		assertEquals("Wrong direction", 0, sprite.getDirection(), 1e-3);
@@ -50,7 +50,7 @@ public class PointInDirectionBrickTest extends AndroidTestCase {
 
 	public void testPointDown() {
 		Sprite sprite = new Sprite("test");
-		PointInDirectionBrick brick = new PointInDirectionBrick(sprite, 180);
+		PointInDirectionBrick brick = new PointInDirectionBrick(sprite, PointInDirectionBrick.DIRECTION_DOWN);
 
 		brick.execute();
 		assertEquals("Wrong direction", 180, sprite.getDirection(), 1e-3);
@@ -59,7 +59,7 @@ public class PointInDirectionBrickTest extends AndroidTestCase {
 	public void testRotateAndPoint() {
 		Sprite sprite = new Sprite("test");
 		sprite.setDirection(-42);
-		PointInDirectionBrick brick = new PointInDirectionBrick(sprite, 90);
+		PointInDirectionBrick brick = new PointInDirectionBrick(sprite, PointInDirectionBrick.DIRECTION_RIGHT);
 
 		brick.execute();
 		assertEquals("Wrong direction", 90, sprite.getDirection(), 1e-3);
