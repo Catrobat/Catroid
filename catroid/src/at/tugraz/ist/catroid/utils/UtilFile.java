@@ -69,7 +69,7 @@ public class UtilFile {
 
 	static public long getSizeOfDirectoryInByte(File directory) {
 		if (!directory.isDirectory()) {
-			return 0;
+			return directory.length();
 		}
 		File[] contents = directory.listFiles();
 		long size = 0;
@@ -84,7 +84,7 @@ public class UtilFile {
 	}
 
 	static public String getSizeAsString(File directory) {
-		long sizeInKB = UtilFile.getSizeOfDirectoryInByte(directory) / 1024;
+		float sizeInKB = UtilFile.getSizeOfDirectoryInByte(directory) / 1024;
 
 		String fileSizeString;
 		DecimalFormat decimalFormat = new DecimalFormat("#.00");
@@ -94,7 +94,7 @@ public class UtilFile {
 		} else if (sizeInKB > 1024) {
 			fileSizeString = decimalFormat.format(sizeInKB / 1024) + " MB";
 		} else {
-			fileSizeString = Long.toString(sizeInKB) + " KB";
+			fileSizeString = Long.toString((long) sizeInKB) + " KB";
 		}
 		return fileSizeString;
 	}

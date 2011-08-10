@@ -19,6 +19,8 @@
 
 package at.tugraz.ist.catroid.ui;
 
+import java.io.File;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -44,6 +46,7 @@ import at.tugraz.ist.catroid.ui.dialogs.LoadProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.UploadProjectDialog;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
+import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class MainMenuActivity extends Activity {
@@ -134,9 +137,9 @@ public class MainMenuActivity extends Activity {
 				TextView projectRename = (TextView) dialog.findViewById(R.id.tv_project_rename);
 				EditText projectDescriptionField = (EditText) dialog.findViewById(R.id.project_description_upload);
 				final EditText projectUploadName = (EditText) dialog.findViewById(R.id.project_upload_name);
-				//				TextView sizeOfProject = (TextView) dialog.findViewById(R.id.dialog_upload_size_of_project);
-				//				sizeOfProject.setText(UtilFile.getSizeAsString(new File(Consts.DEFAULT_ROOT + "/"
-				//						+ projectManager.getCurrentProject().getName())));
+				TextView sizeOfProject = (TextView) dialog.findViewById(R.id.dialog_upload_size_of_project);
+				sizeOfProject.setText(UtilFile.getSizeAsString(new File(Consts.DEFAULT_ROOT + "/"
+						+ projectManager.getCurrentProject().getName())));
 
 				projectRename.setVisibility(View.GONE);
 				projectUploadName.setText(ProjectManager.getInstance().getCurrentProject().getName());
