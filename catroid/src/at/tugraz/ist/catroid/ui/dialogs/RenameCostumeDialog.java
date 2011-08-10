@@ -23,17 +23,17 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnKeyListener;
-import android.content.DialogInterface.OnShowListener;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.ui.CostumeActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
@@ -41,10 +41,9 @@ import at.tugraz.ist.catroid.ui.adapter.CostumeAdapter;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class RenameCostumeDialog {
-	protected ScriptTabActivity scriptTabActivity;
+	private ScriptTabActivity scriptTabActivity;
 	private EditText input;
 	private Button buttonPositive;
-	public Dialog renameDialog;
 
 	public RenameCostumeDialog(ScriptTabActivity scriptTabActivity) {
 		this.scriptTabActivity = scriptTabActivity;
@@ -66,10 +65,19 @@ public class RenameCostumeDialog {
 
 		initKeyListener(builder);
 
-		renameDialog = builder.create();
+		final Dialog renameDialog = builder.create();
 		renameDialog.setCanceledOnTouchOutside(true);
 
 		initAlertDialogListener(renameDialog);
+
+		input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					renameDialog.getWindow().setSoftInputMode(
+							WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+				}
+			}
+		});
 
 		return renameDialog;
 	}
@@ -79,7 +87,7 @@ public class RenameCostumeDialog {
 		String oldCostumeName = scriptTabActivity.selectedCostumeData.getCostumeName();
 
 		if (newCostumeName.equalsIgnoreCase(oldCostumeName)) {
-			renameDialog.cancel();
+			scriptTabActivity.dismissDialog(Consts.DIALOG_RENAME_COSTUME);
 			return;
 		}
 		if (newCostumeName != null && !newCostumeName.equalsIgnoreCase("")) {
@@ -90,7 +98,7 @@ public class RenameCostumeDialog {
 			Utils.displayErrorMessage(scriptTabActivity, scriptTabActivity.getString(R.string.costumename_invalid));
 			return;
 		}
-		renameDialog.cancel();
+		scriptTabActivity.dismissDialog(Consts.DIALOG_RENAME_COSTUME);
 	}
 
 	private void initKeyListener(AlertDialog.Builder builder) {
@@ -107,13 +115,13 @@ public class RenameCostumeDialog {
 
 	private void initAlertDialogListener(Dialog dialog) {
 
-		dialog.setOnShowListener(new OnShowListener() {
-			public void onShow(DialogInterface dialog) {
-				InputMethodManager inputManager = (InputMethodManager) scriptTabActivity
-						.getSystemService(Context.INPUT_METHOD_SERVICE);
-				inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
-			}
-		});
+		//		dialog.setOnShowListener(new OnShowListener() {
+		//			public void onShow(DialogInterface dialog) {
+		//				InputMethodManager inputManager = (InputMethodManager) scriptTabActivity
+		//						.getSystemService(Context.INPUT_METHOD_SERVICE);
+		//				inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
+		//			}
+		//		});
 
 		input.addTextChangedListener(new TextWatcher() {
 			public void onTextChanged(CharSequence s, int start, int before, int count) {

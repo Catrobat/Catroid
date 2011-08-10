@@ -53,8 +53,7 @@ public class SoundActivity extends ListActivity {
 		setContentView(R.layout.activity_sound);
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 
-		setListAdapter(new SoundAdapter(this, (ScriptTabActivity) getParent(), R.layout.activity_sound_soundlist_item,
-				soundInfoList));
+		setListAdapter(new SoundAdapter(this, R.layout.activity_sound_soundlist_item, soundInfoList));
 
 		mediaPlayer = new MediaPlayer();
 	}
@@ -172,8 +171,7 @@ public class SoundActivity extends ListActivity {
 
 	private void reloadAdapter() {
 		this.soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
-		setListAdapter(new SoundAdapter(this, (ScriptTabActivity) getParent(), R.layout.activity_sound_soundlist_item,
-				soundInfoList));
+		setListAdapter(new SoundAdapter(this, R.layout.activity_sound_soundlist_item, soundInfoList));
 		((SoundAdapter) getListAdapter()).notifyDataSetChanged();
 	}
 }
