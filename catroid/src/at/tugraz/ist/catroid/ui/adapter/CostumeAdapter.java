@@ -18,8 +18,8 @@
  */
 package at.tugraz.ist.catroid.ui.adapter;
 
+import java.io.File;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -38,6 +38,7 @@ import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.CostumeActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
+import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class CostumeAdapter extends ArrayAdapter<CostumeData> {
@@ -87,15 +88,7 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 				costumeResolution.setText(resolution[0] + " x " + resolution[1]);
 
 				//setting size
-				float fileSizeInKB = costumeData.getSizeInKb();
-				String fileSizeString;
-				if (fileSizeInKB > 1024) {
-					DecimalFormat decimalFormat = new DecimalFormat("#.00");
-					fileSizeString = decimalFormat.format(fileSizeInKB / 1024) + " MB";
-				} else {
-					fileSizeString = Long.toString((long) fileSizeInKB) + " KB";
-				}
-				costumeSize.setText(fileSizeString);
+				costumeSize.setText(UtilFile.getSizeAsString(new File(costumeData.getAbsolutePath())));
 			}
 
 			copyCostumeButton.setOnClickListener(new View.OnClickListener() {

@@ -66,11 +66,11 @@ public class ScriptTabActivity extends TabActivity {
 		Intent intent; // Reusable Intent for each tab
 
 		intent = new Intent().setClass(this, ScriptActivity.class);
-		setupTab(null, this.getString(R.string.scripts), intent);
+		setupTab(R.drawable.ic_tab_scripts, this.getString(R.string.scripts), intent);
 		intent = new Intent().setClass(this, CostumeActivity.class);
-		setupTab(null, this.getString(R.string.costumes), intent);
+		setupTab(R.drawable.ic_tab_costumes, this.getString(R.string.costumes), intent);
 		intent = new Intent().setClass(this, SoundActivity.class);
-		setupTab(R.drawable.ic_sounds, this.getString(R.string.sounds), intent);
+		setupTab(R.drawable.ic_tab_sounds, this.getString(R.string.sounds), intent);
 
 		setUpActionBar();
 		if (getLastNonConfigurationInstance() != null) {
@@ -117,7 +117,7 @@ public class ScriptTabActivity extends TabActivity {
 		TextView tv = (TextView) view.findViewById(R.id.tabsText);
 		tv.setText(text);
 		if (id != null) {
-			tv.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_sounds, 0);
+			tv.setCompoundDrawablesWithIntrinsicBounds(id, 0, 0, 0);
 		}
 		return view;
 	}
