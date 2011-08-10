@@ -31,6 +31,7 @@ import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
@@ -41,11 +42,12 @@ import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
 	private static final String TAG = SetSizeToBrickTest.class.getSimpleName();
 	private String projectName = "SetSizeToBrickTestProject";
 	private Solo solo;
@@ -55,7 +57,7 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 	private int imageRawId = at.tugraz.ist.catroid.uitest.R.raw.black_quad;
 
 	public SetSizeToBrickTest() {
-		super("at.tugraz.ist.catroid", ScriptActivity.class);
+		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
 	}
 
 	@Override
@@ -78,16 +80,17 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 
 	@Smoke
 	public void testSetSizeToBrick() {
-		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
-		int groupCount = getActivity().getAdapter().getGroupCount();
+		int childrenCount = ((ScriptActivity) getActivity().getCurrentActivity()).getAdapter()
+				.getChildCountFromLastGroup();
+		int groupCount = ((ScriptActivity) getActivity().getCurrentActivity()).getAdapter().getGroupCount();
 		assertEquals("Incorrect number of bricks.", 3, solo.getCurrentListViews().get(0).getChildCount());
 		assertEquals("Incorrect number of bricks.", 2, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 2, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
-				getActivity().getAdapter().getChild(groupCount - 1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0), ((ScriptActivity) getActivity()
+				.getCurrentActivity()).getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_set_size_to)));
 
 		double newSize = 200;
@@ -109,7 +112,9 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
 
-		assertTrue("Not in stage", solo.getCurrentActivity() instanceof StageActivity);
+		solo.assertCurrentActivity("Not in stage", StageActivity.class);
+
+		solo.sleep(1500);
 
 		solo.clickOnScreen(Values.SCREEN_WIDTH, 0);
 
@@ -161,7 +166,11 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		File image = UiTestUtils.saveFileToProject(projectName, "black_quad.png", imageRawId, getInstrumentation()
 				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
 		Log.v(TAG, image.getName());
-		setCostumeBrick.setCostume(image.getName());
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image.getName());
+		costumeData.setCostumeName("image");
+		setCostumeBrick.setCostume(costumeData);
+		sprite.getCostumeDataList().add(costumeData);
 	}
 
 }

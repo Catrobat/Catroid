@@ -20,12 +20,10 @@
 package at.tugraz.ist.catroid.uitest.ui.dialog;
 
 import java.io.File;
-import java.util.List;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
 import android.view.View;
-import android.widget.ImageButton;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
@@ -116,12 +114,6 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		File file = new File(Consts.DEFAULT_ROOT + "/" + testProject + "/" + testProject + Consts.PROJECT_EXTENTION);
 		assertTrue(testProject + " was not created!", file.exists());
-		List<ImageButton> btnList = solo.getCurrentImageButtons();
-		for (int i = 0; i < btnList.size(); i++) {
-			ImageButton btn = btnList.get(i);
-			if (btn.getId() == R.id.btn_action_home) {
-				solo.clickOnImageButton(i);
-			}
-		}
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
 	}
 }

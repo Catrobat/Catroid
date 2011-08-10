@@ -37,21 +37,23 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.BroadcastScript;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.TapScript;
+import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.BroadcastReceiverBrick;
 import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
 import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
-import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
-import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
-import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.content.bricks.WhenBrick;
 import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListView;
 import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListener;
 
 public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDropListener, OnGroupClickListener {
 
+	public static final int FOCUS_BLOCK_DESCENDANTS = 2;
+	
 	private Context context;
 	private Sprite sprite;
 	private BrickListAnimation brickListAnimation;
@@ -79,7 +81,6 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDr
 
 	public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView,
 			ViewGroup parent) {
-
 		Brick brick = getChild(groupPosition, childPosition);
 
 		if (draggedBrick != null && (dragTargetPosition == childPosition)) {
@@ -91,18 +92,15 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDr
 		if (animateChildren) {
 			brickListAnimation.doExpandAnimation(currentBrickView, childPosition);
 		}
-
 		//Hack!!!
 		//if wrapper isn't used the longClick event won't be triggered
 		ViewGroup wrapper = (ViewGroup) View.inflate(context, R.layout.construction_brick_wrapper, null);
-
+		
 		if (currentBrickView.getParent() != null) {
 			((ViewGroup) currentBrickView.getParent()).removeView(currentBrickView);
 		}
-
 		wrapper.addView(currentBrickView);
 		wrapper.setOnLongClickListener(longClickListener);
-
 		return wrapper;
 	}
 
@@ -123,8 +121,7 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDr
 	}
 
 	public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-		View view;
-
+		View view = null;
 		if (getGroup(groupPosition) instanceof TapScript) {
 			view = new IfTouchedBrick(sprite, getGroup(groupPosition)).getView(context, groupPosition, this);
 		} else if (getGroup(groupPosition) instanceof BroadcastScript) {
@@ -190,20 +187,7 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDr
 
 	public void remove(int index) {
 		ArrayList<Brick> brickList = getBrickList();
-
-		if (draggedBrick instanceof PlaySoundBrick) {
-			PlaySoundBrick toDelete = (PlaySoundBrick) draggedBrick;
-			String pathToSoundFile = toDelete.getPathToSoundFile();
-			if (pathToSoundFile != null) {
-				StorageHandler.getInstance().deleteFile(pathToSoundFile);
-			}
-		} else if (draggedBrick instanceof SetCostumeBrick) {
-			SetCostumeBrick toDelete = (SetCostumeBrick) draggedBrick;
-			String imagePath = toDelete.getImagePath();
-			if (imagePath != null) {
-				StorageHandler.getInstance().deleteFile(imagePath);
-			}
-		} else if (draggedBrick instanceof LoopBeginBrick) {
+		if (draggedBrick instanceof LoopBeginBrick) {
 			LoopBeginBrick loopBeginBrick = (LoopBeginBrick) draggedBrick;
 			brickList.remove(loopBeginBrick.getLoopEndBrick());
 		} else if (draggedBrick instanceof LoopEndBrick) {
@@ -217,7 +201,6 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDr
 	}
 
 	public boolean onGroupClick(final ExpandableListView parent, View v, final int groupPosition, long id) {
-
 		if (groupPosition == getCurrentGroup()) {
 			return false;
 		}

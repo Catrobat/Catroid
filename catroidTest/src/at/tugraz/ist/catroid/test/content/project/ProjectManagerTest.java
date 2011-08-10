@@ -27,6 +27,7 @@ import android.test.InstrumentationTestCase;
 import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -57,7 +58,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		TestUtils.clearProject("newProject");
 	}
 
-	public void testBasicFunctions() throws NameNotFoundException {
+	public void testBasicFunctions() throws NameNotFoundException, IOException {
 
 		ProjectManager manager = ProjectManager.getInstance();
 		assertNull("there is a current sprite set", manager.getCurrentSprite());
@@ -181,7 +182,10 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		SetCostumeBrick costumeBrick = new SetCostumeBrick(firstSprite);
 		File image = TestUtils.saveFileToProject(projectName, "image.png", at.tugraz.ist.catroid.test.R.raw.icon,
 				getInstrumentation().getContext(), 0);
-		costumeBrick.setCostume(image.getName());
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image.getName());
+		costumeData.setCostumeName("name");
+		costumeBrick.setCostume(costumeData);
 		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(secondSprite, size);
 		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(firstSprite);
 		PlaceAtBrick placeAtBrick = new PlaceAtBrick(secondSprite, xPosition, yPosition);

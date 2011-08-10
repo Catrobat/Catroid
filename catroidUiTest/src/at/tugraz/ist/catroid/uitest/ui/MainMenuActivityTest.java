@@ -82,9 +82,11 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		assertFalse("testProject was not deleted!", directory.exists());
 
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
-		solo.clickOnEditText(0);
+		solo.sleep(200);
 		solo.enterText(0, testProject);
-		solo.goBack();
+		//solo.clickOnEditText(0);
+		//solo.goBack();
+		solo.sleep(100);
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
 		solo.sleep(2000);
 
@@ -94,9 +96,10 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 	public void testCreateNewProjectErrors() {
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
-		solo.clickOnEditText(0);
+		solo.sleep(100);
 		solo.enterText(0, "");
-		solo.goBack();
+		//solo.goBack();
+		solo.sleep(100);
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
 		solo.sleep(50);
 		assertTrue("No error message was displayed upon creating a project with an empty name.",
@@ -121,9 +124,11 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		final String projectNameWithSpecialCharacters = "Hey, look, I'm special! ?äöüß<>";
 
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
-		solo.clickOnEditText(0);
+		//solo.clickOnEditText(0);
+		solo.sleep(200);
 		solo.enterText(0, projectNameWithSpecialCharacters);
-		solo.goBack();
+		//solo.goBack();
+		solo.sleep(100);
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
 		solo.sleep(1000);
 
@@ -153,9 +158,6 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		Sprite fourth = (Sprite) spritesList.getItemAtPosition(4);
 		assertEquals("Sprite at index 4 is not \"pig\"!", "pig", fourth.getName());
 		solo.goBack();
-		//		TextView currentProject = (TextView) getActivity().findViewById(R.id.currentProjectNameTextView);
-		//		assertEquals("Current project is not testProject2!", getActivity().getString(R.string.current_project) + " "
-		//				+ testProject2, currentProject.getText());
 	}
 
 	public void testResume() {
@@ -170,11 +172,6 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.goBack();
 
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
-
-		//		TextView projectTitle = (TextView) solo.getCurrentActivity().findViewById(R.id.project_title_text_view);
-		//
-		//		assertEquals("Project title is not " + testProject3, getActivity().getString(R.string.project_name)
-		//				+ " " + testProject3, projectTitle.getText());
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
 		Sprite first = (Sprite) spritesList.getItemAtPosition(1);
@@ -201,7 +198,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 	public void testPlayButton() {
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
-		assertTrue("StageActivity is not showing!", solo.getCurrentActivity() instanceof StageActivity);
+		solo.assertCurrentActivity("StageActivity not showing!", StageActivity.class);
 	}
 
 	public void testRenameToExistingProject() {
@@ -224,9 +221,9 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		StorageHandler handler = StorageHandler.getInstance();
 		ProjectManager project = ProjectManager.getInstance();
-		project.setProject(handler.createDefaultProject(getActivity()));
+		project.setProject(handler.createDefaultProject(solo.getCurrentActivity()));
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
-		solo.sleep(1500);
+		solo.sleep(8000);
 		Bitmap bitmap = project.getCurrentProject().getSpriteList().get(1).getCostume().getBitmap();
 		assertNotNull("Bitmap is null", bitmap);
 		assertTrue("Sprite not visible", project.getCurrentProject().getSpriteList().get(1).isVisible());

@@ -139,7 +139,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 	private void addABrickToProject() {
 		solo.clickInList(0);
-		solo.clickOnText(getActivity().getString(R.string.add_new_brick));
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
 
 		solo.sleep(500);
 		solo.clickOnText(getActivity().getString(R.string.brick_wait));
