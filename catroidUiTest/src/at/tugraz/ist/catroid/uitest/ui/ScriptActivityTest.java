@@ -34,17 +34,17 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
-import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
 	private Solo solo;
 	private List<Brick> brickListToCheck;
 
 	public ScriptActivityTest() {
-		super("at.tugraz.ist.catroid", ScriptActivity.class);
+		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
 	}
 
 	@Override
@@ -68,15 +68,17 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 
 	public void testMainMenuButton() {
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
-		assertTrue("Clicking on main menu button did not cause main menu to be displayed",
-				solo.getCurrentActivity() instanceof MainMenuActivity);
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
+				MainMenuActivity.class);
 	}
 
 	public void testCreateNewBrickButton() {
 		int brickCountInView = solo.getCurrentListViews().get(0).getCount();
 		int brickCountInList = brickListToCheck.size();
 
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick));
+		//solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick));
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.brick_wait));
 		solo.sleep(100);
 
@@ -89,10 +91,10 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 	}
 
 	public void testSimpleDragNDrop() {
-		ArrayList<Integer> yPosList = getListItemYPositions();
-		assertTrue("Test project brick list smaller than expected", yPosList.size() >= 6);
+		ArrayList<Integer> yPositionList = getListItemYPositions();
+		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
 
-		longClickAndDrag(10, yPosList.get(4), 10, yPosList.get(2), 20);
+		longClickAndDrag(10, yPositionList.get(4), 10, yPositionList.get(2), 20);
 		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
 
 		assertEquals("Brick count not equal before and after dragging & dropping", brickListToCheck.size(),
@@ -105,13 +107,12 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 	}
 
 	public void testDeleteItem() {
-		ArrayList<Integer> yPosList = getListItemYPositions();
-		assertTrue("Test project brick list smaller than expected", yPosList.size() >= 6);
+		ArrayList<Integer> yPositionList = getListItemYPositions();
+		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
 
 		int displayWidth = getActivity().getWindowManager().getDefaultDisplay().getWidth();
 
-		longClickAndDrag(30, yPosList.get(2), displayWidth, yPosList.get(2), 20);
-
+		longClickAndDrag(30, yPositionList.get(2), displayWidth, yPositionList.get(2), 20);
 		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
 
 		assertEquals("Brick count did not decrease by one after deleting a brick", brickListToCheck.size() - 1,
@@ -128,7 +129,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 	 * @return a list of the y pixel coordinates of the center of displayed bricks
 	 */
 	private ArrayList<Integer> getListItemYPositions() {
-		ArrayList<Integer> yPosList = new ArrayList<Integer>();
+		ArrayList<Integer> yPositionList = new ArrayList<Integer>();
 		ListView listView = solo.getCurrentListViews().get(0);
 
 		for (int i = 0; i < listView.getChildCount(); ++i) {
@@ -137,15 +138,14 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 			Rect globalVisibleRect = new Rect();
 			currentViewInList.getGlobalVisibleRect(globalVisibleRect);
 			int middleYPos = globalVisibleRect.top + globalVisibleRect.height() / 2;
-			yPosList.add(middleYPos);
+			yPositionList.add(middleYPos);
 		}
 
-		return yPosList;
+		return yPositionList;
 	}
 
 	private void longClickAndDrag(final float xFrom, final float yFrom, final float xTo, final float yTo,
 			final int steps) {
-
 		Handler handler = new Handler(getActivity().getMainLooper());
 
 		handler.post(new Runnable() {
@@ -160,7 +160,6 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 		solo.sleep(ViewConfiguration.getLongPressTimeout() + 100);
 
 		handler.post(new Runnable() {
-
 			public void run() {
 
 				for (int i = 0; i <= steps; i++) {

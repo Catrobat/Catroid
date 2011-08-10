@@ -26,16 +26,16 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
-import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
 	private Solo solo;
 
 	public GlideToBrickTest() {
-		super("at.tugraz.ist.catroid", ScriptActivity.class);
+		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
 	}
 
 	@Override
@@ -68,6 +68,7 @@ public class GlideToBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		UiTestUtils.clickEnterClose(solo, numberOfEditTexts - 2, String.valueOf(xPosition));
 		UiTestUtils.clickEnterClose(solo, numberOfEditTexts - 1, String.valueOf(yPosition));
 
+		solo.sleep(1000);
 		ProjectManager manager = ProjectManager.getInstance();
 		List<Brick> brickList = manager.getCurrentScript().getBrickList();
 		GlideToBrick glideToBrick = (GlideToBrick) brickList.get(brickList.size() - 1);

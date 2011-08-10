@@ -21,9 +21,9 @@
  -->
 <manifest
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:versionCode="6"
+	android:versionCode="7"
 	package="at.tugraz.ist.catroid"
-	android:versionName="0.5.2a"
+	android:versionName="0.5.3a"
 	android:installLocation="auto">
 
     <uses-sdk
@@ -60,6 +60,12 @@
 		<activity android:name=".ui.ScriptActivity" />
 		
 		<activity android:name=".ui.SpriteActivity" />
+		
+		<activity android:name=".ui.ScriptTabActivity" />
+		
+		<activity android:name=".ui.CostumeActivity" />
+		
+		<activity android:name=".ui.SoundActivity" />
 
 		<activity
 			android:name=".ui.DownloadActivity"
@@ -71,19 +77,9 @@
 				<category android:name="android.intent.category.BROWSABLE" />
 				<data
 					android:scheme="http"
-					android:host="catroidwebtest.ist.tugraz.at"
-					android:pathPrefix="/catroid/download/" />
-				<data
-					android:scheme="http"
-					android:host="www.catroid.org"
-					android:pathPrefix="/catroid/download/" />
-				<data
-					android:scheme="http"
-					android:host="catroid.org"
-					android:pathPrefix="/catroid/download/" />
-				<data
-					android:scheme="http"
-					android:pathPattern=".*\\.catroid" />
+					android:host="*"
+					android:pathPattern="@string/catroid_extension_pathPattern" />
+					
 			</intent-filter>
 		</activity>
 		

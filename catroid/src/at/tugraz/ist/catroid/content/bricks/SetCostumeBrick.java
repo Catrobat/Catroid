@@ -18,54 +18,35 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ImageView;
-import at.tugraz.ist.catroid.ProjectManager;
+import android.widget.Spinner;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.utils.ImageEditing;
-
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public class SetCostumeBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
-	private String imageName;
-	@XStreamOmitField
+	private CostumeData costumeData;
 	private transient View view;
-
-	@XStreamOmitField
-	private transient Bitmap thumbnail;
 
 	public SetCostumeBrick(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
-	public void setCostume(String imageName) {
-		this.imageName = imageName;
-		if (imageName != null) {
-			thumbnail = ImageEditing.getScaledBitmap(getAbsoluteImagePath(), Consts.THUMBNAIL_HEIGHT,
-					Consts.THUMBNAIL_WIDTH);
-		}
-	}
-
-	private Object readResolve() {
-		if (imageName != null && ProjectManager.getInstance().getCurrentProject() != null) {
-			String[] checksum = imageName.split("_");
-			ProjectManager.getInstance().fileChecksumContainer.addChecksum(checksum[0], getAbsoluteImagePath());
-		}
-		return this;
+	public void setCostume(CostumeData costumeData) {
+		this.costumeData = costumeData;
 	}
 
 	public void execute() {
-		this.sprite.getCostume().changeImagePath(getAbsoluteImagePath());
+		if (costumeData != null && sprite != null) {
+			sprite.getCostume().changeImagePath(costumeData.getAbsolutePath());
+		}
 	}
 
 	public Sprite getSprite() {
@@ -73,46 +54,49 @@ public class SetCostumeBrick implements Brick {
 	}
 
 	public String getImagePath() {
-		return getAbsoluteImagePath();
+		return costumeData.getAbsolutePath();
 	}
 
-	private String getAbsoluteImagePath() {
-		if (imageName == null) {
-			return null;
-		}
-		return Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName()
-				+ Consts.IMAGE_DIRECTORY + "/" + imageName;
-	}
-
-	public View getView(final Context context, final int brickId, BaseExpandableListAdapter adapter) {
+	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
 
 		if (view == null) {
 			view = View.inflate(context, R.layout.toolbox_brick_set_costume, null);
 		}
 
-		OnClickListener listener = new OnClickListener() {
-			public void onClick(View v) {
-				Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-				intent.setType("image/*");
-				((Activity) context).startActivityForResult(intent, brickId);
-			}
-		};
+		Spinner costumebrickSpinner = (Spinner) view.findViewById(R.id.setcostume_spinner);
+		costumebrickSpinner.setAdapter(createCostumeAdapter(context));
+		costumebrickSpinner.setClickable(true);
+		costumebrickSpinner.setFocusable(true);
 
-		ImageView imageView = (ImageView) view.findViewById(R.id.costume_image_view);
-
-		if (imageName != null) {
-			if (thumbnail == null) {
-				thumbnail = ImageEditing.getScaledBitmap(getAbsoluteImagePath(), Consts.THUMBNAIL_HEIGHT,
-						Consts.THUMBNAIL_WIDTH);
+		costumebrickSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				costumeData = (CostumeData) parent.getItemAtPosition(position);
 			}
 
-			imageView.setImageBitmap(thumbnail);
-			imageView.setBackgroundDrawable(null);
+			public void onNothingSelected(AdapterView<?> arg0) {
+			}
+		});
+
+		if (sprite.getCostumeDataList().contains(costumeData)) {
+			costumebrickSpinner.setSelection(sprite.getCostumeDataList().indexOf(costumeData) + 1);
+		} else {
+			costumebrickSpinner.setSelection(0);
 		}
 
-		imageView.setOnClickListener(listener);
-
 		return view;
+	}
+
+	private ArrayAdapter<?> createCostumeAdapter(Context context) {
+		ArrayAdapter<CostumeData> arrayAdapter = new ArrayAdapter<CostumeData>(context,
+				android.R.layout.simple_spinner_item);
+		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		CostumeData dummyCostumeData = new CostumeData();
+		dummyCostumeData.setCostumeName(context.getString(R.string.broadcast_nothing_selected));
+		arrayAdapter.add(dummyCostumeData);
+		for (CostumeData costumeData : sprite.getCostumeDataList()) {
+			arrayAdapter.add(costumeData);
+		}
+		return arrayAdapter;
 	}
 
 	public View getPrototypeView(Context context) {
@@ -127,5 +111,6 @@ public class SetCostumeBrick implements Brick {
 		}
 
 		return clonedBrick;
+
 	}
 }
