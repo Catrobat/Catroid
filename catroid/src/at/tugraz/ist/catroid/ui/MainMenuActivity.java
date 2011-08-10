@@ -134,6 +134,9 @@ public class MainMenuActivity extends Activity {
 				TextView projectRename = (TextView) dialog.findViewById(R.id.tv_project_rename);
 				EditText projectDescriptionField = (EditText) dialog.findViewById(R.id.project_description_upload);
 				final EditText projectUploadName = (EditText) dialog.findViewById(R.id.project_upload_name);
+				//				TextView sizeOfProject = (TextView) dialog.findViewById(R.id.dialog_upload_size_of_project);
+				//				sizeOfProject.setText(UtilFile.getSizeAsString(new File(Consts.DEFAULT_ROOT + "/"
+				//						+ projectManager.getCurrentProject().getName())));
 
 				projectRename.setVisibility(View.GONE);
 				projectUploadName.setText(ProjectManager.getInstance().getCurrentProject().getName());
