@@ -23,7 +23,6 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
-import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 
 public class SpriteTest extends AndroidTestCase {
@@ -89,33 +88,6 @@ public class SpriteTest extends AndroidTestCase {
 		sprite.addScript(secondScript);
 		assertEquals("Indexes do not match", 0, sprite.getScriptIndex(firstScript));
 		assertEquals("Indexes do not match", 1, sprite.getScriptIndex(secondScript));
-	}
-
-	public void testZeroSize() {
-		Sprite sprite = new Sprite("testSprite");
-
-		SetSizeToBrick brick = new SetSizeToBrick(sprite, 0.0);
-
-		try {
-			brick.execute();
-			fail("Execution of SetSizeToBrick with 0.0 size did not cause a IllegalArgumentException to be thrown.");
-		} catch (IllegalArgumentException e) {
-			// expected behavior
-		}
-	}
-
-	public void testNegativeSize() {
-		Sprite sprite = new Sprite("testSprite");
-
-		final double size = -5.0;
-		SetSizeToBrick brick = new SetSizeToBrick(sprite, (int) (size * 100));
-
-		try {
-			brick.execute();
-			fail("Execution of SetSizeToBrick with negative size did not cause a IllegalArgumentException to be thrown.");
-		} catch (IllegalArgumentException e) {
-			// expected behavior
-		}
 	}
 
 	public void testPauseUnPause() {

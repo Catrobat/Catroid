@@ -55,12 +55,12 @@ public class SetYBrickTest extends AndroidTestCase {
 		brick.execute();
 
 		assertEquals("SetYBrick failed to place Sprite at maximum y integer value", Integer.MAX_VALUE,
-				sprite.costume.getYPosition());
+				(int) sprite.costume.getYPosition());
 
 		brick = new SetYBrick(sprite, Integer.MIN_VALUE);
 		brick.execute();
 
 		assertEquals("SetYBrick failed to place Sprite at minimum y integer value", Integer.MIN_VALUE,
-				sprite.costume.getYPosition());
+				(int) sprite.costume.getYPosition());
 	}
 }

@@ -56,12 +56,12 @@ public class SetXBrickTest extends AndroidTestCase {
 		brick.execute();
 
 		assertEquals("SetXBrick failed to place Sprite at maximum x integer value", Integer.MAX_VALUE,
-				sprite.costume.getXPosition());
+				(int) sprite.costume.getXPosition());
 
 		brick = new SetXBrick(sprite, Integer.MIN_VALUE);
 		brick.execute();
 
 		assertEquals("SetXBrick failed to place Sprite at minimum x integer value", Integer.MIN_VALUE,
-				sprite.costume.getXPosition());
+				(int) sprite.costume.getXPosition());
 	}
 }
