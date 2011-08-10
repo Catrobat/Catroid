@@ -51,8 +51,7 @@ public class CostumeActivity extends ListActivity {
 		setContentView(R.layout.activity_costume);
 		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
 
-		setListAdapter(new CostumeAdapter(this, (ScriptTabActivity) this.getParent(),
-				R.layout.activity_costume_costumelist_item, costumeDataList));
+		setListAdapter(new CostumeAdapter(this, R.layout.activity_costume_costumelist_item, costumeDataList));
 	}
 
 	@Override
@@ -159,8 +158,7 @@ public class CostumeActivity extends ListActivity {
 
 	private void reloadAdapter() {
 		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
-		setListAdapter(new CostumeAdapter(this, (ScriptTabActivity) this.getParent(),
-				R.layout.activity_costume_costumelist_item, costumeDataList));
+		setListAdapter(new CostumeAdapter(this, R.layout.activity_costume_costumelist_item, costumeDataList));
 		((CostumeAdapter) getListAdapter()).notifyDataSetChanged();
 	}
 }
