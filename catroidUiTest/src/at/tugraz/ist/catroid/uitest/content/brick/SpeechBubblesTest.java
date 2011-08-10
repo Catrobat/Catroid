@@ -20,14 +20,12 @@ package at.tugraz.ist.catroid.uitest.content.brick;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Vector;
 
 import android.graphics.Point;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
@@ -35,57 +33,37 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.SpeechBubble;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
-import at.tugraz.ist.catroid.content.bricks.Brick;
+import at.tugraz.ist.catroid.content.TapScript;
+import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
+import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.SayBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
-import at.tugraz.ist.catroid.stage.StageActivity;
-import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
+import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-// TODO: create different Tests for differnt SpeechBubblePosition and Sizes (4-6)
-
-public class SpeechBubblesTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class SpeechBubblesTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private static final String TAG = SpeechBubblesTest.class.getSimpleName();
-
-	private String projectName2 = "ProjectName2";
-	private String projectName3 = "ProjectName3";
-
-	private Project project2;
-	private Project project3;
-
-	//	private Sprite sprite1;
-	private Sprite sprite2;
-	private Sprite sprite3;
-
-	//	private Script script1;
-	private Script script2;
-	private Script script3;
-
-	//	private PlaceAtBrick placeAtBrick1;
-	private PlaceAtBrick placeAtBrick2;
-	private PlaceAtBrick placeAtBrick3;
-
-	//	private SetCostumeBrick setCostumeBrick1;
-	private SetCostumeBrick setCostumeBrick2;
-	private SetCostumeBrick setCostumeBrick3;
-
-	//	private SayBrick sayBrick1;
-	private SayBrick sayBrick2;
-	private SayBrick sayBrick3;
-
-	//	private String text1;
-	private String text2;
-	private String text3;
-
+	private StorageHandler storageHandler;
 	private Solo solo;
-
-	private int imageRawId = at.tugraz.ist.catroid.uitest.R.raw.testobject01;
+	private int imageRawId = at.tugraz.ist.catroid.uitest.R.raw.black_quad;
+	private final String projectName1 = UiTestUtils.PROJECTNAME1;
 
 	public SpeechBubblesTest() {
-		super("at.tugraz.ist.catroid", ScriptActivity.class);
+		super("at.tugraz.ist.catroid", MainMenuActivity.class);
+		storageHandler = StorageHandler.getInstance();
+	}
+
+	@Override
+	public void setUp() throws Exception {
+		UiTestUtils.clearAllUtilTestProjects();
+
+		solo = new Solo(getInstrumentation(), getActivity());
+		super.setUp();
 	}
 
 	@Override
@@ -95,195 +73,222 @@ public class SpeechBubblesTest extends ActivityInstrumentationTestCase2<ScriptAc
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
+		UiTestUtils.clearAllUtilTestProjects();
 
 		getActivity().finish();
 		super.tearDown();
 	}
 
 	@Smoke
-	public void testBasicFuntionality01() {
-		String projectName1 = "ProjectName1";
-		Project project1 = new Project(null, projectName1);
-		Sprite sprite1 = new Sprite("cat");
-		Script script1 = new StartScript("script", sprite1);
-		PlaceAtBrick placeAtBrick1 = new PlaceAtBrick(sprite1, 20, 20);
-		SetCostumeBrick setCostumeBrick1 = new SetCostumeBrick(sprite1);
-		String text1 = "Fortschritt durch Catroid!";
-		SayBrick sayBrick1 = new SayBrick(sprite1, text1);
+	public void testNoClickFunctionality() {
+		String projectName = "project2";
+		Sprite firstSprite = new Sprite("sprite1");
+		Script startScript1 = new StartScript("start1", firstSprite);
+		Script touchScript1 = new TapScript("script1", firstSprite);
+		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
+		String speechBubbleText = "Click on this SpeechBubble!";
+		startScript1.addBrick(setCostumeBrick);
+		touchScript1.addBrick(new HideBrick(firstSprite));
+		firstSprite.addScript(startScript1);
+		firstSprite.addScript(touchScript1);
+		Sprite secondSprite = new Sprite("sprite2");
+		Script startScript2 = new StartScript("start2", secondSprite);
+		Script touchScript2 = new TapScript("script2", secondSprite);
+		SetCostumeBrick setCostumeBrick2 = new SetCostumeBrick(secondSprite);
+		SayBrick sayBrick2 = new SayBrick(secondSprite, speechBubbleText);
+		startScript2.addBrick(setCostumeBrick2);
+		startScript2.addBrick(sayBrick2);
+		startScript2.addBrick(new PlaceAtBrick(secondSprite, -400, -250));
+		touchScript2.addBrick(new SetSizeToBrick(secondSprite, 200));
+		touchScript2.addBrick(new ComeToFrontBrick(secondSprite));
+		secondSprite.addScript(startScript2);
+		secondSprite.addScript(touchScript2);
+		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
+		spriteList.add(firstSprite);
+		spriteList.add(secondSprite);
+		Project project4 = UiTestUtils.createProject(projectName, spriteList, getActivity());
+		File image = UiTestUtils.saveFileToProject(projectName, "black_quad.png", imageRawId, getInstrumentation()
+				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
+		Log.v(TAG, image.getName());
+		setCostumeBrick.setCostume(image.getName());
+		setCostumeBrick2.setCostume(image.getName());
+		storageHandler.saveProject(project4);
+		DisplayMetrics displayMetrics = new DisplayMetrics();
+		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+		Values.SCREEN_WIDTH = displayMetrics.widthPixels;
+		Values.SCREEN_HEIGHT = displayMetrics.heightPixels;
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		solo.sleep(5000);
+		// -------------------------------------------------------------------------------------------------------------
+		SpeechBubble speechBubble = spriteList.get(0).getBubble();
 
-		script1.addBrick(setCostumeBrick1);
-		script1.addBrick(placeAtBrick1);
-		script1.addBrick(sayBrick1);
+		Log.v(TAG, speechBubble.toString());
+		Point position = (Point) UiTestUtils.getPrivateField("position", speechBubble);
+		float speechBubblePicHeight = (Float) UiTestUtils.getPrivateField("speechBubblePicHeight", speechBubble);
+		float speechBubblePicWidth = (Float) UiTestUtils.getPrivateField("speechBubblePicWidth", speechBubble);
+		Log.v(TAG, position.toString());
+		Log.v(TAG, "H: " + speechBubblePicHeight + ", W:" + speechBubblePicWidth);
+		int clickWidth = Values.SCREEN_WIDTH / 2;
+		int clickHeight = Values.SCREEN_HEIGHT / 2;
+		Log.v(TAG, "click: " + clickWidth + " " + clickHeight);
+		solo.clickOnScreen(clickWidth, clickHeight);
+		solo.sleep(5000);
+		boolean visible = (Boolean) UiTestUtils.getPrivateField("isVisible", firstSprite);
+		assertEquals("SpeechBubble is clickable.", false, visible);
+		// -------------------------------------------------------------------------------------------------------------
+	}
 
-		sprite1.addScript(script1);
-		project1.addSprite(sprite1);
+	@Smoke
+	public void testBasicPosition() {
 
-		ProjectManager.getInstance().setProject(project1);
-		ProjectManager.getInstance().setCurrentSprite(sprite1);
-		ProjectManager.getInstance().setCurrentScript(script1);
-
+		Sprite sprite = new Sprite("sprite");
+		Script startScript = new StartScript("startscript", sprite);
+		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
+		String speechBubbleText = "AB CDE";
+		SayBrick sayBrick = new SayBrick(sprite, speechBubbleText);
+		startScript.addBrick(setCostumeBrick);
+		startScript.addBrick(new ComeToFrontBrick(sprite));
+		startScript.addBrick(sayBrick);
+		sprite.addScript(startScript);
+		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
+		spriteList.add(sprite);
+		Project project = UiTestUtils.createProject(projectName1, spriteList, getActivity());
 		File image = UiTestUtils.saveFileToProject(projectName1, "black_quad.png", imageRawId, getInstrumentation()
 				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
-		Log.v(TAG, image.getName());
-		setCostumeBrick1.setCostume(image.getName());
-		SpeechBubble.setVisualMode(true);
-		// -------------------------------------------------------------------------------------------------------------
-		solo = new Solo(getInstrumentation(), getActivity());
-
-		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
-		assertEquals("Incorrect number of bricks.", 4, solo.getCurrentListViews().get(0).getChildCount());
-		assertEquals("Incorrect number of bricks.", 3, childrenCount);
-		ArrayList<Brick> projectBrickList = project1.getSpriteList().get(0).getScript(0).getBrickList();
-		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
-		solo.sleep(500);
+		setCostumeBrick.setCostume(image.getName());
+		storageHandler.saveProject(project);
 		DisplayMetrics displayMetrics = new DisplayMetrics();
 		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 		Values.SCREEN_WIDTH = displayMetrics.widthPixels;
 		Values.SCREEN_HEIGHT = displayMetrics.heightPixels;
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
-		solo.assertCurrentActivity("Not in stage", StageActivity.class);
-		solo.sleep(1500);
+		solo.sleep(5000);
 		// -------------------------------------------------------------------------------------------------------------
+		SpeechBubble speechBubble = spriteList.get(0).getBubble();
 
-		SpeechBubble speechBubble = sprite1.getBubble();
-
-		@SuppressWarnings("unchecked")
-		Vector<String> textGrid = (Vector<String>) UiTestUtils.getPrivateField("textGrid", speechBubble);
-		String completeText = "";
-		for (int textIndex = 0; textIndex < textGrid.size(); textIndex++) {
-			completeText += textGrid.elementAt(textIndex);
-		}
-		assertEquals("Displayed text is incomplete.", text1, completeText);
-		Point speechBubblePos = (Point) UiTestUtils.getPrivateField("position", speechBubble);
-		float speechBubbleWidth = (Float) UiTestUtils.getPrivateField("speechBubblePicWidth", speechBubble);
-		float speechBubbleHeight = (Float) UiTestUtils.getPrivateField("speechBubblePicHeight", speechBubble);
-		Log.v("SHOW.A.POINT", speechBubblePos.toString());
-		Log.v("SHOW.A.WITH", "" + speechBubbleWidth);
-		Log.v("SHOW.A.HEIGHT", "" + speechBubbleHeight);
-		// TODO: getBitmap Mainview -> cache enable, load cache in bitmap
-		// TODO: assert Red Boarder points (4x)
-
+		Log.v(TAG, speechBubble.toString());
+		Point position = (Point) UiTestUtils.getPrivateField("position", speechBubble);
+		float speechBubblePicHeight = (Float) UiTestUtils.getPrivateField("speechBubblePicHeight", speechBubble);
+		float speechBubblePicWidth = (Float) UiTestUtils.getPrivateField("speechBubblePicWidth", speechBubble);
+		Log.v(TAG, position.toString());
+		Log.v(TAG, "H: " + speechBubblePicHeight + ", W:" + speechBubblePicWidth);
 		solo.sleep(1500);
+
 		// -------------------------------------------------------------------------------------------------------------
 	}
 
-	@Smoke
-	public void testBasicFuntionality02() {
-		createProject2();
-		solo = new Solo(getInstrumentation(), getActivity());
+	public void testFlipPosition() {
 
-		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
-		assertEquals("Incorrect number of bricks.", 4, solo.getCurrentListViews().get(0).getChildCount());
-		assertEquals("Incorrect number of bricks.", 3, childrenCount);
-		ArrayList<Brick> projectBrickList = project2.getSpriteList().get(0).getScript(0).getBrickList();
-		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
-		solo.sleep(500);
-		DisplayMetrics displayMetrics = new DisplayMetrics();
-		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-		Values.SCREEN_WIDTH = displayMetrics.widthPixels;
-		Values.SCREEN_HEIGHT = displayMetrics.heightPixels;
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
-		solo.assertCurrentActivity("Not in stage", StageActivity.class);
-		solo.sleep(1500);
-		// -------------------------------------------------------------------------------------------------------------
-
-		SpeechBubble speechBubble = sprite2.getBubble();
-
-		@SuppressWarnings("unchecked")
-		Vector<String> textGrid = (Vector<String>) UiTestUtils.getPrivateField("textGrid", speechBubble);
-		String completeText = "";
-		for (int textIndex = 0; textIndex < textGrid.size(); textIndex++) {
-			completeText += textGrid.elementAt(textIndex);
-		}
-		assertEquals("Displayed text is incomplete.", text2, completeText);
-		solo.sleep(1500);
-		// -------------------------------------------------------------------------------------------------------------
-
-	}
-
-	@Smoke
-	public void testBasicFuntionality03() {
-		createProject3();
-		solo = new Solo(getInstrumentation(), getActivity());
-
-		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
-		assertEquals("Incorrect number of bricks.", 4, solo.getCurrentListViews().get(0).getChildCount());
-		assertEquals("Incorrect number of bricks.", 3, childrenCount);
-		ArrayList<Brick> projectBrickList = project3.getSpriteList().get(0).getScript(0).getBrickList();
-		assertEquals("Incorrect number of bricks.", 3, projectBrickList.size());
-		solo.sleep(500);
-		DisplayMetrics displayMetrics = new DisplayMetrics();
-		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-		Values.SCREEN_WIDTH = displayMetrics.widthPixels;
-		Values.SCREEN_HEIGHT = displayMetrics.heightPixels;
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
-		solo.assertCurrentActivity("Not in stage", StageActivity.class);
-		solo.sleep(1500);
-		// -------------------------------------------------------------------------------------------------------------
-
-		SpeechBubble speechBubble = sprite3.getBubble();
-
-		@SuppressWarnings("unchecked")
-		Vector<String> textGrid = (Vector<String>) UiTestUtils.getPrivateField("textGrid", speechBubble);
-		String completeText = "";
-		for (int textIndex = 0; textIndex < textGrid.size(); textIndex++) {
-			completeText += textGrid.elementAt(textIndex);
-		}
-		assertEquals("Displayed text is incomplete.", text3, completeText);
-		solo.sleep(1500);
-		// -------------------------------------------------------------------------------------------------------------
-	}
-
-	private void createProject2() {
-		project2 = new Project(null, projectName2);
-		Sprite sprite2 = new Sprite("cat");
-		Script script2 = new StartScript("script", sprite2);
-		placeAtBrick2 = new PlaceAtBrick(sprite2, 900, -300);
-		setCostumeBrick2 = new SetCostumeBrick(sprite2);
-
-		sayBrick2 = new SayBrick(sprite2, "Whatever");
-
-		script2.addBrick(setCostumeBrick2);
-		script2.addBrick(placeAtBrick2);
-		script2.addBrick(sayBrick2);
-
-		sprite2.addScript(script2);
-		project2.addSprite(sprite2);
-
-		ProjectManager.getInstance().setProject(project2);
-		ProjectManager.getInstance().setCurrentSprite(sprite2);
-		ProjectManager.getInstance().setCurrentScript(script2);
-
-		File image = UiTestUtils.saveFileToProject(projectName2, "black_quad.png", imageRawId, getInstrumentation()
+		Sprite sprite = new Sprite("sprite");
+		Script startScript = new StartScript("startscript", sprite);
+		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
+		String speechBubbleText = "AB CDE";
+		SayBrick sayBrick = new SayBrick(sprite, speechBubbleText);
+		startScript.addBrick(setCostumeBrick);
+		startScript.addBrick(new ComeToFrontBrick(sprite));
+		startScript.addBrick(sayBrick);
+		sprite.addScript(startScript);
+		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
+		spriteList.add(sprite);
+		Project project = UiTestUtils.createProject(projectName1, spriteList, getActivity());
+		File image = UiTestUtils.saveFileToProject(projectName1, "black_quad.png", imageRawId, getInstrumentation()
 				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
-		Log.v(TAG, image.getName());
-		setCostumeBrick2.setCostume(image.getName());
+		setCostumeBrick.setCostume(image.getName());
+		storageHandler.saveProject(project);
+		DisplayMetrics displayMetrics = new DisplayMetrics();
+		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+		Values.SCREEN_WIDTH = displayMetrics.widthPixels;
+		Values.SCREEN_HEIGHT = displayMetrics.heightPixels;
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		solo.sleep(5000);
+		// -------------------------------------------------------------------------------------------------------------
+		SpeechBubble speechBubble = spriteList.get(0).getBubble();
+
+		Log.v(TAG, speechBubble.toString());
+		Point position = (Point) UiTestUtils.getPrivateField("position", speechBubble);
+		float speechBubblePicHeight = (Float) UiTestUtils.getPrivateField("speechBubblePicHeight", speechBubble);
+		float speechBubblePicWidth = (Float) UiTestUtils.getPrivateField("speechBubblePicWidth", speechBubble);
+		Log.v(TAG, position.toString());
+		Log.v(TAG, "H: " + speechBubblePicHeight + ", W:" + speechBubblePicWidth);
+		solo.sleep(1500);
+
+		// -------------------------------------------------------------------------------------------------------------
 	}
 
-	private void createProject3() {
-		project3 = new Project(null, projectName3);
-		Sprite sprite3 = new Sprite("cat");
-		Script script3 = new StartScript("script", sprite3);
-		placeAtBrick3 = new PlaceAtBrick(sprite3, 900, 900);
-		setCostumeBrick3 = new SetCostumeBrick(sprite3);
-		sayBrick3 = new SayBrick(sprite3, "No more Catroids!");
+	public void testFlipTranslatePosition() {
 
-		script3.addBrick(setCostumeBrick3);
-		script3.addBrick(placeAtBrick3);
-		script3.addBrick(sayBrick3);
-
-		sprite3.addScript(script3);
-		project3.addSprite(sprite3);
-
-		ProjectManager.getInstance().setProject(project3);
-		ProjectManager.getInstance().setCurrentSprite(sprite3);
-		ProjectManager.getInstance().setCurrentScript(script3);
-
-		File image = UiTestUtils.saveFileToProject(projectName3, "black_quad.png", imageRawId, getInstrumentation()
+		Sprite sprite = new Sprite("sprite");
+		Script startScript = new StartScript("startscript", sprite);
+		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
+		String speechBubbleText = "AB CDE";
+		SayBrick sayBrick = new SayBrick(sprite, speechBubbleText);
+		startScript.addBrick(setCostumeBrick);
+		startScript.addBrick(new ComeToFrontBrick(sprite));
+		startScript.addBrick(sayBrick);
+		sprite.addScript(startScript);
+		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
+		spriteList.add(sprite);
+		Project project = UiTestUtils.createProject(projectName1, spriteList, getActivity());
+		File image = UiTestUtils.saveFileToProject(projectName1, "black_quad.png", imageRawId, getInstrumentation()
 				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
-		Log.v(TAG, image.getName());
-		setCostumeBrick3.setCostume(image.getName());
+		setCostumeBrick.setCostume(image.getName());
+		storageHandler.saveProject(project);
+		DisplayMetrics displayMetrics = new DisplayMetrics();
+		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+		Values.SCREEN_WIDTH = displayMetrics.widthPixels;
+		Values.SCREEN_HEIGHT = displayMetrics.heightPixels;
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		solo.sleep(5000);
+		// -------------------------------------------------------------------------------------------------------------
+		SpeechBubble speechBubble = spriteList.get(0).getBubble();
 
+		Log.v(TAG, speechBubble.toString());
+		Point position = (Point) UiTestUtils.getPrivateField("position", speechBubble);
+		float speechBubblePicHeight = (Float) UiTestUtils.getPrivateField("speechBubblePicHeight", speechBubble);
+		float speechBubblePicWidth = (Float) UiTestUtils.getPrivateField("speechBubblePicWidth", speechBubble);
+		Log.v(TAG, position.toString());
+		Log.v(TAG, "H: " + speechBubblePicHeight + ", W:" + speechBubblePicWidth);
+		solo.sleep(1500);
+
+		// -------------------------------------------------------------------------------------------------------------
+	}
+
+	public void changeBubbleType() {
+
+		Sprite sprite = new Sprite("sprite");
+		Script startScript = new StartScript("startscript", sprite);
+		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
+		String speechBubbleText = "AB CDE";
+		SayBrick sayBrick = new SayBrick(sprite, speechBubbleText);
+		startScript.addBrick(setCostumeBrick);
+		startScript.addBrick(new ComeToFrontBrick(sprite));
+		startScript.addBrick(sayBrick);
+		sprite.addScript(startScript);
+		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
+		spriteList.add(sprite);
+		Project project = UiTestUtils.createProject(projectName1, spriteList, getActivity());
+		File image = UiTestUtils.saveFileToProject(projectName1, "black_quad.png", imageRawId, getInstrumentation()
+				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
+		setCostumeBrick.setCostume(image.getName());
+		storageHandler.saveProject(project);
+		DisplayMetrics displayMetrics = new DisplayMetrics();
+		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+		Values.SCREEN_WIDTH = displayMetrics.widthPixels;
+		Values.SCREEN_HEIGHT = displayMetrics.heightPixels;
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		solo.sleep(5000);
+		// -------------------------------------------------------------------------------------------------------------
+		SpeechBubble speechBubble = spriteList.get(0).getBubble();
+
+		Log.v(TAG, speechBubble.toString());
+		Point position = (Point) UiTestUtils.getPrivateField("position", speechBubble);
+		float speechBubblePicHeight = (Float) UiTestUtils.getPrivateField("speechBubblePicHeight", speechBubble);
+		float speechBubblePicWidth = (Float) UiTestUtils.getPrivateField("speechBubblePicWidth", speechBubble);
+		Log.v(TAG, position.toString());
+		Log.v(TAG, "H: " + speechBubblePicHeight + ", W:" + speechBubblePicWidth);
+		solo.sleep(1500);
+
+		// -------------------------------------------------------------------------------------------------------------
 	}
 
 }
