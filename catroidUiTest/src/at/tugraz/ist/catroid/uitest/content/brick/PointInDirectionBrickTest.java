@@ -87,7 +87,7 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript("script", sprite);
-		pointInDirectionBrick = new PointInDirectionBrick(sprite, 15);
+		pointInDirectionBrick = new PointInDirectionBrick(sprite, PointInDirectionBrick.DIRECTION_RIGHT);
 		script.addBrick(pointInDirectionBrick);
 
 		sprite.addScript(script);
