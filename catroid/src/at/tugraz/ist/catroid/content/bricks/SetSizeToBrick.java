@@ -55,10 +55,10 @@ public class SetSizeToBrick implements Brick, OnDismissListener {
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 
 		if (view == null) {
-			view = View.inflate(context, R.layout.construction_brick_set_size_to, null);
+			view = View.inflate(context, R.layout.toolbox_brick_set_size_to, null);
 		}
 
-		EditText edit = (EditText) view.findViewById(R.id.construction_brick_set_size_to_edit_text);
+		EditText edit = (EditText) view.findViewById(R.id.toolbox_brick_set_size_to_edit_text);
 		edit.setText(String.valueOf(size));
 
 		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, size);

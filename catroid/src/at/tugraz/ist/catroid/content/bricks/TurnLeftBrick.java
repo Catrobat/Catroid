@@ -58,10 +58,10 @@ public class TurnLeftBrick implements Brick, OnDismissListener {
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 
 		if (view == null) {
-			view = View.inflate(context, R.layout.construction_brick_turn_left, null);
+			view = View.inflate(context, R.layout.toolbox_brick_turn_left, null);
 		}
 
-		EditText editDegrees = (EditText) view.findViewById(R.id.construction_brick_turn_left_edit_text);
+		EditText editDegrees = (EditText) view.findViewById(R.id.toolbox_brick_turn_left_edit_text);
 		editDegrees.setText(String.valueOf(degrees));
 
 		EditDoubleDialog dialog = new EditDoubleDialog(context, editDegrees, degrees);

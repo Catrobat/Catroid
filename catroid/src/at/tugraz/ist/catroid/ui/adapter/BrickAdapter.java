@@ -57,14 +57,13 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDr
 	private BrickListAnimation brickListAnimation;
 	private boolean animateChildren;
 	private int dragTargetPosition;
-	private boolean dragging;
+	private Brick draggedBrick;
 	private OnLongClickListener longClickListener;
 	private View insertionView;
 
 	public BrickAdapter(Context context, Sprite sprite, DragAndDropListView listView) {
 		this.context = context;
 		this.sprite = sprite;
-		this.dragging = false;
 		brickListAnimation = new BrickListAnimation(this, listView);
 		longClickListener = listView;
 		insertionView = View.inflate(context, R.layout.brick_insert, null);
@@ -83,7 +82,7 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDr
 
 		Brick brick = getChild(groupPosition, childPosition);
 
-		if (dragging && (dragTargetPosition == childPosition)) {
+		if (draggedBrick != null && (dragTargetPosition == childPosition)) {
 			return insertionView;
 		}
 
@@ -153,64 +152,67 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDr
 		childFrom = Math.min(childFrom, getChildCountFromLastGroup() - 1);
 		childTo = Math.min(childTo, getChildCountFromLastGroup() - 1);
 
-		Brick draggedBrick = getChild(getCurrentGroup(), childFrom);
+		if (draggedBrick == null) {
+			draggedBrick = getChild(getCurrentGroup(), childFrom);
+			notifyDataSetChanged();
+		}
 
 		ArrayList<Brick> brickList = getBrickList();
 
 		if (draggedBrick instanceof LoopBeginBrick) {
 			LoopEndBrick loopEndBrick = ((LoopBeginBrick) draggedBrick).getLoopEndBrick();
-			childTo = Math.min(childTo, brickList.indexOf(loopEndBrick) - 1);
+
+			if (childTo >= brickList.indexOf(loopEndBrick) || childFrom >= brickList.indexOf(loopEndBrick)) {
+				return;
+			}
 		} else if (draggedBrick instanceof LoopEndBrick) {
 			LoopBeginBrick loopBeginBrick = ((LoopEndBrick) draggedBrick).getLoopBeginBrick();
-			childTo = Math.max(childTo, brickList.indexOf(loopBeginBrick));
+
+			if (childTo <= brickList.indexOf(loopBeginBrick) || childFrom <= brickList.indexOf(loopBeginBrick)) {
+				return;
+			}
 		}
 
 		dragTargetPosition = childTo;
 
-		if (from != to) {
+		if (childFrom != childTo) {
 			Brick removedBrick = getBrickList().remove(childFrom);
 			sprite.getScript(getCurrentGroup()).addBrick(childTo, removedBrick);
-			notifyDataSetChanged();
-		}
-
-		if (!dragging) {
-			dragging = true;
 			notifyDataSetChanged();
 		}
 
 	}
 
 	public void drop(int from, int to) {
-		dragging = false;
+		draggedBrick = null;
 		notifyDataSetChanged();
 	}
 
 	public void remove(int index) {
-		dragging = false;
 		ArrayList<Brick> brickList = getBrickList();
 
-		Brick brickToRemove = brickList.get(index - getGroupCount());
-		if (brickToRemove instanceof PlaySoundBrick) {
-			PlaySoundBrick toDelete = (PlaySoundBrick) brickToRemove;
+		if (draggedBrick instanceof PlaySoundBrick) {
+			PlaySoundBrick toDelete = (PlaySoundBrick) draggedBrick;
 			String pathToSoundFile = toDelete.getPathToSoundFile();
 			if (pathToSoundFile != null) {
 				StorageHandler.getInstance().deleteFile(pathToSoundFile);
 			}
-		} else if (brickToRemove instanceof SetCostumeBrick) {
-			SetCostumeBrick toDelete = (SetCostumeBrick) brickToRemove;
+		} else if (draggedBrick instanceof SetCostumeBrick) {
+			SetCostumeBrick toDelete = (SetCostumeBrick) draggedBrick;
 			String imagePath = toDelete.getImagePath();
 			if (imagePath != null) {
 				StorageHandler.getInstance().deleteFile(imagePath);
 			}
-		} else if (brickToRemove instanceof LoopBeginBrick) {
-			LoopBeginBrick loopBeginBrick = (LoopBeginBrick) brickToRemove;
+		} else if (draggedBrick instanceof LoopBeginBrick) {
+			LoopBeginBrick loopBeginBrick = (LoopBeginBrick) draggedBrick;
 			brickList.remove(loopBeginBrick.getLoopEndBrick());
-		} else if (brickToRemove instanceof LoopEndBrick) {
-			LoopEndBrick loopEndBrick = (LoopEndBrick) brickToRemove;
+		} else if (draggedBrick instanceof LoopEndBrick) {
+			LoopEndBrick loopEndBrick = (LoopEndBrick) draggedBrick;
 			brickList.remove(loopEndBrick.getLoopBeginBrick());
 		}
 
-		brickList.remove(brickToRemove);
+		brickList.remove(draggedBrick);
+		draggedBrick = null;
 		notifyDataSetChanged();
 	}
 

@@ -47,7 +47,7 @@ public class HideBrick implements Brick {
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		if (view == null) {
-			view = View.inflate(context, R.layout.construction_brick_hide, null);
+			view = View.inflate(context, R.layout.toolbox_brick_hide, null);
 		}
 
 		return view;
@@ -59,6 +59,6 @@ public class HideBrick implements Brick {
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.brick_hide, null);
+		return View.inflate(context, R.layout.toolbox_brick_hide, null);
 	}
 }
