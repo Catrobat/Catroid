@@ -32,8 +32,13 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 
+	public static final int DIRECTION_RIGHT = 0;
+	public static final int DIRECTION_LEFT = 1;
+	public static final int DIRECTION_UP = 2;
+	public static final int DIRECTION_DOWN = 3;
+
 	private static final long serialVersionUID = 1L;
-	private static final double[] directions = { 90, -90, 0, 180 };
+	private static final int[] directions = { 90, -90, 0, 180 };
 	private Sprite sprite;
 	private int selectedIndex;
 
