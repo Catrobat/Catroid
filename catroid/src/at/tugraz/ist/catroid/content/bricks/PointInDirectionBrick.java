@@ -40,7 +40,22 @@ public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 	}
 
 	public void execute() {
-		sprite.costume.rotation = (float) direction;
+		float rotation = 0;
+		switch ((int) direction) {
+			case 0:
+				rotation = 90;
+				break;
+			case 90:
+				rotation = 0;
+				break;
+			case -90:
+				rotation = 180;
+				break;
+			case 180:
+				rotation = -90;
+				break;
+		}
+		sprite.costume.rotation = rotation;
 	}
 
 	public Sprite getSprite() {
