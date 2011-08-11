@@ -20,7 +20,6 @@
 package at.tugraz.ist.catroid.test.content.brick;
 
 import java.io.File;
-import java.io.IOException;
 
 import android.graphics.BitmapFactory;
 import android.test.InstrumentationTestCase;
@@ -61,12 +60,12 @@ public class SetCostumeBrickTest extends InstrumentationTestCase {
 		testImage = TestUtils.saveFileToProject(this.projectName, "testImage.png", IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), TestUtils.TYPE_IMAGE_FILE);
 
-		BitmapFactory.Options o = new BitmapFactory.Options();
-		o.inJustDecodeBounds = true;
-		BitmapFactory.decodeFile(this.testImage.getAbsolutePath(), o);
+		BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+		bitmapOptions.inJustDecodeBounds = true;
+		BitmapFactory.decodeFile(this.testImage.getAbsolutePath(), bitmapOptions);
 
-		this.width = o.outWidth;
-		this.height = o.outHeight;
+		this.width = bitmapOptions.outWidth;
+		this.height = bitmapOptions.outHeight;
 	}
 
 	@Override
@@ -81,7 +80,7 @@ public class SetCostumeBrickTest extends InstrumentationTestCase {
 		}
 	}
 
-	public void testSetCostume() throws IOException {
+	public void testSetCostume() {
 
 		Values.SCREEN_HEIGHT = 200;
 		Values.SCREEN_WIDTH = 200;
