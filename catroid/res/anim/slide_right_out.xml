@@ -18,4 +18,4 @@
     android:interpolator="@android:anim/accelerate_decelerate_interpolator"
     android:fromXDelta="0%p"
     android:toXDelta="-100%p"
-    android:duration="@integer/fling_animation_duration" />
+    android:duration="350" />
