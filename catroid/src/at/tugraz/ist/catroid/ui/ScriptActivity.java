@@ -94,7 +94,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 
 		ProjectManager projectManager = ProjectManager.getInstance();
 		if (projectManager.getCurrentProject() != null) {
-			projectManager.saveProject(this);
+			projectManager.saveProject();
 		}
 	}
 

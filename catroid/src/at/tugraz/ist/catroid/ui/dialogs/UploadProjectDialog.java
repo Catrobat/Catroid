@@ -134,7 +134,7 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 				}
 
 				projectManager.getCurrentProject().setDeviceData();
-				projectManager.saveProject(context);
+				projectManager.saveProject();
 
 				dismiss();
 				String projectPath = Consts.DEFAULT_ROOT + "/" + projectManager.getCurrentProject().getName();

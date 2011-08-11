@@ -22,7 +22,6 @@ package at.tugraz.ist.catroid;
 import java.io.File;
 
 import android.content.Context;
-import android.content.pm.PackageManager.NameNotFoundException;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.common.MessageContainer;
@@ -76,6 +75,13 @@ public class ProjectManager {
 		}
 	}
 
+	public void saveProject() {
+		if (project == null) {
+			return;
+		}
+		StorageHandler.getInstance().saveProject(project);
+	}
+
 	public boolean initializeDefaultProject(Context context) {
 		try {
 			fileChecksumContainer = new FileChecksumContainer();
@@ -91,45 +97,6 @@ public class ProjectManager {
 		}
 	}
 
-	public void saveProject(Context context) {
-		if (project == null) {
-			return;
-		}
-		StorageHandler.getInstance().saveProject(project);
-	}
-
-	public void deleteCurrentProject(Context context) {
-		StorageHandler.getInstance().deleteProject(project);
-
-		project = null;
-	}
-
-	public void resetProject(Context context) throws NameNotFoundException {
-		project = new Project(context, project.getName());
-		currentSprite = null;
-		currentScript = null;
-	}
-
-	public void addSprite(Sprite sprite) {
-		project.addSprite(sprite);
-	}
-
-	public void addScript(Script script) {
-		currentSprite.addScript(script);
-	}
-
-	public Sprite getCurrentSprite() {
-		return currentSprite;
-	}
-
-	public Project getCurrentProject() {
-		return project;
-	}
-
-	public Script getCurrentScript() {
-		return currentScript;
-	}
-
 	public void initializeNewProject(String projectName, Context context) {
 		project = new Project(context, projectName);
 		fileChecksumContainer = new FileChecksumContainer();
@@ -137,27 +104,11 @@ public class ProjectManager {
 
 		currentSprite = null;
 		currentScript = null;
-		saveProject(context);
+		saveProject();
 	}
 
-	public void setCurrentSprite(Sprite sprite) {
-		currentSprite = sprite;
-	}
-
-	/**
-	 * @return false if currentSprite doesn't contain the new script, true
-	 *         otherwise
-	 */
-	public boolean setCurrentScript(Script script) {
-		if (script == null) {
-			currentScript = null;
-			return true;
-		}
-		if (currentSprite.getScriptIndex(script) != -1) {
-			currentScript = script;
-			return true;
-		}
-		return false;
+	public Project getCurrentProject() {
+		return project;
 	}
 
 	public void setProject(Project project) {
@@ -167,13 +118,10 @@ public class ProjectManager {
 		this.project = project;
 	}
 
-	public boolean spriteExists(String spriteName) {
-		for (Sprite tempSprite : project.getSpriteList()) {
-			if (tempSprite.getName().equalsIgnoreCase(spriteName)) {
-				return true;
-			}
-		}
-		return false;
+	public void deleteCurrentProject() {
+		StorageHandler.getInstance().deleteProject(project);
+
+		project = null;
 	}
 
 	public boolean renameProject(String newProjectName, Context context) {
@@ -196,6 +144,43 @@ public class ProjectManager {
 		boolean directoryRenamed = oldProjectDirectory.renameTo(newProjectDirectory);
 
 		return (directoryRenamed && fileRenamed);
+	}
+
+	public Sprite getCurrentSprite() {
+		return currentSprite;
+	}
+
+	public void setCurrentSprite(Sprite sprite) {
+		currentSprite = sprite;
+	}
+
+	public Script getCurrentScript() {
+		return currentScript;
+	}
+
+	public void setCurrentScript(Script script) {
+		if (script == null) {
+			currentScript = null;
+		} else if (currentSprite.getScriptIndex(script) != -1) {
+			currentScript = script;
+		}
+	}
+
+	public void addSprite(Sprite sprite) {
+		project.addSprite(sprite);
+	}
+
+	public void addScript(Script script) {
+		currentSprite.addScript(script);
+	}
+
+	public boolean spriteExists(String spriteName) {
+		for (Sprite tempSprite : project.getSpriteList()) {
+			if (tempSprite.getName().equalsIgnoreCase(spriteName)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public int getCurrentSpritePosition() {
