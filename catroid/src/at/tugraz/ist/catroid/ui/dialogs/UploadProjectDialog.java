@@ -62,6 +62,7 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 		setCanceledOnTouchOutside(true);
 		getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
 
+		currentProjectName = ProjectManager.getInstance().getCurrentProject().getName();
 		projectRename = (TextView) findViewById(R.id.tv_project_rename);
 		projectDescriptionField = (EditText) findViewById(R.id.project_description_upload);
 		projectUploadName = (EditText) findViewById(R.id.project_upload_name);
@@ -108,12 +109,7 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 	@Override
 	public void show() {
 		super.show();
-		projectRename.setVisibility(View.GONE);
 		currentProjectName = ProjectManager.getInstance().getCurrentProject().getName();
-		projectUploadName.setText(currentProjectName);
-		projectDescriptionField.setText("");
-		projectUploadName.requestFocus();
-		projectUploadName.selectAll();
 	}
 
 	public void onClick(View v) {
