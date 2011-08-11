@@ -36,7 +36,7 @@ public class PlaySoundBrick implements Brick, Serializable, OnItemSelectedListen
 	private static final long serialVersionUID = 1L;
 	private SoundInfo soundInfo;
 	private Sprite sprite;
-	
+
 	private transient View view;
 
 	public PlaySoundBrick(Sprite sprite) {
@@ -54,23 +54,26 @@ public class PlaySoundBrick implements Brick, Serializable, OnItemSelectedListen
 	}
 
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
-		
-	  if (view == null) {
+
+		if (view == null) {
 			view = View.inflate(context, R.layout.toolbox_brick_play_sound, null);
 		}
 
 		Spinner soundbrickSpinner = (Spinner) view.findViewById(R.id.playsound_spinner);
 		soundbrickSpinner.setAdapter(createSoundAdapter(context));
+		soundbrickSpinner.setClickable(true);
+		soundbrickSpinner.setFocusable(true);
 		soundbrickSpinner.setOnItemSelectedListener(this);
 
 		if (sprite.getSoundList().contains(soundInfo)) {
-			soundbrickSpinner.setSelection(sprite.getSoundList().indexOf(soundInfo) + 1);
+			soundbrickSpinner.setSelection(sprite.getSoundList().indexOf(soundInfo) + 1, true);
 		} else {
 			soundbrickSpinner.setSelection(0);
 		}
 
-		return view;
+		System.out.println("PlaySoundBrick.getView() selection = " + soundbrickSpinner.getSelectedItemPosition());
 
+		return view;
 	}
 
 	private ArrayAdapter<?> createSoundAdapter(Context context) {
