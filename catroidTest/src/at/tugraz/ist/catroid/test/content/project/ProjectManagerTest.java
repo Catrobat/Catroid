@@ -79,9 +79,9 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		assertEquals("The Spritename is not " + spriteNameOne, spriteNameOne, projectManager.getCurrentSprite()
 				.getName());
 
-		Script script = new StartScript(scriptNameOne, sprite);
-		projectManager.addScript(script);
-		projectManager.setCurrentScript(script);
+		Script startScript = new StartScript(scriptNameOne, sprite);
+		projectManager.addScript(startScript);
+		projectManager.setCurrentScript(startScript);
 
 		assertNotNull("no current script set", projectManager.getCurrentScript());
 		assertEquals("The Spritename is not " + scriptNameOne, scriptNameOne, projectManager.getCurrentScript()
@@ -113,12 +113,13 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		//addBrick
 
 		projectManager.setCurrentScript(script2);
-		SetCostumeBrick brick = new SetCostumeBrick(sprite2);
-		projectManager.getCurrentScript().addBrick(brick);
-		assertTrue("Brick not in current Script", projectManager.getCurrentScript().getBrickList().contains(brick));
+		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite2);
+		projectManager.getCurrentScript().addBrick(setCostumeBrick);
+		assertTrue("Brick not in current Script",
+				projectManager.getCurrentScript().getBrickList().contains(setCostumeBrick));
 	}
 
-	public void testRenameProject() throws NameNotFoundException, IOException {
+	public void testRenameProject() throws IOException {
 		String oldProjectName = "oldProject";
 		String newProjectName = "newProject";
 		ProjectManager projectManager = ProjectManager.getInstance();
@@ -148,10 +149,9 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		//this fails because catroid is buggy, fix catroid not this test --> we haven't decided yet how to fix the FileChecksumContainer
 		Log.v(TAG, projectFileAsString);
 		assertFalse("old projectName still in project file", projectFileAsString.contains(oldProjectName));
-
 	}
 
-	public Project createTestProject(String projectName) throws IOException, NameNotFoundException {
+	public Project createTestProject(String projectName) throws IOException {
 		StorageHandler storageHandler = StorageHandler.getInstance();
 
 		int xPosition = 457;
