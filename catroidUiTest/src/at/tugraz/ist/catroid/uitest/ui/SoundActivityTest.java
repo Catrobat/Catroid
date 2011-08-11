@@ -61,12 +61,12 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 
 	@Override
 	public void tearDown() throws Exception {
+		getActivity().finish();
 		try {
 			solo.finalize();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
-		getActivity().finish();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
