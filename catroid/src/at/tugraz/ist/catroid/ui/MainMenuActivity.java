@@ -93,7 +93,7 @@ public class MainMenuActivity extends Activity {
 		Dialog dialog;
 		if (projectManager.getCurrentProject() != null
 				&& StorageHandler.getInstance().projectExists(projectManager.getCurrentProject().getName())) {
-			projectManager.saveProject(this);
+			projectManager.saveProject();
 		}
 
 		switch (id) {
@@ -150,7 +150,7 @@ public class MainMenuActivity extends Activity {
 		// onStop(), onDestroy(), onRestart()
 		// also when you switch activities
 		if (projectManager.getCurrentProject() != null) {
-			projectManager.saveProject(this);
+			projectManager.saveProject();
 			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 			Editor edit = prefs.edit();
 			edit.putString(PREF_PROJECTNAME_KEY, projectManager.getCurrentProject().getName());

@@ -49,7 +49,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	@Override
 	public void tearDown() throws Exception {
-		ProjectManager.getInstance().deleteCurrentProject(getActivity());
+		ProjectManager.getInstance().deleteCurrentProject();
 
 		try {
 			solo.finalize();
