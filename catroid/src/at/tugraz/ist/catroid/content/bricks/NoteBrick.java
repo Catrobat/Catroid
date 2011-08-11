@@ -68,7 +68,6 @@ public class NoteBrick implements Brick {
 
 		EditText editText = (EditText) view.findViewById(R.id.toolbox_brick_note_edit_text);
 		editText.setText(note);
-		editText.setMaxLines(MAXLINES);
 		editText.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
