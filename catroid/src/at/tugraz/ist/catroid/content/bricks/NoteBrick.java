@@ -38,8 +38,6 @@ public class NoteBrick implements Brick {
 	@XStreamOmitField
 	private transient View view;
 
-	private final transient int MAXLINES = 5;
-
 	public NoteBrick(Sprite sprite) {
 		this.sprite = sprite;
 	}
