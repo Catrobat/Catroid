@@ -34,7 +34,6 @@ import at.tugraz.ist.catroid.utils.UtilFile;
 public class SetSizeToBrickTest extends InstrumentationTestCase {
 
 	private double size = 70;
-	private final double sizeToBig = 1000000.;
 
 	private static final int IMAGE_FILE_ID = R.raw.icon;
 
