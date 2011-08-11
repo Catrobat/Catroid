@@ -118,7 +118,7 @@ public class SoundActivity extends ListActivity {
 		super.onPause();
 		ProjectManager projectManager = ProjectManager.getInstance();
 		if (projectManager.getCurrentProject() != null) {
-			projectManager.saveProject(this);
+			projectManager.saveProject();
 		}
 		stopSound();
 	}

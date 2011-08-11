@@ -63,15 +63,15 @@ public class ChangeVolumeByBrickTest extends InstrumentationTestCase {
 
 		double volume = SoundManager.getInstance().getVolume();
 		volume += louder;
-		ChangeVolumeByBrick brick1 = new ChangeVolumeByBrick(sprite, louder);
-		brick1.execute();
+		ChangeVolumeByBrick changeVolumeByBrick1 = new ChangeVolumeByBrick(sprite, louder);
+		changeVolumeByBrick1.execute();
 		assertEquals("Incorrect sprite volume after ChangeVolumeByBrick executed", volume, SoundManager.getInstance()
 				.getVolume());
 
 		volume = SoundManager.getInstance().getVolume();
 		volume += softer;
-		ChangeVolumeByBrick brick2 = new ChangeVolumeByBrick(sprite, softer);
-		brick2.execute();
+		ChangeVolumeByBrick changeVolumeByBrick2 = new ChangeVolumeByBrick(sprite, softer);
+		changeVolumeByBrick2.execute();
 		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", volume, SoundManager.getInstance()
 				.getVolume());
 	}
@@ -88,6 +88,5 @@ public class ChangeVolumeByBrickTest extends InstrumentationTestCase {
 
 		soundFile = TestUtils.saveFileToProject(projectName, "soundTest.mp3", SOUND_FILE_ID, getInstrumentation()
 				.getContext(), TestUtils.TYPE_SOUND_FILE);
-
 	}
 }

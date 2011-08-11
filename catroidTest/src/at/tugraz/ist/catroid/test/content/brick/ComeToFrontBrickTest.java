@@ -19,7 +19,6 @@
 
 package at.tugraz.ist.catroid.test.content.brick;
 
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.AndroidTestCase;
 import android.view.View;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -35,7 +34,7 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 		TestUtils.clearProject("testProject");
 	}
 
-	public void testComeToFront() throws NameNotFoundException {
+	public void testComeToFront() {
 		Project project = new Project(getContext(), "testProject");
 
 		Sprite bottomSprite = new Sprite("catroid");
@@ -55,18 +54,18 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 		assertEquals("bottomSprite z position should now be 3", bottomSprite.getZPosition(), 3);
 	}
 
-	public void testNullSprite() throws NameNotFoundException {
+	public void testNullSprite() {
 		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(null);
 
 		try {
 			comeToFrontBrick.execute();
 			fail("Execution of ComeToFrontBrick with null Sprite did not cause a NullPointerException to be thrown");
-		} catch (NullPointerException e) {
+		} catch (NullPointerException expected) {
 			// expected behavior
 		}
 	}
 
-	public void testBoundaries() throws NameNotFoundException {
+	public void testBoundaries() {
 		Project project = new Project(getContext(), "testProject");
 
 		Sprite sprite = new Sprite("testSprite");
@@ -82,7 +81,7 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 				sprite.getZPosition());
 	}
 
-	public void testGetView() throws NameNotFoundException {
+	public void testGetView() {
 		ProjectManager.getInstance().setProject(new Project(getContext(), "testProject"));
 		ComeToFrontBrick brick = new ComeToFrontBrick(new Sprite("testSprite"));
 		View view = brick.getView(getContext(), 1, null);
