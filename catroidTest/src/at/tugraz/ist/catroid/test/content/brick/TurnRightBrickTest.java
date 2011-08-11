@@ -81,14 +81,14 @@ public class TurnRightBrickTest extends InstrumentationTestCase {
 		TurnRightBrick brick = new TurnRightBrick(sprite, 10);
 
 		brick.execute();
-		assertEquals("Wrong direction", 100, sprite.costume.rotation, 1e-3);
-		assertEquals("Wrong X-Position!", 0, sprite.costume.getXPosition());
-		assertEquals("Wrong Y-Position!", 0, sprite.costume.getYPosition());
+		assertEquals("Wrong direction", -10f, sprite.costume.rotation, 1e-3);
+		assertEquals("Wrong X-Position!", 0f, sprite.costume.getXPosition());
+		assertEquals("Wrong Y-Position!", 0f, sprite.costume.getYPosition());
 
 		brick.execute();
-		assertEquals("Wrong direction", 110, sprite.costume.rotation, 1e-3);
-		assertEquals("Wrong X-Position!", 0, sprite.costume.getXPosition());
-		assertEquals("Wrong Y-Position!", 0, sprite.costume.getYPosition());
+		assertEquals("Wrong direction", -20f, sprite.costume.rotation, 1e-3);
+		assertEquals("Wrong X-Position!", 0f, sprite.costume.getXPosition());
+		assertEquals("Wrong Y-Position!", 0f, sprite.costume.getYPosition());
 	}
 
 	public void testTurnRightAndScale() {
@@ -101,9 +101,9 @@ public class TurnRightBrickTest extends InstrumentationTestCase {
 		brick.execute();
 		brickScale.execute();
 
-		assertEquals("Wrong direction", 100, sprite.costume.rotation, 1e-3);
-		assertEquals("Wrong X-Position!", 0, sprite.costume.getXPosition());
-		assertEquals("Wrong Y-Position!", 0, sprite.costume.getYPosition());
+		assertEquals("Wrong direction", -10f, sprite.costume.rotation, 1e-3);
+		assertEquals("Wrong X-Position!", 0f, sprite.costume.getXPosition());
+		assertEquals("Wrong Y-Position!", 0f, sprite.costume.getYPosition());
 	}
 
 	public void testScaleandTurnRight() {
@@ -116,9 +116,9 @@ public class TurnRightBrickTest extends InstrumentationTestCase {
 		brickScale.execute();
 		brick.execute();
 
-		assertEquals("Wrong direction", 100, sprite.costume.rotation, 1e-3);
-		assertEquals("Wrong X-Position!", 0, sprite.costume.getXPosition());
-		assertEquals("Wrong Y-Position!", 0, sprite.costume.getYPosition());
+		assertEquals("Wrong direction", -10f, sprite.costume.rotation, 1e-3);
+		assertEquals("Wrong X-Position!", 0f, sprite.costume.getXPosition());
+		assertEquals("Wrong Y-Position!", 0f, sprite.costume.getYPosition());
 	}
 
 	public void testTurnRightNegative() {
@@ -128,9 +128,9 @@ public class TurnRightBrickTest extends InstrumentationTestCase {
 		TurnRightBrick brick = new TurnRightBrick(sprite, -10);
 
 		brick.execute();
-		assertEquals("Wrong direction", 80, sprite.costume.rotation, 1e-3);
-		assertEquals("Wrong X-Position!", 0, sprite.costume.getXPosition());
-		assertEquals("Wrong Y-Position!", 0, sprite.costume.getYPosition());
+		assertEquals("Wrong direction", 10f, sprite.costume.rotation, 1e-3);
+		assertEquals("Wrong X-Position!", 0f, sprite.costume.getXPosition());
+		assertEquals("Wrong Y-Position!", 0f, sprite.costume.getYPosition());
 
 	}
 
@@ -141,9 +141,9 @@ public class TurnRightBrickTest extends InstrumentationTestCase {
 		TurnRightBrick brick = new TurnRightBrick(sprite, 370);
 
 		brick.execute();
-		assertEquals("Wrong direction", 100, sprite.costume.rotation, 1e-3);
-		assertEquals("Wrong X-Position!", 0, sprite.costume.getXPosition());
-		assertEquals("Wrong Y-Position!", 0, sprite.costume.getYPosition());
+		assertEquals("Wrong direction", -370f, sprite.costume.rotation, 1e-3);
+		assertEquals("Wrong X-Position!", 0f, sprite.costume.getXPosition());
+		assertEquals("Wrong Y-Position!", 0f, sprite.costume.getYPosition());
 
 	}
 
@@ -157,8 +157,8 @@ public class TurnRightBrickTest extends InstrumentationTestCase {
 		brickTurnRight.execute();
 		brickTurnLeft.execute();
 
-		assertEquals("Wrong direction!", 120, sprite.costume.rotation, 1e-3);
-		assertEquals("Wrong X-Position!", 0, sprite.costume.getXPosition());
-		assertEquals("Wrong Y-Position!", 0, sprite.costume.getYPosition());
+		assertEquals("Wrong direction!", -30f, sprite.costume.rotation, 1e-3);
+		assertEquals("Wrong X-Position!", 0f, sprite.costume.getXPosition());
+		assertEquals("Wrong Y-Position!", 0f, sprite.costume.getYPosition());
 	}
 }
