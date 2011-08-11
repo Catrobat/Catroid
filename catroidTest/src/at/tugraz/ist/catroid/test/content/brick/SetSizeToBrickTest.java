@@ -23,7 +23,6 @@ import java.io.File;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
-import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
@@ -36,7 +35,6 @@ public class SetSizeToBrickTest extends InstrumentationTestCase {
 
 	private double size = 70;
 	private final double sizeToBig = 1000000.;
-	private final double sizeToSmall = .00001;
 
 	private static final int IMAGE_FILE_ID = R.raw.icon;
 
@@ -79,8 +77,10 @@ public class SetSizeToBrickTest extends InstrumentationTestCase {
 
 		SetSizeToBrick brick = new SetSizeToBrick(sprite, size);
 		brick.execute();
-		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", size, sprite.costume.scaleX);
-		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", size, sprite.costume.scaleY);
+		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", (float) size / 100,
+				sprite.costume.scaleX);
+		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", (float) size / 100,
+				sprite.costume.scaleY);
 	}
 
 	public void testNullSprite() {
@@ -94,80 +94,4 @@ public class SetSizeToBrickTest extends InstrumentationTestCase {
 		}
 	}
 
-	public void testBoundarySize() {
-		Sprite sprite = new Sprite("testSprite");
-
-		SetSizeToBrick brick = new SetSizeToBrick(sprite, Double.MAX_VALUE);
-		brick.execute();
-		assertEquals("SetSizeToBrick failed to size Sprite to maximum Double value", Double.MAX_VALUE,
-				sprite.costume.scaleX);
-		assertEquals("SetSizeToBrick failed to size Sprite to maximum Double value", Double.MAX_VALUE,
-				sprite.costume.scaleY);
-
-		brick = new SetSizeToBrick(sprite, Double.MIN_VALUE);
-		brick.execute();
-		assertEquals("SetSizeToBrick failed to size Sprite to minimum Double value", Double.MIN_VALUE,
-				sprite.costume.scaleX);
-		assertEquals("SetSizeToBrick failed to size Sprite to minimum Double value", Double.MIN_VALUE,
-				sprite.costume.scaleY);
-	}
-
-	public void testZeroSize() {
-		Sprite sprite = new Sprite("testSprite");
-		SetSizeToBrick brick = new SetSizeToBrick(sprite, 0);
-
-		try {
-			brick.execute();
-			fail("Execution of SetSizeToBrick with 0.0 size did not cause a IllegalArgumentException to be thrown.");
-		} catch (IllegalArgumentException e) {
-			// expected behavior
-		}
-	}
-
-	public void testNegativeSize() {
-		Sprite sprite = new Sprite("testSprite");
-		SetSizeToBrick brick = new SetSizeToBrick(sprite, -size);
-
-		try {
-			brick.execute();
-			fail("Execution of SetSizeToBrick with negative size did not cause a IllegalArgumentException to be thrown.");
-		} catch (IllegalArgumentException e) {
-			// expected behavior
-		}
-	}
-
-	public void testCostumeToBig() {
-		Values.SCREEN_HEIGHT = 800;
-		Values.SCREEN_WIDTH = 480;
-
-		Sprite sprite = new Sprite("testSprite");
-		sprite.costume.setImagePath(testImage.getAbsolutePath());
-
-		SetSizeToBrick brick = new SetSizeToBrick(sprite, sizeToBig);
-
-		brick.execute();
-
-		int newWidth = (int) sprite.costume.width;
-		int newHeight = (int) sprite.costume.height;
-		//
-		//		assertTrue("Costume has a wrong size after setting it!", newWidth == Consts.MAX_COSTUME_WIDTH
-		//				|| newHeight == Consts.MAX_COSTUME_HEIGHT);
-	}
-
-	public void testCostumeToSmall() {
-		//		Values.SCREEN_HEIGHT = 800;
-		//		Values.SCREEN_WIDTH = 480;
-		//
-		//		Sprite sprite = new Sprite("testSprite");
-		//		sprite.getCostume().changeImagePath(testImage.getAbsolutePath());
-		//
-		//		SetSizeToBrick brick = new SetSizeToBrick(sprite, sizeToSmall);
-		//
-		//		brick.execute();
-		//
-		//		int newWidth = sprite.getCostume().getImageWidth();
-		//		int newHeight = sprite.getCostume().getImageHeight();
-		//
-		//		assertTrue("Costume has a wrong size after setting it!", newWidth == 1 || newHeight == 1);
-	}
 }
