@@ -53,7 +53,7 @@ import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListener;
 public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDropListener, OnGroupClickListener {
 
 	public static final int FOCUS_BLOCK_DESCENDANTS = 2;
-	
+
 	private Context context;
 	private Sprite sprite;
 	private BrickListAnimation brickListAnimation;
@@ -95,7 +95,7 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDr
 		//Hack!!!
 		//if wrapper isn't used the longClick event won't be triggered
 		ViewGroup wrapper = (ViewGroup) View.inflate(context, R.layout.construction_brick_wrapper, null);
-		
+
 		if (currentBrickView.getParent() != null) {
 			((ViewGroup) currentBrickView.getParent()).removeView(currentBrickView);
 		}
@@ -127,8 +127,10 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDr
 		} else if (getGroup(groupPosition) instanceof BroadcastScript) {
 			view = new BroadcastReceiverBrick(sprite, (BroadcastScript) getGroup(groupPosition)).getView(context,
 					groupPosition, this);
-		} else {
+		} else if (getGroup(groupPosition) instanceof StartScript) {
 			view = new IfStartedBrick(sprite, getGroup(groupPosition)).getView(context, groupPosition, this);
+		} else if (getGroup(groupPosition) instanceof WhenScript) {
+			view = new WhenBrick(sprite, (WhenScript) getGroup(groupPosition)).getView(context, groupPosition, this);
 		}
 
 		return view;
