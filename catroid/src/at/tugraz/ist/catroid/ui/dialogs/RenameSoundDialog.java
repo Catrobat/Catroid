@@ -115,14 +115,6 @@ public class RenameSoundDialog {
 
 	private void initAlertDialogListener(Dialog dialog) {
 
-		//		dialog.setOnShowListener(new OnShowListener() {
-		//			public void onShow(DialogInterface dialog) {
-		//				InputMethodManager inputManager = (InputMethodManager) scriptTabActivity
-		//						.getSystemService(Context.INPUT_METHOD_SERVICE);
-		//				inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
-		//			}
-		//		});
-
 		input.addTextChangedListener(new TextWatcher() {
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				if (s.length() == 0 || (s.length() == 1 && s.charAt(0) == '.')) {
