@@ -71,13 +71,12 @@ public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 
 			spinner.setClickable(true);
 			spinner.setFocusable(true);
-			spinner.setSelection(selectedIndex);
 
 			spinner.setOnItemSelectedListener(this);
-		} else {
-			Spinner spinner = (Spinner) view.findViewById(R.id.point_in_direction_spinner);
-			spinner.setSelection(selectedIndex);
 		}
+
+		Spinner spinner = (Spinner) view.findViewById(R.id.point_in_direction_spinner);
+		spinner.setSelection(selectedIndex);
 
 		return view;
 	}

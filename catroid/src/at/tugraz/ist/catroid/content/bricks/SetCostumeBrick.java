@@ -78,7 +78,7 @@ public class SetCostumeBrick implements Brick {
 		});
 
 		if (sprite.getCostumeDataList().contains(costumeData)) {
-			costumebrickSpinner.setSelection(sprite.getCostumeDataList().indexOf(costumeData) + 1);
+			costumebrickSpinner.setSelection(sprite.getCostumeDataList().indexOf(costumeData) + 1, true);
 		} else {
 			costumebrickSpinner.setSelection(0);
 		}
