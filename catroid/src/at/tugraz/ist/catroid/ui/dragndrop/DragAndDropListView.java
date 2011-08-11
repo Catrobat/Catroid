@@ -40,9 +40,7 @@ import at.tugraz.ist.catroid.R;
 
 public class DragAndDropListView extends ExpandableListView implements OnLongClickListener {
 
-	/**
-	 * 
-	 */
+	private static final int MAXIMUM_DRAG_VIEW_HEIGHT = 100;
 	private static final int SCROLL_DURATION = 1;
 	private static final int SCROLL_SPEED = 10;
 	private static final int DRAG_BACKGROUND_COLOR = Color.parseColor("#e0103010");
@@ -159,7 +157,6 @@ public class DragAndDropListView extends ExpandableListView implements OnLongCli
 	public boolean onLongClick(View view) {
 
 		int itemPosition = pointToPosition(view.getLeft(), view.getTop());
-
 		boolean drawingCacheEnabled = view.isDrawingCacheEnabled();
 
 		view.setDrawingCacheEnabled(true);
@@ -181,6 +178,10 @@ public class DragAndDropListView extends ExpandableListView implements OnLongCli
 
 	private void startDragging(Bitmap bitmap, int y) {
 		stopDragging();
+
+		if (bitmap.getHeight() > MAXIMUM_DRAG_VIEW_HEIGHT) {
+			bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), MAXIMUM_DRAG_VIEW_HEIGHT);
+		}
 
 		ImageView imageView = new ImageView(getContext());
 		imageView.setBackgroundColor(DRAG_BACKGROUND_COLOR);
