@@ -19,15 +19,13 @@
 
 package at.tugraz.ist.catroid.ui;
 
-import java.util.TimeZone;
-
 import android.app.Dialog;
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.Pair;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -66,6 +64,8 @@ public class ScriptTabActivity extends TabActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_scripttab);
 
@@ -209,12 +209,13 @@ public class ScriptTabActivity extends TabActivity {
 			mGestureDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener() {
 				@Override
 				public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+					Log.e("fling", "on fling!!!!!!!");
 					int tabCount = getTabWidget().getTabCount();
 					int currentTab = getCurrentTab();
 					if (Math.abs(velocityX) > minScaledFlingVelocity && Math.abs(velocityY) < minScaledFlingVelocity) {
 
 						final boolean right = velocityX < 0;
-						final int newTab = MathUtils.constrain(currentTab + (right ? 1 : -1), 0, tabCount - 1);
+						final int newTab = constrain(currentTab + (right ? 1 : -1), 0, tabCount - 1);
 						if (newTab != currentTab) {
 							// Somewhat hacky, depends on current implementation of TabHost:
 							// http://android.git.kernel.org/?p=platform/frameworks/base.git;a=blob;
@@ -234,6 +235,7 @@ public class ScriptTabActivity extends TabActivity {
 
 		@Override
 		public boolean onInterceptTouchEvent(MotionEvent ev) {
+			Log.e("fling", "on fling intercept!!!!!!!");
 			if (mGestureDetector.onTouchEvent(ev)) {
 				return true;
 			}
@@ -241,40 +243,26 @@ public class ScriptTabActivity extends TabActivity {
 		}
 	}
 
-	private void setupBlocksTab(String tag, long startMillis) {
-		final TabHost host = getTabHost();
+	//	/**
+	//	 * Build a {@link View} to be used as a tab indicator, setting the requested
+	//	 * string resource as its label.
+	//	 */
+	//	private View buildIndicator(String text) {
+	//		final TextView indicator = (TextView) getLayoutInflater()
+	//				.inflate(R.layout.tab_indicator, getTabWidget(), false);
+	//		indicator.setText(text);
+	//		return indicator;
+	//	}
+	//
+	//	public void onHomeClick(View v) {
+	//		UIUtils.goHome(this);
+	//	}
+	//
+	//	public void onSearchClick(View v) {
+	//		UIUtils.goSearch(this);
+	//	}
 
-		final long endMillis = startMillis + DateUtils.DAY_IN_MILLIS;
-		final Uri blocksBetweenDirUri = Blocks.buildBlocksBetweenDirUri(startMillis, endMillis);
-
-		final Intent intent = new Intent(Intent.ACTION_VIEW, blocksBetweenDirUri);
-		intent.addCategory(Intent.CATEGORY_TAB);
-
-		intent.putExtra(BlocksActivity.EXTRA_TIME_START, startMillis);
-		intent.putExtra(BlocksActivity.EXTRA_TIME_END, endMillis);
-
-		TimeZone.setDefault(UIUtils.CONFERENCE_TIME_ZONE);
-		final String label = DateUtils.formatDateTime(this, startMillis, TIME_FLAGS);
-		host.addTab(host.newTabSpec(tag).setIndicator(buildIndicator(label)).setContent(intent));
+	private static int constrain(int amount, int low, int high) {
+		return amount < low ? low : (amount > high ? high : amount);
 	}
-
-	/**
-	 * Build a {@link View} to be used as a tab indicator, setting the requested
-	 * string resource as its label.
-	 */
-	private View buildIndicator(String text) {
-		final TextView indicator = (TextView) getLayoutInflater()
-				.inflate(R.layout.tab_indicator, getTabWidget(), false);
-		indicator.setText(text);
-		return indicator;
-	}
-
-	public void onHomeClick(View v) {
-		UIUtils.goHome(this);
-	}
-
-	public void onSearchClick(View v) {
-		UIUtils.goSearch(this);
-	}
-
 }
