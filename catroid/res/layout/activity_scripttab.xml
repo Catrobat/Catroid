@@ -29,16 +29,14 @@
 	<!-- Action bar -->
 	<include layout="@layout/actionbar"/>
 		
-	<TabHost class="at.tugraz.ist.catroid.ui.ScriptTabActivity$FlingableTabHost"
+    <view
+    	class="at.tugraz.ist.catroid.ui.ScriptTabActivity$FlingableTabHost"
         android:id="@android:id/tabhost"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent">
 		<LinearLayout android:orientation="vertical"
 			android:layout_width="fill_parent" 
 			android:layout_height="fill_parent">
-			<View android:layout_width="fill_parent" 
-				android:layout_height="0.5dip"
-				android:background="#000" />
 			<TabWidget android:id="@android:id/tabs"
 				android:layout_width="fill_parent" 
 				android:layout_height="30dp"
@@ -48,5 +46,5 @@
 				android:layout_width="fill_parent" 
 				android:layout_height="fill_parent" />
 		</LinearLayout>
-	</TabHost>
+	</view>
 </LinearLayout>
