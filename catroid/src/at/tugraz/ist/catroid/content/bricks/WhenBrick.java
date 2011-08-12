@@ -55,8 +55,7 @@ public class WhenBrick implements Brick {
 		}
 
 		final Spinner spinner = (Spinner) view.findViewById(R.id.toolbox_brick_when_spinner);
-		spinner.setFocusableInTouchMode(false);
-		spinner.setFocusable(false);
+		spinner.setClickable(true);
 		ArrayAdapter<CharSequence> spinnerAdapter = new ArrayAdapter<CharSequence>(context,
 				android.R.layout.simple_spinner_item);
 		spinnerAdapter.add(context.getString(R.string.action_tapped));
