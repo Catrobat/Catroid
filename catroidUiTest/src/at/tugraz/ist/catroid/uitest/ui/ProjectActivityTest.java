@@ -91,6 +91,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertEquals("Sprite at index 2 is not " + spriteName2, spriteName2, thirdSprite.getName());
 		assertTrue("Sprite is not in current Project", ProjectManager.getInstance().getCurrentProject().getSpriteList()
 				.contains(thirdSprite));
+		assertTrue("Sprite not shown in Adapter", solo.searchText(spriteName2));
 	}
 
 	public void testContextMenu() {
@@ -146,10 +147,6 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertTrue("Main menu is not visible", buttonFound);
 	}
 
-	/**
-	 * This is a test that confirms that Catroid doesn't dump the core if we change the orientation while running this
-	 * activity
-	 */
 	public void testChangeOrientation() {
 		String spriteName = "testSprite";
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
@@ -159,9 +156,27 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.sleep(500);
 
 		addNewSprite(spriteName);
-		solo.clickLongOnText(spriteName);
+		solo.clickLongOnText(spriteName); //opening context menu
 		solo.setActivityOrientation(Solo.LANDSCAPE);
-		assertTrue("Sprite name not visible after changing orientation", solo.searchText(spriteName));
+		assertTrue(
+				"Context menu dialog not visible after changing orientation",
+				solo.searchText(getActivity().getString(R.string.rename))
+						&& solo.searchText(getActivity().getString(R.string.delete)));
+
+		String testText = "testText";
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(400);
+		solo.clickOnText(getActivity().getString(R.string.rename));
+		solo.sleep(100);
+		solo.clearEditText(0);
+		solo.enterText(0, testText);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(300);
+		assertTrue("Dialog is not visible after orientation change",
+				solo.searchText(getActivity().getString(R.string.ok)));
+		assertTrue("EditText field got cleared after changing orientation", solo.searchText(testText));
+		solo.clickOnButton(getActivity().getString(R.string.ok));
+		assertTrue("Sprite wasnt renamed", solo.searchText(testText));
 	}
 
 	public void testCheckMaxTextLines() {

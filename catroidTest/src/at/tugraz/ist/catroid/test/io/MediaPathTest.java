@@ -106,8 +106,8 @@ public class MediaPathTest extends InstrumentationTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		//		TestUtils.clearProject(projectName);
-		//		TestUtils.clearProject("mockProject");
+		TestUtils.clearProject(projectName);
+		TestUtils.clearProject("mockProject");
 	}
 
 	public void testPathsInProjectFile() throws IOException {
@@ -222,6 +222,17 @@ public class MediaPathTest extends InstrumentationTestCase {
 		ProjectManager.getInstance().loadProject(projectName, getInstrumentation().getTargetContext(), false);
 		projectString = TestUtils.getProjectfileAsString(projectName);
 		assertFalse("FileChecksumcontainer is in the project", projectString.contains("FileChecksumContainer"));
+	}
+
+	public void testCostumeDataListAndSoundInfoListInProjectFile() throws IOException {
+		fillProjectWithAllBricksAndMediaFiles();
+		String projectString = TestUtils.getProjectfileAsString(projectName);
+		assertTrue("costumeDataList not in project", projectString.contains("costumeDataList"));
+		assertTrue("soundList not in project", projectString.contains("soundList"));
+		ProjectManager.getInstance().loadProject(projectName, getInstrumentation().getTargetContext(), false);
+		projectString = TestUtils.getProjectfileAsString(projectName);
+		assertTrue("costumeDataList not in project", projectString.contains("costumeDataList"));
+		assertTrue("soundList not in project", projectString.contains("soundList"));
 	}
 
 	private void fillProjectWithAllBricksAndMediaFiles() throws IOException {

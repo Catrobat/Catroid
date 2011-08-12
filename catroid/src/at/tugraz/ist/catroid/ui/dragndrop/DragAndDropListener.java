@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- 
+/**
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010  Catroid development team 
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
@@ -16,17 +15,15 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * 		This file incorporates work covered by the following copyright and  
- * 		permission notice:  
- *			Copyright (c) Josh Clemm 2010
- *			Licensed under the Apache License, Version 2.0
- *
- -->
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-	android:shape="rectangle">
-	<gradient android:startColor="#F8AF3C"
-		android:centerColor="#FFA020"
-		android:endColor="#FF9019"
-		android:angle="-90" />
-</shape>
+ */
+package at.tugraz.ist.catroid.ui.dragndrop;
+
+public interface DragAndDropListener {
+
+	void drag(int from, int to);
+
+	void drop(int from, int to);
+
+	void remove(int index);
+
+}

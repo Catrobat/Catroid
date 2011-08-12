@@ -19,17 +19,21 @@
 package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Sprite;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 public class IfOnEdgeBounceBrick implements Brick {
 
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
+
+	@XStreamOmitField
+	private transient View view;
 
 	public IfOnEdgeBounceBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -85,13 +89,15 @@ public class IfOnEdgeBounceBrick implements Brick {
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.construction_brick_if_on_edge_bounce, null);
+		if (view == null) {
+			view = View.inflate(context, R.layout.toolbox_brick_if_on_edge_bounce, null);
+		}
+
+		return view;
 	}
 
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.toolbox_brick_if_on_edge_bounce, null);
+		return View.inflate(context, R.layout.toolbox_brick_if_on_edge_bounce, null);
 	}
 
 	@Override
