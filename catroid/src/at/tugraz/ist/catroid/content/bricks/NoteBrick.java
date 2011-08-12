@@ -38,8 +38,6 @@ public class NoteBrick implements Brick {
 	@XStreamOmitField
 	private transient View view;
 
-	private final transient int MAXLINES = 5;
-
 	public NoteBrick(Sprite sprite) {
 		this.sprite = sprite;
 	}
@@ -68,7 +66,6 @@ public class NoteBrick implements Brick {
 
 		EditText editText = (EditText) view.findViewById(R.id.toolbox_brick_note_edit_text);
 		editText.setText(note);
-		editText.setMaxLines(MAXLINES);
 		editText.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {

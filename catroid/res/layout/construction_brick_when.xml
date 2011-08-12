@@ -38,7 +38,7 @@
 		</TextView>
 		
 	<Spinner
-		android:id="@+id/Spinner03"
+		android:id="@+id/construction_brick_when_spinner"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
 		android:layout_alignParentRight="true"

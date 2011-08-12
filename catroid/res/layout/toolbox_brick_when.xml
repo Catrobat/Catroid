@@ -36,9 +36,9 @@
 	</TextView>
 	
 	<Spinner
-		android:id="@+id/Spinner02"
-		android:layout_height="40dip"
-		android:layout_width="120dip"
+		android:id="@+id/toolbox_brick_when_spinner"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
 		android:layout_alignParentRight="true"
 		android:layout_centerVertical="true"
 		android:clickable="false"
