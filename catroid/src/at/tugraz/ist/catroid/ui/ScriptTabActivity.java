@@ -58,8 +58,8 @@ public class ScriptTabActivity extends TabActivity {
 	private RenameCostumeDialog renameCostumeDialog;
 
 	private void setupTabHost() {
-		tabHost = (TabHost) findViewById(android.R.id.tabhost);
-		tabHost.setup();
+		tabHost = getTabHost(); //(TabHost) findViewById(android.R.id.tabhost);
+		//tabHost.setup();
 	}
 
 	@Override
@@ -242,25 +242,6 @@ public class ScriptTabActivity extends TabActivity {
 			return super.onInterceptTouchEvent(ev);
 		}
 	}
-
-	//	/**
-	//	 * Build a {@link View} to be used as a tab indicator, setting the requested
-	//	 * string resource as its label.
-	//	 */
-	//	private View buildIndicator(String text) {
-	//		final TextView indicator = (TextView) getLayoutInflater()
-	//				.inflate(R.layout.tab_indicator, getTabWidget(), false);
-	//		indicator.setText(text);
-	//		return indicator;
-	//	}
-	//
-	//	public void onHomeClick(View v) {
-	//		UIUtils.goHome(this);
-	//	}
-	//
-	//	public void onSearchClick(View v) {
-	//		UIUtils.goSearch(this);
-	//	}
 
 	private static int constrain(int amount, int low, int high) {
 		return amount < low ? low : (amount > high ? high : amount);
