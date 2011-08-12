@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <!-- 
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010  Catroid development team 
@@ -17,22 +16,19 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
+ -->
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="horizontal"
-	android:layout_height="wrap_content"
+		android:background="@drawable/brick_blue"
 	android:layout_width="match_parent"
-	android:background="@drawable/brick_yellow"
-	android:longClickable="true"
+	android:layout_height="wrap_content"
+	android:orientation="horizontal"
 >
-	<TextView
-		android:id="@+id/OneElementBrick"
-		android:text="Hide/Show"
-		android:layout_height="wrap_content"
-		android:layout_width="fill_parent"
-		android:textColor="@color/white"
-		android:textSize="18dip"
-		android:textStyle="bold"
-	></TextView>
+		<TextView
+			android:text="@string/brick_loop_end"
+			android:layout_height="wrap_content"
+			android:layout_width="fill_parent"
+			android:textColor="@color/white"
+			android:textSize="18dip"
+			android:textStyle="bold" />
 </LinearLayout>

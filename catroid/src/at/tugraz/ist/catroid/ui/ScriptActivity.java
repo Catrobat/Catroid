@@ -39,18 +39,18 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
-import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView;
+import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListView;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class ScriptActivity extends Activity implements OnDismissListener, OnCancelListener {
 	private BrickAdapter adapter;
-	private DragNDropListView listView;
+	private DragAndDropListView listView;
 	private Sprite sprite;
 	private Script scriptToEdit;
 
 	private void initListeners() {
 		sprite = ProjectManager.getInstance().getCurrentSprite();
-		listView = (DragNDropListView) findViewById(R.id.brick_list_view);
+		listView = (DragAndDropListView) findViewById(R.id.brick_list_view);
 		adapter = new BrickAdapter(this, sprite, listView);
 		if (adapter.getGroupCount() > 0) {
 			ProjectManager.getInstance().setCurrentScript(adapter.getGroup(adapter.getGroupCount() - 1));
@@ -58,8 +58,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 
 		listView.setTrashView((ImageView) findViewById(R.id.trash));
 		listView.setOnCreateContextMenuListener(this);
-		listView.setOnDropListener(adapter);
-		listView.setOnRemoveListener(adapter);
+		listView.setOnDragAndDropListener(adapter);
 		listView.setAdapter(adapter);
 		listView.setGroupIndicator(null);
 		listView.setOnGroupClickListener(adapter);
@@ -162,15 +161,14 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 			ExpandableListView.ExpandableListContextMenuInfo info = (ExpandableListView.ExpandableListContextMenuInfo) menuInfo;
 			menu.setHeaderTitle("Script Menu");
 
-			if (ExpandableListView.getPackedPositionType(info.packedPosition) == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-				return;
+			if (ExpandableListView.getPackedPositionType(info.packedPosition) != ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+
+				int position = ExpandableListView.getPackedPositionGroup(info.packedPosition);
+				scriptToEdit = adapter.getGroup(position);
+
+				MenuInflater inflater = getMenuInflater();
+				inflater.inflate(R.menu.script_menu, menu);
 			}
-
-			int position = ExpandableListView.getPackedPositionGroup(info.packedPosition);
-			scriptToEdit = adapter.getGroup(position);
-
-			MenuInflater inflater = getMenuInflater();
-			inflater.inflate(R.menu.script_menu, menu);
 		}
 	}
 
