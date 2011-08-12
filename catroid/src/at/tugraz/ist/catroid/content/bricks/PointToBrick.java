@@ -30,6 +30,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.Spinner;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.content.Sprite;
 
 public class PointToBrick implements Brick {
@@ -37,9 +38,8 @@ public class PointToBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private Sprite pointedSprite;
-	private double degrees = 0.0;
-	private int pos = 0;
-	private boolean start = true;
+	private double rotationDegrees = 0.0;
+	private int spinnerPosition = 0;
 
 	public PointToBrick(Sprite sprite, Sprite pointedSprite) {
 		this.sprite = sprite;
@@ -51,73 +51,64 @@ public class PointToBrick implements Brick {
 	}
 
 	public void execute() {
-
 		if (pointedSprite == null) {
 			pointedSprite = this.sprite;
-			final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
-					.getSpriteList();
-			if (spriteList.size() > 2) {
-				int count = 0;
-				for (Sprite sprite : spriteList) {
-					String spriteName = sprite.getName();
-					String temp = this.sprite.getName();
-					if (!spriteName.equals(temp) && !spriteName.equals("Background") && count == 0) {
-						pointedSprite = sprite;
-						System.out.println(pointedSprite);
-						count = 1;
-					}
-				}
-			}
 		}
 
-		int x1 = 0, x2 = 0;
-		int y1 = 0, y2 = 0;
+		ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
+				.getSpriteList();
+		if (!spriteList.contains(pointedSprite)) {
+			return;
+		}
+
+		int spriteXPosition = 0, spriteYPosition = 0;
+		int pointedSpriteXPosition = 0, pointedSpriteYPosition = 0;
 		double base = 0.0, height = 0.0, value = 0.0;
 
-		x1 = sprite.getXPosition();
-		y1 = sprite.getYPosition();
-		x2 = pointedSprite.getXPosition();
-		y2 = pointedSprite.getYPosition();
+		spriteXPosition = sprite.getXPosition();
+		spriteYPosition = sprite.getYPosition();
+		pointedSpriteXPosition = pointedSprite.getXPosition();
+		pointedSpriteYPosition = pointedSprite.getYPosition();
 
-		if (x1 == x2 && y1 == y2) {
-			degrees = 90;
+		if (spriteXPosition == pointedSpriteXPosition && spriteYPosition == pointedSpriteYPosition) {
+			rotationDegrees = 90;
 		}
 
-		else if (x1 == x2 || y1 == y2) {
-			if (x1 == x2) {
-				if (y1 > y2) {
-					degrees = 180;
+		else if (spriteXPosition == pointedSpriteXPosition || spriteYPosition == pointedSpriteYPosition) {
+			if (spriteXPosition == pointedSpriteXPosition) {
+				if (spriteYPosition > pointedSpriteYPosition) {
+					rotationDegrees = 180;
 				} else {
-					degrees = 0;
+					rotationDegrees = 0;
 				}
 			} else {
-				if (x1 > x2) {
-					degrees = 270;
+				if (spriteXPosition > pointedSpriteXPosition) {
+					rotationDegrees = 270;
 				} else {
-					degrees = 90;
+					rotationDegrees = 90;
 				}
 			}
 
 		} else {
-			base = Math.abs(y1 - y2);
-			height = Math.abs(x1 - x2);
+			base = Math.abs(spriteYPosition - pointedSpriteYPosition);
+			height = Math.abs(spriteXPosition - pointedSpriteXPosition);
 			value = Math.toDegrees(Math.atan(base / height));
 
-			if (x1 < x2) {
-				if (y1 > y2) {
-					degrees = 90 + value;
+			if (spriteXPosition < pointedSpriteXPosition) {
+				if (spriteYPosition > pointedSpriteYPosition) {
+					rotationDegrees = 90 + value;
 				} else {
-					degrees = 90 - value;
+					rotationDegrees = 90 - value;
 				}
 			} else {
-				if (y1 > y2) {
-					degrees = 270 - value;
+				if (spriteYPosition > pointedSpriteYPosition) {
+					rotationDegrees = 270 - value;
 				} else {
-					degrees = 270 + value;
+					rotationDegrees = 270 + value;
 				}
 			}
 		}
-		sprite.setDirection(degrees);
+		sprite.setDirection(rotationDegrees);
 	}
 
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
@@ -129,10 +120,15 @@ public class PointToBrick implements Brick {
 		spinner.setFocusableInTouchMode(false);
 		spinner.setFocusable(false);
 
+		ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
+		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+		CostumeData dummyCostumeData = new CostumeData();
+		dummyCostumeData.setCostumeName(context.getString(R.string.broadcast_nothing_selected));
+		spinnerAdapter.add(dummyCostumeData.toString());
+
 		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
 				.getSpriteList();
-		ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
-
 		for (Sprite sprite : spriteList) {
 			String spriteName = sprite.getName();
 			String temp = this.sprite.getName();
@@ -141,33 +137,31 @@ public class PointToBrick implements Brick {
 			}
 		}
 
-		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(spinnerAdapter);
 
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				if (start) {
-					start = false;
-				} else {
-					String temp = parent.getSelectedItem().toString();
-					final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance()
-							.getCurrentProject().getSpriteList();
-					for (Sprite sprite : spriteList) {
-						if (sprite.getName().equals(temp)) {
-							pointedSprite = sprite;
-						}
-					}
-
-					System.out.println(pointedSprite);
-					pos = position;
+				String temp1 = parent.getSelectedItem().toString();
+				String temp2 = context.getString(R.string.broadcast_nothing_selected);
+				final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance()
+						.getCurrentProject().getSpriteList();
+				if (temp1.equals(temp2)) {
+					pointedSprite = null;
 				}
+				for (Sprite sprite : spriteList) {
+					if (sprite.getName().equals(temp1)) {
+						pointedSprite = sprite;
+					}
+				}
+				spinnerPosition = position;
 			}
 
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
-		spinner.setSelection(pos, true);
+
+		spinner.setSelection(spinnerPosition, true);
 		return brickView;
 	}
 
