@@ -282,4 +282,5 @@
     <string name="upload_project_dialog_title">Projekt hochladen</string>
     <string name="upload_description">Beschreibung:</string>
     <string name="project_rename">(Das Projekt wird umbenannt.)</string>
+    <string name="size_of_project">Größe des Projekts:</string>
 </resources>

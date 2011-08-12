@@ -25,8 +25,8 @@
  -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
 	android:shape="rectangle">
-	<gradient android:startColor="@color/egg_yellow"
-		android:centerColor="@color/egg_yellow"
-		android:endColor="@color/dark_gray"
+	<gradient android:startColor="#F8AF3C"
+		android:centerColor="#FFA020"
+		android:endColor="#FF9019"
 		android:angle="-90" />
 </shape>

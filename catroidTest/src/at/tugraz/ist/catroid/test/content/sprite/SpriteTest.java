@@ -183,7 +183,7 @@ public class SpriteTest extends AndroidTestCase {
 		try {
 			brick.execute();
 			fail("Execution of SetSizeToBrick with 0.0 size did not cause a IllegalArgumentException to be thrown.");
-		} catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException expected) {
 			// expected behavior
 		}
 	}
@@ -197,7 +197,7 @@ public class SpriteTest extends AndroidTestCase {
 		try {
 			brick.execute();
 			fail("Execution of SetSizeToBrick with negative size did not cause a IllegalArgumentException to be thrown.");
-		} catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException expected) {
 			// expected behavior
 		}
 	}
@@ -211,7 +211,7 @@ public class SpriteTest extends AndroidTestCase {
 		assertTrue("Sprite not visible after calling show method", sprite.isVisible());
 	}
 
-	public void testPauseUnPause() {
+	public void testPauseUnPause() throws InterruptedException {
 		Sprite testSprite = new Sprite("testSprite");
 		Script testScript = new StartScript("testScript", testSprite);
 		HideBrick hideBrick = new HideBrick(testSprite);
@@ -226,32 +226,21 @@ public class SpriteTest extends AndroidTestCase {
 
 		testSprite.startStartScripts();
 
-		try {
-			Thread.sleep(20);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		Thread.sleep(20);
 
 		testSprite.pause();
 		assertTrue("Sprite isn't paused", testSprite.isPaused);
 		assertTrue("Script isn't paused", testScript.isPaused());
 
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		Thread.sleep(1000);
 
 		testSprite.resume();
 
 		assertFalse("Sprite is paused", testSprite.isPaused);
 		assertFalse("Script is paused", testScript.isPaused());
 
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		Thread.sleep(1000);
+
 		assertTrue("Script hasn't finished", testScript.isFinished());
 
 	}
@@ -344,7 +333,7 @@ public class SpriteTest extends AndroidTestCase {
 			sprite.setGhostEffectValue(negativeEffect);
 			assertNotSame("Failed to change negative effect value to positive", negativeEffect,
 					sprite.getGhostEffectValue());
-		} catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException expected) {
 			// expected behavior
 		}
 	}

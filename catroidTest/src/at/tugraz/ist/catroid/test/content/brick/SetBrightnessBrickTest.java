@@ -30,27 +30,27 @@ public class SetBrightnessBrickTest extends InstrumentationTestCase {
 		Sprite sprite = new Sprite("testSprite");
 		assertEquals("Unexpected initial sprite scale value", 0.0, sprite.getBrightnessValue());
 
-		SetBrightnessBrick brick = new SetBrightnessBrick(sprite, brightnessValue);
-		brick.execute();
+		SetBrightnessBrick setBrightnessBrick = new SetBrightnessBrick(sprite, brightnessValue);
+		setBrightnessBrick.execute();
 		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed", brightnessValue,
 				sprite.getBrightnessValue());
 	}
 
 	public void testNullSprite() {
-		SetBrightnessBrick brick = new SetBrightnessBrick(null, brightnessValue);
+		SetBrightnessBrick setBrightnessBrick = new SetBrightnessBrick(null, brightnessValue);
 
 		try {
-			brick.execute();
+			setBrightnessBrick.execute();
 			fail("Execution of SetGhostEffectBrick with null Sprite did not cause a NullPointerException to be thrown");
-		} catch (NullPointerException e) {
+		} catch (NullPointerException expected) {
 			// expected behavior
 		}
 	}
 
 	public void testNegativeBrightnessValue() {
 		Sprite sprite = new Sprite("testSprite");
-		SetBrightnessBrick brick = new SetBrightnessBrick(sprite, -brightnessValue);
-		brick.execute();
+		SetBrightnessBrick setBrightnessBrick = new SetBrightnessBrick(sprite, -brightnessValue);
+		setBrightnessBrick.execute();
 		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed", -brightnessValue,
 				sprite.getBrightnessValue());
 	}
