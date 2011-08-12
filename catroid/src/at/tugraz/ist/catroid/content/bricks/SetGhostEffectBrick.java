@@ -22,7 +22,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
@@ -34,6 +33,8 @@ public class SetGhostEffectBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
 	private double ghostEffectValue;
 	private Sprite sprite;
+
+	private transient View view;
 
 	public SetGhostEffectBrick(Sprite sprite, double ghostEffectValue) {
 		this.sprite = sprite;
@@ -53,10 +54,12 @@ public class SetGhostEffectBrick implements Brick, OnDismissListener {
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.construction_brick_set_ghost_effect, null);
 
-		EditText editX = (EditText) brickView.findViewById(R.id.construction_brick_set_ghost_effect_to_edit_text);
+		if (view == null) {
+			view = View.inflate(context, R.layout.toolbox_brick_set_ghost_effect, null);
+		}
+
+		EditText editX = (EditText) view.findViewById(R.id.toolbox_brick_set_ghost_effect_to_edit_text);
 		editX.setText(String.valueOf(ghostEffectValue));
 
 		EditDoubleDialog dialogX = new EditDoubleDialog(context, editX, ghostEffectValue, false);
@@ -65,13 +68,11 @@ public class SetGhostEffectBrick implements Brick, OnDismissListener {
 
 		editX.setOnClickListener(dialogX);
 
-		return brickView;
+		return view;
 	}
 
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.toolbox_brick_set_ghost_effect, null);
-		return brickView;
+		return View.inflate(context, R.layout.toolbox_brick_set_ghost_effect, null);
 	}
 
 	@Override
