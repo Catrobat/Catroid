@@ -91,6 +91,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertEquals("Sprite at index 2 is not " + spriteName2, spriteName2, thirdSprite.getName());
 		assertTrue("Sprite is not in current Project", ProjectManager.getInstance().getCurrentProject().getSpriteList()
 				.contains(thirdSprite));
+		assertTrue("Sprite not shown in Adapter", solo.searchText(spriteName2));
 	}
 
 	public void testContextMenu() {
