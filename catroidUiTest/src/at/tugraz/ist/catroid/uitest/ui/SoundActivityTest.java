@@ -78,14 +78,16 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 
 	@Override
 	public void tearDown() throws Exception {
-		getActivity().finish();
+		solo.sleep(500);
 		try {
 			solo.finalize();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
+		getActivity().finish();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+
 	}
 
 	public void testDeleteSound() {
@@ -156,9 +158,9 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 	//	}
 
 	public void testDialogsOnChangeOrientation() {
-		String newName = "newTestName";
 		solo.clickOnText(getActivity().getString(R.string.sounds));
-		solo.sleep(500);
+		solo.sleep(1000);
+		String newName = "newTestName";
 		solo.clickOnButton(getActivity().getString(R.string.sound_rename));
 		assertTrue("Dialog is not visible", solo.searchText(getActivity().getString(R.string.ok)));
 		solo.setActivityOrientation(Solo.LANDSCAPE);

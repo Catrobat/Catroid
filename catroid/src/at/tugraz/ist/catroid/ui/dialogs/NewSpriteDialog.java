@@ -30,6 +30,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -89,6 +90,7 @@ public class NewSpriteDialog {
 		}
 		Sprite sprite = new Sprite(spriteName);
 		projectManager.addSprite(sprite);
+		((ArrayAdapter<?>) projectActivity.getListAdapter()).notifyDataSetChanged();
 
 		input.setText(null);
 		newSpriteDialog.dismiss();

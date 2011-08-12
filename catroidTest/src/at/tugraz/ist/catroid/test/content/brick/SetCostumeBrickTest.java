@@ -91,6 +91,7 @@ public class SetCostumeBrickTest extends InstrumentationTestCase {
 		CostumeData costumeData = new CostumeData();
 		costumeData.setCostumeFilename(testImage.getName());
 		costumeData.setCostumeName("testImage");
+		sprite.getCostumeDataList().add(costumeData);
 		setCostumeBrick.setCostume(costumeData);
 		setCostumeBrick.execute();
 		assertNotNull("current Costume is null", sprite.getCostume());

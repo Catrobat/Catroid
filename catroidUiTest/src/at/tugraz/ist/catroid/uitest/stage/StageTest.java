@@ -422,6 +422,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		costumeData.setCostumeFilename(image.getName());
 		costumeData.setCostumeName("image");
 		setCostumeBrick.setCostume(costumeData);
+		sprite.getCostumeDataList().add(costumeData);
 		solo.sleep(100);
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
 		solo.clickOnScreen(Values.SCREEN_WIDTH, 0); //save thumbnail
@@ -508,10 +509,12 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		costumeData.setCostumeFilename(image1.getName());
 		costumeData.setCostumeName("image1");
 		setCostumeBrick.setCostume(costumeData);
+		firstSprite.getCostumeDataList().add(costumeData);
 		costumeData = new CostumeData();
 		costumeData.setCostumeFilename(image2.getName());
 		costumeData.setCostumeName("image2");
 		setCostumeBrick2.setCostume(costumeData);
+		firstSprite.getCostumeDataList().add(costumeData);
 
 		storageHandler.saveProject(project);
 	}
@@ -556,10 +559,12 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		costumeData.setCostumeFilename(image1.getName());
 		costumeData.setCostumeName("image1");
 		setCostumeBrick.setCostume(costumeData);
+		firstSprite.getCostumeDataList().add(costumeData);
 		costumeData = new CostumeData();
 		costumeData.setCostumeFilename(image2.getName());
 		costumeData.setCostumeName("image2");
 		setCostumeBrick2.setCostume(costumeData);
+		firstSprite.getCostumeDataList().add(costumeData);
 
 		storageHandler.saveProject(project);
 	}
@@ -610,10 +615,12 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		costumeData.setCostumeFilename(image1.getName());
 		costumeData.setCostumeName("image1");
 		setCostumeBrick.setCostume(costumeData);
+		firstSprite.getCostumeDataList().add(costumeData);
 		costumeData = new CostumeData();
 		costumeData.setCostumeFilename(image2.getName());
 		costumeData.setCostumeName("image2");
 		setCostumeBrick2.setCostume(costumeData);
+		secondSprite.getCostumeDataList().add(costumeData);
 
 		storageHandler.saveProject(project);
 	}
@@ -689,6 +696,9 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		soundInfo.setSoundFileName(soundFile.getName());
 		soundInfo.setTitle(soundFile.getName());
 		playSoundBrick.setSoundInfo(soundInfo);
+
+		firstSprite.getSoundList().add(soundInfo);
+		firstSprite.getCostumeDataList().add(costumeData);
 
 		storageHandler.saveProject(project);
 	}

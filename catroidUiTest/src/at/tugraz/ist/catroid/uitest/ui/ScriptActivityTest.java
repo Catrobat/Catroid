@@ -55,12 +55,12 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 
 	@Override
 	public void tearDown() throws Exception {
-		getActivity().finish();
 		try {
 			solo.finalize();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
+		getActivity().finish();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
@@ -111,7 +111,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 
 		int displayWidth = getActivity().getWindowManager().getDefaultDisplay().getWidth();
 
-		longClickAndDrag(30, yPositionList.get(2), displayWidth, yPositionList.get(2), 20);
+		longClickAndDrag(30, yPositionList.get(2), displayWidth, yPositionList.get(2) + 500, 40);
 		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
 
 		assertEquals("Brick count did not decrease by one after deleting a brick", brickListToCheck.size() - 1,
@@ -156,7 +156,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 			}
 		});
 
-		solo.sleep(ViewConfiguration.getLongPressTimeout() + 100);
+		solo.sleep(ViewConfiguration.getLongPressTimeout() + 200);
 
 		handler.post(new Runnable() {
 			public void run() {
@@ -168,12 +168,12 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 							MotionEvent.ACTION_MOVE, x, y, 0);
 					getActivity().dispatchTouchEvent(moveEvent);
 
-					solo.sleep(10);
+					solo.sleep(20);
 				}
 			}
 		});
 
-		solo.sleep(steps * 10 + 100);
+		solo.sleep(steps * 20 + 200);
 
 		handler.post(new Runnable() {
 
