@@ -122,7 +122,6 @@ public class RenameSpriteDialog {
 				InputMethodManager inputManager = (InputMethodManager) projectActivity
 						.getSystemService(Context.INPUT_METHOD_SERVICE);
 				inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
-				input.setText(projectActivity.getSpriteToEdit().getName());
 			}
 		});
 

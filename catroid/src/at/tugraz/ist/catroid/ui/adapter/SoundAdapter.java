@@ -20,7 +20,6 @@ package at.tugraz.ist.catroid.ui.adapter;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -38,15 +37,20 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.SoundActivity;
+import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 	protected ArrayList<SoundInfo> soundInfoItems;
 	protected SoundActivity activity;
+	protected ScriptTabActivity scriptTabActivity;
 
 	public SoundAdapter(final SoundActivity activity, int textViewResourceId, ArrayList<SoundInfo> items) {
 		super(activity, textViewResourceId, items);
 		this.activity = activity;
+		this.scriptTabActivity = (ScriptTabActivity) activity.getParent();
+
 		soundInfoItems = items;
 	}
 
@@ -102,15 +106,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 				String hoursString = hours < 10 ? "0" + Integer.toString(hours) : Integer.toString(hours);
 				soundDuration.setText(hoursString + ":" + minutesString + ":" + secondsString);
 				//setting filesize TextView:
-				float fileSizeInKB = new File(soundInfo.getAbsolutePath()).length() / 1024;
-				String fileSizeString;
-				if (fileSizeInKB > 1024) {
-					DecimalFormat decimalFormat = new DecimalFormat("#.00");
-					fileSizeString = decimalFormat.format(fileSizeInKB / 1024) + " MB";
-				} else {
-					fileSizeString = Long.toString((long) fileSizeInKB) + " KB";
-				}
-				soundFileSize.setText(fileSizeString);
+				soundFileSize.setText(UtilFile.getSizeAsString(new File(soundInfo.getAbsolutePath())));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -120,8 +116,8 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 			//rename: does not rename the actual file (only the title in the SoundInfo)
 			renameSoundButton.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
-					activity.selectedSoundInfo = soundInfo;
-					activity.showDialog(Consts.DIALOG_RENAME_SOUND);
+					scriptTabActivity.selectedSoundInfo = soundInfo;
+					scriptTabActivity.showDialog(Consts.DIALOG_RENAME_SOUND);
 				}
 			});
 

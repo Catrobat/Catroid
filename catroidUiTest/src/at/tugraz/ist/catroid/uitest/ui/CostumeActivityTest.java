@@ -10,7 +10,6 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.CostumeActivity;
-import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
@@ -115,11 +114,32 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 				costumeDataList.size());
 	}
 
-	public void testMainMenuButton() {
+	//	public void testMainMenuButton() {
+	//		solo.clickOnText(getActivity().getString(R.string.costumes));
+	//		solo.sleep(500);
+	//		solo.clickOnImageButton(0);
+	//		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
+	//				MainMenuActivity.class);
+	//	}
+
+	public void testDialogsOnChangeOrientation() {
+		String newName = "newTestName";
 		solo.clickOnText(getActivity().getString(R.string.costumes));
 		solo.sleep(500);
-		solo.clickOnImageButton(0);
-		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
-				MainMenuActivity.class);
+		solo.clickOnButton(getActivity().getString(R.string.sound_rename));
+		assertTrue("Dialog is not visible", solo.searchText(getActivity().getString(R.string.ok)));
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(300);
+		assertTrue("Dialog is not visible", solo.searchText(getActivity().getString(R.string.ok)));
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(300);
+		solo.clearEditText(0);
+		solo.enterText(0, newName);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(300);
+		assertTrue("EditText field got cleared after changing orientation", solo.searchText(newName));
+		solo.clickOnButton(getActivity().getString(R.string.ok));
+		solo.sleep(100);
+		assertTrue("Costume wasnt renamed", solo.searchText(newName));
 	}
 }

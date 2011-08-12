@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -35,17 +34,13 @@ import android.view.View;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.adapter.SoundAdapter;
-import at.tugraz.ist.catroid.ui.dialogs.RenameSoundDialog;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class SoundActivity extends ListActivity {
-	public SoundInfo selectedSoundInfo;
-	private RenameSoundDialog renameSoundDialog;
 	public MediaPlayer mediaPlayer;
 	private ArrayList<SoundInfo> soundInfoList;
 
@@ -95,30 +90,11 @@ public class SoundActivity extends ListActivity {
 	}
 
 	@Override
-	protected Dialog onCreateDialog(int id) {
-		final Dialog dialog;
-		switch (id) {
-			case Consts.DIALOG_RENAME_SOUND:
-				if (selectedSoundInfo == null) {
-					dialog = null;
-				} else {
-					renameSoundDialog = new RenameSoundDialog(this);
-					dialog = renameSoundDialog.createDialog(selectedSoundInfo);
-				}
-				break;
-			default:
-				dialog = null;
-				break;
-		}
-		return dialog;
-	}
-
-	@Override
 	protected void onPause() {
 		super.onPause();
 		ProjectManager projectManager = ProjectManager.getInstance();
 		if (projectManager.getCurrentProject() != null) {
-			projectManager.saveProject(this);
+			projectManager.saveProject();
 		}
 		stopSound();
 	}
@@ -139,15 +115,6 @@ public class SoundActivity extends ListActivity {
 				}
 			});
 		}
-	}
-
-	public void handlePositiveButtonRenameSound(View v) {
-		renameSoundDialog.handleOkButton();
-		reloadAdapter();
-	}
-
-	public void handleNegativeButtonRenameSound(View v) {
-		renameSoundDialog.renameDialog.cancel();
 	}
 
 	public void stopSound() {
