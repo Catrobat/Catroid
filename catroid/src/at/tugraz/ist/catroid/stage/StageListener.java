@@ -78,6 +78,7 @@ public class StageListener implements ApplicationListener {
 	private BitmapFont font;
 
 	private ImmediateModeRenderer20 renderer;
+	private Matrix4 matrix4 = new Matrix4();
 
 	private List<Sprite> sprites;
 	private Comparator<Actor> costumeComparator;
@@ -211,12 +212,13 @@ public class StageListener implements ApplicationListener {
 		if (makeFirstScreenshot) {
 			File file = new File(pathForScreenshot + Consts.SCREENSHOT_FILE_NAME);
 			if (!file.exists()) {
+				File noMediaFile = new File(pathForScreenshot + ".nomedia");
 				try {
 					file.createNewFile();
+					noMediaFile.createNewFile();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-
 				this.saveThumbnail();
 			}
 			makeFirstScreenshot = false;
@@ -241,7 +243,7 @@ public class StageListener implements ApplicationListener {
 	}
 
 	private void renderRectangle(float x, float y, float width, float height, Color color) {
-		renderer.begin(new Matrix4(), GL10.GL_TRIANGLE_FAN);
+		renderer.begin(matrix4, GL10.GL_TRIANGLE_FAN);
 		renderer.color(color.r, color.g, color.b, color.a);
 		renderer.vertex(x, y, 0);
 
@@ -293,12 +295,6 @@ public class StageListener implements ApplicationListener {
 	}
 
 	private void saveThumbnail() {
-		File noMediaFile = new File(pathForScreenshot + ".nomedia");
-		try {
-			noMediaFile.createNewFile();
-		} catch (IOException e) {
-			return;
-		}
 		byte[] screenshot = ScreenUtils.getFrameBufferPixels(screenshotX, screenshotY, screenshotWidth,
 				screenshotHeight, true);
 		FileHandle image = Gdx.files.absolute(pathForScreenshot + Consts.SCREENSHOT_FILE_NAME);
@@ -313,12 +309,6 @@ public class StageListener implements ApplicationListener {
 	}
 
 	public boolean makeScreenshot() {
-		File noMediaFile = new File(pathForScreenshot + ".nomedia");
-		try {
-			noMediaFile.createNewFile();
-		} catch (IOException e) {
-			return false;
-		}
 		makeScreenshot = true;
 		while (makeScreenshot) {
 			Thread.yield();

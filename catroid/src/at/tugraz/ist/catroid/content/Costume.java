@@ -125,19 +125,19 @@ public class Costume extends Image {
 			this.width = 0f;
 			this.height = 0f;
 			xyLock.release();
-			Texture texture = null;
+
+			Pixmap pixmap = new Pixmap(Gdx.files.absolute(currentImagePath));
+			currentAlphaPixmap = new Pixmap(pixmap.getWidth(), pixmap.getHeight(), Format.Alpha);
+			currentAlphaPixmap.drawPixmap(pixmap, 0, 0, 0, 0, pixmap.getWidth(), pixmap.getHeight());
+
 			brightnessLock.acquireUninterruptibly();
 			if (brightnessValue != 1f) {
-				texture = new Texture(this.adjustBrightness());
-				brightnessLock.release();
-			} else {
-				brightnessLock.release();
-				Pixmap pixmap = new Pixmap(Gdx.files.absolute(currentImagePath));
-				currentAlphaPixmap = new Pixmap(pixmap.getWidth(), pixmap.getHeight(), Format.Alpha);
-				currentAlphaPixmap.drawPixmap(pixmap, 0, 0, 0, 0, pixmap.getWidth(), pixmap.getHeight());
-				texture = new Texture(pixmap);
-				pixmap.dispose();
+				pixmap = this.adjustBrightness(pixmap);
 			}
+			brightnessLock.release();
+
+			Texture texture = new Texture(pixmap);
+			pixmap.dispose();
 
 			this.region = new TextureRegion(texture);
 			xyLock.acquireUninterruptibly();
@@ -154,33 +154,38 @@ public class Costume extends Image {
 		imageLock.release();
 	}
 
-	private Pixmap adjustBrightness() {
-		Pixmap pixmap = new Pixmap(Gdx.files.absolute(currentImagePath));
+	private Pixmap adjustBrightness(Pixmap currentPixmap) {
+		Pixmap newPixmap = new Pixmap(currentPixmap.getWidth(), currentPixmap.getHeight(), currentPixmap.getFormat());
+		for (int y = 0; y < currentPixmap.getHeight(); y++) {
+			for (int x = 0; x < currentPixmap.getWidth(); x++) {
+				int pixel = currentPixmap.getPixel(x, y);
+				int rr = (int) (((pixel >> 24) & 0xff) * brightnessValue);
+				int gg = (int) (((pixel >> 16) & 0xff) * brightnessValue);
+				int bb = (int) (((pixel >> 8) & 0xff) * brightnessValue);
+				int aa = pixel & 0xff;
 
-		byte[] workingCopy = new byte[pixmap.getPixels().capacity()];
-		pixmap.getPixels().position(0);
-		pixmap.getPixels().limit(pixmap.getPixels().capacity());
+				if (rr > 255) {
+					rr = 255;
+				} else if (rr < 0) {
+					rr = 0;
+				}
+				if (gg > 255) {
+					gg = 255;
+				} else if (rr < 0) {
+					gg = 0;
+				}
+				if (bb > 255) {
+					bb = 255;
+				} else if (rr < 0) {
+					bb = 0;
+				}
 
-		pixmap.getPixels().get(workingCopy, 0, workingCopy.length);
-
-		//      System.out.println("workingCopy: " + workingCopy.length);
-		//		for (int i = 0; i < workingCopy.length; i++) {
-		//			if ((i + 1) % 4 != 0) {
-		//				int color = workingCopy[i];
-		//				color = (int) (color * brightnessValue);
-		//				if (color > 255) {
-		//					color = 255;
-		//				} else if (color < 0) {
-		//					color = 0;
-		//				}
-		//				workingCopy[i] = (byte) color;
-		//			}
-		//
-		//		}
-		//	pixmap.getPixels().clear();
-		//	pixmap.getPixels().put(workingCopy);
-
-		return pixmap;
+				newPixmap.setColor(rr / 255f, gg / 255f, bb / 255f, aa / 255f);
+				newPixmap.drawPixel(x, y);
+			}
+		}
+		currentPixmap.dispose();
+		return newPixmap;
 	}
 
 	public void disposeTextures() {
@@ -190,6 +195,12 @@ public class Costume extends Image {
 		if (currentAlphaPixmap != null) {
 			currentAlphaPixmap.dispose();
 		}
+	}
+
+	public void resume() {
+		imageLock.acquireUninterruptibly();
+		this.imageChanged = true;
+		imageLock.release();
 	}
 
 	public void setXPosition(float x) {

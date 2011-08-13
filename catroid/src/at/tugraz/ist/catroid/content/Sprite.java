@@ -155,6 +155,7 @@ public class Sprite implements Serializable {
 		for (Script s : scriptList) {
 			s.setPaused(false);
 		}
+		costume.resume();
 		this.isPaused = false;
 	}
 
