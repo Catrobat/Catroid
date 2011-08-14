@@ -98,6 +98,23 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 	}
 
+	public void testOrientationChange() {
+		createTestProject();
+		String testText1 = "testText1";
+		String testText2 = "testText2";
+		solo.clickOnText(getActivity().getString(R.string.upload_project));
+		solo.sleep(500);
+		solo.clearEditText(0);
+		solo.enterText(0, testText1);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testText1));
+		solo.clickOnEditText(1);
+		solo.clearEditText(1);
+		solo.enterText(1, testText2);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testText2));
+	}
+
 	private void createTestProject() {
 		File directory = new File(Consts.DEFAULT_ROOT + "/" + testProject);
 		if (directory.exists()) {

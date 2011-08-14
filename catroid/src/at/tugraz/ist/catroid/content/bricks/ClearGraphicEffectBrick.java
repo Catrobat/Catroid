@@ -29,6 +29,8 @@ public class ClearGraphicEffectBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 
+	private transient View view;
+
 	public ClearGraphicEffectBrick(Sprite sprite) {
 		this.sprite = sprite;
 	}
@@ -43,8 +45,11 @@ public class ClearGraphicEffectBrick implements Brick {
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.construction_brick_clear_graphic_effect, null);
+		if (view == null) {
+			view = View.inflate(context, R.layout.toolbox_brick_clear_graphic_effect, null);
+		}
+
+		return view;
 	}
 
 	public View getPrototypeView(Context context) {

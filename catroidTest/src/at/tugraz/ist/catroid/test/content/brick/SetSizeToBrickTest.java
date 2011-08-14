@@ -74,8 +74,8 @@ public class SetSizeToBrickTest extends InstrumentationTestCase {
 		assertEquals("Unexpected initial sprite size value", 1f, sprite.costume.scaleX);
 		assertEquals("Unexpected initial sprite size value", 1f, sprite.costume.scaleY);
 
-		SetSizeToBrick brick = new SetSizeToBrick(sprite, size);
-		brick.execute();
+		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(sprite, size);
+		setSizeToBrick.execute();
 		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", (float) size / 100,
 				sprite.costume.scaleX);
 		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", (float) size / 100,
@@ -83,12 +83,12 @@ public class SetSizeToBrickTest extends InstrumentationTestCase {
 	}
 
 	public void testNullSprite() {
-		SetSizeToBrick brick = new SetSizeToBrick(null, size);
+		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(null, size);
 
 		try {
-			brick.execute();
+			setSizeToBrick.execute();
 			fail("Execution of SetSizeToBrick with null Sprite did not cause a NullPointerException to be thrown");
-		} catch (NullPointerException e) {
+		} catch (NullPointerException expected) {
 			// expected behavior
 		}
 	}

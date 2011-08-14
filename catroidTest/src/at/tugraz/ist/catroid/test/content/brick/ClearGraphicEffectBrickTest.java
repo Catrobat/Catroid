@@ -43,7 +43,7 @@ public class ClearGraphicEffectBrickTest extends AndroidTestCase {
 		try {
 			clearGraphicEffectBrick.execute();
 			fail("Execution of ClearGraphicEffectBrick with null Sprite did not cause a NullPointerException to be thrown");
-		} catch (NullPointerException e) {
+		} catch (NullPointerException expected) {
 			// expected behavior
 		}
 	}

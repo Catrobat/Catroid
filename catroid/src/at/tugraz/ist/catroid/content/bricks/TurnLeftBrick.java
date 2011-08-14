@@ -22,13 +22,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
+
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public class TurnLeftBrick implements Brick, OnDismissListener {
 
@@ -37,6 +38,9 @@ public class TurnLeftBrick implements Brick, OnDismissListener {
 	private Sprite sprite;
 
 	private double degrees;
+
+	@XStreamOmitField
+	private transient View view;
 
 	public TurnLeftBrick(Sprite sprite, double degrees) {
 		this.sprite = sprite;
@@ -52,10 +56,12 @@ public class TurnLeftBrick implements Brick, OnDismissListener {
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_turn_left, null);
 
-		EditText editDegrees = (EditText) view.findViewById(R.id.construction_brick_turn_left_edit_text);
+		if (view == null) {
+			view = View.inflate(context, R.layout.toolbox_brick_turn_left, null);
+		}
+
+		EditText editDegrees = (EditText) view.findViewById(R.id.toolbox_brick_turn_left_edit_text);
 		editDegrees.setText(String.valueOf(degrees));
 
 		EditDoubleDialog dialog = new EditDoubleDialog(context, editDegrees, degrees);
@@ -68,8 +74,7 @@ public class TurnLeftBrick implements Brick, OnDismissListener {
 	}
 
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.toolbox_brick_turn_left, null);
+		return View.inflate(context, R.layout.toolbox_brick_turn_left, null);
 	}
 
 	@Override

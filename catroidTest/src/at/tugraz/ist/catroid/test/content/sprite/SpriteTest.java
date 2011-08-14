@@ -90,7 +90,7 @@ public class SpriteTest extends AndroidTestCase {
 		assertEquals("Indexes do not match", 1, sprite.getScriptIndex(secondScript));
 	}
 
-	public void testPauseUnPause() {
+	public void testPauseUnPause() throws InterruptedException {
 		Sprite testSprite = new Sprite("testSprite");
 		Script testScript = new StartScript("testScript", testSprite);
 		HideBrick hideBrick = new HideBrick(testSprite);
@@ -105,32 +105,21 @@ public class SpriteTest extends AndroidTestCase {
 
 		testSprite.startStartScripts();
 
-		try {
-			Thread.sleep(20);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		Thread.sleep(20);
 
 		testSprite.pause();
 		assertTrue("Sprite isn't paused", testSprite.isPaused);
 		assertTrue("Script isn't paused", testScript.isPaused());
 
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		Thread.sleep(1000);
 
 		testSprite.resume();
 
 		assertFalse("Sprite is paused", testSprite.isPaused);
 		assertFalse("Script is paused", testScript.isPaused());
 
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		Thread.sleep(1000);
+
 		assertTrue("Script hasn't finished", testScript.isFinished());
 
 	}

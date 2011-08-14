@@ -16,27 +16,14 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package at.tugraz.ist.catroid.ui.dragndrop;
 
-package at.tugraz.ist.catroid.test.content.brick;
+public interface DragAndDropListener {
 
-import android.test.AndroidTestCase;
+	void drag(int from, int to);
 
-public class WhenBrickTest extends AndroidTestCase {
+	void drop(int from, int to);
 
-//	public void testWhenBrick() throws InterruptedException {
-//		int testPosition = 100;
-//
-//		Sprite sprite = new Sprite("new sprite");
-//		WhenScript whenScript = new WhenScript("script", sprite);
-//		whenScript.setAction(1);
-//		Brick placeAtBrick = new PlaceAtBrick(sprite, testPosition, testPosition);
-//		whenScript.addBrick(placeAtBrick);
-//		sprite.addScript(whenScript);
-//		sprite.startWhenScripts(whenScript.getAction());
-//
-//		Thread.sleep(1000);
-//
-//		assertEquals("Simple broadcast failed", testPosition, sprite.getXPosition());
-//	}
+	void remove(int index);
 
 }
