@@ -41,7 +41,7 @@ public class SetBrightnessBrick implements Brick, OnDismissListener {
 	}
 
 	public void execute() {
-		sprite.costume.setBrightness((float) this.brightnessValue / 100);
+		sprite.costume.setBrightnessValue((float) this.brightnessValue / 100);
 	}
 
 	public Sprite getSprite() {

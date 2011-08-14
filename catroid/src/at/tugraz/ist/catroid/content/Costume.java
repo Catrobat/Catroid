@@ -42,13 +42,13 @@ public class Costume extends Image {
 	private Semaphore brightnessLock = new Semaphore(1);
 	private boolean imageChanged = false;
 	private String imagePath;
-	private String currentImagePath = "";
-	private Pixmap currentAlphaPixmap = null;
+	private String currentImagePath;
+	private Pixmap currentAlphaPixmap;
 	private Sprite sprite;
 	private float alphaValue;
 	private float brightnessValue;
 	public boolean show;
-	public int zPosition = 0;
+	public int zPosition;
 
 	public Costume(Sprite sprite) {
 		super(Utils.getUniqueName());
@@ -66,6 +66,10 @@ public class Costume extends Image {
 		this.height = 0f;
 		this.touchable = true;
 		this.show = true;
+		this.imagePath = "";
+		this.currentImagePath = "";
+		this.currentAlphaPixmap = null;
+		this.zPosition = 0;
 	}
 
 	@Override
@@ -159,28 +163,28 @@ public class Costume extends Image {
 		for (int y = 0; y < currentPixmap.getHeight(); y++) {
 			for (int x = 0; x < currentPixmap.getWidth(); x++) {
 				int pixel = currentPixmap.getPixel(x, y);
-				int rr = (int) (((pixel >> 24) & 0xff) * brightnessValue);
-				int gg = (int) (((pixel >> 16) & 0xff) * brightnessValue);
-				int bb = (int) (((pixel >> 8) & 0xff) * brightnessValue);
-				int aa = pixel & 0xff;
+				int r = (int) (((pixel >> 24) & 0xff) * brightnessValue);
+				int g = (int) (((pixel >> 16) & 0xff) * brightnessValue);
+				int b = (int) (((pixel >> 8) & 0xff) * brightnessValue);
+				int a = pixel & 0xff;
 
-				if (rr > 255) {
-					rr = 255;
-				} else if (rr < 0) {
-					rr = 0;
+				if (r > 255) {
+					r = 255;
+				} else if (r < 0) {
+					r = 0;
 				}
-				if (gg > 255) {
-					gg = 255;
-				} else if (rr < 0) {
-					gg = 0;
+				if (g > 255) {
+					g = 255;
+				} else if (g < 0) {
+					g = 0;
 				}
-				if (bb > 255) {
-					bb = 255;
-				} else if (rr < 0) {
-					bb = 0;
+				if (b > 255) {
+					b = 255;
+				} else if (b < 0) {
+					b = 0;
 				}
 
-				newPixmap.setColor(rr / 255f, gg / 255f, bb / 255f, aa / 255f);
+				newPixmap.setColor(r / 255f, g / 255f, b / 255f, a / 255f);
 				newPixmap.drawPixel(x, y);
 			}
 		}
@@ -265,6 +269,13 @@ public class Costume extends Image {
 		imageLock.release();
 	}
 
+	public String getImagePath() {
+		imageLock.acquireUninterruptibly();
+		String path = this.imagePath;
+		imageLock.release();
+		return path;
+	}
+
 	public void setSize(float size) {
 		scaleLock.acquireUninterruptibly();
 		this.scaleX = size;
@@ -272,7 +283,19 @@ public class Costume extends Image {
 		scaleLock.release();
 	}
 
+	public float getSize() {
+		scaleLock.acquireUninterruptibly();
+		float size = (this.scaleX + this.scaleY) / 2f;
+		scaleLock.release();
+		return size;
+	}
+
 	public void setAlphaValue(float alphaValue) {
+		if (alphaValue < 0f) {
+			alphaValue = 0f;
+		} else if (alphaValue > 1f) {
+			alphaValue = 1f;
+		}
 		alphaValueLock.acquireUninterruptibly();
 		this.alphaValue = alphaValue;
 		alphaValueLock.release();
@@ -298,7 +321,10 @@ public class Costume extends Image {
 		return alphaValue;
 	}
 
-	public void setBrightness(float percent) {
+	public void setBrightnessValue(float percent) {
+		if (percent < 0f) {
+			percent = 0f;
+		}
 		brightnessLock.acquireUninterruptibly();
 		brightnessValue = percent;
 		brightnessLock.release();
@@ -307,12 +333,22 @@ public class Costume extends Image {
 		imageLock.release();
 	}
 
-	public void changeBrightnessBy(float percent) {
+	public void changeBrightnessValueBy(float percent) {
 		brightnessLock.acquireUninterruptibly();
 		brightnessValue += percent;
+		if (brightnessValue < 0f) {
+			brightnessValue = 0f;
+		}
 		brightnessLock.release();
 		imageLock.acquireUninterruptibly();
 		imageChanged = true;
 		imageLock.release();
+	}
+
+	public float getBrightnessValue() {
+		brightnessLock.acquireUninterruptibly();
+		float brightness = brightnessValue;
+		brightnessLock.release();
+		return brightness;
 	}
 }

@@ -22,6 +22,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 
@@ -35,48 +36,42 @@ public class IfOnEdgeBounceBrick implements Brick {
 	}
 
 	public void execute() {
-		//
-		//		double width = ProjectManager.getInstance().getCurrentProject().VIRTUAL_SCREEN_WIDTH;
-		//		int xPosition = (int)sprite.costume.getXPosition();
-		//		int yPosition = (int)sprite.costume.getYPosition();
-		//
-		//		if (sprite.costume.getXPosition() < -Consts.MAX_REL_COORDINATES + width / 2) {
-		//
-		//			sprite.setDirection(Math.abs(sprite.getDirection()));
-		//
-		//			double newWidth = sprite.getCostume().getVirtuelWidth();
-		//			xPosition = -Consts.MAX_REL_COORDINATES + (int) (newWidth / 2);
-		//
-		//		} else if (sprite.getXPosition() > Consts.MAX_REL_COORDINATES - width / 2) {
-		//
-		//			sprite.setDirection(-Math.abs(sprite.getDirection()));
-		//
-		//			double newWidth = sprite.getCostume().getVirtuelWidth();
-		//			xPosition = Consts.MAX_REL_COORDINATES - (int) (newWidth / 2);
-		//		}
-		//
-		//		double height = sprite.getCostume().getVirtuelHeight();
-		//
-		//		if (sprite.getYPosition() > Consts.MAX_REL_COORDINATES - height / 2) {
-		//
-		//			if (Math.abs(sprite.getDirection()) < 90) {
-		//				sprite.setDirection(180 - sprite.getDirection());
-		//			}
-		//
-		//			double newHeight = sprite.getCostume().getVirtuelHeight();
-		//			yPosition = Consts.MAX_REL_COORDINATES - (int) (newHeight / 2);
-		//
-		//		} else if (sprite.getYPosition() < -Consts.MAX_REL_COORDINATES + height / 2) {
-		//
-		//			if (Math.abs(sprite.getDirection()) > 90) {
-		//				sprite.setDirection(180 - sprite.getDirection());
-		//			}
-		//
-		//			double newHeight = sprite.getCostume().getVirtuelHeight();
-		//			yPosition = -Consts.MAX_REL_COORDINATES + (int) (newHeight / 2);
-		//		}
-		//
-		//		sprite.setXYPosition(xPosition, yPosition);
+		float width = sprite.costume.width;
+		float height = sprite.costume.height;
+		int xPosition = (int) sprite.costume.getXPosition();
+		int yPosition = (int) sprite.costume.getYPosition();
+		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().VIRTUAL_SCREEN_WIDTH / 2;
+		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().VIRTUAL_SCREEN_HEIGHT / 2;
+
+		if (xPosition < -virtualScreenWidth + width / 2) {
+
+			xPosition = -virtualScreenWidth + (int) (width / 2);
+
+		} else if (xPosition > virtualScreenWidth - width / 2) {
+
+			sprite.costume.rotation = -sprite.costume.rotation;
+
+			xPosition = virtualScreenWidth - (int) (width / 2);
+		}
+
+		if (yPosition > virtualScreenHeight - height / 2) {
+
+			if (sprite.costume.rotation < 0) {
+				sprite.costume.rotation = 180 - sprite.costume.rotation;
+			}
+
+			yPosition = virtualScreenHeight - (int) (height / 2);
+
+		} else if (yPosition < -virtualScreenHeight + height / 2) {
+
+			if (sprite.costume.rotation > 0) {
+				sprite.costume.rotation = 180 - sprite.costume.rotation;
+			}
+
+			yPosition = -virtualScreenHeight + (int) (height / 2);
+		}
+
+		sprite.costume.setXYPosition(xPosition, yPosition);
 	}
 
 	public Sprite getSprite() {
