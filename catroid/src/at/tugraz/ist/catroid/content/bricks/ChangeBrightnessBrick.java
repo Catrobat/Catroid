@@ -41,7 +41,7 @@ public class ChangeBrightnessBrick implements Brick, OnDismissListener {
 	}
 
 	public void execute() {
-		sprite.costume.changeBrightnessBy((float) (this.changeBrightness / 100));
+		sprite.costume.changeBrightnessValueBy((float) (this.changeBrightness / 100));
 	}
 
 	public Sprite getSprite() {
