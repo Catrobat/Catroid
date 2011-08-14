@@ -93,6 +93,16 @@ public class Costume extends Image {
 	}
 
 	@Override
+	public boolean touchUp(float x, float y, int pointer) {
+		return false;
+	}
+
+	@Override
+	public boolean touchDragged(float x, float y, int pointer) {
+		return false;
+	}
+
+	@Override
 	public void draw(SpriteBatch batch, float parentAlpha) {
 		checkImageChanged();
 		if (this.show && this.region != null) {
