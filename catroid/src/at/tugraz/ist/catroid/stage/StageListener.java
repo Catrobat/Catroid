@@ -140,16 +140,15 @@ public class StageListener implements ApplicationListener {
 		pauseScreen = new Texture(Gdx.files.internal("images/paused_cat.png"));
 	}
 
-	public void resume() {
+	public void menuResume() {
 		paused = false;
 		SoundManager.getInstance().resume();
 		for (Sprite sprite : sprites) {
 			sprite.resume();
 		}
-
 	}
 
-	public void pause() {
+	public void menuPause() {
 		if (finished) {
 			return;
 		}
@@ -157,6 +156,30 @@ public class StageListener implements ApplicationListener {
 		SoundManager.getInstance().pause();
 		for (Sprite sprite : sprites) {
 			sprite.pause();
+		}
+	}
+
+	public void resume() {
+		if (!paused) {
+			SoundManager.getInstance().resume();
+			for (Sprite sprite : sprites) {
+				sprite.resume();
+			}
+		}
+		for (Sprite sprite : sprites) {
+			sprite.costume.refreshTextures();
+		}
+	}
+
+	public void pause() {
+		if (finished) {
+			return;
+		}
+		if (!paused) {
+			SoundManager.getInstance().pause();
+			for (Sprite sprite : sprites) {
+				sprite.pause();
+			}
 		}
 	}
 

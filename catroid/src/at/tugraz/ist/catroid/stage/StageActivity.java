@@ -158,10 +158,10 @@ public class StageActivity extends AndroidApplication {
 
 	private void pauseOrContinue() {
 		if (stagePlaying) {
-			stageListener.pause();
+			stageListener.menuPause();
 			stagePlaying = false;
 		} else {
-			stageListener.resume();
+			stageListener.menuResume();
 			stagePlaying = true;
 		}
 	}
