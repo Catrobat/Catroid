@@ -201,7 +201,7 @@ public class Costume extends Image {
 		}
 	}
 
-	public void resume() {
+	public void refreshTextures() {
 		imageLock.acquireUninterruptibly();
 		this.imageChanged = true;
 		imageLock.release();
