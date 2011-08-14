@@ -201,4 +201,13 @@ public class UtilsTest extends TestCase {
 		Log.v(TAG, secretFloat.toString());
 		assertEquals("Getting private float failed!", new Float(3.1415f), secretFloat);
 	}
+
+	public void testUniqueName() {
+		String first = Utils.getUniqueName();
+		String second = Utils.getUniqueName();
+		String third = Utils.getUniqueName();
+		assertFalse("Same unique name!", first.equals(second));
+		assertFalse("Same unique name!", first.equals(third));
+		assertFalse("Same unique name!", second.equals(third));
+	}
 }

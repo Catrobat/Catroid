@@ -18,126 +18,76 @@
  */
 package at.tugraz.ist.catroid.test.content.sprite;
 
-import java.io.File;
-
 import android.test.InstrumentationTestCase;
-import at.tugraz.ist.catroid.test.R;
+import at.tugraz.ist.catroid.content.Costume;
+import at.tugraz.ist.catroid.content.Sprite;
 
 public class CostumeTest extends InstrumentationTestCase {
+	private Costume costume;
+	private Sprite sprite;
 
-	private static final int IMAGE_FILE_ID = R.raw.icon;
-	private File testImage;
+	@Override
+	protected void setUp() {
+		sprite = new Sprite("test");
+		costume = sprite.costume;
+	}
 
-	private String projectName;
+	public void testConstructor() {
+		assertEquals("Wrong initialization!", 0f, costume.x);
+		assertEquals("Wrong initialization!", 0f, costume.y);
+		assertEquals("Wrong initialization!", 0f, costume.height);
+		assertEquals("Wrong initialization!", 0f, costume.width);
+		assertEquals("Wrong initialization!", 0f, costume.originX);
+		assertEquals("Wrong initialization!", 0f, costume.originY);
+		assertEquals("Wrong initialization!", 0f, costume.rotation);
+		assertEquals("Wrong initialization!", 1f, costume.scaleX);
+		assertEquals("Wrong initialization!", 1f, costume.scaleY);
+		assertEquals("Wrong initialization!", 1f, costume.getAlphaValue());
+		assertEquals("Wrong initialization!", 1f, costume.getBrightnessValue());
+		assertEquals("Wrong initialization!", 1f, costume.getSize());
+		assertEquals("Wrong initialization!", 0, costume.zPosition);
+		assertEquals("Wrong initialization!", true, costume.show);
+		assertEquals("Wrong initialization!", true, costume.touchable);
+		assertEquals("Wrong initialization!", "", costume.getImagePath());
+	}
 
-	//	@Override
-	//	protected void setUp() throws Exception {
-	//		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);
-	//
-	//		if (projectFile.exists()) {
-	//			UtilFile.deleteDirectory(projectFile);
-	//		}
-	//
-	//		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
-	//		StorageHandler.getInstance().saveProject(project);
-	//		ProjectManager.getInstance().setProject(project);
-	//
-	//		testImage = TestUtils.saveFileToProject(this.projectName, "testImage.png", IMAGE_FILE_ID, getInstrumentation()
-	//				.getContext(), TestUtils.TYPE_IMAGE_FILE);
-	//
-	//		Values.SCREEN_HEIGHT = 800;
-	//		Values.SCREEN_WIDTH = 480;
-	//	}
-	//
-	//	@Override
-	//	protected void tearDown() throws Exception {
-	//		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);
-	//
-	//		if (projectFile.exists()) {
-	//			UtilFile.deleteDirectory(projectFile);
-	//		}
-	//		if (testImage != null && testImage.exists()) {
-	//			testImage.delete();
-	//		}
-	//	}
-	//
-	//	public void testUpdatePosition() {
-	//		Sprite sprite = new Sprite("testSprite");
-	//		Costume costume = sprite.costume;
-	//		costume.setImagePath(testImage.getAbsolutePath());
-	//
-	//		int width = costume.width;
-	//		int height = costume.height;
-	//
-	//		int virtualPositionX = 100;
-	//		int virtualPositionY = 100;
-	//
-	//		sprite.costume.setXYPosition(virtualPositionX, virtualPositionY);
-	//
-	//		int expectedPositionX = Math.round(toDeviceXCoordinates(virtualPositionX) - width / 2f);
-	//		int expectedPositionY = Math.round(toDeviceYCoordinates(virtualPositionY) - height / 2f);
-	//
-	//		assertEquals("Incorrect x position", expectedPositionX, costume.x);
-	//		assertEquals("Incorrect y position", expectedPositionY, costume.y);
-	//	}
-	//
-	//	public void testUpdateSize() {
-	//		Sprite sprite = new Sprite("testSprite");
-	//		Costume costume = sprite.costume;
-	//		costume.setImagePath(testImage.getAbsolutePath());
-	//
-	//		float size = 50;
-	//
-	//		int width = costume.width;
-	//		int height = costume.height;
-	//
-	//		sprite.costume.setSize(size);
-	//
-	//		int expectedWidth = (int) (width * 0.5f);
-	//		int expectedHeight = (int) (height * 0.5f);
-	//		int expectedPositionX = Math.round((Values.SCREEN_WIDTH / 2f) - (expectedWidth / 2));
-	//		int expectedPositionY = Math.round((Values.SCREEN_HEIGHT / 2f) - (expectedHeight / 2));
-	//
-	//		assertEquals("Incorrect x position", expectedPositionX, costume.x);
-	//		assertEquals("Incorrect y position", expectedPositionY, costume.y);
-	//		assertEquals("Incorrect width", expectedWidth, costume.width);
-	//		assertEquals("Incorrect height", expectedHeight, costume.height);
-	//	}
-	//
-	//	public void testUpdateDirection() {
-	//		Sprite sprite = new Sprite("testSprite");
-	//		Costume costume = sprite.costume;
-	//		costume.setImagePath(testImage.getAbsolutePath());
-	//
-	//		double direction = 30;
-	//		double radians = direction / 180 * Math.PI;
-	//
-	//		int width = costume.width;
-	//		int height = costume.height;
-	//
-	//		sprite.rotation = direction;
-	//
-	//		int expectedWidth = (int) Math
-	//				.round(height * Math.abs(Math.cos(radians)) + width * Math.abs(Math.sin(radians)));
-	//		int expectedHeight = (int) Math.round(width * Math.abs(Math.cos(radians)) + height
-	//				* Math.abs(Math.sin(radians)));
-	//
-	//		int expectedPositionX = Math.round((Values.SCREEN_WIDTH / 2f) - (expectedWidth / 2));
-	//		int expectedPositionY = Math.round((Values.SCREEN_HEIGHT / 2f) - (expectedHeight / 2));
-	//
-	//		assertEquals("Wrong height", expectedHeight, costume.height);
-	//		assertEquals("Wrong width", expectedWidth, costume.width);
-	//		assertEquals("Wrong x position", expectedPositionX, costume.x);
-	//		assertEquals("Wrong y position", expectedPositionY, costume.y);
-	//	}
-	//
-	//	private float toDeviceXCoordinates(int virtualXCoordinate) {
-	//		return Values.SCREEN_WIDTH / 2f + (virtualXCoordinate * Values.SCREEN_WIDTH)
-	//				/ (2f * Consts.MAX_REL_COORDINATES);
-	//	}
-	//
-	//	private float toDeviceYCoordinates(int virtualYCoordinate) {
-	//		return Values.SCREEN_HEIGHT / 2f - (virtualYCoordinate * Values.SCREEN_HEIGHT)
-	//				/ (2f * Consts.MAX_REL_COORDINATES);
-	//	}
+	public void testXYPositions() {
+		costume.setXPosition(50f);
+		assertEquals("Wrong x position!", 50f, costume.getXPosition());
+		costume.setYPosition(120f);
+		assertEquals("Wrong y position!", 120f, costume.getYPosition());
+		costume.width = 120f;
+		costume.height = 200f;
+		costume.setXPosition(66f);
+		assertEquals("Wrong x position!", 66f, costume.getXPosition());
+		costume.setYPosition(42f);
+		assertEquals("Wrong y position!", 42f, costume.getYPosition());
+		costume.setXYPosition(123f, 456f);
+		assertEquals("Wrong x position!", 123f, costume.getXPosition());
+		assertEquals("Wrong x position!", 456f, costume.getYPosition());
+	}
+
+	public void testImagePath() {
+		costume.setImagePath("blubb");
+		assertEquals("Wrong image path!", "blubb", costume.getImagePath());
+	}
+
+	public void testSize() {
+		costume.setSize(2f);
+		assertEquals("Wrong size!", 2f, costume.getSize());
+	}
+
+	public void testAlphaValue() {
+		costume.setAlphaValue(0.5f);
+		assertEquals("Wrong alpha value!", 0.5f, costume.getAlphaValue());
+		costume.changeAlphaValueBy(0.2f);
+		assertEquals("Wrong alpha value!", 0.7f, costume.getAlphaValue());
+	}
+
+	public void testBrightnessValue() {
+		costume.setBrightnessValue(0.42f);
+		assertEquals("Wrong brightness value!", 0.42f, costume.getBrightnessValue());
+		costume.changeBrightnessValueBy(0.2f);
+		assertEquals("Wrong brightness value!", 0.62f, costume.getBrightnessValue());
+	}
 }
