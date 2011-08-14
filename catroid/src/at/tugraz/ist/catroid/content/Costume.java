@@ -94,11 +94,23 @@ public class Costume extends Image {
 
 	@Override
 	public boolean touchUp(float x, float y, int pointer) {
+		if (sprite.isPaused) {
+			return true;
+		}
+		if (!show) {
+			return false;
+		}
 		return false;
 	}
 
 	@Override
 	public boolean touchDragged(float x, float y, int pointer) {
+		if (sprite.isPaused) {
+			return true;
+		}
+		if (!show) {
+			return false;
+		}
 		return false;
 	}
 
