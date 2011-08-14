@@ -73,7 +73,7 @@ public class Costume extends Image {
 	}
 
 	@Override
-	protected boolean touchDown(float x, float y, int pointer) {
+	public boolean touchDown(float x, float y, int pointer) {
 		if (sprite.isPaused) {
 			return true;
 		}
