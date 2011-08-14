@@ -53,9 +53,8 @@ public class ChangeBrightnessBrickTest extends AndroidTestCase {
 		ChangeGhostEffectBrick brick = new ChangeGhostEffectBrick(null, brighter);
 		try {
 			brick.execute();
-			fail("Execution of ChangeBrightnessBrick with null Sprite did not cause a "
-					+ "NullPointerException to be thrown");
-		} catch (NullPointerException e) {
+			fail("Execution of ChangeBrightnessBrick with null Sprite did not cause a NullPointerException to be thrown");
+		} catch (NullPointerException expected) {
 			// expected behavior
 		}
 	}

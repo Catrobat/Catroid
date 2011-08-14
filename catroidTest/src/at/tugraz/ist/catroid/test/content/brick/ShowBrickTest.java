@@ -23,6 +23,7 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 
 public class ShowBrickTest extends AndroidTestCase {
+
 	public void testShow() {
 		Sprite sprite = new Sprite("new sprite");
 		sprite.costume.show = false;
@@ -38,7 +39,7 @@ public class ShowBrickTest extends AndroidTestCase {
 		try {
 			showBrick.execute();
 			fail("Execution of ShowBrick with null Sprite did not cause a NullPointerException to be thrown");
-		} catch (NullPointerException e) {
+		} catch (NullPointerException expected) {
 			// expected behavior
 		}
 	}

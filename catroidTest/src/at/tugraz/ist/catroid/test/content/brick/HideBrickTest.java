@@ -38,7 +38,7 @@ public class HideBrickTest extends AndroidTestCase {
 		try {
 			hideBrick.execute();
 			fail("Execution of HideBrick with null Sprite did not cause a NullPointerException to be thrown");
-		} catch (NullPointerException e) {
+		} catch (NullPointerException expected) {
 			// expected behavior
 		}
 	}

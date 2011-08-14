@@ -42,9 +42,9 @@ public class PlaceAtBrickTest extends AndroidTestCase {
 	}
 
 	public void testNullSprite() {
-		PlaceAtBrick brick = new PlaceAtBrick(null, xPosition, yPosition);
+		PlaceAtBrick placeAtBrick = new PlaceAtBrick(null, xPosition, yPosition);
 		try {
-			brick.execute();
+			placeAtBrick.execute();
 			fail("Execution of PlaceAtBrick with null Sprite did not cause a " + "NullPointerException to be thrown");
 		} catch (NullPointerException e) {
 			// expected behavior
@@ -54,16 +54,16 @@ public class PlaceAtBrickTest extends AndroidTestCase {
 	public void testBoundaryPositions() {
 		Sprite sprite = new Sprite("testSprite");
 
-		PlaceAtBrick brick = new PlaceAtBrick(sprite, Integer.MAX_VALUE, Integer.MAX_VALUE);
-		brick.execute();
+		PlaceAtBrick placeAtBrick = new PlaceAtBrick(sprite, Integer.MAX_VALUE, Integer.MAX_VALUE);
+		placeAtBrick.execute();
 
 		assertEquals("PlaceAtBrick failed to place Sprite at maximum x integer value", Integer.MAX_VALUE,
 				(int) sprite.costume.getXPosition());
 		assertEquals("PlaceAtBrick failed to place Sprite at maximum y integer value", Integer.MAX_VALUE,
 				(int) sprite.costume.getYPosition());
 
-		brick = new PlaceAtBrick(sprite, Integer.MIN_VALUE, Integer.MIN_VALUE);
-		brick.execute();
+		placeAtBrick = new PlaceAtBrick(sprite, Integer.MIN_VALUE, Integer.MIN_VALUE);
+		placeAtBrick.execute();
 
 		assertEquals("PlaceAtBrick failed to place Sprite at minimum x integer value", Integer.MIN_VALUE,
 				(int) sprite.costume.getXPosition());

@@ -30,11 +30,16 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 public class MoveNStepsBrick implements Brick, OnDismissListener {
 
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private double steps;
+
+	@XStreamOmitField
+	private transient View view;
 
 	public MoveNStepsBrick(Sprite sprite, double steps) {
 		this.sprite = sprite;
@@ -59,9 +64,11 @@ public class MoveNStepsBrick implements Brick, OnDismissListener {
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_move_n_steps, null);
-		EditText edit = (EditText) view.findViewById(R.id.construction_brick_move_n_steps_edit_text);
+		if (view == null) {
+			view = View.inflate(context, R.layout.toolbox_brick_move_n_steps, null);
+		}
+
+		EditText edit = (EditText) view.findViewById(R.id.toolbox_brick_move_n_steps_edit_text);
 
 		edit.setText(String.valueOf(steps));
 		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, steps);

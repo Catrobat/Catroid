@@ -28,7 +28,6 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.stage.StageActivity;
-import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.SoundActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
@@ -80,6 +79,7 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 
 	@Override
 	public void tearDown() throws Exception {
+		solo.sleep(500);
 		try {
 			solo.finalize();
 		} catch (Throwable e) {
@@ -88,6 +88,7 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		getActivity().finish();
 		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
+
 	}
 
 	public void testDeleteSound() {
@@ -149,11 +150,32 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		assertEquals("soundlist in sprite doesn't hold the right number of soundinfos", 2, soundInfoList.size());
 	}
 
-	public void testMainMenuButton() {
+	//	public void testMainMenuButton() {
+	//		solo.clickOnText(getActivity().getString(R.string.sounds));
+	//		solo.sleep(500);
+	//		solo.clickOnImageButton(0);
+	//		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
+	//				MainMenuActivity.class);
+	//	}
+
+	public void testDialogsOnChangeOrientation() {
 		solo.clickOnText(getActivity().getString(R.string.sounds));
-		solo.sleep(500);
-		solo.clickOnImageButton(0);
-		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
-				MainMenuActivity.class);
+		solo.sleep(1000);
+		String newName = "newTestName";
+		solo.clickOnButton(getActivity().getString(R.string.sound_rename));
+		assertTrue("Dialog is not visible", solo.searchText(getActivity().getString(R.string.ok)));
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(300);
+		assertTrue("Dialog is not visible", solo.searchText(getActivity().getString(R.string.ok)));
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(300);
+		solo.clearEditText(0);
+		solo.enterText(0, newName);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(300);
+		assertTrue("EditText field got cleared after changing orientation", solo.searchText(newName));
+		solo.clickOnButton(getActivity().getString(R.string.ok));
+		solo.sleep(100);
+		assertTrue("Sounds wasnt renamed", solo.searchText(newName));
 	}
 }

@@ -196,23 +196,23 @@ public class MediaPathTest extends InstrumentationTestCase {
 
 	public void testContainerOnLoadProject() throws IOException {
 		fillProjectWithAllBricksAndMediaFiles();
-		ProjectManager pManager = ProjectManager.getInstance();
+		ProjectManager projectManager = ProjectManager.getInstance();
 		String checksumImage = Utils.md5Checksum(testImage);
 		String checksumSound = Utils.md5Checksum(testSound);
 
-		pManager.fileChecksumContainer = null; //hack to delete the filechecksumcontainer and see if a new one is created on load
-		pManager.loadProject(projectName, getInstrumentation().getTargetContext(), false);
+		projectManager.fileChecksumContainer = null; //hack to delete the filechecksumcontainer and see if a new one is created on load
+		projectManager.loadProject(projectName, getInstrumentation().getTargetContext(), false);
 
-		assertTrue("does not contain checksum", pManager.fileChecksumContainer.containsChecksum(checksumImage));
-		assertTrue("does not contain checksum", pManager.fileChecksumContainer.containsChecksum(checksumSound));
+		assertTrue("does not contain checksum", projectManager.fileChecksumContainer.containsChecksum(checksumImage));
+		assertTrue("does not contain checksum", projectManager.fileChecksumContainer.containsChecksum(checksumSound));
 		assertFalse("returns true even when the checksum is for sure not added",
-				pManager.fileChecksumContainer.containsChecksum(checksumImage + "5"));
+				projectManager.fileChecksumContainer.containsChecksum(checksumImage + "5"));
 
 		assertEquals("The path to the file is not found or wrong", testImageCopy.getAbsolutePath(),
-				pManager.fileChecksumContainer.getPath(checksumImage));
+				projectManager.fileChecksumContainer.getPath(checksumImage));
 
 		assertEquals("The path to the file is not found or wrong", testSoundCopy.getAbsolutePath(),
-				pManager.fileChecksumContainer.getPath(checksumSound));
+				projectManager.fileChecksumContainer.getPath(checksumSound));
 	}
 
 	public void testFileChecksumContainerNotInProjectFile() throws IOException {
@@ -222,6 +222,17 @@ public class MediaPathTest extends InstrumentationTestCase {
 		ProjectManager.getInstance().loadProject(projectName, getInstrumentation().getTargetContext(), false);
 		projectString = TestUtils.getProjectfileAsString(projectName);
 		assertFalse("FileChecksumcontainer is in the project", projectString.contains("FileChecksumContainer"));
+	}
+
+	public void testCostumeDataListAndSoundInfoListInProjectFile() throws IOException {
+		fillProjectWithAllBricksAndMediaFiles();
+		String projectString = TestUtils.getProjectfileAsString(projectName);
+		assertTrue("costumeDataList not in project", projectString.contains("costumeDataList"));
+		assertTrue("soundList not in project", projectString.contains("soundList"));
+		ProjectManager.getInstance().loadProject(projectName, getInstrumentation().getTargetContext(), false);
+		projectString = TestUtils.getProjectfileAsString(projectName);
+		assertTrue("costumeDataList not in project", projectString.contains("costumeDataList"));
+		assertTrue("soundList not in project", projectString.contains("soundList"));
 	}
 
 	private void fillProjectWithAllBricksAndMediaFiles() throws IOException {

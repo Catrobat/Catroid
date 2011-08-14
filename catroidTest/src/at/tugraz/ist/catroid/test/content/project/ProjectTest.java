@@ -25,6 +25,7 @@ import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 
 public class ProjectTest extends AndroidTestCase {
+
 	public void testVersionNameAndNumber() throws NameNotFoundException {
 		Project project = new Project(getContext(), "testProject");
 		PackageInfo packageInfo = getContext().getPackageManager().getPackageInfo("at.tugraz.ist.catroid", 0);
@@ -32,7 +33,7 @@ public class ProjectTest extends AndroidTestCase {
 		assertEquals("Incorrect version code", packageInfo.versionCode, project.getVersionCode());
 	}
 
-	public void testAddRemoveSprite() throws NameNotFoundException {
+	public void testAddRemoveSprite() {
 		Project project = new Project(getContext(), "testProject");
 		Sprite bottomSprite = new Sprite("bottom");
 		Sprite topSprite = new Sprite("top");

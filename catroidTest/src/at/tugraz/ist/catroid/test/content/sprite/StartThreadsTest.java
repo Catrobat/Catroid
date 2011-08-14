@@ -29,7 +29,7 @@ import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 
 public class StartThreadsTest extends AndroidTestCase {
 
-	public void testStartThreads() {
+	public void testStartThreads() throws InterruptedException {
 		double size = 300;
 		Sprite testSprite = new Sprite("testSprite");
 		Script testScript = new StartScript("testScript", testSprite);
@@ -42,18 +42,14 @@ public class StartThreadsTest extends AndroidTestCase {
 
 		testSprite.startStartScripts();
 
-		try {
-			Thread.sleep(200);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		Thread.sleep(200);
 
 		assertFalse("Sprite is not hidden", testSprite.costume.show);
 		assertEquals("the size is not as expected", (float) size / 100, testSprite.costume.scaleX);
 		assertEquals("the size is not as expected", (float) size / 100, testSprite.costume.scaleY);
 	}
 
-	public void testResumeThreads() {
+	public void testResumeThreads() throws InterruptedException {
 		Sprite testSprite = new Sprite("testSprite");
 		Script testScript = new StartScript("testScript", testSprite);
 		HideBrick hideBrick = new HideBrick(testSprite);
@@ -67,21 +63,13 @@ public class StartThreadsTest extends AndroidTestCase {
 
 		testSprite.startStartScripts();
 
-		try {
-			Thread.sleep(100);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		Thread.sleep(100);
 
 		testSprite.pause();
 		assertFalse("Sprite is not hidden", testSprite.costume.show);
 		testSprite.resume();
 
-		try {
-			Thread.sleep(400);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		Thread.sleep(400);
 
 		assertTrue("Sprite is hidden", testSprite.costume.show);
 
@@ -89,11 +77,7 @@ public class StartThreadsTest extends AndroidTestCase {
 		testScript.addBrick(hideBrick);
 		testSprite.startStartScripts();
 
-		try {
-			Thread.sleep(100);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		Thread.sleep(100);
 
 		assertTrue("Sprite is hidden - this script shall not be execute", testSprite.costume.show);
 	}

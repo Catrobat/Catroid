@@ -113,8 +113,8 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 
 		String checksumImage = Utils.md5Checksum(testImage);
 
-		FileChecksumContainer container = projectManager.fileChecksumContainer;
-		assertTrue("Checksum isn't in container", container.containsChecksum(checksumImage));
+		FileChecksumContainer fileChecksumContainer = projectManager.fileChecksumContainer;
+		assertTrue("Checksum isn't in container", fileChecksumContainer.containsChecksum(checksumImage));
 
 		//wait to get a different timestamp on next file
 		Thread.sleep(2000);
@@ -128,19 +128,19 @@ public class FileChecksumContainerTest extends InstrumentationTestCase {
 
 		File newTestSound = storageHandler.copySoundFile(testSound.getAbsolutePath());
 		String checksumSound = Utils.md5Checksum(testSound);
-		assertTrue("Checksum isn't in container", container.containsChecksum(checksumSound));
+		assertTrue("Checksum isn't in container", fileChecksumContainer.containsChecksum(checksumSound));
 		File soundDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName + Consts.SOUND_DIRECTORY);
 		File[] filesSound = soundDirectory.listFiles();
 
 		//nomedia file is also in sounds folder
 		assertEquals("Wrong amount of files in folder", 2, filesSound.length);
 
-		container.decrementUsage(newTestImage.getAbsolutePath());
-		assertTrue("Checksum was deleted", container.containsChecksum(checksumImage));
-		container.decrementUsage(newTestImage.getAbsolutePath());
-		assertFalse("Checksum wasn't deleted", container.containsChecksum(checksumImage));
-		container.decrementUsage(newTestSound.getAbsolutePath());
-		assertFalse("Checksum wasn't deleted", container.containsChecksum(checksumSound));
+		fileChecksumContainer.decrementUsage(newTestImage.getAbsolutePath());
+		assertTrue("Checksum was deleted", fileChecksumContainer.containsChecksum(checksumImage));
+		fileChecksumContainer.decrementUsage(newTestImage.getAbsolutePath());
+		assertFalse("Checksum wasn't deleted", fileChecksumContainer.containsChecksum(checksumImage));
+		fileChecksumContainer.decrementUsage(newTestSound.getAbsolutePath());
+		assertFalse("Checksum wasn't deleted", fileChecksumContainer.containsChecksum(checksumSound));
 	}
 
 	public void testDeleteFile() throws IOException, InterruptedException {

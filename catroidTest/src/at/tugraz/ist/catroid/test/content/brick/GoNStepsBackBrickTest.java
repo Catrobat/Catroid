@@ -33,20 +33,20 @@ public class GoNStepsBackBrickTest extends AndroidTestCase {
 
 		oldPosition = sprite.costume.zPosition;
 
-		GoNStepsBackBrick brick = new GoNStepsBackBrick(sprite, steps);
-		brick.execute();
+		GoNStepsBackBrick goNStepsBackBrick = new GoNStepsBackBrick(sprite, steps);
+		goNStepsBackBrick.execute();
 		assertEquals("Incorrect sprite Z position after GoNStepsBackBrick executed", (oldPosition - steps),
 				sprite.costume.zPosition);
 	}
 
 	public void testNullSprite() {
-		GoNStepsBackBrick brick = new GoNStepsBackBrick(null, steps);
+		GoNStepsBackBrick goNStepsBackBrick = new GoNStepsBackBrick(null, steps);
 
 		try {
-			brick.execute();
+			goNStepsBackBrick.execute();
 			fail("Execution of GoNStepsBackBrick with null Sprite did not cause "
 					+ "a NullPointerException to be thrown");
-		} catch (NullPointerException e) {
+		} catch (NullPointerException expected) {
 			// expected behavior
 		}
 	}
@@ -56,24 +56,24 @@ public class GoNStepsBackBrickTest extends AndroidTestCase {
 
 		oldPosition = sprite.costume.zPosition;
 
-		GoNStepsBackBrick brick = new GoNStepsBackBrick(sprite, Integer.MAX_VALUE);
-		brick.execute();
+		GoNStepsBackBrick goNStepsBackBrick = new GoNStepsBackBrick(sprite, Integer.MAX_VALUE);
+		goNStepsBackBrick.execute();
 		assertEquals("GoNStepsBackBrick execution failed. Wrong Z position.", (oldPosition - Integer.MAX_VALUE),
 				sprite.costume.zPosition);
 
-		brick = new GoNStepsBackBrick(sprite, -steps);
+		goNStepsBackBrick = new GoNStepsBackBrick(sprite, -steps);
 
 		try {
-			brick.execute();
+			goNStepsBackBrick.execute();
 			fail("Execution of GoNStepsBackBrick with negative steps value did not"
 					+ " cause a NumberFormatException to be thrown");
-		} catch (NumberFormatException e) {
+		} catch (NumberFormatException expected) {
 			// expected behavior
 		}
 
-		brick = new GoNStepsBackBrick(sprite, Integer.MAX_VALUE);
-		brick.execute();
-		brick.execute();
+		goNStepsBackBrick = new GoNStepsBackBrick(sprite, Integer.MAX_VALUE);
+		goNStepsBackBrick.execute();
+		goNStepsBackBrick.execute();
 		assertEquals("An Integer underflow occured during GoNStepsBackBrick execution.", Integer.MIN_VALUE,
 				sprite.costume.zPosition);
 	}

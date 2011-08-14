@@ -78,14 +78,14 @@ public class TurnLeftBrickTest extends InstrumentationTestCase {
 		Sprite sprite = new Sprite("test");
 		sprite.costume.setImagePath(testImage.getAbsolutePath());
 
-		TurnLeftBrick brick = new TurnLeftBrick(sprite, 10);
+		TurnLeftBrick turnLeftBrick = new TurnLeftBrick(sprite, 10);
 
-		brick.execute();
+		turnLeftBrick.execute();
 		assertEquals("Wrong direction!", 10f, sprite.costume.rotation, 1e-3);
 		assertEquals("Wrong X-Position!", 0f, sprite.costume.getXPosition());
 		assertEquals("Wrong Y-Position!", 0f, sprite.costume.getYPosition());
 
-		brick.execute();
+		turnLeftBrick.execute();
 		assertEquals("Wrong direction!", 20f, sprite.costume.rotation, 1e-3);
 		assertEquals("Wrong X-Position!", 0f, sprite.costume.getXPosition());
 		assertEquals("Wrong Y-Position!", 0f, sprite.costume.getYPosition());
@@ -95,10 +95,10 @@ public class TurnLeftBrickTest extends InstrumentationTestCase {
 		Sprite sprite = new Sprite("test");
 		sprite.costume.setImagePath(testImage.getAbsolutePath());
 
-		TurnLeftBrick brick = new TurnLeftBrick(sprite, 10);
+		TurnLeftBrick turnLeftBrick = new TurnLeftBrick(sprite, 10);
 		SetSizeToBrick brickScale = new SetSizeToBrick(sprite, 50);
 
-		brick.execute();
+		turnLeftBrick.execute();
 		brickScale.execute();
 
 		assertEquals("Wrong direction!", 10f, sprite.costume.rotation, 1e-3);
@@ -110,11 +110,11 @@ public class TurnLeftBrickTest extends InstrumentationTestCase {
 		Sprite sprite = new Sprite("test");
 		sprite.costume.setImagePath(testImage.getAbsolutePath());
 
-		TurnLeftBrick brick = new TurnLeftBrick(sprite, 10);
+		TurnLeftBrick turnLeftBrick = new TurnLeftBrick(sprite, 10);
 		SetSizeToBrick brickScale = new SetSizeToBrick(sprite, 50);
 
 		brickScale.execute();
-		brick.execute();
+		turnLeftBrick.execute();
 
 		assertEquals("Wrong direction!", 10f, sprite.costume.rotation, 1e-3);
 		assertEquals("Wrong X-Position!", 0f, sprite.costume.getXPosition());
@@ -126,9 +126,9 @@ public class TurnLeftBrickTest extends InstrumentationTestCase {
 		Sprite sprite = new Sprite("test");
 		sprite.costume.setImagePath(testImage.getAbsolutePath());
 
-		TurnLeftBrick brick = new TurnLeftBrick(sprite, -10);
+		TurnLeftBrick turnLeftBrick = new TurnLeftBrick(sprite, -10);
 
-		brick.execute();
+		turnLeftBrick.execute();
 
 		assertEquals("Wrong direction!", -10f, sprite.costume.rotation, 1e-3);
 		assertEquals("Wrong X-Position!", 0f, sprite.costume.getXPosition());
@@ -139,9 +139,9 @@ public class TurnLeftBrickTest extends InstrumentationTestCase {
 		Sprite sprite = new Sprite("test");
 		sprite.costume.setImagePath(testImage.getAbsolutePath());
 
-		TurnLeftBrick brick = new TurnLeftBrick(sprite, 370);
+		TurnLeftBrick turnLeftBrick = new TurnLeftBrick(sprite, 370);
 
-		brick.execute();
+		turnLeftBrick.execute();
 
 		assertEquals("Wrong direction!", 370f, sprite.costume.rotation, 1e-3);
 		assertEquals("Wrong X-Position!", 0f, sprite.costume.getXPosition());

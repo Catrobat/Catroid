@@ -19,14 +19,18 @@
 package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 public class ForeverBrick extends LoopBeginBrick {
 	private static final long serialVersionUID = 1L;
+
+	@XStreamOmitField
+	private transient View view;
 
 	public ForeverBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -43,12 +47,14 @@ public class ForeverBrick extends LoopBeginBrick {
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.construction_brick_forever, null);
+		if (view == null) {
+			view = View.inflate(context, R.layout.toolbox_brick_forever, null);
+		}
+
+		return view;
 	}
 
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.toolbox_brick_forever, null);
+		return View.inflate(context, R.layout.toolbox_brick_forever, null);
 	}
 }

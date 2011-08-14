@@ -42,6 +42,7 @@
     <string name="loading">Laden...</string>
     <string name="background">Hintergrund</string>
     <string name="stage">Bühne</string>
+    <string name="ok">OK</string>
 
 	<!-- Brick captions -->
     <string name="show">Zeige dich</string>
@@ -282,5 +283,7 @@
     <string name="load_project">Projekt laden</string>
     <string name="upload_button">Hochladen</string>
     <string name="upload_project_dialog_title">Projekt hochladen</string>
+    <string name="upload_description">Beschreibung:</string>
     <string name="project_rename">(Das Projekt wird umbenannt.)</string>
+    <string name="size_of_project">Größe des Projekts:</string>
 </resources>

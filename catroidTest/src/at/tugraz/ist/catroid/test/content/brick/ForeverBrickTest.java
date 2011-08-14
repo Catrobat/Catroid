@@ -65,7 +65,7 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 		positionOfSecondWaitBrick = testScript.getBrickList().indexOf(secondWaitBrick);
 	}
 
-	public void testForeverBrick() throws Exception {
+	public void testForeverBrick() throws InterruptedException {
 		testSprite.startStartScripts();
 
 		Thread.sleep(brickSleepTime / 2);
