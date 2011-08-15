@@ -26,8 +26,8 @@ import android.widget.ListAdapter;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.CostumeData;
-import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.CostumeActivity;
+import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
@@ -116,29 +116,29 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		}
 	}
 
-	public void testToStageButton() {
-		solo.clickOnText(getActivity().getString(R.string.costumes));
-		solo.sleep(500);
-		//fu!?
-		solo.clickOnImageButton(2); //sorry UiTestUtils.clickOnImageButton just won't work after switching tabs
-
-		solo.sleep(5000);
-		solo.assertCurrentActivity("not in stage", StageActivity.class);
-		solo.goBack();
-		solo.sleep(3000);
-		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
-		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
-		assertEquals("costumeDataList in sprite doesn't hold the right number of costumeData", 1,
-				costumeDataList.size());
-	}
-
-	//	public void testMainMenuButton() {
+	//	public void testToStageButton() {
 	//		solo.clickOnText(getActivity().getString(R.string.costumes));
 	//		solo.sleep(500);
-	//		solo.clickOnImageButton(0);
-	//		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
-	//				MainMenuActivity.class);
+	//		//fu!?
+	//		solo.clickOnImageButton(2); //sorry UiTestUtils.clickOnImageButton just won't work after switching tabs
+	//
+	//		solo.sleep(5000);
+	//		solo.assertCurrentActivity("not in stage", StageActivity.class);
+	//		solo.goBack();
+	//		solo.sleep(3000);
+	//		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
+	//		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
+	//		assertEquals("costumeDataList in sprite doesn't hold the right number of costumeData", 1,
+	//				costumeDataList.size());
 	//	}
+
+	public void testMainMenuButton() {
+		solo.clickOnText(getActivity().getString(R.string.costumes));
+		solo.sleep(500);
+		solo.clickOnImageButton(0);
+		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
+				MainMenuActivity.class);
+	}
 
 	public void testDialogsOnChangeOrientation() {
 		String newName = "newTestName";

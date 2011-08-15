@@ -27,7 +27,6 @@ import android.widget.ListAdapter;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.SoundInfo;
-import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.SoundActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
@@ -135,20 +134,20 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		assertFalse("Mediaplayer is playing after touching stop button", soundInfo.isPlaying);
 	}
 
-	public void testToStageButton() {
-		solo.clickOnText(getActivity().getString(R.string.sounds));
-		solo.sleep(500);
-		//fu!?
-		solo.clickOnImageButton(2); //sorry UiTestUtils.clickOnImageButton just won't work after switching tabs
-
-		solo.sleep(5000);
-		solo.assertCurrentActivity("not in stage", StageActivity.class);
-		solo.goBack();
-		solo.sleep(3000);
-		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
-		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
-		assertEquals("soundlist in sprite doesn't hold the right number of soundinfos", 2, soundInfoList.size());
-	}
+	//	public void testToStageButton() {
+	//		solo.clickOnText(getActivity().getString(R.string.sounds));
+	//		solo.sleep(500);
+	//		//fu!?
+	//		solo.clickOnImageButton(2); //sorry UiTestUtils.clickOnImageButton just won't work after switching tabs
+	//
+	//		solo.sleep(5000);
+	//		solo.assertCurrentActivity("not in stage", StageActivity.class);
+	//		solo.goBack();
+	//		solo.sleep(3000);
+	//		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
+	//		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+	//		assertEquals("soundlist in sprite doesn't hold the right number of soundinfos", 2, soundInfoList.size());
+	//	}
 
 	//	public void testMainMenuButton() {
 	//		solo.clickOnText(getActivity().getString(R.string.sounds));
