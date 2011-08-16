@@ -22,7 +22,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.AndroidTestCase;
 import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -77,7 +76,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 		}
 	}
 
-	public void testSerializeProject() throws NameNotFoundException {
+	public void testSerializeProject() {
 
 		int xPosition = 457;
 		int yPosition = 598;
@@ -199,13 +198,13 @@ public class StorageHandlerTest extends AndroidTestCase {
 		assertTrue("Image " + catroidCostumeList.get(2).getCostumeFileName() + " does not exist", testFile.exists());
 	}
 
-	public void testAliasesAndXmlHeader() throws IOException {
+	public void testAliasesAndXmlHeader() {
 
 		String projectName = "myProject";
 
-		File proj = new File(Consts.DEFAULT_ROOT + "/" + projectName);
-		if (proj.exists()) {
-			UtilFile.deleteDirectory(proj);
+		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+		if (projectFile.exists()) {
+			UtilFile.deleteDirectory(projectFile);
 		}
 
 		Project project = new Project(getContext(), projectName);
@@ -250,9 +249,9 @@ public class StorageHandlerTest extends AndroidTestCase {
 		Log.v(TAG, xmlHeader);
 		assertTrue("Project file did not contain correct XML header.", projectString.startsWith(xmlHeader));
 
-		proj = new File(Consts.DEFAULT_ROOT + "/" + projectName);
-		if (proj.exists()) {
-			UtilFile.deleteDirectory(proj);
+		projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+		if (projectFile.exists()) {
+			UtilFile.deleteDirectory(projectFile);
 		}
 	}
 }

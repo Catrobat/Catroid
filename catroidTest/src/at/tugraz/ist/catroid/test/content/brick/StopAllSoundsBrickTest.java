@@ -65,12 +65,15 @@ public class StopAllSoundsBrickTest extends InstrumentationTestCase {
 
 		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
 
-		PlaySoundBrick testBrick = new PlaySoundBrick(new Sprite("1"));
-		StopAllSoundsBrick testBrick1 = new StopAllSoundsBrick(new Sprite("1"));
-		testBrick.setSoundInfo(getSoundInfo());
-		testBrick.execute();
+		Sprite testSprite = new Sprite("1");
+		PlaySoundBrick playSoundBrick = new PlaySoundBrick(testSprite);
+		StopAllSoundsBrick stopAllSoundsBrick = new StopAllSoundsBrick(new Sprite("1"));
+		SoundInfo soundInfo = getSoundInfo();
+		playSoundBrick.setSoundInfo(soundInfo);
+		testSprite.getSoundList().add(soundInfo);
+		playSoundBrick.execute();
 		assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
-		testBrick1.execute();
+		stopAllSoundsBrick.execute();
 		assertFalse("MediaPlayer is still playing", mediaPlayer.isPlaying());
 
 	}
@@ -78,31 +81,38 @@ public class StopAllSoundsBrickTest extends InstrumentationTestCase {
 	public void testStopSimultaneousPlayingSounds() throws InterruptedException {
 		final MediaPlayer mediaPlayer1 = SoundManager.getInstance().getMediaPlayer();
 		final MediaPlayer mediaPlayer2 = SoundManager.getInstance().getMediaPlayer();
+
 		class ThreadSound1 extends Thread {
-			PlaySoundBrick testBrick1 = new PlaySoundBrick(new Sprite("8"));
+			Sprite testSprite = new Sprite("8");
+			PlaySoundBrick playSoundBrick = new PlaySoundBrick(testSprite);
 
 			@Override
 			public void run() {
-				testBrick1.setSoundInfo(getSoundInfo());
-				testBrick1.execute();
+				SoundInfo soundInfo = getSoundInfo();
+				playSoundBrick.setSoundInfo(soundInfo);
+				testSprite.getSoundList().add(soundInfo);
+				playSoundBrick.execute();
 			}
 		}
 
 		class ThreadSound2 extends Thread {
-			PlaySoundBrick testBrick1 = new PlaySoundBrick(new Sprite("9"));
+			Sprite testSprite = new Sprite("9");
+			PlaySoundBrick playSoundBrick = new PlaySoundBrick(testSprite);
 
 			@Override
 			public void run() {
-				testBrick1.setSoundInfo(getSoundInfo());
-				testBrick1.execute();
+				SoundInfo soundInfo = getSoundInfo();
+				playSoundBrick.setSoundInfo(soundInfo);
+				testSprite.getSoundList().add(soundInfo);
+				playSoundBrick.execute();
 			}
 		}
 
 		StopAllSoundsBrick testBrick1 = new StopAllSoundsBrick(new Sprite("10"));
-		ThreadSound1 th1 = new ThreadSound1();
-		ThreadSound2 th2 = new ThreadSound2();
-		th1.start();
-		th2.start();
+		ThreadSound1 threadSound1 = new ThreadSound1();
+		ThreadSound2 threadSound2 = new ThreadSound2();
+		threadSound1.start();
+		threadSound2.start();
 		Thread.sleep(200);
 		assertTrue("mediaPlayer1 is not playing", mediaPlayer1.isPlaying());
 		assertTrue("mediaPlayer2 is not playing", mediaPlayer2.isPlaying());

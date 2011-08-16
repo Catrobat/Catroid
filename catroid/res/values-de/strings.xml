@@ -42,6 +42,7 @@
     <string name="loading">Laden...</string>
     <string name="background">Hintergrund</string>
     <string name="stage">Bühne</string>
+    <string name="ok">OK</string>
 
 	<!-- Brick captions -->
     <string name="show">Zeige dich</string>
@@ -202,6 +203,8 @@
 	<string name="brick_turn_left">Drehe links</string>
 	<string name="brick_turn_left_n_degrees">Grad</string>
 	<string name="brick_point_in_direction">Zeige Richtung</string>
+	<string name="brick_say">sag</string>
+	<string name="brick_think">denke</string>
 	
 	<string name="choose_sound_title">Sound wählen</string>
 	
@@ -279,5 +282,7 @@
     <string name="load_project">Projekt laden</string>
     <string name="upload_button">Hochladen</string>
     <string name="upload_project_dialog_title">Projekt hochladen</string>
+    <string name="upload_description">Beschreibung:</string>
     <string name="project_rename">(Das Projekt wird umbenannt.)</string>
+    <string name="size_of_project">Größe des Projekts:</string>
 </resources>

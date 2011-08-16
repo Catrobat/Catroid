@@ -58,11 +58,10 @@ public class SetVolumeToBrickTest extends InstrumentationTestCase {
 
 	public void testVolume() {
 		Sprite sprite = new Sprite("testSprite");
-		SetVolumeToBrick brick = new SetVolumeToBrick(sprite, volume);
-		brick.execute();
+		SetVolumeToBrick setVolumeToBrick = new SetVolumeToBrick(sprite, volume);
+		setVolumeToBrick.execute();
 		assertEquals("Incorrect sprite volume value after SetVolumeToBrick executed", volume, SoundManager
 				.getInstance().getVolume());
-
 	}
 
 	private void createTestProject() throws IOException {
@@ -77,6 +76,5 @@ public class SetVolumeToBrickTest extends InstrumentationTestCase {
 
 		soundFile = TestUtils.saveFileToProject(projectName, "soundTest.mp3", SOUND_FILE_ID, getInstrumentation()
 				.getContext(), TestUtils.TYPE_SOUND_FILE);
-
 	}
 }

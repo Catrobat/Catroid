@@ -23,13 +23,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.graphics.Rect;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.test.ActivityInstrumentationTestCase2;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
@@ -62,12 +65,12 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 		super.tearDown();
 	}
 
-	public void testMainMenuButton() {
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
-		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
-				MainMenuActivity.class);
-	}
+	//	public void testMainMenuButton() {
+	//		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
+	//		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+	//		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
+	//				MainMenuActivity.class);
+	//	}
 
 	public void testCreateNewBrickButton() {
 		int brickCountInView = solo.getCurrentListViews().get(0).getCount();
@@ -90,8 +93,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 		ArrayList<Integer> yPositionList = getListItemYPositions();
 		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
 
-		solo.sleep(1000);
-		solo.drag(30, 30, yPositionList.get(4), (yPositionList.get(1) + yPositionList.get(2)) / 2 + 30, 20);
+		longClickAndDrag(10, yPositionList.get(4), 10, yPositionList.get(2), 20);
 		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
 
 		assertEquals("Brick count not equal before and after dragging & dropping", brickListToCheck.size(), brickList
@@ -107,8 +109,10 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 		ArrayList<Integer> yPositionList = getListItemYPositions();
 		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);
 
-		solo.drag(30, 400, yPositionList.get(2), (yPositionList.get(4) + yPositionList.get(5)) / 2, 20);
-		solo.sleep(1000);
+		int displayWidth = getActivity().getWindowManager().getDefaultDisplay().getWidth();
+
+		longClickAndDrag(30, yPositionList.get(2), displayWidth, yPositionList.get(2) + 500, 40);
+		solo.sleep(2000);
 		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
 
 		assertEquals("Brick count did not decrease by one after deleting a brick", brickListToCheck.size() - 1,
@@ -138,5 +142,50 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 		}
 
 		return yPositionList;
+	}
+
+	private void longClickAndDrag(final float xFrom, final float yFrom, final float xTo, final float yTo,
+			final int steps) {
+		Handler handler = new Handler(getActivity().getMainLooper());
+
+		handler.post(new Runnable() {
+
+			public void run() {
+				MotionEvent downEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
+						MotionEvent.ACTION_DOWN, xFrom, yFrom, 0);
+				getActivity().dispatchTouchEvent(downEvent);
+			}
+		});
+
+		solo.sleep(ViewConfiguration.getLongPressTimeout() + 200);
+
+		handler.post(new Runnable() {
+			public void run() {
+
+				for (int i = 0; i <= steps; i++) {
+					float x = xFrom + (((xTo - xFrom) / steps) * i);
+					float y = yFrom + (((yTo - yFrom) / steps) * i);
+					MotionEvent moveEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
+							MotionEvent.ACTION_MOVE, x, y, 0);
+					getActivity().dispatchTouchEvent(moveEvent);
+
+					solo.sleep(20);
+				}
+			}
+		});
+
+		solo.sleep(steps * 20 + 200);
+
+		handler.post(new Runnable() {
+
+			public void run() {
+				MotionEvent upEvent = MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(),
+						MotionEvent.ACTION_UP, xTo, yTo, 0);
+				getActivity().dispatchTouchEvent(upEvent);
+			}
+		});
+
+		solo.sleep(1000);
+
 	}
 }
