@@ -112,6 +112,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 		int displayWidth = getActivity().getWindowManager().getDefaultDisplay().getWidth();
 
 		longClickAndDrag(30, yPositionList.get(2), displayWidth, yPositionList.get(2) + 500, 40);
+		solo.sleep(2000);
 		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
 
 		assertEquals("Brick count did not decrease by one after deleting a brick", brickListToCheck.size() - 1,
