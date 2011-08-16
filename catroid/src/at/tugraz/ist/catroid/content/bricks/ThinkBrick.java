@@ -21,7 +21,6 @@ package at.tugraz.ist.catroid.content.bricks;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseExpandableListAdapter;
@@ -29,12 +28,15 @@ import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 public class ThinkBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private String text = "";
 
-	private final transient int MAXLINES = 5;
+	@XStreamOmitField
+	private transient View view;
 
 	public ThinkBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -54,12 +56,13 @@ public class ThinkBrick implements Brick {
 	}
 
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.construction_brick_think, null);
 
-		EditText editText = (EditText) brickView.findViewById(R.id.edit_text_think);
+		if (view == null) {
+			view = View.inflate(context, R.layout.toolbox_brick_think, null);
+		}
+
+		EditText editText = (EditText) view.findViewById(R.id.toolbox_brick_think_edit_text);
 		editText.setText(text);
-		editText.setMaxLines(MAXLINES);
 		editText.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
@@ -83,13 +86,11 @@ public class ThinkBrick implements Brick {
 			}
 		});
 
-		return brickView;
+		return view;
 	}
 
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.toolbox_brick_think, null);
-		return brickView;
+		return View.inflate(context, R.layout.toolbox_brick_think, null);
 	}
 
 	@Override
