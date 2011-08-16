@@ -309,14 +309,14 @@ public class SpeechBubblesTest extends ActivityInstrumentationTestCase2<MainMenu
 		Script startScript = new StartScript("startscript", sprite);
 		Script touchScript = new TapScript("touchscript", sprite);
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
-		String speechBubbleText1 = "I say what i say.";
+		String speechBubbleText1 = "I say what I say.";
 		SayBrick sayBrick = new SayBrick(sprite, speechBubbleText1);
 		startScript.addBrick(setCostumeBrick);
 		startScript.addBrick(new PlaceAtBrick(sprite, 0, 0));
 		startScript.addBrick(sayBrick);
 		sprite.addScript(startScript);
 
-		String speechBubbleText2 = "I think what i think.";
+		String speechBubbleText2 = "I think what I think.";
 		ThinkBrick thinkBrick = new ThinkBrick(sprite, speechBubbleText2);
 		touchScript.addBrick(thinkBrick);
 		sprite.addScript(touchScript);
