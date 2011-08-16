@@ -40,6 +40,8 @@ public class Costume extends Image {
 	private Semaphore scaleLock = new Semaphore(1);
 	private Semaphore alphaValueLock = new Semaphore(1);
 	private Semaphore brightnessLock = new Semaphore(1);
+	private Semaphore rotationLock = new Semaphore(1);
+	private Semaphore disposeTexturesLock = new Semaphore(1);
 	private boolean imageChanged = false;
 	private String imagePath;
 	private String currentImagePath;
@@ -113,12 +115,7 @@ public class Costume extends Image {
 	private void checkImageChanged() {
 		imageLock.acquireUninterruptibly();
 		if (imageChanged) {
-			if (this.region != null && this.region.getTexture() != null) {
-				this.region.getTexture().dispose();
-			}
-			if (currentAlphaPixmap != null) {
-				currentAlphaPixmap.dispose();
-			}
+			this.disposeTextures();
 			currentImagePath = imagePath;
 			currentAlphaPixmap = null;
 			if (currentImagePath.equals("")) {
@@ -203,12 +200,14 @@ public class Costume extends Image {
 	}
 
 	public void disposeTextures() {
+		disposeTexturesLock.acquireUninterruptibly();
 		if (this.region != null && this.region.getTexture() != null) {
 			this.region.getTexture().dispose();
 		}
 		if (currentAlphaPixmap != null) {
 			currentAlphaPixmap.dispose();
 		}
+		disposeTexturesLock.release();
 	}
 
 	public void refreshTextures() {
@@ -360,5 +359,30 @@ public class Costume extends Image {
 		float brightness = brightnessValue;
 		brightnessLock.release();
 		return brightness;
+	}
+
+	public void setRotation(float direction) {
+		rotationLock.acquireUninterruptibly();
+		/*
+		 * Here calculation between scratch rotation and real rotation has to been done...
+		 */
+		this.rotation = 0f;
+		rotationLock.release();
+	}
+
+	public float getRotation() {
+		rotationLock.acquireUninterruptibly();
+		/*
+		 * Here calculation between real rotation and scratch rotation has to been done...
+		 */
+		float rotation = 0f;
+		rotationLock.release();
+		return rotation;
+	}
+
+	public void changeRotationBy(float degrees) {
+		rotationLock.acquireUninterruptibly();
+		this.rotation += degrees;
+		rotationLock.release();
 	}
 }
