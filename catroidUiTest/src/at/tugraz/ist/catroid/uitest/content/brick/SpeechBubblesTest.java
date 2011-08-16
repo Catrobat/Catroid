@@ -20,6 +20,7 @@ package at.tugraz.ist.catroid.uitest.content.brick;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import android.graphics.Point;
 import android.test.ActivityInstrumentationTestCase2;
@@ -40,6 +41,7 @@ import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.SayBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
+import at.tugraz.ist.catroid.content.bricks.ThinkBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
@@ -47,7 +49,7 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class SpeechBubblesTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-	private static final String TAG = SpeechBubblesTest.class.getSimpleName();
+	private static final String TAG = "SPEECHBUBBLES";
 	private StorageHandler storageHandler;
 	private Solo solo;
 	private int imageRawId = at.tugraz.ist.catroid.uitest.R.raw.black_quad;
@@ -120,14 +122,13 @@ public class SpeechBubblesTest extends ActivityInstrumentationTestCase2<MainMenu
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
 		solo.sleep(5000);
 		// -------------------------------------------------------------------------------------------------------------
-		SpeechBubble speechBubble = spriteList.get(0).getBubble();
+		SpeechBubble speechBubble = spriteList.get(1).getBubble();
 
-		Log.v(TAG, speechBubble.toString());
-		Point position = (Point) UiTestUtils.getPrivateField("position", speechBubble);
 		float speechBubblePicHeight = (Float) UiTestUtils.getPrivateField("speechBubblePicHeight", speechBubble);
 		float speechBubblePicWidth = (Float) UiTestUtils.getPrivateField("speechBubblePicWidth", speechBubble);
-		Log.v(TAG, position.toString());
-		Log.v(TAG, "H: " + speechBubblePicHeight + ", W:" + speechBubblePicWidth);
+		@SuppressWarnings("unchecked")
+		Vector<String> textGrid = (Vector<String>) UiTestUtils.getPrivateField("textGrid", speechBubble);
+		Log.v(TAG, textGrid.toString());
 		int clickWidth = Values.SCREEN_WIDTH / 2;
 		int clickHeight = Values.SCREEN_HEIGHT / 2;
 		Log.v(TAG, "click: " + clickWidth + " " + clickHeight);
@@ -135,6 +136,9 @@ public class SpeechBubblesTest extends ActivityInstrumentationTestCase2<MainMenu
 		solo.sleep(5000);
 		boolean visible = (Boolean) UiTestUtils.getPrivateField("isVisible", firstSprite);
 		assertEquals("SpeechBubble is clickable.", false, visible);
+		assertFalse("Height of speechbubble may be incorrect.", new Float(speechBubblePicHeight).equals(0));
+		assertFalse("Height of speechbubble may be incorrect.", new Float(speechBubblePicWidth).equals(0));
+		assertEquals("Displayed Text is incorrect", speechBubbleText, mergeString(textGrid));
 		// -------------------------------------------------------------------------------------------------------------
 	}
 
@@ -168,15 +172,21 @@ public class SpeechBubblesTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		Log.v(TAG, speechBubble.toString());
 		Point position = (Point) UiTestUtils.getPrivateField("position", speechBubble);
+		Point pinPointRight = (Point) UiTestUtils.getPrivateField("pinPointRight", speechBubble);
 		float speechBubblePicHeight = (Float) UiTestUtils.getPrivateField("speechBubblePicHeight", speechBubble);
 		float speechBubblePicWidth = (Float) UiTestUtils.getPrivateField("speechBubblePicWidth", speechBubble);
-		Log.v(TAG, position.toString());
-		Log.v(TAG, "H: " + speechBubblePicHeight + ", W:" + speechBubblePicWidth);
+		@SuppressWarnings("unchecked")
+		Vector<String> textGrid = (Vector<String>) UiTestUtils.getPrivateField("textGrid", speechBubble);
+		assertEquals("The drawingposition of speechbubble may be incorrect.", pinPointRight, position);
+		assertFalse("The height of speechbubble may be incorret.", new Float(speechBubblePicHeight).equals(0));
+		assertFalse("The width of speechbubble may be incorret.", new Float(speechBubblePicWidth).equals(0));
+		assertEquals("Displayed Text is incorrect", speechBubbleText, mergeString(textGrid));
 		solo.sleep(1500);
 
 		// -------------------------------------------------------------------------------------------------------------
 	}
 
+	@Smoke
 	public void testFlipPosition() {
 
 		Sprite sprite = new Sprite("sprite");
@@ -185,7 +195,7 @@ public class SpeechBubblesTest extends ActivityInstrumentationTestCase2<MainMenu
 		String speechBubbleText = "AB CDE";
 		SayBrick sayBrick = new SayBrick(sprite, speechBubbleText);
 		startScript.addBrick(setCostumeBrick);
-		startScript.addBrick(new ComeToFrontBrick(sprite));
+		startScript.addBrick(new PlaceAtBrick(sprite, 800, 0));
 		startScript.addBrick(sayBrick);
 		sprite.addScript(startScript);
 		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
@@ -206,16 +216,24 @@ public class SpeechBubblesTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		Log.v(TAG, speechBubble.toString());
 		Point position = (Point) UiTestUtils.getPrivateField("position", speechBubble);
+		Point pinPointLeft = (Point) UiTestUtils.getPrivateField("pinPointLeft", speechBubble);
 		float speechBubblePicHeight = (Float) UiTestUtils.getPrivateField("speechBubblePicHeight", speechBubble);
 		float speechBubblePicWidth = (Float) UiTestUtils.getPrivateField("speechBubblePicWidth", speechBubble);
-		Log.v(TAG, position.toString());
-		Log.v(TAG, "H: " + speechBubblePicHeight + ", W:" + speechBubblePicWidth);
+		Point truepinPointLeft = new Point((int) (pinPointLeft.x - speechBubblePicWidth), pinPointLeft.y);
+		@SuppressWarnings("unchecked")
+		Vector<String> textGrid = (Vector<String>) UiTestUtils.getPrivateField("textGrid", speechBubble);
+		assertEquals("The drawingposition of speechbubble may be incorrect.", truepinPointLeft, position);
+		assertFalse("The height of speechbubble may be incorret.", new Float(speechBubblePicHeight).equals(0));
+		assertFalse("The width of speechbubble may be incorret.", new Float(speechBubblePicWidth).equals(0));
+		assertEquals("Displayed Text is incorrect", speechBubbleText, mergeString(textGrid));
+
 		solo.sleep(1500);
 
 		// -------------------------------------------------------------------------------------------------------------
 	}
 
-	public void testFlipTranslatePosition() {
+	@Smoke
+	public void testFlipAndTranslatePosition() {
 
 		Sprite sprite = new Sprite("sprite");
 		Script startScript = new StartScript("startscript", sprite);
@@ -223,7 +241,7 @@ public class SpeechBubblesTest extends ActivityInstrumentationTestCase2<MainMenu
 		String speechBubbleText = "AB CDE";
 		SayBrick sayBrick = new SayBrick(sprite, speechBubbleText);
 		startScript.addBrick(setCostumeBrick);
-		startScript.addBrick(new ComeToFrontBrick(sprite));
+		startScript.addBrick(new PlaceAtBrick(sprite, 800, 900));
 		startScript.addBrick(sayBrick);
 		sprite.addScript(startScript);
 		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
@@ -244,24 +262,86 @@ public class SpeechBubblesTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		Log.v(TAG, speechBubble.toString());
 		Point position = (Point) UiTestUtils.getPrivateField("position", speechBubble);
+		Point pinPointLeft = (Point) UiTestUtils.getPrivateField("pinPointLeft", speechBubble);
+		Point pinPointRight = (Point) UiTestUtils.getPrivateField("pinPointRight", speechBubble);
 		float speechBubblePicHeight = (Float) UiTestUtils.getPrivateField("speechBubblePicHeight", speechBubble);
 		float speechBubblePicWidth = (Float) UiTestUtils.getPrivateField("speechBubblePicWidth", speechBubble);
-		Log.v(TAG, position.toString());
-		Log.v(TAG, "H: " + speechBubblePicHeight + ", W:" + speechBubblePicWidth);
+		Point truepinPointLeft = new Point((int) (pinPointLeft.x - speechBubblePicWidth), pinPointLeft.y);
+		@SuppressWarnings("unchecked")
+		Vector<String> textGrid = (Vector<String>) UiTestUtils.getPrivateField("textGrid", speechBubble);
+		assertFalse("The drawingposition of speechbubble may be incorrect.", pinPointLeft.equals(position));
+		assertFalse("The drawingposition of speechbubble may be incorrect.", pinPointRight.equals(position));
+		assertEquals("The drawingposition of speechbubble may be incorrect.", truepinPointLeft.x, position.x);
+		assertEquals("Displayed Text is incorrect", speechBubbleText, mergeString(textGrid));
+		assertFalse("The height of speechbubble may be incorret.", new Float(speechBubblePicHeight).equals(0));
+		assertFalse("The width of speechbubble may be incorret.", new Float(speechBubblePicWidth).equals(0));
+
 		solo.sleep(1500);
 
 		// -------------------------------------------------------------------------------------------------------------
 	}
 
-	public void changeBubbleType() {
+	@Smoke
+	public void testChangeBubbleType() {
+		String projectName = "project3";
+		Sprite sprite = new Sprite("sprite");
+		Script startScript = new StartScript("startscript", sprite);
+		Script touchScript = new TapScript("touchscript", sprite);
+		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
+		String speechBubbleText1 = "I say what i say.";
+		SayBrick sayBrick = new SayBrick(sprite, speechBubbleText1);
+		startScript.addBrick(setCostumeBrick);
+		startScript.addBrick(new PlaceAtBrick(sprite, 0, 0));
+		startScript.addBrick(sayBrick);
+		sprite.addScript(startScript);
+
+		String speechBubbleText2 = "I think what i think.";
+		ThinkBrick thinkBrick = new ThinkBrick(sprite, speechBubbleText2);
+		touchScript.addBrick(thinkBrick);
+		sprite.addScript(touchScript);
+		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
+		spriteList.add(sprite);
+		Project project5 = UiTestUtils.createProject(projectName, spriteList, getActivity());
+		File image = UiTestUtils.saveFileToProject(projectName, "black_quad.png", imageRawId, getInstrumentation()
+				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
+		setCostumeBrick.setCostume(image.getName());
+		storageHandler.saveProject(project5);
+		DisplayMetrics displayMetrics = new DisplayMetrics();
+		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+		Values.SCREEN_WIDTH = displayMetrics.widthPixels;
+		Values.SCREEN_HEIGHT = displayMetrics.heightPixels;
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		solo.sleep(5000);
+		// -------------------------------------------------------------------------------------------------------------
+		SpeechBubble speechBubble = spriteList.get(0).getBubble();
+		int clickWidth = Values.SCREEN_WIDTH / 2;
+		int clickHeight = Values.SCREEN_HEIGHT / 2;
+		int speechBubblePictureID1 = (Integer) UiTestUtils.getPrivateField("speechBubblePictureID", speechBubble);
+		int speechBubblePictureID1inv = (Integer) UiTestUtils.getPrivateField("speechBubblePictureInvID", speechBubble);
+		Log.v(TAG, "click: " + clickWidth + " " + clickHeight);
+		solo.clickOnScreen(clickWidth, clickHeight);
+		solo.sleep(1500);
+		int speechBubblePictureID2 = (Integer) UiTestUtils.getPrivateField("speechBubblePictureID", speechBubble);
+		int speechBubblePictureID2inv = (Integer) UiTestUtils.getPrivateField("speechBubblePictureInvID", speechBubble);
+		assertFalse("The changing of the bubbletype may be incorrect",
+				new Integer(speechBubblePictureID1).equals(speechBubblePictureID2));
+		assertFalse("The changing of the bubbletype may be incorrect",
+				new Integer(speechBubblePictureID1inv).equals(speechBubblePictureID2inv));
+		solo.sleep(1500);
+
+		// -------------------------------------------------------------------------------------------------------------
+	}
+
+	@Smoke
+	public void testChangeSpeechBubbleSize1() {
 
 		Sprite sprite = new Sprite("sprite");
 		Script startScript = new StartScript("startscript", sprite);
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
-		String speechBubbleText = "AB CDE";
+		String speechBubbleText = "ABC";
 		SayBrick sayBrick = new SayBrick(sprite, speechBubbleText);
 		startScript.addBrick(setCostumeBrick);
-		startScript.addBrick(new ComeToFrontBrick(sprite));
+		startScript.addBrick(new PlaceAtBrick(sprite, 0, 0));
 		startScript.addBrick(sayBrick);
 		sprite.addScript(startScript);
 		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
@@ -281,14 +361,121 @@ public class SpeechBubblesTest extends ActivityInstrumentationTestCase2<MainMenu
 		SpeechBubble speechBubble = spriteList.get(0).getBubble();
 
 		Log.v(TAG, speechBubble.toString());
-		Point position = (Point) UiTestUtils.getPrivateField("position", speechBubble);
+
+		float speechBubblePicDefaultHeight = (Float) UiTestUtils.getPrivateField("speechBubblePicDefaultHeight",
+				speechBubble);
+		float speechBubblePicDefaultWidth = (Float) UiTestUtils.getPrivateField("speechBubblePicDefaultWidth",
+				speechBubble);
 		float speechBubblePicHeight = (Float) UiTestUtils.getPrivateField("speechBubblePicHeight", speechBubble);
 		float speechBubblePicWidth = (Float) UiTestUtils.getPrivateField("speechBubblePicWidth", speechBubble);
-		Log.v(TAG, position.toString());
-		Log.v(TAG, "H: " + speechBubblePicHeight + ", W:" + speechBubblePicWidth);
+
+		assertEquals("The height of speechbubble may be incorret.", speechBubblePicDefaultHeight, speechBubblePicHeight);
+		assertEquals("The width of speechbubble may be incorret.", speechBubblePicDefaultWidth, speechBubblePicWidth);
+
 		solo.sleep(1500);
 
 		// -------------------------------------------------------------------------------------------------------------
+	}
+
+	@Smoke
+	public void testChangeSpeechBubbleSize2() {
+
+		Sprite sprite = new Sprite("sprite");
+		Script startScript = new StartScript("startscript", sprite);
+		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
+		String speechBubbleText = "ABCDEFGHI";
+		SayBrick sayBrick = new SayBrick(sprite, speechBubbleText);
+		startScript.addBrick(setCostumeBrick);
+		startScript.addBrick(new PlaceAtBrick(sprite, 0, 0));
+		startScript.addBrick(sayBrick);
+		sprite.addScript(startScript);
+		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
+		spriteList.add(sprite);
+		Project project = UiTestUtils.createProject(projectName1, spriteList, getActivity());
+		File image = UiTestUtils.saveFileToProject(projectName1, "black_quad.png", imageRawId, getInstrumentation()
+				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
+		setCostumeBrick.setCostume(image.getName());
+		storageHandler.saveProject(project);
+		DisplayMetrics displayMetrics = new DisplayMetrics();
+		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+		Values.SCREEN_WIDTH = displayMetrics.widthPixels;
+		Values.SCREEN_HEIGHT = displayMetrics.heightPixels;
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		solo.sleep(5000);
+		// -------------------------------------------------------------------------------------------------------------
+		SpeechBubble speechBubble = spriteList.get(0).getBubble();
+
+		Log.v(TAG, speechBubble.toString());
+
+		float speechBubblePicDefaultHeight = (Float) UiTestUtils.getPrivateField("speechBubblePicDefaultHeight",
+				speechBubble);
+		float speechBubblePicDefaultWidth = (Float) UiTestUtils.getPrivateField("speechBubblePicDefaultWidth",
+				speechBubble);
+		float speechBubblePicHeight = (Float) UiTestUtils.getPrivateField("speechBubblePicHeight", speechBubble);
+		float speechBubblePicWidth = (Float) UiTestUtils.getPrivateField("speechBubblePicWidth", speechBubble);
+
+		assertEquals("The height of speechbubble may be incorret.", speechBubblePicDefaultHeight, speechBubblePicHeight);
+		assertFalse("The width of speechbubble may be incorret.",
+				new Float(speechBubblePicWidth).equals(speechBubblePicDefaultWidth));
+
+		solo.sleep(1500);
+
+		// -------------------------------------------------------------------------------------------------------------
+	}
+
+	@Smoke
+	public void testChangeSpeechBubbleSize3() {
+
+		Sprite sprite = new Sprite("sprite");
+		Script startScript = new StartScript("startscript", sprite);
+		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
+		String speechBubbleText = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		SayBrick sayBrick = new SayBrick(sprite, speechBubbleText);
+		startScript.addBrick(setCostumeBrick);
+		startScript.addBrick(new PlaceAtBrick(sprite, 0, 0));
+		startScript.addBrick(sayBrick);
+		sprite.addScript(startScript);
+		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
+		spriteList.add(sprite);
+		Project project = UiTestUtils.createProject(projectName1, spriteList, getActivity());
+		File image = UiTestUtils.saveFileToProject(projectName1, "black_quad.png", imageRawId, getInstrumentation()
+				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
+		setCostumeBrick.setCostume(image.getName());
+		storageHandler.saveProject(project);
+		DisplayMetrics displayMetrics = new DisplayMetrics();
+		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+		Values.SCREEN_WIDTH = displayMetrics.widthPixels;
+		Values.SCREEN_HEIGHT = displayMetrics.heightPixels;
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		solo.sleep(5000);
+		// -------------------------------------------------------------------------------------------------------------
+		SpeechBubble speechBubble = spriteList.get(0).getBubble();
+
+		Log.v(TAG, speechBubble.toString());
+
+		float speechBubblePicDefaultHeight = (Float) UiTestUtils.getPrivateField("speechBubblePicDefaultHeight",
+				speechBubble);
+
+		float speechBubblePicHeight = (Float) UiTestUtils.getPrivateField("speechBubblePicHeight", speechBubble);
+		float speechBubblePicWidth = (Float) UiTestUtils.getPrivateField("speechBubblePicWidth", speechBubble);
+		float speechBubblePicMaxWidth = (Float) UiTestUtils.getPrivateField("speechBubblePicMaxWidth", speechBubble);
+
+		assertFalse("The height of speechbubble may be incorret.",
+				new Float(speechBubblePicHeight).equals(speechBubblePicDefaultHeight));
+		assertEquals("The height of speechbubble may be incorret.", speechBubblePicMaxWidth, speechBubblePicWidth);
+
+		solo.sleep(1500);
+
+		// -------------------------------------------------------------------------------------------------------------
+	}
+
+	public String mergeString(Vector<String> strings) {
+		String mergedString = "";
+		for (int vectorIndex = 0; vectorIndex < strings.size(); vectorIndex++) {
+			mergedString += strings.get(vectorIndex);
+		}
+		return mergedString;
+
 	}
 
 }
