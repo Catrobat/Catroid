@@ -18,8 +18,8 @@
  */
 package at.tugraz.ist.catroid.ui.adapter;
 
+import java.io.File;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -37,15 +37,19 @@ import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.CostumeActivity;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
+import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 	protected ArrayList<CostumeData> costumeDataItems;
 	protected CostumeActivity activity;
+	protected ScriptTabActivity scriptTabActivity;
 
 	public CostumeAdapter(final CostumeActivity activity, int textViewResourceId, ArrayList<CostumeData> items) {
 		super(activity, textViewResourceId, items);
 		this.activity = activity;
+		this.scriptTabActivity = (ScriptTabActivity) activity.getParent();
 		costumeDataItems = items;
 	}
 
@@ -84,15 +88,7 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 				costumeResolution.setText(resolution[0] + " x " + resolution[1]);
 
 				//setting size
-				float fileSizeInKB = costumeData.getSizeInKb();
-				String fileSizeString;
-				if (fileSizeInKB > 1024) {
-					DecimalFormat decimalFormat = new DecimalFormat("#.00");
-					fileSizeString = decimalFormat.format(fileSizeInKB / 1024) + " MB";
-				} else {
-					fileSizeString = Long.toString((long) fileSizeInKB) + " KB";
-				}
-				costumeSize.setText(fileSizeString);
+				costumeSize.setText(UtilFile.getSizeAsString(new File(costumeData.getAbsolutePath())));
 			}
 
 			copyCostumeButton.setOnClickListener(new View.OnClickListener() {
@@ -133,15 +129,15 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 
 			paintroidButton.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
-					activity.selectedCostumeData = costumeData;
+					scriptTabActivity.selectedCostumeData = costumeData;
 					//TODO call paintroid
 				}
 			});
 
 			renameCostumeButton.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
-					activity.selectedCostumeData = costumeData;
-					activity.showDialog(Consts.DIALOG_RENAME_COSTUME);
+					scriptTabActivity.selectedCostumeData = costumeData;
+					scriptTabActivity.showDialog(Consts.DIALOG_RENAME_COSTUME);
 				}
 			});
 

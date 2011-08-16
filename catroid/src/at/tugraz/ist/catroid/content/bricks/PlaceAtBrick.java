@@ -22,7 +22,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
@@ -30,11 +29,16 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 public class PlaceAtBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
 	private int xPosition;
 	private int yPosition;
 	private Sprite sprite;
+
+	@XStreamOmitField
+	private transient View view;
 
 	public PlaceAtBrick(Sprite sprite, int xPosition, int yPosition) {
 		this.sprite = sprite;
@@ -51,10 +55,12 @@ public class PlaceAtBrick implements Brick, OnDismissListener {
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.construction_brick_place_at, null);
 
-		EditText editX = (EditText) brickView.findViewById(R.id.construction_brick_place_at_x_edit_text);
+		if (view == null) {
+			view = View.inflate(context, R.layout.toolbox_brick_place_at, null);
+		}
+
+		EditText editX = (EditText) view.findViewById(R.id.toolbox_brick_place_at_x_edit_text);
 		editX.setText(String.valueOf(xPosition));
 
 		EditIntegerDialog dialogX = new EditIntegerDialog(context, editX, xPosition, true);
@@ -63,7 +69,7 @@ public class PlaceAtBrick implements Brick, OnDismissListener {
 
 		editX.setOnClickListener(dialogX);
 
-		EditText editY = (EditText) brickView.findViewById(R.id.construction_brick_place_at_y_edit_text);
+		EditText editY = (EditText) view.findViewById(R.id.toolbox_brick_place_at_y_edit_text);
 		editY.setText(String.valueOf(yPosition));
 
 		EditIntegerDialog dialogY = new EditIntegerDialog(context, editY, yPosition, true);
@@ -72,13 +78,11 @@ public class PlaceAtBrick implements Brick, OnDismissListener {
 
 		editY.setOnClickListener(dialogY);
 
-		return brickView;
+		return view;
 	}
 
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.toolbox_brick_place_at, null);
-		return brickView;
+		return View.inflate(context, R.layout.toolbox_brick_place_at, null);
 	}
 
 	@Override
@@ -88,9 +92,9 @@ public class PlaceAtBrick implements Brick, OnDismissListener {
 
 	public void onDismiss(DialogInterface dialog) {
 		EditIntegerDialog inputDialog = (EditIntegerDialog) dialog;
-		if (inputDialog.getRefernecedEditTextId() == R.id.construction_brick_place_at_x_edit_text) {
+		if (inputDialog.getRefernecedEditTextId() == R.id.toolbox_brick_place_at_x_edit_text) {
 			xPosition = inputDialog.getValue();
-		} else if (inputDialog.getRefernecedEditTextId() == R.id.construction_brick_place_at_y_edit_text) {
+		} else if (inputDialog.getRefernecedEditTextId() == R.id.toolbox_brick_place_at_y_edit_text) {
 			yPosition = inputDialog.getValue();
 		} else {
 			throw new RuntimeException("Received illegal id from EditText: " + inputDialog.getRefernecedEditTextId());
