@@ -20,7 +20,6 @@ package at.tugraz.ist.catroid.test.content.brick;
 
 import android.test.AndroidTestCase;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
 
 public class ChangeYByBrickTest extends AndroidTestCase {
@@ -34,20 +33,20 @@ public class ChangeYByBrickTest extends AndroidTestCase {
 
 		int yPosition = sprite.getYPosition();
 
-		ChangeYByBrick brick = new ChangeYByBrick(sprite, yMovement);
-		brick.execute();
+		ChangeYByBrick changeYByBrick = new ChangeYByBrick(sprite, yMovement);
+		changeYByBrick.execute();
 
 		yPosition += yMovement;
 		assertEquals("Incorrect sprite y position after ChangeYByBrick executed", yPosition, sprite.getYPosition());
 	}
 
 	public void testNullSprite() {
-		ChangeXByBrick brick = new ChangeXByBrick(null, yMovement);
+		ChangeYByBrick brick = new ChangeYByBrick(null, yMovement);
 
 		try {
 			brick.execute();
 			fail("Execution of ChangeYByBrick with null Sprite did not cause a " + "NullPointerException to be thrown");
-		} catch (NullPointerException e) {
+		} catch (NullPointerException expected) {
 			// expected behavior
 		}
 	}
@@ -57,16 +56,16 @@ public class ChangeYByBrickTest extends AndroidTestCase {
 
 		int yPosition = 10;
 		sprite.setXYPosition(sprite.getXPosition(), yPosition);
-		ChangeYByBrick brick = new ChangeYByBrick(sprite, Integer.MAX_VALUE);
-		brick.execute();
+		ChangeYByBrick changeYByBrick = new ChangeYByBrick(sprite, Integer.MAX_VALUE);
+		changeYByBrick.execute();
 
 		assertEquals("ChangeYByBrick failed to place Sprite at maximum y integer value", Integer.MAX_VALUE,
 				sprite.getYPosition());
 
 		yPosition = -10;
 		sprite.setXYPosition(sprite.getXPosition(), yPosition);
-		brick = new ChangeYByBrick(sprite, Integer.MIN_VALUE);
-		brick.execute();
+		changeYByBrick = new ChangeYByBrick(sprite, Integer.MIN_VALUE);
+		changeYByBrick.execute();
 
 		assertEquals("ChangeYByBrick failed to place Sprite at minimum y integer value", Integer.MIN_VALUE,
 				sprite.getYPosition());

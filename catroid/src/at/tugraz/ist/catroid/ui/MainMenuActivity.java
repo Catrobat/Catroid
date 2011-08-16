@@ -19,6 +19,8 @@
 
 package at.tugraz.ist.catroid.ui;
 
+import java.io.File;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -31,6 +33,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -44,6 +47,7 @@ import at.tugraz.ist.catroid.ui.dialogs.LoadProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.LoginRegisterDialog;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
+import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class MainMenuActivity extends Activity {
@@ -94,7 +98,7 @@ public class MainMenuActivity extends Activity {
 		Dialog dialog;
 		if (projectManager.getCurrentProject() != null
 				&& StorageHandler.getInstance().projectExists(projectManager.getCurrentProject().getName())) {
-			projectManager.saveProject(this);
+			projectManager.saveProject();
 		}
 
 		switch (id) {
@@ -125,8 +129,33 @@ public class MainMenuActivity extends Activity {
 				dialog = null;
 				break;
 		}
-
 		return dialog;
+	}
+
+	@Override
+	protected void onPrepareDialog(int id, Dialog dialog) {
+		switch (id) {
+			case Consts.DIALOG_NEW_PROJECT:
+				break;
+			case Consts.DIALOG_LOAD_PROJECT:
+				break;
+			case Consts.DIALOG_ABOUT:
+				break;
+			case Consts.DIALOG_UPLOAD_PROJECT:
+				TextView projectRename = (TextView) dialog.findViewById(R.id.tv_project_rename);
+				EditText projectDescriptionField = (EditText) dialog.findViewById(R.id.project_description_upload);
+				final EditText projectUploadName = (EditText) dialog.findViewById(R.id.project_upload_name);
+				TextView sizeOfProject = (TextView) dialog.findViewById(R.id.dialog_upload_size_of_project);
+				sizeOfProject.setText(UtilFile.getSizeAsString(new File(Consts.DEFAULT_ROOT + "/"
+						+ projectManager.getCurrentProject().getName())));
+
+				projectRename.setVisibility(View.GONE);
+				projectUploadName.setText(ProjectManager.getInstance().getCurrentProject().getName());
+				projectDescriptionField.setText("");
+				projectUploadName.requestFocus();
+				projectUploadName.selectAll();
+				break;
+		}
 	}
 
 	@Override
@@ -158,7 +187,7 @@ public class MainMenuActivity extends Activity {
 		// onStop(), onDestroy(), onRestart()
 		// also when you switch activities
 		if (projectManager.getCurrentProject() != null) {
-			projectManager.saveProject(this);
+			projectManager.saveProject();
 			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 			Editor edit = prefs.edit();
 			edit.putString(PREF_PROJECTNAME_KEY, projectManager.getCurrentProject().getName());

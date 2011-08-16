@@ -20,6 +20,7 @@
 package at.tugraz.ist.catroid.test.web;
 
 import java.io.File;
+import java.io.IOException;
 
 import android.test.AndroidTestCase;
 import at.tugraz.ist.catroid.common.Consts;
@@ -41,10 +42,7 @@ public class ZipTest extends AndroidTestCase {
 		super.tearDown();
 	}
 
-	public void testInit() throws Throwable {
-	}
-
-	public void testZipUnzip() throws Throwable {
+	public void testZipUnzip() throws IOException {
 
 		String pathToTest = Consts.TMP_PATH + "/test1/";
 
@@ -82,7 +80,5 @@ public class ZipTest extends AndroidTestCase {
 		assertTrue("File was not recreated from zip.", checkfile.exists());
 
 		zipFile.delete();
-
 	}
-
 }
