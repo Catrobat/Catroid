@@ -160,6 +160,11 @@ public class DragAndDropListView extends ExpandableListView implements OnLongCli
 		boolean drawingCacheEnabled = view.isDrawingCacheEnabled();
 
 		view.setDrawingCacheEnabled(true);
+
+		if (view.getDrawingCache() == null) {
+			view.layout(0, 0, view.getWidth(), Math.min(view.getHeight(), MAXIMUM_DRAG_VIEW_HEIGHT));
+		}
+
 		Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
 		view.setDrawingCacheEnabled(drawingCacheEnabled);
 
