@@ -65,9 +65,12 @@ public class StopAllSoundsBrickTest extends InstrumentationTestCase {
 
 		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
 
-		PlaySoundBrick playSoundBrick = new PlaySoundBrick(new Sprite("1"));
+		Sprite testSprite = new Sprite("1");
+		PlaySoundBrick playSoundBrick = new PlaySoundBrick(testSprite);
 		StopAllSoundsBrick stopAllSoundsBrick = new StopAllSoundsBrick(new Sprite("1"));
-		playSoundBrick.setSoundInfo(getSoundInfo());
+		SoundInfo soundInfo = getSoundInfo();
+		playSoundBrick.setSoundInfo(soundInfo);
+		testSprite.getSoundList().add(soundInfo);
 		playSoundBrick.execute();
 		assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
 		stopAllSoundsBrick.execute();
@@ -78,22 +81,29 @@ public class StopAllSoundsBrickTest extends InstrumentationTestCase {
 	public void testStopSimultaneousPlayingSounds() throws InterruptedException {
 		final MediaPlayer mediaPlayer1 = SoundManager.getInstance().getMediaPlayer();
 		final MediaPlayer mediaPlayer2 = SoundManager.getInstance().getMediaPlayer();
+
 		class ThreadSound1 extends Thread {
-			PlaySoundBrick playSoundBrick = new PlaySoundBrick(new Sprite("8"));
+			Sprite testSprite = new Sprite("8");
+			PlaySoundBrick playSoundBrick = new PlaySoundBrick(testSprite);
 
 			@Override
 			public void run() {
-				playSoundBrick.setSoundInfo(getSoundInfo());
+				SoundInfo soundInfo = getSoundInfo();
+				playSoundBrick.setSoundInfo(soundInfo);
+				testSprite.getSoundList().add(soundInfo);
 				playSoundBrick.execute();
 			}
 		}
 
 		class ThreadSound2 extends Thread {
-			PlaySoundBrick playSoundBrick = new PlaySoundBrick(new Sprite("9"));
+			Sprite testSprite = new Sprite("9");
+			PlaySoundBrick playSoundBrick = new PlaySoundBrick(testSprite);
 
 			@Override
 			public void run() {
-				playSoundBrick.setSoundInfo(getSoundInfo());
+				SoundInfo soundInfo = getSoundInfo();
+				playSoundBrick.setSoundInfo(soundInfo);
+				testSprite.getSoundList().add(soundInfo);
 				playSoundBrick.execute();
 			}
 		}

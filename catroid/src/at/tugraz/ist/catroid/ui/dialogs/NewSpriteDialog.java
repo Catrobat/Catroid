@@ -30,6 +30,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -89,6 +90,7 @@ public class NewSpriteDialog {
 		}
 		Sprite sprite = new Sprite(spriteName);
 		projectManager.addSprite(sprite);
+		((ArrayAdapter<?>) projectActivity.getListAdapter()).notifyDataSetChanged();
 
 		input.setText(null);
 		newSpriteDialog.dismiss();
@@ -135,13 +137,6 @@ public class NewSpriteDialog {
 			}
 
 			public void afterTextChanged(Editable s) {
-				//				if (spriteAlreadyExists(s.toString())
-				//						&& !(s.toString()).equalsIgnoreCase(projectActivity.getSpriteToEdit().getName())) {
-				//					alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false);
-				//					Toast.makeText(projectActivity, R.string.spritename_already_exists, Toast.LENGTH_SHORT).show();
-				//				} else {
-				//					alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(true);
-				//				}
 			}
 		});
 	}

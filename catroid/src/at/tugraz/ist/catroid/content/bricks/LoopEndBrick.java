@@ -73,7 +73,7 @@ public class LoopEndBrick implements Brick {
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.construction_brick_loop_end, null);
+		return inflater.inflate(R.layout.toolbox_brick_loop_end, null);
 	}
 
 	@Override

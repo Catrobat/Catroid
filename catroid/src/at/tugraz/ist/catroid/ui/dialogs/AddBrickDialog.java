@@ -150,7 +150,7 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new MoveNStepsBrick(sprite, 10));
 			prototypeBrickList.add(new TurnLeftBrick(sprite, 15));
 			prototypeBrickList.add(new TurnRightBrick(sprite, 15));
-			prototypeBrickList.add(new PointInDirectionBrick(sprite, 90));
+			prototypeBrickList.add(new PointInDirectionBrick(sprite, PointInDirectionBrick.DIRECTION_RIGHT));
 			prototypeBrickList.add(new PointToBrick(sprite, null));
 		}
 	}
