@@ -28,6 +28,7 @@ import android.test.suitebuilder.annotation.Smoke;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
@@ -52,8 +53,9 @@ public class SpeechBubblesTest extends ActivityInstrumentationTestCase2<MainMenu
 	private static final String TAG = "SpeechBubbles";
 	private StorageHandler storageHandler;
 	private Solo solo;
-	private int imageRawId = at.tugraz.ist.catroid.uitest.R.raw.black_quad;
 	private final String projectName1 = UiTestUtils.PROJECTNAME1;
+	private String imageName1 = "image1";
+	private final int IMAGE_FILE_ID = at.tugraz.ist.catroid.uitest.R.raw.black_quad;
 
 	public SpeechBubblesTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -109,11 +111,20 @@ public class SpeechBubblesTest extends ActivityInstrumentationTestCase2<MainMenu
 		spriteList.add(firstSprite);
 		spriteList.add(secondSprite);
 		Project project4 = UiTestUtils.createProject(projectName, spriteList, getActivity());
-		File image = UiTestUtils.saveFileToProject(projectName, "black_quad.png", imageRawId, getInstrumentation()
+
+		File image1 = UiTestUtils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
-		Log.v(TAG, image.getName());
-		setCostumeBrick.setCostume(image.getName());
-		setCostumeBrick2.setCostume(image.getName());
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image1.getName());
+		costumeData.setCostumeName("image1");
+
+		setCostumeBrick.setCostume(costumeData);
+		firstSprite.getCostumeDataList().add(costumeData);
+		costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image1.getName());
+		costumeData.setCostumeName("image2");
+		setCostumeBrick2.setCostume(costumeData);
+		secondSprite.getCostumeDataList().add(costumeData);
 		storageHandler.saveProject(project4);
 		DisplayMetrics displayMetrics = new DisplayMetrics();
 		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -157,9 +168,14 @@ public class SpeechBubblesTest extends ActivityInstrumentationTestCase2<MainMenu
 		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
 		spriteList.add(sprite);
 		Project project = UiTestUtils.createProject(projectName1, spriteList, getActivity());
-		File image = UiTestUtils.saveFileToProject(projectName1, "black_quad.png", imageRawId, getInstrumentation()
+		File image1 = UiTestUtils.saveFileToProject(projectName1, imageName1, IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
-		setCostumeBrick.setCostume(image.getName());
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image1.getName());
+		costumeData.setCostumeName("image1");
+
+		setCostumeBrick.setCostume(costumeData);
+		sprite.getCostumeDataList().add(costumeData);
 		storageHandler.saveProject(project);
 		DisplayMetrics displayMetrics = new DisplayMetrics();
 		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -201,9 +217,14 @@ public class SpeechBubblesTest extends ActivityInstrumentationTestCase2<MainMenu
 		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
 		spriteList.add(sprite);
 		Project project = UiTestUtils.createProject(projectName1, spriteList, getActivity());
-		File image = UiTestUtils.saveFileToProject(projectName1, "black_quad.png", imageRawId, getInstrumentation()
+		File image1 = UiTestUtils.saveFileToProject(projectName1, imageName1, IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
-		setCostumeBrick.setCostume(image.getName());
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image1.getName());
+		costumeData.setCostumeName("image1");
+
+		setCostumeBrick.setCostume(costumeData);
+		sprite.getCostumeDataList().add(costumeData);
 		storageHandler.saveProject(project);
 		DisplayMetrics displayMetrics = new DisplayMetrics();
 		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -247,9 +268,14 @@ public class SpeechBubblesTest extends ActivityInstrumentationTestCase2<MainMenu
 		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
 		spriteList.add(sprite);
 		Project project = UiTestUtils.createProject(projectName1, spriteList, getActivity());
-		File image = UiTestUtils.saveFileToProject(projectName1, "black_quad.png", imageRawId, getInstrumentation()
+		File image1 = UiTestUtils.saveFileToProject(projectName1, imageName1, IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
-		setCostumeBrick.setCostume(image.getName());
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image1.getName());
+		costumeData.setCostumeName("image1");
+
+		setCostumeBrick.setCostume(costumeData);
+		sprite.getCostumeDataList().add(costumeData);
 		storageHandler.saveProject(project);
 		DisplayMetrics displayMetrics = new DisplayMetrics();
 		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -302,9 +328,14 @@ public class SpeechBubblesTest extends ActivityInstrumentationTestCase2<MainMenu
 		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
 		spriteList.add(sprite);
 		Project project5 = UiTestUtils.createProject(projectName, spriteList, getActivity());
-		File image = UiTestUtils.saveFileToProject(projectName, "black_quad.png", imageRawId, getInstrumentation()
+		File image1 = UiTestUtils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
-		setCostumeBrick.setCostume(image.getName());
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image1.getName());
+		costumeData.setCostumeName("image1");
+
+		setCostumeBrick.setCostume(costumeData);
+		sprite.getCostumeDataList().add(costumeData);
 		storageHandler.saveProject(project5);
 		DisplayMetrics displayMetrics = new DisplayMetrics();
 		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -347,9 +378,14 @@ public class SpeechBubblesTest extends ActivityInstrumentationTestCase2<MainMenu
 		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
 		spriteList.add(sprite);
 		Project project = UiTestUtils.createProject(projectName1, spriteList, getActivity());
-		File image = UiTestUtils.saveFileToProject(projectName1, "black_quad.png", imageRawId, getInstrumentation()
+		File image1 = UiTestUtils.saveFileToProject(projectName1, imageName1, IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
-		setCostumeBrick.setCostume(image.getName());
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image1.getName());
+		costumeData.setCostumeName("image1");
+
+		setCostumeBrick.setCostume(costumeData);
+		sprite.getCostumeDataList().add(costumeData);
 		storageHandler.saveProject(project);
 		DisplayMetrics displayMetrics = new DisplayMetrics();
 		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -392,9 +428,14 @@ public class SpeechBubblesTest extends ActivityInstrumentationTestCase2<MainMenu
 		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
 		spriteList.add(sprite);
 		Project project = UiTestUtils.createProject(projectName1, spriteList, getActivity());
-		File image = UiTestUtils.saveFileToProject(projectName1, "black_quad.png", imageRawId, getInstrumentation()
+		File image1 = UiTestUtils.saveFileToProject(projectName1, imageName1, IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
-		setCostumeBrick.setCostume(image.getName());
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image1.getName());
+		costumeData.setCostumeName("image1");
+
+		setCostumeBrick.setCostume(costumeData);
+		sprite.getCostumeDataList().add(costumeData);
 		storageHandler.saveProject(project);
 		DisplayMetrics displayMetrics = new DisplayMetrics();
 		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -438,9 +479,14 @@ public class SpeechBubblesTest extends ActivityInstrumentationTestCase2<MainMenu
 		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
 		spriteList.add(sprite);
 		Project project = UiTestUtils.createProject(projectName1, spriteList, getActivity());
-		File image = UiTestUtils.saveFileToProject(projectName1, "black_quad.png", imageRawId, getInstrumentation()
+		File image1 = UiTestUtils.saveFileToProject(projectName1, imageName1, IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
-		setCostumeBrick.setCostume(image.getName());
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image1.getName());
+		costumeData.setCostumeName("image1");
+
+		setCostumeBrick.setCostume(costumeData);
+		sprite.getCostumeDataList().add(costumeData);
 		storageHandler.saveProject(project);
 		DisplayMetrics displayMetrics = new DisplayMetrics();
 		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
