@@ -1,4 +1,4 @@
-//package de.androidmag.app.backend.loader;
+//package at.tugraz.ist.catroid.service;
 //
 //import java.util.HashMap;
 //import java.util.Map;
@@ -11,14 +11,8 @@
 //import android.content.Intent;
 //import android.view.View;
 //import android.widget.RemoteViews;
+//import at.tugraz.ist.catroid.ui.MainMenuActivity;
 //
-///**
-// * This class manages the notification for the application it's possible to add
-// * notifications, update, finish and cancel notifications
-// * 
-// * @author martin
-// * 
-// */
 //public class ServiceNotificationManager {
 //
 //	private static final String TAG = ServiceNotificationManager.class.getName();
@@ -36,18 +30,11 @@
 //		this.notificationManager = (NotificationManager) boundService.getSystemService(Context.NOTIFICATION_SERVICE);
 //	}
 //
-//	/**
-//	 * creates a pendingIntent with the correct flags
-//	 * 
-//	 * @return PendingIntent
-//	 */
-//	private PendingIntent getPendingIntent() {
-//		Intent intent = new Intent(boundService, MagazinListActivity.class);
-//		//intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-//		//intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//	private PendingIntent getPendingIntentWithFlags() {
+//		Intent intent = new Intent(boundService, MainMenuActivity.class);
 //		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //		intent.addFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-//		return PendingIntent.getActivity(boundService, 0, intent, 0/* PendingIntent.FLAG_UPDATE_CURRENT */);
+//		return PendingIntent.getActivity(boundService, 0, intent, 0);
 //	}
 //
 //	/**
@@ -61,7 +48,7 @@
 //	public void addDownloadNotification() {
 //
 //		int icon = android.R.drawable.stat_sys_download;
-//		CharSequence tickerText = "Upload wird gestartet: ";
+//		String tickerText = "Upload wird gestartet: ";
 //		long when = System.currentTimeMillis();
 //
 //		Notification notification = new Notification(icon, tickerText, when);
@@ -72,7 +59,7 @@
 //		contentView.setViewVisibility(R.id.llProgress, View.GONE);
 //		notification.contentView = contentView;
 //
-//		notification.contentIntent = getPendingIntent();
+//		notification.contentIntent = getPendingIntentWithFlags();
 //
 //		notificationManager.notify(notifyCounter, notification);
 //		notificationMap.put(edition_id, new Notifications(notifyCounter, notification, edition_title, edition_id));
@@ -117,7 +104,7 @@
 //		n.icon = android.R.drawable.stat_sys_download_done;
 //		n.tickerText = "Download abgeschlossen: " + edition_name;
 //		n.when = System.currentTimeMillis();
-//		n.setLatestEventInfo(boundService, contentTitle, contentText, getPendingIntent());
+//		n.setLatestEventInfo(boundService, contentTitle, contentText, getPendingIntentWithFlags());
 //
 //		n.flags |= Notification.FLAG_AUTO_CANCEL;
 //
@@ -144,7 +131,7 @@
 //		n.icon = android.R.drawable.stat_notify_error;
 //		n.tickerText = "Download fehlgeschlagen!";
 //		n.when = System.currentTimeMillis();
-//		n.setLatestEventInfo(boundService, contentTitle, contentText, getPendingIntent());
+//		n.setLatestEventInfo(boundService, contentTitle, contentText, getPendingIntentWithFlags());
 //
 //		n.flags |= Notification.FLAG_AUTO_CANCEL;
 //
