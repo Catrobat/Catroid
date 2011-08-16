@@ -30,7 +30,6 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.Spinner;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.content.Sprite;
 
 public class PointToBrick implements Brick {
@@ -51,16 +50,20 @@ public class PointToBrick implements Brick {
 	}
 
 	public void execute() {
+		// When pointedSprite is deleted, pointedSprite is re-assigned to null.
+		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
+				.getSpriteList();
+		if (!spriteList.contains(pointedSprite)) {
+			pointedSprite = null;
+		}
+
+		// Initialise null pointedSprite to this.sprite, so it does nothing.
 		if (pointedSprite == null) {
+			System.out.println("Pointed sprite is null");
 			pointedSprite = this.sprite;
 		}
 
-		ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
-				.getSpriteList();
-		if (!spriteList.contains(pointedSprite)) {
-			return;
-		}
-
+		//Calculation for rotation.
 		int spriteXPosition = 0, spriteYPosition = 0;
 		int pointedSpriteXPosition = 0, pointedSpriteYPosition = 0;
 		double base = 0.0, height = 0.0, value = 0.0;
@@ -69,6 +72,8 @@ public class PointToBrick implements Brick {
 		spriteYPosition = sprite.getYPosition();
 		pointedSpriteXPosition = pointedSprite.getXPosition();
 		pointedSpriteYPosition = pointedSprite.getYPosition();
+		System.out.println("Coordinates of pointedSprite: (" + pointedSpriteXPosition + "," + pointedSpriteYPosition
+				+ ")");
 
 		if (spriteXPosition == pointedSpriteXPosition && spriteYPosition == pointedSpriteYPosition) {
 			rotationDegrees = 90;
@@ -122,11 +127,9 @@ public class PointToBrick implements Brick {
 
 		ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
 		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinnerAdapter.add(context.getString(R.string.broadcast_nothing_selected));
 
-		CostumeData dummyCostumeData = new CostumeData();
-		dummyCostumeData.setCostumeName(context.getString(R.string.broadcast_nothing_selected));
-		spinnerAdapter.add(dummyCostumeData.toString());
-
+		// Stores sprite names into spinner, with exception of this.sprite and Background.
 		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
 				.getSpriteList();
 		for (Sprite sprite : spriteList) {
@@ -136,32 +139,39 @@ public class PointToBrick implements Brick {
 				spinnerAdapter.add(sprite.getName());
 			}
 		}
-
 		spinner.setAdapter(spinnerAdapter);
 
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				String temp1 = parent.getSelectedItem().toString();
-				String temp2 = context.getString(R.string.broadcast_nothing_selected);
+				String itemSelected = parent.getSelectedItem().toString();
+				String nothingSelected = context.getString(R.string.broadcast_nothing_selected);
 				final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance()
 						.getCurrentProject().getSpriteList();
-				if (temp1.equals(temp2)) {
+
+				if (itemSelected.equals(nothingSelected)) {
 					pointedSprite = null;
 				}
+				// Assigns itemSelected value to pointedSprite (String --> Sprite)   
 				for (Sprite sprite : spriteList) {
-					if (sprite.getName().equals(temp1)) {
+					String spriteName = sprite.getName();
+					if (spriteName.equals(itemSelected)) {
 						pointedSprite = sprite;
+						spinnerPosition = position;
 					}
 				}
-				spinnerPosition = position;
 			}
 
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
 
-		spinner.setSelection(spinnerPosition, true);
+		if (spriteList.contains(pointedSprite)) {
+			spinner.setSelection(spinnerPosition);
+		} else {
+			spinner.setSelection(0);
+		}
+
 		return brickView;
 	}
 
