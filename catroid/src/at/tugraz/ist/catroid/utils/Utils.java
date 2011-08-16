@@ -55,11 +55,11 @@ public class Utils {
 	}
 
 	public static void updateScreenWidthAndHeight(Activity currentActivity) {
-		DisplayMetrics dm = new DisplayMetrics();
-		currentActivity.getWindowManager().getDefaultDisplay().getMetrics(dm);
+		DisplayMetrics displayMetrics = new DisplayMetrics();
+		currentActivity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
-		Values.SCREEN_WIDTH = dm.widthPixels;
-		Values.SCREEN_HEIGHT = dm.heightPixels;
+		Values.SCREEN_WIDTH = displayMetrics.widthPixels;
+		Values.SCREEN_HEIGHT = displayMetrics.heightPixels;
 	}
 
 	/**
