@@ -46,7 +46,10 @@
 				android:fastScrollEnabled="true"
 				android:clickable="false"
 				android:drawingCacheQuality="high" 
-				android:cacheColorHint="#00000000" />
+				android:cacheColorHint="#00000000" 
+				android:divider="@android:color/transparent"
+				android:dividerHeight="-5dip"	
+			/>
 			<ImageView
 				android:id="@+id/trash"
 				android:layout_width="51dip"
