@@ -50,20 +50,17 @@ public class PointToBrick implements Brick {
 	}
 
 	public void execute() {
-		// When pointedSprite is deleted, pointedSprite is re-assigned to null.
 		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
 				.getSpriteList();
 		if (!spriteList.contains(pointedSprite)) {
 			pointedSprite = null;
 		}
 
-		// Initialise null pointedSprite to this.sprite, so it does nothing.
 		if (pointedSprite == null) {
 			System.out.println("Pointed sprite is null");
 			pointedSprite = this.sprite;
 		}
 
-		//Calculation for rotation.
 		int spriteXPosition = 0, spriteYPosition = 0;
 		int pointedSpriteXPosition = 0, pointedSpriteYPosition = 0;
 		double base = 0.0, height = 0.0, value = 0.0;
@@ -129,7 +126,6 @@ public class PointToBrick implements Brick {
 		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinnerAdapter.add(context.getString(R.string.broadcast_nothing_selected));
 
-		// Stores sprite names into spinner, with exception of this.sprite and Background.
 		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
 				.getSpriteList();
 		for (Sprite sprite : spriteList) {
@@ -152,7 +148,6 @@ public class PointToBrick implements Brick {
 				if (itemSelected.equals(nothingSelected)) {
 					pointedSprite = null;
 				}
-				// Assigns itemSelected value to pointedSprite (String --> Sprite)   
 				for (Sprite sprite : spriteList) {
 					String spriteName = sprite.getName();
 					if (spriteName.equals(itemSelected)) {
