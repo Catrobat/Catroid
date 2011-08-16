@@ -52,7 +52,7 @@ public class UpAndDownloadTest extends AndroidTestCase {
 		super.tearDown();
 	}
 
-	public void testUpAndDownload() throws Throwable {
+	public void testUpAndDownload() throws InterruptedException, IOException {
 		String testProjectName = "UpAndDownloadTest" + System.currentTimeMillis();
 		String pathToDefaultProject = Consts.DEFAULT_ROOT + "/uploadtestProject";
 		new File(pathToDefaultProject).mkdirs();

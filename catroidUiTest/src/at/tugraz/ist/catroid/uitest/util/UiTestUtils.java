@@ -30,7 +30,6 @@ import java.util.List;
 import junit.framework.Assert;
 import android.content.Context;
 import android.text.InputType;
-import android.util.Log;
 import android.widget.ImageButton;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -48,6 +47,7 @@ import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.utils.UtilFile;
+import at.tugraz.ist.catroid.utils.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -61,8 +61,6 @@ public class UiTestUtils {
 	public static final String PROJECTNAME4 = "testproject4";
 	public static final int TYPE_IMAGE_FILE = 0;
 	public static final int TYPE_SOUND_FILE = 1;
-
-	private static final String TAG = UiTestUtils.class.getSimpleName();
 
 	public static void enterText(Solo solo, int editTextIndex, String text) {
 		solo.sleep(50);
@@ -111,7 +109,8 @@ public class UiTestUtils {
 	}
 
 	public static void addNewBrickAndScrollDown(Solo solo, int brickStringId) {
-		solo.clickOnButton(solo.getCurrentActivity().getString(R.string.add_new_brick));
+		//solo.clickOnButton(solo.getCurrentActivity().getString(R.string.add_new_brick));
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
 		solo.clickOnText(solo.getCurrentActivity().getString(brickStringId));
 
 		while (solo.scrollDown()) {
@@ -185,25 +184,24 @@ public class UiTestUtils {
 
 		String filePath;
 		if (project == null || project.equalsIgnoreCase("")) {
-			filePath = Consts.DEFAULT_ROOT + "/" + name;
+			filePath = Consts.DEFAULT_ROOT + "/";
 		} else {
 			switch (type) {
 				case TYPE_IMAGE_FILE:
-					filePath = Consts.DEFAULT_ROOT + "/" + project + Consts.IMAGE_DIRECTORY + "/" + name;
+					filePath = Consts.DEFAULT_ROOT + "/" + project + Consts.IMAGE_DIRECTORY + "/";
 					break;
 				case TYPE_SOUND_FILE:
-					filePath = Consts.DEFAULT_ROOT + "/" + project + Consts.SOUND_DIRECTORY + "/" + name;
+					filePath = Consts.DEFAULT_ROOT + "/" + project + Consts.SOUND_DIRECTORY + "/";
 					break;
 				default:
-					filePath = Consts.DEFAULT_ROOT + "/" + name;
+					filePath = Consts.DEFAULT_ROOT + "/";
 					break;
 			}
 		}
 		BufferedInputStream in = new BufferedInputStream(context.getResources().openRawResource(fileID));
 
 		try {
-			Log.v(TAG, filePath);
-			File file = new File(filePath);
+			File file = new File(filePath + name);
 			file.getParentFile().mkdirs();
 			file.createNewFile();
 
@@ -218,7 +216,11 @@ public class UiTestUtils {
 			out.flush();
 			out.close();
 
-			return file;
+			String checksum = Utils.md5Checksum(file);
+			File tempFile = new File(filePath + checksum + "_" + name);
+			file.renameTo(tempFile);
+
+			return tempFile;
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;

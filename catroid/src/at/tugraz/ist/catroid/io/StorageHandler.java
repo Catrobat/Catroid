@@ -30,19 +30,16 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
-import android.provider.MediaStore;
 import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
-import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.BroadcastScript;
 import at.tugraz.ist.catroid.content.Costume;
 import at.tugraz.ist.catroid.content.Project;
@@ -81,7 +78,6 @@ public class StorageHandler {
 	private static StorageHandler instance;
 	private static final String TAG = StorageHandler.class.getSimpleName();
 	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
-	private ArrayList<SoundInfo> soundContent;
 	private XStream xstream;
 
 	private StorageHandler() throws IOException {
@@ -218,45 +214,6 @@ public class StorageHandler {
 		return true;
 	}
 
-	public void loadSoundContent(Context context) {
-		soundContent = new ArrayList<SoundInfo>();
-		String[] projectionOnOrig = { MediaStore.Audio.Media.DATA, MediaStore.Audio.AudioColumns.TITLE,
-				MediaStore.Audio.Media._ID };
-
-		Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-				projectionOnOrig, null, null, null);
-
-		if (cursor.moveToFirst()) {
-			int columnDataIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
-			int columnTitleIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.TITLE);
-			int columnIdIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID);
-
-			do {
-				SoundInfo info = new SoundInfo();
-				info.setId(cursor.getInt(columnIdIndex));
-				info.setTitle(cursor.getString(columnTitleIndex));
-				info.setPath(cursor.getString(columnDataIndex));
-				soundContent.add(info);
-			} while (cursor.moveToNext());
-		}
-		Log.v(TAG, "LOAD SOUND");
-		cursor.close();
-	}
-
-	public ArrayList<SoundInfo> getSoundContent() {
-		Collections.sort(soundContent);
-		return soundContent;
-	}
-
-	public void setSoundContent(ArrayList<SoundInfo> soundContent) {
-		if (this.soundContent == null) {
-			this.soundContent = new ArrayList<SoundInfo>();
-		} else {
-			this.soundContent.clear();
-		}
-		this.soundContent.addAll(soundContent);
-	}
-
 	public File copySoundFile(String path) throws IOException {
 		String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
 		File soundDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProject + Consts.SOUND_DIRECTORY);
@@ -278,7 +235,8 @@ public class StorageHandler {
 		return copyFile(outputFile, inputFile, soundDirectory);
 	}
 
-	public File copyImage(String currentProjectName, String inputFilePath) throws IOException {
+	public File copyImage(String currentProjectName, String inputFilePath, String newName) throws IOException {
+		String newFilePath;
 		File imageDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName + Consts.IMAGE_DIRECTORY);
 
 		File inputFile = new File(inputFilePath);
@@ -293,10 +251,14 @@ public class StorageHandler {
 		if ((imageDimensions[0] <= Consts.MAX_COSTUME_WIDTH) && (imageDimensions[1] <= Consts.MAX_COSTUME_HEIGHT)) {
 			String checksumSource = Utils.md5Checksum(inputFile);
 
-			String newFilePath = imageDirectory.getAbsolutePath() + "/" + checksumSource + "_" + inputFile.getName();
-			if (checksumCont.containsChecksum(checksumSource)) {
-				checksumCont.addChecksum(checksumSource, newFilePath);
-				return new File(checksumCont.getPath(checksumSource));
+			if (newName != null) {
+				newFilePath = imageDirectory.getAbsolutePath() + "/" + checksumSource + "_" + newName;
+			} else {
+				newFilePath = imageDirectory.getAbsolutePath() + "/" + checksumSource + "_" + inputFile.getName();
+				if (checksumCont.containsChecksum(checksumSource)) {
+					checksumCont.addChecksum(checksumSource, newFilePath);
+					return new File(checksumCont.getPath(checksumSource));
+				}
 			}
 			File outputFile = new File(newFilePath);
 			return copyFile(outputFile, inputFile, imageDirectory);
@@ -394,27 +356,62 @@ public class StorageHandler {
 		Script startScript = new StartScript("startScript", sprite);
 		Script touchScript = new TapScript("touchScript", sprite);
 
-		File normalCat = savePictureFromResInProject(projectName, Consts.NORMAL_CAT, R.drawable.catroid, context);
-		File banzaiCat = savePictureFromResInProject(projectName, Consts.BANZAI_CAT, R.drawable.catroid_banzai, context);
-		File cheshireCat = savePictureFromResInProject(projectName, Consts.CHESHIRE_CAT, R.drawable.catroid_cheshire,
+		File normalCatTemp = savePictureFromResInProject(projectName, Consts.NORMAL_CAT, R.drawable.catroid, context);
+		File banzaiCatTemp = savePictureFromResInProject(projectName, Consts.BANZAI_CAT, R.drawable.catroid_banzai,
 				context);
-		File background = savePictureFromResInProject(projectName, Consts.BACKGROUND, R.drawable.background_blueish,
-				context);
+		File cheshireCatTemp = savePictureFromResInProject(projectName, Consts.CHESHIRE_CAT,
+				R.drawable.catroid_cheshire, context);
+		File backgroundTemp = savePictureFromResInProject(projectName, Consts.BACKGROUND,
+				R.drawable.background_blueish, context);
+
+		String dir = Consts.DEFAULT_ROOT + "/" + projectName + Consts.IMAGE_DIRECTORY + "/";
+		File normalCat = new File(dir + Utils.md5Checksum(normalCatTemp) + "_" + normalCatTemp.getName());
+		File banzaiCat = new File(dir + Utils.md5Checksum(banzaiCatTemp) + "_" + banzaiCatTemp.getName());
+		File cheshireCat = new File(dir + Utils.md5Checksum(cheshireCatTemp) + "_" + cheshireCatTemp.getName());
+		File background = new File(dir + Utils.md5Checksum(backgroundTemp) + "_" + backgroundTemp.getName());
+
+		normalCatTemp.renameTo(normalCat);
+		banzaiCatTemp.renameTo(banzaiCat);
+		cheshireCatTemp.renameTo(cheshireCat);
+		backgroundTemp.renameTo(background);
+
+		CostumeData normalCatCostumeData = new CostumeData();
+		normalCatCostumeData.setCostumeName(Consts.NORMAL_CAT);
+		normalCatCostumeData.setCostumeFilename(normalCat.getName());
+
+		CostumeData banzaiCatCostumeData = new CostumeData();
+		banzaiCatCostumeData.setCostumeName(Consts.BANZAI_CAT);
+		banzaiCatCostumeData.setCostumeFilename(banzaiCat.getName());
+
+		CostumeData cheshireCatCostumeData = new CostumeData();
+		cheshireCatCostumeData.setCostumeName(Consts.CHESHIRE_CAT);
+		cheshireCatCostumeData.setCostumeFilename(cheshireCat.getName());
+
+		CostumeData backgroundCostumeData = new CostumeData();
+		backgroundCostumeData.setCostumeName(Consts.BACKGROUND);
+		backgroundCostumeData.setCostumeFilename(background.getName());
+
+		ArrayList<CostumeData> costumeDataList = sprite.getCostumeDataList();
+		costumeDataList.add(normalCatCostumeData);
+		costumeDataList.add(banzaiCatCostumeData);
+		costumeDataList.add(cheshireCatCostumeData);
+		costumeDataList = backgroundSprite.getCostumeDataList();
+		costumeDataList.add(backgroundCostumeData);
 
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
-		setCostumeBrick.setCostume(normalCat.getName());
+		setCostumeBrick.setCostume(normalCatCostumeData);
 
 		SetCostumeBrick setCostumeBrick1 = new SetCostumeBrick(sprite);
-		setCostumeBrick1.setCostume(normalCat.getName());
+		setCostumeBrick1.setCostume(normalCatCostumeData);
 
 		SetCostumeBrick setCostumeBrick2 = new SetCostumeBrick(sprite);
-		setCostumeBrick2.setCostume(banzaiCat.getName());
+		setCostumeBrick2.setCostume(banzaiCatCostumeData);
 
 		SetCostumeBrick setCostumeBrick3 = new SetCostumeBrick(sprite);
-		setCostumeBrick3.setCostume(cheshireCat.getName());
+		setCostumeBrick3.setCostume(cheshireCatCostumeData);
 
 		SetCostumeBrick setCostumeBackground = new SetCostumeBrick(backgroundSprite);
-		setCostumeBackground.setCostume(background.getName());
+		setCostumeBackground.setCostume(backgroundCostumeData);
 
 		WaitBrick waitBrick1 = new WaitBrick(sprite, 500);
 		WaitBrick waitBrick2 = new WaitBrick(sprite, 500);

@@ -31,19 +31,19 @@ public class SetXBrickTest extends AndroidTestCase {
 		assertEquals("Unexpected initial sprite x position", 0, sprite.getXPosition());
 		assertEquals("Unexpected initial sprite y position", 0, sprite.getYPosition());
 
-		SetXBrick brick = new SetXBrick(sprite, xPosition);
-		brick.execute();
+		SetXBrick setXBrick = new SetXBrick(sprite, xPosition);
+		setXBrick.execute();
 
 		assertEquals("Incorrect sprite x position after SetXBrick executed", xPosition, sprite.getXPosition());
 	}
 
 	public void testNullSprite() {
-		SetXBrick brick = new SetXBrick(null, xPosition);
+		SetXBrick setXBrick = new SetXBrick(null, xPosition);
 
 		try {
-			brick.execute();
+			setXBrick.execute();
 			fail("Execution of PlaceAtBrick with null Sprite did not cause a " + "NullPointerException to be thrown");
-		} catch (NullPointerException e) {
+		} catch (NullPointerException expected) {
 			// expected behavior
 		}
 	}
@@ -51,14 +51,14 @@ public class SetXBrickTest extends AndroidTestCase {
 	public void testBoundaryPositions() {
 		Sprite sprite = new Sprite("testSprite");
 
-		SetXBrick brick = new SetXBrick(sprite, Integer.MAX_VALUE);
-		brick.execute();
+		SetXBrick setXBrick = new SetXBrick(sprite, Integer.MAX_VALUE);
+		setXBrick.execute();
 
 		assertEquals("SetXBrick failed to place Sprite at maximum x integer value", Integer.MAX_VALUE,
 				sprite.getXPosition());
 
-		brick = new SetXBrick(sprite, Integer.MIN_VALUE);
-		brick.execute();
+		setXBrick = new SetXBrick(sprite, Integer.MIN_VALUE);
+		setXBrick.execute();
 
 		assertEquals("SetXBrick failed to place Sprite at minimum x integer value", Integer.MIN_VALUE,
 				sprite.getXPosition());
