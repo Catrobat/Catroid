@@ -99,4 +99,11 @@ public final class Consts {
 
 	//Various:
 	public static final int BUFFER_8K = 8 * 1024;
+
+	// Service
+	public static final String SERVICE_PROJECT_NAME = "project_name";
+	public static final String SERVICE_PROJECT_DESCRIPTION = "project_description";
+	public static final String SERVICE_PROJECT_PATH = "project_path";
+	public static final String SERVICE_TOKEN = "user_token";
+
 }

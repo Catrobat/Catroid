@@ -24,6 +24,7 @@ import java.util.HashMap;
 
 import android.test.AndroidTestCase;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.service.TransferService;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.transfers.ProjectDownloadTask;
 import at.tugraz.ist.catroid.transfers.ProjectUploadTask;
@@ -50,6 +51,29 @@ public class UpAndDownloadTest extends AndroidTestCase {
 	protected void tearDown() throws Exception {
 		TestUtils.clearProject("uploadtestProject");
 		super.tearDown();
+	}
+
+	public void testUpAndDownloadWithService() throws Throwable {
+		String testProjectName = "UpAndDownloadTest" + System.currentTimeMillis();
+		String pathToDefaultProject = Consts.DEFAULT_ROOT + "/uploadtestProject";
+		new File(pathToDefaultProject).mkdirs();
+		String projectFilename = "test" + Consts.PROJECT_EXTENTION;
+		new File(pathToDefaultProject + "/" + projectFilename).createNewFile();
+		String projectDescription = "this is just a testproject";
+
+		ServerCalls.getInstance().setConnectionToUse(new MockConnection());
+
+		assertTrue("The default Project does not exist.", new File(pathToDefaultProject).exists());
+
+		TransferService service = new TransferService();
+		boolean bindOk = service.bindToMarketBillingService();
+		assertTrue("service binding failed. ", bindOk);
+
+		service.uploadRequest(testProjectName, projectDescription, pathToDefaultProject, "0");
+
+		Thread.sleep(5000);
+
+		//assertTrue("upload call failed", service.getLastCallOk);
 	}
 
 	public void testUpAndDownload() throws Throwable {
