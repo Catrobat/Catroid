@@ -49,7 +49,7 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class SpeechBubblesTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-	private static final String TAG = "SPEECHBUBBLES";
+	private static final String TAG = "SpeechBubbles";
 	private StorageHandler storageHandler;
 	private Solo solo;
 	private int imageRawId = at.tugraz.ist.catroid.uitest.R.raw.black_quad;
