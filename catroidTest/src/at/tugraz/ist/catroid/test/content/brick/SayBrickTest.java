@@ -88,9 +88,10 @@ public class SayBrickTest extends AndroidTestCase {
 		assertEquals("Incorrect default brickText", "", brickText);
 		assertEquals("Incorrect default speechBubbleText", "", speechBubbleText);
 		assertEquals("Incorrect sprite in Brick", sprite, brickSprite);
-		assertNotSame("speechBubblePictureID not correct set", defaultSpeechBubblePictureID, speechBubblePictureID);
-		assertNotSame("speechBubblePictureInvID not correct set", defaultSpeechBubblePictureInvID,
-				speechBubblePictureInvID);
+		assertFalse("speechBubblePictureID not correct set",
+				new Integer(defaultSpeechBubblePictureID).equals(speechBubblePictureID));
+		assertFalse("speechBubblePictureInvID not correct set",
+				new Integer(defaultSpeechBubblePictureInvID).equals(speechBubblePictureInvID));
 
 	}
 
@@ -121,9 +122,10 @@ public class SayBrickTest extends AndroidTestCase {
 		assertEquals("Incorrect default brickText", inputText, brickText);
 		assertEquals("Incorrect default speechBubbleText", inputText, speechBubbleText);
 		assertEquals("Incorrect sprite in Brick", sprite, brickSprite);
-		assertNotSame("speechBubblePictureID not correct set", defaultSpeechBubblePictureID, speechBubblePictureID);
-		assertNotSame("speechBubblePictureInvID not correct set", defaultSpeechBubblePictureInvID,
-				speechBubblePictureInvID);
+		assertFalse("speechBubblePictureID not correct set",
+				new Integer(defaultSpeechBubblePictureID).equals(speechBubblePictureID));
+		assertFalse("speechBubblePictureInvID not correct set",
+				new Integer(defaultSpeechBubblePictureInvID).equals(speechBubblePictureInvID));
 
 	}
 
