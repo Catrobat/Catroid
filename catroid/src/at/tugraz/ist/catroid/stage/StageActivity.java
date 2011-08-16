@@ -149,6 +149,7 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 
 	@Override
 	public void onBackPressed() {
+		soundManager.stopAllSounds();
 		manageLoadAndFinish();
 	}
 

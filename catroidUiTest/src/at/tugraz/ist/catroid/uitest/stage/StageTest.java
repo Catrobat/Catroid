@@ -30,6 +30,8 @@ import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Costume;
 import at.tugraz.ist.catroid.content.Project;
@@ -75,7 +77,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 	private static final int IMAGE_FILE_ID = at.tugraz.ist.catroid.uitest.R.raw.icon;
 	private static final int IMAGE_FILE_ID2 = at.tugraz.ist.catroid.uitest.R.raw.icon2;
-	private static final int SOUND_FILE_ID = at.tugraz.ist.catroid.uitest.R.raw.testsoundui;
+	private static final int SOUND_FILE_ID = at.tugraz.ist.catroid.uitest.R.raw.longsound;
 
 	public StageTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -134,7 +136,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
 
 		Costume costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
-		solo.sleep(5000);
+		solo.sleep(6000);
 		assertEquals("image1 is not set", image1Width, costume.getImageWidth());
 		assertEquals("image1 is not set", image1Height, costume.getImageHeight());
 		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
@@ -178,8 +180,9 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		createTestproject(projectName);
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
 
-		Costume costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
 		solo.sleep(5000);
+		Costume costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
+		solo.sleep(2000);
 		assertEquals("image1 is not set ", image1Width, costume.getImageWidth());
 		assertEquals("image1 is not set ", image1Height, costume.getImageHeight());
 
@@ -378,6 +381,18 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		assertFalse("Media Player is playing", mediaPlayer.isPlaying());
 	}
 
+	//	public void testMediaPlayerNotPlayingAfterBack() {
+	//		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
+	//
+	//		this.createTestProjectWithSound();
+	//		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+	//		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
+	//		solo.sleep(50);
+	//		solo.goBack();
+	//		solo.sleep(350);
+	//		assertFalse("Media Player is playing after pressing the back button", mediaPlayer.isPlaying());
+	//	}
+
 	public void testClickOnHiddenSprite() {
 		createTestProject4(projectName);
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
@@ -403,7 +418,11 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 				at.tugraz.ist.catroid.uitest.R.raw.red_quad, getInstrumentation().getContext(),
 				UiTestUtils.TYPE_IMAGE_FILE);
 		setImageMemberProperties(image);
-		setCostumeBrick.setCostume(image.getName());
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image.getName());
+		costumeData.setCostumeName("image");
+		setCostumeBrick.setCostume(costumeData);
+		sprite.getCostumeDataList().add(costumeData);
 		solo.sleep(100);
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
 		solo.clickOnScreen(Values.SCREEN_WIDTH, 0); //save thumbnail
@@ -486,8 +505,16 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
 		setImageMemberProperties(image1);
 		setImageMemberProperties(image2);
-		setCostumeBrick.setCostume(image1.getName());
-		setCostumeBrick2.setCostume(image2.getName());
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image1.getName());
+		costumeData.setCostumeName("image1");
+		setCostumeBrick.setCostume(costumeData);
+		firstSprite.getCostumeDataList().add(costumeData);
+		costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image2.getName());
+		costumeData.setCostumeName("image2");
+		setCostumeBrick2.setCostume(costumeData);
+		firstSprite.getCostumeDataList().add(costumeData);
 
 		storageHandler.saveProject(project);
 	}
@@ -508,11 +535,13 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		PlaceAtBrick placeAtBrick = new PlaceAtBrick(firstSprite, placeAt, placeAt);
 
 		startScript.addBrick(setCostumeBrick2);
+
 		touchScript.addBrick(setCostumeBrick);
 		touchScript.addBrick(setSizeToBrick);
 		touchScript.addBrick(waitBrick);
 		touchScript.addBrick(setSizeToBrick2);
 		touchScript.addBrick(placeAtBrick);
+
 		firstSprite.addScript(startScript);
 		firstSprite.addScript(touchScript);
 
@@ -526,8 +555,16 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
 		setImageMemberProperties(image1);
 		setImageMemberProperties(image2);
-		setCostumeBrick.setCostume(image1.getName());
-		setCostumeBrick2.setCostume(image2.getName());
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image1.getName());
+		costumeData.setCostumeName("image1");
+		setCostumeBrick.setCostume(costumeData);
+		firstSprite.getCostumeDataList().add(costumeData);
+		costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image2.getName());
+		costumeData.setCostumeName("image2");
+		setCostumeBrick2.setCostume(costumeData);
+		firstSprite.getCostumeDataList().add(costumeData);
 
 		storageHandler.saveProject(project);
 	}
@@ -574,8 +611,16 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
 		setImageMemberProperties(image1);
 		setImageMemberProperties(image2);
-		setCostumeBrick.setCostume(image1.getName());
-		setCostumeBrick2.setCostume(image2.getName());
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image1.getName());
+		costumeData.setCostumeName("image1");
+		setCostumeBrick.setCostume(costumeData);
+		firstSprite.getCostumeDataList().add(costumeData);
+		costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image2.getName());
+		costumeData.setCostumeName("image2");
+		setCostumeBrick2.setCostume(costumeData);
+		secondSprite.getCostumeDataList().add(costumeData);
 
 		storageHandler.saveProject(project);
 	}
@@ -605,7 +650,10 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		image1 = UiTestUtils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
 		setImageMemberProperties(image1);
-		setCostumeBrick.setCostume(image1.getName());
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image1.getName());
+		costumeData.setCostumeName("image1");
+		setCostumeBrick.setCostume(costumeData);
 
 		storageHandler.saveProject(project);
 	}
@@ -638,8 +686,19 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		image1 = UiTestUtils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
 		setImageMemberProperties(image1);
-		setCostumeBrick.setCostume(image1.getName());
-		playSoundBrick.setPathToSoundfile(soundFile.getName());
+
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image1.getName());
+		costumeData.setCostumeName("image1");
+		setCostumeBrick.setCostume(costumeData);
+
+		SoundInfo soundInfo = new SoundInfo();
+		soundInfo.setSoundFileName(soundFile.getName());
+		soundInfo.setTitle(soundFile.getName());
+		playSoundBrick.setSoundInfo(soundInfo);
+
+		firstSprite.getSoundList().add(soundInfo);
+		firstSprite.getCostumeDataList().add(costumeData);
 
 		storageHandler.saveProject(project);
 	}
@@ -649,7 +708,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		o.inJustDecodeBounds = true;
 		BitmapFactory.decodeFile(image.getAbsolutePath(), o);
 
-		if (image.getName().equalsIgnoreCase(imageName1)) {
+		if (image.getName().endsWith(imageName1)) {
 			image1Width = o.outWidth;
 			image1Height = o.outHeight;
 		} else {

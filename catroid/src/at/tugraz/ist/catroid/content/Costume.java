@@ -105,11 +105,11 @@ public class Costume implements Serializable {
 		return costumeBitmap == null ? 0 : costumeBitmap.getHeight();
 	}
 
-	public double getVirtuelWidth() {
+	public double getVirtualWidth() {
 		return 2. * Consts.MAX_REL_COORDINATES / Values.SCREEN_WIDTH * costumeBitmap.getWidth();
 	}
 
-	public double getVirtuelHeight() {
+	public double getVirtualHeight() {
 		return 2. * Consts.MAX_REL_COORDINATES / Values.SCREEN_HEIGHT * costumeBitmap.getHeight();
 	}
 

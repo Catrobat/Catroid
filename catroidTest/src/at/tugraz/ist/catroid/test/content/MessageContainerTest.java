@@ -28,25 +28,27 @@ import at.tugraz.ist.catroid.content.BroadcastScript;
 
 public class MessageContainerTest extends InstrumentationTestCase {
 
-	String testMsg1 = "test1";
-	String testMsg2 = "test2";
-
 	public void testContainer() {
+		String testMessage1 = "test1";
+		String testMessage2 = "test2";
+
 		MessageContainer testContainer = new MessageContainer();
-		testContainer.addMessage(testMsg1);
+		testContainer.addMessage(testMessage1);
 		Set<String> messages = testContainer.getMessages();
 		assertEquals("Wrong amount of messages", 1, messages.size());
-		assertTrue("Doesn't contain message", messages.contains(testMsg1));
-		BroadcastScript script = new BroadcastScript("test", null);
-		testContainer.addMessage(testMsg2, script);
-		testContainer.addMessage(testMsg2);
-		assertEquals("Wrong amount of messages", 2, messages.size());
-		assertTrue("Doesn't contain message", messages.contains(testMsg2));
-		Vector<BroadcastScript> receiverVec = testContainer.getReceiverOfMessage(testMsg2);
-		assertTrue("Doesn't contain script", receiverVec.contains(script));
-		testContainer.deleteReceiverScript(testMsg2, script);
-		receiverVec = testContainer.getReceiverOfMessage(testMsg2);
-		assertFalse("Still contains removed script", receiverVec.contains(script));
+		assertTrue("Doesn't contain message", messages.contains(testMessage1));
 
+		BroadcastScript script = new BroadcastScript("test", null);
+		testContainer.addMessage(testMessage2, script);
+		testContainer.addMessage(testMessage2);
+		assertEquals("Wrong amount of messages", 2, messages.size());
+		assertTrue("Doesn't contain message", messages.contains(testMessage2));
+
+		Vector<BroadcastScript> receiverVector = testContainer.getReceiverOfMessage(testMessage2);
+		assertTrue("Doesn't contain script", receiverVector.contains(script));
+
+		testContainer.deleteReceiverScript(testMessage2, script);
+		receiverVector = testContainer.getReceiverOfMessage(testMessage2);
+		assertFalse("Still contains removed script", receiverVector.contains(script));
 	}
 }

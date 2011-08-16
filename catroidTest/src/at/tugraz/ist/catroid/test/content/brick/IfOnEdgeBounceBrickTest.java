@@ -82,13 +82,12 @@ public class IfOnEdgeBounceBrickTest extends InstrumentationTestCase {
 		Sprite sprite = new Sprite("testSprite");
 		sprite.getCostume().changeImagePath(testImage.getAbsolutePath());
 
-		IfOnEdgeBounceBrick brick = new IfOnEdgeBounceBrick(sprite);
+		IfOnEdgeBounceBrick ifOnEdgeBounceBrick = new IfOnEdgeBounceBrick(sprite);
 
-		brick.execute();
+		ifOnEdgeBounceBrick.execute();
 		assertEquals("Wrong X-Position!", 0, sprite.getXPosition());
 		assertEquals("Wrong Y-Position!", 0, sprite.getYPosition());
 		assertEquals("Wrong direction", 90., sprite.getDirection(), 1e-3);
-
 	}
 
 	public void testBounceNorth() {
@@ -96,49 +95,49 @@ public class IfOnEdgeBounceBrickTest extends InstrumentationTestCase {
 		Sprite sprite = new Sprite("testSprite");
 		sprite.getCostume().changeImagePath(testImage.getAbsolutePath());
 
-		IfOnEdgeBounceBrick brick = new IfOnEdgeBounceBrick(sprite);
+		IfOnEdgeBounceBrick ifOnEdgeBounceBrick = new IfOnEdgeBounceBrick(sprite);
 		double width;
 		double height;
 
 		sprite.setDirection(0);
 		sprite.setXYPosition(0, BOUNCE_UP_POS);
 
-		brick.execute();
+		ifOnEdgeBounceBrick.execute();
 
-		width = sprite.getCostume().getVirtuelWidth();
-		height = sprite.getCostume().getVirtuelHeight();
+		width = sprite.getCostume().getVirtualWidth();
+		height = sprite.getCostume().getVirtualHeight();
 		assertEquals("Wrong X-Position!", 0, sprite.getXPosition());
 		assertEquals("Wrong Y-Position!", Consts.MAX_REL_COORDINATES - (int) (height / 2), sprite.getYPosition());
 		assertEquals("Wrong direction", 180, sprite.getDirection(), 1e-3);
-		assertEquals("Width shouldn't change", width, sprite.getCostume().getVirtuelWidth(), 1e-3);
-		assertEquals("Height shouldn't change", height, sprite.getCostume().getVirtuelHeight(), 1e-3);
+		assertEquals("Width shouldn't change", width, sprite.getCostume().getVirtualWidth(), 1e-3);
+		assertEquals("Height shouldn't change", height, sprite.getCostume().getVirtualHeight(), 1e-3);
 
 		sprite.setDirection(30);
 		sprite.setXYPosition(0, BOUNCE_UP_POS);
-		brick.execute();
+		ifOnEdgeBounceBrick.execute();
 
-		width = sprite.getCostume().getVirtuelWidth();
-		height = sprite.getCostume().getVirtuelHeight();
+		width = sprite.getCostume().getVirtualWidth();
+		height = sprite.getCostume().getVirtualHeight();
 		assertEquals("Wrong X-Position!", 0, sprite.getXPosition());
 		assertEquals("Wrong Y-Position!", Consts.MAX_REL_COORDINATES - (int) (height / 2), sprite.getYPosition());
 		assertEquals("Wrong direction", 150, sprite.getDirection(), 1e-3);
 
 		sprite.setDirection(150);
 		sprite.setXYPosition(0, BOUNCE_UP_POS);
-		brick.execute();
+		ifOnEdgeBounceBrick.execute();
 
-		width = sprite.getCostume().getVirtuelWidth();
-		height = sprite.getCostume().getVirtuelHeight();
+		width = sprite.getCostume().getVirtualWidth();
+		height = sprite.getCostume().getVirtualHeight();
 		assertEquals("Wrong X-Position!", 0, sprite.getXPosition());
 		assertEquals("Wrong Y-Position!", Consts.MAX_REL_COORDINATES - (int) (height / 2), sprite.getYPosition());
 		assertEquals("Wrong direction", 150, sprite.getDirection(), 1e-3);
 
 		sprite.setDirection(42.42);
 		sprite.setXYPosition(0, BOUNCE_UP_POS);
-		brick.execute();
+		ifOnEdgeBounceBrick.execute();
 
-		width = sprite.getCostume().getVirtuelWidth();
-		height = sprite.getCostume().getVirtuelHeight();
+		width = sprite.getCostume().getVirtualWidth();
+		height = sprite.getCostume().getVirtualHeight();
 		assertEquals("Wrong X-Position!", 0, sprite.getXPosition());
 		assertEquals("Wrong Y-Position!", Consts.MAX_REL_COORDINATES - (int) (height / 2), sprite.getYPosition());
 		assertEquals("Wrong direction", 137.58, sprite.getDirection(), 1e-3);
@@ -149,53 +148,52 @@ public class IfOnEdgeBounceBrickTest extends InstrumentationTestCase {
 		Sprite sprite = new Sprite("testSprite");
 		sprite.getCostume().changeImagePath(testImage.getAbsolutePath());
 
-		IfOnEdgeBounceBrick brick = new IfOnEdgeBounceBrick(sprite);
+		IfOnEdgeBounceBrick ifOnEdgeBounceBrick = new IfOnEdgeBounceBrick(sprite);
 		double width;
 		double height;
 
 		sprite.setDirection(180);
 		sprite.setXYPosition(0, BOUNCE_DOWN_POS);
 
-		brick.execute();
+		ifOnEdgeBounceBrick.execute();
 
-		width = sprite.getCostume().getVirtuelWidth();
-		height = sprite.getCostume().getVirtuelHeight();
+		width = sprite.getCostume().getVirtualWidth();
+		height = sprite.getCostume().getVirtualHeight();
 		assertEquals("Wrong X-Position!", 0, sprite.getXPosition());
 		assertEquals("Wrong Y-Position!", -Consts.MAX_REL_COORDINATES + (int) (height / 2), sprite.getYPosition());
 		assertEquals("Wrong direction", 0, sprite.getDirection(), 1e-3);
-		assertEquals("Width shouldn't change", width, sprite.getCostume().getVirtuelWidth(), 1e-3);
-		assertEquals("Height shouldn't change", height, sprite.getCostume().getVirtuelHeight(), 1e-3);
+		assertEquals("Width shouldn't change", width, sprite.getCostume().getVirtualWidth(), 1e-3);
+		assertEquals("Height shouldn't change", height, sprite.getCostume().getVirtualHeight(), 1e-3);
 
 		sprite.setDirection(120);
 		sprite.setXYPosition(0, BOUNCE_DOWN_POS);
-		brick.execute();
+		ifOnEdgeBounceBrick.execute();
 
-		width = sprite.getCostume().getVirtuelWidth();
-		height = sprite.getCostume().getVirtuelHeight();
+		width = sprite.getCostume().getVirtualWidth();
+		height = sprite.getCostume().getVirtualHeight();
 		assertEquals("Wrong X-Position!", 0, sprite.getXPosition());
 		assertEquals("Wrong Y-Position!", -Consts.MAX_REL_COORDINATES + (int) (height / 2), sprite.getYPosition());
 		assertEquals("Wrong direction", 60, sprite.getDirection(), 1e-3);
 
 		sprite.setDirection(30);
 		sprite.setXYPosition(0, BOUNCE_DOWN_POS);
-		brick.execute();
+		ifOnEdgeBounceBrick.execute();
 
-		width = sprite.getCostume().getVirtuelWidth();
-		height = sprite.getCostume().getVirtuelHeight();
+		width = sprite.getCostume().getVirtualWidth();
+		height = sprite.getCostume().getVirtualHeight();
 		assertEquals("Wrong X-Position!", 0, sprite.getXPosition());
 		assertEquals("Wrong Y-Position!", -Consts.MAX_REL_COORDINATES + (int) (height / 2), sprite.getYPosition());
 		assertEquals("Wrong direction", 30, sprite.getDirection(), 1e-3);
 
 		sprite.setDirection(132.42);
 		sprite.setXYPosition(0, BOUNCE_DOWN_POS);
-		brick.execute();
+		ifOnEdgeBounceBrick.execute();
 
-		width = sprite.getCostume().getVirtuelWidth();
-		height = sprite.getCostume().getVirtuelHeight();
+		width = sprite.getCostume().getVirtualWidth();
+		height = sprite.getCostume().getVirtualHeight();
 		assertEquals("Wrong X-Position!", 0, sprite.getXPosition());
 		assertEquals("Wrong Y-Position!", -Consts.MAX_REL_COORDINATES + (int) (height / 2), sprite.getYPosition());
 		assertEquals("Wrong direction", 47.58, sprite.getDirection(), 1e-3);
-
 	}
 
 	public void testBounceEast() {
@@ -212,20 +210,20 @@ public class IfOnEdgeBounceBrickTest extends InstrumentationTestCase {
 
 		brick.execute();
 
-		width = sprite.getCostume().getVirtuelWidth();
-		height = sprite.getCostume().getVirtuelHeight();
+		width = sprite.getCostume().getVirtualWidth();
+		height = sprite.getCostume().getVirtualHeight();
 		assertEquals("Wrong X-Position!", Consts.MAX_REL_COORDINATES - (int) (width / 2), sprite.getXPosition());
 		assertEquals("Wrong Y-Position!", 0, sprite.getYPosition());
 		assertEquals("Wrong direction", -90, sprite.getDirection(), 1e-3);
-		assertEquals("Width shouldn't change", width, sprite.getCostume().getVirtuelWidth(), 1e-3);
-		assertEquals("Height shouldn't change", height, sprite.getCostume().getVirtuelHeight(), 1e-3);
+		assertEquals("Width shouldn't change", width, sprite.getCostume().getVirtualWidth(), 1e-3);
+		assertEquals("Height shouldn't change", height, sprite.getCostume().getVirtualHeight(), 1e-3);
 
 		sprite.setDirection(30);
 		sprite.setXYPosition(BOUNCE_RIGHT_POS, 0);
 		brick.execute();
 
-		width = sprite.getCostume().getVirtuelWidth();
-		height = sprite.getCostume().getVirtuelHeight();
+		width = sprite.getCostume().getVirtualWidth();
+		height = sprite.getCostume().getVirtualHeight();
 		assertEquals("Wrong X-Position!", Consts.MAX_REL_COORDINATES - (int) (width / 2), sprite.getXPosition());
 		assertEquals("Wrong Y-Position!", 0, sprite.getYPosition());
 		assertEquals("Wrong direction", -30, sprite.getDirection(), 1e-3);
@@ -234,8 +232,8 @@ public class IfOnEdgeBounceBrickTest extends InstrumentationTestCase {
 		sprite.setXYPosition(BOUNCE_RIGHT_POS, 0);
 		brick.execute();
 
-		width = sprite.getCostume().getVirtuelWidth();
-		height = sprite.getCostume().getVirtuelHeight();
+		width = sprite.getCostume().getVirtualWidth();
+		height = sprite.getCostume().getVirtualHeight();
 		assertEquals("Wrong X-Position!", Consts.MAX_REL_COORDINATES - (int) (width / 2), sprite.getXPosition());
 		assertEquals("Wrong Y-Position!", 0, sprite.getYPosition());
 		assertEquals("Wrong direction", -30, sprite.getDirection(), 1e-3);
@@ -244,12 +242,11 @@ public class IfOnEdgeBounceBrickTest extends InstrumentationTestCase {
 		sprite.setXYPosition(BOUNCE_RIGHT_POS, 0);
 		brick.execute();
 
-		width = sprite.getCostume().getVirtuelWidth();
-		height = sprite.getCostume().getVirtuelHeight();
+		width = sprite.getCostume().getVirtualWidth();
+		height = sprite.getCostume().getVirtualHeight();
 		assertEquals("Wrong X-Position!", Consts.MAX_REL_COORDINATES - (int) (width / 2), sprite.getXPosition());
 		assertEquals("Wrong Y-Position!", 0, sprite.getYPosition());
 		assertEquals("Wrong direction", -42.42, sprite.getDirection(), 1e-3);
-
 	}
 
 	public void testBounceWest() {
@@ -257,49 +254,49 @@ public class IfOnEdgeBounceBrickTest extends InstrumentationTestCase {
 		Sprite sprite = new Sprite("testSprite");
 		sprite.getCostume().changeImagePath(testImage.getAbsolutePath());
 
-		IfOnEdgeBounceBrick brick = new IfOnEdgeBounceBrick(sprite);
+		IfOnEdgeBounceBrick ifOnEdgeBounceBrick = new IfOnEdgeBounceBrick(sprite);
 		double width;
 		double height;
 
 		sprite.setDirection(-90);
 		sprite.setXYPosition(BOUNCE_LEFT_POS, 0);
 
-		brick.execute();
+		ifOnEdgeBounceBrick.execute();
 
-		width = sprite.getCostume().getVirtuelWidth();
-		height = sprite.getCostume().getVirtuelHeight();
+		width = sprite.getCostume().getVirtualWidth();
+		height = sprite.getCostume().getVirtualHeight();
 		assertEquals("Wrong X-Position!", -Consts.MAX_REL_COORDINATES + (int) (width / 2), sprite.getXPosition());
 		assertEquals("Wrong Y-Position!", 0, sprite.getYPosition());
 		assertEquals("Wrong direction", 90, sprite.getDirection(), 1e-3);
-		assertEquals("Width shouldn't change", width, sprite.getCostume().getVirtuelWidth(), 1e-3);
-		assertEquals("Height shouldn't change", height, sprite.getCostume().getVirtuelHeight(), 1e-3);
+		assertEquals("Width shouldn't change", width, sprite.getCostume().getVirtualWidth(), 1e-3);
+		assertEquals("Height shouldn't change", height, sprite.getCostume().getVirtualHeight(), 1e-3);
 
 		sprite.setDirection(-30);
 		sprite.setXYPosition(BOUNCE_LEFT_POS, 0);
-		brick.execute();
+		ifOnEdgeBounceBrick.execute();
 
-		width = sprite.getCostume().getVirtuelWidth();
-		height = sprite.getCostume().getVirtuelHeight();
+		width = sprite.getCostume().getVirtualWidth();
+		height = sprite.getCostume().getVirtualHeight();
 		assertEquals("Wrong X-Position!", -Consts.MAX_REL_COORDINATES + (int) (width / 2), sprite.getXPosition());
 		assertEquals("Wrong Y-Position!", 0, sprite.getYPosition());
 		assertEquals("Wrong direction", 30, sprite.getDirection(), 1e-3);
 
 		sprite.setDirection(30);
 		sprite.setXYPosition(BOUNCE_LEFT_POS, 0);
-		brick.execute();
+		ifOnEdgeBounceBrick.execute();
 
-		width = sprite.getCostume().getVirtuelWidth();
-		height = sprite.getCostume().getVirtuelHeight();
+		width = sprite.getCostume().getVirtualWidth();
+		height = sprite.getCostume().getVirtualHeight();
 		assertEquals("Wrong X-Position!", -Consts.MAX_REL_COORDINATES + (int) (width / 2), sprite.getXPosition());
 		assertEquals("Wrong Y-Position!", 0, sprite.getYPosition());
 		assertEquals("Wrong direction", 30, sprite.getDirection(), 1e-3);
 
 		sprite.setDirection(-42.42);
 		sprite.setXYPosition(BOUNCE_LEFT_POS, 0);
-		brick.execute();
+		ifOnEdgeBounceBrick.execute();
 
-		width = sprite.getCostume().getVirtuelWidth();
-		height = sprite.getCostume().getVirtuelHeight();
+		width = sprite.getCostume().getVirtualWidth();
+		height = sprite.getCostume().getVirtualHeight();
 		assertEquals("Wrong X-Position!", -Consts.MAX_REL_COORDINATES + (int) (width / 2), sprite.getXPosition());
 		assertEquals("Wrong Y-Position!", 0, sprite.getYPosition());
 		assertEquals("Wrong direction", 42.42, sprite.getDirection(), 1e-3);

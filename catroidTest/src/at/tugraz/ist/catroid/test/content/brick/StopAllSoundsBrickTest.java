@@ -26,6 +26,7 @@ import android.media.MediaPlayer;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
@@ -37,7 +38,7 @@ import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class StopAllSoundsBrickTest extends InstrumentationTestCase {
-	private static final int SOUND_FILE_ID = R.raw.testsound;
+	private static final int SOUND_FILE_ID = R.raw.longtestsound;
 	private File soundFile;
 	private String projectName = "projectName";
 
@@ -64,12 +65,15 @@ public class StopAllSoundsBrickTest extends InstrumentationTestCase {
 
 		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
 
-		PlaySoundBrick testBrick = new PlaySoundBrick(new Sprite("1"));
-		StopAllSoundsBrick testBrick1 = new StopAllSoundsBrick(new Sprite("1"));
-		testBrick.setPathToSoundfile(soundFile.getName());
-		testBrick.execute();
+		Sprite testSprite = new Sprite("1");
+		PlaySoundBrick playSoundBrick = new PlaySoundBrick(testSprite);
+		StopAllSoundsBrick stopAllSoundsBrick = new StopAllSoundsBrick(new Sprite("1"));
+		SoundInfo soundInfo = getSoundInfo();
+		playSoundBrick.setSoundInfo(soundInfo);
+		testSprite.getSoundList().add(soundInfo);
+		playSoundBrick.execute();
 		assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
-		testBrick1.execute();
+		stopAllSoundsBrick.execute();
 		assertFalse("MediaPlayer is still playing", mediaPlayer.isPlaying());
 
 	}
@@ -77,32 +81,39 @@ public class StopAllSoundsBrickTest extends InstrumentationTestCase {
 	public void testStopSimultaneousPlayingSounds() throws InterruptedException {
 		final MediaPlayer mediaPlayer1 = SoundManager.getInstance().getMediaPlayer();
 		final MediaPlayer mediaPlayer2 = SoundManager.getInstance().getMediaPlayer();
+
 		class ThreadSound1 extends Thread {
-			PlaySoundBrick testBrick1 = new PlaySoundBrick(new Sprite("8"));
+			Sprite testSprite = new Sprite("8");
+			PlaySoundBrick playSoundBrick = new PlaySoundBrick(testSprite);
 
 			@Override
 			public void run() {
-				testBrick1.setPathToSoundfile(soundFile.getName());
-				testBrick1.execute();
+				SoundInfo soundInfo = getSoundInfo();
+				playSoundBrick.setSoundInfo(soundInfo);
+				testSprite.getSoundList().add(soundInfo);
+				playSoundBrick.execute();
 			}
 		}
 
 		class ThreadSound2 extends Thread {
-			PlaySoundBrick testBrick1 = new PlaySoundBrick(new Sprite("9"));
+			Sprite testSprite = new Sprite("9");
+			PlaySoundBrick playSoundBrick = new PlaySoundBrick(testSprite);
 
 			@Override
 			public void run() {
-				testBrick1.setPathToSoundfile(soundFile.getName());
-				testBrick1.execute();
+				SoundInfo soundInfo = getSoundInfo();
+				playSoundBrick.setSoundInfo(soundInfo);
+				testSprite.getSoundList().add(soundInfo);
+				playSoundBrick.execute();
 			}
 		}
 
 		StopAllSoundsBrick testBrick1 = new StopAllSoundsBrick(new Sprite("10"));
-		ThreadSound1 th1 = new ThreadSound1();
-		ThreadSound2 th2 = new ThreadSound2();
-		th1.start();
-		th2.start();
-		Thread.sleep(100);
+		ThreadSound1 threadSound1 = new ThreadSound1();
+		ThreadSound2 threadSound2 = new ThreadSound2();
+		threadSound1.start();
+		threadSound2.start();
+		Thread.sleep(200);
 		assertTrue("mediaPlayer1 is not playing", mediaPlayer1.isPlaying());
 		assertTrue("mediaPlayer2 is not playing", mediaPlayer2.isPlaying());
 		testBrick1.execute();
@@ -122,5 +133,12 @@ public class StopAllSoundsBrickTest extends InstrumentationTestCase {
 	private void setUpSoundFile() throws IOException {
 		soundFile = TestUtils.saveFileToProject(projectName, "longtestsound", SOUND_FILE_ID, getInstrumentation()
 				.getContext(), TestUtils.TYPE_SOUND_FILE);
+	}
+
+	private SoundInfo getSoundInfo() {
+		SoundInfo soundInfo = new SoundInfo();
+		soundInfo.setSoundFileName(soundFile.getName());
+		soundInfo.setTitle("testsSoundFile");
+		return soundInfo;
 	}
 }
