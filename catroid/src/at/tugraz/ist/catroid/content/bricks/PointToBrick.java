@@ -57,7 +57,6 @@ public class PointToBrick implements Brick {
 		}
 
 		if (pointedSprite == null) {
-			System.out.println("Pointed sprite is null");
 			pointedSprite = this.sprite;
 		}
 
@@ -69,8 +68,6 @@ public class PointToBrick implements Brick {
 		spriteYPosition = sprite.getYPosition();
 		pointedSpriteXPosition = pointedSprite.getXPosition();
 		pointedSpriteYPosition = pointedSprite.getYPosition();
-		System.out.println("Coordinates of pointedSprite: (" + pointedSpriteXPosition + "," + pointedSpriteYPosition
-				+ ")");
 
 		if (spriteXPosition == pointedSpriteXPosition && spriteYPosition == pointedSpriteYPosition) {
 			rotationDegrees = 90;
