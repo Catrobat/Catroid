@@ -48,7 +48,7 @@ public class TurnLeftBrick implements Brick, OnDismissListener {
 	}
 
 	public void execute() {
-		sprite.costume.rotation += degrees;
+		sprite.costume.changeRotationBy((float) degrees);
 	}
 
 	public Sprite getSprite() {
