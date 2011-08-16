@@ -197,7 +197,6 @@ public class SpeechBubblesTest extends ActivityInstrumentationTestCase2<MainMenu
 		assertFalse("The height of speechbubble may be incorret.", new Float(speechBubblePicHeight).equals(0));
 		assertFalse("The width of speechbubble may be incorret.", new Float(speechBubblePicWidth).equals(0));
 		assertEquals("Displayed Text is incorrect", speechBubbleText, mergeString(textGrid));
-		solo.sleep(1500);
 
 		// -------------------------------------------------------------------------------------------------------------
 	}
@@ -247,8 +246,6 @@ public class SpeechBubblesTest extends ActivityInstrumentationTestCase2<MainMenu
 		assertFalse("The height of speechbubble may be incorret.", new Float(speechBubblePicHeight).equals(0));
 		assertFalse("The width of speechbubble may be incorret.", new Float(speechBubblePicWidth).equals(0));
 		assertEquals("Displayed Text is incorrect", speechBubbleText, mergeString(textGrid));
-
-		solo.sleep(1500);
 
 		// -------------------------------------------------------------------------------------------------------------
 	}
@@ -301,8 +298,6 @@ public class SpeechBubblesTest extends ActivityInstrumentationTestCase2<MainMenu
 		assertEquals("Displayed Text is incorrect", speechBubbleText, mergeString(textGrid));
 		assertFalse("The height of speechbubble may be incorret.", new Float(speechBubblePicHeight).equals(0));
 		assertFalse("The width of speechbubble may be incorret.", new Float(speechBubblePicWidth).equals(0));
-
-		solo.sleep(1500);
 
 		// -------------------------------------------------------------------------------------------------------------
 	}
@@ -408,8 +403,6 @@ public class SpeechBubblesTest extends ActivityInstrumentationTestCase2<MainMenu
 		assertEquals("The height of speechbubble may be incorret.", speechBubblePicDefaultHeight, speechBubblePicHeight);
 		assertEquals("The width of speechbubble may be incorret.", speechBubblePicDefaultWidth, speechBubblePicWidth);
 
-		solo.sleep(1500);
-
 		// -------------------------------------------------------------------------------------------------------------
 	}
 
@@ -459,8 +452,6 @@ public class SpeechBubblesTest extends ActivityInstrumentationTestCase2<MainMenu
 		assertFalse("The width of speechbubble may be incorret.",
 				new Float(speechBubblePicWidth).equals(speechBubblePicDefaultWidth));
 
-		solo.sleep(1500);
-
 		// -------------------------------------------------------------------------------------------------------------
 	}
 
@@ -509,8 +500,6 @@ public class SpeechBubblesTest extends ActivityInstrumentationTestCase2<MainMenu
 		assertFalse("The height of speechbubble may be incorret.",
 				new Float(speechBubblePicHeight).equals(speechBubblePicDefaultHeight));
 		assertEquals("The height of speechbubble may be incorret.", speechBubblePicMaxWidth, speechBubblePicWidth);
-
-		solo.sleep(1500);
 
 		// -------------------------------------------------------------------------------------------------------------
 	}
