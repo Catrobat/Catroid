@@ -18,6 +18,8 @@
  */
 package at.tugraz.ist.catroid.ui.dialogs;
 
+import java.io.File;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -26,9 +28,9 @@ import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -36,7 +38,9 @@ import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.transfers.ProjectUploadTask;
+import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class UploadProjectDialog extends Dialog implements OnClickListener {
@@ -125,7 +129,20 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 	@Override
 	public void show() {
 		super.show();
-		currentProjectName = ProjectManager.getInstance().getCurrentProject().getName();
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		currentProjectName = currentProject.getName();
+
+		TextView projectRename = (TextView) findViewById(R.id.tv_project_rename);
+		EditText projectDescriptionField = (EditText) findViewById(R.id.project_description_upload);
+		final EditText projectUploadName = (EditText) findViewById(R.id.project_upload_name);
+		TextView sizeOfProject = (TextView) findViewById(R.id.dialog_upload_size_of_project);
+		sizeOfProject.setText(UtilFile.getSizeAsString(new File(Consts.DEFAULT_ROOT + "/" + currentProjectName)));
+
+		projectRename.setVisibility(View.GONE);
+		projectUploadName.setText(ProjectManager.getInstance().getCurrentProject().getName());
+		projectDescriptionField.setText("");
+		projectUploadName.requestFocus();
+		projectUploadName.selectAll();
 	}
 
 	public void onClick(View v) {
