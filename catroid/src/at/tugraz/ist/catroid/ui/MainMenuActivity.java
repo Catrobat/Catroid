@@ -19,8 +19,6 @@
 
 package at.tugraz.ist.catroid.ui;
 
-import java.io.File;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -33,7 +31,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -47,7 +44,6 @@ import at.tugraz.ist.catroid.ui.dialogs.LoadProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.LoginRegisterDialog;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
-import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class MainMenuActivity extends Activity {
@@ -111,19 +107,8 @@ public class MainMenuActivity extends Activity {
 			case Consts.DIALOG_ABOUT:
 				dialog = new AboutDialog(this);
 				break;
-			case Consts.DIALOG_UPLOAD_PROJECT:
-				if (projectManager.getCurrentProject() == null) {
-					dialog = null;
-					break;
-				}
-				SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-				String token = preferences.getString(Consts.TOKEN, null);
-				if (token == null || token.length() == 0 || token.equals("0")) {
-					dialog = new LoginRegisterDialog(this);
-					break;
-				}
-				new CheckTokenTask(this, token).execute();
-				dialog = null;
+			case Consts.DIALOG_LOGIN_REGISTER:
+				dialog = new LoginRegisterDialog(this);
 				break;
 			default:
 				dialog = null;
@@ -140,20 +125,6 @@ public class MainMenuActivity extends Activity {
 			case Consts.DIALOG_LOAD_PROJECT:
 				break;
 			case Consts.DIALOG_ABOUT:
-				break;
-			case Consts.DIALOG_UPLOAD_PROJECT:
-				TextView projectRename = (TextView) dialog.findViewById(R.id.tv_project_rename);
-				EditText projectDescriptionField = (EditText) dialog.findViewById(R.id.project_description_upload);
-				final EditText projectUploadName = (EditText) dialog.findViewById(R.id.project_upload_name);
-				TextView sizeOfProject = (TextView) dialog.findViewById(R.id.dialog_upload_size_of_project);
-				sizeOfProject.setText(UtilFile.getSizeAsString(new File(Consts.DEFAULT_ROOT + "/"
-						+ projectManager.getCurrentProject().getName())));
-
-				projectRename.setVisibility(View.GONE);
-				projectUploadName.setText(ProjectManager.getInstance().getCurrentProject().getName());
-				projectDescriptionField.setText("");
-				projectUploadName.requestFocus();
-				projectUploadName.selectAll();
 				break;
 		}
 	}
@@ -211,7 +182,13 @@ public class MainMenuActivity extends Activity {
 	}
 
 	public void handleUploadProjectButton(View v) {
-		showDialog(Consts.DIALOG_UPLOAD_PROJECT);
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		String token = preferences.getString(Consts.TOKEN, null);
+		if (token == null || token.length() == 0 || token.equals("0")) {
+			showDialog(Consts.DIALOG_LOGIN_REGISTER);
+		} else {
+			new CheckTokenTask(this, token).execute();
+		}
 	}
 
 	public void handleSettingsButton(View v) {
