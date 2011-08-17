@@ -152,12 +152,6 @@
 //		notificationMap.clear();
 //	}
 //
-//	/**
-//	 * Internal Entity class wich represents a edition notification
-//	 * 
-//	 * @author martin
-//	 * 
-//	 */
 //	private class Notifications {
 //		private int notifyId;
 //		private Notification entityNotification;

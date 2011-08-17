@@ -22,12 +22,14 @@ package at.tugraz.ist.catroid.utils;
 public class UtilToken {
 
 	public static String calculateToken(String username, String password) {
+		// the token handling is not implemented on the server
+		// for now we always return 0, the anonymous token
+		return "0";
 
-		String md5Username = Utils.md5Checksum(username);
-		String md5Password = Utils.md5Checksum(password);
-
-		return Utils.md5Checksum(md5Username + ":" + md5Password);
-
+		//		String md5Username = Utils.md5Checksum(username);
+		//		String md5Password = Utils.md5Checksum(password);
+		//
+		//		return Utils.md5Checksum(md5Username + ":" + md5Password);
 	}
 
 }
