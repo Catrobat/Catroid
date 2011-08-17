@@ -91,36 +91,12 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		addABrickToProject();
 
 		createValidUser();
-		//		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		//		prefs.edit().putString(Consts.TOKEN, "0").commit();
 
-		uploadProject(true);
+		uploadProject();
 
 		UiTestUtils.clearAllUtilTestProjects();
 
 		downloadProject();
-	}
-
-	public void testUploadProjectWithWrongToken() throws Throwable {
-		UiTestUtils.clearAllUtilTestProjects();
-		startProjectUploadTask();
-
-		createTestProject();
-		addABrickToProject();
-
-		createValidUser();
-		//		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		//		prefs.edit().putString(Consts.TOKEN, "wrong_token").commit();
-
-		uploadProject(false);
-
-		String resultString = (String) UiTestUtils.getPrivateField("resultString", ServerCalls.getInstance());
-		JSONObject jsonObject = new JSONObject(resultString);
-		int statusCode = jsonObject.getInt("statusCode");
-
-		assertEquals("Received wrong result status code", 601, statusCode);
-
-		UiTestUtils.clearAllUtilTestProjects();
 	}
 
 	private void createTestProject() {
@@ -151,7 +127,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
 	}
 
-	private void uploadProject(boolean expect_success) {
+	private void uploadProject() {
 		solo.clickOnText(getActivity().getString(R.string.upload_project));
 		solo.sleep(500);
 
@@ -169,17 +145,13 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		try {
 			solo.waitForDialogToClose(10000);
-			if (expect_success) {
-				assertTrue("Upload failed. Internet connection?", solo.searchText(getActivity().getString(
-						R.string.success_project_upload)));
-				String resultString = (String) UiTestUtils.getPrivateField("resultString", ServerCalls.getInstance());
-				JSONObject jsonObject;
-				jsonObject = new JSONObject(resultString);
-				serverProjectId = jsonObject.optInt("projectId");
-			} else {
-				assertTrue("Error message not found on screen. ", solo.searchText(getActivity().getString(
-						R.string.error_project_upload)));
-			}
+			assertTrue("Upload failed. Internet connection?", solo.searchText(getActivity().getString(
+					R.string.success_project_upload)));
+			String resultString = (String) UiTestUtils.getPrivateField("resultString", ServerCalls.getInstance());
+			JSONObject jsonObject;
+			jsonObject = new JSONObject(resultString);
+			serverProjectId = jsonObject.optInt("projectId");
+
 			solo.clickOnButton(0);
 		} catch (JSONException e) {
 			assertFalse("json exception orrured", true);

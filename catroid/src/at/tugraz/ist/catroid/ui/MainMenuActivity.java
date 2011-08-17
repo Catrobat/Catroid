@@ -38,11 +38,11 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.StageActivity;
-import at.tugraz.ist.catroid.transfers.CheckTokenTask;
 import at.tugraz.ist.catroid.ui.dialogs.AboutDialog;
 import at.tugraz.ist.catroid.ui.dialogs.LoadProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.LoginRegisterDialog;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
+import at.tugraz.ist.catroid.ui.dialogs.UploadProjectDialog;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -107,6 +107,9 @@ public class MainMenuActivity extends Activity {
 			case Consts.DIALOG_ABOUT:
 				dialog = new AboutDialog(this);
 				break;
+			case Consts.DIALOG_UPLOAD_PROJECT:
+				dialog = new UploadProjectDialog(this);
+				break;
 			case Consts.DIALOG_LOGIN_REGISTER:
 				dialog = new LoginRegisterDialog(this);
 				break;
@@ -115,18 +118,6 @@ public class MainMenuActivity extends Activity {
 				break;
 		}
 		return dialog;
-	}
-
-	@Override
-	protected void onPrepareDialog(int id, Dialog dialog) {
-		switch (id) {
-			case Consts.DIALOG_NEW_PROJECT:
-				break;
-			case Consts.DIALOG_LOAD_PROJECT:
-				break;
-			case Consts.DIALOG_ABOUT:
-				break;
-		}
 	}
 
 	@Override
@@ -182,13 +173,18 @@ public class MainMenuActivity extends Activity {
 	}
 
 	public void handleUploadProjectButton(View v) {
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		String token = preferences.getString(Consts.TOKEN, null);
-		if (token == null || token.length() == 0 || token.equals("0")) {
-			showDialog(Consts.DIALOG_LOGIN_REGISTER);
-		} else {
-			new CheckTokenTask(this, token).execute();
-		}
+		// as long as the token handling on the server is not implemented, we don't use the 
+		// user concept. Always use the token 0
+		showDialog(Consts.DIALOG_UPLOAD_PROJECT);
+
+		//		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		//		String token = preferences.getString(Consts.TOKEN, null);
+		//		
+		//		if (token == null || token.length() == 0 || token.equals("0")) {
+		//			showDialog(Consts.DIALOG_LOGIN_REGISTER);
+		//		} else {
+		//			new CheckTokenTask(this, token).execute();
+		//		}
 	}
 
 	public void handleSettingsButton(View v) {
