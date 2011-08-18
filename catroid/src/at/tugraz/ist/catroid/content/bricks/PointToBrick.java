@@ -113,11 +113,11 @@ public class PointToBrick implements Brick {
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
 
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.construction_brick_point_to, null);
+		View brickView = inflater.inflate(R.layout.toolbox_brick_point_to, null);
 
-		final Spinner spinner = (Spinner) brickView.findViewById(R.id.point_to_spinner);
-		spinner.setFocusableInTouchMode(false);
-		spinner.setFocusable(false);
+		Spinner spinner = (Spinner) brickView.findViewById(R.id.point_to_spinner);
+		spinner.setClickable(true);
+		spinner.setFocusable(true);
 
 		ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
 		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

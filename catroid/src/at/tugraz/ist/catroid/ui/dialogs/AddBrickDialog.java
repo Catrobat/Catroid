@@ -57,6 +57,7 @@ import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
 import at.tugraz.ist.catroid.content.bricks.MoveNStepsBrick;
+import at.tugraz.ist.catroid.content.bricks.NextCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.NoteBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
@@ -156,6 +157,7 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new PointToBrick(sprite, null));
 			prototypeBrickList.add(new SayBrick(sprite));
 			prototypeBrickList.add(new ThinkBrick(sprite));
+			prototypeBrickList.add(new NextCostumeBrick(sprite));
 		}
 	}
 
