@@ -220,6 +220,7 @@
 	<string name="brick_point_to">Point to</string>
 	<string name="brick_say">say</string>
 	<string name="brick_think">think</string>
+	<string name="brick_next_costume">Next costume</string>
 	
 	<string name="choose_sound_title">choose a title</string>
 	<string name="choose_language">choose a language</string>
