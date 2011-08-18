@@ -20,7 +20,7 @@
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_height="wrap_content"
-	android:layout_width="wrap_content"
+	android:layout_width="match_parent"
 	android:background="@drawable/brick_touched"
 	android:orientation="horizontal"
 >
@@ -29,6 +29,7 @@
 		android:text="@string/brick_when"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
+		android:layout_gravity="center_vertical"
 		android:textColor="@color/white"
 		android:textSize="18dip"
 		android:textStyle="bold"
@@ -43,7 +44,6 @@
 		android:layout_centerVertical="true"
 		android:clickable="false"
 		android:focusable="false"
-		android:focusableInTouchMode="false"
 		
 	/>
 	
