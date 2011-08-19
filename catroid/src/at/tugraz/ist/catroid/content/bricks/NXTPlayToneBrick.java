@@ -41,8 +41,8 @@ public class NXTPlayToneBrick implements Brick, OnDismissListener, OnSeekBarChan
 	private transient Handler btcHandler;
 	private int frequency;
 	private double duration;
-	private static final int MIN_FREQ = 0;
-	private static final int MAX_FREQ = 14000;
+	private static final int MIN_FREQ = 2;
+	private static final int MAX_FREQ = 140;
 	private static final double MIN_DURATION = 0;
 	private static final double MAX_DURATION = Double.MAX_VALUE;
 
@@ -62,7 +62,7 @@ public class NXTPlayToneBrick implements Brick, OnDismissListener, OnSeekBarChan
 			btcHandler = LegoNXT.getBTCHandler();
 		}
 
-		LegoNXT.sendBTCPlayToneMessage(frequency + 200, (int) (1000 * duration));
+		LegoNXT.sendBTCPlayToneMessage(frequency * 100, (int) (1000 * duration));
 
 	}
 
@@ -101,7 +101,7 @@ public class NXTPlayToneBrick implements Brick, OnDismissListener, OnSeekBarChan
 
 		freqBar = (SeekBar) brickView.findViewById(R.id.seekBarNXTToneFrequency);
 		freqBar.setOnSeekBarChangeListener(this);
-		freqBar.setMax(MAX_FREQ - 200);
+		freqBar.setMax(MAX_FREQ);
 		freqBar.setEnabled(true);
 		freqToSeekBarVal();
 		return brickView;
@@ -144,10 +144,20 @@ public class NXTPlayToneBrick implements Brick, OnDismissListener, OnSeekBarChan
 
 	private void seekbarValToFreq() {
 		frequency = freqBar.getProgress();
+
+		if (frequency < 2) {
+			frequency = 2;
+			freqBar.setProgress(2);
+		}
+
 		editFreq.setText(String.valueOf(frequency));
 	}
 
 	private void freqToSeekBarVal() {
+		if (frequency < 2) {
+			frequency = 2;
+			freqBar.setProgress(2);
+		}
 		freqBar.setProgress(frequency);
 	}
 
