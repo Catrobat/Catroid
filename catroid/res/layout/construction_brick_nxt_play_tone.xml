@@ -30,92 +30,110 @@
 		android:layout_width="match_parent"
 		android:orientation="vertical" 
 		android:background="@drawable/brick_red">
-		<RelativeLayout 
+
+		<TextView android:text="@string/nxt_play_tone"
+			android:layout_centerVertical="true" 
 			android:layout_height="wrap_content"
-			android:layout_width="fill_parent" 
-			android:layout_centerVertical="true">
-			<TextView android:text="@string/nxt_play_tone"
-				android:layout_centerVertical="true" 
-				android:layout_height="wrap_content"
-				android:layout_width="wrap_content" 
-				android:paddingRight="10dip"
-				android:textColor="@color/white" 
-				android:textSize="18dip"
-				android:textStyle="bold">
-			</TextView>
-			<LinearLayout 
-				android:layout_height="wrap_content"
-				android:layout_width="wrap_content" 
-				android:layout_alignParentRight="true"
-				android:layout_centerVertical="true">
-			</LinearLayout>
-		</RelativeLayout>
+			android:layout_width="wrap_content" 
+			android:paddingRight="10dip"
+			android:textColor="@color/white" 
+			android:textSize="18dip"
+			android:textStyle="bold">
+		</TextView>
+
 
 		<RelativeLayout 
 			android:layout_height="wrap_content"
 			android:layout_width="fill_parent" 
 			android:layout_centerVertical="true">
+
+			
 			<TextView 
+				android:id="@+id/nxt_play_tone_duration_text_view"
 				android:text="@string/tone_duration"
 				android:layout_centerVertical="true" 
 				android:layout_height="wrap_content"
 				android:layout_width="wrap_content" 
-				android:paddingRight="10dip"
 				android:textColor="@color/white" 
 				android:textSize="18dip"
 				android:textStyle="bold">
 			</TextView>
-			<LinearLayout 
+			
+			<EditText 
+				android:layout_toRightOf="@+id/nxt_play_tone_duration_text_view"
+				android:id="@+id/nxt_tone_duration_edit_text"
+				android:text="0.0" 
+				android:layout_height="wrap_content"
+				android:clickable="false"
+				android:focusable="false" 
+				android:focusableInTouchMode="false"
+				android:gravity="right" 
+				android:paddingRight="6dp"
+				android:inputType="number|numberDecimal|numberSigned"
+				android:maxLength="4" 
+				android:maxLines="1" 
+				android:layout_width="55dip">
+			</EditText>
+				
+			<TextView 
+				android:layout_toRightOf="@+id/nxt_tone_duration_edit_text"
+				android:text="@string/seconds"
+				android:layout_centerVertical="true" 
 				android:layout_height="wrap_content"
 				android:layout_width="wrap_content" 
-				android:layout_alignParentRight="true"
-				android:layout_centerVertical="true">
-
-				<EditText 
-					android:id="@+id/nxt_tone_duration_edit_text"
-					android:text="0" 
-					android:layout_height="wrap_content"
-					android:clickable="false"
-					android:focusable="false" 
-					android:focusableInTouchMode="false"
-					android:gravity="right" 
-					android:inputType="number|numberDecimal|numberSigned"
-					android:maxLength="4" 
-					android:maxLines="1" android:layout_width="wrap_content">
-				</EditText>
-
-			</LinearLayout>
+				android:textColor="@color/white" 
+				android:textSize="18dip"
+				android:maxLines="1" 
+				android:textStyle="bold">
+			</TextView>
 		</RelativeLayout>
+		
 		<RelativeLayout 
 			android:layout_height="wrap_content"
 			android:layout_width="fill_parent" 
 			android:layout_centerVertical="true">
+			
+			<TextView 
+				android:id="@+id/nxt_tone_freq_text_view"
+				android:text="@string/nxt_tone_frequency"
+				android:layout_centerVertical="true" 
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content" 
+				android:textColor="@color/white" 
+				android:textSize="18dip"
+				android:textStyle="bold">
+			</TextView>
+			
 			<EditText 
+				android:layout_toRightOf="@+id/nxt_tone_freq_text_view"
 				android:id="@+id/nxt_tone_freq_edit_text"
-				android:text="0" 
+				android:text="2" 
 				android:inputType="number|numberDecimal|numberSigned"
-				android:maxLength="4" 
+				android:maxLength="3" 
 				android:layout_height="wrap_content"
 				android:maxLines="1" 
 				android:gravity="right" 
 				android:clickable="false"
 				android:focusableInTouchMode="false"
 				android:focusable="false" 
-				android:layout_alignParentRight="true" android:layout_width="wrap_content">
-				<requestFocus></requestFocus>
+				android:paddingRight="6dp"
+				android:layout_width="50dip">
 			</EditText>
+			
 			<TextView 
-				android:text="@string/nxt_tone_frequency"
+				android:layout_toRightOf="@+id/nxt_tone_freq_edit_text"
+				android:text="@string/nxt_tone_hundred_hz"
 				android:layout_centerVertical="true" 
 				android:layout_height="wrap_content"
 				android:layout_width="wrap_content" 
-				android:paddingRight="10dip"
 				android:textColor="@color/white" 
 				android:textSize="18dip"
+				android:maxLines="1" 
 				android:textStyle="bold">
 			</TextView>
-
+			
 		</RelativeLayout>
+		
 		<RelativeLayout android:layout_width="wrap_content"
 			android:layout_height="wrap_content">
 			<SeekBar 
