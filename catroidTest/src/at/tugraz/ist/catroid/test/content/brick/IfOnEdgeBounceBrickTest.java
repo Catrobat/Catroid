@@ -135,7 +135,7 @@ public class IfOnEdgeBounceBrickTest extends InstrumentationTestCase {
 
 		assertEquals("Wrong X-Position!", 0f, sprite.costume.getXPosition());
 		assertEquals("Wrong Y-Position!", (float) (SCREEN_HALF_HEIGHT - (height / 2)), sprite.costume.getYPosition());
-		assertEquals("Wrong direction", 120f, sprite.costume.rotation, 1e-3);
+		assertEquals("Wrong direction", 240f, sprite.costume.rotation, 1e-3);
 
 		sprite.costume.rotation = 240f;
 		sprite.costume.setXYPosition(0, BOUNCE_UP_POS);
@@ -151,7 +151,7 @@ public class IfOnEdgeBounceBrickTest extends InstrumentationTestCase {
 
 		assertEquals("Wrong X-Position!", 0f, sprite.costume.getXPosition());
 		assertEquals("Wrong Y-Position!", (float) (SCREEN_HALF_HEIGHT - (height / 2)), sprite.costume.getYPosition());
-		assertEquals("Wrong direction", 42.42f, sprite.costume.rotation, 1e-3);
+		assertEquals("Wrong direction", -42.42f, sprite.costume.rotation, 1e-3);
 	}
 
 	public void testBounceSouth() {
@@ -170,7 +170,7 @@ public class IfOnEdgeBounceBrickTest extends InstrumentationTestCase {
 
 		assertEquals("Wrong X-Position!", 0f, sprite.costume.getXPosition());
 		assertEquals("Wrong Y-Position!", (float) (-SCREEN_HALF_HEIGHT + (height / 2)), sprite.costume.getYPosition());
-		assertEquals("Wrong direction", 0f, sprite.costume.rotation, 1e-3);
+		assertEquals("Wrong direction", 180f, sprite.costume.rotation, 1e-3);
 		assertEquals("Width shouldn't change", width, sprite.costume.width, 1e-3);
 		assertEquals("Height shouldn't change", height, sprite.costume.height, 1e-3);
 
@@ -180,7 +180,7 @@ public class IfOnEdgeBounceBrickTest extends InstrumentationTestCase {
 
 		assertEquals("Wrong X-Position!", 0f, sprite.costume.getXPosition());
 		assertEquals("Wrong Y-Position!", (float) (-SCREEN_HALF_HEIGHT + (height / 2)), sprite.costume.getYPosition());
-		assertEquals("Wrong direction", 60f, sprite.costume.rotation, 1e-3);
+		assertEquals("Wrong direction", 120f, sprite.costume.rotation, 1e-3);
 
 		sprite.costume.rotation = 30f;
 		sprite.costume.setXYPosition(0, BOUNCE_DOWN_POS);
@@ -188,7 +188,7 @@ public class IfOnEdgeBounceBrickTest extends InstrumentationTestCase {
 
 		assertEquals("Wrong X-Position!", 0f, sprite.costume.getXPosition());
 		assertEquals("Wrong Y-Position!", (float) (-SCREEN_HALF_HEIGHT + (height / 2)), sprite.costume.getYPosition());
-		assertEquals("Wrong direction", 150f, sprite.costume.rotation, 1e-3);
+		assertEquals("Wrong direction", 30f, sprite.costume.rotation, 1e-3);
 
 		sprite.costume.rotation = 132.42f;
 		sprite.costume.setXYPosition(0, BOUNCE_DOWN_POS);
@@ -196,7 +196,7 @@ public class IfOnEdgeBounceBrickTest extends InstrumentationTestCase {
 
 		assertEquals("Wrong X-Position!", 0f, sprite.costume.getXPosition());
 		assertEquals("Wrong Y-Position!", (float) (-SCREEN_HALF_HEIGHT + (height / 2)), sprite.costume.getYPosition());
-		assertEquals("Wrong direction", 47.58f, sprite.costume.rotation, 1e-3);
+		assertEquals("Wrong direction", 132.42f, sprite.costume.rotation, 1e-3);
 
 	}
 
@@ -216,7 +216,7 @@ public class IfOnEdgeBounceBrickTest extends InstrumentationTestCase {
 
 		assertEquals("Wrong X-Position!", (float) (SCREEN_HALF_WIDTH - (width / 2)), sprite.costume.getXPosition());
 		assertEquals("Wrong Y-Position!", 0f, sprite.costume.getYPosition());
-		assertEquals("Wrong direction", -0f, sprite.costume.rotation, 1e-3);
+		assertEquals("Wrong direction", 180f, sprite.costume.rotation, 1e-3);
 		assertEquals("Width shouldn't change", width, sprite.costume.width, 1e-3);
 		assertEquals("Height shouldn't change", height, sprite.costume.height, 1e-3);
 
@@ -226,7 +226,7 @@ public class IfOnEdgeBounceBrickTest extends InstrumentationTestCase {
 
 		assertEquals("Wrong X-Position!", (float) (SCREEN_HALF_WIDTH - (width / 2)), sprite.costume.getXPosition());
 		assertEquals("Wrong Y-Position!", 0f, sprite.costume.getYPosition());
-		assertEquals("Wrong direction", -30f, sprite.costume.rotation, 1e-3);
+		assertEquals("Wrong direction", 150f, sprite.costume.rotation, 1e-3);
 
 		sprite.costume.rotation = -30f;
 		sprite.costume.setXYPosition(BOUNCE_RIGHT_POS, 0);
@@ -234,7 +234,7 @@ public class IfOnEdgeBounceBrickTest extends InstrumentationTestCase {
 
 		assertEquals("Wrong X-Position!", (float) (SCREEN_HALF_WIDTH - (width / 2)), sprite.costume.getXPosition());
 		assertEquals("Wrong Y-Position!", 0f, sprite.costume.getYPosition());
-		assertEquals("Wrong direction", 30f, sprite.costume.rotation, 1e-3);
+		assertEquals("Wrong direction", 210f, sprite.costume.rotation, 1e-3);
 
 		sprite.costume.rotation = 42.42f;
 		sprite.costume.setXYPosition(BOUNCE_RIGHT_POS, 0);
@@ -242,7 +242,7 @@ public class IfOnEdgeBounceBrickTest extends InstrumentationTestCase {
 
 		assertEquals("Wrong X-Position!", (float) (SCREEN_HALF_WIDTH - (width / 2)), sprite.costume.getXPosition());
 		assertEquals("Wrong Y-Position!", 0f, sprite.costume.getYPosition());
-		assertEquals("Wrong direction", -42.42f, sprite.costume.rotation, 1e-3);
+		assertEquals("Wrong direction", 137.58f, sprite.costume.rotation, 1e-3);
 
 	}
 
