@@ -149,8 +149,10 @@ def main():
     rename_package(path_to_project, 'app_' + str(project_id))
     set_project_name(project_name, os.path.join(path_to_project, 'catroid', 'res', 'values', 'common.xml'))
     os.system('ant release -f ' + os.path.join(path_to_project, 'catroid', 'build.xml'))
-    shutil.move(os.path.join(path_to_project, 'catroid', 'bin', 'NativeAppActivity-release.apk'),\
-                os.path.join(output_folder, project_filename + '.apk'))
+    for filename in os.listdir(os.path.join(path_to_project, 'catroid', 'bin')):
+        if filename.endswith('release.apk'):
+            shutil.move(os.path.join(path_to_project, 'catroid', 'bin', filename),\
+                        os.path.join(output_folder, project_filename + '.apk'))
     shutil.rmtree(path_to_project)
     return 0
 
