@@ -40,8 +40,9 @@ public class IfOnEdgeBounceBrick implements Brick {
 	}
 
 	public void execute() {
-		float width = sprite.costume.width;
-		float height = sprite.costume.height;
+		float size = sprite.costume.getSize();
+		float width = sprite.costume.width * size;
+		float height = sprite.costume.height * size;
 		int xPosition = (int) sprite.costume.getXPosition();
 		int yPosition = (int) sprite.costume.getYPosition();
 		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().VIRTUAL_SCREEN_WIDTH / 2;
