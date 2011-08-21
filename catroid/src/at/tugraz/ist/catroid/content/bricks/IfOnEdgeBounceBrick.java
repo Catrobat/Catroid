@@ -49,6 +49,7 @@ public class IfOnEdgeBounceBrick implements Brick {
 
 		if (xPosition < -virtualScreenWidth + width / 2) {
 
+			sprite.costume.rotation = Math.abs(sprite.costume.rotation);
 			xPosition = -virtualScreenWidth + (int) (width / 2);
 
 		} else if (xPosition > virtualScreenWidth - width / 2) {
@@ -60,7 +61,7 @@ public class IfOnEdgeBounceBrick implements Brick {
 
 		if (yPosition > virtualScreenHeight - height / 2) {
 
-			if (sprite.costume.rotation < 0) {
+			if (sprite.costume.rotation < 90) {
 				sprite.costume.rotation = 180 - sprite.costume.rotation;
 			}
 
@@ -68,7 +69,7 @@ public class IfOnEdgeBounceBrick implements Brick {
 
 		} else if (yPosition < -virtualScreenHeight + height / 2) {
 
-			if (sprite.costume.rotation > 0) {
+			if (sprite.costume.rotation > 90) {
 				sprite.costume.rotation = 180 - sprite.costume.rotation;
 			}
 
