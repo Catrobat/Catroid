@@ -40,7 +40,6 @@ public class Costume extends Image {
 	private Semaphore scaleLock = new Semaphore(1);
 	private Semaphore alphaValueLock = new Semaphore(1);
 	private Semaphore brightnessLock = new Semaphore(1);
-	private Semaphore rotationLock = new Semaphore(1);
 	private Semaphore disposeTexturesLock = new Semaphore(1);
 	private boolean imageChanged = false;
 	private String imagePath;
@@ -361,28 +360,4 @@ public class Costume extends Image {
 		return brightness;
 	}
 
-	public void setRotation(float direction) {
-		rotationLock.acquireUninterruptibly();
-		/*
-		 * Here calculation between scratch rotation and real rotation has to been done...
-		 */
-		this.rotation = 0f;
-		rotationLock.release();
-	}
-
-	public float getRotation() {
-		rotationLock.acquireUninterruptibly();
-		/*
-		 * Here calculation between real rotation and scratch rotation has to been done...
-		 */
-		float rotation = 0f;
-		rotationLock.release();
-		return rotation;
-	}
-
-	public void changeRotationBy(float degrees) {
-		rotationLock.acquireUninterruptibly();
-		this.rotation += degrees;
-		rotationLock.release();
-	}
 }
