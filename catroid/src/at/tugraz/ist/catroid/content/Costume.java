@@ -35,19 +35,19 @@ import com.badlogic.gdx.scenes.scene2d.actors.Image;
  * 
  */
 public class Costume extends Image {
-	private Semaphore xyLock = new Semaphore(1);
-	private Semaphore imageLock = new Semaphore(1);
-	private Semaphore scaleLock = new Semaphore(1);
-	private Semaphore alphaValueLock = new Semaphore(1);
-	private Semaphore brightnessLock = new Semaphore(1);
-	private Semaphore disposeTexturesLock = new Semaphore(1);
-	private boolean imageChanged = false;
-	private String imagePath;
-	private String currentImagePath;
-	private Pixmap currentAlphaPixmap;
-	private Sprite sprite;
-	private float alphaValue;
-	private float brightnessValue;
+	protected Semaphore xyLock = new Semaphore(1);
+	protected Semaphore imageLock = new Semaphore(1);
+	protected Semaphore scaleLock = new Semaphore(1);
+	protected Semaphore alphaValueLock = new Semaphore(1);
+	protected Semaphore brightnessLock = new Semaphore(1);
+	protected Semaphore disposeTexturesLock = new Semaphore(1);
+	protected boolean imageChanged = false;
+	protected String imagePath;
+	protected String currentImagePath;
+	protected Pixmap currentAlphaPixmap;
+	protected Sprite sprite;
+	protected float alphaValue;
+	protected float brightnessValue;
 	public boolean show;
 	public int zPosition;
 
@@ -111,7 +111,7 @@ public class Costume extends Image {
 		}
 	}
 
-	private void checkImageChanged() {
+	protected void checkImageChanged() {
 		imageLock.acquireUninterruptibly();
 		if (imageChanged) {
 			this.disposeTextures();
@@ -164,7 +164,7 @@ public class Costume extends Image {
 		imageLock.release();
 	}
 
-	private Pixmap adjustBrightness(Pixmap currentPixmap) {
+	protected Pixmap adjustBrightness(Pixmap currentPixmap) {
 		Pixmap newPixmap = new Pixmap(currentPixmap.getWidth(), currentPixmap.getHeight(), currentPixmap.getFormat());
 		for (int y = 0; y < currentPixmap.getHeight(); y++) {
 			for (int x = 0; x < currentPixmap.getWidth(); x++) {
