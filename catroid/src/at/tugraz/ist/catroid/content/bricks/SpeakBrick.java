@@ -21,7 +21,6 @@ package at.tugraz.ist.catroid.content.bricks;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseExpandableListAdapter;
@@ -36,6 +35,8 @@ public class SpeakBrick implements Brick {
 	private Sprite sprite;
 	private String text = "";
 	protected int position = 0;
+
+	private transient View view;
 
 	public SpeakBrick(Sprite sprite, String text) {
 		this.sprite = sprite;
@@ -55,10 +56,11 @@ public class SpeakBrick implements Brick {
 	}
 
 	public View getView(final Context context, int brickId, final BaseExpandableListAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.construction_brick_speak, null);
+		if (view == null) {
+			view = View.inflate(context, R.layout.toolbox_brick_speak, null);
+		}
 
-		EditText editText = (EditText) brickView.findViewById(R.id.construction_brick_speak_edit_text);
+		EditText editText = (EditText) view.findViewById(R.id.toolbox_brick_speak_edit_text);
 		editText.setText(text);
 		editText.setMaxLines(MAXLINES);
 
@@ -85,13 +87,11 @@ public class SpeakBrick implements Brick {
 
 			}
 		});
-		return brickView;
+		return view;
 	}
 
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.toolbox_brick_speak, null);
-		return brickView;
+		return View.inflate(context, R.layout.toolbox_brick_speak, null);
 	}
 
 	@Override

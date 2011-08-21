@@ -20,7 +20,6 @@ package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -36,6 +35,8 @@ public class WhenBrick implements Brick {
 	private Sprite sprite;
 	private static final long serialVersionUID = 1L;
 
+	private transient View view;
+
 	public WhenBrick(Sprite sprite, WhenScript whenScript) {
 		this.whenScript = whenScript;
 		this.sprite = sprite;
@@ -49,11 +50,12 @@ public class WhenBrick implements Brick {
 	}
 
 	public View getView(final Context context, int brickId, final BaseExpandableListAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_when, null);
-		final Spinner spinner = (Spinner) view.findViewById(R.id.Spinner03);
-		spinner.setFocusableInTouchMode(false);
-		spinner.setFocusable(false);
+		if (view == null) {
+			view = View.inflate(context, R.layout.toolbox_brick_when, null);
+		}
+
+		final Spinner spinner = (Spinner) view.findViewById(R.id.toolbox_brick_when_spinner);
+		spinner.setClickable(true);
 		ArrayAdapter<CharSequence> spinnerAdapter = new ArrayAdapter<CharSequence>(context,
 				android.R.layout.simple_spinner_item);
 		spinnerAdapter.add(context.getString(R.string.action_tapped));
@@ -67,7 +69,7 @@ public class WhenBrick implements Brick {
 		spinner.setAdapter(spinnerAdapter);
 
 		if (whenScript.getAction() != null) {
-			spinner.setSelection(whenScript.getPosition());
+			spinner.setSelection(whenScript.getPosition(), true);
 		}
 
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -88,16 +90,13 @@ public class WhenBrick implements Brick {
 			}
 
 			public void onNothingSelected(AdapterView<?> parent) {
-				//		 Do nothing.
 			}
 		});
 		return view;
 	}
 
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.toolbox_brick_when, null);
-		return view;
+		return View.inflate(context, R.layout.toolbox_brick_when, null);
 	}
 
 	@Override

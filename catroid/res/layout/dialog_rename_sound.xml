@@ -20,41 +20,38 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
->
-        <EditText
-                android:id="@+id/dialog_rename_sound_editText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:inputType="text"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:selectAllOnFocus="true"
-        >
-        </EditText>
-                <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-        <Button
-                android:id="@+id/btn_rename_sound"
-                android:text="@string/ok"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight=".5"
-                android:onClick="handlePositiveButtonRenameSound"/>
-        <Button
-                android:id="@+id/btn_cancel_sound"
-                android:text="@string/cancel_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight=".5"
-                android:onClick="handleNegativeButtonRenameSound"/>
-        </LinearLayout>
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content">
+		<EditText
+	        android:id="@+id/dialog_rename_sound_editText"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:gravity="left"
+	        android:inputType="text"
+	        android:maxLines="1"
+	        android:singleLine="true"
+	        android:selectAllOnFocus="true"/>
+		<LinearLayout
+	        xmlns:android="http://schemas.android.com/apk/res/android"
+	        android:orientation="horizontal"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content">
+		<Button
+	        android:id="@+id/btn_rename_sound"
+	        android:text="@string/ok"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_weight=".5"
+	        android:onClick="handlePositiveButtonRenameSound"/>
+		<Button
+	        android:id="@+id/btn_cancel_sound"
+	        android:text="@string/cancel_button"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_weight=".5"
+	        android:onClick="handleNegativeButtonRenameSound"/>
+		</LinearLayout>
 </LinearLayout>
 

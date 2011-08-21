@@ -22,7 +22,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
@@ -31,12 +30,17 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 public class GlideToBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
 	private int xDestination;
 	private int yDestination;
 	private int durationInMilliSeconds;
 	private Sprite sprite;
+
+	@XStreamOmitField
+	private transient View view;
 
 	public GlideToBrick(Sprite sprite, int xDestination, int yDestination, int durationInMilliSeconds) {
 		this.sprite = sprite;
@@ -96,37 +100,37 @@ public class GlideToBrick implements Brick, OnDismissListener {
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.construction_brick_glide_to, null);
 
-		EditText editX = (EditText) brickView.findViewById(R.id.construction_brick_glide_to_x_edit_text);
+		if (view == null) {
+			view = View.inflate(context, R.layout.toolbox_brick_glide_to, null);
+		}
+
+		EditText editX = (EditText) view.findViewById(R.id.toolbox_brick_glide_to_x_edit_text);
 		editX.setText(String.valueOf(xDestination));
 		EditIntegerDialog dialogX = new EditIntegerDialog(context, editX, xDestination, true);
 		dialogX.setOnDismissListener(this);
 		dialogX.setOnCancelListener((OnCancelListener) context);
 		editX.setOnClickListener(dialogX);
 
-		EditText editY = (EditText) brickView.findViewById(R.id.construction_brick_glide_to_y_edit_text);
+		EditText editY = (EditText) view.findViewById(R.id.toolbox_brick_glide_to_y_edit_text);
 		editY.setText(String.valueOf(yDestination));
 		EditIntegerDialog dialogY = new EditIntegerDialog(context, editY, yDestination, true);
 		dialogY.setOnDismissListener(this);
 		dialogY.setOnCancelListener((OnCancelListener) context);
 		editY.setOnClickListener(dialogY);
 
-		EditText editDuration = (EditText) brickView.findViewById(R.id.construction_brick_glide_to_duration_edit_text);
+		EditText editDuration = (EditText) view.findViewById(R.id.toolbox_brick_glide_to_duration_edit_text);
 		editDuration.setText(String.valueOf(durationInMilliSeconds / 1000.0));
 		EditDoubleDialog dialogDuration = new EditDoubleDialog(context, editDuration, durationInMilliSeconds / 1000.0);
 		dialogDuration.setOnDismissListener(this);
 		dialogDuration.setOnCancelListener((OnCancelListener) context);
 		editDuration.setOnClickListener(dialogDuration);
 
-		return brickView;
+		return view;
 	}
 
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.toolbox_brick_glide_to, null);
-		return brickView;
+		return View.inflate(context, R.layout.toolbox_brick_glide_to, null);
 	}
 
 	@Override
@@ -137,9 +141,9 @@ public class GlideToBrick implements Brick, OnDismissListener {
 	public void onDismiss(DialogInterface dialog) {
 		if (dialog instanceof EditIntegerDialog) {
 			EditIntegerDialog inputDialog = (EditIntegerDialog) dialog;
-			if (inputDialog.getRefernecedEditTextId() == R.id.construction_brick_glide_to_x_edit_text) {
+			if (inputDialog.getRefernecedEditTextId() == R.id.toolbox_brick_glide_to_x_edit_text) {
 				xDestination = inputDialog.getValue();
-			} else if (inputDialog.getRefernecedEditTextId() == R.id.construction_brick_glide_to_y_edit_text) {
+			} else if (inputDialog.getRefernecedEditTextId() == R.id.toolbox_brick_glide_to_y_edit_text) {
 				yDestination = inputDialog.getValue();
 			} else {
 				throw new RuntimeException("Received illegal id from EditText: "

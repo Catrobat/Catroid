@@ -19,7 +19,6 @@
 package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -35,6 +34,7 @@ public class SetCostumeBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private CostumeData costumeData;
+	private transient View view;
 
 	public SetCostumeBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -45,7 +45,7 @@ public class SetCostumeBrick implements Brick {
 	}
 
 	public void execute() {
-		if (costumeData != null && sprite != null) {
+		if (costumeData != null && sprite != null && sprite.getCostumeDataList().contains(costumeData)) {
 			if (!NativeAppActivity.isRunning()) {
 				sprite.getCostume().changeImagePath(costumeData.getAbsolutePath());
 			} else {
@@ -66,11 +66,14 @@ public class SetCostumeBrick implements Brick {
 
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
 
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_set_costume, null);
+		if (view == null) {
+			view = View.inflate(context, R.layout.toolbox_brick_set_costume, null);
+		}
 
 		Spinner costumebrickSpinner = (Spinner) view.findViewById(R.id.setcostume_spinner);
 		costumebrickSpinner.setAdapter(createCostumeAdapter(context));
+		costumebrickSpinner.setClickable(true);
+		costumebrickSpinner.setFocusable(true);
 
 		costumebrickSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -82,7 +85,7 @@ public class SetCostumeBrick implements Brick {
 		});
 
 		if (sprite.getCostumeDataList().contains(costumeData)) {
-			costumebrickSpinner.setSelection(sprite.getCostumeDataList().indexOf(costumeData) + 1);
+			costumebrickSpinner.setSelection(sprite.getCostumeDataList().indexOf(costumeData) + 1, true);
 		} else {
 			costumebrickSpinner.setSelection(0);
 		}
@@ -104,9 +107,7 @@ public class SetCostumeBrick implements Brick {
 	}
 
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.toolbox_brick_set_costume, null);
-		return view;
+		return View.inflate(context, R.layout.toolbox_brick_set_costume, null);
 	}
 
 	@Override

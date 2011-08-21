@@ -38,7 +38,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 		>
-			<at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView
+			<at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListView
 				android:id="@+id/brick_list_view"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
@@ -46,7 +46,10 @@
 				android:fastScrollEnabled="true"
 				android:clickable="false"
 				android:drawingCacheQuality="high" 
-				android:cacheColorHint="#00000000" />
+				android:cacheColorHint="#00000000" 
+				android:divider="@android:color/transparent"
+				android:dividerHeight="-5dip"	
+			/>
 			<ImageView
 				android:id="@+id/trash"
 				android:layout_width="51dip"

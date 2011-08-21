@@ -45,9 +45,9 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	private ArrayList<CostumeData> costumeDataList;
 	private ArrayList<SoundInfo> soundList;
 	private transient Costume costume;
+	private transient SpeechBubble speechBubble;
 	private transient double ghostEffect;
 	private transient double brightness;
-
 	public transient volatile boolean isPaused;
 	public transient volatile boolean isFinished;
 
@@ -74,14 +74,16 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		size = 100.0;
 		direction = 90.;
 		isVisible = true;
+		costume = new Costume(this, null);
 		xPosition = 0;
 		yPosition = 0;
-		costume = new Costume(this, null);
 		toDraw = false;
 		ghostEffect = 0.0;
 		brightness = 0.0;
 		isPaused = false;
 		isFinished = false;
+		speechBubble = new SpeechBubble();
+		
 		if (soundList == null) {
 			soundList = new ArrayList<SoundInfo>();
 		}
@@ -322,6 +324,10 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return costume;
 	}
 
+	public synchronized SpeechBubble getBubble() {
+		return speechBubble;
+	}
+
 	public void addScript(Script script) {
 		if (script != null && !scriptList.contains(script)) {
 			scriptList.add(script);
@@ -391,10 +397,10 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		int width = costume.getImageWidth();
 		int height = costume.getImageHeight();
 
-		if (inSpriteXCoordinate < 0 || inSpriteXCoordinate > width) {
+		if (inSpriteXCoordinate < 0 || inSpriteXCoordinate >= width) {
 			return false;
 		}
-		if (inSpriteYCoordinate < 0 || inSpriteYCoordinate > height) {
+		if (inSpriteYCoordinate < 0 || inSpriteYCoordinate >= height) {
 			return false;
 		}
 		if (Color.alpha(costume.getBitmap().getPixel(inSpriteXCoordinate, inSpriteYCoordinate)) <= MIN_ALPHA) {
