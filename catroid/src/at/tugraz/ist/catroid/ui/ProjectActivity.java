@@ -28,6 +28,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -113,6 +115,13 @@ public class ProjectActivity extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_project);
+		spriteToEdit = (Sprite) getLastNonConfigurationInstance();
+	}
+
+	@Override
+	public Object onRetainNonConfigurationInstance() {
+		final Sprite savedSelectedSprite = spriteToEdit;
+		return savedSelectedSprite;
 	}
 
 	@Override
@@ -177,6 +186,24 @@ public class ProjectActivity extends ListActivity {
 	}
 
 	@Override
+	protected void onPrepareDialog(int id, Dialog dialog) {
+		switch (id) {
+			case Consts.DIALOG_RENAME_SPRITE:
+				if (dialog != null && spriteToEdit != null) {
+					EditText spriteTitleInput = (EditText) dialog.findViewById(R.id.dialog_rename_sprite_editText);
+					spriteTitleInput.setText(spriteToEdit.getName());
+				}
+				break;
+			case Consts.DIALOG_NEW_SPRITE:
+				if (dialog != null) {
+					Button buttonPositive = (Button) dialog.findViewById(R.id.dialog_new_sprite_ok_button);
+					buttonPositive.setEnabled(false);
+				}
+				break;
+		}
+	}
+
+	@Override
 	protected void onResume() {
 		super.onResume();
 		if (!Utils.checkForSdCard(this)) {
@@ -202,7 +229,7 @@ public class ProjectActivity extends ListActivity {
 		super.onPause();
 		ProjectManager projectManager = ProjectManager.getInstance();
 		if (projectManager.getCurrentProject() != null) {
-			projectManager.saveProject(this);
+			projectManager.saveProject();
 		}
 	}
 

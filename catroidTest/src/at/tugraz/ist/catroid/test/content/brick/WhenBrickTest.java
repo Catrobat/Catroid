@@ -27,7 +27,7 @@ import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 
 public class WhenBrickTest extends AndroidTestCase {
 
-	public void testWhenBrick() {
+	public void testWhenBrick() throws InterruptedException {
 		int testPosition = 100;
 
 		Sprite sprite = new Sprite("new sprite");
@@ -37,10 +37,8 @@ public class WhenBrickTest extends AndroidTestCase {
 		whenScript.addBrick(placeAtBrick);
 		sprite.addScript(whenScript);
 		sprite.startWhenScripts(whenScript.getAction());
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-		}
+
+		Thread.sleep(1000);
 
 		assertEquals("Simple broadcast failed", testPosition, sprite.getXPosition());
 	}

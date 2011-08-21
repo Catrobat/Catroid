@@ -42,6 +42,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Costume;
+import at.tugraz.ist.catroid.content.SpeechBubble;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 
@@ -84,40 +85,51 @@ public class CanvasDraw implements IDraw {
 
 	public synchronized boolean draw() {
 		canvas = holder.lockCanvas();
-		try {
-			if (canvas == null) {
-				throw new Exception();
-			}
+		if (canvas != null) {
 
 			// draw white rectangle:
 			bufferCanvas.drawRect(flushRectangle, whitePaint);
 			java.util.Collections.sort(sprites);
+
 			for (Sprite sprite : sprites) {
 				if (!sprite.isVisible()) {
 					continue; //don't need to draw
 				}
 				if (sprite.getCostume().getBitmap() != null) {
+					//try {
 					Costume tempCostume = sprite.getCostume();
+					SpeechBubble tempBubble = sprite.getBubble();
+
 					bufferCanvas.drawBitmap(tempCostume.getBitmap(), tempCostume.getDrawPositionX(),
 							tempCostume.getDrawPositionY(), null);
+
+					if (!sprite.getName().equals(activity.getString(R.string.background))) {
+
+						tempBubble.draw(bufferCanvas, tempCostume, activity);
+
+					}
 					sprite.setToDraw(false);
+					//} catch (Exception e) {
+					//e.printStackTrace();
+					//}
 				}
 			}
 			if (!NativeAppActivity.isRunning()) {
 				bufferCanvas.drawBitmap(screenshotIcon, screenshotIconXPosition, Consts.SCREENSHOT_ICON_PADDING_TOP, null);
 			}
 			canvas.drawBitmap(canvasBitmap, 0, 0, null);
-			holder.unlockCanvasAndPost(canvas);
 
 			if (firstRun && !NativeAppActivity.isRunning()) {
 				saveThumbnail(false);
 				firstRun = false;
 			}
 
-			return true;
-		} catch (Exception e) {
+		} else {
 			return false;
 		}
+
+		holder.unlockCanvasAndPost(canvas);
+		return true;
 	}
 
 	public synchronized void drawPauseScreen(Bitmap pauseBitmap) {
@@ -136,7 +148,6 @@ public class CanvasDraw implements IDraw {
 			}
 		}
 		holder.unlockCanvasAndPost(canvas);
-
 	}
 
 	public void processOnTouch(int xCoordinate, int yCoordinate) {
