@@ -30,16 +30,16 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.content.bricks.MotorActionBrick;
+import at.tugraz.ist.catroid.content.bricks.NXTMotorActionBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class MotorActionBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
-	private MotorActionBrick motorBrick;
+	private NXTMotorActionBrick motorBrick;
 
 	private double setDuration;
 	private int setSpeed;
@@ -47,7 +47,7 @@ public class MotorActionBrickTest extends ActivityInstrumentationTestCase2<Scrip
 	private static final int MAX_SPEED = 100;
 	private static final int MIN_SPEED = -100;
 
-	public MotorActionBrickTest() {
+	public NXTMotorActionBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
 	}
 
@@ -70,7 +70,7 @@ public class MotorActionBrickTest extends ActivityInstrumentationTestCase2<Scrip
 	}
 
 	@Smoke
-	public void testMotorActionBrick() {
+	public void testNXTMotorActionBrick() {
 
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
@@ -175,7 +175,7 @@ public class MotorActionBrickTest extends ActivityInstrumentationTestCase2<Scrip
 
 		setSpeedInitially = -70;
 
-		motorBrick = new MotorActionBrick(sprite, 0, setSpeedInitially, 5);
+		motorBrick = new NXTMotorActionBrick(sprite, 0, setSpeedInitially, 5);
 
 		setDuration = 3.0;
 		setSpeed = 30;

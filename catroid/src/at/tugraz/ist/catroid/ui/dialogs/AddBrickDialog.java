@@ -51,9 +51,9 @@ import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
 import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
-import at.tugraz.ist.catroid.content.bricks.MotorActionBrick;
-import at.tugraz.ist.catroid.content.bricks.MotorStopBrick;
-import at.tugraz.ist.catroid.content.bricks.MotorTurnAngleBrick;
+import at.tugraz.ist.catroid.content.bricks.NXTMotorActionBrick;
+import at.tugraz.ist.catroid.content.bricks.NXTMotorStopBrick;
+import at.tugraz.ist.catroid.content.bricks.NXTMotorTurnAngleBrick;
 import at.tugraz.ist.catroid.content.bricks.MoveNStepsBrick;
 import at.tugraz.ist.catroid.content.bricks.NXTPlayToneBrick;
 import at.tugraz.ist.catroid.content.bricks.NoteBrick;
@@ -134,9 +134,9 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new TurnLeftBrick(sprite, 15));
 			prototypeBrickList.add(new TurnRightBrick(sprite, 15));
 			prototypeBrickList.add(new PointInDirectionBrick(sprite, 90));
-			prototypeBrickList.add(new MotorTurnAngleBrick(sprite, 0, 180));
-			prototypeBrickList.add(new MotorStopBrick(sprite, 0));
-			prototypeBrickList.add(new MotorActionBrick(sprite, 0, 100, 3));
+			prototypeBrickList.add(new NXTMotorTurnAngleBrick(sprite, 0, 180));
+			prototypeBrickList.add(new NXTMotorStopBrick(sprite, 0));
+			prototypeBrickList.add(new NXTMotorActionBrick(sprite, 0, 100, 3));
 			prototypeBrickList.add(new NXTPlayToneBrick(sprite, 2000, 1));
 		}
 	}

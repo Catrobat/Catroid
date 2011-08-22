@@ -35,7 +35,7 @@ import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
-public class MotorTurnAngleBrick implements Brick, OnDismissListener {
+public class NXTMotorTurnAngleBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private Handler btcHandler;
@@ -48,7 +48,7 @@ public class MotorTurnAngleBrick implements Brick, OnDismissListener {
 	private static final int NO_DELAY = 0;
 	private static int MOTOR_COMMAND = 1;
 
-	public MotorTurnAngleBrick(Sprite sprite, int motor, int angle) {
+	public NXTMotorTurnAngleBrick(Sprite sprite, int motor, int angle) {
 		this.sprite = sprite;
 		this.motor = motor;
 		this.angle = angle;
@@ -74,17 +74,17 @@ public class MotorTurnAngleBrick implements Brick, OnDismissListener {
 
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.toolbox_brick_motor_turn_angle, null);
+		return inflater.inflate(R.layout.toolbox_brick_nxt_motor_turn_angle, null);
 	}
 
 	@Override
 	public Brick clone() {
-		return new MotorTurnAngleBrick(getSprite(), motor, angle);
+		return new NXTMotorTurnAngleBrick(getSprite(), motor, angle);
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.construction_brick_motor_turn_angle, null);
+		View brickView = inflater.inflate(R.layout.construction_brick_nxt_motor_turn_angle, null);
 
 		EditText editX = (EditText) brickView.findViewById(R.id.motor_turn_angle_edit_text);
 		editX.setText(String.valueOf(angle));

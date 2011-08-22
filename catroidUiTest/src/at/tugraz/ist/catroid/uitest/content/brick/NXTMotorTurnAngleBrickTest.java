@@ -30,17 +30,21 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.content.bricks.MotorStopBrick;
+import at.tugraz.ist.catroid.content.bricks.NXTMotorTurnAngleBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class MotorStopBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
-	private MotorStopBrick motorStopBrick;
+	private NXTMotorTurnAngleBrick motorBrick;
 
-	public MotorStopBrickTest() {
+	private int setAngle;
+	private int setAngleInitially;
+
+	public NXTMotorTurnAngleBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
 	}
 
@@ -76,17 +80,32 @@ public class MotorStopBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
 				getActivity().getAdapter().getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.motor_stop)));
+		assertNotNull("TextView does not exist.",
+				solo.getText(getActivity().getString(R.string.brick_motor_turn_angle)));
+		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.motor_angle)));
+
+		solo.clickOnEditText(0);
+		solo.clearEditText(0);
+		solo.enterText(0, setAngle + "");
+		solo.clickOnButton(0);
+
+		solo.sleep(300);
+		int angle = (Integer) UiTestUtils.getPrivateField("angle", motorBrick);
+		assertEquals("Wrong text in field.", setAngle, angle);
+		assertEquals("Value in Brick is not updated.", setAngle + "", solo.getEditText(0).getText().toString());
 
 		solo.sleep(500);
-		solo.pressSpinnerItem(0, 3);
-		assertEquals("All", solo.getCurrentSpinners().get(0).getSelectedItem());
-		solo.pressSpinnerItem(0, -1);
+		solo.pressSpinnerItem(0, 2);
 		assertEquals("C", solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, -1);
 		assertEquals("B", solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, -1);
 		assertEquals("A", solo.getCurrentSpinners().get(0).getSelectedItem());
+
+		solo.pressSpinnerItem(1, -1);
+		assertEquals("Yes", solo.getCurrentSpinners().get(1).getSelectedItem());
+		solo.pressSpinnerItem(1, 1);
+		assertEquals("No", solo.getCurrentSpinners().get(1).getSelectedItem());
 
 	}
 
@@ -96,9 +115,12 @@ public class MotorStopBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript("script", sprite);
 
-		motorStopBrick = new MotorStopBrick(sprite, 0);
+		setAngleInitially = 90;
+		setAngle = 150;
 
-		script.addBrick(motorStopBrick);
+		motorBrick = new NXTMotorTurnAngleBrick(sprite, 0, setAngleInitially);
+
+		script.addBrick(motorBrick);
 
 		sprite.addScript(script);
 		project.addSprite(sprite);
