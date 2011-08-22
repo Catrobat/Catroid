@@ -215,6 +215,8 @@
 		<string name="nxt_play_tone">Ton abspielen</string>
 		<string name="nxt_tone_frequency">Frequenz</string>
 		<string name="tone_duration">Dauer</string>
+		<string name="nxt_tone_hundred_hz">x100Hz</string>
+		<string name="nxt_turn_degrees">Grad</string>
 		
 		<string name="number_to_small">Wert ist zu klein!</string>
 		<string name="number_to_big">Wert ist zu groß!</string>

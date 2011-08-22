@@ -78,7 +78,7 @@
 				android:layout_centerVertical="true">
 
 				<EditText 
-					android:id="@+id/motor_turn_angle_duration_edit_text"
+					android:id="@+id/motor_turn_angle_edit_text"
 					android:text="0" 
 					android:layout_height="wrap_content"
 					android:layout_width="60dp" 
@@ -90,6 +90,17 @@
 					android:maxLength="3" 
 					android:maxLines="1">
 				</EditText>
+				
+				<TextView 
+					android:text="@string/nxt_turn_degrees"
+					android:layout_centerVertical="true" 
+					android:layout_height="wrap_content"
+					android:layout_width="wrap_content" 
+					android:paddingRight="10dip"
+					android:textColor="@color/white" 
+					android:textSize="18dip"
+					android:textStyle="bold">
+				</TextView>
 
 			</LinearLayout>
 		</RelativeLayout>

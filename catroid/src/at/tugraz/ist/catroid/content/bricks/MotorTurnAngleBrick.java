@@ -86,7 +86,7 @@ public class MotorTurnAngleBrick implements Brick, OnDismissListener {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View brickView = inflater.inflate(R.layout.construction_brick_motor_turn_angle, null);
 
-		EditText editX = (EditText) brickView.findViewById(R.id.motor_turn_angle_duration_edit_text);
+		EditText editX = (EditText) brickView.findViewById(R.id.motor_turn_angle_edit_text);
 		editX.setText(String.valueOf(angle));
 		EditIntegerDialog dialogX = new EditIntegerDialog(context, editX, angle, true);
 		dialogX.setOnDismissListener(this);
@@ -158,7 +158,7 @@ public class MotorTurnAngleBrick implements Brick, OnDismissListener {
 		if (dialog instanceof EditIntegerDialog) {
 			EditIntegerDialog inputDialog = (EditIntegerDialog) dialog;
 
-			if (inputDialog.getRefernecedEditTextId() == R.id.motor_turn_angle_duration_edit_text) {
+			if (inputDialog.getRefernecedEditTextId() == R.id.motor_turn_angle_edit_text) {
 				angle = inputDialog.getValue();
 			} else {
 				throw new RuntimeException("Received illegal id from EditText: "

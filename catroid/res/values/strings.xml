@@ -210,7 +210,7 @@
 	<string name="tone_duration">Duration</string>
 	<string name="nxt_tone_frequency">Frequency</string>
 	<string name="nxt_tone_hundred_hz">x100Hz</string>
-
+	<string name="nxt_turn_degrees">degrees</string>
 	
 	
 	<string name="number_to_small">Value is too small!</string>
