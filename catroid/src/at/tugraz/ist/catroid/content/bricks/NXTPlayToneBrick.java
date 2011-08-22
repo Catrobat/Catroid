@@ -25,7 +25,9 @@ import android.content.DialogInterface.OnDismissListener;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -104,6 +106,35 @@ public class NXTPlayToneBrick implements Brick, OnDismissListener, OnSeekBarChan
 		freqBar.setMax(MAX_FREQ);
 		freqBar.setEnabled(true);
 		freqToSeekBarVal();
+
+		Button freqDown = (Button) brickView.findViewById(R.id.freq_down_btn);
+		freqDown.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+
+				if (frequency <= 2) {
+					return;
+				}
+
+				frequency--;
+				freqToSeekBarVal();
+				editFreq.setText(String.valueOf(frequency));
+			}
+		});
+
+		Button freqUp = (Button) brickView.findViewById(R.id.freq_up_btn);
+		freqUp.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+
+				if (frequency >= 140) {
+					return;
+				}
+
+				frequency++;
+				freqToSeekBarVal();
+				editFreq.setText(String.valueOf(frequency));
+			}
+		});
+
 		return brickView;
 	}
 

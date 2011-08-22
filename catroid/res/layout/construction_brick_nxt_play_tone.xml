@@ -138,13 +138,33 @@
 			</LinearLayout>
 		</RelativeLayout>
 		
-		<RelativeLayout android:layout_width="wrap_content"
+		<RelativeLayout 
+			android:layout_width="wrap_content"
 			android:layout_height="wrap_content">
+			
+			<LinearLayout 
+				android:layout_height="wrap_content"
+				android:layout_width="match_parent" 
+				android:layout_alignParentRight="true"
+				android:layout_centerVertical="true">
+			<Button 
+					android:layout_width="30dip" 
+					android:id="@+id/freq_down_btn" 
+					android:layout_height="35dip" 
+					android:text="@string/minus_symbol"/>
 			<SeekBar 
-				android:layout_width="match_parent"
 				android:id="@+id/seekBarNXTToneFrequency"
-				android:layout_height="wrap_content">
+				android:layout_weight="1"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content">
 			</SeekBar>
+			<Button 
+					android:layout_width="30dip" 
+					android:id="@+id/freq_up_btn" 
+					android:layout_height="35dip" 
+					android:text="@string/plus_symbol" />
+			</LinearLayout>
+			
 		</RelativeLayout>
 
 	</LinearLayout>

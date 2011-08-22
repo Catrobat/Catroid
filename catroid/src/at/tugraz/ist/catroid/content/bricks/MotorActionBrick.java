@@ -25,9 +25,11 @@ import android.content.DialogInterface.OnDismissListener;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -120,6 +122,35 @@ public class MotorActionBrick implements Brick, OnDismissListener, OnItemSelecte
 		speedBar.setMax(MAX_SPEED * 2);
 		speedBar.setEnabled(true);
 		speedToSeekBarVal();
+
+		Button speedDown = (Button) brickView.findViewById(R.id.speed_down_btn);
+		speedDown.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+
+				if (speed <= -100) {
+					return;
+				}
+
+				speed--;
+				speedToSeekBarVal();
+				editSpeed.setText(String.valueOf(speed));
+			}
+		});
+
+		Button speedUp = (Button) brickView.findViewById(R.id.speed_up_btn);
+		speedUp.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+
+				if (speed >= 100) {
+					return;
+				}
+
+				speed++;
+				speedToSeekBarVal();
+				editSpeed.setText(String.valueOf(speed));
+			}
+		});
+
 		return brickView;
 	}
 
