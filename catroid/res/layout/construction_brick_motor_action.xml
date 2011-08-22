@@ -84,31 +84,32 @@
 
 				<EditText 
 					android:id="@+id/motor_action_duration_edit_text"
-					android:text="0" 
+					android:text="0.0" 
 					android:layout_height="wrap_content"
+					android:layout_width="60dp" 
 					android:clickable="false"
 					android:focusable="false" 
 					android:focusableInTouchMode="false"
 					android:gravity="right" 
 					android:inputType="number|numberDecimal|numberSigned"
-					android:maxLength="4" 
-					android:maxLines="1" android:layout_width="60dip">
+					android:maxLength="3" 
+					android:maxLines="1">
 				</EditText>
-		
+				
 				<TextView 
-				android:text="@string/seconds"
-				android:layout_centerVertical="true" 
-				android:layout_height="wrap_content"
-				android:layout_width="wrap_content" 
-				android:paddingRight="10dip"
-				android:textColor="@color/white" 
-				android:textSize="18dip"
-				android:textStyle="bold">
-			</TextView>
-
+					android:text="@string/seconds"
+					android:layout_centerVertical="true" 
+					android:layout_height="wrap_content"
+					android:layout_width="wrap_content" 
+					android:paddingRight="10dip"
+					android:textColor="@color/white" 
+					android:textSize="18dip"
+					android:textStyle="bold">
+				</TextView>
 
 			</LinearLayout>
 		</RelativeLayout>
+
 		<RelativeLayout 
 			android:layout_height="wrap_content"
 			android:layout_width="fill_parent" 
@@ -128,31 +129,32 @@
 				android:layout_width="wrap_content" 
 				android:layout_alignParentRight="true"
 				android:layout_centerVertical="true">
-			<EditText 
-				android:id="@+id/motor_action_speed_edit_text"
-				android:text="0" 
-				android:inputType="number|numberDecimal|numberSigned"
-				android:maxLength="4" 
-				android:layout_height="wrap_content"
-				android:maxLines="1" 
-				android:gravity="right" 
-				android:clickable="false"
-				android:focusableInTouchMode="false"
-				android:focusable="false" 
-				android:layout_alignParentRight="true" android:layout_width="60dip">
-				
-			</EditText>
 
-			<TextView 
-				android:text="@string/percent"
-				android:layout_centerVertical="true" 
-				android:layout_height="wrap_content"
-				android:layout_width="wrap_content" 
-				android:paddingRight="10dip"
-				android:textColor="@color/white" 
-				android:textSize="18dip"
-				android:textStyle="bold">
-			</TextView>
+				<EditText 
+					android:id="@+id/motor_action_speed_edit_text"
+					android:text="0.0" 
+					android:layout_height="wrap_content"
+					android:layout_width="60dp" 
+					android:clickable="false"
+					android:focusable="false" 
+					android:focusableInTouchMode="false"
+					android:gravity="right" 
+					android:inputType="number|numberDecimal|numberSigned"
+					android:maxLength="3" 
+					android:maxLines="1">
+				</EditText>
+				
+				<TextView 
+					android:text="@string/percent"
+					android:layout_centerVertical="true" 
+					android:layout_height="wrap_content"
+					android:layout_width="wrap_content" 
+					android:paddingRight="10dip"
+					android:textColor="@color/white" 
+					android:textSize="18dip"
+					android:textStyle="bold">
+				</TextView>
+
 			</LinearLayout>
 		</RelativeLayout>
 		<RelativeLayout android:layout_width="wrap_content"
