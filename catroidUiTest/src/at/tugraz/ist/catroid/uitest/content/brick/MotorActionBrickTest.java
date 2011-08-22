@@ -44,6 +44,8 @@ public class MotorActionBrickTest extends ActivityInstrumentationTestCase2<Scrip
 	private double setDuration;
 	private int setSpeed;
 	private int setSpeedInitially;
+	private static final int MAX_SPEED = 100;
+	private static final int MIN_SPEED = -100;
 
 	public MotorActionBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -117,6 +119,43 @@ public class MotorActionBrickTest extends ActivityInstrumentationTestCase2<Scrip
 		assertEquals("Value in Brick is not updated.", setSpeedInitially + "", solo.getEditText(1).getText().toString());
 		assertEquals("SeekBar is at wrong position", setSpeedInitially + 100, solo.getCurrentProgressBars().get(0)
 				.getProgress());
+
+		solo.clickOnButton(0);
+		solo.sleep(300);
+
+		int speed_btn = (Integer) UiTestUtils.getPrivateField("speed", motorBrick);
+		assertEquals("Wrong text in field.", speed_btn, speed - 1);
+		assertEquals("Value in Brick is not updated.", speed - 1 + "", solo.getEditText(1).getText().toString());
+		assertEquals("SeekBar is at wrong position", speed - 1 + 100, solo.getCurrentProgressBars().get(0)
+				.getProgress());
+
+		solo.clickOnButton(1);
+		solo.sleep(300);
+
+		speed_btn = (Integer) UiTestUtils.getPrivateField("speed", motorBrick);
+		assertEquals("Wrong text in field.", speed_btn, speed);
+		assertEquals("Value in Brick is not updated.", speed + "", solo.getEditText(1).getText().toString());
+		assertEquals("SeekBar is at wrong position", speed + 100, solo.getCurrentProgressBars().get(0).getProgress());
+
+		solo.setProgressBar(0, MIN_SPEED + 100);
+		solo.clickOnButton(0);
+		solo.clickOnButton(0);
+		solo.sleep(300);
+
+		speed = (Integer) UiTestUtils.getPrivateField("speed", motorBrick);
+		assertEquals("Wrong text in field.", speed, MIN_SPEED);
+		assertEquals("Value in Brick is not updated.", speed + "", solo.getEditText(1).getText().toString());
+		assertEquals("SeekBar is at wrong position", speed + 100, solo.getCurrentProgressBars().get(0).getProgress());
+
+		solo.setProgressBar(0, MAX_SPEED + 100);
+		solo.clickOnButton(1);
+		solo.clickOnButton(1);
+		solo.sleep(300);
+
+		speed = (Integer) UiTestUtils.getPrivateField("speed", motorBrick);
+		assertEquals("Wrong text in field.", speed, MAX_SPEED);
+		assertEquals("Value in Brick is not updated.", speed + "", solo.getEditText(1).getText().toString());
+		assertEquals("SeekBar is at wrong position", speed + 100, solo.getCurrentProgressBars().get(0).getProgress());
 
 		solo.sleep(500);
 		solo.pressSpinnerItem(0, 0);
