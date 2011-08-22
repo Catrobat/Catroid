@@ -30,7 +30,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
 import at.tugraz.ist.catroid.content.Sprite;
 
-public class MotorStopBrick implements Brick, OnItemSelectedListener {
+public class NXTMotorStopBrick implements Brick, OnItemSelectedListener {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private Handler btcHandler;
@@ -42,7 +42,7 @@ public class MotorStopBrick implements Brick, OnItemSelectedListener {
 	private static final int NO_DELAY = 0;
 	private static int MOTOR_COMMAND = 1;
 
-	public MotorStopBrick(Sprite sprite, int motor) {
+	public NXTMotorStopBrick(Sprite sprite, int motor) {
 		this.sprite = sprite;
 		this.motor = motor;
 
@@ -68,17 +68,17 @@ public class MotorStopBrick implements Brick, OnItemSelectedListener {
 
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.toolbox_brick_motor_stop, null);
+		return inflater.inflate(R.layout.toolbox_brick_nxt_motor_stop, null);
 	}
 
 	@Override
 	public Brick clone() {
-		return new MotorStopBrick(getSprite(), motor);
+		return new NXTMotorStopBrick(getSprite(), motor);
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.construction_brick_motor_stop, null);
+		View brickView = inflater.inflate(R.layout.construction_brick_nxt_motor_stop, null);
 
 		Spinner motorSpinner = (Spinner) brickView.findViewById(R.id.stop_motor_spinner);
 		motorSpinner.setOnItemSelectedListener(this);

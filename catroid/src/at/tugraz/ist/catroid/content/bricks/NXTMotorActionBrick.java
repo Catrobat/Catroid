@@ -40,7 +40,7 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
-public class MotorActionBrick implements Brick, OnDismissListener, OnItemSelectedListener, OnSeekBarChangeListener {
+public class NXTMotorActionBrick implements Brick, OnDismissListener, OnItemSelectedListener, OnSeekBarChangeListener {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private transient Handler btcHandler;
@@ -61,7 +61,7 @@ public class MotorActionBrick implements Brick, OnDismissListener, OnItemSelecte
 	private transient SeekBar speedBar;
 	private transient EditIntegerDialog dialogSpeed;
 
-	public MotorActionBrick(Sprite sprite, int motor, int speed, double duration) {
+	public NXTMotorActionBrick(Sprite sprite, int motor, int speed, double duration) {
 		this.sprite = sprite;
 		this.motor = motor;
 		this.speed = speed;
@@ -85,17 +85,17 @@ public class MotorActionBrick implements Brick, OnDismissListener, OnItemSelecte
 
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.toolbox_brick_motor_action, null);
+		return inflater.inflate(R.layout.toolbox_brick_nxt_motor_action, null);
 	}
 
 	@Override
 	public Brick clone() {
-		return new MotorActionBrick(getSprite(), motor, speed, duration);
+		return new NXTMotorActionBrick(getSprite(), motor, speed, duration);
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.construction_brick_motor_action, null);
+		View brickView = inflater.inflate(R.layout.construction_brick_nxt_motor_action, null);
 
 		EditText editDuration = (EditText) brickView.findViewById(R.id.motor_action_duration_edit_text);
 		editDuration.setText(String.valueOf(duration));
@@ -115,7 +115,6 @@ public class MotorActionBrick implements Brick, OnDismissListener, OnItemSelecte
 		Spinner motorSpinner = (Spinner) brickView.findViewById(R.id.motor_spinner);
 		motorSpinner.setOnItemSelectedListener(this);
 		motorSpinner.setSelection(motor);
-		//return inflater.inflate(R.layout.toolbox_brick_motor_action, null);
 
 		speedBar = (SeekBar) brickView.findViewById(R.id.seekBarSpeedMotorAction);
 		speedBar.setOnSeekBarChangeListener(this);
