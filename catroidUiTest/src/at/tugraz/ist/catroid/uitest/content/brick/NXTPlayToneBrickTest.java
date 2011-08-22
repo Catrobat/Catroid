@@ -126,13 +126,13 @@ public class NXTPlayToneBrickTest extends ActivityInstrumentationTestCase2<Scrip
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript("script", sprite);
 
-		setFrequencyInitially = 2000;
+		setFrequencyInitially = 20;
 		setDurationInitially = 1.0;
 
 		playToneBrick = new NXTPlayToneBrick(sprite, setFrequencyInitially, setDurationInitially);
 
 		setDuration = 3.0;
-		setFrequency = 7000;
+		setFrequency = 70;
 
 		script.addBrick(playToneBrick);
 
