@@ -37,7 +37,6 @@ import android.widget.Spinner;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
 public class NXTMotorActionBrick implements Brick, OnDismissListener, OnItemSelectedListener, OnSeekBarChangeListener {
@@ -50,12 +49,12 @@ public class NXTMotorActionBrick implements Brick, OnDismissListener, OnItemSele
 	private static final int MOTOR_A = 0;
 	private static final int MOTOR_B = 1;
 	private static final int MOTOR_C = 2;
+	private static final int MOTOR_A_C = 3;
 	private static final int NO_DELAY = 0;
 	private static final int MIN_SPEED = -100;
 	private static final int MAX_SPEED = 100;
 	private static final double MIN_DURATION = 0;
 	private static final double MAX_DURATION = Double.MAX_VALUE;
-	private static int MOTOR_COMMAND = 1;
 
 	private transient EditText editSpeed;
 	private transient SeekBar speedBar;
@@ -73,9 +72,13 @@ public class NXTMotorActionBrick implements Brick, OnDismissListener, OnItemSele
 		if (btcHandler == null) {
 			btcHandler = LegoNXT.getBTCHandler();
 		}
-
-		LegoNXT.sendBTCMotorMessage(NO_DELAY, motor, speed, 0);
-		LegoNXT.sendBTCMotorMessage((int) (duration * 1000), motor, 0, 0);
+		if (motor == MOTOR_A_C) {
+			LegoNXT.sendBTCMotorMessage(NO_DELAY, MOTOR_A, speed, 0);
+			LegoNXT.sendBTCMotorMessage(NO_DELAY, MOTOR_C, speed, 0);
+		} else {
+			LegoNXT.sendBTCMotorMessage(NO_DELAY, motor, speed, 0);
+		}
+		//LegoNXT.sendBTCMotorMessage((int) (duration * 1000), motor, 0, 0);
 
 	}
 
@@ -97,13 +100,13 @@ public class NXTMotorActionBrick implements Brick, OnDismissListener, OnItemSele
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View brickView = inflater.inflate(R.layout.construction_brick_nxt_motor_action, null);
 
-		EditText editDuration = (EditText) brickView.findViewById(R.id.motor_action_duration_edit_text);
-		editDuration.setText(String.valueOf(duration));
-		EditDoubleDialog dialogDuration = new EditDoubleDialog(context, editDuration, duration, MIN_DURATION,
-				MAX_DURATION);
-		dialogDuration.setOnDismissListener(this);
-		dialogDuration.setOnCancelListener((OnCancelListener) context);
-		editDuration.setOnClickListener(dialogDuration);
+		//		EditText editDuration = (EditText) brickView.findViewById(R.id.motor_action_duration_edit_text);
+		//		editDuration.setText(String.valueOf(duration));
+		//		EditDoubleDialog dialogDuration = new EditDoubleDialog(context, editDuration, duration, MIN_DURATION,
+		//				MAX_DURATION);
+		//		dialogDuration.setOnDismissListener(this);
+		//		dialogDuration.setOnCancelListener((OnCancelListener) context);
+		//		editDuration.setOnClickListener(dialogDuration);
 
 		editSpeed = (EditText) brickView.findViewById(R.id.motor_action_speed_edit_text);
 		editSpeed.setText(String.valueOf(speed));
@@ -178,10 +181,11 @@ public class NXTMotorActionBrick implements Brick, OnDismissListener, OnItemSele
 				speed = inputDialog.getValue();
 				speedToSeekBarVal();
 			}
-		} else if (dialog instanceof EditDoubleDialog) {
-			EditDoubleDialog inputDialog = (EditDoubleDialog) dialog;
-			duration = inputDialog.getValue();
-		} else {
+		}
+		//		else if (dialog instanceof EditDoubleDialog) {
+		//			EditDoubleDialog inputDialog = (EditDoubleDialog) dialog;
+		//			duration = inputDialog.getValue();}
+		else {
 			throw new RuntimeException("Received illegal id from EditText in MotorActionBrick");
 		}
 
@@ -199,6 +203,9 @@ public class NXTMotorActionBrick implements Brick, OnDismissListener, OnItemSele
 				break;
 			case 2:
 				motor = MOTOR_C;
+				break;
+			case 3:
+				motor = MOTOR_A_C;
 				break;
 		}
 	}

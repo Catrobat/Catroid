@@ -90,8 +90,13 @@
 					android:maxLength="3" 
 					android:maxLines="1">
 				</EditText>
-				
-				<TextView 
+				<Spinner android:layout_weight="1" 
+					android:id="@+id/fancy_directions_dialog"
+    			android:layout_height="wrap_content"
+					android:layout_width="wrap_content"
+					android:entries="@array/fancy_directions_chooser">
+				</Spinner>
+				<!-- <TextView 
 					android:text="@string/nxt_turn_degrees"
 					android:layout_centerVertical="true" 
 					android:layout_height="wrap_content"
@@ -100,12 +105,12 @@
 					android:textColor="@color/white" 
 					android:textSize="18dip"
 					android:textStyle="bold">
-				</TextView>
+				</TextView> -->
 
 			</LinearLayout>
 		</RelativeLayout>
 
-		<RelativeLayout 
+<!-- 		<RelativeLayout 
 			android:layout_height="wrap_content"
 			android:layout_width="fill_parent" 
 			android:layout_centerVertical="true">
@@ -130,7 +135,7 @@
 					android:entries="@array/yes_no_array">
 				</Spinner>
 			</LinearLayout>
-		</RelativeLayout>
+		</RelativeLayout> -->
 
 
 	</LinearLayout>
