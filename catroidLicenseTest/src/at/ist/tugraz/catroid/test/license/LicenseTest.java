@@ -32,7 +32,7 @@ import at.tugraz.ist.catroid.utils.UtilFile;
 public class LicenseTest extends TestCase {
 	private static final String[] DIRECTORIES = { ".", "../catroid", "../catroidTest", "../catroidUiTest", };
 
-	private static final String[] AGPL_FILES = { "..\\catroid\\build.xml",
+	private static final String[] AGPL_FILES = {
 			"..\\catroid\\src\\at\\tugraz\\ist\\catroid\\stage\\NativeAppActivity.java",
 			"..\\catroidTest\\res\\raw\\test_project.xml",
 			"..\\catroidTest\\src\\at\\tugraz\\ist\\catroid\\nativetest\\content\\brick\\SetCostumeBrickTest.java",
