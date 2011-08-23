@@ -119,8 +119,8 @@ public class Costume extends Image {
 			currentAlphaPixmap = null;
 			if (currentImagePath.equals("")) {
 				xyLock.acquireUninterruptibly();
-				this.x += this.width / 2;
-				this.y += this.height / 2;
+				this.x += this.width / 2f;
+				this.y += this.height / 2f;
 				this.width = 0f;
 				this.height = 0f;
 				xyLock.release();
@@ -130,13 +130,19 @@ public class Costume extends Image {
 				return;
 			}
 			xyLock.acquireUninterruptibly();
-			this.x += this.width / 2;
-			this.y += this.height / 2;
-			this.width = 0f;
-			this.height = 0f;
-			xyLock.release();
+			this.x += this.width / 2f;
+			this.y += this.height / 2f;
 
 			Pixmap pixmap = new Pixmap(Gdx.files.absolute(currentImagePath));
+
+			this.width = pixmap.getWidth();
+			this.height = pixmap.getHeight();
+			this.x -= this.width / 2f;
+			this.y -= this.height / 2f;
+			this.originX = this.width / 2f;
+			this.originY = this.height / 2f;
+			xyLock.release();
+
 			currentAlphaPixmap = new Pixmap(pixmap.getWidth(), pixmap.getHeight(), Format.Alpha);
 			currentAlphaPixmap.drawPixmap(pixmap, 0, 0, 0, 0, pixmap.getWidth(), pixmap.getHeight());
 
@@ -150,14 +156,6 @@ public class Costume extends Image {
 			pixmap.dispose();
 
 			this.region = new TextureRegion(texture);
-			xyLock.acquireUninterruptibly();
-			this.width = this.region.getTexture().getWidth();
-			this.height = this.region.getTexture().getHeight();
-			this.x -= this.width / 2;
-			this.y -= this.height / 2;
-			xyLock.release();
-			this.originX = this.width / 2f;
-			this.originY = this.height / 2f;
 
 			imageChanged = false;
 		}
@@ -218,7 +216,7 @@ public class Costume extends Image {
 	public void setXPosition(float x) {
 		xyLock.acquireUninterruptibly();
 		if (this.region != null && this.region.getTexture() != null) {
-			this.x = x - this.width / 2;
+			this.x = x - (this.width / 2f);
 		} else {
 			this.x = x;
 		}
@@ -228,7 +226,7 @@ public class Costume extends Image {
 	public void setYPosition(float y) {
 		xyLock.acquireUninterruptibly();
 		if (this.region != null && this.region.getTexture() != null) {
-			this.y = y - this.height / 2;
+			this.y = y - (this.height / 2f);
 		} else {
 			this.y = y;
 		}
@@ -238,8 +236,8 @@ public class Costume extends Image {
 	public void setXYPosition(float x, float y) {
 		xyLock.acquireUninterruptibly();
 		if (this.region != null && this.region.getTexture() != null) {
-			this.x = x - this.width / 2;
-			this.y = y - this.height / 2;
+			this.x = x - (this.width / 2f);
+			this.y = y - (this.height / 2f);
 		} else {
 			this.x = x;
 			this.y = y;
@@ -251,7 +249,7 @@ public class Costume extends Image {
 		xyLock.acquireUninterruptibly();
 		float xPos = this.x;
 		if (this.region != null && this.region.getTexture() != null) {
-			xPos += this.width / 2;
+			xPos += this.width / 2f;
 		}
 		xyLock.release();
 		return xPos;
@@ -261,10 +259,24 @@ public class Costume extends Image {
 		xyLock.acquireUninterruptibly();
 		float yPos = this.y;
 		if (this.region != null && this.region.getTexture() != null) {
-			yPos += this.height / 2;
+			yPos += this.height / 2f;
 		}
 		xyLock.release();
 		return yPos;
+	}
+
+	public float getWidth() {
+		xyLock.acquireUninterruptibly();
+		float width = this.width;
+		xyLock.release();
+		return width;
+	}
+
+	public float getHeight() {
+		xyLock.acquireUninterruptibly();
+		float height = this.height;
+		xyLock.release();
+		return height;
 	}
 
 	public void setImagePath(String path) {
