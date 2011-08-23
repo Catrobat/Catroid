@@ -38,9 +38,9 @@ public class NXTMotorStopBrick implements Brick, OnItemSelectedListener {
 	private static final int MOTOR_A = 0;
 	private static final int MOTOR_B = 1;
 	private static final int MOTOR_C = 2;
-	private static final int ALL_MOTORS = 3;
+	private static final int MOTOR_A_C = 3;
+	private static final int ALL_MOTORS = 4;
 	private static final int NO_DELAY = 0;
-	private static int MOTOR_COMMAND = 1;
 
 	public NXTMotorStopBrick(Sprite sprite, int motor) {
 		this.sprite = sprite;
@@ -55,6 +55,9 @@ public class NXTMotorStopBrick implements Brick, OnItemSelectedListener {
 		if (motor == ALL_MOTORS) {
 			LegoNXT.sendBTCMotorMessage(NO_DELAY, MOTOR_A, 0, 0);
 			LegoNXT.sendBTCMotorMessage(NO_DELAY, MOTOR_B, 0, 0);
+			LegoNXT.sendBTCMotorMessage(NO_DELAY, MOTOR_C, 0, 0);
+		} else if (motor == MOTOR_A_C) {
+			LegoNXT.sendBTCMotorMessage(NO_DELAY, MOTOR_A, 0, 0);
 			LegoNXT.sendBTCMotorMessage(NO_DELAY, MOTOR_C, 0, 0);
 		} else {
 			LegoNXT.sendBTCMotorMessage(NO_DELAY, motor, 0, 0);
@@ -100,6 +103,9 @@ public class NXTMotorStopBrick implements Brick, OnItemSelectedListener {
 				motor = MOTOR_C;
 				break;
 			case 3:
+				motor = MOTOR_A_C;
+				break;
+			case 4:
 				motor = ALL_MOTORS;
 				break;
 		}
