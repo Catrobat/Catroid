@@ -32,26 +32,39 @@ import at.tugraz.ist.catroid.utils.UtilFile;
 public class LicenseTest extends TestCase {
 	private static final String[] DIRECTORIES = { ".", "../catroid", "../catroidTest", "../catroidUiTest", };
 
-	private ArrayList<String> licenseText;
+	private static final String[] AGPL_FILES = { "..\\catroid\\build.xml",
+			"..\\catroid\\src\\at\\tugraz\\ist\\catroid\\stage\\NativeAppActivity.java",
+			"..\\catroidTest\\res\\raw\\test_project.xml",
+			"..\\catroidTest\\src\\at\\tugraz\\ist\\catroid\\nativetest\\content\\brick\\SetCostumeBrickTest.java",
+			"..\\catroidTest\\src\\at\\tugraz\\ist\\catroid\\nativetest\\content\\sprite\\CostumeTest.java",
+			"..\\catroidTest\\src\\at\\tugraz\\ist\\catroid\\nativetest\\content\\sprite\\SoundManagerTest.java",
+			"..\\catroidTest\\src\\at\\tugraz\\ist\\catroid\\nativetest\\io\\StorageHandlerTest.java" };
+
+	private ArrayList<String> gplLicenseText;
+	private ArrayList<String> agplLicenseText;
 	private boolean allLicenseTextsPresentAndCorrect;
 	private StringBuilder errorMessages;
 
 	public LicenseTest() throws IOException {
 		allLicenseTextsPresentAndCorrect = true;
 		errorMessages = new StringBuilder();
-		licenseText = new ArrayList<String>();
-		File licenseTextFile = new File("res/license_text.txt");
-		BufferedReader reader = new BufferedReader(new FileReader(licenseTextFile));
+		gplLicenseText = readLicenseFile(new File("res/gpl_license_text.txt"));
+		agplLicenseText = readLicenseFile(new File("res/agpl_license_text.txt"));
+	}
 
+	private ArrayList<String> readLicenseFile(File licenseTextFile) throws IOException {
+		BufferedReader reader = new BufferedReader(new FileReader(licenseTextFile));
 		String line = null;
+		ArrayList<String> licenseText = new ArrayList<String>();
 		while ((line = reader.readLine()) != null) {
 			if (line.length() > 0) {
 				licenseText.add(line);
 			}
 		}
+		return licenseText;
 	}
 
-	private void checkFileForLicense(File file) throws IOException {
+	private void checkFileForLicense(File file, ArrayList<String> licenseText) throws IOException {
 		StringBuilder fileContentsBuilder = new StringBuilder();
 		BufferedReader reader = new BufferedReader(new FileReader(file));
 
@@ -94,10 +107,23 @@ public class LicenseTest extends TestCase {
 			List<File> filesToCheck = UtilFile.getFilesFromDirectoryByExtension(directory, new String[] { ".java",
 					".xml" });
 			for (File file : filesToCheck) {
-				checkFileForLicense(file);
+				if (isAgplFile(file.getPath())) {
+					checkFileForLicense(file, agplLicenseText);
+				} else {
+					checkFileForLicense(file, gplLicenseText);
+				}
 			}
 		}
 		assertTrue("Correct license text was not found in all files:\n" + errorMessages.toString(),
 				allLicenseTextsPresentAndCorrect);
+	}
+
+	private boolean isAgplFile(String file) {
+		for (String agplFile : AGPL_FILES) {
+			if (file.equals(agplFile)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
