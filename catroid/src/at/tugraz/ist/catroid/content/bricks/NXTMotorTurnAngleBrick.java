@@ -25,6 +25,7 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.DialogInterface.OnShowListener;
 import android.os.Handler;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -116,7 +117,7 @@ public class NXTMotorTurnAngleBrick implements Brick, OnDismissListener {
 		dialogX = new EditIntegerDialog(context, editX, angle, true);
 		dialogX.setOnDismissListener(this);
 		dialogX.setOnCancelListener((OnCancelListener) context);
-		editX.setOnClickListener(dialogX);
+		//editX.setOnClickListener(dialogX);
 
 		Spinner motorSpinner = (Spinner) brickView.findViewById(R.id.motor_spinner);
 		motorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -153,42 +154,55 @@ public class NXTMotorTurnAngleBrick implements Brick, OnDismissListener {
 			public void onClick(View v) {
 				AlertDialog.Builder builder = new AlertDialog.Builder(context);
 				final EditText input = new EditText(context);
-				final CharSequence[] items = { "Red", "Green", "Blue" };
-
+				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
+				//final EditIntegerDialog test = new EditIntegerDialog(context, input, angle, false);
+				input.setText(angle + "");
 				builder.setView(input);
 				builder.setTitle("Choose and edit direction");
-				builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int item) {
+				builder.setSingleChoiceItems(R.array.fancy_directions_chooser, -1,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int item) {
 
-						switch (item) {
-							case 0:
-								input.setText("45");
-								break;
-							case 1:
-								input.setText("90");
-								break;
-							case 2:
-								input.setText("-45");
-								break;
-							case 3:
-								input.setText("-90");
-								break;
-						}
+								switch (item) {
+									case 0:
+										input.setText("45");
+										break;
+									case 1:
+										input.setText("90");
+										break;
+									case 2:
+										input.setText("-45");
+										break;
+									case 3:
+										input.setText("-90");
+										break;
+									case 4:
+										input.setText("180");
+										break;
+									case 5:
+										input.setText("360");
+										break;
+								}
 
-						input.setText(items[item]);
-
-						//Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
-					}
-				});
+								//Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
+							}
+						});
 				builder.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
+
+						//brickView.findViewById(R.id.directions_btn);
 						//						String newMessage = (input.getText().toString()).trim();
 						//						if (newMessage.length() == 0
 						//								|| newMessage.equals(context.getString(R.string.broadcast_nothing_selected))) {
 						//							dialog.cancel();
 						//							return;
 						//						}
-
+						if (input.getText().equals("")) {
+							input.setText(0);
+						}
+						editX.setText(input.getText().toString());
+						angle = Integer.parseInt(input.getText().toString());
+						dialogX.setValue(angle);
 						//broadcastSpinner.setSelection(position);
 					}
 				});

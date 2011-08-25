@@ -91,10 +91,10 @@
 					android:maxLines="1">
 				</EditText>
 				<Button 
-					android:layout_width="30dip" 
+					android:layout_width="40dip" 
 					android:id="@+id/directions_btn" 
-					android:layout_height="35dip" 
-					android:text="@string/plus_symbol" />
+					android:layout_height="45dip" 
+					android:text="@string/just_a_v" />
 				<!-- <TextView 
 					android:text="@string/nxt_turn_degrees"
 					android:layout_centerVertical="true" 
