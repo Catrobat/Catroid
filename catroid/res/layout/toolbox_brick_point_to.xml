@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- The warning concerning the minSdkVersion can be ignored, as this is our intended behavior -->
-
 <!-- 
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010  Catroid development team 
@@ -19,31 +17,39 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
-
-<manifest
+<LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	package="at.tugraz.ist.catroid.uitest"
-	android:versionCode="5"
-	android:versionName="0.5.0a"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:orientation="horizontal"
 >
-	<application>
-		<uses-library
-			android:name="android.test.runner" />
-		<activity
-			android:name="at.tugraz.ist.catroid.uitest.mockups.MockGalleryActivity"
-			android:exported="true"
-		>
-		</activity>
-	</application>
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:background="@drawable/brick_blue"
+	>
+		<TextView
+			android:text="@string/brick_point_to"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:textColor="@color/white"
+			android:textSize="18dip"
+			android:textStyle="bold" />
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+			>
+				<Spinner 
+					android:id="@+id/point_to_spinner" 
+					android:layout_width="wrap_content" 
+					android:layout_height="wrap_content"
+					android:layout_weight="5"
+					android:focusable="false"
+					android:clickable="false"
+				/>
 
-	<uses-sdk
-		android:minSdkVersion="7"
-		android:targetSdkVersion="8" />
-	<instrumentation
-		android:targetPackage="at.tugraz.ist.catroid"
-		android:name="android.test.InstrumentationTestRunner" />
-	<!-- this instrumentation is needed to run the tests from jenkins -->
-	<instrumentation
-		android:targetPackage="at.tugraz.ist.catroid"
-		android:name="pl.polidea.instrumentation.PolideaInstrumentationTestRunner" />
-</manifest> 
+			</LinearLayout>
+	</LinearLayout>
+</LinearLayout>

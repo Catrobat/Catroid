@@ -20,7 +20,9 @@ package at.tugraz.ist.catroid.content;
 
 import java.io.Serializable;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.utils.ImageEditing;
@@ -33,6 +35,8 @@ public class Costume implements Serializable {
 	private Sprite sprite;
 	private int drawPositionX;
 	private int drawPositionY;
+
+	private int resourceId;
 
 	@XStreamOmitField
 	private transient Bitmap costumeBitmap;
@@ -154,5 +158,34 @@ public class Costume implements Serializable {
 		}
 
 		return brightness;
+	}
+
+	public synchronized void setBitmapFromRes(Context context, int resourceId) {
+		imagePath = null;
+		this.resourceId = resourceId;
+
+		BitmapFactory.Options boundsOptions = new BitmapFactory.Options();
+		boundsOptions.inJustDecodeBounds = true;
+		BitmapFactory.decodeResource(context.getResources(), resourceId, boundsOptions);
+
+		double sampleSizeWidth = boundsOptions.outWidth / (double) Values.SCREEN_WIDTH;
+		double sampleSizeHeight = boundsOptions.outHeight / (double) Values.SCREEN_HEIGHT;
+		double sampleSize = Math.max(sampleSizeWidth, sampleSizeHeight);
+
+		if (sampleSize > 1) {
+			int sampleSizeRounded = (int) Math.floor(sampleSize);
+
+			int newHeight = (int) Math.ceil(boundsOptions.outWidth / sampleSize);
+			int newWidth = (int) Math.ceil(boundsOptions.outHeight / sampleSize);
+
+			BitmapFactory.Options scaleOptions = new BitmapFactory.Options();
+			scaleOptions.inSampleSize = sampleSizeRounded;
+
+			Bitmap tmpBitmap = BitmapFactory.decodeResource(context.getResources(), resourceId, scaleOptions);
+			costumeBitmap = ImageEditing.scaleBitmap(tmpBitmap, newWidth, newHeight);
+		} else {
+			costumeBitmap = BitmapFactory.decodeResource(context.getResources(), resourceId);
+		}
+		updatePosition();
 	}
 }
