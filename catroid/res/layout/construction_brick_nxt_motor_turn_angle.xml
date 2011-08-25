@@ -90,12 +90,11 @@
 					android:maxLength="3" 
 					android:maxLines="1">
 				</EditText>
-				<Spinner android:layout_weight="1" 
-					android:id="@+id/fancy_directions_dialog"
-    			android:layout_height="wrap_content"
-					android:layout_width="wrap_content"
-					android:entries="@array/fancy_directions_chooser">
-				</Spinner>
+				<Button 
+					android:layout_width="30dip" 
+					android:id="@+id/directions_btn" 
+					android:layout_height="35dip" 
+					android:text="@string/plus_symbol" />
 				<!-- <TextView 
 					android:text="@string/nxt_turn_degrees"
 					android:layout_centerVertical="true" 
