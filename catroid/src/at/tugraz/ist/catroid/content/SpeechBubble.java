@@ -81,7 +81,7 @@ public class SpeechBubble implements Serializable {
 
 	public synchronized void setSpeechBubble(String speechBubbleText, int speechBubblePictureID,
 			int speechBubblePictureInvID) {
-		this.speechBubbleText = speechBubbleText;
+		this.speechBubbleText = speechBubbleText.replace("\n", " ");
 		this.speechBubblePictureID = speechBubblePictureID;
 		this.speechBubblePictureInvID = speechBubblePictureInvID;
 
