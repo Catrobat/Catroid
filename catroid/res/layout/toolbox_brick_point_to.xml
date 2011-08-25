@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <!-- 
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010  Catroid development team 
@@ -20,45 +19,37 @@
  -->
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:background="#d8e0f5"
+	android:layout_height="wrap_content"
+	android:orientation="horizontal"
 >
-	
-	<!-- Sprite list -->
 	<LinearLayout
 		android:orientation="vertical"
+		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:layout_weight="1"
-		
+		android:background="@drawable/brick_blue"
 	>
-		<RelativeLayout
-			android:layout_width="match_parent"
+		<TextView
+			android:text="@string/brick_point_to"
 			android:layout_height="wrap_content"
-		>
-			<at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListView
-				android:id="@+id/brick_list_view"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:drawSelectorOnTop="false"
-				android:fastScrollEnabled="true"
-				android:clickable="false"
-				android:drawingCacheQuality="high" 
-				android:cacheColorHint="#00000000" 
-				android:divider="@android:color/transparent"
-				android:dividerHeight="-5dip"	
-			/>
-			<ImageView
-				android:id="@+id/trash"
-				android:layout_width="51dip"
-				android:layout_height="97dip"
-				android:layout_alignParentRight="true"
-				android:layout_centerVertical="true"
-				android:layout_marginRight="-3dip"
-				android:visibility="gone"
-				android:src="@drawable/trash_green" />
-		</RelativeLayout>
+			android:layout_width="wrap_content"
+			android:textColor="@color/white"
+			android:textSize="18dip"
+			android:textStyle="bold" />
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+			>
+				<Spinner 
+					android:id="@+id/point_to_spinner" 
+					android:layout_width="wrap_content" 
+					android:layout_height="wrap_content"
+					android:layout_weight="5"
+					android:focusable="false"
+					android:clickable="false"
+				/>
+
+			</LinearLayout>
 	</LinearLayout>
 </LinearLayout>
