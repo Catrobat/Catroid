@@ -18,16 +18,21 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
+import android.content.DialogInterface.OnShowListener;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import at.tugraz.ist.catroid.R;
@@ -102,7 +107,7 @@ public class NXTMotorTurnAngleBrick implements Brick, OnDismissListener {
 		return new NXTMotorTurnAngleBrick(getSprite(), motor, angle);
 	}
 
-	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
+	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View brickView = inflater.inflate(R.layout.construction_brick_nxt_motor_turn_angle, null);
 
@@ -143,50 +148,69 @@ public class NXTMotorTurnAngleBrick implements Brick, OnDismissListener {
 
 		motorSpinner.setSelection(motor);
 
-		Spinner directionSpinner = (Spinner) brickView.findViewById(R.id.fancy_directions_dialog);
-		directionSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+		Button directions = (Button) brickView.findViewById(R.id.directions_btn);
+		directions.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(context);
+				final EditText input = new EditText(context);
+				final CharSequence[] items = { "Red", "Green", "Blue" };
 
-			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
+				builder.setView(input);
+				builder.setTitle("Choose and edit direction");
+				builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int item) {
 
-				if (position == direction_spinner_pos) {
-					return;
-				}
-				switch (position) {
-					case 0:
-						dialogX.setValue(45);
-						angle = 45;
-						break;
-					case 1:
-						dialogX.setValue(90);
-						angle = 90;
-						break;
-					case 2:
-						dialogX.setValue(-45);
-						angle = -45;
-						break;
-					case 3:
-						dialogX.setValue(-90);
-						angle = -90;
-						break;
-					case 4:
-						dialogX.setValue(180);
-						angle = 180;
-						break;
-				}
-				last_spinner_angle = angle;
-				direction_spinner_pos = position;
-				editX.setText(String.valueOf(angle));
+						switch (item) {
+							case 0:
+								input.setText("45");
+								break;
+							case 1:
+								input.setText("90");
+								break;
+							case 2:
+								input.setText("-45");
+								break;
+							case 3:
+								input.setText("-90");
+								break;
+						}
+
+						input.setText(items[item]);
+
+						//Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
+					}
+				});
+				builder.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						//						String newMessage = (input.getText().toString()).trim();
+						//						if (newMessage.length() == 0
+						//								|| newMessage.equals(context.getString(R.string.broadcast_nothing_selected))) {
+						//							dialog.cancel();
+						//							return;
+						//						}
+
+						//broadcastSpinner.setSelection(position);
+					}
+				});
+				builder.setNegativeButton(context.getString(R.string.cancel_button),
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int which) {
+								dialog.cancel();
+							}
+						});
+
+				AlertDialog alertDialog = builder.create();
+				alertDialog.setOnShowListener(new OnShowListener() {
+					public void onShow(DialogInterface dialog) {
+						InputMethodManager inputManager = (InputMethodManager) context
+								.getSystemService(Context.INPUT_METHOD_SERVICE);
+						inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
+					}
+				});
+				alertDialog.show();
 
 			}
-
-			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
 		});
-
-		directionSpinner.setSelection(direction_spinner_pos);
 
 		//return inflater.inflate(R.layout.toolbox_brick_motor_action, null);
 		return brickView;
