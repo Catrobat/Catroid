@@ -23,7 +23,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
-import at.tugraz.ist.catroid.uitest.util.Utils;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -38,7 +38,7 @@ public class SensorDialogTest extends ActivityInstrumentationTestCase2<ScriptAct
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		Utils.createTestProject();
+		UiTestUtils.createTestProject();
 		solo = new Solo(getInstrumentation(), getActivity());
 		bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		if (!bluetoothAdapter.isEnabled()) {
@@ -55,7 +55,7 @@ public class SensorDialogTest extends ActivityInstrumentationTestCase2<ScriptAct
 			e.printStackTrace();
 		}
 		getActivity().finish();
-		Utils.clearAllUtilTestProjects();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -77,7 +77,7 @@ public class SensorDialogTest extends ActivityInstrumentationTestCase2<ScriptAct
 	}
 
 	public void testBluetoothScanDialog() {
-		Utils.addNewBrickAndScrollDown(solo, R.string.sensor_main_adapter);
+		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.sensor_main_adapter);
 
 		solo.clickOnButton("B");
 
@@ -93,7 +93,7 @@ public class SensorDialogTest extends ActivityInstrumentationTestCase2<ScriptAct
 	}
 
 	public void testDigitalSensorValues() {
-		Utils.addNewBrickAndScrollDown(solo, R.string.sensor_main_adapter);
+		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.sensor_main_adapter);
 
 		int pinValue = 5;
 		int valueDigital = 1;
@@ -105,19 +105,19 @@ public class SensorDialogTest extends ActivityInstrumentationTestCase2<ScriptAct
 
 		solo.clickOnButton("D");
 
-		Utils.insertIntegerIntoEditText(solo, pinTextEdits, pinValue);
+		UiTestUtils.insertIntegerIntoEditText(solo, pinTextEdits, pinValue);
 		solo.clickOnButton("OK");
 
-		Utils.insertIntegerIntoEditText(solo, valueTextEdits, valueDigital);
+		UiTestUtils.insertIntegerIntoEditText(solo, valueTextEdits, valueDigital);
 		solo.clickOnButton("OK");
 
-		Utils.insertDoubleIntoEditText(solo, timeTextEdits, time);
+		UiTestUtils.insertDoubleIntoEditText(solo, timeTextEdits, time);
 		solo.clickOnButton("OK");
 
 	}
 
 	public void testAnalogSensorValues() {
-		Utils.addNewBrickAndScrollDown(solo, R.string.sensor_main_adapter);
+		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.sensor_main_adapter);
 
 		int pinValue = 5;
 		double valueAnalog = 3.2;
@@ -135,14 +135,14 @@ public class SensorDialogTest extends ActivityInstrumentationTestCase2<ScriptAct
 		solo.clickOnButton(0);
 		solo.sleep(3000);
 
-		Utils.insertDoubleIntoEditText(solo, valueTextEdits, valueAnalog);
+		UiTestUtils.insertDoubleIntoEditText(solo, valueTextEdits, valueAnalog);
 		solo.clickOnButton("OK");
 		solo.sleep(3000);
 
 	}
 
 	public void testFalseDigitalSensorValues() {
-		Utils.addNewBrickAndScrollDown(solo, R.string.sensor_main_adapter);
+		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.sensor_main_adapter);
 
 		int pinValue = 20;
 		int valueDigital = 3;
@@ -154,13 +154,13 @@ public class SensorDialogTest extends ActivityInstrumentationTestCase2<ScriptAct
 
 		solo.clickOnButton("D");
 
-		Utils.insertIntegerIntoEditText(solo, pinTextEdits, pinValue);
+		UiTestUtils.insertIntegerIntoEditText(solo, pinTextEdits, pinValue);
 		solo.clickOnButton("OK");
 
-		Utils.insertIntegerIntoEditText(solo, valueTextEdits, valueDigital);
+		UiTestUtils.insertIntegerIntoEditText(solo, valueTextEdits, valueDigital);
 		solo.clickOnButton("OK");
 
-		Utils.insertDoubleIntoEditText(solo, timeTextEdits, time);
+		UiTestUtils.insertDoubleIntoEditText(solo, timeTextEdits, time);
 		solo.clickOnButton("OK");
 
 		assertEquals("You just have 0 to 13 PINs here so please a number from 0-13", pinValue + "",
@@ -170,7 +170,7 @@ public class SensorDialogTest extends ActivityInstrumentationTestCase2<ScriptAct
 	}
 
 	public void testFalseAnalogSensorValues() {
-		Utils.addNewBrickAndScrollDown(solo, R.string.sensor_main_adapter);
+		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.sensor_main_adapter);
 
 		int pinValue = 20;
 		double valueAnalog = 8.0;
@@ -182,18 +182,18 @@ public class SensorDialogTest extends ActivityInstrumentationTestCase2<ScriptAct
 
 		solo.clickOnButton("A");
 
-		Utils.insertIntegerIntoEditText(solo, pinTextEdits, pinValue);
+		UiTestUtils.insertIntegerIntoEditText(solo, pinTextEdits, pinValue);
 		solo.clickOnButton("OK");
 
 		assertTrue(solo.searchText("You just have 0 to 5 PINs here so please a number from 0-5"));
 
-		Utils.insertDoubleIntoEditText(solo, valueTextEdits, valueAnalog);
+		UiTestUtils.insertDoubleIntoEditText(solo, valueTextEdits, valueAnalog);
 		solo.clickOnButton("OK");
 
 		assertEquals("For this PIN you can just enter a value from 0.0 to 5.0", valueAnalog + "",
 				solo.getEditText(valueTextEdits).getText().toString());
 
-		Utils.insertDoubleIntoEditText(solo, timeTextEdits, time);
+		UiTestUtils.insertDoubleIntoEditText(solo, timeTextEdits, time);
 		solo.clickOnButton("OK");
 
 	}

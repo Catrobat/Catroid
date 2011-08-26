@@ -61,6 +61,7 @@ import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.bricks.PointInDirectionBrick;
 import at.tugraz.ist.catroid.content.bricks.RepeatBrick;
+import at.tugraz.ist.catroid.content.bricks.SensorBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.SetXBrick;
@@ -134,6 +135,7 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new TurnLeftBrick(sprite, 15));
 			prototypeBrickList.add(new TurnRightBrick(sprite, 15));
 			prototypeBrickList.add(new PointInDirectionBrick(sprite, 90));
+			prototypeBrickList.add(new SensorBrick(sprite, 0, 0, 0.0, 0.0, null));
 			prototypeBrickList.add(new NXTMotorTurnAngleBrick(sprite, 0, 180));
 			prototypeBrickList.add(new NXTMotorStopBrick(sprite, 0));
 			prototypeBrickList.add(new NXTMotorActionBrick(sprite, 0, 100, 3));
@@ -148,6 +150,7 @@ public class AddBrickDialog extends Dialog {
 		setContentView(R.layout.dialog_toolbox);
 		getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 	}
 
 	@Override
