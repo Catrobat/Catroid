@@ -53,8 +53,6 @@ public class NXTMotorActionBrick implements Brick, OnDismissListener, OnItemSele
 	private static final int NO_DELAY = 0;
 	private static final int MIN_SPEED = -100;
 	private static final int MAX_SPEED = 100;
-	private static final double MIN_DURATION = 0;
-	private static final double MAX_DURATION = Double.MAX_VALUE;
 
 	private transient EditText editSpeed;
 	private transient SeekBar speedBar;
