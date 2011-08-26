@@ -21,6 +21,7 @@ package at.tugraz.ist.catroid.bluetooth;
 import java.util.ArrayList;
 
 import android.os.Handler;
+import android.util.Log;
 
 public class BtCommunicator extends Thread {
 	protected static ArrayList<byte[]> receivedMessages;
@@ -31,7 +32,6 @@ public class BtCommunicator extends Thread {
 	protected boolean connected;
 
 	public static ArrayList<byte[]> getReceivedMessageList() {
-
 		return receivedMessages;
 	}
 
@@ -48,6 +48,7 @@ public class BtCommunicator extends Thread {
 	}
 
 	public void setMACAddress(String mMACaddress) {
+		Log.d("TAG", "MAC:" + mMACaddress);
 		this.mMACaddress = mMACaddress;
 	}
 
