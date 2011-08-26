@@ -219,13 +219,17 @@ public class StageActivity extends Activity {
 		super.onDestroy();
 		stageManager.finish();
 		soundManager.clear();
-		legoNXT.destroyBTCommunicator();
+		if (legoNXT != null) {
+			legoNXT.destroyBTCommunicator();
+		}
 	}
 
 	@Override
 	public void onBackPressed() {
 		manageLoadAndFinish();
-		legoNXT.destroyBTCommunicator();
+		if (legoNXT != null) {
+			legoNXT.destroyBTCommunicator();
+		}
 
 	}
 

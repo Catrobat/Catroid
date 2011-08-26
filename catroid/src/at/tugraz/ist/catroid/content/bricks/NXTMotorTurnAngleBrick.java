@@ -47,9 +47,6 @@ public class NXTMotorTurnAngleBrick implements Brick, OnDismissListener {
 	private Handler btcHandler;
 	private int motor;
 	private int angle;
-	private int last_spinner_angle = 0;
-	private int direction_spinner_pos = 0;
-	private boolean inverse = false;
 	private static final int MOTOR_A = 0;
 	private static final int MOTOR_B = 1;
 	private static final int MOTOR_C = 2;
@@ -189,13 +186,6 @@ public class NXTMotorTurnAngleBrick implements Brick, OnDismissListener {
 						});
 				builder.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
-
-						//brickView.findViewById(R.id.directions_btn);
-						//						String newMessage = (input.getText().toString()).trim();
-						//						if (newMessage.length() == 0
-						//								|| newMessage.equals(context.getString(R.string.broadcast_nothing_selected))) {
-						//							dialog.cancel();
-						//							return;
 						//						}
 						if (input.getText().equals("")) {
 							input.setText(0);
