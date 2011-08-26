@@ -84,23 +84,22 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
 				getActivity().getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_motor_action)));
-		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.motor_duration)));
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.motor_speed)));
 
+		//		solo.clickOnEditText(0);
+		//		solo.clearEditText(0);
+		//		solo.enterText(0, setDuration + "");
+		//		solo.clickOnButton(0);
+		//
+		//		solo.sleep(300);
+		//		double duration = (Double) UiTestUtils.getPrivateField("duration", motorBrick);
+		//		assertEquals("Wrong text in field.", setDuration, duration);
+		//		assertEquals("Value in Brick is not updated.", setDuration + "", solo.getEditText(0).getText().toString());
+		//
+		//		assertEquals("SeekBar is at wrong position", setSpeedInitially + 100, solo.getCurrentProgressBars().get(0)
+		//				.getProgress());
+
 		solo.clickOnEditText(0);
-		solo.clearEditText(0);
-		solo.enterText(0, setDuration + "");
-		solo.clickOnButton(0);
-
-		solo.sleep(300);
-		double duration = (Double) UiTestUtils.getPrivateField("duration", motorBrick);
-		assertEquals("Wrong text in field.", setDuration, duration);
-		assertEquals("Value in Brick is not updated.", setDuration + "", solo.getEditText(0).getText().toString());
-
-		assertEquals("SeekBar is at wrong position", setSpeedInitially + 100, solo.getCurrentProgressBars().get(0)
-				.getProgress());
-
-		solo.clickOnEditText(1);
 		solo.clearEditText(0);
 		solo.enterText(0, setSpeed + "");
 		solo.clickOnButton(0);
@@ -108,7 +107,7 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 		solo.sleep(300);
 		int speed = (Integer) UiTestUtils.getPrivateField("speed", motorBrick);
 		assertEquals("Wrong text in field.", setSpeed, speed);
-		assertEquals("Value in Brick is not updated.", setSpeed + "", solo.getEditText(1).getText().toString());
+		assertEquals("Value in Brick is not updated.", setSpeed + "", solo.getEditText(0).getText().toString());
 		assertEquals("SeekBar is at wrong position", setSpeed + 100, solo.getCurrentProgressBars().get(0).getProgress());
 
 		solo.setProgressBar(0, setSpeedInitially + 100); //robotium doesnt go through proper function onProgressChanged() to change value on progress bar!
@@ -116,7 +115,7 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 
 		speed = (Integer) UiTestUtils.getPrivateField("speed", motorBrick);
 		assertEquals("Wrong text in field.", setSpeedInitially, speed);
-		assertEquals("Value in Brick is not updated.", setSpeedInitially + "", solo.getEditText(1).getText().toString());
+		assertEquals("Value in Brick is not updated.", setSpeedInitially + "", solo.getEditText(0).getText().toString());
 		assertEquals("SeekBar is at wrong position", setSpeedInitially + 100, solo.getCurrentProgressBars().get(0)
 				.getProgress());
 
@@ -125,7 +124,7 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 
 		int speed_btn = (Integer) UiTestUtils.getPrivateField("speed", motorBrick);
 		assertEquals("Wrong text in field.", speed_btn, speed - 1);
-		assertEquals("Value in Brick is not updated.", speed - 1 + "", solo.getEditText(1).getText().toString());
+		assertEquals("Value in Brick is not updated.", speed - 1 + "", solo.getEditText(0).getText().toString());
 		assertEquals("SeekBar is at wrong position", speed - 1 + 100, solo.getCurrentProgressBars().get(0)
 				.getProgress());
 
@@ -134,7 +133,7 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 
 		speed_btn = (Integer) UiTestUtils.getPrivateField("speed", motorBrick);
 		assertEquals("Wrong text in field.", speed_btn, speed);
-		assertEquals("Value in Brick is not updated.", speed + "", solo.getEditText(1).getText().toString());
+		assertEquals("Value in Brick is not updated.", speed + "", solo.getEditText(0).getText().toString());
 		assertEquals("SeekBar is at wrong position", speed + 100, solo.getCurrentProgressBars().get(0).getProgress());
 
 		solo.setProgressBar(0, MIN_SPEED + 100);
@@ -144,7 +143,7 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 
 		speed = (Integer) UiTestUtils.getPrivateField("speed", motorBrick);
 		assertEquals("Wrong text in field.", speed, MIN_SPEED);
-		assertEquals("Value in Brick is not updated.", speed + "", solo.getEditText(1).getText().toString());
+		assertEquals("Value in Brick is not updated.", speed + "", solo.getEditText(0).getText().toString());
 		assertEquals("SeekBar is at wrong position", speed + 100, solo.getCurrentProgressBars().get(0).getProgress());
 
 		solo.setProgressBar(0, MAX_SPEED + 100);
@@ -154,7 +153,7 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 
 		speed = (Integer) UiTestUtils.getPrivateField("speed", motorBrick);
 		assertEquals("Wrong text in field.", speed, MAX_SPEED);
-		assertEquals("Value in Brick is not updated.", speed + "", solo.getEditText(1).getText().toString());
+		assertEquals("Value in Brick is not updated.", speed + "", solo.getEditText(0).getText().toString());
 		assertEquals("SeekBar is at wrong position", speed + 100, solo.getCurrentProgressBars().get(0).getProgress());
 
 		solo.sleep(500);
@@ -164,7 +163,8 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 		assertEquals("B", solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, 1);
 		assertEquals("C", solo.getCurrentSpinners().get(0).getSelectedItem());
-
+		solo.pressSpinnerItem(0, 1);
+		assertEquals("A+C", solo.getCurrentSpinners().get(0).getSelectedItem());
 	}
 
 	private void createProject() {

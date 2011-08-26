@@ -84,28 +84,44 @@ public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2
 				solo.getText(getActivity().getString(R.string.brick_motor_turn_angle)));
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.motor_angle)));
 
+		//		solo.clickOnEditText(0);
+		//		solo.clearEditText(0);
+		//		solo.enterText(0, setAngle + "");
+		//		solo.clickOnButton(0);
+		//
+		//		solo.sleep(300);
+		//		int angle = (Integer) UiTestUtils.getPrivateField("angle", motorBrick);
+		//		assertEquals("Wrong text in field.", setAngle, angle);
+		//		assertEquals("Value in Brick is not updated.", setAngle + "", solo.getEditText(0).getText().toString());
+
+		solo.clickOnButton(0);
+		solo.clickInList(1);
+		assertEquals("45", solo.getEditText(0).getText().toString());
+		solo.clickInList(2);
+		assertEquals("90", solo.getEditText(0).getText().toString());
+		solo.clickInList(3);
+		assertEquals("-45", solo.getEditText(0).getText().toString());
+		solo.clickInList(4);
+		assertEquals("-90", solo.getEditText(0).getText().toString());
+		solo.clickInList(5);
+		assertEquals("180", solo.getEditText(0).getText().toString());
+
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, setAngle + "");
 		solo.clickOnButton(0);
+		solo.sleep(500);
 
-		solo.sleep(300);
 		int angle = (Integer) UiTestUtils.getPrivateField("angle", motorBrick);
 		assertEquals("Wrong text in field.", setAngle, angle);
 		assertEquals("Value in Brick is not updated.", setAngle + "", solo.getEditText(0).getText().toString());
 
-		solo.sleep(500);
 		solo.pressSpinnerItem(0, 2);
 		assertEquals("C", solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, -1);
 		assertEquals("B", solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, -1);
 		assertEquals("A", solo.getCurrentSpinners().get(0).getSelectedItem());
-
-		solo.pressSpinnerItem(1, -1);
-		assertEquals("Yes", solo.getCurrentSpinners().get(1).getSelectedItem());
-		solo.pressSpinnerItem(1, 1);
-		assertEquals("No", solo.getCurrentSpinners().get(1).getSelectedItem());
 
 	}
 
@@ -116,7 +132,7 @@ public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2
 		Script script = new StartScript("script", sprite);
 
 		setAngleInitially = 90;
-		setAngle = 150;
+		setAngle = 135;
 
 		motorBrick = new NXTMotorTurnAngleBrick(sprite, 0, setAngleInitially);
 
