@@ -36,8 +36,6 @@ public class Costume implements Serializable {
 	private int drawPositionX;
 	private int drawPositionY;
 
-	private int resourceId;
-
 	@XStreamOmitField
 	private transient Bitmap costumeBitmap;
 
@@ -162,7 +160,6 @@ public class Costume implements Serializable {
 
 	public synchronized void setBitmapFromRes(Context context, int resourceId) {
 		imagePath = null;
-		this.resourceId = resourceId;
 
 		BitmapFactory.Options boundsOptions = new BitmapFactory.Options();
 		boundsOptions.inJustDecodeBounds = true;
