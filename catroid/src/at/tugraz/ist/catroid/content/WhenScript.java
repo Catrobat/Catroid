@@ -28,6 +28,8 @@ public class WhenScript extends Script {
 	public static final String SWIPERIGHT = "Swipe Right";
 	public static final String SWIPEUP = "Swipe Up";
 	public static final String SWIPEDOWN = "Swipe Down";
+	private static final String[] actions = { TAPPED, DOUBLETAPPED, LONGPRESSED, SWIPEUP, SWIPEDOWN, SWIPELEFT,
+			SWIPERIGHT };
 	private String action;
 	private int position;
 
@@ -46,29 +48,7 @@ public class WhenScript extends Script {
 
 	public void setAction(int position) {
 		this.position = position;
-		switch (position) {
-			case 0:
-				this.action = TAPPED;
-				break;
-			case 1:
-				this.action = DOUBLETAPPED;
-				break;
-			case 2:
-				this.action = LONGPRESSED;
-				break;
-			case 3:
-				this.action = SWIPEUP;
-				break;
-			case 4:
-				this.action = SWIPEDOWN;
-				break;
-			case 5:
-				this.action = SWIPELEFT;
-				break;
-			case 6:
-				this.action = SWIPERIGHT;
-				break;
-		}
+		this.action = actions[position];
 	}
 
 	public String getAction() {
