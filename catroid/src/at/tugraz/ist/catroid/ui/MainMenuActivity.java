@@ -26,6 +26,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Gravity;
@@ -204,6 +205,11 @@ public class MainMenuActivity extends Activity {
 
 	public void handleUploadProjectButton(View v) {
 		showDialog(Consts.DIALOG_UPLOAD_PROJECT);
+	}
+
+	public void handleWebResourcesButton(View v) {
+		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getText(R.string.catroid_website).toString()));
+		startActivity(browserIntent);
 	}
 
 	public void handleSettingsButton(View v) {
