@@ -31,6 +31,11 @@ import at.tugraz.ist.catroid.test.R;
 public class SetCostumeBrickTest extends InstrumentationTestCase {
 	final int TEST_IMAGE_ID = R.raw.big_image;
 
+	@Override
+	protected void tearDown() throws Exception {
+		NativeAppActivity.setContext(null);
+	}
+
 	public void testSetCostume() throws Exception {
 		Values.SCREEN_HEIGHT = 800;
 		Values.SCREEN_WIDTH = 480;
@@ -42,6 +47,7 @@ public class SetCostumeBrickTest extends InstrumentationTestCase {
 		CostumeData costumeData = new CostumeData();
 		costumeData.setCostumeFilename(getInstrumentation().getContext().getResources()
 				.getResourceEntryName(TEST_IMAGE_ID));
+		sprite.getCostumeDataList().add(costumeData);
 		Log.e("!!!!!!!!!!!!!!", " " + costumeData.getCostumeFileName());
 		setCostumeBrick.setCostume(costumeData);
 
