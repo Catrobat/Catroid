@@ -22,7 +22,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -130,7 +132,13 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 			paintroidButton.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
 					scriptTabActivity.selectedCostumeData = costumeData;
-					//TODO call paintroid
+
+					Intent intent = new Intent("android.intent.action.MAIN");
+					intent.putExtra("at.tugraz.ist.catroid.picture", costumeData.getAbsolutePath());
+					intent.setComponent(new ComponentName("at.tugraz.ist.paintroid",
+							"at.tugraz.ist.paintroid.MainActivity"));
+					intent.addCategory("android.intent.category.LAUNCHER");
+					activity.startActivity(intent);
 				}
 			});
 
