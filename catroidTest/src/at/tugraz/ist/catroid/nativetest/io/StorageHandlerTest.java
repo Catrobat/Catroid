@@ -39,6 +39,11 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 		storageHandler = StorageHandler.getInstance();
 	}
 
+	@Override
+	protected void tearDown() throws Exception {
+		NativeAppActivity.setContext(null);
+	}
+
 	public void testLoadProject() throws Exception {
 		double scaleValue = 0.8;
 		int timeToWaitInMilliSeconds = 1000;
