@@ -32,14 +32,16 @@ public class Project implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private List<Sprite> spriteList = new ArrayList<Sprite>();
 	private String name;
-	private String versionName;
-	private int versionCode;
 
-	//only used for catroid website
+	// Pnly used for Catroid website
 	@SuppressWarnings("unused")
 	private String deviceName;
 	@SuppressWarnings("unused")
 	private String screenResolution;
+	@SuppressWarnings("unused")
+	private String versionName;
+	@SuppressWarnings("unused")
+	private int versionCode;
 
 	public Project(Context context, String name) {
 		this.name = name;
@@ -47,8 +49,6 @@ public class Project implements Serializable {
 		screenResolution = Values.SCREEN_WIDTH + "/" + Values.SCREEN_HEIGHT;
 
 		if (context == null) {
-			versionName = "unknown";
-			versionCode = 0;
 			return;
 		}
 
@@ -88,14 +88,6 @@ public class Project implements Serializable {
 
 	public String getName() {
 		return name;
-	}
-
-	public String getVersionName() {
-		return versionName;
-	}
-
-	public int getVersionCode() {
-		return versionCode;
 	}
 
 	public void setDeviceData() {
