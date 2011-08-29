@@ -25,6 +25,11 @@ import at.tugraz.ist.catroid.stage.NativeAppActivity;
 
 public class SoundManagerTest extends InstrumentationTestCase {
 
+	@Override
+	protected void tearDown() throws Exception {
+		NativeAppActivity.setContext(null);
+	}
+
 	public void testPlaySoundfile() throws InterruptedException {
 		String soundfileName = "test_sound";
 		NativeAppActivity.setContext(getInstrumentation().getContext());
