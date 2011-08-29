@@ -80,7 +80,10 @@ public class BrickListAnimation {
 						- groupPosition - 1));
 		upAnimation.setDuration(Consts.ANIMATION_DURATION_BRICK_SWITCHING);
 		upAnimation.setFillAfter(true);
-		getChildFromAbsolutePosition(groupCount - 1).startAnimation(upAnimation);
+		View groupToCollapse = getChildFromAbsolutePosition(groupCount - 1);
+		if (groupToCollapse != null) {
+			groupToCollapse.startAnimation(upAnimation);
+		}
 	}
 
 	private void doDownAnimation(int groupCount, final int groupPosition) {

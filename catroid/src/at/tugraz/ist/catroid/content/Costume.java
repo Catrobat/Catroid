@@ -27,8 +27,6 @@ import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
-
 public class Costume implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String imagePath;
@@ -36,7 +34,6 @@ public class Costume implements Serializable {
 	private int drawPositionX;
 	private int drawPositionY;
 
-	@XStreamOmitField
 	private transient Bitmap costumeBitmap;
 
 	public Costume(Sprite sprite, String imagePath) {
