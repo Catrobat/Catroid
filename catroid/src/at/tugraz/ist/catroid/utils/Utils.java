@@ -37,6 +37,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
@@ -48,7 +51,7 @@ import at.tugraz.ist.catroid.common.Values;
 
 public class Utils {
 
-	private static final String TAG = "Utils";
+	private static final String TAG = Utils.class.getSimpleName();
 
 	public static boolean hasSdCard() {
 		return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
@@ -354,5 +357,29 @@ public class Utils {
 		}
 
 		return messageDigest;
+	}
+
+	public static int getVersionCode(Context context) {
+		int versionCode = -1;
+		try {
+			PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(),
+					PackageManager.GET_META_DATA);
+			versionCode = packageInfo.versionCode;
+		} catch (NameNotFoundException nameNotFoundException) {
+			Log.e(TAG, "Name not found", nameNotFoundException);
+		}
+		return versionCode;
+	}
+
+	public static String getVersionName(Context context) {
+		String versionName = "unknown";
+		try {
+			PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(),
+					PackageManager.GET_META_DATA);
+			versionName = packageInfo.versionName;
+		} catch (NameNotFoundException nameNotFoundException) {
+			Log.e(TAG, "Name not found", nameNotFoundException);
+		}
+		return versionName;
 	}
 }

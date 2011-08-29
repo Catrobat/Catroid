@@ -23,11 +23,17 @@ import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Costume;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.test.R;
 
 public class CostumeTest extends InstrumentationTestCase {
 	private final int TEST_IMAGE_ID = R.drawable.icon;
 	private final int TEST_BIG_IMAGE_ID = R.raw.big_image;
+
+	@Override
+	protected void tearDown() throws Exception {
+		NativeAppActivity.setContext(null);
+	}
 
 	public void testSetBitmapFromRes() throws Exception {
 		Sprite sprite = new Sprite("testSprite");
