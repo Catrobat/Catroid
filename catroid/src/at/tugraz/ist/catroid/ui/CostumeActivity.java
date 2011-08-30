@@ -42,7 +42,8 @@ import at.tugraz.ist.catroid.utils.Utils;
 public class CostumeActivity extends ListActivity {
 	private ArrayList<CostumeData> costumeDataList;
 
-	private final int REQUEST_SELECT_IMAGE = 0;
+	public final int REQUEST_SELECT_IMAGE = 0;
+	public final int REQUEST_PAINTROID_CHANGE_IMAGE = 1;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -153,6 +154,9 @@ public class CostumeActivity extends ListActivity {
 			} catch (IOException e) {
 				Utils.displayErrorMessage(this, this.getString(R.string.error_load_image));
 			}
+		}
+		if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_PAINTROID_CHANGE_IMAGE) {
+			//TODO: 1. check checksum, if altered change it, it not --> don't know yet, get costumeData via ScriptTabActivity
 		}
 	}
 

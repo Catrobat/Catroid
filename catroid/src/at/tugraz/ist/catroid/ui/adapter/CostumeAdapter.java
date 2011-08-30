@@ -23,11 +23,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,7 +39,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
@@ -124,7 +126,23 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 					List<ResolveInfo> packageList = activity.getPackageManager().queryIntentActivities(intent,
 							PackageManager.MATCH_DEFAULT_ONLY);
 					if (packageList.size() <= 0) {
-						Toast.makeText(scriptTabActivity, "Paintroid not installed", Toast.LENGTH_SHORT).show();
+
+						AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+						builder.setMessage("Paintroid not installed! \n Wanna install it?").setCancelable(false)
+								.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog, int id) {
+										Intent downloadPaintroidIntent = new Intent(
+												Intent.ACTION_VIEW,
+												Uri.parse("https://code.google.com/p/catroid/downloads/detail?name=Paintroid_0.6.4b.apk&can=2&q="));
+										activity.startActivity(downloadPaintroidIntent);
+									}
+								}).setNegativeButton("No", new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog, int id) {
+										dialog.cancel();
+									}
+								});
+						AlertDialog alert = builder.create();
+						alert.show();
 						return;
 					}
 
@@ -138,16 +156,17 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 						String newName = costumeData.getCostumeName() + "_" + timeStamp + "."
 								+ costumeData.getFileExtension();
 						StorageHandler.getInstance().copyImage(projectName, path, newName);
-						costumeData.setCostumeFilename(newName);
+						costumeData.setCostumeFilename(costumeData.getChecksum() + "_" + newName);
 					} catch (IOException e) {
 						Utils.displayErrorMessage(activity, activity.getString(R.string.error_load_image));
+						return;
 					}
 
 					scriptTabActivity.selectedCostumeData = costumeData;
 
 					intent.putExtra("at.tugraz.ist.catroid.picture", costumeData.getAbsolutePath());
 					intent.addCategory("android.intent.category.LAUNCHER");
-					activity.startActivity(intent);
+					activity.startActivityForResult(intent, activity.REQUEST_PAINTROID_CHANGE_IMAGE);
 				}
 			});
 
