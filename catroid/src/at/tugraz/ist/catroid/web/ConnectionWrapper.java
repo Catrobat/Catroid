@@ -47,7 +47,7 @@ public class ConnectionWrapper {
 		}
 		try {
 			InputStreamReader isr = new InputStreamReader(is);
-			BufferedReader br = new BufferedReader(isr);
+			BufferedReader br = new BufferedReader(isr, Consts.BUFFER_8K);
 
 			String line;
 			String response = "";

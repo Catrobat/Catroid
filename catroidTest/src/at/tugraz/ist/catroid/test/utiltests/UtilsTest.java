@@ -101,25 +101,6 @@ public class UtilsTest extends TestCase {
 		assertFalse("File still exists after delete", mTestFile.exists());
 	}
 
-	public void testConcatPath() {
-		String first = "/abc/abc";
-		String second = "/def/def/";
-		String result = "/abc/abc/def/def/";
-		assertEquals(Utils.concatPaths(first, second), result);
-		first = "/abc/abc";
-		second = "def/def/";
-		result = "/abc/abc/def/def/";
-		assertEquals(Utils.concatPaths(first, second), result);
-		first = "/abc/abc/";
-		second = "/def/def/";
-		result = "/abc/abc/def/def/";
-		assertEquals(Utils.concatPaths(first, second), result);
-		first = "/abc/abc/";
-		second = "def/def/";
-		result = "/abc/abc/def/def/";
-		assertEquals(Utils.concatPaths(first, second), result);
-	}
-
 	public void testMD5CheckSumOfFile() {
 
 		PrintWriter printWriter = null;
@@ -127,7 +108,7 @@ public class UtilsTest extends TestCase {
 		File tempDir = new File(Consts.TMP_PATH);
 		tempDir.mkdirs();
 
-		File md5TestFile = new File(Consts.TMP_PATH + "/" + "catroid.txt");
+		File md5TestFile = new File(Utils.buildPath(Consts.TMP_PATH, "catroid.txt"));
 
 		if (md5TestFile.exists()) {
 			md5TestFile.delete();
@@ -185,5 +166,27 @@ public class UtilsTest extends TestCase {
 		secretFloat = (Float) TestUtils.getPrivateField("SECRET_PRIMITIVE_FLOAT", new Sub(), true);
 		Log.v(TAG, secretFloat.toString());
 		assertEquals("Getting private float failed!", new Float(3.1415f), secretFloat);
+	}
+
+	public void testBuildPath() {
+		String first = "/abc/abc";
+		String second = "/def/def/";
+		String result = "/abc/abc/def/def";
+		assertEquals(Utils.buildPath(first, second), result);
+
+		first = "/abc/abc";
+		second = "def/def/";
+		result = "/abc/abc/def/def";
+		assertEquals(Utils.buildPath(first, second), result);
+
+		first = "/abc/abc/";
+		second = "/def/def/";
+		result = "/abc/abc/def/def";
+		assertEquals(Utils.buildPath(first, second), result);
+
+		first = "/abc/abc/";
+		second = "def/def/";
+		result = "/abc/abc/def/def";
+		assertEquals(Utils.buildPath(first, second), result);
 	}
 }

@@ -30,13 +30,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-import android.util.Log;
 import at.tugraz.ist.catroid.common.Consts;
 
 public class UtilFile {
 	public static final int TYPE_IMAGE_FILE = 0;
 	public static final int TYPE_SOUND_FILE = 1;
-	private static final String TAG = UtilFile.class.getSimpleName();
 
 	static public List<File> getFilesFromDirectoryByExtension(File directory, String extension) {
 		String[] extensions = { extension };
@@ -122,24 +120,24 @@ public class UtilFile {
 
 		String filePath;
 		if (project == null || project.equalsIgnoreCase("")) {
-			filePath = Consts.DEFAULT_ROOT + "/" + name;
+			filePath = Utils.buildPath(Consts.DEFAULT_ROOT, name);
 		} else {
 			switch (type) {
 				case TYPE_IMAGE_FILE:
-					filePath = Consts.DEFAULT_ROOT + "/" + project + Consts.IMAGE_DIRECTORY + "/" + name;
+					filePath = Utils.buildPath(Consts.DEFAULT_ROOT, project, Consts.IMAGE_DIRECTORY, name);
 					break;
 				case TYPE_SOUND_FILE:
-					filePath = Consts.DEFAULT_ROOT + "/" + project + Consts.SOUND_DIRECTORY + "/" + name;
+					filePath = Utils.buildPath(Consts.DEFAULT_ROOT, project, Consts.SOUND_DIRECTORY, name);
 					break;
 				default:
-					filePath = Consts.DEFAULT_ROOT + "/" + name;
+					filePath = Utils.buildPath(Consts.DEFAULT_ROOT, name);
 					break;
 			}
 		}
-		BufferedInputStream in = new BufferedInputStream(context.getResources().openRawResource(fileID));
+		BufferedInputStream in = new BufferedInputStream(context.getResources().openRawResource(fileID),
+				Consts.BUFFER_8K);
 
 		try {
-			Log.v(TAG, filePath);
 			File file = new File(filePath);
 			file.getParentFile().mkdirs();
 			file.createNewFile();
@@ -161,4 +159,5 @@ public class UtilFile {
 			return null;
 		}
 	}
+
 }

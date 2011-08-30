@@ -30,6 +30,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.utils.UtilDeviceInfo;
 import at.tugraz.ist.catroid.utils.UtilZip;
+import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.web.ServerCalls;
 import at.tugraz.ist.catroid.web.WebconnectionException;
 
@@ -71,18 +72,18 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 	@Override
 	protected Boolean doInBackground(Void... arg0) {
 		try {
-			File dirPath = new File(projectPath);
-			String[] paths = dirPath.list();
+			File directoryPath = new File(projectPath);
+			String[] paths = directoryPath.list();
 
 			if (paths == null) {
 				return false;
 			}
 
 			for (int i = 0; i < paths.length; i++) {
-				paths[i] = dirPath + "/" + paths[i];
+				paths[i] = Utils.buildPath(directoryPath.getAbsolutePath(), paths[i]);
 			}
 
-			String zipFileString = Consts.TMP_PATH + "/upload" + Consts.CATROID_EXTENTION;
+			String zipFileString = Utils.buildPath(Consts.TMP_PATH, Consts.UPLOAD_FILE_NAME);
 			File zipFile = new File(zipFileString);
 			if (!zipFile.exists()) {
 				zipFile.getParentFile().mkdirs();
