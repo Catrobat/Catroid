@@ -77,7 +77,6 @@ public class ScriptTabActivity extends TabActivity {
 			selectedCostumeData = (CostumeData) ((Pair<?, ?>) getLastNonConfigurationInstance()).first;
 			selectedSoundInfo = (SoundInfo) ((Pair<?, ?>) getLastNonConfigurationInstance()).second;
 		}
-
 	}
 
 	@Override

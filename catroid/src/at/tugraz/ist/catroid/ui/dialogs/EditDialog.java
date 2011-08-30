@@ -57,8 +57,7 @@ public class EditDialog extends Dialog {
 
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				if (s.length() == 0 || (s.length() == 1 && s.charAt(0) == '.')) {
-					Toast.makeText(EditDialog.this.context, R.string.notification_invalid_text_entered,
-							Toast.LENGTH_SHORT).show();
+					Toast.makeText(context, R.string.notification_invalid_text_entered, Toast.LENGTH_SHORT).show();
 					okButton.setEnabled(false);
 				} else {
 					okButton.setEnabled(true);
