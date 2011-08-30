@@ -67,7 +67,7 @@ public class WhenTouchedTest extends ActivityInstrumentationTestCase2<ScriptActi
 	}
 
 	@Smoke
-	public void testIfTouchedBrick() {
+	public void testWhenTouchedBrick() {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
 
