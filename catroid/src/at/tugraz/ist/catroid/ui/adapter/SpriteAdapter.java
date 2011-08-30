@@ -28,12 +28,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
-import at.tugraz.ist.catroid.content.Script;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
-import at.tugraz.ist.catroid.utils.ImageEditing;
 
 public class SpriteAdapter extends ArrayAdapter<Sprite> {
 
@@ -67,31 +63,18 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		}
 
 		//------------------------------------------------------------
-		//this will change after the refactoring of the scriptactivity
 		Sprite sprite = getItem(position);
-		String imagepath = null;
-		for (int i = 0; i < sprite.getNumberOfScripts(); i++) {
-			Script script = sprite.getScript(i);
-			for (Brick brick : script.getBrickList()) {
-				if (brick instanceof SetCostumeBrick) {
-					imagepath = ((SetCostumeBrick) brick).getImagePath();
-					break;
-				}
-			}
-			if (imagepath != null) {
-				break;
-			}
+		CostumeData firstCostumeData = null;
+		if (sprite.getCostumeDataList().size() > 0) {
+			firstCostumeData = sprite.getCostumeDataList().get(0);
 		}
 		//------------------------------------------------------------
 
 		holder.text.setText(sprite.getName());
-		//holder.detail.setText("details");
-		if (imagepath == null) {
+		if (firstCostumeData == null) {
 			holder.image.setImageBitmap(null);
-		} else { //it would be more efficient to use the thumb from setCostumeBrick - but this will change in the near future so I didn't implement it
-			//TODO make this more efficient after the refact of ScriptActivity
-			holder.image.setImageBitmap(ImageEditing.getScaledBitmap(imagepath, Consts.THUMBNAIL_HEIGHT,
-					Consts.THUMBNAIL_WIDTH));
+		} else {
+			holder.image.setImageBitmap(firstCostumeData.getThumbnailBitmap());
 		}
 		return spriteView;
 	}

@@ -20,12 +20,12 @@
 package at.tugraz.ist.catroid.test.content.brick;
 
 import java.io.File;
-import java.io.IOException;
 
 import android.graphics.BitmapFactory;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -60,12 +60,12 @@ public class SetCostumeBrickTest extends InstrumentationTestCase {
 		testImage = TestUtils.saveFileToProject(this.projectName, "testImage.png", IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), TestUtils.TYPE_IMAGE_FILE);
 
-		BitmapFactory.Options o = new BitmapFactory.Options();
-		o.inJustDecodeBounds = true;
-		BitmapFactory.decodeFile(this.testImage.getAbsolutePath(), o);
+		BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+		bitmapOptions.inJustDecodeBounds = true;
+		BitmapFactory.decodeFile(this.testImage.getAbsolutePath(), bitmapOptions);
 
-		this.width = o.outWidth;
-		this.height = o.outHeight;
+		this.width = bitmapOptions.outWidth;
+		this.height = bitmapOptions.outHeight;
 	}
 
 	@Override
@@ -80,7 +80,7 @@ public class SetCostumeBrickTest extends InstrumentationTestCase {
 		}
 	}
 
-	public void testSetCostume() throws IOException {
+	public void testSetCostume() {
 
 		Values.SCREEN_HEIGHT = 200;
 		Values.SCREEN_WIDTH = 200;
@@ -88,7 +88,11 @@ public class SetCostumeBrickTest extends InstrumentationTestCase {
 		Sprite sprite = new Sprite("new sprite");
 		project.addSprite(sprite);
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
-		setCostumeBrick.setCostume(testImage.getName());
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(testImage.getName());
+		costumeData.setCostumeName("testImage");
+		sprite.getCostumeDataList().add(costumeData);
+		setCostumeBrick.setCostume(costumeData);
 		setCostumeBrick.execute();
 		assertNotNull("current Costume is null", sprite.getCostume());
 
@@ -102,5 +106,4 @@ public class SetCostumeBrickTest extends InstrumentationTestCase {
 		assertEquals("Height of loaded bitmap is not the same as height of original image", height, sprite.getCostume()
 				.getBitmap().getHeight());
 	}
-
 }

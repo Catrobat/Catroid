@@ -20,14 +20,15 @@ package at.tugraz.ist.catroid.ui.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
-import android.view.inputmethod.InputMethodManager;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -60,11 +61,29 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 		setCanceledOnTouchOutside(true);
 		getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
 
+		currentProjectName = ProjectManager.getInstance().getCurrentProject().getName();
 		projectRename = (TextView) findViewById(R.id.tv_project_rename);
 		projectDescriptionField = (EditText) findViewById(R.id.project_description_upload);
 		projectUploadName = (EditText) findViewById(R.id.project_upload_name);
 		uploadButton = (Button) findViewById(R.id.upload_button);
 		uploadButton.setOnClickListener(this);
+
+		projectUploadName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					UploadProjectDialog.this.getWindow().setSoftInputMode(
+							WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+				}
+			}
+		});
+		projectDescriptionField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus) {
+					UploadProjectDialog.this.getWindow().setSoftInputMode(
+							WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+				}
+			}
+		});
 
 		projectUploadName.addTextChangedListener(new TextWatcher() {
 
@@ -91,13 +110,13 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 			}
 		});
 
-		this.setOnShowListener(new OnShowListener() {
-			public void onShow(DialogInterface dialog) {
-				InputMethodManager inputManager = (InputMethodManager) context
-						.getSystemService(Context.INPUT_METHOD_SERVICE);
-				inputManager.showSoftInput(projectUploadName, InputMethodManager.SHOW_IMPLICIT);
-			}
-		});
+		//		this.setOnShowListener(new OnShowListener() {
+		//			public void onShow(DialogInterface dialog) {
+		//				InputMethodManager inputManager = (InputMethodManager) context
+		//						.getSystemService(Context.INPUT_METHOD_SERVICE);
+		//				inputManager.showSoftInput(projectUploadName, InputMethodManager.SHOW_IMPLICIT);
+		//			}
+		//		});
 
 		Button cancelButton = (Button) findViewById(R.id.cancel_button);
 		cancelButton.setOnClickListener(this);
@@ -106,10 +125,7 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 	@Override
 	public void show() {
 		super.show();
-		projectRename.setVisibility(View.GONE);
 		currentProjectName = ProjectManager.getInstance().getCurrentProject().getName();
-		projectUploadName.setText(currentProjectName);
-		projectDescriptionField.setText("");
 	}
 
 	public void onClick(View v) {
@@ -130,7 +146,7 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 				}
 
 				projectManager.getCurrentProject().setDeviceData();
-				projectManager.saveProject(context);
+				projectManager.saveProject();
 
 				dismiss();
 				String projectPath = Consts.DEFAULT_ROOT + "/" + projectManager.getCurrentProject().getName();
@@ -142,7 +158,9 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 					projectDescription = "";
 				}
 
-				new ProjectUploadTask(context, uploadName, projectDescription, projectPath, null).execute();
+				SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+				String token = prefs.getString(Consts.TOKEN, "0");
+				new ProjectUploadTask(context, uploadName, projectDescription, projectPath, token).execute();
 				break;
 
 			case R.id.cancel_button:

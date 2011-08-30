@@ -19,16 +19,20 @@
 package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 public class ComeToFrontBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
+
+	@XStreamOmitField
+	private transient View view;
 
 	public ComeToFrontBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -46,8 +50,11 @@ public class ComeToFrontBrick implements Brick {
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_come_to_front, null);
+
+		if (view == null) {
+			view = View.inflate(context, R.layout.toolbox_brick_come_to_front, null);
+		}
+
 		return view;
 	}
 
@@ -57,8 +64,6 @@ public class ComeToFrontBrick implements Brick {
 	}
 
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.toolbox_brick_come_to_front, null);
-		return view;
+		return View.inflate(context, R.layout.toolbox_brick_come_to_front, null);
 	}
 }

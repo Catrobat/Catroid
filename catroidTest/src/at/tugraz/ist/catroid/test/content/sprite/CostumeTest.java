@@ -18,58 +18,135 @@
  */
 package at.tugraz.ist.catroid.test.content.sprite;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
 
-import android.graphics.BitmapFactory;
 import android.test.InstrumentationTestCase;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Values;
+import at.tugraz.ist.catroid.content.Costume;
+import at.tugraz.ist.catroid.content.Project;
+import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.R;
+import at.tugraz.ist.catroid.test.utils.TestUtils;
+import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class CostumeTest extends InstrumentationTestCase {
 
 	private static final int IMAGE_FILE_ID = R.raw.icon;
 	private File testImage;
 
-	// width and height of testImage
-	int width;
-	int height;
+	private String projectName;
 
 	@Override
 	protected void setUp() throws Exception {
-		final String imagePath = Consts.DEFAULT_ROOT + "/testImage.png";
-		testImage = new File(imagePath);
-		if (!testImage.exists()) {
-			testImage.createNewFile();
-		}
-		InputStream in = getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID);
-		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), Consts.BUFFER_8K);
-		byte[] buffer = new byte[Consts.BUFFER_8K];
-		int length = 0;
-		while ((length = in.read(buffer)) > 0) {
-			out.write(buffer, 0, length);
+		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+
+		if (projectFile.exists()) {
+			UtilFile.deleteDirectory(projectFile);
 		}
 
-		in.close();
-		out.flush();
-		out.close();
+		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
+		StorageHandler.getInstance().saveProject(project);
+		ProjectManager.getInstance().setProject(project);
 
-		BitmapFactory.Options o = new BitmapFactory.Options();
-		o.inJustDecodeBounds = true;
-		BitmapFactory.decodeFile(imagePath, o);
+		testImage = TestUtils.saveFileToProject(this.projectName, "testImage.png", IMAGE_FILE_ID, getInstrumentation()
+				.getContext(), TestUtils.TYPE_IMAGE_FILE);
 
-		width = o.outWidth;
-		height = o.outHeight;
+		Values.SCREEN_HEIGHT = 800;
+		Values.SCREEN_WIDTH = 480;
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
+		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+
+		if (projectFile.exists()) {
+			UtilFile.deleteDirectory(projectFile);
+		}
 		if (testImage != null && testImage.exists()) {
 			testImage.delete();
 		}
 	}
 
+	public void testUpdatePosition() {
+		Sprite sprite = new Sprite("testSprite");
+		Costume costume = sprite.getCostume();
+		costume.changeImagePath(testImage.getAbsolutePath());
+
+		int width = costume.getImageWidth();
+		int height = costume.getImageHeight();
+
+		int virtualPositionX = 100;
+		int virtualPositionY = 100;
+
+		sprite.setXYPosition(virtualPositionX, virtualPositionY);
+
+		int expectedPositionX = Math.round(toDeviceXCoordinates(virtualPositionX) - width / 2f);
+		int expectedPositionY = Math.round(toDeviceYCoordinates(virtualPositionY) - height / 2f);
+
+		assertEquals("Incorrect x position", expectedPositionX, costume.getDrawPositionX());
+		assertEquals("Incorrect y position", expectedPositionY, costume.getDrawPositionY());
+	}
+
+	public void testUpdateSize() {
+		Sprite sprite = new Sprite("testSprite");
+		Costume costume = sprite.getCostume();
+		costume.changeImagePath(testImage.getAbsolutePath());
+
+		double size = 50;
+
+		int width = costume.getImageWidth();
+		int height = costume.getImageHeight();
+
+		sprite.setSize(size);
+
+		int expectedWidth = (int) (width * 0.5f);
+		int expectedHeight = (int) (height * 0.5f);
+		int expectedPositionX = Math.round((Values.SCREEN_WIDTH / 2f) - (expectedWidth / 2));
+		int expectedPositionY = Math.round((Values.SCREEN_HEIGHT / 2f) - (expectedHeight / 2));
+
+		assertEquals("Incorrect x position", expectedPositionX, costume.getDrawPositionX());
+		assertEquals("Incorrect y position", expectedPositionY, costume.getDrawPositionY());
+		assertEquals("Incorrect width", expectedWidth, costume.getImageWidth());
+		assertEquals("Incorrect height", expectedHeight, costume.getImageHeight());
+	}
+
+	public void testUpdateDirection() {
+		Sprite sprite = new Sprite("testSprite");
+		Costume costume = sprite.getCostume();
+		costume.changeImagePath(testImage.getAbsolutePath());
+
+		double direction = 30;
+		double radians = direction / 180 * Math.PI;
+
+		int width = costume.getImageWidth();
+		int height = costume.getImageHeight();
+
+		sprite.setDirection(direction);
+
+		int expectedWidth = (int) Math
+				.round(height * Math.abs(Math.cos(radians)) + width * Math.abs(Math.sin(radians)));
+		int expectedHeight = (int) Math.round(width * Math.abs(Math.cos(radians)) + height
+				* Math.abs(Math.sin(radians)));
+
+		int expectedPositionX = Math.round((Values.SCREEN_WIDTH / 2f) - (expectedWidth / 2));
+		int expectedPositionY = Math.round((Values.SCREEN_HEIGHT / 2f) - (expectedHeight / 2));
+
+		assertEquals("Wrong height", expectedHeight, costume.getImageHeight());
+		assertEquals("Wrong width", expectedWidth, costume.getImageWidth());
+		assertEquals("Wrong x position", expectedPositionX, costume.getDrawPositionX());
+		assertEquals("Wrong y position", expectedPositionY, costume.getDrawPositionY());
+	}
+
+	private float toDeviceXCoordinates(int virtualXCoordinate) {
+		return Values.SCREEN_WIDTH / 2f + (virtualXCoordinate * Values.SCREEN_WIDTH)
+				/ (2f * Consts.MAX_REL_COORDINATES);
+	}
+
+	private float toDeviceYCoordinates(int virtualYCoordinate) {
+		return Values.SCREEN_HEIGHT / 2f - (virtualYCoordinate * Values.SCREEN_HEIGHT)
+				/ (2f * Consts.MAX_REL_COORDINATES);
+	}
 }

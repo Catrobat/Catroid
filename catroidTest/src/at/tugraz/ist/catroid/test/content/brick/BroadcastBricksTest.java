@@ -50,7 +50,7 @@ public class BroadcastBricksTest extends AndroidTestCase {
 		sprite.startStartScripts();
 		try {
 			Thread.sleep(1000);
-		} catch (InterruptedException e) {
+		} catch (InterruptedException ignored) {
 		}
 
 		assertEquals("Simple broadcast failed", testPosition, sprite.getXPosition());
@@ -63,25 +63,25 @@ public class BroadcastBricksTest extends AndroidTestCase {
 		String message = "waitTest";
 		broadcastWaitBrick.setSelectedMessage(message);
 		int testPosition = 100;
-		SetXBrick xBrick = new SetXBrick(sprite, testPosition);
+		SetXBrick setXBrick = new SetXBrick(sprite, testPosition);
 		scriptWait.addBrick(broadcastWaitBrick);
-		scriptWait.addBrick(xBrick);
+		scriptWait.addBrick(setXBrick);
 		sprite.addScript(scriptWait);
 
 		BroadcastScript broadcastScript = new BroadcastScript("broadcastScript", sprite);
 		WaitBrick waitBrick = new WaitBrick(sprite, 500);
-		int secTestPosition = 20;
-		SetXBrick secXBrick = new SetXBrick(sprite, secTestPosition);
+		int setTestPosition = 20;
+		SetXBrick setXBrick2 = new SetXBrick(sprite, setTestPosition);
 		broadcastScript.setBroadcastMessage(message);
 		broadcastScript.addBrick(waitBrick);
-		broadcastScript.addBrick(secXBrick);
+		broadcastScript.addBrick(setXBrick2);
 		sprite.addScript(broadcastScript);
 
 		sprite.startStartScripts();
 
 		try {
 			Thread.sleep(1000);
-		} catch (InterruptedException e) {
+		} catch (InterruptedException ignored) {
 		}
 
 		assertEquals("Broadcast and wait failed", testPosition, sprite.getXPosition());

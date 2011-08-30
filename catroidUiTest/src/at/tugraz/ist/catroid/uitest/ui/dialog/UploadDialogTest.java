@@ -20,24 +20,22 @@
 package at.tugraz.ist.catroid.uitest.ui.dialog;
 
 import java.io.File;
-import java.util.List;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
 import android.view.View;
-import android.widget.ImageButton;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
-import at.tugraz.ist.catroid.uitest.util.Utils;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
-	private String testProject = Utils.PROJECTNAME1;
-	private String newTestProject = Utils.PROJECTNAME2;
+	private String testProject = UiTestUtils.PROJECTNAME1;
+	private String newTestProject = UiTestUtils.PROJECTNAME2;
 
 	public UploadDialogTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -46,14 +44,14 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 	@Override
 	@UiThreadTest
 	public void setUp() throws Exception {
-		Utils.clearAllUtilTestProjects();
+		UiTestUtils.clearAllUtilTestProjects();
 		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		Utils.clearAllUtilTestProjects();
+		UiTestUtils.clearAllUtilTestProjects();
 		try {
 			solo.finalize();
 		} catch (Throwable e) {
@@ -100,6 +98,23 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 	}
 
+	public void testOrientationChange() {
+		createTestProject();
+		String testText1 = "testText1";
+		String testText2 = "testText2";
+		solo.clickOnText(getActivity().getString(R.string.upload_project));
+		solo.sleep(500);
+		solo.clearEditText(0);
+		solo.enterText(0, testText1);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testText1));
+		solo.clickOnEditText(1);
+		solo.clearEditText(1);
+		solo.enterText(1, testText2);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testText2));
+	}
+
 	private void createTestProject() {
 		File directory = new File(Consts.DEFAULT_ROOT + "/" + testProject);
 		if (directory.exists()) {
@@ -116,12 +131,6 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 		File file = new File(Consts.DEFAULT_ROOT + "/" + testProject + "/" + testProject + Consts.PROJECT_EXTENTION);
 		assertTrue(testProject + " was not created!", file.exists());
-		List<ImageButton> btnList = solo.getCurrentImageButtons();
-		for (int i = 0; i < btnList.size(); i++) {
-			ImageButton btn = btnList.get(i);
-			if (btn.getId() == R.id.btn_action_home) {
-				solo.clickOnImageButton(i);
-			}
-		}
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
 	}
 }

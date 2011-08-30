@@ -18,8 +18,11 @@
  */
 package at.tugraz.ist.catroid.test.ui;
 
+import java.lang.reflect.Field;
+
 import android.content.Context;
 import android.test.AndroidTestCase;
+import android.text.InputType;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,168 +32,50 @@ import at.tugraz.ist.catroid.R;
 public class EditTextAlignmentTest extends AndroidTestCase {
 
 	static private LayoutInflater inflater;
+	private Context context;
 
 	@Override
 	protected void setUp() throws Exception {
-		inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		context = getContext();
+		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
 	/*
-	 * Construction site bricks
+	 * all bricks in R.layout must have "_brick_" in their names
+	 * and all bricks in R.id which have an EditText must have the same name as in R.layout plus "_edit_text" at the end
+	 * of their names
 	 */
-	public void testRightAlignmentConstructionChangeXBrick() {
-		View brickView = inflater.inflate(R.layout.construction_brick_change_x, null);
+	public void testAllBricks() throws IllegalArgumentException, IllegalAccessException {
 
-		EditText edit = (EditText) brickView.findViewById(R.id.construction_brick_change_x_edit_text);
-		assertEquals("Brick does not have correct gravity (horizontal alignment)", Gravity.RIGHT,
-				Gravity.RIGHT & edit.getGravity());
+		Field[] idFields = R.id.class.getFields();
+		Field[] layoutFields = R.layout.class.getFields();
+
+		for (Field layoutField : layoutFields) {
+			String layoutName = layoutField.getName();
+
+			if (layoutName.contains("_brick_")) {
+				for (Field idField : idFields) {
+					String idName = idField.getName();
+
+					if (idName.contains(layoutName) && idName.contains("_edit_text")) {
+						int brickId = layoutField.getInt(null);
+
+						View brickView = inflater.inflate(brickId, null);
+						int editTextId = idField.getInt(null);
+
+						EditText edit = (EditText) brickView.findViewById(editTextId);
+						if ((edit.getInputType() & InputType.TYPE_CLASS_NUMBER) == InputType.TYPE_CLASS_NUMBER) {
+							assertEquals("Brick " + layoutName
+									+ " does not have correct gravity (horizontal alignment)", Gravity.RIGHT,
+									Gravity.RIGHT & edit.getGravity());
+						} else {
+							assertEquals("Brick " + layoutName
+									+ " does not have correct gravity (horizontal alignment)", Gravity.LEFT,
+									Gravity.LEFT & edit.getGravity());
+						}
+					}
+				}
+			}
+		}
 	}
-
-	public void testRightAlignmentConstructionChangeYBrick() {
-		View brickView = inflater.inflate(R.layout.construction_brick_change_y, null);
-
-		EditText edit = (EditText) brickView.findViewById(R.id.construction_brick_change_y_edit_text);
-		assertEquals("Brick does not have correct gravity (horizontal alignment)", Gravity.RIGHT,
-				Gravity.RIGHT & edit.getGravity());
-	}
-
-	public void testRightAlignmentConstructionGlideToBrick() {
-		View brickView = inflater.inflate(R.layout.construction_brick_glide_to, null);
-
-		EditText duration = (EditText) brickView.findViewById(R.id.construction_brick_glide_to_duration_edit_text);
-		assertEquals("Brick does not have correct gravity (horizontal alignment)", Gravity.RIGHT, Gravity.RIGHT
-				& duration.getGravity());
-
-		EditText x = (EditText) brickView.findViewById(R.id.construction_brick_glide_to_x_edit_text);
-		assertEquals("Brick does not have correct gravity (horizontal alignment)", Gravity.RIGHT,
-				Gravity.RIGHT & x.getGravity());
-
-		EditText y = (EditText) brickView.findViewById(R.id.construction_brick_glide_to_y_edit_text);
-		assertEquals("Brick does not have correct gravity (horizontal alignment)", Gravity.RIGHT,
-				Gravity.RIGHT & y.getGravity());
-	}
-
-	public void testRightAlignmentConstructionGoBackBrick() {
-		View brickView = inflater.inflate(R.layout.construction_brick_go_back, null);
-
-		EditText edit = (EditText) brickView.findViewById(R.id.construction_brick_go_back_edit_text);
-		assertEquals("Brick does not have correct gravity (horizontal alignment)", Gravity.RIGHT,
-				Gravity.RIGHT & edit.getGravity());
-	}
-
-	public void testRightAlignmentConstructionPlaceAtBrick() {
-		View brickView = inflater.inflate(R.layout.construction_brick_place_at, null);
-
-		EditText editX = (EditText) brickView.findViewById(R.id.construction_brick_place_at_x_edit_text);
-		assertEquals("Brick does not have correct gravity (horizontal alignment)", Gravity.RIGHT,
-				Gravity.RIGHT & editX.getGravity());
-
-		EditText editY = (EditText) brickView.findViewById(R.id.construction_brick_place_at_y_edit_text);
-		assertEquals("Brick does not have correct gravity (horizontal alignment)", Gravity.RIGHT,
-				Gravity.RIGHT & editY.getGravity());
-	}
-
-	public void testRightAlignmentConstructionSetSizeToBrick() {
-		View brickView = inflater.inflate(R.layout.construction_brick_set_size_to, null);
-
-		EditText edit = (EditText) brickView.findViewById(R.id.construction_brick_set_size_to_edit_text);
-		assertEquals("Brick does not have correct gravity (horizontal alignment)", Gravity.RIGHT,
-				Gravity.RIGHT & edit.getGravity());
-	}
-
-	public void testRightAlignmentConstructionSetXBrick() {
-		View brickView = inflater.inflate(R.layout.construction_brick_set_x, null);
-
-		EditText edit = (EditText) brickView.findViewById(R.id.construction_brick_set_x_edit_text);
-		assertEquals("Brick does not have correct gravity (horizontal alignment)", Gravity.RIGHT,
-				Gravity.RIGHT & edit.getGravity());
-	}
-
-	public void testRightAlignmentConstructionSetYBrick() {
-		View brickView = inflater.inflate(R.layout.construction_brick_set_y, null);
-
-		EditText edit = (EditText) brickView.findViewById(R.id.construction_brick_set_y_edit_text);
-		assertEquals("Brick does not have correct gravity (horizontal alignment)", Gravity.RIGHT,
-				Gravity.RIGHT & edit.getGravity());
-	}
-
-	/*
-	 * Toolbox bricks
-	 */
-	public void testRightAlignmentToolboxChangeXBrick() {
-		View brickView = inflater.inflate(R.layout.toolbox_brick_change_x, null);
-
-		EditText edit = (EditText) brickView.findViewById(R.id.toolbox_brick_change_x_edit_text);
-		assertEquals("Brick does not have correct gravity (horizontal alignment)", Gravity.RIGHT,
-				Gravity.RIGHT & edit.getGravity());
-	}
-
-	public void testRightAlignmentToolboxChangeYBrick() {
-		View brickView = inflater.inflate(R.layout.toolbox_brick_change_y, null);
-
-		EditText edit = (EditText) brickView.findViewById(R.id.toolbox_brick_change_y_edit_text);
-		assertEquals("Brick does not have correct gravity (horizontal alignment)", Gravity.RIGHT,
-				Gravity.RIGHT & edit.getGravity());
-	}
-
-	public void testRightAlignmentTooboxGlideToBrick() {
-		View brickView = inflater.inflate(R.layout.toolbox_brick_glide_to, null);
-
-		EditText duration = (EditText) brickView.findViewById(R.id.toolbox_brick_glide_to_duration_edit_text);
-		assertEquals("Brick does not have correct gravity (horizontal alignment)", Gravity.RIGHT, Gravity.RIGHT
-				& duration.getGravity());
-
-		EditText x = (EditText) brickView.findViewById(R.id.toolbox_brick_glide_to_x_edit_text);
-		assertEquals("Brick does not have correct gravity (horizontal alignment)", Gravity.RIGHT,
-				Gravity.RIGHT & x.getGravity());
-
-		EditText y = (EditText) brickView.findViewById(R.id.toolbox_brick_glide_to_y_edit_text);
-		assertEquals("Brick does not have correct gravity (horizontal alignment)", Gravity.RIGHT,
-				Gravity.RIGHT & y.getGravity());
-	}
-
-	public void testRightAlignmentToolboxGoBackBrick() {
-		View brickView = inflater.inflate(R.layout.toolbox_brick_go_back, null);
-
-		EditText edit = (EditText) brickView.findViewById(R.id.toolbox_brick_go_back_edit_text);
-		assertEquals("Brick does not have correct gravity (horizontal alignment)", Gravity.RIGHT,
-				Gravity.RIGHT & edit.getGravity());
-	}
-
-	public void testRightAlignmentToolboxlaceAtBrick() {
-		View brickView = inflater.inflate(R.layout.toolbox_brick_place_at, null);
-
-		EditText editX = (EditText) brickView.findViewById(R.id.toolbox_brick_place_at_x_edit_text);
-		assertEquals("Brick does not have correct gravity (horizontal alignment)", Gravity.RIGHT,
-				Gravity.RIGHT & editX.getGravity());
-
-		EditText editY = (EditText) brickView.findViewById(R.id.toolbox_brick_place_at_y_edit_text);
-		assertEquals("Brick does not have correct gravity (horizontal alignment)", Gravity.RIGHT,
-				Gravity.RIGHT & editY.getGravity());
-	}
-
-	public void testRightAlignmentToolboxSetSizeToBrick() {
-		View brickView = inflater.inflate(R.layout.toolbox_brick_set_size_to, null);
-
-		EditText edit = (EditText) brickView.findViewById(R.id.toolbox_brick_set_size_to_edit_text);
-		assertEquals("Brick does not have correct gravity (horizontal alignment)", Gravity.RIGHT,
-				Gravity.RIGHT & edit.getGravity());
-	}
-
-	public void testRightAlignmentToolboxSetXBrick() {
-		View brickView = inflater.inflate(R.layout.toolbox_brick_set_x, null);
-
-		EditText edit = (EditText) brickView.findViewById(R.id.toolbox_brick_set_x_edit_text);
-		assertEquals("Brick does not have correct gravity (horizontal alignment)", Gravity.RIGHT,
-				Gravity.RIGHT & edit.getGravity());
-	}
-
-	public void testRightAlignmentToolboxSetYBrick() {
-		View brickView = inflater.inflate(R.layout.toolbox_brick_set_y, null);
-
-		EditText edit = (EditText) brickView.findViewById(R.id.toolbox_brick_set_y_edit_text);
-		assertEquals("Brick does not have correct gravity (horizontal alignment)", Gravity.RIGHT,
-				Gravity.RIGHT & edit.getGravity());
-	}
-
 }

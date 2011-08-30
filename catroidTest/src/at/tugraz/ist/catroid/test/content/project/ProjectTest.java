@@ -23,16 +23,20 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.AndroidTestCase;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.test.utils.TestUtils;
 
 public class ProjectTest extends AndroidTestCase {
+
 	public void testVersionNameAndNumber() throws NameNotFoundException {
 		Project project = new Project(getContext(), "testProject");
 		PackageInfo packageInfo = getContext().getPackageManager().getPackageInfo("at.tugraz.ist.catroid", 0);
-		assertEquals("Incorrect version name", packageInfo.versionName, project.getVersionName());
-		assertEquals("Incorrect version code", packageInfo.versionCode, project.getVersionCode());
+		assertEquals("Incorrect version name", packageInfo.versionName,
+				(String) TestUtils.getPrivateField("versionName", project, false));
+		assertEquals("Incorrect version code", packageInfo.versionCode,
+				TestUtils.getPrivateField("versionCode", project, false));
 	}
 
-	public void testAddRemoveSprite() throws NameNotFoundException {
+	public void testAddRemoveSprite() {
 		Project project = new Project(getContext(), "testProject");
 		Sprite bottomSprite = new Sprite("bottom");
 		Sprite topSprite = new Sprite("top");
@@ -51,7 +55,7 @@ public class ProjectTest extends AndroidTestCase {
 		assertFalse("topSprite was not removed from data structure", project.getSpriteList().contains(topSprite));
 	}
 
-	public void testGetMaxZValue() throws NameNotFoundException {
+	public void testGetMaxZValue() {
 		Project project = new Project(getContext(), "testProject");
 		Sprite bottomSprite = new Sprite("bottom");
 		Sprite topSprite = new Sprite("top");

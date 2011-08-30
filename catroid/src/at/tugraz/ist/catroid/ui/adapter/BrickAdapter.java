@@ -27,40 +27,48 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.view.View;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnGroupClickListener;
 import at.tugraz.ist.catroid.ProjectManager;
+import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.BroadcastScript;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.TapScript;
+import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.BroadcastReceiverBrick;
 import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
 import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
-import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
-import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
-import at.tugraz.ist.catroid.io.StorageHandler;
-import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView;
-import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView.DropListener;
-import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView.RemoveListener;
+import at.tugraz.ist.catroid.content.bricks.WhenBrick;
+import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListView;
+import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListener;
 
-public class BrickAdapter extends BaseExpandableListAdapter implements DropListener, RemoveListener,
-		OnGroupClickListener {
+public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDropListener, OnGroupClickListener {
+
+	public static final int FOCUS_BLOCK_DESCENDANTS = 2;
 
 	private Context context;
 	private Sprite sprite;
 	private BrickListAnimation brickListAnimation;
 	private boolean animateChildren;
+	private int dragTargetPosition;
+	private Brick draggedBrick;
+	private OnLongClickListener longClickListener;
+	private View insertionView;
 
-	public BrickAdapter(Context context, Sprite sprite, DragNDropListView listView) {
+	public BrickAdapter(Context context, Sprite sprite, DragAndDropListView listView) {
 		this.context = context;
 		this.sprite = sprite;
 		brickListAnimation = new BrickListAnimation(this, listView);
+		longClickListener = listView;
+		insertionView = View.inflate(context, R.layout.brick_insert, null);
 	}
 
 	public Brick getChild(int groupPosition, int childPosition) {
@@ -75,13 +83,25 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 			ViewGroup parent) {
 		Brick brick = getChild(groupPosition, childPosition);
 
-		View currentBrickView = brick.getView(context, childPosition, this);
-		if (!animateChildren) {
-			return currentBrickView;
+		if (draggedBrick != null && (dragTargetPosition == childPosition)) {
+			return insertionView;
 		}
-		brickListAnimation.doExpandAnimation(currentBrickView, childPosition);
 
-		return currentBrickView;
+		View currentBrickView = brick.getView(context, childPosition, this);
+
+		if (animateChildren) {
+			brickListAnimation.doExpandAnimation(currentBrickView, childPosition);
+		}
+		//Hack!!!
+		//if wrapper isn't used the longClick event won't be triggered
+		ViewGroup wrapper = (ViewGroup) View.inflate(context, R.layout.construction_brick_wrapper, null);
+
+		if (currentBrickView.getParent() != null) {
+			((ViewGroup) currentBrickView.getParent()).removeView(currentBrickView);
+		}
+		wrapper.addView(currentBrickView);
+		wrapper.setOnLongClickListener(longClickListener);
+		return wrapper;
 	}
 
 	public int getChildrenCount(int groupPosition) {
@@ -101,15 +121,18 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 	}
 
 	public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-		View view;
+		View view = null;
 		if (getGroup(groupPosition) instanceof TapScript) {
-			view = new IfTouchedBrick(sprite, getGroup(groupPosition)).getPrototypeView(context);
+			view = new IfTouchedBrick(sprite, getGroup(groupPosition)).getView(context, groupPosition, this);
 		} else if (getGroup(groupPosition) instanceof BroadcastScript) {
-			view = new BroadcastReceiverBrick(sprite, (BroadcastScript) getGroup(groupPosition)).getView(context, 0,
-					null);
-		} else {
-			view = new IfStartedBrick(sprite, getGroup(groupPosition)).getPrototypeView(context);
+			view = new BroadcastReceiverBrick(sprite, (BroadcastScript) getGroup(groupPosition)).getView(context,
+					groupPosition, this);
+		} else if (getGroup(groupPosition) instanceof StartScript) {
+			view = new IfStartedBrick(sprite, getGroup(groupPosition)).getView(context, groupPosition, this);
+		} else if (getGroup(groupPosition) instanceof WhenScript) {
+			view = new WhenBrick(sprite, (WhenScript) getGroup(groupPosition)).getView(context, groupPosition, this);
 		}
+
 		return view;
 	}
 
@@ -121,59 +144,66 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 		return false;
 	}
 
-	public void drop(int from, int to) {
-		Brick BrickToRemove = sprite.getScript(getGroupCount() - 1).getBrickList().get(from);
-		if (BrickToRemove instanceof LoopBeginBrick) {
-			LoopEndBrick loopEndBrick = ((LoopBeginBrick) BrickToRemove).getLoopEndBrick();
-			int loopEndPosition = sprite.getScript(getGroupCount() - 1).getBrickList().indexOf(loopEndBrick);
-			if (to >= loopEndPosition) {
-				to = loopEndPosition - 1;
+	public void drag(int from, int to) {
+
+		int childFrom = Math.max(0, from - getGroupCount());
+		int childTo = Math.max(0, to - getGroupCount());
+		childFrom = Math.min(childFrom, getChildCountFromLastGroup() - 1);
+		childTo = Math.min(childTo, getChildCountFromLastGroup() - 1);
+
+		if (draggedBrick == null) {
+			draggedBrick = getChild(getCurrentGroup(), childFrom);
+			notifyDataSetChanged();
+		}
+
+		ArrayList<Brick> brickList = getBrickList();
+
+		if (draggedBrick instanceof LoopBeginBrick) {
+			LoopEndBrick loopEndBrick = ((LoopBeginBrick) draggedBrick).getLoopEndBrick();
+
+			if (childTo >= brickList.indexOf(loopEndBrick) || childFrom >= brickList.indexOf(loopEndBrick)) {
+				return;
 			}
-		} else if (BrickToRemove instanceof LoopEndBrick) {
-			LoopBeginBrick loopBeginBrick = ((LoopEndBrick) BrickToRemove).getLoopBeginBrick();
-			int loopBeginPosition = sprite.getScript(getGroupCount() - 1).getBrickList().indexOf(loopBeginBrick);
-			if (to <= loopBeginPosition) {
-				to = loopBeginPosition + 1;
+		} else if (draggedBrick instanceof LoopEndBrick) {
+			LoopBeginBrick loopBeginBrick = ((LoopEndBrick) draggedBrick).getLoopBeginBrick();
+
+			if (childTo <= brickList.indexOf(loopBeginBrick) || childFrom <= brickList.indexOf(loopBeginBrick)) {
+				return;
 			}
 		}
 
-		if (from == to) {
-			return;
+		dragTargetPosition = childTo;
+
+		if (childFrom != childTo) {
+			Brick removedBrick = getBrickList().remove(childFrom);
+			sprite.getScript(getCurrentGroup()).addBrick(childTo, removedBrick);
+			notifyDataSetChanged();
 		}
-		Brick removedBrick = sprite.getScript(getGroupCount() - 1).getBrickList().remove(from);
-		sprite.getScript(getGroupCount() - 1).addBrick(to, removedBrick);
+
+	}
+
+	public void drop(int from, int to) {
+		draggedBrick = null;
 		notifyDataSetChanged();
 	}
 
-	public void remove(int which) {
-		ArrayList<Brick> brickList = sprite.getScript(getGroupCount() - 1).getBrickList();
-		Brick brickToRemove = brickList.get(which);
-		if (brickToRemove instanceof PlaySoundBrick) {
-			PlaySoundBrick toDelete = (PlaySoundBrick) brickToRemove;
-			String pathToSoundFile = toDelete.getPathToSoundFile();
-			if (pathToSoundFile != null) {
-				StorageHandler.getInstance().deleteFile(pathToSoundFile);
-			}
-		} else if (brickToRemove instanceof SetCostumeBrick) {
-			SetCostumeBrick toDelete = (SetCostumeBrick) brickToRemove;
-			String imagePath = toDelete.getImagePath();
-			if (imagePath != null) {
-				StorageHandler.getInstance().deleteFile(imagePath);
-			}
-		} else if (brickToRemove instanceof LoopBeginBrick) {
-			LoopBeginBrick loopBeginBrick = (LoopBeginBrick) brickToRemove;
+	public void remove(int index) {
+		ArrayList<Brick> brickList = getBrickList();
+		if (draggedBrick instanceof LoopBeginBrick) {
+			LoopBeginBrick loopBeginBrick = (LoopBeginBrick) draggedBrick;
 			brickList.remove(loopBeginBrick.getLoopEndBrick());
-		} else if (brickToRemove instanceof LoopEndBrick) {
-			LoopEndBrick loopEndBrick = (LoopEndBrick) brickToRemove;
+		} else if (draggedBrick instanceof LoopEndBrick) {
+			LoopEndBrick loopEndBrick = (LoopEndBrick) draggedBrick;
 			brickList.remove(loopEndBrick.getLoopBeginBrick());
 		}
 
-		brickList.remove(brickToRemove);
+		brickList.remove(draggedBrick);
+		draggedBrick = null;
 		notifyDataSetChanged();
 	}
 
 	public boolean onGroupClick(final ExpandableListView parent, View v, final int groupPosition, long id) {
-		if (groupPosition == getGroupCount() - 1) {
+		if (groupPosition == getCurrentGroup()) {
 			return false;
 		}
 
@@ -199,7 +229,7 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 		ProjectManager.getInstance().setCurrentScript(currentScript);
 
 		notifyDataSetChanged();
-		parent.expandGroup(getGroupCount() - 1);
+		parent.expandGroup(getCurrentGroup());
 	}
 
 	public void setAnimateChildren(boolean animateChildren) {
@@ -207,7 +237,18 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DropListe
 	}
 
 	public int getChildCountFromLastGroup() {
-		return getChildrenCount(getGroupCount() - 1);
+		return getChildrenCount(getCurrentGroup());
 	}
 
+	public OnLongClickListener getOnLongClickListener() {
+		return longClickListener;
+	}
+
+	private ArrayList<Brick> getBrickList() {
+		return sprite.getScript(getCurrentGroup()).getBrickList();
+	}
+
+	private int getCurrentGroup() {
+		return getGroupCount() - 1;
+	}
 }

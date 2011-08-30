@@ -76,18 +76,18 @@ public class SetSizeToBrickTest extends InstrumentationTestCase {
 		Sprite sprite = new Sprite("testSprite");
 		assertEquals("Unexpected initial sprite size value", 100.0, sprite.getSize());
 
-		SetSizeToBrick brick = new SetSizeToBrick(sprite, size);
-		brick.execute();
+		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(sprite, size);
+		setSizeToBrick.execute();
 		assertEquals("Incorrect sprite size value after SetSizeToBrick executed", size, sprite.getSize());
 	}
 
 	public void testNullSprite() {
-		SetSizeToBrick brick = new SetSizeToBrick(null, size);
+		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(null, size);
 
 		try {
-			brick.execute();
+			setSizeToBrick.execute();
 			fail("Execution of SetSizeToBrick with null Sprite did not cause a NullPointerException to be thrown");
-		} catch (NullPointerException e) {
+		} catch (NullPointerException expected) {
 			// expected behavior
 		}
 	}
@@ -95,35 +95,35 @@ public class SetSizeToBrickTest extends InstrumentationTestCase {
 	public void testBoundarySize() {
 		Sprite sprite = new Sprite("testSprite");
 
-		SetSizeToBrick brick = new SetSizeToBrick(sprite, Double.MAX_VALUE);
-		brick.execute();
+		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(sprite, Double.MAX_VALUE);
+		setSizeToBrick.execute();
 		assertEquals("SetSizeToBrick failed to size Sprite to maximum Double value", Double.MAX_VALUE, sprite.getSize());
 
-		brick = new SetSizeToBrick(sprite, Double.MIN_VALUE);
-		brick.execute();
+		setSizeToBrick = new SetSizeToBrick(sprite, Double.MIN_VALUE);
+		setSizeToBrick.execute();
 		assertEquals("SetSizeToBrick failed to size Sprite to minimum Double value", Double.MIN_VALUE, sprite.getSize());
 	}
 
 	public void testZeroSize() {
 		Sprite sprite = new Sprite("testSprite");
-		SetSizeToBrick brick = new SetSizeToBrick(sprite, 0);
+		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(sprite, 0);
 
 		try {
-			brick.execute();
+			setSizeToBrick.execute();
 			fail("Execution of SetSizeToBrick with 0.0 size did not cause a IllegalArgumentException to be thrown.");
-		} catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException expected) {
 			// expected behavior
 		}
 	}
 
 	public void testNegativeSize() {
 		Sprite sprite = new Sprite("testSprite");
-		SetSizeToBrick brick = new SetSizeToBrick(sprite, -size);
+		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(sprite, -size);
 
 		try {
-			brick.execute();
+			setSizeToBrick.execute();
 			fail("Execution of SetSizeToBrick with negative size did not cause a IllegalArgumentException to be thrown.");
-		} catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException expected) {
 			// expected behavior
 		}
 	}
@@ -133,14 +133,14 @@ public class SetSizeToBrickTest extends InstrumentationTestCase {
 		Values.SCREEN_WIDTH = 480;
 
 		Sprite sprite = new Sprite("testSprite");
-		sprite.getCostume().setImagePath(testImage.getAbsolutePath());
+		sprite.getCostume().changeImagePath(testImage.getAbsolutePath());
 
-		SetSizeToBrick brick = new SetSizeToBrick(sprite, sizeToBig);
+		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(sprite, sizeToBig);
 
-		brick.execute();
+		setSizeToBrick.execute();
 
-		int newWidth = sprite.getCostume().getImageWidthHeight().first;
-		int newHeight = sprite.getCostume().getImageWidthHeight().second;
+		int newWidth = sprite.getCostume().getImageWidth();
+		int newHeight = sprite.getCostume().getImageHeight();
 
 		assertTrue("Costume has a wrong size after setting it!", newWidth == Consts.MAX_COSTUME_WIDTH
 				|| newHeight == Consts.MAX_COSTUME_HEIGHT);
@@ -151,14 +151,14 @@ public class SetSizeToBrickTest extends InstrumentationTestCase {
 		Values.SCREEN_WIDTH = 480;
 
 		Sprite sprite = new Sprite("testSprite");
-		sprite.getCostume().setImagePath(testImage.getAbsolutePath());
+		sprite.getCostume().changeImagePath(testImage.getAbsolutePath());
 
-		SetSizeToBrick brick = new SetSizeToBrick(sprite, sizeToSmall);
+		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(sprite, sizeToSmall);
 
-		brick.execute();
+		setSizeToBrick.execute();
 
-		int newWidth = sprite.getCostume().getImageWidthHeight().first;
-		int newHeight = sprite.getCostume().getImageWidthHeight().second;
+		int newWidth = sprite.getCostume().getImageWidth();
+		int newHeight = sprite.getCostume().getImageHeight();
 
 		assertTrue("Costume has a wrong size after setting it!", newWidth == 1 || newHeight == 1);
 	}

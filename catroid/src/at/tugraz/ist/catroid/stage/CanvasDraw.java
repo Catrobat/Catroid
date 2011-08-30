@@ -42,8 +42,10 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Costume;
+import at.tugraz.ist.catroid.content.SpeechBubble;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.utils.ImageEditing;
+import at.tugraz.ist.catroid.utils.Utils;
 
 /**
  * 
@@ -84,38 +86,52 @@ public class CanvasDraw implements IDraw {
 
 	public synchronized boolean draw() {
 		canvas = holder.lockCanvas();
-		try {
-			if (canvas == null) {
-				throw new Exception();
-			}
+		if (canvas != null) {
 
 			// draw white rectangle:
 			bufferCanvas.drawRect(flushRectangle, whitePaint);
 			java.util.Collections.sort(sprites);
+
 			for (Sprite sprite : sprites) {
 				if (!sprite.isVisible()) {
 					continue; //don't need to draw
 				}
 				if (sprite.getCostume().getBitmap() != null) {
+					//try {
 					Costume tempCostume = sprite.getCostume();
+					SpeechBubble tempBubble = sprite.getBubble();
+
 					bufferCanvas.drawBitmap(tempCostume.getBitmap(), tempCostume.getDrawPositionX(),
 							tempCostume.getDrawPositionY(), null);
+
+					if (!sprite.getName().equals(activity.getString(R.string.background))) {
+
+						tempBubble.draw(bufferCanvas, tempCostume, activity);
+
+					}
 					sprite.setToDraw(false);
+					//} catch (Exception e) {
+					//e.printStackTrace();
+					//}
 				}
 			}
-			bufferCanvas.drawBitmap(screenshotIcon, screenshotIconXPosition, Consts.SCREENSHOT_ICON_PADDING_TOP, null);
+			if (!NativeAppActivity.isRunning()) {
+				bufferCanvas.drawBitmap(screenshotIcon, screenshotIconXPosition, Consts.SCREENSHOT_ICON_PADDING_TOP,
+						null);
+			}
 			canvas.drawBitmap(canvasBitmap, 0, 0, null);
-			holder.unlockCanvasAndPost(canvas);
 
-			if (firstRun) {
+			if (firstRun && !NativeAppActivity.isRunning()) {
 				saveThumbnail(false);
 				firstRun = false;
 			}
 
-			return true;
-		} catch (Exception e) {
+		} else {
 			return false;
 		}
+
+		holder.unlockCanvasAndPost(canvas);
+		return true;
 	}
 
 	public synchronized void drawPauseScreen(Bitmap pauseBitmap) {
@@ -139,11 +155,12 @@ public class CanvasDraw implements IDraw {
 	public void processOnTouch(int xCoordinate, int yCoordinate) {
 		String toastText;
 		if (xCoordinate >= screenshotIconXPosition
-				&& yCoordinate <= Consts.SCREENSHOT_ICON_PADDING_TOP + screenshotIcon.getHeight()) {
+				&& yCoordinate <= Consts.SCREENSHOT_ICON_PADDING_TOP + screenshotIcon.getHeight()
+				&& !NativeAppActivity.isRunning()) {
 			Vibrator vibrator = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
 			vibrator.vibrate(100);
 			if (saveThumbnail(true)) {
-				toastText = activity.getString(R.string.screenshot_ok);
+				toastText = activity.getString(R.string.notification_screenshot_ok);
 			} else {
 				toastText = activity.getString(R.string.error_screenshot_failed);
 			}
@@ -154,9 +171,10 @@ public class CanvasDraw implements IDraw {
 
 	public boolean saveThumbnail(boolean overwrite) {
 		try {
-			String path = Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName() + "/";
-			File file = new File(path + Consts.SCREENSHOT_FILE_NAME);
-			File noMediaFile = new File(path + ".nomedia");
+			String path = Utils.buildPath(Consts.DEFAULT_ROOT, ProjectManager.getInstance().getCurrentProject()
+					.getName());
+			File file = new File(Utils.buildPath(path, Consts.SCREENSHOT_FILE_NAME));
+			File noMediaFile = new File(Utils.buildPath(path, Consts.NO_MEDIA_FILE));
 			if (!noMediaFile.exists()) {
 				noMediaFile.createNewFile();
 			}
@@ -165,7 +183,7 @@ public class CanvasDraw implements IDraw {
 			}
 
 			FileOutputStream fileOutputStream = new FileOutputStream(file.getAbsolutePath());
-			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream);
+			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream, Consts.BUFFER_8K);
 			canvasBitmap.compress(CompressFormat.PNG, 0, bos);
 			bos.flush();
 			bos.close();

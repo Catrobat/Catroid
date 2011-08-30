@@ -28,7 +28,7 @@ import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 
 public class WaitBrickTest extends AndroidTestCase {
 
-	public void testWait() {
+	public void testWait() throws InterruptedException {
 		Sprite testSprite = new Sprite("testSprite");
 		Script testScript = new StartScript("testScript", testSprite);
 		HideBrick hideBrick = new HideBrick(testSprite);
@@ -43,23 +43,16 @@ public class WaitBrickTest extends AndroidTestCase {
 
 		testSprite.startStartScripts();
 
-		try {
-			Thread.sleep(200);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		Thread.sleep(200);
+
 		assertFalse("Unexpected visibility of testSprite", testSprite.isVisible());
 
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		Thread.sleep(1000);
 
 		assertTrue("Unexpected visibility of testSprite", testSprite.isVisible());
 	}
 
-	public void testPauseResume() {
+	public void testPauseResume() throws InterruptedException {
 		Sprite testSprite = new Sprite("testSprite");
 		final Script testScript = new StartScript("test", testSprite);
 		HideBrick hideBrick = new HideBrick(testSprite);
@@ -73,44 +66,31 @@ public class WaitBrickTest extends AndroidTestCase {
 		testSprite.addScript(testScript);
 		for (int i = 0; i < 3; i++) {
 			//Should use: void startScript(Script s)
-			Thread t = new Thread(new Runnable() {
+			Thread thread = new Thread(new Runnable() {
 				public void run() {
 					testScript.run();
 				}
 			});
-			t.start();
+			thread.start();
 
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			Thread.sleep(1000);
+
 			assertFalse("Unexpected visibility of testSprite. Run: " + i, testSprite.isVisible());
 
 			testSprite.pause();
 
-			try {
-				Thread.sleep(200);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			Thread.sleep(200);
+
 			assertFalse("Unexpected visibility of testSprite. Run: " + i, testSprite.isVisible());
 
 			testSprite.resume();
 
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			Thread.sleep(1000);
 
 			assertFalse("Unexpected visibility of testSprite. Run: " + i, testSprite.isVisible());
 
-			try {
-				Thread.sleep(1200);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			Thread.sleep(1200);
+
 			assertTrue("Unexpected visibility of testSprite. Run: " + i, testSprite.isVisible());
 		}
 	}

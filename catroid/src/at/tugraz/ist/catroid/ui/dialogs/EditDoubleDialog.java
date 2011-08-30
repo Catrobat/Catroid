@@ -32,7 +32,12 @@ import at.tugraz.ist.catroid.R;
 
 public class EditDoubleDialog extends EditDialog implements OnClickListener {
 	private double value;
-	private boolean signed;
+	private boolean signed = false;
+
+	public EditDoubleDialog(Context context, EditText referencedEditText, double value) {
+		super(context, referencedEditText);
+		this.value = value;
+	}
 
 	public EditDoubleDialog(Context context, EditText referencedEditText, double value, boolean signed) {
 		super(context, referencedEditText);

@@ -78,9 +78,8 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 		assertNotNull("TextView does not exist",
 				solo.getText(getActivity().getString(R.string.brick_point_in_direction)));
 
-		//test will fail in 2.1 because index in 2.2 starts at 1 and at 0 in 2.1 
-		solo.pressSpinnerItem(0, 2);
-		Thread.sleep(300);
+		solo.pressSpinnerItem(0, 1);
+		solo.sleep(300);
 		assertEquals("Wrong selection", "(-90) left", solo.getCurrentSpinners().get(0).getSelectedItem());
 	}
 
@@ -88,7 +87,7 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript("script", sprite);
-		pointInDirectionBrick = new PointInDirectionBrick(sprite, 15);
+		pointInDirectionBrick = new PointInDirectionBrick(sprite, PointInDirectionBrick.DIRECTION_RIGHT);
 		script.addBrick(pointInDirectionBrick);
 
 		sprite.addScript(script);

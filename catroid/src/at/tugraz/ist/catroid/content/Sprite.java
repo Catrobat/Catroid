@@ -24,7 +24,11 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import android.graphics.Color;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.common.FileChecksumContainer;
+import at.tugraz.ist.catroid.common.SoundInfo;
 
 public class Sprite implements Serializable, Comparable<Sprite> {
 	private static final long serialVersionUID = 1L;
@@ -38,12 +42,29 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	private transient boolean isVisible;
 	private transient boolean toDraw;
 	private List<Script> scriptList;
+	private ArrayList<CostumeData> costumeDataList;
+	private ArrayList<SoundInfo> soundList;
 	private transient Costume costume;
-
+	private transient SpeechBubble speechBubble;
+	private transient double ghostEffect;
+	private transient double brightness;
 	public transient volatile boolean isPaused;
 	public transient volatile boolean isFinished;
 
 	private Object readResolve() {
+		//filling FileChecksumContainer:
+		if (soundList != null && costumeDataList != null && ProjectManager.getInstance().getCurrentProject() != null) {
+			FileChecksumContainer container = ProjectManager.getInstance().fileChecksumContainer;
+			if (container == null) {
+				ProjectManager.getInstance().fileChecksumContainer = new FileChecksumContainer();
+			}
+			for (SoundInfo soundInfo : soundList) {
+				container.addChecksum(soundInfo.getChecksum(), soundInfo.getAbsolutePath());
+			}
+			for (CostumeData costumeData : costumeDataList) {
+				container.addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
+			}
+		}
 		init();
 		return this;
 	}
@@ -57,14 +78,36 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		xPosition = 0;
 		yPosition = 0;
 		toDraw = false;
+		ghostEffect = 0.0;
+		brightness = 0.0;
 		isPaused = false;
 		isFinished = false;
+		speechBubble = new SpeechBubble();
+		
+		if (soundList == null) {
+			soundList = new ArrayList<SoundInfo>();
+		}
+		if (costumeDataList == null) {
+			costumeDataList = new ArrayList<CostumeData>();
+		}
 	}
 
 	public Sprite(String name) {
 		this.name = name;
 		scriptList = new ArrayList<Script>();
+		costumeDataList = new ArrayList<CostumeData>();
+		soundList = new ArrayList<SoundInfo>();
 		init();
+	}
+
+	public void startWhenScripts(String action) {
+		for (Script s : scriptList) {
+			if (s instanceof WhenScript) {
+				if (((WhenScript) s).getAction().equalsIgnoreCase(action)) {
+					startScript(s);
+				}
+			}
+		}
 	}
 
 	public void startStartScripts() {
@@ -169,6 +212,14 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return size;
 	}
 
+	public double getGhostEffectValue() {
+		return ghostEffect;
+	}
+
+	public double getBrightnessValue() {
+		return this.brightness;
+	}
+
 	public double getDirection() {
 		return direction;
 	}
@@ -180,7 +231,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 	public synchronized void setXYPosition(int xPosition, int yPosition) {
 		this.xPosition = xPosition;
 		this.yPosition = yPosition;
-		costume.setDrawPosition();
+		costume.updatePosition();
 		toDraw = true;
 	}
 
@@ -189,15 +240,34 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		toDraw = true;
 	}
 
-	public synchronized void setSize(double size) {
-		if (size <= 0.0) {
+	public synchronized void clearGraphicEffect() {
+		ghostEffect = 0.0;
+		brightness = 0.0;
+		costume.updateImage();
+		toDraw = true;
+	}
+
+	public synchronized void setBrightnessValue(double brightnessValue) {
+		this.brightness = brightnessValue;
+		costume.updateImage();
+		toDraw = true;
+	}
+
+	public synchronized void setGhostEffectValue(double ghostEffectValue) {
+		this.ghostEffect = ghostEffectValue;
+		costume.updateImage();
+		toDraw = true;
+	}
+
+	public synchronized void setSize(double percent) {
+		if (percent <= 0.0) {
 			throw new IllegalArgumentException("Sprite size must be greater than zero!");
 		}
 
-		int costumeWidth = costume.getImageWidthHeight().first;
-		int costumeHeight = costume.getImageWidthHeight().second;
+		int costumeWidth = costume.getImageWidth();
+		int costumeHeight = costume.getImageHeight();
 
-		this.size = size;
+		this.size = percent;
 
 		if (costumeWidth > 0 && costumeHeight > 0) {
 			if (costumeWidth * this.size / 100. < 1) {
@@ -215,7 +285,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 				this.size = (double) Consts.MAX_COSTUME_HEIGHT / costumeHeight * 100.;
 			}
 
-			costume.setSizeTo(this.size);
+			costume.updateImage();
 			toDraw = true;
 		}
 	}
@@ -237,7 +307,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 			this.direction = 180;
 		}
 
-		costume.rotateTo(this.direction);
+		costume.updateImage();
 	}
 
 	public synchronized void show() {
@@ -252,6 +322,10 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 
 	public synchronized Costume getCostume() {
 		return costume;
+	}
+
+	public synchronized SpeechBubble getBubble() {
+		return speechBubble;
 	}
 
 	public void addScript(Script script) {
@@ -286,6 +360,14 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return scriptList.remove(script);
 	}
 
+	public ArrayList<CostumeData> getCostumeDataList() {
+		return costumeDataList;
+	}
+
+	public ArrayList<SoundInfo> getSoundList() {
+		return soundList;
+	}
+
 	public boolean getToDraw() {
 		return toDraw;
 	}
@@ -312,13 +394,13 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		int inSpriteXCoordinate = xCoordinate - costume.getDrawPositionX();
 		int inSpriteYCoordinate = yCoordinate - costume.getDrawPositionY();
 
-		int width = costume.getImageWidthHeight().first;
-		int height = costume.getImageWidthHeight().second;
+		int width = costume.getImageWidth();
+		int height = costume.getImageHeight();
 
-		if (inSpriteXCoordinate < 0 || inSpriteXCoordinate > width) {
+		if (inSpriteXCoordinate < 0 || inSpriteXCoordinate >= width) {
 			return false;
 		}
-		if (inSpriteYCoordinate < 0 || inSpriteYCoordinate > height) {
+		if (inSpriteYCoordinate < 0 || inSpriteYCoordinate >= height) {
 			return false;
 		}
 		if (Color.alpha(costume.getBitmap().getPixel(inSpriteXCoordinate, inSpriteYCoordinate)) <= MIN_ALPHA) {
@@ -326,10 +408,5 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		}
 
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		return name;
 	}
 }

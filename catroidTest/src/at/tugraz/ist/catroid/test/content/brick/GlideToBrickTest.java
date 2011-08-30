@@ -33,7 +33,7 @@ public class GlideToBrickTest extends AndroidTestCase {
 	int yPosition = 100;
 	int duration = 1000;
 
-	public void testNormalBehavior() {
+	public void testNormalBehavior() throws InterruptedException {
 		Sprite sprite = new Sprite("testSprite");
 		assertEquals("Unexpected initial sprite x position", 0, sprite.getXPosition());
 		assertEquals("Unexpected initial sprite y position", 0, sprite.getYPosition());
@@ -41,11 +41,7 @@ public class GlideToBrickTest extends AndroidTestCase {
 		GlideToBrick glideToBrick = new GlideToBrick(sprite, xPosition, yPosition, duration);
 		glideToBrick.execute();
 
-		try {
-			Thread.sleep(1100);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		Thread.sleep(1100);
 
 		assertEquals("Incorrect sprite x position after GlideToBrick executed", xPosition, sprite.getXPosition());
 		assertEquals("Incorrect sprite y position after GlideToBrick executed", yPosition, sprite.getYPosition());
@@ -56,7 +52,7 @@ public class GlideToBrickTest extends AndroidTestCase {
 		try {
 			glideToBrick.execute();
 			fail("Execution of GlideToBrick with null Sprite did not cause a " + "NullPointerException to be thrown");
-		} catch (NullPointerException e) {
+		} catch (NullPointerException expected) {
 			// expected behavior
 		}
 	}
@@ -81,7 +77,7 @@ public class GlideToBrickTest extends AndroidTestCase {
 				sprite.getYPosition());
 	}
 
-	public void testTime() {
+	public void testTime() throws InterruptedException {
 		Sprite sprite = new Sprite("testSprite");
 		Script script = new StartScript("testScript", sprite);
 		HideBrick hideBrick = new HideBrick(sprite);
@@ -96,23 +92,16 @@ public class GlideToBrickTest extends AndroidTestCase {
 
 		sprite.startStartScripts();
 
-		try {
-			Thread.sleep(250);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		Thread.sleep(250);
+
 		assertFalse("GlideToBrick should not be visible!", sprite.isVisible());
 
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		Thread.sleep(1000);
 
 		assertTrue("GlideToBrick should be visible!", sprite.isVisible());
 	}
 
-	public void testPauseResume() {
+	public void testPauseResume() throws InterruptedException {
 		Sprite sprite = new Sprite("testSprite");
 		Script script = new StartScript("testScript", sprite);
 		HideBrick hideBrick = new HideBrick(sprite);
@@ -127,36 +116,18 @@ public class GlideToBrickTest extends AndroidTestCase {
 
 		sprite.startStartScripts();
 
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		Thread.sleep(1000);
 		assertFalse("Unexpected visibility of test sprite", sprite.isVisible());
 
 		sprite.pause();
-		try {
-			Thread.sleep(200);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		Thread.sleep(200);
 		assertFalse("Unexpected visibility of test sprite", sprite.isVisible());
 
 		sprite.resume();
-
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
+		Thread.sleep(1000);
 		assertFalse("Unexpected visibility of testSprite", sprite.isVisible());
 
-		try {
-			Thread.sleep(1200);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		Thread.sleep(1200);
 		assertTrue("Unexpected visibility of testSprite", sprite.isVisible());
 	}
 }

@@ -4,6 +4,7 @@ syntax: glob
 #.classpath
 #.settings
 .metadata
+*.pyc
 local.properties
 bin/*
 build/*

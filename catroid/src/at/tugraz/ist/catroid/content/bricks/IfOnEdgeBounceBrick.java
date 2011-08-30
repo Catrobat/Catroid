@@ -19,17 +19,21 @@
 package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Sprite;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 public class IfOnEdgeBounceBrick implements Brick {
 
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
+
+	@XStreamOmitField
+	private transient View view;
 
 	public IfOnEdgeBounceBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -37,7 +41,7 @@ public class IfOnEdgeBounceBrick implements Brick {
 
 	public void execute() {
 
-		double width = sprite.getCostume().getRelativeBoundingBoxWidth();
+		double width = sprite.getCostume().getVirtualWidth();
 		int xPosition = sprite.getXPosition();
 		int yPosition = sprite.getYPosition();
 
@@ -45,18 +49,18 @@ public class IfOnEdgeBounceBrick implements Brick {
 
 			sprite.setDirection(Math.abs(sprite.getDirection()));
 
-			double newWidth = sprite.getCostume().getRelativeBoundingBoxWidth();
+			double newWidth = sprite.getCostume().getVirtualWidth();
 			xPosition = -Consts.MAX_REL_COORDINATES + (int) (newWidth / 2);
 
 		} else if (sprite.getXPosition() > Consts.MAX_REL_COORDINATES - width / 2) {
 
 			sprite.setDirection(-Math.abs(sprite.getDirection()));
 
-			double newWidth = sprite.getCostume().getRelativeBoundingBoxWidth();
+			double newWidth = sprite.getCostume().getVirtualWidth();
 			xPosition = Consts.MAX_REL_COORDINATES - (int) (newWidth / 2);
 		}
 
-		double height = sprite.getCostume().getRelativeBoundingBoxHeight();
+		double height = sprite.getCostume().getVirtualHeight();
 
 		if (sprite.getYPosition() > Consts.MAX_REL_COORDINATES - height / 2) {
 
@@ -64,7 +68,7 @@ public class IfOnEdgeBounceBrick implements Brick {
 				sprite.setDirection(180 - sprite.getDirection());
 			}
 
-			double newHeight = sprite.getCostume().getRelativeBoundingBoxHeight();
+			double newHeight = sprite.getCostume().getVirtualHeight();
 			yPosition = Consts.MAX_REL_COORDINATES - (int) (newHeight / 2);
 
 		} else if (sprite.getYPosition() < -Consts.MAX_REL_COORDINATES + height / 2) {
@@ -73,7 +77,7 @@ public class IfOnEdgeBounceBrick implements Brick {
 				sprite.setDirection(180 - sprite.getDirection());
 			}
 
-			double newHeight = sprite.getCostume().getRelativeBoundingBoxHeight();
+			double newHeight = sprite.getCostume().getVirtualHeight();
 			yPosition = -Consts.MAX_REL_COORDINATES + (int) (newHeight / 2);
 		}
 
@@ -85,13 +89,15 @@ public class IfOnEdgeBounceBrick implements Brick {
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.construction_brick_if_on_edge_bounce, null);
+		if (view == null) {
+			view = View.inflate(context, R.layout.toolbox_brick_if_on_edge_bounce, null);
+		}
+
+		return view;
 	}
 
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.toolbox_brick_if_on_edge_bounce, null);
+		return View.inflate(context, R.layout.toolbox_brick_if_on_edge_bounce, null);
 	}
 
 	@Override

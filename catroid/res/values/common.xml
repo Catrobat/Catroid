@@ -23,10 +23,11 @@
     <!-- Language independent -->
     <string name="app_name">Catroid</string>
     <string name="percent">%</string>
-    <string name="default_sprite">catroid</string>
+    <string name="catroid_extension_pathPattern">.*\\.catroid</string>
 
     <!-- Website URLs -->
     <!-- TODO: set proper URLs -->
+    <string name="catroid_website">http://www.catroid.org</string>
     <string name="wiki_url">http://catroweb.ist.tugraz.at</string>
     <string name="about_catroid_url">http://groups.google.com/group/catroid/</string>
     <string name="about_link_template">&lt;a href="%1$s">%2$s&lt;/a></string>
