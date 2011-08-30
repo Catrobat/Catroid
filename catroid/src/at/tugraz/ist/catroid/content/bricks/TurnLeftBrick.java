@@ -22,7 +22,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
@@ -33,9 +32,7 @@ import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 public class TurnLeftBrick implements Brick, OnDismissListener {
 
 	private static final long serialVersionUID = 1L;
-
 	private Sprite sprite;
-
 	private double degrees;
 
 	private transient View view;
