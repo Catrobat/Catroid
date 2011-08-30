@@ -51,9 +51,9 @@ public class AboutDialog extends Dialog {
 		TextView aboutUrlTextView = (TextView) findViewById(R.id.dialog_about_url_text_view);
 		aboutUrlTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
-		Resources res = context.getResources();
-		String aboutUrl = String.format(res.getString(R.string.about_link_template),
-				res.getString(R.string.about_catroid_url), res.getString(R.string.about_link_text));
+		Resources resources = context.getResources();
+		String aboutUrl = String.format(resources.getString(R.string.about_link_template),
+				resources.getString(R.string.about_catroid_url), resources.getString(R.string.about_link_text));
 
 		aboutUrlTextView.setText(Html.fromHtml(aboutUrl));
 
