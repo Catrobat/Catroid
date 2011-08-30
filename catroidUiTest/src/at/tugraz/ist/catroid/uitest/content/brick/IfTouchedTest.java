@@ -30,7 +30,7 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
+import at.tugraz.ist.catroid.content.bricks.WhenTouchedBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -79,14 +79,14 @@ public class IfTouchedTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
 				getActivity().getAdapter().getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_if_touched)));
+		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_when_touched)));
 	}
 
 	private void createProject() {
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript("script", sprite);
-		script.addBrick(new IfTouchedBrick(sprite, script));
+		script.addBrick(new WhenTouchedBrick(sprite, script));
 
 		sprite.addScript(script);
 		project.addSprite(sprite);

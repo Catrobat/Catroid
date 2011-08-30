@@ -27,17 +27,17 @@ import at.tugraz.ist.catroid.content.Sprite;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-public class IfStartedBrick implements Brick {
+public class WhenTouchedBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 
-	protected Script script;
+	protected Script touchScript;
 	private Sprite sprite;
 
 	@XStreamOmitField
 	private transient View view;
 
-	public IfStartedBrick(Sprite sprite, Script script) {
-		this.script = script;
+	public WhenTouchedBrick(Sprite sprite, Script touchScript) {
+		this.touchScript = touchScript;
 		this.sprite = sprite;
 	}
 
@@ -49,19 +49,19 @@ public class IfStartedBrick implements Brick {
 	}
 
 	public View getView(Context context, int brickId, final BaseExpandableListAdapter adapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_started, null);
-		}
 
+		if (view == null) {
+			view = View.inflate(context, R.layout.toolbox_brick_touched, null);
+		}
 		return view;
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_started, null);
+		return View.inflate(context, R.layout.toolbox_brick_touched, null);
 	}
 
 	@Override
 	public Brick clone() {
-		return new IfStartedBrick(getSprite(), script);
+		return new WhenTouchedBrick(getSprite(), touchScript);
 	}
 }
