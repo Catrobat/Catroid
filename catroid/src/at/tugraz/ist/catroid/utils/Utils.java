@@ -36,12 +36,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
-import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -219,13 +217,6 @@ public class Utils {
 		}
 	}
 
-	public static String addDefaultFileEnding(String filename) {
-		if (!filename.endsWith(Consts.PROJECT_EXTENTION)) {
-			return filename + Consts.PROJECT_EXTENTION;
-		}
-		return filename;
-	}
-
 	/**
 	 * 
 	 * @param projectFileName
@@ -251,28 +242,6 @@ public class Utils {
 			Log.e(TAG, e.getMessage());
 			e.printStackTrace();
 		}
-	}
-
-	public static String changeFileEndingToPng(String filename) {
-		String newFileName;
-
-		int beginOfFileEnding = filename.lastIndexOf(".");
-		newFileName = filename.replace(filename.substring(beginOfFileEnding), "");
-
-		newFileName = newFileName + ".png";
-		return newFileName;
-	}
-
-	/**
-	 * Displays a website with the given URI using an Intent
-	 * 
-	 * @param context
-	 * @param uri
-	 */
-	public static void displayWebsite(Context context, Uri uri) {
-		Intent websiteIntent = new Intent(Intent.ACTION_VIEW);
-		websiteIntent.setData(uri);
-		context.startActivity(websiteIntent);
 	}
 
 	/**

@@ -120,21 +120,6 @@ public class UtilsTest extends TestCase {
 		assertEquals(Utils.concatPaths(first, second), result);
 	}
 
-	public void testAddDefaultFileEnding() {
-		String filename = "test";
-		assertEquals("File extension was not added correctly", Utils.addDefaultFileEnding(filename), "test"
-				+ Consts.PROJECT_EXTENTION);
-	}
-
-	public void testChangeFileEndingToPng() {
-		String imageName = "blablabla.jpg";
-		assertEquals("File ending was not changed correctly", Utils.changeFileEndingToPng(imageName), "blablabla.png");
-		String imageName1 = "blablabla.png";
-		assertEquals("File ending was not changed correctly", Utils.changeFileEndingToPng(imageName1), "blablabla.png");
-		String imageName2 = "blablabla.jpeg";
-		assertEquals("File ending was not changed correctly", Utils.changeFileEndingToPng(imageName2), "blablabla.png");
-	}
-
 	public void testMD5CheckSumOfFile() {
 
 		PrintWriter printWriter = null;

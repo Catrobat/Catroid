@@ -23,14 +23,17 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.AndroidTestCase;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.test.utils.TestUtils;
 
 public class ProjectTest extends AndroidTestCase {
 
 	public void testVersionNameAndNumber() throws NameNotFoundException {
 		Project project = new Project(getContext(), "testProject");
 		PackageInfo packageInfo = getContext().getPackageManager().getPackageInfo("at.tugraz.ist.catroid", 0);
-		assertEquals("Incorrect version name", packageInfo.versionName, project.getVersionName());
-		assertEquals("Incorrect version code", packageInfo.versionCode, project.getVersionCode());
+		assertEquals("Incorrect version name", packageInfo.versionName,
+				(String) TestUtils.getPrivateField("versionName", project, false));
+		assertEquals("Incorrect version code", packageInfo.versionCode,
+				TestUtils.getPrivateField("versionCode", project, false));
 	}
 
 	public void testAddRemoveSprite() {
