@@ -122,6 +122,9 @@
     <!-- Sprite dialog -->
     <string name="sprite_button_text">Create</string>
     <string name="newsprite">New sprite</string>
+    
+    <!-- Script context menu -->
+    <string name="script_context_menu_title">Script Menu</string>
 
     <!-- New project dialog -->
     <string name="new_project_dialog_button">Create</string> 
