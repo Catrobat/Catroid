@@ -314,7 +314,6 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		assertEquals("costume has wrong width --> touch worked on it", image2Width, costume.getImageWidth());
 		assertEquals("costume has wrong height --> touch worked on it", image2Height, costume.getImageHeight());
 
-		//		solo.sleep(3000);
 		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
 		solo.sleep(3000);
 		assertEquals("costume has wrong width", image2Width * 2, costume.getBitmap().getWidth());
@@ -428,7 +427,6 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		solo.clickOnScreen(Values.SCREEN_WIDTH, 0); //save thumbnail
 		solo.sleep(5000);
 
-		//File file = new File(Consts.DEFAULT_ROOT + "/" + projectName + "/" + Consts.SCREENSHOT_FILE_NAME);
 		Bitmap bitmap = BitmapFactory.decodeFile(Consts.DEFAULT_ROOT + "/" + projectName + "/"
 				+ Consts.SCREENSHOT_FILE_NAME);
 
@@ -440,28 +438,23 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		for (int i = startWidth; i < borderWidth; i++) {
 			for (int j = startHeight; j < borderHeight; j++) {
 				assertEquals("pixel is not red", Color.RED, bitmap.getPixel(i, j));
-				//Log.v(TAG, "in TEST " + i + " " + j);
 			}
 		}
 
 		for (int j = startHeight; j < borderHeight; j++) {
 			assertEquals("pixel is not white", Color.WHITE, bitmap.getPixel(startWidth - 1, j));
-			//Log.v(TAG, "in TEST2 " + (startWidth - 1) + " " + j);
 		}
 
 		for (int j = startHeight; j < borderHeight; j++) {
 			assertEquals("pixel is not white", Color.WHITE, bitmap.getPixel(borderWidth, j));
-			//Log.v(TAG, "in TEST3 " + borderWidth + " " + j);
 		}
 
 		for (int i = startWidth; i < borderWidth; i++) {
 			assertEquals("pixel is not white", Color.WHITE, bitmap.getPixel(i, startHeight - 1));
-			//Log.v(TAG, "in TEST4 " + i + " " + (startHeight - 1));
 		}
 
 		for (int i = startWidth; i < borderWidth; i++) {
 			assertEquals("pixel is not white", Color.WHITE, bitmap.getPixel(i, borderHeight));
-			//Log.v(TAG, "in TEST5 " + i + " " + borderHeight);
 		}
 
 	}
