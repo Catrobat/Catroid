@@ -96,7 +96,7 @@ public class ProjectActivity extends ListActivity {
 			public void onClick(int menuId) {
 				switch (menuId) {
 					case CONTEXT_MENU_ITEM_RENAME:
-						ProjectActivity.this.showDialog(Consts.DIALOG_RENAME_SPRITE);
+						showDialog(Consts.DIALOG_RENAME_SPRITE);
 						break;
 					case CONTEXT_MENU_ITEM_DELETE:
 						ProjectManager projectManager = ProjectManager.getInstance();
