@@ -44,6 +44,7 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 	private String projectDescription;
 	private String serverAnswer;
 	private String token;
+	private static final String UPLOAD_FILE_NAME = "upload" + Consts.CATROID_EXTENTION;
 
 	public ProjectUploadTask(Context context, String projectName, String projectDescription, String projectPath,
 			String token) {
@@ -83,7 +84,7 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 				paths[i] = Utils.buildPath(directoryPath.getAbsolutePath(), paths[i]);
 			}
 
-			String zipFileString = Utils.buildPath(Consts.TMP_PATH, Consts.UPLOAD_FILE_NAME);
+			String zipFileString = Utils.buildPath(Consts.TMP_PATH, UPLOAD_FILE_NAME);
 			File zipFile = new File(zipFileString);
 			if (!zipFile.exists()) {
 				zipFile.getParentFile().mkdirs();

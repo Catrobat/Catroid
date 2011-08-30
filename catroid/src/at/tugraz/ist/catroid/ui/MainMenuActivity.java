@@ -54,6 +54,10 @@ public class MainMenuActivity extends Activity {
 	private static final String PREF_PROJECTNAME_KEY = "projectName";
 	private ProjectManager projectManager;
 	private ActivityHelper activityHelper = new ActivityHelper(this);
+	private static final int DIALOG_NEW_PROJECT = 0;
+	private static final int DIALOG_LOAD_PROJECT = 1;
+	private static final int DIALOG_UPLOAD_PROJECT = 2;
+	private static final int DIALOG_ABOUT = 3;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -102,16 +106,16 @@ public class MainMenuActivity extends Activity {
 		}
 
 		switch (id) {
-			case Consts.DIALOG_NEW_PROJECT:
+			case DIALOG_NEW_PROJECT:
 				dialog = new NewProjectDialog(this);
 				break;
-			case Consts.DIALOG_LOAD_PROJECT:
+			case DIALOG_LOAD_PROJECT:
 				dialog = new LoadProjectDialog(this);
 				break;
-			case Consts.DIALOG_ABOUT:
+			case DIALOG_ABOUT:
 				dialog = new AboutDialog(this);
 				break;
-			case Consts.DIALOG_UPLOAD_PROJECT:
+			case DIALOG_UPLOAD_PROJECT:
 				if (projectManager.getCurrentProject() == null) {
 					dialog = null;
 					break;
@@ -128,19 +132,19 @@ public class MainMenuActivity extends Activity {
 	@Override
 	protected void onPrepareDialog(int id, Dialog dialog) {
 		switch (id) {
-			case Consts.DIALOG_NEW_PROJECT:
+			case DIALOG_NEW_PROJECT:
 				break;
-			case Consts.DIALOG_LOAD_PROJECT:
+			case DIALOG_LOAD_PROJECT:
 				break;
-			case Consts.DIALOG_ABOUT:
+			case DIALOG_ABOUT:
 				break;
-			case Consts.DIALOG_UPLOAD_PROJECT:
+			case DIALOG_UPLOAD_PROJECT:
 				TextView projectRename = (TextView) dialog.findViewById(R.id.tv_project_rename);
 				EditText projectDescriptionField = (EditText) dialog.findViewById(R.id.project_description_upload);
 				final EditText projectUploadName = (EditText) dialog.findViewById(R.id.project_upload_name);
 				TextView sizeOfProject = (TextView) dialog.findViewById(R.id.dialog_upload_size_of_project);
-				sizeOfProject.setText(UtilFile.getSizeAsString(new File(Consts.DEFAULT_ROOT + "/"
-						+ projectManager.getCurrentProject().getName())));
+				sizeOfProject.setText(UtilFile.getSizeAsString(new File(Utils.buildPath(Consts.DEFAULT_ROOT,
+						projectManager.getCurrentProject().getName()))));
 
 				projectRename.setVisibility(View.GONE);
 				projectUploadName.setText(ProjectManager.getInstance().getCurrentProject().getName());
@@ -196,15 +200,15 @@ public class MainMenuActivity extends Activity {
 	}
 
 	public void handleNewProjectButton(View v) {
-		showDialog(Consts.DIALOG_NEW_PROJECT);
+		showDialog(DIALOG_NEW_PROJECT);
 	}
 
 	public void handleLoadProjectButton(View v) {
-		showDialog(Consts.DIALOG_LOAD_PROJECT);
+		showDialog(DIALOG_LOAD_PROJECT);
 	}
 
 	public void handleUploadProjectButton(View v) {
-		showDialog(Consts.DIALOG_UPLOAD_PROJECT);
+		showDialog(DIALOG_UPLOAD_PROJECT);
 	}
 
 	public void handleWebResourcesButton(View v) {
@@ -241,6 +245,6 @@ public class MainMenuActivity extends Activity {
 	}
 
 	public void handleAboutCatroidButton(View v) {
-		showDialog(Consts.DIALOG_ABOUT);
+		showDialog(DIALOG_ABOUT);
 	}
 }

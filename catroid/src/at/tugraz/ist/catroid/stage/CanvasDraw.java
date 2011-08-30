@@ -65,6 +65,8 @@ public class CanvasDraw implements IDraw {
 	private int screenshotIconXPosition;
 	private Activity activity;
 	ArrayList<Sprite> sprites;
+	private static final int SCREENSHOT_ICON_PADDING_TOP = 3;
+	private static final int SCREENSHOT_ICON_PADDING_RIGHT = 3;
 
 	public CanvasDraw(Activity activity) {
 		super();
@@ -79,8 +81,7 @@ public class CanvasDraw implements IDraw {
 		bufferCanvas = new Canvas(canvasBitmap);
 		flushRectangle = new Rect(0, 0, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
 		screenshotIcon = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_screenshot);
-		screenshotIconXPosition = Values.SCREEN_WIDTH - screenshotIcon.getWidth()
-				- Consts.SCREENSHOT_ICON_PADDING_RIGHT;
+		screenshotIconXPosition = Values.SCREEN_WIDTH - screenshotIcon.getWidth() - SCREENSHOT_ICON_PADDING_RIGHT;
 		sprites = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
 	}
 
@@ -116,8 +117,7 @@ public class CanvasDraw implements IDraw {
 				}
 			}
 			if (!NativeAppActivity.isRunning()) {
-				bufferCanvas.drawBitmap(screenshotIcon, screenshotIconXPosition, Consts.SCREENSHOT_ICON_PADDING_TOP,
-						null);
+				bufferCanvas.drawBitmap(screenshotIcon, screenshotIconXPosition, SCREENSHOT_ICON_PADDING_TOP, null);
 			}
 			canvas.drawBitmap(canvasBitmap, 0, 0, null);
 
@@ -155,7 +155,7 @@ public class CanvasDraw implements IDraw {
 	public void processOnTouch(int xCoordinate, int yCoordinate) {
 		String toastText;
 		if (xCoordinate >= screenshotIconXPosition
-				&& yCoordinate <= Consts.SCREENSHOT_ICON_PADDING_TOP + screenshotIcon.getHeight()
+				&& yCoordinate <= SCREENSHOT_ICON_PADDING_TOP + screenshotIcon.getHeight()
 				&& !NativeAppActivity.isRunning()) {
 			Vibrator vibrator = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
 			vibrator.vibrate(100);

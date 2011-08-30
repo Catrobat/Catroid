@@ -43,6 +43,7 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 	private String url;
 	private ProgressDialog progressDialog;
 	private boolean result;
+	private static final String DOWNLOAD_FILE_NAME = "down" + Consts.CATROID_EXTENTION;
 
 	// mock object testing
 	protected ConnectionWrapper createConnection() {
@@ -52,7 +53,7 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 	public ProjectDownloadTask(Activity activity, String url, String projectName) {
 		this.activity = activity;
 		this.projectName = projectName;
-		this.zipFileString = Utils.buildPath(Consts.TMP_PATH, Consts.UPLOAD_FILE_NAME);
+		this.zipFileString = Utils.buildPath(Consts.TMP_PATH, DOWNLOAD_FILE_NAME);
 		this.url = url;
 	}
 

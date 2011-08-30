@@ -25,12 +25,12 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.transfers.ProjectDownloadTask;
 
 public class DownloadActivity extends Activity {
 
 	private static final String TAG = "DownloadActivity";
+	private static final String PROJECTNAME_TAG = "fname=";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +52,7 @@ public class DownloadActivity extends Activity {
 	}
 
 	private String getProjectName(String zipUrl) {
-		int projectNameIndex = zipUrl.lastIndexOf(Consts.PROJECTNAME_TAG) + Consts.PROJECTNAME_TAG.length();
+		int projectNameIndex = zipUrl.lastIndexOf(PROJECTNAME_TAG) + PROJECTNAME_TAG.length();
 		String projectName = zipUrl.substring(projectNameIndex);
 		projectName = URLDecoder.decode(projectName);
 

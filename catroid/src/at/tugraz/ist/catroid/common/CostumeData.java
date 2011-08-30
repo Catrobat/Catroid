@@ -34,6 +34,8 @@ public class CostumeData {
 	private Integer resWidth;
 	private Integer resHeight;
 	private Long sizeInKB;
+	private transient static final int THUMBNAIL_WIDTH = 150;
+	private transient static final int THUMBNAIL_HEIGHT = 150;
 
 	public String getAbsolutePath() {
 		if (costumeFileName != null) {
@@ -81,8 +83,7 @@ public class CostumeData {
 
 	public Bitmap getThumbnailBitmap() {
 		if (thumbnailBitmap == null) {
-			thumbnailBitmap = ImageEditing.getScaledBitmap(getAbsolutePath(), Consts.THUMBNAIL_HEIGHT,
-					Consts.THUMBNAIL_WIDTH);
+			thumbnailBitmap = ImageEditing.getScaledBitmap(getAbsolutePath(), THUMBNAIL_HEIGHT, THUMBNAIL_WIDTH);
 		}
 		return thumbnailBitmap;
 	}

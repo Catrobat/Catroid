@@ -34,7 +34,6 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
@@ -47,6 +46,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	private DragAndDropListView listView;
 	private Sprite sprite;
 	private Script scriptToEdit;
+	private static final int DIALOG_ADD_BRICK = 0;
 
 	private void initListeners() {
 		sprite = ProjectManager.getInstance().getCurrentSprite();
@@ -79,7 +79,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		Dialog dialog;
 
 		switch (id) {
-			case Consts.DIALOG_ADD_BRICK:
+			case DIALOG_ADD_BRICK:
 				dialog = new AddBrickDialog(this);
 				dialog.setOnDismissListener(this);
 				break;
@@ -134,7 +134,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	private View.OnClickListener createAddBrickClickListener() {
 		return new View.OnClickListener() {
 			public void onClick(View v) {
-				showDialog(Consts.DIALOG_ADD_BRICK);
+				showDialog(DIALOG_ADD_BRICK);
 			}
 		};
 	}

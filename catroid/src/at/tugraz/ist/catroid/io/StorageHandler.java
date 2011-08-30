@@ -76,9 +76,14 @@ import com.thoughtworks.xstream.XStream;
 
 public class StorageHandler {
 
-	private static StorageHandler instance;
+	private static final String NORMAL_CAT = "normalCat";
+	private static final String BANZAI_CAT = "banzaiCat";
+	private static final String CHESHIRE_CAT = "cheshireCat";
+	private static final String BACKGROUND = "background";
+	private static final int JPG_COMPRESSION_SETTING = 95;
 	private static final String TAG = StorageHandler.class.getSimpleName();
 	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
+	private static StorageHandler instance;
 	private XStream xstream;
 
 	private StorageHandler() throws IOException {
@@ -286,9 +291,9 @@ public class StorageHandler {
 		try {
 			String name = inputFile.getName();
 			if (name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".JPG") || name.endsWith(".JPEG")) {
-				bitmap.compress(CompressFormat.JPEG, Consts.JPG_COMPRESSION_SETING, outputStream);
+				bitmap.compress(CompressFormat.JPEG, JPG_COMPRESSION_SETTING, outputStream);
 			} else {
-				bitmap.compress(CompressFormat.PNG, Consts.JPG_COMPRESSION_SETING, outputStream);
+				bitmap.compress(CompressFormat.PNG, 0, outputStream);
 			}
 			outputStream.flush();
 			outputStream.close();
@@ -367,13 +372,12 @@ public class StorageHandler {
 		Script startScript = new StartScript("startScript", sprite);
 		Script touchScript = new TapScript("touchScript", sprite);
 
-		File normalCatTemp = savePictureFromResInProject(projectName, Consts.NORMAL_CAT, R.drawable.catroid, context);
-		File banzaiCatTemp = savePictureFromResInProject(projectName, Consts.BANZAI_CAT, R.drawable.catroid_banzai,
+		File normalCatTemp = savePictureFromResInProject(projectName, NORMAL_CAT, R.drawable.catroid, context);
+		File banzaiCatTemp = savePictureFromResInProject(projectName, BANZAI_CAT, R.drawable.catroid_banzai, context);
+		File cheshireCatTemp = savePictureFromResInProject(projectName, CHESHIRE_CAT, R.drawable.catroid_cheshire,
 				context);
-		File cheshireCatTemp = savePictureFromResInProject(projectName, Consts.CHESHIRE_CAT,
-				R.drawable.catroid_cheshire, context);
-		File backgroundTemp = savePictureFromResInProject(projectName, Consts.BACKGROUND,
-				R.drawable.background_blueish, context);
+		File backgroundTemp = savePictureFromResInProject(projectName, BACKGROUND, R.drawable.background_blueish,
+				context);
 
 		String directoryName = Utils.buildPath(Consts.DEFAULT_ROOT, projectName, Consts.IMAGE_DIRECTORY);
 		File normalCat = new File(Utils.buildPath(directoryName,
@@ -391,19 +395,19 @@ public class StorageHandler {
 		backgroundTemp.renameTo(background);
 
 		CostumeData normalCatCostumeData = new CostumeData();
-		normalCatCostumeData.setCostumeName(Consts.NORMAL_CAT);
+		normalCatCostumeData.setCostumeName(NORMAL_CAT);
 		normalCatCostumeData.setCostumeFilename(normalCat.getName());
 
 		CostumeData banzaiCatCostumeData = new CostumeData();
-		banzaiCatCostumeData.setCostumeName(Consts.BANZAI_CAT);
+		banzaiCatCostumeData.setCostumeName(BANZAI_CAT);
 		banzaiCatCostumeData.setCostumeFilename(banzaiCat.getName());
 
 		CostumeData cheshireCatCostumeData = new CostumeData();
-		cheshireCatCostumeData.setCostumeName(Consts.CHESHIRE_CAT);
+		cheshireCatCostumeData.setCostumeName(CHESHIRE_CAT);
 		cheshireCatCostumeData.setCostumeFilename(cheshireCat.getName());
 
 		CostumeData backgroundCostumeData = new CostumeData();
-		backgroundCostumeData.setCostumeName(Consts.BACKGROUND);
+		backgroundCostumeData.setCostumeName(BACKGROUND);
 		backgroundCostumeData.setCostumeFilename(background.getName());
 
 		ArrayList<CostumeData> costumeDataList = sprite.getCostumeDataList();
