@@ -190,8 +190,8 @@
     <string name="steps_label">steps</string>
     <string name="brick_go_back_layers">layers</string>
     <string name="brick_come_to_front">Come to front</string>
-    <string name="brick_if_touched">If Touched</string>
-    <string name="brick_if_started">If Started</string>
+    <string name="brick_if_touched">When Sprite is Touched</string>
+    <string name="brick_if_started">When Project Starts</string>
     <string name="brick_change_x_by">Change X by:</string>
 	<string name="brick_change_y_by">Change Y by:</string>
 	<string name="brick_set_x">Set X to:</string>
@@ -222,8 +222,8 @@
 	<string name="brick_turn_left_n_degrees">degrees</string>
 	<string name="brick_point_in_direction">Point in direction</string>
 	<string name="brick_point_to">Point to</string>
-	<string name="brick_say">say</string>
-	<string name="brick_think">think</string>
+	<string name="brick_say">Say</string>
+	<string name="brick_think">Think</string>
 	<string name="brick_change_size_by">Change size by</string>
 	
 	<string name="choose_sound_title">choose a title</string>
