@@ -54,7 +54,7 @@ import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.IfOnEdgeBounceBrick;
 import at.tugraz.ist.catroid.content.bricks.WhenStartedBrick;
-import at.tugraz.ist.catroid.content.bricks.WhenTouchedBrick;
+import at.tugraz.ist.catroid.content.bricks.WhenTappedBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
 import at.tugraz.ist.catroid.content.bricks.MoveNStepsBrick;
@@ -104,7 +104,7 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new SetCostumeBrick(sprite));
 			prototypeBrickList.add(new SetSizeToBrick(sprite, 100));
 			prototypeBrickList.add(new PlaySoundBrick(sprite));
-			prototypeBrickList.add(new WhenTouchedBrick(sprite, null));
+			prototypeBrickList.add(new WhenTappedBrick(sprite, null));
 			prototypeBrickList.add(new WhenStartedBrick(sprite, null));
 			prototypeBrickList.add(new WhenBrick(sprite, null));
 			prototypeBrickList.add(new BroadcastReceiverBrick(sprite, null));
@@ -139,7 +139,7 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new SetVolumeToBrick(sprite, 100));
 			prototypeBrickList.add(new ChangeVolumeByBrick(sprite, 25));
 			prototypeBrickList.add(new SpeakBrick(sprite, null));
-			prototypeBrickList.add(new WhenTouchedBrick(sprite, null));
+			prototypeBrickList.add(new WhenTappedBrick(sprite, null));
 			prototypeBrickList.add(new WhenStartedBrick(sprite, null));
 			prototypeBrickList.add(new WhenBrick(sprite, null));
 			prototypeBrickList.add(new BroadcastReceiverBrick(sprite, null));
@@ -189,7 +189,7 @@ public class AddBrickDialog extends Dialog {
 					Script newScript = new StartScript("script", projectManager.getCurrentSprite());
 					projectManager.addScript(newScript);
 					projectManager.setCurrentScript(newScript);
-				} else if (addedBrick instanceof WhenTouchedBrick) {
+				} else if (addedBrick instanceof WhenTappedBrick) {
 					Script newScript = new TapScript("script", projectManager.getCurrentSprite());
 					projectManager.addScript(newScript);
 					projectManager.setCurrentScript(newScript);

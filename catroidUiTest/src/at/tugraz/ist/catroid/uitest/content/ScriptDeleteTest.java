@@ -68,9 +68,9 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptTab
 
 	public void testDeleteScript() {
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
-		solo.clickOnText(getActivity().getString(R.string.brick_when_touched));
+		solo.clickOnText(getActivity().getString(R.string.brick_when_tapped));
 
-		solo.clickLongOnText(getActivity().getString(R.string.brick_when_touched));
+		solo.clickLongOnText(getActivity().getString(R.string.brick_when_tapped));
 		solo.clickOnText(getActivity().getString(R.string.delete_script_button));
 		solo.sleep(1000);
 

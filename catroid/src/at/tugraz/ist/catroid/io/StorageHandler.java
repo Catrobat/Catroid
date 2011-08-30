@@ -66,7 +66,7 @@ import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.content.bricks.WhenBrick;
 import at.tugraz.ist.catroid.content.bricks.WhenStartedBrick;
-import at.tugraz.ist.catroid.content.bricks.WhenTouchedBrick;
+import at.tugraz.ist.catroid.content.bricks.WhenTappedBrick;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.UtilFile;
@@ -102,7 +102,7 @@ public class StorageHandler {
 		xstream.alias("goNStepsBackBrick", GoNStepsBackBrick.class);
 		xstream.alias("hideBrick", HideBrick.class);
 		xstream.alias("whenStartedBrick", WhenStartedBrick.class);
-		xstream.alias("whenTouchedBrick", WhenTouchedBrick.class);
+		xstream.alias("whenTappedBrick", WhenTappedBrick.class);
 		xstream.alias("placeAtBrick", PlaceAtBrick.class);
 		xstream.alias("playSoundBrick", PlaySoundBrick.class);
 		xstream.alias("setSizeToBrick", SetSizeToBrick.class);
@@ -370,7 +370,7 @@ public class StorageHandler {
 
 		Script backgroundStartScript = new StartScript("stageStartScript", backgroundSprite);
 		Script startScript = new StartScript("startScript", sprite);
-		Script touchScript = new TapScript("touchScript", sprite);
+		Script tapScript = new TapScript("tapScript", sprite);
 
 		File normalCatTemp = savePictureFromResInProject(projectName, NORMAL_CAT, R.drawable.catroid, context);
 		File banzaiCatTemp = savePictureFromResInProject(projectName, BANZAI_CAT, R.drawable.catroid_banzai, context);
@@ -437,16 +437,16 @@ public class StorageHandler {
 
 		startScript.addBrick(setCostumeBrick);
 
-		touchScript.addBrick(setCostumeBrick2);
-		touchScript.addBrick(waitBrick1);
-		touchScript.addBrick(setCostumeBrick3);
-		touchScript.addBrick(waitBrick2);
-		touchScript.addBrick(setCostumeBrick1);
+		tapScript.addBrick(setCostumeBrick2);
+		tapScript.addBrick(waitBrick1);
+		tapScript.addBrick(setCostumeBrick3);
+		tapScript.addBrick(waitBrick2);
+		tapScript.addBrick(setCostumeBrick1);
 		backgroundStartScript.addBrick(setCostumeBackground);
 
 		defaultProject.addSprite(sprite);
 		sprite.addScript(startScript);
-		sprite.addScript(touchScript);
+		sprite.addScript(tapScript);
 		backgroundSprite.addScript(backgroundStartScript);
 
 		this.saveProject(defaultProject);
