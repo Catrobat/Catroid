@@ -40,11 +40,11 @@ import com.jayway.android.robotium.solo.Solo;
  * @author Daniel Burtscher
  * 
  */
-public class IfTouchedTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class WhenTouchedTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
 
-	public IfTouchedTest() {
+	public WhenTouchedTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
 	}
 
