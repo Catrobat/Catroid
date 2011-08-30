@@ -75,6 +75,7 @@ public class NewProjectDialog extends Dialog {
 				}
 
 				ProjectManager.getInstance().initializeNewProject(projectName, context);
+
 				Intent intent = new Intent(context, ProjectActivity.class);
 				context.startActivity(intent);
 				dismiss();
@@ -101,6 +102,7 @@ public class NewProjectDialog extends Dialog {
 							}
 
 							ProjectManager.getInstance().initializeNewProject(projectName, context);
+
 							Intent intent = new Intent(context, ProjectActivity.class);
 							context.startActivity(intent);
 

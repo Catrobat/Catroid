@@ -23,10 +23,8 @@
 	android:orientation="vertical"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:background="@drawable/backrepeat"
+	android:background="#d8e0f5"
 >
-	<!-- Action bar -->
-	<include layout="@layout/actionbar"/>
 	
 	<!-- Sprite list -->
 	<LinearLayout
@@ -36,18 +34,11 @@
 		android:layout_weight="1"
 		
 	>
-		<TextView
-			android:id="@+id/brick_list_label"
-			android:text="@string/brick_list"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:textSize="14dip"
-		></TextView>
 		<RelativeLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 		>
-			<at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView
+			<at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListView
 				android:id="@+id/brick_list_view"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
@@ -55,7 +46,10 @@
 				android:fastScrollEnabled="true"
 				android:clickable="false"
 				android:drawingCacheQuality="high" 
-				android:cacheColorHint="#00000000" />
+				android:cacheColorHint="#00000000" 
+				android:divider="@android:color/transparent"
+				android:dividerHeight="-5dip"	
+			/>
 			<ImageView
 				android:id="@+id/trash"
 				android:layout_width="51dip"
@@ -67,12 +61,4 @@
 				android:src="@drawable/trash_green" />
 		</RelativeLayout>
 	</LinearLayout>
-	<!-- Add brick button -->
-	<Button
-		android:id="@+id/add_brick_button"
-		android:text="@string/add_new_brick"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:layout_weight="0"
-	></Button>
 </LinearLayout>

@@ -32,7 +32,7 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
-import at.tugraz.ist.catroid.uitest.util.Utils;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -90,7 +90,7 @@ public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptAct
 		solo.clickOnButton(0);
 
 		solo.sleep(300);
-		assertEquals("Wrong text in field.", stepsToGoBack, Utils.getPrivateField("steps", goNStepsBackBrick));
+		assertEquals("Wrong text in field.", stepsToGoBack, UiTestUtils.getPrivateField("steps", goNStepsBackBrick));
 		assertEquals("Value in Brick is not updated.", stepsToGoBack + "", solo.getEditText(0).getText().toString());
 	}
 

@@ -23,13 +23,13 @@ import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
-import at.tugraz.ist.catroid.uitest.util.Utils;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
-	private String testingproject = Utils.PROJECTNAME1;
+	private String testingproject = UiTestUtils.PROJECTNAME1;
 
 	public NewProjectDialogTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -38,7 +38,7 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		Utils.clearAllUtilTestProjects();
+		UiTestUtils.clearAllUtilTestProjects();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
@@ -50,7 +50,7 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 			e.printStackTrace();
 		}
 		getActivity().finish();
-		Utils.clearAllUtilTestProjects();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -60,14 +60,14 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 
 		int nameEditTextId = solo.getCurrentEditTexts().size() - 1;
 
-		Utils.enterText(solo, nameEditTextId, testingproject);
+		UiTestUtils.enterText(solo, nameEditTextId, testingproject);
 
 		solo.sendKey(Solo.ENTER);
 
 		solo.sleep(1000);
 
 		assertTrue("New Project is not testingproject!", ProjectManager.getInstance().getCurrentProject().getName()
-				.equals(Utils.PROJECTNAME1));
+				.equals(UiTestUtils.PROJECTNAME1));
 
 	}
 

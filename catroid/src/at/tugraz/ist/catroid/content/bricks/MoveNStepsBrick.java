@@ -36,6 +36,8 @@ public class MoveNStepsBrick implements Brick, OnDismissListener {
 	private Sprite sprite;
 	private double steps;
 
+	private transient View view;
+
 	public MoveNStepsBrick(Sprite sprite, double steps) {
 		this.sprite = sprite;
 		this.steps = steps;
@@ -60,12 +62,14 @@ public class MoveNStepsBrick implements Brick, OnDismissListener {
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_move_n_steps, null);
-		EditText edit = (EditText) view.findViewById(R.id.construction_brick_move_n_steps_edit_text);
+		if (view == null) {
+			view = View.inflate(context, R.layout.toolbox_brick_move_n_steps, null);
+		}
+
+		EditText edit = (EditText) view.findViewById(R.id.toolbox_brick_move_n_steps_edit_text);
 
 		edit.setText(String.valueOf(steps));
-		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, steps, false);
+		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, steps);
 		dialog.setOnDismissListener(this);
 		dialog.setOnCancelListener((OnCancelListener) context);
 		edit.setOnClickListener(dialog);

@@ -120,7 +120,7 @@ public class TestUtils {
 		StringBuilder contents = new StringBuilder();
 
 		try {
-			BufferedReader input = new BufferedReader(new FileReader(projectFile));
+			BufferedReader input = new BufferedReader(new FileReader(projectFile), Consts.BUFFER_8K);
 			try {
 				String line = null;
 				while ((line = input.readLine()) != null) {
@@ -146,7 +146,7 @@ public class TestUtils {
 		} catch (SecurityException e) {
 			e.printStackTrace();
 		} catch (NoSuchFieldException e) {
-			Log.w(TAG, e.getClass().getName() + ": " + fieldName);
+			Log.e(TAG, e.getClass().getName() + ": " + fieldName);
 		}
 
 		if (field != null) {

@@ -39,7 +39,7 @@
 	>
 	</TextView>
 	<EditText
-		android:id="@+id/toolbox_brick_go_back_edit_text"
+		android:id="@+id/toolbox_brick_move_n_steps_edit_text"
 		android:text="1"
 		android:layout_height="wrap_content"
 		android:layout_width="50dp"

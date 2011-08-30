@@ -22,10 +22,14 @@ package at.tugraz.ist.catroid.io;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
+import at.tugraz.ist.catroid.stage.NativeAppActivity;
 
 public class SoundManager {
 	private ArrayList<MediaPlayer> mediaPlayers;
+
+	private transient double volume = 70.0;
 
 	public static final int MAX_MEDIA_PLAYERS = 7;
 	private static SoundManager soundManager = null;
@@ -61,7 +65,14 @@ public class SoundManager {
 		MediaPlayer mediaPlayer = getMediaPlayer();
 		if (mediaPlayer != null) {
 			try {
-				mediaPlayer.setDataSource(pathToSoundfile);
+				if (!NativeAppActivity.isRunning()) {
+					mediaPlayer.setDataSource(pathToSoundfile);
+				} else {
+					int resId = NativeAppActivity.getContext().getResources().getIdentifier(pathToSoundfile, "raw",
+							NativeAppActivity.getContext().getPackageName());
+					AssetFileDescriptor afd = NativeAppActivity.getContext().getResources().openRawResourceFd(resId);
+					mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+				}
 				mediaPlayer.prepare();
 				mediaPlayer.start();
 			} catch (IOException e) {
@@ -69,6 +80,19 @@ public class SoundManager {
 			}
 		}
 		return mediaPlayer;
+	}
+
+	public synchronized void setVolume(double volume) {
+		this.volume = volume;
+		float vol;
+		vol = (float) (volume * 0.01);
+		for (MediaPlayer mediaPlayer : mediaPlayers) {
+			mediaPlayer.setVolume(vol, vol);
+		}
+	}
+
+	public double getVolume() {
+		return this.volume;
 	}
 
 	public synchronized void clear() {
@@ -92,6 +116,14 @@ public class SoundManager {
 		for (MediaPlayer mediaPlayer : mediaPlayers) {
 			if (!mediaPlayer.isPlaying()) {
 				mediaPlayer.start();
+			}
+		}
+	}
+
+	public synchronized void stopAllSounds() {
+		for (MediaPlayer mediaPlayer : mediaPlayers) {
+			if (mediaPlayer.isPlaying()) {
+				mediaPlayer.stop();
 			}
 		}
 	}

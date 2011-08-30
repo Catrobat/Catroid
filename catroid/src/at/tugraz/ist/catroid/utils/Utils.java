@@ -16,7 +16,12 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
+/**
+ * Copyright for original "String buildPath" held by:
+ * 	Copyright (C) 2008 Rob Manning
+ * 	manningr@users.sourceforge.net
+ * Source: http://www.java2s.com/Code/Java/File-Input-Output/Autilityclassformanipulatingpaths.htm
+ */
 package at.tugraz.ist.catroid.utils;
 
 import java.io.File;
@@ -36,9 +41,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
-import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -48,7 +54,7 @@ import at.tugraz.ist.catroid.common.Values;
 
 public class Utils {
 
-	private static final String TAG = "Utils";
+	private static final String TAG = Utils.class.getSimpleName();
 
 	public static boolean hasSdCard() {
 		return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
@@ -145,7 +151,7 @@ public class Utils {
 	 * @return whether the project exists
 	 */
 	public static boolean projectExists(String projectName) {
-		File projectFolder = new File(concatPaths(Consts.DEFAULT_ROOT, projectName));
+		File projectFolder = new File(buildPath(Consts.DEFAULT_ROOT, projectName));
 		return projectFolder.exists();
 	}
 
@@ -193,34 +199,28 @@ public class Utils {
 		return true;
 	}
 
-	public static String concatPaths(String first, String second) {
-		if (first == null && second == null) {
-			return null;
-		}
-		if (first == null) {
-			return second;
-		}
-		if (second == null) {
-			return first;
-		}
-		if (first.endsWith("/")) {
-			if (second.startsWith("/")) {
-				return first + second.replaceFirst("/", "");
-			} else {
-				return first + second;
-			}
-		} else if (second.startsWith("/")) {
-			return first + second;
-		} else {
-			return first + "/" + second;
-		}
-	}
+	/**
+	 * Constructs a path out of the pathElements.
+	 * 
+	 * @param pathElements
+	 *            the strings to connect. They can have "/" in them which will be de-duped in the result, if necessary.
+	 * @return
+	 *         the path that was constructed.
+	 */
+	static public String buildPath(String... pathElements) {
+		StringBuilder result = new StringBuilder("/");
 
-	public static String addDefaultFileEnding(String filename) {
-		if (!filename.endsWith(Consts.PROJECT_EXTENTION)) {
-			return filename + Consts.PROJECT_EXTENTION;
+		for (String pathElement : pathElements) {
+			result.append(pathElement).append("/");
 		}
-		return filename;
+
+		String returnValue = result.toString().replaceAll("/+", "/");
+
+		if (returnValue.endsWith("/")) {
+			returnValue = returnValue.substring(0, returnValue.length() - 1);
+		}
+
+		return returnValue;
 	}
 
 	/**
@@ -248,28 +248,6 @@ public class Utils {
 			Log.e(TAG, e.getMessage());
 			e.printStackTrace();
 		}
-	}
-
-	public static String changeFileEndingToPng(String filename) {
-		String newFileName;
-
-		int beginOfFileEnding = filename.lastIndexOf(".");
-		newFileName = filename.replace(filename.substring(beginOfFileEnding), "");
-
-		newFileName = newFileName + ".png";
-		return newFileName;
-	}
-
-	/**
-	 * Displays a website with the given URI using an Intent
-	 * 
-	 * @param context
-	 * @param uri
-	 */
-	public static void displayWebsite(Context context, Uri uri) {
-		Intent websiteIntent = new Intent(Intent.ACTION_VIEW);
-		websiteIntent.setData(uri);
-		context.startActivity(websiteIntent);
 	}
 
 	/**
@@ -339,8 +317,6 @@ public class Utils {
 			md5StringBuilder.append("0123456789ABCDEF".charAt((b & 0x0F)));
 		}
 
-		Log.v(TAG, md5StringBuilder.toString());
-
 		return md5StringBuilder.toString();
 	}
 
@@ -354,5 +330,29 @@ public class Utils {
 		}
 
 		return messageDigest;
+	}
+
+	public static int getVersionCode(Context context) {
+		int versionCode = -1;
+		try {
+			PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(),
+					PackageManager.GET_META_DATA);
+			versionCode = packageInfo.versionCode;
+		} catch (NameNotFoundException nameNotFoundException) {
+			Log.e(TAG, "Name not found", nameNotFoundException);
+		}
+		return versionCode;
+	}
+
+	public static String getVersionName(Context context) {
+		String versionName = "unknown";
+		try {
+			PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(),
+					PackageManager.GET_META_DATA);
+			versionName = packageInfo.versionName;
+		} catch (NameNotFoundException nameNotFoundException) {
+			Log.e(TAG, "Name not found", nameNotFoundException);
+		}
+		return versionName;
 	}
 }

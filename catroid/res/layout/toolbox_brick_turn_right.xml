@@ -53,7 +53,7 @@
 	>
 	</TextView>
 	<EditText
-		android:id="@+id/InputValueEditText"
+		android:id="@+id/toolbox_brick_turn_right_edit_text"
 		android:text="15"
 		android:layout_height="wrap_content"
 		android:layout_width="75dp"

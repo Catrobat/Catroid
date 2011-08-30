@@ -19,8 +19,6 @@
 
 package at.tugraz.ist.catroid.transfers;
 
-import java.io.IOException;
-
 import android.app.Activity;
 import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
@@ -33,12 +31,15 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.utils.UtilZip;
+import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.web.ConnectionWrapper;
+import at.tugraz.ist.catroid.web.ServerCalls;
+import at.tugraz.ist.catroid.web.WebconnectionException;
 
 public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implements OnClickListener {
 	private Activity activity;
 	private String projectName;
-	private String zipFile;
+	private String zipFileString;
 	private String url;
 	private ProgressDialog progressDialog;
 	private boolean result;
@@ -48,10 +49,10 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 		return new ConnectionWrapper();
 	}
 
-	public ProjectDownloadTask(Activity activity, String url, String projectName, String zipFile) {
+	public ProjectDownloadTask(Activity activity, String url, String projectName) {
 		this.activity = activity;
 		this.projectName = projectName;
-		this.zipFile = zipFile;
+		this.zipFileString = Utils.buildPath(Consts.TMP_PATH, Consts.UPLOAD_FILE_NAME);
 		this.url = url;
 	}
 
@@ -69,12 +70,11 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 	@Override
 	protected Boolean doInBackground(Void... arg0) {
 		try {
-			createConnection().doHttpPostFileDownload(url, null, zipFile);
+			ServerCalls.getInstance().downloadProject(url, zipFileString);
 
-			result = UtilZip.unZipFile(zipFile, Consts.DEFAULT_ROOT + "/" + projectName + "/");
+			result = UtilZip.unZipFile(zipFileString, Utils.buildPath(Consts.DEFAULT_ROOT, projectName));
 			return result;
-
-		} catch (IOException e) {
+		} catch (WebconnectionException e) {
 			e.printStackTrace();
 		}
 		return false;

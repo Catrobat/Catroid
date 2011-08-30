@@ -38,6 +38,8 @@ public class TurnLeftBrick implements Brick, OnDismissListener {
 
 	private double degrees;
 
+	private transient View view;
+
 	public TurnLeftBrick(Sprite sprite, double degrees) {
 		this.sprite = sprite;
 		this.degrees = degrees;
@@ -52,13 +54,15 @@ public class TurnLeftBrick implements Brick, OnDismissListener {
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_turn_left, null);
 
-		EditText editDegrees = (EditText) view.findViewById(R.id.construction_brick_turn_left_edit_text);
+		if (view == null) {
+			view = View.inflate(context, R.layout.toolbox_brick_turn_left, null);
+		}
+
+		EditText editDegrees = (EditText) view.findViewById(R.id.toolbox_brick_turn_left_edit_text);
 		editDegrees.setText(String.valueOf(degrees));
 
-		EditDoubleDialog dialog = new EditDoubleDialog(context, editDegrees, degrees, false);
+		EditDoubleDialog dialog = new EditDoubleDialog(context, editDegrees, degrees);
 		dialog.setOnDismissListener(this);
 		dialog.setOnCancelListener((OnCancelListener) context);
 
@@ -68,8 +72,7 @@ public class TurnLeftBrick implements Brick, OnDismissListener {
 	}
 
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.toolbox_brick_turn_left, null);
+		return View.inflate(context, R.layout.toolbox_brick_turn_left, null);
 	}
 
 	@Override

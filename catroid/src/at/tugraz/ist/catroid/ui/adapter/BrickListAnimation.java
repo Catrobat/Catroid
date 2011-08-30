@@ -26,14 +26,14 @@ import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
 import at.tugraz.ist.catroid.common.Consts;
-import at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView;
+import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListView;
 
 public class BrickListAnimation {
 
-	private DragNDropListView listView;
+	private DragAndDropListView listView;
 	private BrickAdapter adapter;
 
-	public BrickListAnimation(BrickAdapter adapter, DragNDropListView listView) {
+	public BrickListAnimation(BrickAdapter adapter, DragAndDropListView listView) {
 		this.adapter = adapter;
 		this.listView = listView;
 	}
@@ -80,7 +80,10 @@ public class BrickListAnimation {
 						- groupPosition - 1));
 		upAnimation.setDuration(Consts.ANIMATION_DURATION_BRICK_SWITCHING);
 		upAnimation.setFillAfter(true);
-		getChildFromAbsolutePosition(groupCount - 1).startAnimation(upAnimation);
+		View groupToCollapse = getChildFromAbsolutePosition(groupCount - 1);
+		if (groupToCollapse != null) {
+			groupToCollapse.startAnimation(upAnimation);
+		}
 	}
 
 	private void doDownAnimation(int groupCount, final int groupPosition) {

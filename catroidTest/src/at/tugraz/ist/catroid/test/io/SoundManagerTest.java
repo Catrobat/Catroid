@@ -168,4 +168,10 @@ public class SoundManagerTest extends InstrumentationTestCase {
 
 		assertNull("Too many MediaPlayers created by SoundManager", SoundManager.getInstance().getMediaPlayer());
 	}
+
+	public void testSetVolume() {
+		double vol = 80.9;
+		SoundManager.getInstance().setVolume(vol);
+		assertEquals("Volume loudness doesn't change", vol, SoundManager.getInstance().getVolume());
+	}
 }

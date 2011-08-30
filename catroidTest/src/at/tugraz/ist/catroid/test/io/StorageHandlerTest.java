@@ -20,15 +20,13 @@ package at.tugraz.ist.catroid.test.io;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.AndroidTestCase;
-import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -53,10 +51,8 @@ import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
-import at.tugraz.ist.catroid.utils.Utils;
 
 public class StorageHandlerTest extends AndroidTestCase {
-	private static final String TAG = StorageHandlerTest.class.getSimpleName();
 	private StorageHandler storageHandler;
 
 	public StorageHandlerTest() throws IOException {
@@ -78,7 +74,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 		}
 	}
 
-	public void testSerializeProject() throws NameNotFoundException {
+	public void testSerializeProject() {
 
 		int xPosition = 457;
 		int yPosition = 598;
@@ -153,12 +149,12 @@ public class StorageHandlerTest extends AndroidTestCase {
 		assertFalse("paused should not be set in script", preSpriteList.get(1).getScript(0).isPaused());
 
 		// Test version codes and names
-		final int preVersionCode = project.getVersionCode();
-		final int postVersionCode = loadedProject.getVersionCode();
+		final int preVersionCode = (Integer) TestUtils.getPrivateField("versionCode", project, false);
+		final int postVersionCode = (Integer) TestUtils.getPrivateField("versionCode", loadedProject, false);
 		assertEquals("Version codes are not equal", preVersionCode, postVersionCode);
 
-		final String preVersionName = project.getVersionName();
-		final String postVersionName = loadedProject.getVersionName();
+		final String preVersionName = (String) TestUtils.getPrivateField("versionName", project, false);
+		final String postVersionName = (String) TestUtils.getPrivateField("versionName", loadedProject, false);
 		assertEquals("Version names are not equal", preVersionName, postVersionName);
 	}
 
@@ -177,34 +173,36 @@ public class StorageHandlerTest extends AndroidTestCase {
 				.getSpriteList().get(1).getScript(1).getBrickList().size());
 
 		//test if images are existing:
-		String imagePath = Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name)
-				+ Consts.IMAGE_DIRECTORY + "/" + Consts.NORMAL_CAT;
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		ArrayList<CostumeData> backgroundCostumeList = currentProject.getSpriteList().get(0).getCostumeDataList();
+		ArrayList<CostumeData> catroidCostumeList = currentProject.getSpriteList().get(1).getCostumeDataList();
+		assertEquals("no background picture or too many pictures in background sprite", 1, backgroundCostumeList.size());
+		assertEquals("wrong number of pictures in catroid sprite", 3, catroidCostumeList.size());
+
+		String imagePath = backgroundCostumeList.get(0).getAbsolutePath();
 		File testFile = new File(imagePath);
-		assertTrue("Image " + Consts.NORMAL_CAT + " does not exist", testFile.exists());
+		assertTrue("Image " + backgroundCostumeList.get(0).getCostumeFileName() + " does not exist", testFile.exists());
 
-		imagePath = Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name)
-				+ Consts.IMAGE_DIRECTORY + "/" + Consts.BANZAI_CAT;
+		imagePath = catroidCostumeList.get(0).getAbsolutePath();
 		testFile = new File(imagePath);
-		assertTrue("Image " + Consts.BANZAI_CAT + " does not exist", testFile.exists());
+		assertTrue("Image " + catroidCostumeList.get(0).getCostumeFileName() + " does not exist", testFile.exists());
 
-		imagePath = Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name)
-				+ Consts.IMAGE_DIRECTORY + "/" + Consts.CHESHIRE_CAT;
+		imagePath = catroidCostumeList.get(1).getAbsolutePath();
 		testFile = new File(imagePath);
-		assertTrue("Image " + Consts.BACKGROUND + " does not exist", testFile.exists());
+		assertTrue("Image " + catroidCostumeList.get(1).getCostumeFileName() + " does not exist", testFile.exists());
 
-		imagePath = Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name)
-				+ Consts.IMAGE_DIRECTORY + "/" + Consts.BACKGROUND;
+		imagePath = catroidCostumeList.get(2).getAbsolutePath();
 		testFile = new File(imagePath);
-		assertTrue("Image " + Consts.BACKGROUND + " does not exist", testFile.exists());
+		assertTrue("Image " + catroidCostumeList.get(2).getCostumeFileName() + " does not exist", testFile.exists());
 	}
 
-	public void testAliasesAndXmlHeader() throws IOException {
+	public void testAliasesAndXmlHeader() {
 
 		String projectName = "myProject";
 
-		File proj = new File(Consts.DEFAULT_ROOT + "/" + projectName);
-		if (proj.exists()) {
-			UtilFile.deleteDirectory(proj);
+		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+		if (projectFile.exists()) {
+			UtilFile.deleteDirectory(projectFile);
 		}
 
 		Project project = new Project(getContext(), projectName);
@@ -246,53 +244,11 @@ public class StorageHandlerTest extends AndroidTestCase {
 		assertFalse("project contains package information", projectString.contains("at.tugraz.ist"));
 
 		String xmlHeader = (String) TestUtils.getPrivateField("XML_HEADER", storageHandler, false);
-		Log.v(TAG, xmlHeader);
 		assertTrue("Project file did not contain correct XML header.", projectString.startsWith(xmlHeader));
 
-		proj = new File(Consts.DEFAULT_ROOT + "/" + projectName);
-		if (proj.exists()) {
-			UtilFile.deleteDirectory(proj);
+		projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+		if (projectFile.exists()) {
+			UtilFile.deleteDirectory(projectFile);
 		}
-	}
-
-	/*
-	 * This test documents that our calculation of the MD5 checksum is correct aswell as that checksums should be
-	 * upper case only
-	 */
-	public void testMD5Checksum() {
-		String md5EmptyFile = "D41D8CD98F00B204E9800998ECF8427E";
-		String md5CatroidString = "4F982D927F4784F69AD6D6AF38FD96AD";
-
-		PrintWriter out = null;
-
-		File tempDir = new File(Consts.TMP_PATH);
-		tempDir.mkdirs();
-
-		File md5TestFile = new File(Consts.TMP_PATH + "/" + "catroid.txt");
-
-		if (!md5TestFile.exists()) {
-			try {
-				md5TestFile.createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
-		assertEquals("MD5 sums are not the same for empty file", md5EmptyFile, Utils.md5Checksum(md5TestFile));
-
-		try {
-			out = new PrintWriter(md5TestFile);
-			out.print("catroid");
-		} catch (IOException e) {
-
-		} finally {
-			if (out != null) {
-				out.close();
-			}
-		}
-
-		assertEquals("MD5 sums are not the same for catroid file", md5CatroidString, Utils.md5Checksum(md5TestFile));
-
-		UtilFile.deleteDirectory(tempDir);
 	}
 }

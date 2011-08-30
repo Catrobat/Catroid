@@ -22,21 +22,20 @@ package at.tugraz.ist.catroid.uitest.content;
 import java.util.List;
 
 import android.test.ActivityInstrumentationTestCase2;
-import android.widget.ImageButton;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
-import at.tugraz.ist.catroid.uitest.util.Utils;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
 
-	private final String projectNameThree = Utils.PROJECTNAME1;
+	private final String projectNameThree = UiTestUtils.PROJECTNAME1;
 	private final String spriteNameTwo = "Balmung";
 
 	public ToStageButtonTest() {
@@ -45,7 +44,7 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 
 	@Override
 	public void setUp() throws Exception {
-		Utils.clearAllUtilTestProjects();
+		UiTestUtils.clearAllUtilTestProjects();
 
 		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
@@ -59,7 +58,7 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 			e.printStackTrace();
 		}
 		getActivity().finish();
-		Utils.clearAllUtilTestProjects();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -73,37 +72,25 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 		solo.sleep(500);
 		solo.clickOnText(getActivity().getString(R.string.background));
 		solo.sleep(500);
-		List<ImageButton> btnList = solo.getCurrentImageButtons();
-		ImageButton btn;
-		for (int i = 0; i < btnList.size(); i++) {
-			btn = btnList.get(i);
-			if (btn.getId() == R.id.btn_action_play) {
-				solo.clickOnImageButton(i);
-			}
-		}
 
-		assertTrue("Not in stage", solo.getCurrentActivity() instanceof StageActivity);
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+
+		solo.assertCurrentActivity("Not in stage", StageActivity.class);
 		List<Sprite> sprite_list = ProjectManager.getInstance().getCurrentProject().getSpriteList();
 		assertEquals("Script list has to much elements", 0, sprite_list.get(0).getNumberOfScripts());
 
 		solo.goBack();
-		solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
 		solo.clickOnText(getActivity().getString(R.string.brick_if_touched));
-		solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
 		solo.clickOnText(getActivity().getString(R.string.brick_set_size_to));
-
 		solo.sleep(500);
-		btnList = solo.getCurrentImageButtons();
-		for (int i = 0; i < btnList.size(); i++) {
-			btn = btnList.get(i);
-			if (btn.getId() == R.id.btn_action_play) {
-				solo.clickOnImageButton(i);
-			}
-		}
+
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
 
 		solo.sleep(500);
 		sprite_list = ProjectManager.getInstance().getCurrentProject().getSpriteList();
-		assertTrue("Not in stage", solo.getCurrentActivity() instanceof StageActivity);
+		solo.assertCurrentActivity("Not in stage", StageActivity.class);
 		assertEquals("Script list has wrong number of elements", 1, sprite_list.get(0).getNumberOfScripts());
 		assertTrue("Is not correct Block",
 				sprite_list.get(0).getScript(0).getBrickList().get(0) instanceof SetSizeToBrick);
@@ -114,78 +101,49 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		solo.sleep(500);
 		sprite_list = ProjectManager.getInstance().getCurrentProject().getSpriteList();
-		btnList = solo.getCurrentImageButtons();
-		for (int i = 0; i < btnList.size(); i++) {
-			btn = btnList.get(i);
-			if (btn.getId() == R.id.btn_action_play) {
-				solo.clickOnImageButton(i);
-			}
-		}
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
 
-		assertTrue("Not in stage", solo.getCurrentActivity() instanceof StageActivity);
+		solo.assertCurrentActivity("Not in stage", StageActivity.class);
 		assertEquals("Script list has wrong number of elements", 0, sprite_list.get(0).getNumberOfScripts());
 
 		solo.goBack();
 		solo.goBack();
 		solo.sleep(500);
 
-		btnList = solo.getCurrentImageButtons();
-		for (int i = 0; i < btnList.size(); i++) {
-			btn = btnList.get(i);
-			if (btn.getId() == R.id.btn_action_add_sprite) {
-				solo.clickOnImageButton(i);
-			}
-		}
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
+
 		solo.clickOnEditText(0);
 		solo.enterText(0, spriteNameTwo);
 
 		solo.goBack();
-		solo.clickOnButton(getActivity().getString(R.string.new_sprite_dialog_button));
+		solo.clickOnButton(getActivity().getString(R.string.ok));
 		solo.clickOnText(spriteNameTwo);
 
 		solo.sleep(500);
 		sprite_list = ProjectManager.getInstance().getCurrentProject().getSpriteList();
-		btnList = solo.getCurrentImageButtons();
-		for (int i = 0; i < btnList.size(); i++) {
-			btn = btnList.get(i);
-			if (btn.getId() == R.id.btn_action_play) {
-				solo.clickOnImageButton(i);
-			}
-		}
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
 
-		assertTrue("Not in stage", solo.getCurrentActivity() instanceof StageActivity);
+		solo.assertCurrentActivity("Not in stage", StageActivity.class);
 		assertEquals("Script list has wrong number of elements", 0, sprite_list.get(0).getNumberOfScripts());
 
 		solo.goBack();
-		solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
 		solo.clickOnText(getActivity().getString(R.string.brick_if_touched));
-		solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
 		solo.clickOnText(getActivity().getString(R.string.brick_set_size_to));
 		solo.sleep(500);
-		btnList = solo.getCurrentImageButtons();
-		for (int i = 0; i < btnList.size(); i++) {
-			btn = btnList.get(i);
-			if (btn.getId() == R.id.btn_action_play) {
-				solo.clickOnImageButton(i);
-			}
-		}
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
 
 		solo.sleep(500);
 		sprite_list = ProjectManager.getInstance().getCurrentProject().getSpriteList();
-		assertTrue("Not in stage", solo.getCurrentActivity() instanceof StageActivity);
+		solo.assertCurrentActivity("Not in stage", StageActivity.class);
 		assertEquals("Script list has wrong number of elements", 1, sprite_list.get(1).getNumberOfScripts());
 		assertTrue("Is not correct Block",
 				sprite_list.get(1).getScript(0).getBrickList().get(0) instanceof SetSizeToBrick);
 
 		solo.goBack();
 		solo.sleep(500);
-		btnList = solo.getCurrentImageButtons();
-		for (int i = 0; i < btnList.size(); i++) {
-			btn = btnList.get(i);
-			if (btn.getId() == R.id.btn_action_home) {
-				solo.clickOnImageButton(i);
-			}
-		}
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
 
 		solo.clickOnButton(getActivity().getString(R.string.projects_on_phone));
 		solo.clickOnText(projectNameThree);

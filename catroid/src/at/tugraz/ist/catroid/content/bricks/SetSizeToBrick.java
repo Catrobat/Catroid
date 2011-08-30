@@ -35,6 +35,8 @@ public class SetSizeToBrick implements Brick, OnDismissListener {
 	private Sprite sprite;
 	private double size;
 
+	private transient View view;
+
 	public SetSizeToBrick(Sprite sprite, double size) {
 		this.sprite = sprite;
 		this.size = size;
@@ -49,13 +51,15 @@ public class SetSizeToBrick implements Brick, OnDismissListener {
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_set_size_to, null);
 
-		EditText edit = (EditText) view.findViewById(R.id.construction_brick_set_size_to_edit_text);
+		if (view == null) {
+			view = View.inflate(context, R.layout.toolbox_brick_set_size_to, null);
+		}
+
+		EditText edit = (EditText) view.findViewById(R.id.toolbox_brick_set_size_to_edit_text);
 		edit.setText(String.valueOf(size));
 
-		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, size, false);
+		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, size);
 		dialog.setOnDismissListener(this);
 		dialog.setOnCancelListener((OnCancelListener) context);
 
@@ -65,9 +69,7 @@ public class SetSizeToBrick implements Brick, OnDismissListener {
 	}
 
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.toolbox_brick_set_size_to, null);
-		return view;
+		return View.inflate(context, R.layout.toolbox_brick_set_size_to, null);
 	}
 
 	@Override

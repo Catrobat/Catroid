@@ -183,7 +183,7 @@ public class SpriteTest extends AndroidTestCase {
 		try {
 			brick.execute();
 			fail("Execution of SetSizeToBrick with 0.0 size did not cause a IllegalArgumentException to be thrown.");
-		} catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException expected) {
 			// expected behavior
 		}
 	}
@@ -197,7 +197,7 @@ public class SpriteTest extends AndroidTestCase {
 		try {
 			brick.execute();
 			fail("Execution of SetSizeToBrick with negative size did not cause a IllegalArgumentException to be thrown.");
-		} catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException expected) {
 			// expected behavior
 		}
 	}
@@ -211,7 +211,7 @@ public class SpriteTest extends AndroidTestCase {
 		assertTrue("Sprite not visible after calling show method", sprite.isVisible());
 	}
 
-	public void testPauseUnPause() {
+	public void testPauseUnPause() throws InterruptedException {
 		Sprite testSprite = new Sprite("testSprite");
 		Script testScript = new StartScript("testScript", testSprite);
 		HideBrick hideBrick = new HideBrick(testSprite);
@@ -226,32 +226,21 @@ public class SpriteTest extends AndroidTestCase {
 
 		testSprite.startStartScripts();
 
-		try {
-			Thread.sleep(20);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		Thread.sleep(20);
 
 		testSprite.pause();
 		assertTrue("Sprite isn't paused", testSprite.isPaused);
 		assertTrue("Script isn't paused", testScript.isPaused());
 
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		Thread.sleep(1000);
 
 		testSprite.resume();
 
 		assertFalse("Sprite is paused", testSprite.isPaused);
 		assertFalse("Script is paused", testScript.isPaused());
 
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		Thread.sleep(1000);
+
 		assertTrue("Script hasn't finished", testScript.isFinished());
 
 	}
@@ -312,5 +301,55 @@ public class SpriteTest extends AndroidTestCase {
 		assertEquals("Sprite1 and Sprite2 is not at the same position.", 0, sprite1.compareTo(sprite2));
 		assertEquals("Sprite1 is not behind Sprite2.", Integer.MAX_VALUE, sprite1.compareTo(sprite3));
 		assertEquals("Sprite1 is not in front of Sprite2.", Integer.MIN_VALUE, sprite1.compareTo(sprite4));
+	}
+
+	public void testSetBrightness() {
+		Sprite sprite = new Sprite("new sprite");
+		final double brightness = 70;
+		sprite.setBrightnessValue(brightness);
+		assertEquals("Unexpected brightness", brightness, sprite.getBrightnessValue());
+
+		final double hugeBrightness = 10.0e100;
+		sprite.setBrightnessValue(hugeBrightness);
+		assertEquals("Failed to set sprite to a very high brightness", hugeBrightness, sprite.getBrightnessValue());
+
+		final double negativeBrightness = -10.0e100;
+		sprite.setBrightnessValue(negativeBrightness);
+		assertEquals("Failed to set sprite to a negative brightness", negativeBrightness, sprite.getBrightnessValue());
+	}
+
+	public void testSetGhostEffect() {
+		Sprite sprite = new Sprite("new sprite");
+		final double effect = 70;
+		sprite.setGhostEffectValue(effect);
+		assertEquals("Unexpected effect", effect, sprite.getGhostEffectValue());
+
+		final double hugeEffect = 10.0e100;
+		sprite.setGhostEffectValue(hugeEffect);
+		assertEquals("Failed to set sprite to a very high transparent", hugeEffect, sprite.getGhostEffectValue());
+
+		final double negativeEffect = -10.0e100;
+		try {
+			sprite.setGhostEffectValue(negativeEffect);
+			assertNotSame("Failed to change negative effect value to positive", negativeEffect,
+					sprite.getGhostEffectValue());
+		} catch (IllegalArgumentException expected) {
+			// expected behavior
+		}
+	}
+
+	public void testClearGraphicEffect() {
+		Sprite sprite = new Sprite("new sprite");
+		final double effect = 70;
+		sprite.setGhostEffectValue(effect);
+		assertEquals("Unexpected effect", effect, sprite.getGhostEffectValue());
+
+		final double brightness = 70;
+		sprite.setBrightnessValue(brightness);
+		assertEquals("Unexpected brightness", brightness, sprite.getBrightnessValue());
+
+		sprite.clearGraphicEffect();
+		assertEquals("Unexpected brightness", 0.0, sprite.getBrightnessValue());
+		assertEquals("Unexpected effect", 0.0, sprite.getGhostEffectValue());
 	}
 }
