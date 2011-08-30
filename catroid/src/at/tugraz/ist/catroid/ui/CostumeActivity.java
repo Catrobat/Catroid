@@ -156,7 +156,23 @@ public class CostumeActivity extends ListActivity {
 			}
 		}
 		if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_PAINTROID_CHANGE_IMAGE) {
-			//TODO: 1. check checksum, if altered change it, it not --> don't know yet, get costumeData via ScriptTabActivity
+			ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
+			CostumeData selectedCostumeData = scriptTabActivity.selectedCostumeData;
+			String actualChecksum = Utils.md5Checksum(new File(selectedCostumeData.getAbsolutePath()));
+			//if costume changed --> altering filename for correct checksum
+			if (!selectedCostumeData.getChecksum().equalsIgnoreCase(actualChecksum)) {
+				try {
+					String oldFileName = selectedCostumeData.getCostumeFileName();
+					String newFileName = oldFileName.substring(32, oldFileName.length()); //TODO: test this
+					String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+					File newCostumeFile = StorageHandler.getInstance().copyImage(projectName,
+							selectedCostumeData.getAbsolutePath(), newFileName);
+					StorageHandler.getInstance().deleteFile(selectedCostumeData.getAbsolutePath());
+					selectedCostumeData.setCostumeFilename(newCostumeFile.getName());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 
