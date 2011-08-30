@@ -21,10 +21,13 @@ package at.tugraz.ist.catroid.ui.adapter;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,6 +36,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
@@ -107,36 +111,41 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 						Utils.displayErrorMessage(activity, activity.getString(R.string.error_load_image));
 						e.printStackTrace();
 					}
-
-					//if we need a seperate file (I think we don't need this yet)
-					//						try {
-					//							String path = costumeData.getAbsolutePath();
-					//							if (path.equalsIgnoreCase("")) {
-					//								throw new IOException();
-					//							}
-					//							String projectName = ProjectManager.getInstance().getCurrentProject().getName();
-					//							String timeStamp = Utils.getTimestamp();
-					//							String newName = costumeData.getChecksum() + "_" + costumeData.getCostumeName() + "_"
-					//									+ timeStamp + "." + costumeData.getFileExtension();
-					//							File imageFile = StorageHandler.getInstance().copyImage(projectName, path, newName);
-					//							String imageName = costumeData.getCostumeName() + "_copy";
-					//							String imageFileName = imageFile.getName();
-					//							updateCostumeAdapter(imageName, imageFileName);
-					//						} catch (IOException e) {
-					//							Utils.displayErrorMessage(activity, activity.getString(R.string.error_load_image));
-					//						}
-					//						notifyDataSetChanged();
 				}
 			});
 
 			paintroidButton.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
-					scriptTabActivity.selectedCostumeData = costumeData;
 
 					Intent intent = new Intent("android.intent.action.MAIN");
-					intent.putExtra("at.tugraz.ist.catroid.picture", costumeData.getAbsolutePath());
 					intent.setComponent(new ComponentName("at.tugraz.ist.paintroid",
 							"at.tugraz.ist.paintroid.MainActivity"));
+
+					List<ResolveInfo> packageList = activity.getPackageManager().queryIntentActivities(intent,
+							PackageManager.MATCH_DEFAULT_ONLY);
+					if (packageList.size() <= 0) {
+						Toast.makeText(scriptTabActivity, "Paintroid not installed", Toast.LENGTH_SHORT).show();
+						return;
+					}
+
+					try {
+						String path = costumeData.getAbsolutePath();
+						if (path.equalsIgnoreCase("")) {
+							throw new IOException();
+						}
+						String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+						String timeStamp = Utils.getTimestamp();
+						String newName = costumeData.getCostumeName() + "_" + timeStamp + "."
+								+ costumeData.getFileExtension();
+						StorageHandler.getInstance().copyImage(projectName, path, newName);
+						costumeData.setCostumeFilename(newName);
+					} catch (IOException e) {
+						Utils.displayErrorMessage(activity, activity.getString(R.string.error_load_image));
+					}
+
+					scriptTabActivity.selectedCostumeData = costumeData;
+
+					intent.putExtra("at.tugraz.ist.catroid.picture", costumeData.getAbsolutePath());
 					intent.addCategory("android.intent.category.LAUNCHER");
 					activity.startActivity(intent);
 				}
