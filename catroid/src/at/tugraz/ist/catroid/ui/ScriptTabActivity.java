@@ -33,7 +33,6 @@ import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.stage.StageActivity;
@@ -49,6 +48,8 @@ public class ScriptTabActivity extends TabActivity {
 	private RenameSoundDialog renameSoundDialog;
 	public CostumeData selectedCostumeData;
 	private RenameCostumeDialog renameCostumeDialog;
+	public static final int DIALOG_RENAME_COSTUME = 0;
+	public static final int DIALOG_RENAME_SOUND = 1;
 
 	private void setupTabHost() {
 		tabHost = (TabHost) findViewById(android.R.id.tabhost);
@@ -125,7 +126,7 @@ public class ScriptTabActivity extends TabActivity {
 	protected Dialog onCreateDialog(int id) {
 		final Dialog dialog;
 		switch (id) {
-			case Consts.DIALOG_RENAME_SOUND:
+			case DIALOG_RENAME_SOUND:
 				if (selectedSoundInfo == null) {
 					dialog = null;
 				} else {
@@ -133,7 +134,7 @@ public class ScriptTabActivity extends TabActivity {
 					dialog = renameSoundDialog.createDialog(selectedSoundInfo);
 				}
 				break;
-			case Consts.DIALOG_RENAME_COSTUME:
+			case DIALOG_RENAME_COSTUME:
 				if (selectedCostumeData == null) {
 					dialog = null;
 				} else {
@@ -151,11 +152,11 @@ public class ScriptTabActivity extends TabActivity {
 	@Override
 	protected void onPrepareDialog(int id, Dialog dialog) {
 		switch (id) {
-			case Consts.DIALOG_RENAME_SOUND:
+			case DIALOG_RENAME_SOUND:
 				EditText soundTitleInput = (EditText) dialog.findViewById(R.id.dialog_rename_sound_editText);
 				soundTitleInput.setText(selectedSoundInfo.getTitle());
 				break;
-			case Consts.DIALOG_RENAME_COSTUME:
+			case DIALOG_RENAME_COSTUME:
 				EditText costumeTitleInput = (EditText) dialog.findViewById(R.id.dialog_rename_costume_editText);
 				costumeTitleInput.setText(selectedCostumeData.getCostumeName());
 				break;
@@ -167,7 +168,7 @@ public class ScriptTabActivity extends TabActivity {
 	}
 
 	public void handleNegativeButtonRenameSound(View v) {
-		dismissDialog(Consts.DIALOG_RENAME_SOUND);
+		dismissDialog(DIALOG_RENAME_SOUND);
 	}
 
 	public void handlePositiveButtonRenameCostume(View v) {
@@ -175,7 +176,7 @@ public class ScriptTabActivity extends TabActivity {
 	}
 
 	public void handleNegativeButtonRenameCostume(View v) {
-		dismissDialog(Consts.DIALOG_RENAME_COSTUME);
+		dismissDialog(DIALOG_RENAME_COSTUME);
 	}
 
 }

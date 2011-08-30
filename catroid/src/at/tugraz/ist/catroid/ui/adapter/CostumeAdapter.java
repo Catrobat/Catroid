@@ -33,7 +33,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.CostumeActivity;
@@ -137,7 +136,7 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 			renameCostumeButton.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
 					scriptTabActivity.selectedCostumeData = costumeData;
-					scriptTabActivity.showDialog(Consts.DIALOG_RENAME_COSTUME);
+					scriptTabActivity.showDialog(ScriptTabActivity.DIALOG_RENAME_COSTUME);
 				}
 			});
 

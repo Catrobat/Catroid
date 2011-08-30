@@ -25,13 +25,15 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
-import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListView;
 
 public class BrickListAnimation {
 
 	private DragAndDropListView listView;
 	private BrickAdapter adapter;
+	private static final int ANIMATION_DURATION_BRICK_SWITCHING = 500;
+	private static final int ANIMATION_DURATION_EXPAND = 500;
+	private static final int ANIMATION_EXPAND_DELAY = 50;
 
 	public BrickListAnimation(BrickAdapter adapter, DragAndDropListView listView) {
 		this.adapter = adapter;
@@ -66,11 +68,10 @@ public class BrickListAnimation {
 		animationSet.addAnimation(currentAnimation);
 		Animation alpha = new AlphaAnimation(0.0f, 1.0f);
 		animationSet.addAnimation(alpha);
-		animationSet.setDuration(Consts.ANIMATION_DURATION_EXPAND);
+		animationSet.setDuration(ANIMATION_DURATION_EXPAND);
 		animationSet.setFillBefore(true);
 		animationSet.setFillAfter(true);
-		animationSet.setStartTime(AnimationUtils.currentAnimationTimeMillis() + childPosition
-				* Consts.ANIMATION_EXPAND_DELAY);
+		animationSet.setStartTime(AnimationUtils.currentAnimationTimeMillis() + childPosition * ANIMATION_EXPAND_DELAY);
 		currentListView.setAnimation(animationSet);
 	}
 
@@ -78,7 +79,7 @@ public class BrickListAnimation {
 		Animation upAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
 				0.0f, Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, -(float) (groupCount
 						- groupPosition - 1));
-		upAnimation.setDuration(Consts.ANIMATION_DURATION_BRICK_SWITCHING);
+		upAnimation.setDuration(ANIMATION_DURATION_BRICK_SWITCHING);
 		upAnimation.setFillAfter(true);
 		View groupToCollapse = getChildFromAbsolutePosition(groupCount - 1);
 		if (groupToCollapse != null) {
@@ -89,7 +90,7 @@ public class BrickListAnimation {
 	private void doDownAnimation(int groupCount, final int groupPosition) {
 		Animation downAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
 				0.0f, Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, (groupCount - groupPosition - 1));
-		downAnimation.setDuration(Consts.ANIMATION_DURATION_BRICK_SWITCHING);
+		downAnimation.setDuration(ANIMATION_DURATION_BRICK_SWITCHING);
 		downAnimation.setFillAfter(true);
 
 		downAnimation.setAnimationListener(new AnimationListener() {
@@ -112,7 +113,7 @@ public class BrickListAnimation {
 		int visibleChilds = listView.getChildCount() - visibleGroups;
 
 		Animation currentAnimation = new AlphaAnimation(1.0f, 0.0f);
-		currentAnimation.setDuration(Consts.ANIMATION_DURATION_BRICK_SWITCHING);
+		currentAnimation.setDuration(ANIMATION_DURATION_BRICK_SWITCHING);
 		currentAnimation.setFillAfter(true);
 		for (int i = 0; i < visibleChilds; ++i) {
 			getChildFromAbsolutePosition(groupCount + i).startAnimation(currentAnimation);

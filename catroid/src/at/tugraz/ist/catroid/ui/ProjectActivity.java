@@ -53,9 +53,9 @@ public class ProjectActivity extends ListActivity {
 	private NewSpriteDialog newSpriteDialog;
 	private static final int CONTEXT_MENU_ITEM_RENAME = 0; //or R.id.project_menu_rename
 	private static final int CONTEXT_MENU_ITEM_DELETE = 1; //or R.id.project_menu_delete 
-	private static final int DIALOG_NEW_SPRITE = 10;
-	private static final int DIALOG_RENAME_SPRITE = 11;
-	private static final int DIALOG_CONTEXT_MENU = 12;
+	private static final int DIALOG_NEW_SPRITE = 0;
+	private static final int DIALOG_RENAME_SPRITE = 1;
+	private static final int DIALOG_CONTEXT_MENU = 2;
 
 	private void initListeners() {
 		spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();

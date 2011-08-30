@@ -26,12 +26,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.ui.dialogs.AboutDialog;
 
 public class NativeAppActivity extends StageActivity {
 	private static Context context = null;
+	private static final int DIALOG_ABOUT = 0;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -74,7 +74,7 @@ public class NativeAppActivity extends StageActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.nativeappMenuAbout) {
-			showDialog(Consts.DIALOG_ABOUT);
+			showDialog(DIALOG_ABOUT);
 		}
 		return true;
 	}
@@ -82,7 +82,7 @@ public class NativeAppActivity extends StageActivity {
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialog = null;
-		if (id == Consts.DIALOG_ABOUT) {
+		if (id == DIALOG_ABOUT) {
 			dialog = new AboutDialog(this);
 		}
 		return dialog;
