@@ -122,6 +122,9 @@
     <string name="sprite_button_text">Anlegen</string>
     <string name="newsprite">Neues Objekt</string>
 
+ 	<!-- Script context menu -->
+    <string name="script_context_menu_title">Script Menü</string>
+
     <!-- New project dialog -->
     <string name="new_project_dialog_button">Erstellen</string>
     <string name="new_project_dialog_title">Name des Projekts</string>
