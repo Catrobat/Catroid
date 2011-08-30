@@ -57,7 +57,7 @@ public class LegoNXT implements BTConnectable {
 
 	private static final int REQUEST_CONNECT_DEVICE = 1000;
 
-	private LegoNXTBtCommunicator myBTCommunicator;
+	private LegoNXTCommunicator myNXTCommunicator;
 
 	private boolean pairing;
 	private static Handler btcHandler;
@@ -68,44 +68,61 @@ public class LegoNXT implements BTConnectable {
 	@SuppressWarnings("unused")
 	private static int MOTOR_COMMAND = 102;
 	private static int TONE_COMMAND = 101;
+	private boolean simulatorMode = false;
 
-	public LegoNXT(Activity activity, Handler recieverHandler) {
+	public LegoNXT(Activity activity, Handler recieverHandler, boolean simulator) {
 		this.activity = activity;
 		this.recieverHandler = recieverHandler;
+		simulatorMode = simulator;
+	}
+
+	public void startSimCommunicator() {
+
+		if (myNXTCommunicator != null) {
+			try {
+				myNXTCommunicator.destroyNXTconnection();
+			} catch (IOException e) {
+			}
+		}
+
+		myNXTCommunicator = new LegoNXTSimCommunicator(recieverHandler, activity.getResources());
+		btcHandler = myNXTCommunicator.getHandler();
+		myNXTCommunicator.start();
 	}
 
 	public void startBTCommunicator(String mac_address) {
 
-		if (myBTCommunicator != null) {
+		if (myNXTCommunicator != null) {
 			try {
-				myBTCommunicator.destroyNXTconnection();
+				myNXTCommunicator.destroyNXTconnection();
 			} catch (IOException e) {
 			}
 		}
-		myBTCommunicator = new LegoNXTBtCommunicator(this, recieverHandler, BluetoothAdapter.getDefaultAdapter(),
-				activity.getResources());
-		btcHandler = myBTCommunicator.getHandler();
 
-		myBTCommunicator.setMACAddress(mac_address);
-		myBTCommunicator.start();
+		myNXTCommunicator = new LegoNXTBtCommunicator(this, recieverHandler, BluetoothAdapter.getDefaultAdapter(),
+				activity.getResources());
+		btcHandler = myNXTCommunicator.getHandler();
+
+		((LegoNXTBtCommunicator) myNXTCommunicator).setMACAddress(mac_address);
+		myNXTCommunicator.start();
 	}
 
 	/**
 	 * Receive messages from the BTCommunicator
 	 */
 
-	public void destroyBTCommunicator() {
+	public void destroyCommunicator() {
 
-		if (myBTCommunicator != null) {
+		if (myNXTCommunicator != null) {
 			sendBTCMotorMessage(LegoNXTBtCommunicator.NO_DELAY, LegoNXTBtCommunicator.DISCONNECT, 0, 0);
 			try {
-				myBTCommunicator.destroyNXTconnection();
+				myNXTCommunicator.destroyNXTconnection();
 			} catch (IOException e) { // TODO Auto-generated method stub
 
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			myBTCommunicator = null;
+			myNXTCommunicator = null;
 		}
 	}
 
