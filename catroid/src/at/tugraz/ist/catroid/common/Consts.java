@@ -31,6 +31,11 @@ public final class Consts {
 	public static final String IMAGE_DIRECTORY = "/images";
 	public static final String SOUND_DIRECTORY = "/sounds";
 
+	public static final String UPLOAD_FILE_NAME = "upload" + CATROID_EXTENTION;
+	public static final String DOWNLOAD_FILE_NAME = "down" + CATROID_EXTENTION;
+
+	public static final String NO_MEDIA_FILE = ".nomedia";
+
 	//dialogs:
 	public static final int DIALOG_NEW_PROJECT = 0;
 	public static final int DIALOG_LOAD_PROJECT = 1;

@@ -130,13 +130,13 @@ public class ProjectManager {
 			return false;
 		}
 
-		File oldProjectDirectory = new File(Consts.DEFAULT_ROOT + "/" + project.getName());
-		File oldProjectFile = new File(Consts.DEFAULT_ROOT + "/" + project.getName() + "/" + project.getName()
-				+ Consts.PROJECT_EXTENTION);
+		File oldProjectDirectory = new File(Utils.buildPath(Consts.DEFAULT_ROOT, project.getName()));
+		File oldProjectFile = new File(Utils.buildPath(Consts.DEFAULT_ROOT, project.getName(), project.getName()
+				+ Consts.PROJECT_EXTENTION));
 
-		File newProjectDirectory = new File(Consts.DEFAULT_ROOT + "/" + newProjectName);
-		File newProjectFile = new File(Consts.DEFAULT_ROOT + "/" + project.getName() + "/" + newProjectName
-				+ Consts.PROJECT_EXTENTION);
+		File newProjectDirectory = new File(Utils.buildPath(Consts.DEFAULT_ROOT, newProjectName));
+		File newProjectFile = new File(Utils.buildPath(Consts.DEFAULT_ROOT, project.getName(), newProjectName
+				+ Consts.PROJECT_EXTENTION));
 
 		project.setName(newProjectName);
 

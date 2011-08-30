@@ -141,19 +141,19 @@ public class StorageHandler {
 		createCatroidRoot();
 		try {
 			if (NativeAppActivity.isRunning()) {
-				int resId = NativeAppActivity.getContext().getResources().getIdentifier(projectName, "raw",
-						NativeAppActivity.getContext().getPackageName());
+				int resId = NativeAppActivity.getContext().getResources()
+						.getIdentifier(projectName, "raw", NativeAppActivity.getContext().getPackageName());
 				InputStream spfFileStream = NativeAppActivity.getContext().getResources().openRawResource(resId);
 				return (Project) xstream.fromXML(spfFileStream);
 			}
 
 			projectName = Utils.getProjectName(projectName);
 
-			File projectDirectory = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+			File projectDirectory = new File(Utils.buildPath(Consts.DEFAULT_ROOT, projectName));
 
 			if (projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite()) {
-				InputStream projectFileStream = new FileInputStream(projectDirectory.getAbsolutePath() + "/"
-						+ projectName + Consts.PROJECT_EXTENTION);
+				InputStream projectFileStream = new FileInputStream(Utils.buildPath(projectDirectory.getAbsolutePath(),
+						projectName + Consts.PROJECT_EXTENTION));
 				return (Project) xstream.fromXML(projectFileStream);
 			} else {
 				return null;
@@ -173,27 +173,29 @@ public class StorageHandler {
 		try {
 			String projectFile = xstream.toXML(project);
 
-			String projectDirectoryName = Consts.DEFAULT_ROOT + "/" + project.getName();
+			String projectDirectoryName = Utils.buildPath(Consts.DEFAULT_ROOT, project.getName());
 			File projectDirectory = new File(projectDirectoryName);
 
 			if (!(projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite())) {
 				projectDirectory.mkdir();
 
-				File imageDirectory = new File(projectDirectoryName + Consts.IMAGE_DIRECTORY);
+				File imageDirectory = new File(Utils.buildPath(projectDirectoryName, Consts.IMAGE_DIRECTORY));
 				imageDirectory.mkdir();
 
-				File noMediaFile = new File(projectDirectoryName + Consts.IMAGE_DIRECTORY + "/.nomedia");
+				File noMediaFile = new File(Utils.buildPath(projectDirectoryName, Consts.IMAGE_DIRECTORY,
+						Consts.NO_MEDIA_FILE));
 				noMediaFile.createNewFile();
 
 				File soundDirectory = new File(projectDirectoryName + Consts.SOUND_DIRECTORY);
 				soundDirectory.mkdir();
 
-				noMediaFile = new File(projectDirectoryName + Consts.SOUND_DIRECTORY + "/.nomedia");
+				noMediaFile = new File(Utils.buildPath(projectDirectoryName, Consts.SOUND_DIRECTORY,
+						Consts.NO_MEDIA_FILE));
 				noMediaFile.createNewFile();
 			}
 
-			BufferedWriter writer = new BufferedWriter(new FileWriter(projectDirectoryName + "/" + project.getName()
-					+ Consts.PROJECT_EXTENTION), Consts.BUFFER_8K);
+			BufferedWriter writer = new BufferedWriter(new FileWriter(Utils.buildPath(projectDirectoryName,
+					project.getName() + Consts.PROJECT_EXTENTION)), Consts.BUFFER_8K);
 
 			writer.write(XML_HEADER.concat(projectFile));
 			writer.flush();
@@ -209,13 +211,13 @@ public class StorageHandler {
 
 	public boolean deleteProject(Project project) {
 		if (project != null) {
-			return UtilFile.deleteDirectory(new File(Consts.DEFAULT_ROOT + "/" + project.getName()));
+			return UtilFile.deleteDirectory(new File(Utils.buildPath(Consts.DEFAULT_ROOT, project.getName())));
 		}
 		return false;
 	}
 
 	public boolean projectExists(String projectName) {
-		File projectDirectory = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+		File projectDirectory = new File(Utils.buildPath(Consts.DEFAULT_ROOT, projectName));
 		if (!projectDirectory.exists()) {
 			return false;
 		}
@@ -224,7 +226,7 @@ public class StorageHandler {
 
 	public File copySoundFile(String path) throws IOException {
 		String currentProject = ProjectManager.getInstance().getCurrentProject().getName();
-		File soundDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProject + Consts.SOUND_DIRECTORY);
+		File soundDirectory = new File(Utils.buildPath(Consts.DEFAULT_ROOT, currentProject, Consts.SOUND_DIRECTORY));
 
 		File inputFile = new File(path);
 		if (!inputFile.exists() || !inputFile.canRead()) {
@@ -237,15 +239,15 @@ public class StorageHandler {
 			fileChecksumContainer.addChecksum(inputFileChecksum, null);
 			return new File(fileChecksumContainer.getPath(inputFileChecksum));
 		}
-		File outputFile = new File(soundDirectory.getAbsolutePath() + "/" + inputFileChecksum + "_"
-				+ inputFile.getName());
+		File outputFile = new File(Utils.buildPath(soundDirectory.getAbsolutePath(), inputFileChecksum + "_"
+				+ inputFile.getName()));
 
 		return copyFile(outputFile, inputFile, soundDirectory);
 	}
 
 	public File copyImage(String currentProjectName, String inputFilePath, String newName) throws IOException {
 		String newFilePath;
-		File imageDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName + Consts.IMAGE_DIRECTORY);
+		File imageDirectory = new File(Utils.buildPath(Consts.DEFAULT_ROOT, currentProjectName, Consts.IMAGE_DIRECTORY));
 
 		File inputFile = new File(inputFilePath);
 		if (!inputFile.exists() || !inputFile.canRead()) {
@@ -260,9 +262,10 @@ public class StorageHandler {
 			String checksumSource = Utils.md5Checksum(inputFile);
 
 			if (newName != null) {
-				newFilePath = imageDirectory.getAbsolutePath() + "/" + checksumSource + "_" + newName;
+				newFilePath = Utils.buildPath(imageDirectory.getAbsolutePath(), checksumSource + "_" + newName);
 			} else {
-				newFilePath = imageDirectory.getAbsolutePath() + "/" + checksumSource + "_" + inputFile.getName();
+				newFilePath = Utils.buildPath(imageDirectory.getAbsolutePath(),
+						checksumSource + "_" + inputFile.getName());
 				if (checksumCont.containsChecksum(checksumSource)) {
 					checksumCont.addChecksum(checksumSource, newFilePath);
 					return new File(checksumCont.getPath(checksumSource));
@@ -271,7 +274,7 @@ public class StorageHandler {
 			File outputFile = new File(newFilePath);
 			return copyFile(outputFile, inputFile, imageDirectory);
 		} else {
-			File outputFile = new File(imageDirectory + "/" + inputFile.getName());
+			File outputFile = new File(Utils.buildPath(imageDirectory.getAbsolutePath(), inputFile.getName()));
 			return copyAndResizeImage(outputFile, inputFile, imageDirectory);
 		}
 	}
@@ -296,8 +299,8 @@ public class StorageHandler {
 		String checksumCompressedFile = Utils.md5Checksum(outputFile);
 
 		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().fileChecksumContainer;
-		String newFilePath = imageDirectory.getAbsolutePath() + "/" + checksumCompressedFile + "_"
-				+ inputFile.getName();
+		String newFilePath = Utils.buildPath(imageDirectory.getAbsolutePath(),
+				checksumCompressedFile + "_" + inputFile.getName());
 
 		if (!fileChecksumContainer.addChecksum(checksumCompressedFile, newFilePath)) {
 			outputFile.delete();
@@ -372,11 +375,15 @@ public class StorageHandler {
 		File backgroundTemp = savePictureFromResInProject(projectName, Consts.BACKGROUND,
 				R.drawable.background_blueish, context);
 
-		String dir = Consts.DEFAULT_ROOT + "/" + projectName + Consts.IMAGE_DIRECTORY + "/";
-		File normalCat = new File(dir + Utils.md5Checksum(normalCatTemp) + "_" + normalCatTemp.getName());
-		File banzaiCat = new File(dir + Utils.md5Checksum(banzaiCatTemp) + "_" + banzaiCatTemp.getName());
-		File cheshireCat = new File(dir + Utils.md5Checksum(cheshireCatTemp) + "_" + cheshireCatTemp.getName());
-		File background = new File(dir + Utils.md5Checksum(backgroundTemp) + "_" + backgroundTemp.getName());
+		String directoryName = Utils.buildPath(Consts.DEFAULT_ROOT, projectName, Consts.IMAGE_DIRECTORY);
+		File normalCat = new File(Utils.buildPath(directoryName,
+				Utils.md5Checksum(normalCatTemp) + "_" + normalCatTemp.getName()));
+		File banzaiCat = new File(Utils.buildPath(directoryName,
+				Utils.md5Checksum(banzaiCatTemp) + "_" + banzaiCatTemp.getName()));
+		File cheshireCat = new File(Utils.buildPath(directoryName, Utils.md5Checksum(cheshireCatTemp) + "_"
+				+ cheshireCatTemp.getName()));
+		File background = new File(Utils.buildPath(directoryName, Utils.md5Checksum(backgroundTemp) + "_"
+				+ backgroundTemp.getName()));
 
 		normalCatTemp.renameTo(normalCat);
 		banzaiCatTemp.renameTo(banzaiCat);
@@ -446,7 +453,7 @@ public class StorageHandler {
 	private File savePictureFromResInProject(String project, String name, int fileId, Context context)
 			throws IOException {
 
-		final String imagePath = Consts.DEFAULT_ROOT + "/" + project + Consts.IMAGE_DIRECTORY + "/" + name;
+		final String imagePath = Utils.buildPath(Consts.DEFAULT_ROOT, project, Consts.IMAGE_DIRECTORY, name);
 		File testImage = new File(imagePath);
 		if (!testImage.exists()) {
 			testImage.createNewFile();

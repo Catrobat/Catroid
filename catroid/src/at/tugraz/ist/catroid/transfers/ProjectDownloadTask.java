@@ -20,17 +20,18 @@
 package at.tugraz.ist.catroid.transfers;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.app.AlertDialog.Builder;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.utils.UtilZip;
+import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.web.ConnectionWrapper;
 import at.tugraz.ist.catroid.web.ServerCalls;
 import at.tugraz.ist.catroid.web.WebconnectionException;
@@ -51,7 +52,7 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 	public ProjectDownloadTask(Activity activity, String url, String projectName) {
 		this.activity = activity;
 		this.projectName = projectName;
-		this.zipFileString = Consts.TMP_PATH + "/down" + Consts.CATROID_EXTENTION;
+		this.zipFileString = Utils.buildPath(Consts.TMP_PATH, Consts.UPLOAD_FILE_NAME);
 		this.url = url;
 	}
 
@@ -71,7 +72,7 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 		try {
 			ServerCalls.getInstance().downloadProject(url, zipFileString);
 
-			result = UtilZip.unZipFile(zipFileString, Consts.DEFAULT_ROOT + "/" + projectName + "/");
+			result = UtilZip.unZipFile(zipFileString, Utils.buildPath(Consts.DEFAULT_ROOT, projectName));
 			return result;
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
