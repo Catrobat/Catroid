@@ -56,6 +56,7 @@ public class StageActivity extends Activity {
 	private LegoNXT legoNXT;
 	private BluetoothManager bluetoothManager;
 	private ProgressDialog connectingProgressDialog;
+	private static boolean simulatorMode = true;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -77,10 +78,14 @@ public class StageActivity extends Activity {
 
 			if (!stageManager.getBluetoothNeeded()) {
 				startStage();
+			} else if (simulatorMode) {
+				legoNXT = new LegoNXT(this, recieveHandler, simulatorMode);
+				legoNXT.startSimCommunicator();
+				startStage();
 			} else {
 				bluetoothManager = new BluetoothManager(this);
 				//arduino = new Arduino(this, recieveHandler);
-				legoNXT = new LegoNXT(this, recieveHandler);
+				legoNXT = new LegoNXT(this, recieveHandler, simulatorMode);
 				int bluetoothState = bluetoothManager.activateBluetooth();
 				if (bluetoothState == -1) {
 					Toast.makeText(StageActivity.this, R.string.notification_blueth_err, Toast.LENGTH_LONG).show();
@@ -136,6 +141,10 @@ public class StageActivity extends Activity {
 		this.startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
 	}
 
+	public static void setSimulatorMode(boolean sim) {
+		simulatorMode = sim;
+	}
+
 	public void startStage() {
 		stageManager.startScripts();
 		stageManager.start();
@@ -146,6 +155,11 @@ public class StageActivity extends Activity {
 	final Handler recieveHandler = new Handler() {
 		@Override
 		public void handleMessage(Message myMessage) {
+
+			//TODO ...
+			if (simulatorMode) {
+				return;
+			}
 			Log.d("TAG", "message" + myMessage.getData().getInt("message"));
 			switch (myMessage.getData().getInt("message")) {
 				case LegoNXTBtCommunicator.STATE_CONNECTED:
@@ -229,7 +243,7 @@ public class StageActivity extends Activity {
 		soundManager.clear();
 		//arduino.destroyBTCommunicator();
 		if (legoNXT != null) {
-			legoNXT.destroyBTCommunicator();
+			legoNXT.destroyCommunicator();
 		}
 	}
 
@@ -238,7 +252,7 @@ public class StageActivity extends Activity {
 		manageLoadAndFinish();
 		//arduino.destroyBTCommunicator();
 		if (legoNXT != null) {
-			legoNXT.destroyBTCommunicator();
+			legoNXT.destroyCommunicator();
 		}
 
 	}

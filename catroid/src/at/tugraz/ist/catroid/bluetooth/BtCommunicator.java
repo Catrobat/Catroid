@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import android.os.Handler;
 import android.util.Log;
 
+// TODO Not needed for LegoNXT anymore, functionality now in LegoNXTBtCommunicator! Maybe refactor similary for arduino or move to arduino package...
 public class BtCommunicator extends Thread {
 	protected static ArrayList<byte[]> receivedMessages;
 	protected static boolean requestConfirmFromDevice;
