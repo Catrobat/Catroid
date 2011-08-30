@@ -22,7 +22,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
@@ -34,6 +33,8 @@ public class ChangeSizeByNBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private double size;
+
+	private transient View view;
 
 	public ChangeSizeByNBrick(Sprite sprite, double size) {
 		this.sprite = sprite;
@@ -53,10 +54,12 @@ public class ChangeSizeByNBrick implements Brick, OnDismissListener {
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.construction_brick_change_size_by_n, null);
 
-		EditText edit = (EditText) view.findViewById(R.id.construction_brick_change_size_by_edit_text);
+		if (view == null) {
+			view = View.inflate(context, R.layout.toolbox_brick_change_size_by_n, null);
+		}
+
+		EditText edit = (EditText) view.findViewById(R.id.toolbox_brick_change_size_by_edit_text);
 		edit.setText(String.valueOf(size));
 
 		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, size, true);
@@ -69,9 +72,7 @@ public class ChangeSizeByNBrick implements Brick, OnDismissListener {
 	}
 
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.toolbox_brick_change_size_by_n, null);
-		return view;
+		return View.inflate(context, R.layout.toolbox_brick_change_size_by_n, null);
 	}
 
 	@Override

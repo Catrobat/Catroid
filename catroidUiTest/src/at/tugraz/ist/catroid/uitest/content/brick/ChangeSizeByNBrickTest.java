@@ -31,7 +31,7 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.ChangeSizeByNBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
-import at.tugraz.ist.catroid.uitest.util.Utils;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -85,7 +85,7 @@ public class ChangeSizeByNBrickTest extends ActivityInstrumentationTestCase2<Scr
 
 		solo.sleep(1000);
 
-		double actualSize = (Double) Utils.getPrivateField("size", changeSizeByNBrick);
+		double actualSize = (Double) UiTestUtils.getPrivateField("size", changeSizeByNBrick);
 
 		assertEquals("Wrong text in field", newSize, actualSize);
 		assertEquals("Text not updated", newSize, Double.parseDouble(solo.getEditText(0).getText().toString()));
