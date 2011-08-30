@@ -42,8 +42,8 @@ import at.tugraz.ist.catroid.content.TapScript;
 import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.BroadcastReceiverBrick;
-import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
-import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
+import at.tugraz.ist.catroid.content.bricks.WhenStartedBrick;
+import at.tugraz.ist.catroid.content.bricks.WhenTouchedBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
 import at.tugraz.ist.catroid.content.bricks.WhenBrick;
@@ -123,12 +123,12 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDr
 	public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 		View view = null;
 		if (getGroup(groupPosition) instanceof TapScript) {
-			view = new IfTouchedBrick(sprite, getGroup(groupPosition)).getView(context, groupPosition, this);
+			view = new WhenTouchedBrick(sprite, getGroup(groupPosition)).getView(context, groupPosition, this);
 		} else if (getGroup(groupPosition) instanceof BroadcastScript) {
 			view = new BroadcastReceiverBrick(sprite, (BroadcastScript) getGroup(groupPosition)).getView(context,
 					groupPosition, this);
 		} else if (getGroup(groupPosition) instanceof StartScript) {
-			view = new IfStartedBrick(sprite, getGroup(groupPosition)).getView(context, groupPosition, this);
+			view = new WhenStartedBrick(sprite, getGroup(groupPosition)).getView(context, groupPosition, this);
 		} else if (getGroup(groupPosition) instanceof WhenScript) {
 			view = new WhenBrick(sprite, (WhenScript) getGroup(groupPosition)).getView(context, groupPosition, this);
 		}

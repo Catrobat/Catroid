@@ -27,7 +27,7 @@ import at.tugraz.ist.catroid.content.Sprite;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-public class IfTouchedBrick implements Brick {
+public class WhenTouchedBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 
 	protected Script touchScript;
@@ -36,7 +36,7 @@ public class IfTouchedBrick implements Brick {
 	@XStreamOmitField
 	private transient View view;
 
-	public IfTouchedBrick(Sprite sprite, Script touchScript) {
+	public WhenTouchedBrick(Sprite sprite, Script touchScript) {
 		this.touchScript = touchScript;
 		this.sprite = sprite;
 	}
@@ -62,6 +62,6 @@ public class IfTouchedBrick implements Brick {
 
 	@Override
 	public Brick clone() {
-		return new IfTouchedBrick(getSprite(), touchScript);
+		return new WhenTouchedBrick(getSprite(), touchScript);
 	}
 }

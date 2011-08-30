@@ -93,7 +93,7 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptTab
 
 		touchBrick = parent.getChildAt(2);
 		String textViewText = solo.getCurrentTextViews(touchBrick).get(0).getText().toString();
-		String touchBrickText = getActivity().getString(R.string.brick_if_touched);
+		String touchBrickText = getActivity().getString(R.string.brick_when_touched);
 		assertEquals("Third script in listView is not touchScript", touchBrickText, textViewText);
 	}
 

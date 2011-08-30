@@ -38,8 +38,8 @@ import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
-import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
-import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
+import at.tugraz.ist.catroid.content.bricks.WhenStartedBrick;
+import at.tugraz.ist.catroid.content.bricks.WhenTouchedBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
@@ -220,9 +220,9 @@ public class StorageHandlerTest extends AndroidTestCase {
 		startScriptBrickList.add(new ComeToFrontBrick(sprite));
 		startScriptBrickList.add(new GoNStepsBackBrick(sprite, 5));
 		startScriptBrickList.add(new HideBrick(sprite));
-		startScriptBrickList.add(new IfStartedBrick(sprite, startScript));
+		startScriptBrickList.add(new WhenStartedBrick(sprite, startScript));
 
-		tapScriptBrickList.add(new IfTouchedBrick(sprite, tapScript));
+		tapScriptBrickList.add(new WhenTouchedBrick(sprite, tapScript));
 		tapScriptBrickList.add(new PlaceAtBrick(sprite, 50, 50));
 		tapScriptBrickList.add(new PlaySoundBrick(sprite));
 		tapScriptBrickList.add(new SetSizeToBrick(sprite, 50));
