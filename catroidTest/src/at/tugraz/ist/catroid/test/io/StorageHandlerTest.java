@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import android.test.AndroidTestCase;
-import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
@@ -54,7 +53,6 @@ import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class StorageHandlerTest extends AndroidTestCase {
-	private static final String TAG = StorageHandlerTest.class.getSimpleName();
 	private StorageHandler storageHandler;
 
 	public StorageHandlerTest() throws IOException {
@@ -246,7 +244,6 @@ public class StorageHandlerTest extends AndroidTestCase {
 		assertFalse("project contains package information", projectString.contains("at.tugraz.ist"));
 
 		String xmlHeader = (String) TestUtils.getPrivateField("XML_HEADER", storageHandler, false);
-		Log.v(TAG, xmlHeader);
 		assertTrue("Project file did not contain correct XML header.", projectString.startsWith(xmlHeader));
 
 		projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);

@@ -24,7 +24,6 @@ import java.io.IOException;
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.InstrumentationTestCase;
-import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.CostumeData;
@@ -44,7 +43,6 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class ProjectManagerTest extends InstrumentationTestCase {
 
-	private static final String TAG = "ProjectManagerTest";
 	String projectNameOne = "Ulumulu";
 	String scriptNameOne = "Ulukai";
 	String scriptNameTwo = "Ulukai2";
@@ -58,7 +56,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		TestUtils.clearProject("newProject");
 	}
 
-	public void testBasicFunctions() throws NameNotFoundException, IOException {
+	public void testBasicFunctions() throws NameNotFoundException {
 
 		ProjectManager projectManager = ProjectManager.getInstance();
 		assertNull("there is a current sprite set", projectManager.getCurrentSprite());
@@ -147,7 +145,6 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		assertTrue("New project file is not existing", newProjectFile.exists());
 
 		//this fails because catroid is buggy, fix catroid not this test --> we haven't decided yet how to fix the FileChecksumContainer
-		Log.v(TAG, projectFileAsString);
 		assertFalse("old projectName still in project file", projectFileAsString.contains(oldProjectName));
 	}
 

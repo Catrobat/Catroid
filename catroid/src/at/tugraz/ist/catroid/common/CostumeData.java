@@ -24,6 +24,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.utils.ImageEditing;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class CostumeData {
 
@@ -36,7 +37,7 @@ public class CostumeData {
 
 	public String getAbsolutePath() {
 		if (costumeFileName != null) {
-			return getPathWithoutFileName() + costumeFileName;
+			return Utils.buildPath(getPathWithoutFileName(), costumeFileName);
 		} else {
 			return null;
 		}
@@ -74,8 +75,8 @@ public class CostumeData {
 	}
 
 	public String getPathWithoutFileName() {
-		return Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName()
-				+ Consts.IMAGE_DIRECTORY + "/";
+		return Utils.buildPath(Consts.DEFAULT_ROOT, ProjectManager.getInstance().getCurrentProject().getName(),
+				Consts.IMAGE_DIRECTORY);
 	}
 
 	public Bitmap getThumbnailBitmap() {
