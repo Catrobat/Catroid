@@ -42,7 +42,7 @@ public class DragAndDropListView extends ExpandableListView implements OnLongCli
 
 	private static final int SCROLL_DURATION = 1;
 	private static final int SCROLL_SPEED = 10;
-	private static final int DRAG_BACKGROUND_COLOR = Color.BLACK;
+	private static final int DRAG_BACKGROUND_COLOR = Color.TRANSPARENT;
 
 	private int maximumDragViewHeight;
 
