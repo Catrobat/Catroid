@@ -38,8 +38,6 @@ import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
-import at.tugraz.ist.catroid.content.bricks.WhenStartedBrick;
-import at.tugraz.ist.catroid.content.bricks.WhenTouchedBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
@@ -48,6 +46,8 @@ import at.tugraz.ist.catroid.content.bricks.SetXBrick;
 import at.tugraz.ist.catroid.content.bricks.SetYBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
+import at.tugraz.ist.catroid.content.bricks.WhenStartedBrick;
+import at.tugraz.ist.catroid.content.bricks.WhenTappedBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
@@ -208,7 +208,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 		Project project = new Project(getContext(), projectName);
 		Sprite sprite = new Sprite("testSprite");
 		Script startScript = new StartScript("testScript", sprite);
-		Script tapScript = new TapScript("touchedScript", sprite);
+		Script tapScript = new TapScript("tapedScript", sprite);
 		sprite.addScript(startScript);
 		sprite.addScript(tapScript);
 		project.addSprite(sprite);
@@ -222,7 +222,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 		startScriptBrickList.add(new HideBrick(sprite));
 		startScriptBrickList.add(new WhenStartedBrick(sprite, startScript));
 
-		tapScriptBrickList.add(new WhenTouchedBrick(sprite, tapScript));
+		tapScriptBrickList.add(new WhenTappedBrick(sprite, tapScript));
 		tapScriptBrickList.add(new PlaceAtBrick(sprite, 50, 50));
 		tapScriptBrickList.add(new PlaySoundBrick(sprite));
 		tapScriptBrickList.add(new SetSizeToBrick(sprite, 50));

@@ -30,7 +30,7 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.content.bricks.WhenTouchedBrick;
+import at.tugraz.ist.catroid.content.bricks.WhenTappedBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 
 import com.jayway.android.robotium.solo.Solo;
@@ -40,11 +40,11 @@ import com.jayway.android.robotium.solo.Solo;
  * @author Daniel Burtscher
  * 
  */
-public class WhenTouchedTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class WhenTappedTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
 
-	public WhenTouchedTest() {
+	public WhenTappedTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
 	}
 
@@ -67,7 +67,7 @@ public class WhenTouchedTest extends ActivityInstrumentationTestCase2<ScriptActi
 	}
 
 	@Smoke
-	public void testWhenTouchedBrick() {
+	public void testWhenTappedBrick() {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
 
@@ -79,14 +79,14 @@ public class WhenTouchedTest extends ActivityInstrumentationTestCase2<ScriptActi
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
 				getActivity().getAdapter().getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_when_touched)));
+		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_when_tapped)));
 	}
 
 	private void createProject() {
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript("script", sprite);
-		script.addBrick(new WhenTouchedBrick(sprite, script));
+		script.addBrick(new WhenTappedBrick(sprite, script));
 
 		sprite.addScript(script);
 		project.addSprite(sprite);

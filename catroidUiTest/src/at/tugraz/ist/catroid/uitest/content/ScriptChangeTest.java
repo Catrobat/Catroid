@@ -76,25 +76,25 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptTab
 
 		assertEquals("First script in list is not testScript2", "testScript2", ProjectManager.getInstance()
 				.getCurrentSprite().getScript(0).getName());
-		assertEquals("Second script in list is not touchScript", "touchScript", ProjectManager.getInstance()
+		assertEquals("Second script in list is not tapScript", "tapScript", ProjectManager.getInstance()
 				.getCurrentSprite().getScript(1).getName());
 		assertEquals("Third script in list is not testScript", "testScript", ProjectManager.getInstance()
 				.getCurrentSprite().getScript(2).getName());
 
-		View touchBrick = parent.getChildAt(1);
-		solo.clickOnView(touchBrick);
+		View tapBrick = parent.getChildAt(1);
+		solo.clickOnView(tapBrick);
 		solo.sleep(1500);
 		assertEquals("First script in list is not testScript2", "testScript2", ProjectManager.getInstance()
 				.getCurrentSprite().getScript(0).getName());
 		assertEquals("Second script in list is not testScript", "testScript", ProjectManager.getInstance()
 				.getCurrentSprite().getScript(1).getName());
-		assertEquals("Third script in list is not touchScript", "touchScript", ProjectManager.getInstance()
+		assertEquals("Third script in list is not tapScript", "tapScript", ProjectManager.getInstance()
 				.getCurrentSprite().getScript(2).getName());
 
-		touchBrick = parent.getChildAt(2);
-		String textViewText = solo.getCurrentTextViews(touchBrick).get(0).getText().toString();
-		String touchBrickText = getActivity().getString(R.string.brick_when_touched);
-		assertEquals("Third script in listView is not touchScript", touchBrickText, textViewText);
+		tapBrick = parent.getChildAt(2);
+		String textViewText = solo.getCurrentTextViews(tapBrick).get(0).getText().toString();
+		String tapBrickText = getActivity().getString(R.string.brick_when_tapped);
+		assertEquals("Third script in listView is not tapScript", tapBrickText, textViewText);
 	}
 
 	private void createTestProject(String projectName) {
@@ -104,7 +104,7 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptTab
 		Sprite firstSprite = new Sprite("cat");
 
 		Script testScript = new StartScript("testScript", firstSprite);
-		Script touchScript = new TapScript("touchScript", firstSprite);
+		Script tapScript = new TapScript("tapScript", firstSprite);
 		Script testScript2 = new StartScript("testScript2", firstSprite);
 
 		brickListToCheck = new ArrayList<Brick>();
@@ -119,7 +119,7 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptTab
 		// -------------------------------
 
 		firstSprite.addScript(testScript);
-		firstSprite.addScript(touchScript);
+		firstSprite.addScript(tapScript);
 		firstSprite.addScript(testScript2);
 
 		project.addSprite(firstSprite);

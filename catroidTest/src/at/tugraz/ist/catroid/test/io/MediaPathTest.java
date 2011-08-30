@@ -40,7 +40,7 @@ import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.WhenStartedBrick;
-import at.tugraz.ist.catroid.content.bricks.WhenTouchedBrick;
+import at.tugraz.ist.catroid.content.bricks.WhenTappedBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
@@ -274,7 +274,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 		soundBrick.setSoundInfo(soundInfo);
 		sprite.getSoundList().add(soundInfo);
 
-		brickList2.add(new WhenTouchedBrick(sprite, tapedScript));
+		brickList2.add(new WhenTappedBrick(sprite, tapedScript));
 		brickList2.add(new PlaceAtBrick(sprite, 50, 50));
 		brickList2.add(soundBrick);
 		brickList2.add(new SetSizeToBrick(sprite, 50));

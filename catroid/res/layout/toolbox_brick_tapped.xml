@@ -21,12 +21,12 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_height="wrap_content"
 	android:layout_width="wrap_content"
-	android:background="@drawable/brick_touched"
+	android:background="@drawable/brick_tapped"
 	android:orientation="horizontal"
 >
 	<TextView
-		android:id="@+id/TouchedBrick"
-		android:text="@string/brick_when_touched"
+		android:id="@+id/TappedBrick"
+		android:text="@string/brick_when_tapped"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
 		android:textColor="@color/white"
