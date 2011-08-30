@@ -21,8 +21,16 @@ package at.tugraz.ist.catroid.ui.adapter;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
+import android.app.AlertDialog;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -104,32 +112,60 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 						Utils.displayErrorMessage(activity, activity.getString(R.string.error_load_image));
 						e.printStackTrace();
 					}
-
-					//if we need a seperate file (I think we don't need this yet)
-					//						try {
-					//							String path = costumeData.getAbsolutePath();
-					//							if (path.equalsIgnoreCase("")) {
-					//								throw new IOException();
-					//							}
-					//							String projectName = ProjectManager.getInstance().getCurrentProject().getName();
-					//							String timeStamp = Utils.getTimestamp();
-					//							String newName = costumeData.getChecksum() + "_" + costumeData.getCostumeName() + "_"
-					//									+ timeStamp + "." + costumeData.getFileExtension();
-					//							File imageFile = StorageHandler.getInstance().copyImage(projectName, path, newName);
-					//							String imageName = costumeData.getCostumeName() + "_copy";
-					//							String imageFileName = imageFile.getName();
-					//							updateCostumeAdapter(imageName, imageFileName);
-					//						} catch (IOException e) {
-					//							Utils.displayErrorMessage(activity, activity.getString(R.string.error_load_image));
-					//						}
-					//						notifyDataSetChanged();
 				}
 			});
 
 			paintroidButton.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
+
+					Intent intent = new Intent("android.intent.action.MAIN");
+					intent.setComponent(new ComponentName("at.tugraz.ist.paintroid",
+							"at.tugraz.ist.paintroid.MainActivity"));
+
+					List<ResolveInfo> packageList = activity.getPackageManager().queryIntentActivities(intent,
+							PackageManager.MATCH_DEFAULT_ONLY);
+					if (packageList.size() <= 0) {
+
+						AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+						builder.setMessage("Paintroid not installed! \n Wanna install it?").setCancelable(false)
+								.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog, int id) {
+										Intent downloadPaintroidIntent = new Intent(
+												Intent.ACTION_VIEW,
+												Uri.parse("https://code.google.com/p/catroid/downloads/detail?name=Paintroid_0.6.4b.apk&can=2&q="));
+										activity.startActivity(downloadPaintroidIntent);
+									}
+								}).setNegativeButton("No", new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog, int id) {
+										dialog.cancel();
+									}
+								});
+						AlertDialog alert = builder.create();
+						alert.show();
+						return;
+					}
+
+					try {
+						String path = costumeData.getAbsolutePath();
+						if (path.equalsIgnoreCase("")) {
+							throw new IOException();
+						}
+						String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+						String timeStamp = Utils.getTimestamp();
+						String newName = costumeData.getCostumeName() + "_" + timeStamp + "."
+								+ costumeData.getFileExtension();
+						StorageHandler.getInstance().copyImage(projectName, path, newName);
+						costumeData.setCostumeFilename(costumeData.getChecksum() + "_" + newName);
+					} catch (IOException e) {
+						Utils.displayErrorMessage(activity, activity.getString(R.string.error_load_image));
+						return;
+					}
+
 					scriptTabActivity.selectedCostumeData = costumeData;
-					//TODO call paintroid
+
+					intent.putExtra("at.tugraz.ist.catroid.picture", costumeData.getAbsolutePath());
+					intent.addCategory("android.intent.category.LAUNCHER");
+					activity.startActivityForResult(intent, activity.REQUEST_PAINTROID_CHANGE_IMAGE);
 				}
 			});
 
