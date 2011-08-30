@@ -20,7 +20,6 @@ package at.tugraz.ist.catroid.nativetest.content.brick;
 
 import android.graphics.BitmapFactory;
 import android.test.InstrumentationTestCase;
-import android.util.Log;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -48,7 +47,6 @@ public class SetCostumeBrickTest extends InstrumentationTestCase {
 		costumeData.setCostumeFilename(getInstrumentation().getContext().getResources()
 				.getResourceEntryName(TEST_IMAGE_ID));
 		sprite.getCostumeDataList().add(costumeData);
-		Log.e("!!!!!!!!!!!!!!", " " + costumeData.getCostumeFileName());
 		setCostumeBrick.setCostume(costumeData);
 
 		assertNull("Bitmap is not null before executing setCostumeBrick.", sprite.getCostume().getBitmap());

@@ -76,8 +76,6 @@ public class PlaySoundBrick implements Brick, Serializable, OnItemSelectedListen
 			soundbrickSpinner.setSelection(0);
 		}
 
-		System.out.println("PlaySoundBrick.getView() selection = " + soundbrickSpinner.getSelectedItemPosition());
-
 		return view;
 	}
 

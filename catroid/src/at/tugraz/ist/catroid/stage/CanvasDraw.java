@@ -27,12 +27,12 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.Bitmap.CompressFormat;
 import android.os.Vibrator;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -45,6 +45,7 @@ import at.tugraz.ist.catroid.content.Costume;
 import at.tugraz.ist.catroid.content.SpeechBubble;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.utils.ImageEditing;
+import at.tugraz.ist.catroid.utils.Utils;
 
 /**
  * 
@@ -115,7 +116,8 @@ public class CanvasDraw implements IDraw {
 				}
 			}
 			if (!NativeAppActivity.isRunning()) {
-				bufferCanvas.drawBitmap(screenshotIcon, screenshotIconXPosition, Consts.SCREENSHOT_ICON_PADDING_TOP, null);
+				bufferCanvas.drawBitmap(screenshotIcon, screenshotIconXPosition, Consts.SCREENSHOT_ICON_PADDING_TOP,
+						null);
 			}
 			canvas.drawBitmap(canvasBitmap, 0, 0, null);
 
@@ -169,9 +171,10 @@ public class CanvasDraw implements IDraw {
 
 	public boolean saveThumbnail(boolean overwrite) {
 		try {
-			String path = Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName() + "/";
-			File file = new File(path + Consts.SCREENSHOT_FILE_NAME);
-			File noMediaFile = new File(path + ".nomedia");
+			String path = Utils.buildPath(Consts.DEFAULT_ROOT, ProjectManager.getInstance().getCurrentProject()
+					.getName());
+			File file = new File(Utils.buildPath(path, Consts.SCREENSHOT_FILE_NAME));
+			File noMediaFile = new File(Utils.buildPath(path, Consts.NO_MEDIA_FILE));
 			if (!noMediaFile.exists()) {
 				noMediaFile.createNewFile();
 			}
@@ -180,7 +183,7 @@ public class CanvasDraw implements IDraw {
 			}
 
 			FileOutputStream fileOutputStream = new FileOutputStream(file.getAbsolutePath());
-			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream);
+			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream, Consts.BUFFER_8K);
 			canvasBitmap.compress(CompressFormat.PNG, 0, bos);
 			bos.flush();
 			bos.close();

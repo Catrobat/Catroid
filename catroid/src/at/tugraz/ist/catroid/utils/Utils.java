@@ -16,7 +16,12 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
+/**
+ * Copyright for original "String buildPath" held by:
+ * 	Copyright (C) 2008 Rob Manning
+ * 	manningr@users.sourceforge.net
+ * Source: http://www.java2s.com/Code/Java/File-Input-Output/Autilityclassformanipulatingpaths.htm
+ */
 package at.tugraz.ist.catroid.utils;
 
 import java.io.File;
@@ -146,7 +151,7 @@ public class Utils {
 	 * @return whether the project exists
 	 */
 	public static boolean projectExists(String projectName) {
-		File projectFolder = new File(concatPaths(Consts.DEFAULT_ROOT, projectName));
+		File projectFolder = new File(buildPath(Consts.DEFAULT_ROOT, projectName));
 		return projectFolder.exists();
 	}
 
@@ -194,27 +199,28 @@ public class Utils {
 		return true;
 	}
 
-	public static String concatPaths(String first, String second) {
-		if (first == null && second == null) {
-			return null;
+	/**
+	 * Constructs a path out of the pathElements.
+	 * 
+	 * @param pathElements
+	 *            the strings to connect. They can have "/" in them which will be de-duped in the result, if necessary.
+	 * @return
+	 *         the path that was constructed.
+	 */
+	static public String buildPath(String... pathElements) {
+		StringBuilder result = new StringBuilder("/");
+
+		for (String pathElement : pathElements) {
+			result.append(pathElement).append("/");
 		}
-		if (first == null) {
-			return second;
+
+		String returnValue = result.toString().replaceAll("/+", "/");
+
+		if (returnValue.endsWith("/")) {
+			returnValue = returnValue.substring(0, returnValue.length() - 1);
 		}
-		if (second == null) {
-			return first;
-		}
-		if (first.endsWith("/")) {
-			if (second.startsWith("/")) {
-				return first + second.replaceFirst("/", "");
-			} else {
-				return first + second;
-			}
-		} else if (second.startsWith("/")) {
-			return first + second;
-		} else {
-			return first + "/" + second;
-		}
+
+		return returnValue;
 	}
 
 	/**
@@ -310,8 +316,6 @@ public class Utils {
 			md5StringBuilder.append("0123456789ABCDEF".charAt((b & 0xF0) >> 4));
 			md5StringBuilder.append("0123456789ABCDEF".charAt((b & 0x0F)));
 		}
-
-		Log.v(TAG, md5StringBuilder.toString());
 
 		return md5StringBuilder.toString();
 	}
