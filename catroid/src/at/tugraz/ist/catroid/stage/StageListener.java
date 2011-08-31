@@ -103,7 +103,6 @@ public class StageListener implements ApplicationListener {
 	}
 
 	public void create() {
-		batch = new SpriteBatch();
 		font = new BitmapFont();
 		font.setColor(1f, 0f, 0.05f, 1f);
 		font.setScale(1.2f);
@@ -113,13 +112,15 @@ public class StageListener implements ApplicationListener {
 
 		costumeComparator = new CostumeComparator();
 
-		renderer = new ImmediateModeRenderer20(200, false, true, 0);
+		renderer = new ImmediateModeRenderer20(4, false, true, 0);
 		project = ProjectManager.getInstance().getCurrentProject();
 
 		virtualWidthHalf = project.VIRTUAL_SCREEN_WIDTH / 2;
 		virtualHeightHalf = project.VIRTUAL_SCREEN_HEIGHT / 2;
 
 		stage = new Stage(project.VIRTUAL_SCREEN_WIDTH, project.VIRTUAL_SCREEN_HEIGHT, true);
+		batch = stage.getSpriteBatch();
+
 		camera = (OrthographicCamera) stage.getCamera();
 		camera.position.set(0, 0, 0);
 
@@ -190,7 +191,6 @@ public class StageListener implements ApplicationListener {
 			sprite.finish();
 			sprite.costume.disposeTextures();
 		}
-		pauseScreen.dispose();
 	}
 
 	public void render() {
@@ -315,6 +315,9 @@ public class StageListener implements ApplicationListener {
 		if (!finished) {
 			this.finish();
 		}
+		stage.dispose();
+		font.dispose();
+		pauseScreen.dispose();
 	}
 
 	private void saveThumbnail() {
