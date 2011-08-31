@@ -46,7 +46,7 @@ import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
-import at.tugraz.ist.catroid.content.TapScript;
+import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.BroadcastBrick;
 import at.tugraz.ist.catroid.content.bricks.BroadcastWaitBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
@@ -66,7 +66,6 @@ import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.content.bricks.WhenBrick;
 import at.tugraz.ist.catroid.content.bricks.WhenStartedBrick;
-import at.tugraz.ist.catroid.content.bricks.WhenTappedBrick;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.UtilFile;
@@ -92,7 +91,7 @@ public class StorageHandler {
 		xstream.alias("sprite", Sprite.class);
 		xstream.alias("script", Script.class);
 		xstream.alias("startScript", StartScript.class);
-		xstream.alias("tapScript", TapScript.class);
+		xstream.alias("whenScript", WhenScript.class);
 		xstream.alias("broadcastScript", BroadcastScript.class);
 		xstream.alias("costume", Costume.class);
 
@@ -102,7 +101,6 @@ public class StorageHandler {
 		xstream.alias("goNStepsBackBrick", GoNStepsBackBrick.class);
 		xstream.alias("hideBrick", HideBrick.class);
 		xstream.alias("whenStartedBrick", WhenStartedBrick.class);
-		xstream.alias("whenTappedBrick", WhenTappedBrick.class);
 		xstream.alias("placeAtBrick", PlaceAtBrick.class);
 		xstream.alias("playSoundBrick", PlaySoundBrick.class);
 		xstream.alias("setSizeToBrick", SetSizeToBrick.class);
@@ -370,7 +368,7 @@ public class StorageHandler {
 
 		Script backgroundStartScript = new StartScript("stageStartScript", backgroundSprite);
 		Script startScript = new StartScript("startScript", sprite);
-		Script tapScript = new TapScript("tapScript", sprite);
+		Script whenScript = new WhenScript("whenScript", sprite);
 
 		File normalCatTemp = savePictureFromResInProject(projectName, NORMAL_CAT, R.drawable.catroid, context);
 		File banzaiCatTemp = savePictureFromResInProject(projectName, BANZAI_CAT, R.drawable.catroid_banzai, context);
@@ -437,16 +435,16 @@ public class StorageHandler {
 
 		startScript.addBrick(setCostumeBrick);
 
-		tapScript.addBrick(setCostumeBrick2);
-		tapScript.addBrick(waitBrick1);
-		tapScript.addBrick(setCostumeBrick3);
-		tapScript.addBrick(waitBrick2);
-		tapScript.addBrick(setCostumeBrick1);
+		whenScript.addBrick(setCostumeBrick2);
+		whenScript.addBrick(waitBrick1);
+		whenScript.addBrick(setCostumeBrick3);
+		whenScript.addBrick(waitBrick2);
+		whenScript.addBrick(setCostumeBrick1);
 		backgroundStartScript.addBrick(setCostumeBackground);
 
 		defaultProject.addSprite(sprite);
 		sprite.addScript(startScript);
-		sprite.addScript(tapScript);
+		sprite.addScript(whenScript);
 		backgroundSprite.addScript(backgroundStartScript);
 
 		this.saveProject(defaultProject);

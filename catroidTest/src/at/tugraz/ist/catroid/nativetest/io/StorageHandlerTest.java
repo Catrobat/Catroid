@@ -62,7 +62,7 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 		String secondSpriteName = "first";
 		String thirdSpriteName = "second";
 		String firstStartScriptName = "testScript";
-		String firstTapScriptName = "script";
+		String firstWhenScriptName = "script";
 		String secondStartScriptName = "otherScript";
 
 		NativeAppActivity.setContext(getInstrumentation().getContext());
@@ -79,7 +79,7 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 
 		assertEquals("Name of script does not match.", firstStartScriptName, loadedProject.getSpriteList().get(1)
 				.getScript(0).getName());
-		assertEquals("Name of script does not match.", firstTapScriptName, loadedProject.getSpriteList().get(1)
+		assertEquals("Name of script does not match.", firstWhenScriptName, loadedProject.getSpriteList().get(1)
 				.getScript(1).getName());
 		assertEquals("Name of script does not match.", secondStartScriptName, loadedProject.getSpriteList().get(2)
 				.getScript(0).getName());
