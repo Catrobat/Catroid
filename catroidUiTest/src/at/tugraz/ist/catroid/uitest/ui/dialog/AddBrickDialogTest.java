@@ -88,7 +88,7 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 		ProjectManager manager = ProjectManager.getInstance();
 		for (int id : brickIds) {
 			Script script = manager.getCurrentScript();
-			int numberOfBricksBeforeAdding = id == R.string.brick_if_touched ? 0 : script.getBrickList().size();
+			int numberOfBricksBeforeAdding = id == R.string.brick_when ? 0 : script.getBrickList().size();
 			addAndCheckBrick(solo, id);
 			if (id == R.string.brick_forever) {
 				assertEquals("Brick " + solo.getCurrentActivity().getString(id) + " didn't created a LoopEndBrick.",
@@ -99,7 +99,7 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 			}
 		}
 
-		int[] triggerBrickIds = new int[] { R.string.brick_if_started, R.string.brick_if_touched,
+		int[] triggerBrickIds = new int[] { R.string.brick_when_started, R.string.brick_when,
 				R.string.brick_broadcast_receive };
 
 		for (int id : triggerBrickIds) {

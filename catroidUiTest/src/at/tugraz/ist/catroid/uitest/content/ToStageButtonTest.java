@@ -81,7 +81,7 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		solo.goBack();
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
-		solo.clickOnText(getActivity().getString(R.string.brick_if_touched));
+		solo.clickOnText(getActivity().getString(R.string.brick_when));
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
 		solo.clickOnText(getActivity().getString(R.string.brick_set_size_to));
 		solo.sleep(500);
@@ -96,7 +96,7 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 				sprite_list.get(0).getScript(0).getBrickList().get(0) instanceof SetSizeToBrick);
 
 		solo.goBack();
-		solo.clickLongOnText(getActivity().getString(R.string.brick_if_touched));
+		solo.clickLongOnText(getActivity().getString(R.string.brick_when));
 		solo.clickOnText(getActivity().getString(R.string.delete_script_button));
 
 		solo.sleep(500);
@@ -128,7 +128,7 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		solo.goBack();
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
-		solo.clickOnText(getActivity().getString(R.string.brick_if_touched));
+		solo.clickOnText(getActivity().getString(R.string.brick_when));
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
 		solo.clickOnText(getActivity().getString(R.string.brick_set_size_to));
 		solo.sleep(500);
