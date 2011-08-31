@@ -68,17 +68,18 @@ public class NXTMotorTurnAngleBrick implements Brick, OnDismissListener {
 			btcHandler = LegoNXT.getBTCHandler();
 		}
 
+		int temp_angle = angle;
 		int direction = 1;
 		if (angle < 0) {
 			direction = -1;
-			angle = angle + (-2 * angle);
+			temp_angle = angle + (-2 * angle);
 		}
 
 		if (motor == MOTOR_A_C) {
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, MOTOR_A, -1 * direction * 30, angle);
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, MOTOR_C, direction * 30, angle);
+			LegoNXT.sendBTCMotorMessage(NO_DELAY, MOTOR_A, -1 * direction * 30, temp_angle);
+			LegoNXT.sendBTCMotorMessage(NO_DELAY, MOTOR_C, direction * 30, temp_angle);
 		} else {
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, motor, direction * 30, angle);
+			LegoNXT.sendBTCMotorMessage(NO_DELAY, motor, direction * 30, temp_angle);
 		}
 
 		/*

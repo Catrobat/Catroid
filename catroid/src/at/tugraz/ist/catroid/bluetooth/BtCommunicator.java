@@ -18,59 +18,14 @@
  */
 package at.tugraz.ist.catroid.bluetooth;
 
-import java.util.ArrayList;
-
 import android.os.Handler;
-import android.util.Log;
 
 // TODO Not needed for LegoNXT anymore, functionality now in LegoNXTBtCommunicator! Maybe refactor similary for arduino or move to arduino package...
-public class BtCommunicator extends Thread {
-	protected static ArrayList<byte[]> receivedMessages;
-	protected static boolean requestConfirmFromDevice;
-	protected Handler myHandler;
-	protected byte[] returnMessage;
-	protected String mMACaddress;
-	protected boolean connected;
+public abstract interface BtCommunicator {
 
-	public static ArrayList<byte[]> getReceivedMessageList() {
-		return receivedMessages;
-	}
+	public void setMACAddress(String mMACaddress);
 
-	public static void enableRequestConfirmFromDevice() {
-		requestConfirmFromDevice = true;
-	}
+	public abstract boolean isConnected();
 
-	public Handler getHandler() {
-		return myHandler;
-	}
-
-	public byte[] getReturnMessage() {
-		return returnMessage;
-	}
-
-	public void setMACAddress(String mMACaddress) {
-		Log.d("TAG", "MAC:" + mMACaddress);
-		this.mMACaddress = mMACaddress;
-	}
-
-	/**
-	 * @return The current status of the connection
-	 */
-	public boolean isConnected() {
-		return connected;
-	}
-
-	/**
-	 * Creates the connection, waits for incoming messages and dispatches them. The thread will be terminated
-	 * on closing of the connection.
-	 */
-	@Override
-	public void run() {
-
-		//create Your Connections
-
-		while (connected) {
-			//do what ever you have to do....
-		}
-	}
+	public Handler getHandler();
 }
