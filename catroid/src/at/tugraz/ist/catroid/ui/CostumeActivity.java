@@ -43,7 +43,8 @@ public class CostumeActivity extends ListActivity {
 	private ArrayList<CostumeData> costumeDataList;
 
 	public final int REQUEST_SELECT_IMAGE = 0;
-	public final int REQUEST_PAINTROID_CHANGE_IMAGE = 1;
+	public final int REQUEST_PAINTROID_EDIT_IMAGE = 1;
+	public final int REQUEST_PAINTROID_NEW_IMAGE = 2;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -154,19 +155,22 @@ public class CostumeActivity extends ListActivity {
 				Utils.displayErrorMessage(this, this.getString(R.string.error_load_image));
 			}
 		}
-		if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_PAINTROID_CHANGE_IMAGE) {
+		if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_PAINTROID_EDIT_IMAGE) {
+			Bundle bundle = data.getExtras();
+			String pathOfImage = bundle.getString("PAINTROID_PICTURE_PATH"); //TODO get path
+
 			ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
 			CostumeData selectedCostumeData = scriptTabActivity.selectedCostumeData;
-			String actualChecksum = Utils.md5Checksum(new File(selectedCostumeData.getAbsolutePath()));
-			//if costume changed --> altering filename for correct checksum
+			String actualChecksum = Utils.md5Checksum(new File(pathOfImage));
+
+			//if costume changed --> saving new image with new checksum and changing costumeData
 			if (!selectedCostumeData.getChecksum().equalsIgnoreCase(actualChecksum)) {
 				try {
 					String oldFileName = selectedCostumeData.getCostumeFileName();
-					String newFileName = oldFileName.substring(32, oldFileName.length()); //TODO: test this
+					String newFileName = oldFileName.substring(33, oldFileName.length()); //TODO: test this
 					String projectName = ProjectManager.getInstance().getCurrentProject().getName();
-					File newCostumeFile = StorageHandler.getInstance().copyImage(projectName,
-							selectedCostumeData.getAbsolutePath(), newFileName);
-					StorageHandler.getInstance().deleteFile(selectedCostumeData.getAbsolutePath());
+					File newCostumeFile = StorageHandler.getInstance().copyImage(projectName, pathOfImage, newFileName);
+					StorageHandler.getInstance().deleteFile(pathOfImage); //TODO do I want to deinstall the temporary file?
 					selectedCostumeData.setCostumeFilename(newCostumeFile.getName());
 				} catch (IOException e) {
 					e.printStackTrace();

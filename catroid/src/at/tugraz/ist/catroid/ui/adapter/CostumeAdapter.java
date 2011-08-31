@@ -41,6 +41,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.CostumeActivity;
@@ -122,50 +123,42 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 					intent.setComponent(new ComponentName("at.tugraz.ist.paintroid",
 							"at.tugraz.ist.paintroid.MainActivity"));
 
-					List<ResolveInfo> packageList = activity.getPackageManager().queryIntentActivities(intent,
-							PackageManager.MATCH_DEFAULT_ONLY);
-					if (packageList.size() <= 0) {
+					//confirm if paintroid is installed else start dialog
+					{
+						List<ResolveInfo> packageList = activity.getPackageManager().queryIntentActivities(intent,
+								PackageManager.MATCH_DEFAULT_ONLY);
+						if (packageList.size() <= 0) {
 
-						AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-						builder.setMessage("Paintroid not installed! \n Wanna install it?").setCancelable(false)
-								.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog, int id) {
-										Intent downloadPaintroidIntent = new Intent(
-												Intent.ACTION_VIEW,
-												Uri.parse("https://code.google.com/p/catroid/downloads/detail?name=Paintroid_0.6.4b.apk&can=2&q="));
-										activity.startActivity(downloadPaintroidIntent);
-									}
-								}).setNegativeButton("No", new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog, int id) {
-										dialog.cancel();
-									}
-								});
-						AlertDialog alert = builder.create();
-						alert.show();
-						return;
-					}
-
-					try {
-						String path = costumeData.getAbsolutePath();
-						if (path.equalsIgnoreCase("")) {
-							throw new IOException();
+							AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+							builder.setMessage(activity.getString(R.string.paintroid_not_installed))
+									.setCancelable(false)
+									.setPositiveButton(activity.getString(R.string.yes),
+											new DialogInterface.OnClickListener() {
+												public void onClick(DialogInterface dialog, int id) {
+													Intent downloadPaintroidIntent = new Intent(Intent.ACTION_VIEW, Uri
+															.parse(Consts.PAINTROID_DOWNLOAD_LINK));
+													activity.startActivity(downloadPaintroidIntent);
+												}
+											})
+									.setNegativeButton(activity.getString(R.string.no),
+											new DialogInterface.OnClickListener() {
+												public void onClick(DialogInterface dialog, int id) {
+													dialog.cancel();
+												}
+											});
+							AlertDialog alert = builder.create();
+							alert.show();
+							return;
 						}
-						String projectName = ProjectManager.getInstance().getCurrentProject().getName();
-						String timeStamp = Utils.getTimestamp();
-						String newName = costumeData.getCostumeName() + "_" + timeStamp + "."
-								+ costumeData.getFileExtension();
-						StorageHandler.getInstance().copyImage(projectName, path, newName);
-						costumeData.setCostumeFilename(costumeData.getChecksum() + "_" + newName);
-					} catch (IOException e) {
-						Utils.displayErrorMessage(activity, activity.getString(R.string.error_load_image));
-						return;
 					}
 
 					scriptTabActivity.selectedCostumeData = costumeData;
 
-					intent.putExtra("at.tugraz.ist.catroid.picture", costumeData.getAbsolutePath());
+					intent.putExtra("PAINTROID_PICTURE_PATH", costumeData.getAbsolutePath());
+					intent.putExtra("PAINTROID_ROTATE_X", 0);
+					intent.putExtra("PAINTROID_ROTATE_Y", 0);
 					intent.addCategory("android.intent.category.LAUNCHER");
-					activity.startActivityForResult(intent, activity.REQUEST_PAINTROID_CHANGE_IMAGE);
+					activity.startActivityForResult(intent, activity.REQUEST_PAINTROID_EDIT_IMAGE);
 				}
 			});
 
