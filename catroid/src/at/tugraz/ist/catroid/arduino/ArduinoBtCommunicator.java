@@ -24,6 +24,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Handler;
+import android.util.Log;
 import at.abraxas.amarino.Amarino;
 import at.tugraz.ist.catroid.bluetooth.BTConnectable;
 import at.tugraz.ist.catroid.bluetooth.BtCommunicator;
@@ -33,7 +34,7 @@ import at.tugraz.ist.catroid.content.bricks.SensorBrick;
  * @author Sercan Akpolat
  * 
  */
-public class ArduinoBtCommunicator extends BtCommunicator {
+public class ArduinoBtCommunicator extends Thread implements BtCommunicator {
 
 	private BTConnectable myOwner;
 	private Handler uiHandler;
@@ -42,6 +43,9 @@ public class ArduinoBtCommunicator extends BtCommunicator {
 	private double[] outGoingPackage;
 	private int type;
 	private Context context;
+	private String mMACaddress;
+	private boolean connected = false;
+	private Handler myHandler;
 
 	public ArduinoBtCommunicator(BTConnectable myOwner, Handler uiHandler, BluetoothAdapter btAdapter, Context context) {
 		this.myOwner = myOwner;
@@ -86,6 +90,24 @@ public class ArduinoBtCommunicator extends BtCommunicator {
 	 */
 	public void destroyArduinoConnection() throws IOException {
 		connected = false;
+	}
+
+	public void setMACAddress(String mMACaddress) {
+		Log.d("TAG", "MAC:" + mMACaddress);
+		this.mMACaddress = mMACaddress;
+	}
+
+	public boolean isConnected() {
+		return connected;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see at.tugraz.ist.catroid.bluetooth.BtCommunicator#getHandler()
+	 */
+	public Handler getHandler() {
+		return myHandler;
 	}
 
 }
