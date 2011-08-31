@@ -155,7 +155,7 @@ public class Costume implements Serializable {
 		return brightness;
 	}
 
-	public synchronized void setBitmapFromRes(Context context, int resourceId) {
+	public synchronized void setBitmapFromResource(Context context, int resourceId) {
 		imagePath = null;
 
 		BitmapFactory.Options boundsOptions = new BitmapFactory.Options();

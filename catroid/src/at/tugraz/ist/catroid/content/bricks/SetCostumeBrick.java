@@ -49,7 +49,7 @@ public class SetCostumeBrick implements Brick {
 			if (!NativeAppActivity.isRunning()) {
 				sprite.getCostume().changeImagePath(costumeData.getAbsolutePath());
 			} else {
-				sprite.getCostume().setBitmapFromRes(NativeAppActivity.getContext(),
+				sprite.getCostume().setBitmapFromResource(NativeAppActivity.getContext(),
 						NativeAppActivity.getContext().getResources().getIdentifier(costumeData.getCostumeFileName(), "raw",
 								NativeAppActivity.getContext().getPackageName()));
 			}
