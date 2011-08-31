@@ -185,7 +185,6 @@
     <string name="brick_go_back">Gehe</string>
     <string name="brick_go_back_layers">Ebenen nach hinten</string>
     <string name="brick_come_to_front">Komm nach vorne</string>
-    <string name="brick_when_tapped">Wenn Objekt berührt</string>
     <string name="brick_when_started">Wenn Projekt gestartet</string>
     <string name="brick_change_x_by">Ändere X um:</string>
 	<string name="brick_change_y_by">Ändere Y um:</string>

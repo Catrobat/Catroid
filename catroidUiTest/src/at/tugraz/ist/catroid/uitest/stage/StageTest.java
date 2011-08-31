@@ -38,7 +38,7 @@ import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
-import at.tugraz.ist.catroid.content.TapScript;
+import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
@@ -477,16 +477,16 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		//creating sprites for project:
 		Sprite firstSprite = new Sprite("sprite1");
-		Script startScript = new StartScript("script1", firstSprite);
-		Script tapScript = new TapScript("script2", firstSprite);
+		Script startScript = new StartScript("startScript", firstSprite);
+		Script whenScript = new WhenScript("whenScript", firstSprite);
 
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
 		SetCostumeBrick setCostumeBrick2 = new SetCostumeBrick(firstSprite);
 
 		startScript.addBrick(setCostumeBrick);
-		tapScript.addBrick(setCostumeBrick2);
+		whenScript.addBrick(setCostumeBrick2);
 		firstSprite.addScript(startScript);
-		firstSprite.addScript(tapScript);
+		firstSprite.addScript(whenScript);
 
 		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
 		spriteList.add(firstSprite);
@@ -517,7 +517,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		//creating sprites for project:
 		Sprite firstSprite = new Sprite("sprite1");
 		Script startScript = new StartScript("startscript", firstSprite);
-		Script tapScript = new TapScript("script2", firstSprite);
+		Script whenScript = new WhenScript("whenscript", firstSprite);
 
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
 		SetCostumeBrick setCostumeBrick2 = new SetCostumeBrick(firstSprite);
@@ -529,14 +529,14 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		startScript.addBrick(setCostumeBrick2);
 
-		tapScript.addBrick(setCostumeBrick);
-		tapScript.addBrick(setSizeToBrick);
-		tapScript.addBrick(waitBrick);
-		tapScript.addBrick(setSizeToBrick2);
-		tapScript.addBrick(placeAtBrick);
+		whenScript.addBrick(setCostumeBrick);
+		whenScript.addBrick(setSizeToBrick);
+		whenScript.addBrick(waitBrick);
+		whenScript.addBrick(setSizeToBrick2);
+		whenScript.addBrick(placeAtBrick);
 
 		firstSprite.addScript(startScript);
-		firstSprite.addScript(tapScript);
+		firstSprite.addScript(whenScript);
 
 		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
 		spriteList.add(firstSprite);
@@ -569,29 +569,29 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		// sprite1 --------------------------------
 		Sprite firstSprite = new Sprite("sprite1");
 		Script startScript1 = new StartScript("start1", firstSprite);
-		Script tapScript1 = new TapScript("script1", firstSprite);
+		Script whenScript1 = new WhenScript("whenScript1", firstSprite);
 		// creating bricks:
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
 
 		// adding bricks:
 		startScript1.addBrick(setCostumeBrick);
 		startScript1.addBrick(new ComeToFrontBrick(firstSprite));
-		tapScript1.addBrick(new GoNStepsBackBrick(firstSprite, 2));
+		whenScript1.addBrick(new GoNStepsBackBrick(firstSprite, 2));
 		firstSprite.addScript(startScript1);
-		firstSprite.addScript(tapScript1);
+		firstSprite.addScript(whenScript1);
 
 		// sprite2 --------------------------------
 		Sprite secondSprite = new Sprite("sprite2");
 		Script startScript2 = new StartScript("start2", secondSprite);
-		Script tapScript2 = new TapScript("script2", secondSprite);
+		Script whenScript2 = new WhenScript("whenScript2", secondSprite);
 		// creating bricks:
 		SetCostumeBrick setCostumeBrick2 = new SetCostumeBrick(secondSprite);
 		// adding bricks:
 		startScript2.addBrick(setCostumeBrick2);
-		tapScript2.addBrick(new SetSizeToBrick(secondSprite, 200));
+		whenScript2.addBrick(new SetSizeToBrick(secondSprite, 200));
 
 		secondSprite.addScript(startScript2);
-		secondSprite.addScript(tapScript2);
+		secondSprite.addScript(whenScript2);
 
 		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
 		spriteList.add(firstSprite);
@@ -623,7 +623,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		//creating sprites for project:
 		Sprite firstSprite = new Sprite("sprite1");
 		Script startScript = new StartScript("startscript", firstSprite);
-		Script tapScript = new TapScript("tapscript", firstSprite);
+		Script whenScript = new WhenScript("whenScript", firstSprite);
 
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
 
@@ -632,9 +632,9 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		startScript.addBrick(setCostumeBrick);
 		startScript.addBrick(hideBrick);
-		tapScript.addBrick(setSizeToBrick);
+		whenScript.addBrick(setSizeToBrick);
 		firstSprite.addScript(startScript);
-		firstSprite.addScript(tapScript);
+		firstSprite.addScript(whenScript);
 
 		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
 		spriteList.add(firstSprite);
@@ -656,18 +656,18 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		//creating sprites for project:
 		Sprite firstSprite = new Sprite("sprite1");
 		Script startScript = new StartScript("startscript", firstSprite);
-		Script tapScript = new TapScript("tapscript", firstSprite);
+		Script whenScript = new WhenScript("whenscript", firstSprite);
 
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
 		PlaySoundBrick playSoundBrick = new PlaySoundBrick(firstSprite);
 		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(firstSprite, 50);
 
 		startScript.addBrick(setCostumeBrick);
-		tapScript.addBrick(setSizeToBrick);
-		tapScript.addBrick(playSoundBrick);
+		whenScript.addBrick(setSizeToBrick);
+		whenScript.addBrick(playSoundBrick);
 
 		firstSprite.addScript(startScript);
-		firstSprite.addScript(tapScript);
+		firstSprite.addScript(whenScript);
 
 		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
 		spriteList.add(firstSprite);

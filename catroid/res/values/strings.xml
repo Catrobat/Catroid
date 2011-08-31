@@ -190,7 +190,6 @@
     <string name="steps_label">steps</string>
     <string name="brick_go_back_layers">layers</string>
     <string name="brick_come_to_front">Come to front</string>
-    <string name="brick_when_tapped">When Sprite is Tapped</string>
     <string name="brick_when_started">When Project Starts</string>
     <string name="brick_change_x_by">Change X by:</string>
 	<string name="brick_change_y_by">Change Y by:</string>
