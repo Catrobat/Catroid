@@ -21,8 +21,16 @@ package at.tugraz.ist.catroid.ui.adapter;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
+import android.app.AlertDialog;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,6 +41,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.CostumeActivity;
@@ -104,32 +113,52 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 						Utils.displayErrorMessage(activity, activity.getString(R.string.error_load_image));
 						e.printStackTrace();
 					}
-
-					//if we need a seperate file (I think we don't need this yet)
-					//						try {
-					//							String path = costumeData.getAbsolutePath();
-					//							if (path.equalsIgnoreCase("")) {
-					//								throw new IOException();
-					//							}
-					//							String projectName = ProjectManager.getInstance().getCurrentProject().getName();
-					//							String timeStamp = Utils.getTimestamp();
-					//							String newName = costumeData.getChecksum() + "_" + costumeData.getCostumeName() + "_"
-					//									+ timeStamp + "." + costumeData.getFileExtension();
-					//							File imageFile = StorageHandler.getInstance().copyImage(projectName, path, newName);
-					//							String imageName = costumeData.getCostumeName() + "_copy";
-					//							String imageFileName = imageFile.getName();
-					//							updateCostumeAdapter(imageName, imageFileName);
-					//						} catch (IOException e) {
-					//							Utils.displayErrorMessage(activity, activity.getString(R.string.error_load_image));
-					//						}
-					//						notifyDataSetChanged();
 				}
 			});
 
 			paintroidButton.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
+
+					Intent intent = new Intent("android.intent.action.MAIN");
+					intent.setComponent(new ComponentName("at.tugraz.ist.paintroid",
+							"at.tugraz.ist.paintroid.MainActivity"));
+
+					//confirm if paintroid is installed else start dialog
+					{
+						List<ResolveInfo> packageList = activity.getPackageManager().queryIntentActivities(intent,
+								PackageManager.MATCH_DEFAULT_ONLY);
+						if (packageList.size() <= 0) {
+
+							AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+							builder.setMessage(activity.getString(R.string.paintroid_not_installed))
+									.setCancelable(false)
+									.setPositiveButton(activity.getString(R.string.yes),
+											new DialogInterface.OnClickListener() {
+												public void onClick(DialogInterface dialog, int id) {
+													Intent downloadPaintroidIntent = new Intent(Intent.ACTION_VIEW, Uri
+															.parse(Consts.PAINTROID_DOWNLOAD_LINK));
+													activity.startActivity(downloadPaintroidIntent);
+												}
+											})
+									.setNegativeButton(activity.getString(R.string.no),
+											new DialogInterface.OnClickListener() {
+												public void onClick(DialogInterface dialog, int id) {
+													dialog.cancel();
+												}
+											});
+							AlertDialog alert = builder.create();
+							alert.show();
+							return;
+						}
+					}
+
 					scriptTabActivity.selectedCostumeData = costumeData;
-					//TODO call paintroid
+
+					intent.putExtra("PAINTROID_PICTURE_PATH", costumeData.getAbsolutePath());
+					intent.putExtra("PAINTROID_ROTATE_X", 0);
+					intent.putExtra("PAINTROID_ROTATE_Y", 0);
+					intent.addCategory("android.intent.category.LAUNCHER");
+					activity.startActivityForResult(intent, activity.REQUEST_PAINTROID_EDIT_IMAGE);
 				}
 			});
 
