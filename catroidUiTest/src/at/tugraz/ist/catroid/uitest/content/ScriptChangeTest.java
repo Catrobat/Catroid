@@ -75,7 +75,7 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptTab
 
 		assertEquals("First script in list is not testScript2", "testScript2", ProjectManager.getInstance()
 				.getCurrentSprite().getScript(0).getName());
-		assertEquals("Second script in list is not whenScript", "testScript3", ProjectManager.getInstance()
+		assertEquals("Second script in list is not testScript3", "testScript3", ProjectManager.getInstance()
 				.getCurrentSprite().getScript(1).getName());
 		assertEquals("Third script in list is not testScript", "testScript", ProjectManager.getInstance()
 				.getCurrentSprite().getScript(2).getName());
@@ -87,13 +87,13 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptTab
 				.getCurrentSprite().getScript(0).getName());
 		assertEquals("Second script in list is not testScript", "testScript", ProjectManager.getInstance()
 				.getCurrentSprite().getScript(1).getName());
-		assertEquals("Third script in list is not tapScript", "testScript3", ProjectManager.getInstance()
+		assertEquals("Third script in list is not testScript3", "testScript3", ProjectManager.getInstance()
 				.getCurrentSprite().getScript(2).getName());
 
 		startBrick = parent.getChildAt(2);
 		String textViewText = solo.getCurrentTextViews(startBrick).get(0).getText().toString();
-		String tapBrickText = getActivity().getString(R.string.brick_when_started);
-		assertEquals("Third script in listView is not tapScript", tapBrickText, textViewText);
+		String startBrickText = getActivity().getString(R.string.brick_when_started);
+		assertEquals("Third script in listView is not startScript", startBrickText, textViewText);
 	}
 
 	private void createTestProject(String projectName) {
