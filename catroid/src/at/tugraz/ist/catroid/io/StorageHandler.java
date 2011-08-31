@@ -46,7 +46,7 @@ import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
-import at.tugraz.ist.catroid.content.TapScript;
+import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.BroadcastBrick;
 import at.tugraz.ist.catroid.content.bricks.BroadcastWaitBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
@@ -55,8 +55,6 @@ import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
 import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
-import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
-import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
 import at.tugraz.ist.catroid.content.bricks.NoteBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
@@ -67,6 +65,7 @@ import at.tugraz.ist.catroid.content.bricks.SetYBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.content.bricks.WhenBrick;
+import at.tugraz.ist.catroid.content.bricks.WhenStartedBrick;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.UtilFile;
@@ -92,7 +91,7 @@ public class StorageHandler {
 		xstream.alias("sprite", Sprite.class);
 		xstream.alias("script", Script.class);
 		xstream.alias("startScript", StartScript.class);
-		xstream.alias("tapScript", TapScript.class);
+		xstream.alias("whenScript", WhenScript.class);
 		xstream.alias("broadcastScript", BroadcastScript.class);
 		xstream.alias("costume", Costume.class);
 
@@ -101,8 +100,7 @@ public class StorageHandler {
 		xstream.alias("comeToFrontBrick", ComeToFrontBrick.class);
 		xstream.alias("goNStepsBackBrick", GoNStepsBackBrick.class);
 		xstream.alias("hideBrick", HideBrick.class);
-		xstream.alias("ifStartedBrick", IfStartedBrick.class);
-		xstream.alias("ifTouchedBrick", IfTouchedBrick.class);
+		xstream.alias("whenStartedBrick", WhenStartedBrick.class);
 		xstream.alias("placeAtBrick", PlaceAtBrick.class);
 		xstream.alias("playSoundBrick", PlaySoundBrick.class);
 		xstream.alias("setSizeToBrick", SetSizeToBrick.class);
@@ -370,7 +368,7 @@ public class StorageHandler {
 
 		Script backgroundStartScript = new StartScript("stageStartScript", backgroundSprite);
 		Script startScript = new StartScript("startScript", sprite);
-		Script touchScript = new TapScript("touchScript", sprite);
+		Script whenScript = new WhenScript("whenScript", sprite);
 
 		File normalCatTemp = savePictureFromResInProject(projectName, NORMAL_CAT, R.drawable.catroid, context);
 		File banzaiCatTemp = savePictureFromResInProject(projectName, BANZAI_CAT, R.drawable.catroid_banzai, context);
@@ -437,16 +435,16 @@ public class StorageHandler {
 
 		startScript.addBrick(setCostumeBrick);
 
-		touchScript.addBrick(setCostumeBrick2);
-		touchScript.addBrick(waitBrick1);
-		touchScript.addBrick(setCostumeBrick3);
-		touchScript.addBrick(waitBrick2);
-		touchScript.addBrick(setCostumeBrick1);
+		whenScript.addBrick(setCostumeBrick2);
+		whenScript.addBrick(waitBrick1);
+		whenScript.addBrick(setCostumeBrick3);
+		whenScript.addBrick(waitBrick2);
+		whenScript.addBrick(setCostumeBrick1);
 		backgroundStartScript.addBrick(setCostumeBackground);
 
 		defaultProject.addSprite(sprite);
 		sprite.addScript(startScript);
-		sprite.addScript(touchScript);
+		sprite.addScript(whenScript);
 		backgroundSprite.addScript(backgroundStartScript);
 
 		this.saveProject(defaultProject);

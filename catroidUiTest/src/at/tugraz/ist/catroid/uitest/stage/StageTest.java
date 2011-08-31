@@ -38,7 +38,7 @@ import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
-import at.tugraz.ist.catroid.content.TapScript;
+import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
@@ -314,7 +314,6 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		assertEquals("costume has wrong width --> touch worked on it", image2Width, costume.getImageWidth());
 		assertEquals("costume has wrong height --> touch worked on it", image2Height, costume.getImageHeight());
 
-		//		solo.sleep(3000);
 		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
 		solo.sleep(3000);
 		assertEquals("costume has wrong width", image2Width * 2, costume.getBitmap().getWidth());
@@ -428,7 +427,6 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		solo.clickOnScreen(Values.SCREEN_WIDTH, 0); //save thumbnail
 		solo.sleep(5000);
 
-		//File file = new File(Consts.DEFAULT_ROOT + "/" + projectName + "/" + Consts.SCREENSHOT_FILE_NAME);
 		Bitmap bitmap = BitmapFactory.decodeFile(Consts.DEFAULT_ROOT + "/" + projectName + "/"
 				+ Consts.SCREENSHOT_FILE_NAME);
 
@@ -440,28 +438,23 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		for (int i = startWidth; i < borderWidth; i++) {
 			for (int j = startHeight; j < borderHeight; j++) {
 				assertEquals("pixel is not red", Color.RED, bitmap.getPixel(i, j));
-				//Log.v(TAG, "in TEST " + i + " " + j);
 			}
 		}
 
 		for (int j = startHeight; j < borderHeight; j++) {
 			assertEquals("pixel is not white", Color.WHITE, bitmap.getPixel(startWidth - 1, j));
-			//Log.v(TAG, "in TEST2 " + (startWidth - 1) + " " + j);
 		}
 
 		for (int j = startHeight; j < borderHeight; j++) {
 			assertEquals("pixel is not white", Color.WHITE, bitmap.getPixel(borderWidth, j));
-			//Log.v(TAG, "in TEST3 " + borderWidth + " " + j);
 		}
 
 		for (int i = startWidth; i < borderWidth; i++) {
 			assertEquals("pixel is not white", Color.WHITE, bitmap.getPixel(i, startHeight - 1));
-			//Log.v(TAG, "in TEST4 " + i + " " + (startHeight - 1));
 		}
 
 		for (int i = startWidth; i < borderWidth; i++) {
 			assertEquals("pixel is not white", Color.WHITE, bitmap.getPixel(i, borderHeight));
-			//Log.v(TAG, "in TEST5 " + i + " " + borderHeight);
 		}
 
 	}
@@ -484,16 +477,16 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		//creating sprites for project:
 		Sprite firstSprite = new Sprite("sprite1");
-		Script startScript = new StartScript("script1", firstSprite);
-		Script touchScript = new TapScript("script2", firstSprite);
+		Script startScript = new StartScript("startScript", firstSprite);
+		Script whenScript = new WhenScript("whenScript", firstSprite);
 
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
 		SetCostumeBrick setCostumeBrick2 = new SetCostumeBrick(firstSprite);
 
 		startScript.addBrick(setCostumeBrick);
-		touchScript.addBrick(setCostumeBrick2);
+		whenScript.addBrick(setCostumeBrick2);
 		firstSprite.addScript(startScript);
-		firstSprite.addScript(touchScript);
+		firstSprite.addScript(whenScript);
 
 		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
 		spriteList.add(firstSprite);
@@ -524,7 +517,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		//creating sprites for project:
 		Sprite firstSprite = new Sprite("sprite1");
 		Script startScript = new StartScript("startscript", firstSprite);
-		Script touchScript = new TapScript("script2", firstSprite);
+		Script whenScript = new WhenScript("whenscript", firstSprite);
 
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
 		SetCostumeBrick setCostumeBrick2 = new SetCostumeBrick(firstSprite);
@@ -536,14 +529,14 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		startScript.addBrick(setCostumeBrick2);
 
-		touchScript.addBrick(setCostumeBrick);
-		touchScript.addBrick(setSizeToBrick);
-		touchScript.addBrick(waitBrick);
-		touchScript.addBrick(setSizeToBrick2);
-		touchScript.addBrick(placeAtBrick);
+		whenScript.addBrick(setCostumeBrick);
+		whenScript.addBrick(setSizeToBrick);
+		whenScript.addBrick(waitBrick);
+		whenScript.addBrick(setSizeToBrick2);
+		whenScript.addBrick(placeAtBrick);
 
 		firstSprite.addScript(startScript);
-		firstSprite.addScript(touchScript);
+		firstSprite.addScript(whenScript);
 
 		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
 		spriteList.add(firstSprite);
@@ -576,29 +569,29 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		// sprite1 --------------------------------
 		Sprite firstSprite = new Sprite("sprite1");
 		Script startScript1 = new StartScript("start1", firstSprite);
-		Script touchScript1 = new TapScript("script1", firstSprite);
+		Script whenScript1 = new WhenScript("whenScript1", firstSprite);
 		// creating bricks:
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
 
 		// adding bricks:
 		startScript1.addBrick(setCostumeBrick);
 		startScript1.addBrick(new ComeToFrontBrick(firstSprite));
-		touchScript1.addBrick(new GoNStepsBackBrick(firstSprite, 2));
+		whenScript1.addBrick(new GoNStepsBackBrick(firstSprite, 2));
 		firstSprite.addScript(startScript1);
-		firstSprite.addScript(touchScript1);
+		firstSprite.addScript(whenScript1);
 
 		// sprite2 --------------------------------
 		Sprite secondSprite = new Sprite("sprite2");
 		Script startScript2 = new StartScript("start2", secondSprite);
-		Script touchScript2 = new TapScript("script2", secondSprite);
+		Script whenScript2 = new WhenScript("whenScript2", secondSprite);
 		// creating bricks:
 		SetCostumeBrick setCostumeBrick2 = new SetCostumeBrick(secondSprite);
 		// adding bricks:
 		startScript2.addBrick(setCostumeBrick2);
-		touchScript2.addBrick(new SetSizeToBrick(secondSprite, 200));
+		whenScript2.addBrick(new SetSizeToBrick(secondSprite, 200));
 
 		secondSprite.addScript(startScript2);
-		secondSprite.addScript(touchScript2);
+		secondSprite.addScript(whenScript2);
 
 		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
 		spriteList.add(firstSprite);
@@ -630,7 +623,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		//creating sprites for project:
 		Sprite firstSprite = new Sprite("sprite1");
 		Script startScript = new StartScript("startscript", firstSprite);
-		Script touchScript = new TapScript("touchscript", firstSprite);
+		Script whenScript = new WhenScript("whenScript", firstSprite);
 
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
 
@@ -639,9 +632,9 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		startScript.addBrick(setCostumeBrick);
 		startScript.addBrick(hideBrick);
-		touchScript.addBrick(setSizeToBrick);
+		whenScript.addBrick(setSizeToBrick);
 		firstSprite.addScript(startScript);
-		firstSprite.addScript(touchScript);
+		firstSprite.addScript(whenScript);
 
 		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
 		spriteList.add(firstSprite);
@@ -663,18 +656,18 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		//creating sprites for project:
 		Sprite firstSprite = new Sprite("sprite1");
 		Script startScript = new StartScript("startscript", firstSprite);
-		Script touchScript = new TapScript("touchscript", firstSprite);
+		Script whenScript = new WhenScript("whenscript", firstSprite);
 
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
 		PlaySoundBrick playSoundBrick = new PlaySoundBrick(firstSprite);
 		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(firstSprite, 50);
 
 		startScript.addBrick(setCostumeBrick);
-		touchScript.addBrick(setSizeToBrick);
-		touchScript.addBrick(playSoundBrick);
+		whenScript.addBrick(setSizeToBrick);
+		whenScript.addBrick(playSoundBrick);
 
 		firstSprite.addScript(startScript);
-		firstSprite.addScript(touchScript);
+		firstSprite.addScript(whenScript);
 
 		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
 		spriteList.add(firstSprite);

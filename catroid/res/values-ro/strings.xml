@@ -158,8 +158,7 @@
     <string name="brick_go_back">Înapoi</string>
     <string name="brick_go_back_layers">nivele</string>
     <string name="brick_come_to_front">Spre față</string>
-    <string name="brick_if_touched">La atingere</string>
-    <string name="brick_if_started">La start</string>
+    <string name="brick_when_started">La start</string>
     <string name="brick_change_x_by">Schimbă X cu:</string>
 	<string name="brick_change_y_by">Schimbă Y cu:</string>
 	<string name="brick_set_x">Setează X la:</string>

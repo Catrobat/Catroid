@@ -49,7 +49,9 @@
           <sprite reference="../../.."/>
           <name>testScript</name>
         </startScript>
-        <tapScript>
+        <whenScript>
+        <action>Tapped</action>
+        <position>0</position>
           <brickList>
             <waitBrick>
               <sprite reference="../../../../.."/>
@@ -61,7 +63,7 @@
           </brickList>
           <sprite reference="../../.."/>
           <name>script</name>
-        </tapScript>
+        </whenScript>
       </scriptList>
     </sprite>
     <sprite>

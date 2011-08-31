@@ -83,7 +83,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		isPaused = false;
 		isFinished = false;
 		speechBubble = new SpeechBubble();
-		
+
 		if (soundList == null) {
 			soundList = new ArrayList<SoundInfo>();
 		}
@@ -116,14 +116,6 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 				if (!s.isFinished()) {
 					startScript(s);
 				}
-			}
-		}
-	}
-
-	public void startTapScripts() {
-		for (Script s : scriptList) {
-			if (s instanceof TapScript) {
-				startScript(s);
 			}
 		}
 	}
