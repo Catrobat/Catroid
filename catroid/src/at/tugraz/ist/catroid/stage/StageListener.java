@@ -55,7 +55,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
  * 
  */
 public class StageListener implements ApplicationListener {
-	private static final boolean DEBUG = false;
+	private static final boolean DEBUG = true;
 	private Stage stage;
 	private boolean paused = false;
 	private boolean finished = false;
@@ -73,7 +73,6 @@ public class StageListener implements ApplicationListener {
 	private Project project;
 
 	private OrthographicCamera camera;
-	private InputMultiplexer multiplexer;
 	private SpriteBatch batch;
 	private BitmapFont font;
 
@@ -130,7 +129,7 @@ public class StageListener implements ApplicationListener {
 		}
 		if (DEBUG) {
 			OrthoCamController camController = new OrthoCamController(camera);
-			multiplexer = new InputMultiplexer();
+			InputMultiplexer multiplexer = new InputMultiplexer();
 			multiplexer.addProcessor(stage);
 			multiplexer.addProcessor(camController);
 			Gdx.input.setInputProcessor(multiplexer);
