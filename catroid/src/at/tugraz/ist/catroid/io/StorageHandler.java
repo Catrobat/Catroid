@@ -144,9 +144,9 @@ public class StorageHandler {
 		createCatroidRoot();
 		try {
 			if (NativeAppActivity.isRunning()) {
-				int resId = NativeAppActivity.getContext().getResources()
+				int resourceId = NativeAppActivity.getContext().getResources()
 						.getIdentifier(projectName, "raw", NativeAppActivity.getContext().getPackageName());
-				InputStream spfFileStream = NativeAppActivity.getContext().getResources().openRawResource(resId);
+				InputStream spfFileStream = NativeAppActivity.getContext().getResources().openRawResource(resourceId);
 				return (Project) xstream.fromXML(spfFileStream);
 			}
 
@@ -370,11 +370,11 @@ public class StorageHandler {
 		Script startScript = new StartScript("startScript", sprite);
 		Script whenScript = new WhenScript("whenScript", sprite);
 
-		File normalCatTemp = savePictureFromResInProject(projectName, NORMAL_CAT, R.drawable.catroid, context);
-		File banzaiCatTemp = savePictureFromResInProject(projectName, BANZAI_CAT, R.drawable.catroid_banzai, context);
-		File cheshireCatTemp = savePictureFromResInProject(projectName, CHESHIRE_CAT, R.drawable.catroid_cheshire,
+		File normalCatTemp = savePictureFromResourceInProject(projectName, NORMAL_CAT, R.drawable.catroid, context);
+		File banzaiCatTemp = savePictureFromResourceInProject(projectName, BANZAI_CAT, R.drawable.catroid_banzai, context);
+		File cheshireCatTemp = savePictureFromResourceInProject(projectName, CHESHIRE_CAT, R.drawable.catroid_cheshire,
 				context);
-		File backgroundTemp = savePictureFromResInProject(projectName, BACKGROUND, R.drawable.background_blueish,
+		File backgroundTemp = savePictureFromResourceInProject(projectName, BACKGROUND, R.drawable.background_blueish,
 				context);
 
 		String directoryName = Utils.buildPath(Consts.DEFAULT_ROOT, projectName, Consts.IMAGE_DIRECTORY);
@@ -452,7 +452,7 @@ public class StorageHandler {
 		return defaultProject;
 	}
 
-	private File savePictureFromResInProject(String project, String name, int fileId, Context context)
+	private File savePictureFromResourceInProject(String project, String name, int fileId, Context context)
 			throws IOException {
 
 		final String imagePath = Utils.buildPath(Consts.DEFAULT_ROOT, project, Consts.IMAGE_DIRECTORY, name);

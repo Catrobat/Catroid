@@ -35,7 +35,7 @@ public class CostumeTest extends InstrumentationTestCase {
 		NativeAppActivity.setContext(null);
 	}
 
-	public void testSetBitmapFromRes() throws Exception {
+	public void testSetBitmapFromResource() throws Exception {
 		Sprite sprite = new Sprite("testSprite");
 		Costume costume = new Costume(sprite, null);
 
@@ -49,7 +49,7 @@ public class CostumeTest extends InstrumentationTestCase {
 	}
 
 	private void testImage(Costume costume, int resId) {
-		costume.setBitmapFromRes(getInstrumentation().getContext(), resId);
+		costume.setBitmapFromResource(getInstrumentation().getContext(), resId);
 
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = true;
