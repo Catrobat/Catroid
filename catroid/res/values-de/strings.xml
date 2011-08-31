@@ -29,6 +29,8 @@
     <string name="cancel_button">Abbrechen</string>
     <string name="rename">Umbenennen</string>
     <string name="delete">Löschen</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
     
     <!-- User interface -->
     <string name="main_menu">Hauptmenü</string>
@@ -108,6 +110,7 @@
     <string name="edit_in_paintroid">In Paintroid editieren</string>
     <string name="copy_costume_addition">Kopie</string>
     <string name="select_image">Bild auswählen</string>
+    <string name="paintroid_not_installed">Paintroid ist nicht installiert! \nJetzt herunterladen?</string>
     
     <!-- Sound activity -->
     <string name="sound_list">Sound:</string>
