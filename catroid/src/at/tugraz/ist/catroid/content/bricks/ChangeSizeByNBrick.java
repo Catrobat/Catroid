@@ -42,11 +42,11 @@ public class ChangeSizeByNBrick implements Brick, OnDismissListener {
 	}
 
 	public void execute() {
-		double newSize = sprite.costume.getSize() + size;
-		if (newSize < 0.01) {
-			newSize = 0.01;
+		float newSize = sprite.costume.getSize() + ((float) size / 100f);
+		if (newSize < 0f) {
+			newSize = 0f;
 		}
-		sprite.costume.setSize((float) newSize);
+		sprite.costume.setSize(newSize);
 	}
 
 	public Sprite getSprite() {
