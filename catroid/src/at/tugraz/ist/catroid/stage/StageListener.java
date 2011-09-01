@@ -95,10 +95,7 @@ public class StageListener implements ApplicationListener {
 
 	Texture pauseScreen;
 
-	StageActivity stageActivity;
-
-	public StageListener(StageActivity stageActivity) {
-		this.stageActivity = stageActivity;
+	public StageListener() {
 	}
 
 	public void create() {
@@ -188,7 +185,6 @@ public class StageListener implements ApplicationListener {
 		SoundManager.getInstance().clear();
 		for (Sprite sprite : sprites) {
 			sprite.finish();
-			sprite.costume.disposeTextures();
 		}
 	}
 
@@ -317,6 +313,9 @@ public class StageListener implements ApplicationListener {
 		stage.dispose();
 		font.dispose();
 		pauseScreen.dispose();
+		for (Sprite sprite : sprites) {
+			sprite.costume.disposeTextures();
+		}
 	}
 
 	private void saveThumbnail() {
