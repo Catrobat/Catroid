@@ -67,7 +67,7 @@ public class StageActivity extends AndroidApplication {
 			startActivity(installIntent);
 		}
 
-		stageListener = new StageListener(this);
+		stageListener = new StageListener();
 		this.calculateScreenSizes();
 		initialize(stageListener, true);
 	}
