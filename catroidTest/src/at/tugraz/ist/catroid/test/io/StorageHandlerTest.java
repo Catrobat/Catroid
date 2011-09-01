@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import android.test.AndroidTestCase;
-import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
@@ -32,15 +31,13 @@ import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
-import at.tugraz.ist.catroid.content.TapScript;
+import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
-import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
-import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
@@ -49,12 +46,12 @@ import at.tugraz.ist.catroid.content.bricks.SetXBrick;
 import at.tugraz.ist.catroid.content.bricks.SetYBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
+import at.tugraz.ist.catroid.content.bricks.WhenStartedBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class StorageHandlerTest extends AndroidTestCase {
-	private static final String TAG = StorageHandlerTest.class.getSimpleName();
 	private StorageHandler storageHandler;
 
 	public StorageHandlerTest() throws IOException {
@@ -151,12 +148,12 @@ public class StorageHandlerTest extends AndroidTestCase {
 		assertFalse("paused should not be set in script", preSpriteList.get(1).getScript(0).isPaused());
 
 		// Test version codes and names
-		final int preVersionCode = project.getVersionCode();
-		final int postVersionCode = loadedProject.getVersionCode();
+		final int preVersionCode = (Integer) TestUtils.getPrivateField("versionCode", project, false);
+		final int postVersionCode = (Integer) TestUtils.getPrivateField("versionCode", loadedProject, false);
 		assertEquals("Version codes are not equal", preVersionCode, postVersionCode);
 
-		final String preVersionName = project.getVersionName();
-		final String postVersionName = loadedProject.getVersionName();
+		final String preVersionName = (String) TestUtils.getPrivateField("versionName", project, false);
+		final String postVersionName = (String) TestUtils.getPrivateField("versionName", loadedProject, false);
 		assertEquals("Version names are not equal", preVersionName, postVersionName);
 	}
 
@@ -210,35 +207,33 @@ public class StorageHandlerTest extends AndroidTestCase {
 		Project project = new Project(getContext(), projectName);
 		Sprite sprite = new Sprite("testSprite");
 		Script startScript = new StartScript("testScript", sprite);
-		Script tapScript = new TapScript("touchedScript", sprite);
+		Script whenScript = new WhenScript("whenScript", sprite);
 		sprite.addScript(startScript);
-		sprite.addScript(tapScript);
+		sprite.addScript(whenScript);
 		project.addSprite(sprite);
 
 		ArrayList<Brick> startScriptBrickList = new ArrayList<Brick>();
-		ArrayList<Brick> tapScriptBrickList = new ArrayList<Brick>();
+		ArrayList<Brick> whenScriptBrickList = new ArrayList<Brick>();
 		startScriptBrickList.add(new ChangeXByBrick(sprite, 4));
 		startScriptBrickList.add(new ChangeYByBrick(sprite, 5));
 		startScriptBrickList.add(new ComeToFrontBrick(sprite));
 		startScriptBrickList.add(new GoNStepsBackBrick(sprite, 5));
 		startScriptBrickList.add(new HideBrick(sprite));
-		startScriptBrickList.add(new IfStartedBrick(sprite, startScript));
+		startScriptBrickList.add(new WhenStartedBrick(sprite, startScript));
 
-		tapScriptBrickList.add(new IfTouchedBrick(sprite, tapScript));
-		tapScriptBrickList.add(new PlaceAtBrick(sprite, 50, 50));
-		tapScriptBrickList.add(new PlaySoundBrick(sprite));
-		tapScriptBrickList.add(new SetSizeToBrick(sprite, 50));
-		tapScriptBrickList.add(new SetCostumeBrick(sprite));
-		tapScriptBrickList.add(new SetXBrick(sprite, 50));
-		tapScriptBrickList.add(new SetYBrick(sprite, 50));
-		tapScriptBrickList.add(new ShowBrick(sprite));
-		tapScriptBrickList.add(new WaitBrick(sprite, 1000));
+		whenScriptBrickList.add(new PlaySoundBrick(sprite));
+		whenScriptBrickList.add(new SetSizeToBrick(sprite, 50));
+		whenScriptBrickList.add(new SetCostumeBrick(sprite));
+		whenScriptBrickList.add(new SetXBrick(sprite, 50));
+		whenScriptBrickList.add(new SetYBrick(sprite, 50));
+		whenScriptBrickList.add(new ShowBrick(sprite));
+		whenScriptBrickList.add(new WaitBrick(sprite, 1000));
 
 		for (Brick b : startScriptBrickList) {
 			startScript.addBrick(b);
 		}
-		for (Brick b : tapScriptBrickList) {
-			tapScript.addBrick(b);
+		for (Brick b : whenScriptBrickList) {
+			whenScript.addBrick(b);
 		}
 
 		storageHandler.saveProject(project);
@@ -246,7 +241,6 @@ public class StorageHandlerTest extends AndroidTestCase {
 		assertFalse("project contains package information", projectString.contains("at.tugraz.ist"));
 
 		String xmlHeader = (String) TestUtils.getPrivateField("XML_HEADER", storageHandler, false);
-		Log.v(TAG, xmlHeader);
 		assertTrue("Project file did not contain correct XML header.", projectString.startsWith(xmlHeader));
 
 		projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);

@@ -158,8 +158,7 @@
     <string name="brick_go_back">Назад на</string>
     <string name="brick_go_back_layers">слоев</string>
     <string name="brick_come_to_front">Прийти на перед</string>
-    <string name="brick_if_touched">При дотрагивании</string>
-    <string name="brick_if_started">При старте</string>
+    <string name="brick_when_started">При старте</string>
     <string name="brick_change_x_by">Изменить X на:</string>
 	<string name="brick_change_y_by">Изменить Y на:</string>
 	<string name="brick_set_x">Установить X к:</string>

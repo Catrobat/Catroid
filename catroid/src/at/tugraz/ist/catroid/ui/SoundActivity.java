@@ -160,8 +160,9 @@ public class SoundActivity extends ListActivity {
 					throw new IOException();
 				}
 				File soundFile = StorageHandler.getInstance().copySoundFile(audioPath);
-				String soundTitle = soundFile.getName().substring(33, soundFile.getName().length() - 4);
 				String soundFileName = soundFile.getName();
+				String soundTitle = soundFileName.substring(soundFileName.indexOf('_') + 1,
+						soundFileName.lastIndexOf('.'));
 				updateSoundAdapter(soundTitle, soundFileName);
 			} catch (IOException e) {
 				Utils.displayErrorMessage(this, this.getString(R.string.error_load_sound));

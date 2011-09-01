@@ -23,23 +23,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Values;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class Project implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private List<Sprite> spriteList = new ArrayList<Sprite>();
 	private String name;
-	private String versionName;
-	private int versionCode;
 
-	//only used for catroid website
+	// Only used for Catroid website
 	@SuppressWarnings("unused")
 	private String deviceName;
-
+	@SuppressWarnings("unused")
+	private String versionName;
+	@SuppressWarnings("unused")
+	private int versionCode;
+	
 	private String screenResolution;
 	public transient int VIRTUAL_SCREEN_WIDTH = 0;
 	public transient int VIRTUAL_SCREEN_HEIGHT = 0;
@@ -52,23 +53,14 @@ public class Project implements Serializable {
 		VIRTUAL_SCREEN_HEIGHT = Values.SCREEN_HEIGHT;
 
 		if (context == null) {
-			versionName = "unknown";
-			versionCode = 0;
 			return;
 		}
 
 		Sprite background = new Sprite(context.getString(R.string.background));
 		addSprite(background);
 
-		try {
-			PackageInfo packageInfo = context.getPackageManager().getPackageInfo("at.tugraz.ist.catroid", 0);
-			versionName = packageInfo.versionName;
-			versionCode = packageInfo.versionCode;
-		} catch (NameNotFoundException e) {
-			e.printStackTrace();
-			versionName = "unknown";
-			versionCode = 0;
-		}
+		versionName = Utils.getVersionName(context);
+		versionCode = Utils.getVersionCode(context);
 
 	}
 
@@ -102,22 +94,6 @@ public class Project implements Serializable {
 
 	public String getName() {
 		return name;
-	}
-
-	public void setVersionName(String versionName) {
-		this.versionName = versionName;
-	}
-
-	public String getVersionName() {
-		return versionName;
-	}
-
-	public void setVersionCode(int versionCode) {
-		this.versionCode = versionCode;
-	}
-
-	public int getVersionCode() {
-		return versionCode;
 	}
 
 	public void setDeviceData() {

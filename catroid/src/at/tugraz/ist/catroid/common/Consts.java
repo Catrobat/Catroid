@@ -22,7 +22,6 @@ import android.os.Environment;
 
 public final class Consts {
 
-	public static final String DIRECTORY_NAME = "catroid";
 	public static final String PROJECT_EXTENTION = ".xml";
 	public static final String CATROID_EXTENTION = ".catroid";
 
@@ -31,57 +30,15 @@ public final class Consts {
 	public static final String IMAGE_DIRECTORY = "/images";
 	public static final String SOUND_DIRECTORY = "/sounds";
 
-	//dialogs:
-	public static final int DIALOG_NEW_PROJECT = 0;
-	public static final int DIALOG_LOAD_PROJECT = 1;
-	public static final int DIALOG_ABOUT = 2;
-	public static final int DIALOG_NEW_SPRITE = 3;
-	public static final int DIALOG_RENAME_SPRITE = 4;
-	public static final int DIALOG_NEW_SCRIPT = 5;
-	public static final int DIALOG_RENAME_SCRIPT = 6;
-	public static final int DIALOG_ADD_BRICK = 7;
-	public static final int DIALOG_UPLOAD_PROJECT = 8;
-	public static final int DIALOG_CONTEXT_MENU = 9;
-	public static final int DIALOG_RENAME_COSTUME = 10;
-	public static final int DIALOG_RENAME_SOUND = 11;
+	public static final String NO_MEDIA_FILE = ".nomedia";
 
 	//Costume:
 	public static final int MAX_REL_COORDINATES = 1000;
-	public static final int THUMBNAIL_WIDTH = 150;
-	public static final int THUMBNAIL_HEIGHT = 150;
-	public static final int JPG_COMPRESSION_SETING = 95;
-
-	//Animations:
-	public static final int ANIMATION_DURATION_BRICK_SWITCHING = 500; //ms
-	public static final int ANIMATION_DURATION_EXPAND = 500; //ms
-	public static final int ANIMATION_EXPAND_DELAY = 50; //ms
 
 	//Upload:
-	public static final String FILE_UPLOAD_TAG = "upload";
-	public static final String PROJECT_NAME_TAG = "projectTitle";
-	public static final String PROJECT_DESCRIPTION_TAG = "projectDescription";
-	public static final String PROJECT_CHECKSUM_TAG = "fileChecksum";
 	public static final String TOKEN = "token";
-	public static final String DEVICE_IMEI = "deviceIMEI";
-	public static final String USER_EMAIL = "userEmail";
-	public static final String USER_LANGUAGE = "userLanguage";
-
-	public static final String FILE_UPLOAD_URL = "http://catroidtest.ist.tugraz.at/api/upload/upload.json";
-	public static final String TEST_FILE_UPLOAD_URL = "http://catroidtest.ist.tugraz.at/api/upload/upload.json";
-	public static final String TEST_FILE_DOWNLOAD_URL = "http://catroidtest.ist.tugraz.at/catroid/download/";
-
-	//DefaultProject:
-	public static final String NORMAL_CAT = "normalCat";
-	public static final String BANZAI_CAT = "banzaiCat";
-	public static final String CHESHIRE_CAT = "cheshireCat";
-	public static final String BACKGROUND = "background";
-
-	//Download:
-	public static final String PROJECTNAME_TAG = "fname=";
 
 	//Stage:
-	public static final int SCREENSHOT_ICON_PADDING_TOP = 3;
-	public static final int SCREENSHOT_ICON_PADDING_RIGHT = 3;
 	public static final String SCREENSHOT_FILE_NAME = "thumbnail.png";
 	public static final int STRETCH = 0;
 	public static final int MAXIMIZE = 1;

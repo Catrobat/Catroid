@@ -19,19 +19,44 @@
  -->
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
-	android:layout_width="wrap_content"
-	android:background="@drawable/brick_touched"
 	android:orientation="horizontal"
 >
-	<TextView
-		android:id="@+id/TouchedBrick"
-		android:text="@string/brick_if_touched"
-		android:layout_height="wrap_content"
+	<ImageView
+		android:id="@+id/grabber"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentTop="true"
+		android:layout_alignParentBottom="true"
+		android:layout_gravity="center_vertical"
 		android:layout_width="wrap_content"
-		android:textColor="@color/white"
-		android:textSize="18dip"
-		android:textStyle="bold"
+		android:src="@drawable/ic_mp_move"
+		android:layout_height="wrap_content" />
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:background="@drawable/brick_blue"
 	>
-	</TextView>
+		<TextView
+			android:text="@string/brick_point_to"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:textColor="@color/white"
+			android:textSize="18dip"
+			android:textStyle="bold" />
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+			>
+				<Spinner 
+					android:id="@+id/point_to_spinner" 
+					android:layout_width="wrap_content" 
+					android:layout_height="wrap_content"
+					android:layout_weight="5"
+				/>
+
+			</LinearLayout>
+	</LinearLayout>
 </LinearLayout>

@@ -84,7 +84,7 @@ public class Costume extends Image {
 		xyLock.acquireUninterruptibly();
 		if (x >= 0 && x <= this.width && y >= 0 && y <= this.height) {
 			if (currentAlphaPixmap != null && ((currentAlphaPixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)) {
-				sprite.startTapScripts();
+				sprite.startWhenScripts("Tapped");
 				xyLock.release();
 				return true;
 			}
