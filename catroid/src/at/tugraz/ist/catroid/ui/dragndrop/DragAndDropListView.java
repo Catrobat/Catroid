@@ -52,6 +52,8 @@ public class DragAndDropListView extends ExpandableListView implements OnLongCli
 
 	private int upperScrollBound;
 	private int lowerScrollBound;
+	private int upperDragBound;
+	private int lowerDragBound;
 
 	private ImageView dragView;
 
@@ -86,13 +88,11 @@ public class DragAndDropListView extends ExpandableListView implements OnLongCli
 
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent event) {
-
-		touchPointY = (int) event.getRawY();
-
 		if (dragAndDropListener != null && dragView != null) {
 			onTouchEvent(event);
 		}
 
+		touchPointY = (int) event.getRawY();
 		return super.onInterceptTouchEvent(event);
 	}
 
@@ -101,6 +101,11 @@ public class DragAndDropListView extends ExpandableListView implements OnLongCli
 
 		int x = (int) event.getX();
 		int y = (int) event.getY();
+		int itemPosition = pointToPosition(x, y);
+
+		if (y > getChildAt(getChildCount() - 1).getBottom()) {
+			itemPosition = getChildCount() - 1;
+		}
 
 		if (dragAndDropListener != null && dragView != null) {
 			int action = event.getAction();
@@ -117,28 +122,44 @@ public class DragAndDropListView extends ExpandableListView implements OnLongCli
 					trashView.setVisibility(View.GONE);
 
 					if (x > getWidth() * 3 / 4) {
-						dragAndDropListener.remove(previousItemPosition);
+						dragAndDropListener.remove(itemPosition);
 					} else {
-						dragAndDropListener.drop(firstItemPosition, previousItemPosition);
+						dragAndDropListener.drop(itemPosition);
 					}
 
 					break;
 
 				case MotionEvent.ACTION_MOVE:
 
-					int itemPosition = pointToPosition(x, y);
-
 					if (y > lowerScrollBound) {
 						smoothScrollBy(SCROLL_SPEED, SCROLL_DURATION);
+						lowerDragBound -= SCROLL_SPEED;
+						upperDragBound -= SCROLL_SPEED;
 					} else if (y < upperScrollBound) {
 						smoothScrollBy(-SCROLL_SPEED, SCROLL_DURATION);
+						lowerDragBound += SCROLL_SPEED;
+						upperDragBound += SCROLL_SPEED;
 					}
 
 					dragView(x, (int) event.getRawY());
 
-					if (itemPosition != INVALID_POSITION) {
+					if (y > lowerDragBound || y < upperDragBound && itemPosition != INVALID_POSITION) {
 						dragAndDropListener.drag(previousItemPosition, itemPosition);
 						previousItemPosition = itemPosition;
+
+						if (itemPosition > 0) {
+							View upperChild = getChildAt(itemPosition - 1);
+							upperDragBound = upperChild.getBottom() - upperChild.getHeight() / 2;
+						} else {
+							upperDragBound = 0;
+						}
+
+						if (itemPosition < getChildCount() - 1) {
+							View lowerChild = getChildAt(itemPosition + 1);
+							lowerDragBound = lowerChild.getTop() + lowerChild.getHeight() / 2;
+						} else {
+							lowerDragBound = getHeight();
+						}
 					}
 
 					break;
