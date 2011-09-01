@@ -82,12 +82,11 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDr
 	public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView,
 			ViewGroup parent) {
 		Brick brick = getChild(groupPosition, childPosition);
+		View currentBrickView = brick.getView(context, childPosition, this);
 
 		if (draggedBrick != null && (dragTargetPosition == childPosition)) {
 			return insertionView;
 		}
-
-		View currentBrickView = brick.getView(context, childPosition, this);
 
 		if (animateChildren) {
 			brickListAnimation.doExpandAnimation(currentBrickView, childPosition);
