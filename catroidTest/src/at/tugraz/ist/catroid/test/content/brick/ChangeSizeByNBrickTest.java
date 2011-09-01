@@ -78,8 +78,8 @@ public class ChangeSizeByNBrickTest extends InstrumentationTestCase {
 
 		ChangeSizeByNBrick brick = new ChangeSizeByNBrick(sprite, positiveSize);
 		brick.execute();
-		assertEquals("Incorrect sprite size value after ChangeSizeByNBrick executed", initialSize + positiveSize,
-				sprite.costume.getSize());
+		assertEquals("Incorrect sprite size value after ChangeSizeByNBrick executed", initialSize
+				+ (positiveSize / 100), sprite.costume.getSize());
 
 	}
 
