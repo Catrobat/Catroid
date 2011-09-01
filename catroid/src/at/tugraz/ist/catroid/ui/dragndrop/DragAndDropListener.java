@@ -22,7 +22,7 @@ public interface DragAndDropListener {
 
 	void drag(int from, int to);
 
-	void drop(int from, int to);
+	void drop(int to);
 
 	void remove(int index);
 

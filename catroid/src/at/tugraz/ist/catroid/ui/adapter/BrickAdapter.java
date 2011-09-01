@@ -182,7 +182,7 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDr
 
 	}
 
-	public void drop(int from, int to) {
+	public void drop(int to) {
 		draggedBrick = null;
 		notifyDataSetChanged();
 	}
