@@ -40,32 +40,13 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
-import at.tugraz.ist.catroid.content.BroadcastScript;
-import at.tugraz.ist.catroid.content.Costume;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.WhenScript;
-import at.tugraz.ist.catroid.content.bricks.BroadcastBrick;
-import at.tugraz.ist.catroid.content.bricks.BroadcastWaitBrick;
-import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
-import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
-import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
-import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
-import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
-import at.tugraz.ist.catroid.content.bricks.HideBrick;
-import at.tugraz.ist.catroid.content.bricks.NoteBrick;
-import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
-import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
-import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
-import at.tugraz.ist.catroid.content.bricks.SetXBrick;
-import at.tugraz.ist.catroid.content.bricks.SetYBrick;
-import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
-import at.tugraz.ist.catroid.content.bricks.WhenBrick;
-import at.tugraz.ist.catroid.content.bricks.WhenStartedBrick;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.UtilFile;
@@ -87,33 +68,9 @@ public class StorageHandler {
 
 	private StorageHandler() throws IOException {
 		xstream = new XStream();
-		xstream.alias("project", Project.class);
-		xstream.alias("sprite", Sprite.class);
-		xstream.alias("script", Script.class);
-		xstream.alias("startScript", StartScript.class);
-		xstream.alias("whenScript", WhenScript.class);
-		xstream.alias("broadcastScript", BroadcastScript.class);
-		xstream.alias("costume", Costume.class);
-
-		xstream.alias("changeXByBrick", ChangeXByBrick.class);
-		xstream.alias("changeYByBrick", ChangeYByBrick.class);
-		xstream.alias("comeToFrontBrick", ComeToFrontBrick.class);
-		xstream.alias("goNStepsBackBrick", GoNStepsBackBrick.class);
-		xstream.alias("hideBrick", HideBrick.class);
-		xstream.alias("whenStartedBrick", WhenStartedBrick.class);
-		xstream.alias("placeAtBrick", PlaceAtBrick.class);
-		xstream.alias("playSoundBrick", PlaySoundBrick.class);
-		xstream.alias("setSizeToBrick", SetSizeToBrick.class);
-		xstream.alias("setCostumeBrick", SetCostumeBrick.class);
-		xstream.alias("setXBrick", SetXBrick.class);
-		xstream.alias("setYBrick", SetYBrick.class);
-		xstream.alias("showBrick", ShowBrick.class);
-		xstream.alias("waitBrick", WaitBrick.class);
-		xstream.alias("glideToBrick", GlideToBrick.class);
-		xstream.alias("noteBrick", NoteBrick.class);
-		xstream.alias("broadcastWaitBrick", BroadcastWaitBrick.class);
-		xstream.alias("broadcastBrick", BroadcastBrick.class);
-		xstream.alias("whenBrick", WhenBrick.class);
+		xstream.aliasPackage("Bricks", "at.tugraz.ist.catroid.content.bricks");
+		xstream.aliasPackage("Common", "at.tugraz.ist.catroid.common");
+		xstream.aliasPackage("Content", "at.tugraz.ist.catroid.content");
 
 		if (!Utils.hasSdCard()) {
 			throw new IOException("Could not read external storage");
@@ -371,7 +328,8 @@ public class StorageHandler {
 		Script whenScript = new WhenScript("whenScript", sprite);
 
 		File normalCatTemp = savePictureFromResourceInProject(projectName, NORMAL_CAT, R.drawable.catroid, context);
-		File banzaiCatTemp = savePictureFromResourceInProject(projectName, BANZAI_CAT, R.drawable.catroid_banzai, context);
+		File banzaiCatTemp = savePictureFromResourceInProject(projectName, BANZAI_CAT, R.drawable.catroid_banzai,
+				context);
 		File cheshireCatTemp = savePictureFromResourceInProject(projectName, CHESHIRE_CAT, R.drawable.catroid_cheshire,
 				context);
 		File backgroundTemp = savePictureFromResourceInProject(projectName, BACKGROUND, R.drawable.background_blueish,
