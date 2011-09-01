@@ -43,11 +43,11 @@ public class Costume extends Image {
 	protected Semaphore disposeTexturesLock = new Semaphore(1);
 	protected boolean imageChanged = false;
 	protected String imagePath;
-	protected String currentImagePath;
 	protected Pixmap currentAlphaPixmap;
 	protected Sprite sprite;
 	protected float alphaValue;
 	protected float brightnessValue;
+	protected boolean nativeApp;
 	public boolean show;
 	public int zPosition;
 
@@ -68,9 +68,9 @@ public class Costume extends Image {
 		this.touchable = true;
 		this.show = true;
 		this.imagePath = "";
-		this.currentImagePath = "";
 		this.currentAlphaPixmap = null;
 		this.zPosition = 0;
+		this.nativeApp = false;
 	}
 
 	@Override
@@ -115,9 +115,8 @@ public class Costume extends Image {
 		imageLock.acquireUninterruptibly();
 		if (imageChanged) {
 			this.disposeTextures();
-			currentImagePath = imagePath;
 			currentAlphaPixmap = null;
-			if (currentImagePath.equals("")) {
+			if (imagePath.equals("")) {
 				xyLock.acquireUninterruptibly();
 				this.x += this.width / 2f;
 				this.y += this.height / 2f;
@@ -133,7 +132,12 @@ public class Costume extends Image {
 			this.x += this.width / 2f;
 			this.y += this.height / 2f;
 
-			Pixmap pixmap = new Pixmap(Gdx.files.absolute(currentImagePath));
+			Pixmap pixmap;
+			if (nativeApp) {
+				pixmap = new Pixmap(Gdx.files.internal(imagePath));
+			} else {
+				pixmap = new Pixmap(Gdx.files.absolute(imagePath));
+			}
 
 			this.width = pixmap.getWidth();
 			this.height = pixmap.getHeight();
@@ -284,6 +288,17 @@ public class Costume extends Image {
 			path = "";
 		}
 		imageLock.acquireUninterruptibly();
+		imagePath = path;
+		imageChanged = true;
+		imageLock.release();
+	}
+
+	public void setImagePathNativeApp(String path) {
+		if (path == null) {
+			path = "";
+		}
+		imageLock.acquireUninterruptibly();
+		nativeApp = true;
 		imagePath = path;
 		imageChanged = true;
 		imageLock.release();
