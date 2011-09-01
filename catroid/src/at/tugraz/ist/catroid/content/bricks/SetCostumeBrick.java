@@ -28,6 +28,7 @@ import android.widget.Spinner;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.stage.NativeAppActivity;
 
 public class SetCostumeBrick implements Brick {
 	private static final long serialVersionUID = 1L;

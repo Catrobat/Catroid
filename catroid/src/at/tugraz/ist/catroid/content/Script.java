@@ -109,18 +109,6 @@ public abstract class Script implements Serializable {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
-	}
-
-	public Sprite getSprite() {
-		return sprite;
-	}
-
 	public int getExecutingBrickIndex() {
 		return executingBrickIndex;
 	}

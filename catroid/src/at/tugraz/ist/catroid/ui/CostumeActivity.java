@@ -79,8 +79,7 @@ public class CostumeActivity extends ListActivity {
 			public void onClick(View v) {
 				Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 				intent.setType("image/*");
-				startActivityForResult(
-						Intent.createChooser(intent, CostumeActivity.this.getString(R.string.select_image)),
+				startActivityForResult(Intent.createChooser(intent, getString(R.string.select_image)),
 						REQUEST_SELECT_IMAGE);
 			}
 		};

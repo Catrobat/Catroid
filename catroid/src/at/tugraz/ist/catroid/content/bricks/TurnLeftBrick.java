@@ -29,17 +29,12 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
-
 public class TurnLeftBrick implements Brick, OnDismissListener {
 
 	private static final long serialVersionUID = 1L;
-
 	private Sprite sprite;
-
 	private double degrees;
 
-	@XStreamOmitField
 	private transient View view;
 
 	public TurnLeftBrick(Sprite sprite, double degrees) {
@@ -48,7 +43,7 @@ public class TurnLeftBrick implements Brick, OnDismissListener {
 	}
 
 	public void execute() {
-		sprite.costume.rotation += degrees;
+		sprite.costume.rotation = (sprite.costume.rotation % 360) + (float)degrees;
 	}
 
 	public Sprite getSprite() {

@@ -96,8 +96,8 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 		longClickAndDrag(10, yPositionList.get(4), 10, yPositionList.get(2), 20);
 		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
 
-		assertEquals("Brick count not equal before and after dragging & dropping", brickListToCheck.size(),
-				brickList.size());
+		assertEquals("Brick count not equal before and after dragging & dropping", brickListToCheck.size(), brickList
+				.size());
 		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(0), brickList.get(0));
 		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(3), brickList.get(1));
 		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(1), brickList.get(2));
@@ -112,6 +112,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 		int displayWidth = getActivity().getWindowManager().getDefaultDisplay().getWidth();
 
 		longClickAndDrag(30, yPositionList.get(2), displayWidth, yPositionList.get(2) + 500, 40);
+		solo.sleep(2000);
 		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
 
 		assertEquals("Brick count did not decrease by one after deleting a brick", brickListToCheck.size() - 1,

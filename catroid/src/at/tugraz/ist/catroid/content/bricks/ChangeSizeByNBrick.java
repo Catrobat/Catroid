@@ -19,49 +19,69 @@
 package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
+import android.content.DialogInterface.OnDismissListener;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
-
-public class IfTouchedBrick implements Brick {
+public class ChangeSizeByNBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
-
-	protected Script touchScript;
 	private Sprite sprite;
+	private double size;
 
-	@XStreamOmitField
 	private transient View view;
 
-	public IfTouchedBrick(Sprite sprite, Script touchScript) {
-		this.touchScript = touchScript;
+	public ChangeSizeByNBrick(Sprite sprite, double size) {
 		this.sprite = sprite;
+		this.size = size;
 	}
 
 	public void execute() {
+		double newSize = sprite.costume.getSize() + size;
+		if (newSize < 0.01) {
+			newSize = 0.01;
+		}
+		sprite.costume.setSize((float) newSize);
 	}
 
 	public Sprite getSprite() {
-		return sprite;
+		return this.sprite;
 	}
 
-	public View getView(Context context, int brickId, final BaseExpandableListAdapter adapter) {
+	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 
 		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_touched, null);
+			view = View.inflate(context, R.layout.toolbox_brick_change_size_by_n, null);
 		}
+
+		EditText edit = (EditText) view.findViewById(R.id.toolbox_brick_change_size_by_edit_text);
+		edit.setText(String.valueOf(size));
+
+		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, size, true);
+		dialog.setOnDismissListener(this);
+		dialog.setOnCancelListener((OnCancelListener) context);
+
+		edit.setOnClickListener(dialog);
+
 		return view;
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_touched, null);
+		return View.inflate(context, R.layout.toolbox_brick_change_size_by_n, null);
 	}
 
 	@Override
 	public Brick clone() {
-		return new IfTouchedBrick(getSprite(), touchScript);
+		return new ChangeSizeByNBrick(getSprite(), size);
+	}
+
+	public void onDismiss(DialogInterface dialog) {
+		size = ((EditDoubleDialog) dialog).getValue();
+		dialog.cancel();
 	}
 }

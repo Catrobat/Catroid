@@ -101,40 +101,6 @@ public class UtilsTest extends TestCase {
 		assertFalse("File still exists after delete", mTestFile.exists());
 	}
 
-	public void testConcatPath() {
-		String first = "/abc/abc";
-		String second = "/def/def/";
-		String result = "/abc/abc/def/def/";
-		assertEquals(Utils.concatPaths(first, second), result);
-		first = "/abc/abc";
-		second = "def/def/";
-		result = "/abc/abc/def/def/";
-		assertEquals(Utils.concatPaths(first, second), result);
-		first = "/abc/abc/";
-		second = "/def/def/";
-		result = "/abc/abc/def/def/";
-		assertEquals(Utils.concatPaths(first, second), result);
-		first = "/abc/abc/";
-		second = "def/def/";
-		result = "/abc/abc/def/def/";
-		assertEquals(Utils.concatPaths(first, second), result);
-	}
-
-	public void testAddDefaultFileEnding() {
-		String filename = "test";
-		assertEquals("File extension was not added correctly", Utils.addDefaultFileEnding(filename), "test"
-				+ Consts.PROJECT_EXTENTION);
-	}
-
-	public void testChangeFileEndingToPng() {
-		String imageName = "blablabla.jpg";
-		assertEquals("File ending was not changed correctly", Utils.changeFileEndingToPng(imageName), "blablabla.png");
-		String imageName1 = "blablabla.png";
-		assertEquals("File ending was not changed correctly", Utils.changeFileEndingToPng(imageName1), "blablabla.png");
-		String imageName2 = "blablabla.jpeg";
-		assertEquals("File ending was not changed correctly", Utils.changeFileEndingToPng(imageName2), "blablabla.png");
-	}
-
 	public void testMD5CheckSumOfFile() {
 
 		PrintWriter printWriter = null;
@@ -142,7 +108,7 @@ public class UtilsTest extends TestCase {
 		File tempDir = new File(Consts.TMP_PATH);
 		tempDir.mkdirs();
 
-		File md5TestFile = new File(Consts.TMP_PATH + "/" + "catroid.txt");
+		File md5TestFile = new File(Utils.buildPath(Consts.TMP_PATH, "catroid.txt"));
 
 		if (md5TestFile.exists()) {
 			md5TestFile.delete();
@@ -201,6 +167,29 @@ public class UtilsTest extends TestCase {
 		Log.v(TAG, secretFloat.toString());
 		assertEquals("Getting private float failed!", new Float(3.1415f), secretFloat);
 	}
+	
+	public void testBuildPath() {
+		String first = "/abc/abc";
+		String second = "/def/def/";
+		String result = "/abc/abc/def/def";
+		assertEquals(Utils.buildPath(first, second), result);
+
+		first = "/abc/abc";
+		second = "def/def/";
+		result = "/abc/abc/def/def";
+		assertEquals(Utils.buildPath(first, second), result);
+
+		first = "/abc/abc/";
+		second = "/def/def/";
+		result = "/abc/abc/def/def";
+		assertEquals(Utils.buildPath(first, second), result);
+
+		first = "/abc/abc/";
+		second = "def/def/";
+		result = "/abc/abc/def/def";
+		assertEquals(Utils.buildPath(first, second), result);
+	}
+	
 
 	public void testUniqueName() {
 		String first = Utils.getUniqueName();

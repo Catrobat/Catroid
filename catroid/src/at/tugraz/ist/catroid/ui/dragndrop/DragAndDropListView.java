@@ -40,10 +40,11 @@ import at.tugraz.ist.catroid.R;
 
 public class DragAndDropListView extends ExpandableListView implements OnLongClickListener {
 
-	private static final int MAXIMUM_DRAG_VIEW_HEIGHT = 100;
 	private static final int SCROLL_DURATION = 1;
 	private static final int SCROLL_SPEED = 10;
-	private static final int DRAG_BACKGROUND_COLOR = Color.parseColor("#e0103010");
+	private static final int DRAG_BACKGROUND_COLOR = Color.TRANSPARENT;
+
+	private int maximumDragViewHeight;
 
 	private int previousItemPosition;
 	private int firstItemPosition;
@@ -152,6 +153,7 @@ public class DragAndDropListView extends ExpandableListView implements OnLongCli
 		super.onSizeChanged(width, height, oldWidth, oldHeight);
 		upperScrollBound = height / 3;
 		lowerScrollBound = height * 2 / 3;
+		maximumDragViewHeight = height / 3;
 	}
 
 	public boolean onLongClick(View view) {
@@ -160,6 +162,11 @@ public class DragAndDropListView extends ExpandableListView implements OnLongCli
 		boolean drawingCacheEnabled = view.isDrawingCacheEnabled();
 
 		view.setDrawingCacheEnabled(true);
+
+		if (view.getDrawingCache() == null) {
+			view.layout(0, 0, view.getWidth(), maximumDragViewHeight);
+		}
+
 		Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
 		view.setDrawingCacheEnabled(drawingCacheEnabled);
 
@@ -179,8 +186,8 @@ public class DragAndDropListView extends ExpandableListView implements OnLongCli
 	private void startDragging(Bitmap bitmap, int y) {
 		stopDragging();
 
-		if (bitmap.getHeight() > MAXIMUM_DRAG_VIEW_HEIGHT) {
-			bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), MAXIMUM_DRAG_VIEW_HEIGHT);
+		if (bitmap.getHeight() > maximumDragViewHeight) {
+			bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), maximumDragViewHeight);
 		}
 
 		ImageView imageView = new ImageView(getContext());

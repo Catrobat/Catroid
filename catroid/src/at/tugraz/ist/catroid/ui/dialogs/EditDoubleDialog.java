@@ -57,8 +57,6 @@ public class EditDoubleDialog extends EditDialog implements OnClickListener {
 			editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 		}
 
-		//		editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-
 		okButton.setOnClickListener(this);
 
 		this.setOnKeyListener(new OnKeyListener() {

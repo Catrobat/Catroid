@@ -97,14 +97,6 @@ public class Sprite implements Serializable {
 		}
 	}
 
-	public void startTapScripts() {
-		for (Script s : scriptList) {
-			if (s instanceof TapScript) {
-				startScript(s);
-			}
-		}
-	}
-
 	private void startScript(Script s) {
 		final Script script = s;
 		Thread t = new Thread(new Runnable() {

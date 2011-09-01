@@ -33,7 +33,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.ui.CostumeActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
@@ -87,7 +86,7 @@ public class RenameCostumeDialog {
 		String oldCostumeName = scriptTabActivity.selectedCostumeData.getCostumeName();
 
 		if (newCostumeName.equalsIgnoreCase(oldCostumeName)) {
-			scriptTabActivity.dismissDialog(Consts.DIALOG_RENAME_COSTUME);
+			scriptTabActivity.dismissDialog(ScriptTabActivity.DIALOG_RENAME_COSTUME);
 			return;
 		}
 		if (newCostumeName != null && !newCostumeName.equalsIgnoreCase("")) {
@@ -98,7 +97,7 @@ public class RenameCostumeDialog {
 			Utils.displayErrorMessage(scriptTabActivity, scriptTabActivity.getString(R.string.costumename_invalid));
 			return;
 		}
-		scriptTabActivity.dismissDialog(Consts.DIALOG_RENAME_COSTUME);
+		scriptTabActivity.dismissDialog(ScriptTabActivity.DIALOG_RENAME_COSTUME);
 	}
 
 	private void initKeyListener(AlertDialog.Builder builder) {

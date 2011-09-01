@@ -30,7 +30,6 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public class GlideToBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
@@ -39,7 +38,6 @@ public class GlideToBrick implements Brick, OnDismissListener {
 	private int durationInMilliSeconds;
 	private Sprite sprite;
 
-	@XStreamOmitField
 	private transient View view;
 
 	public GlideToBrick(Sprite sprite, int xDestination, int yDestination, int durationInMilliSeconds) {
