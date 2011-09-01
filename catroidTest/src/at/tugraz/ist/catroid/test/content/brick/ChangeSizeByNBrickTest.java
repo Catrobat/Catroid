@@ -23,7 +23,6 @@ import java.io.File;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
-import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.ChangeSizeByNBrick;
@@ -34,8 +33,8 @@ import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class ChangeSizeByNBrickTest extends InstrumentationTestCase {
 
-	private double positiveSize = 20;
-	private double negativeSize = -30;
+	private float positiveSize = 20;
+	private float negativeSize = -30;
 
 	private static final int IMAGE_FILE_ID = R.raw.icon;
 
@@ -73,20 +72,20 @@ public class ChangeSizeByNBrickTest extends InstrumentationTestCase {
 
 	public void testSize() {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite size value", 100.0, sprite.getSize());
+		assertEquals("Unexpected initial sprite size value", 1f, sprite.costume.getSize());
 
-		double initialSize = sprite.getSize();
+		float initialSize = sprite.costume.getSize();
 
 		ChangeSizeByNBrick brick = new ChangeSizeByNBrick(sprite, positiveSize);
 		brick.execute();
 		assertEquals("Incorrect sprite size value after ChangeSizeByNBrick executed", initialSize + positiveSize,
-				sprite.getSize());
+				sprite.costume.getSize());
 
-		initialSize = sprite.getSize();
+		initialSize = sprite.costume.getSize();
 		brick = new ChangeSizeByNBrick(sprite, negativeSize);
 		brick.execute();
 		assertEquals("Incorrect sprite size value after ChangeSizeByNBrick executed", initialSize + negativeSize,
-				sprite.getSize());
+				sprite.costume.getSize());
 	}
 
 	public void testNullSprite() {
@@ -100,38 +99,4 @@ public class ChangeSizeByNBrickTest extends InstrumentationTestCase {
 		}
 	}
 
-	public void testCostumeToBig() {
-		Values.SCREEN_HEIGHT = 800;
-		Values.SCREEN_WIDTH = 480;
-
-		Sprite sprite = new Sprite("testSprite");
-		sprite.getCostume().changeImagePath(testImage.getAbsolutePath());
-
-		ChangeSizeByNBrick brick = new ChangeSizeByNBrick(sprite, Double.MAX_VALUE);
-
-		brick.execute();
-
-		int newWidth = sprite.getCostume().getImageWidth();
-		int newHeight = sprite.getCostume().getImageHeight();
-
-		assertTrue("Costume has a wrong size after setting it!", newWidth == Consts.MAX_COSTUME_WIDTH
-				|| newHeight == Consts.MAX_COSTUME_HEIGHT);
-	}
-
-	public void testCostumeToSmall() {
-		Values.SCREEN_HEIGHT = 800;
-		Values.SCREEN_WIDTH = 480;
-
-		Sprite sprite = new Sprite("testSprite");
-		sprite.getCostume().changeImagePath(testImage.getAbsolutePath());
-
-		ChangeSizeByNBrick brick = new ChangeSizeByNBrick(sprite, -Double.MAX_VALUE);
-
-		brick.execute();
-
-		int newWidth = sprite.getCostume().getImageWidth();
-		int newHeight = sprite.getCostume().getImageHeight();
-
-		assertTrue("Costume has a wrong size after setting it!", newWidth == 1 || newHeight == 1);
-	}
 }
