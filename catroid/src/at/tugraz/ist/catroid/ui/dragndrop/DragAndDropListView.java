@@ -40,14 +40,12 @@ import at.tugraz.ist.catroid.R;
 
 public class DragAndDropListView extends ExpandableListView implements OnLongClickListener {
 
-	private static final int SCROLL_DURATION = 1;
-	private static final int SCROLL_SPEED = 10;
+	private static final int SCROLL_SPEED = 25;
 	private static final int DRAG_BACKGROUND_COLOR = Color.TRANSPARENT;
 
 	private int maximumDragViewHeight;
 
 	private int previousItemPosition;
-	private int firstItemPosition;
 	private int touchPointY;
 
 	private int upperScrollBound;
@@ -101,11 +99,21 @@ public class DragAndDropListView extends ExpandableListView implements OnLongCli
 
 		int x = (int) event.getX();
 		int y = (int) event.getY();
+
+		if (y < 0) {
+			y = 0;
+		}
+		if (y > getHeight()) {
+			y = getHeight();
+		}
+
 		int itemPosition = pointToPosition(x, y);
 
-		if (y > getChildAt(getChildCount() - 1).getBottom()) {
-			itemPosition = getChildCount() - 1;
-		}
+		System.out.println("DragAndDropListView.onTouchEvent() itemPosition = " + itemPosition);
+		System.out.println("DragAndDropListView.onTouchEvent() childCount = " + getChildCount());
+		//		if (y > getChildAt(getChildCount() - 1).getBottom()) {
+		//			itemPosition = getChildCount() - 1;
+		//		}
 
 		if (dragAndDropListener != null && dragView != null) {
 			int action = event.getAction();
@@ -132,33 +140,35 @@ public class DragAndDropListView extends ExpandableListView implements OnLongCli
 				case MotionEvent.ACTION_MOVE:
 
 					if (y > lowerScrollBound) {
-						smoothScrollBy(SCROLL_SPEED, SCROLL_DURATION);
-						lowerDragBound -= SCROLL_SPEED;
-						upperDragBound -= SCROLL_SPEED;
+						smoothScrollBy(SCROLL_SPEED, 0);
 					} else if (y < upperScrollBound) {
-						smoothScrollBy(-SCROLL_SPEED, SCROLL_DURATION);
-						lowerDragBound += SCROLL_SPEED;
-						upperDragBound += SCROLL_SPEED;
+						smoothScrollBy(-SCROLL_SPEED, 0);
 					}
 
 					dragView(x, (int) event.getRawY());
 
-					if (y > lowerDragBound || y < upperDragBound && itemPosition != INVALID_POSITION) {
-						dragAndDropListener.drag(previousItemPosition, itemPosition);
-						previousItemPosition = itemPosition;
+					if (itemPosition != INVALID_POSITION) {
 
-						if (itemPosition > 0) {
-							View upperChild = getChildAt(itemPosition - 1);
+						int index = previousItemPosition - getFirstVisiblePosition();
+
+						if (index > 0) {
+							View upperChild = getChildAt(index - 1);
 							upperDragBound = upperChild.getBottom() - upperChild.getHeight() / 2;
 						} else {
 							upperDragBound = 0;
 						}
 
-						if (itemPosition < getChildCount() - 1) {
-							View lowerChild = getChildAt(itemPosition + 1);
+						if (index < getChildCount() - 1) {
+							View lowerChild = getChildAt(index + 1);
 							lowerDragBound = lowerChild.getTop() + lowerChild.getHeight() / 2;
 						} else {
 							lowerDragBound = getHeight();
+						}
+
+						if ((y > lowerDragBound || y < upperDragBound)) {
+							dragAndDropListener.drag(previousItemPosition, itemPosition);
+							previousItemPosition = itemPosition;
+
 						}
 					}
 
@@ -172,8 +182,8 @@ public class DragAndDropListView extends ExpandableListView implements OnLongCli
 	@Override
 	protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
 		super.onSizeChanged(width, height, oldWidth, oldHeight);
-		upperScrollBound = height / 3;
-		lowerScrollBound = height * 2 / 3;
+		upperScrollBound = height / 6;
+		lowerScrollBound = height * 5 / 6;
 		maximumDragViewHeight = height / 3;
 	}
 
@@ -199,7 +209,6 @@ public class DragAndDropListView extends ExpandableListView implements OnLongCli
 		trashView.startAnimation(animation);
 
 		previousItemPosition = itemPosition;
-		firstItemPosition = previousItemPosition;
 
 		return true;
 	}

@@ -24,7 +24,7 @@
   android:layout_height="match_parent">
     
     <ImageView 
-    android:background="@color/solid_green"
+    android:background="@android:color/transparent"
     android:layout_width="fill_parent"
     android:layout_height="50dp"/>
     
