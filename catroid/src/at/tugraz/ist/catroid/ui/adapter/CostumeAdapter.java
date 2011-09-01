@@ -31,6 +31,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -154,9 +155,11 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 
 					scriptTabActivity.selectedCostumeData = costumeData;
 
-					intent.putExtra("PAINTROID_PICTURE_PATH", costumeData.getAbsolutePath());
-					intent.putExtra("PAINTROID_ROTATE_X", 0);
-					intent.putExtra("PAINTROID_ROTATE_Y", 0);
+					Bundle bundleForPaintroid = new Bundle();
+					bundleForPaintroid.putString("PAINTROID_PICTURE_PATH", costumeData.getAbsolutePath());
+					bundleForPaintroid.putInt("PAINTROID_ROTATE_X", 0);
+					bundleForPaintroid.putInt("PAINTROID_ROTATE_Y", 0);
+					intent.putExtras(bundleForPaintroid);
 					intent.addCategory("android.intent.category.LAUNCHER");
 					activity.startActivityForResult(intent, activity.REQUEST_PAINTROID_EDIT_IMAGE);
 				}

@@ -370,8 +370,8 @@ public class StorageHandler {
 		costumeDataList.add(normalCatCostumeData);
 		costumeDataList.add(banzaiCatCostumeData);
 		costumeDataList.add(cheshireCatCostumeData);
-		costumeDataList = backgroundSprite.getCostumeDataList();
-		costumeDataList.add(backgroundCostumeData);
+		ArrayList<CostumeData> costumeDataList2 = backgroundSprite.getCostumeDataList();
+		costumeDataList2.add(backgroundCostumeData);
 
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
 		setCostumeBrick.setCostume(normalCatCostumeData);
@@ -385,8 +385,8 @@ public class StorageHandler {
 		SetCostumeBrick setCostumeBrick3 = new SetCostumeBrick(sprite);
 		setCostumeBrick3.setCostume(cheshireCatCostumeData);
 
-		SetCostumeBrick setCostumeBackground = new SetCostumeBrick(backgroundSprite);
-		setCostumeBackground.setCostume(backgroundCostumeData);
+		SetCostumeBrick backgroundBrick = new SetCostumeBrick(backgroundSprite);
+		backgroundBrick.setCostume(backgroundCostumeData);
 
 		WaitBrick waitBrick1 = new WaitBrick(sprite, 500);
 		WaitBrick waitBrick2 = new WaitBrick(sprite, 500);
@@ -398,7 +398,7 @@ public class StorageHandler {
 		whenScript.addBrick(setCostumeBrick3);
 		whenScript.addBrick(waitBrick2);
 		whenScript.addBrick(setCostumeBrick1);
-		backgroundStartScript.addBrick(setCostumeBackground);
+		backgroundStartScript.addBrick(backgroundBrick);
 
 		defaultProject.addSprite(sprite);
 		sprite.addScript(startScript);
