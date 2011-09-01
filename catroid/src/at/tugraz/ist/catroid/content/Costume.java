@@ -94,13 +94,13 @@ public class Costume extends Image {
 	}
 
 	@Override
-	public boolean touchUp(float x, float y, int pointer) {
-		return false;
+	public void touchUp(float x, float y, int pointer) {
+
 	}
 
 	@Override
-	public boolean touchDragged(float x, float y, int pointer) {
-		return false;
+	public void touchDragged(float x, float y, int pointer) {
+
 	}
 
 	@Override
