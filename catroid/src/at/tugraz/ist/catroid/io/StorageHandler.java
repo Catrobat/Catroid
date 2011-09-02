@@ -101,9 +101,7 @@ public class StorageHandler {
 		createCatroidRoot();
 		try {
 			if (NativeAppActivity.isRunning()) {
-				int resourceId = NativeAppActivity.getContext().getResources()
-						.getIdentifier(projectName, "raw", NativeAppActivity.getContext().getPackageName());
-				InputStream spfFileStream = NativeAppActivity.getContext().getResources().openRawResource(resourceId);
+				InputStream spfFileStream = NativeAppActivity.getContext().getAssets().open(projectName);
 				return (Project) xstream.fromXML(spfFileStream);
 			}
 
