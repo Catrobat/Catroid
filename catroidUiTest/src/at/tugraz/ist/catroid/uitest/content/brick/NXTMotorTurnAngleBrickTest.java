@@ -67,7 +67,7 @@ public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2
 	}
 
 	@Smoke
-	public void testMotorActionBrick() {
+	public void testMotorTurnAngleBrick() {
 
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
@@ -106,9 +106,11 @@ public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2
 		solo.clickInList(5);
 		assertEquals("180", solo.getEditText(0).getText().toString());
 
+		solo.sleep(500);
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, setAngle + "");
+		solo.goBack();
 		solo.clickOnButton(0);
 		solo.sleep(500);
 
@@ -122,6 +124,8 @@ public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2
 		assertEquals("B", solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, -1);
 		assertEquals("A", solo.getCurrentSpinners().get(0).getSelectedItem());
+		solo.pressSpinnerItem(0, 3);
+		assertEquals("A+C", solo.getCurrentSpinners().get(0).getSelectedItem());
 
 	}
 
