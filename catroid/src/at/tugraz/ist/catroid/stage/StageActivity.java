@@ -56,7 +56,7 @@ public class StageActivity extends Activity {
 	private LegoNXT legoNXT;
 	private BluetoothManager bluetoothManager;
 	private ProgressDialog connectingProgressDialog;
-	private static boolean simulatorMode = true;
+	private static boolean simulatorMode = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
