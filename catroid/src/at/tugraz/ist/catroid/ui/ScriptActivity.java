@@ -54,7 +54,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 			return;
 		}
 		listView = (DragAndDropListView) findViewById(R.id.brick_list_view);
-		adapter = new BrickAdapter(getParent(), sprite, listView);
+		adapter = new BrickAdapter(this, sprite, listView);
 		if (adapter.getGroupCount() > 0) {
 			ProjectManager.getInstance().setCurrentScript(adapter.getGroup(adapter.getGroupCount() - 1));
 		}
