@@ -16,15 +16,6 @@
 	android:layout_height="wrap_content"
 	android:orientation="horizontal">
 
-	<ImageView android:id="@+id/grabber"
-		android:layout_alignParentLeft="true" 
-		android:layout_alignParentTop="true"
-		android:layout_alignParentBottom="true" 
-		android:layout_gravity="center_vertical"
-		android:layout_width="wrap_content" 
-		android:src="@drawable/ic_mp_move"
-		android:layout_height="wrap_content" />
-
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_height="wrap_content" 
 		android:layout_width="match_parent"
@@ -95,46 +86,8 @@
 					android:id="@+id/directions_btn" 
 					android:layout_height="45dip" 
 					android:text="@string/just_a_v" />
-				<!-- <TextView 
-					android:text="@string/nxt_turn_degrees"
-					android:layout_centerVertical="true" 
-					android:layout_height="wrap_content"
-					android:layout_width="wrap_content" 
-					android:paddingRight="10dip"
-					android:textColor="@color/white" 
-					android:textSize="18dip"
-					android:textStyle="bold">
-				</TextView> -->
-
 			</LinearLayout>
 		</RelativeLayout>
-
-<!-- 		<RelativeLayout 
-			android:layout_height="wrap_content"
-			android:layout_width="fill_parent" 
-			android:layout_centerVertical="true">
-			<TextView android:text="@string/motor_inverse"
-				android:layout_centerVertical="true" 
-				android:layout_height="wrap_content"
-				android:layout_width="wrap_content" 
-				android:paddingRight="10dip"
-				android:textColor="@color/white" 
-				android:textSize="18dip"
-				android:textStyle="bold">
-			</TextView>
-			<LinearLayout 
-				android:layout_height="wrap_content"
-				android:layout_width="wrap_content" 
-				android:layout_alignParentRight="true"
-				android:layout_centerVertical="true">
-				<Spinner android:layout_weight="1" 
-					android:id="@+id/yes_no_dialog"
-    			android:layout_height="wrap_content"
-					android:layout_width="wrap_content"
-					android:entries="@array/yes_no_array">
-				</Spinner>
-			</LinearLayout>
-		</RelativeLayout> -->
 
 
 	</LinearLayout>
