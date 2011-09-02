@@ -36,16 +36,13 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -55,7 +52,9 @@ import com.badlogic.gdx.utils.ScreenUtils;
  * 
  */
 public class StageListener implements ApplicationListener {
-	private static final boolean DEBUG = false;
+	private static final boolean DEBUG = true;
+	private FPSLogger fpsLogger;
+
 	private Stage stage;
 	private boolean paused = false;
 	private boolean finished = false;
@@ -76,14 +75,13 @@ public class StageListener implements ApplicationListener {
 	private SpriteBatch batch;
 	private BitmapFont font;
 
-	private ImmediateModeRenderer20 renderer;
-	private Matrix4 matrix4 = new Matrix4();
-
 	private List<Sprite> sprites;
 	private Comparator<Actor> costumeComparator;
 
 	private float virtualWidthHalf;
 	private float virtualHeightHalf;
+	private float virtualWidth;
+	private float virtualHeight;
 
 	public int screenMode = Consts.STRETCH;
 	public int maximizeViewPortX = 0;
@@ -93,7 +91,9 @@ public class StageListener implements ApplicationListener {
 
 	public boolean axesOn = false;
 
-	Texture pauseScreen;
+	private Texture pauseScreen;
+	private Texture background;
+	private Texture axes;
 
 	public StageListener() {
 	}
@@ -108,13 +108,15 @@ public class StageListener implements ApplicationListener {
 
 		costumeComparator = new CostumeComparator();
 
-		renderer = new ImmediateModeRenderer20(4, false, true, 0);
 		project = ProjectManager.getInstance().getCurrentProject();
 
-		virtualWidthHalf = project.VIRTUAL_SCREEN_WIDTH / 2;
-		virtualHeightHalf = project.VIRTUAL_SCREEN_HEIGHT / 2;
+		virtualWidth = project.VIRTUAL_SCREEN_WIDTH;
+		virtualHeight = project.VIRTUAL_SCREEN_HEIGHT;
 
-		stage = new Stage(project.VIRTUAL_SCREEN_WIDTH, project.VIRTUAL_SCREEN_HEIGHT, true);
+		virtualWidthHalf = virtualWidth / 2;
+		virtualHeightHalf = virtualHeight / 2;
+
+		stage = new Stage(virtualWidth, virtualHeight, true);
 		batch = stage.getSpriteBatch();
 
 		camera = (OrthographicCamera) stage.getCamera();
@@ -130,11 +132,14 @@ public class StageListener implements ApplicationListener {
 			multiplexer.addProcessor(stage);
 			multiplexer.addProcessor(camController);
 			Gdx.input.setInputProcessor(multiplexer);
+			fpsLogger = new FPSLogger();
 		} else {
 			Gdx.input.setInputProcessor(stage);
 		}
 
-		pauseScreen = new Texture(Gdx.files.internal("images/paused_cat.png"));
+		pauseScreen = new Texture(Gdx.files.internal("stage/paused_cat.png"));
+		background = new Texture(Gdx.files.internal("stage/white_pixel.bmp"));
+		axes = new Texture(Gdx.files.internal("stage/red_pixel.bmp"));
 	}
 
 	public void menuResume() {
@@ -211,7 +216,7 @@ public class StageListener implements ApplicationListener {
 				break;
 		}
 
-		renderRectangle(-1, -1, 2, 2, Color.WHITE);
+		this.drawRectangle();
 
 		if (firstStart) {
 			for (Sprite sprite : sprites) {
@@ -256,42 +261,27 @@ public class StageListener implements ApplicationListener {
 		}
 
 		if (axesOn && !finished) {
-			renderAxes();
+			drawAxes();
+		}
+
+		if (DEBUG) {
+			fpsLogger.log();
 		}
 	}
 
-	private void renderRectangle(float x, float y, float width, float height, Color color) {
-		renderer.begin(matrix4, GL10.GL_TRIANGLE_FAN);
-		renderer.color(color.r, color.g, color.b, color.a);
-		renderer.vertex(x, y, 0);
-
-		renderer.color(color.r, color.g, color.b, color.a);
-		renderer.vertex(x + width, y, 0);
-
-		renderer.color(color.r, color.g, color.b, color.a);
-		renderer.vertex(x + width, y + height, 0);
-
-		renderer.color(color.r, color.g, color.b, color.a);
-		renderer.vertex(x, y + height, 0);
-
-		renderer.end();
-	}
-
-	private void renderAxes() {
-		renderer.begin(camera.combined, GL20.GL_LINES);
-		renderer.color(1f, 0f, 0.05f, 1f);
-		renderer.vertex(-virtualWidthHalf, 0, 0);
-		renderer.color(1f, 0f, 0.05f, 1f);
-		renderer.vertex(virtualWidthHalf, 0, 0);
-
-		renderer.color(1f, 0f, 0.05f, 1f);
-		renderer.vertex(0, -virtualHeightHalf, 0);
-		renderer.color(1f, 0f, 0.05f, 1f);
-		renderer.vertex(0, virtualHeightHalf, 0);
-		renderer.end();
-
+	private void drawRectangle() {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
+		batch.draw(background, -virtualWidthHalf, -virtualHeightHalf, virtualWidth, virtualHeight);
+		batch.end();
+	}
+
+	private void drawAxes() {
+		batch.setProjectionMatrix(camera.combined);
+		batch.begin();
+		batch.draw(axes, -virtualWidthHalf, 0, virtualWidth, 1);
+		batch.draw(axes, 0, -virtualHeightHalf, 1, virtualHeight);
+
 		font.draw(batch, "-" + (int) virtualWidthHalf, -virtualWidthHalf, 0);
 		TextBounds bounds = font.getBounds(String.valueOf((int) virtualWidthHalf));
 		font.draw(batch, String.valueOf((int) virtualWidthHalf), virtualWidthHalf - bounds.width, 0);
@@ -300,7 +290,6 @@ public class StageListener implements ApplicationListener {
 		font.draw(batch, String.valueOf((int) virtualHeightHalf), 0, virtualHeightHalf);
 		font.draw(batch, "0", 0, 0);
 		batch.end();
-
 	}
 
 	public void resize(int width, int height) {
@@ -313,6 +302,8 @@ public class StageListener implements ApplicationListener {
 		stage.dispose();
 		font.dispose();
 		pauseScreen.dispose();
+		background.dispose();
+		axes.dispose();
 		for (Sprite sprite : sprites) {
 			sprite.costume.disposeTextures();
 		}
