@@ -16,15 +16,6 @@
 	android:layout_height="wrap_content"
 	android:orientation="horizontal">
 
-	<ImageView android:id="@+id/grabber"
-		android:layout_alignParentLeft="true" 
-		android:layout_alignParentTop="true"
-		android:layout_alignParentBottom="true" 
-		android:layout_gravity="center_vertical"
-		android:layout_width="wrap_content" 
-		android:src="@drawable/ic_mp_move"
-		android:layout_height="wrap_content" />
-
 	<LinearLayout
     	android:orientation="horizontal"
     	android:layout_height="wrap_content"
