@@ -60,9 +60,7 @@ public class PlaySoundBrick implements Brick, Serializable, OnItemSelectedListen
 
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
 
-		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_play_sound, null);
-		}
+		view = View.inflate(context, R.layout.toolbox_brick_play_sound, null);
 
 		Spinner soundbrickSpinner = (Spinner) view.findViewById(R.id.playsound_spinner);
 		soundbrickSpinner.setAdapter(createSoundAdapter(context));
