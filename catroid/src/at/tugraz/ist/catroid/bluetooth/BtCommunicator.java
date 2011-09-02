@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- 
+/**
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010  Catroid development team 
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
@@ -16,28 +15,17 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
- 
-<resources>
-  <!-- Point in direction spinner -->
-  <string-array name="point_in_direction_strings">
-    <item>(90) rechts</item>
-    <item>(-90) links</item>
-    <item>(0) oben</item>
-    <item>(180) unten</item>
-  </string-array>
-  
-  <!-- Mindroid motors spinner -->
- 	<string-array name="nxt_stop_motor_chooser">
-	  <item>A</item>
-	  <item>B</item>
-	  <item>C</item>
-	  <item>Alle</item>
-	</string-array>
-	
-	<string-array name="yes_no_array">
-	  <item>Ja</item>
-	  <item>Nein</item>
-  </string-array>
-  
-</resources>
+ */
+package at.tugraz.ist.catroid.bluetooth;
+
+import android.os.Handler;
+
+// TODO Not needed for LegoNXT anymore, functionality now in LegoNXTBtCommunicator! Maybe refactor similary for arduino or move to arduino package...
+public abstract interface BtCommunicator {
+
+	public void setMACAddress(String mMACaddress);
+
+	public abstract boolean isConnected();
+
+	public Handler getHandler();
+}
