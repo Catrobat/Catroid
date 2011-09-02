@@ -109,12 +109,6 @@ public class DragAndDropListView extends ExpandableListView implements OnLongCli
 
 		int itemPosition = pointToPosition(x, y);
 
-		System.out.println("DragAndDropListView.onTouchEvent() itemPosition = " + itemPosition);
-		System.out.println("DragAndDropListView.onTouchEvent() childCount = " + getChildCount());
-		//		if (y > getChildAt(getChildCount() - 1).getBottom()) {
-		//			itemPosition = getChildCount() - 1;
-		//		}
-
 		if (dragAndDropListener != null && dragView != null) {
 			int action = event.getAction();
 			switch (action) {
