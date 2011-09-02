@@ -49,9 +49,13 @@ public class SetCostumeBrick implements Brick {
 			if (!NativeAppActivity.isRunning()) {
 				sprite.getCostume().changeImagePath(costumeData.getAbsolutePath());
 			} else {
-				sprite.getCostume().setBitmapFromResource(NativeAppActivity.getContext(),
-						NativeAppActivity.getContext().getResources().getIdentifier(costumeData.getCostumeFileName(), "raw",
-								NativeAppActivity.getContext().getPackageName()));
+				sprite.getCostume().setBitmapFromResource(
+						NativeAppActivity.getContext(),
+						NativeAppActivity
+								.getContext()
+								.getResources()
+								.getIdentifier(costumeData.getCostumeFileName(), "raw",
+										NativeAppActivity.getContext().getPackageName()));
 			}
 		}
 	}
@@ -66,9 +70,7 @@ public class SetCostumeBrick implements Brick {
 
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
 
-		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_set_costume, null);
-		}
+		view = View.inflate(context, R.layout.toolbox_brick_set_costume, null);
 
 		Spinner costumebrickSpinner = (Spinner) view.findViewById(R.id.setcostume_spinner);
 		costumebrickSpinner.setAdapter(createCostumeAdapter(context));
