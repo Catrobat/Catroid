@@ -45,7 +45,6 @@ public class NXTMotorActionBrick implements Brick, OnDismissListener, OnItemSele
 	private transient Handler btcHandler;
 	private int motor;
 	private int speed;
-	private double duration;
 	private static final int MOTOR_A = 0;
 	private static final int MOTOR_B = 1;
 	private static final int MOTOR_C = 2;
@@ -58,11 +57,10 @@ public class NXTMotorActionBrick implements Brick, OnDismissListener, OnItemSele
 	private transient SeekBar speedBar;
 	private transient EditIntegerDialog dialogSpeed;
 
-	public NXTMotorActionBrick(Sprite sprite, int motor, int speed, double duration) {
+	public NXTMotorActionBrick(Sprite sprite, int motor, int speed) {
 		this.sprite = sprite;
 		this.motor = motor;
 		this.speed = speed;
-		this.duration = duration;
 
 	}
 
@@ -91,7 +89,7 @@ public class NXTMotorActionBrick implements Brick, OnDismissListener, OnItemSele
 
 	@Override
 	public Brick clone() {
-		return new NXTMotorActionBrick(getSprite(), motor, speed, duration);
+		return new NXTMotorActionBrick(getSprite(), motor, speed);
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
