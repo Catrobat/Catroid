@@ -20,148 +20,148 @@
  -->
 
 <resources>
-    <!-- General terms -->
-    <string name="project">project</string>
-    <string name="sprite">sprite</string>
-    <string name="script">script</string>
-    <string name="brick">brick</string>
-    <string name="quit">Quit</string>
-    <string name="cancel_button">Cancel</string>
-    <string name="rename">Rename</string>
-    <string name="delete">Delete</string>
+	<!-- General terms -->
+	<string name="project">project</string>
+	<string name="sprite">sprite</string>
+	<string name="script">script</string>
+	<string name="brick">brick</string>
+	<string name="quit">Quit</string>
+	<string name="cancel_button">Cancel</string>
+	<string name="rename">Rename</string>
+	<string name="delete">Delete</string>
 
-    <!-- User interface -->
-    <string name="main_menu">Main menu</string>
-    <string name="menu">Menu</string>
+	<!-- User interface -->
+	<string name="main_menu">Main menu</string>
+	<string name="menu">Menu</string>
 
-    <!-- General -->
-    <string name="save">Save</string>
-    <string name="close">Close</string>
-    <string name="error">Error</string>
-    <string name="please_wait">Please wait</string>
-    <string name="loading">Loading...</string>
-    <string name="background">Background</string>
-    <string name="stage">Stage</string>
-    <string name="ok">OK</string>
+	<!-- General -->
+	<string name="save">Save</string>
+	<string name="close">Close</string>
+	<string name="error">Error</string>
+	<string name="please_wait">Please wait</string>
+	<string name="loading">Loading...</string>
+	<string name="background">Background</string>
+	<string name="stage">Stage</string>
+	<string name="ok">OK</string>
 
-    <!-- Brick captions -->
-    <string name="show">Show</string>
-    <string name="hide">Hide</string>
+	<!-- Brick captions -->
+	<string name="show">Show</string>
+	<string name="hide">Hide</string>
 
-    <!-- Construction site context menu -->
-    <string name="construction_site_play">To Stage</string>
-    <string name="reset">Reset Construction Site</string>
-    <string name="new_project">New Project</string>
-    <string name="load">Load</string>
-    <string name="change_project_name_main">Change Project Name</string>
-    <string name="about">About Catroid</string>
-    <string name="upload_project">Upload Project</string>
+	<!-- Construction site context menu -->
+	<string name="construction_site_play">To Stage</string>
+	<string name="reset">Reset Construction Site</string>
+	<string name="new_project">New Project</string>
+	<string name="load">Load</string>
+	<string name="change_project_name_main">Change Project Name</string>
+	<string name="about">About Catroid</string>
+	<string name="upload_project">Upload Project</string>
 
-    <!-- Main menu activity -->
-    <string name="resume">Resume</string>
-    <string name="current_project">Current project:</string>
-    <string name="no_project">No project currently loaded</string>
-    <string name="current_project_button">Current Project</string>
-    <string name="projects_on_phone">Projects on phone</string>
-    <string name="create_new_project">Create new project</string>
+	<!-- Main menu activity -->
+	<string name="resume">Resume</string>
+	<string name="current_project">Current project:</string>
+	<string name="no_project">No project currently loaded</string>
+	<string name="current_project_button">Current Project</string>
+	<string name="projects_on_phone">Projects on phone</string>
+	<string name="create_new_project">Create new project</string>
 	<string name="tutorial">Tutorial</string>
 	<string name="settings">Settings</string>
 	<string name="web_resources">Web resources</string>
 	
-    <!-- About Dialog -->
-    <string name="about_title">About Catroid</string>
-    <string name="about_text">
-        Catroid is a graphical programming language for Android,
-        inspired by the Scratch project of the MIT.\n
-        Catroid is developed at the Institute for Software Technology at
-        Graz University of Technology in Austria.\n\n
-        This program is licensed under the GNU GPL v3 License.\n\n
-    </string>
-    <string name="about_link_text">About Catroid</string>
+	<!-- About Dialog -->
+	<string name="about_title">About Catroid</string>
+	<string name="about_text">
+			Catroid is a graphical programming language for Android,
+			inspired by the Scratch project of the MIT.\n
+			Catroid is developed at the Institute for Software Technology at
+			Graz University of Technology in Austria.\n\n
+			This program is licensed under the GNU GPL v3 License.\n\n
+	</string>
+	<string name="about_link_text">About Catroid</string>
 
-    <!-- Project activity view -->
-    <string name="project_name">Project:</string>
-    <string name="sprite_list">Sprites</string>
-    <string name="add_sprite">Add new Sprite</string>
+	<!-- Project activity view -->
+	<string name="project_name">Project:</string>
+	<string name="sprite_list">Sprites</string>
+	<string name="add_sprite">Add new Sprite</string>
 
-    <!-- Script activity view -->
-    <string name="script_name">Script:</string>
-    <string name="brick_list">Bricks:</string>
-    <string name="add_new_brick">Add new Brick</string>
+	<!-- Script activity view -->
+	<string name="script_name">Script:</string>
+	<string name="brick_list">Bricks:</string>
+	<string name="add_new_brick">Add new Brick</string>
 
-    <!-- Sprite activity -->
-    <string name="sprite_name">Sprite:</string>
-    <string name="script_list">Scripts:</string>
-    <string name="add_new_script">Add new Script</string>
-    
-    <!-- ScriptTab activity -->
-    <string name="scripts">Scripts</string>
-    <string name="costumes">Costumes</string>
-    <string name="sounds">Sounds</string>
-    
-    <!-- Costume activity -->
-    <string name="costume_list">Costume:</string>
-    <string name="rename_costume_dialog">Rename costume</string>
-    <string name="edit_costume">edit</string>
-    <string name="edit_costume_paintroid">Paintroid</string>
-    <string name="copy_costume">copy</string>
-    <string name="costumename_invalid">This costumename is invalid</string>
-    <string name="edit_in_paintroid">Edit in paintroid</string>
-    <string name="copy_costume_addition">copy</string>
-    <string name="select_image">Select Image</string>
-    
-    <!-- Sound activity -->
-    <string name="sound_list">Sound:</string>
-    <string name="rename_sound_dialog">Rename sound</string>
-    <string name="soundname_invalid">This soundname is invalid</string>
-    <string name="sound_play">play</string>
-    <string name="sound_stop">stop</string>
-    <string name="sound_delete">delete</string>
-    <string name="sound_rename">rename</string>
+	<!-- Sprite activity -->
+	<string name="sprite_name">Sprite:</string>
+	<string name="script_list">Scripts:</string>
+	<string name="add_new_script">Add new Script</string>
+	
+	<!-- ScriptTab activity -->
+	<string name="scripts">Scripts</string>
+	<string name="costumes">Costumes</string>
+	<string name="sounds">Sounds</string>
+	
+	<!-- Costume activity -->
+	<string name="costume_list">Costume:</string>
+	<string name="rename_costume_dialog">Rename costume</string>
+	<string name="edit_costume">edit</string>
+	<string name="edit_costume_paintroid">Paintroid</string>
+	<string name="copy_costume">copy</string>
+	<string name="costumename_invalid">This costumename is invalid</string>
+	<string name="edit_in_paintroid">Edit in paintroid</string>
+	<string name="copy_costume_addition">copy</string>
+	<string name="select_image">Select Image</string>
+	
+	<!-- Sound activity -->
+	<string name="sound_list">Sound:</string>
+	<string name="rename_sound_dialog">Rename sound</string>
+	<string name="soundname_invalid">This soundname is invalid</string>
+	<string name="sound_play">play</string>
+	<string name="sound_stop">stop</string>
+	<string name="sound_delete">delete</string>
+	<string name="sound_rename">rename</string>
 
-    <!-- Sprite dialog -->
-    <string name="sprite_button_text">Create</string>
-    <string name="newsprite">New sprite</string>
+	<!-- Sprite dialog -->
+	<string name="sprite_button_text">Create</string>
+	<string name="newsprite">New sprite</string>
 
-    <!-- Script context menu -->
-    <string name="script_context_menu_title">Script Menu</string>
+	<!-- Script context menu -->
+	<string name="script_context_menu_title">Script Menu</string>
 
-    <!-- New project dialog -->
-    <string name="new_project_dialog_button">Create</string> 
-    <string name="new_project_dialog_title">Name of new project</string>
-    <string name="new_project_dialog_default_project_name">projectname</string>
-    
-    <!-- Edit Sprite Dialog -->
-    <string name="delete_sprite_button">Delete</string>
-    <string name="rename_sprite_button">Rename</string>
-    <string name="edit_sprite_dialog_title">Edit Sprite</string>
+	<!-- New project dialog -->
+	<string name="new_project_dialog_button">Create</string> 
+	<string name="new_project_dialog_title">Name of new project</string>
+	<string name="new_project_dialog_default_project_name">projectname</string>
+	
+	<!-- Edit Sprite Dialog -->
+	<string name="delete_sprite_button">Delete</string>
+	<string name="rename_sprite_button">Rename</string>
+	<string name="edit_sprite_dialog_title">Edit Sprite</string>
 
-    <!-- Edit Script Dialog -->
-    <string name="delete_script_button">Delete</string>
-    <string name="rename_script_button">Rename</string>
-    <string name="edit_script_dialog_title">Edit Script</string>
+	<!-- Edit Script Dialog -->
+	<string name="delete_script_button">Delete</string>
+	<string name="rename_script_button">Rename</string>
+	<string name="edit_script_dialog_title">Edit Script</string>
 
-    <!-- Rename Dialog -->
-    <string name="rename_hint">Name</string>
-    <string name="rename_button">Rename</string>
+	<!-- Rename Dialog -->
+	<string name="rename_hint">Name</string>
+	<string name="rename_button">Rename</string>
 
-    <!-- New script dialog -->
-    <string name="new_script_dialog_button">Create</string>
-    <string name="new_script_dialog_title">Name of new script</string>
-    <string name="new_script_dialog_default_script_name">scriptname</string>
-    <string name="script_invalid">This scriptname is invalid</string>
+	<!-- New script dialog -->
+	<string name="new_script_dialog_button">Create</string>
+	<string name="new_script_dialog_title">Name of new script</string>
+	<string name="new_script_dialog_default_script_name">scriptname</string>
+	<string name="script_invalid">This scriptname is invalid</string>
 
-    <!-- New sprite dialog -->
-    <string name="new_sprite_dialog_default_sprite_name">spritename</string>
-    <string name="new_sprite_dialog_button">Create</string>
-    <string name="new_sprite_dialog_title">Name of new Sprite</string>
-    <string name="spritename_already_exists">This spritename already exists</string>
-    <string name="rename_sprite_dialog">Rename Sprite</string>
-    <string name="spritename_invalid">This spritename is invalid</string>
-    <string name="rename_script_dialog">Rename Script</string>
+	<!-- New sprite dialog -->
+	<string name="new_sprite_dialog_default_sprite_name">spritename</string>
+	<string name="new_sprite_dialog_button">Create</string>
+	<string name="new_sprite_dialog_title">Name of new Sprite</string>
+	<string name="spritename_already_exists">This spritename already exists</string>
+	<string name="rename_sprite_dialog">Rename Sprite</string>
+	<string name="spritename_invalid">This spritename is invalid</string>
+	<string name="rename_script_dialog">Rename Script</string>
 
-    <!-- Load project dialog -->
-    <string name="load_project_dialog_title">Load Project</string>
+	<!-- Load project dialog -->
+	<string name="load_project_dialog_title">Load Project</string>
 
 	<!-- Broadcast spinner -->
 	<string name="new_broadcast_message">new...</string>
@@ -170,28 +170,28 @@
 	<!-- Point to spinner -->
 	<string name="point_to_select_location">Select</string>
 	
-    <!-- Stage context menu -->
-    <string name="stagemenu_construction_site">To Construction Site</string>
-    <string name="stagemenu_start">Play/Pause</string>
+	<!-- Stage context menu -->
+	<string name="stagemenu_construction_site">To Construction Site</string>
+	<string name="stagemenu_start">Play/Pause</string>
 
-    <string name="brick_set_background">Set Background</string>
-    <string name="brick_play_sound">Play Sound</string>
-    <string name="brick_wait">Wait</string>
-    <string name="seconds">Seconds</string>
-    
-    <string name="brick_hide">Hide</string>
-    <string name="brick_show">Show</string>
-    <string name="brick_place_at">Place at</string>
-    <string name="x_label">X:</string>
-    <string name="y_label">Y:</string>
-    <string name="brick_set_costume">Set Costume</string>
-    <string name="brick_set_size_to">Set size to</string>
-    <string name="brick_go_back">Go back</string>
-    <string name="steps_label">steps</string>
-    <string name="brick_go_back_layers">layers</string>
-    <string name="brick_come_to_front">Come to front</string>
-    <string name="brick_when_started">When Project Starts</string>
-    <string name="brick_change_x_by">Change X by:</string>
+	<string name="brick_set_background">Set Background</string>
+	<string name="brick_play_sound">Play Sound</string>
+	<string name="brick_wait">Wait</string>
+	<string name="seconds">Seconds</string>
+	
+	<string name="brick_hide">Hide</string>
+	<string name="brick_show">Show</string>
+	<string name="brick_place_at">Place at</string>
+	<string name="x_label">X:</string>
+	<string name="y_label">Y:</string>
+	<string name="brick_set_costume">Set Costume</string>
+	<string name="brick_set_size_to">Set size to</string>
+	<string name="brick_go_back">Go back</string>
+	<string name="steps_label">steps</string>
+	<string name="brick_go_back_layers">layers</string>
+	<string name="brick_come_to_front">Come to front</string>
+	<string name="brick_when_started">When Project Starts</string>
+	<string name="brick_change_x_by">Change X by:</string>
 	<string name="brick_change_y_by">Change Y by:</string>
 	<string name="brick_set_x">Set X to:</string>
 	<string name="brick_set_y">Set Y to:</string>
@@ -228,91 +228,150 @@
 	<string name="choose_sound_title">choose a title</string>
 	<string name="choose_language">choose a language</string>
 	
-    <string name="when_action">Choose an action</string>
-    <string name="action_tapped">Tapped</string>
-    <string name="action_doubleTapped">Double Tapped</string>
-    <string name="action_longPressed">Long Pressed</string>
-    <string name="action_touchingStops">Touching Stops</string>
-    <string name="action_swipeLeft">Swipe Left</string> 
-    <string name="action_swipeRight">Swipe Right</string>
-    <string name="action_swipeUp">Swipe Up</string>
-    <string name="action_swipeDown">Swipe Down</string>
+	<string name="when_action">Choose an action</string>
+	<string name="action_tapped">Tapped</string>
+	<string name="action_doubleTapped">Double Tapped</string>
+	<string name="action_longPressed">Long Pressed</string>
+	<string name="action_touchingStops">Touching Stops</string>
+	<string name="action_swipeLeft">Swipe Left</string> 
+	<string name="action_swipeRight">Swipe Right</string>
+	<string name="action_swipeUp">Swipe Up</string>
+	<string name="action_swipeDown">Swipe Down</string>
 
 	<string name="brick_note">Note</string>
 	<string name="brick_broadcast_receive">When I receive</string>
 	
 	<string name="brick_broadcast">Broadcast</string>
-    <string name="brick_broadcast_wait">Broadcast and wait</string>
+	<string name="brick_broadcast_wait">Broadcast and wait</string>
 	<string name="brick_stop_all_sounds">Stop all sounds</string>
-    <!-- defaulValues -->
-    <string name="default_project_name">defaultProject</string>
-    
-    <!-- Notifications -->
-    <string name="notification_invalid_text_entered">
-    	Please enter a value
-    </string>
-    <string name="notification_invalid_name_entered">
-    	Please enter a name
-    </string>
-    <string name="notification_screenshot_ok">
-        Screenshot saved
-    </string>
+	<!-- defaulValues -->
+	<string name="default_project_name">defaultProject</string>
+	
+	<!-- Notifications -->
+	<string name="notification_invalid_text_entered">
+		Please enter a value
+	</string>
+	<string name="notification_invalid_name_entered">
+		Please enter a name
+	</string>
+	<string name="notification_screenshot_ok">
+			Screenshot saved
+	</string>
 
-    <!-- Error messages -->
-    <string name="error_no_sd_card">
-        Catroid requires an SD card in order to run, but none was found.\nPlease insert an SD card and try again.
-    </string>
-    <string name="error_no_name_entered">
-        Please enter a name.
-    </string>
-    <string name="error_project_exists">
-        A project with the same name already
-        exists.\nPlease choose a different name.
-    </string>
-    <string name="error_create_project">
-        An error occurred while creating a new project.
-    </string>
-    <string name="error_sprite_exists">
-    	A sprite with the same name already exists.\nPlease choose a different name.
-    </string>
-    <string name="error_project_upload">
-        An error occurred while uploading the project.
-    </string>
-    <string name="error_project_download">
-        An error occurred while downloading the project.
-    </string>
-    <string name="error_project_rename">
-        An error occurred while renaming the project.
-    </string>
-    <string name="error_save_project">
-        An error occurred while saving the project.
-    </string>
-    <string name="error_load_project">
-        An error occurred while loading the project.
-    </string>
-    <string name="error_delete_project">
-        An error occurred while deleting the project.
-    </string>
-    <string name="error_no_number_entered">
-        Please enter a number.
-    </string>
-    <string name="error_screenshot_failed">
-        An error occurred while saving the screenshot.
-    </string>
-    <string name="error_load_image">
-    	An error occurred while loading the image.
-    </string>
-    <string name="error_load_sound">
-    	An error occurred while loading the sound.
-    </string>
+	<!-- Error messages -->
+	<string name="error_no_sd_card">
+			Catroid requires an SD card in order to run, but none was found.\nPlease insert an SD card and try again.
+	</string>
+	<string name="error_no_name_entered">
+			Please enter a name.
+	</string>
+	<string name="error_project_exists">
+			A project with the same name already
+			exists.\nPlease choose a different name.
+	</string>
+	<string name="error_create_project">
+			An error occurred while creating a new project.
+	</string>
+	<string name="error_sprite_exists">
+		A sprite with the same name already exists.\nPlease choose a different name.
+	</string>
+	<string name="error_project_upload">
+			An error occurred while uploading the project.
+	</string>
+	<string name="error_project_download">
+			An error occurred while downloading the project.
+	</string>
+	<string name="error_project_rename">
+			An error occurred while renaming the project.
+	</string>
+	<string name="error_save_project">
+			An error occurred while saving the project.
+	</string>
+	<string name="error_load_project">
+			An error occurred while loading the project.
+	</string>
+	<string name="error_delete_project">
+			An error occurred while deleting the project.
+	</string>
+	<string name="error_no_number_entered">
+			Please enter a number.
+	</string>
+	<string name="error_screenshot_failed">
+			An error occurred while saving the screenshot.
+	</string>
+	<string name="error_load_image">
+		An error occurred while loading the image.
+	</string>
+	<string name="error_load_sound">
+		An error occurred while loading the sound.
+	</string>
 
-    <!-- Notifications -->
-    <string name="success_project_upload">Upload successful.</string>
-    <string name="success_project_download">Download successful.</string>
-    <string name="load_project">Load Project</string>
-    <string name="upload_button">Upload</string>
-    <string name="upload_project_dialog_title">Upload project</string>
-    <string name="upload_description">Description:</string>
-    <string name="project_rename">(Your project will be renamed.)</string>
-    <string name="size_of_project">Size of project:</string>
+	<!-- Notifications -->
+	<string name="success_project_upload">Upload successful.</string>
+	<string name="success_project_download">Download successful.</string>
+	<string name="load_project">Load Project</string>
+	<string name="upload_button">Upload</string>
+	<string name="upload_project_dialog_title">Upload project</string>
+	<string name="upload_description">Description:</string>
+	<string name="project_rename">(Your project will be renamed.)</string>
+	<string name="size_of_project">Size of project:</string>
+	
+	<!-- Bluetooth, LegoNXT, Arduino -->
+	<!-- Sensor Dialog Errors -->
+	<string name="error_sensor_enter_analog_pin">You just have 0 to 5 PINs here so please a number from 0-5</string>
+	<string name="error_sensor_enter_digital_pin">You just have 0 to 13 PINs here so please a number from 0-13</string>
+	<string name="error_sensor_enter_analog_value">For this PIN you can just enter a value from 0.0 to 5.0</string>
+	<string name="error_sensor_enter_digital_value">For this PIN you can just enter 1 for HIGH or 0 for LOW</string>
+	<string name="error_no_bluetooth_devices_available">There are no bluetooth devices available</string>
+	
+	<!-- Sensor Dialog Pin -->
+	<string name="dialog_pin_analog_text">Pls enter a Pin from 0 to 13.\n Remember these Pins are analog.</string>
+	
+	<!-- Bluetooth Dialog -->
+	<string name="dialog_bluetooth_available_devices">Available Devices</string>
+
+	<string name="sensor_main_adapter">Sensor</string>
+	<string name="brick_sensor_type">Type</string>
+	<string name="brick_sensor_pin">Pin</string>
+	<string name="brick_sensor_value">Value</string>
+	<string name="brick_sensor_time">Time</string>
+	<string name="brick_sensor_time_seconds">sec</string>
+	<!-- Bluetooth Connection Strings -->
+	
+	<string name="notification_blueth_err">Bluetooth could not be enabled, closing stage
+	</string>
+	<string name="title_paired_devices">Paired devices</string>
+	<string name="title_other_devices">New devices</string>
+	<string name="button_scan">Search bluetooth devices</string>
+	<string name="select_device">Select your Mindstorms NXT</string>
+	<string name="scanning">Scanning</string>
+	<string name="connecting_please_wait">Connecting to your device.\nPlease wait...</string>
+	<string name="pairing_message">After pairing, connect.</string>
+	<string name="problem_at_closing">Problem in closing the connection!</string>
+	<string name="connect_device">Connect device</string>
+	<string name="no_paired_nxt">No paired NXT found</string>
+	<string name="none_found">No unpaired devices found</string>
+	<string name="none_paired">No paired devices found</string>
+	
+	<!-- Lego Mindstorms Strings -->
+	<string name="brick_motor_action">Move motor</string>
+	<string name="motor">motor</string>
+	<string name="motor_duration">Duration</string>
+	<string name="motor_speed">Speed</string>
+	<string name="brick_motor_turn_angle">Turn motor</string>
+	<string name="motor_angle">Angle</string>
+	<string name="motor_stop">Stop Motor</string>
+	<string name="motor_inverse">Inverse</string>
+	<string name="nxt_play_tone">Play Tone</string>
+	<string name="tone_duration">Duration</string>
+	<string name="nxt_tone_frequency">Frequency</string>
+	<string name="nxt_tone_hundred_hz">x100Hz</string>
+	<string name="nxt_turn_degrees">degrees</string>
+	<string name="minus_symbol">-</string>
+	<string name="plus_symbol">+</string>
+	<string name="just_a_v">v</string>
+	
+	<string name="number_to_small">Value is too small!</string>
+	<string name="number_to_big">Value is too big!</string>
+		
 </resources>

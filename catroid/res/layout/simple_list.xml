@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <!-- 
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010  Catroid development team 
@@ -17,27 +18,17 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
- 
-<resources>
-  <!-- Point in direction spinner -->
-  <string-array name="point_in_direction_strings">
-    <item>(90) rechts</item>
-    <item>(-90) links</item>
-    <item>(0) oben</item>
-    <item>(180) unten</item>
-  </string-array>
-  
-  <!-- Mindroid motors spinner -->
- 	<string-array name="nxt_stop_motor_chooser">
-	  <item>A</item>
-	  <item>B</item>
-	  <item>C</item>
-	  <item>Alle</item>
-	</string-array>
-	
-	<string-array name="yes_no_array">
-	  <item>Ja</item>
-	  <item>Nein</item>
-  </string-array>
-  
-</resources>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+>
+		<ListView
+			android:id="@+id/simple_list"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:fastScrollEnabled="true"
+			android:background="@color/white"
+			android:clickable="true"
+		/>
+</LinearLayout>
