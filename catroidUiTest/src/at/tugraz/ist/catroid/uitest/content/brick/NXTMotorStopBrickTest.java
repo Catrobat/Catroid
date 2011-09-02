@@ -79,8 +79,10 @@ public class NXTMotorStopBrickTest extends ActivityInstrumentationTestCase2<Scri
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.motor_stop)));
 
 		solo.sleep(500);
-		solo.pressSpinnerItem(0, 3);
+		solo.pressSpinnerItem(0, 4);
 		assertEquals("All", solo.getCurrentSpinners().get(0).getSelectedItem());
+		solo.pressSpinnerItem(0, -1);
+		assertEquals("A+C", solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, -1);
 		assertEquals("C", solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, -1);

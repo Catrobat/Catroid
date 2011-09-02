@@ -32,15 +32,13 @@ import at.tugraz.ist.catroid.R;
 
 public class EditDoubleDialog extends EditDialog implements OnClickListener {
 	private double value;
-	private double min;
-	private double max;
+	private double min = Double.MIN_VALUE;
+	private double max = Double.MAX_VALUE;
 	private boolean signed = false;
 
 	public EditDoubleDialog(Context context, EditText referencedEditText, double value) {
 		super(context, referencedEditText);
 		this.value = value;
-		min = Double.MIN_VALUE;
-		max = Double.MAX_VALUE;
 	}
 
 	public EditDoubleDialog(Context context, EditText referencedEditText, double value, double min, double max) {
@@ -67,7 +65,7 @@ public class EditDoubleDialog extends EditDialog implements OnClickListener {
 		} else {
 			editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 		}
-		
+
 		okButton.setOnClickListener(this);
 
 		this.setOnKeyListener(new OnKeyListener() {
