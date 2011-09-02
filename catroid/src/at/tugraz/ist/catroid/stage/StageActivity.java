@@ -21,6 +21,7 @@ package at.tugraz.ist.catroid.stage;
 
 import java.util.HashMap;
 import java.util.Locale;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -29,7 +30,6 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.util.Log;
@@ -55,6 +55,7 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 
 	private static final int REQUEST_ENABLE_BT = 2000;
 	private static final int REQUEST_CONNECT_DEVICE = 1000;
+	private static final int MY_DATA_CHECK_CODE = 0;
 	public static SurfaceView stage;
 	private SoundManager soundManager;
 	private StageManager stageManager;
@@ -66,7 +67,6 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 	private static boolean simulatorMode = false;
 	private SimpleGestureFilter detector;
 	private final static String TAG = StageActivity.class.getSimpleName();
-	private int MY_DATA_CHECK_CODE = 0;
 	public static TextToSpeech tts;
 	public String text;
 	public boolean flag = true;
@@ -119,7 +119,7 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		Log.i("bt", "requestcode " + requestCode + " result code" + resultCode);
+		//Log.i("bt", "requestcode " + requestCode + " result code" + resultCode);
 		switch (requestCode) {
 
 			case REQUEST_ENABLE_BT:
@@ -133,9 +133,9 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 						finish();
 						break;
 				}
-
 				break;
-			case REQUEST_CONNECT_DEVICE: {
+
+			case REQUEST_CONNECT_DEVICE:
 				switch (resultCode) {
 					case Activity.RESULT_OK:
 						String address = data.getExtras().getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
@@ -147,9 +147,20 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 					case Activity.RESULT_CANCELED:
 						finish();
 						break;
-
 				}
-			}
+				break;
+
+			case MY_DATA_CHECK_CODE:
+				if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+					// success, create the TTS instance
+					tts = new TextToSpeech(this, this);
+				} else {
+					// missing data, install it
+					Intent installIntent = new Intent();
+					installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+					startActivity(installIntent);
+				}
+
 		}
 	}
 
@@ -343,22 +354,6 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 		if (toastEnabled) {
 			Toast.makeText(this, "Long Press", Toast.LENGTH_SHORT).show();
 		}
-	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == MY_DATA_CHECK_CODE) {
-			if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
-				// success, create the TTS instance
-				tts = new TextToSpeech(this, this);
-			} else {
-				// missing data, install it
-				Intent installIntent = new Intent();
-				installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
-				startActivity(installIntent);
-			}
-		}
-
 	}
 
 	public void onInit(int status) {
