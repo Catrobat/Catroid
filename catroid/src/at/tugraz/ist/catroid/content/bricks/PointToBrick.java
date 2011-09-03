@@ -64,10 +64,14 @@ public class PointToBrick implements Brick {
 		int pointedSpriteXPosition = 0, pointedSpriteYPosition = 0;
 		double base = 0.0, height = 0.0, value = 0.0;
 
+		sprite.costume.aquireXYWidthHeightLock();
 		spriteXPosition = (int) sprite.costume.getXPosition();
 		spriteYPosition = (int) sprite.costume.getYPosition();
+		sprite.costume.releaseXYWidthHeightLock();
+		pointedSprite.costume.aquireXYWidthHeightLock();
 		pointedSpriteXPosition = (int) pointedSprite.costume.getXPosition();
 		pointedSpriteYPosition = (int) pointedSprite.costume.getYPosition();
+		pointedSprite.costume.releaseXYWidthHeightLock();
 
 		if (spriteXPosition == pointedSpriteXPosition && spriteYPosition == pointedSpriteYPosition) {
 			rotationDegrees = 90;

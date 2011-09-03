@@ -45,6 +45,7 @@ public class ChangeXByBrick implements Brick, OnDismissListener {
 	}
 
 	public void execute() {
+		sprite.costume.aquireXYWidthHeightLock();
 		int xPosition = (int) sprite.costume.getXPosition();
 
 		if (xPosition > 0 && xMovement > 0 && xPosition + xMovement < 0) {
@@ -56,6 +57,7 @@ public class ChangeXByBrick implements Brick, OnDismissListener {
 		}
 
 		sprite.costume.setXYPosition(xPosition, sprite.costume.getYPosition());
+		sprite.costume.releaseXYWidthHeightLock();
 	}
 
 	public Sprite getSprite() {

@@ -45,7 +45,9 @@ public class SetXBrick implements Brick, OnDismissListener {
 	}
 
 	public void execute() {
+		sprite.costume.aquireXYWidthHeightLock();
 		sprite.costume.setXPosition(xPosition);
+		sprite.costume.releaseXYWidthHeightLock();
 	}
 
 	public Sprite getSprite() {

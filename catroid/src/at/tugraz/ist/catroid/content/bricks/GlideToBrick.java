@@ -30,7 +30,6 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
-
 public class GlideToBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
 	private int xDestination;
@@ -87,10 +86,13 @@ public class GlideToBrick implements Brick, OnDismissListener {
 			updatePositions((int) (currentTime - startTime), duration);
 			startTime = currentTime;
 		}
+		sprite.costume.aquireXYWidthHeightLock();
 		sprite.costume.setXYPosition(xDestination, yDestination);
+		sprite.costume.releaseXYWidthHeightLock();
 	}
 
 	private void updatePositions(int timePassed, int duration) {
+		sprite.costume.aquireXYWidthHeightLock();
 		float xPosition = sprite.costume.getXPosition();
 		float yPosition = sprite.costume.getYPosition();
 
@@ -98,6 +100,7 @@ public class GlideToBrick implements Brick, OnDismissListener {
 		yPosition += ((float) timePassed / duration) * (yDestination - yPosition);
 
 		sprite.costume.setXYPosition(xPosition, yPosition);
+		sprite.costume.releaseXYWidthHeightLock();
 	}
 
 	public Sprite getSprite() {
