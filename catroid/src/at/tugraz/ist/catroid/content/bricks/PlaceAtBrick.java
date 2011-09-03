@@ -47,7 +47,9 @@ public class PlaceAtBrick implements Brick, OnDismissListener {
 	}
 
 	public void execute() {
+		sprite.costume.aquireXYWidthHeightLock();
 		sprite.costume.setXYPosition(xPosition, yPosition);
+		sprite.costume.releaseXYWidthHeightLock();
 	}
 
 	public Sprite getSprite() {

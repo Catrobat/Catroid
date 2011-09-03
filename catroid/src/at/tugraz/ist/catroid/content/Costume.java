@@ -35,7 +35,7 @@ import com.badlogic.gdx.scenes.scene2d.actors.Image;
  * 
  */
 public class Costume extends Image {
-	protected Semaphore xyLock = new Semaphore(1);
+	protected Semaphore xYWidthHeightLock = new Semaphore(1);
 	protected Semaphore imageLock = new Semaphore(1);
 	protected Semaphore scaleLock = new Semaphore(1);
 	protected Semaphore alphaValueLock = new Semaphore(1);
@@ -81,15 +81,15 @@ public class Costume extends Image {
 		if (!show) {
 			return false;
 		}
-		xyLock.acquireUninterruptibly();
+		xYWidthHeightLock.acquireUninterruptibly();
 		if (x >= 0 && x <= this.width && y >= 0 && y <= this.height) {
 			if (currentAlphaPixmap != null && ((currentAlphaPixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)) {
 				sprite.startWhenScripts("Tapped");
-				xyLock.release();
+				xYWidthHeightLock.release();
 				return true;
 			}
 		}
-		xyLock.release();
+		xYWidthHeightLock.release();
 		return false;
 	}
 
@@ -117,20 +117,17 @@ public class Costume extends Image {
 			this.disposeTextures();
 			currentAlphaPixmap = null;
 			if (imagePath.equals("")) {
-				xyLock.acquireUninterruptibly();
+				xYWidthHeightLock.acquireUninterruptibly();
 				this.x += this.width / 2f;
 				this.y += this.height / 2f;
 				this.width = 0f;
 				this.height = 0f;
-				xyLock.release();
+				xYWidthHeightLock.release();
 				this.region = new TextureRegion();
 				imageChanged = false;
 				imageLock.release();
 				return;
 			}
-			xyLock.acquireUninterruptibly();
-			this.x += this.width / 2f;
-			this.y += this.height / 2f;
 
 			Pixmap pixmap;
 			if (nativeApp) {
@@ -139,13 +136,16 @@ public class Costume extends Image {
 				pixmap = new Pixmap(Gdx.files.absolute(imagePath));
 			}
 
+			xYWidthHeightLock.acquireUninterruptibly();
+			this.x += this.width / 2f;
+			this.y += this.height / 2f;
 			this.width = pixmap.getWidth();
 			this.height = pixmap.getHeight();
 			this.x -= this.width / 2f;
 			this.y -= this.height / 2f;
 			this.originX = this.width / 2f;
 			this.originY = this.height / 2f;
-			xyLock.release();
+			xYWidthHeightLock.release();
 
 			currentAlphaPixmap = new Pixmap(pixmap.getWidth(), pixmap.getHeight(), Format.Alpha);
 			currentAlphaPixmap.drawPixmap(pixmap, 0, 0, 0, 0, pixmap.getWidth(), pixmap.getHeight());
@@ -217,70 +217,46 @@ public class Costume extends Image {
 		imageLock.release();
 	}
 
+	// Always use this method for the following methods
+	public void aquireXYWidthHeightLock() {
+		xYWidthHeightLock.acquireUninterruptibly();
+	}
+
 	public void setXPosition(float x) {
-		xyLock.acquireUninterruptibly();
-		if (this.region != null && this.region.getTexture() != null) {
-			this.x = x - (this.width / 2f);
-		} else {
-			this.x = x;
-		}
-		xyLock.release();
+		this.x = x - (this.width / 2f);
 	}
 
 	public void setYPosition(float y) {
-		xyLock.acquireUninterruptibly();
-		if (this.region != null && this.region.getTexture() != null) {
-			this.y = y - (this.height / 2f);
-		} else {
-			this.y = y;
-		}
-		xyLock.release();
+		this.y = y - (this.height / 2f);
 	}
 
 	public void setXYPosition(float x, float y) {
-		xyLock.acquireUninterruptibly();
-		if (this.region != null && this.region.getTexture() != null) {
-			this.x = x - (this.width / 2f);
-			this.y = y - (this.height / 2f);
-		} else {
-			this.x = x;
-			this.y = y;
-		}
-		xyLock.release();
+		this.x = x - (this.width / 2f);
+		this.y = y - (this.height / 2f);
 	}
 
 	public float getXPosition() {
-		xyLock.acquireUninterruptibly();
 		float xPos = this.x;
-		if (this.region != null && this.region.getTexture() != null) {
-			xPos += this.width / 2f;
-		}
-		xyLock.release();
+		xPos += this.width / 2f;
 		return xPos;
 	}
 
 	public float getYPosition() {
-		xyLock.acquireUninterruptibly();
 		float yPos = this.y;
-		if (this.region != null && this.region.getTexture() != null) {
-			yPos += this.height / 2f;
-		}
-		xyLock.release();
+		yPos += this.height / 2f;
 		return yPos;
 	}
 
 	public float getWidth() {
-		xyLock.acquireUninterruptibly();
-		float width = this.width;
-		xyLock.release();
-		return width;
+		return this.width;
 	}
 
 	public float getHeight() {
-		xyLock.acquireUninterruptibly();
-		float height = this.height;
-		xyLock.release();
-		return height;
+		return this.height;
+	}
+
+	public void releaseXYWidthHeightLock() {
+		xYWidthHeightLock.release();
 	}
 
 	public void setImagePath(String path) {
