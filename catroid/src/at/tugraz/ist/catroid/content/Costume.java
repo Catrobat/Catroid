@@ -82,14 +82,16 @@ public class Costume extends Image {
 			return false;
 		}
 		xYWidthHeightLock.acquireUninterruptibly();
-		if (x >= 0 && x <= this.width && y >= 0 && y <= this.height) {
+		float width = this.width;
+		float height = this.height;
+		xYWidthHeightLock.release();
+
+		if (x >= 0 && x <= width && y >= 0 && y <= height) {
 			if (currentAlphaPixmap != null && ((currentAlphaPixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)) {
 				sprite.startWhenScripts("Tapped");
-				xYWidthHeightLock.release();
 				return true;
 			}
 		}
-		xYWidthHeightLock.release();
 		return false;
 	}
 
