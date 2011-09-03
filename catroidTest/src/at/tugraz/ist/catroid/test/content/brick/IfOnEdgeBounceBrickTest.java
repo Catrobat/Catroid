@@ -99,6 +99,8 @@ public class IfOnEdgeBounceBrickTest extends InstrumentationTestCase {
 		sprite.costume.setImagePath(testImage.getAbsolutePath());
 		sprite.costume.width = width;
 		sprite.costume.height = height;
+		sprite.costume.setXPosition(0);
+		sprite.costume.setYPosition(0);
 
 		IfOnEdgeBounceBrick ifOnEdgeBounceBrick = new IfOnEdgeBounceBrick(sprite);
 
