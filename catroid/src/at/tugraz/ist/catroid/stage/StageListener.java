@@ -129,8 +129,8 @@ public class StageListener implements ApplicationListener {
 		if (DEBUG) {
 			OrthoCamController camController = new OrthoCamController(camera);
 			InputMultiplexer multiplexer = new InputMultiplexer();
-			multiplexer.addProcessor(stage);
 			multiplexer.addProcessor(camController);
+			multiplexer.addProcessor(stage);
 			Gdx.input.setInputProcessor(multiplexer);
 			fpsLogger = new FPSLogger();
 		} else {
