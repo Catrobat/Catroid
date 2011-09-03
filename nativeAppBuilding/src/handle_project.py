@@ -112,7 +112,7 @@ def set_project_name(new_name, path_to_file):
     
 def get_project_name(project_filename):
     for node in xml.dom.minidom.parse(project_filename).getElementsByTagName('name'):
-        if node.parentNode.nodeName == 'project':
+        if node.parentNode.nodeName == 'Content.Project':
             return node.childNodes[0].nodeValue
 
 def rename_package(path_to_project, new_package):
