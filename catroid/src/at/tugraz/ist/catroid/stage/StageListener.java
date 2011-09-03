@@ -52,7 +52,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
  * 
  */
 public class StageListener implements ApplicationListener {
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = false;
 	private FPSLogger fpsLogger;
 
 	private Stage stage;
