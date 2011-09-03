@@ -52,7 +52,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
  * 
  */
 public class StageListener implements ApplicationListener {
-	private static final boolean DEBUG = false;
+	private static final boolean DEBUG = true;
 	private FPSLogger fpsLogger;
 
 	private Stage stage;
@@ -129,8 +129,8 @@ public class StageListener implements ApplicationListener {
 		if (DEBUG) {
 			OrthoCamController camController = new OrthoCamController(camera);
 			InputMultiplexer multiplexer = new InputMultiplexer();
-			multiplexer.addProcessor(stage);
 			multiplexer.addProcessor(camController);
+			multiplexer.addProcessor(stage);
 			Gdx.input.setInputProcessor(multiplexer);
 			fpsLogger = new FPSLogger();
 		} else {
