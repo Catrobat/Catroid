@@ -45,6 +45,7 @@ public class CostumeActivity extends ListActivity {
 	public final int REQUEST_SELECT_IMAGE = 0;
 	public final int REQUEST_PAINTROID_EDIT_IMAGE = 1;
 	public final int REQUEST_PAINTROID_NEW_IMAGE = 2;
+	public final int REQUEST_CAM_IMAGE = 3;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -74,6 +75,7 @@ public class CostumeActivity extends ListActivity {
 			//set new icon for actionbar plus button:
 			activityHelper.changeButtonIcon(R.id.btn_action_add_sprite, R.drawable.ic_folder_open);
 		}
+
 	}
 
 	private View.OnClickListener createAddCostumeClickListener() {
@@ -81,8 +83,8 @@ public class CostumeActivity extends ListActivity {
 			public void onClick(View v) {
 				Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 				intent.setType("image/*");
-				startActivityForResult(Intent.createChooser(intent, getString(R.string.select_image)),
-						REQUEST_SELECT_IMAGE);
+				Intent chooser = Intent.createChooser(intent, getString(R.string.select_image));
+				startActivityForResult(chooser, REQUEST_SELECT_IMAGE);
 			}
 		};
 	}
@@ -120,18 +122,25 @@ public class CostumeActivity extends ListActivity {
 		//when new sound title is selected and ready to be added to the catroid project
 		if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_SELECT_IMAGE) {
 			String originalImagePath = "";
-			//get path of image --------------------------
+			//get path of image - will work for most applications
 			{
 				Uri imageUri = data.getData();
+
 				String[] projection = { MediaStore.MediaColumns.DATA };
 				Cursor cursor = managedQuery(imageUri, projection, null, null, null);
 				if (cursor == null) {
+					originalImagePath = imageUri.getPath();
+				} else {
+					int column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
+					cursor.moveToFirst();
+					originalImagePath = cursor.getString(column_index);
+				}
+
+				if (cursor == null && originalImagePath.equalsIgnoreCase("")) {
 					Utils.displayErrorMessage(this, this.getString(R.string.error_load_image));
 					return;
 				}
-				int column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
-				cursor.moveToFirst();
-				originalImagePath = cursor.getString(column_index);
+
 			}
 			//-----------------------------------------------------
 
