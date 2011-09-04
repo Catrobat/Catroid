@@ -24,9 +24,16 @@ import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.AttributeSet;
+import android.util.Log;
 import android.util.Pair;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
@@ -52,12 +59,14 @@ public class ScriptTabActivity extends TabActivity {
 	public static final int DIALOG_RENAME_SOUND = 1;
 
 	private void setupTabHost() {
-		tabHost = (TabHost) findViewById(android.R.id.tabhost);
-		tabHost.setup();
+		tabHost = getTabHost(); //(TabHost) findViewById(android.R.id.tabhost);
+		//tabHost.setup();
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_scripttab);
 
@@ -179,4 +188,62 @@ public class ScriptTabActivity extends TabActivity {
 		dismissDialog(DIALOG_RENAME_COSTUME);
 	}
 
+	public static class FlingableTabHost extends TabHost {
+		GestureDetector mGestureDetector;
+
+		Animation mRightInAnimation;
+		Animation mRightOutAnimation;
+		Animation mLeftInAnimation;
+		Animation mLeftOutAnimation;
+
+		public FlingableTabHost(Context context, AttributeSet attrs) {
+			super(context, attrs);
+
+			mRightInAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_right_in);
+			mRightOutAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_right_out);
+			mLeftInAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_left_in);
+			mLeftOutAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_left_out);
+
+			final int minScaledFlingVelocity = ViewConfiguration.get(context).getScaledMinimumFlingVelocity() * 10; // 10 = fudge by experimentation
+
+			mGestureDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener() {
+				@Override
+				public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+					Log.e("fling", "on fling!!!!!!!");
+					int tabCount = getTabWidget().getTabCount();
+					int currentTab = getCurrentTab();
+					if (Math.abs(velocityX) > minScaledFlingVelocity && Math.abs(velocityY) < minScaledFlingVelocity) {
+
+						final boolean right = velocityX < 0;
+						final int newTab = constrain(currentTab + (right ? 1 : -1), 0, tabCount - 1);
+						if (newTab != currentTab) {
+							// Somewhat hacky, depends on current implementation of TabHost:
+							// http://android.git.kernel.org/?p=platform/frameworks/base.git;a=blob;
+							// f=core/java/android/widget/TabHost.java
+							View currentView = getCurrentView();
+							setCurrentTab(newTab);
+							View newView = getCurrentView();
+
+							newView.startAnimation(right ? mRightInAnimation : mLeftInAnimation);
+							currentView.startAnimation(right ? mRightOutAnimation : mLeftOutAnimation);
+						}
+					}
+					return super.onFling(e1, e2, velocityX, velocityY);
+				}
+			});
+		}
+
+		@Override
+		public boolean onInterceptTouchEvent(MotionEvent ev) {
+			Log.e("fling", "on fling intercept!!!!!!!");
+			if (mGestureDetector.onTouchEvent(ev)) {
+				return true;
+			}
+			return super.onInterceptTouchEvent(ev);
+		}
+	}
+
+	private static int constrain(int amount, int low, int high) {
+		return amount < low ? low : (amount > high ? high : amount);
+	}
 }
