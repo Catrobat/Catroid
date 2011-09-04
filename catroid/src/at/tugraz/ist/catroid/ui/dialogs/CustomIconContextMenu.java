@@ -35,7 +35,7 @@
  * 		limitations under the License.
  */
 
-package at.tugraz.ist.catroid.ui.adapter;
+package at.tugraz.ist.catroid.ui.dialogs;
 
 import java.util.ArrayList;
 

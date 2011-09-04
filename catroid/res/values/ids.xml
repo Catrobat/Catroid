@@ -26,4 +26,5 @@
 	<item type="id" name="btn_action_home" />
 	<item type="id" name="btn_action_main" />
 	<item type="id" name="btn_home" />
+	<item type="id" name="btn_cam" />
 </resources>
