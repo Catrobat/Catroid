@@ -103,14 +103,19 @@ public class ScriptTabActivity extends TabActivity {
 				+ ProjectManager.getInstance().getCurrentSprite().getName();
 		activityHelper.setupActionBar(false, title);
 
-		activityHelper.addActionButton(R.id.btn_action_add_sprite, R.drawable.ic_plus_black, null, false);
+		activityHelper.addActionButton(R.id.btn_cam, R.id.sep_cam, R.drawable.ic_plus_black, null, false);
+		activityHelper.changeButtonVisibility(R.id.btn_cam, R.id.sep_cam, false);
 
-		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, new View.OnClickListener() {
-			public void onClick(View v) {
-				Intent intent = new Intent(ScriptTabActivity.this, StageActivity.class);
-				startActivity(intent);
-			}
-		}, false);
+		activityHelper.addActionButton(R.id.btn_action_add_sprite, R.id.sep_action_add_sprite,
+				R.drawable.ic_plus_black, null, false);
+
+		activityHelper.addActionButton(R.id.btn_action_play, R.id.sep_action_play, R.drawable.ic_play_black,
+				new View.OnClickListener() {
+					public void onClick(View v) {
+						Intent intent = new Intent(ScriptTabActivity.this, StageActivity.class);
+						startActivity(intent);
+					}
+				}, false);
 	}
 
 	private void setupTab(Integer drawableId, final String tag, Intent intent) {

@@ -88,6 +88,7 @@ public class ActivityHelper {
 			ImageView separator = new ImageView(activity);
 			separator.setBackgroundResource(R.drawable.actionbar_separator);
 			separator.setLayoutParams(new ViewGroup.LayoutParams(2, ViewGroup.LayoutParams.FILL_PARENT));
+			separator.setId(R.id.sep_action_home);
 
 			actionBar.addView(separator);
 
@@ -115,7 +116,7 @@ public class ActivityHelper {
 		actionBar.addView(spring);
 	}
 
-	public boolean addActionButton(int buttonId, int imageResourceId, View.OnClickListener clickListener,
+	public boolean addActionButton(int buttonId, int sepId, int imageResourceId, View.OnClickListener clickListener,
 			boolean separatorAfter) {
 		final ViewGroup actionBar = getActionBar();
 		if (actionBar == null) {
@@ -125,6 +126,7 @@ public class ActivityHelper {
 		ImageView separator = new ImageView(activity);
 		separator.setLayoutParams(new ViewGroup.LayoutParams(2, ViewGroup.LayoutParams.FILL_PARENT));
 		separator.setBackgroundResource(R.drawable.actionbar_separator);
+		separator.setId(sepId);
 
 		ImageButton imageButton = new ImageButton(activity);
 		imageButton.setId(buttonId);
@@ -175,6 +177,25 @@ public class ActivityHelper {
 		ImageButton imageButtonView = (ImageButton) actionBar.findViewById(resourceId);
 		if (imageButtonView != null) {
 			imageButtonView.setImageResource(imageRecourseId);
+		}
+	}
+
+	public void changeButtonVisibility(int buttonId, int separatorId, boolean visible) {
+		final ViewGroup actionBar = getActionBar();
+		if (actionBar == null) {
+			return;
+		}
+
+		View buttonView = actionBar.findViewById(buttonId);
+		View sepView = actionBar.findViewById(separatorId);
+		if (buttonView != null && sepView != null) {
+			if (visible) {
+				buttonView.setVisibility(View.VISIBLE);
+				sepView.setVisibility(View.VISIBLE);
+			} else {
+				buttonView.setVisibility(View.GONE);
+				sepView.setVisibility(View.GONE);
+			}
 		}
 	}
 

@@ -28,6 +28,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ListView;
@@ -41,6 +42,8 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class CostumeActivity extends ListActivity {
 	private ArrayList<CostumeData> costumeDataList;
+	private static final String pathTempPic = Environment.getExternalStorageDirectory().getAbsolutePath()
+			+ "/tempCamPic.jpg";
 
 	public final int REQUEST_SELECT_IMAGE = 0;
 	public final int REQUEST_PAINTROID_EDIT_IMAGE = 1;
@@ -74,6 +77,9 @@ public class CostumeActivity extends ListActivity {
 			activityHelper.changeClickListener(R.id.btn_action_add_sprite, createAddCostumeClickListener());
 			//set new icon for actionbar plus button:
 			activityHelper.changeButtonIcon(R.id.btn_action_add_sprite, R.drawable.ic_folder_open);
+
+			activityHelper.changeButtonVisibility(R.id.btn_cam, R.id.sep_cam, true);
+			activityHelper.changeClickListener(R.id.btn_cam, createStartCamClickListener());
 		}
 
 	}
@@ -85,6 +91,27 @@ public class CostumeActivity extends ListActivity {
 				intent.setType("image/*");
 				Intent chooser = Intent.createChooser(intent, getString(R.string.select_image));
 				startActivityForResult(chooser, REQUEST_SELECT_IMAGE);
+			}
+		};
+	}
+
+	private View.OnClickListener createStartCamClickListener() {
+		return new View.OnClickListener() {
+			public void onClick(View v) {
+				File file = new File(pathTempPic);
+				if (!file.exists()) {
+					try {
+						file.getParentFile().mkdirs();
+						file.createNewFile();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				Uri imageOutputUri = Uri.fromFile(file);
+				// Start camera intent to capture image
+				Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+				intent.putExtra(MediaStore.EXTRA_OUTPUT, imageOutputUri);
+				startActivityForResult(intent, REQUEST_CAM_IMAGE);
 			}
 		};
 	}
@@ -191,6 +218,19 @@ public class CostumeActivity extends ListActivity {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+			}
+		}
+		if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CAM_IMAGE) {
+			try {
+				String newFileName = Utils.getTimestamp();
+				String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+				File newCostumeFile = StorageHandler.getInstance().copyImage(projectName, pathTempPic,
+						newFileName + ".jpg");
+				File oldFile = new File(pathTempPic);
+				updateCostumeAdapter(newFileName, newCostumeFile.getName());
+				oldFile.delete();
+			} catch (IOException e) {
+				Utils.displayErrorMessage(this, this.getString(R.string.error_load_image));
 			}
 		}
 	}

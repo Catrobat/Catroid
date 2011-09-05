@@ -27,4 +27,11 @@
 	<item type="id" name="btn_action_main" />
 	<item type="id" name="btn_home" />
 	<item type="id" name="btn_cam" />
+	
+	<item type="id" name="sep_action_add_sprite" />
+	<item type="id" name="sep_action_play" />
+	<item type="id" name="sep_action_home" />
+	<item type="id" name="sep_action_main" />
+	<item type="id" name="sep_home" />
+	<item type="id" name="sep_cam" />
 </resources>

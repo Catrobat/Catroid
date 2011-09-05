@@ -87,14 +87,15 @@ public class MainMenuActivity extends Activity {
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
 		activityHelper.setupActionBar(true, null);
-		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, new View.OnClickListener() {
-			public void onClick(View v) {
-				if (projectManager.getCurrentProject() != null) {
-					Intent intent = new Intent(MainMenuActivity.this, StageActivity.class);
-					startActivity(intent);
-				}
-			}
-		}, false);
+		activityHelper.addActionButton(R.id.btn_action_play, R.id.sep_action_play, R.drawable.ic_play_black,
+				new View.OnClickListener() {
+					public void onClick(View v) {
+						if (projectManager.getCurrentProject() != null) {
+							Intent intent = new Intent(MainMenuActivity.this, StageActivity.class);
+							startActivity(intent);
+						}
+					}
+				}, false);
 	}
 
 	@Override
