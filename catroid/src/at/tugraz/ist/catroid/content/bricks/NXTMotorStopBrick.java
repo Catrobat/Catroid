@@ -70,8 +70,7 @@ public class NXTMotorStopBrick implements Brick, OnItemSelectedListener {
 	}
 
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.toolbox_brick_nxt_motor_stop, null);
+		return View.inflate(context, R.layout.toolbox_brick_nxt_motor_stop, null);
 	}
 
 	@Override
@@ -81,7 +80,7 @@ public class NXTMotorStopBrick implements Brick, OnItemSelectedListener {
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.construction_brick_nxt_motor_stop, null);
+		View brickView = inflater.inflate(R.layout.toolbox_brick_nxt_motor_stop, null);
 
 		Spinner motorSpinner = (Spinner) brickView.findViewById(R.id.stop_motor_spinner);
 		motorSpinner.setOnItemSelectedListener(this);
