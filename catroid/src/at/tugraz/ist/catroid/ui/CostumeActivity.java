@@ -144,6 +144,13 @@ public class CostumeActivity extends ListActivity {
 			}
 			//-----------------------------------------------------
 
+			String checkType = originalImagePath;
+			checkType = originalImagePath.toLowerCase();
+			if (!(checkType.endsWith(".jpg") || checkType.endsWith(".jpeg") || checkType.endsWith(".gif") || checkType
+					.endsWith(".png"))) {
+				Utils.displayErrorMessage(this, this.getString(R.string.error_load_image));
+				return;
+			}
 			File oldFile = new File(originalImagePath);
 
 			//copy image to catroid:
