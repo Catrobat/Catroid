@@ -73,8 +73,7 @@ public class NXTPlayToneBrick implements Brick, OnDismissListener, OnSeekBarChan
 	}
 
 	public View getPrototypeView(Context context) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return inflater.inflate(R.layout.toolbox_brick_nxt_play_tone, null);
+		return View.inflate(context, R.layout.toolbox_brick_nxt_play_tone, null);
 	}
 
 	@Override
@@ -84,7 +83,7 @@ public class NXTPlayToneBrick implements Brick, OnDismissListener, OnSeekBarChan
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.construction_brick_nxt_play_tone, null);
+		View brickView = inflater.inflate(R.layout.toolbox_brick_nxt_play_tone, null);
 
 		EditText editDuration = (EditText) brickView.findViewById(R.id.nxt_tone_duration_edit_text);
 		editDuration.setText(String.valueOf(duration));

@@ -235,15 +235,15 @@
 		<string name="none_paired">Keine verbundenen Geräte gefunden</string>
     
     <!-- Lego Mindstorms Strings -->
-		<string name="brick_motor_action">Bewege Motor</string>
+		<string name="brick_motor_action">NXT bewege Motor</string>
 		<string name="motor">Motor</string>
 		<string name="motor_duration">Dauer</string>
 		<string name="motor_speed">Geschwindigkeit</string>
-		<string name="brick_motor_turn_angle">Rotiere Motor</string>
+		<string name="brick_motor_turn_angle">NXT rotiere Motor</string>
 		<string name="motor_angle">Winkel</string>
-		<string name="motor_stop">Stoppe Motor</string>
+		<string name="motor_stop">NXT stoppe Motor</string>
 		<string name="motor_inverse">Invertieren</string>
-		<string name="nxt_play_tone">Ton abspielen</string>
+		<string name="nxt_play_tone">NXT Ton abspielen</string>
 		<string name="nxt_tone_frequency">Frequenz</string>
 		<string name="tone_duration">Dauer</string>
 		<string name="nxt_tone_hundred_hz">x100Hz</string>
