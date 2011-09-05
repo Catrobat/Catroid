@@ -26,6 +26,7 @@ package at.tugraz.ist.catroid.ui.adapter;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
@@ -121,6 +122,9 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDr
 
 	public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 		View view = null;
+
+		Log.d("Test", "----- Testing Get Group View ----- " + isExpanded);
+
 		if (getGroup(groupPosition) instanceof TapScript) {
 			view = new IfTouchedBrick(sprite, getGroup(groupPosition)).getView(context, groupPosition, this);
 		} else if (getGroup(groupPosition) instanceof BroadcastScript) {
@@ -203,11 +207,11 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDr
 
 	public boolean onGroupClick(final ExpandableListView parent, View v, final int groupPosition, long id) {
 		if (groupPosition == getCurrentGroup()) {
-			return false;
+			return true;
 		}
 
 		animateChildren = true;
-		brickListAnimation.doClickOnGroupAnimate(getGroupCount(), groupPosition);
+		//		brickListAnimation.doClickOnGroupAnimate(getGroupCount(), groupPosition);
 		return true;
 	}
 
