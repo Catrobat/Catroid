@@ -75,6 +75,8 @@ public class SoundActivity extends ListActivity {
 			activityHelper.changeClickListener(R.id.btn_action_add_sprite, createAddSoundClickListener());
 			//set new icon for actionbar plus button:
 			activityHelper.changeButtonIcon(R.id.btn_action_add_sprite, R.drawable.ic_music);
+
+			activityHelper.changeButtonVisibility(R.id.btn_cam, R.id.sep_cam, false);
 		}
 
 	}

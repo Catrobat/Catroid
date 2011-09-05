@@ -128,6 +128,8 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 					createAddBrickClickListener());
 			//set new icon for actionbar plus button:
 			scriptTabActivity.activityHelper.changeButtonIcon(R.id.btn_action_add_sprite, R.drawable.ic_plus_black);
+
+			scriptTabActivity.activityHelper.changeButtonVisibility(R.id.btn_cam, R.id.sep_cam, false);
 		}
 	}
 
