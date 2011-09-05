@@ -165,6 +165,14 @@
 
     <!-- Load project dialog -->
     <string name="load_project_dialog_title">Load Project</string>
+    
+    <!-- Login Register dialog -->
+    <string name="login_register_dialog_title">Login</string>
+    <string name="username">Username:</string>
+    <string name="password">Password:</string>
+    <string name="login_or_register">Login or Register</string>
+    <string name="register">Register</string>
+    <string name="password_forgotten">Password forgotten</string>
 
 	<!-- Broadcast spinner -->
 	<string name="new_broadcast_message">new...</string>
@@ -307,6 +315,9 @@
     </string>
     <string name="error_load_sound">
     	An error occurred while loading the sound.
+    </string>
+    <string name="error_internet_connection">
+    	An error occurred. Internet connection not available.
     </string>
 
     <!-- Notifications -->

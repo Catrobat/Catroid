@@ -96,14 +96,14 @@ public class ServerCalls {
 			if (statusCode == 200) {
 				return serverAnswer;
 			} else {
-				throw new WebconnectionException(0);
+				throw new WebconnectionException(statusCode, serverAnswer);
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
-			throw new WebconnectionException(0);
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON);
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new WebconnectionException(0);
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK);
 		}
 	}
 
@@ -115,5 +115,95 @@ public class ServerCalls {
 			throw new WebconnectionException(0);
 		}
 	}
+
+	public boolean checkToken(String token) throws WebconnectionException {
+		try {
+			HashMap<String, String> postValues = new HashMap<String, String>();
+			postValues.put(Consts.TOKEN, token);
+
+			String serverUrl = useTestUrl ? Consts.TEST_CHECK_TOKEN_URL : Consts.CHECK_TOKEN_URL;
+
+			Log.v(TAG, "url to upload: " + serverUrl);
+			resultString = connection.doHttpPost(serverUrl, postValues);
+
+			JSONObject jsonObject = null;
+			int statusCode = 0;
+
+			Log.v(TAG, "result string: " + resultString);
+
+			jsonObject = new JSONObject(resultString);
+			statusCode = jsonObject.getInt("statusCode");
+			String serverAnswer = jsonObject.optString("answer");
+
+			if (statusCode == 200) {
+				return true;
+			} else {
+				throw new WebconnectionException(statusCode, serverAnswer);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK);
+		}
+	}
+
+	public boolean registration(String username, String password, String userEmail, String language, String country,
+			String token) throws WebconnectionException {
+		try {
+
+			HashMap<String, String> postValues = new HashMap<String, String>();
+			postValues.put(Consts.REG_USER_NAME, username);
+			postValues.put(Consts.REG_USER_PASSWORD, password);
+			postValues.put(Consts.REG_USER_EMAIL, userEmail);
+			postValues.put(Consts.TOKEN, token);
+
+			if (country != null) {
+				postValues.put(Consts.REG_USER_COUNTRY, country);
+			}
+			if (language != null) {
+				postValues.put(Consts.REG_USER_LANGUAGE, language);
+			}
+			String serverUrl = useTestUrl ? Consts.TEST_CHECK_TOKEN_URL : Consts.CHECK_TOKEN_URL;
+
+			Log.v(TAG, "url to upload: " + serverUrl);
+			resultString = connection.doHttpPost(serverUrl, postValues);
+
+			JSONObject jsonObject = null;
+			int statusCode = 0;
+
+			Log.v(TAG, "result string: " + resultString);
+
+			jsonObject = new JSONObject(resultString);
+			statusCode = jsonObject.getInt("statusCode");
+			String serverAnswer = jsonObject.optString("answer");
+
+			if (statusCode == 200) {
+				return true;
+			} else {
+				throw new WebconnectionException(statusCode, serverAnswer);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK);
+		}
+	}
+	/*
+	 * check token -> if ok, show upload dialog
+	 * if nok, get username from email
+	 * if username found, fill in the username in the login dialog
+	 * if not, leave username file empty
+	 * 
+	 * if filled out -> checktoken or registerLogin ????
+	 * 
+	 * if ok -> show upload dialog
+	 * if not -> show login dialog again with error message
+	 */
+
+	// getusernameFromEmail
 
 }
