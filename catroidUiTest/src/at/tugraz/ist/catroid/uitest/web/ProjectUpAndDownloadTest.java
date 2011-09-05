@@ -36,7 +36,9 @@ import at.tugraz.ist.catroid.ui.DownloadActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
+import at.tugraz.ist.catroid.utils.UtilToken;
 import at.tugraz.ist.catroid.web.ServerCalls;
+import at.tugraz.ist.catroid.web.WebconnectionException;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -89,35 +91,13 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		createTestProject();
 		addABrickToProject();
 
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		prefs.edit().putString(Consts.TOKEN, "0").commit();
+		createValidUser();
 
-		uploadProject(true);
+		uploadProject();
 
 		UiTestUtils.clearAllUtilTestProjects();
 
 		downloadProject();
-	}
-
-	public void testUploadProjectWithWrongToken() throws Throwable {
-		UiTestUtils.clearAllUtilTestProjects();
-		startProjectUploadTask();
-
-		createTestProject();
-		addABrickToProject();
-
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		prefs.edit().putString(Consts.TOKEN, "wrong_token").commit();
-
-		uploadProject(false);
-
-		String resultString = (String) UiTestUtils.getPrivateField("resultString", ServerCalls.getInstance());
-		JSONObject jsonObject = new JSONObject(resultString);
-		int statusCode = jsonObject.getInt("statusCode");
-
-		assertEquals("Received wrong result status code", 601, statusCode);
-
-		UiTestUtils.clearAllUtilTestProjects();
 	}
 
 	private void createTestProject() {
@@ -148,7 +128,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
 	}
 
-	private void uploadProject(boolean expect_success) {
+	private void uploadProject() {
 		solo.clickOnText(getActivity().getString(R.string.upload_project));
 		solo.sleep(500);
 
@@ -166,17 +146,13 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		try {
 			solo.waitForDialogToClose(10000);
-			if (expect_success) {
-				assertTrue("Upload failed. Internet connection?",
-						solo.searchText(getActivity().getString(R.string.success_project_upload)));
-				String resultString = (String) UiTestUtils.getPrivateField("resultString", ServerCalls.getInstance());
-				JSONObject jsonObject;
-				jsonObject = new JSONObject(resultString);
-				serverProjectId = jsonObject.optInt("projectId");
-			} else {
-				assertTrue("Error message not found on screen. ",
-						solo.searchText(getActivity().getString(R.string.error_project_upload)));
-			}
+			assertTrue("Upload failed. Internet connection?", solo.searchText(getActivity().getString(
+					R.string.success_project_upload)));
+			String resultString = (String) UiTestUtils.getPrivateField("resultString", ServerCalls.getInstance());
+			JSONObject jsonObject;
+			jsonObject = new JSONObject(resultString);
+			serverProjectId = jsonObject.optInt("projectId");
+
 			solo.clickOnButton(0);
 		} catch (JSONException e) {
 			assertFalse("json exception orrured", true);
@@ -193,8 +169,8 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		boolean waitResult = solo.waitForActivity("MainMenuActivity", 10000);
 		assertTrue("Download takes too long.", waitResult);
-		assertNotNull("Download not successful.",
-				solo.searchText(getActivity().getString(R.string.success_project_download)));
+		assertNotNull("Download not successful.", solo.searchText(getActivity().getString(
+				R.string.success_project_download)));
 
 		String projectPath = Consts.DEFAULT_ROOT + "/" + newTestProject;
 		File downloadedDirectory = new File(projectPath);
@@ -204,4 +180,23 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 	}
 
+	private void createValidUser() {
+		boolean registrationOk = false;
+		try {
+			String testUser = "testUser" + System.currentTimeMillis();
+			String testPassword = "pws";
+			String token = UtilToken.calculateToken(testUser, testPassword);
+			registrationOk = ServerCalls.getInstance().registration(testUser, testPassword, "mail", "de", "at", token);
+
+			if (registrationOk) {
+				SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+				prefs.edit().putString(Consts.TOKEN, token).commit();
+			}
+
+		} catch (WebconnectionException e) {
+			e.printStackTrace();
+		}
+		assertTrue("registration failed", registrationOk);
+
+	}
 }

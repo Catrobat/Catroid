@@ -102,8 +102,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.sleep(100);
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
 		solo.sleep(50);
-		assertTrue("No error message was displayed upon creating a project with an empty name.",
-				solo.searchText(getActivity().getString(R.string.error_no_name_entered)));
+		assertTrue("No error message was displayed upon creating a project with an empty name.", solo
+				.searchText(getActivity().getString(R.string.error_no_name_entered)));
 
 		solo.clickOnButton(0);
 
@@ -115,8 +115,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.enterText(0, testProject);
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
 		solo.sleep(50);
-		assertTrue("No error message was displayed upon creating a project with the same name twice.",
-				solo.searchText(getActivity().getString(R.string.error_project_exists)));
+		assertTrue("No error message was displayed upon creating a project with the same name twice.", solo
+				.searchText(getActivity().getString(R.string.error_project_exists)));
 
 	}
 
@@ -198,6 +198,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 	public void testPlayButton() {
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		solo.sleep(2000);
 		solo.assertCurrentActivity("StageActivity not showing!", StageActivity.class);
 	}
 
@@ -211,8 +212,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnEditText(1);
 		solo.goBack();
 		solo.clickOnButton(getActivity().getString(R.string.upload_button));
-		assertTrue("No error message was displayed upon renaming the project to an existing one.",
-				solo.searchText(getActivity().getString(R.string.error_project_exists)));
+		assertTrue("No error message was displayed upon renaming the project to an existing one.", solo
+				.searchText(getActivity().getString(R.string.error_project_exists)));
 	}
 
 	public void testDefaultProject() throws IOException {

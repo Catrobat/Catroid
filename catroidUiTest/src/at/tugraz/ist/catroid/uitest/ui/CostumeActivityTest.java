@@ -56,8 +56,8 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		costumeData.setCostumeFilename(imageFile.getName());
 		costumeData.setCostumeName(costumeName);
 		costumeDataList.add(costumeData);
-		ProjectManager.getInstance().fileChecksumContainer.addChecksum(costumeData.getChecksum(),
-				costumeData.getAbsolutePath());
+		ProjectManager.getInstance().fileChecksumContainer.addChecksum(costumeData.getChecksum(), costumeData
+				.getAbsolutePath());
 
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
@@ -128,8 +128,8 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		solo.sleep(3000);
 		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
 		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
-		assertEquals("costumeDataList in sprite doesn't hold the right number of costumeData", 1,
-				costumeDataList.size());
+		assertEquals("costumeDataList in sprite doesn't hold the right number of costumeData", 1, costumeDataList
+				.size());
 	}
 
 	public void testDialogsOnChangeOrientation() {

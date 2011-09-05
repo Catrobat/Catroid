@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010  Catroid development team 
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -19,31 +19,17 @@
 
 package at.tugraz.ist.catroid.utils;
 
-import java.util.Locale;
+public class UtilToken {
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
-import android.content.Context;
+	public static String calculateToken(String username, String password) {
+		// the token handling is not implemented on the server
+		// for now we always return 0, the anonymous token
+		return "0";
 
-public class UtilDeviceInfo {
-
-	public static String getUserEmail(Context context) {
-		if (context == null) {
-			return null;
-		}
-		Account[] accounts = AccountManager.get(context).getAccountsByType("com.google");
-		for (Account account : accounts) {
-			return account.name;
-		}
-		return null;
-	}
-
-	public static String getUserLanguageCode(Context context) {
-		return Locale.getDefault().getLanguage();
-	}
-
-	public static String getUserCountryCode(Context context) {
-		return Locale.getDefault().getCountry();
+		//		String md5Username = Utils.md5Checksum(username);
+		//		String md5Password = Utils.md5Checksum(password);
+		//
+		//		return Utils.md5Checksum(md5Username + ":" + md5Password);
 	}
 
 }

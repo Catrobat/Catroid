@@ -36,15 +36,19 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -95,6 +99,13 @@ public class Utils {
 		return true;
 	}
 
+	public static boolean isNetworkAvailable(Context context) {
+		ConnectivityManager connectivityManager = (ConnectivityManager) context
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+		return activeNetworkInfo != null;
+	}
+
 	/**
 	 * Copies a file from the source to the destination. Can optionally show a
 	 * progress dialog until copying is finished.
@@ -129,8 +140,8 @@ public class Utils {
 
 		ProgressDialog progressDialog = null;
 		if (showProgressDialog && context != null) {
-			progressDialog = ProgressDialog.show(context, context.getString(R.string.please_wait),
-					context.getString(R.string.loading));
+			progressDialog = ProgressDialog.show(context, context.getString(R.string.please_wait), context
+					.getString(R.string.loading));
 		}
 
 		Thread t = new FileCopyThread(fileTo, fileFrom, progressDialog);
