@@ -89,7 +89,7 @@ public abstract class LegoNXTCommunicator extends Thread {
 
 	protected boolean connected = false;
 	protected Handler uiHandler;
-	private static boolean requestConfirmFromDevice = false;
+	private static boolean requestConfirmFromDevice = true;
 
 	protected static ArrayList<byte[]> receivedMessages = new ArrayList<byte[]>();
 	protected byte[] returnMessage;
@@ -203,6 +203,11 @@ public abstract class LegoNXTCommunicator extends Thread {
 
 	protected void dispatchMessage(byte[] message) {
 
+		Log.i("bt", "Received response, length: " + message.length);
+		//		for (int i = 0; i < message.length; i++) {
+		//			Log.i("bt", " " + (0x000000FF & message[i]));
+		//		}
+
 		switch (message[1]) {
 
 			case LCPMessage.GET_FIRMWARE_VERSION:
@@ -255,6 +260,10 @@ public abstract class LegoNXTCommunicator extends Thread {
 				receivedMessages.add(message);
 				analyzeMessageGetOutputState(message);
 				break;
+			default:
+				Log.i("bt", "Unknown Message received by LegoNXTCommunicator over bluetooth " + message.length);
+				receivedMessages.add(message);
+				break;
 		}
 	}
 
@@ -280,10 +289,10 @@ public abstract class LegoNXTCommunicator extends Thread {
 		//Log.i("bt", "Turn Ratio: " + (int) message[7]);
 		//Log.i("bt", "Run State: " + (int) message[8]);
 
-		int tacholimit = message[9];
-		tacholimit += (message[10] << 8);
-		tacholimit += (message[11] << 16);
-		tacholimit += (message[12] << 24);
+		int tacholimit = (0x000000FF & message[9]); //unsigned types would be too smart for java, sorry no chance mate!
+		tacholimit += ((0x000000FF & message[10]) << 8);
+		tacholimit += ((0x000000FF & message[11]) << 16);
+		tacholimit += ((0x000000FF & message[12]) << 24);
 
 		Log.i("bt", "Tacholimit " + tacholimit);
 		/*
@@ -373,6 +382,7 @@ public abstract class LegoNXTCommunicator extends Thread {
 		byte[] message = LCPMessage.getMotorMessage(motor, speed, end);
 		sendMessageAndState(message);
 		Log.i("bto", "Motor " + motor + " speed " + speed);
+
 		if (requestConfirmFromDevice) {
 			byte[] test = LCPMessage.getOutputStateMessage(motor);
 			sendMessageAndState(test);

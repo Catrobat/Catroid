@@ -47,6 +47,7 @@ public class LCPMessage {
 	// the folowing constants were taken from the leJOS project (http://www.lejos.org) 
 
 	// Command types constants. Indicates type of packet being sent or received.
+
 	public static byte DIRECT_COMMAND_REPLY = 0x00;
 	public static byte SYSTEM_COMMAND_REPLY = 0x01;
 	public static byte REPLY_COMMAND = 0x02;
@@ -119,10 +120,22 @@ public class LCPMessage {
 	// Firmware codes
 	public static byte[] FIRMWARE_VERSION_LEJOSMINDDROID = { 0x6c, 0x4d, 0x49, 0x64 };
 
+	private static boolean requestConfirmFromDevice = false;
+
+	public static void enableRequestConfirmFromDevice() {
+		//this request will only return a small error message, not the actually executed command!
+		requestConfirmFromDevice = true;
+	}
+
 	public static byte[] getBeepMessage(int frequency, int duration) {
 		byte[] message = new byte[6];
 
-		message[0] = DIRECT_COMMAND_NOREPLY;
+		if (requestConfirmFromDevice) {
+			message[0] = DIRECT_COMMAND_REPLY;
+		} else {
+			message[0] = DIRECT_COMMAND_NOREPLY;
+		}
+
 		message[1] = PLAY_TONE;
 		// Frequency for the tone, Hz (UWORD); Range: 200-14000 Hz
 		message[2] = (byte) frequency;
@@ -146,7 +159,12 @@ public class LCPMessage {
 	public static byte[] getMotorMessage(int motor, int speed) {
 		byte[] message = new byte[12];
 
-		message[0] = DIRECT_COMMAND_NOREPLY;
+		if (requestConfirmFromDevice) {
+			message[0] = DIRECT_COMMAND_REPLY;
+		} else {
+			message[0] = DIRECT_COMMAND_NOREPLY;
+		}
+
 		message[1] = SET_OUTPUT_STATE;
 		// Output port
 		message[2] = (byte) motor;
@@ -323,25 +341,25 @@ public class LCPMessage {
 	//		return message;
 	//	}
 
-	public static byte[] getWriteMessage(int handle, byte[] asd, int dataLength) {
-
-		if (dataLength > 255) {
-			dataLength = 255;
-		}
-
-		byte[] message = new byte[dataLength + 4];
-
-		message[0] = SYSTEM_COMMAND_REPLY;
-		message[1] = MESSAGE_WRITE;
-
-		// copy handle
-		message[2] = (byte) 0;
-		message[3] = (byte) dataLength;
-		// copy data
-		System.arraycopy(asd, 0, message, 3, dataLength);
-
-		return message;
-	}
+	//	public static byte[] getWriteMessage(int handle, byte[] asd, int dataLength) {
+	//
+	//		if (dataLength > 255) {
+	//			dataLength = 255;
+	//		}
+	//
+	//		byte[] message = new byte[dataLength + 4];
+	//
+	//		message[0] = SYSTEM_COMMAND_REPLY;
+	//		message[1] = MESSAGE_WRITE;
+	//
+	//		// copy handle
+	//		message[2] = (byte) 0;
+	//		message[3] = (byte) dataLength;
+	//		// copy data
+	//		System.arraycopy(asd, 0, message, 3, dataLength);
+	//
+	//		return message;
+	//	}
 
 	public static byte[] getCloseMessage(int handle) {
 		byte[] message = new byte[3];

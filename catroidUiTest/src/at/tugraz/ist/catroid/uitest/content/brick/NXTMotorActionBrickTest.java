@@ -41,7 +41,6 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 	private Project project;
 	private NXTMotorActionBrick motorBrick;
 
-	private double setDuration;
 	private int setSpeed;
 	private int setSpeedInitially;
 	private static final int MAX_SPEED = 100;
@@ -157,7 +156,7 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 		assertEquals("SeekBar is at wrong position", speed + 100, solo.getCurrentProgressBars().get(0).getProgress());
 
 		solo.sleep(500);
-		solo.pressSpinnerItem(0, 0);
+		solo.pressSpinnerItem(0, 1);
 		assertEquals("A", solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, 1);
 		assertEquals("B", solo.getCurrentSpinners().get(0).getSelectedItem());
@@ -177,7 +176,6 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 
 		motorBrick = new NXTMotorActionBrick(sprite, 0, setSpeedInitially);
 
-		setDuration = 3.0;
 		setSpeed = 30;
 
 		script.addBrick(motorBrick);
