@@ -76,7 +76,7 @@ public class CostumeActivity extends ListActivity {
 			//set new functionality for actionbar add button:
 			activityHelper.changeClickListener(R.id.btn_action_add_sprite, createAddCostumeClickListener());
 			//set new icon for actionbar plus button:
-			activityHelper.changeButtonIcon(R.id.btn_action_add_sprite, R.drawable.ic_folder_open);
+			activityHelper.changeButtonIcon(R.id.btn_action_add_sprite, R.drawable.ic_shirt);
 
 			activityHelper.changeButtonVisibility(R.id.btn_cam, R.id.sep_cam, true);
 			activityHelper.changeClickListener(R.id.btn_cam, createStartCamClickListener());
