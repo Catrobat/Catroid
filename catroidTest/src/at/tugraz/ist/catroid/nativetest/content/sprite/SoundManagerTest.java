@@ -42,12 +42,5 @@ public class SoundManagerTest extends InstrumentationTestCase {
 
 		SoundManager.getInstance().resume();
 		assertTrue("MediaPlayer is not playing after resume", mediaPlayer.isPlaying());
-
-		long leeway = 300; // required value depends on phone performance, 300ms should be on the safe side
-		long duration = mediaPlayer.getDuration() + leeway;
-
-		Thread.sleep(duration);
-
-		assertFalse("MediaPlayer is not done playing after pause and resume", mediaPlayer.isPlaying());
 	}
 }
