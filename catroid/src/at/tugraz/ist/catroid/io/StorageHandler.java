@@ -310,13 +310,23 @@ public class StorageHandler {
 	}
 
 	/**
-	 * Creates the default project and saves it to the filesystem
+	 * Creates the default project with the default name and saves it to the file system
 	 * 
 	 * @return the default project object if successful, else null
 	 * @throws IOException
 	 */
 	public Project createDefaultProject(Context context) throws IOException {
 		String projectName = context.getString(R.string.default_project_name);
+		return createDefaultProject(projectName, context);
+	}
+
+	/**
+	 * Creates the default project and saves it to the file system
+	 * 
+	 * @return the default project object if successful, else null
+	 * @throws IOException
+	 */
+	public Project createDefaultProject(String projectName, Context context) throws IOException {
 		Project defaultProject = new Project(context, projectName);
 		saveProject(defaultProject);
 		ProjectManager.getInstance().setProject(defaultProject);

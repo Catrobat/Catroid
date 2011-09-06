@@ -111,7 +111,7 @@
     <string name="edit_in_paintroid">Edit in paintroid</string>
     <string name="copy_costume_addition">copy</string>
     <string name="select_image">Select Image</string>
-    <string name="paintroid_not_installed">Paintroid is not installed! \nWanna install it?</string>
+    <string name="paintroid_not_installed">Paintroid is not installed!\nDo you want to install it?</string>
     
     <!-- Sound activity -->
     <string name="sound_list">Sound:</string>
@@ -286,6 +286,9 @@
     </string>
     <string name="error_project_rename">
         An error occurred while renaming the project.
+    </string>
+    <string name="error_new_project">
+    	An error occurred while creating a new project.
     </string>
     <string name="error_save_project">
         An error occurred while saving the project.
