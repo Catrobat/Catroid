@@ -142,11 +142,17 @@ public class ImageEditing {
 	}
 
 	public static Bitmap adjustBrightness(Bitmap source, double value) {
+		if (value == 0.0) {
+			return source;
+		}
+
 		// image size
 		int width = source.getWidth();
 		int height = source.getHeight();
-		// create output bitmap
-		Bitmap bitmap = Bitmap.createBitmap(width, height, source.getConfig());
+
+		// create output bitmap if necessary
+		Bitmap bitmap = source.isMutable() ? source : source.copy(source.getConfig(), true);
+
 		// color information
 		int A, R, G, B;
 		int pixel;
@@ -155,7 +161,7 @@ public class ImageEditing {
 		for (int x = 0; x < width; ++x) {
 			for (int y = 0; y < height; ++y) {
 				// get pixel color
-				pixel = source.getPixel(x, y);
+				pixel = bitmap.getPixel(x, y);
 				A = Color.alpha(pixel);
 				R = Color.red(pixel);
 				G = Color.green(pixel);
