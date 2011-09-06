@@ -103,7 +103,7 @@ public class ScriptTabActivity extends TabActivity {
 				+ ProjectManager.getInstance().getCurrentSprite().getName();
 		activityHelper.setupActionBar(false, title);
 
-		activityHelper.addActionButton(R.id.btn_cam, R.id.sep_cam, R.drawable.ic_plus_black, null, false);
+		activityHelper.addActionButton(R.id.btn_cam, R.id.sep_cam, R.drawable.ic_photo, null, false);
 		activityHelper.changeButtonVisibility(R.id.btn_cam, R.id.sep_cam, false);
 
 		activityHelper.addActionButton(R.id.btn_action_add_sprite, R.id.sep_action_add_sprite,
