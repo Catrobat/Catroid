@@ -77,7 +77,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 			playSoundButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_media_play, 0, 0);
 			stopSoundButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_media_stop, 0, 0);
 			renameSoundButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_menu_edit, 0, 0);
-			deleteSoundButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_trash, 0, 0);
+			deleteSoundButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_menu_delete, 0, 0);
 
 			if (soundInfo.isPlaying) {
 				soundImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.speaker_playing));
