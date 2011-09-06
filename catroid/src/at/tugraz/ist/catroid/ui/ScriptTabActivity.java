@@ -69,7 +69,14 @@ public class ScriptTabActivity extends TabActivity {
 		intent = new Intent().setClass(this, ScriptActivity.class);
 		setupTab(R.drawable.ic_tab_scripts, this.getString(R.string.scripts), intent);
 		intent = new Intent().setClass(this, CostumeActivity.class);
-		setupTab(R.drawable.ic_tab_costumes, this.getString(R.string.costumes), intent);
+		int costumeIcon;
+		if (ProjectManager.getInstance().getCurrentSprite().getName()
+				.equalsIgnoreCase(this.getString(R.string.background))) {
+			costumeIcon = R.drawable.ic_tab_background;
+		} else {
+			costumeIcon = R.drawable.ic_tab_costumes;
+		}
+		setupTab(costumeIcon, this.getString(R.string.costumes), intent);
 		intent = new Intent().setClass(this, SoundActivity.class);
 		setupTab(R.drawable.ic_tab_sounds, this.getString(R.string.sounds), intent);
 

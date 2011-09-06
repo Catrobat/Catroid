@@ -73,7 +73,14 @@ public class CostumeActivity extends ListActivity {
 			//set new functionality for actionbar add button:
 			activityHelper.changeClickListener(R.id.btn_action_add_sprite, createAddCostumeClickListener());
 			//set new icon for actionbar plus button:
-			activityHelper.changeButtonIcon(R.id.btn_action_add_sprite, R.drawable.ic_shirt);
+			int addButtonIcon;
+			if (ProjectManager.getInstance().getCurrentSprite().getName()
+					.equalsIgnoreCase(this.getString(R.string.background))) {
+				addButtonIcon = R.drawable.ic_background;
+			} else {
+				addButtonIcon = R.drawable.ic_shirt;
+			}
+			activityHelper.changeButtonIcon(R.id.btn_action_add_sprite, addButtonIcon);
 		}
 
 	}
