@@ -20,6 +20,7 @@
 package at.tugraz.ist.catroid;
 
 import java.io.File;
+import java.io.IOException;
 
 import android.content.Context;
 import at.tugraz.ist.catroid.common.Consts;
@@ -97,10 +98,10 @@ public class ProjectManager {
 		}
 	}
 
-	public void initializeNewProject(String projectName, Context context) {
-		project = new Project(context, projectName);
+	public void initializeNewProject(String projectName, Context context) throws IOException {
 		fileChecksumContainer = new FileChecksumContainer();
 		messageContainer = new MessageContainer();
+		project = StorageHandler.getInstance().createDefaultProject(projectName, context);
 
 		currentSprite = null;
 		currentScript = null;
