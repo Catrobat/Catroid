@@ -142,6 +142,10 @@ public class ImageEditing {
 	}
 
 	public static Bitmap adjustBrightness(Bitmap source, double value) {
+		if (value == 0.0) {
+			return source;
+		}
+
 		// image size
 		int width = source.getWidth();
 		int height = source.getHeight();
