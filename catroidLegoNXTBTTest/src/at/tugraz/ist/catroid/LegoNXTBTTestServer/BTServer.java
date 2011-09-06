@@ -32,13 +32,13 @@ public class BTServer {
         //Create a UUID for SPP
         UUID uuid = new UUID("1101", true);
         //Create the servicve url
-        String connectionString = "btspp://localhost:" + uuid +";name=Sample SPP Server";
+        String connectionString = "btspp://localhost:" + uuid +";name=NXT Test Server";
         
         //open server url
         StreamConnectionNotifier streamConnNotifier = (StreamConnectionNotifier)Connector.open( connectionString );
         
         //Wait for client connection
-        System.out.println("\nServer Started. Waiting for clients to connect...");
+        System.out.println("\nServer Started. Waiting for NXT Test client...");
         StreamConnection connection=streamConnNotifier.acceptAndOpen();
  
         RemoteDevice dev = RemoteDevice.getRemoteDevice(connection);
@@ -59,31 +59,15 @@ public class BTServer {
         while((firstLenByte = bReader.read()) != -1){
         	secondLenByte = (bReader.read() << 8);
         	messageLength = firstLenByte + secondLenByte;
-        	System.out.println("next message len: " + messageLength);
+        	System.out.println("Received Message, length: " + messageLength);
         	char[] buf = new char[messageLength];
         	char[] reply = null;
         	bReader.read(buf);
         	
         	//reply required?
         	if((messageLength == 3) && (buf[0] == DIRECT_COMMAND_REPLY) && (buf[1] == GET_OUTPUT_STATE)){
-        		reply = new char[32];
-        		reply[0] = (char)REPLY_COMMAND;
-        		reply[1] = (char)GET_OUTPUT_STATE;
-        		reply[3] = lastMessage[2]; //used motor
-        		reply[2] = 0; //status 0 = no error
-        		reply[4] = lastMessage[3]; //speed
-        		reply[5] = lastMessage[4];
-        		reply[6] = lastMessage[5];
-        		reply[7] = lastMessage[6];
-        		reply[8] = lastMessage[7];
-        		reply[9] = lastMessage[8];
-        		reply[10] = lastMessage[9];
-        		reply[11] = lastMessage[10];
+        		reply = getReplyMessage(lastMessage);
         	}
-
-        	
-        	System.out.println((int)buf[0] + " " + (int)buf[1] + " " + (int)buf[2]);
-        	//System.out.println(buf.toString());
             
         	if(buf[0] == DIRECT_COMMAND_REPLY){
         		System.out.println("sending reply");
@@ -94,14 +78,29 @@ public class BTServer {
         	}
             lastMessage = buf;
         }
-        
-        System.out.println("fini");
  
         pWriter.close();
         streamConnNotifier.close();
  
     }
  
+    public char[] getReplyMessage(char[] lastMessage){
+    	
+		char[] reply = new char[32];
+		reply[0] = (char)REPLY_COMMAND;
+		reply[1] = (char)GET_OUTPUT_STATE;
+		reply[3] = lastMessage[2]; //used motor
+		reply[2] = 0; //status 0 = no error
+		reply[4] = lastMessage[3]; //speed
+		reply[5] = lastMessage[4];
+		reply[6] = lastMessage[5];
+		reply[7] = lastMessage[6];
+		reply[8] = lastMessage[7];
+		reply[9] = lastMessage[8];
+		reply[10] = lastMessage[9];
+		reply[11] = lastMessage[10];
+    	return reply;
+    }
  
     public static void main(String[] args){
         
@@ -111,8 +110,8 @@ public class BTServer {
 	        System.out.println("Address: "+localDevice.getBluetoothAddress());
 	        System.out.println("Name: "+localDevice.getFriendlyName());
 	        
-	        BTServer sampleSPPServer=new BTServer();
-	        sampleSPPServer.startServer();
+	        BTServer btServer=new BTServer();
+	        btServer.startServer();
     	}
     	catch(IOException e){
     		e.printStackTrace();
