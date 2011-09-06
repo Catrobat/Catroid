@@ -349,6 +349,8 @@
 	<string name="pairing_message">After pairing, connect.</string>
 	<string name="problem_at_closing">Problem in closing the connection!</string>
 	<string name="connect_device">Connect device</string>
+	<string name="bt_connected">connected to device!</string>
+	<string name="bt_connection_failed">Connection to device failed!</string>
 	<string name="no_paired_nxt">No paired NXT found</string>
 	<string name="none_found">No unpaired devices found</string>
 	<string name="none_paired">No paired devices found</string>

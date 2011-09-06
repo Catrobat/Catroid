@@ -23,6 +23,9 @@ import android.os.Handler;
 // TODO Not needed for LegoNXT anymore, functionality now in LegoNXTBtCommunicator! Maybe refactor similary for arduino or move to arduino package...
 public abstract interface BtCommunicator {
 
+	// this is the only OUI registered by LEGO, see http://standards.ieee.org/regauth/oui/index.shtml
+	public static final String OUI_LEGO = "00:16:53";
+
 	public void setMACAddress(String mMACaddress);
 
 	public abstract boolean isConnected();
