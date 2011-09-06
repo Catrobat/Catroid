@@ -89,7 +89,7 @@ public abstract class LegoNXTCommunicator extends Thread {
 
 	protected boolean connected = false;
 	protected Handler uiHandler;
-	private static boolean requestConfirmFromDevice = true;
+	private static boolean requestConfirmFromDevice = false;
 
 	protected static ArrayList<byte[]> receivedMessages = new ArrayList<byte[]>();
 	protected byte[] returnMessage;

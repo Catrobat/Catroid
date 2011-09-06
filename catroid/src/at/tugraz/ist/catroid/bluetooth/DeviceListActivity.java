@@ -113,6 +113,10 @@ public class DeviceListActivity extends Activity {
 		if (pairedDevices.size() > 0) {
 			findViewById(R.id.title_paired_devices).setVisibility(View.VISIBLE);
 			for (BluetoothDevice device : pairedDevices) {
+				//if (device.getAddress().startsWith(BtCommunicator.OUI_LEGO)) {
+				//legoDevicesFound = true;
+				//legoDevicesArrayAdapter.add(device.getName() + "-" + device.getAddress());
+				//}
 				legoDevicesFound = true;
 				pairedDevicesArrayAdapter.add(device.getName() + "-" + device.getAddress());
 			}

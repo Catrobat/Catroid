@@ -191,16 +191,19 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 			if (simulatorMode) {
 				return;
 			}
-			Log.d("TAG", "message" + myMessage.getData().getInt("message"));
+			Log.i("bt", "message" + myMessage.getData().getInt("message"));
 			switch (myMessage.getData().getInt("message")) {
 				case LegoNXTBtCommunicator.STATE_CONNECTED:
 					connectingProgressDialog.dismiss();
 					startStage();
 					break;
-				default:
+				case LegoNXTBtCommunicator.STATE_CONNECTERROR:
+					Toast.makeText(StageActivity.this, R.string.bt_connection_failed, Toast.LENGTH_SHORT);
 					connectingProgressDialog.dismiss();
+					finish();
+					break;
+				default:
 
-					//Log.i("bt", "received incoming bt message");
 					//Toast.makeText(StageActivity.this, myMessage.getData().getString("toastText"), Toast.LENGTH_SHORT);
 					break;
 
