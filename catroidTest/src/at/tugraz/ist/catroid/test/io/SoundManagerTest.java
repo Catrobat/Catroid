@@ -66,15 +66,6 @@ public class SoundManagerTest extends InstrumentationTestCase {
 		assertFalse("SoundManager provided a MediaPlayer that was already playing", mediaPlayer.isPlaying());
 	}
 
-	public void testGetMultipleMediaPlayers() {
-		final int mediaPlayerCount = 10;
-		for (int i = 0; i < mediaPlayerCount; i++) {
-			MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
-			assertNotNull("SoundManager failed to return a MediaPlayer", mediaPlayer);
-			assertFalse("SoundManager provided a MediaPlayer that was already playing", mediaPlayer.isPlaying());
-		}
-	}
-
 	public void testClear() {
 		SoundManager soundManager = SoundManager.getInstance();
 		soundManager.clear();
@@ -129,6 +120,13 @@ public class SoundManagerTest extends InstrumentationTestCase {
 					mp.release();
 				}
 			});
+		}
+
+		for (int i = 0; i < mediaPlayers.size(); i++) {
+			for (int j = i + 1; j < mediaPlayers.size(); j++) {
+				assertNotSame("SoundManager returned the same MediaPlayer twice", mediaPlayers.get(i),
+						mediaPlayers.get(j));
+			}
 		}
 
 		for (MediaPlayer mediaPlayer : mediaPlayers) {
