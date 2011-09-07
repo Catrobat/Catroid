@@ -86,7 +86,7 @@ public class SensorBrick implements Brick, OnDismissListener {
 			Log.d("Packet", Double.toString(arduinoPackage[i]));
 		}
 
-		bluetoothAdapter.getDefaultAdapter();
+		BluetoothAdapter.getDefaultAdapter();
 
 	}
 

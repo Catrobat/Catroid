@@ -90,6 +90,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		super.tearDown();
 	}
 
+	// This test requires the NXTBTTestServer to be running or a LegoNXT Robot to run! Check connect string to see if you connect to the right device!
 	public void testNXTStuff() {
 		createTestproject(projectName);
 
@@ -126,7 +127,8 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		solo.sleep(2000);
 
 		ArrayList<byte[]> executed_commands = LegoNXTCommunicator.getReceivedMessageList();
-		assertEquals("Some commands seem to have not been executed!", executed_commands.size(), commands.size());
+		assertEquals("Commands seem to have not been executed! Connected to correct device??",
+				executed_commands.size(), commands.size());
 
 		int i = 0;
 		for (int[] item : commands) {

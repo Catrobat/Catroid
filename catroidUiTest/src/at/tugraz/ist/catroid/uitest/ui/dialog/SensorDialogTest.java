@@ -21,7 +21,6 @@ package at.tugraz.ist.catroid.uitest.ui.dialog;
 
 import android.bluetooth.BluetoothAdapter;
 import android.test.ActivityInstrumentationTestCase2;
-import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
@@ -59,142 +58,142 @@ public class SensorDialogTest extends ActivityInstrumentationTestCase2<ScriptAct
 		super.tearDown();
 	}
 
-	public void testBluetoothConnection() {
-
-		//TODO Check if BTImagebutton changes color
-		if (bluetoothAdapter != null) {
-			if (bluetoothAdapter.isEnabled()) {
-				bluetoothAdapter.disable();
-			}
-
-			assertEquals(false, bluetoothAdapter.isEnabled());
-
-			bluetoothAdapter.enable();
-
-			assertEquals(true, bluetoothAdapter.isEnabled());
-		}
-
-	}
-
-	public void testBluetoothScanDialog() {
-		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.sensor_main_adapter);
-
-		solo.clickOnButton("B");
-
-		solo.getViews().size();
-
-		int bluetoothScanButton = solo.getCurrentButtons().size() - 2;
-		int bluetoothExitButton = solo.getCurrentButtons().size() - 1;
-
-		solo.clickOnButton(bluetoothScanButton);
-		//solo.sleep(2000);
-		solo.clickOnButton(bluetoothExitButton);
-
-	}
-
-	public void testDigitalSensorValues() {
-		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.sensor_main_adapter);
-
-		int pinValue = 5;
-		int valueDigital = 1;
-		double time = 4.0;
-
-		int pinTextEdits = solo.getCurrentEditTexts().size() - 3;
-		int valueTextEdits = solo.getCurrentEditTexts().size() - 2;
-		int timeTextEdits = solo.getCurrentEditTexts().size() - 1;
-
-		solo.clickOnButton("D");
-
-		UiTestUtils.insertIntegerIntoEditText(solo, pinTextEdits, pinValue);
-		solo.clickOnButton("OK");
-
-		UiTestUtils.insertIntegerIntoEditText(solo, valueTextEdits, valueDigital);
-		solo.clickOnButton("OK");
-
-		UiTestUtils.insertDoubleIntoEditText(solo, timeTextEdits, time);
-		solo.clickOnButton("OK");
-
-	}
-
-	public void testAnalogSensorValues() {
-		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.sensor_main_adapter);
-
-		int pinValue = 5;
-		double valueAnalog = 3.2;
-		double time = 4.5;
-
-		int pinTextEdits = solo.getCurrentEditTexts().size() - 3;
-		int valueTextEdits = solo.getCurrentEditTexts().size() - 2;
-		int timeTextEdits = solo.getCurrentEditTexts().size() - 1;
-
-		solo.clickOnButton("A");
-
-		solo.clickOnEditText(pinTextEdits);
-		solo.clearEditText(0);
-		solo.enterText(0, Integer.toString(pinValue));
-		solo.clickOnButton(0);
-		solo.sleep(3000);
-
-		UiTestUtils.insertDoubleIntoEditText(solo, valueTextEdits, valueAnalog);
-		solo.clickOnButton("OK");
-		solo.sleep(3000);
-
-	}
-
-	public void testFalseDigitalSensorValues() {
-		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.sensor_main_adapter);
-
-		int pinValue = 20;
-		int valueDigital = 3;
-		double time = 4.5;
-
-		int pinTextEdits = solo.getCurrentEditTexts().size() - 1;
-		int valueTextEdits = solo.getCurrentEditTexts().size() - 2;
-		int timeTextEdits = solo.getCurrentEditTexts().size() - 3;
-
-		solo.clickOnButton("D");
-
-		UiTestUtils.insertIntegerIntoEditText(solo, pinTextEdits, pinValue);
-		solo.clickOnButton("OK");
-
-		UiTestUtils.insertIntegerIntoEditText(solo, valueTextEdits, valueDigital);
-		solo.clickOnButton("OK");
-
-		UiTestUtils.insertDoubleIntoEditText(solo, timeTextEdits, time);
-		solo.clickOnButton("OK");
-
-		assertEquals("You just have 0 to 13 PINs here so please a number from 0-13", pinValue + "",
-				solo.getEditText(pinTextEdits).getText().toString());
-		assertEquals("For this PIN you can just enter 1 for HIGH or 0 for LOW", valueDigital + "",
-				solo.getEditText(valueTextEdits).getText().toString());
-	}
-
-	public void testFalseAnalogSensorValues() {
-		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.sensor_main_adapter);
-
-		int pinValue = 20;
-		double valueAnalog = 8.0;
-		double time = 4.5;
-
-		int pinTextEdits = solo.getCurrentEditTexts().size() - 3;
-		int valueTextEdits = solo.getCurrentEditTexts().size() - 2;
-		int timeTextEdits = solo.getCurrentEditTexts().size() - 1;
-
-		solo.clickOnButton("A");
-
-		UiTestUtils.insertIntegerIntoEditText(solo, pinTextEdits, pinValue);
-		solo.clickOnButton("OK");
-
-		assertTrue(solo.searchText("You just have 0 to 5 PINs here so please a number from 0-5"));
-
-		UiTestUtils.insertDoubleIntoEditText(solo, valueTextEdits, valueAnalog);
-		solo.clickOnButton("OK");
-
-		assertEquals("For this PIN you can just enter a value from 0.0 to 5.0", valueAnalog + "",
-				solo.getEditText(valueTextEdits).getText().toString());
-
-		UiTestUtils.insertDoubleIntoEditText(solo, timeTextEdits, time);
-		solo.clickOnButton("OK");
-
-	}
+	//	public void testBluetoothConnection() {
+	//
+	//		//TODO Check if BTImagebutton changes color
+	//		if (bluetoothAdapter != null) {
+	//			if (bluetoothAdapter.isEnabled()) {
+	//				bluetoothAdapter.disable();
+	//			}
+	//
+	//			assertEquals(false, bluetoothAdapter.isEnabled());
+	//
+	//			bluetoothAdapter.enable();
+	//
+	//			assertEquals(true, bluetoothAdapter.isEnabled());
+	//		}
+	//
+	//	}
+	//
+	//	public void testBluetoothScanDialog() {
+	//		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.sensor_main_adapter);
+	//
+	//		solo.clickOnButton("B");
+	//
+	//		solo.getViews().size();
+	//
+	//		int bluetoothScanButton = solo.getCurrentButtons().size() - 2;
+	//		int bluetoothExitButton = solo.getCurrentButtons().size() - 1;
+	//
+	//		solo.clickOnButton(bluetoothScanButton);
+	//		//solo.sleep(2000);
+	//		solo.clickOnButton(bluetoothExitButton);
+	//
+	//	}
+	//
+	//	public void testDigitalSensorValues() {
+	//		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.sensor_main_adapter);
+	//
+	//		int pinValue = 5;
+	//		int valueDigital = 1;
+	//		double time = 4.0;
+	//
+	//		int pinTextEdits = solo.getCurrentEditTexts().size() - 3;
+	//		int valueTextEdits = solo.getCurrentEditTexts().size() - 2;
+	//		int timeTextEdits = solo.getCurrentEditTexts().size() - 1;
+	//
+	//		solo.clickOnButton("D");
+	//
+	//		UiTestUtils.insertIntegerIntoEditText(solo, pinTextEdits, pinValue);
+	//		solo.clickOnButton("OK");
+	//
+	//		UiTestUtils.insertIntegerIntoEditText(solo, valueTextEdits, valueDigital);
+	//		solo.clickOnButton("OK");
+	//
+	//		UiTestUtils.insertDoubleIntoEditText(solo, timeTextEdits, time);
+	//		solo.clickOnButton("OK");
+	//
+	//	}
+	//
+	//	public void testAnalogSensorValues() {
+	//		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.sensor_main_adapter);
+	//
+	//		int pinValue = 5;
+	//		double valueAnalog = 3.2;
+	//		double time = 4.5;
+	//
+	//		int pinTextEdits = solo.getCurrentEditTexts().size() - 3;
+	//		int valueTextEdits = solo.getCurrentEditTexts().size() - 2;
+	//		int timeTextEdits = solo.getCurrentEditTexts().size() - 1;
+	//
+	//		solo.clickOnButton("A");
+	//
+	//		solo.clickOnEditText(pinTextEdits);
+	//		solo.clearEditText(0);
+	//		solo.enterText(0, Integer.toString(pinValue));
+	//		solo.clickOnButton(0);
+	//		solo.sleep(3000);
+	//
+	//		UiTestUtils.insertDoubleIntoEditText(solo, valueTextEdits, valueAnalog);
+	//		solo.clickOnButton("OK");
+	//		solo.sleep(3000);
+	//
+	//	}
+	//
+	//	public void testFalseDigitalSensorValues() {
+	//		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.sensor_main_adapter);
+	//
+	//		int pinValue = 20;
+	//		int valueDigital = 3;
+	//		double time = 4.5;
+	//
+	//		int pinTextEdits = solo.getCurrentEditTexts().size() - 1;
+	//		int valueTextEdits = solo.getCurrentEditTexts().size() - 2;
+	//		int timeTextEdits = solo.getCurrentEditTexts().size() - 3;
+	//
+	//		solo.clickOnButton("D");
+	//
+	//		UiTestUtils.insertIntegerIntoEditText(solo, pinTextEdits, pinValue);
+	//		solo.clickOnButton("OK");
+	//
+	//		UiTestUtils.insertIntegerIntoEditText(solo, valueTextEdits, valueDigital);
+	//		solo.clickOnButton("OK");
+	//
+	//		UiTestUtils.insertDoubleIntoEditText(solo, timeTextEdits, time);
+	//		solo.clickOnButton("OK");
+	//
+	//		assertEquals("You just have 0 to 13 PINs here so please a number from 0-13", pinValue + "",
+	//				solo.getEditText(pinTextEdits).getText().toString());
+	//		assertEquals("For this PIN you can just enter 1 for HIGH or 0 for LOW", valueDigital + "",
+	//				solo.getEditText(valueTextEdits).getText().toString());
+	//	}
+	//
+	//	public void testFalseAnalogSensorValues() {
+	//		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.sensor_main_adapter);
+	//
+	//		int pinValue = 20;
+	//		double valueAnalog = 8.0;
+	//		double time = 4.5;
+	//
+	//		int pinTextEdits = solo.getCurrentEditTexts().size() - 3;
+	//		int valueTextEdits = solo.getCurrentEditTexts().size() - 2;
+	//		int timeTextEdits = solo.getCurrentEditTexts().size() - 1;
+	//
+	//		solo.clickOnButton("A");
+	//
+	//		UiTestUtils.insertIntegerIntoEditText(solo, pinTextEdits, pinValue);
+	//		solo.clickOnButton("OK");
+	//
+	//		assertTrue(solo.searchText("You just have 0 to 5 PINs here so please a number from 0-5"));
+	//
+	//		UiTestUtils.insertDoubleIntoEditText(solo, valueTextEdits, valueAnalog);
+	//		solo.clickOnButton("OK");
+	//
+	//		assertEquals("For this PIN you can just enter a value from 0.0 to 5.0", valueAnalog + "",
+	//				solo.getEditText(valueTextEdits).getText().toString());
+	//
+	//		UiTestUtils.insertDoubleIntoEditText(solo, timeTextEdits, time);
+	//		solo.clickOnButton("OK");
+	//
+	//	}
 }
