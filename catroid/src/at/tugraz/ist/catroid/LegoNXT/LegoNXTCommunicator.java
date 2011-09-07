@@ -187,7 +187,6 @@ public abstract class LegoNXTCommunicator extends Thread {
 		}
 	}
 
-	@SuppressWarnings("unused")
 	protected void sendState(int message, byte[] data) {
 		Bundle myBundle = new Bundle();
 		myBundle.putInt("message", message);

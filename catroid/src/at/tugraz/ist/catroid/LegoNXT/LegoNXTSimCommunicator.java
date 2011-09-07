@@ -60,6 +60,7 @@ public class LegoNXTSimCommunicator extends LegoNXTCommunicator {
 	//http://developer.android.com/guide/developing/devices/emulator.html#emulatornetworking
 	//avdLocalAddress = InetAddress.getByAddress("10.0.2.2".getBytes());
 
+	@SuppressWarnings("unused")
 	private static final String localhost = "localhost";
 	private static final String avdLocalAddress = "10.0.2.2";
 	private int port = 6787;
@@ -184,7 +185,7 @@ public class LegoNXTSimCommunicator extends LegoNXTCommunicator {
 		}
 
 		char[] buf = new char[5];
-		int length = input.read(buf, 0, 4);
+		input.read(buf, 0, 4);
 		Log.i("bt", buf.toString());
 		return returnMessage;
 	}

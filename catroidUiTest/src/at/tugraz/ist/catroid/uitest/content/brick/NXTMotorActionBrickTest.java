@@ -85,19 +85,6 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_motor_action)));
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.motor_speed)));
 
-		//		solo.clickOnEditText(0);
-		//		solo.clearEditText(0);
-		//		solo.enterText(0, setDuration + "");
-		//		solo.clickOnButton(0);
-		//
-		//		solo.sleep(300);
-		//		double duration = (Double) UiTestUtils.getPrivateField("duration", motorBrick);
-		//		assertEquals("Wrong text in field.", setDuration, duration);
-		//		assertEquals("Value in Brick is not updated.", setDuration + "", solo.getEditText(0).getText().toString());
-		//
-		//		assertEquals("SeekBar is at wrong position", setSpeedInitially + 100, solo.getCurrentProgressBars().get(0)
-		//				.getProgress());
-
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, setSpeed + "");
@@ -155,8 +142,8 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 		assertEquals("Value in Brick is not updated.", speed + "", solo.getEditText(0).getText().toString());
 		assertEquals("SeekBar is at wrong position", speed + 100, solo.getCurrentProgressBars().get(0).getProgress());
 
-		solo.sleep(500);
-		solo.pressSpinnerItem(0, 1);
+		solo.sleep(1500);
+		solo.pressSpinnerItem(0, 0);
 		assertEquals("A", solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, 1);
 		assertEquals("B", solo.getCurrentSpinners().get(0).getSelectedItem());

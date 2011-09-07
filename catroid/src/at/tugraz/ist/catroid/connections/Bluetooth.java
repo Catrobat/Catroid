@@ -56,8 +56,6 @@ public class Bluetooth {
 
 	public void start() {
 
-		int REQUEST_ENABLE_BT = 0;
-
 		Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
 		context.startActivity(enableBtIntent);
 
