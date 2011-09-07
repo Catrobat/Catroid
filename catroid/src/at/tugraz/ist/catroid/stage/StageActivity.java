@@ -95,7 +95,7 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 			startActivityForResult(checkIntent, MY_DATA_CHECK_CODE);
 
 			stageManager = new StageManager(this);
-
+			//startStage();
 			if (!stageManager.getBluetoothNeeded()) {
 				startStage();
 			} else if (simulatorMode) {
@@ -130,7 +130,7 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 
 					case Activity.RESULT_CANCELED:
 						Toast.makeText(StageActivity.this, R.string.notification_blueth_err, Toast.LENGTH_LONG).show();
-						finish();
+						manageLoadAndFinish();
 						break;
 				}
 				break;
@@ -146,7 +146,7 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 
 					case Activity.RESULT_CANCELED:
 						connectingProgressDialog.dismiss();
-						finish();
+						manageLoadAndFinish();
 						break;
 				}
 				break;
@@ -201,7 +201,7 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 				case LegoNXTBtCommunicator.STATE_CONNECTERROR:
 					Toast.makeText(StageActivity.this, R.string.bt_connection_failed, Toast.LENGTH_SHORT);
 					connectingProgressDialog.dismiss();
-					finish();
+					manageLoadAndFinish();
 					break;
 				default:
 
