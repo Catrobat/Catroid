@@ -99,11 +99,11 @@
     			android:layout_weight=".4"
     			android:text="@string/sound_play"/>
     		<Button 
-    			android:id="@+id/btn_sound_stop" 
+    			android:id="@+id/btn_sound_pause" 
     			android:layout_width="wrap_content"
     			android:layout_height="wrap_content"
-    			android:layout_weight=".4"
-    			android:text="@string/sound_stop"/>
+    			android:layout_weight=".3"
+    			android:text="@string/sound_pause"/>
     		<Button 
     			android:id="@+id/btn_sound_rename" 
     			android:layout_width="wrap_content"

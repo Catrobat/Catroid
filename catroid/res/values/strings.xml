@@ -118,7 +118,7 @@
     <string name="rename_sound_dialog">Rename sound</string>
     <string name="soundname_invalid">This soundname is invalid</string>
     <string name="sound_play">play</string>
-    <string name="sound_stop">stop</string>
+    <string name="sound_pause">pause </string>
     <string name="sound_delete">delete</string>
     <string name="sound_rename">rename</string>
 
