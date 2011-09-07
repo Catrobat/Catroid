@@ -39,6 +39,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.StageActivity;
+import at.tugraz.ist.catroid.transfers.CheckTokenTask;
 import at.tugraz.ist.catroid.ui.dialogs.AboutDialog;
 import at.tugraz.ist.catroid.ui.dialogs.LoadProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.LoginRegisterDialog;
@@ -55,6 +56,7 @@ public class MainMenuActivity extends Activity {
 	private static final int DIALOG_LOAD_PROJECT = 1;
 	private static final int DIALOG_UPLOAD_PROJECT = 2;
 	private static final int DIALOG_ABOUT = 3;
+	private static final int DIALOG_LOGIN_REGISTER = 4;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -112,10 +114,10 @@ public class MainMenuActivity extends Activity {
 			case DIALOG_ABOUT:
 				dialog = new AboutDialog(this);
 				break;
-			case Consts.DIALOG_UPLOAD_PROJECT:
+			case DIALOG_UPLOAD_PROJECT:
 				dialog = new UploadProjectDialog(this);
 				break;
-			case Consts.DIALOG_LOGIN_REGISTER:
+			case DIALOG_LOGIN_REGISTER:
 				dialog = new LoginRegisterDialog(this);
 				break;
 			default:
@@ -180,16 +182,16 @@ public class MainMenuActivity extends Activity {
 	public void handleUploadProjectButton(View v) {
 		// as long as the token handling on the server is not implemented, we don't use the 
 		// user concept. Always use the token 0
-		showDialog(Consts.DIALOG_UPLOAD_PROJECT);
+		//showDialog(DIALOG_UPLOAD_PROJECT);
 
-		//		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		//		String token = preferences.getString(Consts.TOKEN, null);
-		//		
-		//		if (token == null || token.length() == 0 || token.equals("0")) {
-		//			showDialog(Consts.DIALOG_LOGIN_REGISTER);
-		//		} else {
-		//			new CheckTokenTask(this, token).execute();
-		//		}
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		String token = preferences.getString(Consts.TOKEN, null);
+
+		if (token == null || token.length() == 0 || token.equals("0")) {
+			showDialog(DIALOG_LOGIN_REGISTER);
+		} else {
+			new CheckTokenTask(this, token).execute();
+		}
 	}
 
 	public void handleWebResourcesButton(View v) {

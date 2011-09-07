@@ -186,12 +186,10 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 			String testUser = "testUser" + System.currentTimeMillis();
 			String testPassword = "pws";
 			String token = UtilToken.calculateToken(testUser, testPassword);
-			registrationOk = ServerCalls.getInstance().registration(testUser, testPassword, "mail", "de", "at", token);
+			ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, "mail@gmail.com", "de", "at", token);
 
-			if (registrationOk) {
-				SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-				prefs.edit().putString(Consts.TOKEN, token).commit();
-			}
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+			prefs.edit().putString(Consts.TOKEN, token).commit();
 
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
