@@ -19,6 +19,7 @@
 package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
@@ -32,6 +33,7 @@ public class LoopEndBrick implements Brick {
 	private Sprite sprite;
 	private LoopBeginBrick loopBeginBrick;
 	private int timesToRepeat;
+	private static final long LOOP_SPEED = 2000;
 
 	public LoopEndBrick(Sprite sprite, LoopBeginBrick loopStartingBrick) {
 		this.sprite = sprite;
@@ -39,6 +41,24 @@ public class LoopEndBrick implements Brick {
 	}
 
 	public void execute() {
+
+		if (timesToRepeat > 0) {
+
+			long loopBeginTime = loopBeginBrick.getBeginLoopTime() / 1000000;
+			long loopEndTime = System.nanoTime() / 1000000;
+			long waitForNextLoop = (LOOP_SPEED - (loopEndTime - loopBeginTime));
+			Log.i("bt", loopBeginTime + " " + loopEndTime + " time to wait til next loop: " + waitForNextLoop);
+			if (waitForNextLoop > 0) {
+				try {
+					Thread.sleep(waitForNextLoop);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			loopBeginBrick.setBeginLoopTime(System.nanoTime());
+		}
+
 		if (timesToRepeat == FOREVER) {
 			Script script = getScript();
 			script.setExecutingBrickIndex(script.getBrickList().indexOf(loopBeginBrick));
