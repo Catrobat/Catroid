@@ -119,7 +119,7 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		//Log.i("bt", "requestcode " + requestCode + " result code" + resultCode);
+		Log.i("bt", "requestcode " + requestCode + " result code" + resultCode);
 		switch (requestCode) {
 
 			case REQUEST_ENABLE_BT:
@@ -145,6 +145,7 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 						break;
 
 					case Activity.RESULT_CANCELED:
+						connectingProgressDialog.dismiss();
 						finish();
 						break;
 				}
