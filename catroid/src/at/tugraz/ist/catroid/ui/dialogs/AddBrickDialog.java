@@ -55,6 +55,10 @@ import at.tugraz.ist.catroid.content.bricks.IfOnEdgeBounceBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
 import at.tugraz.ist.catroid.content.bricks.MoveNStepsBrick;
+import at.tugraz.ist.catroid.content.bricks.NXTMotorActionBrick;
+import at.tugraz.ist.catroid.content.bricks.NXTMotorStopBrick;
+import at.tugraz.ist.catroid.content.bricks.NXTMotorTurnAngleBrick;
+import at.tugraz.ist.catroid.content.bricks.NXTPlayToneBrick;
 import at.tugraz.ist.catroid.content.bricks.NoteBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
@@ -155,6 +159,11 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new SayBrick(sprite));
 			prototypeBrickList.add(new ThinkBrick(sprite));
 			prototypeBrickList.add(new ChangeSizeByNBrick(sprite, 20));
+			//prototypeBrickList.add(new SensorBrick(sprite, 0, 0, 0.0, 0.0, null));
+			prototypeBrickList.add(new NXTMotorTurnAngleBrick(sprite, 0, 180));
+			prototypeBrickList.add(new NXTMotorStopBrick(sprite, 0));
+			prototypeBrickList.add(new NXTMotorActionBrick(sprite, 0, 100));
+			prototypeBrickList.add(new NXTPlayToneBrick(sprite, 2000, 1));
 		}
 	}
 
@@ -165,6 +174,7 @@ public class AddBrickDialog extends Dialog {
 		setContentView(R.layout.dialog_toolbox);
 		getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 	}
 
 	@Override
