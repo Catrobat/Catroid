@@ -107,7 +107,7 @@ public class NXTMotorTurnAngleBrick implements Brick, OnDismissListener {
 
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View brickView = inflater.inflate(R.layout.toolbox_brick_nxt_motor_turn_angle, null);
+		View brickView = inflater.inflate(R.layout.construction_brick_nxt_motor_turn_angle, null);
 
 		editX = (EditText) brickView.findViewById(R.id.motor_turn_angle_edit_text);
 		editX.setText(String.valueOf(angle));
