@@ -89,7 +89,12 @@ public class CostumeActivity extends ListActivity {
 		return new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+
+				Bundle bundleForPaintroid = new Bundle();
+				bundleForPaintroid.putString("PAINTROID_PICTURE_PATH", "");
+
 				intent.setType("image/*");
+				intent.putExtras(bundleForPaintroid);
 				Intent chooser = Intent.createChooser(intent, getString(R.string.select_image));
 				startActivityForResult(chooser, REQUEST_SELECT_IMAGE);
 			}
@@ -130,7 +135,9 @@ public class CostumeActivity extends ListActivity {
 		if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_SELECT_IMAGE) {
 			String originalImagePath = "";
 			//get path of image - will work for most applications
-			{
+			Bundle bundle = data.getExtras();
+			originalImagePath = bundle.getString("PAINTROID_PICTURE_PATH");
+			if (originalImagePath == null) {
 				Uri imageUri = data.getData();
 
 				String[] projection = { MediaStore.MediaColumns.DATA };
@@ -195,6 +202,7 @@ public class CostumeActivity extends ListActivity {
 					File newCostumeFile = StorageHandler.getInstance().copyImage(projectName, pathOfImage, newFileName);
 					StorageHandler.getInstance().deleteFile(pathOfImage); //TODO do I want to deinstall the temporary file?
 					selectedCostumeData.setCostumeFilename(newCostumeFile.getName());
+					selectedCostumeData.resetThumbnailBitmap();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
