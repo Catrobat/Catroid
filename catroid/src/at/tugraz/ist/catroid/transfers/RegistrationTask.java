@@ -71,7 +71,8 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 			String country = UtilDeviceInfo.getUserCountryCode(activity);
 			String token = UtilToken.calculateToken(username, password);
 
-			return ServerCalls.getInstance().registration(username, password, email, language, country, token);
+			ServerCalls.getInstance().registerOrCheckToken(username, password, email, language, country, token);
+			return true;
 
 		} catch (WebconnectionException e) {
 			e.printStackTrace();

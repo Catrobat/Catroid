@@ -48,18 +48,81 @@ public class ServerCallsTest extends AndroidTestCase {
 		super.tearDown();
 	}
 
-	public void testRegistration() {
+	public void testRegistrationOk() {
 		try {
 			String testUser = "testUser" + System.currentTimeMillis();
-			String testPassword = "pws";
-			String token = UtilToken.calculateToken(testUser, testPassword);
-			boolean regOk = ServerCalls.getInstance().registration(testUser, testPassword, "mail", "de", "at", token);
+			String testPassword = "pwspws";
+			String testEmail = testUser + "@gmail.com";
 
-			assertTrue("reg should be ok", regOk);
+			String token = UtilToken.calculateToken(testUser, testPassword);
+			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
+					"de", "at", token);
+
+			assertTrue("Should be a new user, but server responce indicates that this user already exists",
+					userRegistered);
+
+			boolean tokenOk = ServerCalls.getInstance().checkToken(token);
+
+			Log.i(LOG_TAG, "tokenOk: " + tokenOk);
+			assertTrue("token should be ok", tokenOk);
+		} catch (WebconnectionException e) {
+			e.printStackTrace();
+			assertFalse("an exception should not be thrown, the token should be valid", true);
+		}
+
+	}
+
+	public void testRegisterWithExistingUser() {
+		try {
+			String testUser = "testUser" + System.currentTimeMillis();
+			String testPassword = "pwspws";
+			String testEmail = testUser + "@gmail.com";
+
+			String token = UtilToken.calculateToken(testUser, testPassword);
+			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
+					"de", "at", token);
+
+			Log.i(LOG_TAG, "user registered: " + userRegistered);
+			assertTrue("Should be a new user, but server responce indicates that this user already exists",
+					userRegistered);
+
+			userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail, "de",
+					"at", token);
+
+			Log.i(LOG_TAG, "user registered: " + userRegistered);
+			assertFalse("Should be an existing user, but server responce indicates that this user is new",
+					userRegistered);
 
 		} catch (WebconnectionException e) {
 			assertFalse("an exception should not be thrown", true);
 			e.printStackTrace();
+		}
+
+	}
+
+	public void testRegisterWithExistingUserButWrongPws() {
+		try {
+			String testUser = "testUser" + System.currentTimeMillis();
+			String testPassword = "pwspws";
+			String testEmail = testUser + "@gmail.com";
+
+			String token = UtilToken.calculateToken(testUser, testPassword);
+			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
+					"de", "at", token);
+
+			Log.i(LOG_TAG, "user registered: " + userRegistered);
+			assertTrue("Should be a new user, but server responce indicates that this user already exists",
+					userRegistered);
+
+			String wrongPassword = "wrongpassword";
+			token = UtilToken.calculateToken(testUser, wrongPassword);
+			ServerCalls.getInstance().registerOrCheckToken(testUser, wrongPassword, testEmail, "de", "at", token);
+
+			assertFalse("should never be reached because the password is wrong", true);
+
+		} catch (WebconnectionException e) {
+			e.printStackTrace();
+			assertTrue("an exception should be thrown because the password is wrong", true);
 		}
 
 	}
@@ -95,12 +158,16 @@ public class ServerCallsTest extends AndroidTestCase {
 	public void testCheckTokenOk() {
 		try {
 			String testUser = "testUser" + System.currentTimeMillis();
-			String testPassword = "pws";
-			String token = UtilToken.calculateToken(testUser, testPassword);
-			boolean regOk = ServerCalls.getInstance().registration(testUser, testPassword, "mail", "de", "at", token);
+			String testPassword = "pwspws";
+			String testEmail = testUser + "@gmail.com";
 
-			Log.i(LOG_TAG, "regOk: " + regOk);
-			assertTrue("reg should be ok", regOk);
+			String token = UtilToken.calculateToken(testUser, testPassword);
+			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
+					"de", "at", token);
+
+			Log.i(LOG_TAG, "user registered: " + userRegistered);
+			assertTrue("Should be a new user, but server responce indicates that this user already exists",
+					userRegistered);
 
 			boolean tokenOk = ServerCalls.getInstance().checkToken(token);
 
