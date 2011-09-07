@@ -275,7 +275,6 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 			tts.stop();
 			tts.shutdown();
 		}
-
 	}
 
 	@Override
