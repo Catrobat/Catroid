@@ -189,20 +189,23 @@ public class CostumeActivity extends ListActivity {
 		}
 		if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_PAINTROID_EDIT_IMAGE) {
 			Bundle bundle = data.getExtras();
-			String pathOfImage = bundle.getString(this.getString(R.string.extra_picture_path_paintroid));
+			String pathOfPaintroidImage = bundle.getString(this.getString(R.string.extra_picture_path_paintroid));
 
 			ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
 			CostumeData selectedCostumeData = scriptTabActivity.selectedCostumeData;
-			String actualChecksum = Utils.md5Checksum(new File(pathOfImage));
+			String actualChecksum = Utils.md5Checksum(new File(pathOfPaintroidImage));
 
 			//if costume changed --> saving new image with new checksum and changing costumeData
 			if (!selectedCostumeData.getChecksum().equalsIgnoreCase(actualChecksum)) {
+				String oldFileName = selectedCostumeData.getCostumeFileName();
+				String newFileName = oldFileName.substring(33, oldFileName.length()); //TODO: test this
+				String projectName = ProjectManager.getInstance().getCurrentProject().getName();
 				try {
-					String oldFileName = selectedCostumeData.getCostumeFileName();
-					String newFileName = oldFileName.substring(33, oldFileName.length()); //TODO: test this
-					String projectName = ProjectManager.getInstance().getCurrentProject().getName();
-					File newCostumeFile = StorageHandler.getInstance().copyImage(projectName, pathOfImage, newFileName);
-					StorageHandler.getInstance().deleteFile(pathOfImage); //TODO do I want to deinstall the temporary file?
+					File newCostumeFile = StorageHandler.getInstance().copyImage(projectName, pathOfPaintroidImage,
+							newFileName);
+					File fileInPaintroid = new File(pathOfPaintroidImage);
+					fileInPaintroid.delete(); //delete temp file in paintroid
+					StorageHandler.getInstance().deleteFile(selectedCostumeData.getAbsolutePath()); //reduce usage in container or delete it (TODO: test this)
 					selectedCostumeData.setCostumeFilename(newCostumeFile.getName());
 					selectedCostumeData.resetThumbnailBitmap();
 				} catch (IOException e) {
