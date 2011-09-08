@@ -198,7 +198,8 @@ public class UiTestUtils {
 					break;
 			}
 		}
-		BufferedInputStream in = new BufferedInputStream(context.getResources().openRawResource(fileID));
+		BufferedInputStream in = new BufferedInputStream(context.getResources().openRawResource(fileID),
+				Consts.BUFFER_8K);
 
 		try {
 			File file = new File(filePath + name);

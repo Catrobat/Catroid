@@ -68,9 +68,9 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptTab
 
 	public void testDeleteScript() {
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
-		solo.clickOnText(getActivity().getString(R.string.brick_if_touched));
+		solo.clickOnText(getActivity().getString(R.string.brick_when_started));
 
-		solo.clickLongOnText(getActivity().getString(R.string.brick_if_touched));
+		solo.clickLongInList(2);
 		solo.clickOnText(getActivity().getString(R.string.delete_script_button));
 		solo.sleep(1000);
 
@@ -78,7 +78,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptTab
 		assertEquals("Incorrect number of scripts in scriptList", 1, numberOfScripts);
 		assertEquals("Incorrect number of elements in listView", 4, solo.getCurrentListViews().get(0).getChildCount());
 
-		solo.clickLongOnText(getActivity().getString(R.string.brick_if_started));
+		solo.clickLongOnText(getActivity().getString(R.string.brick_when_started));
 		solo.clickOnText(getActivity().getString(R.string.delete_script_button));
 		solo.sleep(1000);
 

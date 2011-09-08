@@ -71,16 +71,14 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 		projectUploadName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (hasFocus) {
-					UploadProjectDialog.this.getWindow().setSoftInputMode(
-							WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+					getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 				}
 			}
 		});
 		projectDescriptionField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (hasFocus) {
-					UploadProjectDialog.this.getWindow().setSoftInputMode(
-							WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+					getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 				}
 			}
 		});
@@ -95,8 +93,7 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 					projectRename.setVisibility(View.GONE);
 				}
 				if (s.length() == 0) {
-					Toast.makeText(UploadProjectDialog.this.context, R.string.notification_invalid_text_entered,
-							Toast.LENGTH_SHORT).show();
+					Toast.makeText(context, R.string.notification_invalid_text_entered, Toast.LENGTH_SHORT).show();
 					uploadButton.setEnabled(false);
 				} else {
 					uploadButton.setEnabled(true);

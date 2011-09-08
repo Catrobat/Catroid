@@ -87,7 +87,7 @@ public class UtilZip {
 		fis.close();
 	}
 
-	public static boolean unZipFile(String zipFile, String outDir) {
+	public static boolean unZipFile(String zipFile, String outDirectory) {
 		try {
 			FileInputStream fin = new FileInputStream(zipFile);
 			ZipInputStream zin = new ZipInputStream(fin);
@@ -98,12 +98,12 @@ public class UtilZip {
 			while ((zipEntry = zin.getNextEntry()) != null) {
 
 				if (zipEntry.isDirectory()) {
-					File f = new File(outDir + zipEntry.getName());
+					File f = new File(Utils.buildPath(outDirectory, zipEntry.getName()));
 					f.mkdir();
 					zin.closeEntry();
 					continue;
 				}
-				File f = new File(outDir + zipEntry.getName());
+				File f = new File(Utils.buildPath(outDirectory, zipEntry.getName()));
 				f.getParentFile().mkdirs();
 				FileOutputStream fos = new FileOutputStream(f);
 

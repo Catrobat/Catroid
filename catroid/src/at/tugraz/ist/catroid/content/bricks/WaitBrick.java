@@ -30,14 +30,11 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
-
 public class WaitBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
 	private int timeToWaitInMilliSeconds;
 	private Sprite sprite;
 
-	@XStreamOmitField
 	private transient View view;
 
 	public WaitBrick(Sprite sprite, int timeToWaitInMilliseconds) {

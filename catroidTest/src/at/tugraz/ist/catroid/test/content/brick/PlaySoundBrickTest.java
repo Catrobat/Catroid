@@ -38,8 +38,7 @@ import at.tugraz.ist.catroid.utils.UtilFile;
 public class PlaySoundBrickTest extends InstrumentationTestCase {
 	private static final int SOUND_FILE_ID = R.raw.testsound;
 	private File soundFile;
-	private final int timeoutMarginInMilliseconds = 200; // acceptable time margin for PlaySoundBrick to finish playing sound
-	private String projectName = "projectiName";
+	private String projectName = "projectName";
 	private SoundInfo tempSoundInfo;
 
 	@Override
@@ -72,11 +71,6 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 		testSprite.getSoundList().add(tempSoundInfo);
 		playSoundBrick.execute();
 		assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
-
-		final int duration = mediaPlayer.getDuration() + timeoutMarginInMilliseconds;
-		Thread.sleep(duration);
-
-		assertFalse("MediaPlayer is not done playing", mediaPlayer.isPlaying());
 	}
 
 	public void testIllegalArgument() {
@@ -91,23 +85,6 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 			fail("Execution of PlaySoundBrick with illegal file path did not cause an IllegalArgumentException to be thrown");
 		} catch (IllegalArgumentException e) {
 			// expected behavior
-		}
-	}
-
-	public void testPlayMultipleSounds() {
-		final String soundFilePath = soundFile.getAbsolutePath();
-		assertNotNull("Could not open test sound file", soundFilePath);
-		assertTrue("Could not open test sound file", soundFilePath.length() > 0);
-
-		for (int i = 0; i < SoundManager.MAX_MEDIA_PLAYERS; i++) {
-			MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
-			Sprite testSprite = new Sprite("3");
-			PlaySoundBrick playSoundBrick = new PlaySoundBrick(testSprite);
-			tempSoundInfo = getSoundInfo();
-			playSoundBrick.setSoundInfo(tempSoundInfo);
-			testSprite.getSoundList().add(tempSoundInfo);
-			playSoundBrick.execute();
-			assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
 		}
 	}
 
@@ -132,7 +109,7 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 
 		soundThread01.start();
 		soundThread02.start();
-		Thread.sleep(1000);
+		Thread.sleep(500);
 		//Test fails if MediaPlayer throws IllegalArgumentException
 	}
 
@@ -156,11 +133,6 @@ public class PlaySoundBrickTest extends InstrumentationTestCase {
 
 		mediaPlayer.start();
 		assertTrue("MediaPlayer is not playing after resume", mediaPlayer.isPlaying());
-
-		final int duration = mediaPlayer.getDuration() + timeoutMarginInMilliseconds;
-		Thread.sleep(duration);
-
-		assertFalse("MediaPlayer is not done playing after pause and resume", mediaPlayer.isPlaying());
 	}
 
 	private void createTestProject() throws IOException {

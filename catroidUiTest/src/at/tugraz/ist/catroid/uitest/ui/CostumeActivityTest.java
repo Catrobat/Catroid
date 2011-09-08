@@ -132,14 +132,6 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 				costumeDataList.size());
 	}
 
-	//	public void testMainMenuButton() {
-	//		solo.clickOnText(getActivity().getString(R.string.costumes));
-	//		solo.sleep(500);
-	//		solo.clickOnImageButton(0);
-	//		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
-	//				MainMenuActivity.class);
-	//	}
-
 	public void testDialogsOnChangeOrientation() {
 		String newName = "newTestName";
 		solo.clickOnText(getActivity().getString(R.string.costumes));

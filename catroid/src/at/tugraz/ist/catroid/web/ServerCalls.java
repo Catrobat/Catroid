@@ -36,6 +36,14 @@ public class ServerCalls {
 	public static boolean useTestUrl = false;
 	protected String resultString;
 	private ConnectionWrapper connection;
+	private static final String FILE_UPLOAD_TAG = "upload";
+	private static final String PROJECT_NAME_TAG = "projectTitle";
+	private static final String PROJECT_DESCRIPTION_TAG = "projectDescription";
+	private static final String PROJECT_CHECKSUM_TAG = "fileChecksum";
+	private static final String USER_EMAIL = "userEmail";
+	private static final String USER_LANGUAGE = "userLanguage";
+	private static final String FILE_UPLOAD_URL = "http://catroidtest.ist.tugraz.at/api/upload/upload.json";
+	private static final String TEST_FILE_UPLOAD_URL = "http://catroidtest.ist.tugraz.at/api/upload/upload.json";
 
 	// protected constructor to prevent direct instancing
 	protected ServerCalls() {
@@ -60,22 +68,21 @@ public class ServerCalls {
 			String md5Checksum = Utils.md5Checksum(new File(zipFileString));
 
 			HashMap<String, String> postValues = new HashMap<String, String>();
-			postValues.put(Consts.PROJECT_NAME_TAG, projectName);
-			postValues.put(Consts.PROJECT_DESCRIPTION_TAG, projectDescription);
-			postValues.put(Consts.PROJECT_CHECKSUM_TAG, md5Checksum.toLowerCase());
+			postValues.put(PROJECT_NAME_TAG, projectName);
+			postValues.put(PROJECT_DESCRIPTION_TAG, projectDescription);
+			postValues.put(PROJECT_CHECKSUM_TAG, md5Checksum.toLowerCase());
 			postValues.put(Consts.TOKEN, token);
 
 			if (userEmail != null) {
-				postValues.put(Consts.USER_EMAIL, userEmail);
+				postValues.put(USER_EMAIL, userEmail);
 			}
 			if (language != null) {
-				postValues.put(Consts.USER_LANGUAGE, language);
+				postValues.put(USER_LANGUAGE, language);
 			}
-			String serverUrl = useTestUrl ? Consts.TEST_FILE_UPLOAD_URL : Consts.FILE_UPLOAD_URL;
+			String serverUrl = useTestUrl ? TEST_FILE_UPLOAD_URL : FILE_UPLOAD_URL;
 
 			Log.v(TAG, "url to upload: " + serverUrl);
-			resultString = connection
-					.doHttpPostFileUpload(serverUrl, postValues, Consts.FILE_UPLOAD_TAG, zipFileString);
+			resultString = connection.doHttpPostFileUpload(serverUrl, postValues, FILE_UPLOAD_TAG, zipFileString);
 
 			JSONObject jsonObject = null;
 			int statusCode = 0;

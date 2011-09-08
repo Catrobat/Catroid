@@ -20,6 +20,7 @@
 package at.tugraz.ist.catroid;
 
 import java.io.File;
+import java.io.IOException;
 
 import android.content.Context;
 import at.tugraz.ist.catroid.common.Consts;
@@ -97,10 +98,10 @@ public class ProjectManager {
 		}
 	}
 
-	public void initializeNewProject(String projectName, Context context) {
-		project = new Project(context, projectName);
+	public void initializeNewProject(String projectName, Context context) throws IOException {
 		fileChecksumContainer = new FileChecksumContainer();
 		messageContainer = new MessageContainer();
+		project = StorageHandler.getInstance().createDefaultProject(projectName, context);
 
 		currentSprite = null;
 		currentScript = null;
@@ -130,13 +131,13 @@ public class ProjectManager {
 			return false;
 		}
 
-		File oldProjectDirectory = new File(Consts.DEFAULT_ROOT + "/" + project.getName());
-		File oldProjectFile = new File(Consts.DEFAULT_ROOT + "/" + project.getName() + "/" + project.getName()
-				+ Consts.PROJECT_EXTENTION);
+		File oldProjectDirectory = new File(Utils.buildPath(Consts.DEFAULT_ROOT, project.getName()));
+		File oldProjectFile = new File(Utils.buildPath(Consts.DEFAULT_ROOT, project.getName(), project.getName()
+				+ Consts.PROJECT_EXTENTION));
 
-		File newProjectDirectory = new File(Consts.DEFAULT_ROOT + "/" + newProjectName);
-		File newProjectFile = new File(Consts.DEFAULT_ROOT + "/" + project.getName() + "/" + newProjectName
-				+ Consts.PROJECT_EXTENTION);
+		File newProjectDirectory = new File(Utils.buildPath(Consts.DEFAULT_ROOT, newProjectName));
+		File newProjectFile = new File(Utils.buildPath(Consts.DEFAULT_ROOT, project.getName(), newProjectName
+				+ Consts.PROJECT_EXTENTION));
 
 		project.setName(newProjectName);
 

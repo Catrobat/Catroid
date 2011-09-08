@@ -34,7 +34,6 @@ import at.tugraz.ist.catroid.content.BroadcastScript;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
-import at.tugraz.ist.catroid.content.TapScript;
 import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.BroadcastBrick;
@@ -42,6 +41,7 @@ import at.tugraz.ist.catroid.content.bricks.BroadcastReceiverBrick;
 import at.tugraz.ist.catroid.content.bricks.BroadcastWaitBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeBrightnessBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeGhostEffectBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeSizeByNBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeVolumeByBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
@@ -52,8 +52,6 @@ import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
 import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.IfOnEdgeBounceBrick;
-import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
-import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
 import at.tugraz.ist.catroid.content.bricks.MoveNStepsBrick;
@@ -80,6 +78,7 @@ import at.tugraz.ist.catroid.content.bricks.TurnLeftBrick;
 import at.tugraz.ist.catroid.content.bricks.TurnRightBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.content.bricks.WhenBrick;
+import at.tugraz.ist.catroid.content.bricks.WhenStartedBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.ui.adapter.PrototypeBrickAdapter;
 
@@ -104,8 +103,7 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new SetCostumeBrick(sprite));
 			prototypeBrickList.add(new SetSizeToBrick(sprite, 100));
 			prototypeBrickList.add(new PlaySoundBrick(sprite));
-			prototypeBrickList.add(new IfTouchedBrick(sprite, null));
-			prototypeBrickList.add(new IfStartedBrick(sprite, null));
+			prototypeBrickList.add(new WhenStartedBrick(sprite, null));
 			prototypeBrickList.add(new WhenBrick(sprite, null));
 			prototypeBrickList.add(new BroadcastReceiverBrick(sprite, null));
 			prototypeBrickList.add(new BroadcastBrick(sprite));
@@ -115,6 +113,7 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new StopAllSoundsBrick(sprite));
 			prototypeBrickList.add(new ForeverBrick(sprite));
 			prototypeBrickList.add(new RepeatBrick(sprite, 3));
+			prototypeBrickList.add(new ChangeSizeByNBrick(sprite, 20));
 		} else {
 			prototypeBrickList = new ArrayList<Brick>();
 			prototypeBrickList.add(new WaitBrick(sprite, 1000));
@@ -138,8 +137,7 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new SetVolumeToBrick(sprite, 100));
 			prototypeBrickList.add(new ChangeVolumeByBrick(sprite, 25));
 			prototypeBrickList.add(new SpeakBrick(sprite, null));
-			prototypeBrickList.add(new IfTouchedBrick(sprite, null));
-			prototypeBrickList.add(new IfStartedBrick(sprite, null));
+			prototypeBrickList.add(new WhenStartedBrick(sprite, null));
 			prototypeBrickList.add(new WhenBrick(sprite, null));
 			prototypeBrickList.add(new BroadcastReceiverBrick(sprite, null));
 			prototypeBrickList.add(new BroadcastBrick(sprite));
@@ -157,6 +155,7 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new PointToBrick(sprite, null));
 			prototypeBrickList.add(new SayBrick(sprite));
 			prototypeBrickList.add(new ThinkBrick(sprite));
+			prototypeBrickList.add(new ChangeSizeByNBrick(sprite, 20));
 			prototypeBrickList.add(new NextCostumeBrick(sprite));
 		}
 	}
@@ -184,12 +183,8 @@ public class AddBrickDialog extends Dialog {
 				Brick addedBrick = adapter.getItem(position);
 				ProjectManager projectManager = ProjectManager.getInstance();
 
-				if (addedBrick instanceof IfStartedBrick) {
+				if (addedBrick instanceof WhenStartedBrick) {
 					Script newScript = new StartScript("script", projectManager.getCurrentSprite());
-					projectManager.addScript(newScript);
-					projectManager.setCurrentScript(newScript);
-				} else if (addedBrick instanceof IfTouchedBrick) {
-					Script newScript = new TapScript("script", projectManager.getCurrentSprite());
 					projectManager.addScript(newScript);
 					projectManager.setCurrentScript(newScript);
 				} else if (addedBrick instanceof WhenBrick) {

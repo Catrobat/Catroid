@@ -65,18 +65,10 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 		super.tearDown();
 	}
 
-	//	public void testMainMenuButton() {
-	//		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
-	//		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
-	//		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
-	//				MainMenuActivity.class);
-	//	}
-
 	public void testCreateNewBrickButton() {
 		int brickCountInView = solo.getCurrentListViews().get(0).getCount();
 		int brickCountInList = brickListToCheck.size();
 
-		//solo.clickOnText(solo.getCurrentActivity().getString(R.string.add_new_brick));
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
 		solo.clickOnText(solo.getCurrentActivity().getString(R.string.brick_wait));
 		solo.sleep(100);

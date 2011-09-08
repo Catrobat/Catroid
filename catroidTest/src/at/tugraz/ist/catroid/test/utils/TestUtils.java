@@ -120,7 +120,7 @@ public class TestUtils {
 		StringBuilder contents = new StringBuilder();
 
 		try {
-			BufferedReader input = new BufferedReader(new FileReader(projectFile));
+			BufferedReader input = new BufferedReader(new FileReader(projectFile), Consts.BUFFER_8K);
 			try {
 				String line = null;
 				while ((line = input.readLine()) != null) {

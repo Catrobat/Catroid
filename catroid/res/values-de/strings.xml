@@ -29,6 +29,8 @@
     <string name="cancel_button">Abbrechen</string>
     <string name="rename">Umbenennen</string>
     <string name="delete">Löschen</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
     
     <!-- User interface -->
     <string name="main_menu">Hauptmenü</string>
@@ -108,6 +110,7 @@
     <string name="edit_in_paintroid">In Paintroid editieren</string>
     <string name="copy_costume_addition">Kopie</string>
     <string name="select_image">Bild auswählen</string>
+    <string name="paintroid_not_installed">Paintroid ist nicht installiert!\nJetzt herunterladen?</string>
     
     <!-- Sound activity -->
     <string name="sound_list">Sound:</string>
@@ -121,6 +124,9 @@
     <!-- Sprite dialog -->
     <string name="sprite_button_text">Anlegen</string>
     <string name="newsprite">Neues Objekt</string>
+
+ 	<!-- Script context menu -->
+    <string name="script_context_menu_title">Script Menü</string>
 
     <!-- New project dialog -->
     <string name="new_project_dialog_button">Erstellen</string>
@@ -182,8 +188,7 @@
     <string name="brick_go_back">Gehe</string>
     <string name="brick_go_back_layers">Ebenen nach hinten</string>
     <string name="brick_come_to_front">Komm nach vorne</string>
-    <string name="brick_if_touched">Wenn berührt</string>
-    <string name="brick_if_started">Wenn gestartet</string>
+    <string name="brick_when_started">Wenn Projekt gestartet</string>
     <string name="brick_change_x_by">Ändere X um:</string>
 	<string name="brick_change_y_by">Ändere Y um:</string>
 	<string name="brick_set_x">Setze X auf:</string>
@@ -203,8 +208,8 @@
 	<string name="brick_turn_left">Drehe links</string>
 	<string name="brick_turn_left_n_degrees">Grad</string>
 	<string name="brick_point_in_direction">Zeige Richtung</string>
-	<string name="brick_say">sag</string>
-	<string name="brick_think">denke</string>
+	<string name="brick_say">Sage</string>
+	<string name="brick_think">Denke</string>
 	
 	<string name="choose_sound_title">Sound wählen</string>
 	
@@ -253,6 +258,9 @@
     </string>
     <string name="error_project_rename">
         Beim Umbenennen des Projektes ist ein Fehler aufgetreten.
+    </string>
+    <string name="error_new_project">
+    	Beim Erstellen des neuen Projektes ist ein Fehler aufgetreten.
     </string>
     <string name="error_save_project">
         Beim Speichern des Projektes ist ein Fehler aufgetreten.

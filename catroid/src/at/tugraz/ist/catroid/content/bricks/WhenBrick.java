@@ -19,7 +19,6 @@
 package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -55,6 +54,7 @@ public class WhenBrick implements Brick {
 		}
 
 		final Spinner spinner = (Spinner) view.findViewById(R.id.toolbox_brick_when_spinner);
+		spinner.setFocusable(false);
 		spinner.setClickable(true);
 		ArrayAdapter<CharSequence> spinnerAdapter = new ArrayAdapter<CharSequence>(context,
 				android.R.layout.simple_spinner_item);
@@ -73,17 +73,8 @@ public class WhenBrick implements Brick {
 		}
 
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-			boolean start = true;
-
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				if (start) {
-					start = false;
-					return;
-				}
-
 				spinner.setSelected(true);
-				String choice = parent.getItemAtPosition(position).toString();
-				Log.i("choosen", choice);
 				whenScript.setAction(position);
 				spinner.setSelection(position);
 				adapter.notifyDataSetChanged();
@@ -92,6 +83,7 @@ public class WhenBrick implements Brick {
 			public void onNothingSelected(AdapterView<?> parent) {
 			}
 		});
+
 		return view;
 	}
 

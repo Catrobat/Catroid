@@ -24,7 +24,6 @@ import java.io.IOException;
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.InstrumentationTestCase;
-import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.CostumeData;
@@ -44,7 +43,6 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class ProjectManagerTest extends InstrumentationTestCase {
 
-	private static final String TAG = "ProjectManagerTest";
 	String projectNameOne = "Ulumulu";
 	String scriptNameOne = "Ulukai";
 	String scriptNameTwo = "Ulukai2";
@@ -59,26 +57,34 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testBasicFunctions() throws NameNotFoundException, IOException {
-
 		ProjectManager projectManager = ProjectManager.getInstance();
 		assertNull("there is a current sprite set", projectManager.getCurrentSprite());
 		assertNull("there is a current script set", projectManager.getCurrentScript());
-
 		Context context = getInstrumentation().getContext().createPackageContext("at.tugraz.ist.catroid",
 				Context.CONTEXT_IGNORE_SECURITY);
+
+		// initializeNewProject
 		projectManager.initializeNewProject(projectNameOne, context);
 		assertNotNull("no current project set", projectManager.getCurrentProject());
 		assertEquals("The Projectname is not " + projectNameOne, projectNameOne, projectManager.getCurrentProject()
 				.getName());
 
+		// verify that new project is default project (see StorageHandler.createDefaultProject)
+		int spriteCount = projectManager.getCurrentProject().getSpriteList().size();
+		assertEquals("New project has wrong number of sprites", 2, spriteCount);
+		Sprite catroid = projectManager.getCurrentProject().getSpriteList().get(1);
+		assertEquals("Catroid sprite has wrong number of scripts", 2, catroid.getNumberOfScripts());
+
+		// add sprite
 		Sprite sprite = new Sprite(spriteNameOne);
 		projectManager.addSprite(sprite);
 		projectManager.setCurrentSprite(sprite);
 
-		assertNotNull("no current sprite set", projectManager.getCurrentSprite());
+		assertNotNull("No current sprite set", projectManager.getCurrentSprite());
 		assertEquals("The Spritename is not " + spriteNameOne, spriteNameOne, projectManager.getCurrentSprite()
 				.getName());
 
+		// add script
 		Script startScript = new StartScript(scriptNameOne, sprite);
 		projectManager.addScript(startScript);
 		projectManager.setCurrentScript(startScript);
@@ -87,8 +93,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		assertEquals("The Spritename is not " + scriptNameOne, scriptNameOne, projectManager.getCurrentScript()
 				.getName());
 
-		//loadProject ----------------------------------------
-
+		// loadProject
 		projectManager.loadProject(projectNameOne, context, false);
 		assertNotNull("no current project set", projectManager.getCurrentProject());
 		assertEquals("The Projectname is not " + projectNameOne, projectNameOne, projectManager.getCurrentProject()
@@ -96,22 +101,19 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		assertNull("there is a current sprite set", projectManager.getCurrentSprite());
 		assertNull("there is a current script set", projectManager.getCurrentScript());
 
-		//addSprite
-
+		// addSprite
 		Sprite sprite2 = new Sprite(spriteNameTwo);
 		projectManager.addSprite(sprite2);
 		assertTrue("Sprite not in current Project", projectManager.getCurrentProject().getSpriteList()
 				.contains(sprite2));
 
-		//addScript
-
+		// addScript
 		projectManager.setCurrentSprite(sprite2);
 		Script script2 = new StartScript(scriptNameTwo, sprite2);
 		projectManager.addScript(script2);
 		assertTrue("Script not in current Sprite", projectManager.getCurrentSprite().getScriptIndex(script2) != -1);
 
-		//addBrick
-
+		// addBrick
 		projectManager.setCurrentScript(script2);
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite2);
 		projectManager.getCurrentScript().addBrick(setCostumeBrick);
@@ -147,7 +149,6 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		assertTrue("New project file is not existing", newProjectFile.exists());
 
 		//this fails because catroid is buggy, fix catroid not this test --> we haven't decided yet how to fix the FileChecksumContainer
-		Log.v(TAG, projectFileAsString);
 		assertFalse("old projectName still in project file", projectFileAsString.contains(oldProjectName));
 	}
 

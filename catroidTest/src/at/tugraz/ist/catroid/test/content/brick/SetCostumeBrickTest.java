@@ -106,5 +106,4 @@ public class SetCostumeBrickTest extends InstrumentationTestCase {
 		assertEquals("Height of loaded bitmap is not the same as height of original image", height, sprite.getCostume()
 				.getBitmap().getHeight());
 	}
-
 }

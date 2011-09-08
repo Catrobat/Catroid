@@ -31,6 +31,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.SoundManager;
+import at.tugraz.ist.catroid.stage.NativeAppActivity;
 
 public class PlaySoundBrick implements Brick, Serializable, OnItemSelectedListener {
 	private static final long serialVersionUID = 1L;
@@ -44,8 +45,12 @@ public class PlaySoundBrick implements Brick, Serializable, OnItemSelectedListen
 	}
 
 	public void execute() {
-		if (soundInfo != null && soundInfo.getAbsolutePath() != null && sprite.getSoundList().contains(soundInfo)) {
-			SoundManager.getInstance().playSoundFile(soundInfo.getAbsolutePath());
+		if (soundInfo != null && sprite.getSoundList().contains(soundInfo)) {
+			if (!NativeAppActivity.isRunning() && soundInfo.getAbsolutePath() != null) {
+				SoundManager.getInstance().playSoundFile(soundInfo.getAbsolutePath());
+			} else {
+				SoundManager.getInstance().playSoundFile(soundInfo.getSoundFileName());
+			}
 		}
 	}
 
@@ -55,9 +60,7 @@ public class PlaySoundBrick implements Brick, Serializable, OnItemSelectedListen
 
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
 
-		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_play_sound, null);
-		}
+		view = View.inflate(context, R.layout.toolbox_brick_play_sound, null);
 
 		Spinner soundbrickSpinner = (Spinner) view.findViewById(R.id.playsound_spinner);
 		soundbrickSpinner.setAdapter(createSoundAdapter(context));
@@ -70,8 +73,6 @@ public class PlaySoundBrick implements Brick, Serializable, OnItemSelectedListen
 		} else {
 			soundbrickSpinner.setSelection(0);
 		}
-
-		System.out.println("PlaySoundBrick.getView() selection = " + soundbrickSpinner.getSelectedItemPosition());
 
 		return view;
 	}

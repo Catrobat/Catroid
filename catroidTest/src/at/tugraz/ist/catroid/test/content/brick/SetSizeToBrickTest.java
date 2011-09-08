@@ -128,7 +128,7 @@ public class SetSizeToBrickTest extends InstrumentationTestCase {
 		}
 	}
 
-	public void testCostumeToBig() {
+	public void testCostumeTooBig() {
 		Values.SCREEN_HEIGHT = 800;
 		Values.SCREEN_WIDTH = 480;
 
@@ -146,7 +146,7 @@ public class SetSizeToBrickTest extends InstrumentationTestCase {
 				|| newHeight == Consts.MAX_COSTUME_HEIGHT);
 	}
 
-	public void testCostumeToSmall() {
+	public void testCostumeTooSmall() {
 		Values.SCREEN_HEIGHT = 800;
 		Values.SCREEN_WIDTH = 480;
 

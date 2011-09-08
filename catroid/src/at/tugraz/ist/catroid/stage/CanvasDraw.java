@@ -45,6 +45,7 @@ import at.tugraz.ist.catroid.content.Costume;
 import at.tugraz.ist.catroid.content.SpeechBubble;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.utils.ImageEditing;
+import at.tugraz.ist.catroid.utils.Utils;
 
 /**
  * 
@@ -64,6 +65,8 @@ public class CanvasDraw implements IDraw {
 	private int screenshotIconXPosition;
 	private Activity activity;
 	ArrayList<Sprite> sprites;
+	private static final int SCREENSHOT_ICON_PADDING_TOP = 3;
+	private static final int SCREENSHOT_ICON_PADDING_RIGHT = 3;
 
 	public CanvasDraw(Activity activity) {
 		super();
@@ -78,8 +81,7 @@ public class CanvasDraw implements IDraw {
 		bufferCanvas = new Canvas(canvasBitmap);
 		flushRectangle = new Rect(0, 0, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
 		screenshotIcon = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_screenshot);
-		screenshotIconXPosition = Values.SCREEN_WIDTH - screenshotIcon.getWidth()
-				- Consts.SCREENSHOT_ICON_PADDING_RIGHT;
+		screenshotIconXPosition = Values.SCREEN_WIDTH - screenshotIcon.getWidth() - SCREENSHOT_ICON_PADDING_RIGHT;
 		sprites = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
 	}
 
@@ -114,10 +116,12 @@ public class CanvasDraw implements IDraw {
 					//}
 				}
 			}
-			bufferCanvas.drawBitmap(screenshotIcon, screenshotIconXPosition, Consts.SCREENSHOT_ICON_PADDING_TOP, null);
+			if (!NativeAppActivity.isRunning()) {
+				bufferCanvas.drawBitmap(screenshotIcon, screenshotIconXPosition, SCREENSHOT_ICON_PADDING_TOP, null);
+			}
 			canvas.drawBitmap(canvasBitmap, 0, 0, null);
 
-			if (firstRun) {
+			if (firstRun && !NativeAppActivity.isRunning()) {
 				saveThumbnail(false);
 				firstRun = false;
 			}
@@ -151,7 +155,8 @@ public class CanvasDraw implements IDraw {
 	public void processOnTouch(int xCoordinate, int yCoordinate) {
 		String toastText;
 		if (xCoordinate >= screenshotIconXPosition
-				&& yCoordinate <= Consts.SCREENSHOT_ICON_PADDING_TOP + screenshotIcon.getHeight()) {
+				&& yCoordinate <= SCREENSHOT_ICON_PADDING_TOP + screenshotIcon.getHeight()
+				&& !NativeAppActivity.isRunning()) {
 			Vibrator vibrator = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
 			vibrator.vibrate(100);
 			if (saveThumbnail(true)) {
@@ -166,9 +171,10 @@ public class CanvasDraw implements IDraw {
 
 	public boolean saveThumbnail(boolean overwrite) {
 		try {
-			String path = Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName() + "/";
-			File file = new File(path + Consts.SCREENSHOT_FILE_NAME);
-			File noMediaFile = new File(path + ".nomedia");
+			String path = Utils.buildPath(Consts.DEFAULT_ROOT, ProjectManager.getInstance().getCurrentProject()
+					.getName());
+			File file = new File(Utils.buildPath(path, Consts.SCREENSHOT_FILE_NAME));
+			File noMediaFile = new File(Utils.buildPath(path, Consts.NO_MEDIA_FILE));
 			if (!noMediaFile.exists()) {
 				noMediaFile.createNewFile();
 			}
@@ -177,7 +183,7 @@ public class CanvasDraw implements IDraw {
 			}
 
 			FileOutputStream fileOutputStream = new FileOutputStream(file.getAbsolutePath());
-			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream);
+			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream, Consts.BUFFER_8K);
 			canvasBitmap.compress(CompressFormat.PNG, 0, bos);
 			bos.flush();
 			bos.close();

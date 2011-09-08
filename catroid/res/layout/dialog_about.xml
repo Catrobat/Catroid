@@ -26,15 +26,21 @@
 	android:padding="10dp"
 >
 	<TextView
-		android:id="@+id/tvAboutText"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:text="@string/about_text"
 		android:gravity="center" />
 	<TextView
-		android:id="@+id/tvAboutURL"
+		android:id="@+id/dialog_about_url_text_view"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:gravity="center"
 		android:textSize="20dp" />
+	<TextView
+	    android:id="@+id/dialog_about_version_name_text_view"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+		android:gravity="right"
+		android:textColor="@color/white"
+		android:textSize="8dp" />
 </LinearLayout>
