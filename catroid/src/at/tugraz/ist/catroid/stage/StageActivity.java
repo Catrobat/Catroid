@@ -154,7 +154,9 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 			case MY_DATA_CHECK_CODE:
 				if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
 					// success, create the TTS instance
-					tts = new TextToSpeech(this, this);
+					textToSpeechEngine = new TextToSpeech(this, this);
+					textToSpeechEngine.setSpeechRate(1);
+					textToSpeechEngine.setPitch(1);
 				} else {
 					// missing data, install it
 					Intent installIntent = new Intent();
