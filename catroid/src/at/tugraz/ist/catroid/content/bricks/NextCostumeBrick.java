@@ -33,6 +33,10 @@ public class NextCostumeBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private transient View view;
+	private int index;
+
+	//	private SetCostumeBrick setCostumeBrick;
+	//	private boolean executeOnce = true;
 
 	public NextCostumeBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -41,23 +45,23 @@ public class NextCostumeBrick implements Brick {
 	public void execute() {
 		final ArrayList<CostumeData> costumeDataList = sprite.getCostumeDataList();
 		int costumeDataListSize = costumeDataList.size();
-		String currentCostumePath = sprite.getCostume().getImagePath();
-		String finalCostumeDataPath = costumeDataList.get(costumeDataListSize - 1).getAbsolutePath();
-		boolean executeOnce = true;
 
-		for (CostumeData costumeData : costumeDataList) {
-			String costumeDataPath = costumeData.getAbsolutePath();
-			int newIndex = costumeDataList.indexOf(costumeData) + 1;
+		//		if (executeOnce) {
+		//			setCostumeBrick = new SetCostumeBrick(sprite);
+		//			index = setCostumeBrick.getPositionOfSelectedCostume();
+		//			executeOnce = false;
+		//			System.out.println("SetCostumeBrick: " + setCostumeBrick);
+		//			System.out.println("Index: " + index);
+		//		}
 
-			if (currentCostumePath.equals(finalCostumeDataPath)) {
-				currentCostumePath = costumeDataList.get(0).getAbsolutePath();
-				sprite.getCostume().changeImagePath(currentCostumePath);
-			} else if (costumeDataPath.equals(currentCostumePath) && newIndex < costumeDataListSize && executeOnce) {
-				executeOnce = false;
-				costumeData = costumeDataList.get(newIndex);
-				sprite.getCostume().changeImagePath(costumeData.getAbsolutePath());
-			}
+		if (index >= (costumeDataListSize - 1)) {
+			index = 0;
+		} else if (index < (costumeDataListSize - 1)) {
+			index++;
 		}
+
+		sprite.getCostume().changeImagePath(costumeDataList.get(index).getAbsolutePath());
+		//		System.out.println("Index: " + index);
 	}
 
 	public Sprite getSprite() {
@@ -68,7 +72,6 @@ public class NextCostumeBrick implements Brick {
 		if (view == null) {
 			view = View.inflate(context, R.layout.toolbox_brick_next_costume, null);
 		}
-
 		return view;
 	}
 

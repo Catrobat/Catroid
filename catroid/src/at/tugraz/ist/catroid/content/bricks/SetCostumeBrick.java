@@ -34,6 +34,7 @@ public class SetCostumeBrick implements Brick {
 	private Sprite sprite;
 	private CostumeData costumeData;
 	private transient View view;
+	private int positionInSpinner;
 
 	public SetCostumeBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -46,6 +47,7 @@ public class SetCostumeBrick implements Brick {
 	public void execute() {
 		if (costumeData != null && sprite != null && sprite.getCostumeDataList().contains(costumeData)) {
 			sprite.getCostume().changeImagePath(costumeData.getAbsolutePath());
+			System.out.println("Position: " + positionInSpinner);
 		}
 	}
 
@@ -71,6 +73,7 @@ public class SetCostumeBrick implements Brick {
 		costumebrickSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				costumeData = (CostumeData) parent.getItemAtPosition(position);
+				positionInSpinner = position;
 			}
 
 			public void onNothingSelected(AdapterView<?> arg0) {
@@ -112,5 +115,9 @@ public class SetCostumeBrick implements Brick {
 
 		return clonedBrick;
 
+	}
+
+	public int getPositionOfSelectedCostume() {
+		return (positionInSpinner - 1);
 	}
 }
