@@ -402,9 +402,9 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return true;
 	}
 
-	public boolean isTTSSprite() {
+	public boolean containsBrickOfType(Class<?> type) {
 		for (Script script : scriptList) {
-			if (script.containsTTSBrick()) {
+			if (script.containsBrickOfType(type)) {
 				return true;
 			}
 		}

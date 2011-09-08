@@ -19,7 +19,6 @@
 package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
@@ -47,12 +46,11 @@ public class LoopEndBrick implements Brick {
 			long loopBeginTime = loopBeginBrick.getBeginLoopTime() / 1000000;
 			long loopEndTime = System.nanoTime() / 1000000;
 			long waitForNextLoop = (LOOP_DELAY - (loopEndTime - loopBeginTime));
-			Log.i("bt", loopBeginTime + " " + loopEndTime + " time to wait til next loop: " + waitForNextLoop);
+			//Log.i("bt", loopBeginTime + " " + loopEndTime + " time to wait til next loop: " + waitForNextLoop);
 			if (waitForNextLoop > 0) {
 				try {
 					Thread.sleep(waitForNextLoop);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

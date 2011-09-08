@@ -29,6 +29,7 @@ import android.os.Handler;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.bricks.SpeakBrick;
 
 public class StageManager {
 	private Activity activity;
@@ -65,9 +66,10 @@ public class StageManager {
 		spritesChanged = true;
 		draw = new CanvasDraw(activity);
 
-		if (checkForTTSBricks()) {
+		if (checkForBrickOfType(SpeakBrick.class)) {
 			ttsNeeded = true;
 		}
+
 	}
 
 	public void startScripts() {
@@ -76,9 +78,9 @@ public class StageManager {
 		}
 	}
 
-	private boolean checkForTTSBricks() {
+	private boolean checkForBrickOfType(Class<?> type) {
 		for (Sprite sprite : spriteList) {
-			if (sprite.isTTSSprite()) {
+			if (sprite.containsBrickOfType(type)) {
 				return true;
 			}
 		}
