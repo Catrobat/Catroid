@@ -83,7 +83,7 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		isPaused = false;
 		isFinished = false;
 		speechBubble = new SpeechBubble();
-		
+
 		if (soundList == null) {
 			soundList = new ArrayList<SoundInfo>();
 		}
