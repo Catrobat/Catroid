@@ -29,7 +29,6 @@ import android.os.Handler;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.content.bricks.SpeakBrick;
 
 public class StageManager {
 	private Activity activity;
@@ -39,7 +38,7 @@ public class StageManager {
 	private boolean isPaused;
 	private Handler handler = new Handler();
 	private boolean ttsNeeded = false;
-
+	private boolean bluetoothNeeded;
 	private Runnable runnable = new Runnable() {
 		public void run() {
 			for (Sprite sprite : spriteList) {
@@ -69,13 +68,17 @@ public class StageManager {
 		if (checkForBrickOfType(SpeakBrick.class)) {
 			ttsNeeded = true;
 		}
-
+		
+		if (checkForBluetoothBricks()) {
+			bluetoothNeeded = true;
+		}
 	}
 
 	public void startScripts() {
 		for (Sprite sprite : spriteList) {
 			sprite.startStartScripts();
 		}
+
 	}
 
 	private boolean checkForBrickOfType(Class<?> type) {
@@ -86,9 +89,14 @@ public class StageManager {
 		}
 		return false;
 	}
-
-	public boolean getTTSNeeded() {
-		return ttsNeeded;
+	
+	private boolean checkForBluetoothBricks() {
+		for (Sprite sprite : spriteList) {
+			if (sprite.isBluetoothSprite()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public boolean drawSprites() {
@@ -143,5 +151,14 @@ public class StageManager {
 		for (Sprite sprite : spriteList) {
 			sprite.finish();
 		}
+	}
+
+	public boolean getBluetoothNeeded() {
+		return bluetoothNeeded;
+	}
+	
+
+	public boolean getTTSNeeded() {
+		return ttsNeeded;
 	}
 }
