@@ -117,7 +117,7 @@
     <string name="rename_sound_dialog">Sound umbenennen</string>
     <string name="soundname_invalid">Dieser Name ist nicht zulässig</string>
     <string name="sound_play">abspielen</string>
-    <string name="sound_stop">anhalten </string>
+    <string name="sound_stop"> pause </string> 
     <string name="sound_delete">löschen</string>
     <string name="sound_rename">editieren</string>
 
@@ -196,6 +196,7 @@
 	<string name="brick_when">Wenn</string>
 	<string name="brick_glide">Gleite</string>
 	<string name="brick_glide_to">zu</string>
+	<string name="brick_speak">Spreche</string>
 	<string name="brick_forever">Wiederhole fortlaufend</string>
 	<string name="brick_loop_end">Wiederholen beenden</string>
 	<string name="brick_repeat">Wiederhole</string>
@@ -282,6 +283,9 @@
     </string>
     <string name="error_load_sound">
     	Beim Laden des Audiofiles ist ein Fehler aufgetreten.
+    </string>
+    <string name="text_to_speech_error">
+    	Text-to-speech Fehler. Spreche Baustein funktioniert nicht.
     </string>
 
     <!-- Notifications -->

@@ -39,6 +39,7 @@ public class ForeverBrick extends LoopBeginBrick {
 	@Override
 	public void execute() {
 		loopEndBrick.setTimesToRepeat(LoopEndBrick.FOREVER);
+		super.setFirstStartTime();
 	}
 
 	@Override

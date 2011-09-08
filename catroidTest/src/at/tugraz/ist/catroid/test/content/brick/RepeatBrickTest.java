@@ -21,6 +21,7 @@ package at.tugraz.ist.catroid.test.content.brick;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
+import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
 import at.tugraz.ist.catroid.content.bricks.RepeatBrick;
 import at.tugraz.ist.catroid.content.bricks.SetXBrick;
@@ -37,6 +38,7 @@ public class RepeatBrickTest extends InstrumentationTestCase {
 	private int positionOfSecondWaitBrick;
 	private int repeatTimes = 3;
 	private LoopEndBrick loopEndBrick;
+	private LoopBeginBrick repeatBrick;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -44,21 +46,21 @@ public class RepeatBrickTest extends InstrumentationTestCase {
 		testScript = new StartScript("testScript", testSprite);
 
 		ShowBrick showBrick = new ShowBrick(testSprite);
-		RepeatBrick foreverBrick = new RepeatBrick(testSprite, repeatTimes);
+		repeatBrick = new RepeatBrick(testSprite, repeatTimes);
 		WaitBrick firstWaitBrick = new WaitBrick(testSprite, brickSleepTime);
 		SetXBrick firstSetXBrick = new SetXBrick(testSprite, 100);
 		WaitBrick secondWaitBrick = new WaitBrick(testSprite, brickSleepTime);
 		SetXBrick secondSetXBrick = new SetXBrick(testSprite, 200);
-		loopEndBrick = new LoopEndBrick(testSprite, foreverBrick);
+		loopEndBrick = new LoopEndBrick(testSprite, repeatBrick);
 
 		testScript.addBrick(showBrick);
-		testScript.addBrick(foreverBrick);
+		testScript.addBrick(repeatBrick);
 		testScript.addBrick(firstWaitBrick);
 		testScript.addBrick(firstSetXBrick);
 		testScript.addBrick(secondWaitBrick);
 		testScript.addBrick(secondSetXBrick);
 		testScript.addBrick(loopEndBrick);
-		foreverBrick.setLoopEndBrick(loopEndBrick);
+		repeatBrick.setLoopEndBrick(loopEndBrick);
 
 		testSprite.addScript(testScript);
 
@@ -66,7 +68,7 @@ public class RepeatBrickTest extends InstrumentationTestCase {
 		positionOfSecondWaitBrick = testScript.getBrickList().indexOf(secondWaitBrick);
 	}
 
-	public void testForeverBrick() throws InterruptedException {
+	public void testRepeatBrick() throws InterruptedException {
 		testSprite.startStartScripts();
 
 		Thread.sleep(brickSleepTime / 2);
@@ -90,5 +92,22 @@ public class RepeatBrickTest extends InstrumentationTestCase {
 
 		timesToRepeat = (Integer) TestUtils.getPrivateField("timesToRepeat", loopEndBrick, false);
 		assertEquals("Wrong number of times to repeat", 0, timesToRepeat);
+	}
+
+	public void testLoopDelay() throws InterruptedException {
+
+		long expectedDelay = LoopEndBrick.LOOP_DELAY;
+		repeatBrick.execute();
+		long startTime = repeatBrick.getBeginLoopTime() / 1000000;
+		loopEndBrick.execute();
+		long endTime = System.nanoTime() / 1000000;
+		assertTrue("Loop delay was too short...", endTime - startTime >= expectedDelay);
+		assertTrue("Loop delay was very long...", endTime - startTime <= expectedDelay + 1000);
+
+		startTime = repeatBrick.getBeginLoopTime() / 1000000;
+		loopEndBrick.execute();
+		endTime = System.nanoTime() / 1000000;
+		assertTrue("Loop delay was too short...", endTime - startTime >= expectedDelay);
+		assertTrue("Loop delay was very long...", endTime - startTime <= expectedDelay + 1000);
 	}
 }

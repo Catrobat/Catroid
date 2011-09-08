@@ -24,8 +24,21 @@ public abstract class LoopBeginBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	protected Sprite sprite;
 	protected LoopEndBrick loopEndBrick;
+	private long beginLoopTime;
 
 	public abstract void execute();
+
+	protected void setFirstStartTime() {
+		beginLoopTime = System.nanoTime();
+	}
+
+	public long getBeginLoopTime() {
+		return beginLoopTime;
+	}
+
+	public void setBeginLoopTime(long beginLoopTime) {
+		this.beginLoopTime = beginLoopTime;
+	}
 
 	public Sprite getSprite() {
 		return this.sprite;
