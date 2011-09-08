@@ -311,7 +311,10 @@
     <string name="error_load_sound">
     	An error occurred while loading the sound.
     </string>
-
+    <string name="text_to_speech_error">
+    	Text-to-speech error. Speak brick will not work.
+    </string>
+    
     <!-- Notifications -->
     <string name="success_project_upload">Upload successful.</string>
     <string name="success_project_download">Download successful.</string>

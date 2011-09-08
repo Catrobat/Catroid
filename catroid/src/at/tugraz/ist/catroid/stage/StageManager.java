@@ -37,6 +37,7 @@ public class StageManager {
 	private IDraw draw;
 	private boolean isPaused;
 	private Handler handler = new Handler();
+	private boolean ttsNeeded = false;
 
 	private Runnable runnable = new Runnable() {
 		public void run() {
@@ -64,9 +65,28 @@ public class StageManager {
 		spritesChanged = true;
 		draw = new CanvasDraw(activity);
 
+		if (checkForTTSBricks()) {
+			ttsNeeded = true;
+		}
+	}
+
+	public void startScripts() {
 		for (Sprite sprite : spriteList) {
 			sprite.startStartScripts();
 		}
+	}
+
+	private boolean checkForTTSBricks() {
+		for (Sprite sprite : spriteList) {
+			if (sprite.isTTSSprite()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean getTTSNeeded() {
+		return ttsNeeded;
 	}
 
 	public boolean drawSprites() {

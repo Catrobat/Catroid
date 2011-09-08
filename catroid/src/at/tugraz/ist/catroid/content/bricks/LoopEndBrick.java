@@ -29,11 +29,11 @@ import at.tugraz.ist.catroid.content.Sprite;
 
 public class LoopEndBrick implements Brick {
 	public static final int FOREVER = -1;
+	public static final long LOOP_DELAY = 2000;
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private LoopBeginBrick loopBeginBrick;
 	private int timesToRepeat;
-	private static final long LOOP_SPEED = 2000;
 
 	public LoopEndBrick(Sprite sprite, LoopBeginBrick loopStartingBrick) {
 		this.sprite = sprite;
@@ -46,7 +46,7 @@ public class LoopEndBrick implements Brick {
 
 			long loopBeginTime = loopBeginBrick.getBeginLoopTime() / 1000000;
 			long loopEndTime = System.nanoTime() / 1000000;
-			long waitForNextLoop = (LOOP_SPEED - (loopEndTime - loopBeginTime));
+			long waitForNextLoop = (LOOP_DELAY - (loopEndTime - loopBeginTime));
 			Log.i("bt", loopBeginTime + " " + loopEndTime + " time to wait til next loop: " + waitForNextLoop);
 			if (waitForNextLoop > 0) {
 				try {

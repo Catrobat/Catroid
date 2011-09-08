@@ -401,4 +401,13 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 
 		return true;
 	}
+
+	public boolean isTTSSprite() {
+		for (Script script : scriptList) {
+			if (script.containsTTSBrick()) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
