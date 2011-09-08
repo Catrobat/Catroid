@@ -2,11 +2,12 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
-	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="lib" path="libs/xstream-1.4.1.jar" sourcepath="libs/xstream-1.4.1-sources.jar">
+		<classpathentry kind="lib" path="libs/xstream-1.4.1.jar" sourcepath="libs/xstream-1.4.1-sources.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="jar:platform:/resource/catroid/libs/xstream-1.4.1-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="lib" path="lib/AmarinoLibrary_v0_55.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
