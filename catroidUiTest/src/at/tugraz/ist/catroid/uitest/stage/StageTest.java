@@ -46,6 +46,7 @@ import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
+import at.tugraz.ist.catroid.content.bricks.SpeakBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.io.StorageHandler;
@@ -162,7 +163,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2); // click in the middle
 
-		solo.sleep(3000);
+		solo.sleep(2000);
 		costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
 		assertEquals("Image size not set correctly", (image1Width / 2), costume.getImageWidth());
 
@@ -459,6 +460,15 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 	}
 
+	public void testTextToSpeechInitialization() {
+		createTestProjectWithSpeakBrick();
+		solo.sleep(3000);
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		solo.waitForActivity(StageActivity.class.getName(), 1000);
+		solo.sleep(3000);
+		assertTrue("Text to speech engine not initialized!", StageActivity.textToSpeechEngine != null);
+	}
+
 	public void clickOnScreenAndReturn(int x, int y, int expectedWidth, int expectedHeight) {
 		solo.clickOnScreen(x, y);
 		solo.sleep(1000);
@@ -692,6 +702,25 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		firstSprite.getSoundList().add(soundInfo);
 		firstSprite.getCostumeDataList().add(costumeData);
+
+		storageHandler.saveProject(project);
+	}
+
+	public void createTestProjectWithSpeakBrick() {
+
+		//creating sprites for project:
+		Sprite firstSprite = new Sprite("sprite1");
+		Script startScript = new StartScript("startscript", firstSprite);
+		Script whenScript = new WhenScript("whenscript", firstSprite);
+
+		SpeakBrick speakBrick = new SpeakBrick(firstSprite, "trolltrolltroll");
+		whenScript.addBrick(speakBrick);
+		firstSprite.addScript(startScript);
+		firstSprite.addScript(whenScript);
+
+		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
+		spriteList.add(firstSprite);
+		Project project = UiTestUtils.createProject(projectName, spriteList, getActivity());
 
 		storageHandler.saveProject(project);
 	}
