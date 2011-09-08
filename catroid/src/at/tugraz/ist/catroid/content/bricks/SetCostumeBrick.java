@@ -28,6 +28,7 @@ import android.widget.Spinner;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.stage.NativeAppActivity;
 
 public class SetCostumeBrick implements Brick {
 	private static final long serialVersionUID = 1L;
@@ -46,7 +47,17 @@ public class SetCostumeBrick implements Brick {
 
 	public void execute() {
 		if (costumeData != null && sprite != null && sprite.getCostumeDataList().contains(costumeData)) {
-			sprite.getCostume().changeImagePath(costumeData.getAbsolutePath());
+			if (!NativeAppActivity.isRunning()) {
+				sprite.getCostume().changeImagePath(costumeData.getAbsolutePath());
+			} else {
+				sprite.getCostume().setBitmapFromResource(
+						NativeAppActivity.getContext(),
+						NativeAppActivity
+								.getContext()
+								.getResources()
+								.getIdentifier(costumeData.getCostumeFileName(), "raw",
+										NativeAppActivity.getContext().getPackageName()));
+			}
 			System.out.println("Position: " + positionInSpinner);
 		}
 	}
@@ -61,9 +72,7 @@ public class SetCostumeBrick implements Brick {
 
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
 
-		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_set_costume, null);
-		}
+		view = View.inflate(context, R.layout.toolbox_brick_set_costume, null);
 
 		Spinner costumebrickSpinner = (Spinner) view.findViewById(R.id.setcostume_spinner);
 		costumebrickSpinner.setAdapter(createCostumeAdapter(context));

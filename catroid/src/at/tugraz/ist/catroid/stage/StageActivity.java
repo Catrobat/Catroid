@@ -241,12 +241,12 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 	}
 
 	public void onInit(int status) {
-		if (status == TextToSpeech.SUCCESS) {
-			Toast.makeText(StageActivity.this, "Text-To-Speech engine is initialized", Toast.LENGTH_LONG).show();
-		} else if (status == TextToSpeech.ERROR) {
-			Toast.makeText(StageActivity.this, "Error occurred while initializing Text-To-Speech engine",
-					Toast.LENGTH_LONG).show();
-		}
+		//		if (status == TextToSpeech.SUCCESS) { trololololol
+		//			Toast.makeText(StageActivity.this, "Text-To-Speech engine is initialized", Toast.LENGTH_LONG).show();
+		//		} else if (status == TextToSpeech.ERROR) {
+		//			Toast.makeText(StageActivity.this, "Error occurred while initializing Text-To-Speech engine",
+		//					Toast.LENGTH_LONG).show();
+		//		}
 	}
 
 	public static void textToSpeech(String Text) {

@@ -22,7 +22,9 @@ package at.tugraz.ist.catroid.io;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
+import at.tugraz.ist.catroid.stage.NativeAppActivity;
 
 public class SoundManager {
 	private ArrayList<MediaPlayer> mediaPlayers;
@@ -63,7 +65,14 @@ public class SoundManager {
 		MediaPlayer mediaPlayer = getMediaPlayer();
 		if (mediaPlayer != null) {
 			try {
-				mediaPlayer.setDataSource(pathToSoundfile);
+				if (!NativeAppActivity.isRunning()) {
+					mediaPlayer.setDataSource(pathToSoundfile);
+				} else {
+					int resId = NativeAppActivity.getContext().getResources().getIdentifier(pathToSoundfile, "raw",
+							NativeAppActivity.getContext().getPackageName());
+					AssetFileDescriptor afd = NativeAppActivity.getContext().getResources().openRawResourceFd(resId);
+					mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+				}
 				mediaPlayer.prepare();
 				mediaPlayer.start();
 			} catch (IOException e) {

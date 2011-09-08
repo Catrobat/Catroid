@@ -99,9 +99,7 @@ public class BroadcastBrick implements Brick {
 
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
 
-		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_broadcast, null);
-		}
+		view = View.inflate(context, R.layout.toolbox_brick_broadcast, null);
 
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.broadcast_spinner);
 		broadcastSpinner.setAdapter(projectManager.messageContainer.getMessageAdapter(context));

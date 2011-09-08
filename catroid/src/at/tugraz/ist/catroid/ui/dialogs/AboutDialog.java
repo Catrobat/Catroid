@@ -27,6 +27,7 @@ import android.text.method.LinkMovementMethod;
 import android.view.Window;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class AboutDialog extends Dialog {
 
@@ -47,13 +48,17 @@ public class AboutDialog extends Dialog {
 		setTitle(R.string.about_title);
 		setCanceledOnTouchOutside(true);
 
-		TextView aboutUrlTextView = (TextView) findViewById(R.id.tvAboutURL);
+		TextView aboutUrlTextView = (TextView) findViewById(R.id.dialog_about_url_text_view);
 		aboutUrlTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
-		Resources res = context.getResources();
-		String aboutUrl = String.format(res.getString(R.string.about_link_template),
-				res.getString(R.string.about_catroid_url), res.getString(R.string.about_link_text));
+		Resources resources = context.getResources();
+		String aboutUrl = String.format(resources.getString(R.string.about_link_template),
+				resources.getString(R.string.about_catroid_url), resources.getString(R.string.about_link_text));
 
 		aboutUrlTextView.setText(Html.fromHtml(aboutUrl));
+
+		TextView aboutVersionNameTextView = (TextView) findViewById(R.id.dialog_about_version_name_text_view);
+		String versionName = Utils.getVersionName(context);
+		aboutVersionNameTextView.setText(versionName);
 	}
 }

@@ -32,15 +32,13 @@ import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
-import at.tugraz.ist.catroid.content.TapScript;
+import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
-import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
-import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
@@ -49,6 +47,7 @@ import at.tugraz.ist.catroid.content.bricks.SetXBrick;
 import at.tugraz.ist.catroid.content.bricks.SetYBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
+import at.tugraz.ist.catroid.content.bricks.WhenStartedBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -238,9 +237,9 @@ public class MediaPathTest extends InstrumentationTestCase {
 	private void fillProjectWithAllBricksAndMediaFiles() throws IOException {
 		Sprite sprite = new Sprite("testSprite");
 		Script script = new StartScript("testScript", sprite);
-		Script tapedScript = new TapScript("tapScript", sprite);
+		Script whenScript = new WhenScript("whenScript", sprite);
 		sprite.addScript(script);
-		sprite.addScript(tapedScript);
+		sprite.addScript(whenScript);
 		project.addSprite(sprite);
 
 		SetCostumeBrick costumeBrick2 = new SetCostumeBrick(sprite);
@@ -257,7 +256,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 		brickList1.add(new ComeToFrontBrick(sprite));
 		brickList1.add(new GoNStepsBackBrick(sprite, 5));
 		brickList1.add(new HideBrick(sprite));
-		brickList1.add(new IfStartedBrick(sprite, script));
+		brickList1.add(new WhenStartedBrick(sprite, script));
 		brickList1.add(costumeBrick2);
 
 		SetCostumeBrick costumeBrick = new SetCostumeBrick(sprite);
@@ -274,7 +273,6 @@ public class MediaPathTest extends InstrumentationTestCase {
 		soundBrick.setSoundInfo(soundInfo);
 		sprite.getSoundList().add(soundInfo);
 
-		brickList2.add(new IfTouchedBrick(sprite, tapedScript));
 		brickList2.add(new PlaceAtBrick(sprite, 50, 50));
 		brickList2.add(soundBrick);
 		brickList2.add(new SetSizeToBrick(sprite, 50));
@@ -288,10 +286,9 @@ public class MediaPathTest extends InstrumentationTestCase {
 			script.addBrick(brick);
 		}
 		for (Brick brick : brickList2) {
-			tapedScript.addBrick(brick);
+			whenScript.addBrick(brick);
 		}
 
 		StorageHandler.getInstance().saveProject(project);
 	}
-
 }

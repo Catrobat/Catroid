@@ -24,7 +24,6 @@ import java.util.Locale;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
-import android.telephony.TelephonyManager;
 
 public class UtilDeviceInfo {
 
@@ -37,14 +36,6 @@ public class UtilDeviceInfo {
 			return account.name;
 		}
 		return null;
-	}
-
-	public static String getDeviceIMEI(Context context) {
-		if (context == null) {
-			return null;
-		}
-		TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-		return telephonyManager.getDeviceId();
 	}
 
 	public static String getUserLanguageCode(Context context) {

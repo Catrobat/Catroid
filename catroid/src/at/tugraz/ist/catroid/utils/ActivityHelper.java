@@ -150,6 +150,7 @@ public class ActivityHelper {
 		if (separatorAfter) {
 			actionBar.addView(separator);
 		}
+
 		return true;
 	}
 

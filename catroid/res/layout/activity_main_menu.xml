@@ -112,6 +112,7 @@
 				<Button
 					android:id="@+id/web_button"
 					android:text="@string/web_resources"
+					android:onClick="handleWebResourcesButton"
 					android:layout_height="match_parent"
 					android:layout_width="match_parent"
 					android:layout_weight=".5"

@@ -21,6 +21,7 @@ package at.tugraz.ist.catroid.content.bricks;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseExpandableListAdapter;
@@ -31,7 +32,6 @@ import at.tugraz.ist.catroid.stage.StageActivity;
 
 public class SpeakBrick implements Brick {
 	private static final long serialVersionUID = 1L;
-	private static final int MAXLINES = 5;
 	private Sprite sprite;
 	private String text = "";
 	protected int position = 0;
@@ -62,7 +62,6 @@ public class SpeakBrick implements Brick {
 
 		EditText editText = (EditText) view.findViewById(R.id.toolbox_brick_speak_edit_text);
 		editText.setText(text);
-		editText.setMaxLines(MAXLINES);
 
 		editText.setOnClickListener(new OnClickListener() {
 
@@ -71,9 +70,11 @@ public class SpeakBrick implements Brick {
 				final EditText input = new EditText(context);
 				input.setText(text);
 				dialog.setView(input);
+				dialog.setOnCancelListener((OnCancelListener) context);
 				dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						text = (input.getText().toString()).trim();
+						dialog.cancel();
 					}
 				});
 				dialog.setNeutralButton(context.getString(R.string.cancel_button),

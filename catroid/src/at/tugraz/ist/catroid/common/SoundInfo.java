@@ -19,6 +19,7 @@
 package at.tugraz.ist.catroid.common;
 
 import at.tugraz.ist.catroid.ProjectManager;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class SoundInfo implements Comparable<SoundInfo> {
 
@@ -33,7 +34,7 @@ public class SoundInfo implements Comparable<SoundInfo> {
 
 	public String getAbsolutePath() {
 		if (fileName != null) {
-			return getPathWithoutFileName() + fileName;
+			return Utils.buildPath(getPathWithoutFileName(), fileName);
 		} else {
 			return null;
 		}
@@ -78,8 +79,8 @@ public class SoundInfo implements Comparable<SoundInfo> {
 	}
 
 	public String getPathWithoutFileName() {
-		return Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName()
-				+ Consts.SOUND_DIRECTORY + "/";
+		return Utils.buildPath(Consts.DEFAULT_ROOT, ProjectManager.getInstance().getCurrentProject().getName(),
+				Consts.SOUND_DIRECTORY);
 	}
 
 	public int compareTo(SoundInfo soundInfo) {

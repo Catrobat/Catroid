@@ -84,7 +84,6 @@ public class StageManager {
 
 		Collections.sort(touchedSpriteList);
 		if (!touchedSpriteList.isEmpty()) {
-			touchedSpriteList.get(touchedSpriteList.size() - 1).startTapScripts();
 			touchedSpriteList.get(touchedSpriteList.size() - 1).startWhenScripts(action);
 		}
 	}

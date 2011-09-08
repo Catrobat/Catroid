@@ -143,27 +143,30 @@ public class SoundActivity extends ListActivity {
 		//when new sound title is selected and ready to be added to the catroid project
 		if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_SELECT_MUSIC) {
 			String audioPath = "";
-			//get real path of soundfile --------------------------
-			{
-				Uri audioUri = data.getData();
-				String[] proj = { MediaStore.Audio.Media.DATA };
-				Cursor actualSoundCursor = managedQuery(audioUri, proj, null, null, null);
-				int actualSoundColumnIndex = actualSoundCursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
-				actualSoundCursor.moveToFirst();
-				audioPath = actualSoundCursor.getString(actualSoundColumnIndex);
-			}
-			//-----------------------------------------------------
 
 			//copy music to catroid:
 			try {
+
+				//get real path of soundfile --------------------------
+				{
+					Uri audioUri = data.getData();
+					String[] proj = { MediaStore.Audio.Media.DATA };
+					Cursor actualSoundCursor = managedQuery(audioUri, proj, null, null, null);
+					int actualSoundColumnIndex = actualSoundCursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
+					actualSoundCursor.moveToFirst();
+					audioPath = actualSoundCursor.getString(actualSoundColumnIndex);
+				}
+				//-----------------------------------------------------
+
 				if (audioPath.equalsIgnoreCase("")) {
 					throw new IOException();
 				}
 				File soundFile = StorageHandler.getInstance().copySoundFile(audioPath);
-				String soundTitle = soundFile.getName().substring(33, soundFile.getName().length() - 4);
 				String soundFileName = soundFile.getName();
+				String soundTitle = soundFileName.substring(soundFileName.indexOf('_') + 1,
+						soundFileName.lastIndexOf('.'));
 				updateSoundAdapter(soundTitle, soundFileName);
-			} catch (IOException e) {
+			} catch (Exception e) {
 				Utils.displayErrorMessage(this, this.getString(R.string.error_load_sound));
 			}
 		}
