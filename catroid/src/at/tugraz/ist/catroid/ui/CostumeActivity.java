@@ -203,8 +203,8 @@ public class CostumeActivity extends ListActivity {
 				try {
 					File newCostumeFile = StorageHandler.getInstance().copyImage(projectName, pathOfPaintroidImage,
 							newFileName);
-					File fileInPaintroid = new File(pathOfPaintroidImage);
-					fileInPaintroid.delete(); //delete temp file in paintroid
+					File tempPicFileInPaintroid = new File(pathOfPaintroidImage);
+					tempPicFileInPaintroid.delete(); //delete temp file in paintroid //TODO: delete xml file?
 					StorageHandler.getInstance().deleteFile(selectedCostumeData.getAbsolutePath()); //reduce usage in container or delete it (TODO: test this)
 					selectedCostumeData.setCostumeFilename(newCostumeFile.getName());
 					selectedCostumeData.resetThumbnailBitmap();
