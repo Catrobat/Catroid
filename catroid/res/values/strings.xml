@@ -31,6 +31,11 @@
     <string name="delete">Delete</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    
+    <!-- Extras -->
+    <string name="extra_picture_path_paintroid">at.tugraz.ist.extra.PAINTROID_PICTURE_PATH</string>
+    <string name="extra_x_value_paintroid">at.tugraz.ist.extra.PAINTROID_X</string>
+    <string name="extra_y_value_paintroid">at.tugraz.ist.extra.PAINTROID_Y</string>
 
     <!-- User interface -->
     <string name="main_menu">Main menu</string>
@@ -118,7 +123,7 @@
     <string name="rename_sound_dialog">Rename sound</string>
     <string name="soundname_invalid">This soundname is invalid</string>
     <string name="sound_play">play</string>
-    <string name="sound_stop">stop</string>
+    <string name="sound_pause">pause </string>
     <string name="sound_delete">delete</string>
     <string name="sound_rename">rename</string>
 
@@ -311,7 +316,10 @@
     <string name="error_load_sound">
     	An error occurred while loading the sound.
     </string>
-
+    <string name="text_to_speech_error">
+    	Text-to-speech error. Speak brick will not work.
+    </string>
+    
     <!-- Notifications -->
     <string name="success_project_upload">Upload successful.</string>
     <string name="success_project_download">Download successful.</string>
