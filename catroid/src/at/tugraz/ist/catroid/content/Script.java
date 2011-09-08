@@ -22,7 +22,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
 
 public abstract class Script implements Serializable {
 
@@ -118,12 +117,14 @@ public abstract class Script implements Serializable {
 		this.executingBrickIndex = executingBrickIndex;
 	}
 
-	public boolean containsLoopBrick() {
+	public boolean containsBrickOfType(Class<?> type) {
 		for (Brick brick : brickList) {
-			if (brick instanceof LoopBeginBrick) {
+			if (brick.getClass() == type) {
+				//Log.i("bt", "brick of type is in list");
 				return true;
 			}
 		}
 		return false;
+
 	}
 }
