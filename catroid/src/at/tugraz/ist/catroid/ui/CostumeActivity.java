@@ -73,7 +73,14 @@ public class CostumeActivity extends ListActivity {
 			//set new functionality for actionbar add button:
 			activityHelper.changeClickListener(R.id.btn_action_add_sprite, createAddCostumeClickListener());
 			//set new icon for actionbar plus button:
-			activityHelper.changeButtonIcon(R.id.btn_action_add_sprite, R.drawable.ic_folder_open);
+			int addButtonIcon;
+			if (ProjectManager.getInstance().getCurrentSprite().getName()
+					.equalsIgnoreCase(this.getString(R.string.background))) {
+				addButtonIcon = R.drawable.ic_background;
+			} else {
+				addButtonIcon = R.drawable.ic_shirt;
+			}
+			activityHelper.changeButtonIcon(R.id.btn_action_add_sprite, addButtonIcon);
 		}
 
 	}
@@ -82,7 +89,12 @@ public class CostumeActivity extends ListActivity {
 		return new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+
+				Bundle bundleForPaintroid = new Bundle();
+				bundleForPaintroid.putString(CostumeActivity.this.getString(R.string.extra_picture_path_paintroid), "");
+
 				intent.setType("image/*");
+				intent.putExtras(bundleForPaintroid);
 				Intent chooser = Intent.createChooser(intent, getString(R.string.select_image));
 				startActivityForResult(chooser, REQUEST_SELECT_IMAGE);
 			}
@@ -123,7 +135,11 @@ public class CostumeActivity extends ListActivity {
 		if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_SELECT_IMAGE) {
 			String originalImagePath = "";
 			//get path of image - will work for most applications
-			{
+			Bundle bundle = data.getExtras();
+			if (bundle != null) {
+				originalImagePath = bundle.getString(this.getString(R.string.extra_picture_path_paintroid));
+			}
+			if (originalImagePath == null || originalImagePath.equalsIgnoreCase("")) {
 				Uri imageUri = data.getData();
 
 				String[] projection = { MediaStore.MediaColumns.DATA };
@@ -173,21 +189,25 @@ public class CostumeActivity extends ListActivity {
 		}
 		if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_PAINTROID_EDIT_IMAGE) {
 			Bundle bundle = data.getExtras();
-			String pathOfImage = bundle.getString("PAINTROID_PICTURE_PATH"); //TODO get path
+			String pathOfPaintroidImage = bundle.getString(this.getString(R.string.extra_picture_path_paintroid));
 
 			ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
 			CostumeData selectedCostumeData = scriptTabActivity.selectedCostumeData;
-			String actualChecksum = Utils.md5Checksum(new File(pathOfImage));
+			String actualChecksum = Utils.md5Checksum(new File(pathOfPaintroidImage));
 
 			//if costume changed --> saving new image with new checksum and changing costumeData
 			if (!selectedCostumeData.getChecksum().equalsIgnoreCase(actualChecksum)) {
+				String oldFileName = selectedCostumeData.getCostumeFileName();
+				String newFileName = oldFileName.substring(33, oldFileName.length()); //TODO: test this
+				String projectName = ProjectManager.getInstance().getCurrentProject().getName();
 				try {
-					String oldFileName = selectedCostumeData.getCostumeFileName();
-					String newFileName = oldFileName.substring(33, oldFileName.length()); //TODO: test this
-					String projectName = ProjectManager.getInstance().getCurrentProject().getName();
-					File newCostumeFile = StorageHandler.getInstance().copyImage(projectName, pathOfImage, newFileName);
-					StorageHandler.getInstance().deleteFile(pathOfImage); //TODO do I want to deinstall the temporary file?
+					File newCostumeFile = StorageHandler.getInstance().copyImage(projectName, pathOfPaintroidImage,
+							newFileName);
+					File fileInPaintroid = new File(pathOfPaintroidImage);
+					fileInPaintroid.delete(); //delete temp file in paintroid
+					StorageHandler.getInstance().deleteFile(selectedCostumeData.getAbsolutePath()); //reduce usage in container or delete it (TODO: test this)
 					selectedCostumeData.setCostumeFilename(newCostumeFile.getName());
+					selectedCostumeData.resetThumbnailBitmap();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
