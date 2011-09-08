@@ -91,7 +91,7 @@ public class CostumeActivity extends ListActivity {
 				Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 
 				Bundle bundleForPaintroid = new Bundle();
-				bundleForPaintroid.putString("PAINTROID_PICTURE_PATH", "");
+				bundleForPaintroid.putString(CostumeActivity.this.getString(R.string.extra_picture_path_paintroid), "");
 
 				intent.setType("image/*");
 				intent.putExtras(bundleForPaintroid);
@@ -136,8 +136,10 @@ public class CostumeActivity extends ListActivity {
 			String originalImagePath = "";
 			//get path of image - will work for most applications
 			Bundle bundle = data.getExtras();
-			originalImagePath = bundle.getString("PAINTROID_PICTURE_PATH");
-			if (originalImagePath == null) {
+			if (bundle != null) {
+				originalImagePath = bundle.getString(this.getString(R.string.extra_picture_path_paintroid));
+			}
+			if (originalImagePath == null || originalImagePath.equalsIgnoreCase("")) {
 				Uri imageUri = data.getData();
 
 				String[] projection = { MediaStore.MediaColumns.DATA };
@@ -187,7 +189,7 @@ public class CostumeActivity extends ListActivity {
 		}
 		if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_PAINTROID_EDIT_IMAGE) {
 			Bundle bundle = data.getExtras();
-			String pathOfImage = bundle.getString("PAINTROID_PICTURE_PATH"); //TODO get path
+			String pathOfImage = bundle.getString(this.getString(R.string.extra_picture_path_paintroid));
 
 			ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
 			CostumeData selectedCostumeData = scriptTabActivity.selectedCostumeData;
