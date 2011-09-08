@@ -22,12 +22,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Dialog;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
@@ -41,10 +41,16 @@ public class BrickCategoryDialog extends Dialog {
 		super(activity);
 		this.activity = activity;
 
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		// Note: The dialog window is set to fullscreen height, which looks ugly, but is a necessary workaround to a major problem with Robotium.
+		// See http://code.google.com/p/robotium/issues/detail?id=136 for details.
+		// The bug occurs in Robotium's ViewFetcher.isViewSufficientlyShown method, where the coordinates are messed up somehow.
+		Window window = getWindow();
+		window.requestFeature(Window.FEATURE_NO_TITLE);
+		window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		window.setGravity(Gravity.CENTER | Gravity.FILL_HORIZONTAL | Gravity.FILL_VERTICAL);
+
 		setContentView(R.layout.dialog_categories);
-		getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
 	}
 
 	private void setupBrickCategories(ListView listView) {

@@ -31,12 +31,7 @@ import java.util.List;
 import junit.framework.Assert;
 import android.content.Context;
 import android.text.InputType;
-import android.util.Log;
-import android.view.View;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
@@ -182,62 +177,9 @@ public class UiTestUtils {
 		addNewBrickAndScrollDown(solo, categoryStringId, brickStringId);
 	}
 
-	/**
-	 * Ugly workaround because Robotium is acting flaky with clickOnText
-	 */
-
-	private static View getCategoryViewFromCategoryStringId(Solo solo, int categoryStringId) {
-		String text = solo.getString(categoryStringId);
-		ListView listView = solo.getCurrentListViews().get(0);
-
-		switch (categoryStringId) {
-			case R.string.category_motion:
-				return listView.getChildAt(0);
-			case R.string.category_looks:
-				return listView.getChildAt(1);
-			case R.string.category_sound:
-				return listView.getChildAt(2);
-			case R.string.category_control:
-				return listView.getChildAt(3);
-
-		}
-		/*
-		 * for (int i = 0; i < listView.getChildCount(); i++) {
-		 * LinearLayout childView = (LinearLayout) listView.getChildAt(i);
-		 * TextView textView = (TextView) childView.getChildAt(0);
-		 * Log.d("catroid", "Looking for: " + text + ", current: " + textView.getText());
-		 * if (textView.getText().equals(text)) {
-		 * return textView;
-		 * }
-		 * }
-		 */
-		throw new RuntimeException("Unknown category: " + text);
-	}
-
 	public static void addNewBrickAndScrollDown(Solo solo, int categoryStringId, int brickStringId) {
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
-
-		Log.d("catroid", "---------- addNewBrickAndScrollDown ----------");
-
-		ListView listView = solo.getCurrentListViews().get(0);
-		Log.d("catroid", "ListView has " + listView.getChildCount() + " entries");
-		for (int i = 0; i < listView.getChildCount(); i++) {
-			LinearLayout child = (LinearLayout) listView.getChildAt(i);
-			TextView textView = (TextView) child.getChildAt(0);
-			Log.d("catroid", "Found text view " + textView.getText() + " inside ListView");
-		}
-
-		List<TextView> textViews = solo.getCurrentTextViews(null);
-		Log.d("catroid", textViews.size() + " TextViews were found");
-		for (TextView textView : textViews) {
-			Log.d("catroid", "Found text view " + textView.getText());
-		}
-
-		solo.sleep(500);
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
-		//solo.clickOnView(getCategoryViewFromCategoryStringId(solo, categoryStringId));
-		solo.sleep(500);
-
 		solo.clickOnText(solo.getCurrentActivity().getString(brickStringId));
 
 		while (solo.scrollDown()) {
