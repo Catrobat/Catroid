@@ -85,7 +85,7 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 
 			copyCostumeButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_copy, 0, 0);
 			paintroidButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_paintroid_logo, 0, 0);
-			deleteCostumeButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_trash, 0, 0);
+			deleteCostumeButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_menu_delete, 0, 0);
 			renameCostumeButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_menu_edit, 0, 0);
 
 			costumeImage.setImageBitmap(costumeData.getThumbnailBitmap());
@@ -156,9 +156,10 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 					scriptTabActivity.selectedCostumeData = costumeData;
 
 					Bundle bundleForPaintroid = new Bundle();
-					bundleForPaintroid.putString("PAINTROID_PICTURE_PATH", costumeData.getAbsolutePath());
-					bundleForPaintroid.putInt("PAINTROID_ROTATE_X", 0);
-					bundleForPaintroid.putInt("PAINTROID_ROTATE_Y", 0);
+					bundleForPaintroid.putString(activity.getString(R.string.extra_picture_path_paintroid),
+							costumeData.getAbsolutePath());
+					bundleForPaintroid.putInt(activity.getString(R.string.extra_x_value_paintroid), 0);
+					bundleForPaintroid.putInt(activity.getString(R.string.extra_x_value_paintroid), 0);
 					intent.putExtras(bundleForPaintroid);
 					intent.addCategory("android.intent.category.LAUNCHER");
 					activity.startActivityForResult(intent, activity.REQUEST_PAINTROID_EDIT_IMAGE);
