@@ -37,8 +37,14 @@ public final class Consts {
 	public static final int MAX_COSTUME_WIDTH = 1500;
 	public static final int MAX_COSTUME_HEIGHT = 1500;
 
-	//Upload:
+	//Web:
 	public static final String TOKEN = "token";
+	public static final String REQUEST_URI = "requesturi";
+
+	public static final int SERVER_RESPONCE_TOKEN_OK = 200;
+	public static final int SERVER_RESPONCE_REGISTER_OK = 201;
+	public static final int SERVER_ERROR_TOKEN_INVALID = 601;
+	public static final int SERVER_ERROR_COMMON = 500;
 
 	//Stage:
 	public static final String SCREENSHOT_FILE_NAME = "thumbnail.png";
@@ -46,64 +52,5 @@ public final class Consts {
 	//Various:
 	public static final int BUFFER_8K = 8 * 1024;
 	public static final String PAINTROID_DOWNLOAD_LINK = "https://code.google.com/p/catroid/downloads/detail?name=Paintroid_0.6.4b.apk&can=2&q=";
-
-	//	public static final String PROJECT_EXTENTION = ".xml";
-	//	public static final String CATROID_EXTENTION = ".catroid";
-	//
-	//	public static final String DEFAULT_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath() + "/catroid";
-	//	public static final String TMP_PATH = DEFAULT_ROOT + "/tmp";
-	//	public static final String IMAGE_DIRECTORY = "/images";
-	//	public static final String SOUND_DIRECTORY = "/sounds";
-	//
-	//	public static final String NO_MEDIA_FILE = ".nomedia";
-	//
-	//	//Costume:
-	//	public static final int MAX_REL_COORDINATES = 1000;
-	//	public static final int MAX_COSTUME_WIDTH = 1500;
-	//	public static final int MAX_COSTUME_HEIGHT = 1500;
-	//
-	//	//Web:
-	//	public static final String TOKEN = "token";
-	//	public static final String DEVICE_IMEI = "deviceIMEI";
-	//	public static final String USER_EMAIL = "userEmail";
-	//	public static final String USER_LANGUAGE = "userLanguage";
-	//	public static final String REG_USER_NAME = "registrationUsername";
-	//	public static final String REG_USER_PASSWORD = "registrationPassword";
-	//	public static final String REG_USER_COUNTRY = "registrationCountry";
-	//	public static final String REG_USER_LANGUAGE = "registrationLanguage";
-	//	public static final String REG_USER_EMAIL = "registrationEmail";
-	//
-	//	public static final String BASE_URL = "http://catroidtest.ist.tugraz.at/";
-	//	public static final String BASE_URL_TEST = "http://catroidwebtest.ist.tugraz.at/";
-	//	public static final String FILE_UPLOAD_URL = BASE_URL + "api/upload/upload.json";
-	//	public static final String TEST_FILE_UPLOAD_URL = BASE_URL_TEST + "api/upload/upload.json";
-	//	public static final String TEST_FILE_DOWNLOAD_URL = BASE_URL_TEST + "catroid/download/";
-	//	public static final String CHECK_TOKEN_URL = BASE_URL + "api/checkToken/check.json";
-	//	public static final String TEST_CHECK_TOKEN_URL = BASE_URL_TEST + "api/checkToken/check.json";
-	//	public static final String REGISTRATION_URL = BASE_URL + "api/loginOrRegister/loginOrRegister.json";
-	//	//public static final String TEST_REGISTRATION_URL = BASE_URL_TEST + "api/registration/registrationRequest.json";
-	//	public static final String TEST_REGISTRATION_URL = BASE_URL_TEST + "api/checkTokenOrRegister/check.json";
-	//
-	//	//DefaultProject:
-	//	public static final String NORMAL_CAT = "normalCat";
-	//	public static final String BANZAI_CAT = "banzaiCat";
-	//	public static final String CHESHIRE_CAT = "cheshireCat";
-	//	public static final String BACKGROUND = "background";
-	//
-	//	//Download:
-	//	public static final String PROJECTNAME_TAG = "fname=";
-	//
-	//	//Stage:
-	//	public static final String SCREENSHOT_FILE_NAME = "thumbnail.png";
-	//
-	//	//Various:
-	//	public static final int BUFFER_8K = 8 * 1024;
-	//	public static final String PAINTROID_DOWNLOAD_LINK = "https://code.google.com/p/catroid/downloads/detail?name=Paintroid_0.6.4b.apk&can=2&q=";
-	//
-	//	// Service
-	//	public static final String SERVICE_PROJECT_NAME = "project_name";
-	//	public static final String SERVICE_PROJECT_DESCRIPTION = "project_description";
-	//	public static final String SERVICE_PROJECT_PATH = "project_path";
-	//	public static final String SERVICE_TOKEN = "user_token";
 
 }

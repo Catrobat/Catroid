@@ -181,20 +181,24 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	}
 
 	private void createValidUser() {
-		boolean registrationOk = false;
 		try {
 			String testUser = "testUser" + System.currentTimeMillis();
-			String testPassword = "pws";
+			String testPassword = "pwspws";
+			String testEmail = testUser + "@gmail.com";
+
 			String token = UtilToken.calculateToken(testUser, testPassword);
-			ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, "mail@gmail.com", "de", "at", token);
+			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
+					"de", "at", token);
+
+			assertTrue("no new account created", userRegistered);
 
 			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 			prefs.edit().putString(Consts.TOKEN, token).commit();
 
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
+			assertFalse("should never be reached", true);
 		}
-		assertTrue("registration failed", registrationOk);
 
 	}
 }

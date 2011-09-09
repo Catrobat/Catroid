@@ -32,11 +32,6 @@ import at.tugraz.ist.catroid.utils.Utils;
 public class ServerCalls {
 	private final static String TAG = "ServerCalls";
 
-	private static ServerCalls instance;
-	public static boolean useTestUrl = false;
-	protected String resultString;
-	private ConnectionWrapper connection;
-
 	public static final String REG_USER_NAME = "registrationUsername";
 	public static final String REG_USER_PASSWORD = "registrationPassword";
 	public static final String REG_USER_COUNTRY = "registrationCountry";
@@ -50,18 +45,24 @@ public class ServerCalls {
 	private static final String USER_EMAIL = "userEmail";
 	private static final String USER_LANGUAGE = "userLanguage";
 
-	public static final String BASE_URL = "http://catroidtest.ist.tugraz.at/";
-	public static final String BASE_URL_TEST = "http://catroidwebtest.ist.tugraz.at/";
+	public static final String BASE_URL = "http://catroidwebtest.ist.tugraz.at/";
+	//public static final String BASE_URL = "http://catroidtest.ist.tugraz.at/";
 	public static final String FILE_UPLOAD_URL = BASE_URL + "api/upload/upload.json";
+	public static final String CHECK_TOKEN_URL = BASE_URL + "api/checkToken/check.json";
+	public static final String REGISTRATION_URL = BASE_URL + "api/checkTokenOrRegister/check.json";
+
+	public static final String BASE_URL_TEST = "http://catroidwebtest.ist.tugraz.at/";
 	public static final String TEST_FILE_UPLOAD_URL = BASE_URL_TEST + "api/upload/upload.json";
 	public static final String TEST_FILE_DOWNLOAD_URL = BASE_URL_TEST + "catroid/download/";
-	public static final String CHECK_TOKEN_URL = BASE_URL + "api/checkToken/check.json";
 	public static final String TEST_CHECK_TOKEN_URL = BASE_URL_TEST + "api/checkToken/check.json";
-	public static final String REGISTRATION_URL = BASE_URL + "api/loginOrRegister/loginOrRegister.json";
-	//public static final String TEST_REGISTRATION_URL = BASE_URL_TEST + "api/registration/registrationRequest.json";
 	public static final String TEST_REGISTRATION_URL = BASE_URL_TEST + "api/checkTokenOrRegister/check.json";
 
-	// protected constructor to prevent direct instancing
+	private static ServerCalls instance;
+	public static boolean useTestUrl = false;
+	protected String resultString;
+	private ConnectionWrapper connection;
+	private String emailForUiTests;
+
 	protected ServerCalls() {
 		connection = new ConnectionWrapper();
 	}
@@ -80,18 +81,19 @@ public class ServerCalls {
 
 	public String uploadProject(String projectName, String projectDescription, String zipFileString, String userEmail,
 			String language, String token) throws WebconnectionException {
+		if (emailForUiTests != null) {
+			userEmail = emailForUiTests;
+		}
 		try {
 			String md5Checksum = Utils.md5Checksum(new File(zipFileString));
 
 			HashMap<String, String> postValues = new HashMap<String, String>();
 			postValues.put(PROJECT_NAME_TAG, projectName);
 			postValues.put(PROJECT_DESCRIPTION_TAG, projectDescription);
+			postValues.put(USER_EMAIL, userEmail);
 			postValues.put(PROJECT_CHECKSUM_TAG, md5Checksum.toLowerCase());
 			postValues.put(Consts.TOKEN, token);
 
-			if (userEmail != null) {
-				postValues.put(USER_EMAIL, userEmail);
-			}
 			if (language != null) {
 				postValues.put(USER_LANGUAGE, language);
 			}
@@ -151,7 +153,7 @@ public class ServerCalls {
 			statusCode = jsonObject.getInt("statusCode");
 			String serverAnswer = jsonObject.optString("answer");
 
-			if (statusCode == 200) {
+			if (statusCode == Consts.SERVER_RESPONCE_TOKEN_OK) {
 				return true;
 			} else {
 				throw new WebconnectionException(statusCode, serverAnswer);
@@ -167,6 +169,9 @@ public class ServerCalls {
 
 	public boolean registerOrCheckToken(String username, String password, String userEmail, String language,
 			String country, String token) throws WebconnectionException {
+		if (emailForUiTests != null) {
+			userEmail = emailForUiTests;
+		}
 		try {
 
 			HashMap<String, String> postValues = new HashMap<String, String>();
@@ -196,9 +201,9 @@ public class ServerCalls {
 			String serverAnswer = jsonObject.optString("answer");
 
 			boolean registered;
-			if (statusCode == 200) {
+			if (statusCode == Consts.SERVER_RESPONCE_TOKEN_OK) {
 				registered = false;
-			} else if (statusCode == 201) {
+			} else if (statusCode == Consts.SERVER_RESPONCE_REGISTER_OK) {
 				registered = true;
 			} else {
 				throw new WebconnectionException(statusCode, serverAnswer);

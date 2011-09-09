@@ -23,8 +23,12 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.AlertDialog.Builder;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
+import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.ui.dialogs.UploadProjectDialog;
 import at.tugraz.ist.catroid.utils.UtilDeviceInfo;
 import at.tugraz.ist.catroid.utils.UtilToken;
@@ -40,6 +44,7 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 	private Dialog dialogToRemoveOnSuccess;
 
 	private String message;
+	private boolean userRegistered;
 
 	public RegistrationTask(Activity activity, String username, String password, Dialog dialogToRemoveOnSuccess) {
 		this.activity = activity;
@@ -66,12 +71,17 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 				return false;
 			}
 
-			String email = "mail";
+			String email = UtilDeviceInfo.getUserEmail(activity);
 			String language = UtilDeviceInfo.getUserLanguageCode(activity);
 			String country = UtilDeviceInfo.getUserCountryCode(activity);
 			String token = UtilToken.calculateToken(username, password);
 
-			ServerCalls.getInstance().registerOrCheckToken(username, password, email, language, country, token);
+			userRegistered = ServerCalls.getInstance().registerOrCheckToken(username, password, email, language,
+					country, token);
+
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+			prefs.edit().putString(Consts.TOKEN, token).commit();
+
 			return true;
 
 		} catch (WebconnectionException e) {
@@ -98,6 +108,11 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 		if (activity == null) {
 			return;
 		}
+
+		if (userRegistered) {
+			Toast.makeText(activity, R.string.new_user_registered, Toast.LENGTH_SHORT).show();
+		}
+
 		new UploadProjectDialog(activity).show();
 		dialogToRemoveOnSuccess.dismiss();
 	}
@@ -107,9 +122,11 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 			return;
 		}
 		if (message == null) {
-			new Builder(activity).setMessage(messageId).setPositiveButton("OK", null).show();
+			new Builder(activity).setTitle(R.string.register_error).setMessage(messageId).setPositiveButton("OK", null)
+					.show();
 		} else {
-			new Builder(activity).setMessage(message).setPositiveButton("OK", null).show();
+			new Builder(activity).setTitle(R.string.register_error).setMessage(message).setPositiveButton("OK", null)
+					.show();
 		}
 	}
 

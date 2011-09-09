@@ -30,6 +30,7 @@ import java.util.List;
 import junit.framework.Assert;
 import android.content.Context;
 import android.text.InputType;
+import android.util.Log;
 import android.widget.ImageButton;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -52,6 +53,7 @@ import at.tugraz.ist.catroid.utils.Utils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class UiTestUtils {
+	private static String TAG = UiTestUtils.class.getSimpleName();
 	private static ProjectManager projectManager = ProjectManager.getInstance();
 
 	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
@@ -301,5 +303,31 @@ public class UiTestUtils {
 		solo.sleep(3000);
 		ImageButton imageButton = (ImageButton) solo.getView(imageButtonId);
 		solo.clickOnView(imageButton);
+	}
+
+	public static void setPrivateField(String fieldName, Object object, Object value, boolean ofSuperclass) {
+
+		Field field = null;
+
+		try {
+			Class<?> c = object.getClass();
+			field = ofSuperclass ? c.getSuperclass().getDeclaredField(fieldName) : c.getDeclaredField(fieldName);
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (NoSuchFieldException e) {
+			Log.e(TAG, e.getClass().getName() + ": " + fieldName);
+		}
+
+		if (field != null) {
+			field.setAccessible(true);
+
+			try {
+				field.set(object, value);
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
