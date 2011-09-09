@@ -180,10 +180,6 @@ public class MainMenuActivity extends Activity {
 	}
 
 	public void handleUploadProjectButton(View v) {
-		// as long as the token handling on the server is not implemented, we don't use the 
-		// user concept. Always use the token 0
-		//showDialog(DIALOG_UPLOAD_PROJECT);
-
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		String token = preferences.getString(Consts.TOKEN, null);
 

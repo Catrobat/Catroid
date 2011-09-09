@@ -173,6 +173,8 @@
     <string name="login_or_register">Login or Register</string>
     <string name="register">Register</string>
     <string name="password_forgotten">Password forgotten</string>
+    <string name="new_user_registered">new account created</string>
+    <string name="register_error">Error occurred</string>
 
 	<!-- Broadcast spinner -->
 	<string name="new_broadcast_message">new...</string>
@@ -317,7 +319,7 @@
     	An error occurred while loading the sound.
     </string>
     <string name="error_internet_connection">
-    	An error occurred. Internet connection not available.
+    	An unknown error occurred. Check your Internet connection.
     </string>
 
     <!-- Notifications -->

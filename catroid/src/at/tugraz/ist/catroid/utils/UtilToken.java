@@ -19,6 +19,8 @@
 
 package at.tugraz.ist.catroid.utils;
 
+import android.util.Log;
+
 public class UtilToken {
 	private static final String LOG_TAG = UtilToken.class.getSimpleName();
 
@@ -29,7 +31,7 @@ public class UtilToken {
 
 		String token = Utils.md5Checksum(md5Username + ":" + md5Password);
 
-		System.out.println("token calculated: " + token);
+		Log.i(LOG_TAG, "token calculated: " + token);
 		return token.toLowerCase();
 	}
 

@@ -20,6 +20,7 @@ package at.tugraz.ist.catroid.test.web;
 
 import android.test.AndroidTestCase;
 import android.util.Log;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.UtilToken;
 import at.tugraz.ist.catroid.web.ServerCalls;
@@ -94,8 +95,8 @@ public class ServerCallsTest extends AndroidTestCase {
 					userRegistered);
 
 		} catch (WebconnectionException e) {
-			assertFalse("an exception should not be thrown", true);
 			e.printStackTrace();
+			assertFalse("an exception should not be thrown, ", true);
 		}
 
 	}
@@ -123,8 +124,84 @@ public class ServerCallsTest extends AndroidTestCase {
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
 			assertTrue("an exception should be thrown because the password is wrong", true);
+			assertEquals("wrong status code from server", Consts.SERVER_ERROR_TOKEN_INVALID, e.getStatusCode());
+			assertNotNull("no error message available", e.getMessage());
+			assertTrue("no error message available", e.getMessage().length() > 0);
+			;
 		}
 
+	}
+
+	public void testRegisterWithNewUserButExistingEmail() {
+		try {
+			String testUser = "testUser" + System.currentTimeMillis();
+			String testPassword = "pwspws";
+			String testEmail = testUser + "@gmail.com";
+
+			String token = UtilToken.calculateToken(testUser, testPassword);
+			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
+					"de", "at", token);
+
+			Log.i(LOG_TAG, "user registered: " + userRegistered);
+			assertTrue("Should be a new user, but server responce indicates that this user already exists",
+					userRegistered);
+
+			String newUser = "testUser" + System.currentTimeMillis();
+			token = UtilToken.calculateToken(newUser, testPassword);
+			ServerCalls.getInstance().registerOrCheckToken(newUser, testPassword, testEmail, "de", "at", token);
+
+			assertFalse(
+					"should never be reached because two registrations with the same email address are not allowed",
+					true);
+
+		} catch (WebconnectionException e) {
+			e.printStackTrace();
+			assertTrue("an exception should be thrown because the email already exists on the server", true);
+			assertEquals("wrong status code from server", Consts.SERVER_ERROR_COMMON, e.getStatusCode());
+			assertNotNull("no error message available", e.getMessage());
+			assertTrue("no error message available", e.getMessage().length() > 0);
+		}
+
+	}
+
+	public void testRegisterWithTooShortPassword() {
+		try {
+			String testUser = "testUser" + System.currentTimeMillis();
+			String testPassword = "short";
+			String testEmail = testUser + "@gmail.com";
+
+			String token = UtilToken.calculateToken(testUser, testPassword);
+			ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail, "de", "at", token);
+
+			assertFalse("should never be reached because the password is too short", true);
+
+		} catch (WebconnectionException e) {
+			e.printStackTrace();
+			assertTrue("an exception should be thrown because the password is too short", true);
+			assertEquals("wrong status code from server", Consts.SERVER_ERROR_COMMON, e.getStatusCode());
+			assertNotNull("no error message available", e.getMessage());
+			assertTrue("no error message available", e.getMessage().length() > 0);
+		}
+	}
+
+	public void testRegisterWithInvalidEmail() {
+		try {
+			String testUser = "testUser" + System.currentTimeMillis();
+			String testPassword = "pwspws";
+			String testEmail = "invalidEmail";
+
+			String token = UtilToken.calculateToken(testUser, testPassword);
+			ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail, "de", "at", token);
+
+			assertFalse("should never be reached because the email is not valid", true);
+
+		} catch (WebconnectionException e) {
+			e.printStackTrace();
+			assertTrue("an exception should be thrown because the email is not valid", true);
+			assertEquals("wrong status code from server", Consts.SERVER_ERROR_COMMON, e.getStatusCode());
+			assertNotNull("no error message available", e.getMessage());
+			assertTrue("no error message available", e.getMessage().length() > 0);
+		}
 	}
 
 	public void testCheckTokenAnonymous() {
@@ -152,6 +229,9 @@ public class ServerCallsTest extends AndroidTestCase {
 
 		} catch (WebconnectionException e) {
 			assertTrue("exception is thrown if we pass a wrong token", true);
+			assertEquals("wrong status code from server", Consts.SERVER_ERROR_TOKEN_INVALID, e.getStatusCode());
+			assertNotNull("no error message available", e.getMessage());
+			assertTrue("no error message available", e.getMessage().length() > 0);
 		}
 	}
 
