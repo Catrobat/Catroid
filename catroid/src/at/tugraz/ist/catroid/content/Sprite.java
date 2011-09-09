@@ -402,6 +402,15 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return true;
 	}
 
+	public boolean containsBrickOfType(Class<?> type) {
+		for (Script script : scriptList) {
+			if (script.containsBrickOfType(type)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public boolean isBluetoothSprite() {
 		for (Script script : scriptList) {
 			if (script.containsBluetoothBrick()) {
