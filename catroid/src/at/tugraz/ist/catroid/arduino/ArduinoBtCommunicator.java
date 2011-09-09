@@ -30,10 +30,6 @@ import at.tugraz.ist.catroid.bluetooth.BTConnectable;
 import at.tugraz.ist.catroid.bluetooth.BtCommunicator;
 import at.tugraz.ist.catroid.content.bricks.SensorBrick;
 
-/**
- * @author Sercan Akpolat
- * 
- */
 public class ArduinoBtCommunicator extends Thread implements BtCommunicator {
 
 	private BTConnectable myOwner;

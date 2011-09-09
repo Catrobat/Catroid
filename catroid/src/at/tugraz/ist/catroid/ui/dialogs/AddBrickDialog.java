@@ -66,6 +66,7 @@ import at.tugraz.ist.catroid.content.bricks.PointInDirectionBrick;
 import at.tugraz.ist.catroid.content.bricks.PointToBrick;
 import at.tugraz.ist.catroid.content.bricks.RepeatBrick;
 import at.tugraz.ist.catroid.content.bricks.SayBrick;
+import at.tugraz.ist.catroid.content.bricks.SensorBrick;
 import at.tugraz.ist.catroid.content.bricks.SetBrightnessBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetGhostEffectBrick;
@@ -159,7 +160,7 @@ public class AddBrickDialog extends Dialog {
 			prototypeBrickList.add(new SayBrick(sprite));
 			prototypeBrickList.add(new ThinkBrick(sprite));
 			prototypeBrickList.add(new ChangeSizeByNBrick(sprite, 20));
-			//prototypeBrickList.add(new SensorBrick(sprite, 0, 0, 0.0, 0.0, null));
+			prototypeBrickList.add(new SensorBrick(sprite, 1, 0, 0.0, 0.0, null));
 			prototypeBrickList.add(new NXTMotorTurnAngleBrick(sprite, 0, 180));
 			prototypeBrickList.add(new NXTMotorStopBrick(sprite, 0));
 			prototypeBrickList.add(new NXTMotorActionBrick(sprite, 0, 100));
