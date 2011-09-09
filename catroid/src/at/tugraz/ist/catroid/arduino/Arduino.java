@@ -23,10 +23,9 @@ import java.io.IOException;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
-import at.tugraz.ist.catroid.LegoNXT.LegoNXTBtCommunicator;
 import at.tugraz.ist.catroid.bluetooth.BTConnectable;
 
 /**
@@ -42,6 +41,7 @@ public class Arduino implements BTConnectable {
 	private Handler recieverHandler;
 	private Context context;
 	private ProgressDialog connectingProgressDialog;
+	private static int delay = 0;
 
 	public Arduino(Context context, Handler recieverHandler) {
 		this.context = context;
@@ -59,6 +59,7 @@ public class Arduino implements BTConnectable {
 				context);
 		btcHandler = myBTCommunicator.getHandler();
 		myBTCommunicator.setMACAddress(macAddress);
+		myBTCommunicator.start();
 	}
 
 	/*
@@ -79,34 +80,43 @@ public class Arduino implements BTConnectable {
 	 * @throws IOException
 	 * 
 	 */
-	public void destroyBTCommunicator() throws IOException {
+	public void destroyBTCommunicator() {
 
 		if (myBTCommunicator != null) {
-			myBTCommunicator.destroyArduinoConnection();
+			try {
+				myBTCommunicator.destroyArduinoConnection();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 			myBTCommunicator = null;
+		}
+	}
+
+	public static synchronized void sendArduinoMessage(int type, double[] outgoingPackage) {
+		Bundle myBundle = new Bundle();
+		myBundle.putInt("type", type);
+		myBundle.putDoubleArray("package", outgoingPackage);
+
+		Message myMessage = btcHandler.obtainMessage();
+		myMessage.setData(myBundle);
+		myMessage.what = 0;
+
+		if (delay == 0) {
+
+			//btcHandler.removeMessages(0);
+			btcHandler.sendMessage(myMessage);
+
+		} else {
+			//btcHandler.removeMessages(motor);
+			btcHandler.sendMessageDelayed(myMessage, delay);
+
 		}
 	}
 
 	/**
 	 * Receive messages from the BTCommunicator
 	 */
-	final Handler myHandler = new Handler() {
-		@Override
-		public void handleMessage(Message myMessage) {
-			Log.d("TAG", "message" + myMessage.getData().getInt("message"));
-
-			switch (myMessage.getData().getInt("message")) {
-				case LegoNXTBtCommunicator.DISPLAY_TOAST:
-					//showToast(myMessage.getData().getString("toastText"), Toast.LENGTH_SHORT);
-					break;
-				case LegoNXTBtCommunicator.STATE_CONNECTED:
-					connectingProgressDialog.dismiss();
-
-					break;
-
-			}
-		}
-	};
 
 }

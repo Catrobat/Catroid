@@ -31,6 +31,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.arduino.Arduino;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.DevicesDialog;
 import at.tugraz.ist.catroid.ui.dialogs.EditDialog;
@@ -87,6 +88,7 @@ public class SensorBrick implements Brick, OnDismissListener {
 		}
 
 		BluetoothAdapter.getDefaultAdapter();
+		Arduino.sendArduinoMessage(type, arduinoPackage);
 
 	}
 

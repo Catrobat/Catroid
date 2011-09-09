@@ -141,7 +141,7 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 					case Activity.RESULT_OK:
 						String address = data.getExtras().getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
 						//pairing = data.getExtras().getBoolean(DeviceListActivity.PAIRING);
-						//arduino.startConnection(address);
+						arduino.startConnection(address);
 						legoNXT.startBTCommunicator(address);
 						break;
 
@@ -274,10 +274,13 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 			textToSpeechEngine.stop();
 			textToSpeechEngine.shutdown();
 		}
-		//arduino.destroyBTCommunicator();
+		if (arduino != null) {
+			arduino.destroyBTCommunicator();
+		}
 		if (legoNXT != null) {
 			legoNXT.destroyCommunicator();
 		}
+
 	}
 
 	@Override
@@ -288,6 +291,9 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 			textToSpeechEngine.shutdown();
 		}
 		manageLoadAndFinish();
+		if (arduino != null) {
+			arduino.destroyBTCommunicator();
+		}
 		//arduino.destroyBTCommunicator();
 		if (legoNXT != null) {
 			legoNXT.destroyCommunicator();
