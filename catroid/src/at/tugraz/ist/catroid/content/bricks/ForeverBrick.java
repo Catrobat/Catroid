@@ -33,6 +33,7 @@ public class ForeverBrick extends LoopBeginBrick {
 	private transient View view;
 
 	public ForeverBrick(Sprite sprite) {
+		super();
 		this.sprite = sprite;
 	}
 
@@ -47,6 +48,7 @@ public class ForeverBrick extends LoopBeginBrick {
 		return new ForeverBrick(getSprite());
 	}
 
+	@Override
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.toolbox_brick_forever, null);
@@ -55,6 +57,7 @@ public class ForeverBrick extends LoopBeginBrick {
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.toolbox_brick_forever, null);
 	}

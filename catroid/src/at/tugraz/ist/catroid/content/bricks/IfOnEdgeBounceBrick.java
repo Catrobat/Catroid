@@ -27,7 +27,7 @@ import at.tugraz.ist.catroid.content.Sprite;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-public class IfOnEdgeBounceBrick implements Brick {
+public class IfOnEdgeBounceBrick extends Brick {
 
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
@@ -39,6 +39,7 @@ public class IfOnEdgeBounceBrick implements Brick {
 		this.sprite = sprite;
 	}
 
+	@Override
 	public void execute() {
 
 		double width = sprite.getCostume().getVirtualWidth();
@@ -84,10 +85,12 @@ public class IfOnEdgeBounceBrick implements Brick {
 		sprite.setXYPosition(xPosition, yPosition);
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return sprite;
 	}
 
+	@Override
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.toolbox_brick_if_on_edge_bounce, null);
@@ -96,6 +99,7 @@ public class IfOnEdgeBounceBrick implements Brick {
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.toolbox_brick_if_on_edge_bounce, null);
 	}

@@ -31,7 +31,7 @@ import at.tugraz.ist.catroid.content.Sprite;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-public class ThinkBrick implements Brick {
+public class ThinkBrick extends Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private String text = "";
@@ -48,14 +48,17 @@ public class ThinkBrick implements Brick {
 		this.text = note;
 	}
 
+	@Override
 	public void execute() {
 		sprite.getBubble().setSpeechBubble(text, R.drawable.mind_bubble, R.drawable.mind_bubble_inv);
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
+	@Override
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
 
 		if (view == null) {
@@ -92,6 +95,7 @@ public class ThinkBrick implements Brick {
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.toolbox_brick_think, null);
 	}

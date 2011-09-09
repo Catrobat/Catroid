@@ -31,7 +31,7 @@ import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-public class SetYBrick implements Brick, OnDismissListener {
+public class SetYBrick extends Brick implements OnDismissListener {
 	private static final long serialVersionUID = 1L;
 	private int yPosition;
 	private Sprite sprite;
@@ -40,18 +40,22 @@ public class SetYBrick implements Brick, OnDismissListener {
 	private transient View view;
 
 	public SetYBrick(Sprite sprite, int yPosition) {
+		super.brickBehavior = Brick.NORMAL_BRICK | Brick.BACKGROUND_BRICK;
 		this.sprite = sprite;
 		this.yPosition = yPosition;
 	}
 
+	@Override
 	public void execute() {
 		sprite.setXYPosition(sprite.getXPosition(), yPosition);
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
+	@Override
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 
 		if (view == null) {
@@ -70,6 +74,7 @@ public class SetYBrick implements Brick, OnDismissListener {
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.toolbox_brick_set_y, null);
 	}

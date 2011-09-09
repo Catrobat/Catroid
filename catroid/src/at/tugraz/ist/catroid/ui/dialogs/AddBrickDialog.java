@@ -89,72 +89,63 @@ public class AddBrickDialog extends Dialog {
 	private ScriptActivity scriptActivity;
 
 	private void setupBrickPrototypes(Sprite sprite) {
+
+		prototypeBrickList = new ArrayList<Brick>();
+		prototypeBrickList.add(new WaitBrick(sprite, 1000));
+		prototypeBrickList.add(new HideBrick(sprite));
+		prototypeBrickList.add(new ShowBrick(sprite));
+		prototypeBrickList.add(new PlaceAtBrick(sprite, 0, 0));
+		prototypeBrickList.add(new SetXBrick(sprite, 0));
+		prototypeBrickList.add(new SetYBrick(sprite, 0));
+		prototypeBrickList.add(new ChangeXByBrick(sprite, 0));
+		prototypeBrickList.add(new ChangeYByBrick(sprite, 0));
+		prototypeBrickList.add(new SetCostumeBrick(sprite));
+		prototypeBrickList.add(new SetSizeToBrick(sprite, 100));
+		prototypeBrickList.add(new SetGhostEffectBrick(sprite, 0));
+		prototypeBrickList.add(new ChangeGhostEffectBrick(sprite, 25));
+		prototypeBrickList.add(new SetBrightnessBrick(sprite, 0));
+		prototypeBrickList.add(new ChangeBrightnessBrick(sprite, 25));
+		prototypeBrickList.add(new ClearGraphicEffectBrick(sprite));
+		prototypeBrickList.add(new GoNStepsBackBrick(sprite, 1));
+		prototypeBrickList.add(new ComeToFrontBrick(sprite));
+		prototypeBrickList.add(new PlaySoundBrick(sprite));
+		prototypeBrickList.add(new SetVolumeToBrick(sprite, 100));
+		prototypeBrickList.add(new ChangeVolumeByBrick(sprite, 25));
+		prototypeBrickList.add(new SpeakBrick(sprite, null));
+		prototypeBrickList.add(new WhenStartedBrick(sprite, null));
+		prototypeBrickList.add(new WhenBrick(sprite, null));
+		prototypeBrickList.add(new BroadcastReceiverBrick(sprite, null));
+		prototypeBrickList.add(new BroadcastBrick(sprite));
+		prototypeBrickList.add(new BroadcastWaitBrick(sprite));
+		prototypeBrickList.add(new GlideToBrick(sprite, 100, 100, 3000));
+		prototypeBrickList.add(new NoteBrick(sprite));
+		prototypeBrickList.add(new StopAllSoundsBrick(sprite));
+		prototypeBrickList.add(new ForeverBrick(sprite));
+		prototypeBrickList.add(new RepeatBrick(sprite, 3));
+		prototypeBrickList.add(new IfOnEdgeBounceBrick(sprite));
+		prototypeBrickList.add(new MoveNStepsBrick(sprite, 10));
+		prototypeBrickList.add(new TurnLeftBrick(sprite, 15));
+		prototypeBrickList.add(new TurnRightBrick(sprite, 15));
+		prototypeBrickList.add(new PointInDirectionBrick(sprite, PointInDirectionBrick.DIRECTION_RIGHT));
+		prototypeBrickList.add(new PointToBrick(sprite, null));
+		prototypeBrickList.add(new SayBrick(sprite));
+		prototypeBrickList.add(new ThinkBrick(sprite));
+		prototypeBrickList.add(new ChangeSizeByNBrick(sprite, 20));
+
 		if (sprite.getName().equals(scriptActivity.getString(string.background))) {
-			prototypeBrickList = new ArrayList<Brick>();
-			prototypeBrickList.add(new WaitBrick(sprite, 1000));
-			prototypeBrickList.add(new HideBrick(sprite));
-			prototypeBrickList.add(new ShowBrick(sprite));
-			prototypeBrickList.add(new PlaceAtBrick(sprite, 0, 0));
-			prototypeBrickList.add(new SetXBrick(sprite, 0));
-			prototypeBrickList.add(new SetYBrick(sprite, 0));
-			prototypeBrickList.add(new ChangeXByBrick(sprite, 0));
-			prototypeBrickList.add(new ChangeYByBrick(sprite, 0));
-			prototypeBrickList.add(new SetCostumeBrick(sprite));
-			prototypeBrickList.add(new SetSizeToBrick(sprite, 100));
-			prototypeBrickList.add(new PlaySoundBrick(sprite));
-			prototypeBrickList.add(new WhenStartedBrick(sprite, null));
-			prototypeBrickList.add(new WhenBrick(sprite, null));
-			prototypeBrickList.add(new BroadcastReceiverBrick(sprite, null));
-			prototypeBrickList.add(new BroadcastBrick(sprite));
-			prototypeBrickList.add(new BroadcastWaitBrick(sprite));
-			prototypeBrickList.add(new GlideToBrick(sprite, 100, 100, 3000));
-			prototypeBrickList.add(new NoteBrick(sprite));
-			prototypeBrickList.add(new StopAllSoundsBrick(sprite));
-			prototypeBrickList.add(new ForeverBrick(sprite));
-			prototypeBrickList.add(new RepeatBrick(sprite, 3));
-			prototypeBrickList.add(new ChangeSizeByNBrick(sprite, 20));
+			for (int i = 0; i < prototypeBrickList.size(); i++) {
+				if ((prototypeBrickList.get(i).getBrickBehaviour() & Brick.BACKGROUND_BRICK) == 0) {
+					prototypeBrickList.remove(i);
+					i--;
+				}
+			}
 		} else {
-			prototypeBrickList = new ArrayList<Brick>();
-			prototypeBrickList.add(new WaitBrick(sprite, 1000));
-			prototypeBrickList.add(new HideBrick(sprite));
-			prototypeBrickList.add(new ShowBrick(sprite));
-			prototypeBrickList.add(new PlaceAtBrick(sprite, 0, 0));
-			prototypeBrickList.add(new SetXBrick(sprite, 0));
-			prototypeBrickList.add(new SetYBrick(sprite, 0));
-			prototypeBrickList.add(new ChangeXByBrick(sprite, 0));
-			prototypeBrickList.add(new ChangeYByBrick(sprite, 0));
-			prototypeBrickList.add(new SetCostumeBrick(sprite));
-			prototypeBrickList.add(new SetSizeToBrick(sprite, 100));
-			prototypeBrickList.add(new SetGhostEffectBrick(sprite, 0));
-			prototypeBrickList.add(new ChangeGhostEffectBrick(sprite, 25));
-			prototypeBrickList.add(new SetBrightnessBrick(sprite, 0));
-			prototypeBrickList.add(new ChangeBrightnessBrick(sprite, 25));
-			prototypeBrickList.add(new ClearGraphicEffectBrick(sprite));
-			prototypeBrickList.add(new GoNStepsBackBrick(sprite, 1));
-			prototypeBrickList.add(new ComeToFrontBrick(sprite));
-			prototypeBrickList.add(new PlaySoundBrick(sprite));
-			prototypeBrickList.add(new SetVolumeToBrick(sprite, 100));
-			prototypeBrickList.add(new ChangeVolumeByBrick(sprite, 25));
-			prototypeBrickList.add(new SpeakBrick(sprite, null));
-			prototypeBrickList.add(new WhenStartedBrick(sprite, null));
-			prototypeBrickList.add(new WhenBrick(sprite, null));
-			prototypeBrickList.add(new BroadcastReceiverBrick(sprite, null));
-			prototypeBrickList.add(new BroadcastBrick(sprite));
-			prototypeBrickList.add(new BroadcastWaitBrick(sprite));
-			prototypeBrickList.add(new GlideToBrick(sprite, 100, 100, 3000));
-			prototypeBrickList.add(new NoteBrick(sprite));
-			prototypeBrickList.add(new StopAllSoundsBrick(sprite));
-			prototypeBrickList.add(new ForeverBrick(sprite));
-			prototypeBrickList.add(new RepeatBrick(sprite, 3));
-			prototypeBrickList.add(new IfOnEdgeBounceBrick(sprite));
-			prototypeBrickList.add(new MoveNStepsBrick(sprite, 10));
-			prototypeBrickList.add(new TurnLeftBrick(sprite, 15));
-			prototypeBrickList.add(new TurnRightBrick(sprite, 15));
-			prototypeBrickList.add(new PointInDirectionBrick(sprite, PointInDirectionBrick.DIRECTION_RIGHT));
-			prototypeBrickList.add(new PointToBrick(sprite, null));
-			prototypeBrickList.add(new SayBrick(sprite));
-			prototypeBrickList.add(new ThinkBrick(sprite));
-			prototypeBrickList.add(new ChangeSizeByNBrick(sprite, 20));
+			for (int i = 0; i < prototypeBrickList.size(); i++) {
+				if ((prototypeBrickList.get(i).getBrickBehaviour() & Brick.BACKGROUND_BRICK) == 0) {
+					prototypeBrickList.remove(i);
+					i--;
+				}
+			}
 		}
 	}
 

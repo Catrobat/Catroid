@@ -27,7 +27,7 @@ import at.tugraz.ist.catroid.content.Sprite;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-public class WhenStartedBrick implements Brick {
+public class WhenStartedBrick extends Brick {
 	private static final long serialVersionUID = 1L;
 
 	protected Script script;
@@ -37,17 +37,21 @@ public class WhenStartedBrick implements Brick {
 	private transient View view;
 
 	public WhenStartedBrick(Sprite sprite, Script script) {
+		super.brickBehavior = Brick.NORMAL_BRICK | Brick.BACKGROUND_BRICK;
 		this.script = script;
 		this.sprite = sprite;
 	}
 
+	@Override
 	public void execute() {
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return sprite;
 	}
 
+	@Override
 	public View getView(Context context, int brickId, final BaseExpandableListAdapter adapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.toolbox_brick_started, null);
@@ -56,6 +60,7 @@ public class WhenStartedBrick implements Brick {
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.toolbox_brick_started, null);
 	}

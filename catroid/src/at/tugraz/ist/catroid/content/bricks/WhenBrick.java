@@ -29,7 +29,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.WhenScript;
 
-public class WhenBrick implements Brick {
+public class WhenBrick extends Brick {
 	protected WhenScript whenScript;
 	private Sprite sprite;
 	private static final long serialVersionUID = 1L;
@@ -37,17 +37,21 @@ public class WhenBrick implements Brick {
 	private transient View view;
 
 	public WhenBrick(Sprite sprite, WhenScript whenScript) {
+		super.brickBehavior = Brick.NORMAL_BRICK | Brick.BACKGROUND_BRICK;
 		this.whenScript = whenScript;
 		this.sprite = sprite;
 	}
 
+	@Override
 	public void execute() {
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return sprite;
 	}
 
+	@Override
 	public View getView(final Context context, int brickId, final BaseExpandableListAdapter adapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.toolbox_brick_when, null);
@@ -87,6 +91,7 @@ public class WhenBrick implements Brick {
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.toolbox_brick_when, null);
 	}

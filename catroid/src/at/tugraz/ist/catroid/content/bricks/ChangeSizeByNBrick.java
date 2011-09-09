@@ -29,7 +29,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 
-public class ChangeSizeByNBrick implements Brick, OnDismissListener {
+public class ChangeSizeByNBrick extends Brick implements OnDismissListener {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private double size;
@@ -37,10 +37,12 @@ public class ChangeSizeByNBrick implements Brick, OnDismissListener {
 	private transient View view;
 
 	public ChangeSizeByNBrick(Sprite sprite, double size) {
+		super.brickBehavior = Brick.NORMAL_BRICK | Brick.BACKGROUND_BRICK;
 		this.sprite = sprite;
 		this.size = size;
 	}
 
+	@Override
 	public void execute() {
 		double newSize = sprite.getSize() + size;
 		if (newSize < 0.01) {
@@ -49,10 +51,12 @@ public class ChangeSizeByNBrick implements Brick, OnDismissListener {
 		sprite.setSize(newSize);
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
+	@Override
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 
 		if (view == null) {
@@ -71,6 +75,7 @@ public class ChangeSizeByNBrick implements Brick, OnDismissListener {
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.toolbox_brick_change_size_by_n, null);
 	}
