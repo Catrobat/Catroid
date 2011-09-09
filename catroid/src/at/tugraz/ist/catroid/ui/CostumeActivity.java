@@ -42,10 +42,10 @@ import at.tugraz.ist.catroid.utils.Utils;
 public class CostumeActivity extends ListActivity {
 	private ArrayList<CostumeData> costumeDataList;
 
-	public final int REQUEST_SELECT_IMAGE = 0;
-	public final int REQUEST_PAINTROID_EDIT_IMAGE = 1;
-	public final int REQUEST_PAINTROID_NEW_IMAGE = 2;
-	public final int REQUEST_CAM_IMAGE = 3;
+	public static final int REQUEST_SELECT_IMAGE = 0;
+	public static final int REQUEST_PAINTROID_EDIT_IMAGE = 1;
+	public static final int REQUEST_PAINTROID_NEW_IMAGE = 2;
+	public static final int REQUEST_CAM_IMAGE = 3;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

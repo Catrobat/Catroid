@@ -21,10 +21,13 @@ package at.tugraz.ist.catroid.uitest.ui;
 import java.io.File;
 import java.util.ArrayList;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.ListAdapter;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.CostumeActivity;
@@ -37,6 +40,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 	private Solo solo;
 	private String costumeName = "costumeNametest";
 	private File imageFile;
+	private File paintroidImageFile;
 	private ArrayList<CostumeData> costumeDataList;
 	private final int RESOURCE_IMAGE = R.drawable.catroid_sunglasses;
 
@@ -51,6 +55,10 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		UiTestUtils.createTestProject();
 		imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_sunglasses.png",
 				RESOURCE_IMAGE, getActivity(), UiTestUtils.TYPE_IMAGE_FILE);
+
+		paintroidImageFile = UiTestUtils.createTestMediaFile(Consts.DEFAULT_ROOT + "/testFile.png",
+				at.tugraz.ist.catroid.uitest.R.raw.icon, getInstrumentation().getContext());
+
 		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
 		CostumeData costumeData = new CostumeData();
 		costumeData.setCostumeFilename(imageFile.getName());
@@ -151,5 +159,23 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		solo.clickOnButton(getActivity().getString(R.string.ok));
 		solo.sleep(100);
 		assertTrue("Costume wasnt renamed", solo.searchText(newName));
+	}
+
+	public void testGetImageFromPaintroid() {
+		solo.clickOnText(getActivity().getString(R.string.costumes));
+		solo.sleep(500);
+
+		Bundle bundleForPaintroid = new Bundle();
+		bundleForPaintroid.putString(getActivity().getString(R.string.extra_picture_path_paintroid),
+				paintroidImageFile.getAbsolutePath());
+		solo.sleep(200);
+		Intent intent = new Intent(getInstrumentation().getContext(),
+				at.tugraz.ist.catroid.uitest.mockups.MockPaintroidActivity.class);
+		solo.sleep(200);
+		intent.putExtras(bundleForPaintroid);
+		solo.sleep(200);
+		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_SELECT_IMAGE);
+		solo.sleep(200);
+		assertTrue("Testfile not added from mockActivity", solo.searchText("testFile"));
 	}
 }

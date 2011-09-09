@@ -162,7 +162,7 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 					bundleForPaintroid.putInt(activity.getString(R.string.extra_x_value_paintroid), 0);
 					intent.putExtras(bundleForPaintroid);
 					intent.addCategory("android.intent.category.LAUNCHER");
-					activity.startActivityForResult(intent, activity.REQUEST_PAINTROID_EDIT_IMAGE);
+					activity.startActivityForResult(intent, CostumeActivity.REQUEST_PAINTROID_EDIT_IMAGE);
 				}
 			});
 

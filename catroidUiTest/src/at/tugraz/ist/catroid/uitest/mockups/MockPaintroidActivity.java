@@ -16,37 +16,37 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.tugraz.ist.catroid.test.utils;
+package at.tugraz.ist.catroid.uitest.mockups;
 
 import java.io.File;
-import java.io.IOException;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import at.tugraz.ist.catroid.test.R;
 
-public class dummyPaintroidActivity extends Activity {
+public class MockPaintroidActivity extends Activity {
 
-	public File testImage;
+	private File imageFile;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		String path = at.tugraz.ist.catroid.common.Consts.DEFAULT_ROOT + "testImage.png";
-		try {
-			testImage = TestUtils.createTestMediaFile(path, R.raw.icon, getApplicationContext());
-		} catch (IOException e) {
-			e.printStackTrace();
+
+		Bundle bundle = this.getIntent().getExtras();
+		if (bundle == null) {
+			return;
 		}
+		String pathToImage = bundle.getString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH");
+
+		imageFile = new File(pathToImage);
+
 		killThisActivity();
 	}
 
 	public void killThisActivity() {
+
 		Bundle bundle = new Bundle();
-		bundle.putString(
-				getApplicationContext().getString(at.tugraz.ist.catroid.R.string.extra_picture_path_paintroid),
-				at.tugraz.ist.catroid.common.Consts.DEFAULT_ROOT + "testImage.png");
+		bundle.putString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH", imageFile.getAbsolutePath());
 		Intent intent = new Intent();
 		intent.putExtras(bundle);
 		setResult(RESULT_OK, intent);
