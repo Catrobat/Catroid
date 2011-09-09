@@ -53,17 +53,17 @@ public class SensorBrick implements Brick, OnDismissListener {
 	private double time;
 	public final static int DIGITAL = 1;
 	public final static int ANALOG = 0;
-	private BluetoothAdapter bluetoothAdapter;
-	private Context context;
+	private transient BluetoothAdapter bluetoothAdapter;
+	private transient Context context;
 
-	private DevicesDialog bluetoothDeviceDialog;
+	private transient DevicesDialog bluetoothDeviceDialog;
 	private String selectedAddress;
 
 	private static final long serialVersionUID = 1L;
 	protected static final int REQUEST_CONNECT_DEVICE = 1;
 
-	ImageButton digitalButton;
-	ImageButton analogButton;
+	transient ImageButton digitalButton;
+	transient ImageButton analogButton;
 
 	public SensorBrick(Sprite sprite, int type, int pin, double value, double time, String deviceAddress) {
 		this.sprite = sprite;
