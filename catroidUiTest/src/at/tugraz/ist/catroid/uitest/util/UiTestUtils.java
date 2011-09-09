@@ -23,6 +23,8 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -301,5 +303,30 @@ public class UiTestUtils {
 		solo.waitForView(ImageButton.class);
 		ImageButton imageButton = (ImageButton) solo.getView(imageButtonId);
 		solo.clickOnView(imageButton);
+	}
+
+	public static File createTestMediaFile(String filePath, int fileID, Context context) throws IOException {
+
+		File testImage = new File(filePath);
+
+		if (!testImage.exists()) {
+			testImage.createNewFile();
+		}
+
+		InputStream in = context.getResources().openRawResource(fileID);
+		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), Consts.BUFFER_8K);
+
+		byte[] buffer = new byte[Consts.BUFFER_8K];
+		int length = 0;
+
+		while ((length = in.read(buffer)) > 0) {
+			out.write(buffer, 0, length);
+		}
+
+		in.close();
+		out.flush();
+		out.close();
+
+		return testImage;
 	}
 }
