@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<!-- 
+/**
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010  Catroid development team 
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
@@ -17,20 +15,24 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+ */
 
-<!-- Used for building the native app with ant -->
+package at.tugraz.ist.catroid.utils;
 
-<project name="MainMenuActivity" default="help">
+import android.util.Log;
 
-    <property file="local.properties" />
+public class UtilToken {
+	private static final String LOG_TAG = UtilToken.class.getSimpleName();
 
-    <property file="build.properties" />
+	public static String calculateToken(String username, String password) {
 
-    <property file="default.properties" />
+		String md5Username = Utils.md5Checksum(username).toLowerCase();
+		String md5Password = Utils.md5Checksum(password).toLowerCase();
 
-    <import file="${sdk.dir}/tools/ant/pre_setup.xml" />
-   
-    <setup />
+		String token = Utils.md5Checksum(md5Username + ":" + md5Password);
 
-</project>
+		Log.i(LOG_TAG, "token calculated: " + token);
+		return token.toLowerCase();
+	}
+
+}
