@@ -44,7 +44,6 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXTBtCommunicator;
-import at.tugraz.ist.catroid.arduino.Arduino;
 import at.tugraz.ist.catroid.bluetooth.BluetoothManager;
 import at.tugraz.ist.catroid.bluetooth.DeviceListActivity;
 import at.tugraz.ist.catroid.io.SoundManager;
@@ -67,10 +66,9 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 	private static boolean simulatorMode = false;
 	private SimpleGestureFilter detector;
 	private final static String TAG = StageActivity.class.getSimpleName();
-	public static TextToSpeech tts;
+	public static TextToSpeech textToSpeechEngine;
 	public String text;
 	public boolean flag = true;
-	private boolean toastEnabled = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -87,14 +85,16 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 			Utils.updateScreenWidthAndHeight(this);
 
 			soundManager = SoundManager.getInstance();
+			stageManager = new StageManager(this);
 
 			detector = new SimpleGestureFilter(this, this);
 
-			Intent checkIntent = new Intent();
-			checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
-			startActivityForResult(checkIntent, MY_DATA_CHECK_CODE);
+			if (stageManager.getTTSNeeded()) {
+				Intent checkIntent = new Intent();
+				checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+				startActivityForResult(checkIntent, MY_DATA_CHECK_CODE);
+			}
 
-			stageManager = new StageManager(this);
 			//startStage();
 			if (!stageManager.getBluetoothNeeded()) {
 				startStage();
@@ -154,7 +154,9 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 			case MY_DATA_CHECK_CODE:
 				if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
 					// success, create the TTS instance
-					tts = new TextToSpeech(this, this);
+					textToSpeechEngine = new TextToSpeech(this, this);
+					textToSpeechEngine.setSpeechRate(1);
+					textToSpeechEngine.setPitch(1);
 				} else {
 					// missing data, install it
 					Intent installIntent = new Intent();
@@ -267,19 +269,23 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 		super.onDestroy();
 		stageManager.finish();
 		soundManager.clear();
+		if (textToSpeechEngine != null) {
+			textToSpeechEngine.stop();
+			textToSpeechEngine.shutdown();
+		}
 		//arduino.destroyBTCommunicator();
 		if (legoNXT != null) {
 			legoNXT.destroyCommunicator();
-		}
-		if (tts != null) {
-			tts.stop();
-			tts.shutdown();
 		}
 	}
 
 	@Override
 	public void onBackPressed() {
 		soundManager.stopAllSounds();
+		if (textToSpeechEngine != null) {
+			textToSpeechEngine.stop();
+			textToSpeechEngine.shutdown();
+		}
 		manageLoadAndFinish();
 		//arduino.destroyBTCommunicator();
 		if (legoNXT != null) {
@@ -318,66 +324,33 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 		super.onResume();
 	}
 
-	public void onSwipe(int direction) {
-		String toastText = "";
-
-		switch (direction) {
-			case SimpleGestureFilter.SWIPE_RIGHT:
-				toastText = "Swipe Right";
-				break;
-			case SimpleGestureFilter.SWIPE_LEFT:
-				toastText = "Swipe Left";
-				break;
-			case SimpleGestureFilter.SWIPE_DOWN:
-				toastText = "Swipe Down";
-				break;
-			case SimpleGestureFilter.SWIPE_UP:
-				toastText = "Swipe Up";
-				break;
-
-		}
-		if (toastEnabled) {
-			Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show();
-		}
-	}
-
-	public void onDoubleTap() {
-		if (toastEnabled) {
-			Toast.makeText(this, "Double Tap", Toast.LENGTH_SHORT).show();
-		}
-	}
-
-	public void onSingleTouch() {
-		if (toastEnabled) {
-			Toast.makeText(this, "Tapped", Toast.LENGTH_SHORT).show();
-		}
-	}
-
-	public void onLongPress() {
-		if (toastEnabled) {
-			Toast.makeText(this, "Long Press", Toast.LENGTH_SHORT).show();
-		}
-	}
-
 	public void onInit(int status) {
-		//		if (status == TextToSpeech.SUCCESS) { trololololol
-		//			Toast.makeText(StageActivity.this, "Text-To-Speech engine is initialized", Toast.LENGTH_LONG).show();
-		//		} else if (status == TextToSpeech.ERROR) {
-		//			Toast.makeText(StageActivity.this, "Error occurred while initializing Text-To-Speech engine",
-		//					Toast.LENGTH_LONG).show();
-		//		}
+		if (status == TextToSpeech.ERROR) {
+			Toast.makeText(StageActivity.this, R.string.text_to_speech_error, Toast.LENGTH_LONG).show();
+		}
 	}
 
 	public static void textToSpeech(String Text) {
+
 		HashMap<String, String> myHashAlarm = new HashMap<String, String>();
 		myHashAlarm.put(TextToSpeech.Engine.KEY_PARAM_STREAM, String.valueOf(AudioManager.STREAM_MUSIC));
-		tts.setSpeechRate(1);
-		tts.setPitch(1);
-		int result = tts.setLanguage(Locale.getDefault());
+		int result = textToSpeechEngine.setLanguage(Locale.getDefault());
 		if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
 			Log.e(TAG, "Language is not available.");
 		} else {
-			tts.speak(Text, TextToSpeech.QUEUE_FLUSH, myHashAlarm);
+			textToSpeechEngine.speak(Text, TextToSpeech.QUEUE_FLUSH, myHashAlarm);
 		}
+	}
+
+	public void onSwipe(int direction) {
+	}
+
+	public void onDoubleTap() {
+	}
+
+	public void onSingleTouch() {
+	}
+
+	public void onLongPress() {
 	}
 }

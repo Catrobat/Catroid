@@ -46,6 +46,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnDismissListener {
 	@Override
 	public void execute() {
 		loopEndBrick.setTimesToRepeat(timesToRepeat);
+		super.setFirstStartTime();
 	}
 
 	@Override
