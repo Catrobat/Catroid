@@ -44,6 +44,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXTBtCommunicator;
+import at.tugraz.ist.catroid.arduino.Arduino;
 import at.tugraz.ist.catroid.bluetooth.BluetoothManager;
 import at.tugraz.ist.catroid.bluetooth.DeviceListActivity;
 import at.tugraz.ist.catroid.io.SoundManager;
@@ -59,7 +60,7 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 	private SoundManager soundManager;
 	private StageManager stageManager;
 	private boolean stagePlaying = false;
-	//private Arduino arduino;
+	private Arduino arduino;
 	private LegoNXT legoNXT;
 	private BluetoothManager bluetoothManager;
 	private ProgressDialog connectingProgressDialog;
@@ -103,7 +104,7 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 				startStage();
 			} else {
 				bluetoothManager = new BluetoothManager(this);
-				//arduino = new Arduino(this, recieveHandler);
+				arduino = new Arduino(this, recieveHandler);
 				legoNXT = new LegoNXT(this, recieveHandler, simulatorMode);
 				int bluetoothState = bluetoothManager.activateBluetooth();
 				if (bluetoothState == -1) {

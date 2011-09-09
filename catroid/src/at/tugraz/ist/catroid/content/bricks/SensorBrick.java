@@ -123,12 +123,14 @@ public class SensorBrick implements Brick, OnDismissListener {
 		SensorPinDigitalDialog dialogPinDigital;
 		switch (type) {
 			case DIGITAL:
+				Log.d("TAG", "Digital selected");
 				dialogPinDigital = new SensorPinDigitalDialog(context, editPin, pin, true);
 				dialogPinDigital.setOnDismissListener(this);
 				dialogPinDigital.setOnCancelListener((OnCancelListener) context);
 				editPin.setOnClickListener(dialogPinDigital);
 				break;
 			case ANALOG:
+				Log.d("TAG", "Analog selected");
 				dialogPinAnalog = new SensorPinAnalogDialog(context, editPin, pin, true);
 				dialogPinAnalog.setOnDismissListener(this);
 				dialogPinAnalog.setOnCancelListener((OnCancelListener) context);
@@ -140,6 +142,8 @@ public class SensorBrick implements Brick, OnDismissListener {
 
 		digitalButton = (ImageButton) view.findViewById(R.id.construction_brick_sensor_digital_button);
 		analogButton = (ImageButton) view.findViewById(R.id.construction_brick_sensor_analog_button);
+
+		digitalButton.setImageDrawable(view.getResources().getDrawable(R.drawable.digital_active));
 
 		digitalButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -214,7 +218,7 @@ public class SensorBrick implements Brick, OnDismissListener {
 			if (type == ANALOG) {
 				SensorPinAnalogDialog pindialog = (SensorPinAnalogDialog) inputDialog;
 				pin = pindialog.getValue();
-			} else {
+			} else if (type == DIGITAL) {
 				SensorPinDigitalDialog pindialog = (SensorPinDigitalDialog) inputDialog;
 				pin = pindialog.getValue();
 			}
@@ -225,7 +229,7 @@ public class SensorBrick implements Brick, OnDismissListener {
 			if (type == ANALOG) {
 				SensorValueAnalogDialog valuedialog = (SensorValueAnalogDialog) inputDialog;
 				value = valuedialog.getValue();
-			} else {
+			} else if (type == DIGITAL) {
 				SensorValueDigitalDialog valuedialog = (SensorValueDigitalDialog) inputDialog;
 				value = valuedialog.getValue();
 			}
