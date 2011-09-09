@@ -45,13 +45,13 @@ public class ServerCalls {
 	private static final String USER_EMAIL = "userEmail";
 	private static final String USER_LANGUAGE = "userLanguage";
 
-	public static final String BASE_URL = "http://catroidwebtest.ist.tugraz.at/";
+	public static final String BASE_URL = "http://catroidtest.ist.tugraz.at/";
 	//public static final String BASE_URL = "http://catroidtest.ist.tugraz.at/";
 	public static final String FILE_UPLOAD_URL = BASE_URL + "api/upload/upload.json";
 	public static final String CHECK_TOKEN_URL = BASE_URL + "api/checkToken/check.json";
 	public static final String REGISTRATION_URL = BASE_URL + "api/checkTokenOrRegister/check.json";
 
-	public static final String BASE_URL_TEST = "http://catroidwebtest.ist.tugraz.at/";
+	public static final String BASE_URL_TEST = "http://catroidtest.ist.tugraz.at/";
 	public static final String TEST_FILE_UPLOAD_URL = BASE_URL_TEST + "api/upload/upload.json";
 	public static final String TEST_FILE_DOWNLOAD_URL = BASE_URL_TEST + "catroid/download/";
 	public static final String TEST_CHECK_TOKEN_URL = BASE_URL_TEST + "api/checkToken/check.json";

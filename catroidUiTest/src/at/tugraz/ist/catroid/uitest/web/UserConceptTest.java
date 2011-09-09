@@ -92,7 +92,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.sleep(2000);
 	}
 
-	public void testRegisterWithNoTokenSaved() throws Throwable {
+	public void testTokenPersistance() throws Throwable {
 		setTestUrl();
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -107,6 +107,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.goBack();
 
 		solo.clickOnText(getActivity().getString(R.string.upload_project));
+		solo.waitForDialogToClose(10000);
 
 		assertNotNull("Upload Dialog is not shown.", solo.getText(getActivity().getString(
 				R.string.upload_project_dialog_title)));

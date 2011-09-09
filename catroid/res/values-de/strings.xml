@@ -110,7 +110,7 @@
     <string name="edit_in_paintroid">In Paintroid editieren</string>
     <string name="copy_costume_addition">Kopie</string>
     <string name="select_image">Bild auswählen</string>
-    <string name="paintroid_not_installed">Paintroid ist nicht installiert! \nJetzt herunterladen?</string>
+    <string name="paintroid_not_installed">Paintroid ist nicht installiert!\nJetzt herunterladen?</string>
     
     <!-- Sound activity -->
     <string name="sound_list">Sound:</string>
@@ -200,26 +200,27 @@
     <string name="brick_come_to_front">Komm nach vorne</string>
     <string name="brick_when_started">Wenn Projekt gestartet</string>
     <string name="brick_change_x_by">Ändere X um:</string>
-	<string name="brick_change_y_by">Ändere Y um:</string>
-	<string name="brick_set_x">Setze X auf:</string>
-	<string name="brick_set_y">Setze Y auf:</string>
-	<string name="brick_when">Wenn</string>
-	<string name="brick_glide">Gleite</string>
-	<string name="brick_glide_to">zu</string>
-	<string name="brick_forever">Wiederhole fortlaufend</string>
-	<string name="brick_loop_end">Wiederholen beenden</string>
-	<string name="brick_repeat">Wiederhole</string>
-	<string name="times_label">mal</string>
-	<string name="brick_if_on_edge_bounce">pralle von Rand ab</string>
-	<string name="brick_move">Gehe</string>
-	<string name="brick_move_n_steps">Schritte</string>
-	<string name="brick_turn_right">Drehe rechts</string>
-	<string name="brick_turn_right_n_degrees">Grad</string>
-	<string name="brick_turn_left">Drehe links</string>
-	<string name="brick_turn_left_n_degrees">Grad</string>
-	<string name="brick_point_in_direction">Zeige Richtung</string>
-	<string name="brick_say">Sage</string>
-	<string name="brick_think">Denke</string>
+		<string name="brick_change_y_by">Ändere Y um:</string>
+		<string name="brick_set_x">Setze X auf:</string>
+		<string name="brick_set_y">Setze Y auf:</string>
+		<string name="brick_when">Wenn</string>
+		<string name="brick_glide">Gleite</string>
+		<string name="brick_glide_to">zu</string>
+		<string name="brick_speak">Spreche</string>
+		<string name="brick_forever">Wiederhole fortlaufend</string>
+		<string name="brick_loop_end">Wiederholen beenden</string>
+		<string name="brick_repeat">Wiederhole</string>
+		<string name="times_label">mal</string>
+		<string name="brick_if_on_edge_bounce">pralle von Rand ab</string>
+		<string name="brick_move">Gehe</string>
+		<string name="brick_move_n_steps">Schritte</string>
+		<string name="brick_turn_right">Drehe rechts</string>
+		<string name="brick_turn_right_n_degrees">Grad</string>
+		<string name="brick_turn_left">Drehe links</string>
+		<string name="brick_turn_left_n_degrees">Grad</string>
+		<string name="brick_point_in_direction">Zeige Richtung</string>
+		<string name="brick_say">Sage</string>
+		<string name="brick_think">Denke</string>
 	
 	<string name="choose_sound_title">Sound wählen</string>
 	
@@ -269,6 +270,9 @@
     <string name="error_project_rename">
         Beim Umbenennen des Projektes ist ein Fehler aufgetreten.
     </string>
+    <string name="error_new_project">
+    	Beim Erstellen des neuen Projektes ist ein Fehler aufgetreten.
+    </string>
     <string name="error_save_project">
         Beim Speichern des Projektes ist ein Fehler aufgetreten.
     </string>
@@ -289,6 +293,9 @@
     </string>
     <string name="error_load_sound">
     	Beim Laden des Audiofiles ist ein Fehler aufgetreten.
+    </string>
+    <string name="text_to_speech_error">
+    	Text-to-speech Fehler. Spreche Baustein funktioniert nicht.
     </string>
     <string name="error_internet_connection">
     	Unbekannter Fehler aufgetreten. Überprüfe deine Internetverbindung.
