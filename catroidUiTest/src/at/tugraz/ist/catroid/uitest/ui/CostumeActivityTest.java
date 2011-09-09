@@ -79,6 +79,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		}
 		getActivity().finish();
 		UiTestUtils.clearAllUtilTestProjects();
+		paintroidImageFile.delete();
 		super.tearDown();
 	}
 
@@ -177,5 +178,27 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_SELECT_IMAGE);
 		solo.sleep(200);
 		assertTrue("Testfile not added from mockActivity", solo.searchText("testFile"));
+	}
+
+	public void testEditImageWithPaintroid() {
+		solo.clickOnText(getActivity().getString(R.string.costumes));
+		solo.sleep(500);
+
+		CostumeData costumeData = costumeDataList.get(0);
+		(getActivity()).selectedCostumeData = costumeData;
+
+		Bundle bundleForPaintroid = new Bundle();
+		bundleForPaintroid.putString(getActivity().getString(R.string.extra_picture_path_paintroid),
+				imageFile.getAbsolutePath());
+		bundleForPaintroid.putString("secondExtra", paintroidImageFile.getAbsolutePath());
+		solo.sleep(200);
+		Intent intent = new Intent(getInstrumentation().getContext(),
+				at.tugraz.ist.catroid.uitest.mockups.MockPaintroidActivity.class);
+		solo.sleep(200);
+		intent.putExtras(bundleForPaintroid);
+		solo.sleep(200);
+		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_PAINTROID_EDIT_IMAGE);
+		solo.sleep(2000);
+
 	}
 }
