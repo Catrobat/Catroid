@@ -52,7 +52,32 @@ public class UpAndDownloadTest extends AndroidTestCase {
 		super.tearDown();
 	}
 
-	public void testUpAndDownload() throws InterruptedException, IOException {
+	public void testUpAndDownloadWithService() throws Throwable {
+		// service not ready now
+
+		//		String testProjectName = "UpAndDownloadTest" + System.currentTimeMillis();
+		//		String pathToDefaultProject = Consts.DEFAULT_ROOT + "/uploadtestProject";
+		//		new File(pathToDefaultProject).mkdirs();
+		//		String projectFilename = "test" + Consts.PROJECT_EXTENTION;
+		//		new File(pathToDefaultProject + "/" + projectFilename).createNewFile();
+		//		String projectDescription = "this is just a testproject";
+		//
+		//		ServerCalls.getInstance().setConnectionToUse(new MockConnection());
+		//
+		//		assertTrue("The default Project does not exist.", new File(pathToDefaultProject).exists());
+		//
+		//		TransferService service = new TransferService();
+		//		boolean bindOk = service.bindToMarketBillingService();
+		//		assertTrue("service binding failed. ", bindOk);
+		//
+		//		service.uploadRequest(testProjectName, projectDescription, pathToDefaultProject, "0");
+		//
+		//		Thread.sleep(5000);
+		//
+		//		//assertTrue("upload call failed", service.getLastCallOk);
+	}
+
+	public void testUpAndDownload() throws Throwable {
 		String testProjectName = "UpAndDownloadTest" + System.currentTimeMillis();
 		String pathToDefaultProject = Consts.DEFAULT_ROOT + "/uploadtestProject";
 		new File(pathToDefaultProject).mkdirs();
