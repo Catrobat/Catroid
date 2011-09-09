@@ -25,16 +25,38 @@ import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import at.tugraz.ist.catroid.content.Sprite;
 
-public interface Brick extends Serializable {
+public abstract class Brick implements Serializable {
 
-	public void execute();
+	//TODO remove in all bricks
+	private static final long serialVersionUID = 1L;
 
-	public Sprite getSprite();
+	//combine values with bitwise and for desired behavior!!!
+	public static final int INVISIBLE_BRICK = 0;
+	public static final int NORMAL_BRICK = 1;
+	public static final int BACKGROUND_BRICK = 2;
+	public static final int SCRIPT_BRICK = 4;
 
-	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter);
+	public static final int TEXT_TO_SPEECH = 8;
+	public static final int IS_LOOP_BEGIN_BRICK = 16;
+	public static final int IS_LOOP_END_BRICK = 32;
+	//public static final int BLUETOOTH_LEGO = 64;
+	//public static final int BLUETOOTH_ARDUINO = 128;
 
-	public View getPrototypeView(Context context);
+	protected int brickBehavior = NORMAL_BRICK;
 
-	public Brick clone();
+	public int getBrickBehaviour() {
+		return brickBehavior;
+	}
+
+	public abstract void execute();
+
+	public abstract Sprite getSprite();
+
+	public abstract View getView(Context context, int brickId, BaseExpandableListAdapter adapter);
+
+	public abstract View getPrototypeView(Context context);
+
+	@Override
+	public abstract Brick clone();
 
 }

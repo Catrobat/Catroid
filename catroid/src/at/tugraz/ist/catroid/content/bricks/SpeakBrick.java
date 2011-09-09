@@ -30,7 +30,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.stage.StageActivity;
 
-public class SpeakBrick implements Brick {
+public class SpeakBrick extends Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private String text = "";
@@ -39,14 +39,17 @@ public class SpeakBrick implements Brick {
 	private transient View view;
 
 	public SpeakBrick(Sprite sprite, String text) {
+		super.brickBehavior |= Brick.TEXT_TO_SPEECH;
 		this.sprite = sprite;
 		this.text = text;
 	}
 
+	@Override
 	public void execute() {
 		StageActivity.textToSpeech(getText());
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
@@ -55,6 +58,7 @@ public class SpeakBrick implements Brick {
 		return text;
 	}
 
+	@Override
 	public View getView(final Context context, int brickId, final BaseExpandableListAdapter adapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.toolbox_brick_speak, null);
@@ -91,6 +95,7 @@ public class SpeakBrick implements Brick {
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.toolbox_brick_speak, null);
 	}

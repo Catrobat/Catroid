@@ -39,6 +39,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnDismissListener {
 	private transient View view;
 
 	public RepeatBrick(Sprite sprite, int timesToRepeat) {
+		super();
 		this.sprite = sprite;
 		this.timesToRepeat = timesToRepeat;
 	}
@@ -54,6 +55,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnDismissListener {
 		return new RepeatBrick(getSprite(), timesToRepeat);
 	}
 
+	@Override
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 
 		if (view == null) {
@@ -71,6 +73,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnDismissListener {
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.toolbox_brick_repeat, null);
 	}

@@ -45,7 +45,7 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
  * @author Johannes Iber
  * 
  */
-public class BroadcastWaitBrick implements Brick {
+public class BroadcastWaitBrick extends Brick {
 
 	private static final long serialVersionUID = 1L;
 	private transient ProjectManager projectManager;
@@ -56,10 +56,12 @@ public class BroadcastWaitBrick implements Brick {
 	private transient View view;
 
 	public BroadcastWaitBrick(Sprite sprite) {
+		super.brickBehavior = Brick.NORMAL_BRICK | Brick.BACKGROUND_BRICK;
 		this.sprite = sprite;
 		this.projectManager = ProjectManager.getInstance();
 	}
 
+	@Override
 	public void execute() {
 		Vector<BroadcastScript> receiver = projectManager.messageContainer.getReceiverOfMessage(selectedMessage);
 		if (receiver == null) {
@@ -82,6 +84,7 @@ public class BroadcastWaitBrick implements Brick {
 		}
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return sprite;
 	}
@@ -99,6 +102,7 @@ public class BroadcastWaitBrick implements Brick {
 		return this;
 	}
 
+	@Override
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
 
 		view = View.inflate(context, R.layout.toolbox_brick_broadcast_wait, null);
@@ -177,6 +181,7 @@ public class BroadcastWaitBrick implements Brick {
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.toolbox_brick_broadcast_wait, null);
 	}

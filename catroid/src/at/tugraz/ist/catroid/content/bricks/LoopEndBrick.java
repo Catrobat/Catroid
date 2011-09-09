@@ -26,7 +26,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 
-public class LoopEndBrick implements Brick {
+public class LoopEndBrick extends Brick {
 	public static final int FOREVER = -1;
 	public static final long LOOP_DELAY = 2000;
 	private static final long serialVersionUID = 1L;
@@ -35,10 +35,12 @@ public class LoopEndBrick implements Brick {
 	private int timesToRepeat;
 
 	public LoopEndBrick(Sprite sprite, LoopBeginBrick loopStartingBrick) {
+		super.brickBehavior = Brick.IS_LOOP_END_BRICK;
 		this.sprite = sprite;
 		this.loopBeginBrick = loopStartingBrick;
 	}
 
+	@Override
 	public void execute() {
 
 		if (timesToRepeat > 0) {
@@ -77,6 +79,7 @@ public class LoopEndBrick implements Brick {
 		return null;
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return sprite;
 	}
@@ -89,6 +92,7 @@ public class LoopEndBrick implements Brick {
 		return loopBeginBrick;
 	}
 
+	@Override
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		return inflater.inflate(R.layout.toolbox_brick_loop_end, null);
@@ -99,6 +103,7 @@ public class LoopEndBrick implements Brick {
 		return new LoopEndBrick(getSprite(), getLoopBeginBrick());
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return null;
 	}

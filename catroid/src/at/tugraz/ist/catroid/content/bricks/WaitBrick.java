@@ -30,7 +30,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 
-public class WaitBrick implements Brick, OnDismissListener {
+public class WaitBrick extends Brick implements OnDismissListener {
 	private static final long serialVersionUID = 1L;
 	private int timeToWaitInMilliSeconds;
 	private Sprite sprite;
@@ -38,10 +38,12 @@ public class WaitBrick implements Brick, OnDismissListener {
 	private transient View view;
 
 	public WaitBrick(Sprite sprite, int timeToWaitInMilliseconds) {
+		super.brickBehavior = Brick.NORMAL_BRICK | Brick.BACKGROUND_BRICK;
 		this.timeToWaitInMilliSeconds = timeToWaitInMilliseconds;
 		this.sprite = sprite;
 	}
 
+	@Override
 	public void execute() {
 		long startTime = System.currentTimeMillis();
 		int timeToWait = timeToWaitInMilliSeconds;
@@ -60,10 +62,12 @@ public class WaitBrick implements Brick, OnDismissListener {
 		}
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return sprite;
 	}
 
+	@Override
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.toolbox_brick_wait, null);
@@ -81,6 +85,7 @@ public class WaitBrick implements Brick, OnDismissListener {
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.toolbox_brick_wait, null);
 	}

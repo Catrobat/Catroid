@@ -33,7 +33,7 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
 
-public class PlaySoundBrick implements Brick, Serializable, OnItemSelectedListener {
+public class PlaySoundBrick extends Brick implements Serializable, OnItemSelectedListener {
 	private static final long serialVersionUID = 1L;
 	private SoundInfo soundInfo;
 	private Sprite sprite;
@@ -41,9 +41,11 @@ public class PlaySoundBrick implements Brick, Serializable, OnItemSelectedListen
 	private transient View view;
 
 	public PlaySoundBrick(Sprite sprite) {
+		super.brickBehavior = Brick.NORMAL_BRICK | Brick.BACKGROUND_BRICK;
 		this.sprite = sprite;
 	}
 
+	@Override
 	public void execute() {
 		if (soundInfo != null && sprite.getSoundList().contains(soundInfo)) {
 			if (!NativeAppActivity.isRunning() && soundInfo.getAbsolutePath() != null) {
@@ -54,10 +56,12 @@ public class PlaySoundBrick implements Brick, Serializable, OnItemSelectedListen
 		}
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return sprite;
 	}
 
+	@Override
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
 
 		view = View.inflate(context, R.layout.toolbox_brick_play_sound, null);
@@ -90,6 +94,7 @@ public class PlaySoundBrick implements Brick, Serializable, OnItemSelectedListen
 		return arrayAdapter;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.toolbox_brick_play_sound, null);
 	}

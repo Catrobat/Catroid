@@ -25,7 +25,7 @@ import android.widget.BaseExpandableListAdapter;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 
-public class ClearGraphicEffectBrick implements Brick {
+public class ClearGraphicEffectBrick extends Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 
@@ -35,14 +35,17 @@ public class ClearGraphicEffectBrick implements Brick {
 		this.sprite = sprite;
 	}
 
+	@Override
 	public void execute() {
 		sprite.clearGraphicEffect();
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
+	@Override
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.toolbox_brick_clear_graphic_effect, null);
@@ -51,6 +54,7 @@ public class ClearGraphicEffectBrick implements Brick {
 		return view;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		return inflater.inflate(R.layout.toolbox_brick_clear_graphic_effect, null);

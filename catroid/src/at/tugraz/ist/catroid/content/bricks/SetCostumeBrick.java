@@ -30,13 +30,14 @@ import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
 
-public class SetCostumeBrick implements Brick {
+public class SetCostumeBrick extends Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private CostumeData costumeData;
 	private transient View view;
 
 	public SetCostumeBrick(Sprite sprite) {
+		super.brickBehavior = Brick.NORMAL_BRICK | Brick.BACKGROUND_BRICK;
 		this.sprite = sprite;
 	}
 
@@ -44,6 +45,7 @@ public class SetCostumeBrick implements Brick {
 		this.costumeData = costumeData;
 	}
 
+	@Override
 	public void execute() {
 		if (costumeData != null && sprite != null && sprite.getCostumeDataList().contains(costumeData)) {
 			if (!NativeAppActivity.isRunning()) {
@@ -60,6 +62,7 @@ public class SetCostumeBrick implements Brick {
 		}
 	}
 
+	@Override
 	public Sprite getSprite() {
 		return sprite;
 	}
@@ -68,6 +71,7 @@ public class SetCostumeBrick implements Brick {
 		return costumeData.getAbsolutePath();
 	}
 
+	@Override
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
 
 		view = View.inflate(context, R.layout.toolbox_brick_set_costume, null);
@@ -108,6 +112,7 @@ public class SetCostumeBrick implements Brick {
 		return arrayAdapter;
 	}
 
+	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.toolbox_brick_set_costume, null);
 	}
