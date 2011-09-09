@@ -27,6 +27,7 @@ import android.os.Bundle;
 public class MockPaintroidActivity extends Activity {
 
 	private File imageFile;
+	private File secondImageFile;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -37,13 +38,22 @@ public class MockPaintroidActivity extends Activity {
 			return;
 		}
 		String pathToImage = bundle.getString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH");
-
 		imageFile = new File(pathToImage);
+		try {
+			String secondPath = bundle.getString("secondExtra");
+			secondImageFile = new File(secondPath);
+		} catch (Exception e) {
+			//lol who cares
+		}
 
 		killThisActivity();
 	}
 
 	public void killThisActivity() {
+
+		if (secondImageFile != null) {
+			//TODO: overwrite imageFile with secondImageFile
+		}
 
 		Bundle bundle = new Bundle();
 		bundle.putString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH", imageFile.getAbsolutePath());
