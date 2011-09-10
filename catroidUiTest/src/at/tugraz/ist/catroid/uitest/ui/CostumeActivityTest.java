@@ -33,6 +33,7 @@ import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.CostumeActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
+import at.tugraz.ist.catroid.utils.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -81,6 +82,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		UiTestUtils.clearAllUtilTestProjects();
 		paintroidImageFile.delete();
 		super.tearDown();
+
 	}
 
 	public void testCopyCostume() {
@@ -182,10 +184,11 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 
 	public void testEditImageWithPaintroid() {
 		solo.clickOnText(getActivity().getString(R.string.costumes));
-		solo.sleep(500);
+		solo.sleep(800);
 
 		CostumeData costumeData = costumeDataList.get(0);
 		(getActivity()).selectedCostumeData = costumeData;
+		String md5PaintroidImage = Utils.md5Checksum(paintroidImageFile);
 
 		Bundle bundleForPaintroid = new Bundle();
 		bundleForPaintroid.putString(getActivity().getString(R.string.extra_picture_path_paintroid),
@@ -196,9 +199,27 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 				at.tugraz.ist.catroid.uitest.mockups.MockPaintroidActivity.class);
 		solo.sleep(200);
 		intent.putExtras(bundleForPaintroid);
-		solo.sleep(200);
+		solo.sleep(500);
 		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_PAINTROID_EDIT_IMAGE);
-		solo.sleep(2000);
+		solo.sleep(6000);
+		assertEquals("Picture was not changed", Utils.md5Checksum(new File(costumeData.getAbsolutePath())),
+				md5PaintroidImage);
+	}
+
+	public void testGetImageFromGallery() {
+		solo.clickOnText(getActivity().getString(R.string.costumes));
+		solo.sleep(800);
+
+		Bundle bundleForGallery = new Bundle();
+		bundleForGallery.putString("filePath", paintroidImageFile.getAbsolutePath());
+		solo.sleep(200);
+		Intent intent = new Intent(getInstrumentation().getContext(),
+				at.tugraz.ist.catroid.uitest.mockups.MockGalleryActivity.class);
+		intent.putExtras(bundleForGallery);
+		solo.sleep(500);
+		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_SELECT_IMAGE);
+		solo.sleep(6000);
+		assertTrue("Testfile not added from mockActivity", solo.searchText("testFile"));
 
 	}
 }

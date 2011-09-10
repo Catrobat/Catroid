@@ -39,6 +39,8 @@ public class MockPaintroidActivity extends Activity {
 		}
 		String pathToImage = bundle.getString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH");
 		imageFile = new File(pathToImage);
+
+		//extra for picture edit
 		try {
 			String secondPath = bundle.getString("secondExtra");
 			secondImageFile = new File(secondPath);
@@ -46,17 +48,25 @@ public class MockPaintroidActivity extends Activity {
 			//lol who cares
 		}
 
+		//		try {
+		//			String secondPath = bundle.getString("secondExtra");
+		//			secondImageFile = new File(secondPath);
+		//		} catch (Exception e) {
+		//			//lol who cares
+		//		}
+
 		killThisActivity();
 	}
 
 	public void killThisActivity() {
 
+		Bundle bundle = new Bundle();
 		if (secondImageFile != null) {
-			//TODO: overwrite imageFile with secondImageFile
+			bundle.putString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH", secondImageFile.getAbsolutePath());
+		} else {
+			bundle.putString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH", imageFile.getAbsolutePath());
 		}
 
-		Bundle bundle = new Bundle();
-		bundle.putString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH", imageFile.getAbsolutePath());
 		Intent intent = new Intent();
 		intent.putExtras(bundle);
 		setResult(RESULT_OK, intent);
