@@ -52,9 +52,9 @@ def rename_file_in_project(old_name, new_name, project_file_path, resource_type)
     doc = xml.dom.minidom.parse(project_file_path)
 
     if resource_type == 'images':
-        tag_name = 'imageName'
+        tag_name = 'costumeFileName'
     elif resource_type == 'sounds':
-        tag_name = 'soundfileName'
+        tag_name = 'fileName'
 
     for node in doc.getElementsByTagName(tag_name):
         if node.childNodes[0].nodeValue == old_name:
@@ -113,7 +113,7 @@ def set_project_name(new_name, path_to_file):
     
 def get_project_name(project_filename):
     for node in xml.dom.minidom.parse(project_filename).getElementsByTagName('name'):
-        if node.parentNode.nodeName == 'project':
+        if node.parentNode.nodeName == 'Content.Project':
             return node.childNodes[0].nodeValue
 
 def rename_package(path_to_project, new_package):
