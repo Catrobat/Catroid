@@ -129,7 +129,7 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		solo.clickOnButton(getActivity().getString(R.string.sound_play));
 		solo.sleep(20);
 		assertTrue("Mediaplayer is not playing", soundInfo.isPlaying);
-		solo.clickOnButton(getActivity().getString(R.string.sound_stop));
+		solo.clickOnButton(getActivity().getString(R.string.sound_pause));
 		solo.sleep(40);
 		assertFalse("Mediaplayer is playing after touching stop button", soundInfo.isPlaying);
 	}
