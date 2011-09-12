@@ -36,6 +36,7 @@ import android.widget.ImageButton;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -146,6 +147,7 @@ public class UiTestUtils {
 
 		project.addSprite(firstSprite);
 
+		projectManager.fileChecksumContainer = new FileChecksumContainer();
 		projectManager.setProject(project);
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(testScript);
@@ -161,6 +163,7 @@ public class UiTestUtils {
 		firstSprite.addScript(testScript);
 		project.addSprite(firstSprite);
 
+		projectManager.fileChecksumContainer = new FileChecksumContainer();
 		projectManager.setProject(project);
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(testScript);
@@ -252,6 +255,7 @@ public class UiTestUtils {
 	}
 
 	public static void clearAllUtilTestProjects() {
+		projectManager.fileChecksumContainer = new FileChecksumContainer();
 		File directory = new File(Consts.DEFAULT_ROOT + "/" + PROJECTNAME1);
 		if (directory.exists()) {
 			UtilFile.deleteDirectory(directory);
