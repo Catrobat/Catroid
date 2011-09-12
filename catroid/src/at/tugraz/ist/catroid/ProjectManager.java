@@ -67,6 +67,7 @@ public class ProjectManager {
 					return false;
 				}
 			}
+			project.getSpriteList().get(0).setName(context.getString(R.string.background));
 			currentSprite = null;
 			currentScript = null;
 			return true;
