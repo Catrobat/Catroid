@@ -165,6 +165,16 @@
     <!-- Load project dialog -->
     <string name="load_project_dialog_title">Projekt laden</string>
 
+	<!-- Login Register dialog -->
+    <string name="login_register_dialog_title">Login</string>
+    <string name="username">Username:</string>
+    <string name="password">Password:</string>
+    <string name="login_or_register">Login/Register</string>
+    <string name="register">Registrieren</string>
+    <string name="password_forgotten">Password vergessen</string>
+    <string name="new_user_registered">neuer account wurde erstellt</string>
+    <string name="register_error">Fehler aufgetreten</string>
+	
 	<!-- Broadcast spinner -->
 	<string name="new_broadcast_message">Neu...</string>
 	<string name="broadcast_nothing_selected">Nichts...</string>
@@ -286,6 +296,9 @@
     </string>
     <string name="text_to_speech_error">
     	Text-to-speech Fehler. Spreche Baustein funktioniert nicht.
+    </string>
+    <string name="error_internet_connection">
+    	Unbekannter Fehler aufgetreten. Überprüfe deine Internetverbindung.
     </string>
 
     <!-- Notifications -->
