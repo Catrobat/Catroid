@@ -232,7 +232,6 @@ public class StorageHandler {
 				}
 			}
 			File outputFile = new File(newFilePath);
-			outputFile.createNewFile(); //TODO delete
 			return copyFile(outputFile, inputFile, imageDirectory);
 		} else {
 			File outputFile = new File(Utils.buildPath(imageDirectory.getAbsolutePath(), inputFile.getName()));
