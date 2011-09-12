@@ -20,12 +20,16 @@ package at.tugraz.ist.catroid.ui.dialogs;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.transfers.RegistrationTask;
 
@@ -53,13 +57,13 @@ public class LoginRegisterDialog extends Dialog implements OnClickListener {
 		initializeViews();
 		initializeListeners();
 
-		//		this.setOnShowListener(new OnShowListener() {
-		//			public void onShow(DialogInterface dialog) {
-		//				InputMethodManager inputManager = (InputMethodManager) context
-		//						.getSystemService(Context.INPUT_METHOD_SERVICE);
-		//				inputManager.showSoftInput(projectUploadName, InputMethodManager.SHOW_IMPLICIT);
-		//			}
-		//		});
+		this.setOnShowListener(new OnShowListener() {
+			public void onShow(DialogInterface dialog) {
+				InputMethodManager inputManager = (InputMethodManager) activity
+						.getSystemService(Context.INPUT_METHOD_SERVICE);
+				inputManager.showSoftInput(usernameEditText, InputMethodManager.SHOW_IMPLICIT);
+			}
+		});
 
 	}
 
@@ -98,6 +102,7 @@ public class LoginRegisterDialog extends Dialog implements OnClickListener {
 
 				break;
 			case R.id.password_forgotten_button:
+				Toast.makeText(activity, "not implemented", Toast.LENGTH_SHORT).show();
 				dismiss();
 				break;
 		}
