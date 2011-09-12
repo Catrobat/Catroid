@@ -115,6 +115,7 @@ public class CostumeActivity extends ListActivity {
 		costumeData.setCostumeFilename(fileName);
 		costumeData.setCostumeName(name);
 		costumeDataList.add(costumeData);
+		System.out.println(costumeData.getAbsolutePath());
 		((CostumeAdapter) getListAdapter()).notifyDataSetChanged();
 
 		//scroll down the list to the new item:
@@ -133,6 +134,7 @@ public class CostumeActivity extends ListActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 		//when new sound title is selected and ready to be added to the catroid project
 		if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_SELECT_IMAGE) {
+			System.out.println("DO I SEEEEE THIS? NO?");
 			String originalImagePath = "";
 			//get path of image - will work for most applications
 			Bundle bundle = data.getExtras();
