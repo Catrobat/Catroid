@@ -67,6 +67,7 @@ public class ProjectManager {
 					return false;
 				}
 			}
+			//adapt name of background sprite to the current language
 			project.getSpriteList().get(0).setName(context.getString(R.string.background));
 			currentSprite = null;
 			currentScript = null;
