@@ -33,10 +33,12 @@ import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.CostumeActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
+import at.tugraz.ist.catroid.utils.Utils;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class CostumeActivityTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
+	private ProjectManager projectManager = ProjectManager.getInstance();
 	private Solo solo;
 	private String costumeName = "costumeNametest";
 	private File imageFile;
@@ -59,13 +61,12 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		paintroidImageFile = UiTestUtils.createTestMediaFile(Consts.DEFAULT_ROOT + "/testFile.png",
 				at.tugraz.ist.catroid.uitest.R.raw.icon, getInstrumentation().getContext());
 
-		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
+		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
 		CostumeData costumeData = new CostumeData();
 		costumeData.setCostumeFilename(imageFile.getName());
 		costumeData.setCostumeName(costumeName);
 		costumeDataList.add(costumeData);
-		ProjectManager.getInstance().fileChecksumContainer.addChecksum(costumeData.getChecksum(),
-				costumeData.getAbsolutePath());
+		projectManager.fileChecksumContainer.addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
 
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
@@ -78,8 +79,8 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 			e.printStackTrace();
 		}
 		getActivity().finish();
-		//UiTestUtils.clearAllUtilTestProjects();
-		//paintroidImageFile.delete();
+		UiTestUtils.clearAllUtilTestProjects();
+		paintroidImageFile.delete();
 		super.tearDown();
 
 	}
@@ -119,7 +120,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		solo.sleep(300);
 		solo.clickOnButton(getActivity().getString(R.string.ok));
 		solo.sleep(500);
-		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
+		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
 		assertEquals("costume is not renamed in CostumeList", newName, costumeDataList.get(0).getCostumeName());
 		if (!solo.searchText(newName)) {
 			fail("costume not renamed in actual view");
@@ -137,7 +138,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		solo.goBack();
 		solo.sleep(3000);
 		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
-		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
+		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
 		assertEquals("costumeDataList in sprite doesn't hold the right number of costumeData", 1,
 				costumeDataList.size());
 	}
@@ -178,54 +179,94 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		intent.putExtras(bundleForPaintroid);
 		solo.sleep(200);
 		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_SELECT_IMAGE);
-		solo.sleep(6000);
+		solo.sleep(4000);
 		assertTrue("Testfile not added from mockActivity", solo.searchText("testFile"));
+		String checksumPaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
+		assertTrue("Checksum not in checksumcontainer",
+				projectManager.fileChecksumContainer.containsChecksum(checksumPaintroidImageFile));
+		boolean isInCostumeDataList = false;
+		for (CostumeData costumeData : projectManager.getCurrentSprite().getCostumeDataList()) {
+			if (costumeData.getChecksum().equalsIgnoreCase(checksumPaintroidImageFile)) {
+				isInCostumeDataList = true;
+			}
+		}
+
+		if (!isInCostumeDataList) {
+			fail("File not added in CostumeDataList");
+		}
+
 	}
 
-	//	public void testEditImageWithPaintroid() {
-	//		solo.sleep(6000);
-	//		solo.clickOnText(getActivity().getString(R.string.costumes));
-	//		solo.sleep(800);
-	//
-	//		CostumeData costumeData = costumeDataList.get(0);
-	//		(getActivity()).selectedCostumeData = costumeData;
-	//		String md5PaintroidImage = Utils.md5Checksum(paintroidImageFile);
-	//
-	//		solo.sleep(6000);
-	//		Bundle bundleForPaintroid = new Bundle();
-	//		bundleForPaintroid.putString(getActivity().getString(R.string.extra_picture_path_paintroid),
-	//				imageFile.getAbsolutePath());
-	//		bundleForPaintroid.putString("secondExtra", paintroidImageFile.getAbsolutePath());
-	//		solo.sleep(200);
-	//		Intent intent = new Intent(getInstrumentation().getContext(),
-	//				at.tugraz.ist.catroid.uitest.mockups.MockPaintroidActivity.class);
-	//		solo.sleep(200);
-	//		intent.putExtras(bundleForPaintroid);
-	//		solo.sleep(500);
-	//		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_PAINTROID_EDIT_IMAGE);
-	//		solo.sleep(6000);
-	//		assertEquals("Picture was not changed", Utils.md5Checksum(new File(costumeData.getAbsolutePath())),
-	//				md5PaintroidImage);
-	//	}
+	public void testEditImageWithPaintroid() {
+		solo.clickOnText(getActivity().getString(R.string.costumes));
+		solo.sleep(800);
+
+		CostumeData costumeData = costumeDataList.get(0);
+		(getActivity()).selectedCostumeData = costumeData;
+		String md5PaintroidImage = Utils.md5Checksum(paintroidImageFile);
+		String md5ImageFile = Utils.md5Checksum(imageFile);
+
+		Bundle bundleForPaintroid = new Bundle();
+		bundleForPaintroid.putString(getActivity().getString(R.string.extra_picture_path_paintroid),
+				imageFile.getAbsolutePath());
+		bundleForPaintroid.putString("secondExtra", paintroidImageFile.getAbsolutePath());
+		solo.sleep(200);
+		Intent intent = new Intent(getInstrumentation().getContext(),
+				at.tugraz.ist.catroid.uitest.mockups.MockPaintroidActivity.class);
+		solo.sleep(200);
+		intent.putExtras(bundleForPaintroid);
+		solo.sleep(500);
+		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_PAINTROID_EDIT_IMAGE);
+		solo.sleep(4000);
+		assertEquals("Picture was not changed", Utils.md5Checksum(new File(costumeData.getAbsolutePath())),
+				md5PaintroidImage);
+
+		boolean isInCostumeDataListPaintroidImage = false;
+		boolean isInCostumeDataListSunnglasses = false;
+		for (CostumeData costumeDatas : projectManager.getCurrentSprite().getCostumeDataList()) {
+			if (costumeDatas.getChecksum().equalsIgnoreCase(md5PaintroidImage)) {
+				isInCostumeDataListPaintroidImage = true;
+			}
+			if (costumeDatas.getChecksum().equalsIgnoreCase(md5ImageFile)) {
+				isInCostumeDataListSunnglasses = true;
+			}
+		}
+
+		if (!isInCostumeDataListPaintroidImage) {
+			fail("File not added in CostumeDataList");
+		}
+		if (isInCostumeDataListSunnglasses) {
+			fail("File not deleted from CostumeDataList");
+		}
+	}
 
 	public void testGetImageFromGallery() {
 		solo.clickOnText(getActivity().getString(R.string.costumes));
 		solo.sleep(800);
 
-		solo.sleep(6000);
 		Bundle bundleForGallery = new Bundle();
 		bundleForGallery.putString("filePath", paintroidImageFile.getAbsolutePath());
 		System.out.println(paintroidImageFile.getAbsolutePath());
-		if (!paintroidImageFile.exists()) {
-			System.out.println("IT fucking doesnt eXISSTTTTTTT!!!!!");
-		}
 		solo.sleep(200);
 		Intent intent = new Intent(getInstrumentation().getContext(),
 				at.tugraz.ist.catroid.uitest.mockups.MockGalleryActivity.class);
 		intent.putExtras(bundleForGallery);
-		solo.sleep(500);
+		solo.sleep(4000);
 		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_SELECT_IMAGE);
 		assertTrue("Testfile not added from mockActivity", solo.searchText("testFile"));
 
+		String checksumPaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
+		assertTrue("Checksum not in checksumcontainer",
+				projectManager.fileChecksumContainer.containsChecksum(checksumPaintroidImageFile));
+		boolean isInCostumeDataList = false;
+		for (CostumeData costumeData : projectManager.getCurrentSprite().getCostumeDataList()) {
+			if (costumeData.getChecksum().equalsIgnoreCase(checksumPaintroidImageFile)) {
+				isInCostumeDataList = true;
+			}
+		}
+
+		if (!isInCostumeDataList) {
+			fail("File not added in CostumeDataList");
+		}
 	}
 }

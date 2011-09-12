@@ -48,13 +48,6 @@ public class MockPaintroidActivity extends Activity {
 			//lol who cares
 		}
 
-		//		try {
-		//			String secondPath = bundle.getString("secondExtra");
-		//			secondImageFile = new File(secondPath);
-		//		} catch (Exception e) {
-		//			//lol who cares
-		//		}
-
 		killThisActivity();
 	}
 
