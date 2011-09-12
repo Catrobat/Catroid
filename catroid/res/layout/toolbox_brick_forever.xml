@@ -23,7 +23,7 @@
 	android:orientation="horizontal"
 	android:layout_height="wrap_content"
 	android:layout_width="fill_parent"
-	android:background="@drawable/brick_blue"
+	android:background="@drawable/brick_yellow"
 >
 	<TextView
 		android:text="@string/brick_forever"
