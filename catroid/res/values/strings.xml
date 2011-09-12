@@ -165,6 +165,16 @@
 
     <!-- Load project dialog -->
     <string name="load_project_dialog_title">Load Project</string>
+    
+    <!-- Login Register dialog -->
+    <string name="login_register_dialog_title">Login</string>
+    <string name="username">Username:</string>
+    <string name="password">Password:</string>
+    <string name="login_or_register">Login or Register</string>
+    <string name="register">Register</string>
+    <string name="password_forgotten">Password forgotten</string>
+    <string name="new_user_registered">new account created</string>
+    <string name="register_error">Error occurred</string>
 
 	<!-- Broadcast spinner -->
 	<string name="new_broadcast_message">new...</string>
@@ -315,6 +325,10 @@
     	Text-to-speech error. Speak brick will not work.
     </string>
     
+    <string name="error_internet_connection">
+    	An unknown error occurred. Check your Internet connection.
+    </string>
+
     <!-- Notifications -->
     <string name="success_project_upload">Upload successful.</string>
     <string name="success_project_download">Download successful.</string>
