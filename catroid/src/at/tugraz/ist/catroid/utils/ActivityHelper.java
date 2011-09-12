@@ -24,12 +24,14 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 
@@ -94,7 +96,7 @@ public class ActivityHelper {
 			LinearLayout.LayoutParams textViewLayout = new LinearLayout.LayoutParams(
 					ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.FILL_PARENT);
 			int maxWidth = (int) activity.getResources().getDimension(R.dimen.actionbar_height) * 3;
-			TextView titleText = new TextView(activity);
+			final TextView titleText = new TextView(activity);
 			titleText.setLayoutParams(textViewLayout);
 			titleText.setText(title);
 			titleText.setMaxWidth(maxWidth);
@@ -104,6 +106,24 @@ public class ActivityHelper {
 			titleText.setMaxLines(2);
 			titleText.setEllipsize(TextUtils.TruncateAt.END);
 			titleText.setPadding(10, 0, 0, 0);
+
+			titleText.setOnClickListener(new View.OnClickListener() {
+
+				public void onClick(View v) {
+					LayoutInflater inflater = activity.getLayoutInflater();
+					View layout = inflater.inflate(R.layout.toast_settings,
+							(ViewGroup) activity.findViewById(R.id.toast_layout_root));
+
+					TextView text = (TextView) layout.findViewById(R.id.text);
+					text.setText(titleText.getText());
+
+					Toast toast = new Toast(activity.getApplicationContext());
+					toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+					toast.setDuration(Toast.LENGTH_SHORT);
+					toast.setView(layout);
+					toast.show();
+				}
+			});
 
 			actionBar.addView(titleText);
 		}

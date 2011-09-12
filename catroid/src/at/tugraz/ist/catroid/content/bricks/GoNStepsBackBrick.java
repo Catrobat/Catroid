@@ -52,7 +52,7 @@ public class GoNStepsBackBrick implements Brick, OnDismissListener {
 		int currentPosition = sprite.getZPosition();
 
 		if (currentPosition - steps > currentPosition) {
-			sprite.setZPosition(Integer.MIN_VALUE);
+			sprite.setZPosition(Integer.MIN_VALUE + 1);
 			return;
 		}
 
