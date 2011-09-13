@@ -169,6 +169,12 @@
 	<string name="new_broadcast_message">Neu...</string>
 	<string name="broadcast_nothing_selected">Nichts...</string>
 	
+	<!-- Brick categories -->
+	<string name="category_motion">Bewegung</string>
+	<string name="category_looks">Aussehen</string>
+	<string name="category_sound">Klang</string>
+	<string name="category_control">Steuerung</string>
+	
     <!--  Stage context menu -->
     <string name="stagemenu_construction_site">Zur Baustelle</string>
     <string name="stagemenu_start">Abspielen/Pause</string>
@@ -190,27 +196,27 @@
     <string name="brick_come_to_front">Komm nach vorne</string>
     <string name="brick_when_started">Wenn Projekt gestartet</string>
     <string name="brick_change_x_by">Ändere X um:</string>
-		<string name="brick_change_y_by">Ändere Y um:</string>
-		<string name="brick_set_x">Setze X auf:</string>
-		<string name="brick_set_y">Setze Y auf:</string>
-		<string name="brick_when">Wenn</string>
-		<string name="brick_glide">Gleite</string>
-		<string name="brick_glide_to">zu</string>
-		<string name="brick_speak">Spreche</string>
-		<string name="brick_forever">Wiederhole fortlaufend</string>
-		<string name="brick_loop_end">Wiederholen beenden</string>
-		<string name="brick_repeat">Wiederhole</string>
-		<string name="times_label">mal</string>
-		<string name="brick_if_on_edge_bounce">pralle von Rand ab</string>
-		<string name="brick_move">Gehe</string>
-		<string name="brick_move_n_steps">Schritte</string>
-		<string name="brick_turn_right">Drehe rechts</string>
-		<string name="brick_turn_right_n_degrees">Grad</string>
-		<string name="brick_turn_left">Drehe links</string>
-		<string name="brick_turn_left_n_degrees">Grad</string>
-		<string name="brick_point_in_direction">Zeige Richtung</string>
-		<string name="brick_say">Sage</string>
-		<string name="brick_think">Denke</string>
+	<string name="brick_change_y_by">Ändere Y um:</string>
+	<string name="brick_set_x">Setze X auf:</string>
+	<string name="brick_set_y">Setze Y auf:</string>
+	<string name="brick_when">Wenn</string>
+	<string name="brick_glide">Gleite</string>
+	<string name="brick_glide_to">zu</string>
+	<string name="brick_speak">Spreche</string>
+	<string name="brick_forever">Wiederhole fortlaufend</string>
+	<string name="brick_loop_end">Wiederholen beenden</string>
+	<string name="brick_repeat">Wiederhole</string>
+	<string name="times_label">mal</string>
+	<string name="brick_if_on_edge_bounce">pralle von Rand ab</string>
+	<string name="brick_move">Gehe</string>
+	<string name="brick_move_n_steps">Schritte</string>
+	<string name="brick_turn_right">Drehe rechts</string>
+	<string name="brick_turn_right_n_degrees">Grad</string>
+	<string name="brick_turn_left">Drehe links</string>
+	<string name="brick_turn_left_n_degrees">Grad</string>
+	<string name="brick_point_in_direction">Zeige Richtung</string>
+	<string name="brick_say">Sage</string>
+	<string name="brick_think">Denke</string>
 	
 	<string name="choose_sound_title">Sound wählen</string>
 	
@@ -221,10 +227,10 @@
     <string name="brick_broadcast_wait">Verschicke und warte:</string>
     <string name="brick_stop_all_sounds">Stoppe alle Sounds</string>
     
-	<string name="when_action">Action wählen</string>
+	<string name="when_action">Aktion wählen</string>
     
 
-    <!-- defaulValues -->
+    <!-- defaultValues -->
     <string name="default_project_name">standardProjekt</string>
     
     <!-- Notifications -->
