@@ -117,6 +117,14 @@ public abstract class Script implements Serializable {
 		this.executingBrickIndex = executingBrickIndex;
 	}
 
+	public int getRequiredRessources() {
+		int ressources = 0;
+		for (Brick brick : brickList) {
+			ressources |= brick.getBrickBehaviourAndRessources();
+		}
+		return ressources;
+	}
+
 	public boolean containsBrickOfType(Class<?> type) {
 		for (Brick brick : brickList) {
 			if (brick.getClass() == type) {
@@ -125,6 +133,5 @@ public abstract class Script implements Serializable {
 			}
 		}
 		return false;
-
 	}
 }

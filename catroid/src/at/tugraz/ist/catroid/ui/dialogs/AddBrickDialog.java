@@ -134,14 +134,14 @@ public class AddBrickDialog extends Dialog {
 
 		if (sprite.getName().equals(scriptActivity.getString(string.background))) {
 			for (int i = 0; i < prototypeBrickList.size(); i++) {
-				if ((prototypeBrickList.get(i).getBrickBehaviour() & Brick.BACKGROUND_BRICK) == 0) {
+				if ((prototypeBrickList.get(i).getBrickBehaviourAndRessources() & Brick.BACKGROUND_BRICK) == 0) {
 					prototypeBrickList.remove(i);
 					i--;
 				}
 			}
 		} else {
 			for (int i = 0; i < prototypeBrickList.size(); i++) {
-				if ((prototypeBrickList.get(i).getBrickBehaviour() & Brick.BACKGROUND_BRICK) == 0) {
+				if ((prototypeBrickList.get(i).getBrickBehaviourAndRessources() & Brick.NORMAL_BRICK) == 0) {
 					prototypeBrickList.remove(i);
 					i--;
 				}
