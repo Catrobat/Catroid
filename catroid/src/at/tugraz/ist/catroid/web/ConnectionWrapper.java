@@ -29,8 +29,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Map.Entry;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import android.util.Log;
 import android.webkit.MimeTypeMap;
@@ -110,6 +110,21 @@ public class ConnectionWrapper {
 		input.close();
 		fos.flush();
 		fos.close();
+	}
+
+	public String doHttpPost(String urlString, HashMap<String, String> postValues) throws IOException {
+		MultiPartFormOutputStream out = buildPost(urlString, postValues);
+		out.close();
+
+		InputStream resultStream = null;
+		//try {
+
+		Log.e("bla", "http code: " + urlConnection.getResponseCode());
+		resultStream = urlConnection.getInputStream();
+		//		} catch (FileNotFoundException e) {
+		//			Log.e("bla", "error string: " + getString(urlConnection.getErrorStream()));
+		//		}
+		return getString(resultStream);
 	}
 
 	private MultiPartFormOutputStream buildPost(String urlString, HashMap<String, String> postValues)

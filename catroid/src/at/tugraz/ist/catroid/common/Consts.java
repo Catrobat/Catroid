@@ -37,8 +37,14 @@ public final class Consts {
 	public static final int MAX_COSTUME_WIDTH = 1280;
 	public static final int MAX_COSTUME_HEIGHT = 1280;
 
-	//Upload:
+	//Web:
 	public static final String TOKEN = "token";
+	public static final String REQUEST_URI = "requesturi";
+
+	public static final int SERVER_RESPONCE_TOKEN_OK = 200;
+	public static final int SERVER_RESPONCE_REGISTER_OK = 201;
+	public static final int SERVER_ERROR_TOKEN_INVALID = 601;
+	public static final int SERVER_ERROR_COMMON = 500;
 
 	//Stage:
 	public static final String SCREENSHOT_FILE_NAME = "thumbnail.png";
@@ -46,4 +52,5 @@ public final class Consts {
 	//Various:
 	public static final int BUFFER_8K = 8 * 1024;
 	public static final String PAINTROID_DOWNLOAD_LINK = "https://code.google.com/p/catroid/downloads/detail?name=Paintroid_0.6.4b.apk&can=2&q=";
+
 }
