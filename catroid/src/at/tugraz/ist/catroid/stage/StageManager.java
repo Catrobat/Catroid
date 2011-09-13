@@ -29,7 +29,6 @@ import android.os.Handler;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.content.bricks.SpeakBrick;
 
 public class StageManager {
 	private Activity activity;
@@ -38,7 +37,6 @@ public class StageManager {
 	private IDraw draw;
 	private boolean isPaused;
 	private Handler handler = new Handler();
-	private boolean ttsNeeded = false;
 
 	private Runnable runnable = new Runnable() {
 		public void run() {
@@ -66,10 +64,6 @@ public class StageManager {
 		spritesChanged = true;
 		draw = new CanvasDraw(activity);
 
-		if (checkForBrickOfType(SpeakBrick.class)) {
-			ttsNeeded = true;
-		}
-
 	}
 
 	public void startScripts() {
@@ -78,17 +72,12 @@ public class StageManager {
 		}
 	}
 
-	private boolean checkForBrickOfType(Class<?> type) {
+	public int getRequiredRessources() {
+		int ressources = 0;
 		for (Sprite sprite : spriteList) {
-			if (sprite.containsBrickOfType(type)) {
-				return true;
-			}
+			ressources |= sprite.getRequiredRessources();
 		}
-		return false;
-	}
-
-	public boolean getTTSNeeded() {
-		return ttsNeeded;
+		return ressources;
 	}
 
 	public boolean drawSprites() {

@@ -39,6 +39,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.stage.SimpleGestureFilter.SimpleGestureListener;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -75,7 +76,9 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 
 			detector = new SimpleGestureFilter(this, this);
 
-			if (stageManager.getTTSNeeded()) {
+			int ressources = stageManager.getRequiredRessources();
+
+			if ((ressources & Brick.TEXT_TO_SPEECH) != 0) {
 				Intent checkIntent = new Intent();
 				checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
 				startActivityForResult(checkIntent, MY_DATA_CHECK_CODE);

@@ -402,12 +402,21 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return true;
 	}
 
-	public boolean containsBrickOfType(Class<?> type) {
+	public int getRequiredRessources() {
+
+		int ressources = 0;
 		for (Script script : scriptList) {
-			if (script.containsBrickOfType(type)) {
-				return true;
-			}
+			ressources |= script.getRequiredRessources();
 		}
-		return false;
+		return ressources;
 	}
+
+	//	public boolean containsBrickOfType(Class<?> type) {
+	//		for (Script script : scriptList) {
+	//			if (script.containsBrickOfType(type)) {
+	//				return true;
+	//			}
+	//		}
+	//		return false;
+	//	}
 }
