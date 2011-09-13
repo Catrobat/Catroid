@@ -20,15 +20,17 @@ package at.tugraz.ist.catroid.ui.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
-import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -40,6 +42,7 @@ import at.tugraz.ist.catroid.transfers.ProjectUploadTask;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class UploadProjectDialog extends Dialog implements OnClickListener {
+
 	private final Context context;
 	private String currentProjectName;
 	private EditText projectUploadName;
@@ -107,22 +110,16 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 			}
 		});
 
-		//		this.setOnShowListener(new OnShowListener() {
-		//			public void onShow(DialogInterface dialog) {
-		//				InputMethodManager inputManager = (InputMethodManager) context
-		//						.getSystemService(Context.INPUT_METHOD_SERVICE);
-		//				inputManager.showSoftInput(projectUploadName, InputMethodManager.SHOW_IMPLICIT);
-		//			}
-		//		});
+		this.setOnShowListener(new OnShowListener() {
+			public void onShow(DialogInterface dialog) {
+				InputMethodManager inputManager = (InputMethodManager) context
+						.getSystemService(Context.INPUT_METHOD_SERVICE);
+				inputManager.showSoftInput(projectUploadName, InputMethodManager.SHOW_IMPLICIT);
+			}
+		});
 
 		Button cancelButton = (Button) findViewById(R.id.cancel_button);
 		cancelButton.setOnClickListener(this);
-	}
-
-	@Override
-	public void show() {
-		super.show();
-		currentProjectName = ProjectManager.getInstance().getCurrentProject().getName();
 	}
 
 	public void onClick(View v) {
