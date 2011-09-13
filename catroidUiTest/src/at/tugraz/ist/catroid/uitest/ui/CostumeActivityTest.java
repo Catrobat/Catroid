@@ -218,7 +218,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		solo.sleep(500);
 		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_PAINTROID_EDIT_IMAGE);
 		solo.sleep(4000);
-		assertEquals("Picture was not changed", Utils.md5Checksum(new File(costumeData.getAbsolutePath())),
+		assertNotSame("Picture was not changed", Utils.md5Checksum(new File(costumeData.getAbsolutePath())),
 				md5PaintroidImage);
 
 		boolean isInCostumeDataListPaintroidImage = false;
@@ -265,11 +265,55 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		int newNumberOfCostumeDatas = costumeDataList.size();
 		assertEquals("CostumeData was added", numberOfCostumeDatas, newNumberOfCostumeDatas);
 		assertEquals("too many references for checksum", 1, projectManager.fileChecksumContainer.getUsage(md5ImageFile));
-
 	}
 
 	public void testEditImageWithPaintroidNoPath() {
+		solo.clickOnText(getActivity().getString(R.string.costumes));
+		solo.sleep(800);
 
+		int numberOfCostumeDatas = costumeDataList.size();
+		CostumeData costumeData = costumeDataList.get(0);
+		(getActivity()).selectedCostumeData = costumeData;
+		String md5ImageFile = Utils.md5Checksum(imageFile);
+
+		Bundle bundleForPaintroid = new Bundle();
+		bundleForPaintroid.putString("thirdExtra", "doesn't matter");
+		solo.sleep(200);
+		Intent intent = new Intent(getInstrumentation().getContext(),
+				at.tugraz.ist.catroid.uitest.mockups.MockPaintroidActivity.class);
+		solo.sleep(200);
+		intent.putExtras(bundleForPaintroid);
+		solo.sleep(500);
+		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_PAINTROID_EDIT_IMAGE);
+		solo.sleep(4000);
+		assertEquals("Picture changed", Utils.md5Checksum(new File(costumeData.getAbsolutePath())), md5ImageFile);
+		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
+		int newNumberOfCostumeDatas = costumeDataList.size();
+		assertEquals("CostumeData was added", numberOfCostumeDatas, newNumberOfCostumeDatas);
+		assertEquals("too many references for checksum", 1, projectManager.fileChecksumContainer.getUsage(md5ImageFile));
+	}
+
+	public void testGetImageFromPaintroidNoPath() {
+		solo.clickOnText(getActivity().getString(R.string.costumes));
+		solo.sleep(800);
+
+		CostumeData costumeData = costumeDataList.get(0);
+		String md5ImageFile = Utils.md5Checksum(imageFile);
+
+		Bundle bundleForPaintroid = new Bundle();
+		bundleForPaintroid.putString("thirdExtra", "doesn't matter");
+		solo.sleep(200);
+		Intent intent = new Intent(getInstrumentation().getContext(),
+				at.tugraz.ist.catroid.uitest.mockups.MockPaintroidActivity.class);
+		solo.sleep(200);
+		intent.putExtras(bundleForPaintroid);
+		solo.sleep(500);
+		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_SELECT_IMAGE);
+		solo.sleep(4000);
+		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
+		int numberOfCostumeDatas = costumeDataList.size();
+		assertEquals("too many references for checksum", 1, numberOfCostumeDatas);
+		assertEquals("Picture changed", Utils.md5Checksum(new File(costumeData.getAbsolutePath())), md5ImageFile);
 	}
 
 	public void testGetImageFromGallery() {
