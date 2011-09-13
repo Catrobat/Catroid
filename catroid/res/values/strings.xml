@@ -205,8 +205,8 @@
     <string name="y_label">Y:</string>
     <string name="brick_set_costume">Set Costume</string>
     <string name="brick_set_size_to">Set size to</string>
+	<string name="brick_change_size_by">Change size by</string>
     <string name="brick_go_back">Go back</string>
-    <string name="steps_label">steps</string>
     <string name="brick_go_back_layers">layers</string>
     <string name="brick_come_to_front">Come to front</string>
     <string name="brick_when_started">When Project Starts</string>
@@ -217,7 +217,7 @@
 	<string name="brick_glide">Glide</string>
 	<string name="brick_glide_to">to</string>
 	<string name="brick_when">When</string>
-	<string name="brick_set_ghost_effect">Set Ghost Effect </string>
+	<string name="brick_set_ghost_effect">Set Ghost Effect</string>
 	<string name="brick_change_ghost_effect">Change Ghost Effect</string>
 	<string name="brick_set_brightness">Set Brightness</string>
 	<string name="brick_change_brightness">Change Brightness</string>
@@ -242,7 +242,6 @@
 	<string name="brick_point_to">Point to</string>
 	<string name="brick_say">Say</string>
 	<string name="brick_think">Think</string>
-	<string name="brick_change_size_by">Change size by</string>
 	
 	<string name="choose_sound_title">choose a title</string>
 	<string name="choose_language">choose a language</string>

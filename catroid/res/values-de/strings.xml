@@ -60,6 +60,7 @@
     <string name="upload_project">Projekt hochladen</string>
 
     <!-- Main menu activity -->
+    <string name="resume">Fortsetzen</string>
     <string name="current_project">Aktuelles Projekt:</string>
     <string name="no_project">Kein Projekt geladen</string>
     <string name="current_project_button">Aktuelles Projekt</string>
@@ -179,6 +180,9 @@
 	<string name="new_broadcast_message">Neu...</string>
 	<string name="broadcast_nothing_selected">Nichts...</string>
 	
+	<!-- Point to spinner -->
+	<string name="point_to_select_location">Wählen</string>
+	
 	<!-- Brick categories -->
 	<string name="category_motion">Bewegung</string>
 	<string name="category_looks">Aussehen</string>
@@ -201,6 +205,7 @@
     <string name="y_label">Y:</string>
     <string name="brick_set_costume">Setze Kostüm</string>
     <string name="brick_set_size_to">Setze Größe auf</string>
+    <string name="brick_change_size_by">Ändere Größe um</string>
     <string name="brick_go_back">Gehe</string>
     <string name="brick_go_back_layers">Ebenen nach hinten</string>
     <string name="brick_come_to_front">Komm nach vorne</string>
@@ -209,9 +214,18 @@
 	<string name="brick_change_y_by">Ändere Y um:</string>
 	<string name="brick_set_x">Setze X auf:</string>
 	<string name="brick_set_y">Setze Y auf:</string>
-	<string name="brick_when">Wenn</string>
 	<string name="brick_glide">Gleite</string>
 	<string name="brick_glide_to">zu</string>
+	<string name="brick_when">Wenn</string>
+	<string name="brick_set_ghost_effect">Setze Durchsichtigkeits-Effekt</string>
+	<string name="brick_change_ghost_effect">Ändere Durchsichtigkeits-Effekt</string>
+	<string name="brick_set_brightness">Setze Helligkeit</string>
+	<string name="brick_change_brightness">Ändere Helligkeit</string>
+	<string name="by_label">um</string>
+	<string name="to_label">auf</string>
+	<string name="brick_clear_graphic_effect">Schalte Grafikeffekte aus</string>
+	<string name="brick_set_volume_to">Setze Lautstärke auf</string>
+	<string name="brick_change_volume_by">Ändere Lautstärke um</string>
 	<string name="brick_speak">Spreche</string>
 	<string name="brick_forever">Wiederhole fortlaufend</string>
 	<string name="brick_loop_end">Wiederholen beenden</string>
@@ -225,10 +239,12 @@
 	<string name="brick_turn_left">Drehe links</string>
 	<string name="brick_turn_left_n_degrees">Grad</string>
 	<string name="brick_point_in_direction">Zeige Richtung</string>
+	<string name="brick_point_to">Zeige auf</string>
 	<string name="brick_say">Sage</string>
 	<string name="brick_think">Denke</string>
 	
 	<string name="choose_sound_title">Sound wählen</string>
+	<string name="choose_language">Sprache wählen</string>
 	
 	<string name="brick_note">Notiz</string>
 	
@@ -238,7 +254,6 @@
     <string name="brick_stop_all_sounds">Stoppe alle Sounds</string>
     
 	<string name="when_action">Aktion wählen</string>
-    
 
     <!-- defaultValues -->
     <string name="default_project_name">standardProjekt</string>
@@ -263,6 +278,9 @@
     </string>
     <string name="error_project_exists">
         Es gibt bereits ein Projekt mit dem eingegebenen Namen.\nBitte einen anderen Namen eingeben.
+    </string>
+    <string name="error_create_project">
+        Beim Erstellen des neuen Projekts ist ein Fehler aufgetreten.
     </string>
     <string name="error_sprite_exists">
     	Es gibt bereits ein Objekt mit dem eingegebenen Namen.\nBitte einen anderen Namen eingeben.
