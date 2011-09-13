@@ -103,6 +103,10 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	@Override
 	protected void onStart() {
 		super.onStart();
+		sprite = ProjectManager.getInstance().getCurrentSprite();
+		if (sprite == null) {
+			return;
+		}
 		initListeners();
 		if (adapter.getGroupCount() > 0) {
 			listView.expandGroup(adapter.getGroupCount() - 1);

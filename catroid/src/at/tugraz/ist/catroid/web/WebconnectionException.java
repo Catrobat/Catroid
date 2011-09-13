@@ -22,14 +22,35 @@ package at.tugraz.ist.catroid.web;
 public class WebconnectionException extends Exception {
 
 	private static final long serialVersionUID = 1L;
-	private int httpResultCode;
 
-	public WebconnectionException(int httpResultCode) {
-		this.httpResultCode = httpResultCode;
+	public static final int ERROR_JSON = 1001;
+	public static final int ERROR_NETWORK = 1002;
+	public static final int ERROR_UNKNOWN = 1003;
+
+	private int statusCode;
+
+	public WebconnectionException(int statusCode) {
+		super();
+		this.statusCode = statusCode;
 	}
 
-	public int getmHttpResultCode() {
-		return httpResultCode;
+	public WebconnectionException(int statusCode, String message) {
+		super(message);
+		this.statusCode = statusCode;
+	}
+
+	public int getStatusCode() {
+		return statusCode;
+	}
+
+	@Override
+	public String getMessage() {
+		String message = super.getMessage();
+		if (message != null && message.length() == 0) {
+			message = null;
+		}
+		return message;
+
 	}
 
 }

@@ -56,6 +56,8 @@ import at.tugraz.ist.catroid.utils.Utils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class UiTestUtils {
+	private static final String TAG = UiTestUtils.class.getSimpleName();
+	
 	private static ProjectManager projectManager = ProjectManager.getInstance();
 	private static HashMap<Integer, Integer> brickCategoryMap;
 
@@ -401,5 +403,52 @@ public class UiTestUtils {
 		out.close();
 
 		return testImage;
+	}
+	
+	public static void setPrivateField(String fieldName, Object object, Object value, boolean ofSuperclass) {
+
+		Field field = null;
+
+		try {
+			Class<?> c = object.getClass();
+			field = ofSuperclass ? c.getSuperclass().getDeclaredField(fieldName) : c.getDeclaredField(fieldName);
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (NoSuchFieldException e) {
+			Log.e(TAG, e.getClass().getName() + ": " + fieldName);
+		}
+
+		if (field != null) {
+			field.setAccessible(true);
+
+			try {
+				field.set(object, value);
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public static void createValidUser(Context context) {
+		try {
+			String testUser = "testUser" + System.currentTimeMillis();
+			String testPassword = "pwspws";
+			String testEmail = testUser + "@gmail.com";
+
+			String token = UtilToken.calculateToken(testUser, testPassword);
+			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
+					"de", "at", token);
+
+			assert (userRegistered);
+
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+			prefs.edit().putString(Consts.TOKEN, token).commit();
+
+		} catch (WebconnectionException e) {
+			e.printStackTrace();
+			assert (false);
+		}
 	}
 }
