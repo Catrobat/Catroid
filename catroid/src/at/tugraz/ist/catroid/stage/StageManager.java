@@ -39,7 +39,7 @@ public class StageManager {
 	private boolean isPaused;
 	private Handler handler = new Handler();
 	private boolean ttsNeeded = false;
-
+	private boolean bluetoothNeeded;
 	private Runnable runnable = new Runnable() {
 		public void run() {
 			for (Sprite sprite : spriteList) {
@@ -70,12 +70,25 @@ public class StageManager {
 			ttsNeeded = true;
 		}
 
+		if (checkForBluetoothBricks()) {
+			bluetoothNeeded = true;
+		}
+
+		//		Vector<Class<?>> legoNXTTyptes = new Vector<Class<?>>();
+		//		legoNXTTyptes.add(NXTMotorActionBrick.class);
+		//		legoNXTTyptes.add(NXTMotorStopBrick.class);
+		//		legoNXTTyptes.add(NXTMotorTurnAngleBrick.class);
+		//		legoNXTTyptes.add(NXTPlayToneBrick.class);
+		//		if (checkForBrickOfType(legoNXTTyptes)) {
+		//			bluetoothNeeded = true;
+		//		}
 	}
 
 	public void startScripts() {
 		for (Sprite sprite : spriteList) {
 			sprite.startStartScripts();
 		}
+
 	}
 
 	private boolean checkForBrickOfType(Class<?> type) {
@@ -87,8 +100,22 @@ public class StageManager {
 		return false;
 	}
 
-	public boolean getTTSNeeded() {
-		return ttsNeeded;
+	//	private boolean checkForBrickOfType(Vector<Class<?>> type) {
+	//		for (Sprite sprite : spriteList) {
+	//			if (sprite.containsBrickOfType(type)) {
+	//				return true;
+	//			}
+	//		}
+	//		return false;
+	//	}
+
+	private boolean checkForBluetoothBricks() {
+		for (Sprite sprite : spriteList) {
+			if (sprite.isBluetoothSprite()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public boolean drawSprites() {
@@ -143,5 +170,13 @@ public class StageManager {
 		for (Sprite sprite : spriteList) {
 			sprite.finish();
 		}
+	}
+
+	public boolean getBluetoothNeeded() {
+		return bluetoothNeeded;
+	}
+
+	public boolean getTTSNeeded() {
+		return ttsNeeded;
 	}
 }

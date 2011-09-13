@@ -57,6 +57,7 @@ public class BrickCategoryDialog extends Dialog {
 		categories.add(inflater.inflate(R.layout.brick_category_looks, null));
 		categories.add(inflater.inflate(R.layout.brick_category_sound, null));
 		categories.add(inflater.inflate(R.layout.brick_category_control, null));
+		categories.add(inflater.inflate(R.layout.brick_category_lego_nxt, null));
 
 		adapter = new BrickCategoryAdapter(categories);
 		listView.setAdapter(adapter);

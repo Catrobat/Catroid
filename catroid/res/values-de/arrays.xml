@@ -27,4 +27,17 @@
     <item>(180) unten</item>
   </string-array>
   
+  <!-- Mindroid motors spinner -->
+ 	<string-array name="nxt_stop_motor_chooser">
+	  <item>A</item>
+	  <item>B</item>
+	  <item>C</item>
+	  <item>Alle</item>
+	</string-array>
+	
+	<string-array name="yes_no_array">
+	  <item>Ja</item>
+	  <item>Nein</item>
+  </string-array>
+  
 </resources>

@@ -57,6 +57,10 @@ import at.tugraz.ist.catroid.content.bricks.IfOnEdgeBounceBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
 import at.tugraz.ist.catroid.content.bricks.MoveNStepsBrick;
+import at.tugraz.ist.catroid.content.bricks.NXTMotorActionBrick;
+import at.tugraz.ist.catroid.content.bricks.NXTMotorStopBrick;
+import at.tugraz.ist.catroid.content.bricks.NXTMotorTurnAngleBrick;
+import at.tugraz.ist.catroid.content.bricks.NXTPlayToneBrick;
 import at.tugraz.ist.catroid.content.bricks.NoteBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
@@ -157,6 +161,14 @@ public class AddBrickDialog extends Dialog {
 		controlBrickList.add(new ForeverBrick(sprite));
 		controlBrickList.add(new RepeatBrick(sprite, 3));
 		brickMap.put(getContext().getString(R.string.category_control), controlBrickList);
+
+		List<Brick> legoNXTBrickList = new ArrayList<Brick>();
+		legoNXTBrickList.add(new NXTMotorTurnAngleBrick(sprite, 0, 180));
+		legoNXTBrickList.add(new NXTMotorStopBrick(sprite, 0));
+		legoNXTBrickList.add(new NXTMotorActionBrick(sprite, 0, 100));
+		legoNXTBrickList.add(new NXTPlayToneBrick(sprite, 2000, 1));
+		brickMap.put(getContext().getString(R.string.category_lego_nxt), legoNXTBrickList);
+
 	}
 
 	public AddBrickDialog(Dialog parentDialog, ScriptActivity scriptActivity, String category) {
@@ -168,6 +180,7 @@ public class AddBrickDialog extends Dialog {
 		setContentView(R.layout.dialog_toolbox);
 		getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 	}
 
 	@Override

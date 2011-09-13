@@ -22,6 +22,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import at.tugraz.ist.catroid.content.bricks.Brick;
+import at.tugraz.ist.catroid.content.bricks.NXTMotorActionBrick;
+import at.tugraz.ist.catroid.content.bricks.NXTMotorStopBrick;
+import at.tugraz.ist.catroid.content.bricks.NXTMotorTurnAngleBrick;
+import at.tugraz.ist.catroid.content.bricks.NXTPlayToneBrick;
+import at.tugraz.ist.catroid.content.bricks.SensorBrick;
 
 public abstract class Script implements Serializable {
 
@@ -126,5 +131,16 @@ public abstract class Script implements Serializable {
 		}
 		return false;
 
+	}
+
+	public boolean containsBluetoothBrick() {
+		for (Brick brick : brickList) {
+			if ((brick instanceof NXTMotorActionBrick) || (brick instanceof NXTMotorTurnAngleBrick)
+					|| (brick instanceof NXTMotorStopBrick) || (brick instanceof NXTPlayToneBrick)
+					|| (brick instanceof SensorBrick)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
