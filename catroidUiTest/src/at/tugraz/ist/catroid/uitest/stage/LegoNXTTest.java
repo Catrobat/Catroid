@@ -104,20 +104,18 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 
 		solo.sleep(2000);
 
-		int index = 0;
 		ListView list = solo.getCurrentListViews().get(0);
-
+		String fullConnectionString = null;
 		for (int i = 0; i < solo.getCurrentListViews().get(0).getCount(); i++) {
 
 			String current = (String) list.getItemAtPosition(i);
 			if (current.startsWith(TestServerBTStringStartsWith)) {
+				fullConnectionString = current;
 				break;
 			}
-			index++;
-
 		}
 
-		solo.clickInList(index);
+		solo.clickOnText(fullConnectionString);
 		solo.sleep(5000);
 
 		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
