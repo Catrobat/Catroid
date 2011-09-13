@@ -26,7 +26,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.stage.StageManager;
@@ -101,15 +100,7 @@ public class StageDialog extends Dialog {
 	}
 
 	private void backToConstruction() {
-		ProjectManager projectManager = ProjectManager.getInstance();
-		int currentSpritePos = projectManager.getCurrentSpritePosition();
-		int currentScriptPos = projectManager.getCurrentScriptPosition();
-
-		projectManager.loadProject(projectManager.getCurrentProject().getName(), context, false);
-		projectManager.setCurrentSpriteWithPosition(currentSpritePos);
-		projectManager.setCurrentScriptWithPosition(currentScriptPos);
-		dismiss();
-		stageActivity.finish();
+		stageActivity.manageLoadAndFinish();
 	}
 
 	@Override

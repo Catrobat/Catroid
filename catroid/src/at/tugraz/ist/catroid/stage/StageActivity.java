@@ -35,6 +35,7 @@ import android.view.SurfaceView;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.stage.SimpleGestureFilter.SimpleGestureListener;
@@ -135,26 +136,24 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 
 	@Override
 	public void onBackPressed() {
+		pauseOrContinue();
+	}
+
+	// StageDialog takes care of manageLoadAndFinish()
+	public void manageLoadAndFinish() {
 		soundManager.stopAllSounds();
 		if (textToSpeechEngine != null) {
 			textToSpeechEngine.stop();
 			textToSpeechEngine.shutdown();
 		}
-		pauseOrContinue();
-		//manageLoadAndFinish();
+		ProjectManager projectManager = ProjectManager.getInstance();
+		int currentSpritePos = projectManager.getCurrentSpritePosition();
+		int currentScriptPos = projectManager.getCurrentScriptPosition();
+		projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
+		projectManager.setCurrentSpriteWithPosition(currentSpritePos);
+		projectManager.setCurrentScriptWithPosition(currentScriptPos);
+		finish();
 	}
-
-	// StageDialog takes care of manageLoadAndFinish()
-
-	//	private void manageLoadAndFinish() {
-	//		ProjectManager projectManager = ProjectManager.getInstance();
-	//		int currentSpritePos = projectManager.getCurrentSpritePosition();
-	//		int currentScriptPos = projectManager.getCurrentScriptPosition();
-	//		projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
-	//		projectManager.setCurrentSpriteWithPosition(currentSpritePos);
-	//		projectManager.setCurrentScriptWithPosition(currentScriptPos);
-	//		finish();
-	//	}
 
 	//changed to public so that StageDialog can use it
 	public void pauseOrContinue() {
