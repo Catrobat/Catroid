@@ -38,28 +38,25 @@ public class MockPaintroidActivity extends Activity {
 			return;
 		}
 
-		try {
+		if (bundle.containsKey("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH")) {
 			String pathToImage = bundle.getString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH");
 			imageFile = new File(pathToImage);
+		}
 
+		if (bundle.containsKey("secondExtra")) {
 			String secondPath = bundle.getString("secondExtra");
 			secondImageFile = new File(secondPath);
-		} catch (Exception e) {
-			//lol who cares
 		}
-		try {
-			@SuppressWarnings("unused")
-			String secondPath = bundle.getString("thirdExtra");
+
+		if (bundle.containsKey("thirdExtra")) {
 			finish(); //no bundle returned
-		} catch (Exception e) {
-
+		} else {
+			sendBundleBackToCatroidAndFinish();
 		}
 
-		killThisActivity();
 	}
 
-	public void killThisActivity() {
-
+	public void sendBundleBackToCatroidAndFinish() {
 		Bundle bundle = new Bundle();
 		if (secondImageFile != null) {
 			bundle.putString("at.tugraz.ist.extra.PAINTROID_PICTURE_PATH", secondImageFile.getAbsolutePath());
