@@ -165,7 +165,6 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 
 	public void createTestproject(String projectName) {
 
-		//creating sprites for project:
 		Sprite firstSprite = new Sprite("sprite1");
 		Script startScript = new StartScript("startScript", firstSprite);
 		Script whenScript = new WhenScript("whenScript", firstSprite);
