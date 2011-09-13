@@ -44,6 +44,7 @@ import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
+import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -75,6 +76,12 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		}
 
 		getActivity().finish();
+
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+		if (directory.exists()) {
+			UtilFile.deleteDirectory(directory);
+		}
+
 		super.tearDown();
 	}
 

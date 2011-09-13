@@ -51,14 +51,13 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 	@Override
 	public void tearDown() throws Exception {
-		UiTestUtils.clearAllUtilTestProjects();
 		try {
 			solo.finalize();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 		getActivity().finish();
-
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
