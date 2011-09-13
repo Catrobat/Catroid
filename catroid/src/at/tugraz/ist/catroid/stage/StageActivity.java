@@ -30,17 +30,15 @@ import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
-import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.stage.SimpleGestureFilter.SimpleGestureListener;
+import at.tugraz.ist.catroid.ui.dialogs.StageDialog;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class StageActivity extends Activity implements SimpleGestureListener, OnInitListener {
@@ -48,6 +46,7 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 	public static SurfaceView stage;
 	private SoundManager soundManager;
 	private StageManager stageManager;
+	private StageDialog stageDialog;
 	private boolean stagePlaying = false;
 	private SimpleGestureFilter detector;
 	private final static String TAG = StageActivity.class.getSimpleName();
@@ -72,6 +71,7 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 
 			soundManager = SoundManager.getInstance();
 			stageManager = new StageManager(this);
+			stageDialog = new StageDialog(this, stageManager, R.style.stage_dialog);
 
 			detector = new SimpleGestureFilter(this, this);
 
@@ -103,26 +103,6 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 
 		stageManager.processOnTouch(xCoordinate, yCoordinate, action);
 		Log.v(TAG, action);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		getMenuInflater().inflate(R.menu.stage_menu, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.stagemenuStart:
-				pauseOrContinue();
-				break;
-			case R.id.stagemenuConstructionSite:
-				manageLoadAndFinish();
-				break;
-		}
-		return true;
 	}
 
 	@Override
@@ -160,28 +140,34 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 			textToSpeechEngine.stop();
 			textToSpeechEngine.shutdown();
 		}
-		manageLoadAndFinish();
+		pauseOrContinue();
+		//manageLoadAndFinish();
 	}
 
-	private void manageLoadAndFinish() {
-		ProjectManager projectManager = ProjectManager.getInstance();
-		int currentSpritePos = projectManager.getCurrentSpritePosition();
-		int currentScriptPos = projectManager.getCurrentScriptPosition();
-		projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
-		projectManager.setCurrentSpriteWithPosition(currentSpritePos);
-		projectManager.setCurrentScriptWithPosition(currentScriptPos);
-		finish();
-	}
+	// StageDialog takes care of manageLoadAndFinish()
 
-	private void pauseOrContinue() {
+	//	private void manageLoadAndFinish() {
+	//		ProjectManager projectManager = ProjectManager.getInstance();
+	//		int currentSpritePos = projectManager.getCurrentSpritePosition();
+	//		int currentScriptPos = projectManager.getCurrentScriptPosition();
+	//		projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
+	//		projectManager.setCurrentSpriteWithPosition(currentSpritePos);
+	//		projectManager.setCurrentScriptWithPosition(currentScriptPos);
+	//		finish();
+	//	}
+
+	//changed to public so that StageDialog can use it
+	public void pauseOrContinue() {
 		if (stagePlaying) {
 			stageManager.pause(true);
 			soundManager.pause();
 			stagePlaying = false;
+			stageDialog.show();
 		} else {
 			stageManager.resume();
 			soundManager.resume();
 			stagePlaying = true;
+			stageDialog.dismiss();
 		}
 	}
 
