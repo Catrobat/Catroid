@@ -32,7 +32,10 @@ import java.util.List;
 
 import junit.framework.Assert;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.text.InputType;
+import android.util.Log;
 import android.widget.ImageButton;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -51,13 +54,16 @@ import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.utils.UtilFile;
+import at.tugraz.ist.catroid.utils.UtilToken;
 import at.tugraz.ist.catroid.utils.Utils;
+import at.tugraz.ist.catroid.web.ServerCalls;
+import at.tugraz.ist.catroid.web.WebconnectionException;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class UiTestUtils {
 	private static final String TAG = UiTestUtils.class.getSimpleName();
-	
+
 	private static ProjectManager projectManager = ProjectManager.getInstance();
 	private static HashMap<Integer, Integer> brickCategoryMap;
 
@@ -404,7 +410,7 @@ public class UiTestUtils {
 
 		return testImage;
 	}
-	
+
 	public static void setPrivateField(String fieldName, Object object, Object value, boolean ofSuperclass) {
 
 		Field field = null;
