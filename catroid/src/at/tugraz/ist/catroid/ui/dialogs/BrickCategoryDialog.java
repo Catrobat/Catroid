@@ -41,9 +41,6 @@ public class BrickCategoryDialog extends Dialog {
 		super(activity);
 		this.activity = activity;
 
-		// Note: The dialog window is set to fullscreen height, which looks ugly, but is a necessary workaround to a major problem with Robotium.
-		// See http://code.google.com/p/robotium/issues/detail?id=136 for details.
-		// The bug occurs in Robotium's ViewFetcher.isViewSufficientlyShown method, where the coordinates are messed up somehow.
 		Window window = getWindow();
 		window.requestFeature(Window.FEATURE_NO_TITLE);
 		window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
