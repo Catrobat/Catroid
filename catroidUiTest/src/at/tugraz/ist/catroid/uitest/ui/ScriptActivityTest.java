@@ -83,16 +83,22 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 	public void testBrickCategoryDialog() {
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
 
-		assertTrue(solo.searchText(getActivity().getString(R.string.category_motion)));
-		assertTrue(solo.searchText(getActivity().getString(R.string.category_looks)));
-		assertTrue(solo.searchText(getActivity().getString(R.string.category_sound)));
-		assertTrue(solo.searchText(getActivity().getString(R.string.category_control)));
+		assertTrue("A category was not visible after opening BrickCategoryDialog",
+				solo.searchText(getActivity().getString(R.string.category_motion)));
+		assertTrue("A category was not visible after opening BrickCategoryDialog",
+				solo.searchText(getActivity().getString(R.string.category_looks)));
+		assertTrue("A category was not visible after opening BrickCategoryDialog",
+				solo.searchText(getActivity().getString(R.string.category_sound)));
+		assertTrue("A category was not visible after opening BrickCategoryDialog",
+				solo.searchText(getActivity().getString(R.string.category_control)));
 
 		solo.clickOnText(getActivity().getString(R.string.category_control));
-		assertTrue(solo.searchText(getActivity().getString(R.string.brick_wait)));
+		assertTrue("AddBrickDialog was not opened after selecting a category",
+				solo.searchText(getActivity().getString(R.string.brick_wait)));
 
 		solo.goBack();
-		assertTrue(solo.searchText(getActivity().getString(R.string.category_sound)));
+		assertTrue("Could not go back to BrickCategoryDialog from AddBrickDialog",
+				solo.searchText(getActivity().getString(R.string.category_sound)));
 	}
 
 	public void testSimpleDragNDrop() {
