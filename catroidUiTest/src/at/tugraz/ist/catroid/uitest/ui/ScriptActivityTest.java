@@ -91,6 +91,8 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 				solo.searchText(getActivity().getString(R.string.category_sound)));
 		assertTrue("A category was not visible after opening BrickCategoryDialog",
 				solo.searchText(getActivity().getString(R.string.category_control)));
+		assertTrue("A category was not visible after opening BrickCategoryDialog",
+				solo.searchText(getActivity().getString(R.string.category_lego_nxt)));
 
 		solo.clickOnText(getActivity().getString(R.string.category_control));
 		assertTrue("AddBrickDialog was not opened after selecting a category",
@@ -99,6 +101,14 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 		solo.goBack();
 		assertTrue("Could not go back to BrickCategoryDialog from AddBrickDialog",
 				solo.searchText(getActivity().getString(R.string.category_sound)));
+
+		solo.clickOnText(getActivity().getString(R.string.category_lego_nxt));
+		assertTrue("AddBrickDialog was not opened after selecting a category",
+				solo.searchText(getActivity().getString(R.string.brick_motor_action)));
+
+		solo.goBack();
+		assertTrue("Could not go back to BrickCategoryDialog from AddBrickDialog",
+				solo.searchText(getActivity().getString(R.string.category_lego_nxt)));
 	}
 
 	public void testSimpleDragNDrop() {
