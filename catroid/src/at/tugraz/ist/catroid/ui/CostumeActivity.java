@@ -205,7 +205,7 @@ public class CostumeActivity extends ListActivity {
 							newFileName);
 					File tempPicFileInPaintroid = new File(pathOfPaintroidImage);
 					tempPicFileInPaintroid.delete(); //delete temp file in paintroid //TODO: delete xml file?
-					StorageHandler.getInstance().deleteFile(selectedCostumeData.getAbsolutePath()); //reduce usage in container or delete it (TODO: test this)
+					StorageHandler.getInstance().deleteFile(selectedCostumeData.getAbsolutePath()); //reduce usage in container or delete it
 					selectedCostumeData.setCostumeFilename(newCostumeFile.getName());
 					selectedCostumeData.resetThumbnailBitmap();
 				} catch (IOException e) {
