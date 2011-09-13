@@ -36,9 +36,7 @@ import at.tugraz.ist.catroid.ui.DownloadActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
-import at.tugraz.ist.catroid.utils.UtilToken;
 import at.tugraz.ist.catroid.web.ServerCalls;
-import at.tugraz.ist.catroid.web.WebconnectionException;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -88,10 +86,10 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	public void testUploadProjectSuccess() throws Throwable {
 		startProjectUploadTask();
 
-		createTestProject();
+		createTestProject(testProject);
 		addABrickToProject();
 
-		createValidUser();
+		UiTestUtils.createValidUser(getActivity());
 
 		uploadProject();
 
@@ -100,8 +98,8 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		downloadProject();
 	}
 
-	private void createTestProject() {
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + testProject);
+	private void createTestProject(String projectToCreate) {
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectToCreate);
 		if (directory.exists()) {
 			UtilFile.deleteDirectory(directory);
 		}
@@ -109,13 +107,14 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
 		solo.clickOnEditText(0);
-		solo.enterText(0, testProject);
+		solo.enterText(0, projectToCreate);
 		solo.goBack();
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
 		solo.sleep(2000);
 
-		File file = new File(Consts.DEFAULT_ROOT + "/" + testProject + "/" + testProject + Consts.PROJECT_EXTENTION);
-		assertTrue(testProject + " was not created!", file.exists());
+		File file = new File(Consts.DEFAULT_ROOT + "/" + projectToCreate + "/" + projectToCreate
+				+ Consts.PROJECT_EXTENTION);
+		assertTrue(projectToCreate + " was not created!", file.exists());
 	}
 
 	private void addABrickToProject() {
@@ -180,25 +179,4 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 	}
 
-	private void createValidUser() {
-		try {
-			String testUser = "testUser" + System.currentTimeMillis();
-			String testPassword = "pwspws";
-			String testEmail = testUser + "@gmail.com";
-
-			String token = UtilToken.calculateToken(testUser, testPassword);
-			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
-					"de", "at", token);
-
-			assertTrue("no new account created", userRegistered);
-
-			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-			prefs.edit().putString(Consts.TOKEN, token).commit();
-
-		} catch (WebconnectionException e) {
-			e.printStackTrace();
-			assertFalse("should never be reached", true);
-		}
-
-	}
 }

@@ -21,6 +21,8 @@ package at.tugraz.ist.catroid.uitest.ui.dialog;
 
 import java.io.File;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
 import android.view.View;
@@ -37,6 +39,8 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 	private String testProject = UiTestUtils.PROJECTNAME1;
 	private String newTestProject = UiTestUtils.PROJECTNAME2;
 
+	private String saveToken;
+
 	public UploadDialogTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
 	}
@@ -47,10 +51,14 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		UiTestUtils.clearAllUtilTestProjects();
 		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		saveToken = prefs.getString(Consts.TOKEN, "0");
 	}
 
 	@Override
 	public void tearDown() throws Exception {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		prefs.edit().putString(Consts.TOKEN, saveToken).commit();
 		UiTestUtils.clearAllUtilTestProjects();
 		try {
 			solo.finalize();
@@ -65,9 +73,9 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 	public void testUploadDialog() {
 
 		createTestProject();
-
+		UiTestUtils.createValidUser(getActivity());
 		solo.clickOnText(getActivity().getString(R.string.upload_project));
-		solo.sleep(500);
+		solo.waitForDialogToClose(5000);
 
 		View renameView = solo.getText(getActivity().getString(R.string.project_rename));
 		assertNotNull("View for rename project could not be found", renameView);
@@ -90,6 +98,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		solo.clickOnButton(getActivity().getString(R.string.cancel_button));
 		solo.sleep(500);
 		solo.clickOnText(getActivity().getString(R.string.upload_project));
+		solo.waitForDialogToClose(5000);
 
 		renameView = solo.getText(getActivity().getString(R.string.project_rename));
 		assertNotNull("View for rename project could not be found", renameView);
@@ -102,6 +111,7 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 		createTestProject();
 		String testText1 = "testText1";
 		String testText2 = "testText2";
+		UiTestUtils.createValidUser(getActivity());
 		solo.clickOnText(getActivity().getString(R.string.upload_project));
 		solo.sleep(500);
 		solo.clearEditText(0);

@@ -29,7 +29,7 @@ import android.preference.PreferenceManager;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
-import at.tugraz.ist.catroid.ui.dialogs.UploadProjectDialog;
+import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.utils.UtilDeviceInfo;
 import at.tugraz.ist.catroid.utils.UtilToken;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -113,7 +113,7 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 			Toast.makeText(activity, R.string.new_user_registered, Toast.LENGTH_SHORT).show();
 		}
 
-		new UploadProjectDialog(activity).show();
+		activity.showDialog(MainMenuActivity.DIALOG_UPLOAD_PROJECT);
 		dialogToRemoveOnSuccess.dismiss();
 	}
 
