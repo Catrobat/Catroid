@@ -28,6 +28,9 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public class ForeverBrick extends LoopBeginBrick {
 	private static final long serialVersionUID = 1L;
+	public static final transient int BRICK_BEHAVIOUR = Brick.NORMAL_BRICK | Brick.BACKGROUND_BRICK
+			| Brick.IS_LOOP_BEGIN_BRICK;
+	public static final transient int BRICK_RESSOURCES = Brick.NO_RESOURCES;
 
 	@XStreamOmitField
 	private transient View view;
@@ -48,7 +51,6 @@ public class ForeverBrick extends LoopBeginBrick {
 		return new ForeverBrick(getSprite());
 	}
 
-	@Override
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.toolbox_brick_forever, null);
@@ -57,7 +59,6 @@ public class ForeverBrick extends LoopBeginBrick {
 		return view;
 	}
 
-	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.toolbox_brick_forever, null);
 	}

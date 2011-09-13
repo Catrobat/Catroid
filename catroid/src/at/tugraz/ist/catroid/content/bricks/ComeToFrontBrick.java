@@ -27,9 +27,11 @@ import at.tugraz.ist.catroid.content.Sprite;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-public class ComeToFrontBrick extends Brick {
+public class ComeToFrontBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
+	public static final transient int BRICK_BEHAVIOUR = Brick.NORMAL_BRICK;
+	public static final transient int BRICK_RESSOURCES = Brick.NO_RESOURCES;
 
 	@XStreamOmitField
 	private transient View view;
@@ -38,7 +40,6 @@ public class ComeToFrontBrick extends Brick {
 		this.sprite = sprite;
 	}
 
-	@Override
 	public void execute() {
 		int maxZValue = ProjectManager.getInstance().getCurrentProject().getMaxZValue();
 		maxZValue = maxZValue > (maxZValue + 1) ? Integer.MAX_VALUE : maxZValue + 1;
@@ -46,12 +47,10 @@ public class ComeToFrontBrick extends Brick {
 		sprite.setZPosition(maxZValue);
 	}
 
-	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
-	@Override
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 
 		if (view == null) {
@@ -66,7 +65,6 @@ public class ComeToFrontBrick extends Brick {
 		return new ComeToFrontBrick(getSprite());
 	}
 
-	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.toolbox_brick_come_to_front, null);
 	}

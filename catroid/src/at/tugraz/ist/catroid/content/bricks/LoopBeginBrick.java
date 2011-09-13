@@ -20,17 +20,18 @@ package at.tugraz.ist.catroid.content.bricks;
 
 import at.tugraz.ist.catroid.content.Sprite;
 
-public abstract class LoopBeginBrick extends Brick {
+public abstract class LoopBeginBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	protected Sprite sprite;
 	protected LoopEndBrick loopEndBrick;
 	private long beginLoopTime;
+	public static final transient int BRICK_BEHAVIOUR = Brick.NORMAL_BRICK | Brick.BACKGROUND_BRICK
+			| Brick.IS_LOOP_BEGIN_BRICK;
+	public static final transient int BRICK_RESSOURCES = Brick.NO_RESOURCES;
 
 	protected LoopBeginBrick() {
-		super.brickBehavior = Brick.IS_LOOP_BEGIN_BRICK | Brick.BACKGROUND_BRICK | Brick.NORMAL_BRICK;
 	}
 
-	@Override
 	public abstract void execute();
 
 	protected void setFirstStartTime() {
@@ -45,7 +46,6 @@ public abstract class LoopBeginBrick extends Brick {
 		this.beginLoopTime = beginLoopTime;
 	}
 
-	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}

@@ -25,9 +25,11 @@ import android.widget.BaseExpandableListAdapter;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 
-public class ClearGraphicEffectBrick extends Brick {
+public class ClearGraphicEffectBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
+	public static final transient int BRICK_BEHAVIOUR = Brick.BACKGROUND_BRICK | Brick.NORMAL_BRICK;
+	public static final transient int BRICK_RESSOURCES = NO_RESOURCES;
 
 	private transient View view;
 
@@ -35,17 +37,14 @@ public class ClearGraphicEffectBrick extends Brick {
 		this.sprite = sprite;
 	}
 
-	@Override
 	public void execute() {
 		sprite.clearGraphicEffect();
 	}
 
-	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
-	@Override
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.toolbox_brick_clear_graphic_effect, null);
@@ -54,7 +53,6 @@ public class ClearGraphicEffectBrick extends Brick {
 		return view;
 	}
 
-	@Override
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		return inflater.inflate(R.layout.toolbox_brick_clear_graphic_effect, null);

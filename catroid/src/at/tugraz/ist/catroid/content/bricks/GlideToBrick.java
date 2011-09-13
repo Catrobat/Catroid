@@ -30,24 +30,24 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
-public class GlideToBrick extends Brick implements OnDismissListener {
+public class GlideToBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
 	private int xDestination;
 	private int yDestination;
 	private int durationInMilliSeconds;
 	private Sprite sprite;
+	public static final transient int BRICK_BEHAVIOUR = Brick.NORMAL_BRICK | Brick.BACKGROUND_BRICK;
+	public static final transient int BRICK_RESSOURCES = Brick.NO_RESOURCES;
 
 	private transient View view;
 
 	public GlideToBrick(Sprite sprite, int xDestination, int yDestination, int durationInMilliSeconds) {
-		super.brickBehavior = Brick.NORMAL_BRICK | Brick.BACKGROUND_BRICK;
 		this.sprite = sprite;
 		this.xDestination = xDestination;
 		this.yDestination = yDestination;
 		this.durationInMilliSeconds = durationInMilliSeconds;
 	}
 
-	@Override
 	public void execute() {
 		long startTime = System.currentTimeMillis();
 		int duration = durationInMilliSeconds;
@@ -90,7 +90,6 @@ public class GlideToBrick extends Brick implements OnDismissListener {
 		sprite.setXYPosition(xPosition, yPosition);
 	}
 
-	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
@@ -99,7 +98,6 @@ public class GlideToBrick extends Brick implements OnDismissListener {
 		return durationInMilliSeconds;
 	}
 
-	@Override
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 
 		if (view == null) {
@@ -130,7 +128,6 @@ public class GlideToBrick extends Brick implements OnDismissListener {
 		return view;
 	}
 
-	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.toolbox_brick_glide_to, null);
 	}

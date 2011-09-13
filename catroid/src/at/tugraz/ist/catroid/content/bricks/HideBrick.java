@@ -26,29 +26,27 @@ import at.tugraz.ist.catroid.content.Sprite;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-public class HideBrick extends Brick {
+public class HideBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
+	public static final transient int BRICK_BEHAVIOUR = Brick.NORMAL_BRICK | Brick.BACKGROUND_BRICK;
+	public static final transient int BRICK_RESSOURCES = Brick.NO_RESOURCES;
 
 	@XStreamOmitField
 	private transient View view;
 
 	public HideBrick(Sprite sprite) {
-		super.brickBehavior = Brick.NORMAL_BRICK | Brick.BACKGROUND_BRICK;
 		this.sprite = sprite;
 	}
 
-	@Override
 	public void execute() {
 		sprite.hide();
 	}
 
-	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
-	@Override
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.toolbox_brick_hide, null);
@@ -62,7 +60,6 @@ public class HideBrick extends Brick {
 		return new HideBrick(getSprite());
 	}
 
-	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.toolbox_brick_hide, null);
 	}

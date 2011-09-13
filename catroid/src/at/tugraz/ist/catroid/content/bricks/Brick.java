@@ -25,38 +25,32 @@ import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import at.tugraz.ist.catroid.content.Sprite;
 
-public abstract class Brick implements Serializable {
-
-	//TODO remove in all bricks
-	private static final long serialVersionUID = 1L;
+public interface Brick extends Serializable {
 
 	//combine values with bitwise and for desired behavior!!!
 	public static final int INVISIBLE_BRICK = 0x0;
 	public static final int NORMAL_BRICK = 0x1;
 	public static final int BACKGROUND_BRICK = 0x2;
 	public static final int SCRIPT_BRICK = 0x4;
-
-	public static final int TEXT_TO_SPEECH = 0x8;
 	public static final int IS_LOOP_BEGIN_BRICK = 0x10;
 	public static final int IS_LOOP_END_BRICK = 0x20;
+
+	public static final int NO_RESOURCES = 0x0;
+	public static final int TEXT_TO_SPEECH = 0x8;
+
 	//public static final int BLUETOOTH_LEGO = 64;
 	//public static final int BLUETOOTH_ARDUINO = 128;
 
-	protected int brickBehavior = NORMAL_BRICK;
+	//protected abstract int brickBehavior = NORMAL_BRICK;
 
-	public int getBrickBehaviourAndRessources() {
-		return brickBehavior;
-	}
+	public void execute();
 
-	public abstract void execute();
+	public Sprite getSprite();
 
-	public abstract Sprite getSprite();
+	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter);
 
-	public abstract View getView(Context context, int brickId, BaseExpandableListAdapter adapter);
+	public View getPrototypeView(Context context);
 
-	public abstract View getPrototypeView(Context context);
-
-	@Override
-	public abstract Brick clone();
+	public Brick clone();
 
 }
