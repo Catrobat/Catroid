@@ -22,10 +22,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -48,8 +46,8 @@ public class StringTranslationsTest extends TestCase {
 	private static final String[] LANGUAGE_SUFFIXES = { "", "-de" };
 
 	public void testStringTranslations() throws IOException, ParserConfigurationException, SAXException {
-		Set<String> allStringNames = new HashSet<String>();
-		Map<String, Set<String>> languageStrings = new HashMap<String, Set<String>>();
+		List<String> allStringNames = new ArrayList<String>(); // Using a List instead of a set to preserve order
+		Map<String, List<String>> languageStrings = new HashMap<String, List<String>>();
 
 		boolean missingStrings = false;
 		StringBuilder errorMessage = new StringBuilder();
@@ -60,7 +58,7 @@ public class StringTranslationsTest extends TestCase {
 		}
 
 		for (String language : LANGUAGES) {
-			Set<String> stringNames = new HashSet<String>();
+			List<String> stringNames = new ArrayList<String>();
 			languageStrings.put(language, stringNames);
 		}
 
@@ -70,7 +68,7 @@ public class StringTranslationsTest extends TestCase {
 			if (!stringFile.exists() || !stringFile.canRead()) {
 				fail("Could not read file " + stringFile.getCanonicalPath());
 			}
-			Set<String> languageStringNames = languageStrings.get(LANGUAGES[i]);
+			List<String> languageStringNames = languageStrings.get(LANGUAGES[i]);
 
 			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
@@ -83,14 +81,16 @@ public class StringTranslationsTest extends TestCase {
 				assertTrue("Node is not an element: " + node.toString(), node.getNodeType() == Node.ELEMENT_NODE);
 				Element element = (Element) node;
 				String elementName = element.getAttribute("name");
-				allStringNames.add(elementName);
+				if (!allStringNames.contains(elementName)) {
+					allStringNames.add(elementName);
+				}
 				languageStringNames.add(elementName);
 			}
 		}
 
 		for (String stringName : allStringNames) {
 			for (int i = 0; i < LANGUAGES.length; i++) {
-				Set<String> languageStringNames = languageStrings.get(LANGUAGES[i]);
+				List<String> languageStringNames = languageStrings.get(LANGUAGES[i]);
 				if (!languageStringNames.contains(stringName)) {
 					missingStrings = true;
 					errorMessage.append("\nString with name " + stringName + " is missing in " + LANGUAGES[i]);
