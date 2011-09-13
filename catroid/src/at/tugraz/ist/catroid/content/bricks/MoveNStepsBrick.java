@@ -30,11 +30,13 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 
-public class MoveNStepsBrick extends Brick implements OnDismissListener {
+public class MoveNStepsBrick implements Brick, OnDismissListener {
 
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private double steps;
+	public static final transient int BRICK_BEHAVIOUR = Brick.NORMAL_BRICK | Brick.BACKGROUND_BRICK;
+	public static final transient int BRICK_RESSOURCES = Brick.NO_RESOURCES;
 
 	private transient View view;
 
@@ -43,7 +45,6 @@ public class MoveNStepsBrick extends Brick implements OnDismissListener {
 		this.steps = steps;
 	}
 
-	@Override
 	public void execute() {
 
 		int xPosition = sprite.getXPosition();
@@ -58,12 +59,10 @@ public class MoveNStepsBrick extends Brick implements OnDismissListener {
 
 	}
 
-	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
-	@Override
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.toolbox_brick_move_n_steps, null);
@@ -80,7 +79,6 @@ public class MoveNStepsBrick extends Brick implements OnDismissListener {
 		return view;
 	}
 
-	@Override
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.toolbox_brick_move_n_steps, null);

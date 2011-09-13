@@ -31,16 +31,17 @@ import at.tugraz.ist.catroid.content.Sprite;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-public class NoteBrick extends Brick {
+public class NoteBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private String note = "";
+	public static final transient int BRICK_BEHAVIOUR = Brick.NORMAL_BRICK | Brick.BACKGROUND_BRICK;
+	public static final transient int BRICK_RESSOURCES = Brick.NO_RESOURCES;
 
 	@XStreamOmitField
 	private transient View view;
 
 	public NoteBrick(Sprite sprite) {
-		super.brickBehavior = Brick.NORMAL_BRICK | Brick.BACKGROUND_BRICK;
 		this.sprite = sprite;
 	}
 
@@ -49,11 +50,9 @@ public class NoteBrick extends Brick {
 		this.note = note;
 	}
 
-	@Override
 	public void execute() {
 	}
 
-	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
@@ -62,7 +61,6 @@ public class NoteBrick extends Brick {
 		return this.note;
 	}
 
-	@Override
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
 
 		if (view == null) {
@@ -99,7 +97,6 @@ public class NoteBrick extends Brick {
 		return view;
 	}
 
-	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.toolbox_brick_note, null);
 	}

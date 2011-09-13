@@ -30,10 +30,12 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 
-public class ChangeVolumeByBrick extends Brick implements OnDismissListener {
+public class ChangeVolumeByBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private double volume;
+	public static final transient int BRICK_BEHAVIOUR = Brick.BACKGROUND_BRICK | Brick.NORMAL_BRICK;
+	public static final transient int BRICK_RESSOURCES = NO_RESOURCES;
 
 	private transient View view;
 
@@ -42,7 +44,6 @@ public class ChangeVolumeByBrick extends Brick implements OnDismissListener {
 		this.volume = changeVolume;
 	}
 
-	@Override
 	public void execute() {
 		double currentVolume = SoundManager.getInstance().getVolume();
 		currentVolume += volume;
@@ -54,7 +55,6 @@ public class ChangeVolumeByBrick extends Brick implements OnDismissListener {
 		SoundManager.getInstance().setVolume(currentVolume);
 	}
 
-	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
@@ -63,7 +63,6 @@ public class ChangeVolumeByBrick extends Brick implements OnDismissListener {
 		return volume;
 	}
 
-	@Override
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.toolbox_brick_change_volume_by, null);
@@ -81,7 +80,6 @@ public class ChangeVolumeByBrick extends Brick implements OnDismissListener {
 		return view;
 	}
 
-	@Override
 	public View getPrototypeView(Context context) {
 		View view = View.inflate(context, R.layout.toolbox_brick_change_volume_by, null);
 		return view;

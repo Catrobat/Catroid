@@ -31,10 +31,12 @@ import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-public class GoNStepsBackBrick extends Brick implements OnDismissListener {
+public class GoNStepsBackBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private int steps;
+	public static final transient int BRICK_BEHAVIOUR = Brick.NORMAL_BRICK;
+	public static final transient int BRICK_RESSOURCES = Brick.NO_RESOURCES;
 
 	@XStreamOmitField
 	private transient View view;
@@ -44,7 +46,6 @@ public class GoNStepsBackBrick extends Brick implements OnDismissListener {
 		this.steps = steps;
 	}
 
-	@Override
 	public void execute() {
 		if (steps <= 0) {
 			throw new NumberFormatException("Steps was not a positive number!");
@@ -60,12 +61,10 @@ public class GoNStepsBackBrick extends Brick implements OnDismissListener {
 		sprite.setZPosition(currentPosition - steps);
 	}
 
-	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
-	@Override
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 
 		if (view == null) {
@@ -83,7 +82,6 @@ public class GoNStepsBackBrick extends Brick implements OnDismissListener {
 		return view;
 	}
 
-	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.toolbox_brick_go_back, null);
 	}

@@ -45,23 +45,24 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
  * @author Johannes Iber
  * 
  */
-public class BroadcastBrick extends Brick {
+
+public class BroadcastBrick implements Brick {
 
 	private static final long serialVersionUID = 1L;
 	private transient ProjectManager projectManager;
 	private Sprite sprite;
 	private String selectedMessage = "";
+	public static final transient int BRICK_BEHAVIOUR = Brick.BACKGROUND_BRICK | Brick.NORMAL_BRICK;
+	public static final transient int BRICK_RESSOURCES = NO_RESOURCES;
 
 	@XStreamOmitField
 	private transient View view;
 
 	public BroadcastBrick(Sprite sprite) {
-		super.brickBehavior = Brick.NORMAL_BRICK | Brick.BACKGROUND_BRICK;
 		this.sprite = sprite;
 		this.projectManager = ProjectManager.getInstance();
 	}
 
-	@Override
 	public void execute() {
 		final Vector<BroadcastScript> receiver = projectManager.messageContainer.getReceiverOfMessage(selectedMessage);
 		if (receiver == null) {
@@ -82,7 +83,6 @@ public class BroadcastBrick extends Brick {
 		startThread.start();
 	}
 
-	@Override
 	public Sprite getSprite() {
 		return sprite;
 	}
@@ -100,7 +100,6 @@ public class BroadcastBrick extends Brick {
 		return this;
 	}
 
-	@Override
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
 
 		view = View.inflate(context, R.layout.toolbox_brick_broadcast, null);
@@ -180,7 +179,6 @@ public class BroadcastBrick extends Brick {
 		return view;
 	}
 
-	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.toolbox_brick_broadcast, null);
 	}
@@ -189,4 +187,5 @@ public class BroadcastBrick extends Brick {
 	public Brick clone() {
 		return new BroadcastBrick(sprite);
 	}
+
 }

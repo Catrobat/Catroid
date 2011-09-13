@@ -42,33 +42,39 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
  * @author Johannes Iber
  * 
  */
-public class BroadcastReceiverBrick extends Brick {
+public class BroadcastReceiverBrick implements Brick {
 
 	private static final long serialVersionUID = 1L;
 	private transient final ProjectManager projectManager;
 	protected BroadcastScript receiveScript;
 	private Sprite sprite;
+	private static final transient int brickBehavior = Brick.BACKGROUND_BRICK | Brick.NORMAL_BRICK;
+	private static final transient int brickResources = NO_RESOURCES;
 
 	@XStreamOmitField
 	private transient View view;
 
 	public BroadcastReceiverBrick(Sprite sprite, BroadcastScript receiveScript) {
-		super.brickBehavior |= Brick.BACKGROUND_BRICK;
 		this.sprite = sprite;
 		this.receiveScript = receiveScript;
 		this.projectManager = ProjectManager.getInstance();
 	}
 
-	@Override
+	public int getBrickBehaviour() {
+		return brickBehavior;
+	}
+
+	public int getBrickRessources() {
+		return brickResources;
+	}
+
 	public void execute() {
 	}
 
-	@Override
 	public Sprite getSprite() {
 		return sprite;
 	}
 
-	@Override
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
 
 		view = View.inflate(context, R.layout.toolbox_brick_broadcast_receive, null);
@@ -153,7 +159,6 @@ public class BroadcastReceiverBrick extends Brick {
 		return view;
 	}
 
-	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.toolbox_brick_broadcast_receive, null);
 	}
