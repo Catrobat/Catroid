@@ -77,15 +77,15 @@ public class SpeechBubblesTest extends ActivityInstrumentationTestCase2<MainMenu
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
-		UiTestUtils.clearAllUtilTestProjects();
 
 		getActivity().finish();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
 	@Smoke
 	public void testNoClickFunctionality() {
-		String projectName = "project2";
+		String projectName = UiTestUtils.PROJECTNAME2;
 		Sprite firstSprite = new Sprite("sprite1");
 		Script startScript1 = new StartScript("start1", firstSprite);
 		Script whenScript1 = new WhenScript("whenScript1", firstSprite);
@@ -304,7 +304,7 @@ public class SpeechBubblesTest extends ActivityInstrumentationTestCase2<MainMenu
 
 	@Smoke
 	public void testChangeBubbleType() {
-		String projectName = "project3";
+		String projectName = UiTestUtils.PROJECTNAME3;
 		Sprite sprite = new Sprite("sprite");
 		Script startScript = new StartScript("startscript", sprite);
 		Script whenScript = new WhenScript("whenScript", sprite);
