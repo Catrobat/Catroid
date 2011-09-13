@@ -172,6 +172,12 @@
 	<string name="restart_current_project">Restart</string>
 	<string name="snapshot">Screenshot</string>
 	<string name="stage_dialog_title">Stage Options</string>
+	
+	<!-- Brick categories -->
+	<string name="category_motion">Motion</string>
+	<string name="category_looks">Looks</string>
+	<string name="category_sound">Sound</string>
+	<string name="category_control">Control</string>
 
 	<!-- Broadcast spinner -->
 	<string name="new_broadcast_message">new...</string>

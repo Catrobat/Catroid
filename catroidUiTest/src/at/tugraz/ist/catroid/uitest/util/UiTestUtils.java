@@ -25,6 +25,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -53,6 +54,7 @@ import com.jayway.android.robotium.solo.Solo;
 
 public class UiTestUtils {
 	private static ProjectManager projectManager = ProjectManager.getInstance();
+	private static HashMap<Integer, Integer> brickCategoryMap;
 
 	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
 	public static final String PROJECTNAME1 = "testproject1";
@@ -108,9 +110,76 @@ public class UiTestUtils {
 		solo.sleep(50);
 	}
 
+	private static void initBrickCategoryMap() {
+		brickCategoryMap = new HashMap<Integer, Integer>();
+
+		brickCategoryMap.put(R.string.brick_place_at, R.string.category_motion);
+		brickCategoryMap.put(R.string.brick_set_x, R.string.category_motion);
+		brickCategoryMap.put(R.string.brick_set_y, R.string.category_motion);
+		brickCategoryMap.put(R.string.brick_change_x_by, R.string.category_motion);
+		brickCategoryMap.put(R.string.brick_change_y_by, R.string.category_motion);
+		brickCategoryMap.put(R.string.brick_go_back, R.string.category_motion);
+		brickCategoryMap.put(R.string.brick_come_to_front, R.string.category_motion);
+		brickCategoryMap.put(R.string.brick_if_on_edge_bounce, R.string.category_motion);
+		brickCategoryMap.put(R.string.brick_move_n_steps, R.string.category_motion);
+		brickCategoryMap.put(R.string.brick_turn_left, R.string.category_motion);
+		brickCategoryMap.put(R.string.brick_turn_right, R.string.category_motion);
+		brickCategoryMap.put(R.string.brick_point_in_direction, R.string.category_motion);
+		brickCategoryMap.put(R.string.brick_point_to, R.string.category_motion);
+		brickCategoryMap.put(R.string.brick_glide, R.string.category_motion);
+
+		brickCategoryMap.put(R.string.brick_set_costume, R.string.category_looks);
+		brickCategoryMap.put(R.string.brick_set_size_to, R.string.category_looks);
+		brickCategoryMap.put(R.string.brick_change_size_by, R.string.category_looks);
+		brickCategoryMap.put(R.string.brick_hide, R.string.category_looks);
+		brickCategoryMap.put(R.string.brick_show, R.string.category_looks);
+		brickCategoryMap.put(R.string.brick_set_ghost_effect, R.string.category_looks);
+		brickCategoryMap.put(R.string.brick_set_brightness, R.string.category_looks);
+		brickCategoryMap.put(R.string.brick_change_brightness, R.string.category_looks);
+		brickCategoryMap.put(R.string.brick_clear_graphic_effect, R.string.category_looks);
+		brickCategoryMap.put(R.string.brick_say, R.string.category_looks);
+		brickCategoryMap.put(R.string.brick_think, R.string.category_looks);
+
+		brickCategoryMap.put(R.string.brick_play_sound, R.string.category_sound);
+		brickCategoryMap.put(R.string.brick_stop_all_sounds, R.string.category_sound);
+		brickCategoryMap.put(R.string.brick_set_volume_to, R.string.category_sound);
+		brickCategoryMap.put(R.string.brick_change_volume_by, R.string.category_sound);
+		brickCategoryMap.put(R.string.brick_speak, R.string.category_sound);
+
+		brickCategoryMap.put(R.string.brick_when_started, R.string.category_control);
+		brickCategoryMap.put(R.string.brick_when, R.string.category_control);
+		brickCategoryMap.put(R.string.brick_wait, R.string.category_control);
+		brickCategoryMap.put(R.string.brick_broadcast_receive, R.string.category_control);
+		brickCategoryMap.put(R.string.brick_broadcast, R.string.category_control);
+		brickCategoryMap.put(R.string.brick_broadcast_wait, R.string.category_control);
+		brickCategoryMap.put(R.string.brick_note, R.string.category_control);
+		brickCategoryMap.put(R.string.brick_forever, R.string.category_control);
+		brickCategoryMap.put(R.string.brick_repeat, R.string.category_control);
+	}
+
+	public static int getBrickCategory(Solo solo, int brickStringId) {
+		if (brickCategoryMap == null) {
+			initBrickCategoryMap();
+		}
+
+		Integer brickCategoryid = brickCategoryMap.get(brickStringId);
+		if (brickCategoryid == null) {
+			String brickString = solo.getCurrentActivity().getString(brickStringId);
+			throw new RuntimeException("No category was found for brick string \"" + brickString + "\".\n"
+					+ "Please check brick string or add brick string to category map");
+		}
+
+		return brickCategoryMap.get(brickStringId);
+	}
+
 	public static void addNewBrickAndScrollDown(Solo solo, int brickStringId) {
-		//solo.clickOnButton(solo.getCurrentActivity().getString(R.string.add_new_brick));
+		int categoryStringId = getBrickCategory(solo, brickStringId);
+		addNewBrickAndScrollDown(solo, categoryStringId, brickStringId);
+	}
+
+	public static void addNewBrickAndScrollDown(Solo solo, int categoryStringId, int brickStringId) {
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
+		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
 		solo.clickOnText(solo.getCurrentActivity().getString(brickStringId));
 
 		while (solo.scrollDown()) {

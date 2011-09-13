@@ -69,8 +69,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 		int brickCountInView = solo.getCurrentListViews().get(0).getCount();
 		int brickCountInList = brickListToCheck.size();
 
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
-		solo.clickOnText(solo.getCurrentActivity().getString(R.string.brick_wait));
+		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_wait);
 		solo.sleep(100);
 
 		assertTrue("Wait brick is not in List", solo.searchText(getActivity().getString(R.string.brick_wait)));
@@ -79,6 +78,27 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 				.getCount());
 		assertEquals("Brick count in brick list not correct", brickCountInList + 1, ProjectManager.getInstance()
 				.getCurrentScript().getBrickList().size());
+	}
+
+	public void testBrickCategoryDialog() {
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
+
+		assertTrue("A category was not visible after opening BrickCategoryDialog",
+				solo.searchText(getActivity().getString(R.string.category_motion)));
+		assertTrue("A category was not visible after opening BrickCategoryDialog",
+				solo.searchText(getActivity().getString(R.string.category_looks)));
+		assertTrue("A category was not visible after opening BrickCategoryDialog",
+				solo.searchText(getActivity().getString(R.string.category_sound)));
+		assertTrue("A category was not visible after opening BrickCategoryDialog",
+				solo.searchText(getActivity().getString(R.string.category_control)));
+
+		solo.clickOnText(getActivity().getString(R.string.category_control));
+		assertTrue("AddBrickDialog was not opened after selecting a category",
+				solo.searchText(getActivity().getString(R.string.brick_wait)));
+
+		solo.goBack();
+		assertTrue("Could not go back to BrickCategoryDialog from AddBrickDialog",
+				solo.searchText(getActivity().getString(R.string.category_sound)));
 	}
 
 	public void testSimpleDragNDrop() {
