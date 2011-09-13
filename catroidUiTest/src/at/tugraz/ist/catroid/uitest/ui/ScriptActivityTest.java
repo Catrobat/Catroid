@@ -80,6 +80,21 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 				.getCurrentScript().getBrickList().size());
 	}
 
+	public void testBrickCategoryDialog() {
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
+
+		assertTrue(solo.searchText(getActivity().getString(R.string.category_motion)));
+		assertTrue(solo.searchText(getActivity().getString(R.string.category_looks)));
+		assertTrue(solo.searchText(getActivity().getString(R.string.category_sound)));
+		assertTrue(solo.searchText(getActivity().getString(R.string.category_control)));
+
+		solo.clickOnText(getActivity().getString(R.string.category_control));
+		assertTrue(solo.searchText(getActivity().getString(R.string.brick_wait)));
+
+		solo.goBack();
+		assertTrue(solo.searchText(getActivity().getString(R.string.category_sound)));
+	}
+
 	public void testSimpleDragNDrop() {
 		ArrayList<Integer> yPositionList = getListItemYPositions();
 		assertTrue("Test project brick list smaller than expected", yPositionList.size() >= 6);

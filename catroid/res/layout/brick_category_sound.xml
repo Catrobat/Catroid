@@ -30,6 +30,8 @@
 		android:textColor="@color/white"
 		android:textSize="18dip"
 		android:textStyle="bold"
+		android:paddingTop="15dip"
+		android:paddingBottom="15dip"
 	>
 	</TextView>
 </LinearLayout>
