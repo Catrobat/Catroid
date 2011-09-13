@@ -37,7 +37,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
-import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
+import at.tugraz.ist.catroid.ui.dialogs.BrickCategoryDialog;
 import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListView;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -80,7 +80,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 
 		switch (id) {
 			case DIALOG_ADD_BRICK:
-				dialog = new AddBrickDialog(this);
+				dialog = new BrickCategoryDialog(this);
 				dialog.setOnDismissListener(this);
 				break;
 			default:

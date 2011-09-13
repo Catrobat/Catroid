@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <!-- 
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010  Catroid development team 
@@ -17,18 +18,17 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
+ 
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="horizontal"
-	android:layout_height="wrap_content"
-	android:layout_width="fill_parent"
-	android:background="@drawable/brick_violet"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
 >
-	<TextView
-		android:text="@string/show"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:textColor="@color/white"
-		android:textSize="18dip"
-		android:textStyle="bold" />
+	<ListView
+		android:id="@+id/categoriesListView"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:clickable="true"
+		android:dividerHeight="15dip"
+	/>
 </LinearLayout>
