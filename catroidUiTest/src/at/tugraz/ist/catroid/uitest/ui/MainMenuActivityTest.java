@@ -260,12 +260,10 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	public void testRenameToExistingProject() {
 		createTestProject(testProject2);
 		solo.sleep(500);
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
 
 		// create a new project
 		createTestProject(testProject3);
 		solo.sleep(500);
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
 
 		UiTestUtils.createValidUser(getActivity());
 
