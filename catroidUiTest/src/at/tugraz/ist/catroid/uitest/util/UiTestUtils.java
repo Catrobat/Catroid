@@ -29,6 +29,8 @@ import java.util.List;
 
 import junit.framework.Assert;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.util.Log;
 import android.widget.ImageButton;
@@ -48,7 +50,10 @@ import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.utils.UtilFile;
+import at.tugraz.ist.catroid.utils.UtilToken;
 import at.tugraz.ist.catroid.utils.Utils;
+import at.tugraz.ist.catroid.web.ServerCalls;
+import at.tugraz.ist.catroid.web.WebconnectionException;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -329,5 +334,27 @@ public class UiTestUtils {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public static void createValidUser(Context context) {
+		try {
+			String testUser = "testUser" + System.currentTimeMillis();
+			String testPassword = "pwspws";
+			String testEmail = testUser + "@gmail.com";
+
+			String token = UtilToken.calculateToken(testUser, testPassword);
+			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
+					"de", "at", token);
+
+			assert (userRegistered);
+
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+			prefs.edit().putString(Consts.TOKEN, token).commit();
+
+		} catch (WebconnectionException e) {
+			e.printStackTrace();
+			assert (false);
+		}
+
 	}
 }

@@ -24,8 +24,8 @@ import android.app.ProgressDialog;
 import android.app.AlertDialog.Builder;
 import android.os.AsyncTask;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.dialogs.LoginRegisterDialog;
-import at.tugraz.ist.catroid.ui.dialogs.UploadProjectDialog;
 import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.web.ServerCalls;
 import at.tugraz.ist.catroid.web.WebconnectionException;
@@ -89,8 +89,7 @@ public class CheckTokenTask extends AsyncTask<Void, Void, Boolean> {
 			return;
 		}
 
-		new UploadProjectDialog(activity).show();
-
+		activity.showDialog(MainMenuActivity.DIALOG_UPLOAD_PROJECT);
 	}
 
 	private void showDialog(int messageId) {

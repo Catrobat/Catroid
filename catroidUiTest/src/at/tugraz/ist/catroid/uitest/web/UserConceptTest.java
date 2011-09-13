@@ -27,9 +27,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
-import at.tugraz.ist.catroid.utils.UtilToken;
 import at.tugraz.ist.catroid.web.ServerCalls;
-import at.tugraz.ist.catroid.web.WebconnectionException;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -82,7 +80,7 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 	public void testRegisterWithValidTokenSaved() throws Throwable {
 		setTestUrl();
-		createValidUser();
+		UiTestUtils.createValidUser(getActivity());
 
 		solo.clickOnText(getActivity().getString(R.string.upload_project));
 		solo.sleep(5000);
@@ -147,34 +145,33 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.sleep(2000);
 	}
 
+	public void testOrientationChange() throws Throwable {
+		setTestUrl();
+		String testText1 = "testText1";
+		String testText2 = "testText2";
+
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		prefs.edit().putString(Consts.TOKEN, null).commit();
+		solo.clickOnText(getActivity().getString(R.string.upload_project));
+		solo.sleep(500);
+		solo.clearEditText(0);
+		solo.enterText(0, testText1);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testText1));
+		solo.clickOnEditText(1);
+		solo.clearEditText(1);
+		solo.enterText(1, testText2);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testText1));
+		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testText2));
+	}
+
 	private void setTestUrl() throws Throwable {
 		runTestOnUiThread(new Runnable() {
 			public void run() {
 				ServerCalls.useTestUrl = true;
 			}
 		});
-	}
-
-	private void createValidUser() {
-		try {
-			String testUser = "testUser" + System.currentTimeMillis();
-			String testPassword = "pwspws";
-			String testEmail = testUser + "@gmail.com";
-
-			String token = UtilToken.calculateToken(testUser, testPassword);
-			boolean userRegistered = ServerCalls.getInstance().registerOrCheckToken(testUser, testPassword, testEmail,
-					"de", "at", token);
-
-			assertTrue("no new account created", userRegistered);
-
-			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-			prefs.edit().putString(Consts.TOKEN, token).commit();
-
-		} catch (WebconnectionException e) {
-			e.printStackTrace();
-			assertFalse("exception during user creation, see logcat for details", true);
-		}
-
 	}
 
 	private void fillLoginDialog(boolean correct) {

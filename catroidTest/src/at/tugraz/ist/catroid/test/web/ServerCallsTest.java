@@ -127,7 +127,6 @@ public class ServerCallsTest extends AndroidTestCase {
 			assertEquals("wrong status code from server", Consts.SERVER_ERROR_TOKEN_INVALID, e.getStatusCode());
 			assertNotNull("no error message available", e.getMessage());
 			assertTrue("no error message available", e.getMessage().length() > 0);
-			;
 		}
 
 	}

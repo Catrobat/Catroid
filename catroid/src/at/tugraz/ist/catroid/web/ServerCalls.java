@@ -217,18 +217,5 @@ public class ServerCalls {
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK);
 		}
 	}
-	/*
-	 * check token -> if ok, show upload dialog
-	 * if nok, get username from email
-	 * if username found, fill in the username in the login dialog
-	 * if not, leave username file empty
-	 * 
-	 * if filled out -> checktoken or registerLogin ????
-	 * 
-	 * if ok -> show upload dialog
-	 * if not -> show login dialog again with error message
-	 */
-
-	// getusernameFromEmail
 
 }

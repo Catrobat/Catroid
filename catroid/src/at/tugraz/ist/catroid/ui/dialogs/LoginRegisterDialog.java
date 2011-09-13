@@ -67,7 +67,6 @@ public class LoginRegisterDialog extends Dialog implements OnClickListener {
 
 	}
 
-	// initialize
 	private void initializeViews() {
 		usernameEditText = (EditText) findViewById(R.id.username);
 		passwordEditText = (EditText) findViewById(R.id.password);
@@ -78,17 +77,6 @@ public class LoginRegisterDialog extends Dialog implements OnClickListener {
 	private void initializeListeners() {
 		loginOrRegister.setOnClickListener(this);
 		passwordForgotten.setOnClickListener(this);
-	}
-
-	private void initializeValues() {
-		usernameEditText.setText("");
-		passwordEditText.setText("");
-	}
-
-	@Override
-	public void show() {
-		super.show();
-		initializeValues();
 	}
 
 	public void onClick(View v) {
