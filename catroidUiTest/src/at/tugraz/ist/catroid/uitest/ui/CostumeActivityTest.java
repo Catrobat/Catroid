@@ -125,6 +125,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		solo.sleep(5000);
 		solo.assertCurrentActivity("not in stage", StageActivity.class);
 		solo.goBack();
+		solo.clickOnText(getActivity().getString(R.string.back_to_construction_site));
 		solo.sleep(3000);
 		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
 		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
