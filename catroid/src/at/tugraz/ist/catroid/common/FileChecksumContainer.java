@@ -66,7 +66,11 @@ public class FileChecksumContainer implements Serializable {
 	}
 
 	public int getUsage(String checksum) {
-		return checksumFileInfoMap.get(checksum).usageCounter;
+		if (!checksumFileInfoMap.containsKey(checksum)) {
+			return 0;
+		} else {
+			return checksumFileInfoMap.get(checksum).usageCounter;
+		}
 	}
 
 	/**
