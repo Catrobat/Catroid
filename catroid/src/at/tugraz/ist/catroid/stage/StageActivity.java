@@ -68,6 +68,8 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 	public static TextToSpeech textToSpeechEngine;
 	public String text;
 	public boolean flag = true;
+	private int spritePositionOnStageStart;
+	private int scriptPositionOnStageStart;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -94,6 +96,10 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 				checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
 				startActivityForResult(checkIntent, MY_DATA_CHECK_CODE);
 			}
+
+			ProjectManager projectManager = ProjectManager.getInstance();
+			spritePositionOnStageStart = projectManager.getCurrentSpritePosition();
+			scriptPositionOnStageStart = projectManager.getCurrentScriptPosition();
 
 			//startStage();
 			if (!stageManager.getBluetoothNeeded()) {
@@ -270,13 +276,11 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 			textToSpeechEngine.shutdown();
 		}
 		ProjectManager projectManager = ProjectManager.getInstance();
-		int currentSpritePos = projectManager.getCurrentSpritePosition();
-		int currentScriptPos = projectManager.getCurrentScriptPosition();
 		projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
-		projectManager.setCurrentSpriteWithPosition(currentSpritePos);
-		projectManager.setCurrentScriptWithPosition(currentScriptPos);
+		projectManager.setCurrentSpriteWithPosition(spritePositionOnStageStart);
+		projectManager.setCurrentScriptWithPosition(scriptPositionOnStageStart);
+
 		finish();
-		//arduino.destroyBTCommunicator();
 		if (legoNXT != null) {
 			legoNXT.destroyCommunicator();
 		}

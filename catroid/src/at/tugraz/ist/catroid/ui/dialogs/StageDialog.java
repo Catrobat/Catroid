@@ -35,7 +35,6 @@ import at.tugraz.ist.catroid.stage.StageManager;
  * 
  */
 public class StageDialog extends Dialog {
-	private final Context context;
 	private StageActivity stageActivity;
 	private StageManager stageManager;
 
@@ -43,7 +42,6 @@ public class StageDialog extends Dialog {
 
 	public StageDialog(StageActivity stageActivity, StageManager stageManager, int theme) {
 		super(stageActivity, theme);
-		this.context = stageActivity.getApplicationContext();
 		this.stageActivity = stageActivity;
 		this.stageManager = stageManager;
 	}

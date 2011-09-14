@@ -29,7 +29,6 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.SpeakBrick;
 
 public class StageManager {
-	private Activity activity;
 	protected ArrayList<Sprite> spriteList;
 	private Boolean spritesChanged;
 	private IDraw draw;
@@ -58,7 +57,6 @@ public class StageManager {
 	public StageManager(Activity activity) {
 
 		spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
-		this.activity = activity;
 
 		spritesChanged = true;
 		draw = new CanvasDraw(activity);
@@ -70,15 +68,6 @@ public class StageManager {
 		if (checkForBluetoothBricks()) {
 			bluetoothNeeded = true;
 		}
-
-		//		Vector<Class<?>> legoNXTTyptes = new Vector<Class<?>>();
-		//		legoNXTTyptes.add(NXTMotorActionBrick.class);
-		//		legoNXTTyptes.add(NXTMotorStopBrick.class);
-		//		legoNXTTyptes.add(NXTMotorTurnAngleBrick.class);
-		//		legoNXTTyptes.add(NXTPlayToneBrick.class);
-		//		if (checkForBrickOfType(legoNXTTyptes)) {
-		//			bluetoothNeeded = true;
-		//		}
 	}
 
 	public void startScripts() {
@@ -95,15 +84,6 @@ public class StageManager {
 		}
 		return false;
 	}
-
-	//	private boolean checkForBrickOfType(Vector<Class<?>> type) {
-	//		for (Sprite sprite : spriteList) {
-	//			if (sprite.containsBrickOfType(type)) {
-	//				return true;
-	//			}
-	//		}
-	//		return false;
-	//	}
 
 	private boolean checkForBluetoothBricks() {
 		for (Sprite sprite : spriteList) {
