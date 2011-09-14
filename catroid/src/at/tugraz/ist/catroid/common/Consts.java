@@ -34,8 +34,8 @@ public final class Consts {
 
 	//Costume:
 	public static final int MAX_REL_COORDINATES = 1000;
-	public static final int MAX_COSTUME_WIDTH = 1500;
-	public static final int MAX_COSTUME_HEIGHT = 1500;
+	public static final int MAX_COSTUME_WIDTH = 1280;
+	public static final int MAX_COSTUME_HEIGHT = 1280;
 
 	//Web:
 	public static final String TOKEN = "token";
