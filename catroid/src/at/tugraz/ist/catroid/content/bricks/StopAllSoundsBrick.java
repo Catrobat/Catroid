@@ -27,29 +27,27 @@ import at.tugraz.ist.catroid.io.SoundManager;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-public class StopAllSoundsBrick extends Brick {
+public class StopAllSoundsBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
+	public static final transient int BRICK_BEHAVIOUR = Brick.NORMAL_BRICK | Brick.BACKGROUND_BRICK;
+	public static final transient int BRICK_RESSOURCES = Brick.NO_RESOURCES;
 
 	@XStreamOmitField
 	private transient View view;
 
 	public StopAllSoundsBrick(Sprite sprite) {
-		super.brickBehavior = Brick.NORMAL_BRICK | Brick.BACKGROUND_BRICK;
 		this.sprite = sprite;
 	}
 
-	@Override
 	public void execute() {
 		SoundManager.getInstance().pause();
 	}
 
-	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
-	@Override
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.toolbox_brick_stop_all_sounds, null);
@@ -62,7 +60,6 @@ public class StopAllSoundsBrick extends Brick {
 		return new StopAllSoundsBrick(getSprite());
 	}
 
-	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.toolbox_brick_stop_all_sounds, null);
 	}

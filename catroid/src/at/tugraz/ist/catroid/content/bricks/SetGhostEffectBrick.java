@@ -29,10 +29,12 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 
-public class SetGhostEffectBrick extends Brick implements OnDismissListener {
+public class SetGhostEffectBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
 	private double ghostEffectValue;
 	private Sprite sprite;
+	public static final transient int BRICK_BEHAVIOUR = Brick.NORMAL_BRICK | Brick.BACKGROUND_BRICK;
+	public static final transient int BRICK_RESSOURCES = Brick.NO_RESOURCES;
 
 	private transient View view;
 
@@ -41,12 +43,10 @@ public class SetGhostEffectBrick extends Brick implements OnDismissListener {
 		this.ghostEffectValue = ghostEffectValue;
 	}
 
-	@Override
 	public void execute() {
 		sprite.setGhostEffectValue(ghostEffectValue);
 	}
 
-	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
@@ -55,7 +55,6 @@ public class SetGhostEffectBrick extends Brick implements OnDismissListener {
 		return ghostEffectValue;
 	}
 
-	@Override
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 
 		if (view == null) {
@@ -74,7 +73,6 @@ public class SetGhostEffectBrick extends Brick implements OnDismissListener {
 		return view;
 	}
 
-	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.toolbox_brick_set_ghost_effect, null);
 	}

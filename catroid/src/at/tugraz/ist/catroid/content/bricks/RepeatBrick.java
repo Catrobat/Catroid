@@ -34,6 +34,9 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 public class RepeatBrick extends LoopBeginBrick implements OnDismissListener {
 	private static final long serialVersionUID = 1L;
 	private int timesToRepeat;
+	public static final transient int BRICK_BEHAVIOUR = Brick.NORMAL_BRICK | Brick.BACKGROUND_BRICK
+			| Brick.IS_LOOP_BEGIN_BRICK;
+	public static final transient int BRICK_RESSOURCES = Brick.NO_RESOURCES;
 
 	@XStreamOmitField
 	private transient View view;
@@ -55,7 +58,6 @@ public class RepeatBrick extends LoopBeginBrick implements OnDismissListener {
 		return new RepeatBrick(getSprite(), timesToRepeat);
 	}
 
-	@Override
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 
 		if (view == null) {
@@ -73,7 +75,6 @@ public class RepeatBrick extends LoopBeginBrick implements OnDismissListener {
 		return view;
 	}
 
-	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.toolbox_brick_repeat, null);
 	}

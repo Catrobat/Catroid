@@ -29,7 +29,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 
-public class TurnLeftBrick extends Brick implements OnDismissListener {
+public class TurnLeftBrick implements Brick, OnDismissListener {
 
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
@@ -42,17 +42,14 @@ public class TurnLeftBrick extends Brick implements OnDismissListener {
 		this.degrees = degrees;
 	}
 
-	@Override
 	public void execute() {
 		sprite.setDirection(sprite.getDirection() - degrees);
 	}
 
-	@Override
 	public Sprite getSprite() {
 		return sprite;
 	}
 
-	@Override
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 
 		if (view == null) {
@@ -71,7 +68,6 @@ public class TurnLeftBrick extends Brick implements OnDismissListener {
 		return view;
 	}
 
-	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.toolbox_brick_turn_left, null);
 	}

@@ -32,25 +32,25 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 
-public class PointToBrick extends Brick {
+public class PointToBrick implements Brick {
 
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private Sprite pointedSprite;
 	private double rotationDegrees = 0.0;
 	private int spinnerPosition = 0;
+	public static final transient int BRICK_BEHAVIOUR = Brick.NORMAL_BRICK | Brick.BACKGROUND_BRICK;
+	public static final transient int BRICK_RESSOURCES = Brick.NO_RESOURCES;
 
 	public PointToBrick(Sprite sprite, Sprite pointedSprite) {
 		this.sprite = sprite;
 		this.pointedSprite = pointedSprite;
 	}
 
-	@Override
 	public Sprite getSprite() {
 		return sprite;
 	}
 
-	@Override
 	public void execute() {
 		final ArrayList<Sprite> spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject()
 				.getSpriteList();
@@ -112,7 +112,6 @@ public class PointToBrick extends Brick {
 		sprite.setDirection(rotationDegrees);
 	}
 
-	@Override
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
 
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -170,7 +169,6 @@ public class PointToBrick extends Brick {
 		return brickView;
 	}
 
-	@Override
 	public View getPrototypeView(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.toolbox_brick_point_to, null);
