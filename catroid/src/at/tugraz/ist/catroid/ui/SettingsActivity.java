@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<!-- 
+/**
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010  Catroid development team 
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
@@ -17,22 +15,22 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+ */
+package at.tugraz.ist.catroid.ui;
 
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-	<stroke
-		android:width="8dp"
-		android:dashGap="2dp"
-		android:dashWidth="8dp"
-		android:color="#6000FF00" />
-	<gradient
-		android:startColor="#FFFF6600"
-		android:endColor="#80FF8C00"
-		android:angle="0" />
-	<padding
-		android:left="12dp"
-		android:top="12dp"
-		android:right="12dp"
-		android:bottom="12dp" />
-	<corners android:radius="24dp" />
-</shape>
+import android.os.Bundle;
+import android.preference.PreferenceActivity;
+import at.tugraz.ist.catroid.R;
+
+/**
+ * @author David Reisenberger
+ * 
+ */
+public class SettingsActivity extends PreferenceActivity {
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		addPreferencesFromResource(R.xml.preferences);
+	}
+}

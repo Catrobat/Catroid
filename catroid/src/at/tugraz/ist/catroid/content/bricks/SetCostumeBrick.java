@@ -25,6 +25,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -92,6 +93,11 @@ public class SetCostumeBrick implements Brick {
 			costumebrickSpinner.setSelection(0);
 		}
 
+		if (sprite.getName().equals(context.getString(R.string.background))) {
+			TextView textView = (TextView) view.findViewById(R.id.tv_set_costume);
+			textView.setText(R.string.brick_set_background);
+		}
+
 		return view;
 	}
 
@@ -109,7 +115,12 @@ public class SetCostumeBrick implements Brick {
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_set_costume, null);
+		View prototypeView = View.inflate(context, R.layout.toolbox_brick_set_costume, null);
+		if (sprite.getName().equals(context.getString(R.string.background))) {
+			TextView textView = (TextView) prototypeView.findViewById(R.id.tv_set_costume);
+			textView.setText(R.string.brick_set_background);
+		}
+		return prototypeView;
 	}
 
 	@Override

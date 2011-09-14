@@ -52,6 +52,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	private String testProject = UiTestUtils.PROJECTNAME1;
 	private String testProject2 = UiTestUtils.PROJECTNAME2;
 	private String testProject3 = UiTestUtils.PROJECTNAME3;
+	private String existingProject = UiTestUtils.PROJECTNAME4;
 
 	public MainMenuActivityTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -99,8 +100,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.sleep(100);
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
 		solo.sleep(50);
-		assertTrue("No error message was displayed upon creating a project with an empty name.", solo
-				.searchText(getActivity().getString(R.string.error_no_name_entered)));
+		assertTrue("No error message was displayed upon creating a project with an empty name.",
+				solo.searchText(getActivity().getString(R.string.error_no_name_entered)));
 
 		solo.clickOnButton(0);
 
@@ -112,8 +113,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.enterText(0, testProject);
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
 		solo.sleep(50);
-		assertTrue("No error message was displayed upon creating a project with the same name twice.", solo
-				.searchText(getActivity().getString(R.string.error_project_exists)));
+		assertTrue("No error message was displayed upon creating a project with the same name twice.",
+				solo.searchText(getActivity().getString(R.string.error_project_exists)));
 
 	}
 
@@ -143,7 +144,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		createTestProject(testProject2);
 
-		solo.clickOnButton(getActivity().getString(R.string.projects_on_phone));
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.clickOnText(testProject2);
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
 		Sprite first = (Sprite) spritesList.getItemAtPosition(1);
@@ -164,7 +165,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		createTestProject(testProject3);
 
-		solo.clickOnButton(getActivity().getString(R.string.projects_on_phone));
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.clickOnText(testProject3);
 		solo.goBack();
 
@@ -195,8 +196,21 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 	public void testPlayButton() {
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
-		solo.sleep(2000);
 		solo.assertCurrentActivity("StageActivity not showing!", StageActivity.class);
+	}
+
+	public void testRenameToExistingProject() {
+		createTestProject(existingProject);
+		solo.clickOnButton(getActivity().getString(R.string.upload_project));
+		solo.clickOnEditText(0);
+		solo.enterText(0, "");
+		solo.enterText(0, existingProject);
+		solo.goBack();
+		solo.clickOnEditText(1);
+		solo.goBack();
+		solo.clickOnButton(getActivity().getString(R.string.upload_button));
+		assertTrue("No error message was displayed upon renaming the project to an existing one.",
+				solo.searchText(getActivity().getString(R.string.error_project_exists)));
 	}
 
 	public void testDefaultProject() throws IOException {
@@ -257,29 +271,4 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		storageHandler.saveProject(project);
 	}
 
-	public void testRenameToExistingProject() {
-		createTestProject(testProject2);
-		solo.sleep(500);
-
-		// create a new project
-		createTestProject(testProject3);
-		solo.sleep(500);
-
-		UiTestUtils.createValidUser(getActivity());
-
-		// try to change the name to the existing project
-		solo.clickOnButton(getActivity().getString(R.string.upload_project));
-		solo.waitForDialogToClose(10000);
-		solo.clickOnEditText(0);
-		solo.enterText(0, "");
-		solo.enterText(0, testProject2);
-		solo.sleep(1000);
-		solo.goBack();
-		solo.sleep(1000);
-		//.clickOnEditText(1);
-		//solo.goBack();
-		solo.clickOnButton(getActivity().getString(R.string.upload_button));
-		assertTrue("No error message was displayed upon renaming the project to an existing one.", solo
-				.searchText(getActivity().getString(R.string.error_project_exists)));
-	}
 }
