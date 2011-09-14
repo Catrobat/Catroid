@@ -57,8 +57,6 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 	public void setUp() throws Exception {
 		super.setUp();
 		UiTestUtils.clearAllUtilTestProjects();
-		//		File temp = new File(Consts.DEFAULT_ROOT + "/testFile.png");
-		//		temp.delete();
 		UiTestUtils.createTestProject();
 		imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_sunglasses.png",
 				RESOURCE_IMAGE, getActivity(), UiTestUtils.TYPE_IMAGE_FILE);
@@ -66,7 +64,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 				RESOURCE_IMAGE2, getActivity(), UiTestUtils.TYPE_IMAGE_FILE);
 
 		paintroidImageFile = UiTestUtils.createTestMediaFile(Consts.DEFAULT_ROOT + "/testFile.png",
-				R.drawable.catroid_banzai, getInstrumentation().getContext());
+				R.drawable.catroid_banzai, getActivity());
 
 		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
 		CostumeData costumeData = new CostumeData();
@@ -103,7 +101,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		solo.clickOnButton(getActivity().getString(R.string.copy_costume));
 		if (solo.searchText(costumeDataList.get(0).getCostumeName() + "_"
 				+ getActivity().getString(R.string.copy_costume_addition))) {
-			assertEquals("the copy of the costume wasn't added to the costumeDataList in the sprite", 2,
+			assertEquals("the copy of the costume wasn't added to the costumeDataList in the sprite", 3,
 					costumeDataList.size());
 		} else {
 			fail("copy costume didn't work");
@@ -117,9 +115,9 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		int oldCount = adapter.getCount();
 		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
 		int newCount = adapter.getCount();
-		assertEquals("the old count was not rigth", 1, oldCount);
-		assertEquals("the new count is not rigth - all costumes should be deleted", 0, newCount);
-		assertEquals("the count of the costumeDataList is not right", 0, costumeDataList.size());
+		assertEquals("the old count was not rigth", 2, oldCount);
+		assertEquals("the new count is not rigth - all costumes should be deleted", 1, newCount);
+		assertEquals("the count of the costumeDataList is not right", 01, costumeDataList.size());
 	}
 
 	public void testRenameCostume() {
@@ -151,7 +149,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		solo.sleep(3000);
 		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
 		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
-		assertEquals("costumeDataList in sprite doesn't hold the right number of costumeData", 1,
+		assertEquals("costumeDataList in sprite doesn't hold the right number of costumeData", 2,
 				costumeDataList.size());
 	}
 
@@ -239,12 +237,8 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 				isInCostumeDataListSunnglasses = true;
 			}
 		}
-		if (!isInCostumeDataListPaintroidImage) {
-			fail("File not added in CostumeDataList");
-		}
-		if (isInCostumeDataListSunnglasses) {
-			fail("File not deleted from CostumeDataList");
-		}
+		assertTrue("File not added in CostumeDataList", isInCostumeDataListPaintroidImage);
+		assertFalse("File not deleted from CostumeDataList", isInCostumeDataListSunnglasses);
 	}
 
 	public void testEditImageWithPaintroidNoChanges() {
@@ -314,7 +308,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 
 		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
 		int numberOfCostumeDatas = costumeDataList.size();
-		assertEquals("too many references for checksum", 1, numberOfCostumeDatas);
+		assertEquals("wrong size of costumedatalist", 2, numberOfCostumeDatas);
 		assertEquals("Picture changed", Utils.md5Checksum(new File(costumeData.getAbsolutePath())), md5ImageFile);
 	}
 
@@ -348,8 +342,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		}
 	}
 
-	public void testEditImagePaintroidAlreadyUsedSomewhereElse() throws IOException {
-
+	public void testEditImagePaintroidToSomethingWhichIsAlreadyUsed() throws IOException {
 		solo.clickOnText(getActivity().getString(R.string.costumes));
 		solo.sleep(900);
 
@@ -367,16 +360,55 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		Intent intent = new Intent(getInstrumentation().getContext(),
 				at.tugraz.ist.catroid.uitest.mockups.MockPaintroidActivity.class);
 		intent.putExtras(bundleForPaintroid);
-		solo.sleep(5000);
+		solo.sleep(500);
 		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_PAINTROID_EDIT_IMAGE);
-		solo.sleep(5000);
+		solo.sleep(4000);
 
-		assertEquals("Picture changed", Utils.md5Checksum(new File(costumeData.getAbsolutePath())), md5ImageFile);
+		assertNotSame("Picture did not change", Utils.md5Checksum(new File(costumeData.getAbsolutePath())),
+				md5ImageFile);
 		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
 		int newNumberOfCostumeDatas = costumeDataList.size();
 		assertEquals("CostumeData was added", numberOfCostumeDatas, newNumberOfCostumeDatas);
-		assertEquals("too many references for checksum", 1, projectManager.fileChecksumContainer.getUsage(md5ImageFile));
-		assertEquals("too many references for checksum", 2,
+		assertEquals("too many references for checksum", 0, projectManager.fileChecksumContainer.getUsage(md5ImageFile));
+		assertEquals("not the right number of checksum references", 2,
 				projectManager.fileChecksumContainer.getUsage(md5PaintroidImageFile));
+	}
+
+	public void testEditImageWhichIsAlreadyUsed() {
+		File tempImageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME,
+				"catroid_sunglasses2.png", RESOURCE_IMAGE, getActivity(), UiTestUtils.TYPE_IMAGE_FILE);
+		CostumeData costumeDataToAdd = new CostumeData();
+		costumeDataToAdd.setCostumeFilename(tempImageFile.getName());
+		costumeDataToAdd.setCostumeName("justforthistest");
+		costumeDataList.add(costumeDataToAdd);
+		projectManager.fileChecksumContainer.addChecksum(costumeDataToAdd.getChecksum(),
+				costumeDataToAdd.getAbsolutePath());
+
+		solo.sleep(900);
+		solo.clickOnText(getActivity().getString(R.string.costumes));
+		solo.sleep(900);
+
+		CostumeData costumeData = costumeDataList.get(0);
+		(getActivity()).selectedCostumeData = costumeData;
+		String md5ImageFile = Utils.md5Checksum(imageFile);
+		//		String md5PaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
+
+		Bundle bundleForPaintroid = new Bundle();
+		bundleForPaintroid.putString(getActivity().getString(R.string.extra_picture_path_paintroid),
+				imageFile.getAbsolutePath());
+		bundleForPaintroid.putString("secondExtra", imageFile2.getAbsolutePath());
+
+		Intent intent = new Intent(getInstrumentation().getContext(),
+				at.tugraz.ist.catroid.uitest.mockups.MockPaintroidActivity.class);
+		intent.putExtras(bundleForPaintroid);
+		solo.sleep(500);
+		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_PAINTROID_EDIT_IMAGE);
+		solo.sleep(4000);
+
+		assertEquals("wrong number of costumedatas", 3, costumeDataList.size());
+		assertTrue("new added image has been deleted", tempImageFile.exists());
+		assertEquals("wrong number of checksum references of sunnglasses picture", 1,
+				projectManager.fileChecksumContainer.getUsage(md5ImageFile));
+
 	}
 }
