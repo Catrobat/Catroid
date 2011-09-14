@@ -60,7 +60,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 	private static final int MOTORTURN = 2;
 
 	public static final String LegoNXTBTStringStartsWith = "NXT";
-	public static final String TestServerBTStringStartsWith = "PETER";
+	public static final String TestServerBTStringStartsWith = "kitty";
 
 	ArrayList<int[]> commands = new ArrayList<int[]>();
 
