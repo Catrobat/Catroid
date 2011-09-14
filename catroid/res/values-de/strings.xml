@@ -248,12 +248,21 @@
 	
 	<string name="brick_note">Notiz</string>
 	
+	<string name="when_action">Aktion wählen</string>
+    <string name="action_tapped">Angetippt</string>
+    <string name="action_doubleTapped">Doppelt angetippt</string>
+    <string name="action_longPressed">Lang gedrückt</string>
+    <string name="action_touchingStops">Nicht mehr berührt</string>
+    <string name="action_swipeLeft">Nach links gewischt</string> 
+    <string name="action_swipeRight">Nach rechts gewischt</string>
+    <string name="action_swipeUp">Nach oben gewischt</string>
+    <string name="action_swipeDown">Nach unten gewischt</string>
+	
 	<string name="brick_broadcast_receive">Wenn ich empfange:</string>
 	<string name="brick_broadcast">Verschicke an alle:</string>
     <string name="brick_broadcast_wait">Verschicke und warte:</string>
     <string name="brick_stop_all_sounds">Stoppe alle Sounds</string>
     
-	<string name="when_action">Aktion wählen</string>
 
     <!-- defaultValues -->
     <string name="default_project_name">standardProjekt</string>
