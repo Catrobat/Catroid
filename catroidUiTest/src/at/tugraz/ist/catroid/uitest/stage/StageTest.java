@@ -381,18 +381,6 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		assertFalse("Media Player is playing", mediaPlayer.isPlaying());
 	}
 
-	//	public void testMediaPlayerNotPlayingAfterBack() {
-	//		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
-	//
-	//		this.createTestProjectWithSound();
-	//		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
-	//		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
-	//		solo.sleep(50);
-	//		solo.goBack();
-	//		solo.sleep(350);
-	//		assertFalse("Media Player is playing after pressing the back button", mediaPlayer.isPlaying());
-	//	}
-
 	public void testClickOnHiddenSprite() {
 		createTestProject4(projectName);
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
@@ -495,6 +483,75 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		solo.waitForActivity(StageActivity.class.getName(), 1000);
 		solo.sleep(3000);
 		assertTrue("Text to speech engine not initialized!", StageActivity.textToSpeechEngine != null);
+	}
+
+	public void testCreateComeToFrontTestProjectWhatever() {
+		//creating sprites for project:
+
+		// sprite1 --------------------------------
+		Sprite firstSprite = new Sprite("sprite1");
+		Script startScript1 = new StartScript("start1", firstSprite);
+		// creating bricks:
+		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
+		ComeToFrontBrick comeToFront = new ComeToFrontBrick(firstSprite);
+
+		// adding bricks:
+		startScript1.addBrick(setCostumeBrick);
+		startScript1.addBrick(comeToFront);
+		firstSprite.addScript(startScript1);
+
+		// sprite2 --------------------------------
+		Sprite secondSprite = new Sprite("sprite2");
+		Script startScript2 = new StartScript("start2", secondSprite);
+		// creating bricks:
+		SetCostumeBrick setCostumeBrick2 = new SetCostumeBrick(secondSprite);
+		// adding bricks:
+		startScript2.addBrick(setCostumeBrick2);
+
+		secondSprite.addScript(startScript2);
+
+		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
+		spriteList.add(firstSprite);
+		spriteList.add(secondSprite);
+		Project project = UiTestUtils.createProject(projectName, spriteList, getActivity());
+
+		image1 = UiTestUtils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation()
+				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
+		image2 = UiTestUtils.saveFileToProject(projectName, imageName2, IMAGE_FILE_ID2, getInstrumentation()
+				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
+		setImageMemberProperties(image1);
+		setImageMemberProperties(image2);
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image1.getName());
+		costumeData.setCostumeName("image1");
+		setCostumeBrick.setCostume(costumeData);
+		firstSprite.getCostumeDataList().add(costumeData);
+		costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image2.getName());
+		costumeData.setCostumeName("image2");
+		setCostumeBrick2.setCostume(costumeData);
+		secondSprite.getCostumeDataList().add(costumeData);
+
+		storageHandler.saveProject(project);
+		solo.sleep(1000);
+		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
+		//UiTestUtils.clickOnImageButton(solo, R.id.current_project_button);
+
+		solo.sleep(1000);
+		solo.clickOnText("sprite1");
+		solo.sleep(1000);
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+
+		solo.sleep(3000);
+		solo.goBack();
+		solo.sleep(500);
+		solo.clickOnText(getActivity().getString(R.string.back_to_construction_site));
+		solo.sleep(1000);
+		assertTrue("This is the wrong sprite mate!",
+				solo.searchText(getActivity().getString(R.string.brick_come_to_front)));
+
+		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		assertEquals("Unexpected sprite active", "sprite1", sprite.getName());
 	}
 
 	public void clickOnScreenAndReturn(int x, int y, int expectedWidth, int expectedHeight) {
