@@ -23,7 +23,7 @@
 	android:layout_height="wrap_content"
 	android:layout_width="fill_parent"
 	android:orientation="vertical"
-	android:background="@drawable/brick_magenta"
+	android:background="@drawable/brick_violet"
 >
 	<TextView
 		android:text="@string/brick_say"

@@ -237,6 +237,8 @@
 	<string name="brick_change_ghost_effect">Change Ghost Effect</string>
 	<string name="brick_set_brightness">Set Brightness</string>
 	<string name="brick_change_brightness">Change Brightness</string>
+	<string name="by_label">by</string>
+	<string name="to_label">to</string>
 	<string name="brick_clear_graphic_effect">Clear graphic effect</string>
 	<string name="brick_say">Say</string>
 	<string name="brick_think">Think</string>
