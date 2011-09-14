@@ -39,6 +39,11 @@
 			android:exported="true"
 		>
 		</activity>
+		<activity
+			android:name="at.tugraz.ist.catroid.uitest.mockups.MockPaintroidActivity"
+			android:exported="true"
+		>
+		</activity>
 	</application>
 
 	<uses-sdk
