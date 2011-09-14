@@ -24,32 +24,34 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 
 public class Costume implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private String imagePath;
+	private CostumeData costumeData;
 	private Sprite sprite;
 	private int drawPositionX;
 	private int drawPositionY;
 
 	private transient Bitmap costumeBitmap;
 
-	public Costume(Sprite sprite, String imagePath) {
+	public Costume(Sprite sprite, CostumeData costumeData) {
 		this.sprite = sprite;
-		this.changeImagePath(imagePath);
+		this.changeImagePath(costumeData);
 	}
 
-	public synchronized void changeImagePath(String imagePath) {
-		this.imagePath = imagePath;
+	public synchronized void changeImagePath(CostumeData costumeData) {
+		this.costumeData = costumeData;
 		updateImage();
 	}
 
 	public synchronized void updateImage() {
-		if (imagePath != null) {
+		if (costumeData != null) {
 
-			Bitmap buffer = ImageEditing.getBitmap(imagePath, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
+			Bitmap buffer = ImageEditing.getBitmap(costumeData.getAbsolutePath(), Values.SCREEN_WIDTH,
+					Values.SCREEN_HEIGHT);
 
 			if (buffer != null) {
 
@@ -81,7 +83,11 @@ public class Costume implements Serializable {
 	}
 
 	public String getImagePath() {
-		return imagePath;
+		return costumeData.getAbsolutePath();
+	}
+
+	public CostumeData getCostumeData() {
+		return costumeData;
 	}
 
 	public Bitmap getBitmap() {
@@ -156,7 +162,7 @@ public class Costume implements Serializable {
 	}
 
 	public synchronized void setBitmapFromResource(Context context, int resourceId) {
-		imagePath = null;
+		costumeData = null;
 
 		BitmapFactory.Options boundsOptions = new BitmapFactory.Options();
 		boundsOptions.inJustDecodeBounds = true;
