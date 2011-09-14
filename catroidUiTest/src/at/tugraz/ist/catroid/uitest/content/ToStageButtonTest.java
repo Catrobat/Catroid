@@ -145,7 +145,7 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 		solo.sleep(100);
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
 
-		solo.clickOnButton(getActivity().getString(R.string.projects_on_phone));
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.clickOnText(projectNameThree);
 
 		solo.clickOnText(spriteNameTwo);
