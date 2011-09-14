@@ -64,7 +64,7 @@ public class RenameSpriteDialogTest extends ActivityInstrumentationTestCase2<Mai
 	public void testRenameSpriteDialog() throws NameNotFoundException, IOException {
 
 		createTestProject(testProject);
-		solo.clickOnButton(getActivity().getString(R.string.projects_on_phone));
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.clickOnText(testProject);
 		solo.clickLongOnText(cat);
 
