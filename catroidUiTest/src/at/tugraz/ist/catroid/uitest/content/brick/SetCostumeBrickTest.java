@@ -123,6 +123,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		Costume costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).getCostume();
 		assertEquals("costume not set", costume.getImagePath(), costumeDataList.get(0).getAbsolutePath());
 		solo.goBack();
+		solo.clickOnText(getActivity().getString(R.string.back_to_construction_site));
 		solo.sleep(200);
 
 		//changing le costume
@@ -212,6 +213,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		assertEquals("Wrong image shown in stage --> Problem with Adapter update in Script", costumeImagePath,
 				costumePath);
 		solo.goBack();
+		solo.clickOnText(getActivity().getString(R.string.back_to_construction_site));
 		solo.sleep(300);
 	}
 }
