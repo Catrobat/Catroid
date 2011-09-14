@@ -22,21 +22,19 @@ package at.tugraz.ist.catroid.stage;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.os.Vibrator;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
@@ -61,12 +59,8 @@ public class CanvasDraw implements IDraw {
 	private Canvas bufferCanvas;
 	private boolean firstRun;
 	private Rect flushRectangle;
-	private Bitmap screenshotIcon;
-	private int screenshotIconXPosition;
 	private Activity activity;
 	ArrayList<Sprite> sprites;
-	private static final int SCREENSHOT_ICON_PADDING_TOP = 3;
-	private static final int SCREENSHOT_ICON_PADDING_RIGHT = 3;
 
 	public CanvasDraw(Activity activity) {
 		super();
@@ -80,8 +74,6 @@ public class CanvasDraw implements IDraw {
 		canvasBitmap = Bitmap.createBitmap(Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT, Bitmap.Config.RGB_565);
 		bufferCanvas = new Canvas(canvasBitmap);
 		flushRectangle = new Rect(0, 0, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
-		screenshotIcon = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_screenshot);
-		screenshotIconXPosition = Values.SCREEN_WIDTH - screenshotIcon.getWidth() - SCREENSHOT_ICON_PADDING_RIGHT;
 		sprites = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
 	}
 
@@ -115,9 +107,6 @@ public class CanvasDraw implements IDraw {
 					//e.printStackTrace();
 					//}
 				}
-			}
-			if (!NativeAppActivity.isRunning()) {
-				bufferCanvas.drawBitmap(screenshotIcon, screenshotIconXPosition, SCREENSHOT_ICON_PADDING_TOP, null);
 			}
 			canvas.drawBitmap(canvasBitmap, 0, 0, null);
 
@@ -153,20 +142,20 @@ public class CanvasDraw implements IDraw {
 	}
 
 	public void processOnTouch(int xCoordinate, int yCoordinate) {
-		String toastText;
-		if (xCoordinate >= screenshotIconXPosition
-				&& yCoordinate <= SCREENSHOT_ICON_PADDING_TOP + screenshotIcon.getHeight()
-				&& !NativeAppActivity.isRunning()) {
-			Vibrator vibrator = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
-			vibrator.vibrate(100);
-			if (saveThumbnail(true)) {
-				toastText = activity.getString(R.string.notification_screenshot_ok);
-			} else {
-				toastText = activity.getString(R.string.error_screenshot_failed);
-			}
-
-			Toast.makeText(activity, toastText, Toast.LENGTH_SHORT).show();
-		}
+		//			String toastText;
+		//			if (xCoordinate >= screenshotIconXPosition
+		//					&& yCoordinate <= SCREENSHOT_ICON_PADDING_TOP + screenshotIcon.getHeight()
+		//					&& !NativeAppActivity.isRunning()) {
+		//				Vibrator vibrator = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
+		//				vibrator.vibrate(100);
+		//				if (saveThumbnail(true)) {
+		//					toastText = activity.getString(R.string.notification_screenshot_ok);
+		//				} else {
+		//					toastText = activity.getString(R.string.error_screenshot_failed);
+		//				}
+		//	
+		//				Toast.makeText(activity, toastText, Toast.LENGTH_SHORT).show();
+		//			}
 	}
 
 	public boolean saveThumbnail(boolean overwrite) {
@@ -184,6 +173,34 @@ public class CanvasDraw implements IDraw {
 
 			FileOutputStream fileOutputStream = new FileOutputStream(file.getAbsolutePath());
 			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream, Consts.BUFFER_8K);
+			canvasBitmap.compress(CompressFormat.PNG, 0, bos);
+			bos.flush();
+			bos.close();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public boolean saveScreenshot() {
+		try {
+			ProjectManager projectManager = ProjectManager.getInstance();
+			Calendar cal = Calendar.getInstance();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyymmddhhmmss");
+
+			String path = Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName() + "/";
+			File file = new File(path + sdf.format(cal.getTime()) + Consts.SCREENSHOT_FILE_NAME);
+
+			File noMediaFile = new File(path + ".nomedia");
+			if (!noMediaFile.exists()) {
+				noMediaFile.createNewFile();
+			}
+
+			FileOutputStream fileOutputStream;
+			fileOutputStream = new FileOutputStream(file.getAbsolutePath());
+			projectManager.setLastFilePath(file.getAbsolutePath());
+			BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream);
 			canvasBitmap.compress(CompressFormat.PNG, 0, bos);
 			bos.flush();
 			bos.close();

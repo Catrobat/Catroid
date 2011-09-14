@@ -64,7 +64,7 @@
     <string name="current_project">Current project:</string>
     <string name="no_project">No project currently loaded</string>
     <string name="current_project_button">Current Project</string>
-    <string name="projects_on_phone">Projects on phone</string>
+    <string name="my_projects">My Projects</string>
     <string name="create_new_project">Create new project</string>
 	<string name="tutorial">Tutorial</string>
 	<string name="settings">Settings</string>
@@ -175,6 +175,15 @@
     <string name="password_forgotten">Password forgotten</string>
     <string name="new_user_registered">new account created</string>
     <string name="register_error">Error occurred</string>
+    
+    <!--  Stage menu dialog -->
+	<string name="back_to_construction_site">Back</string>
+	<string name="resume_current_project">Resume</string>
+	<string name="restart_current_project">Restart</string>
+	<string name="snapshot">Screenshot</string>
+	<string name="stage_dialog_title">Stage Options</string>
+	
+	
 
 	<!-- Broadcast spinner -->
 	<string name="new_broadcast_message">new...</string>
@@ -187,7 +196,11 @@
     <string name="stagemenu_construction_site">To Construction Site</string>
     <string name="stagemenu_start">Play/Pause</string>
 	
-	<!-- Brick categories -->
+    <!-- Stage context menu -->
+    <string name="stagemenu_construction_site">To Construction Site</string>
+    <string name="stagemenu_start">Play/Pause</string>
+    
+    <!-- Brick categories -->
 	<string name="category_motion">Motion</string>
 	<string name="category_looks">Looks</string>
 	<string name="category_sound">Sound</string>

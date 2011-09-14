@@ -64,7 +64,7 @@
     <string name="current_project">Aktuelles Projekt:</string>
     <string name="no_project">Kein Projekt geladen</string>
     <string name="current_project_button">Aktuelles Projekt</string>
-    <string name="projects_on_phone">Projekte am Handy</string>
+    <string name="my_projects">Meine Projekte</string>
     <string name="create_new_project">Neues Projekt erstellen</string>
 	<string name="tutorial">Anleitung</string>
 	<string name="settings">Einstellungen</string>
@@ -165,6 +165,13 @@
 
     <!-- Load project dialog -->
     <string name="load_project_dialog_title">Projekt laden</string>
+    
+    <!--  Stage menu dialog -->
+	<string name="back_to_construction_site">Zurück</string>
+	<string name="resume_current_project">Fortsetzen</string>
+	<string name="restart_current_project">Neu starten</string>
+	<string name="snapshot">Screenshot</string>
+	<string name="stage_dialog_title">Optionen</string>
 
 	<!-- Login Register dialog -->
     <string name="login_register_dialog_title">Login</string>
@@ -182,7 +189,7 @@
 	
 	<!-- Point to spinner -->
 	<string name="point_to_select_location">Wählen</string>
-	
+    
     <!--  Stage context menu -->
     <string name="stagemenu_construction_site">Zur Baustelle</string>
     <string name="stagemenu_start">Abspielen/Pause</string>
@@ -192,6 +199,7 @@
 	<string name="category_looks">Aussehen</string>
 	<string name="category_sound">Klang</string>
 	<string name="category_control">Steuerung</string>
+	
 
 	<!--  Motion bricks -->
     <string name="brick_place_at">Gehe zu</string>
