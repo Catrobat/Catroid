@@ -46,8 +46,8 @@ import at.tugraz.ist.catroid.utils.UtilFile;
  * 
  */
 public class StringsTest extends TestCase {
-	private static final String[] LANGUAGES = { "English", "German", "Russian", "Romanian" };
-	private static final String[] LANGUAGE_SUFFIXES = { "", "-de", "-ru", "-ro" };
+	private static final String[] LANGUAGES = { "English", "German" }; //, "Russian", "Romanian" };
+	private static final String[] LANGUAGE_SUFFIXES = { "", "-de" }; //, "-ru", "-ro" };
 	private static final String SOURCE_DIRECTORY = "../catroid/src";
 	private static final String RESOURCES_DIRECTORY = "../catroid/res";
 	private static final String JAVA_STRING_PREFIX = "R.string.";
@@ -202,8 +202,6 @@ public class StringsTest extends TestCase {
 			}
 		}
 
-		assertFalse(
-				"Potentially unused string resources were found (please use a file search to ensure that they are *really* unused before deleting):"
-						+ errorMessage.toString(), unusedStringsFound);
+		assertFalse("Unused string resources were found:" + errorMessage.toString(), unusedStringsFound);
 	}
 }

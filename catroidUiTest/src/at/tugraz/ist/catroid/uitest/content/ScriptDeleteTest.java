@@ -104,7 +104,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptTab
 		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_when_started);
 
 		solo.clickLongInList(2);
-		solo.clickOnText(getActivity().getString(R.string.delete_script_button));
+		solo.clickOnText(getActivity().getString(R.string.delete));
 		solo.sleep(1000);
 
 		int numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
@@ -112,7 +112,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptTab
 		assertEquals("Incorrect number of elements in listView", 4, solo.getCurrentListViews().get(0).getChildCount());
 
 		solo.clickLongOnText(getActivity().getString(R.string.brick_when_started));
-		solo.clickOnText(getActivity().getString(R.string.delete_script_button));
+		solo.clickOnText(getActivity().getString(R.string.delete));
 		solo.sleep(1000);
 
 		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
