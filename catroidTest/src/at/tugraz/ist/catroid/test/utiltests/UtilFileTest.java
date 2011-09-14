@@ -20,6 +20,7 @@ package at.tugraz.ist.catroid.test.utiltests;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.utils.UtilFile;
@@ -84,7 +85,9 @@ public class UtilFileTest extends InstrumentationTestCase {
 					UtilFile.TYPE_SOUND_FILE);
 		}
 		assertEquals("the byte count is not correct", 2068512, UtilFile.getSizeOfDirectoryInByte(testDirectory));
-		assertEquals("not the expected string", "1.97 MB", UtilFile.getSizeAsString(testDirectory));
+		DecimalFormat decimalFormat = new DecimalFormat("#.00");
+		String expected = decimalFormat.format(1.97) + " MB";
+		assertEquals("not the expected string", expected, UtilFile.getSizeAsString(testDirectory));
 
 		UtilFile.deleteDirectory(testDirectory);
 	}
