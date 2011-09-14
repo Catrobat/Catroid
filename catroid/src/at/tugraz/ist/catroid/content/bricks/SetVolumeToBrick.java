@@ -30,10 +30,12 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 
-public class SetVolumeToBrick extends Brick implements OnDismissListener {
+public class SetVolumeToBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private double volume;
+	public static final transient int BRICK_BEHAVIOUR = Brick.NORMAL_BRICK;
+	public static final transient int BRICK_RESSOURCES = Brick.NO_RESOURCES;
 
 	private transient View view;
 
@@ -42,7 +44,6 @@ public class SetVolumeToBrick extends Brick implements OnDismissListener {
 		this.volume = volume;
 	}
 
-	@Override
 	public void execute() {
 		if (volume < 0.0) {
 			volume = 0.0;
@@ -52,7 +53,6 @@ public class SetVolumeToBrick extends Brick implements OnDismissListener {
 		SoundManager.getInstance().setVolume(getVolume());
 	}
 
-	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
@@ -61,7 +61,6 @@ public class SetVolumeToBrick extends Brick implements OnDismissListener {
 		return volume;
 	}
 
-	@Override
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.toolbox_brick_set_volume_to, null);
@@ -79,7 +78,6 @@ public class SetVolumeToBrick extends Brick implements OnDismissListener {
 		return view;
 	}
 
-	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.toolbox_brick_set_volume_to, null);
 	}

@@ -56,7 +56,6 @@ public class MoveNStepsBrick implements Brick, OnDismissListener {
 		int newYPosition = (int) Math.round(yPosition + steps * Math.cos(radians));
 
 		sprite.setXYPosition(newXPosition, newYPosition);
-
 	}
 
 	public Sprite getSprite() {

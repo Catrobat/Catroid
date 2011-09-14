@@ -30,7 +30,7 @@ import at.tugraz.ist.catroid.content.Sprite;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-public class PointInDirectionBrick extends Brick implements OnItemSelectedListener {
+public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 
 	public static final int DIRECTION_RIGHT = 0;
 	public static final int DIRECTION_LEFT = 1;
@@ -50,17 +50,14 @@ public class PointInDirectionBrick extends Brick implements OnItemSelectedListen
 		this.selectedIndex = selectedIndex;
 	}
 
-	@Override
 	public void execute() {
 		sprite.setDirection(directions[selectedIndex]);
 	}
 
-	@Override
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
-	@Override
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 
 		if (view == null) {
@@ -84,7 +81,6 @@ public class PointInDirectionBrick extends Brick implements OnItemSelectedListen
 		return view;
 	}
 
-	@Override
 	public View getPrototypeView(Context context) {
 		return View.inflate(context, R.layout.toolbox_brick_point_in_direction, null);
 	}

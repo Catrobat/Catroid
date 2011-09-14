@@ -189,7 +189,7 @@ public class AddBrickDialog extends Dialog {
 						&& projectManager.getCurrentScript().containsBrickOfType(LoopEndBrick.class)) {
 					//Don't add new loop brick, only one loop per script for now
 				} else {
-					Brick brickClone = getBrickClone(adapter.getItem(position));
+					Brick brickClone = addedBrick.clone();
 					if (projectManager.getCurrentSprite().getNumberOfScripts() == 0) {
 						Script newScript = new StartScript("script", projectManager.getCurrentSprite());
 						projectManager.addScript(newScript);
@@ -208,9 +208,5 @@ public class AddBrickDialog extends Dialog {
 				dismiss();
 			}
 		});
-	}
-
-	public Brick getBrickClone(Brick brick) {
-		return brick.clone();
 	}
 }
