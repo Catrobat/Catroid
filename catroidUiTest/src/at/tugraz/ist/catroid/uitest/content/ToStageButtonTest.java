@@ -94,7 +94,7 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		solo.goBack();
 		solo.clickLongOnText(getActivity().getString(R.string.brick_when));
-		solo.clickOnText(getActivity().getString(R.string.delete_script_button));
+		solo.clickOnText(getActivity().getString(R.string.delete));
 
 		solo.sleep(100);
 		sprite_list = ProjectManager.getInstance().getCurrentProject().getSpriteList();

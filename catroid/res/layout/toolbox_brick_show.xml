@@ -25,7 +25,7 @@
 	android:background="@drawable/brick_violet"
 >
 	<TextView
-		android:text="@string/show"
+		android:text="@string/brick_show"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:textColor="@color/white"
