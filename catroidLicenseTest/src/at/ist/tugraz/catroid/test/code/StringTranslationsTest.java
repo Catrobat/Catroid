@@ -64,7 +64,7 @@ public class StringTranslationsTest extends TestCase {
 
 		for (int i = 0; i < LANGUAGES.length; i++) {
 			File stringFile = stringFiles.get(i);
-			assertNotNull("File is null: " + stringFile.getCanonicalPath());
+			assertNotNull("File is null: " + stringFile.getCanonicalPath(), stringFile);
 			if (!stringFile.exists() || !stringFile.canRead()) {
 				fail("Could not read file " + stringFile.getCanonicalPath());
 			}
