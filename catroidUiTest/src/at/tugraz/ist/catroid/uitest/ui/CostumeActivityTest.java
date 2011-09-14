@@ -19,6 +19,7 @@
 package at.tugraz.ist.catroid.uitest.ui;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import android.content.Intent;
@@ -42,9 +43,11 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 	private Solo solo;
 	private String costumeName = "costumeNametest";
 	private File imageFile;
+	private File imageFile2;
 	private File paintroidImageFile;
 	private ArrayList<CostumeData> costumeDataList;
 	private final int RESOURCE_IMAGE = R.drawable.catroid_sunglasses;
+	private final int RESOURCE_IMAGE2 = R.drawable.catroid_banzai;
 
 	public CostumeActivityTest() {
 		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
@@ -54,17 +57,26 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 	public void setUp() throws Exception {
 		super.setUp();
 		UiTestUtils.clearAllUtilTestProjects();
+		//		File temp = new File(Consts.DEFAULT_ROOT + "/testFile.png");
+		//		temp.delete();
 		UiTestUtils.createTestProject();
 		imageFile = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_sunglasses.png",
 				RESOURCE_IMAGE, getActivity(), UiTestUtils.TYPE_IMAGE_FILE);
+		imageFile2 = UiTestUtils.saveFileToProject(UiTestUtils.DEFAULT_TEST_PROJECT_NAME, "catroid_banzai.png",
+				RESOURCE_IMAGE2, getActivity(), UiTestUtils.TYPE_IMAGE_FILE);
 
 		paintroidImageFile = UiTestUtils.createTestMediaFile(Consts.DEFAULT_ROOT + "/testFile.png",
-				at.tugraz.ist.catroid.uitest.R.raw.icon, getInstrumentation().getContext());
+				R.drawable.catroid_banzai, getInstrumentation().getContext());
 
 		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
 		CostumeData costumeData = new CostumeData();
 		costumeData.setCostumeFilename(imageFile.getName());
 		costumeData.setCostumeName(costumeName);
+		costumeDataList.add(costumeData);
+		projectManager.fileChecksumContainer.addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
+		costumeData = new CostumeData();
+		costumeData.setCostumeFilename(imageFile2.getName());
+		costumeData.setCostumeName("costumeNameTest2");
 		costumeDataList.add(costumeData);
 		projectManager.fileChecksumContainer.addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
 
@@ -336,5 +348,35 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		}
 	}
 
-	//TODO: check if image stays if more instances are available
+	public void testEditImagePaintroidAlreadyUsedSomewhereElse() throws IOException {
+
+		solo.clickOnText(getActivity().getString(R.string.costumes));
+		solo.sleep(900);
+
+		int numberOfCostumeDatas = costumeDataList.size();
+		CostumeData costumeData = costumeDataList.get(0);
+		(getActivity()).selectedCostumeData = costumeData;
+		String md5ImageFile = Utils.md5Checksum(imageFile);
+		String md5PaintroidImageFile = Utils.md5Checksum(paintroidImageFile);
+
+		Bundle bundleForPaintroid = new Bundle();
+		bundleForPaintroid.putString(getActivity().getString(R.string.extra_picture_path_paintroid),
+				imageFile.getAbsolutePath());
+		bundleForPaintroid.putString("secondExtra", imageFile2.getAbsolutePath());
+
+		Intent intent = new Intent(getInstrumentation().getContext(),
+				at.tugraz.ist.catroid.uitest.mockups.MockPaintroidActivity.class);
+		intent.putExtras(bundleForPaintroid);
+		solo.sleep(5000);
+		getActivity().getCurrentActivity().startActivityForResult(intent, CostumeActivity.REQUEST_PAINTROID_EDIT_IMAGE);
+		solo.sleep(5000);
+
+		assertEquals("Picture changed", Utils.md5Checksum(new File(costumeData.getAbsolutePath())), md5ImageFile);
+		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
+		int newNumberOfCostumeDatas = costumeDataList.size();
+		assertEquals("CostumeData was added", numberOfCostumeDatas, newNumberOfCostumeDatas);
+		assertEquals("too many references for checksum", 1, projectManager.fileChecksumContainer.getUsage(md5ImageFile));
+		assertEquals("too many references for checksum", 2,
+				projectManager.fileChecksumContainer.getUsage(md5PaintroidImageFile));
+	}
 }
