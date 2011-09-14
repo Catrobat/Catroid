@@ -17,34 +17,19 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+				  >
+  
+	<PreferenceCategory android:title="Mindstorm settings"
+ 					 	android:summary="Mindstorm specific settings"
+ 					 	>
 
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_height="wrap_content"
-	android:layout_width="fill_parent"
-	android:orientation="vertical"
-	android:background="@drawable/brick_magenta"
->
-	<TextView
-		android:text="@string/brick_say"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:textColor="@color/white"
-		android:textSize="18dip"
-		android:textStyle="bold"
-	>
-	</TextView>
-	<EditText
-		android:id="@+id/toolbox_brick_say_edit_text"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:minLines = "1"
-		android:scrollbars="vertical"
-		android:clickable="false"
-		android:focusable="false"
-		android:focusableInTouchMode="false"
-	>
-			
-	</EditText>
-</LinearLayout>
+ 		<CheckBoxPreference android:key="setting_mindstorm_bricks"
+ 							android:title="Enable Mindstorm bricks"
+ 							android:summary="These bricks are used to control Mindstorm robots" 
+ 							/>
 
+	</PreferenceCategory>
+
+  
+</PreferenceScreen>
