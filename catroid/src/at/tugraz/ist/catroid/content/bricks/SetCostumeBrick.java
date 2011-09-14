@@ -35,7 +35,6 @@ public class SetCostumeBrick implements Brick {
 	private Sprite sprite;
 	private CostumeData costumeData;
 	private transient View view;
-	private int positionInSpinner;
 
 	public SetCostumeBrick(Sprite sprite) {
 		this.sprite = sprite;
@@ -48,7 +47,7 @@ public class SetCostumeBrick implements Brick {
 	public void execute() {
 		if (costumeData != null && sprite != null && sprite.getCostumeDataList().contains(costumeData)) {
 			if (!NativeAppActivity.isRunning()) {
-				sprite.getCostume().changeImagePath(costumeData.getAbsolutePath());
+				sprite.getCostume().changeImagePath(costumeData);
 			} else {
 				sprite.getCostume().setBitmapFromResource(
 						NativeAppActivity.getContext(),
@@ -58,7 +57,6 @@ public class SetCostumeBrick implements Brick {
 								.getIdentifier(costumeData.getCostumeFileName(), "raw",
 										NativeAppActivity.getContext().getPackageName()));
 			}
-			System.out.println("Position: " + positionInSpinner);
 		}
 	}
 
@@ -82,7 +80,6 @@ public class SetCostumeBrick implements Brick {
 		costumebrickSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				costumeData = (CostumeData) parent.getItemAtPosition(position);
-				positionInSpinner = position;
 			}
 
 			public void onNothingSelected(AdapterView<?> arg0) {
@@ -126,7 +123,4 @@ public class SetCostumeBrick implements Brick {
 
 	}
 
-	public int getPositionOfSelectedCostume() {
-		return (positionInSpinner - 1);
-	}
 }
