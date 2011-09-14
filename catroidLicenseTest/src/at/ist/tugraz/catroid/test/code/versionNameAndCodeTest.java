@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
 
 import junit.framework.TestCase;
 
-public class versionNameAndCodeTest extends TestCase {
+public class VersionNameAndCodeTest extends TestCase {
 
 	private static final String[] DIRECTORIES = { "../catroid", "../catroidTest", "../catroidUiTest" };
 	private static final String VERSION_CODE_REGEX = ".*android:versionCode=\"(\\d+)\".*";
