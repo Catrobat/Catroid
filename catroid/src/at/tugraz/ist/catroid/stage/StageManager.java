@@ -23,11 +23,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Handler;
 import at.tugraz.ist.catroid.ProjectManager;
-import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.SpeakBrick;
 
@@ -95,6 +92,11 @@ public class StageManager {
 		return draw.draw();
 	}
 
+	public boolean saveScreenshot() {
+		draw.draw();
+		return draw.saveScreenshot();
+	}
+
 	public void processOnTouch(int xCoordinate, int yCoordinate, String action) {
 		draw.processOnTouch(xCoordinate, yCoordinate);
 		ArrayList<Sprite> touchedSpriteList = new ArrayList<Sprite>();
@@ -115,12 +117,12 @@ public class StageManager {
 			sprite.pause();
 		}
 
-		if (drawScreen) {
-			Bitmap pauseBitmap = BitmapFactory.decodeResource(activity.getResources(), R.drawable.paused_cat);
-			draw.drawPauseScreen(pauseBitmap);
-			handler.removeCallbacks(runnable);
-			spritesChanged = true;
-		}
+		//		if (drawScreen) {
+		//			Bitmap pauseBitmap = BitmapFactory.decodeResource(activity.getResources(), R.drawable.paused_cat);
+		//			draw.drawPauseScreen(pauseBitmap);
+		//			handler.removeCallbacks(runnable);
+		//			spritesChanged = true;
+		//		}
 
 		isPaused = true;
 	}

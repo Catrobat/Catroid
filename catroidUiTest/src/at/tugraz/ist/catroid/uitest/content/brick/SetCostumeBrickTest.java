@@ -192,6 +192,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		assertEquals("Wrong image shown in stage --> Problem with Adapter update in Script", costume1ImagePath,
 				costumePath);
 		solo.goBack();
+		solo.clickOnText(getActivity().getString(R.string.back_to_construction_site));
 		solo.sleep(300);
 		for (int i = 0; i < 5; i++) {
 			selectCostume(costumeName2, costumeName, costume2ImagePath);
