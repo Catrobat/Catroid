@@ -37,6 +37,7 @@ import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.adapter.CostumeAdapter;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
+import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class CostumeActivity extends ListActivity {
@@ -191,6 +192,15 @@ public class CostumeActivity extends ListActivity {
 			Bundle bundle = data.getExtras();
 			String pathOfPaintroidImage = bundle.getString(this.getString(R.string.extra_picture_path_paintroid));
 
+			//if image is broken abort
+			{
+				int[] imageDimensions = new int[2];
+				imageDimensions = ImageEditing.getImageDimensions(pathOfPaintroidImage);
+				if (imageDimensions[0] < 0 || imageDimensions[1] < 0) {
+					return;
+				}
+			}
+
 			ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
 			CostumeData selectedCostumeData = scriptTabActivity.selectedCostumeData;
 			String actualChecksum = Utils.md5Checksum(new File(pathOfPaintroidImage));
@@ -204,7 +214,7 @@ public class CostumeActivity extends ListActivity {
 					File newCostumeFile = StorageHandler.getInstance().copyImage(projectName, pathOfPaintroidImage,
 							newFileName);
 					File tempPicFileInPaintroid = new File(pathOfPaintroidImage);
-					tempPicFileInPaintroid.delete(); //delete temp file in paintroid //TODO: delete xml file?
+					tempPicFileInPaintroid.delete(); //delete temp file in paintroid
 					StorageHandler.getInstance().deleteFile(selectedCostumeData.getAbsolutePath()); //reduce usage in container or delete it
 					selectedCostumeData.setCostumeFilename(newCostumeFile.getName());
 					selectedCostumeData.resetThumbnailBitmap();
