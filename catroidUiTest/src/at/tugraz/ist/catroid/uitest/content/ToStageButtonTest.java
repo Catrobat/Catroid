@@ -81,6 +81,7 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 		assertEquals("Background sprite has too many scripts", 1, background.getNumberOfScripts());
 
 		solo.goBack();
+		solo.clickOnText(getActivity().getString(R.string.back_to_construction_site));
 		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_when);
 		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_set_size_to);
 		solo.sleep(100);
