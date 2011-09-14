@@ -199,7 +199,6 @@
 	<string name="category_looks">Aussehen</string>
 	<string name="category_sound">Klang</string>
 	<string name="category_control">Steuerung</string>
-	
 
 	<!--  Motion bricks -->
     <string name="brick_place_at">Gehe zu</string>
