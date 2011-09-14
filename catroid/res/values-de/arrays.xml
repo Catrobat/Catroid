@@ -35,6 +35,16 @@
 	  <item>Alle</item>
 	</string-array>
 	
+ 	<string-array name="fancy_directions_chooser">
+    <item>links (45°)</item>
+    <item>links (90°)</item>
+    <item>rechts  (45°)</item>
+    <item>rechts  (90°)</item>
+    <item>umdrehen (180°)</item>
+    <item>ganz Drehen (360°)</item>
+ 	</string-array>
+  	
+	
 	<string-array name="yes_no_array">
 	  <item>Ja</item>
 	  <item>Nein</item>
