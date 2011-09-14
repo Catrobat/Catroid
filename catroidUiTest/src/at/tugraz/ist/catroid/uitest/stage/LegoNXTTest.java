@@ -98,6 +98,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		assertTrue(bluetoothAdapter != null); //Bluetooth not supported on device
 		if (!bluetoothAdapter.isEnabled()) {
 			bluetoothAdapter.enable();
+			solo.sleep(5000);
 		}
 
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);

@@ -267,18 +267,6 @@
 	
 	<!-- defaulValues -->
 	<string name="default_project_name">defaultProject</string>
-	
-	<!-- Notifications -->
-	<string name="notification_invalid_text_entered">
-		Please enter a value
-	</string>
-	<string name="notification_invalid_name_entered">
-		Please enter a name
-	</string>
-	<string name="notification_screenshot_ok">
-			Screenshot saved
-	</string>
-
     
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">
