@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Dialog;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,8 +59,11 @@ public class BrickCategoryDialog extends Dialog {
 		categories.add(inflater.inflate(R.layout.brick_category_looks, null));
 		categories.add(inflater.inflate(R.layout.brick_category_sound, null));
 		categories.add(inflater.inflate(R.layout.brick_category_control, null));
-		categories.add(inflater.inflate(R.layout.brick_category_lego_nxt, null));
 
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+		if (prefs.getBoolean("setting_mindstorm_bricks", false)) {
+			categories.add(inflater.inflate(R.layout.brick_category_lego_nxt, null));
+		}
 		adapter = new BrickCategoryAdapter(categories);
 		listView.setAdapter(adapter);
 	}
