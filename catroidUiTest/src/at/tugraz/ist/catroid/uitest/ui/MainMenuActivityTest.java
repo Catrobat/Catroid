@@ -144,7 +144,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		createTestProject(testProject2);
 
-		solo.clickOnButton(getActivity().getString(R.string.projects_on_phone));
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.clickOnText(testProject2);
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
 		Sprite first = (Sprite) spritesList.getItemAtPosition(1);
@@ -165,7 +165,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		createTestProject(testProject3);
 
-		solo.clickOnButton(getActivity().getString(R.string.projects_on_phone));
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.clickOnText(testProject3);
 		solo.goBack();
 
