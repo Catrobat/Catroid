@@ -191,6 +191,7 @@ public class CanvasDraw implements IDraw {
 
 			String path = Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName() + "/";
 			File file = new File(path + sdf.format(cal.getTime()) + Consts.SCREENSHOT_FILE_NAME);
+
 			File noMediaFile = new File(path + ".nomedia");
 			if (!noMediaFile.exists()) {
 				noMediaFile.createNewFile();
