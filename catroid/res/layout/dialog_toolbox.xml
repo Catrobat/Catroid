@@ -33,5 +33,6 @@
 		android:scrollbarFadeDuration="2000"
 		android:clickable="true"
 		android:dividerHeight="10dip"
+		android:divider="#444444"
 	></ListView>
 </LinearLayout>
