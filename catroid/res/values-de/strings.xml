@@ -183,71 +183,77 @@
 	<!-- Point to spinner -->
 	<string name="point_to_select_location">Wählen</string>
 	
+    <!--  Stage context menu -->
+    <string name="stagemenu_construction_site">Zur Baustelle</string>
+    <string name="stagemenu_start">Abspielen/Pause</string>
+    
 	<!-- Brick categories -->
 	<string name="category_motion">Bewegung</string>
 	<string name="category_looks">Aussehen</string>
 	<string name="category_sound">Klang</string>
 	<string name="category_control">Steuerung</string>
-	
-    <!--  Stage context menu -->
-    <string name="stagemenu_construction_site">Zur Baustelle</string>
-    <string name="stagemenu_start">Abspielen/Pause</string>
 
-    <string name="brick_set_background">Setze Hintergrund</string>
-    <string name="brick_play_sound">Spiele Klang</string>
-    <string name="brick_wait">Warte</string>
-    <string name="seconds">Sekunden</string>
-
-    <string name="brick_hide">Verstecke dich</string>
-    <string name="brick_show">Zeige dich</string>
+	<!--  Motion bricks -->
     <string name="brick_place_at">Gehe zu</string>
     <string name="x_label">X:</string>
     <string name="y_label">Y:</string>
-    <string name="brick_set_costume">Setze Kostüm</string>
-    <string name="brick_set_size_to">Setze Größe auf</string>
-    <string name="brick_change_size_by">Ändere Größe um</string>
+	<string name="brick_set_x">Setze X auf:</string>
+	<string name="brick_set_y">Setze Y auf:</string>
+    <string name="brick_change_x_by">Ändere X um:</string>
+	<string name="brick_change_y_by">Ändere Y um:</string>
     <string name="brick_go_back">Gehe</string>
     <string name="brick_go_back_layers">Ebenen nach hinten</string>
     <string name="brick_come_to_front">Komm nach vorne</string>
-    <string name="brick_when_started">Wenn Projekt gestartet</string>
-    <string name="brick_change_x_by">Ändere X um:</string>
-	<string name="brick_change_y_by">Ändere Y um:</string>
-	<string name="brick_set_x">Setze X auf:</string>
-	<string name="brick_set_y">Setze Y auf:</string>
+	<string name="brick_if_on_edge_bounce">pralle von Rand ab</string>
+	<string name="brick_move">Gehe</string>
+	<string name="brick_move_n_steps">Schritte</string>
+	<string name="brick_turn_left">Drehe links</string>
+	<string name="brick_turn_left_n_degrees">Grad</string>
+	<string name="brick_turn_right">Drehe rechts</string>
+	<string name="brick_turn_right_n_degrees">Grad</string>
+	<string name="brick_point_in_direction">Zeige in Richtung</string>
+	<string name="brick_point_to">Zeige auf</string>
 	<string name="brick_glide">Gleite</string>
 	<string name="brick_glide_to">zu</string>
-	<string name="brick_when">Wenn</string>
+	
+	<!-- Looks bricks -->
+    <string name="brick_set_costume">Setze Kostüm</string>
+    <string name="brick_set_background">Setze Hintergrund</string>
+    <string name="brick_set_size_to">Setze Größe auf</string>
+    <string name="brick_change_size_by">Ändere Größe um</string>
+    <string name="brick_hide">Verstecke dich</string>
+    <string name="brick_show">Zeige dich</string>
 	<string name="brick_set_ghost_effect">Setze Durchsichtigkeits-Effekt</string>
 	<string name="brick_change_ghost_effect">Ändere Durchsichtigkeits-Effekt</string>
 	<string name="brick_set_brightness">Setze Helligkeit</string>
 	<string name="brick_change_brightness">Ändere Helligkeit</string>
-	<string name="by_label">um</string>
-	<string name="to_label">auf</string>
 	<string name="brick_clear_graphic_effect">Schalte Grafikeffekte aus</string>
-	<string name="brick_set_volume_to">Setze Lautstärke auf</string>
-	<string name="brick_change_volume_by">Ändere Lautstärke um</string>
-	<string name="brick_speak">Spreche</string>
-	<string name="brick_forever">Wiederhole fortlaufend</string>
-	<string name="brick_loop_end">Wiederholen beenden</string>
-	<string name="brick_repeat">Wiederhole</string>
-	<string name="times_label">mal</string>
-	<string name="brick_if_on_edge_bounce">pralle von Rand ab</string>
-	<string name="brick_move">Gehe</string>
-	<string name="brick_move_n_steps">Schritte</string>
-	<string name="brick_turn_right">Drehe rechts</string>
-	<string name="brick_turn_right_n_degrees">Grad</string>
-	<string name="brick_turn_left">Drehe links</string>
-	<string name="brick_turn_left_n_degrees">Grad</string>
-	<string name="brick_point_in_direction">Zeige Richtung</string>
-	<string name="brick_point_to">Zeige auf</string>
 	<string name="brick_say">Sage</string>
 	<string name="brick_think">Denke</string>
 	
-	<string name="choose_sound_title">Sound wählen</string>
-	<string name="choose_language">Sprache wählen</string>
 	
+	<!-- Sound bricks -->
+    <string name="brick_play_sound">Spiele Klang</string>
+    <string name="brick_stop_all_sounds">Stoppe alle Sounds</string>
+	<string name="brick_set_volume_to">Setze Lautstärke auf</string>
+	<string name="brick_change_volume_by">Ändere Lautstärke um</string>
+	<string name="brick_speak">Spreche</string>
+	
+	<!-- Control bricks -->
+    <string name="brick_when_started">Wenn Projekt gestartet</string>
+	<string name="brick_when">Wenn</string>
+    <string name="brick_wait">Warte</string>
+    <string name="seconds">Sekunden</string>
+	<string name="brick_broadcast_receive">Wenn ich empfange:</string>
+	<string name="brick_broadcast">Verschicke an alle:</string>
+    <string name="brick_broadcast_wait">Verschicke und warte:</string>
 	<string name="brick_note">Notiz</string>
+	<string name="brick_forever">Wiederhole fortlaufend</string>
+	<string name="brick_repeat">Wiederhole</string>
+	<string name="times_label">mal</string>
+	<string name="brick_loop_end">Wiederholen beenden</string>
 	
+	<!-- Actions -->
 	<string name="when_action">Aktion wählen</string>
     <string name="action_tapped">Angetippt</string>
     <string name="action_doubleTapped">Doppelt angetippt</string>
@@ -257,12 +263,6 @@
     <string name="action_swipeRight">Nach rechts gewischt</string>
     <string name="action_swipeUp">Nach oben gewischt</string>
     <string name="action_swipeDown">Nach unten gewischt</string>
-	
-	<string name="brick_broadcast_receive">Wenn ich empfange:</string>
-	<string name="brick_broadcast">Verschicke an alle:</string>
-    <string name="brick_broadcast_wait">Verschicke und warte:</string>
-    <string name="brick_stop_all_sounds">Stoppe alle Sounds</string>
-    
 
     <!-- defaultValues -->
     <string name="default_project_name">standardProjekt</string>
