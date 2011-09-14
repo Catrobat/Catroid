@@ -78,17 +78,20 @@ public class NXTMotorStopBrickTest extends ActivityInstrumentationTestCase2<Scri
 				getActivity().getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.motor_stop)));
 
+		String[] array = getActivity().getResources().getStringArray(R.array.nxt_stop_motor_chooser);
+		assertTrue("Spinner items list too short!", array.length == 5);
+
 		solo.sleep(500);
-		solo.pressSpinnerItem(0, 4);
-		assertEquals("All", solo.getCurrentSpinners().get(0).getSelectedItem());
+		solo.pressSpinnerItem(0, 5);
+		assertEquals(array[4], solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, -1);
-		assertEquals("A+C", solo.getCurrentSpinners().get(0).getSelectedItem());
+		assertEquals(array[3], solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, -1);
-		assertEquals("C", solo.getCurrentSpinners().get(0).getSelectedItem());
+		assertEquals(array[2], solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, -1);
-		assertEquals("B", solo.getCurrentSpinners().get(0).getSelectedItem());
+		assertEquals(array[1], solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, -1);
-		assertEquals("A", solo.getCurrentSpinners().get(0).getSelectedItem());
+		assertEquals(array[0], solo.getCurrentSpinners().get(0).getSelectedItem());
 
 	}
 

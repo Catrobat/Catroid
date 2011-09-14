@@ -143,14 +143,19 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 		assertEquals("SeekBar is at wrong position", speed + 100, solo.getCurrentProgressBars().get(0).getProgress());
 
 		solo.sleep(1500);
+		String[] array = getActivity().getResources().getStringArray(R.array.nxt_motor_chooser);
+		assertTrue("Spinner items list too short!", array.length == 4);
+
+		solo.sleep(1500);
 		solo.pressSpinnerItem(0, 0);
-		assertEquals("A", solo.getCurrentSpinners().get(0).getSelectedItem());
+		assertEquals(array[0], solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, 1);
-		assertEquals("B", solo.getCurrentSpinners().get(0).getSelectedItem());
+		assertEquals(array[1], solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, 1);
-		assertEquals("C", solo.getCurrentSpinners().get(0).getSelectedItem());
+		assertEquals(array[2], solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, 1);
-		assertEquals("A+C", solo.getCurrentSpinners().get(0).getSelectedItem());
+		assertEquals(array[3], solo.getCurrentSpinners().get(0).getSelectedItem());
+
 	}
 
 	private void createProject() {

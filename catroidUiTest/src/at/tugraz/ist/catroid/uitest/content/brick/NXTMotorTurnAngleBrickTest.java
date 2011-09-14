@@ -105,6 +105,9 @@ public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2
 		assertEquals("-90", solo.getEditText(0).getText().toString());
 		solo.clickInList(5);
 		assertEquals("180", solo.getEditText(0).getText().toString());
+		//		solo.scrollDownList(0); //warning randomness!
+		//		solo.clickInList(5);
+		//		assertEquals("360", solo.getEditText(0).getText().toString());
 
 		solo.sleep(500);
 		solo.clickOnEditText(0);
@@ -118,14 +121,19 @@ public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2
 		assertEquals("Wrong text in field.", setAngle, angle);
 		assertEquals("Value in Brick is not updated.", setAngle + "", solo.getEditText(0).getText().toString());
 
-		solo.pressSpinnerItem(0, 2);
-		assertEquals("C", solo.getCurrentSpinners().get(0).getSelectedItem());
-		solo.pressSpinnerItem(0, -1);
-		assertEquals("B", solo.getCurrentSpinners().get(0).getSelectedItem());
-		solo.pressSpinnerItem(0, -1);
-		assertEquals("A", solo.getCurrentSpinners().get(0).getSelectedItem());
-		solo.pressSpinnerItem(0, 3);
-		assertEquals("A+C", solo.getCurrentSpinners().get(0).getSelectedItem());
+		solo.sleep(1500);
+		String[] array = getActivity().getResources().getStringArray(R.array.nxt_motor_chooser);
+		assertTrue("Spinner items list too short!", array.length == 4);
+
+		solo.sleep(1500);
+		solo.pressSpinnerItem(0, 0);
+		assertEquals(array[0], solo.getCurrentSpinners().get(0).getSelectedItem());
+		solo.pressSpinnerItem(0, 1);
+		assertEquals(array[1], solo.getCurrentSpinners().get(0).getSelectedItem());
+		solo.pressSpinnerItem(0, 1);
+		assertEquals(array[2], solo.getCurrentSpinners().get(0).getSelectedItem());
+		solo.pressSpinnerItem(0, 1);
+		assertEquals(array[3], solo.getCurrentSpinners().get(0).getSelectedItem());
 
 	}
 
