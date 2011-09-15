@@ -48,6 +48,10 @@ public class ThinkBrick implements Brick {
 		this.text = note;
 	}
 
+	public int getRequiredRessources() {
+		return NO_RESSOURCES;
+	}
+
 	public void execute() {
 		sprite.getBubble().setSpeechBubble(text, R.drawable.mind_bubble, R.drawable.mind_bubble_inv);
 	}

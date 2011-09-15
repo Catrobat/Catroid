@@ -43,6 +43,10 @@ public class MoveNStepsBrick implements Brick, OnDismissListener {
 		this.steps = steps;
 	}
 
+	public int getRequiredRessources() {
+		return NO_RESSOURCES;
+	}
+
 	public void execute() {
 
 		int xPosition = sprite.getXPosition();

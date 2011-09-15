@@ -41,6 +41,10 @@ public class SetSizeToBrick implements Brick, OnDismissListener {
 		this.size = size;
 	}
 
+	public int getRequiredRessources() {
+		return NO_RESSOURCES;
+	}
+
 	public void execute() {
 		sprite.setSize(size);
 	}

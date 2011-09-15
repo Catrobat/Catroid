@@ -42,6 +42,10 @@ public class TurnLeftBrick implements Brick, OnDismissListener {
 		this.degrees = degrees;
 	}
 
+	public int getRequiredRessources() {
+		return NO_RESSOURCES;
+	}
+
 	public void execute() {
 		sprite.setDirection(sprite.getDirection() - degrees);
 	}

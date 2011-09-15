@@ -41,6 +41,8 @@ import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
 public class NXTMotorActionBrick implements Brick, OnDismissListener, OnItemSelectedListener, OnSeekBarChangeListener {
 	private static final long serialVersionUID = 1L;
+	public static final int REQUIRED_RESSOURCES = BLUETOOTH_LEGO_NXT;
+
 	private Sprite sprite;
 	private transient Handler btcHandler;
 	private int motor;
@@ -61,7 +63,10 @@ public class NXTMotorActionBrick implements Brick, OnDismissListener, OnItemSele
 		this.sprite = sprite;
 		this.motor = motor;
 		this.speed = speed;
+	}
 
+	public int getRequiredRessources() {
+		return BLUETOOTH_LEGO_NXT;
 	}
 
 	public void execute() {

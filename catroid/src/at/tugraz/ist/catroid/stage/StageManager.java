@@ -26,7 +26,7 @@ import android.app.Activity;
 import android.os.Handler;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.content.bricks.SpeakBrick;
+import at.tugraz.ist.catroid.content.bricks.Brick;
 
 public class StageManager {
 	protected ArrayList<Sprite> spriteList;
@@ -34,8 +34,8 @@ public class StageManager {
 	private IDraw draw;
 	private boolean isPaused;
 	private Handler handler = new Handler();
-	private boolean ttsNeeded = false;
-	private boolean bluetoothNeeded;
+	//	private boolean ttsNeeded = false;
+	//	private boolean bluetoothNeeded;
 	private Runnable runnable = new Runnable() {
 		public void run() {
 			for (Sprite sprite : spriteList) {
@@ -60,14 +60,6 @@ public class StageManager {
 
 		spritesChanged = true;
 		draw = new CanvasDraw(activity);
-
-		if (checkForBrickOfType(SpeakBrick.class)) {
-			ttsNeeded = true;
-		}
-
-		if (checkForBluetoothBricks()) {
-			bluetoothNeeded = true;
-		}
 	}
 
 	public void startScripts() {
@@ -76,22 +68,14 @@ public class StageManager {
 		}
 	}
 
-	private boolean checkForBrickOfType(Class<?> type) {
-		for (Sprite sprite : spriteList) {
-			if (sprite.containsBrickOfType(type)) {
-				return true;
-			}
-		}
-		return false;
-	}
+	public int getRequiredRessources() {
+		int ressources = Brick.NO_RESSOURCES;
 
-	private boolean checkForBluetoothBricks() {
 		for (Sprite sprite : spriteList) {
-			if (sprite.isBluetoothSprite()) {
-				return true;
-			}
+			ressources |= sprite.getRequiredRessources();
+
 		}
-		return false;
+		return ressources;
 	}
 
 	public boolean drawSprites() {
@@ -144,13 +128,5 @@ public class StageManager {
 		for (Sprite sprite : spriteList) {
 			sprite.finish();
 		}
-	}
-
-	public boolean getBluetoothNeeded() {
-		return bluetoothNeeded;
-	}
-
-	public boolean getTTSNeeded() {
-		return ttsNeeded;
 	}
 }

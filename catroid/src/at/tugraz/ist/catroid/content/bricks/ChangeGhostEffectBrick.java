@@ -41,6 +41,10 @@ public class ChangeGhostEffectBrick implements Brick, OnDismissListener {
 		this.changeGhostEffect = changeGhostEffect;
 	}
 
+	public int getRequiredRessources() {
+		return NO_RESSOURCES;
+	}
+
 	public void execute() {
 		double ghostEffectValue = sprite.getGhostEffectValue();
 		ghostEffectValue += changeGhostEffect;

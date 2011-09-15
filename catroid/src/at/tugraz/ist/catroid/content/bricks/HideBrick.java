@@ -37,6 +37,10 @@ public class HideBrick implements Brick {
 		this.sprite = sprite;
 	}
 
+	public int getRequiredRessources() {
+		return NO_RESSOURCES;
+	}
+
 	public void execute() {
 		sprite.hide();
 	}

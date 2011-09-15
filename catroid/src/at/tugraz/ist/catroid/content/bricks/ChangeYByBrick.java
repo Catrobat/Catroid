@@ -44,6 +44,10 @@ public class ChangeYByBrick implements Brick, OnDismissListener {
 		this.yMovement = yMovement;
 	}
 
+	public int getRequiredRessources() {
+		return NO_RESSOURCES;
+	}
+
 	public void execute() {
 		int yPosition = sprite.getYPosition();
 

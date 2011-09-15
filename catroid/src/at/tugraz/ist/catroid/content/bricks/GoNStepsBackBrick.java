@@ -44,6 +44,10 @@ public class GoNStepsBackBrick implements Brick, OnDismissListener {
 		this.steps = steps;
 	}
 
+	public int getRequiredRessources() {
+		return NO_RESSOURCES;
+	}
+
 	public void execute() {
 		if (steps <= 0) {
 			throw new NumberFormatException("Steps was not a positive number!");

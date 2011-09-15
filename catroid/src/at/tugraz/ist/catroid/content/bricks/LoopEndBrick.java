@@ -39,6 +39,10 @@ public class LoopEndBrick implements Brick {
 		this.loopBeginBrick = loopStartingBrick;
 	}
 
+	public int getRequiredRessources() {
+		return NO_RESSOURCES;
+	}
+
 	public void execute() {
 
 		if (timesToRepeat > 0) {

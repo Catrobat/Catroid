@@ -22,10 +22,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.content.bricks.NXTMotorActionBrick;
-import at.tugraz.ist.catroid.content.bricks.NXTMotorStopBrick;
-import at.tugraz.ist.catroid.content.bricks.NXTMotorTurnAngleBrick;
-import at.tugraz.ist.catroid.content.bricks.NXTPlayToneBrick;
 
 public abstract class Script implements Serializable {
 
@@ -121,24 +117,33 @@ public abstract class Script implements Serializable {
 		this.executingBrickIndex = executingBrickIndex;
 	}
 
+	public int getRequiredRessources() {
+		int ressources = Brick.NO_RESSOURCES;
+
+		for (Brick brick : brickList) {
+			ressources |= brick.getRequiredRessources();
+		}
+		return ressources;
+	}
+
 	public boolean containsBrickOfType(Class<?> type) {
 		for (Brick brick : brickList) {
+			//Log.i("bt", brick.REQUIRED_RESSOURCES + "");
 			if (brick.getClass() == type) {
-				//Log.i("bt", "brick of type is in list");
 				return true;
 			}
 		}
 		return false;
 
 	}
-
-	public boolean containsBluetoothBrick() {
-		for (Brick brick : brickList) {
-			if ((brick instanceof NXTMotorActionBrick) || (brick instanceof NXTMotorTurnAngleBrick)
-					|| (brick instanceof NXTMotorStopBrick) || (brick instanceof NXTPlayToneBrick)) {
-				return true;
-			}
-		}
-		return false;
-	}
+	//
+	//	public boolean containsBluetoothBrick() {
+	//		for (Brick brick : brickList) {
+	//			if ((brick instanceof NXTMotorActionBrick) || (brick instanceof NXTMotorTurnAngleBrick)
+	//					|| (brick instanceof NXTMotorStopBrick) || (brick instanceof NXTPlayToneBrick)) {
+	//				return true;
+	//			}
+	//		}
+	//		return false;
+	//	}
 }
