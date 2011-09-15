@@ -147,50 +147,58 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDr
 		return false;
 	}
 
-	public void drag(int from, int to) {
+	public void drag(long from, long to) {
 
-		int childFrom = Math.max(0, from - getGroupCount());
-		int childTo = Math.max(0, to - getGroupCount());
-		childFrom = Math.min(childFrom, getChildCountFromLastGroup() - 1);
-		childTo = Math.min(childTo, getChildCountFromLastGroup() - 1);
+		int childFrom = ExpandableListView.getPackedPositionChild(from);
+		int groupFrom = ExpandableListView.getPackedPositionGroup(from);
 
-		if (draggedBrick == null) {
-			draggedBrick = getChild(getCurrentGroup(), childFrom);
-			notifyDataSetChanged();
-		}
+		int childTo;
+		int groupTo;
 
-		ArrayList<Brick> brickList = getBrickList();
+		if (ExpandableListView.getPackedPositionType(to) == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+			childTo = ExpandableListView.getPackedPositionChild(to);
+			groupTo = ExpandableListView.getPackedPositionGroup(to);
 
-		if (draggedBrick instanceof LoopBeginBrick) {
-			LoopEndBrick loopEndBrick = ((LoopBeginBrick) draggedBrick).getLoopEndBrick();
-
-			if (childTo >= brickList.indexOf(loopEndBrick) || childFrom >= brickList.indexOf(loopEndBrick)) {
-				return;
+			if (draggedBrick == null && childFrom != -1) {
+				draggedBrick = getChild(groupFrom, childFrom);
+				notifyDataSetChanged();
 			}
-		} else if (draggedBrick instanceof LoopEndBrick) {
-			LoopBeginBrick loopBeginBrick = ((LoopEndBrick) draggedBrick).getLoopBeginBrick();
 
-			if (childTo <= brickList.indexOf(loopBeginBrick) || childFrom <= brickList.indexOf(loopBeginBrick)) {
-				return;
+			ArrayList<Brick> brickList = sprite.getScript(groupFrom).getBrickList();
+
+			if (draggedBrick instanceof LoopBeginBrick) {
+				LoopEndBrick loopEndBrick = ((LoopBeginBrick) draggedBrick).getLoopEndBrick();
+
+				if (childTo >= brickList.indexOf(loopEndBrick) || childFrom >= brickList.indexOf(loopEndBrick)) {
+					return;
+				}
+			} else if (draggedBrick instanceof LoopEndBrick) {
+				LoopBeginBrick loopBeginBrick = ((LoopEndBrick) draggedBrick).getLoopBeginBrick();
+
+				if (childTo <= brickList.indexOf(loopBeginBrick) || childFrom <= brickList.indexOf(loopBeginBrick)) {
+					return;
+				}
 			}
-		}
 
-		dragTargetPosition = childTo;
+			dragTargetPosition = childTo;
 
-		if (childFrom != childTo) {
-			Brick removedBrick = getBrickList().remove(childFrom);
-			sprite.getScript(getCurrentGroup()).addBrick(childTo, removedBrick);
-			notifyDataSetChanged();
+			if (from != to) {
+				sprite.getScript(groupFrom).removeBrick(draggedBrick);
+				sprite.getScript(groupTo).addBrick(childTo, draggedBrick);
+				notifyDataSetChanged();
+			}
+
 		}
 
 	}
 
-	public void drop(int to) {
+	public void drop(long to) {
 		draggedBrick = null;
 		notifyDataSetChanged();
 	}
 
-	public void remove(int index) {
+	public void remove(long index) {
+
 		ArrayList<Brick> brickList = getBrickList();
 		if (draggedBrick instanceof LoopBeginBrick) {
 			LoopBeginBrick loopBeginBrick = (LoopBeginBrick) draggedBrick;

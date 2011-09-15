@@ -20,10 +20,10 @@ package at.tugraz.ist.catroid.ui.dragndrop;
 
 public interface DragAndDropListener {
 
-	void drag(int from, int to);
+	void drag(long from, long to);
 
-	void drop(int to);
+	void drop(long to);
 
-	void remove(int index);
+	void remove(long index);
 
 }

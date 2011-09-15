@@ -126,4 +126,8 @@ public abstract class Script implements Serializable {
 		}
 		return false;
 	}
+
+	public Brick getBrick(int index) {
+		return brickList.get(index);
+	}
 }
