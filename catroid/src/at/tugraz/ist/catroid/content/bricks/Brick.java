@@ -26,7 +26,7 @@ import android.widget.BaseExpandableListAdapter;
 import at.tugraz.ist.catroid.content.Sprite;
 
 public interface Brick extends Serializable {
-
+	//
 	public void execute();
 
 	public Sprite getSprite();
