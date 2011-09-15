@@ -25,9 +25,6 @@ public abstract class LoopBeginBrick implements Brick {
 	protected Sprite sprite;
 	protected LoopEndBrick loopEndBrick;
 	private long beginLoopTime;
-	public static final transient int BRICK_BEHAVIOUR = Brick.NORMAL_BRICK | Brick.BACKGROUND_BRICK
-			| Brick.IS_LOOP_BEGIN_BRICK;
-	public static final transient int BRICK_RESSOURCES = Brick.NO_RESOURCES;
 
 	protected LoopBeginBrick() {
 	}
