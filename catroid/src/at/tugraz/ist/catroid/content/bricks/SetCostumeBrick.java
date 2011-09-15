@@ -41,6 +41,10 @@ public class SetCostumeBrick implements Brick {
 		this.sprite = sprite;
 	}
 
+	public int getRequiredResources() {
+		return NO_RESOURCES;
+	}
+
 	public void setCostume(CostumeData costumeData) {
 		this.costumeData = costumeData;
 	}

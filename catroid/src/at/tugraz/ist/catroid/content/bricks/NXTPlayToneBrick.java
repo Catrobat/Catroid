@@ -39,6 +39,8 @@ import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
 public class NXTPlayToneBrick implements Brick, OnDismissListener, OnSeekBarChangeListener {
 	private static final long serialVersionUID = 1L;
+	public static final int REQUIRED_RESSOURCES = BLUETOOTH_LEGO_NXT;
+
 	private Sprite sprite;
 	private transient Handler btcHandler;
 	private int frequency;
@@ -56,7 +58,10 @@ public class NXTPlayToneBrick implements Brick, OnDismissListener, OnSeekBarChan
 		this.sprite = sprite;
 		this.frequency = frequency;
 		this.duration = duration;
+	}
 
+	public int getRequiredResources() {
+		return BLUETOOTH_LEGO_NXT;
 	}
 
 	public void execute() {

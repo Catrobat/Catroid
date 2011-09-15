@@ -32,6 +32,8 @@ import at.tugraz.ist.catroid.content.Sprite;
 
 public class NXTMotorStopBrick implements Brick, OnItemSelectedListener {
 	private static final long serialVersionUID = 1L;
+	public static final int REQUIRED_RESSOURCES = BLUETOOTH_LEGO_NXT;
+
 	private Sprite sprite;
 	private Handler btcHandler;
 	private int motor;
@@ -45,7 +47,10 @@ public class NXTMotorStopBrick implements Brick, OnItemSelectedListener {
 	public NXTMotorStopBrick(Sprite sprite, int motor) {
 		this.sprite = sprite;
 		this.motor = motor;
+	}
 
+	public int getRequiredResources() {
+		return BLUETOOTH_LEGO_NXT;
 	}
 
 	public void execute() {
