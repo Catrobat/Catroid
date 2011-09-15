@@ -43,6 +43,8 @@ import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
 public class NXTMotorTurnAngleBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
+	public static final int REQUIRED_RESSOURCES = BLUETOOTH_LEGO_NXT;
+
 	private Sprite sprite;
 	private Handler btcHandler;
 	private int motor;
@@ -60,7 +62,10 @@ public class NXTMotorTurnAngleBrick implements Brick, OnDismissListener {
 		this.sprite = sprite;
 		this.motor = motor;
 		this.angle = angle;
+	}
 
+	public int getRequiredResources() {
+		return BLUETOOTH_LEGO_NXT;
 	}
 
 	public void execute() {

@@ -43,6 +43,10 @@ public class RepeatBrick extends LoopBeginBrick implements OnDismissListener {
 		this.timesToRepeat = timesToRepeat;
 	}
 
+	public int getRequiredResources() {
+		return NO_RESOURCES;
+	}
+
 	@Override
 	public void execute() {
 		loopEndBrick.setTimesToRepeat(timesToRepeat);

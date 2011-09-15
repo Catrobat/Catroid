@@ -41,6 +41,10 @@ public class SetGhostEffectBrick implements Brick, OnDismissListener {
 		this.ghostEffectValue = ghostEffectValue;
 	}
 
+	public int getRequiredResources() {
+		return NO_RESOURCES;
+	}
+
 	public void execute() {
 		sprite.setGhostEffectValue(ghostEffectValue);
 	}

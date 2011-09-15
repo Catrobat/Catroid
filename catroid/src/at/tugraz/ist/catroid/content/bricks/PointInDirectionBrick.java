@@ -50,6 +50,10 @@ public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 		this.selectedIndex = selectedIndex;
 	}
 
+	public int getRequiredResources() {
+		return NO_RESOURCES;
+	}
+
 	public void execute() {
 		sprite.setDirection(directions[selectedIndex]);
 	}

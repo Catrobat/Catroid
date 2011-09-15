@@ -35,6 +35,10 @@ public class ClearGraphicEffectBrick implements Brick {
 		this.sprite = sprite;
 	}
 
+	public int getRequiredResources() {
+		return NO_RESOURCES;
+	}
+
 	public void execute() {
 		sprite.clearGraphicEffect();
 	}
