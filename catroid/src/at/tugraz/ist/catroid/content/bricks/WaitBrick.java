@@ -42,6 +42,10 @@ public class WaitBrick implements Brick, OnDismissListener {
 		this.sprite = sprite;
 	}
 
+	public int getRequiredResources() {
+		return NO_RESOURCES;
+	}
+
 	public void execute() {
 		long startTime = System.currentTimeMillis();
 		int timeToWait = timeToWaitInMilliSeconds;

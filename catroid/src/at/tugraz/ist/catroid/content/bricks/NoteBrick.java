@@ -43,6 +43,10 @@ public class NoteBrick implements Brick {
 		this.sprite = sprite;
 	}
 
+	public int getRequiredResources() {
+		return NO_RESOURCES;
+	}
+
 	public NoteBrick(Sprite sprite, String note) {
 		this.sprite = sprite;
 		this.note = note;

@@ -32,6 +32,8 @@ import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 
 public class SetVolumeToBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
+	public static final int REQUIRED_RESSOURCES = SOUND_MANAGER;
+
 	private Sprite sprite;
 	private double volume;
 
@@ -40,6 +42,10 @@ public class SetVolumeToBrick implements Brick, OnDismissListener {
 	public SetVolumeToBrick(Sprite sprite, double volume) {
 		this.sprite = sprite;
 		this.volume = volume;
+	}
+
+	public int getRequiredResources() {
+		return SOUND_MANAGER;
 	}
 
 	public void execute() {
