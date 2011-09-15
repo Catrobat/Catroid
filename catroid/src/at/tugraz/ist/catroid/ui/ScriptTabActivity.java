@@ -22,6 +22,8 @@ package at.tugraz.ist.catroid.ui;
 import android.app.Dialog;
 import android.app.TabActivity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Pair;
@@ -36,11 +38,12 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.stage.StageActivity;
+import at.tugraz.ist.catroid.ui.dialogs.BrickCategoryDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameCostumeDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameSoundDialog;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
 
-public class ScriptTabActivity extends TabActivity {
+public class ScriptTabActivity extends TabActivity implements OnDismissListener {
 	protected ActivityHelper activityHelper;
 
 	private TabHost tabHost;
@@ -50,6 +53,7 @@ public class ScriptTabActivity extends TabActivity {
 	private RenameCostumeDialog renameCostumeDialog;
 	public static final int DIALOG_RENAME_COSTUME = 0;
 	public static final int DIALOG_RENAME_SOUND = 1;
+	public static final int DIALOG_ADD_BRICK = 2;
 
 	private void setupTabHost() {
 		tabHost = (TabHost) findViewById(android.R.id.tabhost);
@@ -149,6 +153,10 @@ public class ScriptTabActivity extends TabActivity {
 					dialog = renameCostumeDialog.createDialog(selectedCostumeData);
 				}
 				break;
+			case DIALOG_ADD_BRICK:
+				dialog = new BrickCategoryDialog(this);
+				dialog.setOnDismissListener(this);
+				break;
 			default:
 				dialog = null;
 				break;
@@ -184,6 +192,10 @@ public class ScriptTabActivity extends TabActivity {
 
 	public void handleNegativeButtonRenameCostume(View v) {
 		dismissDialog(DIALOG_RENAME_COSTUME);
+	}
+
+	public void onDismiss(DialogInterface dialogInterface) {
+		((ScriptActivity) getCurrentActivity()).updateAdapterAfterAddNewBrick(dialogInterface);
 	}
 
 }
