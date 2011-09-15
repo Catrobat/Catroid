@@ -19,12 +19,28 @@
 package at.tugraz.ist.catroid.uitest.stage;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
 
 import android.test.ActivityInstrumentationTestCase2;
+import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.common.Values;
+import at.tugraz.ist.catroid.content.Project;
+import at.tugraz.ist.catroid.content.Script;
+import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
+import at.tugraz.ist.catroid.content.WhenScript;
+import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
+import at.tugraz.ist.catroid.utils.RGBA8888ToPngEncoder;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.jayway.android.robotium.solo.Solo;
 
 public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
@@ -89,7 +105,44 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		super.tearDown();
 	}
 
+	public boolean makeScreenshot() {
+		Gdx.gl.glViewport(0, 0, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
+		byte[] screenshot = ScreenUtils.getFrameBufferPixels(0, 0, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT, true);
+		String pathForScreenshot = Consts.DEFAULT_ROOT + "/";
+		FileHandle image = Gdx.files.absolute(pathForScreenshot + Consts.SCREENSHOT_FILE_NAME);
+		OutputStream stream = image.write(false);
+		try {
+			byte[] bytes = RGBA8888ToPngEncoder.toPNG(screenshot, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+			stream.write(bytes);
+			stream.close();
+		} catch (IOException e) {
+			return false;
+		}
+		return true;
+	}
+
 	public void testStageFromLandscapeOrientation() {
+		createTestproject(projectName);
+		solo.sleep(5000);
+		UiTestUtils.clickOnImageButton(solo, at.tugraz.ist.catroid.R.id.btn_action_play);
+
+		solo.sleep(10000);
+
+		makeScreenshot();
+
+		//		Bitmap testBitmap = BitmapFactory.decodeByteArray(code.array(), 0, code.array().length);
+		//
+		//		String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
+		//		OutputStream outStream = null;
+		//		File file = new File(extStorageDirectory, "er.PNG");
+		//		try {
+		//			outStream = new FileOutputStream(file);
+		//			testBitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+		//			outStream.flush();
+		//			outStream.close();
+		//		} catch (Exception e) {
+		//		}
+
 		/*
 		 * createTestproject(projectName);
 		 * solo.setActivityOrientation(Solo.LANDSCAPE);
@@ -474,43 +527,43 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 	}
 
 	public void createTestproject(String projectName) {
-		/*
-		 * //creating sprites for project:
-		 * Sprite firstSprite = new Sprite("sprite1");
-		 * Script startScript = new StartScript("startScript", firstSprite);
-		 * Script whenScript = new WhenScript("whenScript", firstSprite);
-		 * 
-		 * SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
-		 * SetCostumeBrick setCostumeBrick2 = new SetCostumeBrick(firstSprite);
-		 * 
-		 * startScript.addBrick(setCostumeBrick);
-		 * whenScript.addBrick(setCostumeBrick2);
-		 * firstSprite.addScript(startScript);
-		 * firstSprite.addScript(whenScript);
-		 * 
-		 * ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
-		 * spriteList.add(firstSprite);
-		 * Project project = UiTestUtils.createProject(projectName, spriteList, getActivity());
-		 * 
-		 * image1 = UiTestUtils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation()
-		 * .getContext(), UiTestUtils.TYPE_IMAGE_FILE);
-		 * image2 = UiTestUtils.saveFileToProject(projectName, imageName2, IMAGE_FILE_ID2, getInstrumentation()
-		 * .getContext(), UiTestUtils.TYPE_IMAGE_FILE);
-		 * setImageMemberProperties(image1);
-		 * setImageMemberProperties(image2);
-		 * CostumeData costumeData = new CostumeData();
-		 * costumeData.setCostumeFilename(image1.getName());
-		 * costumeData.setCostumeName("image1");
-		 * setCostumeBrick.setCostume(costumeData);
-		 * firstSprite.getCostumeDataList().add(costumeData);
-		 * costumeData = new CostumeData();
-		 * costumeData.setCostumeFilename(image2.getName());
-		 * costumeData.setCostumeName("image2");
-		 * setCostumeBrick2.setCostume(costumeData);
-		 * firstSprite.getCostumeDataList().add(costumeData);
-		 * 
-		 * storageHandler.saveProject(project);
-		 */
+
+		//creating sprites for project:
+		Sprite firstSprite = new Sprite("sprite1");
+		Script startScript = new StartScript("startScript", firstSprite);
+		Script whenScript = new WhenScript("whenScript", firstSprite);
+
+		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
+		SetCostumeBrick setCostumeBrick2 = new SetCostumeBrick(firstSprite);
+
+		startScript.addBrick(setCostumeBrick);
+		whenScript.addBrick(setCostumeBrick2);
+		firstSprite.addScript(startScript);
+		firstSprite.addScript(whenScript);
+
+		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
+		spriteList.add(firstSprite);
+		Project project = UiTestUtils.createProject(projectName, spriteList, getActivity());
+
+		image1 = UiTestUtils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation()
+				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
+		image2 = UiTestUtils.saveFileToProject(projectName, imageName2, IMAGE_FILE_ID2, getInstrumentation()
+				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
+		setImageMemberProperties(image1);
+		setImageMemberProperties(image2);
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image1.getName());
+		costumeData.setCostumeName("image1");
+		setCostumeBrick.setCostume(costumeData);
+		firstSprite.getCostumeDataList().add(costumeData);
+		costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image2.getName());
+		costumeData.setCostumeName("image2");
+		setCostumeBrick2.setCostume(costumeData);
+		firstSprite.getCostumeDataList().add(costumeData);
+
+		storageHandler.saveProject(project);
+
 	}
 
 	public void createTestProject2(String projectName) {
