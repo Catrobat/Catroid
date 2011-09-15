@@ -52,7 +52,6 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	private String testProject = UiTestUtils.PROJECTNAME1;
 	private String testProject2 = UiTestUtils.PROJECTNAME2;
 	private String testProject3 = UiTestUtils.PROJECTNAME3;
-	private String existingProject = UiTestUtils.PROJECTNAME4;
 
 	public MainMenuActivityTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);

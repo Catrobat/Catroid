@@ -32,14 +32,14 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickCategoryAdapter;
 
 public class BrickCategoryDialog extends Dialog {
-	private ScriptActivity activity;
+	private ScriptTabActivity activity;
 	private BrickCategoryAdapter adapter;
 
-	public BrickCategoryDialog(ScriptActivity activity) {
+	public BrickCategoryDialog(ScriptTabActivity activity) {
 		super(activity);
 		this.activity = activity;
 

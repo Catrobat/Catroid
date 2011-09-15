@@ -84,7 +84,7 @@ import at.tugraz.ist.catroid.content.bricks.TurnRightBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.content.bricks.WhenBrick;
 import at.tugraz.ist.catroid.content.bricks.WhenStartedBrick;
-import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.PrototypeBrickAdapter;
 
 public class AddBrickDialog extends Dialog {
@@ -93,7 +93,7 @@ public class AddBrickDialog extends Dialog {
 
 	private ListView listView;
 	private PrototypeBrickAdapter adapter;
-	private ScriptActivity scriptActivity;
+	private ScriptTabActivity scriptActivity;
 	private Dialog parentDialog;
 	private String category;
 
@@ -171,7 +171,7 @@ public class AddBrickDialog extends Dialog {
 
 	}
 
-	public AddBrickDialog(Dialog parentDialog, ScriptActivity scriptActivity, String category) {
+	public AddBrickDialog(Dialog parentDialog, ScriptTabActivity scriptActivity, String category) {
 		super(scriptActivity);
 		this.parentDialog = parentDialog;
 		this.scriptActivity = scriptActivity;
