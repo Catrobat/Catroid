@@ -124,9 +124,9 @@ public class DragAndDropListView extends ExpandableListView implements OnLongCli
 					trashView.setVisibility(View.GONE);
 
 					if (x > getWidth() * 3 / 4) {
-						dragAndDropListener.remove(itemPosition);
+						dragAndDropListener.remove(getExpandableListPosition(itemPosition));
 					} else {
-						dragAndDropListener.drop(itemPosition);
+						dragAndDropListener.drop(getExpandableListPosition(itemPosition));
 					}
 
 					break;
@@ -160,7 +160,8 @@ public class DragAndDropListView extends ExpandableListView implements OnLongCli
 						}
 
 						if ((y > lowerDragBound || y < upperDragBound)) {
-							dragAndDropListener.drag(previousItemPosition, itemPosition);
+							dragAndDropListener.drag(getExpandableListPosition(previousItemPosition),
+									getExpandableListPosition(itemPosition));
 							previousItemPosition = itemPosition;
 
 						}

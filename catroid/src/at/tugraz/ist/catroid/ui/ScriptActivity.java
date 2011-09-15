@@ -65,6 +65,12 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		listView.setAdapter(adapter);
 		listView.setGroupIndicator(null);
 		listView.setOnGroupClickListener(adapter);
+
+		int count = adapter.getGroupCount();
+		for (int i = 0; i < count; i++) {
+			listView.expandGroup(i);
+		}
+
 		registerForContextMenu(listView);
 	}
 
