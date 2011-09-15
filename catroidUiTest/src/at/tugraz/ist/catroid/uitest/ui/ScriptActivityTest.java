@@ -118,8 +118,8 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 		longClickAndDrag(10, yPositionList.get(4), 10, yPositionList.get(2), 20);
 		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
 
-		assertEquals("Brick count not equal before and after dragging & dropping", brickListToCheck.size(), brickList
-				.size());
+		assertEquals("Brick count not equal before and after dragging & dropping", brickListToCheck.size(),
+				brickList.size());
 		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(0), brickList.get(0));
 		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(3), brickList.get(1));
 		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(1), brickList.get(2));
@@ -143,6 +143,23 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 		assertEquals("Incorrect brick order after deleting a brick", brickListToCheck.get(2), brickList.get(1));
 		assertEquals("Incorrect brick order after deleting a brick", brickListToCheck.get(3), brickList.get(2));
 		assertEquals("Incorrect brick order after deleting a brick", brickListToCheck.get(4), brickList.get(3));
+	}
+
+	public void testSetBackgroundBrick() {
+		String currentProject = getActivity().getString(R.string.current_project_button);
+		String background = getActivity().getString(R.string.background);
+		String categoryLooks = getActivity().getString(R.string.category_looks);
+		String setBackground = getActivity().getString(R.string.brick_set_background);
+
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
+		solo.sleep(200);
+		solo.clickOnText(currentProject);
+		solo.clickOnText(background);
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
+		solo.clickOnText(categoryLooks);
+		assertTrue("SetCostumeBrick was not renamed for background sprite", solo.searchText(setBackground));
+		solo.clickOnText(setBackground);
+		assertTrue("SetCostumeBrick was not renamed for background sprite", solo.searchText(setBackground));
 	}
 
 	/**

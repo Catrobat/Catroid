@@ -43,7 +43,7 @@ public class ChangeVolumeByBrick implements Brick, OnDismissListener {
 		this.volume = changeVolume;
 	}
 
-	public int getRequiredRessources() {
+	public int getRequiredResources() {
 		return SOUND_MANAGER;
 	}
 

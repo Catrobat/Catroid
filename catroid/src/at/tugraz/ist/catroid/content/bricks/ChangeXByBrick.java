@@ -44,8 +44,8 @@ public class ChangeXByBrick implements Brick, OnDismissListener {
 		this.xMovement = xMovement;
 	}
 
-	public int getRequiredRessources() {
-		return NO_RESSOURCES;
+	public int getRequiredResources() {
+		return NO_RESOURCES;
 	}
 
 	public void execute() {

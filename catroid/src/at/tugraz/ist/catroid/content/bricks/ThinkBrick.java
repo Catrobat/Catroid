@@ -48,8 +48,8 @@ public class ThinkBrick implements Brick {
 		this.text = note;
 	}
 
-	public int getRequiredRessources() {
-		return NO_RESSOURCES;
+	public int getRequiredResources() {
+		return NO_RESOURCES;
 	}
 
 	public void execute() {

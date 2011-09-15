@@ -95,7 +95,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		createTestproject(projectName);
 
 		BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-		assertTrue(bluetoothAdapter != null); //Bluetooth not supported on device
+		assertTrue("Bluetooth not supported on device", bluetoothAdapter != null);
 		if (!bluetoothAdapter.isEnabled()) {
 			bluetoothAdapter.enable();
 			solo.sleep(5000);

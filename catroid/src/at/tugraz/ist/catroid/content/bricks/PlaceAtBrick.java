@@ -46,8 +46,8 @@ public class PlaceAtBrick implements Brick, OnDismissListener {
 		this.yPosition = yPosition;
 	}
 
-	public int getRequiredRessources() {
-		return NO_RESSOURCES;
+	public int getRequiredResources() {
+		return NO_RESOURCES;
 	}
 
 	public void execute() {

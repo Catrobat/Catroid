@@ -38,8 +38,8 @@ public class ComeToFrontBrick implements Brick {
 		this.sprite = sprite;
 	}
 
-	public int getRequiredRessources() {
-		return NO_RESSOURCES;
+	public int getRequiredResources() {
+		return NO_RESOURCES;
 	}
 
 	public void execute() {

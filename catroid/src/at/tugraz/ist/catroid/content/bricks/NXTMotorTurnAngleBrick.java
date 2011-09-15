@@ -64,7 +64,7 @@ public class NXTMotorTurnAngleBrick implements Brick, OnDismissListener {
 		this.angle = angle;
 	}
 
-	public int getRequiredRessources() {
+	public int getRequiredResources() {
 		return BLUETOOTH_LEGO_NXT;
 	}
 

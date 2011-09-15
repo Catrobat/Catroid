@@ -117,7 +117,7 @@ public class AddBrickDialog extends Dialog {
 			motionBrickList.add(new MoveNStepsBrick(sprite, 10));
 			motionBrickList.add(new TurnLeftBrick(sprite, 15));
 			motionBrickList.add(new TurnRightBrick(sprite, 15));
-			motionBrickList.add(new PointInDirectionBrick(sprite, 90));
+			motionBrickList.add(new PointInDirectionBrick(sprite, 0));
 			motionBrickList.add(new PointToBrick(sprite, null));
 		}
 		motionBrickList.add(new GlideToBrick(sprite, 800, 0, 1000));

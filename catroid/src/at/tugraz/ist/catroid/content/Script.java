@@ -117,11 +117,11 @@ public abstract class Script implements Serializable {
 		this.executingBrickIndex = executingBrickIndex;
 	}
 
-	public int getRequiredRessources() {
-		int ressources = Brick.NO_RESSOURCES;
+	public int getRequiredResources() {
+		int ressources = Brick.NO_RESOURCES;
 
 		for (Brick brick : brickList) {
-			ressources |= brick.getRequiredRessources();
+			ressources |= brick.getRequiredResources();
 		}
 		return ressources;
 	}

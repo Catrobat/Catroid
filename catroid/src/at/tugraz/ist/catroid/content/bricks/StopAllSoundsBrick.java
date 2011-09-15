@@ -40,7 +40,7 @@ public class StopAllSoundsBrick implements Brick {
 		this.sprite = sprite;
 	}
 
-	public int getRequiredRessources() {
+	public int getRequiredResources() {
 		return SOUND_MANAGER;
 	}
 

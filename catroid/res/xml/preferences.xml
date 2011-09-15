@@ -20,13 +20,13 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
 				  >
   
-	<PreferenceCategory android:title="Mindstorm settings"
- 					 	android:summary="Mindstorm specific settings"
+	<PreferenceCategory android:title="@string/pref_category_mindstorm"
  					 	>
 
  		<CheckBoxPreference android:key="setting_mindstorm_bricks"
- 							android:title="Enable Mindstorm bricks"
- 							android:summary="These bricks are used to control Mindstorm robots" 
+ 							android:title="@string/pref_enable_ms_bricks"
+ 							android:summary="@string/pref_descr_ms_bricks" 
+ 							android:defaultValue="false"
  							/>
 
 	</PreferenceCategory>

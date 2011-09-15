@@ -45,7 +45,7 @@ public class SpeakBrick implements Brick {
 		this.text = text;
 	}
 
-	public int getRequiredRessources() {
+	public int getRequiredResources() {
 		return TEXT_TO_SPEECH;
 	}
 

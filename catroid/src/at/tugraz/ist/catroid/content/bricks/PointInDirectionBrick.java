@@ -50,8 +50,8 @@ public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 		this.selectedIndex = selectedIndex;
 	}
 
-	public int getRequiredRessources() {
-		return NO_RESSOURCES;
+	public int getRequiredResources() {
+		return NO_RESOURCES;
 	}
 
 	public void execute() {

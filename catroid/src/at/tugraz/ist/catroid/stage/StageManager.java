@@ -68,11 +68,11 @@ public class StageManager {
 		}
 	}
 
-	public int getRequiredRessources() {
-		int ressources = Brick.NO_RESSOURCES;
+	public int getRequiredResources() {
+		int ressources = Brick.NO_RESOURCES;
 
 		for (Sprite sprite : spriteList) {
-			ressources |= sprite.getRequiredRessources();
+			ressources |= sprite.getRequiredResources();
 
 		}
 		return ressources;
