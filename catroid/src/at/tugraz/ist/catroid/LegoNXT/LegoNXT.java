@@ -68,13 +68,10 @@ public class LegoNXT implements BTConnectable {
 	@SuppressWarnings("unused")
 	private static int MOTOR_COMMAND = 102;
 	private static int TONE_COMMAND = 101;
-	@SuppressWarnings("unused")
-	private boolean simulatorMode = false;
 
-	public LegoNXT(Activity activity, Handler recieverHandler, boolean simulator) {
+	public LegoNXT(Activity activity, Handler recieverHandler) {
 		this.activity = activity;
 		this.recieverHandler = recieverHandler;
-		simulatorMode = simulator;
 	}
 
 	public void startSimCommunicator() {

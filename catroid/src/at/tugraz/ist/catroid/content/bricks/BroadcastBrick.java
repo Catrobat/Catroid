@@ -60,6 +60,10 @@ public class BroadcastBrick implements Brick {
 		this.projectManager = ProjectManager.getInstance();
 	}
 
+	public int getRequiredResources() {
+		return NO_RESOURCES;
+	}
+
 	public void execute() {
 		final Vector<BroadcastScript> receiver = projectManager.messageContainer.getReceiverOfMessage(selectedMessage);
 		if (receiver == null) {

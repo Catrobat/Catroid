@@ -44,6 +44,7 @@ import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXTBtCommunicator;
 import at.tugraz.ist.catroid.bluetooth.BluetoothManager;
 import at.tugraz.ist.catroid.bluetooth.DeviceListActivity;
+import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.stage.SimpleGestureFilter.SimpleGestureListener;
 import at.tugraz.ist.catroid.ui.dialogs.StageDialog;
@@ -62,7 +63,6 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 	private LegoNXT legoNXT;
 	private BluetoothManager bluetoothManager;
 	private ProgressDialog connectingProgressDialog;
-	private static boolean simulatorMode = false;
 	private SimpleGestureFilter detector;
 	private final static String TAG = StageActivity.class.getSimpleName();
 	public static TextToSpeech textToSpeechEngine;
@@ -70,6 +70,7 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 	public boolean flag = true;
 	private int spritePositionOnStageStart;
 	private int scriptPositionOnStageStart;
+	private int requiredResourceCounter = 0;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -85,32 +86,40 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 			Utils.updateScreenWidthAndHeight(this);
 
-			soundManager = SoundManager.getInstance();
 			stageManager = new StageManager(this);
+			int required_resources = stageManager.getRequiredResources();
 			stageDialog = new StageDialog(this, stageManager, R.style.stage_dialog);
-
 			detector = new SimpleGestureFilter(this, this);
-
-			if (stageManager.getTTSNeeded()) {
-				Intent checkIntent = new Intent();
-				checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
-				startActivityForResult(checkIntent, MY_DATA_CHECK_CODE);
-			}
 
 			ProjectManager projectManager = ProjectManager.getInstance();
 			spritePositionOnStageStart = projectManager.getCurrentSpritePosition();
 			scriptPositionOnStageStart = projectManager.getCurrentScriptPosition();
 
-			//startStage();
-			if (!stageManager.getBluetoothNeeded()) {
+			boolean noResources = true;
+			int mask = 0x1;
+			int value = required_resources;
+			while (value > 0) {
+				if ((mask & required_resources) > 0) {
+					Log.i("bt", "res required: " + mask);
+					requiredResourceCounter++; //EVERY Resource must call start stage once!
+					noResources = false;
+				}
+				value = value >> 1;
+				mask = mask << 1;
+			}
+
+			if ((required_resources & Brick.SOUND_MANAGER) > 0) {
+				soundManager = SoundManager.getInstance();
 				startStage();
-			} else if (simulatorMode) {
-				legoNXT = new LegoNXT(this, recieveHandler, simulatorMode);
-				legoNXT.startSimCommunicator();
-				startStage();
-			} else {
+			}
+			if ((required_resources & Brick.TEXT_TO_SPEECH) > 0) {
+				Intent checkIntent = new Intent();
+				checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+				startActivityForResult(checkIntent, MY_DATA_CHECK_CODE);
+			}
+			if ((required_resources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
 				bluetoothManager = new BluetoothManager(this);
-				legoNXT = new LegoNXT(this, recieveHandler, simulatorMode);
+				legoNXT = new LegoNXT(this, recieveHandler);
 				int bluetoothState = bluetoothManager.activateBluetooth();
 				if (bluetoothState == -1) {
 					Toast.makeText(StageActivity.this, R.string.notification_blueth_err, Toast.LENGTH_LONG).show();
@@ -118,6 +127,10 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 				} else if (bluetoothState == 1) {
 					startBTComm();
 				}
+			}
+			if (noResources == true) {
+				Log.i("bt", "no resource start");
+				startStage();
 			}
 		}
 	}
@@ -157,15 +170,15 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 
 			case MY_DATA_CHECK_CODE:
 				if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
-					// success, create the TTS instance
 					textToSpeechEngine = new TextToSpeech(this, this);
 					textToSpeechEngine.setSpeechRate(1);
 					textToSpeechEngine.setPitch(1);
+					//startStage(); //=> init listener
 				} else {
-					// missing data, install it
 					Intent installIntent = new Intent();
 					installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
 					startActivity(installIntent);
+					manageLoadAndFinish();
 				}
 
 		}
@@ -179,11 +192,12 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 		this.startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
 	}
 
-	public static void setSimulatorMode(boolean sim) {
-		simulatorMode = sim;
-	}
+	public synchronized void startStage() {
+		requiredResourceCounter--;
+		if (requiredResourceCounter > 0) {
+			return;
+		}
 
-	public void startStage() {
 		stageManager.startScripts();
 		stageManager.start();
 		stagePlaying = true;
@@ -194,14 +208,11 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 		@Override
 		public void handleMessage(Message myMessage) {
 
-			//TODO ...
-			if (simulatorMode) {
-				return;
-			}
 			Log.i("bt", "message" + myMessage.getData().getInt("message"));
 			switch (myMessage.getData().getInt("message")) {
 				case LegoNXTBtCommunicator.STATE_CONNECTED:
 					connectingProgressDialog.dismiss();
+					requiredResourceCounter--;
 					startStage();
 					break;
 				case LegoNXTBtCommunicator.STATE_CONNECTERROR:
@@ -235,7 +246,9 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 	@Override
 	protected void onStop() {
 		super.onStop();
-		soundManager.pause();
+		if (soundManager != null) {
+			soundManager.pause();
+		}
 		stageManager.pause(false);
 		stagePlaying = false;
 	}
@@ -244,7 +257,9 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 	protected void onRestart() {
 		super.onRestart();
 		stageManager.resume();
-		soundManager.resume();
+		if (soundManager != null) {
+			soundManager.resume();
+		}
 		stagePlaying = true;
 	}
 
@@ -252,7 +267,9 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 	protected void onDestroy() {
 		super.onDestroy();
 		stageManager.finish();
-		soundManager.clear();
+		if (soundManager != null) {
+			soundManager.clear();
+		}
 		if (textToSpeechEngine != null) {
 			textToSpeechEngine.stop();
 			textToSpeechEngine.shutdown();
@@ -270,7 +287,9 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 
 	// StageDialog takes care of manageLoadAndFinish()
 	public void manageLoadAndFinish() {
-		soundManager.stopAllSounds();
+		if (soundManager != null) {
+			soundManager.stopAllSounds();
+		}
 		if (textToSpeechEngine != null) {
 			textToSpeechEngine.stop();
 			textToSpeechEngine.shutdown();
@@ -290,12 +309,16 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 	public void pauseOrContinue() {
 		if (stagePlaying) {
 			stageManager.pause(true);
-			soundManager.pause();
+			if (soundManager != null) {
+				soundManager.pause();
+			}
 			stagePlaying = false;
 			stageDialog.show();
 		} else {
 			stageManager.resume();
-			soundManager.resume();
+			if (soundManager != null) {
+				soundManager.resume();
+			}
 			stagePlaying = true;
 			stageDialog.dismiss();
 		}
@@ -309,9 +332,13 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 		super.onResume();
 	}
 
+	//this method is called by text to speech engine once it finished initializing!
 	public void onInit(int status) {
 		if (status == TextToSpeech.ERROR) {
 			Toast.makeText(StageActivity.this, R.string.text_to_speech_error, Toast.LENGTH_LONG).show();
+			manageLoadAndFinish();
+		} else {
+			startStage();
 		}
 	}
 

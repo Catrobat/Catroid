@@ -18,22 +18,20 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
-import android.text.InputType;
+import android.content.DialogInterface.OnDismissListener;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
-import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-public class ChangeXByBrick implements Brick, OnClickListener {
+public class ChangeXByBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
 	private int xMovement;
 	private Sprite sprite;
@@ -44,6 +42,10 @@ public class ChangeXByBrick implements Brick, OnClickListener {
 	public ChangeXByBrick(Sprite sprite, int xMovement) {
 		this.sprite = sprite;
 		this.xMovement = xMovement;
+	}
+
+	public int getRequiredResources() {
+		return NO_RESOURCES;
 	}
 
 	public void execute() {
@@ -73,7 +75,11 @@ public class ChangeXByBrick implements Brick, OnClickListener {
 		EditText editX = (EditText) view.findViewById(R.id.toolbox_brick_change_x_edit_text);
 		editX.setText(String.valueOf(xMovement));
 
-		editX.setOnClickListener(this);
+		EditIntegerDialog dialogX = new EditIntegerDialog(context, editX, xMovement, true);
+		dialogX.setOnDismissListener(this);
+		dialogX.setOnCancelListener((OnCancelListener) context);
+
+		editX.setOnClickListener(dialogX);
 
 		return view;
 	}
@@ -87,33 +93,9 @@ public class ChangeXByBrick implements Brick, OnClickListener {
 		return new ChangeXByBrick(getSprite(), xMovement);
 	}
 
-	public void onClick(View view) {
-		final Context context = view.getContext();
-
-		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-		final EditText input = new EditText(context);
-		input.setText(String.valueOf(xMovement));
-		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
-		input.setSelectAllOnFocus(true);
-		dialog.setView(input);
-		dialog.setOnCancelListener((OnCancelListener) context);
-		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				try {
-					xMovement = Integer.parseInt(input.getText().toString());
-				} catch (NumberFormatException exception) {
-					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT);
-				}
-				dialog.cancel();
-			}
-		});
-		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.cancel();
-			}
-		});
-
-		dialog.show();
-
+	public void onDismiss(DialogInterface dialog) {
+		EditIntegerDialog inputDialog = (EditIntegerDialog) dialog;
+		xMovement = inputDialog.getValue();
+		dialog.cancel();
 	}
 }

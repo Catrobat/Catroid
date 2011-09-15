@@ -26,6 +26,9 @@ public abstract class LoopBeginBrick implements Brick {
 	protected LoopEndBrick loopEndBrick;
 	private long beginLoopTime;
 
+	protected LoopBeginBrick() {
+	}
+
 	public abstract void execute();
 
 	protected void setFirstStartTime() {
