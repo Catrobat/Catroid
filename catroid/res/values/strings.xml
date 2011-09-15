@@ -75,6 +75,12 @@
 	<string name="settings">Settings</string>
 	<string name="web_resources">Web resources</string>
 	
+	<!-- Settings activity -->
+	<string name="pref_category_mindstorm">Mindstorm settings</string>
+	<string name="pref_enable_ms_bricks">Enable Mindstorm bricks</string>
+	<string name="pref_descr_ms_bricks">These bricks are used to control Mindstorm robots.</string>
+	
+		
     <!-- About Dialog -->
     <string name="about_title">About Catroid</string>
     <string name="about_text">

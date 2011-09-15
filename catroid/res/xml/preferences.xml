@@ -27,6 +27,7 @@
  		<CheckBoxPreference android:key="setting_mindstorm_bricks"
  							android:title="Enable Mindstorm bricks"
  							android:summary="These bricks are used to control Mindstorm robots" 
+ 							android:defaultValue="false"
  							/>
 
 	</PreferenceCategory>
