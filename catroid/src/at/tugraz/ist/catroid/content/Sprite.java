@@ -403,32 +403,14 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return true;
 	}
 
-	public int getRequiredRessources() {
-		int ressources = Brick.NO_RESSOURCES;
+	public int getRequiredResources() {
+		int ressources = Brick.NO_RESOURCES;
 
 		for (Script script : scriptList) {
-			ressources |= script.getRequiredRessources();
+			ressources |= script.getRequiredResources();
 		}
 		return ressources;
 	}
-
-	//	public boolean containsBrickOfType(Class<?> type) {
-	//		for (Script script : scriptList) {
-	//			if (script.containsBrickOfType(type)) {
-	//				return true;
-	//			}
-	//		}
-	//		return false;
-	//	}
-	//
-	//	public boolean isBluetoothSprite() {
-	//		for (Script script : scriptList) {
-	//			if (script.containsBluetoothBrick()) {
-	//				return true;
-	//			}
-	//		}
-	//		return false;
-	//	}
 
 	@Override
 	public String toString() {

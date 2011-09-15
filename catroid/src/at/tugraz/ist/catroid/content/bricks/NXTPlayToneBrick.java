@@ -60,7 +60,7 @@ public class NXTPlayToneBrick implements Brick, OnDismissListener, OnSeekBarChan
 		this.duration = duration;
 	}
 
-	public int getRequiredRessources() {
+	public int getRequiredResources() {
 		return BLUETOOTH_LEGO_NXT;
 	}
 

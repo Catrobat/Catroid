@@ -65,7 +65,7 @@ public class NXTMotorActionBrick implements Brick, OnDismissListener, OnItemSele
 		this.speed = speed;
 	}
 
-	public int getRequiredRessources() {
+	public int getRequiredResources() {
 		return BLUETOOTH_LEGO_NXT;
 	}
 

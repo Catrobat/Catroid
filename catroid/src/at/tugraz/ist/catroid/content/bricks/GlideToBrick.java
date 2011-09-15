@@ -46,8 +46,8 @@ public class GlideToBrick implements Brick, OnDismissListener {
 		this.durationInMilliSeconds = durationInMilliSeconds;
 	}
 
-	public int getRequiredRessources() {
-		return NO_RESSOURCES;
+	public int getRequiredResources() {
+		return NO_RESOURCES;
 	}
 
 	public void execute() {

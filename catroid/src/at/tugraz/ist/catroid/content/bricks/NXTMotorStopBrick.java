@@ -49,7 +49,7 @@ public class NXTMotorStopBrick implements Brick, OnItemSelectedListener {
 		this.motor = motor;
 	}
 
-	public int getRequiredRessources() {
+	public int getRequiredResources() {
 		return BLUETOOTH_LEGO_NXT;
 	}
 

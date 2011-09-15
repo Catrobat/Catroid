@@ -48,8 +48,8 @@ public class SayBrick implements Brick {
 		this.text = text;
 	}
 
-	public int getRequiredRessources() {
-		return NO_RESSOURCES;
+	public int getRequiredResources() {
+		return NO_RESOURCES;
 	}
 
 	public void execute() {

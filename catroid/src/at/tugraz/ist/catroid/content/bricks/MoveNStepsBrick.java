@@ -43,8 +43,8 @@ public class MoveNStepsBrick implements Brick, OnDismissListener {
 		this.steps = steps;
 	}
 
-	public int getRequiredRessources() {
-		return NO_RESSOURCES;
+	public int getRequiredResources() {
+		return NO_RESOURCES;
 	}
 
 	public void execute() {

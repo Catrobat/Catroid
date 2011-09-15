@@ -46,7 +46,7 @@ public class PlaySoundBrick implements Brick, Serializable, OnItemSelectedListen
 		this.sprite = sprite;
 	}
 
-	public int getRequiredRessources() {
+	public int getRequiredResources() {
 		return SOUND_MANAGER;
 	}
 

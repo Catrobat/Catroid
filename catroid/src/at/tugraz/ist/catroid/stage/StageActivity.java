@@ -63,7 +63,6 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 	private LegoNXT legoNXT;
 	private BluetoothManager bluetoothManager;
 	private ProgressDialog connectingProgressDialog;
-	private static boolean simulatorMode = false;
 	private SimpleGestureFilter detector;
 	private final static String TAG = StageActivity.class.getSimpleName();
 	public static TextToSpeech textToSpeechEngine;
@@ -71,6 +70,7 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 	public boolean flag = true;
 	private int spritePositionOnStageStart;
 	private int scriptPositionOnStageStart;
+	private int requiredResourceCounter = 0;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -87,30 +87,39 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 			Utils.updateScreenWidthAndHeight(this);
 
 			stageManager = new StageManager(this);
-			int required_ressources = stageManager.getRequiredRessources();
-
-			if ((required_ressources & Brick.SOUND_MANAGER) > 0) {
-				soundManager = SoundManager.getInstance();
-			}
-
+			int required_resources = stageManager.getRequiredResources();
 			stageDialog = new StageDialog(this, stageManager, R.style.stage_dialog);
-
 			detector = new SimpleGestureFilter(this, this);
-
-			if ((required_ressources & Brick.TEXT_TO_SPEECH) > 0) {
-				Intent checkIntent = new Intent();
-				checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
-				startActivityForResult(checkIntent, MY_DATA_CHECK_CODE);
-			}
 
 			ProjectManager projectManager = ProjectManager.getInstance();
 			spritePositionOnStageStart = projectManager.getCurrentSpritePosition();
 			scriptPositionOnStageStart = projectManager.getCurrentScriptPosition();
 
-			//startStage();
-			if ((required_ressources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
+			boolean noResources = true;
+			int mask = 0x1;
+			int value = required_resources;
+			while (value > 0) {
+				if ((mask & required_resources) > 0) {
+					Log.i("bt", "res required: " + mask);
+					requiredResourceCounter++; //EVERY Resource must call start stage once!
+					noResources = false;
+				}
+				value = value >> 1;
+				mask = mask << 1;
+			}
+
+			if ((required_resources & Brick.SOUND_MANAGER) > 0) {
+				soundManager = SoundManager.getInstance();
+				startStage();
+			}
+			if ((required_resources & Brick.TEXT_TO_SPEECH) > 0) {
+				Intent checkIntent = new Intent();
+				checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+				startActivityForResult(checkIntent, MY_DATA_CHECK_CODE);
+			}
+			if ((required_resources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
 				bluetoothManager = new BluetoothManager(this);
-				legoNXT = new LegoNXT(this, recieveHandler, simulatorMode);
+				legoNXT = new LegoNXT(this, recieveHandler);
 				int bluetoothState = bluetoothManager.activateBluetooth();
 				if (bluetoothState == -1) {
 					Toast.makeText(StageActivity.this, R.string.notification_blueth_err, Toast.LENGTH_LONG).show();
@@ -118,19 +127,11 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 				} else if (bluetoothState == 1) {
 					startBTComm();
 				}
-			} else {
+			}
+			if (noResources == true) {
+				Log.i("bt", "no resource start");
 				startStage();
 			}
-
-			//			if (!stageManager.getBluetoothNeeded()) {
-			//				startStage();
-			//			} else if (simulatorMode) {
-			//				legoNXT = new LegoNXT(this, recieveHandler, simulatorMode);
-			//				legoNXT.startSimCommunicator();
-			//				startStage();
-			//			} else {
-			//
-			//			}
 		}
 	}
 
@@ -169,15 +170,15 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 
 			case MY_DATA_CHECK_CODE:
 				if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
-					// success, create the TTS instance
 					textToSpeechEngine = new TextToSpeech(this, this);
 					textToSpeechEngine.setSpeechRate(1);
 					textToSpeechEngine.setPitch(1);
+					//startStage(); //=> init listener
 				} else {
-					// missing data, install it
 					Intent installIntent = new Intent();
 					installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
 					startActivity(installIntent);
+					manageLoadAndFinish();
 				}
 
 		}
@@ -191,11 +192,12 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 		this.startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
 	}
 
-	public static void setSimulatorMode(boolean sim) {
-		simulatorMode = sim;
-	}
+	public synchronized void startStage() {
+		requiredResourceCounter--;
+		if (requiredResourceCounter > 0) {
+			return;
+		}
 
-	public void startStage() {
 		stageManager.startScripts();
 		stageManager.start();
 		stagePlaying = true;
@@ -206,14 +208,11 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 		@Override
 		public void handleMessage(Message myMessage) {
 
-			//TODO ...
-			if (simulatorMode) {
-				return;
-			}
 			Log.i("bt", "message" + myMessage.getData().getInt("message"));
 			switch (myMessage.getData().getInt("message")) {
 				case LegoNXTBtCommunicator.STATE_CONNECTED:
 					connectingProgressDialog.dismiss();
+					requiredResourceCounter--;
 					startStage();
 					break;
 				case LegoNXTBtCommunicator.STATE_CONNECTERROR:
@@ -333,9 +332,13 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 		super.onResume();
 	}
 
+	//this method is called by text to speech engine once it finished initializing!
 	public void onInit(int status) {
 		if (status == TextToSpeech.ERROR) {
 			Toast.makeText(StageActivity.this, R.string.text_to_speech_error, Toast.LENGTH_LONG).show();
+			manageLoadAndFinish();
+		} else {
+			startStage();
 		}
 	}
 

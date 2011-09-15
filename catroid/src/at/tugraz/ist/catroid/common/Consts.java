@@ -47,7 +47,7 @@ public final class Consts {
 	public static final int SERVER_ERROR_COMMON = 500;
 
 	//Stage:
-	public static final String SCREENSHOT_FILE_NAME = "thumbnail.png";
+	public static final String SCREENSHOT_FILE_NAME = "screenshot.png";
 
 	//Various:
 	public static final int BUFFER_8K = 8 * 1024;

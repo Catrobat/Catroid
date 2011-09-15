@@ -45,8 +45,8 @@ public class PointToBrick implements Brick {
 		this.pointedSprite = pointedSprite;
 	}
 
-	public int getRequiredRessources() {
-		return NO_RESSOURCES;
+	public int getRequiredResources() {
+		return NO_RESOURCES;
 	}
 
 	public Sprite getSprite() {
