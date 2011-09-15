@@ -29,6 +29,7 @@ import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.common.SoundInfo;
+import at.tugraz.ist.catroid.content.bricks.Brick;
 
 public class Sprite implements Serializable, Comparable<Sprite> {
 	private static final long serialVersionUID = 1L;
@@ -402,23 +403,32 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return true;
 	}
 
-	public boolean containsBrickOfType(Class<?> type) {
+	public int getRequiredRessources() {
+		int ressources = Brick.NO_RESSOURCES;
+
 		for (Script script : scriptList) {
-			if (script.containsBrickOfType(type)) {
-				return true;
-			}
+			ressources |= script.getRequiredRessources();
 		}
-		return false;
+		return ressources;
 	}
 
-	public boolean isBluetoothSprite() {
-		for (Script script : scriptList) {
-			if (script.containsBluetoothBrick()) {
-				return true;
-			}
-		}
-		return false;
-	}
+	//	public boolean containsBrickOfType(Class<?> type) {
+	//		for (Script script : scriptList) {
+	//			if (script.containsBrickOfType(type)) {
+	//				return true;
+	//			}
+	//		}
+	//		return false;
+	//	}
+	//
+	//	public boolean isBluetoothSprite() {
+	//		for (Script script : scriptList) {
+	//			if (script.containsBluetoothBrick()) {
+	//				return true;
+	//			}
+	//		}
+	//		return false;
+	//	}
 
 	@Override
 	public String toString() {

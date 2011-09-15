@@ -58,6 +58,10 @@ public class BroadcastReceiverBrick implements Brick {
 		this.projectManager = ProjectManager.getInstance();
 	}
 
+	public int getRequiredRessources() {
+		return NO_RESSOURCES;
+	}
+
 	public void execute() {
 	}
 

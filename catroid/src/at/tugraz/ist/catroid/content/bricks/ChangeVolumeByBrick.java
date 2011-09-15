@@ -32,6 +32,7 @@ import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 
 public class ChangeVolumeByBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
+
 	private Sprite sprite;
 	private double volume;
 
@@ -40,6 +41,10 @@ public class ChangeVolumeByBrick implements Brick, OnDismissListener {
 	public ChangeVolumeByBrick(Sprite sprite, double changeVolume) {
 		this.sprite = sprite;
 		this.volume = changeVolume;
+	}
+
+	public int getRequiredRessources() {
+		return SOUND_MANAGER;
 	}
 
 	public void execute() {

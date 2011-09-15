@@ -41,6 +41,10 @@ public class WhenBrick implements Brick {
 		this.sprite = sprite;
 	}
 
+	public int getRequiredRessources() {
+		return NO_RESSOURCES;
+	}
+
 	public void execute() {
 	}
 

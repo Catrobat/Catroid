@@ -32,6 +32,8 @@ import at.tugraz.ist.catroid.stage.StageActivity;
 
 public class SpeakBrick implements Brick {
 	private static final long serialVersionUID = 1L;
+	public static final int REQUIRED_RESSOURCES = TEXT_TO_SPEECH;
+
 	private Sprite sprite;
 	private String text = "";
 	protected int position = 0;
@@ -41,6 +43,10 @@ public class SpeakBrick implements Brick {
 	public SpeakBrick(Sprite sprite, String text) {
 		this.sprite = sprite;
 		this.text = text;
+	}
+
+	public int getRequiredRessources() {
+		return TEXT_TO_SPEECH;
 	}
 
 	public void execute() {

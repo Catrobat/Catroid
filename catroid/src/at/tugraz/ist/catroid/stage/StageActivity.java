@@ -44,6 +44,7 @@ import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXTBtCommunicator;
 import at.tugraz.ist.catroid.bluetooth.BluetoothManager;
 import at.tugraz.ist.catroid.bluetooth.DeviceListActivity;
+import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.stage.SimpleGestureFilter.SimpleGestureListener;
 import at.tugraz.ist.catroid.ui.dialogs.StageDialog;
@@ -85,13 +86,18 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 			Utils.updateScreenWidthAndHeight(this);
 
-			soundManager = SoundManager.getInstance();
 			stageManager = new StageManager(this);
+			int required_ressources = stageManager.getRequiredRessources();
+
+			if ((required_ressources & Brick.SOUND_MANAGER) > 0) {
+				soundManager = SoundManager.getInstance();
+			}
+
 			stageDialog = new StageDialog(this, stageManager, R.style.stage_dialog);
 
 			detector = new SimpleGestureFilter(this, this);
 
-			if (stageManager.getTTSNeeded()) {
+			if ((required_ressources & Brick.TEXT_TO_SPEECH) > 0) {
 				Intent checkIntent = new Intent();
 				checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
 				startActivityForResult(checkIntent, MY_DATA_CHECK_CODE);
@@ -102,13 +108,7 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 			scriptPositionOnStageStart = projectManager.getCurrentScriptPosition();
 
 			//startStage();
-			if (!stageManager.getBluetoothNeeded()) {
-				startStage();
-			} else if (simulatorMode) {
-				legoNXT = new LegoNXT(this, recieveHandler, simulatorMode);
-				legoNXT.startSimCommunicator();
-				startStage();
-			} else {
+			if ((required_ressources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
 				bluetoothManager = new BluetoothManager(this);
 				legoNXT = new LegoNXT(this, recieveHandler, simulatorMode);
 				int bluetoothState = bluetoothManager.activateBluetooth();
@@ -118,7 +118,19 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 				} else if (bluetoothState == 1) {
 					startBTComm();
 				}
+			} else {
+				startStage();
 			}
+
+			//			if (!stageManager.getBluetoothNeeded()) {
+			//				startStage();
+			//			} else if (simulatorMode) {
+			//				legoNXT = new LegoNXT(this, recieveHandler, simulatorMode);
+			//				legoNXT.startSimCommunicator();
+			//				startStage();
+			//			} else {
+			//
+			//			}
 		}
 	}
 
@@ -235,7 +247,9 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 	@Override
 	protected void onStop() {
 		super.onStop();
-		soundManager.pause();
+		if (soundManager != null) {
+			soundManager.pause();
+		}
 		stageManager.pause(false);
 		stagePlaying = false;
 	}
@@ -244,7 +258,9 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 	protected void onRestart() {
 		super.onRestart();
 		stageManager.resume();
-		soundManager.resume();
+		if (soundManager != null) {
+			soundManager.resume();
+		}
 		stagePlaying = true;
 	}
 
@@ -252,7 +268,9 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 	protected void onDestroy() {
 		super.onDestroy();
 		stageManager.finish();
-		soundManager.clear();
+		if (soundManager != null) {
+			soundManager.clear();
+		}
 		if (textToSpeechEngine != null) {
 			textToSpeechEngine.stop();
 			textToSpeechEngine.shutdown();
@@ -270,7 +288,9 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 
 	// StageDialog takes care of manageLoadAndFinish()
 	public void manageLoadAndFinish() {
-		soundManager.stopAllSounds();
+		if (soundManager != null) {
+			soundManager.stopAllSounds();
+		}
 		if (textToSpeechEngine != null) {
 			textToSpeechEngine.stop();
 			textToSpeechEngine.shutdown();
@@ -290,12 +310,16 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 	public void pauseOrContinue() {
 		if (stagePlaying) {
 			stageManager.pause(true);
-			soundManager.pause();
+			if (soundManager != null) {
+				soundManager.pause();
+			}
 			stagePlaying = false;
 			stageDialog.show();
 		} else {
 			stageManager.resume();
-			soundManager.resume();
+			if (soundManager != null) {
+				soundManager.resume();
+			}
 			stagePlaying = true;
 			stageDialog.dismiss();
 		}

@@ -48,6 +48,10 @@ public class SayBrick implements Brick {
 		this.text = text;
 	}
 
+	public int getRequiredRessources() {
+		return NO_RESSOURCES;
+	}
+
 	public void execute() {
 		sprite.getBubble().setSpeechBubble(text, R.drawable.speech_bubble, R.drawable.speech_bubble_inv);
 	}

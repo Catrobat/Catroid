@@ -41,6 +41,10 @@ public class ChangeSizeByNBrick implements Brick, OnDismissListener {
 		this.size = size;
 	}
 
+	public int getRequiredRessources() {
+		return NO_RESSOURCES;
+	}
+
 	public void execute() {
 		double newSize = sprite.getSize() + size;
 		if (newSize < 0.01) {
