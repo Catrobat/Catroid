@@ -67,7 +67,6 @@ public class EditDoubleDialog extends EditDialog implements OnClickListener {
 		}
 
 		okButton.setOnClickListener(this);
-
 		this.setOnKeyListener(new OnKeyListener() {
 
 			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
@@ -99,6 +98,7 @@ public class EditDoubleDialog extends EditDialog implements OnClickListener {
 	}
 
 	public void onClick(View v) {
+
 		if (v.getId() == R.id.dialog_edit_dialog_edit_text) {
 			editText.selectAll();
 		} else if (v.getId() == referencedEditText.getId()) {
@@ -120,9 +120,6 @@ public class EditDoubleDialog extends EditDialog implements OnClickListener {
 		}
 	}
 
-	/**
-	 * @return
-	 */
 	@Override
 	public int getRefernecedEditTextId() {
 		return referencedEditText.getId();

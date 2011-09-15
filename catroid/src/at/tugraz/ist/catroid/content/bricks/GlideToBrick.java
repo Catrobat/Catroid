@@ -30,7 +30,6 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
-
 public class GlideToBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
 	private int xDestination;
