@@ -18,18 +18,20 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
-import android.content.DialogInterface.OnDismissListener;
+import android.text.InputType;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
+import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 
-public class SetBrightnessBrick implements Brick, OnDismissListener {
+public class SetBrightnessBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private double brightnessValue;
 	private Sprite sprite;
@@ -62,11 +64,7 @@ public class SetBrightnessBrick implements Brick, OnDismissListener {
 		EditText editX = (EditText) view.findViewById(R.id.toolbox_brick_set_brightness_edit_text);
 		editX.setText(String.valueOf(brightnessValue));
 
-		EditDoubleDialog dialogX = new EditDoubleDialog(context, editX, brightnessValue, true);
-		dialogX.setOnDismissListener(this);
-		dialogX.setOnCancelListener((OnCancelListener) context);
-
-		editX.setOnClickListener(dialogX);
+		editX.setOnClickListener(this);
 
 		return view;
 	}
@@ -80,10 +78,33 @@ public class SetBrightnessBrick implements Brick, OnDismissListener {
 		return new SetBrightnessBrick(getSprite(), getBrightnessValue());
 	}
 
-	public void onDismiss(DialogInterface dialog) {
-		EditDoubleDialog inputDialog = (EditDoubleDialog) dialog;
-		this.brightnessValue = inputDialog.getValue();
+	public void onClick(View view) {
+		final Context context = view.getContext();
 
-		dialog.cancel();
+		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+		final EditText input = new EditText(context);
+		input.setText(String.valueOf(brightnessValue));
+		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+		input.setSelectAllOnFocus(true);
+		dialog.setView(input);
+		dialog.setOnCancelListener((OnCancelListener) context);
+		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				try {
+					brightnessValue = Double.parseDouble(input.getText().toString());
+				} catch (NumberFormatException exception) {
+					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT);
+				}
+				dialog.cancel();
+			}
+		});
+		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+
+		dialog.show();
+
 	}
 }
