@@ -22,7 +22,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
-import android.content.DialogInterface.OnDismissListener;
 import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,10 +30,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
-import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
-public class GlideToBrick implements Brick, OnDismissListener, OnClickListener {
+public class GlideToBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private int xDestination;
 	private int yDestination;
@@ -112,26 +109,14 @@ public class GlideToBrick implements Brick, OnDismissListener, OnClickListener {
 
 		EditText editX = (EditText) view.findViewById(R.id.toolbox_brick_glide_to_x_edit_text);
 		editX.setText(String.valueOf(xDestination));
-		//		EditIntegerDialog dialogX = new EditIntegerDialog(context, editX, xDestination, true);
-		//		dialogX.setOnDismissListener(this);
-		//		dialogX.setOnCancelListener((OnCancelListener) context);
-		//		editX.setOnClickListener(dialogX);
 		editX.setOnClickListener(this);
 
 		EditText editY = (EditText) view.findViewById(R.id.toolbox_brick_glide_to_y_edit_text);
 		editY.setText(String.valueOf(yDestination));
-		//		EditIntegerDialog dialogY = new EditIntegerDialog(context, editY, yDestination, true);
-		//		dialogY.setOnDismissListener(this);
-		//		dialogY.setOnCancelListener((OnCancelListener) context);
-		//		editY.setOnClickListener(dialogY);
 		editY.setOnClickListener(this);
 
 		EditText editDuration = (EditText) view.findViewById(R.id.toolbox_brick_glide_to_duration_edit_text);
 		editDuration.setText(String.valueOf(durationInMilliSeconds / 1000.0));
-		//		EditDoubleDialog dialogDuration = new EditDoubleDialog(context, editDuration, durationInMilliSeconds / 1000.0);
-		//		dialogDuration.setOnDismissListener(this);
-		//		dialogDuration.setOnCancelListener((OnCancelListener) context);
-		//		editDuration.setOnClickListener(dialogDuration);
 		editDuration.setOnClickListener(this);
 
 		return view;
@@ -144,23 +129,6 @@ public class GlideToBrick implements Brick, OnDismissListener, OnClickListener {
 	@Override
 	public Brick clone() {
 		return new GlideToBrick(getSprite(), xDestination, yDestination, getDurationInMilliSeconds());
-	}
-
-	public void onDismiss(DialogInterface dialog) {
-		if (dialog instanceof EditIntegerDialog) {
-			EditIntegerDialog inputDialog = (EditIntegerDialog) dialog;
-			if (inputDialog.getRefernecedEditTextId() == R.id.toolbox_brick_glide_to_x_edit_text) {
-				xDestination = inputDialog.getValue();
-			} else if (inputDialog.getRefernecedEditTextId() == R.id.toolbox_brick_glide_to_y_edit_text) {
-				yDestination = inputDialog.getValue();
-			} else {
-				throw new RuntimeException("Received illegal id from EditText: "
-						+ inputDialog.getRefernecedEditTextId());
-			}
-		} else if (dialog instanceof EditDoubleDialog) {
-			durationInMilliSeconds = (int) Math.round(((EditDoubleDialog) dialog).getValue() * 1000);
-		}
-		dialog.cancel();
 	}
 
 	public void onClick(final View view) {
