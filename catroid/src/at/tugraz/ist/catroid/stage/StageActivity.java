@@ -366,7 +366,7 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 	public void onLongPress() {
 	}
 
-	public void reload() {
+	public void restart() {
 		if (soundManager != null) {
 			soundManager.stopAllSounds();
 		}
@@ -375,15 +375,9 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 		}
 		ProjectManager projectManager = ProjectManager.getInstance();
 		projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
-		projectManager.setCurrentSpriteWithPosition(spritePositionOnStageStart);
-		projectManager.setCurrentScriptWithPosition(scriptPositionOnStageStart);
 
 		stageManager = new StageManager(this);
 		stageDialog = new StageDialog(this, stageManager, R.style.stage_dialog);
-
-		projectManager = ProjectManager.getInstance();
-		spritePositionOnStageStart = projectManager.getCurrentSpritePosition();
-		scriptPositionOnStageStart = projectManager.getCurrentScriptPosition();
 
 		startStage();
 
