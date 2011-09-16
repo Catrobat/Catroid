@@ -194,7 +194,7 @@ public class NXTMotorTurnAngleBrick implements Brick, OnClickListener {
 						}
 						editX.setText(input.getText().toString());
 						angle = Integer.parseInt(input.getText().toString());
-						dialogX.setValue(angle);
+						//dialogX.setValue(angle);
 						//broadcastSpinner.setSelection(position);
 					}
 				});
