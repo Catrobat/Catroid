@@ -108,10 +108,7 @@ public class StageDialog extends Dialog {
 	}
 
 	private void restartProject() {
-		stageActivity.reload();
-		stageActivity.startStage();
+		stageActivity.restart();
 		this.dismiss();
-		//		backToConstruction();
-		//		stageActivity.startActivity(this.stageActivity.getIntent());
 	}
 }
