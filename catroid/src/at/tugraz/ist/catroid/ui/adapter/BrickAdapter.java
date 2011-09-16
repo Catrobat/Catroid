@@ -18,15 +18,12 @@
  */
 package at.tugraz.ist.catroid.ui.adapter;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ExpandableListView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.BroadcastScript;
 import at.tugraz.ist.catroid.content.Script;
@@ -103,41 +100,47 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 		 */
 
 		System.out.println("BrickAdapter.drag() from: " + from);
+		System.out.println("BrickAdapter.drag() isBrick: " + isBrick(to));
+
 		System.out.println("BrickAdapter.drag() to: " + to);
 
-		int childFrom = ExpandableListView.getPackedPositionChild(from);
-		int groupFrom = ExpandableListView.getPackedPositionGroup(from);
+		int childFrom = from;
+		int groupFrom = getScriptId(from); //scripFrom
 
-		int childTo = ExpandableListView.getPackedPositionChild(to);
-		int groupTo = ExpandableListView.getPackedPositionGroup(to);
+		int childTo;// = to;
+		int groupTo;// = getScriptId(to); //scriptTo
 
 		//		int childTo;
 		//		int groupTo;
 
-		if (ExpandableListView.getPackedPositionType(to) == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-			childTo = ExpandableListView.getPackedPositionChild(to);
-			groupTo = ExpandableListView.getPackedPositionGroup(to);
+		if (isBrick(to)) {
+			childTo = to;
+			groupTo = getScriptId(to);
 
-			if (draggedBrick == null && childFrom != -1) {
-				//				draggedBrick = getChild(groupFrom, childFrom);
+			if (draggedBrick == null) {
+				if (isBrick(childFrom)) {
+					draggedBrick = (Brick) getItem(childFrom);
+				} else {
+					System.out.println("BrickAdapter.drag() from: childFrom was Script not Brick!!!");
+				}
 				notifyDataSetChanged();
 			}
 
-			ArrayList<Brick> brickList = sprite.getScript(groupFrom).getBrickList();
-
-			if (draggedBrick instanceof LoopBeginBrick) {
-				LoopEndBrick loopEndBrick = ((LoopBeginBrick) draggedBrick).getLoopEndBrick();
-
-				if (childTo >= brickList.indexOf(loopEndBrick) || childFrom >= brickList.indexOf(loopEndBrick)) {
-					return;
-				}
-			} else if (draggedBrick instanceof LoopEndBrick) {
-				LoopBeginBrick loopBeginBrick = ((LoopEndBrick) draggedBrick).getLoopBeginBrick();
-
-				if (childTo <= brickList.indexOf(loopBeginBrick) || childFrom <= brickList.indexOf(loopBeginBrick)) {
-					return;
-				}
-			}
+			//			ArrayList<Brick> brickList = sprite.getScript(groupFrom).getBrickList();
+			//
+			//			if (draggedBrick instanceof LoopBeginBrick) {
+			//				LoopEndBrick loopEndBrick = ((LoopBeginBrick) draggedBrick).getLoopEndBrick();
+			//
+			//				if (childTo >= brickList.indexOf(loopEndBrick) || childFrom >= brickList.indexOf(loopEndBrick)) {
+			//					return;
+			//				}
+			//			} else if (draggedBrick instanceof LoopEndBrick) {
+			//				LoopBeginBrick loopBeginBrick = ((LoopEndBrick) draggedBrick).getLoopBeginBrick();
+			//
+			//				if (childTo <= brickList.indexOf(loopBeginBrick) || childFrom <= brickList.indexOf(loopBeginBrick)) {
+			//					return;
+			//				}
+			//			}
 
 			dragTargetPosition = childTo;
 
