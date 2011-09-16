@@ -26,7 +26,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.BaseExpandableListAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -110,7 +110,7 @@ public class PointToBrick implements Brick {
 		sprite.setDirection(rotationDegrees);
 	}
 
-	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
+	public View getView(final Context context, int brickId, BaseAdapter adapter) {
 
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View brickView = inflater.inflate(R.layout.construction_brick_point_to, null);

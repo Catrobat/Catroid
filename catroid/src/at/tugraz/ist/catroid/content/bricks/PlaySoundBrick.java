@@ -25,7 +25,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.BaseExpandableListAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.SoundInfo;
@@ -58,7 +58,7 @@ public class PlaySoundBrick implements Brick, Serializable, OnItemSelectedListen
 		return sprite;
 	}
 
-	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
+	public View getView(final Context context, int brickId, BaseAdapter adapter) {
 
 		if (view == null) {
 			view = View.inflate(context, R.layout.toolbox_brick_play_sound, null);

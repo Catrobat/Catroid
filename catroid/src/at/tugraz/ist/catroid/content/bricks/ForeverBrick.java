@@ -20,7 +20,7 @@ package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseExpandableListAdapter;
+import android.widget.BaseAdapter;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 
@@ -46,7 +46,7 @@ public class ForeverBrick extends LoopBeginBrick {
 		return new ForeverBrick(getSprite());
 	}
 
-	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
+	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.toolbox_brick_forever, null);
 		}

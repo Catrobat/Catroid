@@ -22,7 +22,7 @@ import java.io.Serializable;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseExpandableListAdapter;
+import android.widget.BaseAdapter;
 import at.tugraz.ist.catroid.content.Sprite;
 
 public interface Brick extends Serializable {
@@ -31,7 +31,7 @@ public interface Brick extends Serializable {
 
 	public Sprite getSprite();
 
-	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter);
+	public View getView(Context context, int brickId, BaseAdapter adapter);
 
 	public View getPrototypeView(Context context);
 
