@@ -65,21 +65,51 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 		insertionView = View.inflate(context, R.layout.brick_insert, null);
 	}
 
-	public void drag(long from, long to) {
+	public void drag(int from, int to) {
+		/*
+		 * int childFrom = Math.max(0, from - getGroupCount());
+		 * int childTo = Math.max(0, to - getGroupCount());
+		 * childFrom = Math.min(childFrom, getChildCountFromLastGroup() - 1);
+		 * childTo = Math.min(childTo, getChildCountFromLastGroup() - 1);
+		 * 
+		 * if (draggedBrick == null) {
+		 * draggedBrick = getChild(getCurrentGroup(), childFrom);
+		 * notifyDataSetChanged();
+		 * }
+		 * 
+		 * ArrayList<Brick> brickList = getBrickList();
+		 * 
+		 * if (draggedBrick instanceof LoopBeginBrick) {
+		 * LoopEndBrick loopEndBrick = ((LoopBeginBrick) draggedBrick).getLoopEndBrick();
+		 * 
+		 * if (childTo >= brickList.indexOf(loopEndBrick) || childFrom >= brickList.indexOf(loopEndBrick)) {
+		 * return;
+		 * }
+		 * } else if (draggedBrick instanceof LoopEndBrick) {
+		 * LoopBeginBrick loopBeginBrick = ((LoopEndBrick) draggedBrick).getLoopBeginBrick();
+		 * 
+		 * if (childTo <= brickList.indexOf(loopBeginBrick) || childFrom <= brickList.indexOf(loopBeginBrick)) {
+		 * return;
+		 * }
+		 * }
+		 * 
+		 * dragTargetPosition = childTo;
+		 * 
+		 * if (childFrom != childTo) {
+		 * Brick removedBrick = getBrickList().remove(childFrom);
+		 * sprite.getScript(getCurrentGroup()).addBrick(childTo, removedBrick);
+		 * notifyDataSetChanged();
+		 * }
+		 */
+
+		System.out.println("BrickAdapter.drag() from: " + from);
+		System.out.println("BrickAdapter.drag() to: " + to);
 
 		int childFrom = ExpandableListView.getPackedPositionChild(from);
 		int groupFrom = ExpandableListView.getPackedPositionGroup(from);
 
-		System.out.println("BrickAdapter.drag() childFrom: " + childFrom);
-		System.out.println("BrickAdapter.drag() groupFrom: " + groupFrom);
-		System.out.println("BrickAdapter.drag() groupFrom: ");
-
 		int childTo = ExpandableListView.getPackedPositionChild(to);
 		int groupTo = ExpandableListView.getPackedPositionGroup(to);
-
-		System.out.println("BrickAdapter.drag() childTo: " + childTo);
-		System.out.println("BrickAdapter.drag() groupTo: " + groupTo);
-		System.out.println("BrickAdapter.drag() groupTo: ");
 
 		//		int childTo;
 		//		int groupTo;
@@ -121,12 +151,12 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 	}
 
-	public void drop(long to) {
+	public void drop(int to) {
 		draggedBrick = null;
 		notifyDataSetChanged();
 	}
 
-	public void remove(long index) {
+	public void remove(int index) {
 
 		//		ArrayList<Brick> brickList = getBrickList();
 		if (draggedBrick instanceof LoopBeginBrick) {
