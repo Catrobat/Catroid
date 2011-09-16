@@ -195,6 +195,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 		if (element == 0) {
 			return sprite.getScript(count);
 		} else {
+			//			HP_DEBUG
 			Log.d("Test", "BrickNr: " + element + " Script: " + count);
 			return sprite.getScript(count).getBrick(element - 1);
 		}
@@ -232,5 +233,14 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			}
 			return view;
 		}
+	}
+
+	private int getScriptId(int index) {
+		int count = 0;
+		while (index > getBrickCount(count)) {
+			index -= getBrickCount(count) + 1;
+			count++;
+		}
+		return count;
 	}
 }
