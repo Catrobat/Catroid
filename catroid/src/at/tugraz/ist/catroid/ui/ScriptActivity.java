@@ -62,14 +62,9 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		listView.setTrashView((ImageView) findViewById(R.id.trash));
 		listView.setOnCreateContextMenuListener(this);
 		listView.setOnDragAndDropListener(adapter);
-		listView.setAdapter(adapter);
-		listView.setGroupIndicator(null);
-		listView.setOnGroupClickListener(adapter);
-
-		int count = adapter.getGroupCount();
-		for (int i = 0; i < count; i++) {
-			listView.expandGroup(i);
-		}
+		//		listView.setAdapter(adapter);
+		//		listView.setGroupIndicator(null);
+		//		listView.setOnGroupClickListener(adapter);
 
 		registerForContextMenu(listView);
 	}
@@ -110,9 +105,9 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	protected void onStart() {
 		super.onStart();
 		initListeners();
-		if (adapter.getGroupCount() > 0) {
-			listView.expandGroup(adapter.getGroupCount() - 1);
-		}
+		//		if (adapter.getGroupCount() > 0) {
+		//			listView.expandGroup(adapter.getGroupCount() - 1);
+		//		}
 	}
 
 	@Override
@@ -123,9 +118,9 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		}
 
 		initListeners();
-		if (adapter.getGroupCount() > 0) {
-			listView.expandGroup(adapter.getGroupCount() - 1);
-		}
+		//		if (adapter.getGroupCount() > 0) {
+		//			listView.expandGroup(adapter.getGroupCount() - 1);
+		//		}
 
 		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
 		if (scriptTabActivity != null && scriptTabActivity.activityHelper != null) {
@@ -146,14 +141,14 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	}
 
 	public void onDismiss(DialogInterface dialog) {
-		for (int i = 0; i < adapter.getGroupCount() - 1; ++i) {
-			listView.collapseGroup(i);
-		}
+		//		for (int i = 0; i < adapter.getGroupCount() - 1; ++i) {
+		//			listView.collapseGroup(i);
+		//		}
 
 		adapter.notifyDataSetChanged();
-		if (adapter.getGroupCount() > 0) {
-			listView.expandGroup(adapter.getGroupCount() - 1);
-		}
+		//		if (adapter.getGroupCount() > 0) {
+		//			listView.expandGroup(adapter.getGroupCount() - 1);
+		//		}
 	}
 
 	public void onCancel(DialogInterface arg0) {
@@ -195,7 +190,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 				Script lastScript = sprite.getScript(lastScriptIndex);
 				ProjectManager.getInstance().setCurrentScript(lastScript);
 				adapter.notifyDataSetChanged();
-				listView.expandGroup(adapter.getGroupCount() - 1);
+				//				listView.expandGroup(adapter.getGroupCount() - 1);
 			}
 		}
 		return true;

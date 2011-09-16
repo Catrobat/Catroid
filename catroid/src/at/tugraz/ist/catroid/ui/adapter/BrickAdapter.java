@@ -18,15 +18,9 @@
  */
 package at.tugraz.ist.catroid.ui.adapter;
 
-/**
- * @author DANIEL
- *
- */
-
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
@@ -77,7 +71,8 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDr
 	}
 
 	public long getChildId(int groupPosition, int childPosition) {
-		return childPosition;
+		return ExpandableListView.getPackedPositionForChild(groupPosition, childPosition);
+
 	}
 
 	public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView,
@@ -123,7 +118,7 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDr
 	public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 		View view = null;
 
-		Log.d("Test", "----- Testing Get Group View ----- " + isExpanded);
+		//		Log.d("Test", "----- Testing Get Group View ----- " + isExpanded);
 
 		if (getGroup(groupPosition) instanceof TapScript) {
 			view = new IfTouchedBrick(sprite, getGroup(groupPosition)).getView(context, groupPosition, this);
@@ -152,8 +147,19 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDr
 		int childFrom = ExpandableListView.getPackedPositionChild(from);
 		int groupFrom = ExpandableListView.getPackedPositionGroup(from);
 
-		int childTo;
-		int groupTo;
+		System.out.println("BrickAdapter.drag() childFrom: " + childFrom);
+		System.out.println("BrickAdapter.drag() groupFrom: " + groupFrom);
+		System.out.println("BrickAdapter.drag() groupFrom: ");
+
+		int childTo = ExpandableListView.getPackedPositionChild(to);
+		int groupTo = ExpandableListView.getPackedPositionGroup(to);
+
+		System.out.println("BrickAdapter.drag() childTo: " + childTo);
+		System.out.println("BrickAdapter.drag() groupTo: " + groupTo);
+		System.out.println("BrickAdapter.drag() groupTo: ");
+
+		//		int childTo;
+		//		int groupTo;
 
 		if (ExpandableListView.getPackedPositionType(to) == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
 			childTo = ExpandableListView.getPackedPositionChild(to);
