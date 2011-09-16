@@ -98,6 +98,7 @@ public class StageDialog extends Dialog {
 	}
 
 	private void backToConstruction() {
+		this.dismiss();
 		stageActivity.manageLoadAndFinish();
 	}
 
