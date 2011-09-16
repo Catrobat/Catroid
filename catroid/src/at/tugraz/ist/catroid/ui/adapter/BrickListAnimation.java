@@ -101,7 +101,7 @@ public class BrickListAnimation {
 
 			public void onAnimationEnd(Animation animation) {
 				// the expand animation starts if the new child Views are rendered the first time
-				adapter.doReordering(listView, groupPosition);
+				//				adapter.doReordering(listView, groupPosition);
 			}
 		});
 		getChildFromAbsolutePosition(groupPosition).startAnimation(downAnimation);

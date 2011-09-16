@@ -34,11 +34,11 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
 
-public class DragAndDropListView extends ExpandableListView implements OnLongClickListener {
+public class DragAndDropListView extends ListView implements OnLongClickListener {
 
 	private static final int SCROLL_SPEED = 25;
 	private static final int DRAG_BACKGROUND_COLOR = Color.TRANSPARENT;
@@ -124,9 +124,9 @@ public class DragAndDropListView extends ExpandableListView implements OnLongCli
 					trashView.setVisibility(View.GONE);
 
 					if (x > getWidth() * 3 / 4) {
-						dragAndDropListener.remove(getExpandableListPosition(itemPosition));
+						dragAndDropListener.remove(itemPosition);
 					} else {
-						dragAndDropListener.drop(getExpandableListPosition(itemPosition));
+						dragAndDropListener.drop(itemPosition);
 					}
 
 					break;
@@ -160,8 +160,7 @@ public class DragAndDropListView extends ExpandableListView implements OnLongCli
 						}
 
 						if ((y > lowerDragBound || y < upperDragBound)) {
-							dragAndDropListener.drag(getExpandableListPosition(previousItemPosition),
-									getExpandableListPosition(itemPosition));
+							dragAndDropListener.drag(previousItemPosition, itemPosition);
 							previousItemPosition = itemPosition;
 
 						}
