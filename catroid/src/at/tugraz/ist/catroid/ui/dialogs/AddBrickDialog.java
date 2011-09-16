@@ -93,11 +93,11 @@ public class AddBrickDialog extends Dialog {
 
 	private ListView listView;
 	private PrototypeBrickAdapter adapter;
-	private ScriptTabActivity scriptActivity;
+	private ScriptTabActivity scriptTabActivity;
 	private String category;
 
 	private boolean isBackground(Sprite sprite) {
-		return sprite.getName().equals(scriptActivity.getString(string.background));
+		return sprite.getName().equals(scriptTabActivity.getString(string.background));
 	}
 
 	private void setupBrickMap(Sprite sprite) {
@@ -169,7 +169,7 @@ public class AddBrickDialog extends Dialog {
 
 	public AddBrickDialog(ScriptTabActivity scriptTabActivity, String category) {
 		super(scriptTabActivity);
-		this.scriptActivity = scriptTabActivity;
+		this.scriptTabActivity = scriptTabActivity;
 		this.category = category;
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.dialog_toolbox);
@@ -183,7 +183,7 @@ public class AddBrickDialog extends Dialog {
 
 		listView = (ListView) findViewById(R.id.toolboxListView);
 		setupBrickMap(ProjectManager.getInstance().getCurrentSprite());
-		adapter = new PrototypeBrickAdapter(this.scriptActivity, brickMap.get(category));
+		adapter = new PrototypeBrickAdapter(this.scriptTabActivity, brickMap.get(category));
 
 		listView.setAdapter(adapter);
 
@@ -225,8 +225,8 @@ public class AddBrickDialog extends Dialog {
 						((LoopBeginBrick) brickClone).setLoopEndBrick(loopEndBrick);
 					}
 				}
-				scriptActivity.dismissDialog(ScriptTabActivity.DIALOG_ADD_BRICK);
-				scriptActivity.dismissDialog(ScriptTabActivity.DIALOG_BRICK_CATEGORY);
+				scriptTabActivity.dismissDialog(ScriptTabActivity.DIALOG_ADD_BRICK);
+				scriptTabActivity.dismissDialog(ScriptTabActivity.DIALOG_BRICK_CATEGORY);
 			}
 		});
 	}
