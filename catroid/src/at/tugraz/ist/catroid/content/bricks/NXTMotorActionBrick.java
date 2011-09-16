@@ -18,11 +18,12 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
-import android.content.DialogInterface.OnDismissListener;
 import android.os.Handler;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,12 +35,13 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
+import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
-public class NXTMotorActionBrick implements Brick, OnDismissListener, OnItemSelectedListener, OnSeekBarChangeListener {
+public class NXTMotorActionBrick implements Brick, OnItemSelectedListener, OnSeekBarChangeListener, OnClickListener {
 	private static final long serialVersionUID = 1L;
 	public static final int REQUIRED_RESSOURCES = BLUETOOTH_LEGO_NXT;
 
@@ -100,20 +102,9 @@ public class NXTMotorActionBrick implements Brick, OnDismissListener, OnItemSele
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View brickView = inflater.inflate(R.layout.construction_brick_nxt_motor_action, null);
 
-		//		EditText editDuration = (EditText) brickView.findViewById(R.id.motor_action_duration_edit_text);
-		//		editDuration.setText(String.valueOf(duration));
-		//		EditDoubleDialog dialogDuration = new EditDoubleDialog(context, editDuration, duration, MIN_DURATION,
-		//				MAX_DURATION);
-		//		dialogDuration.setOnDismissListener(this);
-		//		dialogDuration.setOnCancelListener((OnCancelListener) context);
-		//		editDuration.setOnClickListener(dialogDuration);
-
 		editSpeed = (EditText) brickView.findViewById(R.id.motor_action_speed_edit_text);
 		editSpeed.setText(String.valueOf(speed));
-		dialogSpeed = new EditIntegerDialog(context, editSpeed, speed, true, MIN_SPEED, MAX_SPEED);
-		dialogSpeed.setOnDismissListener(this);
-		dialogSpeed.setOnCancelListener((OnCancelListener) context);
-		editSpeed.setOnClickListener(dialogSpeed);
+		editSpeed.setOnClickListener(this);
 
 		Spinner motorSpinner = (Spinner) brickView.findViewById(R.id.motor_spinner);
 		motorSpinner.setOnItemSelectedListener(this);
@@ -174,24 +165,6 @@ public class NXTMotorActionBrick implements Brick, OnDismissListener, OnItemSele
 
 	}
 
-	public void onDismiss(DialogInterface dialog) {
-		if (dialog instanceof EditIntegerDialog) {
-			EditIntegerDialog inputDialog = (EditIntegerDialog) dialog;
-			if (inputDialog.getRefernecedEditTextId() == R.id.motor_action_speed_edit_text) {
-				speed = inputDialog.getValue();
-				speedToSeekBarVal();
-			}
-		}
-		//		else if (dialog instanceof EditDoubleDialog) {
-		//			EditDoubleDialog inputDialog = (EditDoubleDialog) dialog;
-		//			duration = inputDialog.getValue();}
-		else {
-			throw new RuntimeException("Received illegal id from EditText in MotorActionBrick");
-		}
-
-		dialog.cancel();
-	}
-
 	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 		//String[] values = parent.getContext().getResources().getStringArray(R.array.nxt_motor_chooser);
 		switch (position) {
@@ -220,6 +193,45 @@ public class NXTMotorActionBrick implements Brick, OnDismissListener, OnItemSele
 	}
 
 	public void onNothingSelected(AdapterView<?> arg0) {
+
+	}
+
+	public void onClick(View view) {
+		final Context context = view.getContext();
+
+		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+		final EditText input = new EditText(context);
+		input.setText(String.valueOf(speed));
+		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
+		input.setSelectAllOnFocus(true);
+		dialog.setView(input);
+		dialog.setOnCancelListener((OnCancelListener) context);
+		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				try {
+					int newSpeed = Integer.parseInt(input.getText().toString());
+					if (newSpeed > MAX_SPEED) {
+						newSpeed = MAX_SPEED;
+						Toast.makeText(context, R.string.number_to_big, Toast.LENGTH_SHORT).show();
+					} else if (newSpeed < MIN_SPEED) {
+						newSpeed = MIN_SPEED;
+						Toast.makeText(context, R.string.number_to_small, Toast.LENGTH_SHORT).show();
+					}
+					speed = newSpeed;
+					speedToSeekBarVal();
+				} catch (NumberFormatException exception) {
+					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT);
+				}
+				dialog.cancel();
+			}
+		});
+		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+
+		dialog.show();
 
 	}
 

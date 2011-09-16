@@ -22,7 +22,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
-import android.content.DialogInterface.OnDismissListener;
 import android.content.DialogInterface.OnShowListener;
 import android.os.Handler;
 import android.text.InputType;
@@ -36,12 +35,13 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
-public class NXTMotorTurnAngleBrick implements Brick, OnDismissListener {
+public class NXTMotorTurnAngleBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 	public static final int REQUIRED_RESSOURCES = BLUETOOTH_LEGO_NXT;
 
@@ -116,10 +116,7 @@ public class NXTMotorTurnAngleBrick implements Brick, OnDismissListener {
 
 		editX = (EditText) brickView.findViewById(R.id.motor_turn_angle_edit_text);
 		editX.setText(String.valueOf(angle));
-		dialogX = new EditIntegerDialog(context, editX, angle, true);
-		dialogX.setOnDismissListener(this);
-		dialogX.setOnCancelListener((OnCancelListener) context);
-		//editX.setOnClickListener(dialogX);
+		editX.setOnClickListener(this);
 
 		Spinner motorSpinner = (Spinner) brickView.findViewById(R.id.motor_spinner);
 		motorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -225,20 +222,34 @@ public class NXTMotorTurnAngleBrick implements Brick, OnDismissListener {
 		return brickView;
 	}
 
-	public void onDismiss(DialogInterface dialog) {
-		if (dialog instanceof EditIntegerDialog) {
-			EditIntegerDialog inputDialog = (EditIntegerDialog) dialog;
+	public void onClick(View view) {
+		final Context context = view.getContext();
 
-			if (inputDialog.getRefernecedEditTextId() == R.id.motor_turn_angle_edit_text) {
-				angle = inputDialog.getValue();
-				editX.setText(String.valueOf(angle));
-			} else {
-				throw new RuntimeException("Received illegal id from EditText: "
-						+ inputDialog.getRefernecedEditTextId());
+		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+		final EditText input = new EditText(context);
+		input.setText(String.valueOf(angle));
+		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
+		input.setSelectAllOnFocus(true);
+		dialog.setView(input);
+		dialog.setOnCancelListener((OnCancelListener) context);
+		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				try {
+					angle = Integer.parseInt(input.getText().toString());
+				} catch (NumberFormatException exception) {
+					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT);
+				}
+				dialog.cancel();
 			}
-		}
+		});
+		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
 
-		dialog.cancel();
+		dialog.show();
+
 	}
 
 }
