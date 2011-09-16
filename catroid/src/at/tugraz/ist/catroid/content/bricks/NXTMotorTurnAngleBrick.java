@@ -39,7 +39,6 @@ import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
 public class NXTMotorTurnAngleBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
@@ -55,7 +54,6 @@ public class NXTMotorTurnAngleBrick implements Brick, OnClickListener {
 	private static final int MOTOR_A_C = 3;
 	private static final int NO_DELAY = 0;
 
-	private transient EditIntegerDialog dialogX;
 	private transient EditText editX;
 
 	public NXTMotorTurnAngleBrick(Sprite sprite, int motor, int angle) {
