@@ -367,6 +367,7 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 	}
 
 	public void restart() {
+
 		if (soundManager != null) {
 			soundManager.stopAllSounds();
 		}
@@ -378,7 +379,6 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 
 		stageManager = new StageManager(this);
 		stageDialog = new StageDialog(this, stageManager, R.style.stage_dialog);
-
 		startStage();
 
 	}
