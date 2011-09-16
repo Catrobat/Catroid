@@ -94,7 +94,6 @@ public class AddBrickDialog extends Dialog {
 	private ListView listView;
 	private PrototypeBrickAdapter adapter;
 	private ScriptTabActivity scriptActivity;
-	private Dialog parentDialog;
 	private String category;
 
 	private boolean isBackground(Sprite sprite) {
@@ -168,10 +167,9 @@ public class AddBrickDialog extends Dialog {
 
 	}
 
-	public AddBrickDialog(Dialog parentDialog, ScriptTabActivity scriptActivity, String category) {
-		super(scriptActivity);
-		this.parentDialog = parentDialog;
-		this.scriptActivity = scriptActivity;
+	public AddBrickDialog(ScriptTabActivity scriptTabActivity, String category) {
+		super(scriptTabActivity);
+		this.scriptActivity = scriptTabActivity;
 		this.category = category;
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.dialog_toolbox);
@@ -227,8 +225,8 @@ public class AddBrickDialog extends Dialog {
 						((LoopBeginBrick) brickClone).setLoopEndBrick(loopEndBrick);
 					}
 				}
-				dismiss();
-				parentDialog.dismiss();
+				scriptActivity.dismissDialog(ScriptTabActivity.DIALOG_ADD_BRICK);
+				scriptActivity.dismissDialog(ScriptTabActivity.DIALOG_BRICK_CATEGORY);
 			}
 		});
 	}

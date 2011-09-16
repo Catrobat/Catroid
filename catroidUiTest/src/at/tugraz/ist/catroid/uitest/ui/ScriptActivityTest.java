@@ -170,6 +170,73 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 		assertFalse("ComeToFrontBrick is in the brick list!", solo.searchText(goNStepsBack));
 	}
 
+	public void testSelectCategoryDialogOnOrientationChange() {
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
+		assertTrue("A category was not visible after opening BrickCategoryDialog",
+				solo.searchText(getActivity().getString(R.string.category_motion)));
+		assertTrue("A category was not visible after opening BrickCategoryDialog",
+				solo.searchText(getActivity().getString(R.string.category_looks)));
+		assertTrue("A category was not visible after opening BrickCategoryDialog",
+				solo.searchText(getActivity().getString(R.string.category_sound)));
+		assertTrue("A category was not visible after opening BrickCategoryDialog",
+				solo.searchText(getActivity().getString(R.string.category_control)));
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		assertTrue("A category was not visible after changing orientation",
+				solo.searchText(getActivity().getString(R.string.category_motion)));
+		assertTrue("A category was not visible after changing orientation",
+				solo.searchText(getActivity().getString(R.string.category_looks)));
+		assertTrue("A category was not visible after changing orientation",
+				solo.searchText(getActivity().getString(R.string.category_sound)));
+		assertTrue("A category was not visible after changing orientation",
+				solo.searchText(getActivity().getString(R.string.category_control)));
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		assertTrue("A category was not visible after changing orientation",
+				solo.searchText(getActivity().getString(R.string.category_motion)));
+		assertTrue("A category was not visible after changing orientation",
+				solo.searchText(getActivity().getString(R.string.category_looks)));
+		assertTrue("A category was not visible after changing orientation",
+				solo.searchText(getActivity().getString(R.string.category_sound)));
+		assertTrue("A category was not visible after changing orientation",
+				solo.searchText(getActivity().getString(R.string.category_control)));
+	}
+
+	public void testAddBrickDialogOnOrientationChange() {
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
+		solo.clickOnText(getActivity().getString(R.string.category_motion));
+		assertTrue("Not in AddBrickDialog - category motion",
+				solo.searchText(getActivity().getString(R.string.brick_place_at)));
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		assertTrue("dialog closed after orientation change",
+				solo.searchText(getActivity().getString(R.string.brick_place_at)));
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.goBack();
+
+		solo.clickOnText(getActivity().getString(R.string.category_looks));
+		assertTrue("Not in AddBrickDialog - category looks",
+				solo.searchText(getActivity().getString(R.string.brick_set_costume)));
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		assertTrue("dialog closed after orientation change",
+				solo.searchText(getActivity().getString(R.string.brick_set_costume)));
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.goBack();
+
+		solo.clickOnText(getActivity().getString(R.string.category_sound));
+		assertTrue("Not in AddBrickDialog - category motion",
+				solo.searchText(getActivity().getString(R.string.brick_play_sound)));
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		assertTrue("dialog closed after orientation change",
+				solo.searchText(getActivity().getString(R.string.brick_play_sound)));
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.goBack();
+
+		solo.clickOnText(getActivity().getString(R.string.category_control));
+		assertTrue("Not in AddBrickDialog - category motion",
+				solo.searchText(getActivity().getString(R.string.brick_when_started)));
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		assertTrue("dialog closed after orientation change",
+				solo.searchText(getActivity().getString(R.string.brick_when_started)));
+	}
+
 	/**
 	 * Returns the absolute pixel y coordinates of the displayed bricks
 	 * 

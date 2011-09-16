@@ -74,14 +74,13 @@ public class BrickCategoryDialog extends Dialog {
 
 		ListView listView = (ListView) findViewById(R.id.categoriesListView);
 		setupBrickCategories(listView);
-		final Dialog brickCategoryDialog = this;
 
 		listView.setOnItemClickListener(new ListView.OnItemClickListener() {
 
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				String selectedCategory = adapter.getItem(position);
-				Dialog addBrickDialog = new AddBrickDialog(brickCategoryDialog, activity, selectedCategory);
-				addBrickDialog.show();
+				activity.selectedCategory = adapter.getItem(position);
+				activity.removeDialog(ScriptTabActivity.DIALOG_ADD_BRICK);
+				activity.showDialog(ScriptTabActivity.DIALOG_ADD_BRICK);
 			}
 		});
 	}
