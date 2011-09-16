@@ -23,7 +23,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
 import android.view.View;
-import android.widget.BaseExpandableListAdapter;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -53,7 +53,7 @@ public class SetGhostEffectBrick implements Brick, OnDismissListener {
 		return ghostEffectValue;
 	}
 
-	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
+	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
 		if (view == null) {
 			view = View.inflate(context, R.layout.toolbox_brick_set_ghost_effect, null);

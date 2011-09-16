@@ -30,7 +30,6 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -55,16 +54,14 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		}
 		listView = (DragAndDropListView) findViewById(R.id.brick_list_view);
 		adapter = new BrickAdapter(this, sprite, listView);
-		if (adapter.getGroupCount() > 0) {
-			ProjectManager.getInstance().setCurrentScript(adapter.getGroup(adapter.getGroupCount() - 1));
-		}
+		//		if (adapter.getGroupCount() > 0) {
+		//			ProjectManager.getInstance().setCurrentScript(adapter.getGroup(adapter.getGroupCount() - 1));
+		//		}
 
 		listView.setTrashView((ImageView) findViewById(R.id.trash));
 		listView.setOnCreateContextMenuListener(this);
 		listView.setOnDragAndDropListener(adapter);
-		//		listView.setAdapter(adapter);
-		//		listView.setGroupIndicator(null);
-		//		listView.setOnGroupClickListener(adapter);
+		listView.setAdapter(adapter);
 
 		registerForContextMenu(listView);
 	}
@@ -162,19 +159,20 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
 		if (view.getId() == R.id.brick_list_view) {
-			ExpandableListView.ExpandableListContextMenuInfo info = (ExpandableListView.ExpandableListContextMenuInfo) menuInfo;
+			//			ListView.FixedViewInfo info = (ListView.FixedViewInfo) menuInfo;
+			//			ExpandableListView.ExpandableListContextMenuInfo info = (ExpandableListView.ExpandableListContextMenuInfo) menuInfo;
 			menu.setHeaderTitle(R.string.script_context_menu_title);
 
-			if (ExpandableListView.getPackedPositionType(info.packedPosition) != ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+			//			if (ExpandableListView.getPackedPositionType(info.packedPosition) != ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+			//				int position = ExpandableListView.getPackedPositionGroup(info.packedPosition);
+			//			scriptToEdit = adapter.getGroup(position);
 
-				int position = ExpandableListView.getPackedPositionGroup(info.packedPosition);
-				scriptToEdit = adapter.getGroup(position);
-
-				MenuInflater inflater = getMenuInflater();
-				inflater.inflate(R.menu.script_menu, menu);
-			}
+			MenuInflater inflater = getMenuInflater();
+			inflater.inflate(R.menu.script_menu, menu);
 		}
 	}
+
+	//	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {

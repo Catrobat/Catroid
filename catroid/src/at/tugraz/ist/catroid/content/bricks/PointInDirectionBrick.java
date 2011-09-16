@@ -23,7 +23,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.BaseExpandableListAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -58,7 +58,7 @@ public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 		return this.sprite;
 	}
 
-	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
+	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
 		if (view == null) {
 			view = View.inflate(context, R.layout.toolbox_brick_point_in_direction, null);

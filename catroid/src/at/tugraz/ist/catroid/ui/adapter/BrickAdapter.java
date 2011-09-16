@@ -21,13 +21,12 @@ package at.tugraz.ist.catroid.ui.adapter;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
-import android.widget.BaseExpandableListAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ExpandableListView;
-import android.widget.ExpandableListView.OnGroupClickListener;
-import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.BroadcastScript;
 import at.tugraz.ist.catroid.content.Script;
@@ -45,7 +44,7 @@ import at.tugraz.ist.catroid.content.bricks.WhenBrick;
 import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListView;
 import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListener;
 
-public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDropListener, OnGroupClickListener {
+public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 	public static final int FOCUS_BLOCK_DESCENDANTS = 2;
 
@@ -64,82 +63,6 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDr
 		brickListAnimation = new BrickListAnimation(this, listView);
 		longClickListener = listView;
 		insertionView = View.inflate(context, R.layout.brick_insert, null);
-	}
-
-	public Brick getChild(int groupPosition, int childPosition) {
-		return sprite.getScript(groupPosition).getBrickList().get(childPosition);
-	}
-
-	public long getChildId(int groupPosition, int childPosition) {
-		return ExpandableListView.getPackedPositionForChild(groupPosition, childPosition);
-
-	}
-
-	public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView,
-			ViewGroup parent) {
-		Brick brick = getChild(groupPosition, childPosition);
-		View currentBrickView = brick.getView(context, childPosition, this);
-
-		if (draggedBrick != null && (dragTargetPosition == childPosition)) {
-			return insertionView;
-		}
-
-		if (animateChildren) {
-			brickListAnimation.doExpandAnimation(currentBrickView, childPosition);
-		}
-		//Hack!!!
-		//if wrapper isn't used the longClick event won't be triggered
-		ViewGroup wrapper = (ViewGroup) View.inflate(context, R.layout.construction_brick_wrapper, null);
-
-		if (currentBrickView.getParent() != null) {
-			((ViewGroup) currentBrickView.getParent()).removeView(currentBrickView);
-		}
-		wrapper.addView(currentBrickView);
-		wrapper.setOnLongClickListener(longClickListener);
-		return wrapper;
-	}
-
-	public int getChildrenCount(int groupPosition) {
-		return sprite.getScript(groupPosition).getBrickList().size();
-	}
-
-	public Script getGroup(int groupPosition) {
-		return sprite.getScript(groupPosition);
-	}
-
-	public int getGroupCount() {
-		return sprite.getNumberOfScripts();
-	}
-
-	public long getGroupId(int groupPosition) {
-		return groupPosition;
-	}
-
-	public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-		View view = null;
-
-		//		Log.d("Test", "----- Testing Get Group View ----- " + isExpanded);
-
-		if (getGroup(groupPosition) instanceof TapScript) {
-			view = new IfTouchedBrick(sprite, getGroup(groupPosition)).getView(context, groupPosition, this);
-		} else if (getGroup(groupPosition) instanceof BroadcastScript) {
-			view = new BroadcastReceiverBrick(sprite, (BroadcastScript) getGroup(groupPosition)).getView(context,
-					groupPosition, this);
-		} else if (getGroup(groupPosition) instanceof StartScript) {
-			view = new IfStartedBrick(sprite, getGroup(groupPosition)).getView(context, groupPosition, this);
-		} else if (getGroup(groupPosition) instanceof WhenScript) {
-			view = new WhenBrick(sprite, (WhenScript) getGroup(groupPosition)).getView(context, groupPosition, this);
-		}
-
-		return view;
-	}
-
-	public boolean hasStableIds() {
-		return false;
-	}
-
-	public boolean isChildSelectable(int groupPosition, int childPosition) {
-		return false;
 	}
 
 	public void drag(long from, long to) {
@@ -166,7 +89,7 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDr
 			groupTo = ExpandableListView.getPackedPositionGroup(to);
 
 			if (draggedBrick == null && childFrom != -1) {
-				draggedBrick = getChild(groupFrom, childFrom);
+				//				draggedBrick = getChild(groupFrom, childFrom);
 				notifyDataSetChanged();
 			}
 
@@ -205,67 +128,79 @@ public class BrickAdapter extends BaseExpandableListAdapter implements DragAndDr
 
 	public void remove(long index) {
 
-		ArrayList<Brick> brickList = getBrickList();
+		//		ArrayList<Brick> brickList = getBrickList();
 		if (draggedBrick instanceof LoopBeginBrick) {
 			LoopBeginBrick loopBeginBrick = (LoopBeginBrick) draggedBrick;
-			brickList.remove(loopBeginBrick.getLoopEndBrick());
+			//			brickList.remove(loopBeginBrick.getLoopEndBrick());
 		} else if (draggedBrick instanceof LoopEndBrick) {
 			LoopEndBrick loopEndBrick = (LoopEndBrick) draggedBrick;
-			brickList.remove(loopEndBrick.getLoopBeginBrick());
+			//			brickList.remove(loopEndBrick.getLoopBeginBrick());
 		}
 
-		brickList.remove(draggedBrick);
+		//		brickList.remove(draggedBrick);
 		draggedBrick = null;
 		notifyDataSetChanged();
-	}
-
-	public boolean onGroupClick(final ExpandableListView parent, View v, final int groupPosition, long id) {
-		if (groupPosition == getCurrentGroup()) {
-			return true;
-		}
-
-		animateChildren = true;
-		//		brickListAnimation.doClickOnGroupAnimate(getGroupCount(), groupPosition);
-		return true;
-	}
-
-	public void doReordering(ExpandableListView parent, int groupPosition) {
-		for (int i = 0; i < getGroupCount(); ++i) {
-			parent.collapseGroup(i);
-		}
-		Script currentScript = sprite.getScript(groupPosition);
-		int lastScriptIndex = sprite.getNumberOfScripts() - 1;
-		Script lastScript = sprite.getScript(lastScriptIndex);
-		boolean scriptDeleted = sprite.removeScript(currentScript);
-		if (scriptDeleted) {
-			sprite.addScript(currentScript);
-			sprite.removeScript(lastScript);
-			sprite.addScript(groupPosition, lastScript);
-		}
-
-		ProjectManager.getInstance().setCurrentScript(currentScript);
-
-		notifyDataSetChanged();
-		parent.expandGroup(getCurrentGroup());
-	}
-
-	public void setAnimateChildren(boolean animateChildren) {
-		this.animateChildren = animateChildren;
-	}
-
-	public int getChildCountFromLastGroup() {
-		return getChildrenCount(getCurrentGroup());
 	}
 
 	public OnLongClickListener getOnLongClickListener() {
 		return longClickListener;
 	}
 
-	private ArrayList<Brick> getBrickList() {
-		return sprite.getScript(getCurrentGroup()).getBrickList();
+	public int getCount() {
+
+		int count = 0;
+		for (int i = 0; i < sprite.getScriptCount(); i++) {
+			count += getBrickCount(i) + 1;
+		}
+		return count;
 	}
 
-	private int getCurrentGroup() {
-		return getGroupCount() - 1;
+	public Object getItem(int element) {
+
+		int count = 0;
+		while (element > getBrickCount(count)) {
+			element -= getBrickCount(count) + 1;
+			count++;
+		}
+		if (element == 0) {
+			return sprite.getScript(count);
+		} else {
+			Log.d("Test", "BrickNr: " + element + " Script: " + count);
+			return sprite.getScript(count).getBrick(element - 1);
+		}
+	}
+
+	private int getBrickCount(int scriptIndex) {
+		return sprite.getScript(scriptIndex).getBrickList().size();
+	}
+
+	public long getItemId(int index) {
+		return index;
+	}
+
+	public View getView(int position, View convertView, ViewGroup parent) {
+		// TODO Auto-generated method stub
+		// if group kein longclicklistener
+
+		if (getItem(position) instanceof Brick) {
+			Brick brick = (Brick) getItem(position);
+			View currentBrickView = brick.getView(context, position, this);
+			currentBrickView.setOnLongClickListener(longClickListener);
+			return currentBrickView;
+		} else {
+			View view = null;
+
+			if (getItem(position) instanceof TapScript) {
+				view = new IfTouchedBrick(sprite, (Script) getItem(position)).getView(context, position, this);
+			} else if (getItem(position) instanceof BroadcastScript) {
+				view = new BroadcastReceiverBrick(sprite, (BroadcastScript) getItem(position)).getView(context,
+						position, this);
+			} else if (getItem(position) instanceof StartScript) {
+				view = new IfStartedBrick(sprite, (Script) getItem(position)).getView(context, position, this);
+			} else if (getItem(position) instanceof WhenScript) {
+				view = new WhenBrick(sprite, (WhenScript) getItem(position)).getView(context, position, this);
+			}
+			return view;
+		}
 	}
 }

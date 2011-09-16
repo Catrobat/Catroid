@@ -59,7 +59,7 @@ public class BrickListAnimation {
 
 			public void onAnimationEnd(Animation animation) {
 				// set this, otherwise the animation starts always if the view is redrawn ie. on scrolling
-				adapter.setAnimateChildren(false);
+				//				adapter.setAnimateChildren(false);
 			}
 		});
 
