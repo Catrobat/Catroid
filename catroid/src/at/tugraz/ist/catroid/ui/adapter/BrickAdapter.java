@@ -243,4 +243,14 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 		}
 		return count;
 	}
+
+	private boolean isBrick(int index) {
+		Object obj = getItem(index);
+		if (obj instanceof Brick) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 }
