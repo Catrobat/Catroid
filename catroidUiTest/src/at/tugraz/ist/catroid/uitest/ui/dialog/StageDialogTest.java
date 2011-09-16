@@ -1,21 +1,26 @@
 package at.tugraz.ist.catroid.uitest.ui.dialog;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.media.MediaPlayer;
 import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
+import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
+import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
@@ -183,6 +188,52 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		for (int i = 0; i < scriptPositionsStart.size(); i++) {
 			assertEquals(scriptPositionsStart.get(i).intValue(), scriptPositionsRestart.get(i).intValue());
 		}
+	}
+
+	public void testRestartProjectWithSound() {
+
+		String projectName = "testsoundafterrestart";
+		//creating sprites for project:
+		Sprite firstSprite = new Sprite("sprite1");
+		Script startScript = new StartScript("startscript", firstSprite);
+
+		PlaySoundBrick playSoundBrick = new PlaySoundBrick(firstSprite);
+
+		startScript.addBrick(playSoundBrick);
+
+		firstSprite.addScript(startScript);
+
+		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
+		spriteList.add(firstSprite);
+		Project project = UiTestUtils.createProject(projectName, spriteList, getActivity());
+
+		File soundFile = UiTestUtils.saveFileToProject(projectName, "soundfile.mp3",
+				at.tugraz.ist.catroid.uitest.R.raw.longsound, getInstrumentation().getContext(),
+				UiTestUtils.TYPE_SOUND_FILE);
+
+		SoundInfo soundInfo = new SoundInfo();
+		soundInfo.setSoundFileName(soundFile.getName());
+		soundInfo.setTitle(soundFile.getName());
+		playSoundBrick.setSoundInfo(soundInfo);
+
+		firstSprite.getSoundList().add(soundInfo);
+
+		storageHandler.saveProject(project);
+
+		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		solo.sleep(1500);
+		assertTrue("Sound not playing.", mediaPlayer.isPlaying());
+		int positionBeforeRestart = mediaPlayer.getCurrentPosition();
+		solo.goBack();
+		solo.sleep(500);
+		assertFalse("Sound playing but should be paused.", mediaPlayer.isPlaying());
+		solo.clickOnButton(getActivity().getString(R.string.restart_current_project));
+		solo.sleep(500);
+		int positionAfterRestart = mediaPlayer.getCurrentPosition();
+		assertTrue("Sound not playing after stage restart.", mediaPlayer.isPlaying());
+		assertTrue("Sound did not play from start!", positionBeforeRestart > positionAfterRestart);
+
 	}
 
 	public void createTestProject(String projectName) throws IOException, NameNotFoundException {
