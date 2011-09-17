@@ -23,6 +23,8 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,6 +40,7 @@ import android.widget.ImageButton;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -221,6 +224,7 @@ public class UiTestUtils {
 
 		project.addSprite(firstSprite);
 
+		projectManager.fileChecksumContainer = new FileChecksumContainer();
 		projectManager.setProject(project);
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(testScript);
@@ -236,6 +240,7 @@ public class UiTestUtils {
 		firstSprite.addScript(testScript);
 		project.addSprite(firstSprite);
 
+		projectManager.fileChecksumContainer = new FileChecksumContainer();
 		projectManager.setProject(project);
 		projectManager.setCurrentSprite(firstSprite);
 		projectManager.setCurrentScript(testScript);
@@ -327,6 +332,7 @@ public class UiTestUtils {
 	}
 
 	public static void clearAllUtilTestProjects() {
+		projectManager.fileChecksumContainer = new FileChecksumContainer();
 		File directory = new File(Consts.DEFAULT_ROOT + "/" + PROJECTNAME1);
 		if (directory.exists()) {
 			UtilFile.deleteDirectory(directory);
@@ -378,6 +384,31 @@ public class UiTestUtils {
 		solo.waitForView(ImageButton.class);
 		ImageButton imageButton = (ImageButton) solo.getView(imageButtonId);
 		solo.clickOnView(imageButton);
+	}
+
+	public static File createTestMediaFile(String filePath, int fileID, Context context) throws IOException {
+
+		File testImage = new File(filePath);
+
+		if (!testImage.exists()) {
+			testImage.createNewFile();
+		}
+
+		InputStream in = context.getResources().openRawResource(fileID);
+		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), Consts.BUFFER_8K);
+
+		byte[] buffer = new byte[Consts.BUFFER_8K];
+		int length = 0;
+
+		while ((length = in.read(buffer)) > 0) {
+			out.write(buffer, 0, length);
+		}
+
+		in.close();
+		out.flush();
+		out.close();
+
+		return testImage;
 	}
 
 	public static void setPrivateField(String fieldName, Object object, Object value, boolean ofSuperclass) {

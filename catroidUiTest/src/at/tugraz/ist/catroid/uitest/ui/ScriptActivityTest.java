@@ -91,6 +91,8 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 				solo.searchText(getActivity().getString(R.string.category_sound)));
 		assertTrue("A category was not visible after opening BrickCategoryDialog",
 				solo.searchText(getActivity().getString(R.string.category_control)));
+		assertTrue("A category was not visible after opening BrickCategoryDialog",
+				solo.searchText(getActivity().getString(R.string.category_lego_nxt)));
 
 		solo.clickOnText(getActivity().getString(R.string.category_control));
 		assertTrue("AddBrickDialog was not opened after selecting a category",
@@ -99,6 +101,14 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 		solo.goBack();
 		assertTrue("Could not go back to BrickCategoryDialog from AddBrickDialog",
 				solo.searchText(getActivity().getString(R.string.category_sound)));
+
+		solo.clickOnText(getActivity().getString(R.string.category_lego_nxt));
+		assertTrue("AddBrickDialog was not opened after selecting a category",
+				solo.searchText(getActivity().getString(R.string.brick_motor_action)));
+
+		solo.goBack();
+		assertTrue("Could not go back to BrickCategoryDialog from AddBrickDialog",
+				solo.searchText(getActivity().getString(R.string.category_lego_nxt)));
 	}
 
 	public void testSimpleDragNDrop() {
@@ -108,8 +118,8 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 		longClickAndDrag(10, yPositionList.get(4), 10, yPositionList.get(2), 20);
 		ArrayList<Brick> brickList = ProjectManager.getInstance().getCurrentScript().getBrickList();
 
-		assertEquals("Brick count not equal before and after dragging & dropping", brickListToCheck.size(), brickList
-				.size());
+		assertEquals("Brick count not equal before and after dragging & dropping", brickListToCheck.size(),
+				brickList.size());
 		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(0), brickList.get(0));
 		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(3), brickList.get(1));
 		assertEquals("Incorrect brick order after dragging & dropping", brickListToCheck.get(1), brickList.get(2));
@@ -133,6 +143,98 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 		assertEquals("Incorrect brick order after deleting a brick", brickListToCheck.get(2), brickList.get(1));
 		assertEquals("Incorrect brick order after deleting a brick", brickListToCheck.get(3), brickList.get(2));
 		assertEquals("Incorrect brick order after deleting a brick", brickListToCheck.get(4), brickList.get(3));
+	}
+
+	public void testBackgroundBricks() {
+		String currentProject = getActivity().getString(R.string.current_project_button);
+		String background = getActivity().getString(R.string.background);
+		String categoryLooks = getActivity().getString(R.string.category_looks);
+		String categoryMotion = getActivity().getString(R.string.category_motion);
+		String setBackground = getActivity().getString(R.string.brick_set_background);
+		String comeToFront = getActivity().getString(R.string.brick_come_to_front);
+		String goNStepsBack = getActivity().getString(R.string.brick_go_back_layers);
+
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
+		solo.sleep(200);
+		solo.clickOnText(currentProject);
+		solo.clickOnText(background);
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
+		solo.clickOnText(categoryLooks);
+		assertTrue("SetCostumeBrick was not renamed for background sprite", solo.searchText(setBackground));
+		solo.clickOnText(setBackground);
+		assertTrue("SetCostumeBrick was not renamed for background sprite", solo.searchText(setBackground));
+
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
+		solo.clickOnText(categoryMotion);
+		assertFalse("ComeToFrontBrick is in the brick list!", solo.searchText(comeToFront));
+		assertFalse("ComeToFrontBrick is in the brick list!", solo.searchText(goNStepsBack));
+	}
+
+	public void testSelectCategoryDialogOnOrientationChange() {
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
+		assertTrue("A category was not visible after opening BrickCategoryDialog",
+				solo.searchText(getActivity().getString(R.string.category_motion)));
+		assertTrue("A category was not visible after opening BrickCategoryDialog",
+				solo.searchText(getActivity().getString(R.string.category_looks)));
+		assertTrue("A category was not visible after opening BrickCategoryDialog",
+				solo.searchText(getActivity().getString(R.string.category_sound)));
+		assertTrue("A category was not visible after opening BrickCategoryDialog",
+				solo.searchText(getActivity().getString(R.string.category_control)));
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		assertTrue("A category was not visible after changing orientation",
+				solo.searchText(getActivity().getString(R.string.category_motion)));
+		assertTrue("A category was not visible after changing orientation",
+				solo.searchText(getActivity().getString(R.string.category_looks)));
+		assertTrue("A category was not visible after changing orientation",
+				solo.searchText(getActivity().getString(R.string.category_sound)));
+		assertTrue("A category was not visible after changing orientation",
+				solo.searchText(getActivity().getString(R.string.category_control)));
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		assertTrue("A category was not visible after changing orientation",
+				solo.searchText(getActivity().getString(R.string.category_motion)));
+		assertTrue("A category was not visible after changing orientation",
+				solo.searchText(getActivity().getString(R.string.category_looks)));
+		assertTrue("A category was not visible after changing orientation",
+				solo.searchText(getActivity().getString(R.string.category_sound)));
+		assertTrue("A category was not visible after changing orientation",
+				solo.searchText(getActivity().getString(R.string.category_control)));
+	}
+
+	public void testAddBrickDialogOnOrientationChange() {
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
+		solo.clickOnText(getActivity().getString(R.string.category_motion));
+		assertTrue("Not in AddBrickDialog - category motion",
+				solo.searchText(getActivity().getString(R.string.brick_place_at)));
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		assertTrue("dialog closed after orientation change",
+				solo.searchText(getActivity().getString(R.string.brick_place_at)));
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.goBack();
+
+		solo.clickOnText(getActivity().getString(R.string.category_looks));
+		assertTrue("Not in AddBrickDialog - category looks",
+				solo.searchText(getActivity().getString(R.string.brick_set_costume)));
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		assertTrue("dialog closed after orientation change",
+				solo.searchText(getActivity().getString(R.string.brick_set_costume)));
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.goBack();
+
+		solo.clickOnText(getActivity().getString(R.string.category_sound));
+		assertTrue("Not in AddBrickDialog - category motion",
+				solo.searchText(getActivity().getString(R.string.brick_play_sound)));
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		assertTrue("dialog closed after orientation change",
+				solo.searchText(getActivity().getString(R.string.brick_play_sound)));
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.goBack();
+
+		solo.clickOnText(getActivity().getString(R.string.category_control));
+		assertTrue("Not in AddBrickDialog - category motion",
+				solo.searchText(getActivity().getString(R.string.brick_when_started)));
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		assertTrue("dialog closed after orientation change",
+				solo.searchText(getActivity().getString(R.string.brick_when_started)));
 	}
 
 	/**

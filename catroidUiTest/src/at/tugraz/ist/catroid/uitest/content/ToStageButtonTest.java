@@ -81,6 +81,7 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 		assertEquals("Background sprite has too many scripts", 1, background.getNumberOfScripts());
 
 		solo.goBack();
+		solo.clickOnText(getActivity().getString(R.string.back_to_construction_site));
 		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_when);
 		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_set_size_to);
 		solo.sleep(100);
@@ -93,6 +94,7 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 		assertEquals("Script list has wrong number of elements", 2, sprite_list.get(0).getNumberOfScripts());
 
 		solo.goBack();
+		solo.clickOnText(getActivity().getString(R.string.back_to_construction_site));
 		solo.clickLongOnText(getActivity().getString(R.string.brick_when));
 		solo.clickOnText(getActivity().getString(R.string.delete_script_button));
 
@@ -104,6 +106,7 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 		assertEquals("Script list has wrong number of elements", 1, sprite_list.get(0).getNumberOfScripts());
 
 		solo.goBack();
+		solo.clickOnText(getActivity().getString(R.string.back_to_construction_site));
 		solo.goBack();
 		solo.sleep(100);
 
@@ -124,6 +127,7 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 		assertEquals("Script list has wrong number of elements", 1, sprite_list.get(0).getNumberOfScripts());
 
 		solo.goBack();
+		solo.clickOnText(getActivity().getString(R.string.back_to_construction_site));
 		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_when);
 		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_set_size_to);
 		solo.sleep(100);
@@ -137,10 +141,11 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 				sprite_list.get(2).getScript(0).getBrickList().get(0) instanceof SetSizeToBrick);
 
 		solo.goBack();
+		solo.clickOnText(getActivity().getString(R.string.back_to_construction_site));
 		solo.sleep(100);
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
 
-		solo.clickOnButton(getActivity().getString(R.string.projects_on_phone));
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.clickOnText(projectNameThree);
 
 		solo.clickOnText(spriteNameTwo);

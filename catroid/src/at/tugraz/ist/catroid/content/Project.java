@@ -53,6 +53,7 @@ public class Project implements Serializable {
 		}
 
 		Sprite background = new Sprite(context.getString(R.string.background));
+		background.setZPosition(Integer.MIN_VALUE);
 		addSprite(background);
 
 		versionName = Utils.getVersionName(context);

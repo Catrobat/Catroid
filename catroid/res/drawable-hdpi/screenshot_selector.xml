@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <!-- 
  *  Catroid: An on-device graphical programming language for Android devices
@@ -19,18 +19,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
 
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-	<stroke
-		android:width="12dp"
-		android:color="#80FF8C00" />
-	<solid android:color="#000" />
-	<padding
-		android:left="24dp"
-		android:top="24dp"
-		android:right="24dp"
-		android:bottom="24dp" />
-	<corners
-		android:radius="32dp"
-		android:bottomLeftRadius="0dp"
-		android:bottomRightRadius="0dp" />
-</shape>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:state_pressed="true" android:drawable="@drawable/ic_screenshot_pressed" /> <!-- pressed -->
+	<item android:state_focused="true" android:drawable="@drawable/ic_screenshot" /> <!-- focused -->
+	<item android:drawable="@drawable/ic_screenshot" /> <!-- default -->
+</selector>
