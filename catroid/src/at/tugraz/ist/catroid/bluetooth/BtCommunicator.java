@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<!-- 
+/**
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010  Catroid development team 
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
@@ -17,20 +15,20 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+ */
+package at.tugraz.ist.catroid.bluetooth;
 
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-	<stroke
-		android:width="12dp"
-		android:color="#80FF8C00" />
-	<solid android:color="#000" />
-	<padding
-		android:left="24dp"
-		android:top="24dp"
-		android:right="24dp"
-		android:bottom="24dp" />
-	<corners
-		android:radius="32dp"
-		android:bottomLeftRadius="0dp"
-		android:bottomRightRadius="0dp" />
-</shape>
+import android.os.Handler;
+
+// TODO Not needed for LegoNXT anymore, functionality now in LegoNXTBtCommunicator! Maybe refactor similary for arduino or move to arduino package...
+public abstract interface BtCommunicator {
+
+	// this is the only OUI registered by LEGO, see http://standards.ieee.org/regauth/oui/index.shtml
+	public static final String OUI_LEGO = "00:16:53";
+
+	public void setMACAddress(String mMACaddress);
+
+	public abstract boolean isConnected();
+
+	public Handler getHandler();
+}

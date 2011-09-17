@@ -22,6 +22,7 @@ import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.ForeverBrick;
+import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
 import at.tugraz.ist.catroid.content.bricks.SetXBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
@@ -36,6 +37,7 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 	private int positionOfFirstWaitBrick;
 	private int positionOfSecondWaitBrick;
 	private LoopEndBrick loopEndBrick;
+	private LoopBeginBrick foreverBrick;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -43,7 +45,7 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 		testScript = new StartScript("testScript", testSprite);
 
 		ShowBrick showBrick = new ShowBrick(testSprite);
-		ForeverBrick foreverBrick = new ForeverBrick(testSprite);
+		foreverBrick = new ForeverBrick(testSprite);
 		WaitBrick firstWaitBrick = new WaitBrick(testSprite, brickSleepTime);
 		SetXBrick firstSetXBrick = new SetXBrick(testSprite, 100);
 		WaitBrick secondWaitBrick = new WaitBrick(testSprite, brickSleepTime);
@@ -86,5 +88,22 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 		int timesToRepeat = (Integer) TestUtils.getPrivateField("timesToRepeat", loopEndBrick, false);
 
 		assertEquals("Wrong number of times to repeat", LoopEndBrick.FOREVER, timesToRepeat);
+	}
+
+	public void testLoopDelay() throws InterruptedException {
+
+		long expectedDelay = LoopEndBrick.LOOP_DELAY;
+		foreverBrick.execute();
+		long startTime = foreverBrick.getBeginLoopTime() / 1000000;
+		loopEndBrick.execute();
+		long endTime = System.nanoTime() / 1000000;
+		assertTrue("Loop delay was too short...", endTime - startTime >= expectedDelay);
+		assertTrue("Loop delay was very long...", endTime - startTime <= expectedDelay + 1000);
+
+		startTime = foreverBrick.getBeginLoopTime() / 1000000;
+		loopEndBrick.execute();
+		endTime = System.nanoTime() / 1000000;
+		assertTrue("Loop delay was too short...", endTime - startTime >= expectedDelay);
+		assertTrue("Loop delay was very long...", endTime - startTime <= expectedDelay + 1000);
 	}
 }

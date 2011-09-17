@@ -60,7 +60,7 @@ public class LoadProjectDialogTest extends ActivityInstrumentationTestCase2<Main
 
 	public void testLoadProjectDialog() throws NameNotFoundException, IOException {
 		createTestProject(testProject);
-		solo.clickOnButton(getActivity().getString(R.string.projects_on_phone));
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
 		solo.clickOnText(testProject);
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);

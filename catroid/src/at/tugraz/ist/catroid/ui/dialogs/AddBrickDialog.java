@@ -57,6 +57,10 @@ import at.tugraz.ist.catroid.content.bricks.IfOnEdgeBounceBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
 import at.tugraz.ist.catroid.content.bricks.MoveNStepsBrick;
+import at.tugraz.ist.catroid.content.bricks.NXTMotorActionBrick;
+import at.tugraz.ist.catroid.content.bricks.NXTMotorStopBrick;
+import at.tugraz.ist.catroid.content.bricks.NXTMotorTurnAngleBrick;
+import at.tugraz.ist.catroid.content.bricks.NXTPlayToneBrick;
 import at.tugraz.ist.catroid.content.bricks.NoteBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
@@ -80,7 +84,7 @@ import at.tugraz.ist.catroid.content.bricks.TurnRightBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.content.bricks.WhenBrick;
 import at.tugraz.ist.catroid.content.bricks.WhenStartedBrick;
-import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.PrototypeBrickAdapter;
 
 public class AddBrickDialog extends Dialog {
@@ -89,12 +93,11 @@ public class AddBrickDialog extends Dialog {
 
 	private ListView listView;
 	private PrototypeBrickAdapter adapter;
-	private ScriptActivity scriptActivity;
-	private Dialog parentDialog;
+	private ScriptTabActivity scriptTabActivity;
 	private String category;
 
 	private boolean isBackground(Sprite sprite) {
-		return sprite.getName().equals(scriptActivity.getString(string.background));
+		return sprite.getName().equals(scriptTabActivity.getString(string.background));
 	}
 
 	private void setupBrickMap(Sprite sprite) {
@@ -106,17 +109,17 @@ public class AddBrickDialog extends Dialog {
 		motionBrickList.add(new SetYBrick(sprite, 0));
 		motionBrickList.add(new ChangeXByBrick(sprite, 100));
 		motionBrickList.add(new ChangeYByBrick(sprite, 100));
+		motionBrickList.add(new IfOnEdgeBounceBrick(sprite));
+		motionBrickList.add(new MoveNStepsBrick(sprite, 10));
+		motionBrickList.add(new TurnLeftBrick(sprite, 15));
+		motionBrickList.add(new TurnRightBrick(sprite, 15));
+		motionBrickList.add(new PointInDirectionBrick(sprite, 0));
+		motionBrickList.add(new PointToBrick(sprite, null));
+		motionBrickList.add(new GlideToBrick(sprite, 800, 0, 1000));
 		if (!isBackground(sprite)) {
 			motionBrickList.add(new GoNStepsBackBrick(sprite, 1));
 			motionBrickList.add(new ComeToFrontBrick(sprite));
-			motionBrickList.add(new IfOnEdgeBounceBrick(sprite));
-			motionBrickList.add(new MoveNStepsBrick(sprite, 10));
-			motionBrickList.add(new TurnLeftBrick(sprite, 15));
-			motionBrickList.add(new TurnRightBrick(sprite, 15));
-			motionBrickList.add(new PointInDirectionBrick(sprite, 90));
-			motionBrickList.add(new PointToBrick(sprite, null));
 		}
-		motionBrickList.add(new GlideToBrick(sprite, 800, 0, 1000));
 		brickMap.put(getContext().getString(R.string.category_motion), motionBrickList);
 
 		List<Brick> looksBrickList = new ArrayList<Brick>();
@@ -125,15 +128,14 @@ public class AddBrickDialog extends Dialog {
 		looksBrickList.add(new ChangeSizeByNBrick(sprite, 20));
 		looksBrickList.add(new HideBrick(sprite));
 		looksBrickList.add(new ShowBrick(sprite));
-		if (!isBackground(sprite)) {
-			looksBrickList.add(new SetGhostEffectBrick(sprite, 0));
-			looksBrickList.add(new ChangeGhostEffectBrick(sprite, 25));
-			looksBrickList.add(new SetBrightnessBrick(sprite, 0));
-			looksBrickList.add(new ChangeBrightnessBrick(sprite, 25));
-			looksBrickList.add(new ClearGraphicEffectBrick(sprite));
-			looksBrickList.add(new SayBrick(sprite));
-			looksBrickList.add(new ThinkBrick(sprite));
-		}
+		looksBrickList.add(new SetGhostEffectBrick(sprite, 0));
+		looksBrickList.add(new ChangeGhostEffectBrick(sprite, 25));
+		looksBrickList.add(new SetBrightnessBrick(sprite, 0));
+		looksBrickList.add(new ChangeBrightnessBrick(sprite, 25));
+		looksBrickList.add(new ClearGraphicEffectBrick(sprite));
+		looksBrickList.add(new SayBrick(sprite));
+		looksBrickList.add(new ThinkBrick(sprite));
+
 		brickMap.put(getContext().getString(R.string.category_looks), looksBrickList);
 
 		List<Brick> soundBrickList = new ArrayList<Brick>();
@@ -141,9 +143,7 @@ public class AddBrickDialog extends Dialog {
 		soundBrickList.add(new StopAllSoundsBrick(sprite));
 		soundBrickList.add(new SetVolumeToBrick(sprite, 100));
 		soundBrickList.add(new ChangeVolumeByBrick(sprite, 25));
-		if (!isBackground(sprite)) {
-			soundBrickList.add(new SpeakBrick(sprite, null));
-		}
+		soundBrickList.add(new SpeakBrick(sprite, null));
 		brickMap.put(getContext().getString(R.string.category_sound), soundBrickList);
 
 		List<Brick> controlBrickList = new ArrayList<Brick>();
@@ -157,12 +157,19 @@ public class AddBrickDialog extends Dialog {
 		controlBrickList.add(new ForeverBrick(sprite));
 		controlBrickList.add(new RepeatBrick(sprite, 3));
 		brickMap.put(getContext().getString(R.string.category_control), controlBrickList);
+
+		List<Brick> legoNXTBrickList = new ArrayList<Brick>();
+		legoNXTBrickList.add(new NXTMotorTurnAngleBrick(sprite, 0, 180));
+		legoNXTBrickList.add(new NXTMotorStopBrick(sprite, 0));
+		legoNXTBrickList.add(new NXTMotorActionBrick(sprite, 0, 100));
+		legoNXTBrickList.add(new NXTPlayToneBrick(sprite, 2000, 1));
+		brickMap.put(getContext().getString(R.string.category_lego_nxt), legoNXTBrickList);
+
 	}
 
-	public AddBrickDialog(Dialog parentDialog, ScriptActivity scriptActivity, String category) {
-		super(scriptActivity);
-		this.parentDialog = parentDialog;
-		this.scriptActivity = scriptActivity;
+	public AddBrickDialog(ScriptTabActivity scriptTabActivity, String category) {
+		super(scriptTabActivity);
+		this.scriptTabActivity = scriptTabActivity;
 		this.category = category;
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.dialog_toolbox);
@@ -176,7 +183,7 @@ public class AddBrickDialog extends Dialog {
 
 		listView = (ListView) findViewById(R.id.toolboxListView);
 		setupBrickMap(ProjectManager.getInstance().getCurrentSprite());
-		adapter = new PrototypeBrickAdapter(this.scriptActivity, brickMap.get(category));
+		adapter = new PrototypeBrickAdapter(this.scriptTabActivity, brickMap.get(category));
 
 		listView.setAdapter(adapter);
 
@@ -218,8 +225,8 @@ public class AddBrickDialog extends Dialog {
 						((LoopBeginBrick) brickClone).setLoopEndBrick(loopEndBrick);
 					}
 				}
-				dismiss();
-				parentDialog.dismiss();
+				scriptTabActivity.dismissDialog(ScriptTabActivity.DIALOG_ADD_BRICK);
+				scriptTabActivity.dismissDialog(ScriptTabActivity.DIALOG_BRICK_CATEGORY);
 			}
 		});
 	}

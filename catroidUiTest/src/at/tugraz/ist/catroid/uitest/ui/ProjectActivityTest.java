@@ -81,6 +81,17 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.sleep(50);
 	}
 
+	public void testBackgroundSprite() {
+		solo.clickOnText(getActivity().getString(R.string.new_project));
+		solo.enterText(0, "something");
+		solo.clickOnText(getActivity().getString(R.string.new_project_dialog_button));
+		assertTrue("Wrong name for background sprite!",
+				solo.searchText(solo.getCurrentActivity().getString(R.string.background)));
+		solo.clickLongOnText(solo.getCurrentActivity().getString(R.string.background));
+		assertFalse("Found delete option for background sprite",
+				solo.searchText(solo.getCurrentActivity().getString(R.string.delete_sprite_button)));
+	}
+
 	public void testAddNewSprite() {
 		final String spriteName = "testSprite";
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
