@@ -67,21 +67,29 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
 
 		solo.sleep(200);
-		UiTestUtils.enterText(solo, 0, spriteName);
-		solo.sleep(500);
-		solo.clickOnButton(getActivity().getString(R.string.ok));
-		solo.sleep(50);
+		solo.enterText(0, spriteName);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(300);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		assertTrue("EditText field got cleared after changing orientation", solo.searchText(spriteName));
+		solo.clickOnButton(0);
+		solo.sleep(100);
 	}
 
 	public void testBackgroundSprite() {
 		solo.clickOnText(getActivity().getString(R.string.new_project));
+
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(300);
+		solo.clearEditText(0);
 		solo.enterText(0, "something");
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+
+		assertTrue("EditText field got cleared after changing orientation", solo.searchText("something"));
 		solo.sleep(600);
-
-		solo.sendKey(solo.ENTER);
-		solo.sendKey(solo.ENTER);
-
-		solo.sleep(500);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.clickOnButton(0);
+		solo.sleep(100);
 
 		assertTrue("Wrong name for background sprite!",
 				solo.searchText(solo.getCurrentActivity().getString(R.string.background)));
@@ -95,8 +103,6 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
 		addNewSprite(spriteName);
 
-		solo.sendKey(solo.ENTER);
-		solo.sendKey(solo.ENTER);
 		solo.sleep(300);
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);

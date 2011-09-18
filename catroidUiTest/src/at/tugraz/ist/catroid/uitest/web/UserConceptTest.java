@@ -73,8 +73,8 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		fillLoginDialog(true);
 
-		assertNotNull("Upload Dialog is not shown.", solo.getText(getActivity().getString(
-				R.string.upload_project_dialog_title)));
+		assertNotNull("Upload Dialog is not shown.",
+				solo.getText(getActivity().getString(R.string.upload_project_dialog_title)));
 		solo.sleep(2000);
 	}
 
@@ -85,8 +85,8 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.clickOnText(getActivity().getString(R.string.upload_project));
 		solo.sleep(5000);
 
-		assertNotNull("Upload Dialog is not shown.", solo.getText(getActivity().getString(
-				R.string.upload_project_dialog_title)));
+		assertNotNull("Upload Dialog is not shown.",
+				solo.getText(getActivity().getString(R.string.upload_project_dialog_title)));
 		solo.sleep(2000);
 	}
 
@@ -100,15 +100,15 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.sleep(1000);
 		fillLoginDialog(true);
 
-		assertNotNull("Upload Dialog is not shown.", solo.getText(getActivity().getString(
-				R.string.upload_project_dialog_title)));
+		assertNotNull("Upload Dialog is not shown.",
+				solo.getText(getActivity().getString(R.string.upload_project_dialog_title)));
 		solo.goBack();
 
 		solo.clickOnText(getActivity().getString(R.string.upload_project));
 		solo.waitForDialogToClose(10000);
 
-		assertNotNull("Upload Dialog is not shown.", solo.getText(getActivity().getString(
-				R.string.upload_project_dialog_title)));
+		assertNotNull("Upload Dialog is not shown.",
+				solo.getText(getActivity().getString(R.string.upload_project_dialog_title)));
 		solo.sleep(2000);
 	}
 
@@ -120,11 +120,11 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		prefs.edit().putString(Consts.TOKEN, "wrong_token").commit();
 
 		solo.clickOnText(getActivity().getString(R.string.upload_project));
-		solo.sleep(5000);
+		solo.sleep(4000);
 		fillLoginDialog(true);
 
-		assertNotNull("Login Dialog is not shown.", solo.getText(getActivity().getString(
-				R.string.upload_project_dialog_title)));
+		assertNotNull("Login Dialog is not shown.",
+				solo.getText(getActivity().getString(R.string.upload_project_dialog_title)));
 		solo.sleep(2000);
 	}
 
@@ -140,8 +140,8 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		assertNotNull("no error dialog is shown", solo.getText(getActivity().getString(R.string.register_error)));
 		solo.clickOnButton(0);
-		assertNotNull("Login Dialog is not shown.", solo.getText(getActivity().getString(
-				R.string.login_register_dialog_title)));
+		assertNotNull("Login Dialog is not shown.",
+				solo.getText(getActivity().getString(R.string.login_register_dialog_title)));
 		solo.sleep(2000);
 	}
 
@@ -176,13 +176,12 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 	private void fillLoginDialog(boolean correct) {
 
-		assertNotNull("Login Dialog is not shown.", solo.getText(getActivity().getString(
-				R.string.login_register_dialog_title)));
+		assertNotNull("Login Dialog is not shown.",
+				solo.getText(getActivity().getString(R.string.login_register_dialog_title)));
 
 		// enter a username
 		String testUser = "testUser" + System.currentTimeMillis();
 		solo.clearEditText(0);
-		solo.clickOnEditText(0);
 		solo.enterText(0, testUser);
 
 		// enter a password
@@ -199,7 +198,11 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		// set the email to use. we need a random email because the server does not allow same email with different users 
 		String testEmail = testUser + "@gmail.com";
 		UiTestUtils.setPrivateField("emailForUiTests", ServerCalls.getInstance(), testEmail, false);
-		solo.clickOnButton(getActivity().getString(R.string.login_or_register));
+		solo.sleep(100);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(600);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.clickOnButton(0);
 
 		solo.waitForDialogToClose(10000);
 	}
