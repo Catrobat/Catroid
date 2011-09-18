@@ -124,11 +124,17 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		solo.clickOnText(getActivity().getString(R.string.costumes));
 		solo.sleep(500);
 		solo.clickOnButton(getActivity().getString(R.string.sound_rename));
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(300);
 		solo.clearEditText(0);
 		solo.enterText(0, newName);
-		solo.sleep(300);
-		solo.clickOnButton(getActivity().getString(R.string.ok));
-		solo.sleep(500);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+
+		assertTrue("EditText field got cleared after changing orientation", solo.searchText(newName));
+		solo.sleep(600);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.clickOnButton(0);
+		solo.sleep(100);
 		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
 		assertEquals("costume is not renamed in CostumeList", newName, costumeDataList.get(0).getCostumeName());
 		if (!solo.searchText(newName)) {
@@ -168,6 +174,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		solo.enterText(0, newName);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(300);
+		solo.setActivityOrientation(Solo.PORTRAIT);
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(newName));
 		solo.clickOnButton(getActivity().getString(R.string.ok));
 		solo.sleep(100);

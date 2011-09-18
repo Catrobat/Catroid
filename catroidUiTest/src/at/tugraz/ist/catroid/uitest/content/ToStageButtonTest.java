@@ -63,12 +63,16 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 	}
 
 	public void testToStageButton() {
-		solo.clickOnButton(getActivity().getString(R.string.new_project));
-		solo.clickOnEditText(0);
-		solo.enterText(0, projectNameThree);
-		solo.goBack();
+		//What does this test exactly it's quite a big test...
 
-		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
+		solo.clickOnButton(getActivity().getString(R.string.new_project));
+		solo.sleep(300);
+		solo.enterText(0, projectNameThree);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(600);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.clickOnButton(0);
+
 		solo.sleep(500);
 		solo.clickOnText(getActivity().getString(R.string.background));
 		solo.sleep(500);
@@ -112,7 +116,6 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
 
-		solo.clickOnEditText(0);
 		solo.enterText(0, spriteNameTwo);
 
 		solo.goBack();

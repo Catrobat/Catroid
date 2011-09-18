@@ -81,11 +81,17 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		assertFalse("testProject was not deleted!", directory.exists());
 
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
-		solo.sleep(200);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(300);
+		solo.clearEditText(0);
 		solo.enterText(0, testProject);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(300);
+		assertTrue("EditText field got cleared after changing orientation", solo.searchText(testProject));
+		solo.sleep(600);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.clickOnButton(0);
 		solo.sleep(100);
-		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
-		solo.sleep(2000);
 
 		File file = new File(Consts.DEFAULT_ROOT + "/" + testProject + "/" + testProject + Consts.PROJECT_EXTENTION);
 		assertTrue(testProject + " was not created!", file.exists());
@@ -93,12 +99,20 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 	public void testCreateNewProjectErrors() {
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
-		solo.sleep(100);
+
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(300);
+		solo.clearEditText(0);
 		solo.enterText(0, "");
-		//solo.goBack();
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(300);
+
+		assertTrue("EditText field got cleared after changing orientation", solo.searchText(""));
+		solo.sleep(600);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.clickOnButton(0);
 		solo.sleep(100);
-		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
-		solo.sleep(50);
+
 		assertTrue("No error message was displayed upon creating a project with an empty name.",
 				solo.searchText(getActivity().getString(R.string.error_no_name_entered)));
 
@@ -108,10 +122,20 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		directory.mkdirs();
 		solo.sleep(50);
 
-		solo.clickOnEditText(0);
+		//solo.clickOnEditText(0);
+
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(300);
+		solo.clearEditText(0);
 		solo.enterText(0, testProject);
-		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
-		solo.sleep(50);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(300);
+		assertTrue("EditText field got cleared after changing orientation", solo.searchText(testProject));
+		solo.sleep(600);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.clickOnButton(0);
+		solo.sleep(100);
+
 		assertTrue("No error message was displayed upon creating a project with the same name twice.",
 				solo.searchText(getActivity().getString(R.string.error_project_exists)));
 
@@ -121,13 +145,16 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		final String projectNameWithSpecialCharacters = "Hey, look, I'm special! ?äöüß<>";
 
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
-		//solo.clickOnEditText(0);
-		solo.sleep(200);
+
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(300);
+		solo.clearEditText(0);
 		solo.enterText(0, projectNameWithSpecialCharacters);
-		//solo.goBack();
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(600);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.clickOnButton(0);
 		solo.sleep(100);
-		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
-		solo.sleep(1000);
 
 		assertEquals("Project name with special characters was not set properly", ProjectManager.getInstance()
 				.getCurrentProject().getName(), projectNameWithSpecialCharacters);
