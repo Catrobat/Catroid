@@ -85,7 +85,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 	}
 
 	public void testPauseOnBackButton() {
-		double scale = 50.0;
+		double scale = 100.0;
 
 		Project project = new Project(getActivity(), testProject);
 		Sprite sprite = new Sprite("testSprite");

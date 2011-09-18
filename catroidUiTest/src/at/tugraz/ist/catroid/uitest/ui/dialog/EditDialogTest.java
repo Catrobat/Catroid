@@ -87,27 +87,27 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptTabAc
 		assertEquals("Wrong value in WaitBrick EditText", wait + "", solo.getEditText(0).getText().toString());
 	}
 
-	public void testEmptyEditDoubleDialog() {
-		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_set_size_to);
-
-		int editTextId = solo.getCurrentEditTexts().size() - 1;
-
-		solo.clickOnEditText(editTextId);
-		solo.sleep(50);
-
-		solo.clearEditText(0);
-		assertTrue("Toast with warning was not found",
-				solo.searchText(getActivity().getString(R.string.notification_invalid_text_entered)));
-		assertFalse("OK button was not disabled upon deleting text field contents",
-				solo.getButton(getActivity().getString(R.string.ok)).isEnabled());
-
-		solo.enterText(0, ".");
-		assertTrue("Toast with warning was not found",
-				solo.searchText(getActivity().getString(R.string.notification_invalid_text_entered)));
-		assertFalse("OK button was not disabled upon entering invalid text", solo.getButton(0).isEnabled());
-	}
-
-	//Don't need this test anymore
+	//Don't need these test anymore
+	//	
+	//	public void testEmptyEditDoubleDialog() {
+	//		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_set_size_to);
+	//
+	//		int editTextId = solo.getCurrentEditTexts().size() - 1;
+	//
+	//		solo.clickOnEditText(editTextId);
+	//		solo.sleep(50);
+	//
+	//		solo.clearEditText(0);
+	//		assertTrue("Toast with warning was not found",
+	//				solo.searchText(getActivity().getString(R.string.notification_invalid_text_entered)));
+	//		assertFalse("OK button was not disabled upon deleting text field contents",
+	//				solo.getButton(getActivity().getString(R.string.ok)).isEnabled());
+	//
+	//		solo.enterText(0, ".");
+	//		assertTrue("Toast with warning was not found",
+	//				solo.searchText(getActivity().getString(R.string.notification_invalid_text_entered)));
+	//		assertFalse("OK button was not disabled upon entering invalid text", solo.getButton(0).isEnabled());
+	//	}
 
 	//	public void testEmptyEditIntegerDialog() {
 	//		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_place_at);
