@@ -109,11 +109,16 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		solo.sleep(500);
 		solo.clickOnButton(getActivity().getString(R.string.sound_rename));
 		assertTrue("wrong title of dialog", solo.searchText(soundName));
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(300);
 		solo.clearEditText(0);
 		solo.enterText(0, newName);
-		solo.sleep(100);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(300);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		assertTrue("EditText field got cleared after changing orientation", solo.searchText(newName));
 		solo.clickOnButton(getActivity().getString(R.string.ok));
-		solo.sleep(600);
+		solo.sleep(100);
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		assertEquals("sound is not renamed in SoundList", newName, soundInfoList.get(0).getTitle());
 		if (!solo.searchText(newName)) {
@@ -172,9 +177,11 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		solo.clearEditText(0);
 		solo.enterText(0, newName);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(300);
+
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(newName));
-		solo.clickOnButton(getActivity().getString(R.string.ok));
+		solo.sleep(600);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.clickOnButton(0);
 		solo.sleep(100);
 		assertTrue("Sounds wasnt renamed", solo.searchText(newName));
 	}
