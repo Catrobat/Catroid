@@ -74,20 +74,6 @@ public class LegoNXT implements BTConnectable {
 		this.recieverHandler = recieverHandler;
 	}
 
-	public void startSimCommunicator() {
-
-		if (myNXTCommunicator != null) {
-			try {
-				myNXTCommunicator.destroyNXTconnection();
-			} catch (IOException e) {
-			}
-		}
-
-		myNXTCommunicator = new LegoNXTSimCommunicator(recieverHandler, activity.getResources());
-		btcHandler = myNXTCommunicator.getHandler();
-		myNXTCommunicator.start();
-	}
-
 	public void startBTCommunicator(String mac_address) {
 
 		if (myNXTCommunicator != null) {
