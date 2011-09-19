@@ -186,8 +186,8 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		commands.add(new int[] { MOTORSTOP, 2 });
 		WaitBrick wait2 = new WaitBrick(firstSprite, 1000);
 
-		NXTMotorTurnAngleBrick nxtTurn = new NXTMotorTurnAngleBrick(firstSprite, 2, 384);
-		commands.add(new int[] { MOTORTURN, 2, 384 });
+		NXTMotorTurnAngleBrick nxtTurn = new NXTMotorTurnAngleBrick(firstSprite, 2, 515);
+		commands.add(new int[] { MOTORTURN, 2, 515 });
 
 		whenScript.addBrick(nxt);
 		whenScript.addBrick(wait);
