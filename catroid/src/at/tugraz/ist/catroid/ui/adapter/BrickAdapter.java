@@ -18,12 +18,15 @@
  */
 package at.tugraz.ist.catroid.ui.adapter;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.BroadcastScript;
 import at.tugraz.ist.catroid.content.Script;
@@ -101,16 +104,13 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 		 */
 
 		int scriptFrom = getScriptId(from);
-
-		int scriptTo;
+		int scriptTo = getScriptId(to);
 
 		if (isBrick(to)) {
-			scriptTo = getScriptId(to);
 
-			Log.d("Test", "BrickAdapter.drag() from: " + from);
-			Log.d("Test", "BrickAdapter.drag() to: " + to);
-
-			Log.d("Test", "BrickAdapter.drag() scriptPosition: " + getScriptPosition(to, scriptTo));
+			//			Log.d("Test", "BrickAdapter.drag() from: " + from);
+			//			Log.d("Test", "BrickAdapter.drag() to: " + to);
+			//			Log.d("Test", "BrickAdapter.drag() scriptPosition: " + getScriptPosition(to, scriptTo));
 
 			if (draggedBrick == null) {
 				if (isBrick(from)) {
@@ -121,40 +121,47 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 				notifyDataSetChanged();
 			}
 
-			//			ArrayList<Brick> brickList = sprite.getScript(groupFrom).getBrickList();
-			//
-			//			if (draggedBrick instanceof LoopBeginBrick) {
-			//				LoopEndBrick loopEndBrick = ((LoopBeginBrick) draggedBrick).getLoopEndBrick();
-			//
-			//				if (childTo >= brickList.indexOf(loopEndBrick) || childFrom >= brickList.indexOf(loopEndBrick)) {
-			//					return;
-			//				}
-			//			} else if (draggedBrick instanceof LoopEndBrick) {
-			//				LoopBeginBrick loopBeginBrick = ((LoopEndBrick) draggedBrick).getLoopBeginBrick();
-			//
-			//				if (childTo <= brickList.indexOf(loopBeginBrick) || childFrom <= brickList.indexOf(loopBeginBrick)) {
-			//					return;
-			//				}
-			//			}
+			ArrayList<Brick> brickList = sprite.getScript(getScriptId(from)).getBrickList();
+			if (draggedBrick instanceof LoopBeginBrick) {
+				LoopEndBrick loopEndBrick = ((LoopBeginBrick) draggedBrick).getLoopEndBrick();
+
+				if (getScriptPosition(to, scriptTo) >= brickList.indexOf(loopEndBrick)
+						|| getScriptPosition(from, scriptFrom) >= brickList.indexOf(loopEndBrick)) {
+					return;
+				}
+			} else if (draggedBrick instanceof LoopEndBrick) {
+				LoopBeginBrick loopBeginBrick = ((LoopEndBrick) draggedBrick).getLoopBeginBrick();
+
+				if (getScriptPosition(to, scriptTo) <= brickList.indexOf(loopBeginBrick)
+						|| getScriptPosition(from, scriptFrom) <= brickList.indexOf(loopBeginBrick)) {
+					return;
+				}
+			}
 
 			dragTargetPosition = to;
 
 			if (from != to) {
+				sprite.getScript(scriptFrom).removeBrick(draggedBrick);
 
-				if (scriptFrom == scriptTo) {
-					sprite.getScript(scriptFrom).removeBrick(draggedBrick);
-
-					sprite.getScript(scriptTo).addBrick(getScriptPosition(to, scriptTo), draggedBrick);
-
-					notifyDataSetChanged();
-				}
+				sprite.getScript(scriptTo).addBrick(getScriptPosition(to, scriptTo), draggedBrick);
 			}
 
-		} else {
+		} else { //isScript(to) == true
 
-			sprite.getScript(scriptFrom).removeBrick(draggedBrick);
-			Log.d("Test", "BrickAdapter.drag() to Script");
+			if (from < to) {
+				sprite.getScript(scriptFrom).removeBrick(draggedBrick);
+				sprite.getScript(getScriptId(to)).addBrick(0, draggedBrick);
+			} else if (from > to && to > 0) {
+				sprite.getScript(scriptFrom).removeBrick(draggedBrick);
+				Log.d("BrickAdapter", "getScriptId(to) - 1: " + (getScriptId(to) - 1));
+				sprite.getScript(getScriptId(to) - 1).addBrick(
+						sprite.getScript(getScriptId(to) - 1).getBrickList().size(), draggedBrick);
+			}
 		}
+
+		ProjectManager.getInstance().setCurrentScript(sprite.getScript(getScriptId(to)));
+
+		notifyDataSetChanged();
 
 	}
 
@@ -165,16 +172,17 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 	public void remove(int index) {
 
-		//		ArrayList<Brick> brickList = getBrickList();
 		if (draggedBrick instanceof LoopBeginBrick) {
 			LoopBeginBrick loopBeginBrick = (LoopBeginBrick) draggedBrick;
-			//			brickList.remove(loopBeginBrick.getLoopEndBrick());
+			sprite.getScript(getScriptId(index)).removeBrick(loopBeginBrick.getLoopEndBrick());
+
 		} else if (draggedBrick instanceof LoopEndBrick) {
 			LoopEndBrick loopEndBrick = (LoopEndBrick) draggedBrick;
-			//			brickList.remove(loopEndBrick.getLoopBeginBrick());
+			sprite.getScript(getScriptId(index)).removeBrick(loopEndBrick.getLoopBeginBrick());
 		}
 
-		//		brickList.remove(draggedBrick);
+		sprite.getScript(getScriptId(index)).removeBrick(draggedBrick);
+
 		draggedBrick = null;
 		notifyDataSetChanged();
 	}
