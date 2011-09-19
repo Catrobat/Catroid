@@ -63,7 +63,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	}
 
 	private void addNewSprite(String spriteName) {
-		solo.sleep(50);
+		solo.sleep(500);
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
 
 		solo.sleep(200);
@@ -77,15 +77,16 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	}
 
 	public void testBackgroundSprite() {
+		String sometext = "something" + System.currentTimeMillis();
 		solo.clickOnText(getActivity().getString(R.string.new_project));
 
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(300);
 		solo.clearEditText(0);
-		solo.enterText(0, "something");
+		solo.enterText(0, sometext);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 
-		assertTrue("EditText field got cleared after changing orientation", solo.searchText("something"));
+		assertTrue("EditText field got cleared after changing orientation", solo.searchText(sometext));
 		solo.sleep(600);
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.clickOnButton(0);
@@ -140,7 +141,10 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 		solo.clearEditText(0);
 		UiTestUtils.enterText(solo, 0, newSpriteName);
-		solo.clickOnButton(getActivity().getString(R.string.ok));
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(500);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.clickOnButton(0);
 		solo.sleep(50);
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
@@ -176,8 +180,10 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	public void testChangeOrientation() {
 		String spriteName = "testSprite";
+
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
 		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(500);
 		solo.setActivityOrientation(Solo.PORTRAIT);
 
 		solo.sleep(500);
@@ -191,20 +197,22 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 						&& solo.searchText(getActivity().getString(R.string.delete)));
 
 		String testText = "testText";
+		solo.sleep(600);
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(400);
 		solo.clickOnText(getActivity().getString(R.string.rename));
-		solo.sleep(100);
+		solo.sleep(600);
 		solo.clearEditText(0);
 		solo.enterText(0, testText);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(300);
+		solo.sleep(600);
 		assertTrue("Dialog is not visible after orientation change",
 				solo.searchText(getActivity().getString(R.string.ok)));
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(testText));
 		solo.setActivityOrientation(Solo.PORTRAIT);
-
+		solo.sleep(600);
 		solo.clickOnButton(0);
+		solo.sleep(100);
 		assertTrue("Sprite wasnt renamed", solo.searchText(testText));
 	}
 
