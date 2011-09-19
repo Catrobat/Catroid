@@ -22,9 +22,11 @@ package at.tugraz.ist.catroid.uitest.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.MotionEvent;
 import android.view.View;
@@ -81,6 +83,15 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 	}
 
 	public void testBrickCategoryDialog() {
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		if (!pref.getBoolean("setting_mindstorm_bricks", false)) {
+			UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
+			solo.clickOnText(getActivity().getString(R.string.settings));
+			solo.clickOnText(getActivity().getString(R.string.pref_enable_ms_bricks));
+			solo.goBack();
+			solo.clickOnText(getActivity().getString(R.string.current_project_button));
+			solo.clickOnText(getActivity().getString(R.string.background));
+		}
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
 
 		assertTrue("A category was not visible after opening BrickCategoryDialog",
@@ -91,6 +102,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 				solo.searchText(getActivity().getString(R.string.category_sound)));
 		assertTrue("A category was not visible after opening BrickCategoryDialog",
 				solo.searchText(getActivity().getString(R.string.category_control)));
+
 		assertTrue("A category was not visible after opening BrickCategoryDialog",
 				solo.searchText(getActivity().getString(R.string.category_lego_nxt)));
 
