@@ -132,6 +132,7 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 				Log.i("bt", "no resource start");
 				startStage();
 			}
+
 		}
 	}
 
@@ -350,7 +351,9 @@ public class StageActivity extends Activity implements SimpleGestureListener, On
 		if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
 			Log.e(TAG, "Language is not available.");
 		} else {
-			textToSpeechEngine.speak(Text, TextToSpeech.QUEUE_FLUSH, myHashAlarm);
+			if (Text != null) {
+				textToSpeechEngine.speak(Text, TextToSpeech.QUEUE_FLUSH, myHashAlarm);
+			}
 		}
 	}
 

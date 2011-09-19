@@ -226,17 +226,6 @@ public class MainMenuActivity extends Activity {
 	}
 
 	public void handleSettingsButton(View v) {
-		//		LayoutInflater inflater = getLayoutInflater();
-		//		View layout = inflater.inflate(R.layout.toast_settings, (ViewGroup) findViewById(R.id.toast_layout_root));
-		//
-		//		TextView text = (TextView) layout.findViewById(R.id.text);
-		//		text.setText("Settings not yet implemented!");
-		//
-		//		Toast toast = new Toast(getApplicationContext());
-		//		toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-		//		toast.setDuration(Toast.LENGTH_SHORT);
-		//		toast.setView(layout);
-		//		toast.show();
 		Intent intent = new Intent(MainMenuActivity.this, SettingsActivity.class);
 		startActivity(intent);
 	}
