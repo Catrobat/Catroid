@@ -60,7 +60,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 	private static final int MOTORTURN = 2;
 
 	public static final String LegoNXTBTStringStartsWith = "NXT";
-	public static final String TestServerBTStringStartsWith = "kitty";
+	public static final String TestServerBTStringStartsWith = "kittyroid";
 
 	ArrayList<int[]> commands = new ArrayList<int[]>();
 
@@ -91,7 +91,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 	}
 
 	// This test requires the NXTBTTestServer to be running or a LegoNXT Robot to run! Check connect string to see if you connect to the right device!
-	public void testNXTStuff() {
+	public void testNXTFunctionality() {
 		createTestproject(projectName);
 
 		BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -131,6 +131,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 
 		int i = 0;
 		for (int[] item : commands) {
+
 			switch (item[0]) {
 				case MOTORACTION:
 					assertEquals("Wrong motor was used!", item[1], executed_commands.get(i)[3]);
@@ -141,8 +142,12 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 					assertEquals("Motor didnt actually stop!", 0, executed_commands.get(i)[4]);
 					break;
 				case MOTORTURN:
+					for (int j = 0; j < executed_commands.get(i).length; j++) {
+						Log.i("bt", "i" + j + ": " + (int) executed_commands.get(i)[j]);
+					}
 					assertEquals("Wrong motor was used!", item[1], executed_commands.get(i)[3]);
-					int turnValue = (0x000000FF & executed_commands.get(i)[9]); //unsigned types would be too smart for java, sorry no chance mate!
+					int turnValue = 0;
+					turnValue = (0x000000FF & executed_commands.get(i)[9]); //unsigned types would be too smart for java, sorry no chance mate!
 					turnValue += ((0x000000FF & executed_commands.get(i)[10]) << 8);
 					turnValue += ((0x000000FF & executed_commands.get(i)[11]) << 16);
 					turnValue += ((0x000000FF & executed_commands.get(i)[12]) << 24);
@@ -181,8 +186,8 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		commands.add(new int[] { MOTORSTOP, 2 });
 		WaitBrick wait2 = new WaitBrick(firstSprite, 1000);
 
-		NXTMotorTurnAngleBrick nxtTurn = new NXTMotorTurnAngleBrick(firstSprite, 2, -1872);
-		commands.add(new int[] { MOTORTURN, 2, -1872 });
+		NXTMotorTurnAngleBrick nxtTurn = new NXTMotorTurnAngleBrick(firstSprite, 2, 384);
+		commands.add(new int[] { MOTORTURN, 2, 384 });
 
 		whenScript.addBrick(nxt);
 		whenScript.addBrick(wait);

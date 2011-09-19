@@ -63,9 +63,13 @@ public class BTClientHandler extends Thread{
 	        	if((messageLength == 3) && (buf[0] == DIRECT_COMMAND_REPLY) && (buf[1] == GET_OUTPUT_STATE)){
 	        		reply = getLegoNXTReplyMessage(lastMessage);
 	        	}
-	            
+	        	
 	        	if(buf[0] == DIRECT_COMMAND_REPLY){
-	        		GUI.writeMessage("Sending reply message \n");
+		        	GUI.writeMessage("Reply message:\n");
+		        	for(int i = 0; i < reply.length; i++){
+		        		GUI.writeMessage("Byte" + i + ": " + (int)reply[i] + " ");
+		        	}
+	        		GUI.writeMessage("\nSending reply message \n");
 		        	pWriter.write(reply.length);
 		            pWriter.write(0);
 		            pWriter.write(reply);
@@ -94,10 +98,10 @@ public class BTClientHandler extends Thread{
 		reply[5] = lastMessage[4];
 		reply[6] = lastMessage[5];
 		reply[7] = lastMessage[6];
-		reply[8] = lastMessage[7];
-		reply[9] = lastMessage[8];
-		reply[10] = lastMessage[9];
-		reply[11] = lastMessage[10];
+		reply[9] = (lastMessage[8]);
+		reply[10] = (lastMessage[9]);
+		reply[11] = (lastMessage[10]);
+		reply[12] = (lastMessage[11]);
     	return reply;
     }
  
