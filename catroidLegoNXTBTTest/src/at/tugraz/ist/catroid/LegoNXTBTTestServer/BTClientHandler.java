@@ -51,28 +51,60 @@ public class BTClientHandler extends Thread{
 	        int messageLength = 0;
 	        int firstLenByte = 0;
 	        int secondLenByte = 0;
+	        
 	        while((firstLenByte = bReader.read()) != -1){
 	        	secondLenByte = (bReader.read() << 8);
 	        	messageLength = firstLenByte + secondLenByte;
 	        	GUI.writeMessage("Received message, length (byte): " + messageLength + "\n");
 	        	char[] buf = new char[messageLength];
-	        	char[] reply = null;
+	        	byte[] reply = null;
 	        	bReader.read(buf);
 	        	
 	        	//reply required?
 	        	if((messageLength == 3) && (buf[0] == DIRECT_COMMAND_REPLY) && (buf[1] == GET_OUTPUT_STATE)){
 	        		reply = getLegoNXTReplyMessage(lastMessage);
 	        	}
-	            
+	        	
 	        	if(buf[0] == DIRECT_COMMAND_REPLY){
-	        		GUI.writeMessage("Sending reply message \n");
-		        	pWriter.write(reply.length);
-		            pWriter.write(0);
-		            pWriter.write(reply);
-		            pWriter.flush();
+		        	GUI.writeMessage("Reply message:\n");
+		        	for(int i = 0; i < reply.length; i++){
+		        		GUI.writeMessage("Byte" + i + ": " + (int)reply[i] + " ");
+		        	}
+	        		GUI.writeMessage("\nSending reply message \n");
+	        		outStream.write(reply.length);
+	        		outStream.write(0);
+	        		outStream.write(reply);
+	        		outStream.flush();
 	        	}
 	            lastMessage = buf;
 	        }
+	        
+//	        while((firstLenByte = bReader.read()) != -1){
+//	        	secondLenByte = (bReader.read() << 8);
+//	        	messageLength = firstLenByte + secondLenByte;
+//	        	GUI.writeMessage("Received message, length (byte): " + messageLength + "\n");
+//	        	char[] buf = new char[messageLength];
+//	        	char[] reply = null;
+//	        	bReader.read(buf);
+//	        	
+//	        	//reply required?
+//	        	if((messageLength == 3) && (buf[0] == DIRECT_COMMAND_REPLY) && (buf[1] == GET_OUTPUT_STATE)){
+//	        		reply = getLegoNXTReplyMessage(lastMessage);
+//	        	}
+//	        	
+//	        	if(buf[0] == DIRECT_COMMAND_REPLY){
+//		        	GUI.writeMessage("Reply message:\n");
+//		        	for(int i = 0; i < reply.length; i++){
+//		        		GUI.writeMessage("Byte" + i + ": " + (int)reply[i] + " ");
+//		        	}
+//	        		GUI.writeMessage("\nSending reply message \n");
+//		        	pWriter.write(reply.length);
+//		            pWriter.write(0);
+//		            pWriter.write(reply);
+//		            pWriter.flush();
+//	        	}
+//	            lastMessage = buf;
+//	        }
 	 
 	        pWriter.close();
 		 }
@@ -83,21 +115,21 @@ public class BTClientHandler extends Thread{
     
     }
  
-    public char[] getLegoNXTReplyMessage(char[] lastMessage){
+    public byte[] getLegoNXTReplyMessage(char[] lastMessage){
     	
-		char[] reply = new char[32];
-		reply[0] = (char)REPLY_COMMAND;
-		reply[1] = (char)GET_OUTPUT_STATE;
-		reply[3] = lastMessage[2]; //used motor
+		byte[] reply = new byte[32];
+		reply[0] = REPLY_COMMAND;
+		reply[1] = GET_OUTPUT_STATE;
+		reply[3] = (byte)lastMessage[2]; //used motor
 		reply[2] = 0; //status 0 = no error
-		reply[4] = lastMessage[3]; //speed
-		reply[5] = lastMessage[4];
-		reply[6] = lastMessage[5];
-		reply[7] = lastMessage[6];
-		reply[8] = lastMessage[7];
-		reply[9] = lastMessage[8];
-		reply[10] = lastMessage[9];
-		reply[11] = lastMessage[10];
+		reply[4] = (byte)lastMessage[3]; //speed
+		reply[5] = (byte)lastMessage[4];
+		reply[6] = (byte)lastMessage[5];
+		reply[7] = (byte)lastMessage[6];
+		reply[9] = (byte)lastMessage[8];
+		reply[10] = (byte)lastMessage[9];
+		reply[11] = (byte)lastMessage[10];
+		reply[12] = (byte)lastMessage[11];
     	return reply;
     }
  
