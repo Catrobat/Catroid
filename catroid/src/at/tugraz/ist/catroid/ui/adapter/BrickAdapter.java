@@ -51,7 +51,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	private Context context;
 	private Sprite sprite;
 	private BrickListAnimation brickListAnimation;
-	private boolean animateChildren;
 	private int dragTargetPosition;
 	private Brick draggedBrick;
 	private OnLongClickListener longClickListener;
@@ -67,56 +66,17 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	}
 
 	public void drag(int from, int to) {
-		/*
-		 * int childFrom = Math.max(0, from - getGroupCount());
-		 * int childTo = Math.max(0, to - getGroupCount());
-		 * childFrom = Math.min(childFrom, getChildCountFromLastGroup() - 1);
-		 * childTo = Math.min(childTo, getChildCountFromLastGroup() - 1);
-		 * 
-		 * if (draggedBrick == null) {
-		 * draggedBrick = getChild(getCurrentGroup(), childFrom);
-		 * notifyDataSetChanged();
-		 * }
-		 * 
-		 * ArrayList<Brick> brickList = getBrickList();
-		 * 
-		 * if (draggedBrick instanceof LoopBeginBrick) {
-		 * LoopEndBrick loopEndBrick = ((LoopBeginBrick) draggedBrick).getLoopEndBrick();
-		 * 
-		 * if (childTo >= brickList.indexOf(loopEndBrick) || childFrom >= brickList.indexOf(loopEndBrick)) {
-		 * return;
-		 * }
-		 * } else if (draggedBrick instanceof LoopEndBrick) {
-		 * LoopBeginBrick loopBeginBrick = ((LoopEndBrick) draggedBrick).getLoopBeginBrick();
-		 * 
-		 * if (childTo <= brickList.indexOf(loopBeginBrick) || childFrom <= brickList.indexOf(loopBeginBrick)) {
-		 * return;
-		 * }
-		 * }
-		 * 
-		 * dragTargetPosition = childTo;
-		 * 
-		 * if (childFrom != childTo) {
-		 * Brick removedBrick = getBrickList().remove(childFrom);
-		 * sprite.getScript(getCurrentGroup()).addBrick(childTo, removedBrick);
-		 * notifyDataSetChanged();
-		 * }
-		 */
 
 		int scriptFrom = getScriptId(from);
 		int scriptTo = getScriptId(to);
 
 		if (isBrick(to)) {
 
-			//			Log.d("Test", "BrickAdapter.drag() from: " + from);
-			//			Log.d("Test", "BrickAdapter.drag() to: " + to);
-			//			Log.d("Test", "BrickAdapter.drag() scriptPosition: " + getScriptPosition(to, scriptTo));
-
 			if (draggedBrick == null) {
 				if (isBrick(from)) {
 					draggedBrick = (Brick) getItem(from);
 				} else {
-					Log.d("Test", "BrickAdapter.drag() from: childFrom was Script not Brick!!!");
+					Log.d("Warning", "BrickAdapter.drag() from was Script not Brick. should not happen!!!");
 				}
 				notifyDataSetChanged();
 			}
@@ -153,7 +113,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 				sprite.getScript(getScriptId(to)).addBrick(0, draggedBrick);
 			} else if (from > to && to > 0) {
 				sprite.getScript(scriptFrom).removeBrick(draggedBrick);
-				Log.d("BrickAdapter", "getScriptId(to) - 1: " + (getScriptId(to) - 1));
 				sprite.getScript(getScriptId(to) - 1).addBrick(
 						sprite.getScript(getScriptId(to) - 1).getBrickList().size(), draggedBrick);
 			}
@@ -210,8 +169,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 		if (element == 0) {
 			return sprite.getScript(count);
 		} else {
-			//			HP_DEBUG
-			Log.d("Test", "BrickNr: " + element + " Script: " + count);
 			return sprite.getScript(count).getBrick(element - 1);
 		}
 	}
@@ -225,14 +182,28 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
 		// if group kein longclicklistener
 
 		if (getItem(position) instanceof Brick) {
 			Brick brick = (Brick) getItem(position);
 			View currentBrickView = brick.getView(context, position, this);
-			currentBrickView.setOnLongClickListener(longClickListener);
-			return currentBrickView;
+
+			if (draggedBrick != null && (dragTargetPosition == position)) {
+				return insertionView;
+			}
+
+			//Hack!!!
+			//if wrapper isn't used the longClick event won't be triggered
+			ViewGroup wrapper = (ViewGroup) View.inflate(context, R.layout.construction_brick_wrapper, null);
+
+			if (currentBrickView.getParent() != null) {
+				((ViewGroup) currentBrickView.getParent()).removeView(currentBrickView);
+			}
+
+			wrapper.addView(currentBrickView);
+			wrapper.setOnLongClickListener(longClickListener);
+			return wrapper;
+
 		} else {
 			View view = null;
 
@@ -249,6 +220,33 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			return view;
 		}
 	}
+
+	//	public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView,
+	//			ViewGroup parent) {
+	//		Brick brick = getChild(groupPosition, childPosition);
+	//		//		brick = getItem(position);
+	//
+	//		View currentBrickView = brick.getView(context, childPosition, this);
+	//		//		View currentBrickView = brick.getView(context, position, this);
+	//
+	//		/*
+	//		 * if (draggedBrick != null && (dragTargetPosition == childPosition)) {
+	//		 * return insertionView;
+	//		 * }
+	//		 */
+	//
+	//		//Hack!!!
+	//		//if wrapper isn't used the longClick event won't be triggered
+	//		ViewGroup wrapper = (ViewGroup) View.inflate(context, R.layout.construction_brick_wrapper, null);
+	//
+	//		if (currentBrickView.getParent() != null) {
+	//			((ViewGroup) currentBrickView.getParent()).removeView(currentBrickView);
+	//		}
+	//
+	//		wrapper.addView(currentBrickView);
+	//		wrapper.setOnLongClickListener(longClickListener);
+	//		return wrapper;
+	//	}
 
 	private int getScriptId(int index) {
 		int count = 0;
