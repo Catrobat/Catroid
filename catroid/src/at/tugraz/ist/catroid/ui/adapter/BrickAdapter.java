@@ -107,16 +107,16 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 		if (isBrick(to)) {
 			scriptTo = getScriptId(to);
 
-			System.out.println("BrickAdapter.drag() from: " + from);
-			System.out.println("BrickAdapter.drag() to: " + to);
+			Log.d("Test", "BrickAdapter.drag() from: " + from);
+			Log.d("Test", "BrickAdapter.drag() to: " + to);
 
-			System.out.println("BrickAdapter.drag() scriptPosition: " + getScriptPosition(to, scriptTo));
+			Log.d("Test", "BrickAdapter.drag() scriptPosition: " + getScriptPosition(to, scriptTo));
 
 			if (draggedBrick == null) {
 				if (isBrick(from)) {
 					draggedBrick = (Brick) getItem(from);
 				} else {
-					System.out.println("BrickAdapter.drag() from: childFrom was Script not Brick!!!");
+					Log.d("Test", "BrickAdapter.drag() from: childFrom was Script not Brick!!!");
 				}
 				notifyDataSetChanged();
 			}
@@ -153,7 +153,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 		} else {
 
 			sprite.getScript(scriptFrom).removeBrick(draggedBrick);
-			System.out.println("BrickAdapter.drag() to Script");
+			Log.d("Test", "BrickAdapter.drag() to Script");
 		}
 
 	}
