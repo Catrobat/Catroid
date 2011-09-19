@@ -60,6 +60,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 		brickListAnimation = new BrickListAnimation(this, listView);
 		longClickListener = listView;
 		insertionView = View.inflate(context, R.layout.brick_insert, null);
+
 	}
 
 	public void drag(int from, int to) {
@@ -99,27 +100,21 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 		 * }
 		 */
 
-		System.out.println("BrickAdapter.drag() from: " + from);
-		System.out.println("BrickAdapter.drag() isBrick: " + isBrick(to));
+		int scriptFrom = getScriptId(from);
 
-		System.out.println("BrickAdapter.drag() to: " + to);
-
-		int childFrom = from;
-		int groupFrom = getScriptId(from); //scripFrom
-
-		int childTo;// = to;
-		int groupTo;// = getScriptId(to); //scriptTo
-
-		//		int childTo;
-		//		int groupTo;
+		int scriptTo;
 
 		if (isBrick(to)) {
-			childTo = to;
-			groupTo = getScriptId(to);
+			scriptTo = getScriptId(to);
+
+			System.out.println("BrickAdapter.drag() from: " + from);
+			System.out.println("BrickAdapter.drag() to: " + to);
+
+			System.out.println("BrickAdapter.drag() scriptPosition: " + getScriptPosition(to, scriptTo));
 
 			if (draggedBrick == null) {
-				if (isBrick(childFrom)) {
-					draggedBrick = (Brick) getItem(childFrom);
+				if (isBrick(from)) {
+					draggedBrick = (Brick) getItem(from);
 				} else {
 					System.out.println("BrickAdapter.drag() from: childFrom was Script not Brick!!!");
 				}
@@ -142,14 +137,23 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			//				}
 			//			}
 
-			dragTargetPosition = childTo;
+			dragTargetPosition = to;
 
 			if (from != to) {
-				sprite.getScript(groupFrom).removeBrick(draggedBrick);
-				sprite.getScript(groupTo).addBrick(childTo, draggedBrick);
-				notifyDataSetChanged();
+
+				if (scriptFrom == scriptTo) {
+					sprite.getScript(scriptFrom).removeBrick(draggedBrick);
+
+					sprite.getScript(scriptTo).addBrick(getScriptPosition(to, scriptTo), draggedBrick);
+
+					notifyDataSetChanged();
+				}
 			}
 
+		} else {
+
+			sprite.getScript(scriptFrom).removeBrick(draggedBrick);
+			System.out.println("BrickAdapter.drag() to Script");
 		}
 
 	}
@@ -254,6 +258,18 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 		} else {
 			return false;
 		}
+	}
+
+	private int getScriptPosition(int index, int script) {
+
+		int scriptCount = 0;
+
+		while (scriptCount < script) {
+			index -= sprite.getScript(scriptCount).getBrickList().size() + 1;
+			scriptCount++;
+		}
+
+		return --index;
 	}
 
 }
