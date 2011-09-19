@@ -72,6 +72,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(spriteName));
 		solo.sleep(600);
 		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.goBack();
 		solo.clickOnButton(0);
 		solo.sleep(100);
 	}
@@ -211,6 +212,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(testText));
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.sleep(600);
+		solo.goBack();
 		solo.clickOnButton(0);
 		solo.sleep(100);
 		assertTrue("Sprite wasnt renamed", solo.searchText(testText));
@@ -354,6 +356,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickOnButton(getActivity().getString(R.string.close));
 
 		solo.sleep(200);
+		solo.goBack();
 		solo.clickOnButton(getActivity().getString(R.string.ok));
 		assertTrue("not in RenameSpriteDialog", solo.searchText(getActivity().getString(R.string.rename_sprite_dialog)));
 
