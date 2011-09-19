@@ -104,7 +104,6 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 				solo.getText(getActivity().getString(R.string.upload_project_dialog_title)));
 		solo.goBack();
 
-		solo.clickOnText(getActivity().getString(R.string.upload_project));
 		solo.waitForDialogToClose(10000);
 
 		assertNotNull("Upload Dialog is not shown.",
@@ -198,10 +197,12 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		// set the email to use. we need a random email because the server does not allow same email with different users 
 		String testEmail = testUser + "@gmail.com";
 		UiTestUtils.setPrivateField("emailForUiTests", ServerCalls.getInstance(), testEmail, false);
-		solo.sleep(100);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(600);
+		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testPassword));
+		solo.sleep(1000);
+		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testUser));
 		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.goBack();
+
 		solo.clickOnButton(0);
 
 		solo.waitForDialogToClose(10000);
