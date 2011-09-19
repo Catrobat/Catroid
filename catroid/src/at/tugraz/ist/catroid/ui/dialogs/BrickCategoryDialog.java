@@ -40,12 +40,12 @@ public class BrickCategoryDialog extends Dialog {
 	private BrickCategoryAdapter adapter;
 
 	public BrickCategoryDialog(ScriptTabActivity activity) {
-		super(activity);
+		super(activity, R.style.brick_dialog);
 		this.activity = activity;
 
 		Window window = getWindow();
 		window.requestFeature(Window.FEATURE_NO_TITLE);
-		window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		//window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		window.setGravity(Gravity.CENTER | Gravity.FILL_HORIZONTAL | Gravity.FILL_VERTICAL);
 
 		setContentView(R.layout.dialog_categories);

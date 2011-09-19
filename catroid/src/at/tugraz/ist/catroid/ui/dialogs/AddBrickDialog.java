@@ -168,7 +168,7 @@ public class AddBrickDialog extends Dialog {
 	}
 
 	public AddBrickDialog(ScriptTabActivity scriptTabActivity, String category) {
-		super(scriptTabActivity);
+		super(scriptTabActivity, R.style.brick_dialog);
 		this.scriptTabActivity = scriptTabActivity;
 		this.category = category;
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
