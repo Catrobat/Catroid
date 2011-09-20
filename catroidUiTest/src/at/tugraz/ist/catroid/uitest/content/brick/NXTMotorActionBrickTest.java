@@ -148,13 +148,13 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 
 		solo.sleep(1500);
 		solo.pressSpinnerItem(0, 0);
-		assertEquals(array[0], solo.getCurrentSpinners().get(0).getSelectedItem());
+		assertEquals("Wrong item in spinner!", array[0], solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, 1);
-		assertEquals(array[1], solo.getCurrentSpinners().get(0).getSelectedItem());
+		assertEquals("Wrong item in spinner!", array[1], solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, 1);
-		assertEquals(array[2], solo.getCurrentSpinners().get(0).getSelectedItem());
+		assertEquals("Wrong item in spinner!", array[2], solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, 1);
-		assertEquals(array[3], solo.getCurrentSpinners().get(0).getSelectedItem());
+		assertEquals("Wrong item in spinner!", array[3], solo.getCurrentSpinners().get(0).getSelectedItem());
 
 	}
 

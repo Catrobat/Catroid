@@ -249,20 +249,20 @@
 	
 	
 	<!-- Sound bricks -->
-    <string name="brick_play_sound">Spiele Klang</string>
-    <string name="brick_stop_all_sounds">Stoppe alle Sounds</string>
+  <string name="brick_play_sound">Spiele Klang</string>
+  <string name="brick_stop_all_sounds">Stoppe alle Sounds</string>
 	<string name="brick_set_volume_to">Setze Lautstärke auf</string>
 	<string name="brick_change_volume_by">Ändere Lautstärke um</string>
 	<string name="brick_speak">Spreche</string>
 	
 	<!-- Control bricks -->
-    <string name="brick_when_started">Wenn Projekt gestartet</string>
+  <string name="brick_when_started">Wenn Projekt gestartet</string>
 	<string name="brick_when">Wenn</string>
-    <string name="brick_wait">Warte</string>
-    <string name="seconds">Sekunden</string>
+  <string name="brick_wait">Warte</string>
+  <string name="seconds">Sekunden</string>
 	<string name="brick_broadcast_receive">Wenn ich empfange:</string>
 	<string name="brick_broadcast">Verschicke an alle:</string>
-    <string name="brick_broadcast_wait">Verschicke und warte:</string>
+  <string name="brick_broadcast_wait">Verschicke und warte:</string>
 	<string name="brick_note">Notiz</string>
 	<string name="brick_forever">Wiederhole fortlaufend</string>
 	<string name="brick_repeat">Wiederhole</string>
@@ -271,14 +271,14 @@
 	
 	<!-- Actions -->
 	<string name="when_action">Aktion wählen</string>
-    <string name="action_tapped">Angetippt</string>
-    <string name="action_doubleTapped">Doppelt angetippt</string>
-    <string name="action_longPressed">Lang gedrückt</string>
-    <string name="action_touchingStops">Nicht mehr berührt</string>
-    <string name="action_swipeLeft">Nach links gewischt</string> 
-    <string name="action_swipeRight">Nach rechts gewischt</string>
-    <string name="action_swipeUp">Nach oben gewischt</string>
-    <string name="action_swipeDown">Nach unten gewischt</string>    
+  <string name="action_tapped">Angetippt</string>
+  <string name="action_doubleTapped">Doppelt angetippt</string>
+  <string name="action_longPressed">Lang gedrückt</string>
+  <string name="action_touchingStops">Nicht mehr berührt</string>
+  <string name="action_swipeLeft">Nach links gewischt</string> 
+  <string name="action_swipeRight">Nach rechts gewischt</string>
+  <string name="action_swipeUp">Nach oben gewischt</string>
+  <string name="action_swipeDown">Nach unten gewischt</string>    
     
     <!-- Bluetooth Connection Strings -->
 	
@@ -286,15 +286,15 @@
     <string name="title_paired_devices">Verbundene Geräte</string>
     <string name="title_other_devices">Nicht verbundene Geräte</string>
     <string name="button_scan">Suche Bluetooth Geräte</string>
-	<string name="scanning">Suche</string>
-	<string name="select_device">Wähle dein Mindstorms NXT</string>
-	<string name="connecting_please_wait">Verbinde zum Lego NXT.\nBitte warten...</string>
-	<string name="pairing_message">Nach dem Pairing, verbinde.</string>
-	<string name="problem_at_closing">Problem beim Schließen der Verbindung!</string>
-	<string name="connect_device">Verbinde Gerät</string>
-	<string name="no_paired_nxt">Kein verbundenes NXT</string>
-	<string name="none_found">Keine nicht verbundenen Geräte gefunden</string>
-	<string name="none_paired">Keine verbundenen Geräte gefunden</string>
+		<string name="scanning">Suche</string>
+		<string name="select_device">Wähle dein Mindstorms NXT</string>
+		<string name="connecting_please_wait">Verbinde zum Lego NXT.\nBitte warten...</string>
+		<string name="pairing_message">Nach dem Pairing, verbinde.</string>
+		<string name="problem_at_closing">Problem beim Schließen der Verbindung!</string>
+		<string name="connect_device">Verbinde Gerät</string>
+		<string name="no_paired_nxt">Kein verbundenes NXT</string>
+		<string name="none_found">Keine nicht verbundenen Geräte gefunden</string>
+		<string name="none_paired">Keine verbundenen Geräte gefunden</string>
 	
     <!-- Lego Mindstorms Strings -->
 		<string name="brick_motor_action">NXT bewege Motor</string>
@@ -304,12 +304,10 @@
 		<string name="brick_motor_turn_angle">NXT rotiere Motor</string>
 		<string name="motor_angle">Winkel</string>
 		<string name="motor_stop">NXT stoppe Motor</string>
-		<string name="motor_inverse">Invertieren</string>
 		<string name="nxt_play_tone">NXT Ton abspielen</string>
 		<string name="nxt_tone_frequency">Frequenz</string>
 		<string name="tone_duration">Dauer</string>
 		<string name="nxt_tone_hundred_hz">x100Hz</string>
-		<string name="nxt_turn_degrees">Grad</string>
 		
 		<string name="number_to_small">Wert ist zu klein!</string>
 		<string name="number_to_big">Wert ist zu groß!</string>

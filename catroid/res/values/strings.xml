@@ -371,24 +371,6 @@
 	<string name="size_of_project">Size of project:</string>
 	
 	<!-- Bluetooth, LegoNXT, Arduino -->
-	<!-- Sensor Dialog Errors -->
-	<string name="error_sensor_enter_analog_pin">You just have 0 to 5 PINs here so please a number from 0-5</string>
-	<string name="error_sensor_enter_digital_pin">You just have 0 to 13 PINs here so please a number from 0-13</string>
-	<string name="error_sensor_enter_analog_value">For this PIN you can just enter a value from 0.0 to 5.0</string>
-	<string name="error_sensor_enter_digital_value">For this PIN you can just enter 1 for HIGH or 0 for LOW</string>
-	<string name="error_no_bluetooth_devices_available">There are no bluetooth devices available</string>
-	
-	<!-- Sensor Dialog Pin -->
-	<string name="dialog_pin_analog_text">Pls enter a Pin from 0 to 13.\n Remember these Pins are analog.</string>
-	
-	<!-- Bluetooth Dialog -->
-	<string name="dialog_bluetooth_available_devices">Available Devices</string>
-	<string name="sensor_main_adapter">Sensor</string>
-	<string name="brick_sensor_type">Type</string>
-	<string name="brick_sensor_pin">Pin</string>
-	<string name="brick_sensor_value">Value</string>
-	<string name="brick_sensor_time">Time</string>
-	<string name="brick_sensor_time_seconds">sec</string>
 	<!-- Bluetooth Connection Strings -->
 	
 	<string name="notification_blueth_err">Bluetooth could not be enabled, closing stage
@@ -416,12 +398,10 @@
 	<string name="brick_motor_turn_angle">NXT turn motor</string>
 	<string name="motor_angle">Angle</string>
 	<string name="motor_stop">NXT stop motor</string>
-	<string name="motor_inverse">Inverse</string>
 	<string name="nxt_play_tone">NXT play tone</string>
 	<string name="tone_duration">Duration</string>
 	<string name="nxt_tone_frequency">Frequency</string>
 	<string name="nxt_tone_hundred_hz">x100Hz</string>
-	<string name="nxt_turn_degrees">degrees</string>
 	<string name="minus_symbol">-</string>
 	<string name="plus_symbol">+</string>
 	<string name="just_a_v">v</string>

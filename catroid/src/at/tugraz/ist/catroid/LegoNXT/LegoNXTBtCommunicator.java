@@ -196,6 +196,12 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 	 */
 	@Override
 	public void destroyNXTconnection() throws IOException {
+
+		//Stop all motors before closing connection
+		moveMotor(0, 0, 0);
+		moveMotor(1, 0, 0);
+		moveMotor(2, 0, 0);
+
 		try {
 			if (nxtBTsocket != null) {
 				connected = false;
