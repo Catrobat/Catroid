@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import android.content.Intent;
 import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 import android.widget.ListAdapter;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -325,7 +326,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 
 		Bundle bundleForGallery = new Bundle();
 		bundleForGallery.putString("filePath", paintroidImageFile.getAbsolutePath());
-		System.out.println(paintroidImageFile.getAbsolutePath());
+		Log.d(CostumeActivityTest.class.getSimpleName(), paintroidImageFile.getAbsolutePath());
 		Intent intent = new Intent(getInstrumentation().getContext(),
 				at.tugraz.ist.catroid.uitest.mockups.MockGalleryActivity.class);
 		intent.putExtras(bundleForGallery);
