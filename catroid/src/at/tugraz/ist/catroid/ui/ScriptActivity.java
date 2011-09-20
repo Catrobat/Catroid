@@ -25,7 +25,6 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
@@ -148,22 +147,10 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
 
 		if (view.getId() == R.id.brick_list_view) {
-			//			ExpandableListView.ExpandableListContextMenuInfo info = (ExpandableListView.ExpandableListContextMenuInfo) menuInfo;
-			//			menu.setHeaderTitle(R.string.script_context_menu_title);
-			//
-			//			if (ExpandableListView.getPackedPositionType(info.packedPosition) != ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-			//				int position = ExpandableListView.getPackedPositionGroup(info.packedPosition);
-			//				scriptToEdit = adapter.getGroup(position);
-			//
-			//				MenuInflater inflater = getMenuInflater();
-			//				inflater.inflate(R.menu.script_menu, menu);
-			//
-			//			}
 
 			menu.setHeaderTitle(R.string.script_context_menu_title);
 
 			if (adapter.getItem(listView.getTouchedListPosition()) instanceof Script) {
-				Log.d("Test", "ScriptActivity onCreateContextMenu was called");
 				scriptToEdit = (Script) adapter.getItem(listView.getTouchedListPosition());
 				MenuInflater inflater = getMenuInflater();
 				inflater.inflate(R.menu.script_menu, menu);
@@ -176,7 +163,6 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.script_menu_delete: {
-				Log.d("Test", "ScriptActivity onCreateContextItemSelected was called and Case: DELETEs");
 				sprite.removeScript(scriptToEdit);
 				if (sprite.getNumberOfScripts() == 0) {
 					ProjectManager.getInstance().setCurrentScript(null);
