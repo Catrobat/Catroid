@@ -85,8 +85,8 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 		solo.enterText(0, testString);
 		solo.sleep(600);
 
-		solo.sendKey(solo.ENTER);
-		solo.sendKey(solo.ENTER);
+		solo.sendKey(Solo.ENTER);
+		solo.sendKey(Solo.ENTER);
 
 		solo.sleep(500);
 		assertEquals("Wrong selection", testString, (String) solo.getCurrentSpinners().get(0).getSelectedItem());
@@ -102,8 +102,8 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 		solo.enterText(0, testString2);
 		solo.sleep(600);
 
-		solo.sendKey(solo.ENTER);
-		solo.sendKey(solo.ENTER);
+		solo.sendKey(Solo.ENTER);
+		solo.sendKey(Solo.ENTER);
 
 		solo.sleep(500);
 
@@ -115,8 +115,8 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 		solo.enterText(0, testString3);
 		solo.sleep(600);
 
-		solo.sendKey(solo.ENTER);
-		solo.sendKey(solo.ENTER);
+		solo.sendKey(Solo.ENTER);
+		solo.sendKey(Solo.ENTER);
 
 		solo.sleep(500);
 

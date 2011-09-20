@@ -28,8 +28,8 @@ import com.jayway.android.robotium.solo.Solo;
 public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
 
-	private final String projectNameThree = UiTestUtils.PROJECTNAME1;
-	private final String spriteNameTwo = "Balmung";
+	//	private final String projectNameThree = UiTestUtils.PROJECTNAME1;
+	//	private final String spriteNameTwo = "Balmung";
 
 	public ToStageButtonTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);

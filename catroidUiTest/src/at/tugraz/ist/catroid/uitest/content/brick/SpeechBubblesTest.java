@@ -19,23 +19,19 @@
 package at.tugraz.ist.catroid.uitest.content.brick;
 
 import android.test.ActivityInstrumentationTestCase2;
-import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
-import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
-
-import com.jayway.android.robotium.solo.Solo;
 
 public class SpeechBubblesTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
-	private static final String TAG = "SpeechBubbles";
-	private StorageHandler storageHandler;
-	private Solo solo;
-	private final String projectName1 = UiTestUtils.PROJECTNAME1;
-	private String imageName1 = "image1";
-	private final int IMAGE_FILE_ID = at.tugraz.ist.catroid.uitest.R.raw.black_quad;
+	//	private static final String TAG = "SpeechBubbles";
+	//	private StorageHandler storageHandler;
+	//	private Solo solo;
+	//	private final String projectName1 = UiTestUtils.PROJECTNAME1;
+	//	private String imageName1 = "image1";
+	//	private final int IMAGE_FILE_ID = at.tugraz.ist.catroid.uitest.R.raw.black_quad;
 
 	public SpeechBubblesTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
-		storageHandler = StorageHandler.getInstance();
+		//		storageHandler = StorageHandler.getInstance();
 	}
 	//
 	//	@Override
