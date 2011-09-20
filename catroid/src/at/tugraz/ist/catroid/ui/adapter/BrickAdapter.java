@@ -231,33 +231,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 		}
 	}
 
-	//	public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView,
-	//			ViewGroup parent) {
-	//		Brick brick = getChild(groupPosition, childPosition);
-	//		//		brick = getItem(position);
-	//
-	//		View currentBrickView = brick.getView(context, childPosition, this);
-	//		//		View currentBrickView = brick.getView(context, position, this);
-	//
-	//		/*
-	//		 * if (draggedBrick != null && (dragTargetPosition == childPosition)) {
-	//		 * return insertionView;
-	//		 * }
-	//		 */
-	//
-	//		//Hack!!!
-	//		//if wrapper isn't used the longClick event won't be triggered
-	//		ViewGroup wrapper = (ViewGroup) View.inflate(context, R.layout.construction_brick_wrapper, null);
-	//
-	//		if (currentBrickView.getParent() != null) {
-	//			((ViewGroup) currentBrickView.getParent()).removeView(currentBrickView);
-	//		}
-	//
-	//		wrapper.addView(currentBrickView);
-	//		wrapper.setOnLongClickListener(longClickListener);
-	//		return wrapper;
-	//	}
-
 	private int getScriptId(int index) {
 		int count = 0;
 		while (index > getBrickCount(count)) {
@@ -286,6 +259,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 		}
 
 		return --index;
+	}
+
+	public int getScriptCount() {
+		return sprite.getScriptCount();
 	}
 
 }
