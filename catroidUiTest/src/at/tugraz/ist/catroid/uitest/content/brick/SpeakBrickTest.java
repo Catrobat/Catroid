@@ -20,18 +20,18 @@
 package at.tugraz.ist.catroid.uitest.content.brick;
 
 import android.test.ActivityInstrumentationTestCase2;
-import at.tugraz.ist.catroid.content.Project;
-import at.tugraz.ist.catroid.content.bricks.SpeakBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class SpeakBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
-	private Project project;
-	private SpeakBrick speakBrick;
-	private String testString = "test";
-	private String testString2 = "";
+
+	//	private Project project;
+
+	//	private SpeakBrick speakBrick;
+	//	private String testString = "test";
+	//	private String testString2 = "";
 
 	public SpeakBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
