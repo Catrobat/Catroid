@@ -234,8 +234,10 @@ public class StageListener implements ApplicationListener {
 			sprites = project.getSpriteList();
 			for (Sprite sprite : sprites) {
 				stage.addActor(sprite.costume);
+				sprite.pause();
 			}
 
+			paused = true;
 			firstStart = true;
 			reloadProject = false;
 		}
