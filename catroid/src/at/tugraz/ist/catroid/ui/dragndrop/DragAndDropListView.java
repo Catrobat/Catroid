@@ -58,6 +58,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 	private ImageView trashView;
 	private int originalTrashWidth;
 	private int originalTrashHeight;
+	private int touchedListPosition;
 
 	private DragAndDropListener dragAndDropListener;
 
@@ -108,6 +109,10 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		}
 
 		int itemPosition = pointToPosition(x, y);
+
+		if (touchedListPosition != itemPosition) {
+			touchedListPosition = itemPosition;
+		}
 
 		if (dragAndDropListener != null && dragView != null) {
 			int action = event.getAction();
@@ -275,5 +280,9 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 
 	private WindowManager getWindowManager() {
 		return (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+	}
+
+	public int getTouchedListPosition() {
+		return touchedListPosition;
 	}
 }
