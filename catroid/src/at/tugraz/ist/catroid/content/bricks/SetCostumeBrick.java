@@ -52,15 +52,9 @@ public class SetCostumeBrick implements Brick {
 	public void execute() {
 		if (costumeData != null && sprite != null && sprite.getCostumeDataList().contains(costumeData)) {
 			if (!NativeAppActivity.isRunning()) {
-				sprite.getCostume().changeImagePath(costumeData.getAbsolutePath());
+				sprite.costume.setImagePath(costumeData.getAbsolutePath());
 			} else {
-				sprite.getCostume().setBitmapFromResource(
-						NativeAppActivity.getContext(),
-						NativeAppActivity
-								.getContext()
-								.getResources()
-								.getIdentifier(costumeData.getCostumeFileName(), "raw",
-										NativeAppActivity.getContext().getPackageName()));
+				sprite.costume.setImagePathNativeApp("images/" + costumeData.getCostumeFileName());
 			}
 		}
 	}
@@ -130,7 +124,7 @@ public class SetCostumeBrick implements Brick {
 	@Override
 	public Brick clone() {
 		SetCostumeBrick clonedBrick = new SetCostumeBrick(getSprite());
-		if (sprite.getCostume() != null) {
+		if (sprite.costume != null) {
 			clonedBrick.setCostume(null);
 		}
 

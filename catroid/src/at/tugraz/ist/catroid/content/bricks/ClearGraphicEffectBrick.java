@@ -40,7 +40,8 @@ public class ClearGraphicEffectBrick implements Brick {
 	}
 
 	public void execute() {
-		sprite.clearGraphicEffect();
+		sprite.costume.setBrightnessValue(1f);
+		sprite.costume.setAlphaValue(1f);
 	}
 
 	public Sprite getSprite() {

@@ -26,10 +26,10 @@ public class HideBrickTest extends AndroidTestCase {
 
 	public void testHide() {
 		Sprite sprite = new Sprite("new sprite");
-		assertTrue("Unexpected default visibility", sprite.isVisible());
+		assertTrue("Unexpected default visibility", sprite.costume.show);
 		HideBrick hideBrick = new HideBrick(sprite);
 		hideBrick.execute();
-		assertFalse("Sprite is still visible after HideBrick executed", sprite.isVisible());
+		assertFalse("Sprite is still visible after HideBrick executed", sprite.costume.show);
 	}
 
 	public void testNullSprite() {

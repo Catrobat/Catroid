@@ -50,16 +50,15 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
+		sprite.costume.aquireXYWidthHeightLock();
 
-		int xPosition = sprite.getXPosition();
-		int yPosition = sprite.getYPosition();
+		double radians = Math.toRadians(sprite.costume.rotation);
 
-		double radians = sprite.getDirection() / 180 * Math.PI;
+		int newXPosition = (int) Math.round(sprite.costume.getXPosition() + steps * Math.cos(radians));
+		int newYPosition = (int) Math.round(sprite.costume.getYPosition() + steps * Math.sin(radians));
 
-		int newXPosition = (int) Math.round(xPosition + steps * Math.sin(radians));
-		int newYPosition = (int) Math.round(yPosition + steps * Math.cos(radians));
-
-		sprite.setXYPosition(newXPosition, newYPosition);
+		sprite.costume.setXYPosition(newXPosition, newYPosition);
+		sprite.costume.releaseXYWidthHeightLock();
 
 	}
 

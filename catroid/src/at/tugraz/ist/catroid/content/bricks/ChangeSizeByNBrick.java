@@ -48,11 +48,11 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
-		double newSize = sprite.getSize() + size;
-		if (newSize < 0.01) {
-			newSize = 0.01;
+		float newSize = sprite.costume.getSize() + ((float) size / 100f);
+		if (newSize < 0f) {
+			newSize = 0f;
 		}
-		sprite.setSize(newSize);
+		sprite.costume.setSize(newSize);
 	}
 
 	public Sprite getSprite() {
@@ -111,5 +111,4 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 		dialog.show();
 
 	}
-
 }

@@ -42,7 +42,7 @@ public class HideBrick implements Brick {
 	}
 
 	public void execute() {
-		sprite.hide();
+		sprite.costume.show = false;
 	}
 
 	public Sprite getSprite() {

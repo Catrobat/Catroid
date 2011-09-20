@@ -43,7 +43,7 @@ public class ShowBrick implements Brick {
 	}
 
 	public void execute() {
-		sprite.show();
+		sprite.costume.show = true;
 	}
 
 	public Sprite getSprite() {

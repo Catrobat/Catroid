@@ -68,9 +68,7 @@ public class SoundManager {
 				if (!NativeAppActivity.isRunning()) {
 					mediaPlayer.setDataSource(pathToSoundfile);
 				} else {
-					int resId = NativeAppActivity.getContext().getResources().getIdentifier(pathToSoundfile, "raw",
-							NativeAppActivity.getContext().getPackageName());
-					AssetFileDescriptor afd = NativeAppActivity.getContext().getResources().openRawResourceFd(resId);
+					AssetFileDescriptor afd = NativeAppActivity.getContext().getAssets().openFd(pathToSoundfile);
 					mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
 				}
 				mediaPlayer.prepare();

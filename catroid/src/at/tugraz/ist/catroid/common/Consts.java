@@ -34,8 +34,6 @@ public final class Consts {
 
 	//Costume:
 	public static final int MAX_REL_COORDINATES = 1000;
-	public static final int MAX_COSTUME_WIDTH = 1280;
-	public static final int MAX_COSTUME_HEIGHT = 1280;
 
 	//Web:
 	public static final String TOKEN = "token";
@@ -48,6 +46,8 @@ public final class Consts {
 
 	//Stage:
 	public static final String SCREENSHOT_FILE_NAME = "screenshot.png";
+	public static final int STRETCH = 0;
+	public static final int MAXIMIZE = 1;
 
 	//Various:
 	public static final int BUFFER_8K = 8 * 1024;

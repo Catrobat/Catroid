@@ -25,17 +25,17 @@ import at.tugraz.ist.catroid.content.bricks.ClearGraphicEffectBrick;
 public class ClearGraphicEffectBrickTest extends AndroidTestCase {
 
 	public void testClearGraphicEffect() {
-		double value = 100.0;
+		float value = 0.8f;
 		Sprite sprite = new Sprite("new sprite");
-		sprite.setGhostEffectValue(value);
-		assertEquals("Sprite has ghost effect.", value, sprite.getGhostEffectValue());
-		sprite.setBrightnessValue(value);
-		assertEquals("Sprite has ghost effect.", value, sprite.getGhostEffectValue());
+		sprite.costume.setAlphaValue(value);
+		assertEquals("Costume hasn't ghost effect.", value, sprite.costume.getAlphaValue());
+		sprite.costume.setBrightnessValue(value);
+		assertEquals("Costume hasn't brightness effect.", value, sprite.costume.getBrightnessValue());
 
 		ClearGraphicEffectBrick clearGraphicEffectBrick = new ClearGraphicEffectBrick(sprite);
 		clearGraphicEffectBrick.execute();
-		assertEquals("Sprite's ghost effect is removed.", 0.0, sprite.getGhostEffectValue());
-		assertEquals("Sprite's ghost effect is removed.", 0.0, sprite.getBrightnessValue());
+		assertEquals("Costume's ghost effect is removed.", 1f, sprite.costume.getAlphaValue());
+		assertEquals("Costume's brightness effect is removed.", 1f, sprite.costume.getBrightnessValue());
 	}
 
 	public void testNullSprite() {
