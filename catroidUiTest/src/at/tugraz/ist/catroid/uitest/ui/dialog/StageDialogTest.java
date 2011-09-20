@@ -78,7 +78,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
 
 		solo.goBack();
-		solo.clickOnButton(getActivity().getString(R.string.back_to_construction_site));
+		//	solo.clickOnButton(getActivity().getString(R.string.back_to_construction_site));
 
 		solo.sleep(1000);
 		assertEquals("Not equal Activities", previousActivity, getActivity());
@@ -132,7 +132,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.sleep(500);
 		solo.goBack();
 		solo.sleep(500);
-		solo.clickOnButton(getActivity().getString(R.string.back_to_construction_site));
+		//	solo.clickOnButton(getActivity().getString(R.string.back_to_construction_site));
 		solo.sleep(500);
 		assertEquals("Returned to wrong Activity", currentActivity, solo.getCurrentActivity());
 	}
