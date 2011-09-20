@@ -46,7 +46,7 @@ public class ChangeVolumeByBrick implements Brick, OnClickListener {
 	}
 
 	public int getRequiredResources() {
-		return SOUND_MANAGER;
+		return NO_RESOURCES;
 	}
 
 	public void execute() {

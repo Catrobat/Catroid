@@ -34,7 +34,6 @@ import at.tugraz.ist.catroid.io.SoundManager;
 
 public class SetVolumeToBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
-	public static final int REQUIRED_RESSOURCES = SOUND_MANAGER;
 
 	private Sprite sprite;
 	private double volume;
@@ -47,7 +46,7 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 	}
 
 	public int getRequiredResources() {
-		return SOUND_MANAGER;
+		return NO_RESOURCES;
 	}
 
 	public void execute() {
