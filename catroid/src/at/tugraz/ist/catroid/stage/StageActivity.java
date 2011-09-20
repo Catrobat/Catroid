@@ -42,7 +42,7 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
  */
 public class StageActivity extends AndroidApplication {
 	private boolean stagePlaying = true;
-	private StageListener stageListener;
+	public static StageListener stageListener;
 	private boolean resizePossible;
 	private StageDialog stageDialog;
 
