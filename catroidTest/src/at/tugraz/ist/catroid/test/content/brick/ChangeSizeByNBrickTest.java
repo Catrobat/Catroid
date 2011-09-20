@@ -34,7 +34,7 @@ import at.tugraz.ist.catroid.utils.UtilFile;
 public class ChangeSizeByNBrickTest extends InstrumentationTestCase {
 
 	private float positiveSize = 20;
-	private float negativeSize = -30;
+	//	private float negativeSize = -30;
 
 	private static final int IMAGE_FILE_ID = R.raw.icon;
 
