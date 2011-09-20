@@ -24,6 +24,7 @@ import java.io.OutputStream;
 import java.util.Comparator;
 import java.util.List;
 
+import android.content.Context;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
@@ -59,6 +60,7 @@ public class StageListener implements ApplicationListener {
 	private boolean paused = false;
 	private boolean finished = false;
 	private boolean firstStart = true;
+	private boolean reloadProject = false;
 
 	private boolean makeFirstScreenshot = true;
 	private String pathForScreenshot;
@@ -91,7 +93,7 @@ public class StageListener implements ApplicationListener {
 
 	public boolean axesOn = false;
 
-	private Texture pauseScreen;
+	// private Texture pauseScreen;
 	private Texture background;
 	private Texture axes;
 
@@ -144,12 +146,15 @@ public class StageListener implements ApplicationListener {
 			Gdx.input.setInputProcessor(stage);
 		}
 
-		pauseScreen = new Texture(Gdx.files.internal("stage/paused_cat.png"));
+		// pauseScreen = new Texture(Gdx.files.internal("stage/paused_cat.png"));
 		background = new Texture(Gdx.files.internal("stage/white_pixel.bmp"));
 		axes = new Texture(Gdx.files.internal("stage/red_pixel.bmp"));
 	}
 
 	public void menuResume() {
+		if (reloadProject) {
+			return;
+		}
 		paused = false;
 		SoundManager.getInstance().resume();
 		for (Sprite sprite : sprites) {
@@ -158,7 +163,7 @@ public class StageListener implements ApplicationListener {
 	}
 
 	public void menuPause() {
-		if (finished) {
+		if (finished || reloadProject) {
 			return;
 		}
 		paused = true;
@@ -166,6 +171,19 @@ public class StageListener implements ApplicationListener {
 		for (Sprite sprite : sprites) {
 			sprite.pause();
 		}
+	}
+
+	public void reloadProject(Context context) {
+		if (reloadProject) {
+			return;
+		}
+		ProjectManager projectManager = ProjectManager.getInstance();
+		int currentSpritePos = projectManager.getCurrentSpritePosition();
+		int currentScriptPos = projectManager.getCurrentScriptPosition();
+		projectManager.loadProject(projectManager.getCurrentProject().getName(), context, false);
+		projectManager.setCurrentSpriteWithPosition(currentSpritePos);
+		projectManager.setCurrentScriptWithPosition(currentScriptPos);
+		reloadProject = true;
 	}
 
 	public void resume() {
@@ -202,6 +220,25 @@ public class StageListener implements ApplicationListener {
 
 	public void render() {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		if (reloadProject) {
+			for (Sprite sprite : sprites) {
+				sprite.pause();
+				sprite.finish();
+				sprite.costume.disposeTextures();
+			}
+			stage.clear();
+			SoundManager.getInstance().clear();
+
+			project = ProjectManager.getInstance().getCurrentProject();
+			sprites = project.getSpriteList();
+			for (Sprite sprite : sprites) {
+				stage.addActor(sprite.costume);
+			}
+
+			firstStart = true;
+			reloadProject = false;
+		}
 
 		stage.getRoot().sortChildren(costumeComparator);
 
@@ -313,7 +350,7 @@ public class StageListener implements ApplicationListener {
 		}
 		stage.dispose();
 		font.dispose();
-		pauseScreen.dispose();
+		// pauseScreen.dispose();
 		background.dispose();
 		axes.dispose();
 		for (Sprite sprite : sprites) {

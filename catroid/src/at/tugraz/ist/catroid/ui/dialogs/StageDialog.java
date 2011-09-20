@@ -103,7 +103,9 @@ public class StageDialog extends Dialog {
 	}
 
 	private void restartProject() {
-		Utils.displayToast(stageActivity, "Wait for iiit...to be implemented!");
+		stageListener.reloadProject(stageActivity);
+
+		//Utils.displayToast(stageActivity, "Wait for iiit...to be implemented!");
 	}
 
 	private void toggleAxes() {
