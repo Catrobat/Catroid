@@ -94,7 +94,7 @@ public class ActivityHelper {
 			LinearLayout.LayoutParams textViewLayout = new LinearLayout.LayoutParams(
 					ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.FILL_PARENT);
 			int maxWidth = (int) activity.getResources().getDimension(R.dimen.actionbar_height) * 3;
-			TextView titleText = new TextView(activity);
+			final TextView titleText = new TextView(activity);
 			titleText.setLayoutParams(textViewLayout);
 			titleText.setText(title);
 			titleText.setMaxWidth(maxWidth);
@@ -104,6 +104,13 @@ public class ActivityHelper {
 			titleText.setMaxLines(2);
 			titleText.setEllipsize(TextUtils.TruncateAt.END);
 			titleText.setPadding(10, 0, 0, 0);
+
+			titleText.setOnClickListener(new View.OnClickListener() {
+
+				public void onClick(View v) {
+					Utils.displayToast(activity, titleText.getText().toString());
+				}
+			});
 
 			actionBar.addView(titleText);
 		}

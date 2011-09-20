@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+        <rotate android:fromDegrees="-90" android:toDegrees="1" 
+        	android:duration="100"/>
+        <rotate android:fromDegrees="1" android:toDegrees="0" 
+        	android:duration="100"/>  	
+</set>
+

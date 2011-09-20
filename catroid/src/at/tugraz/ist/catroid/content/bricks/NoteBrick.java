@@ -43,6 +43,10 @@ public class NoteBrick implements Brick {
 		this.sprite = sprite;
 	}
 
+	public int getRequiredResources() {
+		return NO_RESOURCES;
+	}
+
 	public NoteBrick(Sprite sprite, String note) {
 		this.sprite = sprite;
 		this.note = note;
@@ -73,6 +77,7 @@ public class NoteBrick implements Brick {
 				AlertDialog.Builder dialog = new AlertDialog.Builder(context);
 				final EditText input = new EditText(context);
 				input.setText(note);
+				input.setSelectAllOnFocus(true);
 				dialog.setView(input);
 				dialog.setOnCancelListener((OnCancelListener) context);
 				dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {

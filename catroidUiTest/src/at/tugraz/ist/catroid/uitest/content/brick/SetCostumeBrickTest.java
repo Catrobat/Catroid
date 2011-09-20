@@ -123,6 +123,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		Costume costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(0).getCostume();
 		assertEquals("costume not set", costume.getImagePath(), costumeDataList.get(0).getAbsolutePath());
 		solo.goBack();
+		solo.clickOnText(getActivity().getString(R.string.back_to_construction_site));
 		solo.sleep(200);
 
 		//changing le costume
@@ -169,7 +170,10 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		solo.sleep(100);
 		solo.clearEditText(0);
 		solo.enterText(0, newName);
-		solo.clickOnButton(getActivity().getString(R.string.ok));
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(600);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.clickOnButton(0);
 		solo.sleep(300);
 		solo.clickOnText(getActivity().getString(R.string.scripts));
 		solo.sleep(300);
@@ -192,6 +196,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		assertEquals("Wrong image shown in stage --> Problem with Adapter update in Script", costume1ImagePath,
 				costumePath);
 		solo.goBack();
+		solo.clickOnText(getActivity().getString(R.string.back_to_construction_site));
 		solo.sleep(300);
 		for (int i = 0; i < 5; i++) {
 			selectCostume(costumeName2, costumeName, costume2ImagePath);
@@ -211,6 +216,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		assertEquals("Wrong image shown in stage --> Problem with Adapter update in Script", costumeImagePath,
 				costumePath);
 		solo.goBack();
+		solo.clickOnText(getActivity().getString(R.string.back_to_construction_site));
 		solo.sleep(300);
 	}
 }

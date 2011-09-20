@@ -23,12 +23,13 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
+	android:background="@drawable/bg_dialog"
 >
 	<ListView
 		android:id="@+id/categoriesListView"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:clickable="true"
-		android:dividerHeight="15dip"
+		android:dividerHeight="-5dip"
 	/>
 </LinearLayout>

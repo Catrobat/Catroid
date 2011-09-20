@@ -123,7 +123,8 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 
 		solo.sleep(1500);
 
-		solo.clickOnScreen(Values.SCREEN_WIDTH, 0);
+		solo.goBack();
+		solo.clickOnText(getActivity().getString(R.string.snapshot));
 
 		assertTrue("Successful screenshot Toast not found!",
 				solo.searchText(getActivity().getString(R.string.notification_screenshot_ok)));

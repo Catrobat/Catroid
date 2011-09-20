@@ -19,12 +19,15 @@
 
 package at.tugraz.ist.catroid.ui;
 
+import java.util.ArrayList;
+
 import android.app.Dialog;
 import android.app.TabActivity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -36,11 +39,13 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.stage.StageActivity;
+import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
+import at.tugraz.ist.catroid.ui.dialogs.BrickCategoryDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameCostumeDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameSoundDialog;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
 
-public class ScriptTabActivity extends TabActivity {
+public class ScriptTabActivity extends TabActivity implements OnDismissListener {
 	protected ActivityHelper activityHelper;
 
 	private TabHost tabHost;
@@ -48,8 +53,11 @@ public class ScriptTabActivity extends TabActivity {
 	private RenameSoundDialog renameSoundDialog;
 	public CostumeData selectedCostumeData;
 	private RenameCostumeDialog renameCostumeDialog;
+	public String selectedCategory;
 	public static final int DIALOG_RENAME_COSTUME = 0;
 	public static final int DIALOG_RENAME_SOUND = 1;
+	public static final int DIALOG_BRICK_CATEGORY = 2;
+	public static final int DIALOG_ADD_BRICK = 3;
 
 	private void setupTabHost() {
 		tabHost = (TabHost) findViewById(android.R.id.tabhost);
@@ -69,22 +77,32 @@ public class ScriptTabActivity extends TabActivity {
 		intent = new Intent().setClass(this, ScriptActivity.class);
 		setupTab(R.drawable.ic_tab_scripts, this.getString(R.string.scripts), intent);
 		intent = new Intent().setClass(this, CostumeActivity.class);
-		setupTab(R.drawable.ic_tab_costumes, this.getString(R.string.costumes), intent);
+		int costumeIcon;
+		if (ProjectManager.getInstance().getCurrentSprite().getName()
+				.equalsIgnoreCase(this.getString(R.string.background))) {
+			costumeIcon = R.drawable.ic_tab_background;
+		} else {
+			costumeIcon = R.drawable.ic_tab_costumes;
+		}
+		setupTab(costumeIcon, this.getString(R.string.costumes), intent);
 		intent = new Intent().setClass(this, SoundActivity.class);
 		setupTab(R.drawable.ic_tab_sounds, this.getString(R.string.sounds), intent);
 
 		setUpActionBar();
 		if (getLastNonConfigurationInstance() != null) {
-			selectedCostumeData = (CostumeData) ((Pair<?, ?>) getLastNonConfigurationInstance()).first;
-			selectedSoundInfo = (SoundInfo) ((Pair<?, ?>) getLastNonConfigurationInstance()).second;
+			selectedCategory = (String) ((ArrayList<?>) getLastNonConfigurationInstance()).get(0);
+			selectedCostumeData = (CostumeData) ((ArrayList<?>) getLastNonConfigurationInstance()).get(1);
+			selectedSoundInfo = (SoundInfo) ((ArrayList<?>) getLastNonConfigurationInstance()).get(2);
 		}
 	}
 
 	@Override
-	public Object onRetainNonConfigurationInstance() {
-		final Pair<CostumeData, SoundInfo> savedCostumeDataAndSoundInfo = new Pair<CostumeData, SoundInfo>(
-				selectedCostumeData, selectedSoundInfo);
-		return savedCostumeDataAndSoundInfo;
+	public ArrayList<Object> onRetainNonConfigurationInstance() {
+		ArrayList<Object> savedMember = new ArrayList<Object>();
+		savedMember.add(selectedCategory);
+		savedMember.add(selectedCostumeData);
+		savedMember.add(selectedSoundInfo);
+		return savedMember;
 	}
 
 	private void setUpActionBar() {
@@ -124,22 +142,27 @@ public class ScriptTabActivity extends TabActivity {
 
 	@Override
 	protected Dialog onCreateDialog(int id) {
-		final Dialog dialog;
+		Dialog dialog = null;
 		switch (id) {
 			case DIALOG_RENAME_SOUND:
-				if (selectedSoundInfo == null) {
-					dialog = null;
-				} else {
+				if (selectedSoundInfo != null) {
 					renameSoundDialog = new RenameSoundDialog(this);
 					dialog = renameSoundDialog.createDialog(selectedSoundInfo);
 				}
 				break;
 			case DIALOG_RENAME_COSTUME:
-				if (selectedCostumeData == null) {
-					dialog = null;
-				} else {
+				if (selectedCostumeData != null) {
 					renameCostumeDialog = new RenameCostumeDialog(this);
 					dialog = renameCostumeDialog.createDialog(selectedCostumeData);
+				}
+				break;
+			case DIALOG_BRICK_CATEGORY:
+				dialog = new BrickCategoryDialog(this);
+				dialog.setOnDismissListener(this);
+				break;
+			case DIALOG_ADD_BRICK:
+				if (selectedCategory != null) {
+					dialog = new AddBrickDialog(this, selectedCategory);
 				}
 				break;
 			default:
@@ -177,6 +200,10 @@ public class ScriptTabActivity extends TabActivity {
 
 	public void handleNegativeButtonRenameCostume(View v) {
 		dismissDialog(DIALOG_RENAME_COSTUME);
+	}
+
+	public void onDismiss(DialogInterface dialogInterface) {
+		((ScriptActivity) getCurrentActivity()).updateAdapterAfterAddNewBrick(dialogInterface);
 	}
 
 }

@@ -117,14 +117,33 @@ public abstract class Script implements Serializable {
 		this.executingBrickIndex = executingBrickIndex;
 	}
 
+	public int getRequiredResources() {
+		int ressources = Brick.NO_RESOURCES;
+
+		for (Brick brick : brickList) {
+			ressources |= brick.getRequiredResources();
+		}
+		return ressources;
+	}
+
 	public boolean containsBrickOfType(Class<?> type) {
 		for (Brick brick : brickList) {
+			//Log.i("bt", brick.REQUIRED_RESSOURCES + "");
 			if (brick.getClass() == type) {
-				//Log.i("bt", "brick of type is in list");
 				return true;
 			}
 		}
 		return false;
 
 	}
+	//
+	//	public boolean containsBluetoothBrick() {
+	//		for (Brick brick : brickList) {
+	//			if ((brick instanceof NXTMotorActionBrick) || (brick instanceof NXTMotorTurnAngleBrick)
+	//					|| (brick instanceof NXTMotorStopBrick) || (brick instanceof NXTPlayToneBrick)) {
+	//				return true;
+	//			}
+	//		}
+	//		return false;
+	//	}
 }
