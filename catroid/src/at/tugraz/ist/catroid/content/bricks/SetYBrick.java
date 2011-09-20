@@ -51,7 +51,9 @@ public class SetYBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
-		sprite.setXYPosition(sprite.getXPosition(), yPosition);
+		sprite.costume.aquireXYWidthHeightLock();
+		sprite.costume.setYPosition(yPosition);
+		sprite.costume.releaseXYWidthHeightLock();
 	}
 
 	public Sprite getSprite() {

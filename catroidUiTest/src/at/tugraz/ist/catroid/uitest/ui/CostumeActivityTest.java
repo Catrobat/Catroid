@@ -25,13 +25,14 @@ import java.util.ArrayList;
 import android.content.Intent;
 import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 import android.widget.ListAdapter;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.CostumeData;
-import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.CostumeActivity;
+import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -114,9 +115,9 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		int oldCount = adapter.getCount();
 		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
 		int newCount = adapter.getCount();
-		assertEquals("the old count was not rigth", 2, oldCount);
-		assertEquals("the new count is not rigth - all costumes should be deleted", 1, newCount);
-		assertEquals("the count of the costumeDataList is not right", 01, costumeDataList.size());
+		assertEquals("the old count was not right", 1, oldCount);
+		assertEquals("the new count is not right - all costumes should be deleted", 0, newCount);
+		assertEquals("the count of the costumeDataList is not right", 0, costumeDataList.size());
 	}
 
 	public void testRenameCostume() {
@@ -142,21 +143,30 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		}
 	}
 
-	public void testToStageButton() {
+	//	public void testToStageButton() {
+	//		solo.clickOnText(getActivity().getString(R.string.costumes));
+	//		solo.sleep(500);
+	//		//fu!?
+	//		solo.clickOnImageButton(2); //sorry UiTestUtils.clickOnImageButton just won't work after switching tabs
+	//
+	//		solo.sleep(5000);
+	//		solo.assertCurrentActivity("not in stage", StageActivity.class);
+	//		solo.goBack();
+	//		solo.sleep(3000);
+	//		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
+	//		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
+	//		assertEquals("costumeDataList in sprite doesn't hold the right number of costumeData", 1,
+	//				costumeDataList.size());
+	//	}
+
+	public void testMainMenuButton() {
 		solo.clickOnText(getActivity().getString(R.string.costumes));
 		solo.sleep(500);
-		//fu!?
-		solo.clickOnImageButton(2); //sorry UiTestUtils.clickOnImageButton just won't work after switching tabs
+		solo.clickOnImageButton(0);
+		solo = new Solo(getInstrumentation(), getActivity());
 
-		solo.sleep(5000);
-		solo.assertCurrentActivity("not in stage", StageActivity.class);
-		solo.goBack();
-		solo.clickOnText(getActivity().getString(R.string.back_to_construction_site));
-		solo.sleep(3000);
-		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
-		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
-		assertEquals("costumeDataList in sprite doesn't hold the right number of costumeData", 2,
-				costumeDataList.size());
+		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
+				MainMenuActivity.class);
 	}
 
 	public void testDialogsOnChangeOrientation() {

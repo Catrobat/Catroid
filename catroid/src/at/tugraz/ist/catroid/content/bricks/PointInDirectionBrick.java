@@ -55,7 +55,7 @@ public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 	}
 
 	public void execute() {
-		sprite.setDirection(directions[selectedIndex]);
+		sprite.costume.rotation = -directions[selectedIndex] + 90f;
 	}
 
 	public Sprite getSprite() {

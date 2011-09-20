@@ -45,11 +45,11 @@ public class WaitBrickTest extends AndroidTestCase {
 
 		Thread.sleep(200);
 
-		assertFalse("Unexpected visibility of testSprite", testSprite.isVisible());
+		assertFalse("Unexpected visibility of testSprite", testSprite.costume.show);
 
 		Thread.sleep(1000);
 
-		assertTrue("Unexpected visibility of testSprite", testSprite.isVisible());
+		assertTrue("Unexpected visibility of testSprite", testSprite.costume.show);
 	}
 
 	public void testPauseResume() throws InterruptedException {
@@ -75,23 +75,23 @@ public class WaitBrickTest extends AndroidTestCase {
 
 			Thread.sleep(1000);
 
-			assertFalse("Unexpected visibility of testSprite. Run: " + i, testSprite.isVisible());
+			assertFalse("Unexpected visibility of testSprite. Run: " + i, testSprite.costume.show);
 
 			testSprite.pause();
 
 			Thread.sleep(200);
 
-			assertFalse("Unexpected visibility of testSprite. Run: " + i, testSprite.isVisible());
+			assertFalse("Unexpected visibility of testSprite. Run: " + i, testSprite.costume.show);
 
 			testSprite.resume();
 
 			Thread.sleep(1000);
 
-			assertFalse("Unexpected visibility of testSprite. Run: " + i, testSprite.isVisible());
+			assertFalse("Unexpected visibility of testSprite. Run: " + i, testSprite.costume.show);
 
 			Thread.sleep(1200);
 
-			assertTrue("Unexpected visibility of testSprite. Run: " + i, testSprite.isVisible());
+			assertTrue("Unexpected visibility of testSprite. Run: " + i, testSprite.costume.show);
 		}
 	}
 }

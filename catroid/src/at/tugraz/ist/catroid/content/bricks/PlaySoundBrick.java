@@ -55,7 +55,7 @@ public class PlaySoundBrick implements Brick, Serializable, OnItemSelectedListen
 			if (!NativeAppActivity.isRunning() && soundInfo.getAbsolutePath() != null) {
 				SoundManager.getInstance().playSoundFile(soundInfo.getAbsolutePath());
 			} else {
-				SoundManager.getInstance().playSoundFile(soundInfo.getSoundFileName());
+				SoundManager.getInstance().playSoundFile("sounds/" + soundInfo.getSoundFileName());
 			}
 		}
 	}

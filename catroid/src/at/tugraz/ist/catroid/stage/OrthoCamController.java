@@ -16,41 +16,37 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package at.tugraz.ist.catroid.stage;
 
-import android.graphics.Bitmap;
+import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector3;
 
-/**
- * 
- * Everyone who implements this can DrawObjects.
- * 
- */
-public interface IDraw {
-	/**
-	 * Processes all sprites which should be drawn on the stage.
-	 * 
-	 * @return true, if the sprites could be drawn
-	 * 
-	 */
-	public boolean draw();
+public class OrthoCamController extends InputAdapter {
+	final OrthographicCamera camera;
+	final Vector3 curr = new Vector3();
+	final Vector3 last = new Vector3(-1, -1, -1);
+	final Vector3 delta = new Vector3();
 
-	/**
-	 * Processes a Bitmap and display it on a grey Screen.
-	 * 
-	 */
-	public void drawPauseScreen(Bitmap pauseBitmap);
+	public OrthoCamController(OrthographicCamera camera) {
+		this.camera = camera;
+	}
 
-	/**
-	 * Processes on touch events.
-	 * 
-	 */
-	public void processOnTouch(int coordX, int coordY);
+	@Override
+	public boolean touchDragged(int x, int y, int pointer) {
+		camera.unproject(curr.set(x, y, 0));
+		if (!(last.x == -1 && last.y == -1 && last.z == -1)) {
+			camera.unproject(delta.set(last.x, last.y, 0));
+			delta.sub(curr);
+			camera.position.add(delta.x, delta.y, 0);
+		}
+		last.set(x, y, 0);
+		return false;
+	}
 
-	/**
-	 * Save a screenshot of the current stage.
-	 * 
-	 */
-	public boolean saveScreenshot();
-
+	@Override
+	public boolean touchUp(int x, int y, int pointer, int button) {
+		last.set(-1, -1, -1);
+		return false;
+	}
 }

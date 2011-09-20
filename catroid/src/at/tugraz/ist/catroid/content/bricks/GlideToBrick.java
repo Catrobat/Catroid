@@ -52,6 +52,19 @@ public class GlideToBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
+		/* That's the way how an action is made */
+		//		Action action = MoveBy.$(xDestination, yDestination, this.durationInMilliSeconds / 1000);
+		//		final CountDownLatch latch = new CountDownLatch(1);
+		//		action = action.setCompletionListener(new OnActionCompleted() {
+		//			public void completed(Action action) {
+		//				latch.countDown();
+		//			}
+		//		});
+		//		sprite.costume.action(action);
+		//		try {
+		//			latch.await();
+		//		} catch (InterruptedException e) {
+		//		}
 		long startTime = System.currentTimeMillis();
 		int duration = durationInMilliSeconds;
 		while (duration > 0) {
@@ -77,20 +90,22 @@ public class GlideToBrick implements Brick, OnClickListener {
 			duration -= (int) (currentTime - startTime);
 			updatePositions((int) (currentTime - startTime), duration);
 			startTime = currentTime;
-			sprite.setToDraw(true);
 		}
-		sprite.setXYPosition(xDestination, yDestination);
-		sprite.setToDraw(true);
+		sprite.costume.aquireXYWidthHeightLock();
+		sprite.costume.setXYPosition(xDestination, yDestination);
+		sprite.costume.releaseXYWidthHeightLock();
 	}
 
 	private void updatePositions(int timePassed, int duration) {
-		int xPosition = sprite.getXPosition();
-		int yPosition = sprite.getYPosition();
+		sprite.costume.aquireXYWidthHeightLock();
+		float xPosition = sprite.costume.getXPosition();
+		float yPosition = sprite.costume.getYPosition();
 
 		xPosition += ((float) timePassed / duration) * (xDestination - xPosition);
 		yPosition += ((float) timePassed / duration) * (yDestination - yPosition);
 
-		sprite.setXYPosition(xPosition, yPosition);
+		sprite.costume.setXYPosition(xPosition, yPosition);
+		sprite.costume.releaseXYWidthHeightLock();
 	}
 
 	public Sprite getSprite() {
