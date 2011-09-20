@@ -95,6 +95,13 @@ public class StageListener implements ApplicationListener {
 	private Texture background;
 	private Texture axes;
 
+	private boolean makeTestPixels = false;
+	private byte[] testPixels;
+	private int testX = 0;
+	private int testY = 0;
+	private int testWidth = 0;
+	private int testHeight = 0;
+
 	public StageListener() {
 	}
 
@@ -267,6 +274,11 @@ public class StageListener implements ApplicationListener {
 		if (DEBUG) {
 			fpsLogger.log();
 		}
+
+		if (makeTestPixels) {
+			testPixels = ScreenUtils.getFrameBufferPixels(testX, testY, testWidth, testHeight, true);
+			makeTestPixels = false;
+		}
 	}
 
 	private void drawRectangle() {
@@ -338,6 +350,18 @@ public class StageListener implements ApplicationListener {
 			return false;
 		}
 		return true;
+	}
+
+	public byte[] getPixels(int x, int y, int width, int height) {
+		testX = x;
+		testY = y;
+		testWidth = width;
+		testHeight = height;
+		makeTestPixels = true;
+		while (makeTestPixels) {
+			Thread.yield();
+		}
+		return testPixels;
 	}
 
 }

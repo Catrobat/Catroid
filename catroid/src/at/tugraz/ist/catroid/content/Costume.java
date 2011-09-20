@@ -47,7 +47,7 @@ public class Costume extends Image {
 	protected Sprite sprite;
 	protected float alphaValue;
 	protected float brightnessValue;
-	protected boolean nativeApp;
+	protected boolean internalPath;
 	public boolean show;
 	public int zPosition;
 
@@ -70,7 +70,7 @@ public class Costume extends Image {
 		this.imagePath = "";
 		this.currentAlphaPixmap = null;
 		this.zPosition = 0;
-		this.nativeApp = false;
+		this.internalPath = false;
 	}
 
 	@Override
@@ -132,7 +132,7 @@ public class Costume extends Image {
 			}
 
 			Pixmap pixmap;
-			if (nativeApp) {
+			if (internalPath) {
 				pixmap = new Pixmap(Gdx.files.internal(imagePath));
 			} else {
 				pixmap = new Pixmap(Gdx.files.absolute(imagePath));
@@ -271,12 +271,12 @@ public class Costume extends Image {
 		imageLock.release();
 	}
 
-	public void setImagePathNativeApp(String path) {
+	public void setImagePathInternal(String path) {
 		if (path == null) {
 			path = "";
 		}
 		imageLock.acquireUninterruptibly();
-		nativeApp = true;
+		internalPath = true;
 		imagePath = path;
 		imageChanged = true;
 		imageLock.release();
