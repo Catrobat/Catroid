@@ -110,9 +110,6 @@ public class WaitBrick implements Brick, OnClickListener {
 					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT);
 				}
 
-				System.out.println("WaitBrick.onClick(...).new OnClickListener() {...}.onClick() time = "
-						+ timeToWaitInMilliSeconds);
-
 				dialog.cancel();
 			}
 		});
