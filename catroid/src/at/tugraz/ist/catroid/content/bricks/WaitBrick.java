@@ -24,6 +24,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseExpandableListAdapter;
@@ -110,8 +111,9 @@ public class WaitBrick implements Brick, OnClickListener {
 					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT);
 				}
 
-				System.out.println("WaitBrick.onClick(...).new OnClickListener() {...}.onClick() time = "
-						+ timeToWaitInMilliSeconds);
+				Log.d(WaitBrick.class.getSimpleName(),
+						"WaitBrick.onClick(...).new OnClickListener() {...}.onClick() time = "
+								+ timeToWaitInMilliSeconds);
 
 				dialog.cancel();
 			}
