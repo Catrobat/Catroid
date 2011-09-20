@@ -97,8 +97,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 					return;
 				}
 			}
-
-			dragTargetPosition = to;
+			if (to != 0) {
+				dragTargetPosition = to;
+			} else {
+				dragTargetPosition = 1;
+			}
 
 			if (from != to) {
 				sprite.getScript(scriptFrom).removeBrick(draggedBrick);
@@ -106,8 +109,12 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 				sprite.getScript(scriptTo).addBrick(getScriptPosition(to, scriptTo), draggedBrick);
 			}
 
-		} else { //isScript(to) == true
-
+		} else {
+			if (to != 0) {
+				dragTargetPosition = to;
+			} else {
+				dragTargetPosition = 1;
+			}
 			if (from < to) {
 				sprite.getScript(scriptFrom).removeBrick(draggedBrick);
 				sprite.getScript(getScriptId(to)).addBrick(0, draggedBrick);
@@ -118,9 +125,8 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			}
 		}
 
-		ProjectManager.getInstance().setCurrentScript(sprite.getScript(getScriptId(to)));
-
 		notifyDataSetChanged();
+		ProjectManager.getInstance().setCurrentScript(sprite.getScript(getScriptId(to)));
 
 	}
 
@@ -188,7 +194,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			Brick brick = (Brick) getItem(position);
 			View currentBrickView = brick.getView(context, position, this);
 
-			if (draggedBrick != null && (dragTargetPosition == position)) {
+			if (draggedBrick != null && dragTargetPosition == position) {
 				return insertionView;
 			}
 
@@ -198,6 +204,10 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 			if (currentBrickView.getParent() != null) {
 				((ViewGroup) currentBrickView.getParent()).removeView(currentBrickView);
+			}
+
+			if (draggedBrick != null && dragTargetPosition == 0) {
+				return null;
 			}
 
 			wrapper.addView(currentBrickView);
