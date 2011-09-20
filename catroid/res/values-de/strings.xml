@@ -172,11 +172,14 @@
     <string name="load_project_dialog_title">Projekt laden</string>
     
     <!--  Stage menu dialog -->
-	<string name="back_to_construction_site">Zurück</string>
+    <string name="back">Zurück</string>
 	<string name="resume_current_project">Fortsetzen</string>
 	<string name="restart_current_project">Neu starten</string>
-	<string name="snapshot">Screenshot</string>
 	<string name="stage_dialog_title">Optionen</string>
+	<string name="stagemenu_screen_size">Maximieren/Dehnen</string>
+    <string name="stagemenu_axes_on">Achsen Ein</string>
+    <string name="stagemenu_axes_off">Achsen Aus</string>
+    <string name="stagemenu_screenshot">Screenshot</string>
 
 	<!-- Login Register dialog -->
     <string name="login_register_dialog_title">Login</string>
@@ -198,8 +201,6 @@
     <!--  Stage context menu -->
     <string name="stagemenu_construction_site">Zur Baustelle</string>
     <string name="stagemenu_start">Abspielen/Pause</string>
-    <string name="stagemenu_screen_size">Maximiere/Dehne</string>
-    <string name="stagemenu_axes">Achsen Ein/Aus</string>
     
 	<!-- Brick categories -->
 	<string name="category_motion">Bewegung</string>

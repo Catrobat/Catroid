@@ -31,14 +31,14 @@
 	<!-- Menu buttons -->
 			<Button
 				android:id="@+id/back_to_construction_site_button"
-				android:text="@string/back_to_construction_site"
+				android:text="@string/back"
 				android:layout_height="wrap_content"
 				android:layout_width="wrap_content"
 				android:layout_gravity="center_horizontal"
-				android:background="@null"
+ 				android:background="@null"
 				android:drawableTop="@drawable/back_selector"
-				android:paddingTop="10dip"
-			></Button>
+ 				android:paddingTop="10dip"
+ 			></Button> 
 			<Button
 				android:id="@+id/resume_current_project_button"
 				android:text="@string/resume_current_project"
@@ -60,8 +60,18 @@
 				android:paddingTop="20dip"
 			></Button>
 			<Button
-				android:id="@+id/snapshot_button"
-				android:text="@string/snapshot"
+				android:id="@+id/axes_toggle_button"
+				android:text="@string/stagemenu_axes_on"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:background="@null"
+				android:drawableTop="@drawable/axes_selector"
+				android:paddingTop="20dip"
+			></Button>
+			<Button
+				android:id="@+id/screenshot_button"
+				android:text="@string/stagemenu_screenshot"
 				android:layout_height="wrap_content"
 				android:layout_width="wrap_content"
 				android:layout_gravity="center_horizontal"
