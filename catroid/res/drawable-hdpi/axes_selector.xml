@@ -19,11 +19,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
 
-<menu
-  xmlns:android="http://schemas.android.com/apk/res/android">
-  <item android:id="@+id/stagemenuConstructionSite" android:title="@string/stagemenu_construction_site" />
-  <item android:id="@+id/stagemenuStart" android:title="@string/stagemenu_start" />
-  <item android:id="@+id/stagemenuScreenSize" android:title="@string/stagemenu_screen_size" />
-  <item android:id="@+id/stagemenuAxes" android:title="@string/stagemenu_axes_on" />
-  <item android:id="@+id/stagemenuScreenshot" android:title="@string/stagemenu_screenshot" /> 
-</menu>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:state_pressed="true" android:drawable="@drawable/ic_axes_pressed" /> <!-- pressed -->
+	<item android:state_focused="true" android:drawable="@drawable/ic_axes" /> <!-- focused -->
+	<item android:drawable="@drawable/ic_axes" /> <!-- default -->
+</selector>

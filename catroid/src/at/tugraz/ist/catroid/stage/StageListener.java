@@ -253,12 +253,12 @@ public class StageListener implements ApplicationListener {
 			makeScreenshot = false;
 		}
 
-		if (paused && !finished) {
-			batch.setProjectionMatrix(camera.combined);
-			batch.begin();
-			batch.draw(pauseScreen, -pauseScreen.getWidth() / 2, -pauseScreen.getHeight() / 2);
-			batch.end();
-		}
+		//		if (paused && !finished) {
+		//			batch.setProjectionMatrix(camera.combined);
+		//			batch.begin();
+		//			batch.draw(pauseScreen, -pauseScreen.getWidth() / 2, -pauseScreen.getHeight() / 2);
+		//			batch.end();
+		//		}
 
 		if (axesOn && !finished) {
 			drawAxes();

@@ -32,6 +32,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
+import at.tugraz.ist.catroid.ui.dialogs.StageDialog;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 
@@ -43,6 +44,7 @@ public class StageActivity extends AndroidApplication {
 	private boolean stagePlaying = true;
 	private StageListener stageListener;
 	private boolean resizePossible;
+	private StageDialog stageDialog;
 
 	public static TextToSpeech tts;
 
@@ -68,6 +70,7 @@ public class StageActivity extends AndroidApplication {
 		}
 
 		stageListener = new StageListener();
+		stageDialog = new StageDialog(this, stageListener, R.style.stage_dialog);
 		this.calculateScreenSizes();
 		initialize(stageListener, true);
 	}
@@ -112,7 +115,9 @@ public class StageActivity extends AndroidApplication {
 
 	@Override
 	public void onBackPressed() {
-		manageLoadAndFinish();
+		pauseOrContinue();
+		stageDialog.show();
+		//manageLoadAndFinish();
 	}
 
 	@Override
@@ -123,7 +128,7 @@ public class StageActivity extends AndroidApplication {
 		super.onDestroy();
 	}
 
-	private void manageLoadAndFinish() {
+	public void manageLoadAndFinish() {
 		stageListener.pause();
 		stageListener.finish();
 		ProjectManager projectManager = ProjectManager.getInstance();
@@ -148,7 +153,7 @@ public class StageActivity extends AndroidApplication {
 		}
 	}
 
-	private void toggleAxes() {
+	public void toggleAxes() {
 		if (stageListener.axesOn) {
 			stageListener.axesOn = false;
 		} else {
@@ -156,7 +161,7 @@ public class StageActivity extends AndroidApplication {
 		}
 	}
 
-	private void pauseOrContinue() {
+	public void pauseOrContinue() {
 		if (stagePlaying) {
 			stageListener.menuPause();
 			stagePlaying = false;

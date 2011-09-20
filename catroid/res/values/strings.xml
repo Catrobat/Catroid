@@ -188,15 +188,16 @@
     <string name="register_error">Error occurred</string>
     
     <!--  Stage menu dialog -->
-	<string name="back_to_construction_site">Back</string>
+    <string name="back">Back</string>
 	<string name="resume_current_project">Resume</string>
 	<string name="restart_current_project">Restart</string>
-	<string name="snapshot">Screenshot</string>
 	<string name="stage_dialog_title">Stage Options</string>
 	<string name="stagemenu_screen_size">Maximize/Stretch</string>
-    <string name="stagemenu_axes">Axes ON/OFF</string>
+    <string name="stagemenu_axes_on">Axes On</string>
+    <string name="stagemenu_axes_off">Axes Off</string>
     <string name="stagemenu_screenshot">Screenshot</string>
 	
+
 
 	<!-- Broadcast spinner -->
 	<string name="new_broadcast_message">new...</string>
