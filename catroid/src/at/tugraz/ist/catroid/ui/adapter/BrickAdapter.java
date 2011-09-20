@@ -116,12 +116,12 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 				dragTargetPosition = 1;
 			}
 			if (from < to) {
-				sprite.getScript(scriptFrom).removeBrick(draggedBrick);
 				sprite.getScript(getScriptId(to)).addBrick(0, draggedBrick);
-			} else if (from > to && to > 0) {
 				sprite.getScript(scriptFrom).removeBrick(draggedBrick);
+			} else if (from > to && to > 0) {
 				sprite.getScript(getScriptId(to) - 1).addBrick(
 						sprite.getScript(getScriptId(to) - 1).getBrickList().size(), draggedBrick);
+				sprite.getScript(scriptFrom).removeBrick(draggedBrick);
 			}
 		}
 
@@ -234,6 +234,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	private int getScriptId(int index) {
 		int count = 0;
 		while (index > getBrickCount(count)) {
+
 			index -= getBrickCount(count) + 1;
 			count++;
 		}
