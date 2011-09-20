@@ -53,9 +53,9 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		}
 		listView = (DragAndDropListView) findViewById(R.id.brick_list_view);
 		adapter = new BrickAdapter(this, sprite, listView);
-		//		if (adapter.getGroupCount() > 0) {
-		//			ProjectManager.getInstance().setCurrentScript(adapter.getGroup(adapter.getGroupCount() - 1));
-		//		}
+		if (adapter.getScriptCount() > 0) {
+			ProjectManager.getInstance().setCurrentScript((Script) adapter.getItem(0));
+		}
 
 		listView.setTrashView((ImageView) findViewById(R.id.trash));
 		listView.setOnCreateContextMenuListener(this);
@@ -101,9 +101,6 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	protected void onStart() {
 		super.onStart();
 		initListeners();
-		//		if (adapter.getGroupCount() > 0) {
-		//			listView.expandGroup(adapter.getGroupCount() - 1);
-		//		}
 	}
 
 	@Override
@@ -114,9 +111,6 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		}
 
 		initListeners();
-		//		if (adapter.getGroupCount() > 0) {
-		//			listView.expandGroup(adapter.getGroupCount() - 1);
-		//		}
 
 		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
 		if (scriptTabActivity != null && scriptTabActivity.activityHelper != null) {
@@ -137,14 +131,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	}
 
 	public void onDismiss(DialogInterface dialog) {
-		//		for (int i = 0; i < adapter.getGroupCount() - 1; ++i) {
-		//			listView.collapseGroup(i);
-		//		}
-
 		adapter.notifyDataSetChanged();
-		//		if (adapter.getGroupCount() > 0) {
-		//			listView.expandGroup(adapter.getGroupCount() - 1);
-		//		}
 	}
 
 	public void onCancel(DialogInterface arg0) {
@@ -187,7 +174,6 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 				Script lastScript = sprite.getScript(lastScriptIndex);
 				ProjectManager.getInstance().setCurrentScript(lastScript);
 				adapter.notifyDataSetChanged();
-				//				listView.expandGroup(adapter.getGroupCount() - 1);
 			}
 		}
 		return true;
