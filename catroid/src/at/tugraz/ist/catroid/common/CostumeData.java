@@ -88,6 +88,10 @@ public class CostumeData {
 		return thumbnailBitmap;
 	}
 
+	public void resetThumbnailBitmap() {
+		thumbnailBitmap = null;
+	}
+
 	public int[] getResolution() {
 		if (resWidth != null && resHeight != null) {
 			return new int[] { resWidth, resHeight };

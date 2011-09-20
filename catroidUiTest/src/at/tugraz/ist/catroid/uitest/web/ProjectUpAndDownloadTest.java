@@ -106,7 +106,6 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		assertFalse("testProject was not deleted!", directory.exists());
 
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
-		solo.clickOnEditText(0);
 		solo.enterText(0, projectToCreate);
 		solo.goBack();
 		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
@@ -141,8 +140,8 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		try {
 			solo.waitForDialogToClose(10000);
-			assertTrue("Upload failed. Internet connection?", solo.searchText(getActivity().getString(
-					R.string.success_project_upload)));
+			assertTrue("Upload failed. Internet connection?",
+					solo.searchText(getActivity().getString(R.string.success_project_upload)));
 			String resultString = (String) UiTestUtils.getPrivateField("resultString", ServerCalls.getInstance());
 			JSONObject jsonObject;
 			jsonObject = new JSONObject(resultString);
@@ -164,8 +163,8 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		boolean waitResult = solo.waitForActivity("MainMenuActivity", 10000);
 		assertTrue("Download takes too long.", waitResult);
-		assertNotNull("Download not successful.", solo.searchText(getActivity().getString(
-				R.string.success_project_download)));
+		assertNotNull("Download not successful.",
+				solo.searchText(getActivity().getString(R.string.success_project_download)));
 
 		String projectPath = Consts.DEFAULT_ROOT + "/" + newTestProject;
 		File downloadedDirectory = new File(projectPath);

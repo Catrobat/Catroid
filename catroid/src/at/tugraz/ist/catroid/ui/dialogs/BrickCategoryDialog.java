@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Dialog;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,20 +32,20 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickCategoryAdapter;
 
 public class BrickCategoryDialog extends Dialog {
-	private ScriptActivity activity;
+	private ScriptTabActivity activity;
 	private BrickCategoryAdapter adapter;
 
-	public BrickCategoryDialog(ScriptActivity activity) {
-		super(activity);
+	public BrickCategoryDialog(ScriptTabActivity activity) {
+		super(activity, R.style.brick_dialog);
 		this.activity = activity;
 
 		Window window = getWindow();
 		window.requestFeature(Window.FEATURE_NO_TITLE);
-		window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		//window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		window.setGravity(Gravity.CENTER | Gravity.FILL_HORIZONTAL | Gravity.FILL_VERTICAL);
 
 		setContentView(R.layout.dialog_categories);
@@ -58,6 +60,10 @@ public class BrickCategoryDialog extends Dialog {
 		categories.add(inflater.inflate(R.layout.brick_category_sound, null));
 		categories.add(inflater.inflate(R.layout.brick_category_control, null));
 
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+		if (prefs.getBoolean("setting_mindstorm_bricks", false)) {
+			categories.add(inflater.inflate(R.layout.brick_category_lego_nxt, null));
+		}
 		adapter = new BrickCategoryAdapter(categories);
 		listView.setAdapter(adapter);
 	}
@@ -68,14 +74,13 @@ public class BrickCategoryDialog extends Dialog {
 
 		ListView listView = (ListView) findViewById(R.id.categoriesListView);
 		setupBrickCategories(listView);
-		final Dialog brickCategoryDialog = this;
 
 		listView.setOnItemClickListener(new ListView.OnItemClickListener() {
 
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				String selectedCategory = adapter.getItem(position);
-				Dialog addBrickDialog = new AddBrickDialog(brickCategoryDialog, activity, selectedCategory);
-				addBrickDialog.show();
+				activity.selectedCategory = adapter.getItem(position);
+				activity.removeDialog(ScriptTabActivity.DIALOG_ADD_BRICK);
+				activity.showDialog(ScriptTabActivity.DIALOG_ADD_BRICK);
 			}
 		});
 	}

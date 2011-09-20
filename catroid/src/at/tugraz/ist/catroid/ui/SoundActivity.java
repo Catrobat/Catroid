@@ -65,6 +65,7 @@ public class SoundActivity extends ListActivity {
 			return;
 		}
 
+		stopSound(null);
 		reloadAdapter();
 
 		//change actionbar:
@@ -96,7 +97,7 @@ public class SoundActivity extends ListActivity {
 		if (projectManager.getCurrentProject() != null) {
 			projectManager.saveProject();
 		}
-		stopSound();
+		stopSound(null);
 	}
 
 	private void updateSoundAdapter(String title, String fileName) {
@@ -117,16 +118,32 @@ public class SoundActivity extends ListActivity {
 		}
 	}
 
-	public void stopSound() {
+	public void pauseSound(SoundInfo soundInfo) {
+		mediaPlayer.pause();
+
+		soundInfo.isPlaying = false;
+		soundInfo.isPaused = true;
+	}
+
+	public void stopSound(SoundInfo exceptionSoundInfo) {
+		if (exceptionSoundInfo != null && exceptionSoundInfo.isPaused) {
+			return;
+		}
 		mediaPlayer.stop();
 
 		for (SoundInfo soundInfo : soundInfoList) {
 			soundInfo.isPlaying = false;
+			soundInfo.isPaused = false;
 		}
 	}
 
 	public void startSound(SoundInfo soundInfo) {
 		soundInfo.isPlaying = true;
+		if (soundInfo.isPaused) {
+			soundInfo.isPaused = false;
+			mediaPlayer.start();
+			return;
+		}
 		try {
 			mediaPlayer.reset();
 			mediaPlayer.setDataSource(soundInfo.getAbsolutePath());

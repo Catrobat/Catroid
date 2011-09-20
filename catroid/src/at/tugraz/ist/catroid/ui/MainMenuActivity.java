@@ -29,14 +29,10 @@ import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
@@ -230,31 +226,12 @@ public class MainMenuActivity extends Activity {
 	}
 
 	public void handleSettingsButton(View v) {
-		LayoutInflater inflater = getLayoutInflater();
-		View layout = inflater.inflate(R.layout.toast_settings, (ViewGroup) findViewById(R.id.toast_layout_root));
-
-		TextView text = (TextView) layout.findViewById(R.id.text);
-		text.setText("Settings not yet implemented!");
-
-		Toast toast = new Toast(getApplicationContext());
-		toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-		toast.setDuration(Toast.LENGTH_SHORT);
-		toast.setView(layout);
-		toast.show();
+		Intent intent = new Intent(MainMenuActivity.this, SettingsActivity.class);
+		startActivity(intent);
 	}
 
 	public void handleTutorialButton(View v) {
-		LayoutInflater inflater = getLayoutInflater();
-		View layout = inflater.inflate(R.layout.toast_tutorial, (ViewGroup) findViewById(R.id.toast_layout_root));
-
-		TextView text = (TextView) layout.findViewById(R.id.text);
-		text.setText("Tutorial not yet implemented!");
-
-		Toast toast = new Toast(getApplicationContext());
-		toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-		toast.setDuration(Toast.LENGTH_SHORT);
-		toast.setView(layout);
-		toast.show();
+		Utils.displayToast(this, "Tutorial not yet implemented!");
 	}
 
 	public void handleAboutCatroidButton(View v) {

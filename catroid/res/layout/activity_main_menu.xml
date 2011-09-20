@@ -23,7 +23,7 @@
 	android:orientation="vertical"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:background="#d8e0f5"
+	android:background="@color/website_blue"
 >
 	<!-- Action bar -->
 	<include layout="@layout/actionbar"/>
@@ -81,7 +81,7 @@
 			>
 				<Button
 					android:id="@+id/projects_on_phone_button"
-					android:text="@string/projects_on_phone"
+					android:text="@string/my_projects"
 					android:onClick="handleLoadProjectButton"
 					android:layout_height="match_parent"
 					android:layout_width="match_parent"

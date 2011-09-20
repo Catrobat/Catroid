@@ -60,6 +60,10 @@ public class BroadcastWaitBrick implements Brick {
 		this.projectManager = ProjectManager.getInstance();
 	}
 
+	public int getRequiredResources() {
+		return NO_RESOURCES;
+	}
+
 	public void execute() {
 		Vector<BroadcastScript> receiver = projectManager.messageContainer.getReceiverOfMessage(selectedMessage);
 		if (receiver == null) {
