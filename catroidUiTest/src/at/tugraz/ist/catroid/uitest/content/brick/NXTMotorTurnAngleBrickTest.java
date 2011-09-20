@@ -96,18 +96,18 @@ public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2
 
 		solo.clickOnButton(0);
 		solo.clickInList(1);
-		assertEquals("45", solo.getEditText(0).getText().toString());
+		assertEquals("Wrong value in field!", "45", solo.getEditText(0).getText().toString());
 		solo.clickInList(2);
-		assertEquals("90", solo.getEditText(0).getText().toString());
+		assertEquals("Wrong value in field!", "90", solo.getEditText(0).getText().toString());
 		solo.clickInList(3);
-		assertEquals("-45", solo.getEditText(0).getText().toString());
+		assertEquals("Wrong value in field!", "-45", solo.getEditText(0).getText().toString());
 		solo.clickInList(4);
-		assertEquals("-90", solo.getEditText(0).getText().toString());
+		assertEquals("Wrong value in field!", "-90", solo.getEditText(0).getText().toString());
 		solo.clickInList(5);
-		assertEquals("180", solo.getEditText(0).getText().toString());
+		assertEquals("Wrong value in field!", "180", solo.getEditText(0).getText().toString());
 		//		solo.scrollDownList(0); //warning randomness!
 		//		solo.clickInList(5);
-		//		assertEquals("360", solo.getEditText(0).getText().toString());
+		//		assertEquals("Wrong value in field!", "360", solo.getEditText(0).getText().toString());
 
 		solo.sleep(500);
 		solo.clickOnEditText(0);
@@ -127,13 +127,13 @@ public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2
 
 		solo.sleep(1500);
 		solo.pressSpinnerItem(0, 0);
-		assertEquals(array[0], solo.getCurrentSpinners().get(0).getSelectedItem());
+		assertEquals("Wrong item in spinner!", array[0], solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, 1);
-		assertEquals(array[1], solo.getCurrentSpinners().get(0).getSelectedItem());
+		assertEquals("Wrong item in spinner!", array[1], solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, 1);
-		assertEquals(array[2], solo.getCurrentSpinners().get(0).getSelectedItem());
+		assertEquals("Wrong item in spinner!", array[2], solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, 1);
-		assertEquals(array[3], solo.getCurrentSpinners().get(0).getSelectedItem());
+		assertEquals("Wrong item in spinner!", array[3], solo.getCurrentSpinners().get(0).getSelectedItem());
 
 	}
 
