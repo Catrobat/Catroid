@@ -64,8 +64,8 @@ public class StageActivity extends AndroidApplication {
 	private LegoNXT legoNXT;
 	private ProgressDialog connectingProgressDialog;
 	public static TextToSpeech textToSpeech;
-	private int requiredResourceCounter = 0;
-	Object mutex = new Object();
+	private static int requiredResourceCounter;
+	public static Object mutex = new Object();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -80,6 +80,7 @@ public class StageActivity extends AndroidApplication {
 			if ((mask & required_resources) > 0) {
 				Log.i("bt", "res required: " + mask);
 				requiredResourceCounter++;
+				Log.i("bt", "" + requiredResourceCounter);
 				noResources = false;
 			}
 			value = value >> 1;
@@ -88,6 +89,7 @@ public class StageActivity extends AndroidApplication {
 		if ((required_resources & Brick.TEXT_TO_SPEECH) > 0) {
 			textToSpeech = new TextToSpeech(this, new OnInitListener() {
 				public void onInit(int status) {
+					resourceInitialized();
 					if (status == TextToSpeech.ERROR) {
 						Toast.makeText(StageActivity.this, "Error occurred while initializing Text-To-Speech engine",
 								Toast.LENGTH_LONG).show();
@@ -135,23 +137,26 @@ public class StageActivity extends AndroidApplication {
 
 	}
 
-	private void startStage() {
-		Log.i("bt", "ione");
+	public static int getResourceWaitCounter() {
+		return requiredResourceCounter;
+	}
+
+	private void resourceInitialized() {
+		Log.i("bt", "Res init: " + requiredResourceCounter);
 		synchronized (mutex) {
-			Log.i("bt", "notify");
-			requiredResourceCounter = 0;
-			mutex.notifyAll();
+			requiredResourceCounter--;
+			if (requiredResourceCounter == 0) {
+				mutex.notifyAll();
+			}
 		}
+
 	}
 
 	private void startBTComm() {
-		Log.i("bt", "lololol 1");
 		connectingProgressDialog = ProgressDialog.show(this, "",
 				getResources().getString(R.string.connecting_please_wait), true);
-		Log.i("bt", "lololol 2");
 		Intent serverIntent = new Intent(this, DeviceListActivity.class);
 		this.startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
-		Log.i("bt", "lololol 3");
 	}
 
 	private int getRequiredRessources() {
@@ -257,6 +262,14 @@ public class StageActivity extends AndroidApplication {
 	public void manageLoadAndFinish() {
 		stageListener.pause();
 		stageListener.finish();
+
+		if (textToSpeech != null) {
+			textToSpeech.shutdown();
+		}
+		if (legoNXT != null) {
+			legoNXT.destroyCommunicator();
+		}
+
 		ProjectManager projectManager = ProjectManager.getInstance();
 		int currentSpritePos = projectManager.getCurrentSpritePosition();
 		int currentScriptPos = projectManager.getCurrentScriptPosition();
@@ -264,7 +277,7 @@ public class StageActivity extends AndroidApplication {
 		projectManager.setCurrentSpriteWithPosition(currentSpritePos);
 		projectManager.setCurrentScriptWithPosition(currentScriptPos);
 		stagePlaying = false;
-		textToSpeech.shutdown();
+
 		finish();
 	}
 
@@ -332,8 +345,7 @@ public class StageActivity extends AndroidApplication {
 			switch (myMessage.getData().getInt("message")) {
 				case LegoNXTBtCommunicator.STATE_CONNECTED:
 					connectingProgressDialog.dismiss();
-					requiredResourceCounter--;
-					startStage();
+					resourceInitialized();
 					break;
 				case LegoNXTBtCommunicator.STATE_CONNECTERROR:
 					Toast.makeText(StageActivity.this, R.string.bt_connection_failed, Toast.LENGTH_SHORT);
