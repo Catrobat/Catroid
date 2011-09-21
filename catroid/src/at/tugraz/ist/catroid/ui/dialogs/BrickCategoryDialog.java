@@ -30,6 +30,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
@@ -50,6 +51,13 @@ public class BrickCategoryDialog extends Dialog {
 
 		setContentView(R.layout.dialog_categories);
 		window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+
+		ImageButton closeButton = (ImageButton) findViewById(R.id.btn_close_dialog);
+		closeButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				dismiss();
+			}
+		});
 	}
 
 	private void setupBrickCategories(ListView listView) {
