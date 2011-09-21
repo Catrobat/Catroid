@@ -118,9 +118,7 @@ public class GlideToBrick implements Brick, OnClickListener {
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 
-		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_glide_to, null);
-		}
+		view = View.inflate(context, R.layout.toolbox_brick_glide_to, null);
 
 		EditText editX = (EditText) view.findViewById(R.id.toolbox_brick_glide_to_x_edit_text);
 		editX.setText(String.valueOf(xDestination));

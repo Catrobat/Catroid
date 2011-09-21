@@ -53,9 +53,7 @@ public class WhenBrick implements Brick {
 	}
 
 	public View getView(final Context context, int brickId, final BaseExpandableListAdapter adapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_when, null);
-		}
+		view = View.inflate(context, R.layout.toolbox_brick_when, null);
 
 		final Spinner spinner = (Spinner) view.findViewById(R.id.toolbox_brick_when_spinner);
 		spinner.setFocusable(false);

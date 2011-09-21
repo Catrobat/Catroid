@@ -62,9 +62,7 @@ public class SayBrick implements Brick {
 
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
 
-		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_say, null);
-		}
+		view = View.inflate(context, R.layout.toolbox_brick_say, null);
 
 		EditText editText = (EditText) view.findViewById(R.id.toolbox_brick_say_edit_text);
 		editText.setText(text);

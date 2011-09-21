@@ -72,9 +72,7 @@ public class ChangeYByBrick implements Brick, OnClickListener {
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 
-		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_change_y, null);
-		}
+		view = View.inflate(context, R.layout.toolbox_brick_change_y, null);
 
 		EditText editY = (EditText) view.findViewById(R.id.toolbox_brick_change_y_edit_text);
 		editY.setText(String.valueOf(yMovement));

@@ -51,7 +51,7 @@ public class TurnRightBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
-		sprite.costume.rotation = (sprite.costume.rotation % 360) - (float)degrees;
+		sprite.costume.rotation = (sprite.costume.rotation % 360) - (float) degrees;
 	}
 
 	public Sprite getSprite() {
@@ -60,9 +60,7 @@ public class TurnRightBrick implements Brick, OnClickListener {
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 
-		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_turn_right, null);
-		}
+		view = View.inflate(context, R.layout.toolbox_brick_turn_right, null);
 
 		EditText editDegrees = (EditText) view.findViewById(R.id.toolbox_brick_turn_right_edit_text);
 		editDegrees.setText(String.valueOf(degrees));

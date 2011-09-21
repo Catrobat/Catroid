@@ -67,9 +67,8 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_move_n_steps, null);
-		}
+
+		view = View.inflate(context, R.layout.toolbox_brick_move_n_steps, null);
 
 		EditText edit = (EditText) view.findViewById(R.id.toolbox_brick_move_n_steps_edit_text);
 
