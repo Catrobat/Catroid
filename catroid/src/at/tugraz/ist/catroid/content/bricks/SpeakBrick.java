@@ -29,6 +29,7 @@ import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.stage.StageActivity;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class SpeakBrick implements Brick {
 	private static final long serialVersionUID = 1L;
@@ -89,7 +90,10 @@ public class SpeakBrick implements Brick {
 							}
 						});
 
-				dialog.show();
+				AlertDialog finishedDialog = dialog.create();
+				finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
+
+				finishedDialog.show();
 
 			}
 		});

@@ -42,6 +42,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.DialogInterface.OnShowListener;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -55,6 +56,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
@@ -147,8 +150,8 @@ public class Utils {
 
 		ProgressDialog progressDialog = null;
 		if (showProgressDialog && context != null) {
-			progressDialog = ProgressDialog.show(context, context.getString(R.string.please_wait), context
-					.getString(R.string.loading));
+			progressDialog = ProgressDialog.show(context, context.getString(R.string.please_wait),
+					context.getString(R.string.loading));
 		}
 
 		Thread t = new FileCopyThread(fileTo, fileFrom, progressDialog);
@@ -394,5 +397,15 @@ public class Utils {
 			Log.e(TAG, "Name not found", nameNotFoundException);
 		}
 		return versionName;
+	}
+
+	public static OnShowListener getBrickDialogOnClickListener(final Context context, final EditText input) {
+		return new OnShowListener() {
+			public void onShow(DialogInterface dialog) {
+				InputMethodManager inputManager = (InputMethodManager) context
+						.getSystemService(Context.INPUT_METHOD_SERVICE);
+				inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
+			}
+		};
 	}
 }

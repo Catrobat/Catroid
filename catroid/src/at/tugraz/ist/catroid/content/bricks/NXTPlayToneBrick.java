@@ -39,6 +39,7 @@ import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class NXTPlayToneBrick implements Brick, OnDismissListener, OnClickListener, OnSeekBarChangeListener {
 	private static final long serialVersionUID = 1L;
@@ -253,6 +254,9 @@ public class NXTPlayToneBrick implements Brick, OnDismissListener, OnClickListen
 			}
 		});
 
-		dialog.show();
+		AlertDialog finishedDialog = dialog.create();
+		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
+
+		finishedDialog.show();
 	}
 }

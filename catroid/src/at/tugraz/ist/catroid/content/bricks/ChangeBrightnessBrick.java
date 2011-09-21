@@ -30,6 +30,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class ChangeBrightnessBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
@@ -107,7 +108,9 @@ public class ChangeBrightnessBrick implements Brick, OnClickListener {
 			}
 		});
 
-		dialog.show();
+		AlertDialog finishedDialog = dialog.create();
+		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
 
+		finishedDialog.show();
 	}
 }
