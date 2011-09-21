@@ -29,7 +29,6 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public class StopAllSoundsBrick implements Brick {
 	private static final long serialVersionUID = 1L;
-	public static final int REQUIRED_RESSOURCES = SOUND_MANAGER;
 
 	private Sprite sprite;
 
@@ -41,7 +40,7 @@ public class StopAllSoundsBrick implements Brick {
 	}
 
 	public int getRequiredResources() {
-		return SOUND_MANAGER;
+		return NO_RESOURCES;
 	}
 
 	public void execute() {
