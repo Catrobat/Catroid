@@ -35,7 +35,6 @@ import at.tugraz.ist.catroid.stage.NativeAppActivity;
 
 public class PlaySoundBrick implements Brick, Serializable, OnItemSelectedListener {
 	private static final long serialVersionUID = 1L;
-	public static final int REQUIRED_RESSOURCES = TEXT_TO_SPEECH;
 
 	private SoundInfo soundInfo;
 	private Sprite sprite;
@@ -47,7 +46,7 @@ public class PlaySoundBrick implements Brick, Serializable, OnItemSelectedListen
 	}
 
 	public int getRequiredResources() {
-		return SOUND_MANAGER;
+		return NO_RESOURCES;
 	}
 
 	public void execute() {
