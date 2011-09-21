@@ -118,6 +118,7 @@ public class StageActivity extends AndroidApplication {
 		pauseOrContinue();
 		stageDialog.show();
 		//manageLoadAndFinish();
+
 	}
 
 	@Override

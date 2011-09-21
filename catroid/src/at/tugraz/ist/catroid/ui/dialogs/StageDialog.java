@@ -93,7 +93,6 @@ public class StageDialog extends Dialog {
 	}
 
 	private void backToConstructionSite() {
-		this.dismiss();
 		stageActivity.manageLoadAndFinish();
 	}
 
@@ -103,9 +102,16 @@ public class StageDialog extends Dialog {
 	}
 
 	private void restartProject() {
-		stageListener.reloadProject(stageActivity);
-
-		//Utils.displayToast(stageActivity, "Wait for iiit...to be implemented!");
+		stageListener.reloadProject(stageActivity, this);
+		synchronized (this) {
+			try {
+				this.wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		stageActivity.pauseOrContinue();
+		dismiss();
 	}
 
 	private void toggleAxes() {
