@@ -31,6 +31,7 @@ import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.SoundManager;
+import at.tugraz.ist.catroid.ui.dialogs.StageDialog;
 import at.tugraz.ist.catroid.utils.RGBA8888ToPngEncoder;
 
 import com.badlogic.gdx.ApplicationListener;
@@ -104,6 +105,8 @@ public class StageListener implements ApplicationListener {
 	private int testWidth = 0;
 	private int testHeight = 0;
 
+	private StageDialog stageDialog;
+
 	public StageListener() {
 	}
 
@@ -173,10 +176,11 @@ public class StageListener implements ApplicationListener {
 		}
 	}
 
-	public void reloadProject(Context context) {
+	public void reloadProject(Context context, StageDialog stageDialog) {
 		if (reloadProject) {
 			return;
 		}
+		this.stageDialog = stageDialog;
 		ProjectManager projectManager = ProjectManager.getInstance();
 		int currentSpritePos = projectManager.getCurrentSpritePosition();
 		int currentScriptPos = projectManager.getCurrentScriptPosition();
@@ -240,6 +244,9 @@ public class StageListener implements ApplicationListener {
 			paused = true;
 			firstStart = true;
 			reloadProject = false;
+			synchronized (stageDialog) {
+				stageDialog.notify();
+			}
 		}
 
 		stage.getRoot().sortChildren(costumeComparator);
