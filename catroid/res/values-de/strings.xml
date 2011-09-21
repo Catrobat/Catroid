@@ -203,6 +203,7 @@
     <string name="stagemenu_start">Abspielen/Pause</string>
     
 	<!-- Brick categories -->
+	<string name="categories">Kategorien</string>
 	<string name="category_motion">Bewegung</string>
 	<string name="category_looks">Aussehen</string>
 	<string name="category_sound">Klang</string>
