@@ -68,9 +68,7 @@ public class GoNStepsBackBrick implements Brick, OnClickListener {
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 
-		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_go_back, null);
-		}
+		view = View.inflate(context, R.layout.toolbox_brick_go_back, null);
 
 		EditText edit = (EditText) view.findViewById(R.id.toolbox_brick_go_back_edit_text);
 

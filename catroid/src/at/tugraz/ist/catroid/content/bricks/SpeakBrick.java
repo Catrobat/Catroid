@@ -62,9 +62,7 @@ public class SpeakBrick implements Brick {
 	}
 
 	public View getView(final Context context, int brickId, final BaseExpandableListAdapter adapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_speak, null);
-		}
+		view = View.inflate(context, R.layout.toolbox_brick_speak, null);
 
 		EditText editText = (EditText) view.findViewById(R.id.toolbox_brick_speak_edit_text);
 		editText.setText(text);

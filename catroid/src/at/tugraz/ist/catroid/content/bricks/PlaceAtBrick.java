@@ -64,9 +64,7 @@ public class PlaceAtBrick implements Brick, OnClickListener {
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 
-		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_place_at, null);
-		}
+		view = View.inflate(context, R.layout.toolbox_brick_place_at, null);
 
 		EditText editX = (EditText) view.findViewById(R.id.toolbox_brick_place_at_x_edit_text);
 		editX.setText(String.valueOf(xPosition));

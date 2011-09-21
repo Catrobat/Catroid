@@ -61,9 +61,7 @@ public class ChangeSizeByNBrick implements Brick, OnClickListener {
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 
-		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_change_size_by_n, null);
-		}
+		view = View.inflate(context, R.layout.toolbox_brick_change_size_by_n, null);
 
 		EditText edit = (EditText) view.findViewById(R.id.toolbox_brick_change_size_by_edit_text);
 		edit.setText(String.valueOf(size));

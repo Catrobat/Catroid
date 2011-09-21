@@ -71,9 +71,7 @@ public class WaitBrick implements Brick, OnClickListener {
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_wait, null);
-		}
+		view = View.inflate(context, R.layout.toolbox_brick_wait, null);
 
 		EditText edit = (EditText) view.findViewById(R.id.toolbox_brick_wait_edit_text);
 		edit.setText((timeToWaitInMilliSeconds / 1000.0) + "");

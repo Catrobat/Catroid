@@ -62,9 +62,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 
-		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_repeat, null);
-		}
+		view = View.inflate(context, R.layout.toolbox_brick_repeat, null);
 
 		EditText edit = (EditText) view.findViewById(R.id.toolbox_brick_repeat_edit_text);
 		edit.setText(timesToRepeat + "");

@@ -69,9 +69,8 @@ public class ChangeVolumeByBrick implements Brick, OnClickListener {
 	}
 
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_change_volume_by, null);
-		}
+
+		view = View.inflate(context, R.layout.toolbox_brick_change_volume_by, null);
 
 		EditText edit = (EditText) view.findViewById(R.id.toolbox_brick_change_volume_by_edit_text);
 		edit.setText(String.valueOf(volume));

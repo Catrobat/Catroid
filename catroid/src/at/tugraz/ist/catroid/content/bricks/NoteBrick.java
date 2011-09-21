@@ -65,9 +65,7 @@ public class NoteBrick implements Brick {
 
 	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
 
-		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_note, null);
-		}
+		view = View.inflate(context, R.layout.toolbox_brick_note, null);
 
 		EditText editText = (EditText) view.findViewById(R.id.toolbox_brick_note_edit_text);
 		editText.setText(note);
