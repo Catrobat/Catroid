@@ -61,11 +61,12 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 	public void testBackButtonPressedTwice() {
 
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		solo.sleep(1000);
 		solo.goBack();
 
 		solo.goBack();
 
-		solo.assertCurrentActivity("Program is not in stage activity", StageActivity.class);
+		solo.assertCurrentActivity("Program is not in stage activity", MainMenuActivity.class);
 	}
 
 	public void testBackToPreviousActivity() throws NameNotFoundException, IOException {
@@ -78,7 +79,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
 
 		solo.goBack();
-		//	solo.clickOnButton(getActivity().getString(R.string.back_to_construction_site));
+		solo.clickOnButton(getActivity().getString(R.string.back));
 
 		solo.sleep(1000);
 		assertEquals("Not equal Activities", previousActivity, getActivity());
@@ -132,7 +133,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.sleep(500);
 		solo.goBack();
 		solo.sleep(500);
-		//	solo.clickOnButton(getActivity().getString(R.string.back_to_construction_site));
+		solo.clickOnButton(getActivity().getString(R.string.back));
 		solo.sleep(500);
 		assertEquals("Returned to wrong Activity", currentActivity, solo.getCurrentActivity());
 	}
@@ -192,7 +193,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 	public void testRestartProjectWithSound() {
 
-		String projectName = "testsoundafterrestart";
+		String projectName = UiTestUtils.PROJECTNAME1;
 		//creating sprites for project:
 		Sprite firstSprite = new Sprite("sprite1");
 		Script startScript = new StartScript("startscript", firstSprite);
@@ -229,7 +230,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.sleep(500);
 		assertFalse("Sound playing but should be paused.", mediaPlayer.isPlaying());
 		solo.clickOnButton(getActivity().getString(R.string.restart_current_project));
-		solo.sleep(500);
+		solo.sleep(100);
 		int positionAfterRestart = mediaPlayer.getCurrentPosition();
 		assertTrue("Sound not playing after stage restart.", mediaPlayer.isPlaying());
 		assertTrue("Sound did not play from start!", positionBeforeRestart > positionAfterRestart);
