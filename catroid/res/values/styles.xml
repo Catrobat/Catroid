@@ -21,6 +21,11 @@
         <item name="android:windowAnimationStyle">@style/slide_up_dialog_animation</item>     
     </style>
     
+   	<style name="settings_activity" parent="android:Theme.Light">
+    	<item name="android:windowNoTitle">true</item>
+   	    <item name="android:windowBackground">@drawable/bg_dialog</item>
+	</style>
+    
     <style name="rotate_dialog_animation">
         <item name="android:windowEnterAnimation">@anim/rotate_in_left</item>
         <item name="android:windowExitAnimation">@anim/rotate_out_left</item>

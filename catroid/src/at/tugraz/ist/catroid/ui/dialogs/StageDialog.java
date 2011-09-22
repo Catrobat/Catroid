@@ -80,6 +80,17 @@ public class StageDialog extends Dialog {
 			}
 		});
 
+		Button maximizeButton = (Button) findViewById(R.id.maximize_button);
+		if (stageActivity.getResizePossible()) {
+			maximizeButton.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+					stageActivity.changeScreenSize();
+				}
+			});
+		} else {
+			maximizeButton.setVisibility(View.GONE);
+		}
+
 		Button snapshotButton = (Button) findViewById(R.id.screenshot_button);
 		snapshotButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
@@ -102,6 +113,7 @@ public class StageDialog extends Dialog {
 	}
 
 	private void restartProject() {
+		dismiss();
 		stageListener.reloadProject(stageActivity, this);
 		synchronized (this) {
 			try {
@@ -111,7 +123,6 @@ public class StageDialog extends Dialog {
 			}
 		}
 		stageActivity.pauseOrContinue();
-		dismiss();
 	}
 
 	private void toggleAxes() {
@@ -123,5 +134,6 @@ public class StageDialog extends Dialog {
 			stageListener.axesOn = true;
 			axesToggleButton.setText(R.string.stagemenu_axes_off);
 		}
+		dismiss();
 	}
 }

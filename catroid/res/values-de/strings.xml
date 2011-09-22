@@ -176,7 +176,7 @@
 	<string name="resume_current_project">Fortsetzen</string>
 	<string name="restart_current_project">Neu starten</string>
 	<string name="stage_dialog_title">Optionen</string>
-	<string name="stagemenu_screen_size">Maximieren/Dehnen</string>
+	<string name="stagemenu_screen_size">Maximieren/\nDehnen</string>
     <string name="stagemenu_axes_on">Achsen Ein</string>
     <string name="stagemenu_axes_off">Achsen Aus</string>
     <string name="stagemenu_screenshot">Screenshot</string>
