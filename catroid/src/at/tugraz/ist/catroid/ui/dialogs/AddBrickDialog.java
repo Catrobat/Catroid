@@ -33,7 +33,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.R.string;
 import at.tugraz.ist.catroid.content.BroadcastScript;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -99,7 +98,10 @@ public class AddBrickDialog extends Dialog {
 	private String category;
 
 	private boolean isBackground(Sprite sprite) {
-		return sprite.getName().equals(scriptTabActivity.getString(string.background));
+		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(sprite) == 0) {
+			return true;
+		}
+		return false;
 	}
 
 	private void setupBrickMap(Sprite sprite) {
