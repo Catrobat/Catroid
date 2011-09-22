@@ -75,8 +75,9 @@ public class ProjectActivity extends ListActivity {
 		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 				spriteToEdit = spriteList.get(position);
-				//better make a independent object for stage (to solve problem when switching languages)
-				if (spriteToEdit.getName().equalsIgnoreCase(getString(R.string.background))) {
+
+				//as long as background sprite is always the first one, we're fine
+				if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(spriteToEdit) == 0) {
 					return true;
 				}
 				removeDialog(DIALOG_CONTEXT_MENU);
