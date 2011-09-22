@@ -55,6 +55,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	private Brick draggedBrick;
 	private OnLongClickListener longClickListener;
 	private View insertionView;
+	private int currentScriptPosition;
 
 	public BrickAdapter(Context context, Sprite sprite, DragAndDropListView listView) {
 		this.context = context;
@@ -125,7 +126,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			}
 		}
 
+		ProjectManager.getInstance().setCurrentScript(sprite.getScript(getScriptId(to)));
+		//		setCurrentScriptPosition(getScriptId(to));
+		setCurrentScriptPosition(to);
 		notifyDataSetChanged();
+
 	}
 
 	public void drop(int to) {
@@ -186,7 +191,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
-		// if group kein longclicklistener
 
 		if (getItem(position) instanceof Brick) {
 			Brick brick = (Brick) getItem(position);
@@ -224,6 +228,12 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 				view = new IfStartedBrick(sprite, (Script) getItem(position)).getView(context, position, this);
 			} else if (getItem(position) instanceof WhenScript) {
 				view = new WhenBrick(sprite, (WhenScript) getItem(position)).getView(context, position, this);
+			}
+
+			ProjectManager.getInstance().getCurrentScript();
+
+			if (position == currentScriptPosition) {
+				view.setBackgroundResource(R.drawable.brick_touched_current);
 			}
 			return view;
 		}
@@ -266,8 +276,14 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 	public void setTouchedScript(int index) {
 
-		if (!isBrick(index)) {
-			ProjectManager.getInstance().setCurrentScript(sprite.getScript(getScriptId(index)));
-		}
+		//		if (!isBrick(index)) {
+		ProjectManager.getInstance().setCurrentScript(sprite.getScript(getScriptId(index)));
+		setCurrentScriptPosition(index);
+		//		}
+
+	}
+
+	public void setCurrentScriptPosition(int position) {
+		currentScriptPosition = position;
 	}
 }
