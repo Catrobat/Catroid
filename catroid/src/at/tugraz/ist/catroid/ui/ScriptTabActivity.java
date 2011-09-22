@@ -39,6 +39,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.SoundInfo;
+import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
@@ -80,8 +81,9 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener 
 		setupTab(R.drawable.ic_tab_scripts, this.getString(R.string.scripts), intent);
 		intent = new Intent().setClass(this, CostumeActivity.class);
 		int costumeIcon;
-		if (ProjectManager.getInstance().getCurrentSprite().getName()
-				.equalsIgnoreCase(this.getString(R.string.background))) {
+
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(currentSprite) == 0) {
 			costumeIcon = R.drawable.ic_tab_background;
 		} else {
 			costumeIcon = R.drawable.ic_tab_costumes;
