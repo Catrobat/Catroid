@@ -94,21 +94,21 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		touchPointY = (int) event.getRawY();
 
 		// Begin to set Script
-		int x = (int) event.getX();
-		int y = (int) event.getY();
-
-		if (y < 0) {
-			y = 0;
-		}
-		if (y > getHeight()) {
-			y = getHeight();
-		}
-
-		int itemPosition = pointToPosition(x, y);
-
-		if (dragAndDropListener != null) {
-			dragAndDropListener.setTouchedScript(itemPosition);
-		}
+		//		int x = (int) event.getX();
+		//		int y = (int) event.getY();
+		//
+		//		if (y < 0) {
+		//			y = 0;
+		//		}
+		//		if (y > getHeight()) {
+		//			y = getHeight();
+		//		}
+		//
+		//		int itemPosition = pointToPosition(x, y);
+		//
+		//		if (dragAndDropListener != null) {
+		//			dragAndDropListener.setTouchedScript(itemPosition);
+		//		}
 		// End
 
 		return super.onInterceptTouchEvent(event);
@@ -131,6 +131,11 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 
 		if (touchedListPosition != itemPosition) {
 			touchedListPosition = itemPosition;
+			// Begin
+			if (dragAndDropListener != null) {
+				dragAndDropListener.setTouchedScript(touchedListPosition);
+			}
+			// End
 		}
 
 		if (dragAndDropListener != null && dragView != null) {
