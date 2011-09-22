@@ -56,6 +56,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 		adapter = new BrickAdapter(this, sprite, listView);
 		if (adapter.getScriptCount() > 0) {
 			ProjectManager.getInstance().setCurrentScript((Script) adapter.getItem(0));
+			adapter.setCurrentScriptPosition(0);
 		}
 
 		listView.setTrashView((ImageView) findViewById(R.id.trash));
