@@ -25,7 +25,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import android.content.Context;
-import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
@@ -112,15 +111,6 @@ public class StageListener implements ApplicationListener {
 	}
 
 	public void create() {
-
-		//		synchronized (StageActivity.mutex) {
-		//			try {
-		//				StageActivity.mutex.wait();
-		//			} catch (InterruptedException e) {
-		//				// TODO Auto-generated catch block
-		//				e.printStackTrace();
-		//			}
-		//		}
 
 		font = new BitmapFont();
 		font.setColor(1f, 0f, 0.05f, 1f);
@@ -234,19 +224,6 @@ public class StageListener implements ApplicationListener {
 	}
 
 	public void render() {
-
-		synchronized (StageActivity.mutex) {
-			if (StageActivity.getResourceWaitCounter() > 0) {
-				try {
-					Log.i("bt", "Wait for resources before rendering starts!");
-					StageActivity.mutex.wait();
-					Log.i("bt", "Resources initialized! Start rendering.");
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
 
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 

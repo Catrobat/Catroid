@@ -28,6 +28,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -38,6 +39,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.SoundInfo;
+import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
 import at.tugraz.ist.catroid.ui.dialogs.BrickCategoryDialog;
@@ -116,10 +118,19 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener 
 
 		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, new View.OnClickListener() {
 			public void onClick(View v) {
-				Intent intent = new Intent(ScriptTabActivity.this, StageActivity.class);
-				startActivity(intent);
+				Intent intent = new Intent(ScriptTabActivity.this, PreStageActivity.class);
+				startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 			}
 		}, false);
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		Log.i("bt", "MMA: " + requestCode + " result code" + resultCode);
+		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
+			Intent intent = new Intent(ScriptTabActivity.this, StageActivity.class);
+			startActivity(intent);
+		}
 	}
 
 	private void setupTab(Integer drawableId, final String tag, Intent intent) {
