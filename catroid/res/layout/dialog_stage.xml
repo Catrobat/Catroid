@@ -29,6 +29,17 @@
 	android:paddingLeft="5dip"
 >
 	<!-- Menu buttons -->
+	<ScrollView
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+	>	
+		<LinearLayout
+			xmlns:android="http://schemas.android.com/apk/res/android"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:orientation="vertical"
+		>
 			<Button
 				android:id="@+id/back_to_construction_site_button"
 				android:text="@string/back"
@@ -69,6 +80,16 @@
 				android:drawableTop="@drawable/axes_selector"
 				android:paddingTop="20dip"
 			></Button>
+			<Button	
+				android:id="@+id/maximize_button"
+				android:text="@string/stagemenu_screen_size"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:background="@null"
+				android:drawableTop="@drawable/maximize_selector"
+				android:paddingTop="20dip"
+			></Button>
 			<Button
 				android:id="@+id/screenshot_button"
 				android:text="@string/stagemenu_screenshot"
@@ -80,4 +101,6 @@
 				android:paddingTop="20dip"
 				android:paddingBottom="10dip"
 			></Button>
+		</LinearLayout>
+	</ScrollView>			
 </LinearLayout>

@@ -31,8 +31,6 @@ import android.os.Message;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -74,14 +72,14 @@ public class StageActivity extends AndroidApplication {
 		int required_resources = getRequiredRessources();
 		int mask = 0x1;
 		int value = required_resources;
-		boolean noResources = true;
+		//		boolean noResources = true;
 
 		while (value > 0) {
 			if ((mask & required_resources) > 0) {
 				Log.i("bt", "res required: " + mask);
 				requiredResourceCounter++;
 				Log.i("bt", "" + requiredResourceCounter);
-				noResources = false;
+				//				noResources = false;
 			}
 			value = value >> 1;
 			mask = mask << 1;
@@ -206,49 +204,48 @@ public class StageActivity extends AndroidApplication {
 		}
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		getMenuInflater().inflate(R.menu.stage_menu, menu);
-		if (!resizePossible) {
-			menu.removeItem(R.id.stagemenuScreenSize);
-		}
-
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.stagemenuStart:
-				pauseOrContinue();
-				break;
-			case R.id.stagemenuConstructionSite:
-				manageLoadAndFinish();
-				break;
-			case R.id.stagemenuScreenSize:
-				changeScreenSize();
-				break;
-			case R.id.stagemenuAxes:
-				toggleAxes();
-				break;
-			case R.id.stagemenuScreenshot:
-				if (stageListener.makeScreenshot()) {
-					Toast.makeText(this, this.getString(R.string.notification_screenshot_ok), Toast.LENGTH_SHORT)
-							.show();
-				} else {
-					Toast.makeText(this, this.getString(R.string.error_screenshot_failed), Toast.LENGTH_SHORT).show();
-				}
-				break;
-		}
-		return true;
-	}
+	//	@Override
+	//	public boolean onCreateOptionsMenu(Menu menu) {
+	//		super.onCreateOptionsMenu(menu);
+	//		getMenuInflater().inflate(R.menu.stage_menu, menu);
+	//		if (!resizePossible) {
+	//			menu.removeItem(R.id.stagemenuScreenSize);
+	//		}
+	//
+	//		return true;
+	//	}
+	//
+	//	@Override
+	//	public boolean onOptionsItemSelected(MenuItem item) {
+	//		switch (item.getItemId()) {
+	//			case R.id.stagemenuStart:
+	//				pauseOrContinue();
+	//				break;
+	//			case R.id.stagemenuConstructionSite:
+	//				manageLoadAndFinish();
+	//				break;
+	//			case R.id.stagemenuScreenSize:
+	//				changeScreenSize();
+	//				break;
+	//			case R.id.stagemenuAxes:
+	//				toggleAxes();
+	//				break;
+	//			case R.id.stagemenuScreenshot:
+	//				if (stageListener.makeScreenshot()) {
+	//					Toast.makeText(this, this.getString(R.string.notification_screenshot_ok), Toast.LENGTH_SHORT)
+	//							.show();
+	//				} else {
+	//					Toast.makeText(this, this.getString(R.string.error_screenshot_failed), Toast.LENGTH_SHORT).show();
+	//				}
+	//				break;
+	//		}
+	//		return true;
+	//	}
 
 	@Override
 	public void onBackPressed() {
 		pauseOrContinue();
 		stageDialog.show();
-		//manageLoadAndFinish();
 	}
 
 	@Override
@@ -281,7 +278,7 @@ public class StageActivity extends AndroidApplication {
 		finish();
 	}
 
-	private void changeScreenSize() {
+	public void changeScreenSize() {
 		switch (stageListener.screenMode) {
 			case Consts.MAXIMIZE:
 				stageListener.screenMode = Consts.STRETCH;
@@ -334,6 +331,10 @@ public class StageActivity extends AndroidApplication {
 
 	public void makeToast(String text) {
 		Toast.makeText(this.getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+	}
+
+	public boolean getResizePossible() {
+		return resizePossible;
 	}
 
 	//messages from Lego NXT device can be handled here
