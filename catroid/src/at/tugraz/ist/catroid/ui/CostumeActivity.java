@@ -34,6 +34,7 @@ import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.adapter.CostumeAdapter;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
@@ -75,8 +76,8 @@ public class CostumeActivity extends ListActivity {
 			activityHelper.changeClickListener(R.id.btn_action_add_sprite, createAddCostumeClickListener());
 			//set new icon for actionbar plus button:
 			int addButtonIcon;
-			if (ProjectManager.getInstance().getCurrentSprite().getName()
-					.equalsIgnoreCase(this.getString(R.string.background))) {
+			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+			if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(currentSprite) == 0) {
 				addButtonIcon = R.drawable.ic_background;
 			} else {
 				addButtonIcon = R.drawable.ic_shirt;
