@@ -55,6 +55,7 @@ public class MainMenuActivity extends Activity {
 	private static final String PREF_PROJECTNAME_KEY = "projectName";
 	private ProjectManager projectManager;
 	private ActivityHelper activityHelper = new ActivityHelper(this);
+	private TextView titleText;
 	private static final int DIALOG_NEW_PROJECT = 0;
 	private static final int DIALOG_LOAD_PROJECT = 1;
 	public static final int DIALOG_UPLOAD_PROJECT = 2;
@@ -88,7 +89,9 @@ public class MainMenuActivity extends Activity {
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-		activityHelper.setupActionBar(true, null);
+		String title = this.getResources().getString(R.string.project_name) + " "
+				+ projectManager.getCurrentProject().getName();
+		activityHelper.setupActionBar(true, title);
 		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, new View.OnClickListener() {
 			public void onClick(View v) {
 				if (projectManager.getCurrentProject() != null) {
@@ -98,6 +101,7 @@ public class MainMenuActivity extends Activity {
 				}
 			}
 		}, false);
+		this.titleText = (TextView) findViewById(R.id.tv_title);
 	}
 
 	@Override
@@ -180,6 +184,9 @@ public class MainMenuActivity extends Activity {
 		}
 
 		projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
+		String title = this.getResources().getString(R.string.project_name) + " "
+				+ projectManager.getCurrentProject().getName();
+		titleText.setText(title);
 	}
 
 	@Override

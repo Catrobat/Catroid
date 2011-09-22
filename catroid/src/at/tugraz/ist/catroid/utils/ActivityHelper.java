@@ -66,6 +66,7 @@ public class ActivityHelper {
 			imageButton.setBackgroundResource(0);
 			imageButton.setScaleType(ImageView.ScaleType.CENTER);
 			imageButton.setClickable(false);
+
 			actionBar.addView(imageButton);
 		} else {
 			imageButton.setId(R.id.btn_action_home);
@@ -85,35 +86,36 @@ public class ActivityHelper {
 
 			actionBar.addView(imageButton);
 
-			ImageView separator = new ImageView(activity);
-			separator.setBackgroundResource(R.drawable.actionbar_separator);
-			separator.setLayoutParams(new ViewGroup.LayoutParams(2, ViewGroup.LayoutParams.FILL_PARENT));
-
-			actionBar.addView(separator);
-
-			LinearLayout.LayoutParams textViewLayout = new LinearLayout.LayoutParams(
-					ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.FILL_PARENT);
-			int maxWidth = (int) activity.getResources().getDimension(R.dimen.actionbar_height) * 3;
-			final TextView titleText = new TextView(activity);
-			titleText.setLayoutParams(textViewLayout);
-			titleText.setText(title);
-			titleText.setMaxWidth(maxWidth);
-			titleText.setGravity(Gravity.CENTER_VERTICAL);
-			titleText.setTypeface(null, Typeface.BOLD);
-			titleText.setTextColor(Color.BLACK);
-			titleText.setMaxLines(2);
-			titleText.setEllipsize(TextUtils.TruncateAt.END);
-			titleText.setPadding(10, 0, 0, 0);
-
-			titleText.setOnClickListener(new View.OnClickListener() {
-
-				public void onClick(View v) {
-					Utils.displayToast(activity, titleText.getText().toString());
-				}
-			});
-
-			actionBar.addView(titleText);
 		}
+		ImageView separator = new ImageView(activity);
+		separator.setBackgroundResource(R.drawable.actionbar_separator);
+		separator.setLayoutParams(new ViewGroup.LayoutParams(2, ViewGroup.LayoutParams.FILL_PARENT));
+
+		actionBar.addView(separator);
+
+		LinearLayout.LayoutParams textViewLayout = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+				ViewGroup.LayoutParams.FILL_PARENT);
+		int maxWidth = (int) activity.getResources().getDimension(R.dimen.actionbar_height) * 3;
+		final TextView titleText = new TextView(activity);
+		titleText.setLayoutParams(textViewLayout);
+		titleText.setId(R.id.tv_title);
+		titleText.setText(title);
+		titleText.setMaxWidth(maxWidth);
+		titleText.setGravity(Gravity.CENTER_VERTICAL);
+		titleText.setTypeface(null, Typeface.BOLD);
+		titleText.setTextColor(Color.BLACK);
+		titleText.setMaxLines(2);
+		titleText.setEllipsize(TextUtils.TruncateAt.END);
+		titleText.setPadding(10, 0, 0, 0);
+
+		titleText.setOnClickListener(new View.OnClickListener() {
+
+			public void onClick(View v) {
+				Utils.displayToast(activity, titleText.getText().toString());
+			}
+		});
+
+		actionBar.addView(titleText);
 
 		//spring layout ensures that all consecutive items are added at the far right side of the actionbar
 		springLayoutParams.weight = 1;
