@@ -149,7 +149,6 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			sprite.getScript(getScriptId(index)).removeBrick(loopEndBrick.getLoopBeginBrick());
 		}
 
-		Log.d("Tester", "BA. remove(index): " + index);
 		sprite.getScript(getScriptId(index)).removeBrick(draggedBrick);
 
 		draggedBrick = null;
@@ -231,11 +230,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 				view = new WhenBrick(sprite, (WhenScript) getItem(position)).getView(context, position, this);
 			}
 
-			//			ProjectManager.getInstance().getCurrentScript();
-			//
-			//			if (position == currentScriptPosition) {
-			//				view.setBackgroundResource(R.drawable.brick_touched_current);
-			//			}
+			ProjectManager.getInstance().getCurrentScript();
+
+			if (position == currentScriptPosition) {
+				view.setBackgroundResource(R.drawable.brick_touched_current);
+			}
 			return view;
 		}
 	}
@@ -281,9 +280,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			if (!isBrick(index)) {
 				ProjectManager.getInstance().setCurrentScript(sprite.getScript(getScriptId(index)));
 				setCurrentScriptPosition(index);
+				notifyDataSetChanged();
 			}
 		}
-
 	}
 
 	public void setCurrentScriptPosition(int position) {
