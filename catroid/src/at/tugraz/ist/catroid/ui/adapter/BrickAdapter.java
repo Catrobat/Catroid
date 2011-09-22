@@ -149,6 +149,7 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			sprite.getScript(getScriptId(index)).removeBrick(loopEndBrick.getLoopBeginBrick());
 		}
 
+		Log.d("Tester", "BA. remove(index): " + index);
 		sprite.getScript(getScriptId(index)).removeBrick(draggedBrick);
 
 		draggedBrick = null;
@@ -288,4 +289,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	public void setCurrentScriptPosition(int position) {
 		currentScriptPosition = position;
 	}
+
+	public int getSpriteSize() {
+		return sprite.getScriptCount();
+	}
+
 }
