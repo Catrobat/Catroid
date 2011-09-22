@@ -126,9 +126,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 			}
 		}
 
-		ProjectManager.getInstance().setCurrentScript(sprite.getScript(getScriptId(to)));
+		//		ProjectManager.getInstance().setCurrentScript(sprite.getScript(getScriptId(to)));
 		//		setCurrentScriptPosition(getScriptId(to));
-		setCurrentScriptPosition(to);
+		//		setCurrentScriptPosition(to);
 		notifyDataSetChanged();
 
 	}
@@ -230,11 +230,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 				view = new WhenBrick(sprite, (WhenScript) getItem(position)).getView(context, position, this);
 			}
 
-			ProjectManager.getInstance().getCurrentScript();
-
-			if (position == currentScriptPosition) {
-				view.setBackgroundResource(R.drawable.brick_touched_current);
-			}
+			//			ProjectManager.getInstance().getCurrentScript();
+			//
+			//			if (position == currentScriptPosition) {
+			//				view.setBackgroundResource(R.drawable.brick_touched_current);
+			//			}
 			return view;
 		}
 	}
@@ -276,10 +276,12 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 	public void setTouchedScript(int index) {
 
-		//		if (!isBrick(index)) {
-		ProjectManager.getInstance().setCurrentScript(sprite.getScript(getScriptId(index)));
-		setCurrentScriptPosition(index);
-		//		}
+		if (!(index < 0)) {
+			if (!isBrick(index)) {
+				ProjectManager.getInstance().setCurrentScript(sprite.getScript(getScriptId(index)));
+				setCurrentScriptPosition(index);
+			}
+		}
 
 	}
 
