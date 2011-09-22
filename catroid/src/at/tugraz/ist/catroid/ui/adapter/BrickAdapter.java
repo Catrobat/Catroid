@@ -265,7 +265,9 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 	}
 
 	public void setTouchedScript(int index) {
-		ProjectManager.getInstance().setCurrentScript(sprite.getScript(getScriptId(index)));
-	}
 
+		if (!isBrick(index)) {
+			ProjectManager.getInstance().setCurrentScript(sprite.getScript(getScriptId(index)));
+		}
+	}
 }
