@@ -34,6 +34,7 @@ import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.adapter.SpriteAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.CustomIconContextMenu;
@@ -143,20 +144,24 @@ public class ProjectActivity extends ListActivity {
 
 		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, new View.OnClickListener() {
 			public void onClick(View v) {
-				Intent intent = new Intent(ProjectActivity.this, StageActivity.class);
-				startActivity(intent);
-			}
-		}, false);
-	}
-
-	@Override
-	protected void onStart() {
+				Intent intent = new Intent(ProjectActivity.this, 				Intent intent = new Intent(ProjectActivity.this, PreStageActivity.class);
+				startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
+art() {
 		super.onStart();
 		initListeners();
 		initCustomContextMenu();
 	}
 
+	@Overrid	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		Log.i("bt", "MMA: " + requestCode + " result code" + resultCode);
+		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
+			Intent intent = new Intent(ProjectActivity.this, StageActivity.class);
+			startActivity(intent);
+		}
+	}
+
 	@Override
+e
 	protected Dialog onCreateDialog(int id) {
 		final Dialog dialog;
 		switch (id) {

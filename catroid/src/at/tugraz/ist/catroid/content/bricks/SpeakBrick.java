@@ -28,7 +28,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.stage.StageActivity;
+import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class SpeakBrick implements Brick {
@@ -51,7 +51,7 @@ public class SpeakBrick implements Brick {
 	}
 
 	public void execute() {
-		StageActivity.textToSpeech(getText());
+		PreStageActivity.textToSpeech(getText());
 	}
 
 	public Sprite getSprite() {
