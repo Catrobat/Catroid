@@ -40,7 +40,7 @@ public class Project implements Serializable {
 	private String versionName;
 	@SuppressWarnings("unused")
 	private int versionCode;
-	
+
 	private String screenResolution;
 	public transient int VIRTUAL_SCREEN_WIDTH = 0;
 	public transient int VIRTUAL_SCREEN_HEIGHT = 0;
@@ -57,6 +57,7 @@ public class Project implements Serializable {
 		}
 
 		Sprite background = new Sprite(context.getString(R.string.background));
+		background.costume.zPosition = Integer.MIN_VALUE;
 		addSprite(background);
 
 		versionName = Utils.getVersionName(context);
