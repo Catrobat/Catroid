@@ -36,6 +36,7 @@
 		android:textColor="@color/white"
 		android:textSize="18dip"
 		android:textStyle="bold"
+		android:paddingRight="40dip"
 	>
 	</TextView>
 	<TextView
@@ -65,7 +66,7 @@
 		android:focusableInTouchMode="false"
 		android:gravity="right"
 		android:inputType="number|numberDecimal"
-		android:maxLength="5"
+		android:maxLength="6"
 		android:maxLines="1"
 	>
 	</EditText>
