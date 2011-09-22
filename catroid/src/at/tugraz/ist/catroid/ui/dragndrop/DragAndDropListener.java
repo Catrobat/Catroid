@@ -27,4 +27,6 @@ public interface DragAndDropListener {
 	void remove(int index);
 
 	void setTouchedScript(int index);
+
+	int getSpriteSize();
 }

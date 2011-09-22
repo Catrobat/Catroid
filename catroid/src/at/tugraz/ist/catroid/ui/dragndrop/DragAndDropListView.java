@@ -26,6 +26,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -136,6 +137,8 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 				dragAndDropListener.setTouchedScript(touchedListPosition);
 			}
 			// End
+
+			Log.d("Tester", "DAD.itemPosition: " + itemPosition);
 		}
 
 		if (dragAndDropListener != null && dragView != null) {
@@ -153,6 +156,9 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 					trashView.setVisibility(View.GONE);
 
 					if (x > getWidth() * 3 / 4) {
+						if (itemPosition < 0) {
+							itemPosition = dragAndDropListener.getSpriteSize() - 1;
+						}
 						dragAndDropListener.remove(itemPosition);
 					} else {
 						dragAndDropListener.drop(itemPosition);
