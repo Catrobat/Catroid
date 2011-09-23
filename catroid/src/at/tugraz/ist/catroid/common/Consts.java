@@ -52,5 +52,6 @@ public final class Consts {
 	//Various:
 	public static final int BUFFER_8K = 8 * 1024;
 	public static final String PAINTROID_DOWNLOAD_LINK = "https://code.google.com/p/catroid/downloads/detail?name=Paintroid_0.6.4b.apk&can=2&q=";
+	public static final String PASSWORD_FORGOTTEN_PATH = "catroid/passwordrecovery?username=";
 
 }
