@@ -156,9 +156,6 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 					trashView.setVisibility(View.GONE);
 
 					if (x > getWidth() * 3 / 4) {
-						if (itemPosition < 0) {
-							itemPosition = dragAndDropListener.getSpriteSize() - 1;
-						}
 						dragAndDropListener.remove(itemPosition);
 					} else {
 						dragAndDropListener.drop(itemPosition);

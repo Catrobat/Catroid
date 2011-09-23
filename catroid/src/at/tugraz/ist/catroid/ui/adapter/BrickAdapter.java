@@ -140,6 +140,12 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 	public void remove(int index) {
 
+		Log.d("Tester", "index: " + index);
+
+		if (index < 0) {
+			index = getBrickPosition();
+		}
+
 		if (draggedBrick instanceof LoopBeginBrick) {
 			LoopBeginBrick loopBeginBrick = (LoopBeginBrick) draggedBrick;
 			sprite.getScript(getScriptId(index)).removeBrick(loopBeginBrick.getLoopEndBrick());
@@ -291,6 +297,16 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener {
 
 	public int getSpriteSize() {
 		return sprite.getScriptCount();
+	}
+
+	private int getBrickPosition() {
+		int brickCount = 0;
+
+		for (int count = 0; count < sprite.getScriptCount(); count++) {
+			brickCount += sprite.getScript(count).getBrickList().size() + 1;
+		}
+
+		return brickCount - 1;
 	}
 
 }

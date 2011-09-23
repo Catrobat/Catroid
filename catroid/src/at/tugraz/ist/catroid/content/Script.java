@@ -87,7 +87,11 @@ public abstract class Script implements Serializable {
 
 	public void removeBrick(Brick brick) {
 		Log.d("Tester", "Size: " + brickList.size());
-		brickList.remove(brick);
+		if (brickList.remove(brick)) {
+			Log.d("Tester", "removeBrick: true");
+		} else {
+			Log.d("Tester", "removeBrick: false");
+		}
 	}
 
 	public ArrayList<Brick> getBrickList() {
