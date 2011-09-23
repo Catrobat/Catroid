@@ -26,7 +26,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -94,24 +93,6 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 
 		touchPointY = (int) event.getRawY();
 
-		// Begin to set Script
-		//		int x = (int) event.getX();
-		//		int y = (int) event.getY();
-		//
-		//		if (y < 0) {
-		//			y = 0;
-		//		}
-		//		if (y > getHeight()) {
-		//			y = getHeight();
-		//		}
-		//
-		//		int itemPosition = pointToPosition(x, y);
-		//
-		//		if (dragAndDropListener != null) {
-		//			dragAndDropListener.setTouchedScript(itemPosition);
-		//		}
-		// End
-
 		return super.onInterceptTouchEvent(event);
 	}
 
@@ -132,13 +113,10 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 
 		if (touchedListPosition != itemPosition) {
 			touchedListPosition = itemPosition;
-			// Begin
 			if (dragAndDropListener != null) {
 				dragAndDropListener.setTouchedScript(touchedListPosition);
 			}
-			// End
 
-			Log.d("Tester", "DAD.itemPosition: " + itemPosition);
 		}
 
 		if (dragAndDropListener != null && dragView != null) {

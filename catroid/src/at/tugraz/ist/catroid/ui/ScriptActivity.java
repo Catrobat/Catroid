@@ -173,6 +173,7 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 				int lastScriptIndex = sprite.getNumberOfScripts() - 1;
 				Script lastScript = sprite.getScript(lastScriptIndex);
 				ProjectManager.getInstance().setCurrentScript(lastScript);
+				adapter.setCurrentScriptPosition(lastScriptIndex);
 				adapter.notifyDataSetChanged();
 			}
 		}

@@ -21,7 +21,6 @@ package at.tugraz.ist.catroid.content;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import android.util.Log;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
 
@@ -75,23 +74,16 @@ public abstract class Script implements Serializable {
 		if (brick != null) {
 			brickList.add(brick);
 		}
-		Log.d("Tester", "AddBrick1");
 	}
 
 	public void addBrick(int position, Brick brick) {
 		if (brick != null) {
 			brickList.add(position, brick);
 		}
-		Log.d("Tester", "AddBrick2");
 	}
 
 	public void removeBrick(Brick brick) {
-		Log.d("Tester", "Size: " + brickList.size());
-		if (brickList.remove(brick)) {
-			Log.d("Tester", "removeBrick: true");
-		} else {
-			Log.d("Tester", "removeBrick: false");
-		}
+		brickList.remove(brick);
 	}
 
 	public ArrayList<Brick> getBrickList() {
