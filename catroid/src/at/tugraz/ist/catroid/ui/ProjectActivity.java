@@ -148,9 +148,6 @@ public class ProjectActivity extends ListActivity {
 				startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 			}
 		}, false);
-		super.onStart();
-		initListeners();
-		initCustomContextMenu();
 	}
 
 	@Override
@@ -160,6 +157,13 @@ public class ProjectActivity extends ListActivity {
 			Intent intent = new Intent(ProjectActivity.this, StageActivity.class);
 			startActivity(intent);
 		}
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		initListeners();
+		initCustomContextMenu();
 	}
 
 	@Override
