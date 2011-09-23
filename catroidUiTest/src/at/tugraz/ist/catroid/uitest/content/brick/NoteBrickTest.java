@@ -100,15 +100,15 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 		assertEquals("Wrong text in field.", "", note);
 
+		//used testString again, cause robotium can't find button otherwise....
 		solo.clickOnEditText(0);
-		solo.enterText(0, testString2);
+		solo.enterText(0, testString);
 		solo.goBack();
 		solo.clickOnButton(0);
 		solo.sleep(300);
-
 		note = UiTestUtils.getPrivateField("note", noteBrick).toString();
 
-		assertEquals("Wrong text in field.", testString2, note);
+		assertEquals("Wrong text in field.", testString, note);
 
 	}
 
