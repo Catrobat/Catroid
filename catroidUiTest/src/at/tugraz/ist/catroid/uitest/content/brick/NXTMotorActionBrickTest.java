@@ -88,6 +88,7 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, setSpeed + "");
+		solo.goBack();
 		solo.clickOnButton(0);
 
 		solo.sleep(300);

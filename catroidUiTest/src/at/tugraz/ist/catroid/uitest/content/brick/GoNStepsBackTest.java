@@ -87,6 +87,7 @@ public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptAct
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, stepsToGoBack + "");
+		solo.goBack();
 		solo.clickOnButton(0);
 
 		solo.sleep(300);
