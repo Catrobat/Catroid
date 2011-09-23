@@ -197,10 +197,7 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 	@Override
 	public void destroyNXTconnection() throws IOException {
 
-		//Stop all motors before closing connection
-		moveMotor(0, 0, 0);
-		moveMotor(1, 0, 0);
-		moveMotor(2, 0, 0);
+		stopAllNXTMovement();
 
 		try {
 			if (nxtBTsocket != null) {
@@ -219,6 +216,16 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 				sendToast(mResources.getString(R.string.problem_at_closing));
 			}
 		}
+	}
+
+	public void stopAllNXTMovement() {
+		myHandler.removeMessages(0);
+		myHandler.removeMessages(1);
+		myHandler.removeMessages(2);
+
+		moveMotor(0, 0, 0);
+		moveMotor(1, 0, 0);
+		moveMotor(2, 0, 0);
 	}
 
 	/**
