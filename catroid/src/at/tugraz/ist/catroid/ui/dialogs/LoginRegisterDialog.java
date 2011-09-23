@@ -22,6 +22,8 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,9 +31,10 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.transfers.RegistrationTask;
+import at.tugraz.ist.catroid.web.ServerCalls;
 
 public class LoginRegisterDialog extends Dialog implements OnClickListener {
 	private final Activity activity;
@@ -81,17 +84,21 @@ public class LoginRegisterDialog extends Dialog implements OnClickListener {
 
 	public void onClick(View v) {
 
+		String username;
 		switch (v.getId()) {
 			case R.id.login_register_button:
-				String username = usernameEditText.getText().toString();
+				username = usernameEditText.getText().toString();
 				String password = passwordEditText.getText().toString();
 
 				new RegistrationTask(activity, username, password, this).execute();
 
 				break;
 			case R.id.password_forgotten_button:
-				Toast.makeText(activity, "not implemented", Toast.LENGTH_SHORT).show();
-				dismiss();
+				username = usernameEditText.getText().toString();
+				String baseUrl = ServerCalls.useTestUrl ? ServerCalls.BASE_URL_TEST : ServerCalls.BASE_URL;
+				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(baseUrl
+						+ Consts.PASSWORD_FORGOTTEN_PATH + username));
+				activity.startActivity(browserIntent);
 				break;
 		}
 	}
