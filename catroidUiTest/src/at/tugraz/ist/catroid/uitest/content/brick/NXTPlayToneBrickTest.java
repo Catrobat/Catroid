@@ -89,6 +89,7 @@ public class NXTPlayToneBrickTest extends ActivityInstrumentationTestCase2<Scrip
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, setDuration + "");
+		solo.goBack();
 		solo.clickOnButton(0);
 
 		solo.sleep(300);
@@ -102,6 +103,7 @@ public class NXTPlayToneBrickTest extends ActivityInstrumentationTestCase2<Scrip
 		solo.clickOnEditText(1);
 		solo.clearEditText(0);
 		solo.enterText(0, setFrequency + "");
+		solo.goBack();
 		solo.clickOnButton(0);
 
 		solo.sleep(300);

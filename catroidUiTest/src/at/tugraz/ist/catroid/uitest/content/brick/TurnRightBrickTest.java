@@ -83,6 +83,7 @@ public class TurnRightBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, turnDegrees + "");
+		solo.goBack();
 		solo.clickOnButton(0);
 
 		solo.sleep(1000);

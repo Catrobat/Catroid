@@ -100,7 +100,7 @@ public class BrickExceptionOnDialogTest extends ActivityInstrumentationTestCase2
 		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
 	}
 
-	public void testChangeBrithnessBrick() {
+	public void testChangeBrightnessBrick() {
 		ChangeBrightnessBrick brightnessBrick = new ChangeBrightnessBrick(sprite, 40);
 		script.addBrick(brightnessBrick);
 

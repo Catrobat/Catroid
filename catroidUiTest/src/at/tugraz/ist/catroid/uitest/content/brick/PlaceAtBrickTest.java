@@ -98,6 +98,7 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, xPosition + "");
+		solo.goBack();
 		solo.clickOnButton(0);
 
 		solo.sleep(300);
@@ -108,6 +109,7 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		solo.clickOnEditText(1);
 		solo.clearEditText(0);
 		solo.enterText(0, yPosition + "");
+		solo.goBack();
 		solo.clickOnButton(0);
 
 		solo.sleep(300);

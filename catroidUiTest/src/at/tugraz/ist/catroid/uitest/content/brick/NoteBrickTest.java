@@ -82,6 +82,7 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 		solo.clickOnEditText(0);
 		solo.enterText(0, testString);
+		solo.goBack();
 		solo.clickOnButton(0);
 		solo.sleep(300);
 
@@ -91,6 +92,7 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 		solo.clickOnEditText(0);
 		solo.enterText(0, "");
+		solo.goBack();
 		solo.clickOnButton(0);
 		solo.sleep(300);
 
@@ -100,6 +102,7 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 		solo.clickOnEditText(0);
 		solo.enterText(0, testString2);
+		solo.goBack();
 		solo.clickOnButton(0);
 		solo.sleep(300);
 

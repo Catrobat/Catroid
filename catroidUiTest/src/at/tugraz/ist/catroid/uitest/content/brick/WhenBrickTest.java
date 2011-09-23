@@ -76,11 +76,11 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 				getActivity().getAdapter().getChild(groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_when)));
 
-		solo.pressSpinnerItem(0, 1);
+		solo.pressSpinnerItem(0, 0);
 		Log.v(TAG, solo.getCurrentSpinners().get(0).getSelectedItemPosition() + "");
 		Log.v(TAG, solo.getCurrentSpinners().get(0).getSelectedItem().toString());
 		solo.sleep(1500);
-		assertEquals("Wrong event selected!", 1, solo.getCurrentSpinners().get(0).getSelectedItemPosition());
+		assertEquals("Wrong event selected!", 0, solo.getCurrentSpinners().get(0).getSelectedItemPosition());
 	}
 
 	private void createProject() {
