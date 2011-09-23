@@ -135,6 +135,5 @@ public class StageDialog extends Dialog {
 			stageListener.axesOn = true;
 			axesToggleButton.setText(R.string.stagemenu_axes_off);
 		}
-		dismiss();
 	}
 }
