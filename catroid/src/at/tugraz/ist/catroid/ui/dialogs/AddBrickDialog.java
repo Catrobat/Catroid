@@ -21,7 +21,6 @@ package at.tugraz.ist.catroid.ui.dialogs;
 import java.util.ArrayList;
 
 import android.app.Dialog;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -189,7 +188,6 @@ public class AddBrickDialog extends Dialog {
 					if (projectManager.getCurrentScriptPosition() < 0) {
 						projectManager.setCurrentScript(newScript);
 					}
-					Log.d("current", "current script:" + projectManager.getCurrentScriptPosition());
 				} else if (addedBrick instanceof IfTouchedBrick) {
 					Script newScript = new TapScript("script", projectManager.getCurrentSprite());
 					projectManager.addScript(newScript);
@@ -217,15 +215,16 @@ public class AddBrickDialog extends Dialog {
 					if (projectManager.getCurrentSprite().getNumberOfScripts() == 0) {
 						Script newScript = new StartScript("script", projectManager.getCurrentSprite());
 						projectManager.addScript(newScript);
-						Script temp = projectManager.getCurrentScript();
+
+						Script temp;
+						if (projectManager.getCurrentScriptPosition() < 0) {
+							temp = newScript;
+						} else {
+							temp = projectManager.getCurrentScript();
+						}
 						projectManager.setCurrentScript(newScript);
 						projectManager.getCurrentScript().addBrick(brickClone);
-						if (projectManager.getCurrentScriptPosition() < 0) {
-							projectManager.setCurrentScript(newScript);
-						} else {
-							projectManager.setCurrentScript(temp);
-						}
-
+						projectManager.setCurrentScript(temp);
 					} else {
 						projectManager.getCurrentScript().addBrick(brickClone);
 					}
