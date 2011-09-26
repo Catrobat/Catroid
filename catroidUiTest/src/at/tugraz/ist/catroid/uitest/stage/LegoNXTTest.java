@@ -29,6 +29,7 @@ import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXTBtCommunicator;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXTCommunicator;
+import at.tugraz.ist.catroid.bluetooth.DeviceListActivity;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
@@ -169,7 +170,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		solo.goBack();
 		solo.goBack();
 		//solo.goBack();
-		solo.sleep(2000);
+		solo.sleep(3000);
 	}
 
 	// This test requires the NXTBTTestServer to be running or a LegoNXT Robot to run! Check connect string to see if you connect to the right device!
@@ -229,7 +230,28 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 				solo.searchText(fullConnectionString));
 
 		solo.goBack();
-		solo.sleep(2000);
+		solo.sleep(3000);
+
+	}
+
+	public void testNXTConnectionDialogGoBack() {
+		createTestproject(projectName);
+
+		BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+		assertTrue("Bluetooth not supported on device", bluetoothAdapter != null);
+		if (!bluetoothAdapter.isEnabled()) {
+			bluetoothAdapter.enable();
+			solo.sleep(5000);
+		}
+
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		solo.sleep(1000);
+		solo.assertCurrentActivity("Not in PreStage Activity!", DeviceListActivity.class);
+		solo.goBack();
+		solo.sleep(1000);
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		solo.sleep(1000);
+		solo.assertCurrentActivity("Not in PreStage Activity!", DeviceListActivity.class);
 
 	}
 
