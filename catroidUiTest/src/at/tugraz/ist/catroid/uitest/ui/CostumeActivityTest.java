@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import android.content.Intent;
 import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
+import android.view.Display;
 import android.widget.ListAdapter;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -77,7 +78,9 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		costumeData.setCostumeName("costumeNameTest2");
 		costumeDataList.add(costumeData);
 		projectManager.fileChecksumContainer.addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
-
+		Display display = getActivity().getWindowManager().getDefaultDisplay();
+		projectManager.getCurrentProject().VIRTUAL_SCREEN_HEIGHT = display.getHeight();
+		projectManager.getCurrentProject().VIRTUAL_SCREEN_WIDTH = display.getWidth();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
@@ -161,7 +164,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 	public void testMainMenuButton() {
 		solo.clickOnText(getActivity().getString(R.string.costumes));
 		solo.sleep(500);
-		solo.clickOnImageButton(0);
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
 		solo = new Solo(getInstrumentation(), getActivity());
 
 		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",

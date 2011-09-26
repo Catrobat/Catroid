@@ -179,7 +179,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
 		solo.clickOnText(categoryMotion);
 		assertFalse("ComeToFrontBrick is in the brick list!", solo.searchText(comeToFront));
-		assertFalse("ComeToFrontBrick is in the brick list!", solo.searchText(goNStepsBack));
+		assertFalse("GoNStepsBackBrick is in the brick list!", solo.searchText(goNStepsBack));
 	}
 
 	public void testSelectCategoryDialogOnOrientationChange() {
