@@ -96,10 +96,9 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 
 	public void testCopyCostume() {
 		solo.clickOnText(getActivity().getString(R.string.costumes));
-		solo.sleep(500);
-		solo.clickOnButton(getActivity().getString(R.string.copy_costume));
-		if (solo.searchText(costumeDataList.get(0).getCostumeName() + "_"
-				+ getActivity().getString(R.string.copy_costume_addition))) {
+		solo.sleep(2000);
+		solo.clickOnButton(3);
+		if (solo.searchText(costumeName + "_" + getActivity().getString(R.string.copy_costume_addition))) {
 			assertEquals("the copy of the costume wasn't added to the costumeDataList in the sprite", 3,
 					costumeDataList.size());
 		} else {
@@ -113,10 +112,11 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		ListAdapter adapter = ((CostumeActivity) solo.getCurrentActivity()).getListAdapter();
 		int oldCount = adapter.getCount();
 		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
+		solo.sleep(1000);
 		int newCount = adapter.getCount();
-		assertEquals("the old count was not right", 1, oldCount);
-		assertEquals("the new count is not right - all costumes should be deleted", 0, newCount);
-		assertEquals("the count of the costumeDataList is not right", 0, costumeDataList.size());
+		assertEquals("the old count was not right", 2, oldCount);
+		assertEquals("the new count is not right - all costumes should be deleted", 1, newCount);
+		assertEquals("the count of the costumeDataList is not right", 1, costumeDataList.size());
 	}
 
 	public void testRenameCostume() {
