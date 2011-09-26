@@ -45,6 +45,9 @@ import android.content.Intent;
 public class BluetoothManager {
 
 	private static final int REQUEST_ENABLE_BT = 2000;
+	public static final int BLUETOOTH_NOT_SUPPORTED = -1;
+	public static final int BLUETOOTH_ALREADY_ON = 1;
+	public static final int BLUETOOTH_ACTIVATING = 0;
 	private BluetoothAdapter bluetoothAdapter;
 
 	Activity activity;
@@ -57,16 +60,16 @@ public class BluetoothManager {
 
 		bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		if (bluetoothAdapter == null) {
-			return -1;// Device does not support Bluetooth
+			return BLUETOOTH_NOT_SUPPORTED;// Device does not support Bluetooth
 		}
 		if (!bluetoothAdapter.isEnabled()) {
 			Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
 			activity.startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-			return 0;
+			return BLUETOOTH_ACTIVATING;
 		} else {
 			//Log.d("TAG", "LOOP!!!!!");
 			//connectLegoNXT();
-			return 1;
+			return BLUETOOTH_ALREADY_ON;
 		}
 	}
 }

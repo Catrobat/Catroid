@@ -95,13 +95,27 @@ public class PreStageActivity extends Activity {
 		}
 		if ((required_resources & Brick.BLUETOOTH_LEGO_NXT) > 0) {
 			BluetoothManager bluetoothManager = new BluetoothManager(this);
-			legoNXT = new LegoNXT(this, recieveHandler);
+
 			int bluetoothState = bluetoothManager.activateBluetooth();
-			if (bluetoothState == -1) {
+			if (bluetoothState == BluetoothManager.BLUETOOTH_NOT_SUPPORTED) {
+
 				Toast.makeText(PreStageActivity.this, R.string.notification_blueth_err, Toast.LENGTH_LONG).show();
-				finish();
-			} else if (bluetoothState == 1) {
+				resourceFailed();
+			} else if (bluetoothState == BluetoothManager.BLUETOOTH_ALREADY_ON) {
+				if (legoNXT == null) {
+					legoNXT = new LegoNXT(this, recieveHandler);
+					startBTComm();
+				} else {
+					resourceInitialized();
+				}
+
+			} else {
+				if (legoNXT != null) {
+					legoNXT.destroyCommunicator();
+				}
+				legoNXT = new LegoNXT(this, recieveHandler);
 				startBTComm();
+
 			}
 		}
 
@@ -125,11 +139,20 @@ public class PreStageActivity extends Activity {
 
 	}
 
+	//all resources that should be reinitialized with every stage start
 	public static void shutdownResources() {
 		if (textToSpeech != null) {
 			textToSpeech.stop();
 			textToSpeech.shutdown();
 		}
+		if (legoNXT != null) {
+			legoNXT.pauseCommunicator();
+		}
+	}
+
+	//all resources that should not have to be reinitialized every stage start
+	public static void shutdownPersistentResources() {
+
 		if (legoNXT != null) {
 			legoNXT.destroyCommunicator();
 		}
@@ -149,7 +172,6 @@ public class PreStageActivity extends Activity {
 			startStage();
 
 		}
-
 	}
 
 	public void startStage() {

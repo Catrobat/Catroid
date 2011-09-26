@@ -164,6 +164,8 @@ public abstract class LegoNXTCommunicator extends Thread {
 
 	public abstract byte[] receiveMessage() throws IOException;
 
+	public abstract void stopAllNXTMovement();
+
 	/**
 	 * Sends a message on the opened OutputStream. In case of
 	 * an error the state is sent to the handler.

@@ -147,15 +147,6 @@ public class LCPMessage {
 		return message;
 	}
 
-	//	public static byte[] getActionMessage(int actionNr) {
-	//		byte[] message = new byte[3];
-	//
-	//		message[0] = DIRECT_COMMAND_NOREPLY;
-	//		message[1] = ACTION_BUTTON;
-	//		message[2] = (byte) actionNr;
-	//		return message;
-	//	}
-
 	public static byte[] getMotorMessage(int motor, int speed) {
 		byte[] message = new byte[12];
 
@@ -211,53 +202,6 @@ public class LCPMessage {
 		return message;
 	}
 
-	//	public static byte[] getResetMessage(int motor) {
-	//		byte[] message = new byte[4];
-	//
-	//		message[0] = DIRECT_COMMAND_NOREPLY;
-	//		message[1] = RESET_MOTOR_POSITION;
-	//		// Output port
-	//		message[2] = (byte) motor;
-	//		// absolute position
-	//		message[3] = 0;
-	//
-	//		return message;
-	//	}
-
-	//	public static byte[] getStartProgramMessage(String programName) {
-	//		byte[] message = new byte[22];
-	//
-	//		message[0] = DIRECT_COMMAND_NOREPLY;
-	//		message[1] = START_PROGRAM;
-	//
-	//		// copy programName and end with 0 delimiter
-	//		for (int pos = 0; pos < programName.length(); pos++) {
-	//			message[2 + pos] = (byte) programName.charAt(pos);
-	//		}
-	//
-	//		message[programName.length() + 2] = 0;
-	//
-	//		return message;
-	//	}
-
-	//	public static byte[] getStopProgramMessage() {
-	//		byte[] message = new byte[2];
-	//
-	//		message[0] = DIRECT_COMMAND_NOREPLY;
-	//		message[1] = STOP_PROGRAM;
-	//
-	//		return message;
-	//	}
-
-	//	public static byte[] getProgramNameMessage() {
-	//		byte[] message = new byte[2];
-	//
-	//		message[0] = DIRECT_COMMAND_REPLY;
-	//		message[1] = GET_CURRENT_PROGRAM_NAME;
-	//
-	//		return message;
-	//	}
-
 	public static byte[] getOutputStateMessage(int motor) {
 		byte[] message = new byte[3];
 
@@ -265,110 +209,6 @@ public class LCPMessage {
 		message[1] = GET_OUTPUT_STATE;
 		// Output port
 		message[2] = (byte) motor;
-
-		return message;
-	}
-
-	//	public static byte[] getFirmwareVersionMessage() {
-	//		byte[] message = new byte[2];
-	//
-	//		message[0] = SYSTEM_COMMAND_REPLY;
-	//		message[1] = GET_FIRMWARE_VERSION;
-	//
-	//		return message;
-	//	}
-	//
-	//	public static byte[] getFindFilesMessage(boolean findFirst, int handle, String searchString) {
-	//		byte[] message;
-	//
-	//		if (findFirst) {
-	//			message = new byte[22];
-	//		} else {
-	//			message = new byte[3];
-	//		}
-	//
-	//		message[0] = SYSTEM_COMMAND_REPLY;
-	//
-	//		if (findFirst) {
-	//			message[1] = FIND_FIRST;
-	//
-	//			// copy searchString and end with 0 delimiter
-	//			for (int pos = 0; pos < searchString.length(); pos++) {
-	//				message[2 + pos] = (byte) searchString.charAt(pos);
-	//			}
-	//
-	//			message[searchString.length() + 2] = 0;
-	//
-	//		} else {
-	//			message[1] = FIND_NEXT;
-	//			message[2] = (byte) handle;
-	//		}
-	//
-	//		return message;
-	//	}
-	//
-	//	public static byte[] getOpenWriteMessage(String fileName, int fileLength) {
-	//		byte[] message = new byte[26];
-	//
-	//		message[0] = SYSTEM_COMMAND_REPLY;
-	//		message[1] = OPEN_WRITE;
-	//
-	//		// copy programName and end with 0 delimiter
-	//		for (int pos = 0; pos < fileName.length(); pos++) {
-	//			message[2 + pos] = (byte) fileName.charAt(pos);
-	//		}
-	//
-	//		message[fileName.length() + 2] = 0;
-	//		// copy file size
-	//		message[22] = (byte) fileLength;
-	//		message[23] = (byte) (fileLength >>> 8);
-	//		message[24] = (byte) (fileLength >>> 16);
-	//		message[25] = (byte) (fileLength >>> 24);
-	//		return message;
-	//	}
-
-	//	public static byte[] getWriteMessage(int handle, byte[] data, int dataLength) {
-	//		byte[] message = new byte[dataLength + 3];
-	//
-	//		message[0] = SYSTEM_COMMAND_REPLY;
-	//		message[1] = WRITE;
-	//
-	//		// copy handle
-	//		message[2] = (byte) handle;
-	//		// copy data
-	//		System.arraycopy(data, 0, message, 3, dataLength);
-	//
-	//		return message;
-	//	}
-
-	//	public static byte[] getWriteMessage(int handle, byte[] asd, int dataLength) {
-	//
-	//		if (dataLength > 255) {
-	//			dataLength = 255;
-	//		}
-	//
-	//		byte[] message = new byte[dataLength + 4];
-	//
-	//		message[0] = SYSTEM_COMMAND_REPLY;
-	//		message[1] = MESSAGE_WRITE;
-	//
-	//		// copy handle
-	//		message[2] = (byte) 0;
-	//		message[3] = (byte) dataLength;
-	//		// copy data
-	//		System.arraycopy(asd, 0, message, 3, dataLength);
-	//
-	//		return message;
-	//	}
-
-	public static byte[] getCloseMessage(int handle) {
-		byte[] message = new byte[3];
-
-		message[0] = SYSTEM_COMMAND_REPLY;
-		message[1] = CLOSE;
-
-		// copy handle
-		message[2] = (byte) handle;
 
 		return message;
 	}
