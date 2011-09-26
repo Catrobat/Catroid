@@ -61,6 +61,7 @@ public class MainMenuActivity extends Activity {
 	public static final int DIALOG_UPLOAD_PROJECT = 2;
 	private static final int DIALOG_ABOUT = 3;
 	private static final int DIALOG_LOGIN_REGISTER = 4;
+	private boolean ignoreResume = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +90,10 @@ public class MainMenuActivity extends Activity {
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
+
+		ignoreResume = false;
+		PreStageActivity.shutdownPersistentResources();
+
 		String title = this.getResources().getString(R.string.project_name) + " "
 				+ projectManager.getCurrentProject().getName();
 		activityHelper.setupActionBar(true, title);
@@ -96,7 +101,7 @@ public class MainMenuActivity extends Activity {
 			public void onClick(View v) {
 				if (projectManager.getCurrentProject() != null) {
 					Intent intent = new Intent(MainMenuActivity.this, PreStageActivity.class);
-
+					ignoreResume = true;
 					startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 				}
 			}
@@ -182,6 +187,10 @@ public class MainMenuActivity extends Activity {
 		if (projectManager.getCurrentProject() == null) {
 			return;
 		}
+		if (!ignoreResume) {
+			PreStageActivity.shutdownPersistentResources();
+		}
+		ignoreResume = false;
 
 		projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
 		String title = this.getResources().getString(R.string.project_name) + " "
