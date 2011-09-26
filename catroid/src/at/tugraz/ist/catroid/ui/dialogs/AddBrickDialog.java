@@ -21,6 +21,7 @@ package at.tugraz.ist.catroid.ui.dialogs;
 import java.util.ArrayList;
 
 import android.app.Dialog;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -185,15 +186,28 @@ public class AddBrickDialog extends Dialog {
 				if (addedBrick instanceof IfStartedBrick) {
 					Script newScript = new StartScript("script", projectManager.getCurrentSprite());
 					projectManager.addScript(newScript);
+					if (projectManager.getCurrentScriptPosition() < 0) {
+						projectManager.setCurrentScript(newScript);
+					}
+					Log.d("current", "current script:" + projectManager.getCurrentScriptPosition());
 				} else if (addedBrick instanceof IfTouchedBrick) {
 					Script newScript = new TapScript("script", projectManager.getCurrentSprite());
 					projectManager.addScript(newScript);
+					if (projectManager.getCurrentScriptPosition() < 0) {
+						projectManager.setCurrentScript(newScript);
+					}
 				} else if (addedBrick instanceof WhenBrick) {
 					Script newScript = new WhenScript("script", projectManager.getCurrentSprite());
 					projectManager.addScript(newScript);
+					if (projectManager.getCurrentScriptPosition() < 0) {
+						projectManager.setCurrentScript(newScript);
+					}
 				} else if (addedBrick instanceof BroadcastReceiverBrick) {
 					Script newScript = new BroadcastScript("script", projectManager.getCurrentSprite());
 					projectManager.addScript(newScript);
+					if (projectManager.getCurrentScriptPosition() < 0) {
+						projectManager.setCurrentScript(newScript);
+					}
 				} else if (addedBrick instanceof LoopBeginBrick
 						&& projectManager.getCurrentSprite().getNumberOfScripts() > 0
 						&& projectManager.getCurrentScript().containsLoopBrick()) {
@@ -206,7 +220,12 @@ public class AddBrickDialog extends Dialog {
 						Script temp = projectManager.getCurrentScript();
 						projectManager.setCurrentScript(newScript);
 						projectManager.getCurrentScript().addBrick(brickClone);
-						projectManager.setCurrentScript(temp);
+						if (projectManager.getCurrentScriptPosition() < 0) {
+							projectManager.setCurrentScript(newScript);
+						} else {
+							projectManager.setCurrentScript(temp);
+						}
+
 					} else {
 						projectManager.getCurrentScript().addBrick(brickClone);
 					}
