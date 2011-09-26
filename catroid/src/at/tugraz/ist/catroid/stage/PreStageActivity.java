@@ -155,6 +155,7 @@ public class PreStageActivity extends Activity {
 
 		if (legoNXT != null) {
 			legoNXT.destroyCommunicator();
+			legoNXT = null;
 		}
 	}
 

@@ -39,9 +39,11 @@ import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.NXTMotorActionBrick;
 import at.tugraz.ist.catroid.content.bricks.NXTMotorStopBrick;
 import at.tugraz.ist.catroid.content.bricks.NXTMotorTurnAngleBrick;
+import at.tugraz.ist.catroid.content.bricks.NXTPlayToneBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
@@ -60,7 +62,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 	private static final int MOTORTURN = 2;
 
 	public static final String LegoNXTBTStringStartsWith = "NXT";
-	public static final String TestServerBTStringStartsWith = "kittyroid";
+	public static final String TestServerBTStringStartsWith = "PETER";
 
 	ArrayList<int[]> commands = new ArrayList<int[]>();
 
@@ -126,8 +128,8 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		solo.sleep(2000);
 
 		ArrayList<byte[]> executed_commands = LegoNXTCommunicator.getReceivedMessageList();
-		assertEquals("Commands seem to have not been executed! Connected to correct device??",
-				executed_commands.size(), commands.size());
+		assertEquals("Commands seem to have not been executed! Connected to correct device??", commands.size(),
+				executed_commands.size());
 
 		int i = 0;
 		for (int[] item : commands) {
@@ -167,6 +169,64 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		}
 	}
 
+	// This test requires the NXTBTTestServer to be running or a LegoNXT Robot to run! Check connect string to see if you connect to the right device!
+	public void testNXTPersistentConnection() {
+		createTestproject(projectName);
+
+		BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+		assertTrue("Bluetooth not supported on device", bluetoothAdapter != null);
+		if (!bluetoothAdapter.isEnabled()) {
+			bluetoothAdapter.enable();
+			solo.sleep(5000);
+		}
+
+		solo.clickOnButton(0);
+		solo.sleep(1000);
+		solo.clickOnText("sprite1");
+		solo.sleep(1000);
+
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		solo.sleep(1500);
+
+		ListView list = solo.getCurrentListViews().get(0);
+		String fullConnectionString = null;
+		for (int i = 0; i < solo.getCurrentListViews().get(0).getCount(); i++) {
+
+			String current = (String) list.getItemAtPosition(i);
+			if (current.startsWith(TestServerBTStringStartsWith)) {
+				fullConnectionString = current;
+				break;
+			}
+		}
+
+		solo.clickOnText(fullConnectionString);
+		solo.sleep(5000); // if null pointer exception somewhere, increase this sleep!
+
+		solo.goBack();
+		solo.sleep(500);
+		solo.goBack();
+		solo.sleep(1000);
+		solo.goBack();
+		solo.sleep(500);
+		//Device is still connected (until visiting main menu or exiting program)!
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		solo.sleep(3000);
+		solo.assertCurrentActivity("lol", StageActivity.class);
+
+		solo.goBack();
+		solo.sleep(500);
+		solo.goBack();
+		solo.sleep(1000);
+		solo.goBack();
+		solo.sleep(1000);
+		//main menu => device disconnected!
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		solo.sleep(1500);
+		assertTrue("I should be on the bluetooth device choosing screen, but am not! Device still connected??",
+				solo.searchText(fullConnectionString));
+
+	}
+
 	public void createTestproject(String projectName) {
 
 		Sprite firstSprite = new Sprite("sprite1");
@@ -189,11 +249,15 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		NXTMotorTurnAngleBrick nxtTurn = new NXTMotorTurnAngleBrick(firstSprite, 2, 515);
 		commands.add(new int[] { MOTORTURN, 2, 515 });
 
+		NXTPlayToneBrick nxtTone = new NXTPlayToneBrick(firstSprite, 50, 1);
+		//Tone does not return a command
+
 		whenScript.addBrick(nxt);
 		whenScript.addBrick(wait);
 		whenScript.addBrick(nxtStop);
 		whenScript.addBrick(wait2);
 		whenScript.addBrick(nxtTurn);
+		whenScript.addBrick(nxtTone);
 
 		startScript.addBrick(setCostumeBrick);
 		firstSprite.addScript(startScript);
