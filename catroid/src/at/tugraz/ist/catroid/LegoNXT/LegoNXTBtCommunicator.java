@@ -197,7 +197,9 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 	@Override
 	public void destroyNXTconnection() throws IOException {
 
-		stopAllNXTMovement();
+		if (connected) {
+			stopAllNXTMovement();
+		}
 
 		try {
 			if (nxtBTsocket != null) {
@@ -218,6 +220,7 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 		}
 	}
 
+	@Override
 	public void stopAllNXTMovement() {
 		myHandler.removeMessages(0);
 		myHandler.removeMessages(1);

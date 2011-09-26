@@ -103,18 +103,10 @@ public class PreStageActivity extends Activity {
 				resourceFailed();
 			} else if (bluetoothState == BluetoothManager.BLUETOOTH_ALREADY_ON) {
 				if (legoNXT == null) {
-					legoNXT = new LegoNXT(this, recieveHandler);
 					startBTComm();
 				} else {
 					resourceInitialized();
 				}
-
-			} else {
-				if (legoNXT != null) {
-					legoNXT.destroyCommunicator();
-				}
-				legoNXT = new LegoNXT(this, recieveHandler);
-				startBTComm();
 
 			}
 		}
@@ -223,6 +215,7 @@ public class PreStageActivity extends Activity {
 			case REQUEST_CONNECT_DEVICE:
 				switch (resultCode) {
 					case Activity.RESULT_OK:
+						legoNXT = new LegoNXT(this, recieveHandler);
 						String address = data.getExtras().getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
 						//pairing = data.getExtras().getBoolean(DeviceListActivity.PAIRING);
 						legoNXT.startBTCommunicator(address);
@@ -238,7 +231,7 @@ public class PreStageActivity extends Activity {
 				break;
 
 			default:
-				finish();
+				resourceFailed();
 		}
 	}
 
@@ -264,7 +257,8 @@ public class PreStageActivity extends Activity {
 				case LegoNXTBtCommunicator.STATE_CONNECTERROR:
 					Toast.makeText(PreStageActivity.this, R.string.bt_connection_failed, Toast.LENGTH_SHORT);
 					connectingProgressDialog.dismiss();
-					//finish();
+					legoNXT.destroyCommunicator();
+					legoNXT = null;
 					resourceFailed();
 					break;
 				default:
