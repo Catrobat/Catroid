@@ -32,6 +32,29 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.BroadcastBrick;
 import at.tugraz.ist.catroid.content.bricks.BroadcastWaitBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeBrightnessBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeGhostEffectBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeSizeByNBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeVolumeByBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
+import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
+import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
+import at.tugraz.ist.catroid.content.bricks.MoveNStepsBrick;
+import at.tugraz.ist.catroid.content.bricks.NoteBrick;
+import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
+import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
+import at.tugraz.ist.catroid.content.bricks.PointInDirectionBrick;
+import at.tugraz.ist.catroid.content.bricks.RepeatBrick;
+import at.tugraz.ist.catroid.content.bricks.SayBrick;
+import at.tugraz.ist.catroid.content.bricks.SetBrightnessBrick;
+import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
+import at.tugraz.ist.catroid.content.bricks.SetGhostEffectBrick;
+import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
+import at.tugraz.ist.catroid.content.bricks.SetVolumeToBrick;
+import at.tugraz.ist.catroid.content.bricks.SetXBrick;
+import at.tugraz.ist.catroid.content.bricks.SetYBrick;
+import at.tugraz.ist.catroid.content.bricks.SpeakBrick;
+import at.tugraz.ist.catroid.content.bricks.ThinkBrick;
+import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
@@ -104,6 +127,206 @@ public class BrickExceptionOnDialogTest extends ActivityInstrumentationTestCase2
 		ChangeBrightnessBrick brightnessBrick = new ChangeBrightnessBrick(sprite, 40);
 		script.addBrick(brightnessBrick);
 
+		clickEditTextGoBackAndClickAgain();
+	}
+
+	public void testChangeGhostEffectBrick() {
+		ChangeGhostEffectBrick ghostBrick = new ChangeGhostEffectBrick(sprite, 40);
+		script.addBrick(ghostBrick);
+
+		clickEditTextGoBackAndClickAgain();
+	}
+
+	public void testChangeSizeByNBrick() {
+		ChangeSizeByNBrick sizeByNBrick = new ChangeSizeByNBrick(sprite, 40);
+		script.addBrick(sizeByNBrick);
+
+		clickEditTextGoBackAndClickAgain();
+	}
+
+	public void testChangeVolumeByBrick() {
+		ChangeVolumeByBrick changeVolumeBrick = new ChangeVolumeByBrick(sprite, 40);
+		script.addBrick(changeVolumeBrick);
+
+		clickEditTextGoBackAndClickAgain();
+	}
+
+	public void testChangeXByBrick() {
+		ChangeXByBrick changeXByBrick = new ChangeXByBrick(sprite, 40);
+		script.addBrick(changeXByBrick);
+
+		clickEditTextGoBackAndClickAgain();
+	}
+
+	public void testChangeYByBrick() {
+		ChangeYByBrick changeYByBrick = new ChangeYByBrick(sprite, 40);
+		script.addBrick(changeYByBrick);
+
+		clickEditTextGoBackAndClickAgain();
+	}
+
+	//TODO test glideToBrick
+
+	public void testGoNStepsBackBrick() {
+		GoNStepsBackBrick nStepsBackBrick = new GoNStepsBackBrick(sprite, 40);
+		script.addBrick(nStepsBackBrick);
+
+		clickEditTextGoBackAndClickAgain();
+	}
+
+	public void testMoveNStepsBrick() {
+		MoveNStepsBrick nStepsBrick = new MoveNStepsBrick(sprite, 40);
+		script.addBrick(nStepsBrick);
+
+		clickEditTextGoBackAndClickAgain();
+	}
+
+	public void testNoteBrick() {
+		NoteBrick noteBrick = new NoteBrick(sprite);
+		script.addBrick(noteBrick);
+
+		clickEditTextGoBackAndClickAgain();
+	}
+
+	//TODO test nxt
+	public void testPlaceAtBrick() {
+		PlaceAtBrick placeAtBrick = new PlaceAtBrick(sprite, 40, 40);
+		script.addBrick(placeAtBrick);
+
+		clickEditTextGoBackAndClickAgain();
+
+		solo.goBack();
+		solo.goBack();
+		solo.goBack();
+		solo.assertCurrentActivity("not in ProjectActivity", ProjectActivity.class);
+		solo.clickOnText(spriteName);
+		solo.clickOnEditText(1);
+		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
+	}
+
+	public void testPlaySoundBrick() {
+		PlaySoundBrick playSoundBrick = new PlaySoundBrick(sprite);
+		script.addBrick(playSoundBrick);
+
+		solo.clickOnText(getActivity().getString(R.string.current_project_button));
+		solo.clickOnText(spriteName);
+		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.goBack();
+		solo.goBack();
+		solo.assertCurrentActivity("not in ProjectActivity", ProjectActivity.class);
+		solo.clickOnText(spriteName);
+		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
+	}
+
+	public void testSetCostumeBrick() {
+		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
+		script.addBrick(setCostumeBrick);
+
+		solo.clickOnText(getActivity().getString(R.string.current_project_button));
+		solo.clickOnText(spriteName);
+		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.goBack();
+		solo.goBack();
+		solo.assertCurrentActivity("not in ProjectActivity", ProjectActivity.class);
+		solo.clickOnText(spriteName);
+		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
+		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
+	}
+
+	public void testPointInDirectionBrick() {
+		PointInDirectionBrick directionBrick = new PointInDirectionBrick(sprite, 0);
+		script.addBrick(directionBrick);
+
+		solo.clickOnText(getActivity().getString(R.string.current_project_button));
+		solo.clickOnText(spriteName);
+		solo.clickOnText("90");
+		solo.goBack();
+		solo.goBack();
+		solo.assertCurrentActivity("not in ProjectActivity", ProjectActivity.class);
+		solo.clickOnText(spriteName);
+		solo.clickOnText("90");
+		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
+	}
+
+	public void testRepeatBrick() {
+		RepeatBrick repeatbrick = new RepeatBrick(sprite, 3);
+		script.addBrick(repeatbrick);
+
+		clickEditTextGoBackAndClickAgain();
+	}
+
+	public void testSayBrick() {
+		SayBrick sayBrick = new SayBrick(sprite);
+		script.addBrick(sayBrick);
+
+		clickEditTextGoBackAndClickAgain();
+	}
+
+	public void testSetBrightnessBrick() {
+		SetBrightnessBrick setBrightnessBrick = new SetBrightnessBrick(sprite, 4);
+		script.addBrick(setBrightnessBrick);
+
+		clickEditTextGoBackAndClickAgain();
+	}
+
+	public void testSetGhostEffectBrick() {
+		SetGhostEffectBrick ghostEffectBrick = new SetGhostEffectBrick(sprite, 4);
+		script.addBrick(ghostEffectBrick);
+
+		clickEditTextGoBackAndClickAgain();
+	}
+
+	public void testSetSizeToBrick() {
+		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(sprite, 4);
+		script.addBrick(setSizeToBrick);
+
+		clickEditTextGoBackAndClickAgain();
+	}
+
+	public void testSetVolumeToBrick() {
+		SetVolumeToBrick setVolumeToBrick = new SetVolumeToBrick(sprite, 4);
+		script.addBrick(setVolumeToBrick);
+
+		clickEditTextGoBackAndClickAgain();
+	}
+
+	public void testSetXBrick() {
+		SetXBrick setXBrick = new SetXBrick(sprite, 4);
+		script.addBrick(setXBrick);
+
+		clickEditTextGoBackAndClickAgain();
+	}
+
+	public void testSetYBrick() {
+		SetYBrick setYBrick = new SetYBrick(sprite, 4);
+		script.addBrick(setYBrick);
+
+		clickEditTextGoBackAndClickAgain();
+	}
+
+	public void testSpeakBrick() {
+		SpeakBrick speakBrick = new SpeakBrick(sprite, "I say lol");
+		script.addBrick(speakBrick);
+
+		clickEditTextGoBackAndClickAgain();
+	}
+
+	public void testThinkBrick() {
+		ThinkBrick thinkBrick = new ThinkBrick(sprite, "I dont think");
+		script.addBrick(thinkBrick);
+
+		clickEditTextGoBackAndClickAgain();
+	}
+
+	public void testWaitBrick() {
+		WaitBrick waitBrick = new WaitBrick(sprite, 500);
+		script.addBrick(waitBrick);
+
+		clickEditTextGoBackAndClickAgain();
+	}
+
+	public void clickEditTextGoBackAndClickAgain() {
 		solo.clickOnText(getActivity().getString(R.string.current_project_button));
 		solo.clickOnText(spriteName);
 		solo.clickOnEditText(0);
