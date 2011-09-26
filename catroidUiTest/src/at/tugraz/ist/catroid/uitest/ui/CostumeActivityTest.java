@@ -97,7 +97,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 	public void testCopyCostume() {
 		solo.clickOnText(getActivity().getString(R.string.costumes));
 		solo.sleep(2000);
-		solo.clickOnButton(3);
+		solo.clickOnButton(2);
 		if (solo.searchText(costumeName + "_" + getActivity().getString(R.string.copy_costume_addition))) {
 			assertEquals("the copy of the costume wasn't added to the costumeDataList in the sprite", 3,
 					costumeDataList.size());
