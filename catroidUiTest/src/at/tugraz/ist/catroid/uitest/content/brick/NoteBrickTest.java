@@ -41,7 +41,6 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 	private Project project;
 	private NoteBrick noteBrick;
 	private String testString = "test";
-	private String testString2 = "";
 
 	public NoteBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -125,7 +124,6 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
-		testString2 = getInstrumentation().getContext().getString(at.tugraz.ist.catroid.uitest.R.string.test_text);
 
 	}
 }

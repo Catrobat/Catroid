@@ -19,12 +19,11 @@
 package at.tugraz.ist.catroid.uitest.stage;
 
 import android.test.ActivityInstrumentationTestCase2;
-import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 
 public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	//	private Solo solo;
-	private StorageHandler storageHandler;
+	//	private StorageHandler storageHandler;
 
 	//	//	private final static String TAG = "StageUITest";
 	//	private final String projectName = UiTestUtils.PROJECTNAME1;
@@ -50,7 +49,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 	//
 	public StageTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
-		storageHandler = StorageHandler.getInstance();
+		//		storageHandler = StorageHandler.getInstance();
 	}
 
 	//
