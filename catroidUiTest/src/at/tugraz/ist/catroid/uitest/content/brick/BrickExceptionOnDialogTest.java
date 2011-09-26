@@ -84,7 +84,7 @@ public class BrickExceptionOnDialogTest extends ActivityInstrumentationTestCase2
 		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
 	}
 
-	public void testcastWaiBrick() {
+	public void testBroadcastWaitBrick() {
 		BroadcastWaitBrick broadcastWaitBrick = new BroadcastWaitBrick(sprite);
 		script.addBrick(broadcastWaitBrick);
 
