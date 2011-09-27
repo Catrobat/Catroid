@@ -249,6 +249,7 @@ public class LegoNXTBtCommunicator extends LegoNXTCommunicator {
 		nxtOutputStream.write(messageLength);
 		nxtOutputStream.write(messageLength >> 8);
 		nxtOutputStream.write(message, 0, message.length);
+		nxtOutputStream.flush();
 	}
 
 	/**
