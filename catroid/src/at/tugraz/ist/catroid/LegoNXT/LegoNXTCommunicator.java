@@ -105,8 +105,8 @@ public abstract class LegoNXTCommunicator extends Thread {
 		return receivedMessages;
 	}
 
-	public static void enableRequestConfirmFromDevice() {
-		requestConfirmFromDevice = true;
+	public static void enableRequestConfirmFromDevice(boolean cfd) {
+		requestConfirmFromDevice = cfd;
 	}
 
 	public Handler getHandler() {

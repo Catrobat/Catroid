@@ -40,6 +40,7 @@ import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.NXTMotorActionBrick;
 import at.tugraz.ist.catroid.content.bricks.NXTMotorStopBrick;
 import at.tugraz.ist.catroid.content.bricks.NXTMotorTurnAngleBrick;
+import at.tugraz.ist.catroid.content.bricks.NXTPlayToneBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
@@ -96,6 +97,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 	public void testNXTFunctionality() {
 		createTestproject(projectName);
 
+		LegoNXTBtCommunicator.enableRequestConfirmFromDevice(true);
 		BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		assertTrue("Bluetooth not supported on device", bluetoothAdapter != null);
 		if (!bluetoothAdapter.isEnabled()) {
@@ -119,10 +121,10 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		}
 
 		solo.clickOnText(fullConnectionString);
-		solo.sleep(5000);
+		solo.sleep(8000);
 
 		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
-		solo.sleep(8000);
+		solo.sleep(10000);
 
 		Log.i("bt", "" + LegoNXTCommunicator.getReceivedMessageList().size());
 		solo.sleep(2000);
@@ -167,16 +169,18 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 			}
 			i++;
 		}
+		LegoNXTBtCommunicator.enableRequestConfirmFromDevice(false);
+		solo.sleep(1000);
 		solo.goBack();
 		solo.goBack();
-		//solo.goBack();
-		solo.sleep(3000);
+		solo.sleep(2000); //Dont remove these lines or else the BT server will not receive the termination command! 
 	}
 
 	// This test requires the NXTBTTestServer to be running or a LegoNXT Robot to run! Check connect string to see if you connect to the right device!
 	public void testNXTPersistentConnection() {
 		createTestproject(projectName);
 
+		LegoNXTBtCommunicator.enableRequestConfirmFromDevice(false);
 		BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		assertTrue("Bluetooth not supported on device", bluetoothAdapter != null);
 		if (!bluetoothAdapter.isEnabled()) {
@@ -211,26 +215,26 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		solo.goBack();
 		solo.sleep(1000);
 		solo.goBack();
-		solo.sleep(500);
+		solo.sleep(1000);
 		//Device is still connected (until visiting main menu or exiting program)!
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
-		solo.sleep(3000);
-		solo.assertCurrentActivity("lol", StageActivity.class);
+		solo.sleep(1000);
+		solo.assertCurrentActivity("BT connection was not there anymore!!!", StageActivity.class);
 
 		solo.goBack();
 		solo.sleep(500);
 		solo.goBack();
 		solo.sleep(1000);
 		solo.goBack();
-		solo.sleep(1000);
+		solo.sleep(2000);
 		//main menu => device disconnected!
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
-		solo.sleep(1500);
+		solo.sleep(500);
 		assertTrue("I should be on the bluetooth device choosing screen, but am not! Device still connected??",
 				solo.searchText(fullConnectionString));
 
 		solo.goBack();
-		solo.sleep(3000);
+		solo.sleep(2000);
 
 	}
 
@@ -262,23 +266,21 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		Script whenScript = new WhenScript("whenScript", firstSprite);
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
 
-		LegoNXTBtCommunicator.enableRequestConfirmFromDevice();
-
 		NXTMotorActionBrick nxt = new NXTMotorActionBrick(firstSprite, 3, 100);
 		commands.add(new int[] { MOTORACTION, 0, 100 }); //motor = 3 means brick will move motors A and C.
 		commands.add(new int[] { MOTORACTION, 2, 100 });
-		WaitBrick wait = new WaitBrick(firstSprite, 1000);
+		WaitBrick wait = new WaitBrick(firstSprite, 500);
 
 		NXTMotorStopBrick nxtStop = new NXTMotorStopBrick(firstSprite, 3);
 		commands.add(new int[] { MOTORSTOP, 0 });
 		commands.add(new int[] { MOTORSTOP, 2 });
-		WaitBrick wait2 = new WaitBrick(firstSprite, 1000);
+		WaitBrick wait2 = new WaitBrick(firstSprite, 500);
 
 		NXTMotorTurnAngleBrick nxtTurn = new NXTMotorTurnAngleBrick(firstSprite, 2, 515);
 		commands.add(new int[] { MOTORTURN, 2, 515 });
 
-		//		WaitBrick wait3 = new WaitBrick(firstSprite, 1000);
-		//		NXTPlayToneBrick nxtTone = new NXTPlayToneBrick(firstSprite, 50, 1);
+		WaitBrick wait3 = new WaitBrick(firstSprite, 500);
+		NXTPlayToneBrick nxtTone = new NXTPlayToneBrick(firstSprite, 50, 1);
 		//Tone does not return a command
 
 		whenScript.addBrick(nxt);
@@ -286,8 +288,8 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		whenScript.addBrick(nxtStop);
 		whenScript.addBrick(wait2);
 		whenScript.addBrick(nxtTurn);
-		//		whenScript.addBrick(wait3);
-		//		whenScript.addBrick(nxtTone);
+		whenScript.addBrick(wait3);
+		whenScript.addBrick(nxtTone);
 
 		startScript.addBrick(setCostumeBrick);
 		firstSprite.addScript(startScript);
