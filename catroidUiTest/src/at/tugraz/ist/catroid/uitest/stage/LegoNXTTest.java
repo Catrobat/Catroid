@@ -63,7 +63,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 	private static final int MOTORTURN = 2;
 
 	public static final String LegoNXTBTStringStartsWith = "NXT";
-	public static final String TestServerBTStringStartsWith = "PETER";
+	public static final String TestServerBTStringStartsWith = "kittyroid";
 
 	ArrayList<int[]> commands = new ArrayList<int[]>();
 
@@ -170,10 +170,6 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 			i++;
 		}
 		LegoNXTBtCommunicator.enableRequestConfirmFromDevice(false);
-		solo.sleep(1000);
-		solo.goBack();
-		solo.goBack();
-		solo.sleep(2000); //Dont remove these lines or else the BT server will not receive the termination command! 
 	}
 
 	// This test requires the NXTBTTestServer to be running or a LegoNXT Robot to run! Check connect string to see if you connect to the right device!
