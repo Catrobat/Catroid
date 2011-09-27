@@ -94,7 +94,6 @@ public class StageListener implements ApplicationListener {
 
 	public boolean axesOn = false;
 
-	// private Texture pauseScreen;
 	private Texture background;
 	private Texture axes;
 
@@ -150,7 +149,6 @@ public class StageListener implements ApplicationListener {
 			Gdx.input.setInputProcessor(stage);
 		}
 
-		// pauseScreen = new Texture(Gdx.files.internal("stage/paused_cat.png"));
 		background = new Texture(Gdx.files.internal("stage/white_pixel.bmp"));
 		axes = new Texture(Gdx.files.internal("stage/red_pixel.bmp"));
 	}
@@ -326,7 +324,7 @@ public class StageListener implements ApplicationListener {
 		}
 
 		if (makeTestPixels) {
-			testPixels = ScreenUtils.getFrameBufferPixels(testX, testY, testWidth, testHeight, true);
+			testPixels = ScreenUtils.getFrameBufferPixels(testX, testY, testWidth, testHeight, false);
 			makeTestPixels = false;
 		}
 	}
@@ -363,7 +361,6 @@ public class StageListener implements ApplicationListener {
 		}
 		stage.dispose();
 		font.dispose();
-		// pauseScreen.dispose();
 		background.dispose();
 		axes.dispose();
 		for (Sprite sprite : sprites) {
