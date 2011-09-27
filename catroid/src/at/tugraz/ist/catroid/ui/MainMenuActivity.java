@@ -107,6 +107,7 @@ public class MainMenuActivity extends Activity {
 			}
 		}, false);
 		this.titleText = (TextView) findViewById(R.id.tv_title);
+
 	}
 
 	@Override

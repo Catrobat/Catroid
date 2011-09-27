@@ -84,7 +84,7 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 				playSoundButton.setVisibility(Button.GONE);
 				pauseSoundButton.setVisibility(Button.VISIBLE);
 			} else if (soundInfo.isPaused) {
-				soundImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.speaker_playing));
+				soundImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.speaker));
 				playSoundButton.setVisibility(Button.VISIBLE);
 				pauseSoundButton.setVisibility(Button.GONE);
 			} else {

@@ -187,7 +187,7 @@ public class AddBrickDialog extends Dialog {
 			}
 		});
 
-		TextView textView = (TextView) findViewById(R.id.tv_category);
+		TextView textView = (TextView) findViewById(R.id.tv_dialog_title);
 		textView.setText(category);
 	}
 
