@@ -112,6 +112,7 @@ public class UiTestUtils {
 		solo.sleep(50);
 		solo.clearEditText(0);
 		solo.enterText(0, value);
+		solo.goBack();
 	}
 
 	public static void clickEnterClose(Solo solo, int editTextIndex, String value) {
