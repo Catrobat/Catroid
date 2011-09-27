@@ -32,6 +32,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.BrickCategoryAdapter;
@@ -58,6 +59,9 @@ public class BrickCategoryDialog extends Dialog {
 				dismiss();
 			}
 		});
+
+		TextView textView = (TextView) findViewById(R.id.tv_dialog_title);
+		textView.setText(activity.getString(R.string.categories));
 	}
 
 	private void setupBrickCategories(ListView listView) {

@@ -18,4 +18,5 @@
  -->
 <resources>
     <dimen name="actionbar_height">45dp</dimen>
+    <dimen name="actionbar_catroid_logo">110dp</dimen>
 </resources>
