@@ -31,6 +31,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 
 /**
@@ -39,9 +40,16 @@ import at.tugraz.ist.catroid.ui.MainMenuActivity;
  */
 public class ActivityHelper {
 	private Activity activity;
+	private int buttonWidth;
+	private int buttonHeight;
+	private int logoWidth;
+	private int tvMaxWidth;
+	private TextView titleText;
 
 	public ActivityHelper(Activity activity) {
 		this.activity = activity;
+
+		tvMaxWidth = 0;
 	}
 
 	public ViewGroup getActionBar() {
@@ -50,6 +58,10 @@ public class ActivityHelper {
 
 	public void setupActionBar(boolean isMainMenu, String title) {
 		final ViewGroup actionBar = getActionBar();
+		Utils.updateScreenWidthAndHeight(activity);
+		buttonWidth = (int) activity.getResources().getDimension(R.dimen.actionbar_height);
+		buttonHeight = buttonWidth;
+		logoWidth = (int) activity.getResources().getDimension(R.dimen.actionbar_catroid_logo);
 		if (actionBar == null) {
 			return;
 		}
@@ -66,16 +78,11 @@ public class ActivityHelper {
 			imageButton.setBackgroundResource(0);
 			imageButton.setScaleType(ImageView.ScaleType.CENTER);
 			imageButton.setClickable(false);
-
-			actionBar.addView(imageButton);
 		} else {
 			imageButton.setId(R.id.btn_action_home);
 			imageButton.setImageResource(R.drawable.ic_home_black);
 			imageButton.setBackgroundResource(R.drawable.btn_actionbar_selector);
 
-			//2 times actionbar_height, cause we want the button to be square
-			int buttonWidth = (int) activity.getResources().getDimension(R.dimen.actionbar_height);
-			int buttonHeight = (int) activity.getResources().getDimension(R.dimen.actionbar_height);
 			imageButton.setLayoutParams(new ViewGroup.LayoutParams(buttonWidth, buttonHeight));
 			imageButton.setScaleType(ImageView.ScaleType.CENTER);
 			imageButton.setOnClickListener(new View.OnClickListener() {
@@ -83,10 +90,10 @@ public class ActivityHelper {
 					goToMainMenu();
 				}
 			});
-
-			actionBar.addView(imageButton);
-
 		}
+
+		actionBar.addView(imageButton);
+
 		ImageView separator = new ImageView(activity);
 		separator.setBackgroundResource(R.drawable.actionbar_separator);
 		separator.setLayoutParams(new ViewGroup.LayoutParams(2, ViewGroup.LayoutParams.FILL_PARENT));
@@ -95,18 +102,27 @@ public class ActivityHelper {
 
 		LinearLayout.LayoutParams textViewLayout = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
 				ViewGroup.LayoutParams.FILL_PARENT);
-		int maxWidth = (int) activity.getResources().getDimension(R.dimen.actionbar_height) * 3;
-		final TextView titleText = new TextView(activity);
+
+		int paddingRight = 10;
+		if (isMainMenu) {
+			tvMaxWidth = Values.SCREEN_WIDTH - logoWidth - paddingRight;
+		} else {
+			tvMaxWidth = Values.SCREEN_WIDTH - buttonWidth - paddingRight;
+		}
+
+		titleText = new TextView(activity);
 		titleText.setLayoutParams(textViewLayout);
 		titleText.setId(R.id.tv_title);
 		titleText.setText(title);
-		titleText.setMaxWidth(maxWidth);
 		titleText.setGravity(Gravity.CENTER_VERTICAL);
 		titleText.setTypeface(null, Typeface.BOLD);
 		titleText.setTextColor(Color.BLACK);
-		titleText.setMaxLines(2);
-		titleText.setEllipsize(TextUtils.TruncateAt.END);
-		titleText.setPadding(10, 0, 0, 0);
+		titleText.setSingleLine(true);
+		titleText.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+		titleText.setMarqueeRepeatLimit(-1);
+		titleText.setSelected(true);
+		titleText.setPadding(5, 0, 0, 0);
+		titleText.setMaxWidth(tvMaxWidth);
 
 		titleText.setOnClickListener(new View.OnClickListener() {
 
@@ -159,7 +175,8 @@ public class ActivityHelper {
 		if (separatorAfter) {
 			actionBar.addView(separator);
 		}
-
+		tvMaxWidth -= buttonWidth;
+		titleText.setMaxWidth(tvMaxWidth);
 		return true;
 	}
 

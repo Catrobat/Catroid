@@ -167,7 +167,7 @@ public class StageListener implements ApplicationListener {
 	}
 
 	public void menuPause() {
-		if (finished || reloadProject) {
+		if (finished || reloadProject || (sprites == null)) {
 			return;
 		}
 		paused = true;
@@ -204,7 +204,7 @@ public class StageListener implements ApplicationListener {
 	}
 
 	public void pause() {
-		if (finished) {
+		if (finished || (sprites == null)) {
 			return;
 		}
 		if (!paused) {
@@ -218,8 +218,10 @@ public class StageListener implements ApplicationListener {
 	public void finish() {
 		finished = true;
 		SoundManager.getInstance().clear();
-		for (Sprite sprite : sprites) {
-			sprite.finish();
+		if (sprites != null) {
+			for (Sprite sprite : sprites) {
+				sprite.finish();
+			}
 		}
 	}
 
