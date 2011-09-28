@@ -118,7 +118,6 @@ public class ToStageButtonTest extends ActivityInstrumentationTestCase2<MainMenu
 
 		solo.enterText(0, spriteNameTwo);
 
-		solo.goBack();
 		solo.clickOnButton(getActivity().getString(R.string.ok));
 		solo.clickOnText(spriteNameTwo);
 
