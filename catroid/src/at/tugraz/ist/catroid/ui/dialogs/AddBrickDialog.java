@@ -209,15 +209,27 @@ public class AddBrickDialog extends Dialog {
 				if (addedBrick instanceof WhenStartedBrick) {
 					Script newScript = new StartScript("script", projectManager.getCurrentSprite());
 					projectManager.addScript(newScript);
-					projectManager.setCurrentScript(newScript);
+					if (projectManager.getCurrentScriptPosition() < 0) {
+						projectManager.setCurrentScript(newScript);
+					}
 				} else if (addedBrick instanceof WhenBrick) {
 					Script newScript = new WhenScript("script", projectManager.getCurrentSprite());
 					projectManager.addScript(newScript);
-					projectManager.setCurrentScript(newScript);
+					if (projectManager.getCurrentScriptPosition() < 0) {
+						projectManager.setCurrentScript(newScript);
+					}
+				} else if (addedBrick instanceof WhenBrick) {
+					Script newScript = new WhenScript("script", projectManager.getCurrentSprite());
+					projectManager.addScript(newScript);
+					if (projectManager.getCurrentScriptPosition() < 0) {
+						projectManager.setCurrentScript(newScript);
+					}
 				} else if (addedBrick instanceof BroadcastReceiverBrick) {
 					Script newScript = new BroadcastScript("script", projectManager.getCurrentSprite());
 					projectManager.addScript(newScript);
-					projectManager.setCurrentScript(newScript);
+					if (projectManager.getCurrentScriptPosition() < 0) {
+						projectManager.setCurrentScript(newScript);
+					}
 				} else if (addedBrick instanceof LoopBeginBrick
 						&& projectManager.getCurrentSprite().getNumberOfScripts() > 0
 						&& projectManager.getCurrentScript().containsBrickOfType(LoopEndBrick.class)) {
@@ -227,8 +239,16 @@ public class AddBrickDialog extends Dialog {
 					if (projectManager.getCurrentSprite().getNumberOfScripts() == 0) {
 						Script newScript = new StartScript("script", projectManager.getCurrentSprite());
 						projectManager.addScript(newScript);
+
+						Script temp;
+						if (projectManager.getCurrentScriptPosition() < 0) {
+							temp = newScript;
+						} else {
+							temp = projectManager.getCurrentScript();
+						}
 						projectManager.setCurrentScript(newScript);
 						projectManager.getCurrentScript().addBrick(brickClone);
+						projectManager.setCurrentScript(temp);
 					} else {
 						projectManager.getCurrentScript().addBrick(brickClone);
 					}
@@ -248,5 +268,4 @@ public class AddBrickDialog extends Dialog {
 	public Brick getBrickClone(Brick brick) {
 		return brick.clone();
 	}
-
 }
