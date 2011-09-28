@@ -20,7 +20,7 @@ package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseExpandableListAdapter;
+import android.widget.BaseAdapter;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.SoundManager;
@@ -51,7 +51,7 @@ public class StopAllSoundsBrick implements Brick {
 		return this.sprite;
 	}
 
-	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
+	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.toolbox_brick_stop_all_sounds, null);
 		}

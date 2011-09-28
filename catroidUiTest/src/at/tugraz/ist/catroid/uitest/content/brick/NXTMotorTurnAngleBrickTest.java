@@ -121,18 +121,26 @@ public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2
 		assertEquals("Wrong text in field.", setAngle, angle);
 		assertEquals("Value in Brick is not updated.", setAngle + "", solo.getEditText(0).getText().toString());
 
-		solo.sleep(1500);
+		solo.sleep(2000);
 		String[] array = getActivity().getResources().getStringArray(R.array.nxt_motor_chooser);
+		solo.sleep(100);
 		assertTrue("Spinner items list too short!", array.length == 4);
 
-		solo.sleep(1500);
+		solo.sleep(2000);
 		solo.pressSpinnerItem(0, 0);
+		solo.sleep(500);
 		assertEquals("Wrong item in spinner!", array[0], solo.getCurrentSpinners().get(0).getSelectedItem());
+		solo.sleep(500);
 		solo.pressSpinnerItem(0, 1);
+		solo.sleep(500);
 		assertEquals("Wrong item in spinner!", array[1], solo.getCurrentSpinners().get(0).getSelectedItem());
+		solo.sleep(500);
 		solo.pressSpinnerItem(0, 1);
+		solo.sleep(500);
 		assertEquals("Wrong item in spinner!", array[2], solo.getCurrentSpinners().get(0).getSelectedItem());
+		solo.sleep(500);
 		solo.pressSpinnerItem(0, 1);
+		solo.sleep(1000);
 		assertEquals("Wrong item in spinner!", array[3], solo.getCurrentSpinners().get(0).getSelectedItem());
 
 	}

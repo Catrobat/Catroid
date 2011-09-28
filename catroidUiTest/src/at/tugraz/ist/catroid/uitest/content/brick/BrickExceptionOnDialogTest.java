@@ -329,10 +329,15 @@ public class BrickExceptionOnDialogTest extends ActivityInstrumentationTestCase2
 	public void clickEditTextGoBackAndClickAgain() {
 		solo.clickOnText(getActivity().getString(R.string.current_project_button));
 		solo.clickOnText(spriteName);
+		solo.sleep(500);
 		solo.clickOnEditText(0);
+		solo.sleep(500);
 		solo.goBack();
+		solo.sleep(300);
 		solo.goBack();
+		solo.sleep(300);
 		solo.goBack();
+		solo.sleep(500);
 		solo.assertCurrentActivity("not in ProjectActivity", ProjectActivity.class);
 		solo.clickOnText(spriteName);
 		solo.clickOnEditText(0);
