@@ -18,7 +18,7 @@
  */
 package at.tugraz.ist.catroid.uitest.stage;
 
-import java.io.IOException;
+import java.io.File;
 
 import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -37,7 +37,7 @@ import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.TurnLeftBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.StageActivity;
-import at.tugraz.ist.catroid.uitest.util.StageTestUtils;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -66,7 +66,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 			e.printStackTrace();
 		}
 		getActivity().finish();
-
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -82,79 +82,65 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 		solo.sleep(2000);
 		byte[] screenArray = StageActivity.stageListener.getPixels(0, 0, screenWidth, screenHeight);
 
-		StageTestUtils
-				.comparePixelArrayWithPixelScreenArray(redPixel, screenArray, -41, -41, screenWidth, screenHeight);
-		StageTestUtils.comparePixelArrayWithPixelScreenArray(redPixel, screenArray, -41, -2, screenWidth, screenHeight);
-		StageTestUtils.comparePixelArrayWithPixelScreenArray(redPixel, screenArray, -2, -41, screenWidth, screenHeight);
-		StageTestUtils.comparePixelArrayWithPixelScreenArray(redPixel, screenArray, -2, -2, screenWidth, screenHeight);
+		UiTestUtils.comparePixelArrayWithPixelScreenArray(redPixel, screenArray, -41, -41, screenWidth, screenHeight);
+		UiTestUtils.comparePixelArrayWithPixelScreenArray(redPixel, screenArray, -41, -2, screenWidth, screenHeight);
+		UiTestUtils.comparePixelArrayWithPixelScreenArray(redPixel, screenArray, -2, -41, screenWidth, screenHeight);
+		UiTestUtils.comparePixelArrayWithPixelScreenArray(redPixel, screenArray, -2, -2, screenWidth, screenHeight);
 
-		StageTestUtils.comparePixelArrayWithPixelScreenArray(greenPixel, screenArray, 1, -2, screenWidth, screenHeight);
-		StageTestUtils
-				.comparePixelArrayWithPixelScreenArray(greenPixel, screenArray, 40, -2, screenWidth, screenHeight);
-		StageTestUtils
-				.comparePixelArrayWithPixelScreenArray(greenPixel, screenArray, 1, -41, screenWidth, screenHeight);
-		StageTestUtils.comparePixelArrayWithPixelScreenArray(greenPixel, screenArray, 40, -41, screenWidth,
-				screenHeight);
+		UiTestUtils.comparePixelArrayWithPixelScreenArray(greenPixel, screenArray, 1, -2, screenWidth, screenHeight);
+		UiTestUtils.comparePixelArrayWithPixelScreenArray(greenPixel, screenArray, 40, -2, screenWidth, screenHeight);
+		UiTestUtils.comparePixelArrayWithPixelScreenArray(greenPixel, screenArray, 1, -41, screenWidth, screenHeight);
+		UiTestUtils.comparePixelArrayWithPixelScreenArray(greenPixel, screenArray, 40, -41, screenWidth, screenHeight);
 
-		StageTestUtils.comparePixelArrayWithPixelScreenArray(yellowPixel, screenArray, -21, 21, screenWidth,
-				screenHeight);
+		UiTestUtils.comparePixelArrayWithPixelScreenArray(yellowPixel, screenArray, -21, 21, screenWidth, screenHeight);
 
-		StageTestUtils.comparePixelArrayWithPixelScreenArray(whitePixel, screenArray, 0, 0, screenWidth, screenHeight);
+		UiTestUtils.comparePixelArrayWithPixelScreenArray(whitePixel, screenArray, 0, 0, screenWidth, screenHeight);
 
 		solo.clickOnScreen((screenWidth / 2) + 21, (screenHeight / 2) - 21);
 		solo.sleep(2000);
 		screenArray = StageActivity.stageListener.getPixels(0, 0, screenWidth, screenHeight);
-		StageTestUtils.comparePixelArrayWithPixelScreenArray(bluePixel, screenArray, 21, 21, screenWidth, screenHeight);
-		StageTestUtils.comparePixelArrayWithPixelScreenArray(bluePixel, screenArray, 0, 0, screenWidth, screenHeight);
-		StageTestUtils.comparePixelArrayWithPixelScreenArray(bluePixel, screenArray, 21 - 40, 21 - 40, screenWidth,
+		UiTestUtils.comparePixelArrayWithPixelScreenArray(bluePixel, screenArray, 21, 21, screenWidth, screenHeight);
+		UiTestUtils.comparePixelArrayWithPixelScreenArray(bluePixel, screenArray, 0, 0, screenWidth, screenHeight);
+		UiTestUtils.comparePixelArrayWithPixelScreenArray(bluePixel, screenArray, 21 - 40, 21 - 40, screenWidth,
 				screenHeight);
-		StageTestUtils.comparePixelArrayWithPixelScreenArray(redPixel, screenArray, 21 - 41, 21 - 41, screenWidth,
+		UiTestUtils.comparePixelArrayWithPixelScreenArray(redPixel, screenArray, 21 - 41, 21 - 41, screenWidth,
 				screenHeight);
 
 		solo.clickOnScreen((screenWidth / 2) - 21, (screenHeight / 2) - 21);
 		solo.sleep(3000);
 		screenArray = StageActivity.stageListener.getPixels(0, 0, screenWidth, screenHeight);
-		StageTestUtils.comparePixelArrayWithPixelScreenArray(whitePixel, screenArray, -31, 21, screenWidth,
-				screenHeight);
-		StageTestUtils.comparePixelArrayWithPixelScreenArray(bluePixel, screenArray, 21, 21, screenWidth, screenHeight);
-		StageTestUtils
-				.comparePixelArrayWithPixelScreenArray(redPixel, screenArray, -41, -41, screenWidth, screenHeight);
-		StageTestUtils.comparePixelArrayWithPixelScreenArray(greenPixel, screenArray, 40, -41, screenWidth,
-				screenHeight);
+		UiTestUtils.comparePixelArrayWithPixelScreenArray(whitePixel, screenArray, -31, 21, screenWidth, screenHeight);
+		UiTestUtils.comparePixelArrayWithPixelScreenArray(bluePixel, screenArray, 21, 21, screenWidth, screenHeight);
+		UiTestUtils.comparePixelArrayWithPixelScreenArray(redPixel, screenArray, -41, -41, screenWidth, screenHeight);
+		UiTestUtils.comparePixelArrayWithPixelScreenArray(greenPixel, screenArray, 40, -41, screenWidth, screenHeight);
 
 		solo.clickOnScreen((screenWidth / 2) + 21, (screenHeight / 2) + 21);
 		solo.sleep(3000);
 		screenArray = StageActivity.stageListener.getPixels(0, 0, screenWidth, screenHeight);
-		StageTestUtils.comparePixelArrayWithPixelScreenArray(greenPixel, screenArray, 1, -2, screenWidth, screenHeight);
-		StageTestUtils
-				.comparePixelArrayWithPixelScreenArray(greenPixel, screenArray, 40, -2, screenWidth, screenHeight);
-		StageTestUtils
-				.comparePixelArrayWithPixelScreenArray(greenPixel, screenArray, 1, -41, screenWidth, screenHeight);
-		StageTestUtils.comparePixelArrayWithPixelScreenArray(greenPixel, screenArray, 40, -41, screenWidth,
-				screenHeight);
+		UiTestUtils.comparePixelArrayWithPixelScreenArray(greenPixel, screenArray, 1, -2, screenWidth, screenHeight);
+		UiTestUtils.comparePixelArrayWithPixelScreenArray(greenPixel, screenArray, 40, -2, screenWidth, screenHeight);
+		UiTestUtils.comparePixelArrayWithPixelScreenArray(greenPixel, screenArray, 1, -41, screenWidth, screenHeight);
+		UiTestUtils.comparePixelArrayWithPixelScreenArray(greenPixel, screenArray, 40, -41, screenWidth, screenHeight);
 
 		solo.clickOnScreen((screenWidth / 2) - 21, (screenHeight / 2) + 21);
 		solo.sleep(3000);
 		screenArray = StageActivity.stageListener.getPixels(0, 0, screenWidth, screenHeight);
-		StageTestUtils.comparePixelArrayWithPixelScreenArray(redBrightnessPixel, screenArray, -21, -21, screenWidth,
+		UiTestUtils.comparePixelArrayWithPixelScreenArray(redBrightnessPixel, screenArray, -21, -21, screenWidth,
 				screenHeight);
-		StageTestUtils.comparePixelArrayWithPixelScreenArray(redBrightnessPixel, screenArray, -21, -21 + 27,
-				screenWidth, screenHeight);
-		StageTestUtils.comparePixelArrayWithPixelScreenArray(greenPixel, screenArray, 1, -2, screenWidth, screenHeight);
-		StageTestUtils
-				.comparePixelArrayWithPixelScreenArray(greenPixel, screenArray, 40, -2, screenWidth, screenHeight);
-		StageTestUtils
-				.comparePixelArrayWithPixelScreenArray(greenPixel, screenArray, 1, -41, screenWidth, screenHeight);
-		StageTestUtils.comparePixelArrayWithPixelScreenArray(greenPixel, screenArray, 40, -41, screenWidth,
+		UiTestUtils.comparePixelArrayWithPixelScreenArray(redBrightnessPixel, screenArray, -21, -21 + 27, screenWidth,
 				screenHeight);
-		StageTestUtils.comparePixelArrayWithPixelScreenArray(bluePixel, screenArray, 21, 21, screenWidth, screenHeight);
+		UiTestUtils.comparePixelArrayWithPixelScreenArray(greenPixel, screenArray, 1, -2, screenWidth, screenHeight);
+		UiTestUtils.comparePixelArrayWithPixelScreenArray(greenPixel, screenArray, 40, -2, screenWidth, screenHeight);
+		UiTestUtils.comparePixelArrayWithPixelScreenArray(greenPixel, screenArray, 1, -41, screenWidth, screenHeight);
+		UiTestUtils.comparePixelArrayWithPixelScreenArray(greenPixel, screenArray, 40, -41, screenWidth, screenHeight);
+		UiTestUtils.comparePixelArrayWithPixelScreenArray(bluePixel, screenArray, 21, 21, screenWidth, screenHeight);
 	}
 
 	private void createProject() {
 		Values.SCREEN_HEIGHT = screenHeight;
 		Values.SCREEN_WIDTH = screenWidth;
 
-		project = new Project(null, "stageComplexProject");
+		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		// yellow Sprite
 		Sprite yellowSprite = new Sprite("yellowSprite");
@@ -164,7 +150,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 		String yellowImageName = "yellow_image.bmp";
 
 		yellowCostumeData.setCostumeName(yellowImageName);
-		yellowCostumeData.setCostumeFilename(yellowImageName);
+
 		yellowSprite.getCostumeDataList().add(yellowCostumeData);
 
 		yellowCostumeBrick.setCostume(yellowCostumeData);
@@ -187,7 +173,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 		String blueImageName = "blue_image.bmp";
 
 		blueCostumeData.setCostumeName(blueImageName);
-		blueCostumeData.setCostumeFilename(blueImageName);
+
 		blueSprite.getCostumeDataList().add(blueCostumeData);
 
 		blueCostumeBrick.setCostume(blueCostumeData);
@@ -210,7 +196,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 		String greenImageName = "green_image.bmp";
 
 		greenCostumeData.setCostumeName(greenImageName);
-		greenCostumeData.setCostumeFilename(greenImageName);
+
 		greenSprite.getCostumeDataList().add(greenCostumeData);
 
 		greenCostumeBrick.setCostume(greenCostumeData);
@@ -233,7 +219,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 		String redImageName = "red_image.bmp";
 
 		redCostumeData.setCostumeName(redImageName);
-		redCostumeData.setCostumeFilename(redImageName);
+
 		redSprite.getCostumeDataList().add(redCostumeData);
 
 		redCostumeBrick.setCostume(redCostumeData);
@@ -259,18 +245,24 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 
 		StorageHandler.getInstance().saveProject(project);
 
-		try {
-			StageTestUtils.savePictureFromResourceInProject(project.getName(), yellowImageName,
-					at.tugraz.ist.catroid.uitest.R.raw.yellow_image, getInstrumentation().getContext());
-			StageTestUtils.savePictureFromResourceInProject(project.getName(), greenImageName,
-					at.tugraz.ist.catroid.uitest.R.raw.green_image, getInstrumentation().getContext());
-			StageTestUtils.savePictureFromResourceInProject(project.getName(), blueImageName,
-					at.tugraz.ist.catroid.uitest.R.raw.blue_image, getInstrumentation().getContext());
-			StageTestUtils.savePictureFromResourceInProject(project.getName(), redImageName,
-					at.tugraz.ist.catroid.uitest.R.raw.red_image, getInstrumentation().getContext());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		File yellowImageFile = UiTestUtils.saveFileToProject(project.getName(), yellowImageName,
+				at.tugraz.ist.catroid.uitest.R.raw.yellow_image, getInstrumentation().getContext(),
+				UiTestUtils.TYPE_IMAGE_FILE);
+		File greenImageFile = UiTestUtils.saveFileToProject(project.getName(), greenImageName,
+				at.tugraz.ist.catroid.uitest.R.raw.green_image, getInstrumentation().getContext(),
+				UiTestUtils.TYPE_IMAGE_FILE);
+		File blueImageFile = UiTestUtils.saveFileToProject(project.getName(), blueImageName,
+				at.tugraz.ist.catroid.uitest.R.raw.blue_image, getInstrumentation().getContext(),
+				UiTestUtils.TYPE_IMAGE_FILE);
+		File redImageFile = UiTestUtils.saveFileToProject(project.getName(), redImageName,
+				at.tugraz.ist.catroid.uitest.R.raw.red_image, getInstrumentation().getContext(),
+				UiTestUtils.TYPE_IMAGE_FILE);
+		yellowCostumeData.setCostumeFilename(yellowImageFile.getName());
+		greenCostumeData.setCostumeFilename(greenImageFile.getName());
+		blueCostumeData.setCostumeFilename(blueImageFile.getName());
+		redCostumeData.setCostumeFilename(redImageFile.getName());
+
+		StorageHandler.getInstance().saveProject(project);
 
 		ProjectManager.getInstance().setProject(project);
 

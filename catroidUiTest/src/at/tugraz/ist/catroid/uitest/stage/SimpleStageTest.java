@@ -20,13 +20,12 @@
 package at.tugraz.ist.catroid.uitest.stage;
 
 import android.test.ActivityInstrumentationTestCase2;
-
 import at.tugraz.ist.catroid.ProjectManager;
-
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.StageActivity;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -52,7 +51,7 @@ public class SimpleStageTest extends ActivityInstrumentationTestCase2<StageActiv
 			e.printStackTrace();
 		}
 		getActivity().finish();
-
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -80,7 +79,7 @@ public class SimpleStageTest extends ActivityInstrumentationTestCase2<StageActiv
 	private void createProject() {
 		Values.SCREEN_HEIGHT = 20;
 		Values.SCREEN_WIDTH = 20;
-		Project project = new Project(null, "simpleStageProject");
+		Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		ProjectManager.getInstance().setProject(project);
 		StorageHandler.getInstance().saveProject(project);
