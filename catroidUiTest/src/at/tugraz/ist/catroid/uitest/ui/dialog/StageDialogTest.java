@@ -95,6 +95,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		Activity previousActivity = getActivity();
 
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		solo.sleep(1000);
 
 		solo.goBack();
 		solo.clickOnButton(getActivity().getString(R.string.back));
@@ -249,11 +250,9 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.sleep(500);
 		assertFalse("Sound playing but should be paused.", mediaPlayer.isPlaying());
 		solo.clickOnButton(getActivity().getString(R.string.restart_current_project));
-		solo.sleep(100);
 		int positionAfterRestart = mediaPlayer.getCurrentPosition();
 		assertTrue("Sound not playing after stage restart.", mediaPlayer.isPlaying());
 		assertTrue("Sound did not play from start!", positionBeforeRestart > positionAfterRestart);
-
 	}
 
 	public void createTestProject(String projectName) throws IOException, NameNotFoundException {

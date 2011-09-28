@@ -28,7 +28,6 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
@@ -52,16 +51,16 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 		}
 		listView = (DragAndDropListView) findViewById(R.id.brick_list_view);
 		adapter = new BrickAdapter(this, sprite, listView);
-		if (adapter.getGroupCount() > 0) {
-			ProjectManager.getInstance().setCurrentScript(adapter.getGroup(adapter.getGroupCount() - 1));
+		if (adapter.getScriptCount() > 0) {
+			ProjectManager.getInstance().setCurrentScript((Script) adapter.getItem(0));
+			adapter.setCurrentScriptPosition(0);
 		}
 
 		listView.setTrashView((ImageView) findViewById(R.id.trash));
 		listView.setOnCreateContextMenuListener(this);
 		listView.setOnDragAndDropListener(adapter);
 		listView.setAdapter(adapter);
-		listView.setGroupIndicator(null);
-		listView.setOnGroupClickListener(adapter);
+
 		registerForContextMenu(listView);
 	}
 
@@ -89,9 +88,6 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 			return;
 		}
 		initListeners();
-		if (adapter.getGroupCount() > 0) {
-			listView.expandGroup(adapter.getGroupCount() - 1);
-		}
 	}
 
 	@Override
@@ -102,9 +98,6 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 		}
 
 		initListeners();
-		if (adapter.getGroupCount() > 0) {
-			listView.expandGroup(adapter.getGroupCount() - 1);
-		}
 
 		ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
 		if (scriptTabActivity != null && scriptTabActivity.activityHelper != null) {
@@ -125,14 +118,7 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 	}
 
 	public void updateAdapterAfterAddNewBrick(DialogInterface dialog) {
-		for (int i = 0; i < adapter.getGroupCount() - 1; ++i) {
-			listView.collapseGroup(i);
-		}
-
 		adapter.notifyDataSetChanged();
-		if (adapter.getGroupCount() > 0) {
-			listView.expandGroup(adapter.getGroupCount() - 1);
-		}
 	}
 
 	public void onCancel(DialogInterface arg0) {
@@ -145,15 +131,13 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view, ContextMenuInfo menuInfo) {
+
 		if (view.getId() == R.id.brick_list_view) {
-			ExpandableListView.ExpandableListContextMenuInfo info = (ExpandableListView.ExpandableListContextMenuInfo) menuInfo;
+
 			menu.setHeaderTitle(R.string.script_context_menu_title);
 
-			if (ExpandableListView.getPackedPositionType(info.packedPosition) != ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-
-				int position = ExpandableListView.getPackedPositionGroup(info.packedPosition);
-				scriptToEdit = adapter.getGroup(position);
-
+			if (adapter.getItem(listView.getTouchedListPosition()) instanceof Script) {
+				scriptToEdit = (Script) adapter.getItem(listView.getTouchedListPosition());
 				MenuInflater inflater = getMenuInflater();
 				inflater.inflate(R.menu.script_menu, menu);
 			}
@@ -173,8 +157,8 @@ public class ScriptActivity extends Activity implements OnCancelListener {
 				int lastScriptIndex = sprite.getNumberOfScripts() - 1;
 				Script lastScript = sprite.getScript(lastScriptIndex);
 				ProjectManager.getInstance().setCurrentScript(lastScript);
+				adapter.setCurrentScriptPosition(lastScriptIndex);
 				adapter.notifyDataSetChanged();
-				listView.expandGroup(adapter.getGroupCount() - 1);
 			}
 		}
 		return true;

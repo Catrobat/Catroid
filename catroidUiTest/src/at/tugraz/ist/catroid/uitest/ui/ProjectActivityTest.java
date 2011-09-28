@@ -246,7 +246,8 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(spriteName1));
 		solo.sleep(300);
-		solo.clickOnText("Name of new Sprite");
+		solo.goBack();
+		solo.clickOnButton(0);
 		solo.sleep(300);
 
 		assertTrue("Sprite not successfully added", projectManager.spriteExists(spriteName1));

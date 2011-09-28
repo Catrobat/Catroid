@@ -134,6 +134,7 @@ public abstract class Script implements Serializable {
 		}
 		return false;
 	}
+
 	//
 	//	public boolean containsBluetoothBrick() {
 	//		for (Brick brick : brickList) {
@@ -144,4 +145,8 @@ public abstract class Script implements Serializable {
 	//		}
 	//		return false;
 	//	}
+
+	public Brick getBrick(int index) {
+		return brickList.get(index);
+	}
 }

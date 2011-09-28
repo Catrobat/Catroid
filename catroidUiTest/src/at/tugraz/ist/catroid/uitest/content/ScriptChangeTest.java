@@ -73,26 +73,24 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptTab
 		solo.clickOnView(testScriptBrick);
 		solo.sleep(1500);
 
-		assertEquals("First script in list is not testScript2", "testScript2", ProjectManager.getInstance()
-				.getCurrentSprite().getScript(0).getName());
-		assertEquals("Second script in list is not testScript3", "testScript3", ProjectManager.getInstance()
-				.getCurrentSprite().getScript(1).getName());
-		assertEquals("Third script in list is not testScript", "testScript", ProjectManager.getInstance()
-				.getCurrentSprite().getScript(2).getName());
+		assertEquals("Current Script in List is not testScript", "testScript", ProjectManager.getInstance()
+				.getCurrentScript().getName());
 
-		View startBrick = parent.getChildAt(1);
+		View startBrick = parent.getChildAt(4);
 		solo.clickOnView(startBrick);
 		solo.sleep(1500);
-		assertEquals("First script in list is not testScript2", "testScript2", ProjectManager.getInstance()
-				.getCurrentSprite().getScript(0).getName());
-		assertEquals("Second script in list is not testScript", "testScript", ProjectManager.getInstance()
-				.getCurrentSprite().getScript(1).getName());
-		assertEquals("Third script in list is not testScript3", "testScript3", ProjectManager.getInstance()
-				.getCurrentSprite().getScript(2).getName());
+		assertEquals("Current Script in List is not testScript", "testScript3", ProjectManager.getInstance()
+				.getCurrentScript().getName());
+
+		startBrick = parent.getChildAt(5);
+		solo.clickOnView(startBrick);
+		solo.sleep(1500);
+		assertEquals("Current Script in List is not testScript", "testScript2", ProjectManager.getInstance()
+				.getCurrentScript().getName());
 
 		startBrick = parent.getChildAt(2);
 		String textViewText = solo.getCurrentTextViews(startBrick).get(0).getText().toString();
-		String startBrickText = getActivity().getString(R.string.brick_when_started);
+		String startBrickText = getActivity().getString(R.string.brick_show);
 		assertEquals("Third script in listView is not startScript", startBrickText, textViewText);
 	}
 

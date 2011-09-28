@@ -219,4 +219,8 @@ public class Sprite implements Serializable {
 	public String toString() {
 		return name;
 	}
+
+	public int getScriptCount() {
+		return scriptList.size();
+	}
 }

@@ -61,7 +61,7 @@ public class BrickListAnimation {
 
 			public void onAnimationEnd(Animation animation) {
 				// set this, otherwise the animation starts always if the view is redrawn ie. on scrolling
-				adapter.setAnimateChildren(false);
+//				adapter.setAnimateChildren(false);
 			}
 		});
 
@@ -102,7 +102,7 @@ public class BrickListAnimation {
 
 			public void onAnimationEnd(Animation animation) {
 				// the expand animation starts if the new child Views are rendered the first time
-				adapter.doReordering(listView, groupPosition);
+				//				adapter.doReordering(listView, groupPosition);
 			}
 		});
 		getChildFromAbsolutePosition(groupPosition).startAnimation(downAnimation);
