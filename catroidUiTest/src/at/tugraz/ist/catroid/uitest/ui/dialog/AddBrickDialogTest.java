@@ -107,7 +107,8 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 			int oldNumberOfScripts = manager.getCurrentSprite().getNumberOfScripts();
 			addAndCheckBrick(solo, id);
 			Script script = manager.getCurrentScript();
-			assertEquals("Adding new trigger brick did not create new empty script", 0, script.getBrickList().size());
+			assertEquals("Adding new trigger brick changed currentScript to change", brickIds.length + 1, script
+					.getBrickList().size());
 			assertEquals("Adding new trigger brick did not create an additional script", oldNumberOfScripts + 1,
 					manager.getCurrentSprite().getNumberOfScripts());
 		}
