@@ -22,10 +22,6 @@ import java.util.concurrent.CountDownLatch;
 
 import at.tugraz.ist.catroid.ProjectManager;
 
-/**
- * @author Johannes Iber
- * 
- */
 public class BroadcastScript extends Script {
 
 	private static final long serialVersionUID = 1L;

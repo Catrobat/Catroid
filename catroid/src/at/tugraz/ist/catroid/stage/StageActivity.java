@@ -29,10 +29,6 @@ import at.tugraz.ist.catroid.ui.dialogs.StageDialog;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 
-/**
- * @author Johannes Iber
- * 
- */
 public class StageActivity extends AndroidApplication {
 
 	private boolean stagePlaying = true;
