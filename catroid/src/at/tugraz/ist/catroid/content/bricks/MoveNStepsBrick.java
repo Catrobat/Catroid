@@ -18,27 +18,27 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
-import android.content.DialogInterface.OnDismissListener;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
+import at.tugraz.ist.catroid.utils.Utils;
 
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
-
-public class MoveNStepsBrick implements Brick, OnDismissListener {
+public class MoveNStepsBrick implements Brick, OnClickListener {
 
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private double steps;
 
-	@XStreamOmitField
 	private transient View view;
 
 	public MoveNStepsBrick(Sprite sprite, double steps) {
@@ -46,17 +46,20 @@ public class MoveNStepsBrick implements Brick, OnDismissListener {
 		this.steps = steps;
 	}
 
+	public int getRequiredResources() {
+		return NO_RESOURCES;
+	}
+
 	public void execute() {
+		sprite.costume.aquireXYWidthHeightLock();
 
-		int xPosition = sprite.getXPosition();
-		int yPosition = sprite.getYPosition();
+		double radians = Math.toRadians(sprite.costume.rotation);
 
-		double radians = sprite.getDirection() / 180 * Math.PI;
+		int newXPosition = (int) Math.round(sprite.costume.getXPosition() + steps * Math.cos(radians));
+		int newYPosition = (int) Math.round(sprite.costume.getYPosition() + steps * Math.sin(radians));
 
-		int newXPosition = (int) Math.round(xPosition + steps * Math.sin(radians));
-		int newYPosition = (int) Math.round(yPosition + steps * Math.cos(radians));
-
-		sprite.setXYPosition(newXPosition, newYPosition);
+		sprite.costume.setXYPosition(newXPosition, newYPosition);
+		sprite.costume.releaseXYWidthHeightLock();
 
 	}
 
@@ -65,17 +68,14 @@ public class MoveNStepsBrick implements Brick, OnDismissListener {
 	}
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_move_n_steps, null);
-		}
+
+		view = View.inflate(context, R.layout.toolbox_brick_move_n_steps, null);
 
 		EditText edit = (EditText) view.findViewById(R.id.toolbox_brick_move_n_steps_edit_text);
 
 		edit.setText(String.valueOf(steps));
-		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, steps);
-		dialog.setOnDismissListener(this);
-		dialog.setOnCancelListener((OnCancelListener) context);
-		edit.setOnClickListener(dialog);
+
+		edit.setOnClickListener(this);
 
 		return view;
 	}
@@ -91,9 +91,38 @@ public class MoveNStepsBrick implements Brick, OnDismissListener {
 		return new MoveNStepsBrick(getSprite(), steps);
 	}
 
-	public void onDismiss(DialogInterface dialog) {
-		steps = ((EditDoubleDialog) dialog).getValue();
-		dialog.cancel();
+	public void onClick(View view) {
+		final Context context = view.getContext();
+
+		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+		final EditText input = new EditText(context);
+		input.setText(String.valueOf(steps));
+		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
+				| InputType.TYPE_NUMBER_FLAG_SIGNED);
+		input.setSelectAllOnFocus(true);
+		dialog.setView(input);
+		dialog.setOnCancelListener((OnCancelListener) context);
+		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				try {
+					steps = Double.parseDouble(input.getText().toString());
+				} catch (NumberFormatException exception) {
+					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT);
+				}
+				dialog.cancel();
+			}
+		});
+		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+
+		AlertDialog finishedDialog = dialog.create();
+		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
+
+		finishedDialog.show();
+
 	}
 
 }

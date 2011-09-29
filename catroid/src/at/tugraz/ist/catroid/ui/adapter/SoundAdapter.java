@@ -34,7 +34,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
@@ -69,25 +68,29 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 			final ImageView soundImage = (ImageView) convertView.findViewById(R.id.sound_img);
 			final TextView soundNameTextView = (TextView) convertView.findViewById(R.id.sound_name);
 			final Button renameSoundButton = (Button) convertView.findViewById(R.id.btn_sound_rename);
-			final Button stopSoundButton = (Button) convertView.findViewById(R.id.btn_sound_stop);
+			final Button pauseSoundButton = (Button) convertView.findViewById(R.id.btn_sound_pause);
 			final Button playSoundButton = (Button) convertView.findViewById(R.id.btn_sound_play);
 			Button deleteSoundButton = (Button) convertView.findViewById(R.id.btn_sound_delete);
 			TextView soundFileSize = (TextView) convertView.findViewById(R.id.sound_size);
 			TextView soundDuration = (TextView) convertView.findViewById(R.id.sound_duration);
 
 			playSoundButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_media_play, 0, 0);
-			stopSoundButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_media_stop, 0, 0);
+			pauseSoundButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_media_pause, 0, 0);
 			renameSoundButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_menu_edit, 0, 0);
-			deleteSoundButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_trash, 0, 0);
+			deleteSoundButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_menu_delete, 0, 0);
 
 			if (soundInfo.isPlaying) {
 				soundImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.speaker_playing));
 				playSoundButton.setVisibility(Button.GONE);
-				stopSoundButton.setVisibility(Button.VISIBLE);
+				pauseSoundButton.setVisibility(Button.VISIBLE);
+			} else if (soundInfo.isPaused) {
+				soundImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.speaker));
+				playSoundButton.setVisibility(Button.VISIBLE);
+				pauseSoundButton.setVisibility(Button.GONE);
 			} else {
 				soundImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.speaker));
 				playSoundButton.setVisibility(Button.VISIBLE);
-				stopSoundButton.setVisibility(Button.GONE);
+				pauseSoundButton.setVisibility(Button.GONE);
 			}
 
 			//setting filesize and duration
@@ -117,18 +120,19 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 			renameSoundButton.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
 					scriptTabActivity.selectedSoundInfo = soundInfo;
-					scriptTabActivity.showDialog(Consts.DIALOG_RENAME_SOUND);
+					scriptTabActivity.showDialog(ScriptTabActivity.DIALOG_RENAME_SOUND);
 				}
 			});
 
 			playSoundButton.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
-					activity.stopSound();
+					activity.stopSound(soundInfo);
 					activity.startSound(soundInfo);
 
 					activity.mediaPlayer.setOnCompletionListener(new OnCompletionListener() {
 						public void onCompletion(MediaPlayer mp) {
 							soundInfo.isPlaying = false;
+							soundInfo.isPaused = false;
 							notifyDataSetChanged();
 						}
 					});
@@ -137,16 +141,16 @@ public class SoundAdapter extends ArrayAdapter<SoundInfo> {
 				}
 			});
 
-			stopSoundButton.setOnClickListener(new View.OnClickListener() {
+			pauseSoundButton.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
-					activity.stopSound();
+					activity.pauseSound(soundInfo);
 					notifyDataSetChanged();
 				}
 			});
 
 			deleteSoundButton.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
-					activity.stopSound();
+					activity.stopSound(null);
 					soundInfoItems.remove(soundInfo);
 					StorageHandler.getInstance().deleteFile(soundInfo.getAbsolutePath());
 					notifyDataSetChanged();

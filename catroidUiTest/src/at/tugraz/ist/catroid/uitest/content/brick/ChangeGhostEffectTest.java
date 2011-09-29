@@ -83,6 +83,7 @@ public class ChangeGhostEffectTest extends ActivityInstrumentationTestCase2<Scri
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, effectToChange + "");
+		solo.goBack();
 		solo.clickOnButton(0);
 
 		solo.sleep(1000);

@@ -98,6 +98,7 @@ public class MoveNStepsBrickTest extends ActivityInstrumentationTestCase2<Script
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, stepsToMove + "");
+		solo.goBack();
 		solo.clickOnButton(0);
 
 		solo.sleep(300);

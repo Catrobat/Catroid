@@ -81,14 +81,15 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 
 		int[] brickIds = new int[] { R.string.brick_wait, R.string.brick_hide, R.string.brick_show,
 				R.string.brick_place_at, R.string.brick_set_x, R.string.brick_set_y, R.string.brick_change_x_by,
-				R.string.brick_change_y_by, R.string.brick_set_costume, R.string.brick_set_size_to,
-				R.string.brick_go_back, R.string.brick_come_to_front, R.string.brick_play_sound, R.string.brick_glide,
-				R.string.brick_broadcast, R.string.brick_broadcast_wait, R.string.brick_note, R.string.brick_forever };
+				R.string.brick_change_y_by, R.string.brick_point_in_direction, R.string.brick_set_costume,
+				R.string.brick_set_size_to, R.string.brick_go_back, R.string.brick_come_to_front,
+				R.string.brick_play_sound, R.string.brick_glide, R.string.brick_broadcast,
+				R.string.brick_broadcast_wait, R.string.brick_note, R.string.brick_forever };
 
 		ProjectManager manager = ProjectManager.getInstance();
 		for (int id : brickIds) {
 			Script script = manager.getCurrentScript();
-			int numberOfBricksBeforeAdding = id == R.string.brick_if_touched ? 0 : script.getBrickList().size();
+			int numberOfBricksBeforeAdding = id == R.string.brick_when ? 0 : script.getBrickList().size();
 			addAndCheckBrick(solo, id);
 			if (id == R.string.brick_forever) {
 				assertEquals("Brick " + solo.getCurrentActivity().getString(id) + " didn't created a LoopEndBrick.",
@@ -99,14 +100,15 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 			}
 		}
 
-		int[] triggerBrickIds = new int[] { R.string.brick_if_started, R.string.brick_if_touched,
+		int[] triggerBrickIds = new int[] { R.string.brick_when_started, R.string.brick_when,
 				R.string.brick_broadcast_receive };
 
 		for (int id : triggerBrickIds) {
 			int oldNumberOfScripts = manager.getCurrentSprite().getNumberOfScripts();
 			addAndCheckBrick(solo, id);
 			Script script = manager.getCurrentScript();
-			assertEquals("Adding new trigger brick did not create new empty script", 0, script.getBrickList().size());
+			assertEquals("Adding new trigger brick changed currentScript to change", brickIds.length + 1, script
+					.getBrickList().size());
 			assertEquals("Adding new trigger brick did not create an additional script", oldNumberOfScripts + 1,
 					manager.getCurrentSprite().getNumberOfScripts());
 		}

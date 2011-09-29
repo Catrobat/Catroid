@@ -60,6 +60,10 @@ public class BroadcastWaitBrick implements Brick {
 		this.projectManager = ProjectManager.getInstance();
 	}
 
+	public int getRequiredResources() {
+		return NO_RESOURCES;
+	}
+
 	public void execute() {
 		Vector<BroadcastScript> receiver = projectManager.messageContainer.getReceiverOfMessage(selectedMessage);
 		if (receiver == null) {
@@ -101,9 +105,8 @@ public class BroadcastWaitBrick implements Brick {
 
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
 
-		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_broadcast_wait, null);
-		}
+		view = View.inflate(context, R.layout.toolbox_brick_broadcast_wait, null);
+
 		final Spinner broadcastSpinner = (Spinner) view.findViewById(R.id.broadcast_spinner);
 		broadcastSpinner.setAdapter(projectManager.messageContainer.getMessageAdapter(context));
 		broadcastSpinner.setClickable(true);

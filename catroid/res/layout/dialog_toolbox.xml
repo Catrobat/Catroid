@@ -22,8 +22,13 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
+	android:background="@drawable/bg_dialog"
+	android:orientation="vertical"
 	android:scrollbarDefaultDelayBeforeFade="2000"
->
+>	
+	<!-- Top bar -->
+	<include layout="@layout/brick_dialog_top"/>
+		
 	<ListView
 		android:id="@+id/toolboxListView"
 		android:layout_width="match_parent"
@@ -33,5 +38,6 @@
 		android:scrollbarFadeDuration="2000"
 		android:clickable="true"
 		android:dividerHeight="10dip"
+		android:divider="#00000000"
 	></ListView>
 </LinearLayout>

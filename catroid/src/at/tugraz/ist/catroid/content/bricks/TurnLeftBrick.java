@@ -18,28 +18,26 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
-import android.content.DialogInterface.OnDismissListener;
+import android.text.InputType;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
+import at.tugraz.ist.catroid.utils.Utils;
 
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
-
-public class TurnLeftBrick implements Brick, OnDismissListener {
+public class TurnLeftBrick implements Brick, OnClickListener {
 
 	private static final long serialVersionUID = 1L;
-
 	private Sprite sprite;
-
 	private double degrees;
 
-	@XStreamOmitField
 	private transient View view;
 
 	public TurnLeftBrick(Sprite sprite, double degrees) {
@@ -47,8 +45,12 @@ public class TurnLeftBrick implements Brick, OnDismissListener {
 		this.degrees = degrees;
 	}
 
+	public int getRequiredResources() {
+		return NO_RESOURCES;
+	}
+
 	public void execute() {
-		sprite.setDirection(sprite.getDirection() - degrees);
+		sprite.costume.rotation = (sprite.costume.rotation % 360) + (float) degrees;
 	}
 
 	public Sprite getSprite() {
@@ -57,18 +59,12 @@ public class TurnLeftBrick implements Brick, OnDismissListener {
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
-		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_turn_left, null);
-		}
+		view = View.inflate(context, R.layout.toolbox_brick_turn_left, null);
 
 		EditText editDegrees = (EditText) view.findViewById(R.id.toolbox_brick_turn_left_edit_text);
 		editDegrees.setText(String.valueOf(degrees));
 
-		EditDoubleDialog dialog = new EditDoubleDialog(context, editDegrees, degrees);
-		dialog.setOnDismissListener(this);
-		dialog.setOnCancelListener((OnCancelListener) context);
-
-		editDegrees.setOnClickListener(dialog);
+		editDegrees.setOnClickListener(this);
 
 		return view;
 	}
@@ -82,10 +78,37 @@ public class TurnLeftBrick implements Brick, OnDismissListener {
 		return new TurnLeftBrick(getSprite(), degrees);
 	}
 
-	public void onDismiss(DialogInterface dialog) {
-		EditDoubleDialog doubleDialog = (EditDoubleDialog) dialog;
-		degrees = doubleDialog.getValue();
-		dialog.cancel();
+	public void onClick(View view) {
+		final Context context = view.getContext();
+
+		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+		final EditText input = new EditText(context);
+		input.setText(String.valueOf(degrees));
+		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+		input.setSelectAllOnFocus(true);
+		dialog.setView(input);
+		dialog.setOnCancelListener((OnCancelListener) context);
+		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				try {
+					degrees = Double.parseDouble(input.getText().toString());
+				} catch (NumberFormatException exception) {
+					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT);
+				}
+				dialog.cancel();
+			}
+		});
+		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+
+		AlertDialog finishedDialog = dialog.create();
+		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
+
+		finishedDialog.show();
+
 	}
 
 }

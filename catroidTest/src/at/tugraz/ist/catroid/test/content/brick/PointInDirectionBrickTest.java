@@ -26,43 +26,43 @@ public class PointInDirectionBrickTest extends AndroidTestCase {
 
 	public void testPointRight() {
 		Sprite sprite = new Sprite("test");
-		PointInDirectionBrick pointInDirectionBrick = new PointInDirectionBrick(sprite, PointInDirectionBrick.DIRECTION_RIGHT);
+		PointInDirectionBrick pointInDirectionBrick = new PointInDirectionBrick(sprite, 0);
 
 		pointInDirectionBrick.execute();
-		assertEquals("Wrong direction", 90, sprite.getDirection(), 1e-3);
+		assertEquals("Wrong direction", 0f, sprite.costume.rotation, 1e-3);
 	}
 
 	public void testPointLeft() {
 		Sprite sprite = new Sprite("test");
-		PointInDirectionBrick pointInDirectionBrick = new PointInDirectionBrick(sprite, PointInDirectionBrick.DIRECTION_LEFT);
+		PointInDirectionBrick pointInDirectionBrick = new PointInDirectionBrick(sprite, 1);
 
 		pointInDirectionBrick.execute();
-		assertEquals("Wrong direction", -90, sprite.getDirection(), 1e-3);
+		assertEquals("Wrong direction", 180f, sprite.costume.rotation, 1e-3);
 	}
 
 	public void testPointUp() {
 		Sprite sprite = new Sprite("test");
-		PointInDirectionBrick pointInDirectionBrick = new PointInDirectionBrick(sprite, PointInDirectionBrick.DIRECTION_UP);
+		PointInDirectionBrick pointInDirectionBrick = new PointInDirectionBrick(sprite, 2);
 
 		pointInDirectionBrick.execute();
-		assertEquals("Wrong direction", 0, sprite.getDirection(), 1e-3);
+		assertEquals("Wrong direction", 90f, sprite.costume.rotation, 1e-3);
 	}
 
 	public void testPointDown() {
 		Sprite sprite = new Sprite("test");
-		PointInDirectionBrick pointInDirectionBrick = new PointInDirectionBrick(sprite, PointInDirectionBrick.DIRECTION_DOWN);
+		PointInDirectionBrick pointInDirectionBrick = new PointInDirectionBrick(sprite, 3);
 
 		pointInDirectionBrick.execute();
-		assertEquals("Wrong direction", 180, sprite.getDirection(), 1e-3);
+		assertEquals("Wrong direction", -90f, sprite.costume.rotation, 1e-3);
 	}
 
 	public void testRotateAndPoint() {
 		Sprite sprite = new Sprite("test");
-		sprite.setDirection(-42);
-		PointInDirectionBrick pointInDirectionBrick = new PointInDirectionBrick(sprite, PointInDirectionBrick.DIRECTION_RIGHT);
+		sprite.costume.rotation = -42;
+		PointInDirectionBrick pointInDirectionBrick = new PointInDirectionBrick(sprite, 0);
 
 		pointInDirectionBrick.execute();
-		assertEquals("Wrong direction", 90, sprite.getDirection(), 1e-3);
+		assertEquals("Wrong direction", 0f, sprite.costume.rotation, 1e-3);
 	}
 
 }

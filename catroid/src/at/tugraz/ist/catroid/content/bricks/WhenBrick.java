@@ -41,6 +41,10 @@ public class WhenBrick implements Brick {
 		this.sprite = sprite;
 	}
 
+	public int getRequiredResources() {
+		return NO_RESOURCES;
+	}
+
 	public void execute() {
 	}
 
@@ -49,9 +53,7 @@ public class WhenBrick implements Brick {
 	}
 
 	public View getView(final Context context, int brickId, final BaseAdapter adapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_when, null);
-		}
+		view = View.inflate(context, R.layout.toolbox_brick_when, null);
 
 		final Spinner spinner = (Spinner) view.findViewById(R.id.toolbox_brick_when_spinner);
 		spinner.setFocusable(false);
@@ -59,12 +61,14 @@ public class WhenBrick implements Brick {
 		ArrayAdapter<CharSequence> spinnerAdapter = new ArrayAdapter<CharSequence>(context,
 				android.R.layout.simple_spinner_item);
 		spinnerAdapter.add(context.getString(R.string.action_tapped));
-		spinnerAdapter.add(context.getString(R.string.action_doubleTapped));
-		spinnerAdapter.add(context.getString(R.string.action_longPressed));
-		spinnerAdapter.add(context.getString(R.string.action_swipeUp));
-		spinnerAdapter.add(context.getString(R.string.action_swipeDown));
-		spinnerAdapter.add(context.getString(R.string.action_swipeLeft));
-		spinnerAdapter.add(context.getString(R.string.action_swipeRight));
+
+		//		TODO: not working with OpenGL yet, uncomment this when it does
+		//		spinnerAdapter.add(context.getString(R.string.action_doubleTapped));
+		//		spinnerAdapter.add(context.getString(R.string.action_longPressed));
+		//		spinnerAdapter.add(context.getString(R.string.action_swipeUp));
+		//		spinnerAdapter.add(context.getString(R.string.action_swipeDown));
+		//		spinnerAdapter.add(context.getString(R.string.action_swipeLeft));
+		//		spinnerAdapter.add(context.getString(R.string.action_swipeRight));
 		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(spinnerAdapter);
 

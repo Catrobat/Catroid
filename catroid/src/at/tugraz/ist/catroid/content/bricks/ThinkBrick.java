@@ -28,6 +28,7 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.utils.Utils;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
@@ -48,8 +49,12 @@ public class ThinkBrick implements Brick {
 		this.text = note;
 	}
 
+	public int getRequiredResources() {
+		return NO_RESOURCES;
+	}
+
 	public void execute() {
-		sprite.getBubble().setSpeechBubble(text, R.drawable.mind_bubble, R.drawable.mind_bubble_inv);
+		// sprite.getBubble().setSpeechBubble(text, R.drawable.mind_bubble, R.drawable.mind_bubble_inv);
 	}
 
 	public Sprite getSprite() {
@@ -70,6 +75,7 @@ public class ThinkBrick implements Brick {
 				AlertDialog.Builder dialog = new AlertDialog.Builder(context);
 				final EditText input = new EditText(context);
 				input.setText(text);
+				input.setSelectAllOnFocus(true);
 				dialog.setView(input);
 				dialog.setOnCancelListener((OnCancelListener) context);
 				dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
@@ -85,7 +91,10 @@ public class ThinkBrick implements Brick {
 							}
 						});
 
-				dialog.show();
+				AlertDialog finishedDialog = dialog.create();
+				finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
+
+				finishedDialog.show();
 			}
 		});
 

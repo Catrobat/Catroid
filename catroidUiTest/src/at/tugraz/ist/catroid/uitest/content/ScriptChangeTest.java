@@ -30,7 +30,6 @@ import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
-import at.tugraz.ist.catroid.content.TapScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
@@ -72,29 +71,27 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptTab
 		View testScriptBrick = parent.getChildAt(0);
 
 		solo.clickOnView(testScriptBrick);
-		solo.sleep(3000);
-
-		assertEquals("First script in list is not testScript2", "testScript2", ProjectManager.getInstance()
-				.getCurrentSprite().getScript(0).getName());
-		assertEquals("Second script in list is not touchScript", "touchScript", ProjectManager.getInstance()
-				.getCurrentSprite().getScript(1).getName());
-		assertEquals("Third script in list is not testScript", "testScript", ProjectManager.getInstance()
-				.getCurrentSprite().getScript(2).getName());
-
-		View touchBrick = parent.getChildAt(1);
-		solo.clickOnView(touchBrick);
 		solo.sleep(1500);
-		assertEquals("First script in list is not testScript2", "testScript2", ProjectManager.getInstance()
-				.getCurrentSprite().getScript(0).getName());
-		assertEquals("Second script in list is not testScript", "testScript", ProjectManager.getInstance()
-				.getCurrentSprite().getScript(1).getName());
-		assertEquals("Third script in list is not touchScript", "touchScript", ProjectManager.getInstance()
-				.getCurrentSprite().getScript(2).getName());
 
-		touchBrick = parent.getChildAt(2);
-		String textViewText = solo.getCurrentTextViews(touchBrick).get(0).getText().toString();
-		String touchBrickText = getActivity().getString(R.string.brick_if_touched);
-		assertEquals("Third script in listView is not touchScript", touchBrickText, textViewText);
+		assertEquals("Current Script in List is not testScript", "testScript", ProjectManager.getInstance()
+				.getCurrentScript().getName());
+
+		View startBrick = parent.getChildAt(4);
+		solo.clickOnView(startBrick);
+		solo.sleep(1500);
+		assertEquals("Current Script in List is not testScript", "testScript3", ProjectManager.getInstance()
+				.getCurrentScript().getName());
+
+		startBrick = parent.getChildAt(5);
+		solo.clickOnView(startBrick);
+		solo.sleep(1500);
+		assertEquals("Current Script in List is not testScript", "testScript2", ProjectManager.getInstance()
+				.getCurrentScript().getName());
+
+		startBrick = parent.getChildAt(2);
+		String textViewText = solo.getCurrentTextViews(startBrick).get(0).getText().toString();
+		String startBrickText = getActivity().getString(R.string.brick_show);
+		assertEquals("Third script in listView is not startScript", startBrickText, textViewText);
 	}
 
 	private void createTestProject(String projectName) {
@@ -104,8 +101,8 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptTab
 		Sprite firstSprite = new Sprite("cat");
 
 		Script testScript = new StartScript("testScript", firstSprite);
-		Script touchScript = new TapScript("touchScript", firstSprite);
 		Script testScript2 = new StartScript("testScript2", firstSprite);
+		Script testScript3 = new StartScript("testScript3", firstSprite);
 
 		brickListToCheck = new ArrayList<Brick>();
 		brickListToCheck.add(new HideBrick(firstSprite));
@@ -119,7 +116,7 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptTab
 		// -------------------------------
 
 		firstSprite.addScript(testScript);
-		firstSprite.addScript(touchScript);
+		firstSprite.addScript(testScript3);
 		firstSprite.addScript(testScript2);
 
 		project.addSprite(firstSprite);

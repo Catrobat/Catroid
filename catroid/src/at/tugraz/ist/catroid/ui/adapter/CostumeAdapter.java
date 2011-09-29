@@ -21,8 +21,17 @@ package at.tugraz.ist.catroid.ui.adapter;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
+import android.app.AlertDialog;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -76,7 +85,7 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 
 			copyCostumeButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_copy, 0, 0);
 			paintroidButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_paintroid_logo, 0, 0);
-			deleteCostumeButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_trash, 0, 0);
+			deleteCostumeButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_menu_delete, 0, 0);
 			renameCostumeButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_menu_edit, 0, 0);
 
 			costumeImage.setImageBitmap(costumeData.getThumbnailBitmap());
@@ -105,39 +114,62 @@ public class CostumeAdapter extends ArrayAdapter<CostumeData> {
 						Utils.displayErrorMessage(activity, activity.getString(R.string.error_load_image));
 						e.printStackTrace();
 					}
-
-					//if we need a seperate file (I think we don't need this yet)
-					//						try {
-					//							String path = costumeData.getAbsolutePath();
-					//							if (path.equalsIgnoreCase("")) {
-					//								throw new IOException();
-					//							}
-					//							String projectName = ProjectManager.getInstance().getCurrentProject().getName();
-					//							String timeStamp = Utils.getTimestamp();
-					//							String newName = costumeData.getChecksum() + "_" + costumeData.getCostumeName() + "_"
-					//									+ timeStamp + "." + costumeData.getFileExtension();
-					//							File imageFile = StorageHandler.getInstance().copyImage(projectName, path, newName);
-					//							String imageName = costumeData.getCostumeName() + "_copy";
-					//							String imageFileName = imageFile.getName();
-					//							updateCostumeAdapter(imageName, imageFileName);
-					//						} catch (IOException e) {
-					//							Utils.displayErrorMessage(activity, activity.getString(R.string.error_load_image));
-					//						}
-					//						notifyDataSetChanged();
 				}
 			});
 
 			paintroidButton.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
+
+					Intent intent = new Intent("android.intent.action.MAIN");
+					intent.setComponent(new ComponentName("at.tugraz.ist.paintroid",
+							"at.tugraz.ist.paintroid.MainActivity"));
+
+					//confirm if paintroid is installed else start dialog
+					{
+						List<ResolveInfo> packageList = activity.getPackageManager().queryIntentActivities(intent,
+								PackageManager.MATCH_DEFAULT_ONLY);
+						if (packageList.size() <= 0) {
+
+							AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+							builder.setMessage(activity.getString(R.string.paintroid_not_installed))
+									.setCancelable(false)
+									.setPositiveButton(activity.getString(R.string.yes),
+											new DialogInterface.OnClickListener() {
+												public void onClick(DialogInterface dialog, int id) {
+													Intent downloadPaintroidIntent = new Intent(Intent.ACTION_VIEW, Uri
+															.parse(Consts.PAINTROID_DOWNLOAD_LINK));
+													activity.startActivity(downloadPaintroidIntent);
+												}
+											})
+									.setNegativeButton(activity.getString(R.string.no),
+											new DialogInterface.OnClickListener() {
+												public void onClick(DialogInterface dialog, int id) {
+													dialog.cancel();
+												}
+											});
+							AlertDialog alert = builder.create();
+							alert.show();
+							return;
+						}
+					}
+
 					scriptTabActivity.selectedCostumeData = costumeData;
-					//TODO call paintroid
+
+					Bundle bundleForPaintroid = new Bundle();
+					bundleForPaintroid.putString(activity.getString(R.string.extra_picture_path_paintroid),
+							costumeData.getAbsolutePath());
+					bundleForPaintroid.putInt(activity.getString(R.string.extra_x_value_paintroid), 0);
+					bundleForPaintroid.putInt(activity.getString(R.string.extra_x_value_paintroid), 0);
+					intent.putExtras(bundleForPaintroid);
+					intent.addCategory("android.intent.category.LAUNCHER");
+					activity.startActivityForResult(intent, CostumeActivity.REQUEST_PAINTROID_EDIT_IMAGE);
 				}
 			});
 
 			renameCostumeButton.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
 					scriptTabActivity.selectedCostumeData = costumeData;
-					scriptTabActivity.showDialog(Consts.DIALOG_RENAME_COSTUME);
+					scriptTabActivity.showDialog(ScriptTabActivity.DIALOG_RENAME_COSTUME);
 				}
 			});
 

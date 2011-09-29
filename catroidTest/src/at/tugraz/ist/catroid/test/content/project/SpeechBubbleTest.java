@@ -18,79 +18,64 @@
  */
 package at.tugraz.ist.catroid.test.content.project;
 
-import java.io.File;
-
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.test.InstrumentationTestCase;
-import at.tugraz.ist.catroid.ProjectManager;
-import at.tugraz.ist.catroid.common.Consts;
-import at.tugraz.ist.catroid.common.Values;
-import at.tugraz.ist.catroid.content.Costume;
-import at.tugraz.ist.catroid.content.Project;
-import at.tugraz.ist.catroid.content.SpeechBubble;
-import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.io.StorageHandler;
-import at.tugraz.ist.catroid.test.R;
-import at.tugraz.ist.catroid.test.utils.TestUtils;
-import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class SpeechBubbleTest extends InstrumentationTestCase {
 
-	private String projectName;
-	private static final int IMAGE_FILE_ID = R.raw.icon;
-	private File testImage;
-	public Sprite sprite = new Sprite("testSprite");
-
-	public void testUninitSpeechBubble() throws Exception {
-		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);
-
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
-		}
-
-		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
-		StorageHandler.getInstance().saveProject(project);
-		ProjectManager.getInstance().setProject(project);
-
-		testImage = TestUtils.saveFileToProject(this.projectName, "testImage.png", IMAGE_FILE_ID, getInstrumentation()
-				.getContext(), TestUtils.TYPE_IMAGE_FILE);
-
-		Values.SCREEN_HEIGHT = 800;
-		Values.SCREEN_WIDTH = 480;
-
-		project.addSprite(sprite);
-		Costume costume = sprite.getCostume();
-		costume.changeImagePath(testImage.getAbsolutePath());
-		SpeechBubble speechBubble = sprite.getBubble();
-
-		Paint textPaint = (Paint) TestUtils.getPrivateField("textPaint", speechBubble, false);
-		Paint debugPaint = (Paint) TestUtils.getPrivateField("debugPaint", speechBubble, false);
-		String speechBubbleText = (String) TestUtils.getPrivateField("speechBubbleText", speechBubble, false);
-		int expectedDebugColor = Color.RED;
-		String expectedspeechBubbleText = "";
-
-		assertEquals("Unexpected defaultText", expectedspeechBubbleText, speechBubbleText);
-		assertNotNull("textPaint not initialized", textPaint);
-		assertNotNull("textPaint not initialized", debugPaint);
-		assertEquals("Unexpected DebugColor", expectedDebugColor, debugPaint.getColor());
-	}
-
-	public void testInitSpeechBubble() {
-		SpeechBubble speechBubble = sprite.getBubble();
-		int speechBubblePictureID = 1;
-		int speechBubblePictureInvID = -1;
-		String speechBubbleText = "ABCDEFGHIJKLMNO";
-		speechBubble.setSpeechBubble(speechBubbleText, speechBubblePictureID, speechBubblePictureInvID);
-		int speechBubblePictureIDOut = (Integer) TestUtils
-				.getPrivateField("speechBubblePictureID", speechBubble, false);
-		int speechBubblePictureInvIDOut = (Integer) TestUtils.getPrivateField("speechBubblePictureInvID", speechBubble,
-				false);
-		String speechBubbleTextOut = (String) TestUtils.getPrivateField("speechBubbleText", speechBubble, false);
-
-		assertEquals("Unexpected speechBubblePictureID", speechBubblePictureID, speechBubblePictureIDOut);
-		assertEquals("Unexpected speechBubblePictureInvID", speechBubblePictureInvID, speechBubblePictureInvIDOut);
-		assertEquals("Unexpected speechBubbleText", speechBubbleText, speechBubbleTextOut);
-	}
+	//	private String projectName;
+	//	private static final int IMAGE_FILE_ID = R.raw.icon;
+	//	private File testImage;
+	//	public Sprite sprite = new Sprite("testSprite");
+	//
+	//	public void testUninitSpeechBubble() throws Exception {
+	//		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+	//
+	//		if (projectFile.exists()) {
+	//			UtilFile.deleteDirectory(projectFile);
+	//		}
+	//
+	//		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
+	//		StorageHandler.getInstance().saveProject(project);
+	//		ProjectManager.getInstance().setProject(project);
+	//
+	//		testImage = TestUtils.saveFileToProject(this.projectName, "testImage.png", IMAGE_FILE_ID, getInstrumentation()
+	//				.getContext(), TestUtils.TYPE_IMAGE_FILE);
+	//
+	//		Values.SCREEN_HEIGHT = 800;
+	//		Values.SCREEN_WIDTH = 480;
+	//
+	//		project.addSprite(sprite);
+	//		Costume costume = sprite.getCostume();
+	//		costume.changeImagePath(testImage.getAbsolutePath());
+	//		SpeechBubble speechBubble = sprite.getBubble();
+	//
+	//		Paint textPaint = (Paint) TestUtils.getPrivateField("textPaint", speechBubble, false);
+	//		Paint debugPaint = (Paint) TestUtils.getPrivateField("debugPaint", speechBubble, false);
+	//		String speechBubbleText = (String) TestUtils.getPrivateField("speechBubbleText", speechBubble, false);
+	//		int expectedDebugColor = Color.RED;
+	//		String expectedspeechBubbleText = "";
+	//
+	//		assertEquals("Unexpected defaultText", expectedspeechBubbleText, speechBubbleText);
+	//		assertNotNull("textPaint not initialized", textPaint);
+	//		assertNotNull("textPaint not initialized", debugPaint);
+	//		assertEquals("Unexpected DebugColor", expectedDebugColor, debugPaint.getColor());
+	//	}
+	//
+	//	public void testInitSpeechBubble() {
+	//		SpeechBubble speechBubble = sprite.getBubble();
+	//		int speechBubblePictureID = 1;
+	//		int speechBubblePictureInvID = -1;
+	//		String speechBubbleText = "ABCDEFGHIJKLMNO";
+	//		speechBubble.setSpeechBubble(speechBubbleText, speechBubblePictureID, speechBubblePictureInvID);
+	//		int speechBubblePictureIDOut = (Integer) TestUtils
+	//				.getPrivateField("speechBubblePictureID", speechBubble, false);
+	//		int speechBubblePictureInvIDOut = (Integer) TestUtils.getPrivateField("speechBubblePictureInvID", speechBubble,
+	//				false);
+	//		String speechBubbleTextOut = (String) TestUtils.getPrivateField("speechBubbleText", speechBubble, false);
+	//
+	//		assertEquals("Unexpected speechBubblePictureID", speechBubblePictureID, speechBubblePictureIDOut);
+	//		assertEquals("Unexpected speechBubblePictureInvID", speechBubblePictureInvID, speechBubblePictureInvIDOut);
+	//		assertEquals("Unexpected speechBubbleText", speechBubbleText, speechBubbleTextOut);
+	//	}
 
 }

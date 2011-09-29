@@ -29,6 +29,7 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public class StopAllSoundsBrick implements Brick {
 	private static final long serialVersionUID = 1L;
+
 	private Sprite sprite;
 
 	@XStreamOmitField
@@ -36,6 +37,10 @@ public class StopAllSoundsBrick implements Brick {
 
 	public StopAllSoundsBrick(Sprite sprite) {
 		this.sprite = sprite;
+	}
+
+	public int getRequiredResources() {
+		return NO_RESOURCES;
 	}
 
 	public void execute() {

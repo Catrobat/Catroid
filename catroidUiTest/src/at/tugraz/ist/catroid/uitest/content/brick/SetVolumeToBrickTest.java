@@ -81,6 +81,7 @@ public class SetVolumeToBrickTest extends ActivityInstrumentationTestCase2<Scrip
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, volume + "");
+		solo.goBack();
 		solo.clickOnButton(0);
 
 		solo.sleep(300);

@@ -26,12 +26,12 @@ public class ShowBrickTest extends AndroidTestCase {
 
 	public void testShow() {
 		Sprite sprite = new Sprite("new sprite");
-		sprite.hide();
-		assertFalse("Sprite is still visible after calling hide", sprite.isVisible());
+		sprite.costume.show = false;
+		assertFalse("Sprite is still visible after calling hide", sprite.costume.show);
 
 		ShowBrick showBrick = new ShowBrick(sprite);
 		showBrick.execute();
-		assertTrue("Sprite is not visible after ShowBrick executed", sprite.isVisible());
+		assertTrue("Sprite is not visible after ShowBrick executed", sprite.costume.show);
 	}
 
 	public void testNullSprite() {

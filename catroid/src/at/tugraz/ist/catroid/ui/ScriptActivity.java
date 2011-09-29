@@ -20,10 +20,8 @@
 package at.tugraz.ist.catroid.ui;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
-import android.content.DialogInterface.OnDismissListener;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -33,19 +31,18 @@ import android.view.View;
 import android.widget.ImageView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
-import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
 import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListView;
 import at.tugraz.ist.catroid.utils.Utils;
 
-public class ScriptActivity extends Activity implements OnDismissListener, OnCancelListener {
+public class ScriptActivity extends Activity implements OnCancelListener {
 	private BrickAdapter adapter;
 	private DragAndDropListView listView;
 	private Sprite sprite;
 	private Script scriptToEdit;
+	private static final int DIALOG_ADD_BRICK = 2;
 
 	private void initListeners() {
 		sprite = ProjectManager.getInstance().getCurrentSprite();
@@ -74,22 +71,6 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	}
 
 	@Override
-	protected Dialog onCreateDialog(int id) {
-		Dialog dialog;
-
-		switch (id) {
-			case Consts.DIALOG_ADD_BRICK:
-				dialog = new AddBrickDialog(this);
-				dialog.setOnDismissListener(this);
-				break;
-			default:
-				dialog = null;
-				break;
-		}
-		return dialog;
-	}
-
-	@Override
 	protected void onPause() {
 		super.onPause();
 
@@ -102,6 +83,10 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	@Override
 	protected void onStart() {
 		super.onStart();
+		sprite = ProjectManager.getInstance().getCurrentSprite();
+		if (sprite == null) {
+			return;
+		}
 		initListeners();
 	}
 
@@ -127,12 +112,12 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 	private View.OnClickListener createAddBrickClickListener() {
 		return new View.OnClickListener() {
 			public void onClick(View v) {
-				showDialog(Consts.DIALOG_ADD_BRICK);
+				getParent().showDialog(DIALOG_ADD_BRICK);
 			}
 		};
 	}
 
-	public void onDismiss(DialogInterface dialog) {
+	public void updateAdapterAfterAddNewBrick(DialogInterface dialog) {
 		adapter.notifyDataSetChanged();
 	}
 
@@ -157,7 +142,6 @@ public class ScriptActivity extends Activity implements OnDismissListener, OnCan
 				inflater.inflate(R.menu.script_menu, menu);
 			}
 		}
-
 	}
 
 	@Override

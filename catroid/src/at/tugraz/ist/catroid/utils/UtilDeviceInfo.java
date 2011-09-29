@@ -26,6 +26,7 @@ import android.accounts.AccountManager;
 import android.content.Context;
 
 public class UtilDeviceInfo {
+	public static final String SERVER_VALUE_FOR_UNDEFINED_COUNTRY = "undef";
 
 	public static String getUserEmail(Context context) {
 		if (context == null) {
@@ -40,6 +41,14 @@ public class UtilDeviceInfo {
 
 	public static String getUserLanguageCode(Context context) {
 		return Locale.getDefault().getLanguage();
+	}
+
+	public static String getUserCountryCode(Context context) {
+		String country = Locale.getDefault().getCountry();
+		if (country.length() == 0) {
+			country = SERVER_VALUE_FOR_UNDEFINED_COUNTRY;
+		}
+		return country;
 	}
 
 }

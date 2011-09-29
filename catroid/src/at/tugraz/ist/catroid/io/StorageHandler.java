@@ -40,33 +40,13 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
-import at.tugraz.ist.catroid.content.BroadcastScript;
-import at.tugraz.ist.catroid.content.Costume;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
-import at.tugraz.ist.catroid.content.TapScript;
-import at.tugraz.ist.catroid.content.bricks.BroadcastBrick;
-import at.tugraz.ist.catroid.content.bricks.BroadcastWaitBrick;
-import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
-import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
-import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
-import at.tugraz.ist.catroid.content.bricks.GlideToBrick;
-import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
-import at.tugraz.ist.catroid.content.bricks.HideBrick;
-import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
-import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
-import at.tugraz.ist.catroid.content.bricks.NoteBrick;
-import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
-import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
+import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
-import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
-import at.tugraz.ist.catroid.content.bricks.SetXBrick;
-import at.tugraz.ist.catroid.content.bricks.SetYBrick;
-import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
-import at.tugraz.ist.catroid.content.bricks.WhenBrick;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.UtilFile;
@@ -76,41 +56,21 @@ import com.thoughtworks.xstream.XStream;
 
 public class StorageHandler {
 
-	private static StorageHandler instance;
+	private static final String NORMAL_CAT = "normalCat";
+	private static final String BANZAI_CAT = "banzaiCat";
+	private static final String CHESHIRE_CAT = "cheshireCat";
+	private static final String BACKGROUND = "background";
+	private static final int JPG_COMPRESSION_SETTING = 95;
 	private static final String TAG = StorageHandler.class.getSimpleName();
 	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
+	private static StorageHandler instance;
 	private XStream xstream;
 
 	private StorageHandler() throws IOException {
 		xstream = new XStream();
-		xstream.alias("project", Project.class);
-		xstream.alias("sprite", Sprite.class);
-		xstream.alias("script", Script.class);
-		xstream.alias("startScript", StartScript.class);
-		xstream.alias("tapScript", TapScript.class);
-		xstream.alias("broadcastScript", BroadcastScript.class);
-		xstream.alias("costume", Costume.class);
-
-		xstream.alias("changeXByBrick", ChangeXByBrick.class);
-		xstream.alias("changeYByBrick", ChangeYByBrick.class);
-		xstream.alias("comeToFrontBrick", ComeToFrontBrick.class);
-		xstream.alias("goNStepsBackBrick", GoNStepsBackBrick.class);
-		xstream.alias("hideBrick", HideBrick.class);
-		xstream.alias("ifStartedBrick", IfStartedBrick.class);
-		xstream.alias("ifTouchedBrick", IfTouchedBrick.class);
-		xstream.alias("placeAtBrick", PlaceAtBrick.class);
-		xstream.alias("playSoundBrick", PlaySoundBrick.class);
-		xstream.alias("setSizeToBrick", SetSizeToBrick.class);
-		xstream.alias("setCostumeBrick", SetCostumeBrick.class);
-		xstream.alias("setXBrick", SetXBrick.class);
-		xstream.alias("setYBrick", SetYBrick.class);
-		xstream.alias("showBrick", ShowBrick.class);
-		xstream.alias("waitBrick", WaitBrick.class);
-		xstream.alias("glideToBrick", GlideToBrick.class);
-		xstream.alias("noteBrick", NoteBrick.class);
-		xstream.alias("broadcastWaitBrick", BroadcastWaitBrick.class);
-		xstream.alias("broadcastBrick", BroadcastBrick.class);
-		xstream.alias("whenBrick", WhenBrick.class);
+		xstream.aliasPackage("Bricks", "at.tugraz.ist.catroid.content.bricks");
+		xstream.aliasPackage("Common", "at.tugraz.ist.catroid.common");
+		xstream.aliasPackage("Content", "at.tugraz.ist.catroid.content");
 
 		if (!Utils.hasSdCard()) {
 			throw new IOException("Could not read external storage");
@@ -141,9 +101,7 @@ public class StorageHandler {
 		createCatroidRoot();
 		try {
 			if (NativeAppActivity.isRunning()) {
-				int resId = NativeAppActivity.getContext().getResources()
-						.getIdentifier(projectName, "raw", NativeAppActivity.getContext().getPackageName());
-				InputStream spfFileStream = NativeAppActivity.getContext().getResources().openRawResource(resId);
+				InputStream spfFileStream = NativeAppActivity.getContext().getAssets().open(projectName);
 				return (Project) xstream.fromXML(spfFileStream);
 			}
 
@@ -258,7 +216,9 @@ public class StorageHandler {
 		imageDimensions = ImageEditing.getImageDimensions(inputFilePath);
 		FileChecksumContainer checksumCont = ProjectManager.getInstance().fileChecksumContainer;
 
-		if ((imageDimensions[0] <= Consts.MAX_COSTUME_WIDTH) && (imageDimensions[1] <= Consts.MAX_COSTUME_HEIGHT)) {
+		Project project = ProjectManager.getInstance().getCurrentProject();
+		if ((imageDimensions[0] <= project.VIRTUAL_SCREEN_WIDTH)
+				&& (imageDimensions[1] <= project.VIRTUAL_SCREEN_HEIGHT)) {
 			String checksumSource = Utils.md5Checksum(inputFile);
 
 			if (newName != null) {
@@ -281,14 +241,15 @@ public class StorageHandler {
 
 	private File copyAndResizeImage(File outputFile, File inputFile, File imageDirectory) throws IOException {
 		FileOutputStream outputStream = new FileOutputStream(outputFile);
-		Bitmap bitmap = ImageEditing.getBitmap(inputFile.getAbsolutePath(), Consts.MAX_COSTUME_WIDTH,
-				Consts.MAX_COSTUME_HEIGHT);
+		Project project = ProjectManager.getInstance().getCurrentProject();
+		Bitmap bitmap = ImageEditing.getBitmap(inputFile.getAbsolutePath(), project.VIRTUAL_SCREEN_WIDTH,
+				project.VIRTUAL_SCREEN_HEIGHT);
 		try {
 			String name = inputFile.getName();
 			if (name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".JPG") || name.endsWith(".JPEG")) {
-				bitmap.compress(CompressFormat.JPEG, Consts.JPG_COMPRESSION_SETING, outputStream);
+				bitmap.compress(CompressFormat.JPEG, JPG_COMPRESSION_SETTING, outputStream);
 			} else {
-				bitmap.compress(CompressFormat.PNG, Consts.JPG_COMPRESSION_SETING, outputStream);
+				bitmap.compress(CompressFormat.PNG, 0, outputStream);
 			}
 			outputStream.flush();
 			outputStream.close();
@@ -357,6 +318,16 @@ public class StorageHandler {
 	 */
 	public Project createDefaultProject(Context context) throws IOException {
 		String projectName = context.getString(R.string.default_project_name);
+		return createDefaultProject(projectName, context);
+	}
+
+	/**
+	 * Creates the default project and saves it to the file system
+	 * 
+	 * @return the default project object if successful, else null
+	 * @throws IOException
+	 */
+	public Project createDefaultProject(String projectName, Context context) throws IOException {
 		Project defaultProject = new Project(context, projectName);
 		saveProject(defaultProject);
 		ProjectManager.getInstance().setProject(defaultProject);
@@ -365,15 +336,15 @@ public class StorageHandler {
 
 		Script backgroundStartScript = new StartScript("stageStartScript", backgroundSprite);
 		Script startScript = new StartScript("startScript", sprite);
-		Script touchScript = new TapScript("touchScript", sprite);
+		Script whenScript = new WhenScript("whenScript", sprite);
 
-		File normalCatTemp = savePictureFromResInProject(projectName, Consts.NORMAL_CAT, R.drawable.catroid, context);
-		File banzaiCatTemp = savePictureFromResInProject(projectName, Consts.BANZAI_CAT, R.drawable.catroid_banzai,
+		File normalCatTemp = savePictureFromResourceInProject(projectName, NORMAL_CAT, R.drawable.catroid, context);
+		File banzaiCatTemp = savePictureFromResourceInProject(projectName, BANZAI_CAT, R.drawable.catroid_banzai,
 				context);
-		File cheshireCatTemp = savePictureFromResInProject(projectName, Consts.CHESHIRE_CAT,
-				R.drawable.catroid_cheshire, context);
-		File backgroundTemp = savePictureFromResInProject(projectName, Consts.BACKGROUND,
-				R.drawable.background_blueish, context);
+		File cheshireCatTemp = savePictureFromResourceInProject(projectName, CHESHIRE_CAT, R.drawable.catroid_cheshire,
+				context);
+		File backgroundTemp = savePictureFromResourceInProject(projectName, BACKGROUND, R.drawable.background_blueish,
+				context);
 
 		String directoryName = Utils.buildPath(Consts.DEFAULT_ROOT, projectName, Consts.IMAGE_DIRECTORY);
 		File normalCat = new File(Utils.buildPath(directoryName,
@@ -391,27 +362,27 @@ public class StorageHandler {
 		backgroundTemp.renameTo(background);
 
 		CostumeData normalCatCostumeData = new CostumeData();
-		normalCatCostumeData.setCostumeName(Consts.NORMAL_CAT);
+		normalCatCostumeData.setCostumeName(NORMAL_CAT);
 		normalCatCostumeData.setCostumeFilename(normalCat.getName());
 
 		CostumeData banzaiCatCostumeData = new CostumeData();
-		banzaiCatCostumeData.setCostumeName(Consts.BANZAI_CAT);
+		banzaiCatCostumeData.setCostumeName(BANZAI_CAT);
 		banzaiCatCostumeData.setCostumeFilename(banzaiCat.getName());
 
 		CostumeData cheshireCatCostumeData = new CostumeData();
-		cheshireCatCostumeData.setCostumeName(Consts.CHESHIRE_CAT);
+		cheshireCatCostumeData.setCostumeName(CHESHIRE_CAT);
 		cheshireCatCostumeData.setCostumeFilename(cheshireCat.getName());
 
 		CostumeData backgroundCostumeData = new CostumeData();
-		backgroundCostumeData.setCostumeName(Consts.BACKGROUND);
+		backgroundCostumeData.setCostumeName(BACKGROUND);
 		backgroundCostumeData.setCostumeFilename(background.getName());
 
 		ArrayList<CostumeData> costumeDataList = sprite.getCostumeDataList();
 		costumeDataList.add(normalCatCostumeData);
 		costumeDataList.add(banzaiCatCostumeData);
 		costumeDataList.add(cheshireCatCostumeData);
-		costumeDataList = backgroundSprite.getCostumeDataList();
-		costumeDataList.add(backgroundCostumeData);
+		ArrayList<CostumeData> costumeDataList2 = backgroundSprite.getCostumeDataList();
+		costumeDataList2.add(backgroundCostumeData);
 
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
 		setCostumeBrick.setCostume(normalCatCostumeData);
@@ -425,24 +396,24 @@ public class StorageHandler {
 		SetCostumeBrick setCostumeBrick3 = new SetCostumeBrick(sprite);
 		setCostumeBrick3.setCostume(cheshireCatCostumeData);
 
-		SetCostumeBrick setCostumeBackground = new SetCostumeBrick(backgroundSprite);
-		setCostumeBackground.setCostume(backgroundCostumeData);
+		SetCostumeBrick backgroundBrick = new SetCostumeBrick(backgroundSprite);
+		backgroundBrick.setCostume(backgroundCostumeData);
 
 		WaitBrick waitBrick1 = new WaitBrick(sprite, 500);
 		WaitBrick waitBrick2 = new WaitBrick(sprite, 500);
 
 		startScript.addBrick(setCostumeBrick);
 
-		touchScript.addBrick(setCostumeBrick2);
-		touchScript.addBrick(waitBrick1);
-		touchScript.addBrick(setCostumeBrick3);
-		touchScript.addBrick(waitBrick2);
-		touchScript.addBrick(setCostumeBrick1);
-		backgroundStartScript.addBrick(setCostumeBackground);
+		whenScript.addBrick(setCostumeBrick2);
+		whenScript.addBrick(waitBrick1);
+		whenScript.addBrick(setCostumeBrick3);
+		whenScript.addBrick(waitBrick2);
+		whenScript.addBrick(setCostumeBrick1);
+		backgroundStartScript.addBrick(backgroundBrick);
 
 		defaultProject.addSprite(sprite);
 		sprite.addScript(startScript);
-		sprite.addScript(touchScript);
+		sprite.addScript(whenScript);
 		backgroundSprite.addScript(backgroundStartScript);
 
 		this.saveProject(defaultProject);
@@ -450,7 +421,7 @@ public class StorageHandler {
 		return defaultProject;
 	}
 
-	private File savePictureFromResInProject(String project, String name, int fileId, Context context)
+	private File savePictureFromResourceInProject(String project, String name, int fileId, Context context)
 			throws IOException {
 
 		final String imagePath = Utils.buildPath(Consts.DEFAULT_ROOT, project, Consts.IMAGE_DIRECTORY, name);

@@ -1,20 +1,20 @@
 /**
- *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
- *  (<http://code.google.com/p/catroid/wiki/Credits>)
+ *    Catroid: An on-device graphical programming language for Android devices
+ *    Copyright (C) 2010-2011 The Catroid Team
+ *    (<http://code.google.com/p/catroid/wiki/Credits>)
  *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ *    This program is free software: you can redistribute it and/or modify
+ *    it under the terms of the GNU Affero General Public License as
+ *    published by the Free Software Foundation, either version 3 of the
+ *    License, or (at your option) any later version.
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *    This program is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU Affero General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *    You should have received a copy of the GNU Affero General Public License
+ *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.stage;
 
@@ -26,12 +26,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.ui.dialogs.AboutDialog;
 
 public class NativeAppActivity extends StageActivity {
 	private static Context context = null;
+	private static final int DIALOG_ABOUT = 0;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class NativeAppActivity extends StageActivity {
 
 		context = this;
 
-		manager.loadProject("project", this, false);
+		manager.loadProject("project.xml", this, false);
 		manager = ProjectManager.getInstance();
 		super.onCreate(savedInstanceState);
 	}
@@ -74,7 +74,7 @@ public class NativeAppActivity extends StageActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.nativeappMenuAbout) {
-			showDialog(Consts.DIALOG_ABOUT);
+			showDialog(DIALOG_ABOUT);
 		}
 		return true;
 	}
@@ -82,7 +82,7 @@ public class NativeAppActivity extends StageActivity {
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialog = null;
-		if (id == Consts.DIALOG_ABOUT) {
+		if (id == DIALOG_ABOUT) {
 			dialog = new AboutDialog(this);
 		}
 		return dialog;
