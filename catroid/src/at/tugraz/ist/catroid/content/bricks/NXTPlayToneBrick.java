@@ -82,7 +82,10 @@ public class NXTPlayToneBrick implements Brick, OnDismissListener, OnClickListen
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_nxt_play_tone, null);
+		View view = View.inflate(context, R.layout.toolbox_brick_nxt_play_tone, null);
+		SeekBar noClick = (SeekBar) view.findViewById(R.id.seekBarNXTToneFrequency);
+		noClick.setEnabled(false);
+		return view;
 	}
 
 	@Override
