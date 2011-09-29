@@ -28,6 +28,7 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.utils.Utils;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
@@ -41,6 +42,10 @@ public class NoteBrick implements Brick {
 
 	public NoteBrick(Sprite sprite) {
 		this.sprite = sprite;
+	}
+
+	public int getRequiredResources() {
+		return NO_RESOURCES;
 	}
 
 	public NoteBrick(Sprite sprite, String note) {
@@ -61,9 +66,7 @@ public class NoteBrick implements Brick {
 
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
 
-		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_note, null);
-		}
+		view = View.inflate(context, R.layout.toolbox_brick_note, null);
 
 		EditText editText = (EditText) view.findViewById(R.id.toolbox_brick_note_edit_text);
 		editText.setText(note);
@@ -73,6 +76,7 @@ public class NoteBrick implements Brick {
 				AlertDialog.Builder dialog = new AlertDialog.Builder(context);
 				final EditText input = new EditText(context);
 				input.setText(note);
+				input.setSelectAllOnFocus(true);
 				dialog.setView(input);
 				dialog.setOnCancelListener((OnCancelListener) context);
 				dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
@@ -88,7 +92,10 @@ public class NoteBrick implements Brick {
 							}
 						});
 
-				dialog.show();
+				AlertDialog finishedDialog = dialog.create();
+				finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
+
+				finishedDialog.show();
 			}
 		});
 

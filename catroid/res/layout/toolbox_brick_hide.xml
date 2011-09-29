@@ -23,10 +23,10 @@
 	android:orientation="horizontal"
 	android:layout_height="wrap_content"
 	android:layout_width="fill_parent"
-	android:background="@drawable/brick_yellow"
+	android:background="@drawable/brick_violet"
 >
 	<TextView
-		android:text="@string/hide"
+		android:text="@string/brick_hide"
 		android:layout_height="wrap_content"
 		android:layout_width="fill_parent"
 		android:textColor="@color/white"

@@ -1,20 +1,20 @@
 /**
- *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
- *  (<http://code.google.com/p/catroid/wiki/Credits>)
+ *    Catroid: An on-device graphical programming language for Android devices
+ *    Copyright (C) 2010-2011 The Catroid Team
+ *    (<http://code.google.com/p/catroid/wiki/Credits>)
  *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ *    This program is free software: you can redistribute it and/or modify
+ *    it under the terms of the GNU Affero General Public License as
+ *    published by the Free Software Foundation, either version 3 of the
+ *    License, or (at your option) any later version.
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *    This program is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU Affero General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *    You should have received a copy of the GNU Affero General Public License
+ *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package at.tugraz.ist.catroid.nativetest.io;
@@ -62,7 +62,7 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 		String secondSpriteName = "first";
 		String thirdSpriteName = "second";
 		String firstStartScriptName = "testScript";
-		String firstTapScriptName = "script";
+		String firstWhenScriptName = "script";
 		String secondStartScriptName = "otherScript";
 
 		NativeAppActivity.setContext(getInstrumentation().getContext());
@@ -79,7 +79,7 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 
 		assertEquals("Name of script does not match.", firstStartScriptName, loadedProject.getSpriteList().get(1)
 				.getScript(0).getName());
-		assertEquals("Name of script does not match.", firstTapScriptName, loadedProject.getSpriteList().get(1)
+		assertEquals("Name of script does not match.", firstWhenScriptName, loadedProject.getSpriteList().get(1)
 				.getScript(1).getName());
 		assertEquals("Name of script does not match.", secondStartScriptName, loadedProject.getSpriteList().get(2)
 				.getScript(0).getName());

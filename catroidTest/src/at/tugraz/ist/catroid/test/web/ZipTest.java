@@ -24,6 +24,7 @@ import java.io.IOException;
 
 import android.test.AndroidTestCase;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.UtilZip;
 
 public class ZipTest extends AndroidTestCase {
@@ -80,5 +81,10 @@ public class ZipTest extends AndroidTestCase {
 		assertTrue("File was not recreated from zip.", checkfile.exists());
 
 		zipFile.delete();
+
+		File tempDirectory = new File(Consts.TMP_PATH);
+		if (tempDirectory.exists()) {
+			UtilFile.deleteDirectory(tempDirectory);
+		}
 	}
 }

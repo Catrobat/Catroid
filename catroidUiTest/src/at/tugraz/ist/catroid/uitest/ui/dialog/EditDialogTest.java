@@ -62,9 +62,15 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptTabAc
 		int xPositionEditTextId = yPositionEditTextId - 1;
 
 		UiTestUtils.insertIntegerIntoEditText(solo, xPositionEditTextId, xPosition);
-		solo.sendKey(Solo.ENTER);
+		solo.sleep(300);
+		solo.goBack();
+		solo.clickOnButton(0);
+		solo.sleep(300);
 		UiTestUtils.insertIntegerIntoEditText(solo, yPositionEditTextId, yPosition);
-		solo.sendKey(Solo.ENTER);
+		solo.sleep(300);
+		solo.goBack();
+		solo.clickOnButton(0);
+		solo.sleep(300);
 
 		assertEquals("Wrong value in X-Position EditText", xPosition + "", solo.getEditText(xPositionEditTextId)
 				.getText().toString());
@@ -77,45 +83,51 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptTabAc
 
 		double wait = 5.9;
 
-		int waitEditTextId = solo.getCurrentEditTexts().size() - 1;
-		UiTestUtils.insertDoubleIntoEditText(solo, waitEditTextId, wait);
+		UiTestUtils.insertDoubleIntoEditText(solo, 0, wait);
 		solo.sendKey(Solo.ENTER);
 
-		assertEquals("Wrong value in WaitBrick EditText", wait + "", solo.getEditText(waitEditTextId).getText()
-				.toString());
+		assertEquals("Wrong value in WaitBrick EditText", wait + "", solo.getEditText(0).getText().toString());
 	}
 
-	public void testEmptyEditDoubleDialog() {
-		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_set_size_to);
+	//Don't need these test anymore
+	//	
+	//	public void testEmptyEditDoubleDialog() {
+	//		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_set_size_to);
+	//
+	//		int editTextId = solo.getCurrentEditTexts().size() - 1;
+	//
+	//		solo.clickOnEditText(editTextId);
+	//		solo.sleep(50);
+	//
+	//		solo.clearEditText(0);
+	//		assertTrue("Toast with warning was not found",
+	//				solo.searchText(getActivity().getString(R.string.notification_invalid_text_entered)));
+	//		assertFalse("OK button was not disabled upon deleting text field contents",
+	//				solo.getButton(getActivity().getString(R.string.ok)).isEnabled());
+	//
+	//		solo.enterText(0, ".");
+	//		assertTrue("Toast with warning was not found",
+	//				solo.searchText(getActivity().getString(R.string.notification_invalid_text_entered)));
+	//		assertFalse("OK button was not disabled upon entering invalid text", solo.getButton(0).isEnabled());
+	//	}
 
-		int editTextId = solo.getCurrentEditTexts().size() - 1;
-
-		solo.clickOnEditText(editTextId);
-		solo.sleep(50);
-
-		solo.clearEditText(0);
-		assertTrue("Toast with warning was not found",
-				solo.searchText(getActivity().getString(R.string.notification_invalid_text_entered)));
-		assertFalse("OK button was not disabled upon deleting text field contents",
-				solo.getButton(getActivity().getString(R.string.ok)).isEnabled());
-
-		solo.enterText(0, ".");
-		assertTrue("Toast with warning was not found",
-				solo.searchText(getActivity().getString(R.string.notification_invalid_text_entered)));
-		assertFalse("OK button was not disabled upon entering invalid text", solo.getButton(0).isEnabled());
-	}
-
-	public void testEmptyEditIntegerDialog() {
-		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_place_at);
-
-		int editTextId = solo.getCurrentEditTexts().size() - 1;
-
-		solo.clickOnEditText(editTextId);
-		solo.sleep(50);
-
-		solo.clearEditText(0);
-		assertTrue("Toast with warning was not found",
-				solo.searchText(getActivity().getString(R.string.notification_invalid_text_entered)));
-		assertFalse("OK button was not disabled upon deleting text field contents", solo.getButton(0).isEnabled());
-	}
+	//	public void testEmptyEditIntegerDialog() {
+	//		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_place_at);
+	//
+	//		int editTextId = solo.getCurrentEditTexts().size() - 1;
+	//
+	//		solo.clickOnEditText(editTextId);
+	//		solo.sleep(50);
+	//
+	//		solo.clearEditText(0);
+	//
+	//		solo.enterText(0, "3.5");
+	//		solo.sleep(300);
+	//
+	//		solo.clickOnButton(0);
+	//
+	//		assertTrue("Toast with warning was not found",
+	//				solo.searchText(getActivity().getString(R.string.notification_invalid_text_entered)));
+	//		assertFalse("OK button was not disabled upon deleting text field contents", solo.getButton(0).isEnabled());
+	//	}
 }

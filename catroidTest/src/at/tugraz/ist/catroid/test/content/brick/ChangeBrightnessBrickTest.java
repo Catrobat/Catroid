@@ -25,28 +25,28 @@ import at.tugraz.ist.catroid.content.bricks.ChangeGhostEffectBrick;
 
 public class ChangeBrightnessBrickTest extends AndroidTestCase {
 
-	private final double brighter = 50.5;
-	private final double dimmer = -20.8;
+	private final float brighter = 50.5f;
+	private final float dimmer = -20.8f;
 
 	public void testNormalBehavior() {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite brightness value", 0.0, sprite.getBrightnessValue());
+		assertEquals("Unexpected initial sprite brightness value", 1f, sprite.costume.getBrightnessValue());
 
-		double brightness = sprite.getBrightnessValue();
-		brightness += brighter;
+		float brightness = sprite.costume.getBrightnessValue();
+		brightness += brighter / 100f;
 
-		ChangeBrightnessBrick changeBrightnessBrick1 = new ChangeBrightnessBrick(sprite, brighter);
-		changeBrightnessBrick1.execute();
+		ChangeBrightnessBrick brick1 = new ChangeBrightnessBrick(sprite, brighter);
+		brick1.execute();
 		assertEquals("Incorrect sprite brightness value after ChangeBrightnessBrick executed", brightness,
-				sprite.getBrightnessValue());
+				sprite.costume.getBrightnessValue());
 
-		brightness = sprite.getBrightnessValue();
-		brightness += dimmer;
+		brightness = sprite.costume.getBrightnessValue();
+		brightness += dimmer / 100f;
 
-		ChangeBrightnessBrick changeBrightnessBrick2 = new ChangeBrightnessBrick(sprite, dimmer);
-		changeBrightnessBrick2.execute();
+		ChangeBrightnessBrick brick2 = new ChangeBrightnessBrick(sprite, dimmer);
+		brick2.execute();
 		assertEquals("Incorrect sprite brightness value after ChangeBrightnessBrick executed", brightness,
-				sprite.getBrightnessValue());
+				sprite.costume.getBrightnessValue());
 	}
 
 	public void testNullSprite() {

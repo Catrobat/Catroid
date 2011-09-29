@@ -83,5 +83,4 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		assertTrue("Clicking on Sounds Tab did not cause SoundActivity to be displayed",
 				solo.getCurrentActivity() instanceof SoundActivity);
 	}
-
 }

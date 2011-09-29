@@ -65,6 +65,7 @@ public class SoundActivity extends ListActivity {
 			return;
 		}
 
+		stopSound(null);
 		reloadAdapter();
 
 		//change actionbar:
@@ -96,7 +97,7 @@ public class SoundActivity extends ListActivity {
 		if (projectManager.getCurrentProject() != null) {
 			projectManager.saveProject();
 		}
-		stopSound();
+		stopSound(null);
 	}
 
 	private void updateSoundAdapter(String title, String fileName) {
@@ -117,16 +118,32 @@ public class SoundActivity extends ListActivity {
 		}
 	}
 
-	public void stopSound() {
+	public void pauseSound(SoundInfo soundInfo) {
+		mediaPlayer.pause();
+
+		soundInfo.isPlaying = false;
+		soundInfo.isPaused = true;
+	}
+
+	public void stopSound(SoundInfo exceptionSoundInfo) {
+		if (exceptionSoundInfo != null && exceptionSoundInfo.isPaused) {
+			return;
+		}
 		mediaPlayer.stop();
 
 		for (SoundInfo soundInfo : soundInfoList) {
 			soundInfo.isPlaying = false;
+			soundInfo.isPaused = false;
 		}
 	}
 
 	public void startSound(SoundInfo soundInfo) {
 		soundInfo.isPlaying = true;
+		if (soundInfo.isPaused) {
+			soundInfo.isPaused = false;
+			mediaPlayer.start();
+			return;
+		}
 		try {
 			mediaPlayer.reset();
 			mediaPlayer.setDataSource(soundInfo.getAbsolutePath());
@@ -143,19 +160,21 @@ public class SoundActivity extends ListActivity {
 		//when new sound title is selected and ready to be added to the catroid project
 		if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_SELECT_MUSIC) {
 			String audioPath = "";
-			//get real path of soundfile --------------------------
-			{
-				Uri audioUri = data.getData();
-				String[] proj = { MediaStore.Audio.Media.DATA };
-				Cursor actualSoundCursor = managedQuery(audioUri, proj, null, null, null);
-				int actualSoundColumnIndex = actualSoundCursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
-				actualSoundCursor.moveToFirst();
-				audioPath = actualSoundCursor.getString(actualSoundColumnIndex);
-			}
-			//-----------------------------------------------------
 
 			//copy music to catroid:
 			try {
+
+				//get real path of soundfile --------------------------
+				{
+					Uri audioUri = data.getData();
+					String[] proj = { MediaStore.Audio.Media.DATA };
+					Cursor actualSoundCursor = managedQuery(audioUri, proj, null, null, null);
+					int actualSoundColumnIndex = actualSoundCursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
+					actualSoundCursor.moveToFirst();
+					audioPath = actualSoundCursor.getString(actualSoundColumnIndex);
+				}
+				//-----------------------------------------------------
+
 				if (audioPath.equalsIgnoreCase("")) {
 					throw new IOException();
 				}
@@ -164,7 +183,7 @@ public class SoundActivity extends ListActivity {
 				String soundTitle = soundFileName.substring(soundFileName.indexOf('_') + 1,
 						soundFileName.lastIndexOf('.'));
 				updateSoundAdapter(soundTitle, soundFileName);
-			} catch (IOException e) {
+			} catch (Exception e) {
 				Utils.displayErrorMessage(this, this.getString(R.string.error_load_sound));
 			}
 		}

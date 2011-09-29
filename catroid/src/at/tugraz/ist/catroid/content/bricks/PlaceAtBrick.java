@@ -18,20 +18,23 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
-import android.content.DialogInterface.OnDismissListener;
+import android.text.InputType;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
+import at.tugraz.ist.catroid.utils.Utils;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-public class PlaceAtBrick implements Brick, OnDismissListener {
+public class PlaceAtBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private int xPosition;
 	private int yPosition;
@@ -46,8 +49,14 @@ public class PlaceAtBrick implements Brick, OnDismissListener {
 		this.yPosition = yPosition;
 	}
 
+	public int getRequiredResources() {
+		return NO_RESOURCES;
+	}
+
 	public void execute() {
-		sprite.setXYPosition(xPosition, yPosition);
+		sprite.costume.aquireXYWidthHeightLock();
+		sprite.costume.setXYPosition(xPosition, yPosition);
+		sprite.costume.releaseXYWidthHeightLock();
 	}
 
 	public Sprite getSprite() {
@@ -56,27 +65,17 @@ public class PlaceAtBrick implements Brick, OnDismissListener {
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
-		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_place_at, null);
-		}
+		view = View.inflate(context, R.layout.toolbox_brick_place_at, null);
 
 		EditText editX = (EditText) view.findViewById(R.id.toolbox_brick_place_at_x_edit_text);
 		editX.setText(String.valueOf(xPosition));
 
-		EditIntegerDialog dialogX = new EditIntegerDialog(context, editX, xPosition, true);
-		dialogX.setOnDismissListener(this);
-		dialogX.setOnCancelListener((OnCancelListener) context);
-
-		editX.setOnClickListener(dialogX);
+		editX.setOnClickListener(this);
 
 		EditText editY = (EditText) view.findViewById(R.id.toolbox_brick_place_at_y_edit_text);
 		editY.setText(String.valueOf(yPosition));
 
-		EditIntegerDialog dialogY = new EditIntegerDialog(context, editY, yPosition, true);
-		dialogY.setOnDismissListener(this);
-		dialogY.setOnCancelListener((OnCancelListener) context);
-
-		editY.setOnClickListener(dialogY);
+		editY.setOnClickListener(this);
 
 		return view;
 	}
@@ -90,16 +89,44 @@ public class PlaceAtBrick implements Brick, OnDismissListener {
 		return new PlaceAtBrick(getSprite(), xPosition, yPosition);
 	}
 
-	public void onDismiss(DialogInterface dialog) {
-		EditIntegerDialog inputDialog = (EditIntegerDialog) dialog;
-		if (inputDialog.getRefernecedEditTextId() == R.id.toolbox_brick_place_at_x_edit_text) {
-			xPosition = inputDialog.getValue();
-		} else if (inputDialog.getRefernecedEditTextId() == R.id.toolbox_brick_place_at_y_edit_text) {
-			yPosition = inputDialog.getValue();
-		} else {
-			throw new RuntimeException("Received illegal id from EditText: " + inputDialog.getRefernecedEditTextId());
-		}
+	public void onClick(final View view) {
+		final Context context = view.getContext();
 
-		dialog.cancel();
+		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+		final EditText input = new EditText(context);
+		if (view.getId() == R.id.toolbox_brick_place_at_x_edit_text) {
+			input.setText(String.valueOf(xPosition));
+		} else if (view.getId() == R.id.toolbox_brick_place_at_y_edit_text) {
+			input.setText(String.valueOf(yPosition));
+		}
+		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
+		input.setSelectAllOnFocus(true);
+		dialog.setView(input);
+		dialog.setOnCancelListener((OnCancelListener) context);
+		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				try {
+					if (view.getId() == R.id.toolbox_brick_place_at_x_edit_text) {
+						xPosition = Integer.parseInt(input.getText().toString());
+					} else if (view.getId() == R.id.toolbox_brick_place_at_y_edit_text) {
+						yPosition = Integer.parseInt(input.getText().toString());
+					}
+				} catch (NumberFormatException exception) {
+					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT);
+				}
+				dialog.cancel();
+			}
+		});
+		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+
+		AlertDialog finishedDialog = dialog.create();
+		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
+
+		finishedDialog.show();
+
 	}
 }

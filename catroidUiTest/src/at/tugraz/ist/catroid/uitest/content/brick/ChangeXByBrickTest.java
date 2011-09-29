@@ -82,6 +82,7 @@ public class ChangeXByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, xToChange + "");
+		solo.goBack();
 		solo.clickOnButton(0);
 
 		solo.sleep(300);

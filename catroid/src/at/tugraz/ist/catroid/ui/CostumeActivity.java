@@ -34,15 +34,20 @@ import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.adapter.CostumeAdapter;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
+import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class CostumeActivity extends ListActivity {
 	private ArrayList<CostumeData> costumeDataList;
 
-	private final int REQUEST_SELECT_IMAGE = 0;
+	public static final int REQUEST_SELECT_IMAGE = 0;
+	public static final int REQUEST_PAINTROID_EDIT_IMAGE = 1;
+	public static final int REQUEST_PAINTROID_NEW_IMAGE = 2;
+	public static final int REQUEST_CAM_IMAGE = 3;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -70,18 +75,30 @@ public class CostumeActivity extends ListActivity {
 			//set new functionality for actionbar add button:
 			activityHelper.changeClickListener(R.id.btn_action_add_sprite, createAddCostumeClickListener());
 			//set new icon for actionbar plus button:
-			activityHelper.changeButtonIcon(R.id.btn_action_add_sprite, R.drawable.ic_folder_open);
+			int addButtonIcon;
+			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+			if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(currentSprite) == 0) {
+				addButtonIcon = R.drawable.ic_background;
+			} else {
+				addButtonIcon = R.drawable.ic_shirt;
+			}
+			activityHelper.changeButtonIcon(R.id.btn_action_add_sprite, addButtonIcon);
 		}
+
 	}
 
 	private View.OnClickListener createAddCostumeClickListener() {
 		return new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+
+				Bundle bundleForPaintroid = new Bundle();
+				bundleForPaintroid.putString(CostumeActivity.this.getString(R.string.extra_picture_path_paintroid), "");
+
 				intent.setType("image/*");
-				startActivityForResult(
-						Intent.createChooser(intent, CostumeActivity.this.getString(R.string.select_image)),
-						REQUEST_SELECT_IMAGE);
+				intent.putExtras(bundleForPaintroid);
+				Intent chooser = Intent.createChooser(intent, getString(R.string.select_image));
+				startActivityForResult(chooser, REQUEST_SELECT_IMAGE);
 			}
 		};
 	}
@@ -119,20 +136,41 @@ public class CostumeActivity extends ListActivity {
 		//when new sound title is selected and ready to be added to the catroid project
 		if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_SELECT_IMAGE) {
 			String originalImagePath = "";
-			//get path of image --------------------------
-			{
+			//get path of image - will work for most applications
+			Bundle bundle = data.getExtras();
+			if (bundle != null) {
+				originalImagePath = bundle.getString(this.getString(R.string.extra_picture_path_paintroid));
+			}
+			if (originalImagePath == null || originalImagePath.equalsIgnoreCase("")) {
 				Uri imageUri = data.getData();
+
 				String[] projection = { MediaStore.MediaColumns.DATA };
 				Cursor cursor = managedQuery(imageUri, projection, null, null, null);
 				if (cursor == null) {
+					originalImagePath = imageUri.getPath();
+				} else {
+					int column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
+					cursor.moveToFirst();
+					originalImagePath = cursor.getString(column_index);
+				}
+
+				if (cursor == null && originalImagePath.equalsIgnoreCase("")) {
 					Utils.displayErrorMessage(this, this.getString(R.string.error_load_image));
 					return;
 				}
-				int column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
-				cursor.moveToFirst();
-				originalImagePath = cursor.getString(column_index);
+
 			}
 			//-----------------------------------------------------
+
+			//if image is broken abort
+			{
+				int[] imageDimensions = new int[2];
+				imageDimensions = ImageEditing.getImageDimensions(originalImagePath);
+				if (imageDimensions[0] < 0 || imageDimensions[1] < 0) {
+					Utils.displayErrorMessage(this, this.getString(R.string.error_load_image));
+					return;
+				}
+			}
 
 			File oldFile = new File(originalImagePath);
 
@@ -152,6 +190,41 @@ public class CostumeActivity extends ListActivity {
 				updateCostumeAdapter(imageName, imageFileName);
 			} catch (IOException e) {
 				Utils.displayErrorMessage(this, this.getString(R.string.error_load_image));
+			}
+		}
+		if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_PAINTROID_EDIT_IMAGE) {
+			Bundle bundle = data.getExtras();
+			String pathOfPaintroidImage = bundle.getString(this.getString(R.string.extra_picture_path_paintroid));
+
+			//if image is broken abort
+			{
+				int[] imageDimensions = new int[2];
+				imageDimensions = ImageEditing.getImageDimensions(pathOfPaintroidImage);
+				if (imageDimensions[0] < 0 || imageDimensions[1] < 0) {
+					return;
+				}
+			}
+
+			ScriptTabActivity scriptTabActivity = (ScriptTabActivity) getParent();
+			CostumeData selectedCostumeData = scriptTabActivity.selectedCostumeData;
+			String actualChecksum = Utils.md5Checksum(new File(pathOfPaintroidImage));
+
+			//if costume changed --> saving new image with new checksum and changing costumeData
+			if (!selectedCostumeData.getChecksum().equalsIgnoreCase(actualChecksum)) {
+				String oldFileName = selectedCostumeData.getCostumeFileName();
+				String newFileName = oldFileName.substring(33, oldFileName.length()); //TODO: test this
+				String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+				try {
+					File newCostumeFile = StorageHandler.getInstance().copyImage(projectName, pathOfPaintroidImage,
+							newFileName);
+					File tempPicFileInPaintroid = new File(pathOfPaintroidImage);
+					tempPicFileInPaintroid.delete(); //delete temp file in paintroid
+					StorageHandler.getInstance().deleteFile(selectedCostumeData.getAbsolutePath()); //reduce usage in container or delete it
+					selectedCostumeData.setCostumeFilename(newCostumeFile.getName());
+					selectedCostumeData.resetThumbnailBitmap();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}

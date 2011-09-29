@@ -84,10 +84,13 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
 				getActivity().getAdapter().getChild(groupCount - 1, 0));
+
 		assertEquals("Wrong Brick instance.", projectBrickList.get(1),
 				getActivity().getAdapter().getChild(groupCount - 1, 1));
+
 		assertEquals("Wrong Brick instance.", projectBrickList.get(2),
 				getActivity().getAdapter().getChild(groupCount - 1, 2));
+
 		assertEquals("Wrong Brick instance.", projectBrickList.get(3),
 				getActivity().getAdapter().getChild(groupCount - 1, 3));
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_place_at)));
@@ -98,6 +101,8 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, xPosition + "");
+		solo.goBack();
+		solo.sleep(300);
 		solo.clickOnButton(0);
 
 		solo.sleep(300);
@@ -108,6 +113,7 @@ public class PlaceAtBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		solo.clickOnEditText(1);
 		solo.clearEditText(0);
 		solo.enterText(0, yPosition + "");
+		solo.goBack();
 		solo.clickOnButton(0);
 
 		solo.sleep(300);

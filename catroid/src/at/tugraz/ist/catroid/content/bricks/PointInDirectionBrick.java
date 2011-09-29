@@ -50,8 +50,12 @@ public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 		this.selectedIndex = selectedIndex;
 	}
 
+	public int getRequiredResources() {
+		return NO_RESOURCES;
+	}
+
 	public void execute() {
-		sprite.setDirection(directions[selectedIndex]);
+		sprite.costume.rotation = -directions[selectedIndex] + 90f;
 	}
 
 	public Sprite getSprite() {
@@ -60,22 +64,19 @@ public class PointInDirectionBrick implements Brick, OnItemSelectedListener {
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
-		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_point_in_direction, null);
-			ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(context,
-					R.array.point_in_direction_strings, android.R.layout.simple_spinner_item);
-			arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-			Spinner spinner = (Spinner) view.findViewById(R.id.point_in_direction_spinner);
-			spinner.setAdapter(arrayAdapter);
-
-			spinner.setClickable(true);
-			spinner.setFocusable(true);
-
-			spinner.setOnItemSelectedListener(this);
-		}
+		view = View.inflate(context, R.layout.toolbox_brick_point_in_direction, null);
+		ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(context,
+				R.array.point_in_direction_strings, android.R.layout.simple_spinner_item);
+		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		Spinner spinner = (Spinner) view.findViewById(R.id.point_in_direction_spinner);
+		spinner.setAdapter(arrayAdapter);
+
+		spinner.setClickable(true);
+		spinner.setFocusable(true);
+
+		spinner.setOnItemSelectedListener(this);
+
 		spinner.setSelection(selectedIndex);
 
 		return view;

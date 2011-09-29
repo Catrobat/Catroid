@@ -33,6 +33,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.Semaphore;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -41,13 +42,24 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.DialogInterface.OnShowListener;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
@@ -55,6 +67,8 @@ import at.tugraz.ist.catroid.common.Values;
 public class Utils {
 
 	private static final String TAG = Utils.class.getSimpleName();
+	private static long uniqueLong = 0;
+	private static Semaphore uniqueNameLock = new Semaphore(1);
 
 	public static boolean hasSdCard() {
 		return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
@@ -93,6 +107,13 @@ public class Utils {
 			return false;
 		}
 		return true;
+	}
+
+	public static boolean isNetworkAvailable(Context context) {
+		ConnectivityManager connectivityManager = (ConnectivityManager) context
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+		return activeNetworkInfo != null;
 	}
 
 	/**
@@ -269,6 +290,21 @@ public class Utils {
 		builder.show();
 	}
 
+	public static void displayToast(Activity activity, String message/* , int duration */) {
+		LayoutInflater inflater = activity.getLayoutInflater();
+		View layout = inflater.inflate(R.layout.toast_settings,
+				(ViewGroup) activity.findViewById(R.id.toast_layout_root));
+
+		TextView text = (TextView) layout.findViewById(R.id.text);
+		text.setText(message);
+
+		Toast toast = new Toast(activity.getApplicationContext());
+		toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+		toast.setDuration(Toast.LENGTH_SHORT);
+		toast.setView(layout);
+		toast.show();
+	}
+
 	public static String md5Checksum(File file) {
 		if (!file.isFile()) {
 			return null;
@@ -307,6 +343,13 @@ public class Utils {
 		messageDigest.update(string.getBytes());
 
 		return toHex(messageDigest.digest());
+	}
+
+	public static String getUniqueName() {
+		uniqueNameLock.acquireUninterruptibly();
+		String uniqueName = String.valueOf(uniqueLong++);
+		uniqueNameLock.release();
+		return uniqueName;
 	}
 
 	private static String toHex(byte[] messageDigest) {
@@ -354,5 +397,15 @@ public class Utils {
 			Log.e(TAG, "Name not found", nameNotFoundException);
 		}
 		return versionName;
+	}
+
+	public static OnShowListener getBrickDialogOnClickListener(final Context context, final EditText input) {
+		return new OnShowListener() {
+			public void onShow(DialogInterface dialog) {
+				InputMethodManager inputManager = (InputMethodManager) context
+						.getSystemService(Context.INPUT_METHOD_SERVICE);
+				inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
+			}
+		};
 	}
 }

@@ -82,6 +82,7 @@ public class SetXBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, setX + "");
+		solo.goBack();
 		solo.clickOnButton(0);
 
 		solo.sleep(300);

@@ -29,21 +29,22 @@ import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.Gravity;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
+import at.tugraz.ist.catroid.transfers.CheckTokenTask;
 import at.tugraz.ist.catroid.ui.dialogs.AboutDialog;
 import at.tugraz.ist.catroid.ui.dialogs.LoadProjectDialog;
+import at.tugraz.ist.catroid.ui.dialogs.LoginRegisterDialog;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.UploadProjectDialog;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
@@ -54,6 +55,13 @@ public class MainMenuActivity extends Activity {
 	private static final String PREF_PROJECTNAME_KEY = "projectName";
 	private ProjectManager projectManager;
 	private ActivityHelper activityHelper = new ActivityHelper(this);
+	private TextView titleText;
+	private static final int DIALOG_NEW_PROJECT = 0;
+	private static final int DIALOG_LOAD_PROJECT = 1;
+	public static final int DIALOG_UPLOAD_PROJECT = 2;
+	private static final int DIALOG_ABOUT = 3;
+	private static final int DIALOG_LOGIN_REGISTER = 4;
+	private boolean ignoreResume = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -82,15 +90,33 @@ public class MainMenuActivity extends Activity {
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-		activityHelper.setupActionBar(true, null);
+
+		ignoreResume = false;
+		PreStageActivity.shutdownPersistentResources();
+
+		String title = this.getResources().getString(R.string.project_name) + " "
+				+ projectManager.getCurrentProject().getName();
+		activityHelper.setupActionBar(true, title);
 		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, new View.OnClickListener() {
 			public void onClick(View v) {
 				if (projectManager.getCurrentProject() != null) {
-					Intent intent = new Intent(MainMenuActivity.this, StageActivity.class);
-					startActivity(intent);
+					Intent intent = new Intent(MainMenuActivity.this, PreStageActivity.class);
+					ignoreResume = true;
+					startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 				}
 			}
 		}, false);
+		this.titleText = (TextView) findViewById(R.id.tv_title);
+
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		Log.i("bt", "MMA: " + requestCode + " result code" + resultCode);
+		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
+			Intent intent = new Intent(MainMenuActivity.this, StageActivity.class);
+			startActivity(intent);
+		}
 	}
 
 	@Override
@@ -102,21 +128,20 @@ public class MainMenuActivity extends Activity {
 		}
 
 		switch (id) {
-			case Consts.DIALOG_NEW_PROJECT:
+			case DIALOG_NEW_PROJECT:
 				dialog = new NewProjectDialog(this);
 				break;
-			case Consts.DIALOG_LOAD_PROJECT:
+			case DIALOG_LOAD_PROJECT:
 				dialog = new LoadProjectDialog(this);
 				break;
-			case Consts.DIALOG_ABOUT:
+			case DIALOG_ABOUT:
 				dialog = new AboutDialog(this);
 				break;
-			case Consts.DIALOG_UPLOAD_PROJECT:
-				if (projectManager.getCurrentProject() == null) {
-					dialog = null;
-					break;
-				}
+			case DIALOG_UPLOAD_PROJECT:
 				dialog = new UploadProjectDialog(this);
+				break;
+			case DIALOG_LOGIN_REGISTER:
+				dialog = new LoginRegisterDialog(this);
 				break;
 			default:
 				dialog = null;
@@ -127,26 +152,29 @@ public class MainMenuActivity extends Activity {
 
 	@Override
 	protected void onPrepareDialog(int id, Dialog dialog) {
+		super.onPrepareDialog(id, dialog);
 		switch (id) {
-			case Consts.DIALOG_NEW_PROJECT:
-				break;
-			case Consts.DIALOG_LOAD_PROJECT:
-				break;
-			case Consts.DIALOG_ABOUT:
-				break;
-			case Consts.DIALOG_UPLOAD_PROJECT:
+			case DIALOG_UPLOAD_PROJECT:
+				Project currentProject = ProjectManager.getInstance().getCurrentProject();
+				String currentProjectName = currentProject.getName();
 				TextView projectRename = (TextView) dialog.findViewById(R.id.tv_project_rename);
 				EditText projectDescriptionField = (EditText) dialog.findViewById(R.id.project_description_upload);
-				final EditText projectUploadName = (EditText) dialog.findViewById(R.id.project_upload_name);
+				EditText projectUploadName = (EditText) dialog.findViewById(R.id.project_upload_name);
 				TextView sizeOfProject = (TextView) dialog.findViewById(R.id.dialog_upload_size_of_project);
-				sizeOfProject.setText(UtilFile.getSizeAsString(new File(Consts.DEFAULT_ROOT + "/"
-						+ projectManager.getCurrentProject().getName())));
+				sizeOfProject.setText(UtilFile
+						.getSizeAsString(new File(Consts.DEFAULT_ROOT + "/" + currentProjectName)));
 
 				projectRename.setVisibility(View.GONE);
 				projectUploadName.setText(ProjectManager.getInstance().getCurrentProject().getName());
 				projectDescriptionField.setText("");
 				projectUploadName.requestFocus();
 				projectUploadName.selectAll();
+				break;
+			case DIALOG_LOGIN_REGISTER:
+				EditText usernameEditText = (EditText) dialog.findViewById(R.id.username);
+				EditText passwordEditText = (EditText) dialog.findViewById(R.id.password);
+				usernameEditText.setText("");
+				passwordEditText.setText("");
 				break;
 		}
 	}
@@ -160,8 +188,15 @@ public class MainMenuActivity extends Activity {
 		if (projectManager.getCurrentProject() == null) {
 			return;
 		}
+		if (!ignoreResume) {
+			PreStageActivity.shutdownPersistentResources();
+		}
+		ignoreResume = false;
 
 		projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
+		String title = this.getResources().getString(R.string.project_name) + " "
+				+ projectManager.getCurrentProject().getName();
+		titleText.setText(title);
 	}
 
 	@Override
@@ -196,15 +231,22 @@ public class MainMenuActivity extends Activity {
 	}
 
 	public void handleNewProjectButton(View v) {
-		showDialog(Consts.DIALOG_NEW_PROJECT);
+		showDialog(DIALOG_NEW_PROJECT);
 	}
 
 	public void handleLoadProjectButton(View v) {
-		showDialog(Consts.DIALOG_LOAD_PROJECT);
+		showDialog(DIALOG_LOAD_PROJECT);
 	}
 
 	public void handleUploadProjectButton(View v) {
-		showDialog(Consts.DIALOG_UPLOAD_PROJECT);
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		String token = preferences.getString(Consts.TOKEN, null);
+
+		if (token == null || token.length() == 0 || token.equals("0")) {
+			showDialog(DIALOG_LOGIN_REGISTER);
+		} else {
+			new CheckTokenTask(this, token).execute();
+		}
 	}
 
 	public void handleWebResourcesButton(View v) {
@@ -213,34 +255,15 @@ public class MainMenuActivity extends Activity {
 	}
 
 	public void handleSettingsButton(View v) {
-		LayoutInflater inflater = getLayoutInflater();
-		View layout = inflater.inflate(R.layout.toast_settings, (ViewGroup) findViewById(R.id.toast_layout_root));
-
-		TextView text = (TextView) layout.findViewById(R.id.text);
-		text.setText("Settings not yet implemented!");
-
-		Toast toast = new Toast(getApplicationContext());
-		toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-		toast.setDuration(Toast.LENGTH_SHORT);
-		toast.setView(layout);
-		toast.show();
+		Intent intent = new Intent(MainMenuActivity.this, SettingsActivity.class);
+		startActivity(intent);
 	}
 
 	public void handleTutorialButton(View v) {
-		LayoutInflater inflater = getLayoutInflater();
-		View layout = inflater.inflate(R.layout.toast_tutorial, (ViewGroup) findViewById(R.id.toast_layout_root));
-
-		TextView text = (TextView) layout.findViewById(R.id.text);
-		text.setText("Tutorial not yet implemented!");
-
-		Toast toast = new Toast(getApplicationContext());
-		toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-		toast.setDuration(Toast.LENGTH_SHORT);
-		toast.setView(layout);
-		toast.show();
+		Utils.displayToast(this, "Tutorial not yet implemented!");
 	}
 
 	public void handleAboutCatroidButton(View v) {
-		showDialog(Consts.DIALOG_ABOUT);
+		showDialog(DIALOG_ABOUT);
 	}
 }

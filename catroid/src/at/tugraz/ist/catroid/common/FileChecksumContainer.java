@@ -65,6 +65,14 @@ public class FileChecksumContainer implements Serializable {
 		return checksumFileInfoMap.get(checksum).path;
 	}
 
+	public int getUsage(String checksum) {
+		if (!checksumFileInfoMap.containsKey(checksum)) {
+			return 0;
+		} else {
+			return checksumFileInfoMap.get(checksum).usageCounter;
+		}
+	}
+
 	/**
 	 * @param filepath
 	 * @return true if this was the last usage and false if there is another usage

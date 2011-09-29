@@ -38,8 +38,12 @@ public class ShowBrick implements Brick {
 		this.sprite = sprite;
 	}
 
+	public int getRequiredResources() {
+		return NO_RESOURCES;
+	}
+
 	public void execute() {
-		sprite.show();
+		sprite.costume.show = true;
 	}
 
 	public Sprite getSprite() {

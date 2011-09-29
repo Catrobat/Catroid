@@ -18,6 +18,8 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
+import java.util.List;
+
 import android.content.Context;
 import android.view.View;
 import android.widget.BaseAdapter;
@@ -38,11 +40,26 @@ public class ComeToFrontBrick implements Brick {
 		this.sprite = sprite;
 	}
 
-	public void execute() {
-		int maxZValue = ProjectManager.getInstance().getCurrentProject().getMaxZValue();
-		maxZValue = maxZValue > (maxZValue + 1) ? Integer.MAX_VALUE : maxZValue + 1;
+	public int getRequiredResources() {
+		return NO_RESOURCES;
+	}
 
-		sprite.setZPosition(maxZValue);
+	public void execute() {
+		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentProject().getSpriteList();
+		int highestPosition = 0;
+		for (Sprite sprite : spriteList) {
+			if (highestPosition < sprite.costume.zPosition) {
+				highestPosition = sprite.costume.zPosition;
+				if (sprite == this.sprite) {
+					highestPosition--;
+				}
+			}
+		}
+		if (highestPosition > highestPosition + 1) {
+			sprite.costume.zPosition = Integer.MAX_VALUE;
+		} else {
+			sprite.costume.zPosition = highestPosition + 1;
+		}
 	}
 
 	public Sprite getSprite() {

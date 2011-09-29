@@ -18,20 +18,23 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
-import android.content.DialogInterface.OnDismissListener;
+import android.text.InputType;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
+import at.tugraz.ist.catroid.utils.Utils;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-public class SetXBrick implements Brick, OnDismissListener {
+public class SetXBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 	private int xPosition;
 	private Sprite sprite;
@@ -44,8 +47,14 @@ public class SetXBrick implements Brick, OnDismissListener {
 		this.xPosition = xPosition;
 	}
 
+	public int getRequiredResources() {
+		return NO_RESOURCES;
+	}
+
 	public void execute() {
-		sprite.setXYPosition(xPosition, sprite.getYPosition());
+		sprite.costume.aquireXYWidthHeightLock();
+		sprite.costume.setXPosition(xPosition);
+		sprite.costume.releaseXYWidthHeightLock();
 	}
 
 	public Sprite getSprite() {
@@ -54,18 +63,12 @@ public class SetXBrick implements Brick, OnDismissListener {
 
 	public View getView(Context context, int brickId, BaseAdapter adapter) {
 
-		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_set_x, null);
-		}
+		view = View.inflate(context, R.layout.toolbox_brick_set_x, null);
 
 		EditText editX = (EditText) view.findViewById(R.id.toolbox_brick_set_x_edit_text);
 		editX.setText(String.valueOf(xPosition));
 
-		EditIntegerDialog dialogX = new EditIntegerDialog(context, editX, xPosition, true);
-		dialogX.setOnDismissListener(this);
-		dialogX.setOnCancelListener((OnCancelListener) context);
-
-		editX.setOnClickListener(dialogX);
+		editX.setOnClickListener(this);
 
 		return view;
 	}
@@ -79,10 +82,37 @@ public class SetXBrick implements Brick, OnDismissListener {
 		return new SetXBrick(getSprite(), xPosition);
 	}
 
-	public void onDismiss(DialogInterface dialog) {
-		EditIntegerDialog inputDialog = (EditIntegerDialog) dialog;
-		xPosition = inputDialog.getValue();
+	public void onClick(View view) {
+		final Context context = view.getContext();
 
-		dialog.cancel();
+		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+		final EditText input = new EditText(context);
+		input.setText(String.valueOf(xPosition));
+		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
+				| InputType.TYPE_NUMBER_FLAG_SIGNED);
+		input.setSelectAllOnFocus(true);
+		dialog.setView(input);
+		dialog.setOnCancelListener((OnCancelListener) context);
+		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				try {
+					xPosition = Integer.parseInt(input.getText().toString());
+				} catch (NumberFormatException exception) {
+					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT);
+				}
+				dialog.cancel();
+			}
+		});
+		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+
+		AlertDialog finishedDialog = dialog.create();
+		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
+
+		finishedDialog.show();
+
 	}
 }

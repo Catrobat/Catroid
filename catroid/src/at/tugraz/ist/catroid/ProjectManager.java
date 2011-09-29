@@ -20,6 +20,7 @@
 package at.tugraz.ist.catroid;
 
 import java.io.File;
+import java.io.IOException;
 
 import android.content.Context;
 import at.tugraz.ist.catroid.common.Consts;
@@ -37,6 +38,7 @@ public class ProjectManager {
 	private Script currentScript;
 	private Sprite currentSprite;
 	private static ProjectManager instance;
+	private String lastFileSaved;
 
 	public FileChecksumContainer fileChecksumContainer;
 	public MessageContainer messageContainer;
@@ -66,6 +68,10 @@ public class ProjectManager {
 					return false;
 				}
 			}
+			//adapt name of background sprite to the current language and place on lowest layer
+			project.getSpriteList().get(0).setName(context.getString(R.string.background));
+			project.getSpriteList().get(0).costume.zPosition = Integer.MIN_VALUE;
+
 			currentSprite = null;
 			currentScript = null;
 			return true;
@@ -97,10 +103,10 @@ public class ProjectManager {
 		}
 	}
 
-	public void initializeNewProject(String projectName, Context context) {
-		project = new Project(context, projectName);
+	public void initializeNewProject(String projectName, Context context) throws IOException {
 		fileChecksumContainer = new FileChecksumContainer();
 		messageContainer = new MessageContainer();
+		project = StorageHandler.getInstance().createDefaultProject(projectName, context);
 
 		currentSprite = null;
 		currentScript = null;
@@ -219,4 +225,13 @@ public class ProjectManager {
 
 		return true;
 	}
+
+	public String getLastFilePath() {
+		return lastFileSaved;
+	}
+
+	public void setLastFilePath(String fd) {
+		lastFileSaved = fd;
+	}
+
 }

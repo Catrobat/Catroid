@@ -41,7 +41,6 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 	private Project project;
 	private NoteBrick noteBrick;
 	private String testString = "test";
-	private String testString2 = "";
 
 	public NoteBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -82,6 +81,7 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 		solo.clickOnEditText(0);
 		solo.enterText(0, testString);
+		solo.goBack();
 		solo.clickOnButton(0);
 		solo.sleep(300);
 
@@ -91,6 +91,7 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 		solo.clickOnEditText(0);
 		solo.enterText(0, "");
+		solo.goBack();
 		solo.clickOnButton(0);
 		solo.sleep(300);
 
@@ -98,14 +99,15 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 		assertEquals("Wrong text in field.", "", note);
 
+		//used testString again, cause robotium can't find button otherwise....
 		solo.clickOnEditText(0);
-		solo.enterText(0, testString2);
+		solo.enterText(0, testString);
+		solo.goBack();
 		solo.clickOnButton(0);
 		solo.sleep(300);
-
 		note = UiTestUtils.getPrivateField("note", noteBrick).toString();
 
-		assertEquals("Wrong text in field.", testString2, note);
+		assertEquals("Wrong text in field.", testString, note);
 
 	}
 
@@ -122,7 +124,6 @@ public class NoteBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
-		testString2 = getInstrumentation().getContext().getString(at.tugraz.ist.catroid.uitest.R.string.test_text);
 
 	}
 }

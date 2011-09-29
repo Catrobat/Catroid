@@ -28,6 +28,7 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.utils.Utils;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
@@ -48,8 +49,12 @@ public class SayBrick implements Brick {
 		this.text = text;
 	}
 
+	public int getRequiredResources() {
+		return NO_RESOURCES;
+	}
+
 	public void execute() {
-		sprite.getBubble().setSpeechBubble(text, R.drawable.speech_bubble, R.drawable.speech_bubble_inv);
+		// sprite.getBubble().setSpeechBubble(text, R.drawable.speech_bubble, R.drawable.speech_bubble_inv);
 	}
 
 	public Sprite getSprite() {
@@ -58,9 +63,7 @@ public class SayBrick implements Brick {
 
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
 
-		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_say, null);
-		}
+		view = View.inflate(context, R.layout.toolbox_brick_say, null);
 
 		EditText editText = (EditText) view.findViewById(R.id.toolbox_brick_say_edit_text);
 		editText.setText(text);
@@ -70,6 +73,7 @@ public class SayBrick implements Brick {
 				AlertDialog.Builder dialog = new AlertDialog.Builder(context);
 				final EditText input = new EditText(context);
 				input.setText(text);
+				input.setSelectAllOnFocus(true);
 				dialog.setView(input);
 				dialog.setOnCancelListener((OnCancelListener) context);
 				dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
@@ -85,7 +89,10 @@ public class SayBrick implements Brick {
 							}
 						});
 
-				dialog.show();
+				AlertDialog finishedDialog = dialog.create();
+				finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
+
+				finishedDialog.show();
 			}
 		});
 

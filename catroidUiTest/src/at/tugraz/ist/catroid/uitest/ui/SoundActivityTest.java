@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010  Catroid development team 
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -16,6 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package at.tugraz.ist.catroid.uitest.ui;
 
 import java.io.File;
@@ -26,7 +27,6 @@ import android.widget.ListAdapter;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.SoundInfo;
-import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.SoundActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
@@ -109,12 +109,18 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		solo.sleep(500);
 		solo.clickOnButton(getActivity().getString(R.string.sound_rename));
 		assertTrue("wrong title of dialog", solo.searchText(soundName));
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(300);
 		solo.clearEditText(0);
 		solo.enterText(0, newName);
-		solo.sleep(100);
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(300);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		assertTrue("EditText field got cleared after changing orientation", solo.searchText(newName));
 		solo.clickOnButton(getActivity().getString(R.string.ok));
-		solo.sleep(600);
+		solo.sleep(100);
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		solo.sleep(500);
 		assertEquals("sound is not renamed in SoundList", newName, soundInfoList.get(0).getTitle());
 		if (!solo.searchText(newName)) {
 			fail("sound not renamed in actual view");
@@ -129,25 +135,25 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		solo.clickOnButton(getActivity().getString(R.string.sound_play));
 		solo.sleep(20);
 		assertTrue("Mediaplayer is not playing", soundInfo.isPlaying);
-		solo.clickOnButton(getActivity().getString(R.string.sound_stop));
+		solo.clickOnButton(getActivity().getString(R.string.sound_pause));
 		solo.sleep(40);
 		assertFalse("Mediaplayer is playing after touching stop button", soundInfo.isPlaying);
 	}
 
-	public void testToStageButton() {
-		solo.clickOnText(getActivity().getString(R.string.sounds));
-		solo.sleep(500);
-		//fu!?
-		solo.clickOnImageButton(2); //sorry UiTestUtils.clickOnImageButton just won't work after switching tabs
-
-		solo.sleep(5000);
-		solo.assertCurrentActivity("not in stage", StageActivity.class);
-		solo.goBack();
-		solo.sleep(3000);
-		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
-		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
-		assertEquals("soundlist in sprite doesn't hold the right number of soundinfos", 2, soundInfoList.size());
-	}
+	//	public void testToStageButton() {
+	//		solo.clickOnText(getActivity().getString(R.string.sounds));
+	//		solo.sleep(500);
+	//		//fu!?
+	//		solo.clickOnImageButton(2); //sorry UiTestUtils.clickOnImageButton just won't work after switching tabs
+	//
+	//		solo.sleep(5000);
+	//		solo.assertCurrentActivity("not in stage", StageActivity.class);
+	//		solo.goBack();
+	//		solo.sleep(3000);
+	//		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
+	//		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+	//		assertEquals("soundlist in sprite doesn't hold the right number of soundinfos", 2, soundInfoList.size());
+	//	}
 
 	//	public void testMainMenuButton() {
 	//		solo.clickOnText(getActivity().getString(R.string.sounds));
@@ -171,9 +177,11 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		solo.clearEditText(0);
 		solo.enterText(0, newName);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(300);
+
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(newName));
-		solo.clickOnButton(getActivity().getString(R.string.ok));
+		solo.sleep(600);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.clickOnButton(0);
 		solo.sleep(100);
 		assertTrue("Sounds wasnt renamed", solo.searchText(newName));
 	}

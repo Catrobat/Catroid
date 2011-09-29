@@ -32,11 +32,20 @@ import at.tugraz.ist.catroid.R;
 
 public class EditDoubleDialog extends EditDialog implements OnClickListener {
 	private double value;
+	private double min = Double.MIN_VALUE;
+	private double max = Double.MAX_VALUE;
 	private boolean signed = false;
 
 	public EditDoubleDialog(Context context, EditText referencedEditText, double value) {
 		super(context, referencedEditText);
 		this.value = value;
+	}
+
+	public EditDoubleDialog(Context context, EditText referencedEditText, double value, double min, double max) {
+		super(context, referencedEditText);
+		this.value = value;
+		this.min = min;
+		this.max = max;
 	}
 
 	public EditDoubleDialog(Context context, EditText referencedEditText, double value, boolean signed) {
@@ -57,16 +66,22 @@ public class EditDoubleDialog extends EditDialog implements OnClickListener {
 			editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 		}
 
-		//		editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-
 		okButton.setOnClickListener(this);
-
 		this.setOnKeyListener(new OnKeyListener() {
 
 			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
 				if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
 					try {
 						value = Double.parseDouble(editText.getText().toString());
+						if (value < min) {
+							value = min;
+							Toast.makeText(context, R.string.number_to_small, Toast.LENGTH_SHORT).show();
+							return false;
+						} else if (value > max) {
+							value = max;
+							Toast.makeText(context, R.string.number_to_big, Toast.LENGTH_SHORT).show();
+							return false;
+						}
 						dismiss();
 					} catch (NumberFormatException e) {
 						Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
@@ -83,6 +98,7 @@ public class EditDoubleDialog extends EditDialog implements OnClickListener {
 	}
 
 	public void onClick(View v) {
+
 		if (v.getId() == R.id.dialog_edit_dialog_edit_text) {
 			editText.selectAll();
 		} else if (v.getId() == referencedEditText.getId()) {
@@ -90,10 +106,22 @@ public class EditDoubleDialog extends EditDialog implements OnClickListener {
 		} else {
 			try {
 				value = Double.parseDouble(editText.getText().toString());
+				if (value < min) {
+					value = min;
+					Toast.makeText(context, R.string.number_to_small, Toast.LENGTH_SHORT).show();
+				} else if (value > max) {
+					value = max;
+					Toast.makeText(context, R.string.number_to_big, Toast.LENGTH_SHORT).show();
+				}
 				dismiss();
 			} catch (NumberFormatException e) {
 				Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 			}
 		}
+	}
+
+	@Override
+	public int getRefernecedEditTextId() {
+		return referencedEditText.getId();
 	}
 }

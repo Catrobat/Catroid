@@ -28,12 +28,12 @@ public class SetBrightnessBrickTest extends InstrumentationTestCase {
 
 	public void testBrightnessEffect() {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite scale value", 0.0, sprite.getBrightnessValue());
+		assertEquals("Unexpected initial brightness value", 1f, sprite.costume.getBrightnessValue());
 
 		SetBrightnessBrick setBrightnessBrick = new SetBrightnessBrick(sprite, brightnessValue);
 		setBrightnessBrick.execute();
-		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed", brightnessValue,
-				sprite.getBrightnessValue());
+		assertEquals("Incorrect brightness value after SetBrightnessBrick executed", (float) brightnessValue / 100f,
+				sprite.costume.getBrightnessValue());
 	}
 
 	public void testNullSprite() {
@@ -51,7 +51,7 @@ public class SetBrightnessBrickTest extends InstrumentationTestCase {
 		Sprite sprite = new Sprite("testSprite");
 		SetBrightnessBrick setBrightnessBrick = new SetBrightnessBrick(sprite, -brightnessValue);
 		setBrightnessBrick.execute();
-		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed", -brightnessValue,
-				sprite.getBrightnessValue());
+		assertEquals("Incorrect sprite scale value after SetGhostEffectBrick executed", 0f,
+				sprite.costume.getBrightnessValue());
 	}
 }

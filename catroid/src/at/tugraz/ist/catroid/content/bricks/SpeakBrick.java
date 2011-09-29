@@ -28,10 +28,13 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.stage.StageActivity;
+import at.tugraz.ist.catroid.stage.PreStageActivity;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class SpeakBrick implements Brick {
 	private static final long serialVersionUID = 1L;
+	public static final int REQUIRED_RESSOURCES = TEXT_TO_SPEECH;
+
 	private Sprite sprite;
 	private String text = "";
 	protected int position = 0;
@@ -43,8 +46,12 @@ public class SpeakBrick implements Brick {
 		this.text = text;
 	}
 
+	public int getRequiredResources() {
+		return TEXT_TO_SPEECH;
+	}
+
 	public void execute() {
-		StageActivity.textToSpeech(getText());
+		PreStageActivity.textToSpeech(getText());
 	}
 
 	public Sprite getSprite() {
@@ -56,9 +63,7 @@ public class SpeakBrick implements Brick {
 	}
 
 	public View getView(final Context context, int brickId, final BaseAdapter adapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_speak, null);
-		}
+		view = View.inflate(context, R.layout.toolbox_brick_speak, null);
 
 		EditText editText = (EditText) view.findViewById(R.id.toolbox_brick_speak_edit_text);
 		editText.setText(text);
@@ -69,6 +74,7 @@ public class SpeakBrick implements Brick {
 				AlertDialog.Builder dialog = new AlertDialog.Builder(context);
 				final EditText input = new EditText(context);
 				input.setText(text);
+				input.setSelectAllOnFocus(true);
 				dialog.setView(input);
 				dialog.setOnCancelListener((OnCancelListener) context);
 				dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
@@ -84,7 +90,10 @@ public class SpeakBrick implements Brick {
 							}
 						});
 
-				dialog.show();
+				AlertDialog finishedDialog = dialog.create();
+				finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
+
+				finishedDialog.show();
 
 			}
 		});
