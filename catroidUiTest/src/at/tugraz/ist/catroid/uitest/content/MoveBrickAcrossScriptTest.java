@@ -1,6 +1,6 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -16,31 +16,38 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package at.tugraz.ist.catroid.uitest.content;
+
+import java.util.ArrayList;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
+import android.view.View;
+import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
-import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.content.bricks.Brick;
+import at.tugraz.ist.catroid.content.bricks.HideBrick;
+import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
+import at.tugraz.ist.catroid.content.bricks.ShowBrick;
+import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class MoveBrickAcrossScriptTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
+public class MoveBrickAcrossScriptTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
 	private Solo solo;
-	private Project project;
+	private ArrayList<Brick> brickListToCheck;
 
 	public MoveBrickAcrossScriptTest() {
-		super("at.tugraz.ist.catroid", ScriptActivity.class);
+		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
-		createProject();
+		createProject("testProject");
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
@@ -56,22 +63,65 @@ public class MoveBrickAcrossScriptTest extends ActivityInstrumentationTestCase2<
 		super.tearDown();
 	}
 
-	private void createProject() {
-		project = new Project(null, "testProject");
-		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript("script", sprite);
+	@Smoke
+	public void testMoveBrickAcrossScript() {
+		ListView parent = solo.getCurrentListViews().get(0);
+		View testScriptBrick = parent.getChildAt(1);
+		solo.clickLongOnView(testScriptBrick);
 
-		sprite.addScript(script);
-		project.addSprite(sprite);
+		//		solo.clickOnView(testScriptBrick);
+		//		solo.sleep(1500);
+		//
+		//		assertEquals("Current Script in List is not testScript", "testScript", ProjectManager.getInstance()
+		//				.getCurrentScript().getName());
+		//		//		
+		//		View startBrick = parent.getChildAt(4);
+		//		solo.clickOnView(startBrick);
+		//		solo.sleep(1500);
+		//		assertEquals("Current Script in List is not testScript", "testScript3", ProjectManager.getInstance()
+		//				.getCurrentScript().getName());
+		//
+		//		startBrick = parent.getChildAt(5);
+		//		solo.clickOnView(startBrick);
+		//		solo.sleep(1500);
+		//		assertEquals("Current Script in List is not testScript", "testScript2", ProjectManager.getInstance()
+		//				.getCurrentScript().getName());
+		//
+		//		startBrick = parent.getChildAt(2);
+		//		String textViewText = solo.getCurrentTextViews(startBrick).get(0).getText().toString();
+		//		String startBrickText = getActivity().getString(R.string.brick_show);
+		//		assertEquals("Third script in listView is not startScript", startBrickText, textViewText);
+	}
+
+	private void createProject(String projectName) {
+		double size = 0.8;
+
+		Project project = new Project(null, projectName);
+		Sprite firstSprite = new Sprite("cat");
+
+		Script testScript = new StartScript("testScript", firstSprite);
+		Script testScript2 = new StartScript("testScript2", firstSprite);
+		Script testScript3 = new StartScript("testScript3", firstSprite);
+
+		brickListToCheck = new ArrayList<Brick>();
+		brickListToCheck.add(new HideBrick(firstSprite));
+		brickListToCheck.add(new ShowBrick(firstSprite));
+		brickListToCheck.add(new SetSizeToBrick(firstSprite, size));
+
+		// adding Bricks: ----------------
+		for (Brick brick : brickListToCheck) {
+			testScript.addBrick(brick);
+		}
+		// -------------------------------
+
+		firstSprite.addScript(testScript);
+		firstSprite.addScript(testScript3);
+		firstSprite.addScript(testScript2);
+
+		project.addSprite(firstSprite);
 
 		ProjectManager.getInstance().setProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentScript(script);
+		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+		ProjectManager.getInstance().setCurrentScript(testScript);
 	}
-
-	@Smoke
-	public void testMoveBrickAcrossScriptbrick() {
-		// To do
-	}
-
 }
