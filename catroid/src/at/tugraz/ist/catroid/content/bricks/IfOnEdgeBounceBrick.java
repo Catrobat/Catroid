@@ -20,7 +20,7 @@ package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseExpandableListAdapter;
+import android.widget.BaseAdapter;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -105,7 +105,7 @@ public class IfOnEdgeBounceBrick implements Brick {
 		return sprite;
 	}
 
-	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
+	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.toolbox_brick_if_on_edge_bounce, null);
 		}

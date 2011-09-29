@@ -31,15 +31,11 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-/**
- * 
- * @author Daniel Burtscher
- * 
- */
 public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private Project project;
@@ -69,15 +65,17 @@ public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 	@Smoke
 	public void testWaitBrick() {
-		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
-		int groupCount = getActivity().getAdapter().getGroupCount();
+
+		BrickAdapter adapter = getActivity().getAdapter();
+		int childrenCount = adapter.getBrickCount(adapter.getScriptCount() - 1);
+		int groupCount = adapter.getScriptCount();
 		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
-				getActivity().getAdapter().getChild(groupCount - 1, 0));
+				adapter.getItem(adapter.getScriptId(groupCount - 1) + 1));
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_wait)));
 
 		double waitTime = 2.25;

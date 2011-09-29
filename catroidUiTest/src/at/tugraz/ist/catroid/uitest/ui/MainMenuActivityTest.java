@@ -87,6 +87,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(testProject));
 		solo.sleep(600);
 		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.goBack();
 		solo.clickOnButton(0);
 		solo.sleep(200);
 
@@ -107,6 +108,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(""));
 		solo.sleep(600);
 		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.goBack();
 		solo.clickOnButton(0);
 		solo.sleep(100);
 
@@ -150,6 +152,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(600);
 		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.goBack();
 		solo.clickOnButton(0);
 		solo.sleep(100);
 
