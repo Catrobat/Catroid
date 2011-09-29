@@ -17,6 +17,7 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
+import re
 import os
 import sys
 import zipfile
@@ -51,9 +52,9 @@ def rename_file_in_project(old_name, new_name, project_file_path, resource_type)
     doc = xml.dom.minidom.parse(project_file_path)
 
     if resource_type == 'images':
-        tag_name = 'imageName'
+        tag_name = 'costumeFileName'
     elif resource_type == 'sounds':
-        tag_name = 'soundfileName'
+        tag_name = 'fileName'
 
     for node in doc.getElementsByTagName(tag_name):
         if node.childNodes[0].nodeValue == old_name:
@@ -63,9 +64,13 @@ def rename_file_in_project(old_name, new_name, project_file_path, resource_type)
     doc.writexml(f)
     f.close()
 
-def rename_resources(path_to_project, project_name):
-    os.rename(os.path.join(path_to_project, project_name + '.xml'),\
-              os.path.join(path_to_project, 'project.xml'))
+def rename_resources(path_to_project):
+    pattern = re.compile('^(.*?)\.xml$');
+    for filename in os.listdir(path_to_project):
+        if pattern.search(filename):
+            os.rename(os.path.join(path_to_project, filename),\
+                      os.path.join(path_to_project,  'project.xml'))
+
     res_token = 'resource'
     res_count = 0
     for resource_type in ['images', 'sounds']:
@@ -108,7 +113,7 @@ def set_project_name(new_name, path_to_file):
     
 def get_project_name(project_filename):
     for node in xml.dom.minidom.parse(project_filename).getElementsByTagName('name'):
-        if node.parentNode.nodeName == 'project':
+        if node.parentNode.nodeName == 'Content.Project':
             return node.childNodes[0].nodeValue
 
 def rename_package(path_to_project, new_package):
@@ -159,7 +164,7 @@ def main():
         shutil.rmtree(os.path.join(path_to_project, project_filename))
     unzip_project(os.path.join(path_to_project, archive_name))
     path_to_project = os.path.join(path_to_project, project_filename)
-    rename_resources(path_to_project, project_filename)
+    rename_resources(path_to_project)
     project_name = get_project_name(os.path.join(path_to_project, 'project.xml'))
     copy_project(path_to_catroid, path_to_project)
     if os.path.exists(os.path.join(path_to_project, 'catroid', 'gen')):

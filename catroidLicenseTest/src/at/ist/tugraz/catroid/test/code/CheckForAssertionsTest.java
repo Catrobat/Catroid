@@ -32,7 +32,8 @@ public class CheckForAssertionsTest extends TestCase {
 	private StringBuffer errorMessages;
 	private boolean assertionNotFound;
 	private static final String[] DIRECTORIES = { "../catroidUiTest", "../catroidTest" };
-	private static final String[] IGNORED_FILES = { "MockGalleryActivity.java", "UiTestUtils.java", "TestUtils.java" };
+	private static final String[] IGNORED_FILES = { "MockGalleryActivity.java", "UiTestUtils.java", "TestUtils.java",
+			"MockPaintroidActivity.java" };
 
 	private void checkFileForAssertions(File file) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(file));

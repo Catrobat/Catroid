@@ -127,6 +127,7 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		assertTrue("mediaPlayer is not playing", mediaPlayer.isPlaying());
 		assertEquals("wrong file playing", 7592, mediaPlayer.getDuration());
 		solo.goBack();
+		solo.clickOnText(getActivity().getString(R.string.back_to_construction_site));
 		solo.sleep(200);
 
 		//changing le sound
@@ -173,8 +174,12 @@ public class PlaySoundBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		solo.clickOnButton(getActivity().getString(R.string.sound_rename));
 		solo.sleep(100);
 		solo.clearEditText(0);
+
 		solo.enterText(0, newName);
-		solo.clickOnButton(getActivity().getString(R.string.ok));
+		solo.setActivityOrientation(Solo.LANDSCAPE);
+		solo.sleep(600);
+		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.clickOnButton(0);
 		solo.sleep(300);
 		solo.clickOnText(getActivity().getString(R.string.scripts));
 		solo.sleep(300);

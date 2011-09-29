@@ -22,7 +22,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
 
 public abstract class Script implements Serializable {
 
@@ -118,12 +117,33 @@ public abstract class Script implements Serializable {
 		this.executingBrickIndex = executingBrickIndex;
 	}
 
-	public boolean containsLoopBrick() {
+	public int getRequiredResources() {
+		int ressources = Brick.NO_RESOURCES;
+
 		for (Brick brick : brickList) {
-			if (brick instanceof LoopBeginBrick) {
+			ressources |= brick.getRequiredResources();
+		}
+		return ressources;
+	}
+
+	public boolean containsBrickOfType(Class<?> type) {
+		for (Brick brick : brickList) {
+			//Log.i("bt", brick.REQUIRED_RESSOURCES + "");
+			if (brick.getClass() == type) {
 				return true;
 			}
 		}
 		return false;
+
 	}
+	//
+	//	public boolean containsBluetoothBrick() {
+	//		for (Brick brick : brickList) {
+	//			if ((brick instanceof NXTMotorActionBrick) || (brick instanceof NXTMotorTurnAngleBrick)
+	//					|| (brick instanceof NXTMotorStopBrick) || (brick instanceof NXTPlayToneBrick)) {
+	//				return true;
+	//			}
+	//		}
+	//		return false;
+	//	}
 }

@@ -310,7 +310,7 @@ public class StorageHandler {
 	}
 
 	/**
-	 * Creates the default project with the default name and saves it to the file system
+	 * Creates the default project and saves it to the filesystem
 	 * 
 	 * @return the default project object if successful, else null
 	 * @throws IOException

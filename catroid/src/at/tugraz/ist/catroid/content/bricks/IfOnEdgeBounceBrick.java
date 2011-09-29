@@ -39,6 +39,10 @@ public class IfOnEdgeBounceBrick implements Brick {
 		this.sprite = sprite;
 	}
 
+	public int getRequiredResources() {
+		return NO_RESOURCES;
+	}
+
 	public void execute() {
 
 		double width = sprite.getCostume().getVirtualWidth();

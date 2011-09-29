@@ -49,7 +49,7 @@ public class SystemOutTest extends TestCase {
 		}
 	}
 
-	public void testForBlockCharacters() throws IOException {
+	public void testForSystemOut() throws IOException {
 		errorMessages = new StringBuffer();
 		errorFound = false;
 

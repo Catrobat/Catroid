@@ -48,6 +48,10 @@ public class ThinkBrick implements Brick {
 		this.text = note;
 	}
 
+	public int getRequiredResources() {
+		return NO_RESOURCES;
+	}
+
 	public void execute() {
 		sprite.getBubble().setSpeechBubble(text, R.drawable.mind_bubble, R.drawable.mind_bubble_inv);
 	}
@@ -70,6 +74,7 @@ public class ThinkBrick implements Brick {
 				AlertDialog.Builder dialog = new AlertDialog.Builder(context);
 				final EditText input = new EditText(context);
 				input.setText(text);
+				input.setSelectAllOnFocus(true);
 				dialog.setView(input);
 				dialog.setOnCancelListener((OnCancelListener) context);
 				dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {

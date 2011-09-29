@@ -34,7 +34,7 @@ public class AboutDialog extends Dialog {
 	private Context context;
 
 	public AboutDialog(Context context) {
-		super(context);
+		super(context, R.style.custom_dialog);
 		this.context = context;
 	}
 

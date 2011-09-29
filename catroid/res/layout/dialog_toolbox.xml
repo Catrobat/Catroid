@@ -22,6 +22,7 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
+	android:background="@drawable/bg_dialog"
 	android:scrollbarDefaultDelayBeforeFade="2000"
 >
 	<ListView
@@ -33,5 +34,6 @@
 		android:scrollbarFadeDuration="2000"
 		android:clickable="true"
 		android:dividerHeight="10dip"
+		android:divider="#00000000"
 	></ListView>
 </LinearLayout>
