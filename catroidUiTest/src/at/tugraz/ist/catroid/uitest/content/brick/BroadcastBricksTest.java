@@ -33,6 +33,7 @@ import at.tugraz.ist.catroid.content.bricks.BroadcastBrick;
 import at.tugraz.ist.catroid.content.bricks.BroadcastWaitBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
+import at.tugraz.ist.catroid.ui.adapter.BrickAdapter;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -65,17 +66,18 @@ public class BroadcastBricksTest extends ActivityInstrumentationTestCase2<Script
 	@Smoke
 	public void testBroadcastBricks() {
 
-		int childrenCount = ((ScriptActivity) getActivity().getCurrentActivity()).getAdapter()
-				.getChildCountFromLastGroup();
-		int groupCount = ((ScriptActivity) getActivity().getCurrentActivity()).getAdapter().getGroupCount();
+		BrickAdapter adapter = ((ScriptActivity) getActivity().getCurrentActivity()).getAdapter();
+
+		int childrenCount = adapter.getBrickCount(adapter.getScriptCount() - 1);
+		int groupCount = adapter.getScriptCount();
 		assertEquals("Incorrect number of bricks.", 3, solo.getCurrentListViews().get(0).getChildCount());
 		assertEquals("Incorrect number of bricks.", 2, childrenCount);
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 2, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), ((ScriptActivity) getActivity()
-				.getCurrentActivity()).getAdapter().getChild(groupCount - 1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				adapter.getItem(adapter.getScriptId(groupCount - 1) + 1));
 
 		String testString = "test";
 		String testString2 = "test2";

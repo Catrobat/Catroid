@@ -23,7 +23,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.BaseExpandableListAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
@@ -67,7 +67,7 @@ public class SetCostumeBrick implements Brick {
 		return costumeData.getAbsolutePath();
 	}
 
-	public View getView(final Context context, int brickId, BaseExpandableListAdapter adapter) {
+	public View getView(final Context context, int brickId, BaseAdapter adapter) {
 
 		view = View.inflate(context, R.layout.toolbox_brick_set_costume, null);
 

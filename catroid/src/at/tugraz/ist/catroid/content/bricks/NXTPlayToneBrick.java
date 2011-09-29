@@ -28,7 +28,7 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.BaseExpandableListAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
@@ -93,7 +93,7 @@ public class NXTPlayToneBrick implements Brick, OnDismissListener, OnClickListen
 		return new NXTPlayToneBrick(getSprite(), frequency, duration);
 	}
 
-	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
+	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View brickView = inflater.inflate(R.layout.construction_brick_nxt_play_tone, null);
 

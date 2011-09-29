@@ -103,11 +103,20 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptTab
 	public void testDeleteScript() {
 		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_when_started);
 
-		solo.clickLongInList(2);
+		int numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
+		int deleteIndex = 0;
+		for (int i = 0; i < numberOfScripts; i++) {
+			deleteIndex += ProjectManager.getInstance().getCurrentSprite().getScript(i).getBrickList().size();
+		}
+		deleteIndex += numberOfScripts;
+
+		solo.clickInList(deleteIndex);
+		solo.clickLongInList(deleteIndex);
+
 		solo.clickOnText(getActivity().getString(R.string.delete));
 		solo.sleep(1000);
 
-		int numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
+		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
 		assertEquals("Incorrect number of scripts in scriptList", 1, numberOfScripts);
 		assertEquals("Incorrect number of elements in listView", 4, solo.getCurrentListViews().get(0).getChildCount());
 
