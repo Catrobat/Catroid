@@ -296,7 +296,64 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 	}
 
-	public void createTestProject(String projectName) throws IOException, NameNotFoundException {
+	public void testMaximizeStretch() throws NameNotFoundException, IOException {
+		Project project = createTestProject(testProject);
+		project.VIRTUAL_SCREEN_WIDTH = 480;
+		project.VIRTUAL_SCREEN_HEIGHT = 700;
+		project.setDeviceData();
+		storageHandler.saveProject(project);
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.clickOnText(testProject);
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		solo.waitForActivity("StageActivity");
+		byte[] whitePixel = { (byte) 255, (byte) 255, (byte) 255, (byte) 255 };
+		byte[] screenPixel = StageActivity.stageListener.getPixels(0, 0, 1, 1);
+		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
+		screenPixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH - 1, Values.SCREEN_HEIGHT - 1, 1, 1);
+		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
+		screenPixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH - 1, 0, 1, 1);
+		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
+		screenPixel = StageActivity.stageListener.getPixels(0, Values.SCREEN_HEIGHT - 1, 1, 1);
+		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
+		solo.goBack();
+		solo.clickOnButton(getActivity().getString(R.string.stagemenu_screen_size));
+		solo.clickOnButton(getActivity().getString(R.string.resume_current_project));
+		solo.sleep(100);
+		byte[] blackPixel = { 0, 0, 0, (byte) 255 };
+		screenPixel = StageActivity.stageListener.getPixels(0, 0, 1, 1);
+		UiTestUtils.compareByteArrays(blackPixel, screenPixel);
+		screenPixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH - 1, Values.SCREEN_HEIGHT - 1, 1, 1);
+		UiTestUtils.compareByteArrays(blackPixel, screenPixel);
+		screenPixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH - 1, 0, 1, 1);
+		UiTestUtils.compareByteArrays(blackPixel, screenPixel);
+		screenPixel = StageActivity.stageListener.getPixels(0, Values.SCREEN_HEIGHT - 1, 1, 1);
+		UiTestUtils.compareByteArrays(blackPixel, screenPixel);
+
+		screenPixel = StageActivity.stageListener.getPixels(0, 50, 1, 1);
+		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
+		screenPixel = StageActivity.stageListener.getPixels(0, 749, 1, 1);
+		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
+		screenPixel = StageActivity.stageListener.getPixels(480, 50, 1, 1);
+		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
+		screenPixel = StageActivity.stageListener.getPixels(480, 749, 1, 1);
+		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
+
+		solo.goBack();
+		solo.clickOnButton(getActivity().getString(R.string.stagemenu_screen_size));
+		solo.clickOnButton(getActivity().getString(R.string.resume_current_project));
+		solo.sleep(100);
+		screenPixel = StageActivity.stageListener.getPixels(0, 0, 1, 1);
+		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
+		screenPixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH - 1, Values.SCREEN_HEIGHT - 1, 1, 1);
+		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
+		screenPixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH - 1, 0, 1, 1);
+		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
+		screenPixel = StageActivity.stageListener.getPixels(0, Values.SCREEN_HEIGHT - 1, 1, 1);
+		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
+
+	}
+
+	public Project createTestProject(String projectName) throws IOException, NameNotFoundException {
 		StorageHandler storageHandler = StorageHandler.getInstance();
 
 		Project project = new Project(getActivity(), projectName);
@@ -311,6 +368,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		project.addSprite(fourthSprite);
 
 		storageHandler.saveProject(project);
+		return project;
 	}
 
 }
