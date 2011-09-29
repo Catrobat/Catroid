@@ -112,10 +112,10 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		WaitBrick waitBrick = new WaitBrick(sprite, 5000);
 		SetSizeToBrick scaleCostumeBrick = new SetSizeToBrick(sprite, scale);
 
-		script.getBrickList().add(waitBrick);
-		script.getBrickList().add(scaleCostumeBrick);
+		script.addBrick(waitBrick);
+		script.addBrick(scaleCostumeBrick);
 		sprite.addScript(script);
-		project.getSpriteList().add(sprite);
+		project.addSprite(sprite);
 
 		storageHandler.saveProject(project);
 		ProjectManager.getInstance().setProject(project);
