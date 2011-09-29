@@ -63,12 +63,10 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptTabAc
 
 		UiTestUtils.insertIntegerIntoEditText(solo, xPositionEditTextId, xPosition);
 		solo.sleep(300);
-		solo.goBack();
 		solo.clickOnButton(0);
 		solo.sleep(300);
 		UiTestUtils.insertIntegerIntoEditText(solo, yPositionEditTextId, yPosition);
 		solo.sleep(300);
-		solo.goBack();
 		solo.clickOnButton(0);
 		solo.sleep(300);
 
