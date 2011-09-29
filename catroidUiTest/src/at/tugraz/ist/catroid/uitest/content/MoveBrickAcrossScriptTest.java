@@ -67,6 +67,7 @@ public class MoveBrickAcrossScriptTest extends ActivityInstrumentationTestCase2<
 	public void testMoveBrickAcrossScript() {
 		ListView parent = solo.getCurrentListViews().get(0);
 		View testScriptBrick = parent.getChildAt(1);
+
 		solo.clickLongOnView(testScriptBrick);
 
 		//		solo.clickOnView(testScriptBrick);
