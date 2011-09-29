@@ -23,6 +23,7 @@ import java.io.File;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Costume;
 import at.tugraz.ist.catroid.content.Project;
@@ -36,7 +37,7 @@ public class CostumeTest extends InstrumentationTestCase {
 
 	private static final int IMAGE_FILE_ID = R.raw.icon;
 	private File testImage;
-
+	private CostumeData costumeData;
 	private String projectName;
 
 	@Override
@@ -53,6 +54,10 @@ public class CostumeTest extends InstrumentationTestCase {
 
 		testImage = TestUtils.saveFileToProject(this.projectName, "testImage.png", IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), TestUtils.TYPE_IMAGE_FILE);
+
+		costumeData = new CostumeData();
+		costumeData.setCostumeFilename(testImage.getName());
+		costumeData.setCostumeName("name");
 
 		Values.SCREEN_HEIGHT = 800;
 		Values.SCREEN_WIDTH = 480;
@@ -73,10 +78,14 @@ public class CostumeTest extends InstrumentationTestCase {
 	public void testUpdatePosition() {
 		Sprite sprite = new Sprite("testSprite");
 		Costume costume = sprite.getCostume();
-		costume.changeImagePath(testImage.getAbsolutePath());
+		costume.changeImagePath(costumeData);
 
 		int width = costume.getImageWidth();
 		int height = costume.getImageHeight();
+
+		System.out.println("Costume data: " + costumeData);
+		System.out.println("Costume absolute path: " + costume.getImagePath());
+		System.out.println("Costume image bitmap: " + costume.getBitmap());
 
 		int virtualPositionX = 100;
 		int virtualPositionY = 100;
@@ -93,7 +102,8 @@ public class CostumeTest extends InstrumentationTestCase {
 	public void testUpdateSize() {
 		Sprite sprite = new Sprite("testSprite");
 		Costume costume = sprite.getCostume();
-		costume.changeImagePath(testImage.getAbsolutePath());
+		//		costume.setBitmapFromResource(getInstrumentation().getContext(), IMAGE_FILE_ID);
+		costume.changeImagePath(costumeData);
 
 		double size = 50;
 
@@ -107,6 +117,10 @@ public class CostumeTest extends InstrumentationTestCase {
 		int expectedPositionX = Math.round((Values.SCREEN_WIDTH / 2f) - (expectedWidth / 2));
 		int expectedPositionY = Math.round((Values.SCREEN_HEIGHT / 2f) - (expectedHeight / 2));
 
+		System.out.println("Costume data: " + costumeData);
+		System.out.println("Costume absolute path: " + costume.getImagePath());
+		System.out.println("Costume image bitmap: " + costume.getBitmap());
+
 		assertEquals("Incorrect x position", expectedPositionX, costume.getDrawPositionX());
 		assertEquals("Incorrect y position", expectedPositionY, costume.getDrawPositionY());
 		assertEquals("Incorrect width", expectedWidth, costume.getImageWidth());
@@ -116,7 +130,8 @@ public class CostumeTest extends InstrumentationTestCase {
 	public void testUpdateDirection() {
 		Sprite sprite = new Sprite("testSprite");
 		Costume costume = sprite.getCostume();
-		costume.changeImagePath(testImage.getAbsolutePath());
+		//		costume.setBitmapFromResource(getInstrumentation().getContext(), IMAGE_FILE_ID);
+		costume.changeImagePath(costumeData);
 
 		double direction = 30;
 		double radians = direction / 180 * Math.PI;

@@ -25,6 +25,7 @@ import android.graphics.Paint;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Costume;
 import at.tugraz.ist.catroid.content.Project;
@@ -41,6 +42,7 @@ public class SpeechBubbleTest extends InstrumentationTestCase {
 	private static final int IMAGE_FILE_ID = R.raw.icon;
 	private File testImage;
 	public Sprite sprite = new Sprite("testSprite");
+	private CostumeData costumeData;
 
 	public void testUninitSpeechBubble() throws Exception {
 		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);
@@ -56,12 +58,16 @@ public class SpeechBubbleTest extends InstrumentationTestCase {
 		testImage = TestUtils.saveFileToProject(this.projectName, "testImage.png", IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), TestUtils.TYPE_IMAGE_FILE);
 
+		costumeData = new CostumeData();
+		costumeData.setCostumeFilename(testImage.getName());
+		costumeData.setCostumeName("name");
+
 		Values.SCREEN_HEIGHT = 800;
 		Values.SCREEN_WIDTH = 480;
 
 		project.addSprite(sprite);
 		Costume costume = sprite.getCostume();
-		costume.changeImagePath(testImage.getAbsolutePath());
+		costume.changeImagePath(costumeData);
 		SpeechBubble speechBubble = sprite.getBubble();
 
 		Paint textPaint = (Paint) TestUtils.getPrivateField("textPaint", speechBubble, false);
