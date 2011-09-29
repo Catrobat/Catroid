@@ -256,6 +256,46 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 	}
 
+	public void testAxesOnOff() throws NameNotFoundException, IOException {
+		createTestProject(testProject);
+		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.clickOnText(testProject);
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		solo.waitForActivity("StageActivity");
+		solo.goBack();
+		solo.clickOnButton(getActivity().getString(R.string.stagemenu_axes_on));
+		solo.clickOnButton(getActivity().getString(R.string.resume_current_project));
+		solo.sleep(100);
+		byte[] redPixel = { (byte) 255, 0, 0, (byte) 255 };
+		byte[] stagePixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2, 1,
+				1);
+		UiTestUtils.compareByteArrays(redPixel, stagePixel);
+		stagePixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH / 2, 0, 1, 1);
+		UiTestUtils.compareByteArrays(redPixel, stagePixel);
+		stagePixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH - 1, Values.SCREEN_HEIGHT / 2, 1, 1);
+		UiTestUtils.compareByteArrays(redPixel, stagePixel);
+		stagePixel = StageActivity.stageListener.getPixels(0, Values.SCREEN_HEIGHT / 2, 1, 1);
+		UiTestUtils.compareByteArrays(redPixel, stagePixel);
+		stagePixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT, 1, 1);
+		UiTestUtils.compareByteArrays(redPixel, stagePixel);
+		solo.goBack();
+		solo.clickOnButton(getActivity().getString(R.string.stagemenu_axes_off));
+		solo.clickOnButton(getActivity().getString(R.string.resume_current_project));
+		solo.sleep(100);
+		byte[] whitePixel = { (byte) 255, (byte) 255, (byte) 255, (byte) 255 };
+		stagePixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2, 1, 1);
+		UiTestUtils.compareByteArrays(whitePixel, stagePixel);
+		stagePixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH / 2, 0, 1, 1);
+		UiTestUtils.compareByteArrays(whitePixel, stagePixel);
+		stagePixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH - 1, Values.SCREEN_HEIGHT / 2, 1, 1);
+		UiTestUtils.compareByteArrays(whitePixel, stagePixel);
+		stagePixel = StageActivity.stageListener.getPixels(0, Values.SCREEN_HEIGHT / 2, 1, 1);
+		UiTestUtils.compareByteArrays(whitePixel, stagePixel);
+		stagePixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT, 1, 1);
+		UiTestUtils.compareByteArrays(whitePixel, stagePixel);
+
+	}
+
 	public void createTestProject(String projectName) throws IOException, NameNotFoundException {
 		StorageHandler storageHandler = StorageHandler.getInstance();
 
