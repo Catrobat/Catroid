@@ -40,10 +40,6 @@ import at.tugraz.ist.catroid.bluetooth.DeviceListActivity;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 
-/**
- * @author Johannes Iber
- * 
- */
 public class PreStageActivity extends Activity {
 
 	private static final int REQUEST_ENABLE_BT = 2000;

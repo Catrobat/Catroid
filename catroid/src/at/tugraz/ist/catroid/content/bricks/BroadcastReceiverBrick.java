@@ -38,10 +38,6 @@ import at.tugraz.ist.catroid.content.Sprite;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
-/**
- * @author Johannes Iber
- * 
- */
 public class BroadcastReceiverBrick implements Brick {
 
 	private static final long serialVersionUID = 1L;

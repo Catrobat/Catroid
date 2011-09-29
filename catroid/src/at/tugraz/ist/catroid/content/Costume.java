@@ -30,10 +30,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.actors.Image;
 
-/**
- * @author Johannes Iber
- * 
- */
 public class Costume extends Image {
 	protected Semaphore xYWidthHeightLock = new Semaphore(1);
 	protected Semaphore imageLock = new Semaphore(1);
