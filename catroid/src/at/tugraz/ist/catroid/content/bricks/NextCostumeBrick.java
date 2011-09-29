@@ -86,4 +86,9 @@ public class NextCostumeBrick implements Brick {
 		return new NextCostumeBrick(sprite);
 	}
 
+	public int getRequiredResources() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }
