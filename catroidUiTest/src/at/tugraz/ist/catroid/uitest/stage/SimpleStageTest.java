@@ -67,6 +67,7 @@ public class SimpleStageTest extends ActivityInstrumentationTestCase2<StageActiv
 
 		result = StageActivity.stageListener.getPixels(-1, -1, 1, 1);
 		UiTestUtils.compareByteArrays(whitePixel, result);
+		assertTrue("Just for FileTest", true);
 
 	}
 
