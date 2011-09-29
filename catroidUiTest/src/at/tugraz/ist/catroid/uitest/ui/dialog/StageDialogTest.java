@@ -318,7 +318,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.goBack();
 		solo.clickOnButton(getActivity().getString(R.string.stagemenu_screen_size));
 		solo.clickOnButton(getActivity().getString(R.string.resume_current_project));
-		solo.sleep(100);
+		solo.sleep(1000);
 		byte[] blackPixel = { 0, 0, 0, (byte) 255 };
 		screenPixel = StageActivity.stageListener.getPixels(0, 0, 1, 1);
 		UiTestUtils.compareByteArrays(blackPixel, screenPixel);
@@ -329,13 +329,8 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		screenPixel = StageActivity.stageListener.getPixels(0, Values.SCREEN_HEIGHT - 1, 1, 1);
 		UiTestUtils.compareByteArrays(blackPixel, screenPixel);
 
-		screenPixel = StageActivity.stageListener.getPixels(0, 50, 1, 1);
-		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
-		screenPixel = StageActivity.stageListener.getPixels(0, 749, 1, 1);
-		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
-		screenPixel = StageActivity.stageListener.getPixels(480, 50, 1, 1);
-		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
-		screenPixel = StageActivity.stageListener.getPixels(480, 749, 1, 1);
+		solo.sleep(1000);
+		screenPixel = StageActivity.stageListener.getPixels(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2, 1, 1);
 		UiTestUtils.compareByteArrays(whitePixel, screenPixel);
 
 		solo.goBack();
