@@ -91,7 +91,10 @@ public class NXTMotorActionBrick implements Brick, OnItemSelectedListener, OnSee
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_nxt_motor_action, null);
+		View view = View.inflate(context, R.layout.toolbox_brick_nxt_motor_action, null);
+		SeekBar noClick = (SeekBar) view.findViewById(R.id.seekBarSpeedMotorAction);
+		noClick.setEnabled(false);
+		return view;
 	}
 
 	@Override
