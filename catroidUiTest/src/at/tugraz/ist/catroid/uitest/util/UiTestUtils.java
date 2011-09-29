@@ -19,7 +19,6 @@
 package at.tugraz.ist.catroid.uitest.util;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -484,7 +483,10 @@ public class UiTestUtils {
 
 	public static void compareByteArrays(byte[] firstArray, byte[] secondArray) {
 		assertEquals("Length of byte arrays not equal", firstArray.length, secondArray.length);
-		assertTrue("Arrays don't have same content", firstArray.equals(secondArray));
+		assertEquals("Arrays don't have same content.", firstArray[0], secondArray[0], 10);
+		assertEquals("Arrays don't have same content.", firstArray[1], secondArray[1], 10);
+		assertEquals("Arrays don't have same content.", firstArray[2], secondArray[2], 10);
+		assertEquals("Arrays don't have same content.", firstArray[3], secondArray[3], 10);
 	}
 
 	public static void comparePixelArrayWithPixelScreenArray(byte[] pixelArray, byte[] screenArray, int x, int y,

@@ -57,23 +57,17 @@ public class SimpleStageTest extends ActivityInstrumentationTestCase2<StageActiv
 
 	public void testSimple() {
 		solo.waitForActivity("StageActivity");
+		byte[] whitePixel = { (byte) 255, (byte) 255, (byte) 255, (byte) 255 };
+
 		byte[] result = StageActivity.stageListener.getPixels(0, 0, 1, 1);
-		assertEquals("Color not white!", (byte) 255, result[0]);
-		assertEquals("Color not white!", (byte) 251, result[1]);
-		assertEquals("Color not white!", (byte) 255, result[2]);
-		assertEquals("Color not white!", (byte) 255, result[3]);
+		UiTestUtils.compareByteArrays(whitePixel, result);
 
 		result = StageActivity.stageListener.getPixels(19, 19, 1, 1);
-		assertEquals("Color not white!", (byte) 255, result[0]);
-		assertEquals("Color not white!", (byte) 255, result[1]);
-		assertEquals("Color not white!", (byte) 255, result[2]);
-		assertEquals("Color not white!", (byte) 255, result[3]);
+		UiTestUtils.compareByteArrays(whitePixel, result);
 
 		result = StageActivity.stageListener.getPixels(-1, -1, 1, 1);
-		assertEquals("Color not black!", (byte) 0, result[0]);
-		assertEquals("Color not black!", (byte) 0, result[1]);
-		assertEquals("Color not black!", (byte) 0, result[2]);
-		assertEquals("Color not black!", (byte) 0, result[3]);
+		UiTestUtils.compareByteArrays(whitePixel, result);
+
 	}
 
 	private void createProject() {
