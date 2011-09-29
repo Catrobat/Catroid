@@ -28,6 +28,7 @@
 		android:layout_width="match_parent"
 		android:background="@drawable/brick_violet">
 		<TextView
+			android:id="@+id/tv_set_costume"
 			android:text="@string/brick_set_costume"
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"

@@ -32,6 +32,8 @@ import at.tugraz.ist.catroid.stage.StageActivity;
 
 public class SpeakBrick implements Brick {
 	private static final long serialVersionUID = 1L;
+	public static final int REQUIRED_RESSOURCES = TEXT_TO_SPEECH;
+
 	private Sprite sprite;
 	private String text = "";
 	protected int position = 0;
@@ -41,6 +43,10 @@ public class SpeakBrick implements Brick {
 	public SpeakBrick(Sprite sprite, String text) {
 		this.sprite = sprite;
 		this.text = text;
+	}
+
+	public int getRequiredResources() {
+		return TEXT_TO_SPEECH;
 	}
 
 	public void execute() {
@@ -69,6 +75,7 @@ public class SpeakBrick implements Brick {
 				AlertDialog.Builder dialog = new AlertDialog.Builder(context);
 				final EditText input = new EditText(context);
 				input.setText(text);
+				input.setSelectAllOnFocus(true);
 				dialog.setView(input);
 				dialog.setOnCancelListener((OnCancelListener) context);
 				dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {

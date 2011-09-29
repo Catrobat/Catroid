@@ -23,21 +23,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Handler;
 import at.tugraz.ist.catroid.ProjectManager;
-import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.bricks.Brick;
 
 public class StageManager {
-	private Activity activity;
 	protected ArrayList<Sprite> spriteList;
 	private Boolean spritesChanged;
 	private IDraw draw;
 	private boolean isPaused;
 	private Handler handler = new Handler();
-
+	//	private boolean ttsNeeded = false;
+	//	private boolean bluetoothNeeded;
 	private Runnable runnable = new Runnable() {
 		public void run() {
 			for (Sprite sprite : spriteList) {
@@ -59,18 +57,34 @@ public class StageManager {
 	public StageManager(Activity activity) {
 
 		spriteList = (ArrayList<Sprite>) ProjectManager.getInstance().getCurrentProject().getSpriteList();
-		this.activity = activity;
 
 		spritesChanged = true;
 		draw = new CanvasDraw(activity);
+	}
 
+	public void startScripts() {
 		for (Sprite sprite : spriteList) {
 			sprite.startStartScripts();
 		}
 	}
 
+	public int getRequiredResources() {
+		int ressources = Brick.NO_RESOURCES;
+
+		for (Sprite sprite : spriteList) {
+			ressources |= sprite.getRequiredResources();
+
+		}
+		return ressources;
+	}
+
 	public boolean drawSprites() {
 		return draw.draw();
+	}
+
+	public boolean saveScreenshot() {
+		draw.draw();
+		return draw.saveScreenshot();
 	}
 
 	public void processOnTouch(int xCoordinate, int yCoordinate, String action) {
@@ -91,13 +105,6 @@ public class StageManager {
 	public void pause(boolean drawScreen) {
 		for (Sprite sprite : spriteList) {
 			sprite.pause();
-		}
-
-		if (drawScreen) {
-			Bitmap pauseBitmap = BitmapFactory.decodeResource(activity.getResources(), R.drawable.paused_cat);
-			draw.drawPauseScreen(pauseBitmap);
-			handler.removeCallbacks(runnable);
-			spritesChanged = true;
 		}
 
 		isPaused = true;

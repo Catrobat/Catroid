@@ -46,6 +46,7 @@ import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
+import at.tugraz.ist.catroid.content.bricks.SpeakBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.io.StorageHandler;
@@ -111,9 +112,8 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 			soundFile.delete();
 		}
 
-		UiTestUtils.clearAllUtilTestProjects();
-
 		getActivity().finish();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -162,7 +162,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2); // click in the middle
 
-		solo.sleep(3000);
+		solo.sleep(2000);
 		costume = ProjectManager.getInstance().getCurrentProject().getSpriteList().get(1).getCostume();
 		assertEquals("Image size not set correctly", (image1Width / 2), costume.getImageWidth());
 
@@ -265,6 +265,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
 		solo.goBack();
+		solo.clickOnText(getActivity().getString(R.string.back_to_construction_site));
 		solo.clickOnButton(0);
 		solo.clickInList(1);
 
@@ -294,9 +295,9 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
 		solo.sleep(3000);
 		assertEquals("Unexpected sprite size", 100.0, sprite.getSize());
-		solo.pressMenuItem(1);
+		solo.goBack();
 		solo.sleep(6000);
-		solo.pressMenuItem(1);
+		solo.goBack();
 		assertEquals("Unexpected sprite size", 100.0, sprite.getSize());
 		solo.sleep(4000);
 		assertEquals("Unexpected sprite size", size, sprite.getSize());
@@ -350,11 +351,11 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
 		solo.sleep(5000);
 		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
-		solo.pressMenuItem(1);
+		solo.goBack();
 		solo.sleep(500);
 		assertFalse("Media player is playing while pausing", mediaPlayer.isPlaying());
 		solo.sleep(1000);
-		solo.pressMenuItem(1);
+		solo.goBack();
 		int count = 0;
 		while (true) {
 			if (mediaPlayer.isPlaying()) {
@@ -379,18 +380,6 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		solo.pressMenuItem(1);
 		assertFalse("Media Player is playing", mediaPlayer.isPlaying());
 	}
-
-	//	public void testMediaPlayerNotPlayingAfterBack() {
-	//		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
-	//
-	//		this.createTestProjectWithSound();
-	//		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
-	//		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
-	//		solo.sleep(50);
-	//		solo.goBack();
-	//		solo.sleep(350);
-	//		assertFalse("Media Player is playing after pressing the back button", mediaPlayer.isPlaying());
-	//	}
 
 	public void testClickOnHiddenSprite() {
 		createTestProject4(projectName);
@@ -424,39 +413,205 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		sprite.getCostumeDataList().add(costumeData);
 		solo.sleep(100);
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
-		solo.clickOnScreen(Values.SCREEN_WIDTH, 0); //save thumbnail
+
+		solo.goBack();
+		solo.clickOnButton(getActivity().getString(R.string.snapshot));
 		solo.sleep(5000);
 
-		Bitmap bitmap = BitmapFactory.decodeFile(Consts.DEFAULT_ROOT + "/" + projectName + "/"
-				+ Consts.SCREENSHOT_FILE_NAME);
+		boolean screenshotMatched = true;
 
 		int borderWidth = ((Values.SCREEN_WIDTH / 2) + 100 / 2);
 		int borderHeight = ((Values.SCREEN_HEIGHT / 2) + 100 / 2);
 		int startWidth = ((Values.SCREEN_WIDTH - 100) / 2);
 		int startHeight = ((Values.SCREEN_HEIGHT - 100) / 2);
 
+		solo.sleep(1000);
+
+		ProjectManager projectManager = ProjectManager.getInstance();
+		String lastFilePath = projectManager.getLastFilePath();
+
+		solo.sleep(1000);
+
+		Bitmap bitmap = BitmapFactory.decodeFile(lastFilePath);
+		assertNotNull("Bitmap is NULL", bitmap);
+
+		solo.sleep(1000);
 		for (int i = startWidth; i < borderWidth; i++) {
 			for (int j = startHeight; j < borderHeight; j++) {
-				assertEquals("pixel is not red", Color.RED, bitmap.getPixel(i, j));
+				if (bitmap.getPixel(i, j) != Color.RED) {
+					screenshotMatched = false;
+					Log.v(TAG, "in TEST " + i + " " + j);
+				}
 			}
 		}
 
 		for (int j = startHeight; j < borderHeight; j++) {
-			assertEquals("pixel is not white", Color.WHITE, bitmap.getPixel(startWidth - 1, j));
+			if (bitmap.getPixel(startWidth - 1, j) != Color.WHITE) {
+				screenshotMatched = false;
+				Log.v(TAG, "in TEST2 " + (startWidth - 1) + " " + j);
+			}
 		}
 
 		for (int j = startHeight; j < borderHeight; j++) {
-			assertEquals("pixel is not white", Color.WHITE, bitmap.getPixel(borderWidth, j));
+			if (bitmap.getPixel(borderWidth, j) != Color.WHITE) {
+				screenshotMatched = false;
+				Log.v(TAG, "in TEST3 " + borderWidth + " " + j);
+			}
 		}
 
 		for (int i = startWidth; i < borderWidth; i++) {
-			assertEquals("pixel is not white", Color.WHITE, bitmap.getPixel(i, startHeight - 1));
+			if (bitmap.getPixel(i, startHeight - 1) != Color.WHITE) {
+				screenshotMatched = false;
+				Log.v(TAG, "in TEST4 " + i + " " + (startHeight - 1));
+			}
 		}
 
 		for (int i = startWidth; i < borderWidth; i++) {
-			assertEquals("pixel is not white", Color.WHITE, bitmap.getPixel(i, borderHeight));
+			if (bitmap.getPixel(i, borderHeight) != Color.WHITE) {
+				screenshotMatched = false;
+				Log.v(TAG, "in TEST5 " + i + " " + borderHeight);
+			}
 		}
+		assertEquals("Screenshot doesn't work correctly", screenshotMatched, true);
 
+	}
+
+	public void testTextToSpeechInitialization() {
+		createTestProjectWithSpeakBrick();
+		solo.sleep(3000);
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		solo.waitForActivity(StageActivity.class.getName(), 1000);
+		solo.sleep(3000);
+		assertTrue("Text to speech engine not initialized!", StageActivity.textToSpeechEngine != null);
+	}
+
+	public void testCreateProjectWithMultipleRessources() {
+
+		// sprite1 --------------------------------
+		Sprite firstSprite = new Sprite("sprite1");
+		Script startScript1 = new StartScript("start1", firstSprite);
+		// creating bricks:
+		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
+		SpeakBrick speakBrick = new SpeakBrick(firstSprite,
+				"Why is Marki such a playa hater? Why is Marki such a playa hater? Why is Marki such a playa hater?");
+		PlaySoundBrick playSoundBrick = new PlaySoundBrick(firstSprite);
+
+		// adding bricks:
+		startScript1.addBrick(setCostumeBrick);
+		startScript1.addBrick(speakBrick);
+		startScript1.addBrick(playSoundBrick);
+
+		soundFile = UiTestUtils.saveFileToProject(projectName, "soundfile.mp3", SOUND_FILE_ID, getInstrumentation()
+				.getContext(), UiTestUtils.TYPE_SOUND_FILE);
+
+		SoundInfo soundInfo = new SoundInfo();
+		soundInfo.setSoundFileName(soundFile.getName());
+		soundInfo.setTitle(soundFile.getName());
+		playSoundBrick.setSoundInfo(soundInfo);
+
+		firstSprite.addScript(startScript1);
+		firstSprite.getSoundList().add(soundInfo);
+
+		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
+		spriteList.add(firstSprite);
+
+		Project project = UiTestUtils.createProject(projectName, spriteList, getActivity());
+
+		image1 = UiTestUtils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation()
+				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
+		image2 = UiTestUtils.saveFileToProject(projectName, imageName2, IMAGE_FILE_ID2, getInstrumentation()
+				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
+		setImageMemberProperties(image1);
+		setImageMemberProperties(image2);
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image1.getName());
+		costumeData.setCostumeName("image1");
+		setCostumeBrick.setCostume(costumeData);
+		firstSprite.getCostumeDataList().add(costumeData);
+		costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image2.getName());
+		costumeData.setCostumeName("image2");
+
+		storageHandler.saveProject(project);
+		solo.sleep(1000);
+
+		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+
+		solo.sleep(3000);
+		assertTrue("Text to speech engine not initialized!", StageActivity.textToSpeechEngine != null);
+		assertTrue("Text to speech not playing!", StageActivity.textToSpeechEngine.isSpeaking());
+		assertTrue("Sound Manager not working!", mediaPlayer.isPlaying());
+
+	}
+
+	public void testCreateComeToFrontTestProjectWhatever() {
+		//creating sprites for project:
+
+		// sprite1 --------------------------------
+		Sprite firstSprite = new Sprite("sprite1");
+		Script startScript1 = new StartScript("start1", firstSprite);
+		// creating bricks:
+		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
+		ComeToFrontBrick comeToFront = new ComeToFrontBrick(firstSprite);
+
+		// adding bricks:
+		startScript1.addBrick(setCostumeBrick);
+		startScript1.addBrick(comeToFront);
+		firstSprite.addScript(startScript1);
+
+		// sprite2 --------------------------------
+		Sprite secondSprite = new Sprite("sprite2");
+		Script startScript2 = new StartScript("start2", secondSprite);
+		// creating bricks:
+		SetCostumeBrick setCostumeBrick2 = new SetCostumeBrick(secondSprite);
+		// adding bricks:
+		startScript2.addBrick(setCostumeBrick2);
+
+		secondSprite.addScript(startScript2);
+
+		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
+		spriteList.add(firstSprite);
+		spriteList.add(secondSprite);
+		Project project = UiTestUtils.createProject(projectName, spriteList, getActivity());
+
+		image1 = UiTestUtils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation()
+				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
+		image2 = UiTestUtils.saveFileToProject(projectName, imageName2, IMAGE_FILE_ID2, getInstrumentation()
+				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
+		setImageMemberProperties(image1);
+		setImageMemberProperties(image2);
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image1.getName());
+		costumeData.setCostumeName("image1");
+		setCostumeBrick.setCostume(costumeData);
+		firstSprite.getCostumeDataList().add(costumeData);
+		costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image2.getName());
+		costumeData.setCostumeName("image2");
+		setCostumeBrick2.setCostume(costumeData);
+		secondSprite.getCostumeDataList().add(costumeData);
+
+		storageHandler.saveProject(project);
+		solo.sleep(1000);
+		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
+		//UiTestUtils.clickOnImageButton(solo, R.id.current_project_button);
+
+		solo.sleep(1000);
+		solo.clickOnText("sprite1");
+		solo.sleep(1000);
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+
+		solo.sleep(3000);
+		solo.goBack();
+		solo.sleep(500);
+		solo.clickOnText(getActivity().getString(R.string.back_to_construction_site));
+		solo.sleep(1000);
+		assertTrue("This is the wrong sprite mate!",
+				solo.searchText(getActivity().getString(R.string.brick_come_to_front)));
+
+		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		assertEquals("Unexpected sprite active", "sprite1", sprite.getName());
 	}
 
 	public void clickOnScreenAndReturn(int x, int y, int expectedWidth, int expectedHeight) {
@@ -468,6 +623,7 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		assertEquals("Unexpected image height", expectedHeight, costume.getImageHeight());
 
 		solo.goBack();
+		solo.clickOnText(getActivity().getString(R.string.back_to_construction_site));
 		solo.sleep(2000);
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
 		solo.sleep(5000);
@@ -651,6 +807,42 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 		storageHandler.saveProject(project);
 	}
 
+	public void createTestProject5(String projectName) {
+
+		//creating sprites for project:
+		Sprite firstSprite = new Sprite("sprite1");
+		Script startScript = new StartScript("startscript", firstSprite);
+		Script whenScript = new WhenScript("whenScript", firstSprite);
+
+		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
+
+		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(firstSprite, 50);
+		HideBrick hideBrick = new HideBrick(firstSprite);
+		WaitBrick waitBrick = new WaitBrick(firstSprite, 1000);
+
+		startScript.addBrick(setCostumeBrick);
+		startScript.addBrick(waitBrick);
+		startScript.addBrick(hideBrick);
+		whenScript.addBrick(setSizeToBrick);
+		firstSprite.addScript(startScript);
+		firstSprite.addScript(whenScript);
+
+		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
+		spriteList.add(firstSprite);
+		Project project = UiTestUtils.createProject(projectName, spriteList, getActivity());
+
+		image1 = UiTestUtils.saveFileToProject(projectName, imageName1, IMAGE_FILE_ID, getInstrumentation()
+				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
+		setImageMemberProperties(image1);
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(image1.getName());
+		costumeData.setCostumeName("image1");
+		setCostumeBrick.setCostume(costumeData);
+
+		storageHandler.saveProject(project);
+		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+	}
+
 	public void createTestProjectWithSound() {
 
 		//creating sprites for project:
@@ -692,6 +884,25 @@ public class StageTest extends ActivityInstrumentationTestCase2<MainMenuActivity
 
 		firstSprite.getSoundList().add(soundInfo);
 		firstSprite.getCostumeDataList().add(costumeData);
+
+		storageHandler.saveProject(project);
+	}
+
+	public void createTestProjectWithSpeakBrick() {
+
+		//creating sprites for project:
+		Sprite firstSprite = new Sprite("sprite1");
+		Script startScript = new StartScript("startscript", firstSprite);
+		Script whenScript = new WhenScript("whenscript", firstSprite);
+
+		SpeakBrick speakBrick = new SpeakBrick(firstSprite, "trolltrolltroll");
+		whenScript.addBrick(speakBrick);
+		firstSprite.addScript(startScript);
+		firstSprite.addScript(whenScript);
+
+		ArrayList<Sprite> spriteList = new ArrayList<Sprite>();
+		spriteList.add(firstSprite);
+		Project project = UiTestUtils.createProject(projectName, spriteList, getActivity());
 
 		storageHandler.saveProject(project);
 	}

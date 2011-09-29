@@ -158,7 +158,6 @@ public class ProjectActivity extends ListActivity {
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		final Dialog dialog;
-
 		switch (id) {
 			case DIALOG_NEW_SPRITE:
 				newSpriteDialog = new NewSpriteDialog(this);

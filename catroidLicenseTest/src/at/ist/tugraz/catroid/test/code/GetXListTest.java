@@ -43,7 +43,8 @@ public class GetXListTest extends TestCase {
 		while ((line = reader.readLine()) != null) {
 			if (line.matches(REGEX_PATTERN)) {
 				errorFound = true;
-				errorMessages.append("File " + file.getName() + ":" + lineCount + " contains 'getScriptList().add()'");
+				errorMessages
+						.append("File " + file.getName() + ":" + lineCount + " contains 'getScriptList().add()'\n");
 			}
 			++lineCount;
 		}

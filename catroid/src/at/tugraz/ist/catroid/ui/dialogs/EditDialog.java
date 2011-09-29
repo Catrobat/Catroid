@@ -81,4 +81,12 @@ public class EditDialog extends Dialog {
 
 		super.onCreate(savedInstanceState);
 	}
+
+	/**
+	 * @return
+	 */
+	public int getRefernecedEditTextId() {
+		// TODO Auto-generated method stub
+		return referencedEditText.getId();
+	}
 }

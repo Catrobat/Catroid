@@ -36,9 +36,14 @@ public class ForeverBrick extends LoopBeginBrick {
 		this.sprite = sprite;
 	}
 
+	public int getRequiredResources() {
+		return NO_RESOURCES;
+	}
+
 	@Override
 	public void execute() {
 		loopEndBrick.setTimesToRepeat(LoopEndBrick.FOREVER);
+		super.setFirstStartTime();
 	}
 
 	@Override

@@ -32,20 +32,37 @@ import at.tugraz.ist.catroid.utils.Utils;
 public class ServerCalls {
 	private final static String TAG = "ServerCalls";
 
-	private static ServerCalls instance;
-	public static boolean useTestUrl = false;
-	protected String resultString;
-	private ConnectionWrapper connection;
+	public static final String REG_USER_NAME = "registrationUsername";
+	public static final String REG_USER_PASSWORD = "registrationPassword";
+	public static final String REG_USER_COUNTRY = "registrationCountry";
+	public static final String REG_USER_LANGUAGE = "registrationLanguage";
+	public static final String REG_USER_EMAIL = "registrationEmail";
+
 	private static final String FILE_UPLOAD_TAG = "upload";
 	private static final String PROJECT_NAME_TAG = "projectTitle";
 	private static final String PROJECT_DESCRIPTION_TAG = "projectDescription";
 	private static final String PROJECT_CHECKSUM_TAG = "fileChecksum";
 	private static final String USER_EMAIL = "userEmail";
 	private static final String USER_LANGUAGE = "userLanguage";
-	private static final String FILE_UPLOAD_URL = "http://catroidtest.ist.tugraz.at/api/upload/upload.json";
-	private static final String TEST_FILE_UPLOAD_URL = "http://catroidtest.ist.tugraz.at/api/upload/upload.json";
 
-	// protected constructor to prevent direct instancing
+	public static final String BASE_URL = "http://catroidtest.ist.tugraz.at/";
+	//public static final String BASE_URL = "http://catroidtest.ist.tugraz.at/";
+	public static final String FILE_UPLOAD_URL = BASE_URL + "api/upload/upload.json";
+	public static final String CHECK_TOKEN_URL = BASE_URL + "api/checkToken/check.json";
+	public static final String REGISTRATION_URL = BASE_URL + "api/checkTokenOrRegister/check.json";
+
+	public static final String BASE_URL_TEST = "http://catroidtest.ist.tugraz.at/";
+	public static final String TEST_FILE_UPLOAD_URL = BASE_URL_TEST + "api/upload/upload.json";
+	public static final String TEST_FILE_DOWNLOAD_URL = BASE_URL_TEST + "catroid/download/";
+	public static final String TEST_CHECK_TOKEN_URL = BASE_URL_TEST + "api/checkToken/check.json";
+	public static final String TEST_REGISTRATION_URL = BASE_URL_TEST + "api/checkTokenOrRegister/check.json";
+
+	private static ServerCalls instance;
+	public static boolean useTestUrl = false;
+	protected String resultString;
+	private ConnectionWrapper connection;
+	private String emailForUiTests;
+
 	protected ServerCalls() {
 		connection = new ConnectionWrapper();
 	}
@@ -64,18 +81,19 @@ public class ServerCalls {
 
 	public String uploadProject(String projectName, String projectDescription, String zipFileString, String userEmail,
 			String language, String token) throws WebconnectionException {
+		if (emailForUiTests != null) {
+			userEmail = emailForUiTests;
+		}
 		try {
 			String md5Checksum = Utils.md5Checksum(new File(zipFileString));
 
 			HashMap<String, String> postValues = new HashMap<String, String>();
 			postValues.put(PROJECT_NAME_TAG, projectName);
 			postValues.put(PROJECT_DESCRIPTION_TAG, projectDescription);
+			postValues.put(USER_EMAIL, userEmail);
 			postValues.put(PROJECT_CHECKSUM_TAG, md5Checksum.toLowerCase());
 			postValues.put(Consts.TOKEN, token);
 
-			if (userEmail != null) {
-				postValues.put(USER_EMAIL, userEmail);
-			}
 			if (language != null) {
 				postValues.put(USER_LANGUAGE, language);
 			}
@@ -96,14 +114,14 @@ public class ServerCalls {
 			if (statusCode == 200) {
 				return serverAnswer;
 			} else {
-				throw new WebconnectionException(0);
+				throw new WebconnectionException(statusCode, serverAnswer);
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
-			throw new WebconnectionException(0);
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON);
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new WebconnectionException(0);
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK);
 		}
 	}
 
@@ -113,6 +131,90 @@ public class ServerCalls {
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new WebconnectionException(0);
+		}
+	}
+
+	public boolean checkToken(String token) throws WebconnectionException {
+		try {
+			HashMap<String, String> postValues = new HashMap<String, String>();
+			postValues.put(Consts.TOKEN, token);
+
+			String serverUrl = useTestUrl ? TEST_CHECK_TOKEN_URL : CHECK_TOKEN_URL;
+
+			Log.v(TAG, "url to upload: " + serverUrl);
+			resultString = connection.doHttpPost(serverUrl, postValues);
+
+			JSONObject jsonObject = null;
+			int statusCode = 0;
+
+			Log.v(TAG, "result string: " + resultString);
+
+			jsonObject = new JSONObject(resultString);
+			statusCode = jsonObject.getInt("statusCode");
+			String serverAnswer = jsonObject.optString("answer");
+
+			if (statusCode == Consts.SERVER_RESPONCE_TOKEN_OK) {
+				return true;
+			} else {
+				throw new WebconnectionException(statusCode, serverAnswer);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK);
+		}
+	}
+
+	public boolean registerOrCheckToken(String username, String password, String userEmail, String language,
+			String country, String token) throws WebconnectionException {
+		if (emailForUiTests != null) {
+			userEmail = emailForUiTests;
+		}
+		try {
+
+			HashMap<String, String> postValues = new HashMap<String, String>();
+			postValues.put(REG_USER_NAME, username);
+			postValues.put(REG_USER_PASSWORD, password);
+			postValues.put(REG_USER_EMAIL, userEmail);
+			postValues.put(Consts.TOKEN, token);
+
+			if (country != null) {
+				postValues.put(REG_USER_COUNTRY, country);
+			}
+			if (language != null) {
+				postValues.put(REG_USER_LANGUAGE, language);
+			}
+			String serverUrl = useTestUrl ? TEST_REGISTRATION_URL : REGISTRATION_URL;
+
+			Log.v(TAG, "url to upload: " + serverUrl);
+			resultString = connection.doHttpPost(serverUrl, postValues);
+
+			JSONObject jsonObject = null;
+			int statusCode = 0;
+
+			Log.v(TAG, "result string: " + resultString);
+
+			jsonObject = new JSONObject(resultString);
+			statusCode = jsonObject.getInt("statusCode");
+			String serverAnswer = jsonObject.optString("answer");
+
+			boolean registered;
+			if (statusCode == Consts.SERVER_RESPONCE_TOKEN_OK) {
+				registered = false;
+			} else if (statusCode == Consts.SERVER_RESPONCE_REGISTER_OK) {
+				registered = true;
+			} else {
+				throw new WebconnectionException(statusCode, serverAnswer);
+			}
+			return registered;
+		} catch (JSONException e) {
+			e.printStackTrace();
+			throw new WebconnectionException(WebconnectionException.ERROR_JSON);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK);
 		}
 	}
 

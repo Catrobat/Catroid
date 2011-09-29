@@ -42,9 +42,15 @@ public interface IDraw {
 	public void drawPauseScreen(Bitmap pauseBitmap);
 
 	/**
-	 * Save a screenshot of the current stage.
+	 * Processes on touch events.
 	 * 
 	 */
 	public void processOnTouch(int coordX, int coordY);
+
+	/**
+	 * Save a screenshot of the current stage.
+	 * 
+	 */
+	public boolean saveScreenshot();
 
 }
