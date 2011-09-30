@@ -38,7 +38,7 @@ public class CostumeTest extends InstrumentationTestCase {
 	private static final int IMAGE_FILE_ID = R.raw.icon;
 	private File testImage;
 	private CostumeData costumeData;
-	private String projectName;
+	private String projectName = "projectName";
 
 	@Override
 	protected void setUp() throws Exception {
@@ -75,34 +75,9 @@ public class CostumeTest extends InstrumentationTestCase {
 		}
 	}
 
-	public void testUpdatePosition() {
-		Sprite sprite = new Sprite("testSprite");
-		Costume costume = sprite.getCostume();
-		costume.changeImagePath(costumeData);
-
-		int width = costume.getImageWidth();
-		int height = costume.getImageHeight();
-
-		System.out.println("Costume data: " + costumeData);
-		System.out.println("Costume absolute path: " + costume.getImagePath());
-		System.out.println("Costume image bitmap: " + costume.getBitmap());
-
-		int virtualPositionX = 100;
-		int virtualPositionY = 100;
-
-		sprite.setXYPosition(virtualPositionX, virtualPositionY);
-
-		int expectedPositionX = Math.round(toDeviceXCoordinates(virtualPositionX) - width / 2f);
-		int expectedPositionY = Math.round(toDeviceYCoordinates(virtualPositionY) - height / 2f);
-
-		assertEquals("Incorrect x position", expectedPositionX, costume.getDrawPositionX());
-		assertEquals("Incorrect y position", expectedPositionY, costume.getDrawPositionY());
-	}
-
 	public void testUpdateSize() {
 		Sprite sprite = new Sprite("testSprite");
 		Costume costume = sprite.getCostume();
-		//		costume.setBitmapFromResource(getInstrumentation().getContext(), IMAGE_FILE_ID);
 		costume.changeImagePath(costumeData);
 
 		double size = 50;
@@ -117,20 +92,35 @@ public class CostumeTest extends InstrumentationTestCase {
 		int expectedPositionX = Math.round((Values.SCREEN_WIDTH / 2f) - (expectedWidth / 2));
 		int expectedPositionY = Math.round((Values.SCREEN_HEIGHT / 2f) - (expectedHeight / 2));
 
-		System.out.println("Costume data: " + costumeData);
-		System.out.println("Costume absolute path: " + costume.getImagePath());
-		System.out.println("Costume image bitmap: " + costume.getBitmap());
-
 		assertEquals("Incorrect x position", expectedPositionX, costume.getDrawPositionX());
 		assertEquals("Incorrect y position", expectedPositionY, costume.getDrawPositionY());
 		assertEquals("Incorrect width", expectedWidth, costume.getImageWidth());
 		assertEquals("Incorrect height", expectedHeight, costume.getImageHeight());
 	}
 
+	public void testUpdatePosition() {
+		Sprite sprite = new Sprite("testSprite");
+		Costume costume = sprite.getCostume();
+		costume.changeImagePath(costumeData);
+
+		int width = costume.getImageWidth();
+		int height = costume.getImageHeight();
+
+		int virtualPositionX = 100;
+		int virtualPositionY = 100;
+
+		sprite.setXYPosition(virtualPositionX, virtualPositionY);
+
+		int expectedPositionX = Math.round(toDeviceXCoordinates(virtualPositionX) - width / 2f);
+		int expectedPositionY = Math.round(toDeviceYCoordinates(virtualPositionY) - height / 2f);
+
+		assertEquals("Incorrect x position", expectedPositionX, costume.getDrawPositionX());
+		assertEquals("Incorrect y position", expectedPositionY, costume.getDrawPositionY());
+	}
+
 	public void testUpdateDirection() {
 		Sprite sprite = new Sprite("testSprite");
 		Costume costume = sprite.getCostume();
-		//		costume.setBitmapFromResource(getInstrumentation().getContext(), IMAGE_FILE_ID);
 		costume.changeImagePath(costumeData);
 
 		double direction = 30;
