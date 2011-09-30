@@ -1,19 +1,19 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *  GNU Affero General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.content.bricks;
@@ -24,11 +24,12 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.BaseExpandableListAdapter;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.stage.StageActivity;
+import at.tugraz.ist.catroid.stage.PreStageActivity;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class SpeakBrick implements Brick {
 	private static final long serialVersionUID = 1L;
@@ -50,7 +51,7 @@ public class SpeakBrick implements Brick {
 	}
 
 	public void execute() {
-		StageActivity.textToSpeech(getText());
+		PreStageActivity.textToSpeech(getText());
 	}
 
 	public Sprite getSprite() {
@@ -61,10 +62,8 @@ public class SpeakBrick implements Brick {
 		return text;
 	}
 
-	public View getView(final Context context, int brickId, final BaseExpandableListAdapter adapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_speak, null);
-		}
+	public View getView(final Context context, int brickId, final BaseAdapter adapter) {
+		view = View.inflate(context, R.layout.toolbox_brick_speak, null);
 
 		EditText editText = (EditText) view.findViewById(R.id.toolbox_brick_speak_edit_text);
 		editText.setText(text);
@@ -91,7 +90,10 @@ public class SpeakBrick implements Brick {
 							}
 						});
 
-				dialog.show();
+				AlertDialog finishedDialog = dialog.create();
+				finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
+
+				finishedDialog.show();
 
 			}
 		});

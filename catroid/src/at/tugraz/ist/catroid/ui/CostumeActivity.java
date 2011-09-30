@@ -1,19 +1,19 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010-2011 The Catroid Team 
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *  GNU Affero General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.ui;
@@ -34,6 +34,7 @@ import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.adapter.CostumeAdapter;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
@@ -75,8 +76,8 @@ public class CostumeActivity extends ListActivity {
 			activityHelper.changeClickListener(R.id.btn_action_add_sprite, createAddCostumeClickListener());
 			//set new icon for actionbar plus button:
 			int addButtonIcon;
-			if (ProjectManager.getInstance().getCurrentSprite().getName()
-					.equalsIgnoreCase(this.getString(R.string.background))) {
+			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+			if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(currentSprite) == 0) {
 				addButtonIcon = R.drawable.ic_background;
 			} else {
 				addButtonIcon = R.drawable.ic_shirt;

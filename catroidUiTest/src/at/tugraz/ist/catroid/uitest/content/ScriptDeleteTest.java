@@ -1,19 +1,19 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *  GNU Affero General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
@@ -103,11 +103,20 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptTab
 	public void testDeleteScript() {
 		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_when_started);
 
-		solo.clickLongInList(2);
+		int numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
+		int deleteIndex = 0;
+		for (int i = 0; i < numberOfScripts; i++) {
+			deleteIndex += ProjectManager.getInstance().getCurrentSprite().getScript(i).getBrickList().size();
+		}
+		deleteIndex += numberOfScripts;
+
+		solo.clickInList(deleteIndex);
+		solo.clickLongInList(deleteIndex);
+
 		solo.clickOnText(getActivity().getString(R.string.delete));
 		solo.sleep(1000);
 
-		int numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
+		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
 		assertEquals("Incorrect number of scripts in scriptList", 1, numberOfScripts);
 		assertEquals("Incorrect number of elements in listView", 4, solo.getCurrentListViews().get(0).getChildCount());
 

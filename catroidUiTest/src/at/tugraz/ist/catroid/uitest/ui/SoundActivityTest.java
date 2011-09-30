@@ -1,21 +1,22 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team 
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *  GNU Affero General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package at.tugraz.ist.catroid.uitest.ui;
 
 import java.io.File;
@@ -26,7 +27,6 @@ import android.widget.ListAdapter;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.SoundInfo;
-import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.SoundActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
@@ -120,6 +120,7 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		solo.clickOnButton(getActivity().getString(R.string.ok));
 		solo.sleep(100);
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+		solo.sleep(500);
 		assertEquals("sound is not renamed in SoundList", newName, soundInfoList.get(0).getTitle());
 		if (!solo.searchText(newName)) {
 			fail("sound not renamed in actual view");
@@ -139,21 +140,20 @@ public class SoundActivityTest extends ActivityInstrumentationTestCase2<ScriptTa
 		assertFalse("Mediaplayer is playing after touching stop button", soundInfo.isPlaying);
 	}
 
-	public void testToStageButton() {
-		solo.clickOnText(getActivity().getString(R.string.sounds));
-		solo.sleep(500);
-		//fu!?
-		solo.clickOnImageButton(2); //sorry UiTestUtils.clickOnImageButton just won't work after switching tabs
-
-		solo.sleep(5000);
-		solo.assertCurrentActivity("not in stage", StageActivity.class);
-		solo.goBack();
-		solo.clickOnText(getActivity().getString(R.string.back_to_construction_site));
-		solo.sleep(3000);
-		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
-		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
-		assertEquals("soundlist in sprite doesn't hold the right number of soundinfos", 2, soundInfoList.size());
-	}
+	//	public void testToStageButton() {
+	//		solo.clickOnText(getActivity().getString(R.string.sounds));
+	//		solo.sleep(500);
+	//		//fu!?
+	//		solo.clickOnImageButton(2); //sorry UiTestUtils.clickOnImageButton just won't work after switching tabs
+	//
+	//		solo.sleep(5000);
+	//		solo.assertCurrentActivity("not in stage", StageActivity.class);
+	//		solo.goBack();
+	//		solo.sleep(3000);
+	//		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
+	//		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
+	//		assertEquals("soundlist in sprite doesn't hold the right number of soundinfos", 2, soundInfoList.size());
+	//	}
 
 	//	public void testMainMenuButton() {
 	//		solo.clickOnText(getActivity().getString(R.string.sounds));

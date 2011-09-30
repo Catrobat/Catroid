@@ -1,19 +1,19 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010-2011 The Catroid Team 
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *  GNU Affero General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.ui;
@@ -34,6 +34,7 @@ import android.widget.ListView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.adapter.SpriteAdapter;
 import at.tugraz.ist.catroid.ui.dialogs.CustomIconContextMenu;
@@ -75,8 +76,9 @@ public class ProjectActivity extends ListActivity {
 		getListView().setOnItemLongClickListener(new OnItemLongClickListener() {
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 				spriteToEdit = spriteList.get(position);
-				//better make a independent object for stage (to solve problem when switching languages)
-				if (spriteToEdit.getName().equalsIgnoreCase(getString(R.string.background))) {
+
+				//as long as background sprite is always the first one, we're fine
+				if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(spriteToEdit) == 0) {
 					return true;
 				}
 				removeDialog(DIALOG_CONTEXT_MENU);
@@ -142,10 +144,19 @@ public class ProjectActivity extends ListActivity {
 
 		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, new View.OnClickListener() {
 			public void onClick(View v) {
-				Intent intent = new Intent(ProjectActivity.this, StageActivity.class);
-				startActivity(intent);
+				Intent intent = new Intent(ProjectActivity.this, PreStageActivity.class);
+				startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 			}
 		}, false);
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		//Log.i("bt", "MMA: " + requestCode + " result code" + resultCode);
+		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
+			Intent intent = new Intent(ProjectActivity.this, StageActivity.class);
+			startActivity(intent);
+		}
 	}
 
 	@Override

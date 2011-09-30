@@ -1,19 +1,19 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *  GNU Affero General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.ui.dialogs;
@@ -27,11 +27,12 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
+import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.R.string;
 import at.tugraz.ist.catroid.content.BroadcastScript;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -97,7 +98,10 @@ public class AddBrickDialog extends Dialog {
 	private String category;
 
 	private boolean isBackground(Sprite sprite) {
-		return sprite.getName().equals(scriptTabActivity.getString(string.background));
+		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(sprite) == 0) {
+			return true;
+		}
+		return false;
 	}
 
 	private void setupBrickMap(Sprite sprite) {
@@ -175,6 +179,16 @@ public class AddBrickDialog extends Dialog {
 		setContentView(R.layout.dialog_toolbox);
 		getWindow().setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+		ImageButton closeButton = (ImageButton) findViewById(R.id.btn_close_dialog);
+		closeButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				dismiss();
+			}
+		});
+
+		TextView textView = (TextView) findViewById(R.id.tv_dialog_title);
+		textView.setText(category);
 	}
 
 	@Override
@@ -195,15 +209,27 @@ public class AddBrickDialog extends Dialog {
 				if (addedBrick instanceof WhenStartedBrick) {
 					Script newScript = new StartScript("script", projectManager.getCurrentSprite());
 					projectManager.addScript(newScript);
-					projectManager.setCurrentScript(newScript);
+					if (projectManager.getCurrentScriptPosition() < 0) {
+						projectManager.setCurrentScript(newScript);
+					}
 				} else if (addedBrick instanceof WhenBrick) {
 					Script newScript = new WhenScript("script", projectManager.getCurrentSprite());
 					projectManager.addScript(newScript);
-					projectManager.setCurrentScript(newScript);
+					if (projectManager.getCurrentScriptPosition() < 0) {
+						projectManager.setCurrentScript(newScript);
+					}
+				} else if (addedBrick instanceof WhenBrick) {
+					Script newScript = new WhenScript("script", projectManager.getCurrentSprite());
+					projectManager.addScript(newScript);
+					if (projectManager.getCurrentScriptPosition() < 0) {
+						projectManager.setCurrentScript(newScript);
+					}
 				} else if (addedBrick instanceof BroadcastReceiverBrick) {
 					Script newScript = new BroadcastScript("script", projectManager.getCurrentSprite());
 					projectManager.addScript(newScript);
-					projectManager.setCurrentScript(newScript);
+					if (projectManager.getCurrentScriptPosition() < 0) {
+						projectManager.setCurrentScript(newScript);
+					}
 				} else if (addedBrick instanceof LoopBeginBrick
 						&& projectManager.getCurrentSprite().getNumberOfScripts() > 0
 						&& projectManager.getCurrentScript().containsBrickOfType(LoopEndBrick.class)) {
@@ -213,8 +239,16 @@ public class AddBrickDialog extends Dialog {
 					if (projectManager.getCurrentSprite().getNumberOfScripts() == 0) {
 						Script newScript = new StartScript("script", projectManager.getCurrentSprite());
 						projectManager.addScript(newScript);
+
+						Script temp;
+						if (projectManager.getCurrentScriptPosition() < 0) {
+							temp = newScript;
+						} else {
+							temp = projectManager.getCurrentScript();
+						}
 						projectManager.setCurrentScript(newScript);
 						projectManager.getCurrentScript().addBrick(brickClone);
+						projectManager.setCurrentScript(temp);
 					} else {
 						projectManager.getCurrentScript().addBrick(brickClone);
 					}

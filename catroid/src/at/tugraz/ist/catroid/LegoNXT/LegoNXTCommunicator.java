@@ -1,18 +1,18 @@
 /*    Catroid: An on-device graphical programming language for Android devices
- *    Copyright (C) 2010  Catroid development team
+ *    Copyright (C) 2010-2011 The Catroid Team
  *    (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *    This program is free software: you can redistribute it and/or modify
- *    it under the terms of the GNU General Public License as published by
- *    the Free Software Foundation, either version 3 of the License, or
- *    (at your option) any later version.
+ *    it under the terms of the GNU Affero General Public License as
+ *    published by the Free Software Foundation, either version 3 of the
+ *    License, or (at your option) any later version.
  *
  *    This program is distributed in the hope that it will be useful,
  *    but WITHOUT ANY WARRANTY; without even the implied warranty of
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *    GNU General Public License for more details.
+ *    GNU Affero General Public License for more details.
  *
- *    You should have received a copy of the GNU General Public License
+ *    You should have received a copy of the GNU Affero General Public License
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *    
  *    This file incorporates work covered by the following copyright and  
@@ -23,16 +23,16 @@
  *		   	This file is part of MINDdroid.
  *
  * 		  	MINDdroid is free software: you can redistribute it and/or modify
- * 		  	it under the terms of the GNU General Public License as published by
- * 		  	the Free Software Foundation, either version 3 of the License, or
- *   		(at your option) any later version.
+ * 		  	it under the terms of the GNU Affero General Public License as
+ * 		  	published by the Free Software Foundation, either version 3 of the
+ *   		License, or (at your option) any later version.
  *
  *   		MINDdroid is distributed in the hope that it will be useful,
  *   		but WITHOUT ANY WARRANTY; without even the implied warranty of
  *   		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   		GNU General Public License for more details.
+ *   		GNU Affero General Public License for more details.
  *
- *   		You should have received a copy of the GNU General Public License
+ *   		You should have received a copy of the GNU Affero General Public License
  *   		along with MINDdroid.  If not, see <http://www.gnu.org/licenses/>.
  */
 
@@ -105,8 +105,8 @@ public abstract class LegoNXTCommunicator extends Thread {
 		return receivedMessages;
 	}
 
-	public static void enableRequestConfirmFromDevice() {
-		requestConfirmFromDevice = true;
+	public static void enableRequestConfirmFromDevice(boolean cfd) {
+		requestConfirmFromDevice = cfd;
 	}
 
 	public Handler getHandler() {
@@ -164,6 +164,8 @@ public abstract class LegoNXTCommunicator extends Thread {
 
 	public abstract byte[] receiveMessage() throws IOException;
 
+	public abstract void stopAllNXTMovement();
+
 	/**
 	 * Sends a message on the opened OutputStream. In case of
 	 * an error the state is sent to the handler.
@@ -208,46 +210,6 @@ public abstract class LegoNXTCommunicator extends Thread {
 		//		}
 
 		switch (message[1]) {
-
-			case LCPMessage.GET_FIRMWARE_VERSION:
-
-				if (message.length >= 7) {
-					sendState(FIRMWARE_VERSION);
-				}
-
-				break;
-
-			case LCPMessage.FIND_FIRST:
-			case LCPMessage.FIND_NEXT:
-
-				if (message.length >= 28) {
-					// Success
-					if (message[2] == 0) {
-						sendState(FIND_FILES);
-					}
-				}
-
-				break;
-
-			case LCPMessage.GET_CURRENT_PROGRAM_NAME:
-
-				if (message.length >= 23) {
-					sendState(PROGRAM_NAME);
-				}
-
-				break;
-
-			case LCPMessage.SAY_TEXT:
-
-				if (message.length == 22) {
-					sendState(SAY_TEXT);
-				}
-
-			case LCPMessage.VIBRATE_PHONE:
-				if (message.length == 3) {
-					sendState(VIBRATE_PHONE);
-				}
-				break;
 
 			case LCPMessage.SET_OUTPUT_STATE:
 				//sendState(RECEIVED_MESSAGE, message);
@@ -310,58 +272,6 @@ public abstract class LegoNXTCommunicator extends Thread {
 		waitSomeTime(20);
 	}
 
-	//
-	//	private void doAction(int actionNr) {
-	//		byte[] message = LCPMessage.getActionMessage(actionNr);
-	//		sendMessageAndState(message);
-	//	}
-	//
-	//	private void startProgram(String programName) {
-	//		byte[] message = LCPMessage.getStartProgramMessage(programName);
-	//		sendMessageAndState(message);
-	//	}
-	//
-	//	private void stopProgram() {
-	//		byte[] message = LCPMessage.getStopProgramMessage();
-	//		sendMessageAndState(message);
-	//	}
-	//
-	//	private void getProgramName() {
-	//		byte[] message = LCPMessage.getProgramNameMessage();
-	//		sendMessageAndState(message);
-	//	}
-	//
-	//	private void changeMotorSpeed(int motor, int speed) {
-	//		if (speed > 100) {
-	//			speed = 100;
-	//		} else if (speed < -100) {
-	//			speed = -100;
-	//		}
-	//
-	//		byte[] message = LCPMessage.getMotorMessage(motor, speed);
-	//		sendMessageAndState(message);
-	//	}
-	//
-	//	private void reset(int motor) {
-	//		byte[] message = LCPMessage.getResetMessage(motor);
-	//		sendMessageAndState(message);
-	//	}
-	//
-	//	private void readMotorState(int motor) {
-	//		byte[] message = LCPMessage.getOutputStateMessage(motor);
-	//		sendMessageAndState(message);
-	//	}
-	//
-	//	private void getFirmwareVersion() {
-	//		byte[] message = LCPMessage.getFirmwareVersionMessage();
-	//		sendMessageAndState(message);
-	//	}
-	//
-	//	private void findFiles(boolean findFirst, int handle) {
-	//		byte[] message = LCPMessage.getFindFilesMessage(findFirst, handle, "*.*");
-	//		sendMessageAndState(message);
-	//	}
-	//
 	protected void waitSomeTime(int millis) {
 		try {
 			Thread.sleep(millis);
@@ -411,57 +321,6 @@ public abstract class LegoNXTCommunicator extends Thread {
 					break;
 
 			}
-
-			//   int message;
-			//
-			//   switch (message = myMessage.getData().getInt("message")) {
-			//    case MOTOR_A:
-			//    case MOTOR_B:
-			//    case MOTOR_C:
-			//     changeMotorSpeed(message, myMessage.getData().getInt("value1"));
-			//     break;
-			//    case MOTOR_B_ACTION:
-			//     rotateTo(MOTOR_B, myMessage.getData().getInt("value1"));
-			//     break;
-			//    case MOTOR_RESET:
-			//     reset(myMessage.getData().getInt("value1"));
-			//     break;
-			//    case START_PROGRAM:
-			//     startProgram(myMessage.getData().getString("name"));
-			//     break;
-			//    case STOP_PROGRAM:
-			//     stopProgram();
-			//     break;
-			//    case GET_PROGRAM_NAME:
-			//     getProgramName();
-			//     break;
-			//    case DO_BEEP:
-			//     doBeep(myMessage.getData().getInt("value1"), myMessage.getData().getInt("value2"));
-			//     break;
-			//    case DO_ACTION:
-			//     doAction(0);
-			//     break;
-			//    case READ_MOTOR_STATE:
-			//     readMotorState(myMessage.getData().getInt("value1"));
-			//     break;
-			//    case GET_FIRMWARE_VERSION:
-			//     getFirmwareVersion();
-			//     break;
-			//    case FIND_FILES:
-			//     findFiles(myMessage.getData().getInt("value1") == 0, myMessage.getData().getInt("value2"));
-			//     break;
-			//    case DISCONNECT:
-			//     // send stop messages before closing
-			//     changeMotorSpeed(MOTOR_A, 0);
-			//     changeMotorSpeed(MOTOR_B, 0);
-			//     changeMotorSpeed(MOTOR_C, 0);
-			//     waitSomeTime(500);
-			//     try {
-			//      destroyNXTconnection();
-			//     } catch (IOException e) {
-			//     }
-			//     break;
-			//   }
 		}
 	};
 }

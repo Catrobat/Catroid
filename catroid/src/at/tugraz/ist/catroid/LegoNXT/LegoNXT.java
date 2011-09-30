@@ -1,18 +1,18 @@
 /*    Catroid: An on-device graphical programming language for Android devices
- *    Copyright (C) 2010  Catroid development team
+ *    Copyright (C) 2010-2011 The Catroid Team
  *    (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *    This program is free software: you can redistribute it and/or modify
- *    it under the terms of the GNU General Public License as published by
- *    the Free Software Foundation, either version 3 of the License, or
- *    (at your option) any later version.
+ *    it under the terms of the GNU Affero General Public License as
+ *    published by the Free Software Foundation, either version 3 of the
+ *    License, or (at your option) any later version.
  *
  *    This program is distributed in the hope that it will be useful,
  *    but WITHOUT ANY WARRANTY; without even the implied warranty of
  *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *    GNU General Public License for more details.
+ *    GNU Affero General Public License for more details.
  *
- *    You should have received a copy of the GNU General Public License
+ *    You should have received a copy of the GNU Affero General Public License
  *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *    
  *    This file incorporates work covered by the following copyright and  
@@ -23,16 +23,16 @@
  *		   	This file is part of MINDdroid.
  *
  * 		  	MINDdroid is free software: you can redistribute it and/or modify
- * 		  	it under the terms of the GNU General Public License as published by
- * 		  	the Free Software Foundation, either version 3 of the License, or
- *   		(at your option) any later version.
+ * 		  	it under the terms of the GNU Affero General Public License as
+ * 		  	published by the Free Software Foundation, either version 3 of the
+ *   		License, or (at your option) any later version.
  *
  *   		MINDdroid is distributed in the hope that it will be useful,
  *   		but WITHOUT ANY WARRANTY; without even the implied warranty of
  *   		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   		GNU General Public License for more details.
+ *   		GNU Affero General Public License for more details.
  *
- *   		You should have received a copy of the GNU General Public License
+ *   		You should have received a copy of the GNU Affero General Public License
  *   		along with MINDdroid.  If not, see <http://www.gnu.org/licenses/>.
  */
 
@@ -63,10 +63,7 @@ public class LegoNXT implements BTConnectable {
 	private static Handler btcHandler;
 	private Handler recieverHandler;
 	private Activity activity;
-	@SuppressWarnings("unused")
-	private static int GENERAL_COMMAND = 100;
-	@SuppressWarnings("unused")
-	private static int MOTOR_COMMAND = 102;
+
 	private static int TONE_COMMAND = 101;
 
 	public LegoNXT(Activity activity, Handler recieverHandler) {
@@ -98,7 +95,7 @@ public class LegoNXT implements BTConnectable {
 	public void destroyCommunicator() {
 
 		if (myNXTCommunicator != null) {
-			sendBTCMotorMessage(LegoNXTBtCommunicator.NO_DELAY, LegoNXTBtCommunicator.DISCONNECT, 0, 0);
+			//sendBTCMotorMessage(LegoNXTBtCommunicator.NO_DELAY, LegoNXTBtCommunicator.DISCONNECT, 0, 0);
 			try {
 				myNXTCommunicator.destroyNXTconnection();
 			} catch (IOException e) { // TODO Auto-generated method stub
@@ -108,6 +105,10 @@ public class LegoNXT implements BTConnectable {
 			}
 			myNXTCommunicator = null;
 		}
+	}
+
+	public void pauseCommunicator() {
+		myNXTCommunicator.stopAllNXTMovement();
 	}
 
 	public static synchronized void sendBTCPlayToneMessage(int frequency, int duration) {
