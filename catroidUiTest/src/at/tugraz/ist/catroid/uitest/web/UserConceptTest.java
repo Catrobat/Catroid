@@ -201,7 +201,6 @@ public class UserConceptTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		solo.sleep(1000);
 		assertTrue("EditTextField got cleared after changing orientation", solo.searchText(testUser));
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.goBack();
 
 		solo.clickOnButton(0);
 
