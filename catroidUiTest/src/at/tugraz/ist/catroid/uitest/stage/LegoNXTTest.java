@@ -1,19 +1,19 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *  GNU Affero General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.uitest.stage;
@@ -29,6 +29,7 @@ import android.widget.ListView;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXTBtCommunicator;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXTCommunicator;
+import at.tugraz.ist.catroid.bluetooth.DeviceListActivity;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
@@ -39,9 +40,11 @@ import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.NXTMotorActionBrick;
 import at.tugraz.ist.catroid.content.bricks.NXTMotorStopBrick;
 import at.tugraz.ist.catroid.content.bricks.NXTMotorTurnAngleBrick;
+import at.tugraz.ist.catroid.content.bricks.NXTPlayToneBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
@@ -94,6 +97,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 	public void testNXTFunctionality() {
 		createTestproject(projectName);
 
+		LegoNXTBtCommunicator.enableRequestConfirmFromDevice(true);
 		BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		assertTrue("Bluetooth not supported on device", bluetoothAdapter != null);
 		if (!bluetoothAdapter.isEnabled()) {
@@ -117,17 +121,17 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		}
 
 		solo.clickOnText(fullConnectionString);
-		solo.sleep(5000);
+		solo.sleep(8000);
 
 		solo.clickOnScreen(Values.SCREEN_WIDTH / 2, Values.SCREEN_HEIGHT / 2);
-		solo.sleep(8000);
+		solo.sleep(10000);
 
 		Log.i("bt", "" + LegoNXTCommunicator.getReceivedMessageList().size());
 		solo.sleep(2000);
 
 		ArrayList<byte[]> executed_commands = LegoNXTCommunicator.getReceivedMessageList();
-		assertEquals("Commands seem to have not been executed! Connected to correct device??",
-				executed_commands.size(), commands.size());
+		assertEquals("Commands seem to have not been executed! Connected to correct device??", commands.size(),
+				executed_commands.size());
 
 		int i = 0;
 		for (int[] item : commands) {
@@ -165,6 +169,90 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 			}
 			i++;
 		}
+		LegoNXTBtCommunicator.enableRequestConfirmFromDevice(false);
+	}
+
+	// This test requires the NXTBTTestServer to be running or a LegoNXT Robot to run! Check connect string to see if you connect to the right device!
+	public void testNXTPersistentConnection() {
+		createTestproject(projectName);
+
+		LegoNXTBtCommunicator.enableRequestConfirmFromDevice(false);
+		BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+		assertTrue("Bluetooth not supported on device", bluetoothAdapter != null);
+		if (!bluetoothAdapter.isEnabled()) {
+			bluetoothAdapter.enable();
+			solo.sleep(5000);
+		}
+
+		solo.clickOnButton(0);
+		solo.sleep(1000);
+		solo.clickOnText("sprite1");
+		solo.sleep(1000);
+
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		solo.sleep(1500);
+
+		ListView list = solo.getCurrentListViews().get(0);
+		String fullConnectionString = null;
+		for (int i = 0; i < solo.getCurrentListViews().get(0).getCount(); i++) {
+
+			String current = (String) list.getItemAtPosition(i);
+			if (current.startsWith(TestServerBTStringStartsWith)) {
+				fullConnectionString = current;
+				break;
+			}
+		}
+
+		solo.clickOnText(fullConnectionString);
+		solo.sleep(5000); // if null pointer exception somewhere, increase this sleep!
+
+		solo.goBack();
+		solo.sleep(500);
+		solo.goBack();
+		solo.sleep(1000);
+		solo.goBack();
+		solo.sleep(1000);
+		//Device is still connected (until visiting main menu or exiting program)!
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		solo.sleep(1000);
+		solo.assertCurrentActivity("BT connection was not there anymore!!!", StageActivity.class);
+
+		solo.goBack();
+		solo.sleep(500);
+		solo.goBack();
+		solo.sleep(1000);
+		solo.goBack();
+		solo.sleep(2000);
+		//main menu => device disconnected!
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		solo.sleep(500);
+		assertTrue("I should be on the bluetooth device choosing screen, but am not! Device still connected??",
+				solo.searchText(fullConnectionString));
+
+		solo.goBack();
+		solo.sleep(2000);
+
+	}
+
+	public void testNXTConnectionDialogGoBack() {
+		createTestproject(projectName);
+
+		BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+		assertTrue("Bluetooth not supported on device", bluetoothAdapter != null);
+		if (!bluetoothAdapter.isEnabled()) {
+			bluetoothAdapter.enable();
+			solo.sleep(5000);
+		}
+
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		solo.sleep(1000);
+		solo.assertCurrentActivity("Not in PreStage Activity!", DeviceListActivity.class);
+		solo.goBack();
+		solo.sleep(1000);
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		solo.sleep(1000);
+		solo.assertCurrentActivity("Not in PreStage Activity!", DeviceListActivity.class);
+
 	}
 
 	public void createTestproject(String projectName) {
@@ -174,26 +262,30 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		Script whenScript = new WhenScript("whenScript", firstSprite);
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
 
-		LegoNXTBtCommunicator.enableRequestConfirmFromDevice();
-
 		NXTMotorActionBrick nxt = new NXTMotorActionBrick(firstSprite, 3, 100);
 		commands.add(new int[] { MOTORACTION, 0, 100 }); //motor = 3 means brick will move motors A and C.
 		commands.add(new int[] { MOTORACTION, 2, 100 });
-		WaitBrick wait = new WaitBrick(firstSprite, 3000);
+		WaitBrick wait = new WaitBrick(firstSprite, 500);
 
 		NXTMotorStopBrick nxtStop = new NXTMotorStopBrick(firstSprite, 3);
 		commands.add(new int[] { MOTORSTOP, 0 });
 		commands.add(new int[] { MOTORSTOP, 2 });
-		WaitBrick wait2 = new WaitBrick(firstSprite, 1000);
+		WaitBrick wait2 = new WaitBrick(firstSprite, 500);
 
 		NXTMotorTurnAngleBrick nxtTurn = new NXTMotorTurnAngleBrick(firstSprite, 2, 515);
 		commands.add(new int[] { MOTORTURN, 2, 515 });
+
+		WaitBrick wait3 = new WaitBrick(firstSprite, 500);
+		NXTPlayToneBrick nxtTone = new NXTPlayToneBrick(firstSprite, 50, 1);
+		//Tone does not return a command
 
 		whenScript.addBrick(nxt);
 		whenScript.addBrick(wait);
 		whenScript.addBrick(nxtStop);
 		whenScript.addBrick(wait2);
 		whenScript.addBrick(nxtTurn);
+		whenScript.addBrick(wait3);
+		whenScript.addBrick(nxtTone);
 
 		startScript.addBrick(setCostumeBrick);
 		firstSprite.addScript(startScript);

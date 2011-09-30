@@ -1,19 +1,19 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *  GNU Affero General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.uitest.ui;
@@ -90,6 +90,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(sometext));
 		solo.sleep(600);
 		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.goBack();
 		solo.clickOnButton(0);
 		solo.sleep(100);
 
@@ -97,7 +98,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 				solo.searchText(solo.getCurrentActivity().getString(R.string.background)));
 		solo.clickLongOnText(solo.getCurrentActivity().getString(R.string.background));
 		assertFalse("Found delete option for background sprite",
-				solo.searchText(solo.getCurrentActivity().getString(R.string.delete_sprite_button)));
+				solo.searchText(solo.getCurrentActivity().getString(R.string.delete)));
 	}
 
 	public void testAddNewSprite() {
@@ -145,6 +146,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(500);
 		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.goBack();
 		solo.clickOnButton(0);
 		solo.sleep(50);
 
@@ -246,7 +248,8 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.setActivityOrientation(Solo.PORTRAIT);
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(spriteName1));
 		solo.sleep(300);
-		solo.clickOnText("Name of new Sprite");
+		solo.goBack();
+		solo.clickOnButton(0);
 		solo.sleep(300);
 
 		assertTrue("Sprite not successfully added", projectManager.spriteExists(spriteName1));
@@ -313,7 +316,6 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(600);
 		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.goBack();
 		solo.clickOnButton(0);
 		assertTrue("not in NewSpriteDialog", solo.searchText(getActivity().getString(R.string.new_sprite_dialog_title)));
 	}

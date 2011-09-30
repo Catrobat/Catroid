@@ -1,19 +1,19 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *  GNU Affero General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.content.bricks;
@@ -25,16 +25,16 @@ import android.content.DialogInterface.OnCancelListener;
 import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.BaseExpandableListAdapter;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.SoundManager;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class SetVolumeToBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
-	public static final int REQUIRED_RESSOURCES = SOUND_MANAGER;
 
 	private Sprite sprite;
 	private double volume;
@@ -47,7 +47,7 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 	}
 
 	public int getRequiredResources() {
-		return SOUND_MANAGER;
+		return NO_RESOURCES;
 	}
 
 	public void execute() {
@@ -67,10 +67,8 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 		return volume;
 	}
 
-	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_set_volume_to, null);
-		}
+	public View getView(Context context, int brickId, BaseAdapter adapter) {
+		view = View.inflate(context, R.layout.toolbox_brick_set_volume_to, null);
 
 		EditText edit = (EditText) view.findViewById(R.id.toolbox_brick_set_volume_to_edit_text);
 		edit.setText(String.valueOf(volume));
@@ -115,7 +113,10 @@ public class SetVolumeToBrick implements Brick, OnClickListener {
 			}
 		});
 
-		dialog.show();
+		AlertDialog finishedDialog = dialog.create();
+		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
+
+		finishedDialog.show();
 
 	}
 }

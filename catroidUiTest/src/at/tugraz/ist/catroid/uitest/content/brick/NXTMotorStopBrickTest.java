@@ -1,19 +1,19 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010-2011 The Catroid Team 
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *  GNU Affero General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
@@ -83,15 +83,15 @@ public class NXTMotorStopBrickTest extends ActivityInstrumentationTestCase2<Scri
 
 		solo.sleep(500);
 		solo.pressSpinnerItem(0, 5);
-		assertEquals(array[4], solo.getCurrentSpinners().get(0).getSelectedItem());
+		assertEquals("Wrong item in spinner!", array[4], solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, -1);
-		assertEquals(array[3], solo.getCurrentSpinners().get(0).getSelectedItem());
+		assertEquals("Wrong item in spinner!", array[3], solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, -1);
-		assertEquals(array[2], solo.getCurrentSpinners().get(0).getSelectedItem());
+		assertEquals("Wrong item in spinner!", array[2], solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, -1);
-		assertEquals(array[1], solo.getCurrentSpinners().get(0).getSelectedItem());
+		assertEquals("Wrong item in spinner!", array[1], solo.getCurrentSpinners().get(0).getSelectedItem());
 		solo.pressSpinnerItem(0, -1);
-		assertEquals(array[0], solo.getCurrentSpinners().get(0).getSelectedItem());
+		assertEquals("Wrong item in spinner!", array[0], solo.getCurrentSpinners().get(0).getSelectedItem());
 
 	}
 
