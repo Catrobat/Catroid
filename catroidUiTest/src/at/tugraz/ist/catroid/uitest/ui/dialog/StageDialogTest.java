@@ -242,18 +242,20 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		MediaPlayer mediaPlayer = SoundManager.getInstance().getMediaPlayer();
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
-		solo.sleep(1500);
+		solo.sleep(3000);
 		assertTrue("Sound not playing.", mediaPlayer.isPlaying());
 		int positionBeforeRestart = mediaPlayer.getCurrentPosition();
 		solo.goBack();
 		solo.sleep(500);
 		assertFalse("Sound playing but should be paused.", mediaPlayer.isPlaying());
 		solo.clickOnButton(getActivity().getString(R.string.restart_current_project));
-		solo.sleep(100);
-		int positionAfterRestart = mediaPlayer.getCurrentPosition();
-		assertTrue("Sound not playing after stage restart.", mediaPlayer.isPlaying());
+		solo.sleep(1000);
+		@SuppressWarnings("unchecked")
+		ArrayList<MediaPlayer> mediaPlayerArrayList = (ArrayList<MediaPlayer>) UiTestUtils.getPrivateField(
+				"mediaPlayers", SoundManager.getInstance());
+		int positionAfterRestart = mediaPlayerArrayList.get(0).getCurrentPosition();
+		assertTrue("Sound not playing after stage restart.", mediaPlayerArrayList.get(0).isPlaying());
 		assertTrue("Sound did not play from start!", positionBeforeRestart > positionAfterRestart);
-
 	}
 
 	public void testAxesOnOff() throws NameNotFoundException, IOException {
