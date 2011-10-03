@@ -57,6 +57,7 @@ import at.tugraz.ist.catroid.content.bricks.IfOnEdgeBounceBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
 import at.tugraz.ist.catroid.content.bricks.MoveNStepsBrick;
+import at.tugraz.ist.catroid.content.bricks.NextCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.NXTMotorActionBrick;
 import at.tugraz.ist.catroid.content.bricks.NXTMotorStopBrick;
 import at.tugraz.ist.catroid.content.bricks.NXTMotorTurnAngleBrick;
@@ -135,6 +136,7 @@ public class AddBrickDialog extends Dialog {
 		looksBrickList.add(new ClearGraphicEffectBrick(sprite));
 		looksBrickList.add(new SayBrick(sprite));
 		looksBrickList.add(new ThinkBrick(sprite));
+		looksBrickList.add(new NextCostumeBrick(sprite));
 
 		brickMap.put(getContext().getString(R.string.category_looks), looksBrickList);
 

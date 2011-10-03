@@ -52,7 +52,7 @@ public class SetCostumeBrick implements Brick {
 	public void execute() {
 		if (costumeData != null && sprite != null && sprite.getCostumeDataList().contains(costumeData)) {
 			if (!NativeAppActivity.isRunning()) {
-				sprite.getCostume().changeImagePath(costumeData.getAbsolutePath());
+				sprite.getCostume().changeImagePath(costumeData);
 			} else {
 				sprite.getCostume().setBitmapFromResource(
 						NativeAppActivity.getContext(),
