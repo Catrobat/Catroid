@@ -23,6 +23,7 @@ import java.io.File;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -41,6 +42,7 @@ public class ChangeSizeByNBrickTest extends InstrumentationTestCase {
 
 	private File testImage;
 	private final String projectName = "testProject";
+	private CostumeData costumeData;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -57,6 +59,10 @@ public class ChangeSizeByNBrickTest extends InstrumentationTestCase {
 
 		testImage = TestUtils.saveFileToProject(this.projectName, "testImage.png", IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), TestUtils.TYPE_IMAGE_FILE);
+
+		costumeData = new CostumeData();
+		costumeData.setCostumeFilename(testImage.getName());
+		costumeData.setCostumeName("name");
 	}
 
 	@Override
@@ -105,7 +111,7 @@ public class ChangeSizeByNBrickTest extends InstrumentationTestCase {
 		Values.SCREEN_WIDTH = 480;
 
 		Sprite sprite = new Sprite("testSprite");
-		sprite.getCostume().changeImagePath(testImage.getAbsolutePath());
+		sprite.getCostume().changeImagePath(costumeData);
 
 		ChangeSizeByNBrick brick = new ChangeSizeByNBrick(sprite, Double.MAX_VALUE);
 
@@ -123,7 +129,7 @@ public class ChangeSizeByNBrickTest extends InstrumentationTestCase {
 		Values.SCREEN_WIDTH = 480;
 
 		Sprite sprite = new Sprite("testSprite");
-		sprite.getCostume().changeImagePath(testImage.getAbsolutePath());
+		sprite.getCostume().changeImagePath(costumeData);
 
 		ChangeSizeByNBrick brick = new ChangeSizeByNBrick(sprite, -Double.MAX_VALUE);
 
