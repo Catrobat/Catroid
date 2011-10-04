@@ -38,6 +38,7 @@
 
 package at.tugraz.ist.catroid.bluetooth;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 import android.app.Activity;
@@ -48,6 +49,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -60,18 +62,29 @@ import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 
 public class DeviceListActivity extends Activity {
-	static final String PAIRING = "pairing";
-
-	public static String DEVICE_NAME_AND_ADDRESS = "device_infos";
-	public static String EXTRA_DEVICE_ADDRESS = "device_address";
+	public static final String PAIRING = "pairing";
+	public static final String AUTO_CONNECT = "auto_connect";
+	public static final String DEVICE_NAME_AND_ADDRESS = "device_infos";
+	public static final String EXTRA_DEVICE_ADDRESS = "device_address";
 
 	private BluetoothAdapter btAdapter;
 	private ArrayAdapter<String> pairedDevicesArrayAdapter;
 	private ArrayAdapter<String> newDevicesArrayAdapter;
+	private boolean autoConnect = true;
+	private ArrayList<String> autoConnectIDs = new ArrayList<String>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		if (autoConnectIDs.size() == 0) {
+			//TODO... breaks robotium tests due to waiting...
+			//autoConnectIDs.add(BtCommunicator.OUI_LEGO);
+		}
+		autoConnect = this.getIntent().getExtras().getBoolean(AUTO_CONNECT);
+		Log.i("bt", autoConnect + "");
+		if (autoConnect) {
+			this.setVisible(false);
+		}
 
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.device_list);
@@ -108,24 +121,50 @@ public class DeviceListActivity extends Activity {
 
 		Set<BluetoothDevice> pairedDevices = btAdapter.getBondedDevices();
 
-		boolean legoDevicesFound = false;
-
+		BluetoothDevice legoNXT = null;
+		int possibleConnections = 0;
 		if (pairedDevices.size() > 0) {
 			findViewById(R.id.title_paired_devices).setVisibility(View.VISIBLE);
 			for (BluetoothDevice device : pairedDevices) {
-				//if (device.getAddress().startsWith(BtCommunicator.OUI_LEGO)) {
-				//legoDevicesFound = true;
-				//legoDevicesArrayAdapter.add(device.getName() + "-" + device.getAddress());
-				//}
-				legoDevicesFound = true;
+				for (String item : autoConnectIDs) {
+					if (device.getAddress().startsWith(item)) {
+						legoNXT = device;
+						possibleConnections++;
+						//legoDevicesFound = true;
+						//legoDevicesArrayAdapter.add(device.getName() + "-" + device.getAddress());
+					}
+				}
+
 				pairedDevicesArrayAdapter.add(device.getName() + "-" + device.getAddress());
 			}
 		}
 
-		if (legoDevicesFound == false) {
+		if (pairedDevices.size() == 0) {
 			String noDevices = getResources().getText(R.string.none_paired).toString();
 			pairedDevicesArrayAdapter.add(noDevices);
 		}
+
+		if (autoConnect && possibleConnections == 1) {
+			//			String info = ((TextView) v).getText().toString();
+			//			if (info.lastIndexOf('-') != info.length() - 18) {
+			//				return;
+			//			}
+
+			btAdapter.cancelDiscovery();
+			Intent intent = new Intent();
+			Bundle data = new Bundle();
+			data.putString(DEVICE_NAME_AND_ADDRESS, legoNXT.getName() + "-" + legoNXT.getAddress());
+			data.putString(EXTRA_DEVICE_ADDRESS, legoNXT.getAddress());
+			data.putBoolean(PAIRING, false);
+			data.putBoolean(AUTO_CONNECT, true);
+			intent.putExtras(data);
+			setResult(RESULT_OK, intent);
+			finish();
+			//			this.setVisible(false);
+		} else {
+			this.setVisible(true);
+		}
+		autoConnect = true;
 	}
 
 	@Override
@@ -168,6 +207,7 @@ public class DeviceListActivity extends Activity {
 			data.putString(DEVICE_NAME_AND_ADDRESS, info);
 			data.putString(EXTRA_DEVICE_ADDRESS, address);
 			data.putBoolean(PAIRING, av.getId() == R.id.new_devices);
+			data.putBoolean(AUTO_CONNECT, false);
 			intent.putExtras(data);
 			setResult(RESULT_OK, intent);
 			finish();
