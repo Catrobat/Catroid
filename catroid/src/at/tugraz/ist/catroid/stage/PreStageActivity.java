@@ -52,6 +52,8 @@ public class PreStageActivity extends Activity {
 	public static TextToSpeech textToSpeech;
 	private int requiredResourceCounter;
 
+	private boolean autoConnect = false;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -99,7 +101,7 @@ public class PreStageActivity extends Activity {
 				resourceFailed();
 			} else if (bluetoothState == BluetoothManager.BLUETOOTH_ALREADY_ON) {
 				if (legoNXT == null) {
-					startBTComm();
+					startBTComm(true);
 				} else {
 					resourceInitialized();
 				}
@@ -169,10 +171,11 @@ public class PreStageActivity extends Activity {
 		finish();
 	}
 
-	private void startBTComm() {
+	private void startBTComm(boolean autoConnect) {
 		connectingProgressDialog = ProgressDialog.show(this, "",
 				getResources().getString(R.string.connecting_please_wait), true);
 		Intent serverIntent = new Intent(this, DeviceListActivity.class);
+		serverIntent.putExtra(DeviceListActivity.AUTO_CONNECT, autoConnect);
 		this.startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
 	}
 
@@ -196,7 +199,7 @@ public class PreStageActivity extends Activity {
 			case REQUEST_ENABLE_BT:
 				switch (resultCode) {
 					case Activity.RESULT_OK:
-						startBTComm();
+						startBTComm(true);
 						break;
 
 					case Activity.RESULT_CANCELED:
@@ -213,7 +216,7 @@ public class PreStageActivity extends Activity {
 					case Activity.RESULT_OK:
 						legoNXT = new LegoNXT(this, recieveHandler);
 						String address = data.getExtras().getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
-						//pairing = data.getExtras().getBoolean(DeviceListActivity.PAIRING);
+						autoConnect = data.getExtras().getBoolean(DeviceListActivity.AUTO_CONNECT);
 						legoNXT.startBTCommunicator(address);
 						break;
 
@@ -247,6 +250,7 @@ public class PreStageActivity extends Activity {
 			Log.i("bt", "message" + myMessage.getData().getInt("message"));
 			switch (myMessage.getData().getInt("message")) {
 				case LegoNXTBtCommunicator.STATE_CONNECTED:
+					//autoConnect = false;
 					connectingProgressDialog.dismiss();
 					resourceInitialized();
 					break;
@@ -255,7 +259,11 @@ public class PreStageActivity extends Activity {
 					connectingProgressDialog.dismiss();
 					legoNXT.destroyCommunicator();
 					legoNXT = null;
-					resourceFailed();
+					if (autoConnect) {
+						startBTComm(false);
+					} else {
+						resourceFailed();
+					}
 					break;
 				default:
 
