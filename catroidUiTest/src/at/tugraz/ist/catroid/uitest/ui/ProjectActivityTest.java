@@ -97,7 +97,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 				solo.searchText(solo.getCurrentActivity().getString(R.string.background)));
 		solo.clickLongOnText(solo.getCurrentActivity().getString(R.string.background));
 		assertFalse("Found delete option for background sprite",
-				solo.searchText(solo.getCurrentActivity().getString(R.string.delete_sprite_button)));
+				solo.searchText(solo.getCurrentActivity().getString(R.string.delete)));
 	}
 
 	public void testAddNewSprite() {
