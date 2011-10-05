@@ -30,6 +30,7 @@ import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -135,7 +136,7 @@ public class CostumeActivity extends ListActivity {
 	}
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) { //TODO refactor this mess! (please)
 		super.onActivityResult(requestCode, resultCode, data);
 		//when new sound title is selected and ready to be added to the catroid project
 		if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_SELECT_IMAGE) {
@@ -155,7 +156,12 @@ public class CostumeActivity extends ListActivity {
 				} else {
 					int column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
 					cursor.moveToFirst();
-					originalImagePath = cursor.getString(column_index);
+					try {
+						originalImagePath = cursor.getString(column_index);
+					} catch (CursorIndexOutOfBoundsException e) {
+						Utils.displayErrorMessage(this, this.getString(R.string.error_load_image));
+						return;
+					}
 				}
 
 				if (cursor == null && originalImagePath.equalsIgnoreCase("")) {
