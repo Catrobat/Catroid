@@ -33,10 +33,6 @@
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
     
-    <!-- Extras -->
-    <string name="extra_picture_path_paintroid">at.tugraz.ist.extra.PAINTROID_PICTURE_PATH</string>
-    <string name="extra_x_value_paintroid">at.tugraz.ist.extra.PAINTROID_X</string>
-    
     <!-- General -->
     <string name="close">Schließen</string>
     <string name="error">Fehler</string>
@@ -158,7 +154,6 @@
 	<string name="category_looks">Aussehen</string>
 	<string name="category_sound">Klang</string>
 	<string name="category_control">Steuerung</string>
-	<string name="category_lego_nxt">LegoNXT</string>
 
 	<!--  Motion bricks -->
     <string name="brick_place_at">Gehe zu</string>
@@ -259,9 +254,6 @@
 	<string name="nxt_tone_frequency">Frequenz</string>
 	<string name="tone_duration">Dauer</string>
 	<string name="nxt_tone_hundred_hz">x100Hz</string>
-	<string name="minus_symbol">-</string>
-	<string name="plus_symbol">+</string>
-	<string name="just_a_v">v</string>
 	<string name="number_to_small">Wert ist zu klein!</string>
 	<string name="number_to_big">Wert ist zu groß!</string>
     

@@ -93,6 +93,7 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 		projectUploadName.addTextChangedListener(new TextWatcher() {
 
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				currentProjectName = ProjectManager.getInstance().getCurrentProject().getName();
 				if (!projectUploadName.getText().toString().equals(currentProjectName)) {
 					projectRename.setVisibility(View.VISIBLE);
 					newProjectName = projectUploadName.getText().toString();
