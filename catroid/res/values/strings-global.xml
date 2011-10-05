@@ -28,4 +28,9 @@
     <string name="minus_symbol">-</string>
 	<string name="plus_symbol">+</string>
 	<string name="just_a_v">v</string>
+	
+	<!-- Extras -->
+    <string name="extra_picture_path_paintroid">at.tugraz.ist.extra.PAINTROID_PICTURE_PATH</string>
+    <string name="extra_x_value_paintroid">at.tugraz.ist.extra.PAINTROID_X</string>
+    <string name="extra_y_value_paintroid">at.tugraz.ist.extra.PAINTROID_Y</string>
 </resources>
