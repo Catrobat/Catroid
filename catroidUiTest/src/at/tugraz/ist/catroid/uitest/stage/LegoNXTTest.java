@@ -68,8 +68,10 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 
 	public static final String LEGO_NXT_NAME = "NXT";
 	public static final String TEST_SERVER_NAME = "kitty";
+	public static final String PAIRED_UNAVAILABLE_DEVICE_NAME = "SWEET";
 	public static final String KITTYROID_MAC_ADDRESS = "00:15:83:3F:E3:2C";
 	public static final String SOME_OTHER_MAC = "00:0D:F0:48:01:93";
+	public static final String PAIRED_UNAVAILABLE_DEVICE_MAC = "00:23:4D:F5:A6:18";
 	ArrayList<int[]> commands = new ArrayList<int[]>();
 
 	public LegoNXTTest() {
@@ -205,21 +207,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		UiTestUtils.setPrivateField("autoConnectIDs", dla, autoConnectIDs, false);
 
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
-		solo.sleep(6500);
-		// No auto connect version
-		//		ListView list = solo.getCurrentListViews().get(0);
-		//		String fullConnectionString = null;
-		//		for (int i = 0; i < solo.getCurrentListViews().get(0).getCount(); i++) {
-		//
-		//			String current = (String) list.getItemAtPosition(i);
-		//			if (current.startsWith(TEST_SERVER_NAME)) {
-		//				fullConnectionString = current;
-		//				break;
-		//			}
-		//		}
-		//
-		//		solo.clickOnText(fullConnectionString);
-		//		solo.sleep(5000); // if null pointer exception somewhere, increase this sleep!
+		solo.sleep(6500);// increase this sleep if probs!
 
 		solo.goBack();
 		solo.sleep(500);
@@ -241,7 +229,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		//main menu => device disconnected!
 
 		autoConnectIDs = new ArrayList<String>();
-		autoConnectIDs.add("IM_NOT_A_MAC_ADDRESS");
+		autoConnectIDs.add(PAIRED_UNAVAILABLE_DEVICE_MAC);
 		UiTestUtils.setPrivateField("autoConnectIDs", dla, autoConnectIDs, false);
 
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
@@ -250,8 +238,9 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		assertTrue("I should be on the bluetooth device choosing screen, but am not!",
 				solo.searchText(KITTYROID_MAC_ADDRESS));
 
-		solo.goBack();
-		solo.sleep(2000);
+		solo.clickOnText(PAIRED_UNAVAILABLE_DEVICE_NAME);
+		solo.sleep(8000);
+		solo.assertCurrentActivity("I should be in the main menu, but am not!", MainMenuActivity.class);
 
 	}
 
