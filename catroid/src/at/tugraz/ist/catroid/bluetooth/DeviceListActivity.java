@@ -76,17 +76,18 @@ public class DeviceListActivity extends Activity {
 	private ArrayAdapter<String> pairedDevicesArrayAdapter;
 	private ArrayAdapter<String> newDevicesArrayAdapter;
 	private boolean autoConnect = true;
-	private ArrayList<String> autoConnectIDs = new ArrayList<String>();
+	private static ArrayList<String> autoConnectIDs = new ArrayList<String>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (autoConnectIDs.size() == 0) {
+
 			//TODO... breaks robotium tests due to waiting...
-			//autoConnectIDs.add(BtCommunicator.OUI_LEGO);
+			autoConnectIDs.add(BtCommunicator.OUI_LEGO);
 		}
 		autoConnect = this.getIntent().getExtras().getBoolean(AUTO_CONNECT);
-		Log.i("bt", autoConnect + "");
+		Log.i("bto", autoConnect + "");
 		if (autoConnect) {
 			this.setVisible(false);
 		}
