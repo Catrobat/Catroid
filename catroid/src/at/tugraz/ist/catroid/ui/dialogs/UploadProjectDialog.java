@@ -27,9 +27,9 @@ import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -121,7 +121,6 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 
 		Button cancelButton = (Button) findViewById(R.id.cancel_button);
 		cancelButton.setOnClickListener(this);
-		System.out.println("######################DEBUG: currentprojectname: " + currentProjectName);
 	}
 
 	public void onClick(View v) {

@@ -25,24 +25,13 @@
     <string name="sprite">sprite</string>
     <string name="script">script</string>
     <string name="brick">brick</string>
-    <string name="quit">Quit</string>
     <string name="cancel_button">Cancel</string>
     <string name="rename">Rename</string>
     <string name="delete">Delete</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     
-    <!-- Extras -->
-    <string name="extra_picture_path_paintroid">at.tugraz.ist.extra.PAINTROID_PICTURE_PATH</string>
-    <string name="extra_x_value_paintroid">at.tugraz.ist.extra.PAINTROID_X</string>
-    <string name="extra_y_value_paintroid">at.tugraz.ist.extra.PAINTROID_Y</string>
-
-    <!-- User interface -->
-    <string name="main_menu">Main menu</string>
-    <string name="menu">Menu</string>
-
     <!-- General -->
-    <string name="save">Save</string>
     <string name="close">Close</string>
     <string name="error">Error</string>
     <string name="please_wait">Please wait</string>
@@ -51,26 +40,17 @@
     <string name="stage">Stage</string>
     <string name="ok">OK</string>
 
-    <!-- Brick captions -->
-    <string name="show">Show</string>
-    <string name="hide">Hide</string>
-
     <!-- Construction site context menu -->
-    <string name="construction_site_play">To Stage</string>
-    <string name="reset">Reset Construction Site</string>
     <string name="new_project">New Project</string>
     <string name="load">Load</string>
-    <string name="change_project_name_main">Change Project Name</string>
     <string name="about">About Catroid</string>
     <string name="upload_project">Upload Project</string>
 
     <!-- Main menu activity -->
     <string name="resume">Resume</string>
     <string name="current_project">Current project:</string>
-    <string name="no_project">No project currently loaded</string>
     <string name="current_project_button">Current Project</string>
     <string name="my_projects">My Projects</string>
-    <string name="create_new_project">Create new project</string>
 	<string name="tutorial">Tutorial</string>
 	<string name="settings">Settings</string>
 	<string name="web_resources">Web resources</string>
@@ -79,7 +59,6 @@
 	<string name="pref_category_mindstorm">Mindstorm settings</string>
 	<string name="pref_enable_ms_bricks">Enable Mindstorm bricks</string>
 	<string name="pref_descr_ms_bricks">These bricks are used to control Mindstorm robots.</string>
-	
 		
     <!-- About Dialog -->
     <string name="about_title">About Catroid</string>
@@ -94,18 +73,9 @@
 
     <!-- Project activity view -->
     <string name="project_name">Project:</string>
-    <string name="sprite_list">Sprites</string>
-    <string name="add_sprite">Add new Sprite</string>
-
-    <!-- Script activity view -->
-    <string name="script_name">Script:</string>
-    <string name="brick_list">Bricks:</string>
-    <string name="add_new_brick">Add new Brick</string>
 
     <!-- Sprite activity -->
     <string name="sprite_name">Sprite:</string>
-    <string name="script_list">Scripts:</string>
-    <string name="add_new_script">Add new Script</string>
     
     <!-- ScriptTab activity -->
     <string name="scripts">Scripts</string>
@@ -113,29 +83,22 @@
     <string name="sounds">Sounds</string>
     
     <!-- Costume activity -->
-    <string name="costume_list">Costume:</string>
     <string name="rename_costume_dialog">Rename costume</string>
     <string name="edit_costume">edit</string>
     <string name="edit_costume_paintroid">Paintroid</string>
     <string name="copy_costume">copy</string>
     <string name="costumename_invalid">This costumename is invalid</string>
-    <string name="edit_in_paintroid">Edit in paintroid</string>
     <string name="copy_costume_addition">copy</string>
     <string name="select_image">Select Image</string>
     <string name="paintroid_not_installed">Paintroid is not installed!\nDo you want to install it?</string>
     
     <!-- Sound activity -->
-    <string name="sound_list">Sound:</string>
     <string name="rename_sound_dialog">Rename sound</string>
     <string name="soundname_invalid">This soundname is invalid</string>
     <string name="sound_play">play</string>
     <string name="sound_pause">pause </string>
     <string name="sound_delete">delete</string>
     <string name="sound_rename">rename</string>
-
-    <!-- Sprite dialog -->
-    <string name="sprite_button_text">Create</string>
-    <string name="newsprite">New sprite</string>
 
     <!-- Script context menu -->
     <string name="script_context_menu_title">Script Menu</string>
@@ -145,34 +108,16 @@
     <string name="new_project_dialog_title">Name of new project</string>
     <string name="new_project_dialog_default_project_name">projectname</string>
     
-    <!-- Edit Sprite Dialog -->
-    <string name="delete_sprite_button">Delete</string>
-    <string name="rename_sprite_button">Rename</string>
-    <string name="edit_sprite_dialog_title">Edit Sprite</string>
-
-    <!-- Edit Script Dialog -->
-    <string name="delete_script_button">Delete</string>
-    <string name="rename_script_button">Rename</string>
-    <string name="edit_script_dialog_title">Edit Script</string>
-
     <!-- Rename Dialog -->
     <string name="rename_hint">Name</string>
     <string name="rename_button">Rename</string>
 
-    <!-- New script dialog -->
-    <string name="new_script_dialog_button">Create</string>
-    <string name="new_script_dialog_title">Name of new script</string>
-    <string name="new_script_dialog_default_script_name">scriptname</string>
-    <string name="script_invalid">This scriptname is invalid</string>
-
     <!-- New sprite dialog -->
     <string name="new_sprite_dialog_default_sprite_name">spritename</string>
-    <string name="new_sprite_dialog_button">Create</string>
     <string name="new_sprite_dialog_title">Name of new Sprite</string>
     <string name="spritename_already_exists">This spritename already exists</string>
     <string name="rename_sprite_dialog">Rename Sprite</string>
     <string name="spritename_invalid">This spritename is invalid</string>
-    <string name="rename_script_dialog">Rename Script</string>
 
     <!-- Load project dialog -->
     <string name="load_project_dialog_title">Load Project</string>
@@ -193,15 +138,10 @@
 	<string name="restart_current_project">Restart</string>
 	<string name="snapshot">Screenshot</string>
 	<string name="stage_dialog_title">Stage Options</string>
-	
-	
 
 	<!-- Broadcast spinner -->
 	<string name="new_broadcast_message">new...</string>
 	<string name="broadcast_nothing_selected">Nothing...</string>
-	
-	<!-- Point to spinner -->
-	<string name="point_to_select_location">Select</string>
 	
     <!-- Stage context menu -->
     <string name="stagemenu_construction_site">To Construction Site</string>
@@ -212,7 +152,6 @@
 	<string name="category_looks">Looks</string>
 	<string name="category_sound">Sound</string>
 	<string name="category_control">Control</string>
-	<string name="category_lego_nxt">LegoNXT</string>
 
 	<!--  Motion bricks -->
     <string name="brick_place_at">Place at</string>
@@ -276,11 +215,9 @@
 	<string name="brick_loop_end">End of loop</string>
 	
 	<!-- Actions -->
-    <string name="when_action">Choose an action</string>
     <string name="action_tapped">Tapped</string>
     <string name="action_doubleTapped">Double Tapped</string>
     <string name="action_longPressed">Long Pressed</string>
-    <string name="action_touchingStops">Touching Stops</string>
     <string name="action_swipeLeft">Swipe Left</string> 
     <string name="action_swipeRight">Swipe Right</string>
     <string name="action_swipeUp">Swipe Up</string>
@@ -292,9 +229,6 @@
     <!-- Notifications -->
     <string name="notification_invalid_text_entered">
     	Please enter a value
-    </string>
-    <string name="notification_invalid_name_entered">
-    	Please enter a name
     </string>
     <string name="notification_screenshot_ok">
         Screenshot saved
@@ -308,14 +242,7 @@
         Please enter a name.
     </string>
     <string name="error_project_exists">
-        A project with the same name already
-        exists.\nPlease choose a different name.
-    </string>
-    <string name="error_create_project">
-        An error occurred while creating a new project.
-    </string>
-    <string name="error_sprite_exists">
-    	A sprite with the same name already exists.\nPlease choose a different name.
+        A project with the same name already exists.\nPlease choose a different name.
     </string>
     <string name="error_project_upload">
         An error occurred while uploading the project.
@@ -323,20 +250,11 @@
     <string name="error_project_download">
         An error occurred while downloading the project.
     </string>
-    <string name="error_project_rename">
-        An error occurred while renaming the project.
-    </string>
     <string name="error_new_project">
     	An error occurred while creating a new project.
     </string>
-    <string name="error_save_project">
-        An error occurred while saving the project.
-    </string>
     <string name="error_load_project">
         An error occurred while loading the project.
-    </string>
-    <string name="error_delete_project">
-        An error occurred while deleting the project.
     </string>
     <string name="error_no_number_entered">
         Please enter a number.
@@ -353,7 +271,6 @@
     <string name="text_to_speech_error">
     	Text-to-speech error. Speak brick will not work.
     </string>
-    
     <string name="error_internet_connection">
     	An unknown error occurred. Check your Internet connection.
     </string>
@@ -364,31 +281,10 @@
 	<string name="load_project">Load Project</string>
 	<string name="upload_button">Upload</string>
 	<string name="upload_project_dialog_title">Upload project</string>
-	<string name="upload_description">Description:</string>
 	<string name="project_rename">(Your project will be renamed.)</string>
 	<string name="size_of_project">Size of project:</string>
 	
-	<!-- Bluetooth, LegoNXT, Arduino -->
-	<!-- Sensor Dialog Errors -->
-	<string name="error_sensor_enter_analog_pin">You just have 0 to 5 PINs here so please a number from 0-5</string>
-	<string name="error_sensor_enter_digital_pin">You just have 0 to 13 PINs here so please a number from 0-13</string>
-	<string name="error_sensor_enter_analog_value">For this PIN you can just enter a value from 0.0 to 5.0</string>
-	<string name="error_sensor_enter_digital_value">For this PIN you can just enter 1 for HIGH or 0 for LOW</string>
-	<string name="error_no_bluetooth_devices_available">There are no bluetooth devices available</string>
-	
-	<!-- Sensor Dialog Pin -->
-	<string name="dialog_pin_analog_text">Pls enter a Pin from 0 to 13.\n Remember these Pins are analog.</string>
-	
-	<!-- Bluetooth Dialog -->
-	<string name="dialog_bluetooth_available_devices">Available Devices</string>
-	<string name="sensor_main_adapter">Sensor</string>
-	<string name="brick_sensor_type">Type</string>
-	<string name="brick_sensor_pin">Pin</string>
-	<string name="brick_sensor_value">Value</string>
-	<string name="brick_sensor_time">Time</string>
-	<string name="brick_sensor_time_seconds">sec</string>
 	<!-- Bluetooth Connection Strings -->
-	
 	<string name="notification_blueth_err">Bluetooth could not be enabled, closing stage
 	</string>
 	<string name="title_paired_devices">Paired devices</string>
@@ -399,8 +295,6 @@
 	<string name="connecting_please_wait">Connecting to your device.\nPlease wait...</string>
 	<string name="pairing_message">After pairing, connect.</string>
 	<string name="problem_at_closing">Problem in closing the connection!</string>
-	<string name="connect_device">Connect device</string>
-	<string name="bt_connected">connected to device!</string>
 	<string name="bt_connection_failed">Connection to device failed!</string>
 	<string name="no_paired_nxt">No paired NXT found</string>
 	<string name="none_found">No unpaired devices found</string>
@@ -414,17 +308,11 @@
 	<string name="brick_motor_turn_angle">NXT turn motor</string>
 	<string name="motor_angle">Angle</string>
 	<string name="motor_stop">NXT stop motor</string>
-	<string name="motor_inverse">Inverse</string>
 	<string name="nxt_play_tone">NXT play tone</string>
 	<string name="tone_duration">Duration</string>
 	<string name="nxt_tone_frequency">Frequency</string>
 	<string name="nxt_tone_hundred_hz">x100Hz</string>
-	<string name="nxt_turn_degrees">degrees</string>
-	<string name="minus_symbol">-</string>
-	<string name="plus_symbol">+</string>
-	<string name="just_a_v">v</string>
 	
 	<string name="number_to_small">Value is too small!</string>
 	<string name="number_to_big">Value is too big!</string>
-		
 </resources>
