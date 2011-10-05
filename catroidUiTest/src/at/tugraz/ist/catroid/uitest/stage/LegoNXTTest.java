@@ -62,13 +62,14 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 	private File image1;
 	private String imageName1 = "image1";
 	private static final int IMAGE_FILE_ID = at.tugraz.ist.catroid.uitest.R.raw.icon;
-	private static final int MOTORACTION = 0;
-	private static final int MOTORSTOP = 1;
-	private static final int MOTORTURN = 2;
+	private static final int MOTOR_ACTION = 0;
+	private static final int MOTOR_STOP = 1;
+	private static final int MOTOR_TURN = 2;
 
-	public static final String LegoNXTBTStringStartsWith = "NXT";
-	public static final String TestServerBTStringStartsWith = "kittyroid";
-
+	public static final String LEGO_NXT_NAME = "NXT";
+	public static final String TEST_SERVER_NAME = "kitty";
+	public static final String KITTYROID_MAC_ADDRESS = "00:15:83:3F:E3:2C";
+	public static final String SOME_OTHER_MAC = "00:0D:F0:48:01:93";
 	ArrayList<int[]> commands = new ArrayList<int[]>();
 
 	public LegoNXTTest() {
@@ -109,6 +110,11 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 			solo.sleep(5000);
 		}
 
+		ArrayList<String> autoConnectIDs = new ArrayList<String>();
+		autoConnectIDs.add("IM_NOT_A_MAC_ADDRESS");
+		DeviceListActivity dla = new DeviceListActivity();
+		UiTestUtils.setPrivateField("autoConnectIDs", dla, autoConnectIDs, false);
+
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
 
 		solo.sleep(2000);
@@ -118,7 +124,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		for (int i = 0; i < solo.getCurrentListViews().get(0).getCount(); i++) {
 
 			String current = (String) list.getItemAtPosition(i);
-			if (current.startsWith(TestServerBTStringStartsWith)) {
+			if (current.startsWith(TEST_SERVER_NAME)) {
 				fullConnectionString = current;
 				break;
 			}
@@ -141,15 +147,15 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		for (int[] item : commands) {
 
 			switch (item[0]) {
-				case MOTORACTION:
+				case MOTOR_ACTION:
 					assertEquals("Wrong motor was used!", item[1], executed_commands.get(i)[3]);
 					assertEquals("Wrong speed was used!", item[2], executed_commands.get(i)[4]);
 					break;
-				case MOTORSTOP:
+				case MOTOR_STOP:
 					assertEquals("Wrong motor was used!", item[1], executed_commands.get(i)[3]);
 					assertEquals("Motor didnt actually stop!", 0, executed_commands.get(i)[4]);
 					break;
-				case MOTORTURN:
+				case MOTOR_TURN:
 					for (int j = 0; j < executed_commands.get(i).length; j++) {
 						Log.i("bt", "i" + j + ": " + (int) executed_commands.get(i)[j]);
 					}
@@ -193,22 +199,27 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		solo.clickOnText("sprite1");
 		solo.sleep(1000);
 
+		ArrayList<String> autoConnectIDs = new ArrayList<String>();
+		autoConnectIDs.add(KITTYROID_MAC_ADDRESS);
+		DeviceListActivity dla = new DeviceListActivity();
+		UiTestUtils.setPrivateField("autoConnectIDs", dla, autoConnectIDs, false);
+
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
-		solo.sleep(1500);
-
-		ListView list = solo.getCurrentListViews().get(0);
-		String fullConnectionString = null;
-		for (int i = 0; i < solo.getCurrentListViews().get(0).getCount(); i++) {
-
-			String current = (String) list.getItemAtPosition(i);
-			if (current.startsWith(TestServerBTStringStartsWith)) {
-				fullConnectionString = current;
-				break;
-			}
-		}
-
-		solo.clickOnText(fullConnectionString);
-		solo.sleep(5000); // if null pointer exception somewhere, increase this sleep!
+		solo.sleep(6500);
+		// No auto connect version
+		//		ListView list = solo.getCurrentListViews().get(0);
+		//		String fullConnectionString = null;
+		//		for (int i = 0; i < solo.getCurrentListViews().get(0).getCount(); i++) {
+		//
+		//			String current = (String) list.getItemAtPosition(i);
+		//			if (current.startsWith(TEST_SERVER_NAME)) {
+		//				fullConnectionString = current;
+		//				break;
+		//			}
+		//		}
+		//
+		//		solo.clickOnText(fullConnectionString);
+		//		solo.sleep(5000); // if null pointer exception somewhere, increase this sleep!
 
 		solo.goBack();
 		solo.sleep(500);
@@ -228,10 +239,16 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		solo.goBack();
 		solo.sleep(2000);
 		//main menu => device disconnected!
+
+		autoConnectIDs = new ArrayList<String>();
+		autoConnectIDs.add("IM_NOT_A_MAC_ADDRESS");
+		UiTestUtils.setPrivateField("autoConnectIDs", dla, autoConnectIDs, false);
+
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
-		solo.sleep(500);
-		assertTrue("I should be on the bluetooth device choosing screen, but am not! Device still connected??",
-				solo.searchText(fullConnectionString));
+		solo.sleep(10000); //yes, has to be that long! waiting for auto connection timeout!
+
+		assertTrue("I should be on the bluetooth device choosing screen, but am not!",
+				solo.searchText(KITTYROID_MAC_ADDRESS));
 
 		solo.goBack();
 		solo.sleep(2000);
@@ -240,6 +257,11 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 
 	public void testNXTConnectionDialogGoBack() {
 		createTestproject(projectName);
+
+		ArrayList<String> autoConnectIDs = new ArrayList<String>();
+		autoConnectIDs.add("IM_NOT_A_MAC_ADDRESS");
+		DeviceListActivity dla = new DeviceListActivity();
+		UiTestUtils.setPrivateField("autoConnectIDs", dla, autoConnectIDs, false);
 
 		BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		assertTrue("Bluetooth not supported on device", bluetoothAdapter != null);
@@ -267,17 +289,17 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
 
 		NXTMotorActionBrick nxt = new NXTMotorActionBrick(firstSprite, 3, 100);
-		commands.add(new int[] { MOTORACTION, 0, 100 }); //motor = 3 means brick will move motors A and C.
-		commands.add(new int[] { MOTORACTION, 2, 100 });
+		commands.add(new int[] { MOTOR_ACTION, 0, 100 }); //motor = 3 means brick will move motors A and C.
+		commands.add(new int[] { MOTOR_ACTION, 2, 100 });
 		WaitBrick wait = new WaitBrick(firstSprite, 500);
 
 		NXTMotorStopBrick nxtStop = new NXTMotorStopBrick(firstSprite, 3);
-		commands.add(new int[] { MOTORSTOP, 0 });
-		commands.add(new int[] { MOTORSTOP, 2 });
+		commands.add(new int[] { MOTOR_STOP, 0 });
+		commands.add(new int[] { MOTOR_STOP, 2 });
 		WaitBrick wait2 = new WaitBrick(firstSprite, 500);
 
 		NXTMotorTurnAngleBrick nxtTurn = new NXTMotorTurnAngleBrick(firstSprite, 2, 515);
-		commands.add(new int[] { MOTORTURN, 2, 515 });
+		commands.add(new int[] { MOTOR_TURN, 2, 515 });
 
 		WaitBrick wait3 = new WaitBrick(firstSprite, 500);
 		NXTPlayToneBrick nxtTone = new NXTPlayToneBrick(firstSprite, 50, 1);
