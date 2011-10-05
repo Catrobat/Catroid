@@ -1,22 +1,21 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ * 
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ * 
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ * 
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package at.ist.tugraz.catroid.test.license;
 
 import java.io.BufferedReader;
@@ -32,15 +31,10 @@ import at.tugraz.ist.catroid.utils.UtilFile;
 public class LicenseTest extends TestCase {
 	private static final String[] DIRECTORIES = { ".", "../catroid", "../catroidTest", "../catroidUiTest", };
 
-	private static final String[] AGPL_FILES = {
-			"..\\catroid\\src\\at\\tugraz\\ist\\catroid\\stage\\NativeAppActivity.java",
-			"..\\catroidTest\\res\\raw\\test_project.xml",
-			"..\\catroidTest\\src\\at\\tugraz\\ist\\catroid\\nativetest\\content\\brick\\SetCostumeBrickTest.java",
-			"..\\catroidTest\\src\\at\\tugraz\\ist\\catroid\\nativetest\\content\\sprite\\CostumeTest.java",
-			"..\\catroidTest\\src\\at\\tugraz\\ist\\catroid\\nativetest\\content\\sprite\\SoundManagerTest.java",
-			"..\\catroidTest\\src\\at\\tugraz\\ist\\catroid\\nativetest\\io\\StorageHandlerTest.java" };
+	private static final String[] APACHE_FILES = { "../catroid/res/layout/device_list.xml",
+			"../catroid/res/layout/device_name.xml" };
 
-	private ArrayList<String> gplLicenseText;
+	private ArrayList<String> apacheLicenseText;
 	private ArrayList<String> agplLicenseText;
 	private boolean allLicenseTextsPresentAndCorrect;
 	private StringBuilder errorMessages;
@@ -48,7 +42,7 @@ public class LicenseTest extends TestCase {
 	public LicenseTest() throws IOException {
 		allLicenseTextsPresentAndCorrect = true;
 		errorMessages = new StringBuilder();
-		gplLicenseText = readLicenseFile(new File("res/gpl_license_text.txt"));
+		apacheLicenseText = readLicenseFile(new File("res/apache_license_text.txt"));
 		agplLicenseText = readLicenseFile(new File("res/agpl_license_text.txt"));
 	}
 
@@ -107,10 +101,10 @@ public class LicenseTest extends TestCase {
 			List<File> filesToCheck = UtilFile.getFilesFromDirectoryByExtension(directory, new String[] { ".java",
 					".xml" });
 			for (File file : filesToCheck) {
-				if (isAgplFile(file.getPath())) {
-					checkFileForLicense(file, agplLicenseText);
+				if (isApacheFile(file.getPath())) {
+					checkFileForLicense(file, apacheLicenseText);
 				} else {
-					checkFileForLicense(file, gplLicenseText);
+					checkFileForLicense(file, agplLicenseText);
 				}
 			}
 		}
@@ -118,9 +112,9 @@ public class LicenseTest extends TestCase {
 				allLicenseTextsPresentAndCorrect);
 	}
 
-	private boolean isAgplFile(String file) {
-		for (String agplFile : AGPL_FILES) {
-			if (file.equals(agplFile)) {
+	private boolean isApacheFile(String file) {
+		for (String apacheFile : APACHE_FILES) {
+			if (file.equals(apacheFile)) {
 				return true;
 			}
 		}
