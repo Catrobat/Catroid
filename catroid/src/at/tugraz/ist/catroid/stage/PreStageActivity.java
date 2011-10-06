@@ -160,7 +160,7 @@ public class PreStageActivity extends Activity {
 	}
 
 	private synchronized void resourceInitialized() {
-		Log.i("bt", "Res init: " + requiredResourceCounter);
+		//Log.i("res", "Resource initialized: " + requiredResourceCounter);
 
 		requiredResourceCounter--;
 		if (requiredResourceCounter <= 0) {
