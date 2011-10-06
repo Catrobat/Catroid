@@ -47,7 +47,6 @@ import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.bricks.PointInDirectionBrick;
 import at.tugraz.ist.catroid.content.bricks.RepeatBrick;
-import at.tugraz.ist.catroid.content.bricks.SayBrick;
 import at.tugraz.ist.catroid.content.bricks.SetBrightnessBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetGhostEffectBrick;
@@ -56,7 +55,6 @@ import at.tugraz.ist.catroid.content.bricks.SetVolumeToBrick;
 import at.tugraz.ist.catroid.content.bricks.SetXBrick;
 import at.tugraz.ist.catroid.content.bricks.SetYBrick;
 import at.tugraz.ist.catroid.content.bricks.SpeakBrick;
-import at.tugraz.ist.catroid.content.bricks.ThinkBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
@@ -259,13 +257,6 @@ public class BrickExceptionOnDialogTest extends ActivityInstrumentationTestCase2
 		clickEditTextGoBackAndClickAgain();
 	}
 
-	public void testSayBrick() {
-		SayBrick sayBrick = new SayBrick(sprite);
-		script.addBrick(sayBrick);
-
-		clickEditTextGoBackAndClickAgain();
-	}
-
 	public void testSetBrightnessBrick() {
 		SetBrightnessBrick setBrightnessBrick = new SetBrightnessBrick(sprite, 4);
 		script.addBrick(setBrightnessBrick);
@@ -311,13 +302,6 @@ public class BrickExceptionOnDialogTest extends ActivityInstrumentationTestCase2
 	public void testSpeakBrick() {
 		SpeakBrick speakBrick = new SpeakBrick(sprite, "I say lol");
 		script.addBrick(speakBrick);
-
-		clickEditTextGoBackAndClickAgain();
-	}
-
-	public void testThinkBrick() {
-		ThinkBrick thinkBrick = new ThinkBrick(sprite, "I dont think");
-		script.addBrick(thinkBrick);
 
 		clickEditTextGoBackAndClickAgain();
 	}
