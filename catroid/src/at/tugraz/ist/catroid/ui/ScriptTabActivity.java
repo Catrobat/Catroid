@@ -31,7 +31,6 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -131,7 +130,6 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener 
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		Log.i("bt", "MMA: " + requestCode + " result code" + resultCode);
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 			Intent intent = new Intent(ScriptTabActivity.this, StageActivity.class);
 			startActivity(intent);

@@ -54,7 +54,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -83,11 +82,10 @@ public class DeviceListActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		if (autoConnectIDs.size() == 0) {
 
-			//TODO... breaks robotium tests due to waiting...
 			autoConnectIDs.add(BtCommunicator.OUI_LEGO);
 		}
 		autoConnect = this.getIntent().getExtras().getBoolean(AUTO_CONNECT);
-		Log.i("bto", autoConnect + "");
+		//Log.i("bto", autoConnect + "");
 		if (autoConnect) {
 			this.setVisible(false);
 		}

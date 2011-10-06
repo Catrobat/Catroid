@@ -156,7 +156,6 @@ public class ProjectActivity extends ListActivity {
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		//Log.i("bt", "MMA: " + requestCode + " result code" + resultCode);
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 			Intent intent = new Intent(ProjectActivity.this, StageActivity.class);
 			startActivity(intent);

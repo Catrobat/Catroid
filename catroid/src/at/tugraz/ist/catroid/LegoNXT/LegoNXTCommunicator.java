@@ -209,7 +209,7 @@ public abstract class LegoNXTCommunicator extends Thread {
 
 	protected void dispatchMessage(byte[] message) {
 
-		Log.i("bt", "Received response, length: " + message.length);
+		//Log.i("bt", "Received response, length: " + message.length);
 		//		for (int i = 0; i < message.length; i++) {
 		//			Log.i("bt", " " + (0x000000FF & message[i]));
 		//		}
@@ -244,23 +244,23 @@ public abstract class LegoNXTCommunicator extends Thread {
 
 	protected void analyzeMessageGetOutputState(byte[] message) {
 		//See Lego NXT Docu or LCPMessage class for info on numbers!
-		//Log.i("bt", "Message Length: " + message.length);
-		//Log.i("bt", "GetOutputState executed: " + (int) message[0]);
-		Log.i("bt", "----- executed Command:  " + (int) message[1]);
-		Log.i("bt", "Status: " + (int) message[2]);
-		Log.i("bt", "Used Motor: " + (int) message[3]);
-		Log.i("bt", "Used Power: " + (int) message[4]);
+		Log.i("bt", "Message Length: " + message.length);
+		Log.i("bt", "GetOutputState executed: " + (int) message[0]);
+		//		Log.i("bt", "----- executed Command:  " + (int) message[1]);
+		//		Log.i("bt", "Status: " + (int) message[2]);
+		//		Log.i("bt", "Used Motor: " + (int) message[3]);
+		//		Log.i("bt", "Used Power: " + (int) message[4]);
 		//Log.i("bt", "Mode: " + (int) message[5]);
 		//Log.i("bt", "Regulation: " + (int) message[6]);
 		//Log.i("bt", "Turn Ratio: " + (int) message[7]);
 		//Log.i("bt", "Run State: " + (int) message[8]);
 
-		int tacholimit = (0x000000FF & message[9]); //unsigned types would be too smart for java, sorry no chance mate!
-		tacholimit += ((0x000000FF & message[10]) << 8);
-		tacholimit += ((0x000000FF & message[11]) << 16);
-		tacholimit += ((0x000000FF & message[12]) << 24);
+		//		int tacholimit = (0x000000FF & message[9]); //unsigned types would be too smart for java, sorry no chance mate!
+		//		tacholimit += ((0x000000FF & message[10]) << 8);
+		//		tacholimit += ((0x000000FF & message[11]) << 16);
+		//		tacholimit += ((0x000000FF & message[12]) << 24);
 
-		Log.i("bt", "Tacholimit " + tacholimit);
+		//Log.i("bt", "Tacholimit " + tacholimit);
 		/*
 		 * int tachocount = message[13];
 		 * tachocount += (message[14] << 8);
@@ -295,7 +295,7 @@ public abstract class LegoNXTCommunicator extends Thread {
 	protected synchronized void moveMotor(int motor, int speed, int end) {
 		byte[] message = LCPMessage.getMotorMessage(motor, speed, end);
 		sendMessageAndState(message);
-		Log.i("bto", "Motor " + motor + " speed " + speed);
+		//Log.i("bto", "Motor " + motor + " speed " + speed);
 
 		if (requestConfirmFromDevice) {
 			byte[] test = LCPMessage.getOutputStateMessage(motor);
