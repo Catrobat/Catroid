@@ -83,7 +83,7 @@ public class SetCostumeBrickTest extends InstrumentationTestCase {
 		}
 	}
 
-	public void testSetCostume(){
+	public void testSetCostume() {
 
 		Values.SCREEN_HEIGHT = 200;
 		Values.SCREEN_WIDTH = 200;
