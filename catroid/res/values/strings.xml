@@ -178,6 +178,7 @@
 	
 	<!-- Looks bricks -->
     <string name="brick_set_costume">Set Costume</string>
+	<string name="brick_next_costume">Next Costume</string>
     <string name="brick_set_background">Set Background</string>
     <string name="brick_set_size_to">Set size to</string>
 	<string name="brick_change_size_by">Change size by</string>
@@ -192,7 +193,6 @@
 	<string name="brick_clear_graphic_effect">Clear graphic effect</string>
 	<string name="brick_say">Say</string>
 	<string name="brick_think">Think</string>
-	<string name="brick_next_costume">Next Costume</string>
 	
 	<!-- Sound bricks -->
     <string name="brick_play_sound">Play Sound</string>
