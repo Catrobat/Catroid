@@ -1,3 +1,22 @@
+/**
+ *  Catroid: An on-device graphical programming language for Android devices
+ *  Copyright (C) 2010-2011 The Catroid Team
+ *  (<http://code.google.com/p/catroid/wiki/Credits>)
+ * 
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ * 
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU Affero General Public License for more details.
+ * 
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package at.tugraz.ist.catroid.test.content.brick;
 
 import java.io.File;
@@ -76,6 +95,61 @@ public class NextCostumeBrickTest extends InstrumentationTestCase {
 		nextCostumeBrick.execute();
 
 		assertEquals("Costume is not next costume", costumeData2, sprite.getCostume().getCostumeData());
+	}
 
+	public void testLastCostume() {
+		Sprite sprite = new Sprite("cat");
+
+		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
+		NextCostumeBrick nextCostumeBrick = new NextCostumeBrick(sprite);
+
+		CostumeData costumeData1 = new CostumeData();
+		costumeData1.setCostumeFilename(testImage.getName());
+		costumeData1.setCostumeName("testImage2");
+		sprite.getCostumeDataList().add(costumeData1);
+
+		CostumeData costumeData2 = new CostumeData();
+		costumeData2.setCostumeFilename(testImage.getName());
+		costumeData2.setCostumeName("testImage");
+		sprite.getCostumeDataList().add(costumeData2);
+
+		CostumeData costumeData3 = new CostumeData();
+		costumeData3.setCostumeFilename(testImage.getName());
+		costumeData3.setCostumeName("testImage");
+		sprite.getCostumeDataList().add(costumeData3);
+
+		setCostumeBrick.setCostume(costumeData3);
+		setCostumeBrick.execute();
+		nextCostumeBrick.execute();
+
+		assertEquals("Costume is not next costume", costumeData1, sprite.getCostume().getCostumeData());
+	}
+
+	public void testCostumeGalleryNull() {
+
+		Sprite sprite = new Sprite("cat");
+		NextCostumeBrick nextCostumeBrick = new NextCostumeBrick(sprite);
+		nextCostumeBrick.execute();
+
+		assertEquals("Costume is not null", null, sprite.getCostume().getCostumeData());
+	}
+
+	public void testCostumeGalleryWithOneCostume() {
+		Sprite sprite = new Sprite("cat");
+
+		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
+		NextCostumeBrick nextCostumeBrick = new NextCostumeBrick(sprite);
+
+		CostumeData costumeData1 = new CostumeData();
+		costumeData1.setCostumeFilename(testImage.getName());
+		costumeData1.setCostumeName("testImage1");
+		sprite.getCostumeDataList().add(costumeData1);
+
+		setCostumeBrick.setCostume(costumeData1);
+		setCostumeBrick.execute();
+		nextCostumeBrick.execute();
+
+		assertEquals("Wrong costume after executing NextCostumeBrick with just one costume", costumeData1, sprite
+				.getCostume().getCostumeData());
 	}
 }
