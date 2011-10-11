@@ -40,7 +40,7 @@
     <string name="loading">Laden...</string>
     <string name="background">Hintergrund</string>
     <string name="stage">Bühne</string>
-    <string name="ok">OK</string>
+    <string name="ok">Ok</string>
 
     <!-- Construction site context menu -->
     <string name="new_project">Neues Projekt</string>
@@ -135,13 +135,13 @@
     <string name="stagemenu_screenshot">Screenshot</string>
 
 	<!-- Login Register dialog -->
-    <string name="login_register_dialog_title">Login</string>
-    <string name="username">Username:</string>
-    <string name="password">Password:</string>
-    <string name="login_or_register">Login/Register</string>
+    <string name="login_register_dialog_title">Einloggen</string>
+    <string name="username">Benutzername:</string>
+    <string name="password">Passwort:</string>
+    <string name="login_or_register">Einloggen/\nRegistrieren</string>
     <string name="register">Registrieren</string>
-    <string name="password_forgotten">Password vergessen</string>
-    <string name="new_user_registered">neuer account wurde erstellt</string>
+    <string name="password_forgotten">Passwort\nvergessen</string>
+    <string name="new_user_registered">Neuer Account wurde erstellt</string>
     <string name="register_error">Fehler aufgetreten</string>
 	
 	<!-- Broadcast spinner -->
@@ -201,7 +201,7 @@
   	<string name="brick_stop_all_sounds">Stoppe alle Sounds</string>
 	<string name="brick_set_volume_to">Setze Lautstärke auf</string>
 	<string name="brick_change_volume_by">Ändere Lautstärke um</string>
-	<string name="brick_speak">Spreche</string>
+	<string name="brick_speak">Sprich</string>
 	
 	<!-- Control bricks -->
   	<string name="brick_when_started">Wenn Projekt gestartet</string>
@@ -228,7 +228,7 @@
     
     <!-- Bluetooth Connection Strings -->
 	
-    <string name="notification_blueth_err">Bluetooth konnte nich aktiviert werden, schließe Stage</string>
+    <string name="notification_blueth_err">Bluetooth konnte nicht aktiviert werden, schließe Stage</string>
     <string name="title_paired_devices">Verbundene Geräte</string>
     <string name="title_other_devices">Nicht verbundene Geräte</string>
     <string name="button_scan">Suche Bluetooth Geräte</string>
