@@ -23,6 +23,7 @@ import java.io.File;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -40,6 +41,7 @@ public class TurnLeftBrickTest extends InstrumentationTestCase {
 
 	private final String projectName = "testProject";
 	private File testImage;
+	private CostumeData costumeData;
 
 	@Override
 	public void setUp() throws Exception {
@@ -56,6 +58,10 @@ public class TurnLeftBrickTest extends InstrumentationTestCase {
 
 		testImage = TestUtils.saveFileToProject(this.projectName, "testImage.png", IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), TestUtils.TYPE_IMAGE_FILE);
+
+		costumeData = new CostumeData();
+		costumeData.setCostumeFilename(testImage.getName());
+		costumeData.setCostumeName("name");
 
 		Values.SCREEN_HEIGHT = 800;
 		Values.SCREEN_WIDTH = 480;
@@ -76,7 +82,7 @@ public class TurnLeftBrickTest extends InstrumentationTestCase {
 
 	public void testTurnLeftTwice() {
 		Sprite sprite = new Sprite("test");
-		sprite.getCostume().changeImagePath(testImage.getAbsolutePath());
+		sprite.getCostume().changeImagePath(costumeData);
 
 		TurnLeftBrick turnLeftBrick = new TurnLeftBrick(sprite, 10);
 
@@ -93,7 +99,7 @@ public class TurnLeftBrickTest extends InstrumentationTestCase {
 
 	public void testTurnLeftAndScale() {
 		Sprite sprite = new Sprite("test");
-		sprite.getCostume().changeImagePath(testImage.getAbsolutePath());
+		sprite.getCostume().changeImagePath(costumeData);
 
 		TurnLeftBrick turnLeftBrick = new TurnLeftBrick(sprite, 10);
 		SetSizeToBrick brickScale = new SetSizeToBrick(sprite, 50);
@@ -108,7 +114,7 @@ public class TurnLeftBrickTest extends InstrumentationTestCase {
 
 	public void testScaleAndTurnLeft() {
 		Sprite sprite = new Sprite("test");
-		sprite.getCostume().changeImagePath(testImage.getAbsolutePath());
+		sprite.getCostume().changeImagePath(costumeData);
 
 		TurnLeftBrick turnLeftBrick = new TurnLeftBrick(sprite, 10);
 		SetSizeToBrick brickScale = new SetSizeToBrick(sprite, 50);
@@ -124,7 +130,7 @@ public class TurnLeftBrickTest extends InstrumentationTestCase {
 
 	public void testTurnLeftNegative() {
 		Sprite sprite = new Sprite("test");
-		sprite.getCostume().changeImagePath(testImage.getAbsolutePath());
+		sprite.getCostume().changeImagePath(costumeData);
 
 		TurnLeftBrick turnLeftBrick = new TurnLeftBrick(sprite, -10);
 
@@ -137,7 +143,7 @@ public class TurnLeftBrickTest extends InstrumentationTestCase {
 
 	public void testTurnLeft() {
 		Sprite sprite = new Sprite("test");
-		sprite.getCostume().changeImagePath(testImage.getAbsolutePath());
+		sprite.getCostume().changeImagePath(costumeData);
 
 		TurnLeftBrick turnLeftBrick = new TurnLeftBrick(sprite, 370);
 
@@ -150,7 +156,7 @@ public class TurnLeftBrickTest extends InstrumentationTestCase {
 
 	public void testTurnLeftAndTurnRight() {
 		Sprite sprite = new Sprite("test");
-		sprite.getCostume().changeImagePath(testImage.getAbsolutePath());
+		sprite.getCostume().changeImagePath(costumeData);
 
 		TurnLeftBrick brickTurnLeft = new TurnLeftBrick(sprite, 50);
 		TurnRightBrick brickTurnRight = new TurnRightBrick(sprite, 30);
