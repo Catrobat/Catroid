@@ -31,6 +31,11 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     
+    <!-- Extras -->
+    <string name="extra_picture_path_paintroid">at.tugraz.ist.extra.PAINTROID_PICTURE_PATH</string>
+    <string name="extra_x_value_paintroid">at.tugraz.ist.extra.PAINTROID_X</string>
+    <string name="extra_y_value_paintroid">at.tugraz.ist.extra.PAINTROID_Y</string>
+    
     <!-- General -->
     <string name="close">Close</string>
     <string name="error">Error</string>
@@ -178,6 +183,7 @@
 	
 	<!-- Looks bricks -->
     <string name="brick_set_costume">Set Costume</string>
+	<string name="brick_next_costume">Next Costume</string>
     <string name="brick_set_background">Set Background</string>
     <string name="brick_set_size_to">Set size to</string>
 	<string name="brick_change_size_by">Change size by</string>

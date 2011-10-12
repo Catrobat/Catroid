@@ -23,6 +23,7 @@ import java.io.File;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Costume;
 import at.tugraz.ist.catroid.content.Project;
@@ -36,8 +37,8 @@ public class CostumeTest extends InstrumentationTestCase {
 
 	private static final int IMAGE_FILE_ID = R.raw.icon;
 	private File testImage;
-
-	private String projectName;
+	private CostumeData costumeData;
+	private String projectName = "projectName";
 
 	@Override
 	protected void setUp() throws Exception {
@@ -53,6 +54,10 @@ public class CostumeTest extends InstrumentationTestCase {
 
 		testImage = TestUtils.saveFileToProject(this.projectName, "testImage.png", IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), TestUtils.TYPE_IMAGE_FILE);
+
+		costumeData = new CostumeData();
+		costumeData.setCostumeFilename(testImage.getName());
+		costumeData.setCostumeName("name");
 
 		Values.SCREEN_HEIGHT = 800;
 		Values.SCREEN_WIDTH = 480;
@@ -70,30 +75,10 @@ public class CostumeTest extends InstrumentationTestCase {
 		}
 	}
 
-	public void testUpdatePosition() {
-		Sprite sprite = new Sprite("testSprite");
-		Costume costume = sprite.getCostume();
-		costume.changeImagePath(testImage.getAbsolutePath());
-
-		int width = costume.getImageWidth();
-		int height = costume.getImageHeight();
-
-		int virtualPositionX = 100;
-		int virtualPositionY = 100;
-
-		sprite.setXYPosition(virtualPositionX, virtualPositionY);
-
-		int expectedPositionX = Math.round(toDeviceXCoordinates(virtualPositionX) - width / 2f);
-		int expectedPositionY = Math.round(toDeviceYCoordinates(virtualPositionY) - height / 2f);
-
-		assertEquals("Incorrect x position", expectedPositionX, costume.getDrawPositionX());
-		assertEquals("Incorrect y position", expectedPositionY, costume.getDrawPositionY());
-	}
-
 	public void testUpdateSize() {
 		Sprite sprite = new Sprite("testSprite");
 		Costume costume = sprite.getCostume();
-		costume.changeImagePath(testImage.getAbsolutePath());
+		costume.changeImagePath(costumeData);
 
 		double size = 50;
 
@@ -113,10 +98,30 @@ public class CostumeTest extends InstrumentationTestCase {
 		assertEquals("Incorrect height", expectedHeight, costume.getImageHeight());
 	}
 
+	public void testUpdatePosition() {
+		Sprite sprite = new Sprite("testSprite");
+		Costume costume = sprite.getCostume();
+		costume.changeImagePath(costumeData);
+
+		int width = costume.getImageWidth();
+		int height = costume.getImageHeight();
+
+		int virtualPositionX = 100;
+		int virtualPositionY = 100;
+
+		sprite.setXYPosition(virtualPositionX, virtualPositionY);
+
+		int expectedPositionX = Math.round(toDeviceXCoordinates(virtualPositionX) - width / 2f);
+		int expectedPositionY = Math.round(toDeviceYCoordinates(virtualPositionY) - height / 2f);
+
+		assertEquals("Incorrect x position", expectedPositionX, costume.getDrawPositionX());
+		assertEquals("Incorrect y position", expectedPositionY, costume.getDrawPositionY());
+	}
+
 	public void testUpdateDirection() {
 		Sprite sprite = new Sprite("testSprite");
 		Costume costume = sprite.getCostume();
-		costume.changeImagePath(testImage.getAbsolutePath());
+		costume.changeImagePath(costumeData);
 
 		double direction = 30;
 		double radians = direction / 180 * Math.PI;

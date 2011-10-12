@@ -32,11 +32,6 @@
     <string name="yes">Da</string>
     <string name="no">Nu</string>
     
-    <!-- Extras -->
-    <string name="extra_picture_path_paintroid">at.tugraz.ist.extra.PAINTROID_PICTURE_PATH</string>
-    <string name="extra_x_value_paintroid">at.tugraz.ist.extra.PAINTROID_X</string>
-    <string name="extra_y_value_paintroid">at.tugraz.ist.extra.PAINTROID_Y</string>
-
     <!-- User interface -->
     <string name="main_menu">Meniul principal</string>
     <string name="menu">Meniu</string>
@@ -146,7 +141,6 @@
     <string name="new_project_dialog_default_project_name">denumireaProiectului</string>
       
     <!-- Edit Sprite Dialog -->
-    <string name="delete_sprite_button">Ștergere</string>
     <string name="rename_sprite_button">Redenumire</string>
     <string name="edit_sprite_dialog_title">Modificarea obiectului</string>
 
