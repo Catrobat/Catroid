@@ -141,7 +141,6 @@
     <string name="new_project_dialog_default_project_name">denumireaProiectului</string>
       
     <!-- Edit Sprite Dialog -->
-    <string name="delete_sprite_button">Ștergere</string>
     <string name="rename_sprite_button">Redenumire</string>
     <string name="edit_sprite_dialog_title">Modificarea obiectului</string>
 
