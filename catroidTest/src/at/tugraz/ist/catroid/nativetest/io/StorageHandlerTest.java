@@ -69,7 +69,7 @@ public class StorageHandlerTest extends InstrumentationTestCase {
 		String secondStartScriptName = "otherScript";
 
 		NativeAppActivity.setContext(getInstrumentation().getContext());
-		Project loadedProject = storageHandler.loadProject("test_project");
+		Project loadedProject = storageHandler.loadProject("test_project.xml");
 
 		assertEquals("Project title missmatch.", projectName, loadedProject.getName());
 
