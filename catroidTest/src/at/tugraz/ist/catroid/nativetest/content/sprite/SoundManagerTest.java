@@ -35,7 +35,7 @@ public class SoundManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testPlaySoundfile() throws InterruptedException {
-		String soundfileName = "test_sound";
+		String soundfileName = "test_sound.mp3";
 		NativeAppActivity.setContext(getInstrumentation().getContext());
 		MediaPlayer mediaPlayer = SoundManager.getInstance().playSoundFile(soundfileName);
 		assertTrue("MediaPlayer is not playing", mediaPlayer.isPlaying());
