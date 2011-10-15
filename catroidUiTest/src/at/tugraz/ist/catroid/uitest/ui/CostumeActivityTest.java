@@ -2,17 +2,21 @@
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- * 
+ *  
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- * 
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU Affero General Public License for more details.
- * 
+ *   
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -25,14 +29,14 @@ import java.util.ArrayList;
 import android.content.Intent;
 import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
-import android.util.Log;
+import android.view.Display;
 import android.widget.ListAdapter;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.CostumeData;
-import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.CostumeActivity;
+import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -78,7 +82,9 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		costumeData.setCostumeName("costumeNameTest2");
 		costumeDataList.add(costumeData);
 		projectManager.fileChecksumContainer.addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
-
+		Display display = getActivity().getWindowManager().getDefaultDisplay();
+		projectManager.getCurrentProject().VIRTUAL_SCREEN_HEIGHT = display.getHeight();
+		projectManager.getCurrentProject().VIRTUAL_SCREEN_WIDTH = display.getWidth();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
@@ -97,10 +103,9 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 
 	public void testCopyCostume() {
 		solo.clickOnText(getActivity().getString(R.string.costumes));
-		solo.sleep(500);
-		solo.clickOnButton(getActivity().getString(R.string.copy_costume));
-		if (solo.searchText(costumeDataList.get(0).getCostumeName() + "_"
-				+ getActivity().getString(R.string.copy_costume_addition))) {
+		solo.sleep(2000);
+		solo.clickOnButton(2);
+		if (solo.searchText(costumeName + "_" + getActivity().getString(R.string.copy_costume_addition))) {
 			assertEquals("the copy of the costume wasn't added to the costumeDataList in the sprite", 3,
 					costumeDataList.size());
 		} else {
@@ -114,10 +119,11 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		ListAdapter adapter = ((CostumeActivity) solo.getCurrentActivity()).getListAdapter();
 		int oldCount = adapter.getCount();
 		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
+		solo.sleep(1000);
 		int newCount = adapter.getCount();
-		assertEquals("the old count was not rigth", 2, oldCount);
-		assertEquals("the new count is not rigth - all costumes should be deleted", 1, newCount);
-		assertEquals("the count of the costumeDataList is not right", 01, costumeDataList.size());
+		assertEquals("the old count was not right", 2, oldCount);
+		assertEquals("the new count is not right - all costumes should be deleted", 1, newCount);
+		assertEquals("the count of the costumeDataList is not right", 1, costumeDataList.size());
 	}
 
 	public void testRenameCostume() {
@@ -143,21 +149,30 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		}
 	}
 
-	public void testToStageButton() {
+	//	public void testToStageButton() {
+	//		solo.clickOnText(getActivity().getString(R.string.costumes));
+	//		solo.sleep(500);
+	//		//fu!?
+	//		solo.clickOnImageButton(2); //sorry UiTestUtils.clickOnImageButton just won't work after switching tabs
+	//
+	//		solo.sleep(5000);
+	//		solo.assertCurrentActivity("not in stage", StageActivity.class);
+	//		solo.goBack();
+	//		solo.sleep(3000);
+	//		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
+	//		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
+	//		assertEquals("costumeDataList in sprite doesn't hold the right number of costumeData", 1,
+	//				costumeDataList.size());
+	//	}
+
+	public void testMainMenuButton() {
 		solo.clickOnText(getActivity().getString(R.string.costumes));
 		solo.sleep(500);
-		//fu!?
-		solo.clickOnImageButton(2); //sorry UiTestUtils.clickOnImageButton just won't work after switching tabs
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
+		solo = new Solo(getInstrumentation(), getActivity());
 
-		solo.sleep(5000);
-		solo.assertCurrentActivity("not in stage", StageActivity.class);
-		solo.goBack();
-		solo.clickOnText(getActivity().getString(R.string.back_to_construction_site));
-		solo.sleep(3000);
-		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
-		costumeDataList = projectManager.getCurrentSprite().getCostumeDataList();
-		assertEquals("costumeDataList in sprite doesn't hold the right number of costumeData", 2,
-				costumeDataList.size());
+		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
+				MainMenuActivity.class);
 	}
 
 	public void testDialogsOnChangeOrientation() {
@@ -326,7 +341,6 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 
 		Bundle bundleForGallery = new Bundle();
 		bundleForGallery.putString("filePath", paintroidImageFile.getAbsolutePath());
-		Log.d(CostumeActivityTest.class.getSimpleName(), paintroidImageFile.getAbsolutePath());
 		Intent intent = new Intent(getInstrumentation().getContext(),
 				at.tugraz.ist.catroid.uitest.mockups.MockGalleryActivity.class);
 		intent.putExtras(bundleForGallery);

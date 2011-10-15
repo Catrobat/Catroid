@@ -2,17 +2,21 @@
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- * 
+ *  
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- * 
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU Affero General Public License for more details.
- * 
+ *   
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -30,13 +34,13 @@ import at.tugraz.ist.catroid.ui.dragndrop.DragAndDropListView;
 public class BrickListAnimation {
 
 	private DragAndDropListView listView;
-	private BrickAdapter adapter;
+	//private BrickAdapter adapter;
 	private static final int ANIMATION_DURATION_BRICK_SWITCHING = 500;
 	private static final int ANIMATION_DURATION_EXPAND = 500;
 	private static final int ANIMATION_EXPAND_DELAY = 50;
 
 	public BrickListAnimation(BrickAdapter adapter, DragAndDropListView listView) {
-		this.adapter = adapter;
+		//this.adapter = adapter;
 		this.listView = listView;
 	}
 
@@ -61,7 +65,7 @@ public class BrickListAnimation {
 
 			public void onAnimationEnd(Animation animation) {
 				// set this, otherwise the animation starts always if the view is redrawn ie. on scrolling
-				adapter.setAnimateChildren(false);
+				//				adapter.setAnimateChildren(false);
 			}
 		});
 
@@ -102,7 +106,7 @@ public class BrickListAnimation {
 
 			public void onAnimationEnd(Animation animation) {
 				// the expand animation starts if the new child Views are rendered the first time
-				adapter.doReordering(listView, groupPosition);
+				//				adapter.doReordering(listView, groupPosition);
 			}
 		});
 		getChildFromAbsolutePosition(groupPosition).startAnimation(downAnimation);

@@ -2,17 +2,21 @@
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- * 
+ *  
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- * 
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU Affero General Public License for more details.
- * 
+ *   
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -20,9 +24,9 @@ package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.BaseExpandableListAdapter;
+import android.widget.BaseAdapter;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Sprite;
 
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
@@ -44,55 +48,68 @@ public class IfOnEdgeBounceBrick implements Brick {
 	}
 
 	public void execute() {
+		float size = sprite.costume.getSize();
 
-		double width = sprite.getCostume().getVirtualWidth();
-		int xPosition = sprite.getXPosition();
-		int yPosition = sprite.getYPosition();
+		sprite.costume.aquireXYWidthHeightLock();
+		float width = sprite.costume.getWidth() * size;
+		float height = sprite.costume.getHeight() * size;
+		int xPosition = (int) sprite.costume.getXPosition();
+		int yPosition = (int) sprite.costume.getYPosition();
+		sprite.costume.releaseXYWidthHeightLock();
 
-		if (sprite.getXPosition() < -Consts.MAX_REL_COORDINATES + width / 2) {
+		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().VIRTUAL_SCREEN_WIDTH / 2;
+		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().VIRTUAL_SCREEN_HEIGHT / 2;
+		float rotationResult = -sprite.costume.rotation + 90f;
 
-			sprite.setDirection(Math.abs(sprite.getDirection()));
+		if (xPosition < -virtualScreenWidth + width / 2) {
 
-			double newWidth = sprite.getCostume().getVirtualWidth();
-			xPosition = -Consts.MAX_REL_COORDINATES + (int) (newWidth / 2);
+			rotationResult = Math.abs(rotationResult);
+			xPosition = -virtualScreenWidth + (int) (width / 2);
 
-		} else if (sprite.getXPosition() > Consts.MAX_REL_COORDINATES - width / 2) {
+		} else if (xPosition > virtualScreenWidth - width / 2) {
 
-			sprite.setDirection(-Math.abs(sprite.getDirection()));
+			rotationResult = -Math.abs(rotationResult);
 
-			double newWidth = sprite.getCostume().getVirtualWidth();
-			xPosition = Consts.MAX_REL_COORDINATES - (int) (newWidth / 2);
+			xPosition = virtualScreenWidth - (int) (width / 2);
 		}
 
-		double height = sprite.getCostume().getVirtualHeight();
+		if (yPosition > virtualScreenHeight - height / 2) {
 
-		if (sprite.getYPosition() > Consts.MAX_REL_COORDINATES - height / 2) {
-
-			if (Math.abs(sprite.getDirection()) < 90) {
-				sprite.setDirection(180 - sprite.getDirection());
+			if (Math.abs(rotationResult) < 90f) {
+				if (rotationResult < 0f) {
+					rotationResult = -180f - rotationResult;
+				} else {
+					rotationResult = 180f - rotationResult;
+				}
 			}
 
-			double newHeight = sprite.getCostume().getVirtualHeight();
-			yPosition = Consts.MAX_REL_COORDINATES - (int) (newHeight / 2);
+			yPosition = virtualScreenHeight - (int) (height / 2);
 
-		} else if (sprite.getYPosition() < -Consts.MAX_REL_COORDINATES + height / 2) {
+		} else if (yPosition < -virtualScreenHeight + height / 2) {
 
-			if (Math.abs(sprite.getDirection()) > 90) {
-				sprite.setDirection(180 - sprite.getDirection());
+			if (Math.abs(rotationResult) > 90f) {
+				if (rotationResult < 0f) {
+					rotationResult = -180f - rotationResult;
+				} else {
+					rotationResult = 180f - rotationResult;
+				}
 			}
 
-			double newHeight = sprite.getCostume().getVirtualHeight();
-			yPosition = -Consts.MAX_REL_COORDINATES + (int) (newHeight / 2);
+			yPosition = -virtualScreenHeight + (int) (height / 2);
 		}
 
-		sprite.setXYPosition(xPosition, yPosition);
+		sprite.costume.rotation = -rotationResult + 90f;
+
+		sprite.costume.aquireXYWidthHeightLock();
+		sprite.costume.setXYPosition(xPosition, yPosition);
+		sprite.costume.releaseXYWidthHeightLock();
 	}
 
 	public Sprite getSprite() {
 		return sprite;
 	}
 
-	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
+	public View getView(Context context, int brickId, BaseAdapter adapter) {
 		if (view == null) {
 			view = View.inflate(context, R.layout.toolbox_brick_if_on_edge_bounce, null);
 		}

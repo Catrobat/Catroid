@@ -2,17 +2,21 @@
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- * 
+ *  
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- * 
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU Affero General Public License for more details.
- * 
+ *   
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -55,7 +59,9 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 	private Project project;
 	private SetSizeToBrick setSizeToBrick;
 	private SetCostumeBrick setCostumeBrick;
-	private int imageRawId = at.tugraz.ist.catroid.uitest.R.raw.black_quad;
+	private int imageRawId = at.tugraz.ist.catroid.uitest.R.raw.red_quad;
+	private final int screenWidth = 480;
+	private final int screenHeight = 800;
 
 	public SetSizeToBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
@@ -124,10 +130,13 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		solo.sleep(1500);
 
 		solo.goBack();
-		solo.clickOnText(getActivity().getString(R.string.snapshot));
+		solo.clickOnText(getActivity().getString(R.string.stagemenu_screenshot));
+		solo.sleep(50);
 
 		assertTrue("Successful screenshot Toast not found!",
 				solo.searchText(getActivity().getString(R.string.notification_screenshot_ok)));
+
+		solo.clickOnText(getActivity().getString(R.string.resume_current_project));
 
 		// -------------------------------------------------------------------------------------------------------------
 		Bitmap screenshot = BitmapFactory.decodeFile(Consts.DEFAULT_ROOT + "/" + projectName + "/"
@@ -149,12 +158,16 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		int colorOutsideSizedQuad = screenshot.getPixel(Values.SCREEN_WIDTH / 2 + blackQuadWidth + 10,
 				Values.SCREEN_HEIGHT / 2 + blackQuadHeight + 10);
 
-		assertEquals("Image was not scaled up even though SetSizeTo was exectuted before!", Color.BLACK,
+		assertEquals("Image was not scaled up even though SetSizeTo was exectuted before!", Color.RED,
 				colorInsideSizedQuad);
 		assertEquals("Wrong stage background color!", Color.WHITE, colorOutsideSizedQuad);
 	}
 
 	private void createProject() {
+
+		Values.SCREEN_HEIGHT = screenHeight;
+		Values.SCREEN_WIDTH = screenWidth;
+
 		project = new Project(null, projectName);
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript("script", sprite);
@@ -170,6 +183,7 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
+		ProjectManager.getInstance().saveProject();
 
 		File image = UiTestUtils.saveFileToProject(projectName, "black_quad.png", imageRawId, getInstrumentation()
 				.getContext(), UiTestUtils.TYPE_IMAGE_FILE);
@@ -179,6 +193,9 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		costumeData.setCostumeName("image");
 		setCostumeBrick.setCostume(costumeData);
 		sprite.getCostumeDataList().add(costumeData);
+		ProjectManager.getInstance().fileChecksumContainer.addChecksum(costumeData.getChecksum(),
+				image.getAbsolutePath());
+		ProjectManager.getInstance().saveProject();
 	}
 
 }

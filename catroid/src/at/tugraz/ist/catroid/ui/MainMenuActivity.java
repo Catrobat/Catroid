@@ -2,21 +2,24 @@
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- * 
+ *  
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- * 
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU Affero General Public License for more details.
- * 
+ *   
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package at.tugraz.ist.catroid.ui;
 
 import java.io.File;
@@ -38,6 +41,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.transfers.CheckTokenTask;
 import at.tugraz.ist.catroid.ui.dialogs.AboutDialog;
@@ -53,11 +57,13 @@ public class MainMenuActivity extends Activity {
 	private static final String PREF_PROJECTNAME_KEY = "projectName";
 	private ProjectManager projectManager;
 	private ActivityHelper activityHelper = new ActivityHelper(this);
+	private TextView titleText;
 	private static final int DIALOG_NEW_PROJECT = 0;
 	private static final int DIALOG_LOAD_PROJECT = 1;
 	public static final int DIALOG_UPLOAD_PROJECT = 2;
 	private static final int DIALOG_ABOUT = 3;
 	private static final int DIALOG_LOGIN_REGISTER = 4;
+	private boolean ignoreResume = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -86,15 +92,32 @@ public class MainMenuActivity extends Activity {
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-		activityHelper.setupActionBar(true, null);
+
+		ignoreResume = false;
+		PreStageActivity.shutdownPersistentResources();
+
+		String title = this.getResources().getString(R.string.project_name) + " "
+				+ projectManager.getCurrentProject().getName();
+		activityHelper.setupActionBar(true, title);
 		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, new View.OnClickListener() {
 			public void onClick(View v) {
 				if (projectManager.getCurrentProject() != null) {
-					Intent intent = new Intent(MainMenuActivity.this, StageActivity.class);
-					startActivity(intent);
+					Intent intent = new Intent(MainMenuActivity.this, PreStageActivity.class);
+					ignoreResume = true;
+					startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 				}
 			}
 		}, false);
+		this.titleText = (TextView) findViewById(R.id.tv_title);
+
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
+			Intent intent = new Intent(MainMenuActivity.this, StageActivity.class);
+			startActivity(intent);
+		}
 	}
 
 	@Override
@@ -166,8 +189,15 @@ public class MainMenuActivity extends Activity {
 		if (projectManager.getCurrentProject() == null) {
 			return;
 		}
+		if (!ignoreResume) {
+			PreStageActivity.shutdownPersistentResources();
+		}
+		ignoreResume = false;
 
 		projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
+		String title = this.getResources().getString(R.string.project_name) + " "
+				+ projectManager.getCurrentProject().getName();
+		titleText.setText(title);
 	}
 
 	@Override

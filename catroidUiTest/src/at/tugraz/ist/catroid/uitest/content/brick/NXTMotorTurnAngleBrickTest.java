@@ -2,21 +2,24 @@
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- * 
+ *  
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- * 
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU Affero General Public License for more details.
- * 
+ *   
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package at.tugraz.ist.catroid.uitest.content.brick;
 
 import java.util.ArrayList;
@@ -78,10 +81,10 @@ public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
-				groupCount - 1, 0));
-		assertNotNull("TextView does not exist.", solo
-				.getText(getActivity().getString(R.string.brick_motor_turn_angle)));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				getActivity().getAdapter().getChild(groupCount - 1, 0));
+		assertNotNull("TextView does not exist.",
+				solo.getText(getActivity().getString(R.string.brick_motor_turn_angle)));
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.motor_angle)));
 
 		//		solo.clickOnEditText(0);
@@ -96,18 +99,18 @@ public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2
 
 		solo.clickOnButton(0);
 		solo.clickInList(1);
-		assertEquals("Wrong value is displayed in EditText field!", "45", solo.getEditText(0).getText().toString());
+		assertEquals("Wrong value in field!", "45", solo.getEditText(0).getText().toString());
 		solo.clickInList(2);
-		assertEquals("Wrong value is displayed in EditText field!", "90", solo.getEditText(0).getText().toString());
+		assertEquals("Wrong value in field!", "90", solo.getEditText(0).getText().toString());
 		solo.clickInList(3);
-		assertEquals("Wrong value is displayed in EditText field!", "-45", solo.getEditText(0).getText().toString());
+		assertEquals("Wrong value in field!", "-45", solo.getEditText(0).getText().toString());
 		solo.clickInList(4);
-		assertEquals("Wrong value is displayed in EditText field!", "-90", solo.getEditText(0).getText().toString());
+		assertEquals("Wrong value in field!", "-90", solo.getEditText(0).getText().toString());
 		solo.clickInList(5);
-		assertEquals("Wrong value is displayed in EditText field!", "180", solo.getEditText(0).getText().toString());
+		assertEquals("Wrong value in field!", "180", solo.getEditText(0).getText().toString());
 		//		solo.scrollDownList(0); //warning randomness!
 		//		solo.clickInList(5);
-		//		assertEquals("360", solo.getEditText(0).getText().toString());
+		//		assertEquals("Wrong value in field!", "360", solo.getEditText(0).getText().toString());
 
 		solo.sleep(500);
 		solo.clickOnEditText(0);
@@ -121,19 +124,27 @@ public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2
 		assertEquals("Wrong text in field.", setAngle, angle);
 		assertEquals("Value in Brick is not updated.", setAngle + "", solo.getEditText(0).getText().toString());
 
-		solo.sleep(1500);
+		solo.sleep(2000);
 		String[] array = getActivity().getResources().getStringArray(R.array.nxt_motor_chooser);
+		solo.sleep(100);
 		assertTrue("Spinner items list too short!", array.length == 4);
 
-		solo.sleep(1500);
+		solo.sleep(2000);
 		solo.pressSpinnerItem(0, 0);
-		assertEquals("Wrong item selected in spinner!", array[0], solo.getCurrentSpinners().get(0).getSelectedItem());
+		solo.sleep(500);
+		assertEquals("Wrong item in spinner!", array[0], solo.getCurrentSpinners().get(0).getSelectedItem());
+		solo.sleep(500);
 		solo.pressSpinnerItem(0, 1);
-		assertEquals("Wrong item selected in spinner!", array[1], solo.getCurrentSpinners().get(0).getSelectedItem());
+		solo.sleep(500);
+		assertEquals("Wrong item in spinner!", array[1], solo.getCurrentSpinners().get(0).getSelectedItem());
+		solo.sleep(500);
 		solo.pressSpinnerItem(0, 1);
-		assertEquals("Wrong item selected in spinner!", array[2], solo.getCurrentSpinners().get(0).getSelectedItem());
+		solo.sleep(500);
+		assertEquals("Wrong item in spinner!", array[2], solo.getCurrentSpinners().get(0).getSelectedItem());
+		solo.sleep(500);
 		solo.pressSpinnerItem(0, 1);
-		assertEquals("Wrong item selected in spinner!", array[3], solo.getCurrentSpinners().get(0).getSelectedItem());
+		solo.sleep(1000);
+		assertEquals("Wrong item in spinner!", array[3], solo.getCurrentSpinners().get(0).getSelectedItem());
 
 	}
 

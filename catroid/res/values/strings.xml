@@ -1,24 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-
- <!-- 
+<!--
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- * 
+ *  
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- * 
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU Affero General Public License for more details.
- * 
+ *   
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
-
 <resources>
     <!-- General terms -->
     <string name="project">project</string>
@@ -30,7 +32,7 @@
     <string name="delete">Delete</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    
+
     <!-- General -->
     <string name="close">Close</string>
     <string name="error">Error</string>
@@ -59,6 +61,7 @@
 	<string name="pref_category_mindstorm">Mindstorm settings</string>
 	<string name="pref_enable_ms_bricks">Enable Mindstorm bricks</string>
 	<string name="pref_descr_ms_bricks">These bricks are used to control Mindstorm robots.</string>
+	
 		
     <!-- About Dialog -->
     <string name="about_title">About Catroid</string>
@@ -133,21 +136,21 @@
     <string name="register_error">Error occurred</string>
     
     <!--  Stage menu dialog -->
-	<string name="back_to_construction_site">Back</string>
+    <string name="back">Back</string>
 	<string name="resume_current_project">Resume</string>
 	<string name="restart_current_project">Restart</string>
-	<string name="snapshot">Screenshot</string>
 	<string name="stage_dialog_title">Stage Options</string>
-
+	<string name="stagemenu_screen_size">Maximize/\nStretch</string>
+    <string name="stagemenu_axes_on">Axes On</string>
+    <string name="stagemenu_axes_off">Axes Off</string>
+    <string name="stagemenu_screenshot">Screenshot</string>
+	
 	<!-- Broadcast spinner -->
 	<string name="new_broadcast_message">new...</string>
 	<string name="broadcast_nothing_selected">Nothing...</string>
 	
-    <!-- Stage context menu -->
-    <string name="stagemenu_construction_site">To Construction Site</string>
-    <string name="stagemenu_start">Play/Pause</string>
-
     <!-- Brick categories -->
+    <string name="categories">Categories</string>
 	<string name="category_motion">Motion</string>
 	<string name="category_looks">Looks</string>
 	<string name="category_sound">Sound</string>
@@ -178,7 +181,6 @@
 	
 	<!-- Looks bricks -->
     <string name="brick_set_costume">Set Costume</string>
-	<string name="brick_next_costume">Next Costume</string>
     <string name="brick_set_background">Set Background</string>
     <string name="brick_set_size_to">Set size to</string>
 	<string name="brick_change_size_by">Change size by</string>
@@ -243,7 +245,8 @@
         Please enter a name.
     </string>
     <string name="error_project_exists">
-        A project with the same name already exists.\nPlease choose a different name.
+        A project with the same name already
+        exists.\nPlease choose a different name.
     </string>
     <string name="error_project_upload">
         An error occurred while uploading the project.
@@ -269,9 +272,6 @@
     <string name="error_load_sound">
     	An error occurred while loading the sound.
     </string>
-    <string name="text_to_speech_error">
-    	Text-to-speech error. Speak brick will not work.
-    </string>
     <string name="error_internet_connection">
     	An unknown error occurred. Check your Internet connection.
     </string>
@@ -285,7 +285,9 @@
 	<string name="project_rename">(Your project will be renamed.)</string>
 	<string name="size_of_project">Size of project:</string>
 	
+	<!-- Bluetooth, LegoNXT, Arduino -->
 	<!-- Bluetooth Connection Strings -->
+	
 	<string name="notification_blueth_err">Bluetooth could not be enabled, closing stage
 	</string>
 	<string name="title_paired_devices">Paired devices</string>
@@ -316,4 +318,5 @@
 	
 	<string name="number_to_small">Value is too small!</string>
 	<string name="number_to_big">Value is too big!</string>
+		
 </resources>
