@@ -2,17 +2,21 @@
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- * 
+ *  
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- * 
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU Affero General Public License for more details.
- * 
+ *   
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -26,11 +30,12 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.BaseExpandableListAdapter;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class MoveNStepsBrick implements Brick, OnClickListener {
 
@@ -50,16 +55,15 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
+		sprite.costume.aquireXYWidthHeightLock();
 
-		int xPosition = sprite.getXPosition();
-		int yPosition = sprite.getYPosition();
+		double radians = Math.toRadians(sprite.costume.rotation);
 
-		double radians = sprite.getDirection() / 180 * Math.PI;
+		int newXPosition = (int) Math.round(sprite.costume.getXPosition() + steps * Math.cos(radians));
+		int newYPosition = (int) Math.round(sprite.costume.getYPosition() + steps * Math.sin(radians));
 
-		int newXPosition = (int) Math.round(xPosition + steps * Math.sin(radians));
-		int newYPosition = (int) Math.round(yPosition + steps * Math.cos(radians));
-
-		sprite.setXYPosition(newXPosition, newYPosition);
+		sprite.costume.setXYPosition(newXPosition, newYPosition);
+		sprite.costume.releaseXYWidthHeightLock();
 
 	}
 
@@ -67,10 +71,9 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 		return this.sprite;
 	}
 
-	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_move_n_steps, null);
-		}
+	public View getView(Context context, int brickId, BaseAdapter adapter) {
+
+		view = View.inflate(context, R.layout.toolbox_brick_move_n_steps, null);
 
 		EditText edit = (EditText) view.findViewById(R.id.toolbox_brick_move_n_steps_edit_text);
 
@@ -119,7 +122,10 @@ public class MoveNStepsBrick implements Brick, OnClickListener {
 			}
 		});
 
-		dialog.show();
+		AlertDialog finishedDialog = dialog.create();
+		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
+
+		finishedDialog.show();
 
 	}
 

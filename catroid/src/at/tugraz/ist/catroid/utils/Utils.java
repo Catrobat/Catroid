@@ -2,17 +2,21 @@
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- * 
+ *  
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- * 
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU Affero General Public License for more details.
- * 
+ *   
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -33,6 +37,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.Semaphore;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -41,6 +46,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.DialogInterface.OnShowListener;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -54,6 +60,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
@@ -63,6 +71,8 @@ import at.tugraz.ist.catroid.common.Values;
 public class Utils {
 
 	private static final String TAG = Utils.class.getSimpleName();
+	private static long uniqueLong = 0;
+	private static Semaphore uniqueNameLock = new Semaphore(1);
 
 	public static boolean hasSdCard() {
 		return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
@@ -144,8 +154,8 @@ public class Utils {
 
 		ProgressDialog progressDialog = null;
 		if (showProgressDialog && context != null) {
-			progressDialog = ProgressDialog.show(context, context.getString(R.string.please_wait), context
-					.getString(R.string.loading));
+			progressDialog = ProgressDialog.show(context, context.getString(R.string.please_wait),
+					context.getString(R.string.loading));
 		}
 
 		Thread t = new FileCopyThread(fileTo, fileFrom, progressDialog);
@@ -339,6 +349,13 @@ public class Utils {
 		return toHex(messageDigest.digest());
 	}
 
+	public static String getUniqueName() {
+		uniqueNameLock.acquireUninterruptibly();
+		String uniqueName = String.valueOf(uniqueLong++);
+		uniqueNameLock.release();
+		return uniqueName;
+	}
+
 	private static String toHex(byte[] messageDigest) {
 		StringBuilder md5StringBuilder = new StringBuilder(2 * messageDigest.length);
 
@@ -384,5 +401,15 @@ public class Utils {
 			Log.e(TAG, "Name not found", nameNotFoundException);
 		}
 		return versionName;
+	}
+
+	public static OnShowListener getBrickDialogOnClickListener(final Context context, final EditText input) {
+		return new OnShowListener() {
+			public void onShow(DialogInterface dialog) {
+				InputMethodManager inputManager = (InputMethodManager) context
+						.getSystemService(Context.INPUT_METHOD_SERVICE);
+				inputManager.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT);
+			}
+		};
 	}
 }

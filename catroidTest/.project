@@ -3,7 +3,6 @@
 	<name>catroidTest</name>
 	<comment></comment>
 	<projects>
-		<project>Scratch2Android</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

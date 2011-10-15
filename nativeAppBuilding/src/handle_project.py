@@ -17,7 +17,6 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
-import re
 import os
 import sys
 import zipfile
@@ -64,13 +63,9 @@ def rename_file_in_project(old_name, new_name, project_file_path, resource_type)
     doc.writexml(f)
     f.close()
 
-def rename_resources(path_to_project):
-    pattern = re.compile('^(.*?)\.xml$');
-    for filename in os.listdir(path_to_project):
-        if pattern.search(filename):
-            os.rename(os.path.join(path_to_project, filename),\
-                      os.path.join(path_to_project,  'project.xml'))
-
+def rename_resources(path_to_project, project_name):
+    os.rename(os.path.join(path_to_project, project_name + '.xml'),\
+              os.path.join(path_to_project, 'project.xml'))
     res_token = 'resource'
     res_count = 0
     for resource_type in ['images', 'sounds']:
@@ -80,25 +75,29 @@ def rename_resources(path_to_project):
                 continue
             basename, extension = os.path.splitext(filename)
             if verify_checksum(os.path.join(path, filename)):
-                new_filename = res_token + str(res_count)
+                new_filename = res_token + str(res_count) + extension
                 rename_file_in_project(filename, new_filename,\
                                     os.path.join(path_to_project, 'project.xml'),\
                                     resource_type)
-                shutil.move(os.path.join(path, filename),\
-                           os.path.join(path_to_project, new_filename + extension))
+                os.rename(os.path.join(path, filename),\
+                           os.path.join(path, new_filename))
                 res_count = res_count + 1
             else:
                 print 'Wrong checksum for file', filename
                 exit(1)
-    shutil.rmtree(os.path.join(path_to_project, 'sounds'))
-    shutil.rmtree(os.path.join(path_to_project, 'images'))
 
 def copy_project(path_to_catroid, path_to_project):
     shutil.copytree(path_to_catroid, os.path.join(path_to_project, 'catroid'))
-    for filename in os.listdir(path_to_project):
-        if not os.path.isdir(os.path.join(path_to_project, filename)):
-            shutil.move(os.path.join(path_to_project, filename),\
-                os.path.join(path_to_project, 'catroid', 'res', 'raw', filename))
+
+    for resource_type in ['images', 'sounds']:
+        if not os.path.exists(os.path.join(path_to_project, 'catroid', 'assets', resource_type)):
+            os.makedirs(os.path.join(path_to_project, 'catroid', 'assets', resource_type))
+        for filename in os.listdir(os.path.join(path_to_project, resource_type)):
+            shutil.move(os.path.join(path_to_project, resource_type, filename),\
+                    os.path.join(path_to_project, 'catroid', 'assets', resource_type, filename))
+
+    shutil.move(os.path.join(path_to_project, 'project.xml'),\
+                    os.path.join(path_to_project, 'catroid', 'assets', 'project.xml'))
 
 def set_project_name(new_name, path_to_file):
     doc = xml.dom.minidom.parse(path_to_file)
@@ -164,7 +163,7 @@ def main():
         shutil.rmtree(os.path.join(path_to_project, project_filename))
     unzip_project(os.path.join(path_to_project, archive_name))
     path_to_project = os.path.join(path_to_project, project_filename)
-    rename_resources(path_to_project)
+    rename_resources(path_to_project, project_filename)
     project_name = get_project_name(os.path.join(path_to_project, 'project.xml'))
     copy_project(path_to_catroid, path_to_project)
     if os.path.exists(os.path.join(path_to_project, 'catroid', 'gen')):

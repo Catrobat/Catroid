@@ -2,17 +2,21 @@
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- * 
+ *  
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- * 
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU Affero General Public License for more details.
- * 
+ *   
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -31,10 +35,6 @@ import at.tugraz.ist.catroid.utils.UtilFile;
 public class LicenseTest extends TestCase {
 	private static final String[] DIRECTORIES = { ".", "../catroid", "../catroidTest", "../catroidUiTest", };
 
-	private static final String[] APACHE_FILES = { "../catroid/res/layout/device_list.xml",
-			"../catroid/res/layout/device_name.xml" };
-
-	private ArrayList<String> apacheLicenseText;
 	private ArrayList<String> agplLicenseText;
 	private boolean allLicenseTextsPresentAndCorrect;
 	private StringBuilder errorMessages;
@@ -42,7 +42,6 @@ public class LicenseTest extends TestCase {
 	public LicenseTest() throws IOException {
 		allLicenseTextsPresentAndCorrect = true;
 		errorMessages = new StringBuilder();
-		apacheLicenseText = readLicenseFile(new File("res/apache_license_text.txt"));
 		agplLicenseText = readLicenseFile(new File("res/agpl_license_text.txt"));
 	}
 
@@ -101,23 +100,10 @@ public class LicenseTest extends TestCase {
 			List<File> filesToCheck = UtilFile.getFilesFromDirectoryByExtension(directory, new String[] { ".java",
 					".xml" });
 			for (File file : filesToCheck) {
-				if (isApacheFile(file.getPath())) {
-					checkFileForLicense(file, apacheLicenseText);
-				} else {
-					checkFileForLicense(file, agplLicenseText);
-				}
+				checkFileForLicense(file, agplLicenseText);
 			}
 		}
 		assertTrue("Correct license text was not found in all files:\n" + errorMessages.toString(),
 				allLicenseTextsPresentAndCorrect);
-	}
-
-	private boolean isApacheFile(String file) {
-		for (String apacheFile : APACHE_FILES) {
-			if (file.equals(apacheFile)) {
-				return true;
-			}
-		}
-		return false;
 	}
 }

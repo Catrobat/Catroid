@@ -2,17 +2,21 @@
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- * 
+ *  
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
  *  published by the Free Software Foundation, either version 3 of the
  *  License, or (at your option) any later version.
- * 
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU Affero General Public License for more details.
- * 
+ *   
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -35,16 +39,18 @@ public class GlideToBrickTest extends AndroidTestCase {
 
 	public void testNormalBehavior() throws InterruptedException {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite x position", 0, sprite.getXPosition());
-		assertEquals("Unexpected initial sprite y position", 0, sprite.getYPosition());
+		assertEquals("Unexpected initial sprite x position", 0f, sprite.costume.getXPosition());
+		assertEquals("Unexpected initial sprite y position", 0f, sprite.costume.getYPosition());
 
 		GlideToBrick glideToBrick = new GlideToBrick(sprite, xPosition, yPosition, duration);
 		glideToBrick.execute();
 
 		Thread.sleep(1100);
 
-		assertEquals("Incorrect sprite x position after GlideToBrick executed", xPosition, sprite.getXPosition());
-		assertEquals("Incorrect sprite y position after GlideToBrick executed", yPosition, sprite.getYPosition());
+		assertEquals("Incorrect sprite x position after GlideToBrick executed", (float) xPosition,
+				sprite.costume.getXPosition());
+		assertEquals("Incorrect sprite y position after GlideToBrick executed", (float) yPosition,
+				sprite.costume.getYPosition());
 	}
 
 	public void testNullSprite() {
@@ -63,18 +69,18 @@ public class GlideToBrickTest extends AndroidTestCase {
 		PlaceAtBrick brick = new PlaceAtBrick(sprite, Integer.MAX_VALUE, Integer.MAX_VALUE);
 		brick.execute();
 
-		assertEquals("PlaceAtBrick failed to place Sprite at maximum x integer value", Integer.MAX_VALUE,
-				sprite.getXPosition());
-		assertEquals("PlaceAtBrick failed to place Sprite at maximum y integer value", Integer.MAX_VALUE,
-				sprite.getYPosition());
+		assertEquals("PlaceAtBrick failed to place Sprite at maximum x float value", (float) Integer.MAX_VALUE,
+				 sprite.costume.getXPosition());
+		assertEquals("PlaceAtBrick failed to place Sprite at maximum y float value", (float) Integer.MAX_VALUE,
+				 sprite.costume.getYPosition());
 
 		brick = new PlaceAtBrick(sprite, Integer.MIN_VALUE, Integer.MIN_VALUE);
 		brick.execute();
 
-		assertEquals("PlaceAtBrick failed to place Sprite at minimum x integer value", Integer.MIN_VALUE,
-				sprite.getXPosition());
-		assertEquals("PlaceAtBrick failed to place Sprite at minimum y integer value", Integer.MIN_VALUE,
-				sprite.getYPosition());
+		assertEquals("PlaceAtBrick failed to place Sprite at minimum x float value", (float) Integer.MIN_VALUE,
+				 sprite.costume.getXPosition());
+		assertEquals("PlaceAtBrick failed to place Sprite at minimum y float value", (float) Integer.MIN_VALUE,
+				 sprite.costume.getYPosition());
 	}
 
 	public void testTime() throws InterruptedException {
@@ -94,11 +100,11 @@ public class GlideToBrickTest extends AndroidTestCase {
 
 		Thread.sleep(250);
 
-		assertFalse("GlideToBrick should not be visible!", sprite.isVisible());
+		assertFalse("GlideToBrick should not be visible!", sprite.costume.show);
 
 		Thread.sleep(1000);
 
-		assertTrue("GlideToBrick should be visible!", sprite.isVisible());
+		assertTrue("GlideToBrick should be visible!", sprite.costume.show);
 	}
 
 	public void testPauseResume() throws InterruptedException {
@@ -117,17 +123,17 @@ public class GlideToBrickTest extends AndroidTestCase {
 		sprite.startStartScripts();
 
 		Thread.sleep(1000);
-		assertFalse("Unexpected visibility of test sprite", sprite.isVisible());
+		assertFalse("Unexpected visibility of test sprite", sprite.costume.show);
 
 		sprite.pause();
 		Thread.sleep(200);
-		assertFalse("Unexpected visibility of test sprite", sprite.isVisible());
+		assertFalse("Unexpected visibility of test sprite", sprite.costume.show);
 
 		sprite.resume();
 		Thread.sleep(1000);
-		assertFalse("Unexpected visibility of testSprite", sprite.isVisible());
+		assertFalse("Unexpected visibility of testSprite", sprite.costume.show);
 
 		Thread.sleep(1200);
-		assertTrue("Unexpected visibility of testSprite", sprite.isVisible());
+		assertTrue("Unexpected visibility of testSprite", sprite.costume.show);
 	}
 }
