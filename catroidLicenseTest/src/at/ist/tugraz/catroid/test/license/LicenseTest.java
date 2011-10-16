@@ -42,7 +42,7 @@ public class LicenseTest extends TestCase {
 	public LicenseTest() throws IOException {
 		allLicenseTextsPresentAndCorrect = true;
 		errorMessages = new StringBuilder();
-		File f = new File("res/agpl_license_text.txt");
+		File f = new File("/var/lib/jenkins/jobs/scriptTest/workspace/catroidLicenseTest/res/agpl_license_text.txt");
 		System.out.println("______file path: " + f.getPath() + ", absolute path: " + f.getAbsolutePath() + ", exists: "
 				+ f.exists() + ", canRead: " + f.canRead());
 		agplLicenseText = readLicenseFile(f);
