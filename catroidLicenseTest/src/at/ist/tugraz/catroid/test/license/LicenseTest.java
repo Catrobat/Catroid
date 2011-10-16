@@ -42,7 +42,11 @@ public class LicenseTest extends TestCase {
 	public LicenseTest() throws IOException {
 		allLicenseTextsPresentAndCorrect = true;
 		errorMessages = new StringBuilder();
-		agplLicenseText = readLicenseFile(new File("res/agpl_license_text.txt"));
+		File f = new File("res/agpl_license_text.txt");
+		System.out.println("______file path: " + f.getPath() + ", absolute path: " + f.getAbsolutePath());
+		agplLicenseText = readLicenseFile(f);
+
+		//agplLicenseText = readLicenseFile(new File("res/agpl_license_text.txt"));
 	}
 
 	private ArrayList<String> readLicenseFile(File licenseTextFile) throws IOException {
