@@ -101,6 +101,7 @@ public class LicenseTest extends TestCase {
 	public void testLicensePresentInAllFiles() throws IOException {
 		for (String directoryName : DIRECTORIES) {
 			File directory = new File(directoryName);
+			System.out.println("___directory to search abs path: " + directory.getAbsolutePath());
 			assertTrue("Couldn't find directory: " + directoryName, directory.exists() && directory.isDirectory());
 			assertTrue("Couldn't read directory: " + directoryName, directory.canRead());
 
