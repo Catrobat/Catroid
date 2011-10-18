@@ -42,18 +42,11 @@ public class LicenseTest extends TestCase {
 	public LicenseTest() throws IOException {
 		allLicenseTextsPresentAndCorrect = true;
 		errorMessages = new StringBuilder();
-		File f = new File("/var/lib/jenkins/jobs/scriptTest/workspace/catroidLicenseTest/res/agpl_license_text.txt");
-		System.out.println("______file path: " + f.getPath() + ", absolute path: " + f.getAbsolutePath() + ", exists: "
-				+ f.exists() + ", canRead: " + f.canRead());
-		agplLicenseText = readLicenseFile(f);
-
-		//agplLicenseText = readLicenseFile(new File("res/agpl_license_text.txt"));
+		agplLicenseText = readLicenseFile(new File("res/agpl_license_text.txt"));
 	}
 
 	private ArrayList<String> readLicenseFile(File licenseTextFile) throws IOException {
-		System.out.println("try to read file ...");
 		BufferedReader reader = new BufferedReader(new FileReader(licenseTextFile));
-		System.out.println("file read ok");
 		String line = null;
 		ArrayList<String> licenseText = new ArrayList<String>();
 		while ((line = reader.readLine()) != null) {
@@ -101,7 +94,6 @@ public class LicenseTest extends TestCase {
 	public void testLicensePresentInAllFiles() throws IOException {
 		for (String directoryName : DIRECTORIES) {
 			File directory = new File(directoryName);
-			System.out.println("___directory to search abs path: " + directory.getAbsolutePath());
 			assertTrue("Couldn't find directory: " + directoryName, directory.exists() && directory.isDirectory());
 			assertTrue("Couldn't read directory: " + directoryName, directory.canRead());
 
