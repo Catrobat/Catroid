@@ -96,7 +96,7 @@
 
     <!-- Project activity view -->
     <string name="project_name">Proiect:</string>
-    <string name="sprite_list">Obiecte</string>
+<!--    <string name="sprite_list">Obiecte</string>-->
 <!--    <string name="add_sprite">Adăugarea noului obiect</string>-->
 
     <!-- Script activity view -->
@@ -357,7 +357,7 @@
     <string name="load_project">Încprcarea proiectului</string>
     <string name="upload_button">Încărcare</string>
     <string name="upload_project_dialog_title">Încărcarea proiectului</string>    
-<!--	<string name="upload_description">Descrierea:</string>-->
+	<string name="upload_description">Descrierea:</string>
     <string name="project_rename">(proiectul Dumneavoastră va fi redenumit.)</string>
     <string name="size_of_project">Mărimea proiectului:</string>
     

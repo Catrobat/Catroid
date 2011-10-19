@@ -226,37 +226,6 @@
  	<string name="action_swipeUp">Nach oben gewischt</string>
   	<string name="action_swipeDown">Nach unten gewischt</string>    
     
-    <!-- Bluetooth Connection Strings -->
-	
-    <string name="notification_blueth_err">Bluetooth konnte nicht aktiviert werden, schließe Stage</string>
-    <string name="title_paired_devices">Verbundene Geräte</string>
-    <string name="title_other_devices">Nicht verbundene Geräte</string>
-    <string name="button_scan">Suche Bluetooth Geräte</string>
-	<string name="scanning">Suche</string>
-	<string name="select_device">Wähle dein Mindstorms NXT</string>
-	<string name="connecting_please_wait">Verbinde zum Lego NXT.\nBitte warten...</string>
-	<string name="pairing_message">Nach dem Pairing, verbinde.</string>
-	<string name="problem_at_closing">Problem beim Schließen der Verbindung!</string>
-	<string name="bt_connection_failed">Verbindung zum Gerät fehlgeschlagen!</string>
-	<string name="no_paired_nxt">Kein verbundenes NXT</string>
-	<string name="none_found">Keine nicht verbundenen Geräte gefunden</string>
-	<string name="none_paired">Keine verbundenen Geräte gefunden</string>
-	
-    <!-- Lego Mindstorms Strings -->
-	<string name="brick_motor_action">NXT bewege Motor</string>
-	<string name="motor">Motor</string>
-	<string name="motor_duration">Dauer</string>
-	<string name="motor_speed">Geschwindigkeit</string>
-	<string name="brick_motor_turn_angle">NXT rotiere Motor</string>
-	<string name="motor_angle">Winkel</string>
-	<string name="motor_stop">NXT stoppe Motor</string>
-	<string name="nxt_play_tone">NXT Ton abspielen</string>
-	<string name="nxt_tone_frequency">Frequenz</string>
-	<string name="tone_duration">Dauer</string>
-	<string name="nxt_tone_hundred_hz">x100Hz</string>
-	<string name="number_to_small">Wert ist zu klein!</string>
-	<string name="number_to_big">Wert ist zu groß!</string>
-    
     <!-- defaultValues -->
     <string name="default_project_name">standardProjekt</string>
     
@@ -312,6 +281,39 @@
     <string name="load_project">Projekt laden</string>
     <string name="upload_button">Hochladen</string>
     <string name="upload_project_dialog_title">Projekt hochladen</string>
+    <string name="upload_description">Beschreibung:</string>
     <string name="project_rename">(Das Projekt wird umbenannt.)</string>
     <string name="size_of_project">Größe des Projekts:</string>
+    
+    <!-- Bluetooth Connection Strings -->
+	
+    <string name="notification_blueth_err">Bluetooth konnte nicht aktiviert werden, schließe Stage</string>
+    <string name="title_paired_devices">Verbundene Geräte</string>
+    <string name="title_other_devices">Nicht verbundene Geräte</string>
+    <string name="button_scan">Suche Bluetooth Geräte</string>
+	<string name="scanning">Suche</string>
+	<string name="select_device">Wähle dein Mindstorms NXT</string>
+	<string name="connecting_please_wait">Verbinde zum Lego NXT.\nBitte warten...</string>
+	<string name="pairing_message">Nach dem Pairing, verbinde.</string>
+	<string name="problem_at_closing">Problem beim Schließen der Verbindung!</string>
+	<string name="bt_connection_failed">Verbindung zum Gerät fehlgeschlagen!</string>
+	<string name="no_paired_nxt">Kein verbundenes NXT</string>
+	<string name="none_found">Keine nicht verbundenen Geräte gefunden</string>
+	<string name="none_paired">Keine verbundenen Geräte gefunden</string>
+	
+    <!-- Lego Mindstorms Strings -->
+	<string name="brick_motor_action">NXT bewege Motor</string>
+	<string name="motor">Motor</string>
+	<string name="motor_duration">Dauer</string>
+	<string name="motor_speed">Geschwindigkeit</string>
+	<string name="brick_motor_turn_angle">NXT rotiere Motor</string>
+	<string name="motor_angle">Winkel</string>
+	<string name="motor_stop">NXT stoppe Motor</string>
+	<string name="nxt_play_tone">NXT Ton abspielen</string>
+	<string name="nxt_tone_frequency">Frequenz</string>
+	<string name="tone_duration">Dauer</string>
+	<string name="nxt_tone_hundred_hz">x100Hz</string>
+	
+	<string name="number_to_small">Wert ist zu klein!</string>
+	<string name="number_to_big">Wert ist zu groß!</string>
 </resources>
