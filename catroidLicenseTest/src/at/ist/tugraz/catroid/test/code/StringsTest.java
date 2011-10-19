@@ -58,7 +58,6 @@ public class StringsTest extends TestCase {
 	private static final String RESOURCES_DIRECTORY = "../catroid/res";
 	private static final String JAVA_STRING_PREFIX = "R.string.";
 	private static final String XML_STRING_PREFIX = "@string/";
-	private static final String XML_STRING_PREFIX2 = "@+string/";
 
 	private List<File> getStringFiles() throws IOException {
 		List<File> stringFiles = new ArrayList<File>();
@@ -246,9 +245,6 @@ public class StringsTest extends TestCase {
 				if (split[i].startsWith(XML_STRING_PREFIX)) {
 					String stringToAdd = split[i].substring(XML_STRING_PREFIX.length());
 					usedStrings.add(stringToAdd + "|" + layoutFile.getName());
-				} else if (split[i].startsWith(XML_STRING_PREFIX2)) {
-					String stringToAdd = split[i].substring(XML_STRING_PREFIX2.length());
-					usedStrings.add(stringToAdd + "|" + layoutFile.getName());
 				}
 			}
 		}
@@ -272,12 +268,14 @@ public class StringsTest extends TestCase {
 		boolean missingStringsFound = false;
 
 		StringBuilder stringXmlSourceCodeBuilder = new StringBuilder();
-		File defaultStringFile = new File("../catroid/res/values/strings.xml");
-		BufferedReader reader = new BufferedReader(new FileReader(defaultStringFile));
+		File defaultResDirectory = new File("../catroid/res/values/");
+		for (File defaultStringFile : defaultResDirectory.listFiles()) {
+			BufferedReader reader = new BufferedReader(new FileReader(defaultStringFile));
 
-		String currentLine = null;
-		while ((currentLine = reader.readLine()) != null) {
-			stringXmlSourceCodeBuilder.append(currentLine + "\n");
+			String currentLine = null;
+			while ((currentLine = reader.readLine()) != null) {
+				stringXmlSourceCodeBuilder.append(currentLine + "\n");
+			}
 		}
 
 		String stringXmlSourceCode = stringXmlSourceCodeBuilder.toString();
@@ -285,7 +283,7 @@ public class StringsTest extends TestCase {
 
 		Set<String> missingStrings = new HashSet<String>();
 		for (String stringPairUsedInXml : allStringsUsedInLayoutFiles) {
-			String[] split = stringPairUsedInXml.split("|");
+			String[] split = stringPairUsedInXml.split("\\|");
 			String stringUsedInXml = split[0];
 			String layoutFileName = split[1];
 			if (!stringXmlSourceCode.contains(stringUsedInXml)) {
@@ -294,7 +292,7 @@ public class StringsTest extends TestCase {
 			}
 		}
 		for (String missing : missingStrings) {
-			errorMessage.append("\nString with name " + missing + " is missing in the default string xml");
+			errorMessage.append("\nString with name " + missing + " is missing in the default resource folder.");
 		}
 		assertFalse("Missing string resources were found:" + errorMessage.toString(), missingStringsFound);
 	}

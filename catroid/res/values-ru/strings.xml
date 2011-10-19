@@ -360,7 +360,7 @@
     <string name="load_project">Загрузить проект</string>
     <string name="upload_button">Закачать</string>
     <string name="upload_project_dialog_title">Закачать проект</string>    
-<!--	<string name="upload_description">Описание:</string>-->
+	<string name="upload_description">Описание:</string>
     <string name="project_rename">(Ваш проект будет переименован.)</string>
     <string name="size_of_project">Размер проекта:</string>
     
