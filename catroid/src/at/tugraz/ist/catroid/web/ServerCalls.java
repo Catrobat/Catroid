@@ -49,7 +49,7 @@ public class ServerCalls {
 	private static final String USER_EMAIL = "userEmail";
 	private static final String USER_LANGUAGE = "userLanguage";
 
-	public static final String BASE_URL = "http://catroidtest.ist.tugraz.at/";
+	public static final String BASE_URL = "http://www.catroid.org/";
 	//public static final String BASE_URL = "http://catroidtest.ist.tugraz.at/";
 	public static final String FILE_UPLOAD_URL = BASE_URL + "api/upload/upload.json";
 	public static final String CHECK_TOKEN_URL = BASE_URL + "api/checkToken/check.json";
