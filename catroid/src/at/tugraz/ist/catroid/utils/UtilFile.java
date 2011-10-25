@@ -49,7 +49,7 @@ public class UtilFile {
 		File[] contents = directory.listFiles(new FileFilter() {
 			public boolean accept(File pathname) {
 				// ignore automatically created build.xml files
-				if (pathname.equals("build.xml")) {
+				if (pathname.getName().equals("build.xml")) {
 					return false;
 				}
 				for (String extension : extensions) {
