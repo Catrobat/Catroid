@@ -33,7 +33,8 @@ import junit.framework.TestCase;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class LicenseTest extends TestCase {
-	private static final String[] DIRECTORIES = { ".", "../catroid", "../catroidTest", "../catroidUiTest", };
+	private static final String[] DIRECTORIES = { "./src", "./res", "../catroid", "../catroid", "../catroidTest",
+			"../catroidTest", "../catroidUiTest", "../catroidUiTest" };
 
 	private ArrayList<String> agplLicenseText;
 	private boolean allLicenseTextsPresentAndCorrect;
