@@ -48,12 +48,17 @@ public class UtilFile {
 		List<File> filesFound = new ArrayList<File>();
 		File[] contents = directory.listFiles(new FileFilter() {
 			public boolean accept(File pathname) {
+				// ignore automatically created build.xml files
+				if (pathname.getName().equals("build.xml")) {
+					return false;
+				}
 				for (String extension : extensions) {
 					if (pathname.getName().endsWith(extension)) {
 						return true;
 					}
 				}
-				return (pathname.isDirectory() && !pathname.getName().equals("gen"));
+				return (pathname.isDirectory() && !pathname.getName().equals("gen") && !pathname.getName().equals(
+						"reports"));
 			}
 		});
 
