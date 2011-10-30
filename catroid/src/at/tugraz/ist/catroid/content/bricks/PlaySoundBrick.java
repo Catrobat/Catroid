@@ -34,8 +34,6 @@ import android.widget.Spinner;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.io.SoundManager;
-import at.tugraz.ist.catroid.stage.NativeAppActivity;
 
 public class PlaySoundBrick implements Brick, Serializable, OnItemSelectedListener {
 	private static final long serialVersionUID = 1L;
@@ -54,13 +52,13 @@ public class PlaySoundBrick implements Brick, Serializable, OnItemSelectedListen
 	}
 
 	public void execute() {
-		if (soundInfo != null && sprite.getSoundList().contains(soundInfo)) {
-			if (!NativeAppActivity.isRunning() && soundInfo.getAbsolutePath() != null) {
-				SoundManager.getInstance().playSoundFile(soundInfo.getAbsolutePath());
-			} else {
-				SoundManager.getInstance().playSoundFile("sounds/" + soundInfo.getSoundFileName());
-			}
-		}
+		//		if (soundInfo != null && sprite.getSoundList().contains(soundInfo)) {
+		//			if (!NativeAppActivity.isRunning() && soundInfo.getAbsolutePath() != null) {
+		//				SoundManager.getInstance().playSoundFile(soundInfo.getAbsolutePath());
+		//			} else {
+		//				SoundManager.getInstance().playSoundFile("sounds/" + soundInfo.getSoundFileName());
+		//			}
+		//		}
 	}
 
 	public Sprite getSprite() {
