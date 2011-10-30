@@ -51,7 +51,6 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
-import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -76,9 +75,9 @@ public class StorageHandler {
 		xstream.aliasPackage("Common", "at.tugraz.ist.catroid.common");
 		xstream.aliasPackage("Content", "at.tugraz.ist.catroid.content");
 
-		if (!Utils.hasSdCard()) {
-			throw new IOException("Could not read external storage");
-		}
+		//		if (!Utils.hasSdCard()) {
+		//			throw new IOException("Could not read external storage");
+		//		}
 		createCatroidRoot();
 	}
 
@@ -104,23 +103,31 @@ public class StorageHandler {
 	public Project loadProject(String projectName) {
 		createCatroidRoot();
 		try {
-			if (NativeAppActivity.isRunning()) {
-				InputStream spfFileStream = NativeAppActivity.getContext().getAssets().open(projectName);
-				return (Project) xstream.fromXML(spfFileStream);
+			//if (NativeAppActivity.isRunning()) {
+			//				InputStream spfFileStream = NativeAppActivity.getContext().getAssets().open(projectName);
+			//				return (Project) xstream.fromXML(spfFileStream);
+
+			File f = new File("myProject/Susi.xml");
+			if (f.exists()) {
+				System.out.println("yeah exists");
 			}
+			InputStream spfFileStream = new FileInputStream(f);
+			return (Project) xstream.fromXML(spfFileStream);
 
-			projectName = Utils.getProjectName(projectName);
-
-			File projectDirectory = new File(Utils.buildPath(Consts.DEFAULT_ROOT, projectName));
-
-			if (projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite()) {
-				InputStream projectFileStream = new FileInputStream(Utils.buildPath(projectDirectory.getAbsolutePath(),
-						projectName + Consts.PROJECT_EXTENTION));
-				return (Project) xstream.fromXML(projectFileStream);
-			} else {
-				return null;
-			}
-
+			//			}
+			//
+			//			projectName = Utils.getProjectName(projectName);
+			//
+			//			File projectDirectory = new File(Utils.buildPath(Consts.DEFAULT_ROOT, projectName));
+			//
+			//			if (projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite()) {
+			//				InputStream projectFileStream = new FileInputStream(Utils.buildPath(projectDirectory.getAbsolutePath(),
+			//						projectName + Consts.PROJECT_EXTENTION));
+			//				return (Project) xstream.fromXML(projectFileStream);
+			//			} else {
+			//				return null;
+			//			}
+			//
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
