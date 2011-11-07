@@ -28,7 +28,6 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +37,8 @@ import at.tugraz.ist.catroid.common.Consts;
 public class UtilFile {
 	public static final int TYPE_IMAGE_FILE = 0;
 	public static final int TYPE_SOUND_FILE = 1;
+
+	private static final boolean SI = false;
 
 	static public List<File> getFilesFromDirectoryByExtension(File directory, String extension) {
 		String[] extensions = { extension };
@@ -73,36 +74,35 @@ public class UtilFile {
 		return filesFound;
 	}
 
-	static public long getSizeOfDirectoryInByte(File directory) {
-		if (!directory.isDirectory()) {
-			return directory.length();
+	static private long getSizeOfFileOrDirectoryInByte(File fileOrDirectory) {
+		if (fileOrDirectory.isFile()) {
+			return fileOrDirectory.length();
 		}
-		File[] contents = directory.listFiles();
+		File[] contents = fileOrDirectory.listFiles();
 		long size = 0;
 		for (File file : contents) {
-			if (file.isDirectory()) {
-				size += getSizeOfDirectoryInByte(file);
-			} else {
-				size += file.length();
-			}
+			size += file.isDirectory() ? getSizeOfFileOrDirectoryInByte(file) : file.length();
 		}
 		return size;
 	}
 
-	static public String getSizeAsString(File directory) {
-		float sizeInKB = UtilFile.getSizeOfDirectoryInByte(directory) / 1024;
+	static public String getSizeAsString(File fileOrDirectory) {
+		long bytes = UtilFile.getSizeOfFileOrDirectoryInByte(fileOrDirectory);
 
-		String fileSizeString;
-		DecimalFormat decimalFormat = new DecimalFormat("#.00");
+		int unit = SI ? 1000 : 1024;
 
-		if (sizeInKB > 1048576) {
-			fileSizeString = decimalFormat.format(sizeInKB / 1048576) + " GB";
-		} else if (sizeInKB > 1024) {
-			fileSizeString = decimalFormat.format(sizeInKB / 1024) + " MB";
-		} else {
-			fileSizeString = Long.toString((long) sizeInKB) + " KB";
+		if (bytes < unit) {
+			return bytes + " B";
 		}
-		return fileSizeString;
+
+		/*
+		 * Logarithm of "bytes" to base "unit"
+		 * log(a) / log(b) == logarithm of a to the base of b
+		 */
+		int exponent = (int) (Math.log(bytes) / Math.log(unit));
+		String prefix = (SI ? "kMGTPE" : "KMGTPE").charAt(exponent - 1) + (SI ? "" : "i");
+
+		return String.format("%.2f %sB", bytes / Math.pow(unit, exponent), prefix);
 	}
 
 	static public boolean clearDirectory(File path) {
