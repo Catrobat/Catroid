@@ -193,7 +193,7 @@ public class CostumeActivity extends ListActivity {
 				String imageName;
 				File imageFile = StorageHandler.getInstance().copyImage(projectName, originalImagePath, null);
 				int extensionDotIndex = oldFile.getName().lastIndexOf('.');
-				if (extensionDotIndex != -1) {
+				if (extensionDotIndex <= 0) {
 					imageName = oldFile.getName().substring(0, extensionDotIndex - 1);
 				} else {
 					imageName = oldFile.getName();

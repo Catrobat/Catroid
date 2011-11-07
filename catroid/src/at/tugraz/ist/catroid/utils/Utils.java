@@ -35,8 +35,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.concurrent.Semaphore;
 
 import android.app.Activity;
@@ -180,11 +178,6 @@ public class Utils {
 		return projectFolder.exists();
 	}
 
-	public static String getTimestamp() {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-		return simpleDateFormat.format(new Date());
-	}
-
 	public static boolean deleteFolder(String path) {
 		File fileFrom = new File(path);
 		if (fileFrom.isDirectory()) {
@@ -197,28 +190,6 @@ public class Utils {
 			}
 		} else {
 			fileFrom.delete();
-		}
-
-		return true;
-	}
-
-	public static boolean deleteFolder(String path, String ignoreFile) {
-		File fileFrom = new File(path);
-		if (fileFrom.isDirectory()) {
-			for (File file : fileFrom.listFiles()) {
-				if (file.isDirectory()) {
-					deleteFolder(file.getAbsolutePath(), ignoreFile);
-				} else {
-					if (!file.getName().equals(ignoreFile)) {
-						file.delete();
-					}
-				}
-
-			}
-		} else {
-			if (!fileFrom.getName().equals(ignoreFile)) {
-				fileFrom.delete();
-			}
 		}
 
 		return true;

@@ -69,14 +69,6 @@ public class CostumeData {
 		return costumeFileName.substring(0, 32);
 	}
 
-	public String getFileExtension() {
-		if (costumeFileName == null) {
-			return null;
-		}
-		String[] splittedFileName = costumeFileName.split("\\.");
-		return splittedFileName[splittedFileName.length - 1];
-	}
-
 	public String getPathWithoutFileName() {
 		return Utils.buildPath(Consts.DEFAULT_ROOT, ProjectManager.getInstance().getCurrentProject().getName(),
 				Consts.IMAGE_DIRECTORY);
