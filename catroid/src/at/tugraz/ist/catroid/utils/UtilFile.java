@@ -38,7 +38,7 @@ public class UtilFile {
 	public static final int TYPE_IMAGE_FILE = 0;
 	public static final int TYPE_SOUND_FILE = 1;
 
-	private static final boolean SI = false;
+	private static final int UNIT = 1024;
 
 	static public List<File> getFilesFromDirectoryByExtension(File directory, String extension) {
 		String[] extensions = { extension };
@@ -89,20 +89,18 @@ public class UtilFile {
 	static public String getSizeAsString(File fileOrDirectory) {
 		long bytes = UtilFile.getSizeOfFileOrDirectoryInByte(fileOrDirectory);
 
-		int unit = SI ? 1000 : 1024;
-
-		if (bytes < unit) {
-			return bytes + " B";
+		if (bytes < UNIT) {
+			return bytes + " Byte";
 		}
 
 		/*
 		 * Logarithm of "bytes" to base "unit"
 		 * log(a) / log(b) == logarithm of a to the base of b
 		 */
-		int exponent = (int) (Math.log(bytes) / Math.log(unit));
-		String prefix = (SI ? "kMGTPE" : "KMGTPE").charAt(exponent - 1) + (SI ? "" : "i");
+		int exponent = (int) (Math.log(bytes) / Math.log(UNIT));
+		char prefix = ("KMGTPE").charAt(exponent - 1);
 
-		return String.format("%.2f %sB", bytes / Math.pow(unit, exponent), prefix);
+		return String.format("%.2f %sB", bytes / Math.pow(UNIT, exponent), prefix);
 	}
 
 	static public boolean clearDirectory(File path) {
