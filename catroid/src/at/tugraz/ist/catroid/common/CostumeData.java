@@ -35,8 +35,8 @@ public class CostumeData {
 	private String costumeName;
 	private String costumeFileName;
 	private transient Bitmap thumbnailBitmap;
-	private Integer resWidth;
-	private Integer resHeight;
+	private transient Integer width;
+	private transient Integer height;
 	private Long sizeInKB;
 	private transient static final int THUMBNAIL_WIDTH = 150;
 	private transient static final int THUMBNAIL_HEIGHT = 150;
@@ -97,16 +97,16 @@ public class CostumeData {
 	}
 
 	public int[] getResolution() {
-		if (resWidth != null && resHeight != null) {
-			return new int[] { resWidth, resHeight };
+		if (width != null && height != null) {
+			return new int[] { width, height };
 		}
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = true;
 		BitmapFactory.decodeFile(getAbsolutePath(), options);
-		resWidth = options.outWidth;
-		resHeight = options.outHeight;
+		width = options.outWidth;
+		height = options.outHeight;
 
-		return new int[] { resWidth, resHeight };
+		return new int[] { width, height };
 	}
 
 	public long getSizeInKb() {
