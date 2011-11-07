@@ -22,8 +22,6 @@
  */
 package at.tugraz.ist.catroid.common;
 
-import java.io.File;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -107,14 +105,6 @@ public class CostumeData {
 		height = options.outHeight;
 
 		return new int[] { width, height };
-	}
-
-	public long getSizeInKb() {
-		if (sizeInKB != null) {
-			return sizeInKB;
-		}
-		sizeInKB = new File(getAbsolutePath()).length() / 1024;
-		return sizeInKB;
 	}
 
 	@Override
