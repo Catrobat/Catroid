@@ -41,7 +41,6 @@ public class SpeakBrick implements Brick {
 
 	private Sprite sprite;
 	private String text = "";
-	protected int position = 0;
 
 	private transient View view;
 
