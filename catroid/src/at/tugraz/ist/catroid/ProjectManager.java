@@ -41,7 +41,6 @@ public class ProjectManager {
 	private Script currentScript;
 	private Sprite currentSprite;
 	private static ProjectManager instance;
-	private String lastFileSaved;
 
 	public FileChecksumContainer fileChecksumContainer;
 	public MessageContainer messageContainer;
@@ -228,13 +227,4 @@ public class ProjectManager {
 
 		return true;
 	}
-
-	public String getLastFilePath() {
-		return lastFileSaved;
-	}
-
-	public void setLastFilePath(String fd) {
-		lastFileSaved = fd;
-	}
-
 }
