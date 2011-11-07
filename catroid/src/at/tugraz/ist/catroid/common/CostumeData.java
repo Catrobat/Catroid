@@ -35,7 +35,6 @@ public class CostumeData {
 	private transient Bitmap thumbnailBitmap;
 	private transient Integer width;
 	private transient Integer height;
-	private Long sizeInKB;
 	private transient static final int THUMBNAIL_WIDTH = 150;
 	private transient static final int THUMBNAIL_HEIGHT = 150;
 
