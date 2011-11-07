@@ -73,13 +73,9 @@ public class UtilFile {
 	}
 
 	static private long getSizeOfFileOrDirectoryInByte(File fileOrDirectory) {
-		if (!fileOrDirectory.exists()) {
-			return 0;
-		}
 		if (fileOrDirectory.isFile()) {
 			return fileOrDirectory.length();
 		}
-
 		File[] contents = fileOrDirectory.listFiles();
 		long size = 0;
 		for (File file : contents) {
