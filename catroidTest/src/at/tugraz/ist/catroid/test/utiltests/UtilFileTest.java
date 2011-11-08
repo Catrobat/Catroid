@@ -88,7 +88,7 @@ public class UtilFileTest extends InstrumentationTestCase {
 					at.tugraz.ist.catroid.test.R.raw.longtestsound, getInstrumentation().getContext(),
 					UtilFile.TYPE_SOUND_FILE);
 		}
-		DecimalFormat decimalFormat = new DecimalFormat("#.00");
+		DecimalFormat decimalFormat = new DecimalFormat("#.0");
 		String expected = decimalFormat.format(2.0) + " MB";
 		assertEquals("not the expected string", expected, UtilFile.getSizeAsString(testDirectory));
 
@@ -109,7 +109,7 @@ public class UtilFileTest extends InstrumentationTestCase {
 			}
 		}
 
-		assertEquals("Unexpected Filesize!", "7 B", UtilFile.getSizeAsString(testFile));
+		assertEquals("Unexpected Filesize!", "7 Byte", UtilFile.getSizeAsString(testFile));
 
 		UtilFile.deleteDirectory(testDirectory);
 	}
