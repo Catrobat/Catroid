@@ -51,6 +51,7 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
+import at.tugraz.ist.catroid.stage.NativeAppActivity;
 import at.tugraz.ist.catroid.utils.ImageEditing;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -75,9 +76,9 @@ public class StorageHandler {
 		xstream.aliasPackage("Common", "at.tugraz.ist.catroid.common");
 		xstream.aliasPackage("Content", "at.tugraz.ist.catroid.content");
 
-		//		if (!Utils.hasSdCard()) {
-		//			throw new IOException("Could not read external storage");
-		//		}
+		if (!Consts.NATIVE_DESKTOP_PLAYER && !Utils.hasSdCard()) {
+			throw new IOException("Could not read external storage");
+		}
 		createCatroidRoot();
 	}
 
@@ -100,34 +101,26 @@ public class StorageHandler {
 		return instance;
 	}
 
-	public Project loadProject(String projectName) {
+	public Project loadProject(String projectFileName) {
 		createCatroidRoot();
 		try {
-			//if (NativeAppActivity.isRunning()) {
-			//				InputStream spfFileStream = NativeAppActivity.getContext().getAssets().open(projectName);
-			//				return (Project) xstream.fromXML(spfFileStream);
-
-			File f = new File("myProject/Susi.xml");
-			if (f.exists()) {
-				System.out.println("yeah exists");
+			if (NativeAppActivity.isRunning()) {
+				InputStream spfFileStream = NativeAppActivity.getContext().getAssets().open(projectFileName);
+				return (Project) xstream.fromXML(spfFileStream);
 			}
-			InputStream spfFileStream = new FileInputStream(f);
-			return (Project) xstream.fromXML(spfFileStream);
 
-			//			}
-			//
-			//			projectName = Utils.getProjectName(projectName);
-			//
-			//			File projectDirectory = new File(Utils.buildPath(Consts.DEFAULT_ROOT, projectName));
-			//
-			//			if (projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite()) {
-			//				InputStream projectFileStream = new FileInputStream(Utils.buildPath(projectDirectory.getAbsolutePath(),
-			//						projectName + Consts.PROJECT_EXTENTION));
-			//				return (Project) xstream.fromXML(projectFileStream);
-			//			} else {
-			//				return null;
-			//			}
-			//
+			String projectName = Utils.getProjectName(projectFileName);
+
+			File projectDirectory = new File(Utils.buildPath(Consts.DEFAULT_ROOT, projectName));
+
+			if (projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite()) {
+				InputStream projectFileStream = new FileInputStream(Utils.buildPath(projectDirectory.getAbsolutePath(),
+						projectName + Consts.PROJECT_EXTENTION));
+				return (Project) xstream.fromXML(projectFileStream);
+			} else {
+				return null;
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -163,8 +156,9 @@ public class StorageHandler {
 				noMediaFile.createNewFile();
 			}
 
-			BufferedWriter writer = new BufferedWriter(new FileWriter(Utils.buildPath(projectDirectoryName,
-					project.getName() + Consts.PROJECT_EXTENTION)), Consts.BUFFER_8K);
+			BufferedWriter writer = new BufferedWriter(new FileWriter(Utils.buildPath(projectDirectoryName, project
+					.getName()
+					+ Consts.PROJECT_EXTENTION)), Consts.BUFFER_8K);
 
 			writer.write(XML_HEADER.concat(projectFile));
 			writer.flush();
@@ -235,8 +229,8 @@ public class StorageHandler {
 			if (newName != null) {
 				newFilePath = Utils.buildPath(imageDirectory.getAbsolutePath(), checksumSource + "_" + newName);
 			} else {
-				newFilePath = Utils.buildPath(imageDirectory.getAbsolutePath(),
-						checksumSource + "_" + inputFile.getName());
+				newFilePath = Utils.buildPath(imageDirectory.getAbsolutePath(), checksumSource + "_"
+						+ inputFile.getName());
 				if (checksumCont.containsChecksum(checksumSource)) {
 					checksumCont.addChecksum(checksumSource, newFilePath);
 					return new File(checksumCont.getPath(checksumSource));
@@ -271,8 +265,8 @@ public class StorageHandler {
 		String checksumCompressedFile = Utils.md5Checksum(outputFile);
 
 		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().fileChecksumContainer;
-		String newFilePath = Utils.buildPath(imageDirectory.getAbsolutePath(),
-				checksumCompressedFile + "_" + inputFile.getName());
+		String newFilePath = Utils.buildPath(imageDirectory.getAbsolutePath(), checksumCompressedFile + "_"
+				+ inputFile.getName());
 
 		if (!fileChecksumContainer.addChecksum(checksumCompressedFile, newFilePath)) {
 			outputFile.delete();
@@ -358,10 +352,10 @@ public class StorageHandler {
 				context);
 
 		String directoryName = Utils.buildPath(Consts.DEFAULT_ROOT, projectName, Consts.IMAGE_DIRECTORY);
-		File normalCat = new File(Utils.buildPath(directoryName,
-				Utils.md5Checksum(normalCatTemp) + "_" + normalCatTemp.getName()));
-		File banzaiCat = new File(Utils.buildPath(directoryName,
-				Utils.md5Checksum(banzaiCatTemp) + "_" + banzaiCatTemp.getName()));
+		File normalCat = new File(Utils.buildPath(directoryName, Utils.md5Checksum(normalCatTemp) + "_"
+				+ normalCatTemp.getName()));
+		File banzaiCat = new File(Utils.buildPath(directoryName, Utils.md5Checksum(banzaiCatTemp) + "_"
+				+ banzaiCatTemp.getName()));
 		File cheshireCat = new File(Utils.buildPath(directoryName, Utils.md5Checksum(cheshireCatTemp) + "_"
 				+ cheshireCatTemp.getName()));
 		File background = new File(Utils.buildPath(directoryName, Utils.md5Checksum(backgroundTemp) + "_"
