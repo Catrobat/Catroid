@@ -32,8 +32,8 @@ import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.AdapterView.OnItemSelectedListener;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.SoundInfo;
+import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
@@ -59,7 +59,7 @@ public class PlaySoundBrick implements Brick, Serializable, OnItemSelectedListen
 
 	public void execute() {
 		if (soundInfo != null && sprite.getSoundList().contains(soundInfo)) {
-			if (Consts.NATIVE_DESKTOP_PLAYER) {
+			if (Values.NATIVE_DESKTOP_PLAYER) {
 				Music music = Gdx.audio.newMusic(Gdx.files.internal(soundInfo.getAbsolutePath()));
 				music.play();
 			} else if (!NativeAppActivity.isRunning() && soundInfo.getAbsolutePath() != null) {
