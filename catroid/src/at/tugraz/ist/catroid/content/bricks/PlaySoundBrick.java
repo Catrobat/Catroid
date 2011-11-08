@@ -32,42 +32,25 @@ import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.AdapterView.OnItemSelectedListener;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.SoundManager;
+import at.tugraz.ist.catroid.stage.NativeAppActivity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 
 public class PlaySoundBrick implements Brick, Serializable, OnItemSelectedListener {
 	private static final long serialVersionUID = 1L;
 
 	private SoundInfo soundInfo;
 	private Sprite sprite;
-	private transient Sound sound;
-	private transient Music music;
 
 	private transient View view;
 
 	public PlaySoundBrick(Sprite sprite) {
 		this.sprite = sprite;
-
-	}
-
-	public PlaySoundBrick() {
-
-	}
-
-	protected Object readResolve() {
-		//		if (sound == null) {
-		if (soundInfo != null) {
-			System.out.println("__blavbla__");
-			System.out.println("__abs sound path: " + soundInfo.getSoundFileName());
-
-		}
-		//		}
-		//		return this;
-		return this;
 	}
 
 	public int getRequiredResources() {
@@ -75,25 +58,16 @@ public class PlaySoundBrick implements Brick, Serializable, OnItemSelectedListen
 	}
 
 	public void execute() {
-		//		System.out.println("sound: " + sound);
-		//		sound = Gdx.audio.newSound(Gdx.files
-		//				.internal("myProject/Susi/sounds/210DBCA1698CF6AE72177DBB60F54F9E_Drum_Machine.mp3"));
-		//		music = Gdx.audio.newMusic(Gdx.files
-		//				.internal("myProject/Susi/sounds/AA1073127A0631A1FA5E2470FE206C1B_Techno.mp3"));
-		//		music.play();
-		//		System.out.println("music finished");
-		//
-		//		sound.play();
-		//		System.out.println("sound finished: ");
-
-		SoundManager.getInstance().playSoundFile("myProject/Susi/sounds/" + soundInfo.getSoundFileName());
-		//		if (soundInfo != null && sprite.getSoundList().contains(soundInfo)) {
-		//			if (!NativeAppActivity.isRunning() && soundInfo.getAbsolutePath() != null) {
-		//				SoundManager.getInstance().playSoundFile(soundInfo.getAbsolutePath());
-		//			} else {
-		//				SoundManager.getInstance().playSoundFile("sounds/" + soundInfo.getSoundFileName());
-		//			}
-		//		}
+		if (soundInfo != null && sprite.getSoundList().contains(soundInfo)) {
+			if (Consts.NATIVE_DESKTOP_PLAYER) {
+				Music music = Gdx.audio.newMusic(Gdx.files.internal(soundInfo.getAbsolutePath()));
+				music.play();
+			} else if (!NativeAppActivity.isRunning() && soundInfo.getAbsolutePath() != null) {
+				SoundManager.getInstance().playSoundFile(soundInfo.getAbsolutePath());
+			} else {
+				SoundManager.getInstance().playSoundFile("sounds/" + soundInfo.getSoundFileName());
+			}
+		}
 	}
 
 	public Sprite getSprite() {

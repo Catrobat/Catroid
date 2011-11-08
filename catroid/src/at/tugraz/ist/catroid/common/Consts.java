@@ -22,14 +22,20 @@
  */
 package at.tugraz.ist.catroid.common;
 
-import java.io.File;
+import com.badlogic.gdx.Gdx;
 
 public final class Consts {
 
 	public static final String PROJECT_EXTENTION = ".xml";
 	public static final String CATROID_EXTENTION = ".catroid";
 
-	public static final String DEFAULT_ROOT = new File(".").getAbsolutePath() + "/myProject/";
+	public static boolean NATIVE_DESKTOP_PLAYER = false;
+	public static String DEFAULT_ROOT;
+	static {
+		if (Gdx.files != null) {
+			DEFAULT_ROOT = Gdx.files.getExternalStoragePath() + "/catroid";
+		}
+	}
 	public static final String TMP_PATH = DEFAULT_ROOT + "/tmp";
 	public static final String IMAGE_DIRECTORY = "/images";
 	public static final String SOUND_DIRECTORY = "/sounds";

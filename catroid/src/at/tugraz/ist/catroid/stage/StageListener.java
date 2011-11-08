@@ -43,7 +43,6 @@ import at.tugraz.ist.catroid.ui.dialogs.StageDialog;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
@@ -154,10 +153,6 @@ public class StageListener implements ApplicationListener {
 
 		background = new Texture(Gdx.files.internal("stage/white_pixel.bmp"));
 		axes = new Texture(Gdx.files.internal("stage/red_pixel.bmp"));
-
-		Sound sound = Gdx.audio.newSound(Gdx.files
-				.internal("myProject/Susi/sounds/210DBCA1698CF6AE72177DBB60F54F9E_Drum_Machine.mp3"));
-		System.out.println("sound: " + sound);
 	}
 
 	public void menuResume() {

@@ -22,13 +22,15 @@
  */
 package at.tugraz.ist.catroid.io;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
+import android.content.res.AssetFileDescriptor;
+import android.media.MediaPlayer;
+import at.tugraz.ist.catroid.stage.NativeAppActivity;
 
 public class SoundManager {
-	private ArrayList<Music> mediaPlayers;
+	private ArrayList<MediaPlayer> mediaPlayers;
 
 	private transient double volume = 70.0;
 
@@ -36,7 +38,7 @@ public class SoundManager {
 	private static SoundManager soundManager = null;
 
 	private SoundManager() {
-		mediaPlayers = new ArrayList<Music>();
+		mediaPlayers = new ArrayList<MediaPlayer>();
 	}
 
 	public synchronized static SoundManager getInstance() {
@@ -46,53 +48,48 @@ public class SoundManager {
 		return soundManager;
 	}
 
-	public void getMediaPlayer() {
-		for (Music mediaPlayer : new ArrayList<Music>(mediaPlayers)) {
+	public MediaPlayer getMediaPlayer() {
+		for (MediaPlayer mediaPlayer : mediaPlayers) {
 			if (!mediaPlayer.isPlaying()) {
-				mediaPlayer.dispose();
-				mediaPlayers.remove(mediaPlayer);
-				//return mediaPlayer;
+				mediaPlayer.reset();
+				return mediaPlayer;
 			}
 		}
-		//		if (mediaPlayers.size() < MAX_MEDIA_PLAYERS) {
-		//			MediaPlayer mediaPlayer = new MediaPlayer();
-		//			mediaPlayers.add(mediaPlayer);
-		//			return mediaPlayer;
-		//		} else {
-		//			return null;
-		//		}
+		if (mediaPlayers.size() < MAX_MEDIA_PLAYERS) {
+			MediaPlayer mediaPlayer = new MediaPlayer();
+			mediaPlayers.add(mediaPlayer);
+			return mediaPlayer;
+		} else {
+			return null;
+		}
 	}
 
-	public synchronized void playSoundFile(String pathToSoundfile) {
-		getMediaPlayer();
-		Music music = Gdx.audio.newMusic(Gdx.files.internal(pathToSoundfile));
-		mediaPlayers.add(music);
-		music.play();
-
-		//		//if (mediaPlayer != null) {
-		//			try {
-		//				if (!NativeAppActivity.isRunning()) {
-		//					mediaPlayer.setDataSource(pathToSoundfile);
-		//				} else {
-		//					AssetFileDescriptor afd = NativeAppActivity.getContext().getAssets().openFd(pathToSoundfile);
-		//					mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-		//				}
-		//				mediaPlayer.prepare();
-		//				mediaPlayer.start();
-		//			} catch (IOException e) {
-		//				throw new IllegalArgumentException("IO error", e);
-		//			}
-		//		//}
-		//		return mediaPlayer;
+	public synchronized MediaPlayer playSoundFile(String pathToSoundfile) {
+		MediaPlayer mediaPlayer = getMediaPlayer();
+		if (mediaPlayer != null) {
+			try {
+				if (!NativeAppActivity.isRunning()) {
+					mediaPlayer.setDataSource(pathToSoundfile);
+				} else {
+					AssetFileDescriptor afd = NativeAppActivity.getContext().getAssets().openFd(pathToSoundfile);
+					mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+				}
+				mediaPlayer.prepare();
+				mediaPlayer.start();
+			} catch (IOException e) {
+				throw new IllegalArgumentException("IO error", e);
+			}
+		}
+		return mediaPlayer;
 	}
 
 	public synchronized void setVolume(double volume) {
-		//		this.volume = volume;
-		//		float vol;
-		//		vol = (float) (volume * 0.01);
-		//		for (MediaPlayer mediaPlayer : mediaPlayers) {
-		//			mediaPlayer.setVolume(vol, vol);
-		//		}
+		this.volume = volume;
+		float vol;
+		vol = (float) (volume * 0.01);
+		for (MediaPlayer mediaPlayer : mediaPlayers) {
+			mediaPlayer.setVolume(vol, vol);
+		}
 	}
 
 	public double getVolume() {
@@ -100,32 +97,32 @@ public class SoundManager {
 	}
 
 	public synchronized void clear() {
-		for (Music mediaPlayer : mediaPlayers) {
-			mediaPlayer.dispose();
+		for (MediaPlayer mediaPlayer : mediaPlayers) {
+			mediaPlayer.release();
 		}
 		mediaPlayers.clear();
 	}
 
 	public synchronized void pause() {
-		for (Music mediaPlayer : mediaPlayers) {
+		for (MediaPlayer mediaPlayer : mediaPlayers) {
 			if (mediaPlayer.isPlaying()) {
 				mediaPlayer.pause();
 			} else {
-				mediaPlayer.dispose();
+				mediaPlayer.reset();
 			}
 		}
 	}
 
 	public synchronized void resume() {
-		for (Music mediaPlayer : mediaPlayers) {
+		for (MediaPlayer mediaPlayer : mediaPlayers) {
 			if (!mediaPlayer.isPlaying()) {
-				mediaPlayer.play();
+				mediaPlayer.start();
 			}
 		}
 	}
 
 	public synchronized void stopAllSounds() {
-		for (Music mediaPlayer : mediaPlayers) {
+		for (MediaPlayer mediaPlayer : mediaPlayers) {
 			if (mediaPlayer.isPlaying()) {
 				mediaPlayer.stop();
 			}
