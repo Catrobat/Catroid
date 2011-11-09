@@ -96,7 +96,7 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 
 	public void testLoopDelay() throws InterruptedException {
 
-		long expectedDelay = LoopEndBrick.LOOP_DELAY;
+		final int expectedDelay = (Integer) TestUtils.getPrivateField("LOOP_DELAY", loopEndBrick, false);
 		foreverBrick.execute();
 		long startTime = foreverBrick.getBeginLoopTime() / 1000000;
 		loopEndBrick.execute();
