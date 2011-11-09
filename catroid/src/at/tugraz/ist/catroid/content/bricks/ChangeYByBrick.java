@@ -1,63 +1,47 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010-2011 The Catroid Team
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *  
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://www.catroid.org/catroid_license_additional_term
- *  
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU Affero General Public License for more details.
- *   
- *  You should have received a copy of the GNU Affero General Public License
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.content.bricks;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
-import android.text.InputType;
+import android.content.DialogInterface.OnDismissListener;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
-import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.utils.Utils;
+import at.tugraz.ist.catroid.ui.dialogs.EditIntegerDialog;
 
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
-
-public class ChangeYByBrick implements Brick, OnClickListener {
+public class ChangeYByBrick implements Brick, OnDismissListener {
 	private static final long serialVersionUID = 1L;
 	private int yMovement;
 	private Sprite sprite;
-
-	@XStreamOmitField
-	private transient View view;
 
 	public ChangeYByBrick(Sprite sprite, int yMovement) {
 		this.sprite = sprite;
 		this.yMovement = yMovement;
 	}
 
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
 	public void execute() {
-		sprite.costume.aquireXYWidthHeightLock();
-		int yPosition = (int) sprite.costume.getYPosition();
+		int yPosition = sprite.getYPosition();
 
 		if (yPosition > 0 && yMovement > 0 && yPosition + yMovement < 0) {
 			yPosition = Integer.MAX_VALUE;
@@ -67,28 +51,33 @@ public class ChangeYByBrick implements Brick, OnClickListener {
 			yPosition += yMovement;
 		}
 
-		sprite.costume.setXYPosition(sprite.costume.getXPosition(), yPosition);
-		sprite.costume.releaseXYWidthHeightLock();
+		sprite.setXYPosition(sprite.getXPosition(), yPosition);
 	}
 
 	public Sprite getSprite() {
 		return this.sprite;
 	}
 
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
+	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View brickView = inflater.inflate(R.layout.construction_brick_change_y, null);
 
-		view = View.inflate(context, R.layout.toolbox_brick_change_y, null);
-
-		EditText editY = (EditText) view.findViewById(R.id.toolbox_brick_change_y_edit_text);
+		EditText editY = (EditText) brickView.findViewById(R.id.construction_brick_change_y_edit_text);
 		editY.setText(String.valueOf(yMovement));
 
-		editY.setOnClickListener(this);
+		EditIntegerDialog dialogY = new EditIntegerDialog(context, editY, yMovement, true);
+		dialogY.setOnDismissListener(this);
+		dialogY.setOnCancelListener((OnCancelListener) context);
 
-		return view;
+		editY.setOnClickListener(dialogY);
+
+		return brickView;
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_change_y, null);
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View brickView = inflater.inflate(R.layout.toolbox_brick_change_y, null);
+		return brickView;
 	}
 
 	@Override
@@ -96,36 +85,9 @@ public class ChangeYByBrick implements Brick, OnClickListener {
 		return new ChangeYByBrick(getSprite(), yMovement);
 	}
 
-	public void onClick(View view) {
-		final Context context = view.getContext();
-
-		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-		final EditText input = new EditText(context);
-		input.setText(String.valueOf(yMovement));
-		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
-		input.setSelectAllOnFocus(true);
-		dialog.setView(input);
-		dialog.setOnCancelListener((OnCancelListener) context);
-		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				try {
-					yMovement = Integer.parseInt(input.getText().toString());
-				} catch (NumberFormatException exception) {
-					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT);
-				}
-				dialog.cancel();
-			}
-		});
-		dialog.setNeutralButton(context.getString(R.string.cancel_button), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.cancel();
-			}
-		});
-
-		AlertDialog finishedDialog = dialog.create();
-		finishedDialog.setOnShowListener(Utils.getBrickDialogOnClickListener(context, input));
-
-		finishedDialog.show();
-
+	public void onDismiss(DialogInterface dialog) {
+		EditIntegerDialog inputDialog = (EditIntegerDialog) dialog;
+		yMovement = inputDialog.getValue();
+		dialog.cancel();
 	}
 }

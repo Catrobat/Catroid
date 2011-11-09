@@ -1,25 +1,22 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010-2011 The Catroid Team
+ *  Copyright (C) 2010  Catroid development team 
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *  
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://www.catroid.org/catroid_license_additional_term
- *  
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU Affero General Public License for more details.
- *   
- *  You should have received a copy of the GNU Affero General Public License
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package at.tugraz.ist.catroid.web;
 
 import java.io.BufferedReader;
@@ -32,8 +29,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import android.util.Log;
 import android.webkit.MimeTypeMap;
@@ -50,7 +47,7 @@ public class ConnectionWrapper {
 		}
 		try {
 			InputStreamReader isr = new InputStreamReader(is);
-			BufferedReader br = new BufferedReader(isr, Consts.BUFFER_8K);
+			BufferedReader br = new BufferedReader(isr);
 
 			String line;
 			String response = "";
@@ -113,21 +110,6 @@ public class ConnectionWrapper {
 		input.close();
 		fos.flush();
 		fos.close();
-	}
-
-	public String doHttpPost(String urlString, HashMap<String, String> postValues) throws IOException {
-		MultiPartFormOutputStream out = buildPost(urlString, postValues);
-		out.close();
-
-		InputStream resultStream = null;
-		//try {
-
-		Log.e("bla", "http code: " + urlConnection.getResponseCode());
-		resultStream = urlConnection.getInputStream();
-		//		} catch (FileNotFoundException e) {
-		//			Log.e("bla", "error string: " + getString(urlConnection.getErrorStream()));
-		//		}
-		return getString(resultStream);
 	}
 
 	private MultiPartFormOutputStream buildPost(String urlString, HashMap<String, String> postValues)

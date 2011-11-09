@@ -1,31 +1,32 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010-2011 The Catroid Team
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *  
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://www.catroid.org/catroid_license_additional_term
- *  
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU Affero General Public License for more details.
- *   
- *  You should have received a copy of the GNU Affero General Public License
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package at.tugraz.ist.catroid.uitest.ui;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
+import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -41,6 +42,7 @@ import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
@@ -52,6 +54,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	private String testProject = UiTestUtils.PROJECTNAME1;
 	private String testProject2 = UiTestUtils.PROJECTNAME2;
 	private String testProject3 = UiTestUtils.PROJECTNAME3;
+	private String existingProject = UiTestUtils.PROJECTNAME4;
 
 	public MainMenuActivityTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -81,18 +84,11 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		assertFalse("testProject was not deleted!", directory.exists());
 
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(300);
-		solo.clearEditText(0);
+		solo.clickOnEditText(0);
 		solo.enterText(0, testProject);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(300);
-		assertTrue("EditText field got cleared after changing orientation", solo.searchText(testProject));
-		solo.sleep(600);
-		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.goBack();
-		solo.clickOnButton(0);
-		solo.sleep(200);
+		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
+		solo.sleep(2000);
 
 		File file = new File(Consts.DEFAULT_ROOT + "/" + testProject + "/" + testProject + Consts.PROJECT_EXTENTION);
 		assertTrue(testProject + " was not created!", file.exists());
@@ -100,21 +96,11 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 	public void testCreateNewProjectErrors() {
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
-
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(300);
-		solo.clearEditText(0);
+		solo.clickOnEditText(0);
 		solo.enterText(0, "");
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(300);
-
-		assertTrue("EditText field got cleared after changing orientation", solo.searchText(""));
-		solo.sleep(600);
-		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.goBack();
-		solo.clickOnButton(0);
-		solo.sleep(100);
-
+		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
+		solo.sleep(50);
 		assertTrue("No error message was displayed upon creating a project with an empty name.",
 				solo.searchText(getActivity().getString(R.string.error_no_name_entered)));
 
@@ -124,20 +110,10 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		directory.mkdirs();
 		solo.sleep(50);
 
-		//solo.clickOnEditText(0);
-
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(300);
-		solo.clearEditText(0);
+		solo.clickOnEditText(0);
 		solo.enterText(0, testProject);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(300);
-		assertTrue("EditText field got cleared after changing orientation", solo.searchText(testProject));
-		solo.sleep(600);
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.clickOnButton(0);
-		solo.sleep(100);
-
+		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
+		solo.sleep(50);
 		assertTrue("No error message was displayed upon creating a project with the same name twice.",
 				solo.searchText(getActivity().getString(R.string.error_project_exists)));
 
@@ -147,17 +123,11 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		final String projectNameWithSpecialCharacters = "Hey, look, I'm special! ?äöüß<>";
 
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
-
-		solo.setActivityOrientation(Solo.PORTRAIT);
-		solo.sleep(300);
-		solo.clearEditText(0);
+		solo.clickOnEditText(0);
 		solo.enterText(0, projectNameWithSpecialCharacters);
-		solo.setActivityOrientation(Solo.LANDSCAPE);
-		solo.sleep(600);
-		solo.setActivityOrientation(Solo.PORTRAIT);
 		solo.goBack();
-		solo.clickOnButton(0);
-		solo.sleep(100);
+		solo.clickOnButton(getActivity().getString(R.string.new_project_dialog_button));
+		solo.sleep(1000);
 
 		assertEquals("Project name with special characters was not set properly", ProjectManager.getInstance()
 				.getCurrentProject().getName(), projectNameWithSpecialCharacters);
@@ -173,7 +143,7 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		createTestProject(testProject2);
 
-		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.clickOnButton(getActivity().getString(R.string.projects_on_phone));
 		solo.clickOnText(testProject2);
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
 		Sprite first = (Sprite) spritesList.getItemAtPosition(1);
@@ -185,6 +155,9 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		Sprite fourth = (Sprite) spritesList.getItemAtPosition(4);
 		assertEquals("Sprite at index 4 is not \"pig\"!", "pig", fourth.getName());
 		solo.goBack();
+		//		TextView currentProject = (TextView) getActivity().findViewById(R.id.currentProjectNameTextView);
+		//		assertEquals("Current project is not testProject2!", getActivity().getString(R.string.current_project) + " "
+		//				+ testProject2, currentProject.getText());
 	}
 
 	public void testResume() {
@@ -194,11 +167,16 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 
 		createTestProject(testProject3);
 
-		solo.clickOnButton(getActivity().getString(R.string.my_projects));
+		solo.clickOnButton(getActivity().getString(R.string.projects_on_phone));
 		solo.clickOnText(testProject3);
 		solo.goBack();
 
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
+
+		//		TextView projectTitle = (TextView) solo.getCurrentActivity().findViewById(R.id.project_title_text_view);
+		//
+		//		assertEquals("Project title is not " + testProject3, getActivity().getString(R.string.project_name)
+		//				+ " " + testProject3, projectTitle.getText());
 
 		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
 		Sprite first = (Sprite) spritesList.getItemAtPosition(1);
@@ -224,42 +202,52 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 	}
 
 	public void testPlayButton() {
-		//		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
-		//		solo.assertCurrentActivity("StageActivity not showing!", StageActivity.class);
+		List<ImageButton> btnList = solo.getCurrentImageButtons();
+		for (int i = 0; i < btnList.size(); i++) {
+			ImageButton btn = btnList.get(i);
+			if (btn.getId() == R.id.btn_action_play) {
+				solo.clickOnImageButton(i);
+			}
+		}
+		assertTrue("StageActivity is not showing!", solo.getCurrentActivity() instanceof StageActivity);
 	}
 
-	//edit this to work with login dialog
+	public void testRenameToExistingProject() {
+		createTestProject(existingProject);
+		solo.clickOnButton(getActivity().getString(R.string.upload_project));
+		solo.clickOnEditText(0);
+		solo.enterText(0, "");
+		solo.enterText(0, existingProject);
+		solo.goBack();
+		solo.clickOnEditText(1);
+		solo.goBack();
+		solo.clickOnButton(getActivity().getString(R.string.upload_button));
+		assertTrue("No error message was displayed upon renaming the project to an existing one.",
+				solo.searchText(getActivity().getString(R.string.error_project_exists)));
+	}
 
-	//	public void testRenameToExistingProject() {
-	//		createTestProject(existingProject);
-	//		solo.clickOnButton(getActivity().getString(R.string.upload_project));
-	//		solo.clickOnEditText(0);
-	//		solo.enterText(0, "");
-	//		solo.enterText(0, existingProject);
-	//		solo.goBack();
-	//		solo.clickOnEditText(1);
-	//		solo.goBack();
-	//		solo.clickOnButton(getActivity().getString(R.string.upload_button));
-	//		assertTrue("No error message was displayed upon renaming the project to an existing one.",
-	//				solo.searchText(getActivity().getString(R.string.error_project_exists)));
-	//	}
+	public void testDefaultProject() throws IOException {
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + getActivity().getString(R.string.default_project_name));
+		UtilFile.deleteDirectory(directory);
 
-	//	public void testDefaultProject() throws IOException {
-	//		File directory = new File(Consts.DEFAULT_ROOT + "/" + getActivity().getString(R.string.default_project_name));
-	//		UtilFile.deleteDirectory(directory);
-	//
-	//		StorageHandler handler = StorageHandler.getInstance();
-	//		ProjectManager project = ProjectManager.getInstance();
-	//		project.setProject(handler.createDefaultProject(solo.getCurrentActivity()));
-	//		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
-	//		solo.sleep(8000);
-	//		Bitmap bitmap = project.getCurrentProject().getSpriteList().get(1).getCostume().getBitmap();
-	//		assertNotNull("Bitmap is null", bitmap);
-	//		assertTrue("Sprite not visible", project.getCurrentProject().getSpriteList().get(1).isVisible());
-	//
-	//		directory = new File(Consts.DEFAULT_ROOT + "/" + getActivity().getString(R.string.default_project_name));
-	//		UtilFile.deleteDirectory(directory);
-	//	}
+		StorageHandler handler = StorageHandler.getInstance();
+		ProjectManager project = ProjectManager.getInstance();
+		project.setProject(handler.createDefaultProject(getActivity()));
+		List<ImageButton> btnList = solo.getCurrentImageButtons();
+		for (int i = 0; i < btnList.size(); i++) {
+			ImageButton btn = btnList.get(i);
+			if (btn.getId() == R.id.btn_action_play) {
+				solo.clickOnImageButton(i);
+			}
+		}
+		solo.sleep(1500);
+		Bitmap bitmap = project.getCurrentProject().getSpriteList().get(1).getCostume().getBitmap();
+		assertNotNull("Bitmap is null", bitmap);
+		assertTrue("Sprite not visible", project.getCurrentProject().getSpriteList().get(1).isVisible());
+
+		directory = new File(Consts.DEFAULT_ROOT + "/" + getActivity().getString(R.string.default_project_name));
+		UtilFile.deleteDirectory(directory);
+	}
 
 	public void createTestProject(String projectName) {
 		StorageHandler storageHandler = StorageHandler.getInstance();

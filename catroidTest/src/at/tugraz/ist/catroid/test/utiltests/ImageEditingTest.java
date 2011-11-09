@@ -1,25 +1,22 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010-2011 The Catroid Team
+ *  Copyright (C) 2010  Catroid development team 
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *  
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://www.catroid.org/catroid_license_additional_term
- *  
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU Affero General Public License for more details.
- *   
- *  You should have received a copy of the GNU Affero General Public License
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package at.tugraz.ist.catroid.test.utiltests;
 
 import java.io.BufferedOutputStream;
@@ -36,9 +33,15 @@ import at.tugraz.ist.catroid.utils.ImageEditing;
 public class ImageEditingTest extends TestCase {
 
 	public void testScaleImage() {
+		// create a 100x100 bitmap
 		Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.RGB_565);
 
-		Bitmap scaledBitmap = ImageEditing.scaleBitmap(bitmap, 60, 70);
+		Bitmap scaledBitmap = ImageEditing.scaleBitmap(bitmap, 0.5f);
+
+		assertEquals("Wrong bitmap width after scaling", 50, scaledBitmap.getWidth());
+		assertEquals("Wrong bitmap height after scaling", 50, scaledBitmap.getHeight());
+
+		scaledBitmap = ImageEditing.scaleBitmap(bitmap, 60, 70);
 
 		assertEquals("Wrong bitmap width after scaling", 60, scaledBitmap.getWidth());
 		assertEquals("Wrong bitmap height after scaling", 70, scaledBitmap.getHeight());
@@ -169,4 +172,5 @@ public class ImageEditingTest extends TestCase {
 		assertEquals("Loaded and scaled bitmap has incorrect height", bitmap.getHeight(), loadedBitmap.getHeight());
 		assertEquals("Loaded and scaled bitmap has incorrect width", bitmap.getWidth(), loadedBitmap.getWidth());
 	}
+
 }

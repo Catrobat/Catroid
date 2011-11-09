@@ -1,23 +1,19 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010-2011 The Catroid Team
+ *  Copyright (C) 2010  Catroid development team 
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *  
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://www.catroid.org/catroid_license_additional_term
- *  
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU Affero General Public License for more details.
- *   
- *  You should have received a copy of the GNU Affero General Public License
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.test.content.brick;
@@ -33,24 +29,24 @@ public class GoNStepsBackBrickTest extends AndroidTestCase {
 
 	public void testSteps() {
 		Sprite sprite = new Sprite("testSprite");
-		assertEquals("Unexpected initial sprite Z position", 0, sprite.costume.zPosition);
+		assertEquals("Unexpected initial sprite Z position", 0, sprite.getZPosition());
 
-		oldPosition = sprite.costume.zPosition;
+		oldPosition = sprite.getZPosition();
 
-		GoNStepsBackBrick goNStepsBackBrick = new GoNStepsBackBrick(sprite, steps);
-		goNStepsBackBrick.execute();
+		GoNStepsBackBrick brick = new GoNStepsBackBrick(sprite, steps);
+		brick.execute();
 		assertEquals("Incorrect sprite Z position after GoNStepsBackBrick executed", (oldPosition - steps),
-				sprite.costume.zPosition);
+				sprite.getZPosition());
 	}
 
 	public void testNullSprite() {
-		GoNStepsBackBrick goNStepsBackBrick = new GoNStepsBackBrick(null, steps);
+		GoNStepsBackBrick brick = new GoNStepsBackBrick(null, steps);
 
 		try {
-			goNStepsBackBrick.execute();
+			brick.execute();
 			fail("Execution of GoNStepsBackBrick with null Sprite did not cause "
 					+ "a NullPointerException to be thrown");
-		} catch (NullPointerException expected) {
+		} catch (NullPointerException e) {
 			// expected behavior
 		}
 	}
@@ -58,28 +54,28 @@ public class GoNStepsBackBrickTest extends AndroidTestCase {
 	public void testBoundarySteps() {
 		Sprite sprite = new Sprite("testSprite");
 
-		oldPosition = sprite.costume.zPosition;
+		oldPosition = sprite.getZPosition();
 
-		GoNStepsBackBrick goNStepsBackBrick = new GoNStepsBackBrick(sprite, Integer.MAX_VALUE);
-		goNStepsBackBrick.execute();
+		GoNStepsBackBrick brick = new GoNStepsBackBrick(sprite, Integer.MAX_VALUE);
+		brick.execute();
 		assertEquals("GoNStepsBackBrick execution failed. Wrong Z position.", (oldPosition - Integer.MAX_VALUE),
-				sprite.costume.zPosition);
+				sprite.getZPosition());
 
-		goNStepsBackBrick = new GoNStepsBackBrick(sprite, -steps);
+		brick = new GoNStepsBackBrick(sprite, -steps);
 
 		try {
-			goNStepsBackBrick.execute();
+			brick.execute();
 			fail("Execution of GoNStepsBackBrick with negative steps value did not"
 					+ " cause a NumberFormatException to be thrown");
-		} catch (NumberFormatException expected) {
+		} catch (NumberFormatException e) {
 			// expected behavior
 		}
 
-		goNStepsBackBrick = new GoNStepsBackBrick(sprite, Integer.MAX_VALUE);
-		goNStepsBackBrick.execute();
-		goNStepsBackBrick.execute();
+		brick = new GoNStepsBackBrick(sprite, Integer.MAX_VALUE);
+		brick.execute();
+		brick.execute();
 		assertEquals("An Integer underflow occured during GoNStepsBackBrick execution.", Integer.MIN_VALUE,
-				sprite.costume.zPosition);
+				sprite.getZPosition());
 	}
 
 }

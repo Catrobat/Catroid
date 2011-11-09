@@ -1,23 +1,19 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010-2011 The Catroid Team
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *  
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://www.catroid.org/catroid_license_additional_term
- *  
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU Affero General Public License for more details.
- *   
- *  You should have received a copy of the GNU Affero General Public License
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.ui.dialogs;
@@ -31,7 +27,6 @@ import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.inputmethod.InputMethodManager;
@@ -46,7 +41,6 @@ import at.tugraz.ist.catroid.transfers.ProjectUploadTask;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class UploadProjectDialog extends Dialog implements OnClickListener {
-
 	private final Context context;
 	private String currentProjectName;
 	private EditText projectUploadName;
@@ -68,32 +62,15 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 		setCanceledOnTouchOutside(true);
 		getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
 
-		currentProjectName = ProjectManager.getInstance().getCurrentProject().getName();
 		projectRename = (TextView) findViewById(R.id.tv_project_rename);
 		projectDescriptionField = (EditText) findViewById(R.id.project_description_upload);
 		projectUploadName = (EditText) findViewById(R.id.project_upload_name);
 		uploadButton = (Button) findViewById(R.id.upload_button);
 		uploadButton.setOnClickListener(this);
 
-		projectUploadName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (hasFocus) {
-					getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-				}
-			}
-		});
-		projectDescriptionField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (hasFocus) {
-					getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-				}
-			}
-		});
-
 		projectUploadName.addTextChangedListener(new TextWatcher() {
 
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				currentProjectName = ProjectManager.getInstance().getCurrentProject().getName();
 				if (!projectUploadName.getText().toString().equals(currentProjectName)) {
 					projectRename.setVisibility(View.VISIBLE);
 					newProjectName = projectUploadName.getText().toString();
@@ -101,7 +78,8 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 					projectRename.setVisibility(View.GONE);
 				}
 				if (s.length() == 0) {
-					Toast.makeText(context, R.string.notification_invalid_text_entered, Toast.LENGTH_SHORT).show();
+					Toast.makeText(UploadProjectDialog.this.context, R.string.notification_invalid_text_entered,
+							Toast.LENGTH_SHORT).show();
 					uploadButton.setEnabled(false);
 				} else {
 					uploadButton.setEnabled(true);
@@ -127,6 +105,17 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 		cancelButton.setOnClickListener(this);
 	}
 
+	@Override
+	public void show() {
+		super.show();
+		projectRename.setVisibility(View.GONE);
+		currentProjectName = ProjectManager.getInstance().getCurrentProject().getName();
+		projectUploadName.setText(currentProjectName);
+		projectDescriptionField.setText("");
+		projectUploadName.requestFocus();
+		projectUploadName.selectAll();
+	}
+
 	public void onClick(View v) {
 		ProjectManager projectManager = ProjectManager.getInstance();
 
@@ -145,7 +134,7 @@ public class UploadProjectDialog extends Dialog implements OnClickListener {
 				}
 
 				projectManager.getCurrentProject().setDeviceData();
-				projectManager.saveProject();
+				projectManager.saveProject(context);
 
 				dismiss();
 				String projectPath = Consts.DEFAULT_ROOT + "/" + projectManager.getCurrentProject().getName();

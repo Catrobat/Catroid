@@ -1,124 +1,97 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010-2011 The Catroid Team
+ *  Copyright (C) 2010  Catroid development team 
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *  
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://www.catroid.org/catroid_license_additional_term
- *  
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU Affero General Public License for more details.
- *   
- *  You should have received a copy of the GNU Affero General Public License
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.content.bricks;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.BaseAdapter;
-import at.tugraz.ist.catroid.ProjectManager;
+import android.widget.BaseExpandableListAdapter;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Sprite;
-
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public class IfOnEdgeBounceBrick implements Brick {
 
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 
-	@XStreamOmitField
-	private transient View view;
-
 	public IfOnEdgeBounceBrick(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
-	public int getRequiredResources() {
-		return NO_RESOURCES;
-	}
-
 	public void execute() {
-		float size = sprite.costume.getSize();
 
-		sprite.costume.aquireXYWidthHeightLock();
-		float width = sprite.costume.getWidth() * size;
-		float height = sprite.costume.getHeight() * size;
-		int xPosition = (int) sprite.costume.getXPosition();
-		int yPosition = (int) sprite.costume.getYPosition();
-		sprite.costume.releaseXYWidthHeightLock();
+		double width = sprite.getCostume().getRelativeBoundingBoxWidth();
+		int xPosition = sprite.getXPosition();
+		int yPosition = sprite.getYPosition();
 
-		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().VIRTUAL_SCREEN_WIDTH / 2;
-		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().VIRTUAL_SCREEN_HEIGHT / 2;
-		float rotationResult = -sprite.costume.rotation + 90f;
+		if (sprite.getXPosition() < -Consts.MAX_REL_COORDINATES + width / 2) {
 
-		if (xPosition < -virtualScreenWidth + width / 2) {
+			sprite.setDirection(Math.abs(sprite.getDirection()));
 
-			rotationResult = Math.abs(rotationResult);
-			xPosition = -virtualScreenWidth + (int) (width / 2);
+			double newWidth = sprite.getCostume().getRelativeBoundingBoxWidth();
+			xPosition = -Consts.MAX_REL_COORDINATES + (int) (newWidth / 2);
 
-		} else if (xPosition > virtualScreenWidth - width / 2) {
+		} else if (sprite.getXPosition() > Consts.MAX_REL_COORDINATES - width / 2) {
 
-			rotationResult = -Math.abs(rotationResult);
+			sprite.setDirection(-Math.abs(sprite.getDirection()));
 
-			xPosition = virtualScreenWidth - (int) (width / 2);
+			double newWidth = sprite.getCostume().getRelativeBoundingBoxWidth();
+			xPosition = Consts.MAX_REL_COORDINATES - (int) (newWidth / 2);
 		}
 
-		if (yPosition > virtualScreenHeight - height / 2) {
+		double height = sprite.getCostume().getRelativeBoundingBoxHeight();
 
-			if (Math.abs(rotationResult) < 90f) {
-				if (rotationResult < 0f) {
-					rotationResult = -180f - rotationResult;
-				} else {
-					rotationResult = 180f - rotationResult;
-				}
+		if (sprite.getYPosition() > Consts.MAX_REL_COORDINATES - height / 2) {
+
+			if (Math.abs(sprite.getDirection()) < 90) {
+				sprite.setDirection(180 - sprite.getDirection());
 			}
 
-			yPosition = virtualScreenHeight - (int) (height / 2);
+			double newHeight = sprite.getCostume().getRelativeBoundingBoxHeight();
+			yPosition = Consts.MAX_REL_COORDINATES - (int) (newHeight / 2);
 
-		} else if (yPosition < -virtualScreenHeight + height / 2) {
+		} else if (sprite.getYPosition() < -Consts.MAX_REL_COORDINATES + height / 2) {
 
-			if (Math.abs(rotationResult) > 90f) {
-				if (rotationResult < 0f) {
-					rotationResult = -180f - rotationResult;
-				} else {
-					rotationResult = 180f - rotationResult;
-				}
+			if (Math.abs(sprite.getDirection()) > 90) {
+				sprite.setDirection(180 - sprite.getDirection());
 			}
 
-			yPosition = -virtualScreenHeight + (int) (height / 2);
+			double newHeight = sprite.getCostume().getRelativeBoundingBoxHeight();
+			yPosition = -Consts.MAX_REL_COORDINATES + (int) (newHeight / 2);
 		}
 
-		sprite.costume.rotation = -rotationResult + 90f;
-
-		sprite.costume.aquireXYWidthHeightLock();
-		sprite.costume.setXYPosition(xPosition, yPosition);
-		sprite.costume.releaseXYWidthHeightLock();
+		sprite.setXYPosition(xPosition, yPosition);
 	}
 
 	public Sprite getSprite() {
 		return sprite;
 	}
 
-	public View getView(Context context, int brickId, BaseAdapter adapter) {
-		if (view == null) {
-			view = View.inflate(context, R.layout.toolbox_brick_if_on_edge_bounce, null);
-		}
-
-		return view;
+	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		return inflater.inflate(R.layout.construction_brick_if_on_edge_bounce, null);
 	}
 
 	public View getPrototypeView(Context context) {
-		return View.inflate(context, R.layout.toolbox_brick_if_on_edge_bounce, null);
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		return inflater.inflate(R.layout.toolbox_brick_if_on_edge_bounce, null);
 	}
 
 	@Override
