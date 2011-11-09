@@ -25,6 +25,7 @@ package at.tugraz.ist.catroid.test.content.brick;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
+import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
 import at.tugraz.ist.catroid.content.bricks.RepeatBrick;
@@ -39,7 +40,6 @@ public class RepeatBrickTest extends InstrumentationTestCase {
 	private StartScript testScript;
 	private static final int BRICK_SLEEP_TIME = 1000;
 	private static final int REPEAT_TIMES = 3;
-	private static final int MILLION = 1000 * 1000;
 	private int positionOfFirstWaitBrick;
 	private int positionOfSecondWaitBrick;
 	private LoopEndBrick loopEndBrick;
@@ -100,19 +100,36 @@ public class RepeatBrickTest extends InstrumentationTestCase {
 	}
 
 	public void testLoopDelay() throws InterruptedException {
-
+		final int deltaY = -10;
 		final int expectedDelay = (Integer) TestUtils.getPrivateField("LOOP_DELAY", loopEndBrick, false);
-		repeatBrick.execute();
-		long startTime = repeatBrick.getBeginLoopTime() / MILLION;
-		loopEndBrick.execute();
-		long endTime = System.nanoTime() / MILLION;
-		assertTrue("Loop delay was too short...", endTime - startTime >= expectedDelay);
-		assertTrue("Loop delay was very long...", endTime - startTime <= expectedDelay + 1000);
+		final int repeatTimes = REPEAT_TIMES * 5;
 
-		startTime = repeatBrick.getBeginLoopTime() / MILLION;
-		loopEndBrick.execute();
-		endTime = System.nanoTime() / MILLION;
-		assertTrue("Loop delay was too short...", endTime - startTime >= expectedDelay);
-		assertTrue("Loop delay was very long...", endTime - startTime <= expectedDelay + 1000);
+		testSprite.removeAllScripts();
+		testScript = new StartScript("foo", testSprite);
+
+		repeatBrick = new RepeatBrick(testSprite, repeatTimes);
+		loopEndBrick = new LoopEndBrick(testSprite, repeatBrick);
+		repeatBrick.setLoopEndBrick(loopEndBrick);
+
+		testScript.addBrick(repeatBrick);
+		testScript.addBrick(new ChangeYByBrick(testSprite, deltaY));
+		testScript.addBrick(loopEndBrick);
+		testScript.addBrick(new ChangeYByBrick(testSprite, 150));
+
+		testSprite.addScript(testScript);
+		final long startTime = System.currentTimeMillis();
+		testSprite.startStartScripts();
+
+		Thread.sleep(expectedDelay * repeatTimes);
+
+		assertEquals("Loop delay did not work!", repeatTimes * deltaY, (int) testSprite.costume.getYPosition());
+
+		/*
+		 * This is only to document that a delay of 20ms is by contract. See Issue 28 in Google Code
+		 * http://code.google.com/p/catroid/issues/detail?id=28
+		 */
+		final long delayByContract = 20;
+		final long endTime = System.currentTimeMillis();
+		assertEquals("Loop delay did was not 20ms!", delayByContract * repeatTimes, endTime - startTime, 15);
 	}
 }

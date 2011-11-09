@@ -32,7 +32,7 @@ import at.tugraz.ist.catroid.content.Sprite;
 
 public class LoopEndBrick implements Brick {
 	public static final int FOREVER = -1;
-	private static final int LOOP_DELAY = 50;
+	private static final int LOOP_DELAY = 20;
 	private static final int MILLION = 1000 * 1000;
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
@@ -50,21 +50,7 @@ public class LoopEndBrick implements Brick {
 
 	public void execute() {
 
-		if (timesToRepeat > 0 || timesToRepeat == FOREVER) {
-
-			long loopBeginTime = loopBeginBrick.getBeginLoopTime() / MILLION;
-			long loopEndTime = System.nanoTime() / MILLION;
-			long waitForNextLoop = (LOOP_DELAY - (loopEndTime - loopBeginTime));
-			//Log.i("bt", loopBeginTime + " " + loopEndTime + " time to wait til next loop: " + waitForNextLoop);
-			if (waitForNextLoop > 0) {
-				try {
-					Thread.sleep(waitForNextLoop);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-			loopBeginBrick.setBeginLoopTime(System.nanoTime());
-		}
+		loopBeginBrick.setBeginLoopTime(System.nanoTime());
 
 		if (timesToRepeat == FOREVER) {
 			Script script = getScript();
@@ -73,6 +59,17 @@ public class LoopEndBrick implements Brick {
 			Script script = getScript();
 			script.setExecutingBrickIndex(script.getBrickList().indexOf(loopBeginBrick));
 			timesToRepeat--;
+		}
+
+		long loopBeginTime = loopBeginBrick.getBeginLoopTime() / MILLION;
+		long loopEndTime = System.nanoTime() / MILLION;
+		long waitForNextLoop = (LOOP_DELAY - (loopEndTime - loopBeginTime));
+		if (waitForNextLoop > 0) {
+			try {
+				Thread.sleep(waitForNextLoop);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
