@@ -59,10 +59,6 @@ public class GoNStepsBackBrick implements Brick, OnDismissListener {
 		return this.sprite;
 	}
 
-	public int getSteps() {
-		return steps;
-	}
-
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.construction_brick_go_back, null);
@@ -85,13 +81,11 @@ public class GoNStepsBackBrick implements Brick, OnDismissListener {
 
 	@Override
 	public Brick clone() {
-		return new GoNStepsBackBrick(getSprite(), getSteps());
-
+		return new GoNStepsBackBrick(getSprite(), steps);
 	}
 
 	public void onDismiss(DialogInterface dialog) {
 		steps = ((EditIntegerDialog) dialog).getValue();
 		dialog.cancel();
 	}
-
 }

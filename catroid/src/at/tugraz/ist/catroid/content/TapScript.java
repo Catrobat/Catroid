@@ -18,7 +18,6 @@
  */
 package at.tugraz.ist.catroid.content;
 
-
 public class TapScript extends Script {
 
 	private static final long serialVersionUID = 1L;

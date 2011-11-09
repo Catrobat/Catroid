@@ -75,7 +75,7 @@ public class UtilsTest extends TestCase {
 		Thread.sleep(1000); // Wait for thread to write file
 		copiedFile = new File(newpath);
 
-		assertTrue(copiedFile.exists());
+		assertTrue("File was not copied correctly", copiedFile.exists());
 
 		FileReader fReader;
 		String newContent = "";
@@ -93,12 +93,12 @@ public class UtilsTest extends TestCase {
 			e.printStackTrace();
 		}
 
-		assertEquals(testFileContent, newContent);
+		assertEquals("Unexpected content of test file", testFileContent, newContent);
 	}
 
 	public void testDeleteFile() {
 		Utils.deleteFile(mTestFile.getAbsolutePath());
-		assertFalse(mTestFile.exists());
+		assertFalse("File still exists after delete", mTestFile.exists());
 	}
 
 	public void testConcatPath() {
@@ -122,16 +122,17 @@ public class UtilsTest extends TestCase {
 
 	public void testAddDefaultFileEnding() {
 		String filename = "test";
-		assertEquals(Utils.addDefaultFileEnding(filename), "test" + Consts.PROJECT_EXTENTION);
+		assertEquals("File extension was not added correctly", Utils.addDefaultFileEnding(filename), "test"
+				+ Consts.PROJECT_EXTENTION);
 	}
 
 	public void testChangeFileEndingToPng() {
 		String imageName = "blablabla.jpg";
-		assertEquals(Utils.changeFileEndingToPng(imageName), "blablabla.png");
+		assertEquals("File ending was not changed correctly", Utils.changeFileEndingToPng(imageName), "blablabla.png");
 		String imageName1 = "blablabla.png";
-		assertEquals(Utils.changeFileEndingToPng(imageName1), "blablabla.png");
+		assertEquals("File ending was not changed correctly", Utils.changeFileEndingToPng(imageName1), "blablabla.png");
 		String imageName2 = "blablabla.jpeg";
-		assertEquals(Utils.changeFileEndingToPng(imageName2), "blablabla.png");
+		assertEquals("File ending was not changed correctly", Utils.changeFileEndingToPng(imageName2), "blablabla.png");
 	}
 
 	public void testMD5CheckSumOfFile() {

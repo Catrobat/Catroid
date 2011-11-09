@@ -135,6 +135,10 @@
     <!-- Load project dialog -->
     <string name="load_project_dialog_title">Load Project</string>
 
+	<!-- Broadcast spinner -->
+	<string name="new_broadcast_message">new...</string>
+	<string name="broadcast_nothing_selected">Nothing...</string>
+	
     <!-- Stage context menu -->
     <string name="stagemenu_construction_site">To Construction Site</string>
     <string name="stagemenu_start">Play/Pause</string>
@@ -152,7 +156,7 @@
     <string name="brick_set_costume">Set Costume</string>
     <string name="brick_set_size_to">Set size to</string>
     <string name="brick_go_back">Go back</string>
-    <string name="steps_label">steps</string>
+    <string name="brick_go_back_layers">layers</string>
     <string name="brick_come_to_front">Come to front</string>
     <string name="brick_if_touched">If Touched</string>
     <string name="brick_if_started">If Started</string>
@@ -162,10 +166,28 @@
 	<string name="brick_set_y">Set Y to:</string>
 	<string name="brick_glide">Glide</string>
 	<string name="brick_glide_to">to</string>
+	<string name="brick_forever">Forever</string>
+	<string name="brick_loop_end">End Of Loop</string>
+	<string name="brick_repeat">Repeat</string>
+	<string name="times_label">times</string>
+	<string name="brick_if_on_edge_bounce">If on edge bounce</string>
+	<string name="brick_move">Move</string>
+	<string name="brick_move_n_steps">steps</string>
+	<string name="brick_turn_right">Turn right</string>
+	<string name="brick_turn_right_n_degrees">degrees</string>
+	<string name="brick_turn_left">Turn left</string>
+	<string name="brick_turn_left_n_degrees">degrees</string>
+	<string name="brick_point_in_direction">Point in direction</string>
 	
 	<string name="choose_sound_title">choose a title</string>
 
-    <!-- defaultValues -->
+	<string name="brick_note">Note</string>
+	<string name="brick_broadcast_receive">When I receive</string>
+	
+	<string name="brick_broadcast">Broadcast</string>
+    <string name="brick_broadcast_wait">Broadcast and wait</string>
+	<string name="brick_stop_all_sounds">Stop all sounds</string>
+    <!-- defaulValues -->
     <string name="default_project_name">defaultProject</string>
     
     <!-- Notifications -->
@@ -174,6 +196,9 @@
     </string>
     <string name="notification_invalid_name_entered">
     	Please enter a name
+    </string>
+    <string name="notification_screenshot_ok">
+        Screenshot saved
     </string>
 
     <!-- Error messages -->
@@ -225,5 +250,4 @@
     <string name="upload_button">Upload</string>
     <string name="upload_project_dialog_title">Upload project</string>
     <string name="project_rename">(Your project will be renamed.)</string>
-    <string name="screenshot_ok">Screenshot saved</string>
 </resources>

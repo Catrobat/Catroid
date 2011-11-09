@@ -37,15 +37,16 @@
 		android:textStyle="bold"
 	>
 	</TextView>
-	<Spinner
-		android:id="@+id/Spinner01"
-		android:layout_height="40dip"
-		android:layout_width="120dp"
+  	<Button 
+		android:maxWidth="150dip" 
+		android:layout_width="wrap_content" 
+		android:layout_height="wrap_content" 
+		android:id="@+id/btSoundChoose" 
+		android:layout_centerVertical="true" 
 		android:layout_alignParentRight="true"
-		android:layout_centerVertical="true"
 		android:clickable="false"
-		android:focusable="false"
-		android:focusableInTouchMode="false"
-	>
-	</Spinner>
+    	android:focusable="false"
+    	android:focusableInTouchMode="false"
+		>
+	</Button>
 </RelativeLayout>

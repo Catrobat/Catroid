@@ -65,7 +65,6 @@ public class Project implements Serializable {
 			versionName = "unknown";
 			versionCode = 0;
 		}
-
 	}
 
 	public synchronized void addSprite(Sprite sprite) {

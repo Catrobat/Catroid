@@ -30,12 +30,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -43,12 +43,15 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.common.SoundInfo;
+import at.tugraz.ist.catroid.content.BroadcastScript;
 import at.tugraz.ist.catroid.content.Costume;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.TapScript;
+import at.tugraz.ist.catroid.content.bricks.BroadcastBrick;
+import at.tugraz.ist.catroid.content.bricks.BroadcastWaitBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
@@ -57,6 +60,7 @@ import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
 import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
+import at.tugraz.ist.catroid.content.bricks.NoteBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
@@ -75,18 +79,18 @@ public class StorageHandler {
 
 	private static StorageHandler instance;
 	private static final String TAG = StorageHandler.class.getSimpleName();
-	private static final String XML_HEADER = "<? xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
+	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
 	private ArrayList<SoundInfo> soundContent;
 	private XStream xstream;
 
 	private StorageHandler() throws IOException {
-		String state = Environment.getExternalStorageState();
 		xstream = new XStream();
 		xstream.alias("project", Project.class);
 		xstream.alias("sprite", Sprite.class);
 		xstream.alias("script", Script.class);
 		xstream.alias("startScript", StartScript.class);
 		xstream.alias("tapScript", TapScript.class);
+		xstream.alias("broadcastScript", BroadcastScript.class);
 		xstream.alias("costume", Costume.class);
 
 		xstream.alias("changeXByBrick", ChangeXByBrick.class);
@@ -105,16 +109,17 @@ public class StorageHandler {
 		xstream.alias("showBrick", ShowBrick.class);
 		xstream.alias("waitBrick", WaitBrick.class);
 		xstream.alias("glideToBrick", GlideToBrick.class);
+		xstream.alias("noteBrick", NoteBrick.class);
+		xstream.alias("broadcastWaitBrick", BroadcastWaitBrick.class);
+		xstream.alias("broadcastBrick", BroadcastBrick.class);
 
-		if (!Environment.MEDIA_MOUNTED.equals(state)) {
+		if (!Utils.hasSdCard()) {
 			throw new IOException("Could not read external storage");
 		}
 		createCatroidRoot();
-
 	}
 
 	private void createCatroidRoot() {
-		// We can read and write the media
 		File catroidRoot = new File(Consts.DEFAULT_ROOT);
 		if (!catroidRoot.exists()) {
 			catroidRoot.mkdirs();
@@ -181,12 +186,12 @@ public class StorageHandler {
 				noMediaFile.createNewFile();
 			}
 
-			BufferedWriter out = new BufferedWriter(new FileWriter(projectDirectoryName + "/" + project.getName()
+			BufferedWriter writer = new BufferedWriter(new FileWriter(projectDirectoryName + "/" + project.getName()
 					+ Consts.PROJECT_EXTENTION), Consts.BUFFER_8K);
 
-			out.write(XML_HEADER.concat(projectFile));
-			out.flush();
-			out.close();
+			writer.write(XML_HEADER.concat(projectFile));
+			writer.flush();
+			writer.close();
 
 			return true;
 		} catch (Exception e) {
@@ -237,7 +242,7 @@ public class StorageHandler {
 	}
 
 	public ArrayList<SoundInfo> getSoundContent() {
-		java.util.Collections.sort(soundContent);
+		Collections.sort(soundContent);
 		return soundContent;
 	}
 
@@ -382,11 +387,11 @@ public class StorageHandler {
 		ProjectManager.getInstance().setProject(defaultProject);
 		Sprite sprite = new Sprite("Catroid");
 		Sprite backgroundSprite = defaultProject.getSpriteList().get(0);
-		//scripts:
+
 		Script backgroundStartScript = new StartScript("stageStartScript", backgroundSprite);
 		Script startScript = new StartScript("startScript", sprite);
 		Script touchScript = new TapScript("touchScript", sprite);
-		//bricks:
+
 		File normalCat = savePictureFromResInProject(projectName, Consts.NORMAL_CAT, R.drawable.catroid, context);
 		File banzaiCat = savePictureFromResInProject(projectName, Consts.BANZAI_CAT, R.drawable.catroid_banzai, context);
 		File cheshireCat = savePictureFromResInProject(projectName, Consts.CHESHIRE_CAT, R.drawable.catroid_cheshire,
@@ -421,17 +426,17 @@ public class StorageHandler {
 		touchScript.addBrick(setCostumeBrick1);
 		backgroundStartScript.addBrick(setCostumeBackground);
 
-		//merging:
 		defaultProject.addSprite(sprite);
-		sprite.getScriptList().add(startScript);
-		sprite.getScriptList().add(touchScript);
-		backgroundSprite.getScriptList().add(backgroundStartScript);
-		//ProjectManager.getInstance().setProject(defaultProject);
+		sprite.addScript(startScript);
+		sprite.addScript(touchScript);
+		backgroundSprite.addScript(backgroundStartScript);
+
 		this.saveProject(defaultProject);
+
 		return defaultProject;
 	}
 
-	private File savePictureFromResInProject(String project, String name, int fileID, Context context)
+	private File savePictureFromResInProject(String project, String name, int fileId, Context context)
 			throws IOException {
 
 		final String imagePath = Consts.DEFAULT_ROOT + "/" + project + Consts.IMAGE_DIRECTORY + "/" + name;
@@ -439,7 +444,7 @@ public class StorageHandler {
 		if (!testImage.exists()) {
 			testImage.createNewFile();
 		}
-		InputStream in = context.getResources().openRawResource(fileID);
+		InputStream in = context.getResources().openRawResource(fileId);
 		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), Consts.BUFFER_8K);
 		byte[] buffer = new byte[Consts.BUFFER_8K];
 		int length = 0;

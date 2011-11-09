@@ -50,8 +50,8 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:maxLines="1"
-		android:inputType="text">
-	</EditText>
+		android:inputType="text"
+		android:selectAllOnFocus="true" />
 	<TextView 
 		android:text="Description" 
 		android:id="@+id/tv_description" 

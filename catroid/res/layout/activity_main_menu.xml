@@ -122,6 +122,7 @@
 				<Button
 					android:id="@+id/settings_button"
 					android:text="@string/settings"
+					android:onClick="handleSettingsButton"
 					android:layout_height="match_parent"
 					android:layout_width="match_parent"
 					android:layout_weight=".5"
@@ -140,6 +141,7 @@
 				<Button
 					android:id="@+id/tutorial_button"
 					android:text="@string/tutorial"
+					android:onClick="handleTutorialButton"
 					android:layout_height="match_parent"
 					android:layout_width="match_parent"
 					android:layout_weight=".5"

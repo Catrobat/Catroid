@@ -4,14 +4,12 @@ syntax: glob
 #.classpath
 #.settings
 .metadata
-Scratch2Android\.settings
-Scratch2AndroidTest\.settings
 local.properties
 bin/*
 build/*
 R.java
 testProject\
-Paintroid/.project
+revision
 
 syntax: regexp
 ^catroidUiTest/\.settings/org\.eclipse\.jdt\.ui\.prefs$

@@ -46,10 +46,10 @@ public class SetSizeToBrickTest extends InstrumentationTestCase {
 	@Override
 	protected void setUp() throws Exception {
 
-		File defProject = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);
 
-		if (defProject.exists()) {
-			UtilFile.deleteDirectory(defProject);
+		if (projectFile.exists()) {
+			UtilFile.deleteDirectory(projectFile);
 		}
 
 		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
@@ -62,10 +62,10 @@ public class SetSizeToBrickTest extends InstrumentationTestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		File defProject = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);
 
-		if (defProject.exists()) {
-			UtilFile.deleteDirectory(defProject);
+		if (projectFile.exists()) {
+			UtilFile.deleteDirectory(projectFile);
 		}
 		if (testImage != null && testImage.exists()) {
 			testImage.delete();

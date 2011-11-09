@@ -36,15 +36,15 @@ public class ImageEditingTest extends TestCase {
 		// create a 100x100 bitmap
 		Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.RGB_565);
 
-		Bitmap scaledBitmap = ImageEditing.scaleBitmap(bitmap, 0.5f, false);
+		Bitmap scaledBitmap = ImageEditing.scaleBitmap(bitmap, 0.5f);
 
-		assertEquals(50, scaledBitmap.getWidth());
-		assertEquals(50, scaledBitmap.getHeight());
+		assertEquals("Wrong bitmap width after scaling", 50, scaledBitmap.getWidth());
+		assertEquals("Wrong bitmap height after scaling", 50, scaledBitmap.getHeight());
 
 		scaledBitmap = ImageEditing.scaleBitmap(bitmap, 60, 70);
 
-		assertEquals(60, scaledBitmap.getWidth());
-		assertEquals(70, scaledBitmap.getHeight());
+		assertEquals("Wrong bitmap width after scaling", 60, scaledBitmap.getWidth());
+		assertEquals("Wrong bitmap height after scaling", 70, scaledBitmap.getHeight());
 	}
 
 	public void testGetImageDimensions() {
@@ -68,8 +68,8 @@ public class ImageEditingTest extends TestCase {
 
 		dimensions = ImageEditing.getImageDimensions(sdImageMainDirectory.toString() + "/tmp.jpg");
 
-		assertEquals(100, dimensions[0]);
-		assertEquals(200, dimensions[1]);
+		assertEquals("Wrong image width", 100, dimensions[0]);
+		assertEquals("Wrong image height", 200, dimensions[1]);
 
 	}
 
@@ -99,8 +99,8 @@ public class ImageEditingTest extends TestCase {
 		Bitmap loadedBitmap = ImageEditing.getBitmap(sdImageMainDirectory.toString() + "/tmp.jpg", maxBitmapWidth,
 				maxBitmapHeight);
 
-		assertEquals(bitmap.getHeight(), loadedBitmap.getHeight());
-		assertEquals(bitmap.getWidth(), loadedBitmap.getWidth());
+		assertEquals("Loaded bitmap has incorrect height", bitmap.getHeight(), loadedBitmap.getHeight());
+		assertEquals("Loaded bitmap has incorrect width", bitmap.getWidth(), loadedBitmap.getWidth());
 
 		bitmapWidth = 600;
 		bitmapHeight = 800;
@@ -131,8 +131,8 @@ public class ImageEditingTest extends TestCase {
 				maxBitmapHeight);
 		bitmap = ImageEditing.scaleBitmap(bitmap, newWidth, newHeight);
 
-		assertEquals(bitmap.getHeight(), loadedBitmap.getHeight());
-		assertEquals(bitmap.getWidth(), loadedBitmap.getWidth());
+		assertEquals("Loaded bitmap has incorrect height", bitmap.getHeight(), loadedBitmap.getHeight());
+		assertEquals("Loaded bitmap has incorrect width", bitmap.getWidth(), loadedBitmap.getWidth());
 	}
 
 	public void testGetScaledBitmap() {
@@ -169,8 +169,8 @@ public class ImageEditingTest extends TestCase {
 		int newHeight = (int) Math.ceil(bitmapHeight / sampleSize);
 		bitmap = ImageEditing.scaleBitmap(bitmap, newWidth, newHeight);
 
-		assertEquals(bitmap.getHeight(), loadedBitmap.getHeight());
-		assertEquals(bitmap.getWidth(), loadedBitmap.getWidth());
+		assertEquals("Loaded and scaled bitmap has incorrect height", bitmap.getHeight(), loadedBitmap.getHeight());
+		assertEquals("Loaded and scaled bitmap has incorrect width", bitmap.getWidth(), loadedBitmap.getWidth());
 	}
 
 }

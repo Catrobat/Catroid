@@ -39,7 +39,7 @@ public class WaitBrickTest extends AndroidTestCase {
 		testScript.addBrick(waitBrick);
 		testScript.addBrick(showBrick);
 
-		testSprite.getScriptList().add(testScript);
+		testSprite.addScript(testScript);
 
 		testSprite.startStartScripts();
 
@@ -61,7 +61,7 @@ public class WaitBrickTest extends AndroidTestCase {
 
 	public void testPauseResume() {
 		Sprite testSprite = new Sprite("testSprite");
-		Script testScript = new StartScript("test", testSprite);
+		final Script testScript = new StartScript("test", testSprite);
 		HideBrick hideBrick = new HideBrick(testSprite);
 		WaitBrick waitBrick = new WaitBrick(testSprite, 3000);
 		ShowBrick showBrick = new ShowBrick(testSprite);
@@ -70,41 +70,48 @@ public class WaitBrickTest extends AndroidTestCase {
 		testScript.addBrick(waitBrick);
 		testScript.addBrick(showBrick);
 
-		testSprite.getScriptList().add(testScript);
+		testSprite.addScript(testScript);
+		for (int i = 0; i < 3; i++) {
+			//Should use: void startScript(Script s)
+			Thread t = new Thread(new Runnable() {
+				public void run() {
+					testScript.run();
+				}
+			});
+			t.start();
 
-		testSprite.startStartScripts();
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			assertFalse("Unexpected visibility of testSprite. Run: " + i, testSprite.isVisible());
 
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+			testSprite.pause();
+
+			try {
+				Thread.sleep(200);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			assertFalse("Unexpected visibility of testSprite. Run: " + i, testSprite.isVisible());
+
+			testSprite.resume();
+
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+			assertFalse("Unexpected visibility of testSprite. Run: " + i, testSprite.isVisible());
+
+			try {
+				Thread.sleep(1200);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			assertTrue("Unexpected visibility of testSprite. Run: " + i, testSprite.isVisible());
 		}
-		assertFalse("Unexpected visibility of testSprite", testSprite.isVisible());
-
-		testSprite.pause();
-
-		try {
-			Thread.sleep(200);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		assertFalse("Unexpected visibility of testSprite", testSprite.isVisible());
-
-		testSprite.resume();
-
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-
-		assertFalse("Unexpected visibility of testSprite", testSprite.isVisible());
-
-		try {
-			Thread.sleep(1200);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		assertTrue("Unexpected visibility of testSprite", testSprite.isVisible());
 	}
 }
