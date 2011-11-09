@@ -36,17 +36,11 @@ public final class Consts {
 
 	public static final String NO_MEDIA_FILE = ".nomedia";
 
-	//Costume:
-	public static final int MAX_REL_COORDINATES = 1000;
-
 	//Web:
 	public static final String TOKEN = "token";
-	public static final String REQUEST_URI = "requesturi";
 
 	public static final int SERVER_RESPONCE_TOKEN_OK = 200;
 	public static final int SERVER_RESPONCE_REGISTER_OK = 201;
-	public static final int SERVER_ERROR_TOKEN_INVALID = 601;
-	public static final int SERVER_ERROR_COMMON = 500;
 
 	//Stage:
 	public static final String SCREENSHOT_FILE_NAME = "screenshot.png";
