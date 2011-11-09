@@ -43,7 +43,6 @@ public class Costume extends Image {
 	protected Semaphore brightnessLock = new Semaphore(1);
 	protected Semaphore disposeTexturesLock = new Semaphore(1);
 	protected boolean imageChanged = false;
-	//protected String imagePath;
 	protected CostumeData costumeData;
 	protected Pixmap currentAlphaPixmap;
 	protected Sprite sprite;
@@ -69,7 +68,6 @@ public class Costume extends Image {
 		this.height = 0f;
 		this.touchable = true;
 		this.show = true;
-		//this.imagePath = "";
 		this.currentAlphaPixmap = null;
 		this.zPosition = 0;
 		this.internalPath = false;
