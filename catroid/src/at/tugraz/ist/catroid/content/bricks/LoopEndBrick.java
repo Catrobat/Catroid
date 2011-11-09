@@ -55,10 +55,9 @@ public class LoopEndBrick implements Brick {
 		if (timesToRepeat == FOREVER) {
 			Script script = getScript();
 			script.setExecutingBrickIndex(script.getBrickList().indexOf(loopBeginBrick));
-		} else if (timesToRepeat > 0) {
+		} else if (--timesToRepeat > 0) {
 			Script script = getScript();
 			script.setExecutingBrickIndex(script.getBrickList().indexOf(loopBeginBrick));
-			timesToRepeat--;
 		}
 
 		long loopBeginTime = loopBeginBrick.getBeginLoopTime() / MILLION;
