@@ -22,28 +22,28 @@ package at.tugraz.ist.catroid.test.content.brick;
 import android.test.AndroidTestCase;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
 
 public class IfTouchedBrickTest extends AndroidTestCase {
 
-    public void testIfTouch() {
+	public void testIfTouch() {
 
-        Sprite sprite = new Sprite("new sprite");
-        Script touchScript = new Script("hiho", sprite);
-        assertFalse("Unexpected default value", touchScript.isTouchScript());
-        IfTouchedBrick ifTouchedBrick = new IfTouchedBrick(sprite, touchScript);
-        ifTouchedBrick.execute();
-        //        assertTrue("The default value for the script is true after IfTouchedBrick execute.",
-        //                touchScript.isTouchScript());
-    }
+		Sprite sprite = new Sprite("new sprite");
+		Script touchScript = new StartScript("hiho", sprite);
+		IfTouchedBrick ifTouchedBrick = new IfTouchedBrick(sprite, touchScript);
+		ifTouchedBrick.execute();
+		//        assertTrue("The default value for the script is true after IfTouchedBrick execute.",
+		//                touchScript.isTouchScript());
+	}
 
 	public void testNullSprite() {
-        Sprite sprite = new Sprite("new sprite");
-        Script touchScript = new Script("hiho", sprite);
+		Sprite sprite = new Sprite("new sprite");
+		Script touchScript = new StartScript("hiho", sprite);
 		IfTouchedBrick ifTouchedBrick = new IfTouchedBrick(null, touchScript);
 
 		ifTouchedBrick.execute();
-		/*nothing happen because there is no sprite*/
+		/* nothing happen because there is no sprite */
 	}
 
 }

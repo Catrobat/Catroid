@@ -19,22 +19,17 @@
 
 package at.tugraz.ist.catroid.uitest.ui.dialog;
 
-import java.io.File;
-import java.io.IOException;
-
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.ActivityInstrumentationTestCase2;
-import android.widget.TextView;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
-import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
-	private String testingproject = "testingproject";
+	private String testingproject = UiTestUtils.PROJECTNAME1;
 
 	public NewProjectDialogTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -43,44 +38,36 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-
-		File directory = new File("/sdcard/catroid/" + testingproject);
-		UtilFile.deleteDirectory(directory);
-		assertFalse("testProject was not deleted!", directory.exists());
-
+		UiTestUtils.clearAllUtilTestProjects();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-
-		File directory = new File("/sdcard/catroid/" + testingproject);
-		UtilFile.deleteDirectory(directory);
-		assertFalse("testProject was not deleted!", directory.exists());
 		try {
 			solo.finalize();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 		getActivity().finish();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
-	public void testNewProjectDialog() throws NameNotFoundException, IOException {
+	public void testNewProjectDialog() {
 
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
 
 		int nameEditTextId = solo.getCurrentEditTexts().size() - 1;
 
-		UiTestUtils.enterText(solo, nameEditTextId, "testingproject");
+		UiTestUtils.enterText(solo, nameEditTextId, testingproject);
 
 		solo.sendKey(Solo.ENTER);
 
 		solo.sleep(1000);
 
-		TextView newProject = (TextView) solo.getCurrentActivity().findViewById(R.id.projectTitleTextView);
-
-		assertEquals("New Project is not testingproject!", "Project: " + testingproject, newProject.getText());
+		assertTrue("New Project is not testingproject!", ProjectManager.getInstance().getCurrentProject().getName()
+				.equals(UiTestUtils.PROJECTNAME1));
 
 	}
 

@@ -22,59 +22,71 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.exception.InterruptedRuntimeException;
+import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
 
-public class Script implements Serializable {
+public abstract class Script implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Brick> brickList;
-	private boolean isTouchScript;
-	private boolean isFinished;
-	private boolean paused;
-	private int brickPositionAfterPause;
+	protected transient boolean isFinished;
+	private transient volatile boolean paused;
+	private transient volatile boolean finish;
+	private transient int executingBrickIndex;
 	private String name;
-	private Sprite sprite;
+	protected Sprite sprite;
+
+	protected Object readResolve() {
+		init();
+		return this;
+	}
 
 	public Script(String name, Sprite sprite) {
 		this.name = name;
 		brickList = new ArrayList<Brick>();
-		paused = false;
-		isFinished = false;
-		brickPositionAfterPause = 0;
 		this.sprite = sprite;
-		setTouchScript(false);
+		init();
+	}
+
+	private void init() {
+		paused = false;
+		finish = false;
 	}
 
 	public void run() {
-		if (isFinished && !isTouchScript) {
-			return;
-		}
 		isFinished = false;
-		for (int i = brickPositionAfterPause; i < brickList.size(); i++) {
-			if (paused) {
-				brickPositionAfterPause = i;
-				return;
+		for (int i = 0; i < brickList.size(); i++) {
+			while (paused) {
+				if (finish) {
+					isFinished = true;
+					return;
+				}
+				Thread.yield();
 			}
-			try {
-				brickList.get(i).execute();
-				sprite.setToDraw(true);
-			} catch (InterruptedRuntimeException e) { //Brick was interrupted
-				brickPositionAfterPause = i;
-				return;
-			}
+			executingBrickIndex = i;
+			brickList.get(i).execute();
+			i = executingBrickIndex;
+			sprite.setToDraw(true);
 		}
 		isFinished = true;
-		brickPositionAfterPause = 0;
 	}
 
 	public void addBrick(Brick brick) {
-		brickList.add(brick);
+		if (brick != null) {
+			brickList.add(brick);
+		}
+	}
+
+	public void addBrick(int position, Brick brick) {
+		if (brick != null) {
+			brickList.add(position, brick);
+		}
 	}
 
 	public void removeBrick(Brick brick) {
 		brickList.remove(brick);
 	}
 
+	@Deprecated
 	public void moveBrickBySteps(Brick brick, int steps) {
 		int oldIndex = brickList.indexOf(brick);
 		int newIndex;
@@ -96,19 +108,12 @@ public class Script implements Serializable {
 		return brickList;
 	}
 
-	public void setTouchScript(boolean isTouchScript) {
-		this.isTouchScript = isTouchScript;
-		if (isTouchScript) {
-			this.isFinished = true;
-		}
-	}
-
-	public boolean isTouchScript() {
-		return isTouchScript;
-	}
-
 	public synchronized void setPaused(boolean paused) {
 		this.paused = paused;
+	}
+
+	public synchronized void setFinish(boolean finish) {
+		this.finish = finish;
 	}
 
 	public boolean isPaused() {
@@ -133,5 +138,22 @@ public class Script implements Serializable {
 
 	public Sprite getSprite() {
 		return sprite;
+	}
+
+	public int getExecutingBrickIndex() {
+		return executingBrickIndex;
+	}
+
+	public void setExecutingBrickIndex(int executingBrickIndex) {
+		this.executingBrickIndex = executingBrickIndex;
+	}
+
+	public boolean containsLoopBrick() {
+		for (Brick brick : brickList) {
+			if (brick instanceof LoopBeginBrick) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

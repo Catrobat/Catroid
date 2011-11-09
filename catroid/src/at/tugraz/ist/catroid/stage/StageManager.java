@@ -20,13 +20,14 @@
 package at.tugraz.ist.catroid.stage;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.content.Sprite;
 
 public class StageManager {
@@ -68,7 +69,7 @@ public class StageManager {
 		draw = new CanvasDraw(activity);
 
 		for (Sprite sprite : spriteList) {
-			sprite.startScripts();
+			sprite.startStartScripts();
 		}
 	}
 
@@ -85,9 +86,9 @@ public class StageManager {
 			}
 		}
 
-		java.util.Collections.sort(touchedSpriteList);
+		Collections.sort(touchedSpriteList);
 		if (!touchedSpriteList.isEmpty()) {
-			touchedSpriteList.get(touchedSpriteList.size() - 1).startTouchScripts();
+			touchedSpriteList.get(touchedSpriteList.size() - 1).startTapScripts();
 		}
 	}
 
@@ -118,5 +119,11 @@ public class StageManager {
 	public void start() {
 		isPaused = false;
 		runnable.run();
+	}
+
+	public void finish() {
+		for (Sprite sprite : spriteList) {
+			sprite.finish();
+		}
 	}
 }

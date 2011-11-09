@@ -26,10 +26,9 @@ import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.utils.Utils;
 
 public class EditIntegerDialog extends EditDialog implements OnClickListener {
 	private int value;
@@ -51,33 +50,23 @@ public class EditIntegerDialog extends EditDialog implements OnClickListener {
 			editText.setInputType(InputType.TYPE_CLASS_NUMBER);
 		}
 
-		Button closeButton = (Button) findViewById(R.id.dialogEditTextSubmit);
-		closeButton.setOnClickListener(this);
+		okButton.setOnClickListener(this);
 
 		this.setOnKeyListener(new OnKeyListener() {
 
 			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-				if (event.getAction() == KeyEvent.ACTION_DOWN) {
-					switch (keyCode) {
-						case KeyEvent.KEYCODE_ENTER: {
-							try {
-								value = Integer.parseInt((editText.getText().toString()));
-								dismiss();
-							} catch (NumberFormatException e) {
-								Utils.displayErrorMessage(context,
-													context.getString(R.string.error_no_number_entered));
-							}
-						}
-						default: {
-							break;
-						}
+				if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+					try {
+						value = Integer.parseInt(editText.getText().toString());
+						dismiss();
+					} catch (NumberFormatException e) {
+						Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 					}
+					return true;
 				}
 				return false;
 			}
-
 		});
-
 	}
 
 	public int getValue() {
@@ -96,9 +85,8 @@ public class EditIntegerDialog extends EditDialog implements OnClickListener {
 				value = Integer.parseInt(editText.getText().toString());
 				dismiss();
 			} catch (NumberFormatException e) {
-				Utils.displayErrorMessage(context, context.getString(R.string.error_no_number_entered));
+				Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT).show();
 			}
 		}
 	}
-
 }

@@ -29,7 +29,6 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.exception.InterruptedRuntimeException;
 import at.tugraz.ist.catroid.ui.dialogs.EditDoubleDialog;
 
 public class WaitBrick implements Brick, OnDismissListener {
@@ -43,13 +42,20 @@ public class WaitBrick implements Brick, OnDismissListener {
 	}
 
 	public void execute() {
-		long startTime = 0;
-		try {
-			startTime = System.currentTimeMillis();
-			Thread.sleep(timeToWaitInMilliSeconds);
-		} catch (InterruptedException e) {
-			timeToWaitInMilliSeconds = timeToWaitInMilliSeconds - (int) (System.currentTimeMillis() - startTime);
-			throw new InterruptedRuntimeException("WaitBrick was interrupted", e);
+		long startTime = System.currentTimeMillis();
+		int timeToWait = timeToWaitInMilliSeconds;
+		while (System.currentTimeMillis() <= (startTime + timeToWait)) {
+			if (sprite.isPaused) {
+				timeToWait = timeToWait - (int) (System.currentTimeMillis() - startTime);
+				while (sprite.isPaused) {
+					if (sprite.isFinished) {
+						return;
+					}
+					Thread.yield();
+				}
+				startTime = System.currentTimeMillis();
+			}
+			Thread.yield();
 		}
 	}
 
@@ -57,15 +63,11 @@ public class WaitBrick implements Brick, OnDismissListener {
 		return sprite;
 	}
 
-	public long getWaitTime() {
-		return timeToWaitInMilliSeconds;
-	}
-
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.construction_brick_wait, null);
 
-		EditText edit = (EditText) view.findViewById(R.id.InputValueEditText);
+		EditText edit = (EditText) view.findViewById(R.id.construction_brick_wait_edit_text);
 		edit.setText((timeToWaitInMilliSeconds / 1000.0) + "");
 
 		EditDoubleDialog dialog = new EditDoubleDialog(context, edit, timeToWaitInMilliSeconds / 1000.0);

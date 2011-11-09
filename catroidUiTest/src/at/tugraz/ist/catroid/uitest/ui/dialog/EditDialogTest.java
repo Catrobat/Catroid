@@ -48,6 +48,7 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptActiv
 			e.printStackTrace();
 		}
 		getActivity().finish();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -65,12 +66,14 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		UiTestUtils.insertIntegerIntoEditText(solo, yPositionEditTextId, yPosition);
 		solo.sendKey(Solo.ENTER);
 
-		assertEquals(xPosition + "", solo.getEditText(xPositionEditTextId).getText().toString());
-		assertEquals(yPosition + "", solo.getEditText(yPositionEditTextId).getText().toString());
+		assertEquals("Wrong value in X-Position EditText", xPosition + "", solo.getEditText(xPositionEditTextId)
+				.getText().toString());
+		assertEquals("Wrong value in Y-Position EditText", yPosition + "", solo.getEditText(yPositionEditTextId)
+				.getText().toString());
 	}
 
 	public void testDoubleDialog() {
-		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.wait_main_adapter);
+		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_wait);
 
 		double wait = 5.9;
 
@@ -78,24 +81,28 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		UiTestUtils.insertDoubleIntoEditText(solo, waitEditTextId, wait);
 		solo.sendKey(Solo.ENTER);
 
-		assertEquals(wait + "", solo.getEditText(waitEditTextId).getText().toString());
+		assertEquals("Wrong value in WaitBrick EditText", wait + "", solo.getEditText(waitEditTextId).getText()
+				.toString());
 	}
 
 	public void testEmptyEditDoubleDialog() {
-		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_scale_costume);
+		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_set_size_to);
 
 		int editTextId = solo.getCurrentEditTexts().size() - 1;
 
 		solo.clickOnEditText(editTextId);
-		UiTestUtils.pause();
-		System.out.println(solo.getCurrentEditTexts().size());
+		solo.sleep(50);
+
 		solo.clearEditText(0);
 		assertTrue("Toast with warning was not found",
 				solo.searchText(getActivity().getString(R.string.notification_invalid_text_entered)));
-		assertFalse(solo.getButton(0).isEnabled());
+		assertFalse("OK button was not disabled upon deleting text field contents",
+				solo.getButton(getActivity().getString(R.string.ok)).isEnabled());
 
 		solo.enterText(0, ".");
-		assertFalse(solo.getButton(0).isEnabled());
+		assertTrue("Toast with warning was not found",
+				solo.searchText(getActivity().getString(R.string.notification_invalid_text_entered)));
+		assertFalse("OK button was not disabled upon entering invalid text", solo.getButton(0).isEnabled());
 	}
 
 	public void testEmptyEditIntegerDialog() {
@@ -104,10 +111,11 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		int editTextId = solo.getCurrentEditTexts().size() - 1;
 
 		solo.clickOnEditText(editTextId);
-		UiTestUtils.pause();
+		solo.sleep(50);
+
 		solo.clearEditText(0);
 		assertTrue("Toast with warning was not found",
 				solo.searchText(getActivity().getString(R.string.notification_invalid_text_entered)));
-		assertFalse(solo.getButton(0).isEnabled());
+		assertFalse("OK button was not disabled upon deleting text field contents", solo.getButton(0).isEnabled());
 	}
 }
