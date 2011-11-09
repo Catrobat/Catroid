@@ -195,6 +195,7 @@
 	<string name="brick_clear_graphic_effect">Clear graphic effect</string>
 	<string name="brick_say">Say</string>
 	<string name="brick_think">Think</string>
+	<string name="brick_next_costume">Next Costume</string>
 	
 	<!-- Sound bricks -->
     <string name="brick_play_sound">Play Sound</string>
