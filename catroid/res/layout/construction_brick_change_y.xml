@@ -43,7 +43,7 @@
 	>
 		<TextView
 			android:id="@+id/ValueTextViewY"
-			android:text="@string/change_y_main_adapter"
+			android:text="@string/brick_change_y_by"
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
 			android:layout_alignParentLeft="true"

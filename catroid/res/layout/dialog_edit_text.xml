@@ -27,17 +27,18 @@
 	android:layout_height="match_parent"
 >
 	<EditText
-		android:id="@+id/dialogEditText"
+		android:id="@+id/dialog_edit_dialog_edit_text"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:gravity="right"
 		android:inputType="text"
 		android:maxLines="1"
 		android:minWidth="100dp"
+		android:selectAllOnFocus="true"
 	>
 	</EditText>
 	<Button
-		android:id="@+id/dialogEditTextSubmit"
+		android:id="@+id/dialog_edit_dialog_ok_button"
 		android:text="@string/ok"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content" />

@@ -40,6 +40,7 @@
     <string name="error">Fehler</string>
     <string name="please_wait">Bitte warten</string>
     <string name="loading">Laden...</string>
+    <string name="background">Hintergrund</string>
     <string name="stage">Bühne</string>
 
 	<!-- Brick captions -->
@@ -56,11 +57,15 @@
     <string name="upload_project">Projekt hochladen</string>
 
     <!-- Main menu activity -->
-    <string name="resume">Weiter machen</string>
     <string name="current_project">Aktuelles Projekt:</string>
     <string name="no_project">Kein Projekt geladen</string>
+    <string name="current_project_button">Aktuelles Projekt</string>
+    <string name="projects_on_phone">Projekte am Handy</string>
     <string name="create_new_project">Neues Projekt erstellen</string>
-
+	<string name="tutorial">Anleitung</string>
+	<string name="settings">Einstellungen</string>
+	<string name="web_resources">Internet-Ressourcen</string>
+	
     <!-- About Dialog -->
     <string name="about_title">Über Catroid</string>
     <string name="about_text">
@@ -74,7 +79,7 @@
 
     <!-- Project activity view -->
     <string name="project_name">Projekt:</string>
-    <string name="sprite_list">Objekte:</string>
+    <string name="sprite_list">Objekte</string>
     <string name="add_sprite">Neues Objekt hinzufügen</string>
 
     <!-- Script activity view -->
@@ -92,7 +97,7 @@
     <string name="newsprite">Neues Objekt</string>
 
     <!-- New project dialog -->
-    <string name="new_project_dialog_create_button">Erstellen</string>
+    <string name="new_project_dialog_button">Erstellen</string>
     <string name="new_project_dialog_title">Name des Projekts</string>
     <string name="new_project_dialog_default_project_name">Projektname</string>
     
@@ -128,34 +133,59 @@
     <!-- Load project dialog -->
     <string name="load_project_dialog_title">Projekt laden</string>
 
+	<!-- Broadcast spinner -->
+	<string name="new_broadcast_message">Neu...</string>
+	<string name="broadcast_nothing_selected">Nichts...</string>
+	
     <!--  Stage context menu -->
     <string name="stagemenu_construction_site">Zur Baustelle</string>
     <string name="stagemenu_start">Abspielen/Pause</string>
 
-    <string name="set_background_main_adapter">Setze Hintergrund</string>
-    <string name="play_sound_main_adapter">Spiele Klang</string>
-    <string name="wait_main_adapter">Warte</string>
+    <string name="brick_set_background">Setze Hintergrund</string>
+    <string name="brick_play_sound">Spiele Klang</string>
+    <string name="brick_wait">Warte</string>
     <string name="seconds">Sekunden</string>
 
-    <string name="hide_main_adapter">Verstecke dich</string>
-    <string name="show_main_adapter">Zeige dich</string>
+    <string name="brick_hide">Verstecke dich</string>
+    <string name="brick_show">Zeige dich</string>
     <string name="brick_place_at">Gehe zu</string>
     <string name="x_label">X:</string>
     <string name="y_label">Y:</string>
-    <string name="costume_main_adapter">Setze Kostüm</string>
-    <string name="brick_scale_costume">Skaliere Kostüm auf</string>
-    <string name="go_back_main_adapter">Gehe</string>
-    <string name="steps_label">Schritte nach hinten</string>
-    <string name="come_to_front_main_adapter">Komm nach vorne</string>
-    <string name="touched_main_adapter">Wenn berührt</string>
-    <string name="started_main_adapter">Wenn gestartet</string>
-    <string name="change_x_main_adapter">Ändere X um:</string>
-	<string name="change_y_main_adapter">Ändere Y um:</string>
-	<string name="set_x_main_adapter">Setze X auf:</string>
-	<string name="set_y_main_adapter">Setze Y auf:</string>
+    <string name="brick_set_costume">Setze Kostüm</string>
+    <string name="brick_set_size_to">Setze Größe auf</string>
+    <string name="brick_go_back">Gehe</string>
+    <string name="brick_go_back_layers">Ebenen nach hinten</string>
+    <string name="brick_come_to_front">Komm nach vorne</string>
+    <string name="brick_if_touched">Wenn berührt</string>
+    <string name="brick_if_started">Wenn gestartet</string>
+    <string name="brick_change_x_by">Ändere X um:</string>
+	<string name="brick_change_y_by">Ändere Y um:</string>
+	<string name="brick_set_x">Setze X auf:</string>
+	<string name="brick_set_y">Setze Y auf:</string>
+	<string name="brick_glide">Gleite</string>
+	<string name="brick_glide_to">zu</string>
+	<string name="brick_forever">Wiederhole fortlaufend</string>
+	<string name="brick_loop_end">Wiederholen beenden</string>
+	<string name="brick_repeat">Wiederhole</string>
+	<string name="times_label">mal</string>
+	<string name="brick_if_on_edge_bounce">pralle von Rand ab</string>
+	<string name="brick_move">Gehe</string>
+	<string name="brick_move_n_steps">Schritte</string>
+	<string name="brick_turn_right">Drehe rechts</string>
+	<string name="brick_turn_right_n_degrees">Grad</string>
+	<string name="brick_turn_left">Drehe links</string>
+	<string name="brick_turn_left_n_degrees">Grad</string>
+	<string name="brick_point_in_direction">Zeige Richtung</string>
 	
 	<string name="choose_sound_title">Sound wählen</string>
-
+	
+	<string name="brick_note">Notiz</string>
+	
+	<string name="brick_broadcast_receive">Wenn ich empfange:</string>
+	<string name="brick_broadcast">Verschicke an alle:</string>
+    <string name="brick_broadcast_wait">Verschicke und warte:</string>
+    <string name="brick_stop_all_sounds">Stoppe alle Sounds</string>
+    
     <!-- defaulValues -->
     <string name="default_project_name">standardProjekt</string>
     
@@ -165,6 +195,9 @@
     </string>
     <string name="notification_invalid_name_entered">
     	Bitte einen Namen eingeben
+    </string>
+    <string name="notification_screenshot_ok">
+        Screenshot erfolgreich gespeichert
     </string>
 
     <!-- Error messages -->
@@ -202,7 +235,10 @@
         Bitte eine Zahl eingeben.
     </string>
     <string name="error_screenshot_failed">
-        Fehler beim Speichern des Screenshots.
+        Beim Speichern des Screenshots ist ein Fehler aufgetreten.
+    </string>
+    <string name="error_load_image">
+    	Beim Laden des Bildes ist ein Fehler aufgetreten.
     </string>
 
     <!-- Notifications -->
@@ -212,5 +248,4 @@
     <string name="upload_button">Hochladen</string>
     <string name="upload_project_dialog_title">Projekt hochladen</string>
     <string name="project_rename">(Das Projekt wird umbenannt.)</string>
-     <string name="screenshot_ok">Screenshot erfolgreich gespeichert</string>
 </resources>

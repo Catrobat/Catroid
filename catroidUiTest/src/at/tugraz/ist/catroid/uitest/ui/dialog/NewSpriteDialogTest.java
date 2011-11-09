@@ -19,22 +19,23 @@
 
 package at.tugraz.ist.catroid.uitest.ui.dialog;
 
-import java.io.File;
 import java.io.IOException;
 
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.content.Project;
+import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
-import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
-	private String testingproject = "testingproject";
+	private String testingproject = UiTestUtils.PROJECTNAME1;
 	private String testingsprite = "testingsprite";
 
 	public NewSpriteDialogTest() {
@@ -44,20 +45,13 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-
-		File directory = new File("/sdcard/catroid/" + testingproject);
-		UtilFile.deleteDirectory(directory);
-		assertFalse("testProject was not deleted!", directory.exists());
+		UiTestUtils.clearAllUtilTestProjects();
 
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-
-		File directory = new File("/sdcard/catroid/" + testingproject);
-		UtilFile.deleteDirectory(directory);
-		assertFalse("testProject was not deleted!", directory.exists());
 
 		try {
 			solo.finalize();
@@ -66,21 +60,20 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 		}
 
 		getActivity().finish();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
 	public void testNewSpriteDialog() throws NameNotFoundException, IOException {
 
-		solo.clickOnButton(getActivity().getString(R.string.new_project));
-		int nameEditTextId = solo.getCurrentEditTexts().size() - 1;
-		UiTestUtils.enterText(solo, nameEditTextId, "testingproject");
-		solo.sendKey(Solo.ENTER);
+		createTestProject(testingproject);
+		solo.clickOnButton(getActivity().getString(R.string.projects_on_phone));
+		solo.clickOnText(testingproject);
 
-		solo.clickOnButton(solo.getCurrentActivity().getString(R.string.add_sprite));
+		//solo.clickOnButton(solo.getCurrentActivity().getString(R.string.add_sprite));
+		solo.clickOnImageButton(1);
 		int spriteEditTextId = solo.getCurrentEditTexts().size() - 1;
 		UiTestUtils.enterText(solo, spriteEditTextId, "testingsprite");
-		solo.sleep(1000);
-		//solo.clickOnButton(0);
 		solo.sendKey(Solo.ENTER);
 		solo.sleep(1000);
 		solo.clickOnText(testingsprite);
@@ -88,6 +81,17 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 
 		assertTrue("CurentActivity is not Script Activity!", solo.getCurrentActivity() instanceof ScriptActivity);
 
+	}
+
+	public void createTestProject(String projectName) {
+		StorageHandler storageHandler = StorageHandler.getInstance();
+
+		Project project = new Project(getActivity(), projectName);
+		Sprite firstSprite = new Sprite("cat");
+
+		project.addSprite(firstSprite);
+
+		storageHandler.saveProject(project);
 	}
 
 }

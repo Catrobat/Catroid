@@ -28,8 +28,8 @@ import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.Window;
 import android.view.WindowManager;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -52,11 +52,12 @@ public class StageActivity extends Activity {
 			stage = (SurfaceView) findViewById(R.id.stageView);
 
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+			Utils.updateScreenWidthAndHeight(this);
+
 			soundManager = SoundManager.getInstance();
 			stageManager = new StageManager(this);
 			stageManager.start();
 			stagePlaying = true;
-
 		}
 	}
 
@@ -76,11 +77,11 @@ public class StageActivity extends Activity {
 		return false;
 	}
 
-	public void processOnTouch(int coordX, int coordY) {
-		coordX = coordX + stage.getTop();
-		coordY = coordY + stage.getLeft();
+	public void processOnTouch(int xCoordinate, int yCoordinate) {
+		xCoordinate = xCoordinate + stage.getTop();
+		yCoordinate = yCoordinate + stage.getLeft();
 
-		stageManager.processOnTouch(coordX, coordY);
+		stageManager.processOnTouch(xCoordinate, yCoordinate);
 	}
 
 	@Override
@@ -97,7 +98,7 @@ public class StageActivity extends Activity {
 				pauseOrContinue();
 				break;
 			case R.id.stagemenuConstructionSite:
-				toMainActivity();
+				manageLoadAndFinish();
 				break;
 		}
 		return true;
@@ -122,33 +123,20 @@ public class StageActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		stageManager.finish();
 		soundManager.clear();
-		//		ProjectManager projectManager = ProjectManager.getInstance();
-		//		Sprite currentSprite = projectManager.getCurrentSprite();
-		//		Script currentScript = projectManager.getCurrentScript();
-		//		projectManager.loadProject(projectManager.getCurrentProject().getName(), this);
-		//		projectManager.setCurrentSprite(currentSprite);
-		//		projectManager.setCurrentScript(currentScript);
 	}
 
 	@Override
 	public void onBackPressed() {
-		ProjectManager projectManager = ProjectManager.getInstance();
-		int currentSpritePos = projectManager.getCurrentSpritePosition();
-		int currentScriptPos = projectManager.getCurrentScriptPosition();
-		projectManager.loadProject(projectManager.getCurrentProject().getName(), this,
-				false);
-		projectManager.setCurrentSpriteWithPosition(currentSpritePos);
-		projectManager.setCurrentScriptWithPosition(currentScriptPos);
-		finish();
+		manageLoadAndFinish();
 	}
 
-	private void toMainActivity() {
+	private void manageLoadAndFinish() {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		int currentSpritePos = projectManager.getCurrentSpritePosition();
 		int currentScriptPos = projectManager.getCurrentScriptPosition();
-		projectManager.loadProject(projectManager.getCurrentProject().getName(), this,
-				false);
+		projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
 		projectManager.setCurrentSpriteWithPosition(currentSpritePos);
 		projectManager.setCurrentScriptWithPosition(currentScriptPos);
 		finish();
@@ -164,5 +152,13 @@ public class StageActivity extends Activity {
 			soundManager.resume();
 			stagePlaying = true;
 		}
+	}
+
+	@Override
+	protected void onResume() {
+		if (!Utils.checkForSdCard(this)) {
+			return;
+		}
+		super.onResume();
 	}
 }

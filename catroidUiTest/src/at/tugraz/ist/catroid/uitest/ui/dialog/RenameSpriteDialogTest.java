@@ -18,7 +18,6 @@
  */
 package at.tugraz.ist.catroid.uitest.ui.dialog;
 
-import java.io.File;
 import java.io.IOException;
 
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -30,13 +29,12 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
-import at.tugraz.ist.catroid.utils.UtilFile;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class RenameSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
-	private String testProject2 = "testProject2";
+	private String testProject = UiTestUtils.PROJECTNAME1;
 	private String cat = "cat";
 	private String kat = "kat";
 
@@ -47,20 +45,14 @@ public class RenameSpriteDialogTest extends ActivityInstrumentationTestCase2<Mai
 	@Override
 	public void setUp() throws Exception {
 
-		File directory = new File("/sdcard/catroid/" + testProject2);
-		UtilFile.deleteDirectory(directory);
-		assertFalse("testProject was not deleted!", directory.exists());
-
+		UiTestUtils.clearAllUtilTestProjects();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
 	@Override
 	public void tearDown() throws Exception {
 
-		File directory = new File("/sdcard/catroid/" + testProject2);
-		UtilFile.deleteDirectory(directory);
-		assertFalse("testProject was not deleted!", directory.exists());
-
+		UiTestUtils.clearAllUtilTestProjects();
 		try {
 			solo.finalize();
 		} catch (Throwable e) {
@@ -73,9 +65,9 @@ public class RenameSpriteDialogTest extends ActivityInstrumentationTestCase2<Mai
 
 	public void testRenameSpriteDialog() throws NameNotFoundException, IOException {
 
-		createTestProject(testProject2);
-		solo.clickOnButton(getActivity().getString(R.string.load_project));
-		solo.clickOnText(testProject2);
+		createTestProject(testProject);
+		solo.clickOnButton(getActivity().getString(R.string.projects_on_phone));
+		solo.clickOnText(testProject);
 		solo.clickLongOnText(cat);
 
 		solo.sleep(1000);
@@ -85,14 +77,14 @@ public class RenameSpriteDialogTest extends ActivityInstrumentationTestCase2<Mai
 		UiTestUtils.enterText(solo, 0, kat);
 		solo.sendKey(Solo.ENTER);
 
-		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(R.id.spriteListView);
+		ListView spritesList = (ListView) solo.getCurrentActivity().findViewById(android.R.id.list);
 		String first = spritesList.getItemAtPosition(1).toString();
 
 		assertEquals("The first sprite is NOT rename!", first, kat);
 
 	}
 
-	public void createTestProject(String projectName) throws IOException, NameNotFoundException {
+	public void createTestProject(String projectName) {
 		StorageHandler storageHandler = StorageHandler.getInstance();
 
 		Project project = new Project(getActivity(), projectName);

@@ -42,7 +42,7 @@
 	>
 		<TextView
 			android:id="@+id/ValueTextView"
-			android:text="@string/come_to_front_main_adapter"
+			android:text="@string/brick_come_to_front"
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
 			android:layout_alignParentLeft="true"
