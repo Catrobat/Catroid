@@ -55,5 +55,4 @@ public class HideBrick implements Brick {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		return inflater.inflate(R.layout.brick_hide, null);
 	}
-
 }

@@ -20,70 +20,111 @@
 package at.tugraz.ist.catroid.uitest.web;
 
 import java.io.File;
+import java.util.List;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
-import at.tugraz.ist.catroid.Consts;
+import android.widget.ImageButton;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
-import at.tugraz.ist.catroid.transfers.ProjectUploadTask;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.ui.DownloadActivity;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
+import at.tugraz.ist.catroid.web.ServerCalls;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
-	private String testProject = "testProject";
-	private String newTestProject = "newProjectToTest";
+	private String testProject = UiTestUtils.PROJECTNAME1;
+	private String newTestProject = UiTestUtils.PROJECTNAME2;
+	private String saveToken;
+	private int serverProjectId;
 
 	public ProjectUpAndDownloadTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
-		deleteCreatedProjects();
+		UiTestUtils.clearAllUtilTestProjects();
 	}
 
 	@Override
 	@UiThreadTest
 	public void setUp() throws Exception {
 		solo = new Solo(getInstrumentation(), getActivity());
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		saveToken = prefs.getString(Consts.TOKEN, "0");
 	}
 
 	@Override
 	public void tearDown() throws Exception {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		prefs.edit().putString(Consts.TOKEN, saveToken).commit();
 		try {
 			solo.finalize();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 		getActivity().finish();
-		deleteCreatedProjects();
-
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
-	public void testUploadProject() throws Throwable {
+	private void startProjectUploadTask() throws Throwable {
 		runTestOnUiThread(new Runnable() {
 			public void run() {
-				ProjectUploadTask.useTestUrl = true;
+				ServerCalls.useTestUrl = true;
 			}
 		});
+	}
+
+	public void testUploadProjectSuccess() throws Throwable {
+		startProjectUploadTask();
 
 		createTestProject();
 		addABrickToProject();
-		uploadProject();
 
-		deleteCreatedProjects();
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		prefs.edit().putString(Consts.TOKEN, "0").commit();
+
+		uploadProject(true);
+
+		UiTestUtils.clearAllUtilTestProjects();
 
 		downloadProject();
+	}
+
+	public void testUploadProjectWithWrongToken() throws Throwable {
+		UiTestUtils.clearAllUtilTestProjects();
+		startProjectUploadTask();
+
+		createTestProject();
+		addABrickToProject();
+
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		prefs.edit().putString(Consts.TOKEN, "wrong_token").commit();
+
+		uploadProject(false);
+
+		String resultString = (String) UiTestUtils.getPrivateField("resultString", ServerCalls.getInstance());
+		JSONObject jsonObject = new JSONObject(resultString);
+		int statusCode = jsonObject.getInt("statusCode");
+
+		assertEquals("Received wrong result status code", 601, statusCode);
+
+		UiTestUtils.clearAllUtilTestProjects();
 	}
 
 	private void createTestProject() {
 		File directory = new File(Consts.DEFAULT_ROOT + "/" + testProject);
 		if (directory.exists()) {
-			directory.delete();
+			UtilFile.deleteDirectory(directory);
 		}
 		assertFalse("testProject was not deleted!", directory.exists());
 
@@ -103,12 +144,18 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		solo.clickOnText(getActivity().getString(R.string.add_new_brick));
 
 		solo.sleep(500);
-		solo.clickOnText(getActivity().getString(R.string.wait_main_adapter));
-
-		solo.clickOnButton(getActivity().getString(R.string.main_menu));
+		solo.clickOnText(getActivity().getString(R.string.brick_wait));
+		solo.sleep(500);
+		List<ImageButton> btnList = solo.getCurrentImageButtons();
+		for (int i = 0; i < btnList.size(); i++) {
+			ImageButton btn = btnList.get(i);
+			if (btn.getId() == R.id.btn_action_home) {
+				solo.clickOnImageButton(i);
+			}
+		}
 	}
 
-	private void uploadProject() {
+	private void uploadProject(boolean expect_success) {
 		solo.clickOnText(getActivity().getString(R.string.upload_project));
 		solo.sleep(500);
 
@@ -124,14 +171,26 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		solo.clickOnButton(getActivity().getString(R.string.upload_button));
 
-		solo.waitForDialogToClose(10000);
-		assertTrue("Upload failed. Internet connection?",
-				solo.searchText(getActivity().getString(R.string.success_project_upload)));
-		solo.clickOnButton(0);
+		try {
+			solo.waitForDialogToClose(10000);
+			if (expect_success) {
+				assertTrue("Upload failed. Internet connection?",
+						solo.searchText(getActivity().getString(R.string.success_project_upload)));
+				String resultString = (String) UiTestUtils.getPrivateField("resultString", ServerCalls.getInstance());
+				JSONObject jsonObject;
+				jsonObject = new JSONObject(resultString);
+				serverProjectId = jsonObject.optInt("projectId");
+			} else {
+				assertTrue("Error message not found on screen. ",
+						solo.searchText(getActivity().getString(R.string.error_project_upload)));
+			}
+			solo.clickOnButton(0);
+		} catch (JSONException e) {
+			assertFalse("json exception orrured", true);
+		}
 	}
 
 	private void downloadProject() {
-		int serverProjectId = ProjectManager.getInstance().getServerProjectId();
 		String downloadUrl = Consts.TEST_FILE_DOWNLOAD_URL + serverProjectId + Consts.CATROID_EXTENTION;
 		downloadUrl += "?fname=" + newTestProject;
 		Intent intent = new Intent(getActivity(), DownloadActivity.class);
@@ -139,22 +198,17 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		intent.setData(Uri.parse(downloadUrl));
 		launchActivityWithIntent("at.tugraz.ist.catroid", DownloadActivity.class, intent);
 
-		assertTrue("Download takes to long.", solo.waitForActivity("MainMenuActivity", 10000));
+		boolean waitResult = solo.waitForActivity("MainMenuActivity", 10000);
+		assertTrue("Download takes too long.", waitResult);
 		assertNotNull("Download not successful.",
 				solo.searchText(getActivity().getString(R.string.success_project_download)));
 
 		String projectPath = Consts.DEFAULT_ROOT + "/" + newTestProject;
 		File downloadedDirectory = new File(projectPath);
-		File downloadedSPFFile = new File(projectPath + "/" + newTestProject + Consts.PROJECT_EXTENTION);
+		File downloadedProjectFile = new File(projectPath + "/" + newTestProject + Consts.PROJECT_EXTENTION);
 		assertTrue("Downloaded Directory does not exist.", downloadedDirectory.exists());
-		assertTrue("Project File does not exist.", downloadedSPFFile.exists());
+		assertTrue("Project File does not exist.", downloadedProjectFile.exists());
 
 	}
 
-	private void deleteCreatedProjects() {
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + testProject);
-		UtilFile.deleteDirectory(directory);
-		File newDirectory = new File(Consts.DEFAULT_ROOT + "/" + newTestProject);
-		UtilFile.deleteDirectory(newDirectory);
-	}
 }

@@ -27,7 +27,7 @@
 >
 	<TextView
 		android:id="@+id/ValueTextView"
-		android:text="@string/go_back_main_adapter"
+		android:text="@string/brick_go_back"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
 		android:layout_alignParentLeft="true"
@@ -58,7 +58,7 @@
 	</EditText>
 	<TextView
 		android:id="@+id/LabelTextView"
-		android:text="@string/steps_label"
+		android:text="@string/brick_go_back_layers"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
 		android:layout_alignParentRight="true"

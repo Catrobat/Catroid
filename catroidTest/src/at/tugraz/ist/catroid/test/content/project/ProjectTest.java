@@ -31,36 +31,36 @@ public class ProjectTest extends AndroidTestCase {
 		assertEquals("Incorrect version name", packageInfo.versionName, project.getVersionName());
 		assertEquals("Incorrect version code", packageInfo.versionCode, project.getVersionCode());
 	}
-	
+
 	public void testAddRemoveSprite() throws NameNotFoundException {
 		Project project = new Project(getContext(), "testProject");
-		Sprite  bottomSprite = new Sprite("bottom");
-		Sprite  topSprite    = new Sprite("top");
-		
+		Sprite bottomSprite = new Sprite("bottom");
+		Sprite topSprite = new Sprite("top");
+
 		project.addSprite(bottomSprite);
 		project.addSprite(topSprite);
-		
+
 		assertTrue("spriteList did not contain bottomSprite", project.getSpriteList().contains(bottomSprite));
-		assertTrue("spriteList did not contain topSprite",    project.getSpriteList().contains(topSprite));
-		
-		assertTrue("bottomSprite was not removed from data structure",  project.removeSprite(bottomSprite));
+		assertTrue("spriteList did not contain topSprite", project.getSpriteList().contains(topSprite));
+
+		assertTrue("bottomSprite was not removed from data structure", project.removeSprite(bottomSprite));
 		assertFalse("bottomSprite was not removed from data structure", project.getSpriteList().contains(bottomSprite));
 		assertFalse("bottomSprite could be removed from data structure twice", project.removeSprite(bottomSprite));
-		
-		assertTrue("topSprite was not removed from data structure",  project.removeSprite(topSprite));
+
+		assertTrue("topSprite was not removed from data structure", project.removeSprite(topSprite));
 		assertFalse("topSprite was not removed from data structure", project.getSpriteList().contains(topSprite));
 	}
-	
+
 	public void testGetMaxZValue() throws NameNotFoundException {
 		Project project = new Project(getContext(), "testProject");
-		Sprite  bottomSprite = new Sprite("bottom");
-		Sprite  topSprite    = new Sprite("top");
-		
+		Sprite bottomSprite = new Sprite("bottom");
+		Sprite topSprite = new Sprite("top");
+
 		project.addSprite(bottomSprite);
 		project.addSprite(topSprite);
-		
+
 		final int maxZ = 17;
-		
+
 		bottomSprite.setZPosition(maxZ - 5);
 		topSprite.setZPosition(maxZ);
 

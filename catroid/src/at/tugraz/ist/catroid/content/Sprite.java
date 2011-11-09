@@ -21,60 +21,65 @@ package at.tugraz.ist.catroid.content;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 import android.graphics.Color;
-import android.util.Pair;
-import at.tugraz.ist.catroid.Consts;
+import at.tugraz.ist.catroid.common.Consts;
 
 public class Sprite implements Serializable, Comparable<Sprite> {
 	private static final long serialVersionUID = 1L;
+	private static final int MIN_ALPHA = 10;
 	private String name;
-	private int xPosition;
-	private int yPosition;
-	private int zPosition;
-	private double scale;
-	private boolean isVisible;
-	private boolean toDraw;
+	private transient int xPosition;
+	private transient int yPosition;
+	private transient int zPosition;
+	private transient double size;
+	private transient double direction;
+	private transient boolean isVisible;
+	private transient boolean toDraw;
 	private List<Script> scriptList;
-	private List<Thread> threadList;
-	private Costume costume;
+	private transient Costume costume;
+
+	public transient volatile boolean isPaused;
+	public transient volatile boolean isFinished;
+
+	private Object readResolve() {
+		init();
+		return this;
+	}
 
 	private void init() {
 		zPosition = 0;
-		scale = 100.0;
+		size = 100.0;
+		direction = 90.;
 		isVisible = true;
-		scriptList = new ArrayList<Script>();
-		threadList = new ArrayList<Thread>();
 		costume = new Costume(this, null);
+		xPosition = 0;
+		yPosition = 0;
+		toDraw = false;
+		isPaused = false;
+		isFinished = false;
 	}
 
 	public Sprite(String name) {
 		this.name = name;
-		xPosition = 0;
-		yPosition = 0;
-		toDraw = false;
+		scriptList = new ArrayList<Script>();
 		init();
 	}
 
-	public Sprite(String name, int xPosition, int yPosition) {
-		this.name = name;
-		this.xPosition = xPosition;
-		this.yPosition = yPosition;
-		toDraw = false;
-		init();
-	}
-
-	public void startScripts() {
+	public void startStartScripts() {
 		for (Script s : scriptList) {
-			if (!s.isTouchScript()) {
-				startScript(s);
+			if (s instanceof StartScript) {
+				if (!s.isFinished()) {
+					startScript(s);
+				}
 			}
 		}
 	}
 
-	public void startTouchScripts() {
+	public void startTapScripts() {
 		for (Script s : scriptList) {
-			if (s.isTouchScript()) {
+			if (s instanceof TapScript) {
 				startScript(s);
 			}
 		}
@@ -87,7 +92,35 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 				script.run();
 			}
 		});
-		threadList.add(t);
+		t.start();
+	}
+
+	public void startScriptBroadcast(Script s, final CountDownLatch simultaneousStart) {
+		final Script script = s;
+		Thread t = new Thread(new Runnable() {
+			public void run() {
+				try {
+					simultaneousStart.await();
+				} catch (InterruptedException e) {
+				}
+				script.run();
+			}
+		});
+		t.start();
+	}
+
+	public void startScriptBroadcastWait(Script s, final CountDownLatch simultaneousStart, final CountDownLatch wait) {
+		final Script script = s;
+		Thread t = new Thread(new Runnable() {
+			public void run() {
+				try {
+					simultaneousStart.await();
+				} catch (InterruptedException e) {
+				}
+				script.run();
+				wait.countDown();
+			}
+		});
 		t.start();
 	}
 
@@ -95,21 +128,21 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		for (Script s : scriptList) {
 			s.setPaused(true);
 		}
-		for (Thread t : threadList) {
-			t.interrupt();
-		}
-		threadList.clear();
+		this.isPaused = true;
 	}
 
 	public void resume() {
 		for (Script s : scriptList) {
 			s.setPaused(false);
-			if (s.isTouchScript() && s.isFinished()) {
-				continue;
-			}
-			startScript(s);
 		}
-		//		this.startScripts();
+		this.isPaused = false;
+	}
+
+	public void finish() {
+		for (Script s : scriptList) {
+			s.setFinish(true);
+		}
+		this.isFinished = true;
 	}
 
 	public String getName() {
@@ -132,8 +165,12 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return zPosition;
 	}
 
-	public double getScale() {
-		return scale;
+	public double getSize() {
+		return size;
+	}
+
+	public double getDirection() {
+		return direction;
 	}
 
 	public boolean isVisible() {
@@ -152,38 +189,55 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		toDraw = true;
 	}
 
-	public synchronized void setScale(double scale) {
-		if (scale <= 0.0) {
-			throw new IllegalArgumentException("Sprite scale must be greater than zero!");
+	public synchronized void setSize(double size) {
+		if (size <= 0.0) {
+			throw new IllegalArgumentException("Sprite size must be greater than zero!");
 		}
 
-		int width = costume.getImageWidthHeight().first;
-		int height = costume.getImageWidthHeight().second;
+		int costumeWidth = costume.getImageWidthHeight().first;
+		int costumeHeight = costume.getImageWidthHeight().second;
 
-		if (width == 0 || height == 0) {
-			this.scale = scale;
-			return;
+		this.size = size;
+
+		if (costumeWidth > 0 && costumeHeight > 0) {
+			if (costumeWidth * this.size / 100. < 1) {
+				this.size = 1. / costumeWidth * 100.;
+			}
+			if (costumeHeight * this.size / 100. < 1) {
+				this.size = 1. / costumeHeight * 100.;
+			}
+
+			if (costumeWidth * this.size / 100. > Consts.MAX_COSTUME_WIDTH) {
+				this.size = (double) Consts.MAX_COSTUME_WIDTH / costumeWidth * 100.;
+			}
+
+			if (costumeHeight * this.size / 100. > Consts.MAX_COSTUME_HEIGHT) {
+				this.size = (double) Consts.MAX_COSTUME_HEIGHT / costumeHeight * 100.;
+			}
+
+			costume.setSizeTo(this.size);
+			toDraw = true;
+		}
+	}
+
+	public synchronized void setDirection(double direction) {
+
+		int floored = (int) Math.floor(direction);
+
+		int mod = ((floored + 180) % 360);
+		double remainder = direction - floored;
+
+		if (mod >= 0) {
+			this.direction = Math.abs(mod) + remainder - 180;
+		} else {
+			this.direction = 180 - (Math.abs(mod) - remainder);
 		}
 
-		this.scale = scale;
-
-		if (width * this.scale / 100. < 1) {
-			this.scale = 1. / width * 100.;
-		}
-		if (height * this.scale / 100. < 1) {
-			this.scale = 1. / height * 100.;
+		if (this.direction == -180) {
+			this.direction = 180;
 		}
 
-		if (width * this.scale / 100. > Consts.MAX_COSTUME_WIDTH) {
-			this.scale = (double) Consts.MAX_COSTUME_WIDTH / width * 100.;
-		}
-
-		if (height * this.scale / 100. > Consts.MAX_COSTUME_HEIGHT) {
-			this.scale = (double) Consts.MAX_COSTUME_HEIGHT / height * 100.;
-		}
-
-		costume.scale(this.scale);
-		toDraw = true;
+		costume.rotateTo(this.direction);
 	}
 
 	public synchronized void show() {
@@ -200,8 +254,36 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return costume;
 	}
 
-	public List<Script> getScriptList() {
-		return scriptList;
+	public void addScript(Script script) {
+		if (script != null && !scriptList.contains(script)) {
+			scriptList.add(script);
+		}
+	}
+
+	public void addScript(int index, Script script) {
+		if (script != null && !scriptList.contains(script)) {
+			scriptList.add(index, script);
+		}
+	}
+
+	public Script getScript(int index) {
+		return scriptList.get(index);
+	}
+
+	public int getNumberOfScripts() {
+		return scriptList.size();
+	}
+
+	public int getScriptIndex(Script script) {
+		return scriptList.indexOf(script);
+	}
+
+	public void removeAllScripts() {
+		scriptList.clear();
+	}
+
+	public boolean removeScript(Script script) {
+		return scriptList.remove(script);
 	}
 
 	public boolean getToDraw() {
@@ -222,35 +304,28 @@ public class Sprite implements Serializable, Comparable<Sprite> {
 		return (int) difference;
 	}
 
-	public boolean processOnTouch(int coordX, int coordY) {
+	public boolean processOnTouch(int xCoordinate, int yCoordinate) {
 		if (costume.getBitmap() == null || isVisible == false) {
 			return false;
 		}
 
-		int inSpriteCoordX = coordX - costume.getDrawPositionX();
-		int inSpriteCoordY = coordY - costume.getDrawPositionY();
+		int inSpriteXCoordinate = xCoordinate - costume.getDrawPositionX();
+		int inSpriteYCoordinate = yCoordinate - costume.getDrawPositionY();
 
-		Pair<Integer, Integer> tempPair = costume.getImageWidthHeight();
-		int width = tempPair.first;
-		int height = tempPair.second;
+		int width = costume.getImageWidthHeight().first;
+		int height = costume.getImageWidthHeight().second;
 
-		if (inSpriteCoordX < 0 || inSpriteCoordX > width) {
+		if (inSpriteXCoordinate < 0 || inSpriteXCoordinate > width) {
 			return false;
 		}
-		if (inSpriteCoordY < 0 || inSpriteCoordY > height) {
+		if (inSpriteYCoordinate < 0 || inSpriteYCoordinate > height) {
 			return false;
 		}
-
-		try {
-			if (Color.alpha(costume.getBitmap().getPixel(inSpriteCoordX, inSpriteCoordY)) <= 10) {
-				return false;
-			}
-		} catch (Exception ex) {
+		if (Color.alpha(costume.getBitmap().getPixel(inSpriteXCoordinate, inSpriteYCoordinate)) <= MIN_ALPHA) {
 			return false;
 		}
 
 		return true;
-
 	}
 
 	@Override

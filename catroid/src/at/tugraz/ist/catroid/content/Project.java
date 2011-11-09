@@ -26,24 +26,21 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
-import at.tugraz.ist.catroid.FileChecksumContainer;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.Values;
+import at.tugraz.ist.catroid.common.Values;
 
 public class Project implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private List<Sprite> spriteList = new ArrayList<Sprite>();
 	private String name;
 	private String versionName;
+	private int versionCode;
 
 	//only used for catroid website
 	@SuppressWarnings("unused")
 	private String deviceName;
 	@SuppressWarnings("unused")
 	private String screenResolution;
-
-	private int versionCode;
-	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
 
 	public Project(Context context, String name) {
 		this.name = name;
@@ -56,8 +53,8 @@ public class Project implements Serializable {
 			return;
 		}
 
-		Sprite stage = new Sprite(context.getString(R.string.stage));
-		addSprite(stage);
+		Sprite background = new Sprite(context.getString(R.string.background));
+		addSprite(background);
 
 		try {
 			PackageInfo packageInfo = context.getPackageManager().getPackageInfo("at.tugraz.ist.catroid", 0);
@@ -68,7 +65,6 @@ public class Project implements Serializable {
 			versionName = "unknown";
 			versionCode = 0;
 		}
-
 	}
 
 	public synchronized void addSprite(Sprite sprite) {
@@ -116,10 +112,6 @@ public class Project implements Serializable {
 
 	public int getVersionCode() {
 		return versionCode;
-	}
-
-	public FileChecksumContainer getFileChecksumContainer() {
-		return fileChecksumContainer;
 	}
 
 	public void setDeviceData() {

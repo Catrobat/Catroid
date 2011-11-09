@@ -23,51 +23,22 @@
 	android:orientation="vertical"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
+	android:background="@drawable/backrepeat"
 >
-	<!-- Top bar -->
-	<LinearLayout
-		android:orientation="horizontal"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_weight="0"
-	>
-		<TextView
-			android:text="@string/script_name"
-			android:id="@+id/scriptNameTextView"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:textSize="18dip"
-		></TextView>
-		<Button
-			android:text="@string/construction_site_play"
-			android:id="@+id/toStageButton"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_weight="0"
-			android:textStyle="bold"
-		>
-		</Button>
-		<Button
-			android:text="@string/main_menu"
-			android:id="@+id/mainMenuButton"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_weight="0"
-			android:textStyle="bold"
-		>
-		</Button>
-	</LinearLayout>
+	<!-- Action bar -->
+	<include layout="@layout/actionbar"/>
+	
 	<!-- Sprite list -->
 	<LinearLayout
 		android:orientation="vertical"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:layout_weight="1"
+		
 	>
 		<TextView
+			android:id="@+id/brick_list_label"
 			android:text="@string/brick_list"
-			android:id="@+id/brickListLabel"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			android:textSize="14dip"
@@ -77,13 +48,14 @@
 			android:layout_height="wrap_content"
 		>
 			<at.tugraz.ist.catroid.ui.dragndrop.DragNDropListView
+				android:id="@+id/brick_list_view"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
-				android:id="@+id/brickListView"
 				android:drawSelectorOnTop="false"
 				android:fastScrollEnabled="true"
 				android:clickable="false"
-				android:drawingCacheQuality="high" />
+				android:drawingCacheQuality="high" 
+				android:cacheColorHint="#00000000" />
 			<ImageView
 				android:id="@+id/trash"
 				android:layout_width="51dip"
@@ -97,7 +69,7 @@
 	</LinearLayout>
 	<!-- Add brick button -->
 	<Button
-		android:id="@+id/addBrickButton"
+		android:id="@+id/add_brick_button"
 		android:text="@string/add_new_brick"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
