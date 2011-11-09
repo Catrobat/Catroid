@@ -29,76 +29,22 @@ import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
 import at.tugraz.ist.catroid.content.bricks.ForeverBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
-import at.tugraz.ist.catroid.content.bricks.SetXBrick;
-import at.tugraz.ist.catroid.content.bricks.ShowBrick;
-import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 
 public class ForeverBrickTest extends InstrumentationTestCase {
 
 	private Sprite testSprite;
 	private StartScript testScript;
-	private final static int BRICK_SLEEP_TIME = 1000;
-	private int positionOfFirstWaitBrick;
-	private int positionOfSecondWaitBrick;
 	private LoopEndBrick loopEndBrick;
 	private LoopBeginBrick foreverBrick;
 
 	@Override
 	protected void setUp() throws Exception {
 		testSprite = new Sprite("testSprite");
-		testScript = new StartScript("testScript", testSprite);
-
-		ShowBrick showBrick = new ShowBrick(testSprite);
-		foreverBrick = new ForeverBrick(testSprite);
-		WaitBrick firstWaitBrick = new WaitBrick(testSprite, BRICK_SLEEP_TIME);
-		SetXBrick firstSetXBrick = new SetXBrick(testSprite, 100);
-		WaitBrick secondWaitBrick = new WaitBrick(testSprite, BRICK_SLEEP_TIME);
-		SetXBrick secondSetXBrick = new SetXBrick(testSprite, 200);
-		loopEndBrick = new LoopEndBrick(testSprite, foreverBrick);
-
-		testScript.addBrick(showBrick);
-		testScript.addBrick(foreverBrick);
-		testScript.addBrick(firstWaitBrick);
-		testScript.addBrick(firstSetXBrick);
-		testScript.addBrick(secondWaitBrick);
-		testScript.addBrick(secondSetXBrick);
-		testScript.addBrick(loopEndBrick);
-		foreverBrick.setLoopEndBrick(loopEndBrick);
-
-		testSprite.addScript(testScript);
-
-		positionOfFirstWaitBrick = testScript.getBrickList().indexOf(firstWaitBrick);
-		positionOfSecondWaitBrick = testScript.getBrickList().indexOf(secondWaitBrick);
 	}
 
 	public void testForeverBrick() throws InterruptedException {
-		testSprite.startStartScripts();
-
-		Thread.sleep(BRICK_SLEEP_TIME / 2);
-
-		assertEquals("Wrong brick executing", positionOfFirstWaitBrick, testScript.getExecutingBrickIndex());
-		Thread.sleep(BRICK_SLEEP_TIME);
-		assertEquals("Wrong brick executing", positionOfSecondWaitBrick, testScript.getExecutingBrickIndex());
-		Thread.sleep(BRICK_SLEEP_TIME);
-		assertEquals("Wrong brick executing", positionOfFirstWaitBrick, testScript.getExecutingBrickIndex());
-
-		Thread.sleep(BRICK_SLEEP_TIME * 6);
-		assertEquals("Wrong brick executing", positionOfFirstWaitBrick, testScript.getExecutingBrickIndex());
-		Thread.sleep(BRICK_SLEEP_TIME);
-		assertEquals("Wrong brick executing", positionOfSecondWaitBrick, testScript.getExecutingBrickIndex());
-		Thread.sleep(BRICK_SLEEP_TIME);
-		assertEquals("Wrong brick executing", positionOfFirstWaitBrick, testScript.getExecutingBrickIndex());
-
-		int timesToRepeat = (Integer) TestUtils.getPrivateField("timesToRepeat", loopEndBrick, false);
-
-		assertEquals("Wrong number of times to repeat", LoopEndBrick.FOREVER, timesToRepeat);
-	}
-
-	public void testLoopDelay() throws InterruptedException {
-		final int deltaY = -10;
-		final int repeatTimes = 15;
-		final int expectedDelay = (Integer) TestUtils.getPrivateField("LOOP_DELAY", loopEndBrick, false);
+		final int twentyIsAlmostForever = 20;
 
 		testSprite.removeAllScripts();
 		testScript = new StartScript("foo", testSprite);
@@ -106,6 +52,40 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 		foreverBrick = new ForeverBrick(testSprite);
 		loopEndBrick = new LoopEndBrick(testSprite, foreverBrick);
 		foreverBrick.setLoopEndBrick(loopEndBrick);
+
+		final int deltaY = -10;
+		final int expectedDelay = (Integer) TestUtils.getPrivateField("LOOP_DELAY", loopEndBrick, false);
+
+		testScript.addBrick(foreverBrick);
+		testScript.addBrick(new ChangeYByBrick(testSprite, deltaY));
+		testScript.addBrick(loopEndBrick);
+
+		testSprite.addScript(testScript);
+		testSprite.startStartScripts();
+
+		Thread.sleep(expectedDelay * twentyIsAlmostForever);
+
+		assertEquals("Executed the wrong number of times!", twentyIsAlmostForever * deltaY,
+				(int) testSprite.costume.getYPosition());
+
+		final int timesToRepeat = (Integer) TestUtils.getPrivateField("timesToRepeat", loopEndBrick, false);
+		final int forever = (Integer) TestUtils.getPrivateField("FOREVER", loopEndBrick, false);
+
+		assertEquals("Wrong number of times to repeat", forever, timesToRepeat);
+	}
+
+	public void testLoopDelay() throws InterruptedException {
+		final int deltaY = -10;
+		final int repeatTimes = 15;
+
+		testSprite.removeAllScripts();
+		testScript = new StartScript("foo", testSprite);
+
+		foreverBrick = new ForeverBrick(testSprite);
+		loopEndBrick = new LoopEndBrick(testSprite, foreverBrick);
+		foreverBrick.setLoopEndBrick(loopEndBrick);
+
+		final int expectedDelay = (Integer) TestUtils.getPrivateField("LOOP_DELAY", loopEndBrick, false);
 
 		testScript.addBrick(foreverBrick);
 		testScript.addBrick(new ChangeYByBrick(testSprite, deltaY));

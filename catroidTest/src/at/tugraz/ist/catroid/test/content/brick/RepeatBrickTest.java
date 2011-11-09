@@ -29,87 +29,59 @@ import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopBeginBrick;
 import at.tugraz.ist.catroid.content.bricks.LoopEndBrick;
 import at.tugraz.ist.catroid.content.bricks.RepeatBrick;
-import at.tugraz.ist.catroid.content.bricks.SetXBrick;
-import at.tugraz.ist.catroid.content.bricks.ShowBrick;
-import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 
 public class RepeatBrickTest extends InstrumentationTestCase {
 
 	private Sprite testSprite;
 	private StartScript testScript;
-	private static final int BRICK_SLEEP_TIME = 1000;
-	private static final int REPEAT_TIMES = 3;
-	private int positionOfFirstWaitBrick;
-	private int positionOfSecondWaitBrick;
+	private static final int REPEAT_TIMES = 10;
 	private LoopEndBrick loopEndBrick;
 	private LoopBeginBrick repeatBrick;
 
 	@Override
 	protected void setUp() throws Exception {
 		testSprite = new Sprite("testSprite");
-		testScript = new StartScript("testScript", testSprite);
-
-		ShowBrick showBrick = new ShowBrick(testSprite);
-		repeatBrick = new RepeatBrick(testSprite, REPEAT_TIMES);
-		WaitBrick firstWaitBrick = new WaitBrick(testSprite, BRICK_SLEEP_TIME);
-		SetXBrick firstSetXBrick = new SetXBrick(testSprite, 100);
-		WaitBrick secondWaitBrick = new WaitBrick(testSprite, BRICK_SLEEP_TIME);
-		SetXBrick secondSetXBrick = new SetXBrick(testSprite, 200);
-		loopEndBrick = new LoopEndBrick(testSprite, repeatBrick);
-
-		testScript.addBrick(showBrick);
-		testScript.addBrick(repeatBrick);
-		testScript.addBrick(firstWaitBrick);
-		testScript.addBrick(firstSetXBrick);
-		testScript.addBrick(secondWaitBrick);
-		testScript.addBrick(secondSetXBrick);
-		testScript.addBrick(loopEndBrick);
-		repeatBrick.setLoopEndBrick(loopEndBrick);
-
-		testSprite.addScript(testScript);
-
-		positionOfFirstWaitBrick = testScript.getBrickList().indexOf(firstWaitBrick);
-		positionOfSecondWaitBrick = testScript.getBrickList().indexOf(secondWaitBrick);
 	}
 
 	public void testRepeatBrick() throws InterruptedException {
-		testSprite.startStartScripts();
-
-		Thread.sleep(BRICK_SLEEP_TIME / 2);
-
-		int timesToRepeat = (Integer) TestUtils.getPrivateField("timesToRepeat", loopEndBrick, false);
-		assertEquals("Wrong number of times to repeat", REPEAT_TIMES, timesToRepeat);
-
-		assertEquals("Wrong brick executing", positionOfFirstWaitBrick, testScript.getExecutingBrickIndex());
-		Thread.sleep(BRICK_SLEEP_TIME);
-		assertEquals("Wrong brick executing", positionOfSecondWaitBrick, testScript.getExecutingBrickIndex());
-		Thread.sleep(BRICK_SLEEP_TIME);
-
-		timesToRepeat = (Integer) TestUtils.getPrivateField("timesToRepeat", loopEndBrick, false);
-		assertEquals("Wrong number of times to repeat", REPEAT_TIMES - 1, timesToRepeat);
-
-		Thread.sleep(BRICK_SLEEP_TIME * (REPEAT_TIMES - 1) * 2);
-		assertEquals("Wrong brick executing", positionOfFirstWaitBrick, testScript.getExecutingBrickIndex());
-		Thread.sleep(BRICK_SLEEP_TIME);
-		assertEquals("Wrong brick executing", positionOfSecondWaitBrick, testScript.getExecutingBrickIndex());
-		Thread.sleep(BRICK_SLEEP_TIME);
-
-		timesToRepeat = (Integer) TestUtils.getPrivateField("timesToRepeat", loopEndBrick, false);
-		assertEquals("Wrong number of times to repeat", 0, timesToRepeat);
-	}
-
-	public void testLoopDelay() throws InterruptedException {
-		final int deltaY = -10;
-		final int expectedDelay = (Integer) TestUtils.getPrivateField("LOOP_DELAY", loopEndBrick, false);
-		final int repeatTimes = REPEAT_TIMES * 5;
-
 		testSprite.removeAllScripts();
 		testScript = new StartScript("foo", testSprite);
 
-		repeatBrick = new RepeatBrick(testSprite, repeatTimes);
+		repeatBrick = new RepeatBrick(testSprite, REPEAT_TIMES);
 		loopEndBrick = new LoopEndBrick(testSprite, repeatBrick);
 		repeatBrick.setLoopEndBrick(loopEndBrick);
+
+		final int deltaY = -10;
+		final int expectedDelay = (Integer) TestUtils.getPrivateField("LOOP_DELAY", loopEndBrick, false);
+
+		testScript.addBrick(repeatBrick);
+		testScript.addBrick(new ChangeYByBrick(testSprite, deltaY));
+		testScript.addBrick(loopEndBrick);
+
+		testSprite.addScript(testScript);
+		testSprite.startStartScripts();
+
+		/*
+		 * Let's wait even longer than necessary, then check if we only executed N times, not N+1 times
+		 * http://code.google.com/p/catroid/issues/detail?id=24
+		 */
+		Thread.sleep(expectedDelay * REPEAT_TIMES * 2);
+
+		assertEquals("Executed the wrong number of times!", REPEAT_TIMES * deltaY,
+				(int) testSprite.costume.getYPosition());
+	}
+
+	public void testLoopDelay() throws InterruptedException {
+		testSprite.removeAllScripts();
+		testScript = new StartScript("foo", testSprite);
+
+		repeatBrick = new RepeatBrick(testSprite, REPEAT_TIMES);
+		loopEndBrick = new LoopEndBrick(testSprite, repeatBrick);
+		repeatBrick.setLoopEndBrick(loopEndBrick);
+
+		final int deltaY = -10;
+		final int expectedDelay = (Integer) TestUtils.getPrivateField("LOOP_DELAY", loopEndBrick, false);
 
 		testScript.addBrick(repeatBrick);
 		testScript.addBrick(new ChangeYByBrick(testSprite, deltaY));
@@ -120,9 +92,9 @@ public class RepeatBrickTest extends InstrumentationTestCase {
 		final long startTime = System.currentTimeMillis();
 		testSprite.startStartScripts();
 
-		Thread.sleep(expectedDelay * repeatTimes);
+		Thread.sleep(expectedDelay * REPEAT_TIMES);
 
-		assertEquals("Loop delay did not work!", repeatTimes * deltaY, (int) testSprite.costume.getYPosition());
+		assertEquals("Loop delay did not work!", REPEAT_TIMES * deltaY, (int) testSprite.costume.getYPosition());
 
 		/*
 		 * This is only to document that a delay of 20ms is by contract. See Issue 28 in Google Code
@@ -130,6 +102,6 @@ public class RepeatBrickTest extends InstrumentationTestCase {
 		 */
 		final long delayByContract = 20;
 		final long endTime = System.currentTimeMillis();
-		assertEquals("Loop delay did was not 20ms!", delayByContract * repeatTimes, endTime - startTime, 15);
+		assertEquals("Loop delay did was not 20ms!", delayByContract * REPEAT_TIMES, endTime - startTime, 15);
 	}
 }
