@@ -37,10 +37,11 @@ public class RepeatBrickTest extends InstrumentationTestCase {
 
 	private Sprite testSprite;
 	private StartScript testScript;
-	private int brickSleepTime = 1000;
+	private static final int BRICK_SLEEP_TIME = 1000;
+	private static final int REPEAT_TIMES = 3;
+	private static final int MILLION = 1000 * 1000;
 	private int positionOfFirstWaitBrick;
 	private int positionOfSecondWaitBrick;
-	private int repeatTimes = 3;
 	private LoopEndBrick loopEndBrick;
 	private LoopBeginBrick repeatBrick;
 
@@ -50,10 +51,10 @@ public class RepeatBrickTest extends InstrumentationTestCase {
 		testScript = new StartScript("testScript", testSprite);
 
 		ShowBrick showBrick = new ShowBrick(testSprite);
-		repeatBrick = new RepeatBrick(testSprite, repeatTimes);
-		WaitBrick firstWaitBrick = new WaitBrick(testSprite, brickSleepTime);
+		repeatBrick = new RepeatBrick(testSprite, REPEAT_TIMES);
+		WaitBrick firstWaitBrick = new WaitBrick(testSprite, BRICK_SLEEP_TIME);
 		SetXBrick firstSetXBrick = new SetXBrick(testSprite, 100);
-		WaitBrick secondWaitBrick = new WaitBrick(testSprite, brickSleepTime);
+		WaitBrick secondWaitBrick = new WaitBrick(testSprite, BRICK_SLEEP_TIME);
 		SetXBrick secondSetXBrick = new SetXBrick(testSprite, 200);
 		loopEndBrick = new LoopEndBrick(testSprite, repeatBrick);
 
@@ -75,24 +76,24 @@ public class RepeatBrickTest extends InstrumentationTestCase {
 	public void testRepeatBrick() throws InterruptedException {
 		testSprite.startStartScripts();
 
-		Thread.sleep(brickSleepTime / 2);
+		Thread.sleep(BRICK_SLEEP_TIME / 2);
 
 		int timesToRepeat = (Integer) TestUtils.getPrivateField("timesToRepeat", loopEndBrick, false);
-		assertEquals("Wrong number of times to repeat", repeatTimes, timesToRepeat);
+		assertEquals("Wrong number of times to repeat", REPEAT_TIMES, timesToRepeat);
 
 		assertEquals("Wrong brick executing", positionOfFirstWaitBrick, testScript.getExecutingBrickIndex());
-		Thread.sleep(brickSleepTime);
+		Thread.sleep(BRICK_SLEEP_TIME);
 		assertEquals("Wrong brick executing", positionOfSecondWaitBrick, testScript.getExecutingBrickIndex());
-		Thread.sleep(brickSleepTime);
+		Thread.sleep(BRICK_SLEEP_TIME);
 
 		timesToRepeat = (Integer) TestUtils.getPrivateField("timesToRepeat", loopEndBrick, false);
-		assertEquals("Wrong number of times to repeat", repeatTimes - 1, timesToRepeat);
+		assertEquals("Wrong number of times to repeat", REPEAT_TIMES - 1, timesToRepeat);
 
-		Thread.sleep(brickSleepTime * (repeatTimes - 1) * 2);
+		Thread.sleep(BRICK_SLEEP_TIME * (REPEAT_TIMES - 1) * 2);
 		assertEquals("Wrong brick executing", positionOfFirstWaitBrick, testScript.getExecutingBrickIndex());
-		Thread.sleep(brickSleepTime);
+		Thread.sleep(BRICK_SLEEP_TIME);
 		assertEquals("Wrong brick executing", positionOfSecondWaitBrick, testScript.getExecutingBrickIndex());
-		Thread.sleep(brickSleepTime);
+		Thread.sleep(BRICK_SLEEP_TIME);
 
 		timesToRepeat = (Integer) TestUtils.getPrivateField("timesToRepeat", loopEndBrick, false);
 		assertEquals("Wrong number of times to repeat", 0, timesToRepeat);
@@ -100,17 +101,17 @@ public class RepeatBrickTest extends InstrumentationTestCase {
 
 	public void testLoopDelay() throws InterruptedException {
 
-		long expectedDelay = LoopEndBrick.LOOP_DELAY;
+		final int expectedDelay = (Integer) TestUtils.getPrivateField("LOOP_DELAY", loopEndBrick, false);
 		repeatBrick.execute();
-		long startTime = repeatBrick.getBeginLoopTime() / 1000000;
+		long startTime = repeatBrick.getBeginLoopTime() / MILLION;
 		loopEndBrick.execute();
-		long endTime = System.nanoTime() / 1000000;
+		long endTime = System.nanoTime() / MILLION;
 		assertTrue("Loop delay was too short...", endTime - startTime >= expectedDelay);
 		assertTrue("Loop delay was very long...", endTime - startTime <= expectedDelay + 1000);
 
-		startTime = repeatBrick.getBeginLoopTime() / 1000000;
+		startTime = repeatBrick.getBeginLoopTime() / MILLION;
 		loopEndBrick.execute();
-		endTime = System.nanoTime() / 1000000;
+		endTime = System.nanoTime() / MILLION;
 		assertTrue("Loop delay was too short...", endTime - startTime >= expectedDelay);
 		assertTrue("Loop delay was very long...", endTime - startTime <= expectedDelay + 1000);
 	}
