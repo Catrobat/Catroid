@@ -18,10 +18,6 @@
  */
 package at.tugraz.ist.catroid.uitest.content.brick;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -29,7 +25,6 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
@@ -52,11 +47,8 @@ public class SoundBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 	private Project project;
 	private PlaySoundBrick soundBrick;
 	private String selectedTitle;
-	private String path;
 	private String title;
-
-	private File soundFile;
-	private static final int SOUND_FILE_ID = at.tugraz.ist.catroid.uitest.R.raw.testsound;
+	private ArrayList<SoundInfo> soundlist;
 
 	public SoundBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -76,10 +68,6 @@ public class SoundBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 			e.printStackTrace();
 		}
 
-		if (soundFile != null) {
-			soundFile.delete();
-		}
-
 		getActivity().finish();
 		super.tearDown();
 	}
@@ -91,7 +79,7 @@ public class SoundBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScriptList().get(0).getBrickList();
+		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
@@ -100,17 +88,17 @@ public class SoundBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 
 		assertTrue("Wrong title selected", solo.searchText(selectedTitle));
 
+		StorageHandler.getInstance().setSoundContent(soundlist);
+
 		solo.clickOnButton(selectedTitle);
-		solo.clickInList(0);
+		solo.clickInList(2);
 		solo.sleep(500);
-		//assertTrue("Wrong title selected", solo.searchText(title));
+		assertTrue("Wrong title selected", solo.searchText(title));
 	}
 
 	private void createProject() throws IOException {
 		title = "myTitle";
-		setUpSoundFile();
-		path = soundFile.getAbsolutePath();
-		ArrayList<SoundInfo> soundlist = new ArrayList<SoundInfo>();
+		soundlist = new ArrayList<SoundInfo>();
 		SoundInfo soundInfo = new SoundInfo();
 		soundInfo.setId(5);
 		soundInfo.setTitle("something");
@@ -119,15 +107,14 @@ public class SoundBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		soundInfo = new SoundInfo();
 		soundInfo.setId(6);
 		soundInfo.setTitle(title);
-		soundInfo.setPath(path);
+		soundInfo.setPath("path/path/2/");
 		soundlist.add(soundInfo);
 		soundInfo = new SoundInfo();
 		soundInfo.setId(7);
 		selectedTitle = "selectedTitle";
 		soundInfo.setTitle(selectedTitle);
-		soundInfo.setPath(path);
+		soundInfo.setPath("path/path/3/");
 		soundlist.add(soundInfo);
-		StorageHandler.getInstance().setSoundContent(soundlist);
 
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
@@ -137,29 +124,11 @@ public class SoundBrickTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		soundBrick.setTitle(selectedTitle);
 		script.addBrick(soundBrick);
 
-		sprite.getScriptList().add(script);
+		sprite.addScript(script);
 		project.addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentScript(script);
 	}
-
-	private void setUpSoundFile() throws IOException {
-
-		BufferedInputStream inputStream = new BufferedInputStream(getInstrumentation().getContext().getResources()
-				.openRawResource(SOUND_FILE_ID));
-		soundFile = File.createTempFile("audioTest_new", ".mp3");
-		BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(soundFile), Consts.BUFFER_8K);
-
-		byte[] buffer = new byte[Consts.BUFFER_8K];
-		int length = 0;
-		while ((length = inputStream.read(buffer)) > 0) {
-			outputStream.write(buffer, 0, length);
-		}
-		inputStream.close();
-		outputStream.flush();
-		outputStream.close();
-	}
-
 }

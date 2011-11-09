@@ -52,11 +52,12 @@ public class StageActivity extends Activity {
 			stage = (SurfaceView) findViewById(R.id.stageView);
 
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+			Utils.updateScreenWidthAndHeight(this);
+
 			soundManager = SoundManager.getInstance();
 			stageManager = new StageManager(this);
 			stageManager.start();
 			stagePlaying = true;
-
 		}
 	}
 
@@ -76,11 +77,11 @@ public class StageActivity extends Activity {
 		return false;
 	}
 
-	public void processOnTouch(int coordX, int coordY) {
-		coordX = coordX + stage.getTop();
-		coordY = coordY + stage.getLeft();
+	public void processOnTouch(int xCoordinate, int yCoordinate) {
+		xCoordinate = xCoordinate + stage.getTop();
+		yCoordinate = yCoordinate + stage.getLeft();
 
-		stageManager.processOnTouch(coordX, coordY);
+		stageManager.processOnTouch(xCoordinate, yCoordinate);
 	}
 
 	@Override
@@ -97,7 +98,7 @@ public class StageActivity extends Activity {
 				pauseOrContinue();
 				break;
 			case R.id.stagemenuConstructionSite:
-				manageLoadAndFinish(); //calls finish
+				manageLoadAndFinish();
 				break;
 		}
 		return true;
@@ -122,6 +123,7 @@ public class StageActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		stageManager.finish();
 		soundManager.clear();
 	}
 
@@ -134,8 +136,7 @@ public class StageActivity extends Activity {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		int currentSpritePos = projectManager.getCurrentSpritePosition();
 		int currentScriptPos = projectManager.getCurrentScriptPosition();
-		projectManager.loadProject(projectManager.getCurrentProject().getName(), this,
-				false);
+		projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
 		projectManager.setCurrentSpriteWithPosition(currentSpritePos);
 		projectManager.setCurrentScriptWithPosition(currentScriptPos);
 		finish();

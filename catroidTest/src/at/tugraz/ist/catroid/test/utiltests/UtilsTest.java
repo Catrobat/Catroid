@@ -27,12 +27,15 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 
 import junit.framework.TestCase;
+import android.util.Log;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class UtilsTest extends TestCase {
 
+	private static final String TAG = UtilsTest.class.getSimpleName();
 	private final String testFileContent = "Hello, this is a Test-String";
 	private final String MD5_EMPTY = "D41D8CD98F00B204E9800998ECF8427E";
 	private final String MD5_CATROID = "4F982D927F4784F69AD6D6AF38FD96AD";
@@ -72,7 +75,7 @@ public class UtilsTest extends TestCase {
 		Thread.sleep(1000); // Wait for thread to write file
 		copiedFile = new File(newpath);
 
-		assertTrue(copiedFile.exists());
+		assertTrue("File was not copied correctly", copiedFile.exists());
 
 		FileReader fReader;
 		String newContent = "";
@@ -90,12 +93,12 @@ public class UtilsTest extends TestCase {
 			e.printStackTrace();
 		}
 
-		assertEquals(testFileContent, newContent);
+		assertEquals("Unexpected content of test file", testFileContent, newContent);
 	}
 
 	public void testDeleteFile() {
 		Utils.deleteFile(mTestFile.getAbsolutePath());
-		assertFalse(mTestFile.exists());
+		assertFalse("File still exists after delete", mTestFile.exists());
 	}
 
 	public void testConcatPath() {
@@ -119,16 +122,17 @@ public class UtilsTest extends TestCase {
 
 	public void testAddDefaultFileEnding() {
 		String filename = "test";
-		assertEquals(Utils.addDefaultFileEnding(filename), "test.spf");
+		assertEquals("File extension was not added correctly", Utils.addDefaultFileEnding(filename), "test"
+				+ Consts.PROJECT_EXTENTION);
 	}
 
 	public void testChangeFileEndingToPng() {
 		String imageName = "blablabla.jpg";
-		assertEquals(Utils.changeFileEndingToPng(imageName), "blablabla.png");
+		assertEquals("File ending was not changed correctly", Utils.changeFileEndingToPng(imageName), "blablabla.png");
 		String imageName1 = "blablabla.png";
-		assertEquals(Utils.changeFileEndingToPng(imageName1), "blablabla.png");
+		assertEquals("File ending was not changed correctly", Utils.changeFileEndingToPng(imageName1), "blablabla.png");
 		String imageName2 = "blablabla.jpeg";
-		assertEquals(Utils.changeFileEndingToPng(imageName2), "blablabla.png");
+		assertEquals("File ending was not changed correctly", Utils.changeFileEndingToPng(imageName2), "blablabla.png");
 	}
 
 	public void testMD5CheckSumOfFile() {
@@ -167,5 +171,34 @@ public class UtilsTest extends TestCase {
 		assertEquals("MD5 sums do not match!", MD5_CATROID, Utils.md5Checksum("catroid"));
 		assertEquals("MD5 sums do not match!", MD5_EMPTY, Utils.md5Checksum(""));
 		assertEquals("MD5 sums do not match!", MD5_HELLO_WORLD, Utils.md5Checksum("Hello World!"));
+	}
+
+	public void testGetPrivateField() {
+
+		class Super {
+			@SuppressWarnings("unused")
+			private float SECRET_PRIMITIVE_FLOAT = 3.1415f;
+		}
+		class Sub extends Super {
+			@SuppressWarnings("unused")
+			private final String SECRET_STRING = "This is a secret string!";
+			@SuppressWarnings("unused")
+			private final Integer SECRET_INTEGER = 42;
+		}
+
+		String secretString = (String) TestUtils.getPrivateField("SECRET_STRING", new Sub(), false);
+		Log.v(TAG, secretString);
+		assertEquals("Getting private String failed!", "This is a secret string!", secretString);
+
+		Integer secretInteger = (Integer) TestUtils.getPrivateField("SECRET_INTEGER", new Sub(), false);
+		Log.v(TAG, secretInteger.toString());
+		assertEquals("Getting private Integer failed!", new Integer(42), secretInteger);
+
+		Float secretFloat = (Float) TestUtils.getPrivateField("SECRET_PRIMITIVE_FLOAT", new Sub(), false);
+		assertNull("Getting private float succeeded!", secretFloat);
+
+		secretFloat = (Float) TestUtils.getPrivateField("SECRET_PRIMITIVE_FLOAT", new Sub(), true);
+		Log.v(TAG, secretFloat.toString());
+		assertEquals("Getting private float failed!", new Float(3.1415f), secretFloat);
 	}
 }

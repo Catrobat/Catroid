@@ -29,11 +29,11 @@ import at.tugraz.ist.catroid.transfers.ProjectDownloadTask;
 import at.tugraz.ist.catroid.transfers.ProjectUploadTask;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.web.ConnectionWrapper;
+import at.tugraz.ist.catroid.web.ServerCalls;
 import at.tugraz.ist.catroid.web.WebconnectionException;
 
 public class UpAndDownloadTest extends AndroidTestCase {
 
-	private MockConnection mockConnection;
 	private File projectZipOnMockServer;
 
 	public UpAndDownloadTest() {
@@ -43,9 +43,7 @@ public class UpAndDownloadTest extends AndroidTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-
-		projectZipOnMockServer = new File(Consts.TMP_PATH + "/projectSave.zip");
-		mockConnection = new MockConnection();
+		projectZipOnMockServer = new File(Consts.TMP_PATH + "/projectSave" + Consts.CATROID_EXTENTION);
 	}
 
 	@Override
@@ -54,46 +52,29 @@ public class UpAndDownloadTest extends AndroidTestCase {
 		super.tearDown();
 	}
 
-	public void testInit() throws Throwable {
-	}
-
 	public void testUpAndDownload() throws Throwable {
 		String testProjectName = "UpAndDownloadTest" + System.currentTimeMillis();
 		String pathToDefaultProject = Consts.DEFAULT_ROOT + "/uploadtestProject";
 		new File(pathToDefaultProject).mkdirs();
-		String spfFilename = "test" + Consts.PROJECT_EXTENTION;
-		new File(pathToDefaultProject + "/" + spfFilename).createNewFile();
+		String projectFilename = "test" + Consts.PROJECT_EXTENTION;
+		new File(pathToDefaultProject + "/" + projectFilename).createNewFile();
 		String projectDescription = "this is just a testproject";
 
-		ProjectUploadTask uploadTask = new ProjectUploadTask(null, testProjectName, projectDescription,
-				pathToDefaultProject, null) {
-			@Override
-			protected ConnectionWrapper createConnection() {
-				return mockConnection;
-			}
-		};
-
-		ProjectDownloadTask downloadTask = new ProjectDownloadTask(null, "", testProjectName, Consts.TMP_PATH
-				+ "/down.zip") {
-			@Override
-			protected ConnectionWrapper createConnection() {
-				return mockConnection;
-			}
-		};
+		ServerCalls.getInstance().setConnectionToUse(new MockConnection());
 
 		assertTrue("The default Project does not exist.", new File(pathToDefaultProject).exists());
-		uploadTask.execute();
+		new ProjectUploadTask(null, testProjectName, projectDescription, pathToDefaultProject, "0").execute();
 		Thread.sleep(3000);
 
-		assertTrue("uploaded file does not exist", projectZipOnMockServer.exists());
+		assertTrue("Uploaded file does not exist", projectZipOnMockServer.exists());
 
-		downloadTask.execute();
+		new ProjectDownloadTask(null, "", testProjectName).execute();
 		Thread.sleep(3000);
 
 		File downloadProjectRoot = new File(Consts.DEFAULT_ROOT + "/" + testProjectName);
-		assertTrue("project does not exist after download", downloadProjectRoot.exists());
-		File testSPFFile = new File(Consts.DEFAULT_ROOT + "/" + testProjectName + "/" + spfFilename);
-		assertTrue("spf file does not exist after download", testSPFFile.exists());
+		assertTrue("Project does not exist after download", downloadProjectRoot.exists());
+		File testProjectFile = new File(Consts.DEFAULT_ROOT + "/" + testProjectName + "/" + projectFilename);
+		assertTrue("Project file does not exist after download", testProjectFile.exists());
 
 		UtilFile.deleteDirectory(downloadProjectRoot);
 		UtilFile.deleteDirectory(new File(pathToDefaultProject));
@@ -114,4 +95,5 @@ public class UpAndDownloadTest extends AndroidTestCase {
 			projectZipOnMockServer.renameTo(new File(filePath));
 		}
 	}
+
 }

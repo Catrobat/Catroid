@@ -19,20 +19,17 @@
 
 package at.tugraz.ist.catroid.uitest.ui.dialog;
 
-import java.io.IOException;
-
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.ActivityInstrumentationTestCase2;
-import android.widget.TextView;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
-import at.tugraz.ist.catroid.uitest.util.Utils;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
 public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainMenuActivity> {
 	private Solo solo;
-	private String testingproject = Utils.PROJECTNAME1;
+	private String testingproject = UiTestUtils.PROJECTNAME1;
 
 	public NewProjectDialogTest() {
 		super("at.tugraz.ist.catroid", MainMenuActivity.class);
@@ -41,7 +38,7 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		Utils.clearAllUtilTestProjects();
+		UiTestUtils.clearAllUtilTestProjects();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
@@ -53,25 +50,24 @@ public class NewProjectDialogTest extends ActivityInstrumentationTestCase2<MainM
 			e.printStackTrace();
 		}
 		getActivity().finish();
-		Utils.clearAllUtilTestProjects();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
-	public void testNewProjectDialog() throws NameNotFoundException, IOException {
+	public void testNewProjectDialog() {
 
 		solo.clickOnButton(getActivity().getString(R.string.new_project));
 
 		int nameEditTextId = solo.getCurrentEditTexts().size() - 1;
 
-		Utils.enterText(solo, nameEditTextId, testingproject);
+		UiTestUtils.enterText(solo, nameEditTextId, testingproject);
 
 		solo.sendKey(Solo.ENTER);
 
 		solo.sleep(1000);
 
-		TextView newProject = (TextView) solo.getCurrentActivity().findViewById(R.id.project_title_text_view);
-
-		assertEquals("New Project is not testingproject!", "Project: " + testingproject, newProject.getText());
+		assertTrue("New Project is not testingproject!", ProjectManager.getInstance().getCurrentProject().getName()
+				.equals(UiTestUtils.PROJECTNAME1));
 
 	}
 

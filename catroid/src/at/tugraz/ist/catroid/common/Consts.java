@@ -23,8 +23,8 @@ import android.os.Environment;
 public final class Consts {
 
 	public static final String DIRECTORY_NAME = "catroid";
-	public static final String PROJECT_EXTENTION = ".spf";
-	public static final String CATROID_EXTENTION = ".zip";
+	public static final String PROJECT_EXTENTION = ".xml";
+	public static final String CATROID_EXTENTION = ".catroid";
 
 	public static final String DEFAULT_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath() + "/catroid";
 	public static final String TMP_PATH = DEFAULT_ROOT + "/tmp";
@@ -41,6 +41,7 @@ public final class Consts {
 	public static final int DIALOG_RENAME_SCRIPT = 6;
 	public static final int DIALOG_ADD_BRICK = 7;
 	public static final int DIALOG_UPLOAD_PROJECT = 8;
+	public static final int DIALOG_CONTEXT_MENU = 9;
 
 	//Costume:
 	public static final int MAX_REL_COORDINATES = 1000;
@@ -65,7 +66,7 @@ public final class Consts {
 	public static final String USER_EMAIL = "userEmail";
 	public static final String USER_LANGUAGE = "userLanguage";
 
-	public static final String FILE_UPLOAD_URL = "http://www.catroid.org/api/upload/upload.json";
+	public static final String FILE_UPLOAD_URL = "http://catroidtest.ist.tugraz.at/api/upload/upload.json";
 	public static final String TEST_FILE_UPLOAD_URL = "http://catroidtest.ist.tugraz.at/api/upload/upload.json";
 	public static final String TEST_FILE_DOWNLOAD_URL = "http://catroidtest.ist.tugraz.at/catroid/download/";
 

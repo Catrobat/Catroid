@@ -19,18 +19,23 @@
 package at.tugraz.ist.catroid.test.utils;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Field;
 
 import android.content.Context;
+import android.util.Log;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class TestUtils {
 
+	private static final String TAG = TestUtils.class.getSimpleName();
 	public static final int TYPE_IMAGE_FILE = 0;
 	public static final int TYPE_SOUND_FILE = 1;
 
@@ -104,5 +109,58 @@ public class TestUtils {
 		out.close();
 
 		return testImage;
+	}
+
+	public static String getProjectfileAsString(String projectName) {
+		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName + "/" + projectName
+				+ Consts.PROJECT_EXTENTION);
+		if (!projectFile.exists()) {
+			return null;
+		}
+		StringBuilder contents = new StringBuilder();
+
+		try {
+			BufferedReader input = new BufferedReader(new FileReader(projectFile));
+			try {
+				String line = null;
+				while ((line = input.readLine()) != null) {
+					contents.append(line);
+					contents.append(System.getProperty("line.separator"));
+				}
+			} finally {
+				input.close();
+			}
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		return contents.toString();
+	}
+
+	public static Object getPrivateField(String fieldName, Object object, boolean ofSuperclass) {
+
+		Field field = null;
+
+		try {
+			Class<?> c = object.getClass();
+			field = ofSuperclass ? c.getSuperclass().getDeclaredField(fieldName) : c.getDeclaredField(fieldName);
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (NoSuchFieldException e) {
+			Log.w(TAG, e.getClass().getName() + ": " + fieldName);
+		}
+
+		if (field != null) {
+			field.setAccessible(true);
+
+			try {
+				return field.get(object);
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return field;
 	}
 }

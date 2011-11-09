@@ -34,8 +34,8 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
-import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
+import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
@@ -114,7 +114,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		manager.setCurrentSprite(sprite2);
 		Script script2 = new StartScript(scriptNameTwo, sprite2);
 		manager.addScript(script2);
-		assertTrue("Script not in current Sprite", manager.getCurrentSprite().getScriptList().contains(script2));
+		assertTrue("Script not in current Sprite", manager.getCurrentSprite().getScriptIndex(script2) != -1);
 
 		//addBrick
 
@@ -146,7 +146,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		File newProjectFile = new File(Consts.DEFAULT_ROOT + "/" + newProjectName + "/" + newProjectName
 				+ Consts.PROJECT_EXTENTION);
 
-		String spfFileAsString = StorageHandler.getInstance().getProjectfileAsString(newProjectName);
+		String projectFileAsString = TestUtils.getProjectfileAsString(newProjectName);
 
 		assertFalse("Old project folder is still existing", oldProjectFolder.exists());
 		assertFalse("Old project file is still existing", oldProjectFile.exists());
@@ -155,8 +155,8 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		assertTrue("New project file is not existing", newProjectFile.exists());
 
 		//this fails because catroid is buggy, fix catroid not this test --> we haven't decided yet how to fix the FileChecksumContainer
-		Log.v(TAG, spfFileAsString);
-		assertFalse("old projectName still in spf file", spfFileAsString.contains(oldProjectName));
+		Log.v(TAG, projectFileAsString);
+		assertFalse("old projectName still in project file", projectFileAsString.contains(oldProjectName));
 
 	}
 
@@ -165,7 +165,7 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 
 		int xPosition = 457;
 		int yPosition = 598;
-		double scaleValue = 0.8;
+		double size = 0.8;
 
 		Project project = new Project(getInstrumentation().getTargetContext(), projectName);
 		storageHandler.saveProject(project);
@@ -182,22 +182,22 @@ public class ProjectManagerTest extends InstrumentationTestCase {
 		File image = TestUtils.saveFileToProject(projectName, "image.png", at.tugraz.ist.catroid.test.R.raw.icon,
 				getInstrumentation().getContext(), 0);
 		costumeBrick.setCostume(image.getName());
-		ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(secondSprite, scaleValue);
+		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(secondSprite, size);
 		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(firstSprite);
 		PlaceAtBrick placeAtBrick = new PlaceAtBrick(secondSprite, xPosition, yPosition);
 
 		// adding Bricks: ----------------
 		testScript.addBrick(hideBrick);
 		testScript.addBrick(showBrick);
-		testScript.addBrick(scaleCostumeBrick);
+		testScript.addBrick(setSizeToBrick);
 		testScript.addBrick(comeToFrontBrick);
 
 		otherScript.addBrick(placeAtBrick); // secondSprite
 		otherScript.setPaused(true);
 		// -------------------------------
 
-		firstSprite.getScriptList().add(testScript);
-		secondSprite.getScriptList().add(otherScript);
+		firstSprite.addScript(testScript);
+		secondSprite.addScript(otherScript);
 
 		project.addSprite(firstSprite);
 		project.addSprite(secondSprite);

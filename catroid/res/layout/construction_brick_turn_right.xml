@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <!-- 
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010  Catroid development team 
@@ -32,18 +33,57 @@
 		android:layout_width="wrap_content"
 		android:src="@drawable/ic_mp_move"
 		android:layout_height="wrap_content" />
-	<LinearLayout
-		android:orientation="horizontal"
+	<RelativeLayout
+		android:id="@+id/RelativeLayout01"
 		android:layout_height="wrap_content"
-		android:layout_width="match_parent"
-		android:background="@drawable/brick_magenta"
+		android:layout_width="wrap_content"
+		android:background="@drawable/brick_blue"
+		android:focusable="false"
+		android:focusableInTouchMode="false"
+		android:longClickable="true"
 	>
 		<TextView
-			android:text="turn right"
+			android:id="@+id/ValueTextView"
+			android:text="@string/brick_turn_right"
 			android:layout_height="wrap_content"
-			android:layout_width="fill_parent"
+			android:layout_width="wrap_content"
+			android:layout_alignParentLeft="true"
+			android:layout_centerVertical="true"
 			android:textColor="@color/white"
 			android:textSize="18dip"
-			android:textStyle="bold" />
-	</LinearLayout>
+			android:textStyle="bold"
+		>
+		</TextView>
+		<TextView
+			android:id="@+id/LabelTextView"
+			android:text="@string/brick_turn_right_n_degrees"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_centerVertical="true"
+			android:paddingLeft="10dip"
+			android:paddingRight="10dip"
+			android:textColor="@color/white"
+			android:textSize="18dip"
+			android:textStyle="bold"
+		>
+		</TextView>
+		<EditText
+			android:id="@+id/construction_brick_turn_right_edit_text"
+			android:layout_height="wrap_content"
+			android:layout_width="75dp"
+			android:layout_centerVertical="true"
+			android:layout_toLeftOf="@+id/LabelTextView"
+			android:clickable="true"
+			android:cursorVisible="false"
+			android:focusable="false"
+			android:focusableInTouchMode="false"
+			android:freezesText="false"
+			android:gravity="right"
+			android:inputType="number|numberDecimal|numberSigned"
+			android:maxLength="5"
+			android:maxLines="1"
+		>
+		</EditText>
+	</RelativeLayout>
 </LinearLayout>

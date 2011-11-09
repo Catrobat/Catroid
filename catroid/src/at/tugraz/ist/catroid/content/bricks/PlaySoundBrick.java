@@ -96,11 +96,11 @@ public class PlaySoundBrick implements Brick, OnItemClickListener, Serializable 
 				soundDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 				soundDialog.setContentView(R.layout.sound_list);
 				soundDialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-							WindowManager.LayoutParams.FLAG_FULLSCREEN);
+						WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-				ListView list = (ListView) soundDialog.findViewById(R.id.sound_list);
-				list.setAdapter(soundBrickAdapter);
-				list.setOnItemClickListener(PlaySoundBrick.this);
+				ListView soundList = (ListView) soundDialog.findViewById(R.id.sound_list);
+				soundList.setAdapter(soundBrickAdapter);
+				soundList.setOnItemClickListener(PlaySoundBrick.this);
 
 				soundDialog.show();
 			}

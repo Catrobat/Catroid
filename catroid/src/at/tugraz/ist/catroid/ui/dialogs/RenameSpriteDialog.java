@@ -86,37 +86,29 @@ public class RenameSpriteDialog extends Dialog {
 
 		this.setOnKeyListener(new OnKeyListener() {
 			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-				if (event.getAction() == KeyEvent.ACTION_DOWN) {
-					switch (keyCode) {
-						case KeyEvent.KEYCODE_ENTER: {
-							String spriteName = ((EditText) findViewById(R.id.rename_edit_text)).getText().toString();
-							if (spriteName.equalsIgnoreCase(projectActivity.getSpriteToEdit().getName())) {
-								dismiss();
-								return true;
-							}
-							if (spriteName != null && !spriteName.equalsIgnoreCase("")) {
-								for (Sprite tempSprite : ProjectManager.getInstance().getCurrentProject()
-										.getSpriteList()) {
-									if (tempSprite.getName().equalsIgnoreCase(spriteName)) {
-										Utils.displayErrorMessage(projectActivity,
-												projectActivity.getString(R.string.spritename_already_exists));
-										return true;
-									}
-								}
-								projectActivity.getSpriteToEdit().setName(spriteName);
-							} else {
-								Utils.displayErrorMessage(projectActivity,
-										projectActivity.getString(R.string.spritename_invalid));
-								return true;
-							}
-							dismiss();
-
-							return true;
-						}
-						default: {
-							break;
-						}
+				if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+					String spriteName = ((EditText) findViewById(R.id.rename_edit_text)).getText().toString();
+					if (spriteName.equalsIgnoreCase(projectActivity.getSpriteToEdit().getName())) {
+						dismiss();
+						return true;
 					}
+					if (spriteName != null && !spriteName.equalsIgnoreCase("")) {
+						for (Sprite tempSprite : ProjectManager.getInstance().getCurrentProject().getSpriteList()) {
+							if (tempSprite.getName().equalsIgnoreCase(spriteName)) {
+								Utils.displayErrorMessage(projectActivity,
+										projectActivity.getString(R.string.spritename_already_exists));
+								return true;
+							}
+						}
+						projectActivity.getSpriteToEdit().setName(spriteName);
+					} else {
+						Utils.displayErrorMessage(projectActivity,
+								projectActivity.getString(R.string.spritename_invalid));
+						return true;
+					}
+					dismiss();
+
+					return true;
 				}
 				return false;
 			}

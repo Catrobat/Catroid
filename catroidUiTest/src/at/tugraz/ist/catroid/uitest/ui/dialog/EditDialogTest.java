@@ -22,7 +22,7 @@ package at.tugraz.ist.catroid.uitest.ui.dialog;
 import android.test.ActivityInstrumentationTestCase2;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
-import at.tugraz.ist.catroid.uitest.util.Utils;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -36,7 +36,7 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptActiv
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		Utils.createTestProject();
+		UiTestUtils.createTestProject();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
@@ -48,12 +48,12 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptActiv
 			e.printStackTrace();
 		}
 		getActivity().finish();
-		Utils.clearAllUtilTestProjects();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
 	public void testIntegerDialog() {
-		Utils.addNewBrickAndScrollDown(solo, R.string.brick_place_at);
+		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_place_at);
 
 		int xPosition = 5;
 		int yPosition = 7;
@@ -61,9 +61,9 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		int yPositionEditTextId = solo.getCurrentEditTexts().size() - 1;
 		int xPositionEditTextId = yPositionEditTextId - 1;
 
-		Utils.insertIntegerIntoEditText(solo, xPositionEditTextId, xPosition);
+		UiTestUtils.insertIntegerIntoEditText(solo, xPositionEditTextId, xPosition);
 		solo.sendKey(Solo.ENTER);
-		Utils.insertIntegerIntoEditText(solo, yPositionEditTextId, yPosition);
+		UiTestUtils.insertIntegerIntoEditText(solo, yPositionEditTextId, yPosition);
 		solo.sendKey(Solo.ENTER);
 
 		assertEquals("Wrong value in X-Position EditText", xPosition + "", solo.getEditText(xPositionEditTextId)
@@ -73,12 +73,12 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptActiv
 	}
 
 	public void testDoubleDialog() {
-		Utils.addNewBrickAndScrollDown(solo, R.string.brick_wait);
+		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_wait);
 
 		double wait = 5.9;
 
 		int waitEditTextId = solo.getCurrentEditTexts().size() - 1;
-		Utils.insertDoubleIntoEditText(solo, waitEditTextId, wait);
+		UiTestUtils.insertDoubleIntoEditText(solo, waitEditTextId, wait);
 		solo.sendKey(Solo.ENTER);
 
 		assertEquals("Wrong value in WaitBrick EditText", wait + "", solo.getEditText(waitEditTextId).getText()
@@ -86,7 +86,7 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptActiv
 	}
 
 	public void testEmptyEditDoubleDialog() {
-		Utils.addNewBrickAndScrollDown(solo, R.string.brick_scale_costume);
+		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_set_size_to);
 
 		int editTextId = solo.getCurrentEditTexts().size() - 1;
 
@@ -96,16 +96,17 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		solo.clearEditText(0);
 		assertTrue("Toast with warning was not found",
 				solo.searchText(getActivity().getString(R.string.notification_invalid_text_entered)));
-		assertFalse(solo.getButton(getActivity().getString(R.string.ok)).isEnabled());
+		assertFalse("OK button was not disabled upon deleting text field contents",
+				solo.getButton(getActivity().getString(R.string.ok)).isEnabled());
 
 		solo.enterText(0, ".");
 		assertTrue("Toast with warning was not found",
 				solo.searchText(getActivity().getString(R.string.notification_invalid_text_entered)));
-		assertFalse(solo.getButton(0).isEnabled());
+		assertFalse("OK button was not disabled upon entering invalid text", solo.getButton(0).isEnabled());
 	}
 
 	public void testEmptyEditIntegerDialog() {
-		Utils.addNewBrickAndScrollDown(solo, R.string.brick_place_at);
+		UiTestUtils.addNewBrickAndScrollDown(solo, R.string.brick_place_at);
 
 		int editTextId = solo.getCurrentEditTexts().size() - 1;
 
@@ -115,6 +116,6 @@ public class EditDialogTest extends ActivityInstrumentationTestCase2<ScriptActiv
 		solo.clearEditText(0);
 		assertTrue("Toast with warning was not found",
 				solo.searchText(getActivity().getString(R.string.notification_invalid_text_entered)));
-		assertFalse(solo.getButton(0).isEnabled());
+		assertFalse("OK button was not disabled upon deleting text field contents", solo.getButton(0).isEnabled());
 	}
 }
