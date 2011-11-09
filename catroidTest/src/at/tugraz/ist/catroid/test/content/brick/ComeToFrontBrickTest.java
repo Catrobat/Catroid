@@ -22,36 +22,42 @@ package at.tugraz.ist.catroid.test.content.brick;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.AndroidTestCase;
 import android.view.View;
-import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
+import at.tugraz.ist.catroid.test.utils.TestUtils;
 
 public class ComeToFrontBrickTest extends AndroidTestCase {
-	
+
+	@Override
+	public void tearDown() {
+		TestUtils.clearProject("testProject");
+	}
+
 	public void testComeToFront() throws NameNotFoundException {
 		Project project = new Project(getContext(), "testProject");
-		
+
 		Sprite bottomSprite = new Sprite("catroid");
 		assertEquals("Unexpected initial z position of bottomSprite", 0, bottomSprite.getZPosition());
-		
-		Sprite topSprite    = new Sprite("scratch");
+
+		Sprite topSprite = new Sprite("scratch");
 		assertEquals("Unexpected initial z position of topSprite", 0, topSprite.getZPosition());
-		
+
 		topSprite.setZPosition(2);
 		assertEquals("topSprite z position should now be 2", 2, topSprite.getZPosition());
 		project.addSprite(bottomSprite);
 		project.addSprite(topSprite);
-		
-        ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(bottomSprite);
+
+		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(bottomSprite);
 		ProjectManager.getInstance().setProject(project);
 		comeToFrontBrick.execute();
 		assertEquals("bottomSprite z position should now be 3", bottomSprite.getZPosition(), 3);
 	}
-	
+
 	public void testNullSprite() throws NameNotFoundException {
-        ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(null);
-		
+		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(null);
+
 		try {
 			comeToFrontBrick.execute();
 			fail("Execution of ComeToFrontBrick with null Sprite did not cause a NullPointerException to be thrown");
@@ -59,26 +65,26 @@ public class ComeToFrontBrickTest extends AndroidTestCase {
 			// expected behavior
 		}
 	}
-	
+
 	public void testBoundaries() throws NameNotFoundException {
 		Project project = new Project(getContext(), "testProject");
-		
+
 		Sprite sprite = new Sprite("testSprite");
 		sprite.setZPosition(Integer.MAX_VALUE);
-		
+
 		project.addSprite(sprite);
-		
-        ComeToFrontBrick brick = new ComeToFrontBrick(sprite);
+
+		ComeToFrontBrick brick = new ComeToFrontBrick(sprite);
 		ProjectManager.getInstance().setProject(project);
 		brick.execute();
-		
-		assertEquals("An Integer overflow occured during ComeToFrontBrick Execution", 
-				Integer.MAX_VALUE, sprite.getZPosition());
+
+		assertEquals("An Integer overflow occured during ComeToFrontBrick Execution", Integer.MAX_VALUE,
+				sprite.getZPosition());
 	}
-	
+
 	public void testGetView() throws NameNotFoundException {
-        ProjectManager.getInstance().setProject(new Project(getContext(), "testProject"));
-        ComeToFrontBrick brick = new ComeToFrontBrick(new Sprite("testSprite"));
+		ProjectManager.getInstance().setProject(new Project(getContext(), "testProject"));
+		ComeToFrontBrick brick = new ComeToFrontBrick(new Sprite("testSprite"));
 		View view = brick.getView(getContext(), 1, null);
 		assertNotNull("getView returned null", view);
 	}

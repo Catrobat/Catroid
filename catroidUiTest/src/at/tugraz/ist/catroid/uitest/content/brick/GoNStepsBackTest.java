@@ -23,15 +23,16 @@ import java.util.ArrayList;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
-import at.tugraz.ist.catroid.constructionSite.content.ProjectValuesManager;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -45,11 +46,9 @@ public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptAct
 	private Project project;
 	private GoNStepsBackBrick goNStepsBackBrick;
 	private int stepsToGoBack;
-	private ProjectValuesManager projectValuesManager = ProjectManager.getInstance().getProjectValuesManager();
 
 	public GoNStepsBackTest() {
-		super("at.tugraz.ist.catroid",
-				ScriptActivity.class);
+		super("at.tugraz.ist.catroid", ScriptActivity.class);
 	}
 
 	@Override
@@ -71,28 +70,27 @@ public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptAct
 	}
 
 	@Smoke
-	public void testGoNStepsBackBrick() throws Throwable {
+	public void testGoNStepsBackBrick() {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
 
 		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScriptList().get(0).getBrickList();
+		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
-				getActivity().getAdapter().getChild(groupCount - 1,
-						0));
-		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.go_back_main_adapter)));
+				getActivity().getAdapter().getChild(groupCount - 1, 0));
+		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_go_back)));
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, stepsToGoBack + "");
 		solo.clickOnButton(0);
 
-		Thread.sleep(300);
-		assertEquals("Wrong text in field.", stepsToGoBack, goNStepsBackBrick.getSteps());
+		solo.sleep(300);
+		assertEquals("Wrong text in field.", stepsToGoBack, UiTestUtils.getPrivateField("steps", goNStepsBackBrick));
 		assertEquals("Value in Brick is not updated.", stepsToGoBack + "", solo.getEditText(0).getText().toString());
 	}
 
@@ -100,15 +98,15 @@ public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptAct
 		stepsToGoBack = 17;
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
-		Script script = new Script("script", sprite);
+		Script script = new StartScript("script", sprite);
 		goNStepsBackBrick = new GoNStepsBackBrick(sprite, 0);
 		script.addBrick(goNStepsBackBrick);
 
-		sprite.getScriptList().add(script);
+		sprite.addScript(script);
 		project.addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
-		projectValuesManager.setCurrentSprite(sprite);
-		projectValuesManager.setCurrentScript(script);
+		ProjectManager.getInstance().setCurrentSprite(sprite);
+		ProjectManager.getInstance().setCurrentScript(script);
 	}
 }

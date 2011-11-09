@@ -27,7 +27,7 @@ import android.media.MediaPlayer;
 public class SoundManager {
 	private ArrayList<MediaPlayer> mediaPlayers;
 
-	public static final int MAX_MEDIA_PLAYERS = 10;
+	public static final int MAX_MEDIA_PLAYERS = 7;
 	private static SoundManager soundManager = null;
 
 	private SoundManager() {
@@ -72,8 +72,9 @@ public class SoundManager {
 	}
 
 	public synchronized void clear() {
-		for (MediaPlayer mediaPlayer : mediaPlayers)
+		for (MediaPlayer mediaPlayer : mediaPlayers) {
 			mediaPlayer.release();
+		}
 		mediaPlayers.clear();
 	}
 
@@ -83,16 +84,16 @@ public class SoundManager {
 				mediaPlayer.pause();
 			} else {
 				mediaPlayer.reset();
-				//				mediaPlayers.remove(mediaPlayer);
-				//				mediaPlayer.release();
 			}
 		}
 	}
 
 	public synchronized void resume() {
-		for (MediaPlayer mediaPlayer : mediaPlayers)
-			if (!mediaPlayer.isPlaying())
+		for (MediaPlayer mediaPlayer : mediaPlayers) {
+			if (!mediaPlayer.isPlaying()) {
 				mediaPlayer.start();
+			}
+		}
 	}
 
 }

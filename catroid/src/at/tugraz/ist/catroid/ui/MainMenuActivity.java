@@ -19,136 +19,81 @@
 
 package at.tugraz.ist.catroid.ui;
 
-import java.io.IOException;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
+import android.preference.PreferenceManager;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import at.tugraz.ist.catroid.Consts;
+import android.widget.Toast;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.Values;
-import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.dialogs.AboutDialog;
 import at.tugraz.ist.catroid.ui.dialogs.LoadProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.UploadProjectDialog;
+import at.tugraz.ist.catroid.utils.ActivityHelper;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class MainMenuActivity extends Activity {
-	private static final String PREFS_NAME = "at.tugraz.ist.catroid";
-	private static final String PREF_PROJECTNAME_KEY = "prefix_";
+	private static final String PREF_PROJECTNAME_KEY = "projectName";
 	private ProjectManager projectManager;
-
-	private void initListeners() {
-
-		Button resumeButton = (Button) findViewById(R.id.resumeButton);
-		resumeButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				if (projectManager.getCurrentProject() != null) {
-					Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
-					startActivity(intent);
-				}
-			}
-		});
-
-		Button toStageButton = (Button) findViewById(R.id.toStageButton);
-		toStageButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				if (projectManager.getCurrentProject() != null) {
-					Intent intent = new Intent(MainMenuActivity.this, StageActivity.class);
-					startActivity(intent);
-				}
-			}
-		});
-
-		Button newProjectButton = (Button) findViewById(R.id.newProjectButton);
-		newProjectButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				showDialog(Consts.DIALOG_NEW_PROJECT);
-			}
-		});
-
-		Button loadProjectButton = (Button) findViewById(R.id.loadProjectButton);
-		loadProjectButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				showDialog(Consts.DIALOG_LOAD_PROJECT);
-			}
-		});
-
-		Button uploadProjectButton = (Button) findViewById(R.id.uploadProjectButton);
-		uploadProjectButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				showDialog(Consts.DIALOG_UPLOAD_PROJECT);
-			}
-		});
-
-		Button aboutCatroidButton = (Button) findViewById(R.id.aboutCatroidButton);
-		aboutCatroidButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				showDialog(Consts.DIALOG_ABOUT);
-			}
-		});
-	}
+	private ActivityHelper activityHelper = new ActivityHelper(this);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		DisplayMetrics dm = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics(dm);
-
-		Values.SCREEN_WIDTH = dm.widthPixels;
-		Values.SCREEN_HEIGHT = dm.heightPixels;
+		Utils.updateScreenWidthAndHeight(this);
 
 		setContentView(R.layout.activity_main_menu);
 		projectManager = ProjectManager.getInstance();
 
-		if (projectManager.getCurrentProject() != null) {
-			initListeners();
-			return;
-		}
-
 		// Try to load sharedPreferences
-		SharedPreferences prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		String projectName = prefs.getString(PREF_PROJECTNAME_KEY, null);
 
 		if (projectName != null) {
 			projectManager.loadProject(projectName, this, false);
 		} else {
 			projectManager.initializeDefaultProject(this);
-			//projectManager.loadProject(this.getString(R.string.default_project_name), this); 
-			// default project is created
 		}
 
 		if (projectManager.getCurrentProject() == null) {
-			Button resumeButton = (Button) findViewById(R.id.resumeButton);
-			resumeButton.setEnabled(false);
-			Button toStageButton = (Button) findViewById(R.id.toStageButton);
-			toStageButton.setEnabled(false);
-
-			TextView currentProjectTextView = (TextView) findViewById(R.id.currentProjectNameTextView);
-			currentProjectTextView.setText(getString(R.string.current_project) + " " + getString(R.string.no_project));
+			Button currentProjectButton = (Button) findViewById(R.id.current_project_button);
+			currentProjectButton.setEnabled(false);
 		}
-		initListeners();
+	}
+
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		activityHelper.setupActionBar(true, null);
+		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, new View.OnClickListener() {
+			public void onClick(View v) {
+				if (projectManager.getCurrentProject() != null) {
+					Intent intent = new Intent(MainMenuActivity.this, StageActivity.class);
+					startActivity(intent);
+				}
+			}
+		}, false);
 	}
 
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialog;
-		try {
-			if (projectManager.getCurrentProject() != null
-					&& StorageHandler.getInstance().projectExists(projectManager.getCurrentProject().getName())) {
-				projectManager.saveProject(this);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (projectManager.getCurrentProject() != null
+				&& StorageHandler.getInstance().projectExists(projectManager.getCurrentProject().getName())) {
+			projectManager.saveProject(this);
 		}
 
 		switch (id) {
@@ -179,15 +124,14 @@ public class MainMenuActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		if (!Utils.checkForSdCard(this)) {
+			return;
+		}
 		if (projectManager.getCurrentProject() == null) {
 			return;
 		}
-		TextView currentProjectTextView = (TextView) findViewById(R.id.currentProjectNameTextView);
-		currentProjectTextView.setText(getString(R.string.current_project) + " "
-				+ projectManager.getCurrentProject().getName());
 
 		projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
-		//TODO es wird zweimal unn�tig geladen wenn man von der stage zur�ckkommt
 	}
 
 	@Override
@@ -196,9 +140,7 @@ public class MainMenuActivity extends Activity {
 		if (projectManager.getCurrentProject() == null) {
 			return;
 		}
-		TextView currentProjectTextView = (TextView) findViewById(R.id.currentProjectNameTextView);
-		currentProjectTextView.setText(getString(R.string.current_project) + " "
-				+ projectManager.getCurrentProject().getName());
+
 	}
 
 	@Override
@@ -209,10 +151,61 @@ public class MainMenuActivity extends Activity {
 		// also when you switch activities
 		if (projectManager.getCurrentProject() != null) {
 			projectManager.saveProject(this);
-			SharedPreferences.Editor prefs = this.getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
-			prefs.putString(PREF_PROJECTNAME_KEY, projectManager.getCurrentProject().getName());
-			prefs.commit();
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+			Editor edit = prefs.edit();
+			edit.putString(PREF_PROJECTNAME_KEY, projectManager.getCurrentProject().getName());
+			edit.commit();
 		}
 	}
 
+	public void handleCurrentProjectButton(View v) {
+		if (projectManager.getCurrentProject() != null) {
+			Intent intent = new Intent(MainMenuActivity.this, ProjectActivity.class);
+			startActivity(intent);
+		}
+	}
+
+	public void handleNewProjectButton(View v) {
+		showDialog(Consts.DIALOG_NEW_PROJECT);
+	}
+
+	public void handleLoadProjectButton(View v) {
+		showDialog(Consts.DIALOG_LOAD_PROJECT);
+	}
+
+	public void handleUploadProjectButton(View v) {
+		showDialog(Consts.DIALOG_UPLOAD_PROJECT);
+	}
+
+	public void handleSettingsButton(View v) {
+		LayoutInflater inflater = getLayoutInflater();
+		View layout = inflater.inflate(R.layout.toast_settings, (ViewGroup) findViewById(R.id.toast_layout_root));
+
+		TextView text = (TextView) layout.findViewById(R.id.text);
+		text.setText("Settings not yet implemented!");
+
+		Toast toast = new Toast(getApplicationContext());
+		toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+		toast.setDuration(Toast.LENGTH_LONG);
+		toast.setView(layout);
+		toast.show();
+	}
+
+	public void handleTutorialButton(View v) {
+		LayoutInflater inflater = getLayoutInflater();
+		View layout = inflater.inflate(R.layout.toast_tutorial, (ViewGroup) findViewById(R.id.toast_layout_root));
+
+		TextView text = (TextView) layout.findViewById(R.id.text);
+		text.setText("Tutorial not yet implemented!");
+
+		Toast toast = new Toast(getApplicationContext());
+		toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+		toast.setDuration(Toast.LENGTH_LONG);
+		toast.setView(layout);
+		toast.show();
+	}
+
+	public void handleAboutCatroidButton(View v) {
+		showDialog(Consts.DIALOG_ABOUT);
+	}
 }
