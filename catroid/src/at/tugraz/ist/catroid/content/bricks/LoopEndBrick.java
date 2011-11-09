@@ -31,7 +31,7 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 
 public class LoopEndBrick implements Brick {
-	public static final int FOREVER = -1;
+	static final int FOREVER = -1;
 	private static final int LOOP_DELAY = 20;
 	private static final int MILLION = 1000 * 1000;
 	private static final long serialVersionUID = 1L;
