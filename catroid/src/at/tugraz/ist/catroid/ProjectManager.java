@@ -25,6 +25,7 @@ import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
+import at.tugraz.ist.catroid.common.MessageContainer;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -37,13 +38,13 @@ public class ProjectManager {
 	private Project project;
 	private static ProjectManager instance;
 	private Script currentScript;
-	// used in uiTests
-	private int serverProjectId;
 
 	public FileChecksumContainer fileChecksumContainer;
+	public MessageContainer messageContainer;
 
 	private ProjectManager() {
 		fileChecksumContainer = new FileChecksumContainer();
+		messageContainer = new MessageContainer();
 	}
 
 	public static ProjectManager getInstance() {
@@ -56,6 +57,8 @@ public class ProjectManager {
 	public boolean loadProject(String projectName, Context context, boolean errorMessage) {
 		try {
 			fileChecksumContainer = new FileChecksumContainer();
+			messageContainer = new MessageContainer();
+
 			project = StorageHandler.getInstance().loadProject(projectName);
 			if (project == null) {
 				project = StorageHandler.getInstance().createDefaultProject(context);
@@ -76,6 +79,7 @@ public class ProjectManager {
 	public boolean initializeDefaultProject(Context context) {
 		try {
 			fileChecksumContainer = new FileChecksumContainer();
+			messageContainer = new MessageContainer();
 			project = StorageHandler.getInstance().createDefaultProject(context);
 			currentSprite = null;
 			currentScript = null;
@@ -95,7 +99,6 @@ public class ProjectManager {
 	}
 
 	public void deleteCurrentProject(Context context) {
-
 		StorageHandler.getInstance().deleteProject(project);
 
 		project = null;
@@ -112,7 +115,7 @@ public class ProjectManager {
 	}
 
 	public void addScript(Script script) {
-		currentSprite.getScriptList().add(script);
+		currentSprite.addScript(script);
 	}
 
 	public Sprite getCurrentSprite() {
@@ -130,14 +133,13 @@ public class ProjectManager {
 	public void initializeNewProject(String projectName, Context context) {
 		project = new Project(context, projectName);
 		fileChecksumContainer = new FileChecksumContainer();
+		messageContainer = new MessageContainer();
+
 		currentSprite = null;
 		currentScript = null;
 		saveProject(context);
 	}
 
-	/**
-	 * @return false if project doesn't contain the new sprite, true otherwise
-	 */
 	public void setCurrentSprite(Sprite sprite) {
 		currentSprite = sprite;
 	}
@@ -151,7 +153,7 @@ public class ProjectManager {
 			currentScript = null;
 			return true;
 		}
-		if (currentSprite.getScriptList().contains(script)) {
+		if (currentSprite.getScriptIndex(script) != -1) {
 			currentScript = script;
 			return true;
 		}
@@ -175,7 +177,6 @@ public class ProjectManager {
 	}
 
 	public boolean renameProject(String newProjectName, Context context) {
-
 		if (StorageHandler.getInstance().projectExists(newProjectName)) {
 			Utils.displayErrorMessage(context, context.getString(R.string.error_project_exists));
 			return false;
@@ -197,52 +198,40 @@ public class ProjectManager {
 		return (directoryRenamed && fileRenamed);
 	}
 
-	public void setServerProjectId(int serverProjectId) {
-		this.serverProjectId = serverProjectId;
-	}
-
-	public int getServerProjectId() {
-		return serverProjectId;
-	}
-
 	public int getCurrentSpritePosition() {
 		return project.getSpriteList().indexOf(currentSprite);
 	}
 
 	public int getCurrentScriptPosition() {
-		int currentSpritePos = this.getCurrentSpritePosition();
-		if (currentSpritePos == -1) {
+		int currentSpritePosition = this.getCurrentSpritePosition();
+		if (currentSpritePosition == -1) {
 			return -1;
 		}
 
-		return project.getSpriteList().get(currentSpritePos).getScriptList().indexOf(currentScript);
+		return project.getSpriteList().get(currentSpritePosition).getScriptIndex(currentScript);
 	}
 
 	public boolean setCurrentSpriteWithPosition(int position) {
-
 		if (position >= project.getSpriteList().size() || position < 0) {
 			return false;
 		}
 
 		currentSprite = project.getSpriteList().get(position);
 		return true;
-
 	}
 
 	public boolean setCurrentScriptWithPosition(int position) {
-		int currentSpritePos = this.getCurrentSpritePosition();
-		if (currentSpritePos == -1) {
+		int currentSpritePosition = this.getCurrentSpritePosition();
+		if (currentSpritePosition == -1) {
 			return false;
 		}
 
-		if (position >= project.getSpriteList().get(currentSpritePos).getScriptList().size() || position < 0) {
+		if (position >= project.getSpriteList().get(currentSpritePosition).getNumberOfScripts() || position < 0) {
 			return false;
 		}
 
-		currentScript = project.getSpriteList().get(this.getCurrentSpritePosition()).getScriptList().get(position);
+		currentScript = project.getSpriteList().get(this.getCurrentSpritePosition()).getScript(position);
 
 		return true;
-
 	}
-
 }

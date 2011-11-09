@@ -23,22 +23,22 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
-import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
+import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 
 public class StartThreadsTest extends AndroidTestCase {
 
 	public void testStartThreads() {
-		double scale = 300;
+		double size = 300;
 		Sprite testSprite = new Sprite("testSprite");
 		Script testScript = new StartScript("testScript", testSprite);
 		HideBrick hideBrick = new HideBrick(testSprite);
-		ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(testSprite, scale);
+		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(testSprite, size);
 
 		testScript.addBrick(hideBrick);
-		testScript.addBrick(scaleCostumeBrick);
-		testSprite.getScriptList().add(testScript);
+		testScript.addBrick(setSizeToBrick);
+		testSprite.addScript(testScript);
 
 		testSprite.startStartScripts();
 
@@ -49,7 +49,7 @@ public class StartThreadsTest extends AndroidTestCase {
 		}
 
 		assertFalse("Sprite is not hidden", testSprite.isVisible());
-		assertEquals("the scale is not as expected", scale, testSprite.getScale());
+		assertEquals("the size is not as expected", size, testSprite.getSize());
 	}
 
 	public void testResumeThreads() {
@@ -62,7 +62,7 @@ public class StartThreadsTest extends AndroidTestCase {
 		testScript.addBrick(hideBrick);
 		testScript.addBrick(waitBrick);
 		testScript.addBrick(showBrick);
-		testSprite.getScriptList().add(testScript);
+		testSprite.addScript(testScript);
 
 		testSprite.startStartScripts();
 

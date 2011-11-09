@@ -47,7 +47,7 @@ public class DownloadActivity extends Activity {
 
 		String projectName = getProjectName(zipUrl);
 
-		new ProjectDownloadTask(this, zipUrl, projectName, Consts.TMP_PATH + "/down.zip").execute();
+		new ProjectDownloadTask(this, zipUrl, projectName).execute();
 
 	}
 
@@ -58,5 +58,4 @@ public class DownloadActivity extends Activity {
 
 		return projectName;
 	}
-
 }

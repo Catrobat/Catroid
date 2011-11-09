@@ -19,40 +19,39 @@
 package at.tugraz.ist.catroid.io;
 
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
-import android.os.Environment;
-import android.provider.BaseColumns;
 import android.provider.MediaStore;
-import android.provider.MediaStore.MediaColumns;
 import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.common.SoundInfo;
+import at.tugraz.ist.catroid.content.BroadcastScript;
 import at.tugraz.ist.catroid.content.Costume;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.TapScript;
+import at.tugraz.ist.catroid.content.bricks.BroadcastBrick;
+import at.tugraz.ist.catroid.content.bricks.BroadcastWaitBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
@@ -61,10 +60,11 @@ import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
 import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
+import at.tugraz.ist.catroid.content.bricks.NoteBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
-import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
+import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.SetXBrick;
 import at.tugraz.ist.catroid.content.bricks.SetYBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
@@ -75,25 +75,22 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 import com.thoughtworks.xstream.XStream;
 
-/**
- * @author Peter Treitler
- * 
- */
 public class StorageHandler {
 
 	private static StorageHandler instance;
-	private static final String TAG = "StorageHandler";
+	private static final String TAG = StorageHandler.class.getSimpleName();
+	private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
 	private ArrayList<SoundInfo> soundContent;
 	private XStream xstream;
 
 	private StorageHandler() throws IOException {
-		String state = Environment.getExternalStorageState();
 		xstream = new XStream();
 		xstream.alias("project", Project.class);
 		xstream.alias("sprite", Sprite.class);
 		xstream.alias("script", Script.class);
 		xstream.alias("startScript", StartScript.class);
 		xstream.alias("tapScript", TapScript.class);
+		xstream.alias("broadcastScript", BroadcastScript.class);
 		xstream.alias("costume", Costume.class);
 
 		xstream.alias("changeXByBrick", ChangeXByBrick.class);
@@ -105,23 +102,24 @@ public class StorageHandler {
 		xstream.alias("ifTouchedBrick", IfTouchedBrick.class);
 		xstream.alias("placeAtBrick", PlaceAtBrick.class);
 		xstream.alias("playSoundBrick", PlaySoundBrick.class);
-		xstream.alias("scaleCostumeBrick", ScaleCostumeBrick.class);
+		xstream.alias("setSizeToBrick", SetSizeToBrick.class);
 		xstream.alias("setCostumeBrick", SetCostumeBrick.class);
 		xstream.alias("setXBrick", SetXBrick.class);
 		xstream.alias("setYBrick", SetYBrick.class);
 		xstream.alias("showBrick", ShowBrick.class);
 		xstream.alias("waitBrick", WaitBrick.class);
 		xstream.alias("glideToBrick", GlideToBrick.class);
+		xstream.alias("noteBrick", NoteBrick.class);
+		xstream.alias("broadcastWaitBrick", BroadcastWaitBrick.class);
+		xstream.alias("broadcastBrick", BroadcastBrick.class);
 
-		if (!Environment.MEDIA_MOUNTED.equals(state)) {
+		if (!Utils.hasSdCard()) {
 			throw new IOException("Could not read external storage");
 		}
 		createCatroidRoot();
-
 	}
 
 	private void createCatroidRoot() {
-		// We can read and write the media
 		File catroidRoot = new File(Consts.DEFAULT_ROOT);
 		if (!catroidRoot.exists()) {
 			catroidRoot.mkdirs();
@@ -148,9 +146,9 @@ public class StorageHandler {
 			File projectDirectory = new File(Consts.DEFAULT_ROOT + "/" + projectName);
 
 			if (projectDirectory.exists() && projectDirectory.isDirectory() && projectDirectory.canWrite()) {
-				InputStream spfFileStream = new FileInputStream(projectDirectory.getAbsolutePath() + "/" + projectName
-						+ Consts.PROJECT_EXTENTION);
-				return (Project) xstream.fromXML(spfFileStream);
+				InputStream projectFileStream = new FileInputStream(projectDirectory.getAbsolutePath() + "/"
+						+ projectName + Consts.PROJECT_EXTENTION);
+				return (Project) xstream.fromXML(projectFileStream);
 			} else {
 				return null;
 			}
@@ -167,7 +165,7 @@ public class StorageHandler {
 			return false;
 		}
 		try {
-			String spfFile = xstream.toXML(project);
+			String projectFile = xstream.toXML(project);
 
 			String projectDirectoryName = Consts.DEFAULT_ROOT + "/" + project.getName();
 			File projectDirectory = new File(projectDirectoryName);
@@ -188,12 +186,12 @@ public class StorageHandler {
 				noMediaFile.createNewFile();
 			}
 
-			BufferedWriter out = new BufferedWriter(new FileWriter(projectDirectoryName + "/" + project.getName()
+			BufferedWriter writer = new BufferedWriter(new FileWriter(projectDirectoryName + "/" + project.getName()
 					+ Consts.PROJECT_EXTENTION), Consts.BUFFER_8K);
 
-			out.write(spfFile);
-			out.flush();
-			out.close();
+			writer.write(XML_HEADER.concat(projectFile));
+			writer.flush();
+			writer.close();
 
 			return true;
 		} catch (Exception e) {
@@ -220,16 +218,16 @@ public class StorageHandler {
 
 	public void loadSoundContent(Context context) {
 		soundContent = new ArrayList<SoundInfo>();
-		String[] projectionOnOrig = { MediaColumns.DATA, MediaColumns.TITLE,
-				BaseColumns._ID };
+		String[] projectionOnOrig = { MediaStore.Audio.Media.DATA, MediaStore.Audio.AudioColumns.TITLE,
+				MediaStore.Audio.Media._ID };
 
 		Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
 				projectionOnOrig, null, null, null);
 
 		if (cursor.moveToFirst()) {
-			int columnDataIndex = cursor.getColumnIndexOrThrow(MediaColumns.DATA);
-			int columnTitleIndex = cursor.getColumnIndexOrThrow(MediaColumns.TITLE);
-			int columnIdIndex = cursor.getColumnIndexOrThrow(BaseColumns._ID);
+			int columnDataIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
+			int columnTitleIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.TITLE);
+			int columnIdIndex = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID);
 
 			do {
 				SoundInfo info = new SoundInfo();
@@ -244,7 +242,7 @@ public class StorageHandler {
 	}
 
 	public ArrayList<SoundInfo> getSoundContent() {
-		java.util.Collections.sort(soundContent);
+		Collections.sort(soundContent);
 		return soundContent;
 	}
 
@@ -279,8 +277,7 @@ public class StorageHandler {
 	}
 
 	public File copyImage(String currentProjectName, String inputFilePath) throws IOException {
-		File imageDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName
-						+ Consts.IMAGE_DIRECTORY);
+		File imageDirectory = new File(Consts.DEFAULT_ROOT + "/" + currentProjectName + Consts.IMAGE_DIRECTORY);
 
 		File inputFile = new File(inputFilePath);
 		if (!inputFile.exists() || !inputFile.canRead()) {
@@ -389,12 +386,12 @@ public class StorageHandler {
 		saveProject(defaultProject);
 		ProjectManager.getInstance().setProject(defaultProject);
 		Sprite sprite = new Sprite("Catroid");
-		Sprite stageSprite = defaultProject.getSpriteList().get(0);
-		//scripts:
-		Script stageStartScript = new StartScript("stageStartScript", stageSprite);
+		Sprite backgroundSprite = defaultProject.getSpriteList().get(0);
+
+		Script backgroundStartScript = new StartScript("stageStartScript", backgroundSprite);
 		Script startScript = new StartScript("startScript", sprite);
 		Script touchScript = new TapScript("touchScript", sprite);
-		//bricks:
+
 		File normalCat = savePictureFromResInProject(projectName, Consts.NORMAL_CAT, R.drawable.catroid, context);
 		File banzaiCat = savePictureFromResInProject(projectName, Consts.BANZAI_CAT, R.drawable.catroid_banzai, context);
 		File cheshireCat = savePictureFromResInProject(projectName, Consts.CHESHIRE_CAT, R.drawable.catroid_cheshire,
@@ -414,7 +411,7 @@ public class StorageHandler {
 		SetCostumeBrick setCostumeBrick3 = new SetCostumeBrick(sprite);
 		setCostumeBrick3.setCostume(cheshireCat.getName());
 
-		SetCostumeBrick setCostumeBackground = new SetCostumeBrick(stageSprite);
+		SetCostumeBrick setCostumeBackground = new SetCostumeBrick(backgroundSprite);
 		setCostumeBackground.setCostume(background.getName());
 
 		WaitBrick waitBrick1 = new WaitBrick(sprite, 500);
@@ -427,19 +424,19 @@ public class StorageHandler {
 		touchScript.addBrick(setCostumeBrick3);
 		touchScript.addBrick(waitBrick2);
 		touchScript.addBrick(setCostumeBrick1);
-		stageStartScript.addBrick(setCostumeBackground);
+		backgroundStartScript.addBrick(setCostumeBackground);
 
-		//merging:
 		defaultProject.addSprite(sprite);
-		sprite.getScriptList().add(startScript);
-		sprite.getScriptList().add(touchScript);
-		stageSprite.getScriptList().add(stageStartScript);
-		//ProjectManager.getInstance().setProject(defaultProject);
+		sprite.addScript(startScript);
+		sprite.addScript(touchScript);
+		backgroundSprite.addScript(backgroundStartScript);
+
 		this.saveProject(defaultProject);
+
 		return defaultProject;
 	}
 
-	private File savePictureFromResInProject(String project, String name, int fileID, Context context)
+	private File savePictureFromResInProject(String project, String name, int fileId, Context context)
 			throws IOException {
 
 		final String imagePath = Consts.DEFAULT_ROOT + "/" + project + Consts.IMAGE_DIRECTORY + "/" + name;
@@ -447,7 +444,7 @@ public class StorageHandler {
 		if (!testImage.exists()) {
 			testImage.createNewFile();
 		}
-		InputStream in = context.getResources().openRawResource(fileID);
+		InputStream in = context.getResources().openRawResource(fileId);
 		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), Consts.BUFFER_8K);
 		byte[] buffer = new byte[Consts.BUFFER_8K];
 		int length = 0;
@@ -460,31 +457,5 @@ public class StorageHandler {
 		out.close();
 
 		return testImage;
-	}
-
-	//TODO: Only used in tests, put it there! - don't wanna
-	public String getProjectfileAsString(String projectName) {
-		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName + "/" + projectName
-				+ Consts.PROJECT_EXTENTION);
-		if (!projectFile.exists()) {
-			return null;
-		}
-		StringBuilder contents = new StringBuilder();
-
-		try {
-			BufferedReader input = new BufferedReader(new FileReader(projectFile));
-			try {
-				String line = null;
-				while ((line = input.readLine()) != null) {
-					contents.append(line);
-					contents.append(System.getProperty("line.separator"));
-				}
-			} finally {
-				input.close();
-			}
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		}
-		return contents.toString();
 	}
 }

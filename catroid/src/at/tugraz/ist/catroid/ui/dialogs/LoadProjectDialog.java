@@ -77,7 +77,7 @@ public class LoadProjectDialog extends Dialog {
 	protected void onStart() {
 		// update List:
 		adapterFileList.clear();
-		File rootDirectory = new File(context.getString(R.string.default_root));
+		File rootDirectory = new File(Consts.DEFAULT_ROOT);
 		searchForProjectFiles(rootDirectory);
 		adapter.notifyDataSetChanged();
 		super.onStart();

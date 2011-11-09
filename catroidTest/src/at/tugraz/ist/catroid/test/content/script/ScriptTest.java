@@ -29,7 +29,7 @@ import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
-import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
+import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 
 public class ScriptTest extends AndroidTestCase {
@@ -38,7 +38,7 @@ public class ScriptTest extends AndroidTestCase {
 	private HideBrick hideBrick;
 	private ShowBrick showBrick;
 	private PlaceAtBrick placeAtBrick;
-	private ScaleCostumeBrick scaleCostumeBrick;
+	private SetSizeToBrick setSizeToBrick;
 	private ComeToFrontBrick comeToFrontBrick;
 	private ArrayList<Brick> brickList;
 
@@ -50,7 +50,7 @@ public class ScriptTest extends AndroidTestCase {
 		hideBrick = new HideBrick(sprite);
 		showBrick = new ShowBrick(sprite);
 		placeAtBrick = new PlaceAtBrick(sprite, 0, 0);
-		scaleCostumeBrick = new ScaleCostumeBrick(sprite, 0);
+		setSizeToBrick = new SetSizeToBrick(sprite, 0);
 		comeToFrontBrick = new ComeToFrontBrick(sprite);
 	};
 
@@ -137,16 +137,16 @@ public class ScriptTest extends AndroidTestCase {
 		script.addBrick(hideBrick);
 		script.addBrick(showBrick);
 		script.addBrick(placeAtBrick);
-		script.addBrick(scaleCostumeBrick);
+		script.addBrick(setSizeToBrick);
 		script.addBrick(comeToFrontBrick);
-		script.moveBrickBySteps(scaleCostumeBrick, -2);
+		script.moveBrickBySteps(setSizeToBrick, -2);
 
 		brickList = script.getBrickList();
 
 		assertEquals("hideBrick is not at index 0", 0, brickList.indexOf(hideBrick));
 		assertEquals("showBrick is not at index 2", 2, brickList.indexOf(showBrick));
 		assertEquals("placeAtBrick is not at index 3", 3, brickList.indexOf(placeAtBrick));
-		assertEquals("scaleCostumeBrick is not at index 1", 1, brickList.indexOf(scaleCostumeBrick));
+		assertEquals("setSizeToBrick is not at index 1", 1, brickList.indexOf(setSizeToBrick));
 		assertEquals("comeToFrontBrick is not at index 4", 4, brickList.indexOf(comeToFrontBrick));
 	}
 

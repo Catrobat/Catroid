@@ -69,7 +69,7 @@
 		>
 		</TextView>
 		<EditText
-			android:id="@+id/InputValueEditText"
+			android:id="@+id/construction_brick_wait_edit_text"
 			android:layout_height="wrap_content"
 			android:layout_width="75dp"
 			android:layout_centerVertical="true"

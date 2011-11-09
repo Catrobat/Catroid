@@ -30,7 +30,7 @@ import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
-import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
+import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 
@@ -73,7 +73,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptAct
 		solo.clickOnText(getActivity().getString(R.string.delete_script_button));
 		solo.sleep(1000);
 
-		int numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getScriptList().size();
+		int numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
 		assertEquals("Incorrect number of scripts in scriptList", 1, numberOfScripts);
 		assertEquals("Incorrect number of elements in listView", 4, solo.getCurrentListViews().get(0).getChildCount());
 
@@ -81,7 +81,7 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptAct
 		solo.clickOnText(getActivity().getString(R.string.delete_script_button));
 		solo.sleep(1000);
 
-		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getScriptList().size();
+		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
 		assertEquals("Incorrect number of scripts in list", 0, numberOfScripts);
 		assertEquals("Incorrect number of elements in listView", 0, solo.getCurrentListViews().get(0).getChildCount());
 
@@ -89,13 +89,13 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptAct
 		solo.clickOnText(getActivity().getString(R.string.brick_hide));
 		solo.sleep(5000);
 
-		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getScriptList().size();
+		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
 		assertEquals("Incorrect number of scripts in scriptList", 1, numberOfScripts);
 		assertEquals("Incorrect number of elements in listView", 2, solo.getCurrentListViews().get(0).getChildCount());
 	}
 
 	private void createTestProject(String projectName) {
-		double scaleValue = 0.8;
+		double size = 0.8;
 
 		Project project = new Project(null, projectName);
 		Sprite firstSprite = new Sprite("cat");
@@ -105,13 +105,13 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptAct
 		brickListToCheck = new ArrayList<Brick>();
 		brickListToCheck.add(new HideBrick(firstSprite));
 		brickListToCheck.add(new ShowBrick(firstSprite));
-		brickListToCheck.add(new ScaleCostumeBrick(firstSprite, scaleValue));
+		brickListToCheck.add(new SetSizeToBrick(firstSprite, size));
 
 		for (Brick brick : brickListToCheck) {
 			testScript.addBrick(brick);
 		}
 
-		firstSprite.getScriptList().add(testScript);
+		firstSprite.addScript(testScript);
 
 		project.addSprite(firstSprite);
 

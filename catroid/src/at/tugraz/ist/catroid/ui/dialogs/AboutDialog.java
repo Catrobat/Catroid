@@ -56,5 +56,4 @@ public class AboutDialog extends Dialog {
 
 		aboutUrlTextView.setText(Html.fromHtml(aboutUrl));
 	}
-
 }
