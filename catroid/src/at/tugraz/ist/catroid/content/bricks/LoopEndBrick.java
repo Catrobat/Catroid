@@ -49,6 +49,9 @@ public class LoopEndBrick implements Brick {
 	}
 
 	public void execute() {
+		if (timesToRepeat == 0) {
+			return;
+		}
 
 		loopBeginBrick.setBeginLoopTime(System.nanoTime());
 

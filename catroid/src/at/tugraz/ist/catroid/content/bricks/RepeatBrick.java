@@ -56,7 +56,7 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 
 	@Override
 	public void execute() {
-		loopEndBrick.setTimesToRepeat(timesToRepeat);
+		loopEndBrick.setTimesToRepeat(timesToRepeat < 0 ? 0 : timesToRepeat);
 		super.setFirstStartTime();
 	}
 
