@@ -1,25 +1,22 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010-2011 The Catroid Team
+ *  Copyright (C) 2010  Catroid development team 
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *  
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://www.catroid.org/catroid_license_additional_term
- *  
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU Affero General Public License for more details.
- *   
- *  You should have received a copy of the GNU Affero General Public License
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package at.tugraz.ist.catroid.uitest.content.brick;
 
 import java.util.ArrayList;
@@ -81,7 +78,8 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 		assertNotNull("TextView does not exist",
 				solo.getText(getActivity().getString(R.string.brick_point_in_direction)));
 
-		solo.pressSpinnerItem(0, 1);
+		//test will fail in 2.1 because index in 2.2 starts at 1 and at 0 in 2.1 
+		solo.pressSpinnerItem(0, 2);
 		solo.sleep(300);
 		assertEquals("Wrong selection", "(-90) left", solo.getCurrentSpinners().get(0).getSelectedItem());
 	}
@@ -90,7 +88,7 @@ public class PointInDirectionBrickTest extends ActivityInstrumentationTestCase2<
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
 		Script script = new StartScript("script", sprite);
-		pointInDirectionBrick = new PointInDirectionBrick(sprite, PointInDirectionBrick.DIRECTION_RIGHT);
+		pointInDirectionBrick = new PointInDirectionBrick(sprite, 15);
 		script.addBrick(pointInDirectionBrick);
 
 		sprite.addScript(script);

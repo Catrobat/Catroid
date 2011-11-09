@@ -1,66 +1,69 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010-2011 The Catroid Team
+ *  Copyright (C) 2010  Catroid development team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *  
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://www.catroid.org/catroid_license_additional_term
- *  
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU Affero General Public License for more details.
- *   
- *  You should have received a copy of the GNU Affero General Public License
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.content.bricks;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.Spinner;
-import android.widget.TextView;
+import android.view.View.OnClickListener;
+import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Sprite;
-import at.tugraz.ist.catroid.stage.NativeAppActivity;
+import at.tugraz.ist.catroid.utils.ImageEditing;
+
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public class SetCostumeBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
-	private CostumeData costumeData;
-	private transient View view;
+	private String imageName;
+	@XStreamOmitField
+	private transient Bitmap thumbnail;
 
 	public SetCostumeBrick(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
-	public int getRequiredResources() {
-		return NO_RESOURCES;
+	public void setCostume(String imageName) {
+		this.imageName = imageName;
+		if (imageName != null) {
+			thumbnail = ImageEditing.getScaledBitmap(getAbsoluteImagePath(), Consts.THUMBNAIL_HEIGHT,
+					Consts.THUMBNAIL_WIDTH);
+		}
 	}
 
-	public void setCostume(CostumeData costumeData) {
-		this.costumeData = costumeData;
+	private Object readResolve() {
+		if (imageName != null && ProjectManager.getInstance().getCurrentProject() != null) {
+			String[] checksum = imageName.split("_");
+			ProjectManager.getInstance().fileChecksumContainer.addChecksum(checksum[0], getAbsoluteImagePath());
+		}
+		return this;
 	}
 
 	public void execute() {
-		if (costumeData != null && sprite != null && sprite.getCostumeDataList().contains(costumeData)) {
-			if (!NativeAppActivity.isRunning()) {
-				sprite.costume.setImagePath(costumeData.getAbsolutePath());
-			} else {
-				sprite.costume.setImagePathInternal("images/" + costumeData.getCostumeFileName());
-			}
-		}
+		this.sprite.getCostume().setImagePath(getAbsoluteImagePath());
 	}
 
 	public Sprite getSprite() {
@@ -68,71 +71,59 @@ public class SetCostumeBrick implements Brick {
 	}
 
 	public String getImagePath() {
-		return costumeData.getAbsolutePath();
+		return getAbsoluteImagePath();
 	}
 
-	public View getView(final Context context, int brickId, BaseAdapter adapter) {
+	private String getAbsoluteImagePath() {
+		if (imageName == null) {
+			return null;
+		}
+		return Consts.DEFAULT_ROOT + "/" + ProjectManager.getInstance().getCurrentProject().getName()
+				+ Consts.IMAGE_DIRECTORY + "/" + imageName;
+	}
 
-		view = View.inflate(context, R.layout.toolbox_brick_set_costume, null);
+	public View getView(final Context context, final int brickId, BaseExpandableListAdapter adapter) {
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.construction_brick_set_costume, null);
 
-		Spinner costumebrickSpinner = (Spinner) view.findViewById(R.id.setcostume_spinner);
-		costumebrickSpinner.setAdapter(createCostumeAdapter(context));
-		costumebrickSpinner.setClickable(true);
-		costumebrickSpinner.setFocusable(true);
+		OnClickListener listener = new OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+				intent.setType("image/*");
+				((Activity) context).startActivityForResult(intent, brickId);
+			}
+		};
 
-		costumebrickSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				costumeData = (CostumeData) parent.getItemAtPosition(position);
+		ImageView imageView = (ImageView) view.findViewById(R.id.costume_image_view);
+
+		if (imageName != null) {
+			if (thumbnail == null) {
+				thumbnail = ImageEditing.getScaledBitmap(getAbsoluteImagePath(), Consts.THUMBNAIL_HEIGHT,
+						Consts.THUMBNAIL_WIDTH);
 			}
 
-			public void onNothingSelected(AdapterView<?> arg0) {
-			}
-		});
-
-		if (sprite.getCostumeDataList().contains(costumeData)) {
-			costumebrickSpinner.setSelection(sprite.getCostumeDataList().indexOf(costumeData) + 1, true);
-		} else {
-			costumebrickSpinner.setSelection(0);
+			imageView.setImageBitmap(thumbnail);
+			imageView.setBackgroundDrawable(null);
 		}
 
-		if (sprite.getName().equals(context.getString(R.string.background))) {
-			TextView textView = (TextView) view.findViewById(R.id.tv_set_costume);
-			textView.setText(R.string.brick_set_background);
-		}
+		imageView.setOnClickListener(listener);
 
 		return view;
 	}
 
-	private ArrayAdapter<?> createCostumeAdapter(Context context) {
-		ArrayAdapter<CostumeData> arrayAdapter = new ArrayAdapter<CostumeData>(context,
-				android.R.layout.simple_spinner_item);
-		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		CostumeData dummyCostumeData = new CostumeData();
-		dummyCostumeData.setCostumeName(context.getString(R.string.broadcast_nothing_selected));
-		arrayAdapter.add(dummyCostumeData);
-		for (CostumeData costumeData : sprite.getCostumeDataList()) {
-			arrayAdapter.add(costumeData);
-		}
-		return arrayAdapter;
-	}
-
 	public View getPrototypeView(Context context) {
-		View prototypeView = View.inflate(context, R.layout.toolbox_brick_set_costume, null);
-		if (sprite.getName().equals(context.getString(R.string.background))) {
-			TextView textView = (TextView) prototypeView.findViewById(R.id.tv_set_costume);
-			textView.setText(R.string.brick_set_background);
-		}
-		return prototypeView;
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.toolbox_brick_set_costume, null);
+		return view;
 	}
 
 	@Override
 	public Brick clone() {
 		SetCostumeBrick clonedBrick = new SetCostumeBrick(getSprite());
-		if (sprite.costume != null) {
+		if (sprite.getCostume() != null) {
 			clonedBrick.setCostume(null);
 		}
 
 		return clonedBrick;
-
 	}
 }

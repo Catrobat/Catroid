@@ -1,25 +1,22 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010-2011 The Catroid Team
+ *  Copyright (C) 2010  Catroid development team 
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *  
+ *
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *  
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://www.catroid.org/catroid_license_additional_term
- *  
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU Affero General Public License for more details.
- *   
- *  You should have received a copy of the GNU Affero General Public License
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package at.tugraz.ist.catroid.ui;
 
 import java.net.URLDecoder;
@@ -28,12 +25,12 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.transfers.ProjectDownloadTask;
 
 public class DownloadActivity extends Activity {
 
 	private static final String TAG = "DownloadActivity";
-	private static final String PROJECTNAME_TAG = "fname=";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +52,7 @@ public class DownloadActivity extends Activity {
 	}
 
 	private String getProjectName(String zipUrl) {
-		int projectNameIndex = zipUrl.lastIndexOf(PROJECTNAME_TAG) + PROJECTNAME_TAG.length();
+		int projectNameIndex = zipUrl.lastIndexOf(Consts.PROJECTNAME_TAG) + Consts.PROJECTNAME_TAG.length();
 		String projectName = zipUrl.substring(projectNameIndex);
 		projectName = URLDecoder.decode(projectName);
 
