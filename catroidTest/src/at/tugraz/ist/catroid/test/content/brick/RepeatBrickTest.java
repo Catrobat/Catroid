@@ -104,4 +104,64 @@ public class RepeatBrickTest extends InstrumentationTestCase {
 		final long endTime = System.currentTimeMillis();
 		assertEquals("Loop delay did was not 20ms!", delayByContract * REPEAT_TIMES, endTime - startTime, 15);
 	}
+
+	public void testNegativeRepeats() throws InterruptedException {
+		testSprite.removeAllScripts();
+		testScript = new StartScript("foo", testSprite);
+
+		repeatBrick = new RepeatBrick(testSprite, -1);
+		loopEndBrick = new LoopEndBrick(testSprite, repeatBrick);
+		repeatBrick.setLoopEndBrick(loopEndBrick);
+
+		final int decoyDeltaY = -150;
+		final int expectedDeltaY = 150;
+		final int expectedDelay = (Integer) TestUtils.getPrivateField("LOOP_DELAY", loopEndBrick, false);
+
+		testScript.addBrick(repeatBrick);
+		testScript.addBrick(new ChangeYByBrick(testSprite, decoyDeltaY));
+		testScript.addBrick(loopEndBrick);
+		testScript.addBrick(new ChangeYByBrick(testSprite, expectedDeltaY));
+
+		testSprite.addScript(testScript);
+		testSprite.startStartScripts();
+
+		/*
+		 * Waiting less than what a loop delay would be! Loop should not execute and there should be no delay
+		 * http://code.google.com/p/catroid/issues/detail?id=24#c9
+		 */
+		Thread.sleep(expectedDelay / 2);
+
+		assertEquals("Loop was executed although repeats were less than zero!", expectedDeltaY,
+				(int) testSprite.costume.getYPosition());
+	}
+
+	public void testZeroRepeats() throws InterruptedException {
+		testSprite.removeAllScripts();
+		testScript = new StartScript("foo", testSprite);
+
+		repeatBrick = new RepeatBrick(testSprite, -1);
+		loopEndBrick = new LoopEndBrick(testSprite, repeatBrick);
+		repeatBrick.setLoopEndBrick(loopEndBrick);
+
+		final int decoyDeltaY = -150;
+		final int expectedDeltaY = 150;
+		final int expectedDelay = (Integer) TestUtils.getPrivateField("LOOP_DELAY", loopEndBrick, false);
+
+		testScript.addBrick(repeatBrick);
+		testScript.addBrick(new ChangeYByBrick(testSprite, decoyDeltaY));
+		testScript.addBrick(loopEndBrick);
+		testScript.addBrick(new ChangeYByBrick(testSprite, expectedDeltaY));
+
+		testSprite.addScript(testScript);
+		testSprite.startStartScripts();
+
+		/*
+		 * Waiting less than what a loop delay would be! Loop should not execute and there should be no delay
+		 * http://code.google.com/p/catroid/issues/detail?id=24#c9
+		 */
+		Thread.sleep(expectedDelay / 2);
+
+		assertEquals("Loop was executed although repeats were set to zero!", expectedDeltaY,
+				(int) testSprite.costume.getYPosition());
+	}
 }

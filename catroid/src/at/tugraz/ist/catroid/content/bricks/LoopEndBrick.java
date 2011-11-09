@@ -49,7 +49,6 @@ public class LoopEndBrick implements Brick {
 	}
 
 	public void execute() {
-
 		loopBeginBrick.setBeginLoopTime(System.nanoTime());
 
 		if (timesToRepeat == FOREVER) {
@@ -72,7 +71,7 @@ public class LoopEndBrick implements Brick {
 		}
 	}
 
-	private Script getScript() {
+	protected Script getScript() {
 		for (int i = 0; i < sprite.getNumberOfScripts(); i++) {
 			Script script = sprite.getScript(i);
 			if (script.getBrickList().contains(this)) {
