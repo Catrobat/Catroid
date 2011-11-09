@@ -18,8 +18,6 @@
  */
 package at.tugraz.ist.catroid.ui.dialogs;
 
-import java.io.IOException;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -31,8 +29,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout.LayoutParams;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -65,18 +63,17 @@ public class NewProjectDialog extends Dialog {
 		createNewProjectButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				String projectName = ((EditText) findViewById(R.id.new_project_edit_text)).getText().toString().trim();
+
 				if (projectName.length() == 0) {
 					Utils.displayErrorMessage(context, context.getString(R.string.error_no_name_entered));
 					return;
 				}
-				try {
-					if (StorageHandler.getInstance().projectExists(projectName)) {
-						Utils.displayErrorMessage(context, context.getString(R.string.error_project_exists));
-						return;
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
+
+				if (StorageHandler.getInstance().projectExists(projectName)) {
+					Utils.displayErrorMessage(context, context.getString(R.string.error_project_exists));
+					return;
 				}
+
 				ProjectManager.getInstance().initializeNewProject(projectName, context);
 				Intent intent = new Intent(context, ProjectActivity.class);
 				context.startActivity(intent);
@@ -98,13 +95,9 @@ public class NewProjectDialog extends Dialog {
 								return true;
 							}
 
-							try {
-								if (StorageHandler.getInstance().projectExists(projectName)) {
-									Utils.displayErrorMessage(context, context.getString(R.string.error_project_exists));
-									return true;
-								}
-							} catch (IOException e) {
-								e.printStackTrace();
+							if (StorageHandler.getInstance().projectExists(projectName)) {
+								Utils.displayErrorMessage(context, context.getString(R.string.error_project_exists));
+								return true;
 							}
 
 							ProjectManager.getInstance().initializeNewProject(projectName, context);

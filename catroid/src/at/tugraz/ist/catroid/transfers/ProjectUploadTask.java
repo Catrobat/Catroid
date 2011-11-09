@@ -20,49 +20,41 @@
 package at.tugraz.ist.catroid.transfers;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
-import java.util.HashMap;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.os.AsyncTask;
-import at.tugraz.ist.catroid.Consts;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
-import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.utils.UtilDeviceInfo;
 import at.tugraz.ist.catroid.utils.UtilZip;
-import at.tugraz.ist.catroid.web.ConnectionWrapper;
+import at.tugraz.ist.catroid.web.ServerCalls;
 import at.tugraz.ist.catroid.web.WebconnectionException;
 
 public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
-
-	public static boolean useTestUrl = false;
+	private final static String TAG = "ProjectUploadTask";
 
 	private Context context;
 	private String projectPath;
 	private ProgressDialog progressdialog;
 	private String projectName;
 	private String projectDescription;
-	private String resultString;
 	private String serverAnswer;
+	private String token;
 
-	// mock object testing
-	protected ConnectionWrapper createConnection() {
-		return new ConnectionWrapper();
-	}
-
-	public ProjectUploadTask(Context context, String projectName, String projectDescription, String projectPath) {
+	public ProjectUploadTask(Context context, String projectName, String projectDescription, String projectPath,
+			String token) {
 		this.context = context;
 		this.projectPath = projectPath;
 		this.projectName = projectName;
 		this.projectDescription = projectDescription;
-		serverAnswer = "An error occurred while uploading the project.";
+		this.token = token;
+
+		if (context != null) {
+			serverAnswer = context.getString(R.string.error_project_upload);
+		}
 	}
 
 	@Override
@@ -80,66 +72,35 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 	protected Boolean doInBackground(Void... arg0) {
 		try {
 			File dirPath = new File(projectPath);
-			String[] paths = dirPath.list(new FilenameFilter() {
-				public boolean accept(File dir, String filename) {
-					if (filename.endsWith(Consts.PROJECT_EXTENTION) || filename.equalsIgnoreCase("images")
-							|| filename.equalsIgnoreCase("sounds")) {
-						return true;
-					}
-					return false;
-				}
-			});
+			String[] paths = dirPath.list();
+
 			if (paths == null) {
 				return false;
 			}
-
-			//			for (String path : paths) {
-			//				path = dirPath + "/" + path;
-			//			}
 
 			for (int i = 0; i < paths.length; i++) {
 				paths[i] = dirPath + "/" + paths[i];
 			}
 
-			String zipFileString = Consts.TMP_PATH + "/upload.zip";
-			File file = new File(zipFileString);
-			if (!file.exists()) {
-				file.getParentFile().mkdirs();
-				file.createNewFile();
+			String zipFileString = Consts.TMP_PATH + "/upload" + Consts.CATROID_EXTENTION;
+			File zipFile = new File(zipFileString);
+			if (!zipFile.exists()) {
+				zipFile.getParentFile().mkdirs();
+				zipFile.createNewFile();
 			}
 			if (!UtilZip.writeToZipFile(paths, zipFileString)) {
-				file.delete();
+				zipFile.delete();
 				return false;
 			}
 
-			HashMap<String, String> hm = buildPostValues(file);
+			//String deviceIMEI = UtilDeviceInfo.getDeviceIMEI(context);
+			String userEmail = UtilDeviceInfo.getUserEmail(context);
+			String language = UtilDeviceInfo.getUserLanguageCode(context);
 
-			String serverUrl = useTestUrl ? Consts.TEST_FILE_UPLOAD_URL : Consts.FILE_UPLOAD_URL;
-
-			resultString = createConnection()
-					.doHttpPostFileUpload(serverUrl, hm, Consts.FILE_UPLOAD_TAG, zipFileString);
-
-			JSONObject jsonObject = null;
-			int statusCode = 0;
-
-			try {
-				jsonObject = new JSONObject(resultString);
-				statusCode = jsonObject.getInt("statusCode");
-				serverAnswer = jsonObject.getString("answer");
-				int serverProjectId = jsonObject.getInt("projectId");
-				ProjectManager.getInstance().setServerProjectId(serverProjectId);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			if (statusCode == 200) {
-				file.delete();
-				return true;
-			} else if (statusCode >= 500) {
-				return false;
-			}
-
-			return false;
-
+			ServerCalls.getInstance().uploadProject(projectName, projectDescription, zipFileString, userEmail,
+					language, token);
+			zipFile.delete();
+			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (WebconnectionException e) {
@@ -161,7 +122,8 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 			return;
 		}
 
-		showDialog(serverAnswer);
+		//		showDialog(serverAnswer);
+		showDialog(context.getString(R.string.success_project_upload));
 
 	}
 
@@ -169,40 +131,8 @@ public class ProjectUploadTask extends AsyncTask<Void, Void, Boolean> {
 		if (context == null) {
 			return;
 		}
-		new Builder(context)
-				.setMessage(message)
-				.setPositiveButton("OK", null)
-				.show();
-	}
-
-	private HashMap<String, String> buildPostValues(File zipFile) throws IOException {
-		String md5Checksum = StorageHandler.getInstance().getMD5Checksum(zipFile);
-
-		HashMap<String, String> hm = new HashMap<String, String>();
-		hm.put(Consts.PROJECT_NAME_TAG, projectName);
-		hm.put(Consts.PROJECT_DESCRIPTION_TAG, projectDescription);
-		hm.put(Consts.PROJECT_CHECKSUM_TAG, md5Checksum);
-
-		String deviceIMEI = UtilDeviceInfo.getDeviceIMEI(context);
-		if (deviceIMEI != null) {
-			hm.put(Consts.DEVICE_IMEI, deviceIMEI);
-		}
-
-		String userEmail = UtilDeviceInfo.getUserEmail(context);
-		if (userEmail != null) {
-			hm.put(Consts.USER_EMAIL, userEmail);
-		}
-
-		String language = UtilDeviceInfo.getUserLanguageCode(context);
-		if (language != null) {
-			hm.put(Consts.USER_LANGUAGE, language);
-		}
-
-		return hm;
-	}
-
-	public String getResultString() {
-		return resultString;
+		//TODO: Refactor to use stings.xml
+		new Builder(context).setMessage(message).setPositiveButton("OK", null).show();
 	}
 
 }

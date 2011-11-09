@@ -22,15 +22,15 @@ package at.tugraz.ist.catroid.uitest.content;
 import java.util.ArrayList;
 
 import android.test.ActivityInstrumentationTestCase2;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
-import at.tugraz.ist.catroid.constructionSite.content.ProjectValuesManager;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
-import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
+import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
 
@@ -39,7 +39,6 @@ import com.jayway.android.robotium.solo.Solo;
 public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptActivity> {
 	private Solo solo;
 	private ArrayList<Brick> brickListToCheck;
-	private ProjectValuesManager projectValuesManager = ProjectManager.getInstance().getProjectValuesManager();
 
 	public ScriptDeleteTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -66,65 +65,59 @@ public class ScriptDeleteTest extends ActivityInstrumentationTestCase2<ScriptAct
 		super.tearDown();
 	}
 
-	public void testDeleteScript() throws InterruptedException {
+	public void testDeleteScript() {
 		solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
-		solo.scrollDownList(0);
-		solo.scrollDownList(0);
-		solo.clickOnText(getActivity().getString(R.string.touched_main_adapter));
+		solo.clickOnText(getActivity().getString(R.string.brick_if_touched));
 
-		solo.clickLongOnText(getActivity().getString(R.string.touched_main_adapter));
+		solo.clickLongOnText(getActivity().getString(R.string.brick_if_touched));
 		solo.clickOnText(getActivity().getString(R.string.delete_script_button));
-		Thread.sleep(1000);
+		solo.sleep(1000);
 
-		int numberOfScripts = projectValuesManager.getCurrentSprite().getScriptList().size();
+		int numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
 		assertEquals("Incorrect number of scripts in scriptList", 1, numberOfScripts);
 		assertEquals("Incorrect number of elements in listView", 4, solo.getCurrentListViews().get(0).getChildCount());
 
-		solo.clickLongOnText(getActivity().getString(R.string.started_main_adapter));
+		solo.clickLongOnText(getActivity().getString(R.string.brick_if_started));
 		solo.clickOnText(getActivity().getString(R.string.delete_script_button));
-		Thread.sleep(1000);
+		solo.sleep(1000);
 
-		numberOfScripts = projectValuesManager.getCurrentSprite().getScriptList().size();
+		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
 		assertEquals("Incorrect number of scripts in list", 0, numberOfScripts);
 		assertEquals("Incorrect number of elements in listView", 0, solo.getCurrentListViews().get(0).getChildCount());
 
 		solo.clickOnButton(getActivity().getString(R.string.add_new_brick));
-		solo.scrollUpList(0);
-		solo.scrollUpList(0);
-		solo.clickOnText(getActivity().getString(R.string.hide_main_adapter));
-		Thread.sleep(1000);
+		solo.clickOnText(getActivity().getString(R.string.brick_hide));
+		solo.sleep(5000);
 
-		numberOfScripts = projectValuesManager.getCurrentSprite().getScriptList().size();
+		numberOfScripts = ProjectManager.getInstance().getCurrentSprite().getNumberOfScripts();
 		assertEquals("Incorrect number of scripts in scriptList", 1, numberOfScripts);
 		assertEquals("Incorrect number of elements in listView", 2, solo.getCurrentListViews().get(0).getChildCount());
 	}
 
 	private void createTestProject(String projectName) {
-		double scaleValue = 0.8;
+		double size = 0.8;
 
 		Project project = new Project(null, projectName);
 		Sprite firstSprite = new Sprite("cat");
 
-		Script testScript = new Script("testscript", firstSprite);
+		Script testScript = new StartScript("testscript", firstSprite);
 
 		brickListToCheck = new ArrayList<Brick>();
 		brickListToCheck.add(new HideBrick(firstSprite));
 		brickListToCheck.add(new ShowBrick(firstSprite));
-		brickListToCheck.add(new ScaleCostumeBrick(firstSprite, scaleValue));
+		brickListToCheck.add(new SetSizeToBrick(firstSprite, size));
 
-		// adding Bricks: ----------------
 		for (Brick brick : brickListToCheck) {
 			testScript.addBrick(brick);
 		}
-		// -------------------------------
 
-		firstSprite.getScriptList().add(testScript);
+		firstSprite.addScript(testScript);
 
 		project.addSprite(firstSprite);
 
 		ProjectManager.getInstance().setProject(project);
-		projectValuesManager.setCurrentSprite(firstSprite);
-		projectValuesManager.setCurrentScript(testScript);
+		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+		ProjectManager.getInstance().setCurrentScript(testScript);
 	}
 
 }

@@ -58,10 +58,6 @@ public class ChangeXByBrick implements Brick, OnDismissListener {
 		return this.sprite;
 	}
 
-	public int getXMovement() {
-		return xMovement;
-	}
-
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View brickView = inflater.inflate(R.layout.construction_brick_change_x, null);
@@ -87,7 +83,7 @@ public class ChangeXByBrick implements Brick, OnDismissListener {
 
 	@Override
 	public Brick clone() {
-		return new ChangeXByBrick(getSprite(), getXMovement());
+		return new ChangeXByBrick(getSprite(), xMovement);
 	}
 
 	public void onDismiss(DialogInterface dialog) {

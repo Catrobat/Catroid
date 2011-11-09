@@ -23,15 +23,16 @@ import java.util.ArrayList;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Smoke;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.constructionSite.content.ProjectManager;
-import at.tugraz.ist.catroid.constructionSite.content.ProjectValuesManager;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.SetXBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -40,7 +41,6 @@ public class SetXBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 	private Project project;
 	private SetXBrick setXBrick;
 	private int setX;
-	private ProjectValuesManager projectValuesManager = ProjectManager.getInstance().getProjectValuesManager();
 
 	public SetXBrickTest() {
 		super("at.tugraz.ist.catroid", ScriptActivity.class);
@@ -65,28 +65,28 @@ public class SetXBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 	}
 
 	@Smoke
-	public void testChangeXByBrick() throws Throwable {
+	public void testChangeXByBrick() {
 		int childrenCount = getActivity().getAdapter().getChildCountFromLastGroup();
 		int groupCount = getActivity().getAdapter().getGroupCount();
 
 		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScriptList().get(0).getBrickList();
+		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
-				getActivity().getAdapter().getChild(groupCount - 1,
-						0));
-		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.set_x_main_adapter)));
+				getActivity().getAdapter().getChild(groupCount - 1, 0));
+		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_set_x)));
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, setX + "");
 		solo.clickOnButton(0);
 
-		Thread.sleep(300);
-		assertEquals("Wrong text in field.", setX, setXBrick.getXPosition());
+		solo.sleep(300);
+		int xPosition = (Integer) UiTestUtils.getPrivateField("xPosition", setXBrick);
+		assertEquals("Wrong text in field.", setX, xPosition);
 		assertEquals("Value in Brick is not updated.", setX + "", solo.getEditText(0).getText().toString());
 	}
 
@@ -94,16 +94,16 @@ public class SetXBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		setX = 17;
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
-		Script script = new Script("script", sprite);
+		Script script = new StartScript("script", sprite);
 		setXBrick = new SetXBrick(sprite, 0);
 		script.addBrick(setXBrick);
 
-		sprite.getScriptList().add(script);
+		sprite.addScript(script);
 		project.addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);
-		projectValuesManager.setCurrentSprite(sprite);
-		projectValuesManager.setCurrentScript(script);
+		ProjectManager.getInstance().setCurrentSprite(sprite);
+		ProjectManager.getInstance().setCurrentScript(script);
 	}
 
 }
