@@ -34,10 +34,10 @@ public class Costume implements Serializable {
 	private Sprite sprite;
 	private int drawPositionX;
 	private int drawPositionY;
-	private int actHeight;
-	private int actWidth;
-	private int origHeight;
-	private int origWidth;
+	private int actualHeight;
+	private int actualWidth;
+	private int originalHeight;
+	private int originalWidth;
 
 	@XStreamOmitField
 	private transient Bitmap costumeBitmap;
@@ -55,37 +55,59 @@ public class Costume implements Serializable {
 			return;
 		}
 
-		actHeight = costumeBitmap.getHeight();
-		actWidth = costumeBitmap.getWidth();
+		actualHeight = costumeBitmap.getHeight();
+		actualWidth = costumeBitmap.getWidth();
 
-		origHeight = costumeBitmap.getHeight();
-		origWidth = costumeBitmap.getWidth();
+		originalHeight = costumeBitmap.getHeight();
+		originalWidth = costumeBitmap.getWidth();
+		setSizeTo(sprite.getSize());
+		rotateTo(sprite.getDirection());
 		setDrawPosition();
 	}
 
 	public synchronized void setSizeTo(double size) {
-		if (costumeBitmap == null || imagePath == null) {
+		if (imagePath == null) {
 			return;
 		}
 
 		double scaleFactor = size / 100;
-		int newHeight = (int) (origHeight * scaleFactor);
-		int newWidth = (int) (origWidth * scaleFactor);
+		int newHeight = (int) (originalHeight * scaleFactor);
+		int newWidth = (int) (originalWidth * scaleFactor);
 
 		setPositionToSpriteTopLeft();
 
-		if (newHeight > actHeight || newWidth > actWidth) {
-			//costumeBitmap.recycle();
-			costumeBitmap = ImageEditing.getBitmap(imagePath, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
+		costumeBitmap = ImageEditing.getBitmap(imagePath, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
+
+		if (costumeBitmap == null) {
+			return;
 		}
 
-		costumeBitmap = ImageEditing.scaleBitmap(costumeBitmap, newWidth, newHeight, true);
-		actWidth = newWidth;
-		actHeight = newHeight;
+		costumeBitmap = ImageEditing.scaleBitmap(costumeBitmap, newWidth, newHeight);
+		costumeBitmap = ImageEditing.rotateBitmap(costumeBitmap, (float) -(90 - sprite.getDirection()));
+
+		actualWidth = newWidth;
+		actualHeight = newHeight;
 
 		setPositionToSpriteCenter();
 
 		return;
+	}
+
+	public synchronized void rotateTo(double degrees) {
+		if (imagePath == null) {
+			return;
+		}
+
+		costumeBitmap = ImageEditing.getBitmap(imagePath, Values.SCREEN_WIDTH, Values.SCREEN_HEIGHT);
+
+		if (costumeBitmap == null) {
+			return;
+		}
+
+		costumeBitmap = ImageEditing.scaleBitmap(costumeBitmap, actualWidth, actualHeight);
+		costumeBitmap = ImageEditing.rotateBitmap(costumeBitmap, (float) -(90 - degrees));
+
+		setDrawPosition();
 	}
 
 	public String getImagePath() {
@@ -115,7 +137,15 @@ public class Costume implements Serializable {
 	}
 
 	public Pair<Integer, Integer> getImageWidthHeight() {
-		return new Pair<Integer, Integer>(actWidth, actHeight);
+		return new Pair<Integer, Integer>(actualWidth, actualHeight);
+	}
+
+	public double getRelativeBoundingBoxWidth() {
+		return 2. * Consts.MAX_REL_COORDINATES / Values.SCREEN_WIDTH * costumeBitmap.getWidth();
+	}
+
+	public double getRelativeBoundingBoxHeight() {
+		return 2. * Consts.MAX_REL_COORDINATES / Values.SCREEN_HEIGHT * costumeBitmap.getHeight();
 	}
 
 	private synchronized void setPositionToSpriteCenter() {

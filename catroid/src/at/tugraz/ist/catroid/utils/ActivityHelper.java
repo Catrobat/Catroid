@@ -55,35 +55,35 @@ public class ActivityHelper {
 		}
 		LinearLayout.LayoutParams springLayoutParams = new LinearLayout.LayoutParams(0,
 				ViewGroup.LayoutParams.FILL_PARENT);
-		ImageButton imgButton = new ImageButton(activity);
+		ImageButton imageButton = new ImageButton(activity);
 		if (isMainMenu) {
-			imgButton.setId(R.id.btn_home);
-			imgButton.setImageResource(R.drawable.catroid_logo);
+			imageButton.setId(R.id.btn_home);
+			imageButton.setImageResource(R.drawable.catroid_logo);
 			int buttonWidth = ViewGroup.LayoutParams.WRAP_CONTENT;
 			int buttonHeight = (int) activity.getResources().getDimension(R.dimen.actionbar_height);
-			imgButton.setLayoutParams(new ViewGroup.LayoutParams(buttonWidth, buttonHeight));
+			imageButton.setLayoutParams(new ViewGroup.LayoutParams(buttonWidth, buttonHeight));
 
-			imgButton.setBackgroundResource(0);
-			imgButton.setScaleType(ImageView.ScaleType.CENTER);
-			imgButton.setClickable(false);
-			actionBar.addView(imgButton);
+			imageButton.setBackgroundResource(0);
+			imageButton.setScaleType(ImageView.ScaleType.CENTER);
+			imageButton.setClickable(false);
+			actionBar.addView(imageButton);
 		} else {
-			imgButton.setId(R.id.btn_action_home);
-			imgButton.setImageResource(R.drawable.ic_home_black);
-			imgButton.setBackgroundResource(R.drawable.btn_actionbar_selector);
+			imageButton.setId(R.id.btn_action_home);
+			imageButton.setImageResource(R.drawable.ic_home_black);
+			imageButton.setBackgroundResource(R.drawable.btn_actionbar_selector);
 
 			//2 times actionbar_height, cause we want the button to be square
 			int buttonWidth = (int) activity.getResources().getDimension(R.dimen.actionbar_height);
 			int buttonHeight = (int) activity.getResources().getDimension(R.dimen.actionbar_height);
-			imgButton.setLayoutParams(new ViewGroup.LayoutParams(buttonWidth, buttonHeight));
-			imgButton.setScaleType(ImageView.ScaleType.CENTER);
-			imgButton.setOnClickListener(new View.OnClickListener() {
+			imageButton.setLayoutParams(new ViewGroup.LayoutParams(buttonWidth, buttonHeight));
+			imageButton.setScaleType(ImageView.ScaleType.CENTER);
+			imageButton.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View view) {
 					goToMainMenu();
 				}
 			});
 
-			actionBar.addView(imgButton);
+			actionBar.addView(imageButton);
 
 			ImageView separator = new ImageView(activity);
 			separator.setBackgroundResource(R.drawable.actionbar_separator);
@@ -115,7 +115,7 @@ public class ActivityHelper {
 		actionBar.addView(spring);
 	}
 
-	public boolean addActionButton(int buttonId, int imgResId, View.OnClickListener clickListener,
+	public boolean addActionButton(int buttonId, int imageResourceId, View.OnClickListener clickListener,
 			boolean separatorAfter) {
 		final ViewGroup actionBar = getActionBar();
 
@@ -127,26 +127,26 @@ public class ActivityHelper {
 		separator.setLayoutParams(new ViewGroup.LayoutParams(2, ViewGroup.LayoutParams.FILL_PARENT));
 		separator.setBackgroundResource(R.drawable.actionbar_separator);
 
-		ImageButton imgButton = new ImageButton(activity);
-		imgButton.setId(buttonId);
-		imgButton.setImageResource(imgResId);
+		ImageButton imageButton = new ImageButton(activity);
+		imageButton.setId(buttonId);
+		imageButton.setImageResource(imageResourceId);
 
 		//2 times actionbar_height, cause we want the button to be square
 		int buttonWidth = (int) activity.getResources().getDimension(R.dimen.actionbar_height);
 		int buttonHeight = (int) activity.getResources().getDimension(R.dimen.actionbar_height);
-		imgButton.setLayoutParams(new ViewGroup.LayoutParams(buttonWidth, buttonHeight));
+		imageButton.setLayoutParams(new ViewGroup.LayoutParams(buttonWidth, buttonHeight));
 
-		imgButton.setBackgroundResource(R.drawable.btn_actionbar_selector);
-		imgButton.setScaleType(ImageView.ScaleType.CENTER);
+		imageButton.setBackgroundResource(R.drawable.btn_actionbar_selector);
+		imageButton.setScaleType(ImageView.ScaleType.CENTER);
 		if (clickListener != null) {
-			imgButton.setOnClickListener(clickListener);
+			imageButton.setOnClickListener(clickListener);
 		}
 
 		if (!separatorAfter) {
 			actionBar.addView(separator);
 		}
 
-		actionBar.addView(imgButton);
+		actionBar.addView(imageButton);
 
 		if (separatorAfter) {
 			actionBar.addView(separator);

@@ -31,15 +31,14 @@ public class FileChecksumContainer implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public class FileInfo {
-		private int usage;
+	private class FileInfo {
+		private int usageCounter;
 		private String path;
 	}
 
 	private Map<String, FileInfo> checksumFileInfoMap = new HashMap<String, FileInfo>(); //checksum / FileInfo
 
 	/**
-	 * 
 	 * @param checksum
 	 * @param path
 	 * @return true if a new File is added and false if the file already exists
@@ -47,11 +46,11 @@ public class FileChecksumContainer implements Serializable {
 	public boolean addChecksum(String checksum, String path) {
 		if (checksumFileInfoMap.containsKey(checksum)) {
 			FileInfo fileInfo = checksumFileInfoMap.get(checksum);
-			++fileInfo.usage;
+			++fileInfo.usageCounter;
 			return false;
 		} else {
 			FileInfo fileInfo = new FileInfo();
-			fileInfo.usage = 1;
+			fileInfo.usageCounter = 1;
 			fileInfo.path = path;
 			checksumFileInfoMap.put(checksum, fileInfo);
 			return true;
@@ -64,11 +63,6 @@ public class FileChecksumContainer implements Serializable {
 
 	public String getPath(String checksum) {
 		return checksumFileInfoMap.get(checksum).path;
-		//		FileInfo info = checksumFileInfoMap.get(checksum);
-		//		if (info != null) {
-		//			return info.path;
-		//		}
-		//		return null;
 	}
 
 	/**
@@ -89,12 +83,11 @@ public class FileChecksumContainer implements Serializable {
 			throw new FileNotFoundException();
 		}
 		FileInfo fileInfo = checksumFileInfoMap.get(checksum);
-		fileInfo.usage--;
-		if (fileInfo.usage < 1) {
+		fileInfo.usageCounter--;
+		if (fileInfo.usageCounter < 1) {
 			checksumFileInfoMap.remove(checksum);
 			return true;
 		}
 		return false;
 	}
-
 }

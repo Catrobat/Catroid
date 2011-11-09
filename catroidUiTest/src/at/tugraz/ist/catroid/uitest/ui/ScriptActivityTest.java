@@ -32,7 +32,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
-import at.tugraz.ist.catroid.uitest.util.Utils;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -47,8 +47,8 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		Utils.createTestProject();
-		brickListToCheck = Utils.createTestProject();
+		// UiTestUtils.createTestProject();
+		brickListToCheck = UiTestUtils.createTestProject();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
@@ -60,7 +60,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 			e.printStackTrace();
 		}
 		getActivity().finish();
-		Utils.clearAllUtilTestProjects();
+		UiTestUtils.clearAllUtilTestProjects();
 		super.tearDown();
 	}
 
@@ -70,6 +70,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptA
 			ImageButton btn = btnList.get(i);
 			if (btn.getId() == R.id.btn_action_home) {
 				solo.clickOnImageButton(i);
+				break;
 			}
 		}
 		assertTrue("Clicking on main menu button did not cause main menu to be displayed",

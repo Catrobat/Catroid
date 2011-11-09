@@ -48,10 +48,6 @@ public class SetSizeToBrick implements Brick, OnDismissListener {
 		return this.sprite;
 	}
 
-	public double getSize() {
-		return size;
-	}
-
 	public View getView(Context context, int brickId, BaseExpandableListAdapter adapter) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.construction_brick_set_size_to, null);
@@ -76,7 +72,7 @@ public class SetSizeToBrick implements Brick, OnDismissListener {
 
 	@Override
 	public Brick clone() {
-		return new SetSizeToBrick(getSprite(), getSize());
+		return new SetSizeToBrick(getSprite(), size);
 	}
 
 	public void onDismiss(DialogInterface dialog) {

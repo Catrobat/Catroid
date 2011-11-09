@@ -32,6 +32,7 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -71,7 +72,7 @@ public class ChangeXByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScriptList().get(0).getBrickList();
+		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
@@ -84,7 +85,8 @@ public class ChangeXByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		solo.clickOnButton(0);
 
 		solo.sleep(300);
-		assertEquals("Wrong text in field.", xToChange, changeXByBrick.getXMovement());
+		int xMovementValue = (Integer) UiTestUtils.getPrivateField("xMovement", changeXByBrick);
+		assertEquals("Wrong text in field.", xToChange, xMovementValue);
 		assertEquals("Value in Brick is not updated.", xToChange + "", solo.getEditText(0).getText().toString());
 	}
 
@@ -96,7 +98,7 @@ public class ChangeXByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		changeXByBrick = new ChangeXByBrick(sprite, 0);
 		script.addBrick(changeXByBrick);
 
-		sprite.getScriptList().add(script);
+		sprite.addScript(script);
 		project.addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);

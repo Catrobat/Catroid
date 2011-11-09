@@ -70,7 +70,8 @@ public class SpriteAdapter extends ArrayAdapter<Sprite> {
 		//this will change after the refactoring of the scriptactivity
 		Sprite sprite = getItem(position);
 		String imagepath = null;
-		for (Script script : sprite.getScriptList()) {
+		for (int i = 0; i < sprite.getNumberOfScripts(); i++) {
+			Script script = sprite.getScript(i);
 			for (Brick brick : script.getBrickList()) {
 				if (brick instanceof SetCostumeBrick) {
 					imagepath = ((SetCostumeBrick) brick).getImagePath();

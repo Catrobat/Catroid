@@ -46,9 +46,9 @@ public class BrickListAnimation {
 
 	public void doExpandAnimation(View currentListView, int childPosition) {
 		AnimationSet animationSet = new AnimationSet(true);
-		Animation currentAnimation = new TranslateAnimation(
-				Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
-				Animation.ABSOLUTE, -80 * (childPosition + 1), Animation.RELATIVE_TO_SELF, 0.0f);
+		Animation currentAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
+				Animation.RELATIVE_TO_SELF, 0.0f, Animation.ABSOLUTE, -80 * (childPosition + 1),
+				Animation.RELATIVE_TO_SELF, 0.0f);
 
 		currentAnimation.setAnimationListener(new AnimationListener() {
 			public void onAnimationStart(Animation animation) {
@@ -75,23 +75,21 @@ public class BrickListAnimation {
 	}
 
 	private void doUpAnimation(int groupCount, int groupPosition) {
-		Animation up_animation = new TranslateAnimation(
-				Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
-				Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, -(float) (groupCount - groupPosition - 1)
-				);
-		up_animation.setDuration(Consts.ANIMATION_DURATION_BRICK_SWITCHING);
-		up_animation.setFillAfter(true);
-		getChildFromAbsolutePosition(groupCount - 1).startAnimation(up_animation);
+		Animation upAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
+				0.0f, Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, -(float) (groupCount
+						- groupPosition - 1));
+		upAnimation.setDuration(Consts.ANIMATION_DURATION_BRICK_SWITCHING);
+		upAnimation.setFillAfter(true);
+		getChildFromAbsolutePosition(groupCount - 1).startAnimation(upAnimation);
 	}
 
 	private void doDownAnimation(int groupCount, final int groupPosition) {
-		Animation down_animation = new TranslateAnimation(
-				Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
-				Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, (groupCount - groupPosition - 1));
-		down_animation.setDuration(Consts.ANIMATION_DURATION_BRICK_SWITCHING);
-		down_animation.setFillAfter(true);
+		Animation downAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
+				0.0f, Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, (groupCount - groupPosition - 1));
+		downAnimation.setDuration(Consts.ANIMATION_DURATION_BRICK_SWITCHING);
+		downAnimation.setFillAfter(true);
 
-		down_animation.setAnimationListener(new AnimationListener() {
+		downAnimation.setAnimationListener(new AnimationListener() {
 			public void onAnimationStart(Animation animation) {
 			}
 
@@ -103,7 +101,7 @@ public class BrickListAnimation {
 				adapter.doReordering(listView, groupPosition);
 			}
 		});
-		getChildFromAbsolutePosition(groupPosition).startAnimation(down_animation);
+		getChildFromAbsolutePosition(groupPosition).startAnimation(downAnimation);
 	}
 
 	private void doCollapseAnimation(int groupCount) {

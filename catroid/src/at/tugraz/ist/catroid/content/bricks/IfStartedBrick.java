@@ -33,12 +33,10 @@ public class IfStartedBrick implements Brick {
 
 	public IfStartedBrick(Sprite sprite, Script script) {
 		this.script = script;
-		// this.script.setTouchScript(false);
 		this.sprite = sprite;
 	}
 
 	public void execute() {
-		// touchScript.setTouchScript(true);
 	}
 
 	public Sprite getSprite() {
