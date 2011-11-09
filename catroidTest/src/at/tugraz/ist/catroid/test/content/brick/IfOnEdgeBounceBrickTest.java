@@ -29,6 +29,7 @@ import android.graphics.BitmapFactory;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -50,6 +51,7 @@ public class IfOnEdgeBounceBrickTest extends InstrumentationTestCase {
 
 	private final String projectName = "testProject";
 	private File testImage;
+	private CostumeData costumeData;
 	private int width;
 	private int height;
 
@@ -80,6 +82,11 @@ public class IfOnEdgeBounceBrickTest extends InstrumentationTestCase {
 
 		testImage = TestUtils.saveFileToProject(this.projectName, "testImage.png", IMAGE_FILE_ID, getInstrumentation()
 				.getContext(), TestUtils.TYPE_IMAGE_FILE);
+
+		costumeData = new CostumeData();
+		costumeData.setCostumeFilename(testImage.getName());
+		costumeData.setCostumeName("CostumeName");
+
 		Bitmap bitmap = BitmapFactory.decodeFile(testImage.getAbsolutePath());
 		width = bitmap.getWidth();
 		height = bitmap.getHeight();
@@ -100,7 +107,7 @@ public class IfOnEdgeBounceBrickTest extends InstrumentationTestCase {
 	public void testNoBounce() {
 
 		Sprite sprite = new Sprite("testSprite");
-		sprite.costume.setImagePath(testImage.getAbsolutePath());
+		sprite.costume.setCostumeData(costumeData);
 		sprite.costume.width = width;
 		sprite.costume.height = height;
 		sprite.costume.setXPosition(0);
@@ -118,7 +125,7 @@ public class IfOnEdgeBounceBrickTest extends InstrumentationTestCase {
 	public void testBounceNorth() {
 
 		Sprite sprite = new Sprite("testSprite");
-		sprite.costume.setImagePath(testImage.getAbsolutePath());
+		sprite.costume.setCostumeData(costumeData);
 		sprite.costume.width = width;
 		sprite.costume.height = height;
 
@@ -163,7 +170,7 @@ public class IfOnEdgeBounceBrickTest extends InstrumentationTestCase {
 	public void testBounceSouth() {
 
 		Sprite sprite = new Sprite("testSprite");
-		sprite.costume.setImagePath(testImage.getAbsolutePath());
+		sprite.costume.setCostumeData(costumeData);
 		sprite.costume.width = width;
 		sprite.costume.height = height;
 
@@ -209,7 +216,7 @@ public class IfOnEdgeBounceBrickTest extends InstrumentationTestCase {
 	public void testBounceEast() {
 
 		Sprite sprite = new Sprite("testSprite");
-		sprite.costume.setImagePath(testImage.getAbsolutePath());
+		sprite.costume.setCostumeData(costumeData);
 		sprite.costume.width = width;
 		sprite.costume.height = height;
 
@@ -255,7 +262,7 @@ public class IfOnEdgeBounceBrickTest extends InstrumentationTestCase {
 	public void testBounceWest() {
 
 		Sprite sprite = new Sprite("testSprite");
-		sprite.costume.setImagePath(testImage.getAbsolutePath());
+		sprite.costume.setCostumeData(costumeData);
 		sprite.costume.width = width;
 		sprite.costume.height = height;
 
