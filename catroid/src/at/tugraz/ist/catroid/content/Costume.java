@@ -268,7 +268,7 @@ public class Costume extends Image {
 		imageLock.release();
 	}
 
-	public void setImagePathInternal(CostumeData costumeData) {
+	public void setCostumeDataInternal(CostumeData costumeData) {
 		imageLock.acquireUninterruptibly();
 		internalPath = true;
 		this.costumeData = costumeData;
@@ -278,7 +278,14 @@ public class Costume extends Image {
 
 	public String getImagePath() {
 		imageLock.acquireUninterruptibly();
-		String path = this.costumeData.getAbsolutePath();
+		String path;
+		if (this.costumeData == null) {
+			path = "";
+		} else if (internalPath) {
+			path = this.costumeData.getInternalPath();
+		} else {
+			path = this.costumeData.getAbsolutePath();
+		}
 		imageLock.release();
 		return path;
 	}

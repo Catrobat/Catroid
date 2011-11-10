@@ -58,7 +58,7 @@ public class SetCostumeBrick implements Brick {
 			if (!NativeAppActivity.isRunning()) {
 				sprite.costume.setCostumeData(costumeData);
 			} else {
-				sprite.costume.setImagePathInternal(costumeData);
+				sprite.costume.setCostumeDataInternal(costumeData);
 			}
 		}
 	}

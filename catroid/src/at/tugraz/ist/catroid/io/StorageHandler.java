@@ -148,7 +148,7 @@ public class StorageHandler {
 						Consts.NO_MEDIA_FILE));
 				noMediaFile.createNewFile();
 
-				File soundDirectory = new File(projectDirectoryName + Consts.SOUND_DIRECTORY);
+				File soundDirectory = new File(projectDirectoryName + "/" + Consts.SOUND_DIRECTORY);
 				soundDirectory.mkdir();
 
 				noMediaFile = new File(Utils.buildPath(projectDirectoryName, Consts.SOUND_DIRECTORY,
