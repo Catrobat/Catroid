@@ -68,10 +68,10 @@ public class TestUtils {
 		} else {
 			switch (type) {
 				case TYPE_IMAGE_FILE:
-					filePath = Consts.DEFAULT_ROOT + "/" + project + Consts.IMAGE_DIRECTORY + "/" + name;
+					filePath = Consts.DEFAULT_ROOT + "/" + project + "/" + Consts.IMAGE_DIRECTORY + "/" + name;
 					break;
 				case TYPE_SOUND_FILE:
-					filePath = Consts.DEFAULT_ROOT + "/" + project + Consts.SOUND_DIRECTORY + "/" + name;
+					filePath = Consts.DEFAULT_ROOT + "/" + project + "/" + Consts.SOUND_DIRECTORY + "/" + name;
 					break;
 				default:
 					filePath = Consts.DEFAULT_ROOT + "/" + name;
