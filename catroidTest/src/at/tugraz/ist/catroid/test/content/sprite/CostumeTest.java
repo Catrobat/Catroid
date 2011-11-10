@@ -57,6 +57,7 @@ public class CostumeTest extends InstrumentationTestCase {
 		assertEquals("Wrong initialization!", 0, costume.zPosition);
 		assertEquals("Wrong initialization!", true, costume.show);
 		assertEquals("Wrong initialization!", true, costume.touchable);
+		assertEquals("Wrong initialization!", "", costume.getImagePath());
 
 	}
 
@@ -85,7 +86,7 @@ public class CostumeTest extends InstrumentationTestCase {
 		CostumeData costumeData = new CostumeData();
 		costumeData.setCostumeFilename(fileName);
 		costume.setCostumeData(costumeData);
-		assertEquals("Wrong image path!", Consts.DEFAULT_ROOT + "/" + projectName + Consts.IMAGE_DIRECTORY + "/"
+		assertEquals("Wrong image path!", Consts.DEFAULT_ROOT + "/" + projectName + "/" + Consts.IMAGE_DIRECTORY + "/"
 				+ fileName, costume.getImagePath());
 	}
 
