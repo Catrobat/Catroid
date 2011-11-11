@@ -24,6 +24,7 @@ package at.tugraz.ist.catroid.content;
 
 import java.util.concurrent.Semaphore;
 
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.utils.Utils;
 
 import com.badlogic.gdx.Gdx;
@@ -42,7 +43,7 @@ public class Costume extends Image {
 	protected Semaphore brightnessLock = new Semaphore(1);
 	protected Semaphore disposeTexturesLock = new Semaphore(1);
 	protected boolean imageChanged = false;
-	protected String imagePath;
+	protected CostumeData costumeData;
 	protected Pixmap currentAlphaPixmap;
 	protected Sprite sprite;
 	protected float alphaValue;
@@ -67,7 +68,6 @@ public class Costume extends Image {
 		this.height = 0f;
 		this.touchable = true;
 		this.show = true;
-		this.imagePath = "";
 		this.currentAlphaPixmap = null;
 		this.zPosition = 0;
 		this.internalPath = false;
@@ -118,7 +118,7 @@ public class Costume extends Image {
 		if (imageChanged) {
 			this.disposeTextures();
 			currentAlphaPixmap = null;
-			if (imagePath.equals("")) {
+			if (costumeData == null) {
 				xYWidthHeightLock.acquireUninterruptibly();
 				this.x += this.width / 2f;
 				this.y += this.height / 2f;
@@ -133,9 +133,9 @@ public class Costume extends Image {
 
 			Pixmap pixmap;
 			if (internalPath) {
-				pixmap = new Pixmap(Gdx.files.internal(imagePath));
+				pixmap = new Pixmap(Gdx.files.internal(costumeData.getAbsolutePath()));
 			} else {
-				pixmap = new Pixmap(Gdx.files.absolute(imagePath));
+				pixmap = new Pixmap(Gdx.files.absolute(costumeData.getAbsolutePath()));
 			}
 
 			xYWidthHeightLock.acquireUninterruptibly();
@@ -261,30 +261,31 @@ public class Costume extends Image {
 		xYWidthHeightLock.release();
 	}
 
-	public void setImagePath(String path) {
-		if (path == null) {
-			path = "";
-		}
+	public void setCostumeData(CostumeData costumeData) {
 		imageLock.acquireUninterruptibly();
-		imagePath = path;
+		this.costumeData = costumeData;
 		imageChanged = true;
 		imageLock.release();
 	}
 
-	public void setImagePathInternal(String path) {
-		if (path == null) {
-			path = "";
-		}
+	public void setCostumeDataInternal(CostumeData costumeData) {
 		imageLock.acquireUninterruptibly();
 		internalPath = true;
-		imagePath = path;
+		this.costumeData = costumeData;
 		imageChanged = true;
 		imageLock.release();
 	}
 
 	public String getImagePath() {
 		imageLock.acquireUninterruptibly();
-		String path = this.imagePath;
+		String path;
+		if (this.costumeData == null) {
+			path = "";
+		} else if (internalPath) {
+			path = this.costumeData.getInternalPath();
+		} else {
+			path = this.costumeData.getAbsolutePath();
+		}
 		imageLock.release();
 		return path;
 	}
@@ -365,4 +366,7 @@ public class Costume extends Image {
 		return brightness;
 	}
 
+	public CostumeData getCostumeData() {
+		return costumeData;
+	}
 }

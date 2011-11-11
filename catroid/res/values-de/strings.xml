@@ -194,6 +194,7 @@
 	<string name="brick_clear_graphic_effect">Schalte Grafikeffekte aus</string>
 	<string name="brick_say">Sage</string>
 	<string name="brick_think">Denke</string>
+	<string name="brick_next_costume">Nächstes Kostüm</string>
 	
 	
 	<!-- Sound bricks -->
