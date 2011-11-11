@@ -139,7 +139,7 @@ public class RepeatBrickTest extends InstrumentationTestCase {
 		testSprite.removeAllScripts();
 		testScript = new StartScript("foo", testSprite);
 
-		repeatBrick = new RepeatBrick(testSprite, -1);
+		repeatBrick = new RepeatBrick(testSprite, 0);
 		loopEndBrick = new LoopEndBrick(testSprite, repeatBrick);
 		repeatBrick.setLoopEndBrick(loopEndBrick);
 
