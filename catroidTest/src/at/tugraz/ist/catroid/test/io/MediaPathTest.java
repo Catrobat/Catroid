@@ -156,7 +156,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 				Utils.md5Checksum(testSoundCopy));
 
 		//check if copy doesn't save more instances of the same file:
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName + Consts.IMAGE_DIRECTORY);
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName + "/" + Consts.IMAGE_DIRECTORY);
 		File[] filesImage = directory.listFiles();
 
 		//nomedia file is also in images folder
@@ -169,7 +169,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 		bigBlue3 = storage.copyImage(projectName, bigBlue.getAbsolutePath(), null);
 		fillProjectWithAllBricksAndMediaFiles();
 
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName + Consts.IMAGE_DIRECTORY);
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName + "/" + Consts.IMAGE_DIRECTORY);
 		File[] filesImage = directory.listFiles();
 
 		//nomedia file is also in images folder
@@ -188,7 +188,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 		assertFalse("checksum in project although file should not exist",
 				container.containsChecksum(Utils.md5Checksum(testImageCopy2)));
 
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName + Consts.IMAGE_DIRECTORY);
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName + "/" + Consts.IMAGE_DIRECTORY);
 		File[] filesImage = directory.listFiles();
 
 		//nomedia file is also in images folder

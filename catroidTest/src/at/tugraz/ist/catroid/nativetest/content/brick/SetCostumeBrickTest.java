@@ -23,7 +23,9 @@
 package at.tugraz.ist.catroid.nativetest.content.brick;
 
 import android.test.InstrumentationTestCase;
+import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.stage.NativeAppActivity;
@@ -38,6 +40,10 @@ public class SetCostumeBrickTest extends InstrumentationTestCase {
 
 	public void testSetCostume() throws Exception {
 		NativeAppActivity.setContext(getInstrumentation().getContext());
+
+		String projectName = "myProject";
+		Project project = new Project(null, projectName);
+		ProjectManager.getInstance().setProject(project);
 
 		Sprite sprite = new Sprite("new sprite");
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(sprite);
