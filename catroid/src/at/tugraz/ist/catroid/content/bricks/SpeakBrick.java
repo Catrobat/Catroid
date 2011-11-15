@@ -22,10 +22,13 @@
  */
 package at.tugraz.ist.catroid.content.bricks;
 
+import java.util.HashMap;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
+import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -40,6 +43,7 @@ public class SpeakBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	public static final int REQUIRED_RESSOURCES = TEXT_TO_SPEECH;
 
+	private static HashMap<String, SpeakBrick> activeSpeakBricks = new HashMap<String, SpeakBrick>();
 	private Sprite sprite;
 	private String text = "";
 
@@ -55,25 +59,35 @@ public class SpeakBrick implements Brick {
 	}
 
 	public synchronized void execute() {
-		OnUtteranceCompletedListener onSpeakFinishedListener = new OnUtteranceCompletedListener() {
+
+		OnUtteranceCompletedListener listener = new OnUtteranceCompletedListener() {
 			public void onUtteranceCompleted(String utteranceId) {
-				System.out.println("completed: " + utteranceId);
-				if (!utteranceId.equals(SpeakBrick.this.toString())) {
+				SpeakBrick speakBrick = activeSpeakBricks.get(utteranceId);
+				if (speakBrick == null) {
+					System.out.println("NOT FOUND");
 					return;
 				}
 				System.out.println("compleped with id ok: " + utteranceId);
-				synchronized (SpeakBrick.this) {
-					SpeakBrick.this.notifyAll();
+				synchronized (speakBrick) {
+					speakBrick.notifyAll();
 				}
 			}
 		};
-		PreStageActivity.textToSpeech(getText(), onSpeakFinishedListener, this);
+
+		String utteranceId = this.hashCode() + "";
+		activeSpeakBricks.put(utteranceId, this);
+
+		HashMap<String, String> speakParameter = new HashMap<String, String>();
+		speakParameter.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, utteranceId);
+
+		PreStageActivity.textToSpeech(getText(), listener, speakParameter);
 		try {
 			System.out.println("await");
 			this.wait();
 		} catch (InterruptedException e) {
 			// nothing to do
 		}
+		activeSpeakBricks.remove(utteranceId);
 	}
 
 	public Sprite getSprite() {

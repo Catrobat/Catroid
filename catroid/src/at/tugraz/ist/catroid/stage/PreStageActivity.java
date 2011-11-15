@@ -45,7 +45,6 @@ import at.tugraz.ist.catroid.bluetooth.BluetoothManager;
 import at.tugraz.ist.catroid.bluetooth.DeviceListActivity;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.content.bricks.SpeakBrick;
 
 public class PreStageActivity extends Activity {
 
@@ -245,10 +244,10 @@ public class PreStageActivity extends Activity {
 		Toast.makeText(this.getApplicationContext(), text, Toast.LENGTH_SHORT).show();
 	}
 
-	public static void textToSpeech(String text, OnUtteranceCompletedListener listener, SpeakBrick speakBrick) {
+	public static void textToSpeech(String text, OnUtteranceCompletedListener listener,
+			HashMap<String, String> speakParameter) {
+
 		textToSpeech.setOnUtteranceCompletedListener(listener);
-		HashMap<String, String> speakParameter = new HashMap<String, String>();
-		speakParameter.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, speakBrick.toString());
 		textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, speakParameter);
 	}
 
