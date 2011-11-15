@@ -23,12 +23,17 @@
 package at.tugraz.ist.catroid.test.content.sprite;
 
 import android.test.InstrumentationTestCase;
+import at.tugraz.ist.catroid.ProjectManager;
+import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.content.Costume;
+import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 
 public class CostumeTest extends InstrumentationTestCase {
 	private Costume costume;
 	private Sprite sprite;
+	private Project project;
 
 	@Override
 	protected void setUp() {
@@ -53,6 +58,7 @@ public class CostumeTest extends InstrumentationTestCase {
 		assertEquals("Wrong initialization!", true, costume.show);
 		assertEquals("Wrong initialization!", true, costume.touchable);
 		assertEquals("Wrong initialization!", "", costume.getImagePath());
+
 	}
 
 	public void testXYPositions() {
@@ -72,8 +78,16 @@ public class CostumeTest extends InstrumentationTestCase {
 	}
 
 	public void testImagePath() {
-		costume.setImagePath("blubb");
-		assertEquals("Wrong image path!", "blubb", costume.getImagePath());
+		String projectName = "myProject";
+		String fileName = "blubb";
+		project = new Project(null, projectName);
+		ProjectManager.getInstance().setProject(project);
+
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(fileName);
+		costume.setCostumeData(costumeData);
+		assertEquals("Wrong image path!", Consts.DEFAULT_ROOT + "/" + projectName + "/" + Consts.IMAGE_DIRECTORY + "/"
+				+ fileName, costume.getImagePath());
 	}
 
 	public void testSize() {

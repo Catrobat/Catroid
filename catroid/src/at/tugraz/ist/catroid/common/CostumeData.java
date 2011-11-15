@@ -46,6 +46,14 @@ public class CostumeData {
 		}
 	}
 
+	public String getInternalPath() {
+		if (costumeFileName != null) {
+			return Consts.IMAGE_DIRECTORY + "/" + costumeFileName;
+		} else {
+			return null;
+		}
+	}
+
 	public String getCostumeName() {
 		return costumeName;
 	}

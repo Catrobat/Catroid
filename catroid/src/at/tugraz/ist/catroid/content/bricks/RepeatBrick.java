@@ -33,6 +33,7 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -56,6 +57,11 @@ public class RepeatBrick extends LoopBeginBrick implements OnClickListener {
 
 	@Override
 	public void execute() {
+		if (timesToRepeat <= 0) {
+			Script script = loopEndBrick.getScript();
+			script.setExecutingBrickIndex(script.getBrickList().indexOf(loopEndBrick));
+			return;
+		}
 		loopEndBrick.setTimesToRepeat(timesToRepeat);
 		super.setFirstStartTime();
 	}
