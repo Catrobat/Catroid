@@ -20,56 +20,64 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package at.ist.tugraz.catroid.test.code;
+package at.tugraz.ist.catroid.test.code;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 import junit.framework.TestCase;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
-public class CheckForAssertionsTest extends TestCase {
-	private StringBuffer errorMessages;
-	private boolean assertionNotFound;
-	private static final String[] DIRECTORIES = { "../catroidUiTest", "../catroidTest" };
-	private static final String[] IGNORED_FILES = { "MockGalleryActivity.java", "UiTestUtils.java", "TestUtils.java",
-			"MockPaintroidActivity.java" };
+public class GetXListTest extends TestCase {
+	private static final String[] DIRECTORIES = { "../catroid", "../catroidTest", "../catroidUiTest" };
+	private static final String REGEX_PATTERN = "^.*get(Sprite|Script|Brick)List\\(\\)\\.add\\(.*$";
 
-	private void checkFileForAssertions(File file) throws IOException {
+	private StringBuffer errorMessages;
+	private boolean errorFound;
+
+	private void checkFile(File file) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(file));
 
+		int lineCount = 1;
 		String line = null;
 
 		while ((line = reader.readLine()) != null) {
-			if (line.matches("[^(//)]*assert[A-Za-z]+\\(.*")) {
-				return;
+			if (line.matches(REGEX_PATTERN)) {
+				errorFound = true;
+				errorMessages
+						.append("File " + file.getName() + ":" + lineCount + " contains 'getScriptList().add()'\n");
 			}
+			++lineCount;
 		}
-		errorMessages.append(file.getName() + " does not seem to contain assertions\n");
-		assertionNotFound = true;
 	}
 
-	public void testForAssertions() throws IOException {
+	public void testGetXListAddNotPresent() throws IOException {
+		assertTrue("Pattern didn't match!", "getBrickList().add(new HideBrick(sprite))".matches(REGEX_PATTERN));
+		assertTrue("Pattern didn't match!", "getScriptList().add(virtualVariable)".matches(REGEX_PATTERN));
+		assertTrue("Pattern didn't match!", "getSpriteList().add(VIRTUAL_08_VARIABLE)".matches(REGEX_PATTERN));
+		assertTrue("Pattern didn't match!", "getBrickList().add(virtual_VAR14BLE_)".matches(REGEX_PATTERN));
+		assertTrue("Pattern didn't match!", "getScriptList().add(_)".matches(REGEX_PATTERN));
+		assertTrue("Pattern didn't match!", "foo(); getScriptList().add(42); bar();".matches(REGEX_PATTERN));
+		assertFalse("Pattern matched! But shouldn't!", "getScriptList()add(MyVar)".matches(REGEX_PATTERN));
+		assertFalse("Pattern matched! But shouldn't!", "getBrickList.add(MyVar)".matches(REGEX_PATTERN));
+
 		errorMessages = new StringBuffer();
-		assertionNotFound = false;
+		errorFound = false;
 
 		for (String directoryName : DIRECTORIES) {
 			File directory = new File(directoryName);
 			assertTrue("Couldn't find directory: " + directoryName, directory.exists() && directory.isDirectory());
 			assertTrue("Couldn't read directory: " + directoryName, directory.canRead());
 
-			List<File> filesToCheck = UtilFile.getFilesFromDirectoryByExtension(directory, new String[] { ".java", });
+			List<File> filesToCheck = UtilFile.getFilesFromDirectoryByExtension(directory, ".java");
 			for (File file : filesToCheck) {
-				if (!Arrays.asList(IGNORED_FILES).contains(file.getName())) {
-					checkFileForAssertions(file);
-				}
+				checkFile(file);
 			}
 		}
 
-		assertFalse("Files potentially without assertion statements:\n" + errorMessages.toString(), assertionNotFound);
+		assertFalse("Files with Block Characters found: \n" + errorMessages.toString(), errorFound);
 	}
 }

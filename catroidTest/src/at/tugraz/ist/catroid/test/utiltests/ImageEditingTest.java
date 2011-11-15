@@ -36,15 +36,9 @@ import at.tugraz.ist.catroid.utils.ImageEditing;
 public class ImageEditingTest extends TestCase {
 
 	public void testScaleImage() {
-		// create a 100x100 bitmap
 		Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.RGB_565);
 
-		Bitmap scaledBitmap = ImageEditing.scaleBitmap(bitmap, 0.5f);
-
-		assertEquals("Wrong bitmap width after scaling", 50, scaledBitmap.getWidth());
-		assertEquals("Wrong bitmap height after scaling", 50, scaledBitmap.getHeight());
-
-		scaledBitmap = ImageEditing.scaleBitmap(bitmap, 60, 70);
+		Bitmap scaledBitmap = ImageEditing.scaleBitmap(bitmap, 60, 70);
 
 		assertEquals("Wrong bitmap width after scaling", 60, scaledBitmap.getWidth());
 		assertEquals("Wrong bitmap height after scaling", 70, scaledBitmap.getHeight());
@@ -175,5 +169,4 @@ public class ImageEditingTest extends TestCase {
 		assertEquals("Loaded and scaled bitmap has incorrect height", bitmap.getHeight(), loadedBitmap.getHeight());
 		assertEquals("Loaded and scaled bitmap has incorrect width", bitmap.getWidth(), loadedBitmap.getWidth());
 	}
-
 }

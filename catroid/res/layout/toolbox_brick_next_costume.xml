@@ -21,32 +21,18 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<manifest
+<LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:versionCode="10"
-	android:versionName="0.5.6a"
-	package="at.tugraz.ist.catroid.test"
+	android:orientation="horizontal"
+	android:layout_height="wrap_content"
+	android:layout_width="fill_parent"
+	android:background="@drawable/brick_violet"
 >
-	<application
-		android:icon="@drawable/icon"
-		android:label="@string/app_name"
-		android:debuggable="true"
-	>
-
-
-		<uses-library
-			android:name="android.test.runner" />
-	</application>
-	<uses-permission
-		android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	<uses-sdk
-		android:minSdkVersion="8"
-		android:targetSdkVersion="10" />
-	<instrumentation
-		android:targetPackage="at.tugraz.ist.catroid"
-		android:name="android.test.InstrumentationTestRunner" />
-	<!-- this instrumentation is needed to run the tests from jenkins -->
-	<instrumentation
-		android:targetPackage="at.tugraz.ist.catroid"
-		android:name="pl.polidea.instrumentation.PolideaInstrumentationTestRunner" />
-</manifest> 
+	<TextView
+		android:text="@string/brick_next_costume"
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent"
+		android:textColor="@color/white"
+		android:textSize="18dip"
+		android:textStyle="bold" />
+</LinearLayout>

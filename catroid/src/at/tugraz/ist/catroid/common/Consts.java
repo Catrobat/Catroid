@@ -31,22 +31,16 @@ public final class Consts {
 
 	public static final String DEFAULT_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath() + "/catroid";
 	public static final String TMP_PATH = DEFAULT_ROOT + "/tmp";
-	public static final String IMAGE_DIRECTORY = "/images";
-	public static final String SOUND_DIRECTORY = "/sounds";
+	public static final String IMAGE_DIRECTORY = "images";
+	public static final String SOUND_DIRECTORY = "sounds";
 
 	public static final String NO_MEDIA_FILE = ".nomedia";
 
-	//Costume:
-	public static final int MAX_REL_COORDINATES = 1000;
-
 	//Web:
 	public static final String TOKEN = "token";
-	public static final String REQUEST_URI = "requesturi";
 
 	public static final int SERVER_RESPONCE_TOKEN_OK = 200;
 	public static final int SERVER_RESPONCE_REGISTER_OK = 201;
-	public static final int SERVER_ERROR_TOKEN_INVALID = 601;
-	public static final int SERVER_ERROR_COMMON = 500;
 
 	//Stage:
 	public static final String SCREENSHOT_FILE_NAME = "screenshot.png";

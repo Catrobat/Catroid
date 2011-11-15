@@ -24,10 +24,7 @@ package at.tugraz.ist.catroid.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.PorterDuff.Mode;
 
 public class ImageEditing {
 
@@ -52,20 +49,6 @@ public class ImageEditing {
 		float scaleHeight = (((float) ySize) / bitmap.getHeight());
 		matrix.postScale(scaleWidth, scaleHeight);
 		Bitmap newBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-		return newBitmap;
-	}
-
-	public static Bitmap scaleBitmap(Bitmap bitmap, double scalingFactor) {
-		return scaleBitmap(bitmap, (int) Math.round(bitmap.getWidth() * scalingFactor),
-				(int) Math.round(bitmap.getHeight() * scalingFactor));
-	}
-
-	public static Bitmap rotateBitmap(Bitmap bitmap, float rotation) {
-		Matrix matrix = new Matrix();
-		matrix.postRotate(rotation);
-
-		Bitmap newBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-
 		return newBitmap;
 	}
 
@@ -134,70 +117,5 @@ public class ImageEditing {
 		imageDimensions[1] = o.outHeight;
 
 		return imageDimensions;
-	}
-
-	public static Bitmap adjustOpacity(Bitmap bitmap, int opacity) {
-		Bitmap mutableBitmap = bitmap.isMutable() ? bitmap : bitmap.copy(Bitmap.Config.ARGB_8888, true);
-		Canvas canvas = new Canvas(mutableBitmap);
-		int colour = (opacity & 0xff) << 24;
-		canvas.drawColor(colour, Mode.DST_IN);
-		return mutableBitmap;
-	}
-
-	public static Bitmap adjustBrightness(Bitmap source, double value) {
-		if (value == 0.0) {
-			return source;
-		}
-
-		// image size
-		int width = source.getWidth();
-		int height = source.getHeight();
-
-		// create output bitmap if necessary
-		Bitmap bitmap = source.isMutable() ? source : source.copy(source.getConfig(), true);
-
-		// color information
-		int A, R, G, B;
-		int pixel;
-
-		// scan through all pixels
-		for (int x = 0; x < width; ++x) {
-			for (int y = 0; y < height; ++y) {
-				// get pixel color
-				pixel = bitmap.getPixel(x, y);
-				A = Color.alpha(pixel);
-				R = Color.red(pixel);
-				G = Color.green(pixel);
-				B = Color.blue(pixel);
-
-				// increase/decrease each channel
-				R += value;
-				if (R > 255) {
-					R = 255;
-				} else if (R < 0) {
-					R = 0;
-				}
-
-				G += value;
-				if (G > 255) {
-					G = 255;
-				} else if (G < 0) {
-					G = 0;
-				}
-
-				B += value;
-				if (B > 255) {
-					B = 255;
-				} else if (B < 0) {
-					B = 0;
-				}
-
-				// apply new pixel color to output bitmap
-				bitmap.setPixel(x, y, Color.argb(A, R, G, B));
-			}
-		}
-
-		// return final image
-		return bitmap;
 	}
 }
