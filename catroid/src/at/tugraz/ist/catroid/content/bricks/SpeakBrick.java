@@ -30,6 +30,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
@@ -40,6 +41,7 @@ import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class SpeakBrick implements Brick {
+	private static final String LOG_TAG = SpeakBrick.class.getSimpleName();
 	private static final long serialVersionUID = 1L;
 	public static final int REQUIRED_RESSOURCES = TEXT_TO_SPEECH;
 
@@ -64,10 +66,8 @@ public class SpeakBrick implements Brick {
 			public void onUtteranceCompleted(String utteranceId) {
 				SpeakBrick speakBrick = activeSpeakBricks.get(utteranceId);
 				if (speakBrick == null) {
-					System.out.println("NOT FOUND");
 					return;
 				}
-				System.out.println("compleped with id ok: " + utteranceId);
 				synchronized (speakBrick) {
 					speakBrick.notifyAll();
 				}
@@ -80,13 +80,14 @@ public class SpeakBrick implements Brick {
 		HashMap<String, String> speakParameter = new HashMap<String, String>();
 		speakParameter.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, utteranceId);
 
+		long time = System.currentTimeMillis();
 		PreStageActivity.textToSpeech(getText(), listener, speakParameter);
 		try {
-			System.out.println("await");
 			this.wait();
 		} catch (InterruptedException e) {
 			// nothing to do
 		}
+		Log.i(LOG_TAG, "speak Time: " + (System.currentTimeMillis() - time));
 		activeSpeakBricks.remove(utteranceId);
 	}
 
