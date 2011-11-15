@@ -23,6 +23,7 @@
 package at.tugraz.ist.catroid.ui;
 
 import java.io.File;
+import java.net.URLDecoder;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -31,6 +32,8 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
@@ -44,6 +47,7 @@ import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.transfers.CheckTokenTask;
+import at.tugraz.ist.catroid.transfers.ProjectDownloadTask;
 import at.tugraz.ist.catroid.ui.dialogs.AboutDialog;
 import at.tugraz.ist.catroid.ui.dialogs.LoadProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.LoginRegisterDialog;
@@ -55,6 +59,7 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class MainMenuActivity extends Activity {
 	private static final String PREF_PROJECTNAME_KEY = "projectName";
+	private static final String PROJECTNAME_TAG = "fname=";
 	private ProjectManager projectManager;
 	private ActivityHelper activityHelper = new ActivityHelper(this);
 	private TextView titleText;
@@ -64,6 +69,19 @@ public class MainMenuActivity extends Activity {
 	private static final int DIALOG_ABOUT = 3;
 	private static final int DIALOG_LOGIN_REGISTER = 4;
 	private boolean ignoreResume = false;
+	private RefreshHandler refreshHanlder = new RefreshHandler();
+
+	class RefreshHandler extends Handler {
+		@Override
+		public void handleMessage(Message msg) {
+			MainMenuActivity.this.updateProjectName();
+		}
+	};
+
+	public void updateProjectName() {
+		onPause();
+		onResume();
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +105,15 @@ public class MainMenuActivity extends Activity {
 			Button currentProjectButton = (Button) findViewById(R.id.current_project_button);
 			currentProjectButton.setEnabled(false);
 		}
+
+		String zipUrl = getIntent().getDataString();
+		if (zipUrl == null || zipUrl.length() <= 0) {
+			return;
+		}
+		projectName = getProjectName(zipUrl);
+
+		this.getIntent().setData(null);
+		new ProjectDownloadTask(this, zipUrl, projectName, refreshHanlder).execute();
 	}
 
 	@Override
@@ -267,4 +294,13 @@ public class MainMenuActivity extends Activity {
 	public void handleAboutCatroidButton(View v) {
 		showDialog(DIALOG_ABOUT);
 	}
+
+	private String getProjectName(String zipUrl) {
+		int projectNameIndex = zipUrl.lastIndexOf(PROJECTNAME_TAG) + PROJECTNAME_TAG.length();
+		String projectName = zipUrl.substring(projectNameIndex);
+		projectName = URLDecoder.decode(projectName);
+
+		return projectName;
+	}
+
 }
