@@ -166,7 +166,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 
 		boolean waitResult = solo.waitForActivity("MainMenuActivity", 10000);
 		assertTrue("Download takes too long.", waitResult);
-		assertTrue("Testproject2 not loaded.", solo.searchText("testproject2"));
+		assertTrue("Testproject2 not loaded.", solo.searchText(newTestProject));
 		assertNotNull("Download not successful.",
 				solo.searchText(getActivity().getString(R.string.success_project_download)));
 
