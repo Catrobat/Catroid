@@ -67,7 +67,6 @@ public class ConnectionWrapper {
 				e.printStackTrace();
 			}
 		}
-		//dummy change
 		return "";
 	}
 

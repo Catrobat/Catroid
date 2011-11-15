@@ -32,8 +32,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
@@ -69,14 +67,6 @@ public class MainMenuActivity extends Activity {
 	private static final int DIALOG_ABOUT = 3;
 	private static final int DIALOG_LOGIN_REGISTER = 4;
 	private boolean ignoreResume = false;
-	private RefreshHandler refreshHanlder = new RefreshHandler();
-
-	class RefreshHandler extends Handler {
-		@Override
-		public void handleMessage(Message msg) {
-			MainMenuActivity.this.updateProjectName();
-		}
-	};
 
 	public void updateProjectName() {
 		onPause();
@@ -106,14 +96,14 @@ public class MainMenuActivity extends Activity {
 			currentProjectButton.setEnabled(false);
 		}
 
-		String zipUrl = getIntent().getDataString();
-		if (zipUrl == null || zipUrl.length() <= 0) {
+		String projectDownloadUrl = getIntent().getDataString();
+		if (projectDownloadUrl == null || projectDownloadUrl.length() <= 0) {
 			return;
 		}
-		projectName = getProjectName(zipUrl);
+		projectName = getProjectName(projectDownloadUrl);
 
 		this.getIntent().setData(null);
-		new ProjectDownloadTask(this, zipUrl, projectName, refreshHanlder).execute();
+		new ProjectDownloadTask(this, projectDownloadUrl, projectName).execute();
 	}
 
 	@Override
@@ -222,6 +212,12 @@ public class MainMenuActivity extends Activity {
 		ignoreResume = false;
 
 		projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
+		writeProjectTitleInTextfield();
+
+	}
+
+	public void writeProjectTitleInTextfield() {
+
 		String title = this.getResources().getString(R.string.project_name) + " "
 				+ projectManager.getCurrentProject().getName();
 		titleText.setText(title);

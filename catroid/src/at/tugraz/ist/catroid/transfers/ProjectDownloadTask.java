@@ -22,17 +22,16 @@
  */
 package at.tugraz.ist.catroid.transfers;
 
-import android.app.Activity;
 import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.AsyncTask;
-import android.os.Handler;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.utils.UtilZip;
 import at.tugraz.ist.catroid.utils.Utils;
 import at.tugraz.ist.catroid.web.ConnectionWrapper;
@@ -40,7 +39,7 @@ import at.tugraz.ist.catroid.web.ServerCalls;
 import at.tugraz.ist.catroid.web.WebconnectionException;
 
 public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implements OnClickListener {
-	private Activity activity;
+	private MainMenuActivity activity;
 	private String projectName;
 	private String zipFileString;
 	private String url;
@@ -48,19 +47,17 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 	private boolean result;
 	private static final String DOWNLOAD_FILE_NAME = "down" + Consts.CATROID_EXTENTION;
 	private static ProjectManager projectManager = ProjectManager.getInstance();
-	private Handler refreshHandler;
 
 	// mock object testing
 	protected ConnectionWrapper createConnection() {
 		return new ConnectionWrapper();
 	}
 
-	public ProjectDownloadTask(Activity activity, String url, String projectName, Handler refreshHandler) {
-		this.activity = activity;
+	public ProjectDownloadTask(MainMenuActivity mainMenuActivity, String url, String projectName) {
+		this.activity = mainMenuActivity;
 		this.projectName = projectName;
 		this.zipFileString = Utils.buildPath(Consts.TMP_PATH, DOWNLOAD_FILE_NAME);
 		this.url = url;
-		this.refreshHandler = refreshHandler;
 	}
 
 	@Override
@@ -105,12 +102,9 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 		if (activity == null) {
 			return;
 		}
-		//Intent refresh = new Intent(activity, MainMenuActivity.class);
-		//activity.startActivity(refresh);
-		//activity.finish();
 		Toast.makeText(activity, R.string.success_project_download, Toast.LENGTH_SHORT).show();
 		projectManager.loadProject(projectName, activity, true);
-		refreshHandler.sendEmptyMessage(0);
+		//activity.writeProjectTitleInTextfield();
 
 	}
 
