@@ -26,6 +26,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
+import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
@@ -53,8 +54,26 @@ public class SpeakBrick implements Brick {
 		return TEXT_TO_SPEECH;
 	}
 
-	public void execute() {
-		PreStageActivity.textToSpeech(getText());
+	public synchronized void execute() {
+		OnUtteranceCompletedListener onSpeakFinishedListener = new OnUtteranceCompletedListener() {
+			public void onUtteranceCompleted(String utteranceId) {
+				System.out.println("completed: " + utteranceId);
+				if (!utteranceId.equals(SpeakBrick.this.toString())) {
+					return;
+				}
+				System.out.println("compleped with id ok: " + utteranceId);
+				synchronized (SpeakBrick.this) {
+					SpeakBrick.this.notifyAll();
+				}
+			}
+		};
+		PreStageActivity.textToSpeech(getText(), onSpeakFinishedListener, this);
+		try {
+			System.out.println("await");
+			this.wait();
+		} catch (InterruptedException e) {
+			// nothing to do
+		}
 	}
 
 	public Sprite getSprite() {

@@ -23,6 +23,7 @@
 package at.tugraz.ist.catroid.stage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -33,6 +34,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
+import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
 import android.util.Log;
 import android.widget.Toast;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -43,6 +45,7 @@ import at.tugraz.ist.catroid.bluetooth.BluetoothManager;
 import at.tugraz.ist.catroid.bluetooth.DeviceListActivity;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.bricks.Brick;
+import at.tugraz.ist.catroid.content.bricks.SpeakBrick;
 
 public class PreStageActivity extends Activity {
 
@@ -176,8 +179,8 @@ public class PreStageActivity extends Activity {
 	}
 
 	private void startBTComm(boolean autoConnect) {
-		connectingProgressDialog = ProgressDialog.show(this, "",
-				getResources().getString(R.string.connecting_please_wait), true);
+		connectingProgressDialog = ProgressDialog.show(this, "", getResources().getString(
+				R.string.connecting_please_wait), true);
 		Intent serverIntent = new Intent(this, DeviceListActivity.class);
 		serverIntent.putExtra(DeviceListActivity.AUTO_CONNECT, autoConnect);
 		this.startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
@@ -242,8 +245,11 @@ public class PreStageActivity extends Activity {
 		Toast.makeText(this.getApplicationContext(), text, Toast.LENGTH_SHORT).show();
 	}
 
-	public static void textToSpeech(String text) {
-		textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+	public static void textToSpeech(String text, OnUtteranceCompletedListener listener, SpeakBrick speakBrick) {
+		textToSpeech.setOnUtteranceCompletedListener(listener);
+		HashMap<String, String> speakParameter = new HashMap<String, String>();
+		speakParameter.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, speakBrick.toString());
+		textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, speakParameter);
 	}
 
 	//messages from Lego NXT device can be handled here
