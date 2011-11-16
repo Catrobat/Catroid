@@ -80,26 +80,24 @@ public class SpeakStageTestComplex extends ActivityInstrumentationTestCase2<PreS
 		Intent intent = new Intent(getActivity(), StageActivity.class);
 		getActivity().startActivity(intent);
 
-		// "ich bin der erste test" -- "und ich bin der" -- "Stop"
-		//  		1540			--			670		 --	  609
 		solo.sleep(700);
 		assertEquals("wrong execution index. ", 0, testScript.getExecutingBrickIndex());
 		assertEquals("wrong execution index. ", 0, receiveScript.getExecutingBrickIndex());
 		assertEquals("isFinished is wrong. ", false, testScript.isFinished());
 
-		solo.sleep(2000);
+		solo.sleep(1900);
 		assertEquals("wrong execution index. ", 2, testScript.getExecutingBrickIndex());
 		assertEquals("wrong execution index. ", 1, receiveScript.getExecutingBrickIndex());
 		assertEquals("isFinished is wrong. ", false, testScript.isFinished());
 		assertEquals("isFinished is wrong. ", false, receiveScript.isFinished());
 
-		solo.sleep(600);
+		solo.sleep(700);
 		assertEquals("wrong execution index. ", 2, testScript.getExecutingBrickIndex());
 		assertEquals("wrong execution index. ", 2, receiveScript.getExecutingBrickIndex());
 		assertEquals("isFinished is wrong. ", true, testScript.isFinished());
 		assertEquals("isFinished is wrong. ", false, receiveScript.isFinished());
 
-		solo.sleep(1200);
+		solo.sleep(1300);
 		assertEquals("wrong execution index. ", 2, testScript.getExecutingBrickIndex());
 		assertEquals("wrong execution index. ", 2, receiveScript.getExecutingBrickIndex());
 		assertEquals("isFinished is wrong. ", true, testScript.isFinished());
