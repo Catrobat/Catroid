@@ -85,7 +85,7 @@ public class SpeakStageTestComplex extends ActivityInstrumentationTestCase2<PreS
 		assertEquals("wrong execution index. ", 0, receiveScript.getExecutingBrickIndex());
 		assertEquals("isFinished is wrong. ", false, testScript.isFinished());
 
-		solo.sleep(1900);
+		solo.sleep(4000);
 		assertEquals("wrong execution index. ", 2, testScript.getExecutingBrickIndex());
 		assertEquals("wrong execution index. ", 1, receiveScript.getExecutingBrickIndex());
 		assertEquals("isFinished is wrong. ", false, testScript.isFinished());
@@ -97,7 +97,7 @@ public class SpeakStageTestComplex extends ActivityInstrumentationTestCase2<PreS
 		assertEquals("isFinished is wrong. ", true, testScript.isFinished());
 		assertEquals("isFinished is wrong. ", false, receiveScript.isFinished());
 
-		solo.sleep(1300);
+		solo.sleep(400);
 		assertEquals("wrong execution index. ", 2, testScript.getExecutingBrickIndex());
 		assertEquals("wrong execution index. ", 2, receiveScript.getExecutingBrickIndex());
 		assertEquals("isFinished is wrong. ", true, testScript.isFinished());
@@ -117,9 +117,9 @@ public class SpeakStageTestComplex extends ActivityInstrumentationTestCase2<PreS
 		broadcastBrick.setSelectedMessage("speak");
 
 		ArrayList<Brick> brickList = new ArrayList<Brick>();
-		brickList.add(new SpeakBrick(firstSprite, "ich bin der erste text"));
+		brickList.add(new SpeakBrick(firstSprite, "1 2 3 4 5"));
 		brickList.add(broadcastBrick);
-		brickList.add(new SpeakBrick(firstSprite, "und ich bin der zweite text"));
+		brickList.add(new SpeakBrick(firstSprite, "6 7 8 9 10 11"));
 
 		for (Brick brick : brickList) {
 			testScript.addBrick(brick);
