@@ -85,13 +85,13 @@ public class SpeakStageTestComplex extends ActivityInstrumentationTestCase2<PreS
 		assertEquals("wrong execution index. ", 0, receiveScript.getExecutingBrickIndex());
 		assertEquals("isFinished is wrong. ", false, testScript.isFinished());
 
-		solo.sleep(4000);
+		solo.sleep(2400);
 		assertEquals("wrong execution index. ", 2, testScript.getExecutingBrickIndex());
 		assertEquals("wrong execution index. ", 1, receiveScript.getExecutingBrickIndex());
 		assertEquals("isFinished is wrong. ", false, testScript.isFinished());
 		assertEquals("isFinished is wrong. ", false, receiveScript.isFinished());
 
-		solo.sleep(700);
+		solo.sleep(600);
 		assertEquals("wrong execution index. ", 2, testScript.getExecutingBrickIndex());
 		assertEquals("wrong execution index. ", 2, receiveScript.getExecutingBrickIndex());
 		assertEquals("isFinished is wrong. ", true, testScript.isFinished());
