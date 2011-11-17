@@ -256,21 +256,18 @@ public class Sprite implements Serializable {
 		return scriptList.size();
 	}
 
-	public boolean isActive(Thread t) {
-		if (activeThreads.containsKey(t)) {
-			//Log.v("Sprite", "- " + t.getId() + " is " + activeThreads.get(t));
-			return activeThreads.get(t);
+	public boolean isAlive(Thread thread) {
+		if (activeThreads.containsKey(thread)) {
+			return activeThreads.get(thread);
 		} else {
 			return true;
 		}
 
 	}
 
-	public synchronized void removeFromList(Thread t) {
-		//Log.v("Sprite", "- try to remove " + t.getId());
-		if (activeThreads.containsKey(t)) {
-			activeThreads.remove(t);
-			//Log.v("Sprite", "- removed " + t.getId());
+	public synchronized void setInactive(Thread thread) {
+		if (activeThreads.containsKey(thread)) {
+			activeThreads.remove(thread);
 		}
 	}
 }
