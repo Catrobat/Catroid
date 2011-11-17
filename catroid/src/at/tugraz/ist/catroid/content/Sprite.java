@@ -24,9 +24,14 @@ package at.tugraz.ist.catroid.content;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
+import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
@@ -43,6 +48,9 @@ public class Sprite implements Serializable {
 
 	public transient boolean isPaused;
 	public transient boolean isFinished;
+
+	private Map<Thread, Boolean> activeThreads;
+	private Map<Script, List<Thread>> activeScripts;
 
 	private Object readResolve() {
 		//filling FileChecksumContainer:
@@ -72,6 +80,8 @@ public class Sprite implements Serializable {
 		if (costumeDataList == null) {
 			costumeDataList = new ArrayList<CostumeData>();
 		}
+		activeThreads = new HashMap<Thread, Boolean>();
+		activeScripts = new HashMap<Script, List<Thread>>();
 	}
 
 	public Sprite(String name) {
@@ -102,13 +112,31 @@ public class Sprite implements Serializable {
 		}
 	}
 
-	private void startScript(Script s) {
+	private synchronized void startScript(Script s) {
 		final Script script = s;
 		Thread t = new Thread(new Runnable() {
 			public void run() {
 				script.run();
 			}
 		});
+		if (script instanceof WhenScript) {
+
+			if (!activeScripts.containsKey(script)) {
+				activeScripts.put(script, new LinkedList<Thread>());
+				activeScripts.get(script).add(t);
+				activeThreads.put(t, true);
+			} else {
+				ListIterator<Thread> currentScriptThreads = activeScripts.get(script).listIterator();
+				while (currentScriptThreads.hasNext()) {
+					Thread currentThread = currentScriptThreads.next();
+					Log.v("Sprite", " - set " + currentThread.getId() + "false");
+					activeThreads.put(currentThread, false);
+				}
+				activeScripts.get(script).clear();
+				activeScripts.get(script).add(t);
+				activeThreads.put(t, true);
+			}
+		}
 		t.start();
 	}
 
@@ -226,5 +254,23 @@ public class Sprite implements Serializable {
 
 	public int getScriptCount() {
 		return scriptList.size();
+	}
+
+	public boolean isActive(Thread t) {
+		if (activeThreads.containsKey(t)) {
+			//Log.v("Sprite", "- " + t.getId() + " is " + activeThreads.get(t));
+			return activeThreads.get(t);
+		} else {
+			return true;
+		}
+
+	}
+
+	public synchronized void removeFromList(Thread t) {
+		//Log.v("Sprite", "- try to remove " + t.getId());
+		if (activeThreads.containsKey(t)) {
+			activeThreads.remove(t);
+			//Log.v("Sprite", "- removed " + t.getId());
+		}
 	}
 }
