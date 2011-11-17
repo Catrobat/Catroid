@@ -60,7 +60,7 @@ public abstract class Script implements Serializable {
 
 	public void run() {
 		for (int i = 0; i < brickList.size(); i++) {
-			if (!sprite.isActive(Thread.currentThread())) {
+			if (!sprite.isAlive(Thread.currentThread())) {
 				break;
 			}
 			while (paused) {
@@ -75,7 +75,7 @@ public abstract class Script implements Serializable {
 			i = executingBrickIndex;
 		}
 		isFinished = true;
-		sprite.removeFromList(Thread.currentThread());
+		sprite.setInactive(Thread.currentThread());
 	}
 
 	public void addBrick(Brick brick) {
