@@ -151,6 +151,24 @@ public class Sprite implements Serializable {
 				script.run();
 			}
 		});
+		if (script instanceof BroadcastScript) {
+
+			if (!activeScripts.containsKey(script)) {
+				activeScripts.put(script, new LinkedList<Thread>());
+				activeScripts.get(script).add(t);
+				activeThreads.put(t, true);
+			} else {
+				ListIterator<Thread> currentScriptThreads = activeScripts.get(script).listIterator();
+				while (currentScriptThreads.hasNext()) {
+					Thread currentThread = currentScriptThreads.next();
+					Log.v("Sprite", " - set " + currentThread.getId() + "false");
+					activeThreads.put(currentThread, false);
+				}
+				activeScripts.get(script).clear();
+				activeScripts.get(script).add(t);
+				activeThreads.put(t, true);
+			}
+		}
 		t.start();
 	}
 
