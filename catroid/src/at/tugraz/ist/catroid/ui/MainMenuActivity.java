@@ -39,8 +39,10 @@ import android.widget.TextView;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.stage.NativeStageActivity;
 import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.transfers.CheckTokenTask;
@@ -102,6 +104,11 @@ public class MainMenuActivity extends Activity {
 		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, new View.OnClickListener() {
 			public void onClick(View v) {
 				if (projectManager.getCurrentProject() != null) {
+					if (Values.NATIVE_DESKTOP_PLAYER) {
+						Intent intent = new Intent(MainMenuActivity.this, NativeStageActivity.class);
+						startActivity(intent);
+						return;
+					}
 					Intent intent = new Intent(MainMenuActivity.this, PreStageActivity.class);
 					ignoreResume = true;
 					startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
