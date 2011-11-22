@@ -31,13 +31,15 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
+import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.stage.NativeStageActivity;
 import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.adapter.SpriteAdapter;
@@ -148,6 +150,11 @@ public class ProjectActivity extends ListActivity {
 
 		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, new View.OnClickListener() {
 			public void onClick(View v) {
+				if (Values.NATIVE_DESKTOP_PLAYER) {
+					Intent intent = new Intent(ProjectActivity.this, NativeStageActivity.class);
+					startActivity(intent);
+					return;
+				}
 				Intent intent = new Intent(ProjectActivity.this, PreStageActivity.class);
 				startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 			}
