@@ -104,7 +104,7 @@ public class ProjectDownloadTask extends AsyncTask<Void, Void, Boolean> implemen
 		}
 		Toast.makeText(activity, R.string.success_project_download, Toast.LENGTH_SHORT).show();
 		projectManager.loadProject(projectName, activity, true);
-		//activity.writeProjectTitleInTextfield();
+		activity.writeProjectTitleInTextfield();
 
 	}
 
