@@ -79,25 +79,26 @@ public class SpeakStageTestComplex extends ActivityInstrumentationTestCase2<PreS
 
 		Intent intent = new Intent(getActivity(), StageActivity.class);
 		getActivity().startActivity(intent);
+		solo.waitForActivity("StageActivity");
 
-		solo.sleep(700);
+		solo.sleep(1000);
 		assertEquals("wrong execution index. ", 0, testScript.getExecutingBrickIndex());
 		assertEquals("wrong execution index. ", 0, receiveScript.getExecutingBrickIndex());
 		assertEquals("isFinished is wrong. ", false, testScript.isFinished());
 
-		solo.sleep(1500);
+		solo.sleep(3100);
 		assertEquals("wrong execution index. ", 2, testScript.getExecutingBrickIndex());
 		assertEquals("wrong execution index. ", 1, receiveScript.getExecutingBrickIndex());
 		assertEquals("isFinished is wrong. ", false, testScript.isFinished());
 		assertEquals("isFinished is wrong. ", false, receiveScript.isFinished());
 
-		solo.sleep(800);
+		solo.sleep(2300);
 		assertEquals("wrong execution index. ", 3, testScript.getExecutingBrickIndex());
 		assertEquals("wrong execution index. ", 2, receiveScript.getExecutingBrickIndex());
 		assertEquals("isFinished is wrong. ", true, testScript.isFinished());
 		assertEquals("isFinished is wrong. ", false, receiveScript.isFinished());
 
-		solo.sleep(900);
+		solo.sleep(2000);
 		assertEquals("wrong execution index. ", 3, testScript.getExecutingBrickIndex());
 		assertEquals("wrong execution index. ", 3, receiveScript.getExecutingBrickIndex());
 		assertEquals("isFinished is wrong. ", true, testScript.isFinished());
@@ -117,9 +118,9 @@ public class SpeakStageTestComplex extends ActivityInstrumentationTestCase2<PreS
 		broadcastBrick.setSelectedMessage("speak");
 
 		ArrayList<Brick> brickList = new ArrayList<Brick>();
-		brickList.add(new SpeakBrick(firstSprite, "1 2 3 4 5"));
+		brickList.add(new SpeakBrick(firstSprite, "1 1 2 2 3 3 4 4 5 5"));
 		brickList.add(broadcastBrick);
-		brickList.add(new SpeakBrick(firstSprite, "6 7 8 9 10 11"));
+		brickList.add(new SpeakBrick(firstSprite, "6 6 7 7 8 8 9 9 10 10 11 11"));
 		brickList.add(new WaitBrick(firstSprite, 1));
 
 		for (Brick brick : brickList) {
@@ -133,8 +134,8 @@ public class SpeakStageTestComplex extends ActivityInstrumentationTestCase2<PreS
 
 		brickList = new ArrayList<Brick>();
 		brickList.add(broadcastReceiver);
-		brickList.add(new WaitBrick(secondSprite, 600));
-		brickList.add(new SpeakBrick(secondSprite, "Stop"));
+		brickList.add(new WaitBrick(secondSprite, 2000));
+		brickList.add(new SpeakBrick(secondSprite, "Stop Stop Stop Stop Stop"));
 		brickList.add(new WaitBrick(firstSprite, 1));
 
 		for (Brick brick : brickList) {
