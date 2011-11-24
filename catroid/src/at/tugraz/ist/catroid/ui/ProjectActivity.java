@@ -37,7 +37,6 @@ import android.widget.ListView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.stage.NativeStageActivity;
 import at.tugraz.ist.catroid.stage.PreStageActivity;
@@ -47,6 +46,7 @@ import at.tugraz.ist.catroid.ui.dialogs.CustomIconContextMenu;
 import at.tugraz.ist.catroid.ui.dialogs.NewSpriteDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameSpriteDialog;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
+import at.tugraz.ist.catroid.utils.UtilDeviceInfo;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class ProjectActivity extends ListActivity {
@@ -150,7 +150,7 @@ public class ProjectActivity extends ListActivity {
 
 		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, new View.OnClickListener() {
 			public void onClick(View v) {
-				if (Values.NATIVE_DESKTOP_PLAYER) {
+				if (UtilDeviceInfo.runOnEmulator(ProjectActivity.this)) {
 					Intent intent = new Intent(ProjectActivity.this, NativeStageActivity.class);
 					startActivity(intent);
 					return;
