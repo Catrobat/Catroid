@@ -41,7 +41,6 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.SoundInfo;
-import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.stage.NativeStageActivity;
 import at.tugraz.ist.catroid.stage.PreStageActivity;
@@ -51,6 +50,7 @@ import at.tugraz.ist.catroid.ui.dialogs.BrickCategoryDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameCostumeDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameSoundDialog;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
+import at.tugraz.ist.catroid.utils.UtilDeviceInfo;
 
 public class ScriptTabActivity extends TabActivity implements OnDismissListener {
 	protected ActivityHelper activityHelper;
@@ -124,7 +124,7 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener 
 
 		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, new View.OnClickListener() {
 			public void onClick(View v) {
-				if (Values.NATIVE_DESKTOP_PLAYER) {
+				if (UtilDeviceInfo.runOnEmulator(ScriptTabActivity.this)) {
 					Intent intent = new Intent(ScriptTabActivity.this, NativeStageActivity.class);
 					startActivity(intent);
 					return;

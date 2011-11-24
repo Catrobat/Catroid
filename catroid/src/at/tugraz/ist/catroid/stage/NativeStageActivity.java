@@ -27,12 +27,23 @@ import android.os.Bundle;
 import at.tugraz.ist.catroid.ProjectManager;
 
 public class NativeStageActivity extends Activity {
+	Client client;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		ProjectManager.getInstance().getCurrentProject().getName();
+		//setContentView(R.layout.main);
+		sendMessage();
 	}
 
+	public void sendMessage() {
+		client = new Client();
+		client.connect();
+		try {
+			Thread.sleep(2000);
+		} catch (Exception e) {
+		}
+		System.out.println("project name. " + ProjectManager.getInstance().getCurrentProject().getName());
+		client.sendMessage("Project-" + ProjectManager.getInstance().getCurrentProject().getName());
+	}
 }
