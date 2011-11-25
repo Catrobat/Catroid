@@ -333,7 +333,7 @@ public class BrickExceptionOnDialogTest extends ActivityInstrumentationTestCase2
 
 	public void createProject() {
 		sprite = new Sprite(spriteName);
-		script = new StartScript("script", sprite);
+		script = new StartScript(sprite);
 		sprite.addScript(script);
 		ProjectManager manager = ProjectManager.getInstance();
 		manager.fileChecksumContainer = new FileChecksumContainer();

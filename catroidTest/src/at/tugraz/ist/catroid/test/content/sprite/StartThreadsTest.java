@@ -36,7 +36,7 @@ public class StartThreadsTest extends AndroidTestCase {
 	public void testStartThreads() throws InterruptedException {
 		double size = 300;
 		Sprite testSprite = new Sprite("testSprite");
-		Script testScript = new StartScript("testScript", testSprite);
+		Script testScript = new StartScript(testSprite);
 		HideBrick hideBrick = new HideBrick(testSprite);
 		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(testSprite, size);
 
@@ -55,7 +55,7 @@ public class StartThreadsTest extends AndroidTestCase {
 
 	public void testResumeThreads() throws InterruptedException {
 		Sprite testSprite = new Sprite("testSprite");
-		Script testScript = new StartScript("testScript", testSprite);
+		Script testScript = new StartScript(testSprite);
 		HideBrick hideBrick = new HideBrick(testSprite);
 		WaitBrick waitBrick = new WaitBrick(testSprite, 400);
 		ShowBrick showBrick = new ShowBrick(testSprite);

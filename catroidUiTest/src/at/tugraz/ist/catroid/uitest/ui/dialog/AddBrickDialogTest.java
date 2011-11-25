@@ -124,7 +124,7 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 		Project project = new Project(getActivity(), projectName);
 		Sprite firstSprite = new Sprite("cat");
 
-		Script testScript = new StartScript("ScriptTest", firstSprite);
+		Script testScript = new StartScript(firstSprite);
 
 		firstSprite.addScript(testScript);
 		project.addSprite(firstSprite);

@@ -235,8 +235,8 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
 		solo.sleep(10000); //yes, has to be that long! waiting for auto connection timeout!
 
-		assertTrue("I should be on the bluetooth device choosing screen, but am not!",
-				solo.searchText(KITTYROID_MAC_ADDRESS));
+		assertTrue("I should be on the bluetooth device choosing screen, but am not!", solo
+				.searchText(KITTYROID_MAC_ADDRESS));
 
 		solo.clickOnText(PAIRED_UNAVAILABLE_DEVICE_NAME);
 		solo.sleep(8000);
@@ -273,8 +273,8 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 	public void createTestproject(String projectName) {
 
 		Sprite firstSprite = new Sprite("sprite1");
-		Script startScript = new StartScript("startScript", firstSprite);
-		Script whenScript = new WhenScript("whenScript", firstSprite);
+		Script startScript = new StartScript(firstSprite);
+		Script whenScript = new WhenScript(firstSprite);
 		SetCostumeBrick setCostumeBrick = new SetCostumeBrick(firstSprite);
 
 		NXTMotorActionBrick nxt = new NXTMotorActionBrick(firstSprite, 3, 100);

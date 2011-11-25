@@ -112,7 +112,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 
 		Project project = new Project(getActivity(), testProject);
 		Sprite sprite = new Sprite("testSprite");
-		Script script = new StartScript("script", sprite);
+		Script script = new StartScript(sprite);
 		WaitBrick waitBrick = new WaitBrick(sprite, 5000);
 		SetSizeToBrick scaleCostumeBrick = new SetSizeToBrick(sprite, scale);
 
@@ -219,7 +219,7 @@ public class StageDialogTest extends ActivityInstrumentationTestCase2<MainMenuAc
 		String projectName = UiTestUtils.PROJECTNAME1;
 		//creating sprites for project:
 		Sprite firstSprite = new Sprite("sprite1");
-		Script startScript = new StartScript("startscript", firstSprite);
+		Script startScript = new StartScript(firstSprite);
 
 		PlaySoundBrick playSoundBrick = new PlaySoundBrick(firstSprite);
 

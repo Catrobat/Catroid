@@ -47,7 +47,7 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 		final int twentyIsAlmostForever = 20;
 
 		testSprite.removeAllScripts();
-		testScript = new StartScript("foo", testSprite);
+		testScript = new StartScript(testSprite);
 
 		foreverBrick = new ForeverBrick(testSprite);
 		loopEndBrick = new LoopEndBrick(testSprite, foreverBrick);
@@ -65,8 +65,8 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 
 		Thread.sleep(expectedDelay * twentyIsAlmostForever);
 
-		assertEquals("Executed the wrong number of times!", twentyIsAlmostForever * deltaY,
-				(int) testSprite.costume.getYPosition());
+		assertEquals("Executed the wrong number of times!", twentyIsAlmostForever * deltaY, (int) testSprite.costume
+				.getYPosition());
 
 		final int timesToRepeat = (Integer) TestUtils.getPrivateField("timesToRepeat", loopEndBrick, false);
 		final int forever = (Integer) TestUtils.getPrivateField("FOREVER", loopEndBrick, false);
@@ -79,7 +79,7 @@ public class ForeverBrickTest extends InstrumentationTestCase {
 		final int repeatTimes = 15;
 
 		testSprite.removeAllScripts();
-		testScript = new StartScript("foo", testSprite);
+		testScript = new StartScript(testSprite);
 
 		foreverBrick = new ForeverBrick(testSprite);
 		loopEndBrick = new LoopEndBrick(testSprite, foreverBrick);

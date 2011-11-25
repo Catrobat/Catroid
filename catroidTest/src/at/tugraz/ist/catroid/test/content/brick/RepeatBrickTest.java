@@ -46,7 +46,7 @@ public class RepeatBrickTest extends InstrumentationTestCase {
 
 	public void testRepeatBrick() throws InterruptedException {
 		testSprite.removeAllScripts();
-		testScript = new StartScript("foo", testSprite);
+		testScript = new StartScript(testSprite);
 
 		repeatBrick = new RepeatBrick(testSprite, REPEAT_TIMES);
 		loopEndBrick = new LoopEndBrick(testSprite, repeatBrick);
@@ -68,13 +68,13 @@ public class RepeatBrickTest extends InstrumentationTestCase {
 		 */
 		Thread.sleep(expectedDelay * REPEAT_TIMES * 2);
 
-		assertEquals("Executed the wrong number of times!", REPEAT_TIMES * deltaY,
-				(int) testSprite.costume.getYPosition());
+		assertEquals("Executed the wrong number of times!", REPEAT_TIMES * deltaY, (int) testSprite.costume
+				.getYPosition());
 	}
 
 	public void testLoopDelay() throws InterruptedException {
 		testSprite.removeAllScripts();
-		testScript = new StartScript("foo", testSprite);
+		testScript = new StartScript(testSprite);
 
 		repeatBrick = new RepeatBrick(testSprite, REPEAT_TIMES);
 		loopEndBrick = new LoopEndBrick(testSprite, repeatBrick);
@@ -107,7 +107,7 @@ public class RepeatBrickTest extends InstrumentationTestCase {
 
 	public void testNegativeRepeats() throws InterruptedException {
 		testSprite.removeAllScripts();
-		testScript = new StartScript("foo", testSprite);
+		testScript = new StartScript(testSprite);
 
 		repeatBrick = new RepeatBrick(testSprite, -1);
 		loopEndBrick = new LoopEndBrick(testSprite, repeatBrick);
@@ -137,7 +137,7 @@ public class RepeatBrickTest extends InstrumentationTestCase {
 
 	public void testZeroRepeats() throws InterruptedException {
 		testSprite.removeAllScripts();
-		testScript = new StartScript("foo", testSprite);
+		testScript = new StartScript(testSprite);
 
 		repeatBrick = new RepeatBrick(testSprite, 0);
 		loopEndBrick = new LoopEndBrick(testSprite, repeatBrick);
@@ -161,7 +161,7 @@ public class RepeatBrickTest extends InstrumentationTestCase {
 		 */
 		Thread.sleep(expectedDelay / 2);
 
-		assertEquals("Loop was executed although repeats were set to zero!", expectedDeltaY,
-				(int) testSprite.costume.getYPosition());
+		assertEquals("Loop was executed although repeats were set to zero!", expectedDeltaY, (int) testSprite.costume
+				.getYPosition());
 	}
 }

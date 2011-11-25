@@ -94,8 +94,8 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
-				getActivity().getAdapter().getChild(groupCount - 1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
+				groupCount - 1, 0));
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_when)));
 
 		solo.pressSpinnerItem(0, 0);
@@ -109,7 +109,7 @@ public class WhenBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
-		Script script = new WhenScript("script", sprite);
+		Script script = new WhenScript(sprite);
 		Brick placeAtBrick = new PlaceAtBrick(sprite, 100, 100);
 		script.addBrick(placeAtBrick);
 		sprite.addScript(script);

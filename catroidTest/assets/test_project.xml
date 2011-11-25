@@ -50,7 +50,6 @@
             </Bricks.SetCostumeBrick>
           </brickList>
           <sprite reference="../../.."/>
-          <name>testScript</name>
         </Content.StartScript>
         <Content.WhenScript>
         <action>Tapped</action>
@@ -65,7 +64,6 @@
             </Bricks.PlaySoundBrick>
           </brickList>
           <sprite reference="../../.."/>
-          <name>script</name>
         </Content.WhenScript>
       </scriptList>
     </Content.Sprite>
@@ -107,7 +105,6 @@
               </Bricks.GoNStepsBackBrick>
             </brickList>
             <sprite reference="../../.."/>
-            <name>otherScript</name>
           </Content.StartScript>
         </scriptList>
     </Content.Sprite>

@@ -95,7 +95,7 @@ public class SpeakStageTestSimple extends ActivityInstrumentationTestCase2<PreSt
 
 		Sprite firstSprite = new Sprite("cat");
 
-		testScript = new StartScript("testscript", firstSprite);
+		testScript = new StartScript(firstSprite);
 
 		ArrayList<Brick> brickList = new ArrayList<Brick>();
 		brickList.add(new SpeakBrick(firstSprite, "ich bin der erste text"));

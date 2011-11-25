@@ -115,8 +115,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnButton(0);
 		solo.sleep(100);
 
-		assertTrue("No error message was displayed upon creating a project with an empty name.",
-				solo.searchText(getActivity().getString(R.string.error_no_name_entered)));
+		assertTrue("No error message was displayed upon creating a project with an empty name.", solo
+				.searchText(getActivity().getString(R.string.error_no_name_entered)));
 
 		solo.clickOnButton(0);
 
@@ -138,8 +138,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		solo.clickOnButton(0);
 		solo.sleep(100);
 
-		assertTrue("No error message was displayed upon creating a project with the same name twice.",
-				solo.searchText(getActivity().getString(R.string.error_project_exists)));
+		assertTrue("No error message was displayed upon creating a project with the same name twice.", solo
+				.searchText(getActivity().getString(R.string.error_project_exists)));
 
 	}
 
@@ -273,8 +273,8 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		Sprite secondSprite = new Sprite("dog");
 		Sprite thirdSprite = new Sprite("horse");
 		Sprite fourthSprite = new Sprite("pig");
-		Script testScript = new StartScript("testScript", firstSprite);
-		Script otherScript = new StartScript("otherScript", secondSprite);
+		Script testScript = new StartScript(firstSprite);
+		Script otherScript = new StartScript(secondSprite);
 		HideBrick hideBrick = new HideBrick(firstSprite);
 		ShowBrick showBrick = new ShowBrick(firstSprite);
 		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(secondSprite, size);
