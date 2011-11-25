@@ -133,8 +133,8 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		solo.clickOnText(getActivity().getString(R.string.stagemenu_screenshot));
 		solo.sleep(50);
 
-		assertTrue("Successful screenshot Toast not found!",
-				solo.searchText(getActivity().getString(R.string.notification_screenshot_ok)));
+		assertTrue("Successful screenshot Toast not found!", solo.searchText(getActivity().getString(
+				R.string.notification_screenshot_ok)));
 
 		solo.clickOnText(getActivity().getString(R.string.resume_current_project));
 
@@ -170,7 +170,7 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 
 		project = new Project(null, projectName);
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript("script", sprite);
+		Script script = new StartScript(sprite);
 		setSizeToBrick = new SetSizeToBrick(sprite, 100);
 		setCostumeBrick = new SetCostumeBrick(sprite);
 
@@ -193,8 +193,8 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		costumeData.setCostumeName("image");
 		setCostumeBrick.setCostume(costumeData);
 		sprite.getCostumeDataList().add(costumeData);
-		ProjectManager.getInstance().fileChecksumContainer.addChecksum(costumeData.getChecksum(),
-				image.getAbsolutePath());
+		ProjectManager.getInstance().fileChecksumContainer.addChecksum(costumeData.getChecksum(), image
+				.getAbsolutePath());
 		ProjectManager.getInstance().saveProject();
 	}
 

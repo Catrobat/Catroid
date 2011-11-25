@@ -85,8 +85,8 @@ public class NXTPlayToneBrickTest extends ActivityInstrumentationTestCase2<Scrip
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
-				getActivity().getAdapter().getChild(groupCount - 1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
+				groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.nxt_play_tone)));
 
 		solo.clickOnEditText(0);
@@ -167,7 +167,7 @@ public class NXTPlayToneBrickTest extends ActivityInstrumentationTestCase2<Scrip
 		//		setX = 17;
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript("script", sprite);
+		Script script = new StartScript(sprite);
 
 		setFrequencyInitially = 20;
 		setDurationInitially = 1.0;

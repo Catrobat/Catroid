@@ -83,8 +83,8 @@ public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptAct
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
-				getActivity().getAdapter().getChild(groupCount - 1, 0));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
+				groupCount - 1, 0));
 		assertNotNull("TextView does not exist.", solo.getText(getActivity().getString(R.string.brick_go_back)));
 
 		solo.clickOnEditText(0);
@@ -102,7 +102,7 @@ public class GoNStepsBackTest extends ActivityInstrumentationTestCase2<ScriptAct
 		stepsToGoBack = 17;
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript("script", sprite);
+		Script script = new StartScript(sprite);
 		goNStepsBackBrick = new GoNStepsBackBrick(sprite, 0);
 		script.addBrick(goNStepsBackBrick);
 

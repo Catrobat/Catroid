@@ -149,7 +149,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 
 		// yellow Sprite
 		Sprite yellowSprite = new Sprite("yellowSprite");
-		StartScript yellowStartScript = new StartScript("yellowImage", yellowSprite);
+		StartScript yellowStartScript = new StartScript(yellowSprite);
 		SetCostumeBrick yellowCostumeBrick = new SetCostumeBrick(yellowSprite);
 		CostumeData yellowCostumeData = new CostumeData();
 		String yellowImageName = "yellow_image.bmp";
@@ -164,7 +164,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 
 		yellowSprite.addScript(yellowStartScript);
 
-		WhenScript yellowWhenScript = new WhenScript("yellowWhenImage", yellowSprite);
+		WhenScript yellowWhenScript = new WhenScript(yellowSprite);
 		SetGhostEffectBrick yellowSetGhostEffectBrick = new SetGhostEffectBrick(yellowSprite, 100d);
 		yellowWhenScript.addBrick(yellowSetGhostEffectBrick);
 
@@ -172,7 +172,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 
 		// blue Sprite
 		Sprite blueSprite = new Sprite("blueSprite");
-		StartScript blueStartScript = new StartScript("blueImage", blueSprite);
+		StartScript blueStartScript = new StartScript(blueSprite);
 		SetCostumeBrick blueCostumeBrick = new SetCostumeBrick(blueSprite);
 		CostumeData blueCostumeData = new CostumeData();
 		String blueImageName = "blue_image.bmp";
@@ -187,7 +187,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 
 		blueSprite.addScript(blueStartScript);
 
-		WhenScript blueWhenScript = new WhenScript("blueWhenImage", blueSprite);
+		WhenScript blueWhenScript = new WhenScript(blueSprite);
 		SetSizeToBrick blueSetSizeToBrick = new SetSizeToBrick(blueSprite, 200d);
 		blueWhenScript.addBrick(blueSetSizeToBrick);
 
@@ -195,7 +195,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 
 		// green Sprite
 		Sprite greenSprite = new Sprite("greenSprite");
-		StartScript greenStartScript = new StartScript("greenImage", greenSprite);
+		StartScript greenStartScript = new StartScript(greenSprite);
 		SetCostumeBrick greenCostumeBrick = new SetCostumeBrick(greenSprite);
 		CostumeData greenCostumeData = new CostumeData();
 		String greenImageName = "green_image.bmp";
@@ -210,7 +210,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 
 		greenSprite.addScript(greenStartScript);
 
-		WhenScript greenWhenScript = new WhenScript("greenWhenImage", greenSprite);
+		WhenScript greenWhenScript = new WhenScript(greenSprite);
 		ComeToFrontBrick greenComeToFrontBrick = new ComeToFrontBrick(greenSprite);
 		greenWhenScript.addBrick(greenComeToFrontBrick);
 
@@ -218,7 +218,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 
 		// red Sprite
 		Sprite redSprite = new Sprite("redSprite");
-		StartScript redStartScript = new StartScript("redImage", redSprite);
+		StartScript redStartScript = new StartScript(redSprite);
 		SetCostumeBrick redCostumeBrick = new SetCostumeBrick(redSprite);
 		CostumeData redCostumeData = new CostumeData();
 		String redImageName = "red_image.bmp";
@@ -233,7 +233,7 @@ public class ComplexStageTest extends ActivityInstrumentationTestCase2<StageActi
 
 		redSprite.addScript(redStartScript);
 
-		WhenScript redWhenScript = new WhenScript("redWhenImage", redSprite);
+		WhenScript redWhenScript = new WhenScript(redSprite);
 		ComeToFrontBrick redComeToFrontBrick = new ComeToFrontBrick(redSprite);
 		SetBrightnessBrick redSetBrightnessBrick = new SetBrightnessBrick(redSprite, 50d);
 		TurnLeftBrick redTurnLeftBrick = new TurnLeftBrick(redSprite, 45d);

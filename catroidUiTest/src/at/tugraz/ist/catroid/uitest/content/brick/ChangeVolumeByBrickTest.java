@@ -77,10 +77,10 @@ public class ChangeVolumeByBrickTest extends ActivityInstrumentationTestCase2<Sc
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
-				getActivity().getAdapter().getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist.",
-				solo.getText(getActivity().getString(R.string.brick_change_volume_by)));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
+				groupCount - 1, 0));
+		assertNotNull("TextView does not exist.", solo
+				.getText(getActivity().getString(R.string.brick_change_volume_by)));
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
@@ -96,7 +96,7 @@ public class ChangeVolumeByBrickTest extends ActivityInstrumentationTestCase2<Sc
 		volumeToChange = 50.0;
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript("script", sprite);
+		Script script = new StartScript(sprite);
 		changeVolumeByBrick = new ChangeVolumeByBrick(sprite, 100);
 		script.addBrick(changeVolumeByBrick);
 

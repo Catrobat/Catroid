@@ -78,8 +78,8 @@ public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
-				adapter.getItem(adapter.getScriptId(groupCount - 1) + 1));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0), adapter.getItem(adapter
+				.getScriptId(groupCount - 1) + 1));
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_wait)));
 
 		double waitTime = 2.25;
@@ -99,7 +99,7 @@ public class WaitBrickTest extends ActivityInstrumentationTestCase2<ScriptActivi
 	private void createProject() {
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript("script", sprite);
+		Script script = new StartScript(sprite);
 		waitBrick = new WaitBrick(sprite, 1000);
 		script.addBrick(waitBrick);
 

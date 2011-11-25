@@ -166,9 +166,9 @@ public class MoveBrickAcrossScriptTest extends ActivityInstrumentationTestCase2<
 		Project project = new Project(null, projectName);
 		firstSprite = new Sprite("cat");
 
-		Script startScript1 = new StartScript("startScript", firstSprite);
-		Script whenScript1 = new WhenScript("whenScript1", firstSprite);
-		Script whenScript2 = new WhenScript("whenScript2", firstSprite);
+		Script startScript1 = new StartScript(firstSprite);
+		Script whenScript1 = new WhenScript(firstSprite);
+		Script whenScript2 = new WhenScript(firstSprite);
 
 		brickListToCheck = new ArrayList<Brick>();
 		brickListToCheck.add(new HideBrick(firstSprite));

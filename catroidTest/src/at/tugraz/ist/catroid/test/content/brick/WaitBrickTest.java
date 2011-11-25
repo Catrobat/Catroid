@@ -34,7 +34,7 @@ public class WaitBrickTest extends AndroidTestCase {
 
 	public void testWait() throws InterruptedException {
 		Sprite testSprite = new Sprite("testSprite");
-		Script testScript = new StartScript("testScript", testSprite);
+		Script testScript = new StartScript(testSprite);
 		HideBrick hideBrick = new HideBrick(testSprite);
 		WaitBrick waitBrick = new WaitBrick(testSprite, 1000);
 		ShowBrick showBrick = new ShowBrick(testSprite);
@@ -58,7 +58,7 @@ public class WaitBrickTest extends AndroidTestCase {
 
 	public void testPauseResume() throws InterruptedException {
 		Sprite testSprite = new Sprite("testSprite");
-		final Script testScript = new StartScript("test", testSprite);
+		final Script testScript = new StartScript(testSprite);
 		HideBrick hideBrick = new HideBrick(testSprite);
 		WaitBrick waitBrick = new WaitBrick(testSprite, 3000);
 		ShowBrick showBrick = new ShowBrick(testSprite);

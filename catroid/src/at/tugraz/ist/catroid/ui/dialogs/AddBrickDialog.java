@@ -32,9 +32,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.LinearLayout.LayoutParams;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.BroadcastScript;
@@ -209,25 +209,25 @@ public class AddBrickDialog extends Dialog {
 				ProjectManager projectManager = ProjectManager.getInstance();
 
 				if (addedBrick instanceof WhenStartedBrick) {
-					Script newScript = new StartScript("script", projectManager.getCurrentSprite());
+					Script newScript = new StartScript(projectManager.getCurrentSprite());
 					projectManager.addScript(newScript);
 					if (projectManager.getCurrentScriptPosition() < 0) {
 						projectManager.setCurrentScript(newScript);
 					}
 				} else if (addedBrick instanceof WhenBrick) {
-					Script newScript = new WhenScript("script", projectManager.getCurrentSprite());
+					Script newScript = new WhenScript(projectManager.getCurrentSprite());
 					projectManager.addScript(newScript);
 					if (projectManager.getCurrentScriptPosition() < 0) {
 						projectManager.setCurrentScript(newScript);
 					}
 				} else if (addedBrick instanceof WhenBrick) {
-					Script newScript = new WhenScript("script", projectManager.getCurrentSprite());
+					Script newScript = new WhenScript(projectManager.getCurrentSprite());
 					projectManager.addScript(newScript);
 					if (projectManager.getCurrentScriptPosition() < 0) {
 						projectManager.setCurrentScript(newScript);
 					}
 				} else if (addedBrick instanceof BroadcastReceiverBrick) {
-					Script newScript = new BroadcastScript("script", projectManager.getCurrentSprite());
+					Script newScript = new BroadcastScript(projectManager.getCurrentSprite());
 					projectManager.addScript(newScript);
 					if (projectManager.getCurrentScriptPosition() < 0) {
 						projectManager.setCurrentScript(newScript);
@@ -239,7 +239,7 @@ public class AddBrickDialog extends Dialog {
 				} else {
 					Brick brickClone = getBrickClone(adapter.getItem(position));
 					if (projectManager.getCurrentSprite().getNumberOfScripts() == 0) {
-						Script newScript = new StartScript("script", projectManager.getCurrentSprite());
+						Script newScript = new StartScript(projectManager.getCurrentSprite());
 						projectManager.addScript(newScript);
 
 						Script temp;

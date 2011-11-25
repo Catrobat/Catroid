@@ -113,7 +113,7 @@ public class SpeakStageTestComplex extends ActivityInstrumentationTestCase2<PreS
 		Project project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		Sprite firstSprite = new Sprite("cat");
-		testScript = new StartScript("testscript", firstSprite);
+		testScript = new StartScript(firstSprite);
 		BroadcastBrick broadcastBrick = new BroadcastBrick(firstSprite);
 		broadcastBrick.setSelectedMessage("speak");
 
@@ -128,7 +128,7 @@ public class SpeakStageTestComplex extends ActivityInstrumentationTestCase2<PreS
 		}
 
 		Sprite secondSprite = new Sprite("dog");
-		receiveScript = new BroadcastScript("receiveScript", secondSprite);
+		receiveScript = new BroadcastScript(secondSprite);
 		receiveScript.setBroadcastMessage("speak");
 		BroadcastReceiverBrick broadcastReceiver = new BroadcastReceiverBrick(secondSprite, receiveScript);
 

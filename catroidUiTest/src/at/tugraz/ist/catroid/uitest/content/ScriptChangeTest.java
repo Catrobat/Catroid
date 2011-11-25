@@ -44,6 +44,9 @@ import com.jayway.android.robotium.solo.Solo;
 public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptTabActivity> {
 	private Solo solo;
 	private ArrayList<Brick> brickListToCheck;
+	private Script testScript;
+	private Script testScript2;
+	private Script testScript3;
 
 	public ScriptChangeTest() {
 		super("at.tugraz.ist.catroid", ScriptTabActivity.class);
@@ -76,20 +79,20 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptTab
 		solo.clickOnView(testScriptBrick);
 		solo.sleep(1500);
 
-		assertEquals("Current Script in List is not testScript", "testScript", ProjectManager.getInstance()
-				.getCurrentScript().getName());
+		assertEquals("Current Script in List is not testScript", testScript, ProjectManager.getInstance()
+				.getCurrentScript());
 
 		View startBrick = parent.getChildAt(4);
 		solo.clickOnView(startBrick);
 		solo.sleep(1500);
-		assertEquals("Current Script in List is not testScript", "testScript3", ProjectManager.getInstance()
-				.getCurrentScript().getName());
+		assertEquals("Current Script in List is not testScript", testScript3, ProjectManager.getInstance()
+				.getCurrentScript());
 
 		startBrick = parent.getChildAt(5);
 		solo.clickOnView(startBrick);
 		solo.sleep(1500);
-		assertEquals("Current Script in List is not testScript", "testScript2", ProjectManager.getInstance()
-				.getCurrentScript().getName());
+		assertEquals("Current Script in List is not testScript", testScript2, ProjectManager.getInstance()
+				.getCurrentScript());
 
 		startBrick = parent.getChildAt(2);
 		String textViewText = solo.getCurrentTextViews(startBrick).get(0).getText().toString();
@@ -103,9 +106,9 @@ public class ScriptChangeTest extends ActivityInstrumentationTestCase2<ScriptTab
 		Project project = new Project(null, projectName);
 		Sprite firstSprite = new Sprite("cat");
 
-		Script testScript = new StartScript("testScript", firstSprite);
-		Script testScript2 = new StartScript("testScript2", firstSprite);
-		Script testScript3 = new StartScript("testScript3", firstSprite);
+		testScript = new StartScript(firstSprite);
+		testScript2 = new StartScript(firstSprite);
+		testScript3 = new StartScript(firstSprite);
 
 		brickListToCheck = new ArrayList<Brick>();
 		brickListToCheck.add(new HideBrick(firstSprite));

@@ -37,8 +37,8 @@ public class WhenScript extends Script {
 	private String action;
 	private int position;
 
-	public WhenScript(String name, Sprite sprite) {
-		super(name, sprite);
+	public WhenScript(Sprite sprite) {
+		super(sprite);
 		super.isFinished = true;
 		this.action = TAPPED;
 	}

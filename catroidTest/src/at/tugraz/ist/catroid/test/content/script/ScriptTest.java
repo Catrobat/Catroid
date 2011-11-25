@@ -51,7 +51,7 @@ public class ScriptTest extends AndroidTestCase {
 
 	public void testAddBricks() {
 		Sprite testSprite = new Sprite("sprite");
-		Script script = new StartScript("test", testSprite);
+		Script script = new StartScript(testSprite);
 		script.addBrick(hideBrick);
 		script.addBrick(showBrick);
 		script.addBrick(placeAtBrick);

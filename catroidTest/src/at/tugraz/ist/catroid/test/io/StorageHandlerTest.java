@@ -88,8 +88,8 @@ public class StorageHandlerTest extends AndroidTestCase {
 		Sprite secondSprite = new Sprite("second");
 		Sprite thirdSprite = new Sprite("third");
 		Sprite fourthSprite = new Sprite("fourth");
-		Script testScript = new StartScript("testScript", firstSprite);
-		Script otherScript = new StartScript("otherScript", secondSprite);
+		Script testScript = new StartScript(firstSprite);
+		Script otherScript = new StartScript(secondSprite);
 		HideBrick hideBrick = new HideBrick(firstSprite);
 		ShowBrick showBrick = new ShowBrick(firstSprite);
 		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(secondSprite, size);
@@ -210,8 +210,8 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 		Project project = new Project(getContext(), projectName);
 		Sprite sprite = new Sprite("testSprite");
-		Script startScript = new StartScript("testScript", sprite);
-		Script whenScript = new WhenScript("whenScript", sprite);
+		Script startScript = new StartScript(sprite);
+		Script whenScript = new WhenScript(sprite);
 		sprite.addScript(startScript);
 		sprite.addScript(whenScript);
 		project.addSprite(sprite);

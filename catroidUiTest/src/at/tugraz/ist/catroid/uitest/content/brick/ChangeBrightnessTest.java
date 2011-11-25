@@ -81,8 +81,8 @@ public class ChangeBrightnessTest extends ActivityInstrumentationTestCase2<Scrip
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0), ((ScriptActivity) getActivity()
 				.getCurrentActivity()).getAdapter().getChild(groupCount - 1, 0));
-		assertNotNull("TextView does not exist",
-				solo.getText(getActivity().getString(R.string.brick_change_brightness)));
+		assertNotNull("TextView does not exist", solo
+				.getText(getActivity().getString(R.string.brick_change_brightness)));
 
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
@@ -93,15 +93,15 @@ public class ChangeBrightnessTest extends ActivityInstrumentationTestCase2<Scrip
 		solo.sleep(1000);
 
 		assertEquals("Wrong text in field", brightnessToChange, ChangeBrightnessBrick.getChangeBrightness());
-		assertEquals("Text not updated", brightnessToChange,
-				Double.parseDouble(solo.getEditText(0).getText().toString()));
+		assertEquals("Text not updated", brightnessToChange, Double.parseDouble(solo.getEditText(0).getText()
+				.toString()));
 	}
 
 	private void createProject() {
 		brightnessToChange = 56.6;
 		project = new Project(null, "testProject");
 		Sprite sprite = new Sprite("cat");
-		Script script = new StartScript("script", sprite);
+		Script script = new StartScript(sprite);
 		ChangeBrightnessBrick = new ChangeBrightnessBrick(sprite, 10.2);
 		script.addBrick(ChangeBrightnessBrick);
 
