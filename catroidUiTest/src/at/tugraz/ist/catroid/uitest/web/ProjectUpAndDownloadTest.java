@@ -77,7 +77,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 		super.tearDown();
 	}
 
-	private void startProjectUploadTask() throws Throwable {
+	private void setServerURLToTestUrl() throws Throwable {
 		runTestOnUiThread(new Runnable() {
 			public void run() {
 				ServerCalls.useTestUrl = true;
@@ -86,7 +86,7 @@ public class ProjectUpAndDownloadTest extends ActivityInstrumentationTestCase2<M
 	}
 
 	public void testUploadProjectSuccess() throws Throwable {
-		startProjectUploadTask();
+		setServerURLToTestUrl();
 
 		createTestProject(testProject);
 		addABrickToProject();
