@@ -90,9 +90,10 @@ public class MainMenuActivityTest extends ActivityInstrumentationTestCase2<MainM
 		assertTrue("EditText field got cleared after changing orientation", solo.searchText(testProject));
 		solo.sleep(600);
 		solo.setActivityOrientation(Solo.PORTRAIT);
+		solo.sleep(200);
 		solo.goBack();
 		solo.clickOnButton(0);
-		solo.sleep(200);
+		solo.sleep(400);
 
 		File file = new File(Consts.DEFAULT_ROOT + "/" + testProject + "/" + testProject + Consts.PROJECT_EXTENTION);
 		assertTrue(testProject + " was not created!", file.exists());
