@@ -191,7 +191,7 @@ public class ServerCalls {
 			}
 			String serverUrl = useTestUrl ? TEST_REGISTRATION_URL : REGISTRATION_URL;
 
-			Log.v(TAG, "url to upload: " + serverUrl);
+			Log.v(TAG, "url to use: " + serverUrl);
 			resultString = connection.doHttpPost(serverUrl, postValues);
 
 			JSONObject jsonObject = null;

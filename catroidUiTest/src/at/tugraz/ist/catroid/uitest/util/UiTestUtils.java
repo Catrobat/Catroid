@@ -464,7 +464,7 @@ public class UiTestUtils {
 
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
-			assert (false);
+			assertEquals("Error creating test User. ", true, false);
 		}
 	}
 
