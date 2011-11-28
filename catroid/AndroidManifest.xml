@@ -66,6 +66,7 @@
 		<activity
 			android:name=".stage.StageActivity"
 			android:screenOrientation="portrait"
+			android:configChanges="orientation"
 			android:label="@string/stage"
 			android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen"/>
 			
