@@ -112,7 +112,8 @@ public class UploadDialogTest extends ActivityInstrumentationTestCase2<MainMenuA
 
 	}
 
-	public void testOrientationChange() {
+	public void testOrientationChange() throws Throwable {
+		setServerURLToTestURL();
 		createTestProject();
 		String testText1 = "testText1";
 		String testText2 = "testText2";
