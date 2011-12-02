@@ -84,7 +84,7 @@ public class CostumeData {
 
 	public Bitmap getThumbnailBitmap() {
 		if (thumbnailBitmap == null) {
-			thumbnailBitmap = ImageEditing.getScaledBitmap(getAbsolutePath(), THUMBNAIL_HEIGHT, THUMBNAIL_WIDTH);
+			thumbnailBitmap = ImageEditing.getScaledBitmapFromPath(getAbsolutePath(), THUMBNAIL_HEIGHT, THUMBNAIL_WIDTH, false);
 		}
 		return thumbnailBitmap;
 	}
