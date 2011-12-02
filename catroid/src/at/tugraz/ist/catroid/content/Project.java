@@ -52,6 +52,8 @@ public class Project implements Serializable {
 	public Project(Context context, String name) {
 		this.name = name;
 		deviceName = Build.MODEL;
+
+		ifLandscapeSwitchWidthAndHeight();
 		screenResolution = Values.SCREEN_WIDTH + "/" + Values.SCREEN_HEIGHT;
 		VIRTUAL_SCREEN_WIDTH = Values.SCREEN_WIDTH;
 		VIRTUAL_SCREEN_HEIGHT = Values.SCREEN_HEIGHT;
@@ -67,6 +69,14 @@ public class Project implements Serializable {
 		versionName = Utils.getVersionName(context);
 		versionCode = Utils.getVersionCode(context);
 
+	}
+
+	private void ifLandscapeSwitchWidthAndHeight() {
+		if (Values.SCREEN_WIDTH > Values.SCREEN_HEIGHT) {
+			int tmp = Values.SCREEN_HEIGHT;
+			Values.SCREEN_HEIGHT = Values.SCREEN_WIDTH;
+			Values.SCREEN_WIDTH = tmp;
+		}
 	}
 
 	protected Object readResolve() {

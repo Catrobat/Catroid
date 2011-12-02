@@ -52,7 +52,7 @@ public class ImageEditing {
 		return newBitmap;
 	}
 
-	public static Bitmap getScaledBitmap(String imagePath, int outWidth, int outHeight) {
+	public static Bitmap getScaledBitmapFromPath(String imagePath, int outWidth, int outHeight, boolean justScaleDown) {
 		if (imagePath == null) {
 			return null;
 		}
@@ -68,6 +68,10 @@ public class ImageEditing {
 		double sampleSize = Math.max(sampleSizeWidth, sampleSizeHeight);
 		int sampleSizeRounded = (int) Math.floor(sampleSize);
 
+		if (justScaleDown && sampleSize <= 1) {
+			return BitmapFactory.decodeFile(imagePath);
+		}
+
 		int newHeight = (int) Math.ceil(origHeight / sampleSize);
 		int newWidth = (int) Math.ceil(origWidth / sampleSize);
 
@@ -76,34 +80,6 @@ public class ImageEditing {
 
 		Bitmap tempBitmap = BitmapFactory.decodeFile(imagePath, bitmapOptions);
 		return scaleBitmap(tempBitmap, newWidth, newHeight);
-	}
-
-	public static Bitmap getBitmap(String imagePath, int maxOutWidth, int maxOutHeight) {
-		if (imagePath == null) {
-			return null;
-		}
-		int[] imageDimensions = new int[2];
-
-		imageDimensions = getImageDimensions(imagePath);
-
-		double sampleSizeWidth = (imageDimensions[0] / (double) maxOutWidth);
-		double sampleSizeHeight = imageDimensions[1] / (double) maxOutHeight;
-		double sampleSize = Math.max(sampleSizeWidth, sampleSizeHeight);
-
-		if (sampleSize < 1) {
-			return BitmapFactory.decodeFile(imagePath);
-		}
-
-		int sampleSizeRounded = (int) Math.floor(sampleSize);
-
-		int newHeight = (int) Math.ceil(imageDimensions[1] / sampleSize);
-		int newWidth = (int) Math.ceil(imageDimensions[0] / sampleSize);
-
-		BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-		bitmapOptions.inSampleSize = sampleSizeRounded;
-
-		Bitmap tmpBitmap = BitmapFactory.decodeFile(imagePath, bitmapOptions);
-		return scaleBitmap(tmpBitmap, newWidth, newHeight);
 	}
 
 	public static int[] getImageDimensions(String imagePath) {
@@ -117,5 +93,11 @@ public class ImageEditing {
 		imageDimensions[1] = o.outHeight;
 
 		return imageDimensions;
+	}
+
+	public static Bitmap createSingleColorBitmap(int width, int height, int color) {
+		Bitmap newBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+		newBitmap.eraseColor(color);
+		return newBitmap;
 	}
 }

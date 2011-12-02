@@ -28,6 +28,7 @@ import java.io.FileOutputStream;
 
 import junit.framework.TestCase;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Bitmap.CompressFormat;
 import android.os.Environment;
 import at.tugraz.ist.catroid.common.Consts;
@@ -93,8 +94,8 @@ public class ImageEditingTest extends TestCase {
 			e.printStackTrace();
 		}
 
-		Bitmap loadedBitmap = ImageEditing.getBitmap(sdImageMainDirectory.toString() + "/tmp.jpg", maxBitmapWidth,
-				maxBitmapHeight);
+		Bitmap loadedBitmap = ImageEditing.getScaledBitmapFromPath(sdImageMainDirectory.toString() + "/tmp.jpg",
+				maxBitmapWidth, maxBitmapHeight, true);
 
 		assertEquals("Loaded bitmap has incorrect height", bitmap.getHeight(), loadedBitmap.getHeight());
 		assertEquals("Loaded bitmap has incorrect width", bitmap.getWidth(), loadedBitmap.getWidth());
@@ -124,8 +125,8 @@ public class ImageEditingTest extends TestCase {
 			e.printStackTrace();
 		}
 
-		loadedBitmap = ImageEditing.getBitmap(sdImageMainDirectory.toString() + "/tmp.jpg", maxBitmapWidth,
-				maxBitmapHeight);
+		loadedBitmap = ImageEditing.getScaledBitmapFromPath(sdImageMainDirectory.toString() + "/tmp.jpg",
+				maxBitmapWidth, maxBitmapHeight, true);
 		bitmap = ImageEditing.scaleBitmap(bitmap, newWidth, newHeight);
 
 		assertEquals("Loaded bitmap has incorrect height", bitmap.getHeight(), loadedBitmap.getHeight());
@@ -155,8 +156,8 @@ public class ImageEditingTest extends TestCase {
 			e.printStackTrace();
 		}
 
-		Bitmap loadedBitmap = ImageEditing.getScaledBitmap(sdImageMainDirectory.toString() + "/tmp.jpg",
-				targetBitmapWidth, targetBitmapHeight);
+		Bitmap loadedBitmap = ImageEditing.getScaledBitmapFromPath(sdImageMainDirectory.toString() + "/tmp.jpg",
+				targetBitmapWidth, targetBitmapHeight, false);
 
 		double sampleSizeWidth = (bitmapWidth / (double) targetBitmapWidth);
 		double sampleSizeHeight = bitmapHeight / (double) targetBitmapHeight;
@@ -169,4 +170,23 @@ public class ImageEditingTest extends TestCase {
 		assertEquals("Loaded and scaled bitmap has incorrect height", bitmap.getHeight(), loadedBitmap.getHeight());
 		assertEquals("Loaded and scaled bitmap has incorrect width", bitmap.getWidth(), loadedBitmap.getWidth());
 	}
+
+	public void testCreateSingleColorBitmap() {
+		int expectedWidth = 100;
+		int expectedHeight = 200;
+		int expectedColor = Color.CYAN;
+
+		Bitmap testBitmap = ImageEditing.createSingleColorBitmap(expectedWidth, expectedHeight, expectedColor);
+
+		assertEquals("The Bitmap has the wrong width", expectedWidth, testBitmap.getWidth());
+		assertEquals("The Bitmap has the wrong height", expectedHeight, testBitmap.getHeight());
+
+		assertEquals("The color of the Pixel is wrong", expectedColor, testBitmap.getPixel(0, 0));
+		assertEquals("The color of the Pixel is wrong", expectedColor, testBitmap.getPixel(expectedWidth - 1,
+				expectedHeight - 1));
+		assertEquals("The color of the Pixel is wrong", expectedColor, testBitmap.getPixel(expectedWidth / 2,
+				expectedHeight / 2));
+
+	}
+
 }

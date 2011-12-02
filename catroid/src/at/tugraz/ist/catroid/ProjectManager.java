@@ -29,6 +29,7 @@ import android.content.Context;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.common.MessageContainer;
+import at.tugraz.ist.catroid.common.StandardProjectHandler;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -64,7 +65,7 @@ public class ProjectManager {
 
 			project = StorageHandler.getInstance().loadProject(projectName);
 			if (project == null) {
-				project = StorageHandler.getInstance().createDefaultProject(context);
+				project = StandardProjectHandler.createAndSaveStandardProject(context);
 				if (errorMessage) {
 					Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
 					return false;
@@ -94,7 +95,7 @@ public class ProjectManager {
 		try {
 			fileChecksumContainer = new FileChecksumContainer();
 			messageContainer = new MessageContainer();
-			project = StorageHandler.getInstance().createDefaultProject(context);
+			project = StandardProjectHandler.createAndSaveStandardProject(context);
 			currentSprite = null;
 			currentScript = null;
 			return true;
@@ -108,7 +109,7 @@ public class ProjectManager {
 	public void initializeNewProject(String projectName, Context context) throws IOException {
 		fileChecksumContainer = new FileChecksumContainer();
 		messageContainer = new MessageContainer();
-		project = StorageHandler.getInstance().createDefaultProject(projectName, context);
+		project = StandardProjectHandler.createAndSaveDefaultProject(projectName, context);
 
 		currentSprite = null;
 		currentScript = null;
