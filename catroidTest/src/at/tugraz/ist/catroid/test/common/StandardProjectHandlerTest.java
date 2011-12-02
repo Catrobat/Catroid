@@ -22,12 +22,9 @@
  */
 package at.tugraz.ist.catroid.test.common;
 
-import java.io.File;
 import java.io.IOException;
 
 import android.test.AndroidTestCase;
-import at.tugraz.ist.catroid.R;
-import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.StandardProjectHandler;
 import at.tugraz.ist.catroid.common.Values;
@@ -35,7 +32,6 @@ import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
-import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class StandardProjectHandlerTest extends AndroidTestCase {
 
@@ -46,24 +42,19 @@ public class StandardProjectHandlerTest extends AndroidTestCase {
 
 	@Override
 	public void tearDown() {
-		TestUtils.clearProject(getContext().getString(R.string.default_project_name));
-		TestUtils.clearProject("testProject");
+		TestUtils.clearProject(testProjectName);
 	}
 
 	@Override
 	public void setUp() {
-		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name));
-
-		if (projectFile.exists()) {
-			UtilFile.deleteDirectory(projectFile);
-		}
+		TestUtils.clearProject(testProjectName);
 	}
 
 	public void testCreateStandardProject() throws IOException {
 		Values.SCREEN_WIDTH = 500;
 		Values.SCREEN_HEIGHT = 1000;
 
-		Project testProject = StandardProjectHandler.createAndSaveDefaultProject(testProjectName, getContext());
+		Project testProject = StandardProjectHandler.createAndSaveStandardProject(testProjectName, getContext());
 
 		assertEquals("The Project has the wrong name.", testProjectName, testProject.getName());
 		assertEquals("wrong number of sprites.", 2, testProject.getSpriteList().size());

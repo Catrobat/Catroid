@@ -57,10 +57,10 @@ public class StandardProjectHandler {
 
 	public static Project createAndSaveStandardProject(Context context) throws IOException {
 		String projectName = context.getString(R.string.default_project_name);
-		return createAndSaveDefaultProject(projectName, context);
+		return createAndSaveStandardProject(projectName, context);
 	}
 
-	public static Project createAndSaveDefaultProject(String projectName, Context context) throws IOException {
+	public static Project createAndSaveStandardProject(String projectName, Context context) throws IOException {
 		Project defaultProject = new Project(context, projectName);
 		StorageHandler.getInstance().saveProject(defaultProject);
 		ProjectManager.getInstance().setProject(defaultProject);
