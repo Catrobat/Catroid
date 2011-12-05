@@ -29,8 +29,8 @@ public class SoundInfo implements Comparable<SoundInfo> {
 
 	private String title;
 	private String fileName;
-	public boolean isPlaying;
-	public boolean isPaused;
+	public transient boolean isPlaying = false;
+	public transient boolean isPaused = false;
 
 	public SoundInfo() {
 		isPlaying = false;
