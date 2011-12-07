@@ -25,7 +25,6 @@ package at.tugraz.ist.catroid.content;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import android.util.Log;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 
 public abstract class Script implements Serializable {
@@ -38,7 +37,6 @@ public abstract class Script implements Serializable {
 	private transient int executingBrickIndex;
 	private String name;
 	protected Sprite sprite;
-	private boolean isRunning;
 
 	protected Object readResolve() {
 		init();
@@ -55,7 +53,6 @@ public abstract class Script implements Serializable {
 	private void init() {
 		paused = false;
 		finish = false;
-		isRunning = false;
 	}
 
 	public void run() {
@@ -160,8 +157,4 @@ public abstract class Script implements Serializable {
 		return brickList.get(index);
 	}
 
-	public void abandonExecution() {
-		Log.v("ScriptThread", "set running false");
-		isRunning = false;
-	}
 }
