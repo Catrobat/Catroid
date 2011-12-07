@@ -31,7 +31,6 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
-import android.util.Log;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
@@ -120,7 +119,6 @@ public class Sprite implements Serializable {
 			}
 		});
 		if (script instanceof WhenScript) {
-
 			if (!activeScripts.containsKey(script)) {
 				activeScripts.put(script, new LinkedList<Thread>());
 				activeScripts.get(script).add(t);
@@ -129,7 +127,6 @@ public class Sprite implements Serializable {
 				ListIterator<Thread> currentScriptThreads = activeScripts.get(script).listIterator();
 				while (currentScriptThreads.hasNext()) {
 					Thread currentThread = currentScriptThreads.next();
-					Log.v("Sprite", " - set " + currentThread.getId() + "false");
 					activeThreads.put(currentThread, false);
 				}
 				activeScripts.get(script).clear();
@@ -152,7 +149,6 @@ public class Sprite implements Serializable {
 			}
 		});
 		if (script instanceof BroadcastScript) {
-
 			if (!activeScripts.containsKey(script)) {
 				activeScripts.put(script, new LinkedList<Thread>());
 				activeScripts.get(script).add(t);
@@ -161,7 +157,6 @@ public class Sprite implements Serializable {
 				ListIterator<Thread> currentScriptThreads = activeScripts.get(script).listIterator();
 				while (currentScriptThreads.hasNext()) {
 					Thread currentThread = currentScriptThreads.next();
-					Log.v("Sprite", " - set " + currentThread.getId() + "false");
 					activeThreads.put(currentThread, false);
 				}
 				activeScripts.get(script).clear();
@@ -184,6 +179,23 @@ public class Sprite implements Serializable {
 				wait.countDown();
 			}
 		});
+		if (script instanceof BroadcastScript) {
+
+			if (!activeScripts.containsKey(script)) {
+				activeScripts.put(script, new LinkedList<Thread>());
+				activeScripts.get(script).add(t);
+				activeThreads.put(t, true);
+			} else {
+				ListIterator<Thread> currentScriptThreads = activeScripts.get(script).listIterator();
+				while (currentScriptThreads.hasNext()) {
+					Thread currentThread = currentScriptThreads.next();
+					activeThreads.put(currentThread, false);
+				}
+				activeScripts.get(script).clear();
+				activeScripts.get(script).add(t);
+				activeThreads.put(t, true);
+			}
+		}
 		t.start();
 	}
 
