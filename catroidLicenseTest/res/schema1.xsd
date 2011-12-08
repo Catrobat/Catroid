@@ -1,0 +1,568 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="Content.Project" type="project" />
+  
+  <xs:complexType name="project">
+    <xs:sequence>
+      <xs:element name="spriteList" type="sprite" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="name" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="sprite">
+    <xs:sequence>
+      <xs:element name="soundList" type="soundInfo" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="costumeDataList" type="costumeData" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="scriptList" type="script" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="name" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="soundInfo">
+    <xs:sequence>
+      <xs:element name="soundFileName" type="xs:string" minOccurs="0"/>
+      <xs:element name="title" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="costumeData">
+    <xs:sequence>
+      <xs:element name="costumeName" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="script" abstract="true">
+    <xs:sequence>
+      <xs:element name="brickList" type="brick" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="executingBrickIndex" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="brick" abstract="true">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="broadcastBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+          <xs:element name="selectedMessage" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="broadcastReceiverBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="receiveScript" type="broadcastScript" minOccurs="0"/>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="broadcastScript">
+    <xs:complexContent>
+      <xs:extension base="script">
+        <xs:sequence>
+          <xs:element name="selectedMessage" type="xs:string" minOccurs="0"/>
+          <xs:element name="broadcastMessage" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="broadcastWaitBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+          <xs:element name="selectedMessage" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="changeBrightnessBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="changeBrightness" type="xs:double"/>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="changeGhostEffectBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="changeGhostEffect" type="xs:double"/>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="changeSizeByNBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+          <xs:element name="size" type="xs:double"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="changeVolumeByBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+          <xs:element name="volume" type="xs:double"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="changeXByBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="xMovement" type="xs:int"/>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="changeYByBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="yMovement" type="xs:int"/>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="clearGraphicEffectBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="comeToFrontBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="foreverBrick">
+    <xs:complexContent>
+      <xs:extension base="loopBeginBrick">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="loopBeginBrick" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+          <xs:element name="beginLoopTime" type="xs:long"/>
+          <xs:element name="loopEndBrick" type="loopEndBrick" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="loopEndBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+          <xs:element name="loopBeginBrick" type="loopBeginBrick" minOccurs="0"/>
+          <xs:element name="timesToRepeat" type="xs:int"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="glideToBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="xDestination" type="xs:int"/>
+          <xs:element name="yDestination" type="xs:int"/>
+          <xs:element name="durationInMilliSeconds" type="xs:int"/>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="goNStepsBackBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+          <xs:element name="steps" type="xs:int"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="hideBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ifOnEdgeBounceBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="moveNStepsBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+          <xs:element name="steps" type="xs:double"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="nxtMotorActionBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+          <xs:element name="motor" type="xs:int"/>
+          <xs:element name="speed" type="xs:int"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="nxtMotorStopBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+          <xs:element name="btcHandler" type="handler" minOccurs="0"/>
+          <xs:element name="motor" type="xs:int"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="handler">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="nxtMotorTurnAngleBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+          <xs:element name="btcHandler" type="handler" minOccurs="0"/>
+          <xs:element name="motor" type="xs:int"/>
+          <xs:element name="angle" type="xs:int"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="nxtPlayToneBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+          <xs:element name="frequency" type="xs:int"/>
+          <xs:element name="duration" type="xs:double"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="nextCostumeBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="noteBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+          <xs:element name="note" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="placeAtBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="xPosition" type="xs:int"/>
+          <xs:element name="yPosition" type="xs:int"/>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="playSoundBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="soundInfo" type="soundInfo" minOccurs="0"/>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="pointInDirectionBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+          <xs:element name="selectedIndex" type="xs:int"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="pointToBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+          <xs:element name="pointedSprite" type="sprite" minOccurs="0"/>
+          <xs:element name="rotationDegrees" type="xs:double"/>
+          <xs:element name="spinnerPosition" type="xs:int"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="repeatBrick">
+    <xs:complexContent>
+      <xs:extension base="loopBeginBrick">
+        <xs:sequence>
+          <xs:element name="timesToRepeat" type="xs:int"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="setBrightnessBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="brightnessValue" type="xs:double"/>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="setCostumeBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+          <xs:element name="costumeData" type="costumeData" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="setGhostEffectBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="ghostEffectValue" type="xs:double"/>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="setSizeToBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+          <xs:element name="size" type="xs:double"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="setVolumeToBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+          <xs:element name="volume" type="xs:double"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="setXBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="xPosition" type="xs:int"/>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="setYBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="yPosition" type="xs:int"/>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="showBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="speakBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+          <xs:element name="text" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="stopAllSoundsBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="turnLeftBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+          <xs:element name="degrees" type="xs:double"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="turnRightBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+          <xs:element name="degrees" type="xs:double"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="waitBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="timeToWaitInMilliSeconds" type="xs:int"/>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="whenBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="whenScript" type="whenScript" minOccurs="0"/>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="whenScript">
+    <xs:complexContent>
+      <xs:extension base="script">
+        <xs:sequence>
+          <xs:element name="position" type="xs:int"/>
+          <xs:element name="action" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="whenStartedBrick">
+    <xs:complexContent>
+      <xs:extension base="brick">
+        <xs:sequence>
+          <xs:element name="script" type="script" minOccurs="0"/>
+          <xs:element name="sprite" type="sprite" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>
+
