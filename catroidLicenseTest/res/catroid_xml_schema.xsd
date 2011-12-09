@@ -1,91 +1,66 @@
-<!--
- *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010-2011 The Catroid Team
- *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *  
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
- *  published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
- *  
- *  An additional term exception under section 7 of the GNU Affero
- *  General Public License, version 3, is available at
- *  http://www.catroid.org/catroid_license_additional_term
- *  
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU Affero General Public License for more details.
- *   
- *  You should have received a copy of the GNU Affero General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<?xml version="1.0" encoding="utf-16"?>
-<xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified" version="1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <xsd:element name="Content.Project" type="Content.ProjectType" />
-  <xsd:complexType name="Content.ProjectType">
-    <xsd:sequence>
-      <xsd:element name="versionName" type="xsd:string" />
-      <xsd:element name="spriteList" type="spriteListType" />
-      <xsd:element name="deviceName" type="xsd:string" />
-      <xsd:element name="name" type="xsd:string" />
-      <xsd:element name="screenResolution" type="xsd:string" />
-      <xsd:element name="versionCode" type="xsd:int" />
-    </xsd:sequence>
-  </xsd:complexType>
-  <xsd:complexType name="spriteListType">
-    <xsd:sequence>
-      <xsd:element maxOccurs="unbounded" name="Content.Sprite" type="Content.SpriteType" />
-    </xsd:sequence>
-  </xsd:complexType>
-  <xsd:complexType name="Content.SpriteType">
-    <xsd:sequence>
-      <xsd:element name="costumeDataList" type="costumeDataListType" />
-      <xsd:element name="soundList" type="xsd:string" />
-      <xsd:element name="scriptList" type="scriptListType" />
-      <xsd:element name="name" type="xsd:string" />
-    </xsd:sequence>
-  </xsd:complexType>
-  <xsd:complexType name="scriptListType">
-    <xsd:sequence>
-      <xsd:element name="Content.StartScript" type="Content.StartScriptType" />
-    </xsd:sequence>
-  </xsd:complexType>
-  <xsd:complexType name="Content.StartScriptType">
-    <xsd:sequence>
-      <xsd:element name="brickList" type="brickListType" />
-      <xsd:element name="sprite" type="spriteType" />
-    </xsd:sequence>
-  </xsd:complexType>
-  <xsd:complexType name="spriteType">
-    <xsd:attribute name="reference" type="xsd:string" />
-  </xsd:complexType>
-  <xsd:complexType name="brickListType">
-    <xsd:sequence>
-      <xsd:element name="Bricks.SetCostumeBrick" type="Bricks.SetCostumeBrickType" />
-    </xsd:sequence>
-  </xsd:complexType>
-  <xsd:complexType name="Bricks.SetCostumeBrickType">
-    <xsd:sequence>
-      <xsd:element name="costumeData" type="costumeDataType" />
-      <xsd:element name="sprite" type="spriteType" />
-    </xsd:sequence>
-  </xsd:complexType>
-  <xsd:complexType name="spriteType">
-    <xsd:attribute name="reference" type="xsd:string" />
-  </xsd:complexType>
-  <xsd:complexType name="costumeDataType">
-    <xsd:attribute name="reference" type="xsd:string" />
-  </xsd:complexType>
-  <xsd:complexType name="costumeDataListType">
-    <xsd:sequence>
-      <xsd:element name="Common.CostumeData" type="Common.CostumeDataType" />
-    </xsd:sequence>
-  </xsd:complexType>
-  <xsd:complexType name="Common.CostumeDataType">
-    <xsd:sequence>
-      <xsd:element name="costumeFileName" type="xsd:string" />
-      <xsd:element name="costumeName" type="xsd:string" />
-    </xsd:sequence>
-  </xsd:complexType>
-</xsd:schema>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="Content.Project" type="Content.ProjectType" />
+  <xs:complexType name="Content.ProjectType">
+    <xs:sequence>
+      <xs:element name="deviceName" type="xs:string" />
+      <xs:element name="name" type="xs:string" />
+      <xs:element name="screenResolution" type="xs:string" />
+      <xs:element name="spriteList" type="spriteListType" />
+      <xs:element name="versionCode" type="xs:int" />
+      <xs:element name="versionName" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="spriteListType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="Content.Sprite" type="Content.SpriteType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Content.SpriteType">
+    <xs:sequence>
+      <xs:element name="costumeDataList" type="costumeDataListType" maxOccurs="1" minOccurs="0"/>
+      <xs:element name="name" type="xs:string" />
+      <xs:element name="soundList" type="xs:string" maxOccurs="1" minOccurs="0"/>
+      <xs:element name="scriptList" type="scriptListType" maxOccurs="1" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="scriptListType">
+    <xs:sequence>
+      <xs:element name="Content.StartScript" type="Content.StartScriptType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Content.StartScriptType">
+    <xs:sequence>
+      <xs:element name="brickList" type="brickListType" />
+      <xs:element name="sprite" type="spriteType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="spriteType">
+    <xs:attribute name="reference" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="brickListType">
+    <xs:sequence>
+      <xs:element name="Bricks.SetCostumeBrick" type="Bricks.SetCostumeBrickType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Bricks.SetCostumeBrickType">
+    <xs:sequence>
+      <xs:element name="costumeData" type="costumeDataType" />
+      <xs:element name="sprite" type="spriteType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="costumeDataType">
+    <xs:attribute name="reference" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="costumeDataListType">
+    <xs:sequence>
+      <xs:element name="Common.CostumeData" type="Common.CostumeDataType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Common.CostumeDataType">
+    <xs:sequence>
+      <xs:element name="costumeFileName" type="xs:string" />
+      <xs:element name="costumeName" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
