@@ -24,7 +24,11 @@ package at.tugraz.ist.catroid.test.io;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import android.test.AndroidTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -54,7 +58,9 @@ import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.content.bricks.WhenStartedBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
+import at.tugraz.ist.catroid.ui.dialogs.AddBrickDialog;
 import at.tugraz.ist.catroid.utils.UtilFile;
+import at.tugraz.ist.catroid.utils.Utils;
 
 public class StorageHandlerTest extends AndroidTestCase {
 	private StorageHandler storageHandler;
@@ -253,4 +259,85 @@ public class StorageHandlerTest extends AndroidTestCase {
 			UtilFile.deleteDirectory(projectFile);
 		}
 	}
+
+	@SuppressWarnings("unchecked")
+	public void testSerializeProjectWithAllBricks() throws IllegalAccessException, InstantiationException,
+			SecurityException, NoSuchMethodException, IllegalArgumentException, InvocationTargetException {
+
+		String projectName = "myProject";
+
+		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+		if (projectFile.exists()) {
+			UtilFile.deleteDirectory(projectFile);
+		}
+
+		Project project = new Project(getContext(), projectName);
+		Sprite sprite = new Sprite("testSprite");
+		Script startScript = new StartScript(sprite);
+		Script whenScript = new WhenScript(sprite);
+		sprite.addScript(startScript);
+		sprite.addScript(whenScript);
+		project.addSprite(sprite);
+
+		Method[] methods = AddBrickDialog.class.getDeclaredMethods();
+		HashMap<String, List<Brick>> brickMap = null;
+		for (Method method : methods) {
+			if (method.getName().equalsIgnoreCase("setupBrickMap")) {
+				method.setAccessible(true);
+
+				brickMap = (HashMap<String, List<Brick>>) method.invoke(null, sprite, getContext());
+
+				break;
+			}
+		}
+
+		//		@SuppressWarnings("unchecked")
+		//		HashMap<String, List<Brick>> brickMap = (HashMap<String, List<Brick>>) TestUtils.getPrivateField("brickMap",
+		//				addBrickDialog, false);
+		for (List<Brick> brickList : brickMap.values()) {
+			for (Brick brick : brickList) {
+				startScript.addBrick(brick);
+			}
+		}
+
+		storageHandler.saveProject(project);
+
+		String projectPath = Utils.buildPath(Consts.DEFAULT_ROOT, project.getName(), project.getName()
+				+ Consts.PROJECT_EXTENTION);
+
+	}
+	//	private Object getFilledInstanceRecursive(Class<?> theClass) throws IllegalAccessException, InstantiationException {
+	//
+	//		Object instance = theClass.newInstance();
+	//		Field[] fields = theClass.getDeclaredFields();
+	//		for (Field field : fields) {
+	//			Annotation[] a = field.getAnnotations();
+	//			for (Annotation annotation : a) {
+	//				annotation.toString();
+	//			}
+	//			if (!Modifier.isTransient(field.getModifiers())) {
+	//				fillFild(field, instance);
+	//			}
+	//		}
+	//		return instance;
+	//	}
+	//
+	//	private void fillFild(Field fieldToFill, Object instance) throws IllegalArgumentException, IllegalAccessException,
+	//			InstantiationException {
+	//
+	//		Class<?> fieldType = fieldToFill.getType();
+	//		if (fieldType.isPrimitive()) {
+	//			fieldToFill.setAccessible(true);
+	//			fieldToFill.set(instance, fieldType.newInstance());
+	//		} else if (fieldType.equals(String.class)) {
+	//			fieldToFill.setAccessible(true);
+	//			fieldToFill.set(instance, "aStringTest");
+	//		} else {
+	//			Object fieldInstance = fieldType.newInstance();
+	//			getFilledInstanceRecursive(fieldType);
+	//			fieldToFill.setAccessible(true);
+	//			fieldToFill.set(instance, fieldInstance);
+	//		}
+	//
+	//	}
 }
