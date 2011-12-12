@@ -94,8 +94,8 @@
                 <yMovement>-100</yMovement>
               </Bricks.ChangeYByBrick>
               <Bricks.GlideToBrick>
-                <sprite reference="../../../../.."/>
                 <durationInMilliSeconds>3000</durationInMilliSeconds>
+                <sprite reference="../../../../.."/>
                 <xDestination>500</xDestination>
                 <yDestination>500</yDestination>
               </Bricks.GlideToBrick>

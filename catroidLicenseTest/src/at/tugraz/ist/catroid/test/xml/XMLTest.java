@@ -43,6 +43,7 @@ public class XMLTest extends TestCase {
 	}
 
 	public void testXml() throws IOException, SAXException {
+
 		// 1. Lookup a factory for the W3C XML Schema language
 		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 		// 2. Compile the schema. 
@@ -57,35 +58,8 @@ public class XMLTest extends TestCase {
 
 		// 4. Parse the document you want to check.
 		String testProject = "test_project.xml";
-		Source source = new StreamSource(new File("res/test_project.xml"));
-
-		//		try {
-		//			String line;
-		//			//			Process p = Runtime.getRuntime().exec(
-		//			//					new String[] { "/Users/knut0025/development/android-sdk-mac_86/platform-tools/adb", "shell", "am",
-		//			//							"instrument", "-w",
-		//			//							"at.tugraz.ist.catroid.test.content.project/android.test.InstrumentationTestRunner" });
-		//			//
-		//			//							"-e", "class",
-		//			//							"at.tugraz.ist.catroid.test.content.project.ProjectManagerTest#createTestProject",
-		//			//							"at.tugraz.ist.catroid.test.content.project/android.test.InstrumentationTestRunner" });
-		//			BufferedReader bri = new BufferedReader(new InputStreamReader(p.getInputStream()));
-		//			BufferedReader bre = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-		//			while ((line = bri.readLine()) != null) {
-		//				System.out.println(line);
-		//			}
-		//			bri.close();
-		//			while ((line = bre.readLine()) != null) {
-		//				System.out.println(line);
-		//			}
-		//			bre.close();
-		//			p.waitFor();
-		//			System.out.println("Done.");
-		//		} catch (InterruptedException e) {
-		//			// TODO Auto-generated catch block
-		//			e.printStackTrace();
-		//		}
-
+		Source source = new StreamSource(new File("res/myProject.xml"));
+		//Source source = new StreamSource(new File("res/otherProject.xml"));
 		// 5. Check the document
 		try {
 			validator.validate(source);
@@ -93,6 +67,7 @@ public class XMLTest extends TestCase {
 		} catch (SAXException ex) {
 			System.out.println(testProject + " is not valid because ");
 			System.out.println(ex.getMessage());
+			ex.printStackTrace();
 			assertFalse(testProject + " is not valid because: " + ex.getMessage(), true);
 		}
 	}
