@@ -114,16 +114,6 @@ public class SingleExecutionThreadTest extends ActivityInstrumentationTestCase2<
 		assertEquals("Wrong executionBrickIndex.", 1, greenBroadcastScript.getExecutingBrickIndex());
 	}
 
-	public void testOtherBricksWithLongExecutionTime() {
-		// GlideToBRICK? --> same Tests as by WaitBrick?
-		// WaitBRICK -> testBroadcast & test When YES
-		// PlaySoundBRICK ? ~Scratch (how?, libgdx-Player) --> Not really possible in current development state, wait for libgdxsoundplayer?
-		// SpeakBRICK ? ~same as PlaySoundBRICK --> same Problem as by PlaySoundBrick, no Alternative
-		// Step+ bounceOfEdgeBRICK ? -->
-		// NXTStuff -> ?^3 X --> Could be bad, because of the Script <-> Bluetooth Relation
-
-	}
-
 	private void createProject() {
 		Values.SCREEN_HEIGHT = screenHeight;
 		Values.SCREEN_WIDTH = screenWidth;
