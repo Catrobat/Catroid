@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!--
+ *  Catroid: An on-device graphical programming language for Android devices
+ *  Copyright (C) 2010-2011 The Catroid Team
+ *  (<http://code.google.com/p/catroid/wiki/Credits>)
+ *  
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<Content.Project>
+  <versionName>0.5.6a</versionName>
+  <spriteList>
+    <Content.Sprite>
+      <costumeDataList>
+        <Common.CostumeData>
+          <costumeFileName>B978398F6E8D16B857AA81618F3EF879_background</costumeFileName>
+          <costumeName>background</costumeName>
+        </Common.CostumeData>
+      </costumeDataList>
+      <soundList/>
+      <scriptList>
+        <Content.StartScript>
+          <brickList>
+            <Bricks.SetCostumeBrick>
+              <costumeData reference="../../../../../costumeDataList/Common.CostumeData"/>
+              <sprite reference="../../../../.."/>
+            </Bricks.SetCostumeBrick>
+          </brickList>
+          <sprite reference="../../.."/>
+        </Content.StartScript>
+      </scriptList>
+      <name>Hintergrund</name>
+    </Content.Sprite>
+    <Content.Sprite>
+      <costumeDataList>
+        <Common.CostumeData>
+          <costumeFileName>143780EBC24495149123CCAF3A1CDC35_normalCat</costumeFileName>
+          <costumeName>normalCat</costumeName>
+        </Common.CostumeData>
+        <Common.CostumeData>
+          <costumeFileName>FE5DF421A5746EC7FC916AC1B94ECC17_banzaiCat</costumeFileName>
+          <costumeName>banzaiCat</costumeName>
+        </Common.CostumeData>
+        <Common.CostumeData>
+          <costumeFileName>3673EC84679EE425A215B86B085EC292_cheshireCat</costumeFileName>
+          <costumeName>cheshireCat</costumeName>
+        </Common.CostumeData>
+      </costumeDataList>
+      <soundList/>
+      <scriptList>
+        <Content.StartScript>
+          <brickList>
+            <Bricks.SetCostumeBrick>
+              <costumeData reference="../../../../../costumeDataList/Common.CostumeData"/>
+              <sprite reference="../../../../.."/>
+            </Bricks.SetCostumeBrick>
+            <Bricks.RepeatBrick>
+              <sprite reference="../../../../.."/>
+              <loopEndBrick>
+                <loopBeginBrick class="Bricks.RepeatBrick" reference="../.."/>
+                <sprite reference="../../../../../.."/>
+                <timesToRepeat>0</timesToRepeat>
+              </loopEndBrick>
+              <beginLoopTime>0</beginLoopTime>
+              <timesToRepeat>3</timesToRepeat>
+            </Bricks.RepeatBrick>
+            <Bricks.ShowBrick>
+              <sprite reference="../../../../.."/>
+            </Bricks.ShowBrick>
+            <Bricks.LoopEndBrick reference="../Bricks.RepeatBrick/loopEndBrick"/>
+          </brickList>
+          <sprite reference="../../.."/>
+        </Content.StartScript>
+        <Content.WhenScript>
+          <brickList>
+            <Bricks.SetCostumeBrick>
+              <costumeData reference="../../../../../costumeDataList/Common.CostumeData[2]"/>
+              <sprite reference="../../../../.."/>
+            </Bricks.SetCostumeBrick>
+            <Bricks.WaitBrick>
+              <sprite reference="../../../../.."/>
+              <timeToWaitInMilliSeconds>500</timeToWaitInMilliSeconds>
+            </Bricks.WaitBrick>
+            <Bricks.SetCostumeBrick>
+              <costumeData reference="../../../../../costumeDataList/Common.CostumeData[3]"/>
+              <sprite reference="../../../../.."/>
+            </Bricks.SetCostumeBrick>
+            <Bricks.WaitBrick>
+              <sprite reference="../../../../.."/>
+              <timeToWaitInMilliSeconds>500</timeToWaitInMilliSeconds>
+            </Bricks.WaitBrick>
+            <Bricks.SetCostumeBrick>
+              <costumeData reference="../../../../../costumeDataList/Common.CostumeData"/>
+              <sprite reference="../../../../.."/>
+            </Bricks.SetCostumeBrick>
+          </brickList>
+          <sprite reference="../../.."/>
+          <action>Tapped</action>
+          <position>0</position>
+        </Content.WhenScript>
+      </scriptList>
+      <name>Catroid</name>
+    </Content.Sprite>
+  </spriteList>
+  <deviceName>GT-I9100</deviceName>
+  <name>standardProjekt</name>
+  <screenResolution>480/800</screenResolution>
+  <versionCode>10</versionCode>
+</Content.Project>
