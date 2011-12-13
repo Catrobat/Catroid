@@ -74,10 +74,11 @@ public class ClearGraphicEffectBrickTest extends ActivityInstrumentationTestCase
 		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
-		assertEquals("Wrong Brick instance.", projectBrickList.get(0), getActivity().getAdapter().getChild(
-				groupCount - 1, 0));
-		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(
-				R.string.brick_clear_graphic_effect)));
+		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
+				getActivity().getAdapter().getChild(groupCount - 1, 0));
+		assertNotNull("TextView does not exist",
+				solo.getText(getActivity().getString(R.string.brick_clear_graphic_effect)));
+		assertTrue("Wrong wording of ClearGraphicEffect brick", solo.searchText("Clear graphic effects"));
 	}
 
 	private void createProject() {
