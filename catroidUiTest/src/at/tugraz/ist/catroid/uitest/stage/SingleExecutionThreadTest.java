@@ -123,7 +123,7 @@ public class SingleExecutionThreadTest extends ActivityInstrumentationTestCase2<
 		// yellow Sprite
 		yellowSprite = new Sprite("yellowSprite");
 
-		StartScript yellowStartScript = new StartScript("yellowImage", yellowSprite);
+		StartScript yellowStartScript = new StartScript(yellowSprite);
 		SetCostumeBrick yellowCostumeBrick = new SetCostumeBrick(yellowSprite);
 		SetSizeToBrick yellowSetSizeToBrick = new SetSizeToBrick(yellowSprite, 200d);
 		CostumeData yellowCostumeData = new CostumeData();
@@ -135,7 +135,7 @@ public class SingleExecutionThreadTest extends ActivityInstrumentationTestCase2<
 		yellowStartScript.addBrick(yellowSetSizeToBrick);
 		yellowSprite.addScript(yellowStartScript);
 
-		yellowWhenScript = new WhenScript("yellowWhenImage", yellowSprite);
+		yellowWhenScript = new WhenScript(yellowSprite);
 		WaitBrick yellowWaitBrick = new WaitBrick(yellowSprite, 2000);
 		SetGhostEffectBrick yellowSetGhostEffectBrick = new SetGhostEffectBrick(yellowSprite, 50d);
 		yellowWhenScript.addBrick(yellowWaitBrick);
@@ -144,7 +144,7 @@ public class SingleExecutionThreadTest extends ActivityInstrumentationTestCase2<
 
 		// blue Sprite
 		Sprite blueSprite = new Sprite("blueSprite");
-		StartScript blueStartScript = new StartScript("blueImage", blueSprite);
+		StartScript blueStartScript = new StartScript(blueSprite);
 		SetCostumeBrick blueCostumeBrick = new SetCostumeBrick(blueSprite);
 		SetSizeToBrick blueSetSizeToBrick = new SetSizeToBrick(blueSprite, 200d);
 		BroadcastWaitBrick broadcastWaitBrick = new BroadcastWaitBrick(blueSprite);
@@ -163,13 +163,13 @@ public class SingleExecutionThreadTest extends ActivityInstrumentationTestCase2<
 
 		blueSprite.addScript(blueStartScript);
 
-		WhenScript blueWhenScript = new WhenScript("blueWhenImage", blueSprite);
+		WhenScript blueWhenScript = new WhenScript(blueSprite);
 		blueWhenScript.addBrick(broadcastWaitBrick);
 		blueSprite.addScript(blueWhenScript);
 
 		// green Sprite
 		greenSprite = new Sprite("greenSprite");
-		StartScript greenStartScript = new StartScript("greenImage", greenSprite);
+		StartScript greenStartScript = new StartScript(greenSprite);
 		SetCostumeBrick greenCostumeBrick = new SetCostumeBrick(greenSprite);
 		SetSizeToBrick greenSetSizeToBrick = new SetSizeToBrick(greenSprite, 200d);
 		CostumeData greenCostumeData = new CostumeData();
@@ -186,7 +186,7 @@ public class SingleExecutionThreadTest extends ActivityInstrumentationTestCase2<
 
 		greenSprite.addScript(greenStartScript);
 
-		greenBroadcastScript = new BroadcastScript("broadcastScript", greenSprite);
+		greenBroadcastScript = new BroadcastScript(greenSprite);
 		WaitBrick waitBrick = new WaitBrick(greenSprite, 2000);
 
 		SetGhostEffectBrick greenSetGhostEffectBrick2 = new SetGhostEffectBrick(greenSprite, 100d);
