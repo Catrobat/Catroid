@@ -36,39 +36,34 @@ import junit.framework.TestCase;
 
 import org.xml.sax.SAXException;
 
-public class XMLTest extends TestCase {
+public class XMLValidatingTest extends TestCase {
 
-	public XMLTest() throws IOException {
+	public XMLValidatingTest() throws IOException {
 
 	}
 
-	public void testXml() throws IOException, SAXException {
+	public void testXmlWithSchemaValidator() throws IOException, SAXException {
 
-		// 1. Lookup a factory for the W3C XML Schema language
 		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-		// 2. Compile the schema. 
-		// Here the schema is loaded from a java.io.File, but you could use 
-		// a java.net.URL or a javax.xml.transform.Source instead.
-		File schemaLocation = new File("res/schema1.xsd");
-		//Source schemaSource = new StreamSource(getContext().getAssets().open("catroid_xml_schema.xsd"));
+
+		File schemaLocation = new File("res/catroidXmlSchema.xsd");
 		Schema schema = factory.newSchema(schemaLocation);
 
-		// 3. Get a validator from the schema.
-		Validator validator = schema.newValidator();
+		Validator schemaValidator = schema.newValidator();
 
-		// 4. Parse the document you want to check.
-		String testProject = "test_project.xml";
-		Source source = new StreamSource(new File("res/myProject.xml"));
-		//Source source = new StreamSource(new File("res/otherProject.xml"));
-		// 5. Check the document
+		File xmlDirectory = new File("res/catroidXMLsToValidate/");
+		File[] xmlFilesToValidate = xmlDirectory.listFiles();
+
+		File currentXMLFile = null;
 		try {
-			validator.validate(source);
-			System.out.println(testProject + " is valid.");
+			for (File xmlFile : xmlFilesToValidate) {
+				currentXMLFile = xmlFile;
+				Source source = new StreamSource(currentXMLFile);
+				schemaValidator.validate(source);
+			}
 		} catch (SAXException ex) {
-			System.out.println(testProject + " is not valid because ");
-			System.out.println(ex.getMessage());
 			ex.printStackTrace();
-			assertFalse(testProject + " is not valid because: " + ex.getMessage(), true);
+			assertFalse(currentXMLFile + " is not valid because: " + ex.getMessage(), true);
 		}
 	}
 }

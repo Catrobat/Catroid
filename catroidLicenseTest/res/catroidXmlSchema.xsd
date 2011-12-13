@@ -97,7 +97,7 @@
   		<xs:element name="Bricks.HideBrick" type="hideBrick" maxOccurs="unbounded" minOccurs="0" />
   		<xs:element name="Bricks.IfOnEdgeBounceBrick" type="ifOnEdgeBounceBrick" maxOccurs="unbounded" minOccurs="0" />
   		<xs:element name="Bricks.LoopBeginBrick" type="loopBeginBrick" maxOccurs="unbounded" minOccurs="0" />
-  		<xs:element name="Bricks.LoopEndBrick" type="loopEndBrick" maxOccurs="unbounded" minOccurs="0" />
+  		<xs:element name="Bricks.LoopEndBrick" type="loopEndBrickRef" maxOccurs="unbounded" minOccurs="0" />
   		<xs:element name="Bricks.MoveNStepsBrick" type="moveNStepsBrick" maxOccurs="unbounded" minOccurs="0" />
   		<xs:element name="Bricks.NextCostumeBrick" type="nextCostumeBrick" maxOccurs="unbounded" minOccurs="0" />
   		<xs:element name="Bricks.NoteBrick" type="noteBrick" maxOccurs="unbounded" minOccurs="0" />
@@ -294,16 +294,25 @@
     </xs:complexContent>
   </xs:complexType>
 
+ <xs:complexType name="loopBeginBrickRef">
+  	<xs:attribute name="class" type="xs:string"/>
+  	<xs:attribute name="reference" type="xs:string"/>
+  </xs:complexType>
+
   <xs:complexType name="loopEndBrick">
     <xs:complexContent>
       <xs:extension base="brick">
         <xs:sequence>
+          <xs:element name="loopBeginBrick" type="loopBeginBrickRef" minOccurs="0"/>
           <xs:element name="sprite" type="spriteRef" minOccurs="0"/>
           <xs:element name="timesToRepeat" type="xs:int"/>
-          <xs:element name="loopBeginBrick" type="loopBeginBrick" minOccurs="0"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="loopEndBrickRef">
+  	<xs:attribute name="reference" type="xs:string"/>
   </xs:complexType>
 
   <xs:complexType name="glideToBrick">
