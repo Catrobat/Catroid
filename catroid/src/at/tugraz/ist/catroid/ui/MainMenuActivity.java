@@ -116,15 +116,16 @@ public class MainMenuActivity extends Activity {
 		String title = this.getResources().getString(R.string.project_name) + " "
 				+ projectManager.getCurrentProject().getName();
 		activityHelper.setupActionBar(true, title);
-		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, new View.OnClickListener() {
-			public void onClick(View v) {
-				if (projectManager.getCurrentProject() != null) {
-					Intent intent = new Intent(MainMenuActivity.this, PreStageActivity.class);
-					ignoreResume = true;
-					startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
-				}
-			}
-		}, false);
+		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, R.string.start,
+				new View.OnClickListener() {
+					public void onClick(View v) {
+						if (projectManager.getCurrentProject() != null) {
+							Intent intent = new Intent(MainMenuActivity.this, PreStageActivity.class);
+							ignoreResume = true;
+							startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
+						}
+					}
+				}, false);
 		this.titleText = (TextView) findViewById(R.id.tv_title);
 
 	}
