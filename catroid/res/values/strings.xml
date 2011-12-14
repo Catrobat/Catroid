@@ -91,14 +91,14 @@
     <string name="edit_costume">edit</string>
     <string name="edit_costume_paintroid">Paintroid</string>
     <string name="copy_costume">copy</string>
-    <string name="costumename_invalid">This costume's name is invalid</string>
+    <string name="costumename_invalid">This costume\'s name is invalid</string>
     <string name="copy_costume_addition">copy</string>
     <string name="select_image">Select Image</string>
     <string name="paintroid_not_installed">Paintroid is not installed!\nDo you want to install it?</string>
     
     <!-- Sound activity -->
     <string name="rename_sound_dialog">Rename sound</string>
-    <string name="soundname_invalid">This sound's name is invalid</string>
+    <string name="soundname_invalid">This sound\'s name is invalid</string>
     <string name="sound_play">play</string>
     <string name="sound_pause">pause</string>
     <string name="sound_delete">delete</string>
