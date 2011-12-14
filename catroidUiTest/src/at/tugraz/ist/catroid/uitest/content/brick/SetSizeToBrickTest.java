@@ -123,7 +123,7 @@ public class SetSizeToBrickTest extends ActivityInstrumentationTestCase2<ScriptT
 		Values.SCREEN_WIDTH = displayMetrics.widthPixels;
 		Values.SCREEN_HEIGHT = displayMetrics.heightPixels;
 
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 
 		solo.assertCurrentActivity("Not in stage", StageActivity.class);
 
