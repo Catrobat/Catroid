@@ -209,7 +209,7 @@
     <string name="brick_when_started">When project starts</string>
 	<string name="brick_when">When</string>
     <string name="brick_wait">Wait</string>
-    <string name="seconds">Seconds</string>
+    <string name="seconds">seconds</string>
 	<string name="brick_broadcast_receive">When I receive</string>
 	<string name="brick_broadcast">Broadcast</string>
     <string name="brick_broadcast_wait">Broadcast and wait</string>
