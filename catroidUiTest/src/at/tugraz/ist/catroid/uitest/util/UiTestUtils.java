@@ -44,7 +44,7 @@ import android.graphics.BitmapFactory;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.util.Log;
-import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
@@ -391,9 +391,9 @@ public class UiTestUtils {
 	}
 
 	public static void clickOnImageButton(Solo solo, int imageButtonId) {
-		solo.waitForView(ImageButton.class);
-		ImageButton imageButton = (ImageButton) solo.getView(imageButtonId);
-		solo.clickOnView(imageButton);
+		solo.waitForView(LinearLayout.class);
+		LinearLayout linearLayout = (LinearLayout) solo.getView(imageButtonId);
+		solo.clickOnView(linearLayout);
 	}
 
 	public static File createTestMediaFile(String filePath, int fileID, Context context) throws IOException {
