@@ -199,7 +199,7 @@ public class UiTestUtils {
 	}
 
 	public static void addNewBrickAndScrollDown(Solo solo, int categoryStringId, int brickStringId) {
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_sprite);
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
 		solo.clickOnText(solo.getCurrentActivity().getString(brickStringId));
 
@@ -390,7 +390,7 @@ public class UiTestUtils {
 		return null;
 	}
 
-	public static void clickOnImageButton(Solo solo, int imageButtonId) {
+	public static void clickOnLinearLayout(Solo solo, int imageButtonId) {
 		solo.waitForView(LinearLayout.class);
 		LinearLayout linearLayout = (LinearLayout) solo.getView(imageButtonId);
 		solo.clickOnView(linearLayout);

@@ -68,7 +68,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 
 	private void addNewSprite(String spriteName) {
 		solo.sleep(500);
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_sprite);
 
 		solo.sleep(200);
 		solo.enterText(0, spriteName);
@@ -177,7 +177,7 @@ public class ProjectActivityTest extends ActivityInstrumentationTestCase2<MainMe
 	public void testMainMenuButton() {
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
 
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
 
 		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
 
