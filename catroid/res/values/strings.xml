@@ -187,7 +187,7 @@
 	<string name="brick_change_size_by">Change size by</string>
     <string name="brick_hide">Hide</string>
     <string name="brick_show">Show</string>
-	<string name="brick_set_ghost_effect">Set Ghost effect</string>
+	<string name="brick_set_ghost_effect">Set ghost effect</string>
 	<string name="brick_change_ghost_effect">Change ghost effect</string>
 	<string name="brick_set_brightness">Set brightness</string>
 	<string name="brick_change_brightness">Change brightness</string>
