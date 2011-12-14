@@ -76,6 +76,43 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 		checkIfBrickIsPresent(brickStringId);
 	}
 
+	private void clickSpriteAndLooksCategory(int spriteID) {
+		solo.clickInList(spriteID);
+		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
+		solo.clickOnText(getActivity().getString(R.string.category_looks));
+	}
+
+	private void scrollDownToBottom() {
+		while (solo.scrollDown()) {
+			;
+		}
+	}
+
+	public void testGoToFrontAndBackBrickInLooksCategory() {
+		int[] brickIds = { R.string.brick_come_to_front, R.string.brick_go_back };
+		int spriteBackground = 1;
+		int spriteCatroid = 2;
+
+		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
+		clickSpriteAndLooksCategory(spriteCatroid);
+		scrollDownToBottom();
+		for (int id : brickIds) {
+			assertNotNull("Brick " + solo.getCurrentActivity().getString(id) + " not in category looks.",
+					solo.getText(getActivity().getString(id)));
+		}
+
+		solo.goBack();
+		solo.goBack();
+		solo.goBack();
+
+		clickSpriteAndLooksCategory(spriteBackground);
+		scrollDownToBottom();
+		for (int id : brickIds) {
+			assertFalse("Brick " + solo.getCurrentActivity().getString(id)
+					+ " should not be visible for foreground object.", solo.searchText(getActivity().getString(id)));
+		}
+	}
+
 	public void testAddBrickDialog() {
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
 
