@@ -32,9 +32,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.LinearLayout.LayoutParams;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.BroadcastScript;
@@ -123,10 +123,7 @@ public class AddBrickDialog extends Dialog {
 		motionBrickList.add(new PointInDirectionBrick(sprite, 0));
 		motionBrickList.add(new PointToBrick(sprite, null));
 		motionBrickList.add(new GlideToBrick(sprite, 800, 0, 1000));
-		if (!isBackground(sprite)) {
-			motionBrickList.add(new GoNStepsBackBrick(sprite, 1));
-			motionBrickList.add(new ComeToFrontBrick(sprite));
-		}
+
 		brickMap.put(getContext().getString(R.string.category_motion), motionBrickList);
 
 		List<Brick> looksBrickList = new ArrayList<Brick>();
@@ -141,6 +138,10 @@ public class AddBrickDialog extends Dialog {
 		looksBrickList.add(new ChangeBrightnessBrick(sprite, 25));
 		looksBrickList.add(new ClearGraphicEffectBrick(sprite));
 		looksBrickList.add(new NextCostumeBrick(sprite));
+		if (!isBackground(sprite)) {
+			looksBrickList.add(new ComeToFrontBrick(sprite));
+			looksBrickList.add(new GoNStepsBackBrick(sprite, 1));
+		}
 
 		brickMap.put(getContext().getString(R.string.category_looks), looksBrickList);
 
