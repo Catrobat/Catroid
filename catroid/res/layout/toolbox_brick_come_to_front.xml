@@ -27,7 +27,7 @@
 	android:orientation="horizontal"
 	android:layout_height="wrap_content"
 	android:layout_width="wrap_content"
-	android:background="@drawable/brick_blue"
+	android:background="@drawable/brick_violet"
 	android:focusable="false"
 >
 	<TextView
