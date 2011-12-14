@@ -90,15 +90,17 @@ public class ActivityHelper {
 			linearLayout.setBackgroundResource(R.drawable.btn_actionbar_selector);
 			linearLayout.setLayoutParams(new ViewGroup.LayoutParams(buttonWidth, buttonHeight));
 			linearLayout.setOrientation(LinearLayout.VERTICAL);
+			linearLayout.setGravity(Gravity.CENTER);
 
 			ImageView image = new ImageView(activity);
 			image.setImageResource(R.drawable.ic_home_black);
-			image.setPadding(0, 2, 0, 0);
+			image.setPadding(0, 5, 0, 0);
 
 			TextView text = new TextView(activity);
 			text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10);
 			text.setGravity(Gravity.CENTER);
 			text.setText(activity.getString(R.string.home));
+			text.setTypeface(null, Typeface.BOLD);
 
 			linearLayout.addView(image);
 			linearLayout.addView(text);
@@ -180,15 +182,17 @@ public class ActivityHelper {
 		linearLayout.setBackgroundResource(R.drawable.btn_actionbar_selector);
 		linearLayout.setLayoutParams(new ViewGroup.LayoutParams(buttonWidth, buttonHeight));
 		linearLayout.setOrientation(LinearLayout.VERTICAL);
+		linearLayout.setGravity(Gravity.CENTER);
 
 		ImageView image = new ImageView(activity);
 		image.setImageResource(imageResourceId);
-		image.setPadding(0, 2, 0, 0);
+		image.setPadding(0, 5, 0, 0);
 
 		TextView text = new TextView(activity);
 		text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10);
 		text.setGravity(Gravity.CENTER);
 		text.setText(activity.getString(textId));
+		text.setTypeface(null, Typeface.BOLD);
 
 		linearLayout.addView(image);
 		linearLayout.addView(text);
