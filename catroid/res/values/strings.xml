@@ -41,6 +41,9 @@
     <string name="background">Background</string>
     <string name="stage">Stage</string>
     <string name="ok">OK</string>
+    <string name="add">Add</string>
+    <string name="home">Home</string>
+    <string name="start">Start</string>
 
     <!-- Construction site context menu -->
     <string name="new_project">New Project</string>

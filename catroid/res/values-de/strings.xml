@@ -33,6 +33,7 @@
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
     
+    
     <!-- General -->
     <string name="close">Schließen</string>
     <string name="error">Fehler</string>
@@ -41,6 +42,10 @@
     <string name="background">Hintergrund</string>
     <string name="stage">Bühne</string>
     <string name="ok">Ok</string>
+    <string name="add">Neu</string>
+    <string name="home">Menü</string>
+    <string name="start">Starten</string>
+    
 
     <!-- Construction site context menu -->
     <string name="new_project">Neues Projekt</string>
