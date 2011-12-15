@@ -137,7 +137,7 @@ public class Sprite implements Serializable {
 		t.start();
 	}
 
-	public void startScriptBroadcast(Script s, final CountDownLatch simultaneousStart) {
+	public synchronized void startScriptBroadcast(Script s, final CountDownLatch simultaneousStart) {
 		final Script script = s;
 		Thread t = new Thread(new Runnable() {
 			public void run() {
@@ -167,7 +167,8 @@ public class Sprite implements Serializable {
 		t.start();
 	}
 
-	public void startScriptBroadcastWait(Script s, final CountDownLatch simultaneousStart, final CountDownLatch wait) {
+	public synchronized void startScriptBroadcastWait(Script s, final CountDownLatch simultaneousStart,
+			final CountDownLatch wait) {
 		final Script script = s;
 		Thread t = new Thread(new Runnable() {
 			public void run() {
@@ -286,7 +287,7 @@ public class Sprite implements Serializable {
 		return scriptList.size();
 	}
 
-	public boolean isAlive(Thread thread) {
+	public synchronized boolean isAlive(Thread thread) {
 		if (activeThreads.containsKey(thread)) {
 			return activeThreads.get(thread);
 		} else {

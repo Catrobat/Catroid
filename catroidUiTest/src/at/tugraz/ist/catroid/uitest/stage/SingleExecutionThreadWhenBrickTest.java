@@ -45,9 +45,9 @@ import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
-public class SingleExecutionThreadTest extends ActivityInstrumentationTestCase2<StageActivity> {
+public class SingleExecutionThreadWhenBrickTest extends ActivityInstrumentationTestCase2<StageActivity> {
 	private Solo solo;
-	private Project project;
+	private Project projectWhenBrick;
 	Sprite yellowSprite;
 	Sprite greenSprite;
 	WhenScript yellowWhenScript;
@@ -56,13 +56,13 @@ public class SingleExecutionThreadTest extends ActivityInstrumentationTestCase2<
 	private final int screenHeight = 800;
 	String broadcastMessage = "broadcastMessage";
 
-	public SingleExecutionThreadTest() {
+	public SingleExecutionThreadWhenBrickTest() {
 		super("at.tugraz.ist.catroid", StageActivity.class);
 	}
 
 	@Override
 	public void setUp() throws Exception {
-		createProject();
+		createProjectWhenBrick();
 		solo = new Solo(getInstrumentation(), getActivity());
 		super.setUp();
 	}
@@ -79,7 +79,8 @@ public class SingleExecutionThreadTest extends ActivityInstrumentationTestCase2<
 		super.tearDown();
 	}
 
-	public void testWhenTapped() {
+	public void testWaitBrickWhenTapped() {
+
 		solo.waitForActivity("StageActivity");
 		solo.sleep(2000);
 		for (int i = 1; i <= 10; ++i) {
@@ -97,7 +98,8 @@ public class SingleExecutionThreadTest extends ActivityInstrumentationTestCase2<
 
 	}
 
-	public void testBroadcast() {
+	public void testWaitBrickBroadcast() {
+
 		solo.waitForActivity("StageActivity");
 		solo.sleep(2000);
 		for (int i = 1; i <= 10; ++i) {
@@ -114,11 +116,11 @@ public class SingleExecutionThreadTest extends ActivityInstrumentationTestCase2<
 		assertEquals("Wrong executionBrickIndex.", 1, greenBroadcastScript.getExecutingBrickIndex());
 	}
 
-	private void createProject() {
+	private void createProjectWhenBrick() {
 		Values.SCREEN_HEIGHT = screenHeight;
 		Values.SCREEN_WIDTH = screenWidth;
 
-		project = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
+		projectWhenBrick = new Project(null, UiTestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		// yellow Sprite
 		yellowSprite = new Sprite("yellowSprite");
@@ -195,23 +197,23 @@ public class SingleExecutionThreadTest extends ActivityInstrumentationTestCase2<
 		greenBroadcastScript.addBrick(greenSetGhostEffectBrick2);
 		greenSprite.addScript(greenBroadcastScript);
 
-		project.addSprite(yellowSprite);
+		projectWhenBrick.addSprite(yellowSprite);
 
-		project.addSprite(blueSprite);
+		projectWhenBrick.addSprite(blueSprite);
 
-		project.addSprite(greenSprite);
+		projectWhenBrick.addSprite(greenSprite);
 
-		StorageHandler.getInstance().saveProject(project);
+		StorageHandler.getInstance().saveProject(projectWhenBrick);
 
-		File yellowImageFile = UiTestUtils.saveFileToProject(project.getName(), yellowImageName,
+		File yellowImageFile = UiTestUtils.saveFileToProject(projectWhenBrick.getName(), yellowImageName,
 				at.tugraz.ist.catroid.uitest.R.raw.yellow_image, getInstrumentation().getContext(),
 				UiTestUtils.TYPE_IMAGE_FILE);
 
-		File blueImageFile = UiTestUtils.saveFileToProject(project.getName(), blueImageName,
+		File blueImageFile = UiTestUtils.saveFileToProject(projectWhenBrick.getName(), blueImageName,
 				at.tugraz.ist.catroid.uitest.R.raw.blue_image, getInstrumentation().getContext(),
 				UiTestUtils.TYPE_IMAGE_FILE);
 
-		File greenImageFile = UiTestUtils.saveFileToProject(project.getName(), greenImageName,
+		File greenImageFile = UiTestUtils.saveFileToProject(projectWhenBrick.getName(), greenImageName,
 				at.tugraz.ist.catroid.uitest.R.raw.green_image, getInstrumentation().getContext(),
 				UiTestUtils.TYPE_IMAGE_FILE);
 
@@ -220,10 +222,7 @@ public class SingleExecutionThreadTest extends ActivityInstrumentationTestCase2<
 		blueCostumeData.setCostumeFilename(blueImageFile.getName());
 
 		greenCostumeData.setCostumeFilename(greenImageFile.getName());
-
-		StorageHandler.getInstance().saveProject(project);
-
-		ProjectManager.getInstance().setProject(project);
-
+		StorageHandler.getInstance().saveProject(projectWhenBrick);
+		ProjectManager.getInstance().setProject(projectWhenBrick);
 	}
 }
