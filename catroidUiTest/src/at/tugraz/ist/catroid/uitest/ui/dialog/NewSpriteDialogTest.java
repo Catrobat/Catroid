@@ -74,7 +74,7 @@ public class NewSpriteDialogTest extends ActivityInstrumentationTestCase2<MainMe
 		solo.clickOnText(testingproject);
 
 		//solo.clickOnButton(solo.getCurrentActivity().getString(R.string.add_sprite));
-		solo.clickOnImageButton(1);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_sprite);
 		int spriteEditTextId = solo.getCurrentEditTexts().size() - 1;
 		UiTestUtils.enterText(solo, spriteEditTextId, "testingsprite");
 		solo.sendKey(Solo.ENTER);

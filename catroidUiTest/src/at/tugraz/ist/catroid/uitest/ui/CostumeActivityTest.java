@@ -152,7 +152,7 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 	public void testMainMenuButton() {
 		solo.clickOnText(getActivity().getString(R.string.costumes));
 		solo.sleep(500);
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
 		solo = new Solo(getInstrumentation(), getActivity());
 
 		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",
