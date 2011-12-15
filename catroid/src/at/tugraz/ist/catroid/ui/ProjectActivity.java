@@ -139,19 +139,20 @@ public class ProjectActivity extends ListActivity {
 				+ ProjectManager.getInstance().getCurrentProject().getName();
 		activityHelper.setupActionBar(false, title);
 
-		activityHelper.addActionButton(R.id.btn_action_add_sprite, R.drawable.ic_plus_black,
+		activityHelper.addActionButton(R.id.btn_action_add_sprite, R.drawable.ic_plus_black, R.string.add,
 				new View.OnClickListener() {
 					public void onClick(View v) {
 						showDialog(DIALOG_NEW_SPRITE);
 					}
 				}, false);
 
-		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, new View.OnClickListener() {
-			public void onClick(View v) {
-				Intent intent = new Intent(ProjectActivity.this, PreStageActivity.class);
-				startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
-			}
-		}, false);
+		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, R.string.start,
+				new View.OnClickListener() {
+					public void onClick(View v) {
+						Intent intent = new Intent(ProjectActivity.this, PreStageActivity.class);
+						startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
+					}
+				}, false);
 	}
 
 	@Override

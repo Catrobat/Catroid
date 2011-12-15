@@ -61,7 +61,7 @@ public class InitializeStageLandscapeTest extends ActivityInstrumentationTestCas
 		solo.sleep(500);
 		solo.setActivityOrientation(Solo.LANDSCAPE);
 		solo.sleep(500);
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_play);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_play);
 
 		solo.sleep(500);
 
