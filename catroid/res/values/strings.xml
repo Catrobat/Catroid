@@ -193,7 +193,7 @@
 	<string name="brick_change_brightness">Change brightness</string>
 	<string name="by_label">by</string>
 	<string name="to_label">to</string>
-	<string name="brick_clear_graphic_effect">Clear graphic effect</string>
+	<string name="brick_clear_graphic_effect">Clear graphic effects</string>
 	<string name="brick_say">Say</string>
 	<string name="brick_think">Think</string>
 	<string name="brick_next_costume">Next Costume</string>
