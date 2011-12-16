@@ -73,9 +73,13 @@ public class GlideToBrick implements Brick, OnClickListener {
 		long startTime = System.currentTimeMillis();
 		int duration = durationInMilliSeconds;
 		while (duration > 0) {
+			if (!sprite.isAlive(Thread.currentThread())) {
+				break;
+			}
 			long timeBeforeSleep = System.currentTimeMillis();
 			int sleep = 33;
 			while (System.currentTimeMillis() <= (timeBeforeSleep + sleep)) {
+
 				if (sprite.isPaused) {
 					sleep = (int) ((timeBeforeSleep + sleep) - System.currentTimeMillis());
 					long milliSecondsBeforePause = System.currentTimeMillis();
@@ -96,9 +100,14 @@ public class GlideToBrick implements Brick, OnClickListener {
 			updatePositions((int) (currentTime - startTime), duration);
 			startTime = currentTime;
 		}
-		sprite.costume.aquireXYWidthHeightLock();
-		sprite.costume.setXYPosition(xDestination, yDestination);
-		sprite.costume.releaseXYWidthHeightLock();
+
+		if (!sprite.isAlive(Thread.currentThread())) {
+			// -stay at last position
+		} else {
+			sprite.costume.aquireXYWidthHeightLock();
+			sprite.costume.setXYPosition(xDestination, yDestination);
+			sprite.costume.releaseXYWidthHeightLock();
+		}
 	}
 
 	private void updatePositions(int timePassed, int duration) {
