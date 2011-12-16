@@ -82,9 +82,12 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 		solo.clickOnText(getActivity().getString(R.string.category_looks));
 	}
 
-	private void scrollDownToBottom() {
-		while (solo.scrollDown()) {
-			;
+	private void checkBrick(int brickStringId, boolean assertMode) {
+		String brickText = solo.getCurrentActivity().getString(brickStringId);
+		if (assertMode == true) {
+			assertTrue("Brick " + brickText + " was not found in that category.", solo.searchText(brickText, 0, true));
+		} else {
+			assertFalse("Brick " + brickText + " should not be in that category.", solo.searchText(brickText, 0, true));
 		}
 	}
 
@@ -92,24 +95,22 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 		int[] brickIds = { R.string.brick_come_to_front, R.string.brick_go_back };
 		int spriteBackground = 1;
 		int spriteCatroid = 2;
+		boolean assertMode = true;
 
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
 		clickSpriteAndLooksCategory(spriteCatroid);
-		scrollDownToBottom();
 		for (int id : brickIds) {
-			assertNotNull("Brick " + solo.getCurrentActivity().getString(id) + " not in category looks.",
-					solo.getText(getActivity().getString(id)));
+			checkBrick(id, assertMode);
 		}
 
 		solo.goBack();
 		solo.goBack();
 		solo.goBack();
 
+		assertMode = false;
 		clickSpriteAndLooksCategory(spriteBackground);
-		scrollDownToBottom();
 		for (int id : brickIds) {
-			assertFalse("Brick " + solo.getCurrentActivity().getString(id)
-					+ " should not be visible for foreground object.", solo.searchText(getActivity().getString(id)));
+			checkBrick(id, assertMode);
 		}
 	}
 
