@@ -1,19 +1,23 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.content.bricks;
@@ -27,8 +31,9 @@ import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 
 public class LoopEndBrick implements Brick {
-	public static final int FOREVER = -1;
-	public static final long LOOP_DELAY = 1000;
+	static final int FOREVER = -1;
+	private static final int LOOP_DELAY = 20;
+	private static final int MILLION = 1000 * 1000;
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private LoopBeginBrick loopBeginBrick;
@@ -44,34 +49,29 @@ public class LoopEndBrick implements Brick {
 	}
 
 	public void execute() {
-
-		if (timesToRepeat > 0 || timesToRepeat == FOREVER) {
-
-			long loopBeginTime = loopBeginBrick.getBeginLoopTime() / 1000000;
-			long loopEndTime = System.nanoTime() / 1000000;
-			long waitForNextLoop = (LOOP_DELAY - (loopEndTime - loopBeginTime));
-			//Log.i("bt", loopBeginTime + " " + loopEndTime + " time to wait til next loop: " + waitForNextLoop);
-			if (waitForNextLoop > 0) {
-				try {
-					Thread.sleep(waitForNextLoop);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-			loopBeginBrick.setBeginLoopTime(System.nanoTime());
-		}
+		loopBeginBrick.setBeginLoopTime(System.nanoTime());
 
 		if (timesToRepeat == FOREVER) {
 			Script script = getScript();
 			script.setExecutingBrickIndex(script.getBrickList().indexOf(loopBeginBrick));
-		} else if (timesToRepeat > 0) {
+		} else if (--timesToRepeat > 0) {
 			Script script = getScript();
 			script.setExecutingBrickIndex(script.getBrickList().indexOf(loopBeginBrick));
-			timesToRepeat--;
+		}
+
+		long loopBeginTime = loopBeginBrick.getBeginLoopTime() / MILLION;
+		long loopEndTime = System.nanoTime() / MILLION;
+		long waitForNextLoop = (LOOP_DELAY - (loopEndTime - loopBeginTime));
+		if (waitForNextLoop > 0) {
+			try {
+				Thread.sleep(waitForNextLoop);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
-	private Script getScript() {
+	protected Script getScript() {
 		for (int i = 0; i < sprite.getNumberOfScripts(); i++) {
 			Script script = sprite.getScript(i);
 			if (script.getBrickList().contains(this)) {

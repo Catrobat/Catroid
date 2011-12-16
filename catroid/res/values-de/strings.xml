@@ -1,24 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<!-- 
+<!--
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  -->
-
 <resources>
     <!-- General terms -->
     <string name="project">Projekt</string>
@@ -31,9 +33,6 @@
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
     
-    <!-- Extras -->
-    <string name="extra_picture_path_paintroid">at.tugraz.ist.extra.PAINTROID_PICTURE_PATH</string>
-    <string name="extra_x_value_paintroid">at.tugraz.ist.extra.PAINTROID_X</string>
     
     <!-- General -->
     <string name="close">Schließen</string>
@@ -42,7 +41,11 @@
     <string name="loading">Laden...</string>
     <string name="background">Hintergrund</string>
     <string name="stage">Bühne</string>
-    <string name="ok">OK</string>
+    <string name="ok">Ok</string>
+    <string name="add">Neu</string>
+    <string name="home">Menü</string>
+    <string name="start">Starten</string>
+    
 
     <!-- Construction site context menu -->
     <string name="new_project">Neues Projekt</string>
@@ -137,13 +140,13 @@
     <string name="stagemenu_screenshot">Screenshot</string>
 
 	<!-- Login Register dialog -->
-    <string name="login_register_dialog_title">Login</string>
-    <string name="username">Username:</string>
-    <string name="password">Password:</string>
-    <string name="login_or_register">Login/Register</string>
+    <string name="login_register_dialog_title">Einloggen</string>
+    <string name="username">Benutzername:</string>
+    <string name="password">Passwort:</string>
+    <string name="login_or_register">Einloggen/\nRegistrieren</string>
     <string name="register">Registrieren</string>
-    <string name="password_forgotten">Password vergessen</string>
-    <string name="new_user_registered">neuer account wurde erstellt</string>
+    <string name="password_forgotten">Passwort\nvergessen</string>
+    <string name="new_user_registered">Neuer Account wurde erstellt</string>
     <string name="register_error">Fehler aufgetreten</string>
 	
 	<!-- Broadcast spinner -->
@@ -156,7 +159,6 @@
 	<string name="category_looks">Aussehen</string>
 	<string name="category_sound">Klang</string>
 	<string name="category_control">Steuerung</string>
-	<string name="category_lego_nxt">LegoNXT</string>
 
 	<!--  Motion bricks -->
     <string name="brick_place_at">Gehe zu</string>
@@ -197,6 +199,7 @@
 	<string name="brick_clear_graphic_effect">Schalte Grafikeffekte aus</string>
 	<string name="brick_say">Sage</string>
 	<string name="brick_think">Denke</string>
+	<string name="brick_next_costume">Nächstes Kostüm</string>
 	
 	
 	<!-- Sound bricks -->
@@ -204,7 +207,7 @@
   	<string name="brick_stop_all_sounds">Stoppe alle Sounds</string>
 	<string name="brick_set_volume_to">Setze Lautstärke auf</string>
 	<string name="brick_change_volume_by">Ändere Lautstärke um</string>
-	<string name="brick_speak">Spreche</string>
+	<string name="brick_speak">Sprich</string>
 	
 	<!-- Control bricks -->
   	<string name="brick_when_started">Wenn Projekt gestartet</string>
@@ -228,40 +231,6 @@
   	<string name="action_swipeRight">Nach rechts gewischt</string>
  	<string name="action_swipeUp">Nach oben gewischt</string>
   	<string name="action_swipeDown">Nach unten gewischt</string>    
-    
-    <!-- Bluetooth Connection Strings -->
-	
-    <string name="notification_blueth_err">Bluetooth konnte nich aktiviert werden, schließe Stage</string>
-    <string name="title_paired_devices">Verbundene Geräte</string>
-    <string name="title_other_devices">Nicht verbundene Geräte</string>
-    <string name="button_scan">Suche Bluetooth Geräte</string>
-	<string name="scanning">Suche</string>
-	<string name="select_device">Wähle dein Mindstorms NXT</string>
-	<string name="connecting_please_wait">Verbinde zum Lego NXT.\nBitte warten...</string>
-	<string name="pairing_message">Nach dem Pairing, verbinde.</string>
-	<string name="problem_at_closing">Problem beim Schließen der Verbindung!</string>
-	<string name="bt_connection_failed">Verbindung zum Gerät fehlgeschlagen!</string>
-	<string name="no_paired_nxt">Kein verbundenes NXT</string>
-	<string name="none_found">Keine nicht verbundenen Geräte gefunden</string>
-	<string name="none_paired">Keine verbundenen Geräte gefunden</string>
-	
-    <!-- Lego Mindstorms Strings -->
-	<string name="brick_motor_action">NXT bewege Motor</string>
-	<string name="motor">Motor</string>
-	<string name="motor_duration">Dauer</string>
-	<string name="motor_speed">Geschwindigkeit</string>
-	<string name="brick_motor_turn_angle">NXT rotiere Motor</string>
-	<string name="motor_angle">Winkel</string>
-	<string name="motor_stop">NXT stoppe Motor</string>
-	<string name="nxt_play_tone">NXT Ton abspielen</string>
-	<string name="nxt_tone_frequency">Frequenz</string>
-	<string name="tone_duration">Dauer</string>
-	<string name="nxt_tone_hundred_hz">x100Hz</string>
-	<string name="minus_symbol">-</string>
-	<string name="plus_symbol">+</string>
-	<string name="just_a_v">v</string>
-	<string name="number_to_small">Wert ist zu klein!</string>
-	<string name="number_to_big">Wert ist zu groß!</string>
     
     <!-- defaultValues -->
     <string name="default_project_name">standardProjekt</string>
@@ -318,6 +287,39 @@
     <string name="load_project">Projekt laden</string>
     <string name="upload_button">Hochladen</string>
     <string name="upload_project_dialog_title">Projekt hochladen</string>
+    <string name="upload_description">Beschreibung:</string>
     <string name="project_rename">(Das Projekt wird umbenannt.)</string>
     <string name="size_of_project">Größe des Projekts:</string>
+    
+    <!-- Bluetooth Connection Strings -->
+	
+    <string name="notification_blueth_err">Bluetooth konnte nicht aktiviert werden, schließe Stage</string>
+    <string name="title_paired_devices">Verbundene Geräte</string>
+    <string name="title_other_devices">Nicht verbundene Geräte</string>
+    <string name="button_scan">Suche Bluetooth Geräte</string>
+	<string name="scanning">Suche</string>
+	<string name="select_device">Wähle dein Mindstorms NXT</string>
+	<string name="connecting_please_wait">Verbinde zum Lego NXT.\nBitte warten...</string>
+	<string name="pairing_message">Nach dem Pairing, verbinde.</string>
+	<string name="problem_at_closing">Problem beim Schließen der Verbindung!</string>
+	<string name="bt_connection_failed">Verbindung zum Gerät fehlgeschlagen!</string>
+	<string name="no_paired_nxt">Kein verbundenes NXT</string>
+	<string name="none_found">Keine nicht verbundenen Geräte gefunden</string>
+	<string name="none_paired">Keine verbundenen Geräte gefunden</string>
+	
+    <!-- Lego Mindstorms Strings -->
+	<string name="brick_motor_action">NXT bewege Motor</string>
+	<string name="motor">Motor</string>
+	<string name="motor_duration">Dauer</string>
+	<string name="motor_speed">Geschwindigkeit</string>
+	<string name="brick_motor_turn_angle">NXT rotiere Motor</string>
+	<string name="motor_angle">Winkel</string>
+	<string name="motor_stop">NXT stoppe Motor</string>
+	<string name="nxt_play_tone">NXT Ton abspielen</string>
+	<string name="nxt_tone_frequency">Frequenz</string>
+	<string name="tone_duration">Dauer</string>
+	<string name="nxt_tone_hundred_hz">x100Hz</string>
+	
+	<string name="number_to_small">Wert ist zu klein!</string>
+	<string name="number_to_big">Wert ist zu groß!</string>
 </resources>

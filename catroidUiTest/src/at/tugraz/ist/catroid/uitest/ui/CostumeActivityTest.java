@@ -1,19 +1,23 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.uitest.ui;
@@ -145,26 +149,10 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		}
 	}
 
-	//	public void testToStageButton() {
-	//		solo.clickOnText(getActivity().getString(R.string.costumes));
-	//		solo.sleep(500);
-	//		//fu!?
-	//		solo.clickOnImageButton(2); //sorry UiTestUtils.clickOnImageButton just won't work after switching tabs
-	//
-	//		solo.sleep(5000);
-	//		solo.assertCurrentActivity("not in stage", StageActivity.class);
-	//		solo.goBack();
-	//		solo.sleep(3000);
-	//		solo.assertCurrentActivity("not in scripttabactivity", ScriptTabActivity.class);
-	//		costumeDataList = ProjectManager.getInstance().getCurrentSprite().getCostumeDataList();
-	//		assertEquals("costumeDataList in sprite doesn't hold the right number of costumeData", 1,
-	//				costumeDataList.size());
-	//	}
-
 	public void testMainMenuButton() {
 		solo.clickOnText(getActivity().getString(R.string.costumes));
 		solo.sleep(500);
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
 		solo = new Solo(getInstrumentation(), getActivity());
 
 		solo.assertCurrentActivity("Clicking on main menu button did not cause main menu to be displayed",

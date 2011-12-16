@@ -1,19 +1,23 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.stage;
@@ -25,6 +29,9 @@ import java.util.Comparator;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+import android.graphics.Color;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.Values;
@@ -32,7 +39,6 @@ import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.io.SoundManager;
 import at.tugraz.ist.catroid.ui.dialogs.StageDialog;
-import at.tugraz.ist.catroid.utils.RGBA8888ToPngEncoder;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -283,7 +289,7 @@ public class StageListener implements ApplicationListener {
 			stage.draw();
 		}
 
-		if (makeFirstScreenshot) {
+		if (makeFirstScreenshot && !NativeAppActivity.isRunning()) {
 			File file = new File(pathForScreenshot + Consts.SCREENSHOT_FILE_NAME);
 			if (!file.exists()) {
 				File noMediaFile = new File(pathForScreenshot + ".nomedia");
@@ -293,7 +299,7 @@ public class StageListener implements ApplicationListener {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				this.saveThumbnail();
+				this.makeThumbnail();
 			}
 			makeFirstScreenshot = false;
 		}
@@ -364,18 +370,10 @@ public class StageListener implements ApplicationListener {
 		}
 	}
 
-	private void saveThumbnail() {
+	private void makeThumbnail() {
 		byte[] screenshot = ScreenUtils.getFrameBufferPixels(screenshotX, screenshotY, screenshotWidth,
 				screenshotHeight, true);
-		FileHandle image = Gdx.files.absolute(pathForScreenshot + Consts.SCREENSHOT_FILE_NAME);
-		OutputStream stream = image.write(false);
-		try {
-			byte[] bytes = RGBA8888ToPngEncoder.toPNG(screenshot, screenshotWidth, screenshotHeight);
-			stream.write(bytes);
-			stream.close();
-		} catch (IOException e) {
-		}
-
+		this.saveScreenshot(screenshot);
 	}
 
 	public boolean makeScreenshot() {
@@ -383,11 +381,25 @@ public class StageListener implements ApplicationListener {
 		while (makeScreenshot) {
 			Thread.yield();
 		}
+		return this.saveScreenshot(this.screenshot);
+	}
+
+	private boolean saveScreenshot(byte[] screenshot) {
+		int length = screenshot.length;
+		int[] colors = new int[length / 4];
+
+		for (int i = 0; i < length; i += 4) {
+			colors[i / 4] = Color.argb(255, screenshot[i + 0] & 0xFF, screenshot[i + 1] & 0xFF,
+					screenshot[i + 2] & 0xFF);
+		}
+
+		Bitmap bitmap = Bitmap.createBitmap(colors, 0, screenshotWidth, screenshotWidth, screenshotHeight,
+				Config.ARGB_8888);
+
 		FileHandle image = Gdx.files.absolute(pathForScreenshot + Consts.SCREENSHOT_FILE_NAME);
 		OutputStream stream = image.write(false);
 		try {
-			byte[] bytes = RGBA8888ToPngEncoder.toPNG(screenshot, screenshotWidth, screenshotHeight);
-			stream.write(bytes);
+			bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
 			stream.close();
 		} catch (IOException e) {
 			return false;

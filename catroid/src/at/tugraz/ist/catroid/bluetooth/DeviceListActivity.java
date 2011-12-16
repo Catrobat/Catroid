@@ -1,19 +1,24 @@
-/*    Catroid: An on-device graphical programming language for Android devices
- *    Copyright (C) 2010  Catroid development team
- *    (<http://code.google.com/p/catroid/wiki/Credits>)
+/**
+ *  Catroid: An on-device graphical programming language for Android devices
+ *  Copyright (C) 2010-2011 The Catroid Team
+ *  (<http://code.google.com/p/catroid/wiki/Credits>)
  *
- *    This program is free software: you can redistribute it and/or modify
- *    it under the terms of the GNU General Public License as published by
- *    the Free Software Foundation, either version 3 of the License, or
- *    (at your option) any later version.
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
  *
- *    This program is distributed in the hope that it will be useful,
- *    but WITHOUT ANY WARRANTY; without even the implied warranty of
- *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *    GNU General Public License for more details.
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
  *
- *    You should have received a copy of the GNU General Public License
- *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU Affero General Public License for more details.
+ *
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *    
  *    This file incorporates work covered by the following copyright and  
  *    permission notice: 
@@ -23,21 +28,22 @@
  *		   	This file is part of MINDdroid.
  *
  * 		  	MINDdroid is free software: you can redistribute it and/or modify
- * 		  	it under the terms of the GNU General Public License as published by
- * 		  	the Free Software Foundation, either version 3 of the License, or
- *   		(at your option) any later version.
+ * 		  	it under the terms of the GNU Affero General Public License as
+ * 		  	published by the Free Software Foundation, either version 3 of the
+ *   		License, or (at your option) any later version.
  *
  *   		MINDdroid is distributed in the hope that it will be useful,
  *   		but WITHOUT ANY WARRANTY; without even the implied warranty of
  *   		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   		GNU General Public License for more details.
+ *   		GNU Affero General Public License for more details.
  *
- *   		You should have received a copy of the GNU General Public License
+ *   		You should have received a copy of the GNU Affero General Public License
  *   		along with MINDdroid.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package at.tugraz.ist.catroid.bluetooth;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 import android.app.Activity;
@@ -60,18 +66,29 @@ import android.widget.TextView;
 import at.tugraz.ist.catroid.R;
 
 public class DeviceListActivity extends Activity {
-	static final String PAIRING = "pairing";
-
-	public static String DEVICE_NAME_AND_ADDRESS = "device_infos";
-	public static String EXTRA_DEVICE_ADDRESS = "device_address";
+	public static final String PAIRING = "pairing";
+	public static final String AUTO_CONNECT = "auto_connect";
+	public static final String DEVICE_NAME_AND_ADDRESS = "device_infos";
+	public static final String EXTRA_DEVICE_ADDRESS = "device_address";
 
 	private BluetoothAdapter btAdapter;
 	private ArrayAdapter<String> pairedDevicesArrayAdapter;
 	private ArrayAdapter<String> newDevicesArrayAdapter;
+	private boolean autoConnect = true;
+	private static ArrayList<String> autoConnectIDs = new ArrayList<String>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		if (autoConnectIDs.size() == 0) {
+
+			autoConnectIDs.add(BtCommunicator.OUI_LEGO);
+		}
+		autoConnect = this.getIntent().getExtras().getBoolean(AUTO_CONNECT);
+		//Log.i("bto", autoConnect + "");
+		if (autoConnect) {
+			this.setVisible(false);
+		}
 
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.device_list);
@@ -108,24 +125,50 @@ public class DeviceListActivity extends Activity {
 
 		Set<BluetoothDevice> pairedDevices = btAdapter.getBondedDevices();
 
-		boolean legoDevicesFound = false;
-
+		BluetoothDevice legoNXT = null;
+		int possibleConnections = 0;
 		if (pairedDevices.size() > 0) {
 			findViewById(R.id.title_paired_devices).setVisibility(View.VISIBLE);
 			for (BluetoothDevice device : pairedDevices) {
-				//if (device.getAddress().startsWith(BtCommunicator.OUI_LEGO)) {
-				//legoDevicesFound = true;
-				//legoDevicesArrayAdapter.add(device.getName() + "-" + device.getAddress());
-				//}
-				legoDevicesFound = true;
+				for (String item : autoConnectIDs) {
+					if (device.getAddress().startsWith(item)) {
+						legoNXT = device;
+						possibleConnections++;
+						//legoDevicesFound = true;
+						//legoDevicesArrayAdapter.add(device.getName() + "-" + device.getAddress());
+					}
+				}
+
 				pairedDevicesArrayAdapter.add(device.getName() + "-" + device.getAddress());
 			}
 		}
 
-		if (legoDevicesFound == false) {
+		if (pairedDevices.size() == 0) {
 			String noDevices = getResources().getText(R.string.none_paired).toString();
 			pairedDevicesArrayAdapter.add(noDevices);
 		}
+
+		if (autoConnect && possibleConnections == 1) {
+			//			String info = ((TextView) v).getText().toString();
+			//			if (info.lastIndexOf('-') != info.length() - 18) {
+			//				return;
+			//			}
+
+			btAdapter.cancelDiscovery();
+			Intent intent = new Intent();
+			Bundle data = new Bundle();
+			data.putString(DEVICE_NAME_AND_ADDRESS, legoNXT.getName() + "-" + legoNXT.getAddress());
+			data.putString(EXTRA_DEVICE_ADDRESS, legoNXT.getAddress());
+			data.putBoolean(PAIRING, false);
+			data.putBoolean(AUTO_CONNECT, true);
+			intent.putExtras(data);
+			setResult(RESULT_OK, intent);
+			finish();
+			//			this.setVisible(false);
+		} else {
+			this.setVisible(true);
+		}
+		autoConnect = true;
 	}
 
 	@Override
@@ -168,6 +211,7 @@ public class DeviceListActivity extends Activity {
 			data.putString(DEVICE_NAME_AND_ADDRESS, info);
 			data.putString(EXTRA_DEVICE_ADDRESS, address);
 			data.putBoolean(PAIRING, av.getId() == R.id.new_devices);
+			data.putBoolean(AUTO_CONNECT, false);
 			intent.putExtras(data);
 			setResult(RESULT_OK, intent);
 			finish();

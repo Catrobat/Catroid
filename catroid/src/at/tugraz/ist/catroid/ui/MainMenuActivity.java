@@ -1,25 +1,29 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package at.tugraz.ist.catroid.ui;
 
 import java.io.File;
+import java.net.URLDecoder;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -29,7 +33,6 @@ import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -42,6 +45,7 @@ import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.transfers.CheckTokenTask;
+import at.tugraz.ist.catroid.transfers.ProjectDownloadTask;
 import at.tugraz.ist.catroid.ui.dialogs.AboutDialog;
 import at.tugraz.ist.catroid.ui.dialogs.LoadProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.LoginRegisterDialog;
@@ -53,6 +57,7 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class MainMenuActivity extends Activity {
 	private static final String PREF_PROJECTNAME_KEY = "projectName";
+	private static final String PROJECTNAME_TAG = "fname=";
 	private ProjectManager projectManager;
 	private ActivityHelper activityHelper = new ActivityHelper(this);
 	private TextView titleText;
@@ -62,6 +67,11 @@ public class MainMenuActivity extends Activity {
 	private static final int DIALOG_ABOUT = 3;
 	private static final int DIALOG_LOGIN_REGISTER = 4;
 	private boolean ignoreResume = false;
+
+	public void updateProjectName() {
+		onPause();
+		onResume();
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +95,15 @@ public class MainMenuActivity extends Activity {
 			Button currentProjectButton = (Button) findViewById(R.id.current_project_button);
 			currentProjectButton.setEnabled(false);
 		}
+
+		String projectDownloadUrl = getIntent().getDataString();
+		if (projectDownloadUrl == null || projectDownloadUrl.length() <= 0) {
+			return;
+		}
+		projectName = getProjectName(projectDownloadUrl);
+
+		this.getIntent().setData(null);
+		new ProjectDownloadTask(this, projectDownloadUrl, projectName).execute();
 	}
 
 	@Override
@@ -97,22 +116,22 @@ public class MainMenuActivity extends Activity {
 		String title = this.getResources().getString(R.string.project_name) + " "
 				+ projectManager.getCurrentProject().getName();
 		activityHelper.setupActionBar(true, title);
-		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, new View.OnClickListener() {
-			public void onClick(View v) {
-				if (projectManager.getCurrentProject() != null) {
-					Intent intent = new Intent(MainMenuActivity.this, PreStageActivity.class);
-					ignoreResume = true;
-					startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
-				}
-			}
-		}, false);
+		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, R.string.start,
+				new View.OnClickListener() {
+					public void onClick(View v) {
+						if (projectManager.getCurrentProject() != null) {
+							Intent intent = new Intent(MainMenuActivity.this, PreStageActivity.class);
+							ignoreResume = true;
+							startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
+						}
+					}
+				}, false);
 		this.titleText = (TextView) findViewById(R.id.tv_title);
 
 	}
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		Log.i("bt", "MMA: " + requestCode + " result code" + resultCode);
 		if (requestCode == PreStageActivity.REQUEST_RESOURCES_INIT && resultCode == RESULT_OK) {
 			Intent intent = new Intent(MainMenuActivity.this, StageActivity.class);
 			startActivity(intent);
@@ -194,6 +213,12 @@ public class MainMenuActivity extends Activity {
 		ignoreResume = false;
 
 		projectManager.loadProject(projectManager.getCurrentProject().getName(), this, false);
+		writeProjectTitleInTextfield();
+
+	}
+
+	public void writeProjectTitleInTextfield() {
+
 		String title = this.getResources().getString(R.string.project_name) + " "
 				+ projectManager.getCurrentProject().getName();
 		titleText.setText(title);
@@ -266,4 +291,13 @@ public class MainMenuActivity extends Activity {
 	public void handleAboutCatroidButton(View v) {
 		showDialog(DIALOG_ABOUT);
 	}
+
+	private String getProjectName(String zipUrl) {
+		int projectNameIndex = zipUrl.lastIndexOf(PROJECTNAME_TAG) + PROJECTNAME_TAG.length();
+		String projectName = zipUrl.substring(projectNameIndex);
+		projectName = URLDecoder.decode(projectName);
+
+		return projectName;
+	}
+
 }
