@@ -76,6 +76,44 @@ public class AddBrickDialogTest extends ActivityInstrumentationTestCase2<MainMen
 		checkIfBrickIsPresent(brickStringId);
 	}
 
+	private void clickSpriteAndLooksCategory(int spriteID) {
+		solo.clickInList(spriteID);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_sprite);
+		solo.clickOnText(getActivity().getString(R.string.category_looks));
+	}
+
+	private void checkBrick(int brickStringId, boolean assertMode) {
+		String brickText = solo.getCurrentActivity().getString(brickStringId);
+		if (assertMode == true) {
+			assertTrue("Brick " + brickText + " was not found in that category.", solo.searchText(brickText, 0, true));
+		} else {
+			assertFalse("Brick " + brickText + " should not be in that category.", solo.searchText(brickText, 0, true));
+		}
+	}
+
+	public void testGoToFrontAndBackBrickInLooksCategory() {
+		int[] brickIds = { R.string.brick_come_to_front, R.string.brick_go_back };
+		int spriteBackground = 1;
+		int spriteCatroid = 2;
+		boolean assertMode = true;
+
+		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
+		clickSpriteAndLooksCategory(spriteCatroid);
+		for (int id : brickIds) {
+			checkBrick(id, assertMode);
+		}
+
+		solo.goBack();
+		solo.goBack();
+		solo.goBack();
+
+		assertMode = false;
+		clickSpriteAndLooksCategory(spriteBackground);
+		for (int id : brickIds) {
+			checkBrick(id, assertMode);
+		}
+	}
+
 	public void testAddBrickDialog() {
 		solo.clickOnButton(getActivity().getString(R.string.current_project_button));
 

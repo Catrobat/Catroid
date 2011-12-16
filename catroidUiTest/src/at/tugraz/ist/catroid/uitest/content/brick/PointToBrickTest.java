@@ -76,6 +76,7 @@ public class PointToBrickTest extends ActivityInstrumentationTestCase2<ScriptAct
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
 		assertNotNull("TextView does not exist", solo.getText(getActivity().getString(R.string.brick_point_to)));
+		assertTrue("Wrong wording of PointTo brick", solo.searchText("Point towards"));
 		solo.clickOnView(solo.getCurrentActivity().findViewById(R.id.point_to_spinner));
 		solo.clickInList(0);
 		solo.sleep(300);
