@@ -10,5 +10,5 @@
 	<classpathentry exported="true" kind="lib" path="libs/gdx-backend-android.jar" sourcepath="lib/gdx-backend-android-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/gdx.jar" sourcepath="lib/gdx-sources.jar"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

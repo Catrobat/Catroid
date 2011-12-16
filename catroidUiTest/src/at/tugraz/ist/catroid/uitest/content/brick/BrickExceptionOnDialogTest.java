@@ -1,22 +1,25 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package at.tugraz.ist.catroid.uitest.content.brick;
 
 import java.util.ArrayList;
@@ -44,7 +47,6 @@ import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.bricks.PointInDirectionBrick;
 import at.tugraz.ist.catroid.content.bricks.RepeatBrick;
-import at.tugraz.ist.catroid.content.bricks.SayBrick;
 import at.tugraz.ist.catroid.content.bricks.SetBrightnessBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetGhostEffectBrick;
@@ -53,7 +55,6 @@ import at.tugraz.ist.catroid.content.bricks.SetVolumeToBrick;
 import at.tugraz.ist.catroid.content.bricks.SetXBrick;
 import at.tugraz.ist.catroid.content.bricks.SetYBrick;
 import at.tugraz.ist.catroid.content.bricks.SpeakBrick;
-import at.tugraz.ist.catroid.content.bricks.ThinkBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.ui.MainMenuActivity;
 import at.tugraz.ist.catroid.ui.ProjectActivity;
@@ -256,13 +257,6 @@ public class BrickExceptionOnDialogTest extends ActivityInstrumentationTestCase2
 		clickEditTextGoBackAndClickAgain();
 	}
 
-	public void testSayBrick() {
-		SayBrick sayBrick = new SayBrick(sprite);
-		script.addBrick(sayBrick);
-
-		clickEditTextGoBackAndClickAgain();
-	}
-
 	public void testSetBrightnessBrick() {
 		SetBrightnessBrick setBrightnessBrick = new SetBrightnessBrick(sprite, 4);
 		script.addBrick(setBrightnessBrick);
@@ -312,13 +306,6 @@ public class BrickExceptionOnDialogTest extends ActivityInstrumentationTestCase2
 		clickEditTextGoBackAndClickAgain();
 	}
 
-	public void testThinkBrick() {
-		ThinkBrick thinkBrick = new ThinkBrick(sprite, "I dont think");
-		script.addBrick(thinkBrick);
-
-		clickEditTextGoBackAndClickAgain();
-	}
-
 	public void testWaitBrick() {
 		WaitBrick waitBrick = new WaitBrick(sprite, 500);
 		script.addBrick(waitBrick);
@@ -346,7 +333,7 @@ public class BrickExceptionOnDialogTest extends ActivityInstrumentationTestCase2
 
 	public void createProject() {
 		sprite = new Sprite(spriteName);
-		script = new StartScript("script", sprite);
+		script = new StartScript(sprite);
 		sprite.addScript(script);
 		ProjectManager manager = ProjectManager.getInstance();
 		manager.fileChecksumContainer = new FileChecksumContainer();

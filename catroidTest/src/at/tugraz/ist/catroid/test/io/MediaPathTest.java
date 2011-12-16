@@ -1,19 +1,23 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.test.io;
@@ -144,15 +148,15 @@ public class MediaPathTest extends InstrumentationTestCase {
 		assertTrue("unexpected imagename", project.contains(expectedImagenameTags));
 		assertTrue("unexpected soundname", project.contains(expectedSoundnameTags));
 
-		assertEquals("the copy does not equal the original image", Utils.md5Checksum(testImage),
-				Utils.md5Checksum(testImageCopy));
-		assertEquals("the copy does not equal the original image", Utils.md5Checksum(testImage),
-				Utils.md5Checksum(testImageCopy2));
-		assertEquals("the copy does not equal the original image", Utils.md5Checksum(testSound),
-				Utils.md5Checksum(testSoundCopy));
+		assertEquals("the copy does not equal the original image", Utils.md5Checksum(testImage), Utils
+				.md5Checksum(testImageCopy));
+		assertEquals("the copy does not equal the original image", Utils.md5Checksum(testImage), Utils
+				.md5Checksum(testImageCopy2));
+		assertEquals("the copy does not equal the original image", Utils.md5Checksum(testSound), Utils
+				.md5Checksum(testSoundCopy));
 
 		//check if copy doesn't save more instances of the same file:
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName + Consts.IMAGE_DIRECTORY);
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName + "/" + Consts.IMAGE_DIRECTORY);
 		File[] filesImage = directory.listFiles();
 
 		//nomedia file is also in images folder
@@ -165,7 +169,7 @@ public class MediaPathTest extends InstrumentationTestCase {
 		bigBlue3 = storage.copyImage(projectName, bigBlue.getAbsolutePath(), null);
 		fillProjectWithAllBricksAndMediaFiles();
 
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName + Consts.IMAGE_DIRECTORY);
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName + "/" + Consts.IMAGE_DIRECTORY);
 		File[] filesImage = directory.listFiles();
 
 		//nomedia file is also in images folder
@@ -178,13 +182,13 @@ public class MediaPathTest extends InstrumentationTestCase {
 		StorageHandler storageHandler = StorageHandler.getInstance();
 		storageHandler.deleteFile(testImageCopy.getAbsolutePath());
 		FileChecksumContainer container = ProjectManager.getInstance().fileChecksumContainer;
-		assertTrue("checksum not in project although file should exist",
-				container.containsChecksum(Utils.md5Checksum(testImageCopy)));
+		assertTrue("checksum not in project although file should exist", container.containsChecksum(Utils
+				.md5Checksum(testImageCopy)));
 		storageHandler.deleteFile(testImageCopy2.getAbsolutePath());
-		assertFalse("checksum in project although file should not exist",
-				container.containsChecksum(Utils.md5Checksum(testImageCopy2)));
+		assertFalse("checksum in project although file should not exist", container.containsChecksum(Utils
+				.md5Checksum(testImageCopy2)));
 
-		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName + Consts.IMAGE_DIRECTORY);
+		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName + "/" + Consts.IMAGE_DIRECTORY);
 		File[] filesImage = directory.listFiles();
 
 		//nomedia file is also in images folder
@@ -204,8 +208,8 @@ public class MediaPathTest extends InstrumentationTestCase {
 
 		assertTrue("does not contain checksum", projectManager.fileChecksumContainer.containsChecksum(checksumImage));
 		assertTrue("does not contain checksum", projectManager.fileChecksumContainer.containsChecksum(checksumSound));
-		assertFalse("returns true even when the checksum is for sure not added",
-				projectManager.fileChecksumContainer.containsChecksum(checksumImage + "5"));
+		assertFalse("returns true even when the checksum is for sure not added", projectManager.fileChecksumContainer
+				.containsChecksum(checksumImage + "5"));
 
 		assertEquals("The path to the file is not found or wrong", testImageCopy.getAbsolutePath(),
 				projectManager.fileChecksumContainer.getPath(checksumImage));
@@ -236,8 +240,8 @@ public class MediaPathTest extends InstrumentationTestCase {
 
 	private void fillProjectWithAllBricksAndMediaFiles() throws IOException {
 		Sprite sprite = new Sprite("testSprite");
-		Script script = new StartScript("testScript", sprite);
-		Script whenScript = new WhenScript("whenScript", sprite);
+		Script script = new StartScript(sprite);
+		Script whenScript = new WhenScript(sprite);
 		sprite.addScript(script);
 		sprite.addScript(whenScript);
 		project.addSprite(sprite);

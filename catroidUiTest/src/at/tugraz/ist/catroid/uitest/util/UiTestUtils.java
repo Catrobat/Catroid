@@ -1,19 +1,23 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.uitest.util;
@@ -40,7 +44,7 @@ import android.graphics.BitmapFactory;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.util.Log;
-import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
@@ -195,7 +199,7 @@ public class UiTestUtils {
 	}
 
 	public static void addNewBrickAndScrollDown(Solo solo, int categoryStringId, int brickStringId) {
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_sprite);
 		solo.clickOnText(solo.getCurrentActivity().getString(categoryStringId));
 		solo.clickOnText(solo.getCurrentActivity().getString(brickStringId));
 
@@ -212,7 +216,7 @@ public class UiTestUtils {
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
 		Sprite firstSprite = new Sprite("cat");
 
-		Script testScript = new StartScript("testscript", firstSprite);
+		Script testScript = new StartScript(firstSprite);
 
 		ArrayList<Brick> brickList = new ArrayList<Brick>();
 		brickList.add(new HideBrick(firstSprite));
@@ -241,7 +245,7 @@ public class UiTestUtils {
 	public static void createEmptyProject() {
 		Project project = new Project(null, DEFAULT_TEST_PROJECT_NAME);
 		Sprite firstSprite = new Sprite("cat");
-		Script testScript = new StartScript("testscript", firstSprite);
+		Script testScript = new StartScript(firstSprite);
 
 		firstSprite.addScript(testScript);
 		project.addSprite(firstSprite);
@@ -276,10 +280,10 @@ public class UiTestUtils {
 		} else {
 			switch (type) {
 				case TYPE_IMAGE_FILE:
-					filePath = Consts.DEFAULT_ROOT + "/" + project + Consts.IMAGE_DIRECTORY + "/";
+					filePath = Consts.DEFAULT_ROOT + "/" + project + "/" + Consts.IMAGE_DIRECTORY + "/";
 					break;
 				case TYPE_SOUND_FILE:
-					filePath = Consts.DEFAULT_ROOT + "/" + project + Consts.SOUND_DIRECTORY + "/";
+					filePath = Consts.DEFAULT_ROOT + "/" + project + "/" + Consts.SOUND_DIRECTORY + "/";
 					break;
 				default:
 					filePath = Consts.DEFAULT_ROOT + "/";
@@ -386,10 +390,10 @@ public class UiTestUtils {
 		return null;
 	}
 
-	public static void clickOnImageButton(Solo solo, int imageButtonId) {
-		solo.waitForView(ImageButton.class);
-		ImageButton imageButton = (ImageButton) solo.getView(imageButtonId);
-		solo.clickOnView(imageButton);
+	public static void clickOnLinearLayout(Solo solo, int imageButtonId) {
+		solo.waitForView(LinearLayout.class);
+		LinearLayout linearLayout = (LinearLayout) solo.getView(imageButtonId);
+		solo.clickOnView(linearLayout);
 	}
 
 	public static File createTestMediaFile(String filePath, int fileID, Context context) throws IOException {
@@ -460,7 +464,7 @@ public class UiTestUtils {
 
 		} catch (WebconnectionException e) {
 			e.printStackTrace();
-			assert (false);
+			assertEquals("Error creating test User. ", true, false);
 		}
 	}
 

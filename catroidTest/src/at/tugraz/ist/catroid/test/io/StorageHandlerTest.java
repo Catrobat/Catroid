@@ -1,19 +1,23 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.test.io;
@@ -27,6 +31,7 @@ import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.CostumeData;
+import at.tugraz.ist.catroid.common.StandardProjectHandler;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -84,8 +89,8 @@ public class StorageHandlerTest extends AndroidTestCase {
 		Sprite secondSprite = new Sprite("second");
 		Sprite thirdSprite = new Sprite("third");
 		Sprite fourthSprite = new Sprite("fourth");
-		Script testScript = new StartScript("testScript", firstSprite);
-		Script otherScript = new StartScript("otherScript", secondSprite);
+		Script testScript = new StartScript(firstSprite);
+		Script otherScript = new StartScript(secondSprite);
 		HideBrick hideBrick = new HideBrick(firstSprite);
 		ShowBrick showBrick = new ShowBrick(firstSprite);
 		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(secondSprite, size);
@@ -159,7 +164,7 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 	public void testDefaultProject() throws IOException {
 		ProjectManager projectManager = ProjectManager.getInstance();
-		projectManager.setProject(storageHandler.createDefaultProject(getContext()));
+		projectManager.setProject(StandardProjectHandler.createAndSaveStandardProject(getContext()));
 		assertEquals("not the right number of sprites in the default project", 2, projectManager.getCurrentProject()
 				.getSpriteList().size());
 		assertEquals("not the right number of scripts in the second sprite of default project", 2, projectManager
@@ -206,8 +211,8 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 		Project project = new Project(getContext(), projectName);
 		Sprite sprite = new Sprite("testSprite");
-		Script startScript = new StartScript("testScript", sprite);
-		Script whenScript = new WhenScript("whenScript", sprite);
+		Script startScript = new StartScript(sprite);
+		Script whenScript = new WhenScript(sprite);
 		sprite.addScript(startScript);
 		sprite.addScript(whenScript);
 		project.addSprite(sprite);
@@ -248,4 +253,5 @@ public class StorageHandlerTest extends AndroidTestCase {
 			UtilFile.deleteDirectory(projectFile);
 		}
 	}
+
 }

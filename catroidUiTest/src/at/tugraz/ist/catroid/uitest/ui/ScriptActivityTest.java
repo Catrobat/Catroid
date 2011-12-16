@@ -1,22 +1,25 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package at.tugraz.ist.catroid.uitest.ui;
 
 import java.util.ArrayList;
@@ -85,14 +88,14 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 	public void testBrickCategoryDialog() {
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		if (!pref.getBoolean("setting_mindstorm_bricks", false)) {
-			UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
+			UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
 			solo.clickOnText(getActivity().getString(R.string.settings));
 			solo.clickOnText(getActivity().getString(R.string.pref_enable_ms_bricks));
 			solo.goBack();
 			solo.clickOnText(getActivity().getString(R.string.current_project_button));
 			solo.clickOnText(getActivity().getString(R.string.background));
 		}
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_sprite);
 
 		assertTrue("A category was not visible after opening BrickCategoryDialog",
 				solo.searchText(getActivity().getString(R.string.category_motion)));
@@ -166,24 +169,24 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 		String comeToFront = getActivity().getString(R.string.brick_come_to_front);
 		String goNStepsBack = getActivity().getString(R.string.brick_go_back_layers);
 
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_home);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
 		solo.sleep(200);
 		solo.clickOnText(currentProject);
 		solo.clickOnText(background);
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_sprite);
 		solo.clickOnText(categoryLooks);
 		assertTrue("SetCostumeBrick was not renamed for background sprite", solo.searchText(setBackground));
 		solo.clickOnText(setBackground);
 		assertTrue("SetCostumeBrick was not renamed for background sprite", solo.searchText(setBackground));
 
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_sprite);
 		solo.clickOnText(categoryMotion);
 		assertFalse("ComeToFrontBrick is in the brick list!", solo.searchText(comeToFront));
 		assertFalse("GoNStepsBackBrick is in the brick list!", solo.searchText(goNStepsBack));
 	}
 
 	public void testSelectCategoryDialogOnOrientationChange() {
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_sprite);
 		assertTrue("A category was not visible after opening BrickCategoryDialog",
 				solo.searchText(getActivity().getString(R.string.category_motion)));
 		assertTrue("A category was not visible after opening BrickCategoryDialog",
@@ -213,7 +216,7 @@ public class ScriptActivityTest extends ActivityInstrumentationTestCase2<ScriptT
 	}
 
 	public void testAddBrickDialogOnOrientationChange() {
-		UiTestUtils.clickOnImageButton(solo, R.id.btn_action_add_sprite);
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_add_sprite);
 		solo.clickOnText(getActivity().getString(R.string.category_motion));
 		assertTrue("Not in AddBrickDialog - category motion",
 				solo.searchText(getActivity().getString(R.string.brick_place_at)));
