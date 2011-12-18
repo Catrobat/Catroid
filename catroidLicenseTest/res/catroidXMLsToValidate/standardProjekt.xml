@@ -73,9 +73,7 @@
               <loopEndBrick>
                 <loopBeginBrick class="Bricks.RepeatBrick" reference="../.."/>
                 <sprite reference="../../../../../.."/>
-                <timesToRepeat>0</timesToRepeat>
               </loopEndBrick>
-              <beginLoopTime>0</beginLoopTime>
               <timesToRepeat>3</timesToRepeat>
             </Bricks.RepeatBrick>
             <Bricks.ShowBrick>

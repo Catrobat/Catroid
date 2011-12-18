@@ -288,7 +288,6 @@
         <xs:sequence>
           <xs:element name="sprite" type="spriteRef" minOccurs="0"/>
           <xs:element name="loopEndBrick" type="loopEndBrick" minOccurs="0"/>
-          <xs:element name="beginLoopTime" type="xs:long"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -305,7 +304,6 @@
         <xs:sequence>
           <xs:element name="loopBeginBrick" type="loopBeginBrickRef" minOccurs="0"/>
           <xs:element name="sprite" type="spriteRef" minOccurs="0"/>
-          <xs:element name="timesToRepeat" type="xs:int"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -472,7 +470,7 @@
       <xs:extension base="brick">
         <xs:sequence>
           <xs:element name="sprite" type="spriteRef" minOccurs="0"/>
-          <xs:element name="selectedIndex" type="xs:int"/>
+          <xs:element name="degrees" type="xs:double"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -665,4 +663,5 @@
   </xs:complexType>
 
 </xs:schema>
+
 
