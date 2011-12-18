@@ -149,7 +149,7 @@
             </Bricks.TurnRightBrick>
             <Bricks.PointInDirectionBrick>
               <sprite reference="../../../../.."/>
-              <selectedIndex>0</selectedIndex>
+              <degrees>0</degrees>
             </Bricks.PointInDirectionBrick>
             <Bricks.PointToBrick>
               <sprite reference="../../../../.."/>
@@ -196,11 +196,9 @@
             </Bricks.NoteBrick>
             <Bricks.ForeverBrick>
               <sprite reference="../../../../.."/>
-              <beginLoopTime>0</beginLoopTime>
             </Bricks.ForeverBrick>
             <Bricks.RepeatBrick>
               <sprite reference="../../../../.."/>
-              <beginLoopTime>0</beginLoopTime>
               <timesToRepeat>3</timesToRepeat>
             </Bricks.RepeatBrick>
           </brickList>

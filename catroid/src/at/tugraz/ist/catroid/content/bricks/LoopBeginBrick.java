@@ -28,7 +28,7 @@ public abstract class LoopBeginBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	protected Sprite sprite;
 	protected LoopEndBrick loopEndBrick;
-	private long beginLoopTime;
+	private transient long beginLoopTime;
 
 	protected LoopBeginBrick() {
 	}
