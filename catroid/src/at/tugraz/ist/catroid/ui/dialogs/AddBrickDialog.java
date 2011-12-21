@@ -204,8 +204,8 @@ public class AddBrickDialog extends Dialog {
 		adapter = new PrototypeBrickAdapter(this.scriptTabActivity, brickMap.get(category));
 
 		listView.setAdapter(adapter);
-
 		listView.setOnItemClickListener(new ListView.OnItemClickListener() {
+
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Brick addedBrick = adapter.getItem(position);
 				ProjectManager projectManager = ProjectManager.getInstance();
