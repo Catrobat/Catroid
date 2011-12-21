@@ -204,6 +204,7 @@ public class AddBrickDialog extends Dialog {
 		adapter = new PrototypeBrickAdapter(this.scriptTabActivity, brickMap.get(category));
 
 		listView.setAdapter(adapter);
+
 		listView.setOnItemClickListener(new ListView.OnItemClickListener() {
 
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -240,7 +241,9 @@ public class AddBrickDialog extends Dialog {
 					//Don't add new loop brick, only one loop per script for now
 				} else {
 					Brick brickClone = getBrickClone(adapter.getItem(position));
+
 					if (projectManager.getCurrentSprite().getNumberOfScripts() == 0) {
+
 						Script newScript = new StartScript(projectManager.getCurrentSprite());
 						projectManager.addScript(newScript);
 
@@ -250,9 +253,11 @@ public class AddBrickDialog extends Dialog {
 						} else {
 							temp = projectManager.getCurrentScript();
 						}
+
 						projectManager.setCurrentScript(newScript);
 						projectManager.getCurrentScript().addBrick(brickClone);
 						projectManager.setCurrentScript(temp);
+
 					} else {
 						projectManager.getCurrentScript().addBrick(brickClone);
 					}
