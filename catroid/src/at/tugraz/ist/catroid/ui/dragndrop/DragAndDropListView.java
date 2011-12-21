@@ -97,7 +97,6 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		if (dragAndDropListener != null && dragView != null) {
 			onTouchEvent(event);
 		}
-
 		touchPointY = (int) event.getRawY();
 
 		return super.onInterceptTouchEvent(event);
@@ -123,7 +122,6 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 			if (dragAndDropListener != null) {
 				dragAndDropListener.setTouchedScript(touchedListPosition);
 			}
-
 		}
 
 		if (dragAndDropListener != null && dragView != null) {
