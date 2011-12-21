@@ -173,6 +173,7 @@ public class Sprite implements Serializable {
 	public void addScript(Script script) {
 		if (script != null && !scriptList.contains(script)) {
 			scriptList.add(script);
+
 		}
 	}
 
