@@ -27,10 +27,10 @@ import java.io.Serializable;
 import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
+import android.widget.AdapterView.OnItemSelectedListener;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -114,7 +114,11 @@ public class PlaySoundBrick implements Brick, Serializable, OnItemSelectedListen
 	}
 
 	public void onItemSelected(AdapterView<?> parent, View arg1, int position, long arg3) {
-		soundInfo = (SoundInfo) parent.getItemAtPosition(position);
+		if (position == 0) {
+			soundInfo = null;
+		} else {
+			soundInfo = (SoundInfo) parent.getItemAtPosition(position);
+		}
 	}
 
 	public void onNothingSelected(AdapterView<?> arg0) {

@@ -24,6 +24,7 @@ package at.tugraz.ist.catroid.test.xml;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 import javax.xml.XMLConstants;
 import javax.xml.transform.Source;
@@ -38,16 +39,14 @@ import org.xml.sax.SAXException;
 
 public class XMLValidatingTest extends TestCase {
 
-	public XMLValidatingTest() throws IOException {
-
-	}
+	private static final String XMLSCHEMA_URL = "http://catroidtestserver.ist.tugraz.at/tests/catroid/catroidXmlSchema.xsd";
 
 	public void testXmlWithSchemaValidator() throws IOException, SAXException {
 
 		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
-		File schemaLocation = new File("res/catroidXmlSchema.xsd");
-		Schema schema = factory.newSchema(schemaLocation);
+		URL schemaUrl = new URL(XMLSCHEMA_URL);
+		Schema schema = factory.newSchema(schemaUrl);
 
 		Validator schemaValidator = schema.newValidator();
 
@@ -66,4 +65,5 @@ public class XMLValidatingTest extends TestCase {
 			assertFalse(currentXMLFile + " is not valid because: " + ex.getMessage(), true);
 		}
 	}
+
 }
