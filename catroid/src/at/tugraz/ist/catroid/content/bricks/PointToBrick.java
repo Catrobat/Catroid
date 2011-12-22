@@ -28,10 +28,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
+import android.widget.AdapterView.OnItemSelectedListener;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -171,7 +171,8 @@ public class PointToBrick implements Brick {
 		});
 
 		if (spriteList.contains(pointedSprite)) {
-			spinner.setSelection(spinnerPosition);
+			int pointedSpriteIndex = spinnerAdapter.getPosition(pointedSprite.getName());
+			spinner.setSelection(pointedSpriteIndex);
 		} else {
 			spinner.setSelection(0);
 		}
