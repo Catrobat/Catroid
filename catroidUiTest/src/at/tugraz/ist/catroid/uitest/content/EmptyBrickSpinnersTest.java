@@ -75,6 +75,7 @@ public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<Scr
 	public void testBricksWithEmptySpinner() throws IllegalArgumentException, IllegalAccessException,
 			InvocationTargetException, IOException, JSONException {
 
+		assertTrue("text " + costumeDataName + " not found", solo.searchText(costumeDataName));
 		solo.clickOnText(costumeDataName);
 		solo.clickOnText(getActivity().getString(R.string.broadcast_nothing_selected));
 
