@@ -59,6 +59,7 @@ public class Project implements Serializable {
 		VIRTUAL_SCREEN_HEIGHT = Values.SCREEN_HEIGHT;
 
 		if (context == null) {
+			versionName = "unknown";
 			return;
 		}
 
