@@ -139,8 +139,6 @@ public class UiTestUtils {
 		brickCategoryMap.put(R.string.brick_set_y, R.string.category_motion);
 		brickCategoryMap.put(R.string.brick_change_x_by, R.string.category_motion);
 		brickCategoryMap.put(R.string.brick_change_y_by, R.string.category_motion);
-		brickCategoryMap.put(R.string.brick_go_back, R.string.category_motion);
-		brickCategoryMap.put(R.string.brick_come_to_front, R.string.category_motion);
 		brickCategoryMap.put(R.string.brick_if_on_edge_bounce, R.string.category_motion);
 		brickCategoryMap.put(R.string.brick_move_n_steps, R.string.category_motion);
 		brickCategoryMap.put(R.string.brick_turn_left, R.string.category_motion);
@@ -158,6 +156,8 @@ public class UiTestUtils {
 		brickCategoryMap.put(R.string.brick_set_brightness, R.string.category_looks);
 		brickCategoryMap.put(R.string.brick_change_brightness, R.string.category_looks);
 		brickCategoryMap.put(R.string.brick_clear_graphic_effect, R.string.category_looks);
+		brickCategoryMap.put(R.string.brick_go_back, R.string.category_looks);
+		brickCategoryMap.put(R.string.brick_come_to_front, R.string.category_looks);
 		brickCategoryMap.put(R.string.brick_say, R.string.category_looks);
 		brickCategoryMap.put(R.string.brick_think, R.string.category_looks);
 
