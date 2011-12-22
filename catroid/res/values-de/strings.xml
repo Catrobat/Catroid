@@ -170,8 +170,8 @@
 	<string name="brick_change_y_by">Ändere Y um:</string>
     <string name="brick_go_back">Gehe</string>
     <string name="brick_go_back_layers">Ebenen nach hinten</string>
-    <string name="brick_come_to_front">Komm nach vorne</string>
-	<string name="brick_if_on_edge_bounce">pralle von Rand ab</string>
+    <string name="brick_come_to_front">Komme nach vorn</string>
+	<string name="brick_if_on_edge_bounce">Pralle vom Rand ab</string>
 	<string name="brick_move">Gehe</string>
 	<string name="brick_move_n_steps">Schritte</string>
 	<string name="brick_turn_left">Drehe links</string>
