@@ -224,13 +224,13 @@
 	<string name="brick_loop_end">Wiederholen beenden</string>
 	
 	<!-- Actions -->
-  	<string name="action_tapped">Angetippt</string>
-  	<string name="action_doubleTapped">Doppelt angetippt</string>
-  	<string name="action_longPressed">Lang gedrückt</string>
-  	<string name="action_swipeLeft">Nach links gewischt</string> 
-  	<string name="action_swipeRight">Nach rechts gewischt</string>
- 	<string name="action_swipeUp">Nach oben gewischt</string>
-  	<string name="action_swipeDown">Nach unten gewischt</string>    
+  	<string name="action_tapped">angetippt</string>
+  	<string name="action_doubleTapped">doppelt angetippt</string>
+  	<string name="action_longPressed">lang gedrückt</string>
+  	<string name="action_swipeLeft">nach links gewischt</string> 
+  	<string name="action_swipeRight">nach rechts gewischt</string>
+ 	<string name="action_swipeUp">nach oben gewischt</string>
+  	<string name="action_swipeDown">nach unten gewischt</string>    
     
     <!-- defaultValues -->
     <string name="default_project_name">standardProjekt</string>
