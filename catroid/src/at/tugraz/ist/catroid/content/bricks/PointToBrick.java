@@ -41,8 +41,6 @@ public class PointToBrick implements Brick {
 	private static final long serialVersionUID = 1L;
 	private Sprite sprite;
 	private Sprite pointedSprite;
-	private double rotationDegrees = 0.0;
-	private int spinnerPosition = 0;
 
 	public PointToBrick(Sprite sprite, Sprite pointedSprite) {
 		this.sprite = sprite;
@@ -81,11 +79,10 @@ public class PointToBrick implements Brick {
 		pointedSpriteYPosition = (int) pointedSprite.costume.getYPosition();
 		pointedSprite.costume.releaseXYWidthHeightLock();
 
+		double rotationDegrees;
 		if (spriteXPosition == pointedSpriteXPosition && spriteYPosition == pointedSpriteYPosition) {
 			rotationDegrees = 90;
-		}
-
-		else if (spriteXPosition == pointedSpriteXPosition || spriteYPosition == pointedSpriteYPosition) {
+		} else if (spriteXPosition == pointedSpriteXPosition || spriteYPosition == pointedSpriteYPosition) {
 			if (spriteXPosition == pointedSpriteXPosition) {
 				if (spriteYPosition > pointedSpriteYPosition) {
 					rotationDegrees = 180;
@@ -161,7 +158,6 @@ public class PointToBrick implements Brick {
 					String spriteName = sprite.getName();
 					if (spriteName.equals(itemSelected)) {
 						pointedSprite = sprite;
-						spinnerPosition = position;
 					}
 				}
 			}
