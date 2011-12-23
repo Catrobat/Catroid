@@ -114,8 +114,9 @@
       <name>Catroid</name>
     </Content.Sprite>
   </spriteList>
+  <screenResolution>480/800</screenResolution>
   <deviceName>GT-I9100</deviceName>
   <name>standardProjekt</name>
-  <screenResolution>480/800</screenResolution>
+  <deviceAndroidVersion>8</deviceAndroidVersion>  
   <versionCode>10</versionCode>
 </Content.Project>

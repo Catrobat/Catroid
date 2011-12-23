@@ -212,8 +212,9 @@
       <name>testSprite</name>
     </Content.Sprite>
   </spriteList>
+  <screenResolution>0/0</screenResolution>
   <deviceName>GT-I9100</deviceName>
   <name>myProject</name>
-  <screenResolution>0/0</screenResolution>
+  <deviceAndroidVersion>8</deviceAndroidVersion>
   <versionCode>10</versionCode>
 </Content.Project>

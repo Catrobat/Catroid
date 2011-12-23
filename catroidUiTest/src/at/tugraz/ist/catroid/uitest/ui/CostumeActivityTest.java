@@ -83,8 +83,8 @@ public class CostumeActivityTest extends ActivityInstrumentationTestCase2<Script
 		costumeDataList.add(costumeData);
 		projectManager.fileChecksumContainer.addChecksum(costumeData.getChecksum(), costumeData.getAbsolutePath());
 		Display display = getActivity().getWindowManager().getDefaultDisplay();
-		projectManager.getCurrentProject().VIRTUAL_SCREEN_HEIGHT = display.getHeight();
-		projectManager.getCurrentProject().VIRTUAL_SCREEN_WIDTH = display.getWidth();
+		projectManager.getCurrentProject().virtualScreenHeight = display.getHeight();
+		projectManager.getCurrentProject().virtualScreenWidth = display.getWidth();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 

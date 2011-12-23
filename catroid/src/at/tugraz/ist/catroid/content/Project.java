@@ -48,14 +48,14 @@ public class Project implements Serializable {
 	private int versionCode;
 
 	private String screenResolution;
-	public transient int VIRTUAL_SCREEN_WIDTH = 0;
-	public transient int VIRTUAL_SCREEN_HEIGHT = 0;
+	public transient int virtualScreenWidth = 0;
+	public transient int virtualScreenHeight = 0;
 
 	protected Object readResolve() {
 		if (screenResolution != null) {
 			String[] resolutions = screenResolution.split("/");
-			VIRTUAL_SCREEN_WIDTH = Integer.valueOf(resolutions[0]);
-			VIRTUAL_SCREEN_HEIGHT = Integer.valueOf(resolutions[1]);
+			virtualScreenWidth = Integer.valueOf(resolutions[0]);
+			virtualScreenHeight = Integer.valueOf(resolutions[1]);
 		}
 		return this;
 	}
@@ -64,8 +64,8 @@ public class Project implements Serializable {
 		this.name = name;
 
 		ifLandscapeSwitchWidthAndHeight();
-		VIRTUAL_SCREEN_WIDTH = Values.SCREEN_WIDTH;
-		VIRTUAL_SCREEN_HEIGHT = Values.SCREEN_HEIGHT;
+		virtualScreenWidth = Values.SCREEN_WIDTH;
+		virtualScreenHeight = Values.SCREEN_HEIGHT;
 		setDeviceData(context);
 
 		if (context == null) {
@@ -112,7 +112,7 @@ public class Project implements Serializable {
 		deviceName = Build.MODEL;
 		deviceAndroidVersion = Build.VERSION.SDK_INT;
 
-		screenResolution = VIRTUAL_SCREEN_WIDTH + "/" + VIRTUAL_SCREEN_HEIGHT;
+		screenResolution = virtualScreenWidth + "/" + virtualScreenHeight;
 
 		if (context == null) {
 			versionName = "unknown";
