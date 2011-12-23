@@ -117,7 +117,6 @@ public class EmptyBrickSpinnersTest extends ActivityInstrumentationTestCase2<Scr
 
 	private void createSpinnerProject() {
 		Project project = new Project(null, testProjectName);
-		project.setDeviceData();
 		Sprite sprite = new Sprite("testSprite");
 		Sprite pointToSprite = new Sprite(pointToSpriteName);
 		project.addSprite(pointToSprite);
