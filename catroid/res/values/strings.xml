@@ -88,6 +88,7 @@
     <string name="scripts">Scripts</string>
     <string name="costumes">Costumes</string>
     <string name="sounds">Sounds</string>
+    <string name="backgrounds">Backgrounds</string>
     
     <!-- Costume activity -->
     <string name="rename_costume_dialog">Rename costume</string>
@@ -168,10 +169,7 @@
 	<string name="brick_set_y">Set Y to:</string>
     <string name="brick_change_x_by">Change X by:</string>
 	<string name="brick_change_y_by">Change Y by:</string>
-    <string name="brick_go_back">Go back</string>
-    <string name="brick_go_back_layers">layers</string>
-    <string name="brick_come_to_front">Come to front</string>
-	<string name="brick_if_on_edge_bounce">If on edge bounce</string>
+	<string name="brick_if_on_edge_bounce">If on edge, bounce</string>
 	<string name="brick_move">Move</string>
 	<string name="brick_move_n_steps">steps</string>
 	<string name="brick_turn_left">Turn left</string>
@@ -179,12 +177,12 @@
 	<string name="brick_turn_right">Turn right</string>
 	<string name="brick_turn_right_n_degrees">degrees</string>
 	<string name="brick_point_in_direction">Point in direction</string>
-	<string name="brick_point_to">Point to</string>
+	<string name="brick_point_to">Point towards</string>
 	<string name="brick_glide">Glide</string>
 	<string name="brick_glide_to">to</string>
 	
 	<!-- Looks bricks -->
-    <string name="brick_set_costume">Set costume</string>
+    <string name="brick_set_costume">Switch to costume</string>
     <string name="brick_set_background">Set background</string>
     <string name="brick_set_size_to">Set size to</string>
 	<string name="brick_change_size_by">Change size by</string>
@@ -196,10 +194,13 @@
 	<string name="brick_change_brightness">Change brightness</string>
 	<string name="by_label">by</string>
 	<string name="to_label">to</string>
-	<string name="brick_clear_graphic_effect">Clear graphic effect</string>
+	<string name="brick_clear_graphic_effect">Clear graphic effects</string>
 	<string name="brick_say">Say</string>
 	<string name="brick_think">Think</string>
 	<string name="brick_next_costume">Next Costume</string>
+	<string name="brick_go_back">Go back</string>
+    <string name="brick_go_back_layers">layers</string>
+    <string name="brick_come_to_front">Go to front</string>
 	
 	<!-- Sound bricks -->
     <string name="brick_play_sound">Play sound</string>
