@@ -291,7 +291,7 @@ public class LegoNXTTest extends ActivityInstrumentationTestCase2<MainMenuActivi
 		commands.add(new int[] { MOTOR_TURN, 2, 515 });
 
 		WaitBrick wait3 = new WaitBrick(firstSprite, 500);
-		NXTPlayToneBrick nxtTone = new NXTPlayToneBrick(firstSprite, 50, 1);
+		NXTPlayToneBrick nxtTone = new NXTPlayToneBrick(firstSprite, 5000, 1000);
 		//Tone does not return a command
 
 		whenScript.addBrick(nxt);

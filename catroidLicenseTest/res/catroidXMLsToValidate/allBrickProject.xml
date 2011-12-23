@@ -46,14 +46,14 @@
               <sprite reference="../../../../.."/>
             </Bricks.NXTMotorStopBrick>
             <Bricks.NXTMotorActionBrick>
+              <motor>motor_B</motor>
               <sprite reference="../../../../.."/>
               <speed>100</speed>
-              <motor>0</motor>
             </Bricks.NXTMotorActionBrick>
             <Bricks.NXTPlayToneBrick>
               <sprite reference="../../../../.."/>
-              <frequency>2000</frequency>
-              <duration>1.0</duration>
+              <hertz>200000</hertz>
+              <durationInMS>100</durationInMS>
             </Bricks.NXTPlayToneBrick>
             <Bricks.SetCostumeBrick>
               <sprite reference="../../../../.."/>
