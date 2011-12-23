@@ -505,8 +505,9 @@
       <name>no click</name>
     </Content.Sprite>
   </spriteList>
+  <screenResolution>480/800</screenResolution>
   <deviceName>HTC Sensation Z710e</deviceName>
   <name>fruit catcher 2</name>
-  <screenResolution>480/800</screenResolution>
+  <deviceAndroidVersion>8</deviceAndroidVersion>
   <versionCode>308</versionCode>
 </Content.Project>

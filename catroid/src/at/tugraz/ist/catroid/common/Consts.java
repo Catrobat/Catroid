@@ -39,8 +39,8 @@ public final class Consts {
 	//Web:
 	public static final String TOKEN = "token";
 
-	public static final int SERVER_RESPONCE_TOKEN_OK = 200;
-	public static final int SERVER_RESPONCE_REGISTER_OK = 201;
+	public static final int SERVER_RESPONSE_TOKEN_OK = 200;
+	public static final int SERVER_RESPONSE_REGISTER_OK = 201;
 
 	//Stage:
 	public static final String SCREENSHOT_FILE_NAME = "screenshot.png";

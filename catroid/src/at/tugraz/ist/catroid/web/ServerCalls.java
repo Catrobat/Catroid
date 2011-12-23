@@ -156,7 +156,7 @@ public class ServerCalls {
 			statusCode = jsonObject.getInt("statusCode");
 			String serverAnswer = jsonObject.optString("answer");
 
-			if (statusCode == Consts.SERVER_RESPONCE_TOKEN_OK) {
+			if (statusCode == Consts.SERVER_RESPONSE_TOKEN_OK) {
 				return true;
 			} else {
 				throw new WebconnectionException(statusCode, serverAnswer);
@@ -204,9 +204,9 @@ public class ServerCalls {
 			String serverAnswer = jsonObject.optString("answer");
 
 			boolean registered;
-			if (statusCode == Consts.SERVER_RESPONCE_TOKEN_OK) {
+			if (statusCode == Consts.SERVER_RESPONSE_TOKEN_OK) {
 				registered = false;
-			} else if (statusCode == Consts.SERVER_RESPONCE_REGISTER_OK) {
+			} else if (statusCode == Consts.SERVER_RESPONSE_REGISTER_OK) {
 				registered = true;
 			} else {
 				throw new WebconnectionException(statusCode, serverAnswer);
