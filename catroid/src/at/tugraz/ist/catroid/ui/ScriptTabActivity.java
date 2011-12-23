@@ -85,12 +85,15 @@ public class ScriptTabActivity extends TabActivity implements OnDismissListener 
 		int costumeIcon;
 
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		String costumeTitle;
 		if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(currentSprite) == 0) {
 			costumeIcon = R.drawable.ic_tab_background;
+			costumeTitle = this.getString(R.string.backgrounds);
 		} else {
 			costumeIcon = R.drawable.ic_tab_costumes;
+			costumeTitle = this.getString(R.string.costumes);
 		}
-		setupTab(costumeIcon, this.getString(R.string.costumes), intent);
+		setupTab(costumeIcon, costumeTitle, intent);
 		intent = new Intent().setClass(this, SoundActivity.class);
 		setupTab(R.drawable.ic_tab_sounds, this.getString(R.string.sounds), intent);
 

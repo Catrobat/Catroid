@@ -85,6 +85,7 @@
     <string name="scripts">Skripte</string>
     <string name="costumes">Kostüme</string>
     <string name="sounds">Sounds</string>
+    <string name="backgrounds">Hintergründe</string>
 
     <!-- Costume activity -->
     <string name="rename_costume_dialog">Kostüm umbenennen</string>

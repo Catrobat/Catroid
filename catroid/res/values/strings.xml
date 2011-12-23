@@ -88,6 +88,7 @@
     <string name="scripts">Scripts</string>
     <string name="costumes">Costumes</string>
     <string name="sounds">Sounds</string>
+    <string name="backgrounds">Backgrounds</string>
     
     <!-- Costume activity -->
     <string name="rename_costume_dialog">Rename costume</string>
