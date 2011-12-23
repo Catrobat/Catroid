@@ -23,14 +23,14 @@
  -->
 <manifest
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:versionCode="10"
+	android:versionCode="9"
 	package="at.tugraz.ist.catroid"
-	android:versionName="0.5.6a"
+	android:versionName="0.5.5a"
 	android:installLocation="auto">
 
     <uses-sdk
-        android:minSdkVersion="8" 
-        android:targetSdkVersion="10" />
+        android:minSdkVersion="7" 
+        android:targetSdkVersion="8" />
         
 	<uses-permission android:name="android.permission.VIBRATE" />
 	<uses-permission android:name="android.permission.INTERNET" />
@@ -61,6 +61,9 @@
 			
 		<activity 
 		android:name=".stage.PreStageActivity" 
+		android:screenOrientation="portrait"/>
+		<activity 
+		android:name=".stage.NativeStageActivity" 
 		android:screenOrientation="portrait"/>
 
 		<activity android:name=".ui.ProjectActivity" />
