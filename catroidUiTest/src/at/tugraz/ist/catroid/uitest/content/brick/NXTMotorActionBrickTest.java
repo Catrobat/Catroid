@@ -170,7 +170,7 @@ public class NXTMotorActionBrickTest extends ActivityInstrumentationTestCase2<Sc
 
 		setSpeedInitially = -70;
 
-		motorBrick = new NXTMotorActionBrick(sprite, 0, setSpeedInitially);
+		motorBrick = new NXTMotorActionBrick(sprite, NXTMotorActionBrick.Motor.MOTOR_A, setSpeedInitially);
 
 		setSpeed = 30;
 
