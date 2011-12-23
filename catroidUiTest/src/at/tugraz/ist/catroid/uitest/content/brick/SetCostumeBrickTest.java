@@ -89,10 +89,10 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 
 		costumeDataList.add(costumeData);
 		costumeDataList.add(costumeData2);
-		ProjectManager.getInstance().fileChecksumContainer.addChecksum(costumeData.getChecksum(), costumeData
-				.getAbsolutePath());
-		ProjectManager.getInstance().fileChecksumContainer.addChecksum(costumeData2.getChecksum(), costumeData2
-				.getAbsolutePath());
+		ProjectManager.getInstance().fileChecksumContainer.addChecksum(costumeData.getChecksum(),
+				costumeData.getAbsolutePath());
+		ProjectManager.getInstance().fileChecksumContainer.addChecksum(costumeData2.getChecksum(),
+				costumeData2.getAbsolutePath());
 
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
@@ -149,7 +149,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		assertTrue(costumeName + " is not in Spinner", solo.searchText(costumeName));
 		assertTrue(costumeName2 + " is not in Spinner", solo.searchText(costumeName2));
 		solo.goBack();
-		solo.clickOnText(getActivity().getString(R.string.costumes));
+		solo.clickOnText(getActivity().getString(R.string.backgrounds));
 		solo.sleep(300);
 		solo.clickOnButton(getActivity().getString(R.string.sound_delete));
 		solo.sleep(300);
@@ -168,7 +168,7 @@ public class SetCostumeBrickTest extends ActivityInstrumentationTestCase2<Script
 		assertTrue(costumeName + " is not in Spinner", solo.searchText(costumeName));
 		assertTrue(costumeName2 + " is not in Spinner", solo.searchText(costumeName2));
 		solo.goBack();
-		solo.clickOnText(getActivity().getString(R.string.costumes));
+		solo.clickOnText(getActivity().getString(R.string.backgrounds));
 		solo.sleep(300);
 		solo.clickOnButton(getActivity().getString(R.string.sound_rename));
 		solo.sleep(100);
