@@ -2,6 +2,8 @@ package com.tugraz.android.app.stage;
 
 import android.content.Context;
 import android.os.Handler;
+import android.util.AttributeSet;
+import android.view.KeyEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
