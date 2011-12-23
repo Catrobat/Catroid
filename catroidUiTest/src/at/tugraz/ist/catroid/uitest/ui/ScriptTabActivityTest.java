@@ -86,4 +86,24 @@ public class ScriptTabActivityTest extends ActivityInstrumentationTestCase2<Scri
 		assertTrue("Clicking on Sounds Tab did not cause SoundActivity to be displayed",
 				solo.getCurrentActivity() instanceof SoundActivity);
 	}
+
+	public void testTabLabelCostumesOrBackground() {
+		UiTestUtils.clickOnLinearLayout(solo, R.id.btn_action_home);
+		solo.sleep(200);
+		solo.clickOnText(getActivity().getString(R.string.current_project_button));
+		solo.clickOnText(getActivity().getString(R.string.background));
+		solo.sleep(100);
+		assertTrue("Wrong label - Tab should be named \"Backgrounds\"",
+				solo.searchText(getActivity().getString(R.string.backgrounds)));
+		solo.clickOnText(getActivity().getString(R.string.backgrounds));
+		solo.sleep(100);
+		assertTrue("Wrong label - Tab should be named \"Backgrounds\"",
+				solo.searchText(getActivity().getString(R.string.backgrounds)));
+		solo.goBack();
+
+		solo.clickInList(2);
+		solo.sleep(100);
+		assertTrue("Wrong label - Tab should be named \"Costumes\"",
+				solo.searchText(getActivity().getString(R.string.costumes)));
+	}
 }
