@@ -9,9 +9,4 @@ Scratch2AndroidTest\.settings
 local.properties
 bin/*
 build/*
-R.java
-testProject\
-Paintroid/.project
-
-syntax: regexp
-^catroidUiTest/\.settings/org\.eclipse\.jdt\.ui\.prefs$
+gen/*
