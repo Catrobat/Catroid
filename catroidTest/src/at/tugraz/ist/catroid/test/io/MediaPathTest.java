@@ -1,19 +1,23 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.test.io;
@@ -25,28 +29,29 @@ import java.util.ArrayList;
 import android.test.InstrumentationTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
+import at.tugraz.ist.catroid.common.SoundInfo;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
-import at.tugraz.ist.catroid.content.TapScript;
+import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
-import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
-import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
-import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
+import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.SetXBrick;
 import at.tugraz.ist.catroid.content.bricks.SetYBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
+import at.tugraz.ist.catroid.content.bricks.WhenStartedBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
 import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.Utils;
@@ -96,8 +101,8 @@ public class MediaPathTest extends InstrumentationTestCase {
 				.getContext(), TestUtils.TYPE_SOUND_FILE);
 
 		//copy files with the Storagehandler copy function
-		testImageCopy = StorageHandler.getInstance().copyImage(projectName, testImage.getAbsolutePath());
-		testImageCopy2 = StorageHandler.getInstance().copyImage(projectName, testImage.getAbsolutePath());
+		testImageCopy = StorageHandler.getInstance().copyImage(projectName, testImage.getAbsolutePath(), null);
+		testImageCopy2 = StorageHandler.getInstance().copyImage(projectName, testImage.getAbsolutePath(), null);
 		testSoundCopy = StorageHandler.getInstance().copySoundFile(testSound.getAbsolutePath());
 
 	}
@@ -108,40 +113,40 @@ public class MediaPathTest extends InstrumentationTestCase {
 		TestUtils.clearProject("mockProject");
 	}
 
-	public void testPathsInSpfFile() throws IOException {
+	public void testPathsInProjectFile() throws IOException {
 		fillProjectWithAllBricksAndMediaFiles();
-		String spf = StorageHandler.getInstance().getProjectfileAsString(projectName);
+		String project = TestUtils.getProjectfileAsString(projectName);
 
-		assertFalse("project contains DEFAULT_ROOT", spf.contains(Consts.DEFAULT_ROOT));
-		assertFalse("project contains IMAGE_DIRECTORY", spf.contains(Consts.IMAGE_DIRECTORY));
-		assertFalse("project contains SOUND_DIRECTORY", spf.contains(Consts.SOUND_DIRECTORY));
-		assertFalse("project contains sdcard/", spf.contains("sdcard/"));
+		assertFalse("project contains DEFAULT_ROOT", project.contains(Consts.DEFAULT_ROOT));
+		assertFalse("project contains IMAGE_DIRECTORY", project.contains(Consts.IMAGE_DIRECTORY));
+		assertFalse("project contains SOUND_DIRECTORY", project.contains(Consts.SOUND_DIRECTORY));
+		assertFalse("project contains sdcard/", project.contains("sdcard/"));
 	}
 
 	public void testFilenameChecksum() throws IOException {
 		fillProjectWithAllBricksAndMediaFiles();
 
-		String spf = StorageHandler.getInstance().getProjectfileAsString(projectName);
+		String project = TestUtils.getProjectfileAsString(projectName);
 
 		String checksumImage = Utils.md5Checksum(testImageCopy);
 		String checksumSound = Utils.md5Checksum(testSoundCopy);
 
 		String unexpectedImagenameTags = ">" + imageName + "<";
 		String unexpectedSoundnameTags = ">" + soundName + "<";
-		assertFalse("the imagename has no checksum", spf.contains(unexpectedImagenameTags));
-		assertFalse("the soundname has no checksum", spf.contains(unexpectedSoundnameTags));
+		assertFalse("the imagename has no checksum", project.contains(unexpectedImagenameTags));
+		assertFalse("the soundname has no checksum", project.contains(unexpectedSoundnameTags));
 
 		String expectedImagename = checksumImage + "_" + imageName;
 		String expectedSoundname = checksumSound + "_" + soundName;
 
-		assertTrue("expected image name not in spf", spf.contains(expectedImagename));
-		assertTrue("expected sound name not in spf", spf.contains(expectedSoundname));
+		assertTrue("expected image name not in project", project.contains(expectedImagename));
+		assertTrue("expected sound name not in project", project.contains(expectedSoundname));
 
 		String expectedImagenameTags = ">" + checksumImage + "_" + imageName + "<";
 		String expectedSoundnameTags = ">" + checksumSound + "_" + soundName + "<";
 
-		assertTrue("unexpected imagename", spf.contains(expectedImagenameTags));
-		assertTrue("unexpected soundname", spf.contains(expectedSoundnameTags));
+		assertTrue("unexpected imagename", project.contains(expectedImagenameTags));
+		assertTrue("unexpected soundname", project.contains(expectedSoundnameTags));
 
 		assertEquals("the copy does not equal the original image", Utils.md5Checksum(testImage),
 				Utils.md5Checksum(testImageCopy));
@@ -160,8 +165,8 @@ public class MediaPathTest extends InstrumentationTestCase {
 
 	public void testCopyLargeImage() throws IOException, InterruptedException {
 		StorageHandler storage = StorageHandler.getInstance();
-		bigBlue2 = storage.copyImage(projectName, bigBlue.getAbsolutePath());
-		bigBlue3 = storage.copyImage(projectName, bigBlue.getAbsolutePath());
+		bigBlue2 = storage.copyImage(projectName, bigBlue.getAbsolutePath(), null);
+		bigBlue3 = storage.copyImage(projectName, bigBlue.getAbsolutePath(), null);
 		fillProjectWithAllBricksAndMediaFiles();
 
 		File directory = new File(Consts.DEFAULT_ROOT + "/" + projectName + Consts.IMAGE_DIRECTORY);
@@ -189,49 +194,64 @@ public class MediaPathTest extends InstrumentationTestCase {
 		//nomedia file is also in images folder
 		assertEquals("Wrong amount of files in folder - delete unsuccessfull", 1, filesImage.length);
 
-		storageHandler.deleteFile(testImageCopy.getAbsolutePath()); //there a FileNotFoundException is thrown and caugth (this is expected behavior)
+		storageHandler.deleteFile(testImageCopy.getAbsolutePath()); //there a FileNotFoundException is thrown and caught (this is expected behavior)
 	}
 
 	public void testContainerOnLoadProject() throws IOException {
 		fillProjectWithAllBricksAndMediaFiles();
-		ProjectManager pManager = ProjectManager.getInstance();
+		ProjectManager projectManager = ProjectManager.getInstance();
 		String checksumImage = Utils.md5Checksum(testImage);
 		String checksumSound = Utils.md5Checksum(testSound);
 
-		pManager.fileChecksumContainer = null; //hack to delete the filechecksumcontainer and see if a new one is created on load
-		pManager.loadProject(projectName, getInstrumentation().getTargetContext(), false);
+		projectManager.fileChecksumContainer = null; //hack to delete the filechecksumcontainer and see if a new one is created on load
+		projectManager.loadProject(projectName, getInstrumentation().getTargetContext(), false);
 
-		assertTrue("does not contain checksum", pManager.fileChecksumContainer.containsChecksum(checksumImage));
-		assertTrue("does not contain checksum", pManager.fileChecksumContainer.containsChecksum(checksumSound));
+		assertTrue("does not contain checksum", projectManager.fileChecksumContainer.containsChecksum(checksumImage));
+		assertTrue("does not contain checksum", projectManager.fileChecksumContainer.containsChecksum(checksumSound));
 		assertFalse("returns true even when the checksum is for sure not added",
-				pManager.fileChecksumContainer.containsChecksum(checksumImage + "5"));
+				projectManager.fileChecksumContainer.containsChecksum(checksumImage + "5"));
 
 		assertEquals("The path to the file is not found or wrong", testImageCopy.getAbsolutePath(),
-				pManager.fileChecksumContainer.getPath(checksumImage));
+				projectManager.fileChecksumContainer.getPath(checksumImage));
 
 		assertEquals("The path to the file is not found or wrong", testSoundCopy.getAbsolutePath(),
-				pManager.fileChecksumContainer.getPath(checksumSound));
+				projectManager.fileChecksumContainer.getPath(checksumSound));
 	}
 
-	public void testFileChecksumContainerNotInSPF() throws IOException {
+	public void testFileChecksumContainerNotInProjectFile() throws IOException {
 		fillProjectWithAllBricksAndMediaFiles();
-		String spf = StorageHandler.getInstance().getProjectfileAsString(projectName);
-		assertFalse("FileChecksumcontainer is in the spf", spf.contains("FileChecksumContainer"));
+		String projectString = TestUtils.getProjectfileAsString(projectName);
+		assertFalse("FileChecksumcontainer is in the project", projectString.contains("FileChecksumContainer"));
 		ProjectManager.getInstance().loadProject(projectName, getInstrumentation().getTargetContext(), false);
-		spf = StorageHandler.getInstance().getProjectfileAsString(projectName);
-		assertFalse("FileChecksumcontainer is in the spf", spf.contains("FileChecksumContainer"));
+		projectString = TestUtils.getProjectfileAsString(projectName);
+		assertFalse("FileChecksumcontainer is in the project", projectString.contains("FileChecksumContainer"));
+	}
+
+	public void testCostumeDataListAndSoundInfoListInProjectFile() throws IOException {
+		fillProjectWithAllBricksAndMediaFiles();
+		String projectString = TestUtils.getProjectfileAsString(projectName);
+		assertTrue("costumeDataList not in project", projectString.contains("costumeDataList"));
+		assertTrue("soundList not in project", projectString.contains("soundList"));
+		ProjectManager.getInstance().loadProject(projectName, getInstrumentation().getTargetContext(), false);
+		projectString = TestUtils.getProjectfileAsString(projectName);
+		assertTrue("costumeDataList not in project", projectString.contains("costumeDataList"));
+		assertTrue("soundList not in project", projectString.contains("soundList"));
 	}
 
 	private void fillProjectWithAllBricksAndMediaFiles() throws IOException {
 		Sprite sprite = new Sprite("testSprite");
 		Script script = new StartScript("testScript", sprite);
-		Script tapedScript = new TapScript("tapScript", sprite);
-		sprite.getScriptList().add(script);
-		sprite.getScriptList().add(tapedScript);
-		project.getSpriteList().add(sprite);
+		Script whenScript = new WhenScript("whenScript", sprite);
+		sprite.addScript(script);
+		sprite.addScript(whenScript);
+		project.addSprite(sprite);
 
 		SetCostumeBrick costumeBrick2 = new SetCostumeBrick(sprite);
-		costumeBrick2.setCostume(testImageCopy2.getName());
+		CostumeData costumeData = new CostumeData();
+		costumeData.setCostumeFilename(testImageCopy2.getName());
+		costumeData.setCostumeName("testImageCopy2");
+		costumeBrick2.setCostume(costumeData);
+		sprite.getCostumeDataList().add(costumeData);
 
 		ArrayList<Brick> brickList1 = new ArrayList<Brick>();
 		ArrayList<Brick> brickList2 = new ArrayList<Brick>();
@@ -240,19 +260,26 @@ public class MediaPathTest extends InstrumentationTestCase {
 		brickList1.add(new ComeToFrontBrick(sprite));
 		brickList1.add(new GoNStepsBackBrick(sprite, 5));
 		brickList1.add(new HideBrick(sprite));
-		brickList1.add(new IfStartedBrick(sprite, script));
+		brickList1.add(new WhenStartedBrick(sprite, script));
 		brickList1.add(costumeBrick2);
 
 		SetCostumeBrick costumeBrick = new SetCostumeBrick(sprite);
-		costumeBrick.setCostume(testImageCopy.getName());
+		costumeData = new CostumeData();
+		costumeData.setCostumeFilename(testImageCopy.getName());
+		costumeData.setCostumeName("testImageCopy");
+		costumeBrick.setCostume(costumeData);
+		sprite.getCostumeDataList().add(costumeData);
 
 		PlaySoundBrick soundBrick = new PlaySoundBrick(sprite);
-		soundBrick.setPathToSoundfile(testSoundCopy.getName());
+		SoundInfo soundInfo = new SoundInfo();
+		soundInfo.setSoundFileName(testSoundCopy.getName());
+		soundInfo.setTitle("title");
+		soundBrick.setSoundInfo(soundInfo);
+		sprite.getSoundList().add(soundInfo);
 
-		brickList2.add(new IfTouchedBrick(sprite, tapedScript));
 		brickList2.add(new PlaceAtBrick(sprite, 50, 50));
 		brickList2.add(soundBrick);
-		brickList2.add(new ScaleCostumeBrick(sprite, 50));
+		brickList2.add(new SetSizeToBrick(sprite, 50));
 		brickList2.add(costumeBrick);
 		brickList2.add(new SetXBrick(sprite, 50));
 		brickList2.add(new SetYBrick(sprite, 50));
@@ -263,10 +290,9 @@ public class MediaPathTest extends InstrumentationTestCase {
 			script.addBrick(brick);
 		}
 		for (Brick brick : brickList2) {
-			tapedScript.addBrick(brick);
+			whenScript.addBrick(brick);
 		}
 
 		StorageHandler.getInstance().saveProject(project);
 	}
-
 }

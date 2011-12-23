@@ -1,19 +1,23 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.test.io;
@@ -22,33 +26,33 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.AndroidTestCase;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
+import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
 import at.tugraz.ist.catroid.content.StartScript;
-import at.tugraz.ist.catroid.content.TapScript;
+import at.tugraz.ist.catroid.content.WhenScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.ChangeXByBrick;
 import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
 import at.tugraz.ist.catroid.content.bricks.ComeToFrontBrick;
 import at.tugraz.ist.catroid.content.bricks.GoNStepsBackBrick;
 import at.tugraz.ist.catroid.content.bricks.HideBrick;
-import at.tugraz.ist.catroid.content.bricks.IfStartedBrick;
-import at.tugraz.ist.catroid.content.bricks.IfTouchedBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
-import at.tugraz.ist.catroid.content.bricks.ScaleCostumeBrick;
 import at.tugraz.ist.catroid.content.bricks.SetCostumeBrick;
+import at.tugraz.ist.catroid.content.bricks.SetSizeToBrick;
 import at.tugraz.ist.catroid.content.bricks.SetXBrick;
 import at.tugraz.ist.catroid.content.bricks.SetYBrick;
 import at.tugraz.ist.catroid.content.bricks.ShowBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
+import at.tugraz.ist.catroid.content.bricks.WhenStartedBrick;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.test.utils.TestUtils;
 import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class StorageHandlerTest extends AndroidTestCase {
@@ -60,24 +64,24 @@ public class StorageHandlerTest extends AndroidTestCase {
 
 	@Override
 	public void tearDown() {
-		//		Utils.clearProject(getContext().getString(R.string.default_project_name));
-		//		Utils.clearProject("testProject");
+		TestUtils.clearProject(getContext().getString(R.string.default_project_name));
+		TestUtils.clearProject("testProject");
 	}
 
 	@Override
 	public void setUp() {
-		File defProject = new File(Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name));
+		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name));
 
-		if (defProject.exists()) {
-			UtilFile.deleteDirectory(defProject);
+		if (projectFile.exists()) {
+			UtilFile.deleteDirectory(projectFile);
 		}
 	}
 
-	public void testSerializeProject() throws NameNotFoundException {
+	public void testSerializeProject() {
 
 		int xPosition = 457;
 		int yPosition = 598;
-		double scaleValue = 0.8;
+		double size = 0.8;
 
 		Project project = new Project(getContext(), "testProject");
 		Sprite firstSprite = new Sprite("first");
@@ -88,22 +92,22 @@ public class StorageHandlerTest extends AndroidTestCase {
 		Script otherScript = new StartScript("otherScript", secondSprite);
 		HideBrick hideBrick = new HideBrick(firstSprite);
 		ShowBrick showBrick = new ShowBrick(firstSprite);
-		ScaleCostumeBrick scaleCostumeBrick = new ScaleCostumeBrick(secondSprite, scaleValue);
+		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(secondSprite, size);
 		ComeToFrontBrick comeToFrontBrick = new ComeToFrontBrick(firstSprite);
 		PlaceAtBrick placeAtBrick = new PlaceAtBrick(secondSprite, xPosition, yPosition);
 
 		// adding Bricks: ----------------
 		testScript.addBrick(hideBrick);
 		testScript.addBrick(showBrick);
-		testScript.addBrick(scaleCostumeBrick);
+		testScript.addBrick(setSizeToBrick);
 		testScript.addBrick(comeToFrontBrick);
 
 		otherScript.addBrick(placeAtBrick); // secondSprite
 		otherScript.setPaused(true);
 		// -------------------------------
 
-		firstSprite.getScriptList().add(testScript);
-		secondSprite.getScriptList().add(otherScript);
+		firstSprite.addScript(testScript);
+		secondSprite.addScript(otherScript);
 
 		project.addSprite(firstSprite);
 		project.addSprite(secondSprite);
@@ -133,110 +137,119 @@ public class StorageHandlerTest extends AndroidTestCase {
 		assertEquals("Title missmatch after deserialization", project.getName(), loadedProject.getName());
 
 		// Test random brick values
-		assertEquals("Scale was not deserialized right", scaleValue, ((ScaleCostumeBrick) (postSpriteList.get(1)
-				.getScriptList().get(0).getBrickList().get(2))).getScale());
-		assertEquals("XPosition was not deserialized right", xPosition, ((PlaceAtBrick) (postSpriteList.get(2)
-				.getScriptList().get(0).getBrickList().get(0))).getXPosition());
-		assertEquals("YPosition was not deserialized right", yPosition, ((PlaceAtBrick) (postSpriteList.get(2)
-				.getScriptList().get(0).getBrickList().get(0))).getYPosition());
+		int actualXPosition = (Integer) TestUtils.getPrivateField("xPosition", (postSpriteList.get(2).getScript(0)
+				.getBrickList().get(0)), false);
+		int actualYPosition = (Integer) TestUtils.getPrivateField("yPosition", (postSpriteList.get(2).getScript(0)
+				.getBrickList().get(0)), false);
 
-		assertFalse("paused should not be set in script", preSpriteList.get(1).getScriptList().get(0).isPaused());
+		double actualSize = (Double) TestUtils.getPrivateField("size", (postSpriteList.get(1).getScript(0)
+				.getBrickList().get(2)), false);
+
+		assertEquals("Size was not deserialized right", size, actualSize);
+		assertEquals("XPosition was not deserialized right", xPosition, actualXPosition);
+		assertEquals("YPosition was not deserialized right", yPosition, actualYPosition);
+
+		assertFalse("paused should not be set in script", preSpriteList.get(1).getScript(0).isPaused());
 
 		// Test version codes and names
-		final int preVersionCode = project.getVersionCode();
-		final int postVersionCode = loadedProject.getVersionCode();
+		final int preVersionCode = (Integer) TestUtils.getPrivateField("versionCode", project, false);
+		final int postVersionCode = (Integer) TestUtils.getPrivateField("versionCode", loadedProject, false);
 		assertEquals("Version codes are not equal", preVersionCode, postVersionCode);
 
-		final String preVersionName = project.getVersionName();
-		final String postVersionName = loadedProject.getVersionName();
+		final String preVersionName = (String) TestUtils.getPrivateField("versionName", project, false);
+		final String postVersionName = (String) TestUtils.getPrivateField("versionName", loadedProject, false);
 		assertEquals("Version names are not equal", preVersionName, postVersionName);
 	}
 
 	public void testDefaultProject() throws IOException {
-		StorageHandler handler = StorageHandler.getInstance();
-		ProjectManager project = ProjectManager.getInstance();
-		project.setProject(handler.createDefaultProject(getContext()));
-		assertEquals("not the right number of sprites in the default project", 2, project.getCurrentProject()
+		ProjectManager projectManager = ProjectManager.getInstance();
+		projectManager.setProject(storageHandler.createDefaultProject(getContext()));
+		assertEquals("not the right number of sprites in the default project", 2, projectManager.getCurrentProject()
 				.getSpriteList().size());
-		assertEquals("not the right number of scripts in the second sprite of default project", 2, project
-				.getCurrentProject().getSpriteList().get(1).getScriptList().size());
-		assertEquals("not the right number of bricks in the first script of Stage", 1, project.getCurrentProject()
-				.getSpriteList().get(0).getScriptList().get(0).getBrickList().size());
-		assertEquals("not the right number of bricks in the first script", 1, project.getCurrentProject()
-				.getSpriteList().get(1).getScriptList().get(0).getBrickList().size());
-		assertEquals("not the right number of bricks in the second script", 5, project.getCurrentProject()
-				.getSpriteList().get(1).getScriptList().get(1).getBrickList().size());
+		assertEquals("not the right number of scripts in the second sprite of default project", 2, projectManager
+				.getCurrentProject().getSpriteList().get(1).getNumberOfScripts());
+		assertEquals("not the right number of bricks in the first script of Stage", 1, projectManager
+				.getCurrentProject().getSpriteList().get(0).getScript(0).getBrickList().size());
+		assertEquals("not the right number of bricks in the first script", 1, projectManager.getCurrentProject()
+				.getSpriteList().get(1).getScript(0).getBrickList().size());
+		assertEquals("not the right number of bricks in the second script", 5, projectManager.getCurrentProject()
+				.getSpriteList().get(1).getScript(1).getBrickList().size());
 
 		//test if images are existing:
-		String imagePath = Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name)
-				+ Consts.IMAGE_DIRECTORY + "/" + Consts.NORMAL_CAT;
-		File testFile = new File(imagePath);
-		assertTrue("Image " + Consts.NORMAL_CAT + " does not exist", testFile.exists());
-		imagePath = Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name)
-				+ Consts.IMAGE_DIRECTORY + "/" + Consts.BANZAI_CAT;
-		testFile = new File(imagePath);
-		assertTrue("Image " + Consts.BANZAI_CAT + " does not exist", testFile.exists());
-		imagePath = Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name)
-				+ Consts.IMAGE_DIRECTORY + "/" + Consts.CHESHIRE_CAT;
-		testFile = new File(imagePath);
-		assertTrue("Image " + Consts.BACKGROUND + " does not exist", testFile.exists());
-		imagePath = Consts.DEFAULT_ROOT + "/" + getContext().getString(R.string.default_project_name)
-				+ Consts.IMAGE_DIRECTORY + "/" + Consts.BACKGROUND;
-		testFile = new File(imagePath);
-		assertTrue("Image " + Consts.BACKGROUND + " does not exist", testFile.exists());
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		ArrayList<CostumeData> backgroundCostumeList = currentProject.getSpriteList().get(0).getCostumeDataList();
+		ArrayList<CostumeData> catroidCostumeList = currentProject.getSpriteList().get(1).getCostumeDataList();
+		assertEquals("no background picture or too many pictures in background sprite", 1, backgroundCostumeList.size());
+		assertEquals("wrong number of pictures in catroid sprite", 3, catroidCostumeList.size());
 
+		String imagePath = backgroundCostumeList.get(0).getAbsolutePath();
+		File testFile = new File(imagePath);
+		assertTrue("Image " + backgroundCostumeList.get(0).getCostumeFileName() + " does not exist", testFile.exists());
+
+		imagePath = catroidCostumeList.get(0).getAbsolutePath();
+		testFile = new File(imagePath);
+		assertTrue("Image " + catroidCostumeList.get(0).getCostumeFileName() + " does not exist", testFile.exists());
+
+		imagePath = catroidCostumeList.get(1).getAbsolutePath();
+		testFile = new File(imagePath);
+		assertTrue("Image " + catroidCostumeList.get(1).getCostumeFileName() + " does not exist", testFile.exists());
+
+		imagePath = catroidCostumeList.get(2).getAbsolutePath();
+		testFile = new File(imagePath);
+		assertTrue("Image " + catroidCostumeList.get(2).getCostumeFileName() + " does not exist", testFile.exists());
 	}
 
-	public void testAliases() throws IOException {
+	public void testAliasesAndXmlHeader() {
 
 		String projectName = "myProject";
 
-		File proj = new File(Consts.DEFAULT_ROOT + "/" + projectName);
-		if (proj.exists()) {
-			UtilFile.deleteDirectory(proj);
+		File projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+		if (projectFile.exists()) {
+			UtilFile.deleteDirectory(projectFile);
 		}
 
 		Project project = new Project(getContext(), projectName);
 		Sprite sprite = new Sprite("testSprite");
-		Script script = new StartScript("testScript", sprite);
-		Script touchedScript = new TapScript("touchedScript", sprite);
-		sprite.getScriptList().add(script);
-		sprite.getScriptList().add(touchedScript);
-		project.getSpriteList().add(sprite);
+		Script startScript = new StartScript("testScript", sprite);
+		Script whenScript = new WhenScript("whenScript", sprite);
+		sprite.addScript(startScript);
+		sprite.addScript(whenScript);
+		project.addSprite(sprite);
 
-		ArrayList<Brick> a1 = new ArrayList<Brick>();
-		ArrayList<Brick> a2 = new ArrayList<Brick>();
-		a1.add(new ChangeXByBrick(sprite, 4));
-		a1.add(new ChangeYByBrick(sprite, 5));
-		a1.add(new ComeToFrontBrick(sprite));
-		a1.add(new GoNStepsBackBrick(sprite, 5));
-		a1.add(new HideBrick(sprite));
-		a1.add(new IfStartedBrick(sprite, script));
+		ArrayList<Brick> startScriptBrickList = new ArrayList<Brick>();
+		ArrayList<Brick> whenScriptBrickList = new ArrayList<Brick>();
+		startScriptBrickList.add(new ChangeXByBrick(sprite, 4));
+		startScriptBrickList.add(new ChangeYByBrick(sprite, 5));
+		startScriptBrickList.add(new ComeToFrontBrick(sprite));
+		startScriptBrickList.add(new GoNStepsBackBrick(sprite, 5));
+		startScriptBrickList.add(new HideBrick(sprite));
+		startScriptBrickList.add(new WhenStartedBrick(sprite, startScript));
 
-		a2.add(new IfTouchedBrick(sprite, touchedScript));
-		a2.add(new PlaceAtBrick(sprite, 50, 50));
-		a2.add(new PlaySoundBrick(sprite));
-		a2.add(new ScaleCostumeBrick(sprite, 50));
-		a2.add(new SetCostumeBrick(sprite));
-		a2.add(new SetXBrick(sprite, 50));
-		a2.add(new SetYBrick(sprite, 50));
-		a2.add(new ShowBrick(sprite));
-		a2.add(new WaitBrick(sprite, 1000));
+		whenScriptBrickList.add(new PlaySoundBrick(sprite));
+		whenScriptBrickList.add(new SetSizeToBrick(sprite, 50));
+		whenScriptBrickList.add(new SetCostumeBrick(sprite));
+		whenScriptBrickList.add(new SetXBrick(sprite, 50));
+		whenScriptBrickList.add(new SetYBrick(sprite, 50));
+		whenScriptBrickList.add(new ShowBrick(sprite));
+		whenScriptBrickList.add(new WaitBrick(sprite, 1000));
 
-		for (Brick b : a1) {
-			script.addBrick(b);
+		for (Brick b : startScriptBrickList) {
+			startScript.addBrick(b);
 		}
-		for (Brick b : a2) {
-			touchedScript.addBrick(b);
+		for (Brick b : whenScriptBrickList) {
+			whenScript.addBrick(b);
 		}
 
-		StorageHandler.getInstance().saveProject(project);
-		String spf = StorageHandler.getInstance().getProjectfileAsString(projectName);
-		assertFalse("project contains package information", spf.contains("at.tugraz.ist"));
+		storageHandler.saveProject(project);
+		String projectString = TestUtils.getProjectfileAsString(projectName);
+		assertFalse("project contains package information", projectString.contains("at.tugraz.ist"));
 
-		proj = new File(Consts.DEFAULT_ROOT + "/" + projectName);
-		if (proj.exists()) {
-			UtilFile.deleteDirectory(proj);
+		String xmlHeader = (String) TestUtils.getPrivateField("XML_HEADER", storageHandler, false);
+		assertTrue("Project file did not contain correct XML header.", projectString.startsWith(xmlHeader));
+
+		projectFile = new File(Consts.DEFAULT_ROOT + "/" + projectName);
+		if (projectFile.exists()) {
+			UtilFile.deleteDirectory(projectFile);
 		}
 	}
 }

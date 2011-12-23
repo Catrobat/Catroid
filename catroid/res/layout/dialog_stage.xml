@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ *  Catroid: An on-device graphical programming language for Android devices
+ *  Copyright (C) 2010-2011 The Catroid Team
+ *  (<http://code.google.com/p/catroid/wiki/Credits>)
+ *  
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:gravity="left"
+	android:layout_width="wrap_content"
+	android:layout_height="fill_parent"
+	android:background="@drawable/bg_dialog"
+	android:paddingRight="5dip"
+	android:paddingLeft="5dip"
+>
+	<!-- Menu buttons -->
+	<ScrollView
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+	>	
+		<LinearLayout
+			xmlns:android="http://schemas.android.com/apk/res/android"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:orientation="vertical"
+		>
+			<Button
+				android:id="@+id/back_to_construction_site_button"
+				android:text="@string/back"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:layout_gravity="center_horizontal"
+ 				android:background="@null"
+				android:drawableTop="@drawable/back_selector"
+ 				android:paddingTop="10dip"
+ 			></Button> 
+			<Button
+				android:id="@+id/resume_current_project_button"
+				android:text="@string/resume_current_project"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:background="@null"
+				android:drawableTop="@drawable/resume_selector"
+				android:paddingTop="20dip"
+			></Button>
+			<Button
+				android:id="@+id/restart_current_project_button"
+				android:text="@string/restart_current_project"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:background="@null"
+				android:drawableTop="@drawable/restart_selector"
+				android:paddingTop="20dip"
+			></Button>
+			<Button
+				android:id="@+id/axes_toggle_button"
+				android:text="@string/stagemenu_axes_on"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:background="@null"
+				android:drawableTop="@drawable/axes_selector"
+				android:paddingTop="20dip"
+			></Button>
+			<Button	
+				android:id="@+id/maximize_button"
+				android:text="@string/stagemenu_screen_size"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:background="@null"
+				android:drawableTop="@drawable/maximize_selector"
+				android:paddingTop="20dip"
+			></Button>
+			<Button
+				android:id="@+id/screenshot_button"
+				android:text="@string/stagemenu_screenshot"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"
+				android:layout_gravity="center_horizontal"
+				android:background="@null"
+				android:drawableTop="@drawable/screenshot_selector"
+				android:paddingTop="20dip"
+				android:paddingBottom="10dip"
+			></Button>
+		</LinearLayout>
+	</ScrollView>			
+</LinearLayout>
