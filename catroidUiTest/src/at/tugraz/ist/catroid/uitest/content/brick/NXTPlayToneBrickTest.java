@@ -172,7 +172,7 @@ public class NXTPlayToneBrickTest extends ActivityInstrumentationTestCase2<Scrip
 		setFrequencyInitially = 20;
 		setDurationInitially = 1.0;
 
-		playToneBrick = new NXTPlayToneBrick(sprite, setFrequencyInitially, setDurationInitially);
+		playToneBrick = new NXTPlayToneBrick(sprite, setFrequencyInitially * 100, (int) (setDurationInitially * 1000));
 
 		setDuration = 3.0;
 		setFrequency = 70;

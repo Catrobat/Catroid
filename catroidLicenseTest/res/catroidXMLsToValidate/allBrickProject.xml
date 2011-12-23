@@ -38,8 +38,8 @@
           <brickList>
             <Bricks.NXTMotorTurnAngleBrick>
               <sprite reference="../../../../.."/>
-              <motor>0</motor>
-              <angle>180</angle>
+              <motor>motor_A</motor>
+              <degrees>180</degrees>
             </Bricks.NXTMotorTurnAngleBrick>
             <Bricks.NXTMotorStopBrick>
               <motor>motor_A</motor>
