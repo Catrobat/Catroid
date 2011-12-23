@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<menu
-  xmlns:android="http://schemas.android.com/apk/res/android">
-<item android:title="@string/construction_site_play" android:id="@+id/play"></item>
-<item android:title="@string/reset" android:id="@+id/reset"></item>
-
-</menu>
