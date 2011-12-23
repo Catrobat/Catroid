@@ -3,38 +3,25 @@ package com.tugraz.android.app;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.tugraz.android.app.filesystem.MediaFileLoader;
-
 
 import android.content.Context;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.SimpleAdapter;
-import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 public class MainListViewAdapter extends BaseAdapter{
     private Context mCtx;
-    private MediaFileLoader mMediaFileLoader;
-    
-    public ArrayList<HashMap<String, String>> mList;
+    private ArrayList<HashMap<String, String>> mList;
 
     
 	public MainListViewAdapter(Context context,
 			ArrayList<HashMap<String, String>> data) {
 		mCtx = context;
 		mList = data;	
-		
-		mMediaFileLoader = new MediaFileLoader(mCtx);
-		mMediaFileLoader.loadPictureContent();
 	}
 	
 	
@@ -58,7 +45,6 @@ public class MainListViewAdapter extends BaseAdapter{
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
-		//Log.d("View", mList.toString());
 		//TODO check convertView
 		//TODO Reuse Views
 		//Type of the Brick
@@ -66,50 +52,38 @@ public class MainListViewAdapter extends BaseAdapter{
 		//Inflater to build the views
 		LayoutInflater inflater = (LayoutInflater)mCtx.getSystemService(
 	      Context.LAYOUT_INFLATER_SERVICE);
-		
 		//Check the type
 		switch(Integer.valueOf(type).intValue()){
 		case (BrickDefine.SET_BACKGROUND): 
 		{
 			LinearLayout view = (LinearLayout) inflater.inflate(R.layout.mlve_two_labels, null);
-			//text1.setTextColor(Color.BLUE);
-			TextView text = (TextView)view.getChildAt(0);
-			text.setText("Setze Hintergrund:");
-			//text2.setTextColor(Color.BLUE);
-			view.setBackgroundColor(Color.argb(255, 139, 0, 139));
-
-			Spinner spinner = (Spinner)view.getChildAt(1);
+			TextView text1 = (TextView)view.getChildAt(0);
+			text1.setText("SET_BACKGROUND");
+			TextView text2 = (TextView)view.getChildAt(1);
+			text2.setText("BausteinSetBackground");
 			
-			
-			//set adapter		
-			final SimpleAdapter adapter = new SimpleAdapter(mCtx, mMediaFileLoader.getPictureContent(), R.layout.picture_spinner,
-					new String[] {MediaFileLoader.PICTURE_THUMB, MediaFileLoader.PICTURE_NAME},
-	                new int[] {R.id.PictureSpinnerImageView, R.id.PictureSpinnerTextView});
-			spinner.setAdapter(adapter);
 			return view;
 		}
 		case (BrickDefine.PLAY_SOUND): 
 		{
 		    LinearLayout view = (LinearLayout) inflater.inflate(R.layout.mlve_two_labels, null);
-			TextView text = (TextView)view.getChildAt(0);
-			text.setText("Spiele Klang:");
-			
-			view.setBackgroundColor(Color.BLUE);
+			TextView text1 = (TextView)view.getChildAt(0);
+			text1.setText("PLAY_SOUND");
+			TextView text2 = (TextView)view.getChildAt(1);
+			text2.setText("BausteinPlaySound");
 			
 			return view;
 		}
 		case (BrickDefine.WAIT): 
 		{
 			LinearLayout view =  (LinearLayout)inflater.inflate(R.layout.mlve_two_labels_edit, null);
-			  TextView text = (TextView) view.getChildAt(0);
-			  text.setText("Warte ");
-			  text.setTextColor(Color.BLUE);
-	          EditText etext = (EditText) view.getChildAt(1);
-	          
-	          view.setBackgroundColor(Color.argb(255, 255, 215, 0));
-	        
+			TextView text1 = (TextView)view.getChildAt(0);
+			text1.setText("WAIT");
+			  LinearLayout view2 = (LinearLayout)view.getChildAt(1);
+			  TextView text2 = (TextView) view2.getChildAt(0);
+	          text2.setText("BausteinWait");
+	          EditText etext = (EditText) view2.getChildAt(1);
 			return view;
-			
 		}
 		case (BrickDefine.NOT_DEFINED):
 		{
@@ -123,7 +97,6 @@ public class MainListViewAdapter extends BaseAdapter{
 		
 		}
 	}
-
 	
 
 }
