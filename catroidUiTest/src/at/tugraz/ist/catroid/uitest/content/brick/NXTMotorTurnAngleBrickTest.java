@@ -120,7 +120,7 @@ public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2
 		solo.clickOnButton(0);
 		solo.sleep(500);
 
-		int angle = (Integer) UiTestUtils.getPrivateField("angle", motorBrick);
+		int angle = (Integer) UiTestUtils.getPrivateField("degrees", motorBrick);
 		assertEquals("Wrong text in field.", setAngle, angle);
 		assertEquals("Value in Brick is not updated.", setAngle + "", solo.getEditText(0).getText().toString());
 
