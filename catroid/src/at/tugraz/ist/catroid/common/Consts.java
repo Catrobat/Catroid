@@ -29,7 +29,9 @@ public final class Consts {
 	public static final String PROJECT_EXTENTION = ".xml";
 	public static final String CATROID_EXTENTION = ".catroid";
 
-	public static final String DEFAULT_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath() + "/catroid";
+	public static String DEFAULT_ROOT = Values.NATIVE_DESKTOP_PLAYER ? "" : Environment.getExternalStorageDirectory()
+			+ "/catroid";
+
 	public static final String TMP_PATH = DEFAULT_ROOT + "/tmp";
 	public static final String IMAGE_DIRECTORY = "/images";
 	public static final String SOUND_DIRECTORY = "/sounds";

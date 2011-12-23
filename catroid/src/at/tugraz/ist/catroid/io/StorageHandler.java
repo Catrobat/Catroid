@@ -44,6 +44,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.CostumeData;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
+import at.tugraz.ist.catroid.common.Values;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.content.Script;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -76,7 +77,7 @@ public class StorageHandler {
 		xstream.aliasPackage("Common", "at.tugraz.ist.catroid.common");
 		xstream.aliasPackage("Content", "at.tugraz.ist.catroid.content");
 
-		if (!Utils.hasSdCard()) {
+		if (!Values.NATIVE_DESKTOP_PLAYER && !Utils.hasSdCard()) {
 			throw new IOException("Could not read external storage");
 		}
 		createCatroidRoot();
@@ -101,15 +102,15 @@ public class StorageHandler {
 		return instance;
 	}
 
-	public Project loadProject(String projectName) {
+	public Project loadProject(String projectFileName) {
 		createCatroidRoot();
 		try {
 			if (NativeAppActivity.isRunning()) {
-				InputStream spfFileStream = NativeAppActivity.getContext().getAssets().open(projectName);
+				InputStream spfFileStream = NativeAppActivity.getContext().getAssets().open(projectFileName);
 				return (Project) xstream.fromXML(spfFileStream);
 			}
 
-			projectName = Utils.getProjectName(projectName);
+			String projectName = Utils.getProjectName(projectFileName);
 
 			File projectDirectory = new File(Utils.buildPath(Consts.DEFAULT_ROOT, projectName));
 
@@ -156,8 +157,9 @@ public class StorageHandler {
 				noMediaFile.createNewFile();
 			}
 
-			BufferedWriter writer = new BufferedWriter(new FileWriter(Utils.buildPath(projectDirectoryName,
-					project.getName() + Consts.PROJECT_EXTENTION)), Consts.BUFFER_8K);
+			BufferedWriter writer = new BufferedWriter(new FileWriter(Utils.buildPath(projectDirectoryName, project
+					.getName()
+					+ Consts.PROJECT_EXTENTION)), Consts.BUFFER_8K);
 
 			writer.write(XML_HEADER.concat(projectFile));
 			writer.flush();
@@ -228,8 +230,8 @@ public class StorageHandler {
 			if (newName != null) {
 				newFilePath = Utils.buildPath(imageDirectory.getAbsolutePath(), checksumSource + "_" + newName);
 			} else {
-				newFilePath = Utils.buildPath(imageDirectory.getAbsolutePath(),
-						checksumSource + "_" + inputFile.getName());
+				newFilePath = Utils.buildPath(imageDirectory.getAbsolutePath(), checksumSource + "_"
+						+ inputFile.getName());
 				if (checksumCont.containsChecksum(checksumSource)) {
 					checksumCont.addChecksum(checksumSource, newFilePath);
 					return new File(checksumCont.getPath(checksumSource));
@@ -264,8 +266,8 @@ public class StorageHandler {
 		String checksumCompressedFile = Utils.md5Checksum(outputFile);
 
 		FileChecksumContainer fileChecksumContainer = ProjectManager.getInstance().fileChecksumContainer;
-		String newFilePath = Utils.buildPath(imageDirectory.getAbsolutePath(),
-				checksumCompressedFile + "_" + inputFile.getName());
+		String newFilePath = Utils.buildPath(imageDirectory.getAbsolutePath(), checksumCompressedFile + "_"
+				+ inputFile.getName());
 
 		if (!fileChecksumContainer.addChecksum(checksumCompressedFile, newFilePath)) {
 			outputFile.delete();
@@ -351,10 +353,10 @@ public class StorageHandler {
 				context);
 
 		String directoryName = Utils.buildPath(Consts.DEFAULT_ROOT, projectName, Consts.IMAGE_DIRECTORY);
-		File normalCat = new File(Utils.buildPath(directoryName,
-				Utils.md5Checksum(normalCatTemp) + "_" + normalCatTemp.getName()));
-		File banzaiCat = new File(Utils.buildPath(directoryName,
-				Utils.md5Checksum(banzaiCatTemp) + "_" + banzaiCatTemp.getName()));
+		File normalCat = new File(Utils.buildPath(directoryName, Utils.md5Checksum(normalCatTemp) + "_"
+				+ normalCatTemp.getName()));
+		File banzaiCat = new File(Utils.buildPath(directoryName, Utils.md5Checksum(banzaiCatTemp) + "_"
+				+ banzaiCatTemp.getName()));
 		File cheshireCat = new File(Utils.buildPath(directoryName, Utils.md5Checksum(cheshireCatTemp) + "_"
 				+ cheshireCatTemp.getName()));
 		File background = new File(Utils.buildPath(directoryName, Utils.md5Checksum(backgroundTemp) + "_"

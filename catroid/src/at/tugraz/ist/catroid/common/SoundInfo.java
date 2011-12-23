@@ -27,6 +27,7 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class SoundInfo implements Comparable<SoundInfo> {
 
+	private int id;
 	private String title;
 	private String fileName;
 	public boolean isPlaying;
@@ -43,6 +44,14 @@ public class SoundInfo implements Comparable<SoundInfo> {
 		} else {
 			return null;
 		}
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getTitle() {
@@ -68,7 +77,14 @@ public class SoundInfo implements Comparable<SoundInfo> {
 		return fileName.substring(0, 32);
 	}
 
-	private String getPathWithoutFileName() {
+	public String getFileExtension() {
+		if (fileName == null) {
+			return null;
+		}
+		return fileName.substring(fileName.length() - 4, fileName.length());
+	}
+
+	public String getPathWithoutFileName() {
 		return Utils.buildPath(Consts.DEFAULT_ROOT, ProjectManager.getInstance().getCurrentProject().getName(),
 				Consts.SOUND_DIRECTORY);
 	}

@@ -30,14 +30,19 @@ package at.tugraz.ist.catroid.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.Semaphore;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -45,6 +50,7 @@ import android.content.DialogInterface.OnShowListener;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
@@ -115,6 +121,110 @@ public class Utils {
 	}
 
 	/**
+	 * Copies a file from the source to the destination. Can optionally show a
+	 * progress dialog until copying is finished.
+	 * 
+	 * @param from
+	 *            path to the source file
+	 * @param to
+	 *            path to the destination file
+	 * @param context
+	 *            the Context, can be null if no progress dialog is wanted
+	 * @param showProgressDialog
+	 *            whether or not to display a progress dialog until copying is
+	 *            finished
+	 * @return whether the file was copied successfully
+	 */
+	public static boolean copyFile(String from, String to, Context context, boolean showProgressDialog) {
+		File fileFrom = new File(from);
+		File fileTo = new File(to);
+
+		if (fileTo.exists()) {
+			deleteFile(fileTo.getAbsolutePath());
+		}
+		try {
+			fileTo.createNewFile();
+		} catch (IOException e1) {
+			return false;
+		}
+
+		if (!fileFrom.exists() || !fileTo.exists()) {
+			return false;
+		}
+
+		ProgressDialog progressDialog = null;
+		if (showProgressDialog && context != null) {
+			progressDialog = ProgressDialog.show(context, context.getString(R.string.please_wait),
+					context.getString(R.string.loading));
+		}
+
+		Thread t = new FileCopyThread(fileTo, fileFrom, progressDialog);
+		t.start();
+		return true;
+	}
+
+	public static boolean deleteFile(String path) {
+		File fileFrom = new File(path);
+		return fileFrom.delete();
+	}
+
+	/**
+	 * Returns whether a project with the given name already exists
+	 * 
+	 * @param projectName
+	 *            project name to check for existence
+	 * @return whether the project exists
+	 */
+	public static boolean projectExists(String projectName) {
+		File projectFolder = new File(buildPath(Consts.DEFAULT_ROOT, projectName));
+		return projectFolder.exists();
+	}
+
+	public static String getTimestamp() {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+		return simpleDateFormat.format(new Date());
+	}
+
+	public static boolean deleteFolder(String path) {
+		File fileFrom = new File(path);
+		if (fileFrom.isDirectory()) {
+			for (File file : fileFrom.listFiles()) {
+				if (file.isDirectory()) {
+					deleteFolder(file.getAbsolutePath());
+				} else {
+					file.delete();
+				}
+			}
+		} else {
+			fileFrom.delete();
+		}
+
+		return true;
+	}
+
+	public static boolean deleteFolder(String path, String ignoreFile) {
+		File fileFrom = new File(path);
+		if (fileFrom.isDirectory()) {
+			for (File file : fileFrom.listFiles()) {
+				if (file.isDirectory()) {
+					deleteFolder(file.getAbsolutePath(), ignoreFile);
+				} else {
+					if (!file.getName().equals(ignoreFile)) {
+						file.delete();
+					}
+				}
+
+			}
+		} else {
+			if (!fileFrom.getName().equals(ignoreFile)) {
+				fileFrom.delete();
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 * Constructs a path out of the pathElements.
 	 * 
 	 * @param pathElements
@@ -139,6 +249,7 @@ public class Utils {
 	}
 
 	/**
+	 * 
 	 * @param projectFileName
 	 * @return the project name without the default file extension, else returns unchanged string
 	 */
@@ -147,6 +258,21 @@ public class Utils {
 			return projectFileName.substring(0, projectFileName.length() - Consts.PROJECT_EXTENTION.length());
 		}
 		return projectFileName;
+	}
+
+	public static void saveBitmapOnSDCardAsPNG(String full_path, Bitmap bitmap) {
+		File file = new File(full_path);
+		try {
+			FileOutputStream os = new FileOutputStream(file);
+			bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);
+			os.close();
+		} catch (FileNotFoundException e) {
+			Log.e(TAG, e.getMessage());
+			e.printStackTrace();
+		} catch (IOException e) {
+			Log.e(TAG, e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 	/**

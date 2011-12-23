@@ -31,13 +31,14 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.Sprite;
+import at.tugraz.ist.catroid.stage.NativeStageActivity;
 import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.ui.adapter.SpriteAdapter;
@@ -45,6 +46,7 @@ import at.tugraz.ist.catroid.ui.dialogs.CustomIconContextMenu;
 import at.tugraz.ist.catroid.ui.dialogs.NewSpriteDialog;
 import at.tugraz.ist.catroid.ui.dialogs.RenameSpriteDialog;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
+import at.tugraz.ist.catroid.utils.UtilDeviceInfo;
 import at.tugraz.ist.catroid.utils.Utils;
 
 public class ProjectActivity extends ListActivity {
@@ -148,6 +150,11 @@ public class ProjectActivity extends ListActivity {
 
 		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, new View.OnClickListener() {
 			public void onClick(View v) {
+				if (UtilDeviceInfo.runOnEmulator(ProjectActivity.this)) {
+					Intent intent = new Intent(ProjectActivity.this, NativeStageActivity.class);
+					startActivity(intent);
+					return;
+				}
 				Intent intent = new Intent(ProjectActivity.this, PreStageActivity.class);
 				startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
 			}

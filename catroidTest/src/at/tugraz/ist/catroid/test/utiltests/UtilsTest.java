@@ -23,7 +23,9 @@
 package at.tugraz.ist.catroid.test.utiltests;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -69,6 +71,38 @@ public class UtilsTest extends TestCase {
 		if (copiedFile != null && copiedFile.exists()) {
 			copiedFile.delete();
 		}
+	}
+
+	public void testCopyFile() throws InterruptedException {
+		String newpath = mTestFile.getParent() + "/copiedFile.txt";
+		Utils.copyFile(mTestFile.getAbsolutePath(), newpath, null, false);
+		Thread.sleep(1000); // Wait for thread to write file
+		copiedFile = new File(newpath);
+
+		assertTrue("File was not copied correctly", copiedFile.exists());
+
+		FileReader fReader;
+		String newContent = "";
+
+		try {
+			fReader = new FileReader(copiedFile);
+
+			int read;
+			while ((read = fReader.read()) != -1) {
+				newContent = newContent + (char) read;
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		assertEquals("Unexpected content of test file", testFileContent, newContent);
+	}
+
+	public void testDeleteFile() {
+		Utils.deleteFile(mTestFile.getAbsolutePath());
+		assertFalse("File still exists after delete", mTestFile.exists());
 	}
 
 	public void testMD5CheckSumOfFile() {
@@ -137,7 +171,7 @@ public class UtilsTest extends TestCase {
 		Log.v(TAG, secretFloat.toString());
 		assertEquals("Getting private float failed!", new Float(3.1415f), secretFloat);
 	}
-
+	
 	public void testBuildPath() {
 		String first = "/abc/abc";
 		String second = "/def/def/";
@@ -159,6 +193,7 @@ public class UtilsTest extends TestCase {
 		result = "/abc/abc/def/def";
 		assertEquals(Utils.buildPath(first, second), result);
 	}
+	
 
 	public void testUniqueName() {
 		String first = Utils.getUniqueName();
