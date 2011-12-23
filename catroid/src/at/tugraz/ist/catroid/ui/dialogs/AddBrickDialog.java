@@ -170,7 +170,7 @@ public class AddBrickDialog extends Dialog {
 		legoNXTBrickList.add(new NXTMotorTurnAngleBrick(sprite, NXTMotorTurnAngleBrick.Motor.MOTOR_A, 180));
 		legoNXTBrickList.add(new NXTMotorStopBrick(sprite, NXTMotorStopBrick.Motor.MOTOR_A));
 		legoNXTBrickList.add(new NXTMotorActionBrick(sprite, NXTMotorActionBrick.Motor.MOTOR_A, 100));
-		legoNXTBrickList.add(new NXTPlayToneBrick(sprite, 200000, 1000));
+		legoNXTBrickList.add(new NXTPlayToneBrick(sprite, 200, 1000));
 		brickMap.put(context.getString(R.string.category_lego_nxt), legoNXTBrickList);
 
 		return brickMap;

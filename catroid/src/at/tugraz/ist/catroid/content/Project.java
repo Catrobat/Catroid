@@ -41,6 +41,8 @@ public class Project implements Serializable {
 	@SuppressWarnings("unused")
 	private String deviceName;
 	@SuppressWarnings("unused")
+	private int deviceAndroidVersion;
+	@SuppressWarnings("unused")
 	private String versionName;
 	@SuppressWarnings("unused")
 	private int versionCode;
@@ -49,27 +51,30 @@ public class Project implements Serializable {
 	public transient int VIRTUAL_SCREEN_WIDTH = 0;
 	public transient int VIRTUAL_SCREEN_HEIGHT = 0;
 
+	protected Object readResolve() {
+		if (screenResolution != null) {
+			String[] resolutions = screenResolution.split("/");
+			VIRTUAL_SCREEN_WIDTH = Integer.valueOf(resolutions[0]);
+			VIRTUAL_SCREEN_HEIGHT = Integer.valueOf(resolutions[1]);
+		}
+		return this;
+	}
+
 	public Project(Context context, String name) {
 		this.name = name;
-		deviceName = Build.MODEL;
 
 		ifLandscapeSwitchWidthAndHeight();
-		screenResolution = Values.SCREEN_WIDTH + "/" + Values.SCREEN_HEIGHT;
 		VIRTUAL_SCREEN_WIDTH = Values.SCREEN_WIDTH;
 		VIRTUAL_SCREEN_HEIGHT = Values.SCREEN_HEIGHT;
+		setDeviceData(context);
 
 		if (context == null) {
-			versionName = "unknown";
 			return;
 		}
 
 		Sprite background = new Sprite(context.getString(R.string.background));
 		background.costume.zPosition = Integer.MIN_VALUE;
 		addSprite(background);
-
-		versionName = Utils.getVersionName(context);
-		versionCode = Utils.getVersionCode(context);
-
 	}
 
 	private void ifLandscapeSwitchWidthAndHeight() {
@@ -78,15 +83,6 @@ public class Project implements Serializable {
 			Values.SCREEN_HEIGHT = Values.SCREEN_WIDTH;
 			Values.SCREEN_WIDTH = tmp;
 		}
-	}
-
-	protected Object readResolve() {
-		if (screenResolution != null) {
-			String[] resolutions = screenResolution.split("/");
-			VIRTUAL_SCREEN_WIDTH = Integer.valueOf(resolutions[0]);
-			VIRTUAL_SCREEN_HEIGHT = Integer.valueOf(resolutions[1]);
-		}
-		return this;
 	}
 
 	public synchronized void addSprite(Sprite sprite) {
@@ -112,8 +108,18 @@ public class Project implements Serializable {
 		return name;
 	}
 
-	public void setDeviceData() {
+	public void setDeviceData(Context context) {
 		deviceName = Build.MODEL;
+		deviceAndroidVersion = Build.VERSION.SDK_INT;
+
 		screenResolution = VIRTUAL_SCREEN_WIDTH + "/" + VIRTUAL_SCREEN_HEIGHT;
+
+		if (context == null) {
+			versionName = "unknown";
+			versionCode = 0;
+		} else {
+			versionName = Utils.getVersionName(context);
+			versionCode = Utils.getVersionCode(context);
+		}
 	}
 }
