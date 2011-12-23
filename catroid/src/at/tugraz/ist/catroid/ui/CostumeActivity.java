@@ -85,7 +85,7 @@ public class CostumeActivity extends ListActivity {
 			if (ProjectManager.getInstance().getCurrentProject().getSpriteList().indexOf(currentSprite) == 0) {
 				addButtonIcon = R.drawable.ic_background;
 			} else {
-				addButtonIcon = R.drawable.ic_shirt;
+				addButtonIcon = R.drawable.ic_actionbar_shirt;
 			}
 			activityHelper.changeButtonIcon(R.id.btn_action_add_sprite, addButtonIcon);
 		}
