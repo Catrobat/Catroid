@@ -1,75 +1,97 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.test.content.sprite;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-
-import android.graphics.BitmapFactory;
 import android.test.InstrumentationTestCase;
-import at.tugraz.ist.catroid.common.Consts;
-import at.tugraz.ist.catroid.test.R;
+import at.tugraz.ist.catroid.content.Costume;
+import at.tugraz.ist.catroid.content.Sprite;
 
 public class CostumeTest extends InstrumentationTestCase {
-
-	private static final int IMAGE_FILE_ID = R.raw.icon;
-	private File testImage;
-
-	// width and height of testImage
-	int width;
-	int height;
+	private Costume costume;
+	private Sprite sprite;
 
 	@Override
-	protected void setUp() throws Exception {
-		final String imagePath = Consts.DEFAULT_ROOT + "/testImage.png";
-		testImage = new File(imagePath);
-		if (!testImage.exists()) {
-			testImage.createNewFile();
-		}
-		InputStream in = getInstrumentation().getContext().getResources().openRawResource(IMAGE_FILE_ID);
-		OutputStream out = new BufferedOutputStream(new FileOutputStream(testImage), Consts.BUFFER_8K);
-		byte[] buffer = new byte[Consts.BUFFER_8K];
-		int length = 0;
-		while ((length = in.read(buffer)) > 0) {
-			out.write(buffer, 0, length);
-		}
-
-		in.close();
-		out.flush();
-		out.close();
-
-		BitmapFactory.Options o = new BitmapFactory.Options();
-		o.inJustDecodeBounds = true;
-		BitmapFactory.decodeFile(imagePath, o);
-
-		width = o.outWidth;
-		height = o.outHeight;
+	protected void setUp() {
+		sprite = new Sprite("test");
+		costume = sprite.costume;
 	}
 
-	@Override
-	protected void tearDown() throws Exception {
-		if (testImage != null && testImage.exists()) {
-			testImage.delete();
-		}
+	public void testConstructor() {
+		assertEquals("Wrong initialization!", 0f, costume.x);
+		assertEquals("Wrong initialization!", 0f, costume.y);
+		assertEquals("Wrong initialization!", 0f, costume.height);
+		assertEquals("Wrong initialization!", 0f, costume.width);
+		assertEquals("Wrong initialization!", 0f, costume.originX);
+		assertEquals("Wrong initialization!", 0f, costume.originY);
+		assertEquals("Wrong initialization!", 0f, costume.rotation);
+		assertEquals("Wrong initialization!", 1f, costume.scaleX);
+		assertEquals("Wrong initialization!", 1f, costume.scaleY);
+		assertEquals("Wrong initialization!", 1f, costume.getAlphaValue());
+		assertEquals("Wrong initialization!", 1f, costume.getBrightnessValue());
+		assertEquals("Wrong initialization!", 1f, costume.getSize());
+		assertEquals("Wrong initialization!", 0, costume.zPosition);
+		assertEquals("Wrong initialization!", true, costume.show);
+		assertEquals("Wrong initialization!", true, costume.touchable);
+		assertEquals("Wrong initialization!", "", costume.getImagePath());
 	}
 
+	public void testXYPositions() {
+		costume.setXPosition(50f);
+		assertEquals("Wrong x position!", 50f, costume.getXPosition());
+		costume.setYPosition(120f);
+		assertEquals("Wrong y position!", 120f, costume.getYPosition());
+		costume.width = 120f;
+		costume.height = 200f;
+		costume.setXPosition(66f);
+		assertEquals("Wrong x position!", 66f, costume.getXPosition());
+		costume.setYPosition(42f);
+		assertEquals("Wrong y position!", 42f, costume.getYPosition());
+		costume.setXYPosition(123f, 456f);
+		assertEquals("Wrong x position!", 123f, costume.getXPosition());
+		assertEquals("Wrong x position!", 456f, costume.getYPosition());
+	}
+
+	public void testImagePath() {
+		costume.setImagePath("blubb");
+		assertEquals("Wrong image path!", "blubb", costume.getImagePath());
+	}
+
+	public void testSize() {
+		costume.setSize(2f);
+		assertEquals("Wrong size!", 2f, costume.getSize());
+	}
+
+	public void testAlphaValue() {
+		costume.setAlphaValue(0.5f);
+		assertEquals("Wrong alpha value!", 0.5f, costume.getAlphaValue());
+		costume.changeAlphaValueBy(0.2f);
+		assertEquals("Wrong alpha value!", 0.7f, costume.getAlphaValue());
+	}
+
+	public void testBrightnessValue() {
+		costume.setBrightnessValue(0.42f);
+		assertEquals("Wrong brightness value!", 0.42f, costume.getBrightnessValue());
+		costume.changeBrightnessValueBy(0.2f);
+		assertEquals("Wrong brightness value!", 0.62f, costume.getBrightnessValue());
+	}
 }

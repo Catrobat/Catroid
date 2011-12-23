@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ *  Catroid: An on-device graphical programming language for Android devices
+ *  Copyright (C) 2010-2011 The Catroid Team
+ *  (<http://code.google.com/p/catroid/wiki/Credits>)
+ *  
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/website_blue"
+>
+	<!-- Action bar -->
+	<include layout="@layout/actionbar"/>
+
+	<!-- Menu buttons -->
+	<ScrollView
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+	>	
+		<LinearLayout
+			xmlns:android="http://schemas.android.com/apk/res/android"
+			android:orientation="vertical"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_weight="1"
+		>
+			<LinearLayout
+				xmlns:android="http://schemas.android.com/apk/res/android"
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:layout_weight=".25"
+			>
+				<Button
+					android:id="@+id/current_project_button"
+					android:text="@string/current_project_button"
+					android:onClick="handleCurrentProjectButton"
+					android:layout_height="match_parent"
+					android:layout_width="match_parent"
+					android:layout_weight=".5"
+					android:background="@null"
+					android:drawableTop="@drawable/current_project_selector"
+					android:paddingTop="10dip"
+				></Button>
+				<Button
+					android:id="@+id/new_project_button"
+					android:text="@string/new_project"
+					android:onClick="handleNewProjectButton"
+					android:layout_height="match_parent"
+					android:layout_width="match_parent"
+					android:layout_weight=".5"
+					android:background="@null"
+					android:drawableTop="@drawable/new_project_selector"
+					android:paddingTop="10dp"
+				></Button>
+				<Button
+					android:id="@+id/projects_on_phone_button"
+					android:text="@string/my_projects"
+					android:onClick="handleLoadProjectButton"
+					android:layout_height="match_parent"
+					android:layout_width="match_parent"
+					android:layout_weight=".5"
+					android:background="@null"
+					android:drawableTop="@drawable/projects_selector"
+					android:paddingTop="10dip"
+				></Button>
+				<Button
+					android:id="@+id/upload_project_button"
+					android:text="@string/upload_project"
+					android:onClick="handleUploadProjectButton"
+					android:layout_height="match_parent"
+					android:layout_width="match_parent"
+					android:layout_weight=".5"
+					android:background="@null"
+					android:drawableTop="@drawable/upload_selector"
+					android:paddingTop="10dip"
+				></Button>
+			</LinearLayout>
+			<LinearLayout
+				xmlns:android="http://schemas.android.com/apk/res/android"
+				android:orientation="horizontal"
+				android:layout_height="match_parent"
+				android:layout_width="match_parent"
+				android:layout_weight=".25"
+			>
+				<Button
+					android:id="@+id/web_button"
+					android:text="@string/web_resources"
+					android:onClick="handleWebResourcesButton"
+					android:layout_height="match_parent"
+					android:layout_width="match_parent"
+					android:layout_weight=".5"
+					android:background="@null"
+					android:drawableTop="@drawable/web_selector"
+					android:paddingTop="25dip"
+				></Button>
+				<Button
+					android:id="@+id/settings_button"
+					android:text="@string/settings"
+					android:onClick="handleSettingsButton"
+					android:layout_height="match_parent"
+					android:layout_width="match_parent"
+					android:layout_weight=".5"
+					android:background="@null"
+					android:drawableTop="@drawable/settings_selector"
+					android:paddingTop="25dip"
+				></Button>
+					<Button
+					android:id="@+id/tutorial_button"
+					android:text="@string/tutorial"
+					android:onClick="handleTutorialButton"
+					android:layout_height="match_parent"
+					android:layout_width="match_parent"
+					android:layout_weight=".5"
+					android:background="@null"
+					android:drawableTop="@drawable/tutorial_selector"
+					android:paddingTop="25dip"
+				></Button>
+				<Button
+					android:id="@+id/about_catroid_button"
+					android:text="@string/about"
+					android:onClick="handleAboutCatroidButton"
+					android:layout_height="match_parent"
+					android:layout_width="match_parent"
+					android:layout_weight=".5"
+					android:background="@null"
+					android:drawableTop="@drawable/about_selector"
+					android:paddingTop="25dip"
+				></Button>
+			</LinearLayout>
+		</LinearLayout>
+	</ScrollView>
+</LinearLayout>
