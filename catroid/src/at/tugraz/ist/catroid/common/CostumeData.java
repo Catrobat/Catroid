@@ -22,6 +22,8 @@
  */
 package at.tugraz.ist.catroid.common;
 
+import java.io.File;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import at.tugraz.ist.catroid.ProjectManager;
@@ -33,8 +35,9 @@ public class CostumeData {
 	private String costumeName;
 	private String costumeFileName;
 	private transient Bitmap thumbnailBitmap;
-	private transient Integer width;
-	private transient Integer height;
+	private Integer resWidth;
+	private Integer resHeight;
+	private Long sizeInKB;
 	private transient static final int THUMBNAIL_WIDTH = 150;
 	private transient static final int THUMBNAIL_HEIGHT = 150;
 
@@ -69,6 +72,14 @@ public class CostumeData {
 		return costumeFileName.substring(0, 32);
 	}
 
+	public String getFileExtension() {
+		if (costumeFileName == null) {
+			return null;
+		}
+		String[] splittedFileName = costumeFileName.split("\\.");
+		return splittedFileName[splittedFileName.length - 1];
+	}
+
 	public String getPathWithoutFileName() {
 		return Utils.buildPath(Consts.DEFAULT_ROOT, ProjectManager.getInstance().getCurrentProject().getName(),
 				Consts.IMAGE_DIRECTORY);
@@ -86,16 +97,24 @@ public class CostumeData {
 	}
 
 	public int[] getResolution() {
-		if (width != null && height != null) {
-			return new int[] { width, height };
+		if (resWidth != null && resHeight != null) {
+			return new int[] { resWidth, resHeight };
 		}
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = true;
 		BitmapFactory.decodeFile(getAbsolutePath(), options);
-		width = options.outWidth;
-		height = options.outHeight;
+		resWidth = options.outWidth;
+		resHeight = options.outHeight;
 
-		return new int[] { width, height };
+		return new int[] { resWidth, resHeight };
+	}
+
+	public long getSizeInKb() {
+		if (sizeInKB != null) {
+			return sizeInKB;
+		}
+		sizeInKB = new File(getAbsolutePath()).length() / 1024;
+		return sizeInKB;
 	}
 
 	@Override

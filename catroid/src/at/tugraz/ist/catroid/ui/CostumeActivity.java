@@ -190,14 +190,10 @@ public class CostumeActivity extends ListActivity {
 					throw new IOException();
 				}
 				String projectName = ProjectManager.getInstance().getCurrentProject().getName();
+				File imageFile;
 				String imageName;
-				File imageFile = StorageHandler.getInstance().copyImage(projectName, originalImagePath, null);
-				int extensionDotIndex = oldFile.getName().lastIndexOf('.');
-				if (extensionDotIndex <= 0) {
-					imageName = oldFile.getName().substring(0, extensionDotIndex - 1);
-				} else {
-					imageName = oldFile.getName();
-				}
+				imageFile = StorageHandler.getInstance().copyImage(projectName, originalImagePath, null);
+				imageName = oldFile.getName().substring(0, oldFile.getName().length() - 4);
 
 				String imageFileName = imageFile.getName();
 				//reloadAdapter();

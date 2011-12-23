@@ -41,6 +41,7 @@ public class ProjectManager {
 	private Script currentScript;
 	private Sprite currentSprite;
 	private static ProjectManager instance;
+	private String lastFileSaved;
 
 	public FileChecksumContainer fileChecksumContainer;
 	public MessageContainer messageContainer;
@@ -71,7 +72,9 @@ public class ProjectManager {
 				}
 			}
 			//adapt name of background sprite to the current language and place on lowest layer
-			project.getSpriteList().get(0).setName(context.getString(R.string.background));
+			if (context != null) {
+				project.getSpriteList().get(0).setName(context.getString(R.string.background));
+			}
 			project.getSpriteList().get(0).costume.zPosition = Integer.MIN_VALUE;
 
 			currentSprite = null;
@@ -227,4 +230,13 @@ public class ProjectManager {
 
 		return true;
 	}
+
+	public String getLastFilePath() {
+		return lastFileSaved;
+	}
+
+	public void setLastFilePath(String fd) {
+		lastFileSaved = fd;
+	}
+
 }
