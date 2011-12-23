@@ -1,19 +1,23 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package at.tugraz.ist.catroid.content;
@@ -22,17 +26,17 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import at.tugraz.ist.catroid.content.bricks.Brick;
-import at.tugraz.ist.catroid.exception.InterruptedRuntimeException;
 
 public abstract class Script implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Brick> brickList;
 	protected transient boolean isFinished;
-	private transient boolean paused;
-	private transient int brickPositionAfterPause;
+	private transient volatile boolean paused;
+	private transient volatile boolean finish;
+	private transient int executingBrickIndex;
 	private String name;
-	private Sprite sprite;
+	protected Sprite sprite;
 
 	protected Object readResolve() {
 		init();
@@ -48,51 +52,40 @@ public abstract class Script implements Serializable {
 
 	private void init() {
 		paused = false;
-		brickPositionAfterPause = 0;
+		finish = false;
 	}
 
 	public void run() {
 		isFinished = false;
-		for (int i = brickPositionAfterPause; i < brickList.size(); i++) {
-			if (paused) {
-				brickPositionAfterPause = i;
-				return;
+		for (int i = 0; i < brickList.size(); i++) {
+			while (paused) {
+				if (finish) {
+					isFinished = true;
+					return;
+				}
+				Thread.yield();
 			}
-			try {
-				brickList.get(i).execute();
-				sprite.setToDraw(true);
-			} catch (InterruptedRuntimeException e) { //Brick was interrupted
-				brickPositionAfterPause = i;
-				return;
-			}
+			executingBrickIndex = i;
+			brickList.get(i).execute();
+			i = executingBrickIndex;
 		}
 		isFinished = true;
-		brickPositionAfterPause = 0;
 	}
 
 	public void addBrick(Brick brick) {
-		brickList.add(brick);
+		if (brick != null) {
+			brickList.add(brick);
+		}
+	}
+
+	public void addBrick(int position, Brick brick) {
+		if (brick != null) {
+			brickList.add(position, brick);
+		}
 	}
 
 	public void removeBrick(Brick brick) {
 		brickList.remove(brick);
-	}
-
-	public void moveBrickBySteps(Brick brick, int steps) {
-		int oldIndex = brickList.indexOf(brick);
-		int newIndex;
-
-		if (steps < 0) {
-			newIndex = oldIndex + steps < 0 ? 0 : oldIndex + steps;
-			brickList.remove(oldIndex);
-			brickList.add(newIndex, brick);
-		} else if (steps > 0) {
-			newIndex = oldIndex + steps >= brickList.size() ? brickList.size() - 1 : oldIndex + steps;
-			brickList.remove(oldIndex);
-			brickList.add(newIndex, brick);
-		} else {
-			return;
-		}
 	}
 
 	public ArrayList<Brick> getBrickList() {
@@ -101,6 +94,10 @@ public abstract class Script implements Serializable {
 
 	public synchronized void setPaused(boolean paused) {
 		this.paused = paused;
+	}
+
+	public synchronized void setFinish(boolean finish) {
+		this.finish = finish;
 	}
 
 	public boolean isPaused() {
@@ -115,15 +112,45 @@ public abstract class Script implements Serializable {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public int getExecutingBrickIndex() {
+		return executingBrickIndex;
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setExecutingBrickIndex(int executingBrickIndex) {
+		this.executingBrickIndex = executingBrickIndex;
 	}
 
-	public Sprite getSprite() {
-		return sprite;
+	public int getRequiredResources() {
+		int ressources = Brick.NO_RESOURCES;
+
+		for (Brick brick : brickList) {
+			ressources |= brick.getRequiredResources();
+		}
+		return ressources;
+	}
+
+	public boolean containsBrickOfType(Class<?> type) {
+		for (Brick brick : brickList) {
+			//Log.i("bt", brick.REQUIRED_RESSOURCES + "");
+			if (brick.getClass() == type) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	//
+	//	public boolean containsBluetoothBrick() {
+	//		for (Brick brick : brickList) {
+	//			if ((brick instanceof NXTMotorActionBrick) || (brick instanceof NXTMotorTurnAngleBrick)
+	//					|| (brick instanceof NXTMotorStopBrick) || (brick instanceof NXTPlayToneBrick)) {
+	//				return true;
+	//			}
+	//		}
+	//		return false;
+	//	}
+
+	public Brick getBrick(int index) {
+		return brickList.get(index);
 	}
 }

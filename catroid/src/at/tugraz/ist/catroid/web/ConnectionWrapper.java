@@ -1,22 +1,25 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package at.tugraz.ist.catroid.web;
 
 import java.io.BufferedReader;
@@ -29,8 +32,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Map.Entry;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import android.util.Log;
 import android.webkit.MimeTypeMap;
@@ -38,7 +41,8 @@ import at.tugraz.ist.catroid.common.Consts;
 
 public class ConnectionWrapper {
 
-	private HttpURLConnection urlConn;
+	private HttpURLConnection urlConnection;
+	private final static String TAG = ConnectionWrapper.class.getSimpleName();
 
 	private String getString(InputStream is) {
 		if (is == null) {
@@ -46,14 +50,14 @@ public class ConnectionWrapper {
 		}
 		try {
 			InputStreamReader isr = new InputStreamReader(is);
-			BufferedReader br = new BufferedReader(isr);
+			BufferedReader br = new BufferedReader(isr, Consts.BUFFER_8K);
 
 			String line;
-			String resp = "";
+			String response = "";
 			while ((line = br.readLine()) != null) {
-				resp += line;
+				response += line;
 			}
-			return resp;
+			return response;
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -72,19 +76,19 @@ public class ConnectionWrapper {
 		MultiPartFormOutputStream out = buildPost(urlString, postValues);
 
 		if (filePath != null) {
-			String ext = filePath.substring(filePath.lastIndexOf(".") + 1).toLowerCase();
-			String mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(ext);
+			String extension = filePath.substring(filePath.lastIndexOf(".") + 1).toLowerCase();
+			String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
 
-			out.writeFile(fileTag, mime, new File(filePath));
+			out.writeFile(fileTag, mimeType, new File(filePath));
 		}
 		out.close();
 
-		// respone code != 2xx -> error
-		if (urlConn.getResponseCode() / 100 != 2) {
-			throw new WebconnectionException(urlConn.getResponseCode());
+		// response code != 2xx -> error
+		if (urlConnection.getResponseCode() / 100 != 2) {
+			throw new WebconnectionException(urlConnection.getResponseCode());
 		}
 
-		InputStream resultStream = urlConn.getInputStream();
+		InputStream resultStream = urlConnection.getInputStream();
 
 		return getString(resultStream);
 	}
@@ -95,7 +99,7 @@ public class ConnectionWrapper {
 		out.close();
 
 		// read response from server
-		DataInputStream input = new DataInputStream(urlConn.getInputStream());
+		DataInputStream input = new DataInputStream(urlConnection.getInputStream());
 
 		File file = new File(filePath);
 		file.getParentFile().mkdirs();
@@ -111,6 +115,21 @@ public class ConnectionWrapper {
 		fos.close();
 	}
 
+	public String doHttpPost(String urlString, HashMap<String, String> postValues) throws IOException {
+		MultiPartFormOutputStream out = buildPost(urlString, postValues);
+		out.close();
+
+		InputStream resultStream = null;
+		//try {
+
+		Log.e("bla", "http code: " + urlConnection.getResponseCode());
+		resultStream = urlConnection.getInputStream();
+		//		} catch (FileNotFoundException e) {
+		//			Log.e("bla", "error string: " + getString(urlConnection.getErrorStream()));
+		//		}
+		return getString(resultStream);
+	}
+
 	private MultiPartFormOutputStream buildPost(String urlString, HashMap<String, String> postValues)
 			throws IOException {
 		if (postValues == null) {
@@ -120,19 +139,19 @@ public class ConnectionWrapper {
 		URL url = new URL(urlString);
 
 		String boundary = MultiPartFormOutputStream.createBoundary();
-		urlConn = (HttpURLConnection) MultiPartFormOutputStream.createConnection(url);
+		urlConnection = (HttpURLConnection) MultiPartFormOutputStream.createConnection(url);
 
-		urlConn.setRequestProperty("Accept", "*/*");
-		urlConn.setRequestProperty("Content-Type", MultiPartFormOutputStream.getContentType(boundary));
+		urlConnection.setRequestProperty("Accept", "*/*");
+		urlConnection.setRequestProperty("Content-Type", MultiPartFormOutputStream.getContentType(boundary));
 
-		urlConn.setRequestProperty("Connection", "Keep-Alive");
-		urlConn.setRequestProperty("Cache-Control", "no-cache");
+		urlConnection.setRequestProperty("Connection", "Keep-Alive");
+		urlConnection.setRequestProperty("Cache-Control", "no-cache");
 
-		MultiPartFormOutputStream out = new MultiPartFormOutputStream(urlConn.getOutputStream(), boundary);
+		MultiPartFormOutputStream out = new MultiPartFormOutputStream(urlConnection.getOutputStream(), boundary);
 
 		Set<Entry<String, String>> entries = postValues.entrySet();
 		for (Entry<String, String> entry : entries) {
-			Log.d(ConnectionWrapper.class.getName(), "key: " + entry.getKey() + ", value: " + entry.getValue());
+			Log.d(TAG, "key: " + entry.getKey() + ", value: " + entry.getValue());
 			out.writeField(entry.getKey(), entry.getValue());
 		}
 

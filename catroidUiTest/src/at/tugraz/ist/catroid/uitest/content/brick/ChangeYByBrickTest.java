@@ -1,22 +1,25 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team 
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package at.tugraz.ist.catroid.uitest.content.brick;
 
 import java.util.ArrayList;
@@ -32,6 +35,7 @@ import at.tugraz.ist.catroid.content.StartScript;
 import at.tugraz.ist.catroid.content.bricks.Brick;
 import at.tugraz.ist.catroid.content.bricks.ChangeYByBrick;
 import at.tugraz.ist.catroid.ui.ScriptActivity;
+import at.tugraz.ist.catroid.uitest.util.UiTestUtils;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -71,7 +75,7 @@ public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		assertEquals("Incorrect number of bricks.", 2, solo.getCurrentListViews().get(0).getChildCount());
 		assertEquals("Incorrect number of bricks.", 1, childrenCount);
 
-		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScriptList().get(0).getBrickList();
+		ArrayList<Brick> projectBrickList = project.getSpriteList().get(0).getScript(0).getBrickList();
 		assertEquals("Incorrect number of bricks.", 1, projectBrickList.size());
 
 		assertEquals("Wrong Brick instance.", projectBrickList.get(0),
@@ -81,10 +85,12 @@ public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		solo.clickOnEditText(0);
 		solo.clearEditText(0);
 		solo.enterText(0, yToChange + "");
+		solo.goBack();
 		solo.clickOnButton(0);
 
-		solo.sleep(300);
-		assertEquals("Wrong text in field.", yToChange, changeYByBrick.getYMovement());
+		solo.sleep(1000);
+		int yMovementValue = (Integer) UiTestUtils.getPrivateField("yMovement", changeYByBrick);
+		assertEquals("Wrong text in field.", yToChange, yMovementValue);
 		assertEquals("Value in Brick is not updated.", yToChange + "", solo.getEditText(0).getText().toString());
 	}
 
@@ -96,7 +102,7 @@ public class ChangeYByBrickTest extends ActivityInstrumentationTestCase2<ScriptA
 		changeYByBrick = new ChangeYByBrick(sprite, 0);
 		script.addBrick(changeYByBrick);
 
-		sprite.getScriptList().add(script);
+		sprite.addScript(script);
 		project.addSprite(sprite);
 
 		ProjectManager.getInstance().setProject(project);

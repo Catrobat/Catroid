@@ -1,83 +1,93 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package at.ist.tugraz.catroid.test.license;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import junit.framework.TestCase;
+import at.tugraz.ist.catroid.utils.UtilFile;
 
 public class LicenseTest extends TestCase {
 	private static final String[] DIRECTORIES = { ".", "../catroid", "../catroidTest", "../catroidUiTest", };
 
-	private ArrayList<String> licenseText;
+	private ArrayList<String> agplLicenseText;
+	private boolean allLicenseTextsPresentAndCorrect;
+	private StringBuilder errorMessages;
 
 	public LicenseTest() throws IOException {
-		licenseText = new ArrayList<String>();
-		File licenseTextFile = new File("res/license_text.txt");
+		allLicenseTextsPresentAndCorrect = true;
+		errorMessages = new StringBuilder();
+		agplLicenseText = readLicenseFile(new File("res/agpl_license_text.txt"));
+	}
+
+	private ArrayList<String> readLicenseFile(File licenseTextFile) throws IOException {
 		BufferedReader reader = new BufferedReader(new FileReader(licenseTextFile));
-
 		String line = null;
+		ArrayList<String> licenseText = new ArrayList<String>();
 		while ((line = reader.readLine()) != null) {
-			if (line.length() > 0)
+			if (line.length() > 0) {
 				licenseText.add(line);
-		}
-	}
-
-	private void traverseDirectory(File directory) throws IOException {
-		File[] contents = directory.listFiles(new FileFilter() {
-			@Override
-			public boolean accept(File pathname) {
-				return (pathname.isDirectory() && !pathname.getName().equals("gen"))
-						|| pathname.getName().endsWith(".java") || pathname.getName().endsWith(".xml");
 			}
-		});
-
-		for (File file : contents) {
-			if (file.isDirectory())
-				traverseDirectory(file);
-			else
-				checkFileForLicense(file);
 		}
+		return licenseText;
 	}
 
-	private void checkFileForLicense(File file) throws IOException {
+	private void checkFileForLicense(File file, ArrayList<String> licenseText) throws IOException {
 		StringBuilder fileContentsBuilder = new StringBuilder();
 		BufferedReader reader = new BufferedReader(new FileReader(file));
 
 		String line = null;
-		while ((line = reader.readLine()) != null)
+		while ((line = reader.readLine()) != null) {
 			fileContentsBuilder.append(line);
+		}
 
 		final String fileContents = fileContentsBuilder.toString();
 
 		int lastPosition = 0;
+		boolean notFound = false;
+		boolean wrongOrder = false;
 		for (String licenseTextLine : licenseText) {
 			int position = fileContents.indexOf(licenseTextLine);
-			assertTrue("License text was not found in file " + file.getPath(), position != -1);
-			assertTrue("License text was found in the wrong order in file " + file.getPath(), position > lastPosition);
+			if (position == -1) {
+				notFound = true;
+			} else if (position <= lastPosition) {
+				wrongOrder = true;
+			}
+
 			lastPosition = position;
+		}
+
+		if (notFound) {
+			allLicenseTextsPresentAndCorrect = false;
+			errorMessages.append("License text was not found in file " + file.getCanonicalPath() + "\n");
+		} else if (wrongOrder) {
+			allLicenseTextsPresentAndCorrect = false;
+			errorMessages.append("License text was found in the wrong order in file " + file.getCanonicalPath() + "\n");
 		}
 	}
 
@@ -87,7 +97,13 @@ public class LicenseTest extends TestCase {
 			assertTrue("Couldn't find directory: " + directoryName, directory.exists() && directory.isDirectory());
 			assertTrue("Couldn't read directory: " + directoryName, directory.canRead());
 
-			traverseDirectory(directory);
+			List<File> filesToCheck = UtilFile.getFilesFromDirectoryByExtension(directory, new String[] { ".java",
+					".xml" });
+			for (File file : filesToCheck) {
+				checkFileForLicense(file, agplLicenseText);
+			}
 		}
+		assertTrue("Correct license text was not found in all files:\n" + errorMessages.toString(),
+				allLicenseTextsPresentAndCorrect);
 	}
 }
