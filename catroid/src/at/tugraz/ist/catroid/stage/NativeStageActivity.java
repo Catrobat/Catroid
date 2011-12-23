@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+/**
  *  Catroid: An on-device graphical programming language for Android devices
  *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
@@ -20,33 +19,31 @@
  *   
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<manifest
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:versionCode="9"
-	android:versionName="0.5.5a"
-	package="at.tugraz.ist.catroid.test"
->
-	<application
-		android:icon="@drawable/icon"
-		android:label="@string/app_name"
-		android:debuggable="true"
-	>
+ */
+package at.tugraz.ist.catroid.stage;
 
+import android.app.Activity;
+import android.os.Bundle;
+import at.tugraz.ist.catroid.ProjectManager;
 
-		<uses-library
-			android:name="android.test.runner" />
-	</application>
-	<uses-permission
-		android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	<uses-sdk
-		android:minSdkVersion="7"
-		android:targetSdkVersion="8" />
-	<instrumentation
-		android:targetPackage="at.tugraz.ist.catroid"
-		android:name="android.test.InstrumentationTestRunner" />
-	<!-- this instrumentation is needed to run the tests from jenkins -->
-	<instrumentation
-		android:targetPackage="at.tugraz.ist.catroid"
-		android:name="pl.polidea.instrumentation.PolideaInstrumentationTestRunner" />
-</manifest> 
+public class NativeStageActivity extends Activity {
+	Client client;
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		//setContentView(R.layout.main);
+		sendMessage();
+	}
+
+	public void sendMessage() {
+		client = new Client();
+		client.connect();
+		try {
+			Thread.sleep(2000);
+		} catch (Exception e) {
+		}
+		System.out.println("project name. " + ProjectManager.getInstance().getCurrentProject().getName());
+		client.sendMessage("Project-" + ProjectManager.getInstance().getCurrentProject().getName());
+	}
+}

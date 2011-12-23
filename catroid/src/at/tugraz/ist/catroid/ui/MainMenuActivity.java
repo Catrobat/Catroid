@@ -41,6 +41,7 @@ import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.content.Project;
 import at.tugraz.ist.catroid.io.StorageHandler;
+import at.tugraz.ist.catroid.stage.NativeStageActivity;
 import at.tugraz.ist.catroid.stage.PreStageActivity;
 import at.tugraz.ist.catroid.stage.StageActivity;
 import at.tugraz.ist.catroid.transfers.CheckTokenTask;
@@ -50,6 +51,7 @@ import at.tugraz.ist.catroid.ui.dialogs.LoginRegisterDialog;
 import at.tugraz.ist.catroid.ui.dialogs.NewProjectDialog;
 import at.tugraz.ist.catroid.ui.dialogs.UploadProjectDialog;
 import at.tugraz.ist.catroid.utils.ActivityHelper;
+import at.tugraz.ist.catroid.utils.UtilDeviceInfo;
 import at.tugraz.ist.catroid.utils.UtilFile;
 import at.tugraz.ist.catroid.utils.Utils;
 
@@ -102,6 +104,11 @@ public class MainMenuActivity extends Activity {
 		activityHelper.addActionButton(R.id.btn_action_play, R.drawable.ic_play_black, new View.OnClickListener() {
 			public void onClick(View v) {
 				if (projectManager.getCurrentProject() != null) {
+					if (UtilDeviceInfo.runOnEmulator(MainMenuActivity.this)) {
+						Intent intent = new Intent(MainMenuActivity.this, NativeStageActivity.class);
+						startActivity(intent);
+						return;
+					}
 					Intent intent = new Intent(MainMenuActivity.this, PreStageActivity.class);
 					ignoreResume = true;
 					startActivityForResult(intent, PreStageActivity.REQUEST_RESOURCES_INIT);
