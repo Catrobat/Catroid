@@ -43,7 +43,7 @@
             </Bricks.NXTMotorTurnAngleBrick>
             <Bricks.NXTMotorStopBrick>
               <sprite reference="../../../../.."/>
-              <motor>0</motor>
+              <motor>motor_A</motor>
             </Bricks.NXTMotorStopBrick>
             <Bricks.NXTMotorActionBrick>
               <sprite reference="../../../../.."/>
@@ -153,8 +153,6 @@
             </Bricks.PointInDirectionBrick>
             <Bricks.PointToBrick>
               <sprite reference="../../../../.."/>
-              <rotationDegrees>0.0</rotationDegrees>
-              <spinnerPosition>0</spinnerPosition>
             </Bricks.PointToBrick>
             <Bricks.GlideToBrick>
               <sprite reference="../../../../.."/>

@@ -33,9 +33,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.LinearLayout.LayoutParams;
 import at.tugraz.ist.catroid.ProjectManager;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.content.BroadcastScript;
@@ -72,7 +72,6 @@ import at.tugraz.ist.catroid.content.bricks.NoteBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaceAtBrick;
 import at.tugraz.ist.catroid.content.bricks.PlaySoundBrick;
 import at.tugraz.ist.catroid.content.bricks.PointInDirectionBrick;
-import at.tugraz.ist.catroid.content.bricks.PointInDirectionBrick.Direction;
 import at.tugraz.ist.catroid.content.bricks.PointToBrick;
 import at.tugraz.ist.catroid.content.bricks.RepeatBrick;
 import at.tugraz.ist.catroid.content.bricks.SetBrightnessBrick;
@@ -90,6 +89,7 @@ import at.tugraz.ist.catroid.content.bricks.TurnRightBrick;
 import at.tugraz.ist.catroid.content.bricks.WaitBrick;
 import at.tugraz.ist.catroid.content.bricks.WhenBrick;
 import at.tugraz.ist.catroid.content.bricks.WhenStartedBrick;
+import at.tugraz.ist.catroid.content.bricks.PointInDirectionBrick.Direction;
 import at.tugraz.ist.catroid.ui.ScriptTabActivity;
 import at.tugraz.ist.catroid.ui.adapter.PrototypeBrickAdapter;
 
@@ -168,7 +168,7 @@ public class AddBrickDialog extends Dialog {
 
 		List<Brick> legoNXTBrickList = new ArrayList<Brick>();
 		legoNXTBrickList.add(new NXTMotorTurnAngleBrick(sprite, 0, 180));
-		legoNXTBrickList.add(new NXTMotorStopBrick(sprite, 0));
+		legoNXTBrickList.add(new NXTMotorStopBrick(sprite, NXTMotorStopBrick.Motor.MOTOR_A));
 		legoNXTBrickList.add(new NXTMotorActionBrick(sprite, 0, 100));
 		legoNXTBrickList.add(new NXTPlayToneBrick(sprite, 2000, 1));
 		brickMap.put(context.getString(R.string.category_lego_nxt), legoNXTBrickList);
