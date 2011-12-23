@@ -157,7 +157,7 @@ public class NXTMotorTurnAngleBrickTest extends ActivityInstrumentationTestCase2
 		setAngleInitially = 90;
 		setAngle = 135;
 
-		motorBrick = new NXTMotorTurnAngleBrick(sprite, 0, setAngleInitially);
+		motorBrick = new NXTMotorTurnAngleBrick(sprite, NXTMotorTurnAngleBrick.Motor.MOTOR_A, setAngleInitially);
 
 		script.addBrick(motorBrick);
 

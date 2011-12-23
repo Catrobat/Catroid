@@ -27,19 +27,18 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnShowListener;
-import android.os.Handler;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemSelectedListener;
 import at.tugraz.ist.catroid.R;
 import at.tugraz.ist.catroid.LegoNXT.LegoNXT;
 import at.tugraz.ist.catroid.content.Sprite;
@@ -49,22 +48,30 @@ public class NXTMotorTurnAngleBrick implements Brick, OnClickListener {
 	private static final long serialVersionUID = 1L;
 	public static final int REQUIRED_RESSOURCES = BLUETOOTH_LEGO_NXT;
 
+	public static enum Motor {
+		MOTOR_A, MOTOR_B, MOTOR_C, MOTOR_A_C
+	}
+
 	private Sprite sprite;
-	private Handler btcHandler;
-	private int motor;
-	private int angle;
-	private static final int MOTOR_A = 0;
-	private static final int MOTOR_B = 1;
-	private static final int MOTOR_C = 2;
-	private static final int MOTOR_A_C = 3;
+	private String motor;
+	private transient Motor motorEnum;
+	private int degrees;
 	private static final int NO_DELAY = 0;
 
 	private transient EditText editX;
 
-	public NXTMotorTurnAngleBrick(Sprite sprite, int motor, int angle) {
+	protected Object readResolve() {
+		if (motor != null) {
+			motorEnum = Motor.valueOf(motor);
+		}
+		return this;
+	}
+
+	public NXTMotorTurnAngleBrick(Sprite sprite, Motor motor, int degrees) {
 		this.sprite = sprite;
-		this.motor = motor;
-		this.angle = angle;
+		this.motorEnum = motor;
+		this.motor = motorEnum.name();
+		this.degrees = degrees;
 	}
 
 	public int getRequiredResources() {
@@ -72,22 +79,18 @@ public class NXTMotorTurnAngleBrick implements Brick, OnClickListener {
 	}
 
 	public void execute() {
-		if (btcHandler == null) {
-			btcHandler = LegoNXT.getBTCHandler();
-		}
-
-		int temp_angle = angle;
+		int temp_angle = degrees;
 		int direction = 1;
-		if (angle < 0) {
+		if (degrees < 0) {
 			direction = -1;
-			temp_angle = angle + (-2 * angle);
+			temp_angle = degrees + (-2 * degrees);
 		}
 
-		if (motor == MOTOR_A_C) {
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, MOTOR_A, -1 * direction * 30, temp_angle);
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, MOTOR_C, direction * 30, temp_angle);
+		if (motorEnum.equals(Motor.MOTOR_A_C)) {
+			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_A.ordinal(), -1 * direction * 30, temp_angle);
+			LegoNXT.sendBTCMotorMessage(NO_DELAY, Motor.MOTOR_C.ordinal(), direction * 30, temp_angle);
 		} else {
-			LegoNXT.sendBTCMotorMessage(NO_DELAY, motor, direction * 30, temp_angle);
+			LegoNXT.sendBTCMotorMessage(NO_DELAY, motorEnum.ordinal(), direction * 30, temp_angle);
 		}
 
 		/*
@@ -110,7 +113,7 @@ public class NXTMotorTurnAngleBrick implements Brick, OnClickListener {
 
 	@Override
 	public Brick clone() {
-		return new NXTMotorTurnAngleBrick(getSprite(), motor, angle);
+		return new NXTMotorTurnAngleBrick(getSprite(), motorEnum, degrees);
 	}
 
 	public View getView(final Context context, int brickId, BaseAdapter adapter) {
@@ -118,28 +121,15 @@ public class NXTMotorTurnAngleBrick implements Brick, OnClickListener {
 		View brickView = inflater.inflate(R.layout.construction_brick_nxt_motor_turn_angle, null);
 
 		editX = (EditText) brickView.findViewById(R.id.motor_turn_angle_edit_text);
-		editX.setText(String.valueOf(angle));
+		editX.setText(String.valueOf(degrees));
 		editX.setOnClickListener(this);
 
 		Spinner motorSpinner = (Spinner) brickView.findViewById(R.id.motor_spinner);
 		motorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
-				switch (position) {
-					case 0:
-						motor = MOTOR_A;
-						break;
-					case 1:
-						motor = MOTOR_B;
-						break;
-					case 2:
-						motor = MOTOR_C;
-						break;
-					case 3:
-						motor = MOTOR_A_C;
-						break;
-				}
-
+				motorEnum = Motor.values()[position];
+				motor = motorEnum.name();
 			}
 
 			public void onNothingSelected(AdapterView<?> arg0) {
@@ -149,7 +139,7 @@ public class NXTMotorTurnAngleBrick implements Brick, OnClickListener {
 
 		});
 
-		motorSpinner.setSelection(motor);
+		motorSpinner.setSelection(motorEnum.ordinal());
 
 		Button directions = (Button) brickView.findViewById(R.id.directions_btn);
 		directions.setOnClickListener(new OnClickListener() {
@@ -158,7 +148,7 @@ public class NXTMotorTurnAngleBrick implements Brick, OnClickListener {
 				final EditText input = new EditText(context);
 				input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
 				//final EditIntegerDialog test = new EditIntegerDialog(context, input, angle, false);
-				input.setText(angle + "");
+				input.setText(degrees + "");
 				builder.setView(input);
 				builder.setTitle("Choose and edit direction");
 				builder.setSingleChoiceItems(R.array.fancy_directions_chooser, -1,
@@ -196,7 +186,7 @@ public class NXTMotorTurnAngleBrick implements Brick, OnClickListener {
 							input.setText(0);
 						}
 						editX.setText(input.getText().toString());
-						angle = Integer.parseInt(input.getText().toString());
+						degrees = Integer.parseInt(input.getText().toString());
 						//dialogX.setValue(angle);
 						//broadcastSpinner.setSelection(position);
 					}
@@ -230,7 +220,7 @@ public class NXTMotorTurnAngleBrick implements Brick, OnClickListener {
 
 		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
 		final EditText input = new EditText(context);
-		input.setText(String.valueOf(angle));
+		input.setText(String.valueOf(degrees));
 		input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
 		input.setSelectAllOnFocus(true);
 		dialog.setView(input);
@@ -238,7 +228,7 @@ public class NXTMotorTurnAngleBrick implements Brick, OnClickListener {
 		dialog.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				try {
-					angle = Integer.parseInt(input.getText().toString());
+					degrees = Integer.parseInt(input.getText().toString());
 				} catch (NumberFormatException exception) {
 					Toast.makeText(context, R.string.error_no_number_entered, Toast.LENGTH_SHORT);
 				}
