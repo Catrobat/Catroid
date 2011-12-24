@@ -1,28 +1,31 @@
 /**
  *  Catroid: An on-device graphical programming language for Android devices
- *  Copyright (C) 2010  Catroid development team
+ *  Copyright (C) 2010-2011 The Catroid Team
  *  (<http://code.google.com/p/catroid/wiki/Credits>)
- *
+ *  
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
+ *  it under the terms of the GNU Affero General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *  
+ *  An additional term exception under section 7 of the GNU Affero
+ *  General Public License, version 3, is available at
+ *  http://www.catroid.org/catroid_license_additional_term
+ *  
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
+ *  GNU Affero General Public License for more details.
+ *   
+ *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package at.tugraz.ist.catroid;
 
 import java.io.File;
+import java.io.IOException;
 
 import android.content.Context;
-import android.content.pm.PackageManager.NameNotFoundException;
 import at.tugraz.ist.catroid.common.Consts;
 import at.tugraz.ist.catroid.common.FileChecksumContainer;
 import at.tugraz.ist.catroid.common.MessageContainer;
@@ -34,12 +37,11 @@ import at.tugraz.ist.catroid.utils.Utils;
 
 public class ProjectManager {
 
-	private Sprite currentSprite;
 	private Project project;
-	private static ProjectManager instance;
 	private Script currentScript;
-	// used in uiTests
-	private int serverProjectId;
+	private Sprite currentSprite;
+	private static ProjectManager instance;
+	private String lastFileSaved;
 
 	public FileChecksumContainer fileChecksumContainer;
 	public MessageContainer messageContainer;
@@ -69,6 +71,12 @@ public class ProjectManager {
 					return false;
 				}
 			}
+			//adapt name of background sprite to the current language and place on lowest layer
+			if (context != null) {
+				project.getSpriteList().get(0).setName(context.getString(R.string.background));
+			}
+			project.getSpriteList().get(0).costume.zPosition = Integer.MIN_VALUE;
+
 			currentSprite = null;
 			currentScript = null;
 			return true;
@@ -76,6 +84,13 @@ public class ProjectManager {
 			Utils.displayErrorMessage(context, context.getString(R.string.error_load_project));
 			return false;
 		}
+	}
+
+	public void saveProject() {
+		if (project == null) {
+			return;
+		}
+		StorageHandler.getInstance().saveProject(project);
 	}
 
 	public boolean initializeDefaultProject(Context context) {
@@ -93,24 +108,73 @@ public class ProjectManager {
 		}
 	}
 
-	public void saveProject(Context context) {
-		if (project == null) {
-			return;
-		}
-		StorageHandler.getInstance().saveProject(project);
+	public void initializeNewProject(String projectName, Context context) throws IOException {
+		fileChecksumContainer = new FileChecksumContainer();
+		messageContainer = new MessageContainer();
+		project = StorageHandler.getInstance().createDefaultProject(projectName, context);
+
+		currentSprite = null;
+		currentScript = null;
+		saveProject();
 	}
 
-	public void deleteCurrentProject(Context context) {
+	public Project getCurrentProject() {
+		return project;
+	}
 
+	public void setProject(Project project) {
+		currentScript = null;
+		currentSprite = null;
+
+		this.project = project;
+	}
+
+	public void deleteCurrentProject() {
 		StorageHandler.getInstance().deleteProject(project);
 
 		project = null;
 	}
 
-	public void resetProject(Context context) throws NameNotFoundException {
-		project = new Project(context, project.getName());
-		currentSprite = null;
-		currentScript = null;
+	public boolean renameProject(String newProjectName, Context context) {
+		if (StorageHandler.getInstance().projectExists(newProjectName)) {
+			Utils.displayErrorMessage(context, context.getString(R.string.error_project_exists));
+			return false;
+		}
+
+		File oldProjectDirectory = new File(Utils.buildPath(Consts.DEFAULT_ROOT, project.getName()));
+		File oldProjectFile = new File(Utils.buildPath(Consts.DEFAULT_ROOT, project.getName(), project.getName()
+				+ Consts.PROJECT_EXTENTION));
+
+		File newProjectDirectory = new File(Utils.buildPath(Consts.DEFAULT_ROOT, newProjectName));
+		File newProjectFile = new File(Utils.buildPath(Consts.DEFAULT_ROOT, project.getName(), newProjectName
+				+ Consts.PROJECT_EXTENTION));
+
+		project.setName(newProjectName);
+
+		boolean fileRenamed = oldProjectFile.renameTo(newProjectFile);
+		boolean directoryRenamed = oldProjectDirectory.renameTo(newProjectDirectory);
+
+		return (directoryRenamed && fileRenamed);
+	}
+
+	public Sprite getCurrentSprite() {
+		return currentSprite;
+	}
+
+	public void setCurrentSprite(Sprite sprite) {
+		currentSprite = sprite;
+	}
+
+	public Script getCurrentScript() {
+		return currentScript;
+	}
+
+	public void setCurrentScript(Script script) {
+		if (script == null) {
+			currentScript = null;
+		} else if (currentSprite.getScriptIndex(script) != -1) {
+			currentScript = script;
+		}
 	}
 
 	public void addSprite(Sprite sprite) {
@@ -119,58 +183,6 @@ public class ProjectManager {
 
 	public void addScript(Script script) {
 		currentSprite.addScript(script);
-	}
-
-	public Sprite getCurrentSprite() {
-		return currentSprite;
-	}
-
-	public Project getCurrentProject() {
-		return project;
-	}
-
-	public Script getCurrentScript() {
-		return currentScript;
-	}
-
-	public void initializeNewProject(String projectName, Context context) {
-		project = new Project(context, projectName);
-		fileChecksumContainer = new FileChecksumContainer();
-		messageContainer = new MessageContainer();
-
-		currentSprite = null;
-		currentScript = null;
-		saveProject(context);
-	}
-
-	/**
-	 * @return false if project doesn't contain the new sprite, true otherwise
-	 */
-	public void setCurrentSprite(Sprite sprite) {
-		currentSprite = sprite;
-	}
-
-	/**
-	 * @return false if currentSprite doesn't contain the new script, true
-	 *         otherwise
-	 */
-	public boolean setCurrentScript(Script script) {
-		if (script == null) {
-			currentScript = null;
-			return true;
-		}
-		if (currentSprite.getScriptIndex(script) != -1) {
-			currentScript = script;
-			return true;
-		}
-		return false;
-	}
-
-	public void setProject(Project project) {
-		currentScript = null;
-		currentSprite = null;
-
-		this.project = project;
 	}
 
 	public boolean spriteExists(String spriteName) {
@@ -182,75 +194,49 @@ public class ProjectManager {
 		return false;
 	}
 
-	public boolean renameProject(String newProjectName, Context context) {
-
-		if (StorageHandler.getInstance().projectExists(newProjectName)) {
-			Utils.displayErrorMessage(context, context.getString(R.string.error_project_exists));
-			return false;
-		}
-
-		File oldProjectDirectory = new File(Consts.DEFAULT_ROOT + "/" + project.getName());
-		File oldProjectFile = new File(Consts.DEFAULT_ROOT + "/" + project.getName() + "/" + project.getName()
-				+ Consts.PROJECT_EXTENTION);
-
-		File newProjectDirectory = new File(Consts.DEFAULT_ROOT + "/" + newProjectName);
-		File newProjectFile = new File(Consts.DEFAULT_ROOT + "/" + project.getName() + "/" + newProjectName
-				+ Consts.PROJECT_EXTENTION);
-
-		project.setName(newProjectName);
-
-		boolean fileRenamed = oldProjectFile.renameTo(newProjectFile);
-		boolean directoryRenamed = oldProjectDirectory.renameTo(newProjectDirectory);
-
-		return (directoryRenamed && fileRenamed);
-	}
-
-	public void setServerProjectId(int serverProjectId) {
-		this.serverProjectId = serverProjectId;
-	}
-
-	public int getServerProjectId() {
-		return serverProjectId;
-	}
-
 	public int getCurrentSpritePosition() {
 		return project.getSpriteList().indexOf(currentSprite);
 	}
 
 	public int getCurrentScriptPosition() {
-		int currentSpritePos = this.getCurrentSpritePosition();
-		if (currentSpritePos == -1) {
+		int currentSpritePosition = this.getCurrentSpritePosition();
+		if (currentSpritePosition == -1) {
 			return -1;
 		}
 
-		return project.getSpriteList().get(currentSpritePos).getScriptIndex(currentScript);
+		return project.getSpriteList().get(currentSpritePosition).getScriptIndex(currentScript);
 	}
 
 	public boolean setCurrentSpriteWithPosition(int position) {
-
 		if (position >= project.getSpriteList().size() || position < 0) {
 			return false;
 		}
 
 		currentSprite = project.getSpriteList().get(position);
 		return true;
-
 	}
 
 	public boolean setCurrentScriptWithPosition(int position) {
-		int currentSpritePos = this.getCurrentSpritePosition();
-		if (currentSpritePos == -1) {
+		int currentSpritePosition = this.getCurrentSpritePosition();
+		if (currentSpritePosition == -1) {
 			return false;
 		}
 
-		if (position >= project.getSpriteList().get(currentSpritePos).getNumberOfScripts() || position < 0) {
+		if (position >= project.getSpriteList().get(currentSpritePosition).getNumberOfScripts() || position < 0) {
 			return false;
 		}
 
 		currentScript = project.getSpriteList().get(this.getCurrentSpritePosition()).getScript(position);
 
 		return true;
+	}
 
+	public String getLastFilePath() {
+		return lastFileSaved;
+	}
+
+	public void setLastFilePath(String fd) {
+		lastFileSaved = fd;
 	}
 
 }
